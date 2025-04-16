@@ -22,7 +22,7 @@
 // - Admin (if privileged user)
 // - manage batches
 //      view status, get output files, abort, retire
-// - toggle 'use only my computers'
+// - set 'use only my computers'
 
 require_once("../inc/submit_db.inc");
 require_once("../inc/util.inc");
@@ -222,9 +222,7 @@ function show_batches($batches, $limit, $user, $app) {
     show_aborted($batches, $limit, $user, $app);
 }
 
-// the job submission "home page":
-// show the user's in-progress and completed batches,
-// and a button for creating a new batch
+// show links to per-app job submission forms
 //
 function handle_main($user) {
     global $web_apps;
@@ -233,62 +231,42 @@ function handle_main($user) {
         error_page("Ask the project admins for permission to submit jobs");
     }
 
-    page_head("Job submission");
+    page_head("Submit jobs");
 
-    if (isset($web_apps) && $web_apps) {
+    if (!empty($web_apps)) {
         // show links to per-app job submission pages
         //
-        echo "<h3>Submit jobs</h3>
-            <ul>
-        ";
-        foreach ($web_apps as $appname => $web_app) {
-            $appname = BoincDb::escape_string($appname);
-            $app = BoincApp::lookup("name='$appname'");
-            if (!$app) error_page("bad web app name: $appname");
-            $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
-            if ($usa || $user_submit->submit_all) {
-                echo "<li> <a href=$web_app->submit_url> $app->user_friendly_name </a>";
-            }
-        }
-        echo "</ul>\n";
-    }
-
-    echo '<h3>Where your jobs run</h3>';
-    if ($user->seti_id) {
-        echo "<p>
-            Jobs you submit can run only on your computers.
-            <p>
-        ";
-        show_button(
-            'submit.php?action=toggle_loc',
-            'Allow them to run on any computer.'
-        );
-    } else {
-        echo "<p>
-            Jobs you submit can run on any computer.
-            <p>
-        ";
-        show_button(
-            'submit.php?action=toggle_loc',
-            'Allow them to run only on your computers.'
-        );
-    }
-
-    // show links to admin pages if relevant
-    //
-    $usas = BoincUserSubmitApp::enum("user_id=$user->id");
-    $app_admin = false;
-    foreach ($usas as $usa) {
-        if ($usa->manage) {
-            $app_admin = true;
-            break;
+        foreach ($web_apps as $area => $apps) {
+            panel($area,
+                function() use ($apps) {
+                    foreach ($apps as $app) {
+                        echo sprintf(
+                            '<a href=%s><img width=100 src=%s></a>&nbsp;',
+                            $app[1], $app[2]
+                        );
+                    }
+                }
+            );
         }
     }
-    if ($user_submit->manage_all || $app_admin) {
-        echo "<h3>Administer job submission</h3>\n";
-        show_button('submit.php?action=admin', 'Administer');
-    }
 
+    form_start('submit.php');
+    form_input_hidden('action', 'update_only_own');
+    form_radio_buttons(
+        'Jobs you submit can run', 'only_own',
+        [
+            [0, 'on any computer'],
+            [1, 'only on your computers']
+        ],
+        $user->seti_id
+    );
+    form_submit('Update');
+    form_end();
+    page_tail();
+}
+
+function handle_show_status($user) {
+    page_head("Job status");
     $batches = BoincBatch::enum("user_id = $user->id order by id desc");
     get_batches_params($batches);
     show_batches($batches, PAGE_SIZE, $user, null);
@@ -296,13 +274,10 @@ function handle_main($user) {
     page_tail();
 }
 
-function handle_toggle_loc($user) {
-    if ($user->seti_id) {
-        $user->update('seti_id=0');
-    } else {
-        $user->update('seti_id=1');
-    }
-    handle_main($user);
+function handle_update_only_own($user) {
+    $val = get_int('only_own');
+    $user->update("seti_id=$val");
+    header("Location: submit.php");
 }
 
 // show links for everything the user has admin access to
@@ -482,7 +457,7 @@ function handle_query_batch($user) {
         $owner = BoincUser::lookup_id($batch->user_id);
     }
 
-    $web_app = get_web_app($app);
+    $is_assim_move = is_assim_move($app);
 
     page_head("Batch $batch_id");
     text_start(800);
@@ -510,7 +485,7 @@ function handle_query_batch($user) {
     }
     row2("GFLOP/hours, estimated", number_format(credit_to_gflop_hours($batch->credit_estimate), 2));
     row2("GFLOP/hours, actual", number_format(credit_to_gflop_hours($batch->credit_canonical), 2));
-    if (!$web_app->assim_move) {
+    if (!$is_assim_move) {
         row2("Total size of output files",
             size_string(batch_output_file_size($batch->id))
         );
@@ -518,7 +493,7 @@ function handle_query_batch($user) {
     end_table();
     echo "<p>";
 
-    if ($web_app->assim_move) {
+    if ($is_assim_move) {
         $url = "get_output3.php?action=get_batch&batch_id=$batch->id";
     } else {
         $url = "get_output2.php?cmd=batch&batch_id=$batch->id";
@@ -552,7 +527,7 @@ function handle_query_batch($user) {
         "Name <br><small>click for details</small>",
         "status"
     ];
-    if (!$web_app->assim_move) {
+    if (!$is_assim_move) {
         $x[] = "Download Results";
     }
     row_heading_array($x);
@@ -573,7 +548,7 @@ function handle_query_batch($user) {
             "<a href=submit.php?action=query_job&wuid=$wu->id>$wu->name</a>",
             $y,
         ];
-        if (!$web_app->assim_move) {
+        if (!$is_assim_move) {
             $x[] = $text;
         }
         row_array($x);
@@ -584,19 +559,21 @@ function handle_query_batch($user) {
     page_tail();
 }
 
-// get the 'web app' structure (from project.inc) for the given app.
-// This says what output file scheme it uses and what the submit page URL is.
-// If not listed, return a default structure
+// Does the assimilator for the given app move output files
+// to a results/<batchid>/ directory?
+// This info is stored in the $web_apps data structure in project.inc
 //
-function get_web_app($app) {
+function is_assim_move($app) {
     global $web_apps;
-    if (isset($web_apps) && array_key_exists($app->name, $web_apps)) {
-        return $web_apps[$app->name];
+    if (empty($web_apps)) return false;
+    foreach ($web_apps as $name => $apps) {
+        foreach ($apps as $web_app) {
+            if ($web_app[0] == $app->name) {
+                return $web_app[3];
+            }
+        }
     }
-    $x = new StdClass;
-    $x->submit_url = null;
-    $x->assim_move = false;
-    return $x;
+    return false;
 }
 
 // show the details of a job, including links to see the output files
@@ -607,7 +584,7 @@ function handle_query_job($user) {
     if (!$wu) error_page("no such job");
 
     $app = BoincApp::lookup_id($wu->appid);
-    $web_app = get_web_app($app);
+    $is_assim_move = is_assim_move($app);
 
     page_head("Job '$wu->name'");
     text_start(800);
@@ -638,7 +615,7 @@ function handle_query_job($user) {
             $phys_names = get_outfile_phys_names($result);
             $log_names = get_outfile_log_names($result);
             for ($i=0; $i<count($phys_names); $i++) {
-                if ($web_app->assim_move) {
+                if ($is_assim_move) {
                     // file is in
                     // project/results/<batchid>/<wu_name>__file_<log_name>
                     $path = sprintf('results/%s/%s__file_%s',
@@ -844,7 +821,8 @@ case 'query_job': handle_query_job($user); break;
 case 'retire_batch': handle_retire_batch($user); break;
 case 'retire_multi': handle_retire_multi($user); break;
 case 'show_all': handle_show_all($user); break;
-case 'toggle_loc': handle_toggle_loc($user); break;
+case 'status': handle_show_status($user); break;
+case 'update_only_own': handle_update_only_own($user); break;
 default:
     error_page("no such action $action");
 }
