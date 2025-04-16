@@ -63,21 +63,22 @@ function app_list($notice=null) {
     if (!is_dir($buda_root)) {
         mkdir($buda_root);
     }
-    page_head('BUDA science apps');
+    page_head('BOINC Universal Docker App (BUDA)');
     if ($notice) {
         echo "$notice <p>\n";
     }
     text_start();
     echo "
-        <p>BUDA (BOINC Universal Docker App)
-        lets you submit Docker jobs using a web interface.
-        <a href=https://github.com/BOINC/boinc/wiki/BUDA-overview>BUDA overview</a>.
+        <p>BUDA lets you submit Docker jobs using a web interface.
+        <a href=https://github.com/BOINC/boinc/wiki/BUDA-overview>Learn more</a>.
+        <p>
+        BUDA science apps:
     ";
 
     $dirs = scandir($buda_root);
     foreach ($dirs as $dir) {
         if ($dir[0] == '.') continue;
-        panel("Science app: <b>$dir</b>",
+        panel("$dir",
             function() use ($dir) {
                 show_app($dir);
             }
@@ -93,8 +94,10 @@ function show_app($dir) {
     start_table('table-striped');
     table_header('Variant<br><small>click for details</small>', 'Submit jobs');
     $pcs = scandir("$buda_root/$dir");
+    $have_var = false;
     foreach ($pcs as $pc) {
         if ($pc[0] == '.') continue;
+        $have_var = true;
         table_row(
             "<a href=buda.php?action=variant_view&app=$dir&variant=$pc>$pc</href>",
             button_text(
@@ -105,13 +108,15 @@ function show_app($dir) {
     end_table();
     echo "<p>";
     show_button_small("buda.php?action=variant_form&app=$dir", 'Add variant');
-    echo "<p>";
-    show_button(
-        "buda.php?action=app_delete&app=$dir",
-        "Delete science app '$dir'",
-        null,
-        'btn btn-xs btn-warning'
-    );
+    if (!$have_var) {
+        echo "<p>";
+        show_button(
+            "buda.php?action=app_delete&app=$dir",
+            "Delete app",
+            null,
+            'btn btn-xs btn-warning'
+        );
+    }
 }
 
 function variant_view() {

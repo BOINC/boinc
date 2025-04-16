@@ -182,13 +182,34 @@ function sample_navbar(
             array(tra("CPU models"), $url_prefix."cpu_list.php"),
             array(tra("Computer types"), $url_prefix."host_stats.php"),
         );
-        if (defined('REMOTE_JOB_SUBMISSION') && REMOTE_JOB_SUBMISSION) {
-            if ($user && BoincUserSubmit::lookup_userid($user->id)) {
-                $x[] = array("Job submission", $url_prefix."submit.php");
+        navbar_menu(tra("Computing"), $x);
+
+        if (!empty('REMOTE_JOB_SUBMISSION')) {
+            $user_submit = null;
+            if ($user) {
+                $user_submit = BoincUserSubmit::lookup_userid($user->id);
+            }
+            if ($user_submit) {
+                $x = [];
                 $x[] = ["File sandbox", "sandbox.php"];
+                $x[] = ["Submit jobs", $url_prefix."submit.php"];
+                $x[] = ["Job status", $url_prefix."submit.php?action=status"];
+                $is_admin = $user_submit->manage_all;
+                if (!$is_admin) {
+                    $usas = BoincUserSubmitApp::enum("user_id=$user->id");
+                    foreach ($usas as $usa) {
+                        if ($usa->manage) {
+                            $is_admin = true;
+                            break;
+                        }
+                    }
+                }
+                if ($is_admin) {
+                    $x[] = ["Administer", $url_prefix."submit.php?action=admin"];
+                }
+                navbar_menu(tra("Job submission"), $x);
             }
         }
-        navbar_menu(tra("Computing"), $x);
     }
 
     navbar_menu(tra("Community"), array(
