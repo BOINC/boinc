@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2024 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -25,7 +25,7 @@ function exit_usage() {
 
 case "$1_$2" in
 # fedora distros
-"fc37_linux_client" | "fc38_linux_client" | "fc39_linux_client" | "fc40_linux_client" | "fc41_linux_client")
+"fc37_linux_client" | "fc38_linux_client" | "fc39_linux_client" | "fc40_linux_client" | "fc41_linux_client" | "fc42_linux_client")
     echo "glibc,libXScrnSaver >= 1.2.3,ca-certificates"
     ;;
 # opensuse distros
