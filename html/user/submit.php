@@ -537,6 +537,7 @@ function handle_query_batch($user) {
     ];
     row_heading_array($x);
     foreach($wus as $wu) {
+        $y = '';
         switch($wu->status) {
         case WU_SUCCESS:
             $resultid = $wu->canonical_resultid;
@@ -550,6 +551,7 @@ function handle_query_batch($user) {
             break;
         case WU_UNSENT:
             $y = '<font color="gray">unsent</font>';
+            break;
         }
         $x = [
             "<a href=submit.php?action=query_job&wuid=$wu->id>$wu->name</a>",
