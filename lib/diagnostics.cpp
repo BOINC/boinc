@@ -795,7 +795,7 @@ void boinc_catch_signal(int signal) {
     size = backtrace (array, 64);
 //  Anything that calls malloc here (i.e *printf()) will probably fail
 //  so we'll do it the hard way.
-    int retval = write(fileno(stderr),"Stack trace (",strlen("Stack trace ("));
+    ssize_t retval = write(fileno(stderr),"Stack trace (",strlen("Stack trace ("));
     char mbuf[10];
     char *p=mbuf+9;
     int i=size;
