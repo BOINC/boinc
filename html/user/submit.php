@@ -240,10 +240,18 @@ function handle_main($user) {
             panel($area,
                 function() use ($apps) {
                     foreach ($apps as $app) {
-                        echo sprintf(
-                            '<a href=%s><img width=100 src=%s></a>&nbsp;',
-                            $app[1], $app[2]
-                        );
+                        // show app logo if available
+                        if ($app[2]) {
+                            echo sprintf(
+                                '<a href=%s><img width=100 src=%s></a>&nbsp;',
+                                $app[1], $app[2]
+                            );
+                        } else {
+                            echo sprintf(
+                                '<li><a href=%s>%s</a><p>',
+                                $app[1], $app[0]
+                            );
+                        }
                     }
                 }
             );
@@ -430,14 +438,14 @@ function progress_bar($batch, $wus, $width) {
         $x .= "<td width=$w_prog bgcolor=lightgreen></td>";
     }
     if ($w_unsent) {
-        $x .= "<td width=$w_unsent bgcolor=lightgray></td>";
+        $x .= "<td width=$w_unsent bgcolor=gray></td>";
     }
     $x .= "</tr></table>
         <strong>
-        <font color=red>$nerror fail</font> &middot;
-        <font color=green>$nsuccess success</font> &middot;
+        <font color=red>$nerror failed</font> &middot;
+        <font color=green>$nsuccess completed</font> &middot;
         <font color=lightgreen>$nin_prog in progress</font> &middot;
-        <font color=lightgray>$nunsent unsent</font>
+        <font color=gray>$nunsent unsent</font>
         </strong>
     ";
     return $x;
@@ -527,30 +535,28 @@ function handle_query_batch($user) {
         "Name <br><small>click for details</small>",
         "status"
     ];
-    if (!$is_assim_move) {
-        $x[] = "Download Results";
-    }
     row_heading_array($x);
     foreach($wus as $wu) {
-        $resultid = $wu->canonical_resultid;
-        if ($resultid) {
+        $y = '';
+        switch($wu->status) {
+        case WU_SUCCESS:
+            $resultid = $wu->canonical_resultid;
             $y = '<font color="green">completed</font>';
-            $text = "<a href=get_output2.php?cmd=workunit&wu_id=$wu->id>Download output files</a>";
-        } else {
-            $text = "---";
-            if ($batch->state == BATCH_STATE_COMPLETE) {
-                $y = '<font color="red">failed</font>';
-            }   else {
-                $y = "in progress";
-            }
+            break;
+        case WU_ERROR:
+            $y = '<font color="red">failed</font>';
+            break;
+        case WU_IN_PROGRESS:
+            $y = '<font color="lightgreen">in progress</font>';
+            break;
+        case WU_UNSENT:
+            $y = '<font color="gray">unsent</font>';
+            break;
         }
         $x = [
             "<a href=submit.php?action=query_job&wuid=$wu->id>$wu->name</a>",
             $y,
         ];
-        if (!$is_assim_move) {
-            $x[] = $text;
-        }
         row_array($x);
     }
     end_table();

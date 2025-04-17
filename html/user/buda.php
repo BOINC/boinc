@@ -119,6 +119,15 @@ function show_app($dir) {
     }
 }
 
+function file_row($app, $variant, $dir, $f) {
+    [$md5, $size] = parse_info_file("$dir/.md5/$f");
+    table_row(
+        "<a href=buda.php?action=view_file&app=$app&variant=$variant&fname=$f>$f</a>",
+        $size,
+        $md5
+    );
+}
+
 function variant_view() {
     global $buda_root;
     $app = get_str('app');
@@ -127,24 +136,42 @@ function variant_view() {
     if (!is_valid_filename($variant)) die('bad arg');
     page_head("BUDA: variant '$variant' of science app '$app'");
     $dir = "$buda_root/$app/$variant";
-    echo "
-        This variant includes the following files.
-        The template files and variant.json
-        were generated when you created the variant.
-        <p>
-    ";
-    start_table('table-striped');
-    table_header('File name', 'size', 'md5');
-    foreach(scandir($dir) as $f) {
-        if ($f[0] == '.') continue;
-        [$md5, $size] = parse_info_file("$dir/.md5/$f");
-        table_row(
-            "<a href=buda.php?action=view_file&app=$app&variant=$variant&fname=$f>$f</a>",
-            $size,
-            $md5
-        );
+    $desc = json_decode(file_get_contents("$dir/variant.json"));
+    start_table();
+    table_header('Dockerfile', 'size', 'md5');
+    file_row($app, $variant, $dir, $desc->dockerfile);
+    table_header('App files', '', '');
+    foreach ($desc->app_files as $f) {
+        file_row($app, $variant, $dir, $f);
+    }
+    table_header('Auto-generated files', '', '');
+    file_row($app, $variant, $dir, 'template_in');
+    file_row($app, $variant, $dir, 'template_out');
+    file_row($app, $variant, $dir, 'variant.json');
+    end_table();
+
+    start_table();
+    row2(
+        'Input filenames:',
+        implode(',', $desc->input_file_names)
+    );
+    row2(
+        'Output filenames:',
+        implode(',', $desc->output_file_names)
+    );
+    if (!empty($desc->max_total)) {
+        row2('Max total instances per job:', $desc->max_total);
+    } else {
+        row2('Max total instances per job:', '1');
+    }
+    if (!empty($desc->min_nsuccess)) {
+        row2('Target successful instances per job:', $desc->min_nsuccess);
+    } else {
+        row2('Target successful instances per job:', '1');
     }
     end_table();
+
+    echo '<p>';
     show_button(
         "buda.php?action=variant_delete&app=$app&variant=$variant",
         'Delete variant',
@@ -189,6 +216,18 @@ function variant_form($user) {
         'Output file names<br><small>Space-separated</small>',
         'output_file_names'
     );
+    form_input_text(
+        'Run at most this many total instances of each job',
+        'max_total',
+        '1'
+    );
+    form_input_text(
+        'Get this many successful instances of each job
+            <br><small>(subject to the above limit)</small>
+        ',
+        'min_nsuccess',
+        '1'
+    );
     form_submit('OK');
     form_end();
     page_tail();
@@ -231,6 +270,19 @@ function create_templates($variant, $variant_desc, $dir) {
     } else {
         $x .= "      <plan_class>$variant</plan_class>\n";
     }
+
+    // replication params
+    //
+    $x .= sprintf("      <target_nresults>%d</target_nresults>\n",
+        $variant_desc->min_nsuccess
+    );
+    $x .= sprintf("      <min_quorum>%d</min_quorum>\n",
+        $variant_desc->min_nsuccess
+    );
+    $x .= sprintf("      <max_total_results>%d</max_total_results>\n",
+        $variant_desc->max_total
+    );
+
     $x .= "   </workunit>\n<input_template>\n";
     file_put_contents("$dir/template_in", $x);
 
@@ -271,6 +323,14 @@ function variant_action($user) {
             error_page("Invalid app file name: ".filename_rules());
         }
     }
+    $min_nsuccess = get_int('min_nsuccess');
+    if (!$min_nsuccess) {
+        error_page('Must specify nonzero number of successful instances.');
+    }
+    $max_total = get_int('max_total');
+    if (!$max_total) {
+        error_page('Must specify nonzero max number of instances.');
+    }
     $input_file_names = get_str('input_file_names', true);
     $output_file_names = explode(' ', get_str('output_file_names'));
     if ($input_file_names) {
@@ -296,13 +356,15 @@ function variant_action($user) {
     mkdir($dir);
     mkdir("$dir/.md5");
 
-    // create variant description JSON file
+    // collect variant params into a struct
     //
     $desc = new StdClass;
     $desc->dockerfile = $dockerfile;
     $desc->app_files = $app_files;
     $desc->input_file_names = $input_file_names;
     $desc->output_file_names = $output_file_names;
+    $desc->min_nsuccess = $min_nsuccess;
+    $desc->max_total = $max_total;
 
     // copy files from sandbox to variant dir
     //
@@ -314,6 +376,8 @@ function variant_action($user) {
         $desc->app_files_phys[] = $pname;
     }
 
+    // write variant params to a JSON file
+    //
     file_put_contents(
         "$dir/variant.json",
         json_encode($desc, JSON_PRETTY_PRINT)

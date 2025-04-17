@@ -535,7 +535,8 @@ function form_checkbox($label, $name, $checked=false) {
         FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
     );
     echo sprintf('
-        <input type="checkbox" name="%s" %s>
+              <input type="checkbox" name="%s" %s>
+           </div>
         </div>
         ', $name, $checked?"checked":""
     );

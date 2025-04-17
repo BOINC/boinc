@@ -21,6 +21,15 @@
 
 require_once("../inc/submit_db.inc");
 
+// The status of a workunit.
+// Not stored in the DB;
+// it's computed by get_batch_params() and added to the workunit object
+//
+define('WU_UNSENT', 0);
+define('WU_IN_PROGRESS', 1);
+define('WU_SUCCESS', 2);
+define('WU_ERROR', 3);
+
 // write status and error messages to log
 //
 function log_write($x) {
@@ -126,7 +135,7 @@ function delete_remote_submit_user($user) {
     BoincUserSubmitApp::delete_user($user->id);
 }
 
-// given its WUs, compute parameters of a batch:
+// given its WUs, compute parameters of the batch:
 //   credit_canonical: credit granted to canonical instances
 //   fraction_done: frac of jobs that are done (success or failed)
 //   state: whether complete (all jobs done)
@@ -140,10 +149,7 @@ function delete_remote_submit_user($user) {
 //
 // return the batch object, with these values
 //
-// NOTE: this involves reading the batch's WUs and results,
-// which could be inefficient for huge batches.
-// It could instead be done by server components
-// (transitioner, validator etc.) as jobs complete or time out
+// Also add the status field to WUs
 //
 // TODO: update est_completion_time
 //
@@ -185,12 +191,17 @@ function get_batch_params($batch, $wus) {
             $fp_done += $wu->rsc_fpops_est;
             $njobs_success++;
             $batch->credit_canonical += $wu->canonical_credit;
+            $wu->status = WU_SUCCESS;
         } else if ($wu->error_mask) {
             $batch->nerror_jobs++;
+            $wu->status = WU_ERROR;
         } else {
             $completed = false;
             if (array_key_exists($wu->id, $wus_in_prog)) {
                 $njobs_in_prog++;
+                $wu->status = WU_IN_PROGRESS;
+            } else {
+                $wu->status = WU_UNSENT;
             }
         }
     }

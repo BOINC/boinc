@@ -41,7 +41,7 @@ function submit_form($user) {
         containing command-line arguments.
         <a href=https://github.com/BOINC/boinc/wiki/BUDA-job-submission>Details</a></small>.
     ";
-    page_head("Submit jobs to $app ($variant)");
+    page_head("BUDA: Submit jobs to $app ($variant)");
     form_start('buda_submit.php');
     form_input_hidden('action', 'submit');
     form_input_hidden('app', $app);
