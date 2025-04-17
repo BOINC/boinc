@@ -331,7 +331,7 @@ function variant_action($user) {
     if ($max_total <= 0) {
         error_page('Must specify a positive max number of instances.');
     }
-    if ($min_success > $max_total) {
+    if ($min_nsuccess > $max_total) {
         error_page('Target # of successful instances must be <= max total');
     }
     $input_file_names = get_str('input_file_names', true);
