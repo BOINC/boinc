@@ -44,6 +44,8 @@ display_errors();
 // add your own stylesheets (included after bootstrap)
 //define("STYLESHEET", "aaa.css");
 //define("STYLESHEET2", "bbb.css");
+//define("SHORTCUT_ICON", "f.gif");     // browser tab icon
+define('DARK_MODE', true);      // enable dark mode if selected by user
 
 //-------------- enable/disable web features
 

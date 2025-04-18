@@ -324,12 +324,15 @@ function variant_action($user) {
         }
     }
     $min_nsuccess = get_int('min_nsuccess');
-    if (!$min_nsuccess) {
-        error_page('Must specify nonzero number of successful instances.');
+    if ($min_nsuccess <= 0) {
+        error_page('Must specify a positive number of successful instances.');
     }
     $max_total = get_int('max_total');
-    if (!$max_total) {
-        error_page('Must specify nonzero max number of instances.');
+    if ($max_total <= 0) {
+        error_page('Must specify a positive max number of instances.');
+    }
+    if ($min_nsuccess > $max_total) {
+        error_page('Target # of successful instances must be <= max total');
     }
     $input_file_names = get_str('input_file_names', true);
     $output_file_names = explode(' ', get_str('output_file_names'));

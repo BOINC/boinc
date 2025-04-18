@@ -169,7 +169,7 @@ function get_batch_params($batch, $wus) {
 
     // make list of WU IDs with an in-progress result
     $res_in_prog = BoincResult::enum(
-        sprintf('batch=%d and server_state<>%d',
+        sprintf('batch=%d and server_state=%d',
             $batch->id, RESULT_SERVER_STATE_IN_PROGRESS
         )
     );

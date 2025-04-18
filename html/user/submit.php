@@ -89,6 +89,7 @@ function show_in_progress($batches, $limit, $user, $app) {
             if ($limit) {
                 show_all_link($batches, BATCH_STATE_IN_PROGRESS, $limit, $user, $app);
             }
+            form_start('');     // for alignment
             start_table('table-striped');
             table_header(
                 "Name",
@@ -117,6 +118,7 @@ function show_in_progress($batches, $limit, $user, $app) {
         echo "<p>None.\n";
     } else {
         end_table();
+        form_end();
     }
 }
 
@@ -155,6 +157,7 @@ function show_complete($batches, $limit, $user, $app) {
     } else {
         end_table();
         form_submit('Retire selected batches');
+        form_end();
     }
 }
 
@@ -171,6 +174,7 @@ function show_aborted($batches, $limit, $user, $app) {
             if ($limit) {
                 show_all_link($batches, BATCH_STATE_ABORTED, $limit, $user, $app);
             }
+            form_start('');
             start_table();
             table_header("name", "ID", "user", "app", "# jobs", "submitted");
         }
@@ -185,6 +189,7 @@ function show_aborted($batches, $limit, $user, $app) {
     }
     if (!$first) {
         end_table();
+        form_end();
     }
 }
 
