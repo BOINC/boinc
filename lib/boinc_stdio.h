@@ -148,7 +148,7 @@ namespace boinc {
 #endif
     }
 
-    inline int ftell(FILE *f) {
+    inline long ftell(FILE *f) {
 #ifdef _USING_FCGI_
         return FCGI_ftell(f);
 #else

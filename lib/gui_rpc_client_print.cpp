@@ -298,7 +298,7 @@ void HOST_INFO::print() {
         }
         if (ci.have_opencl) {
             ci.opencl_prop.peak_flops = ci.peak_flops;
-            ci.opencl_prop.opencl_available_ram = ci.opencl_prop.global_mem_size;
+            ci.opencl_prop.opencl_available_ram = (double)ci.opencl_prop.global_mem_size;
             ci.opencl_prop.is_used = COPROC_USED;
             ci.opencl_prop.description(buf, sizeof(buf), "Intel GPU");
             printf("    %s\n", buf);
@@ -312,7 +312,7 @@ void HOST_INFO::print() {
         }
         if (cap.have_opencl) {
             cap.opencl_prop.peak_flops = cap.peak_flops;
-            cap.opencl_prop.opencl_available_ram = cap.opencl_prop.global_mem_size;
+            cap.opencl_prop.opencl_available_ram = (double)cap.opencl_prop.global_mem_size;
             cap.opencl_prop.is_used = COPROC_USED;
             cap.opencl_prop.description(buf, sizeof(buf), "Apple GPU");
             printf("    %s\n", buf);
