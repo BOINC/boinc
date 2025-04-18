@@ -1233,7 +1233,7 @@ int HOST_INFO::get_virtualbox_version() {
     return 0;
 }
 
-// check if docker is installed on this host
+// check if docker/podman is installed on this host
 // populate docker_version on success
 //
 bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
@@ -1246,8 +1246,8 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
 #endif
     string cmd = string(docker_cli_prog(type)) + " --version 2>/dev/null";
     FILE* f = popen(cmd.c_str(), "r");
+    char buf[256];
     if (f) {
-        char buf[256];
         // normally the version is on the first line,
         // but it's on the 2nd line if using podman-docker
         //
@@ -1262,6 +1262,32 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
         }
         pclose(f);
     }
+#ifdef __linux__
+    // if we're running as an unprivileged user, Docker/podman may not work.
+    // Check by running the Hello World image.
+    //
+    // Since we do this every time on startup, don't delete the image.
+    //
+    cmd = string(docker_cli_prog(type)) + " run hello-world 2>/dev/null";
+    bool found = false;
+    f = popen(cmd.c_str(), "r");
+    if (f) {
+        while (fgets(buf, 256, f)) {
+            if (strstr(buf, "Hello")) {
+                found = true;
+                break;
+            }
+        }
+        pclose(f);
+    }
+    if (!found) {
+        msg_printf(NULL, MSG_INFO,
+            "%s found but 'hello-world' test failed",
+            docker_type_str(type)
+        );
+        docker_version[0] = 0;
+    }
+#endif
     return ret;
 }
 
