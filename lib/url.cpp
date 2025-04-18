@@ -108,19 +108,19 @@ void parse_url(const char* url, PARSED_URL& purl) {
 // to be passed in a URL
 
 static char x2c(char *what) {
-    char digit;
+    int digit;
     if (what[0] >= 'A') {
-        digit = (what[0] & 0xdf) - 'A' + (char)10;
+        digit = (what[0] & 0xdf) - 'A' + 10;
     } else {
         digit = what[0] - '0';
     }
     digit *= 16;
     if (what[1] >= 'A') {
-        digit += (what[1] & 0xdf) - 'A' + (char)10;
+        digit += (what[1] & 0xdf) - 'A' + 10;
     } else {
         digit += what[1] - '0';
     }
-    return digit;
+    return (char)digit;
 }
 
 // size not really needed since unescaping can only shrink
