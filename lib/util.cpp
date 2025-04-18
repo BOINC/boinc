@@ -96,7 +96,7 @@ double dtime() {
 #else
     struct timeval tv;
     gettimeofday(&tv, 0);
-    return tv.tv_sec + (tv.tv_usec/1.e6);
+    return (double)tv.tv_sec + ((double)tv.tv_usec/1.e6);
 #endif
 #endif
 }
@@ -830,7 +830,7 @@ string docker_image_name(
     safe_strcpy(wu_buf, wu_name);
     downcase_string(wu_buf);
 
-    sprintf(buf, "boinc__%s__%s", url_buf, wu_buf);
+    snprintf(buf, sizeof(buf), "boinc__%s__%s", url_buf, wu_buf);
     return string(buf);
 }
 
