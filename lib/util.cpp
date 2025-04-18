@@ -751,7 +751,7 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
 #ifdef _WIN32
     string output;
 
-    sprintf(buf, "%s %s; echo EOM\n", cli_prog, cmd);
+    snprintf(buf, sizeof(buf), "%s %s; echo EOM\n", cli_prog, cmd);
     write_to_pipe(ctl_wc.in_write, buf);
     retval = read_from_pipe(
         ctl_wc.out_read, ctl_wc.proc_handle, output, CMD_TIMEOUT, "EOM"
@@ -762,7 +762,7 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     }
     out = split(output, '\n');
 #else
-    sprintf(buf, "%s %s\n", cli_prog, cmd);
+    snprintf(buf, sizeof(buf), "%s %s\n", cli_prog, cmd);
     retval = run_command(buf, out);
     if (retval) {
         if (verbose) {
@@ -847,7 +847,7 @@ string docker_container_name(
     safe_strcpy(result_buf, result_name);
     downcase_string(result_buf);
 
-    sprintf(buf, "boinc__%s__%s", url_buf, result_buf);
+    snprintf(buf, sizeof(buf), "boinc__%s__%s", url_buf, result_buf);
     return string(buf);
 }
 

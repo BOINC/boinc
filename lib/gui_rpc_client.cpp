@@ -104,7 +104,7 @@ int RPC_CLIENT::get_ip_addr(const char* host, int port) {
         sin->sin_addr.s_addr = htonl(INADDR_LOOPBACK);
     }
     if (port) {
-        port = (int)htons(port);
+        port = (int)htons((uint16_t)port);
     } else {
         port = (int)htons(GUI_RPC_PORT);
     }
@@ -323,11 +323,11 @@ int RPC_CLIENT::send_request(const char* p) {
 int RPC_CLIENT::get_reply(char*& mbuf) {
     char buf[8193];
     MFILE mf;
-    ssize_t n;
+    int n;
 
     mf.puts("");    // make sure buffer is non-NULL
     while (1) {
-        n = recv(sock, buf, 8192, 0);
+        n = (int) recv(sock, buf, 8192, 0);
         if (n <= 0) return ERR_READ;
         buf[n]=0;
         mf.puts(buf);

@@ -109,9 +109,17 @@ void parse_url(const char* url, PARSED_URL& purl) {
 
 static char x2c(char *what) {
     char digit;
-    digit = (char)(what[0] >= 'A' ? ((what[0] & 0xdf) - 'A')+10 : (what[0] - '0'));
+    if (what[0] >= 'A') {
+        digit = (what[0] & 0xdf) - 'A' + (char)10;
+    } else {
+        digit = what[0] - '0';
+    }
     digit *= 16;
-    digit += (char)(what[1] >= 'A' ? ((what[1] & 0xdf) - 'A')+10 : (what[1] - '0'));
+    if (what[1] >= 'A') {
+        digit += (what[1] & 0xdf) - 'A' + (char)10;
+    } else {
+        digit += what[1] - '0';
+    }
     return digit;
 }
 
