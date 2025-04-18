@@ -820,10 +820,8 @@ int DOCKER_CONN::parse_container_name(string line, string &name) {
 // - unique per WU (hence projurl__wuname)
 // - lowercase (required by Docker)
 //
-string docker_image_name(
-    const char* proj_url_esc, const char* wu_name
-) {
-    char buf[1024], url_buf[1024], wu_buf[1024];
+string docker_image_name(const char* proj_url_esc, const char* wu_name) {
+    char buf[2048], url_buf[512], wu_buf[512];
 
     safe_strcpy(url_buf, proj_url_esc);
     downcase_string(url_buf);
@@ -840,7 +838,7 @@ string docker_image_name(
 string docker_container_name(
     const char* proj_url_esc, const char* result_name
 ){
-    char buf[1024], url_buf[1024], result_buf[1024];
+    char buf[2048], url_buf[512], result_buf[512];
 
     safe_strcpy(url_buf, proj_url_esc);
     downcase_string(url_buf);
