@@ -17,11 +17,24 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// web interface for remote job submission:
-// - links to job-submission pages
+// remote job submission functions.
+//
+// A 'remote app' is one where jobs are submitted remotely:
+// - via web RPCs
+// - (and possibly also) via forms on the project web site
+//
+// In both cases only users with permission can submit; either
+// - a user_submit record with submit_all set
+// - a user_submit_app record
+//
+// They are apps are described in $remote_apps in project.inc
+//
+// This page has several functions:
+// - links to app-specific job-submission pages
 // - Admin (if privileged user)
 // - manage batches
 //      view status, get output files, abort, retire
+//   (this also shows batches created on the server)
 // - set 'use only my computers'
 
 require_once("../inc/submit_db.inc");
@@ -29,6 +42,7 @@ require_once("../inc/util.inc");
 require_once("../inc/result.inc");
 require_once("../inc/submit_util.inc");
 require_once("../project/project.inc");
+require_once('../project/remote_apps.inc');
 
 display_errors();
 
@@ -230,7 +244,7 @@ function show_batches($batches, $limit, $user, $app) {
 // show links to per-app job submission forms
 //
 function handle_main($user) {
-    global $web_apps;
+    global $remote_apps;
     $user_submit = BoincUserSubmit::lookup_userid($user->id);
     if (!$user_submit) {
         error_page("Ask the project admins for permission to submit jobs");
@@ -238,29 +252,28 @@ function handle_main($user) {
 
     page_head("Submit jobs");
 
-    if (!empty($web_apps)) {
-        // show links to per-app job submission pages
-        //
-        foreach ($web_apps as $area => $apps) {
-            panel($area,
-                function() use ($apps) {
-                    foreach ($apps as $app) {
-                        // show app logo if available
-                        if ($app[2]) {
-                            echo sprintf(
-                                '<a href=%s><img width=100 src=%s></a>&nbsp;',
-                                $app[1], $app[2]
-                            );
-                        } else {
-                            echo sprintf(
-                                '<li><a href=%s>%s</a><p>',
-                                $app[1], $app[0]
-                            );
-                        }
+    // show links to per-app job submission pages
+    //
+    foreach ($remote_apps as $area => $apps) {
+        panel($area,
+            function() use ($apps) {
+                foreach ($apps as $app) {
+                    if (empty($app->form)) continue;
+                    // show app logo if available
+                    if (!empty($app->logo)) {
+                        echo sprintf(
+                            '<a href=%s><img width=100 src=%s></a>&nbsp;',
+                            $app->form, $app->logo
+                        );
+                    } else {
+                        echo sprintf(
+                            '<li><a href=%s>%s</a><p>',
+                            $app->form, $app->long_name
+                        );
                     }
                 }
-            );
-        }
+            }
+        );
     }
 
     form_start('submit.php');
@@ -293,6 +306,19 @@ function handle_update_only_own($user) {
     header("Location: submit.php");
 }
 
+// get list of app names of remote apps
+//
+function get_remote_app_names() {
+    global $remote_apps;
+    $x = [];
+    foreach ($remote_apps as $category => $apps) {
+        foreach ($apps as $app) {
+            $x[] = $app->app_name;
+        }
+    }
+    return array_unique($x);
+}
+
 // show links for everything the user has admin access to
 //
 function handle_admin($user) {
@@ -308,8 +334,10 @@ function handle_admin($user) {
             <li> <a href=manage_project.php>Manage user permissions</a>
             </ul>
         ";
-        $apps = BoincApp::enum("deprecated=0");
-        foreach ($apps as $app) {
+        $app_names = get_remote_app_names();
+        foreach ($app_names as $app_name) {
+            $app_name = BoincDb::escape_string($app_name);
+            $app = BoincApp::lookup("name='$app_name'");
             echo "
                 <li>$app->user_friendly_name<br>
                 <ul>
@@ -572,15 +600,14 @@ function handle_query_batch($user) {
 
 // Does the assimilator for the given app move output files
 // to a results/<batchid>/ directory?
-// This info is stored in the $web_apps data structure in project.inc
+// This info is stored in the $remote_apps data structure in project.inc
 //
 function is_assim_move($app) {
-    global $web_apps;
-    if (empty($web_apps)) return false;
-    foreach ($web_apps as $name => $apps) {
+    global $remote_apps;
+    foreach ($remote_apps as $category => $apps) {
         foreach ($apps as $web_app) {
-            if ($web_app[0] == $app->name) {
-                return $web_app[3];
+            if ($web_app->app_name == $app->name) {
+                return $web_app->is_assim_move;
             }
         }
     }

@@ -194,17 +194,7 @@ function sample_navbar(
                 $x[] = ["File sandbox", "sandbox.php"];
                 $x[] = ["Submit jobs", $url_prefix."submit.php"];
                 $x[] = ["Job status", $url_prefix."submit.php?action=status"];
-                $is_admin = $user_submit->manage_all;
-                if (!$is_admin) {
-                    $usas = BoincUserSubmitApp::enum("user_id=$user->id");
-                    foreach ($usas as $usa) {
-                        if ($usa->manage) {
-                            $is_admin = true;
-                            break;
-                        }
-                    }
-                }
-                if ($is_admin) {
+                if ($user_submit->manage_all) {
                     $x[] = ["Administer", $url_prefix."submit.php?action=admin"];
                 }
                 navbar_menu(tra("Job submission"), $x);
@@ -387,7 +377,8 @@ function form_input_textarea($label, $name, $value='', $nrows=4) {
     );
 }
 
-// $items is either a string of <option> elements, or an array
+// $items is either a string of <option> elements,
+// or an array of [value, name] pairs
 //
 function form_select($label, $name, $items, $selected=null) {
     echo sprintf('
@@ -542,7 +533,7 @@ function form_checkbox($label, $name, $checked=false) {
     );
 }
 
-// 'select2' is replacement for select boxed:
+// 'select2' is replacement for multiple select with a nicer UI:
 // https://github.com/select2/select2
 //
 // To use it you must use this version of page_head():
@@ -562,7 +553,7 @@ function page_head_select2($title) {
 }
 
 // show a multi-select using select2.
-// $items is a list of [val, label] pairs;
+// $items is a list of [value, name] pairs;
 // $selected is the list of selected values.
 // $extra is e.g. id=foo
 //

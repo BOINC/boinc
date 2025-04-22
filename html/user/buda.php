@@ -23,7 +23,9 @@
 
 require_once('../inc/util.inc');
 require_once('../inc/sandbox.inc');
+require_once('../inc/keywords.inc');
 require_once('../inc/submit_util.inc');
+require_once('../inc/buda.inc');
 
 display_errors();
 
@@ -35,18 +37,10 @@ $buda_root = "../../buda_apps";
 function write_plan_class_file() {
     $pcs = [];
     global $buda_root;
-    if (is_dir($buda_root)) {
-        $apps = scandir($buda_root);
-        foreach ($apps as $app) {
-            if ($app[0] == '.') continue;
-            if (!is_dir("$buda_root/$app")) continue;
-            $vars = scandir("$buda_root/$app");
-            foreach ($vars as $var) {
-                if ($var[0] == '.') continue;
-                if (!is_dir("$buda_root/$app/$var")) continue;
-                $pcs[] = $var;
-            }
-        }
+    $apps = get_buda_apps();
+    foreach ($apps as $app) {
+        $vars = get_buda_variants($app);
+        $pcs = array_merge($pcs, $vars);
     }
     $pcs = array_unique($pcs);
     file_put_contents(
@@ -75,15 +69,11 @@ function app_list($notice=null) {
         BUDA science apps:
     ";
 
-    $dirs = scandir($buda_root);
-    foreach ($dirs as $dir) {
-        if ($dir[0] == '.') continue;
-        panel("$dir",
-            function() use ($dir) {
-                show_app($dir);
-            }
-        );
+    $apps = get_buda_apps();
+    foreach ($apps as $app) {
+        show_app($app);
     }
+    echo '<hr>';
     show_button_small('buda.php?action=app_form', 'Add science app');
     text_end();
     page_tail();
@@ -91,32 +81,34 @@ function app_list($notice=null) {
 
 function show_app($dir) {
     global $buda_root;
-    start_table('table-striped');
-    table_header('Variant<br><small>click for details</small>', 'Submit jobs');
-    $pcs = scandir("$buda_root/$dir");
-    $have_var = false;
-    foreach ($pcs as $pc) {
-        if ($pc[0] == '.') continue;
-        $have_var = true;
-        table_row(
-            "<a href=buda.php?action=variant_view&app=$dir&variant=$pc>$pc</href>",
-            button_text(
-                "buda_submit.php?app=$dir&variant=$pc", "Submission form"
-            )
+    $desc = null;
+    $desc_path = "$buda_root/$dir/desc.json";
+    $desc = json_decode(file_get_contents($desc_path));
+    echo '<hr>';
+    echo sprintf('<font size=+3>%s</font> <a href=buda.php?action=app_details&name=%s>details</a>',
+        $desc->long_name,
+        $desc->name
+    );
+    $vars = get_buda_variants($dir);
+    if ($vars) {
+        start_table('table-striped');
+        table_header(
+            'Variant<br><small>click for details</small>',
+            'Job submission form'
         );
+        foreach ($vars as $var) {
+            table_row(
+                "<a href=buda.php?action=variant_view&app=$dir&variant=$var>$var</href>",
+                button_text(
+                    "buda_submit.php?app=$dir&variant=$var", "Submit jobs"
+                )
+            );
+        }
+        end_table();
+    } else {
+        echo '<p>No variants';
     }
-    end_table();
     echo "<p>";
-    show_button_small("buda.php?action=variant_form&app=$dir", 'Add variant');
-    if (!$have_var) {
-        echo "<p>";
-        show_button(
-            "buda.php?action=app_delete&app=$dir",
-            "Delete app",
-            null,
-            'btn btn-xs btn-warning'
-        );
-    }
 }
 
 function file_row($app, $variant, $dir, $f) {
@@ -439,10 +431,11 @@ function app_delete() {
     if ($confirmed) {
         $dir = "$buda_root/$app";
         if (!file_exists($dir)) error_page('no such app');
-        foreach (scandir($dir) as $fname) {
-            if ($fname[0] == '.') continue;
+        $vars = get_buda_variants($app);
+        if ($vars) {
             error_page("You must delete all variants first.");
         }
+        system("rm $buda_root/$app/desc.json", $ret);
         system("rmdir $buda_root/$app", $ret);
         if ($ret) {
             error_page('delete failed');
@@ -460,27 +453,69 @@ function app_delete() {
     }
 }
 
-function app_form() {
-    page_head('Create Docker app');
+function app_form($desc=null) {
+    page_head_select2($desc?"Edit Docker app $desc->name":'Create Docker app');
     form_start('buda.php');
     form_input_hidden('action', 'app_action');
-    form_input_text('Name', 'name');
+    if ($desc) {
+        form_input_hidden('edit_name', $desc->name);
+        form_input_hidden('user_id', $desc->user_id);
+        form_input_hidden('create_time', $desc->create_time);
+    } else {
+        form_input_text('Internal name<br><small>No spaces</small>', 'name');
+    }
+    form_input_text('User-visible name', 'long_name',
+        $desc?$desc->long_name:null
+    );
+    form_input_textarea(
+        'Description<br><small>... of what the app does and of the research goals</small>',
+        'description',
+        $desc?$desc->description:null
+    );
+    form_select2_multi('Science keywords',
+        'sci_kw',
+        keyword_select_options(KW_CATEGORY_SCIENCE),
+        $desc?$desc->sci_kw:null
+    );
+    form_input_text(
+        'URL of web page describing app',
+        'url',
+        $desc?$desc->url:''
+    );
+    // don't include location keywords;
+    // various people may submit jobs to this app
     form_submit('OK');
     form_end();
     page_tail();
 }
 
-function app_action() {
+function app_action($user) {
     global $buda_root;
-    $name = get_str('name');
-    if (!is_valid_filename($name)) {
-        error_page(filename_rules());
+    $edit_name = get_str('edit_name', true);
+    $desc = new StdClass;
+    if ($edit_name) {
+        $dir = "$buda_root/$edit_name";
+        $name = $edit_name;
+        $desc->user_id = get_int('user_id');
+        $desc->create_time = get_int('create_time');
+    } else {
+        $name = get_str('name');
+        if (!is_valid_filename($name)) {
+            error_page(filename_rules());
+        }
+        $dir = "$buda_root/$name";
+        if (file_exists($dir)) {
+            error_page("App $name already exists.");
+        }
+        mkdir($dir);
+        $desc->user_id = $user->id;
+        $desc->create_time = time();
     }
-    $dir = "$buda_root/$name";
-    if (file_exists($dir)) {
-        error_page("App $name already exists.");
-    }
-    mkdir($dir);
+    $desc->name = $name;
+    $desc->long_name = get_str('long_name');
+    $desc->description = get_str('description');
+    $desc->sci_kw = array_map('intval', get_array('sci_kw'));
+    file_put_contents("$dir/desc.json", json_encode($desc, JSON_PRETTY_PRINT));
     header("Location: buda.php");
 }
 
@@ -498,6 +533,69 @@ function view_file() {
     echo "</pre>\n";
 }
 
+function handle_app_edit() {
+    global $buda_root;
+    $name = get_str('name');
+    app_form(get_buda_desc($name));
+}
+
+function app_details() {
+    global $buda_root;
+    $name = get_str('name');
+    $desc = get_buda_desc($name);
+    if (!$desc) error_page("no desc file $path");
+    page_head("BUDA app: $desc->long_name");
+    start_table();
+    row2('Internal name', $desc->name);
+    $user = BoincUser::lookup_id($desc->user_id);
+    row2('Creator',
+        sprintf('<a href=show_user.php?userid=%d>%s</a>',
+            $user->id,
+            $user->name
+        )
+    );
+    row2('Created', date_str($desc->create_time));
+    row2('Description', $desc->description);
+    row2('Science keywords', kw_array_to_str($desc->sci_kw));
+    row2('',
+        button_text_small(
+            sprintf('buda.php?action=%s&name=%s', 'app_edit', $desc->name),
+            'Edit app info'
+        )
+    );
+    $vars = get_buda_variants($name);
+    if ($vars) {
+        $x = [];
+        foreach ($vars as $var) {
+            $x[] = sprintf('<a href=buda.php?var_details?var=%s>%s</a>',
+                $var, $var
+            );
+        }
+        $x[] = button_text_small(
+            "buda.php?action=variant_form&app=$name",
+            'Add variant'
+        );
+        row2('Variants', implode('<p>', $x));
+    } else {
+        row2('Variants',
+            button_text_small(
+                "buda.php?action=variant_form&app=$name",
+                'Add variant'
+            )
+        );
+        row2('',
+            button_text(
+                "buda.php?action=app_delete&app=$name",
+                "Delete app",
+                null,
+                'btn btn-xs btn-warning'
+            )
+        );
+    }
+    end_table();
+    page_tail();
+}
+
 // check access.
 // Anyone with submit access to BUDA can add/delete apps and variants.
 // Might want to refine this at some point
@@ -511,10 +609,14 @@ if (!has_submit_access($user, $buda_app->id)) {
 
 $action = get_str('action', true);
 switch ($action) {
+case 'app_edit':
+    handle_app_edit(); break;
 case 'app_form':
     app_form(); break;
 case 'app_action':
-    app_action(); break;
+    app_action($user); break;
+case 'app_details':
+    app_details(); break;
 case 'app_delete':
     app_delete(); break;
 case 'variant_view':
