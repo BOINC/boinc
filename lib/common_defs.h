@@ -31,8 +31,8 @@
 
 #include <string.h>
 
-class MIOFILE;
-class XML_PARSER;
+struct MIOFILE;
+struct XML_PARSER;
 
 #define GUI_RPC_PORT 31416
     // for TCP connection

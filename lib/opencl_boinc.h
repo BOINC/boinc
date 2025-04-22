@@ -20,8 +20,8 @@
 
 #include "cl_boinc.h"
 
-class MIOFILE;
-class XML_PARSER;
+struct MIOFILE;
+struct XML_PARSER;
 
 #define MAX_OPENCL_PLATFORMS 16
 #define MAX_OPENCL_CPU_PLATFORMS 4

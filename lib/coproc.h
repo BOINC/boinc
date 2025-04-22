@@ -85,8 +85,8 @@
 #include "opencl_boinc.h"
 #include "common_defs.h"
 
-class MIOFILE;
-class XML_PARSER;
+struct MIOFILE;
+struct XML_PARSER;
 
 #define MAX_COPROC_INSTANCES 64
 #define MAX_RSC 8
