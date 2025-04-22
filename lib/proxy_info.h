@@ -19,7 +19,7 @@
 #define BOINC_PROXY_INFO_H
 
 struct XML_PARSER;
-class MIOFILE;
+struct MIOFILE;
 
 // info on whether HTTP requests need to go through a proxy
 //
