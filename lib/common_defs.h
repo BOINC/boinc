@@ -29,8 +29,10 @@
 #ifndef BOINC_COMMON_DEFS_H
 #define BOINC_COMMON_DEFS_H
 
-#include "miofile.h"
-#include "parse.h"
+#include <string.h>
+
+class MIOFILE;
+class XML_PARSER;
 
 #define GUI_RPC_PORT 31416
     // for TCP connection

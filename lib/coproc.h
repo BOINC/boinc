@@ -80,11 +80,13 @@
 #include "boinc_stdio.h"
 #include "miofile.h"
 #include "error_numbers.h"
-#include "parse.h"
 #include "cal_boinc.h"
 #include "cl_boinc.h"
 #include "opencl_boinc.h"
 #include "common_defs.h"
+
+class MIOFILE;
+class XML_PARSER;
 
 #define MAX_COPROC_INSTANCES 64
 #define MAX_RSC 8
