@@ -347,10 +347,10 @@ function kw_id_to_name($id) {
     return $kw->name;
 }
 
-function kw_array_to_str($kws) {
+function kw_array_to_str($kws, $sep='<br>') {
     $x = array_map('strval', $kws);
     $x = array_map('kw_id_to_name', $x);
-    return implode('<br>', $x);
+    return implode($sep, $x);
 }
 
 ?>
