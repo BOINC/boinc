@@ -21,6 +21,7 @@
 require_once('../inc/util.inc');
 require_once('../inc/submit_util.inc');
 require_once('../inc/sandbox.inc');
+require_once('../inc/buda.inc');
 
 display_errors();
 
@@ -191,7 +192,7 @@ function stage_input_files($batch_dir, $batch_desc, $batch_id) {
 // Use --stdin, where each job is described by a line
 //
 function create_jobs(
-    $app, $variant, $variant_desc,
+    $app, $app_desc, $variant, $variant_desc,
     $batch_desc, $batch_id, $batch_dir_name,
     $wrapper_verbose, $cmdline
 ) {
@@ -221,15 +222,17 @@ function create_jobs(
         }
         $job_cmds .= "$job_cmd\n";
     }
-    $cw_cmdline = sprintf('"--dockerfile %s %s %s"',
+    $wrapper_cmdline = sprintf('"--dockerfile %s %s %s"',
         $variant_desc->dockerfile,
         $wrapper_verbose?'--verbose':'',
         $cmdline
     );
     $cmd = sprintf(
-        'cd ../..; bin/create_work --appname %s --batch %d --stdin --command_line %s --wu_template %s --result_template %s',
-        $buda_boinc_app->name, $batch_id,
-        $cw_cmdline,
+        'cd ../..; bin/create_work --appname %s --sub_appname "%s" --batch %d --stdin --command_line %s --wu_template %s --result_template %s',
+        $buda_boinc_app->name,
+        $app_desc->long_name,
+        $batch_id,
+        $wrapper_cmdline,
         "buda_apps/$app/$variant/template_in",
         "buda_apps/$app/$variant/template_out"
     );
@@ -250,6 +253,8 @@ function create_jobs(
 }
 
 function handle_submit($user) {
+    global $buda_root;
+
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
     $variant = get_str('variant');
@@ -259,7 +264,9 @@ function handle_submit($user) {
     $wrapper_verbose = get_str('wrapper_verbose', true);
     $cmdline = get_str('cmdline');
 
-    $variant_dir = "../../buda_apps/$app/$variant";
+    $app_desc = get_buda_desc($app);
+
+    $variant_dir = "$buda_root/$app/$variant";
     $variant_desc = json_decode(
         file_get_contents("$variant_dir/variant.json")
     );
@@ -280,7 +287,7 @@ function handle_submit($user) {
     stage_input_files($batch_dir, $batch_desc, $batch->id);
 
     create_jobs(
-        $app, $variant, $variant_desc,
+        $app, $app_desc, $variant, $variant_desc,
         $batch_desc, $batch->id, $batch_dir_name,
         $wrapper_verbose, $cmdline
     );

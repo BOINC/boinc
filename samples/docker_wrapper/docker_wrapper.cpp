@@ -375,8 +375,13 @@ int create_container() {
     if (retval) return retval;
 
     // on MacOS/podman, you need the full path, not .
+    // Win: use . since full path has :
     //
+#ifdef __APPLE__
     getcwd(cwd, sizeof(cwd));
+#else
+    strcpy(cwd, ".");
+#endif
     snprintf(slot_cmd, sizeof(slot_cmd), " -v %s:%s", cwd, config.workdir.c_str());
     if (config.project_dir_mount.empty()) {
         project_cmd[0] = 0;

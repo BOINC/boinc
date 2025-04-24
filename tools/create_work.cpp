@@ -96,6 +96,7 @@ void usage() {
         "   [ --rsc_memory_bound x ]\n"
         "   [ --size_class n ]\n"
         "   [ --stdin ]\n"
+        "   [ --sub_appname 'foo bar' ]\n"
         "   [ --target_host ID ]\n"
         "   [ --target_nresults n ]\n"
         "   [ --target_team ID ]\n"
@@ -143,16 +144,18 @@ struct JOB_DESC {
     bool assign_multi;
     int assign_id;
     int assign_type;
+    char sub_appname[256];
 
     JOB_DESC() {
         wu.clear();
-        strcpy(command_line, "");
+        command_line[0] = 0;
         assign_flag = false;
         assign_multi = false;
-        strcpy(wu_template_file, "");
-        strcpy(result_template_file, "");
+        wu_template_file[0] = 0;
+        result_template_file[0] = 0;
         assign_id = 0;
         assign_type = ASSIGN_NONE;
+        sub_appname[0] = 0;
 
         // defaults (in case they're not in WU template)
         //
@@ -312,8 +315,6 @@ int main(int argc, char** argv) {
             jd.wu.max_total_results = atoi(argv[++i]);
         } else if (arg(argv, i, "max_success_results")) {
             jd.wu.max_success_results = atoi(argv[++i]);
-        } else if (arg(argv, i, "opaque")) {
-            jd.wu.opaque = atoi(argv[++i]);
         } else if (arg(argv, i, "command_line")) {
             strcpy(jd.command_line, argv[++i]);
         } else if (arg(argv, i, "wu_id")) {
@@ -367,6 +368,8 @@ int main(int argc, char** argv) {
             continue_on_error = true;
         } else if (arg(argv, i, "keywords")) {
             strcpy(jd.wu.keywords, argv[++i]);
+        } else if (arg(argv, i, "sub_appname")) {
+            strcpy(jd.sub_appname, argv[++i]);
         } else {
             if (!strncmp("-", argv[i], 1)) {
                 fprintf(stderr, "create_work: bad argument '%s'\n", argv[i]);
@@ -478,10 +481,23 @@ int main(int argc, char** argv) {
                 jd2.create();
             }
         } else {
+            // stdin mode, unassigned.
+            // for max efficiency, do them all in one big SQL query
+            //
             string values;
             DB_WORKUNIT wu;
             int _argc;
             char* _argv[100], value_buf[MAX_QUERY_LEN];
+
+            char sub_appname_buf[256];
+            sub_appname_buf[0] = 0;
+            if (strlen(jd.sub_appname)) {
+                snprintf(sub_appname_buf, sizeof(sub_appname_buf),
+                    "   <sub_appname>%s</sub_appname>",
+                    jd.sub_appname
+                );
+            }
+
             for (int j=0; ; j++) {
                 char* p = fgets(buf, sizeof(buf), stdin);
                 if (p == NULL) break;
@@ -517,7 +533,7 @@ int main(int argc, char** argv) {
                     jd2.infiles,
                     config,
                     jd2.command_line,
-                    NULL,
+                    sub_appname_buf,
                     value_buf
                 );
                 if (retval) {
@@ -578,6 +594,14 @@ void JOB_DESC::create() {
     if (assign_flag) {
         wu.transitioner_flags = assign_multi?TRANSITION_NONE:TRANSITION_NO_NEW_RESULTS;
     }
+    char sub_appname_buf[256];
+    sub_appname_buf[0] = 0;
+    if (strlen(sub_appname)) {
+        snprintf(sub_appname_buf, sizeof(sub_appname_buf),
+            "   <sub_appname>%s</sub_appname>",
+            sub_appname
+        );
+    }
     int retval = create_work2(
         wu,
         wu_template,
@@ -585,7 +609,8 @@ void JOB_DESC::create() {
         result_template_path,
         infiles,
         config,
-        command_line
+        command_line,
+        sub_appname_buf
     );
     if (retval) {
         fprintf(stderr, "create_work: %s\n", boincerror(retval));

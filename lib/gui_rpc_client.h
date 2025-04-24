@@ -233,6 +233,7 @@ struct APP_VERSION {
 struct WORKUNIT {
     char name[256];
     char app_name[256];
+    char sub_appname[256];
     int version_num;    // backwards compat
     double rsc_fpops_est;
     double rsc_fpops_bound;
