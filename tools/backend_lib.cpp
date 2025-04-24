@@ -15,7 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// functions called from backend programs (scheduler, transitioner etc.)
+// functions called from create_work
+// and backend programs (scheduler, transitioner etc.)
 // to create result records and other utilities
 
 #include "config.h"

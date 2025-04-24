@@ -481,10 +481,23 @@ int main(int argc, char** argv) {
                 jd2.create();
             }
         } else {
+            // stdin mode, unassigned.
+            // for max efficiency, do them all in one big SQL query
+            //
             string values;
             DB_WORKUNIT wu;
             int _argc;
             char* _argv[100], value_buf[MAX_QUERY_LEN];
+
+            char sub_appname_buf[256];
+            sub_appname_buf[0] = 0;
+            if (strlen(jd.sub_appname)) {
+                snprintf(sub_appname_buf, sizeof(sub_appname_buf),
+                    "   <sub_appname>%s</sub_appname>",
+                    jd.sub_appname
+                );
+            }
+
             for (int j=0; ; j++) {
                 char* p = fgets(buf, sizeof(buf), stdin);
                 if (p == NULL) break;
@@ -520,7 +533,7 @@ int main(int argc, char** argv) {
                     jd2.infiles,
                     config,
                     jd2.command_line,
-                    NULL,
+                    sub_appname_buf,
                     value_buf
                 );
                 if (retval) {
