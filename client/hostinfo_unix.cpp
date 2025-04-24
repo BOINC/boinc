@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -1268,24 +1268,26 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
     //
     // Since we do this every time on startup, don't delete the image.
     //
-    cmd = string(docker_cli_prog(type)) + " run hello-world 2>/dev/null";
-    bool found = false;
-    f = popen(cmd.c_str(), "r");
-    if (f) {
-        while (fgets(buf, 256, f)) {
-            if (strstr(buf, "Hello")) {
-                found = true;
-                break;
+    if (ret) {
+        cmd = string(docker_cli_prog(type)) + " run hello-world 2>/dev/null";
+        bool found = false;
+        f = popen(cmd.c_str(), "r");
+        if (f) {
+            while (fgets(buf, 256, f)) {
+                if (strstr(buf, "Hello")) {
+                    found = true;
+                    break;
+                }
             }
+            pclose(f);
         }
-        pclose(f);
-    }
-    if (!found) {
-        msg_printf(NULL, MSG_INFO,
-            "%s found but 'hello-world' test failed",
-            docker_type_str(type)
-        );
-        docker_version[0] = 0;
+        if (!found) {
+            msg_printf(NULL, MSG_INFO,
+                "%s found but 'hello-world' test failed",
+                docker_type_str(type)
+            );
+            docker_version[0] = 0;
+        }
     }
 #endif
     return ret;
