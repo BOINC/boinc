@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2024 University of California
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -49,6 +49,31 @@ class IntegrationTests:
 
     def _get_user_in_group(self, username, groupname):
         return os.popen("id -Gn {username}".format(username=username)).read().strip().find(groupname) != -1
+
+    def _get_user_home_directory(self, username):
+        return os.popen("getent passwd {username}".format(username=username)).read().strip().split(":")[5]
+
+    def _get_uid_range(self, username):
+        result = os.popen("cat /etc/subuid | grep {username}".format(username=username)).read().strip()
+        if (result == ""):
+            return ""
+        result = result.split(":")
+        if (len(result) != 3):
+            return ""
+        start = int(result[1])
+        count = int(result[2])
+        return "{start}:{count}".format(start=start, count=count)
+
+    def _get_gid_range(self, groupname):
+        result = os.popen("cat /etc/subgid | grep {groupname}".format(groupname=groupname)).read().strip()
+        if (result == ""):
+            return ""
+        result = result.split(":")
+        if (len(result) != 3):
+            return ""
+        start = int(result[1])
+        count = int(result[2])
+        return "{start}:{count}".format(start=start, count=count)
 
     def _get_key_value_pairs_from_file(self, filename):
         result = {}
@@ -143,13 +168,16 @@ class IntegrationTests:
             ts.expect_true(self._get_user_in_group("boinc", "video"), "Test 'boinc' user is in 'video' group")
         if (self._get_group_exists("render")):
             ts.expect_true(self._get_user_in_group("boinc", "render"), "Test 'boinc' user is in 'render' group")
+        ts.expect_equal("/var/lib/boinc", self._get_user_home_directory("boinc"), "Test 'boinc' user home directory is '/var/lib/boinc'")
+        ts.expect_equal("100000:65536", self._get_uid_range("boinc"), "Test 'boinc' user UID range is '100000:65536'")
+        ts.expect_equal("100000:65536", self._get_gid_range("boinc"), "Test 'boinc' group GID range is '100000:65536'")
         return ts.result()
 
     def test_selected_values_from_boinc_client_service_file(self):
         ts = testset.TestSet("Test selected values from the '/usr/lib/systemd/system/boinc-client.service' file")
         data = self._get_key_value_pairs_from_file("/usr/lib/systemd/system/boinc-client.service")
         ts.expect_equal(data["ProtectSystem"], "strict", "Test 'ProtectSystem' is correctly set")
-        ts.expect_equal(data["ReadWritePaths"], "-/var/lib/boinc -/etc/boinc-client -/tmp", "Test 'ReadWritePaths' is correctly set")
+        ts.expect_equal(data["ReadWritePaths"], "-/var/lib/boinc -/etc/boinc-client -/tmp -/var/tmp", "Test 'ReadWritePaths' is correctly set")
         ts.expect_equal(data["User"], "boinc", "Test 'User' is correctly set")
         ts.expect_equal(data["WorkingDirectory"], "/var/lib/boinc", "Test 'WorkingDirectory' is correctly set")
         ts.expect_equal(data["ExecStart"], "/usr/local/bin/boinc", "Test 'ExecStart' is correctly set")
