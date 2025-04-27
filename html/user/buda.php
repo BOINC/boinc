@@ -16,7 +16,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// web interface for managing BUDA science apps
+// interface for:
+//      - viewing details of BUDA science apps and variants
+//      - managing these if user has permission
 //
 // in the following, 'app' means BUDA science app
 // and 'variant' means a variant of one of these (e.g. CPU, GPU)
@@ -57,7 +59,7 @@ function app_list($notice=null) {
     if (!is_dir($buda_root)) {
         mkdir($buda_root);
     }
-    page_head('BOINC Universal Docker App (BUDA)');
+    page_head('Manage BUDA apps');
     if ($notice) {
         echo "$notice <p>\n";
     }
@@ -85,26 +87,20 @@ function show_app($dir) {
     $desc_path = "$buda_root/$dir/desc.json";
     $desc = json_decode(file_get_contents($desc_path));
     echo '<hr>';
-    echo sprintf('<font size=+3>%s</font> <a href=buda.php?action=app_details&name=%s>details</a>',
-        $desc->long_name,
+    echo sprintf('<h3>%s</h3>', $desc->long_name);
+    echo sprintf('<a href=buda.php?action=app_details&name=%s>Manage app</a>',
         $desc->name
     );
     $vars = get_buda_variants($dir);
     if ($vars) {
-        start_table('table-striped');
-        table_header(
-            'Variant<br><small>click for details</small>',
-            'Job submission form'
-        );
+        echo "<p>App variants:<ul>";
         foreach ($vars as $var) {
-            table_row(
-                "<a href=buda.php?action=variant_view&app=$dir&variant=$var>$var</href>",
-                button_text(
-                    "buda_submit.php?app=$dir&variant=$var", "Submit jobs"
-                )
+            echo sprintf(
+                '<li><a href=buda.php?action=variant_view&app=%s&variant=%s>%s</a>',
+                $dir, $var, $var
             );
         }
-        end_table();
+        echo '</ul>';
     } else {
         echo '<p>No variants';
     }
@@ -121,7 +117,7 @@ function file_row($app, $variant, $dir, $f) {
 }
 
 function variant_view() {
-    global $buda_root;
+    global $buda_root, $manage_access;
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
     $variant = get_str('variant');
@@ -129,6 +125,7 @@ function variant_view() {
     page_head("BUDA: variant '$variant' of science app '$app'");
     $dir = "$buda_root/$app/$variant";
     $desc = json_decode(file_get_contents("$dir/variant.json"));
+    echo "<h3>Files</h3>";
     start_table();
     table_header('Dockerfile', 'size', 'md5');
     file_row($app, $variant, $dir, $desc->dockerfile);
@@ -141,6 +138,7 @@ function variant_view() {
     file_row($app, $variant, $dir, 'template_out');
     file_row($app, $variant, $dir, 'variant.json');
     end_table();
+    echo '<hr>';
 
     start_table();
     row2(
@@ -161,15 +159,22 @@ function variant_view() {
     } else {
         row2('Target successful instances per job:', '1');
     }
+    if (!empty($desc->max_delay)) {
+        row2('Max job turnaround time, days:', $desc->max_delay);
+    } else {
+        row2('Max job turnaround time, days:', '7');
+    }
     end_table();
 
-    echo '<p>';
-    show_button(
-        "buda.php?action=variant_delete&app=$app&variant=$variant",
-        'Delete variant',
-        null,
-        'btn btn-xs btn-warning'
-    );
+    if ($manage_access) {
+        echo '<p>';
+        show_button(
+            "buda.php?action=variant_delete&app=$app&variant=$variant",
+            'Delete variant',
+            null,
+            'btn btn-xs btn-warning'
+        );
+    }
     page_tail();
 }
 
@@ -187,7 +192,7 @@ function variant_form($user) {
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
 
-    page_head_select2("Create a variant of Docker app $app");
+    page_head_select2("Create a variant of BUDA app $app");
     echo "
         Details are <a href=https://github.com/BOINC/boinc/wiki/BUDA-job-submission#adding-a-variant>here</a>.
     ";
@@ -219,6 +224,11 @@ function variant_form($user) {
         ',
         'min_nsuccess',
         '1'
+    );
+    form_input_text(
+        'Max job turnaround time, days',
+        'max_delay',
+        '7'
     );
     form_submit('OK');
     form_end();
@@ -273,6 +283,10 @@ function create_templates($variant, $variant_desc, $dir) {
     );
     $x .= sprintf("      <max_total_results>%d</max_total_results>\n",
         $variant_desc->max_total
+    );
+
+    $x .= sprintf("      <max_delay>%f</max_delay>\n",
+        $variant_desc->max_delay * 86400.
     );
 
     $x .= "   </workunit>\n<input_template>\n";
@@ -454,7 +468,7 @@ function app_delete() {
 }
 
 function app_form($desc=null) {
-    page_head_select2($desc?"Edit Docker app $desc->name":'Create Docker app');
+    page_head_select2($desc?"Edit BUDA app $desc->name":'Create BUDA app');
     form_start('buda.php');
     form_input_hidden('action', 'app_action');
     if ($desc) {
@@ -540,7 +554,7 @@ function handle_app_edit() {
 }
 
 function app_details() {
-    global $buda_root;
+    global $buda_root, $manage_access;
     $name = get_str('name');
     $desc = get_buda_desc($name);
     if (!$desc) error_page("no desc file $path");
@@ -557,26 +571,32 @@ function app_details() {
     row2('Created', date_str($desc->create_time));
     row2('Description', $desc->description);
     row2('Science keywords', kw_array_to_str($desc->sci_kw));
-    row2('',
-        button_text_small(
-            sprintf('buda.php?action=%s&name=%s', 'app_edit', $desc->name),
-            'Edit app info'
-        )
-    );
+    if ($manage_access) {
+        row2('',
+            button_text_small(
+                sprintf('buda.php?action=%s&name=%s', 'app_edit', $desc->name),
+                'Edit app info'
+            )
+        );
+    }
     $vars = get_buda_variants($name);
     if ($vars) {
         $x = [];
         foreach ($vars as $var) {
-            $x[] = sprintf('<a href=buda.php?var_details?var=%s>%s</a>',
-                $var, $var
+            $x[] = sprintf('<a href=buda.php?action=variant_view&app=%s&variant=%s>%s</a>',
+                $name, $var, $var
             );
         }
-        $x[] = button_text_small(
-            "buda.php?action=variant_form&app=$name",
-            'Add variant'
-        );
         row2('Variants', implode('<p>', $x));
-    } else {
+        if ($manage_access) {
+            row2('',
+                button_text_small(
+                    "buda.php?action=variant_form&app=$name",
+                    'Add variant'
+                )
+            );
+        }
+    } else if ($manage_access) {
         row2('Variants',
             button_text_small(
                 "buda.php?action=variant_form&app=$name",
@@ -596,38 +616,43 @@ function app_details() {
     page_tail();
 }
 
-// check access.
-// Anyone with submit access to BUDA can add/delete apps and variants.
+// Users with manage access to BUDA can add/delete apps and variants.
+// Others can just view.
 // Might want to refine this at some point
 
 $user = get_logged_in_user();
 $buda_app = BoincApp::lookup("name='buda'");
 if (!$buda_app) error_page('no buda app');
-if (!has_submit_access($user, $buda_app->id)) {
-    error_page('no access');
-}
+$manage_access = has_manage_access($user, $buda_app->id);
 
 $action = get_str('action', true);
 switch ($action) {
 case 'app_edit':
+    if (!$manage_access) error_page('no access');
     handle_app_edit(); break;
 case 'app_form':
+    if (!$manage_access) error_page('no access');
     app_form(); break;
 case 'app_action':
+    if (!$manage_access) error_page('no access');
     app_action($user); break;
 case 'app_details':
     app_details(); break;
 case 'app_delete':
+    if (!$manage_access) error_page('no access');
     app_delete(); break;
 case 'variant_view':
     variant_view($user); break;
 case 'variant_form':
+    if (!$manage_access) error_page('no access');
     variant_form($user); break;
 case 'variant_action':
+    if (!$manage_access) error_page('no access');
     variant_action($user);
     write_plan_class_file();
     break;
 case 'variant_delete':
+    if (!$manage_access) error_page('no access');
     variant_delete();
     write_plan_class_file();
     break;
