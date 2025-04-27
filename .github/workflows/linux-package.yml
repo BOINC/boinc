@@ -167,7 +167,7 @@ jobs:
 
       - name: Download
         if: success()
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           name: linux-package_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: pkgs/
@@ -285,7 +285,7 @@ jobs:
 
       - name: Download
         if: success()
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           name: linux-package_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: pkgs/
@@ -658,13 +658,13 @@ jobs:
 
       - name: Download client
         if: success()
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           name: linux-package_client_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: success()
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
@@ -740,13 +740,13 @@ jobs:
 
       - name: Download client
         if: success()
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           name: linux-package_client_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: success()
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
@@ -826,13 +826,13 @@ jobs:
 
       - name: Download client
         if: success()
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           name: linux-package_client_fc${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: success()
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           name: linux-package_manager_fc${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
@@ -900,13 +900,13 @@ jobs:
 
       - name: Download client
         if: success()
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           name: linux-package_client_suse${{ env.OS }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: success()
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           name: linux-package_manager_suse${{ env.OS }}_${{ github.event.pull_request.head.sha }}
 
@@ -960,13 +960,13 @@ jobs:
 
       - name: Download client
         if: ${{ success() && env.SKIP_RUN == 0 }}
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           name: linux-package_client_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: ${{ success() && env.SKIP_RUN == 0 }}
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
@@ -1059,13 +1059,13 @@ jobs:
 
       - name: Download client
         if: ${{ success() && env.SKIP_RUN == 0 }}
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           name: linux-package_client_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: ${{ success() && env.SKIP_RUN == 0 }}
-        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
