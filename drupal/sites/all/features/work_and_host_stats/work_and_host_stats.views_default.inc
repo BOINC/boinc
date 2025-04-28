@@ -2340,7 +2340,7 @@ function work_and_host_stats_views_default_views() {
       'value' => '<?php
   if ($data->host_serialnum) {
     require_boinc(\'host\');
-    echo gpu_desc($data->host_serialnum);
+    echo gpu_desc(parse_serialnum($data->host_serialnum));
   }
 ?>',
       'exclude' => 0,
@@ -2435,7 +2435,7 @@ function work_and_host_stats_views_default_views() {
       'empty_zero' => 0,
       'value' => '<?php
   require_boinc(\'host\');
-  $version = boinc_version($data->host_serialnum);
+  $version = boinc_version(parse_serialnum($data->host_serialnum));
   if ($version) echo $version;
 ?>',
       'exclude' => 0,
@@ -5206,7 +5206,7 @@ Cross-project stats:
       'empty_zero' => 0,
       'value' => '<?php
   require_boinc(\'host\');
-  echo boinc_version($data->host_serialnum);
+  echo boinc_version(parse_serialnum($data->host_serialnum));
 ?>',
       'exclude' => 0,
       'id' => 'phpcode',
@@ -5329,7 +5329,7 @@ Cross-project stats:
       'empty_zero' => 0,
       'value' => '<?php
   require_boinc(\'host\');
-  echo gpu_desc($data->host_serialnum);
+  echo gpu_desc(parse_serialnum($data->host_serialnum));
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_1',
@@ -6186,7 +6186,7 @@ else {
       'empty_zero' => 0,
       'value' => '<?php
   require_boinc(\'host\');
-  echo boinc_version($data->host_serialnum);
+  echo boinc_version(parse_serialnum($data->host_serialnum));
 ?>',
       'exclude' => 0,
       'id' => 'phpcode',
@@ -6309,7 +6309,7 @@ else {
       'empty_zero' => 0,
       'value' => '<?php
   require_boinc(\'host\');
-  echo gpu_desc($data->host_serialnum);
+  echo gpu_desc(parse_serialnum($data->host_serialnum));
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_1',
@@ -7022,7 +7022,7 @@ else {
       'hide_alter_empty' => 1,
       'value' => '<?php
   require_boinc(\'host\');
-  echo boinc_version($data->host_serialnum);
+  echo boinc_version(parse_serialnum($data->host_serialnum));
 ?>',
       'exclude' => 1,
       'id' => 'phpcode',
@@ -7166,7 +7166,7 @@ else {
       'hide_alter_empty' => 1,
       'value' => '<?php
   require_boinc(\'host\');
-  echo gpu_desc($data->host_serialnum);
+  echo gpu_desc(parse_serialnum($data->host_serialnum));
 ?>',
       'exclude' => 1,
       'id' => 'phpcode_1',
