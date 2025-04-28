@@ -25,11 +25,12 @@ require_once('../inc/buda.inc');
 
 display_errors();
 
-function submit_form($user, $app) {
+function submit_form($user) {
     $sbitems_zip = sandbox_select_items($user, '/.zip$/');
     if (!$sbitems_zip) {
         error_page("No .zip files in your sandbox.");
     }
+    $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
     $variant = get_str('variant');
     if (!is_valid_filename($variant)) die('bad arg');
@@ -51,8 +52,14 @@ function submit_form($user, $app) {
         'Command-line arguments<br><small>Passed to all jobs in the batch</small>',
         'cmdline'
     );
+    form_input_text(
+        'Max runtime (days) on a typical (3.5 GFLOPS) computer.
+            <br><small>The runtime limit will be scaled for
+            faster/slower computers.</small>',
+        'max_runtime_days', 1
+    );
     form_checkbox(
-        "Enabled debugging output <br><small>Write Docker commands and output to stderr</small>.",
+        "Enable debugging output <br><small>Write Docker commands and output to stderr. Not recommended for long-running jobs.</small>.",
         'wrapper_verbose'
     );
     form_submit('OK');
@@ -193,7 +200,7 @@ function stage_input_files($batch_dir, $batch_desc, $batch_id) {
 function create_jobs(
     $app, $app_desc, $variant, $variant_desc,
     $batch_desc, $batch_id, $batch_dir_name,
-    $wrapper_verbose, $cmdline
+    $wrapper_verbose, $cmdline, $max_fpops
 ) {
     global $buda_boinc_app;
 
@@ -227,13 +234,14 @@ function create_jobs(
         $cmdline
     );
     $cmd = sprintf(
-        'cd ../..; bin/create_work --appname %s --sub_appname "%s" --batch %d --stdin --command_line %s --wu_template %s --result_template %s',
+        'cd ../..; bin/create_work --appname %s --sub_appname "%s" --batch %d --stdin --command_line %s --wu_template %s --result_template %s --rsc_fpops_bound %f --rsc_fpops_est %f',
         $buda_boinc_app->name,
         $app_desc->long_name,
         $batch_id,
         $wrapper_cmdline,
         "buda_apps/$app/$variant/template_in",
-        "buda_apps/$app/$variant/template_out"
+        "buda_apps/$app/$variant/template_out",
+        $max_fpops, $max_fpops/4
     );
     $cmd .= sprintf(' > %s 2<&1', "buda_batches/errfile");
 
@@ -262,6 +270,12 @@ function handle_submit($user) {
     if (!is_valid_filename($batch_file)) die('bad arg');
     $wrapper_verbose = get_str('wrapper_verbose', true);
     $cmdline = get_str('cmdline');
+    $max_runtime_days = get_str('max_runtime_days');
+    if (!is_numeric($max_runtime_days)) error_page('bad runtime limit');
+    $max_runtime_days = (double)$max_runtime_days;
+    if ($max_runtime_days <= 0) error_page('bad runtime limit');
+    if ($max_runtime_days > 100) error_page('bad runtime limit');
+    $max_fpops = $max_runtime_days * 3.5e9 * 86400;
 
     $app_desc = get_buda_desc($app);
 
@@ -288,7 +302,7 @@ function handle_submit($user) {
     create_jobs(
         $app, $app_desc, $variant, $variant_desc,
         $batch_desc, $batch->id, $batch_dir_name,
-        $wrapper_verbose, $cmdline
+        $wrapper_verbose, $cmdline, $max_fpops
     );
 
     // mark batch as in progress
@@ -302,59 +316,6 @@ function handle_submit($user) {
     header("Location: submit.php?action=query_batch&batch_id=$batch->id");
 }
 
-// show list of BUDA apps and variants, with submission buttons
-//
-function app_list($notice=null) {
-    global $buda_root;
-    page_head('Submit BUDA jobs');
-    text_start();
-    echo "
-        <p>BUDA lets you submit Docker jobs using a web interface.
-        <a href=https://github.com/BOINC/boinc/wiki/BUDA-overview>Learn more</a>.
-        <p>
-        BUDA science apps:
-    ";
-
-    $apps = get_buda_apps();
-    foreach ($apps as $app) {
-        show_app($app);
-    }
-    text_end();
-    page_tail();
-}
-
-function show_app($dir) {
-    global $buda_root;
-    $desc = null;
-    $desc_path = "$buda_root/$dir/desc.json";
-    $desc = json_decode(file_get_contents($desc_path));
-    echo '<hr>';
-    echo sprintf('<font size=+3>%s</font> <a href=buda.php?action=app_details&name=%s>details</a>',
-        $desc->long_name,
-        $desc->name
-    );
-    $vars = get_buda_variants($dir);
-    if ($vars) {
-        start_table('table-striped');
-        table_header(
-            'Variant<br><small>click for details</small>',
-            'Job submission form'
-        );
-        foreach ($vars as $var) {
-            table_row(
-                "<a href=buda.php?action=variant_view&app=$dir&variant=$var>$var</href>",
-                button_text(
-                    "buda_submit.php?app=$dir&variant=$var", "Submit jobs"
-                )
-            );
-        }
-        end_table();
-    } else {
-        echo '<p>No variants';
-    }
-    echo "<p>";
-}
-
 $user = get_logged_in_user();
 $buda_boinc_app = BoincApp::lookup("name='buda'");
 if (!$buda_boinc_app) error_page('no buda app');
@@ -362,13 +323,10 @@ if (!has_submit_access($user, $buda_boinc_app->id)) {
     error_page('no access');
 }
 $action = get_str('action', true);
-$app = get_str('app', true);
 if ($action == 'submit') {
     handle_submit($user);
-} else if ($app) {
-    submit_form($user);
 } else {
-    app_list();
+    submit_form($user);
 }
 
 ?>
