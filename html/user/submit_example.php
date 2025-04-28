@@ -30,6 +30,8 @@
 //   When you adapt this to your own purposes,
 //   you can strip out this stuff if the web site doesn't use BOINC
 
+// THIS IS PRETTY MUCH USELESS
+
 require_once("../inc/submit.inc");
 require_once("../inc/common_defs.inc");
 require_once("../inc/submit_db.inc");

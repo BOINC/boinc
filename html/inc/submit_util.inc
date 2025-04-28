@@ -82,9 +82,9 @@ function has_submit_access($user, $app_id) {
     return true;
 }
 
-// can user administer given app (or all apps if zero)?
+// can user manage given app (or all apps if zero)?
 //
-function has_admin_access($user, $app_id) {
+function has_manage_access($user, $app_id) {
     $us = BoincUserSubmit::lookup_userid($user->id);
     if (!$us) return false;
     if ($us->manage_all) return true;
@@ -168,7 +168,8 @@ function get_batch_params($batch, $wus) {
     }
 
     // make list of WU IDs with an in-progress result
-    $res_in_prog = BoincResult::enum(
+    $res_in_prog = BoincResult::enum_fields(
+        'workunitid',
         sprintf('batch=%d and server_state=%d',
             $batch->id, RESULT_SERVER_STATE_IN_PROGRESS
         )
@@ -177,6 +178,7 @@ function get_batch_params($batch, $wus) {
     foreach ($res_in_prog as $res) {
         $wus_in_prog[$res->workunitid] = true;
     }
+    unset($res_in_progress);    // does this do anything?
 
     $fp_total = 0;
     $fp_done = 0;

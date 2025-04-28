@@ -49,7 +49,7 @@ display_errors();
 define("PAGE_SIZE", 20);
 
 function return_link() {
-    echo "<p><a href=submit.php>Return to job submission page</a>\n";
+    echo "<p><a href=submit.php?action=status>Return to job status page</a>\n";
 }
 
 // get params of in-progress batches; they might not be in progress anymore.
@@ -90,6 +90,8 @@ function show_all_link($batches, $state, $limit, $user, $app) {
     }
 }
 
+// show in-progress batches.
+//
 function show_in_progress($batches, $limit, $user, $app) {
     echo "<h3>Batches in progress</h3>\n";
     $first = true;
@@ -101,32 +103,37 @@ function show_in_progress($batches, $limit, $user, $app) {
         if ($first) {
             $first = false;
             if ($limit) {
-                show_all_link($batches, BATCH_STATE_IN_PROGRESS, $limit, $user, $app);
+                show_all_link(
+                    $batches, BATCH_STATE_IN_PROGRESS, $limit, $user, $app
+                );
             }
-            form_start('');     // for alignment
+            form_start('submit.php');
+            form_input_hidden('action', 'abort_selected');
             start_table('table-striped');
-            table_header(
+            $x = [
                 "Name",
                 "ID",
                 "User",
                 "App",
                 "# jobs",
                 "Progress",
-                "Submitted"
+                "Submitted",
                 //"Logical end time<br><small>Determines priority</small>"
-            );
+            ];
+            row_heading_array($x);
         }
         $pct_done = (int)($batch->fraction_done*100);
-        table_row(
+        $x = [
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
             $batch->user_name,
             $batch->app_name,
             $batch->njobs,
             "$pct_done%",
-            local_time_str($batch->create_time)
+            local_time_str($batch->create_time),
             //local_time_str($batch->logical_end_time)
-        );
+        ];
+        row_array($x);
     }
     if ($first) {
         echo "<p>None.\n";
@@ -212,8 +219,14 @@ function show_aborted($batches, $limit, $user, $app) {
 // and doing lookup just once.
 //
 function fill_in_app_and_user_names(&$batches) {
+    $apps = [];
     foreach ($batches as $batch) {
-        $app = BoincApp::lookup_id($batch->app_id);
+        if (array_key_exists($batch->app_id, $apps)) {
+            $app = $apps[$batch->app_id];
+        } else {
+            $app = BoincApp::lookup_id($batch->app_id);
+            $apps[$batch->app_id] = $app;
+        }
         if ($app) {
             $batch->app_name = $app->name;
             if ($batch->description) {
@@ -291,6 +304,9 @@ function handle_main($user) {
     page_tail();
 }
 
+// show batches of logged in user.
+// They have manage access to these batches.
+//
 function handle_show_status($user) {
     page_head("Job status");
     $batches = BoincBatch::enum("user_id = $user->id order by id desc");
@@ -324,15 +340,11 @@ function get_remote_app_names() {
 function handle_admin($user) {
     $user_submit = BoincUserSubmit::lookup_userid($user->id);
     if (!$user_submit) error_page('no access');
-    page_head("Administer job submission");
     if ($user_submit->manage_all) {
         // user can administer all apps
         //
-        echo "<li>All applications<br>
-            <ul>
-            <li> <a href=submit.php?action=admin_all>View all batches</a>
-            <li> <a href=manage_project.php>Manage user permissions</a>
-            </ul>
+        page_head("Job submission: manage all apps");
+        echo "<li> <a href=submit.php?action=admin_all>View/manage all batches</a>
         ";
         $app_names = get_remote_app_names();
         foreach ($app_names as $app_name) {
@@ -341,16 +353,25 @@ function handle_admin($user) {
             echo "
                 <li>$app->user_friendly_name<br>
                 <ul>
-                <li><a href=submit.php?action=admin_app&app_id=$app->id>View batches</a>
-                <li> <a href=manage_app.php?app_id=$app->id&amp;action=app_version_form>Manage app versions</a>
-                <li> <a href=manage_app.php?app_id=$app->id&amp;action=permissions_form>Manage user permissions</a>
-                <li> <a href=manage_app.php?app_id=$app->id&amp;action=batches_form>Manage batches</a>
+                <li><a href=submit.php?action=admin_app&app_id=$app->id>View/manage batches</a>
+            ";
+            if ($app_name == 'buda') {
+                echo "
+                    <li> <a href=buda.php>Manage BUDA apps and variants</a>
+                ";
+            } else {
+                echo "
+                    <li> <a href=manage_app.php?app_id=$app->id&amp;action=app_version_form>Manage app versions</a>
+                ";
+            }
+            echo "
                 </ul>
             ";
         }
     } else {
         // see if user can administer specific apps
         //
+        page_head("Job submission: manage apps");
         $usas = BoincUserSubmitApp::enum("user_id=$user->id");
         foreach ($usas as $usa) {
             $app = BoincApp::lookup_id($usa->app_id);
@@ -372,11 +393,11 @@ function handle_admin_app($user) {
     $app_id = get_int("app_id");
     $app = BoincApp::lookup_id($app_id);
     if (!$app) error_page("no such app");
-    if (!has_admin_access($user, $app_id)) {
+    if (!has_manage_access($user, $app_id)) {
         error_page('no access');
     }
 
-    page_head("Administer batches for $app->user_friendly_name");
+    page_head("Manage batches for $app->user_friendly_name");
     $batches = BoincBatch::enum("app_id = $app_id order by id desc");
     show_batches($batches, PAGE_SIZE, null, $app);
     page_tail();
@@ -394,7 +415,12 @@ function handle_admin_all($user) {
 function handle_batch_stats($user) {
     $batch_id = get_int('batch_id');
     $batch = BoincBatch::lookup_id($batch_id);
-    $results = BoincResult::enum("batch = $batch->id");
+    $results = BoincResult::enum_fields(
+        'peak_working_set_size, peak_swap_size, peak_disk_usage',
+        sprintf('batch = %d and outcome=%d',
+            $batch->id, RESULT_OUTCOME_SUCCESS
+        )
+    );
     page_head("Statistics for batch $batch_id");
     $n = 0;
     $wss_sum = 0;
@@ -404,9 +430,6 @@ function handle_batch_stats($user) {
     $swap_max = 0;
     $disk_max = 0;
     foreach ($results as $r) {
-        if ($r->outcome != RESULT_OUTCOME_SUCCESS) {
-            continue;
-        }
         // pre-7.3.16 clients don't report usage info
         //
         if ($r->peak_working_set_size == 0) {
@@ -484,7 +507,9 @@ function progress_bar($batch, $wus, $width) {
     return $x;
 }
 
-// show the details of an existing batch
+// show the details of an existing batch.
+// $user has access to abort/retire the batch
+// and to get its output files
 //
 function handle_query_batch($user) {
     $batch_id = get_int('batch_id');
@@ -828,7 +853,7 @@ function handle_show_all($user) {
     } else {
         // admin looking at batches
         //
-        if (!has_admin_access($user, $appid)) {
+        if (!has_manage_access($user, $appid)) {
             error_page('no access');
         }
         if ($appid) {

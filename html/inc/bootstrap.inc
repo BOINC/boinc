@@ -195,7 +195,27 @@ function sample_navbar(
                 $x[] = ["Submit jobs", $url_prefix."submit.php"];
                 $x[] = ["Job status", $url_prefix."submit.php?action=status"];
                 if ($user_submit->manage_all) {
-                    $x[] = ["Administer", $url_prefix."submit.php?action=admin"];
+                    $x[] = ["Manage apps", $url_prefix."submit.php?action=admin"];
+                    $x[] = ["Manage permissions", $url_prefix."manage_project.php"];
+                } else {
+                    // if user has manage permissions for apps, show links
+                    $usas = BoincUserSubmitApp::enum("user_id=$user->id");
+                    foreach ($usas as $usa) {
+                        if ($usa->manage) {
+                            $app = BoincApp::lookup_id($usa->app_id);
+                            if ($app->name == 'buda') {
+                                $x[] = [
+                                    'Manage BUDA apps',
+                                    'buda.php'
+                                ];
+                            } else {
+                                $x[] = [
+                                    "Manage $app->name",
+                                    "manage_project.php"
+                                ];
+                            }
+                        }
+                    }
                 }
                 navbar_menu(tra("Job submission"), $x);
             }
