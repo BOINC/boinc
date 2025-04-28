@@ -344,7 +344,7 @@ function handle_admin($user) {
         // user can administer all apps
         //
         page_head("Job submission: manage all apps");
-        echo "<li> <a href=submit.php?action=admin_all>View all batches</a>
+        echo "<li> <a href=submit.php?action=admin_all>View/manage all batches</a>
         ";
         $app_names = get_remote_app_names();
         foreach ($app_names as $app_name) {
@@ -353,8 +353,7 @@ function handle_admin($user) {
             echo "
                 <li>$app->user_friendly_name<br>
                 <ul>
-                <li><a href=submit.php?action=admin_app&app_id=$app->id>View batches</a>
-                <li> <a href=manage_app.php?app_id=$app->id&amp;action=batches_form>Manage batches</a>
+                <li><a href=submit.php?action=admin_app&app_id=$app->id>View/manage batches</a>
             ";
             if ($app_name == 'buda') {
                 echo "

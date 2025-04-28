@@ -18,7 +18,6 @@
 
 // app management interface
 //      - deprecate app versions
-//      - 
 
 require_once("../inc/submit_util.inc");
 require_once("../inc/util.inc");
@@ -79,59 +78,6 @@ function app_version_action($app) {
     page_tail();
 }
 
-function batches_form($app) {
-    page_head("Manage jobs for $app->name");
-    echo "
-        <form action=manage_app.php>
-        <input type=hidden name=action value=batches_action>
-        <input type=hidden name=app_id value=$app->id>
-    ";
-    start_table();
-    table_header("Batch ID", "Submitter", "Submitted", "State", "# jobs", "Abort?");
-    $batches = BoincBatch::enum("app_id=$app->id");
-    foreach ($batches as $batch) {
-        $user = BoincUser::lookup_id($batch->user_id);
-        echo "<tr>
-            <td>$batch->id</td>
-            <td>$user->name</td>
-            <td>".time_str($batch->create_time)."</td>
-            <td>".batch_state_string($batch->state)."
-            <td>$batch->njobs</td>
-            <td><input type=checkbox name=abort_$batch->id></td>
-            </tr>
-        ";
-    }
-    echo "<tr>
-        <td colspan=5>Abort all jobs for $app->name?</td>
-        <td><input type=checkbox name=abort_all></td>
-        </tr>
-    ";
-    echo "<tr>
-        <td><br></td>
-        <td><br></td>
-        <td><br></td>
-        <td><input class=\"btn btn-default\" type=submit value=OK></td>
-        </tr>
-    ";
-    end_table();
-    page_tail();
-}
-
-function batches_action($app) {
-    $batches = BoincBatch::enum("app_id=$app->id");
-    $abort_all = (get_str("abort_all", true));
-    foreach ($batches as $batch) {
-        if ($abort_all || get_str("abort_$batch->id", true)) {
-            abort_batch($batch);
-        }
-    }
-    page_head("Update successful");
-    echo "
-        <a href=submit.php>Return to job submission page</a>
-    ";
-    page_tail();
-}
-
 $user = get_logged_in_user();
 $app_id = get_int("app_id");
 $app = BoincApp::lookup_id($app_id);
@@ -149,10 +95,6 @@ case "app_version_form":
     app_version_form($app); break;
 case "app_version_action":
     app_version_action($app); break;
-case "batches_form":
-    batches_form($app); break;
-case "batches_action":
-    batches_action($app); break;
 default:
     error_page("unknown action");
 }

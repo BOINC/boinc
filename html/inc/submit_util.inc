@@ -172,14 +172,13 @@ function get_batch_params($batch, $wus) {
         'workunitid',
         sprintf('batch=%d and server_state=%d',
             $batch->id, RESULT_SERVER_STATE_IN_PROGRESS
-        ),
-        null
+        )
     );
     $wus_in_prog = [];
     foreach ($res_in_prog as $res) {
         $wus_in_prog[$res->workunitid] = true;
     }
-    unset($res_in_progress);
+    unset($res_in_progress);    // does this do anything?
 
     $fp_total = 0;
     $fp_done = 0;
