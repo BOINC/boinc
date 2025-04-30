@@ -411,6 +411,10 @@ class BoincWorkunit {
         $db = BoincDb::get();
         return $db->enum('workunit', 'BoincWorkunit', $where_clause);
     }
+    static function enum_fields($fields, $where_clause, $order_clause=null) {
+        $db = BoincDb::get();
+        return $db->enum_fields('workunit', 'BoincWorkunit', $fields, $where_clause, $order_clause);
+    }
     function update($clause) {
         $db = BoincDb::get();
         return $db->update($this, 'workunit', $clause);

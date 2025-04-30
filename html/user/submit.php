@@ -58,7 +58,10 @@ function get_batches_params($batches) {
     $b = [];
     foreach ($batches as $batch) {
         if ($batch->state == BATCH_STATE_IN_PROGRESS) {
-            $wus = BoincWorkunit::enum("batch = $batch->id");
+            $wus = BoincWorkunit::enum_fields(
+                'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
+                "batch = $batch->id"
+            );
             $b[] = get_batch_params($batch, $wus);
         } else {
             $b[] = $batch;
@@ -515,7 +518,10 @@ function handle_query_batch($user) {
     $batch_id = get_int('batch_id');
     $batch = BoincBatch::lookup_id($batch_id);
     $app = BoincApp::lookup_id($batch->app_id);
-    $wus = BoincWorkunit::enum("batch = $batch->id");
+    $wus = BoincWorkunit::enum_fields(
+        'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
+        "batch = $batch->id"
+    );
     $batch = get_batch_params($batch, $wus);
     if ($batch->user_id == $user->id) {
         $owner = $user;
@@ -657,6 +663,10 @@ function handle_query_job($user) {
         <p>
         <li><a href=submit.php?action=query_batch&batch_id=$wu->batch>Batch details</a>
     ";
+    $d = "<foo>$wu->xml_doc</foo>";
+    $x = simplexml_load_string($d);
+    $x = $x->workunit;
+    //echo "foo: $x->command_line";
 
     echo "<h2>Job instances</h2>\n";
     start_table('table-striped');
@@ -684,7 +694,8 @@ function handle_query_job($user) {
                     $path = sprintf('results/%s/%s__file_%s',
                         $wu->batch, $wu->name, $log_names[$i]
                     );
-                    $x[] = "<a href=get_output3.php?action=get_file&path=$path>view</a> &middot; <a href=get_output3.php?action=get_file&path=$path&download=1>download</a>";
+                    $name = $log_names[$i];
+                    $x[] = "$name: <a href=get_output3.php?action=get_file&path=$path>view</a> &middot; <a href=get_output3.php?action=get_file&path=$path&download=1>download</a>";
                 } else {
                     $path = dir_hier_path(
                         $phys_names[$i], $upload_dir, $fanout
@@ -751,7 +762,7 @@ function check_access($user, $batch) {
     error_page("no access");
 }
 
-function handle_abort_batch() {
+function handle_abort_batch($user) {
     $batch_id = get_int('batch_id');
     $batch = BoincBatch::lookup_id($batch_id);
     if (!$batch) error_page("no such batch");
