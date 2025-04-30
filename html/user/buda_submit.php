@@ -316,6 +316,26 @@ function handle_submit($user) {
     header("Location: submit.php?action=query_batch&batch_id=$batch->id");
 }
 
+function show_list() {
+    page_head('BUDA job submission');
+    $apps = get_buda_apps();
+    echo 'Select app and variant:<p><br>';
+    foreach ($apps as $app) {
+        $desc = get_buda_desc($app);
+        $vars = get_buda_variants($app);
+        echo "$desc->long_name
+            <ul>
+        ";
+        foreach ($vars as $var) {
+            echo sprintf('<li><a href=buda_submit.php?action=form&app=%s&variant=%s>%s</a>',
+                $app, $var, $var
+            );
+        }
+        echo "</ul>\n";
+    }
+    page_tail();
+}
+
 $user = get_logged_in_user();
 $buda_boinc_app = BoincApp::lookup("name='buda'");
 if (!$buda_boinc_app) error_page('no buda app');
@@ -325,8 +345,10 @@ if (!has_submit_access($user, $buda_boinc_app->id)) {
 $action = get_str('action', true);
 if ($action == 'submit') {
     handle_submit($user);
-} else {
+} else if ($action == 'form') {
     submit_form($user);
+} else {
+    show_list();
 }
 
 ?>
