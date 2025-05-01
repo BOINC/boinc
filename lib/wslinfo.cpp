@@ -175,6 +175,8 @@ WSL_DISTRO* WSL_DISTROS::find_match(
     return NULL;
 }
 
+#ifndef _USING_FCGI_
+
 #define BOINC_DISTRO_NAME "boinc_buda_runner"
 
 // find a WSL distro that has Docker or Podman,
@@ -200,3 +202,5 @@ WSL_DISTRO* WSL_DISTROS::find_docker() {
     }
     return NULL;
 }
+
+#endif  // _USING_FCGI_
