@@ -267,7 +267,7 @@ function create_templates($variant, $variant_desc, $dir) {
     foreach ($variant_desc->input_file_names as $fname) {
         $x .= file_ref_in($fname);
     }
-    if ($variant == 'cpu') {
+    if (strstr($variant, 'cpu')) {
         $x .= "      <plan_class></plan_class>\n";
     } else {
         $x .= "      <plan_class>$variant</plan_class>\n";
