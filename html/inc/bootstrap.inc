@@ -184,7 +184,7 @@ function sample_navbar(
         );
         navbar_menu(tra("Computing"), $x);
 
-        if (!empty('REMOTE_JOB_SUBMISSION')) {
+        if (defined('REMOTE_JOB_SUBMISSION') && REMOTE_JOB_SUBMISSION) {
             $user_submit = null;
             if ($user) {
                 $user_submit = BoincUserSubmit::lookup_userid($user->id);
