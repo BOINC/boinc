@@ -175,7 +175,26 @@ WSL_DISTRO* WSL_DISTROS::find_match(
     return NULL;
 }
 
+#ifndef _USING_FCGI_
+
+#define BOINC_DISTRO_NAME "boinc_buda_runner"
+
+// find a WSL distro that has Docker or Podman,
+// using the BOINC distro if present.
+//
 WSL_DISTRO* WSL_DISTROS::find_docker() {
+    // look for the BOINC distro first
+    //
+    for (WSL_DISTRO &wd: distros) {
+        if (wd.distro_name != BOINC_DISTRO_NAME) continue;
+        if (wd.docker_version.empty()) {
+            fprintf(stderr, "%s is missing Podman", BOINC_DISTRO_NAME);
+        } else {
+            return &wd;
+        }
+    }
+    // if not found, use any old distro
+    //
     for (WSL_DISTRO &wd: distros) {
         if (!wd.docker_version.empty()) {
             return &wd;
@@ -183,3 +202,5 @@ WSL_DISTRO* WSL_DISTROS::find_docker() {
     }
     return NULL;
 }
+
+#endif  // _USING_FCGI_
