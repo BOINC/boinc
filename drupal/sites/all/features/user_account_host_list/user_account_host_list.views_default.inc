@@ -368,7 +368,7 @@ function user_account_host_list_views_default_views() {
       'empty_zero' => 0,
       'value' => '<?php
   require_boinc(\'host\');
-  echo boinc_version($data->host_serialnum);
+  echo boinc_version(parse_serialnum($data->host_serialnum));
 ?>',
       'exclude' => 0,
       'id' => 'phpcode',
@@ -488,7 +488,7 @@ function user_account_host_list_views_default_views() {
       'empty_zero' => 0,
       'value' => '<?php
   require_boinc(\'host\');
-  echo gpu_desc($data->host_serialnum);
+  echo gpu_desc(parse_serialnum($data->host_serialnum));
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_1',
