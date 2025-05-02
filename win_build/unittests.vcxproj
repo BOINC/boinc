@@ -18,6 +18,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>../win_build;../lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>gtest_main.lib;gmock_main.lib;%(AdditionalDependencies)</AdditionalDependencies>
