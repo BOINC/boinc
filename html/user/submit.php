@@ -37,6 +37,8 @@
 //   (this also shows batches created on the server)
 // - set 'use only my computers'
 
+ini_set("memory_limit", "4G");
+
 require_once("../inc/submit_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/result.inc");
@@ -46,7 +48,7 @@ require_once('../project/remote_apps.inc');
 
 display_errors();
 
-define("PAGE_SIZE", 20);
+define("PAGE_SIZE", 2000);
 
 function return_link() {
     echo "<p><a href=submit.php?action=status>Return to job status page</a>\n";
@@ -62,7 +64,7 @@ function get_batches_params($batches) {
                 'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
                 "batch = $batch->id"
             );
-            $b[] = get_batch_params($batch, $wus);
+            $b[] = get_batch_params($batch, $wus, false);
         } else {
             $b[] = $batch;
         }
@@ -150,7 +152,7 @@ function show_complete($batches, $limit, $user, $app) {
     $first = true;
     $n = 0;
     foreach ($batches as $batch) {
-        if ($batch->state != BATCH_STATE_COMPLETE) continue;
+        if ($batch->state != BATCH_STATE_COMPLETE && $batch->state != BATCH_STATE_RETIRED) continue;
         if ($limit && $n == $limit) break;
         $n++;
         if ($first) {
@@ -166,8 +168,9 @@ function show_complete($batches, $limit, $user, $app) {
                 "Name", "ID", "User", "App", "# Jobs", "Submitted", "Select"
             );
         }
+        $x = ($batch->state == BATCH_STATE_RETIRED) ? "(retired)":'';
         table_row(
-            "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
+            "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->name $x</a>",
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
             $batch->user_name,
             $batch->app_name,
@@ -522,7 +525,7 @@ function handle_query_batch($user) {
         'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
         "batch = $batch->id"
     );
-    $batch = get_batch_params($batch, $wus);
+    $batch = get_batch_params($batch, $wus, true);
     if ($batch->user_id == $user->id) {
         $owner = $user;
     } else {
@@ -582,6 +585,7 @@ function handle_query_batch($user) {
         break;
     case BATCH_STATE_COMPLETE:
     case BATCH_STATE_ABORTED:
+    case BATCH_STATE_RETIRED:
         show_button(
             "submit.php?action=retire_batch&batch_id=$batch_id",
             "Retire batch"
@@ -796,8 +800,8 @@ function handle_retire_batch($user) {
     check_access($user, $batch);
 
     if (get_int('confirmed', true)) {
-        retire_batch($batch);
         page_head("Batch retired");
+        retire_batch($batch);
         return_link();
         page_tail();
     } else {
@@ -818,7 +822,7 @@ function handle_retire_batch($user) {
 
 function handle_retire_multi($user) {
     $batches = BoincBatch::enum(
-        sprintf('user_id=%d and state=%d', $user->id, BATCH_STATE_COMPLETE)
+        sprintf('user_id=%d', $user->id)
     );
     page_head('Retiring batches');
     foreach ($batches as $batch) {

@@ -144,16 +144,19 @@ function delete_remote_submit_user($user) {
 // Update the above in DB.
 // Also compute (not in DB):
 //   njobs_success: # of jobs with canonical instance
-//   njobs_in_prog: # of jobs not success or fail,
-//      and at least one result in progress
 //
 // return the batch object, with these values
 //
 // Also add the status field to WUs
 //
+// if $wu_detail, also return
+//   njobs_in_prog: # of jobs not success or fail,
+//      and at least one result in progress
+// and for each WU, set wu.status
+//
 // TODO: update est_completion_time
 //
-function get_batch_params($batch, $wus) {
+function get_batch_params($batch, $wus, $wu_detail) {
     if ($batch->state == BATCH_STATE_INIT) {
         // a batch in INIT state has no jobs
         //
@@ -168,17 +171,19 @@ function get_batch_params($batch, $wus) {
     }
 
     // make list of WU IDs with an in-progress result
-    $res_in_prog = BoincResult::enum_fields(
-        'workunitid',
-        sprintf('batch=%d and server_state=%d',
-            $batch->id, RESULT_SERVER_STATE_IN_PROGRESS
-        )
-    );
-    $wus_in_prog = [];
-    foreach ($res_in_prog as $res) {
-        $wus_in_prog[$res->workunitid] = true;
+    if ($wu_detail) {
+        $res_in_prog = BoincResult::enum_fields(
+            'workunitid',
+            sprintf('batch=%d and server_state=%d',
+                $batch->id, RESULT_SERVER_STATE_IN_PROGRESS
+            )
+        );
+        $wus_in_prog = [];
+        foreach ($res_in_prog as $res) {
+            $wus_in_prog[$res->workunitid] = true;
+        }
+        unset($res_in_progress);    // does this do anything?
     }
-    unset($res_in_progress);    // does this do anything?
 
     $fp_total = 0;
     $fp_done = 0;
@@ -199,11 +204,13 @@ function get_batch_params($batch, $wus) {
             $wu->status = WU_ERROR;
         } else {
             $completed = false;
-            if (array_key_exists($wu->id, $wus_in_prog)) {
-                $njobs_in_prog++;
-                $wu->status = WU_IN_PROGRESS;
-            } else {
-                $wu->status = WU_UNSENT;
+            if ($wu_detail) {
+                if (array_key_exists($wu->id, $wus_in_prog)) {
+                    $njobs_in_prog++;
+                    $wu->status = WU_IN_PROGRESS;
+                } else {
+                    $wu->status = WU_UNSENT;
+                }
             }
         }
     }
@@ -217,7 +224,9 @@ function get_batch_params($batch, $wus) {
     $batch->update("fraction_done = $batch->fraction_done, nerror_jobs = $batch->nerror_jobs, state=$batch->state, completion_time = $batch->completion_time, credit_canonical = $batch->credit_canonical, njobs=$njobs");
 
     $batch->njobs_success = $njobs_success;
-    $batch->njobs_in_prog = $njobs_in_prog;
+    if ($wu_detail) {
+        $batch->njobs_in_prog = $njobs_in_prog;
+    }
     return $batch;
 }
 
@@ -273,7 +282,10 @@ function abort_workunit($wu) {
 }
 
 function abort_batch($batch) {
-    $wus = BoincWorkunit::enum("batch=$batch->id");
+    $wus = BoincWorkunit::enum_fields(
+        'id',
+        "batch=$batch->id"
+    );
     foreach ($wus as $wu) {
         abort_workunit($wu);
     }
@@ -283,22 +295,35 @@ function abort_batch($batch) {
     return 0;
 }
 
-// mark WUs as assimilated; this lets them be purged
+// delete input files, output files, WUs, and results
+// for apps that use assim copy
+// (i.e. the result files are in results/batchid)
 //
 function retire_batch($batch) {
     $wus = BoincWorkunit::enum("batch=$batch->id");
-    $now = time();
+    $bstr = "batch_$batch->id";
+    $del_files = [];
     foreach ($wus as $wu) {
-        $wu->update(
-            "assimilate_state=".ASSIMILATE_DONE.", transition_time=$now"
-        );
-        // remove output template if it's a temporary
-        //
-        if (strstr($wu->result_template_file, "templates/tmp/")) {
-            @unlink($wu->result_template_file);
+        $doc = simplexml_load_string("<foo>$wu->xml_doc</foo>");
+        foreach ($doc->file_info as $fi) {
+            if (strstr($fi->name, $bstr)) {
+                $del_files[] = (string)$fi->name;
+            }
         }
+        BoincResult::delete_aux("workunitid=$wu->id");
     }
-    $batch->update("state=".BATCH_STATE_RETIRED);
+    system("rm -r ../../results/$batch->id");
+
+    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+    $download_dir = parse_config(get_config(), "<download_dir>");
+    $del_files = array_unique($del_files);
+    foreach ($del_files as $f) {
+        $path = dir_hier_path($f, $download_dir, $fanout);
+        unlink($path);
+        unlink("$path.md5");
+    }
+    BoincWorkunit::delete_aux("batch=$batch->id");
+    $batch->delete();
 }
 
 function expire_batch($batch) {

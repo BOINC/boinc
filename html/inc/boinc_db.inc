@@ -389,6 +389,10 @@ class BoincResult {
         $db = BoincDb::get();
         return $db->delete($this, 'result');
     }
+    static function delete_aux($clause) {
+        $db = BoincDb::get();
+        return $db->delete_aux('result', $clause);
+    }
 }
 
 #[AllowDynamicProperties]
@@ -426,6 +430,10 @@ class BoincWorkunit {
     static function count($clause) {
         $db = BoincDb::get();
         return $db->count('workunit', $clause);
+    }
+    static function delete_aux($clause) {
+        $db = BoincDb::get();
+        return $db->delete_aux('workunit', $clause);
     }
 }
 

@@ -195,7 +195,7 @@ function sample_navbar(
                 $x[] = ["Submit jobs", $url_prefix."submit.php"];
                 $x[] = ["Job status", $url_prefix."submit.php?action=status"];
                 if ($user_submit->manage_all) {
-                    $x[] = ["Manage apps", $url_prefix."submit.php?action=admin"];
+                    $x[] = ["Manage apps and jobs", $url_prefix."submit.php?action=admin"];
                     $x[] = ["Manage permissions", $url_prefix."manage_project.php"];
                 } else {
                     // if user has manage permissions for apps, show links

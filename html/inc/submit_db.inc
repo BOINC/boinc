@@ -56,6 +56,10 @@ class BoincBatch {
         );
         return $x;
     }
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete($this, 'batch');
+    }
 }
 
 class BoincUserSubmit {
