@@ -53,10 +53,23 @@ function submit_form($user) {
         'cmdline'
     );
     form_input_text(
-        'Max runtime (days) on a typical (3.5 GFLOPS) computer.
-            <br><small>The runtime limit will be scaled for
-            faster/slower computers.</small>',
+        'Max job runtime (days) on a typical (3.5 GFLOPS) computer.
+            <br><small>
+            The runtime limit will be scaled for faster/slower computers.
+            <br>
+            Jobs that reach this limit will be aborted.
+            </small>'
+        ,
         'max_runtime_days', 1
+    );
+    form_input_text(
+        'Expected job runtime (days) on a typical (3.5 GFLOPS) computer.
+            <br><small>
+            This determines how many jobs are sent to each host,
+            and how "fraction done" is computed.
+            </small>
+        ',
+        'exp_runtime_days', .5
     );
     form_checkbox(
         "Enable debugging output <br><small>Write Docker commands and output to stderr. Not recommended for long-running jobs.</small>.",
@@ -200,7 +213,7 @@ function stage_input_files($batch_dir, $batch_desc, $batch_id) {
 function create_jobs(
     $app, $app_desc, $variant, $variant_desc,
     $batch_desc, $batch_id, $batch_dir_name,
-    $wrapper_verbose, $cmdline, $max_fpops
+    $wrapper_verbose, $cmdline, $max_fpops, $exp_fpops
 ) {
     global $buda_boinc_app;
 
@@ -241,7 +254,7 @@ function create_jobs(
         $wrapper_cmdline,
         "buda_apps/$app/$variant/template_in",
         "buda_apps/$app/$variant/template_out",
-        $max_fpops, $max_fpops/4
+        $max_fpops, $exp_fpops
     );
     $cmd .= sprintf(' > %s 2<&1', "buda_batches/errfile");
 
@@ -270,12 +283,23 @@ function handle_submit($user) {
     if (!is_valid_filename($batch_file)) die('bad arg');
     $wrapper_verbose = get_str('wrapper_verbose', true);
     $cmdline = get_str('cmdline');
+
     $max_runtime_days = get_str('max_runtime_days');
     if (!is_numeric($max_runtime_days)) error_page('bad runtime limit');
     $max_runtime_days = (double)$max_runtime_days;
     if ($max_runtime_days <= 0) error_page('bad runtime limit');
     if ($max_runtime_days > 100) error_page('bad runtime limit');
     $max_fpops = $max_runtime_days * 3.5e9 * 86400;
+
+    $exp_runtime_days = get_str('exp_runtime_days');
+    if (!is_numeric($exp_runtime_days)) error_page('bad expected runtime');
+    $exp_runtime_days = (double)$exp_runtime_days;
+    if ($exp_runtime_days <= 0) error_page('bad expected runtime');
+    if ($exp_runtime_days > 100) error_page('bad expected runtime');
+    if ($exp_runtime_days > $max_runtime_days) {
+        error_page('exp must be < max runtime');
+    }
+    $exp_fpops = $exp_runtime_days * 3.5e9 * 86400;
 
     $app_desc = get_buda_desc($app);
 
@@ -302,7 +326,7 @@ function handle_submit($user) {
     create_jobs(
         $app, $app_desc, $variant, $variant_desc,
         $batch_desc, $batch->id, $batch_dir_name,
-        $wrapper_verbose, $cmdline, $max_fpops
+        $wrapper_verbose, $cmdline, $max_fpops, $exp_fpops
     );
 
     // mark batch as in progress
