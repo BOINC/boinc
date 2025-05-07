@@ -22,8 +22,6 @@
 #include <vector>
 #include <string.h>
 
-#include "str_replace.h"
-
 #define safe_strcpy(x, y) strlcpy(x, y, sizeof(x))
 #define safe_strcat(x, y) strlcat(x, y, sizeof(x))
 
