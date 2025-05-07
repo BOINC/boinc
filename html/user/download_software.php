@@ -219,7 +219,6 @@ function show_vbox_info($where) {
 // We can't use auto-attach; direct user to the BOINC download page
 //
 function direct_to_boinc() {
-    global $master_url;
     page_head(tra("Download BOINC"));
     text_start();
     echo "<p>";
@@ -253,7 +252,7 @@ function direct_to_boinc() {
                 Select '%1' from the list,
                 or enter this project's URL:<p>%2",
                 PROJECT,
-                $master_url
+                master_url()
             )
         );
     }
@@ -331,7 +330,8 @@ function show_download_page($user, $user_agent, $dev) {
 // if user already has BOINC installed, tell them how to attach.
 //
 function installed() {
-    global $config, $need_vbox, $recommend_vbox;
+    global $need_vbox, $recommend_vbox;
+    $config = get_config();
     $am = parse_bool($config, "account_manager");
     if ($am) {
         page_head(tra("Use %1", PROJECT));
@@ -379,7 +379,8 @@ function installed() {
 //
 function handle_get_info() {
     require_once("../inc/xml.inc");
-    global $config, $user;
+    global $user;
+    $config = get_config();
     xml_header();
     $rpc_key = get_str('rpc_key');
     if ($rpc_key != parse_config($config, "<rpc_key>")) {
@@ -445,6 +446,7 @@ function handle_get_info() {
 
 // get config.xml items
 //
+$config = get_config();
 $need_vbox = parse_bool($config, "need_vbox");
 $recommend_vbox = parse_bool($config, "recommend_vbox");
 $project_id = parse_config($config, "<project_id>");

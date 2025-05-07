@@ -98,7 +98,7 @@ function is_valid_user_name($name, &$reason) {
 }
 
 function default_show_hosts() {
-    global $config;
+    $config = get_config();
     // If enable privacy by default is TRUE, then show_hosts' default
     // is FALSE.
     return parse_bool($config, "enable_privacy_by_default") ? 0 : 1;
@@ -175,7 +175,6 @@ function show_error($str) {
 // Else return user object
 //
 function validate_post_make_user() {
-    global $recaptcha_private_key;
     $config = get_config();
     if (parse_bool($config, "disable_account_creation")
         || parse_bool($config, "no_web_account_creation")
@@ -183,8 +182,8 @@ function validate_post_make_user() {
         error_page("Account creation is disabled");
     }
 
-    if ($recaptcha_private_key) {
-        if (!boinc_recaptcha_isValidated($recaptcha_private_key)) {
+    if (recaptcha_private_key()) {
+        if (!boinc_recaptcha_isValidated(recaptcha_private_key())) {
             show_error(
                 tra("Your reCAPTCHA response was not correct. Please try again.")
             );

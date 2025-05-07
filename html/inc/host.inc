@@ -81,7 +81,7 @@ function cross_project_links($host) {
 // and the logged in user (so show some extra fields)
 //
 function show_host($host, $user, $ipprivate) {
-    global $config;
+    $config = get_config();
     start_table();
     row1(tra("Computer information"));
     $anonymous = false;

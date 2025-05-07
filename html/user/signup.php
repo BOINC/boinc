@@ -25,7 +25,6 @@ require_once("../inc/user_util.inc");
 require_once("../inc/account.inc");
 require_once("../inc/recaptchalib.php");
 
-
 function join_form() {
     // Using invitation codes to restrict access?
     //
@@ -83,8 +82,6 @@ function global_prefs_form() {
     );
 }
 function show_join_form() {
-    global $recaptcha_public_key;
-
     page_head(
         sprintf("%s %s", tra("Join"), PROJECT),
         null, null, null, boinc_recaptcha_get_head_extra()
@@ -93,8 +90,8 @@ function show_join_form() {
     form_input_hidden("action", "join");
     join_form();
     //global_prefs_form();
-    if ($recaptcha_public_key) {
-        form_general("", boinc_recaptcha_get_html($recaptcha_public_key));
+    if (recaptcha_public_key()) {
+        form_general("", boinc_recaptcha_get_html(recaptcha_public_key()));
     }
     form_submit(tra("Join"));
     form_end();

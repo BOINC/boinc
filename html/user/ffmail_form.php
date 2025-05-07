@@ -34,6 +34,7 @@ page_head(tra("Tell your friends about %1", PROJECT));
 
 $text = @file_get_contents('../ops/ffmail/text');
 if (!$text) {
+    $master_url = master_url();
     $text = "I'm using my computer to crunch numbers for a science project called ".PROJECT.".  The more computers participate, the more science gets done.  Would you like to join me?
 
 To learn how, visit $master_url

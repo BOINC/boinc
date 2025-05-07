@@ -17,7 +17,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 function akismet_check($user, $post) {
-    global $master_url;
+    $master_url = master_url();
     $config = get_config();
     $key = parse_config($config, "<akismet_key>");
     if (!$key) {
