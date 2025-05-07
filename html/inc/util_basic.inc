@@ -91,14 +91,13 @@ function xml_error($num=-1, $msg=null, $file=null, $line=null) {
     exit();
 }
 
-$g_config = null;
 function get_config() {
-    global $g_config;
-    if ($g_config == null) {
+    static $config;
+    if ($config == null) {
         $d = project_dir();
-        $g_config = file_get_contents("$d/config.xml");
+        $config = file_get_contents("$d/config.xml");
     }
-    return $g_config;
+    return $config;
 }
 
 // Look for an element in a line of XML text

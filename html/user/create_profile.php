@@ -106,9 +106,8 @@ function show_language_selection($profile) {
 
 function show_submit() {
     row1(tra("Submit profile"));
-    global $recaptcha_public_key;
-    if ($recaptcha_public_key) {
-        table_row(boinc_recaptcha_get_html($recaptcha_public_key));
+    if (recaptcha_public_key()) {
+        table_row(boinc_recaptcha_get_html(recaptcha_public_key()));
     }
     table_row("<p><input class=\"btn btn-success\" type=\"submit\" value=\"".tra("Create/edit profile") ."\" name=\"submit\">");
 }
@@ -193,14 +192,12 @@ function show_textarea($name, $text) {
 // Don't assign to $profile->x if this is the case.
 //
 function process_create_profile($user, $profile) {
-    global $recaptcha_private_key;
-
     $response1 = post_str('response1', true);
     $response2 = post_str('response2', true);
     $language = post_str('language', true);
 
-    if ($recaptcha_private_key) {
-        if (!boinc_recaptcha_isValidated($recaptcha_private_key)) {
+    if (recaptcha_private_key()) {
+        if (!boinc_recaptcha_isValidated(recaptcha_private_key())) {
             $profile->response1 = $response1;
             $profile->response2 = $response2;
             show_profile_form($profile,

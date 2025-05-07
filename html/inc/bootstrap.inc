@@ -149,7 +149,7 @@ function sample_navbar(
     $inverse=false
         // white on black?
 ) {
-    global $master_url;
+    $master_url = master_url();
 
     $brand = "<a class=\"navbar-brand\" href=$master_url>".PROJECT."</a>";
     navbar_start($brand, $fixed, $inverse);

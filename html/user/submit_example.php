@@ -45,7 +45,7 @@ display_errors();
 // hardwired app name for now
 define('APP_NAME', 'remote_test');
 
-$project = $master_url;         // from project.inc
+$project = master_url();
 $user = get_logged_in_user();
 $auth = $user->authenticator;
 
