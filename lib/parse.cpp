@@ -230,7 +230,7 @@ int copy_element_contents(FILE* in, const char* end_tag, string& str) {
     while (1) {
         c = boinc::fgetc(in);
         if (c == EOF) break;
-        str += c;
+        str += (char)c;
         n++;
         if (n < end_tag_len) {
             continue;
@@ -353,7 +353,7 @@ void non_ascii_escape(const char* in, char* out, int len) {
             strcpy(p, buf);
             p += strlen(buf);
         } else {
-            *p++ = x;
+            *p++ = (char)x;
         }
         if (p > out + len - 8) break;
     }
@@ -400,10 +400,10 @@ void xml_escape(const char* in, char* out, int len) {
                 p += 6;
                 in += 2;  // +1 from for loop
             } else {
-                *p++ = x;
+                *p++ = (char)x;
             }
         } else {
-            *p++ = x;
+            *p++ = (char)x;
         }
         if (p > out + len - 8) break;
     }
@@ -473,7 +473,7 @@ void xml_unescape(char* buf) {
                 int ascii = atoi(in);
 
                 if (goodescape && ascii < 256) {
-                    *out++ = ascii;
+                    *out++ = (char)ascii;
                     in = p + 1;
                 } else {
                     *out++ = '&';
@@ -533,7 +533,7 @@ int XML_PARSER::scan_comment() {
     while (1) {
         int c = f->_getc();
         if (!c || c == EOF) return XML_PARSE_EOF;
-        *p++ = c;
+        *p++ = (char)c;
         *p = 0;
         if (strstr(buf, "-->")) {
             return XML_PARSE_COMMENT;
@@ -552,7 +552,7 @@ int XML_PARSER::scan_cdata(char* buf, int len) {
         int c = f->_getc();
         if (!c || c == EOF) return XML_PARSE_EOF;
         if (len) {
-            *p++ = c;
+            *p++ = (char)c;
             len--;
         }
         if (c == '>') {
@@ -677,7 +677,7 @@ bool XML_PARSER::parse_int(const char* start_tag, int& i) {
         }
     }
     errno = 0;
-    int val = strtol(buf, &end, 0);
+    long val = strtol(buf, &end, 0);
     if (errno) return false;
     if (end != buf+strlen(buf)) return false;
 
@@ -685,7 +685,7 @@ bool XML_PARSER::parse_int(const char* start_tag, int& i) {
     if (eof) return false;
     if (!is_tag) return false;
     if (strcmp(tag, end_tag)) return false;
-    i = val;
+    i = (int)val;
     return true;
 }
 

@@ -104,7 +104,7 @@ int mem_usage(double& vm_usage, double& resident_set) {
         int i;
         unsigned long tmp;
 
-        i = fread(buf, sizeof(char), 255, f);
+        i = (int)fread(buf, sizeof(char), 255, f);
         buf[i] = '\0'; // terminate string
         p = &buf[0];
 
