@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// web RPC for creating teams
+
 // Disabled.  being used by spammers,
 // and I can't think of a legit use for this.
 
@@ -42,7 +44,7 @@ if (!$user) {
     xml_error(ERR_DB_NOT_FOUND);
 }
 
-if (@constant('TEAM_CREATE_NEED_CREDIT')) {
+if (defined('TEAM_CREATE_NEED_CREDIT') && TEAM_CREATE_NEED_CREDIT) {
     if ($user->total_credit == 0) {
         xml_error(-1, "no credit");
     }
