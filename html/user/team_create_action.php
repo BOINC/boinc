@@ -31,7 +31,7 @@ check_get_args(array());
 
 $user = get_logged_in_user();
 
-if (@constant('TEAM_CREATE_NEED_CREDIT')) {
+if (defined('TEAM_CREATE_NEED_CREDIT') && TEAM_CREATE_NEED_CREDIT) {
     if ($user->total_credit == 0) {
         error_page("You must complete a task to create a team");
     }
