@@ -713,6 +713,7 @@ int DOCKER_CONN::init(
     DOCKER_TYPE docker_type, string distro_name, bool _verbose
 ) {
     string err_msg;
+    type = docker_type;
     cli_prog = docker_cli_prog(docker_type);
     if (docker_type == DOCKER) {
         int retval = ctl_wc.setup(err_msg);
@@ -733,6 +734,7 @@ int DOCKER_CONN::init(
 }
 #else
 int DOCKER_CONN::init(DOCKER_TYPE docker_type, bool _verbose) {
+    type = docker_type;
     cli_prog = docker_cli_prog(docker_type);
     verbose = _verbose;
     return 0;
@@ -751,6 +753,9 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
 #ifdef _WIN32
     string output;
 
+    // In the Win case we read the output from a pipe.
+    // Append 'EOM' to the output so we know when we've reached the end
+
     sprintf(buf, "%s %s; echo EOM\n", cli_prog, cmd);
     write_to_pipe(ctl_wc.in_write, buf);
     retval = read_from_pipe(
@@ -762,7 +767,24 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     }
     out = split(output, '\n');
 #else
+
+    // on Mac/podman we need to set env variables
+    // to use a directory accessable to boinc_master and boinc_projects
+
+#ifdef __APPLE__
+    if (type == PODMAN) {
+        const char* dir = "/Library/Application Support/BOINC Data/podman";
+        sprintf(buf,
+            "env XDG_CONFIG_HOME=\"%s\" XDG_DATA_HOME =\"%s\" %s %s\n",
+            dir, dir, cli_prog, cmd
+        );
+    } else {
+        sprintf(buf, "%s %s\n", cli_prog, cmd);
+    }
+#else
     sprintf(buf, "%s %s\n", cli_prog, cmd);
+#endif  // __APPLE__
+
     retval = run_command(buf, out);
     if (retval) {
         if (verbose) {
@@ -770,7 +792,8 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
         }
         return retval;
     }
-#endif
+#endif  // _WIN32
+
     if (verbose) {
         fprintf(stderr, "command output:\n");
         for (string line: out) {
