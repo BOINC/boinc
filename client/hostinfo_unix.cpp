@@ -1304,6 +1304,15 @@ bool HOST_INFO::get_docker_version(){
         msg_printf(NULL, MSG_INFO, "Data dir is remote: not checking podman");
     }
 #endif
+
+#ifdef __APPLE__
+    // on Mac, Podman requires an accessable dir 'podman'
+    //
+    if (!is_dir("podman")) {
+        check_podman = false;
+    }
+#endif
+
     if (check_podman) {
         if (get_docker_version_aux(PODMAN)) {
             return true;
