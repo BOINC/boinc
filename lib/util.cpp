@@ -775,7 +775,7 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     if (type == PODMAN) {
         const char* dir = "/Library/Application Support/BOINC Data/podman";
         sprintf(buf,
-            "env XDG_CONFIG_HOME=\"%s\" XDG_DATA_HOME =\"%s\" %s %s\n",
+            "env XDG_CONFIG_HOME=\"%s\" XDG_DATA_HOME=\"%s\" %s %s\n",
             dir, dir, cli_prog, cmd
         );
     } else {
