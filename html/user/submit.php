@@ -594,10 +594,11 @@ function handle_query_batch($user) {
     );
 
     echo "<h2>Jobs</h2>\n";
-    start_table();
+    start_table('table-striped');
     $x = [
         "Name <br><small>click for details</small>",
-        "status"
+        'Status',
+        'Credit'
     ];
     row_heading_array($x);
     foreach($wus as $wu) {
@@ -620,6 +621,7 @@ function handle_query_batch($user) {
         $x = [
             "<a href=submit.php?action=query_job&wuid=$wu->id>$wu->name</a>",
             $y,
+            $wu->canonical_credit?number_format($wu->canonical_credit, 2):'---'
         ];
         row_array($x);
     }

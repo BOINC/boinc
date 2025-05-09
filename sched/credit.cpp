@@ -515,6 +515,9 @@ int get_pfc(
 
     mode = PFC_MODE_APPROX;
 
+    // the validator can set this flag if e.g. the job exited immediately
+    // and shouldn't be counted in averages
+    //
     if (r.runtime_outlier) {
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
@@ -522,37 +525,6 @@ int get_pfc(
                 r.id
             );
         }
-    }
-
-    // is result from old scheduler that didn't set r.app_version_id?
-    // if so, use WU estimate (this is a transient condition
-    // while projects upgrade server software)
-    //
-    if (r.app_version_id == 0) {
-        if (config.debug_credit) {
-            log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%lu] missing app_version_id (%ld): returning WU default %.2f\n",
-                r.id, r.app_version_id, wu_estimated_credit(wu, app)
-            );
-        }
-        mode = PFC_MODE_WU_EST;
-        pfc = wu_estimated_pfc(wu, app);
-        return 0;
-    }
-
-    // temporary kludge for SETI@home:
-    // if GPU initialization fails the app falls back to CPU.
-    //
-    if (strstr(r.stderr_out, "Device Emulation (CPU)")) {
-        if (config.debug_credit) {
-            log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%lu][AV#%ld] CUDA app fell back to CPU; returning WU default %.2f\n",
-                r.id, r.app_version_id, wu.rsc_fpops_est*COBBLESTONE_SCALE
-            );
-        }
-        mode = PFC_MODE_WU_EST;
-        pfc = wu_estimated_pfc(wu, app);
-        return 0;
     }
 
     // transition case: there's no host_app_version record
@@ -564,81 +536,30 @@ int get_pfc(
     }
 
     // old clients report CPU time but not elapsed time.
-    // Use HOST_APP_VERSION.et to track statistics of CPU time.
     //
     if (r.elapsed_time < 1e-6) {
-        // in case buggy client reports elapsed time like 1e-304
-
-        if (config.debug_credit) {
-            log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%lu] old client (elapsed time not reported)\n",
-                r.id
-            );
-        }
-        if (!r.runtime_outlier) {
-            hav.et.update_var(
-                r.cpu_time/wu.rsc_fpops_est,
-                HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT
-            );
-//          if ((r.elapsed_time > 0) && (r.cpu_time > 0)) {
-//              hav.rt.update(r.elapsed_time,HAV_AVG_THRESH,HAV_AVG_WEIGHT,HAV_AVG_LIMIT);
-//              hav.cpu.update(r.cpu_time,HAV_AVG_THRESH,HAV_AVG_WEIGHT,HAV_AVG_LIMIT);
-//          }
-        }
-        pfc = wu_estimated_pfc(wu, app);
-        if (config.debug_credit) {
-            log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%lu] old client: raw credit %.2f\n",
-                r.id, pfc*COBBLESTONE_SCALE
-            );
-        }
-        bool do_scale = true;
-        if (hav.et.n < MIN_HOST_SAMPLES || (hav.et.get_avg() <= 0)) {
-            do_scale = false;
-            if (config.debug_credit) {
-                log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%lu] old client: no host scaling - zero or too few samples %f\n",
-                    r.id, hav.et.n
-                );
-            }
-        }
-        if (do_scale
-                && app.host_scale_check
-                && hav.consecutive_valid < CONS_VALID_HOST_SCALE
-           ) {
-            do_scale = false;
-            if (config.debug_credit) {
-                log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%lu] old client: no host scaling - cons valid %d\n",
-                    r.id, hav.consecutive_valid
-                );
-            }
-        }
-        if (do_scale) {
-            double s = r.cpu_time / (hav.et.get_avg()*wu.rsc_fpops_est);
-            pfc *= s;
-            if (config.debug_credit) {
-                log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%lu] old client: scaling (based on CPU time) by %g, return %.2f\n",
-                    r.id, s, pfc*COBBLESTONE_SCALE
-                );
-            }
-        }
-        if (config.debug_credit) {
-            log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%lu] old client: returning PFC %.2f\n",
-                r.id, pfc*COBBLESTONE_SCALE
-            );
-        }
-        return 0;
+        r.elapsed_time = r.cpu_time;
     }
 
     // r.flops_estimate should be positive
     // but (because of scheduler bug) it may not be.
-    // At this point we don't have much to go on, so use 1e10.
     //
     if (r.flops_estimate <= 0) {
-        r.flops_estimate = 1e10;
+        r.flops_estimate = AVG_CPU_FPOPS;
+        r.runtime_outlier = true;       // skip stats update
+        log_messages.printf(MSG_WARNING,
+            "[RESULT#%lu] result has non-pos flops_estimate\n", r.id
+        );
+    }
+
+    // if benchmarks failed, client reports p_fops as 1e9
+    //
+    if (r.flops_estimate == 1e9) {
+        r.flops_estimate = AVG_CPU_FPOPS;
+        r.runtime_outlier = true;       // skip stats update
+        log_messages.printf(MSG_WARNING,
+            "[RESULT#%lu] result has 1e9 flops_estimate\n", r.id
+        );
     }
 
     double raw_pfc = (r.elapsed_time * r.flops_estimate);
@@ -696,9 +617,9 @@ int get_pfc(
             }
         }
         if (do_scale
-                && app.host_scale_check
-                && hav.consecutive_valid < CONS_VALID_HOST_SCALE
-           ) {
+            && app.host_scale_check
+            && hav.consecutive_valid < CONS_VALID_HOST_SCALE
+        ) {
             do_scale = false;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
@@ -750,8 +671,8 @@ int get_pfc(
         bool do_scale = true;
         double host_scale = 0;
         if (app.host_scale_check
-                && hav.consecutive_valid < CONS_VALID_HOST_SCALE
-           ) {
+            && hav.consecutive_valid < CONS_VALID_HOST_SCALE
+        ) {
             do_scale = false;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
@@ -936,7 +857,7 @@ double vec_min(vector<double>& v) {
 // For each valid result in the list:
 // - calculate a peak FLOP count (PFC) and a "mode" that indicates
 //   our confidence in the PFC
-// - upate the statistics of PFC in host_app_version and app_version
+// - update the statistics of PFC in host_app_version and app_version
 // - Compute a credit value based on a weighted average of
 //   the PFCs of valid results
 //   (this value can be used or ignored by the caller)
@@ -950,7 +871,7 @@ int assign_credit_set(
     vector<DB_APP_VERSION_VAL>& app_versions,
     vector<DB_HOST_APP_VERSION>& host_app_versions,
     double max_granted_credit,
-    double &credit
+    double &credit      // out
 ) {
     unsigned int i;
     int mode, retval;
@@ -981,10 +902,12 @@ int assign_credit_set(
         if (pfc > wu.rsc_fpops_bound) {
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] PFC too high: %f\n", pfc*COBBLESTONE_SCALE
+                    "[credit] PFC too high: %f > %f\n",
+                    pfc*COBBLESTONE_SCALE,
+                    wu.rsc_fpops_bound*COBBLESTONE_SCALE
                 );
             }
-            pfc = wu_estimated_pfc(wu, app);
+            pfc = wu.rsc_fpops_bound;
         }
 
         // max_granted_credit trumps rsc_fpops_bound;
