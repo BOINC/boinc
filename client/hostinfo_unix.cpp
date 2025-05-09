@@ -128,6 +128,7 @@ using std::string;
 using std::min;
 
 #ifdef __APPLE__
+#include "sandbox.h"
 #include <IOKit/IOKitLib.h>
 #include <Carbon/Carbon.h>
 #include <CoreFoundation/CoreFoundation.h>
@@ -1238,13 +1239,7 @@ int HOST_INFO::get_virtualbox_version() {
 //
 bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
     bool ret = false;
-#ifdef __APPLE__
-    if (type == PODMAN) {
-        system("podman machine init 2>/dev/null");
-        system("podman machine start 2>/dev/null");
-    }
-#endif
-    string cmd = string(docker_cli_prog(type)) + " --version 2>/dev/null";
+    string cmd = string(set_docker_cmd_prefix(type)) + string(docker_cli_prog(type)) + " --version 2>/dev/null";
     FILE* f = popen(cmd.c_str(), "r");
     char buf[256];
     if (f) {
@@ -1294,7 +1289,6 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
 }
 
 bool HOST_INFO::get_docker_version(){
-    bool check_podman = true;
 #ifdef __linux__
     // podman doesn't work on Linux with remote FS
     bool remote;
@@ -1308,16 +1302,26 @@ bool HOST_INFO::get_docker_version(){
 #ifdef __APPLE__
     // on Mac, Podman requires an accessable dir 'podman'
     //
-    if (!is_dir("podman")) {
-        check_podman = false;
+    if (!is_dir(PODMAN_DIR)) {
+        boinc_mkdir(PODMAN_DIR);
+        if (g_use_sandbox) {
+            mode_t old_mask = umask(2); // Allow writing by group
+             chmod(PROJECTS_DIR,
+                S_IRUSR|S_IWUSR|S_IXUSR
+                |S_IRGRP|S_IWGRP|S_IXGRP
+            );
+            umask(old_mask);
+            // Only user boinc_master and group boinc_project can access
+            // project directories, to keep authenticators private
+            set_to_project_group(PODMAN_DIR);
+        }
     }
 #endif
 
-    if (check_podman) {
-        if (get_docker_version_aux(PODMAN)) {
-            return true;
-        }
+    if (get_docker_version_aux(PODMAN)) {
+        return true;
     }
+
     if (get_docker_version_aux(DOCKER)) {
         return true;
     }
@@ -1329,7 +1333,7 @@ bool HOST_INFO::get_docker_version(){
 //
 bool HOST_INFO::get_docker_compose_version_aux(DOCKER_TYPE type){
     bool ret = false;
-    string cmd = string(docker_cli_prog(type)) + " compose version 2>/dev/null";
+    string cmd = string(set_docker_cmd_prefix(type)) + string(docker_cli_prog(type)) + " compose version 2>/dev/null";
     FILE* f = popen(cmd.c_str(), "r");
     if (f) {
         char buf[256];

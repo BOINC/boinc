@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -363,6 +363,20 @@ const char* docker_type_str(DOCKER_TYPE type) {
     default: break;
     }
     return "unknown";
+}
+
+const char* set_docker_cmd_prefix(DOCKER_TYPE type) {
+#ifdef __APPLE__
+    if (type == PODMAN) {
+        char buf[1024];
+        const char* dir = "/Library/Application Support/BOINC Data/podman";
+        sprintf(buf,
+            "env XDG_CONFIG_HOME=\"%s\" XDG_DATA_HOME=\"%s\" ",
+            dir, dir
+        );
+    }
+#endif
+    return "";
 }
 
 // parse a string like

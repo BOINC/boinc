@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -772,17 +772,10 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     // to use a directory accessable to boinc_master and boinc_projects
 
 #ifdef __APPLE__
-    if (type == PODMAN) {
-        const char* dir = "/Library/Application Support/BOINC Data/podman";
-        sprintf(buf,
-            "env XDG_CONFIG_HOME=\"%s\" XDG_DATA_HOME=\"%s\" %s %s\n",
-            dir, dir, cli_prog, cmd
-        );
-    } else {
-        sprintf(buf, "%s %s\n", cli_prog, cmd);
-    }
+    // Adds environment string or empty string as appropriate
+    sprintf(buf, "%s%s %s\n", set_docker_cmd_prefix(type), cli_prog, cmd);
 #else
-    sprintf(buf, "%s %s\n", cli_prog, cmd);
+    sprintf(buf, set_docker_cmd_prefix(type)"%s %s\n", cli_prog, cmd);
 #endif  // __APPLE__
 
     retval = run_command(buf, out);
