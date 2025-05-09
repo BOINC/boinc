@@ -1289,7 +1289,8 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
 }
 
 bool HOST_INFO::get_docker_version(){
-#ifdef __linux__
+    bool check_podman = true;
+    #ifdef __linux__
     // podman doesn't work on Linux with remote FS
     bool remote;
     int retval = is_filesystem_remote(".", remote);
@@ -1318,8 +1319,10 @@ bool HOST_INFO::get_docker_version(){
     }
 #endif
 
-    if (get_docker_version_aux(PODMAN)) {
-        return true;
+    if (check_podman) {
+        if (get_docker_version_aux(PODMAN)) {
+            return true;
+        }
     }
 
     if (get_docker_version_aux(DOCKER)) {
