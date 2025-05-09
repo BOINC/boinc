@@ -775,7 +775,7 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     // Adds environment string or empty string as appropriate
     sprintf(buf, "%s%s %s\n", set_docker_cmd_prefix(type), cli_prog, cmd);
 #else
-    sprintf(buf, set_docker_cmd_prefix(type)"%s %s\n", cli_prog, cmd);
+    sprintf(buf, "%s %s\n", cli_prog, cmd);
 #endif  // __APPLE__
 
     retval = run_command(buf, out);
