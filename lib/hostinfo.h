@@ -53,7 +53,7 @@ const char file_redhatrelease[] = "/etc/redhat-release";
 
 extern const char* docker_cli_prog(DOCKER_TYPE type);
 extern const char* docker_type_str(DOCKER_TYPE type);
-extern const char* set_docker_cmd_prefix(DOCKER_TYPE type);
+extern const char* docker_cmd_prefix(DOCKER_TYPE type);
 
 // if you add fields, update clear_host_info()
 

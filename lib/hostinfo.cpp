@@ -365,19 +365,28 @@ const char* docker_type_str(DOCKER_TYPE type) {
     return "unknown";
 }
 
-const char* set_docker_cmd_prefix(DOCKER_TYPE type) {
+// on Mac+podman we need to set env variables
+// to use a directory accessable to boinc_master and boinc_projects
+//
 #ifdef __APPLE__
+const char* docker_cmd_prefix(DOCKER_TYPE type) {
+    static char buf[256];
     if (type == PODMAN) {
-        char buf[1024];
         const char* dir = "/Library/Application Support/BOINC Data/podman";
-        sprintf(buf,
+        // must end w/ space
+        snprintf(buf, sizeof(buf),
             "env XDG_CONFIG_HOME=\"%s\" XDG_DATA_HOME=\"%s\" ",
             dir, dir
         );
+        return buf;
     }
-#endif
     return "";
 }
+#else
+const char* docker_cmd_prefix(DOCKER_TYPE) {
+    return "";
+}
+#endif
 
 // parse a string like
 // Docker version 24.0.7, build 24.0.7-0ubuntu2~22.04.1

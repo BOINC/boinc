@@ -15,7 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// check_security.C
+// Functions to check ownership and permissions of files and dirs
+// in the BOINC data directory on Mac OS
 
 //#define DEBUG_CHECK_SECURITY
 

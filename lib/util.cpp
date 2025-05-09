@@ -767,17 +767,10 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     }
     out = split(output, '\n');
 #else
-
-    // on Mac/podman we need to set env variables
-    // to use a directory accessable to boinc_master and boinc_projects
-
-#ifdef __APPLE__
-    // Adds environment string or empty string as appropriate
-    sprintf(buf, "%s%s %s\n", set_docker_cmd_prefix(type), cli_prog, cmd);
-#else
-    sprintf(buf, "%s %s\n", cli_prog, cmd);
-#endif  // __APPLE__
-
+    snprintf(buf, sizeof(buf),
+        "%s%s %s",
+        docker_cmd_prefix(type), cli_prog, cmd
+    );
     retval = run_command(buf, out);
     if (retval) {
         if (verbose) {

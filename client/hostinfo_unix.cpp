@@ -1239,8 +1239,27 @@ int HOST_INFO::get_virtualbox_version() {
 //
 bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
     bool ret = false;
-    string cmd = string(set_docker_cmd_prefix(type)) + string(docker_cli_prog(type)) + " --version 2>/dev/null";
-    FILE* f = popen(cmd.c_str(), "r");
+    char cmd[1024];
+
+#ifdef __APPLE__
+    if (type == PODMAN) {
+        snprintf(cmd, sizeof(cmd),
+            "%s podman machine init 2>/dev/null",
+            docker_cmd_prefix()
+        );
+        system(cmd);
+        snprintf(cmd, sizeof(cmd),
+            "%s podman machine start 2>/dev/null",
+            docker_cmd_prefix()
+        );
+        system(cmd);
+    }
+#endif
+    snprintf(cmd, sizeof(cmd), "%s %s --version 2>/dev/null",
+        docker_cmd_prefix(type),
+        docker_cli_prog(type)
+    );
+    FILE* f = popen(cmd, "r");
     char buf[256];
     if (f) {
         // normally the version is on the first line,
@@ -1264,9 +1283,12 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
     // Since we do this every time on startup, don't delete the image.
     //
     if (ret) {
-        cmd = string(docker_cli_prog(type)) + " run hello-world 2>/dev/null";
+        snprintf(cmd, sizeof(cmd),
+            "%s run hello-world 2>/dev/null",
+            docker_cli_prog(type)
+        );
         bool found = false;
-        f = popen(cmd.c_str(), "r");
+        f = popen(cmd, "r");
         if (f) {
             while (fgets(buf, sizeof(buf), f)) {
                 if (strstr(buf, "Hello")) {
@@ -1290,7 +1312,7 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
 
 bool HOST_INFO::get_docker_version(){
     bool check_podman = true;
-    #ifdef __linux__
+#ifdef __linux__
     // podman doesn't work on Linux with remote FS
     bool remote;
     int retval = is_filesystem_remote(".", remote);
@@ -1307,7 +1329,7 @@ bool HOST_INFO::get_docker_version(){
         boinc_mkdir(PODMAN_DIR);
         if (g_use_sandbox) {
             mode_t old_mask = umask(2); // Allow writing by group
-             chmod(PROJECTS_DIR,
+            chmod(PROJECTS_DIR,
                 S_IRUSR|S_IWUSR|S_IXUSR
                 |S_IRGRP|S_IWGRP|S_IXGRP
             );
@@ -1336,8 +1358,14 @@ bool HOST_INFO::get_docker_version(){
 //
 bool HOST_INFO::get_docker_compose_version_aux(DOCKER_TYPE type){
     bool ret = false;
-    string cmd = string(set_docker_cmd_prefix(type)) + string(docker_cli_prog(type)) + " compose version 2>/dev/null";
-    FILE* f = popen(cmd.c_str(), "r");
+    char cmd[1024];
+
+    snprintf(cmd, sizeof(cmd),
+        "%s%s compose version 2>/dev/null",
+        docker_cmd_prefix(type),
+        docker_cli_prog(type)
+    );
+    FILE* f = popen(cmd, "r");
     if (f) {
         char buf[256];
         while (fgets(buf, sizeof(buf), f)) {
