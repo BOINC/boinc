@@ -1266,12 +1266,12 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
     if (type == PODMAN) {
         snprintf(cmd, sizeof(cmd),
             "%s podman machine init 2>/dev/null",
-            docker_cmd_prefix()
+            docker_cmd_prefix(type)
         );
         system(cmd);
         snprintf(cmd, sizeof(cmd),
             "%s podman machine start 2>/dev/null",
-            docker_cmd_prefix()
+            docker_cmd_prefix(type)
         );
         system(cmd);
     }
