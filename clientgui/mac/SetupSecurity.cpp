@@ -528,6 +528,56 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
             return err;
     }       // slots directory
 
+    // Does podman directory exist?
+    strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
+    strlcat(fullpath, "/", MAXPATHLEN);
+    strlcat(fullpath, PODMAN_DIR, MAXPATHLEN);
+
+    result = stat(fullpath, &sbuf);
+    isDirectory = S_ISDIR(sbuf.st_mode);
+    if ((result == noErr) && (isDirectory)) {
+        // Set owner and group of podman directory and it's contents
+        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
+        // chown -R boinc_master:boinc_project "/Library/Application Support/BOINC Data/podman"
+        err = DoSudoPosixSpawn(chownPath, "-Rh", buf1, fullpath, NULL, NULL, NULL);
+        if (err)
+            return err;
+
+#if 0       // Redundant if the same as podman directory's contents
+        // Set owner and group of podman directory itself
+        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
+        // chown boinc_master:boinc_project "/Library/Application Support/BOINC Data/podman"
+        err = DoSudoPosixSpawn(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
+        if (err)
+            return err;
+#endif
+
+        // Set permissions of podman directories' contents
+        // Contents of podman directories must be world-readable so BOINC Client can read
+        // files written by projects which have user boinc_project and group boinc_project
+        // chmod -R u+rw,g+rw,o+r-w "/Library/Application Support/BOINC Data/podman"
+        // 0664 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
+        // set read and write permission for user and group, no access for others (leaves execute bits unchanged)
+        //TODO: Should we allow others to read / write for files and traverse subdirectories?
+        err = DoSudoPosixSpawn(chmodPath, "-R", "u+rw,g+rw,o+r-w", fullpath, NULL, NULL, NULL);
+        if (err)
+            return err;
+
+        // Set permissions for podman directory itself (not its contents)
+        // chmod u=rwx,g=rwx,o= "/Library/Application Support/BOINC Data/podman"
+        // 0770 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP
+        // Set read, write and execute permission for user & group, no access for others
+        //TODO: Should we allow others to read / write / traverse podman directory?
+        err = DoSudoPosixSpawn(chmodPath, "u=rwx,g=rwx,o=", fullpath, NULL, NULL, NULL, NULL);
+        if (err)
+            return err;
+
+        // Set execute permissions for slot subdirectories
+        err = UpdateNestedDirectories(fullpath);    // Sets execute for user, group and others
+        if (err)
+            return err;
+    }       // podman directory
+
     // Does locale directory exist?
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
     strlcat(fullpath, "/locale", MAXPATHLEN);
