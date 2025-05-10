@@ -1234,14 +1234,35 @@ int HOST_INFO::get_virtualbox_version() {
     return 0;
 }
 
-// check if docker/podman is installed on this host
-// populate docker_version on success
+// check if docker/podman is installed and functional on this host.
+// if so, populate docker_version and return true
 //
 bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
-    bool ret = false;
-    char cmd[1024];
+    char cmd[1024], buf[256];
+
+    snprintf(cmd, sizeof(cmd), "%s %s --version 2>/dev/null",
+        docker_cmd_prefix(type),
+        docker_cli_prog(type)
+    );
+    FILE* f = popen(cmd, "r");
+    if (!f) return false;
+    // normally the version is on the first line,
+    // but it's on the 2nd line if using podman-docker
+    //
+    bool found = false;
+    while (fgets(buf, sizeof(buf), f)) {
+        string version;
+        if (get_docker_version_string(type, buf, version)) {
+            safe_strcpy(docker_version, version.c_str());
+            found = true;
+            break;
+        }
+    }
+    pclose(f);
+    if (!found) return false;
 
 #ifdef __APPLE__
+    // download (if not there) and start QEMU VM
     if (type == PODMAN) {
         snprintf(cmd, sizeof(cmd),
             "%s podman machine init 2>/dev/null",
@@ -1255,59 +1276,38 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
         system(cmd);
     }
 #endif
-    snprintf(cmd, sizeof(cmd), "%s %s --version 2>/dev/null",
-        docker_cmd_prefix(type),
-        docker_cli_prog(type)
-    );
-    FILE* f = popen(cmd, "r");
-    char buf[256];
-    if (f) {
-        // normally the version is on the first line,
-        // but it's on the 2nd line if using podman-docker
-        //
-        while (fgets(buf, sizeof(buf), f)) {
-            string version;
-            if (get_docker_version_string(type, buf, version)) {
-                safe_strcpy(docker_version, version.c_str());
-                docker_type = type;
-                ret = true;
-                break;
-            }
-        }
-        pclose(f);
-    }
+
 #ifdef __linux__
     // if we're running as an unprivileged user, Docker/podman may not work.
     // Check by running the Hello World image.
     //
     // Since we do this every time on startup, don't delete the image.
     //
-    if (ret) {
-        snprintf(cmd, sizeof(cmd),
-            "%s run hello-world 2>/dev/null",
-            docker_cli_prog(type)
-        );
-        bool found = false;
-        f = popen(cmd, "r");
-        if (f) {
-            while (fgets(buf, sizeof(buf), f)) {
-                if (strstr(buf, "Hello")) {
-                    found = true;
-                    break;
-                }
+    snprintf(cmd, sizeof(cmd),
+        "%s run hello-world 2>/dev/null",
+        docker_cli_prog(type)
+    );
+    found = false;
+    f = popen(cmd, "r");
+    if (f) {
+        while (fgets(buf, sizeof(buf), f)) {
+            if (strstr(buf, "Hello")) {
+                found = true;
+                break;
             }
-            pclose(f);
         }
-        if (!found) {
-            msg_printf(NULL, MSG_INFO,
-                "%s found but 'hello-world' test failed",
-                docker_type_str(type)
-            );
-            docker_version[0] = 0;
-        }
+        pclose(f);
+    }
+    if (!found) {
+        msg_printf(NULL, MSG_INFO,
+            "%s found but 'hello-world' test failed",
+            docker_type_str(type)
+        );
+        docker_version[0] = 0;
+        return false;
     }
 #endif
-    return ret;
+    return true;
 }
 
 bool HOST_INFO::get_docker_version(){
@@ -1343,11 +1343,13 @@ bool HOST_INFO::get_docker_version(){
 
     if (check_podman) {
         if (get_docker_version_aux(PODMAN)) {
+            docker_type = PODMAN;
             return true;
         }
     }
 
     if (get_docker_version_aux(DOCKER)) {
+        docker_type = DOCKER;
         return true;
     }
     return false;
