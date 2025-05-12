@@ -183,8 +183,8 @@ int ndays_to_string (double x, int smallest_timescale, char *buf) {
 // convert seconds into a string "0h00m00s00"
 //
 void secs_to_hmsf(double secs, char* buf) {
-    int s = secs;
-    int f = (secs - s) * 100.0;
+    int s = (int)secs;
+    int f = (int)((secs - s) * 100.0);
     int h = s / 3600;
     s -= h * 3600;
     int m = s / 60;
