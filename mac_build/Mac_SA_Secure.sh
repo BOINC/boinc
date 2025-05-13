@@ -70,6 +70,7 @@
 # Updated 4/6/23 revised setprojectgrp ownership to match PR #5061
 # Updated 2/11/25 to add Fix_BOINC_Users
 # Updated 2/23/25 to fix PrimaryGroupID for users boinc_master, boinc_project
+# Updated 5/9/25 to add podman directory
 #
 # WARNING: do not use this script with versions of BOINC older
 # than 7.20.4
@@ -254,6 +255,12 @@ if [ -d slots ] ; then
     set_perm_recursive slots boinc_master boinc_project u+rw,g+rw,o+r-w
     set_perm slots boinc_master boinc_project 0770
     update_nested_dirs slots
+fi
+
+if [ -d podman ] ; then
+    set_perm_recursive podman boinc_master boinc_project u+rw,g+rw,o+r-w
+    set_perm podman boinc_master boinc_project 0770
+    update_nested_dirs podman
 fi
 
 # AppStats application must run setuid root (used in BOINC 5.7 through 5.8.14 only)
