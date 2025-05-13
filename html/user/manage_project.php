@@ -171,11 +171,15 @@ function handle_edit_action() {
     $us = BoincUserSubmit::lookup_userid($user_id);
     if (!$us) error_page("user not found");
     BoincUserSubmitApp::delete_user($user_id);
-    $submit_all = get_str('submit_all');
-    if ($submit_all) {
+    if (get_str('submit_all')) {
         $us->update("submit_all=1");
     } else {
         $us->update("submit_all=0");
+    }
+    if (get_str('manage_all')) {
+        $us->update("manage_all=1");
+    } else {
+        $us->update("manage_all=0");
     }
     $apps = BoincApp::enum("deprecated=0");
     $submit_apps = get_array('submit_apps');
@@ -221,7 +225,7 @@ function handle_add_action() {
     if (!$user) error_page("no such user");
     $us = BoincUserSubmit::lookup_userid($user_id);
     if (!$us) {
-        if (!BoincUserSubmit::insert("(user_id) values ($user_id)")) {
+        if (!BoincUserSubmit::insert("(user_id, quota, logical_start_time, submit_all, manage_all, max_jobs_in_progress) values ($user_id, 0, 0, 0, 0, 0)")) {
             error_page("Insert failed");
         }
     }
