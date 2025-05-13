@@ -196,7 +196,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
             snprintf(full_path, sizeof(full_path),
                 "\"%s/%s\"", DataDirPath, FIX_BOINC_USERS_FILENAME
             );
-            printf("Permissions error %d, calling %s\n", retval, full_path);
+            printf("Permissions error %d, calling %s\n", retval2, full_path);
             callPosixSpawn(full_path);  // Try to fix it
             retval2 = check_boinc_users_primarygroupIds(useFakeProjectUserAndGroup, isMacInstaller);
         }
