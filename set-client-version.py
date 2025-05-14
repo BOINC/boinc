@@ -117,17 +117,6 @@ def set_snap_boinc_desktop(version):
                 line = f'Version={version}\n'
             f.write(line)
 
-def set_finish_install_info_plist(version):
-    with open('mac_build/Finish_Install-Info.plist','r') as f:
-        lines = f.readlines()
-    with open('mac_build/Finish_Install-Info.plist','w') as f:
-        prev_line = ''
-        for line in lines:
-            if (prev_line.startswith('	<key>CFBundleVersion</key>') or prev_line.startswith('	<key>CFBundleShortVersionString</key>')) and line.startswith('	<string>') and line.endswith('</string>\n'):
-                line = f'	<string>{version}</string>\n'
-            f.write(line)
-            prev_line = line
-
 if (len(sys.argv) != 2):
     print('Usage: set-client-version.py VERSION')
     exit(1)
@@ -149,7 +138,6 @@ set_build_gradle(version)
 set_boinc_json(version)
 set_snapcraft(version)
 set_snap_boinc_desktop(version)
-set_finish_install_info_plist(version)
 
 if (os.name == 'posix' and sys.platform != 'darwin'):
     print('Running autosetup...')
