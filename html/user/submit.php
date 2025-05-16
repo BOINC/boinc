@@ -46,6 +46,10 @@ require_once('../project/remote_apps.inc');
 
 display_errors();
 
+// in general, if there can be lots of something,
+// show this many and a link to show all.
+// TODO: jobs in a batch
+//
 define("PAGE_SIZE", 20);
 
 function return_link() {
@@ -405,6 +409,7 @@ function handle_admin_app($user) {
     show_batches($batches, PAGE_SIZE, null, $app);
     page_tail();
 }
+
 function handle_admin_all($user) {
     page_head("Administer batches (all apps)");
     $batches = BoincBatch::enum("true order by id desc");
@@ -471,11 +476,12 @@ function handle_batch_stats($user) {
     page_tail();
 }
 
+define('COLOR_SUCCESS', 'green');
+define('COLOR_FAIL', 'red');
+define('COLOR_IN_PROGRESS', 'deepskyblue');
+define('COLOR_UNSENT', 'gray');
+
 // return HTML for a color-coded batch progress bar
-// green: successfully completed jobs
-// red: failed
-// light green: in progress
-// light gray: unsent
 //
 function progress_bar($batch, $wus, $width) {
     $nsuccess = $batch->njobs_success;
@@ -488,25 +494,29 @@ function progress_bar($batch, $wus, $width) {
     $w_unsent = $width*$nunsent/$batch->njobs;
     $x = '<table height=20><tr>';
     if ($w_fail) {
-        $x .= "<td width=$w_fail bgcolor=red></td>";
+        $x .= sprintf('<td width=%d bgcolor=%s></td>', $w_fail, COLOR_FAIL);
     }
     if ($w_success) {
-        $x .= "<td width=$w_success bgcolor=green></td>";
+        $x .= sprintf('<td width=%d bgcolor=%s></td>', $w_success, COLOR_SUCCESS);
     }
     if ($w_prog) {
-        $x .= "<td width=$w_prog bgcolor=lightgreen></td>";
+        $x .= sprintf('<td width=%d bgcolor=%s></td>', $w_prog, COLOR_IN_PROGRESS);
     }
     if ($w_unsent) {
-        $x .= "<td width=$w_unsent bgcolor=gray></td>";
+        $x .= sprintf('<td width=%d bgcolor=%s></td>', $w_unsent, COLOR_UNSENT);
     }
-    $x .= "</tr></table>
+    $x .= sprintf('</tr></table>
         <strong>
-        <font color=red>$nerror failed</font> &middot;
-        <font color=green>$nsuccess completed</font> &middot;
-        <font color=lightgreen>$nin_prog in progress</font> &middot;
-        <font color=gray>$nunsent unsent</font>
-        </strong>
-    ";
+        <font color=%s>%d failed</font> &middot;
+        <font color=%s>%d completed</font> &middot;
+        <font color=%s>%d in progress</font> &middot;
+        <font color=%s>%d unsent</font>
+        </strong>',
+        COLOR_FAIL, $nerror,
+        COLOR_SUCCESS, $nsuccess,
+        COLOR_IN_PROGRESS, $nin_prog,
+        COLOR_UNSENT, $nunsent
+    );
     return $x;
 }
 
@@ -605,16 +615,16 @@ function handle_query_batch($user) {
         switch($wu->status) {
         case WU_SUCCESS:
             $resultid = $wu->canonical_resultid;
-            $y = '<font color="green">completed</font>';
+            $y = sprintf('<font color="%s">completed</font>', COLOR_SUCCESS);
             break;
         case WU_ERROR:
-            $y = '<font color="red">failed</font>';
+            $y = sprintf('<font color="%s">failed</font>', COLOR_FAIL);
             break;
         case WU_IN_PROGRESS:
-            $y = '<font color="lightgreen">in progress</font>';
+            $y = sprintf('<font color="%s">in progress</font>', COLOR_IN_PROGRESS);
             break;
         case WU_UNSENT:
-            $y = '<font color="gray">unsent</font>';
+            $y = sprintf('<font color="%s">unsent</font>', COLOR_UNSENT);
             break;
         }
         $x = [
@@ -816,6 +826,8 @@ function handle_retire_batch($user) {
     }
 }
 
+// retire multiple batches
+//
 function handle_retire_multi($user) {
     $batches = BoincBatch::enum(
         sprintf('user_id=%d and state=%d', $user->id, BATCH_STATE_COMPLETE)
@@ -832,6 +844,8 @@ function handle_retire_multi($user) {
     page_tail();
 }
 
+// given a list of batches, show the ones in a given state
+//
 function show_batches_in_state($batches, $state) {
     switch ($state) {
     case BATCH_STATE_IN_PROGRESS:
