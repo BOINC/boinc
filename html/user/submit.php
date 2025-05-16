@@ -512,7 +512,7 @@ function progress_bar($batch, $wus, $width) {
         <font color=%s>%d in progress</font> &middot;
         <font color=%s>%d unsent</font>
         </strong>',
-        COLOR_FAIL, $nerror, 
+        COLOR_FAIL, $nerror,
         COLOR_SUCCESS, $nsuccess,
         COLOR_IN_PROGRESS, $nin_prog,
         COLOR_UNSENT, $nunsent
