@@ -18,6 +18,8 @@
 #include "gtest/gtest.h"
 #include "common_defs.h"
 #include "str_util.h"
+#include "error_numbers.h"
+
 #include <string>
 #include <ios>
 

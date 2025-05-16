@@ -20,6 +20,7 @@
 #include "boinc_win.h"
 
 #include "diagnostics.h"
+#include "error_numbers.h"
 #include "util.h"
 #include "filesys.h"
 #include "str_replace.h"

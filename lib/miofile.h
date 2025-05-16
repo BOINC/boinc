@@ -40,7 +40,7 @@
 // Why is this here?  Because on Windows (9x, maybe all)
 // you can't do fdopen() on a socket.
 
-class MIOFILE {
+struct MIOFILE {
     MFILE* mf;
     char* wbuf;
     int len;
