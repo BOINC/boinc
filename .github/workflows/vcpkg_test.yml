@@ -43,7 +43,7 @@ jobs:
           - name: Get hash
             id: get_hash
             run: |
-              echo "revision_hash=$(sha512sum boinc.tar.gz | awk '{ print $1 }')" >> $GITHUB_ENV
+              echo "revision_hash=$(sha512sum boinc.tar.gz | awk '{ print $1 }')" >> $GITHUB_OUTPUT
     linux:
       name: Linux
       runs-on: ubuntu-latest
@@ -51,6 +51,7 @@ jobs:
       strategy:
         matrix:
           triplet: [ 'arm-linux', 'arm64-linux', 'x64-linux', 'x86-linux' ]
+        fail-fast: false
       steps:
         - name: Checkout
           uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -86,7 +87,7 @@ jobs:
 
         - name: Fix portfile
           run: |
-            python ./tests/vcpkg/portfilefix.py ${GITHUB_REF} ${{ env.revision_hash }}
+            python ./tests/vcpkg/portfilefix.py ${GITHUB_REF} ${{ needs.get-hash.outputs.revision_hash }}
 
         - name: Set up vcpkg
           run: |
