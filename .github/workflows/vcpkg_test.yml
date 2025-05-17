@@ -110,22 +110,22 @@ jobs:
         - name: Configure arm build
           if: ${{ matrix.triplet == 'arm-linux' }}
           run: |
-            cmake -E env CC="arm-linux-gnueabihf-gcc" CXX="arm-linux-gnueabihf-g++" LD="arm-linux-gnueabihf-ld" CFLAGS="-march=armv7-a" CXXFLAGS="-march=armv7-a" LDFLAGS="-march=armv7-a" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_ARCHITECTURE=${{ matrix.triplet }}
+            cmake -E env CC="arm-linux-gnueabihf-gcc" CXX="arm-linux-gnueabihf-g++" LD="arm-linux-gnueabihf-ld" CFLAGS="-march=armv7-a" CXXFLAGS="-march=armv7-a" LDFLAGS="-march=armv7-a" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
 
         - name: Configure arm64 build
           if: ${{ matrix.triplet == 'arm64-linux' }}
           run: |
-            cmake -E env CC="aarch64-linux-gnu-gcc" CXX="aarch64-linux-gnu-g++" LD="aarch64-linux-gnu-ld" CFLAGS="-march=armv8-a" CXXFLAGS="-march=armv8-a" LDFLAGS="-march=armv8-a" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_ARCHITECTURE=${{ matrix.triplet }}
+            cmake -E env CC="aarch64-linux-gnu-gcc" CXX="aarch64-linux-gnu-g++" LD="aarch64-linux-gnu-ld" CFLAGS="-march=armv8-a" CXXFLAGS="-march=armv8-a" LDFLAGS="-march=armv8-a" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
 
         - name: Configure x64 build
           if: ${{ matrix.triplet == 'x64-linux' }}
           run: |
-            cmake -E env CFLAGS="-march=64" CXXFLAGS="-march=64" LDFLAGS="-march=64" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_ARCHITECTURE=${{ matrix.triplet }}
+            cmake -E env CFLAGS="-march=64" CXXFLAGS="-march=64" LDFLAGS="-march=64" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
 
         - name: Configure x86 build
           if: ${{ matrix.triplet == 'x86-linux' }}
           run: |
-            cmake -E env CFLAGS="-march=32" CXXFLAGS="-march=32" LDFLAGS="-march=32" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_ARCHITECTURE=${{ matrix.triplet }}
+            cmake -E env CFLAGS="-march=32" CXXFLAGS="-march=32" LDFLAGS="-march=32" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
 
         - name: Build
           run: |
