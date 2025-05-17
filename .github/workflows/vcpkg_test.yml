@@ -28,10 +28,17 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
+  AWS_DEFAULT_REGION: us-west-2
+
 jobs:
     get-hash:
         name: Get hash
         runs-on: ubuntu-latest
+        outputs:
+          revision_hash: ${{ steps.get_hash.outputs.revision_hash }}
         steps:
           - name: Checkout
             uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -86,8 +93,10 @@ jobs:
             echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
 
         - name: Fix portfile
+          env:
+            revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
           run: |
-            python ./tests/vcpkg/portfilefix.py ${GITHUB_REF} ${{ needs.get-hash.outputs.revision_hash }}
+            python ./tests/vcpkg/portfilefix.py ${GITHUB_REF} ${{ env.revision_hash }}
 
         - name: Set up vcpkg
           run: |
