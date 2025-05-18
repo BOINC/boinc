@@ -17,7 +17,7 @@ p_c64 = database.Platforms.find(user_friendly_name="commodore 64")
 wu_dead = database.Workunits.find(name="dead.wu")[0]
 results_dead = database.Results.find(wu=wu_dead)
 for result in results_dead:
-    print "Removing from db:", result
+    print("Removing from db:", result)
     os.system("echo oeps | mail %s" % result.host.user.email_addr)
     result.remove()
 
@@ -28,6 +28,7 @@ for user in database.Users.find():
 
 '''
 
+from __future__ import print_function
 from Boinc import configxml
 from Boinc.util import *
 from Boinc.db_base import *
