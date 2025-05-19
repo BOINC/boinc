@@ -291,7 +291,7 @@ static void __cpuid(unsigned int cpuinfo[4], unsigned int type)  {
   #elif defined(_M_AMD64)
       // damn Microsoft for not having inline assembler in 64-bit code
       // so this is in an NASM compiled library
-      asm_cpuid(cpuinfo,type);
+      asm_cpuid(cpuinfo, type);
   #endif
 #endif
 }
@@ -1043,7 +1043,7 @@ int get_cpuid(unsigned int info_type, unsigned int& a, unsigned int& b, unsigned
 
 
     int retval = 1;
-    int CPUInfo[4] = {0,0,0,0};
+    int CPUInfo[4] = {0, 0, 0, 0};
 #ifdef _MSC_VER
     __try {
 #endif
@@ -1240,7 +1240,7 @@ bool is_avx_supported() {
     //
     // Note that XGETBV is only available on 686 or later CPUs, so
     // the instruction needs to be conditionally run.
-    unsigned int a,b,c,d;
+    unsigned int a, b, c, d;
     get_cpuid(1, a, b, c, d);
 
     bool osUsesXSAVE_XRSTORE = c & (1 << 27) || false;

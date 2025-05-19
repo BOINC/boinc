@@ -54,14 +54,14 @@ HANDLE graphics_threadh;
 
 void KillWindow() {
     window_ready=false;
-    wglMakeCurrent(NULL,NULL);  // release GL rendering context
+    wglMakeCurrent(NULL, NULL);  // release GL rendering context
     if (hRC) {
         wglDeleteContext(hRC);
         hRC=NULL;
     }
 
     if (hWnd && hDC) {
-        ReleaseDC(hWnd,hDC);
+        ReleaseDC(hWnd, hDC);
     }
     hDC = NULL;
 
@@ -115,7 +115,7 @@ void SetupPixelFormat(HDC hDC) {
 }
 
 static void make_new_window() {
-    RECT WindowRect = {0,0,0,0};
+    RECT WindowRect = {0, 0, 0, 0};
     int width, height;
     DWORD dwExStyle;
     DWORD dwStyle;
@@ -145,7 +145,7 @@ static void make_new_window() {
     get_window_title(aid, window_title, 256);
     hWnd = CreateWindowEx(dwExStyle, BOINC_WINDOW_CLASS_NAME, window_title,
         dwStyle|WS_CLIPSIBLINGS|WS_CLIPCHILDREN, WindowRect.left, WindowRect.top,
-        WindowRect.right-WindowRect.left,WindowRect.bottom-WindowRect.top,
+        WindowRect.right-WindowRect.left, WindowRect.bottom-WindowRect.top,
         NULL, NULL, hInstance, NULL
     );
 
@@ -413,7 +413,7 @@ LRESULT CALLBACK WndProc(
     }
 
     // Pass All Unhandled Messages To DefWindowProc
-    return DefWindowProc(hWnd,uMsg,wParam,lParam);
+    return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
 BOOL reg_win_class() {
@@ -434,7 +434,7 @@ BOOL reg_win_class() {
 
     // Attempt To Register The Window Class
     if (!RegisterClass(&wc)) {
-        MessageBox(NULL,"Failed To Register The Window Class.","ERROR",MB_OK|MB_ICONEXCLAMATION);
+        MessageBox(NULL, "Failed To Register The Window Class.", "ERROR", MB_OK|MB_ICONEXCLAMATION);
         return FALSE;                                            // Return FALSE
     }
 
@@ -442,8 +442,8 @@ BOOL reg_win_class() {
 }
 
 BOOL unreg_win_class() {
-    if (!UnregisterClass(BOINC_WINDOW_CLASS_NAME,hInstance)) {
-        MessageBox(NULL,"Could Not Unregister Class.","SHUTDOWN ERROR",MB_OK | MB_ICONINFORMATION);
+    if (!UnregisterClass(BOINC_WINDOW_CLASS_NAME, hInstance)) {
+        MessageBox(NULL, "Could Not Unregister Class.", "SHUTDOWN ERROR", MB_OK | MB_ICONINFORMATION);
         hInstance=NULL;                                    // Set hInstance To NULL
     }
 
@@ -527,7 +527,7 @@ void win_graphics_event_loop() {
         set_mode(MODE_HIDE_GRAPHICS);
     }
     while (1) {
-        if (GetMessage(&msg,NULL,0,0)) {
+        if (GetMessage(&msg, NULL, 0, 0)) {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         } else {
