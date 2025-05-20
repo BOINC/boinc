@@ -46,7 +46,7 @@ jobs:
               fetch-depth: 2
           - name: Download revision archive
             run: |
-              curl -L -o boinc.tar.gz https://github.com/BOINC/boinc/archive/${GITHUB_REF}.tar.gz
+              curl -L -o boinc.tar.gz "https://github.com/BOINC/boinc/archive/${{ github.ref }}.tar.gz"
           - name: Get hash
             id: get_hash
             run: |
@@ -80,7 +80,7 @@ jobs:
           env:
             revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
           run: |
-            python ./tests/vcpkg/portfilefix.py ${GITHUB_REF} ${{ env.revision_hash }}
+            python ./tests/vcpkg/portfilefix.py "${{ github.ref }}" "${{ env.revision_hash }}"
 
         - name: Set up vcpkg
           run: |
@@ -252,7 +252,7 @@ jobs:
           env:
             revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
           run: |
-            python ./tests/vcpkg/portfilefix.py ${GITHUB_REF} ${{ env.revision_hash }}
+            python ./tests/vcpkg/portfilefix.py "${{ github.ref }}" "${{ env.revision_hash }}"
 
         - name: Set up vcpkg
           run: |
@@ -322,7 +322,7 @@ jobs:
           env:
             revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
           run: |
-            python ./tests/vcpkg/portfilefix.py ${GITHUB_REF} ${{ env.revision_hash }}
+            python ./tests/vcpkg/portfilefix.py "${{ github.ref }}" "${{ env.revision_hash }}"
 
         - name: Set up vcpkg
           run: |
@@ -376,7 +376,7 @@ jobs:
           env:
             revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
           run: |
-            python ./tests/vcpkg/portfilefix.py ${GITHUB_REF} ${{ env.revision_hash }}
+            python ./tests/vcpkg/portfilefix.py "${{ github.ref }}" "${{ env.revision_hash }}"
 
         - name: Install dependencies
           run: |
@@ -439,7 +439,7 @@ jobs:
           env:
             revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
           run: |
-            python ./tests/vcpkg/portfilefix.py ${GITHUB_REF} ${{ env.revision_hash }}
+            python ./tests/vcpkg/portfilefix.py "${{ github.ref }}" "${{ env.revision_hash }}"
 
         - name: Set up vcpkg
           run: |
