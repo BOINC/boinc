@@ -63,6 +63,7 @@ extern "C" {
 #include "miofile.h"
 #include "parse.h"
 #include "hostinfo.h"
+#include "str_replace.h"
 #include "util.h"
 
 using std::min;
