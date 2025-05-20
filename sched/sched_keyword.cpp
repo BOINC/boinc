@@ -49,7 +49,7 @@ int read_kw_prefs(int userid, USER_KEYWORDS &ukws) {
     char path[256], buf[512];
     snprintf(path, sizeof(path), "../kw_prefs/%d", userid);
     if (!boinc_file_exists(path)) return -1;
-    FILE *f = fopen(path, "r");
+    FILE *f = boinc::fopen(path, "r");
     if (!f) return -1;
     if (config.debug_keyword) {
         log_messages.printf(MSG_NORMAL,
@@ -58,17 +58,17 @@ int read_kw_prefs(int userid, USER_KEYWORDS &ukws) {
     }
     ukws.clear();
     int ret = 0;
-    if (fgets(buf, sizeof(buf), f)) {
+    if (boinc::fgets(buf, sizeof(buf), f)) {
         parse_kw_line(buf, ukws.yes);
     } else {
         ret = 1;
     }
-    if (fgets(buf, sizeof(buf), f)) {
+    if (boinc::fgets(buf, sizeof(buf), f)) {
         parse_kw_line(buf, ukws.no);
     } else {
         ret = 1;
     }
-    fclose(f);
+    boinc::fclose(f);
     return ret;
 }
 
