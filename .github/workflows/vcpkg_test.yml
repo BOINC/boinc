@@ -76,11 +76,11 @@ jobs:
           run: |
             echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
 
-        # - name: Fix portfile
-        #   env:
-        #     revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
-        #   run: |
-        #     python ./tests/vcpkg/portfilefix.py ${GITHUB_REF} ${{ env.revision_hash }}
+        - name: Fix portfile
+          env:
+            revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
+          run: |
+            python ./tests/vcpkg/portfilefix.py ${GITHUB_REF} ${{ env.revision_hash }}
 
         - name: Set up vcpkg
           run: |
@@ -248,11 +248,11 @@ jobs:
           run: |
             echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
 
-        # - name: Fix portfile
-        #   env:
-        #     revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
-        #   run: |
-        #     python ./tests/vcpkg/portfilefix.py ${GITHUB_REF} ${{ env.revision_hash }}
+        - name: Fix portfile
+          env:
+            revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
+          run: |
+            python ./tests/vcpkg/portfilefix.py ${GITHUB_REF} ${{ env.revision_hash }}
 
         - name: Set up vcpkg
           run: |
@@ -318,11 +318,11 @@ jobs:
           run: |
             echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
 
-        # - name: Fix portfile
-        #   env:
-        #     revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
-        #   run: |
-        #     python ./tests/vcpkg/portfilefix.py ${GITHUB_REF} ${{ env.revision_hash }}
+        - name: Fix portfile
+          env:
+            revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
+          run: |
+            python ./tests/vcpkg/portfilefix.py ${GITHUB_REF} ${{ env.revision_hash }}
 
         - name: Set up vcpkg
           run: |
@@ -372,11 +372,11 @@ jobs:
           run: |
             echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
 
-        # - name: Fix portfile
-        #   env:
-        #     revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
-        #   run: |
-        #     python ./tests/vcpkg/portfilefix.py ${GITHUB_REF} ${{ env.revision_hash }}
+        - name: Fix portfile
+          env:
+            revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
+          run: |
+            python ./tests/vcpkg/portfilefix.py ${GITHUB_REF} ${{ env.revision_hash }}
 
         - name: Install dependencies
           run: |
@@ -435,11 +435,11 @@ jobs:
           run: |
             echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
-        # - name: Fix portfile
-        #   env:
-        #     revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
-        #   run: |
-        #     python ./tests/vcpkg/portfilefix.py ${GITHUB_REF} ${{ env.revision_hash }}
+        - name: Fix portfile
+          env:
+            revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
+          run: |
+            python ./tests/vcpkg/portfilefix.py ${GITHUB_REF} ${{ env.revision_hash }}
 
         - name: Set up vcpkg
           run: |
