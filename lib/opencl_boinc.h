@@ -19,9 +19,9 @@
 #define BOINC_OPENCL_BOINC_H
 
 #include "cl_boinc.h"
-#include "common_defs.h"
-#include "miofile.h"
-#include "parse.h"
+
+struct MIOFILE;
+struct XML_PARSER;
 
 #define MAX_OPENCL_PLATFORMS 16
 #define MAX_OPENCL_CPU_PLATFORMS 4
