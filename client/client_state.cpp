@@ -707,14 +707,7 @@ int CLIENT_STATE::init() {
     // must go after check_app_config() and parse_state_file()
     // and after the above app version stuff
     //
-    for (RESULT* rp: results) {
-        rp->init_resource_usage();
-        if (rp->resource_usage.missing_coproc) {
-            msg_printf(rp->project, MSG_INFO,
-                "Missing coprocessor for task %s", rp->name
-            );
-        }
-    }
+    init_result_resource_usage();
 
     // this needs to go after parse_state_file() because
     // GPU exclusions refer to projects
@@ -2459,6 +2452,24 @@ bool CLIENT_STATE::abort_sequence_done() {
         if (p->sched_rpc_pending == RPC_REASON_USER_REQ) return false;
     }
     return true;
+}
+
+// for each result, copy resource usage either from
+// - workunit if present there (e.g. BUDA jobs)
+// - app version otherwise
+//
+// call this on startup and after reread app_config.xml
+// (which can change app version resource usage)
+//
+void CLIENT_STATE::init_result_resource_usage() {
+    for (RESULT* rp: results) {
+        rp->init_resource_usage();
+        if (rp->resource_usage.missing_coproc) {
+            msg_printf(rp->project, MSG_INFO,
+                "Missing coprocessor for task %s", rp->name
+            );
+        }
+    }
 }
 
 #endif
