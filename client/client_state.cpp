@@ -2454,6 +2454,8 @@ bool CLIENT_STATE::abort_sequence_done() {
     return true;
 }
 
+#endif  // !SIM
+
 // for each result, copy resource usage either from
 // - workunit if present there (e.g. BUDA jobs)
 // - app version otherwise
@@ -2471,5 +2473,3 @@ void CLIENT_STATE::init_result_resource_usage() {
         }
     }
 }
-
-#endif
