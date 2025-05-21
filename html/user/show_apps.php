@@ -72,6 +72,15 @@ function main() {
         }
     }
     end_table();
+    $user = get_logged_in_user(false);
+    if ($user) {
+        $us = BoincUserSubmit::lookup_userid($user->id);
+        if (!$us) {
+            show_button("apply.php", "Apply to submit jobs");
+        }
+    } else {
+        show_button("signup.php", "Register to submit jobs");
+    }
     show_submitters();
     page_tail();
 }
