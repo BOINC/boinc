@@ -243,6 +243,7 @@ void CC_CONFIG::defaults() {
     max_tasks_reported = 0;
     ncpus = -1;
     no_alt_platform = false;
+    no_disk_usage = false;
     no_gpus = false;
     no_info_fetch = false;
     no_opencl = false;
@@ -416,6 +417,7 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_int("max_tasks_reported", max_tasks_reported)) continue;
         if (xp.parse_int("ncpus", ncpus)) continue;
         if (xp.parse_bool("no_alt_platform", no_alt_platform)) continue;
+        if (xp.parse_bool("no_disk_usage", no_disk_usage)) continue;
         if (xp.parse_bool("no_gpus", no_gpus)) continue;
         if (xp.parse_bool("no_info_fetch", no_info_fetch)) continue;
         if (xp.parse_bool("no_opencl", no_opencl)) continue;
@@ -661,6 +663,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <max_tasks_reported>%d</max_tasks_reported>\n"
         "        <ncpus>%d</ncpus>\n"
         "        <no_alt_platform>%d</no_alt_platform>\n"
+        "        <no_disk_usage>%d</no_disk_usage>\n"
         "        <no_gpus>%d</no_gpus>\n"
         "        <no_info_fetch>%d</no_info_fetch>\n"
         "        <no_opencl>%d</no_opencl>\n"
@@ -678,6 +681,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         max_tasks_reported,
         ncpus,
         no_alt_platform,
+        no_disk_usage,
         no_gpus,
         no_info_fetch,
         no_opencl,

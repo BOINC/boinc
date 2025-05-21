@@ -190,16 +190,18 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 
     // get and write disk usage
     //
-    get_disk_usages();
-    get_disk_shares();
-    fprintf(f,
-        "    <disk_usage>\n"
-        "        <d_boinc_used_total>%f</d_boinc_used_total>\n"
-        "        <d_boinc_used_project>%f</d_boinc_used_project>\n"
-        "        <d_project_share>%f</d_project_share>\n"
-        "    </disk_usage>\n",
-        total_disk_usage, p->disk_usage, p->disk_share
-    );
+    if (!cc_config.no_disk_usage) {
+        get_disk_usages();
+        get_disk_shares();
+        fprintf(f,
+            "    <disk_usage>\n"
+            "        <d_boinc_used_total>%f</d_boinc_used_total>\n"
+            "        <d_boinc_used_project>%f</d_boinc_used_project>\n"
+            "        <d_project_share>%f</d_project_share>\n"
+            "    </disk_usage>\n",
+            total_disk_usage, p->disk_usage, p->disk_share
+        );
+    }
 
     if (coprocs.n_rsc > 1) {
         work_fetch.copy_requests();
