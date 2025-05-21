@@ -21,6 +21,7 @@ set(LIBBOINC_HEADERS_UNIX
 )
 
 set(LIBBOINC_HEADERS_APPLE
+    ${BOINC_DIR}/lib/synch.h
     ${BOINC_DIR}/lib/mac/dyld_gdb.h
     ${BOINC_DIR}/lib/mac/mac_backtrace.h
     ${BOINC_DIR}/lib/mac/mac_spawn.h
@@ -89,6 +90,7 @@ set(LIBBOINC_SOURCES_UNIX
 
 set(LIBBOINC_SOURCES_APPLE
     ${BOINC_DIR}/lib/procinfo_mac.cpp
+    ${BOINC_DIR}/lib/synch.cpp
     ${BOINC_DIR}/lib/mac/mac_backtrace.cpp
     ${BOINC_DIR}/lib/mac/mac_spawn.cpp
     ${BOINC_DIR}/lib/mac/QBacktrace.c

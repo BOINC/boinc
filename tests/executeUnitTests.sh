@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2019 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -33,10 +33,10 @@ if [ ! -d "tests" ]; then
 fi
 
 ROOTDIR=$(pwd)
-CI_RUN="${TRAVIS:-false}"
 report=""
 doclean=""
 xml=""
+
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
@@ -75,7 +75,12 @@ if [ $? -ne 0 ]; then cd ../..; exit 1; fi
 make
 if [ $? -ne 0 ]; then cd ../..; exit 1; fi
 
-for T in lib sched; do
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    MODULES="lib"
+else
+    MODULES="lib sched"
+fi
+for T in ${MODULES}; do
     XML_FLAGS=""
     if [ "${xml}" = "yes" ]; then
         XML_FLAGS="--gtest_output=xml:${T}_xml_report.xml"

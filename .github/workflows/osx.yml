@@ -1,6 +1,6 @@
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -128,6 +128,11 @@ jobs:
   cmake-build:
     name: cmake-build
     runs-on: macos-latest
+
+    strategy:
+      matrix:
+        triplet: [x64-osx, arm64-osx]
+      fail-fast: false
     steps:
       - uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd
         with:
@@ -146,7 +151,11 @@ jobs:
           echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
 
       - name: libs cmake
-        run: osx/ci_build_libs_cmake.sh
+        run: osx/ci_build_libs_cmake.sh ${{ matrix.triplet }}
+
+      - name: run unit tests
+        if: ${{ success() && matrix.triplet == 'arm64-osx' }}
+        run: ./tests/executeUnitTests.sh --report-coverage --report-xml
 
       - name: Prepare logs on failure
         if: ${{ failure() }}
@@ -156,5 +165,5 @@ jobs:
         if: ${{ failure() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: osx_logs_cmake-build_${{ github.event.pull_request.head.sha }}
+          name: osx_logs_cmake-build_${{ matrix.triplet }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z

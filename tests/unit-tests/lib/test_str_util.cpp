@@ -226,7 +226,12 @@ namespace test_str_util {
         buf = precision_time_to_string(1555876749.1234);
         EXPECT_STREQ(buf, "2019-04-21 19:59:09.1233");
         buf = precision_time_to_string(12345678910.10000);
-        EXPECT_STREQ(buf, "2361-03-21 19:15:10.-2147483648");
+        // here we have an undefined behavior that gives negative value on x64 and positive value on arm64
+        #ifdef __arm64__
+            EXPECT_STREQ(buf, "2361-03-21 19:15:10.2147483647");
+        #else
+            EXPECT_STREQ(buf, "2361-03-21 19:15:10.-2147483648");
+        #endif
     }
 
     TEST_F(test_str_util, timediff_format) {
