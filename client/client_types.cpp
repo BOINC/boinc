@@ -1303,7 +1303,9 @@ int WORKUNIT::write(MIOFILE& out, bool gui) {
             sub_appname
         );
     }
-    resource_usage.write(out);
+    if (resource_usage.present()) {
+        resource_usage.write(out);
+    }
 
     if (!job_keyword_ids.empty()) {
         if (gui) {
