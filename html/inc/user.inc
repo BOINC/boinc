@@ -333,6 +333,14 @@ function show_preference_links() {
             "<a href=\"prefs.php?subset=project\">".tra("%1 preferences", PROJECT)."</a>"
         );
     }
+    if (parse_bool(get_config(), 'keyword_sched')) {
+        row2(
+            tra('What types of jobs to run'),
+            sprintf('<a href=kw_prefs.php>%s</a>',
+                tra('Science and location preferences')
+            )
+        );
+    }
 }
 
 // return string describing a friend:

@@ -22,6 +22,7 @@ require_once('../inc/util.inc');
 require_once('../inc/submit_util.inc');
 require_once('../inc/sandbox.inc');
 require_once('../inc/buda.inc');
+require_once('../inc/kw_prefs.inc');
 
 display_errors();
 
@@ -213,7 +214,8 @@ function stage_input_files($batch_dir, $batch_desc, $batch_id) {
 function create_jobs(
     $app, $app_desc, $variant, $variant_desc,
     $batch_desc, $batch_id, $batch_dir_name,
-    $wrapper_verbose, $cmdline, $max_fpops, $exp_fpops
+    $wrapper_verbose, $cmdline, $max_fpops, $exp_fpops,
+    $keywords
 ) {
     global $buda_boinc_app;
 
@@ -256,6 +258,9 @@ function create_jobs(
         "buda_apps/$app/$variant/template_out",
         $max_fpops, $exp_fpops
     );
+    if ($keywords) {
+        $cmd .= " --keywords '$keywords'";
+    }
     $cmd .= sprintf(' > %s 2<&1', "buda_batches/errfile");
 
     $h = popen($cmd, "w");
@@ -323,10 +328,17 @@ function handle_submit($user) {
     //
     stage_input_files($batch_dir, $batch_desc, $batch->id);
 
+    // get job keywords: user keywords plus BUDA app keywords
+    //
+    [$yes, $no] = read_kw_prefs($user);
+    $keywords = array_merge($yes, $app_desc->sci_kw, $app_desc->loc_kw);
+    $keywords = array_unique($keywords);
+    $keywords = implode(' ', $keywords);
+
     create_jobs(
         $app, $app_desc, $variant, $variant_desc,
         $batch_desc, $batch->id, $batch_dir_name,
-        $wrapper_verbose, $cmdline, $max_fpops, $exp_fpops
+        $wrapper_verbose, $cmdline, $max_fpops, $exp_fpops, $keywords
     );
 
     // mark batch as in progress

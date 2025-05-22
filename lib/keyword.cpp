@@ -18,6 +18,11 @@
 // utility functions for keywords
 
 #include <stdio.h>
+#include <iostream>
+#include <string>
+#include <sstream>
+
+using namespace std;
 
 #include "parse.h"
 #include "keyword.h"
@@ -102,14 +107,13 @@ void USER_KEYWORDS::write(FILE* f) {
     boinc::fprintf(f, "</user_keywords>\n");
 }
 
-void JOB_KEYWORD_IDS::parse_str(char* buf) {
-    char* p = strtok(buf, " ");
-    if (!p) return;
-    ids.push_back(atoi(p));
-    while (true) {
-        p = strtok(NULL, " ");
-        if (!p) break;
-        ids.push_back(atoi(p));
+// parse space-separated string into vector
+//
+void JOB_KEYWORD_IDS::parse_str(char* p) {
+    stringstream ss(p);
+    string token;
+    while (getline(ss, token, ' ')) {
+        ids.push_back(atoi(token.c_str()));
     }
 }
 

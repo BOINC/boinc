@@ -393,6 +393,11 @@ void send_work_score_type(int rt) {
 }
 
 void send_work_score() {
+    if (config.keyword_sched) {
+        if (g_request->user_keywords.empty()) {
+            read_kw_prefs(g_request->user_id, g_request->user_keywords);
+        }
+    }
     for (int i=NPROC_TYPES-1; i>= 0; i--) {
         if (g_wreq->need_proc_type(i)) {
             send_work_score_type(i);
