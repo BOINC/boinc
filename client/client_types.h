@@ -332,6 +332,9 @@ struct RESOURCE_USAGE {
     void clear();
     void check_gpu_libs(char* plan_class);
     void write(MIOFILE&);
+    bool present() {
+        return avg_ncpus>0 || coproc_usage>0;
+    }
 };
 
 // if you add anything, initialize it in init()
