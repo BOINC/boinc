@@ -21,7 +21,7 @@ require_once('../inc/util.inc');
 require_once('../inc/account.inc');
 require_once('../inc/countries.inc');
 require_once('../inc/translation.inc');
-require_once('../inc/recaptchalib.php');
+require_once('../inc/recaptchalib.inc');
 
 check_get_args(array("next_url", "teamid"));
 

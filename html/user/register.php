@@ -26,7 +26,7 @@
 
 require_once("../inc/util.inc");
 require_once("../inc/account.inc");
-require_once("../inc/recaptchalib.php");
+require_once("../inc/recaptchalib.inc");
 
 function reg_form() {
     $config = get_config();
