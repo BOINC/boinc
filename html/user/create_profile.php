@@ -21,7 +21,7 @@
 require_once("../inc/util.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/akismet.inc");
-require_once("../inc/recaptchalib.php");
+require_once("../inc/recaptchalib.inc");
 
 if (DISABLE_PROFILES) error_page("Profiles are disabled");
 

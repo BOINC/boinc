@@ -22,7 +22,7 @@
 include_once("../inc/boinc_db.inc");
 include_once("../inc/util.inc");
 include_once("../inc/email.inc");
-include_once("../inc/recaptchalib.php");
+include_once("../inc/recaptchalib.inc");
 require_once("../inc/password_compat/password.inc");
 require_once("../inc/consent.inc");
 

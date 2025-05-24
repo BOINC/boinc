@@ -19,7 +19,7 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
-require_once("../inc/recaptchalib.php");
+require_once("../inc/recaptchalib.inc");
 
 if (DISABLE_TEAMS) error_page("Teams are disabled");
 

@@ -19,8 +19,7 @@
 // recaptcha utilities
 
 function boinc_recaptcha_get_head_extra() {
-    global $recaptcha_public_key;
-    if ($recaptcha_public_key) {
+    if (recaptcha_public_key()) {
         return '<script src="https://www.google.com/recaptcha/api.js" async defer></script>
         ';
     }
