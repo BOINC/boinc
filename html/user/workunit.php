@@ -34,7 +34,7 @@ function keyword_string($kwds) {
     foreach ($ks as $k) {
         $x[] = $job_keywords[$k]->name;
     }
-    return implode('<br>', $x);;
+    return implode('<br>', $x);
 }
 
 function show_wu($wu) {
