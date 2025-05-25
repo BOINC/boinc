@@ -30,16 +30,11 @@ function keyword_string($kwds) {
 
     $ks = explode(" ", $kwds);
     $first = true;
-    $x = "";
+    $x = [];
     foreach ($ks as $k) {
-        if ($first) {
-            $first = false;
-        } else {
-            $x .= ", ";
-        }
-        $x .= $job_keywords[$k]->name;
+        $x[] = $job_keywords[$k]->name;
     }
-    return $x;
+    return implode('<br>', $x);
 }
 
 function show_wu($wu) {

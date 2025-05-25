@@ -68,7 +68,7 @@ function app_list($notice=null) {
         <p>BUDA lets you submit Docker jobs using a web interface.
         <a href=https://github.com/BOINC/boinc/wiki/BUDA-overview>Learn more</a>.
         <p>
-        BUDA science apps:
+        <h3>BUDA science apps</h3>
     ";
 
     $apps = get_buda_apps();
@@ -88,12 +88,12 @@ function show_app($dir) {
     $desc = json_decode(file_get_contents($desc_path));
     echo '<hr>';
     echo sprintf('<h3>%s</h3>', $desc->long_name);
-    echo sprintf('<a href=buda.php?action=app_details&name=%s>Manage app</a>',
+    echo sprintf('<a href=buda.php?action=app_details&name=%s>Details</a>',
         $desc->name
     );
     $vars = get_buda_variants($dir);
     if ($vars) {
-        echo "<p>App variants:<ul>";
+        echo "<p>Variants:<ul>";
         foreach ($vars as $var) {
             echo sprintf(
                 '<li><a href=buda.php?action=variant_view&app=%s&variant=%s>%s</a>',
@@ -494,7 +494,7 @@ function app_form($desc=null) {
     form_input_text(
         'URL of web page describing app',
         'url',
-        $desc?$desc->url:''
+        !empty($desc->url)?$desc->url:''
     );
     // don't include location keywords;
     // various people may submit jobs to this app
