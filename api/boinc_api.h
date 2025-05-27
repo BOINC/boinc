@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,8 +17,6 @@
 
 #ifndef BOINC_BOINC_API_H
 #define BOINC_BOINC_API_H
-
-#include <stddef.h>     // for NULL
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -142,7 +140,7 @@ extern int boinc_report_app_status_aux(
     double wss
 );
 extern int boinc_temporary_exit(
-    int delay, const char* reason=NULL, bool is_notice=false
+    int delay, const char* reason=0, bool is_notice=false
 );
 extern int boinc_finish_message(
     int status, const char* message, bool is_notice

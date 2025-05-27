@@ -29,8 +29,6 @@
 #ifndef BOINC_COMMON_DEFS_H
 #define BOINC_COMMON_DEFS_H
 
-#include <string.h>
-
 struct MIOFILE;
 struct XML_PARSER;
 
@@ -178,11 +176,12 @@ enum BATTERY_STATE {
 enum SPORADIC_CA_STATE {
     CA_NONE             = 0,
     CA_DONT_COMPUTE     = 1,
-    // computing suspended (CPU and perhaps GPU) or other project have priority
+        // computing suspended (CPU and perhaps GPU)
+        // or other project have priority
     CA_COULD_COMPUTE    = 2,
-    // not computing, but could
+        // not computing, but could
     CA_COMPUTING        = 3
-    // go ahead and compute
+        // go ahead and compute
 };
 
 // app state
@@ -277,7 +276,7 @@ enum SPORADIC_AC_STATE {
     // input/output files can be deleted,
     // result and workunit records can be purged.
 
-// credit types
+// credit types (not used AFAIK)
 //
 #define CREDIT_TYPE_FLOPS           0
 #define CREDIT_TYPE_STORAGE         1
@@ -396,7 +395,7 @@ struct DEVICE_STATUS {
         battery_temperature_celsius = 0;
         wifi_online = false;
         user_active = false;
-        strncpy(device_name, "", sizeof(device_name));
+        device_name[0] = 0;
     }
 };
 
