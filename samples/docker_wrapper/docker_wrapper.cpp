@@ -105,6 +105,7 @@ using std::vector;
 #define POLL_PERIOD 1.0
 #define STATUS_PERIOD 10
     // reports status this often
+#define FRACTION_DONE_FILENAME "fraction_done"
 
 int container_exit_code = 0;
 enum JOB_STATUS {JOB_IN_PROGRESS, JOB_SUCCESS, JOB_FAIL};
@@ -619,6 +620,20 @@ int get_stats(RSC_USAGE &ru) {
     return 0;
 }
 
+// read fraction done from file if present, else 0
+// called every 10 sec
+//
+double get_fraction_done() {
+    FILE *f = fopen(FRACTION_DONE_FILENAME, "r");
+    if (!f) return 0;
+    double x, y=0;
+    if (fscanf(f, "%lf", &x) == 1) {
+        y = x;
+    }
+    fclose(f);
+    return y;
+}
+
 #ifdef _WIN32
 // find a WSL distro with Docker and set up a command link to it
 //
@@ -764,7 +779,7 @@ int main(int argc, char** argv) {
                 boinc_report_app_status_aux(
                     cpu_time,
                     0,      // checkpoint CPU time
-                    0,      // frac done
+                    get_fraction_done(),
                     0,      // other PID
                     0,0,    // bytes send/received
                     ru.wss
