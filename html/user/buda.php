@@ -159,8 +159,8 @@ function variant_view() {
     } else {
         row2('Target successful instances per job:', '1');
     }
-    if (!empty($desc->max_delay)) {
-        row2('Max job turnaround time, days:', $desc->max_delay);
+    if (!empty($desc->max_delay_days)) {
+        row2('Max job turnaround time, days:', $desc->max_delay_days);
     } else {
         row2('Max job turnaround time, days:', '7');
     }
@@ -227,7 +227,7 @@ function variant_form($user) {
     );
     form_input_text(
         'Max job turnaround time, days',
-        'max_delay',
+        'max_delay_days',
         '7'
     );
     form_submit('OK');
@@ -286,7 +286,7 @@ function create_templates($variant, $variant_desc, $dir) {
     );
 
     $x .= sprintf("      <max_delay>%f</max_delay>\n",
-        $variant_desc->max_delay * 86400.
+        $variant_desc->max_delay_days * 86400.
     );
 
     $x .= "   </workunit>\n<input_template>\n";
@@ -340,6 +340,14 @@ function variant_action($user) {
     if ($min_nsuccess > $max_total) {
         error_page('Target # of successful instances must be <= max total');
     }
+    $max_delay_days = get_str('max_delay_days');
+    if (!is_numeric($max_delay_days)) {
+        error_page('Must specify max delay');
+    }
+    $max_delay_days = floatval($max_delay_days);
+    if ($max_delay_days <= 0) {
+        error_page('Must specify positive max delay');
+    }
     $input_file_names = get_str('input_file_names', true);
     $output_file_names = explode(' ', get_str('output_file_names'));
     if ($input_file_names) {
@@ -374,6 +382,7 @@ function variant_action($user) {
     $desc->output_file_names = $output_file_names;
     $desc->min_nsuccess = $min_nsuccess;
     $desc->max_total = $max_total;
+    $desc->max_delay_days = $max_delay_days;
 
     // copy files from sandbox to variant dir
     //
