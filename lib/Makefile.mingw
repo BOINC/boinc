@@ -39,7 +39,6 @@ HEADERS = $(BOINC_SRC)/version.h \
 	$(BOINC_SRC)/lib/parse.h \
 	$(BOINC_SRC)/lib/prefs.h \
 	$(BOINC_SRC)/lib/proxy_info.h \
-	$(BOINC_SRC)/lib/str_replace.h \
 	$(BOINC_SRC)/lib/str_util.h \
 	$(BOINC_SRC)/lib/url.h \
 	$(BOINC_SRC)/lib/util.h \
