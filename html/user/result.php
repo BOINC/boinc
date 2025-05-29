@@ -33,7 +33,7 @@ if (!$result) {
     error_page(tra("No such task:")." ".htmlspecialchars($x));
         // the htmlspecialchars prevents XSS
 }
-page_head(tra("Task")." ".htmlspecialchars($x));
+page_head("Job instance ".htmlspecialchars($x));
 show_result($result);
 page_tail();
 
