@@ -53,7 +53,7 @@ display_errors();
 define("PAGE_SIZE", 20);
 
 function return_link() {
-    echo "<p><a href=submit.php?action=status>Return to job status page</a>\n";
+    echo "<p><a href=submit.php?action=status>Return to batches page</a>\n";
 }
 
 // get params of in-progress batches; they might not be in progress anymore.
@@ -315,7 +315,7 @@ function handle_main($user) {
 // They have manage access to these batches.
 //
 function handle_show_status($user) {
-    page_head("Job status");
+    page_head("Batches");
     $batches = BoincBatch::enum("user_id = $user->id order by id desc");
     get_batches_params($batches);
     show_batches($batches, PAGE_SIZE, $user, null);
@@ -669,7 +669,7 @@ function handle_query_job($user) {
     text_start(800);
 
     echo "
-        <li><a href=workunit.php?wuid=$wuid>Workunit details</a>
+        <li><a href=workunit.php?wuid=$wuid>Job details</a>
         <p>
         <li><a href=submit.php?action=query_batch&batch_id=$wu->batch>Batch details</a>
     ";
@@ -705,7 +705,13 @@ function handle_query_job($user) {
                         $wu->batch, $wu->name, $log_names[$i]
                     );
                     $name = $log_names[$i];
-                    $x[] = "$name: <a href=get_output3.php?action=get_file&path=$path>view</a> &middot; <a href=get_output3.php?action=get_file&path=$path&download=1>download</a>";
+                    // don't show 'view' link if it's a .zip
+                    $y = "$name: ";
+                    if (!strstr($name, '.zip')) {
+                        $y .= "<a href=get_output3.php?action=get_file&path=$path>view</a> &middot; ";
+                    }
+                    $y .= "<a href=get_output3.php?action=get_file&path=$path&download=1>download</a>";
+                    $x[] = $y;
                 } else {
                     $path = dir_hier_path(
                         $phys_names[$i], $upload_dir, $fanout
