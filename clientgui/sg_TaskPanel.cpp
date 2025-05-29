@@ -898,7 +898,7 @@ void CSimpleTaskPanel::FindSlideShowFiles(TaskSelectionData *selData) {
         url_to_project_dir(state_result->project->master_url, proj_dir, sizeof(proj_dir));
         for(j=0; j<99; ++j) {
             snprintf(fileName, sizeof(fileName), "%s/slideshow_%s_%02d", proj_dir, state_result->app->name, j);
-            if(boinc_resolve_filename(fileName, resolvedFileName, sizeof(resolvedFileName)) == 0) {
+            if(resolve_soft_link(fileName, resolvedFileName, sizeof(resolvedFileName)) == 0) {
                 if (boinc_file_exists(resolvedFileName)) {
                     selData->slideShowFileNames.Add(wxString(resolvedFileName,wxConvUTF8));
                 }
@@ -910,7 +910,7 @@ void CSimpleTaskPanel::FindSlideShowFiles(TaskSelectionData *selData) {
         if ( selData->slideShowFileNames.size() == 0 ) {
             for(j=0; j<99; ++j) {
                 snprintf(fileName, sizeof(fileName), "%s/slideshow_%02d", proj_dir, j);
-                if(boinc_resolve_filename(fileName, resolvedFileName, sizeof(resolvedFileName)) == 0) {
+                if(resolve_soft_link(fileName, resolvedFileName, sizeof(resolvedFileName)) == 0) {
                     if (boinc_file_exists(resolvedFileName)) {
                         selData->slideShowFileNames.Add(wxString(resolvedFileName,wxConvUTF8));
                     }

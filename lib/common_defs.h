@@ -29,6 +29,29 @@
 #ifndef BOINC_COMMON_DEFS_H
 #define BOINC_COMMON_DEFS_H
 
+// states for sporadic apps
+//
+// client state
+enum SPORADIC_CA_STATE {
+    CA_NONE             = 0,
+    CA_DONT_COMPUTE     = 1,
+        // computing suspended (CPU and perhaps GPU)
+        // or other project have priority
+    CA_COULD_COMPUTE    = 2,
+        // not computing, but could
+    CA_COMPUTING        = 3
+        // go ahead and compute
+};
+
+// app state
+enum SPORADIC_AC_STATE {
+    AC_NONE                 = 0,
+    AC_DONT_WANT_COMPUTE    = 1,
+    AC_WANT_COMPUTE         = 2
+};
+
+#ifdef __cplusplus
+
 struct MIOFILE;
 struct XML_PARSER;
 
@@ -168,27 +191,6 @@ enum BATTERY_STATE {
     BATTERY_STATE_CHARGING,
     BATTERY_STATE_FULL,
     BATTERY_STATE_OVERHEATED
-};
-
-// states for sporadic apps
-//
-// client state
-enum SPORADIC_CA_STATE {
-    CA_NONE             = 0,
-    CA_DONT_COMPUTE     = 1,
-        // computing suspended (CPU and perhaps GPU)
-        // or other project have priority
-    CA_COULD_COMPUTE    = 2,
-        // not computing, but could
-    CA_COMPUTING        = 3
-        // go ahead and compute
-};
-
-// app state
-enum SPORADIC_AC_STATE {
-    AC_NONE                 = 0,
-    AC_DONT_WANT_COMPUTE    = 1,
-    AC_WANT_COMPUTE         = 2
 };
 
 // Values of RESULT::state in client.
@@ -426,4 +428,5 @@ struct DEVICE_STATUS {
 // impementations of Docker
 enum DOCKER_TYPE {NONE, DOCKER, PODMAN};
 
+#endif
 #endif

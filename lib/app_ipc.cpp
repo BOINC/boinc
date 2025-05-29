@@ -449,15 +449,15 @@ void APP_CLIENT_SHM::reset_msgs() {
     memset(shm, 0, sizeof(SHARED_MEM));
 }
 
-// Resolve virtual name (in slot dir) to physical path (in project dir).
-// Cases:
-// - Windows and pre-6.12 Unix:
-//   virtual name refers to a "soft link" (XML file acting as symbolic link)
-// - 6.12+ Unix:
-//   virtual name is a symbolic link
-// - Standalone: physical path is same as virtual name
+void url_to_project_dir(char* url, char* dir, int dirsize) {
+    char buf[256];
+    escape_project_url(url, buf);
+    snprintf(dir, dirsize, "%s/%s", PROJECT_DIR, buf);
+}
+
+// this is here because it's called (once) in the Manager
 //
-int boinc_resolve_filename(
+int resolve_soft_link(
     const char *virtual_name, char *physical_name, int len
 ) {
     FILE *fp;
@@ -486,61 +486,6 @@ int boinc_resolve_filename(
     // If it's the <soft_link> XML tag, return its value,
     // otherwise, return the original file name
     //
-    // coverity[check_return]
     if (p) parse_str(buf, "<soft_link>", physical_name, len);
     return 0;
 }
-
-
-// same, std::string version
-//
-int boinc_resolve_filename_s(const char *virtual_name, string& physical_name) {
-    char buf[512], *p;
-    if (!virtual_name) return ERR_NULL;
-    physical_name = virtual_name;
-#ifndef _WIN32
-    if (is_symlink(virtual_name)) {
-        return 0;
-    }
-#endif
-    FILE *fp = boinc_fopen(virtual_name, "r");
-    if (!fp) return 0;
-    buf[0] = 0;
-    p = fgets(buf, 512, fp);
-    fclose(fp);
-    // coverity[check_return]
-    if (p) parse_str(buf, "<soft_link>", physical_name);
-    return 0;
-}
-
-// if the given file is a soft link of the form ../../project_dir/x,
-// return x, else return empty string
-//
-string resolve_soft_link(const char* project_dir, const char* file) {
-    char buf[1024], physical_name[1024];
-    FILE* fp = boinc_fopen(file, "r");
-    if (!fp) {
-        return string("");
-    }
-    buf[0] = 0;
-    char* p = fgets(buf, sizeof(buf), fp);
-    fclose(fp);
-    if (!p) {
-        return string("");
-    }
-    if (!parse_str(buf, "<soft_link>", physical_name, sizeof(physical_name))) {
-        return string("");
-    }
-    snprintf(buf, sizeof(buf), "../../%s/", project_dir);
-    if (strstr(physical_name, buf) != physical_name) {
-        return string("");
-    }
-    return string(physical_name + strlen(buf));
-}
-
-void url_to_project_dir(char* url, char* dir, int dirsize) {
-    char buf[256];
-    escape_project_url(url, buf);
-    snprintf(dir, dirsize, "%s/%s", PROJECT_DIR, buf);
-}
-
