@@ -19,9 +19,7 @@
 #include <boinc/boinc_api.h>
 
 int main(int argc, char **argv) {
-    BOINC_OPTIONS boinc_options;
-    boinc_options_defaults(boinc_options);
-    int res = boinc_init_options(&boinc_options);
+    int res = boinc_init();
     if (res) {
         fprintf(stderr, "Error initializing BOINC options: %d\n", res);
         return res;
