@@ -133,7 +133,6 @@ extern int setMacIcon(char *filename, char *iconData, long iconSize);
 #include "app_ipc.h"
 
 extern int boinc_resolve_filename_s(const char*, std::string&);
-extern std::string resolve_soft_link(const char* project_dir, const char* file);
 extern int boinc_get_init_data(APP_INIT_DATA&);
 extern int boinc_wu_cpu_time(double&);
 extern double boinc_elapsed_time(void);

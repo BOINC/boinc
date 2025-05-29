@@ -248,5 +248,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA&);
 #define PROJECT_DIR "projects"
 
 extern void url_to_project_dir(char* url, char* dir, int dirsize);
+extern int resolve_soft_link(const char *virt_name, char *phys_name, int len);
+
 
 #endif

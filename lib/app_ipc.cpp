@@ -455,3 +455,37 @@ void url_to_project_dir(char* url, char* dir, int dirsize) {
     snprintf(dir, dirsize, "%s/%s", PROJECT_DIR, buf);
 }
 
+// this is here because it's called (once) in the Manager
+//
+int resolve_soft_link(
+    const char *virtual_name, char *physical_name, int len
+) {
+    FILE *fp;
+    char buf[512], *p;
+
+    if (!virtual_name) return ERR_NULL;
+    strlcpy(physical_name, virtual_name, len);
+
+#ifndef _WIN32
+    if (is_symlink(virtual_name)) {
+        return 0;
+    }
+#endif
+
+    // Open the link file and read the first line
+    //
+    fp = boinc_fopen(virtual_name, "r");
+    if (!fp) return 0;
+
+    // must initialize buf since fgets() on an empty file won't do anything
+    //
+    buf[0] = 0;
+    p = fgets(buf, sizeof(buf), fp);
+    fclose(fp);
+
+    // If it's the <soft_link> XML tag, return its value,
+    // otherwise, return the original file name
+    //
+    if (p) parse_str(buf, "<soft_link>", physical_name, len);
+    return 0;
+}
