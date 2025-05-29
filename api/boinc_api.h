@@ -15,16 +15,18 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// The basic API functions are compiled with C linkage (no name munging)
+// so that they can be used from C programs
+
 #ifndef BOINC_BOINC_API_H
 #define BOINC_BOINC_API_H
 
 #ifdef _WIN32
 #include "boinc_win.h"
 #endif
-#include "app_ipc.h"
+#include "common_defs.h"
 
-// ANSI C API BEGINS HERE
-// Do not put implementation stuff here
+// Basic (C linkage) functions
 
 #ifdef __cplusplus
 extern "C" {
@@ -72,7 +74,7 @@ typedef struct BOINC_STATUS {
     double working_set_size;
     double max_working_set_size;
     int network_suspended;
-    SPORADIC_CA_STATE ca_state;
+    enum SPORADIC_CA_STATE ca_state;
 } BOINC_STATUS;
 
 extern volatile BOINC_STATUS boinc_status;
@@ -85,6 +87,7 @@ extern int boinc_init(void);
 extern int boinc_finish(int status);
 extern int boinc_get_init_data_p(struct APP_INIT_DATA*);
 extern int boinc_parse_init_data_file(void);
+extern int boinc_resolve_filename(const char*, char*, int len);
 extern int boinc_send_trickle_up(char* variety, char* text);
 extern int boinc_set_min_checkpoint_period(int);
 extern int boinc_checkpoint_completed(void);
@@ -127,7 +130,10 @@ extern int setMacIcon(char *filename, char *iconData, long iconSize);
 // C++ API follows
 #ifdef __cplusplus
 #include <string>
+#include "app_ipc.h"
 
+extern int boinc_resolve_filename_s(const char*, std::string&);
+extern std::string resolve_soft_link(const char* project_dir, const char* file);
 extern int boinc_get_init_data(APP_INIT_DATA&);
 extern int boinc_wu_cpu_time(double&);
 extern double boinc_elapsed_time(void);
