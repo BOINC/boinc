@@ -354,7 +354,10 @@ int create_work2(
         return ERR_INVALID_PARAM;
     }
     if (wu.target_nresults > wu.max_success_results) {
-        boinc::fprintf(stderr, "target_nresults > max_success_results; can't create job\n");
+        boinc::fprintf(stderr,
+            "target_nresults %d > max_success_results %d; can't create job\n",
+            wu.target_nresults, wu.max_success_results
+        );
         return ERR_INVALID_PARAM;
     }
     if (wu.transitioner_flags) {
