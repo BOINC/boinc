@@ -28,7 +28,6 @@ int main(int argc, char **argv) {
     printf("Running test...\n");
     boinc_fraction_done(0.0);
     for(int i = 1; i <= 10; ++i) {
-        sleep(1);
         printf("%d/10\n", i);
         boinc_fraction_done(i / 10.0);
     }
