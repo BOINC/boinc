@@ -30,3 +30,12 @@ find_package(OpenSSL REQUIRED)
 add_executable(vcpkg_test main.cpp)
 
 target_link_libraries(vcpkg_test PRIVATE unofficial::boinc::boinc unofficial::boinc::boincapi OpenSSL::SSL OpenSSL::Crypto)
+
+project (vcpkg_c_test C)
+
+find_package(boinc REQUIRED)
+find_package(OpenSSL REQUIRED)
+
+add_executable(vcpkg_c_test main.c)
+
+target_link_libraries(vcpkg_c_test PRIVATE unofficial::boinc::boinc unofficial::boinc::boincapi OpenSSL::SSL OpenSSL::Crypto)

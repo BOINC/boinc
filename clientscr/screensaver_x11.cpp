@@ -53,7 +53,7 @@ extern "C" {
 }
 
 #include "gui_rpc_client.h"
-#include "boinc_api.h"
+#include "app_ipc.h"
 
 // A screensaver window class.
 // Creates a window in the size of the given parent.
@@ -485,7 +485,9 @@ int main(int argc, char *argv[]) {
         }
 
         // resolve graphics_app soft link
-        boinc_resolve_filename_s(graphics_cmd.c_str(), graphics_cmd);
+        char buf[256];
+        resolve_soft_link(graphics_cmd.c_str(), buf, sizeof(buf));
+        graphics_cmd = buf;
     }
 
     // fork and...

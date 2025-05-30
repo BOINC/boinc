@@ -243,7 +243,7 @@ int main(int argc, char** argv) {
         strlcat(gfx_app_path, argv[2], sizeof(gfx_app_path));
         strlcat(gfx_app_path, "/", sizeof(gfx_app_path));
         strlcat(gfx_app_path, GRAPHICS_APP_FILENAME, sizeof(gfx_app_path));
-        retval = boinc_resolve_filename(gfx_app_path, resolved_path, sizeof(resolved_path));
+        retval = resolve_soft_link(gfx_app_path, resolved_path, sizeof(resolved_path));
         if (retval) return retval;
 
 #if VERBOSE           // For debugging only
