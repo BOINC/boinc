@@ -270,14 +270,34 @@ function abort_workunit($wu) {
             $wu->id
         )
     );
-    $wu->update("error_mask=error_mask|16");
+    $wu->update(
+        sprintf('error_mask=error_mask|%d', WU_ERROR_CANCELLED)
+    );
 }
 
 function abort_batch($batch) {
-    $wus = BoincWorkunit::enum("batch=$batch->id");
+    $wus = BoincWorkunit::enum_fields(
+        'id',
+        "batch=$batch->id"
+    );
+    $ids = [];
     foreach ($wus as $wu) {
-        abort_workunit($wu);
+        $ids[] = $wu->id;
     }
+    $ids = implode(',', $ids);
+    BoincResult::update_aux(
+        sprintf(
+            'server_state=%d, outcome=%d where server_state=%d and workunitid in (%s)',
+            RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_DIDNT_NEED,
+            RESULT_SERVER_STATE_UNSENT,
+            $ids
+        )
+    );
+    BoincWorkunit::update_aux(
+        sprintf('error_mask=error_mask|%d where id in(%s)',
+            WU_ERROR_CANCELLED, $ids
+        )
+    );
     $batch->update(
         sprintf('state=%d', BATCH_STATE_ABORTED)
     );
@@ -287,12 +307,22 @@ function abort_batch($batch) {
 // mark WUs as assimilated; this lets them be purged
 //
 function retire_batch($batch) {
-    $wus = BoincWorkunit::enum("batch=$batch->id");
+    $wus = BoincWorkunit::enum_fields(
+        'id, result_template_file',
+        "batch=$batch->id limit 100"
+    );
     $now = time();
+    $ids = [];
     foreach ($wus as $wu) {
-        $wu->update(
-            "assimilate_state=".ASSIMILATE_DONE.", transition_time=$now"
-        );
+        $ids[] = $wu->id;
+    }
+    $ids = implode(',', $ids);
+    BoincWorkunit::update_aux(
+        sprintf('assimilate_state=%d, transition_time=%d where id in(%s)',
+            ASSIMILATE_DONE, $now, $ids
+        )
+    );
+    foreach ($wus as $wu) {
         // remove output template if it's a temporary
         //
         if (strstr($wu->result_template_file, "templates/tmp/")) {
@@ -300,6 +330,7 @@ function retire_batch($batch) {
         }
     }
     $batch->update("state=".BATCH_STATE_RETIRED);
+    system("rm -rf ../../results/$batch->id");
 }
 
 function expire_batch($batch) {
@@ -322,7 +353,10 @@ function batch_state_string($state) {
 //
 function batch_output_file_size($batchid) {
     $batch_td_size=0;
-    $wus = BoincWorkunit::enum("batch=$batchid");
+    $wus = BoincWorkunit::enum_fields(
+        'canonical_resultid',
+        "batch=$batchid"
+    );
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     $upload_dir = parse_config(get_config(), "<upload_dir>");
     foreach ($wus as $wu) {

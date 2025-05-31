@@ -153,13 +153,13 @@ function show_in_progress($batches, $limit, $user, $app) {
 function show_complete($batches, $limit, $user, $app) {
     $first = true;
     $n = 0;
+    echo "<h3>Completed batches</h3>\n";
     foreach ($batches as $batch) {
         if ($batch->state != BATCH_STATE_COMPLETE) continue;
         if ($limit && $n == $limit) break;
         $n++;
         if ($first) {
             $first = false;
-            echo "<h3>Completed batches</h3>\n";
             if ($limit) {
                 show_all_link($batches, BATCH_STATE_COMPLETE, $limit, $user, $app);
             }
@@ -181,7 +181,7 @@ function show_complete($batches, $limit, $user, $app) {
         );
     }
     if ($first) {
-        echo "<p>No completed batches.\n";
+        echo "<p>None.\n";
     } else {
         end_table();
         form_submit('Retire selected batches');
@@ -769,20 +769,22 @@ function handle_query_job($user) {
 
 // is user allowed to retire or abort this batch?
 //
-function check_access($user, $batch) {
-    if ($user->id == $batch->user_id) return;
+function has_access($user, $batch) {
+    if ($user->id == $batch->user_id) return true;
     $user_submit = BoincUserSubmit::lookup_userid($user->id);
-    if ($user_submit->manage_all) return;
+    if ($user_submit->manage_all) return true;
     $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$batch->app_id");
-    if ($usa->manage) return;
-    error_page("no access");
+    if ($usa->manage) return true;
+    return false;
 }
 
 function handle_abort_batch($user) {
     $batch_id = get_int('batch_id');
     $batch = BoincBatch::lookup_id($batch_id);
     if (!$batch) error_page("no such batch");
-    check_access($user, $batch);
+    if (!has_access($user, $batch)) {
+        error_page("no access");
+    }
 
     if (get_int('confirmed', true)) {
         abort_batch($batch);
@@ -809,11 +811,13 @@ function handle_retire_batch($user) {
     $batch_id = get_int('batch_id');
     $batch = BoincBatch::lookup_id($batch_id);
     if (!$batch) error_page("no such batch");
-    check_access($user, $batch);
+    if (!has_access($user, $batch)) {
+        error_page("no access");
+    }
 
     if (get_int('confirmed', true)) {
         retire_batch($batch);
-        page_head("Batch retired");
+        page_head("Batch $batch_id retired");
         return_link();
         page_tail();
     } else {
@@ -836,14 +840,17 @@ function handle_retire_batch($user) {
 //
 function handle_retire_multi($user) {
     $batches = BoincBatch::enum(
-        sprintf('user_id=%d and state=%d', $user->id, BATCH_STATE_COMPLETE)
+        sprintf('state=%d', BATCH_STATE_COMPLETE)
     );
     page_head('Retiring batches');
     foreach ($batches as $batch) {
+        if (!has_access($user, $batch)) {
+            continue;
+        }
         $x = sprintf('retire_%d', $batch->id);
         if (get_str($x, true) == 'on') {
             retire_batch($batch);
-            echo "<p>retired batch $batch->name\n";
+            echo "<p>retired batch $batch->id ($batch->name)\n";
         }
     }
     return_link();
