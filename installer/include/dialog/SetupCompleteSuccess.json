@@ -1,0 +1,218 @@
+{
+    "Dialog": "SetupCompleteSuccess",
+    "HCentering": 50,
+    "VCentering": 50,
+    "Width": 374,
+    "Height": 266,
+    "Attributes": 3,
+    "Title": "IDS_PRODUCTNAME",
+    "Control_First": "OK",
+    "Control_Default": "LaunchProgramCheck",
+    "Control_Cancel": "OK",
+    "Controls": [
+        {
+            "Control": "Back",
+            "Type": "PushButton",
+            "X": 164,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 1,
+            "Text": "IDS_BACK",
+            "Control_Next": "LaunchProgramCheck"
+        },
+        {
+            "Control": "Cancel",
+            "Type": "PushButton",
+            "X": 301,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 1,
+            "Text": "IDS_CANCEL",
+            "Control_Next": "Image"
+        },
+        {
+            "Control": "DlgLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 234,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "Image",
+            "Type": "Bitmap",
+            "X": 0,
+            "Y": 0,
+            "Width": 374,
+            "Height": 234,
+            "Attributes": 1,
+            "Control_Next": "Back",
+            "Binary_": "dialog.jpg"
+        },
+        {
+            "Control": "LaunchProgramCheck",
+            "Type": "CheckBox",
+            "X": 151,
+            "Y": 114,
+            "Width": 10,
+            "Height": 9,
+            "Attributes": 2,
+            "Property": "LAUNCHPROGRAM",
+            "Control_Next": "LaunchProgramText",
+            "Conditions": [
+                {
+                    "Action": "Show",
+                    "Condition": "PROGRAMFILETOLAUNCHATEND <> \"\" And ACTION <> \"ADMIN\" And RETURN_VALIDATEINSTALL = \"1\" And RETURN_REBOOTREQUESTED = \"0\" And NOT Installed"
+                }
+            ]
+        },
+        {
+            "Control": "LaunchProgramText",
+            "Type": "Text",
+            "X": 165,
+            "Y": 114,
+            "Width": 198,
+            "Height": 15,
+            "Attributes": 65538,
+            "Property": "NewProperty1",
+            "Text": "IDS_NEW_STRING2",
+            "Control_Next": "OK",
+            "Conditions": [
+                {
+                    "Action": "Show",
+                    "Condition": "PROGRAMFILETOLAUNCHATEND <> \"\" And ACTION <> \"ADMIN\" And RETURN_VALIDATEINSTALL = \"1\" And RETURN_REBOOTREQUESTED = \"0\" And NOT Installed"
+                }
+            ]
+        },
+        {
+            "Control": "OK",
+            "Type": "PushButton",
+            "X": 230,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS__IsExitDialog_Finish",
+            "Control_Next": "Cancel",
+            "Events": [
+                {
+                    "Event": "DoAction",
+                    "Argument": "CALaunchBOINCManager",
+                    "Condition": "LAUNCHPROGRAM And (ACTION <> \"ADMIN\")",
+                    "Ordering": 5
+                },
+                {
+                    "Event": "DoAction",
+                    "Argument": "CALaunchBOINCTray",
+                    "Condition": "LAUNCHPROGRAM And (ACTION <> \"ADMIN\")",
+                    "Ordering": 6
+                },
+                {
+                    "Event": "DoAction",
+                    "Argument": "CASaveSetupState",
+                    "Condition": "1",
+                    "Ordering": 2
+                },
+                {
+                    "Event": "EndDialog",
+                    "Argument": "Exit",
+                    "Condition": "1",
+                    "Ordering": 2
+                }
+            ]
+        },
+        {
+            "Control": "RebootText",
+            "Type": "Text",
+            "X": 135,
+            "Y": 140,
+            "Width": 225,
+            "Height": 35,
+            "Attributes": 65538,
+            "Text": "IDS_NEW_STRING28",
+            "Conditions": [
+                {
+                    "Action": "Show",
+                    "Condition": "RETURN_REBOOTREQUESTED = \"1\""
+                }
+            ]
+        },
+        {
+            "Control": "RepairText",
+            "Type": "Text",
+            "X": 135,
+            "Y": 178,
+            "Width": 225,
+            "Height": 52,
+            "Attributes": 65538,
+            "Text": "IDS_NEW_STRING29",
+            "Conditions": [
+                {
+                    "Action": "Show",
+                    "Condition": "RETURN_VALIDATEINSTALL = \"0\" AND _IsMaintenance <> \"Remove\""
+                }
+            ]
+        },
+        {
+            "Control": "TextLine1",
+            "Type": "Text",
+            "X": 135,
+            "Y": 8,
+            "Width": 225,
+            "Height": 45,
+            "Attributes": 65539,
+            "Text": "IDS__IsExitDialog_WizardCompleted"
+        },
+        {
+            "Control": "TextLine2",
+            "Type": "Text",
+            "X": 135,
+            "Y": 55,
+            "Width": 228,
+            "Height": 45,
+            "Attributes": 65538,
+            "Text": "IDS__IsExitDialog_InstallSuccess",
+            "Conditions": [
+                {
+                    "Action": "Show",
+                    "Condition": "ProgressType2=\"installed\" And ((ACTION<>\"INSTALL\") OR (NOT ISENABLEDWUSFINISHDIALOG) OR (ISENABLEDWUSFINISHDIALOG And Installed))"
+                }
+            ]
+        },
+        {
+            "Control": "TextLine3",
+            "Type": "Text",
+            "X": 135,
+            "Y": 55,
+            "Width": 228,
+            "Height": 45,
+            "Attributes": 65538,
+            "Text": "IDS__IsExitDialog_UninstallSuccess",
+            "Conditions": [
+                {
+                    "Action": "Show",
+                    "Condition": "ProgressType2=\"uninstalled\" And ((ACTION<>\"INSTALL\") OR (NOT ISENABLEDWUSFINISHDIALOG) OR (ISENABLEDWUSFINISHDIALOG And Installed))"
+                }
+            ]
+        },
+        {
+            "Control": "UpdateTextLine1",
+            "Type": "Text",
+            "X": 134,
+            "Y": 30,
+            "Width": 228,
+            "Height": 45,
+            "Attributes": 65538,
+            "Text": "IDS__IsExitDialog_Update_SetupFinished",
+            "Conditions": [
+                {
+                    "Action": "Show",
+                    "Condition": "ISENABLEDWUSFINISHDIALOG And NOT Installed And ACTION=\"INSTALL\""
+                }
+            ]
+        }
+    ]
+}
