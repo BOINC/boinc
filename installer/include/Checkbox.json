@@ -1,0 +1,20 @@
+{
+    "Checkbox": [
+        {
+            "Property": "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
+            "Value": "1"
+        },
+        {
+            "Property": "ENABLESCREENSAVER",
+            "Value": "1"
+        },
+        {
+            "Property": "ENABLEUSEBYALLUSERS",
+            "Value": "1"
+        },
+        {
+            "Property": "LAUNCHPROGRAM",
+            "Value": "1"
+        }
+    ]
+}
