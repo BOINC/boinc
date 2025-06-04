@@ -54,7 +54,7 @@ function submit_form($user) {
         'cmdline'
     );
     form_input_text(
-        'Max job runtime (days) on a typical (3.5 GFLOPS) computer.
+        'Max job runtime (days) on a typical (4.3 GFLOPS) computer.
             <br><small>
             The runtime limit will be scaled for faster/slower computers.
             <br>
@@ -64,7 +64,7 @@ function submit_form($user) {
         'max_runtime_days', 1
     );
     form_input_text(
-        'Expected job runtime (days) on a typical (3.5 GFLOPS) computer.
+        'Expected job runtime (days) on a typical (4.3 GFLOPS) computer.
             <br><small>
             This determines how many jobs are sent to each host,
             and how "fraction done" is computed.
@@ -294,7 +294,7 @@ function handle_submit($user) {
     $max_runtime_days = (double)$max_runtime_days;
     if ($max_runtime_days <= 0) error_page('bad runtime limit');
     if ($max_runtime_days > 100) error_page('bad runtime limit');
-    $max_fpops = $max_runtime_days * 3.5e9 * 86400;
+    $max_fpops = $max_runtime_days * 4.3e9 * 86400;
 
     $exp_runtime_days = get_str('exp_runtime_days');
     if (!is_numeric($exp_runtime_days)) error_page('bad expected runtime');
@@ -304,7 +304,7 @@ function handle_submit($user) {
     if ($exp_runtime_days > $max_runtime_days) {
         error_page('exp must be < max runtime');
     }
-    $exp_fpops = $exp_runtime_days * 3.5e9 * 86400;
+    $exp_fpops = $exp_runtime_days * 4.3e9 * 86400;
 
     $app_desc = get_buda_desc($app);
 
