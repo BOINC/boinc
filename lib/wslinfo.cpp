@@ -23,6 +23,8 @@
 #include "common_defs.h"
 #include "wslinfo.h"
 
+#define BOINC_DISTRO_NAME "boinc-buda-runner"
+
 void WSL_DISTRO::clear() {
     distro_name = "";
     os_name = "";
@@ -176,8 +178,6 @@ WSL_DISTRO* WSL_DISTROS::find_match(
 }
 
 #ifndef _USING_FCGI_
-
-#define BOINC_DISTRO_NAME "boinc_buda_runner"
 
 // find a WSL distro that has Docker or Podman,
 // using the BOINC distro if present.
