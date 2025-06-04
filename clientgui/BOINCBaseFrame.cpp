@@ -730,8 +730,8 @@ bool CBOINCBaseFrame::SaveState() {
     wxString        strConfigLocation;
     wxString        strPreviousLocation;
     wxString        strBuffer;
-    int             iIndex;
-    int             iItemCount;
+    size_t          iIndex;
+    wxArrayString   existingComputers;
 
 
     // An odd case happens every once and awhile where wxWidgets looses
@@ -757,18 +757,43 @@ bool CBOINCBaseFrame::SaveState() {
 
     pConfig->SetPath(strConfigLocation);
 
-    iItemCount = (int)m_aSelectedComputerMRU.GetCount() - 1;
-    for (iIndex = 0; iIndex <= iItemCount; iIndex++) {
-        strBuffer.Printf(wxT("%d"), iIndex);
+
+    // Retrieve existing computers in the config because
+    // some computers may have been added by other BOINC manager windows.
+    iIndex = 0;
+    strBuffer.Printf(wxT("%zu"), iIndex);
+    while (pConfig->Exists(strBuffer)) {
+        wxString computer = pConfig->Read(strBuffer, wxEmptyString);
+        if (computer != wxEmptyString && existingComputers.Index(computer) == wxNOT_FOUND) {
+            existingComputers.Add(computer);
+        }
+        strBuffer.Printf(wxT("%zu"), ++iIndex);
+    }
+
+    for (iIndex = 0; iIndex < m_aSelectedComputerMRU.GetCount(); iIndex++) {
+        strBuffer.Printf(wxT("%zu"), iIndex);
         pConfig->Write(
             strBuffer,
             m_aSelectedComputerMRU.Item(iIndex)
         );
     }
 
+    // Write existing computers that are not in the MRU list into the config.
+    for (const wxString& computer : existingComputers) {
+        if (m_aSelectedComputerMRU.Index(computer) == wxNOT_FOUND) {
+            strBuffer.Printf(wxT("%zu"), iIndex++);
+            pConfig->Write(strBuffer, computer);
+        }
+    }
+
+    // Remove any remaining MRU computer entries in the config to avoid duplicates.
+    strBuffer.Printf(wxT("%zu"), iIndex);
+    while (pConfig->Exists(strBuffer)) {
+        pConfig->DeleteEntry(strBuffer);
+        strBuffer.Printf(wxT("%zu"), ++iIndex);
+    }
+
     pConfig->SetPath(strPreviousLocation);
-
-
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::SaveState - Function End"));
     return true;
 }
@@ -816,8 +841,10 @@ bool CBOINCBaseFrame::RestoreState() {
     bKeepEnumerating = pConfig->GetFirstEntry(strBuffer, iIndex);
     while (bKeepEnumerating) {
         pConfig->Read(strBuffer, &strValue);
+        if (m_aSelectedComputerMRU.Index(strValue) == wxNOT_FOUND) {
+            m_aSelectedComputerMRU.Add(strValue);
+        }
 
-        m_aSelectedComputerMRU.Add(strValue);
         bKeepEnumerating = pConfig->GetNextEntry(strBuffer, iIndex);
     }
 

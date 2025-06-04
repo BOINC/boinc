@@ -180,10 +180,10 @@
         <description><![CDATA[The goal of Milkyway@Home is to create a highly accurate three dimensional model of the Milky Way galaxy using data gathered by the Sloan Digital Sky Survey.]]></description>
         <home>Rensselaer Polytechnic Institute</home>
     <platforms>
-        <name>windows_x86_64[mt]</name>
-        <name>x86_64-pc-linux-gnu[mt]</name>
         <name>windows_x86_64</name>
+        <name>windows_x86_64[mt]</name>
         <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[mt]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/mw.png</image>
       <summary>Study the structure of the Milky Way galaxy</summary>
@@ -230,9 +230,7 @@
         <name>windows_x86_64[FGRPopencl2-ati]</name>
         <name>windows_x86_64[FGRPopencl2Pup-nvidia]</name>
         <name>windows_x86_64[FGRPopenclTV-nvidia]</name>
-        <name>windows_x86_64[GW-opencl-ati-2]</name>
         <name>windows_x86_64[GW-opencl-ati-3]</name>
-        <name>windows_x86_64[GW-opencl-nvidia-2]</name>
         <name>windows_x86_64[GW-opencl-nvidia-3]</name>
         <name>windows_x86_64[opencl-intel_gpu-new]</name>
         <name>windows_x86_64[opencl-intel_gpu-newer]</name>
@@ -243,9 +241,7 @@
         <name>x86_64-apple-darwin[FGRPopencl2Pup-nvidia]</name>
         <name>x86_64-apple-darwin[FGRPopenclTV-nvidia]</name>
         <name>x86_64-apple-darwin[FGRPSSE]</name>
-        <name>x86_64-apple-darwin[GW-opencl-ati-2]</name>
         <name>x86_64-apple-darwin[GW-opencl-ati-3]</name>
-        <name>x86_64-apple-darwin[GW-opencl-nvidia-2]</name>
         <name>x86_64-apple-darwin[GW-opencl-nvidia-3]</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[BRP4X64]</name>
@@ -260,11 +256,8 @@
         <name>x86_64-pc-linux-gnu[FGRPopencl2Pup-nvidia]</name>
         <name>x86_64-pc-linux-gnu[FGRPopenclTV-nvidia]</name>
         <name>x86_64-pc-linux-gnu[FGRPSSE]</name>
-        <name>x86_64-pc-linux-gnu[GW-cuda]</name>
         <name>x86_64-pc-linux-gnu[GW-cuda-3]</name>
-        <name>x86_64-pc-linux-gnu[GW-opencl-ati-2]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-ati-3]</name>
-        <name>x86_64-pc-linux-gnu[GW-opencl-nvidia-2]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-nvidia-3]</name>
         <name>x86_64-pc-linux-gnu[opencl-intel_gpu]</name>
     </platforms>
@@ -738,16 +731,21 @@
         <description><![CDATA[SRBase is a mathematical research project that uses Internet-connected computers trying to solve Sierpinski / Riesel Bases up to 1030.]]></description>
         <home>Independent</home>
     <platforms>
+        <name>aarch64-unknown-linux-gnu[cuda102]</name>
+        <name>aarch64-unknown-linux-gnu[cuda122]</name>
         <name>windows_x86_64</name>
         <name>windows_x86_64[cuda100]</name>
         <name>windows_x86_64[cuda110]</name>
         <name>windows_x86_64[cuda120]</name>
+        <name>windows_x86_64[cuda128]</name>
         <name>windows_x86_64[opencl_ati_101]</name>
         <name>windows_x86_64[opencl_intel_gpu_intelarc]</name>
+        <name>x86_64-apple-darwin</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[cuda100]</name>
         <name>x86_64-pc-linux-gnu[cuda112]</name>
         <name>x86_64-pc-linux-gnu[cuda120]</name>
+        <name>x86_64-pc-linux-gnu[cuda128]</name>
         <name>x86_64-pc-linux-gnu[opencl_ati_101]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_intelarc]</name>
     </platforms>

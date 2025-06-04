@@ -1143,6 +1143,31 @@ int read_checkpoint(int& ntasks_completed, double& cpu, double& rt) {
     return 0;
 }
 
+// if the given file is a soft link of the form ../../project_dir/x,
+// return x, else return empty string
+//
+string resolve_proj_soft_link(const char* project_dir, const char* file) {
+    char buf[1024], physical_name[1024];
+    FILE* fp = boinc_fopen(file, "r");
+    if (!fp) {
+        return string("");
+    }
+    buf[0] = 0;
+    char* p = fgets(buf, sizeof(buf), fp);
+    fclose(fp);
+    if (!p) {
+        return string("");
+    }
+    if (!parse_str(buf, "<soft_link>", physical_name, sizeof(physical_name))) {
+        return string("");
+    }
+    snprintf(buf, sizeof(buf), "../../%s/", project_dir);
+    if (strstr(physical_name, buf) != physical_name) {
+        return string("");
+    }
+    return string(physical_name + strlen(buf));
+}
+
 // Check whether executable files (tasks and daemons) are code-signed.
 // The client supplies a list of app version files, which are code-signed.
 // For each executable file:
@@ -1153,7 +1178,7 @@ int read_checkpoint(int& ntasks_completed, double& cpu, double& rt) {
 void check_execs(vector<TASK> &t) {
     for (unsigned int i=0; i<t.size(); i++) {
         TASK &task = t[i];
-        string phys_name = resolve_soft_link(
+        string phys_name = resolve_proj_soft_link(
             aid.project_dir, task.application.c_str()
         );
         if (phys_name.empty()) {

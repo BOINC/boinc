@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2024 University of California
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -52,6 +52,12 @@ update_nested_dirs() {
     done
 }
 
+if [ -x /bin/systemctl ] ; then
+    if systemctl is-active --quiet boinc-client.service; then
+        systemctl stop boinc-client.service
+    fi
+fi
+
 if ! getent group ${BOINCGROUP} >/dev/null; then
     groupadd -r ${BOINCGROUP}
 fi
@@ -59,6 +65,7 @@ fi
 if ! getent passwd ${BOINCUSER} >/dev/null; then
     useradd -r -g ${BOINCGROUP} -d ${BOINCDIR} -s /usr/sbin/nologin -c "BOINC user" ${BOINCUSER}
 fi
+usermod -d "$BOINCDIR" "$BOINCUSER"
 
 if ! getent group ${BOINCGROUP} | grep -q ${BOINCUSER}; then
     usermod -a -G ${BOINCGROUP} ${BOINCUSER}
@@ -87,6 +94,8 @@ if [ -n "$SUDO_USER" ]; then
         usermod -a -G ${BOINCGROUP} $SUDO_USER
     fi
 fi
+
+usermod --add-subuids 100000-165535 --add-subgids 100000-165535 ${BOINCUSER}
 
 if [ ! -d /etc/boinc-client ] ; then
     mkdir -p /etc/boinc-client

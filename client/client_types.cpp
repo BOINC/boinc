@@ -797,7 +797,11 @@ void RESOURCE_USAGE::clear() {
     missing_coproc_name[0] = 0;
 }
 
-void RESOURCE_USAGE::check_gpu(char* plan_class) {
+// see if we have the GPU libraries (OpenCL/CUDA/CAL)
+// required by the plan class.
+// If not, set missing_coproc
+//
+void RESOURCE_USAGE::check_gpu_libs(char* plan_class) {
     int rt = rsc_type;
     if (!rt) return;
     if (strstr(plan_class, "opencl")) {
@@ -824,6 +828,41 @@ void RESOURCE_USAGE::check_gpu(char* plan_class) {
             missing_coproc = true;
             safe_strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
         }
+    }
+}
+
+void RESOURCE_USAGE::write(MIOFILE& out) {
+    out.printf(
+        "    <avg_ncpus>%f</avg_ncpus>\n"
+        "    <flops>%f</flops>\n",
+        avg_ncpus,
+        flops
+    );
+    if (rsc_type) {
+        out.printf(
+            "    <coproc>\n"
+            "        <type>%s</type>\n"
+            "        <count>%f</count>\n"
+            "    </coproc>\n",
+            rsc_name(rsc_type),
+            coproc_usage
+        );
+    }
+    if (missing_coproc && strlen(missing_coproc_name)) {
+        out.printf(
+            "    <coproc>\n"
+            "        <type>%s</type>\n"
+            "        <count>%f</count>\n"
+            "    </coproc>\n",
+            missing_coproc_name,
+            coproc_usage
+        );
+    }
+    if (gpu_ram) {
+        out.printf(
+            "    <gpu_ram>%f</gpu_ram>\n",
+            gpu_ram
+        );
     }
 }
 
@@ -858,7 +897,7 @@ int APP_VERSION::parse(XML_PARSER& xp) {
     init();
     while (!xp.get_tag()) {
         if (xp.match_tag("/app_version")) {
-            resource_usage.check_gpu(plan_class);
+            resource_usage.check_gpu_libs(plan_class);
             if (resource_usage.rsc_type || is_wrapper) {
                 dont_throttle = true;
             }
@@ -944,14 +983,10 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
         "<app_version>\n"
         "    <app_name>%s</app_name>\n"
         "    <version_num>%d</version_num>\n"
-        "    <platform>%s</platform>\n"
-        "    <avg_ncpus>%f</avg_ncpus>\n"
-        "    <flops>%f</flops>\n",
+        "    <platform>%s</platform>\n",
         app_name,
         version_num,
-        platform,
-        resource_usage.avg_ncpus,
-        resource_usage.flops
+        platform
     );
     if (strlen(plan_class)) {
         out.printf("    <plan_class>%s</plan_class>\n", plan_class);
@@ -971,32 +1006,7 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
             if (retval) return retval;
         }
     }
-    if (resource_usage.rsc_type) {
-        out.printf(
-            "    <coproc>\n"
-            "        <type>%s</type>\n"
-            "        <count>%f</count>\n"
-            "    </coproc>\n",
-            rsc_name(resource_usage.rsc_type),
-            resource_usage.coproc_usage
-        );
-    }
-    if (resource_usage.missing_coproc && strlen(resource_usage.missing_coproc_name)) {
-        out.printf(
-            "    <coproc>\n"
-            "        <type>%s</type>\n"
-            "        <count>%f</count>\n"
-            "    </coproc>\n",
-            resource_usage.missing_coproc_name,
-            resource_usage.coproc_usage
-        );
-    }
-    if (resource_usage.gpu_ram) {
-        out.printf(
-            "    <gpu_ram>%f</gpu_ram>\n",
-            resource_usage.gpu_ram
-        );
-    }
+    resource_usage.write(out);
     if (dont_throttle) {
         out.printf(
             "    <dont_throttle/>\n"
@@ -1172,7 +1182,7 @@ int WORKUNIT::parse(XML_PARSER& xp) {
                 || resource_usage.rsc_type!=0
                 || resource_usage.missing_coproc;
             if (has_resource_usage) {
-                resource_usage.check_gpu(plan_class);
+                resource_usage.check_gpu_libs(plan_class);
             }
             return 0;
         }
@@ -1203,6 +1213,7 @@ int WORKUNIT::parse(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_str("plan_class", plan_class, sizeof(plan_class))) continue;
+        if (xp.parse_str("sub_appname", sub_appname, sizeof(sub_appname))) continue;
         if (xp.parse_double("avg_ncpus", resource_usage.avg_ncpus)) continue;
         if (xp.parse_double("flops", dtemp)) {
             if (dtemp <= 0) {
@@ -1285,6 +1296,15 @@ int WORKUNIT::write(MIOFILE& out, bool gui) {
     }
     for (i=0; i<input_files.size(); i++) {
         input_files[i].write(out);
+    }
+    if (strlen(sub_appname)) {
+        out.printf(
+            "    <sub_appname>%s</sub_appname>\n",
+            sub_appname
+        );
+    }
+    if (resource_usage.present()) {
+        resource_usage.write(out);
     }
 
     if (!job_keyword_ids.empty()) {

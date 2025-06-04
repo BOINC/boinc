@@ -82,9 +82,9 @@ function has_submit_access($user, $app_id) {
     return true;
 }
 
-// can user administer given app (or all apps if zero)?
+// can user manage given app (or all apps if zero)?
 //
-function has_admin_access($user, $app_id) {
+function has_manage_access($user, $app_id) {
     $us = BoincUserSubmit::lookup_userid($user->id);
     if (!$us) return false;
     if ($us->manage_all) return true;
@@ -168,15 +168,18 @@ function get_batch_params($batch, $wus) {
     }
 
     // make list of WU IDs with an in-progress result
-    $res_in_prog = BoincResult::enum(
-        sprintf('batch=%d and server_state<>%d',
-            $batch->id, RESULT_SERVER_STATE_IN_PROGRESS
+    $res_in_prog = BoincResult::enum_fields(
+        'workunitid',
+        sprintf('batch=%d and server_state in (%d, %d)',
+            $batch->id,
+            RESULT_SERVER_STATE_IN_PROGRESS, RESULT_SERVER_STATE_OVER
         )
     );
     $wus_in_prog = [];
     foreach ($res_in_prog as $res) {
         $wus_in_prog[$res->workunitid] = true;
     }
+    unset($res_in_progress);    // does this do anything?
 
     $fp_total = 0;
     $fp_done = 0;
@@ -267,14 +270,34 @@ function abort_workunit($wu) {
             $wu->id
         )
     );
-    $wu->update("error_mask=error_mask|16");
+    $wu->update(
+        sprintf('error_mask=error_mask|%d', WU_ERROR_CANCELLED)
+    );
 }
 
 function abort_batch($batch) {
-    $wus = BoincWorkunit::enum("batch=$batch->id");
+    $wus = BoincWorkunit::enum_fields(
+        'id',
+        "batch=$batch->id"
+    );
+    $ids = [];
     foreach ($wus as $wu) {
-        abort_workunit($wu);
+        $ids[] = $wu->id;
     }
+    $ids = implode(',', $ids);
+    BoincResult::update_aux(
+        sprintf(
+            'server_state=%d, outcome=%d where server_state=%d and workunitid in (%s)',
+            RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_DIDNT_NEED,
+            RESULT_SERVER_STATE_UNSENT,
+            $ids
+        )
+    );
+    BoincWorkunit::update_aux(
+        sprintf('error_mask=error_mask|%d where id in(%s)',
+            WU_ERROR_CANCELLED, $ids
+        )
+    );
     $batch->update(
         sprintf('state=%d', BATCH_STATE_ABORTED)
     );
@@ -284,12 +307,22 @@ function abort_batch($batch) {
 // mark WUs as assimilated; this lets them be purged
 //
 function retire_batch($batch) {
-    $wus = BoincWorkunit::enum("batch=$batch->id");
+    $wus = BoincWorkunit::enum_fields(
+        'id, result_template_file',
+        "batch=$batch->id limit 100"
+    );
     $now = time();
+    $ids = [];
     foreach ($wus as $wu) {
-        $wu->update(
-            "assimilate_state=".ASSIMILATE_DONE.", transition_time=$now"
-        );
+        $ids[] = $wu->id;
+    }
+    $ids = implode(',', $ids);
+    BoincWorkunit::update_aux(
+        sprintf('assimilate_state=%d, transition_time=%d where id in(%s)',
+            ASSIMILATE_DONE, $now, $ids
+        )
+    );
+    foreach ($wus as $wu) {
         // remove output template if it's a temporary
         //
         if (strstr($wu->result_template_file, "templates/tmp/")) {
@@ -297,6 +330,7 @@ function retire_batch($batch) {
         }
     }
     $batch->update("state=".BATCH_STATE_RETIRED);
+    system("rm -rf ../../results/$batch->id");
 }
 
 function expire_batch($batch) {
@@ -319,7 +353,10 @@ function batch_state_string($state) {
 //
 function batch_output_file_size($batchid) {
     $batch_td_size=0;
-    $wus = BoincWorkunit::enum("batch=$batchid");
+    $wus = BoincWorkunit::enum_fields(
+        'canonical_resultid',
+        "batch=$batchid"
+    );
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     $upload_dir = parse_config(get_config(), "<upload_dir>");
     foreach ($wus as $wu) {

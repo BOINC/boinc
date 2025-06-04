@@ -303,4 +303,54 @@ keyword('KW_AMERICAS', KW_CATEGORY_LOC, 0, 0,
         keyword('KW_UND', KW_CATEGORY_LOC, 2, KW_US,
             'University of North Dakota'
         );
+
+// return a list of [value, name] pairs for the given category
+//
+function keyword_select_options($category) {
+    global $job_keywords;
+    $opts = [];
+    kw_children();
+    foreach ($job_keywords as $id=>$k) {
+        if ($k->category != $category) continue;
+        if ($k->parent) continue;
+        $opts = array_merge($opts, kw_options($id));
+    }
+    return $opts;
+}
+
+function kw_children() {
+    global $job_keywords;
+    foreach ($job_keywords as $id=>$k) {
+        $job_keywords[$id]->children = array();
+        $job_keywords[$id]->expand = 0;
+    }
+    foreach ($job_keywords as $id=>$k) {
+        if (!$k->parent) continue;
+        $job_keywords[$k->parent]->children[] = $id;
+    }
+}
+
+function kw_options($id, $indent='') {
+    global $job_keywords;
+    $kw = $job_keywords[$id];
+    $opts = [[$id, "$indent$kw->name"]];
+    $indent .= '&nbsp;&nbsp;&nbsp;&nbsp;';
+    foreach ($kw->children as $k) {
+        $opts = array_merge($opts, kw_options($k, $indent));
+    }
+    return $opts;
+}
+
+function kw_id_to_name($id) {
+    global $job_keywords;
+    $kw = $job_keywords[$id];
+    return $kw->name;
+}
+
+function kw_array_to_str($kws, $sep='<br>') {
+    $x = array_map('strval', $kws);
+    $x = array_map('kw_id_to_name', $x);
+    return implode($sep, $x);
+}
+
 ?>

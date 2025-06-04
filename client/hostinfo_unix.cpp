@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -128,6 +128,7 @@ using std::string;
 using std::min;
 
 #ifdef __APPLE__
+#include "sandbox.h"
 #include <IOKit/IOKitLib.h>
 #include <Carbon/Carbon.h>
 #include <CoreFoundation/CoreFoundation.h>
@@ -1233,36 +1234,80 @@ int HOST_INFO::get_virtualbox_version() {
     return 0;
 }
 
-// check if docker is installed on this host
-// populate docker_version on success
+// check if docker/podman is installed and functional on this host.
+// if so, populate docker_version and return true
 //
 bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
-    bool ret = false;
+    char cmd[1024], buf[256];
+
+    snprintf(cmd, sizeof(cmd), "%s %s --version 2>/dev/null",
+        docker_cmd_prefix(type),
+        docker_cli_prog(type)
+    );
+    FILE* f = popen(cmd, "r");
+    if (!f) return false;
+    // normally the version is on the first line,
+    // but it's on the 2nd line if using podman-docker
+    //
+    bool found = false;
+    while (fgets(buf, sizeof(buf), f)) {
+        string version;
+        if (get_docker_version_string(type, buf, version)) {
+            safe_strcpy(docker_version, version.c_str());
+            found = true;
+            break;
+        }
+    }
+    pclose(f);
+    if (!found) return false;
+
 #ifdef __APPLE__
+    // download (if not there) and start QEMU VM
     if (type == PODMAN) {
-        system("podman machine init 2>/dev/null");
-        system("podman machine start 2>/dev/null");
+        snprintf(cmd, sizeof(cmd),
+            "%s podman machine init 2>/dev/null",
+            docker_cmd_prefix(type)
+        );
+        system(cmd);
+        snprintf(cmd, sizeof(cmd),
+            "%s podman machine start 2>/dev/null",
+            docker_cmd_prefix(type)
+        );
+        system(cmd);
     }
 #endif
-    string cmd = string(docker_cli_prog(type)) + " --version 2>/dev/null";
-    FILE* f = popen(cmd.c_str(), "r");
+
+#ifdef __linux__
+    // if we're running as an unprivileged user, Docker/podman may not work.
+    // Check by running the Hello World image.
+    //
+    // Since we do this every time on startup, don't delete the image.
+    //
+    snprintf(cmd, sizeof(cmd),
+        "%s run hello-world 2>/dev/null",
+        docker_cli_prog(type)
+    );
+    found = false;
+    f = popen(cmd, "r");
     if (f) {
-        char buf[256];
-        // normally the version is on the first line,
-        // but it's on the 2nd line if using podman-docker
-        //
-        while (fgets(buf, 256, f)) {
-            string version;
-            if (get_docker_version_string(type, buf, version)) {
-                safe_strcpy(docker_version, version.c_str());
-                docker_type = type;
-                ret = true;
+        while (fgets(buf, sizeof(buf), f)) {
+            if (strstr(buf, "Hello")) {
+                found = true;
                 break;
             }
         }
         pclose(f);
     }
-    return ret;
+    if (!found) {
+        msg_printf(NULL, MSG_INFO,
+            "%s found but 'hello-world' test failed",
+            docker_type_str(type)
+        );
+        docker_version[0] = 0;
+        return false;
+    }
+#endif
+    return true;
 }
 
 bool HOST_INFO::get_docker_version(){
@@ -1276,12 +1321,35 @@ bool HOST_INFO::get_docker_version(){
         msg_printf(NULL, MSG_INFO, "Data dir is remote: not checking podman");
     }
 #endif
+
+#ifdef __APPLE__
+    // on Mac, Podman requires an accessable dir 'podman'
+    //
+    if (!is_dir(PODMAN_DIR)) {
+        boinc_mkdir(PODMAN_DIR);
+        if (g_use_sandbox) {
+            mode_t old_mask = umask(2); // Allow writing by group
+            chmod(PROJECTS_DIR,
+                S_IRUSR|S_IWUSR|S_IXUSR
+                |S_IRGRP|S_IWGRP|S_IXGRP
+            );
+            umask(old_mask);
+            // Only user boinc_master and group boinc_project can access
+            // project directories, to keep authenticators private
+            set_to_project_group(PODMAN_DIR);
+        }
+    }
+#endif
+
     if (check_podman) {
         if (get_docker_version_aux(PODMAN)) {
+            docker_type = PODMAN;
             return true;
         }
     }
+
     if (get_docker_version_aux(DOCKER)) {
+        docker_type = DOCKER;
         return true;
     }
     return false;
@@ -1292,16 +1360,24 @@ bool HOST_INFO::get_docker_version(){
 //
 bool HOST_INFO::get_docker_compose_version_aux(DOCKER_TYPE type){
     bool ret = false;
-    string cmd = string(docker_cli_prog(type)) + " compose version 2>/dev/null";
-    FILE* f = popen(cmd.c_str(), "r");
+    char cmd[1024];
+
+    snprintf(cmd, sizeof(cmd),
+        "%s%s compose version 2>/dev/null",
+        docker_cmd_prefix(type),
+        docker_cli_prog(type)
+    );
+    FILE* f = popen(cmd, "r");
     if (f) {
         char buf[256];
-        fgets(buf, 256, f);
-        string version;
-        if (get_docker_compose_version_string(type, buf, version)) {
-            safe_strcpy(docker_compose_version, version.c_str());
-            docker_compose_type = type;
-            ret = true;
+        while (fgets(buf, sizeof(buf), f)) {
+            string version;
+            if (get_docker_compose_version_string(type, buf, version)) {
+                safe_strcpy(docker_compose_version, version.c_str());
+                docker_compose_type = type;
+                ret = true;
+                break;
+            }
         }
         pclose(f);
     }

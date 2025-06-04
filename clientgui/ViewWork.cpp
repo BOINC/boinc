@@ -1253,6 +1253,12 @@ void CViewWork::GetDocApplicationName(wxInt32 item, wxString& strBuffer) const {
         if (!state_result) return;
         WORKUNIT* wup = state_result->wup;
         if (!wup) return;
+
+        if (strlen(wup->sub_appname)) {
+            strBuffer = HtmlEntityDecode(wxString(wup->sub_appname, wxConvUTF8));
+            return;
+        }
+
         APP* app = wup->app;
         if (!app) return;
         APP_VERSION* avp = state_result->avp;

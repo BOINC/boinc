@@ -310,6 +310,9 @@ function submit_jobs(
     $errfile = sprintf('/tmp/create_work_%d.err', getmypid());
     $cmd .= sprintf(' >%s 2>&1', $errfile);
 
+    //echo "command: $cmd\n";
+    //echo "stdin: $x\n";
+
     $h = popen($cmd, "w");
     if ($h === false) {
         xml_error(-1, "can't run create_work");
@@ -392,7 +395,9 @@ function xml_get_jobs($r) {
         $job->input_template = null;
         if ($j->input_template) {
             $job->input_template = $j->input_template;
-            $job->input_template_xml = $j->input_template->asXML();
+            $x = $j->input_template->asXML();
+            $x = str_replace('<file_info/>', '<file_info></file_info>', $x);
+            $job->input_template_xml = $x;
         }
         $job->output_template = null;
         if ($j->output_template) {
@@ -1075,6 +1080,13 @@ estimate_batch($r);
 exit;
 }
 
+xml_header();
+if (0) {
+    $req = file_get_contents("req");
+} else {
+    $req = $_POST['request'];
+}
+
 // optionally write request message (XML) to log file
 //
 $request_log = parse_config(get_config(), "<remote_submit_request_log>");
@@ -1082,17 +1094,11 @@ if ($request_log) {
     $log_dir = parse_config(get_config(), "<log_dir>");
     $request_log = $log_dir . "/" . $request_log;
     if ($file = fopen($request_log, "a")) {
-        fwrite($file, "\n<submit_rpc_handler date=\"" . date(DATE_ATOM) . "\">\n" . $_POST['request'] . "\n</submit_rpc_handler>\n");
+        fwrite($file, "\n<submit_rpc_handler date=\"" . date(DATE_ATOM) . "\">\n" . $req . "\n</submit_rpc_handler>\n");
         fclose($file);
     }
 }
 
-xml_header();
-if (0) {
-    $req = file_get_contents("submit_req.xml");
-} else {
-    $req = $_POST['request'];
-}
 $r = simplexml_load_string($req);
 if (!$r) {
     log_write("----- RPC request: can't parse request message: $req");

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,18 +15,18 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// The basic API functions are compiled with C linkage (no name munging)
+// so that they can be used from C programs
+
 #ifndef BOINC_BOINC_API_H
 #define BOINC_BOINC_API_H
-
-#include <stddef.h>     // for NULL
 
 #ifdef _WIN32
 #include "boinc_win.h"
 #endif
-#include "app_ipc.h"
+#include "common_defs.h"
 
-// ANSI C API BEGINS HERE
-// Do not put implementation stuff here
+// Basic (C linkage) functions
 
 #ifdef __cplusplus
 extern "C" {
@@ -74,7 +74,7 @@ typedef struct BOINC_STATUS {
     double working_set_size;
     double max_working_set_size;
     int network_suspended;
-    SPORADIC_CA_STATE ca_state;
+    enum SPORADIC_CA_STATE ca_state;
 } BOINC_STATUS;
 
 extern volatile BOINC_STATUS boinc_status;
@@ -87,6 +87,7 @@ extern int boinc_init(void);
 extern int boinc_finish(int status);
 extern int boinc_get_init_data_p(struct APP_INIT_DATA*);
 extern int boinc_parse_init_data_file(void);
+extern int boinc_resolve_filename(const char*, char*, int len);
 extern int boinc_send_trickle_up(char* variety, char* text);
 extern int boinc_set_min_checkpoint_period(int);
 extern int boinc_checkpoint_completed(void);
@@ -129,7 +130,9 @@ extern int setMacIcon(char *filename, char *iconData, long iconSize);
 // C++ API follows
 #ifdef __cplusplus
 #include <string>
+#include "app_ipc.h"
 
+extern int boinc_resolve_filename_s(const char*, std::string&);
 extern int boinc_get_init_data(APP_INIT_DATA&);
 extern int boinc_wu_cpu_time(double&);
 extern double boinc_elapsed_time(void);
@@ -142,7 +145,7 @@ extern int boinc_report_app_status_aux(
     double wss
 );
 extern int boinc_temporary_exit(
-    int delay, const char* reason=NULL, bool is_notice=false
+    int delay, const char* reason=0, bool is_notice=false
 );
 extern int boinc_finish_message(
     int status, const char* message, bool is_notice

@@ -29,8 +29,31 @@
 #ifndef BOINC_COMMON_DEFS_H
 #define BOINC_COMMON_DEFS_H
 
-#include "miofile.h"
-#include "parse.h"
+// states for sporadic apps
+//
+// client state
+enum SPORADIC_CA_STATE {
+    CA_NONE             = 0,
+    CA_DONT_COMPUTE     = 1,
+        // computing suspended (CPU and perhaps GPU)
+        // or other project have priority
+    CA_COULD_COMPUTE    = 2,
+        // not computing, but could
+    CA_COMPUTING        = 3
+        // go ahead and compute
+};
+
+// app state
+enum SPORADIC_AC_STATE {
+    AC_NONE                 = 0,
+    AC_DONT_WANT_COMPUTE    = 1,
+    AC_WANT_COMPUTE         = 2
+};
+
+#ifdef __cplusplus
+
+struct MIOFILE;
+struct XML_PARSER;
 
 #define GUI_RPC_PORT 31416
     // for TCP connection
@@ -170,26 +193,6 @@ enum BATTERY_STATE {
     BATTERY_STATE_OVERHEATED
 };
 
-// states for sporadic apps
-//
-// client state
-enum SPORADIC_CA_STATE {
-    CA_NONE             = 0,
-    CA_DONT_COMPUTE     = 1,
-    // computing suspended (CPU and perhaps GPU) or other project have priority
-    CA_COULD_COMPUTE    = 2,
-    // not computing, but could
-    CA_COMPUTING        = 3
-    // go ahead and compute
-};
-
-// app state
-enum SPORADIC_AC_STATE {
-    AC_NONE                 = 0,
-    AC_DONT_WANT_COMPUTE    = 1,
-    AC_WANT_COMPUTE         = 2
-};
-
 // Values of RESULT::state in client.
 // THESE MUST BE IN NUMERICAL ORDER
 // (because of the > comparison in RESULT::computing_done())
@@ -275,7 +278,7 @@ enum SPORADIC_AC_STATE {
     // input/output files can be deleted,
     // result and workunit records can be purged.
 
-// credit types
+// credit types (not used AFAIK)
 //
 #define CREDIT_TYPE_FLOPS           0
 #define CREDIT_TYPE_STORAGE         1
@@ -394,7 +397,7 @@ struct DEVICE_STATUS {
         battery_temperature_celsius = 0;
         wifi_online = false;
         user_active = false;
-        strncpy(device_name, "", sizeof(device_name));
+        device_name[0] = 0;
     }
 };
 
@@ -425,4 +428,5 @@ struct DEVICE_STATUS {
 // impementations of Docker
 enum DOCKER_TYPE {NONE, DOCKER, PODMAN};
 
+#endif
 #endif

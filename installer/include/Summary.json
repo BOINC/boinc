@@ -1,0 +1,17 @@
+{
+    "Summary": {
+        "codepage": 1252,
+        "title": "BOINC",
+        "subject": "BOINC",
+        "author": "Space Sciences Laboratory, U.C. Berkeley",
+        "keywords": "BOINC",
+        "comments": "IDS_FEATURE_BOINC_DESCRIPTION",
+        "template": "%%PLATFORM%%;1033",
+        "lastauthor": "BOINC",
+        "pagecount": "400:500",
+        "wordcount": 0,
+        "charcount": 0,
+        "appname": "BOINC",
+        "security": 1
+    }
+}

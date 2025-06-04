@@ -26,19 +26,17 @@
 
 require_once("../inc/util.inc");
 require_once("../inc/account.inc");
-require_once("../inc/recaptchalib.php");
+require_once("../inc/recaptchalib.inc");
 
 function reg_form() {
-    global $recaptcha_public_key;
-
     $config = get_config();
     $disable_acct = parse_bool($config, "disable_account_creation");
     page_head("Register",  null, null, null, boinc_recaptcha_get_head_extra());
     echo "<h3>Create an account</h3>";
     form_start("create_account_action.php", "post");
     create_account_form(0, "download_software.php");
-    if ($recaptcha_public_key) {
-        form_general("", boinc_recaptcha_get_html($recaptcha_public_key));
+    if (recaptcha_public_key()) {
+        form_general("", boinc_recaptcha_get_html(recaptcha_public_key()));
     }
     form_submit("Join");
     form_end();

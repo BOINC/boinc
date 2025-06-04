@@ -90,6 +90,7 @@
 #include "config.h"
 #include <cstdlib>
 #include <cstring>
+#include <string>
 #include <cstdio>
 #include <cstdarg>
 #include <sys/types.h>
@@ -123,6 +124,7 @@
 #include "boinc_api.h"
 
 using std::vector;
+using std::string;
 
 //#define VERBOSE
     // enable a bunch of fprintfs to stderr
@@ -283,7 +285,7 @@ char* boinc_msg_prefix(char* sbuf, int len) {
         strlcpy(sbuf, "localtime() failed", len);
         return sbuf;
     }
-    if (strftime(buf, sizeof(buf)-1, "%F %H:%M:%S", tmp) == 0) {
+    if (strftime(buf, sizeof(buf)-1, "%Y-%m-%d %H:%M:%S", tmp) == 0) {
         strlcpy(sbuf, "strftime() failed", len);
         return sbuf;
     }
@@ -793,6 +795,40 @@ int boinc_get_status(BOINC_STATUS *s) {
     s->max_working_set_size = boinc_status.max_working_set_size;
     s->network_suspended = boinc_status.network_suspended;
     s->ca_state = boinc_status.ca_state;
+    return 0;
+}
+
+// Resolve virtual name (in slot dir) to physical path (in project dir).
+// Cases:
+// - Windows and pre-6.12 Unix:
+//   virtual name refers to a "soft link" (XML file acting as symbolic link)
+// - 6.12+ Unix:
+//   virtual name is a symbolic link
+// - Standalone: physical path is same as virtual name
+//
+int boinc_resolve_filename(
+    const char *virtual_name, char *physical_name, int len
+) {
+    return resolve_soft_link(virtual_name, physical_name, len);
+}
+
+// same, std::string version
+//
+int boinc_resolve_filename_s(const char *virtual_name, string& physical_name) {
+    char buf[512], *p;
+    if (!virtual_name) return ERR_NULL;
+    physical_name = virtual_name;
+#ifndef _WIN32
+    if (is_symlink(virtual_name)) {
+        return 0;
+    }
+#endif
+    FILE *fp = boinc_fopen(virtual_name, "r");
+    if (!fp) return 0;
+    buf[0] = 0;
+    p = fgets(buf, 512, fp);
+    fclose(fp);
+    if (p) parse_str(buf, "<soft_link>", physical_name);
     return 0;
 }
 

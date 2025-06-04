@@ -511,6 +511,16 @@ static int process_workunit(
             out += "\n";
         }
     }
+
+    // fill in possibly missing parameters
+    //
+    if (wu.target_nresults > wu.max_success_results) {
+        wu.max_success_results = wu.target_nresults;
+    }
+    if (wu.target_nresults > wu.max_total_results) {
+        wu.max_total_results = wu.target_nresults;
+    }
+
     if (n_file_refs != (int)infiles.size()) {
         boinc::fprintf(stderr, "#file refs != #file infos\n");
         return ERR_XML_PARSE;

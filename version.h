@@ -27,10 +27,10 @@
 #define VBOXWRAPPER_RELEASE 26211
 
 // worker version number
-#define WORKER_RELEASE 4
+#define WORKER_RELEASE 5
 
 // dockerwrapper version number
-#define DOCKERWRAPPER_RELEASE 5
+#define DOCKERWRAPPER_RELEASE 6
 
 // client version number as string
 #define BOINC_VERSION_STRING "8.3.0"

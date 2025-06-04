@@ -15,7 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// check_security.C
+// Functions to check ownership and permissions of files and dirs
+// in the BOINC data directory on Mac OS
 
 //#define DEBUG_CHECK_SECURITY
 
@@ -195,7 +196,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
             snprintf(full_path, sizeof(full_path),
                 "\"%s/%s\"", DataDirPath, FIX_BOINC_USERS_FILENAME
             );
-            printf("Permissions error %d, calling %s\n", retval, full_path);
+            printf("Permissions error %d, calling %s\n", retval2, full_path);
             callPosixSpawn(full_path);  // Try to fix it
             retval2 = check_boinc_users_primarygroupIds(useFakeProjectUserAndGroup, isMacInstaller);
         }
@@ -370,6 +371,26 @@ int use_sandbox, int isManager, char* path_to_error, int len
 
         // Step through slot directories
         retval = CheckNestedDirectories(full_path, 1, use_sandbox, isManager, true, path_to_error, len);
+        if (retval)
+            return retval;
+    }
+
+    snprintf(full_path, sizeof(full_path), "%s/%s", dir_path, PODMAN_DIR);
+    retval = stat(full_path, &sbuf);
+    if (! retval) {                 // Client can create podman directory if it does not yet exist.
+       if (use_sandbox) {
+            if (sbuf.st_gid != boinc_project_gid)
+                return -1071;
+
+            if ((sbuf.st_mode & 0777) != 0770)
+                return -1072;
+        }
+
+        if (sbuf.st_uid != boinc_master_uid)
+            return -1073;
+
+        // Step through slot directories
+        retval = CheckNestedDirectories(full_path, 1, use_sandbox, isManager, false, path_to_error, len);
         if (retval)
             return retval;
     }
@@ -595,6 +616,7 @@ static int CheckNestedDirectories(
         if (!S_ISLNK(sbuf.st_mode)) {   // The system ignores ownership & permissions of symbolic links
             if (depth > 1)  {
                 // files and subdirectories created by projects may have owner boinc_master or boinc_project
+                // TODO: Is this is true of subdirectories created by Podman tasks?
                 if ( (sbuf.st_uid != boinc_master_uid) && (sbuf.st_uid != boinc_project_uid) ) {
                     if (!isSlotDir) {
                             retval = -1202;

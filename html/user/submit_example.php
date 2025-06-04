@@ -30,6 +30,8 @@
 //   When you adapt this to your own purposes,
 //   you can strip out this stuff if the web site doesn't use BOINC
 
+// THIS IS PRETTY MUCH USELESS
+
 require_once("../inc/submit.inc");
 require_once("../inc/common_defs.inc");
 require_once("../inc/submit_db.inc");
@@ -43,7 +45,7 @@ display_errors();
 // hardwired app name for now
 define('APP_NAME', 'remote_test');
 
-$project = $master_url;         // from project.inc
+$project = master_url();
 $user = get_logged_in_user();
 $auth = $user->authenticator;
 

@@ -81,7 +81,7 @@ function cross_project_links($host) {
 // and the logged in user (so show some extra fields)
 //
 function show_host($host, $user, $ipprivate) {
-    global $config;
+    $config = get_config();
     start_table();
     row1(tra("Computer information"));
     $anonymous = false;
@@ -119,7 +119,7 @@ function show_host($host, $user, $ipprivate) {
         }
     }
     row2(tra("CPU type"), "$host->p_vendor <br> $host->p_model");
-    row2(tra("Number of processors"), $host->p_ncpus);
+    row2(tra("Number of cores"), $host->p_ncpus);
     $parsed_ser = parse_serialnum($host->serialnum);
     row2(tra("Coprocessors"), gpu_desc($parsed_ser));
     row2(tra("Virtualization"), vbox_desc($parsed_ser));
@@ -396,7 +396,7 @@ function boinc_version($parsed_ser) {
 }
 
 function cpu_desc($host) {
-    return "$host->p_vendor<br>$host->p_model<br>".tra("(%1 processors)", $host->p_ncpus)."\n";
+    return "$host->p_vendor<br>$host->p_model<br>".tra("(%1 cores)", $host->p_ncpus)."\n";
 }
 
 // If private is true, we're showing the host to its owner,

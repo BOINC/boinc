@@ -20,8 +20,11 @@
 #define SORTPROJECTLIST 1
 
 #include "stdwx.h"
-#include "Events.h"
+
 #include "app_ipc.h"
+#include "str_replace.h"
+
+#include "Events.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
 #include "SkinManager.h"
@@ -29,7 +32,6 @@
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
 #include "sg_ProjectPanel.h"
-#include "str_replace.h"
 #if TESTBIGICONPOPUP
 #include "test/sah_40.xpm"
 #include "test/einstein_icon.xpm"
@@ -544,7 +546,7 @@ wxBitmap* CSimpleProjectPanel::GetProjectSpecificBitmap(char* project_url) {
     wxASSERT(pSkinSimple);
 
     // Only update it if project specific is found
-    if(boinc_resolve_filename(GetProjectIconLoc(project_url).c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0) {
+    if (resolve_soft_link(GetProjectIconLoc(project_url).c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0) {
         wxString strIconPath = wxString(defaultIcnPath,wxConvUTF8);
         if (wxFile::Exists(strIconPath)) {
             // wxBitmapComboBox requires all its bitmaps to be the same size
@@ -552,7 +554,7 @@ wxBitmap* CSimpleProjectPanel::GetProjectSpecificBitmap(char* project_url) {
             wxImage img = wxImage(strIconPath, wxBITMAP_TYPE_ANY);
             if (img.IsOk()) {
                 if ((img.GetHeight() != 40) || (img.GetWidth() == 40)) {
-                        img.Rescale(40, 40, wxIMAGE_QUALITY_BILINEAR);
+                    img.Rescale(40, 40, wxIMAGE_QUALITY_BILINEAR);
                 }
                 wxBitmap* projectBM = new wxBitmap(img);
                 if (projectBM->IsOk()) {

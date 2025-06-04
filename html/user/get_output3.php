@@ -18,8 +18,18 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // get output files, individually or zipped groups
-// Assumes the layout used by sample_assimilator.cpp and sample_assimilate.py:
-// <project>/results/
+//
+// args:
+// action: get_file or get_batch
+// get_file:
+//      path: relative to project root dir
+//      download: if set, download file; else show it in browser
+// get_batch:
+//      batch_id
+//      downloads zip of batch's output files
+//      Assumes the layout used by sample_assimilator.cpp
+//      and sample_assimilate.py:
+//      <project>/results/
 //      <batchid>/   (0 if not in a batch)
 //
 

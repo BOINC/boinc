@@ -288,7 +288,6 @@ global $venue_name;
 // in config.xml so the right default is set for minimum free disk space
 //
 function get_disk_space_config() {
-    global $config;
     $config = get_config();
     $dp = new StdClass;
     $dp->disk_max_used_gb = parse_config($config, "<default_disk_max_used_gb>");

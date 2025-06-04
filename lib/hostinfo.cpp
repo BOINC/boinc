@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -74,7 +74,7 @@ void HOST_INFO::clear_host_info() {
     safe_strcpy(os_name, "");
     safe_strcpy(os_version, "");
 
-#ifdef _WIN64
+#ifdef _WIN32
     wsl_distros.clear();
 #else
     safe_strcpy(docker_version, "");
@@ -137,7 +137,7 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
         if (xp.parse_double("d_free", d_free)) continue;
         if (xp.parse_str("os_name", os_name, sizeof(os_name))) continue;
         if (xp.parse_str("os_version", os_version, sizeof(os_version))) continue;
-#ifdef _WIN64
+#ifdef _WIN32
         if (xp.match_tag("wsl")) {
             this->wsl_distros.parse(xp);
             continue;
@@ -242,7 +242,7 @@ int HOST_INFO::write(
         osv,
         coprocs.ndevs()
     );
-#ifdef _WIN64
+#ifdef _WIN32
     wsl_distros.write_xml(out);
 #else
     if (strlen(docker_version)) {
@@ -364,6 +364,29 @@ const char* docker_type_str(DOCKER_TYPE type) {
     }
     return "unknown";
 }
+
+// on Mac+podman we need to set env variables
+// to use a directory accessable to boinc_master and boinc_projects
+//
+#ifdef __APPLE__
+const char* docker_cmd_prefix(DOCKER_TYPE type) {
+    static char buf[256];
+    if (type == PODMAN) {
+        const char* dir = "/Library/Application Support/BOINC Data/podman";
+        // must end w/ space
+        snprintf(buf, sizeof(buf),
+            "env XDG_CONFIG_HOME=\"%s\" XDG_DATA_HOME=\"%s\" ",
+            dir, dir
+        );
+        return buf;
+    }
+    return "";
+}
+#else
+const char* docker_cmd_prefix(DOCKER_TYPE) {
+    return "";
+}
+#endif
 
 // parse a string like
 // Docker version 24.0.7, build 24.0.7-0ubuntu2~22.04.1

@@ -1,0 +1,269 @@
+{
+    "Dialog": "SetupConfig",
+    "HCentering": 50,
+    "VCentering": 50,
+    "Width": 374,
+    "Height": 266,
+    "Attributes": 3,
+    "Title": "IDS_PRODUCTNAME",
+    "Control_First": "Advanced",
+    "Control_Default": "CheckBox4",
+    "Control_Cancel": "Cancel",
+    "Controls": [
+        {
+            "Control": "Advanced",
+            "Type": "PushButton",
+            "X": 301,
+            "Y": 209,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_NEW_STRING1",
+            "Control_Next": "Back",
+            "Events": [
+                {
+                    "Event": "NewDialog",
+                    "Argument": "SetupConfigAdvanced",
+                    "Condition": "1",
+                    "Ordering": 1
+                }
+            ]
+        },
+        {
+            "Control": "Back",
+            "Type": "PushButton",
+            "X": 164,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_BACK",
+            "Control_Next": "CheckBox4",
+            "Events": [
+                {
+                    "Event": "NewDialog",
+                    "Argument": "LicenseAgreement",
+                    "Condition": "1",
+                    "Ordering": 1
+                }
+            ]
+        },
+        {
+            "Control": "Banner",
+            "Type": "Bitmap",
+            "X": 0,
+            "Y": 0,
+            "Width": 374,
+            "Height": 44,
+            "Attributes": 1,
+            "Binary_": "banner.jpg"
+        },
+        {
+            "Control": "BannerLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 44,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "Cancel",
+            "Type": "PushButton",
+            "X": 301,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_CANCEL",
+            "Events": [
+                {
+                    "Event": "SpawnDialog",
+                    "Argument": "CancelSetup",
+                    "Condition": "1",
+                    "Ordering": 1
+                }
+            ]
+        },
+        {
+            "Control": "CheckBox2",
+            "Type": "CheckBox",
+            "X": 21,
+            "Y": 127,
+            "Width": 331,
+            "Height": 13,
+            "Attributes": 1,
+            "Property": "ENABLESCREENSAVER",
+            "Text": "IDS_NEW_STRING12",
+            "Control_Next": "CheckBox3"
+        },
+        {
+            "Control": "CheckBox3",
+            "Type": "CheckBox",
+            "X": 21,
+            "Y": 143,
+            "Width": 331,
+            "Height": 13,
+            "Attributes": 1,
+            "Property": "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
+            "Text": "IDS_NEW_STRING13",
+            "Control_Next": "Advanced"
+        },
+        {
+            "Control": "CheckBox4",
+            "Type": "CheckBox",
+            "X": 21,
+            "Y": 185,
+            "Width": 331,
+            "Height": 13,
+            "Attributes": 1,
+            "Property": "ENABLEUSEBYALLUSERS",
+            "Text": "IDS_NEW_STRING15",
+            "Control_Next": "CheckBox2"
+        },
+        {
+            "Control": "DlgDesc",
+            "Type": "Text",
+            "X": 21,
+            "Y": 23,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS_STRING17"
+        },
+        {
+            "Control": "DlgLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 234,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "DlgTitle",
+            "Type": "Text",
+            "X": 12,
+            "Y": 5,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS_STRING16"
+        },
+        {
+            "Control": "Icon1",
+            "Type": "Icon",
+            "X": 21,
+            "Y": 52,
+            "Width": 24,
+            "Height": 24,
+            "Attributes": 6291457,
+            "Binary_": "folder.ico"
+        },
+        {
+            "Control": "Icon2",
+            "Type": "Icon",
+            "X": 21,
+            "Y": 87,
+            "Width": 24,
+            "Height": 24,
+            "Attributes": 6291457,
+            "Binary_": "folder.ico"
+        },
+        {
+            "Control": "Next",
+            "Type": "PushButton",
+            "X": 230,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_NEXT",
+            "Events": [
+                {
+                    "Event": "DoAction",
+                    "Argument": "CAVerifyInstallDirectories",
+                    "Condition": "1",
+                    "Ordering": 1
+                },
+                {
+                    "Event": "NewDialog",
+                    "Argument": "ReadyToInstall",
+                    "Condition": "RETURN_VERIFYINSTALLDIRECTORIES = \"1\"",
+                    "Ordering": 3
+                },
+                {
+                    "Event": "NewDialog",
+                    "Argument": "SetupConfigAdvanced",
+                    "Condition": "RETURN_VERIFYINSTALLDIRECTORIES <> \"1\"",
+                    "Ordering": 2
+                }
+            ]
+        },
+        {
+            "Control": "Text1",
+            "Type": "Text",
+            "X": 57,
+            "Y": 65,
+            "Width": 240,
+            "Height": 13,
+            "Attributes": 3,
+            "Property": "_BrowseInstallProperty",
+            "Text": "IDS_NEW_STRING16"
+        },
+        {
+            "Control": "Text2",
+            "Type": "Text",
+            "X": 57,
+            "Y": 52,
+            "Width": 290,
+            "Height": 12,
+            "Attributes": 3,
+            "Property": "NewProperty1",
+            "Text": "IDS_NEW_STRING7"
+        },
+        {
+            "Control": "Text3",
+            "Type": "Text",
+            "X": 57,
+            "Y": 100,
+            "Width": 240,
+            "Height": 13,
+            "Attributes": 3,
+            "Property": "_BrowseDataProperty1",
+            "Text": "IDS_NEW_STRING18"
+        },
+        {
+            "Control": "Text4",
+            "Type": "Text",
+            "X": 21,
+            "Y": 202,
+            "Width": 267,
+            "Height": 22,
+            "Attributes": 3,
+            "Property": "NewProperty211",
+            "Text": "IDS_NEW_STRING27"
+        },
+        {
+            "Control": "Text5",
+            "Type": "Text",
+            "X": 57,
+            "Y": 87,
+            "Width": 290,
+            "Height": 11,
+            "Attributes": 3,
+            "Property": "NewProperty21",
+            "Text": "IDS_NEW_STRING10"
+        },
+        {
+            "Control": "Text6",
+            "Type": "Text",
+            "X": 34,
+            "Y": 159,
+            "Width": 328,
+            "Height": 25,
+            "Attributes": 1,
+            "Text": "IDS_NEW_STRING30"
+        }
+    ]
+}
