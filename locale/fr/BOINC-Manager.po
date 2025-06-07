@@ -256,7 +256,7 @@ msgstr "Préférences...\tCtrl+"
 
 #: clientgui/AdvancedFrame.cpp:405
 msgid "&Notices\tCtrl+Shift+N"
-msgstr "&Notifications\tCtrl+Majt+N"
+msgstr "&Notifications\tCtrl+Maj+N"
 
 #: clientgui/AdvancedFrame.cpp:406
 msgid "Show notices"
