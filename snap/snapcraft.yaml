@@ -1,6 +1,6 @@
 name: boinc
 base: core22
-version: "8.2.2"
+version: "8.2.3"
 type: app
 title: BOINC Manager
 summary: BOINC lets you help cutting-edge science research using your computer.
