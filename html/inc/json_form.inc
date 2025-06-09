@@ -38,7 +38,7 @@ function get_multi($field) {
         }
     }
     if (isset($field->max_items)) {
-        if ($n < $field->max_items) {
+        if ($n > $field->max_items) {
             return [null, 'too many items selected'];
         }
     }
