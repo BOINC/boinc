@@ -21,6 +21,9 @@ function sb_file_select($user, $suffix=null) {
 
 function form($user, $json_fname) {
     $form_desc = json_decode(file_get_contents($json_fname));
+    if (!$form_desc) {
+        error_page('parse error in JSON file');
+    }
     page_head_select2($form_desc->title);
     form_start($form_desc->handler);
     foreach ($form_desc->fields as $field) {
@@ -49,6 +52,9 @@ function form($user, $json_fname) {
                 null, "id=$field->name"
             );
             break;
+        default:
+            echo "unknown field type $field->type";
+            exit;
         case 'radio':
             break;
         }
@@ -59,6 +65,9 @@ function form($user, $json_fname) {
 }
 
 $json_fname = get_str('json_fname');
+if (!is_valid_filename($json_fname)) {
+    error_page('filename');
+}
 $user = get_logged_in_user();
 form($user, $json_fname);
 ?>
