@@ -804,7 +804,7 @@ jobs:
           dnf config-manager addrepo --from-repofile=https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc-alpha-fc${{ matrix.os }}.repo
           dnf config-manager setopt boinc-alpha-fc${{ matrix.os }}.enabled=1
           rpm --import https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc.gpg
-          dnf install -y boinc-client-8.2.2 boinc-manager-8.2.2
+          dnf install -y boinc-client-8.2.4 boinc-manager-8.2.4
 
       - name: Install distro package for further upgrade from the stable for Fedora < 41
         if: success() && matrix.type == 'upgrade-from-stable' && matrix.os != '41' && matrix.os != '42'
