@@ -272,9 +272,11 @@ $user = get_logged_in_user(false);
 $action = get_str('action', true);
 
 if ($action == 'subscribe') {
+    $user = get_logged_in_user();
     BoincSubscription::replace($user->id, -$id);
     forum_page($forum, $user, 'You are now subscribed to this forum.');
 } else if ($action == 'unsubscribe') {
+    $user = get_logged_in_user();
     BoincSubscription::delete($user->id, -$id);
     forum_page($forum, $user, 'You are now unsubscribed from this forum.');
 } else {
