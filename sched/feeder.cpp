@@ -730,6 +730,9 @@ int main(int argc, char** argv) {
     void* p;
     char path[MAXPATHLEN], order_buf[1024];
 
+    // this is a reasonable default.  Do retries before new jobs
+    order_clause = "order by r1.priority desc, r1.workunitid";
+
     for (i=1; i<argc; i++) {
         if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
             if (!argv[++i]) {
