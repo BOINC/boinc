@@ -228,10 +228,10 @@ void poll_client_msgs() {
 //
 void copy_output() {
     string reply;
-    int retval = read_from_pipe(
+    read_from_pipe(
         app_wc.out_read, app_wc.proc_handle, reply, CMD_TIMEOUT, NULL
     );
-    fprintf(stderr, "output from container:\n%s\n", reply.c_str())
+    fprintf(stderr, "output from container:\n%s\n", reply.c_str());
 }
 
 int main(int argc, char** argv) {
