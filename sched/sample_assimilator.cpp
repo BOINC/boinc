@@ -17,10 +17,9 @@
 
 // A sample assimilator that:
 // 1) if success, copy the output file(s) to a directory
-//      ../results/batchid
-//      If 1 output file, its name is the WU name
-//      If >1 files, file i is named <wuname>_i
-// 2) if failure, write a message to <wuname>_error
+//      ../results/<batchid>/<wu_name>__file_<log_name>
+//      where <log_name> is the file's logical name
+// 2) if failure, write a message to result/<batch_id>/<wuname>_error
 
 // Note: daemons like this run in project/tmp_<host>
 
@@ -92,7 +91,7 @@ int assimilate_handler(
             sprintf(buf, "%s/%d/%s__file_%s",
                 outdir, wu.batch, wu.name, fi.logical_name.c_str()
             );
-            retval = boinc_copy(fi.path.c_str() , buf);
+            retval = boinc_rename(fi.path.c_str() , buf);
             if (!retval) {
                 file_copied = true;
             }
