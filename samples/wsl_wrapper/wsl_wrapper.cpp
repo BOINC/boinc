@@ -34,11 +34,11 @@
 //   and relays this to the client.
 
 // implementation:
-// We use two WSL_CMDs (connections into the WSL container):
-// one to run the app, get its process group ID,
+// We use two WSL_CMDs (connections to shells the WSL container):
+// app_wc: run the app, get its process group ID,
 //      and capture its stdout and stderr
-// another to run a shell for monitoring and control operations (ps, kill)
-//      (this has less overhead than creating a shell per op)
+// ctl_wc: monitoring and control operations (ps, kill)
+//      this has less overhead than creating a shell per op
 //
 // Typically, the app has a control script as well as an executable.
 //      This might be written in bash or perl,
@@ -223,6 +223,17 @@ void poll_client_msgs() {
     }
 }
 
+// copy app_wc to our stderr;
+// called when job finishes
+//
+void copy_output() {
+    string reply;
+    int retval = read_from_pipe(
+        app_wc.out_read, app_wc.proc_handle, reply, CMD_TIMEOUT, NULL
+    );
+    fprintf(stderr, "output from container:\n%s\n", reply.c_str())
+}
+
 int main(int argc, char** argv) {
     const char *os_name_regexp=".*", *os_version_regexp=".*", *pass_thru=NULL;
     const char *main_prog = "main";
@@ -287,10 +298,12 @@ int main(int argc, char** argv) {
         switch (poll_app(ru)) {
         case JOB_FAIL:
             fprintf(stderr, "job failed\n");
+            copy_output();
             boinc_finish(1);
             goto done;
         case JOB_SUCCESS:
             fprintf(stderr, "job succeeded\n");
+            copy_output();
             boinc_finish(0);
             goto done;
         }
