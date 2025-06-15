@@ -110,8 +110,8 @@ int launch(const char* distro, const char* cmd) {
     retval = read_from_pipe(app_wc.out_read, app_wc.proc_handle, reply, CMD_TIMEOUT, "\n");
     if (retval) return error("app read_from_pipe", retval);
     pgid = atoi(reply.c_str());
+    fprintf(stderr, "launch reply: [%s]\n", reply.c_str());
     if (verbose) {
-        fprintf(stderr, "launch reply: [%s]\n", reply.c_str());
         fprintf(stderr, "pgid: %d\n", pgid);
     }
     running = true;

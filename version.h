@@ -29,7 +29,10 @@
 // worker version number
 #define WORKER_RELEASE 5
 
-// dockerwrapper version number
+// wsl_wrapper
+#define WSL_WRAPPER_RELEASE 2
+
+// docker_wrapper version number
 #define DOCKERWRAPPER_RELEASE 6
 
 // client version number as string
