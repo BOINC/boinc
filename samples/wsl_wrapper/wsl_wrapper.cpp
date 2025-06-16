@@ -57,6 +57,7 @@
 
 #include <cstdio>
 #include <string>
+#include <vector>
 
 #include "boinc_win.h"
 #include "util.h"
@@ -65,6 +66,8 @@
 #include "app_ipc.h"
 
 using std::string;
+using std::vector;
+using std::ostringstream;
 
 WSL_CMD app_wc;
 WSL_CMD ctl_wc;
@@ -224,8 +227,9 @@ void poll_client_msgs() {
 }
 
 int main(int argc, char** argv) {
-    const char *os_name_regexp=".*", *os_version_regexp=".*", *pass_thru=NULL;
+    const char *os_name_regexp=".*", *os_version_regexp=".*";
     const char *main_prog = "main";
+    vector<string> app_args;
     int min_libc_version = 0;
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--os_name_regexp")) {
@@ -233,7 +237,7 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "--os_version_regexp")) {
             os_version_regexp = argv[++i];
         } else if (!strcmp(argv[i], "--pass_thru")) {
-            pass_thru = argv[++i];
+            app_args.push_back(argv[++i]);
         } else if (!strcmp(argv[i], "--min_libc_version")) {
             min_libc_version = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "--verbose")) {
@@ -241,8 +245,7 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "--main_prog")) {
             main_prog = argv[++i];
         } else {
-            fprintf(stderr, "unknown option %s\n", argv[i]);
-            exit(1);
+            app_args.push_back(argv[i]);
         }
     }
 
@@ -269,12 +272,13 @@ int main(int argc, char** argv) {
         distro_name = distro->distro_name;
     }
 
-    string main_cmd = "./";
-    main_cmd += main_prog;
-    if (pass_thru){
-        main_cmd += " ";
-        main_cmd += pass_thru;
+    ostringstream oss;
+    oss << "./" << main_prog;
+    for (const string& arg : app_args) {
+        oss << " " << arg;
     }
+    string main_cmd = oss.str();
+
     if (launch(distro_name.c_str(), main_cmd.c_str())) {
         fprintf(stderr, "launch failed\n");
         exit(1);
