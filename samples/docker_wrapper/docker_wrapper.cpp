@@ -193,7 +193,7 @@ DOCKER_CONN docker_conn;
 vector<string> app_args;
 DOCKER_TYPE docker_type;
 
-// parse job config file
+// parse job config file (job.toml)
 //
 int parse_config_file() {
     // defaults
@@ -684,7 +684,16 @@ int main(int argc, char** argv) {
     options.check_heartbeat = true;
     options.handle_process_control = true;
     boinc_init_options(&options);
+
+    // don't write to stderr before this; it won't go to stderr.txt
+
+    // parse job.toml
     retval = parse_config_file();
+    if (retval) {
+        fprintf(stderr, "can't parse config file\n");
+        exit(1);
+    }
+
     if (boinc_is_standalone()) {
         config.verbose = VERBOSE_STD;
         strcpy(image_name, "boinc");
@@ -697,10 +706,6 @@ int main(int argc, char** argv) {
         get_container_name();
     }
 
-    if (retval) {
-        fprintf(stderr, "can't parse config file\n");
-        exit(1);
-    }
     if (config.verbose) config.print();
 
     if (sporadic) {
