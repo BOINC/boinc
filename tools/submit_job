@@ -3,13 +3,24 @@
 
 // submit a job and show the WU name
 //
-// usage: submit_job [options] appname [infile ...]
-// options:
-//      --templates in out: specify in/out template files
-//      --verbose
-//      --target_user ID
-//
-// If the app uses a sample assimilator,
+
+function usage() {
+    return "
+usage: submit_job [options] appname [infile ...]
+options:
+     --templates in out     specify in/out template files
+     --verbose
+     --target_user ID
+     --command_line "X"     cmdline args to program
+";
+}
+
+// Note: to pass cmdline args to some apps you may need e.g.
+// bin/submit_job --command_line "--pass_thru \"--nsecs 17\"" worker infile
+// ... but this doesn't work with csh; use bash instead
+
+// This is basically create_work with nicer syntax, and it stages files.
+// Note: if the app uses a sample assimilator,
 // you can use query_job to query the job status and see output files.
 
 $appname = null;
@@ -18,6 +29,7 @@ $output_template = null;
 $infiles = [];
 $verbose = false;
 $target_user = null;
+$command_line = null;
 
 for ($i=1; $i<$argc; $i++) {
     if ($argv[$i] == '--templates') {
@@ -27,6 +39,8 @@ for ($i=1; $i<$argc; $i++) {
         $verbose = true;
     } else if ($argv[$i] == '--target_user') {
         $target_user = $argv[++$i];
+    } else if ($argv[$i] == '--command_line') {
+        $command_line = $argv[++$i];
     } else if (!$appname) {
         $appname = $argv[$i];
     } else {
@@ -35,7 +49,7 @@ for ($i=1; $i<$argc; $i++) {
 }
 
 if (!$appname) {
-    die("usage: demo_submit [--template fname] [--dir dir] appname [infile ...]\n");
+    die(usage());
 }
 
 chdir("html/ops");
@@ -96,6 +110,11 @@ if ($output_template) {
 if ($target_user) {
     $x .= " --target_user $target_user";
 }
+if ($command_line) {
+    $command_line = str_replace('"', '\"', $command_line);
+    $x .= sprintf('--command_line "%s"', $command_line);
+}
+
 $cmd = sprintf('bin/create_work --appname %s --wu_name %s %s %s',
     $appname, $wu_name, $x, implode(' ', $fnames)
 );

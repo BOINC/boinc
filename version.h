@@ -30,7 +30,7 @@
 #define WORKER_RELEASE 5
 
 // wsl_wrapper
-#define WSL_WRAPPER_RELEASE 2
+#define WSL_WRAPPER_RELEASE 4
 
 // docker_wrapper version number
 #define DOCKERWRAPPER_RELEASE 6

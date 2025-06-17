@@ -17,10 +17,11 @@
 
 // wsl_wrapper: wrapper for WSL apps on Windows.
 //
-// cmdline options:
+// wsl_wrapper [options] arg1 arg2
+// arg1 arg2 ... are passed to the main program on cmdline
+// options:
 //
 // --main_prog X        name of main program (default "main")
-// --pass_thru args     additional cmdline arg for main program
 // --os_name_regex      use only distros w/ matching OS name
 // --os_version_regex
 // --min_libc_version MMmm      e.g. 235 means 2.35
@@ -235,16 +236,25 @@ void copy_output() {
 }
 
 int main(int argc, char** argv) {
-    const char *os_name_regexp=".*", *os_version_regexp=".*", *pass_thru=NULL;
+    const char *os_name_regexp=".*", *os_version_regexp=".*";
     const char *main_prog = "main";
     int min_libc_version = 0;
+    vector<string> app_args;
+
+    // do this before writing to stderr, else the messages will be lost
+    //
+    BOINC_OPTIONS options;
+    memset(&options, 0, sizeof(options));
+    options.main_program = true;
+    options.check_heartbeat = true;
+    options.handle_process_control = true;
+    boinc_init_options(&options);
+
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--os_name_regexp")) {
             os_name_regexp = argv[++i];
         } else if (!strcmp(argv[i], "--os_version_regexp")) {
             os_version_regexp = argv[++i];
-        } else if (!strcmp(argv[i], "--pass_thru")) {
-            pass_thru = argv[++i];
         } else if (!strcmp(argv[i], "--min_libc_version")) {
             min_libc_version = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "--verbose")) {
@@ -252,17 +262,9 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "--main_prog")) {
             main_prog = argv[++i];
         } else {
-            fprintf(stderr, "unknown option %s\n", argv[i]);
-            exit(1);
+            app_args.push_back(argv[i]);
         }
     }
-
-    BOINC_OPTIONS options;
-    memset(&options, 0, sizeof(options));
-    options.main_program = true;
-    options.check_heartbeat = true;
-    options.handle_process_control = true;
-    boinc_init_options(&options);
 
     string distro_name;
     if (boinc_is_standalone()) {
@@ -282,9 +284,9 @@ int main(int argc, char** argv) {
 
     string main_cmd = "./";
     main_cmd += main_prog;
-    if (pass_thru){
+    foreach (string s: app_args) {
         main_cmd += " ";
-        main_cmd += pass_thru;
+        main_cmd += s;
     }
     if (launch(distro_name.c_str(), main_cmd.c_str())) {
         fprintf(stderr, "launch failed\n");
