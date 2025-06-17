@@ -58,6 +58,7 @@
 
 #include <cstdio>
 #include <string>
+#include <vector>
 
 #include "boinc_win.h"
 #include "util.h"
@@ -66,6 +67,7 @@
 #include "app_ipc.h"
 
 using std::string;
+using std::vector;
 
 WSL_CMD app_wc;
 WSL_CMD ctl_wc;
@@ -284,7 +286,7 @@ int main(int argc, char** argv) {
 
     string main_cmd = "./";
     main_cmd += main_prog;
-    foreach (string s: app_args) {
+    for (string s: app_args) {
         main_cmd += " ";
         main_cmd += s;
     }
