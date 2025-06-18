@@ -348,7 +348,11 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
 const char* docker_cli_prog(DOCKER_TYPE type) {
     switch (type) {
     case DOCKER: return "docker";
+#ifdef __APPLE__
+        case PODMAN: return "/opt/podman/bin/podman";
+#else
     case PODMAN: return "podman";
+#endif
     default: break;
     }
     return "unknown";
