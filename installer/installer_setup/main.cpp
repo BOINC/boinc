@@ -24,12 +24,59 @@
 #include <iomanip>
 #include <sstream>
 #include <codecvt>
+#include <fstream>
+#include <chrono>
+#include <ctime>
 
 #include <openssl/evp.h>
 #include <openssl/md5.h>
 
 #include "installer_setup.h"
 #include "version.h"
+
+class Logger {
+public:
+    static Logger& Instance() {
+        static Logger instance;
+        return instance;
+    }
+
+    void Log(const std::string& message) {
+        if (!ofs.is_open()) {
+            return;
+        }
+        const auto now = std::chrono::system_clock::now();
+        const auto now_c = std::chrono::system_clock::to_time_t(now);
+        ofs << std::ctime(&now_c) << message << std::endl;
+    }
+
+private:
+    Logger() {
+        char tempPath[MAX_PATH];
+        std::filesystem::path logPath;
+        const auto len = GetTempPath(MAX_PATH, tempPath);
+        if (len != 0 && len <= MAX_PATH) {
+            logPath = tempPath;
+        } else {
+            logPath = std::filesystem::current_path();
+        }
+        logPath /= "boinc_installer.log";
+        ofs.open(logPath, std::ios::app);
+    }
+    ~Logger() {
+        if (ofs.is_open()) {
+            ofs.close();
+        }
+    }
+    Logger(const Logger&) = delete;
+    Logger& operator=(const Logger&) = delete;
+
+    std::ofstream ofs;
+};
+
+void Log(const std::string& message) {
+    Logger::Instance().Log(message);
+}
 
 HBITMAP hBitmap = NULL;
 
@@ -69,25 +116,31 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 }
 
 std::string computeMD5(const void* buffer, size_t size) {
+    Log("Computing MD5 hash...");
+
     unsigned char md5Digest[MD5_DIGEST_LENGTH];
     auto* mdContext = EVP_MD_CTX_new();
 
     if (mdContext == nullptr) {
+        Log("Failed to create MD5 context.");
         return {};
     }
 
     if (EVP_DigestInit_ex(mdContext, EVP_md5(), nullptr) != 1) {
         EVP_MD_CTX_free(mdContext);
+        Log("Failed to initialize MD5 context.");
         return {};
     }
 
     if (EVP_DigestUpdate(mdContext, buffer, size) != 1) {
         EVP_MD_CTX_free(mdContext);
+        Log("Failed to update MD5 context.");
         return {};
     }
 
     if (EVP_DigestFinal_ex(mdContext, md5Digest, nullptr) != 1) {
         EVP_MD_CTX_free(mdContext);
+        Log("Failed to finalize MD5 digest.");
         return {};
     }
 
@@ -99,6 +152,7 @@ std::string computeMD5(const void* buffer, size_t size) {
             static_cast<int>(md5Digest[i]);
     }
 
+    Log("MD5 hash computed successfully: " + oss.str());
     return oss.str();
 }
 
@@ -106,31 +160,37 @@ std::string computeMD5(const void* buffer, size_t size) {
 bool ExtractResourceAndExecute(UINT ResourceID, std::string OutputFileName,
     std::string CmdParameters)
 {
+    Log("Extracting resource and executing installer...");
     try {
         auto hResource = FindResource(nullptr, MAKEINTRESOURCE(ResourceID),
             "BINARY");
         if (hResource == nullptr) {
+            Log("Failed to find resource.");
             return false;
         }
 
         auto hFileResource = LoadResource(nullptr, hResource);
         if (hFileResource == nullptr) {
+            Log("Failed to load resource.");
             return false;
         }
 
         auto lpFile = LockResource(hFileResource);
         if (lpFile == nullptr) {
+            Log("Failed to lock resource.");
             return false;
         }
 
         const auto dwSize = SizeofResource(nullptr, hResource);
         if (dwSize == 0) {
+            Log("Resource size is zero.");
             return false;
         }
 
         char buffer[MAX_PATH];
         const auto result = GetWindowsDirectory(buffer, MAX_PATH);
         if (result == 0 || result > MAX_PATH) {
+            Log("Failed to get Windows directory.");
             MessageBox(NULL, "Failed to get the Windows directory!", "Error",
                 MB_ICONERROR);
             return false;
@@ -140,7 +200,10 @@ bool ExtractResourceAndExecute(UINT ResourceID, std::string OutputFileName,
         const auto outputDir = windowsDir / "Downloaded Installations" /
             "BOINC" / BOINC_VERSION_STRING / computeMD5(lpFile, dwSize);
         if (!std::filesystem::exists(outputDir)) {
+            Log("Creating output directory: " + outputDir.string());
             if (!std::filesystem::create_directories(outputDir)) {
+                Log("Failed to create output directory: " +
+                    outputDir.string());
                 MessageBox(NULL, "Failed to create output directory!", "Error",
                     MB_ICONERROR);
                 return false;
@@ -153,11 +216,13 @@ bool ExtractResourceAndExecute(UINT ResourceID, std::string OutputFileName,
         auto hFilemap = CreateFileMapping(hFile, nullptr, PAGE_READWRITE, 0,
             dwSize, nullptr);
         if (hFilemap == nullptr) {
+            Log("Failed to create file mapping.");
             return false;
         }
 
         auto lpBaseAddress = MapViewOfFile(hFilemap, FILE_MAP_WRITE, 0, 0, 0);
         if (lpBaseAddress == nullptr) {
+            Log("Failed to map view of file.");
             return false;
         }
         CopyMemory(lpBaseAddress, lpFile, dwSize);
@@ -170,14 +235,19 @@ bool ExtractResourceAndExecute(UINT ResourceID, std::string OutputFileName,
             CmdParameters.c_str(), nullptr,
             CmdParameters == "" ? SW_SHOWNORMAL : SW_HIDE);
         if (reinterpret_cast<int>(hInstance) <= 32) {
+            Log("Failed to execute installer");
             MessageBox(NULL, "Failed to execute the installer!", "Error",
                 MB_ICONERROR);
             return false;
         }
 
+        Log("Installer executed successfully: " +
+            (outputDir / OutputFileName).string());
         return true;
     }
     catch (const std::exception& ex) {
+        Log("Exception occurred while extracting resource: " +
+            std::string(ex.what()));
         MessageBox(NULL, "Failed to extract resource!", ex.what(),
             MB_ICONERROR);
         return false;
