@@ -173,7 +173,7 @@ void procinfo_non_boinc(PROCINFO& procinfo, PROC_MAP& pm) {
 //      we don't account Docker/podman CPU time here,
 //      since we don't know what the processes are.
 //      Instead we do it in the client (by looking at ACTIVE_TASKS)
-//      
+//
 //      processes named 'podman'
 //
 // This is subtracted from total CPU time to get

@@ -111,7 +111,7 @@ struct PROC_STAT {
 
 // parse a /proc/<pid>/stat files (1 line)
 // see https://man7.org/linux/man-pages/man5/proc_pid_stat.5.html
-// 
+//
 int PROC_STAT::parse(char* buf) {
     int n = sscanf(buf,
         "%d (%[^)]) %c %d %d %d %d %d "
