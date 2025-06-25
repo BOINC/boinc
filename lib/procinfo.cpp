@@ -164,8 +164,8 @@ void procinfo_non_boinc(PROCINFO& procinfo, PROC_MAP& pm) {
 #endif
 }
 
-// get CPU time of
-// - BOINC-related processes
+// get CPU time of things we don't want to count as non-BOINC-related
+// - BOINC apps
 // - low-priority processes
 // - (if Vbox apps are running) the Vbox daemon
 // - Windows: WSL daemon ('vmmem')
@@ -192,13 +192,13 @@ double boinc_related_cpu_time(PROC_MAP& pm, bool vbox_app_running) {
                 // count VBox processes as BOINC-related
                 // e.g. VBoxHeadless.exe and VBoxSVC.exe on Win
 #ifdef _WIN32
-            || strstr(p.command, 'vmmem')
+            || strstr(p.command, "vmmem")
 #else
-            || strstr(p.command, 'podman')
+            || strstr(p.command, "podman")
             // || p.userid == 0
 #endif
         ) {
-            sum += p.user_time;
+            sum += (p.user_time + p.kernel_time);
         }
     }
     return sum;
