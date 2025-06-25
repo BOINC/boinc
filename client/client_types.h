@@ -372,8 +372,10 @@ struct APP_VERSION {
         // to use this much RAM,
         // so that we don't run a long sequence of jobs,
         // each of which turns out not to fit in available RAM
-    bool is_vm_app;
-        // currently this set if plan class includes "vbox" (kludge)
+    bool is_vbox_app;
+        // set if plan class includes "vbox"
+    bool is_docker_app;
+        // set if plan class includes "docker"
     bool is_wrapper;
         // the main program is a wrapper; run it above idle priority
 

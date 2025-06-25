@@ -170,7 +170,10 @@ void procinfo_non_boinc(PROCINFO& procinfo, PROC_MAP& pm) {
 // - (if Vbox apps are running) the Vbox daemon
 // - Windows: WSL daemon ('vmmem')
 // - Linux/Mac:
-//      root processes (Docker containers run as root)
+//      we don't account Docker/podman CPU time here,
+//      since we don't know what the processes are.
+//      Instead we do it in the client (by looking at ACTIVE_TASKS)
+//      
 //      processes named 'podman'
 //
 // This is subtracted from total CPU time to get
@@ -193,9 +196,6 @@ double boinc_related_cpu_time(PROC_MAP& pm, bool vbox_app_running) {
                 // e.g. VBoxHeadless.exe and VBoxSVC.exe on Win
 #ifdef _WIN32
             || strstr(p.command, "vmmem")
-#else
-            || strstr(p.command, "podman")
-            // || p.userid == 0
 #endif
         ) {
             sum += (p.user_time + p.kernel_time);

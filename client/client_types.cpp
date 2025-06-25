@@ -882,7 +882,8 @@ void APP_VERSION::init() {
     graphics_exec_path[0] = 0;
     graphics_exec_file[0] = 0;
     max_working_set_size = 0;
-    is_vm_app = false;
+    is_vbox_app = false;
+    is_docker_app = false;
     is_wrapper = false;
     index = 0;
 #ifdef SIM
@@ -902,7 +903,10 @@ int APP_VERSION::parse(XML_PARSER& xp) {
                 dont_throttle = true;
             }
             if (strstr(plan_class, "vbox")) {
-                is_vm_app = true;
+                is_vbox_app = true;
+            }
+            if (strstr(plan_class, "docker")) {
+                is_docker_app = true;
             }
             return 0;
         }
@@ -914,9 +918,6 @@ int APP_VERSION::parse(XML_PARSER& xp) {
                     "couldn't parse file_ref: %s", boincerror(retval)
                 );
                 return retval;
-            }
-            if (strstr(file_ref.file_name, "vboxwrapper")) {
-                is_vm_app = true;
             }
             app_files.push_back(file_ref);
             continue;
