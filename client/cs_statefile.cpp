@@ -106,12 +106,6 @@ int CLIENT_STATE::parse_state_file() {
         fname = STATE_FILE_PREV;
     } else {
         msg_printf(0, MSG_INFO, "Creating new client state file");
-
-        // avoid warning messages about version
-        //
-        old_major_version = BOINC_MAJOR_VERSION;
-        old_minor_version = BOINC_MINOR_VERSION;
-        old_release = BOINC_RELEASE;
         return ERR_FOPEN;
     }
     return parse_state_file_aux(fname);
