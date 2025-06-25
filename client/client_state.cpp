@@ -422,14 +422,16 @@ bool CLIENT_STATE::is_new_client() {
         || (core_client_version.minor != old_minor_version)
         || (core_client_version.release != old_release)
     ) {
-        msg_printf_notice(0, true, 0,
-            "The BOINC client version has changed from %d.%d.%d to %d.%d.%d.<br>To see what's new, view the <a href=%s>Client release notes</a>.",
-            old_major_version, old_minor_version, old_release,
-            core_client_version.major,
-            core_client_version.minor,
-            core_client_version.release,
-            "https://github.com/BOINC/boinc/wiki/Client-release-notes"
-        );
+        if (old_major_version) {
+            msg_printf_notice(0, true, 0,
+                "The BOINC client version has changed from %d.%d.%d to %d.%d.%d.<br>To see what's new, view the <a href=%s>Client release notes</a>.",
+                old_major_version, old_minor_version, old_release,
+                core_client_version.major,
+                core_client_version.minor,
+                core_client_version.release,
+                "https://github.com/BOINC/boinc/wiki/Client-release-notes"
+            );
+        }
         new_client = true;
     }
     if (statefile_platform_name.size() && strcmp(get_primary_platform(), statefile_platform_name.c_str())) {
@@ -778,6 +780,9 @@ int CLIENT_STATE::init() {
         } else {
             net_status.need_to_contact_reference_site = true;
         }
+    }
+    if (host_info.p_fpops == 0) {
+        run_cpu_benchmarks = true;
     }
 
     check_if_need_benchmarks();
