@@ -651,7 +651,7 @@ int wsl_init() {
         distro_name = distro->distro_name;
         docker_type = distro->docker_type;
     }
-    fprintf(stderr, 'Using WSL distro %s\n", distro_name);
+    fprintf(stderr, "Using WSL distro %s\n", distro_name);
     return docker_conn.init(docker_type, distro_name, config.verbose>0);
 }
 #endif
