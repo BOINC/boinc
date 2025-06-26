@@ -168,6 +168,11 @@ function variant_view() {
 
     if ($manage_access) {
         echo '<p>';
+        show_button_small(
+            "buda.php?action=variant_form&app=$app&variant=$variant",
+            'Edit variant'
+        );
+        echo '<p>';
         show_button(
             "buda.php?action=variant_delete&app=$app&variant=$variant",
             'Delete variant',
@@ -178,21 +183,33 @@ function variant_view() {
     page_tail();
 }
 
-// form for creating app variant.
-// Currently doesn't support indirect files.
-// doing this would require checkboxes for indirect
-//
-// Could have other stuff like
-//      - min_quorum, max_total_results
-//      - rsc_disk_bound, rsc_memory_bound
-// or does this belong in job submission?
+// form for creating/editing app variant.
 //
 function variant_form($user) {
     $sbitems = sandbox_select_items($user);
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
+    $variant = get_str('variant', true);
 
-    page_head_select2("Create a variant of BUDA app $app");
+    if ($variant) {
+        global $buda_root;
+        $variant_dir = "$buda_root/$app/$variant";
+        $variant_desc = json_decode(
+            file_get_contents("$variant_dir/variant.json")
+        );
+        if (!$variant_desc) error_page('no such variant');
+        page_head_select2("Edit variant $variant of BUDA app $app");
+    } else {
+        $variant_desc = new StdClass;
+        $variant_desc->dockerfile = '';
+        $variant_desc->app_files = [];
+        $variant_desc->input_file_names = [];
+        $variant_desc->output_file_names = [];
+        $variant_desc->min_nsuccess = 1;
+        $variant_desc->max_total = 1;
+        $variant_desc->max_delay_days = 7;
+        page_head_select2("Create a variant of BUDA app $app");
+    }
     echo "
         Details are <a href=https://github.com/BOINC/boinc/wiki/BUDA-job-submission#adding-a-variant>here</a>.
     ";
@@ -202,33 +219,40 @@ function variant_form($user) {
     form_start('buda.php');
     form_input_hidden('app', $app);
     form_input_hidden('action', 'variant_action');
-    form_input_text("Plan class$pc", 'variant');
-    form_select("Dockerfile$sb", 'dockerfile', $sbitems);
-    form_select2_multi("Application files$sb", 'app_files', $sbitems, null);
+    if ($variant) {
+        form_input_hidden('variant', $variant);
+        form_input_hidden('edit', 'true');
+    } else {
+        form_input_text("Plan class$pc", 'variant', $variant);
+    }
+    form_select("Dockerfile$sb", 'dockerfile', $sbitems, $variant_desc->dockerfile);
+    form_select2_multi("Application files$sb", 'app_files', $sbitems, $variant_desc->app_files);
     form_input_text(
         'Input file names<br><small>Space-separated</small>',
-        'input_file_names'
+        'input_file_names',
+        implode(' ', $variant_desc->input_file_names)
     );
     form_input_text(
         'Output file names<br><small>Space-separated</small>',
-        'output_file_names'
+        'output_file_names',
+        implode(' ', $variant_desc->output_file_names)
     );
     form_input_text(
         'Run at most this many total instances of each job',
         'max_total',
-        '1'
+        $variant_desc->max_total
     );
     form_input_text(
         'Get this many successful instances of each job
             <br><small>(subject to the above limit)</small>
         ',
         'min_nsuccess',
-        '1'
+        $variant_desc->min_nsuccess
     );
     form_input_text(
         'Max job turnaround time, days',
         'max_delay_days',
-        '7'
+        $variant_desc->max_delay_days
     );
     form_submit('OK');
     form_end();
@@ -366,10 +390,14 @@ function variant_action($user) {
         }
     }
 
-    if (file_exists("$buda_root/$app/$variant")) {
-        error_page("Variant '$variant' already exists.");
-    }
     $dir = "$buda_root/$app/$variant";
+    if (get_str('edit', true)) {
+        system("rm -r $dir");
+    } else {
+        if (file_exists($dir)) {
+            error_page("Variant '$variant' already exists.");
+        }
+    }
     mkdir($dir);
     mkdir("$dir/.md5");
 

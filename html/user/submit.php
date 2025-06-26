@@ -99,8 +99,13 @@ function show_all_link($batches, $state, $limit, $user, $app) {
 
 // show in-progress batches.
 //
-function show_in_progress($batches, $limit, $user, $app) {
-    echo "<h3>Batches in progress</h3>\n";
+function show_in_progress($all_batches, $limit, $user, $app) {
+    $batches = [];
+    foreach ($all_batches as $batch) {
+        if ($batch->state != BATCH_STATE_IN_PROGRESS) continue;
+        $batches[] = $batch;
+    }
+    echo sprintf('<h3>Batches in progress (%d)</h3>', count($batches));
     $first = true;
     $n = 0;
     foreach ($batches as $batch) {
@@ -150,12 +155,16 @@ function show_in_progress($batches, $limit, $user, $app) {
     }
 }
 
-function show_complete($batches, $limit, $user, $app) {
+function show_complete($all_batches, $limit, $user, $app) {
+    $batches = [];
+    foreach ($all_batches as $batch) {
+        if ($batch->state != BATCH_STATE_COMPLETE) continue;
+        $batches[] = $batch;
+    }
+    echo sprintf('<h3>Completed batches (%d)</h3>', count($batches));
     $first = true;
     $n = 0;
-    echo "<h3>Completed batches</h3>\n";
     foreach ($batches as $batch) {
-        if ($batch->state != BATCH_STATE_COMPLETE) continue;
         if ($limit && $n == $limit) break;
         $n++;
         if ($first) {
@@ -189,11 +198,17 @@ function show_complete($batches, $limit, $user, $app) {
     }
 }
 
-function show_aborted($batches, $limit, $user, $app) {
+function show_aborted($all_batches, $limit, $user, $app) {
+    $batches = [];
+    foreach ($all_batches as $batch) {
+        if ($batch->state != BATCH_STATE_ABORTED) continue;
+        $batches[] = $batch;
+    }
+    if (!$batches) return;
+    echo sprintf('<h3>Aborted batches (%d)</h3>', count($batches));
     $first = true;
     $n = 0;
     foreach ($batches as $batch) {
-        if ($batch->state != BATCH_STATE_ABORTED) continue;
         if ($limit && $n == $limit) break;
         $n++;
         if ($first) {

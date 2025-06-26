@@ -489,8 +489,8 @@ int container_op(const char *op) {
 }
 
 // Clean up at end of job.
-// Show log output.
-// remove container and image
+// Copy log output to stderr.
+// Remove container and image
 //
 void cleanup() {
     char cmd[1024];
@@ -651,9 +651,27 @@ int wsl_init() {
         distro_name = distro->distro_name;
         docker_type = distro->docker_type;
     }
+    fprintf(stderr, "Using WSL distro %s\n", distro_name);
     return docker_conn.init(docker_type, distro_name, config.verbose>0);
 }
 #endif
+
+// checkpoint/restore
+// podman: https://podman.io/docs/checkpoint
+//      podman container checkpoint <name>
+//      podman container restore <name>
+// docker: https://docs.docker.com/reference/cli/docker/checkpoint/
+//      docker checkpoint create <cont_name> <checkpoint_name>
+//      docker checkpoint ls   (lists checkpoints)
+//      docker checkpoint rm   (delete checkpoint)
+//      docker start --checkpoint <checkpoint_name> <cont_name>
+//      (use <cont_name>_checkpoint as the checkpoint name)
+//      need --security-opt=seccomp:unconfined in initial run command?
+//
+// when we checkpoint, write a file with
+//      WSL distro name
+//      docker type
+// ... in case we somehow change WSL distro or docker type
 
 int main(int argc, char** argv) {
     BOINC_OPTIONS options;
