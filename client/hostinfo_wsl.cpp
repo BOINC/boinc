@@ -22,6 +22,7 @@
 #include "win_util.h"
 
 #include "str_replace.h"
+#include "client_state.h"
 #include "client_msgs.h"
 #include "hostinfo.h"
 #include "util.h"
@@ -433,14 +434,14 @@ static void get_docker_compose_version(WSL_CMD& rs, WSL_DISTRO &wd) {
 // and after doing an RPC to get latest version info.
 //
 void show_wsl_messages() {
-    int bdv = host_info.wsl_distros.boinc_distro_version();
+    int bdv = gstate.host_info.wsl_distros.boinc_distro_version();
     const char *url = "https://github.com/BOINC/boinc/wiki/Installing-Docker";
     if (bdv == 0) {
         msg_printf_notice(0, true, url,
             "Some BOINC projects require Windows Subsystem for Linux (WSL).  <a href=%s>Learn how to enable WSL</a>",
             url
         );
-    } else if (bdv < gstate.latest_boinc_buda_runner_version)) {
+    } else if (bdv < gstate.latest_boinc_buda_runner_version) {
         msg_printf_notice(0, true, url,
             "A new version of the BOINC WSL distro is available.  <a href=%s>Learn how to upgrade.</a>",
             url

@@ -506,7 +506,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             continue;
         }
 #ifdef _WIN32
-        if (xp.parse_int("latest_boinc_buda_runner_version", latest_boinc_buda_runn_version)) {
+        if (xp.parse_int("latest_boinc_buda_runner_version", latest_boinc_buda_runner_version)) {
             continue;
         }
 #endif

@@ -275,7 +275,7 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
     MIOFILE mf;
     XML_PARSER xp(&mf);
     mf.init_file(f);
-    while (!xp.get_get()) {
+    while (!xp.get_tag()) {
         if (xp.match_tag("version")) {
             if (parse_version(xp, new_version, sizeof(new_version))) {
                 if (is_version_newer(new_version, maj, min, rel)) {
@@ -284,7 +284,7 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
                 }
             }
 #ifdef _WIN32
-        } else xp.parse_int("boinc_buda_runner_version", bbrv) {
+        } else if (xp.parse_int("boinc_buda_runner_version", bbrv)) {
             gstate.latest_boinc_buda_runner_version = bbrv;
 #endif
         }

@@ -569,7 +569,7 @@ extern THREAD_LOCK client_thread_mutex;
 extern THREAD throttle_thread;
 
 #ifdef _WIN32
-extern show_wsl_messages();
+extern void show_wsl_messages();
 #endif
 
 //////// TIME-RELATED CONSTANTS ////////////
