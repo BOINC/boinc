@@ -295,7 +295,7 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
         show_newer_version_msg(newest_version);
     }
 
-#ifdef _WIN32
+#if !defined(SIM) && defined(_WIN32)
     show_wsl_messages();
 #endif
 

@@ -727,7 +727,7 @@ int CLIENT_STATE::init() {
     //
     newer_version_startup_check();
 
-#ifdef _WIN32
+#if !defined(SIM) && defined(_WIN32)
     show_wsl_messages();
 #endif
 
