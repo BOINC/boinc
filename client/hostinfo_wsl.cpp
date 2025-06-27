@@ -345,7 +345,7 @@ int get_wsl_information(WSL_DISTROS &distros) {
         if (wd.distro_name == BOINC_WSL_DISTRO_NAME) {
             wd.boinc_buda_runner_version = 1;
             if (!rs.run_program_in_wsl(
-                wd.distro_name, "cat version.txt"
+                wd.distro_name, "cat /home/boinc/version.txt"
             )) {
                 string buf;
                 char buf2[256];
