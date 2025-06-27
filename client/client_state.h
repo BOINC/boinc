@@ -249,7 +249,13 @@ struct CLIENT_STATE {
 
 // --------------- current_version.cpp:
     string newer_version;
+        // if nonempty, there was a newer client version than us.
+        // this is the newer version number.
     string client_version_check_url;
+        // where we last got version info from
+#ifdef _WIN32
+    int latest_boinc_buda_runner_version;
+#endif
 
 // --------------- client_state.cpp:
     CLIENT_STATE();
@@ -561,6 +567,10 @@ extern double calculate_exponential_backoff(
 //
 extern THREAD_LOCK client_thread_mutex;
 extern THREAD throttle_thread;
+
+#ifdef _WIN32
+extern show_wsl_messages();
+#endif
 
 //////// TIME-RELATED CONSTANTS ////////////
 

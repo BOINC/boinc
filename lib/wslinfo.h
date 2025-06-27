@@ -27,6 +27,8 @@
 #include "parse.h"
 #include "common_defs.h"
 
+#define BOINC_WSL_DISTRO_NAME "boinc-buda-runner"
+
 // describes a WSL (Windows Subsystem for Linux) distro,
 // and its Docker features
 //
@@ -52,6 +54,8 @@ struct WSL_DISTRO {
     std::string docker_compose_version;
         // version of Docker Compose; empty if none
     DOCKER_TYPE docker_compose_type;
+    int boinc_buda_runner_version;
+        // if this distro is boinc_buda_runner, the version
 
     WSL_DISTRO(){
         clear();
@@ -77,6 +81,8 @@ struct WSL_DISTROS {
     );
     WSL_DISTRO *find_docker();
         // find a distro containing Docker
+    int boinc_distro_version();
+        // version number of BOINC distro, if present, else 0
 };
 
 #endif

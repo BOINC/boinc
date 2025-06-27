@@ -505,6 +505,11 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         if (xp.parse_string("newer_version", newer_version)) {
             continue;
         }
+#ifdef _WIN32
+        if (xp.parse_int("latest_boinc_buda_runner_version", latest_boinc_buda_runn_version)) {
+            continue;
+        }
+#endif
         if (xp.parse_string("client_version_check_url", client_version_check_url)) {
             continue;
         }
@@ -807,9 +812,15 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     if (strlen(language)) {
         f.printf("<language>%s</language>\n", language);
     }
-    if (newer_version.size()) {
+    if (!newer_version.empty()) {
         f.printf("<newer_version>%s</newer_version>\n", newer_version.c_str());
     }
+#ifdef _WIN32
+    f.printf(
+        "<latest_boinc_buda_runner_version>%d</latest_boinc_buda_runner_version>\n",
+        latest_boinc_buda_runner_version
+    );
+#endif
     if (client_version_check_url.size()) {
         f.printf("<client_version_check_url>%s</client_version_check_url>\n", client_version_check_url.c_str());
     }
