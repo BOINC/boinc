@@ -15,16 +15,20 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-using std::vector;
-using std::string;
+// enumerate the WSL distros on this host.
+// For each one, see if it contains Podman or Docker, and get the version
 
 #include "boinc_win.h"
 #include "win_util.h"
 
 #include "str_replace.h"
+#include "client_state.h"
 #include "client_msgs.h"
 #include "hostinfo.h"
 #include "util.h"
+
+using std::vector;
+using std::string;
 
 // timeout for commands run in WSL container
 // If something goes wrong we don't want client to hang
@@ -335,6 +339,25 @@ int get_wsl_information(WSL_DISTROS &distros) {
         if (std::find(dw.begin(), dw.end(), wd.distro_name) != dw.end()) {
             wd.disallowed = true;
         }
+
+        // if it's boinc-buda-runner, look for version file
+        //
+        if (wd.distro_name == BOINC_WSL_DISTRO_NAME) {
+            wd.boinc_buda_runner_version = 1;
+            if (!rs.run_program_in_wsl(
+                wd.distro_name, "cat /home/boinc/version.txt"
+            )) {
+                string buf;
+                char buf2[256];
+                read_from_pipe(rs.out_read, rs.proc_handle, buf, CMD_TIMEOUT);
+                safe_strcpy(buf2, buf.c_str());
+                char *p = strstr(buf2, "version: ");
+                if (p) {
+                    wd.boinc_buda_runner_version = atoi(p+strlen("version: "));
+                }
+            }
+        }
+
         distros.distros.push_back(wd);
     }
 
@@ -405,4 +428,23 @@ static bool get_docker_compose_version_aux(
 static void get_docker_compose_version(WSL_CMD& rs, WSL_DISTRO &wd) {
     if (get_docker_compose_version_aux(rs, wd, PODMAN)) return;
     get_docker_compose_version_aux(rs, wd, DOCKER);
+}
+
+// called on startup (after scanning distros)
+// and after doing an RPC to get latest version info.
+//
+void show_wsl_messages() {
+    int bdv = gstate.host_info.wsl_distros.boinc_distro_version();
+    const char *url = "https://github.com/BOINC/boinc/wiki/Installing-Docker";
+    if (bdv == 0) {
+        msg_printf_notice(0, true, url,
+            "Some BOINC projects require Windows Subsystem for Linux (WSL).  <a href=%s>Learn how to enable WSL</a>",
+            url
+        );
+    } else if (bdv < gstate.latest_boinc_buda_runner_version) {
+        msg_printf_notice(0, true, url,
+            "A new version of the BOINC WSL distro is available.  <a href=%s>Learn how to upgrade.</a>",
+            url
+        );
+    }
 }

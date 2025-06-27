@@ -252,12 +252,12 @@ void CLIENT_STATE::show_host_info() {
         msg_printf(NULL, MSG_INFO, "WSL: no usable distros found");
     } else {
         msg_printf(NULL, MSG_INFO, "Usable WSL distros:");
-        for (auto &wsl: host_info.wsl_distros.distros) {
+        for (auto& wsl : host_info.wsl_distros.distros) {
             msg_printf(NULL, MSG_INFO,
                 "-   %s (WSL %d)%s",
                 wsl.distro_name.c_str(),
                 wsl.wsl_version,
-                wsl.is_default?" (default)":""
+                wsl.is_default ? " (default)" : ""
             );
             msg_printf(NULL, MSG_INFO,
                 "-      OS: %s (%s)",
@@ -278,6 +278,11 @@ void CLIENT_STATE::show_host_info() {
                 msg_printf(NULL, MSG_INFO, "-      Docker compose version %s (%s)",
                     wsl.docker_compose_version.c_str(),
                     docker_type_str(wsl.docker_compose_type)
+                );
+            }
+            if (wsl.boinc_buda_runner_version) {
+                msg_printf(NULL, MSG_INFO, "-      BOINC WSL distro version %d",
+                    wsl.boinc_buda_runner_version
                 );
             }
         }
@@ -721,6 +726,10 @@ int CLIENT_STATE::init() {
     // read_nvc_config_file()
     //
     newer_version_startup_check();
+
+#if !defined(SIM) && defined(_WIN32)
+    show_wsl_messages();
+#endif
 
     // parse account files again,
     // now that we know the host's venue on each project
