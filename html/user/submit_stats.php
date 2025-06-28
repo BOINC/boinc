@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -168,7 +168,7 @@ function graph($data, $xlabel, $ylabel) {
 
         var options = {
           title: 'Job runtime (hours)',
-          legend:  'none' 
+          legend:  'none'
         };
 
         var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
