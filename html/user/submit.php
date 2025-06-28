@@ -614,8 +614,18 @@ function handle_query_batch($user) {
         break;
     }
     echo "<p>";
+    show_button("submit_stats.php?action=flops_graph&batch_id=$batch_id",
+        "Job runtimes"
+    );
     show_button("submit.php?action=batch_stats&batch_id=$batch_id",
-        "Show memory/disk usage statistics"
+        "Memory/disk usage"
+    );
+    echo "<p>";
+    show_button("submit_stats.php?action=err_host&batch_id=$batch_id",
+        "Errors by host"
+    );
+    show_button("submit_stats.php?action=err_code&batch_id=$batch_id",
+        "Errors by exit code"
     );
 
     echo "<h2>Jobs</h2>\n";
