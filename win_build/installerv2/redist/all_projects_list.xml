@@ -594,9 +594,11 @@
         <name>windows_x86_64[openclatiGFNEXTREME]</name>
         <name>windows_x86_64[opencl_ati_AP27]</name>
         <name>windows_x86_64[opencl_ati_cwsieve]</name>
+        <name>windows_x86_64[opencl_ati_fcsieve]</name>
         <name>windows_x86_64[opencl_ati_WW]</name>
         <name>windows_x86_64[opencl_intel_gpu_AP27]</name>
         <name>windows_x86_64[opencl_intel_gpu_cwsieve]</name>
+        <name>windows_x86_64[opencl_intel_gpu_fcsieve]</name>
         <name>windows_x86_64[opencl_intel_gpu_GFN15]</name>
         <name>windows_x86_64[opencl_intel_gpu_GFN16]</name>
         <name>windows_x86_64[opencl_intel_gpu_GFN17MEGA]</name>
@@ -607,6 +609,7 @@
         <name>windows_x86_64[opencl_intel_gpu_GFN22]</name>
         <name>windows_x86_64[opencl_intel_gpu_GFNEXTREME]</name>
         <name>windows_x86_64[opencl_nvidia_cwsieve]</name>
+        <name>windows_x86_64[opencl_nvidia_fcsieve]</name>
         <name>windows_x86_64[opencl_nvidia_WW]</name>
         <name>x86_64-apple-darwin</name>
         <name>x86_64-apple-darwin[cpuGFN15_mt]</name>
@@ -686,9 +689,11 @@
         <name>x86_64-pc-linux-gnu[openclatiPPSsieve]</name>
         <name>x86_64-pc-linux-gnu[opencl_ati_AP27]</name>
         <name>x86_64-pc-linux-gnu[opencl_ati_cwsieve]</name>
+        <name>x86_64-pc-linux-gnu[opencl_ati_fcsieve]</name>
         <name>x86_64-pc-linux-gnu[opencl_ati_WW]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_AP27]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_cwsieve]</name>
+        <name>x86_64-pc-linux-gnu[opencl_intel_gpu_fcsieve]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_GFN15]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_GFN16]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_GFN17MEGA]</name>
@@ -699,6 +704,7 @@
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_GFN22]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_GFNEXTREME]</name>
         <name>x86_64-pc-linux-gnu[opencl_nvidia_cwsieve]</name>
+        <name>x86_64-pc-linux-gnu[opencl_nvidia_fcsieve]</name>
         <name>x86_64-pc-linux-gnu[opencl_nvidia_WW]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/primegrid_logo.png</image>
