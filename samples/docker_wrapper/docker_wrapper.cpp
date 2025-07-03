@@ -431,7 +431,7 @@ int create_container() {
     // multithread
     //
     if (aid.ncpus > 1) {
-        sprintf(buf, sizeof(buf), " --cpus %f", aid.ncpus);
+        snprintf(buf, sizeof(buf), " --cpus %f", aid.ncpus);
         strcat(cmd, buf);
     }
 
@@ -662,7 +662,7 @@ int wsl_init() {
         distro_name = distro->distro_name;
         docker_type = distro->docker_type;
     }
-    fprintf(stderr, "Using WSL distro %s\n", distro_name);
+    fprintf(stderr, "Using WSL distro %s\n", distro_name.c_str());
     return docker_conn.init(docker_type, distro_name, config.verbose>0);
 }
 #endif
