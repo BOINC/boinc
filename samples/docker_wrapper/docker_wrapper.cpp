@@ -607,10 +607,18 @@ int get_stats(RSC_USAGE &ru) {
     const char *buf = out[0].c_str();
     // output is like
     // 0.00% 420KiB / 503.8GiB
+    // but this can be preceded by warnings of the form x="y"
+    //
+    const char *p = strrchr(buf, '"');
+    if (p) buf = p+1;
+
     double cpu_pct, mem;
     char mem_unit;
     n = sscanf(buf, "%lf%% %lf%c", &cpu_pct, &mem, &mem_unit);
-    if (n != 3) return -1;
+    if (n != 3) {
+        fprintf(stderr, "Can't parse stats reply\n");
+        return -1;
+    }
     switch (mem_unit) {
     case 'G':
     case 'g':

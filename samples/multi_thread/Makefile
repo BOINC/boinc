@@ -29,9 +29,9 @@ CXXFLAGS += -g \
     -L$(BOINC_LIB_DIR) \
     -L.
 
-PROGS = multi_thread
+PROG = multi_thread_2_x86_64-pc-linux-gnu
 
-all: $(PROGS)
+all: $(PROG)
 
 libstdc++.a:
 	ln -s `$(CXX) $(CXXFLAGS) -print-file-name=libstdc++.a`
@@ -41,7 +41,7 @@ clean: distclean
 distclean:
 	/bin/rm -f $(PROGS) $(addsuffix .exe, $(PROGS)) *.o libstdc++.a
 
-multi_thread: multi_thread.o $(MAKEFILE_STDLIB) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o multi_thread multi_thread.o $(MAKEFILE_LDFLAGS) -lboinc_api -lboinc $(STDCPPTC)
+$(PROG): multi_thread.o $(MAKEFILE_STDLIB) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o $(PROG) multi_thread.o $(MAKEFILE_LDFLAGS) -lboinc_api -lboinc $(STDCPPTC)
 
 install: all

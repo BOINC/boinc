@@ -26,6 +26,8 @@
 // You could also use libraries such as OpenMP.
 // In any case, initialize with boinc_init_parallel().
 
+#define STANDALONE
+
 #include <stdio.h>
 #include <vector>
 #ifdef _WIN32
@@ -157,10 +159,12 @@ int main(int argc, char** argv) {
     double start_time = dtime();
     char buf[256];
 
+#ifndef STANDALONE
     BOINC_OPTIONS options;
     boinc_options_defaults(options);
     options.multi_thread = true;
     boinc_init_options(&options);
+#endif
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--nthreads")) {
@@ -177,9 +181,11 @@ int main(int argc, char** argv) {
         thread_set.threads.push_back(new THREAD(worker, i));
     }
     while (1) {
+#ifndef STANDALONE
         double f = thread_set.units_done()/((double)UNITS_PER_THREAD*nthreads);
         fprintf(stderr, "fraction done: %f\n", f);
         boinc_fraction_done(f);
+#endif
         if (thread_set.all_done()) break;
         boinc_sleep(1.0);
     }
@@ -189,5 +195,9 @@ int main(int argc, char** argv) {
         "%s All done.  Used %d threads.  Elapsed time %f\n",
         boinc_msg_prefix(buf, sizeof(buf)), nthreads, elapsed_time
     );
+#ifdef STANDALONE
+    exit(0);
+#else
     boinc_finish(0);
+#endif
 }
