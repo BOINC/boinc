@@ -26,7 +26,7 @@
 // --dockerfile         Dockerfile name, default Dockerfile
 // --sporadic           app is sporadic
 //
-// args are passed as cmdline args to main prog in container
+// additional args are passed as cmdline args to main prog in container
 //
 // docker_wrapper runs in a directory (usually slot dir) containing
 //
@@ -83,6 +83,10 @@
 // enable standalone test on Win
 //
 //#define WIN_STANDALONE_TEST
+
+// docs:
+// https://docs.docker.com/reference/cli/docker/container/run/
+// https://docs.docker.com/engine/containers/resource_constraints/
 
 #include <cstdio>
 #include <string>
@@ -421,6 +425,13 @@ int create_container() {
     }
     for (string s: config.portmaps) {
         snprintf(buf, sizeof(buf), " -p %s", s.c_str());
+        strcat(cmd, buf);
+    }
+
+    // multithread
+    //
+    if (aid.ncpus > 1) {
+        sprintf(buf, sizeof(buf), " --cpus %f", aid.ncpus);
         strcat(cmd, buf);
     }
 
