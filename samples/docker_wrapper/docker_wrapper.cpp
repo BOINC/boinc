@@ -610,8 +610,8 @@ int get_stats(RSC_USAGE &ru) {
     // but this can be preceded by lines with warning messages
     //
     bool found = false;
-    double cpu_pct, mem;
-    char mem_unit;
+    double cpu_pct=0, mem=0;
+    char mem_unit=0;
     for (string line: out) {
         n = sscanf(line.c_str(), "%lf%% %lf%c", &cpu_pct, &mem, &mem_unit);
         if (n == 3) {
