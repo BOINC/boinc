@@ -604,18 +604,22 @@ int get_stats(RSC_USAGE &ru) {
     retval = docker_conn.command(cmd, out);
     if (retval) return -1;
     if (out.empty()) return -1;
-    const char *buf = out[0].c_str();
+
     // output is like
     // 0.00% 420KiB / 503.8GiB
-    // but this can be preceded by warnings of the form x="y"
+    // but this can be preceded by lines with warning messages
     //
-    const char *p = strrchr(buf, '"');
-    if (p) buf = p+1;
-
+    bool found = false;
     double cpu_pct, mem;
     char mem_unit;
-    n = sscanf(buf, "%lf%% %lf%c", &cpu_pct, &mem, &mem_unit);
-    if (n != 3) {
+    for (string line: out) {
+        n = sscanf(line.c_str(), "%lf%% %lf%c", &cpu_pct, &mem, &mem_unit);
+        if (n == 3) {
+            found = true;
+            break;
+        }
+    }
+    if (!found) {
         fprintf(stderr, "Can't parse stats reply\n");
         return -1;
     }
