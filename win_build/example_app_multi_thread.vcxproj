@@ -11,7 +11,8 @@
   </PropertyGroup>
   <Import Project="boinc.props" />
   <PropertyGroup>
-    <TargetName>multi_thread_windows_$(Platform)</TargetName>
+    <TargetVersion>2</TargetVersion>
+    <TargetName>multi_thread_windows_$(TargetVersion)_$(Platform)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>

@@ -32,6 +32,9 @@
 // dockerwrapper version number
 #define DOCKERWRAPPER_RELEASE 7
 
+// multi_thread version number
+#define MULTITHREAD_RELEASE 2
+
 // client version number as string
 #define BOINC_VERSION_STRING "8.3.0"
 
