@@ -48,8 +48,6 @@ using std::vector;
 #define DEFAULT_NTHREADS    4
 #define UNITS_PER_THREAD    64
 
-int units_per_thread;
-
 #ifdef _WIN32
 typedef HANDLE THREAD_ID;
 typedef UINT (__stdcall *THREAD_FUNC)(void*);

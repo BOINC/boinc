@@ -612,7 +612,7 @@ int get_stats(RSC_USAGE &ru) {
     bool found = false;
     double cpu_pct=0, mem=0;
     char mem_unit=0;
-    for (string line: out) {
+    for (const string& line: out) {
         n = sscanf(line.c_str(), "%lf%% %lf%c", &cpu_pct, &mem, &mem_unit);
         if (n == 3) {
             found = true;
