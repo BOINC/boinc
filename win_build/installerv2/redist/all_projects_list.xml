@@ -855,6 +855,8 @@
         <name>i686-pc-linux-gnu</name>
         <name>windows_intelx86</name>
         <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[mt_oifs]</name>
+        <name>x86_64-pc-linux-gnu[mt_oifs_bigmem]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/cpn_logo_world_1.jpg</image>
       <summary>Study long-term climate change</summary>
