@@ -17,8 +17,26 @@
 
 import sys
 
+def set_configure_ac(version):
+    with open('configure.ac', 'r') as f:
+        lines = f.readlines()
+    with open('configure.ac', 'w') as f:
+        for line in lines:
+            if line.startswith('MULTITHREAD_RELEASE='):
+                line = f'MULTITHREAD_RELEASE={version}\n'
+            f.write(line)
+
+def set_version_h(version):
+    with open('version.h', 'r') as f:
+        lines = f.readlines()
+    with open('version.h', 'w') as f:
+        for line in lines:
+            if line.startswith('#define MULTITHREAD_RELEASE'):
+                line = f'#define MULTITHREAD_RELEASE {version}\n'
+            f.write(line)
+
 def set_vcxproj(version):
-    for vcxproj in ['win_build/wsl_wrapper.vcxproj']:
+    for vcxproj in ['win_build/example_app_multi_thread.vcxproj']:
         with open(vcxproj, 'r') as f:
             lines = f.readlines()
         with open(vcxproj, 'w') as f:
@@ -28,13 +46,15 @@ def set_vcxproj(version):
                 f.write(line)
 
 if (len(sys.argv) != 2):
-    print('Usage: set-wslwrapper-version.py VERSION')
+    print('Usage: set-multithread-version.py VERSION')
     exit(1)
 
 version = sys.argv[1]
 
-print(f'Setting wsl_wrapper version to {version}...')
+print(f'Setting multithread version to {version}...')
 
+set_configure_ac(version)
+set_version_h(version)
 set_vcxproj(version)
 
 print('Done.')

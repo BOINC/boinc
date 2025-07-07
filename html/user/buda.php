@@ -372,8 +372,8 @@ function variant_action($user) {
     if ($max_delay_days <= 0) {
         error_page('Must specify positive max delay');
     }
+
     $input_file_names = get_str('input_file_names', true);
-    $output_file_names = explode(' ', get_str('output_file_names'));
     if ($input_file_names) {
         $input_file_names = explode(' ', $input_file_names);
         foreach ($input_file_names as $fname) {
@@ -384,10 +384,17 @@ function variant_action($user) {
     } else {
         $input_file_names = [];
     }
-    foreach ($output_file_names as $fname) {
-        if (!is_valid_filename($fname)) {
-            error_page("Invalid output file name: ".filename_rules());
+
+    $output_file_names = get_str('output_file_names', true);
+    if ($output_file_names) {
+        $output_file_names = explode(' ', $output_file_names);
+        foreach ($output_file_names as $fname) {
+            if (!is_valid_filename($fname)) {
+                error_page("Invalid output file name: ".filename_rules());
+            }
         }
+    } else {
+        $output_file_names = [];
     }
 
     $dir = "$buda_root/$app/$variant";

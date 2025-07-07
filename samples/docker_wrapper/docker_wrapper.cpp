@@ -26,7 +26,7 @@
 // --dockerfile         Dockerfile name, default Dockerfile
 // --sporadic           app is sporadic
 //
-// args are passed as cmdline args to main prog in container
+// additional args are passed as cmdline args to main prog in container
 //
 // docker_wrapper runs in a directory (usually slot dir) containing
 //
@@ -83,6 +83,10 @@
 // enable standalone test on Win
 //
 //#define WIN_STANDALONE_TEST
+
+// docs:
+// https://docs.docker.com/reference/cli/docker/container/run/
+// https://docs.docker.com/engine/containers/resource_constraints/
 
 #include <cstdio>
 #include <string>
@@ -424,6 +428,13 @@ int create_container() {
         strcat(cmd, buf);
     }
 
+    // multithread
+    //
+    if (aid.ncpus > 1) {
+        snprintf(buf, sizeof(buf), " --cpus %f", aid.ncpus);
+        strcat(cmd, buf);
+    }
+
     // GPU access
     //
     if (config.use_gpu) {
@@ -593,13 +604,25 @@ int get_stats(RSC_USAGE &ru) {
     retval = docker_conn.command(cmd, out);
     if (retval) return -1;
     if (out.empty()) return -1;
-    const char *buf = out[0].c_str();
+
     // output is like
     // 0.00% 420KiB / 503.8GiB
-    double cpu_pct, mem;
-    char mem_unit;
-    n = sscanf(buf, "%lf%% %lf%c", &cpu_pct, &mem, &mem_unit);
-    if (n != 3) return -1;
+    // but this can be preceded by lines with warning messages
+    //
+    bool found = false;
+    double cpu_pct=0, mem=0;
+    char mem_unit=0;
+    for (const string& line: out) {
+        n = sscanf(line.c_str(), "%lf%% %lf%c", &cpu_pct, &mem, &mem_unit);
+        if (n == 3) {
+            found = true;
+            break;
+        }
+    }
+    if (!found) {
+        fprintf(stderr, "Can't parse stats reply\n");
+        return -1;
+    }
     switch (mem_unit) {
     case 'G':
     case 'g':
@@ -651,7 +674,7 @@ int wsl_init() {
         distro_name = distro->distro_name;
         docker_type = distro->docker_type;
     }
-    fprintf(stderr, "Using WSL distro %s\n", distro_name);
+    fprintf(stderr, "Using WSL distro %s\n", distro_name.c_str());
     return docker_conn.init(docker_type, distro_name, config.verbose>0);
 }
 #endif
