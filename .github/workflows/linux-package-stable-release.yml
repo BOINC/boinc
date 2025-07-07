@@ -1,6 +1,6 @@
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2024 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -59,6 +59,7 @@ jobs:
       - name: Install dependencies
         if: ${{ success() && env.SKIP_RUN == 0 }}
         run: |
+          sudo apt-get update -qq
           sudo apt-get install -y aptly gnupg2 gpgv
 
       - name: Setup GPG keys
