@@ -56,6 +56,45 @@ function return_link() {
     echo "<p><a href=submit.php?action=status>Return to batches page</a>\n";
 }
 
+// show order options
+// sub_asc, sub_desc: submission time ( = ID order)
+// comp_asc, comp_desc: completion time
+
+function order_options($url_args, $order) {
+    $url = "submit.php?$url_args";
+    echo sprintf(
+        'Order by: submission time (%s, %s) or completion time (%s, %s)',
+        order_item($url, $order, 'sub_asc', 'ascending'),
+        order_item($url, $order, 'sub_desc', 'descending'),
+        order_item($url, $order, 'comp_asc', 'ascending'),
+        order_item($url, $order, 'comp_desc', 'descending')
+    );
+}
+
+function order_item($url, $cur_order, $order, $label) {
+    if ($cur_order == $order) {
+        return $label;
+    } else {
+        $url .= "&order=$order";
+        return "<a href=$url>$label</a>";
+    }
+}
+
+function order_clause($order) {
+    switch ($order) {
+    case 'sub_asc': return 'id';
+    case 'sub_desc': return 'id desc';
+    case 'comp_asc': return 'completion_time';
+    case 'comp_desc': return 'completion_time desc';
+    }
+}
+
+function get_order() {
+    $order = get_str('order', true);
+    if (!$order) $order = 'sub_desc';
+    return $order;
+}
+
 // get params of in-progress batches; they might not be in progress anymore.
 //
 function get_batches_params($batches) {
@@ -176,7 +215,7 @@ function show_complete($all_batches, $limit, $user, $app) {
             form_input_hidden('action', 'retire_multi');
             start_table('table-striped');
             table_header(
-                "Name", "ID", "User", "App", "# Jobs", "Submitted", "Select"
+                "Name", "ID", "User", "App", "# Jobs", "Submitted", "Completed", "Select"
             );
         }
         table_row(
@@ -186,6 +225,7 @@ function show_complete($all_batches, $limit, $user, $app) {
             $batch->app_name,
             $batch->njobs,
             local_time_str($batch->create_time),
+            local_time_str($batch->completion_time),
             sprintf('<input type=checkbox name=retire_%d>', $batch->id)
         );
     }
@@ -213,13 +253,12 @@ function show_aborted($all_batches, $limit, $user, $app) {
         $n++;
         if ($first) {
             $first = false;
-            echo "<h2>Aborted batches</h2>\n";
             if ($limit) {
                 show_all_link($batches, BATCH_STATE_ABORTED, $limit, $user, $app);
             }
             form_start('');
             start_table();
-            table_header("name", "ID", "user", "app", "# jobs", "submitted");
+            table_header("Name", "ID", "User", "App", "# Jobs", "Submitted", "Aborted");
         }
         table_row(
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
@@ -227,7 +266,8 @@ function show_aborted($all_batches, $limit, $user, $app) {
             $batch->user_name,
             $batch->app_name,
             $batch->njobs,
-            local_time_str($batch->create_time)
+            local_time_str($batch->create_time),
+            local_time_str($batch->completion_time)
         );
     }
     if (!$first) {
@@ -331,7 +371,10 @@ function handle_main($user) {
 //
 function handle_show_status($user) {
     page_head("Batches");
-    $batches = BoincBatch::enum("user_id = $user->id order by id desc");
+    $order = get_order();
+    order_options('action=status', $order);
+    $clause = order_clause($order);
+    $batches = BoincBatch::enum("user_id = $user->id order by $clause");
     get_batches_params($batches);
     show_batches($batches, PAGE_SIZE, $user, null);
 
@@ -419,15 +462,22 @@ function handle_admin_app($user) {
         error_page('no access');
     }
 
+    $order = get_order();
+    $clause = order_clause($order);
+
     page_head("Manage batches for $app->user_friendly_name");
-    $batches = BoincBatch::enum("app_id = $app_id order by id desc");
+    order_options("action=admin_app&app_id=$app_id", $order);
+    $batches = BoincBatch::enum("app_id = $app_id order by $clause");
     show_batches($batches, PAGE_SIZE, null, $app);
     page_tail();
 }
 
 function handle_admin_all($user) {
+    $order = get_order();
+    $clause = order_clause($order);
     page_head("Administer batches (all apps)");
-    $batches = BoincBatch::enum("true order by id desc");
+    order_options("action=admin_all", $order);
+    $batches = BoincBatch::enum("true order by $clause");
     show_batches($batches, PAGE_SIZE, null, null);
     page_tail();
 }
@@ -884,18 +934,21 @@ function handle_retire_multi($user) {
 
 // given a list of batches, show the ones in a given state
 //
-function show_batches_in_state($batches, $state) {
+function show_batches_in_state($batches, $state, $url_args, $order) {
     switch ($state) {
     case BATCH_STATE_IN_PROGRESS:
         page_head("Batches in progress");
+        order_options($url_args, $order);
         show_in_progress($batches, 0, null, null);
         break;
     case BATCH_STATE_COMPLETE:
         page_head("Completed batches");
+        order_options($url_args, $order);
         show_complete($batches, 0, null, null);
         break;
     case BATCH_STATE_ABORTED:
         page_head("Aborted batches");
+        order_options($url_args, $order);
         show_aborted($batches, 0, null, null);
         break;
     }
@@ -906,13 +959,16 @@ function handle_show_all($user) {
     $userid = get_int("userid");
     $appid = get_int("appid");
     $state = get_int("state");
+    $order = get_order();
+    $url_args = "action=show_all&state=$state&userid=$userid&appid=$appid";
+    $clause = order_clause($order);
     if ($userid) {
         // user looking at their own batches
         //
         if ($userid != $user->id) error_page("wrong user");
-        $batches = BoincBatch::enum("user_id = $user->id and state=$state order by id desc");
+        $batches = BoincBatch::enum("user_id=$user->id and state=$state order by $clause");
         fill_in_app_and_user_names($batches);
-        show_batches_in_state($batches, $state);
+        show_batches_in_state($batches, $state, $url_args, $order);
     } else {
         // admin looking at batches
         //
@@ -922,12 +978,12 @@ function handle_show_all($user) {
         if ($appid) {
             $app = BoincApp::lookup_id($appid);
             if (!$app) error_page("no such app");
-            $batches = BoincBatch::enum("app_id = $appid and state=$state order by id desc");
+            $batches = BoincBatch::enum("app_id=$appid and state=$state order by $clause");
         } else {
-            $batches = BoincBatch::enum("state=$state order by id desc");
+            $batches = BoincBatch::enum("state=$state order by $clause");
         }
         fill_in_app_and_user_names($batches);
-        show_batches_in_state($batches, $state);
+        show_batches_in_state($batches, $state, $url_args, $order);
     }
 }
 
