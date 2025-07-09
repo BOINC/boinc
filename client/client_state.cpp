@@ -928,15 +928,19 @@ int CLIENT_STATE::init() {
 
     // if Docker not present, notify user
     //
-#ifndef ANDROID
+    const char* url = NULL;
 #ifdef _WIN32
-    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Windows";
+    url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Windows";
+    if (strstr(host_info.os_name, "Windows 10") && strstr(host_info.os_version, "Core")) {
+        // Core == Home.  WSL not supported on Win 10 Home
+        url = NULL;
+    }
 #elif defined(__APPLE__)
-    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Mac";
+    url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Mac";
 #else
-    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Linux";
+    url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Linux";
 #endif
-    if (!host_info.have_docker()) {
+    if (url && !host_info.have_docker()) {
         msg_printf(NULL, MSG_INFO,
             "Some projects require Docker."
         );
@@ -951,7 +955,6 @@ int CLIENT_STATE::init() {
         strcpy(n.category, "client");
         notices.append(n);
     }
-#endif
 
     initialized = true;
     return 0;
