@@ -929,16 +929,23 @@ int CLIENT_STATE::init() {
     // if Docker not present, notify user
     //
 #ifndef ANDROID
+#ifdef _WIN32
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Windows";
+#elif defined(__APPLE__)
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Mac";
+#else
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Linux";
+#endif
     if (!host_info.have_docker()) {
         msg_printf(NULL, MSG_INFO,
             "Some projects require Docker."
         );
         msg_printf(NULL, MSG_INFO,
-            "To install Docker, visit https://github.com/BOINC/boinc/wiki/Installing-Docker"
+            "To install Docker, visit %s", url
         );
         NOTICE n;
-        n.description = "Some projects require Docker.  We recommend that you install it.  Instructions are <a href=https://github.com/BOINC/boinc/wiki/Installing-Docker>here</a>.";
-        strcpy(n.link, "https://github.com/BOINC/boinc/wiki/Installing-Docker");
+        n.description = "Some projects require Docker.  We recommend that you install it.  Instructions are <a href=" + (string)url + (string)">here</a>.";
+        strcpy(n.link, url);
         n.create_time = now;
         n.arrival_time = now;
         strcpy(n.category, "client");
