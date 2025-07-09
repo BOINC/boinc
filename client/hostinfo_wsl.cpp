@@ -435,10 +435,10 @@ static void get_docker_compose_version(WSL_CMD& rs, WSL_DISTRO &wd) {
 //
 void show_wsl_messages() {
     int bdv = gstate.host_info.wsl_distros.boinc_distro_version();
-    const char *url = "https://github.com/BOINC/boinc/wiki/Installing-Docker";
+    const char *url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Windows";
     if (bdv == 0) {
         msg_printf_notice(0, true, url,
-            "Some BOINC projects require Windows Subsystem for Linux (WSL).  <a href=%s>Learn how to enable WSL</a>",
+            "Some BOINC projects require Docker.  <a href=%s>Learn how to install it</a>",
             url
         );
     } else if (bdv < gstate.latest_boinc_buda_runner_version) {
