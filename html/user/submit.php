@@ -663,20 +663,24 @@ function handle_query_batch($user) {
         );
         break;
     }
-    echo "<p>";
-    show_button("submit_stats.php?action=flops_graph&batch_id=$batch_id",
-        "Job runtimes"
-    );
-    show_button("submit.php?action=batch_stats&batch_id=$batch_id",
-        "Memory/disk usage"
-    );
-    echo "<p>";
-    show_button("submit_stats.php?action=err_host&batch_id=$batch_id",
-        "Errors by host"
-    );
-    show_button("submit_stats.php?action=err_code&batch_id=$batch_id",
-        "Errors by exit code"
-    );
+    echo "<p>
+        <h3>Completed jobs</h3>
+        <ul>
+        <li>
+        <a href=submit_stats.php?action=flops_graph&batch_id=$batch_id>Job runtimes</a>
+        <li>
+        <a href=submit.php?action=batch_stats&batch_id=$batch_id>Memory/disk usage</a>
+        <li>
+        <a href=submit_stats.php?action=show_hosts&batch_id=$batch_id>Grouped by host</a>
+        </ul>
+        <h3>Failed jobs</h3>
+        <ul>
+        <li>
+        <a href=submit_stats.php?action=err_host&batch_id=$batch_id>Grouped by host</a>
+        <li>
+        <a href=submit_stats.php?action=err_code&batch_id=$batch_id>Grouped by exit code</a>
+        </ul>
+    ";
 
     echo "<h2>Jobs</h2>\n";
     start_table();

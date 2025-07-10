@@ -49,14 +49,15 @@ function err_host($batch) {
     text_start();
     arsort($x);
     start_table();
-    table_header('Host', '# errors');
+    table_header('Host', 'OS', '# errors');
     $n = 0;
     foreach ($x as $id=>$count) {
         $host = BoincHost::lookup_id($id);
         table_row(
             "<a href=show_host_detail.php?hostid=$id>$host->domain_name</a>",
+            $host->os_name,
             sprintf(
-                '<a href=submit_stats.php?action=host_list&host_id=%d&batch_id=%d>%d</a>',
+                '<a href=submit_stats.php?action=host_list_errors&host_id=%d&batch_id=%d>%d</a>',
                 $id, $batch->id, $count
             )
         );
@@ -108,7 +109,7 @@ function err_code($batch) {
 
 // list of error results from a host
 //
-function host_list($batch_id, $host_id) {
+function host_list_errors($batch_id, $host_id) {
     page_head("Errors for batch $batch_id, host $host_id");
     $results = BoincResult::enum(
         sprintf('batch=%d and hostid=%d and outcome=%d',
@@ -138,14 +139,22 @@ function code_list($batch_id, $code) {
         )
     );
 
+    text_start();
     start_table();
-    table_header('Job instance');
+    table_header('Job instance', 'Host');
     foreach ($results as $r) {
+        $host = BoincHost::lookup_id($r->hostid);
         table_row(
-            "<a href=result.php?resultid=$r->id>$r->name</a>"
+            "<a href=result.php?resultid=$r->id>$r->name</a>",
+            sprintf('<a href=show_host_detail.php?hostid=%d>%d (%s)</a>',
+                $host->id,
+                $host->id,
+                $host->os_name
+            )
         );
     }
     end_table();
+    text_end();
     page_tail();
 }
 
@@ -223,6 +232,42 @@ function flops_graph($batch) {
     page_tail();
 }
 
+// show hosts that did jobs for this batch
+function show_hosts($batch) {
+    $results = BoincResult::enum_fields(
+        'hostid',
+        sprintf('batch=%d and outcome=%d',
+            $batch->id,
+            RESULT_OUTCOME_SUCCESS
+        )
+    );
+    $x = [];
+    foreach ($results as $r) {
+        $id = $r->hostid;
+        if (array_key_exists($id, $x)) {
+            $x[$id] += 1;
+        } else {
+            $x[$id] = 1;
+        }
+    }
+    arsort($x);
+    page_head("Batch $batch->id: completed jobs grouped by host");
+    text_start();
+    start_table();
+    table_header('Host', 'OS', '# jobs');
+    foreach ($x as $id => $count) {
+        $host = BoincHost::lookup_id($id);
+        table_row(
+            "<a href=show_host_detail.php?hostid=$id>$id</a>",
+            $host->os_name,
+            $count
+        );
+    }
+    end_table();
+    text_end();
+    page_tail();
+}
+
 $batch = BoincBatch::lookup_id(get_int('batch_id'));
 if (!$batch) error_page('no batch');
 switch(get_str('action')) {
@@ -232,14 +277,17 @@ case 'err_host':
 case 'err_code':
     err_code($batch);
     break;
-case 'host_list':
-    host_list($batch->id, get_int('host_id'));
+case 'host_list_errors':
+    host_list_errors($batch->id, get_int('host_id'));
     break;
 case 'code_list':
     code_list($batch->id, get_int('code'));
     break;
 case 'flops_graph':
     flops_graph($batch);
+    break;
+case 'show_hosts':
+    show_hosts($batch);
     break;
 default:
     error_page('bad action');
