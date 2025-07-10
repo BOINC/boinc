@@ -682,15 +682,20 @@ function handle_query_batch($user) {
     start_table();
     $x = [
         "Name <br><small>click for details</small>",
-        "status"
+        "status",
+        "GFLOPS-hours"
     ];
     row_heading_array($x);
     foreach($wus as $wu) {
         $y = '';
+        $c = '---';
         switch($wu->status) {
         case WU_SUCCESS:
             $resultid = $wu->canonical_resultid;
             $y = sprintf('<font color="%s">completed</font>', COLOR_SUCCESS);
+            $c = number_format(
+                credit_to_gflop_hours($wu->canonical_credit), 2
+            );
             break;
         case WU_ERROR:
             $y = sprintf('<font color="%s">failed</font>', COLOR_FAIL);
@@ -705,6 +710,7 @@ function handle_query_batch($user) {
         $x = [
             "<a href=submit.php?action=query_job&wuid=$wu->id>$wu->name</a>",
             $y,
+            $c
         ];
         row_array($x);
     }
