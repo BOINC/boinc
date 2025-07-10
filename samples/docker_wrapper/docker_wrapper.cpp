@@ -764,7 +764,18 @@ int main(int argc, char** argv) {
         boinc_finish(1);
     }
 #else
-    docker_type = boinc_is_standalone()?PODMAN:aid.host_info.docker_type;
+    if (boinc_is_standalone()) {
+        docker_type = PODMAN;
+    } else {
+        if (!strlen(aid.host_info.docker_version)
+            || aid.host_info.docker_type == NONE
+        ) {
+            fprintf(stderr, "Docker type missing from app_init_data.xml\n");
+            fprintf(stderr, "Check project plan class configuration\n");
+            boinc_finish(1);
+        }
+        docker_type = aid.host_info.docker_type;
+    }
     docker_conn.init(docker_type, config.verbose>0);
 #endif
     fprintf(stderr, "Using %s\n", docker_type_str(docker_type));

@@ -78,7 +78,9 @@ void HOST_INFO::clear_host_info() {
     wsl_distros.clear();
 #else
     safe_strcpy(docker_version, "");
+    docker_type = NONE;
     safe_strcpy(docker_compose_version, "");
+    docker_compose_type = NONE;
 #endif
 
     safe_strcpy(product_name, "");
