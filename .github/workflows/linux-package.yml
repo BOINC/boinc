@@ -815,14 +815,14 @@ jobs:
           rpm --import https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}/boinc.gpg
           yum install -y boinc-client boinc-manager
 
-      # - name: Install distro package for further upgrade from the stable for Fedora > 41
-      #   if: success() && matrix.type == 'upgrade-from-stable' && (matrix.os == '41' || matrix.os == '42')
-      #   run: |
-      #     dnf install -y dnf-plugins-core
-      #     dnf config-manager addrepo --from-repofile=https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}/boinc-stable-fc${{ matrix.os }}.repo
-      #     dnf config-manager setopt boinc-stable-fc${{ matrix.os }}.enabled=1
-      #     rpm --import https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}/boinc.gpg
-      #     dnf install -y boinc-client-8.2.1 boinc-manager-8.2.1
+      - name: Install distro package for further upgrade from the stable for Fedora > 41
+        if: success() && matrix.type == 'upgrade-from-stable' && (matrix.os == '41' || matrix.os == '42')
+        run: |
+          dnf install -y dnf-plugins-core
+          dnf config-manager addrepo --from-repofile=https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}/boinc-stable-fc${{ matrix.os }}.repo
+          dnf config-manager setopt boinc-stable-fc${{ matrix.os }}.enabled=1
+          rpm --import https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}/boinc.gpg
+          dnf install -y boinc-client-8.2.4 boinc-manager-8.2.4
 
       - name: Download client
         if: success()
