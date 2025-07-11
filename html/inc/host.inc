@@ -831,7 +831,7 @@ function show_user_hosts($userid, $private, $show_all, $sort, $rev) {
     $now = time();
     $old_hosts=0;
     $i = 1;
-    $hosts = BoincHost::enum("userid=$userid order by $sort_clause");
+    $hosts = BoincHost::enum("userid=$userid order by $sort_clause limit 100");
     $any_product_name = false;
     foreach ($hosts as $host) {
         if ($host->product_name) {
