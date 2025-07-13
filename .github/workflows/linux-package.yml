@@ -69,6 +69,11 @@ jobs:
         run: |
           echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
 
+      - name: Fix debian sources
+        run: |
+          sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
+          sed -i 's/security.debian.org/archive.debian.org/g' /etc/apt/sources.list
+
       - name: Install dependencies
         run: |
           apt-get -qq update
@@ -626,6 +631,11 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Fix debian sources
+        if: matrix.os == 'buster'
+        run: |
+          sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
+          sed -i 's/security.debian.org/archive.debian.org/g' /etc/apt/sources.list
       - name: Install dependencies
         if: success()
         run: |
