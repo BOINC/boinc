@@ -284,20 +284,22 @@ function abort_batch($batch) {
     foreach ($wus as $wu) {
         $ids[] = $wu->id;
     }
-    $ids = implode(',', $ids);
-    BoincResult::update_aux(
-        sprintf(
-            'server_state=%d, outcome=%d where server_state=%d and workunitid in (%s)',
-            RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_DIDNT_NEED,
-            RESULT_SERVER_STATE_UNSENT,
-            $ids
-        )
-    );
-    BoincWorkunit::update_aux(
-        sprintf('error_mask=error_mask|%d where id in(%s)',
-            WU_ERROR_CANCELLED, $ids
-        )
-    );
+    if ($ids) {
+        $ids = implode(',', $ids);
+        BoincResult::update_aux(
+            sprintf(
+                'server_state=%d, outcome=%d where server_state=%d and workunitid in (%s)',
+                RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_DIDNT_NEED,
+                RESULT_SERVER_STATE_UNSENT,
+                $ids
+            )
+        );
+        BoincWorkunit::update_aux(
+            sprintf('error_mask=error_mask|%d where id in(%s)',
+                WU_ERROR_CANCELLED, $ids
+            )
+        );
+    }
     $batch->update(
         sprintf('state=%d', BATCH_STATE_ABORTED)
     );
@@ -316,17 +318,19 @@ function retire_batch($batch) {
     foreach ($wus as $wu) {
         $ids[] = $wu->id;
     }
-    $ids = implode(',', $ids);
-    BoincWorkunit::update_aux(
-        sprintf('assimilate_state=%d, transition_time=%d where id in(%s)',
-            ASSIMILATE_DONE, $now, $ids
-        )
-    );
-    foreach ($wus as $wu) {
-        // remove output template if it's a temporary
-        //
-        if (strstr($wu->result_template_file, "templates/tmp/")) {
-            @unlink($wu->result_template_file);
+    if ($ids) {
+        $ids = implode(',', $ids);
+        BoincWorkunit::update_aux(
+            sprintf('assimilate_state=%d, transition_time=%d where id in(%s)',
+                ASSIMILATE_DONE, $now, $ids
+            )
+        );
+        foreach ($wus as $wu) {
+            // remove output template if it's a temporary
+            //
+            if (strstr($wu->result_template_file, "templates/tmp/")) {
+                @unlink($wu->result_template_file);
+            }
         }
     }
     $batch->update("state=".BATCH_STATE_RETIRED);
