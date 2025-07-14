@@ -323,6 +323,9 @@ def prepare_linux_apps(target_directory):
 def prepare_linux_apps_arm64(target_directory):
     prepare_7z_archive('linux_apps-arm64', target_directory, linux_apps_list)
 
+def prepare_linux_apps_vcpkg_arm64(target_directory):
+    prepare_7z_archive('linux_apps-vcpkg-arm64', target_directory, linux_apps_list)
+
 def prepare_linux_apps_vcpkg(target_directory):
     prepare_7z_archive('linux_apps-vcpkg', target_directory, linux_apps_list)
 
@@ -382,6 +385,7 @@ boinc_types = {
     'linux_client-vcpkg': prepare_linux_client_vcpkg,
     'linux_apps': prepare_linux_apps,
     'linux_apps-arm64': prepare_linux_apps_arm64,
+    'linux_apps-vcpkg-arm64': prepare_linux_apps_vcpkg_arm64,
     'linux_apps-vcpkg': prepare_linux_apps_vcpkg,
     'linux_manager': prepare_linux_manager,
     'linux_manager-with-webview': prepare_linux_manager_with_webview,
