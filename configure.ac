@@ -6,7 +6,7 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.58)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(BOINC, 8.2.4)
+AC_INIT(BOINC, 8.3.0)
 AC_CONFIG_MACRO_DIR([m4])
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
@@ -17,11 +17,14 @@ AC_SUBST([WRAPPER_RELEASE])
 VBOXWRAPPER_RELEASE=26211
 AC_SUBST([VBOXWRAPPER_RELEASE])
 
-WORKER_RELEASE=4
+WORKER_RELEASE=5
 AC_SUBST([WORKER_RELEASE])
 
-DOCKERWRAPPER_RELEASE=1
+DOCKERWRAPPER_RELEASE=7
 AC_SUBST([DOCKERWRAPPER_RELEASE])
+
+MULTITHREAD_RELEASE=2
+AC_SUBST([MULTITHREAD_RELEASE])
 
 AC_CANONICAL_TARGET
 
@@ -45,7 +48,7 @@ AC_SUBST(REV)
 AC_SUBST(RDATE)
 
 dnl Are we compiling for windows
-if echo $host_os | egrep '^mingw|^winnt' > /dev/null ; then
+if echo $host_os | grep -E '^mingw|^winnt' > /dev/null ; then
   isWIN32=yes
 else
   isWIN32=no
@@ -1123,7 +1126,7 @@ fi
 AM_CONDITIONAL(OS_LINUX, [echo $host_os | grep '^linux' > /dev/null])
 AM_CONDITIONAL(OS_FREEBSD, [echo $host_os | grep '^freebsd' > /dev/null])
 dnl In case anyone wants to try building the windows code using mingw!
-AM_CONDITIONAL(OS_WIN32, [echo $host_os | egrep '^mingw|^winnt' > /dev/null])
+AM_CONDITIONAL(OS_WIN32, [echo $host_os | grep -E '^mingw|^winnt' > /dev/null])
 AM_CONDITIONAL(OS_WIN32_MINGW, [echo $host_os | grep '^mingw' > /dev/null])
 dnl or OS2
 AM_CONDITIONAL(OS_OS2, [echo $host_os | grep '^os2' > /dev/null])

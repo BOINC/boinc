@@ -60,6 +60,11 @@
 
 #include "backend_lib.h"
 
+// the max length of a job description line;
+// also the max length of a job command line
+//
+#define CMD_SIZE    4096
+
 using std::string;
 using std::map;
 
@@ -96,6 +101,7 @@ void usage() {
         "   [ --rsc_memory_bound x ]\n"
         "   [ --size_class n ]\n"
         "   [ --stdin ]\n"
+        "   [ --sub_appname 'foo bar' ]\n"
         "   [ --target_host ID ]\n"
         "   [ --target_nresults n ]\n"
         "   [ --target_team ID ]\n"
@@ -138,21 +144,23 @@ struct JOB_DESC {
     char result_template_file[256];
     char result_template_path[MAXPATHLEN];
     vector <INFILE_DESC> infiles;
-    char command_line[1024];
+    char command_line[CMD_SIZE];
     bool assign_flag;
     bool assign_multi;
     int assign_id;
     int assign_type;
+    char sub_appname[256];
 
     JOB_DESC() {
         wu.clear();
-        strcpy(command_line, "");
+        command_line[0] = 0;
         assign_flag = false;
         assign_multi = false;
-        strcpy(wu_template_file, "");
-        strcpy(result_template_file, "");
+        wu_template_file[0] = 0;
+        result_template_file[0] = 0;
         assign_id = 0;
         assign_type = ASSIGN_NONE;
+        sub_appname[0] = 0;
 
         // defaults (in case they're not in WU template)
         //
@@ -248,13 +256,22 @@ void get_wu_template(JOB_DESC& jd2) {
     strcpy(jd2.wu_template, wu_templates[s]);
 }
 
+// if a buffer is full after a fgets(), it was too small
+//
+void check_buffer(char *p, int len) {
+    if (strlen(p) == len-1) {
+        fprintf(stderr, "fgets() buffer was too small\n");
+        exit(1);
+    }
+}
+
 int main(int argc, char** argv) {
     DB_APP app;
     int retval;
     int i;
     char download_dir[256], db_name[256], db_passwd[256];
     char db_user[256],db_host[256];
-    char buf[4096];
+    char buf[CMD_SIZE];
     JOB_DESC jd;
     bool show_wu_name = true;
     bool use_stdin = false;
@@ -312,8 +329,6 @@ int main(int argc, char** argv) {
             jd.wu.max_total_results = atoi(argv[++i]);
         } else if (arg(argv, i, "max_success_results")) {
             jd.wu.max_success_results = atoi(argv[++i]);
-        } else if (arg(argv, i, "opaque")) {
-            jd.wu.opaque = atoi(argv[++i]);
         } else if (arg(argv, i, "command_line")) {
             strcpy(jd.command_line, argv[++i]);
         } else if (arg(argv, i, "wu_id")) {
@@ -367,6 +382,8 @@ int main(int argc, char** argv) {
             continue_on_error = true;
         } else if (arg(argv, i, "keywords")) {
             strcpy(jd.wu.keywords, argv[++i]);
+        } else if (arg(argv, i, "sub_appname")) {
+            strcpy(jd.sub_appname, argv[++i]);
         } else {
             if (!strncmp("-", argv[i], 1)) {
                 fprintf(stderr, "create_work: bad argument '%s'\n", argv[i]);
@@ -459,6 +476,7 @@ int main(int argc, char** argv) {
             for (int j=0; ; j++) {
                 char* p = fgets(buf, sizeof(buf), stdin);
                 if (p == NULL) break;
+                check_buffer(buf, sizeof(buf));
                 JOB_DESC jd2 = jd;
                     // things default to what was passed on cmdline
                 strcpy(jd2.wu.name, "");
@@ -478,13 +496,27 @@ int main(int argc, char** argv) {
                 jd2.create();
             }
         } else {
+            // stdin mode, unassigned.
+            // for max efficiency, do them all in one big SQL query
+            //
             string values;
             DB_WORKUNIT wu;
             int _argc;
             char* _argv[100], value_buf[MAX_QUERY_LEN];
+
+            char additional_xml[256];
+            additional_xml[0] = 0;
+            if (strlen(jd.sub_appname)) {
+                snprintf(additional_xml, sizeof(additional_xml),
+                    "   <sub_appname>%s</sub_appname>",
+                    jd.sub_appname
+                );
+            }
+
             for (int j=0; ; j++) {
                 char* p = fgets(buf, sizeof(buf), stdin);
                 if (p == NULL) break;
+                check_buffer(buf, sizeof(buf));
                 JOB_DESC jd2 = jd;
                 strcpy(jd2.wu.name, "");
                 _argc = parse_command_line(buf, _argv);
@@ -517,7 +549,7 @@ int main(int argc, char** argv) {
                     jd2.infiles,
                     config,
                     jd2.command_line,
-                    NULL,
+                    additional_xml,
                     value_buf
                 );
                 if (retval) {
@@ -574,9 +606,19 @@ int main(int argc, char** argv) {
     boinc_db.close();
 }
 
+// create a single job
+//
 void JOB_DESC::create() {
     if (assign_flag) {
         wu.transitioner_flags = assign_multi?TRANSITION_NONE:TRANSITION_NO_NEW_RESULTS;
+    }
+    char additional_xml[256], kwbuf[256];
+    additional_xml[0] = 0;
+    if (strlen(sub_appname)) {
+        snprintf(additional_xml, sizeof(additional_xml),
+            "   <sub_appname>%s</sub_appname>",
+            sub_appname
+        );
     }
     int retval = create_work2(
         wu,
@@ -585,7 +627,8 @@ void JOB_DESC::create() {
         result_template_path,
         infiles,
         config,
-        command_line
+        command_line,
+        additional_xml
     );
     if (retval) {
         fprintf(stderr, "create_work: %s\n", boincerror(retval));

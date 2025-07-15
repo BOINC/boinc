@@ -765,14 +765,16 @@ function show_result($result, $show_outfile_links=false) {
         project_result($result);
     }
     end_table();
-    echo "<h3>".tra("Stderr output")."</h3> <pre>"
-        .htmlspecialchars(
-            $result->stderr_out,
-            ENT_QUOTES | (defined('ENT_SUBSTITUTE')?ENT_SUBSTITUTE:0),
-            'utf-8'
-        )
-        ."</pre>"
-    ;
+    if ($result->server_state == RESULT_SERVER_STATE_OVER) {
+        echo "<h3>".tra("Stderr output")."</h3> <pre>"
+            .htmlspecialchars(
+                $result->stderr_out,
+                ENT_QUOTES | (defined('ENT_SUBSTITUTE')?ENT_SUBSTITUTE:0),
+                'utf-8'
+            )
+            ."</pre>"
+        ;
+    }
 }
 
 function result_navigation($info, $where_clause) {

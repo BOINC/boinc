@@ -15,6 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// functions called from create_work
+// and backend programs (scheduler, transitioner etc.)
+// to create result records and other utilities
+
 #include "config.h"
 #include "boinc_stdio.h"
 #include <cstdlib>
@@ -27,7 +31,6 @@
 #include <cmath>
 #include <sys/types.h>
 #include <sys/stat.h>
-
 
 #include "boinc_db.h"
 #include "common_defs.h"
@@ -351,7 +354,10 @@ int create_work2(
         return ERR_INVALID_PARAM;
     }
     if (wu.target_nresults > wu.max_success_results) {
-        boinc::fprintf(stderr, "target_nresults > max_success_results; can't create job\n");
+        boinc::fprintf(stderr,
+            "target_nresults %d > max_success_results %d; can't create job\n",
+            wu.target_nresults, wu.max_success_results
+        );
         return ERR_INVALID_PARAM;
     }
     if (wu.transitioner_flags) {

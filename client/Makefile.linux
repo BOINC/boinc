@@ -6,8 +6,19 @@
 #    make -f Makefile.linux clean all
 # 3) do the same in this dir
 
+OPTS = -O2 -Wall -Wformat -Wformat=2 -Wconversion -Wimplicit-fallthrough \
+-Wno-deprecated-copy \
+-Werror=format-security \
+-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 \
+-D_GLIBCXX_ASSERTIONS \
+-fstack-protector -fstack-protector-strong \
+-Wl,-z,nodlopen -Wl,-z,noexecstack \
+-Wl,-z,relro -Wl,-z,now \
+-Wl,--as-needed -Wl,--no-copy-dt-needed-entries
+
 //CC = g++ -O4 -Wall -I ../ -I ../lib/
-CC = g++ -g -Wall -I ../ -I ../lib/
+//CC = g++ -g -Wall -I ../ -I ../lib/
+CC = g++ -g $(OPTS) -I ../ -I ../lib/
 
 PROGS = boinc boinccmd
 

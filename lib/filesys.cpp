@@ -688,7 +688,7 @@ int boinc_copy(const char* orig, const char* newf) {
     // under sandbox security, so we copy the file directly.
     //
     FILE *src, *dst;
-    int m, n;
+    size_t m, n;
     int retval = 0;
     unsigned char buf[65536];
     src = boinc_fopen(orig, "r");
@@ -700,7 +700,7 @@ int boinc_copy(const char* orig, const char* newf) {
     }
     while (1) {
         n = boinc::fread(buf, 1, sizeof(buf), src);
-        if (n <= 0) {
+        if (n == 0) {
             // could be either EOF or an error.
             // Check for error case.
             //
@@ -1111,11 +1111,11 @@ int read_file_malloc(const char* path, char*& buf, size_t max_len, bool tail) {
     if (!f) return ERR_FOPEN;
 
 #ifndef _USING_FCGI_
-    if (max_len && size > max_len) {
+    if (max_len && size > (double)max_len) {
         if (tail) {
             fseek(f, (long)size-(long)max_len, SEEK_SET);
         }
-        size = max_len;
+        size = (double)max_len;
     }
 #endif
     size_t isize = (size_t)size;

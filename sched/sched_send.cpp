@@ -566,6 +566,11 @@ static int insert_wu_tags(WORKUNIT& wu, APP& app) {
             wu.keywords
         );
         strcat(buf, buf2);
+        if (config.debug_keyword) {
+            log_messages.printf(MSG_NORMAL,
+                "[keyword] keywords: %s\n", wu.keywords
+            );
+        }
     }
     return insert_after(wu.xml_doc, "<workunit>\n", buf);
 }

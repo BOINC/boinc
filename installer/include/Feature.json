@@ -1,0 +1,52 @@
+{
+    "Feature": [
+        {
+            "Feature": "BOINC",
+            "Title": "BOINC",
+            "Description": "IDS_FEATURE_BOINC_DESCRIPTION",
+            "Display": 3,
+            "Level": 1,
+            "Directory_": "INSTALLDIR",
+            "Attributes": 16,
+            "Features": [
+                {
+                    "Feature": "BOINCManager",
+                    "Title": "IDS_FEATURE_BOINC_MANAGER_NAME",
+                    "Description": "IDS_FEATURE_BOINC_MANAGER_DESCRIPTION",
+                    "Display": 13,
+                    "Level": 1,
+                    "Directory_": "INSTALLDIR",
+                    "Attributes": 2,
+                    "Features": [
+                        {
+                            "Feature": "BOINCManagerGlobalization",
+                            "Title": "IDS_FEATURE_BOINC_MANAGER_GLOBALIZATION_NAME",
+                            "Description": "IDS_FEATURE_BOINC_MANAGER_GLOBALIZATION_DESCRIPTION",
+                            "Display": 1,
+                            "Level": 1,
+                            "Directory_": "INSTALLDIR",
+                            "Attributes": 2
+                        },
+                        {
+                            "Feature": "BOINCManagerStartup",
+                            "Title": "***IS_STRING_NOT_DEFINED***",
+                            "Display": 7,
+                            "Level": 1,
+                            "Directory_": "INSTALLDIR",
+                            "Attributes": 2
+                        }
+                    ]
+                },
+                {
+                    "Feature": "BOINCScreensaver",
+                    "Title": "IDS_FEATURE_BOINC_SCREENSAVER_NAME",
+                    "Description": "IDS_FEATURE_BOINC_SCREENSAVER_DESCRIPTION",
+                    "Display": 15,
+                    "Level": 1,
+                    "Directory_": "INSTALLDIR",
+                    "Attributes": 18
+                }
+            ]
+        }
+    ]
+}

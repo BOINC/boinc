@@ -8,7 +8,7 @@ AC_DEFUN([BOINC_CHECK_GTK],[
     AC_MSG_RESULT(yes)
     AC_PATH_PROG(PKGCONFIG,[$mypkgconfig pkg-config])
     AC_MSG_CHECKING([if gtk uses pkg-config])
-    gtk_module="`$PKGCONFIG --list-all | egrep '^gtk\+?-' | head -1 | awk '{print $[]1}'`"
+    gtk_module="`$PKGCONFIG --list-all | grep -E '^gtk\+?-' | head -1 | awk '{print $[]1}'`"
     if test "x${gtk_module}" != x; then
       GTK_CONFIG="$PKGCONFIG ${gtk_module}"
       AC_MSG_RESULT([yes])

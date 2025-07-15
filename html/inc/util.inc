@@ -29,26 +29,22 @@ require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/bootstrap.inc");
 
-// parse config.xml (do it here for efficiency)
-//
-global $config;
-$config = get_config();
-
-global $master_url;
-$master_url = parse_config($config , "<master_url>");
-
-// the above 'globals' are solely for Drupal; see
-// https://stackoverflow.com/questions/29216392/scope-of-a-global-variable-in-drupal-module
-
-$recaptcha_public_key = parse_config($config, "<recaptcha_public_key>");
-$recaptcha_private_key = parse_config($config, "<recaptcha_private_key>");
+function master_url() {
+    return parse_config(get_config() , "<master_url>");
+}
+function recaptcha_public_key() {
+    return parse_config(get_config(), "<recaptcha_public_key>");
+}
+function recaptcha_private_key() {
+    return parse_config(get_config(), "<recaptcha_private_key>");
+}
 
 // Set parameters to defaults if not defined in config.xml
 
-$x = parse_config($config, "<user_country>");
+$x = parse_config(get_config(), "<user_country>");
 define('USER_COUNTRY', ($x===null)?1:(int)$x);
 
-$x = parse_config($config, "<user_url>");
+$x = parse_config(get_config(), "<user_url>");
 define('USER_URL', ($x===null)?1:(int)$x);
 
 // Set parameters to defaults if not defined in project.inc
@@ -163,11 +159,9 @@ function url_base() {
 }
 
 function send_cookie($name, $value, $permanent, $ops=false) {
-    global $master_url;
-
     // the following allows independent login for projects on the same server
     //
-    $url = parse_url($master_url);
+    $url = parse_url(master_url());
     $path = $url['path'];
     if ($ops) {
         $path = substr($path, 0, -1);
@@ -182,8 +176,7 @@ function send_cookie($name, $value, $permanent, $ops=false) {
 }
 
 function clear_cookie($name, $ops=false) {
-    global $master_url;
-    $url = parse_url($master_url);
+    $url = parse_url(master_url());
     $path = $url['path'];
     if ($ops) {
         $path = substr($path, 0, -1);

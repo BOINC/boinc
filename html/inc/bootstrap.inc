@@ -149,7 +149,7 @@ function sample_navbar(
     $inverse=false
         // white on black?
 ) {
-    global $master_url;
+    $master_url = master_url();
 
     $brand = "<a class=\"navbar-brand\" href=$master_url>".PROJECT."</a>";
     navbar_start($brand, $fixed, $inverse);
@@ -184,7 +184,7 @@ function sample_navbar(
         );
         navbar_menu(tra("Computing"), $x);
 
-        if (!empty('REMOTE_JOB_SUBMISSION')) {
+        if (defined('REMOTE_JOB_SUBMISSION') && REMOTE_JOB_SUBMISSION) {
             $user_submit = null;
             if ($user) {
                 $user_submit = BoincUserSubmit::lookup_userid($user->id);
@@ -194,18 +194,28 @@ function sample_navbar(
                 $x[] = ["File sandbox", "sandbox.php"];
                 $x[] = ["Submit jobs", $url_prefix."submit.php"];
                 $x[] = ["Job status", $url_prefix."submit.php?action=status"];
-                $is_admin = $user_submit->manage_all;
-                if (!$is_admin) {
+                if ($user_submit->manage_all) {
+                    $x[] = ["Manage apps", $url_prefix."submit.php?action=admin"];
+                    $x[] = ["Manage permissions", $url_prefix."manage_project.php"];
+                } else {
+                    // if user has manage permissions for apps, show links
                     $usas = BoincUserSubmitApp::enum("user_id=$user->id");
                     foreach ($usas as $usa) {
                         if ($usa->manage) {
-                            $is_admin = true;
-                            break;
+                            $app = BoincApp::lookup_id($usa->app_id);
+                            if ($app->name == 'buda') {
+                                $x[] = [
+                                    'Manage BUDA apps',
+                                    'buda.php'
+                                ];
+                            } else {
+                                $x[] = [
+                                    "Manage $app->name",
+                                    "manage_project.php"
+                                ];
+                            }
                         }
                     }
-                }
-                if ($is_admin) {
-                    $x[] = ["Administer", $url_prefix."submit.php?action=admin"];
                 }
                 navbar_menu(tra("Job submission"), $x);
             }
@@ -387,7 +397,8 @@ function form_input_textarea($label, $name, $value='', $nrows=4) {
     );
 }
 
-// $items is either a string of <option> elements, or an array
+// $items is either a string of <option> elements,
+// or an array of [value, name] pairs
 //
 function form_select($label, $name, $items, $selected=null) {
     echo sprintf('
@@ -535,13 +546,14 @@ function form_checkbox($label, $name, $checked=false) {
         FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
     );
     echo sprintf('
-        <input type="checkbox" name="%s" %s>
+              <input type="checkbox" name="%s" %s>
+           </div>
         </div>
         ', $name, $checked?"checked":""
     );
 }
 
-// 'select2' is replacement for select boxed:
+// 'select2' is replacement for multiple select with a nicer UI:
 // https://github.com/select2/select2
 //
 // To use it you must use this version of page_head():
@@ -561,7 +573,7 @@ function page_head_select2($title) {
 }
 
 // show a multi-select using select2.
-// $items is a list of [val, label] pairs;
+// $items is a list of [value, name] pairs;
 // $selected is the list of selected values.
 // $extra is e.g. id=foo
 //

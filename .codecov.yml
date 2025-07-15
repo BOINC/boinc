@@ -1,7 +1,7 @@
 codecov:
   require_ci_to_pass: true
   notify:
-    after_n_builds: 3
+    after_n_builds: 4
     wait_for_ci: true
 
 coverage:
@@ -19,7 +19,7 @@ comment:
   require_head: true       # [true :: must have a head report to post]
   branches:
     - master
-  after_n_builds: 3
+  after_n_builds: 4
 
 github_checks:
     annotations: false

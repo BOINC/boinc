@@ -1,7 +1,19 @@
 # make libraries for Linux client and boinccmd
 
+OPTS = -O2 -Wall -Wformat -Wformat=2 -Wconversion -Wimplicit-fallthrough \
+-Wno-deprecated-copy \
+-Werror=format-security \
+-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 \
+-D_GLIBCXX_ASSERTIONS \
+# -fstack-clash-protection \
+-fstack-protector-strong \
+-Wl,-z,nodlopen -Wl,-z,noexecstack \
+-Wl,-z,relro -Wl,-z,now \
+-Wl,--as-needed -Wl,--no-copy-dt-needed-entries
+
 //CC = g++ -O4 -Wall -I ../
-CC = g++ -g -Wall -I ../
+//CC = g++ -g -Wall -I ../
+CC = g++ -g $(OPTS) -I ../
 
 all: boinc.a boinc_cmd.a
 

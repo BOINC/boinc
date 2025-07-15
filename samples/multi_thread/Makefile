@@ -1,5 +1,15 @@
 # This should work on Linux.  Modify as needed for other platforms.
 
+ifdef ANDROID
+  MULTITHREAD_RELEASE_SUFFIX =
+else
+  ifdef RELEASE_ARCH
+    MULTITHREAD_RELEASE_SUFFIX = _$(MULTITHREAD_RELEASE_VERSION)_$(RELEASE_ARCH)-pc-linux-gnu
+  else
+    MULTITHREAD_RELEASE_SUFFIX = _$(MULTITHREAD_RELEASE_VERSION)_x86_64-pc-linux-gnu
+  endif
+endif
+
 BOINC_DIR = ../..
 BOINC_SOURCE_API_DIR = $(BOINC_DIR)/api
 BOINC_SOURCE_LIB_DIR = $(BOINC_DIR)/lib
@@ -29,9 +39,9 @@ CXXFLAGS += -g \
     -L$(BOINC_LIB_DIR) \
     -L.
 
-PROGS = multi_thread
+PROG = multi_thread$(MULTITHREAD_RELEASE_SUFFIX)
 
-all: $(PROGS)
+all: $(PROG)
 
 libstdc++.a:
 	ln -s `$(CXX) $(CXXFLAGS) -print-file-name=libstdc++.a`
@@ -39,9 +49,9 @@ libstdc++.a:
 clean: distclean
 
 distclean:
-	/bin/rm -f $(PROGS) $(addsuffix .exe, $(PROGS)) *.o libstdc++.a
+	/bin/rm -f $(PROG) $(addsuffix .exe, $(PROG)) *.o libstdc++.a
 
-multi_thread: multi_thread.o $(MAKEFILE_STDLIB) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o multi_thread multi_thread.o $(MAKEFILE_LDFLAGS) -lboinc_api -lboinc $(STDCPPTC)
+$(PROG): multi_thread.o $(MAKEFILE_STDLIB) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o $(PROG) multi_thread.o $(MAKEFILE_LDFLAGS) -lboinc_api -lboinc $(STDCPPTC)
 
 install: all

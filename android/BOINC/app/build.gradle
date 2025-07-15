@@ -38,7 +38,7 @@ def buildVersionCode() {
 // Derive version name from release tag and add commit SHA1
 def buildVersionName() {
     def pattern = /(?<tag>.+)-(?<offset>\d+)-g(?<hash>[0-9a-f]+)/
-    def version = '8.2.4'
+    def version = '8.3.0 : DEVELOPMENT'
     def isDev = true
     def offset = -1
     def tag = ""
@@ -368,8 +368,9 @@ android {
         debug {
             minifyEnabled false
             debuggable true
-            testCoverageEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules-debug.txt'
+            enableUnitTestCoverage true
+            enableAndroidTestCoverage true
         }
 
         armv6_release {
@@ -379,6 +380,8 @@ android {
         armv6_debug {
             initWith debug
             minifyEnabled true
+            enableUnitTestCoverage true
+            enableAndroidTestCoverage true
         }
     }
 

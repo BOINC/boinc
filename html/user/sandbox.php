@@ -33,20 +33,19 @@ require_once("../inc/submit_util.inc");
 display_errors();
 
 function add_form() {
-    page_head('Upload files to your sandbox');
+    page_head('Add files to your sandbox');
     echo "
-        There are several ways to upload files:
+        There are several ways to add files:
         <p>
         <hr>
         <h3>Upload files from this computer</h3>
-    ";
-    form_start('sandbox.php', 'post', 'ENCTYPE="multipart/form-data"');
-    form_general('',
-        "NOTE: if you upload text files from Windows,
+        <p>
+        NOTE: if you upload text files from Windows,
         they will be given CRLF line endings.
         If they are shell scripts, they won't work on Linux.
-        Add shell scripts using 'Add text file' below."
-    );
+        Add shell scripts using 'Add text file' below.
+    ";
+    form_start('sandbox.php', 'post', 'ENCTYPE="multipart/form-data"');
     form_input_hidden('action', 'upload_file');
     form_general('',
         '<input size=80 type=file name="new_file[]" multiple="multiple">'
@@ -158,7 +157,7 @@ function list_files($user, $notice=null) {
         }
         end_table();
     }
-    show_button('sandbox.php?action=add_form', 'Upload files');
+    show_button('sandbox.php?action=add_form', 'Add files');
     page_tail();
 }
 

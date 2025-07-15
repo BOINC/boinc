@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
- * http://boinc.berkeley.edu
- * Copyright (C) 2021 University of California
+ * https://boinc.berkeley.edu
+ * Copyright (C) 2025 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -51,7 +51,7 @@ class EventLogActivity : AppCompatActivity() {
     lateinit var clientLogRecyclerViewAdapter: ClientLogRecyclerViewAdapter
     val clientLogData: MutableList<Message> = ArrayList()
 
-    val guiLogData: List<String> = ArrayList()
+    val guiLogData: MutableList<String> = ArrayList()
 
     private val mConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {

@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * https://boinc.berkeley.edu
- * Copyright (C) 2022 University of California
+ * Copyright (C) 2025 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -19,8 +19,11 @@
 package edu.berkeley.boinc.client
 
 import android.app.Notification
+import android.content.Context
 import androidx.test.core.app.ApplicationProvider
+import edu.berkeley.boinc.rpc.DeviceStatusData
 import edu.berkeley.boinc.rpc.Notice
+import io.mockk.mockkClass
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Assert
@@ -31,12 +34,20 @@ import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
 class NoticeNotificationTest {
+    private lateinit var context: Context
     private lateinit var noticeNotification: NoticeNotification
     private lateinit var clientStatus: ClientStatus
+    private lateinit var appPreferences: AppPreferences
+    private lateinit var deviceStatus: DeviceStatus
+    private lateinit var deviceStatusData: DeviceStatusData
 
     @Before
     fun setUp() {
-        clientStatus = ClientStatus(ApplicationProvider.getApplicationContext(), null, null)
+        context = ApplicationProvider.getApplicationContext()
+        appPreferences = mockkClass(AppPreferences::class)
+        deviceStatusData = DeviceStatusData()
+        deviceStatus = DeviceStatus(context, appPreferences, deviceStatusData)
+        clientStatus = ClientStatus(context, appPreferences, deviceStatus)
         val persistentStorage = PersistentStorage(ApplicationProvider.getApplicationContext())
         noticeNotification = NoticeNotification(ApplicationProvider.getApplicationContext(), clientStatus, persistentStorage)
         noticeNotification.currentlyNotifiedNotices.add(Notice(projectName = "testProject"))

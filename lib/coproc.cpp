@@ -189,7 +189,7 @@ void COPROCS::summary_string(char* buf, int len) {
         snprintf(buf2, sizeof(buf2),
             "[INTEL|%s|%d|%dMB|%s|%d]",
             intel_gpu.name, intel_gpu.count,
-            (int)(intel_gpu.opencl_prop.global_mem_size/MEGA),
+            (int)((double)intel_gpu.opencl_prop.global_mem_size/MEGA),
             intel_gpu.version,
             intel_gpu.opencl_prop.opencl_device_version_int
         );
@@ -199,7 +199,7 @@ void COPROCS::summary_string(char* buf, int len) {
         snprintf(buf2, sizeof(buf2),
             "[apple_gpu|%s|%d|%dMB|%d|%d]",
             apple_gpu.model, apple_gpu.count,
-            (int)(apple_gpu.opencl_prop.global_mem_size/MEGA),
+            (int)((double)apple_gpu.opencl_prop.global_mem_size/MEGA),
             apple_gpu.metal_support,
             apple_gpu.opencl_prop.opencl_device_version_int
         );
@@ -219,7 +219,7 @@ void COPROCS::summary_string(char* buf, int len) {
             "[opencl_gpu|%s|%d|%dMB|%d]",
             cp.type,
             cp.count,
-            (int)(cp.opencl_prop.global_mem_size/MEGA),
+            (int)((double)cp.opencl_prop.global_mem_size/MEGA),
             cp.opencl_prop.opencl_device_version_int
         );
         strlcat(buf, buf2, len);
@@ -964,7 +964,7 @@ int COPROC_INTEL::parse(XML_PARSER& xp) {
 				set_peak_flops();
             }
             if (!available_ram) {
-                available_ram = opencl_prop.global_mem_size;
+                available_ram = (double)opencl_prop.global_mem_size;
             }
             return 0;
         }
@@ -1072,7 +1072,7 @@ int COPROC_APPLE::parse(XML_PARSER& xp) {
 				set_peak_flops();
             }
             if (!available_ram) {
-                available_ram = opencl_prop.global_mem_size;
+                available_ram = (double)opencl_prop.global_mem_size;
             }
             return 0;
         }

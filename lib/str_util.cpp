@@ -183,8 +183,8 @@ int ndays_to_string (double x, int smallest_timescale, char *buf) {
 // convert seconds into a string "0h00m00s00"
 //
 void secs_to_hmsf(double secs, char* buf) {
-    int s = secs;
-    int f = (secs - s) * 100.0;
+    int s = (int)secs;
+    int f = (int)((secs - s) * 100.0);
     int h = s / 3600;
     s -= h * 3600;
     int m = s / 60;
@@ -832,12 +832,14 @@ void parse_serialnum(char* in, char* boinc, char* vbox, char* coprocs) {
     }
 }
 
+// split a string with the given delimiter (e.g. \n).
+//
 vector<string> split(string s, char delim) {
     vector<string> result;
     stringstream ss(s);
     string item;
     while (getline(ss, item, delim)) {
-        result.push_back(item);
+        result.push_back(item+delim);
     }
     return result;
 }

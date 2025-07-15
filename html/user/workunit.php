@@ -30,25 +30,28 @@ function keyword_string($kwds) {
 
     $ks = explode(" ", $kwds);
     $first = true;
-    $x = "";
+    $x = [];
     foreach ($ks as $k) {
-        if ($first) {
-            $first = false;
-        } else {
-            $x .= ", ";
-        }
-        $x .= $job_keywords[$k]->name;
+        $x[] = $job_keywords[$k]->name;
     }
-    return $x;
+    return implode('<br>', $x);
 }
 
 function show_wu($wu) {
     page_head(tra("Workunit %1", $wu->id));
     $app = BoincApp::lookup_id($wu->appid);
 
+    $x = "<in>".$wu->xml_doc."</in>";
+    $xml_doc = simplexml_load_string($x);
+
     start_table();
     row2(tra("name"), $wu->name);
     row2(tra("application"), $app->user_friendly_name);
+    if ($wu->batch) {
+        row2('batch',
+            "<a href=submit.php?action=query_batch&batch_id=$wu->batch>$wu->batch</a>"
+        );
+    }
     row2(tra("created"), time_str($wu->create_time));
     if (isset($wu->keywords) && $wu->keywords) {
         row2(tra("keywords"), keyword_string($wu->keywords));
@@ -80,11 +83,13 @@ function show_wu($wu) {
         if ($wu->need_validate) {
             row2(tra("validation"), tra("Pending"));
         }
+        row2('Command line', $xml_doc->workunit->command_line);
         if (function_exists('project_workunit')) {
             project_workunit($wu);
         }
         end_table();
 
+        echo "<h2>Job instances</h2>\n";
         result_table_start(false, true, null);
         $results = BoincResult::enum("workunitid=$wu->id");
         foreach ($results as $result) {
@@ -93,6 +98,26 @@ function show_wu($wu) {
         echo "</table>\n";
     }
 
+    // show input files
+    //
+    echo "<h2>Input files</h2>\n";
+    start_table('table-striped');
+    table_header("Name<br><small>(click to view)</small>", "Size (bytes)");
+    foreach ($xml_doc->workunit->file_ref as $fr) {
+        $pname = (string)$fr->file_name;
+        $lname = (string)$fr->open_name;
+        foreach ($xml_doc->file_info as $fi) {
+            if ((string)$fi->name == $pname) {
+                table_row(
+                    "<a href=$fi->url>$lname</a>",
+                    $fi->nbytes
+                );
+                break;
+            }
+        }
+    }
+
+    end_table();
     page_tail();
 }
 

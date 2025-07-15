@@ -21,6 +21,8 @@
 require_once('../inc/util.inc');
 require_once('../inc/submit_util.inc');
 require_once('../inc/sandbox.inc');
+require_once('../inc/buda.inc');
+require_once('../inc/kw_prefs.inc');
 
 display_errors();
 
@@ -41,7 +43,7 @@ function submit_form($user) {
         containing command-line arguments.
         <a href=https://github.com/BOINC/boinc/wiki/BUDA-job-submission>Details</a></small>.
     ";
-    page_head("Submit jobs to $app ($variant)");
+    page_head("BUDA: Submit jobs to $app ($variant)");
     form_start('buda_submit.php');
     form_input_hidden('action', 'submit');
     form_input_hidden('app', $app);
@@ -51,8 +53,27 @@ function submit_form($user) {
         'Command-line arguments<br><small>Passed to all jobs in the batch</small>',
         'cmdline'
     );
+    form_input_text(
+        'Max job runtime (days) on a typical (4.3 GFLOPS) computer.
+            <br><small>
+            The runtime limit will be scaled for faster/slower computers.
+            <br>
+            Jobs that reach this limit will be aborted.
+            </small>'
+        ,
+        'max_runtime_days', 1
+    );
+    form_input_text(
+        'Expected job runtime (days) on a typical (4.3 GFLOPS) computer.
+            <br><small>
+            This determines how many jobs are sent to each host,
+            and how "fraction done" is computed.
+            </small>
+        ',
+        'exp_runtime_days', .5
+    );
     form_checkbox(
-        "Enabled debugging output <br><small>Write Docker commands and output to stderr</small>.",
+        "Enable debugging output <br><small>Write Docker commands and output to stderr. Not recommended for long-running jobs.</small>.",
         'wrapper_verbose'
     );
     form_submit('OK');
@@ -130,6 +151,10 @@ function parse_batch_dir($batch_dir, $variant_desc) {
             error_page("$fname doesn't have all input files");
         }
 
+        if (!$cmdline && !$job_files) {
+            error_page("job $f2 has no cmdline and no input files");
+        }
+
         $file_infos = [];
         foreach ($unshared_files as $f2) {
             $file_infos[] = get_file_info("$batch_dir/$fname/$f2");
@@ -191,9 +216,10 @@ function stage_input_files($batch_dir, $batch_desc, $batch_id) {
 // Use --stdin, where each job is described by a line
 //
 function create_jobs(
-    $app, $variant, $variant_desc,
+    $app, $app_desc, $variant, $variant_desc,
     $batch_desc, $batch_id, $batch_dir_name,
-    $wrapper_verbose, $cmdline
+    $wrapper_verbose, $cmdline, $max_fpops, $exp_fpops,
+    $keywords
 ) {
     global $buda_boinc_app;
 
@@ -221,18 +247,24 @@ function create_jobs(
         }
         $job_cmds .= "$job_cmd\n";
     }
-    $cw_cmdline = sprintf('"--dockerfile %s %s %s"',
+    $wrapper_cmdline = sprintf('"--dockerfile %s %s %s"',
         $variant_desc->dockerfile,
         $wrapper_verbose?'--verbose':'',
         $cmdline
     );
     $cmd = sprintf(
-        'cd ../..; bin/create_work --appname %s --batch %d --stdin --command_line %s --wu_template %s --result_template %s',
-        $buda_boinc_app->name, $batch_id,
-        $cw_cmdline,
+        'cd ../..; bin/create_work --appname %s --sub_appname "%s" --batch %d --stdin --command_line %s --wu_template %s --result_template %s --rsc_fpops_bound %f --rsc_fpops_est %f',
+        $buda_boinc_app->name,
+        $app_desc->long_name,
+        $batch_id,
+        $wrapper_cmdline,
         "buda_apps/$app/$variant/template_in",
-        "buda_apps/$app/$variant/template_out"
+        "buda_apps/$app/$variant/template_out",
+        $max_fpops, $exp_fpops
     );
+    if ($keywords) {
+        $cmd .= " --keywords '$keywords'";
+    }
     $cmd .= sprintf(' > %s 2<&1', "buda_batches/errfile");
 
     $h = popen($cmd, "w");
@@ -250,6 +282,8 @@ function create_jobs(
 }
 
 function handle_submit($user) {
+    global $buda_root;
+
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
     $variant = get_str('variant');
@@ -259,7 +293,26 @@ function handle_submit($user) {
     $wrapper_verbose = get_str('wrapper_verbose', true);
     $cmdline = get_str('cmdline');
 
-    $variant_dir = "../../buda_apps/$app/$variant";
+    $max_runtime_days = get_str('max_runtime_days');
+    if (!is_numeric($max_runtime_days)) error_page('bad runtime limit');
+    $max_runtime_days = (double)$max_runtime_days;
+    if ($max_runtime_days <= 0) error_page('bad runtime limit');
+    if ($max_runtime_days > 100) error_page('bad runtime limit');
+    $max_fpops = $max_runtime_days * 4.3e9 * 86400;
+
+    $exp_runtime_days = get_str('exp_runtime_days');
+    if (!is_numeric($exp_runtime_days)) error_page('bad expected runtime');
+    $exp_runtime_days = (double)$exp_runtime_days;
+    if ($exp_runtime_days <= 0) error_page('bad expected runtime');
+    if ($exp_runtime_days > 100) error_page('bad expected runtime');
+    if ($exp_runtime_days > $max_runtime_days) {
+        error_page('exp must be < max runtime');
+    }
+    $exp_fpops = $exp_runtime_days * 4.3e9 * 86400;
+
+    $app_desc = get_buda_desc($app);
+
+    $variant_dir = "$buda_root/$app/$variant";
     $variant_desc = json_decode(
         file_get_contents("$variant_dir/variant.json")
     );
@@ -279,10 +332,17 @@ function handle_submit($user) {
     //
     stage_input_files($batch_dir, $batch_desc, $batch->id);
 
+    // get job keywords: user keywords plus BUDA app keywords
+    //
+    [$yes, $no] = read_kw_prefs($user);
+    $keywords = array_merge($yes, $app_desc->sci_kw, $app_desc->loc_kw);
+    $keywords = array_unique($keywords);
+    $keywords = implode(' ', $keywords);
+
     create_jobs(
-        $app, $variant, $variant_desc,
+        $app, $app_desc, $variant, $variant_desc,
         $batch_desc, $batch->id, $batch_dir_name,
-        $wrapper_verbose, $cmdline
+        $wrapper_verbose, $cmdline, $max_fpops, $exp_fpops, $keywords
     );
 
     // mark batch as in progress
@@ -296,6 +356,26 @@ function handle_submit($user) {
     header("Location: submit.php?action=query_batch&batch_id=$batch->id");
 }
 
+function show_list() {
+    page_head('BUDA job submission');
+    $apps = get_buda_apps();
+    echo 'Select app and variant:<p><br>';
+    foreach ($apps as $app) {
+        $desc = get_buda_desc($app);
+        $vars = get_buda_variants($app);
+        echo "$desc->long_name
+            <ul>
+        ";
+        foreach ($vars as $var) {
+            echo sprintf('<li><a href=buda_submit.php?action=form&app=%s&variant=%s>%s</a>',
+                $app, $var, $var
+            );
+        }
+        echo "</ul>\n";
+    }
+    page_tail();
+}
+
 $user = get_logged_in_user();
 $buda_boinc_app = BoincApp::lookup("name='buda'");
 if (!$buda_boinc_app) error_page('no buda app');
@@ -305,8 +385,10 @@ if (!has_submit_access($user, $buda_boinc_app->id)) {
 $action = get_str('action', true);
 if ($action == 'submit') {
     handle_submit($user);
-} else {
+} else if ($action == 'form') {
     submit_form($user);
+} else {
+    show_list();
 }
 
 ?>

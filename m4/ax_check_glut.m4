@@ -21,7 +21,7 @@ else
   #
   # If were running under windows assume we need GDI32 and WinMM
   #
-  if echo $host_os | egrep '^mingw|^winnt' > /dev/null ; then
+  if echo $host_os | grep -E '^mingw|^winnt' > /dev/null ; then
     GLUT_LIBS="${GLUT_LIBS} -lgdi32 -lwinmm"
   fi
 

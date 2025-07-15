@@ -18,14 +18,28 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // web API for fetching output files.
+// This is for apps that don't use an assimilator
+// that moves output files into project/results/...
+// I.e., the output files are in the upload hierarchy with physical names
+//
+// For assim_move apps, use get_output3.php instead of this.
+
 // This is an updated version of get_output.php;
 // I didn't want to change that on the (unlikely) chance
 // that someone is using it.
 
 // args:
-// cmd: batch, workunit, or result
-// auth: user authenticator
-// batch_id, wu_id, result_id: as needed
+// cmd: batch, workunit, result or file
+// auth: optional user authenticator (if not logged in)
+// result:
+//      result_id
+// workunit:
+//      wu_id
+// batch:
+//      batch_id
+// file:
+//      result_id
+//      file_num
 //
 // action (see https://github.com/BOINC/boinc/issues/5262):
 // result: if 1 output file, return it as resultname__logicalname
@@ -96,7 +110,7 @@ function do_result($result_id, $auth, $file_num=null) {
     $batch = BoincBatch::lookup_id($workunit->batch);
     if (!$batch) die("no batch for $result_id");
     check_auth($auth, $batch);
-    do_result_aux($result, $batch);
+    do_result_aux($result, $batch, $file_num);
 }
 
 function do_wu($wu_id, $auth) {

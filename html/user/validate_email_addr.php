@@ -22,7 +22,7 @@ require_once("../inc/email.inc");
 require_once("../inc/account.inc");
 
 function send_validate_email() {
-    global $master_url;
+    $master_url = master_url();
     $user = get_logged_in_user();
     $x2 = make_login_token($user);
     send_email(

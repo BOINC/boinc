@@ -23,14 +23,57 @@
 
 #include <algorithm>
 #include <iterator>
+#include <iostream>
+#include <string>
+#include <sstream>
+using namespace std;
 
+#include "filesys.h"
 #include "sched_main.h"
-#include "keyword.h"
+
+#include "sched_keyword.h"
 
 JOB_KEYWORD_IDS *job_keywords_array;
 
-// compute the score increment for the given job and user keywords
-// (or -1 if the keywords are incompatible)
+// read user's KW prefs from file; return -1 if none
+//
+static void parse_kw_line(const char *buf, vector<int> &kws) {
+    stringstream ss(buf);
+    string item;
+    while (getline(ss, item, ' ')) {
+        kws.push_back(atoi(item.c_str()));
+    }
+}
+
+int read_kw_prefs(int userid, USER_KEYWORDS &ukws) {
+    char path[256], buf[512];
+    snprintf(path, sizeof(path), "../kw_prefs/%d", userid);
+    if (!boinc_file_exists(path)) return -1;
+    FILE *f = boinc::fopen(path, "r");
+    if (!f) return -1;
+    if (config.debug_keyword) {
+        log_messages.printf(MSG_NORMAL,
+            "[keyword] reading user kw prefs from file\n"
+        );
+    }
+    ukws.clear();
+    int ret = 0;
+    if (boinc::fgets(buf, sizeof(buf), f)) {
+        parse_kw_line(buf, ukws.yes);
+    } else {
+        ret = 1;
+    }
+    if (boinc::fgets(buf, sizeof(buf), f)) {
+        parse_kw_line(buf, ukws.no);
+    } else {
+        ret = 1;
+    }
+    boinc::fclose(f);
+    return ret;
+}
+
+// compute the score increment for the given job and user keywords,
+// or -1 if user has "no" for one of the job keywords
 //
 double keyword_score_aux(
     USER_KEYWORDS& uks, JOB_KEYWORD_IDS& jks
@@ -42,6 +85,9 @@ double keyword_score_aux(
         if (std::find(uks.yes.begin(), uks.yes.end(), jk) != uks.yes.end()) {
             score += 1;
         } else if (std::find(uks.no.begin(), uks.no.end(), jk) != uks.no.end()) {
+            add_no_work_message(
+                "Some jobs are ruled out by your science/location preferences"
+            );
             return -1;
         }
     }
@@ -64,7 +110,7 @@ double keyword_score(int i) {
     JOB_KEYWORD_IDS& jk = job_keywords_array[i];
     if (jk.empty()) {
         WU_RESULT& wr = ssp->wu_results[i];
-        if (empty(wr.workunit.keywords)) {
+        if (!strlen(wr.workunit.keywords)) {
             if (config.debug_keyword) {
                 log_messages.printf(MSG_NORMAL, "[keyword] job has no keywords; returning 0\n");
             }

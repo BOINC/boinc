@@ -1370,12 +1370,14 @@ bool HOST_INFO::get_docker_compose_version_aux(DOCKER_TYPE type){
     FILE* f = popen(cmd, "r");
     if (f) {
         char buf[256];
-        fgets(buf, 256, f);
-        string version;
-        if (get_docker_compose_version_string(type, buf, version)) {
-            safe_strcpy(docker_compose_version, version.c_str());
-            docker_compose_type = type;
-            ret = true;
+        while (fgets(buf, sizeof(buf), f)) {
+            string version;
+            if (get_docker_compose_version_string(type, buf, version)) {
+                safe_strcpy(docker_compose_version, version.c_str());
+                docker_compose_type = type;
+                ret = true;
+                break;
+            }
         }
         pclose(f);
     }

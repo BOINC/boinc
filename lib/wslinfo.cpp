@@ -35,6 +35,7 @@ void WSL_DISTRO::clear() {
     wsl_version = 0;
     docker_version = "";
     docker_compose_version = "";
+    boinc_buda_runner_version = 0;
 }
 
 void WSL_DISTRO::write_xml(MIOFILE& f) {
@@ -186,9 +187,9 @@ WSL_DISTRO* WSL_DISTROS::find_docker() {
     // look for the BOINC distro first
     //
     for (WSL_DISTRO &wd: distros) {
-        if (wd.distro_name != BOINC_DISTRO_NAME) continue;
+        if (wd.distro_name != BOINC_WSL_DISTRO_NAME) continue;
         if (wd.docker_version.empty()) {
-            fprintf(stderr, "%s is missing Podman", BOINC_DISTRO_NAME);
+            fprintf(stderr, "%s is missing Podman", BOINC_WSL_DISTRO_NAME);
         } else {
             return &wd;
         }
@@ -201,6 +202,15 @@ WSL_DISTRO* WSL_DISTROS::find_docker() {
         }
     }
     return NULL;
+}
+
+int WSL_DISTROS::boinc_distro_version() {
+    for (WSL_DISTRO &wd: distros) {
+        if (wd.distro_name == BOINC_WSL_DISTRO_NAME) {
+            return wd.boinc_buda_runner_version;
+        }
+    }
+    return 0;
 }
 
 #endif  // _USING_FCGI_

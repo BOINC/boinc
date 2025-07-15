@@ -38,9 +38,12 @@ function get_app_types() {
         do_plan_class($av->plan_class, $t);
     }
 
-    $pcs = file('../../buda_plan_classes');
-    foreach ($pcs as $pc) {
-        do_plan_class($pc, $t);
+    $fname = '../../buda_plan_classes';
+    if (file_exists($fname)) {
+        $pcs = file($fname);
+        foreach ($pcs as $pc) {
+            do_plan_class($pc, $t);
+        }
     }
     return $t;
 }

@@ -330,7 +330,11 @@ struct RESOURCE_USAGE {
     char missing_coproc_name[256];
 
     void clear();
-    void check_gpu(char* plan_class);
+    void check_gpu_libs(char* plan_class);
+    void write(MIOFILE&);
+    bool present() {
+        return avg_ncpus>0 || coproc_usage>0;
+    }
 };
 
 // if you add anything, initialize it in init()
@@ -368,8 +372,10 @@ struct APP_VERSION {
         // to use this much RAM,
         // so that we don't run a long sequence of jobs,
         // each of which turns out not to fit in available RAM
-    bool is_vm_app;
-        // currently this set if plan class includes "vbox" (kludge)
+    bool is_vbox_app;
+        // set if plan class includes "vbox"
+    bool is_docker_app;
+        // set if plan class includes "docker"
     bool is_wrapper;
         // the main program is a wrapper; run it above idle priority
 
@@ -407,10 +413,14 @@ struct WORKUNIT {
     int version_num;
         // Deprecated, but need to keep around to let people revert
         // to versions before multi-platform support
-    bool has_resource_usage;
+
+    // the following for BUDA jobs
+    char sub_appname[256];
     char plan_class[256];
-        // for BUDA jobs, the BUDA variant
+        // the BUDA variant
+    bool has_resource_usage;
     RESOURCE_USAGE resource_usage;
+
     std::string command_line;
     std::vector<FILE_REF> input_files;
     PROJECT* project;
@@ -423,10 +433,11 @@ struct WORKUNIT {
     JOB_KEYWORD_IDS job_keyword_ids;
 
     WORKUNIT(){
-        safe_strcpy(name, "");
-        safe_strcpy(app_name, "");
+        name[0] = 0;
+        app_name[0] = 0;
         version_num = 0;
         has_resource_usage = false;
+        sub_appname[0] = 0;
         plan_class[0] = 0;
         resource_usage.clear();
         command_line.clear();

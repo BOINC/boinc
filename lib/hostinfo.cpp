@@ -74,11 +74,13 @@ void HOST_INFO::clear_host_info() {
     safe_strcpy(os_name, "");
     safe_strcpy(os_version, "");
 
-#ifdef _WIN64
+#ifdef _WIN32
     wsl_distros.clear();
 #else
     safe_strcpy(docker_version, "");
+    docker_type = NONE;
     safe_strcpy(docker_compose_version, "");
+    docker_compose_type = NONE;
 #endif
 
     safe_strcpy(product_name, "");
@@ -137,7 +139,7 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
         if (xp.parse_double("d_free", d_free)) continue;
         if (xp.parse_str("os_name", os_name, sizeof(os_name))) continue;
         if (xp.parse_str("os_version", os_version, sizeof(os_version))) continue;
-#ifdef _WIN64
+#ifdef _WIN32
         if (xp.match_tag("wsl")) {
             this->wsl_distros.parse(xp);
             continue;
@@ -242,7 +244,7 @@ int HOST_INFO::write(
         osv,
         coprocs.ndevs()
     );
-#ifdef _WIN64
+#ifdef _WIN32
     wsl_distros.write_xml(out);
 #else
     if (strlen(docker_version)) {
@@ -348,7 +350,11 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
 const char* docker_cli_prog(DOCKER_TYPE type) {
     switch (type) {
     case DOCKER: return "docker";
+#ifdef __APPLE__
+        case PODMAN: return "/opt/podman/bin/podman";
+#else
     case PODMAN: return "podman";
+#endif
     default: break;
     }
     return "unknown";
@@ -372,7 +378,7 @@ const char* docker_type_str(DOCKER_TYPE type) {
 const char* docker_cmd_prefix(DOCKER_TYPE type) {
     static char buf[256];
     if (type == PODMAN) {
-        const char* dir = "/Library/Application Support/BOINC Data/podman";
+        const char* dir = "/Library/Application\ Support/BOINC\ Data/podman";
         // must end w/ space
         snprintf(buf, sizeof(buf),
             "env XDG_CONFIG_HOME=\"%s\" XDG_DATA_HOME=\"%s\" ",

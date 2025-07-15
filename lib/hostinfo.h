@@ -32,7 +32,7 @@
 #include "coproc.h"
 #include "common_defs.h"
 
-#ifdef _WIN64
+#ifdef _WIN32
 #include "wslinfo.h"
 #endif
 
@@ -87,7 +87,7 @@ public:
     char os_name[256];
     char os_version[256];
 
-#ifdef _WIN64
+#ifdef _WIN32
     // on Windows, Docker info is per WSL_DISTRO, not global
     WSL_DISTROS wsl_distros;
 #else
@@ -136,7 +136,7 @@ public:
     int get_local_network_info();
     int get_virtualbox_version();
     bool have_docker();
-#ifndef _WIN64
+#ifndef _WIN32
     // on Windows, Docker info is per WSL_DISTRO, not global
     bool get_docker_version();
     bool get_docker_version_aux(DOCKER_TYPE);
@@ -180,7 +180,7 @@ extern BOOL get_OSVERSIONINFO(OSVERSIONINFOEX& osvi);
 #endif
 #endif
 
-#ifdef _WIN64
+#ifdef _WIN32
 extern int get_wsl_information(WSL_DISTROS &distros);
 extern int get_processor_group(HANDLE);
 #endif

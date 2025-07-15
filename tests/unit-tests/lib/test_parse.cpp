@@ -18,6 +18,8 @@
 #include "gtest/gtest.h"
 #include "common_defs.h"
 #include "url.h"
+#include "parse.h"
+
 #include <string>
 #include <ios>
 

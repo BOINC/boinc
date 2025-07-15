@@ -1,0 +1,44 @@
+{
+    "AdminUISequence": [
+        {
+            "Action": "AdminWelcome",
+            "Sequence": 1010
+        },
+        {
+            "Action": "CostFinalize",
+            "Sequence": 1000
+        },
+        {
+            "Action": "CostInitialize",
+            "Sequence": 800
+        },
+        {
+            "Action": "ExecuteAction",
+            "Sequence": 1300
+        },
+        {
+            "Action": "FileCost",
+            "Sequence": 900
+        },
+        {
+            "Action": "SetupCompleteError",
+            "Sequence": -3
+        },
+        {
+            "Action": "SetupCompleteSuccess",
+            "Sequence": -1
+        },
+        {
+            "Action": "SetupInitialization",
+            "Sequence": 50
+        },
+        {
+            "Action": "SetupInterrupted",
+            "Sequence": -2
+        },
+        {
+            "Action": "SetupProgress",
+            "Sequence": 1020
+        }
+    ]
+}

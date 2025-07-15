@@ -69,6 +69,11 @@ jobs:
         run: |
           echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
 
+      - name: Fix debian sources
+        run: |
+          sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
+          sed -i 's/security.debian.org/archive.debian.org/g' /etc/apt/sources.list
+
       - name: Install dependencies
         run: |
           apt-get -qq update
@@ -626,6 +631,11 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Fix debian sources
+        if: matrix.os == 'buster'
+        run: |
+          sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
+          sed -i 's/security.debian.org/archive.debian.org/g' /etc/apt/sources.list
       - name: Install dependencies
         if: success()
         run: |
@@ -804,7 +814,7 @@ jobs:
           dnf config-manager addrepo --from-repofile=https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc-alpha-fc${{ matrix.os }}.repo
           dnf config-manager setopt boinc-alpha-fc${{ matrix.os }}.enabled=1
           rpm --import https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc.gpg
-          dnf install -y boinc-client-8.2.2 boinc-manager-8.2.2
+          dnf install -y boinc-client-8.2.4 boinc-manager-8.2.4
 
       - name: Install distro package for further upgrade from the stable for Fedora < 41
         if: success() && matrix.type == 'upgrade-from-stable' && matrix.os != '41' && matrix.os != '42'
@@ -815,14 +825,14 @@ jobs:
           rpm --import https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}/boinc.gpg
           yum install -y boinc-client boinc-manager
 
-      # - name: Install distro package for further upgrade from the stable for Fedora > 41
-      #   if: success() && matrix.type == 'upgrade-from-stable' && (matrix.os == '41' || matrix.os == '42')
-      #   run: |
-      #     dnf install -y dnf-plugins-core
-      #     dnf config-manager addrepo --from-repofile=https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}/boinc-stable-fc${{ matrix.os }}.repo
-      #     dnf config-manager setopt boinc-stable-fc${{ matrix.os }}.enabled=1
-      #     rpm --import https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}/boinc.gpg
-      #     dnf install -y boinc-client-8.2.1 boinc-manager-8.2.1
+      - name: Install distro package for further upgrade from the stable for Fedora > 41
+        if: success() && matrix.type == 'upgrade-from-stable' && (matrix.os == '41' || matrix.os == '42')
+        run: |
+          dnf install -y dnf-plugins-core
+          dnf config-manager addrepo --from-repofile=https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}/boinc-stable-fc${{ matrix.os }}.repo
+          dnf config-manager setopt boinc-stable-fc${{ matrix.os }}.enabled=1
+          rpm --import https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}/boinc.gpg
+          dnf install -y boinc-client-8.2.4 boinc-manager-8.2.4
 
       - name: Download client
         if: success()
@@ -949,6 +959,7 @@ jobs:
       - name: Install dependencies
         if: ${{ success() && env.SKIP_RUN == 0 }}
         run: |
+          sudo apt-get update -qq
           sudo apt-get install -y aptly gnupg2 gpgv
 
       - name: Setup GPG keys
