@@ -38,7 +38,7 @@ def buildVersionCode() {
 // Derive version name from release tag and add commit SHA1
 def buildVersionName() {
     def pattern = /(?<tag>.+)-(?<offset>\d+)-g(?<hash>[0-9a-f]+)/
-    def version = '8.3.0 : DEVELOPMENT'
+    def version = '8.2.5'
     def isDev = true
     def offset = -1
     def tag = ""
