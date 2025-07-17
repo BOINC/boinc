@@ -45,9 +45,8 @@ echo "Directory is " "$directory"
 cd "$directory"
 echo "About to check for " "$directory/build/Development/SetVersion"
 echo "compared to " "$directory/../clientgui/mac/Setversion.cpp"
-if [ "$directory/../clientgui/mac/Setversion.cpp" -nt "$directory/build/Development/SetVersion" ]; then
-##if [ ! -e "$directory/build/Development/SetVersion" ]; then
-echo "About to run xcodebuild"
+if [ ! -e "$directory/build/Development/SetVersion" ] || [ "$directory/../clientgui/mac/Setversion.cpp" -nt "$directory/build/Development/SetVersion" ]; then
+    echo "About to run xcodebuild"
     xcodebuild -project boinc.xcodeproj -target SetVersion -configuration Development
     if [ $? -ne 0 ]; then
         echo "ERROR: xcodebuild failed"
