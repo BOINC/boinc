@@ -221,20 +221,15 @@ done
 
 if [ "${buildall}" = "1" ] || [ "${buildlibs}" = "1" ] || [ "${buildclient}" = "1" ] || [ "x${targets}" != "x" ]; then
 
-    if [ ${doclean} -eq "clean" ]; then
-        eval "xcodebuild -project boinc.xcodeproj clean"
-        result=$?
-    fi
-
-    if [ $result -eq 0 ]; then
+    echo ""
     ## Apparently xcodebuild ignores build pre-actions, so we do this explicitly
     source "./Update_Info_Plists.sh"
     result=$?
-    fi
+    echo ""
 
     if [ $result -eq 0 ]; then
         # build all or specified targets from the boinc.xcodeproj project for -all, -libs, -client, or -target
-        eval "xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk \"${SDKPATH}\" build ${uselibcplusplus} ${theSettings}"
+        eval "xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build ${uselibcplusplus} ${theSettings}"
         result=$?
     fi
 fi

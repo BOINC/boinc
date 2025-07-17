@@ -93,11 +93,6 @@ int main(int argc, char** argv) {
     err = FixInfoPlistFile("Finish_Install-Info.plist");
     if (err) retval = err;
 
-    // Set_screensaver app
-    err = FixInfoPlistFile("Set_screensaver-Info.plist");
-    if (err) retval = err;
-
-
     // BOINC PostInstall app
     err = FixInfoPlist_Strings("./English.lproj/PostInstall-InfoPlist.strings", "Install BOINC");
     if (err) retval = err;
