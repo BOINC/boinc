@@ -42,7 +42,7 @@ originalDir=`pwd`
 directory=$(dirname "$WORKSPACE_PATH")
 directory=$(dirname "$directory")
 echo "Directory is " "$directory"
-cd "$directory"    
+cd "$directory"
 echo "About to check for " "$directory/build/Development/SetVersion"
 echo "compared to " "$directory/../clientgui/mac/Setversion.cpp"
 if [ "$directory/../clientgui/mac/Setversion.cpp" -nt "$directory/build/Development/SetVersion" ]; then
