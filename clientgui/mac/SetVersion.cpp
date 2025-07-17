@@ -68,6 +68,8 @@ int main(int argc, char** argv) {
     printf("%s\n", myPath);       // For debugging
 #endif
 
+    chdir(getenv("SRCROOT"));
+
     if (!file_exists("./English.lproj")) {
         retval = mkdir("./English.lproj", 0755);
         if (retval) {
@@ -90,6 +92,11 @@ int main(int argc, char** argv) {
     // BOINC_Finish_Install app
     err = FixInfoPlistFile("Finish_Install-Info.plist");
     if (err) retval = err;
+
+    // Set_screensaver app
+    err = FixInfoPlistFile("Set_screensaver-Info.plist");
+    if (err) retval = err;
+
 
     // BOINC PostInstall app
     err = FixInfoPlist_Strings("./English.lproj/PostInstall-InfoPlist.strings", "Install BOINC");

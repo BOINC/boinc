@@ -13,8 +13,10 @@
 			buildPhases = (
 			);
 			dependencies = (
+				DDC04DA72E2908BC006AB01D /* PBXTargetDependency */,
+				DDC04D9F2E28C473006AB01D /* PBXTargetDependency */,
+				DDC04D9D2E28C44B006AB01D /* PBXTargetDependency */,
 				DD67F1A32D5A2C3700A78699 /* PBXTargetDependency */,
-				DDF9EC15144EB36E005D6144 /* PBXTargetDependency */,
 				DDF9EC11144EB36E005D6144 /* PBXTargetDependency */,
 				DDF9EC17144EB36E005D6144 /* PBXTargetDependency */,
 				DDF9EC0F144EB34E005D6144 /* PBXTargetDependency */,
@@ -620,13 +622,6 @@
 			remoteGlobalIDString = DD1277B2081F3D67007B5DE1;
 			remoteInfo = Installer;
 		};
-		DD1AFEA60A512D8700EE5B82 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
-			remoteInfo = SetVersion;
-		};
 		DD1E45C92567FACC005B4EE7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -634,26 +629,12 @@
 			remoteGlobalIDString = DD407A4907D2FB1200163EF5;
 			remoteInfo = libboinc;
 		};
-		DD25E20C220438090040366F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
-			remoteInfo = SetVersion;
-		};
 		DD3D127A29B6243800F89058 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = DDEED38529ADFD7000DC3E5D;
 			remoteInfo = boinc_finish_install;
-		};
-		DD3E14D50A774397007E0084 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
-			remoteInfo = SetVersion;
 		};
 		DD3E14D70A774397007E0084 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -739,13 +720,6 @@
 			remoteGlobalIDString = DDEED38529ADFD7000DC3E5D;
 			remoteInfo = boinc_finish_install;
 		};
-		DD805B2B2D7C4BDF004E89F8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
-			remoteInfo = SetVersion;
-		};
 		DD81C823144D904D000BE61A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -759,13 +733,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = DD7748970A356C880025D05E;
 			remoteInfo = SetUpSecurity;
-		};
-		DDAD19CE09090833004E7DD0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
-			remoteInfo = SetVersion;
 		};
 		DDB874660C850DB600E0DE1F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -795,6 +762,27 @@
 			remoteGlobalIDString = DD35353007E1E05C00C4718D;
 			remoteInfo = api_libboinc;
 		};
+		DDC04D9C2E28C44B006AB01D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDEED38529ADFD7000DC3E5D;
+			remoteInfo = boinc_finish_install;
+		};
+		DDC04D9E2E28C473006AB01D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B13E2D0E265564D100D5C977;
+			remoteInfo = detect_rosetta_cpu;
+		};
+		DDC04DA62E2908BC006AB01D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
+			remoteInfo = SetVersion;
+		};
 		DDD095500A3EE09900C95BA4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -816,27 +804,6 @@
 			remoteGlobalIDString = DD81C799144D8DA9000BE61A;
 			remoteInfo = jpeg;
 		};
-		DDE382002200806D0077E85A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
-			remoteInfo = SetVersion;
-		};
-		DDED8BBB2569358C005F4C8E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
-			remoteInfo = SetVersion;
-		};
-		DDEED39629ADFD9900DC3E5D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
-			remoteInfo = SetVersion;
-		};
 		DDF9EC0C144EB338005D6144 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -857,13 +824,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = DDD74D8607CF482E0065AC9D;
 			remoteInfo = BOINC_Client;
-		};
-		DDF9EC14144EB36E005D6144 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DDAEC9E007FA583B00A7BC36;
-			remoteInfo = SetVersion;
 		};
 		DDF9EC16144EB36E005D6144 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2299,7 +2259,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				DD805B2C2D7C4BDF004E89F8 /* PBXTargetDependency */,
 				DD805B2A2D7C4BCF004E89F8 /* PBXTargetDependency */,
 			);
 			name = PostInstall;
@@ -2320,7 +2279,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				DD1AFEA50A512D8700EE5B82 /* PBXTargetDependency */,
 			);
 			name = Install_BOINC;
 			productName = Installer;
@@ -2359,7 +2317,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				DD3E14D40A774397007E0084 /* PBXTargetDependency */,
 				DD3E14D60A774397007E0084 /* PBXTargetDependency */,
 			);
 			name = mgr_boinc;
@@ -2399,7 +2356,6 @@
 			);
 			dependencies = (
 				DD3D127B29B6243800F89058 /* PBXTargetDependency */,
-				DDE382012200806D0077E85A /* PBXTargetDependency */,
 			);
 			name = Uninstaller;
 			productName = Uninstaller;
@@ -2428,6 +2384,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD67F1992D5A24FD00A78699 /* Build configuration list for PBXNativeTarget "Fix_BOINC_Users" */;
 			buildPhases = (
+				DDC04DA12E28C8CC006AB01D /* ShellScript */,
 				DD67F1912D5A24FD00A78699 /* Sources */,
 				DD67F1922D5A24FD00A78699 /* Frameworks */,
 				DD67F1932D5A24FD00A78699 /* CopyFiles */,
@@ -2454,7 +2411,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				DDED8BBC2569358C005F4C8E /* PBXTargetDependency */,
 				DD1E45CA2567FACC005B4EE7 /* PBXTargetDependency */,
 			);
 			name = cmd_boinc;
@@ -2531,7 +2487,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				DDAD19CF09090833004E7DD0 /* PBXTargetDependency */,
 				DDFA60DD0CB338940037B88C /* PBXTargetDependency */,
 				DD5F654F2360648D009ED2A2 /* PBXTargetDependency */,
 			);
@@ -2626,7 +2581,6 @@
 			);
 			dependencies = (
 				B1A32E55265D206800896566 /* PBXTargetDependency */,
-				DD25E20D220438090040366F /* PBXTargetDependency */,
 				DD7C3B112ABC3F85000C307D /* PBXTargetDependency */,
 				DD7C3B132ABC3F85000C307D /* PBXTargetDependency */,
 			);
@@ -2643,12 +2597,10 @@
 				DDEED38229ADFD7000DC3E5D /* Sources */,
 				DDEED38329ADFD7000DC3E5D /* Frameworks */,
 				DDEED38429ADFD7000DC3E5D /* Resources */,
-				DD805B322D7C666F004E89F8 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				DDEED39729ADFD9900DC3E5D /* PBXTargetDependency */,
 			);
 			name = boinc_finish_install;
 			productName = boinc_finish_installl_app;
@@ -3368,26 +3320,6 @@
 			shellPath = /bin/sh;
 			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
-		DD805B322D7C666F004E89F8 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Finish_install-Info.plist",
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/BOINC_Finish_install.app/Contents/info.plist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Due to Xcode parallelizing builds, a race condition this\n# target is built before the updated Finish_Install-Info\n# has been built. This is a workaround for that.\n\"${BUILT_PRODUCTS_DIR}/SetVersion\"\ncp \"${SRCROOT}/Finish_install-Info.plist\" ${BUILT_PRODUCTS_DIR}/BOINC_Finish_install.app/Contents/info.plist\n\n";
-		};
 		DD818296245EDA220076E5D0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -3445,7 +3377,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n codesign -f -o runtime -s - \"${BUILT_PRODUCTS_DIR}/SetVersion\"\n # Unfortunately, this does not work because other targets that\n # have SetVersion as a dependency only wait for SetVersion to\n # be built, not for its scripts to finish.\n# Run SetVersion in background so we can wait for it to finish running\n\"${BUILT_PRODUCTS_DIR}/SetVersion\"\nwait\n\n";
+			shellScript = "# echo \"BuiltProductsDir = ${BUILT_PRODUCTS_DIR}\"\n# echo \"CONFIGURATIONTEMPDIR = ${CONFIGURATION_TEMP_DIR}\"\n# echo \"SRC ROOT = ${SRCROOT}\"\n# echo \"architecture = ${ARCHS}\"\n# echo \"native architecture = ${ARCHS}\"\n codesign -f -o runtime -s - \"${BUILT_PRODUCTS_DIR}/SetVersion\"\n # Unfortunately, this does not work because other targets that\n # have SetVersion as a dependency only wait for SetVersion to\n # be built, not for its scripts to finish.\n# Run SetVersion in background so we can wait for it to finish running\n##\"${BUILT_PRODUCTS_DIR}/SetVersion\"\nwait\n\n";
+		};
+		DDC04DA12E28C8CC006AB01D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DDC8FB2B1F6D398700BE55B8 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4223,30 +4173,15 @@
 			target = DD1277B2081F3D67007B5DE1 /* PostInstall */;
 			targetProxy = DD127876081F44E5007B5DE1 /* PBXContainerItemProxy */;
 		};
-		DD1AFEA50A512D8700EE5B82 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
-			targetProxy = DD1AFEA60A512D8700EE5B82 /* PBXContainerItemProxy */;
-		};
 		DD1E45CA2567FACC005B4EE7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DD407A4907D2FB1200163EF5 /* libboinc */;
 			targetProxy = DD1E45C92567FACC005B4EE7 /* PBXContainerItemProxy */;
 		};
-		DD25E20D220438090040366F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
-			targetProxy = DD25E20C220438090040366F /* PBXContainerItemProxy */;
-		};
 		DD3D127B29B6243800F89058 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DDEED38529ADFD7000DC3E5D /* boinc_finish_install */;
 			targetProxy = DD3D127A29B6243800F89058 /* PBXContainerItemProxy */;
-		};
-		DD3E14D40A774397007E0084 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
-			targetProxy = DD3E14D50A774397007E0084 /* PBXContainerItemProxy */;
 		};
 		DD3E14D60A774397007E0084 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4308,11 +4243,6 @@
 			target = DDEED38529ADFD7000DC3E5D /* boinc_finish_install */;
 			targetProxy = DD805B292D7C4BCF004E89F8 /* PBXContainerItemProxy */;
 		};
-		DD805B2C2D7C4BDF004E89F8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
-			targetProxy = DD805B2B2D7C4BDF004E89F8 /* PBXContainerItemProxy */;
-		};
 		DD81C824144D904D000BE61A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DD81C799144D8DA9000BE61A /* jpeg */;
@@ -4322,11 +4252,6 @@
 			isa = PBXTargetDependency;
 			target = DD7748970A356C880025D05E /* SetUpSecurity */;
 			targetProxy = DDA12AD00A369DEC00FBDD12 /* PBXContainerItemProxy */;
-		};
-		DDAD19CF09090833004E7DD0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
-			targetProxy = DDAD19CE09090833004E7DD0 /* PBXContainerItemProxy */;
 		};
 		DDB874670C850DB600E0DE1F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4348,6 +4273,21 @@
 			target = DD35353007E1E05C00C4718D /* api_libboinc */;
 			targetProxy = DDBD681407FA830E0082C20D /* PBXContainerItemProxy */;
 		};
+		DDC04D9D2E28C44B006AB01D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDEED38529ADFD7000DC3E5D /* boinc_finish_install */;
+			targetProxy = DDC04D9C2E28C44B006AB01D /* PBXContainerItemProxy */;
+		};
+		DDC04D9F2E28C473006AB01D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B13E2D0E265564D100D5C977 /* detect_rosetta_cpu */;
+			targetProxy = DDC04D9E2E28C473006AB01D /* PBXContainerItemProxy */;
+		};
+		DDC04DA72E2908BC006AB01D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
+			targetProxy = DDC04DA62E2908BC006AB01D /* PBXContainerItemProxy */;
+		};
 		DDD095510A3EE09900C95BA4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DDD0953E0A3EDD2500C95BA4 /* switcher */;
@@ -4363,21 +4303,6 @@
 			target = DD81C799144D8DA9000BE61A /* jpeg */;
 			targetProxy = DDD4D96415A6FE0000612460 /* PBXContainerItemProxy */;
 		};
-		DDE382012200806D0077E85A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
-			targetProxy = DDE382002200806D0077E85A /* PBXContainerItemProxy */;
-		};
-		DDED8BBC2569358C005F4C8E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
-			targetProxy = DDED8BBB2569358C005F4C8E /* PBXContainerItemProxy */;
-		};
-		DDEED39729ADFD9900DC3E5D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
-			targetProxy = DDEED39629ADFD9900DC3E5D /* PBXContainerItemProxy */;
-		};
 		DDF9EC0D144EB338005D6144 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DD81C799144D8DA9000BE61A /* jpeg */;
@@ -4392,11 +4317,6 @@
 			isa = PBXTargetDependency;
 			target = DDD74D8607CF482E0065AC9D /* BOINC_Client */;
 			targetProxy = DDF9EC10144EB36E005D6144 /* PBXContainerItemProxy */;
-		};
-		DDF9EC15144EB36E005D6144 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DDAEC9E007FA583B00A7BC36 /* SetVersion */;
-			targetProxy = DDF9EC14144EB36E005D6144 /* PBXContainerItemProxy */;
 		};
 		DDF9EC17144EB36E005D6144 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
