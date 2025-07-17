@@ -96,6 +96,7 @@ static void print_options(char* prog) {
         "    --unsigned_apps_ok             allow unsigned apps (for testing)\n"
         "    --update_prefs <URL>           contact a project to update preferences\n"
         "    --version                      show version info\n"
+        "    --websocket                    launch boinc in websocket mode. Expermental feature\n"
         ,
         prog, prog, prog
     );
@@ -254,6 +255,9 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(NSDocumentRevisionsDebugMode)) {
             ++i;
 #endif
+        } else if (ARG(websocket)) {
+            gui_rpc_websocket = true;
+
         // detect_gpus is for internal use only - do not
         // add it to show_options() or doc/client.php
         // This statement just avoids Unknown option warning

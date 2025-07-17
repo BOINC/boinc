@@ -199,6 +199,13 @@
           <para>Allow multiple instances of BOINC manager on this host.</para>
         </listitem>
       </varlistentry>
+
+      <varlistentry>
+        <term><option>--websocket</option></term>
+        <listitem>
+          <para>Launch boinc in websocket mode. Expermental feature.</para>
+        </listitem>
+      </varlistentry>      
     </variablelist>
   </refsect1>
 

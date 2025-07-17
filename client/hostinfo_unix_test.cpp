@@ -51,11 +51,11 @@ using std::string;
 #define safe_strcat(x, y) strlcat(x, y, sizeof(x))
 #define LINUX_LIKE_SYSTEM (defined(__linux__) || defined(__GNU__) || defined(__GLIBC__)) && !defined(__HAIKU__)
 
-#if WASM
+#ifdef WASM
     #include <emscripten.h>
 #endif
 
-#if WASM
+#ifdef WASM
     EM_JS(FILE*, popen, (const char* command, const char* mode), {
         //TODO: add javascript code
     });

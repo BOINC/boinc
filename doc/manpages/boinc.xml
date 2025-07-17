@@ -212,6 +212,13 @@
         </varlistentry>
 
         <varlistentry>
+          <term><option>--websocket</option></term>
+          <listitem>
+            <para>Launch boinc in websocket mode. Expermental feature.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
           <term>
             <option>--update_prefs <replaceable>URL</replaceable></option>
           </term>

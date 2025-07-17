@@ -390,7 +390,10 @@ void CNetworkConnection::SetStateDisconnected() {
 IMPLEMENT_DYNAMIC_CLASS(CMainDocument, wxObject)
 
 
-CMainDocument::CMainDocument() : rpc(this) {
+CMainDocument::CMainDocument() :
+    rpc(this),
+    m_bWebSocket(false)
+{
 
 #ifdef __WIN32__
     int retval;
@@ -475,6 +478,8 @@ int CMainDocument::OnInit() {
     wxASSERT(m_pNetworkConnection);
 
     m_pClientManager = new CBOINCClientManager();
+    m_pClientManager->SetWebSocketMode(m_bWebSocket);
+
     wxASSERT(m_pClientManager);
 
     // client may auto-attach only when first launched
@@ -2589,6 +2594,11 @@ int CMainDocument::GetSimpleGUIWorkCount() {
         }
     }
     return iCount;
+}
+
+void CMainDocument::SetWebSocketMode(bool isWebSocket){
+    m_bWebSocket = isWebSocket;
+    rpcClient.set_websocket_mode(isWebSocket);
 }
 
 wxString suspend_reason_wxstring(int reason) {

@@ -4542,6 +4542,9 @@
 				OTHER_LDFLAGS = (
 					"-bind_at_load",
 					"-D_THREAD_SAFE",
+					"-lixwebsocket",
+					"-lcrypto",
+					"-lssl",
 					"-lwx_osx_cocoa_static",
 					"-lz",
 					"-lpthread",
@@ -4625,6 +4628,9 @@
 				OTHER_LDFLAGS = (
 					"-bind_at_load",
 					"-D_THREAD_SAFE",
+					"-lixwebsocket",
+					"-lcrypto",
+					"-lssl",
 					"-lwx_osx_cocoa_static",
 					"-lz",
 					"-lpthread",
@@ -4677,6 +4683,12 @@
 		DD5F654523605B41009ED2A2 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OTHER_LDFLAGS = (
+					"-lixwebsocket",
+					"-lcrypto",
+					"-lssl",
+					"-lz",
+				);
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4690,6 +4702,12 @@
 		DD5F654623605B41009ED2A2 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OTHER_LDFLAGS = (
+					"-lixwebsocket",
+					"-lcrypto",
+					"-lssl",
+					"-lz",
+				);
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4795,6 +4813,9 @@
 					"-lftgl",
 					"-lz",
 					"-lbz2",
+					"-lixwebsocket",
+					"-lcrypto",
+					"-lssl",
 				);
 				PRODUCT_NAME = boincscr;
 				WARNING_CFLAGS = (
@@ -4830,6 +4851,9 @@
 					"-lftgl",
 					"-lz",
 					"-lbz2",
+					"-lixwebsocket",
+					"-lcrypto",
+					"-lssl",
 				);
 				PRODUCT_NAME = boincscr;
 				WARNING_CFLAGS = (
@@ -4897,6 +4921,10 @@
 					Foundation,
 					"-framework",
 					AppKit,
+					"-lixwebsocket",
+					"-lcrypto",
+					"-lssl",
+					"-lz",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boincsaver;
 				PRODUCT_NAME = BOINCSaver;
@@ -4920,6 +4948,7 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
+					"-lixwebsocket",
 					"-lcurl",
 					"-lcares",
 					"-lcrypto",
@@ -4971,7 +5000,13 @@
 			buildSettings = {
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				INFOPLIST_FILE = "BoincCmd-Info.plist";
-				OTHER_LDFLAGS = "-lboinc";
+				OTHER_LDFLAGS = (
+					"-lboinc",
+					"-lixwebsocket",
+					"-lcrypto",
+					"-lssl",
+					"-lz",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinccmd;
 				PRODUCT_NAME = boinccmd;
 			};
@@ -5089,6 +5124,10 @@
 					Foundation,
 					"-framework",
 					AppKit,
+					"-lixwebsocket",
+					"-lcrypto",
+					"-lssl",
+					"-lz",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boincsaver;
 				PRODUCT_NAME = BOINCSaver;
@@ -5118,6 +5157,7 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
+					"-lixwebsocket",
 					"-lcurl",
 					"-lcares",
 					"-lcrypto",
@@ -5168,7 +5208,13 @@
 			buildSettings = {
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				INFOPLIST_FILE = "BoincCmd-Info.plist";
-				OTHER_LDFLAGS = "-lboinc";
+				OTHER_LDFLAGS = (
+					"-lboinc",
+					"-lixwebsocket",
+					"-lcrypto",
+					"-lssl",
+					"-lz",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinccmd;
 				PRODUCT_NAME = boinccmd;
 			};

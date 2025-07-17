@@ -39,6 +39,11 @@
 #include <locale.h>
 
 #include <deque>
+#ifdef WASM
+    #include <emscripten/websocket.h>
+#else
+    #include <ixwebsocket/IXWebSocket.h>
+#endif
 
 #include "cc_config.h"
 #include "common_defs.h"
@@ -669,17 +674,26 @@ struct OLD_RESULT {
 
 struct RPC_CLIENT {
     int sock;
+    bool is_websocket;
+#ifdef WASM
+
+#else
+    ix::WebSocket webSocket;
+#endif
     double start_time;
     double timeout;
     bool retry;
     sockaddr_storage addr;
 
     int send_request(const char*);
+    int send_request_receive_websocket(const char* p, char*& mbuf);
     int get_reply(char*&);
     RPC_CLIENT();
     ~RPC_CLIENT();
     int get_ip_addr(const char* host, int port);
     int init(const char* host, int port=0);
+    int init_tcp(const char* host, int port=0);
+    int init_websocket(const char* host, int port=0);
     int init_asynch(
         const char* host, double timeout, bool retry, int port=GUI_RPC_PORT
     );
@@ -772,7 +786,8 @@ struct RPC_CLIENT {
     int get_app_config(const char* url, APP_CONFIGS& conf);
     int set_app_config(const char* url, APP_CONFIGS& conf);
     int get_daily_xfer_history(DAILY_XFER_HISTORY&);
-    int set_language(const char*);
+	int set_language(const char*);
+    void set_websocket_mode(bool);
 };
 
 struct RPC {
@@ -784,6 +799,8 @@ struct RPC {
     RPC(RPC_CLIENT*);
     ~RPC();
     int do_rpc(const char*);
+    int do_rpc_websocket(const char* req);
+    int do_rpc_tcp(const char* req);
     int parse_reply();
 };
 

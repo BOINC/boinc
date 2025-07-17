@@ -281,6 +281,7 @@ struct CLIENT_STATE {
     int reset_project(PROJECT*, bool detaching);
     bool no_gui_rpc;
     bool gui_rpc_unix_domain;
+    bool gui_rpc_websocket;
         // do GUI RPC over Unix-domain sockets rather than TCP
     void start_abort_sequence();
     bool abort_sequence_done();

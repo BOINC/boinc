@@ -181,11 +181,11 @@ extern "C" {
 #define LINUX_LIKE_SYSTEM 1
 #endif
 
-#if WASM
+#ifdef WASM
     #include <emscripten.h>
 #endif
 
-#if WASM
+#ifdef WASM
     EM_JS(FILE*, popen, (const char* command, const char* mode), {
         //TODO: add javascript code
     });

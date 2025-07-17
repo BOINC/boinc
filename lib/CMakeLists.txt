@@ -3,7 +3,11 @@ project(boinc-libs)
 
 message(WARNING "This build is under development and may not work as expected")
 
+set (CMAKE_CXX_STANDARD 11)
+
 find_package(OpenSSL REQUIRED)
+find_package(ixwebsocket CONFIG REQUIRED)
+find_package(Threads REQUIRED)
 
 set(BOINC_DIR ${PROJECT_SOURCE_DIR}/..)
 
@@ -248,6 +252,7 @@ target_include_directories(boincapi PUBLIC
 target_link_libraries(boinc PRIVATE
                         OpenSSL::SSL
                         OpenSSL::Crypto
+                        ixwebsocket::ixwebsocket
 )
 
 target_link_libraries(boincapi PRIVATE

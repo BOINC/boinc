@@ -15,6 +15,11 @@
         "rappture",
         "opencl",
         "ftgl",
-        "freeglut"
+        "freeglut",
+        {
+          "name": "ixwebsocket",
+          "features": ["openssl"],
+          "default-features": false
+        }
     ]
 }

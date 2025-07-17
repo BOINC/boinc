@@ -24,8 +24,10 @@ export VCPKG_DIR=$VCPKG_ROOT/installed/armv6-android
 
 CONFIG_FLAGS=""
 CONFIG_LDFLAGS=""
+CONFIG_CXXFLAGS=""
 
 CONFIG_LDFLAGS="-L$VCPKG_DIR/lib"
+CONFIG_CXXFLAGS="-I$VCPKG_DIR/include"
 CONFIG_FLAGS="--with-ssl=$VCPKG_DIR --with-libcurl=$VCPKG_DIR --enable-apps-vcpkg"
 export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
 export PKG_CONFIG_PATH=$VCPKG_DIR/lib/pkgconfig/
@@ -36,7 +38,7 @@ export CC=arm-linux-androideabi-clang
 export CXX=arm-linux-androideabi-clang++
 export LD=arm-linux-androideabi-ld
 export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -march=armv6 -mfloat-abi=softfp -mfpu=vfp -D__ANDROID_API__=16 -DARMV6 -I$TCINCLUDES/include -I$BOINC -I$BOINC_LIB_DIR -I$BOINC_API_DIR -I$BOINC_ZIP_DIR"
-export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall  -funroll-loops -fexceptions -O3 -fomit-frame-pointer -I$TCINCLUDES/include -fPIE -march=armv6 -mfloat-abi=softfp -mfpu=vfp -D__ANDROID_API__=16 -DARMV6 -I$BOINC -I$BOINC_LIB_DIR -I$BOINC_API_DIR -I$BOINC_ZIP_DIR"
+export CXXFLAGS="$CONFIG_CXXFLAGS --sysroot=$TCSYSROOT -DANDROID -Wall  -funroll-loops -fexceptions -O3 -fomit-frame-pointer -I$TCINCLUDES/include -fPIE -march=armv6 -mfloat-abi=softfp -mfpu=vfp -D__ANDROID_API__=16 -DARMV6 -I$BOINC -I$BOINC_LIB_DIR -I$BOINC_API_DIR -I$BOINC_ZIP_DIR"
 export LDFLAGS="$CONFIG_LDFLAGS -L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -latomic -static-libstdc++ -march=armv6"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 

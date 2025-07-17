@@ -8,6 +8,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc", "boinc_cli.vcxproj"
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_os_ss", "boinc_os_ss.vcxproj", "{4A2C5963-6A8D-4CA1-A312-C3D749B2EA81}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7} = {D3E5B5B5-4FB1-4877-9B2C-6708B3D568F7}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinccmd", "boinccmd.vcxproj", "{8F37E1F3-3A68-4A1D-9579-A1210BDD055E}"
 EndProject

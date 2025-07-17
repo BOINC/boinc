@@ -137,6 +137,8 @@ protected:
     bool                m_bRunDaemon;
     bool                m_bNeedRunDaemon;
 
+    bool                m_bWebSocket;
+
     std::vector<GUI_SUPPORTED_LANG> m_astrLanguages;
     wxString            m_strISOLanguageCode;
     bool                m_bUseDefaultLocale;

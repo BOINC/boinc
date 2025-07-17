@@ -15,6 +15,11 @@
         "rappture",
         "ftgl",
         "freeglut",
-        "libjpeg-turbo"
+        "libjpeg-turbo",
+        {
+          "name": "ixwebsocket",
+          "features": ["openssl"],
+          "default-features": false
+        }
     ]
 }

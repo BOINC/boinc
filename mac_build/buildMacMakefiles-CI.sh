@@ -70,7 +70,7 @@ cd ./mac_build || exit 1
 retval=0
 
 echo "Building BOINC libs..."
-source BuildMacBOINC.sh ${config} -noclean -lib | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+source BuildMacBOINC.sh ${config} -noclean -lib -setting HEADER_SEARCH_PATHS "${cache_dir}/include \\\${HEADER_SEARCH_PATHS}" -setting LIBRARY_SEARCH_PATHS "${cache_dir}/lib \\\${LIBRARY_SEARCH_PATHS}" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd ..; exit 1;

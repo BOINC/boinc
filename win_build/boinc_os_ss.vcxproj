@@ -21,9 +21,9 @@
       <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;wsock32.lib;wininet.lib;winmm.lib;comctl32.lib;msimg32.lib;shell32.lib;userenv.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">libcmtd.lib;libcpmtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Configuration)'=='Release'">libcmt.lib;libcpmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Ws2_32.lib;crypt32.lib;libcrypto.lib;libssl.lib;shlwapi.lib;ixwebsocket.lib;opengl32.lib;glu32.lib;wsock32.lib;wininet.lib;winmm.lib;comctl32.lib;msimg32.lib;shell32.lib;userenv.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">zlibd.lib;libcmtd.lib;libcpmtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)'=='Release'">zlib.lib;libcmt.lib;libcpmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ProgramDatabaseFile>$(OutDir)$(TargetName)_scr.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
     </Link>

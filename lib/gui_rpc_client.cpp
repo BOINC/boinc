@@ -48,6 +48,8 @@
 
 #include "gui_rpc_client.h"
 
+#include <sstream>
+
 using std::string;
 using std::vector;
 
@@ -58,6 +60,7 @@ RPC_CLIENT::RPC_CLIENT() {
     start_time = 0;
     timeout = 0;
     retry = 0;
+    is_websocket = false;
     memset(&addr, 0, sizeof(addr));
 }
 
@@ -123,6 +126,28 @@ int RPC_CLIENT::get_ip_addr(const char* host, int port) {
 }
 
 int RPC_CLIENT::init(const char* host, int port) {
+    if (is_websocket){
+        return init_websocket(host, port);
+    }
+    return init_tcp(host, port);
+}
+
+int RPC_CLIENT::init_websocket(const char* host, int port) {
+    std::stringstream stream;
+    stream << "ws://" << host << ":" << port << "/";
+    std::string url = stream.str();
+
+#ifdef WASM
+
+#else
+    webSocket.setUrl(url);
+    // Per message deflate connection is enabled by default. You can tweak its parameters or disable it
+    webSocket.disablePerMessageDeflate();
+#endif
+    return 0;
+}
+
+int RPC_CLIENT::init_tcp(const char* host, int port) {
     int retval = get_ip_addr(host, port);
     if (retval) return retval;
     boinc_socket(sock, AF_INET);
@@ -163,6 +188,19 @@ int RPC_CLIENT::init_asynch(
     retry = _retry;
     timeout = _timeout;
 
+    if (is_websocket) {
+        std::string host_str;
+        if (NULL == host) {
+            host_str = "localhost";
+        } else {
+            host_str += host;
+        }
+        if (0 == port) {
+            port = GUI_RPC_PORT;
+        }
+        return init_websocket(host_str.c_str(), port);
+    }
+
     retval = get_ip_addr(host, port);
     if (retval) return retval;
 
@@ -184,6 +222,9 @@ int RPC_CLIENT::init_asynch(
 }
 
 int RPC_CLIENT::init_poll() {
+    if(is_websocket) {
+        return 0;
+    }
     fd_set read_fds, write_fds, error_fds;
     struct timeval tv;
     int retval;
@@ -304,6 +345,53 @@ int RPC_CLIENT::authorize(const char* passwd) {
     return ERR_AUTHENTICATOR;
 }
 
+int RPC_CLIENT::send_request_receive_websocket(const char* p, char*& mbuf) {
+    string buf;
+    buf = "<boinc_gui_rpc_request>\n";
+    buf += p;
+    buf += "</boinc_gui_rpc_request>\n\003";
+
+    bool is_received = false;
+#ifdef WASM
+
+#else
+    webSocket.setOnMessageCallback([&](const ix::WebSocketMessagePtr& msg)
+        {
+            if (msg->type == ix::WebSocketMessageType::Message)
+            {
+                MFILE mf;
+                int n = msg->str.length();
+                mf.puts(msg->str.c_str());
+                mf.get_buf(mbuf, n);
+                is_received = true;
+            }
+        }
+    );
+
+    if (webSocket.getReadyState() != ix::ReadyState::Open) {
+        webSocket.start();
+        while(webSocket.getReadyState() != ix::ReadyState::Open){ boinc_sleep(0.1); };
+    }
+
+    // Send a message to the server (default to TEXT mode)
+    ix::WebSocketSendInfo retval = webSocket.send(buf);
+    if (!retval.success) {
+        return 1;
+    }
+#endif
+    // Wait for received msg
+    start_time = dtime();
+    timeout = 60;
+    while (!is_received) {
+        boinc_sleep(0.1);
+        if (dtime() > start_time + timeout) {
+            BOINCTRACE("message not receive timeout\n");
+            return ERR_CONNECT;
+        }
+    }
+    return 0;
+}
+
 int RPC_CLIENT::send_request(const char* p) {
     string buf;
     buf = "<boinc_gui_rpc_request>\n";
@@ -346,10 +434,25 @@ RPC::~RPC() {
     if (mbuf) free(mbuf);
 }
 
+int RPC::do_rpc(const char* req) {
+    if (rpc_client->is_websocket) {
+        return do_rpc_websocket(req);
+    }
+    return do_rpc_tcp(req);
+}
+
+int RPC::do_rpc_websocket(const char* req) {
+    int retval;
+    retval = rpc_client->send_request_receive_websocket(req, mbuf);
+    if (retval) return retval;
+    fin.init_buf_read(mbuf);
+    return 0;
+}
+
 // return value indicates only whether network comm succeeded
 // (not whether the op succeeded)
 //
-int RPC::do_rpc(const char* req) {
+int RPC::do_rpc_tcp(const char* req) {
     int retval;
 
     //fprintf(stderr, "RPC::do_rpc rpc_client->sock = '%d'", rpc_client->sock);

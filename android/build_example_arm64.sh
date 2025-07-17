@@ -27,6 +27,7 @@ CONFIG_FLAGS=""
 CONFIG_LDFLAGS=""
 
 CONFIG_LDFLAGS="-L$VCPKG_DIR/lib"
+CONFIG_CXXFLAGS="-I$VCPKG_DIR/include"
 CONFIG_FLAGS="--with-ssl=$VCPKG_DIR --with-libcurl=$VCPKG_DIR --enable-apps-vcpkg"
 export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
 export PKG_CONFIG_PATH=$VCPKG_DIR/lib/pkgconfig/
@@ -37,7 +38,7 @@ export CC=aarch64-linux-android21-clang
 export CXX=aarch64-linux-android21-clang++
 export LD=aarch64-linux-android-ld
 export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer -fPIE -D__ANDROID_API__=21 -I$TCINCLUDES/include -I$BOINC -I$BOINC_LIB_DIR -I$BOINC_API_DIR -I$BOINC_ZIP_DIR"
-export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -Wall  -funroll-loops -fexceptions -O3 -fomit-frame-pointer -I$TCINCLUDES/include -fPIE -D__ANDROID_API__=21 -I$BOINC -I$BOINC_LIB_DIR -I$BOINC_API_DIR -I$BOINC_ZIP_DIR"
+export CXXFLAGS="$CONFIG_CXXFLAGS --sysroot=$TCSYSROOT -DANDROID -DANDROID_64 -Wall  -funroll-loops -fexceptions -O3 -fomit-frame-pointer -I$TCINCLUDES/include -fPIE -D__ANDROID_API__=21 -I$BOINC -I$BOINC_LIB_DIR -I$BOINC_API_DIR -I$BOINC_ZIP_DIR"
 export LDFLAGS="$CONFIG_LDFLAGS -L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog -fPIE -pie -latomic -static-libstdc++ -lz"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 

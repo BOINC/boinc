@@ -84,7 +84,7 @@
  * opposite directions.
  */
 #define USE_WINSOCK 1
-#undef HAVE_WINSOCK2_H
+#define HAVE_WINSOCK2_H 1
 #define HAVE_WINSOCK_H 1
 #define HAVE_WINDOWS_H 1
 #define HAVE_WS2TCPIP_H 1
@@ -100,6 +100,7 @@
 #define HAVE_MSVCRT 1
 #define HAVE__CONFIGTHREADLOCALE 1
 #define HAVE_DECL___CPUID 1
+#define HAVE_SOCKLEN_T 1
 
 #if ( _MSC_FULL_VER >= 160040219 )
 #define HAVE_DECL__XGETBV 1

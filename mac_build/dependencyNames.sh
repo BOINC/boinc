@@ -67,9 +67,14 @@ ftglBaseName="ftgl"
 ftglFileName="ftgl-2.1.3-rc5.tar.gz"
 ftglURL="https://sourceforge.net/projects/ftgl/files/FTGL%20Source/2.1.3%7Erc5/ftgl-2.1.3-rc5.tar.gz"
 
-# The baseNames and dirNames arrays are used by the checkDpendentVesions.sh script
-baseNames=(${opensslBaseName} ${caresBaseName} ${curlBaseName} ${wxWidgetsBaseName} ${freetypeBaseName} ${ftglBaseName})
+ixwebsocketDirName="ixwebsocket-11.4.6"
+ixwebsocketBaseName="ixwebsocket"
+ixwebsocketFileName="v11.4.6.tar.gz"
+ixwebsocketURL="https://github.com/machinezone/IXWebSocket/archive/refs/tags/v11.4.6.tar.gz"
 
-dirNames=(${opensslDirName} ${caresDirName} ${curlDirName} ${wxWidgetsDirName} ${freetypeDirName} ${ftglDirName})
+# The baseNames and dirNames arrays are used by the checkDpendentVesions.sh script
+baseNames=(${opensslBaseName} ${caresBaseName} ${curlBaseName} ${wxWidgetsBaseName} ${freetypeBaseName} ${ftglBaseName} ${ixwebsocketBaseName})
+
+dirNames=(${opensslDirName} ${caresDirName} ${curlDirName} ${wxWidgetsDirName} ${freetypeDirName} ${ftglDirName} ${ixwebsocketDirName})
 
 return 0

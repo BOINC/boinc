@@ -11,6 +11,11 @@
           "name": "openssl",
           "features": ["ssl3", "weak-ssl-ciphers"],
           "default-features": false
+        },
+        {
+          "name": "ixwebsocket",
+          "features": ["openssl"],
+          "default-features": false
         }
     ]
 }

@@ -21,6 +21,12 @@
 #include "network.h"
 #include "acct_setup.h"
 
+#ifdef WASM
+    #include <emscripten/websocket.h>
+#else
+    #include <ixwebsocket/IXWebSocketServer.h>
+#endif
+
 // FSM states for auto-update
 
 #define AU_SS_INIT          0
@@ -42,6 +48,13 @@
 class GUI_RPC_CONN {
 public:
     int sock;
+#ifdef WASM
+
+#else
+    ix::WebSocket* client;
+    const ix::WebSocketMessagePtr* msg;
+#endif
+    bool is_websocket;
     MIOFILE mfout;
     MFILE mout;
     MIOFILE mfin;
@@ -84,12 +97,19 @@ public:
         return notice_refresh;
     }
     GUI_RPC_CONN(int);
+#ifdef WASM
+
+#else
+    GUI_RPC_CONN(ix::WebSocket&);
+#endif
     ~GUI_RPC_CONN();
     int handle_rpc();
     void handle_auth1(MIOFILE&);
     int handle_auth2(char*, MIOFILE&);
     void http_error(const char* msg);
     void handle_get();
+private:
+    void init_gui_rpc_conn();
 };
 
 // authentication for GUI RPCs:
@@ -106,6 +126,11 @@ class GUI_RPC_CONN_SET {
     bool remote_hosts_configured;
 public:
     int lsock;
+#ifdef WASM
+
+#else
+    ix::WebSocketServer* server;
+#endif
     double time_of_last_rpc_needing_network;
         // time of the last RPC that needs network access to handle
 
@@ -115,6 +140,7 @@ public:
     void got_select(FDSET_GROUP&);
     int init_tcp(bool last_time);
     int init_unix_domain();
+    int init_websocket();
     void close();
     bool recent_rpc_needs_network(double interval);
     void send_quits();

@@ -171,6 +171,7 @@ CLIENT_STATE::CLIENT_STATE()
     autologin_in_progress = false;
     autologin_fetching_project_list = false;
     gui_rpc_unix_domain = false;
+    gui_rpc_websocket = false;
     new_version_check_time = 0;
     all_projects_list_check_time = 0;
     client_version_check_url = DEFAULT_VERSION_CHECK_URL;
@@ -847,15 +848,19 @@ int CLIENT_STATE::init() {
         if (gui_rpc_unix_domain) {
             retval = gui_rpcs.init_unix_domain();
         } else {
-            // When we're running at boot time,
-            // it may be a few seconds before we can socket/bind/listen.
-            // So retry a few times.
-            //
-            for (i=0; i<30; i++) {
-                bool last_time = (i==29);
-                retval = gui_rpcs.init_tcp(last_time);
-                if (!retval) break;
-                boinc_sleep(1.0);
+            if(gui_rpc_websocket) {
+                retval = gui_rpcs.init_websocket();
+            } else {
+                // When we're running at boot time,
+                // it may be a few seconds before we can socket/bind/listen.
+                // So retry a few times.
+                //
+                for (i=0; i<30; i++) {
+                    bool last_time = (i==29);
+                    retval = gui_rpcs.init_tcp(last_time);
+                    if (!retval) break;
+                    boinc_sleep(1.0);
+                }
             }
         }
         if (retval) return retval;
@@ -898,6 +903,20 @@ int CLIENT_STATE::init() {
                 "This computer is not attached to any projects"
             );
         }
+    }
+
+    if(gui_rpc_unix_domain){
+            msg_printf(NULL, MSG_INFO,
+                "Client run in unix domain mode"
+            );
+    } else if(gui_rpc_websocket) {
+            msg_printf(NULL, MSG_INFO,
+                "Client run in websocket mode"
+            );
+    } else {
+                    msg_printf(NULL, MSG_INFO,
+                "Client run in tcp mode"
+            );
     }
 
     // get list of BOINC projects occasionally,

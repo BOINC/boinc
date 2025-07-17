@@ -12,6 +12,11 @@
           "features": ["ssl3", "weak-ssl-ciphers"],
           "default-features": false
         },
-        "rappture"
+        "rappture",
+        {
+          "name": "ixwebsocket",
+          "features": ["openssl"],
+          "default-features": false
+        }
     ]
 }

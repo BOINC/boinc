@@ -16,5 +16,6 @@ TRIPLET="x64-mingw-static"
 export VCPKG_DIR="$VCPKG_ROOT/installed/$TRIPLET"
 
 $PLATFORM_NAME/bootstrap_vcpkg_cmake.sh
-
+export CXXFLAGS="-pthread"
+export CMAKE_CXXFLAGS="-pthread"
 cmake lib -B build -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake -DVCPKG_MANIFEST_DIR=3rdParty/vcpkg_ports/configs/libs/ -DVCPKG_INSTALLED_DIR=$VCPKG_ROOT/installed/ -DVCPKG_OVERLAY_PORTS=$VCPKG_PORTS/ports -DVCPKG_OVERLAY_TRIPLETS=$VCPKG_PORTS/triplets/ci -DVCPKG_TARGET_TRIPLET=$TRIPLET -DVCPKG_INSTALL_OPTIONS=--clean-after-build

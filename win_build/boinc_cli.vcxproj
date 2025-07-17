@@ -17,7 +17,7 @@
       <PreprocessorDefinitions>_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL;ZLIB_WINAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libcrypto.lib;libssl.lib;wsock32.lib;winhttp.lib;winmm.lib;sensapi.lib;userenv.lib;shell32.lib;secur32.lib;wtsapi32.lib;Ws2_32.Lib;Crypt32.Lib;Wldap32.Lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>shlwapi.lib;ixwebsocket.lib;libcrypto.lib;libssl.lib;wsock32.lib;winhttp.lib;winmm.lib;sensapi.lib;userenv.lib;shell32.lib;secur32.lib;wtsapi32.lib;Ws2_32.Lib;Crypt32.Lib;Wldap32.Lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies Condition="'$(Platform)'=='x64'">nvapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">zlibd.lib;libcurl-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies Condition="'$(Configuration)'=='Release'">zlib.lib;libcurl.lib;%(AdditionalDependencies)</AdditionalDependencies>

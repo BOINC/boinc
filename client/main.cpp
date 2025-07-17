@@ -48,6 +48,12 @@
 #include "hostinfo.h"
 #endif
 
+#ifdef WASM
+    #include <emscripten/websocket.h>
+#else
+    #include <ixwebsocket/IXNetSystem.h>
+#endif
+
 #include "diagnostics.h"
 #include "error_numbers.h"
 #include "str_util.h"
@@ -470,7 +476,11 @@ int boinc_main_loop() {
 
 int main(int argc, char** argv) {
     int retval = 0;
+#ifdef WASM
 
+#else
+    ix::initNetSystem();
+#endif
     coprocs.set_path_to_client(argv[0]);    // Used to launch a child process for --detect_gpus
 
     for (int index = 1; index < argc; index++) {
@@ -604,5 +614,10 @@ int main(int argc, char** argv) {
 
 #endif
     main_exited = true;
+#ifdef WASM
+
+#else
+    ix::uninitNetSystem();
+#endif
     return retval;
 }

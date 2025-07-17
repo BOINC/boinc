@@ -1138,6 +1138,7 @@ AM_CONDITIONAL(BUILD_APPS_WITH_VCPKG, [test "${enable_apps_vcpkg}" = yes])
 AM_CONDITIONAL(BUILD_WITH_VBOX, [test "${enable_apps_vbox}" = yes])
 AM_CONDITIONAL(BUILD_WITH_MINGW, [test "${enable_apps_mingw}" = yes])
 AM_CONDITIONAL(BUILD_WITH_GUI, [test "${enable_apps_gui}" = yes])
+AM_CONDITIONAL([WASM],[test "x${enable_wasm}" != xyes])
 if test "${enable_wasm}" = yes ; then
   AC_DEFINE([WASM], [1], [build boinc wasm])
 fi

@@ -39,12 +39,14 @@ public:
     bool                StartupBOINCCore();
     void                ShutdownBOINCCore(bool ShuttingDownManager);
     void                KillClient();
+    void                SetWebSocketMode(bool);
 
 protected:
     bool                m_bBOINCStartedByManager;
     int                 m_lBOINCCoreProcessId;
     double              m_fAutoRestart1Time;
     double              m_fAutoRestart2Time;
+    bool                m_bWebSocket;
 
 #ifdef __WXMSW__
     HANDLE              m_hBOINCCoreProcess;

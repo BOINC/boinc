@@ -13,7 +13,7 @@
   <Import Project="pch.props" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>../win_build;../lib;../api;$(VcpkgInstalledDir)/include/;../coprocs/cuda/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;../lib;../api;../coprocs/cuda/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_LIB_WIN32;_CONSOLE;CLIENT;BOINC_APP_GRAPHICS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>

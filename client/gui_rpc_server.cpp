@@ -70,13 +70,40 @@
 using std::string;
 using std::vector;
 
+static void show_connect_error(sockaddr_storage& s);
+
 GUI_RPC_CONN::GUI_RPC_CONN(int s) :
     xp(&mfin),
     get_project_config_op(&gui_http),
     lookup_account_op(&gui_http),
-    create_account_op(&gui_http)
+    create_account_op(&gui_http),
+#ifdef WASM
+#else
+    client(NULL),
+#endif
+    is_websocket(false)
 {
     sock = s;
+    init_gui_rpc_conn();
+}
+
+#ifdef WASM
+
+#else
+GUI_RPC_CONN::GUI_RPC_CONN(ix::WebSocket& client) :
+    xp(&mfin),
+    get_project_config_op(&gui_http),
+    lookup_account_op(&gui_http),
+    create_account_op(&gui_http),
+    is_websocket(true)
+{
+    this->client = &client;
+    init_gui_rpc_conn();
+}
+#endif
+
+void GUI_RPC_CONN::init_gui_rpc_conn()
+{
     mfout.init_mfile(&mout);
     safe_strcpy(request_msg,"");
     request_nbytes = 0;
@@ -89,7 +116,6 @@ GUI_RPC_CONN::GUI_RPC_CONN(int s) :
     quit_flag = false;
     au_ss_state = AU_SS_INIT;
     au_mgr_state = AU_MGR_INIT;
-
     notice_refresh = false;
 }
 
@@ -284,6 +310,124 @@ int GUI_RPC_CONN_SET::init_unix_domain() {
     return 0;
 }
 
+int GUI_RPC_CONN_SET::init_websocket() {
+    int port = 0;
+    if (gstate.cmdline_gui_rpc_port) {
+        port = gstate.cmdline_gui_rpc_port;
+    } else {
+        port = GUI_RPC_PORT;
+    }
+
+    bool retval = false;
+    std::string host("127.0.0.1"); // If you need this server to be accessible on a different machine, use "0.0.0.0"
+
+    get_password();
+    get_allowed_hosts();
+
+#ifdef WASM
+
+#else
+    server = new ix::WebSocketServer(port, host);
+    server->setOnClientMessageCallback([&](std::shared_ptr<ix::ConnectionState> connectionState, ix::WebSocket & webSocket, const ix::WebSocketMessagePtr & msg) {
+
+        if (msg->type == ix::WebSocketMessageType::Open) {
+            bool host_allowed;
+            int retval;
+            struct sockaddr_storage addr;
+            std::string remote_url = connectionState->getRemoteIp();
+            retval = resolve_hostname(remote_url.c_str(), addr);
+            if (retval != 0) {
+                return;
+            }
+            if (gstate.requested_exit) {
+                return;
+            }
+            if (cc_config.allow_remote_gui_rpc) {
+                host_allowed = true;
+            } else if (is_localhost(addr)) {
+                host_allowed = true;
+            } else {
+                // reread host file because IP addresses might have changed
+                //
+                get_allowed_hosts();
+                host_allowed = check_allowed_list(addr);
+            }
+
+            if (!host_allowed) {
+                show_connect_error(addr);
+                webSocket.stop();
+            } else {
+                GUI_RPC_CONN* gr = new GUI_RPC_CONN(webSocket);
+                if (strlen(password)) {
+                    gr->auth_needed = true;
+                }
+                gr->is_local = is_localhost(addr);
+
+                if (log_flags.gui_rpc_debug) {
+                    msg_printf(0, MSG_INFO,
+                        "[gui_rpc] got new GUI RPC connection"
+                    );
+                }
+                insert(gr);
+            }
+        } else if (msg->type == ix::WebSocketMessageType::Message) {
+            int retval;
+            vector<GUI_RPC_CONN*>::iterator iter;
+            GUI_RPC_CONN* gr;
+            iter = gui_rpcs.begin();
+            while (iter != gui_rpcs.end()) {
+                gr = *iter;
+                if (gr->client == &webSocket) {
+                    gr->msg = &msg;
+                    retval = gr->handle_rpc();
+                    if (retval) {
+                        if (log_flags.gui_rpc_debug) {
+                            msg_printf(NULL, MSG_INFO,
+                                "[gui_rpc] handler returned %d, closing websocket\n",
+                                retval
+                            );
+                        }
+                        delete gr;
+                        iter = gui_rpcs.erase(iter);
+                    }
+                    break;
+                }
+                ++iter;
+            }
+        } else if (msg->type == ix::WebSocketMessageType::Close) {
+            int retval;
+            vector<GUI_RPC_CONN*>::iterator iter;
+            GUI_RPC_CONN* gr;
+            iter = gui_rpcs.begin();
+            while (iter != gui_rpcs.end()) {
+                gr = *iter;
+                if (gr->client == &webSocket) {
+                    delete gr;
+                    iter = gui_rpcs.erase(iter);
+                    break;
+                }
+                ++iter;
+            }
+        }
+    });
+
+    auto res = server->listen();
+    if (!res.first)
+    {
+        // Error handling
+        return 1;
+    }
+
+    // Per message deflate connection is enabled by default. It can be disabled
+    // which might be helpful when running on low power devices such as a Rasbery Pi
+    server->disablePerMessageDeflate();
+
+    // Run the server in the background. Server can be stoped by calling server.stop()
+    server->start();
+#endif
+    return 0;
+}
+
 // If the client runs at boot time,
 // it may be a while (~10 sec) before the DNS system is working.
 // If this returns an error,
@@ -452,6 +596,11 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
     vector<GUI_RPC_CONN*>::iterator iter;
     GUI_RPC_CONN* gr;
 
+#ifdef WASM
+
+#else
+    if (server != NULL) return;
+#endif
     if (lsock < 0) return;
 
     if (FD_ISSET(lsock, &fg.read_fds)) {

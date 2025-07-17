@@ -57,11 +57,11 @@
 
 #include "hostinfo.h"
 
-#if WASM
+#ifdef WASM
     #include <emscripten.h>
 #endif
 
-#if WASM
+#ifdef WASM
     // unique user device in js.
     EM_JS(int, get_uuid, (char* buf), {
         const fpPromise = import('https://openfpcdn.io/fingerprintjs/v3').then(FingerprintJS => FingerprintJS.load());
@@ -166,7 +166,7 @@ void HOST_INFO::generate_host_cpid() {
     char buf[256+MAXPATHLEN];
     char dir[MAXPATHLEN];
 
-#if WASM
+#ifdef WASM
     // unique user device in js.
     retval = get_uuid(buf);
 #else

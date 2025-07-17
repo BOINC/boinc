@@ -1989,25 +1989,38 @@ void GUI_RPC_CONN::handle_get() {
 int GUI_RPC_CONN::handle_rpc() {
     int retval=0;
     char* p;
-
-    int left = GUI_RPC_REQ_MSG_SIZE - request_nbytes;
+    if(!is_websocket)  {
+        int left = GUI_RPC_REQ_MSG_SIZE - request_nbytes;
 #ifdef _WIN32
-    SSIZE_T nb = recv(sock, request_msg+request_nbytes, left, 0);
+        SSIZE_T nb = recv(sock, request_msg+request_nbytes, left, 0);
 #else
-    ssize_t nb = read(sock, request_msg+request_nbytes, left);
+        ssize_t nb = read(sock, request_msg+request_nbytes, left);
 #endif
-    if (nb <= 0) {
-        request_nbytes = 0;
-        return ERR_READ;
-    }
-    request_nbytes += nb;
+        if (nb <= 0) {
+            request_nbytes = 0;
+            return ERR_READ;
+        }
+        request_nbytes += nb;
 
-    // buffer full?
-    if (request_nbytes >= GUI_RPC_REQ_MSG_SIZE) {
-        request_nbytes = 0;
-        return ERR_READ;
+        // buffer full?
+        if (request_nbytes >= GUI_RPC_REQ_MSG_SIZE) {
+            request_nbytes = 0;
+            return ERR_READ;
+        }
+        request_msg[request_nbytes] = 0;
+    } else {
+#ifdef WASM
+        std::string msg_str = "";
+#else
+        std::string msg_str = (*msg)->str;
+#endif
+        if (msg_str.length() < GUI_RPC_REQ_MSG_SIZE+1) {
+            safe_strcpy(request_msg, msg_str.c_str());
+        }
+        else {
+            return ERR_READ;
+        }
     }
-    request_msg[request_nbytes] = 0;
 
     if (log_flags.gui_rpc_debug) {
         msg_printf(0, MSG_INFO,
@@ -2122,7 +2135,16 @@ int GUI_RPC_CONN::handle_rpc() {
         send(sock, buf, (int)strlen(buf), 0);
     }
     if (p) {
-        send(sock, p, n, 0);
+        if (!is_websocket) {
+            send(sock, p, n, 0);
+        }
+        else {
+#ifdef WASM
+
+#else
+            client->send(p);
+#endif
+        }
         if (log_flags.gui_rpc_debug) {
             if (!http_request) {
                 p[n-1]=0;   // replace 003 with NULL

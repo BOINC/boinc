@@ -21,6 +21,11 @@
     "gtest",
     "ftgl",
     "opencl",
-    "nlohmann-json"
+    "nlohmann-json",
+    {
+      "name": "ixwebsocket",
+      "features": ["openssl"],
+      "default-features": false
+    }
   ]
 }

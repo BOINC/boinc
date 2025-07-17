@@ -127,6 +127,7 @@ private:
     char                        m_szLanguage[256];
     wxDateTime                  m_dtCachedCCStatusTimestamp;
     bool                        m_bClientStartCheckCompleted;
+    bool                        m_bWebSocket;
 
 
 public:
@@ -414,6 +415,8 @@ public:
     int                         GetSimpleProjectCount();
     int                         GetSimpleGUIWorkCount();
 
+public:
+    void                        SetWebSocketMode(bool isWebSocket);
 };
 
 extern wxString suspend_reason_wxstring(int reason);
