@@ -41,6 +41,10 @@ ifdef BUILD_APPS_WITH_VCPKG
   CURL_EXTRA_LDFLAGS ?= -lz -ldl
 endif
 
+ifdef BUILD_WITH_MINGW
+  CURL_EXTRA_LDFLAGS += -liphlpapi
+endif
+
 PROGS = boinc_gahp
 
 all: $(PROGS)
