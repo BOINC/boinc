@@ -181,16 +181,6 @@ extern "C" {
 #define LINUX_LIKE_SYSTEM 1
 #endif
 
-#if WASM
-    #include <emscripten.h>
-#endif
-
-#if WASM
-    EM_JS(FILE*, popen, (const char* command, const char* mode), {
-        //TODO: add javascript code
-    });
-#endif
-
 // Returns the offset between LOCAL STANDARD TIME and UTC.
 // LOCAL_STANDARD_TIME = UTC_TIME + get_timezone().
 //
@@ -1409,9 +1399,6 @@ int HOST_INFO::get_cpu_info() {
     strlcpy( p_model, cpuInfo.name.fromID, sizeof(p_model));
 #elif defined(__HAIKU__)
     get_cpu_info_haiku(*this);
-#elif WASM
-    strlcpy( p_vendor, "WASM", sizeof(p_vendor));
-    strlcpy( p_model, "WASM", sizeof(p_model));
 #elif HAVE_SYS_SYSCTL_H
     int mib[2];
     size_t len;
