@@ -213,23 +213,6 @@ windows_installer_list = [
     './win_build/Build/ARM64/Release/installer_setup.exe',
 ]
 
-wasm_client_list = [
-    './client/boinc_client.wasm',
-    './client/boinc_client.js',
-    './client/boinc.html',
-    './samples/wasm/index.html',
-]
-
-wasm_client_debug_folder_list = [
-    'lib/*.cpp',
-    'lib/*.h',
-    'client/*.cpp',
-    'client/*.h',
-    'client/boinc_client.html',
-    'client/boinc_client.js',
-    'client/boinc_client.wasm',
-]
-
 macos_manager_list = [
     'mac_build/build/Deployment/AddRemoveUser',
     'mac_build/build/Deployment/BOINC\ Installer.app',
@@ -289,7 +272,6 @@ macos_apps_arm64_list = [
 
 logs_list = [
     'config.log',
-    '3rdParty/wasm/vcpkg/buildtrees/*.log',
     '3rdParty/linux/vcpkg/buildtrees/*.log',
     '3rdParty/osx/vcpkg/buildtrees/*.log',
     '3rdParty/android/vcpkg/buildtrees/*.log',
@@ -362,12 +344,6 @@ def prepare_win_manager(target_directory):
 def prepare_win_installer(target_directory):
     prepare_7z_archive('win_installer', target_directory, windows_installer_list)
 
-def prepare_wasm_client(target_directory):
-    prepare_7z_archive('wasm_client', target_directory, wasm_client_list)
-
-def prepare_wasm_client_debug(target_directory):
-    prepare_7z_archive('wasm_client-debug', target_directory, wasm_client_debug_folder_list)
-
 def prepare_macos_apps(target_directory):
     prepare_7z_archive('macos_manager', target_directory, macos_manager_list)
     prepare_7z_archive('macos_apps', target_directory, macos_apps_list)
@@ -398,8 +374,6 @@ boinc_types = {
     'win_client': prepare_win_client,
     'win_manager': prepare_win_manager,
     'win_installer': prepare_win_installer,
-    'wasm_client': prepare_wasm_client,
-    'wasm_client-debug': prepare_wasm_client_debug,
     'macos_manager': prepare_macos_apps,
     'macos_samples-makefile': prepare_macos_makefile_apps,
     'logs': prepare_logs,
