@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1430"
+   LastUpgradeVersion = "1640"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
-      <PreActions>
-         <ExecutionAction
-            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
-            <ActionContent
-               title = "Run Script"
-               scriptText = "source &quot;$WORKSPACE_PATH/../../Update_Info_Plists.sh&quot;&#10;exit $?&#10;">
-            </ActionContent>
-         </ExecutionAction>
-      </PreActions>
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -23,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DDD74D8607CF482E0065AC9D"
-               BuildableName = "boinc"
-               BlueprintName = "BOINC_Client"
+               BlueprintIdentifier = "DD67F1942D5A24FD00A78699"
+               BuildableName = "Fix_BOINC_Users"
+               BlueprintName = "Fix_BOINC_Users"
                ReferencedContainer = "container:boinc.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -43,8 +34,7 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
-      useCustomWorkingDirectory = "YES"
-      customWorkingDirectory = "/Library/Application Support/BOINC Data"
+      useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
@@ -54,9 +44,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DDD74D8607CF482E0065AC9D"
-            BuildableName = "boinc"
-            BlueprintName = "BOINC_Client"
+            BlueprintIdentifier = "DD67F1942D5A24FD00A78699"
+            BuildableName = "Fix_BOINC_Users"
+            BlueprintName = "Fix_BOINC_Users"
             ReferencedContainer = "container:boinc.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -71,9 +61,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DDD74D8607CF482E0065AC9D"
-            BuildableName = "boinc"
-            BlueprintName = "BOINC_Client"
+            BlueprintIdentifier = "DD67F1942D5A24FD00A78699"
+            BuildableName = "Fix_BOINC_Users"
+            BlueprintName = "Fix_BOINC_Users"
             ReferencedContainer = "container:boinc.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

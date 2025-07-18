@@ -378,7 +378,7 @@ const char* docker_type_str(DOCKER_TYPE type) {
 const char* docker_cmd_prefix(DOCKER_TYPE type) {
     static char buf[256];
     if (type == PODMAN) {
-        const char* dir = "/Library/Application\ Support/BOINC\ Data/podman";
+        const char* dir = "/Library/Application Support/BOINC Data/podman";
         // must end w/ space
         snprintf(buf, sizeof(buf),
             "env XDG_CONFIG_HOME=\"%s\" XDG_DATA_HOME=\"%s\" ",
