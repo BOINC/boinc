@@ -90,6 +90,11 @@ define('KW_GAMES',          63);
 define('KW_VIRUS',          64);
 define('KW_FRANCE',         65);
 define('KW_CANADA',         66);
+define('KW_PSU',            67);
+define('KW_SU',             68);
+define('KW_SINAI_U',        69);
+define('KW_AFRICA',         69);
+define('KW_EGYPT',          69);
 
 $job_keywords = array();
 
@@ -264,6 +269,17 @@ keyword('KW_OCEANIA', KW_CATEGORY_LOC, 0, 0,
     keyword('KW_AUSTRALIA', KW_CATEGORY_LOC, 1, KW_OCEANIA,
         'Australia'
     );
+
+keyword('KW_AFRICA', KW_CATEGORY_LOC, 0, 0,
+    'Africa'
+);
+    keyword('KW_EGYPT', KW_CATEGORY_LOC, 1, KW_AFRICA,
+        'Canada'
+    );
+        keyword('KW_SINAI_U', KW_CATEGORY_LOC, 2, KW_EGYPT,
+            'Sinai University'
+        );
+
 keyword('KW_AMERICAS', KW_CATEGORY_LOC, 0, 0,
     'Americas'
 );
@@ -302,6 +318,12 @@ keyword('KW_AMERICAS', KW_CATEGORY_LOC, 0, 0,
         );
         keyword('KW_UND', KW_CATEGORY_LOC, 2, KW_US,
             'University of North Dakota'
+        );
+        keyword('KW_PSU', KW_CATEGORY_LOC, 2, KW_US,
+            'Penn State University'
+        );
+        keyword('KW_SU', KW_CATEGORY_LOC, 2, KW_US,
+            'Shenendoah University'
         );
 
 // return a list of [value, name] pairs for the given category

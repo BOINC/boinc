@@ -256,9 +256,10 @@ function show_aborted($all_batches, $limit, $user, $app) {
             if ($limit) {
                 show_all_link($batches, BATCH_STATE_ABORTED, $limit, $user, $app);
             }
-            form_start('');
+            form_start('submit.php', 'get');
+            form_input_hidden('action', 'retire_multi');
             start_table();
-            table_header("Name", "ID", "User", "App", "# Jobs", "Submitted", "Aborted");
+            table_header("Name", "ID", "User", "App", "# Jobs", "Submitted", "Aborted", 'Select');
         }
         table_row(
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
@@ -267,11 +268,13 @@ function show_aborted($all_batches, $limit, $user, $app) {
             $batch->app_name,
             $batch->njobs,
             local_time_str($batch->create_time),
-            local_time_str($batch->completion_time)
+            local_time_str($batch->completion_time),
+            sprintf('<input type=checkbox name=retire_%d>', $batch->id)
         );
     }
     if (!$first) {
         end_table();
+        form_submit('Retire selected batches');
         form_end();
     }
 }
