@@ -93,8 +93,8 @@ define('KW_CANADA',         66);
 define('KW_PSU',            67);
 define('KW_SU',             68);
 define('KW_SINAI_U',        69);
-define('KW_AFRICA',         69);
-define('KW_EGYPT',          69);
+define('KW_AFRICA',         70);
+define('KW_EGYPT',          71);
 
 $job_keywords = array();
 
@@ -274,7 +274,7 @@ keyword('KW_AFRICA', KW_CATEGORY_LOC, 0, 0,
     'Africa'
 );
     keyword('KW_EGYPT', KW_CATEGORY_LOC, 1, KW_AFRICA,
-        'Canada'
+        'Egypt'
     );
         keyword('KW_SINAI_U', KW_CATEGORY_LOC, 2, KW_EGYPT,
             'Sinai University'
