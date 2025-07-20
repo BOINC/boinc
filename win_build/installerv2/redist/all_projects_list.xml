@@ -114,8 +114,8 @@
     <project>
         <name>Asteroids@home</name>
         <id>11</id>
-        <url>http://asteroidsathome.net/boinc/</url>
-        <web_url>http://asteroidsathome.net/boinc/</web_url>
+        <url>https://asteroidsathome.net/boinc/</url>
+        <web_url>https://asteroidsathome.net/boinc/</web_url>
         <general_area>Physical Science</general_area>
         <specific_area>Astrophysics</specific_area>
         <description><![CDATA[The aim of the project is to derive shapes and spin for a significant part of the asteroid population. As input data, we use any asteroid photometry that is available. The results are asteroid convex shape models with the direction of the spin axis and the rotation period.]]></description>
