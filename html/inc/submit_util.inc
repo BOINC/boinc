@@ -301,7 +301,7 @@ function abort_batch($batch) {
         );
     }
     $batch->update(
-        sprintf('state=%d', BATCH_STATE_ABORTED)
+        sprintf('state=%d, completion_time=%d', BATCH_STATE_ABORTED, time())
     );
     return 0;
 }
