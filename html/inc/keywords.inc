@@ -323,7 +323,7 @@ keyword('KW_AMERICAS', KW_CATEGORY_LOC, 0, 0,
             'Penn State University'
         );
         keyword('KW_SU', KW_CATEGORY_LOC, 2, KW_US,
-            'Shenendoah University'
+            'Shenandoah University'
         );
 
 // return a list of [value, name] pairs for the given category
