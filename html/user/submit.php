@@ -270,6 +270,7 @@ function show_complete($all_batches, $order, $limit, $user, $app) {
 function show_aborted($all_batches, $order, $limit, $user, $app) {
     $batches = batches_in_state($all_batches, BATCH_STATE_ABORTED);
     if (!$batches) return;
+    sort_batches($batches, $order);
     echo sprintf('<h3>Aborted batches (%d)</h3>', count($batches));
     $first = true;
     $n = 0;
