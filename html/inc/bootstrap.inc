@@ -193,7 +193,7 @@ function sample_navbar(
                 $x = [];
                 $x[] = ["File sandbox", "sandbox.php"];
                 $x[] = ["Submit jobs", $url_prefix."submit.php"];
-                $x[] = ["Job status", $url_prefix."submit.php?action=status"];
+                $x[] = ["Job status", $url_prefix."submit.php?action=show_user_batches"];
                 if ($user_submit->manage_all) {
                     $x[] = ["Manage apps", $url_prefix."submit.php?action=admin"];
                     $x[] = ["Manage permissions", $url_prefix."manage_project.php"];
