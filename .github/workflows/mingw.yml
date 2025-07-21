@@ -71,18 +71,9 @@ jobs:
       - name: Install Powershell for vcpkg
         if: success() && matrix.type == 'apps-mingw-vcpkg'
         run: |
-          POWERSHELL_DEPS="wget apt-transport-https software-properties-common"
-          # Install pre-requisite packages of PowerShell
-          sudo apt install -y $POWERSHELL_DEPS doxygen
-          # Download the Microsoft repository GPG keys
-          VERSION=$(lsb_release -r -s)
-          wget -q https://packages.microsoft.com/config/ubuntu/$VERSION/packages-microsoft-prod.deb
-          # Register the Microsoft repository GPG keys
-          sudo dpkg -i packages-microsoft-prod.deb
-          # Update the list of packages after we added packages.microsoft.com
-          sudo apt update
-          # Install PowerShell
-          sudo apt install -y powershell
+          sudo apt install -y wget apt-transport-https software-properties-common doxygen
+          wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -r -s)/packages-microsoft-prod.deb
+          sudo DEBIAN_FRONTEND=noninteractive apt install -y ./packages-microsoft-prod.deb powershell
 
       - name: Automake vcpkg and cmake
         if: success() && (contains(matrix.type, 'vcpkg') || contains(matrix.type, 'cmake'))
