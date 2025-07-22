@@ -40,7 +40,7 @@ require_once("../inc/util.inc");
 //
 function get_file() {
     $path = get_str('path');
-    if (strstr($path, '.')) error_page('bad path');
+    if (strstr($path, '..')) error_page('bad path');
     $path = "../../$path";
 
     $download = get_str('download', true);
