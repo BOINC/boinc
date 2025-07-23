@@ -442,9 +442,10 @@ void show_wsl_messages() {
             url
         );
     } else if (bdv < gstate.latest_boinc_buda_runner_version) {
+        const char *url2 = "https://github.com/BOINC/boinc/wiki/Updating-the-BOINC-WSL-distro";
         msg_printf_notice(0, true, url,
             "A new version of the BOINC WSL distro is available.  <a href=%s>Learn how to upgrade.</a>",
-            url
+            url2
         );
     }
 }
