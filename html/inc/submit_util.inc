@@ -311,7 +311,7 @@ function abort_batch($batch) {
 function retire_batch($batch) {
     $wus = BoincWorkunit::enum_fields(
         'id, result_template_file',
-        "batch=$batch->id limit 100"
+        "batch=$batch->id"
     );
     $now = time();
     $ids = [];
