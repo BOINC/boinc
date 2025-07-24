@@ -96,7 +96,7 @@ int main(int argc, const char * argv[]) {
     }
 
     pw = getpwuid(getuid());
-    
+
     for (i=1; i<argc; i++) {
         if (strcmp(argv[i], "-d") == 0) {
             isUninstall = true;
@@ -431,15 +431,15 @@ static void GetAndLoadPreferredLanguages() {
     int i, j, k;
     char * language;
     char *uscore;
-    
+
     // Create an array of all our supported languages
     supportedLanguages = CFArrayCreateMutable(kCFAllocatorDefault, 100, &kCFTypeArrayCallBacks);
-    
+
     aLanguage = CFStringCreateWithCString(NULL, "en", kCFStringEncodingMacRoman);
     CFArrayAppendValue(supportedLanguages, aLanguage);
     CFRelease(aLanguage);
     aLanguage = NULL;
-    
+
     dirp = opendir(Catalogs_Dir);
     if (!dirp) {
         goto cleanup;
@@ -448,10 +448,10 @@ static void GetAndLoadPreferredLanguages() {
         dp = readdir(dirp);
         if (dp == NULL)
             break;                  // End of list
-        
+
         if (dp->d_name[0] == '.')
             continue;               // Ignore names beginning with '.'
-        
+
         strlcpy(searchPath, Catalogs_Dir, sizeof(searchPath));
         strlcat(searchPath, dp->d_name, sizeof(searchPath));
         strlcat(searchPath, "/", sizeof(searchPath));
@@ -463,7 +463,7 @@ static void GetAndLoadPreferredLanguages() {
         CFArrayAppendValue(supportedLanguages, aLanguage);
         CFRelease(aLanguage);
         aLanguage = NULL;
-        
+
         // If it has a region code ("it_IT") also try without region code ("it")
         // TODO: Find a more general solution
         strlcpy(shortLanguage, dp->d_name, sizeof(shortLanguage));
@@ -476,12 +476,12 @@ static void GetAndLoadPreferredLanguages() {
             aLanguage = NULL;
         }
     }
-    
+
     closedir(dirp);
-    
+
     for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
         preferredLanguages = CFBundleCopyLocalizationsForPreferences(supportedLanguages, NULL );
-        
+
 #if 0   // For testing
         int c = CFArrayGetCount(preferredLanguages);
         for (k=0; k<c; ++k) {
@@ -489,7 +489,7 @@ static void GetAndLoadPreferredLanguages() {
             printf("Preferred language %u is %s\n", k, CFStringGetCStringPtr(s, kCFStringEncodingMacRoman));
         }
 #endif
-        
+
         for (j=0; j<CFArrayGetCount(preferredLanguages); ++j) {
             aLanguage = (CFStringRef)CFArrayGetValueAtIndex(preferredLanguages, j);
             language = (char *)CFStringGetCStringPtr(aLanguage, kCFStringEncodingMacRoman);
@@ -513,7 +513,7 @@ static void GetAndLoadPreferredLanguages() {
                     CFArrayRemoveValueAtIndex(supportedLanguages, k);
                 }
             }
-            
+
             // Since the original strings are English, no
             // further translation is needed for language en.
             if (language) {
@@ -524,12 +524,12 @@ static void GetAndLoadPreferredLanguages() {
                 }
             }
         }
-        
+
         CFRelease(preferredLanguages);
         preferredLanguages = NULL;
         
     }
-    
+
     if (!BOINCTranslationAddCatalog(Catalogs_Dir, "en", Catalog_Name)) {
         printf("could not load catalog for langage en\n");
     }

@@ -248,7 +248,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
         fscanf(f, "BrandId=%ld\n", &brandId);
         fclose(f);
     }
-    
+
     snprintf(full_path, sizeof(full_path),"/%s/Contents/Resources/boinc", appPath[brandId]);
         retval = stat(full_path, &sbuf);
         if (retval)
