@@ -164,6 +164,7 @@ static int CGWindowListTries;
 static int DPI_multiplier = 1;
 static bool myIsPreview;
 static bool screensaverIsVisible = false;
+static bool logoIsCovered = false;
 
 //static long counter = 0;    // CAF
 static NSTimer * myTimer = NULL;
@@ -515,7 +516,7 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
                     if (mySharedGraphicsController) {
                         [ mySharedGraphicsController cleanUpOpenGL ];   // Must be called from main thread
                         [ mySharedGraphicsController closeServerPort ]; // Must be called after cleanUpOpenGL
-                        [ NSApp terminate:nil ];  // Comment out to let legacyScreensaver continue in background
+//                        [ NSApp terminate:nil ];  // Comment out to let legacyScreensaver continue in background
                     }
                     return;
                 }
@@ -748,116 +749,117 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
     currentDrawingRect.origin.x = (float) ((int)gCurrentPosition.x);
     currentDrawingRect.origin.y += (float) ((int)gCurrentPosition.y - gTextBoxHeight);
 
-    if ( (msg != NULL) && (msg[0] != '\0') ) {
-        cf_msg = CFStringCreateWithCString(NULL, msg, kCFStringEncodingMacRoman);
-        if (strncmp(msg, gLastMsg, sizeof(gLastMsg))) {
-            strlcpy(gLastMsg, msg, sizeof(gLastMsg));
+    if (! logoIsCovered) {
+        if ( (msg != NULL) && (msg[0] != '\0') ) {
+            cf_msg = CFStringCreateWithCString(NULL, msg, kCFStringEncodingMacRoman);
+            if (strncmp(msg, gLastMsg, sizeof(gLastMsg))) {
+                strlcpy(gLastMsg, msg, sizeof(gLastMsg));
 
-            CTFontRef myFont = CTFontCreateWithName(CFSTR("Helvetica"), 20, NULL);
-            HIThemeTextInfo theTextInfo = {kHIThemeTextInfoVersionOne, kThemeStateActive, kThemeSpecifiedFont,
-                        kHIThemeTextHorizontalFlushLeft, kHIThemeTextVerticalFlushTop,
-                        kHIThemeTextBoxOptionNone, kHIThemeTextTruncationNone, 0, false,
-                        0, myFont
-                        };
-            gTextInfo = theTextInfo;
+                CTFontRef myFont = CTFontCreateWithName(CFSTR("Helvetica"), 20, NULL);
+                HIThemeTextInfo theTextInfo = {kHIThemeTextInfoVersionOne, kThemeStateActive, kThemeSpecifiedFont,
+                            kHIThemeTextHorizontalFlushLeft, kHIThemeTextVerticalFlushTop,
+                            kHIThemeTextBoxOptionNone, kHIThemeTextTruncationNone, 0, false,
+                            0, myFont
+                            };
+                gTextInfo = theTextInfo;
 
-            HIThemeGetTextDimensions(cf_msg, (float)gMovingRect.size.width, &gTextInfo, NULL, &actualTextBoxHeight, NULL);
-            gTextBoxHeight = actualTextBoxHeight + TEXTBOXTOPBORDER;
-        }
-
-        if (myTimer == NULL) {
-            return;
-        }
-
-        // Under MacOS 14 and later, if we allow legacyScreenSaver to continue running in the
-        // background when user activity dismisses the screensaver, it appears to create multiple
-        // instances of startAnimation, animateOneFrame and (perhaps) drawRect upon each subsequnt
-        // activation of the screensaver. As a result it tries to draw the same image in the same
-        // location multiple times. Apparently only one of those instances does actually draw to
-        // the screen, but we have no way of knowing which instance, so we need to allow them all
-        // to go through this code to ensure the drawing actually happens.
-        if (!isErased) {
-           [[NSColor blackColor] set];
-
-             // Erasing only 2 small rectangles reduces screensaver's CPU usage by about 25%
-            imagePosition.x = (float) ((int)gCurrentPosition.x + gImageXIndent);
-            imagePosition.y = (float) (int)gCurrentPosition.y;
-            eraseRect.origin.y = imagePosition.y;
-            eraseRect.size.height = currentDrawingRect.size.height - gTextBoxHeight;
-
-            if (gCurrentDelta.x > 0) {
-                eraseRect.origin.x = imagePosition.x - 1;
-                eraseRect.size.width = gCurrentDelta.x + 1;
-            } else {
-                eraseRect.origin.x = currentDrawingRect.origin.x + currentDrawingRect.size.width - gImageXIndent + gCurrentDelta.x - 1;
-                eraseRect.size.width = -gCurrentDelta.x + 1;
+                HIThemeGetTextDimensions(cf_msg, (float)gMovingRect.size.width, &gTextInfo, NULL, &actualTextBoxHeight, NULL);
+                gTextBoxHeight = actualTextBoxHeight + TEXTBOXTOPBORDER;
             }
 
-            eraseRect = NSInsetRect(eraseRect, -1, -1);
-            NSRectFill(eraseRect);
+            if (myTimer == NULL) {
+                return;
+            }
 
-            eraseRect.origin.x = imagePosition.x;
-            eraseRect.size.width = currentDrawingRect.size.width - gImageXIndent - gImageXIndent;
+            // Under MacOS 14 and later, if we allow legacyScreenSaver to continue running in the
+            // background when user activity dismisses the screensaver, it appears to create multiple
+            // instances of startAnimation, animateOneFrame and (perhaps) drawRect upon each subsequnt
+            // activation of the screensaver. As a result it tries to draw the same image in the same
+            // location multiple times. Apparently only one of those instances does actually draw to
+            // the screen, but we have no way of knowing which instance, so we need to allow them all
+            // to go through this code to ensure the drawing actually happens.
+            if (!isErased) {
+               [[NSColor blackColor] set];
 
-            if (gCurrentDelta.y > 0) {
+                 // Erasing only 2 small rectangles reduces screensaver's CPU usage by about 25%
+                imagePosition.x = (float) ((int)gCurrentPosition.x + gImageXIndent);
+                imagePosition.y = (float) (int)gCurrentPosition.y;
                 eraseRect.origin.y = imagePosition.y;
-                eraseRect.size.height = gCurrentDelta.y + 1;
-            } else {
-                eraseRect.origin.y = imagePosition.y + currentDrawingRect.size.height - gTextBoxHeight - 1;
-                eraseRect.size.height = -gCurrentDelta.y + 1;
+                eraseRect.size.height = currentDrawingRect.size.height - gTextBoxHeight;
+
+                if (gCurrentDelta.x > 0) {
+                    eraseRect.origin.x = imagePosition.x - 1;
+                    eraseRect.size.width = gCurrentDelta.x + 1;
+                } else {
+                    eraseRect.origin.x = currentDrawingRect.origin.x + currentDrawingRect.size.width - gImageXIndent + gCurrentDelta.x - 1;
+                    eraseRect.size.width = -gCurrentDelta.x + 1;
+                }
+
+                eraseRect = NSInsetRect(eraseRect, -1, -1);
+                NSRectFill(eraseRect);
+
+                eraseRect.origin.x = imagePosition.x;
+                eraseRect.size.width = currentDrawingRect.size.width - gImageXIndent - gImageXIndent;
+
+                if (gCurrentDelta.y > 0) {
+                    eraseRect.origin.y = imagePosition.y;
+                    eraseRect.size.height = gCurrentDelta.y + 1;
+                } else {
+                    eraseRect.origin.y = imagePosition.y + currentDrawingRect.size.height - gTextBoxHeight - 1;
+                    eraseRect.size.height = -gCurrentDelta.y + 1;
+                }
+                eraseRect = NSInsetRect(eraseRect, -1, -1);
+                NSRectFill(eraseRect);
+
+                eraseRect = currentDrawingRect;
+                eraseRect.size.height = gTextBoxHeight;
+                eraseRect = NSInsetRect(eraseRect, -1, -1);
+                NSRectFill(eraseRect);
+
+               isErased = true;
             }
-            eraseRect = NSInsetRect(eraseRect, -1, -1);
-            NSRectFill(eraseRect);
 
-            eraseRect = currentDrawingRect;
-            eraseRect.size.height = gTextBoxHeight;
-            eraseRect = NSInsetRect(eraseRect, -1, -1);
-            NSRectFill(eraseRect);
+            [ gBOINC_Logo drawAtPoint:imagePosition fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 ];
+    #if 0
+        // For testing
+        gCurrentDelta.x = 0;
+        gCurrentDelta.y = 0;
+    #endif
+            CGRect bounds = CGRectMake((float) ((int)gCurrentPosition.x),
+                                 viewBounds.size.height - imagePosition.y + TEXTBOXTOPBORDER,
+                                 gMovingRect.size.width,
+                                 MAXTEXTBOXHEIGHT
+                            );
 
-           isErased = true;
-        }
+            CGContextSaveGState (myContext);
+            CGContextTranslateCTM (myContext, 0, viewBounds.origin.y + viewBounds.size.height);
+            CGContextScaleCTM (myContext, 1.0f, -1.0f);
 
-        [ gBOINC_Logo drawAtPoint:imagePosition fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 ];
-#if 0
-    // For testing
-    gCurrentDelta.x = 0;
-    gCurrentDelta.y = 0;
-#endif
-        CGRect bounds = CGRectMake((float) ((int)gCurrentPosition.x),
-                             viewBounds.size.height - imagePosition.y + TEXTBOXTOPBORDER,
-                             gMovingRect.size.width,
-                             MAXTEXTBOXHEIGHT
-                        );
+            CGFloat myWhiteComponents[] = {1.0, 1.0, 1.0, 1.0};
+            CGColorSpaceRef myColorSpace = CGColorSpaceCreateDeviceRGB ();
+            CGColorRef myTextColor = CGColorCreate(myColorSpace, myWhiteComponents);
 
-        CGContextSaveGState (myContext);
-        CGContextTranslateCTM (myContext, 0, viewBounds.origin.y + viewBounds.size.height);
-        CGContextScaleCTM (myContext, 1.0f, -1.0f);
+            CGContextSetFillColorWithColor(myContext, myTextColor);
 
-        CGFloat myWhiteComponents[] = {1.0, 1.0, 1.0, 1.0};
-        CGColorSpaceRef myColorSpace = CGColorSpaceCreateDeviceRGB ();
-        CGColorRef myTextColor = CGColorCreate(myColorSpace, myWhiteComponents);
+            HIThemeDrawTextBox(cf_msg, &bounds, &gTextInfo, myContext, kHIThemeOrientationNormal);
 
-        CGContextSetFillColorWithColor(myContext, myTextColor);
+            CGColorRelease(myTextColor);
+            CGColorSpaceRelease(myColorSpace);
+            CGContextRestoreGState (myContext);
+            CFRelease(cf_msg);
 
-        HIThemeDrawTextBox(cf_msg, &bounds, &gTextInfo, myContext, kHIThemeOrientationNormal);
+            isErased  = false;
 
-        CGColorRelease(myTextColor);
-        CGColorSpaceRelease(myColorSpace);
-        CGContextRestoreGState (myContext);
-        CFRelease(cf_msg);
-
-        isErased  = false;
-
-    } else {        // Empty or NULL message
-        if (!isErased) {
-            eraseRect = NSInsetRect(currentDrawingRect, -1, -1);
-            [[NSColor blackColor] set];
-            isErased  = true;
-            NSRectFill(eraseRect);
-            gMovingRect.size.height = [gBOINC_Logo size].height + gTextBoxHeight;
+        } else {        // Empty or NULL message
+            if (!isErased) {
+                eraseRect = NSInsetRect(currentDrawingRect, -1, -1);
+                [[NSColor blackColor] set];
+                isErased  = true;
+                NSRectFill(eraseRect);
+                gMovingRect.size.height = [gBOINC_Logo size].height + gTextBoxHeight;
+            }
         }
     }
-
     // Check for a new graphics app sending us data
     if (UseSharedOffscreenBuffer() && gfxAppStartTime) {
         if (mySharedGraphicsController) {
@@ -901,40 +903,43 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
 // logo, while letting doPeriodicTasks prform the actual drawing.
 - (void) advancePosition:(NSTimer*)timer {
 {
-            // If text has changed and it now goes below bottom of screen, jump up to show it all.
-            if ((gCurrentPosition.y - gTextBoxHeight) <= SAFETYBORDER) {
-                gCurrentPosition.y = SAFETYBORDER + 1 + gTextBoxHeight;
-                if (gCurrentDelta.y < 0) {
-                    gCurrentDelta.y = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
-                }
-            }
-
-           // Set direction of motion to "bounce" off edges of screen
-           if ( (gCurrentDelta.x < 0) && (gCurrentPosition.x <= SAFETYBORDER) ) {
-                gCurrentDelta.x = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
-                gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 16.;
-            }
-            if ( (gCurrentDelta.x > 0) && ( (gCurrentPosition.x + gMovingRect.size.width) >=
-                        (myViewBounds.origin.x + myViewBounds.size.width - SAFETYBORDER) ) ){
-                gCurrentDelta.x = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
-                gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 16.;
-            }
-            if ( (gCurrentDelta.y < 0) && (gCurrentPosition.y - gTextBoxHeight <= SAFETYBORDER) ) {
-                gCurrentDelta.y = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
-                gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 16.;
-            }
-            if ( (gCurrentDelta.y > 0) && ( (gCurrentPosition.y + gMovingRect.size.height) >=
-                       (myViewBounds.origin.y + myViewBounds.size.height - SAFETYBORDER) ) ) {
-                gCurrentDelta.y = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
-                gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 16.;
-            }
+    if (logoIsCovered) {
+        return;
+    }
+    // If text has changed and it now goes below bottom of screen, jump up to show it all.
+    if ((gCurrentPosition.y - gTextBoxHeight) <= SAFETYBORDER) {
+        gCurrentPosition.y = SAFETYBORDER + 1 + gTextBoxHeight;
+        if (gCurrentDelta.y < 0) {
+            gCurrentDelta.y = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
         }
+    }
 
-        // Get the new drawing area
-        gCurrentPosition.x += gCurrentDelta.x;
-        gCurrentPosition.y += gCurrentDelta.y;
-        imagePosition.x = (float) ((int)gCurrentPosition.x + gImageXIndent);
-        imagePosition.y = (float) (int)gCurrentPosition.y;
+   // Set direction of motion to "bounce" off edges of screen
+   if ( (gCurrentDelta.x < 0) && (gCurrentPosition.x <= SAFETYBORDER) ) {
+        gCurrentDelta.x = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+        gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 16.;
+    }
+    if ( (gCurrentDelta.x > 0) && ( (gCurrentPosition.x + gMovingRect.size.width) >=
+                (myViewBounds.origin.x + myViewBounds.size.width - SAFETYBORDER) ) ){
+        gCurrentDelta.x = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+        gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 16.;
+    }
+    if ( (gCurrentDelta.y < 0) && (gCurrentPosition.y - gTextBoxHeight <= SAFETYBORDER) ) {
+        gCurrentDelta.y = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+        gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 16.;
+    }
+    if ( (gCurrentDelta.y > 0) && ( (gCurrentPosition.y + gMovingRect.size.height) >=
+               (myViewBounds.origin.y + myViewBounds.size.height - SAFETYBORDER) ) ) {
+        gCurrentDelta.y = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+        gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 16.;
+    }
+}
+
+    // Get the new drawing area
+    gCurrentPosition.x += gCurrentDelta.x;
+    gCurrentPosition.y += gCurrentDelta.y;
+    imagePosition.x = (float) ((int)gCurrentPosition.x + gImageXIndent);
+    imagePosition.y = (float) (int)gCurrentPosition.y;
 }
 
 
@@ -1255,6 +1260,7 @@ static bool okToDraw;
                 });
             }
             openGLView = nil;
+            logoIsCovered = false;
         }
 
     int i;
@@ -1359,6 +1365,7 @@ static bool okToDraw;
         theframe.size.height = IOSurfaceHeight;
         openGLView = [[saverOpenGLView alloc] initWithFrame:theframe];
         [screenSaverView addSubview:openGLView];
+        logoIsCovered = true;
     }
 
 	if(!_textureNames[frameIndex])
