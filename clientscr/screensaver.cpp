@@ -306,8 +306,10 @@ int CScreensaver::launch_screensaver(RESULT* rp, PROCESS_REF& graphics_applicati
         }
         // fprintf(stderr, "launch_screensaver got pid %d\n", graphics_application);
         // Inform our helper app what we launched
-        fprintf(m_gfx_Cleanup_IPC, "%d\n", graphics_application);
-        fflush(m_gfx_Cleanup_IPC);
+        if (m_gfx_Cleanup_IPC) {
+            fprintf(m_gfx_Cleanup_IPC, "%d\n", graphics_application);
+            fflush(m_gfx_Cleanup_IPC);
+        }
 
         if (graphics_application) {
             graphicsAppStartTime = getDTime();
@@ -363,12 +365,13 @@ int CScreensaver::terminate_v6_screensaver(PROCESS_REF graphics_application) {
     }
 
     in_terminate_v6_screensaver = true;
-   // print_to_log_file( "stopping pid %d\n", thePID);
     rpc->run_graphics_app("stop", thePID, gUserName);
 
     // Inform our helper app that we have stopped current graphics app
-    fprintf(m_gfx_Cleanup_IPC, "0\n");
-    fflush(m_gfx_Cleanup_IPC);
+    if (m_gfx_Cleanup_IPC) {
+        fprintf(m_gfx_Cleanup_IPC, "0\n");
+        fflush(m_gfx_Cleanup_IPC);
+    }
 
     for (int i=0; i<200; i++) {
         boinc_sleep(0.01);      // Wait 2 seconds max
@@ -376,11 +379,11 @@ int CScreensaver::terminate_v6_screensaver(PROCESS_REF graphics_application) {
             break;
         }
     }
-    // For safety, call kill_process() even under Apple sandbox security
+
+   // For safety, call kill_process() even under Apple sandbox security
     if (graphics_application) {
         kill_process(graphics_application);
     }
-
     launchedGfxApp("", "", 0, -1);
 
     pthread_mutex_unlock(&saver_mutex);
@@ -454,8 +457,10 @@ int CScreensaver::launch_default_screensaver(char *dir_path, PROCESS_REF& graphi
     }
     // fprintf(stderr, "launch_screensaver got pid %d\n", graphics_application);
     // Inform our helper app what we launched
-    fprintf(m_gfx_Cleanup_IPC, "%d\n", graphics_application);
-    fflush(m_gfx_Cleanup_IPC);
+    if (m_gfx_Cleanup_IPC) {
+        fprintf(m_gfx_Cleanup_IPC, "%d\n", graphics_application);
+        fflush(m_gfx_Cleanup_IPC);
+    }
 
     if (graphics_application) {
         launchedGfxApp("boincscr", "", graphics_application, -1);
@@ -560,6 +565,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
     m_bDefault_gfx_running = false;
     m_bShow_default_ss_first = false;
     graphics_app_result_ptr = NULL;
+    graphicsAppStartTime = 0;
 
 #ifdef __APPLE__
     for (int i = 0; i < m_vIncompatibleGfxApps.size(); i++) {
@@ -620,7 +626,7 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
 
             // Are we supposed to exit the screensaver?
             if (m_bQuitDataManagementProc) {     // If main thread has requested we exit
-                BOINCTRACE(_T("CScreensaver::DataManagementProc - Thread told to stop\n"));
+BOINCTRACE(_T("CScreensaver::DataManagementProc - Thread told to stop\n"));
                 if (m_hGraphicsApplication || graphics_app_result_ptr) {
                     if (m_bDefault_gfx_running) {
                         BOINCTRACE(_T("CScreensaver::DataManagementProc - Terminating default screensaver\n"));
@@ -633,7 +639,14 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
                     previous_result_ptr = NULL;
                     m_hGraphicsApplication = 0;
                 }
-                BOINCTRACE(_T("CScreensaver::DataManagementProc - Stopping...\n"));
+
+                ss_shmem->gfx_pid = 0;
+                ss_shmem->gfx_slot = -1;
+                ss_shmem->major_version = 0;
+                ss_shmem->minor_version = 0;
+                ss_shmem->release = 0;
+
+               BOINCTRACE(_T("CScreensaver::DataManagementProc - Stopping...\n"));
                 m_bDataManagementProcStopped = true; // Tell main thread that we exited
                 return 0;                       // Exit the thread
             }

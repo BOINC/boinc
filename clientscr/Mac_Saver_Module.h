@@ -90,6 +90,7 @@ class CScreensaver
 {
 public:
     CScreensaver();
+    ~CScreensaver();
 
     int             Create();
     int             Run();
@@ -137,7 +138,6 @@ protected:
     int             launch_screensaver(RESULT* rp, int& graphics_application);
     int             launch_default_screensaver(char *dir_path, int& graphics_application);
     void            HandleRPCError(void);
-    int             KillScreenSaver(void);
     void            GetDefaultDisplayPeriods(struct ss_periods &periods);
     pthread_t       m_hDataManagementThread;
 
@@ -155,7 +155,6 @@ protected:
     bool            m_bResetCoreState;
     bool            m_bQuitDataManagementProc;
     bool            m_bDataManagementProcStopped;
-    bool            m_bV5_GFX_app_is_running;
 
 
     //

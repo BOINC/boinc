@@ -164,6 +164,10 @@ int main(int argc, char** argv) {
     getcwd( current_dir, sizeof(current_dir));
     print_to_log_file("current directory = %s", current_dir);
     print_to_log_file("user_name is %s, euid=%d, uid=%d, egid=%d, gid=%d", user_name, geteuid(), getuid(), getegid(), getgid());
+    print_to_log_file("gfx_switcher pid = %d", getpid()) ;
+    pid_t ScreenSaverEngine_Pid = 0;
+    ScreenSaverEngine_Pid = getPidIfRunning("com.apple.ScreenSaver.Engine.legacyScreenSaver");
+    print_to_log_file("main: ScreenSaverEngine_legacyScreenSaver_Pid=%d", ScreenSaverEngine_Pid);
 
     for (int i=0; i<argc; i++) {
          print_to_log_file("gfx_switcher arg %d: %s", i, argv[i]);
@@ -342,10 +346,11 @@ void * MonitorScreenSaverEngine(void* param) {
 #elif defined(__arm64__)
             ScreenSaverEngine_Pid = getPidIfRunning("com.apple.ScreenSaver.Engine.legacyScreenSaver.arm64");
 #endif
+        }
+
 #if VERBOSE           // For debugging only
         print_to_log_file("MonitorScreenSaverEngine: ScreenSaverEngine_legacyScreenSaver_Pid=%d", ScreenSaverEngine_Pid);
 #endif
-        }
 
     if (ScreenSaverEngine_Pid == 0) {
         kill(graphics_Pid, SIGKILL);
