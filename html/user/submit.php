@@ -809,7 +809,8 @@ function handle_query_job($user) {
         if ($is_assim_move) {
             if ($result->id == $wu->canonical_resultid) {
                 $log_names = get_outfile_log_names($result);
-                for ($i=0; $i<count($log_names); $i++) {
+                $nfiles = count($log_names);
+                for ($i=0; $i<$nfiles; $i++) {
                     $name = $log_names[$i];
                     // don't show 'view' link if it's a .zip
                     $y = "$name: ";
@@ -832,7 +833,8 @@ function handle_query_job($user) {
             if ($result->server_state == RESULT_SERVER_STATE_OVER) {
                 $phys_names = get_outfile_phys_names($result);
                 $log_names = get_outfile_log_names($result);
-                for ($i=0; $i<count($phys_names); $i++) {
+                $nfiles = count($log_names);
+                for ($i=0; $i<$nfiles; $i++) {
                     $path = dir_hier_path(
                         $phys_names[$i], $upload_dir, $fanout
                     );
