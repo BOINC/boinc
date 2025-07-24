@@ -801,31 +801,38 @@ function handle_query_job($user) {
     $results = BoincResult::enum("workunitid=$wuid");
     $upload_dir = parse_config(get_config(), "<upload_dir>");
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-    foreach($results as $result) {
+    foreach ($results as $result) {
         $x = [
             "<a href=result.php?resultid=$result->id>$result->id</a>",
             state_string($result)
         ];
-        $i = 0;
-        if ($result->server_state == RESULT_SERVER_STATE_OVER) {
-            $phys_names = get_outfile_phys_names($result);
-            $log_names = get_outfile_log_names($result);
-            for ($i=0; $i<count($phys_names); $i++) {
-                if ($is_assim_move) {
-                    // file is in
-                    // project/results/<batchid>/<wu_name>__file_<log_name>
-                    $path = sprintf('results/%s/%s__file_%s',
-                        $wu->batch, $wu->name, $log_names[$i]
-                    );
+        if ($is_assim_move) {
+            if ($result->id == $wu->canonical_resultid) {
+                $log_names = get_outfile_log_names($result);
+                for ($i=0; $i<count($log_names); $i++) {
                     $name = $log_names[$i];
                     // don't show 'view' link if it's a .zip
                     $y = "$name: ";
                     if (!strstr($name, '.zip')) {
-                        $y .= "<a href=get_output3.php?action=get_file&path=$path>view</a> &middot; ";
+                        $y .= sprintf(
+                            '<a href=get_output3.php?action=get_file&result_id=%d&index=%d>view</a> &middot; ',
+                            $result->id, $i
+                        );
                     }
-                    $y .= "<a href=get_output3.php?action=get_file&path=$path&download=1>download</a>";
+                    $y .= sprintf(
+                        '<a href=get_output3.php?action=get_file&result_id=%d&index=%d&download=1>download</a>',
+                        $result->id, $i
+                    );
                     $x[] = $y;
-                } else {
+                }
+            } else {
+                $x[] = '---';
+            }
+        } else {
+            if ($result->server_state == RESULT_SERVER_STATE_OVER) {
+                $phys_names = get_outfile_phys_names($result);
+                $log_names = get_outfile_log_names($result);
+                for ($i=0; $i<count($phys_names); $i++) {
                     $path = dir_hier_path(
                         $phys_names[$i], $upload_dir, $fanout
                     );
@@ -845,9 +852,9 @@ function handle_query_job($user) {
                         $x[] = sprintf("file '%s' is missing", $log_names[$i]);
                     }
                 }
+            } else {
+                $x[] = '---';
             }
-        } else {
-            $x[] = '---';
         }
         row_array($x);
     }
