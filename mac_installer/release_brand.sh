@@ -438,7 +438,7 @@ sudo plutil -replace CFBundleExecutable -string "${LONGBRANDNAME}_Finish_Uninsta
 # Replace icon reference in Info.plist file of ${LONGBRANDNAME}_Finish_Uninstall.app
 sudo plutil -replace CFBundleIconFile -string "${UNINSTALLERICON}.icns" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}_Finish_Uninstall.app/Contents/Info.plist"
 
-# Replace icon in in ${LONGBRANDNAME}_Finish_Uninstall.app
+# Replace icon in ${LONGBRANDNAME}_Finish_Uninstall.app
 sudo rm -dfR "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}_Finish_Uninstall.app/Contents/Resources/MacInstaller.icns"
 
 sudo cp -fpRL "./clientgui/res/${UNINSTALLERICON}.icns" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}_Finish_Uninstall.app/Contents/Resources/"

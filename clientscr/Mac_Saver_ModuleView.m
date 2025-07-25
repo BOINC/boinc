@@ -150,13 +150,13 @@ NSRect myViewBounds;
 static SharedGraphicsController *mySharedGraphicsController;
 static bool runningSharedGraphics;
 static bool useCGWindowList;
-static pid_t childPid;  // pid of the currently running grapics app, not actually our chkld
+static pid_t childPid;  // pid of the currently running graphics app, not actually our chkld
 static int gfxAppWindowNum;
 static NSView *imageView;
 static char gfxAppPath[MAXPATHLEN];
 static char gfxWuName[MAXPATHLEN];
 static int taskSlot;
-static NSRunningApplication *childApp;  // currently running grapics app, not actually our chkld
+static NSRunningApplication *childApp;  // currently running graphics app, not actually our child
 static double gfxAppStartTime;
 static bool UseSharedOffscreenBuffer(void);
 static double lastGetSSMsgTime;

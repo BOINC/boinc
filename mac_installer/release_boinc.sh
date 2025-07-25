@@ -449,7 +449,7 @@ if [ -e "${HOME}/BOINCCodeSignIdentities.txt" ]; then
     # Code Sign the PostInstall app embedded in the BOINC installer app if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/PostInstall.app"
 
-    # Code Sign BOINC_Finish_BOINC_Finish_Uninstall app embedded in BOINC uninstaller app if we have a signing identity
+    # Code Sign BOINC_Finish_Uninstall app embedded in BOINC uninstaller app if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Uninstall.app"
 
     # Code Sign the BOINC uninstaller app if we have a signing identity

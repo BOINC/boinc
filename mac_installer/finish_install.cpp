@@ -59,7 +59,7 @@
 
 #define MAX_LANGUAGES_TO_TRY 5
 
-// MPORTANT: The defnition of COPY_FINISH_INSTALL_TO_USER_DIRECTORY
+// IMPORTANT: The definition of COPY_FINISH_INSTALL_TO_USER_DIRECTORY
 // must match the one in PostInstall.cpp
 #define COPY_FINISH_INSTALL_TO_USER_DIRECTORY false
 
@@ -403,12 +403,11 @@ void MaybeSetScreenSaver(int brandId){
         //
         // Use -n flag to open a new instance of the System Settings even if one is
         // already running. We can then use the returned PID to quit only that instance.
-        sprintf(buf, "open -gj \"x-apple.systempreferences:com.apple.Wallpaper-Settings.extension\"");
-        callPosixSpawn(buf);
+        callPosixSpawn("open -gj \"x-apple.systempreferences:com.apple.Wallpaper-Settings.extension\""));
 
         sleep(1); // This delay seems to be needed, probably to give Wallpaper pane time to open
 
-        sprintf(buf, "osascript -e 'tell application \"System Events\" to set current screen saver to screen saver \"%s\"'", mySaverName);
+        snprintf(buf, sizeof(buf), "osascript -e 'tell application \"System Events\" to set current screen saver to screen saver \"%s\"'", mySaverName);
         callPosixSpawn(buf);
 
         // TODO: find a way to kill only the new hidden instance of System Settigs that we opened
@@ -527,7 +526,6 @@ static void GetAndLoadPreferredLanguages() {
 
         CFRelease(preferredLanguages);
         preferredLanguages = NULL;
-        
     }
 
     if (!BOINCTranslationAddCatalog(Catalogs_Dir, "en", Catalog_Name)) {

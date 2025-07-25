@@ -66,7 +66,7 @@
 
 #define USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS false
 
-// MPORTANT: The defnition of COPY_FINISH_INSTALL_TO_USER_DIRECTORY
+// IMPORTANT: The definition of COPY_FINISH_INSTALL_TO_USER_DIRECTORY
 // must match the one in Finish_install.cpp
 #define COPY_FINISH_INSTALL_TO_USER_DIRECTORY false
 
