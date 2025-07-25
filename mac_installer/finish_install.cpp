@@ -403,7 +403,7 @@ void MaybeSetScreenSaver(int brandId){
         //
         // Use -n flag to open a new instance of the System Settings even if one is
         // already running. We can then use the returned PID to quit only that instance.
-        callPosixSpawn("open -gj \"x-apple.systempreferences:com.apple.Wallpaper-Settings.extension\""));
+        callPosixSpawn("open -gj \"x-apple.systempreferences:com.apple.Wallpaper-Settings.extension\"");
 
         sleep(1); // This delay seems to be needed, probably to give Wallpaper pane time to open
 
