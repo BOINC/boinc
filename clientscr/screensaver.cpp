@@ -565,9 +565,10 @@ DataMgmtProcType CScreensaver::DataManagementProc() {
     m_bDefault_gfx_running = false;
     m_bShow_default_ss_first = false;
     graphics_app_result_ptr = NULL;
-    graphicsAppStartTime = 0;
 
 #ifdef __APPLE__
+    graphicsAppStartTime = 0;
+
     for (int i = 0; i < m_vIncompatibleGfxApps.size(); i++) {
         if (m_vIncompatibleGfxApps[i]) {
             free(m_vIncompatibleGfxApps[i]);
@@ -640,11 +641,13 @@ BOINCTRACE(_T("CScreensaver::DataManagementProc - Thread told to stop\n"));
                     m_hGraphicsApplication = 0;
                 }
 
+#ifdef __APPLE__
                 ss_shmem->gfx_pid = 0;
                 ss_shmem->gfx_slot = -1;
                 ss_shmem->major_version = 0;
                 ss_shmem->minor_version = 0;
                 ss_shmem->release = 0;
+#endif
 
                BOINCTRACE(_T("CScreensaver::DataManagementProc - Stopping...\n"));
                 m_bDataManagementProcStopped = true; // Tell main thread that we exited
