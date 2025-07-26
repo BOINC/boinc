@@ -101,9 +101,13 @@ int main(int argc, const char * argv[]) {
         if (strcmp(argv[i], "-d") == 0) {
             isUninstall = true;
         } else if (strcmp(argv[i], "-a") == 0) {
-            iBrandId = atoi(argv[++i]);
+            if (i + 1 < argc) {
+                iBrandId = atoi(argv[++i]);
+            }
         } else if (strcmp(argv[i], "-i") == 0) {
-            iBrandId = atoi(argv[++i]);
+            if (i + 1 < argc) {
+                iBrandId = atoi(argv[++i]);
+            }
             calledFromInstaller = true;
         } else if (strcmp(argv[i], "-m") == 0) {
             calledFromManager = true;

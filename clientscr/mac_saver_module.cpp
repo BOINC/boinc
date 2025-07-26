@@ -152,7 +152,7 @@ void initBOINCSaver() {
     temp.sa_handler = SIG_IGN;
     sigaction(SIGCHLD, &temp, NULL);
 
-for (int i=1; i<32; ++i)
+for (int i=1; i<NSIG; ++i)
 boinc_set_signal_handler(i, boinc_catch_signal);
 
     if (gspScreensaver == NULL) {
