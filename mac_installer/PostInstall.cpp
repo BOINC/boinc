@@ -66,6 +66,10 @@
 
 #define USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS false
 
+// IMPORTANT: The definition of COPY_FINISH_INSTALL_TO_USER_DIRECTORY
+// must match the one in Finish_install.cpp
+#define COPY_FINISH_INSTALL_TO_USER_DIRECTORY false
+
 #include <Carbon/Carbon.h>
 #include <grp.h>
 
@@ -111,7 +115,6 @@ Boolean myFilterProc(DialogRef theDialog, EventRecord *theEvent, DialogItemIndex
 int DeleteReceipt(void);
 Boolean IsRestartNeeded();
 void CheckUserAndGroupConflicts();
-Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userName);
 Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLogInItem, passwd *pw);
 OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen);
 OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type);
@@ -135,7 +138,6 @@ int check_rosetta2_installed();
 int optionally_install_rosetta2();
 #endif  // __arm64__
 pid_t FindProcessPID(char* name, pid_t thePID, Boolean currentUserOnly);
-static void SleepSeconds(double seconds);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 int callPosixSpawn(const char *cmd);
 void print_to_log(const char *format, ...);
@@ -908,179 +910,6 @@ void CheckUserAndGroupConflicts()
 #endif  // SANDBOX
 }
 
-enum {
-	kSystemEventsCreator = 'sevs'
-};
-
-CFStringRef kSystemEventsBundleID = CFSTR("com.apple.systemevents");
-char *systemEventsAppName = "System Events";
-
-
-Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userName)
-{
-    int                     i, j;
-    char                    cmd[2048];
-    char                    systemEventsPath[1024];
-    pid_t                   systemEventsPID;
-    OSErr                   err, err2;
-#if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
-    // NOTE: It may not be necessary to kill and relaunch the
-    // System Events application for each logged in user under High Sierra
-    Boolean                 isHighSierraOrLater = (compareOSVersionTo(10, 13) >= 0);
-#endif
-
-    fprintf(stdout, "Adjusting login items for user %s\n", userName);
-    fflush(stdout);
-
-    // We must launch the System Events application for the target user
-    err = noErr;
-    systemEventsPath[0] = '\0';
-
-    err = GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID, systemEventsPath, sizeof(systemEventsPath));
-    REPORT_ERROR(err);
-
-#if CREATE_LOG
-    if (err == noErr) {
-        print_to_log("SystemEvents is at %s\n", systemEventsPath);
-    } else {
-        print_to_log("GetPathToAppFromID(kSystemEventsCreator, kSystemEventsBundleID) returned error %d ", (int) err);
-    }
-#endif
-
-    if (err == noErr) {
-        // Find SystemEvents process.  If found, quit it in case
-        // it is running under a different user.
-        fprintf(stdout, "Telling System Events to quit (at start of SetLoginItemOSAScript)\n");
-        fflush(stdout);
-        systemEventsPID = FindProcessPID(systemEventsAppName, 0, false);
-        if (systemEventsPID != 0) {
-            err = kill(systemEventsPID, SIGKILL);
-        }
-        if (err != noErr) {
-            REPORT_ERROR(true);
-            fprintf(stdout, "(systemEventsPID, SIGKILL) returned error %d \n", (int) err);
-            fflush(stdout);
-        }
-        // Wait for the process to be gone
-        for (i=0; i<50; ++i) {      // 5 seconds max delay
-            SleepSeconds(0.1);      // 1/10 second
-            systemEventsPID = FindProcessPID(systemEventsAppName, 0, false);
-            if (systemEventsPID == 0) break;
-        }
-        if (i >= 50) {
-            REPORT_ERROR(true);
-            fprintf(stdout, "Failed to make System Events quit\n");
-            fflush(stdout);
-            err = noErr;
-            goto cleanupSystemEvents;
-        }
-        sleep(4);
-    }
-
-    if (systemEventsPath[0] != '\0') {
-        fprintf(stdout, "Launching SystemEvents for user %s\n", userName);
-        fflush(stdout);
-
-        for (j=0; j<5; ++j) {
-            sprintf(cmd, "sudo -u \"%s\" open \"%s\"", userName, systemEventsPath);
-            err = callPosixSpawn(cmd);
-            if (err) {
-                REPORT_ERROR(true);
-                fprintf(stdout, "[2] Command: %s returned error %d (try %d of 5)\n", cmd, (int) err, j);
-                fflush(stdout);
-            }
-            // Wait for the process to start
-            for (i=0; i<50; ++i) {      // 5 seconds max delay
-                SleepSeconds(0.1);      // 1/10 second
-                systemEventsPID = FindProcessPID(systemEventsAppName, 0, false);
-                if (systemEventsPID != 0) break;
-            }
-            if (i < 50) break;  // Exit j loop on success
-        }
-        if (j >= 5) {
-            fprintf(stdout, "Failed to launch System Events for user %s\n", userName);
-            REPORT_ERROR(true);
-            fflush(stdout);
-            err = noErr;
-            goto cleanupSystemEvents;
-        }
-    }
-    sleep(2);
-
-    for (i=0; i<NUMBRANDS; i++) {
-        fprintf(stdout, "Deleting any login items containing %s for user %s\n", appName[i], userName);
-        fflush(stdout);
-#if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
-        if (isHighSierraOrLater) {
-            sprintf(cmd, "su -l \"%s\" -c 'osascript -e \"tell application \\\"System Events\\\" to delete login item \\\"%s\\\"\"'", userName, appName[i]);
-        } else
-#endif
-        {
-            sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\" to delete login item \"%s\"'", userName, appName[i]);
-        }
-        err = callPosixSpawn(cmd);
-        if (err) {
-            REPORT_ERROR(true);
-            fprintf(stdout, "[2] Command: %s\n", cmd);
-            fprintf(stdout, "[2] Delete login item containing %s returned error %d\n", appName[i], err);
-            fflush(stdout);
-        }
-    }
-
-    if (deleteLogInItem) {
-        err = noErr;
-        goto cleanupSystemEvents;
-    }
-
-    fprintf(stdout, "Making new login item %s for user %s\n", appName[brandID], userName);
-    fflush(stdout);
-#if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
-    if (isHighSierraOrLater) {
-        sprintf(cmd, "su -l \"%s\" -c 'osascript -e \"tell application \\\"System Events\\\" to make new login item at end with properties {path:\\\"%s\\\", hidden:true, name:\\\"%s\\\"}\"'", userName, appPath[brandID], appName[brandID]);
-    } else
-#endif
-    {
-        sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\" to make new login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}'", userName, appPath[brandID], appName[brandID]);
-    }
-    err = callPosixSpawn(cmd);
-    if (err) {
-        REPORT_ERROR(true);
-        fprintf(stdout, "[2] Command: %s\n", cmd);
-        printf("[2] Make login item for %s returned error %d\n", appPath[brandID], err);
-    }
-    fflush(stdout);
-
-cleanupSystemEvents:
-    // Clean up in case this was our last user
-    fprintf(stdout, "Telling System Events to quit (at end of SetLoginItemOSAScript)\n");
-    fflush(stdout);
-    systemEventsPID = FindProcessPID(systemEventsAppName, 0, false);
-    err2 = noErr;
-    if (systemEventsPID != 0) {
-        err2 = kill(systemEventsPID, SIGKILL);
-    }
-    if (err2 != noErr) {
-        REPORT_ERROR(true);
-        fprintf(stdout, "kill(systemEventsPID, SIGKILL) returned error %d \n", (int) err2);
-        fflush(stdout);
-    }
-    // Wait for the process to be gone
-    for (i=0; i<50; ++i) {      // 5 seconds max delay
-        SleepSeconds(0.1);      // 1/10 second
-        systemEventsPID = FindProcessPID(systemEventsAppName, 0, false);
-        if (systemEventsPID == 0) break;
-    }
-    if (i >= 50) {
-        REPORT_ERROR(true);
-        fprintf(stdout, "Failed to make System Events quit\n");
-        fflush(stdout);
-    }
-
-    sleep(4);
-
-    return (err == noErr);
-}
-
 
 // Under OS 10.13 High Sierra, telling System Events to modify Login Items for
 // users who are not currently logged in no longer works, even when System Events
@@ -1106,6 +935,9 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
     // Create a LaunchAgent to finish installation for the specified user, replacing any LaunchAgent
     // created previously (such as by Uninstaller or by installing a differently branded BOINC.)
 
+    // deleteLogInItem will be true only if we are deleting BOINCManagr
+    // access for only this user, but installing for others.
+
     // Create LaunchAgents directory for this user if it does not yet exist
     snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents", pw->pw_name);
     if (stat(s, &sbuf) != 0) {
@@ -1124,7 +956,15 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
     fprintf(f, "\t<string>edu.berkeley.fix_login_items</string>\n");
     fprintf(f, "\t<key>ProgramArguments</key>\n");
     fprintf(f, "\t<array>\n");
+#if COPY_FINISH_INSTALL_TO_USER_DIRECTORY
     fprintf(f, "\t\t<string>/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app/Contents/MacOS/%s_Finish_Install</string>\n", pw->pw_name, brandName[brandID], brandName[brandID]);
+#else
+    // For a reason I do't understand, setting the screensaver under MacOS 26
+    // works if we use the BOINC_Finish_Install in the BOINC Data directory
+    // but not one at /Users/%s/Library/Application Support/BOINC/ so we no
+    // longer put one in the usr's directory tree.
+    fprintf(f, "\t\t<string>/Library/Application Support/BOINC Data/%s_Finish_Install.app/Contents/MacOS/%s_Finish_Install</string>\n", brandName[brandID], brandName[brandID]);
+#endif
     if (deleteLogInItem) {
         fprintf(f, "\t\t<string>-d</string>\n");
         fprintf(f, "\t\t<string>%d</string>\n", (int)oldBrandID);
@@ -1598,8 +1438,6 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
 #endif
     int                 i;
     int                 userIndex;
-    char                path[MAXPATHLEN];
-    Boolean             hadLoginItemLaunchAgent = false;
 
 //    char                nameOfSkin[256];
 //    FindSkinName(nameOfSkin, sizeof(nameOfSkin));
@@ -1709,6 +1547,8 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
     //automatically. I have filed bug report FB13270885 about this.
     // The response to my bug report is that it will be fixed in a
     // future rlease of MacOS.
+    // As of MacOS 26, we again can set the screensaver using Applescripts,
+    // but only for the current user, so we do it from BOINC_Finish_Install.
     // See also the comment at top of SetScreenSaverSelection().
     if (compareOSVersionTo(14, 0) < 0) {
         if (! saverAlreadySetForAll) {
@@ -1733,7 +1573,6 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
     fflush(stdout);
 
     for (userIndex=0; userIndex<(int)human_user_names.size(); ++userIndex) {
-        hadLoginItemLaunchAgent = false;
         strlcpy(human_user_name, human_user_names[userIndex].c_str(), sizeof(human_user_name));
 
         printf("[2] Checking user %s\n", human_user_name);
@@ -1837,10 +1676,12 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
             useOSASript = IsUserLoggedIn(pw->pw_name);
         }
 #endif
-       if (useOSASript) {
+        if (useOSASript) {
             snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist", pw->pw_name);
             boinc_delete_file(s);
 
+            // We no longer put a copy of %s_Finish_Install in the user's folder,
+            // but a previous BOINC installation might have put one there.
             for (i=0; i< NUMBRANDS; i++) {
                 snprintf(s, sizeof(s), "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", pw->pw_name, brandName[i]);
                 err = callPosixSpawn(s);
@@ -1850,6 +1691,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                     fflush(stdout);
                 }
 
+                // The uninstaller still does put a copy of %s_Finish_Uninstall in the user's folder,
                 snprintf(s, sizeof(s), "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Uninstall.app\"", pw->pw_name, brandName[i]);
                 err = callPosixSpawn(s);
                 REPORT_ERROR(err);
@@ -1860,14 +1702,11 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
             }
 
             if (compareOSVersionTo(10, 13) >= 0) {
-                snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist", pw->pw_name);
-                if (boinc_file_exists(s)) hadLoginItemLaunchAgent = true;
-                deleteLoginItem =  true;    // Use LaunchAgent to autostart BOINC Manager
                 // The -i argument tells BOINC_Finish_Install not to "Launchctl load" our
                 // LaunchAgent, because doing that launches the Manager immediately (before
                 // we can finish setting things up) and the Manager starts incorrectly,
                 // especially causing problems if starting in SimpleView.
-               snprintf(s, sizeof(s), "open \"/Library/Application Support/BOINC Data/%s_Finish_Install.app\" --args -i", brandName[brandID]);
+                snprintf(s, sizeof(s), "su -l \"%s\" -c '\"/Library/Application Support/BOINC Data/%s_Finish_Install.app/Contents/MacOS/%s_Finish_Install\" -i %d'", loginName, brandName[brandID], brandName[brandID], (int)brandID);
                 err = callPosixSpawn(s);
                 REPORT_ERROR(err);
                 if (err) {
@@ -1875,17 +1714,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                     fflush(stdout);
                 }
             }
-            // SetLoginItemOSAScript uses "System Events" which can trigger an aert which
-            // the user may find alraming. If we previously set a login item launch agent,
-            // we removed the old style login item at that time, so we avoid that alert.
-            if (!hadLoginItemLaunchAgent) {
-                printf("[2] calling SetLoginItemOSAScript for user %s, euid = %d, deleteLoginItem = %d\n",
-                    pw->pw_name, geteuid(), deleteLoginItem);
-                fflush(stdout);
-                SetLoginItemOSAScript(brandID, deleteLoginItem, pw->pw_name);
-            }
         } else {
-
             printf("[2] calling FixLaunchServicesDataBase for Finish_Install for user %s\n", pw->pw_name);
             fflush(stdout);
             FixLaunchServicesDataBase(pw->pw_uid, NULL, "edu.berkeley.boinc.finish-install");
@@ -1904,6 +1733,8 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
             for (i=0; i< NUMBRANDS; i++) {
                 // If we previously ran the installer for any brand but did not log in to
                 // this user, remove the user's unused BOINC_Manager_Finish_Install file.
+                // We no longer put a copy of %s_Finish_Install in the user's folder,
+                // but a previous BOINC installation might have put one there.
                 snprintf(s, sizeof(s), "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", pw->pw_name, brandName[i]);
                 err = callPosixSpawn(s);
                 REPORT_ERROR(err);
@@ -1914,6 +1745,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
 
                 // If we previously ran the installer for any brand but did not log in to
                 // this user, remove the user's unused BOINC_Manager_Finish_Uninstall file.
+                // The uninstaller still does put a copy of %s_Finish_Uninstall in the user's folder,
                 snprintf(s, sizeof(s), "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Uninstall.app\"", pw->pw_name, brandName[i]);
                 err = callPosixSpawn(s);
                 REPORT_ERROR(err);
@@ -1923,9 +1755,9 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 }
             }
 
-            getPathToThisApp(path, sizeof(path));
-            snprintf(s, sizeof(s), "cp -fR \"%s/Contents/Resources/%s_Finish_Install.app\" \"/Users/%s/Library/Application Support/BOINC/\"",
-                        path, brandName[brandID], pw->pw_name);
+#if COPY_FINISH_INSTALL_TO_USER_DIRECTORY
+            snprintf(s, sizeof(s), "cp -fR \"/Library/Application Support/BOINC Data/%s_Finish_Install.app\" \"/Users/%s/Library/Application Support/BOINC/\"",
+                        brandName[brandID], pw->pw_name);
             err = callPosixSpawn(s);
             REPORT_ERROR(err);
             if (err) {
@@ -1949,6 +1781,7 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 printf("*** user %s: lsregister call returned error %d for %s_Finish_Install.app\n", pw->pw_name, err, brandName[brandID]);
                 fflush(stdout);
             }
+#endif
 
             printf("[2] calling SetLoginItemLaunchAgent for user %s, euid = %d, deleteLoginItem = %d\n",
                 pw->pw_name, geteuid(), deleteLoginItem);
@@ -1971,14 +1804,16 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
             }
             SetSkinInSelectionAndShutdownBySystemFlagInUserPrefs(pw->pw_name, skinName[brandID]);
 
-            if (setSaverForAllUsers) {
-                seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
-                sprintf(s, "/Library/Screen Savers/%s.saver", saverName[brandID]);
-                err = SetScreenSaverSelection(saverName[brandID], s, 0);
-                seteuid(saved_uid);     // Set effective uid back to privileged user
-                // This seems to work also:
-                // sprintf(s, "su -l \"%s\" -c 'defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName \"%s\" path \"/Library/Screen Savers/%s.saver\" type 0'", pw->pw_name, saverName[brandID], s);
-                // callPosixSpawn(s);
+            if (compareOSVersionTo(14, 0) < 0) {
+                if (setSaverForAllUsers) {
+                    seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
+                    sprintf(s, "/Library/Screen Savers/%s.saver", saverName[brandID]);
+                    err = SetScreenSaverSelection(saverName[brandID], s, 0);
+                    seteuid(saved_uid);     // Set effective uid back to privileged user
+                    // This seems to work also:
+                    // sprintf(s, "su -l \"%s\" -c 'defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName \"%s\" path \"/Library/Screen Savers/%s.saver\" type 0'", pw->pw_name, saverName[brandID], s);
+                    // callPosixSpawn(s);
+                }
             }
 
             if (compareOSVersionTo(10, 15) >= 0) {
@@ -2055,9 +1890,11 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
 
 // As of MacOS 14.0 Sonoma, this code no longer will detect the current screensaver,
 // and will need to be rewritten. See the comment at top of SetScreenSaverSelection().
-// It is unclear whether this will be fixed in a uture rlease of MacOS.
-// This Applescript stoll works:
+// It is unclear whether this will be fixed in a future rlease of MacOS.
+// These Applescripts work again as of MacOS 26, but only for the current user, and
+// they will trigger an alert asking for permission:
 //    tell application "System Events" to set mysaver to name of current screen saver
+//    tell application "System Events" to set current screen saver to screen saver "BOINC Screen Saver"'
 OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen) {
     char                buf[1024];
     FILE                *f;
@@ -2100,7 +1937,10 @@ OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen
 // As of MacOS 14.0 Sonoma, we can't set the screensaver automatically.
 // I have filed bug report FB13270885 about this. After this is fixed,
 // probably need to put an AppleScript to do this in the launch agent
-// we add for each user. See also:
+// we add for each user.
+// As of MacOS 26, we again can set the screensaver using Applescripts,
+// but only for the current user, so we do it from BOINC_Finish_Install.
+// See also:
 // https://forum.iscreensaver.com/t/understanding-the-macos-sonoma-screensaver-plist/718
 OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type) {
     OSErr err = noErr;
@@ -2445,24 +2285,6 @@ pid_t FindProcessPID(char* name, pid_t thePID, Boolean currentUserOnly)
     }
     pclose(f);
     return 0;
-}
-
-
-// Uses usleep to sleep for full duration even if a signal is received
-static void SleepSeconds(double seconds) {
-    double end_time = dtime() + seconds - 0.01;
-    // sleep() and usleep() can be interrupted by SIGALRM,
-    // so we may need multiple calls
-    //
-    while (1) {
-        if (seconds >= 1) {
-            sleep((unsigned int) seconds);
-        } else {
-            usleep((int)fmod(seconds*1000000, 1000000));
-        }
-        seconds = end_time - dtime();
-        if (seconds <= 0) break;
-    }
 }
 
 

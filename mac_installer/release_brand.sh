@@ -191,7 +191,7 @@ if [ $Products_Have_arm64 = "yes" ]; then
     fi
 fi
 
-for Executable in "boinc" "boinccmd" "switcher" "setprojectgrp" "boincscr" "Fix_BOINC_Users" "BOINCSaver.saver/Contents/MacOS/BOINCSaver" "Uninstall BOINC.app/Contents/MacOS/Uninstall BOINC" "BOINC Installer.app/Contents/MacOS/BOINC Installer" "PostInstall.app/Contents/MacOS/PostInstall" "BOINC_Finish_Install.app/Contents/MacOS/BOINC_Finish_Install"
+for Executable in "boinc" "boinccmd" "switcher" "setprojectgrp" "boincscr" "Fix_BOINC_Users" "BOINCSaver.saver/Contents/MacOS/BOINCSaver" "Uninstall BOINC.app/Contents/MacOS/Uninstall BOINC" "BOINC Installer.app/Contents/MacOS/BOINC Installer" "PostInstall.app/Contents/MacOS/PostInstall" "BOINC_Finish_Install.app/Contents/MacOS/BOINC_Finish_Install" "AddRemoveUser"
 do
     Have_x86_64="no"
     Have_arm64="no"
@@ -390,23 +390,27 @@ rm -rf "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNA
 mv "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/MacOS/BOINC Installer" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/MacOS/${INSTALLERAPPNAME}"
 sed -i "" s/"BOINC Installer"/"${INSTALLERAPPNAME}"/g "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
 
-cp -fpR "${BUILDPATH}/PostInstall.app" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources"
+# Copy BOINC_Finish_Install.app into BOINC Data folder
+cp -fpR "${BUILDPATH}/BOINC_Finish_Install.app" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/"
 
-# Rename BOINC_Finish_Install.app embedded in PostInstall.app
-sudo mv "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/BOINC_Finish_Install.app" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/${LONGBRANDNAME}_Finish_Install.app"
+# Rename BOINC_Finish_Install.app
+sudo mv "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/BOINC_Finish_Install.app" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/${LONGBRANDNAME}_Finish_Install.app"
 
 # Change executable name of BOINC_Finish_Install.app to match app name
-sudo mv "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/${LONGBRANDNAME}_Finish_Install.app/Contents/MacOS/BOINC_Finish_Install" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/${LONGBRANDNAME}_Finish_Install.app/Contents/MacOS/${LONGBRANDNAME}_Finish_Install"
+sudo mv "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/${LONGBRANDNAME}_Finish_Install.app/Contents/MacOS/BOINC_Finish_Install" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/${LONGBRANDNAME}_Finish_Install.app/Contents/MacOS/${LONGBRANDNAME}_Finish_Install"
 
-# Fix version number in Info.plist file of BOINC_Finish_Install.app
-sudo plutil -replace CFBundleVersion -string `plutil -extract CFBundleVersion raw "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Info.plist"` "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/${LONGBRANDNAME}_Finish_Install.app/Contents/Info.plist"
+sudo plutil -replace CFBundleExecutable -string "${LONGBRANDNAME}_Finish_Install" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/${LONGBRANDNAME}_Finish_Install.app/Contents/Info.plist"
 
-sudo plutil -remove CFBundleShortVersionString "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/${LONGBRANDNAME}_Finish_Install.app/Contents/Info.plist"
+# Replace icon reference in Info.plist file of ${LONGBRANDNAME}_Finish_Install.app
+sudo plutil -replace CFBundleIconFile -string "${INSTALLERICON}.icns" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/${LONGBRANDNAME}_Finish_Install.app/Contents/Info.plist"
 
-sudo plutil -replace CFBundleExecutable -string "${LONGBRANDNAME}_Finish_Install" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/${LONGBRANDNAME}_Finish_Install.app/Contents/Info.plist"
+# Replace icon in ${LONGBRANDNAME}_Finish_Install.app
+sudo rm -dfR "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/${LONGBRANDNAME}_Finish_Install.app/Contents/Resources/MacInstaller.icns"
 
-# Copy BOINC_Finish_Install.app into BOINC Data folder for possible use by AddRemoveUser
-sudo cp -fpRL "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/${LONGBRANDNAME}_Finish_Install.app" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/"
+sudo cp -fpRL "./clientgui/res/${INSTALLERICON}.icns" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/${LONGBRANDNAME}_Finish_Install.app/Contents/Resources/"
+
+
+cp -fpR "${BUILDPATH}/PostInstall.app" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources"
 
 # Change BOINC_Finish_Install.app embedded in uninstaller to BOINC_Finish_Uninstall.app
 sudo mv "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/BOINC_Finish_Install.app" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}_Finish_Uninstall.app"
@@ -427,8 +431,21 @@ sudo plutil -replace CFBundleExecutable -string "${LONGBRANDNAME}_Finish_Uninsta
 # Change Bundle ID of BOINC_Finish_Uninstall.app
 ###sudo plutil -replace CFBundleIdentifier -string edu.berkeley.boinc.finish-uninstall "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}_Finish_Uninstall.app/Contents/Info.plist"
 
+# Replace icon in ${LONGBRANDNAME}_Finish_Uninstall.app
+# Replace MacInstaller.icns with ${UNINSTALLERICON}.icns, but renamed MacInstaller.icns
+###cp -fpRL ./clientgui/res/${UNINSTALLERICON}.icns "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}_Finish_Uninstall.app/Contents/Resources/MacInstaller.icns"
+
+# Replace icon reference in Info.plist file of ${LONGBRANDNAME}_Finish_Uninstall.app
+sudo plutil -replace CFBundleIconFile -string "${UNINSTALLERICON}.icns" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}_Finish_Uninstall.app/Contents/Info.plist"
+
+# Replace icon in ${LONGBRANDNAME}_Finish_Uninstall.app
+sudo rm -dfR "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}_Finish_Uninstall.app/Contents/Resources/MacInstaller.icns"
+
+sudo cp -fpRL "./clientgui/res/${UNINSTALLERICON}.icns" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}_Finish_Uninstall.app/Contents/Resources/"
+
 echo ${BRANDING_INFO} > "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/Branding"
 
+# Replace MacInstaller.icns with ${INSTALLERICON}.icns, but renamed MacInstaller.icns
 cp -fpRL ./clientgui/res/${INSTALLERICON}.icns "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/MacInstaller.icns"
 
 
@@ -478,9 +495,6 @@ if [ -e "${HOME}/BOINCCodeSignIdentities.txt" ]; then
 
     # Code Sign the BOINC Manager if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app"
-
-    # Code Sign BOINC_Finish_Install app embedded in the PostInstall app if we have a signing identity
-    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/${LONGBRANDNAME}_Finish_Install.app"
 
     # Code Sign the PostInstall app embedded in the BOINC installer app if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app"

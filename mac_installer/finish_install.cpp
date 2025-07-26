@@ -16,10 +16,10 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 //
-//  main.cpp
+//  Finish_install.cpp
 //  boinc_Finish_Install
 
-// Usage: boinc_Finish_Install [-d] [brandID]
+// Usage: boinc_Finish_Install [-d | -m] | -i brandID | -a brandID]
 //
 // * Deletes Login Items of all possible branded and unbranded BOINC Managers for current user.
 // * If first argument is -d then also kills the application specified by the second argument.
@@ -51,15 +51,30 @@
 #include <unistd.h>
 #include <pwd.h>    // getpwname, getpwuid, getuid
 #include <spawn.h>
+#include <dirent.h>
 
 #include "mac_branding.h"
+#include "translate.h"
+#include "mac_util.h"
+
+#define MAX_LANGUAGES_TO_TRY 5
+
+// IMPORTANT: The definition of COPY_FINISH_INSTALL_TO_USER_DIRECTORY
+// must match the one in PostInstall.cpp
+#define COPY_FINISH_INSTALL_TO_USER_DIRECTORY false
+
+
+static char * Catalog_Name = (char *)"BOINC-Setup";
+static char * Catalogs_Dir = "/Library/Application Support/BOINC Data/locale/";
 
 static int callPosixSpawn(const char *cmd);
 static Boolean MakeLaunchManagerLaunchAgent(long brandID, passwd *pw);
 static void FixLaunchServicesDataBase(int brandId, bool isUninstall);
 static Boolean IsUserActive(const char *userName);
+void MaybeSetScreenSaver(int brandId);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
-static int compareOSVersionTo(int toMajor, int toMinor);
+static Boolean ShowMessage(Boolean askYesNo, const char *format, ...);
+static void GetAndLoadPreferredLanguages();
 static void print_to_log_file(const char *format, ...);
 
 int main(int argc, const char * argv[]) {
@@ -71,8 +86,8 @@ int main(int argc, const char * argv[]) {
     bool                    isUninstall = false;
     int                     iBrandId = 0;
     bool                    calledFromInstaller = false;
+    bool                    createdByUninstaller = false;
     bool                    calledFromManager = false;
-    struct stat             buf;
 
     // Wait until we are the active login (in case of fast user switching)
     userName = getenv("USER");
@@ -82,31 +97,23 @@ int main(int argc, const char * argv[]) {
 
     pw = getpwuid(getuid());
 
-    // Using "System Events" which can trigger an alert which the user may find alraming.
-    // If we previously set a login item launch agent,  we removed the old style login
-    // item at that time, so we can avoid that alert.
-    snprintf(cmd, sizeof(cmd), "/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist", pw->pw_name);
-    if (!stat(cmd, &buf)) {
-        for (i=0; i<NUMBRANDS; i++) {
-            snprintf(cmd, sizeof(cmd), "osascript -e 'tell application \"System Events\" to delete login item \"%s\"'", appName[i]);
-            err = callPosixSpawn(cmd);
-            if (err) {
-                print_to_log_file("Command: %s\n", cmd);
-                print_to_log_file("Delete login item containing %s returned error %d\n", appName[i], err);
-            }
-        }
-    }
-
     for (i=1; i<argc; i++) {
-        print_to_log_file("argv[%d] = '%s'", i, argv[i]);
         if (strcmp(argv[i], "-d") == 0) {
             isUninstall = true;
         } else if (strcmp(argv[i], "-a") == 0) {
-            iBrandId = atoi(argv[i]);
+            if (i + 1 < argc) {
+                iBrandId = atoi(argv[++i]);
+            }
         } else if (strcmp(argv[i], "-i") == 0) {
+            if (i + 1 < argc) {
+                iBrandId = atoi(argv[++i]);
+            }
             calledFromInstaller = true;
         } else if (strcmp(argv[i], "-m") == 0) {
             calledFromManager = true;
+        } else if (strcmp(argv[i], "-u") == 0) {
+            isUninstall = true;
+            createdByUninstaller = true;
         }
     }   // end for (i=i; i<argc; i+=2)
 
@@ -118,55 +125,38 @@ int main(int argc, const char * argv[]) {
         snprintf(cmd, sizeof(cmd), "killall -u %d -9 \"%s\"", getuid(), appName[iBrandId]);
         err = callPosixSpawn(cmd);
         if (err) {
-            print_to_log_file("Command: %s\n", cmd);
-            print_to_log_file("killall %s returned error %d\n", appName[iBrandId], err);
         }
 
         if (compareOSVersionTo(10, 13) >= 0) {
             snprintf(cmd, sizeof(cmd), "launchctl unload \"/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist\"", pw->pw_name);
             err = callPosixSpawn(cmd);
             if (err) {
-                print_to_log_file("Command: %s\n", cmd);
-                print_to_log_file("returned error %d\n", err);
             }
             sprintf(cmd, "rm -f \"/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist\"", pw->pw_name);
             callPosixSpawn (cmd);
             if (err) {
-                print_to_log_file("Command: %s\n", cmd);
-                print_to_log_file("returned error %d\n", err);
-            }
+             }
         }
 
     } else {
-        if (compareOSVersionTo(10, 13) >= 0) {
-            bool success = MakeLaunchManagerLaunchAgent(iBrandId, pw);
-            if (!success) {
-                print_to_log_file("Command: %s\n", cmd);
-                print_to_log_file("MakeLaunchManagerLaunchAgent for %s failed\n", appName[iBrandId]);
-            }
-        } else {
-            snprintf(cmd, sizeof(cmd), "osascript -e 'tell application \"System Events\" to make new login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}'", appPath[iBrandId], appName[iBrandId]);
-            err = callPosixSpawn(cmd);
-            if (err) {
-                print_to_log_file("Command: %s\n", cmd);
-                print_to_log_file("Make new login item for %s returned error %d\n", appName[iBrandId], err);
-            }
+        bool success = MakeLaunchManagerLaunchAgent(iBrandId, pw);
+        if (!success) {
+        }
+        if (compareOSVersionTo(26, 0) >= 0) {
+            GetAndLoadPreferredLanguages();
+            MaybeSetScreenSaver(iBrandId);
         }
 
         if (compareOSVersionTo(10, 13) >= 0) {
             snprintf(cmd, sizeof(cmd), "launchctl unload \"/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist\"", pw->pw_name);
             err = callPosixSpawn(cmd);
             if (err) {
-                print_to_log_file("Command: %s\n", cmd);
-                print_to_log_file("returned error %d\n", err);
             }
 
             if (! (calledFromInstaller || calledFromManager)) {
                 snprintf(cmd, sizeof(cmd), "launchctl load \"/Users/%s/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist\"", pw->pw_name);
                 err = callPosixSpawn(cmd);
                 if (err) {
-                    print_to_log_file("Command: %s\n", cmd);
-                    print_to_log_file("returned error %d\n", err);
                 }
             }
 
@@ -174,8 +164,6 @@ int main(int argc, const char * argv[]) {
             snprintf(cmd, sizeof(cmd), "open -jg \"%s\"", appPath[iBrandId]);
             err = callPosixSpawn(cmd);
             if (err) {
-                print_to_log_file("Command: %s\n", cmd);
-                print_to_log_file("\"open -jg \"%s\" returned error %d\n", appPath[iBrandId], err);
             }
         }
     }
@@ -198,8 +186,19 @@ int main(int argc, const char * argv[]) {
             // Delete per-user BOINC Manager and screensaver files, including this executable
             fprintf(f, "rm -fR \"/Users/%s/Library/Application Support/BOINC\"\n", pw->pw_name);
         } else {
-            // Delete only this executable
-            fprintf(f, "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", pw->pw_name, brandName[iBrandId]);
+#if ! COPY_FINISH_INSTALL_TO_USER_DIRECTORY
+            // The installer no longer put a copy of %s_Finish_Install in the user's folder;
+            // all users now call the one in the BOINC Data folder
+            // But the uninstaller stil puts a copy of %s_Finish_Uninstall in the user's
+            // folder (in case the user might have already deleted the BOINC Data directory.)
+            // So we don't want to delete ourselves unless we were created by the uninstaller.
+            // The uninstaller set up the launchagent to pass us a "u" to tell us self-delete.
+            if (createdByUninstaller)
+#endif
+            {
+                // Delete only this executable
+                fprintf(f, "rm -fR \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", pw->pw_name, brandName[iBrandId]);
+            }
         }
         fclose(f);
         sprintf(cmd, "sh \"%s\"", scriptName);
@@ -362,41 +361,245 @@ static Boolean IsUserActive(const char *userName){
 }
 
 
-// Test OS version number on all versions of OS X without using deprecated Gestalt
-// compareOSVersionTo(x, y) returns:
-// -1 if the OS version we are running on is less than x.y
-//  0 if the OS version we are running on is equal to x.y
-// +1 if the OS version we are running on is lgreater than x.y
-static int compareOSVersionTo(int toMajor, int toMinor) {
-    static SInt32 major = -1;
-    static SInt32 minor = -1;
+// It would be nice to check whether our screen saver is already set for
+// this user so we can ask wethr to set it only if necessary, but that
+// triggrs a scary warning asking for permission to let System Events
+// administer the Mac, so we don't. (If the user answers yes to setting
+// the screensaver, then the code which sets the screensaver will show
+// that warning, but this seems less scary than having it pop up for no
+// apparent reason.)
+void MaybeSetScreenSaver(int brandId){
+    char                buf[MAXPATHLEN];
+    char                mySaverName[1024];
 
-    if (major < 0) {
-        char vers[100], *p1 = NULL;
-        FILE *f;
-        vers[0] = '\0';
-        f = popen("sw_vers -productVersion", "r");
-        if (f) {
-            fscanf(f, "%s", vers);
-            pclose(f);
-        }
-        if (vers[0] == '\0') {
-            print_to_log_file("popen(\"sw_vers -productVersion\" failed\n");
-            return 0;
-        }
-        // Extract the major system version number
-        major = atoi(vers);
-        // Extract the minor system version number
-        p1 = strchr(vers, '.');
-        minor = atoi(p1+1);
+    if ((ShowMessage(true,
+        (char *)_("Do you want to set %s as your screensaver?"),
+                    brandName[brandId], brandName[brandId])) == false) {
+        return;
     }
 
-    if (major < toMajor) return -1;
-    if (major > toMajor) return 1;
-    // if (major == toMajor) compare minor version numbers
-    if (minor < toMinor) return -1;
-    if (minor > toMinor) return 1;
-    return 0;
+    CFBundleRef myBundle = NULL;
+    mySaverName[0] = '\0';
+    snprintf(buf, sizeof(buf), "/Library/Screen Savers/%s.saver", saverName[brandId]);
+    CFStringRef cfpath = CFStringCreateWithCString(NULL, buf, kCFStringEncodingUTF8);
+    if (cfpath) {
+        CFURLRef bundleURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, cfpath, kCFURLPOSIXPathStyle, true);
+        if (bundleURL) {
+            myBundle = CFBundleCreate(kCFAllocatorDefault, bundleURL);
+            CFRelease(bundleURL);
+        }
+        CFRelease(cfpath);
+    }
+
+    if (myBundle) {
+        CFStringRef bundleNameCF = (CFStringRef)CFBundleGetValueForInfoDictionaryKey(myBundle, CFSTR("CFBundleName"));
+        if (bundleNameCF) {
+            strncpy(mySaverName, CFStringGetCStringPtr(bundleNameCF, kCFStringEncodingUTF8), sizeof(mySaverName));
+        }
+        if(mySaverName[0] == '\0') {
+            strncpy(mySaverName, saverName[brandId], sizeof(mySaverName));
+        }
+
+        // The AppleEvent call doesn't work unless we have opened the Sysem Preferences
+        // Wallpaper pane, even though that's not necessary if we do the osascript from
+        // Terminal.app or run the Applescript from the Script Editor or  from an
+        // Applescript application created by the Script Editor.
+        //
+        // Use -n flag to open a new instance of the System Settings even if one is
+        // already running. We can then use the returned PID to quit only that instance.
+        callPosixSpawn("open -gj \"x-apple.systempreferences:com.apple.Wallpaper-Settings.extension\"");
+
+        sleep(1); // This delay seems to be needed, probably to give Wallpaper pane time to open
+
+        snprintf(buf, sizeof(buf), "osascript -e 'tell application \"System Events\" to set current screen saver to screen saver \"%s\"'", mySaverName);
+        callPosixSpawn(buf);
+
+        // TODO: find a way to kill only the new hidden instance of System Settigs that we opened
+        callPosixSpawn("killall \"System Settings\"");
+
+        CFRelease(myBundle);
+    }
+}
+
+
+static void GetAndLoadPreferredLanguages() {
+    DIR *dirp;
+    struct dirent *dp;
+    char searchPath[MAXPATHLEN];
+    struct stat sbuf;
+    CFMutableArrayRef supportedLanguages;
+    CFStringRef aLanguage;
+    char shortLanguage[32];
+    CFArrayRef preferredLanguages;
+    int i, j, k;
+    char * language;
+    char *uscore;
+
+    // Create an array of all our supported languages
+    supportedLanguages = CFArrayCreateMutable(kCFAllocatorDefault, 100, &kCFTypeArrayCallBacks);
+
+    aLanguage = CFStringCreateWithCString(NULL, "en", kCFStringEncodingMacRoman);
+    CFArrayAppendValue(supportedLanguages, aLanguage);
+    CFRelease(aLanguage);
+    aLanguage = NULL;
+
+    dirp = opendir(Catalogs_Dir);
+    if (!dirp) {
+        goto cleanup;
+    }
+    while (true) {
+        dp = readdir(dirp);
+        if (dp == NULL)
+            break;                  // End of list
+
+        if (dp->d_name[0] == '.')
+            continue;               // Ignore names beginning with '.'
+
+        strlcpy(searchPath, Catalogs_Dir, sizeof(searchPath));
+        strlcat(searchPath, dp->d_name, sizeof(searchPath));
+        strlcat(searchPath, "/", sizeof(searchPath));
+        strlcat(searchPath, Catalog_Name, sizeof(searchPath));
+        strlcat(searchPath, ".mo", sizeof(searchPath));
+        if (stat(searchPath, &sbuf) != 0) continue;
+        //        printf("Adding %s to supportedLanguages array\n", dp->d_name);
+        aLanguage = CFStringCreateWithCString(NULL, dp->d_name, kCFStringEncodingMacRoman);
+        CFArrayAppendValue(supportedLanguages, aLanguage);
+        CFRelease(aLanguage);
+        aLanguage = NULL;
+
+        // If it has a region code ("it_IT") also try without region code ("it")
+        // TODO: Find a more general solution
+        strlcpy(shortLanguage, dp->d_name, sizeof(shortLanguage));
+        uscore = strchr(shortLanguage, '_');
+        if (uscore) {
+            *uscore = '\0';
+            aLanguage = CFStringCreateWithCString(NULL, shortLanguage, kCFStringEncodingMacRoman);
+            CFArrayAppendValue(supportedLanguages, aLanguage);
+            CFRelease(aLanguage);
+            aLanguage = NULL;
+        }
+    }
+
+    closedir(dirp);
+
+    for (i=0; i<MAX_LANGUAGES_TO_TRY; ++i) {
+        preferredLanguages = CFBundleCopyLocalizationsForPreferences(supportedLanguages, NULL );
+
+#if 0   // For testing
+        int c = CFArrayGetCount(preferredLanguages);
+        for (k=0; k<c; ++k) {
+            CFStringRef s = (CFStringRef)CFArrayGetValueAtIndex(preferredLanguages, k);
+            printf("Preferred language %u is %s\n", k, CFStringGetCStringPtr(s, kCFStringEncodingMacRoman));
+        }
+#endif
+
+        for (j=0; j<CFArrayGetCount(preferredLanguages); ++j) {
+            aLanguage = (CFStringRef)CFArrayGetValueAtIndex(preferredLanguages, j);
+            language = (char *)CFStringGetCStringPtr(aLanguage, kCFStringEncodingMacRoman);
+            if (language == NULL) {
+                if (CFStringGetCString(aLanguage, shortLanguage, sizeof(shortLanguage), kCFStringEncodingMacRoman)) {
+                    language = shortLanguage;
+                }
+            }
+            if (language) {
+#if CREATE_LOG
+                print_to_log_file("Adding language: %s\n", language);
+#endif
+                if (!BOINCTranslationAddCatalog(Catalogs_Dir, language, Catalog_Name)) {
+                    printf("could not load catalog for langage %s\n", language);
+                }
+            }
+            // Remove all copies of this language from our list of supported languages
+            // so we can get the next preferred language in order of priority
+            for (k=CFArrayGetCount(supportedLanguages)-1; k>=0; --k) {
+                if (CFStringCompare(aLanguage, (CFStringRef)CFArrayGetValueAtIndex(supportedLanguages, k), 0) == kCFCompareEqualTo) {
+                    CFArrayRemoveValueAtIndex(supportedLanguages, k);
+                }
+            }
+
+            // Since the original strings are English, no
+            // further translation is needed for language en.
+            if (language) {
+                if (!strcmp(language, "en")) {
+                    CFRelease(preferredLanguages);
+                    preferredLanguages = NULL;
+                    goto cleanup;
+                }
+            }
+        }
+
+        CFRelease(preferredLanguages);
+        preferredLanguages = NULL;
+    }
+
+    if (!BOINCTranslationAddCatalog(Catalogs_Dir, "en", Catalog_Name)) {
+        printf("could not load catalog for langage en\n");
+    }
+
+cleanup:
+    CFArrayRemoveAllValues(supportedLanguages);
+    CFRelease(supportedLanguages);
+    supportedLanguages = NULL;
+#if CREATE_LOG
+    print_to_log_file("Exiting GetAndLoadPreferredLanguages");
+#endif
+}
+
+
+static Boolean ShowMessage(Boolean askYesNo, const char *format, ...) {
+  // CAUTION: vsprintf will produce undesirable results if the string
+  // contains a % character that is not a format specification!
+  // But CFString is OK!
+
+    va_list                 args;
+    char                    s[1024];
+    CFOptionFlags           responseFlags;
+    CFURLRef                myIconURLRef = NULL;
+    CFBundleRef             myBundleRef;
+
+    myBundleRef = CFBundleGetMainBundle();
+    if (myBundleRef) {
+        myIconURLRef = CFBundleCopyResourceURL(myBundleRef, CFSTR("MacInstaller.icns"), NULL, NULL);
+    }
+
+#if 1
+    va_start(args, format);
+    vsprintf(s, format, args);
+    va_end(args);
+#else
+    strcpy(s, format);
+#endif
+
+    // If defaultButton is nil or an empty string, a default localized
+    // button title ("OK" in English) is used.
+
+#if 0
+    enum {
+   kCFUserNotificationDefaultResponse = 0,
+   kCFUserNotificationAlternateResponse = 1,
+   kCFUserNotificationOtherResponse = 2,
+   kCFUserNotificationCancelResponse = 3
+};
+#endif
+
+    CFStringRef myString = CFStringCreateWithCString(NULL, s, kCFStringEncodingUTF8);
+    CFStringRef yes = CFStringCreateWithCString(NULL, (char*)_((char*)"Yes"), kCFStringEncodingUTF8);
+    CFStringRef no = CFStringCreateWithCString(NULL, (char*)_((char*)"No"), kCFStringEncodingUTF8);
+
+//    BringAppToFront();
+    SInt32 retval = CFUserNotificationDisplayAlert(0.0, kCFUserNotificationPlainAlertLevel,
+                myIconURLRef, NULL, NULL, CFSTR(" "), myString,
+                askYesNo ? yes : NULL, askYesNo ? no : NULL, NULL,
+                &responseFlags);
+
+
+    if (myIconURLRef) CFRelease(myIconURLRef);
+    if (myString) CFRelease(myString);
+    if (yes) CFRelease(yes);
+    if (no) CFRelease(no);
+
+    if (retval) return false;
+    return (responseFlags == kCFUserNotificationDefaultResponse);
 }
 
 

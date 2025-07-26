@@ -73,8 +73,8 @@ time_t elapsedTime = 0;
 #endif
 
 void killGfxApp(pid_t thePID) {
-#if 0
     print_to_log_file("in gfx_cleanup: killGfxApp()");
+#if 0
     kill(thePID, SIGKILL);
 #else
     char buf[256];
@@ -118,7 +118,7 @@ void killGfxApp(pid_t thePID) {
         retval = rpc->run_graphics_app("test", p, userName);
         if (retval || (p==0)) break;
     }
- print_to_log_file("in gfx_cleanup: killGfxApp(%d): rpc->run_graphics_app(test) returned pid %d, retval %d when i = %d", thePID, p, retval, i);
+    print_to_log_file("in gfx_cleanup: killGfxApp(%d): rpc->run_graphics_app(test) returned pid %d, retval %d when i = %d", thePID, p, retval, i);
 
     // Graphics apps called by screensaver or Manager (via Show
     // Graphics button) now write files in their slot directory as
@@ -144,14 +144,16 @@ void * MonitorParent(void* param) {
     print_to_log_file("in gfx_cleanup: Starting MonitorParent");
     while (true) {
         boinc_sleep(0.25);  // Test every 1/4 second
+        print_to_log_file("in gfx_cleanup: MonitorParent: getppd=%d, parentpid=%d", getppid(), parentPid);
         if (getppid() != parentPid) {
             if (GFX_PidFromScreensaver) {
+                print_to_log_file("in gfx_cleanup: MonitorParent: calling killGfxApp");
                 killGfxApp(GFX_PidFromScreensaver);
             }
             if (quit_MonitorParentThread) {
                 return 0;
             }
-            print_to_log_file("in gfx_cleanup: parent died, exiting (child) after handling %d",GFX_PidFromScreensaver);
+            print_to_log_file("in gfx_cleanup: MonitorParent: parent died, exiting (child) after handling %d",GFX_PidFromScreensaver);
 #if USE_TIMER
             endTime = time(NULL);
             elapsedTime = endTime - startTime;
@@ -189,10 +191,12 @@ NSWindow* myWindow;
         }
         if (ferror(stdin) && (errno != EINTR)) {
             fprintf(stderr, "in gfx_cleanup: fgets got error %d %s", errno, strerror(errno));
+            print_to_log_file("in gfx_cleanup: fgets got error %d %s", errno, strerror(errno));
             break;
         }
 
         if (!strcmp(buf, "Quit\n")) {
+            print_to_log_file("in gfx_cleanup: parent sent Quit to child");
             break;
         }
         GFX_PidFromScreensaver = atoi(buf);
@@ -200,6 +204,7 @@ NSWindow* myWindow;
     }
 
     if (GFX_PidFromScreensaver) {
+        print_to_log_file("in gfx_cleanup: calling killGfxApp");
         killGfxApp(GFX_PidFromScreensaver);
     }
 

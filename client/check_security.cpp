@@ -242,7 +242,15 @@ int use_sandbox, int isManager, char* path_to_error, int len
         // Require absolute owner and group boinc_master:boinc_master
         // Get the full path to BOINC Client inside this application's bundle
         //
-        retval = stat("/Applications/BOINCManager.app/Contents/Resources/boinc", &sbuf);
+    long brandId = 0;
+    FILE *f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
+    if (f) {
+        fscanf(f, "BrandId=%ld\n", &brandId);
+        fclose(f);
+    }
+
+    snprintf(full_path, sizeof(full_path),"/%s/Contents/Resources/boinc", appPath[brandId]);
+        retval = stat(full_path, &sbuf);
         if (retval)
             return -1016;          // Should never happen
 

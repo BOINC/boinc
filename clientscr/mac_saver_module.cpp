@@ -60,7 +60,7 @@ extern "C" {
 
 // Flags for testing & debugging
 #define CREATE_LOG 0
-#define USE_SPECIAL_LOG_FILE 1
+#define USE_SPECIAL_LOG_FILE 0
 #define FOR_TESTING_ONLY 0  // Set to 1 to simulate dualGPU MacBook Pro on other Macs
 // Set to 1 to simulate 30 seconds on AC, 30 on battery, 30 AC, 30 battery, etc.
 #define SIMULATE_AC_BATTERY_SWITCHING 0
@@ -131,6 +131,7 @@ const char *  CCNotRunningMsg = "BOINC is not running.";
 
 //const char *  BOINCExitedSaverMode = "BOINC is no longer in screensaver mode.";
 
+static bool created = false;    // CAF
 
 // If there are multiple displays, this may get called
 // multiple times (once for each display), so we need to guard
@@ -144,9 +145,20 @@ void initBOINCSaver() {
         "stdoutscr", "stderrscr"
         );
 
+    // When gfx_cleanup exits, it will send a SIGCHLD to legacysceensaver
+    // which is normally set to also exit when it receives that signal
+    struct sigaction temp;
+    sigaction(SIGCHLD, NULL, &temp);
+    temp.sa_handler = SIG_IGN;
+    sigaction(SIGCHLD, &temp, NULL);
+
+for (int i=1; i<NSIG; ++i)
+boinc_set_signal_handler(i, boinc_catch_signal);
+
     if (gspScreensaver == NULL) {
         gspScreensaver = new CScreensaver();
-    }
+        created = false;    // CAF
+   }
 }
 
 
@@ -156,7 +168,10 @@ int startBOINCSaver() {
     IsDualGPUMacbook = true;
 #endif
     if (gspScreensaver) {
-        return gspScreensaver->Create();
+        if (!created) {     // CAF
+            created = true; // CAF
+            return gspScreensaver->Create();
+        }                   // CAF
     }
     return TEXTLOGOFREQUENCY;
 }
@@ -203,6 +218,8 @@ void closeBOINCSaver() {
         delete gspScreensaver;
         gspScreensaver = NULL;
     }
+for (int i=1; i<32; ++i)
+boinc_set_signal_handler(i, boinc_catch_signal);
 }
 
 
@@ -369,8 +386,12 @@ CScreensaver::CScreensaver() {
 }
 
 
+CScreensaver::~CScreensaver() {
+}
+
+
 int CScreensaver::Create() {
-        // Ugly workaround for a problem with the System Preferences app
+    // Ugly workaround for a problem with the System Preferences app
     // For an unknown reason, when this screensaver is run using the
     // Test button in the System Prefs Screensaver control panel, the
     // control panel calls our stopAnimation function as soon as the
@@ -567,7 +588,7 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
             // Wait 1 second to allow ScreenSaver engine to close us down
             if (++gQuitCounter > (m_MessageText[0] ? TEXTLOGOFREQUENCY : NOTEXTLOGOFREQUENCY)) {
                 closeBOINCSaver();
-                KillScreenSaver(); // Stop the ScreenSaver Engine
+                exit(0);    // Stop the ScreenSaver Engine
             }
             break;
 #endif
@@ -688,6 +709,7 @@ void CScreensaver::ShutdownSaver() {
             rpc->quit();    // Kill core client if we launched it
         }
 #endif
+        rpc->close();
         delete rpc;
         rpc = NULL;
     }
@@ -700,18 +722,14 @@ void CScreensaver::ShutdownSaver() {
     m_bQuitDataManagementProc = false;
     saverState = SaverState_Idle;
     retryCount = 0;
+    ScreenSaverStartTime = 0;
+    ScreenIsBlanked = false;
+
     if (m_gfx_Cleanup_IPC) {
         fprintf(m_gfx_Cleanup_IPC, "Quit\n");
         fflush(m_gfx_Cleanup_IPC);
         pclose(m_gfx_Cleanup_IPC);
-    }
-
-    // Under MacOS 14.0 Sonoma, screensavers continue to run and "draw" invisibly
-    // after they are dismissed by user activity, to allow them to be used as
-    // wallpaper. Since we don't want the BOINC screensaver to be used as wallpaper,
-    // this would waste system resources.
-    if (gIsSonoma) {
-        KillScreenSaver();
+        m_gfx_Cleanup_IPC = NULL;
     }
 }
 
@@ -794,7 +812,6 @@ bool CScreensaver::DestroyDataManagementThread() {
         }
         boinc_sleep(0.1);
     }
-
     m_hDataManagementThread = NULL; // Don't delay more if this routine is called again.
 
     if (m_hGraphicsApplication) {
@@ -906,18 +923,6 @@ pid_t CScreensaver::getClientPID() {
 
     close(fd);
     return fl.l_pid;
-}
-
-
-// Send a Quit AppleEvent to the process which called this module
-// (i.e., tell the ScreenSaver engine to quit)
-int CScreensaver::KillScreenSaver() {
-    pid_t                       thisPID;
-    int                         retval;
-
-    thisPID = getpid();
-    retval = kill(thisPID, SIGABRT);   // SIGINT
-    return retval;
 }
 
 

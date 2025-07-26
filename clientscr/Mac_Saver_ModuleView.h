@@ -44,6 +44,7 @@
 
 - (bool) setUpToUseCGWindowList;
 - (void) doPeriodicTasks;
+- (void) advancePosition:(NSTimer*)timer;
 
 @end
 
@@ -53,6 +54,7 @@
 - (void)init:(NSView*)saverView;
 - (void)testConnection;
 - (void)portDied:(NSNotification *)notification;
+- (void)closeServerPort;
 - (void)cleanUpOpenGL;
 
 @end
