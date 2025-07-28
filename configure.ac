@@ -734,10 +734,10 @@ sse3_flags="-msse3"
 avx_flags="-mavx"
 CXXFLAGS="${save_cxxflags} ${sse3_flags}"
 CPPFLAGS="${save_cppflags} ${sse3_flags}"
-AC_LINK_IFELSE([AC_LANG_PROGRAM([],)], [], [sse_flags=""])
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([],)], [], [sse_flags=""])
 CXXFLAGS="${save_cxxflags} ${avx_flags}"
 CPPFLAGS="${save_cppflags} ${avx_flags}"
-AC_LINK_IFELSE([AC_LANG_PROGRAM([],)], [], [avx_flags=""])
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([],)], [], [avx_flags=""])
 CXXFLAGS="${save_cxxflags} ${sse3_flags}"
 CXXFLAGS="${save_cxxflags} ${sse3_flags}"
 AC_CHECK_HEADERS([intrin.h x86intrin.h pmmintrin.h xmmintrin.h emmintrin.h])
