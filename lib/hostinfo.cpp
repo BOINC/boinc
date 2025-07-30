@@ -351,7 +351,7 @@ const char* docker_cli_prog(DOCKER_TYPE type) {
     switch (type) {
     case DOCKER: return "docker";
 #ifdef __APPLE__
-        case PODMAN: return "/opt/podman/bin/podman";
+        case PODMAN: return "/opt/podman/bin/podman --config \"/Library/Application Support/BOINC podman/config\" ";
 #else
     case PODMAN: return "podman";
 #endif
@@ -376,14 +376,13 @@ const char* docker_type_str(DOCKER_TYPE type) {
 //
 #ifdef __APPLE__
 const char* docker_cmd_prefix(DOCKER_TYPE type) {
-    static char buf[256];
+    static char buf[1024];
     if (type == PODMAN) {
-        const char* dir = "/Library/Application Support/BOINC Data/podman";
+       const char* dir = "/Library/Application Support/BOINC podman";
         // must end w/ space
         snprintf(buf, sizeof(buf),
-            "env XDG_CONFIG_HOME=\"%s\" XDG_DATA_HOME=\"%s\" ",
-            dir, dir
-        );
+                 "env XDG_CONFIG_HOME=\"%s\" XDG_DATA_HOME=\"%s\" HOME=\"%s\" ", dir, dir, dir
+                 );
         return buf;
     }
     return "";
