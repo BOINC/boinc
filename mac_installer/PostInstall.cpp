@@ -241,6 +241,22 @@ int main(int argc, char *argv[])
             return DeleteReceipt();
     }
 
+f = popen("env >> /tmp/env.txt", "w");  // Temporary for debugging
+pclose(f);
+
+f = popen("a=`/usr/libexec/path_helper`;b=${a%\\\"*}\\\";env ${b} which podman", "r");
+s[0] = '\0';
+if (f) {
+    fgets(s, sizeof(s), f);
+    pclose(f);
+    char * p=strstr(s, "\n");
+    if (p) *p='\0';
+    printf("popen returned podman path = \"%s\"\n", s);
+    f = fopen("/Library/Application Support/BOINC Data/PodmanPathFromPostinstall.txt", "w");
+    fprintf(f, "%s", s);
+    fclose(f);
+}
+
     if (Initialize() != noErr) {
         REPORT_ERROR(true);
         return 0;

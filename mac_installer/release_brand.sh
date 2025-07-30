@@ -266,6 +266,7 @@ mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins
+mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ podman
 
 # We must create virtualbox directory so installer will set up its
 # ownership and permissions correctly, because vboxwrapper won't

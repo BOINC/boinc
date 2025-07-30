@@ -383,24 +383,29 @@ int use_sandbox, int isManager, char* path_to_error, int len
             return retval;
     }
 
-    snprintf(full_path, sizeof(full_path), "%s/%s", dir_path, PODMAN_DIR);
+    // "BOINC Podman" Directory is in "/Library/Application/Support/"
+    // directory, alongside "BOINC Data" directory
+    snprintf(full_path, sizeof(full_path), "%s/../%s", dir_path, PODMAN_DIR);
     retval = stat(full_path, &sbuf);
     if (! retval) {                 // Client can create podman directory if it does not yet exist.
        if (use_sandbox) {
             if (sbuf.st_gid != boinc_project_gid)
                 return -1071;
 
-            if ((sbuf.st_mode & 0777) != 0770)
+            if ((sbuf.st_mode & 0777) != 0777)
                 return -1072;
         }
 
         if (sbuf.st_uid != boinc_master_uid)
             return -1073;
 
-        // Step through slot directories
+#if 0   // We allow podman to write directories and files with different ownerships.
+        // This is safe because Pdoman runs everything in containers
+        // Step through subdirectories
         retval = CheckNestedDirectories(full_path, 1, use_sandbox, isManager, false, path_to_error, len);
         if (retval)
             return retval;
+#endif
     }
 
     snprintf(full_path, sizeof(full_path),

@@ -63,6 +63,7 @@
 ## Updated 5/17/23 to add comments about notarize_BOINC.sh script
 ## Updated 2/12/25 to add support for Fix_BOINC_Users utility
 ## Updated 7/22/25 to add MacOS 26 support, no Finish_Install embedded in Postinstall.
+## Updaed 7/29/25 to add "BOINC podman" directory
 ##
 ## NOTE: This script requires Mac OS 10.7 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac
@@ -261,6 +262,7 @@ mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins
+mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ podman
 
 # We must create virtualbox directory so installer will set up its
 # ownership and permissions correctly, because vboxwrapper won't
