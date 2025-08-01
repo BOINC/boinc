@@ -1566,7 +1566,6 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     if (IsShown()) {
         CMainDocument*  pDoc = wxGetApp().GetDocument();
         CBOINCBaseView* pView = NULL;
-        wxTimerEvent    timerEvent;
         wxString        strTabTitle = wxEmptyString;
         int             iCount = 0;
         static int      iLastCount = 0;
@@ -1996,7 +1995,6 @@ void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event)
     CBOINCBaseView* theView = NULL;;
     CBOINCListCtrl* theListCtrl = NULL;
     long bottomItem;
-    wxTimerEvent    timerEvent;
     int currentPage = _GetCurrentViewPage();
 
     StopTimers();
