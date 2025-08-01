@@ -13,6 +13,7 @@
 			buildPhases = (
 			);
 			dependencies = (
+				DD3719482E3B5AB000E75DF3 /* PBXTargetDependency */,
 				DDC04DA52E2908AB006AB01D /* PBXTargetDependency */,
 				DDA8694C2E1FCEE400642CD3 /* PBXTargetDependency */,
 				DDA8694A2E1FCE6A00642CD3 /* PBXTargetDependency */,
@@ -100,6 +101,7 @@
 		DD33C70408B5BEDE00768630 /* http_curl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C70208B5BEDE00768630 /* http_curl.cpp */; };
 		DD35353607E1E13F00C4718D /* boinc_api.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5755AD302FE063A012012A7 /* boinc_api.cpp */; };
 		DD35BF3A27E3601800F1BBFC /* BOINCSaver.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD35BF3927E3601800F1BBFC /* BOINCSaver.xib */; };
+		DD3719462E3B517500E75DF3 /* Run_Podman.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD3719452E3B517500E75DF3 /* Run_Podman.cpp */; };
 		DD3741D610FC948C001257EB /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.cpp */; };
 		DD3741D910FC94BA001257EB /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DD3E14DB0A774397007E0084 /* boinc in Resources */ = {isa = PBXBuildFile; fileRef = DDD74D8707CF482E0065AC9D /* boinc */; };
@@ -633,6 +635,13 @@
 			remoteGlobalIDString = DD407A4907D2FB1200163EF5;
 			remoteInfo = libboinc;
 		};
+		DD3719472E3B5AB000E75DF3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD37193A2E3B50BD00E75DF3;
+			remoteInfo = BOINC_Podman;
+		};
 		DD3D127A29B6243800F89058 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -855,6 +864,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		DD3719402E3B50BD00E75DF3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		DD5F653F23605B41009ED2A2 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -981,6 +999,8 @@
 		DD344BEF07C5B1770043025C /* proxy_info.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = proxy_info.cpp; sourceTree = "<group>"; };
 		DD35353107E1E05C00C4718D /* libboinc_api.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_api.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD35BF3927E3601800F1BBFC /* BOINCSaver.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BOINCSaver.xib; path = ../clientscr/res/BOINCSaver.xib; sourceTree = "<group>"; };
+		DD3719442E3B50BD00E75DF3 /* Run_Podman */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Run_Podman; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD3719452E3B517500E75DF3 /* Run_Podman.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Run_Podman.cpp; sourceTree = "<group>"; };
 		DD3E15420A774397007E0084 /* BOINCManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BOINCManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD3EAAAE216A268500BC673C /* finish_install.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = finish_install.cpp; path = ../mac_installer/finish_install.cpp; sourceTree = "<group>"; };
 		DD407A4A07D2FB1200163EF5 /* libboinc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1420,6 +1440,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD37193F2E3B50BD00E75DF3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DD3E15300A774397007E0084 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1615,6 +1642,7 @@
 				B13E2D0F265564D100D5C977 /* detect_rosetta_cpu */,
 				DDEED38629ADFD7000DC3E5D /* BOINC_Finish_Install.app */,
 				DD67F1952D5A24FD00A78699 /* Fix_BOINC_Users */,
+				DD3719442E3B50BD00E75DF3 /* Run_Podman */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -2177,6 +2205,7 @@
 				DD5EF07007C5B329007CCE8D /* whetstone.cpp */,
 				DD7BF7E70B8E7BBE00A009F7 /* work_fetch.cpp */,
 				DDFF2AE80A53D599002BC19D /* setprojectgrp.cpp */,
+				DD3719452E3B517500E75DF3 /* Run_Podman.cpp */,
 				DDD095480A3EDF2D00C95BA4 /* switcher.cpp */,
 			);
 			name = client;
@@ -2308,6 +2337,26 @@
 			productName = api_libboinc;
 			productReference = DD35353107E1E05C00C4718D /* libboinc_api.a */;
 			productType = "com.apple.product-type.library.static";
+		};
+		DD37193A2E3B50BD00E75DF3 /* Run_Podman */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD3719412E3B50BD00E75DF3 /* Build configuration list for PBXNativeTarget "Run_Podman" */;
+			buildPhases = (
+				DD37193B2E3B50BD00E75DF3 /* ShellScript */,
+				DD37193C2E3B50BD00E75DF3 /* Sources */,
+				DD37193F2E3B50BD00E75DF3 /* Frameworks */,
+				DD3719402E3B50BD00E75DF3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Run_Podman;
+			packageProductDependencies = (
+			);
+			productName = Fix_BOINC_Users;
+			productReference = DD3719442E3B50BD00E75DF3 /* Run_Podman */;
+			productType = "com.apple.product-type.tool";
 		};
 		DD3E14D30A774397007E0084 /* mgr_boinc */ = {
 			isa = PBXNativeTarget;
@@ -2726,6 +2775,7 @@
 				DD5F654023605B41009ED2A2 /* gfx_cleanup */,
 				B13E2D0E265564D100D5C977 /* detect_rosetta_cpu */,
 				DD67F1942D5A24FD00A78699 /* Fix_BOINC_Users */,
+				DD37193A2E3B50BD00E75DF3 /* Run_Podman */,
 			);
 		};
 /* End PBXProject section */
@@ -3115,6 +3165,24 @@
 			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD361D5B29E59B19000CC8D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
+		};
+		DD37193B2E3B50BD00E75DF3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -3556,6 +3624,14 @@
 				DD35353607E1E13F00C4718D /* boinc_api.cpp in Sources */,
 				DDE41C260C1FCA8F00CA1F86 /* graphics2_util.cpp in Sources */,
 				DDA45501140F7E7900D97676 /* reduce_main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD37193C2E3B50BD00E75DF3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD3719462E3B517500E75DF3 /* Run_Podman.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4194,6 +4270,11 @@
 			target = DD407A4907D2FB1200163EF5 /* libboinc */;
 			targetProxy = DD1E45C92567FACC005B4EE7 /* PBXContainerItemProxy */;
 		};
+		DD3719482E3B5AB000E75DF3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD37193A2E3B50BD00E75DF3 /* Run_Podman */;
+			targetProxy = DD3719472E3B5AB000E75DF3 /* PBXContainerItemProxy */;
+		};
 		DD3D127B29B6243800F89058 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DDEED38529ADFD7000DC3E5D /* boinc_finish_install */;
@@ -4416,6 +4497,24 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc.Installer;
 				PRODUCT_NAME = "BOINC Installer";
+			};
+			name = Deployment;
+		};
+		DD3719422E3B50BD00E75DF3 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		DD3719432E3B50BD00E75DF3 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Deployment;
 		};
@@ -5327,6 +5426,15 @@
 			buildConfigurations = (
 				DD1AFEB60A512D8700EE5B82 /* Development */,
 				DD1AFEB90A512D8700EE5B82 /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		DD3719412E3B50BD00E75DF3 /* Build configuration list for PBXNativeTarget "Run_Podman" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD3719422E3B50BD00E75DF3 /* Development */,
+				DD3719432E3B50BD00E75DF3 /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

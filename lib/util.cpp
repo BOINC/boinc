@@ -769,8 +769,8 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     out = split(output, '\n');
 #else
     snprintf(buf, sizeof(buf),
-        "%s%s %s",
-        docker_cmd_prefix(type), cli_prog, cmd
+        "%s %s",
+        cli_prog, cmd
     );
     retval = run_command(buf, out);
     if (retval) {
