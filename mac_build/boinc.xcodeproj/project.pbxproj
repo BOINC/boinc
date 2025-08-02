@@ -740,6 +740,13 @@
 			remoteGlobalIDString = DD81C799144D8DA9000BE61A;
 			remoteInfo = jpeg;
 		};
+		DD827BC32E3DAF6300085250 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD1277B2081F3D67007B5DE1;
+			remoteInfo = PostInstall;
+		};
 		DDA12AD00A369DEC00FBDD12 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -2314,6 +2321,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DD827BC42E3DAF6300085250 /* PBXTargetDependency */,
 			);
 			name = Install_BOINC;
 			productName = Installer;
@@ -4344,6 +4352,11 @@
 			isa = PBXTargetDependency;
 			target = DD81C799144D8DA9000BE61A /* jpeg */;
 			targetProxy = DD81C823144D904D000BE61A /* PBXContainerItemProxy */;
+		};
+		DD827BC42E3DAF6300085250 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD1277B2081F3D67007B5DE1 /* PostInstall */;
+			targetProxy = DD827BC32E3DAF6300085250 /* PBXContainerItemProxy */;
 		};
 		DDA12AD10A369DEC00FBDD12 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
