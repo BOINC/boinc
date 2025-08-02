@@ -250,8 +250,13 @@ fi
 if [ $result -eq 0 ]; then
     # build zip sample apps for -zipapps
     if [ "${buildzipapps}" = "1" ]; then
-        eval "xcodebuild -project ../zip/boinc_zip.xcodeproj -scheme boinc_zip_test -scheme testzlibconflict -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build ${uselibcplusplus}  ${theSettings}"
+        eval "xcodebuild -project ../zip/boinc_zip.xcodeproj -scheme boinc_zip_test -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build ${uselibcplusplus}  ${theSettings}"
         result=$?
+
+        if [ $result -eq 0 ]; then
+            eval "xcodebuild -project ../zip/boinc_zip.xcodeproj -scheme testzlibconflict -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build ${uselibcplusplus}  ${theSettings}"
+            result=$?
+        fi
     fi
 fi
 
