@@ -104,6 +104,7 @@ if [ ${share_paths} = "yes" ]; then
 fi
 
 verify_product_archs() {
+set -x
 cd "${1}"
 if [ $? -ne 0 ]; then
     cd "${rootPath}"
@@ -136,6 +137,7 @@ if [ $? -ne 0 ]; then
     show_version_errors
     exit 1
 fi
+set +x
 }
 
 foundTargets=0
