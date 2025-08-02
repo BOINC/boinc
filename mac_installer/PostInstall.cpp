@@ -241,6 +241,24 @@ int main(int argc, char *argv[])
             return DeleteReceipt();
     }
 
+    // While the official Podman installer puts the porman executable at
+    // "/opt/podman/bin/podman", other installation methods (e.g. brew) might not.
+    // Mac executables get a very limited PATH environment vatiable, so we must get the
+    // PATH variable used by Terminal and search ther of the path to podman
+    f = popen("a=`/usr/libexec/path_helper`;b=${a%\\\"*}\\\";env ${b} which podman", "r");
+    s[0] = '\0';
+    if (f) {
+        fgets(s, sizeof(s), f);
+        pclose(f);
+        char * p=strstr(s, "\n");
+        if (p) *p='\0'; // Remove the newline character
+        printf("popen returned podman path = \"%s\"\n", s);
+        // Write path to podman executable to a file for our Run_Podman utility to use
+        f = fopen("/Library/Application Support/BOINC Data/Path_to_podman.txt", "w");
+        fprintf(f, "%s", s);
+        fclose(f);
+    }
+
     if (Initialize() != noErr) {
         REPORT_ERROR(true);
         return 0;

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -240,6 +240,7 @@
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 			};
 			buildConfigurationList = DD6341040973C81800B1057F /* Build configuration list for PBXProject "UpperCase2" */;
 			compatibilityVersion = "Xcode 2.4";
@@ -382,7 +383,6 @@
 					../../clientgui/mac,
 				);
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment/;
-				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-lboinc_api",
 					"-lboinc_graphics2",
