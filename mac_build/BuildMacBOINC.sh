@@ -39,7 +39,6 @@
 # Updated 2/14/23 refactoring made to build zip apps (-zipapps), uc2 samples (-uc2) and vboxwrapper (-vboxwrapper)
 # Updated 3/12/23 Don't unnecessary rebuild libraries for uc2, zip apps or vboxwrapper
 # Updated 3/29/25 Build docker_wrapper
-# Updated 8/1/25 Pass -scheme not -target to xcodebuild to stop "manual build order" warning
 #
 ## This script requires OS 10.8 or later
 #
@@ -189,11 +188,11 @@ if [ "${doclean}" = "clean" ]; then
 fi
 
 if [ "${buildlibs}" = "1" ]; then
-    targets="$targets -scheme libboinc -scheme gfx2libboinc -scheme api_libboinc -scheme boinc_opencl -scheme jpeg"
+    targets="$targets -target libboinc -target gfx2libboinc -target api_libboinc -target boinc_opencl -target jpeg"
 fi
 
 if [ "${buildclient}" = "1" ]; then
-    targets="$targets -scheme BOINC_Client -scheme cmd_boinc"
+    targets="$targets -target BOINC_Client -target cmd_boinc"
 fi
 
 if [ "x${targets}" = "x" ] && [ "${buildlibs}" = "0" ] && [ "${buildclient}" = "0" ] && [ "${buildzipapps}" = "0" ] && [ "${builduc2}" = "0" ] && [ "${buildvboxwrapper}" = "0" ] && [ "${builddocker_wrapper}" = "0" ] ; then
@@ -202,7 +201,7 @@ fi
 
 ## "-all" overrides "-lib" and "-client" and "-zipaps" and "-uc2" and "-vboxwrapper" and "-docker_wrapper" since it includes those targets
 if [ "${buildall}" = "1" ]; then
-    targets="-scheme Build_All"
+    targets="-target Build_All"
 fi
 
 SDKPATH=`xcodebuild -version -sdk macosx Path`
@@ -223,7 +222,7 @@ done
 if [ "${buildall}" = "1" ] || [ "${buildlibs}" = "1" ] || [ "${buildclient}" = "1" ] || [ "x${targets}" != "x" ]; then
 
     echo ""
-## Apparently xcodebuild ignores build pre-actions, so we do this explicitly
+    ## Apparently xcodebuild ignores build pre-actions, so we do this explicitly
     source "./Update_Info_Plists.sh"
     result=$?
     echo ""
@@ -231,7 +230,7 @@ if [ "${buildall}" = "1" ] || [ "${buildlibs}" = "1" ] || [ "${buildclient}" = "
     if [ $result -eq 0 ]; then
         # build all or specified targets from the boinc.xcodeproj project for -all, -libs, -client, or -target
         eval "xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build ${uselibcplusplus} ${theSettings}"
-         result=$?
+        result=$?
     fi
 fi
 
@@ -242,7 +241,7 @@ if [ $result -eq 0 ]; then
     fi
 
     if [ "${buildzip}" = "1" ]; then
-        eval "xcodebuild -project ../zip/boinc_zip.xcodeproj -scheme boinc_zip -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
+        eval "xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
         result=$?
     fi
 fi
@@ -250,20 +249,15 @@ fi
 if [ $result -eq 0 ]; then
     # build zip sample apps for -zipapps
     if [ "${buildzipapps}" = "1" ]; then
-        eval "xcodebuild -project ../zip/boinc_zip.xcodeproj -scheme boinc_zip_test -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build ${uselibcplusplus}  ${theSettings}"
+        eval "xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip_test -target testzlibconflict -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build ${uselibcplusplus}  ${theSettings}"
         result=$?
-
-        if [ $result -eq 0 ]; then
-            eval "xcodebuild -project ../zip/boinc_zip.xcodeproj -scheme testzlibconflict -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build ${uselibcplusplus}  ${theSettings}"
-            result=$?
-        fi
     fi
 fi
 
 if [ $result -eq 0 ]; then
     # build UC2 sample apps for -uc2
     if [ "${builduc2}" = "1" ]; then
-        eval "xcodebuild -project ../samples/mac_build/UpperCase2.xcodeproj -scheme Build_All -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
+        eval "xcodebuild -project ../samples/mac_build/UpperCase2.xcodeproj -target Build_All -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
         result=$?
     fi
 fi
@@ -271,7 +265,7 @@ fi
 if [ $result -eq 0 ]; then
     # build vboxwrapper app for -vboxwrapper
     if [ "${buildvboxwrapper}" = "1" ]; then
-        eval "xcodebuild -project ../samples/vboxwrapper/vboxwrapper.xcodeproj -scheme Build_All -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
+        eval "xcodebuild -project ../samples/vboxwrapper/vboxwrapper.xcodeproj -target Build_All -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
         result=$?
     fi
 fi
@@ -279,7 +273,7 @@ fi
 if [ $result -eq 0 ]; then
     # build docker_wrapper app for -docker_wrapper
     if [ "${builddocker_wrapper}" = "1" ]; then
-        eval "xcodebuild -project ../samples/docker_wrapper/docker_wrapper.xcodeproj -scheme docker_wrapper -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
+        eval "xcodebuild -project ../samples/docker_wrapper/docker_wrapper.xcodeproj -target docker_wrapper -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
         result=$?
     fi
 fi
