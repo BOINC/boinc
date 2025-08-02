@@ -223,11 +223,10 @@ done
 if [ "${buildall}" = "1" ] || [ "${buildlibs}" = "1" ] || [ "${buildclient}" = "1" ] || [ "x${targets}" != "x" ]; then
 
     echo ""
-## This is not needed if we pass -scheme instead of -targt to xcodebuild
 ## Apparently xcodebuild ignores build pre-actions, so we do this explicitly
-##    source "./Update_Info_Plists.sh"
-##    result=$?
-##    echo ""
+    source "./Update_Info_Plists.sh"
+    result=$?
+    echo ""
 
     if [ $result -eq 0 ]; then
         # build all or specified targets from the boinc.xcodeproj project for -all, -libs, -client, or -target
