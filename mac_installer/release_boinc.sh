@@ -63,8 +63,8 @@
 ## Updated 5/17/23 to add comments about notarize_BOINC.sh script
 ## Updated 2/12/25 to add support for Fix_BOINC_Users utility
 ## Updated 7/22/25 to add MacOS 26 support, no Finish_Install embedded in Postinstall.
-## Updaed 7/29/25 to add "BOINC podman" directory
-## Updaed 7/31/25 to add "Run_Podman" utility
+## Updated 7/29/25 to add "BOINC podman" directory
+## Updated 7/31/25 to add "Run_Podman" utility
 ##
 ## NOTE: This script requires Mac OS 10.7 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac

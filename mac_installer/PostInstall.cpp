@@ -203,6 +203,7 @@ int main(int argc, char *argv[])
     OSStatus                err;
     FILE                    *f;
     char                    s[2048];
+    struct stat             sbuf;
 
 #ifndef SANDBOX
     group                   *grp;
@@ -241,7 +242,23 @@ int main(int argc, char *argv[])
             return DeleteReceipt();
     }
 
-    // While the official Podman installer puts the porman executable at
+    if (Initialize() != noErr) {
+        REPORT_ERROR(true);
+        return 0;
+    }
+
+    for (i=0; i< NUMBRANDS; i++) {
+        snprintf(s, sizeof(s), "killall \"%s\"", appName[i]);
+        callPosixSpawn (s);
+    }
+    sleep(2);
+
+    // Core Client may still be running if it was started without Manager
+    coreClientPID = FindProcessPID("boinc", 0, false);
+    if (coreClientPID)
+        kill(coreClientPID, SIGTERM);   // boinc catches SIGTERM & exits gracefully
+
+    // While the official Podman installer puts the podman executable at
     // "/opt/podman/bin/podman", other installation methods (e.g. brew) might not.
     // Mac executables get a very limited PATH environment vatiable, so we must get the
     // PATH variable used by Terminal and search ther of the path to podman
@@ -259,21 +276,16 @@ int main(int argc, char *argv[])
         fclose(f);
     }
 
-    if (Initialize() != noErr) {
-        REPORT_ERROR(true);
-        return 0;
+    // Create the new BOINC Podman directory if it does not yet exist
+    snprintf(s, sizeof(s), "/Library/Application Support/" PODMAN_DIR);
+    if (stat(s, &sbuf) != 0) {
+        mkdir(s, 0770);
     }
 
-    for (i=0; i< NUMBRANDS; i++) {
-        snprintf(s, sizeof(s), "killall \"%s\"", appName[i]);
-        callPosixSpawn (s);
-    }
-    sleep(2);
-
-    // Core Client may still be running if it was started without Manager
-    coreClientPID = FindProcessPID("boinc", 0, false);
-    if (coreClientPID)
-        kill(coreClientPID, SIGTERM);   // boinc catches SIGTERM & exits gracefully
+    // Delete old podman directory if one was created by a previous version of BOINC
+    sprintf(s, "rm -rf \"/Library/Application Support/BOINC Data/podman\"");
+    err = callPosixSpawn (s);
+    REPORT_ERROR(err);
 
     installerPID = getPidIfRunning("com.apple.installer");
 

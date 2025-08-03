@@ -28,7 +28,7 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include<stdlib.h>
+#include <stdlib.h>
 #include <errno.h>
 
 #define VERBOSE false
@@ -43,7 +43,10 @@ int main(int argc, char *argv[])
     FILE *f;
     int status = 0;
 
-setuid(0);  // May not actually be needed
+    setuid(0);  // May not actually be needed
+    if (getuid() != 0) {
+        return -1;
+    }
 
 #if VERBOSE
     FILE *debug_file = fopen("/Users/Shared/Run_Podman-debug.txt", "a");
@@ -56,16 +59,18 @@ setuid(0);  // May not actually be needed
     // The Mac installer wrote path to podman executable in Path_to_podman.txt
     Podman_Path[0] = 0;
     f = fopen("/Library/Application Support/BOINC Data/Path_to_podman.txt", "r");
-    fgets(Podman_Path, sizeof(Podman_Path), f);
+    if (f) {
+        fgets(Podman_Path, sizeof(Podman_Path), f);
+        fclose(f);
+    }
     if (Podman_Path[0] == 0) {
         // If we couldn't get it rom that file, use the default
         strlcpy(Podman_Path, "/opt/podman/bin/podman", sizeof(Podman_Path));
     }
-    fclose(f);
 #else
     // Get the path to the podman executable dynamically
     char                    s[2048];
-    // Mac executables get a very limited PATH environment vatiable, so we must get the
+    // Mac executables get a very limited PATH environment variable, so we must get the
     // PATH variable used by Terminal and search ther of the path to podman
     f = popen("a=`/usr/libexec/path_helper`;b=${a%\\\"*}\\\";env ${b} which podman", "r");
     s[0] = '\0';
@@ -81,13 +86,13 @@ setuid(0);  // May not actually be needed
 
     // Podman always writes its files owned by the logged in user and
     // mosly in that user's home directory. To get around this, we
-    // simulate a login by user boinc_project and set envirtonment
+    // simulate a login by user boinc_project and set environment
     // variables for Podman to use our BOINC podman" directory instead
     args[argsCount++] = "su";
     args[argsCount++] = "-l";
     args[argsCount++] = "boinc_project";    // Create Podman VM using boinc_project so projects can access it
     args[argsCount++] = "-c";
-    strlcpy(buf, "env XDG_CONFIG_HOME=\"/Library/Application Support/BOINC podman\" XDG_DATA_HOME=\"/Library/Application Support/BOINC podman\" HOME=\"/Library/Application Support/BOINC podman\" /opt/podman/bin/podman", sizeof(buf));
+    snprintf(buf, sizeof(buf), "env XDG_CONFIG_HOME=\"/Library/Application Support/BOINC podman\" XDG_DATA_HOME=\"/Library/Application Support/BOINC podman\" HOME=\"/Library/Application Support/BOINC podman\" %s", Podman_Path);
 
     argvCount = 1;   // arguments to be passed to Podman
     while (argv[argvCount]) {
@@ -116,7 +121,7 @@ setuid(0);  // May not actually be needed
 #if VERBOSE
         fprintf(debug_file, "\n\n=========================\n\n");
         fclose(debug_file);
-        chmod("/Users/Shared/RUN_Podman-debug.txt", 0666);
+        chmod("/Users/Shared/Run_Podman-debug.txt", 0666);
 #endif
     fflush(stdout);
     fflush(stderr);
