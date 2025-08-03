@@ -63,6 +63,8 @@
 ## Updated 5/17/23 to add comments about notarize_BOINC.sh script
 ## Updated 2/12/25 to add support for Fix_BOINC_Users utility
 ## Updated 7/22/25 to add MacOS 26 support, no Finish_Install embedded in Postinstall.
+## Updated 7/29/25 to add "BOINC podman" directory
+## Updated 7/31/25 to add "Run_Podman" utility
 ##
 ## NOTE: This script requires Mac OS 10.7 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac
@@ -181,7 +183,7 @@ if [ $Products_Have_arm64 = "yes" ]; then
     fi
 fi
 
-for Executable in "boinc" "boinccmd" "switcher" "setprojectgrp" "boincscr" "Fix_BOINC_Users" "BOINCSaver.saver/Contents/MacOS/BOINCSaver" "Uninstall BOINC.app/Contents/MacOS/Uninstall BOINC" "BOINC Installer.app/Contents/MacOS/BOINC Installer" "PostInstall.app/Contents/MacOS/PostInstall" "BOINC_Finish_Install.app/Contents/MacOS/BOINC_Finish_Install" "AddRemoveUser"
+for Executable in "boinc" "boinccmd" "switcher" "setprojectgrp" "boincscr" "Fix_BOINC_Users" "Run_Podman" "BOINCSaver.saver/Contents/MacOS/BOINCSaver" "Uninstall BOINC.app/Contents/MacOS/Uninstall BOINC" "BOINC Installer.app/Contents/MacOS/BOINC Installer" "PostInstall.app/Contents/MacOS/PostInstall" "BOINC_Finish_Install.app/Contents/MacOS/BOINC_Finish_Install" "AddRemoveUser"
 do
     Have_x86_64="no"
     Have_arm64="no"
@@ -261,6 +263,7 @@ mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins
+mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ podman
 
 # We must create virtualbox directory so installer will set up its
 # ownership and permissions correctly, because vboxwrapper won't
@@ -285,6 +288,7 @@ cp -fp clientscr/ss_config.xml ../BOINC_Installer/Pkg_Root/Library/Application\ 
 cp -fpRL "${BUILDPATH}/boincscr" ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 cp -fpRL "${BUILDPATH}/detect_rosetta_cpu" ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 cp -fpRL "${BUILDPATH}/Fix_BOINC_Users" ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
+cp -fpRL "${BUILDPATH}/Run_Podman" ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 
 cp -fpRL "${BUILDPATH}/BOINCManager.app" ../BOINC_Installer/Pkg_Root/Applications/
 
@@ -427,6 +431,9 @@ if [ -e "${HOME}/BOINCCodeSignIdentities.txt" ]; then
 
     # Code Sign the Fix_BOINC_Users helper app if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/Fix_BOINC_Users"
+
+    # Code Sign the Run_Podman helper app if we have a signing identity
+    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/Run_Podman"
 
     # Code Sign the BOINC_Finish_Install.app in the BOINC Data folder
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/BOINC_Finish_Install.app"

@@ -203,6 +203,7 @@ int main(int argc, char *argv[])
     OSStatus                err;
     FILE                    *f;
     char                    s[2048];
+    struct stat             sbuf;
 
 #ifndef SANDBOX
     group                   *grp;
@@ -256,6 +257,37 @@ int main(int argc, char *argv[])
     coreClientPID = FindProcessPID("boinc", 0, false);
     if (coreClientPID)
         kill(coreClientPID, SIGTERM);   // boinc catches SIGTERM & exits gracefully
+
+    // While the official Podman installer puts the podman executable at
+    // "/opt/podman/bin/podman", other installation methods (e.g. brew) might not.
+    // Mac executables get a very limited PATH environment variable, so we must get the
+    // PATH variable used by Terminal and search ther of the path to podman
+    f = popen("a=`/usr/libexec/path_helper`;b=${a%\\\"*}\\\";env ${b} which podman", "r");
+    s[0] = '\0';
+    if (f) {
+        fgets(s, sizeof(s), f);
+        pclose(f);
+        char * p=strstr(s, "\n");
+        if (p) *p='\0'; // Remove the newline character
+        printf("popen returned podman path = \"%s\"\n", s);
+        // Write path to podman executable to a file for our Run_Podman utility to use
+        f = fopen("/Library/Application Support/BOINC Data/Path_to_podman.txt", "w");
+        if (f) {
+            fprintf(f, "%s", s);
+            fclose(f);
+        }
+    }
+
+    // Create the new BOINC Podman directory if it does not yet exist
+    snprintf(s, sizeof(s), "/Library/Application Support/" PODMAN_DIR);
+    if (stat(s, &sbuf) != 0) {
+        mkdir(s, 0770);
+    }
+
+    // Delete old podman directory if one was created by a previous version of BOINC
+    sprintf(s, "rm -rf \"/Library/Application Support/BOINC Data/podman\"");
+    err = callPosixSpawn (s);
+    REPORT_ERROR(err);
 
     installerPID = getPidIfRunning("com.apple.installer");
 
