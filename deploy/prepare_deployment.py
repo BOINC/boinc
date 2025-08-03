@@ -231,6 +231,7 @@ macos_manager_list = [
     'mac_build/build/Deployment/setprojectgrp',
     'mac_build/build/Deployment/switcher',
     'mac_build/build/Deployment/detect_rosetta_cpu',
+    'mac_build/build/Deployment/Run_Podman',
 ]
 
 macos_apps_list = [
