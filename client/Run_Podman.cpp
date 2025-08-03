@@ -1,5 +1,5 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
+// https://boinc.berkeley.edu
 // Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
@@ -13,12 +13,12 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 
 // Run_Podman.cpp
 //
 // This must be called setuid root.
-// The BOINC installer for Macintoah sets this executable's permissions
+// The BOINC installer for Macintosh sets this executable's permissions
 // to include the setuid bit and its owner / user to root.
 //
 
@@ -99,7 +99,6 @@ int main(int argc, char *argv[])
         strlcat(buf, " ", sizeof(buf));
         strlcat(buf, argv[argvCount++], sizeof(buf));
     }
-//    strlcat(buf, "\'", sizeof(buf));
     args[argsCount++] = buf;
     args[argsCount++] = 0;
 
