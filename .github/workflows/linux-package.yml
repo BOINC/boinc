@@ -79,6 +79,17 @@ jobs:
           apt-get -qq update
           apt-get install -y autopoint make build-essential m4 pkg-config autoconf libtool git python3 python3-distutils python3-pip curl zip unzip tar bison p7zip-full libx11-dev libxft-dev libxext-dev libdbus-1-dev libxi-dev libxtst-dev libxrandr-dev libnotify-dev
 
+      - name: Install updated version of autoconf
+        run: |
+          curl https://ftp.gnu.org/gnu/autoconf/autoconf-2.70.tar.gz -o autoconf-2.70.tar.gz
+          tar -xzf autoconf-2.70.tar.gz
+          cd autoconf-2.70
+          ./configure --prefix=/usr
+          make -j $(nproc --all)
+          make install
+          cd ..
+          autoconf --version
+
       - name: Install aws cli tool
         run: |
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
