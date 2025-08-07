@@ -31,11 +31,25 @@ class IntegrationTests:
         self.result &= self.test_selected_values_from_boinc_client_service_file()
         self.result &= self.test_files_permissions()
 
+    def _resolve_path(self, path):
+        path = os.path.abspath(path)
+        components = path.split(os.sep)
+        current_path = os.sep if path.startswith(os.sep) else components[0]
+        symlinks_found = False
+        for part in components[1:] if path.startswith(os.sep) else components[1:]:
+            current_path = os.path.join(current_path, part)
+            if os.path.islink(current_path):
+                symlinks_found = True
+        if symlinks_found:
+            return os.path.realpath(path)
+        else:
+            return path
+
     def _get_test_executable_file_path(self, filename):
         path = os.popen("echo $PATH").read().strip()
         for p in path.split(":"):
             if os.path.exists(os.path.join(p, filename)):
-                return os.path.join(p, filename)
+                return self._resolve_path(os.path.join(p, filename))
         return ""
 
     def _get_file_version(self, filename):
