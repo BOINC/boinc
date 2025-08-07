@@ -582,8 +582,7 @@ void COPROC_NVIDIA::set_peak_flops() {
             flops_per_clock = 2;
             cores_per_proc = 64;
             break;
-        case 8:    // for cc8.0 (A100) and cc8.6 (GeForce RTX 30x0 - GA102 and above)
-        default:
+        case 8:    // for cc8.0 (A100) and cc8.6 (GeForce RTX 30x0 - GA102)
             flops_per_clock = 2;
             switch (minor) {
             case 0:    // special for A100 Tensor Core datacenter GPU
@@ -593,6 +592,10 @@ void COPROC_NVIDIA::set_peak_flops() {
                 cores_per_proc = 128;
                 break;
             }
+            break;
+        default:   // for cc9.0-12.0 (and above) (Hopper Datacenter H100/H200, Blackwell Datacenter B200, Blackwell GeForce 50x0)
+            flops_per_clock = 2;
+            cores_per_proc = 128;
             break;
         }
 
