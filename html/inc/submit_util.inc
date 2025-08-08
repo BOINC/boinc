@@ -25,10 +25,10 @@ require_once("../inc/submit_db.inc");
 // Not stored in the DB;
 // it's computed by get_batch_params() and added to the workunit object
 //
-define('WU_UNSENT', 0);
-define('WU_IN_PROGRESS', 1);
-define('WU_SUCCESS', 2);
-define('WU_ERROR', 3);
+define('WU_UNSENT', 1);
+define('WU_IN_PROGRESS', 2);
+define('WU_SUCCESS', 3);
+define('WU_ERROR', 4);
 
 // write status and error messages to log
 //
