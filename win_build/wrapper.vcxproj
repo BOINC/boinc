@@ -31,18 +31,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\samples\wrapper\regerror.c" />
-    <ClCompile Include="..\samples\wrapper\regexp.c" />
-    <ClCompile Include="..\samples\wrapper\regexp_memory.c" />
-    <ClCompile Include="..\samples\wrapper\regexp_report.c" />
-    <ClCompile Include="..\samples\wrapper\regsub.c" />
     <ClCompile Include="..\samples\wrapper\wrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\samples\wrapper\regexp.h" />
-    <ClInclude Include="..\samples\wrapper\regexp_custom.h" />
-    <ClInclude Include="..\samples\wrapper\regexp_int.h" />
-    <ClInclude Include="..\samples\wrapper\regmagic.h" />
     <ClInclude Include="..\samples\wrapper\wrapper_win.h" />
   </ItemGroup>
   <ItemGroup>

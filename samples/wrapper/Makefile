@@ -58,12 +58,5 @@ install: all
 
 .PHONY: install all distclean clean
 
-REGEXP_OBJS = \
-	regexp.o \
-	regsub.o \
-	regerror.o \
-	regexp_memory.o \
-	regexp_report.o
-
-wrapper$(WRAPPER_RELEASE_SUFFIX): wrapper.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a $(REGEXP_OBJS)
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_WRAPPER_FLAGS) -o wrapper$(WRAPPER_RELEASE_SUFFIX) wrapper.o $(REGEXP_OBJS) $(MAKEFILE_LDFLAGS) $(MINGW_ZIP_FIX) -lboinc_api -lboinc -lboinc_zip $(MINGW_LIBS) $(STDCPPTC)
+wrapper$(WRAPPER_RELEASE_SUFFIX): wrapper.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_WRAPPER_FLAGS) -o wrapper$(WRAPPER_RELEASE_SUFFIX) wrapper.o $(MAKEFILE_LDFLAGS) $(MINGW_ZIP_FIX) -lboinc_api -lboinc -lboinc_zip $(MINGW_LIBS) $(STDCPPTC)
