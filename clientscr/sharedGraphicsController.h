@@ -61,7 +61,7 @@ static NSTimer * myTimer = NULL;
 
 	int32_t clientIndex;
 	uint32_t nextFrameIndex;
-    
+
 	NSMachPort *clientPort[16];
 	uint32_t clientPortNames[16];
 	uint32_t clientPortCount;

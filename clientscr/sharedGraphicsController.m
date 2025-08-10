@@ -367,11 +367,11 @@ mach_port_t notification_port;
 }
 
 - (kern_return_t)checkInClient:(mach_port_t)client_port index:(int32_t *)client_index
-{	
+{
 	clientPortCount++;			// clients always start at index 1
 	clientPortNames[clientPortCount] = client_port;
 	clientPort[clientPortCount] = [[NSMachPort alloc] initWithMachPort:client_port];
-	
+
 	*client_index = clientPortCount;
 	return 0;
 }
