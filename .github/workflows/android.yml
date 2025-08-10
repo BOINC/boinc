@@ -110,31 +110,31 @@ jobs:
           fetch-depth: 2
 
       - name: Download armv6 client
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
         with:
           name: android_client_armv6_${{ github.event.pull_request.head.sha }}
           path: android/BOINC/app/src/main/assets/
 
       - name: Download arm client
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
         with:
           name: android_client_arm_${{ github.event.pull_request.head.sha }}
           path: android/BOINC/app/src/main/assets/
 
       - name: Download arm64 client
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
         with:
           name: android_client_arm64_${{ github.event.pull_request.head.sha }}
           path: android/BOINC/app/src/main/assets/
 
       - name: Download x86 client
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
         with:
           name: android_client_x86_${{ github.event.pull_request.head.sha }}
           path: android/BOINC/app/src/main/assets/
 
       - name: Download x86_64 client
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
         with:
           name: android_client_x86_64_${{ github.event.pull_request.head.sha }}
           path: android/BOINC/app/src/main/assets/
