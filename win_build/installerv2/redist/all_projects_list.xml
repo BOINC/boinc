@@ -64,23 +64,20 @@
     <project>
         <name>GPUGrid.net</name>
         <id>6</id>
-        <url>https://www.gpugrid.net/</url>
-        <web_url>https://www.gpugrid.net/</web_url>
+        <url>https://gpugrid.net/gpugrid/</url>
+        <web_url>https://gpugrid.net/gpugrid/</web_url>
         <general_area>Biology and Medicine</general_area>
         <specific_area>Molecular simulations of proteins</specific_area>
         <description><![CDATA[GPUGrid.net opens novel computational scenarios by the first full-atom molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. New biomedical applications suddenly become possible giving a new role to computational biology for biomedical research.]]></description>
         <home>Barcelona Biomedical Research Park (PRBB)</home>
     <platforms>
-        <name>windows_intelx86[cuda60]</name>
-        <name>windows_intelx86[cuda65]</name>
-        <name>windows_intelx86[cuda80]</name>
-        <name>windows_intelx86[mt]</name>
-        <name>windows_intelx86_64[cuda80]</name>
-        <name>x86_64-pc-linux-gnu[cuda60]</name>
-        <name>x86_64-pc-linux-gnu[cuda65]</name>
-        <name>x86_64-pc-linux-gnu[cuda80]</name>
-        <name>x86_64-pc-linux-gnu[cuda85]</name>
-        <name>x86_64-pc-linux-gnu[mt]</name>
+        <name>windows_x86_64[cuda1121]</name>
+        <name>windows_x86_64[cuda124L]</name>
+        <name>windows_x86_64[cuda124S]</name>
+        <name>x86_64-pc-linux-gnu[cuda1121]</name>
+        <name>x86_64-pc-linux-gnu[cuda1188]</name>
+        <name>x86_64-pc-linux-gnu[cuda124L]</name>
+        <name>x86_64-pc-linux-gnu[cuda124S]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/gpugrid.png</image>
       <summary>Help biomedical research</summary>
@@ -231,7 +228,10 @@
         <name>windows_x86_64[FGRPopencl2Pup-nvidia]</name>
         <name>windows_x86_64[FGRPopenclTV-nvidia]</name>
         <name>windows_x86_64[GW-opencl-ati-3]</name>
+        <name>windows_x86_64[GW-opencl-ati-4]</name>
+        <name>windows_x86_64[GW-opencl-intel_gpu-4]</name>
         <name>windows_x86_64[GW-opencl-nvidia-3]</name>
+        <name>windows_x86_64[GW-opencl-nvidia-4]</name>
         <name>windows_x86_64[opencl-intel_gpu-new]</name>
         <name>windows_x86_64[opencl-intel_gpu-newer]</name>
         <name>x86_64-apple-darwin</name>
@@ -242,7 +242,9 @@
         <name>x86_64-apple-darwin[FGRPopenclTV-nvidia]</name>
         <name>x86_64-apple-darwin[FGRPSSE]</name>
         <name>x86_64-apple-darwin[GW-opencl-ati-3]</name>
+        <name>x86_64-apple-darwin[GW-opencl-ati-4]</name>
         <name>x86_64-apple-darwin[GW-opencl-nvidia-3]</name>
+        <name>x86_64-apple-darwin[GW-opencl-nvidia-4]</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[BRP4X64]</name>
         <name>x86_64-pc-linux-gnu[BRP7-cuda102]</name>
@@ -257,8 +259,12 @@
         <name>x86_64-pc-linux-gnu[FGRPopenclTV-nvidia]</name>
         <name>x86_64-pc-linux-gnu[FGRPSSE]</name>
         <name>x86_64-pc-linux-gnu[GW-cuda-3]</name>
+        <name>x86_64-pc-linux-gnu[GW-cuda-4]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-ati-3]</name>
+        <name>x86_64-pc-linux-gnu[GW-opencl-ati-4]</name>
+        <name>x86_64-pc-linux-gnu[GW-opencl-intel_gpu-4]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-nvidia-3]</name>
+        <name>x86_64-pc-linux-gnu[GW-opencl-nvidia-4]</name>
         <name>x86_64-pc-linux-gnu[opencl-intel_gpu]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/einstein.jpg</image>
@@ -936,7 +942,6 @@
         <name>x86-android-linux-gnu</name>
         <name>x86_64-android-linux-gnu</name>
         <name>x86_64-apple-darwin</name>
-        <name>x86_64-apple-darwin[docker]</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[docker]</name>
         <name>x86_64-pc-linux-gnu[libc_228]</name>
