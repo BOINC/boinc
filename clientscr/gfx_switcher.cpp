@@ -63,10 +63,12 @@
 #include "shmem.h"
 #include "mac_spawn.h"
 
+#define DEBUG_STANDALONE 0
+
 #define VERBOSE 0
 #define CREATE_LOG VERBOSE
 
-#if VERBOSE
+#if CREATE_LOG
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -174,6 +176,23 @@ int main(int argc, char** argv) {
     }
 #endif
 
+    // As of MacOS 14.0, the legacyScreenSaver sandbox prevents using
+    // bootstrap_look_up, so we launch a bridging utility to relay Mach
+    // communications between the graphics apps and the legacyScreenSaver.
+    if (strcmp(argv[1], "-run_bridge") == 0) {
+        char *args[4];
+        strlcpy(gfx_app_path, argv[2], sizeof(gfx_app_path));
+        char *slash = strrchr(gfx_app_path, '/');
+        if (slash) *slash = '\0';       // Directory containing this executable
+        strlcat(gfx_app_path, "/gfx_ss_bridge", sizeof(gfx_app_path));
+
+        args[0] = gfx_app_path;
+        args[1] = 0;
+        execv(gfx_app_path, args);
+        fprintf(stderr, "Process creation (%s) failed: errno=%d\n", gfx_app_path, errno);
+        return 0;
+    }
+
     if (strcmp(argv[1], "-default_gfx") == 0) {
         strlcpy(resolved_path, "/Library/Application Support/BOINC Data/boincscr", sizeof(resolved_path));
         argv[2] = resolved_path;
@@ -196,6 +215,12 @@ int main(int argc, char** argv) {
             // For unknown reasons, the graphics application exits with
             // "RegisterProcess failed (error = -50)" unless we pass its
             // full path twice in the argument list to execv.
+#if DEBUG_STANDALONE
+            execv(resolved_path, &argv[2]);
+            fprintf(stderr, "Process creation (%s) failed: errno=%d\n", resolved_path, errno);
+            print_to_log_file("Process creation (%s) failed: errno=%d\n", resolved_path, errno);
+            return 0;
+#else
             strlcpy(cmd, "sandbox-exec -f \"", sizeof(cmd));
             strlcat(cmd, argv[0], sizeof(cmd)); // path to this executable
             char *slash = strrchr(cmd, '/');
@@ -218,11 +243,13 @@ int main(int argc, char** argv) {
                 fprintf(stderr, "Process creation (%s) failed: errno=%d\n", resolved_path, errno);
                 return errno;
             }
+#endif  // DEBUG_STANDALONE
     } else {
             char shmem_name[MAXPATHLEN];
 #if VERBOSE           // For debugging only
             print_to_log_file("gfx_switcher: Child PID=%d", pid);
 #endif
+#if !DEBUG_STANDALONE
             snprintf(shmem_name, sizeof(shmem_name), "/tmp/boinc_ss_%s", screensaverLoginUser);
             retval = attach_shmem_mmap(shmem_name, (void**)&ss_shmem);
             if (ss_shmem != 0) {
@@ -230,7 +257,9 @@ int main(int argc, char** argv) {
                 ss_shmem->gfx_slot = -1;    // Default GFX has no slot number
             }
             pthread_create(&monitorScreenSaverEngineThread, NULL, MonitorScreenSaverEngine, &pid);
+#endif
             waitpid(pid, 0, 0);
+#if !DEBUG_STANDALONE
             pthread_cancel(monitorScreenSaverEngineThread);
             if (ss_shmem != 0) {
                 ss_shmem->gfx_pid = 0;
@@ -238,6 +267,7 @@ int main(int argc, char** argv) {
                 ss_shmem->minor_version = 0;
                 ss_shmem->release = 0;
             }
+#endif
             return 0;
         }
     }
@@ -290,6 +320,7 @@ int main(int argc, char** argv) {
                 return errno;
             }
         } else {
+#if !DEBUG_STANDALONE
             char shmem_name[MAXPATHLEN];
             snprintf(shmem_name, sizeof(shmem_name), "/tmp/boinc_ss_%s", screensaverLoginUser);
             retval = attach_shmem_mmap(shmem_name, (void**)&ss_shmem);
@@ -298,7 +329,9 @@ int main(int argc, char** argv) {
                 ss_shmem->gfx_slot = atoi(argv[2]);
             }
             pthread_create(&monitorScreenSaverEngineThread, NULL, MonitorScreenSaverEngine, &pid);
+#endif
             waitpid(pid, 0, 0);
+#if !DEBUG_STANDALONE
             pthread_cancel(monitorScreenSaverEngineThread);
             if (ss_shmem != 0) {
                 ss_shmem ->gfx_pid = 0;
@@ -306,6 +339,7 @@ int main(int argc, char** argv) {
                 ss_shmem->minor_version = 0;
                 ss_shmem->release = 0;
             }
+#endif
             return 0;
         }
     }

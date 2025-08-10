@@ -13,6 +13,7 @@
 			buildPhases = (
 			);
 			dependencies = (
+				DD2521502E44A113002726E2 /* PBXTargetDependency */,
 				DD3719482E3B5AB000E75DF3 /* PBXTargetDependency */,
 				DDC04DA52E2908AB006AB01D /* PBXTargetDependency */,
 				DDA8694C2E1FCEE400642CD3 /* PBXTargetDependency */,
@@ -76,6 +77,13 @@
 		DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
 		DD22DF5E1A235F58007FB597 /* DlgExclusiveApps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD22DF5C1A235F58007FB597 /* DlgExclusiveApps.cpp */; };
 		DD247AF90AEA308A0034104A /* SkinManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD247AF70AEA308A0034104A /* SkinManager.cpp */; };
+		DD2521472E44983E002726E2 /* gfx_ss_bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2521462E44983E002726E2 /* gfx_ss_bridge.m */; };
+		DD2521492E449875002726E2 /* sharedGraphicsController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD2521482E449875002726E2 /* sharedGraphicsController.m */; };
+		DD25214B2E4499A0002726E2 /* MultiGPUMig.defs in Sources */ = {isa = PBXBuildFile; fileRef = DD64D8001F6BE5BA00FEEAAA /* MultiGPUMig.defs */; settings = {ATTRIBUTES = (Client, Server, ); }; };
+		DD25214C2E4499E9002726E2 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD0BB7A11F62B105000151B2 /* IOSurface.framework */; };
+		DD25214D2E449A0B002726E2 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
+		DD25214E2E449A16002726E2 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */; };
+		DD2521532E44A145002726E2 /* gfx_ss_bridge in Resources */ = {isa = PBXBuildFile; fileRef = DD2521452E449816002726E2 /* gfx_ss_bridge */; };
 		DD2580D42D63442600D8E343 /* MacFixUserGroups.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2580D32D63442600D8E343 /* MacFixUserGroups.cpp */; };
 		DD25F72815914F8C007845B5 /* gpu_nvidia.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD25F72315914F8C007845B5 /* gpu_nvidia.cpp */; };
 		DD25F72915914F8C007845B5 /* gpu_amd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD25F72415914F8C007845B5 /* gpu_amd.cpp */; };
@@ -635,6 +643,20 @@
 			remoteGlobalIDString = DD407A4907D2FB1200163EF5;
 			remoteInfo = libboinc;
 		};
+		DD25214F2E44A113002726E2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD25213C2E449816002726E2;
+			remoteInfo = GFX_SS_Bridge;
+		};
+		DD2521512E44A133002726E2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD25213C2E449816002726E2;
+			remoteInfo = GFX_SS_Bridge;
+		};
 		DD3719472E3B5AB000E75DF3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20286C28FDCF999611CA2CEA /* Project object */;
@@ -871,6 +893,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		DD2521412E449816002726E2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		DD3719402E3B50BD00E75DF3 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -946,6 +977,10 @@
 		DD22DF5D1A235F58007FB597 /* DlgExclusiveApps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DlgExclusiveApps.h; sourceTree = "<group>"; };
 		DD247AF70AEA308A0034104A /* SkinManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SkinManager.cpp; path = ../clientgui/SkinManager.cpp; sourceTree = SOURCE_ROOT; };
 		DD247AF80AEA308A0034104A /* SkinManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SkinManager.h; path = ../clientgui/SkinManager.h; sourceTree = SOURCE_ROOT; };
+		DD2521452E449816002726E2 /* gfx_ss_bridge */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = gfx_ss_bridge; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD2521462E44983E002726E2 /* gfx_ss_bridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = gfx_ss_bridge.m; path = ../clientscr/gfx_ss_bridge.m; sourceTree = "<group>"; };
+		DD2521482E449875002726E2 /* sharedGraphicsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = sharedGraphicsController.m; path = ../clientscr/sharedGraphicsController.m; sourceTree = "<group>"; };
+		DD25214A2E449890002726E2 /* sharedGraphicsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = sharedGraphicsController.h; path = ../clientscr/sharedGraphicsController.h; sourceTree = "<group>"; };
 		DD252F3009E3E014006454D7 /* boinc_glut.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = boinc_glut.h; path = ../api/boinc_glut.h; sourceTree = SOURCE_ROOT; };
 		DD2580D32D63442600D8E343 /* MacFixUserGroups.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MacFixUserGroups.cpp; path = ../clientgui/mac/MacFixUserGroups.cpp; sourceTree = "<group>"; };
 		DD25F72315914F8C007845B5 /* gpu_nvidia.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gpu_nvidia.cpp; sourceTree = "<group>"; };
@@ -1440,6 +1475,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD2521402E449816002726E2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD25214C2E4499E9002726E2 /* IOSurface.framework in Frameworks */,
+				DD25214D2E449A0B002726E2 /* AppKit.framework in Frameworks */,
+				DD25214E2E449A16002726E2 /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DD35352F07E1E05C00C4718D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1650,6 +1695,7 @@
 				DDEED38629ADFD7000DC3E5D /* BOINC_Finish_Install.app */,
 				DD67F1952D5A24FD00A78699 /* Fix_BOINC_Users */,
 				DD3719442E3B50BD00E75DF3 /* Run_Podman */,
+				DD2521452E449816002726E2 /* gfx_ss_bridge */,
 			);
 			name = Products;
 			sourceTree = SOURCE_ROOT;
@@ -1992,6 +2038,7 @@
 			isa = PBXGroup;
 			children = (
 				DD89163B0F3B182700DE5B1C /* boinc_ss_opengl.h */,
+				DD2521462E44983E002726E2 /* gfx_ss_bridge.m */,
 				DD89163C0F3B182700DE5B1C /* ss_app.cpp */,
 				DDB873960C85072500E0DE1F /* mac_saver_module.cpp */,
 				DDA290360CB5D80E00512BD8 /* Mac_Saver_Module.h */,
@@ -1999,6 +2046,8 @@
 				DDB873970C85072500E0DE1F /* Mac_Saver_ModuleView.h */,
 				DD7AEB490C87CE1300AC3B5C /* screensaver.cpp */,
 				DD7AEB680C87CE6500AC3B5C /* screensaver.h */,
+				DD25214A2E449890002726E2 /* sharedGraphicsController.h */,
+				DD2521482E449875002726E2 /* sharedGraphicsController.m */,
 				DDE7A3AF15C6739E002B3B96 /* ttfont.cpp */,
 				DDE7A3B015C6739E002B3B96 /* ttfont.h */,
 				DDFA60E30CB3396C0037B88C /* gfx_switcher.cpp */,
@@ -2328,6 +2377,26 @@
 			productReference = DD1AFEBA0A512D8700EE5B82 /* BOINC Installer.app */;
 			productType = "com.apple.product-type.application";
 		};
+		DD25213C2E449816002726E2 /* gfx_ss_bridge */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD2521422E449816002726E2 /* Build configuration list for PBXNativeTarget "gfx_ss_bridge" */;
+			buildPhases = (
+				DD25213D2E449816002726E2 /* ShellScript */,
+				DD25213E2E449816002726E2 /* Sources */,
+				DD2521402E449816002726E2 /* Frameworks */,
+				DD2521412E449816002726E2 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = gfx_ss_bridge;
+			packageProductDependencies = (
+			);
+			productName = Fix_BOINC_Users;
+			productReference = DD2521452E449816002726E2 /* gfx_ss_bridge */;
+			productType = "com.apple.product-type.tool";
+		};
 		DD35353007E1E05C00C4718D /* api_libboinc */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD9E2359091CBDAE0048316E /* Build configuration list for PBXNativeTarget "api_libboinc" */;
@@ -2550,6 +2619,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DD2521522E44A133002726E2 /* PBXTargetDependency */,
 				DDFA60DD0CB338940037B88C /* PBXTargetDependency */,
 				DD5F654F2360648D009ED2A2 /* PBXTargetDependency */,
 			);
@@ -2785,6 +2855,7 @@
 				B13E2D0E265564D100D5C977 /* detect_rosetta_cpu */,
 				DD67F1942D5A24FD00A78699 /* Fix_BOINC_Users */,
 				DD37193A2E3B50BD00E75DF3 /* Run_Podman */,
+				DD25213C2E449816002726E2 /* gfx_ss_bridge */,
 			);
 		};
 /* End PBXProject section */
@@ -2832,6 +2903,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD2521532E44A145002726E2 /* gfx_ss_bridge in Resources */,
 				DDFA60E20CB3391C0037B88C /* gfx_switcher in Resources */,
 				DD5F656623607472009ED2A2 /* gfx_cleanup in Resources */,
 				DD818295245ED4110076E5D0 /* boinc_ss_helper.sh in Resources */,
@@ -2901,6 +2973,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "chown -R ${USER}:${GROUP} \"${BUILT_PRODUCTS_DIR}/boinc\"\nchmod u+s,g+s \"${BUILT_PRODUCTS_DIR}/boinc\"\n";
+		};
+		DD25213D2E449816002726E2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
 		DD32CC900C27CFB90016F571 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3626,6 +3716,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD25213E2E449816002726E2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD25214B2E4499A0002726E2 /* MultiGPUMig.defs in Sources */,
+				DD2521472E44983E002726E2 /* gfx_ss_bridge.m in Sources */,
+				DD2521492E449875002726E2 /* sharedGraphicsController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DD35352E07E1E05C00C4718D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4279,6 +4379,16 @@
 			target = DD407A4907D2FB1200163EF5 /* libboinc */;
 			targetProxy = DD1E45C92567FACC005B4EE7 /* PBXContainerItemProxy */;
 		};
+		DD2521502E44A113002726E2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD25213C2E449816002726E2 /* gfx_ss_bridge */;
+			targetProxy = DD25214F2E44A113002726E2 /* PBXContainerItemProxy */;
+		};
+		DD2521522E44A133002726E2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD25213C2E449816002726E2 /* gfx_ss_bridge */;
+			targetProxy = DD2521512E44A133002726E2 /* PBXContainerItemProxy */;
+		};
 		DD3719482E3B5AB000E75DF3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DD37193A2E3B50BD00E75DF3 /* Run_Podman */;
@@ -4511,6 +4621,24 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.boinc.Installer;
 				PRODUCT_NAME = "BOINC Installer";
+			};
+			name = Deployment;
+		};
+		DD2521432E449816002726E2 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Development;
+		};
+		DD2521442E449816002726E2 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Deployment;
 		};
@@ -5440,6 +5568,15 @@
 			buildConfigurations = (
 				DD1AFEB60A512D8700EE5B82 /* Development */,
 				DD1AFEB90A512D8700EE5B82 /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		DD2521422E449816002726E2 /* Build configuration list for PBXNativeTarget "gfx_ss_bridge" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD2521432E449816002726E2 /* Development */,
+				DD2521442E449816002726E2 /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
