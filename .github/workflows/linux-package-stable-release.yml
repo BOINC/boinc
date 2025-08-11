@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [focal, jammy, noble, buster, bullseye, bookworm]
+        os: [focal, jammy, noble, buster, bullseye, bookworm, trixie]
       fail-fast: false
     steps:
       - name: Check if build is running from origin repo

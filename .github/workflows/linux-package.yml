@@ -146,7 +146,7 @@ jobs:
     needs: prepare-binaries
     strategy:
       matrix:
-        os: [focal, jammy, noble, buster, bullseye, bookworm]
+        os: [focal, jammy, noble, buster, bullseye, bookworm, trixie]
         type: [client, manager]
       fail-fast: false
     env:
@@ -228,7 +228,7 @@ jobs:
           fakeroot dpkg-deb -Zxz --build "${{ github.workspace }}/${PKG_FULL}"
 
       - name: Create Debian Package
-        if: ${{ success() && ( matrix.os == 'buster' || matrix.os == 'bullseye' || matrix.os == 'bookworm' ) }}
+        if: ${{ success() && ( matrix.os == 'buster' || matrix.os == 'bullseye' || matrix.os == 'bookworm' || matrix.os == 'trixie' ) }}
         run: |
           cd ${{ github.workspace }}/
           # Build the actual package for Debian with GZIP compression
@@ -634,7 +634,7 @@ jobs:
     needs: build-deb-package
     strategy:
       matrix:
-        os: [buster, bullseye, bookworm]
+        os: [buster, bullseye, bookworm, trixie]
         type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
       fail-fast: false
     steps:
@@ -660,7 +660,7 @@ jobs:
           mv /bin/systemctl /bin/systemctl.bak
 
       - name: Install distro package for further upgrade from the alpha
-        if: success() && matrix.type == 'upgrade-from-alpha'
+        if: success() && matrix.type == 'upgrade-from-alpha' && matrix.os != 'trixie'
         run: |
           mkdir -p /etc/apt/keyrings
           curl -fsSL https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }}/boinc.gpg | gpg --dearmor -o /etc/apt/keyrings/boinc.gpg
@@ -669,7 +669,7 @@ jobs:
           DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the stable
-        if: success() && matrix.type == 'upgrade-from-stable'
+        if: success() && matrix.type == 'upgrade-from-stable' && matrix.os != 'trixie'
         run: |
           mkdir -p /etc/apt/keyrings
           curl -fsSL https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }}/boinc.gpg | gpg --dearmor -o /etc/apt/keyrings/boinc.gpg
@@ -953,7 +953,7 @@ jobs:
     needs: [test-debian-deb-package, test-ubuntu-deb-package]
     strategy:
       matrix:
-        os: [focal, jammy, noble, buster, bullseye, bookworm]
+        os: [focal, jammy, noble, buster, bullseye, bookworm, trixie]
       fail-fast: false
     steps:
       - name: Check if build is running from origin repo
