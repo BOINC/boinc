@@ -1418,7 +1418,7 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
     int newPID = 0;
     ACTIVE_TASK* atp = NULL;
     char cmd[256];
-    bool need_to_launch_gfx_ss_bridge =false;
+    bool need_to_launch_gfx_ss_bridge = false;
     static int gfx_ss_bridge_pid = 0;
 
     while (!grc.xp.get_tag()) {

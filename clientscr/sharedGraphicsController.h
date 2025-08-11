@@ -34,8 +34,6 @@
 
 static NSTimer * myTimer = NULL;
 
-#define DPI_multiplier 4.0
-
 #define NUM_IOSURFACE_BUFFERS 2
 
 
@@ -66,22 +64,16 @@ static NSTimer * myTimer = NULL;
 	uint32_t clientPortNames[16];
 	uint32_t clientPortCount;
 
-    NSView *screenSaverView;
-    saverOpenGLView *openGLView;
-
-	IOSurfaceRef _ioSurfaceBuffers[NUM_IOSURFACE_BUFFERS];
     mach_port_t _ioSurfaceMachPorts[NUM_IOSURFACE_BUFFERS];
-	GLuint _textureNames[NUM_IOSURFACE_BUFFERS];
 }
 
 @property (NS_NONATOMIC_IOSONLY, readonly) GLuint currentTextureName;
-- (void)init:(NSWindow*)win thePortName:(const char*)nameToLookUp direction:(bool)fromGFXApp;
+- (void)init:(const char*)nameToLookUp direction:(bool)fromGFXApp;
 - (void)testConnection;
 - (kern_return_t)checkInClient:(mach_port_t)client_port index:(int32_t *)client_index;
 - (void)portDied:(NSNotification *)notification;
 - (void)sendIOSurfaceMachPortToClients: (uint32_t)index withMachPort:(mach_port_t) iosurface_port;
 - (void)closeServerPort;
-- (void)cleanUpOpenGL;
 
 @end
 

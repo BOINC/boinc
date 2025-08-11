@@ -25,12 +25,9 @@
 // communications between the graphics apps and the legacyScreenSaver.
 
 
-#define ShowGFXWindow false
-
 #import <Cocoa/Cocoa.h>
 #import "sharedGraphicsController.h"
 
-extern bool simulateSS;
 extern SharedGraphicsController *GFXIn_SharedGraphicsController;
 extern SharedGraphicsController *GFXOut_SharedGraphicsController;
 extern int IOSurfaceWidth;
@@ -38,27 +35,14 @@ extern int IOSurfaceHeight;
 
 
 int main(int argc, const char * argv[]) {
-    simulateSS = false;
-
-#if ShowGFXWindow
-    NSRect contentRect = NSMakeRect(300, 300, 500, 500);
-    NSWindowStyleMask myWinStyle = NSWindowStyleMaskTitled
- | NSWindowStyleMaskResizable | NSWindowStyleMaskFullSizeContentView;
-    NSWindow *win = [ [ NSWindow alloc ] initWithContentRect:contentRect styleMask:myWinStyle backing:NSBackingStoreBuffered defer:false ];
-#endif
-
     if (!GFXOut_SharedGraphicsController) {
         GFXOut_SharedGraphicsController = [SharedGraphicsController alloc];
-        [GFXOut_SharedGraphicsController init:NULL thePortName: "edu.berkeley.boincsaver-v3" direction:false];
+        [GFXOut_SharedGraphicsController init:"edu.berkeley.boincsaver-v3" direction:false];
     }
 
     if (!GFXIn_SharedGraphicsController) {
         GFXIn_SharedGraphicsController = [SharedGraphicsController alloc];
-#if ShowGFXWindow
-        [GFXIn_SharedGraphicsController init:win thePortName: "edu.berkeley.boincsaver" direction:true];
-#else
-        [GFXIn_SharedGraphicsController init:NULL thePortName: "edu.berkeley.boincsaver" direction:true];
-#endif
+        [GFXIn_SharedGraphicsController init:"edu.berkeley.boincsaver" direction:true];
     }
 
     return 0;
