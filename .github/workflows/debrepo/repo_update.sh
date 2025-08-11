@@ -29,13 +29,11 @@ function exit_on_fail() {
 
 function exit_usage() {
 	printf "Fail: $1\n"
-	printf "Usage: repo_update.sh <allow-create> <repo-url> <incoming-dir> [osversion(jammy,focal,buster,bullseye)] [release-type(stable,alpha,nightly)] [release-key]\n"
+	printf "Usage: repo_update.sh <allow-create> <repo-url> <incoming-dir> osversion release-type [release-key]\n"
 	exit 1
 }
 
 CWD=$(pwd)
-TYPE=stable
-DISTRO=jammy
 RELEASEKEY=boinc.gpg
 
 # commandline params
@@ -48,8 +46,10 @@ if [[ "$SRC" == "" ]]; then
 	exit_usage "No base directory specified"
 fi
 
-if [[ ! "$4" == "" ]]; then
-	DISTRO="$4"
+DISTRO=$4
+
+if [[ "$4" == "" ]]; then
+	exit_usage "No OS version specified"
 fi
 
 if [[ ! "$5" == "" ]]; then
