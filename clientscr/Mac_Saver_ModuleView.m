@@ -516,7 +516,8 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
                     if (mySharedGraphicsController) {
                         [ mySharedGraphicsController cleanUpOpenGL ];   // Must be called from main thread
                         [ mySharedGraphicsController closeServerPort ]; // Must be called after cleanUpOpenGL
-//                        [ NSApp terminate:nil ];  // Comment out to let legacyScreensaver continue in background
+                        [ NSApp terminate:nil ];  // Comment out to let legacyScreensaver continue in background
+                        //TODO: Kill GFX_SS_Bridge if letting legacyScreensaver continue in background
                     }
                     return;
                 }
@@ -1172,7 +1173,7 @@ static bool okToDraw;
     mach_port_t servicePortNum = MACH_PORT_NULL;
     kern_return_t machErr;
     char *portNameV1 = "edu.berkeley.boincsaver";
-    char *portNameV2 = "edu.berkeley.boincsaver-v2";
+    char *portNameV3 = "edu.berkeley.boincsaver-v3";
 
     if ((!gMach_bootstrap_unavailable_to_screensavers) || (serverPort == MACH_PORT_NULL)) {
         // Try to check in with master.
@@ -1189,7 +1190,7 @@ static bool okToDraw;
                 // As of MacOS 14.0, the legacyScreenSaver sandbox prevents using
                 // bootstrap_look_up. I have filed bug report FB13300491 with
                 // Apple and hope they will change this in a future MacOS.
-                machErr = bootstrap_check_in(bootstrap_port, portNameV2, &servicePortNum);
+                machErr = bootstrap_check_in(bootstrap_port, portNameV3, &servicePortNum);
                 if (machErr != KERN_SUCCESS) {
                    [NSApp terminate:nil];
                 }
