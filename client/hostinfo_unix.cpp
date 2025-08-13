@@ -1287,10 +1287,11 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
     // if we're running as an unprivileged user, Docker/podman may not work.
     // Check by running the Hello World image.
     //
-    // Since we do this every time on startup, don't delete the image.
+    // Since we do this every time on startup: delete the created container 
+    // but don't delete the image.
     //
     snprintf(cmd, sizeof(cmd),
-        "%s run hello-world 2>/dev/null",
+        "%s run --rm hello-world 2>/dev/null",
         docker_cli_prog(type)
     );
     found = false;
