@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// gfx_switcher.C
+// gfx_switcher.cpp
 //
 // Used by screensaver to:
 //  - launch graphics application at given slot number
@@ -55,15 +55,13 @@
 #include <grp.h>
 #include <signal.h> // For kill()
 #include <pthread.h>
+#include <spawn.h>
 
 #include "boinc_api.h"
 #include "common_defs.h"
 #include "util.h"
 #include "mac_util.h"
 #include "shmem.h"
-#include "mac_spawn.h"
-
-#define DEBUG_STANDALONE 0
 
 #define VERBOSE 0
 #define CREATE_LOG VERBOSE
@@ -111,6 +109,7 @@ int main(int argc, char** argv) {
     int         i;
     const char  *screensaverLoginUser = NULL;
     pthread_t   monitorScreenSaverEngineThread = 0;
+    char        shmem_name[MAXPATHLEN];
 
     if (argc < 2) return EINVAL;
 
@@ -169,7 +168,7 @@ int main(int argc, char** argv) {
     print_to_log_file("gfx_switcher pid = %d", getpid()) ;
     pid_t ScreenSaverEngine_Pid = 0;
     ScreenSaverEngine_Pid = getPidIfRunning("com.apple.ScreenSaver.Engine.legacyScreenSaver");
-    print_to_log_file("main: ScreenSaverEngine_legacyScreenSaver_Pid=%d", ScreenSaverEngine_Pid);
+    print_to_log_file("gfx_switcher main: ScreenSaverEngine_legacyScreenSaver_Pid=%d", ScreenSaverEngine_Pid);
 
     for (int i=0; i<argc; i++) {
          print_to_log_file("gfx_switcher arg %d: %s", i, argv[i]);
@@ -193,6 +192,21 @@ int main(int argc, char** argv) {
         return 0;
     }
 
+    if (strcmp(argv[1], "-kill_gfx") == 0) {
+        pid = atoi(argv[2]);
+        if (! pid) return EINVAL;
+        if ( kill(pid, SIGKILL)) {
+#if VERBOSE           // For debugging only
+            print_to_log_file("kill(%d, SIGKILL) returned error %d", pid, errno);
+#endif
+            return errno;
+        }
+        return 0;
+    }
+
+    snprintf(shmem_name, sizeof(shmem_name), "/tmp/boinc_ss_%s", screensaverLoginUser);
+    retval = attach_shmem_mmap(shmem_name, (void**)&ss_shmem);
+
     if (strcmp(argv[1], "-default_gfx") == 0) {
         strlcpy(resolved_path, "/Library/Application Support/BOINC Data/boincscr", sizeof(resolved_path));
         argv[2] = resolved_path;
@@ -212,62 +226,58 @@ int main(int argc, char** argv) {
         // elements we use are very unlikely to change.
         //
         if (pid == 0) {
-            // For unknown reasons, the graphics application exits with
-            // "RegisterProcess failed (error = -50)" unless we pass its
-            // full path twice in the argument list to execv.
-#if DEBUG_STANDALONE
-            execv(resolved_path, &argv[2]);
-            fprintf(stderr, "Process creation (%s) failed: errno=%d\n", resolved_path, errno);
-            print_to_log_file("Process creation (%s) failed: errno=%d\n", resolved_path, errno);
-            return 0;
-#else
-            strlcpy(cmd, "sandbox-exec -f \"", sizeof(cmd));
-            strlcat(cmd, argv[0], sizeof(cmd)); // path to this executable
+            char *args[128];
+            pid_t thePid = 0;
+            extern char **environ;
+
+            args[0] = "sandbox-exec";
+            args[1] = "-f";
+            strlcpy(cmd, argv[0], sizeof(cmd));
             char *slash = strrchr(cmd, '/');
             if (slash) *slash = '\0';       // Directory containing this executable
-            strlcat(cmd, "/mac_restrict_access.sb\" \"", sizeof(cmd)); // path to sandboxing profile
-            strlcat(cmd, resolved_path, sizeof(cmd)); // path to graphics app
-            strlcat(cmd, "\"", sizeof(cmd)); // path to sandboxing profile
+            strlcat(cmd, "/mac_restrict_access.sb", sizeof(cmd)); // path to sandboxing profile
+            args[2] = cmd;
+            args[3] = resolved_path;
+            int argcnt = 4;
             for (int i=3; i<argc; i++) {
-                strlcat(cmd, " ", sizeof(cmd));
-                strlcat(cmd, argv[i], sizeof(cmd)); // next argument to pass to graphics app
+                args[argcnt++] = argv[i];
             }
+            args[argcnt] = 0;
 #if VERBOSE           // For debugging only
-            print_to_log_file("gfx_switcher calling callPosixSpawn with command:\n%s\n", cmd);
-#endif
-            retval = callPosixSpawn(cmd);
-            if (retval) {
-#if VERBOSE           // For debugging only
-                print_to_log_file("gfx_switcher: Process creation (%s) failed: errno=%d\n", resolved_path, errno);
-#endif
-                fprintf(stderr, "Process creation (%s) failed: errno=%d\n", resolved_path, errno);
-                return errno;
+            for (int i=0; i<argcnt; i++) {
+                print_to_log_file("gfx_switcher calling posix_spawnp with args[%d]: %s", i, args[i]);
             }
-#endif  // DEBUG_STANDALONE
-    } else {
-            char shmem_name[MAXPATHLEN];
-#if VERBOSE           // For debugging only
-            print_to_log_file("gfx_switcher: Child PID=%d", pid);
 #endif
-#if !DEBUG_STANDALONE
-            snprintf(shmem_name, sizeof(shmem_name), "/tmp/boinc_ss_%s", screensaverLoginUser);
-            retval = attach_shmem_mmap(shmem_name, (void**)&ss_shmem);
+            retval = posix_spawnp(&thePid, "sandbox-exec", NULL, NULL, args, environ);
+#if VERBOSE           // For debugging only
+            print_to_log_file("gfx_switcher posix_spawnp returned thePid = %d\n", thePid);
+#endif
             if (ss_shmem != 0) {
-                ss_shmem->gfx_pid = pid;
+#if VERBOSE
+                print_to_log_file("gfx_switcher setting ss_shmem->gfx_pid = %d", thePid);
+#endif
+                ss_shmem->gfx_pid = thePid;
                 ss_shmem->gfx_slot = -1;    // Default GFX has no slot number
             }
-            pthread_create(&monitorScreenSaverEngineThread, NULL, MonitorScreenSaverEngine, &pid);
-#endif
-            waitpid(pid, 0, 0);
-#if !DEBUG_STANDALONE
-            pthread_cancel(monitorScreenSaverEngineThread);
+            waitpid(thePid, 0, 0);
             if (ss_shmem != 0) {
+#if VERBOSE
+                print_to_log_file("gfx_switcher changing ss_shmem->gfx_pid from %d to 0", thePid);
+#endif
                 ss_shmem->gfx_pid = 0;
                 ss_shmem->major_version = 0;
                 ss_shmem->minor_version = 0;
                 ss_shmem->release = 0;
             }
+           return 0;
+
+    } else {
+#if VERBOSE           // For debugging only
+            print_to_log_file("gfx_switcher: Child PID=%d", pid);
 #endif
+            pthread_create(&monitorScreenSaverEngineThread, NULL, MonitorScreenSaverEngine, NULL);
+            waitpid(pid, 0, 0);
+            pthread_cancel(monitorScreenSaverEngineThread);
             return 0;
         }
     }
@@ -294,81 +304,70 @@ int main(int argc, char** argv) {
         // But it is used widely in Apple's software, and the security profile
         // elements we use are very unlikely to change.
         if (pid == 0) {
-           // For unknown reasons, the graphics application exits with
-            // "RegisterProcess failed (error = -50)" unless we pass its
-            // full path twice in the argument list to execv.
-            strlcpy(cmd, "sandbox-exec -f \"", sizeof(cmd));
-            strlcat(cmd, argv[0], sizeof(cmd)); // path to this executable
+            char *args[128];
+            pid_t thePid = 0;
+            extern char **environ;
+
+            args[0] = "sandbox-exec";
+            args[1] = "-f";
+            strlcpy(cmd, argv[0], sizeof(cmd));
             char *slash = strrchr(cmd, '/');
             if (slash) *slash = '\0';       // Directory containing this executable
-            strlcat(cmd, "/mac_restrict_access.sb\" \"", sizeof(cmd)); // path to sandboxing profile
-            strlcat(cmd, resolved_path, sizeof(cmd)); // path to graphics app
-            strlcat(cmd, "\"", sizeof(cmd));
+            strlcat(cmd, "/mac_restrict_access.sb", sizeof(cmd)); // path to sandboxing profile
+            args[2] = cmd;
+            args[3] = resolved_path;
+            int argcnt = 4;
             for (int i=3; i<argc; i++) {
-                strlcat(cmd, " ", sizeof(cmd));
-                strlcat(cmd, argv[i], sizeof(cmd)); // next argument to pass to graphics app
+                args[argcnt++] = argv[i];
             }
-#if VERBOSE           // For debugging only
-            print_to_log_file("gfx_switcher calling callPosixSpawn with command:\n%s\n", cmd);
-#endif
-            retval = callPosixSpawn(cmd);
-            if (retval) {
-#if VERBOSE           // For debugging only
-                print_to_log_file("gfx_switcher: Process creation (%s) failed: errno=%d\n", resolved_path, errno);
-#endif
-                fprintf(stderr, "Process creation (%s) failed: errno=%d\n", resolved_path, errno);
-                return errno;
+            args[argcnt] = 0;
+#if VERBOSE
+            for (int i=0; i<argcnt; i++) {
+                print_to_log_file("gfx_switcher calling posix_spawnp with args[%d]: %s", i, args[i]);
             }
-        } else {
-#if !DEBUG_STANDALONE
-            char shmem_name[MAXPATHLEN];
-            snprintf(shmem_name, sizeof(shmem_name), "/tmp/boinc_ss_%s", screensaverLoginUser);
-            retval = attach_shmem_mmap(shmem_name, (void**)&ss_shmem);
+#endif
+            retval = posix_spawnp(&thePid, "sandbox-exec", NULL, NULL, args, environ);
+#if VERBOSE
+            print_to_log_file("gfx_switcher posix_spawnp returned thePid = %d\n", thePid);
+#endif
             if (ss_shmem != 0) {
-                ss_shmem->gfx_pid = pid;
+#if VERBOSE
+                print_to_log_file("gfx_switcher setting ss_shmem->gfx_pid = %d", thePid);
+#endif
+                ss_shmem->gfx_pid = thePid;
                 ss_shmem->gfx_slot = atoi(argv[2]);
             }
-            pthread_create(&monitorScreenSaverEngineThread, NULL, MonitorScreenSaverEngine, &pid);
-#endif
-            waitpid(pid, 0, 0);
-#if !DEBUG_STANDALONE
-            pthread_cancel(monitorScreenSaverEngineThread);
+            waitpid(thePid, 0, 0);
             if (ss_shmem != 0) {
-                ss_shmem ->gfx_pid = 0;
+#if VERBOSE
+                print_to_log_file("gfx_switcher changing ss_shmem->gfx_pid from %d to 0", thePid);
+#endif
+                ss_shmem->gfx_pid = 0;
                 ss_shmem->major_version = 0;
                 ss_shmem->minor_version = 0;
                 ss_shmem->release = 0;
             }
-#endif
+            return 0;
+       } else {
+            pthread_create(&monitorScreenSaverEngineThread, NULL, MonitorScreenSaverEngine, NULL);
+            waitpid(pid, 0, 0);
+            pthread_cancel(monitorScreenSaverEngineThread);
             return 0;
         }
-    }
-
-    if (strcmp(argv[1], "-kill_gfx") == 0) {
-        pid = atoi(argv[2]);
-        if (! pid) return EINVAL;
-        if ( kill(pid, SIGKILL)) {
-#if VERBOSE           // For debugging only
-     print_to_log_file("kill(%d, SIGKILL) returned error %d", pid, errno);
-#endif
-            return errno;
-        }
-        return 0;
     }
 
     return EINVAL;  // Unknown command
 }
 
 // For extra safety, kill our graphics app if ScreenSaverEngine has exited
-void * MonitorScreenSaverEngine(void* param) {
+void * MonitorScreenSaverEngine(void* /*param*/) {
     pid_t ScreenSaverEngine_Pid = 0;
-    pid_t graphics_Pid = *(pid_t*)param;
 
     while (true) {
         boinc_sleep(1.0);  // Test every second
         ScreenSaverEngine_Pid = getPidIfRunning("com.apple.ScreenSaver.Engine");
 #if VERBOSE           // For debugging only
-        print_to_log_file("MonitorScreenSaverEngine: ScreenSaverEngine_Pid=%d", ScreenSaverEngine_Pid);
+        print_to_log_file("gfx_switcher MonitorScreenSaverEngine: ScreenSaverEngine_Pid=%d", ScreenSaverEngine_Pid);
 #endif
         if (ScreenSaverEngine_Pid == 0) {
             // legacyScreenSaver name under MacOS 14 Sonoma
@@ -383,14 +382,18 @@ void * MonitorScreenSaverEngine(void* param) {
         }
 
 #if VERBOSE           // For debugging only
-        print_to_log_file("MonitorScreenSaverEngine: ScreenSaverEngine_legacyScreenSaver_Pid=%d", ScreenSaverEngine_Pid);
+        print_to_log_file("gfx_switcher MonitorScreenSaverEngine: ScreenSaverEngine_legacyScreenSaver_Pid=%d", ScreenSaverEngine_Pid);
 #endif
 
-    if (ScreenSaverEngine_Pid == 0) {
-        kill(graphics_Pid, SIGKILL);
-#if VERBOSE           // For debugging only
-        print_to_log_file("MonitorScreenSaverEngine calling kill(%d, SIGKILL", graphics_Pid);
+        if (ScreenSaverEngine_Pid == 0) {
+            if (ss_shmem != 0) {
+                if (ss_shmem->gfx_pid) {
+#if VERBOSE
+                    print_to_log_file("gfx_switcher MonitorScreenSaverEngine killing ss_shmem->gfx_pid = %d", ss_shmem->gfx_pid);
 #endif
+                    kill(ss_shmem->gfx_pid, SIGKILL);
+                }
+            }
             return 0;
         }
     }

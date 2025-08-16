@@ -367,12 +367,6 @@ int CScreensaver::terminate_v6_screensaver(PROCESS_REF graphics_application) {
     in_terminate_v6_screensaver = true;
     rpc->run_graphics_app("stop", thePID, gUserName);
 
-    // Inform our helper app that we have stopped current graphics app
-    if (m_gfx_Cleanup_IPC) {
-        fprintf(m_gfx_Cleanup_IPC, "0\n");
-        fflush(m_gfx_Cleanup_IPC);
-    }
-
     for (int i=0; i<200; i++) {
         boinc_sleep(0.01);      // Wait 2 seconds max
         if (HasProcessExited(graphics_application, ignore)) {
@@ -383,6 +377,12 @@ int CScreensaver::terminate_v6_screensaver(PROCESS_REF graphics_application) {
    // For safety, call kill_process() even under Apple sandbox security
     if (graphics_application) {
         kill_process(graphics_application);
+    }
+
+    // Inform our helper app that we have stopped current graphics app
+    if (m_gfx_Cleanup_IPC) {
+        fprintf(m_gfx_Cleanup_IPC, "0\n");
+        fflush(m_gfx_Cleanup_IPC);
     }
     launchedGfxApp("", "", 0, -1);
 
@@ -1029,6 +1029,7 @@ bool CScreensaver::HasProcessExited(pid_t pid, int &exitCode) {
     //
     if (ss_shmem) {
         if (ss_shmem->gfx_pid != 0) return false;
+
         if (ss_shmem->gfx_slot > -1) { // -1 means Default GFX, which has no slot number
             if (graphicsAppStartTime && ((getDTime() - graphicsAppStartTime) < 2)) {
                 if (graphics_app_result_ptr && graphics_app_result_ptr->graphics_exec_path) {

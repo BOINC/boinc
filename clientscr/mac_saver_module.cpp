@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -60,7 +60,7 @@ extern "C" {
 
 // Flags for testing & debugging
 #define CREATE_LOG 0
-#define USE_SPECIAL_LOG_FILE 0
+#define USE_SPECIAL_LOG_FILE 1
 #define FOR_TESTING_ONLY 0  // Set to 1 to simulate dualGPU MacBook Pro on other Macs
 // Set to 1 to simulate 30 seconds on AC, 30 on battery, 30 AC, 30 battery, etc.
 #define SIMULATE_AC_BATTERY_SWITCHING 0
@@ -154,7 +154,6 @@ void initBOINCSaver() {
 
 for (int i=1; i<NSIG; ++i)
 boinc_set_signal_handler(i, boinc_catch_signal);
-
     if (gspScreensaver == NULL) {
         gspScreensaver = new CScreensaver();
         created = false;    // CAF
@@ -433,13 +432,13 @@ int CScreensaver::Create() {
         strlcat(m_gfx_Cleanup_Path, m_gfx_Switcher_Path, sizeof(m_gfx_Cleanup_Path));
         strlcat(m_gfx_Switcher_Path, "/gfx_switcher", sizeof(m_gfx_Switcher_Path));
         strlcat(m_gfx_Cleanup_Path, "/gfx_cleanup\"", sizeof(m_gfx_Cleanup_Path));
-
         // Launch helper app to work around a bug in OS 10.15 Catalina to
         // kill current graphics app if ScreensaverEngine exits without
         // first calling [ScreenSaverView stopAnimation]
         //TODO: Should we use this on OS 10.13+ ?
-        m_gfx_Cleanup_IPC = popen(m_gfx_Cleanup_Path, "w");
-
+        if (!m_gfx_Cleanup_IPC) {
+            m_gfx_Cleanup_IPC = popen(m_gfx_Cleanup_Path, "w");
+        }
         initBOINCApp();
 
         CGDisplayHideCursor(kCGNullDirectDisplay);
@@ -695,7 +694,14 @@ void CScreensaver::Shared_Offscreen_Buffer_Unavailable() {
 
 
 void CScreensaver::ShutdownSaver() {
-    DestroyDataManagementThread();
+     DestroyDataManagementThread();
+
+    if (m_gfx_Cleanup_IPC) {
+        fprintf(m_gfx_Cleanup_IPC, "Quit\n");
+        fflush(m_gfx_Cleanup_IPC);
+        pclose(m_gfx_Cleanup_IPC);
+        m_gfx_Cleanup_IPC = NULL;
+    }
 
     if (rpc) {
 #if 0       // OS X calls closeBOINCSaver() when energy saver puts display
@@ -724,13 +730,6 @@ void CScreensaver::ShutdownSaver() {
     retryCount = 0;
     ScreenSaverStartTime = 0;
     ScreenIsBlanked = false;
-
-    if (m_gfx_Cleanup_IPC) {
-        fprintf(m_gfx_Cleanup_IPC, "Quit\n");
-        fflush(m_gfx_Cleanup_IPC);
-        pclose(m_gfx_Cleanup_IPC);
-        m_gfx_Cleanup_IPC = NULL;
-    }
 }
 
 
@@ -1040,13 +1039,9 @@ void CScreensaver::CheckDualGPUPowerSource() {
 void print_to_log_file(const char *format, ...) {
 #if CREATE_LOG
     va_list args;
-    char buf[256];
     time_t t;
 #if USE_SPECIAL_LOG_FILE
-    safe_strcat(buf, getenv("HOME"));
-    safe_strcat(buf, "/Documents/ss_test_log.txt");
-    FILE *f;
-    f = fopen(buf, "a");
+    FILE *f = fopen("/Users/Shared/test_log_BOINCSaver.txt", "a");   // CAF
     if (!f) return;
 
 //  freopen(buf, "a", stdout);
@@ -1087,7 +1082,50 @@ void strip_cr(char *buf)
 }
 #endif	// CREATE_LOG
 
-void PrintBacktrace(void) {
-// Dummy routine to satisfy linker
-}
+#include "QCrashReport.h"
 
+void PrintBacktrace(void) {
+// We need this special version of PrintBacktrace because
+// mac_backtrace.cpp doesn't work with screensavr sandbox limitatons
+#define CALL_STACK_SIZE 128
+    typedef int     (*backtraceProc)(void**,int);
+    typedef char ** (*backtrace_symbolsProc)(void* const*,int);
+    QCrashReportRef             crRef = NULL;
+
+    int                         frames, i;
+    void                        *systemlib = NULL;
+    void                        *callstack[CALL_STACK_SIZE];
+    char                        **symbols = NULL;
+    char                        outBuf[1024];
+    backtraceProc               myBacktraceProc = NULL;
+    backtrace_symbolsProc       myBacktrace_symbolsProc = NULL;
+
+    QCRCreateFromSelf(&crRef);
+
+    systemlib = dlopen ("/usr/lib/libSystem.dylib", RTLD_NOW );
+    if (systemlib) {
+        myBacktraceProc = (backtraceProc)dlsym(systemlib, "backtrace");
+     }
+    if (! myBacktraceProc) {
+        fprintf(stderr, "no myBacktraceProc\n");
+        return;    // Should never happen
+    }
+    frames = myBacktraceProc(callstack, CALL_STACK_SIZE);
+    myBacktrace_symbolsProc = (backtrace_symbolsProc)dlsym(systemlib, "backtrace_symbols");
+    if (myBacktrace_symbolsProc) {
+        symbols = myBacktrace_symbolsProc(callstack, frames);
+    }
+
+    for (i=0; i<frames; i++) {
+        strlcpy(outBuf, symbols[i], sizeof(outBuf));
+        fprintf(stderr, "%s\n", outBuf);
+    }
+    fprintf(stderr, "\n");
+
+    // make sure this much gets written to file in case future
+    // versions of OS break our crash dump code beyond this point.
+    fflush(stderr);
+
+    QCRPrintThreadState(crRef, stderr);
+    QCRPrintImages(crRef, stderr);
+}
