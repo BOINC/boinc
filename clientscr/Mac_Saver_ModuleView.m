@@ -505,7 +505,17 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
         // screensaver is visible.
         if ((windowFrame.size.width > 500.) && (windowFrame.size.height > 500.)) {
             if (screensaverIsVisible) {
-                if (strcmp([[[[ NSWorkspace sharedWorkspace] frontmostApplication] bundleIdentifier] UTF8String], "com.apple.loginwindow") != 0) {
+                bool isLoginWindow = false;
+                NSRunningApplication *frontapp = [[ NSWorkspace sharedWorkspace] frontmostApplication];
+                if (frontapp) {
+                    NSString *bundleId = [frontapp bundleIdentifier];
+                    if (bundleId) {
+                        if ([bundleId UTF8String]) {
+                            isLoginWindow = (strcmp([bundleId UTF8String], "com.apple.loginwindow") == 0);
+                        }
+                    }
+                }
+                if (!isLoginWindow) {
                     screensaverIsVisible = false;
                     closeBOINCSaver();
 
