@@ -335,7 +335,7 @@ int main(int argc, char** argv) {
                 print_to_log_file("gfx_switcher setting ss_shmem->gfx_pid = %d", thePid);
 #endif
                 ss_shmem->gfx_pid = thePid;
-                ss_shmem->gfx_slot = -1;    // Default GFX has no slot number
+                ss_shmem->gfx_slot = atoi(argv[2]);
             }
             waitpid(thePid, 0, 0);
             if (ss_shmem != 0) {

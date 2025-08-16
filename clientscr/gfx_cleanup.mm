@@ -136,16 +136,6 @@ void * MonitorParent(void* param) {
     print_to_log_file("in gfx_cleanup: Starting MonitorParent: parentpid=%d", parentPid);
     while (true) {
         boinc_sleep(0.25);  // Test every 1/4 second
-#if 0   // CAFFF
-        if (GFX_PidFromScreensaver) {
-            if (myWindow) {
-                dispatch_sync(dispatch_get_main_queue(), ^{
-                    [myWindow setLevel:gfx_app_widowlevel+20];    // Slightly above the graphics app's window
-                    [myWindow orderFrontRegardless];
-                });
-            }
-        }
-#endif   // CAFFF
         if (getppid() != parentPid) {
             print_to_log_file("in gfx_cleanup: MonitorParent: getppd=%d, parentpid=%d", getppid(), parentPid);
             if (GFX_PidFromScreensaver) {
