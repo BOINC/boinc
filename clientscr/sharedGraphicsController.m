@@ -63,8 +63,6 @@ mach_port_t notification_port;
     }
 
     if (fromGFXApp) {
-        runningSharedGraphics = false;
-
         [[NSNotificationCenter defaultCenter] removeObserver:self
             name:NSPortDidBecomeInvalidNotification object:nil];
 
@@ -116,10 +114,6 @@ mach_port_t notification_port;
     mach_port_t servicePortNum = MACH_PORT_NULL;
     kern_return_t machErr;
 
-    if (runningSharedGraphics) {
-        return;
-    }
-
     // Try to check in with master.
     // NSMachBootstrapServer is deprecated in OS 10.13, so use bootstrap_look_up
     //	serverPort = [(NSMachPort *)([[NSMachBootstrapServer sharedInstance] portForName:@"edu.berkeley.boincsaver"]) retain];
@@ -151,7 +145,10 @@ mach_port_t notification_port;
             exit(0);
         }
 
-        runningSharedGraphics = true;
+        if (myTimer) {
+            [ myTimer invalidate ];
+            myTimer = NULL;
+        }
     }
 }
 
@@ -175,7 +172,10 @@ mach_port_t notification_port;
                     }
                 }
 
-                runningSharedGraphics = false;  // Do this last!!
+                if (myTimer == NULL) {
+                    myTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 1./60. target:self selector:@selector(testConnection)
+                                                userInfo:nil repeats:YES];
+                }
             }
         } else {
             print_to_log_file("terminated in portDied");

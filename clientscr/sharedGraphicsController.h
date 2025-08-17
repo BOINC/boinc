@@ -48,7 +48,6 @@ static NSTimer * myTimer = NULL;
 @interface SharedGraphicsController : NSObject <NSMachPortDelegate>
 {
     bool isFromGFXApp;
-    bool runningSharedGraphics;
     char portNameToLookUp[128];
 
 	NSMachPort *serverPort;
