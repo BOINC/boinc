@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -121,6 +121,7 @@ typedef float CGFloat;
 static double gSS_StartTime = 0.0;
 mach_port_t gEventHandle = 0;
 extern bool IsDualGPUMacbook;
+extern bool ScreenIsBlanked;
 extern pthread_mutex_t saver_mutex;
 
 int gGoToBlank;      // True if we are to blank the screen
@@ -421,8 +422,10 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
 // multiple times (once for each display), so we need to guard
 // against any problems that may cause.
 //
-// stopAnimation never seems to be called in recent versions of MacOS
-// so we must use the screensaverIsVisible test in doPeriodicTasks.
+// In recent versions of MacOS stopAnimation seems to be called only when
+// MacOS puts the displays to sleep, but not when user activity dismisses
+// the screensaver. (legacyScreenSaver coneinues running under MacOS 14.0
+//  and later.) So we must use the tests in doPeriodicTasks.
 - (void)stopAnimation {
     [ super stopAnimation ];
    if (myIsPreview) return;
@@ -446,18 +449,10 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
     }
 
     if (!myIsPreview) {
-        closeBOINCSaver();
+        [self cleanupSaver:YES];
     }
 
     gTopWindowListIndex = -1;
-
-//    if (gBOINC_Logo) {
-//        [ gBOINC_Logo release ];
-//    }
-    gBOINC_Logo = NULL;
-
-    // gPathToBundleResources has been released by autorelease
-    gPathToBundleResources = NULL;
 }
 
 // If there are multiple displays, this may get called
@@ -469,6 +464,25 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
         [self doPeriodicTasks];
     } else {
         [ super drawRect:rect ];
+    }
+}
+
+- (void) cleanupSaver:(bool)mayExit {
+    closeBOINCSaver();
+
+    if (mayExit) {
+        screensaverIsVisible = false;
+        if (myTimer) {
+            [ myTimer invalidate ];
+            myTimer = NULL;
+        }
+    }
+    if (mySharedGraphicsController) {
+        [ mySharedGraphicsController cleanUpOpenGL ];   // Must be called from main thread
+        [ mySharedGraphicsController closeServerPort ]; // Must be called after cleanUpOpenGL
+        if (mayExit) {
+            [ NSApp terminate:nil ];    // Comment this out to let legacyScreensaver continue in background
+        }
     }
 }
 
@@ -516,26 +530,21 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
                     }
                 }
                 if (!isLoginWindow) {
-                    screensaverIsVisible = false;
-                    closeBOINCSaver();
-
-                    if (myTimer) {
-                        [ myTimer invalidate ];
-                        myTimer = NULL;
-                    }
-                    if (mySharedGraphicsController) {
-                        [ mySharedGraphicsController cleanUpOpenGL ];   // Must be called from main thread
-                        [ mySharedGraphicsController closeServerPort ]; // Must be called after cleanUpOpenGL
-                        [ NSApp terminate:nil ];  // Comment out to let legacyScreensaver continue in background
-                        //TODO: Kill GFX_SS_Bridge if letting legacyScreensaver continue in background
-                    }
+                    [self cleanupSaver:YES];
                     return;
                 }
             }
         }
     }
 
-   if (myIsPreview) {
+    if (ScreenIsBlanked) {
+        if (screensaverIsVisible) {
+            [self cleanupSaver:NO];
+            return;
+        }
+    }
+
+    if (myIsPreview) {
 #if 1   // Currently drawRect just draws our logo in the preview window
         if (gPreview_Image == NULL) {
             NSString *fileName = [[ NSBundle bundleForClass:[ self class ]] pathForImageResource:@"boinc" ];

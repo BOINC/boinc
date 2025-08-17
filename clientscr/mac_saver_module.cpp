@@ -100,7 +100,7 @@ static io_connect_t GPUSelectConnect = IO_OBJECT_NULL;
 static bool OKToRunOnBatteries = false;
 static bool RunningOnBattery = true;
 static time_t ScreenSaverStartTime = 0;
-static bool ScreenIsBlanked = false;
+bool ScreenIsBlanked = false;
 static int retryCount = 0;
 static pthread_mutexattr_t saver_mutex_attr;
 pthread_mutex_t saver_mutex;
@@ -694,7 +694,7 @@ void CScreensaver::Shared_Offscreen_Buffer_Unavailable() {
 
 
 void CScreensaver::ShutdownSaver() {
-     DestroyDataManagementThread();
+    DestroyDataManagementThread();
 
     if (m_gfx_Cleanup_IPC) {
         fprintf(m_gfx_Cleanup_IPC, "Quit\n");
