@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -43,6 +43,7 @@
 - (IBAction)closeSheetCancel:(id) sender;
 
 - (bool) setUpToUseCGWindowList;
+- (void) cleanupSaver:(bool)mayExit;
 - (void) doPeriodicTasks;
 - (void) advancePosition:(NSTimer*)timer;
 
