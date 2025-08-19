@@ -387,7 +387,13 @@ int create_container() {
 #else
     strcpy(cwd, ".");
 #endif
-    snprintf(slot_cmd, sizeof(slot_cmd), " -v %s:%s", cwd, config.workdir.c_str());
+    // mount slot dir at /app (or whatever is specified)
+    // Needs quotes since paths can contain spaces
+    //
+    snprintf(slot_cmd, sizeof(slot_cmd),
+        " -v \"%s\":\"%s\"",
+        cwd, config.workdir.c_str()
+    );
     if (config.project_dir_mount.empty()) {
         project_cmd[0] = 0;
     } else {
