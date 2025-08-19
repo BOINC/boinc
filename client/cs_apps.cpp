@@ -419,8 +419,12 @@ void cleanup_docker(DOCKER_JOB_INFO &info, DOCKER_CONN &dc) {
         for (string line: out) {
             retval = dc.parse_container_name(line, name);
             if (retval) continue;
-            if (!docker_is_boinc_name(name.c_str())) continue;
-            if (info.container_present(name)) continue;
+            if (strstr(line.c_str(), "hello-world")) {
+                // delete hello-world containers
+            } else {
+                if (!docker_is_boinc_name(name.c_str())) continue;
+                if (info.container_present(name)) continue;
+            }
             sprintf(cmd, "rm %s", name.c_str());
             retval = dc.command(cmd, out2);
             if (retval) {
