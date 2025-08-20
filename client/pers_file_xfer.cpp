@@ -239,7 +239,7 @@ bool PERS_FILE_XFER::poll() {
                 msg_printf(
                     fip->project, MSG_INFO, "Finished %s of %s (%.0f bytes)",
                     is_upload?"upload":"download",
-                    fip->name, last_bytes_xferred
+                    fip->name, (fip->nbytes != 0 ? fip->nbytes : last_bytes_xferred)
                 );
             }
             if (log_flags.file_xfer_debug) {
