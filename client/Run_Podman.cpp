@@ -43,6 +43,11 @@ int main(int argc, char *argv[])
     FILE *f;
     int status = 0;
 
+    if (geteuid() != 0) {
+        fprintf(stderr, "ERROR: Run_Podman must be called setuid root");
+        exit(-1);
+    }
+
     setuid(0);  // May not actually be needed
     if (getuid() != 0) {
         return -1;
@@ -51,6 +56,19 @@ int main(int argc, char *argv[])
 #if VERBOSE
     FILE *debug_file = fopen("/Users/Shared/Run_Podman-debug.txt", "a");
     fprintf(debug_file, "uid=%d, euid=%d\n", getuid(), geteuid());
+    chmod("/Users/Shared/Run_Podman-debug.txt", 0666);
+
+    int saved_stderr_fd = dup(fileno(stderr));
+    freopen("/Users/Shared/stderr_Run_Podman.txt", "a", stderr);
+    chmod("/Users/Shared/stderr_Run_Podman.txt", 0666);
+    fprintf(stderr, "\n========\n");
+    fflush(stderr);
+
+    int saved_stdout_fd = dup(fileno(stdout));
+    freopen("/Users/Shared/stdout_Run_Podman.txt", "a", stdout);
+    chmod("/Users/Shared/stdout_Run_Podman.txt", 0666);
+    fprintf(stdout, "\n********\n");
+    fflush(stdout);
 #endif
 
     // While the official Podman installer puts the porman executable at
@@ -84,14 +102,22 @@ int main(int argc, char *argv[])
     }
 #endif
 
+#if VERBOSE
+    dup2(saved_stdout_fd, fileno(stdout));
+    close(saved_stdout_fd); // Close the saved descriptor
+    dup2(saved_stderr_fd, fileno(stderr));
+    close(saved_stderr_fd); // Close the saved descriptor
+#endif
+
     // Podman always writes its files owned by the logged in user and
     // mosly in that user's home directory. To get around this, we
     // simulate a login by user boinc_project and set environment
     // variables for Podman to use our BOINC podman" directory instead
     args[argsCount++] = "su";
-    args[argsCount++] = "-l";
+    args[argsCount++] = "-m";
     args[argsCount++] = "boinc_project";    // Create Podman VM using boinc_project so projects can access it
     args[argsCount++] = "-c";
+//    snprintf(buf, sizeof(buf), "env XDG_CONFIG_HOME=\"/Library/Application Support/BOINC podman\" XDG_DATA_HOME=\"/Library/Application Support/BOINC podman\" HOME=\"/Library/Application Support/BOINC podman\" LOGNAME=\"boinc_project\" USER=\"boinc_project\" %s", Podman_Path);
     snprintf(buf, sizeof(buf), "env XDG_CONFIG_HOME=\"/Library/Application Support/BOINC podman\" XDG_DATA_HOME=\"/Library/Application Support/BOINC podman\" HOME=\"/Library/Application Support/BOINC podman\" %s", Podman_Path);
 
     argvCount = 1;   // arguments to be passed to Podman
@@ -113,6 +139,10 @@ int main(int argc, char *argv[])
         execvp(args[0], args);
         perror("execvp");
         fprintf(stderr, "couldn't exec %s: %d\n", args[0], errno);
+#if VERBOSE
+        fprintf(debug_file, "couldn't exec %s: %d\n", args[0], errno);
+        fflush(debug_file);
+#endif
         exit(errno);
     }
         waitpid(pid, &status, WUNTRACED);
