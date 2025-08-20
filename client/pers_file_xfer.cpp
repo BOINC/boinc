@@ -233,9 +233,13 @@ bool PERS_FILE_XFER::poll() {
         case 0:
             fip->project->file_xfer_backoff(is_upload).file_xfer_succeeded();
             if (log_flags.file_xfer) {
+                // project files can have fip->nbytes == 0,
+                // so use last_bytes_xferred as size
+                //
                 msg_printf(
                     fip->project, MSG_INFO, "Finished %s of %s (%.0f bytes)",
-                    is_upload?"upload":"download", fip->name, fip->nbytes
+                    is_upload?"upload":"download",
+                    fip->name, last_bytes_xferred
                 );
             }
             if (log_flags.file_xfer_debug) {
