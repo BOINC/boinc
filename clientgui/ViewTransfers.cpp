@@ -814,8 +814,10 @@ wxInt32 CViewTransfers::FormatSize(double fBytesSent, double fFileSize, wxString
             strBuffer.Printf(wxT("%0.2f MB"), fBytesSent/xMega);
         } else if (fBytesSent >= xKilo) {
             strBuffer.Printf(wxT("%0.2f KB"), fBytesSent/xKilo);
-        } else {
+        } else if (fBytesSent > 0) {
             strBuffer.Printf(wxT("%0.0f bytes"), fBytesSent);
+        } else {
+            strBuffer.Printf(wxT("---"));
         }
     }
 
