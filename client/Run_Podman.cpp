@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     int status = 0;
 
     if (geteuid() != 0) {
-        fprintf(stderr, "ERROR: Run_Podman must be called setuid root");
+        fprintf(stderr, "ERROR: Run_Podman must be called setuid root\n");
         exit(-1);
     }
 
