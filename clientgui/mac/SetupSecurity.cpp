@@ -940,11 +940,6 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
         if (err)
             return err;
 
-        // Something like "dscl . -create /users/boinc_master shell /usr/bin/zsh"
-        err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "shell", "/bin/zsh", NULL);
-        if (err)
-            return err;
-
         // Something like "dscl . -create /users/boinc_master home /var/empty"
         err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "home", "/var/empty", NULL);
         if (err)
@@ -952,6 +947,12 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
     }           // if (! userExists)
 
 setGroupForUser:
+    // Older versions set shell to /usr/bin/false so do this even if the user exists
+    // Something like "dscl . -create /users/boinc_master shell /usr/bin/zsh"
+    err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "shell", "/bin/zsh", NULL);
+    if (err)
+        return err;
+
     // A MacOS update sometimes changes the PrimaryGroupID of users boinc_master
     // and boincproject to staff (20).
     // This sets the correct PrimaryGroupId whether or not we just created the user.

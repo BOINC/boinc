@@ -43,14 +43,29 @@ int main(int argc, char *argv[])
     FILE *f;
     int status = 0;
 
-    setuid(0);  // May not actually be needed
-    if (getuid() != 0) {
-        return -1;
+    if (geteuid() != 0) {
+        fprintf(stderr, "ERROR: Run_Podman must be called setuid root");
+        exit(-1);
     }
+
+    setuid(0);  // May not actually be needed
 
 #if VERBOSE
     FILE *debug_file = fopen("/Users/Shared/Run_Podman-debug.txt", "a");
-    fprintf(debug_file, "uid=%d, euid=%d\n", getuid(), geteuid());
+    fprintf(debug_file, "uid=%d, euid=%d, gid=%d, egid=%d\n", getuid(), geteuid(), getgid(), getegid());
+    chmod("/Users/Shared/Run_Podman-debug.txt", 0666);
+
+    int saved_stderr_fd = dup(fileno(stderr));
+    freopen("/Users/Shared/stderr_Run_Podman.txt", "a", stderr);
+    chmod("/Users/Shared/stderr_Run_Podman.txt", 0666);
+    fprintf(stderr, "\n========\n");
+    fflush(stderr);
+
+    int saved_stdout_fd = dup(fileno(stdout));
+    freopen("/Users/Shared/stdout_Run_Podman.txt", "a", stdout);
+    chmod("/Users/Shared/stdout_Run_Podman.txt", 0666);
+    fprintf(stdout, "\n********\n");
+    fflush(stdout);
 #endif
 
     // While the official Podman installer puts the porman executable at
@@ -84,6 +99,13 @@ int main(int argc, char *argv[])
     }
 #endif
 
+#if VERBOSE
+    dup2(saved_stdout_fd, fileno(stdout));
+    close(saved_stdout_fd); // Close the saved descriptor
+    dup2(saved_stderr_fd, fileno(stderr));
+    close(saved_stderr_fd); // Close the saved descriptor
+#endif
+
     // Podman always writes its files owned by the logged in user and
     // mosly in that user's home directory. To get around this, we
     // simulate a login by user boinc_project and set environment
@@ -104,7 +126,7 @@ int main(int argc, char *argv[])
 
 #if VERBOSE
     for (int i=0; i<argsCount; ++i) fprintf(debug_file,"args[%d] = %s\n", i, args[i]);
-        printf("\n");
+    fprintf(debug_file,"\n");
     fflush(debug_file);
 #endif
 
@@ -113,6 +135,10 @@ int main(int argc, char *argv[])
         execvp(args[0], args);
         perror("execvp");
         fprintf(stderr, "couldn't exec %s: %d\n", args[0], errno);
+#if VERBOSE
+        fprintf(debug_file, "couldn't exec %s: %d\n", args[0], errno);
+        fflush(debug_file);
+#endif
         exit(errno);
     }
         waitpid(pid, &status, WUNTRACED);
