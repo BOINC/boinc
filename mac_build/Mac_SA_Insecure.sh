@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2018 University of California
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -41,9 +41,13 @@
 # the --insecure option.
 # NOTE: running BOINC with security disabled is not recommended.
 #
-# Last updated 1/27/11 for BOINC versions 6.8.19, 6.10.30 and 6.11.1
+# Updated 1/27/11 for BOINC versions 6.8.19, 6.10.30 and 6.11.1
+# Updated 8/23/25 to add Run_Podman and BOINC podman directory
+#
 # WARNING: do not use this script with older versions of BOINC older
-# than 6.8.17 and 6.10.3
+# than 6.8.17 and 6.10.3 or if Podman is installed
+
+#TODO: Modify Run_Podman to work when client is run with --insecure option
 
 function remove_boinc_users() {
     name=$(dscl . search /users RecordName boinc_master | cut -f1 -s)
@@ -107,6 +111,12 @@ if [ -f switcher/AppStats ] ; then
 # AppStats application must run setuid root (used in BOINC 5.7 through 5.8.14 only)
 chown root:${group} switcher/AppStats
 chmod 4550 switcher/AppStats
+fi
+
+if [ -d "../BOINC podman" ] ; then
+    # We must not modify permissions of any of Podman's data so just set
+    # their owner and grpup
+    chown -R ${user}:${group} "../BOINC podman"
 fi
 
 if [ -x /Applications/BOINCManager.app/Contents/MacOS/BOINCManager ] ; then
