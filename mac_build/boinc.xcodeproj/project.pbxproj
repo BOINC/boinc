@@ -1154,7 +1154,6 @@
 		DD7BF7D80B8E7A9800A009F7 /* str_util.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = str_util.h; path = ../lib/str_util.h; sourceTree = SOURCE_ROOT; };
 		DD7BF7E70B8E7BBE00A009F7 /* work_fetch.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = work_fetch.cpp; sourceTree = "<group>"; };
 		DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenSaver.framework; path = /System/Library/Frameworks/ScreenSaver.framework; sourceTree = "<absolute>"; };
-		DD7FD7DD2E1F9ECC00390B0E /* Set_Screensaver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Set_Screensaver.cpp; path = /Volumes/Dev/BOINC_GIT/boinc_trunk_fixes_for_macos26/mac_installer/Set_Screensaver.cpp; sourceTree = "<absolute>"; };
 		DD80C83D0CBAEB4F00F1121D /* sandbox.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = sandbox.cpp; sourceTree = "<group>"; };
 		DD80C83E0CBAEB4F00F1121D /* sandbox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sandbox.h; path = ../client/sandbox.h; sourceTree = SOURCE_ROOT; };
 		DD818294245ED4010076E5D0 /* boinc_ss_helper.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = boinc_ss_helper.sh; path = ../clientscr/boinc_ss_helper.sh; sourceTree = "<group>"; };
@@ -1775,7 +1774,6 @@
 				DD3EAAAE216A268500BC673C /* finish_install.cpp */,
 				DD1277C0081F3E73007B5DE1 /* PostInstall.cpp */,
 				DDF9350F176B0D0C00A2793C /* translate.cpp */,
-				DD7FD7DD2E1F9ECC00390B0E /* Set_Screensaver.cpp */,
 				DDF93510176B0D0C00A2793C /* translate.h */,
 				DD4688590C1661970089F500 /* uninstall.cpp */,
 				DDF1F47A09822C3400482C89 /* preinstall */,

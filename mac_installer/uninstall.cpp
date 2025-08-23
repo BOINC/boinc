@@ -244,7 +244,7 @@ int main(int argc, char *argv[])
     }
 
     CFStringRef CFBOINCDataPath, CFUserPrefsPath;
-    char BOINCDataPath[MAXPATHLEN], temp[MAXPATHLEN], PathToPrefs[MAXPATHLEN];
+    char BOINCDataPath[MAXPATHLEN], PodmanDataPath[MAXPATHLEN], temp[MAXPATHLEN], PathToPrefs[MAXPATHLEN];
     Boolean success = false;
 
     CFURLRef urlref = CFURLCreateWithFileSystemPath(NULL, CFSTR("/Library"),
@@ -277,11 +277,16 @@ int main(int argc, char *argv[])
     }
     if (success) {
         strlcat(BOINCDataPath, temp, sizeof(BOINCDataPath));
+        strlcpy(PodmanDataPath, BOINCDataPath, sizeof(PodmanDataPath));
         strlcat(BOINCDataPath, "/BOINC Data", sizeof(BOINCDataPath));
+        strlcat(PodmanDataPath, "/BOINC podman", sizeof(PodmanDataPath));
     } else {
         strlcpy(BOINCDataPath,
                 "/Library/Application Support/BOINC Data",
                 sizeof(BOINCDataPath));
+        strlcpy(PodmanDataPath,
+                "/Library/Application Support/BOINC podman",
+                sizeof(PodmanDataPath));
     }
 
     success = false;
@@ -393,9 +398,9 @@ int main(int argc, char *argv[])
     }
 
     // TODO: Change this message if there were errors in the privileged app
-    ShowMessage(false, false, false, (char *)_("Removal completed.\n\n You may want to remove the following remaining items using the Finder: \n"
-     "the directory \"%s\"\n\nfor each user, the file\n"
-     "\"%s\"."), BOINCDataPath, PathToPrefs);
+    ShowMessage(false, false, false, (char *)_("Removal completed.\n\n You may want to remove the following remaining items using the Finder:\n\n "
+     "the directory \"%s\"\n\nthe directory \"%s\"\n\nfor each user, the file\n"
+     "\"%s\"."), BOINCDataPath, PodmanDataPath, PathToPrefs);
 
     BOINCTranslationCleanup();
     return err;

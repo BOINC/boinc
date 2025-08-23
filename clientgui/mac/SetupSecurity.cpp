@@ -568,20 +568,24 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     if ((result == noErr) && (isDirectory)) {
         // We always run Podman as use boinc_project (using our Run_Podman
         // executable) which guarantees that all of Podman's data will
-        // have owner boinc_project. This is necessary for Podman to be
-        // able to access it files when running project applications.
-        // We must not modify permissions of any of Podman's data, or
-        // change ownership of any of Podman's data from boinc_project,
-        // so we set them for the BOINC podman directory itself but not
-        // its contents.
+        // have owner boinc_project and group. This is necessary for Podman
+        // to be able to access it files when running project applications.
         //
-        // Set owner and group of BOINC podman directory itself (not its contents)
+        // Set owner and group of BOINC podman directory's contents)
+        sprintf(buf1, "%s:%s", boinc_project_user_name, boinc_project_group_name);
+        // chown -R boinc_master:boinc_master "/Library/Application Support/BOINC Data"
+        err = DoSudoPosixSpawn(chownPath, "-R", buf1, fullpath, NULL, NULL, NULL);
+
+        // Set owner and group of BOINC podman directory itself
         sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
         // chown boinc_master:boinc_project "/Library/Application Support/BOINC podman"
         err = DoSudoPosixSpawn(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
 
+        // We must not modify permissions of any of Podman's data, so we set
+        // them for the BOINC podman directory itself but not its contents.
+        //
         // Set permissions for BOINC podman directory itself (not its contents)
         // chmod u=rwx,g=rwx,o= "/Library/Application Support/BOINC podman"
         // 0770 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP
@@ -590,8 +594,6 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         if (err)
             return err;
     }       // podman directory
-
-//TODO: Should we set owner of all of BOINC podman directory's contents to boinc_project?
 
     // Does locale directory exist?
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
@@ -766,6 +768,7 @@ static OSStatus MakeXMLFilesPrivate(char * basepath) {
 }
 
 
+//TODO: resolve symbolic links and update their ownership and permissions
 static OSStatus UpdateNestedDirectories(char * basepath) {
     Boolean         isDirectory;
     char            fullpath[MAXPATHLEN];
@@ -940,11 +943,6 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
         if (err)
             return err;
 
-        // Something like "dscl . -create /users/boinc_master shell /usr/bin/zsh"
-        err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "shell", "/bin/zsh", NULL);
-        if (err)
-            return err;
-
         // Something like "dscl . -create /users/boinc_master home /var/empty"
         err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "home", "/var/empty", NULL);
         if (err)
@@ -952,6 +950,12 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
     }           // if (! userExists)
 
 setGroupForUser:
+    // Older versions set shell to /usr/bin/false so do this even if the user exists
+    // Something like "dscl . -create /users/boinc_master shell /usr/bin/zsh"
+    err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "shell", "/bin/zsh", NULL);
+    if (err)
+        return err;
+
     // A MacOS update sometimes changes the PrimaryGroupID of users boinc_master
     // and boincproject to staff (20).
     // This sets the correct PrimaryGroupId whether or not we just created the user.
