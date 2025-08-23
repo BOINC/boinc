@@ -223,7 +223,9 @@ bool boinc_filelist(
     }
 
     // first tack on a final slash on user dir if required
-    if (strUserDir[iLen-1] != '\\' && strUserDir[iLen] != '/') {
+    // fix off-by-one: check the last valid character at iLen-1 (not iLen)
+    // also guard against empty directory string
+    if (iLen == 0 || (strUserDir[iLen-1] != '\\' && strUserDir[iLen-1] != '/')) {
         // need a final slash, but what type?
         // / is safe on all OS's for CPDN at least
         // but if they already used \ use that
@@ -251,6 +253,18 @@ bool boinc_filelist(
 #endif
         }
     }
+
+    // Normalize user directory separators to match OS style so returned
+    // full paths have expected separators (e.g., backslashes on Windows).
+#ifdef _WIN32
+    for (j = 0; j < (int)strUserDir.size(); j++) {
+        if (strUserDir[j] == '/') strUserDir[j] = '\\';
+    }
+#else
+    for (j = 0; j < (int)strUserDir.size(); j++) {
+        if (strUserDir[j] == '\\') strUserDir[j] = '/';
+    }
+#endif
 
     DirScanner dirscan(strDir);
     memset(strPart, 0x00, 3*32);
