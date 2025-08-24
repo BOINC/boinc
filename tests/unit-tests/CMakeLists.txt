@@ -12,6 +12,7 @@ else()
     find_package(Threads REQUIRED)
     find_package(GTest REQUIRED)
 endif()
+    find_package(ZLIB REQUIRED)
 
 # There is no easy way to interface with the autotools driven build system in boinc
 # so the paths below are hardcoded and are mainly suited for building on Travis CI

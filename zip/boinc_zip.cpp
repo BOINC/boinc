@@ -32,16 +32,11 @@ using std::string;
 
 #endif
 
-#ifdef __cplusplus
-extern "C" {
-#else
-extern {
-#endif
-int unzip(int argc, char** argv);
-//int zipmain(int argc, char** argv);
-#include "./unzip/unzip.h"
-#include "./zip/zip.h"
-}
+#include <zlib.h>
+#include <vector>
+#include <fstream>
+#include <sstream>
+#include <stdint.h>
 
 #include "boinc_zip.h"
 #include "filesys.h" // from BOINC for DirScan
@@ -101,83 +96,284 @@ int boinc_zip(int bZipType, const char* szFileZip, const char* szFileIn) {
     return boinc_zip(bZipType, strFileZip, &tempvec);
 }
 
+// --- Minimal ZIP (deflate) writer/reader using zlib (no Info-ZIP) ---
+namespace {
+    inline void write_le16(std::ostream& os, uint16_t v) {
+        unsigned char b[2] = { (unsigned char)(v & 0xFF), (unsigned char)((v >> 8) & 0xFF) };
+        os.write((const char*)b, 2);
+    }
+    inline void write_le32(std::ostream& os, uint32_t v) {
+        unsigned char b[4] = {
+            (unsigned char)(v & 0xFF),
+            (unsigned char)((v >> 8) & 0xFF),
+            (unsigned char)((v >> 16) & 0xFF),
+            (unsigned char)((v >> 24) & 0xFF)
+        };
+        os.write((const char*)b, 4);
+    }
+    inline uint16_t read_le16(std::istream& is) {
+        unsigned char b[2]; is.read((char*)b, 2);
+        return (uint16_t)(b[0] | (b[1] << 8));
+    }
+    inline uint32_t read_le32(std::istream& is) {
+        unsigned char b[4]; is.read((char*)b, 4);
+        return (uint32_t)(b[0] | (b[1] << 8) | (b[2] << 16) | (b[3] << 24));
+    }
+
+    std::string base_name(const std::string& path) {
+        size_t p = path.find_last_of("/\\");
+        if (p == std::string::npos) return path;
+        return path.substr(p+1);
+    }
+
+    bool deflate_raw(const std::string& input, std::vector<unsigned char>& out, int level, uint32_t& out_crc) {
+        out_crc = crc32(0L, Z_NULL, 0);
+        out_crc = crc32(out_crc, (const Bytef*)input.data(), (uInt)input.size());
+
+        z_stream strm{};
+        int ret = deflateInit2(&strm, level, Z_DEFLATED, -MAX_WBITS, 8, Z_DEFAULT_STRATEGY);
+        if (ret != Z_OK) return false;
+        strm.next_in = (Bytef*)input.data();
+        strm.avail_in = (uInt)input.size();
+        out.clear();
+        out.reserve(deflateBound(&strm, (uLong)input.size()));
+        unsigned char buf[16384];
+        do {
+            strm.next_out = buf;
+            strm.avail_out = sizeof(buf);
+            ret = deflate(&strm, strm.avail_in ? Z_NO_FLUSH : Z_FINISH);
+            if (ret == Z_STREAM_ERROR) { deflateEnd(&strm); return false; }
+            size_t produced = sizeof(buf) - strm.avail_out;
+            out.insert(out.end(), buf, buf + produced);
+        } while (ret != Z_STREAM_END);
+        deflateEnd(&strm);
+        return true;
+    }
+
+    bool inflate_raw(const unsigned char* input, size_t in_size, std::string& out, size_t expected_size) {
+        z_stream strm{};
+        int ret = inflateInit2(&strm, -MAX_WBITS);
+        if (ret != Z_OK) return false;
+        strm.next_in = (Bytef*)input;
+        strm.avail_in = (uInt)in_size;
+        out.clear();
+        out.reserve(expected_size ? expected_size : in_size * 2);
+        unsigned char buf[16384];
+        do {
+            strm.next_out = buf;
+            strm.avail_out = sizeof(buf);
+            ret = inflate(&strm, Z_NO_FLUSH);
+            if (ret == Z_STREAM_ERROR || ret == Z_DATA_ERROR) { inflateEnd(&strm); return false; }
+            size_t produced = sizeof(buf) - strm.avail_out;
+            out.append((const char*)buf, produced);
+        } while (ret != Z_STREAM_END);
+        inflateEnd(&strm);
+        return true;
+    }
+
+    struct CDEntry {
+        std::string name;
+        uint32_t crc;
+        uint32_t comp_size;
+        uint32_t uncomp_size;
+        uint16_t method;
+        uint32_t local_header_offset;
+        uint16_t mod_time;
+        uint16_t mod_date;
+    };
+
+    // Parse central directory into entries; return false on failure
+    bool parse_central_dir(std::istream& is, std::vector<CDEntry>& entries, uint32_t& cd_offset) {
+        // Find EOCD by scanning last 64k+22 bytes
+        is.seekg(0, std::ios::end);
+        std::streamoff file_size = is.tellg();
+        std::streamoff max_back = std::min<std::streamoff>(file_size, 0xFFFF + 22);
+        std::vector<char> tail((size_t)max_back);
+        is.seekg(file_size - max_back, std::ios::beg);
+        is.read(tail.data(), tail.size());
+        int found = -1;
+        for (int i = (int)tail.size() - 22; i >= 0; --i) {
+            if ((unsigned char)tail[i] == 0x50 && (unsigned char)tail[i+1] == 0x4b &&
+                (unsigned char)tail[i+2] == 0x05 && (unsigned char)tail[i+3] == 0x06) {
+                found = i; break;
+            }
+        }
+        if (found < 0) return false;
+        std::istringstream eocd(std::string(tail.data() + found, tail.size() - found));
+        uint32_t sig = read_le32(eocd);
+        (void)sig;
+        (void)read_le16(eocd); // disk no
+        (void)read_le16(eocd); // disk start
+        uint16_t total_entries_disk = read_le16(eocd);
+        uint16_t total_entries = read_le16(eocd);
+        uint32_t cd_size = read_le32(eocd);
+        cd_offset = read_le32(eocd);
+        (void)read_le16(eocd); // comment len
+        (void)total_entries_disk;
+        (void)cd_size;
+        // Read central directory
+        is.seekg(cd_offset, std::ios::beg);
+        entries.clear();
+        for (uint16_t idx = 0; idx < total_entries; ++idx) {
+            if (read_le32(is) != 0x02014b50) return false;
+            (void)read_le16(is); // ver made by
+            (void)read_le16(is); // ver needed
+            uint16_t gp = read_le16(is);
+            uint16_t method = read_le16(is);
+            uint16_t mtime = read_le16(is);
+            uint16_t mdate = read_le16(is);
+            uint32_t crc = read_le32(is);
+            uint32_t csize = read_le32(is);
+            uint32_t usize = read_le32(is);
+            uint16_t nlen = read_le16(is);
+            uint16_t xlen = read_le16(is);
+            uint16_t clen = read_le16(is);
+            (void)read_le16(is); // disk no
+            (void)read_le16(is); // internal attr
+            (void)read_le32(is); // external attr
+            uint32_t lhoff = read_le32(is);
+            std::string name(nlen, '\0');
+            is.read(&name[0], nlen);
+            if (xlen) is.seekg(xlen, std::ios::cur);
+            if (clen) is.seekg(clen, std::ios::cur);
+            (void)gp;
+            CDEntry e{ name, crc, csize, usize, method, lhoff, mtime, mdate };
+            entries.push_back(e);
+        }
+        return true;
+    }
+}
+
 int boinc_zip(
     int bZipType, const std::string szFileZip, const ZipFileList* pvectszFileIn
 ) {
-    int carg;
-    char** av;
-    int iRet = 0, i = 0, nVecSize = 0;
-
-    if (pvectszFileIn) nVecSize = pvectszFileIn->size();
-
-    // if unzipping but no file out, so it just uses cwd, only 3 args
-    //if (bZipType == UNZIP_IT)
-    //      carg = 3 + nVecSize;
-    //else
-    carg = 3 + nVecSize;
-
-    // make a dynamic array
-    av = (char**) calloc(carg+1, sizeof(char*));
-    for (i=0;i<(carg+1);i++) {
-        av[i] = (char*) calloc(_MAX_PATH,sizeof(char));
-    }
-
-    // just form an argc/argv to spoof the "main"
-    // default options are to recurse into directories
-    //if (options && strlen(options))
-    //      strcpy(av[1], options);
-
     if (bZipType == ZIP_IT) {
-        strcpy(av[0], "zip");
-        // default zip options -- no dir names, no subdirs, highest compression, quiet mode
-        if (strlen(av[1])==0) {
-            strcpy(av[1], "-j9q");
+        if (!pvectszFileIn || pvectszFileIn->empty()) return 0;
+        // Remove existing to mimic previous behavior
+        if (access(szFileZip.c_str(), 0) == 0) unlink(szFileZip.c_str());
+        std::ofstream os(szFileZip.c_str(), std::ios::binary);
+        if (!os) return 1;
+        struct Item { CDEntry cd; std::vector<unsigned char> comp; std::string name; };
+        std::vector<Item> items;
+        for (size_t i = 0; i < pvectszFileIn->size(); ++i) {
+            const std::string& path = pvectszFileIn->at(i);
+            std::ifstream is(path.c_str(), std::ios::binary);
+            if (!is) return 1;
+            std::ostringstream ss; ss << is.rdbuf();
+            std::string data = ss.str();
+            uint32_t crc=0; std::vector<unsigned char> comp;
+            if (!deflate_raw(data, comp, Z_BEST_COMPRESSION, crc)) return 1;
+            Item it;
+            it.cd.name = base_name(path); // mimic -j option (no dir names)
+            it.cd.crc = crc;
+            it.cd.comp_size = (uint32_t)comp.size();
+            it.cd.uncomp_size = (uint32_t)data.size();
+            it.cd.method = 8; // deflate
+            it.cd.mod_time = 0; it.cd.mod_date = 0;
+            it.comp.swap(comp);
+            it.name = it.cd.name;
+            items.push_back(std::move(it));
         }
-        strcpy(av[2], szFileZip.c_str());
-
-        //sz 3 onward will be each vector
-        int jj;
-        for (jj=0; jj<nVecSize; jj++) {
-            strcpy(av[3+jj], pvectszFileIn->at(jj).c_str());
+        // Write local headers and data
+        for (auto& it : items) {
+            it.cd.local_header_offset = (uint32_t)os.tellp();
+            write_le32(os, 0x04034b50);
+            write_le16(os, 20); // version needed
+            write_le16(os, 0);  // gp flag
+            write_le16(os, it.cd.method);
+            write_le16(os, it.cd.mod_time);
+            write_le16(os, it.cd.mod_date);
+            write_le32(os, it.cd.crc);
+            write_le32(os, it.cd.comp_size);
+            write_le32(os, it.cd.uncomp_size);
+            write_le16(os, (uint16_t)it.cd.name.size());
+            write_le16(os, 0); // extra len
+            os.write(it.cd.name.data(), it.cd.name.size());
+            if (!it.comp.empty()) os.write((const char*)it.comp.data(), it.comp.size());
         }
+        // Central directory
+        uint32_t cd_offset = (uint32_t)os.tellp();
+        for (auto& it : items) {
+            write_le32(os, 0x02014b50);
+            write_le16(os, 20); // ver made by
+            write_le16(os, 20); // ver needed
+            write_le16(os, 0);  // gp flag
+            write_le16(os, it.cd.method);
+            write_le16(os, it.cd.mod_time);
+            write_le16(os, it.cd.mod_date);
+            write_le32(os, it.cd.crc);
+            write_le32(os, it.cd.comp_size);
+            write_le32(os, it.cd.uncomp_size);
+            write_le16(os, (uint16_t)it.cd.name.size());
+            write_le16(os, 0); // extra
+            write_le16(os, 0); // comment
+            write_le16(os, 0); // disk no
+            write_le16(os, 0); // internal attr
+            write_le32(os, 0); // external attr
+            write_le32(os, it.cd.local_header_offset);
+            os.write(it.cd.name.data(), it.cd.name.size());
+        }
+        uint32_t cd_size = (uint32_t)os.tellp() - cd_offset;
+        // EOCD
+        write_le32(os, 0x06054b50);
+        write_le16(os, 0); // disk
+        write_le16(os, 0); // disk start
+        write_le16(os, (uint16_t)items.size());
+        write_le16(os, (uint16_t)items.size());
+        write_le32(os, cd_size);
+        write_le32(os, cd_offset);
+        write_le16(os, 0); // comment
+        return 0;
     } else {
-        strcpy(av[0], "unzip");
-        // default unzip options -- preserve subdirs, overwrite
-        if (strlen(av[1])==0) {
-            strcpy(av[1], "-oq");
+        // UNZIP
+        if (access(szFileZip.c_str(), 0) != 0) return 2;
+        std::ifstream is(szFileZip.c_str(), std::ios::binary);
+        if (!is) return 2;
+        std::vector<CDEntry> entries; uint32_t cd_off=0;
+        if (!parse_central_dir(is, entries, cd_off)) return 1;
+        std::string dest;
+        if (pvectszFileIn && pvectszFileIn->size() == 1) dest = pvectszFileIn->at(0);
+        // Ensure dest ends with separator if provided and not empty
+        if (!dest.empty()) {
+            char last = dest.back();
+            if (last != '/' && last != '\\') dest += '/';
         }
-        strcpy(av[2], szFileZip.c_str());
-
-        // if they passed in a directory unzip there
-        if (carg == 4) {
-            sprintf(av[3], "-d%s", pvectszFileIn->at(0).c_str());
+        for (auto& e : entries) {
+            // Read local header
+            is.seekg(e.local_header_offset, std::ios::beg);
+            if (read_le32(is) != 0x04034b50) return 1;
+            (void)read_le16(is); // ver needed
+            uint16_t gp = read_le16(is);
+            uint16_t method = read_le16(is);
+            (void)read_le16(is); // time
+            (void)read_le16(is); // date
+            uint32_t crc = read_le32(is);
+            uint32_t csize = read_le32(is);
+            uint32_t usize = read_le32(is);
+            uint16_t nlen = read_le16(is);
+            uint16_t xlen = read_le16(is);
+            std::string lname(nlen, '\0');
+            is.read(&lname[0], nlen);
+            if (xlen) is.seekg(xlen, std::ios::cur);
+            (void)gp; (void)crc; // not strictly validated here
+            std::vector<unsigned char> comp(csize);
+            if (csize) is.read((char*)comp.data(), csize);
+            std::string out;
+            if (method == 0) {
+                out.assign((const char*)comp.data(), comp.size());
+            } else if (method == 8) {
+                if (!inflate_raw(comp.data(), comp.size(), out, usize)) return 1;
+            } else {
+                return 1; // unsupported
+            }
+            // Write file
+            std::string outPath = dest + lname;
+            std::ofstream of(outPath.c_str(), std::ios::binary);
+            if (!of) return 1;
+            of.write(out.data(), out.size());
         }
+        return 0;
     }
-    av[carg] = NULL;
-    // printf("args: %s %s %s %s\n", av[0], av[1], av[2], av[3]);
-
-    if (bZipType == ZIP_IT) {
-        if (access(szFileZip.c_str(), 0) == 0) {
-            // old zip file exists so unlink
-            // (otherwise zip will reuse, doesn't seem to be a flag to
-            // bypass zip reusing it
-            unlink(szFileZip.c_str());
-        }
-        iRet = zipmain(carg, av);
-    } else {
-        // make sure zip file exists
-        if (access(szFileZip.c_str(), 0) == 0) {
-            iRet = UzpMain(carg, av);
-        } else {
-            iRet = 2;
-        }
-    }
-
-    for (i=0;i<carg;i++) {
-        free(av[i]);
-    }
-    free(av);
-    return iRet;
 }
 
 
@@ -331,29 +527,40 @@ bool boinc_filelist(
 // Read compressed file to memory.
 //
 int boinc_UnzipToMemory (char *zip, char *file, string &retstr) {
-    UzpOpts opts; // options for UzpUnzipToMemory()
-    UzpCB funcs;  // function pointers for UzpUnzipToMemory()
-    UzpBuffer buf;
-    int ret;
-
-    memset(&opts, 0, sizeof(opts));
-    memset(&funcs, 0, sizeof(funcs));
-
-    funcs.structlen = sizeof(UzpCB);
-    funcs.msgfn = (MsgFn *)printf;
-    funcs.inputfn = (InputFn *)scanf;
-    funcs.pausefn = (PauseFn *)(0x01);
-    funcs.passwdfn = (PasswdFn *)(NULL);
-
-    memset(&buf, 0, sizeof(buf));    // data-blocks needs to be empty
-    ret = UzpUnzipToMemory(zip, file, &opts, &funcs, &buf);
-
-    if (ret) {
-        retstr =  (string) buf.strptr;
+    if (!zip || !file) return 0;
+    std::ifstream is(zip, std::ios::binary);
+    if (!is) return 0;
+    std::vector<CDEntry> entries; uint32_t cd_off=0;
+    if (!parse_central_dir(is, entries, cd_off)) return 0;
+    for (auto& e : entries) {
+        if (e.name == file) {
+            // Read local header and data
+            is.seekg(e.local_header_offset, std::ios::beg);
+            if (read_le32(is) != 0x04034b50) return 0;
+            (void)read_le16(is);
+            (void)read_le16(is);
+            uint16_t method = read_le16(is);
+            (void)read_le16(is);
+            (void)read_le16(is);
+            (void)read_le32(is);
+            uint32_t csize = read_le32(is);
+            uint32_t usize = read_le32(is);
+            uint16_t nlen = read_le16(is);
+            uint16_t xlen = read_le16(is);
+            is.seekg(nlen + xlen, std::ios::cur);
+            std::vector<unsigned char> comp(csize);
+            if (csize) is.read((char*)comp.data(), csize);
+            std::string out;
+            if (method == 0) {
+                out.assign((const char*)comp.data(), comp.size());
+            } else if (method == 8) {
+                if (!inflate_raw(comp.data(), comp.size(), out, usize)) return 0;
+            } else {
+                return 0;
+            }
+            retstr = out;
+            return 1; // non-zero on success, to match previous behavior
+        }
     }
-
-    if (buf.strptr) free (buf.strptr);
-
-    return ret;
-
+    return 0;
 }

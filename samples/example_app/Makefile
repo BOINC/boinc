@@ -56,7 +56,7 @@ ifdef BUILD_APPS_WITH_VCPKG
     -L$(VCPKG_DIR)/lib
 
   LIBUI = -lX11 -lXmu -lXrandr -lXxf86vm -lXi
-  LIBFTGL = -lftgl -lfreetype -lpng -lbz2 -lbrotlidec -lbrotlienc -lbrotlicommon -lz
+  LIBFTGL = -lftgl -lfreetype -lpng -lbz2 -lbrotlidec -lbrotlienc -lbrotlicommon
 endif
 
 ifdef BUILD_WITH_MINGW
@@ -64,7 +64,7 @@ ifdef BUILD_WITH_MINGW
   LIBGLU = -lglu32
   LIBGL= -lopengl32
   LIBUI = -lgdi32 -lwinmm
-  LIBFTGL = -lftgl -lfreetype -lpng -lbz2 -lbrotlidec -lbrotlienc -lbrotlicommon -lz
+  LIBFTGL = -lftgl -lfreetype -lpng -lbz2 -lbrotlidec -lbrotlienc -lbrotlicommon
 endif
 
 PROGS = uc2 ucn
@@ -114,7 +114,7 @@ uc2_graphics: uc2_graphics.o ttfont.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboi
 	$(BOINC_API_DIR)/libboinc_api.a \
 	$(BOINC_LIB_DIR)/libboinc.a \
     $(LIBGLUT) $(LIBGLU) $(LIBJPEG) \
-    $(LIBFTGL) $(LIBGL) $(LIBUI) -lm
+    $(LIBFTGL) $(LIBGL) $(LIBUI) -lm -lz
 
 slide_show: slide_show.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_graphics2.a
 	$(CXX) $(CXXFLAGS) -o slide_show slide_show.o $(MAKEFILE_LDFLAGS) \
@@ -124,4 +124,4 @@ slide_show: slide_show.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_
 	$(BOINC_LIB_DIR)/libboinc.a \
 	$(BOINC_ZIP_DIR)/libboinc_zip.a \
     $(LIBGLUT) $(LIBGLU) $(LIBJPEG) \
-    $(LIBGL) $(LIBUI) -lm
+    $(LIBGL) $(LIBUI) -lm -lz
