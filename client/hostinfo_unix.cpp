@@ -151,6 +151,7 @@ extern "C" {
 
 #include <dlfcn.h>
 #endif
+int podman_init_pid = 0;
 #endif  // __APPLE__
 
 #ifdef _HPUX_SOURCE
@@ -1253,17 +1254,17 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
 #ifdef __APPLE__
     // download (if not there) and start QEMU VM
     if (type == PODMAN) {
-
         snprintf(cmd, sizeof(cmd),
-                 "%s machine init",
+            "%s machine init; %s machine start",
+            docker_cli_prog(type),
             docker_cli_prog(type)
         );
-        system(cmd);
-        snprintf(cmd, sizeof(cmd),
-                 "%s machine start",
-            docker_cli_prog(type)
-        );
-        system(cmd);
+        vector<char*> argv;
+        argv.push_back("sh");
+        argv.push_back("-c");
+        argv.push_back(cmd);
+        argv.push_back(NULL);
+        run_program(NULL, "/bin/sh", 0, argv, podman_init_pid);
 
 #if 0   // For debugging
         snprintf(cmd, sizeof(cmd),
