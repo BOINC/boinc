@@ -71,7 +71,7 @@
 # Updated 2/11/25 to add Fix_BOINC_Users
 # Updated 2/23/25 to fix PrimaryGroupID for users boinc_master, boinc_project
 # Updated 5/9/25 to add podman directory
-# Updated 8/23/25 to add Run_Podman and BOINC podman directory
+# Updated 8/24/25 to add Run_Podman and BOINC podman directory
 #
 # WARNING: do not use this script with versions of BOINC older
 # than 7.20.4
@@ -118,7 +118,7 @@ function make_boinc_user() {
 
         dscl . -create /users/$1
         dscl . -create /users/$1 uid $uid
-        dscl . -create /users/$1 shell /usr/bin/false
+        dscl . -create /users/$1 shell /bin/zsh
         dscl . -create /users/$1 home /var/empty
     else
         uid=$(dscl . read /users/$1 UniqueID | cut -d" " -f2 -s)
@@ -284,7 +284,7 @@ if [ -f Fix_BOINC_Users ] ; then
 fi
 
 if [ -f Run_Podman ] ; then
-    set_perm Fix_BOINC_Users root boinc_master 04555       # Run_Podman
+    set_perm Run_Podman root boinc_master 04555       # Run_Podman
 fi
 
 if [ -f boinc ] ; then
