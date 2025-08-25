@@ -1259,11 +1259,11 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
             docker_cli_prog(type),
             docker_cli_prog(type)
         );
-        vector<char*> argv;
-        argv.push_back("sh");
-        argv.push_back("-c");
-        argv.push_back(cmd);
-        argv.push_back(NULL);
+        char * argv[4];
+        argv[0] = "sh";
+        argv[1] = "-c";
+        argv[2] = cmd;
+        argv[3] = NULL;
         run_program(NULL, "/bin/sh", 0, argv, podman_init_pid);
 
 #if 0   // For debugging
