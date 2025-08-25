@@ -1,2 +1,2 @@
 test: test.cpp
-	g++ -g test.cpp -o test -L. -lboinc_zip -L../lib -lboinc
+	g++ -g test.cpp -o test -L. -lboinc_zip -L../lib -lboinc -lz
