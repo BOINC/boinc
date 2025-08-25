@@ -7,7 +7,7 @@
         <web_url>https://www.sidock.si/sidock/</web_url>
         <general_area>Biology and Medicine</general_area>
         <specific_area>Biomedicine</specific_area>
-        <description><![CDATA[Study drugs to fight SARS-CoV-2]]></description>
+        <description><![CDATA[Sidock@home is an international volunteer computing project aimed at drug discovery. The first mission of the project is discovery of possible drugs against the SARS-CoV-2 virus. It started as an extension of the project COVID.SI COVID.SI to engage the BOINC community into the drug discovery.]]></description>
         <home>The COVID.SI project and the Karelian Research Center of the Russian Academy of Sciences</home>
     <platforms>
         <name>arm-unknown-linux-gnueabihf</name>
@@ -16,7 +16,7 @@
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/sidock.png</image>
-      <summary>Study drugs to fight SARS-CoV-2</summary>
+      <summary>Sidock@home is an international volunteer computing project aimed at drug discovery. The first mission of the project is discovery of possible drugs against the SARS-CoV-2 virus. It started as an extension of the project COVID.SI COVID.SI to engage the BOINC community into the drug discovery.</summary>
         <keywords>9 13 64 20 44</keywords>
     </project>
     <project>
@@ -476,7 +476,7 @@
         <web_url>https://www.primegrid.com/</web_url>
         <general_area>Mathematics, computing, and games</general_area>
         <specific_area>Mathematics</specific_area>
-        <description><![CDATA[Primegrid has multiple projects searching for different forms of very large prime numbers, including searching for the largest known prime number.]]></description>
+        <description><![CDATA[PrimeGrid's primary goal is to advance mathematics by enabling everyday computer users to contribute their system's processing power towards prime finding. By simply downloading and installing BOINC and attaching to the PrimeGrid project, participants can choose from a variety of prime forms to search. With a little patience, you may find a large or even record breaking prime and enter into Chris Caldwell's The Largest Known Primes Database with a multi-million digit prime!PrimeGrid's secondary goal is to provide relevant educational materials about primes. Additionally, we wish to contribute to the field of mathematics.Lastly, primes play a central role in the cryptographic systems which are used for computer security. Through the study of prime numbers it can be shown how much processing is required to crack an encryption code and thus to determine whether current security schemes are sufficiently secure.]]></description>
         <home>Independent</home>
     <platforms>
         <name>aarch64-unknown-linux-gnu[cpuGFN15_mt]</name>
