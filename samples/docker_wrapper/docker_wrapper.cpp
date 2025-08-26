@@ -772,6 +772,7 @@ int main(int argc, char** argv) {
 #else
     if (boinc_is_standalone()) {
         docker_type = PODMAN;
+        fprintf(stderr, "Standalone mode; using Podman\n");
     } else {
         if (!strlen(aid.host_info.docker_version)
             || aid.host_info.docker_type == NONE
