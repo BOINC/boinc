@@ -50,7 +50,7 @@
 # [3] Switching between secure and insecure operation while a Podman VM
 #     exists under BOINC can cause problems. If Podmans is installed,
 #     always do "./Run_Podman machine stop" and "./Run_Podman machine rm"
-#     before switching from secure to insecure operation, or from inseure
+#     before switching from secure to insecure operation, or from insecure
 #     to secure operation.
 #
 # Updated 1/27/11 for BOINC versions 6.8.19, 6.10.30 and 6.11.1

@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 
     if (geteuid() != 0) {
         pw = getpwnam("boinc_project");
-        if (!pw)    {
+        if (!pw) {
             runWithoutSandbox =  true;
         } else {
             fprintf(stderr, "ERROR: Run_Podman must be called setuid root\n");
