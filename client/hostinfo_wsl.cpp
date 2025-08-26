@@ -127,6 +127,17 @@ int get_all_distros(WSL_DISTROS& distros) {
 
     RegCloseKey(hKey);
 
+    // if boinc-buda-runner is present, ignore others
+    //
+    for (WSL_DISTRO &wd: distros.distros) {
+        if (wd.distro_name == BOINC_WSL_DISTRO_NAME) {
+            WSL_DISTRO distro = wd;
+            distros.distros.clear();
+            distros.distros.push_back(distro);
+            break;
+        }
+    }
+
     return 0;
 }
 
