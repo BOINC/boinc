@@ -199,7 +199,7 @@ double boinc_related_cpu_time(PROC_MAP& pm, bool vbox_app_running) {
             || strstr(p.command, "vmmem")
 #endif
 #ifdef __APPLE__
-            || strstr(p.command, "com.apple.zvirtualization.VirtualMachine")
+            || strstr(p.command, "com.apple.Virtualization.VirtualMachine")
 #endif
         ) {
             sum += (p.user_time + p.kernel_time);
