@@ -186,13 +186,6 @@ TEST_F(CryptTest, OpenSSLToKeysAndBack) {
 	EVP_PKEY_free(pkey);
 }
 
-TEST_F(CryptTest, OpensslToPrivateHelper) {
-	// This test exercised openssl_to_private using RSA*, which requires
-	// deprecated low-level RSA access. With modern OpenSSL, prefer using
-	// EVP to extract parameters. We keep coverage via other tests.
-	SUCCEED();
-}
-
 TEST_F(CryptTest, EncryptPrivateThenDecryptPublic) {
 	EVP_PKEY* pkey = make_evp_rsa_1024();
 	ASSERT_NE(pkey, nullptr);
