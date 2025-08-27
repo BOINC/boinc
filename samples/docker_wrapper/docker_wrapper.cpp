@@ -318,6 +318,24 @@ void get_escaped_cwd() {
 #endif
 }
 
+
+void get_app_args(char* buf) {
+    buf[0] = 0;
+#ifdef __APPLE__
+    for (string arg: app_args) {
+        char buf2[4096];
+        strcat(buf, "\\ ");
+        escape_spaces(arg.c_str(), buf2);
+        strcat(buf, buf2);
+    }
+#else
+    for (string arg: app_args) {
+        strcat(buf, " ");
+        strcat(buf, arg.c_str());
+    }
+#endif
+}
+
 //////////  IMAGE  ////////////
 
 void get_image_name() {
@@ -439,14 +457,13 @@ int create_container() {
         slot_cmd, project_cmd
     );
 
-    // add command-line args
+    // add command-line args, space-escaped if needed (Mac)
     //
     if (app_args.size()) {
+        char arg_buf[4096];
         strcat(cmd, " -e ARGS=\"");
-        for (string arg: app_args) {
-            strcat(cmd, " ");
-            strcat(cmd, arg.c_str());
-        }
+        get_app_args(arg_buf);
+        strcat(cmd, arg_buf);
         strcat(cmd, "\"");
     }
 
