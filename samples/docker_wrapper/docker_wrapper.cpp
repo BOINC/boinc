@@ -369,6 +369,21 @@ int container_exists(bool &exists) {
     return 0;
 }
 
+// podman doesn't correctly handle args containing unescaped spaces
+// WTF??
+static void escape_spaces(char* p, char *q) {
+    while (*p) {
+    	if (*p == ' ') {
+	    *q++ = '\\';
+	    *q++ = ' ';
+	} else {
+	    *q++ = *p;
+	}
+	p++;
+    }
+    *q = 0;
+}
+
 int create_container() {
     char cmd[1024];
     char slot_cmd[256], project_cmd[256], buf[256];
@@ -383,7 +398,9 @@ int create_container() {
     // Win: use . since full path has :
     //
 #ifdef __APPLE__
-    getcwd(cwd, sizeof(cwd));
+    char cwd2[MAXPATHLEN];
+    getcwd(cwd2, sizeof(cwd2));
+    escape_spaces(cwd2, cwd);
 #else
     strcpy(cwd, ".");
 #endif

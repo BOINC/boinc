@@ -50,7 +50,7 @@
 
 // define exactly one
 
-#define APP_NONE
+//#define APP_NONE
 //#define APP_WSL_WRAPPER
 //      type    physical            logical             copy?
 //      app     wsl_wrapper.exe     wsl_wrapper.exe
@@ -58,15 +58,16 @@
 //      app     main                main                yes
 //      input   infile              in
 //      output  outfile             out
-//#define APP_DOCKER_WRAPPER
+#define APP_DOCKER_WRAPPER
 //      type    physical            logical             copy?
 //      app     worker              worker              yes
 //      app     job.toml            job.toml            yes
+//	(not used for now)
 //      app     Dockerfile          Dockerfile          yes
 //      app     main.sh             main.sh             yes
 //      app     docker_wrapper      docker_wrapper
-//      input   infile              in                  no
-//      output  outfile             out                 yes
+//      input   in	            in                  yes
+//      output  out                 out                 yes
 
 #ifdef APP_NONE
 void CLIENT_STATE::app_test_init() {}
@@ -138,9 +139,9 @@ static APP_VERSION* make_app_version(APP *app) {
     strcpy(av->api_version, "8.0");
     av->app = app;
     av->project = app->project;
-    av->avg_ncpus = 1;
+    av->resource_usage.avg_ncpus = 1;
     av->version_num = 1;
-    av->flops = 1e9;
+    av->resource_usage.flops = 1e9;
     gstate.app_versions.push_back(av);
     return av;
 }
@@ -170,6 +171,7 @@ static RESULT* make_result(APP_VERSION *av, WORKUNIT* wu) {
     res->wup = wu;
     res->app = av->app;
     res->report_deadline = dtime()+86400;
+    res->_state = RESULT_FILES_DOWNLOADED;
     gstate.results.push_back(res);
     return res;
 }
@@ -189,7 +191,7 @@ void CLIENT_STATE::app_test_init() {
 
     APP_VERSION *av = make_app_version(app);
 
-////////////// APP VERSION FILES /////////////////
+////////////// APP VERSION AND WORKUNIT FILES /////////////////
 
 #ifdef APP_WSL_WRAPPER
     av->app_files.push_back(
@@ -204,7 +206,7 @@ void CLIENT_STATE::app_test_init() {
 #endif
 #ifdef APP_DOCKER_WRAPPER
     av->app_files.push_back(
-        *make_file(app->project, "docker_wrapper.exe", NULL, MAIN_PROG, false)
+        *make_file(app->project, "docker_wrapper", NULL, MAIN_PROG, false)
     );
     av->app_files.push_back(
         *make_file(app->project, "worker", NULL, INPUT_FILE, true)
@@ -212,9 +214,11 @@ void CLIENT_STATE::app_test_init() {
     av->app_files.push_back(
         *make_file(app->project, "main.sh", "main.sh", INPUT_FILE, true)
     );
+#if 0
     av->app_files.push_back(
         *make_file(app->project, "job.toml", "job.toml", INPUT_FILE, true)
     );
+#endif
     av->app_files.push_back(
         *make_file(app->project, "Dockerfile", "Dockerfile", INPUT_FILE, true)
     );
@@ -228,6 +232,8 @@ void CLIENT_STATE::app_test_init() {
 #endif
 
     WORKUNIT *wu = make_workunit(av);
+    char buf[256];
+    getcwd(buf, sizeof(buf));
 
 ////////////// INPUT FILES /////////////////
 
@@ -240,7 +246,7 @@ void CLIENT_STATE::app_test_init() {
 #ifdef APP_DOCKER_WRAPPER
     wu->command_line = "--verbose --nsecs 20";
     wu->input_files.push_back(
-        *make_file(proj, "infile", "in", INPUT_FILE, false)
+        *make_file(proj, "in", "in", INPUT_FILE, true)
     );
 #endif
     RESULT *result = make_result(av, wu);
@@ -254,7 +260,7 @@ void CLIENT_STATE::app_test_init() {
 #endif
 #ifdef APP_DOCKER_WRAPPER
     result->output_files.push_back(
-        *make_file(proj, "outfile", "out", OUTPUT_FILE, true)
+        *make_file(proj, "out", "out", OUTPUT_FILE, true)
     );
 #endif
 
