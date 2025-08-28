@@ -72,6 +72,7 @@
 # Updated 2/23/25 to fix PrimaryGroupID for users boinc_master, boinc_project
 # Updated 5/9/25 to add podman directory
 # Updated 8/24/25 to add Run_Podman and BOINC podman directory
+# Updated 8/27/25 to allow podman to stat items under BOINC Data directory
 #
 # WARNING: do not use this script with versions of BOINC older
 # than 7.20.4
@@ -244,7 +245,7 @@ if [ -f ss_config.xml ] ; then
 fi
 
 # Set permissions of BOINC Data directory itself
-set_perm . boinc_master boinc_master 0771
+set_perm . boinc_master boinc_master 0775
 
 if [ -d projects ] ; then
     set_perm_recursive projects boinc_master boinc_project u+rw,g+rw,o+r-w

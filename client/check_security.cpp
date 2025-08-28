@@ -366,7 +366,7 @@ int use_sandbox, int isManager, char* path_to_error, int len
             return -1022;
 
         // The top-level BOINC Data directory should have permission 771 or 571
-        if ((sbuf.st_mode & 07577) != 0571)
+        if ((sbuf.st_mode & 07577) != 0575)
             return -1023;
 
     } else {
