@@ -50,7 +50,7 @@
 
 // define exactly one
 
-//#define APP_NONE
+#define APP_NONE
 //#define APP_WSL_WRAPPER
 //      type    physical            logical             copy?
 //      app     wsl_wrapper.exe     wsl_wrapper.exe
@@ -58,7 +58,7 @@
 //      app     main                main                yes
 //      input   infile              in
 //      output  outfile             out
-#define APP_DOCKER_WRAPPER
+//#define APP_DOCKER_WRAPPER
 //      type    physical            logical             copy?
 //      app     worker              worker              yes
 //      app     job.toml            job.toml            yes
@@ -117,7 +117,7 @@ static FILE_REF* make_file(
     strcpy(fip->name, phys_name);
     fip->project = proj;
     fip->status = (ftype == OUTPUT_FILE)?FILE_NOT_PRESENT:FILE_PRESENT;
-    if (ftype == MAIN_PROG) fip->executable = true;
+    fip->executable = true;
     if (ftype == OUTPUT_FILE) {
         fip->max_nbytes = 1e9;
         fip->upload_urls.add(string("foobar"));

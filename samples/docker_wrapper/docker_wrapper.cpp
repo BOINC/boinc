@@ -289,7 +289,7 @@ int error_output(vector<string> &out) {
 #ifdef __APPLE__
 // podman doesn't correctly handle args containing unescaped spaces - WTF??
 //
-static void escape_spaces(char* p, char *q) {
+static void escape_spaces(const char* p, char *q) {
     while (*p) {
     	if (*p == ' ') {
 	    *q++ = '\\';
@@ -434,7 +434,7 @@ int create_container() {
     // Needs quotes since paths can contain spaces
     //
     snprintf(slot_cmd, sizeof(slot_cmd),
-        " -v \"%s\":\"%s\"",
+        " -v \"%s/\":\"%s\"",
         escaped_cwd, config.workdir.c_str()
     );
     if (config.project_dir_mount.empty()) {
@@ -442,12 +442,12 @@ int create_container() {
     } else {
         if (boinc_is_standalone()) {
             snprintf(project_cmd, sizeof(project_cmd),
-                " -v \"%s/%s\":\"%s\"",
+                " -v \"%s/%s/\":\"%s\"",
                 escaped_cwd, project_dir, config.project_dir_mount.c_str()
             );
         } else {
             snprintf(project_cmd, sizeof(project_cmd),
-                " -v \"%s/../../projects/%s\":\"%s\"",
+                " -v \"%s/../../projects/%s/\":\"%s\"",
                 escaped_cwd, project_dir, config.project_dir_mount.c_str()
             );
         }
