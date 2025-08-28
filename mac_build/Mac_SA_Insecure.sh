@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-# Mac_SA_Insecure.sh user group
+# Mac_SA_Insecure.sh
 #
 # Undo making a Macintosh BOINC installation secure.
 # - Set file/dir ownership to the specified user and group
@@ -35,19 +35,27 @@
 #
 # Execute this as root in the BOINC Data directory:
 # cd "/Library/Application Support/BOINC Data"
-# sudo sh {path}/Mac_SA_Insecure.sh user group
+# sudo sh {path}/Mac_SA_Insecure.sh <user> <group>
+#
+# Usually, substitute your user name for <user> and "staff" for <group>
 #
 # After running this script, the boinc client must be run with
 # the --insecure option.
 # NOTE: running BOINC with security disabled is not recommended.
 #
-# Updated 1/27/11 for BOINC versions 6.8.19, 6.10.30 and 6.11.1
-# Updated 8/23/25 to add Run_Podman and BOINC podman directory
+# IMPORTANT WARNINGS:
+# [1] Do not use this script with older versions of BOINC older than
+#     6.8.17 and 6.10.3
+# [2] Always exit BOINC before running this script.
+# [3] Switching between secure and insecure operation while a Podman VM
+#     exists under BOINC can cause problems. If Podmans is installed,
+#     always do "./Run_Podman machine stop" and "./Run_Podman machine rm"
+#     before switching from secure to insecure operation, or from insecure
+#     to secure operation.
 #
-# WARNING: do not use this script with older versions of BOINC older
-# than 6.8.17 and 6.10.3 or if Podman is installed
-
-#TODO: Modify Run_Podman to work when client is run with --insecure option
+# Updated 1/27/11 for BOINC versions 6.8.19, 6.10.30 and 6.11.1
+# Updated 8/25/25 to add Run_Podman and BOINC podman directory
+#
 
 function remove_boinc_users() {
     name=$(dscl . search /users RecordName boinc_master | cut -f1 -s)
