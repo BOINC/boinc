@@ -1255,12 +1255,12 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
     if (type == PODMAN) {
 
         snprintf(cmd, sizeof(cmd),
-                 "%s machine init",
+            "%s machine init -v /Library:/Library",
             docker_cli_prog(type)
         );
         system(cmd);
         snprintf(cmd, sizeof(cmd),
-                 "%s machine start",
+            "%s machine start",
             docker_cli_prog(type)
         );
         system(cmd);

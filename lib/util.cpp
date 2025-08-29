@@ -750,6 +750,7 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     int retval;
     if (verbose) {
         fprintf(stderr, "running docker command: %s\n", cmd);
+        fprintf(stderr, "program: %s\n", cli_prog);
     }
 #ifdef _WIN32
     string output;
