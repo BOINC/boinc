@@ -35,10 +35,15 @@
     <ClCompile Include="..\tests\unit-tests\lib\test_util.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_md5_file.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_shmem.cpp" />
+    <ClCompile Include="..\tests\unit-tests\lib\test_zip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="libboinc.vcxproj">
       <Project>{e8f6bd7e-461a-4733-b7d8-37b09a099ed8}</Project>
+    </ProjectReference>
+    <!--Temporary reference-->
+    <ProjectReference Include="libboinczip.vcxproj">
+      <Project>{753e897d-9ece-42b1-9f0d-cd566775c77e}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
