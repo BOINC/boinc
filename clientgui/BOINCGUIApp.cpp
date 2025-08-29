@@ -1,5 +1,5 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
+// https://boinc.berkeley.edu
 // Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
@@ -561,7 +561,6 @@ bool CBOINCGUIApp::OnInit() {
 #ifndef __WXGTK__
     // Initialize the task bar icon
 	m_pTaskBarIcon = new CTaskBarIcon(
-        m_pSkinManager->GetAdvanced()->GetApplicationName(),
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationDisconnectedIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
@@ -573,7 +572,6 @@ bool CBOINCGUIApp::OnInit() {
 #endif // __WXGTK__
 #ifdef __WXMAC__
     m_pMacDockIcon = new CTaskBarIcon(
-        m_pSkinManager->GetAdvanced()->GetApplicationName(),
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationDisconnectedIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
