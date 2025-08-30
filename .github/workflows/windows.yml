@@ -47,7 +47,7 @@ env:
 jobs:
   msbuild:
     name: ${{matrix.configuration}}-${{matrix.platform}}-msbuild
-    runs-on: windows-2022
+    runs-on: windows-latest
     strategy:
       matrix:
         platform: [x64, arm64]
@@ -216,7 +216,7 @@ jobs:
 
   cmake:
     name: ${{matrix.configuration}}-${{matrix.platform}}-cmake
-    runs-on: windows-2022
+    runs-on: windows-latest
     strategy:
       matrix:
         platform: [x64, arm64]
