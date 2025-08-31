@@ -60,7 +60,7 @@ These batches will automatically be retired %d days after completion.',
         $text .= sprintf(
 '
 You currently have %d job batches that were aborted more than %d days ago.
-These batches will automatically be retired %d days after completion.',
+These batches will automatically be retired %d days after abortion.',
             $nabort, ABORT_NOTIFY, ABORT_LIFE
         );
     }
