@@ -68,8 +68,8 @@ typedef std::vector<std::string> ZipFileList;
 // across platforms
 
 bool boinc_filelist(
-    const std::string directory,
-    const std::string pattern,
+    const std::string& directory,
+    const std::string& pattern,
     ZipFileList* pList,
     const unsigned char ucSort = SORT_NAME | SORT_DESCENDING,
     const bool bClear = true
@@ -77,13 +77,13 @@ bool boinc_filelist(
 
 int boinc_zip(
     int bZipType,
-    const std::string szFileZip,
+    const std::string& szFileZip,
     const ZipFileList* pvectszFileIn
 );
 int boinc_zip(
     int bZipType,
-    const std::string szFileZip,
-    const std::string szFileIn
+    const std::string& szFileZip,
+    const std::string& szFileIn
 );
 
 int boinc_UnzipToMemory ( char *zip, char *file, std::string &retstr );

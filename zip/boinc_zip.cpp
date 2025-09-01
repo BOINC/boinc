@@ -52,38 +52,8 @@ int unzip(int argc, char** argv);
 #define _MAX_PATH 255
 #endif
 
-unsigned char g_ucSort;
-
-// a "binary predicate" for use by the std::sort algorithm
-// return true if "first > second" according to the g_ucSort type
-
-bool StringVectorSort(const std::string& first, const std::string& second) {
-    bool bRet = false;
-    if (g_ucSort & SORT_NAME
-        && g_ucSort & SORT_ASCENDING
-        && strcmp(first.c_str(), second.c_str())<0
-    ) {
-        bRet = true;
-    } else if (g_ucSort & SORT_NAME
-        && g_ucSort & SORT_DESCENDING
-        && strcmp(first.c_str(), second.c_str())>0
-    ) {
-        bRet = true;
-    } else if (g_ucSort & SORT_TIME) {
-        struct stat st[2];
-        stat(first.c_str(), &st[0]);
-        stat(second.c_str(), &st[1]);
-        if (g_ucSort & SORT_ASCENDING) {
-            bRet = st[0].st_mtime < st[1].st_mtime;
-        } else {
-            bRet = st[0].st_mtime > st[1].st_mtime;
-        }
-    }
-    return bRet;
-}
-
 int boinc_zip(
-    int bZipType, const std::string szFileZip, const std::string szFileIn
+    int bZipType, const std::string& szFileZip, const std::string& szFileIn
 ) {
     ZipFileList tempvec;
     tempvec.push_back(szFileIn);
@@ -93,16 +63,13 @@ int boinc_zip(
 // same, but with char[] instead of string
 //
 int boinc_zip(int bZipType, const char* szFileZip, const char* szFileIn) {
-    string strFileZip, strFileIn;
-    strFileZip.assign(szFileZip);
-    strFileIn.assign(szFileIn);
     ZipFileList tempvec;
-    tempvec.push_back(strFileIn);
-    return boinc_zip(bZipType, strFileZip, &tempvec);
+    tempvec.push_back(szFileIn);
+    return boinc_zip(bZipType, szFileZip, &tempvec);
 }
 
 int boinc_zip(
-    int bZipType, const std::string szFileZip, const ZipFileList* pvectszFileIn
+    int bZipType, const std::string& szFileZip, const ZipFileList* pvectszFileIn
 ) {
     int carg;
     char** av;
@@ -196,13 +163,12 @@ int boinc_zip(
 // --------------------------------------------------------------------
 
 bool boinc_filelist(
-    const string directory,
-    const string pattern,
+    const string& directory,
+    const string& pattern,
     ZipFileList* pList,
     const unsigned char ucSort,
     const bool bClear
 ) {
-    g_ucSort = ucSort;  // set the global sort type right off the bat
     string strFile;
     // at most three |'s may be passed in pattern match
     int iPos[3], iFnd, iCtr, i, lastPos;
@@ -308,8 +274,29 @@ bool boinc_filelist(
 
     // sort by file creation time
     // sort if list is greather than 1
-    if (pList->size()>1)  {
-       sort(pList->begin(), pList->end(), StringVectorSort);  // may as well sort it?
+    if (pList->size()>1) {
+        sort(pList->begin(), pList->end(),
+               [&](const string& first, const string& second)->bool {
+                        if (ucSort & SORT_NAME
+                            && ucSort & SORT_ASCENDING
+                            && first < second) {
+                            return true;
+                        } else if (ucSort & SORT_NAME
+                            && ucSort & SORT_DESCENDING
+                            && first > second) {
+                            return true;
+                        } else if (ucSort & SORT_TIME) {
+                            struct stat st[2];
+                            stat(first.c_str(), &st[0]);
+                            stat(second.c_str(), &st[1]);
+                            if (ucSort & SORT_ASCENDING) {
+                                return st[0].st_mtime < st[1].st_mtime;
+                            } else {
+                                return st[0].st_mtime > st[1].st_mtime;
+                            }
+                        }
+                        return false;
+               });
     }
     return true;
 }
