@@ -10,9 +10,11 @@ endif
 
 lib_LTLIBRARIES = libboinc_zip.la
 pkgconfig_DATA = libboinc_zip.pc
+# Append libzip CFLAGS without clobbering shared include paths from Makefile.incl
+AM_CPPFLAGS += $(LIBZIP_CFLAGS)
 libboinc_zip_la_SOURCES = boinc_zip.cpp
 libboinc_zip_la_LDFLAGS = -version-number $(LIBBOINC_VERSION)
-libboinc_zip_la_LIBADD =
+libboinc_zip_la_LIBADD = $(LIBZIP_LIBS)
 
 # Some OSs may not prefix libraries with lib.
 # For example OS2

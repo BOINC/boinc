@@ -8,11 +8,12 @@ set (CMAKE_CXX_FLAGS "-g -Wall -Wextra -Werror --coverage")
 
 if (APPLE)
     find_package(GTest REQUIRED PATHS ${PROJECT_SOURCE_DIR}/../../3rdParty/osx/vcpkg/installed/arm64-osx/share NO_DEFAULT_PATH)
-    find_package(ZLIB REQUIRED PATHS ${PROJECT_SOURCE_DIR}/../../3rdParty/osx/vcpkg/installed/arm64-osx/share NO_DEFAULT_PATH)
 else()
     find_package(Threads REQUIRED)
     find_package(GTest REQUIRED)
     find_package(ZLIB REQUIRED)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(LIBZIP REQUIRED IMPORTED_TARGET libzip)
 endif()
 
 # There is no easy way to interface with the autotools driven build system in boinc

@@ -1101,6 +1101,22 @@ fi
 AM_CONDITIONAL(BUILD_X11_SCREENSAVER, [ test "$have_Xcb" = yes -a "$have_Xcbatom" = yes ])
 dnl -----------------------------------------------------------------------
 
+dnl ---------- libzip (required for boinc_zip) ----------------------------
+PKG_CHECK_MODULES([LIBZIP], [libzip], [have_libzip=yes], [have_libzip=no])
+AS_IF([test "x${have_libzip}" != "xyes"], [
+  AC_MSG_ERROR([
+================================================================================
+ERROR: libzip development files not found. They are required for the BOINC zip library.
+
+  Install libzip (e.g., libzip-dev on Debian/Ubuntu, libzip-devel on Fedora,
+  or via vcpkg/homebrew on Windows/macOS) and re-run configure.
+================================================================================
+  ])
+])
+AC_SUBST([LIBZIP_CFLAGS])
+AC_SUBST([LIBZIP_LIBS])
+dnl -----------------------------------------------------------------------
+
 dnl Heres another way to set up host-specific stuff
 AM_CONDITIONAL(OS_DARWIN, [echo $host_os | grep '^darwin' > /dev/null])
 if echo $host_os | grep '^darwin' >/dev/null ; then
