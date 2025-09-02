@@ -8,6 +8,7 @@ set (CMAKE_CXX_FLAGS "-g -Wall -Wextra -Werror --coverage")
 
 if (APPLE)
     find_package(GTest REQUIRED PATHS ${PROJECT_SOURCE_DIR}/../../3rdParty/osx/vcpkg/installed/arm64-osx/share NO_DEFAULT_PATH)
+    find_package(ZLIB REQUIRED PATHS ${PROJECT_SOURCE_DIR}/../../3rdParty/osx/vcpkg/installed/arm64-osx/share NO_DEFAULT_PATH)
 else()
     find_package(Threads REQUIRED)
     find_package(GTest REQUIRED)
