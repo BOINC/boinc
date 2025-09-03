@@ -222,6 +222,24 @@ function get_batch_params($batch, $wus) {
     return $batch;
 }
 
+// get params of in-progress batches; they might not be in progress anymore.
+//
+function get_batches_params($batches) {
+    $b = [];
+    foreach ($batches as $batch) {
+        if ($batch->state == BATCH_STATE_IN_PROGRESS) {
+            $wus = BoincWorkunit::enum_fields(
+                'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
+                "batch = $batch->id"
+            );
+            $b[] = get_batch_params($batch, $wus);
+        } else {
+            $b[] = $batch;
+        }
+    }
+    return $b;
+}
+
 // get the physical names of a result's output files.
 //
 function get_outfile_phys_names($result) {

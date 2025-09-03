@@ -156,24 +156,6 @@ function get_order() {
     return $order;
 }
 
-// get params of in-progress batches; they might not be in progress anymore.
-//
-function get_batches_params($batches) {
-    $b = [];
-    foreach ($batches as $batch) {
-        if ($batch->state == BATCH_STATE_IN_PROGRESS) {
-            $wus = BoincWorkunit::enum_fields(
-                'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
-                "batch = $batch->id"
-            );
-            $b[] = get_batch_params($batch, $wus);
-        } else {
-            $b[] = $batch;
-        }
-    }
-    return $b;
-}
-
 function state_count($batches, $state) {
     $n = 0;
     foreach ($batches as $batch) {
@@ -422,11 +404,10 @@ function show_submit_links($user) {
 // They have manage access to these batches.
 //
 function handle_show_user_batches($user) {
-    page_head("Batches");
+    page_head("Your batches");
     $order = get_order();
     order_options('action=show_user_batches', $order);
     $batches = BoincBatch::enum("user_id = $user->id");
-    get_batches_params($batches);
     show_batches($batches, $order, PAGE_SIZE, $user, null);
 
     page_tail();
@@ -526,7 +507,7 @@ function show_batches_admin_app($user) {
 
 function handle_admin_all($user) {
     $order = get_order();
-    page_head("Administer batches (all apps)");
+    page_head("Administer batches (all apps and users)");
     order_options("action=admin_all", $order);
     $batches = BoincBatch::enum('');
     show_batches($batches, $order, PAGE_SIZE, null, null);
