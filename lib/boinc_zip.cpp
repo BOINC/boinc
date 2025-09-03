@@ -286,8 +286,7 @@ bool boinc_filelist(
 ) {
     string strFile;
     // at most three |'s may be passed in pattern match
-    int iPos[3], iFnd, iCtr, i, lastPos;
-    string strFullPath;
+    int iPos[3];
     char strPart[3][32];
     string spattern = pattern;
     string strDir = directory;
@@ -317,8 +316,7 @@ bool boinc_filelist(
     }
 
     // transform strDir to either all \\ or all /
-    int j;
-    for (j=0; j<(int)directory.size(); j++)  {
+    for (int j=0; j<(int)directory.size(); j++)  {
         // take off final / or backslash
         if (j == ((int)directory.size()-1)
              && (strDir[j] == '/' || strDir[j]=='\\')
@@ -336,8 +334,8 @@ bool boinc_filelist(
     DirScanner dirscan(strDir);
     memset(strPart, 0x00, 3*32);
     while (dirscan.scan(strFile)) {
-        iCtr = 0;
-        lastPos = 0;
+        int iCtr = 0;
+        int lastPos = 0;
         iPos[0] = -1;
         iPos[1] = -1;
         iPos[2] = -1;
@@ -367,22 +365,18 @@ bool boinc_filelist(
             iCtr++; // fake iCtr up 1 to get in the loop below
         }
 
-        bool bFound = true;
-        for (i = 0; i <= iCtr && bFound; i++) {
-            if (i==0)  {
-                iFnd = (int) strFile.find(strPart[0]);
-                bFound = (bool) (iFnd > -1);
-            } else {
-                // search forward of the old part found
-                iFnd = (int) strFile.find(strPart[i], iFnd+1);
-                bFound = bFound && (bool) (iFnd > -1);
-            }
+        int iFnd = (int)strFile.find(strPart[0]);
+        bool bFound = (bool)(iFnd > -1);
+        for (int i = 0; i <= iCtr && bFound; i++) {
+            // search forward of the old part found
+            iFnd = (int) strFile.find(strPart[i], iFnd+1);
+            bFound = bFound && (bool) (iFnd > -1);
         }
 
         if (bFound) {
             // this pattern matched the file, add to vector
             // NB: first get stat to make sure it really is a file
-            strFullPath = strUserDir + strFile;
+            string strFullPath = strUserDir + strFile;
             // only add if the file really exists (i.e. not a directory)
             if (is_file(strFullPath.c_str())) {
                 pList->push_back(strFullPath);
