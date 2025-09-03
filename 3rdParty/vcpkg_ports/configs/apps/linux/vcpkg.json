@@ -15,6 +15,7 @@
         "rappture",
         "opencl",
         "ftgl",
-        "freeglut"
+        "freeglut",
+        "libzip"
     ]
 }

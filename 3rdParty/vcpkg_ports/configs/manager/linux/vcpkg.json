@@ -22,6 +22,7 @@
           "name": "gdk-pixbuf",
           "features": ["jpeg", "png", "svg", "tiff", "others"],
           "default-features": false
-        }
+        },
+        "libzip"
     ]
 }

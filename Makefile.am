@@ -10,16 +10,6 @@ ACLOCAL_AMFLAGS = -I m4
 
 if ENABLE_LIBRARIES
     API_SUBDIRS = api lib
-if ENABLE_SERVER
-    API_SUBDIRS += zip
-endif
-## boinc_zip needed for wrapper
-if ENABLE_APPS
-    API_SUBDIRS += zip
-endif
-if ENABLE_BOINCZIP
-    API_SUBDIRS += zip
-endif
 endif
 
 if ENABLE_SERVER

@@ -15,6 +15,7 @@
         "rappture",
         "ftgl",
         "freeglut",
-        "libjpeg-turbo"
+        "libjpeg-turbo",
+        "libzip"
     ]
 }
