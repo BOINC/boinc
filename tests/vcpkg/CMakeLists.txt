@@ -24,6 +24,8 @@ set(VCPKG_OVERLAY_PORTS "${CMAKE_CURRENT_SOURCE_DIR}/ports" CACHE STRING "vcpkg 
 
 project(vcpkg_test CXX)
 
+vcpkg_detect_compiler()
+
 find_package(boinc REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(PkgConfig REQUIRED)
@@ -34,6 +36,8 @@ add_executable(vcpkg_test main.cpp)
 target_link_libraries(vcpkg_test PRIVATE unofficial::boinc::boinc unofficial::boinc::boincapi OpenSSL::SSL OpenSSL::Crypto PkgConfig::LIBZIP)
 
 project (vcpkg_c_test C)
+
+vcpkg_detect_compiler()
 
 find_package(boinc REQUIRED)
 find_package(OpenSSL REQUIRED)
