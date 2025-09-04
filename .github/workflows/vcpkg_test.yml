@@ -393,15 +393,9 @@ jobs:
           run: |
             mkdir -p tests/vcpkg/build
 
-        - name: Configure x64 build
-          if: ${{ matrix.triplet == 'x64-mingw-static' }}
+        - name: Configure build
           run: |
-            cmake -E env CC="x86_64-w64-mingw32-gcc" CXX="x86_64-w64-mingw32-g++" LD="x86_64-w64-mingw32-ld" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DHOST_TRIPLET=x64-linux
-
-        - name: Configure x86 build
-          if: ${{ matrix.triplet == 'x86-mingw-static' }}
-          run: |
-            cmake -E env CC="i686-w64-mingw32-gcc" CXX="i686-w64-mingw32-g++" LD="i686-w64-mingw32-ld" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DHOST_TRIPLET=x64-linux
+            cmake -E cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DHOST_TRIPLET=x64-linux
 
         - name: Build
           run: |
