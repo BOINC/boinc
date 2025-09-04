@@ -52,7 +52,7 @@ using std::string;
 namespace {
     // Return base filename component (no directories)
     static string basename_of(const string& path) {
-        size_t pos1 = path.find_last_of("/\\");
+        const size_t pos1 = path.find_last_of("/\\");
         if (pos1 == string::npos) return path;
         return path.substr(pos1+1);
     }
@@ -128,7 +128,7 @@ int boinc_zip(int bZipType, const char* szFileZip, const char* szFileIn) {
 int boinc_zip(
     int bZipType, const std::string& szFileZip, const ZipFileList* pvectszFileIn
 ) {
-    int nVecSize = pvectszFileIn ? (int)pvectszFileIn->size() : 0;
+    const size_t nVecSize = pvectszFileIn ? pvectszFileIn->size() : 0;
 
     if (bZipType == ZIP_IT) {
         // Create or truncate existing archive
@@ -140,7 +140,7 @@ int boinc_zip(
         }
 
         int retcode = 0;
-        for (int jj = 0; jj < nVecSize; ++jj) {
+        for (size_t jj = 0; jj < nVecSize; ++jj) {
             const string& src = pvectszFileIn->at(jj);
             // add as basename only (junk paths)
             string entry_name = basename_of(src);
@@ -149,7 +149,7 @@ int boinc_zip(
                 retcode = 2;
                 break;
             }
-            zip_int64_t idx = zip_file_add(za, entry_name.c_str(), zs,
+            const zip_int64_t idx = zip_file_add(za, entry_name.c_str(), zs,
                     ZIP_FL_OVERWRITE | ZIP_FL_ENC_UTF_8);
             if (idx < 0) {
                 zip_source_free(zs);
@@ -192,8 +192,14 @@ int boinc_zip(
         zip_t* za = zip_open(szFileZip.c_str(), ZIP_RDONLY, &errorp);
         if (!za) return 2;
 
-        zip_int64_t num_entries = zip_get_num_entries(za, 0);
-        for (zip_uint64_t i = 0; i < (zip_uint64_t)num_entries; ++i) {
+        const zip_int64_t num_entries_result = zip_get_num_entries(za, 0);
+        if (num_entries_result < 0) {
+            zip_discard(za);
+            return 2;
+        }
+        const zip_uint64_t num_entries =
+            static_cast<zip_uint64_t>(num_entries_result);
+        for (zip_uint64_t i = 0; i < num_entries; ++i) {
             struct zip_stat zs;
             zip_stat_init(&zs);
             if (zip_stat_index(za, i, 0, &zs) != 0) {
@@ -230,7 +236,8 @@ int boinc_zip(
             const size_t BUF_SIZE = 64 * 1024;
             std::vector<unsigned char> buf(BUF_SIZE);
             while (1) {
-                zip_int64_t n = zip_fread(zf, buf.data(), BUF_SIZE);
+                const size_t n = static_cast<size_t>(
+                    zip_fread(zf, buf.data(), BUF_SIZE));
                 if (n < 0) {
                     // read error
                     zip_fclose(zf);
@@ -239,8 +246,8 @@ int boinc_zip(
                     return 2;
                 }
                 if (n == 0) break;
-                size_t m = boinc::fwrite(buf.data(), 1, (size_t)n, out);
-                if (m != (size_t)n) {
+                const size_t m = boinc::fwrite(buf.data(), 1, n, out);
+                if (m != n) {
                     zip_fclose(zf);
                     boinc::fclose(out);
                     zip_discard(za);
@@ -284,14 +291,9 @@ bool boinc_filelist(
     const unsigned char ucSort,
     const bool bClear
 ) {
-    string strFile;
-    // at most three |'s may be passed in pattern match
-    int iPos[3];
-    char strPart[3][32];
     string spattern = pattern;
     string strDir = directory;
     string strUserDir = directory;
-    int iLen = strUserDir.size();
 
     if (!pList) return false;
 
@@ -303,7 +305,7 @@ bool boinc_filelist(
     }
 
     // first tack on a final slash on user dir if required
-    if (strUserDir[iLen-1] != '\\' && strUserDir[iLen] != '/') {
+    if (strUserDir.back() != '\\' && strUserDir.back() != '/') {
         // need a final slash, but what type?
         // / is safe on all OS's for CPDN at least
         // but if they already used \ use that
@@ -320,61 +322,48 @@ bool boinc_filelist(
     }
 
     // transform strDir to either all \\ or all /
-    for (int j=0; j<(int)directory.size(); j++)  {
-        // take off final / or backslash
-        if (j == ((int)directory.size()-1)
-             && (strDir[j] == '/' || strDir[j]=='\\')
-        ) {
-            strDir.resize(directory.size()-1);
-        } else {
+    for (char& c : strDir)  {
 #ifdef _WIN32  // transform paths appropriate for OS
-           if (directory[j] == '/') strDir[j] = '\\';
+        if (c == '/') c = '\\';
 #else
-           if (directory[j] == '\\') strDir[j] = '/';
+        if (c == '\\') c = '/';
 #endif
-        }
+    }
+    // take off final / or backslash
+    if (strDir.back() == '\\' || strDir.back() == '/') {
+        strDir.pop_back();
     }
 
     DirScanner dirscan(strDir);
-    memset(strPart, 0x00, 3*32);
+    string strFile;
     while (dirscan.scan(strFile)) {
-        int iCtr = 0;
-        int lastPos = 0;
-        iPos[0] = -1;
-        iPos[1] = -1;
-        iPos[2] = -1;
-        // match the filename against the regexp to see if it's a hit
-        // first get all the |'s to get the pieces to verify
-        //
-        while (iCtr<3 && (iPos[iCtr] =
-                    (int) spattern.find('|', lastPos)) > -1) {
-            if (iCtr==0)  {
-                strncpy(strPart[0], spattern.c_str(), iPos[iCtr]);
-            } else {
-                strncpy(strPart[iCtr], spattern.c_str()+lastPos,
-                        iPos[iCtr]-lastPos);
-            }
-            lastPos = iPos[iCtr]+1;
-            iCtr++;
+        size_t lastPos = 0;
+        std::vector<string> strPart;
+        size_t iPos = string::npos;
+        while ((iPos = spattern.find('|', lastPos)) != string::npos) {
+            strPart.push_back(spattern.substr(lastPos, iPos - lastPos));
+            lastPos = iPos+1;
         }
-        if (iCtr>0) {
+        if (strPart.size() > 0) {
             // found a | so need to get the part from lastpos onward
-            strncpy(strPart[iCtr], spattern.c_str()+lastPos,
-                    spattern.length() - lastPos);
+            strPart.push_back(spattern.substr(lastPos));
         }
 
         // check no | were found at all
-        if (iCtr == 0) {
-            strcpy(strPart[0], spattern.c_str());
-            iCtr++; // fake iCtr up 1 to get in the loop below
+        if (strPart.size() == 0) {
+            strPart.push_back(spattern);
         }
 
-        int iFnd = (int)strFile.find(strPart[0]);
-        bool bFound = (bool)(iFnd > -1);
-        for (int i = 1; i <= iCtr && bFound; i++) {
-            // search forward of the old part found
-            iFnd = (int) strFile.find(strPart[i], iFnd+1);
-            bFound = bFound && (bool) (iFnd > -1);
+        size_t iFnd = 0;
+        bool bFound = false;
+        for (const string& s : strPart) {
+            iFnd = strFile.find(s, iFnd);
+            if (iFnd == string::npos) {
+                bFound = false;
+                break;
+            }
+            bFound = true;
+            iFnd += s.length(); // move forward for next search
         }
 
         if (bFound) {
@@ -429,13 +418,13 @@ int boinc_UnzipToMemory (char *zip_path, char *file, string &retstr) {
     zip_t* za = zip_open(zip_path, ZIP_RDONLY, &errorp);
     if (!za) return 0;
 
-    zip_int64_t idx = zip_name_locate(za, file, 0);
+    const zip_int64_t idx = zip_name_locate(za, file, 0);
     if (idx < 0) {
         zip_close(za);
         return 0;
     }
 
-    zip_file_t* zf = zip_fopen_index(za, (zip_uint64_t)idx, 0);
+    zip_file_t* zf = zip_fopen_index(za, static_cast<zip_uint64_t>(idx), 0);
     if (!zf) {
         zip_close(za);
         return 0;
@@ -446,14 +435,14 @@ int boinc_UnzipToMemory (char *zip_path, char *file, string &retstr) {
     std::vector<char> buf(BUF_SIZE);
     string out;
     while (1) {
-        zip_int64_t n = zip_fread(zf, buf.data(), BUF_SIZE);
+        const zip_int64_t n = zip_fread(zf, buf.data(), BUF_SIZE);
         if (n < 0) {
             zip_fclose(zf);
             zip_close(za);
             return 0;
         }
         if (n == 0) break;
-        out.append(buf.data(), (size_t)n);
+        out.append(buf.data(), static_cast<size_t>(n));
     }
 
     zip_fclose(zf);
