@@ -2,8 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 project(boinc)
 
 find_package(OpenSSL REQUIRED)
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(LIBZIP REQUIRED IMPORTED_TARGET libzip)
+find_package(libzip REQUIRED)
 
 set(LIBBOINC_HEADERS_WIN
     lib/boinc_win.h
@@ -235,7 +234,7 @@ target_include_directories(boincapi PUBLIC
 target_link_libraries(boinc PRIVATE
                         OpenSSL::SSL
                         OpenSSL::Crypto
-                        PkgConfig::LIBZIP
+                        libzip::zip
 )
 
 target_link_libraries(boincapi PRIVATE
