@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.20)
 project(boinc)
 
 find_package(OpenSSL REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(LIBZIP REQUIRED IMPORTED_TARGET libzip)
 
 set(LIBBOINC_HEADERS_WIN
     lib/boinc_win.h
@@ -33,6 +35,7 @@ set(LIBBOINC_HEADERS_GENERIC
     lib/app_ipc.h
     lib/base64.h
     lib/boinc_stdio.h
+    lib/boinc_zip.h
     lib/cal_boinc.h
     lib/cc_config.h
     lib/cert_sig.h
@@ -99,6 +102,7 @@ set(LIBBOINC_SOURCES_APPLE
 set(LIBBOINC_SOURCES_GENERIC
     lib/app_ipc.cpp
     lib/base64.cpp
+    lib/boinc_zip.cpp
     lib/cc_config.cpp
     lib/cert_sig.cpp
     lib/coproc.cpp
@@ -231,6 +235,7 @@ target_include_directories(boincapi PUBLIC
 target_link_libraries(boinc PRIVATE
                         OpenSSL::SSL
                         OpenSSL::Crypto
+                        PkgConfig::LIBZIP
 )
 
 target_link_libraries(boincapi PRIVATE

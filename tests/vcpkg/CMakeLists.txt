@@ -26,16 +26,20 @@ project(vcpkg_test CXX)
 
 find_package(boinc REQUIRED)
 find_package(OpenSSL REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(LIBZIP REQUIRED IMPORTED_TARGET libzip)
 
 add_executable(vcpkg_test main.cpp)
 
-target_link_libraries(vcpkg_test PRIVATE unofficial::boinc::boinc unofficial::boinc::boincapi OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(vcpkg_test PRIVATE unofficial::boinc::boinc unofficial::boinc::boincapi OpenSSL::SSL OpenSSL::Crypto PkgConfig::LIBZIP)
 
 project (vcpkg_c_test C)
 
 find_package(boinc REQUIRED)
 find_package(OpenSSL REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(LIBZIP REQUIRED IMPORTED_TARGET libzip)
 
 add_executable(vcpkg_c_test main.c)
 
-target_link_libraries(vcpkg_c_test PRIVATE unofficial::boinc::boinc unofficial::boinc::boincapi OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(vcpkg_c_test PRIVATE unofficial::boinc::boinc unofficial::boinc::boincapi OpenSSL::SSL OpenSSL::Crypto PkgConfig::LIBZIP)
