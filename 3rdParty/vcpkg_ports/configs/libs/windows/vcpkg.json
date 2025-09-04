@@ -9,6 +9,9 @@
           "default-features": false
         },
         "libzip",
-        "pkgconf"
+        {
+          "name": "pkgconf",
+          "host": true
+        }
     ]
 }
