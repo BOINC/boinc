@@ -4,8 +4,7 @@ project(boinc-libs)
 message(WARNING "This build is under development and may not work as expected")
 
 find_package(OpenSSL REQUIRED)
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(LIBZIP REQUIRED IMPORTED_TARGET libzip)
+find_package(libzip REQUIRED)
 
 set(BOINC_DIR ${PROJECT_SOURCE_DIR}/..)
 
@@ -252,7 +251,7 @@ target_include_directories(boincapi PUBLIC
 target_link_libraries(boinc PRIVATE
                         OpenSSL::SSL
                         OpenSSL::Crypto
-                        PkgConfig::LIBZIP
+                        libzip::zip
 )
 
 target_link_libraries(boincapi PRIVATE

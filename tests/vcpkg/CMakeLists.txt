@@ -30,14 +30,9 @@ message(STATUS "CC=${CC} CXX=${CXX} LD=${LD} CFLAGS=${CFLAGS} CXXFLAGS=${CXXFLAG
 message(STATUS "CMAKE_C_COMPILER_ID=${CMAKE_C_COMPILER_ID} CMAKE_CXX_COMPILER_ID=${CMAKE_CXX_COMPILER_ID}")
 
 find_package(boinc REQUIRED)
-# find_package(OpenSSL REQUIRED)
-# find_package(PkgConfig REQUIRED)
-# pkg_check_modules(LIBZIP REQUIRED IMPORTED_TARGET libzip)
 
 add_executable(vcpkg_test main.cpp)
 add_executable(vcpkg_c_test main.c)
 
-# target_link_libraries(vcpkg_test PRIVATE unofficial::boinc::boinc unofficial::boinc::boincapi OpenSSL::SSL OpenSSL::Crypto PkgConfig::LIBZIP)
-# target_link_libraries(vcpkg_c_test PRIVATE unofficial::boinc::boinc unofficial::boinc::boincapi OpenSSL::SSL OpenSSL::Crypto PkgConfig::LIBZI
 target_link_libraries(vcpkg_test PRIVATE unofficial::boinc::boinc unofficial::boinc::boincapi)
 target_link_libraries(vcpkg_c_test PRIVATE unofficial::boinc::boinc unofficial::boinc::boincapi)
