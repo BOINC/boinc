@@ -24,6 +24,8 @@ set(VCPKG_OVERLAY_PORTS "${CMAKE_CURRENT_SOURCE_DIR}/ports" CACHE STRING "vcpkg 
 
 project(vcpkg_test CXX)
 
+message(STATUS "Using vcpkg VCPKG_HOST_TRIPLET=${VCPKG_HOST_TRIPLET}")
+
 find_package(boinc REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(PkgConfig REQUIRED)

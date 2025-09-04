@@ -1,3 +1,4 @@
+message(STATUS "Building BOINC with VCPKG_HOST_TRIPLET=${VCPKG_HOST_TRIPLET}")
 vcpkg_check_linkage(ONLY_STATIC_LIBRARY)
 string(REGEX REPLACE "^([0-9]*[.][0-9]*)[.].*" "\\1" MAJOR_MINOR "${VERSION}")
 vcpkg_from_github(
