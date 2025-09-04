@@ -22,10 +22,10 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/../../vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "vcpkg toolchain file")
 set(VCPKG_OVERLAY_PORTS "${CMAKE_CURRENT_SOURCE_DIR}/ports" CACHE STRING "vcpkg overlay ports")
 
+project(vcpkg_test CXX)
+
 message(STATUS "CC=${CC} CXX=${CXX} LD=${LD} CFLAGS=${CFLAGS} CXXFLAGS=${CXXFLAGS} LDFLAGS=${LDFLAGS}")
 message(STATUS "CMAKE_C_COMPILER_ID=${CMAKE_C_COMPILER_ID} CMAKE_CXX_COMPILER_ID=${CMAKE_CXX_COMPILER_ID}")
-
-project(vcpkg_test CXX)
 
 find_package(boinc REQUIRED)
 find_package(OpenSSL REQUIRED)
@@ -37,6 +37,9 @@ add_executable(vcpkg_test main.cpp)
 target_link_libraries(vcpkg_test PRIVATE unofficial::boinc::boinc unofficial::boinc::boincapi OpenSSL::SSL OpenSSL::Crypto PkgConfig::LIBZIP)
 
 project (vcpkg_c_test C)
+
+message(STATUS "CC=${CC} CXX=${CXX} LD=${LD} CFLAGS=${CFLAGS} CXXFLAGS=${CXXFLAGS} LDFLAGS=${LDFLAGS}")
+message(STATUS "CMAKE_C_COMPILER_ID=${CMAKE_C_COMPILER_ID} CMAKE_CXX_COMPILER_ID=${CMAKE_CXX_COMPILER_ID}")
 
 find_package(boinc REQUIRED)
 find_package(OpenSSL REQUIRED)
