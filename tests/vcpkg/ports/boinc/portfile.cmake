@@ -49,9 +49,7 @@ file(READ "${CURRENT_PACKAGES_DIR}/share/boinc/boinc-config.cmake" BOINC_CONFIG)
 file(WRITE "${CURRENT_PACKAGES_DIR}/share/boinc/boinc-config.cmake" "
 include(CMakeFindDependencyMacro)
 find_dependency(OpenSSL)
-# boinc needs a pkg-config tool. A host dependency provides pkgconf.
-get_filename_component(vcpkg_host_prefix \"\${CMAKE_CURRENT_LIST_DIR}/../../../${HOST_TRIPLET}\" ABSOLUTE)
-list(APPEND CMAKE_PROGRAM_PATH \"\${vcpkg_host_prefix}/tools/pkgconf\")
+find_dependency(libzip)
 ${BOINC_CONFIG}
 ")
 
