@@ -115,7 +115,7 @@ jobs:
             CFLAGS="--sysroot=${sysroot} -I${includes}/include -O3 -fomit-frame-pointer -fPIE -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -DANDROID_ABI=armeabi-v7a"
             CXXFLAGS="${CFLAGS}"
             LDFLAGS="-L${includes}/usr/lib -L${includes}/lib -fPIE -pie -march=armv7-a -static-libstdc++ -llog -latomic -Wl,--fix-cortex-a8"
-            cmake -E env CC="${CC}" CXX="${CXX}" LD="${LD}" CFLAGS="${CFLAGS}" CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DVCPKG_HOST_TRIPLET=x64-linux
+            cmake -E env CC="${CC}" CXX="${CXX}" LD="${LD}" CFLAGS="${CFLAGS}" CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DHOST_TRIPLET=x64-linux
 
         - name: Configure arm-neon build
           if: ${{ matrix.triplet == 'arm-neon-android' }}
@@ -135,7 +135,7 @@ jobs:
             CFLAGS="--sysroot=${sysroot} -I${includes}/include -O3 -fomit-frame-pointer -fPIE -march=armv7-a -mfloat-abi=softfp -mfpu=neon-vfpv3 -DANDROID_ABI=armeabi-v7a"
             CXXFLAGS="${CFLAGS}"
             LDFLAGS="-L${includes}/usr/lib -L${includes}/lib -fPIE -pie -march=armv7-a -static-libstdc++ -llog -latomic -Wl,--fix-cortex-a8"
-            cmake -E env CC="${CC}" CXX="${CXX}" LD="${LD}" CFLAGS="${CFLAGS}" CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DVCPKG_HOST_TRIPLET=x64-linux
+            cmake -E env CC="${CC}" CXX="${CXX}" LD="${LD}" CFLAGS="${CFLAGS}" CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DHOST_TRIPLET=x64-linux
 
         - name: Configure arm64 build
           if: ${{ matrix.triplet == 'arm64-android' }}
@@ -155,7 +155,7 @@ jobs:
             CFLAGS="--sysroot=${sysroot} -I${includes}/include -O3 -fomit-frame-pointer -fPIE -DANDROID_ABI=arm64-v8a"
             CXXFLAGS="${CFLAGS}"
             LDFLAGS="-L${includes}/usr/lib -L${includes}/lib -fPIE -pie -static-libstdc++ -llog -latomic"
-            cmake -E env CC="${CC}" CXX="${CXX}" LD="${LD}" CFLAGS="${CFLAGS}" CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DVCPKG_HOST_TRIPLET=x64-linux
+            cmake -E env CC="${CC}" CXX="${CXX}" LD="${LD}" CFLAGS="${CFLAGS}" CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DHOST_TRIPLET=x64-linux
 
         - name: Configure x64 build
           if: ${{ matrix.triplet == 'x64-android' }}
@@ -175,7 +175,7 @@ jobs:
             CFLAGS="--sysroot=${sysroot} -I${includes}/include -O3 -fomit-frame-pointer -fPIE -DANDROID_ABI=x86_64"
             CXXFLAGS="${CFLAGS}"
             LDFLAGS="-L${includes}/usr/lib -L${includes}/lib -fPIE -pie -static-libstdc++ -llog -latomic"
-            cmake -E env CC="${CC}" CXX="${CXX}" LD="${LD}" CFLAGS="${CFLAGS}" CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DVCPKG_HOST_TRIPLET=x64-linux
+            cmake -E env CC="${CC}" CXX="${CXX}" LD="${LD}" CFLAGS="${CFLAGS}" CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DHOST_TRIPLET=x64-linux
 
         - name: Configure x86 build
           if: ${{ matrix.triplet == 'x86-android' }}
@@ -195,7 +195,7 @@ jobs:
             CFLAGS="--sysroot=${sysroot} -I${includes}/include -O3 -fomit-frame-pointer -fPIE  -DANDROID_ABI=x86"
             CXXFLAGS="${CFLAGS}"
             LDFLAGS="-L${includes}/usr/lib -L${includes}/lib -fPIE -pie -static-libstdc++ -llog -latomic"
-            cmake -E env CC="${CC}" CXX="${CXX}" LD="${LD}" CFLAGS="${CFLAGS}" CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DVCPKG_HOST_TRIPLET=x64-linux
+            cmake -E env CC="${CC}" CXX="${CXX}" LD="${LD}" CFLAGS="${CFLAGS}" CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DHOST_TRIPLET=x64-linux
 
         - name: Build
           if: ${{ matrix.triplet != 'arm-android' || (matrix.triplet == 'arm-android' && matrix.ndk == 'r23c') }}
@@ -268,22 +268,22 @@ jobs:
         - name: Configure arm build
           if: ${{ matrix.triplet == 'arm-linux' }}
           run: |
-            cmake -E env CC="arm-linux-gnueabihf-gcc" CXX="arm-linux-gnueabihf-g++" LD="arm-linux-gnueabihf-ld" CFLAGS="-march=armv7-a+vfpv3-d16" CXXFLAGS="-march=armv7-a+vfpv3-d16" LDFLAGS="-march=armv7-a+vfpv3-d16" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DVCPKG_HOST_TRIPLET=x64-linux
+            cmake -E env CC="arm-linux-gnueabihf-gcc" CXX="arm-linux-gnueabihf-g++" LD="arm-linux-gnueabihf-ld" CFLAGS="-march=armv7-a+vfpv3-d16" CXXFLAGS="-march=armv7-a+vfpv3-d16" LDFLAGS="-march=armv7-a+vfpv3-d16" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DHOST_TRIPLET=x64-linux
 
         - name: Configure arm64 build
           if: ${{ matrix.triplet == 'arm64-linux' }}
           run: |
-            cmake -E env CC="aarch64-linux-gnu-gcc" CXX="aarch64-linux-gnu-g++" LD="aarch64-linux-gnu-ld" CFLAGS="-march=armv8-a" CXXFLAGS="-march=armv8-a" LDFLAGS="-march=armv8-a" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DVCPKG_HOST_TRIPLET=x64-linux
+            cmake -E env CC="aarch64-linux-gnu-gcc" CXX="aarch64-linux-gnu-g++" LD="aarch64-linux-gnu-ld" CFLAGS="-march=armv8-a" CXXFLAGS="-march=armv8-a" LDFLAGS="-march=armv8-a" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DHOST_TRIPLET=x64-linux
 
         - name: Configure x64 build
           if: ${{ matrix.triplet == 'x64-linux' }}
           run: |
-            cmake -E env CC="gcc -m64" CXX="g++ -m64" CFLAGS="-m64" CXXFLAGS="-m64" LDFLAGS="-m64" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DVCPKG_HOST_TRIPLET=x64-linux
+            cmake -E env CC="gcc -m64" CXX="g++ -m64" CFLAGS="-m64" CXXFLAGS="-m64" LDFLAGS="-m64" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DHOST_TRIPLET=x64-linux
 
         - name: Configure x86 build
           if: ${{ matrix.triplet == 'x86-linux' }}
           run: |
-            cmake -E env CC="gcc -m32" CXX="g++ -m32" CFLAGS="-m32" CXXFLAGS="-m32" LDFLAGS="-m32" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DVCPKG_HOST_TRIPLET=x64-linux
+            cmake -E env CC="gcc -m32" CXX="g++ -m32" CFLAGS="-m32" CXXFLAGS="-m32" LDFLAGS="-m32" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DHOST_TRIPLET=x64-linux
 
         - name: Build
           run: |
@@ -337,11 +337,11 @@ jobs:
         - name: Configure arm64 build
           if: ${{ matrix.triplet == 'arm64-osx' }}
           run: |
-            cmake -B tests/vcpkg/build -S tests/vcpkg/ -DCMAKE_OSX_ARCHITECTURES=arm64 -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DVCPKG_HOST_TRIPLET=arm64-osx
+            cmake -B tests/vcpkg/build -S tests/vcpkg/ -DCMAKE_OSX_ARCHITECTURES=arm64 -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DHOST_TRIPLET=arm64-osx
         - name: Configure x64 build
           if: ${{ matrix.triplet == 'x64-osx' }}
           run: |
-            cmake -B tests/vcpkg/build -S tests/vcpkg/ -DCMAKE_OSX_ARCHITECTURES=x86_64 -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DVCPKG_HOST_TRIPLET=arm64-osx
+            cmake -B tests/vcpkg/build -S tests/vcpkg/ -DCMAKE_OSX_ARCHITECTURES=x86_64 -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DHOST_TRIPLET=arm64-osx
         - name: Build
           run: |
             cmake --build tests/vcpkg/build --config Release
@@ -396,12 +396,12 @@ jobs:
         - name: Configure x64 build
           if: ${{ matrix.triplet == 'x64-mingw-static' }}
           run: |
-            cmake -E env CC="x86_64-w64-mingw32-gcc" CXX="x86_64-w64-mingw32-g++" LD="x86_64-w64-mingw32-ld" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DVCPKG_HOST_TRIPLET=x64-linux
+            cmake -E env CC="x86_64-w64-mingw32-gcc" CXX="x86_64-w64-mingw32-g++" LD="x86_64-w64-mingw32-ld" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DHOST_TRIPLET=x64-linux
 
         - name: Configure x86 build
           if: ${{ matrix.triplet == 'x86-mingw-static' }}
           run: |
-            cmake -E env CC="i686-w64-mingw32-gcc" CXX="i686-w64-mingw32-g++" LD="i686-w64-mingw32-ld" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DVCPKG_HOST_TRIPLET=x64-linux
+            cmake -E env CC="i686-w64-mingw32-gcc" CXX="i686-w64-mingw32-g++" LD="i686-w64-mingw32-ld" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DHOST_TRIPLET=x64-linux
 
         - name: Build
           run: |
@@ -455,12 +455,12 @@ jobs:
         - name: Configure x64 build
           if: ${{ matrix.triplet == 'x64-windows-static' }}
           run: |
-            cmake -B tests/vcpkg/build -S tests/vcpkg/ -A x64 -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DVCPKG_HOST_TRIPLET=x64-windows
+            cmake -B tests/vcpkg/build -S tests/vcpkg/ -A x64 -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DHOST_TRIPLET=x64-windows
 
         - name: Configure x86 build
           if: ${{ matrix.triplet == 'x86-windows-static' }}
           run: |
-            cmake -B tests/vcpkg/build -S tests/vcpkg/ -A Win32 -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DVCPKG_HOST_TRIPLET=x64-windows
+            cmake -B tests/vcpkg/build -S tests/vcpkg/ -A Win32 -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DHOST_TRIPLET=x64-windows
 
         - name: Build
           run: |
