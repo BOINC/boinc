@@ -395,7 +395,7 @@ jobs:
 
         - name: Configure build
           run: |
-            cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DHOST_TRIPLET=x64-linux
+            cmake -B tests/vcpkg/build -S tests/vcpkg/ -DCMAKE_TOOLCHAIN_FILE=${CMAKE_CURRENT_SOURCE_DIR}/../../vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DHOST_TRIPLET=x64-linux
 
         - name: Build
           run: |
