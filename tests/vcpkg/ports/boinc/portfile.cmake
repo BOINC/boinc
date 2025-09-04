@@ -38,6 +38,7 @@ endif()
 vcpkg_cmake_configure(
     SOURCE_PATH ${SOURCE_PATH}
     OPTIONS
+        -DVCPKG_HOST_TRIPLET=${VCPKG_HOST_TRIPLET}
         ${build_options}
 )
 
