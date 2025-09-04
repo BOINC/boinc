@@ -309,7 +309,11 @@ bool boinc_filelist(
         // but if they already used \ use that
         // well they didn't use a backslash so just use a slash
         if (strUserDir.find("\\") == string::npos) {
+#ifdef _WIN32
+            strUserDir += "\\";
+#else
             strUserDir += "/";
+#endif
         } else {
             strUserDir += "\\";
         }
@@ -367,7 +371,7 @@ bool boinc_filelist(
 
         int iFnd = (int)strFile.find(strPart[0]);
         bool bFound = (bool)(iFnd > -1);
-        for (int i = 0; i <= iCtr && bFound; i++) {
+        for (int i = 1; i <= iCtr && bFound; i++) {
             // search forward of the old part found
             iFnd = (int) strFile.find(strPart[i], iFnd+1);
             bFound = bFound && (bool) (iFnd > -1);

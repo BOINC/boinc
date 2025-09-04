@@ -256,6 +256,8 @@ namespace test_zip {
         string original_content((istreambuf_iterator<char>(original)), istreambuf_iterator<char>());
         string unzipped_content((istreambuf_iterator<char>(unzipped)), istreambuf_iterator<char>());
         EXPECT_EQ(original_content, unzipped_content);
+        original.close();
+        unzipped.close();
 
         filesystem::remove_all(test_dir);
         filesystem::remove_all(unzip_dir);
