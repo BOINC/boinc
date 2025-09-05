@@ -42,7 +42,7 @@ LIBGL= -lGL
 LIBUI = -lX11 -lXmu
 LIBFTGL = -lftgl
 LIBJPEG = -ljpeg
-LIBZIP = -lzip -lbz2 -lz
+LIBZIP = -lzip -lbz2 -lz -lssl -lcrypto
 
 ifdef BUILD_APPS_WITH_VCPKG
   BUILD_DIR     = $(BOINC_DIR)/3rdParty/linux

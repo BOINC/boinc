@@ -54,4 +54,4 @@ install: all
 .PHONY: install all distclean clean
 
 wrapper$(WRAPPER_RELEASE_SUFFIX): wrapper.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_WRAPPER_FLAGS) -o wrapper$(WRAPPER_RELEASE_SUFFIX) wrapper.o $(MAKEFILE_LDFLAGS) -lboinc_api -lboinc -lzip -lbz2 -lz $(MINGW_LIBS) $(STDCPPTC)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_WRAPPER_FLAGS) -o wrapper$(WRAPPER_RELEASE_SUFFIX) wrapper.o $(MAKEFILE_LDFLAGS) -lboinc_api -lboinc -lzip -lbz2 -lz -lssl -lcrypto $(MINGW_LIBS) $(STDCPPTC)

@@ -236,8 +236,7 @@ int boinc_zip(
             const size_t BUF_SIZE = 64 * 1024;
             std::vector<unsigned char> buf(BUF_SIZE);
             while (1) {
-                const size_t n = static_cast<size_t>(
-                    zip_fread(zf, buf.data(), BUF_SIZE));
+                const zip_int64_t n = zip_fread(zf, buf.data(), BUF_SIZE);
                 if (n < 0) {
                     // read error
                     zip_fclose(zf);
@@ -246,8 +245,9 @@ int boinc_zip(
                     return 2;
                 }
                 if (n == 0) break;
-                const size_t m = boinc::fwrite(buf.data(), 1, n, out);
-                if (m != n) {
+                const size_t read = static_cast<size_t>(n);
+                const size_t m = boinc::fwrite(buf.data(), 1, read, out);
+                if (m != read) {
                     zip_fclose(zf);
                     boinc::fclose(out);
                     zip_discard(za);
