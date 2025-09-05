@@ -50,5 +50,5 @@ install: all
 
 sporadic: sporadic.o $(MAKEFILE_STDLIB) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o sporadic sporadic.o \
-	-lboinc_api -lboinc $(MAKEFILE_LDFLAGS) \
+	-lboinc_api -lboinc -lzip -lbz2 -lz -lssl -lcrypto $(MAKEFILE_LDFLAGS) \
 	$(STDCPPTC)
