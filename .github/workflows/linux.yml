@@ -60,8 +60,8 @@ jobs:
       - name: Install dependencies for arm64
         if: success() && endsWith(matrix.type, 'arm64')
         run: |
-          dpkg --add-architecture arm64
-          apt-get update
+          sudo dpkg --add-architecture arm64
+          sudo apt-get update
           sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu libcurl4-openssl-dev:arm64 libssl-dev:arm64
 
       - name: Install dependencies for apps arm64
