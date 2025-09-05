@@ -37,6 +37,15 @@ CXXFLAGS += -g -O0 \
     -L$(BOINC_LIB_DIR) \
     -L.
 
+ifdef BUILD_APPS_WITH_VCPKG
+  BUILD_DIR     = $(BOINC_DIR)/3rdParty/linux
+  VCPKG_DIR     ?= $(BUILD_DIR)/vcpkg/installed/x64-linux
+
+  CXXFLAGS += \
+    -I$(VCPKG_DIR)/include \
+    -L$(VCPKG_DIR)/lib
+endif
+
 PROGS = wrapper$(WRAPPER_RELEASE_SUFFIX)
 
 all: $(PROGS)
@@ -54,4 +63,6 @@ install: all
 .PHONY: install all distclean clean
 
 wrapper$(WRAPPER_RELEASE_SUFFIX): wrapper.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_WRAPPER_FLAGS) -o wrapper$(WRAPPER_RELEASE_SUFFIX) wrapper.o $(MAKEFILE_LDFLAGS) -lboinc_api -lboinc -lzip -lbz2 -lz -lssl -lcrypto $(MINGW_LIBS) $(STDCPPTC)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_WRAPPER_FLAGS) -o wrapper$(WRAPPER_RELEASE_SUFFIX) wrapper.o \
+	$(MAKEFILE_LDFLAGS) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a \
+	-lzip -lbz2 -lz -lssl -lcrypto $(MINGW_LIBS) $(STDCPPTC)
