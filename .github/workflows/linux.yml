@@ -60,7 +60,9 @@ jobs:
       - name: Install dependencies for arm64
         if: success() && endsWith(matrix.type, 'arm64')
         run: |
-          sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
+          dpkg --add-architecture arm64
+          apt-get update
+          sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu libcurl4-openssl-dev:arm64 libssl-dev:arm64
 
       - name: Install dependencies for apps arm64
         if: success() && matrix.type == 'apps-vcpkg-arm64'
@@ -176,6 +178,28 @@ jobs:
         if: success() && matrix.type == 'unit-test'
         run: ./configure --disable-client --disable-manager --enable-unit-tests CFLAGS="-g -O0" CXXFLAGS="-g -O0"
 
+      - name: Configure libraries for arm64
+        if: success() && matrix.type == 'libs-arm64'
+        run: |
+          export CC=aarch64-linux-gnu-gcc
+          export CXX=aarch64-linux-gnu-g++
+          export LD=aarch64-linux-gnu-ld
+          export CFLAGS="-march=armv8-a -O3"
+          export CXXFLAGS="-march=armv8-a -O3 -std=c++11"
+          export LDFLAGS="-march=armv8-a -static-libstdc++ -static -s"
+          ./configure --host=aarch64-linux --with-boinc-platform="aarch64-unknown-linux-gnu" --with-boinc-alt-platform="arm-unknown-linux-gnueabihf" --disable-server --disable-manager --disable-client --disable-shared --enable-static
+
+      - name: Configure apps for arm64
+        if: success() && matrix.type == 'apps-arm64'
+        run: |
+          export CC=aarch64-linux-gnu-gcc
+          export CXX=aarch64-linux-gnu-g++
+          export LD=aarch64-linux-gnu-ld
+          export CFLAGS="-march=armv8-a -O3"
+          export CXXFLAGS="-march=armv8-a -O3 -std=c++11"
+          export LDFLAGS="-march=armv8-a -static-libstdc++ -static -s"
+          ./configure --host=aarch64-linux --with-boinc-platform="aarch64-unknown-linux-gnu" --with-boinc-alt-platform="arm-unknown-linux-gnueabihf" --enable-apps --enable-apps-vbox --enable-apps-gui --disable-server --disable-client --disable-manager --disable-shared --enable-static
+
       - name: Configure libraries for arm64 with vcpkg
         if: success() && matrix.type == 'libs-vcpkg-arm64'
         run: |
@@ -187,7 +211,7 @@ jobs:
           ./linux/arm64/ci_configure_apps.sh
 
       - name: Make
-        if: success() && ! contains(matrix.type, 'integration-test') && ! endsWith(matrix.type, 'cmake') && ! endsWith(matrix.type, 'arm64')
+        if: success() && ! contains(matrix.type, 'integration-test') && ! endsWith(matrix.type, 'cmake') && ! endsWith(matrix.type, 'vcpkg-arm64')
         run: make
 
       - name: Make for arm64 with vcpkg
@@ -205,21 +229,6 @@ jobs:
         if: success() && endsWith(matrix.type, 'cmake')
         run:
           cmake --build build
-
-      - name: Build libraries for arm64
-        if: success() && matrix.type == 'libs-arm64'
-        run: |
-          ./linux/arm64/build_libraries_arm64.sh
-
-      - name: Build apps for arm64
-        if: success() && matrix.type == 'apps-arm64'
-        run: |
-          export CI=yes
-          export RELEASE_ARCH=arm64
-          ./linux/arm64/build_libraries_arm64.sh
-          ./linux/arm64/build_openssl_arm64.sh
-          ./linux/arm64/build_curl_arm64.sh
-          ./linux/arm64/build_example_arm64.sh
 
       - name: Execute unit-test and report coverage
         if: success() && matrix.type == 'unit-test'
