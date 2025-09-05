@@ -42,10 +42,7 @@ LIBGL= -lGL
 LIBUI = -lX11 -lXmu
 LIBFTGL = -lftgl
 LIBJPEG = -ljpeg
-
-# Detect libzip for linking against libboinc_zip when using static .a
-PKGCONFIG ?= pkg-config
-LIBZIP_LIBS := $(shell $(PKGCONFIG) --libs libzip 2>/dev/null || echo -lzip)
+LIBZIP = -lzip -lbz2 -lz
 
 ifdef BUILD_APPS_WITH_VCPKG
   BUILD_DIR     = $(BOINC_DIR)/3rdParty/linux
@@ -121,6 +118,6 @@ slide_show: slide_show.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_
 	$(BOINC_API_DIR)/libboinc_graphics2.a \
 	$(BOINC_API_DIR)/libboinc_api.a \
 	$(BOINC_LIB_DIR)/libboinc.a \
-  $(LIBZIP_LIBS) \
+  $(LIBZIP) \
     $(LIBGLUT) $(LIBGLU) $(LIBJPEG) \
     $(LIBGL) $(LIBUI) -lm
