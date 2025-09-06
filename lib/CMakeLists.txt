@@ -4,6 +4,7 @@ project(boinc-libs)
 message(WARNING "This build is under development and may not work as expected")
 
 find_package(OpenSSL REQUIRED)
+find_package(libzip REQUIRED)
 
 set(BOINC_DIR ${PROJECT_SOURCE_DIR}/..)
 
@@ -38,6 +39,7 @@ set(LIBBOINC_HEADERS_GENERIC
     ${BOINC_DIR}/lib/app_ipc.h
     ${BOINC_DIR}/lib/base64.h
     ${BOINC_DIR}/lib/boinc_stdio.h
+    ${BOINC_DIR}/lib/boinc_zip.h
     ${BOINC_DIR}/lib/cal_boinc.h
     ${BOINC_DIR}/lib/cc_config.h
     ${BOINC_DIR}/lib/cert_sig.h
@@ -105,6 +107,7 @@ set(LIBBOINC_SOURCES_APPLE
 set(LIBBOINC_SOURCES_GENERIC
     ${BOINC_DIR}/lib/app_ipc.cpp
     ${BOINC_DIR}/lib/base64.cpp
+    ${BOINC_DIR}/lib/boinc_zip.cpp
     ${BOINC_DIR}/lib/cc_config.cpp
     ${BOINC_DIR}/lib/cert_sig.cpp
     ${BOINC_DIR}/lib/coproc.cpp
@@ -248,6 +251,7 @@ target_include_directories(boincapi PUBLIC
 target_link_libraries(boinc PRIVATE
                         OpenSSL::SSL
                         OpenSSL::Crypto
+                        libzip::zip
 )
 
 target_link_libraries(boincapi PRIVATE

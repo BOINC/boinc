@@ -13,19 +13,16 @@ endif
 BOINC_DIR = ../..
 BOINC_SOURCE_API_DIR = $(BOINC_DIR)/api
 BOINC_SOURCE_LIB_DIR = $(BOINC_DIR)/lib
-BOINC_SOURCE_ZIP_DIR = $(BOINC_DIR)/zip
 
 ifdef ANDROID
   BOINC_API_DIR = $(TCINCLUDES)/lib
   BOINC_LIB_DIR = $(TCINCLUDES)/lib
-  BOINC_ZIP_DIR = $(TCINCLUDES)/lib
 
   MAKEFILE_LDFLAGS =
   MAKEFILE_STDLIB  =
 else
   BOINC_API_DIR = $(BOINC_SOURCE_API_DIR)
   BOINC_LIB_DIR = $(BOINC_SOURCE_LIB_DIR)
-  BOINC_ZIP_DIR = $(BOINC_SOURCE_ZIP_DIR)
 
   MAKEFILE_LDFLAGS = libstdc++.a -lpthread
   MAKEFILE_STDLIB  = libstdc++.a
@@ -36,11 +33,18 @@ CXXFLAGS += -g -O0 \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
-    -I$(BOINC_ZIP_DIR) \
     -L$(BOINC_API_DIR) \
     -L$(BOINC_LIB_DIR) \
-    -L$(BOINC_ZIP_DIR) \
     -L.
+
+ifdef BUILD_APPS_WITH_VCPKG
+  BUILD_DIR     = $(BOINC_DIR)/3rdParty/linux
+  VCPKG_DIR     ?= $(BUILD_DIR)/vcpkg/installed/x64-linux
+
+  CXXFLAGS += \
+    -I$(VCPKG_DIR)/include \
+    -L$(VCPKG_DIR)/lib
+endif
 
 PROGS = wrapper$(WRAPPER_RELEASE_SUFFIX)
 
@@ -59,4 +63,6 @@ install: all
 .PHONY: install all distclean clean
 
 wrapper$(WRAPPER_RELEASE_SUFFIX): wrapper.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_WRAPPER_FLAGS) -o wrapper$(WRAPPER_RELEASE_SUFFIX) wrapper.o $(MAKEFILE_LDFLAGS) $(MINGW_ZIP_FIX) -lboinc_api -lboinc -lboinc_zip $(MINGW_LIBS) $(STDCPPTC)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_WRAPPER_FLAGS) -o wrapper$(WRAPPER_RELEASE_SUFFIX) wrapper.o \
+	$(MAKEFILE_LDFLAGS) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a \
+	-lzip -lz $(MINGW_LIBS) $(STDCPPTC)

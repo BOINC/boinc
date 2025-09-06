@@ -122,12 +122,6 @@ AC_ARG_ENABLE(install-headers,
     [enable_install_headers=${enableval}],
     [enable_install_headers=yes])
 
-AC_ARG_ENABLE(boinczip,
-    AS_HELP_STRING([--enable-boinczip],
-                   [enable building the boinc zip library]),
-    [enable_boinczip=${enableval}],
-    [enable_boinczip=no])
-
 AC_ARG_ENABLE(apps,
     AS_HELP_STRING([--enable-apps],
                    [enable building the boinc example apps]),
@@ -169,7 +163,7 @@ AC_ARG_ENABLE(pkg-libs,
                    [Builds and installs components that would be present in a
 		   boinc-libs package.  This is a synonym for --disable-server
 		   --disable-client --enable-libraries --disable-static
-		   --disable-install-headers --disable-manager --enable-boinczip]),
+		   --disable-install-headers --disable-manager]),
     [
      enable_libraries=yes
      enable_server=no
@@ -177,7 +171,6 @@ AC_ARG_ENABLE(pkg-libs,
      enable_manager=no
      enable_install_headers=no
      enable_static=no
-     enable_boinczip=yes
      enable_apps=no
      enable_unit_tests=no
     ],
@@ -188,14 +181,13 @@ AC_ARG_ENABLE(pkg-devel,
                    [Builds and installs components that would be present in a
 		   boinc-devel package.  This is a synonym for --disable-server
 		   --disable-client --enable-libraries --enable-install-headers
-		   --disable-manger --enable-boinczip]),
+		   --disable-manger]),
     [
      enable_libraries=yes
      enable_server=no
      enable_client=no
      enable_manager=no
      enable_install_headers=yes
-     enable_boinczip=yes
      enable_apps=no
      enable_unit_tests=no
     ],
@@ -213,7 +205,6 @@ AC_ARG_ENABLE(pkg-client,
      enable_client=yes
      enable_manager=no
      enable_install_headers=no
-     enable_boinczip=no
      enable_apps=no
      enable_unit_tests=no
     ],
@@ -229,7 +220,6 @@ AC_ARG_ENABLE(pkg-manager,
      enable_client=no
      enable_manager=yes
      enable_install_headers=no
-     enable_boinczip=no
      enable_apps=no
      enable_unit_tests=no
     ],
@@ -1101,6 +1091,22 @@ fi
 AM_CONDITIONAL(BUILD_X11_SCREENSAVER, [ test "$have_Xcb" = yes -a "$have_Xcbatom" = yes ])
 dnl -----------------------------------------------------------------------
 
+dnl ---------- libzip (required for linboinc) ----------------------------
+PKG_CHECK_MODULES([LIBZIP], [libzip], [have_libzip=yes], [have_libzip=no])
+AS_IF([test "x${have_libzip}" != "xyes"], [
+  AC_MSG_ERROR([
+================================================================================
+ERROR: libzip development files not found. They are required for the BOINC library.
+
+  Install libzip (e.g., libzip-dev on Debian/Ubuntu, libzip-devel on Fedora,
+  or via vcpkg/homebrew on Windows/macOS) and re-run configure.
+================================================================================
+  ])
+])
+AC_SUBST([LIBZIP_CFLAGS])
+AC_SUBST([LIBZIP_LIBS])
+dnl -----------------------------------------------------------------------
+
 dnl Heres another way to set up host-specific stuff
 AM_CONDITIONAL(OS_DARWIN, [echo $host_os | grep '^darwin' > /dev/null])
 if echo $host_os | grep '^darwin' >/dev/null ; then
@@ -1134,7 +1140,6 @@ AM_CONDITIONAL(ENABLE_SERVER, [test "${enable_server}" = yes])
 AM_CONDITIONAL(ENABLE_CLIENT, [test "${enable_client}" = yes])
 AM_CONDITIONAL(ENABLE_MANAGER, [ test "x${ac_cv_have_wxwidgets}" = xyes -a "${enable_manager}" = yes ])
 AM_CONDITIONAL(ENABLE_LIBRARIES, [test "${enable_libraries}" = yes])
-AM_CONDITIONAL(ENABLE_BOINCZIP, [test "${enable_boinczip}" = yes])
 AM_CONDITIONAL(ENABLE_APPS, [test "${enable_apps}" = yes])
 AM_CONDITIONAL(ENABLE_UNIT_TESTS, [test "${enable_unit_tests}" = yes])
 AM_CONDITIONAL(ENABLE_BOINCCRYPT, [test "x${enable_server}" = xyes  || test "x${enable_client}" = xyes ])
@@ -1410,10 +1415,6 @@ AC_CONFIG_FILES([
                  tools/boinc_path_config.py:py/boinc_path_config.py.in
                  tools/Makefile
                  vda/Makefile
-                 zip/Makefile
-                 zip/libboinc_zip.pc
-                 zip/zip/Makefile
-                 zip/unzip/Makefile
                  m4/Makefile
 		])
 
