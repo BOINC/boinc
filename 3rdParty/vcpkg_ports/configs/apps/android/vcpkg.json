@@ -13,6 +13,9 @@
           "default-features": false
         },
         "rappture",
-        "libzip"
+        {
+          "name": "libzip",
+          "default-features": false
+        }
     ]
 }

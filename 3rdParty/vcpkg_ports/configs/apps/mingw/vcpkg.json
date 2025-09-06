@@ -16,6 +16,9 @@
         "ftgl",
         "freeglut",
         "libjpeg-turbo",
-        "libzip"
+        {
+          "name": "libzip",
+          "default-features": false
+        }
     ]
 }

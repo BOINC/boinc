@@ -13,6 +13,9 @@
           "default-features": false
         },
         "gtest",
-        "libzip"
+        {
+          "name": "libzip",
+          "default-features": false
+        }
     ]
 }

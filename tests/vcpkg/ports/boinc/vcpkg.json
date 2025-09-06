@@ -15,6 +15,9 @@
       "name": "vcpkg-cmake-config",
       "host": true
     },
-    "libzip"
+    {
+      "name": "libzip",
+      "default-features": false
+    }
   ]
 }

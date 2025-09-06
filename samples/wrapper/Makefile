@@ -65,4 +65,4 @@ install: all
 wrapper$(WRAPPER_RELEASE_SUFFIX): wrapper.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_WRAPPER_FLAGS) -o wrapper$(WRAPPER_RELEASE_SUFFIX) wrapper.o \
 	$(MAKEFILE_LDFLAGS) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a \
-	-lzip -lbz2 -lz -lssl -lcrypto $(MINGW_LIBS) $(STDCPPTC)
+	-lzip -lz $(MINGW_LIBS) $(STDCPPTC)

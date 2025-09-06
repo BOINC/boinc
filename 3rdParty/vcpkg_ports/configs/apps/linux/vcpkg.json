@@ -16,6 +16,9 @@
         "opencl",
         "ftgl",
         "freeglut",
-        "libzip"
+        {
+          "name": "libzip",
+          "default-features": false
+        }
     ]
 }

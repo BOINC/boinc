@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [apps-mingw-vcpkg, libs-mingw-cmake]
+        type: [libs-mingw, apps-mingw, apps-mingw-vcpkg, libs-mingw-cmake]
       fail-fast: false
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
@@ -60,6 +60,14 @@ jobs:
           sudo apt-get -qq update
           sudo apt-get install -y mingw-w64 mingw-w64-tools mingw-w64-x86-64-dev mingw-w64-i686-dev tar curl zip unzip p7zip-full
 
+      - name: Make libs with mingw
+        if: success() && matrix.type == 'libs-mingw'
+        run: cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw
+
+      - name: Make apps with mingw
+        if: success() && matrix.type == 'apps-mingw'
+        run: cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper
+
       - name: Install Powershell for vcpkg
         if: success() && matrix.type == 'apps-mingw-vcpkg'
         run: |
@@ -68,7 +76,7 @@ jobs:
           sudo DEBIAN_FRONTEND=noninteractive apt install -y ./packages-microsoft-prod.deb powershell
 
       - name: Automake vcpkg and cmake
-        if: success()
+        if: success() && (contains(matrix.type, 'vcpkg') || contains(matrix.type, 'cmake'))
         run: ./_autosetup
 
       - name: Configure mingw vcpkg apps
@@ -87,7 +95,7 @@ jobs:
           mingw/ci_make_apps.sh
 
       - name: Make for cmake
-        if: success() && matrix.type == 'libs-mingw-cmake'
+        if: success() && endsWith(matrix.type, 'cmake')
         run:
           cmake --build build
 
@@ -103,12 +111,12 @@ jobs:
           path: deploy/logs.7z
 
       - name: Prepare artifacts for deploy
-        if: success() && matrix.type == 'apps-mingw-vcpkg'
+        if: success() && ! contains(matrix.type, 'libs')
         run: python ./deploy/prepare_deployment.py win_${{ matrix.type }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        if: success() && matrix.type == 'apps-mingw-vcpkg'
+        if: ${{! contains(matrix.type, 'libs')}}
         with:
           name: win_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/win_${{ matrix.type }}.7z

@@ -13,6 +13,9 @@
           "default-features": false
         },
         "freetype",
-        "libzip"
+        {
+          "name": "libzip",
+          "default-features": false
+        }
     ]
 }

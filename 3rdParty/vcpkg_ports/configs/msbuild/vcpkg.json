@@ -18,6 +18,9 @@
     "ftgl",
     "opencl",
     "nlohmann-json",
-    "libzip"
+    {
+      "name": "libzip",
+      "default-features": false
+    }
   ]
 }
