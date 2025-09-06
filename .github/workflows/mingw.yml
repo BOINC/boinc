@@ -87,7 +87,7 @@ jobs:
           mingw/ci_make_apps.sh
 
       - name: Make for cmake
-        if: success()
+        if: success() && matrix.type == 'libs-mingw-cmake'
         run:
           cmake --build build
 

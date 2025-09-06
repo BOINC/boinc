@@ -57,15 +57,8 @@ jobs:
         run: |
           sudo apt-get install -y libwxgtk3.2-dev libwxgtk-webview3.2-dev
 
-      - name: Install dependencies for arm64
-        if: success() && endsWith(matrix.type, 'arm64')
-        run: |
-          sudo dpkg --add-architecture arm64
-          sudo apt-get update
-          sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu libcurl4-openssl-dev:arm64 libssl-dev:arm64
-
       - name: Install dependencies for apps arm64
-        if: success() && matrix.type == 'apps-vcpkg-arm64'
+        if: success() && endsWith(matrix.type, 'arm64')
         run: |
           arch=arm64
           sudo dpkg --add-architecture arm64
@@ -90,7 +83,12 @@ jobs:
             libxrandr-dev:$arch \
             libxxf86vm-dev:$arch \
             libjpeg-dev:$arch \
-            ocl-icd-opencl-dev:$arch
+            ocl-icd-opencl-dev:$arch \
+            gcc-aarch64-linux-gnu \
+            g++-aarch64-linux-gnu \
+            binutils-aarch64-linux-gnu \
+            libcurl4-openssl-dev:$arch \
+            libssl-dev:$arch
 
       - name: Install dependencies for unit testing
         if: success() && matrix.type == 'unit-test'
