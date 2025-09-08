@@ -37,6 +37,6 @@ for TRIPLET in $TRIPLETS_LIST ; do
     BUILD_TRIPLET=build-$TRIPLET
     cmake lib -B $BUILD_TRIPLET -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake -DVCPKG_MANIFEST_DIR=3rdParty/vcpkg_ports/configs/libs/ -DVCPKG_INSTALLED_DIR=$VCPKG_ROOT/installed/ -DVCPKG_OVERLAY_PORTS=$VCPKG_PORTS/ports -DVCPKG_OVERLAY_TRIPLETS=$VCPKG_PORTS/triplets/ci -DVCPKG_TARGET_TRIPLET=$TRIPLET -DVCPKG_INSTALL_OPTIONS=--clean-after-build
     cmake --build $BUILD_TRIPLET
-
+    readelf -h $BUILD_TRIPLET/lib/*.a
     echo "\e[1;32m $TRIPLET done \e[0m"
 done
