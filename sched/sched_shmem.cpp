@@ -39,6 +39,7 @@ using std::string;
 #include "sched_types.h"
 #include "sched_util.h"
 #include "sched_shmem.h"
+#include "buda.h"
 
 
 void SCHED_SHMEM::init(int nwu_results) {
@@ -108,6 +109,7 @@ static void overflow(const char* table, const char* param_name) {
     exit(1);
 }
 
+#if 0
 void get_buda_plan_classes(vector<string> &pcs) {
     pcs.clear();
     FILE *f = boinc::fopen("../buda_plan_classes", "r");
@@ -119,6 +121,7 @@ void get_buda_plan_classes(vector<string> &pcs) {
     }
     boinc::fclose(f);
 }
+#endif
 
 // scan various DB tables and populate shared-memory arrays
 //

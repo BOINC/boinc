@@ -33,24 +33,6 @@ display_errors();
 
 $buda_root = "../../buda_apps";
 
-// scan BUDA apps and variants, and write a file 'buda_plan_classes'
-// in the project dir with list of plan classes
-//
-function write_plan_class_file() {
-    $pcs = [];
-    global $buda_root;
-    $apps = get_buda_apps();
-    foreach ($apps as $app) {
-        $vars = get_buda_variants($app);
-        $pcs = array_merge($pcs, $vars);
-    }
-    $pcs = array_unique($pcs);
-    file_put_contents(
-        "../../buda_plan_classes",
-        implode("\n", $pcs)."\n"
-    );
-}
-
 // show list of BUDA apps and variants,
 // w/ buttons for adding and deleting
 //
@@ -88,7 +70,7 @@ function show_app($dir) {
     $desc = json_decode(file_get_contents($desc_path));
     echo '<hr>';
     echo sprintf('<h3>%s</h3>', $desc->long_name);
-    echo sprintf('<a href=buda.php?action=app_details&name=%s>Details</a>',
+    echo sprintf('<a href=buda.php?action=app_details&name=%s>View/edit details</a>',
         $desc->name
     );
     $vars = get_buda_variants($dir);
@@ -134,37 +116,9 @@ function variant_view() {
         file_row($app, $variant, $dir, $f);
     }
     table_header('Auto-generated files', '', '');
-    file_row($app, $variant, $dir, 'template_in');
-    file_row($app, $variant, $dir, 'template_out');
     file_row($app, $variant, $dir, 'variant.json');
     end_table();
     echo '<hr>';
-
-    start_table();
-    row2(
-        'Input filenames:',
-        implode(',', $desc->input_file_names)
-    );
-    row2(
-        'Output filenames:',
-        implode(',', $desc->output_file_names)
-    );
-    if (!empty($desc->max_total)) {
-        row2('Max total instances per job:', $desc->max_total);
-    } else {
-        row2('Max total instances per job:', '1');
-    }
-    if (!empty($desc->min_nsuccess)) {
-        row2('Target successful instances per job:', $desc->min_nsuccess);
-    } else {
-        row2('Target successful instances per job:', '1');
-    }
-    if (!empty($desc->max_delay_days)) {
-        row2('Max job turnaround time, days:', $desc->max_delay_days);
-    } else {
-        row2('Max job turnaround time, days:', '7');
-    }
-    end_table();
 
     if ($manage_access) {
         echo '<p>';
@@ -201,13 +155,9 @@ function variant_form($user) {
         page_head_select2("Edit variant $variant of BUDA app $app");
     } else {
         $variant_desc = new StdClass;
+        $variant_desc->cpu_type = 'intel';
         $variant_desc->dockerfile = '';
         $variant_desc->app_files = [];
-        $variant_desc->input_file_names = [];
-        $variant_desc->output_file_names = [];
-        $variant_desc->min_nsuccess = 1;
-        $variant_desc->max_total = 1;
-        $variant_desc->max_delay_days = 7;
         page_head_select2("Create a variant of BUDA app $app");
     }
     echo "
@@ -215,45 +165,27 @@ function variant_form($user) {
     ";
     $sb = '<br><small>From your <a href=sandbox.php>file sandbox</a></small>';
     $pc = '<br><small>Specify
-    <a href=https://github.com/BOINC/boinc/wiki/AppPlan>GPU and other requirements</a>';
+    <a href=https://github.com/BOINC/boinc/wiki/AppPlan>GPU and other host requirements</a>.<br>Leave blank if none.</small>';
     form_start('buda.php');
     form_input_hidden('app', $app);
     form_input_hidden('action', 'variant_action');
     if ($variant) {
+        // can't change CPU type or plan class of existing variant
         form_input_hidden('variant', $variant);
         form_input_hidden('edit', 'true');
     } else {
+        form_radio_buttons(
+            'CPU type', 'cpu_type',
+            [
+                ['intel', 'Intel'],
+                ['arm', 'ARM']
+            ],
+            $variant_desc->cpu_type
+        );
         form_input_text("Plan class$pc", 'variant', $variant);
     }
     form_select("Dockerfile$sb", 'dockerfile', $sbitems, $variant_desc->dockerfile);
     form_select2_multi("Application files$sb", 'app_files', $sbitems, $variant_desc->app_files);
-    form_input_text(
-        'Input file names<br><small>Space-separated</small>',
-        'input_file_names',
-        implode(' ', $variant_desc->input_file_names)
-    );
-    form_input_text(
-        'Output file names<br><small>Space-separated</small>',
-        'output_file_names',
-        implode(' ', $variant_desc->output_file_names)
-    );
-    form_input_text(
-        'Run at most this many total instances of each job',
-        'max_total',
-        $variant_desc->max_total
-    );
-    form_input_text(
-        'Get this many successful instances of each job
-            <br><small>(subject to the above limit)</small>
-        ',
-        'min_nsuccess',
-        $variant_desc->min_nsuccess
-    );
-    form_input_text(
-        'Max job turnaround time, days',
-        'max_delay_days',
-        $variant_desc->max_delay_days
-    );
     form_submit('OK');
     form_end();
     page_tail();
@@ -264,55 +196,48 @@ function buda_file_phys_name($app, $variant, $md5) {
 }
 
 // copy file from sandbox to variant dir, and stage to download hier
+// return physical name, md5, and size
 //
-function copy_and_stage_file($user, $fname, $dir, $app, $variant) {
-    copy_sandbox_file($user, $fname, $dir);
-    [$md5, $size] = parse_info_file("$dir/.md5/$fname");
+function copy_and_stage_file($user, $fname, $variant_dir, $app, $variant) {
+    copy_sandbox_file($user, $fname, $variant_dir);
+    [$md5, $size] = parse_info_file("$variant_dir/.md5/$fname");
     $phys_name = buda_file_phys_name($app, $variant, $md5);
-    stage_file_aux("$dir/$fname", $md5, $size, $phys_name);
-    return $phys_name;
+    stage_file_aux("$variant_dir/$fname", $md5, $size, $phys_name);
+    return [$phys_name, $md5, $size];
 }
 
-// create templates and put them in variant dir
+// create templates and put them in app dir
 //
-function create_templates($variant, $variant_desc, $dir) {
+function create_templates($app, $desc, $dir) {
     // input template
     //
     $x = "<input_template>\n";
-    $ninfiles = 1 + count($variant_desc->input_file_names) + count($variant_desc->app_files);
+    $ninfiles = count($desc->input_file_names);
     for ($i=0; $i<$ninfiles; $i++) {
         $x .= "   <file_info>\n      <sticky/>\n      <no_delete/>\n      <executable/>\n   </file_info>\n";
     }
     $x .= "   <workunit>\n";
-    $x .= file_ref_in($variant_desc->dockerfile);
-    foreach ($variant_desc->app_files as $fname) {
+    foreach ($desc->input_file_names as $fname) {
         $x .= file_ref_in($fname);
-    }
-    foreach ($variant_desc->input_file_names as $fname) {
-        $x .= file_ref_in($fname);
-    }
-    if (strstr($variant, 'cpu')) {
-        $x .= "      <plan_class></plan_class>\n";
-    } else {
-        $x .= "      <plan_class>$variant</plan_class>\n";
     }
 
     // replication params
     //
     $x .= sprintf("      <target_nresults>%d</target_nresults>\n",
-        $variant_desc->min_nsuccess
+        $desc->min_nsuccess
     );
     $x .= sprintf("      <min_quorum>%d</min_quorum>\n",
-        $variant_desc->min_nsuccess
+        $desc->min_nsuccess
     );
     $x .= sprintf("      <max_total_results>%d</max_total_results>\n",
-        $variant_desc->max_total
+        $desc->max_total
     );
 
     $x .= sprintf("      <max_delay>%f</max_delay>\n",
-        $variant_desc->max_delay_days * 86400.
+        $desc->max_delay_days * 86400.
     );
 
+    $x .= "      <buda_app_name>$app</buda_app_name>\n";
     $x .= "   </workunit>\n<input_template>\n";
     file_put_contents("$dir/template_in", $x);
 
@@ -320,16 +245,54 @@ function create_templates($variant, $variant_desc, $dir) {
     //
     $x = "<output_template>\n";
     $i = 0;
-    foreach ($variant_desc->output_file_names as $fname) {
+    foreach ($desc->output_file_names as $fname) {
         $x .= file_info_out($i++);
     }
     $x .= "   <result>\n";
     $i = 0;
-    foreach ($variant_desc->output_file_names as $fname) {
+    foreach ($desc->output_file_names as $fname) {
         $x .= file_ref_out($i++, $fname);
     }
     $x .= "   </result>\n</output_template>\n";
     file_put_contents("$dir/template_out", $x);
+}
+
+// return <file_info> and <file_ref> elements for given file
+//
+function file_xml_elements($log_name, $phys_name, $md5, $nbytes) {
+    static $download_dir, $download_url, $fanout;
+    if ($download_dir == null) {
+        $download_dir = parse_element(get_config(), "<download_dir>");
+        $download_url = parse_element(get_config(), "<download_url>");
+        $fanout = (int)(parse_element(get_config(), "<uldl_dir_fanout>"));
+    }
+    $file_info = sprintf(
+"<file_info>
+    <sticky/>
+    <no_delete/>
+    <executable/>
+    <name>%s</name>
+    <url>%s/%s/%s</url>
+    <md5_cksum>%s</md5_cksum>
+    <nbytes>%d</nbytes>
+</file_info>
+",
+        $phys_name,
+        $download_url, filename_hash($phys_name, $fanout), $phys_name,
+        $md5,
+        $nbytes
+    );
+    $file_ref = sprintf(
+"<file_ref>
+    <file_name>%s</file_name>
+    <open_name>%s</open_name>
+    <copy_file/>
+</file_ref>
+",
+        $phys_name,
+        $log_name
+    );
+    return [$file_info, $file_ref];
 }
 
 // create variant
@@ -343,6 +306,7 @@ function variant_action($user) {
     }
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
+
     $dockerfile = get_str('dockerfile');
     if (!is_valid_filename($dockerfile)) {
         error_page("Invalid dockerfile name: ".filename_rules());
@@ -352,49 +316,6 @@ function variant_action($user) {
         if (!is_valid_filename($fname)) {
             error_page("Invalid app file name: ".filename_rules());
         }
-    }
-    $min_nsuccess = get_int('min_nsuccess');
-    if ($min_nsuccess <= 0) {
-        error_page('Must specify a positive number of successful instances.');
-    }
-    $max_total = get_int('max_total');
-    if ($max_total <= 0) {
-        error_page('Must specify a positive max number of instances.');
-    }
-    if ($min_nsuccess > $max_total) {
-        error_page('Target # of successful instances must be <= max total');
-    }
-    $max_delay_days = get_str('max_delay_days');
-    if (!is_numeric($max_delay_days)) {
-        error_page('Must specify max delay');
-    }
-    $max_delay_days = floatval($max_delay_days);
-    if ($max_delay_days <= 0) {
-        error_page('Must specify positive max delay');
-    }
-
-    $input_file_names = get_str('input_file_names', true);
-    if ($input_file_names) {
-        $input_file_names = explode(' ', $input_file_names);
-        foreach ($input_file_names as $fname) {
-            if (!is_valid_filename($fname)) {
-                error_page("Invalid input file name: ".filename_rules());
-            }
-        }
-    } else {
-        $input_file_names = [];
-    }
-
-    $output_file_names = get_str('output_file_names', true);
-    if ($output_file_names) {
-        $output_file_names = explode(' ', $output_file_names);
-        foreach ($output_file_names as $fname) {
-            if (!is_valid_filename($fname)) {
-                error_page("Invalid output file name: ".filename_rules());
-            }
-        }
-    } else {
-        $output_file_names = [];
     }
 
     $dir = "$buda_root/$app/$variant";
@@ -413,20 +334,33 @@ function variant_action($user) {
     $desc = new StdClass;
     $desc->dockerfile = $dockerfile;
     $desc->app_files = $app_files;
-    $desc->input_file_names = $input_file_names;
-    $desc->output_file_names = $output_file_names;
-    $desc->min_nsuccess = $min_nsuccess;
-    $desc->max_total = $max_total;
-    $desc->max_delay_days = $max_delay_days;
+    $desc->file_infos = '';
+    $desc->file_refs = '';
 
-    // copy files from sandbox to variant dir
+    // copy dockerfile and app files from sandbox to variant dir,
+    // and stage them to download dir
     //
-    $pname = copy_and_stage_file($user, $dockerfile, $dir, $app, $variant);
+    [$pname, $md5, $nbytes] = copy_and_stage_file(
+        $user, $dockerfile, $dir, $app, $variant
+    );
     $desc->dockerfile_phys = $pname;
     $desc->app_files_phys = [];
+    [$file_info, $file_ref] = file_xml_elements(
+        'Dockerfile', $pname, $md5, $nbytes
+    );
+    $desc->file_infos .= $file_info;
+    $desc->file_refs .= $file_ref;
+
     foreach ($app_files as $fname) {
-        $pname = copy_and_stage_file($user, $fname, $dir, $app, $variant);
+        [$pname, $md5, $nbytes] = copy_and_stage_file(
+            $user, $fname, $dir, $app, $variant
+        );
         $desc->app_files_phys[] = $pname;
+        [$file_info, $file_ref] = file_xml_elements(
+            $fname, $pname, $md5, $nbytes
+        );
+        $desc->file_infos .= $file_info;
+        $desc->file_refs .= $file_ref;
     }
 
     // write variant params to a JSON file
@@ -435,8 +369,6 @@ function variant_action($user) {
         "$dir/variant.json",
         json_encode($desc, JSON_PRETTY_PRINT)
     );
-
-    create_templates($variant, $desc, $dir);
 
     // Note: we don't currently allow indirect file access.
     // If we did, we'd need to create job.toml to mount project dir
@@ -520,25 +452,55 @@ function app_form($desc=null) {
         form_input_hidden('user_id', $desc->user_id);
         form_input_hidden('create_time', $desc->create_time);
     } else {
+        $desc = new StdClass;
+        $desc->long_name = null;
+        $desc->input_file_names = [];
+        $desc->output_file_names = [];
+        $desc->min_nsuccess = 1;
+        $desc->max_total = 2;
+        $desc->max_delay_days = 7;
+        $desc->description = null;
+        $desc->sci_kw = null;
+        $desc->url = null;
         form_input_text('Internal name<br><small>No spaces</small>', 'name');
     }
-    form_input_text('User-visible name', 'long_name',
-        $desc?$desc->long_name:null
+    form_input_text('User-visible name', 'long_name', $desc->long_name);
+    form_input_text(
+        'Input file names<br><small>Space-separated</small>',
+        'input_file_names',
+        implode(' ', $desc->input_file_names)
+    );
+    form_input_text(
+        'Output file names<br><small>Space-separated</small>',
+        'output_file_names',
+        implode(' ', $desc->output_file_names)
+    );
+    form_input_text(
+        'Run at most this many total instances of each job',
+        'max_total',
+        $desc->max_total
+    );
+    form_input_text(
+        'Get this many successful instances of each job
+            <br><small>(subject to the above limit)</small>
+        ',
+        'min_nsuccess',
+        $desc->min_nsuccess
+    );
+    form_input_text(
+        'Max job turnaround time, days',
+        'max_delay_days',
+        $desc->max_delay_days
     );
     form_input_textarea(
         'Description<br><small>... of what the app does and of the research goals</small>',
         'description',
-        $desc?$desc->description:null
+        $desc->description
     );
     form_select2_multi('Science keywords',
         'sci_kw',
         keyword_select_options(KW_CATEGORY_SCIENCE),
-        $desc?$desc->sci_kw:null
-    );
-    form_input_text(
-        'URL of web page describing app',
-        'url',
-        !empty($desc->url)?$desc->url:''
+        $desc->sci_kw
     );
     // don't include location keywords;
     // various people may submit jobs to this app
@@ -552,16 +514,18 @@ function app_action($user) {
     $edit_name = get_str('edit_name', true);
     $desc = new StdClass;
     if ($edit_name) {
+        // editing existing app
         $dir = "$buda_root/$edit_name";
-        $name = $edit_name;
+        $app_name = $edit_name;
         $desc->user_id = get_int('user_id');
         $desc->create_time = get_int('create_time');
     } else {
-        $name = get_str('name');
-        if (!is_valid_filename($name)) {
+        // creating new app
+        $app_name = get_str('name');
+        if (!is_valid_filename($app_name)) {
             error_page(filename_rules());
         }
-        $dir = "$buda_root/$name";
+        $dir = "$buda_root/$app_name";
         if (file_exists($dir)) {
             error_page("App $name already exists.");
         }
@@ -569,11 +533,59 @@ function app_action($user) {
         $desc->user_id = $user->id;
         $desc->create_time = time();
     }
-    $desc->name = $name;
+    $desc->name = $app_name;
+    $min_nsuccess = get_int('min_nsuccess');
+    if ($min_nsuccess <= 0) {
+        error_page('Must specify a positive number of successful instances.');
+    }
+    $max_total = get_int('max_total');
+    if ($max_total <= 0) {
+        error_page('Must specify a positive max number of instances.');
+    }
+    if ($min_nsuccess > $max_total) {
+        error_page('Target # of successful instances must be <= max total');
+    }
+    $max_delay_days = get_str('max_delay_days');
+    if (!is_numeric($max_delay_days)) {
+        error_page('Must specify max delay');
+    }
+    $max_delay_days = floatval($max_delay_days);
+    if ($max_delay_days <= 0) {
+        error_page('Must specify positive max delay');
+    }
+
+    $input_file_names = get_str('input_file_names', true);
+    if ($input_file_names) {
+        $input_file_names = explode(' ', $input_file_names);
+        foreach ($input_file_names as $fname) {
+            if (!is_valid_filename($fname)) {
+                error_page("Invalid input file name: ".filename_rules());
+            }
+        }
+    } else {
+        $input_file_names = [];
+    }
+$output_file_names = get_str('output_file_names', true); if ($output_file_names) { $output_file_names = explode(' ', $output_file_names);
+        foreach ($output_file_names as $fname) {
+            if (!is_valid_filename($fname)) {
+                error_page("Invalid output file name: ".filename_rules());
+            }
+        }
+    } else {
+        $output_file_names = [];
+    }
     $desc->long_name = get_str('long_name');
+    $desc->input_file_names = $input_file_names;
+    $desc->output_file_names = $output_file_names;
+    $desc->min_nsuccess = $min_nsuccess;
+    $desc->max_total = $max_total;
+    $desc->max_delay_days = $max_delay_days;
     $desc->description = get_str('description');
     $desc->sci_kw = array_map('intval', get_array('sci_kw'));
     file_put_contents("$dir/desc.json", json_encode($desc, JSON_PRETTY_PRINT));
+
+    create_templates($app_name, $desc, $dir);
+
     header("Location: buda.php");
 }
 
@@ -615,6 +627,29 @@ function app_details() {
     row2('Created', date_str($desc->create_time));
     row2('Description', $desc->description);
     row2('Science keywords', kw_array_to_str($desc->sci_kw));
+    row2(
+        'Input filenames:',
+        implode(',', $desc->input_file_names)
+    );
+    row2(
+        'Output filenames:',
+        implode(',', $desc->output_file_names)
+    );
+    if (!empty($desc->max_total)) {
+        row2('Max total instances per job:', $desc->max_total);
+    } else {
+        row2('Max total instances per job:', '1');
+    }
+    if (!empty($desc->min_nsuccess)) {
+        row2('Target successful instances per job:', $desc->min_nsuccess);
+    } else {
+        row2('Target successful instances per job:', '1');
+    }
+    if (!empty($desc->max_delay_days)) {
+        row2('Max job turnaround time, days:', $desc->max_delay_days);
+    } else {
+        row2('Max job turnaround time, days:', '7');
+    }
     if ($manage_access) {
         row2('',
             button_text_small(
@@ -693,12 +728,10 @@ case 'variant_form':
 case 'variant_action':
     if (!$manage_access) error_page('no access');
     variant_action($user);
-    write_plan_class_file();
     break;
 case 'variant_delete':
     if (!$manage_access) error_page('no access');
     variant_delete();
-    write_plan_class_file();
     break;
 case 'view_file':
     view_file(); break;

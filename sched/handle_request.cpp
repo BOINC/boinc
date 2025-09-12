@@ -1466,9 +1466,12 @@ void process_request(char* code_sign_key) {
 
     handle_results();
     handle_file_xfer_results();
+
+#if ENABLE_VDA
     if (config.enable_vda) {
         handle_vda();
     }
+#endif
 
     // Do this before resending lost jobs
     //

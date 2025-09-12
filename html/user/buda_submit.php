@@ -33,8 +33,6 @@ function submit_form($user) {
     }
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
-    $variant = get_str('variant');
-    if (!is_valid_filename($variant)) die('bad arg');
 
     $desc = "<br><small>
         A zip file with one directory per job.
@@ -43,11 +41,10 @@ function submit_form($user) {
         containing command-line arguments.
         <a href=https://github.com/BOINC/boinc/wiki/BUDA-job-submission>Details</a></small>.
     ";
-    page_head("BUDA: Submit jobs to $app ($variant)");
+    page_head("BUDA: Submit jobs to $app");
     form_start('buda_submit.php');
     form_input_hidden('action', 'submit');
     form_input_hidden('app', $app);
-    form_input_hidden('variant', $variant);
     form_select("Batch zip file $desc", 'batch_file', $sbitems_zip);
     form_input_text(
         'Command-line arguments<br><small>Passed to all jobs in the batch</small>',
@@ -110,8 +107,8 @@ function unzip_batch_file($user, $batch_file) {
 //
 // Return a structure describing its contents, and the md5/size of files
 //
-function parse_batch_dir($batch_dir, $variant_desc) {
-    $input_files = $variant_desc->input_file_names;
+function parse_batch_dir($batch_dir, $app_desc) {
+    $input_files = $app_desc->input_file_names;
     sort($input_files);
     $shared_files = [];
     $shared_file_infos = [];
@@ -174,11 +171,11 @@ function parse_batch_dir($batch_dir, $variant_desc) {
     return $batch_desc;
 }
 
-function create_batch($user, $njobs, $app, $variant) {
+function create_batch($user, $njobs, $app) {
     global $buda_boinc_app;
     $now = time();
     $batch_name = sprintf('buda_%d_%d', $user->id, $now);
-    $description = "$app ($variant)";
+    $description = "$app";
     $batch_id = BoincBatch::insert(sprintf(
         "(user_id, create_time, logical_start_time, logical_end_time, est_completion_time, njobs, fraction_done, nerror_jobs, state, completion_time, credit_estimate, credit_canonical, credit_total, name, app_id, project_state, description, expire_time) values (%d, %d, 0, 0, 0, %d, 0, 0, %d, 0, 0, 0, 0, '%s', %d, 0, '%s', 0)",
         $user->id, $now, $njobs, BATCH_STATE_INIT, $batch_name, $buda_boinc_app->id,
@@ -216,19 +213,11 @@ function stage_input_files($batch_dir, $batch_desc, $batch_id) {
 // Use --stdin, where each job is described by a line
 //
 function create_jobs(
-    $app, $app_desc, $variant, $variant_desc,
-    $batch_desc, $batch_id, $batch_dir_name,
+    $app, $app_desc, $batch_desc, $batch_id, $batch_dir_name,
     $wrapper_verbose, $cmdline, $max_fpops, $exp_fpops,
     $keywords
 ) {
     global $buda_boinc_app;
-
-    // get list of physical names of app files
-    //
-    $app_file_names = $variant_desc->dockerfile_phys;
-    foreach ($variant_desc->app_files_phys as $pname) {
-        $app_file_names .= " $pname";
-    }
 
     // make per-job lines to pass as stdin
     //
@@ -238,7 +227,6 @@ function create_jobs(
         if ($job->cmdline) {
             $job_cmd .= sprintf(' --command_line "%s"', $job->cmdline);
         }
-        $job_cmd .= " $app_file_names";
         foreach ($batch_desc->shared_files_phys_names as $x) {
             $job_cmd .= " $x";
         }
@@ -247,8 +235,7 @@ function create_jobs(
         }
         $job_cmds .= "$job_cmd\n";
     }
-    $wrapper_cmdline = sprintf('"--dockerfile %s %s %s"',
-        $variant_desc->dockerfile,
+    $wrapper_cmdline = sprintf('"%s %s"',
         $wrapper_verbose?'--verbose':'',
         $cmdline
     );
@@ -258,8 +245,8 @@ function create_jobs(
         $app_desc->long_name,
         $batch_id,
         $wrapper_cmdline,
-        "buda_apps/$app/$variant/template_in",
-        "buda_apps/$app/$variant/template_out",
+        "buda_apps/$app/template_in",
+        "buda_apps/$app/template_out",
         $max_fpops, $exp_fpops
     );
     if ($keywords) {
@@ -286,8 +273,6 @@ function handle_submit($user) {
 
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
-    $variant = get_str('variant');
-    if (!is_valid_filename($variant)) die('bad arg');
     $batch_file = get_str('batch_file');
     if (!is_valid_filename($batch_file)) die('bad arg');
     $wrapper_verbose = get_str('wrapper_verbose', true);
@@ -312,17 +297,12 @@ function handle_submit($user) {
 
     $app_desc = get_buda_desc($app);
 
-    $variant_dir = "$buda_root/$app/$variant";
-    $variant_desc = json_decode(
-        file_get_contents("$variant_dir/variant.json")
-    );
-
     // unzip batch file into temp dir
     $batch_dir_name = unzip_batch_file($user, $batch_file);
     $batch_dir = "../../buda_batches/$batch_dir_name";
 
     // scan batch dir; validate and return struct
-    $batch_desc = parse_batch_dir($batch_dir, $variant_desc);
+    $batch_desc = parse_batch_dir($batch_dir, $app_desc);
 
     if (!$batch_desc->jobs) {
         page_head("No jobs created");
@@ -334,9 +314,7 @@ function handle_submit($user) {
         return;
     }
 
-    $batch = create_batch(
-        $user, count($batch_desc->jobs), $app, $variant
-    );
+    $batch = create_batch($user, count($batch_desc->jobs), $app);
 
     // stage input files and record the physical names
     //
@@ -345,13 +323,12 @@ function handle_submit($user) {
     // get job keywords: user keywords plus BUDA app keywords
     //
     [$yes, $no] = read_kw_prefs($user);
-    $keywords = array_merge($yes, $app_desc->sci_kw, $app_desc->loc_kw);
+    $keywords = array_merge($yes, $app_desc->sci_kw);
     $keywords = array_unique($keywords);
     $keywords = implode(' ', $keywords);
 
     create_jobs(
-        $app, $app_desc, $variant, $variant_desc,
-        $batch_desc, $batch->id, $batch_dir_name,
+        $app, $app_desc, $batch_desc, $batch->id, $batch_dir_name,
         $wrapper_verbose, $cmdline, $max_fpops, $exp_fpops, $keywords
     );
 
@@ -369,19 +346,12 @@ function handle_submit($user) {
 function show_list() {
     page_head('BUDA job submission');
     $apps = get_buda_apps();
-    echo 'Select app and variant:<p><br>';
+    echo 'Select app:<p><br>';
     foreach ($apps as $app) {
         $desc = get_buda_desc($app);
-        $vars = get_buda_variants($app);
-        echo "$desc->long_name
-            <ul>
-        ";
-        foreach ($vars as $var) {
-            echo sprintf('<li><a href=buda_submit.php?action=form&app=%s&variant=%s>%s</a>',
-                $app, $var, $var
-            );
-        }
-        echo "</ul>\n";
+        echo sprintf('<li><a href=buda_submit.php?action=form&app=%s>%s</a>',
+            $app, $desc->long_name
+        );
     }
     page_tail();
 }

@@ -17,10 +17,11 @@ function get_buda_apps() {
 function get_buda_variants($app_name) {
     global $buda_root;
     $x = [];
-    $pcs = scandir("$buda_root/$app_name");
+    $dir = "$buda_root/$app_name";
+    $pcs = scandir($dir);
     foreach ($pcs as $pc) {
         if ($pc[0] == '.') continue;
-        if ($pc == 'desc.json') continue;
+        if (!is_dir("$dir/$pc")) continue;
         $x[] = $pc;
     }
     return $x;

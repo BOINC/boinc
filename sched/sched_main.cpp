@@ -55,6 +55,7 @@
 #include "synch.h"
 #include "util.h"
 
+#include "buda.h"
 #include "handle_request.h"
 #include "sched_config.h"
 #include "sched_files.h"
@@ -344,7 +345,8 @@ inline static const char* get_remote_addr() {
     return r ? r : "?.?.?.?";
 }
 
-#if 0       // performance test for XML parsing (use a large request)
+#if defined(XML_PERF_TEST)
+// performance test for XML parsing (use a large request)
 int main(int, char**) {
     SCHEDULER_REQUEST sreq;
     FILE* f = fopen("req", "r");
@@ -356,10 +358,11 @@ int main(int, char**) {
         fseek(f, 0, SEEK_SET);
     }
 }
+#elif defined(PLAN_CLASS_TEST)
+    // main() defined in plan_class_spec.cpp
+#elif defined(BUDA_TEST)
+    // main() defined in buda.cpp
 #else
-
-#if !defined(PLAN_CLASS_TEST)
-
 int main(int argc, char** argv) {
     FILE* fin, *fout;
     int i, retval;
@@ -500,6 +503,9 @@ int main(int argc, char** argv) {
     }
     strip_whitespace(code_sign_key);
 
+#ifdef BUDA
+    buda_apps.read_json();
+#endif
 
     g_pid = getpid();
 #ifdef _USING_FCGI_
@@ -650,7 +656,6 @@ done:
         boinc_db.close();
     }
 }
-#endif
 #endif
 
 // the following stuff is here because if you put it in sched_limit.cpp
