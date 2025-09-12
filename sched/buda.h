@@ -65,7 +65,7 @@ extern bool choose_buda_variant(
     WORKUNIT &wu, int resource_type, BUDA_VARIANT **bv0, HOST_USAGE &hu
 );
 extern string get_buda_app_name(WORKUNIT &wu);
-extern void get_buda_plan_classes(vector<string> &pcs);
 extern void add_app_files(WORKUNIT &wu, BUDA_VARIANT &bv);
+extern void buda_init();
 
 #endif

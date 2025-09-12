@@ -155,6 +155,7 @@ EXTRA_DIST = \
     start
 
 cgi_sources = \
+    buda.cpp \
 	credit.cpp \
     edf_sim.cpp \
     handle_request.cpp \

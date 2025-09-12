@@ -25,6 +25,7 @@ using namespace rapidjson;
 #include "filesys.h"
 
 #include "sched_customize.h"
+#include "sched_main.h"
 #include "sched_msgs.h"
 
 #include "buda.h"
@@ -233,19 +234,24 @@ string get_buda_app_name(WORKUNIT &wu) {
     return string(foo+strlen("<buda_app_name>"));
 }
 
-void get_buda_plan_classes(vector<string> &pcs) {
-    pcs.clear();
+void set_have_apps_flags() {
     for (BUDA_APP& ba: buda_apps.apps) {
         for (BUDA_VARIANT& bv: ba.variants) {
             if (!bv.plan_class.empty()) {
-                pcs.push_back(bv.plan_class);
+                int rt = plan_class_to_proc_type(bv.plan_class.c_str());
+                ssp->have_apps_for_proc_type[rt] = true;
             }
         }
     }
 }
 
+void buda_init() {
+    buda_apps.read_json();
+    set_have_apps_flags();
+}
+
 #ifdef BUDA_TEST
 int main() {
-    buda_apps.read_json();
+    buda_init();
 }
 #endif
