@@ -17,6 +17,10 @@
     "gtest",
     "ftgl",
     "opencl",
-    "nlohmann-json"
+    "nlohmann-json",
+    {
+      "name": "libzip",
+      "default-features": false
+    }
   ]
 }

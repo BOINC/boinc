@@ -40,6 +40,7 @@ libfcgi_sources = \
 generic_sources = \
     app_ipc.cpp \
     base64.cpp \
+    boinc_zip.cpp \
     cc_config.cpp \
     cert_sig.cpp \
     coproc.cpp \
@@ -136,6 +137,7 @@ pkginclude_HEADERS = \
     average.h \
     base64.h \
     boinc_stdio.h \
+    boinc_zip.h \
     cal_boinc.h \
     cc_config.h \
     cert_sig.h \
@@ -182,9 +184,9 @@ noinst_HEADERS = \
 lib_LTLIBRARIES = libboinc.la
 pkgconfig_DATA = libboinc.pc
 libboinc_la_SOURCES = $(generic_sources) $(mac_sources) $(win_sources)
-libboinc_la_CFLAGS = $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
-libboinc_la_CXXFLAGS = $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
-libboinc_la_LDFLAGS = -static -version-number $(LIBBOINC_VERSION)
+libboinc_la_CFLAGS = $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) $(LIBZIP_CFLAGS)
+libboinc_la_CXXFLAGS = $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) $(LIBZIP_CFLAGS)
+libboinc_la_LDFLAGS = -static -version-number $(LIBBOINC_VERSION) $(LIBZIP_LIBS)
 if OS_FREEBSD
 libboinc_la_LDFLAGS += -lexecinfo
 endif
@@ -194,9 +196,9 @@ if ENABLE_BOINCCRYPT
 lib_LTLIBRARIES += libboinc_crypt.la
 pkgconfig_DATA += libboinc_crypt.pc
 libboinc_crypt_la_SOURCES = crypt.cpp
-libboinc_crypt_la_CFLAGS = $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) $(SSL_CFLAGS)
-libboinc_crypt_la_CXXFLAGS = $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) $(SSL_CXXFLAGS)
-libboinc_crypt_la_LDFLAGS = -static -version-number $(LIBBOINC_VERSION)
+libboinc_crypt_la_CFLAGS = $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) $(SSL_CFLAGS) $(LIBZIP_CFLAGS)
+libboinc_crypt_la_CXXFLAGS = $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) $(SSL_CXXFLAGS) $(LIBZIP_CFLAGS)
+libboinc_crypt_la_LDFLAGS = -static -version-number $(LIBBOINC_VERSION) $(LIBZIP_LIBS)
 libboinc_crypt_la_LIBADD =
 endif
 
@@ -204,9 +206,9 @@ if ENABLE_FCGI
 lib_LTLIBRARIES += libboinc_fcgi.la
 pkgconfig_DATA += libboinc_fcgi.pc
 libboinc_fcgi_la_SOURCES = $(libfcgi_sources) $(mac_sources) $(win_sources)
-libboinc_fcgi_la_CFLAGS = -D_USING_FCGI_ $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
-libboinc_fcgi_la_CXXFLAGS = -D_USING_FCGI_ $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
-libboinc_fcgi_la_LDFLAGS = -version-number $(LIBBOINC_VERSION)
+libboinc_fcgi_la_CFLAGS = -D_USING_FCGI_ $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) $(LIBZIP_CFLAGS)
+libboinc_fcgi_la_CXXFLAGS = -D_USING_FCGI_ $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) $(LIBZIP_CFLAGS)
+libboinc_fcgi_la_LDFLAGS = -version-number $(LIBBOINC_VERSION) $(LIBZIP_LIBS)
 libboinc_fcgi_la_LIBADD =
 endif
 # end of "if ENABLE_FCGI"
@@ -259,17 +261,17 @@ EXTRA_PROGRAMS = md5_test shmem_test msg_test
 EXTRA_DIST = *.h *.cpp
 
 md5_test_SOURCES = md5_test.cpp
-md5_test_CXXFLAGS = $(PTHREAD_CFLAGS)
-md5_test_LDADD = $(LIBBOINC)
+md5_test_CXXFLAGS = $(PTHREAD_CFLAGS) $(LIBZIP_CFLAGS)
+md5_test_LDADD = $(LIBBOINC) $(LIBZIP_LIBS)
 shmem_test_SOURCES = shmem_test.cpp
-shmem_test_CXXFLAGS = $(PTHREAD_CFLAGS)
-shmem_test_LDADD = $(LIBBOINC)
+shmem_test_CXXFLAGS = $(PTHREAD_CFLAGS) $(LIBZIP_CFLAGS)
+shmem_test_LDADD = $(LIBBOINC) $(LIBZIP_LIBS)
 msg_test_SOURCES = msg_test.cpp
-msg_test_CXXFLAGS = $(PTHREAD_CFLAGS)
-msg_test_LDADD = $(LIBBOINC)
+msg_test_CXXFLAGS = $(PTHREAD_CFLAGS) $(LIBZIP_CFLAGS)
+msg_test_LDADD = $(LIBBOINC) $(LIBZIP_LIBS)
 crypt_prog_SOURCES = crypt_prog.cpp
-crypt_prog_CXXFLAGS = $(PTHREAD_CFLAGS) $(SSL_CXXFLAGS)
-crypt_prog_LDADD = $(LIBBOINC_CRYPT_STATIC) $(LIBBOINC) $(SSL_LIBS)
+crypt_prog_CXXFLAGS = $(PTHREAD_CFLAGS) $(SSL_CXXFLAGS) $(LIBZIP_CFLAGS)
+crypt_prog_LDADD = $(LIBBOINC_CRYPT_STATIC) $(LIBBOINC) $(SSL_LIBS) $(LIBZIP_LIBS)
 parse_test_SOURCES = parse_test.cpp
-parse_test_CXXFLAGS = $(PTHREAD_CFLAGS)
-parse_test_LDADD = $(LIBBOINC)
+parse_test_CXXFLAGS = $(PTHREAD_CFLAGS) $(LIBZIP_CFLAGS)
+parse_test_LDADD = $(LIBBOINC) $(LIBZIP_LIBS)

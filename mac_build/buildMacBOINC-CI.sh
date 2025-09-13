@@ -37,7 +37,6 @@ if [ ! -d "mac_build" ]; then
 fi
 
 # Delete any obsolete paths to old build products
-rm -fR ./zip/build
 rm -fR ./mac_build/build
 
 cache_dir="$(pwd)/3rdParty/buildCache/mac"
@@ -95,7 +94,7 @@ fi
 
 if [ ${share_paths} = "yes" ]; then
     ## all targets share the same header and library search paths
-    ## Note: this does not build zip apps, upper case or VBoxWrapper projects.
+    ## Note: this does not build upper case or VBoxWrapper projects.
     libSearchPathDbg=""
     source BuildMacBOINC.sh ${config} ${doclean} -all -setting HEADER_SEARCH_PATHS "../clientgui ../lib/** ../api/ ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2 \\\${HEADER_SEARCH_PATHS}" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "$libSearchPathDbg ${cache_dir}/lib ../lib \\\${LIBRARY_SEARCH_PATHS}" | tee xcodebuild_all.log | $beautifier; retval=${PIPESTATUS[0]}
     if [ $retval -ne 0 ]; then
@@ -144,7 +143,7 @@ target="x"
 rm -f /tmp/depversions.txt
 
 ## This is code that builds each target individually in the main BOINC Xcode
-## project, plus the zip apps, upper case and VBoxWrapper projects.
+## project, plus the upper case and VBoxWrapper projects.
 for buildTarget in `xcodebuild -list -project boinc.xcodeproj`
 do
     if [[ "${target}" = "Build" && "${buildTarget}" = "Configurations:" ]]; then break; fi
@@ -176,19 +175,9 @@ else
     cd ..; show_version_errors; exit 1;
 fi
 
-target="zip apps"
-echo "Building ${target}..."
-source BuildMacBOINC.sh ${config} ${doclean} -zipapps | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    echo "Building ${target}...failed"
-    cd "${rootPath}"; show_version_errors; exit 1;
-fi
-
-verify_product_archs "${rootPath}/zip/build/${style}"
-
 target="UpperCase2"
 echo "Building ${target}..."
-source BuildMacBOINC.sh ${config} ${doclean} -uc2 -setting HEADER_SEARCH_PATHS "../../ ../../api/ ../../lib/ ../../zip/ ../../clientgui/mac/ ../jpeglib/ ../samples/jpeglib/ ${cache_dir}/include ${cache_dir}/include/freetype2 \\\${HEADER_SEARCH_PATHS}"  -setting LIBRARY_SEARCH_PATHS "../../mac_build/build/Deployment ${cache_dir}/lib \\\${LIBRARY_SEARCH_PATHS}" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+source BuildMacBOINC.sh ${config} ${doclean} -uc2 -setting HEADER_SEARCH_PATHS "../../ ../../api/ ../../lib/ ../../clientgui/mac/ ../jpeglib/ ../samples/jpeglib/ ${cache_dir}/include ${cache_dir}/include/freetype2 \\\${HEADER_SEARCH_PATHS}"  -setting LIBRARY_SEARCH_PATHS "../../mac_build/build/Deployment ${cache_dir}/lib \\\${LIBRARY_SEARCH_PATHS}" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd "${rootPath}"; show_version_errors; exit 1;
