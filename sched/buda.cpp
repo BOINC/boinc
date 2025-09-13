@@ -57,6 +57,8 @@ bool BUDA_VARIANT::read_json(string app_name, string var_name) {
     }
     if (!d.HasMember("file_infos")
         || !d.HasMember("file_refs")
+        || !d.HasMember("cpu_type")
+        || !d.HasMember("plan_class")
     ) {
         log_messages.printf(MSG_CRITICAL,
             "BUDA variant: missing element in %s\n", path
@@ -65,11 +67,20 @@ bool BUDA_VARIANT::read_json(string app_name, string var_name) {
     }
     file_infos = d["file_infos"].GetString();
     file_refs = d["file_refs"].GetString();
+    string ct = d["cpu_type"].GetString();
+    if (ct == "intel") {
+        cpu_type = CPU_TYPE_INTEL;
+    } else if (ct == "arm") {
+        cpu_type = CPU_TYPE_ARM;
+    } else {
+        cpu_type = CPU_TYPE_UNKNOWN;
+    }
+    plan_class = d["plan_class"].GetString();
     return true;
 }
 
-// scan a dir that's possibly a BUDA app; return
-// true if success
+// scan a dir that's possibly a BUDA app;
+// return true if success
 // false if not a BUDA app, or error
 //
 bool BUDA_APP::read_json() {
@@ -148,6 +159,17 @@ BUDA_APP* BUDA_APPS::lookup_app(string name) {
     return NULL;
 }
 
+static int get_host_cpu_type() {
+    char *p = g_request->platforms.list[0]->name;
+    if (strstr(p, "x86_64")) {
+        return CPU_TYPE_INTEL;
+    }
+    if (strstr(p, "arm")) {
+        return CPU_TYPE_ARM;
+    }
+    return CPU_TYPE_UNKNOWN;
+}
+
 // pick best variant (if any) for a BUDA job
 // resource type:
 // >= 0: use only variants for that resource type
@@ -164,7 +186,11 @@ bool choose_buda_variant(
     if (!buda_app) return false;
     double best_flops = 0;
     bool found = false;
+    int host_cpu_type = get_host_cpu_type();
     for (BUDA_VARIANT &bv: buda_app->variants) {
+        if (bv.cpu_type != host_cpu_type) {
+            continue;
+        }
         HOST_USAGE vhu;
         if (bv.plan_class.empty()) {
             if (resource_type < 0) {

@@ -228,7 +228,7 @@ void send_work_score_type(int rt) {
         }
 
         // for BUDA jobs, use the CPU app version
-        // even if we're looking for GPU work
+        // even if we're looking only for GPU work
         //
         job.is_buda = is_buda(wu);
         bool check_rsc_request = !job.is_buda;

@@ -63,23 +63,25 @@ function app_list($notice=null) {
     page_tail();
 }
 
-function show_app($dir) {
+function show_app($app_dir) {
     global $buda_root;
     $desc = null;
-    $desc_path = "$buda_root/$dir/desc.json";
+    $desc_path = "$buda_root/$app_dir/desc.json";
     $desc = json_decode(file_get_contents($desc_path));
     echo '<hr>';
-    echo sprintf('<h3>%s</h3>', $desc->long_name);
-    echo sprintf('<a href=buda.php?action=app_details&name=%s>View/edit details</a>',
-        $desc->name
+    echo sprintf('<h3>%s</h3><p>', $desc->long_name);
+    show_button_small(
+        sprintf('buda.php?action=app_details&name=%s', $desc->name),
+        'App details'
     );
-    $vars = get_buda_variants($dir);
-    if ($vars) {
+    $var_dirs = get_buda_variants($app_dir);
+    if ($var_dirs) {
         echo "<p>Variants:<ul>";
-        foreach ($vars as $var) {
+        foreach ($var_dirs as $var_dir) {
+            $var_desc = get_buda_var_desc($app_dir, $var_dir);
             echo sprintf(
                 '<li><a href=buda.php?action=variant_view&app=%s&variant=%s>%s</a>',
-                $dir, $var, $var
+                $app_dir, $var_dir, variant_name($var_desc)
             );
         }
         echo '</ul>';
@@ -104,9 +106,15 @@ function variant_view() {
     if (!is_valid_filename($app)) die('bad arg');
     $variant = get_str('variant');
     if (!is_valid_filename($variant)) die('bad arg');
-    page_head("BUDA: variant '$variant' of science app '$app'");
+    page_head("BUDA variant");
     $dir = "$buda_root/$app/$variant";
     $desc = json_decode(file_get_contents("$dir/variant.json"));
+    start_table('table-striped');
+    row2("BUDA App", $app);
+    row2("Variant", $variant);
+    row2("CPU type", $desc->cpu_type);
+    row2("Plan class", $desc->plan_class);
+    end_table();
     echo "<h3>Files</h3>";
     start_table();
     table_header('Dockerfile', 'size', 'md5');
@@ -137,12 +145,14 @@ function variant_view() {
     page_tail();
 }
 
-// form for creating/editing app variant.
+// form for creating an app variant or editing an existing one
 //
 function variant_form($user) {
     $sbitems = sandbox_select_items($user);
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
+
+    // name of variant directory, if we're editing
     $variant = get_str('variant', true);
 
     if ($variant) {
@@ -156,6 +166,7 @@ function variant_form($user) {
     } else {
         $variant_desc = new StdClass;
         $variant_desc->cpu_type = 'intel';
+        $variant_desc->plan_class = '';
         $variant_desc->dockerfile = '';
         $variant_desc->app_files = [];
         page_head_select2("Create a variant of BUDA app $app");
@@ -170,7 +181,7 @@ function variant_form($user) {
     form_input_hidden('app', $app);
     form_input_hidden('action', 'variant_action');
     if ($variant) {
-        // can't change CPU type or plan class of existing variant
+        // can't change CPU type of existing variant
         form_input_hidden('variant', $variant);
         form_input_hidden('edit', 'true');
     } else {
@@ -182,8 +193,8 @@ function variant_form($user) {
             ],
             $variant_desc->cpu_type
         );
-        form_input_text("Plan class$pc", 'variant', $variant);
     }
+    form_input_text("Plan class$pc", 'plan_class', $variant_desc->plan_class);
     form_select("Dockerfile$sb", 'dockerfile', $sbitems, $variant_desc->dockerfile);
     form_select2_multi("Application files$sb", 'app_files', $sbitems, $variant_desc->app_files);
     form_submit('OK');
@@ -299,8 +310,15 @@ function file_xml_elements($log_name, $phys_name, $md5, $nbytes) {
 //
 function variant_action($user) {
     global $buda_root;
-    $variant = get_str('variant');
-    if (!$variant) $variant = 'cpu';
+    $cpu_type = get_str('cpu_type');
+    $plan_class = get_str('plan_class');
+    $variant = get_str('variant', true);
+    if ($variant) {
+        $creating = false;
+    } else {
+        $creating = true;
+    }
+    $variant = sprintf('%s_%s', $cpu_type, $plan_class?$plan_class:'cpu');
     if (!is_valid_filename($variant)) {
         error_page(filename_rules());
     }
@@ -319,12 +337,12 @@ function variant_action($user) {
     }
 
     $dir = "$buda_root/$app/$variant";
-    if (get_str('edit', true)) {
-        system("rm -r $dir");
-    } else {
+    if ($creating) {
         if (file_exists($dir)) {
             error_page("Variant '$variant' already exists.");
         }
+    } else {
+        system("rm -r $dir");
     }
     mkdir($dir);
     mkdir("$dir/.md5");
@@ -334,6 +352,8 @@ function variant_action($user) {
     $desc = new StdClass;
     $desc->dockerfile = $dockerfile;
     $desc->app_files = $app_files;
+    $desc->cpu_type = $cpu_type;
+    $desc->plan_class = $plan_class;
     $desc->file_infos = '';
     $desc->file_refs = '';
 
@@ -606,16 +626,16 @@ function view_file() {
 function handle_app_edit() {
     global $buda_root;
     $name = get_str('name');
-    app_form(get_buda_desc($name));
+    app_form(get_buda_app_desc($name));
 }
 
 function app_details() {
     global $buda_root, $manage_access;
     $name = get_str('name');
-    $desc = get_buda_desc($name);
+    $desc = get_buda_app_desc($name);
     if (!$desc) error_page("no desc file $path");
     page_head("BUDA app: $desc->long_name");
-    start_table();
+    start_table('table-striped');
     row2('Internal name', $desc->name);
     $user = BoincUser::lookup_id($desc->user_id);
     row2('Creator',

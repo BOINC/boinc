@@ -295,7 +295,7 @@ function handle_submit($user) {
     }
     $exp_fpops = $exp_runtime_days * 4.3e9 * 86400;
 
-    $app_desc = get_buda_desc($app);
+    $app_desc = get_buda_app_desc($app);
 
     // unzip batch file into temp dir
     $batch_dir_name = unzip_batch_file($user, $batch_file);
@@ -348,7 +348,7 @@ function show_list() {
     $apps = get_buda_apps();
     echo 'Select app:<p><br>';
     foreach ($apps as $app) {
-        $desc = get_buda_desc($app);
+        $desc = get_buda_app_desc($app);
         echo sprintf('<li><a href=buda_submit.php?action=form&app=%s>%s</a>',
             $app, $desc->long_name
         );

@@ -28,7 +28,12 @@
 using std::vector;
 using std::string;
 
+#define CPU_TYPE_UNKNOWN    0
+#define CPU_TYPE_INTEL      1
+#define CPU_TYPE_ARM        2
+
 struct BUDA_VARIANT {
+    int cpu_type;
     string plan_class;
     string file_infos;      // XML for app file infos
     string file_refs;       // XML for app file refs
@@ -58,7 +63,7 @@ struct BUDA_APPS {
 
 extern BUDA_APPS buda_apps;
 
-inline bool is_buda(WORKUNIT &wu) {
+inline bool is_buda(const WORKUNIT &wu) {
     return strstr(wu.xml_doc, "<buda_app_name>") != NULL;
 }
 extern bool choose_buda_variant(
