@@ -1,9 +1,30 @@
-cmake_minimum_required(VERSION 3.16)
+# This file is part of BOINC.
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+cmake_minimum_required(VERSION 3.20)
 project(boinc-libs)
 
 message(WARNING "This build is under development and may not work as expected")
 
-find_package(OpenSSL REQUIRED)
+set (CMAKE_CXX_STANDARD 11)
+
+find_package(OpenSSL CONFIG REQUIRED)
+find_package(libzip CONFIG REQUIRED)
 
 set(BOINC_DIR ${PROJECT_SOURCE_DIR}/..)
 
@@ -38,6 +59,7 @@ set(LIBBOINC_HEADERS_GENERIC
     ${BOINC_DIR}/lib/app_ipc.h
     ${BOINC_DIR}/lib/base64.h
     ${BOINC_DIR}/lib/boinc_stdio.h
+    ${BOINC_DIR}/lib/boinc_zip.h
     ${BOINC_DIR}/lib/cal_boinc.h
     ${BOINC_DIR}/lib/cc_config.h
     ${BOINC_DIR}/lib/cert_sig.h
@@ -105,6 +127,7 @@ set(LIBBOINC_SOURCES_APPLE
 set(LIBBOINC_SOURCES_GENERIC
     ${BOINC_DIR}/lib/app_ipc.cpp
     ${BOINC_DIR}/lib/base64.cpp
+    ${BOINC_DIR}/lib/boinc_zip.cpp
     ${BOINC_DIR}/lib/cc_config.cpp
     ${BOINC_DIR}/lib/cert_sig.cpp
     ${BOINC_DIR}/lib/coproc.cpp
@@ -213,9 +236,14 @@ elseif(WIN32)
                                 $<BUILD_INTERFACE:${BOINC_DIR}/win_build>
     )
 elseif(UNIX)
-    execute_process(COMMAND ./configure --disable-server --disable-client --disable-manager)
-
-    execute_process(COMMAND ${BOINC_DIR}/configure --disable-server --disable-client --disable-manager
+    set(configure_options "")
+    if(DEFINED HOST AND NOT HOST STREQUAL "")
+        list(APPEND configure_options "--host=${HOST}")
+        if (HOST STREQUAL "armv6-linux" OR HOST STREQUAL "arm-linux" OR HOST STREQUAL "i686-linux")
+            list(APPEND configure_options "--disable-largefile")
+        endif()
+    endif()
+    execute_process(COMMAND ${BOINC_DIR}/configure --disable-server --disable-client --disable-manager ${configure_options}
         WORKING_DIRECTORY ${BOINC_DIR}
         ECHO_OUTPUT_VARIABLE
         ECHO_ERROR_VARIABLE
@@ -248,6 +276,7 @@ target_include_directories(boincapi PUBLIC
 target_link_libraries(boinc PRIVATE
                         OpenSSL::SSL
                         OpenSSL::Crypto
+                        libzip::zip
 )
 
 target_link_libraries(boincapi PRIVATE

@@ -39,6 +39,7 @@
 # Updated 2/14/23 refactoring made to build zip apps (-zipapps), uc2 samples (-uc2) and vboxwrapper (-vboxwrapper)
 # Updated 3/12/23 Don't unnecessary rebuild libraries for uc2, zip apps or vboxwrapper
 # Updated 3/29/25 Build docker_wrapper
+# Updated 9/12/23 boinc_zip.cpp was added to libboinc.a, therefore libboinc_zip.a was removed
 #
 ## This script requires OS 10.8 or later
 #
@@ -52,10 +53,10 @@
 ##     cd [path]/boinc/mac_build
 ##
 ## then invoke this script as follows:
-##      source BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-all] [-lib] [-client] [-zipapps] [-uc2] [-vboxwrapper] [-docker_wrapper] [-target targetName] [-setting name value] [-help]
+##      source BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-all] [-lib] [-client] [-uc2] [-vboxwrapper] [-docker_wrapper] [-target targetName] [-setting name value] [-help]
 ## or
 ##      chmod +x BuildMacBOINC.sh
-##      ./BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-all] [-lib] [-client] [-zipapps] [-uc2] [-vboxwrapper] [-docker_wrapper] [-target targetName] [-setting name value] [-help]
+##      ./BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-all] [-lib] [-client] [-uc2] [-vboxwrapper] [-docker_wrapper] [-target targetName] [-setting name value] [-help]
 ##
 ## optional arguments
 ## -dev         build the development (debug) version.
@@ -70,16 +71,14 @@
 ##  The following arguments determine which targets to build
 ##
 ## -all         build all targets (i.e. target "Build_All" -- this is the default)
-##              except boinc_zip_test, testzlibconflict, UpperCase2 targets
+##              except UpperCase2 targets
 ##              (UC2-x86_64, UC2Gfx-x86_64 and slide_show-x86_64) and VBoxWrapper
 ##
 ## -lib         build the six libraries: libboinc_api.a, libboinc_graphics2.a,
-##              libboinc.a, libboinc_opencl.a, libboinc_zip.a, jpeglib.a.
+##              libboinc.a, libboinc_opencl.a, jpeglib.a.
 ##
 ## -client      build two targets: boinc client and command-line utility boinc_cmd
 ##              (also builds libboinc.a if needed, since boinc_cmd requires it.)
-##
-## -zipapps     build two zip samples: boinc_zip_test and testzlibconflict
 ##
 ## -uc2         build the UpperCase2 targets: UC2-x86_64, UC2Gfx-x86_64 and
 ##              slide_show-x86_64
@@ -104,8 +103,6 @@ uselibcplusplus=""
 buildall=0
 buildlibs=0
 buildclient=0
-buildzip=0
-buildzipapps=0
 builduc2=0
 buildvboxwrapper=0
 builddocker_wrapper=0
@@ -120,7 +117,6 @@ while [ $# -gt 0 ]; do
     -all ) buildall=1 ; shift 1 ;;
     -lib ) buildlibs=1 ; shift 1 ;;
     -client ) buildclient=1 ; shift 1 ;;
-    -zipapps ) buildzipapps=1 ; shift 1 ;;
     -uc2 ) builduc2=1 ; shift 1 ;;
     -vboxwrapper ) buildvboxwrapper=1 ; shift 1 ;;
     -docker_wrapper ) builddocker_wrapper=1 ; shift 1 ;;
@@ -129,7 +125,7 @@ while [ $# -gt 0 ]; do
                 shift 1 ; unset value ; value=("$1");
                 settings+=("$name=""\"${value[@]}\"") ;
                 shift 1 ;;
-    * ) echo "usage:" ; echo "cd {path}/mac_build/" ; echo "source BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-all] [-lib] [-client] [-zipapps] [-uc2] [-vboxwrapper] [-docker_wrapper] [-target targetName] [-setting name value] [-help]" ; return 1 ;;
+    * ) echo "usage:" ; echo "cd {path}/mac_build/" ; echo "source BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-all] [-lib] [-client] [-uc2] [-vboxwrapper] [-docker_wrapper] [-target targetName] [-setting name value] [-help]" ; return 1 ;;
   esac
 done
 
@@ -164,18 +160,11 @@ fi
 
 echo ""
 
-if [ "${buildzipapps}" = "1" ]; then
-    if [ ! -e "./build/${style}/libboinc.a" ]; then buildlibs=1; fi
-    if [ ! -e "./build/${style}/libboinc_api.a" ]; then buildlibs=1; fi
-    if [ ! -e "./build/${style}/libboinc_zip.a" ]; then buildzip=1; fi
-fi
-
 if [ "${builduc2}" = "1" ]; then
     if [ ! -e "./build/${style}/libboinc.a" ]; then buildlibs=1; fi
     if [ ! -e "./build/${style}/libboinc_api.a" ]; then buildlibs=1; fi
     if [ ! -e "./build/${style}/libboinc_api.a" ]; then buildlibs=1; fi
     if [ ! -e "./build/${style}/libjpeg.a" ]; then buildlibs=1; fi
-    if [ ! -e "./build/${style}/libboinc_zip.a" ]; then buildzip=1; fi
 fi
 
 if [ "${buildvboxwrapper}" = "1" ] || [ "${builddocker_wrapper}" = "1" ]; then
@@ -195,11 +184,11 @@ if [ "${buildclient}" = "1" ]; then
     targets="$targets -target BOINC_Client -target cmd_boinc"
 fi
 
-if [ "x${targets}" = "x" ] && [ "${buildlibs}" = "0" ] && [ "${buildclient}" = "0" ] && [ "${buildzipapps}" = "0" ] && [ "${builduc2}" = "0" ] && [ "${buildvboxwrapper}" = "0" ] && [ "${builddocker_wrapper}" = "0" ] ; then
+if [ "x${targets}" = "x" ] && [ "${buildlibs}" = "0" ] && [ "${buildclient}" = "0" ] && [ "${builduc2}" = "0" ] && [ "${buildvboxwrapper}" = "0" ] && [ "${builddocker_wrapper}" = "0" ] ; then
     buildall=1
 fi
 
-## "-all" overrides "-lib" and "-client" and "-zipaps" and "-uc2" and "-vboxwrapper" and "-docker_wrapper" since it includes those targets
+## "-all" overrides "-lib" and "-client" and "-uc2" and "-vboxwrapper" and "-docker_wrapper" since it includes those targets
 if [ "${buildall}" = "1" ]; then
     targets="-target Build_All"
 fi
@@ -230,26 +219,6 @@ if [ "${buildall}" = "1" ] || [ "${buildlibs}" = "1" ] || [ "${buildclient}" = "
     if [ $result -eq 0 ]; then
         # build all or specified targets from the boinc.xcodeproj project for -all, -libs, -client, or -target
         eval "xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build ${uselibcplusplus} ${theSettings}"
-        result=$?
-    fi
-fi
-
-if [ $result -eq 0 ]; then
-    # build libboinc_zip.a for -all or -lib or -zipapps
-    if [ "${buildall}" = "1" ] || [ "${buildlibs}" = "1" ] || [ "${buildzipapps}" = "1" ]; then
-        buildzip=1
-    fi
-
-    if [ "${buildzip}" = "1" ]; then
-        eval "xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
-        result=$?
-    fi
-fi
-
-if [ $result -eq 0 ]; then
-    # build zip sample apps for -zipapps
-    if [ "${buildzipapps}" = "1" ]; then
-        eval "xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip_test -target testzlibconflict -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build ${uselibcplusplus}  ${theSettings}"
         result=$?
     fi
 fi

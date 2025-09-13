@@ -2,8 +2,8 @@
 set -e
 
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2021 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -283,7 +283,7 @@ NeonTestClient()
 
 NeonTestLibs()
 {
-    NeonTest libboinc.a libboinc_api.a libboinc_opencl.a libboinc_zip.a
+    NeonTest libboinc.a libboinc_api.a libboinc_opencl.a
 }
 
 Armv6Test()
@@ -307,7 +307,7 @@ Armv6TestClient()
 
 Armv6TestLibs()
 {
-    Armv6Test libboinc.a libboinc_api.a libboinc_opencl.a libboinc_zip.a
+    Armv6Test libboinc.a libboinc_api.a libboinc_opencl.a
 }
 
 Armv6TestApps()

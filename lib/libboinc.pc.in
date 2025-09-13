@@ -9,5 +9,6 @@ Version: @PACKAGE_VERSION@
 
 Cflags: -I${includedir}/boinc
 Cflags.private: @PTHREAD_CFLAGS@
+Requires: libzip
 Libs: -L${libdir} -lboinc
 Libs.private: @PTHREAD_LIBS@

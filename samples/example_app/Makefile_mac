@@ -1,3 +1,21 @@
+# This file is part of BOINC.
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+#
+
 # makefile for uc2 BOINC example application on Macintosh.
 # This is invoked from MakeMacExample.sh shell script.
 # It should not be used by itself without the script.
@@ -7,6 +25,7 @@
 # Updated 4/14/15 for compatibility with Xcode 6
 # Updated 4/30/20 for compatibility with Xcode 11 and OS 10.13
 # Updated 2/6/23 to unify linked libraries and update freetype library dependency
+# Updated 9/13/25 to replace boinc_zip with the libzip library dependency
 #
 ## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh
 ## This file assumes the locations of the needed libraries are those
@@ -17,7 +36,6 @@
 BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
-BOINC_ZIP_DIR = $(BOINC_DIR)/zip
 BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
 BOINC_CONFIG_DIR = $(BOINC_DIR)/clientgui/mac
 FREETYPE_DIR = $(BOINC_DIR)/../freetype-2.11.0
@@ -32,7 +50,6 @@ CXXFLAGS = $(VARIANTFLAGS) \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
-    -I$(BOINC_ZIP_DIR) \
     -I$(FREETYPE_DIR)/include \
     -I$(FTGL_DIR)/src \
     -I$(PREFIX)/include \
@@ -74,12 +91,12 @@ uc2: uc2.o $(BOINC_BUILD_DIR)/libboinc_api.a $(BOINC_BUILD_DIR)/libboinc.a
 uc2_graphics: uc2_graphics.o ttfont.o $(BOINC_BUILD_DIR)/libboinc.a\
     $(BOINC_BUILD_DIR)/libboinc_graphics2.a
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o uc2_graphics uc2_graphics.o ttfont.o\
-    -lboinc_graphics2 -lboinc_api -lboinc -ljpeg -lfreetype -lftgl -lz -lbz2\
+    -lboinc_graphics2 -lboinc_api -lboinc -ljpeg -lfreetype -lftgl -lz -lbz2 -lzip\
     -framework AppKit -framework GLUT -framework OpenGL -framework IOSurface
 
 slide_show: slide_show.o $(BOINC_BUILD_DIR)/libboinc.a\
     $(BOINC_BUILD_DIR)/libboinc_graphics2.a
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o slide_show slide_show.o\
-    -lboinc_graphics2 -lboinc_api -lboinc -ljpeg -lboinc_zip\
+    -lboinc_graphics2 -lboinc_api -lboinc -ljpeg -lzip -lz\
     -framework AppKit -framework GLUT -framework OpenGL -framework IOSurface
 

@@ -379,7 +379,6 @@
 					../..,
 					../../lib,
 					../../api,
-					../../zip,
 					../../clientgui/mac,
 				);
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment/;
@@ -388,7 +387,8 @@
 					"-lboinc_graphics2",
 					"-lboinc",
 					"-ljpeg",
-					"-lboinc_zip",
+					"-lzip",
+					"-lz",
 				);
 				PRODUCT_NAME = "slide_show-apple-darwin";
 			};
@@ -415,7 +415,6 @@
 					../..,
 					../../lib,
 					../../api,
-					../../zip,
 					../../clientgui/mac,
 				);
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment/;
@@ -424,7 +423,8 @@
 					"-lboinc_graphics2",
 					"-lboinc",
 					"-ljpeg",
-					"-lboinc_zip",
+					"-lzip",
+					"-lz",
 				);
 				PRODUCT_NAME = "slide_show-apple-darwin";
 			};
@@ -560,6 +560,7 @@
 					"-lftgl",
 					"-lz",
 					"-lbz2",
+					"-lzip",
 				);
 				PRODUCT_NAME = "UC2_graphics-apple-darwin";
 			};
@@ -600,6 +601,7 @@
 					"-lftgl",
 					"-lz",
 					"-lbz2",
+					"-lzip",
 				);
 				PRODUCT_NAME = "UC2_graphics-apple-darwin";
 			};
