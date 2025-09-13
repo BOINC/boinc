@@ -30,7 +30,7 @@
 #define WORKER_RELEASE 5
 
 // dockerwrapper version number
-#define DOCKERWRAPPER_RELEASE 7
+#define DOCKERWRAPPER_RELEASE 8
 
 // multi_thread version number
 #define MULTITHREAD_RELEASE 2
