@@ -27,7 +27,7 @@
 #define VBOXWRAPPER_RELEASE 26211
 
 // worker version number
-#define WORKER_RELEASE 5
+#define WORKER_RELEASE 6
 
 // dockerwrapper version number
 #define DOCKERWRAPPER_RELEASE 10
