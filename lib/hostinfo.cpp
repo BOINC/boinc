@@ -425,7 +425,7 @@ bool HOST_INFO::get_docker_compose_version_string(
 bool HOST_INFO::have_docker() {
 #ifdef _WIN32
     for (WSL_DISTRO &wd: wsl_distros.distros) {
-        if (!empty(wd.docker_version)) return true;
+        if (!wd.docker_version.empty()) return true;
     }
     return false;
 #else
