@@ -183,7 +183,13 @@ bool choose_buda_variant(
 ) {
     string buda_app_name = get_buda_app_name(wu);
     BUDA_APP* buda_app = buda_apps.lookup_app(buda_app_name);
-    if (!buda_app) return false;
+    if (!buda_app) {
+        log_messages.printf(MSG_CRITICAL,
+            "choose_buda_variant(): no BUDA app '%s'\n",
+            buda_app_name.c_str()
+        );
+        return false;
+    }
     double best_flops = 0;
     bool found = false;
     int host_cpu_type = get_host_cpu_type();
@@ -216,7 +222,15 @@ bool choose_buda_variant(
             found = true;
         }
     }
-    if (!found) return false;
+    if (!found) {
+        if (config.debug_send_job) {
+            log_messages.printf(MSG_NORMAL,
+                "[debug_send_job] no usable BUDA variant for WU %s\n",
+                wu.name
+            );
+        }
+        return false;
+    }
     return true;
 }
 

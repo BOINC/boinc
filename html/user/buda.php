@@ -111,11 +111,11 @@ function variant_view() {
     $desc = json_decode(file_get_contents("$dir/variant.json"));
     start_table('table-striped');
     row2("BUDA App", $app);
-    row2("Variant", $variant);
+    row2("Variant name", $variant);
     row2("CPU type", $desc->cpu_type);
     row2("Plan class", $desc->plan_class);
     end_table();
-    echo "<h3>Files</h3>";
+    echo "<h3>App files</h3>";
     start_table();
     table_header('Dockerfile', 'size', 'md5');
     file_row($app, $variant, $dir, $desc->dockerfile);
