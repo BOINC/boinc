@@ -53,7 +53,6 @@ require_once("../inc/account.inc");
 // and return best guess for platform
 //
 function get_platform($user_agent) {
-    echo $user_agent;
     if (strstr($user_agent, 'Windows')) {
         if (strstr($user_agent, 'x64')) {
             return 'windows_x86_64';
