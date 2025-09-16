@@ -547,7 +547,7 @@ function app_action($user) {
         }
         $dir = "$buda_root/$app_name";
         if (file_exists($dir)) {
-            error_page("App $name already exists.");
+            error_page("App $app_name already exists.");
         }
         mkdir($dir);
         $desc->user_id = $user->id;
@@ -585,7 +585,9 @@ function app_action($user) {
     } else {
         $input_file_names = [];
     }
-$output_file_names = get_str('output_file_names', true); if ($output_file_names) { $output_file_names = explode(' ', $output_file_names);
+    $output_file_names = get_str('output_file_names', true);
+    if ($output_file_names) {
+        $output_file_names = explode(' ', $output_file_names);
         foreach ($output_file_names as $fname) {
             if (!is_valid_filename($fname)) {
                 error_page("Invalid output file name: ".filename_rules());

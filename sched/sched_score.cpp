@@ -252,8 +252,8 @@ void send_work_score_type(int rt) {
             )) {
                 continue;
             }
-            job.host_usage = job.bavp->host_usage;
         } else {
+            job.host_usage = job.bavp->host_usage;
             job.buda_variant = NULL;
         }
 
