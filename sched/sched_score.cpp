@@ -230,8 +230,8 @@ void send_work_score_type(int rt) {
         // for BUDA jobs, use the CPU app version
         // even if we're looking only for GPU work
         //
-        job.is_buda = is_buda(wu);
-        bool check_rsc_request = !job.is_buda;
+        bool job_is_buda = is_buda(wu);
+        bool check_rsc_request = !job_is_buda;
 
         job.bavp = get_app_version(wu, check_rsc_request, false);
         if (!job.bavp) {
@@ -246,7 +246,7 @@ void send_work_score_type(int rt) {
 
         // it it's a BUDA job, pick a variant using the requested resource
         //
-        if (job.is_buda) {
+        if (job_is_buda) {
             if (!choose_buda_variant(
                 wu, rt, &(job.buda_variant), job.host_usage
             )) {

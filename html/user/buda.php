@@ -249,7 +249,7 @@ function create_templates($app, $desc, $dir) {
     );
 
     $x .= "      <buda_app_name>$app</buda_app_name>\n";
-    $x .= "   </workunit>\n<input_template>\n";
+    $x .= "   </workunit>\n</input_template>\n";
     file_put_contents("$dir/template_in", $x);
 
     // output template

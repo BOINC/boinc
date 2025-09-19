@@ -25,7 +25,6 @@ struct JOB {
     double score;
     APP* app;
     BEST_APP_VERSION* bavp;
-    bool is_buda;
     BUDA_VARIANT* buda_variant;
     HOST_USAGE host_usage;
         // if is_buda, usage returned by plan class func for chosen variant

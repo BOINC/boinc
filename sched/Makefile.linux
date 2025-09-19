@@ -22,8 +22,8 @@ FOO = -Wformat -Wformat=2 \
 
 #-Wall -Wconversion \
 
-//CC = g++ -O4 -Wall -I ../ -I ../lib/
-//CC = g++ -g -Wall -I ../ -I ../lib/
+#CC = g++ -O4 -Wall -I ../ -I ../lib/
+#CC = g++ -g -Wall -I ../ -I ../lib/
 CC = g++ $(OPTS) -I ../ -I ../lib/ \
     -I../db -I../tools -I. -I../vda \
     -I/usr/include/mariadb/mysql -I/usr/include/mariadb \
