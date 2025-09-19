@@ -34,17 +34,37 @@
 //
 
 require_once("../inc/util.inc");
+require_once("../inc/submit_util.inc");
+
+// the path of an output file in the 'assim move' scheme.
+// This must agree with the corresponding assimilators:
+// tools/sample_assimilate.py
+// sched/sample_assimilator.cpp
+// and with tools/query_job
+//
+function outfile_path($wu, $index, $log_names) {
+    if (!is_valid_filename($wu->name)) error_page("bad WU name");
+    if (!is_valid_filename($log_names[$index])) error_page("bad logical name");
+    return sprintf('results/%d/%s__file_%s',
+        $wu->batch, $wu->name, $log_names[$index]
+    );
+}
 
 // show or download a single output file,
 // identified by result ID and file index
 //
 function get_file() {
-    $path = get_str('path');
-    if (strstr($path, '..')) error_page('bad path');
-    $path = "../../$path";
+    $result_id = get_int('result_id');
+    $index = get_int('index');
+    $result = BoincResult::lookup_id($result_id);
+    if (!$result) error_page('no result');
+    $wu = BoincWorkunit::lookup_id($result->workunitid);
+    if (!$wu) error_page('no workunit');
+    $log_names = get_outfile_log_names($result);
+    if ($index >= count($log_names)) error_page('bad index');
+    $path = sprintf('../../%s', outfile_path($wu, $index, $log_names));
 
-    $download = get_str('download', true);
-    if ($download) {
+    if (get_str('download', true)) {
         do_download($path);
     } else {
         echo "<pre>\n";
