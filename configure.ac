@@ -454,26 +454,30 @@ If you do not want to build the server you should use --disable-server.
     ])
   fi
 
-  dnl Check for nlohmann::json (header-only library)
-  AC_ARG_WITH([nlohmann_json],
-    [AS_HELP_STRING([--with-nlohmann_json=DIR], [Specify prefix for nlohmann::json (header-only) library])],
-    [nlohmann_json_dir="$withval"],
-    [nlohmann_json_dir=""])
+   dnl Check for nlohmann::json (header-only library)
+   AC_ARG_WITH([nlohmann_json],
+     [AS_HELP_STRING([--with-nlohmann_json=DIR], [Specify prefix for nlohmann::json (header-only) library])],
+     [nlohmann_json_dir="$withval"],
+     [nlohmann_json_dir=""])
 
-  if test "x$nlohmann_json_dir" != "x"; then
-    CPPFLAGS="$CPPFLAGS -I$nlohmann_json_dir/include"
-  fi
+   if test "x$nlohmann_json_dir" != "x"; then
+     CPPFLAGS="$CPPFLAGS -I$nlohmann_json_dir/include"
+   fi
 
-  AC_CHECK_HEADER([nlohmann/json.hpp],
-    [AC_MSG_RESULT([Found nlohmann::json])],
-    [AC_MSG_ERROR([
+   dnl Ensure we use C++ and require C++11 for the header check
+   AC_LANG_PUSH([C++])
+   m4_ifdef([AX_CXX_COMPILE_STDCXX], [AX_CXX_COMPILE_STDCXX(11)])
+   AC_CHECK_HEADER([nlohmann/json.hpp],
+     [AC_MSG_RESULT([Found nlohmann::json])],
+     [AC_MSG_ERROR([
 ================================================================================
 ERROR: nlohmann::json (nlohmann/json.hpp) is required to build the server but was not found.
 
 Please install it (e.g., via your package manager or from https://github.com/nlohmann/json),
 or specify its location with --with-nlohmann_json=DIR.
 ================================================================================
-    ])])
+     ])])
+   AC_LANG_POP([C++])
 fi
 
 
