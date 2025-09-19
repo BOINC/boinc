@@ -18,9 +18,9 @@
 
 // parse BUDA app and variant description files
 
-#include "rapidjson/document.h"
 
-using namespace rapidjson;
+#include <nlohmann/json.hpp>
+using nlohmann::json;
 
 #include "filesys.h"
 
@@ -47,27 +47,28 @@ bool BUDA_VARIANT::read_json(string app_name, string var_name) {
     if (!boinc_file_exists(path)) return false;
     string s;
     read_file_string(path, s);
-    Document d;
-    d.Parse(s.c_str());
-    if (d.HasParseError()) {
+    json d;
+    try {
+        d = json::parse(s);
+    } catch (const std::exception& e) {
         log_messages.printf(MSG_CRITICAL,
-            "BUDA variant: failed to parse %s\n", path
+            "BUDA variant: failed to parse %s: %s\n", path, e.what()
         );
         return false;
     }
-    if (!d.HasMember("file_infos")
-        || !d.HasMember("file_refs")
-        || !d.HasMember("cpu_type")
-        || !d.HasMember("plan_class")
+    if (d.find("file_infos") == d.end()
+        || d.find("file_refs") == d.end()
+        || d.find("cpu_type") == d.end()
+        || d.find("plan_class") == d.end()
     ) {
         log_messages.printf(MSG_CRITICAL,
             "BUDA variant: missing element in %s\n", path
         );
         return false;
     }
-    file_infos = d["file_infos"].GetString();
-    file_refs = d["file_refs"].GetString();
-    string ct = d["cpu_type"].GetString();
+    file_infos = d["file_infos"].get<string>();
+    file_refs = d["file_refs"].get<string>();
+    string ct = d["cpu_type"].get<string>();
     if (ct == "intel") {
         cpu_type = CPU_TYPE_INTEL;
     } else if (ct == "arm") {
@@ -75,7 +76,7 @@ bool BUDA_VARIANT::read_json(string app_name, string var_name) {
     } else {
         cpu_type = CPU_TYPE_UNKNOWN;
     }
-    plan_class = d["plan_class"].GetString();
+    plan_class = d["plan_class"].get<string>();
     return true;
 }
 
@@ -95,26 +96,27 @@ bool BUDA_APP::read_json() {
     }
     string s;
     read_file_string(path, s);
-    Document d;
-    d.Parse(s.c_str());
-    if (d.HasParseError()) {
+    json d;
+    try {
+        d = json::parse(s);
+    } catch (const std::exception& e) {
         log_messages.printf(MSG_CRITICAL,
-            "BUDA app: failed to parse %s\n", path
+            "BUDA app: failed to parse %s: %s\n", path, e.what()
         );
         return false;
     }
-    if (!d.HasMember("name")
-        || !d.HasMember("min_nsuccess")
-        || !d.HasMember("max_total")
+    if (d.find("name") == d.end()
+        || d.find("min_nsuccess") == d.end()
+        || d.find("max_total") == d.end()
     ) {
         log_messages.printf(MSG_CRITICAL,
             "BUDA app: missing element in %s\n", path
         );
         return false;
     }
-    name = d["name"].GetString();
-    min_nsuccess = d["min_nsuccess"].GetInt();
-    max_total = d["max_total"].GetInt();
+    name = d["name"].get<string>();
+    min_nsuccess = d["min_nsuccess"].get<int>();
+    max_total = d["max_total"].get<int>();
 
     sprintf(path, "%s/%s",
         BUDA_APPS_DIR,
