@@ -932,7 +932,7 @@ function handle_abort_batch($user) {
 
     if (get_int('confirmed', true)) {
         abort_batch($batch);
-        page_head("Batch aborted");
+        page_head("Batch $batch_id aborted");
         return_link();
         page_tail();
     } else {
@@ -984,7 +984,7 @@ function handle_retire_batch($user) {
 //
 function handle_retire_multi($user) {
     $batches = BoincBatch::enum(
-        sprintf('state=%d', BATCH_STATE_COMPLETE)
+        sprintf('state in (%d, %d)', BATCH_STATE_COMPLETE, BATCH_STATE_ABORTED)
     );
     page_head('Retiring batches');
     foreach ($batches as $batch) {

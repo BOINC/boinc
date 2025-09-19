@@ -14,22 +14,39 @@ function get_buda_apps() {
     return $apps;
 }
 
+// return list of variant dir names
+//
 function get_buda_variants($app_name) {
     global $buda_root;
     $x = [];
-    $pcs = scandir("$buda_root/$app_name");
-    foreach ($pcs as $pc) {
-        if ($pc[0] == '.') continue;
-        if ($pc == 'desc.json') continue;
-        $x[] = $pc;
+    $app_dir = "$buda_root/$app_name";
+    $dirs = scandir($app_dir);
+    foreach ($dirs as $dir) {
+        if ($dir[0] == '.') continue;
+        if (!is_dir("$app_dir/$dir")) continue;
+        $x[] = $dir;
     }
     return $x;
 }
 
-function get_buda_desc($app) {
+function get_buda_app_desc($app) {
     global $buda_root;
     $path = "$buda_root/$app/desc.json";
     return json_decode(file_get_contents($path));
+}
+
+function get_buda_var_desc($app, $var) {
+    global $buda_root;
+    $path = "$buda_root/$app/$var/variant.json";
+    return json_decode(file_get_contents($path));
+}
+
+function variant_name($desc) {
+    if ($desc->plan_class) {
+        return "$desc->cpu_type ($desc->plan_class)";
+    } else {
+        return "$desc->cpu_type (CPU)";
+    }
 }
 
 ?>

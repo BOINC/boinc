@@ -35,6 +35,9 @@
 #include "util.h"
 #include "str_util.h"
 #include "synch.h"
+#include "boinc_stdio.h"
+
+#include "buda.h"
 #include "credit.h"
 #include "hr.h"
 #include "sched_array.h"
@@ -53,7 +56,6 @@
 #include "sched_util.h"
 #include "sched_version.h"
 #include "sched_send.h"
-#include "boinc_stdio.h"
 
 // if host sends us an impossible RAM size, use this instead
 //
@@ -626,7 +628,7 @@ static int add_usage_to_wu(WORKUNIT &wu, HOST_USAGE &hu) {
 //
 static int add_wu_to_reply(
     WORKUNIT& wu, SCHEDULER_REPLY&, APP* app, BEST_APP_VERSION* bavp,
-    bool is_buda, HOST_USAGE &hu
+    BUDA_VARIANT *bvp, HOST_USAGE &hu
 ) {
     int retval;
     WORKUNIT wu2, wu3;
@@ -680,9 +682,10 @@ static int add_wu_to_reply(
         return retval;
     }
 
-    if (is_buda) {
+    if (bvp) {
         retval = add_usage_to_wu(wu2, hu);
         if (retval) return retval;
+        add_app_files(wu2, *bvp);
     }
     wu3 = wu2;
     if (strlen(config.replace_download_url_by_timezone)) {
@@ -691,8 +694,6 @@ static int add_wu_to_reply(
 
     g_reply->insert_workunit_unique(wu3);
 
-    // switch to tighter policy for estimating delay
-    //
     return 0;
 }
 
@@ -954,50 +955,12 @@ static bool wu_has_plan_class(WORKUNIT &wu, char* buf) {
     return true;
 }
 
-// If workunit has a plan class (e.g. BUDA)
-//      return false if host not capable
-//      plan class computes host usage
-//      is_buda = true
-// else
-//      host usage is from app version
-//      is_buda = false
-//
-void check_buda_plan_class(
-    WORKUNIT &wu, HOST_USAGE &hu, bool &is_buda, bool &is_ok
-) {
-    char plan_class[256];
-    if (!wu_has_plan_class(wu, plan_class)) {
-        is_buda = false;
-        return;
-    }
-    if (config.debug_version_select) {
-        log_messages.printf(MSG_NORMAL,
-            "[version] BUDA WU plan class: %s\n", plan_class
-        );
-    }
-    is_buda = true;
-    is_ok = true;
-    if (!strlen(plan_class)) {
-        hu.sequential_app(g_reply->host.p_fpops);
-        return;
-    }
-    if (!app_plan(*g_request, plan_class, hu, &wu)) {
-        if (config.debug_version_select) {
-            log_messages.printf(MSG_NORMAL,
-                "[version]  app_plan(%s) returned false\n", plan_class
-            );
-        }
-        // can't send this job
-        is_ok = false;
-    }
-}
-
 int add_result_to_reply(
     SCHED_DB_RESULT& result,
     WORKUNIT& wu,
     BEST_APP_VERSION* bavp,
     HOST_USAGE &host_usage,
-    bool is_buda,
+    BUDA_VARIANT *bvp,
     bool locality_scheduling
 ) {
     int retval;
@@ -1073,7 +1036,7 @@ int add_result_to_reply(
     // done with DB updates.
     //
 
-    retval = add_wu_to_reply(wu, *g_reply, app, bavp, is_buda, host_usage);
+    retval = add_wu_to_reply(wu, *g_reply, app, bavp, bvp, host_usage);
     if (retval) return retval;
 
     // Adjust available disk space.
