@@ -56,10 +56,10 @@ bool BUDA_VARIANT::read_json(string app_name, string var_name) {
         );
         return false;
     }
-    if (!d.contains("file_infos")
-        || !d.contains("file_refs")
-        || !d.contains("cpu_type")
-        || !d.contains("plan_class")
+    if (d.find("file_infos") == d.end()
+        || d.find("file_refs") == d.end()
+        || d.find("cpu_type") == d.end()
+        || d.find("plan_class") == d.end()
     ) {
         log_messages.printf(MSG_CRITICAL,
             "BUDA variant: missing element in %s\n", path
@@ -105,9 +105,9 @@ bool BUDA_APP::read_json() {
         );
         return false;
     }
-    if (!d.contains("name")
-        || !d.contains("min_nsuccess")
-        || !d.contains("max_total")
+    if (d.find("name") == d.end()
+        || d.find("min_nsuccess") == d.end()
+        || d.find("max_total") == d.end()
     ) {
         log_messages.printf(MSG_CRITICAL,
             "BUDA app: missing element in %s\n", path
