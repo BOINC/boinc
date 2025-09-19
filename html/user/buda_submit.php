@@ -324,6 +324,16 @@ function handle_submit($user) {
     // scan batch dir; validate and return struct
     $batch_desc = parse_batch_dir($batch_dir, $variant_desc);
 
+    if (!$batch_desc->jobs) {
+        page_head("No jobs created");
+        echo "
+            Your batch file (.zip) did not specify any jobs.
+            See <a href=https://github.com/BOINC/boinc/wiki/BUDA-job-submission#batch-files>Instructions for creating batch files</a>.
+        ";
+        page_tail();
+        return;
+    }
+
     $batch = create_batch(
         $user, count($batch_desc->jobs), $app, $variant
     );

@@ -1,6 +1,6 @@
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -30,12 +30,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: ${{ matrix.type }}
+  source-code-check-illegal-symbols:
+    name: source-code-check-illegal-symbols
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        type: [source-code-check]
       fail-fast: false
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
@@ -45,7 +43,29 @@ jobs:
         if: ${{ success() }}
         run: |
           python ./ci_tools/source_code_check.py .
+
+  source-code-check-trailing-whitespaces:
+    name: source-code-check-trailing-whitespaces
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        with:
+          fetch-depth: 2
       - name: Check source code for trailing whitespaces
         if: ${{ success() }}
         run: |
           python ./ci_tools/trailing_whitespaces_check.py .
+      - name: Prepare patch file
+        if: failure()
+        run: |
+          python ./ci_tools/trailing_whitespaces_check.py . --fix
+          git diff > trailing_whitespaces.patch
+      - name: Upload patch
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: trailing_whitespaces.patch
+          path: trailing_whitespaces.patch
+

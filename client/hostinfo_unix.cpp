@@ -1255,7 +1255,7 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
     // download (if not there) and start QEMU VM
     if (type == PODMAN) {
         snprintf(cmd, sizeof(cmd),
-            "%s machine init; %s machine start",
+            "%s machine init -v /Library:/Library; %s machine start",
             docker_cli_prog(type),
             docker_cli_prog(type)
         );

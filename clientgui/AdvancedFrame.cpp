@@ -1,5 +1,5 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
+// https://boinc.berkeley.edu
 // Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
@@ -1640,9 +1640,6 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxWindow* pwndNotebookPage = NULL;
     CBOINCBaseView* pView = NULL;
     int iItemCount = 0, iIndex;
-#ifndef __WXMAC__   // See comment in CBOINCGUIApp::OnFinishInit()
-    int wasShown = 0;
-#endif
     int wasVisible = 0;
 
     wxASSERT(m_pNotebook);
@@ -1706,8 +1703,8 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         // Yes, but we don't have have credentials.
         // Bring up the Wizard to get them.
         //
-#ifndef __WXMAC__   // See comment in CBOINCGUIApp::OnFinishInit()
-        wasShown = IsShown();
+#if !defined(__WXMAC__) && (defined(_GRIDREPUBLIC) || defined(_PROGRESSTHRUPROCESSORS) || defined(_CHARITYENGINE))   // See comment in CBOINCGUIApp::OnFinishInit()
+        int wasShown = IsShown();
 #endif
         Show();
         wasVisible = wxGetApp().IsApplicationVisible();
@@ -1994,7 +1991,7 @@ void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event)
 #if SUPPORTDARKMODE
     CBOINCBaseView* theView = NULL;;
     CBOINCListCtrl* theListCtrl = NULL;
-    long bottomItem;
+    long bottomItem = 0;
     int currentPage = _GetCurrentViewPage();
 
     StopTimers();

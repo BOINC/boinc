@@ -263,7 +263,7 @@ bool gpus_usable = true;
 
 #ifndef SIM
 // see whether there's been a change in coproc usability;
-// if so set or clear "coproc_missing" flags and return true.
+// if so set or clear "missing_coproc" flags and return true.
 //
 bool check_coprocs_usable() {
 #ifdef _WIN32

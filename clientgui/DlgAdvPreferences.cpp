@@ -108,6 +108,9 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
     Layout();
     Fit();
     Centre();
+#if defined(__WXMSW__) || defined(__WXGTK__)
+    SetDoubleBuffered(true);
+#endif
 }
 
 /* destructor */

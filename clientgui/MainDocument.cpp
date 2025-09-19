@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -1367,7 +1367,7 @@ PROJECT* CMainDocument::project(unsigned int i) {
         if (!state.projects.empty())
             pProject = state.projects.at(i);
     }
-    catch (std::out_of_range e) {
+    catch (std::out_of_range&) {
         pProject = NULL;
     }
 
@@ -1522,7 +1522,7 @@ RESULT* CMainDocument::result(unsigned int i) {
         if (!results.results.empty())
             pResult = results.results.at(i);
     }
-    catch (std::out_of_range e) {
+    catch (std::out_of_range&) {
         pResult = NULL;
     }
 
@@ -1550,7 +1550,7 @@ RESULT* CMainDocument::result(const wxString& name, const wxString& project_url)
             }
         }
     }
-    catch (std::out_of_range e) {
+    catch (std::out_of_range&) {
         pResult = NULL;
     }
 
@@ -2106,7 +2106,7 @@ NOTICE* CMainDocument::notice(unsigned int i) {
         if (!notices.notices.empty())
             pNotice = notices.notices.at(i);
     }
-    catch (std::out_of_range e) {
+    catch (std::out_of_range&) {
         pNotice = NULL;
     }
 
@@ -2311,7 +2311,7 @@ FILE_TRANSFER* CMainDocument::file_transfer(unsigned int i) {
         if (!ft.file_transfers.empty())
             pFT = ft.file_transfers.at(i);
     }
-    catch (std::out_of_range e) {
+    catch (std::out_of_range&) {
         pFT = NULL;
     }
 
@@ -2336,7 +2336,7 @@ FILE_TRANSFER* CMainDocument::file_transfer(const wxString& fileName, const wxSt
             }
         }
     }
-    catch (std::out_of_range e) {
+    catch (std::out_of_range&) {
         pFT = NULL;
     }
 
@@ -2443,7 +2443,7 @@ PROJECT* CMainDocument::DiskUsageProject(unsigned int i) {
             pProject = disk_usage.projects.at(i);
         }
     }
-    catch (std::out_of_range e) {
+    catch (std::out_of_range&) {
         pProject = NULL;
     }
 
@@ -2484,7 +2484,7 @@ PROJECT* CMainDocument::statistic(unsigned int i) {
         if (!statistics_status.projects.empty())
             pProject = statistics_status.projects.at(i);
     }
-    catch (std::out_of_range e) {
+    catch (std::out_of_range&) {
         pProject = NULL;
     }
 
