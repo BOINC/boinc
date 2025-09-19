@@ -376,7 +376,7 @@ function show_submit_links($user) {
                         );
                     } else {
                         echo sprintf(
-                            '<li><a href=%s>%s</a><p>',
+                            '<a href=%s>%s</a><p>',
                             $app->form, $app->long_name
                         );
                     }
@@ -414,6 +414,13 @@ function handle_show_user_batches($user) {
 }
 
 function handle_update_only_own($user) {
+    if (!parse_bool(get_config(), 'enable_assignment')) {
+        error_page(
+            'Job assignment is not enabled in the project config file.
+            Please ask the project admins to enable it.'
+        );
+        return;
+    }
     $val = get_int('only_own');
     $user->update("seti_id=$val");
     header("Location: submit.php");
@@ -441,6 +448,7 @@ function handle_admin($user) {
         // user can administer all apps
         //
         page_head("Job submission: manage all apps");
+        echo '<ul>';
         echo "<li> <a href=submit.php?action=admin_all>View/manage all batches</a>
         ";
         $app_names = get_remote_app_names();
@@ -469,6 +477,7 @@ function handle_admin($user) {
         // see if user can administer specific apps
         //
         page_head("Job submission: manage apps");
+        echo '<ul>';
         $usas = BoincUserSubmitApp::enum("user_id=$user->id");
         foreach ($usas as $usa) {
             $app = BoincApp::lookup_id($usa->app_id);
