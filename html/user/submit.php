@@ -975,7 +975,7 @@ function handle_retire_batch($user) {
 //
 function handle_retire_multi($user) {
     $batches = BoincBatch::enum(
-        sprintf('state=%d or state=%d', BATCH_STATE_COMPLETE, BATCH_STATE_ABORTED)
+        sprintf('state in (%d, %d)', BATCH_STATE_COMPLETE, BATCH_STATE_ABORTED)
     );
     page_head('Retiring batches');
     foreach ($batches as $batch) {
