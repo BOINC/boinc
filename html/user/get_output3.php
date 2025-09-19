@@ -43,6 +43,8 @@ require_once("../inc/submit_util.inc");
 // and with tools/query_job
 //
 function outfile_path($wu, $index, $log_names) {
+    if (!is_valid_filename($wu->name)) error_page("bad WU name");
+    if (!is_valid_filename($log_names[$index])) error_page("bad logical name");
     return sprintf('results/%d/%s__file_%s',
         $wu->batch, $wu->name, $log_names[$index]
     );
