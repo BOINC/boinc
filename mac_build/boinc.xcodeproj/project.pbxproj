@@ -609,6 +609,7 @@
 		DDFF2AE90A53D599002BC19D /* setprojectgrp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDFF2AE80A53D599002BC19D /* setprojectgrp.cpp */; };
 		DDFF2EAB245BA6A300347B89 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD0BB7A11F62B105000151B2 /* IOSurface.framework */; };
 		DDFF50582917D08F0050D03C /* mac_restrict_access.sb in Resources */ = {isa = PBXBuildFile; fileRef = DD57E7912913D08E00E857CA /* mac_restrict_access.sb */; };
+		E32411DF0FC5DC410006868A /* boinc_zip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E32411DE0FC5DC410006868A /* boinc_zip.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1410,6 +1411,7 @@
 		DDFE854A0B60CFD0009B43D9 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = ../../../../../System/Library/Frameworks/AppKit.framework; sourceTree = SOURCE_ROOT; };
 		DDFF2AD30A53D4AE002BC19D /* setprojectgrp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = setprojectgrp; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDFF2AE80A53D599002BC19D /* setprojectgrp.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = setprojectgrp.cpp; sourceTree = "<group>"; };
+		E32411DE0FC5DC410006868A /* boinc_zip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = boinc_zip.cpp; sourceTree = "<group>"; };
 		F5159562029EB02001F5651B /* md5.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = md5.cpp; path = ../lib/md5.cpp; sourceTree = SOURCE_ROOT; };
 		F5159563029EB02001F5651B /* md5.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = md5.h; path = ../lib/md5.h; sourceTree = SOURCE_ROOT; };
 		F5159564029EB02001F5651B /* md5_file.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = md5_file.cpp; sourceTree = "<group>"; };
@@ -2091,6 +2093,7 @@
 				DD344B6307C5ACEB0043025C /* base64.cpp */,
 				DD344B6407C5ACEB0043025C /* base64.h */,
 				DD81C5F007C5D8290098A04D /* boinc_win.h */,
+				E32411DE0FC5DC410006868A /* boinc_zip.cpp */,
 				DD4AE04B13652BD700285859 /* cc_config.cpp */,
 				DD4AE04C13652BD700285859 /* cc_config.h */,
 				DD7168360AAD72040051642B /* common_defs.h */,
@@ -3908,6 +3911,7 @@
 				DDA6BD1F0BD4551F008F7921 /* QTaskMemory.c in Sources */,
 				DDB4A91F1411840800032E5D /* proc_control.cpp in Sources */,
 				DD76BF9317CB45A20075936D /* opencl_boinc.cpp in Sources */,
+				E32411DF0FC5DC410006868A /* boinc_zip.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

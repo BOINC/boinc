@@ -11,11 +11,11 @@
   <Import Project="boinc.props" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>.;../api;../lib;../zip;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CONSOLE;FTGL_LIBRARY_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;psapi.lib;oldnames.lib;brotlicommon.lib;brotlidec.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;psapi.lib;oldnames.lib;brotlicommon.lib;brotlidec.lib;zip.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">libcmtd.lib;libcpmtd.lib;freetyped.lib;ftgld.lib;libpng16d.lib;bz2d.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies Condition="'$(Configuration)'=='Release'">libcmt.lib;libcpmt.lib;freetype.lib;ftgl.lib;libpng16.lib;bz2.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <DelayLoadDLLs>GDI32.DLL;OPENGL32.DLL;GLU32.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -41,9 +41,6 @@
     </ProjectReference>
     <ProjectReference Include="libboincopencl.vcxproj">
       <Project>{c0a2deee-2ec5-4f67-8048-53264b6bd14d}</Project>
-    </ProjectReference>
-    <ProjectReference Include="libboinczip.vcxproj">
-      <Project>{753e897d-9ece-42b1-9f0d-cd566775c77e}</Project>
     </ProjectReference>
     <ProjectReference Include="libboinc.vcxproj">
       <Project>{e8f6bd7e-461a-4733-b7d8-37b09a099ed8}</Project>
