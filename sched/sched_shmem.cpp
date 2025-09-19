@@ -39,7 +39,6 @@ using std::string;
 #include "sched_types.h"
 #include "sched_util.h"
 #include "sched_shmem.h"
-#include "buda.h"
 
 void SCHED_SHMEM::init(int nwu_results) {
     int size = sizeof(SCHED_SHMEM) + nwu_results*sizeof(WU_RESULT);

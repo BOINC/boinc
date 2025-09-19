@@ -267,7 +267,9 @@ void add_app_files(WORKUNIT &wu, BUDA_VARIANT &bv) {
 string get_buda_app_name(WORKUNIT &wu) {
     string s = "";
     char foo[BLOB_SIZE];
-    strcpy(foo, strstr(wu.xml_doc, "<buda_app_name>"));
+    char *start = strstr(wu.xml_doc, "<buda_app_name>");
+    if (!start) return string("");
+    strcpy(foo, start);
     char *p = strstr(foo, "</buda_app_name>");
     if (!p) return string("");
     *p = 0;
