@@ -675,6 +675,7 @@ const char* suspend_reason_string(int reason) {
     case SUSPEND_REASON_BATTERY_CHARGING: return "battery low";
     case SUSPEND_REASON_BATTERY_OVERHEATED: return "battery thermal protection";
     case SUSPEND_REASON_NO_GUI_KEEPALIVE: return "GUI not active";
+    case SUSPEND_REASON_PODMAN_INIT: return "Podman initializing";
     }
     return "unknown reason";
 }
