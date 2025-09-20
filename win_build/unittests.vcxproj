@@ -21,7 +21,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gtest_main.lib;gmock_main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gtest_main.lib;gmock_main.lib;libcrypto.lib;libssl.lib;wsock32.lib;wininet.lib;winmm.lib;libboinc.lib;Crypt32.Lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories Condition="'$(Configuration)'=='Debug'">$(VcpkgInstalledDir)/debug/lib/manual-link;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalLibraryDirectories Condition="'$(Configuration)'=='Release'">$(VcpkgInstalledDir)/lib/manual-link;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
@@ -35,6 +35,7 @@
     <ClCompile Include="..\tests\unit-tests\lib\test_util.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_md5_file.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_shmem.cpp" />
+    <ClCompile Include="..\tests\unit-tests\lib\test_crypt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="libboinc.vcxproj">
