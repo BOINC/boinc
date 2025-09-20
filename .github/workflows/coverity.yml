@@ -33,7 +33,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get -qq update
-          sudo apt-get install -y libftgl-dev freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk-3-dev libsecret-1-dev libgcrypt20-dev libsystemd-dev libwebkit2gtk-4.1-dev p7zip-full libxxf86vm-dev ocl-icd-opencl-dev zip
+          sudo apt-get install -y libftgl-dev freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk-3-dev libsecret-1-dev libgcrypt20-dev libsystemd-dev libwebkit2gtk-4.1-dev p7zip-full libxxf86vm-dev ocl-icd-opencl-dev zip nlohmann-json3-dev
 
       - name: Cache dependencies
         uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809
