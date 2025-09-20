@@ -213,7 +213,7 @@ function stage_input_files($batch_dir, $batch_desc, $batch_id) {
 // Use --stdin, where each job is described by a line
 //
 function create_jobs(
-    $app, $app_desc, $batch_desc, $batch_id, $batch_dir_name,
+    $user, $app, $app_desc, $batch_desc, $batch_id, $batch_dir_name,
     $wrapper_verbose, $cmdline, $max_fpops, $exp_fpops,
     $keywords
 ) {
@@ -251,6 +251,9 @@ function create_jobs(
     );
     if ($keywords) {
         $cmd .= " --keywords '$keywords'";
+    }
+    if ($user->seti_id) {
+        $cmd .= " --target_user $user->id ";
     }
     $cmd .= sprintf(' > %s 2<&1', "buda_batches/errfile");
 
@@ -328,7 +331,7 @@ function handle_submit($user) {
     $keywords = implode(' ', $keywords);
 
     create_jobs(
-        $app, $app_desc, $batch_desc, $batch->id, $batch_dir_name,
+        $user, $app, $app_desc, $batch_desc, $batch->id, $batch_dir_name,
         $wrapper_verbose, $cmdline, $max_fpops, $exp_fpops, $keywords
     );
 
@@ -349,7 +352,7 @@ function show_list() {
     echo 'Select app:<p><br>';
     foreach ($apps as $app) {
         $desc = get_buda_app_desc($app);
-        echo sprintf('<li><a href=buda_submit.php?action=form&app=%s>%s</a>',
+        echo sprintf('<p><a href=buda_submit.php?action=form&app=%s>%s</a>',
             $app, $desc->long_name
         );
     }
