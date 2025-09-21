@@ -284,6 +284,10 @@
         <name>x86_64-pc-linux-gnu[native_mt]</name>
         <name>x86_64-pc-linux-gnu[vbox64_mt_mcore_atlas]</name>
         <name>x86_64-apple-darwin[vbox64_mt_mcore_atlas]</name>
+        <name>windows_intelx86</name>
+        <name>windows_x86_64</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/lhc.jpg</image>
       <summary>Improve the design of the Large Hadron Collider</summary>
@@ -720,7 +724,9 @@
         <description><![CDATA[Testing and comparison of heuristic methods for getting separations of parallel algorithms working in the CAD system for designing logic control systems]]></description>
         <home>Southwest State University (Russia)</home>
     <platforms>
+        <name>windows_intelx86</name>
         <name>windows_x86_64</name>
+        <name>i686-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/gerasim.gif</image>
@@ -927,6 +933,7 @@
         <name>arm-android-linux-gnu</name>
         <name>arm-unknown-linux-gnueabihf</name>
         <name>arm64-apple-darwin</name>
+        <name>arm64-apple-darwin[docker]</name>
         <name>i686-pc-linux-gnu</name>
         <name>i686-pc-linux-gnu[libc_228]</name>
         <name>windows_intelx86</name>
@@ -935,6 +942,7 @@
         <name>x86-android-linux-gnu</name>
         <name>x86_64-android-linux-gnu</name>
         <name>x86_64-apple-darwin</name>
+        <name>x86_64-apple-darwin[docker]</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[docker]</name>
         <name>x86_64-pc-linux-gnu[libc_228]</name>
