@@ -104,6 +104,8 @@
 //
 // --id_range N M
 //   delete users with ID N to M inclusive
+// --id N
+//   delete user N
 //
 // --teams
 //   delete teams (and their owners and members) where the team
@@ -192,7 +194,7 @@ function delete_forums() {
     // This is faster than enumerating all users
     //
     $prefs = BoincForumPrefs::enum("posts>0");
-    $n = 0;
+    $count = 0;
     foreach ($prefs as $p) {
         $user = BoincUser::lookup_id($p->userid);
         if (!$user) {
@@ -211,12 +213,13 @@ function delete_forums() {
         $h = BoincHost::count("userid=$p->userid");
         if ($h) continue;
 
-        $n = BoincPost::count("user=$user->id and (content like '%<a %' or content like '%[url%' or content like '%http://%' or content like '%https://%')");
+        // posts with at least 2 URLs
+        $n = BoincPost::count("user=$user->id and (content like '%http%http%')");
         if (!$n) continue;
         do_delete_user($user);
-        $n++;
+        $count++;
     }
-    echo "deleted $n users\n";
+    echo "delete_forums(): deleted $count users\n";
 }
 
 function delete_profiles() {
@@ -250,7 +253,7 @@ function delete_profiles() {
             $n++;
         }
     }
-    echo "deleted $n users\n";
+    echo "delete_profiles(): deleted $n users\n";
 }
 
 function delete_profiles_strict() {

@@ -634,6 +634,7 @@ function handle_query_batch($user) {
     $batch_id = get_int('batch_id');
     $status = get_int('status', true);
     $batch = BoincBatch::lookup_id($batch_id);
+    if (!$batch) error_page('no batch');
     $app = BoincApp::lookup_id($batch->app_id);
     $wus = BoincWorkunit::enum_fields(
         'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
@@ -813,9 +814,11 @@ function handle_query_job($user) {
     text_start(800);
 
     echo "
+        <ul>
         <li><a href=workunit.php?wuid=$wuid>Job details</a>
         <p>
         <li><a href=submit.php?action=query_batch&batch_id=$wu->batch>Batch details</a>
+        </ul>
     ";
     $d = "<foo>$wu->xml_doc</foo>";
     $x = simplexml_load_string($d);
@@ -898,23 +901,27 @@ function handle_query_job($user) {
     echo "<h2>Input files</h2>\n";
     $x = "<in>".$wu->xml_doc."</in>";
     $x = simplexml_load_string($x);
-    start_table('table-striped');
-    table_header("Name<br><small>(click to view)</small>", "Size (bytes)");
-    foreach ($x->workunit->file_ref as $fr) {
-        $pname = (string)$fr->file_name;
-        $lname = (string)$fr->open_name;
-        foreach ($x->file_info as $fi) {
-            if ((string)$fi->name == $pname) {
-                table_row(
-                    "<a href=$fi->url>$lname</a>",
-                    $fi->nbytes
-                );
-                break;
+    if ($x->workunit->file_ref) {
+        start_table('table-striped');
+        table_header("Name<br><small>(click to view)</small>", "Size (bytes)");
+        foreach ($x->workunit->file_ref as $fr) {
+            $pname = (string)$fr->file_name;
+            $lname = (string)$fr->open_name;
+            foreach ($x->file_info as $fi) {
+                if ((string)$fi->name == $pname) {
+                    table_row(
+                        "<a href=$fi->url>$lname</a>",
+                        $fi->nbytes
+                    );
+                    break;
+                }
             }
         }
+        end_table();
+    } else {
+        echo "The job has no input files.<p>";
     }
 
-    end_table();
     text_end();
     return_link();
     page_tail();

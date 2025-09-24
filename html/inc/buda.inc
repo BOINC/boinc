@@ -24,6 +24,7 @@ function get_buda_variants($app_name) {
     foreach ($dirs as $dir) {
         if ($dir[0] == '.') continue;
         if (!is_dir("$app_dir/$dir")) continue;
+        if (!file_exists("$app_dir/$dir/variant.json")) continue;
         $x[] = $dir;
     }
     return $x;

@@ -135,7 +135,7 @@ function delete_remote_submit_user($user) {
     BoincUserSubmitApp::delete_user($user->id);
 }
 
-// given its WUs, compute parameters of the batch:
+// compute parameters of the batch:
 //   credit_canonical: credit granted to canonical instances
 //   fraction_done: frac of jobs that are done (success or failed)
 //   state: whether complete (all jobs done)
@@ -146,10 +146,18 @@ function delete_remote_submit_user($user) {
 //   njobs_success: # of jobs with canonical instance
 //   njobs_in_prog: # of jobs not success or fail,
 //      and at least one result in progress
-//
 // return the batch object, with these values
 //
-// Also add the status field to WUs
+// You need to pass in a list of the batch's WUs.
+// These need to have the following fields:
+//
+// id
+// rsc_fpops_est
+// canonical_resultid
+// canonical_credit
+// error_mask
+//
+// add 'status' field (UNSENT, IN_PROGRESS, SUCCESS) to WUs
 //
 // TODO: update est_completion_time
 //
@@ -289,7 +297,9 @@ function abort_workunit($wu) {
         )
     );
     $wu->update(
-        sprintf('error_mask=error_mask|%d', WU_ERROR_CANCELLED)
+        sprintf('error_mask=error_mask|%d, file_delete_state=%d',
+            WU_ERROR_CANCELLED, FILE_DELETE_READY
+        )
     );
 }
 
@@ -304,6 +314,8 @@ function abort_batch($batch) {
     }
     if ($ids) {
         $ids = implode(',', $ids);
+        // cancel unsent instances
+        //
         BoincResult::update_aux(
             sprintf(
                 'server_state=%d, outcome=%d where server_state=%d and workunitid in (%s)',
@@ -313,8 +325,8 @@ function abort_batch($batch) {
             )
         );
         BoincWorkunit::update_aux(
-            sprintf('error_mask=error_mask|%d where id in(%s)',
-                WU_ERROR_CANCELLED, $ids
+            sprintf('error_mask=error_mask|%d, file_delete_state=%d where id in(%s)',
+                WU_ERROR_CANCELLED, FILE_DELETE_READY, $ids
             )
         );
     }
@@ -324,35 +336,44 @@ function abort_batch($batch) {
     return 0;
 }
 
-// mark WUs as assimilated; this lets them be purged
+// retire a batch:
+// - mark the batch as retired (don't delete it; might be useful later)
+// - delete output files (results/batchid/)
+// - mark unsent WUs as cancelled
+//
+// Don't delete the batch; it may have in-progress jobs that
+// we still need to file-delete and purge,
+// and the batch needs to be present for this.
+// Use ops/delete_batches.php to delete retired batches with no WUs
 //
 function retire_batch($batch) {
-    $wus = BoincWorkunit::enum_fields(
-        'id, result_template_file',
-        "batch=$batch->id"
-    );
-    $now = time();
-    $ids = [];
-    foreach ($wus as $wu) {
-        $ids[] = $wu->id;
-    }
-    if ($ids) {
-        $ids = implode(',', $ids);
-        BoincWorkunit::update_aux(
-            sprintf('assimilate_state=%d, transition_time=%d where id in(%s)',
-                ASSIMILATE_DONE, $now, $ids
-            )
-        );
-        foreach ($wus as $wu) {
-            // remove output template if it's a temporary
-            //
-            if (strstr($wu->result_template_file, "templates/tmp/")) {
-                @unlink($wu->result_template_file);
-            }
-        }
-    }
     $batch->update("state=".BATCH_STATE_RETIRED);
     system("rm -rf ../../results/$batch->id");
+
+    // get list of unsent WUs in this batch
+    //
+    $wus = BoincWorkunit::enum_fields(
+        'id, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
+        "batch = $batch->id"
+    );
+    get_batch_params($batch, $wus);
+    $wu_ids = [];
+    foreach ($wus as $wu) {
+        if ($wu->state == WU_STATE_UNSENT) {
+            $wu_ids[] = $wu->id;
+        }
+    }
+
+    // cancel them
+    //
+    if ($wu_ids) {
+        $wu_ids = implode(',', $wu_ids);
+        BoincWorkunit::update_aux(
+            sprintf('error_mask=error_mask|%d, file_delete_state=%d where id in (%s)',
+                WU_ERROR_CANCELLED, FILE_DELETE_READY, $wu_ids
+            )
+        );
+    }
 }
 
 function expire_batch($batch) {
