@@ -964,6 +964,7 @@
 		DD16BF8F099D6CE5003E4B69 /* cpu_benchmark.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cpu_benchmark.h; path = ../client/cpu_benchmark.h; sourceTree = SOURCE_ROOT; };
 		DD1907FA17D1A2F100596F03 /* MacAccessiblity.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MacAccessiblity.mm; path = ../clientgui/mac/MacAccessiblity.mm; sourceTree = "<group>"; };
 		DD1929D80918A2F100C31BCF /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
+		DD19C1D62E856487002A91A2 /* boinc_zip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = boinc_zip.h; sourceTree = "<group>"; };
 		DD1AFE8F0A512D2600EE5B82 /* Installer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Installer-Info.plist"; sourceTree = "<group>"; };
 		DD1AFEBA0A512D8700EE5B82 /* BOINC Installer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BOINC Installer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD1AFEE70A51301C00EE5B82 /* Installer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Installer.cpp; path = ../mac_installer/Installer.cpp; sourceTree = SOURCE_ROOT; };
@@ -2094,6 +2095,7 @@
 				DD344B6407C5ACEB0043025C /* base64.h */,
 				DD81C5F007C5D8290098A04D /* boinc_win.h */,
 				E32411DE0FC5DC410006868A /* boinc_zip.cpp */,
+				DD19C1D62E856487002A91A2 /* boinc_zip.h */,
 				DD4AE04B13652BD700285859 /* cc_config.cpp */,
 				DD4AE04C13652BD700285859 /* cc_config.h */,
 				DD7168360AAD72040051642B /* common_defs.h */,
@@ -2465,10 +2467,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD9E2351091CBDAE0048316E /* Build configuration list for PBXNativeTarget "libboinc" */;
 			buildPhases = (
-				DD7789792A4593E9005B0A0E /* ShellScript */,
+				DD19C1D72E856538002A91A2 /* ShellScript */,
 				DD407A4707D2FB1200163EF5 /* Sources */,
 				DD407A4807D2FB1200163EF5 /* Frameworks */,
-				DD3B67F6140CFFA20088683F /* ShellScript */,
+				DD3B67F6140CFFA20088683F /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -2950,6 +2952,24 @@
 			shellPath = /bin/sh;
 			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
+		DD19C1D72E856538002A91A2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/dependencyNames.sh\"\nln -fhs ${zipDirName} ../../${zipBaseName}\n";
+		};
 		DD1AFEB10A512D8700EE5B82 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3304,7 +3324,7 @@
 			shellPath = /bin/sh;
 			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
-		DD3B67F6140CFFA20088683F /* ShellScript */ = {
+		DD3B67F6140CFFA20088683F /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -3312,6 +3332,7 @@
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3377,24 +3398,6 @@
 			shellScript = "mkdir -p \"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Resources/English.lproj\"\ncp -fpv \"${SRCROOT}/English.lproj/PostInstall-InfoPlist.strings\" \"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Resources/English.lproj/InfoPlist.strings\"\n";
 		};
 		DD7789782A4593CF005B0A0E /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
-		};
-		DD7789792A4593E9005B0A0E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -5033,6 +5036,11 @@
 		DD9843D909920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"../lib/**",
+					../../libzip,
+					../../libzip/lib,
+				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 				WARNING_CFLAGS = (
@@ -5234,6 +5242,11 @@
 		DD9E2352091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"../lib/**",
+					../../libzip,
+					../../libzip/lib,
+				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 				WARNING_CFLAGS = (
