@@ -236,7 +236,7 @@ else
     echo ""
     echo "----------------------------------"
     echo "--- TO BUILD ZIP PLEASE INSTALL --"
-    echo "----  CMAKE COMMAN-LINE TOOLS ----"
+    echo "----  CMAKE COMMAND-LINE TOOLS ----"
     echo "----------------------------------"
     echo ""
 fi
