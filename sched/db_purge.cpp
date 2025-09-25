@@ -812,7 +812,7 @@ int main(int argc, char** argv) {
     int retval;
     bool one_pass = false;
     int i;
-    int sleep_sec = 600;
+    int sleep_sec = 300;
     check_stop_daemons();
     char buf[256];
 
@@ -964,14 +964,26 @@ int main(int argc, char** argv) {
                 );
                 exit(1);
             }
+            if (retired_batch_ids.empty()) {
+                log_messages.printf(MSG_NORMAL,
+                    "no retired batches; sleeping %d\n",
+                    sleep_sec
+                );
+                daemon_sleep(sleep_sec);
+                continue;
+            }
         }
 
-        if (!do_pass() && !one_pass) {
-            log_messages.printf(MSG_NORMAL, "Sleeping....\n");
-            daemon_sleep(sleep_sec);
-        }
+        bool did_something = do_pass();
         if (one_pass) {
             break;
+        }
+        if (!did_something) {
+            log_messages.printf(MSG_NORMAL,
+                "No WUs to purge; sleeping %d\n",
+                sleep_sec
+            );
+            daemon_sleep(sleep_sec);
         }
     }
 

@@ -1,3 +1,5 @@
+#! /usr/bin/env php
+
 <?php
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
