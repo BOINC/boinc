@@ -11,7 +11,7 @@
   <Import Project="boinc.props" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>.;..;../api;../lib;$(VcpkgRootDir)\installed\arm64-windows-static\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..;../api;../lib;$(VcpkgInstalledDir)/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="Exists('C:\Program Files (x86)\MsiVal2\MsiVal2.exe')">MSI_VALIDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
