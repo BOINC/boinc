@@ -206,10 +206,12 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
          fi
 
         rm -f ./lib/libzip_x86_64.a ./lib/libzip_arm64.a
-
-        make install 1>$stdout_target
-        if [ $? -ne 0 ]; then return 1; fi
     fi
+fi
+
+if [ "x${lprefix}" != "x" ]; then
+    make install 1>$stdout_target
+    if [ $? -ne 0 ]; then return 1; fi
 fi
 
 lprefix=""
