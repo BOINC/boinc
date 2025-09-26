@@ -143,10 +143,8 @@ void BUDA_APPS::read_json() {
     DirScanner ds(BUDA_APPS_DIR);
     string name;
     while (ds.scan(name)) {
-        log_messages.printf(MSG_NORMAL, "BUDA: checking %s\n", name.c_str());
         BUDA_APP ba(name);
         if (ba.read_json()) {
-            log_messages.printf(MSG_NORMAL, "BUDA: adding %s\n", name.c_str());
             apps.push_back(ba);
         }
     }

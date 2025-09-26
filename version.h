@@ -2,12 +2,11 @@
 // version.h is automatically updated by `configure` on *nix systems
 // Do not edit version.h directly
 //
-// To update versions run (in release_tools):
+// To update versions run:
 // - for the client/manager: set-client-version.py
 // - for the vboxwrapper: set-vboxwrapper-version.py
 // - for the worker: set-worker-version.py
 // - for the wrapper: set-wrapper-version.py
-// - for docker_wrapper: set-dockerwrapper-version.py
 
 #ifndef BOINC_VERSION_H
 #define BOINC_VERSION_H

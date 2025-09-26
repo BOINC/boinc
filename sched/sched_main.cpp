@@ -503,9 +503,7 @@ int main(int argc, char** argv) {
     }
     strip_whitespace(code_sign_key);
 
-#ifdef BUDA
     buda_init();
-#endif
 
     g_pid = getpid();
 #ifdef _USING_FCGI_

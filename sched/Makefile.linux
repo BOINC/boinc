@@ -7,7 +7,7 @@
 # 3) do the same in this dir
 
 #OPTS = -g -DBUDA_TEST
-OPTS = -g -DBUDA
+OPTS = -g
 
 FOO = -Wformat -Wformat=2 \
 -Wimplicit-fallthrough \
