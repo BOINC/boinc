@@ -123,9 +123,11 @@ std::filesystem::path FileTable::GetAbsolutePath(
 
 std::tuple<std::string, std::string> FileTable::GetFileName(
     const std::filesystem::path& filePath, const std::string& directory) {
-    auto to_upper = [](auto ch) {
-        return std::use_facet<std::ctype<char>>(std::locale()).toupper(ch);
-        };
+    const std::locale loc;
+    const auto& ctype = std::use_facet<std::ctype<char>>(loc);
+    auto to_upper = [&ctype](auto ch) {
+        return ctype.toupper(ch);
+    };
     auto extension = filePath.extension().string();
     if (extension.size() > 4) {
         extension = extension.substr(0, 4);
