@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,8 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
+// Standard headers and platform config
 #if defined(_WIN32) && !defined(__STDWX_H__)
-#pragma warning( disable : 4786 )  // Disable warning messages for vector
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
 #include "stdwx.h"
@@ -25,65 +25,92 @@
 #ifndef __APPLE_CC__
 #include "config.h"
 #endif
+#endif
+
 #include <algorithm>
 #include <string>
-#include <string.h>
+#include <vector>
+#include <cstring>
+#include <cerrno>
+#include <cstdio>
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#ifndef _WIN32
+#include <unistd.h>
+#endif
+
+// libzip
+#include <zip.h>
+
 using std::string;
 
-#endif
-
-#ifdef __cplusplus
-extern "C" {
-#else
-extern {
-#endif
-int unzip(int argc, char** argv);
-//int zipmain(int argc, char** argv);
-#include "./unzip/unzip.h"
-#include "./zip/zip.h"
-}
-
 #include "boinc_zip.h"
-#include "filesys.h" // from BOINC for DirScan
+#include "filesys.h" // from BOINC for DirScan and helpers
 
-// send in an output filename, advanced options (usually NULL), and numFileIn, szfileIn
+// Helpers
+namespace {
+    // Return base filename component (no directories)
+    static string basename_of(const string& path) {
+        const size_t pos1 = path.find_last_of("/\\");
+        if (pos1 == string::npos) return path;
+        return path.substr(pos1+1);
+    }
 
-#ifndef _MAX_PATH
-#define _MAX_PATH 255
+    // Join two path segments with '/'
+    static string join_path(const string& a, const string& b) {
+        if (a.empty()) return b;
+        if (b.empty()) return a;
+#ifdef _WIN32
+        const char sep = '\\';
+        if (a.back() == '/' || a.back() == '\\') return a + b;
+#else
+        const char sep = '/';
+        if (a.back() == '/') return a + b;
 #endif
+        return a + sep + b;
+    }
 
-unsigned char g_ucSort;
+    // Ensure that the subdirectories for relative file "rel"
+    // under base dir exist
+    static int ensure_subdirs(const string& base_dir, const string& rel) {
+        // Use BOINC helper to create nested dirs relative to base_dir
+        return boinc_make_dirs(base_dir.c_str(), rel.c_str());
+    }
 
-// a "binary predicate" for use by the std::sort algorithm
-// return true if "first > second" according to the g_ucSort type
-
-bool StringVectorSort(const std::string& first, const std::string& second) {
-    bool bRet = false;
-    if (g_ucSort & SORT_NAME
-        && g_ucSort & SORT_ASCENDING
-        && strcmp(first.c_str(), second.c_str())<0
-    ) {
-        bRet = true;
-    } else if (g_ucSort & SORT_NAME
-        && g_ucSort & SORT_DESCENDING
-        && strcmp(first.c_str(), second.c_str())>0
-    ) {
-        bRet = true;
-    } else if (g_ucSort & SORT_TIME) {
-        struct stat st[2];
-        stat(first.c_str(), &st[0]);
-        stat(second.c_str(), &st[1]);
-        if (g_ucSort & SORT_ASCENDING) {
-            bRet = st[0].st_mtime < st[1].st_mtime;
-        } else {
-            bRet = st[0].st_mtime > st[1].st_mtime;
+#ifndef _WIN32
+    // Set POSIX permissions from libzip external attributes when present
+    static void apply_permissions_if_possible(const string& path, zip_t* za,
+            zip_uint64_t idx) {
+        zip_uint8_t opsys = 0;
+        zip_uint32_t attributes = 0;
+        if (zip_file_get_external_attributes(za, idx, 0, &opsys,
+                    &attributes) == 0) {
+            // For UNIX hosts, upper 16 bits contain st_mode
+            if (opsys == ZIP_OPSYS_UNIX) {
+                mode_t mode = (mode_t)((attributes >> 16) & 0777);
+                if (mode) {
+                    chmod(path.c_str(), mode);
+                }
+            }
         }
     }
-    return bRet;
+
+    // When adding to archive, try to preserve original permission bits
+    static void set_entry_permissions(zip_t* za, zip_uint64_t idx,
+            const char* src_path) {
+        (void)za; (void)idx; (void)src_path;
+        struct stat sb;
+        if (!stat(src_path, &sb)) {
+            zip_file_set_external_attributes(za, idx, 0, ZIP_OPSYS_UNIX,
+                    ((zip_uint32_t)sb.st_mode) << 16);
+        }
+    }
+#endif
 }
 
 int boinc_zip(
-    int bZipType, const std::string szFileZip, const std::string szFileIn
+    int bZipType, const std::string& szFileZip, const std::string& szFileIn
 ) {
     ZipFileList tempvec;
     tempvec.push_back(szFileIn);
@@ -93,91 +120,153 @@ int boinc_zip(
 // same, but with char[] instead of string
 //
 int boinc_zip(int bZipType, const char* szFileZip, const char* szFileIn) {
-    string strFileZip, strFileIn;
-    strFileZip.assign(szFileZip);
-    strFileIn.assign(szFileIn);
     ZipFileList tempvec;
-    tempvec.push_back(strFileIn);
-    return boinc_zip(bZipType, strFileZip, &tempvec);
+    tempvec.push_back(szFileIn);
+    return boinc_zip(bZipType, szFileZip, &tempvec);
 }
 
 int boinc_zip(
-    int bZipType, const std::string szFileZip, const ZipFileList* pvectszFileIn
+    int bZipType, const std::string& szFileZip, const ZipFileList* pvectszFileIn
 ) {
-    int carg;
-    char** av;
-    int iRet = 0, i = 0, nVecSize = 0;
-
-    if (pvectszFileIn) nVecSize = pvectszFileIn->size();
-
-    // if unzipping but no file out, so it just uses cwd, only 3 args
-    //if (bZipType == UNZIP_IT)
-    //      carg = 3 + nVecSize;
-    //else
-    carg = 3 + nVecSize;
-
-    // make a dynamic array
-    av = (char**) calloc(carg+1, sizeof(char*));
-    for (i=0;i<(carg+1);i++) {
-        av[i] = (char*) calloc(_MAX_PATH,sizeof(char));
-    }
-
-    // just form an argc/argv to spoof the "main"
-    // default options are to recurse into directories
-    //if (options && strlen(options))
-    //      strcpy(av[1], options);
+    const size_t nVecSize = pvectszFileIn ? pvectszFileIn->size() : 0;
 
     if (bZipType == ZIP_IT) {
-        strcpy(av[0], "zip");
-        // default zip options -- no dir names, no subdirs, highest compression, quiet mode
-        if (strlen(av[1])==0) {
-            strcpy(av[1], "-j9q");
+        // Create or truncate existing archive
+        int errorp = 0;
+        zip_t* za = zip_open(szFileZip.c_str(), ZIP_CREATE | ZIP_TRUNCATE,
+                &errorp);
+        if (!za) {
+            return 2; // match previous nonzero error semantics
         }
-        strcpy(av[2], szFileZip.c_str());
 
-        //sz 3 onward will be each vector
-        int jj;
-        for (jj=0; jj<nVecSize; jj++) {
-            strcpy(av[3+jj], pvectszFileIn->at(jj).c_str());
+        int retcode = 0;
+        for (size_t jj = 0; jj < nVecSize; ++jj) {
+            const string& src = pvectszFileIn->at(jj);
+            // add as basename only (junk paths)
+            string entry_name = basename_of(src);
+            zip_source_t* zs = zip_source_file(za, src.c_str(), 0, -1);
+            if (!zs) {
+                retcode = 2;
+                break;
+            }
+            const zip_int64_t idx = zip_file_add(za, entry_name.c_str(), zs,
+                    ZIP_FL_OVERWRITE | ZIP_FL_ENC_UTF_8);
+            if (idx < 0) {
+                zip_source_free(zs);
+                retcode = 2;
+                break;
+            }
+#ifndef _WIN32
+            // attempt to preserve permissions on non-Windows
+            set_entry_permissions(za, (zip_uint64_t)idx, src.c_str());
+#endif
         }
+
+        if (zip_close(za) != 0) {
+            retcode = 2;
+        }
+        return retcode;
     } else {
-        strcpy(av[0], "unzip");
-        // default unzip options -- preserve subdirs, overwrite
-        if (strlen(av[1])==0) {
-            strcpy(av[1], "-oq");
+        // UNZIP: extract whole archive into CWD or provided directory
+        // Destination directory is first (and only) element if provided
+        string dest_dir = ".";
+        if (nVecSize >= 1 && !pvectszFileIn->at(0).empty()) {
+            dest_dir = pvectszFileIn->at(0);
         }
-        strcpy(av[2], szFileZip.c_str());
 
-        // if they passed in a directory unzip there
-        if (carg == 4) {
-            sprintf(av[3], "-d%s", pvectszFileIn->at(0).c_str());
-        }
-    }
-    av[carg] = NULL;
-    // printf("args: %s %s %s %s\n", av[0], av[1], av[2], av[3]);
-
-    if (bZipType == ZIP_IT) {
-        if (access(szFileZip.c_str(), 0) == 0) {
-            // old zip file exists so unlink
-            // (otherwise zip will reuse, doesn't seem to be a flag to
-            // bypass zip reusing it
-            unlink(szFileZip.c_str());
-        }
-        iRet = zipmain(carg, av);
-    } else {
         // make sure zip file exists
-        if (access(szFileZip.c_str(), 0) == 0) {
-            iRet = UzpMain(carg, av);
-        } else {
-            iRet = 2;
+#if defined(_WIN32)
+        if (GetFileAttributesA(szFileZip.c_str()) == INVALID_FILE_ATTRIBUTES) {
+            return 2;
         }
-    }
+#else
+        if (access(szFileZip.c_str(), F_OK) != 0) {
+            return 2;
+        }
+#endif
 
-    for (i=0;i<carg;i++) {
-        free(av[i]);
+        // Ensure destination directory exists
+        boinc_mkdir(dest_dir.c_str());
+
+        int errorp = 0;
+        zip_t* za = zip_open(szFileZip.c_str(), ZIP_RDONLY, &errorp);
+        if (!za) return 2;
+
+        const zip_int64_t num_entries_result = zip_get_num_entries(za, 0);
+        if (num_entries_result < 0) {
+            zip_discard(za);
+            return 2;
+        }
+        const zip_uint64_t num_entries =
+            static_cast<zip_uint64_t>(num_entries_result);
+        for (zip_uint64_t i = 0; i < num_entries; ++i) {
+            struct zip_stat zs;
+            zip_stat_init(&zs);
+            if (zip_stat_index(za, i, 0, &zs) != 0) {
+                zip_discard(za);
+                return 2;
+            }
+            string name = zs.name ? string(zs.name) : string();
+            if (name.empty()) continue;
+
+            // Directory entry (convention: ends with '/')
+            if (name.back() == '/' || name.back() == '\\') {
+                ensure_subdirs(dest_dir, name);
+                continue;
+            }
+
+            // Ensure parent directories exist
+            ensure_subdirs(dest_dir, name);
+
+            // Open source entry
+            zip_file_t* zf = zip_fopen_index(za, i, 0);
+            if (!zf) {
+                zip_discard(za);
+                return 2;
+            }
+
+            string out_path = join_path(dest_dir, name);
+            FILE* out = boinc_fopen(out_path.c_str(), "wb");
+            if (!out) {
+                zip_fclose(zf);
+                zip_discard(za);
+                return 2;
+            }
+
+            const size_t BUF_SIZE = 64 * 1024;
+            std::vector<unsigned char> buf(BUF_SIZE);
+            while (1) {
+                const zip_int64_t n = zip_fread(zf, buf.data(), BUF_SIZE);
+                if (n < 0) {
+                    // read error
+                    zip_fclose(zf);
+                    boinc::fclose(out);
+                    zip_discard(za);
+                    return 2;
+                }
+                if (n == 0) break;
+                const size_t read = static_cast<size_t>(n);
+                const size_t m = boinc::fwrite(buf.data(), 1, read, out);
+                if (m != read) {
+                    zip_fclose(zf);
+                    boinc::fclose(out);
+                    zip_discard(za);
+                    return 2;
+                }
+            }
+            boinc::fclose(out);
+            zip_fclose(zf);
+#ifndef _WIN32
+            // Try to restore permissions if present
+            apply_permissions_if_possible(out_path, za, i);
+#endif
+        }
+
+        if (zip_close(za) != 0) {
+            return 2;
+        }
+        return 0;
     }
-    free(av);
-    return iRet;
 }
 
 
@@ -196,22 +285,15 @@ int boinc_zip(
 // --------------------------------------------------------------------
 
 bool boinc_filelist(
-    const string directory,
-    const string pattern,
+    const string& directory,
+    const string& pattern,
     ZipFileList* pList,
     const unsigned char ucSort,
     const bool bClear
 ) {
-    g_ucSort = ucSort;  // set the global sort type right off the bat
-    string strFile;
-    // at most three |'s may be passed in pattern match
-    int iPos[3], iFnd, iCtr, i, lastPos;
-    string strFullPath;
-    char strPart[3][32];
     string spattern = pattern;
     string strDir = directory;
     string strUserDir = directory;
-    int iLen = strUserDir.size();
 
     if (!pList) return false;
 
@@ -223,82 +305,71 @@ bool boinc_filelist(
     }
 
     // first tack on a final slash on user dir if required
-    if (strUserDir[iLen-1] != '\\' && strUserDir[iLen] != '/') {
+    if (strUserDir.back() != '\\' && strUserDir.back() != '/') {
         // need a final slash, but what type?
         // / is safe on all OS's for CPDN at least
         // but if they already used \ use that
         // well they didn't use a backslash so just use a slash
         if (strUserDir.find("\\") == string::npos) {
+#ifdef _WIN32
+            strUserDir += "\\";
+#else
             strUserDir += "/";
+#endif
         } else {
             strUserDir += "\\";
         }
     }
 
     // transform strDir to either all \\ or all /
-    int j;
-    for (j=0; j<(int)directory.size(); j++)  {
-        // take off final / or backslash
-        if (j == ((int)directory.size()-1)
-             && (strDir[j] == '/' || strDir[j]=='\\')
-        ) {
-            strDir.resize(directory.size()-1);
-        } else {
+    for (char& c : strDir)  {
 #ifdef _WIN32  // transform paths appropriate for OS
-           if (directory[j] == '/') strDir[j] = '\\';
+        if (c == '/') c = '\\';
 #else
-           if (directory[j] == '\\') strDir[j] = '/';
+        if (c == '\\') c = '/';
 #endif
-        }
+    }
+    // take off final / or backslash
+    if (strDir.back() == '\\' || strDir.back() == '/') {
+        strDir.pop_back();
     }
 
     DirScanner dirscan(strDir);
-    memset(strPart, 0x00, 3*32);
+    string strFile;
     while (dirscan.scan(strFile)) {
-        iCtr = 0;
-        lastPos = 0;
-        iPos[0] = -1;
-        iPos[1] = -1;
-        iPos[2] = -1;
-        // match the filename against the regexp to see if it's a hit
-        // first get all the |'s to get the pieces to verify
-        //
-        while (iCtr<3 && (iPos[iCtr] = (int) spattern.find('|', lastPos)) > -1) {
-            if (iCtr==0)  {
-                strncpy(strPart[0], spattern.c_str(), iPos[iCtr]);
-            } else {
-                strncpy(strPart[iCtr], spattern.c_str()+lastPos, iPos[iCtr]-lastPos);
-            }
-            lastPos = iPos[iCtr]+1;
-            iCtr++;
+        size_t lastPos = 0;
+        std::vector<string> strPart;
+        size_t iPos = string::npos;
+        while ((iPos = spattern.find('|', lastPos)) != string::npos) {
+            strPart.push_back(spattern.substr(lastPos, iPos - lastPos));
+            lastPos = iPos+1;
         }
-        if (iCtr>0) {
+        if (strPart.size() > 0) {
             // found a | so need to get the part from lastpos onward
-            strncpy(strPart[iCtr], spattern.c_str()+lastPos, spattern.length() - lastPos);
+            strPart.push_back(spattern.substr(lastPos));
         }
 
         // check no | were found at all
-        if (iCtr == 0) {
-            strcpy(strPart[0], spattern.c_str());
-            iCtr++; // fake iCtr up 1 to get in the loop below
+        if (strPart.size() == 0) {
+            strPart.push_back(spattern);
         }
 
-        bool bFound = true;
-        for (i = 0; i <= iCtr && bFound; i++) {
-            if (i==0)  {
-                iFnd = (int) strFile.find(strPart[0]);
-                bFound = (bool) (iFnd > -1);
-            } else {
-                // search forward of the old part found
-                iFnd = (int) strFile.find(strPart[i], iFnd+1);
-                bFound = bFound && (bool) (iFnd > -1);
+        size_t iFnd = 0;
+        bool bFound = false;
+        for (const string& s : strPart) {
+            iFnd = strFile.find(s, iFnd);
+            if (iFnd == string::npos) {
+                bFound = false;
+                break;
             }
+            bFound = true;
+            iFnd += s.length(); // move forward for next search
         }
 
         if (bFound) {
             // this pattern matched the file, add to vector
             // NB: first get stat to make sure it really is a file
-            strFullPath = strUserDir + strFile;
+            string strFullPath = strUserDir + strFile;
             // only add if the file really exists (i.e. not a directory)
             if (is_file(strFullPath.c_str())) {
                 pList->push_back(strFullPath);
@@ -308,38 +379,76 @@ bool boinc_filelist(
 
     // sort by file creation time
     // sort if list is greather than 1
-    if (pList->size()>1)  {
-       sort(pList->begin(), pList->end(), StringVectorSort);  // may as well sort it?
+    if (pList->size()>1) {
+        sort(pList->begin(), pList->end(),
+               [&](const string& first, const string& second)->bool {
+                        if (ucSort & SORT_NAME
+                            && ucSort & SORT_ASCENDING
+                            && first < second) {
+                            return true;
+                        } else if (ucSort & SORT_NAME
+                            && ucSort & SORT_DESCENDING
+                            && first > second) {
+                            return true;
+                        } else if (ucSort & SORT_TIME) {
+                            struct stat st[2];
+                            stat(first.c_str(), &st[0]);
+                            stat(second.c_str(), &st[1]);
+                            if (ucSort & SORT_ASCENDING) {
+                                return st[0].st_mtime < st[1].st_mtime;
+                            } else {
+                                return st[0].st_mtime > st[1].st_mtime;
+                            }
+                        }
+                        return false;
+               });
     }
     return true;
 }
 
 // Read compressed file to memory.
 //
-int boinc_UnzipToMemory (char *zip, char *file, string &retstr) {
-    UzpOpts opts; // options for UzpUnzipToMemory()
-    UzpCB funcs;  // function pointers for UzpUnzipToMemory()
-    UzpBuffer buf;
-    int ret;
-
-    memset(&opts, 0, sizeof(opts));
-    memset(&funcs, 0, sizeof(funcs));
-
-    funcs.structlen = sizeof(UzpCB);
-    funcs.msgfn = (MsgFn *)printf;
-    funcs.inputfn = (InputFn *)scanf;
-    funcs.pausefn = (PauseFn *)(0x01);
-    funcs.passwdfn = (PasswdFn *)(NULL);
-
-    memset(&buf, 0, sizeof(buf));    // data-blocks needs to be empty
-    ret = UzpUnzipToMemory(zip, file, &opts, &funcs, &buf);
-
-    if (ret) {
-        retstr =  (string) buf.strptr;
+int boinc_UnzipToMemory (char *zip_path, char *file, string &retstr) {
+    retstr.clear();
+    if (!zip_path || !file || !*file) {
+        return 0; // indicate error (tests expect != 1)
     }
 
-    if (buf.strptr) free (buf.strptr);
+    int errorp = 0;
+    zip_t* za = zip_open(zip_path, ZIP_RDONLY, &errorp);
+    if (!za) return 0;
 
-    return ret;
+    const zip_int64_t idx = zip_name_locate(za, file, 0);
+    if (idx < 0) {
+        zip_close(za);
+        return 0;
+    }
 
+    zip_file_t* zf = zip_fopen_index(za, static_cast<zip_uint64_t>(idx), 0);
+    if (!zf) {
+        zip_close(za);
+        return 0;
+    }
+
+    // Read full file content
+    const size_t BUF_SIZE = 64 * 1024;
+    std::vector<char> buf(BUF_SIZE);
+    string out;
+    while (1) {
+        const zip_int64_t n = zip_fread(zf, buf.data(), BUF_SIZE);
+        if (n < 0) {
+            zip_fclose(zf);
+            zip_close(za);
+            return 0;
+        }
+        if (n == 0) break;
+        out.append(buf.data(), static_cast<size_t>(n));
+    }
+
+    zip_fclose(zf);
+    zip_close(za);
+
+    retstr = out;
+    return 1; // success expected by tests
 }
+

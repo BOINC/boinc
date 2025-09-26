@@ -1,3 +1,21 @@
+dnl This file is part of BOINC.
+dnl https://boinc.berkeley.edu
+dnl Copyright (C) 2025 University of California
+dnl
+dnl BOINC is free software; you can redistribute it and/or modify it
+dnl under the terms of the GNU Lesser General Public License
+dnl as published by the Free Software Foundation,
+dnl either version 3 of the License, or (at your option) any later version.
+dnl
+dnl BOINC is distributed in the hope that it will be useful,
+dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
+dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+dnl See the GNU Lesser General Public License for more details.
+dnl
+dnl You should have received a copy of the GNU Lesser General Public License
+dnl along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+dnl
+
 dnl -*- autoconf -*-
 
 dnl $Id$
@@ -1127,6 +1145,24 @@ fi
 AM_CONDITIONAL(BUILD_X11_SCREENSAVER, [ test "$have_Xcb" = yes -a "$have_Xcbatom" = yes ])
 dnl -----------------------------------------------------------------------
 
+if test "${enable_boinczip}" = yes; then
+dnl ---------- libzip (required for libboinc_zip) ----------------------------
+PKG_CHECK_MODULES([LIBZIP], [libzip], [have_libzip=yes], [have_libzip=no])
+AS_IF([test "x${have_libzip}" != "xyes"], [
+  AC_MSG_ERROR([
+================================================================================
+ERROR: libzip development files not found. They are required for the BOINC library.
+
+  Install libzip (e.g., libzip-dev on Debian/Ubuntu, libzip-devel on Fedora,
+  or via vcpkg/homebrew on Windows/macOS) and re-run configure.
+================================================================================
+  ])
+])
+AC_SUBST([LIBZIP_CFLAGS])
+AC_SUBST([LIBZIP_LIBS])
+dnl -----------------------------------------------------------------------
+fi
+
 dnl Heres another way to set up host-specific stuff
 AM_CONDITIONAL(OS_DARWIN, [echo $host_os | grep '^darwin' > /dev/null])
 if echo $host_os | grep '^darwin' >/dev/null ; then
@@ -1438,8 +1474,6 @@ AC_CONFIG_FILES([
                  vda/Makefile
                  zip/Makefile
                  zip/libboinc_zip.pc
-                 zip/zip/Makefile
-                 zip/unzip/Makefile
                  m4/Makefile
 		])
 
