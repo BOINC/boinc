@@ -17,6 +17,7 @@
 
 #include <sstream>
 #include <iostream>
+#include <locale>
 
 #include "FileTable.h"
 #include "CabHelper.h"
@@ -122,14 +123,19 @@ std::filesystem::path FileTable::GetAbsolutePath(
 
 std::tuple<std::string, std::string> FileTable::GetFileName(
     const std::filesystem::path& filePath, const std::string& directory) {
+    const std::locale loc;
+    const auto& ctype = std::use_facet<std::ctype<char>>(loc);
+    auto to_upper = [&ctype](auto ch) {
+        return ctype.toupper(ch);
+    };
     auto extension = filePath.extension().string();
     if (extension.size() > 4) {
         extension = extension.substr(0, 4);
     }
     std::transform(extension.begin(), extension.end(), extension.begin(),
-        ::toupper);
+        to_upper);
     auto name = filePath.filename().stem().string();
-    std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+    std::transform(name.begin(), name.end(), name.begin(), to_upper);
     auto i = 0;
     const auto filename_long = name;
     while (true) {
@@ -145,7 +151,7 @@ std::tuple<std::string, std::string> FileTable::GetFileName(
         if (filename_long.size() > 8) {
             name = filename_long.substr(0, 8 - suffix_len) + "~" +
                 std::to_string(++i);
-            std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+            std::transform(name.begin(), name.end(), name.begin(), to_upper);
         }
         auto found = false;
         for (const auto& file : files) {
