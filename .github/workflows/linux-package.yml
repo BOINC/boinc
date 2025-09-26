@@ -966,6 +966,23 @@ jobs:
         run: |
           echo "SKIP_RUN=1" >> $GITHUB_ENV
 
+      - name: Check if Release type is alpha
+        if: ${{ success() && env.SKIP_RUN == 0 && startsWith(github.ref, 'refs/tags/') }}
+        run: |
+          RELEASE_TYPE=alpha
+          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+
+      - name: Check if Release type is nightly
+        if: ${{ success() && env.SKIP_RUN == 0 && github.ref == 'refs/heads/master' && github.event_name == 'schedule' }}
+        run: |
+          RELEASE_TYPE=nightly
+          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+
+      - name: Check if Release type is not set
+        if: ${{ success() && env.SKIP_RUN == 0 && env.RELEASE_TYPE == 0 }}
+        run: |
+          echo "SKIP_RUN=1" >> $GITHUB_ENV
+
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         if: ${{ success() && env.SKIP_RUN == 0 }}
         with:
@@ -995,23 +1012,6 @@ jobs:
         uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
         with:
           name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
-
-      - name: Check if Release type is alpha
-        if: ${{ success() && env.SKIP_RUN == 0 && startsWith(github.ref, 'refs/tags/') }}
-        run: |
-          RELEASE_TYPE=alpha
-          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
-
-      - name: Check if Release type is nightly
-        if: ${{ success() && env.SKIP_RUN == 0 && github.ref == 'refs/heads/master' && github.event_name == 'schedule' }}
-        run: |
-          RELEASE_TYPE=nightly
-          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
-
-      - name: Check if Release type is not set
-        if: ${{ success() && env.SKIP_RUN == 0 && env.RELEASE_TYPE == 0 }}
-        run: |
-          echo "SKIP_RUN=1" >> $GITHUB_ENV
 
       - name: Update or create the repository using aptly
         if: ${{ success() && env.SKIP_RUN == 0 }}
@@ -1058,6 +1058,23 @@ jobs:
         run: |
           echo "SKIP_RUN=1" >> $GITHUB_ENV
 
+      - name: Check if Release type is alpha
+        if: ${{ success() && env.SKIP_RUN == 0 && startsWith(github.ref, 'refs/tags/') }}
+        run: |
+          RELEASE_TYPE=alpha
+          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+
+      - name: Check if Release type is nightly
+        if: ${{ success() && env.SKIP_RUN == 0 && github.ref == 'refs/heads/master' && github.event_name == 'schedule' }}
+        run: |
+          RELEASE_TYPE=nightly
+          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+
+      - name: Check if Release type is not set
+        if: ${{ success() && env.SKIP_RUN == 0 && env.RELEASE_TYPE == 0 }}
+        run: |
+          echo "SKIP_RUN=1" >> $GITHUB_ENV
+
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         if: ${{ success() && env.SKIP_RUN == 0 }}
         with:
@@ -1094,23 +1111,6 @@ jobs:
         uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
         with:
           name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
-
-      - name: Check if Release type is alpha
-        if: ${{ success() && env.SKIP_RUN == 0 && startsWith(github.ref, 'refs/tags/') }}
-        run: |
-          RELEASE_TYPE=alpha
-          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
-
-      - name: Check if Release type is nightly
-        if: ${{ success() && env.SKIP_RUN == 0 && github.ref == 'refs/heads/master' && github.event_name == 'schedule' }}
-        run: |
-          RELEASE_TYPE=nightly
-          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
-
-      - name: Check if Release type is not set
-        if: ${{ success() && env.SKIP_RUN == 0 && env.RELEASE_TYPE == 0 }}
-        run: |
-          echo "SKIP_RUN=1" >> $GITHUB_ENV
 
       - name: Update or create the repository
         if: ${{ success() && env.SKIP_RUN == 0 }}
