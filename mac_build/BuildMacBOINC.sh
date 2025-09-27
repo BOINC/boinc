@@ -70,8 +70,8 @@
 ##  The following arguments determine which targets to build
 ##
 ## -all         build all targets (i.e. target "Build_All" -- this is the default)
-##              except boinc_zip_test, testzlibconflict, UpperCase2 targets
-##              (UC2-x86_64, UC2Gfx-x86_64 and slide_show-x86_64) and VBoxWrapper
+##              except UpperCase2 targets (UC2-x86_64, UC2Gfx-x86_64 and
+##              slide_show-x86_64) and VBoxWrapper
 ##
 ## -lib         build the six libraries: libboinc_api.a, libboinc_graphics2.a,
 ##              libboinc.a, libboinc_opencl.a, libboinc_zip.a, jpeglib.a.
@@ -189,7 +189,7 @@ if [ "x${targets}" = "x" ] && [ "${buildlibs}" = "0" ] && [ "${buildclient}" = "
     buildall=1
 fi
 
-## "-all" overrides "-lib" and "-client" and "-zipaps" and "-uc2" and "-vboxwrapper" and "-docker_wrapper" since it includes those targets
+## "-all" overrides "-lib" and "-client" and "-uc2" and "-vboxwrapper" and "-docker_wrapper" since it includes those targets
 if [ "${buildall}" = "1" ]; then
     targets="-target Build_All"
 fi
