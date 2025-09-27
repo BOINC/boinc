@@ -19,14 +19,10 @@
 
 #include <string>
 #include <filesystem>
-#include <iostream>
-#include <vector>
-#include <iomanip>
 #include <sstream>
-#include <codecvt>
 #include <fstream>
 #include <chrono>
-#include <ctime>
+#include <cwchar>
 
 #include <openssl/evp.h>
 #include <openssl/md5.h>
@@ -45,9 +41,13 @@ public:
         if (!ofs.is_open()) {
             return;
         }
+        char buf[128];
         const auto now = std::chrono::system_clock::now();
         const auto now_c = std::chrono::system_clock::to_time_t(now);
-        ofs << std::ctime(&now_c) << message << std::endl;
+        std::tm tm{};
+        localtime_s(&tm, &now_c);
+        std::strftime(buf, sizeof(buf), "%a %b %d %H:%M:%S %Y\t", &tm);
+        ofs << buf << message << std::endl;
     }
 
 private:
@@ -76,6 +76,20 @@ private:
 
 void Log(const std::string& message) {
     Logger::Instance().Log(message);
+}
+
+static std::string WideToUtf8(const wchar_t* w) {
+    if (!w) return {};
+    const auto len = static_cast<int>(wcslen(w));
+    if (len == 0) return {};
+    const auto size =
+        WideCharToMultiByte(CP_UTF8, 0, w, len, nullptr, 0, nullptr, nullptr);
+    if (size <= 0) return {};
+    std::string out;
+    out.resize(static_cast<size_t>(size));
+    WideCharToMultiByte(
+        CP_UTF8, 0, w, len, out.data(), size, nullptr, nullptr);
+    return out;
 }
 
 HBITMAP hBitmap = NULL;
@@ -230,11 +244,11 @@ bool ExtractResourceAndExecute(UINT ResourceID, std::string OutputFileName,
         CloseHandle(hFilemap);
         CloseHandle(hFile);
 
-        const auto hInstance = ShellExecute(nullptr, "open",
+        auto hInstance = ShellExecute(nullptr, "open",
             (outputDir / OutputFileName).string().c_str(),
             CmdParameters.c_str(), nullptr,
             CmdParameters == "" ? SW_SHOWNORMAL : SW_HIDE);
-        if (reinterpret_cast<int>(hInstance) <= 32) {
+        if (reinterpret_cast<INT_PTR>(hInstance) <= 32) {
             Log("Failed to execute installer");
             MessageBox(NULL, "Failed to execute the installer!", "Error",
                 MB_ICONERROR);
@@ -303,9 +317,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
     }
     std::string args = "";
     if (nArgs > 1) {
-        std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
         for (int i = 1; i < nArgs; i++) {
-            args += converter.to_bytes(szArglist[i]) + " ";
+            if (!args.empty()) args += ' ';
+            args += WideToUtf8(szArglist[i]);
         }
     }
     LocalFree(szArglist);
