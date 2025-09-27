@@ -18,20 +18,21 @@
 // db_purge [options]
 // options are listed in usage() below
 //
-// purge (delete) workunit and result records that are no longer needed.
+// purge (delete) workunit and result DB records that are no longer needed.
+// Purging a WU means optionally writing it and its results
+// to XML archive files,
+// then deleting it and the results from the DB.
+//
 // if --retired_wus:
 //      purge WUs for which file_delete_state=FILE_DELETE_DONE
 //      and the WU is in a retired batch
 // otherwise
 //      purge WUs for which file_delete_state=FILE_DELETE_DONE.
-// Purging a WU means optionally writing it and its results
-// to XML archive files,
-// then deleting it and the results from the DB.
 //
 // The XML files have names of the form
 // wu_archive_TIME and result_archive_TIME
 // where TIME is the time it was created.
-// In addition generate index files associating each WU and result ID
+// In addition, generate index files associating each WU and result ID
 // with the timestamp of the file it's in.
 
 #include "config.h"
@@ -68,7 +69,7 @@ void usage() {
     fprintf(stderr,
         "Purge workunit and result records that are no longer needed.\n\n"
         "Usage: db_purge [options]\n"
-        "   -d N or --debug_level N     Set verbosity level (1 to 4)\n"
+        "   -d N or --debug_level N     Set verbosity level (1-4; 3=normal, 4=debug)\n"
         "   --retired_wus               purge WUs only from retired batches\n"
         "   --min_age_days N            Purge Wus w/ mod time at least N days ago\n"
         "   --max N                     Purge at most N WUs\n"
@@ -315,9 +316,7 @@ void open_archive(const char* filename_prefix, void*& f){
         snprintf(command, sizeof(command), "zip - - > %s", path);
     }
 
-    log_messages.printf(MSG_NORMAL,
-        "Opening archive %s\n", path
-    );
+    log_messages.printf(MSG_NORMAL, "Opening archive %s\n", path);
 
     if (compression_type == COMPRESSION_NONE) {
         if (!(f = fopen(path,"w"))) {
@@ -603,8 +602,8 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
                 );
                 return retval;
             }
-            log_messages.printf(MSG_DEBUG,
-                "Purged result [%lu] from database\n", result.id
+            log_messages.printf(MSG_NORMAL,
+                "Purged result [%lu] batch %d\n", result.id, result.batch
             );
         }
         number_results++;
@@ -700,7 +699,7 @@ bool do_pass() {
         retval = wu.enumerate(clause.c_str());
         if (retval) {
             if (retval != ERR_DB_NOT_FOUND) {
-                log_messages.printf(MSG_DEBUG,
+                log_messages.printf(MSG_CRITICAL,
                     "DB connection lost, exiting\n"
                 );
                 exit(0);
@@ -744,13 +743,13 @@ bool do_pass() {
         //
         if (dont_delete) {
             log_messages.printf(MSG_DEBUG,
-                "Didn't purge workunit [%lu] from database (-dont_delete)\n", wu.id
+                "Didn't purge workunit [%lu] from database (--dont_delete)\n", wu.id
             );
         } else {
             retval= wu.delete_from_db();
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "Can't delete workunit [%lu] from database:%d\n",
+                    "Can't delete workunit [%lu] from database: %d\n",
                     wu.id, retval
                 );
                 exit(6);
@@ -760,8 +759,8 @@ bool do_pass() {
                 sprintf(buf, "workunitid=%lu", wu.id);
                 asg.delete_from_db_multi(buf);
             }
-            log_messages.printf(MSG_DEBUG,
-                "Purged workunit [%lu] from database\n", wu.id
+            log_messages.printf(MSG_NORMAL,
+                "Purged workunit [%lu] batch %d\n", wu.id, wu.batch
             );
         }
 
@@ -829,7 +828,9 @@ int main(int argc, char** argv) {
             }
             int dl = atoi(argv[i]);
             log_messages.set_debug_level(dl);
-            if (dl == 4) g_print_queries = true;
+            if (dl >= MSG_DEBUG) {
+                g_print_queries = true;
+            }
         } else if (is_arg(argv[i], "min_age_days")) {
             if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
@@ -845,7 +846,7 @@ int main(int argc, char** argv) {
             }
             max_number_workunits_to_purge= atoi(argv[i]);
         } else if (is_arg(argv[i], "daily_dir")) {
-            daily_dir=true;
+            daily_dir = true;
         } else if (is_arg(argv[i], "zip")) {
             compression_type=COMPRESSION_ZIP;
         } else if (is_arg(argv[i], "gzip")) {

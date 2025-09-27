@@ -49,43 +49,42 @@ void assimilate_handler_usage() {
 int assimilate_handler(
     WORKUNIT& wu, vector<RESULT>& /*results*/, RESULT& canonical_result
 ) {
-    SCOPE_MSG_LOG scope_messages(log_messages, MSG_NORMAL);
-    scope_messages.printf("[%s] Assimilating\n", wu.name);
+    log_messages.printf(MSG_NORMAL, "Assimilating %s\n", wu.name);
     if (wu.canonical_resultid) {
         OUTPUT_FILE_INFO output_file;
 
-        scope_messages.printf("[%s] Found canonical result\n", wu.name);
+        log_messages.printf(MSG_NORMAL, "Found canonical result\n");
         log_messages.printf_multiline(
             MSG_DEBUG, canonical_result.xml_doc_out,
             "[%s] canonical result", wu.name
         );
-       if (!(get_output_file_info(canonical_result, output_file))) {
-           scope_messages.printf(
+        if (!(get_output_file_info(canonical_result, output_file))) {
+            log_messages.printf(MSG_DEBUG,
                 "[%s] Output file path %s\n",
                 wu.name, output_file.path.c_str()
             );
-       }
+        }
     } else {
-        scope_messages.printf("[%s] No canonical result\n", wu.name);
+        log_messages.printf(MSG_NORMAL, "[%s] No canonical result\n", wu.name);
     }
     if (wu.error_mask&WU_ERROR_COULDNT_SEND_RESULT) {
-        log_messages.printf(MSG_CRITICAL,
-            "[%s] Error: couldn't send a result\n", wu.name
+        log_messages.printf(MSG_WARNING,
+            "[%s] Warning: couldn't send a result\n", wu.name
         );
     }
     if (wu.error_mask&WU_ERROR_TOO_MANY_ERROR_RESULTS) {
-        log_messages.printf(MSG_CRITICAL,
-            "[%s] Error: too many error results\n", wu.name
+        log_messages.printf(MSG_WARNING,
+            "[%s] Warning: too many error results\n", wu.name
         );
     }
     if (wu.error_mask&WU_ERROR_TOO_MANY_TOTAL_RESULTS) {
-        log_messages.printf(MSG_CRITICAL,
-            "[%s] Error: too many total results\n", wu.name
+        log_messages.printf(MSG_WARNING,
+            "[%s] Warning: too many total results\n", wu.name
         );
     }
     if (wu.error_mask&WU_ERROR_TOO_MANY_SUCCESS_RESULTS) {
-        log_messages.printf(MSG_CRITICAL,
-            "[%s] Error: too many success results\n", wu.name
+        log_messages.printf(MSG_WARNING,
+            "[%s] Warning: too many success results\n", wu.name
         );
     }
     return 0;
