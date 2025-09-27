@@ -243,7 +243,7 @@ struct CLIENT_STATE {
     void process_autologin(bool first);
 
 // --------------- app_test.cpp:
-    bool app_test;          // this and the follow are not used,
+    bool app_test;          // this and the following are not used,
     string app_test_file;   // but if I remove them the client crashes on exit.  WTF???
     void app_test_init();
 
@@ -552,6 +552,11 @@ struct CLIENT_STATE {
 };
 
 extern CLIENT_STATE gstate;
+
+#ifdef __APPLE__
+// PID of process that initializes Podman VM, or zero if it's finished
+extern int podman_init_pid;
+#endif
 
 extern bool gpus_usable;
     // set to false if GPUs not usable because of remote desktop
