@@ -39,7 +39,6 @@
 # Updated 2/14/23 refactoring made to build zip apps (-zipapps), uc2 samples (-uc2) and vboxwrapper (-vboxwrapper)
 # Updated 3/12/23 Don't unnecessary rebuild libraries for uc2, zip apps or vboxwrapper
 # Updated 3/29/25 Build docker_wrapper
-# Updated 9/12/23 boinc_zip.cpp was added to libboinc.a, therefore libboinc_zip.a was removed
 #
 ## This script requires OS 10.8 or later
 #
@@ -71,11 +70,11 @@
 ##  The following arguments determine which targets to build
 ##
 ## -all         build all targets (i.e. target "Build_All" -- this is the default)
-##              except UpperCase2 targets
+##              except boinc_zip_test, testzlibconflict, UpperCase2 targets
 ##              (UC2-x86_64, UC2Gfx-x86_64 and slide_show-x86_64) and VBoxWrapper
 ##
 ## -lib         build the six libraries: libboinc_api.a, libboinc_graphics2.a,
-##              libboinc.a, libboinc_opencl.a, jpeglib.a.
+##              libboinc.a, libboinc_opencl.a, libboinc_zip.a, jpeglib.a.
 ##
 ## -client      build two targets: boinc client and command-line utility boinc_cmd
 ##              (also builds libboinc.a if needed, since boinc_cmd requires it.)
@@ -103,6 +102,7 @@ uselibcplusplus=""
 buildall=0
 buildlibs=0
 buildclient=0
+buildzip=0
 builduc2=0
 buildvboxwrapper=0
 builddocker_wrapper=0
@@ -165,6 +165,7 @@ if [ "${builduc2}" = "1" ]; then
     if [ ! -e "./build/${style}/libboinc_api.a" ]; then buildlibs=1; fi
     if [ ! -e "./build/${style}/libboinc_api.a" ]; then buildlibs=1; fi
     if [ ! -e "./build/${style}/libjpeg.a" ]; then buildlibs=1; fi
+    if [ ! -e "./build/${style}/libboinc_zip.a" ]; then buildzip=1; fi
 fi
 
 if [ "${buildvboxwrapper}" = "1" ] || [ "${builddocker_wrapper}" = "1" ]; then
@@ -188,7 +189,7 @@ if [ "x${targets}" = "x" ] && [ "${buildlibs}" = "0" ] && [ "${buildclient}" = "
     buildall=1
 fi
 
-## "-all" overrides "-lib" and "-client" and "-uc2" and "-vboxwrapper" and "-docker_wrapper" since it includes those targets
+## "-all" overrides "-lib" and "-client" and "-zipaps" and "-uc2" and "-vboxwrapper" and "-docker_wrapper" since it includes those targets
 if [ "${buildall}" = "1" ]; then
     targets="-target Build_All"
 fi
@@ -219,6 +220,18 @@ if [ "${buildall}" = "1" ] || [ "${buildlibs}" = "1" ] || [ "${buildclient}" = "
     if [ $result -eq 0 ]; then
         # build all or specified targets from the boinc.xcodeproj project for -all, -libs, -client, or -target
         eval "xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build ${uselibcplusplus} ${theSettings}"
+        result=$?
+    fi
+fi
+
+if [ $result -eq 0 ]; then
+    # build libboinc_zip.a for -all or -lib
+    if [ "${buildall}" = "1" ] || [ "${buildlibs}" = "1" ]; then
+        buildzip=1
+    fi
+
+    if [ "${buildzip}" = "1" ]; then
+        eval "xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
         result=$?
     fi
 fi

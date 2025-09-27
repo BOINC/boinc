@@ -283,7 +283,7 @@ NeonTestClient()
 
 NeonTestLibs()
 {
-    NeonTest libboinc.a libboinc_api.a libboinc_opencl.a
+    NeonTest libboinc.a libboinc_api.a libboinc_opencl.a libboinc_zip.a
 }
 
 Armv6Test()
@@ -307,7 +307,7 @@ Armv6TestClient()
 
 Armv6TestLibs()
 {
-    Armv6Test libboinc.a libboinc_api.a libboinc_opencl.a
+    Armv6Test libboinc.a libboinc_api.a libboinc_opencl.a libboinc_zip.a
 }
 
 Armv6TestApps()

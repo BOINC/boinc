@@ -59,7 +59,6 @@ set(LIBBOINC_HEADERS_GENERIC
     ${BOINC_DIR}/lib/app_ipc.h
     ${BOINC_DIR}/lib/base64.h
     ${BOINC_DIR}/lib/boinc_stdio.h
-    ${BOINC_DIR}/lib/boinc_zip.h
     ${BOINC_DIR}/lib/cal_boinc.h
     ${BOINC_DIR}/lib/cc_config.h
     ${BOINC_DIR}/lib/cert_sig.h
@@ -127,7 +126,6 @@ set(LIBBOINC_SOURCES_APPLE
 set(LIBBOINC_SOURCES_GENERIC
     ${BOINC_DIR}/lib/app_ipc.cpp
     ${BOINC_DIR}/lib/base64.cpp
-    ${BOINC_DIR}/lib/boinc_zip.cpp
     ${BOINC_DIR}/lib/cc_config.cpp
     ${BOINC_DIR}/lib/cert_sig.cpp
     ${BOINC_DIR}/lib/coproc.cpp
@@ -169,6 +167,15 @@ set(LIBBOINCAPI_SOURCES_GENERIC
     ${BOINC_DIR}/api/boinc_api.cpp
 )
 
+set(LIBBOINCZIP_HEADERS
+    ${BOINC_DIR}/zip/boinc_zip.h
+)
+
+set(LIBBOINCZIP_SOURCES
+    ${BOINC_DIR}/zip/boinc_zip.cpp
+)
+
+
 if(APPLE)
     set(LIBBOINC_HEADERS ${LIBBOINC_HEADERS_GENERIC} ${LIBBOINC_HEADERS_APPLE})
     set(LIBBOINC_SOURCES ${LIBBOINC_SOURCES_GENERIC} ${LIBBOINC_SOURCES_APPLE})
@@ -188,6 +195,7 @@ endif()
 
 add_library(boinc ${LIBBOINC_SOURCES})
 add_library(boincapi ${LIBBOINCAPI_SOURCES})
+add_library(boinc_zip ${LIBBOINCZIP_SOURCES})
 
 if(WIN32 OR APPLE)
     set_target_properties(boinc PROPERTIES PREFIX "lib")
@@ -195,6 +203,9 @@ if(WIN32 OR APPLE)
 
     set_target_properties(boincapi PROPERTIES PREFIX "lib")
     set_target_properties(boincapi PROPERTIES IMPORT_PREFIX "lib")
+
+    set_target_properties(boinc_zip PROPERTIES PREFIX "lib")
+    set_target_properties(boinc_zip PROPERTIES IMPORT_PREFIX "lib")
 endif()
 
 # currently this is for MinGW only
@@ -228,11 +239,22 @@ elseif(WIN32)
                                 ${build_options}
     )
 
+    target_compile_definitions(boinc_zip PUBLIC
+                                -D_CRT_SECURE_NO_WARNINGS
+                                -DWIN32
+                                -D_CONSOLE
+                                ${build_options}
+    )
+
     target_include_directories(boinc PUBLIC
                                 $<BUILD_INTERFACE:${BOINC_DIR}/win_build>
     )
 
     target_include_directories(boincapi PUBLIC
+                                $<BUILD_INTERFACE:${BOINC_DIR}/win_build>
+    )
+
+    target_include_directories(boinc_zip PUBLIC
                                 $<BUILD_INTERFACE:${BOINC_DIR}/win_build>
     )
 elseif(UNIX)
@@ -259,6 +281,10 @@ elseif(UNIX)
     target_include_directories(boincapi PUBLIC
                                 $<BUILD_INTERFACE:${BOINC_DIR}/config-h>
     )
+
+    target_include_directories(boinc_zip PUBLIC
+                                $<BUILD_INTERFACE:${BOINC_DIR}/config-h>
+    )
 endif()
 
 target_include_directories(boinc PUBLIC
@@ -273,26 +299,33 @@ target_include_directories(boincapi PUBLIC
                             $<INSTALL_INTERFACE:include>
 )
 
+target_include_directories(boinc_zip PUBLIC
+                            $<BUILD_INTERFACE:${BOINC_DIR}>
+                            $<BUILD_INTERFACE:${BOINC_DIR}/lib>
+                            $<INSTALL_INTERFACE:include>
+)
+
 target_link_libraries(boinc PRIVATE
                         OpenSSL::SSL
                         OpenSSL::Crypto
-                        libzip::zip
 )
 
 target_link_libraries(boincapi PRIVATE
                         boinc
 )
-
+target_link_libraries(boinc_zip PRIVATE
+                        libzip::zip
+)
 
 include(GNUInstallDirs)
 
-install(TARGETS boinc boincapi EXPORT boinc-config
+install(TARGETS boinc boincapi boinc_zip EXPORT boinc-config
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
-install(FILES ${LIBBOINC_HEADERS} ${LIBBOINCAPI_HEADERS}
+install(FILES ${LIBBOINC_HEADERS} ${LIBBOINCAPI_HEADERS} ${LIBBOINCZIP_HEADERS}
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/boinc
 )
 

@@ -27,6 +27,7 @@
 BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
+BOINC_ZIP_DIR = $(BOINC_DIR)/zip
 BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
 BOINC_CONFIG_DIR =  $(BOINC_DIR)/clientgui/mac
 
@@ -36,6 +37,7 @@ CFLAGS = $(VARIANTFLAGS) \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
+    -I$(BOINC_ZIP_DIR) \
     -I$(PREFIX)/include
 
 CXXFLAGS = $(CFLAGS) -stdlib=libc++
@@ -43,6 +45,7 @@ CXXFLAGS = $(CFLAGS) -stdlib=libc++
 LDFLAGS = \
     -L$(BOINC_API_DIR) \
     -L$(BOINC_LIB_DIR) \
+    -L$(BOINC_ZIP_DIR) \
     -L$(BOINC_BUILD_DIR) \
     -L$(PREFIX)/lib \
     -L.
@@ -57,4 +60,4 @@ distclean:
 	/bin/rm -f $(PROGS) *.o
 
 wrapper: wrapper.o
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o wrapper wrapper.o -pthread -lboinc_api -lboinc -lzip -lz
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o wrapper wrapper.o -pthread -lboinc_api -lboinc -lboinc_zip -lzip -lz

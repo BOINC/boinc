@@ -38,6 +38,7 @@
 BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
+BOINC_ZIP_DIR = $(BOINC_DIR)/zip
 BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
 BOINC_CONFIG_DIR = $(BOINC_DIR)/clientgui/mac
 FREETYPE_DIR = $(BOINC_DIR)/../freetype-2.11.0
@@ -57,6 +58,7 @@ CXXFLAGS_ALL = \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
+    -I$(BOINC_ZIP_DIR) \
     -I$(FREETYPE_DIR)/include \
     -I$(PREFIX)/include/freetype2 \
     -I$(FTGL_DIR)/src \
@@ -134,22 +136,22 @@ uc2_graphics_x86_64: uc2_graphics_x86_64.o ttfont_x86_64.o $(BOINC_BUILD_DIR)/li
     $(BOINC_BUILD_DIR)/libboinc_graphics2.a
 	$(CXX) $(CXXFLAGS_x86_64) $(LDFLAGS_x86_64) -o uc2_graphics_x86_64\
     uc2_graphics_x86_64.o ttfont_x86_64.o -lboinc_graphics2 -lboinc_api -lboinc -ljpeg\
-    -lfreetype -lftgl -lz -lbz2 -lzip -framework AppKit -framework GLUT -framework OpenGL\
+    -lfreetype -lftgl -lz -lbz2 -framework AppKit -framework GLUT -framework OpenGL\
     -framework IOSurface
 uc2_graphics_arm64: uc2_graphics_arm64.o ttfont_arm64.o $(BOINC_BUILD_DIR)/libboinc.a\
     $(BOINC_BUILD_DIR)/libboinc_graphics2.a
 	$(CXX) $(CXXFLAGS_arm64) $(LDFLAGS_arm64) -o uc2_graphics_arm64\
     uc2_graphics_arm64.o ttfont_arm64.o -lboinc_graphics2 -lboinc_api -lboinc -ljpeg\
-    -lfreetype -lftgl -lz -lbz2 -lzip -framework AppKit -framework GLUT -framework OpenGL\
+    -lfreetype -lftgl -lz -lbz2 -framework AppKit -framework GLUT -framework OpenGL\
     -framework IOSurface
 
 slide_show_x86_64: slide_show_x86_64.o $(BOINC_BUILD_DIR)/libboinc.a\
     $(BOINC_BUILD_DIR)/libboinc_graphics2.a
 	$(CXX) $(CXXFLAGS_x86_64) $(LDFLAGS_x86_64) -o slide_show_x86_64 slide_show_x86_64.o\
-    -lboinc_graphics2 -lboinc_api -lboinc -ljpeg -lzip -lz\
+    -lboinc_graphics2 -lboinc_api -lboinc -lboinc_zip -ljpeg -lzip -lz\
     -framework AppKit -framework GLUT -framework OpenGL -framework IOSurface
 slide_show_arm64: slide_show_arm64.o $(BOINC_BUILD_DIR)/libboinc.a\
     $(BOINC_BUILD_DIR)/libboinc_graphics2.a
 	$(CXX) $(CXXFLAGS_arm64) $(LDFLAGS_arm64) -o slide_show_arm64 slide_show_arm64.o\
-    -lboinc_graphics2 -lboinc_api -lboinc -ljpeg -lzip -lz\
+    -lboinc_graphics2 -lboinc_api -lboinc -lboinc_zip -ljpeg -lzip -lz\
     -framework AppKit -framework GLUT -framework OpenGL -framework IOSurface

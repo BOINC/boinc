@@ -609,7 +609,6 @@
 		DDFF2AE90A53D599002BC19D /* setprojectgrp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDFF2AE80A53D599002BC19D /* setprojectgrp.cpp */; };
 		DDFF2EAB245BA6A300347B89 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD0BB7A11F62B105000151B2 /* IOSurface.framework */; };
 		DDFF50582917D08F0050D03C /* mac_restrict_access.sb in Resources */ = {isa = PBXBuildFile; fileRef = DD57E7912913D08E00E857CA /* mac_restrict_access.sb */; };
-		E32411DF0FC5DC410006868A /* boinc_zip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E32411DE0FC5DC410006868A /* boinc_zip.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -964,7 +963,6 @@
 		DD16BF8F099D6CE5003E4B69 /* cpu_benchmark.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cpu_benchmark.h; path = ../client/cpu_benchmark.h; sourceTree = SOURCE_ROOT; };
 		DD1907FA17D1A2F100596F03 /* MacAccessiblity.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MacAccessiblity.mm; path = ../clientgui/mac/MacAccessiblity.mm; sourceTree = "<group>"; };
 		DD1929D80918A2F100C31BCF /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
-		DD19C1D62E856487002A91A2 /* boinc_zip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = boinc_zip.h; sourceTree = "<group>"; };
 		DD1AFE8F0A512D2600EE5B82 /* Installer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Installer-Info.plist"; sourceTree = "<group>"; };
 		DD1AFEBA0A512D8700EE5B82 /* BOINC Installer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BOINC Installer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD1AFEE70A51301C00EE5B82 /* Installer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Installer.cpp; path = ../mac_installer/Installer.cpp; sourceTree = SOURCE_ROOT; };
@@ -1412,7 +1410,6 @@
 		DDFE854A0B60CFD0009B43D9 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = ../../../../../System/Library/Frameworks/AppKit.framework; sourceTree = SOURCE_ROOT; };
 		DDFF2AD30A53D4AE002BC19D /* setprojectgrp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = setprojectgrp; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDFF2AE80A53D599002BC19D /* setprojectgrp.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = setprojectgrp.cpp; sourceTree = "<group>"; };
-		E32411DE0FC5DC410006868A /* boinc_zip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = boinc_zip.cpp; sourceTree = "<group>"; };
 		F5159562029EB02001F5651B /* md5.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = md5.cpp; path = ../lib/md5.cpp; sourceTree = SOURCE_ROOT; };
 		F5159563029EB02001F5651B /* md5.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = md5.h; path = ../lib/md5.h; sourceTree = SOURCE_ROOT; };
 		F5159564029EB02001F5651B /* md5_file.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = md5_file.cpp; sourceTree = "<group>"; };
@@ -2094,8 +2091,6 @@
 				DD344B6307C5ACEB0043025C /* base64.cpp */,
 				DD344B6407C5ACEB0043025C /* base64.h */,
 				DD81C5F007C5D8290098A04D /* boinc_win.h */,
-				E32411DE0FC5DC410006868A /* boinc_zip.cpp */,
-				DD19C1D62E856487002A91A2 /* boinc_zip.h */,
 				DD4AE04B13652BD700285859 /* cc_config.cpp */,
 				DD4AE04C13652BD700285859 /* cc_config.h */,
 				DD7168360AAD72040051642B /* common_defs.h */,
@@ -2467,10 +2462,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD9E2351091CBDAE0048316E /* Build configuration list for PBXNativeTarget "libboinc" */;
 			buildPhases = (
-				DD19C1D72E856538002A91A2 /* ShellScript */,
+				DD7789792A4593E9005B0A0E /* ShellScript */,
 				DD407A4707D2FB1200163EF5 /* Sources */,
 				DD407A4807D2FB1200163EF5 /* Frameworks */,
-				DD3B67F6140CFFA20088683F /* Run Script */,
+				DD3B67F6140CFFA20088683F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2952,24 +2947,6 @@
 			shellPath = /bin/sh;
 			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
-		DD19C1D72E856538002A91A2 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "source \"${PROJECT_DIR}/dependencyNames.sh\"\nln -fhs ${zipDirName} ../../${zipBaseName}\n";
-		};
 		DD1AFEB10A512D8700EE5B82 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3324,7 +3301,7 @@
 			shellPath = /bin/sh;
 			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
 		};
-		DD3B67F6140CFFA20088683F /* Run Script */ = {
+		DD3B67F6140CFFA20088683F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -3332,7 +3309,6 @@
 			);
 			inputPaths = (
 			);
-			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3398,6 +3374,24 @@
 			shellScript = "mkdir -p \"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Resources/English.lproj\"\ncp -fpv \"${SRCROOT}/English.lproj/PostInstall-InfoPlist.strings\" \"${BUILT_PRODUCTS_DIR}/Postinstall.app/Contents/Resources/English.lproj/InfoPlist.strings\"\n";
 		};
 		DD7789782A4593CF005B0A0E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"${PROJECT_DIR}/checkDependentLibraryVersions.sh\"\nexit $?\n";
+		};
+		DD7789792A4593E9005B0A0E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -3914,7 +3908,6 @@
 				DDA6BD1F0BD4551F008F7921 /* QTaskMemory.c in Sources */,
 				DDB4A91F1411840800032E5D /* proc_control.cpp in Sources */,
 				DD76BF9317CB45A20075936D /* opencl_boinc.cpp in Sources */,
-				E32411DF0FC5DC410006868A /* boinc_zip.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5036,11 +5029,6 @@
 		DD9843D909920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = (
-					"../lib/**",
-					../../libzip,
-					../../libzip/lib,
-				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 				WARNING_CFLAGS = (
@@ -5242,11 +5230,6 @@
 		DD9E2352091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = (
-					"../lib/**",
-					../../libzip,
-					../../libzip/lib,
-				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
 				WARNING_CFLAGS = (

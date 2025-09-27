@@ -26,6 +26,6 @@ else()
     set(LIBZIP_LIBRARIES libzip::zip)
 endif()
 
-TARGET_LINK_LIBRARIES(test_lib "${SCHED_LIB}" "${BOINC_CRYPT_LIB}" "${BOINC_LIB}" "${LIBZIP_LIBRARIES}" pthread GTest::gtest GTest::gtest_main)
+TARGET_LINK_LIBRARIES(test_lib "${SCHED_LIB}" "${BOINC_CRYPT_LIB}" "${BOINC_LIB}" "${BOINC_ZIP_LIB}" "${LIBZIP_LIBRARIES}" pthread GTest::gtest GTest::gtest_main)
 
 add_test(NAME test_lib COMMAND test_lib)

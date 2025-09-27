@@ -1,21 +1,3 @@
-# This file is part of BOINC.
-# https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
-#
-# BOINC is free software; you can redistribute it and/or modify it
-# under the terms of the GNU Lesser General Public License
-# as published by the Free Software Foundation,
-# either version 3 of the License, or (at your option) any later version.
-#
-# BOINC is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public License
-# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-#
-
 ## -*- mode: makefile; tab-width: 4 -*-
 ## $Id$
 
@@ -28,6 +10,16 @@ ACLOCAL_AMFLAGS = -I m4
 
 if ENABLE_LIBRARIES
     API_SUBDIRS = api lib
+if ENABLE_SERVER
+    API_SUBDIRS += zip
+endif
+## boinc_zip needed for wrapper
+if ENABLE_APPS
+    API_SUBDIRS += zip
+endif
+if ENABLE_BOINCZIP
+    API_SUBDIRS += zip
+endif
 endif
 
 if ENABLE_SERVER

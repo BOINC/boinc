@@ -42,7 +42,6 @@ HEADERS = $(BOINC_SRC)/version.h \
 	$(BOINC_SRC)/lib/app_ipc.h \
 	$(BOINC_SRC)/lib/boinc_stdio.h \
 	$(BOINC_SRC)/lib/boinc_win.h \
-	$(BOINC_SRC)/lib/boinc_zip.h \
 	$(BOINC_SRC)/lib/cal_boinc.h \
 	$(BOINC_SRC)/lib/cl_boinc.h \
 	$(BOINC_SRC)/lib/common_defs.h \
@@ -64,6 +63,8 @@ HEADERS = $(BOINC_SRC)/version.h \
 	$(BOINC_SRC)/lib/win_util.h \
 	$(BOINC_SRC)/lib/wslinfo.h
 
+ZIP_HEADERS = zip/boinc_zip.h
+
 # objects to compile
 
 API_OBJ = boinc_api.o graphics2_util.o
@@ -76,7 +77,6 @@ GPH_OBJ = graphics2.o graphics2_util.o
 
 LIB_OBJ = app_ipc.o \
 	base64.o \
-	boinc_zip.o \
 	coproc.o \
 	diagnostics.o \
 	diagnostics_win.o \
@@ -102,17 +102,20 @@ LIB_OBJ = app_ipc.o \
 	win_util.o \
 	wslinfo.o
 
+ZIP_OBJ = zip/boinc_zip.o
+
 # libraries to build
 API_BIN = libboinc_api.a
 API_LIB = libboinc_api.la
 OCL_BIN = libboinc_opencl.a
 LIB_BIN = libboinc.a
 GPH_BIN = libboinc_graphics2.a
+ZIP_BIN = libboinc_zip.a
 
 # all objects (for clean target)
-OBJ = $(API_OBJ) $(API_LOBJ) $(OCL_OBJ) $(LIB_OBJ) $(GPH_OBJ)
+OBJ = $(API_OBJ) $(API_LOBJ) $(OCL_OBJ) $(LIB_OBJ) $(GPH_OBJ) $(ZIP_OBJ)
 
-# all libraries
+# all libraries (zip not listed anymore)
 BIN = $(OCL_BIN) $(LIB_BIN) $(GPH_BIN)
 
 # -gstabs is necessary for MinGWs backtrace to work
@@ -120,7 +123,7 @@ BIN = $(OCL_BIN) $(LIB_BIN) $(GPH_BIN)
 DEBUG ?= -DNDEBUG
 
 # where to find headers
-INCS = -I"$(BOINC_SRC)" -I"$(BOINC_SRC)/db" -I"$(BOINC_SRC)/lib" -I"$(BOINC_SRC)/api" -I"$(BOINC_SRC)/win_build"
+INCS = -I"$(BOINC_SRC)" -I"$(BOINC_SRC)/db" -I"$(BOINC_SRC)/lib" -I"$(BOINC_SRC)/api" -I"$(BOINC_SRC)/zip" -I"$(BOINC_SRC)/win_build"
 
 
 OPTFLAGS = -O3
@@ -132,6 +135,11 @@ HAVEFLAGS = -DHAVE_STRCASECMP
 CCXXFLAGS = $(INCS) $(DEBUG) --include $(BOINC_SRC)/version.h -DEINSTEINATHOME_CROSS_BUILD -DMINGW_WIN32 \
 	$(HAVEFLAGS) $(WINVERFLAGS) -DBOINC \
 	-DNODB -D_CONSOLE -fexceptions $(OPTFLAGS) $(NOCYGWIN)
+
+# flags for compiling boinc_zip
+ZIP_VCPROJ_FLAGS = -DWIN32 -D_LIB -DDLL -D_CRT_SECURE_NO_WARNINGS
+
+ZIP_FLAGS = $(ZIP_VCPROJ_FLAGS) -DUSE_MINGW_GLOBBING -DUSE_STRM_INPUT $(INCS) -O3 $(NOCYGWIN) -fcommon
 
 # LDFLAGS = -lwinmm
 
@@ -146,7 +154,7 @@ all-la: $(BIN) $(API_LIB)
 
 .PHONY: wrapper
 wrapper: wrapper.exe
-wrapper.exe: wrapper.o $(API_BIN) $(LIB_BIN)
+wrapper.exe: wrapper.o $(API_BIN) $(LIB_BIN) $(ZIP_BIN)
 	 $(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $@ $^ -lpsapi
 
 # set to the target tools when cross-compiling
@@ -164,6 +172,8 @@ $(LIB_BIN): $(LIB_OBJ)
 	$(AR) rc $@ $^
 $(GPH_BIN): $(GPH_OBJ)
 	$(AR) rc $@ $^
+$(ZIP_BIN): zip $(ZIP_OBJ)
+	$(AR) rc $@ $(ZIP_OBJ)
 
 # standard BOINC code - .C and .cpp versions
 %.o: $(BOINC_SRC)/api/%.C
@@ -187,6 +197,10 @@ wrapper.o: $(BOINC_SRC)/samples/wrapper/wrapper.cpp
 %.o: $(BOINC_SRC)/samples/wrapper/%.c
 	$(CC) -c $< -o $@ $(CPPFLAGS) $(CFLAGS)
 
+zip:
+	mkdir -p $@
+zip/%.o: $(BOINC_SRC)/zip/%.cpp
+	$(CXX) -c $< -o $@ $(ZIP_FLAGS)
 $(BOINC_SRC)/svn_version.h:
 	cd $(BOINC_SRC) && sh ./generate_svn_version.sh
 
@@ -205,9 +219,15 @@ install-la: $(BIN) $(API_LIB) $(HEADERS)
 	cp $(BIN) $(BOINC_PREFIX)/lib
 	$(LIBTOOL) --mode=install cp $(API_LIB) $(BOINC_PREFIX)/lib
 
+install-zip: $(ZIP_BIN) $(ZIP_HEADERS)
+	mkdir -p $(BOINC_PREFIX)/include/ $(BOINC_PREFIX)/lib
+	cp $(ZIP_HEADERS) $(BOINC_PREFIX)/include/
+	$(RANLIB) $(ZIP_BIN)
+	cp $(ZIP_BIN) $(BOINC_PREFIX)/lib
+
 uninstall:
 	${RM} -rf $(BOINC_PREFIX)/include/boinc
 	( cd $(BOINC_PREFIX)/lib && $(RM) -f $(BIN) $(API_BIN) $(API_LIB) || exit 0 )
 
 clean:
-	${RM} -rf *.o $(BIN) $(API_BIN) $(API_LIB) $(OCL_BIN) $(LIB_BIN) $(GPH_BIN) .libs wrapper.o wrapper.exe
+	${RM} -rf *.o $(BIN) $(API_BIN) $(API_LIB) $(OCL_BIN) $(LIB_BIN) $(GPH_BIN) .libs $(ZIP_BIN) zip wrapper.o wrapper.exe

@@ -34,6 +34,7 @@ if [ ! -d "mac_build" ]; then
 fi
 
 # Delete any obsolete paths to old build products
+rm -fR ./zip/build
 rm -fR ./mac_build/build
 
 cache_dir="$(pwd)/3rdParty/buildCache/mac"
@@ -115,6 +116,14 @@ if [ ${retval} -ne 0 ]; then
     cd ..; exit 1;
 fi
 echo "Verifying architecture (x86_64 arm64) of libboinc_opencl.a...done"
+echo "Verifying architecture (x86_64 arm64) of libboinc_zip.a..."
+lipo ./build/${style}/libboinc_zip.a -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Verifying architecture (x86_64 arm64) of libboinc_zip.a...failed"
+    echo "Building ${target}...failed"
+    cd ..; exit 1;
+fi
+echo "Verifying architecture (x86_64 arm64) of libboinc_zip.a...done"
 echo "Building ${target}...done"
 
 target="Examples via Makefile"

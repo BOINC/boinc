@@ -89,7 +89,7 @@ if [ -n "$COMPILEBOINC" ]; then
     fi
     if [ -n "$CONFIGURE" ]; then
         ./_autosetup
-        ./configure --host=aarch64-linux --with-boinc-platform="aarch64-android-linux-gnu" --prefix="$TCINCLUDES" --with-boinc-alt-platform="arm-android-linux-gnu" $CONFIG_FLAGS --disable-server --disable-manager --disable-client --disable-shared --enable-static
+        ./configure --host=aarch64-linux --with-boinc-platform="aarch64-android-linux-gnu" --prefix="$TCINCLUDES" --with-boinc-alt-platform="arm-android-linux-gnu" $CONFIG_FLAGS --enable-boinczip --disable-server --disable-manager --disable-client --disable-shared --enable-static
     fi
     echo MAKE_FLAGS=$MAKE_FLAGS
     make $MAKE_FLAGS

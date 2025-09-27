@@ -36,6 +36,7 @@
 BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
+BOINC_ZIP_DIR = $(BOINC_DIR)/zip
 BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
 BOINC_CONFIG_DIR = $(BOINC_DIR)/clientgui/mac
 FREETYPE_DIR = $(BOINC_DIR)/../freetype-2.11.0
@@ -50,6 +51,7 @@ CXXFLAGS = $(VARIANTFLAGS) \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
+    -I$(BOINC_ZIP_DIR) \
     -I$(FREETYPE_DIR)/include \
     -I$(FTGL_DIR)/src \
     -I$(PREFIX)/include \
@@ -97,6 +99,6 @@ uc2_graphics: uc2_graphics.o ttfont.o $(BOINC_BUILD_DIR)/libboinc.a\
 slide_show: slide_show.o $(BOINC_BUILD_DIR)/libboinc.a\
     $(BOINC_BUILD_DIR)/libboinc_graphics2.a
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o slide_show slide_show.o\
-    -lboinc_graphics2 -lboinc_api -lboinc -ljpeg -lzip -lz\
+    -lboinc_graphics2 -lboinc_api -lboinc -lboinc_zip -ljpeg -lzip -lz\
     -framework AppKit -framework GLUT -framework OpenGL -framework IOSurface
 

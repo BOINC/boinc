@@ -57,7 +57,7 @@ jobs:
 
       - name: Prepare for scan
         if: success()
-        run: ./configure --enable-client --enable-manager --enable-apps --enable-apps-vbox --enable-apps-gui --enable-server
+        run: ./configure --enable-client --enable-manager --enable-apps --enable-apps-vbox --enable-apps-gui --enable-server --enable-boinczip
 
       - name: Check if this is a scheduled run
         if: ${{ success() && github.ref == 'refs/heads/master' && github.event_name == 'schedule' }}
