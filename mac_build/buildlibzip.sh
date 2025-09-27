@@ -38,6 +38,16 @@
 ## if --prefix is given as absolute path the library is installed into there
 ## use -q or --quiet to redirect build output to /dev/null instead of /dev/stdout
 ##
+## NOTE: This script requires CMake. Before running this script you must
+## install CMake for command line use:
+##   Download CMake from https://cmake.org/download/
+##   Open the disk image file and drag the CMAKE app into the /Applications
+##       directory
+##   Eject the disk image and open the Cmake app
+##   Enter the following in Terminal:
+##       sudo "/Applications/CMake.app/Contents/bin/cmake-gui" --install
+##   Emter your password when prompted
+##
 
 doclean=""
 stdout_target="/dev/stdout"
