@@ -22,8 +22,10 @@
 
 require_once('../inc/boinc_db.inc');
 require_once('../inc/submit_db.inc');
+require_once('../inc/util.inc');
 
 function main() {
+    echo "------- Starting at ".time_str(time())."-------\n";
     $batches = BoincBatch::enum(sprintf('state=%d', BATCH_STATE_RETIRED));
     foreach ($batches as $batch) {
         $wus = BoincWorkunit::enum_fields(
@@ -35,6 +37,7 @@ function main() {
             $batch->delete();
         }
     }
+    echo "------- Finished at ".time_str(time())."-------\n";
 }
 
 // clean up results/.

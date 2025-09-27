@@ -244,7 +244,6 @@ int handle_wu(
             "[WU#%lu %s] Already has canonical result %lu\n",
             wu.id, wu.name, wu.canonical_resultid
         );
-        ++log_messages;
 
         // Here if WU already has a canonical result.
         // Get unchecked results and see if they match the canonical result
@@ -419,7 +418,6 @@ int handle_wu(
             "[WU#%lu %s] handle_wu(): No canonical result yet\n",
             wu.id, wu.name
         );
-        ++log_messages;
 
         // make a vector of the "viable" (i.e. possibly canonical) results,
         // and a parallel vector of host_app_versions
@@ -734,7 +732,6 @@ int handle_wu(
     }
 
 leave:
-    --log_messages;
 
     switch (transition_time) {
     case IMMEDIATE:

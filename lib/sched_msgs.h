@@ -15,23 +15,45 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// API for logging in server components
+
 #ifndef BOINC_SCHED_MSGS_H
 #define BOINC_SCHED_MSGS_H
 
 #include "msg_log.h"
 #include "boinc_stdio.h"
 
-enum { MSG_CRITICAL=1, MSG_WARNING, MSG_NORMAL, MSG_DEBUG, MSG_DETAIL };
+// Message priority levels (also called 'kind').
+// Each message has a level.
+// When you set a logging level (see below),
+// all messages of that priority and lower are shown
+//
+enum {
+    MSG_CRITICAL=1,
+        // something is broken and needs to be fixed.
+        // Typically the program does exit(1) after this
+    MSG_WARNING=2,
+        // something unusual but not fatal, like unrecognized XML
+    MSG_NORMAL=3,
+        // default; say tersely what the program did
+    MSG_DEBUG=4
+        // debugging output for some part of the program.
+        // You might use flags to enable specific parts
+};
 
 class SCHED_MSG_LOG : public MSG_LOG {
     const char* v_format_kind(int kind) const;
     bool v_message_wanted(int kind) const;
 public:
-    SCHED_MSG_LOG(): MSG_LOG(stderr) { debug_level = MSG_NORMAL; }
-    void set_file(FILE* f) {output=f;}
-    void set_debug_level(int new_level) { debug_level = new_level; }
-    bool debug() {return debug_level >= MSG_DEBUG;}
-    bool detail() {return debug_level >= MSG_DETAIL;}
+    SCHED_MSG_LOG(): MSG_LOG(stderr) {
+        debug_level = MSG_NORMAL;
+    }
+    void set_file(FILE* f) {
+        output=f;
+    }
+    void set_debug_level(int new_level) {
+        debug_level = new_level;
+    }
 
 #ifdef _USING_FCGI_
     ~SCHED_MSG_LOG();
