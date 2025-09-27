@@ -286,7 +286,7 @@ int main(int argc, char** argv) {
     boinc_init_graphics_diagnostics(BOINC_DIAG_DEFAULTS);
 
 #ifdef __APPLE__
-    setMacIcon(argv[0], MacAppIconData, sizeof(MacAppIconData));
+    setMacIcon(argv[0], (char *)MacAppIconData, sizeof(MacAppIconData));
 #endif
 
     boinc_parse_init_data_file();
