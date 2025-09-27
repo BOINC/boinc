@@ -389,6 +389,8 @@
 					"-lboinc",
 					"-ljpeg",
 					"-lboinc_zip",
+					"-lzip",
+					"-lz",
 				);
 				PRODUCT_NAME = "slide_show-apple-darwin";
 			};
@@ -425,6 +427,8 @@
 					"-lboinc",
 					"-ljpeg",
 					"-lboinc_zip",
+					"-lzip",
+					"-lz",
 				);
 				PRODUCT_NAME = "slide_show-apple-darwin";
 			};
@@ -560,6 +564,7 @@
 					"-lftgl",
 					"-lz",
 					"-lbz2",
+					"-lzip",
 				);
 				PRODUCT_NAME = "UC2_graphics-apple-darwin";
 			};
@@ -600,6 +605,7 @@
 					"-lftgl",
 					"-lz",
 					"-lbz2",
+					"-lzip",
 				);
 				PRODUCT_NAME = "UC2_graphics-apple-darwin";
 			};

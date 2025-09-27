@@ -19,23 +19,17 @@ cmake_minimum_required(VERSION 3.21)
 
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
-set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/../../vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "vcpkg toolchain file")
+if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+    set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/../../vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "vcpkg toolchain file")
+endif()
 set(VCPKG_OVERLAY_PORTS "${CMAKE_CURRENT_SOURCE_DIR}/ports" CACHE STRING "vcpkg overlay ports")
 
-project(vcpkg_test CXX)
+project(vcpkg_test C CXX)
 
 find_package(boinc REQUIRED)
-find_package(OpenSSL REQUIRED)
 
 add_executable(vcpkg_test main.cpp)
-
-target_link_libraries(vcpkg_test PRIVATE unofficial::boinc::boinc unofficial::boinc::boincapi OpenSSL::SSL OpenSSL::Crypto)
-
-project (vcpkg_c_test C)
-
-find_package(boinc REQUIRED)
-find_package(OpenSSL REQUIRED)
-
 add_executable(vcpkg_c_test main.c)
 
-target_link_libraries(vcpkg_c_test PRIVATE unofficial::boinc::boinc unofficial::boinc::boincapi OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(vcpkg_test PRIVATE unofficial::boinc::boinc unofficial::boinc::boincapi)
+target_link_libraries(vcpkg_c_test PRIVATE unofficial::boinc::boinc unofficial::boinc::boincapi)

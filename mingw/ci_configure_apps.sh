@@ -1,4 +1,23 @@
 #!/bin/sh
+
+# This file is part of BOINC.
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+#
+
 set -e
 
 if [ ! -d "mingw" ]; then
@@ -13,11 +32,9 @@ export VCPKG_DIR="$VCPKG_ROOT/installed/x64-mingw-static"
 
 mingw/update_vcpkg.sh
 
-export ZIP_VCPROJ_FLAGS="-DWIN32 -D_LIB -DDLL -D_CRT_SECURE_NO_WARNINGS -DNO_MKTEMP -DUSE_ZIPMAIN -DNO_CRYPT -DIZ_PWLEN=80 -DNO_ASM -DNO_UNICODE_SUPPORT -DNO_MBCS"
-export ZIP_BOINC_RENAMES="-Dinflate=inflate_boinc -Ddeflate=deflate_boinc -Dget_crc_table=get_crc_table_boinc -Dlongest_match=longest_match_boinc -Dinflate_codes=inflate_codes_boinc"
-export ZIP_MINGW="-DUSE_MINGW_GLOBBING -DUSE_STRM_INPUT"
-export CXXFLAGS="$ZIP_VCPROJ_FLAGS $ZIP_BOINC_RENAMES $ZIP_MINGW -I$VCPKG_DIR/include -L$VCPKG_DIR/lib"
+export CXXFLAGS="-I$VCPKG_DIR/include -L$VCPKG_DIR/lib"
 export CFLAGS="$CXXFLAGS"
 
+export PKG_CONFIG_PATH=$VCPKG_DIR/lib/pkgconfig/
 export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
 ./configure --host=x86_64-w64-mingw32 --with-libcurl=$VCPKG_DIR --with-ssl=$VCPKG_DIR --enable-apps --enable-apps-mingw --enable-apps-vcpkg --enable-apps-gui --disable-server --disable-client --disable-manager

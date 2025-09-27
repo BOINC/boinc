@@ -6,7 +6,7 @@ includedir=@includedir@
 Name: boinc_zip
 Description: Compression functions for BOINC applications
 Version: @PACKAGE_VERSION@
-URL: https://boinc.berkeley.edu/trac/wiki/FileCompression
+URL: https://github.com/BOINC/boinc/wiki/FileCompression
 
 Cflags: -I${includedir}/boinc
 Libs: -L${libdir} -lboinc_zip

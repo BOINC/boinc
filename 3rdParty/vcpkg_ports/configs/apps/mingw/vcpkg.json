@@ -15,6 +15,10 @@
         "rappture",
         "ftgl",
         "freeglut",
-        "libjpeg-turbo"
+        "libjpeg-turbo",
+        {
+          "name": "libzip",
+          "default-features": false
+        }
     ]
 }

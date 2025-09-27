@@ -235,8 +235,6 @@ macos_manager_list = [
 ]
 
 macos_apps_list = [
-    'zip/build/Deployment/boinc_zip_test',
-    'zip/build/Deployment/testzlibconflict',
     'samples/docker_wrapper/build/Deployment/docker_wrapper',
     'samples/mac_build/build/Deployment/UC2-apple-darwin',
     'samples/mac_build/build/Deployment/UC2_graphics-apple-darwin',
