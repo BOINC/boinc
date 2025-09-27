@@ -20,7 +20,7 @@
 #
 # Master script to build Universal Binary libraries needed by BOINC:
 # curl-7.47.1 with c-ares-1.10.0, openssl-1.1.0, wxWidgets-3.0.0,
-# sqlite-3.11.0, FreeType-2.4.10 and FTGL-2.1.3
+# sqlite-3.11.0, FreeType-2.4.10, FTGL-2.1.3 and libzip-1.11.4
 #
 # by Charlie Fenton 7/21/06
 # Updated 10/18/11 for OS 10.7 lion and XCode 4.2
@@ -40,6 +40,7 @@
 # Updated 3/2/16 for curl 7.47.1, openssl 1.0.2g, sqlite 3.11.0
 # Updated 9/10/16 for c-ares 1.11.0, curl 7.50.2, openssl 1.1.0
 # Updated 6/25/23 to download inflate libraries if needed
+# Updated 9/25/25 for libzip-1.11.4
 #
 # Download these seven packages and place them in a common parent directory
 # with the BOINC source tree.
@@ -67,6 +68,7 @@ opensslOK="NO"
 wxWidgetsOK="NO"
 freetypeOK="NO"
 ftglOK="NO"
+zipOK="NO"
 finalResult=0
 
 SCRIPT_DIR=`pwd`
@@ -75,7 +77,7 @@ SCRIPT_DIR=`pwd`
 source "${SCRIPT_DIR}/dependencyNames.sh"
 
 # Dowload and expand libraries if needed
-for rootName in "openssl" "cares" "curl" "wxWidgets" "freetype" "ftgl"
+for rootName in "openssl" "cares" "curl" "wxWidgets" "freetype" "ftgl" "zip"
 do
     dirVar="${rootName}DirName"
     fileVar="${rootName}FileName"
@@ -214,6 +216,31 @@ fi
 
 cd "${SCRIPT_DIR}"
 
+if [ -x /usr/local/bin/ccmake ]; then
+    echo ""
+    echo "----------------------------------"
+    echo "----------- BUILD ZIP -----------"
+    echo "----------------------------------"
+    echo ""
+
+    cd "../../${zipDirName}"
+    if [  $? -eq 0 ]; then
+        source "${SCRIPT_DIR}/buildlibzip.sh" ${cleanit}
+        if [  $? -eq 0 ]; then
+            zipOK="YES"
+        fi
+    fi
+
+    cd "${SCRIPT_DIR}"
+else
+    echo ""
+    echo "----------------------------------"
+    echo "--- TO BUILD ZIP PLEASE INSTALL --"
+    echo "----  CMAKE COMMAND-LINE TOOLS ----"
+    echo "----------------------------------"
+    echo ""
+fi
+
 if [ "${caresOK}" = "NO" ]; then
     echo ""
     echo "-----------------------------------"
@@ -284,6 +311,18 @@ if [ "${ftglOK}" = "NO" ]; then
     echo ""
 
     finalResult=$[ finalResult | 64 ]
+fi
+
+if [ "${zipOK}" = "NO" ]; then
+    echo ""
+    echo "-----------------------------------"
+    echo "------------ WARNING --------------"
+    echo "------------         --------------"
+    echo "- COULD NOT BUILD ${zipDirName} --"
+    echo "-----------------------------------"
+    echo ""
+
+    finalResult=$[ finalResult | 128 ]
 fi
 
 echo ""
