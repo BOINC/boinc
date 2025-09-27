@@ -12,6 +12,10 @@
           "features": ["ssl3", "weak-ssl-ciphers"],
           "default-features": false
         },
-        "rappture"
+        "rappture",
+        {
+          "name": "libzip",
+          "default-features": false
+        }
     ]
 }

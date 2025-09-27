@@ -1,6 +1,6 @@
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [libs-mingw, apps-mingw, apps-mingw-vcpkg, libs-mingw-cmake]
+        type: [libs-mingw, apps-mingw-vcpkg, libs-mingw-cmake]
       fail-fast: false
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
@@ -63,11 +63,6 @@ jobs:
       - name: Make libs with mingw
         if: success() && matrix.type == 'libs-mingw'
         run: cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw
-
-      - name: Make apps with mingw
-        if: success() && matrix.type == 'apps-mingw'
-        run: cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper
-
       - name: Install Powershell for vcpkg
         if: success() && matrix.type == 'apps-mingw-vcpkg'
         run: |
@@ -76,7 +71,7 @@ jobs:
           sudo DEBIAN_FRONTEND=noninteractive apt install -y ./packages-microsoft-prod.deb powershell
 
       - name: Automake vcpkg and cmake
-        if: success() && (contains(matrix.type, 'vcpkg') || contains(matrix.type, 'cmake'))
+        if: success() && (matrix.type == 'apps-mingw-vcpkg' || matrix.type == 'libs-mingw-cmake')
         run: ./_autosetup
 
       - name: Configure mingw vcpkg apps
@@ -95,7 +90,7 @@ jobs:
           mingw/ci_make_apps.sh
 
       - name: Make for cmake
-        if: success() && endsWith(matrix.type, 'cmake')
+        if: success() && matrix.type == 'libs-mingw-cmake'
         run:
           cmake --build build
 

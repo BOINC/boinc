@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -67,9 +67,14 @@ ftglBaseName="ftgl"
 ftglFileName="ftgl-2.1.3-rc5.tar.gz"
 ftglURL="https://sourceforge.net/projects/ftgl/files/FTGL%20Source/2.1.3%7Erc5/ftgl-2.1.3-rc5.tar.gz"
 
-# The baseNames and dirNames arrays are used by the checkDpendentVesions.sh script
-baseNames=(${opensslBaseName} ${caresBaseName} ${curlBaseName} ${wxWidgetsBaseName} ${freetypeBaseName} ${ftglBaseName})
+zipDirName="libzip-1.11.4"
+zipBaseName="libzip"
+zipFileName="libzip-1.11.4.tar.gz"
+zipURL="https://libzip.org/download/libzip-1.11.4.tar.gz"
 
-dirNames=(${opensslDirName} ${caresDirName} ${curlDirName} ${wxWidgetsDirName} ${freetypeDirName} ${ftglDirName})
+# The baseNames and dirNames arrays are used by the checkDpendentVesions.sh script
+baseNames=(${opensslBaseName} ${caresBaseName} ${curlBaseName} ${wxWidgetsBaseName} ${freetypeBaseName} ${ftglBaseName} ${zipBaseName})
+
+dirNames=(${opensslDirName} ${caresDirName} ${curlDirName} ${wxWidgetsDirName} ${freetypeDirName} ${ftglDirName} ${zipDirName})
 
 return 0
