@@ -21,13 +21,14 @@
 # It should not be used by itself without the script.
 # Updated 8/28/20 for compatibility with Xcode 10
 # Updated 2/6/23 to include additional search paths
-# Updated 9/13/25 to replace boinc_zip with the libzip library dependency
+# Updated 9/27/25 to replace boinc_zip with the libzip library dependency
 
 # Change the following to match your installation
 BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
 BOINC_ZIP_DIR = $(BOINC_DIR)/zip
+LIBZIP_DIR = $(BOINC_DIR)/../libzip
 BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
 BOINC_CONFIG_DIR =  $(BOINC_DIR)/clientgui/mac
 
@@ -46,6 +47,7 @@ LDFLAGS = \
     -L$(BOINC_API_DIR) \
     -L$(BOINC_LIB_DIR) \
     -L$(BOINC_ZIP_DIR) \
+    -L$(LIBZIP_DIR)/lib \
     -L$(BOINC_BUILD_DIR) \
     -L$(PREFIX)/lib \
     -L.
