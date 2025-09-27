@@ -23,7 +23,7 @@
 # Updated 4/14/15 for compatibility with Xcode 6
 # Updated 4/30/20 for compatibility with Xcode 11 and OS 10.13
 # Updated 2/6/23 added arm64 support
-# Updated 9/13/25 to replace boinc_zip with the libzip library dependency
+# Updated 9/27/25 to replace boinc_zip with the libzip library dependency
 #
 ## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh
 ## This file assumes the locations of the needed libraries are those
@@ -43,6 +43,7 @@ BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
 BOINC_CONFIG_DIR = $(BOINC_DIR)/clientgui/mac
 FREETYPE_DIR = $(BOINC_DIR)/../freetype-2.11.0
 FTGL_DIR = $(BOINC_DIR)/../ftgl-2.1.3~rc5
+LIBZIP_DIR = $(BOINC_DIR)/../libzip
 FRAMEWORKS_DIR = /System/Library/Frameworks
 
 CXXFLAGS_ALL = \
@@ -69,6 +70,7 @@ LDFLAGS_ALL = \
     -Wl,-L$(BOINC_BUILD_DIR) \
     -Wl,-L$(FREETYPE_DIR)/objs/.libs \
     -Wl,-L$(FTGL_DIR)/src/.libs \
+    -Wl,-L$(LIBZIP_DIR)/lib \
     -Wl,-L$(PREFIX)/lib \
     -Wl,-L. \
     -Wl,-L/usr/lib
