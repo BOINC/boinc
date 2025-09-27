@@ -14,7 +14,10 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-
+//
+// NOTE: The libboinc_zip library is intended for use with libzip.
+// On a Mac, you must download and build libzip, using the script
+// mac_build/buildlibzip.sh
 
 // Standard headers and platform config
 #if defined(_WIN32) && !defined(__STDWX_H__)
