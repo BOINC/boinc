@@ -48,7 +48,7 @@
 #include "diagnostics.h"
 
 #ifdef __APPLE__
-#include "mac/app_icon.h"
+#include "Mac/app_icon.h"
 #endif
 
 using TTFont::ttf_render_string;
@@ -98,13 +98,13 @@ static void draw_text() {
         fd = shmem->fraction_done;
         cpu = shmem->cpu_time;
     }
-    sprintf(buf, "User: %s", uc_aid.user_name);
+    snprintf(buf, sizeof(buf), "User: %s", uc_aid.user_name);
     ttf_render_string(x, y, 0, 500, white, buf);
-    sprintf(buf, "Team: %s", uc_aid.team_name);
+    snprintf(buf, sizeof(buf), "Team: %s", uc_aid.team_name);
     ttf_render_string(x, y+.1, 0, 500, white, buf);
-    sprintf(buf, "%% Done: %f", 100*fd);
+    snprintf(buf, sizeof(buf), "%% Done: %f", 100*fd);
     ttf_render_string(x, y+.2, 0, 500, white, buf);
-    sprintf(buf, "CPU time: %f", cpu);
+    snprintf(buf, sizeof(buf), "CPU time: %f", cpu);
     ttf_render_string(x, y+.3, 0, 500, white, buf);
     if (shmem) {
         dt = dtime() - shmem->update_time;

@@ -41,7 +41,7 @@
 #include "boinc_zip.h"
 
 #ifdef __APPLE__
-#include "mac/app_icon.h"
+#include "Mac/app_icon.h"
 #endif
 
 float white[4] = {1., 1., 1., 1.};
