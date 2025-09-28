@@ -267,6 +267,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		DD5937A4164D16CE001D94A5 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -280,6 +281,7 @@
 		};
 		DD7A737B15AD66D8004F2841 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -293,6 +295,7 @@
 		};
 		DD7A737C15AD66E2004F2841 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -381,8 +384,12 @@
 					../../api,
 					../../zip,
 					../../clientgui/mac,
+					../../../libzip/lib,
 				);
-				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment/;
+				LIBRARY_SEARCH_PATHS = (
+					../../mac_build/build/Deployment/,
+					../../../libzip/lib,
+				);
 				OTHER_LDFLAGS = (
 					"-lboinc_api",
 					"-lboinc_graphics2",
@@ -419,8 +426,12 @@
 					../../api,
 					../../zip,
 					../../clientgui/mac,
+					../../../libzip/lib,
 				);
-				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment/;
+				LIBRARY_SEARCH_PATHS = (
+					../../mac_build/build/Deployment/,
+					../../../libzip/lib,
+				);
 				OTHER_LDFLAGS = (
 					"-lboinc_api",
 					"-lboinc_graphics2",
@@ -548,12 +559,14 @@
 					../../lib,
 					../../api,
 					../../clientgui/mac,
+					../../../libzip/lib,
 				);
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = (
 					../../mac_build/build/Development/,
 					"../../../freetype-2.11.0/objs/.libs",
 					"../../../ftgl-2.1.3~rc5/src/.libs",
+					../../../libzip/lib,
 				);
 				OTHER_LDFLAGS = (
 					"-lboinc_api",
@@ -589,12 +602,14 @@
 					../../lib,
 					../../api,
 					../../clientgui/mac,
+					../../../libzip/lib,
 				);
 				INSTALL_PATH = "$(HOME)/bin";
 				LIBRARY_SEARCH_PATHS = (
 					../../mac_build/build/Deployment/,
 					"../../../freetype-2.11.0/objs/.libs",
 					"../../../ftgl-2.1.3~rc5/src/.libs",
+					../../../libzip/lib,
 				);
 				OTHER_LDFLAGS = (
 					"-lboinc_api",
