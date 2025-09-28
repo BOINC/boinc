@@ -23,7 +23,7 @@
 # Updated 4/14/15 for compatibility with Xcode 6
 # Updated 4/30/20 for compatibility with Xcode 11 and OS 10.13
 # Updated 2/6/23 added arm64 support
-# Updated 9/27/25 to replace boinc_zip with the libzip library dependency
+# Updated 9/28/25 to replace boinc_zip with the libzip library dependency
 #
 ## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh
 ## This file assumes the locations of the needed libraries are those
@@ -33,6 +33,9 @@
 ##     cd [path]/example_app/
 ## and run this make file:
 ##     make -f Makefile_mac2
+##
+## NOTE: this requires the libzip library which can be installed by the
+## scipt mac_build/buildlibzip.sh, which uses CMake via the command line.
 #
 
 BOINC_DIR = ../..

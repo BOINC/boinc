@@ -15,13 +15,16 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
+# NOTE: this requires the libzip library which can be installed by the
+# scipt mac_build/buildlibzip.sh, which uses CMake via the command line.
+#
 
 # makefile for BOINC wrapper application on Macintosh.
 # This is invoked from BuildMacWrapper.sh shell script.
 # It should not be used by itself without the script.
 # Updated 8/28/20 for compatibility with Xcode 10
 # Updated 2/6/23 to include additional search paths
-# Updated 9/27/25 to replace boinc_zip with the libzip library dependency
+# Updated 9/28/25 to replace boinc_zip with the libzip library dependency
 
 # Change the following to match your installation
 BOINC_DIR = ../..
