@@ -19,7 +19,7 @@ name: Windows
 on:
   push:
     branches: [ master, 'client_release/**' ]
-    tags: [ 'client_release/**', 'vboxwrapper/**', 'wrapper/**' ]
+    tags: [ 'client_release/**', 'vboxwrapper/**', 'wrapper/**', 'dockerwrapper/**', 'wslwrapper/**', 'worker/**' ]
   pull_request:
     branches: [ master ]
   schedule:
@@ -47,7 +47,7 @@ env:
 jobs:
   msbuild:
     name: ${{matrix.configuration}}-${{matrix.platform}}-msbuild
-    runs-on: windows-2022
+    runs-on: windows-latest
     strategy:
       matrix:
         platform: [x64, arm64]
@@ -210,13 +210,13 @@ jobs:
 
       - name: Upload coverage report
         if: success() && matrix.platform == 'x64' && matrix.configuration == 'Release'
-        uses: codecov/codecov-action@fdcc8476540edceab3de004e990f80d881c6cc00
+        uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   cmake:
     name: ${{matrix.configuration}}-${{matrix.platform}}-cmake
-    runs-on: windows-2022
+    runs-on: windows-latest
     strategy:
       matrix:
         platform: [x64, arm64]

@@ -173,6 +173,10 @@ CDlgExclusiveApps::CDlgExclusiveApps(wxWindow* parent) :
     SetSizerAndFit(dialogSizer);
 
     Centre();   // Center the dialog over the main window
+
+#if defined(__WXMSW__) || defined(__WXGTK__)
+    SetDoubleBuffered(true);
+#endif
 }
 
 /* destructor */

@@ -284,6 +284,58 @@ int error_output(vector<string> &out) {
     return 0;
 }
 
+//////////  PODMAN ARGS  ////////////
+
+#ifdef __APPLE__
+// podman doesn't correctly handle args containing unescaped spaces - WTF??
+//
+static void escape_spaces(const char* p, char *q) {
+    while (*p) {
+    	if (*p == ' ') {
+	    *q++ = '\\';
+	    *q++ = ' ';
+	} else {
+	    *q++ = *p;
+	}
+	p++;
+    }
+    *q = 0;
+}
+#endif
+
+char escaped_cwd[MAXPATHLEN];
+
+void get_escaped_cwd() {
+    // on MacOS/podman, you need the full path, not .
+    // Win: use . since full path has :
+    //
+#ifdef __APPLE__
+    char cwd2[MAXPATHLEN];
+    getcwd(cwd2, sizeof(cwd2));
+    escape_spaces(cwd2, escaped_cwd);
+#else
+    strcpy(escaped_cwd, ".");
+#endif
+}
+
+
+void get_app_args(char* buf) {
+    buf[0] = 0;
+#ifdef __APPLE__
+    for (string arg: app_args) {
+        char buf2[4096];
+        strcat(buf, "\\ ");
+        escape_spaces(arg.c_str(), buf2);
+        strcat(buf, buf2);
+    }
+#else
+    for (string arg: app_args) {
+        strcat(buf, " ");
+        strcat(buf, arg.c_str());
+    }
+#endif
+}
+
 //////////  IMAGE  ////////////
 
 void get_image_name() {
@@ -314,8 +366,8 @@ int image_exists(bool &exists) {
 int build_image() {
     char cmd[256];
     vector<string> out;
-    snprintf(cmd, sizeof(cmd), "build . -t %s -f %s %s",
-        image_name, dockerfile, config.build_args.c_str()
+    snprintf(cmd, sizeof(cmd), "build \"%s\" -t %s -f %s %s",
+        escaped_cwd, image_name, dockerfile, config.build_args.c_str()
     );
     int retval = docker_conn.command(cmd, out);
     if (retval) return retval;
@@ -372,38 +424,31 @@ int container_exists(bool &exists) {
 int create_container() {
     char cmd[1024];
     char slot_cmd[256], project_cmd[256], buf[256];
-    char cwd[MAXPATHLEN];
     vector<string> out;
     int retval;
 
     retval = get_image();
     if (retval) return retval;
 
-    // on MacOS/podman, you need the full path, not .
-    // Win: use . since full path has :
-    //
-#ifdef __APPLE__
-    getcwd(cwd, sizeof(cwd));
-#else
-    strcpy(cwd, ".");
-#endif
     // mount slot dir at /app (or whatever is specified)
     // Needs quotes since paths can contain spaces
     //
     snprintf(slot_cmd, sizeof(slot_cmd),
-        " -v \"%s\":\"%s\"",
-        cwd, config.workdir.c_str()
+        " -v \"%s/\":\"%s\"",
+        escaped_cwd, config.workdir.c_str()
     );
     if (config.project_dir_mount.empty()) {
         project_cmd[0] = 0;
     } else {
         if (boinc_is_standalone()) {
-            snprintf(project_cmd, sizeof(project_cmd), " -v %s/%s:%s",
-                cwd, project_dir, config.project_dir_mount.c_str()
+            snprintf(project_cmd, sizeof(project_cmd),
+                " -v \"%s/%s/\":\"%s\"",
+                escaped_cwd, project_dir, config.project_dir_mount.c_str()
             );
         } else {
-            snprintf(project_cmd, sizeof(project_cmd), " -v %s/../../projects/%s:%s",
-                cwd, project_dir, config.project_dir_mount.c_str()
+            snprintf(project_cmd, sizeof(project_cmd),
+                " -v \"%s/../../projects/%s/\":\"%s\"",
+                escaped_cwd, project_dir, config.project_dir_mount.c_str()
             );
         }
     }
@@ -412,14 +457,13 @@ int create_container() {
         slot_cmd, project_cmd
     );
 
-    // add command-line args
+    // add command-line args, space-escaped if needed (Mac)
     //
     if (app_args.size()) {
+        char arg_buf[4096];
         strcat(cmd, " -e ARGS=\"");
-        for (string arg: app_args) {
-            strcat(cmd, " ");
-            strcat(cmd, arg.c_str());
-        }
+        get_app_args(arg_buf);
+        strcat(cmd, arg_buf);
         strcat(cmd, "\"");
     }
 
@@ -763,6 +807,8 @@ int main(int argc, char** argv) {
         }
     }
 
+    get_escaped_cwd();
+
 #ifdef _WIN32
     retval = wsl_init();
     if (retval) {
@@ -772,6 +818,7 @@ int main(int argc, char** argv) {
 #else
     if (boinc_is_standalone()) {
         docker_type = PODMAN;
+        fprintf(stderr, "Standalone mode; using Podman\n");
     } else {
         if (!strlen(aid.host_info.docker_version)
             || aid.host_info.docker_type == NONE

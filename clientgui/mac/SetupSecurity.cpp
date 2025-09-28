@@ -403,9 +403,9 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 
     // Set permissions of BOINC Data directory itself
     // chmod u=rwx,g=rwx,o=x "/Library/Application Support/BOINC Data"
-    // 0771 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IXOTH
-    // Set read, write and execute permission for user & group; execute-only permission for others
-    err = DoSudoPosixSpawn(chmodPath, "u=rwx,g=rwx,o=x", BOINCDataDirPath, NULL, NULL, NULL, NULL);
+    // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
+    // Set read, write and execute permission for user & group;  read and execute permission for others
+    err = DoSudoPosixSpawn(chmodPath, "u=rwx,g=rwx,o=rx", BOINCDataDirPath, NULL, NULL, NULL, NULL);
     if (err)
         return err;
 
@@ -951,7 +951,7 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
 
 setGroupForUser:
     // Older versions set shell to /usr/bin/false so do this even if the user exists
-    // Something like "dscl . -create /users/boinc_master shell /usr/bin/zsh"
+    // Something like "dscl . -create /users/boinc_master shell /bin/zsh"
     err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "shell", "/bin/zsh", NULL);
     if (err)
         return err;
