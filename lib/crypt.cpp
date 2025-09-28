@@ -1,5 +1,5 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
+// https://boinc.berkeley.edu
 // Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
@@ -23,6 +23,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <memory>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -37,6 +38,10 @@
 #include <openssl/err.h>
 #include <openssl/rsa.h>
 #include <openssl/bn.h>
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
+#include <openssl/core_names.h>
+#include <openssl/param_build.h>
+#endif
 
 #include "boinc_stdio.h"
 #include "md5_file.h"
@@ -62,7 +67,9 @@ int print_hex_data(FILE* f, DATA_BLOCK& x) {
         fprintf(f, "%02x", x.data[i]);
         if (i%32==31) fprintf(f, "\n");
     }
-    if (x.len%32 != 0) fprintf(f, "\n");
+    if (x.len%32 != 0) {
+        fprintf(f, "\n");
+    }
     fprintf(f, ".\n");
     return 0;
 }
@@ -77,9 +84,13 @@ int sprint_hex_data(char* out_buf, DATA_BLOCK& x) {
     for (i=0; i<x.len; i++) {
         *p++ = hex[x.data[i]/16];
         *p++ = hex[x.data[i]%16];
-        if (i%32==31) *p++ = '\n';
+        if (i%32==31) {
+            *p++ = '\n';
+        }
     }
-    if (x.len%32 != 0) *p++ = '\n';
+    if (x.len%32 != 0) {
+        *p++ = '\n';
+    }
     strcpy(p, ".\n");
 
     return 0;
@@ -88,7 +99,6 @@ int sprint_hex_data(char* out_buf, DATA_BLOCK& x) {
 int print_raw_data(FILE* f, DATA_BLOCK& x) {
     unsigned int i;
     for (i=0; i<x.len; i++) {
-        //printf("%x ", x.data[i]);
         fprintf(f, "%c", x.data[i]);
     }
     return 0;
@@ -118,9 +128,13 @@ int scan_hex_data(FILE* f, DATA_BLOCK& x) {
     int i, j;
     while (1) {
         p = fgets(buf, 256, f);
-        if (!p) return ERR_GETS;
+        if (!p) {
+            return ERR_GETS;
+        }
         n = strlen(p)/2;
-        if (n == 0) break;
+        if (n == 0) {
+            break;
+        }
         for (i=0; i<n; i++) {
             sscanf(buf+i*2, "%2x", &j);
             x.data[x.len] = j;
@@ -131,7 +145,9 @@ int scan_hex_data(FILE* f, DATA_BLOCK& x) {
     while (1) {
         int j;
         n = fscanf(f, "%2x", &j);
-        if (n <= 0) break;
+        if (n <= 0) {
+            break;
+        }
         x.data[x.len] = (unsigned char)j;
         x.len++;
     }
@@ -151,7 +167,9 @@ static int sscan_hex_data(const char* p, DATA_BLOCK& x) {
             continue;
         }
         n = sscanf(p, "%2x", &m);
-        if (n <= 0) break;
+        if (n <= 0) {
+            break;
+        }
         if (nleft<=0) {
             fprintf(stderr,
                 "%s: sscan_hex_data: buffer overflow\n",
@@ -188,25 +206,37 @@ int scan_key_hex(FILE* f, KEY* key, int size) {
     int j = 0, b;
     fgets(buf, 256, f);
     int fs = sscanf(buf, "%d", &num_bits);
-    if (fs != 1) return ERR_NULL;
+    if (fs != 1) {
+        return ERR_NULL;
+    }
     key->bits = num_bits;
     len = size - sizeof(key->bits);
     while (1) {
         p = fgets(buf, 256, f);
-        if (!p) break;
+        if (!p) {
+            break;
+        }
         n = (strlen(p)-1)/2;
-        if (n == 0) break;
+        if (n == 0) {
+            break;
+        }
         for (i=0; i<n; i++) {
             // coverity[check_return]
             sscanf(buf+i*2, "%2x", &b);
-            if (j == len) break;
+            if (j == len) {
+                break;
+            }
             key->data[j++] = b;
         }
     }
-    if (j != len) return ERR_NULL;
+    if (j != len) {
+        return ERR_NULL;
+    }
 #else
     int fs = fscanf(f, "%d", &num_bits);
-    if (fs != 1) return ERR_NULL;
+    if (fs != 1) {
+        return ERR_NULL;
+    }
     key->bits = (unsigned short)num_bits;
     len = size - (int)sizeof(key->bits);
     for (i=0; i<len; i++) {
@@ -217,7 +247,9 @@ int scan_key_hex(FILE* f, KEY* key, int size) {
         key->data[i] = (unsigned char)n;
     }
     fs = fscanf(f, ".");
-    if (fs == EOF) return ERR_NULL;
+    if (fs == EOF) {
+        return ERR_NULL;
+    }
 #endif
     return 0;
 }
@@ -233,9 +265,13 @@ int sscan_key_hex(const char* buf, KEY* key, int size) {
     key->bits = (unsigned short)num_bits; //key->bits is a short
     //fprintf(stderr, "key->bits = %d\n", key->bits);
 
-    if (n != 1) return ERR_XML_PARSE;
+    if (n != 1) {
+        return ERR_XML_PARSE;
+    }
     buf = strchr(buf, '\n');
-    if (!buf) return ERR_XML_PARSE;
+    if (!buf) {
+        return ERR_XML_PARSE;
+    }
     buf += 1;
     db.data = key->data;
     db.len = (unsigned)(size - sizeof(key->bits));
@@ -249,13 +285,119 @@ int sscan_key_hex(const char* buf, KEY* key, int size) {
 // The output block must be decrypted in its entirety.
 //
 int encrypt_private(R_RSA_PRIVATE_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out) {
-    int n, modulus_len, retval;
+    int n, modulus_len;
 
     modulus_len = (key.bits+7)/8;
     n = in.len;
     if (n >= modulus_len-11) {
         n = modulus_len-11;
     }
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
+    // OpenSSL 3.x: use EVP_PKEY_sign with RSA PKCS1 padding
+    using BN_ptr =
+        std::unique_ptr<BIGNUM, decltype(&BN_free)>;
+    using PKEY_ptr =
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>;
+    using PCTX_ptr =
+        std::unique_ptr<EVP_PKEY_CTX, decltype(&EVP_PKEY_CTX_free)>;
+    using PARAMS_ptr =
+        std::unique_ptr<OSSL_PARAM, decltype(&OSSL_PARAM_free)>;
+    using BLDP_ptr =
+        std::unique_ptr<OSSL_PARAM_BLD, decltype(&OSSL_PARAM_BLD_free)>;
+
+    int ret = ERR_CRYPTO;
+
+    BN_ptr n_bn(BN_bin2bn(key.modulus, sizeof(key.modulus), NULL), BN_free);
+    BN_ptr e_bn(BN_bin2bn(key.publicExponent, sizeof(key.publicExponent),
+        NULL), BN_free);
+    BN_ptr d_bn(BN_bin2bn(key.exponent, sizeof(key.exponent), NULL), BN_free);
+    BN_ptr p_bn(BN_bin2bn(key.prime[0], sizeof(key.prime[0]), NULL), BN_free);
+    BN_ptr q_bn(BN_bin2bn(key.prime[1], sizeof(key.prime[1]), NULL), BN_free);
+    BN_ptr dmp1_bn(BN_bin2bn(key.primeExponent[0], sizeof(key.primeExponent[0]),
+        NULL), BN_free);
+    BN_ptr dmq1_bn(BN_bin2bn(key.primeExponent[1], sizeof(key.primeExponent[1]),
+        NULL), BN_free);
+    BN_ptr iqmp_bn(BN_bin2bn(key.coefficient, sizeof(key.coefficient), NULL),
+        BN_free);
+
+    if (!n_bn || !e_bn || !d_bn || !p_bn || !q_bn || !dmp1_bn || !dmq1_bn ||
+        !iqmp_bn) {
+        return ERR_CRYPTO;
+    }
+
+    BLDP_ptr bld(OSSL_PARAM_BLD_new(), OSSL_PARAM_BLD_free);
+    if (!bld) {
+        return ERR_CRYPTO;
+    }
+    if (!OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_N, n_bn.get())) {
+        return ERR_CRYPTO;
+    }
+    if (!OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_E, e_bn.get())) {
+        return ERR_CRYPTO;
+    }
+    if (!OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_D, d_bn.get())) {
+        return ERR_CRYPTO;
+    }
+    if (!OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_FACTOR1,
+        p_bn.get())) {
+            return ERR_CRYPTO;
+    }
+    if (!OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_FACTOR2,
+        q_bn.get())) {
+        return ERR_CRYPTO;
+    }
+    if (!OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_EXPONENT1,
+        dmp1_bn.get())) {
+        return ERR_CRYPTO;
+    }
+    if (!OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_EXPONENT2,
+        dmq1_bn.get())) {
+        return ERR_CRYPTO;
+    }
+    if (!OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_COEFFICIENT,
+        iqmp_bn.get())) {
+        return ERR_CRYPTO;
+    }
+
+    PARAMS_ptr params(OSSL_PARAM_BLD_to_param(bld.get()), OSSL_PARAM_free);
+    if (!params) {
+        return ERR_CRYPTO;
+    }
+
+    PCTX_ptr from_ctx(EVP_PKEY_CTX_new_from_name(NULL, "RSA", NULL),
+        EVP_PKEY_CTX_free);
+    if (!from_ctx) {
+        return ERR_CRYPTO;
+    }
+    if (EVP_PKEY_fromdata_init(from_ctx.get()) <= 0) {
+        return ERR_CRYPTO;
+    }
+
+    EVP_PKEY* raw_pkey = nullptr;
+    if (EVP_PKEY_fromdata(from_ctx.get(), &raw_pkey, EVP_PKEY_KEYPAIR,
+        params.get()) <= 0) {
+            return ERR_CRYPTO;
+        }
+    PKEY_ptr pkey(raw_pkey, EVP_PKEY_free);
+
+    PCTX_ptr sctx(EVP_PKEY_CTX_new(pkey.get(), NULL), EVP_PKEY_CTX_free);
+    if (!sctx) {
+        return ERR_CRYPTO;
+    }
+    if (EVP_PKEY_sign_init(sctx.get()) <= 0) {
+        return ERR_CRYPTO;
+    }
+    if (EVP_PKEY_CTX_set_rsa_padding(sctx.get(), RSA_PKCS1_PADDING) <= 0) {
+        return ERR_CRYPTO;
+    }
+
+    size_t outlen = (size_t)out.len;
+    if (EVP_PKEY_sign(sctx.get(), out.data, &outlen, in.data, (size_t)n) > 0) {
+        out.len = (unsigned int)outlen;
+        ret = 0;
+    }
+    return ret;
+#else
     RSA* rp = RSA_new();
     private_to_openssl(key, rp);
     retval = RSA_private_encrypt(n, in.data, out.data, rp, RSA_PKCS1_PADDING);
@@ -266,13 +408,81 @@ int encrypt_private(R_RSA_PRIVATE_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out) {
     out.len = RSA_size(rp);
     RSA_free(rp);
     return 0;
+#endif
 }
 
 int decrypt_public(R_RSA_PUBLIC_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out) {
-    int retval;
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
+    // OpenSSL 3.x: use EVP_PKEY_verify_recover with RSA PKCS1 padding (RAII, no goto)
+    using BN_ptr = std::unique_ptr<BIGNUM, decltype(&BN_free)>;
+    using PKEY_ptr = std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>;
+    using PCTX_ptr = std::unique_ptr<EVP_PKEY_CTX,
+        decltype(&EVP_PKEY_CTX_free)>;
+    using PARAMS_ptr = std::unique_ptr<OSSL_PARAM, decltype(&OSSL_PARAM_free)>;
+    using BLDP_ptr = std::unique_ptr<OSSL_PARAM_BLD,
+        decltype(&OSSL_PARAM_BLD_free)>;
+
+    int ret = ERR_CRYPTO;
+
+    BN_ptr n_bn(BN_bin2bn(key.modulus, sizeof(key.modulus), NULL), BN_free);
+    BN_ptr e_bn(BN_bin2bn(key.exponent, sizeof(key.exponent), NULL), BN_free);
+    if (!n_bn || !e_bn) {
+        return ERR_CRYPTO;
+    }
+
+    BLDP_ptr bld(OSSL_PARAM_BLD_new(), OSSL_PARAM_BLD_free);
+    if (!bld) {
+        return ERR_CRYPTO;
+    }
+    if (!OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_N, n_bn.get())) {
+        return ERR_CRYPTO;
+    }
+    if (!OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_E, e_bn.get())) {
+        return ERR_CRYPTO;
+    }
+    PARAMS_ptr params(OSSL_PARAM_BLD_to_param(bld.get()), OSSL_PARAM_free);
+    if (!params) {
+        return ERR_CRYPTO;
+    }
+
+    PCTX_ptr from_ctx(EVP_PKEY_CTX_new_from_name(NULL, "RSA", NULL),
+        EVP_PKEY_CTX_free);
+    if (!from_ctx) {
+        return ERR_CRYPTO;
+    }
+    if (EVP_PKEY_fromdata_init(from_ctx.get()) <= 0) {
+        return ERR_CRYPTO;
+    }
+    EVP_PKEY* raw_pkey = nullptr;
+    if (EVP_PKEY_fromdata(from_ctx.get(), &raw_pkey, EVP_PKEY_PUBLIC_KEY,
+        params.get()) <= 0) {
+        return ERR_CRYPTO;
+    }
+    PKEY_ptr pkey(raw_pkey, EVP_PKEY_free);
+
+    PCTX_ptr vctx(EVP_PKEY_CTX_new(pkey.get(), NULL), EVP_PKEY_CTX_free);
+    if (!vctx) {
+        return ERR_CRYPTO;
+    }
+    if (EVP_PKEY_verify_recover_init(vctx.get()) <= 0) {
+        return ERR_CRYPTO;
+    }
+    if (EVP_PKEY_CTX_set_rsa_padding(vctx.get(), RSA_PKCS1_PADDING) <= 0) {
+        return ERR_CRYPTO;
+    }
+
+    size_t outlen = (size_t)out.len;
+    if (EVP_PKEY_verify_recover(vctx.get(), out.data, &outlen, in.data,
+        (size_t)in.len) > 0) {
+        out.len = (unsigned int)outlen;
+        ret = 0;
+    }
+    return ret;
+#else
     RSA* rp = RSA_new();
     public_to_openssl(key, rp);
-    retval = RSA_public_decrypt(in.len, in.data, out.data, rp, RSA_PKCS1_PADDING);
+    retval = RSA_public_decrypt(in.len, in.data, out.data, rp,
+        RSA_PKCS1_PADDING);
     if (retval < 0) {
         RSA_free(rp);
         return ERR_CRYPTO;
@@ -280,6 +490,7 @@ int decrypt_public(R_RSA_PUBLIC_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out) {
     out.len = RSA_size(rp);
     RSA_free(rp);
     return 0;
+#endif
 }
 
 int sign_file(const char* path, R_RSA_PRIVATE_KEY& key, DATA_BLOCK& signature) {
@@ -289,15 +500,20 @@ int sign_file(const char* path, R_RSA_PRIVATE_KEY& key, DATA_BLOCK& signature) {
     int retval;
 
     retval = md5_file(path, md5_buf, file_length);
-    if (retval) return retval;
+    if (retval) {
+        return retval;
+    }
     in_block.data = (unsigned char*)md5_buf;
     in_block.len = (unsigned int)strlen(md5_buf);
     retval = encrypt_private(key, in_block, signature);
-    if (retval) return retval;
+    if (retval) {
+        return retval;
+    }
     return 0;
 }
 
-int sign_block(DATA_BLOCK& data_block, R_RSA_PRIVATE_KEY& key, DATA_BLOCK& signature) {
+int sign_block(DATA_BLOCK& data_block, R_RSA_PRIVATE_KEY& key,
+    DATA_BLOCK& signature) {
     char md5_buf[MD5_LEN];
     int retval;
     DATA_BLOCK in_block;
@@ -327,7 +543,9 @@ int generate_signature(
     signature_data.data = signature_buf;
     signature_data.len = SIGNATURE_SIZE_BINARY;
     retval = sign_block(block, key, signature_data);
-    if (retval) return retval;
+    if (retval) {
+        return retval;
+    }
     sprint_hex_data(signature_hex, signature_data);
     return 0;
 }
@@ -379,7 +597,9 @@ int check_file_signature2(
     signature.data = signature_buf;
     signature.len = sizeof(signature_buf);
     retval = sscan_hex_data(signature_text, signature);
-    if (retval) return retval;
+    if (retval) {
+        return retval;
+    }
     return check_file_signature(md5, key, signature, answer);
 }
 
@@ -396,16 +616,22 @@ int check_string_signature(
     DATA_BLOCK signature, clear_signature;
 
     retval = md5_block((const unsigned char*)text, (int)strlen(text), md5_buf);
-    if (retval) return retval;
+    if (retval) {
+        return retval;
+    }
     n = (int)strlen(md5_buf);
     signature.data = signature_buf;
     signature.len = sizeof(signature_buf);
     retval = sscan_hex_data(signature_text, signature);
-    if (retval) return retval;
+    if (retval) {
+        return retval;
+    }
     clear_signature.data = (unsigned char*)clear_buf;
     clear_signature.len = 256;
     retval = decrypt_public(key, signature, clear_signature);
-    if (retval) return retval;
+    if (retval) {
+        return retval;
+    }
     answer = !strncmp(md5_buf, clear_buf, n);
     return 0;
 }
@@ -413,13 +639,16 @@ int check_string_signature(
 // Same, where public key is also encoded as text
 //
 int check_string_signature2(
-    const char* text, const char* signature_text, const char* key_text, bool& answer
+    const char* text, const char* signature_text, const char* key_text,
+    bool& answer
 ) {
     R_RSA_PUBLIC_KEY key;
     int retval;
 
     retval = sscan_key_hex(key_text, (KEY*)&key, sizeof(key));
-    if (retval) return retval;
+    if (retval) {
+        return retval;
+    }
     return check_string_signature(text, signature_text, key, answer);
 }
 
@@ -469,10 +698,12 @@ void openssl_to_keys(
     RSA_get0_factors(rp, &p, &q);
     RSA_get0_crt_params(rp, &dmp1, &dmq1, &iqmp);
 
-    if (n)
+    if (n) {
         bn_to_bin(n, pub.modulus, sizeof(pub.modulus));
-    if (e)
+    }
+    if (e) {
         bn_to_bin(e, pub.exponent, sizeof(pub.exponent));
+    }
 #else
     bn_to_bin(rp->n, pub.modulus, sizeof(pub.modulus));
     bn_to_bin(rp->e, pub.exponent, sizeof(pub.exponent));
@@ -481,22 +712,30 @@ void openssl_to_keys(
     memset(&priv, 0, sizeof(priv));
     priv.bits = (unsigned short)nbits;
 #ifdef HAVE_OPAQUE_RSA_DSA_DH
-    if (n)
+    if (n) {
         bn_to_bin(n, priv.modulus, sizeof(priv.modulus));
-    if (e)
+    }
+    if (e) {
         bn_to_bin(e, priv.publicExponent, sizeof(priv.publicExponent));
-    if (d)
+    }
+    if (d) {
         bn_to_bin(d, priv.exponent, sizeof(priv.exponent));
-    if (p)
+    }
+    if (p) {
         bn_to_bin(p, priv.prime[0], sizeof(priv.prime[0]));
-    if (q)
+    }
+    if (q) {
         bn_to_bin(q, priv.prime[1], sizeof(priv.prime[1]));
-    if (dmp1)
+    }
+    if (dmp1) {
         bn_to_bin(dmp1, priv.primeExponent[0], sizeof(priv.primeExponent[0]));
-    if (dmq1)
+    }
+    if (dmq1) {
         bn_to_bin(dmq1, priv.primeExponent[1], sizeof(priv.primeExponent[1]));
-    if (iqmp)
+    }
+    if (iqmp) {
         bn_to_bin(iqmp, priv.coefficient, sizeof(priv.coefficient));
+    }
 #else
     bn_to_bin(rp->n, priv.modulus, sizeof(priv.modulus));
     bn_to_bin(rp->e, priv.publicExponent, sizeof(priv.publicExponent));
@@ -537,8 +776,10 @@ void private_to_openssl(R_RSA_PRIVATE_KEY& priv, RSA* rp) {
     rp->d = BN_bin2bn(priv.exponent, sizeof(priv.exponent), 0);
     rp->p = BN_bin2bn(priv.prime[0], sizeof(priv.prime[0]), 0);
     rp->q = BN_bin2bn(priv.prime[1], sizeof(priv.prime[1]), 0);
-    rp->dmp1 = BN_bin2bn(priv.primeExponent[0], sizeof(priv.primeExponent[0]), 0);
-    rp->dmq1 = BN_bin2bn(priv.primeExponent[1], sizeof(priv.primeExponent[1]), 0);
+    rp->dmp1 = BN_bin2bn(priv.primeExponent[0], sizeof(priv.primeExponent[0]),
+        0);
+    rp->dmq1 = BN_bin2bn(priv.primeExponent[1], sizeof(priv.primeExponent[1]),
+        0);
     rp->iqmp = BN_bin2bn(priv.coefficient, sizeof(priv.coefficient), 0);
 #endif
 }
@@ -563,8 +804,9 @@ static int _bn2bin(const BIGNUM *from, unsigned char *to, int max) {
         return(0);
     }
     memset(to,0,(unsigned int)max);
-    if (!BN_bn2bin(from,&(to[max-i])))
+    if (!BN_bn2bin(from,&(to[max-i]))) {
         return(0);
+    }
     return(1);
 }
 
@@ -584,40 +826,56 @@ int openssl_to_private(RSA *from, R_RSA_PRIVATE_KEY *to) {
     RSA_get0_crt_params(from, &dmp1, &dmq1, &iqmp);
 
     to->bits = (unsigned short)BN_num_bits(n);
-    if (!_bn2bin(n,to->modulus,MAX_RSA_MODULUS_LEN))
+    if (!_bn2bin(n,to->modulus,MAX_RSA_MODULUS_LEN)) {
         return(0);
-    if (!_bn2bin(e,to->publicExponent,MAX_RSA_MODULUS_LEN))
+    }
+    if (!_bn2bin(e,to->publicExponent,MAX_RSA_MODULUS_LEN)) {
         return(0);
-    if (!_bn2bin(d,to->exponent,MAX_RSA_MODULUS_LEN))
+    }
+    if (!_bn2bin(d,to->exponent,MAX_RSA_MODULUS_LEN)) {
         return(0);
-    if (!_bn2bin(p,to->prime[0],MAX_RSA_PRIME_LEN))
+    }
+    if (!_bn2bin(p,to->prime[0],MAX_RSA_PRIME_LEN)) {
         return(0);
-    if (!_bn2bin(q,to->prime[1],MAX_RSA_PRIME_LEN))
+    }
+    if (!_bn2bin(q,to->prime[1],MAX_RSA_PRIME_LEN)) {
         return(0);
-    if (!_bn2bin(dmp1,to->primeExponent[0],MAX_RSA_PRIME_LEN))
+    }
+    if (!_bn2bin(dmp1,to->primeExponent[0],MAX_RSA_PRIME_LEN)) {
         return(0);
-    if (!_bn2bin(dmq1,to->primeExponent[1],MAX_RSA_PRIME_LEN))
+    }
+    if (!_bn2bin(dmq1,to->primeExponent[1],MAX_RSA_PRIME_LEN)) {
         return(0);
-    if (!_bn2bin(iqmp,to->coefficient,MAX_RSA_PRIME_LEN))
+    }
+    if (!_bn2bin(iqmp,to->coefficient,MAX_RSA_PRIME_LEN)) {
         return(0);
+    }
 #else
     to->bits = BN_num_bits(from->n);
-    if (!_bn2bin(from->n,to->modulus,MAX_RSA_MODULUS_LEN))
+    if (!_bn2bin(from->n,to->modulus,MAX_RSA_MODULUS_LEN)) {
         return(0);
-    if (!_bn2bin(from->e,to->publicExponent,MAX_RSA_MODULUS_LEN))
+    }
+    if (!_bn2bin(from->e,to->publicExponent,MAX_RSA_MODULUS_LEN)) {
         return(0);
-    if (!_bn2bin(from->d,to->exponent,MAX_RSA_MODULUS_LEN))
+    }
+    if (!_bn2bin(from->d,to->exponent,MAX_RSA_MODULUS_LEN)) {
         return(0);
-    if (!_bn2bin(from->p,to->prime[0],MAX_RSA_PRIME_LEN))
+    }
+    if (!_bn2bin(from->p,to->prime[0],MAX_RSA_PRIME_LEN)) {
         return(0);
-    if (!_bn2bin(from->q,to->prime[1],MAX_RSA_PRIME_LEN))
+    }
+    if (!_bn2bin(from->q,to->prime[1],MAX_RSA_PRIME_LEN)) {
         return(0);
-    if (!_bn2bin(from->dmp1,to->primeExponent[0],MAX_RSA_PRIME_LEN))
+    }
+    if (!_bn2bin(from->dmp1,to->primeExponent[0],MAX_RSA_PRIME_LEN)) {
         return(0);
-    if (!_bn2bin(from->dmq1,to->primeExponent[1],MAX_RSA_PRIME_LEN))
+    }
+    if (!_bn2bin(from->dmq1,to->primeExponent[1],MAX_RSA_PRIME_LEN)) {
         return(0);
-    if (!_bn2bin(from->iqmp,to->coefficient,MAX_RSA_PRIME_LEN))
+    }
+    if (!_bn2bin(from->iqmp,to->coefficient,MAX_RSA_PRIME_LEN)) {
         return(0);
+    }
 #endif
     return 1;
 }
@@ -645,8 +903,9 @@ int check_validity_of_cert(
     lookup = X509_STORE_add_lookup(store, X509_LOOKUP_hash_dir());
     X509_LOOKUP_add_dir(lookup, (char *)caPath, X509_FILETYPE_PEM);
     if ((ctx = X509_STORE_CTX_new()) != 0) {
-        if (X509_STORE_CTX_init(ctx, store, cert, 0) == 1)
+        if (X509_STORE_CTX_init(ctx, store, cert, 0) == 1) {
             retval = X509_verify_cert(ctx);
+        }
         X509_STORE_CTX_free(ctx);
     }
     X509_STORE_free(store);
@@ -669,6 +928,40 @@ int check_validity_of_cert(
 #else
     if (pubKey->type == EVP_PKEY_RSA) {
 #endif
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
+        EVP_PKEY_CTX *vctx = EVP_PKEY_CTX_new(pubKey, NULL);
+        if (!vctx) {
+            X509_free(cert);
+            EVP_PKEY_free(pubKey);
+            BIO_vfree(bio);
+            return 0;
+        }
+        if (EVP_PKEY_verify_init(vctx) <= 0) {
+            EVP_PKEY_CTX_free(vctx);
+            X509_free(cert);
+            EVP_PKEY_free(pubKey);
+            BIO_vfree(bio);
+            return 0;
+        }
+        if (EVP_PKEY_CTX_set_rsa_padding(vctx, RSA_PKCS1_PADDING) <= 0) {
+            EVP_PKEY_CTX_free(vctx);
+            X509_free(cert);
+            EVP_PKEY_free(pubKey);
+            BIO_vfree(bio);
+            return 0;
+        }
+        if (EVP_PKEY_CTX_set_signature_md(vctx, EVP_md5()) <= 0) {
+            EVP_PKEY_CTX_free(vctx);
+            X509_free(cert);
+            EVP_PKEY_free(pubKey);
+            BIO_vfree(bio);
+            return 0;
+        }
+        int vr = EVP_PKEY_verify(vctx, sfileMsg, sfsize, md5_md,
+            MD5_DIGEST_LENGTH);
+        retval = (vr == 1) ? 1 : 0;
+        EVP_PKEY_CTX_free(vctx);
+#else
         BN_CTX *c = BN_CTX_new();
         if (!c) {
             X509_free(cert);
@@ -678,9 +971,6 @@ int check_validity_of_cert(
         }
 #ifdef HAVE_OPAQUE_RSA_DSA_DH
         RSA *rsa;
-        // CAUTION: In OpenSSL 3.0.0, EVP_PKEY_get0_RSA() now returns a
-        // pointer of type "const struct rsa_st*" to an immutable value.
-        // Do not try to modify the contents of the returned struct.
         rsa = (rsa_st*)EVP_PKEY_get0_RSA(pubKey);
         if (!RSA_blinding_on(rsa, c)) {
 #else
@@ -693,13 +983,16 @@ int check_validity_of_cert(
             return 0;
         }
 #ifdef HAVE_OPAQUE_RSA_DSA_DH
-        retval = RSA_verify(NID_md5, md5_md, MD5_DIGEST_LENGTH, sfileMsg, sfsize, rsa);
+        retval = RSA_verify(NID_md5, md5_md, MD5_DIGEST_LENGTH, sfileMsg,
+            sfsize, rsa);
         RSA_blinding_off(rsa);
 #else
-        retval = RSA_verify(NID_md5, md5_md, MD5_DIGEST_LENGTH, sfileMsg, sfsize, pubKey->pkey.rsa);
+        retval = RSA_verify(NID_md5, md5_md, MD5_DIGEST_LENGTH, sfileMsg,
+            sfsize, pubKey->pkey.rsa);
         RSA_blinding_off(pubKey->pkey.rsa);
 #endif
         BN_CTX_free(c);
+#endif
     }
 #ifdef HAVE_OPAQUE_EVP_PKEY
     if (EVP_PKEY_id(pubKey) == EVP_PKEY_DSA) {
@@ -722,7 +1015,6 @@ char *check_validity(
     const char *certPath, const char *origFile, unsigned char *signature,
     char* caPath
 ) {
-    MD5_CTX md5CTX;
     int rbytes;
     unsigned char md5_md[MD5_DIGEST_LENGTH],  rbuf[2048];
 
@@ -737,11 +1029,38 @@ char *check_validity(
     }
     FILE* of = boinc_fopen(origFile, "r");
     if (!of) return NULL;
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
+    EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
+    if (!mdctx) {
+        fclose(of); return NULL;
+    }
+    unsigned int md_len = 0;
+    if (EVP_DigestInit_ex(mdctx, EVP_md5(), NULL) != 1) {
+        EVP_MD_CTX_free(mdctx);
+        fclose(of);
+        return NULL;
+    }
+    while (0 != (rbytes = (int)fread(rbuf, 1, sizeof(rbuf), of))) {
+        if (EVP_DigestUpdate(mdctx, rbuf, (size_t)rbytes) != 1) {
+            EVP_MD_CTX_free(mdctx);
+            fclose(of);
+            return NULL;
+        }
+    }
+    if (EVP_DigestFinal_ex(mdctx, md5_md, &md_len) != 1) {
+        EVP_MD_CTX_free(mdctx);
+        fclose(of);
+        return NULL;
+    }
+    EVP_MD_CTX_free(mdctx);
+#else
+    MD5_CTX md5CTX;
     MD5_Init(&md5CTX);
     while (0 != (rbytes = (int)fread(rbuf, 1, sizeof(rbuf), of))) {
         MD5_Update(&md5CTX, rbuf, rbytes);
     }
     MD5_Final(md5_md, &md5CTX);
+#endif
     fclose(of);
 
     DIRREF dir = dir_open(certPath);
@@ -749,8 +1068,8 @@ char *check_validity(
     char file[MAXPATHLEN];
     while (!dir_scan(file, dir, sizeof(file))) {
         char fpath[MAXPATHLEN];
-        snprintf(fpath, sizeof(fpath), "%.*s/%.*s", DIR_LEN, certPath, FILE_LEN, file);
-        // TODO : replace '128'
+        snprintf(fpath, sizeof(fpath), "%.*s/%.*s", DIR_LEN, certPath,
+            FILE_LEN, file);
         if (check_validity_of_cert(fpath, md5_md, signature, 128, caPath)) {
             dir_close(dir);
             return strdup(fpath);
@@ -764,7 +1083,6 @@ char *check_validity(
 int cert_verify_file(
     CERT_SIGS* signatures, const char* origFile, const char* trustLocation
 ) {
-    MD5_CTX md5CTX;
     int rbytes;
     unsigned char md5_md[MD5_DIGEST_LENGTH],  rbuf[2048];
     char buf[256];
@@ -788,11 +1106,39 @@ int cert_verify_file(
     if (!is_file(origFile)) return false;
     FILE* of = boinc_fopen(origFile, "r");
     if (!of) return false;
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
+    EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
+    if (!mdctx) {
+        fclose(of);
+        return false;
+    }
+    unsigned int md_len = 0;
+    if (EVP_DigestInit_ex(mdctx, EVP_md5(), NULL) != 1) {
+        EVP_MD_CTX_free(mdctx);
+        fclose(of);
+        return false;
+    }
+    while (0 != (rbytes = (int)fread(rbuf, 1, sizeof(rbuf), of))) {
+        if (EVP_DigestUpdate(mdctx, rbuf, (size_t)rbytes) != 1) {
+            EVP_MD_CTX_free(mdctx);
+            fclose(of);
+            return false;
+        }
+    }
+    if (EVP_DigestFinal_ex(mdctx, md5_md, &md_len) != 1) {
+        EVP_MD_CTX_free(mdctx);
+        fclose(of);
+        return false;
+    }
+    EVP_MD_CTX_free(mdctx);
+#else
+    MD5_CTX md5CTX;
     MD5_Init(&md5CTX);
     while (0 != (rbytes = (int)fread(rbuf, 1, sizeof(rbuf), of))) {
         MD5_Update(&md5CTX, rbuf, rbytes);
     }
     MD5_Final(md5_md, &md5CTX);
+#endif
     fclose(of);
     for(unsigned int i=0;i < signatures->signatures.size(); i++) {
         sig_db.data = (unsigned char*)calloc(128, sizeof(char));
@@ -804,8 +1150,8 @@ int cert_verify_file(
         sscan_hex_data(signatures->signatures.at(i).signature, sig_db);
         file_counter = 0;
         while (1) {
-            snprintf(fbuf, MAXPATHLEN, "%s/%s.%d", trustLocation, signatures->signatures.at(i).hash,
-                file_counter);
+            snprintf(fbuf, MAXPATHLEN, "%s/%s.%d", trustLocation,
+                signatures->signatures.at(i).hash, file_counter);
 #ifndef _USING_FCGI_
             FILE *f = fopen(fbuf, "r");
 #else
@@ -830,18 +1176,22 @@ int cert_verify_file(
             X509_free(cert);
             BIO_vfree(bio);
             if (strcmp(buf, signatures->signatures.at(i).subject)) {
-                printf("Subject does not match ('%s' <-> '%s')\n", buf, signatures->signatures.at(i).subject);
+                printf("Subject does not match ('%s' <-> '%s')\n", buf,
+                    signatures->signatures.at(i).subject);
                 file_counter++;
                 continue;
             }
-            verified = check_validity_of_cert(fbuf, md5_md, sig_db.data, 128, trustLocation);
-            if (verified)
+            verified = check_validity_of_cert(fbuf, md5_md, sig_db.data, 128,
+                trustLocation);
+            if (verified) {
                 break;
+            }
             file_counter++;
         }
         free(sig_db.data);
-        if (!verified)
+        if (!verified) {
             return false;
+        }
     }
     return verified;
 }
