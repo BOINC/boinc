@@ -1225,6 +1225,26 @@ int HOST_INFO::get_virtualbox_version() {
     return 0;
 }
 
+#ifdef __APPLE__
+bool HOST_INFO::is_podman_VM_running() {
+    char cmd[1024], buf[256];
+
+    snprintf(cmd, sizeof(cmd), "%s machine list",
+        docker_cli_prog(PODMAN)
+    );
+    FILE* f = popen(cmd, "r");
+    if (!f) return false;
+    bool isrunning = false;
+    while (fgets(buf, sizeof(buf), f)) {
+        if (strcasestr(buf, "running")) {
+            isrunning = true;
+            break;
+        }
+    }
+    return isrunning;
+}
+#endif
+
 // check if docker/podman is installed and functional on this host.
 // if so, populate docker_version and return true
 //

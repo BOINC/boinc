@@ -1147,20 +1147,21 @@ bool CLIENT_STATE::poll_slow_events() {
 
 #ifdef __APPLE__
     // Mac: if Podman VM initialization is active, see if it's done
-    if (podman_init_pid) {
+    static bool need_podman_check = true;
+    if (need_podman_check && podman_init_pid) {
         int ret, status;
         ret = waitpid(podman_init_pid, &status, WNOHANG);
         if (ret > 0) {
+            need_podman_check = false;
             // process has exited
-            if (status) {
+            if (host_info.is_podman_VM_running()) {
+                msg_printf(NULL, MSG_INFO, "Podman VM initialized");
+            } else {
                 // couldn't init VM; can't use Podman
                 msg_printf(NULL, MSG_INFO,
-                    "Podman VM initialization failed: %d",
-                    status
+                    "Podman VM initialization failed"
                 );
                 gstate.host_info.docker_version[0] = 0;
-            } else {
-                msg_printf(NULL, MSG_INFO, "Podman VM initialized");
             }
             podman_init_pid = 0;
         } else {
