@@ -15,6 +15,10 @@
         "rappture",
         "opencl",
         "ftgl",
-        "freeglut"
+        "freeglut",
+        {
+          "name": "libzip",
+          "default-features": false
+        }
     ]
 }
