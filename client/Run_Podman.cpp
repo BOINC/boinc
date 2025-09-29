@@ -160,8 +160,9 @@ int main(int argc, char *argv[])
         }
         waitpid(pid, &status, WUNTRACED);
     }   // (runWithoutSandbox == false)
-
 #if VERBOSE
+    int myerr = WEXITSTATUS(status);
+    fprintf(stderr, "Run_Podman waitpid returned status %d: %s for cmd %s\n", myerr, strerror(myerr), buf);
     fprintf(debug_file, "\n\n=========================\n\n");
     fflush(debug_file);
     fclose(debug_file);
