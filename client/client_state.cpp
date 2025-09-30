@@ -1145,6 +1145,31 @@ bool CLIENT_STATE::poll_slow_events() {
     active_tasks.get_memory_usage();
     suspend_reason = check_suspend_processing();
 
+#ifdef __APPLE__
+    // Mac: if Podman VM initialization is active, see if it's done
+    static bool need_podman_check = true;
+    if (need_podman_check && podman_init_pid) {
+        int ret, status;
+        ret = waitpid(podman_init_pid, &status, WNOHANG);
+        if (ret > 0) {
+            need_podman_check = false;
+            // process has exited
+            if (host_info.is_podman_VM_running()) {
+                msg_printf(NULL, MSG_INFO, "Podman VM initialized");
+            } else {
+                // couldn't init VM; can't use Podman
+                msg_printf(NULL, MSG_INFO,
+                    "Podman VM initialization failed"
+                );
+                gstate.host_info.docker_version[0] = 0;
+            }
+            podman_init_pid = 0;
+        } else {
+            suspend_reason = SUSPEND_REASON_PODMAN_INIT;
+        }
+    }
+#endif
+
     // suspend or resume activities (but only if already did startup)
     //
     if (tasks_restarted) {

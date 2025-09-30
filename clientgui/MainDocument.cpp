@@ -2605,6 +2605,7 @@ wxString suspend_reason_wxstring(int reason) {
     case SUSPEND_REASON_CPU_USAGE: return _("CPU is busy");
     case SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED: return _("network bandwidth limit exceeded");
     case SUSPEND_REASON_OS: return _("requested by operating system");
+    case SUSPEND_REASON_PODMAN_INIT: return _("Podman initializing");
     }
     return _("unknown reason");
 }
