@@ -40,6 +40,7 @@ env:
   HOMEPAGE: https://boinc.berkeley.edu/
   DESCRIPTION: BOINC lets you help cutting-edge science research using your computer. The BOINC app, running on your computer, downloads scientific computing jobs and runs them invisibly in the background. It's easy and safe.
   BASEREPO: https://boinc.berkeley.edu/dl/linux # no trailing slash
+  AUTOCONF_WITH_VERSION: autoconf-2.70
 
 jobs:
   prepare-binaries:
@@ -59,6 +60,13 @@ jobs:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           fetch-depth: 2
+
+      - name: Cache dependencies
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
+          key: ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
+
       - name: Check if build is running from origin repo
         if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
         run: |
@@ -81,9 +89,11 @@ jobs:
 
       - name: Install updated version of autoconf
         run: |
-          curl https://ftp.gnu.org/gnu/autoconf/autoconf-2.70.tar.gz -o autoconf-2.70.tar.gz
-          tar -xzf autoconf-2.70.tar.gz
-          cd autoconf-2.70
+          if [ ! -f ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz ]; then
+            curl https://ftp.gnu.org/gnu/autoconf/${{ env.AUTOCONF_WITH_VERSION }}.tar.gz -o ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
+          fi
+          tar -xzf ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
+          cd ${{ env.AUTOCONF_WITH_VERSION }}
           ./configure --prefix=/usr
           make -j $(nproc --all)
           make install
