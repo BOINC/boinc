@@ -647,10 +647,17 @@ int get_stats(RSC_USAGE &ru) {
     int retval;
     size_t n;
 
+#ifdef __APPLE__
+    snprintf(cmd, sizeof(cmd),
+        "stats --no-stream  --format \"{{.CPUPerc}}\\ {{.MemUsage}}\" %s",
+        container_name
+    );
+#else
     snprintf(cmd, sizeof(cmd),
         "stats --no-stream  --format \"{{.CPUPerc}} {{.MemUsage}}\" %s",
         container_name
     );
+#endif
     retval = docker_conn.command(cmd, out);
     if (retval) return -1;
     if (out.empty()) return -1;
