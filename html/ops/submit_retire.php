@@ -156,6 +156,13 @@ We suggest that you manually retire batches after downloading needed output file
     }
 }
 
-retire_batches();
-send_retire_emails();
+function main() {
+    echo "-------- Starting at ".time_str(time())."-------\n";
+    retire_batches();
+    send_retire_emails();
+    echo "-------- Done at ".time_str(time())."-------\n";
+}
+
+main();
+
 ?>
