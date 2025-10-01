@@ -311,11 +311,10 @@ function show_aborted($all_batches, $order, $limit, $user, $app) {
 }
 
 // fill in the app and user names in list of batches
-// TODO: speed this up by making list of app and user IDs
-// and doing lookup just once.
 //
 function fill_in_app_and_user_names(&$batches) {
     $apps = [];
+    $users = [];
     foreach ($batches as $batch) {
         if (array_key_exists($batch->app_id, $apps)) {
             $app = $apps[$batch->app_id];
@@ -326,12 +325,18 @@ function fill_in_app_and_user_names(&$batches) {
         if ($app) {
             $batch->app_name = $app->name;
             if ($batch->description) {
-                $batch->app_name .= ": $batch->description";
+                $batch->app_name .= " ($batch->description)";
             }
         } else {
             $batch->app_name = "unknown";
         }
-        $user = BoincUser::lookup_id($batch->user_id);
+
+        if (array_key_exists($batch->user_id, $users)) {
+            $user = $users[$batch->user_id];
+        } else {
+            $user = BoincUser::lookup_id($batch->user_id);
+            $users[$batch->user_id] = $user;
+        }
         if ($user) {
             $batch->user_name = $user->name;
         } else {
@@ -1053,6 +1058,7 @@ function handle_show_all_batches($user) {
         if ($userid != $user->id) error_page("wrong user");
         $batches = BoincBatch::enum("user_id=$user->id and state=$state");
         fill_in_app_and_user_names($batches);
+        $batches = get_batches_params($batches);
         show_batches_in_state($batches, $state, $url_args, $order);
     } else {
         // admin looking at batches
@@ -1068,6 +1074,7 @@ function handle_show_all_batches($user) {
             $batches = BoincBatch::enum("state=$state");
         }
         fill_in_app_and_user_names($batches);
+        $batches = get_batches_params($batches);
         show_batches_in_state($batches, $state, $url_args, $order);
     }
 }
