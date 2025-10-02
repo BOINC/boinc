@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [libs, client, apps, manager, libs-vcpkg, client-vcpkg, apps-vcpkg, libs-cmake, libs-arm64, apps-arm64, libs-vcpkg-arm64, apps-vcpkg-arm64, manager-with-webview-vcpkg, server, manager-with-webview, manager-without-webview, unit-test, integration-test]
+        type: [libs, client, apps, manager, libs-vcpkg, client-vcpkg, apps-vcpkg, libs-cmake, libs-arm64, apps-arm64, libs-vcpkg-arm64, apps-vcpkg-arm64, manager-with-webview-vcpkg, server, manager-with-webview, manager-without-webview, unit-test, integration-test, coverity]
       fail-fast: false
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
@@ -48,17 +48,18 @@ jobs:
           fetch-depth: 2
 
       - name: Install dependencies
+        if: matrix.type != 'coverity' || (github.ref == 'refs/heads/master' && github.event_name == 'schedule')
         run: |
           sudo apt-get -qq update
           sudo apt-get install -y autopoint p7zip-full zip
 
       - name: Install dependencies for x64
-        if: success() && ! endsWith(matrix.type, 'arm64')
+        if: success() && (! endsWith(matrix.type, 'arm64') && (matrix.type != 'coverity' || (github.ref == 'refs/heads/master' && github.event_name == 'schedule')))
         run: |
           sudo apt-get install -y libftgl-dev freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk-3-dev libsecret-1-dev libgcrypt20-dev libsystemd-dev libwebkit2gtk-4.1-dev libxxf86vm-dev ocl-icd-opencl-dev libltdl-dev libzip-dev nlohmann-json3-dev
 
       - name: Install dependencies for manager
-        if: success() && matrix.type == 'manager'
+        if: success() && (matrix.type == 'manager' || (matrix.type == 'coverity' && github.ref == 'refs/heads/master' && github.event_name == 'schedule'))
         run: |
           sudo apt-get install -y libwxgtk3.2-dev libwxgtk-webview3.2-dev
 
@@ -140,7 +141,7 @@ jobs:
           echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
 
       - name: Automake
-        if: success()
+        if: success() && (matrix.type != 'coverity' || (github.ref == 'refs/heads/master' && github.event_name == 'schedule'))
         run: ./_autosetup
 
       - name: Build libs
@@ -275,6 +276,18 @@ jobs:
           ./configure --host=aarch64-linux --with-boinc-platform="aarch64-unknown-linux-gnu" --with-boinc-alt-platform="arm-unknown-linux-gnueabihf" --enable-apps --disable-server --disable-manager --disable-client --disable-shared --enable-static
           make
 
+      - name: Prepare for coverity scan
+        if: success() && matrix.type == 'coverity' && github.ref == 'refs/heads/master' && github.event_name == 'schedule'
+        run: ./configure --enable-client --enable-manager --enable-apps --enable-apps-vbox --enable-apps-gui --enable-server --enable-boinczip
+
+      - name: Coverity Scan
+        if: ${{ success() && matrix.type == 'coverity' && github.ref == 'refs/heads/master' && github.event_name == 'schedule' }}
+        uses: vapier/coverity-scan-action@2068473c7bdf8c2fb984a6a40ae76ee7facd7a85
+        with:
+          project: 'BOINC/boinc'
+          token: ${{ secrets.COVERITY_SCAN_TOKEN }}
+          email: 'lestat.de.lionkur@gmail.com'
+
       - name: Execute unit-test and report coverage
         if: success() && matrix.type == 'unit-test'
         run: ./tests/executeUnitTests.sh --report-coverage --report-xml
@@ -299,12 +312,12 @@ jobs:
           path: deploy/logs.7z
 
       - name: Prepare artifacts for deploy
-        if: success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test')
+        if: success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') && matrix.type != 'coverity'
         run: python ./deploy/prepare_deployment.py linux_${{ matrix.type }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        if: ${{ ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') }}
+        if: ${{ ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') && matrix.type != 'coverity' }}
         with:
           name: linux_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/linux_${{ matrix.type }}.7z
