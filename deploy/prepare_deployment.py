@@ -300,6 +300,9 @@ def prepare_linux_client(target_directory):
 def prepare_linux_client_vcpkg(target_directory):
     prepare_7z_archive('linux_client-vcpkg', target_directory, linux_client_list)
 
+def prepare_linux_client_vcpkg_arm64(target_directory):
+    prepare_7z_archive('linux_client-vcpkg-arm64', target_directory, linux_client_list)
+
 def prepare_linux_apps(target_directory):
     prepare_7z_archive('linux_apps', target_directory, linux_apps_list)
 
@@ -320,6 +323,9 @@ def prepare_linux_manager_with_webview(target_directory):
 
 def prepare_linux_manager_with_webview_vcpkg(target_directory):
     prepare_7z_archive('linux_manager-with-webview-vcpkg', target_directory, linux_manager_list)
+
+def prepare_linux_manager_with_webview_vcpkg_arm64(target_directory):
+    prepare_7z_archive('linux_manager-with-webview-vcpkg-arm64', target_directory, linux_manager_list)
 
 def prepare_linux_manager_without_webview(target_directory):
     prepare_7z_archive('linux_manager-without-webview', target_directory, linux_manager_list)
@@ -358,26 +364,28 @@ def prepare_logs(target_directory):
     prepare_7z_archive('logs', target_directory, logs_list)
 
 boinc_types = {
-    'linux_client': prepare_linux_client,
-    'linux_client-vcpkg': prepare_linux_client_vcpkg,
+    'android_apps': prepare_android_apps,
     'linux_apps': prepare_linux_apps,
     'linux_apps-arm64': prepare_linux_apps_arm64,
-    'linux_apps-vcpkg-arm64': prepare_linux_apps_vcpkg_arm64,
     'linux_apps-vcpkg': prepare_linux_apps_vcpkg,
+    'linux_apps-vcpkg-arm64': prepare_linux_apps_vcpkg_arm64,
+    'linux_client': prepare_linux_client,
+    'linux_client-vcpkg': prepare_linux_client_vcpkg,
+    'linux_client-vcpkg-arm64': prepare_linux_client_vcpkg_arm64,
     'linux_manager': prepare_linux_manager,
     'linux_manager-with-webview': prepare_linux_manager_with_webview,
     'linux_manager-with-webview-vcpkg': prepare_linux_manager_with_webview_vcpkg,
+    'linux_manager-with-webview-vcpkg-arm64': prepare_linux_manager_with_webview_vcpkg_arm64,
     'linux_manager-without-webview': prepare_linux_manager_without_webview,
-    'win_apps-mingw': prepare_win_apps_mingw,
-    'win_apps-mingw-vcpkg': prepare_win_apps_mingw_vcpkg,
-    'android_apps': prepare_android_apps,
-    'win_apps': prepare_win_apps,
-    'win_client': prepare_win_client,
-    'win_manager': prepare_win_manager,
-    'win_installer': prepare_win_installer,
+    'logs': prepare_logs,
     'macos_manager': prepare_macos_apps,
     'macos_samples-makefile': prepare_macos_makefile_apps,
-    'logs': prepare_logs,
+    'win_apps': prepare_win_apps,
+    'win_apps-mingw': prepare_win_apps_mingw,
+    'win_apps-mingw-vcpkg': prepare_win_apps_mingw_vcpkg,
+    'win_client': prepare_win_client,
+    'win_installer': prepare_win_installer,
+    'win_manager': prepare_win_manager,
 }
 
 if (len(sys.argv) != 2):
