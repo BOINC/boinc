@@ -40,7 +40,28 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [libs, client, apps, manager, libs-vcpkg, client-vcpkg, apps-vcpkg, libs-cmake, libs-arm64, apps-arm64, libs-vcpkg-arm64, apps-vcpkg-arm64, manager-with-webview-vcpkg, server, manager-with-webview, manager-without-webview, unit-test, integration-test, coverity]
+        type:
+            - apps
+            - apps-arm64
+            - apps-vcpkg
+            - apps-vcpkg-arm64
+            - client
+            - client-vcpkg
+            - client-vcpkg-arm64
+            - coverity
+            - integration-test
+            - libs
+            - libs-arm64
+            - libs-cmake
+            - libs-vcpkg
+            - libs-vcpkg-arm64
+            - manager
+            - manager-with-webview
+            - manager-with-webview-vcpkg
+            - manager-with-webview-vcpkg-arm64
+            - manager-without-webview
+            - server
+            - unit-test
       fail-fast: false
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
@@ -110,6 +131,13 @@ jobs:
             libssl-dev:arm64 \
             libzip-dev:arm64
 
+      - name: Install dependencies for manager arm64 vcpkg
+        if: success() && matrix.type == 'manager-with-webview-vcpkg-arm64'
+        run: |
+          sudo apt install -y \
+            libltdl-dev:arm64 \
+            python3-jinja2
+
       - name: Install dependencies for unit testing
         if: success() && matrix.type == 'unit-test'
         run: |
@@ -148,55 +176,55 @@ jobs:
         if: success() && matrix.type == 'libs'
         run: |
           ./configure --disable-server --disable-client --disable-manager --enable-boinczip
-          make
+          make -j $(nproc --all)
 
       - name: Build client
         if: success() && matrix.type == 'client'
         run: |
           ./configure --disable-server --enable-client --disable-manager
-          make
+          make -j $(nproc --all)
 
       - name: Build apps
         if: success() && matrix.type == 'apps'
         run: |
           ./configure --enable-apps --enable-apps-vbox --enable-apps-gui --disable-server --disable-client --disable-manager
-          make
+          make -j $(nproc --all)
 
       - name: Build manager
         if: success() && matrix.type == 'manager'
         run: |
           ./configure --disable-server --disable-client --enable-manager
-          make
+          make -j $(nproc --all)
 
       - name: Build libs with vcpkg
         if: success() && matrix.type == 'libs-vcpkg'
         run: |
-          linux/ci_configure_libs.sh
-          make
+          . ./linux/ci_configure_libs.sh
+          make -j $(nproc --all)
 
       - name: Build client with vcpkg
         if: success() && matrix.type == 'client-vcpkg'
         run: |
-          linux/ci_configure_client.sh
-          make
+          . ./linux/ci_configure_client.sh
+          make -j $(nproc --all)
 
       - name: Build apps with vcpkg
         if: success() && matrix.type == 'apps-vcpkg'
         run: |
-          linux/ci_configure_apps.sh
-          make
+          . ./linux/ci_configure_apps.sh
+          make -j $(nproc --all)
 
       - name: Build libs with cmake vcpkg
         if: success() && matrix.type == 'libs-cmake'
         run: |
-          linux/ci_configure_libs_cmake.sh
+          . ./linux/ci_configure_libs_cmake.sh
           cmake --build build
 
       - name: Build manager with webview and vcpkg
         if: success() && matrix.type == 'manager-with-webview-vcpkg'
         run: |
-          linux/ci_configure_manager.sh
-          make
+          . ./linux/ci_configure_manager.sh
+          make -j $(nproc --all)
 
       - name: Build server
         if: success() && matrix.type == 'server'
@@ -209,14 +237,14 @@ jobs:
         run: |
           ./3rdParty/buildLinuxDependencies.sh
           ./configure --disable-server --disable-client --with-wx-prefix=${GITHUB_WORKSPACE}/3rdParty/buildCache/linux
-          make
+          make -j $(nproc --all)
 
       - name: Build manager without webview
         if: success() && matrix.type == 'manager-without-webview'
         run: |
           ./3rdParty/buildLinuxDependencies.sh --disable-webview
           ./configure --disable-server --disable-client --with-wx-prefix=${GITHUB_WORKSPACE}/3rdParty/buildCache/linux
-          make
+          make -j $(nproc --all)
 
       - name: Build server for unit testing
         if: success() && matrix.type == 'unit-test'
@@ -227,26 +255,26 @@ jobs:
       - name: Build libraries for arm64 with vcpkg
         if: success() && matrix.type == 'libs-vcpkg-arm64'
         run: |
-          export CC=aarch64-linux-gnu-gcc
-          export CXX=aarch64-linux-gnu-g++
-          BUILD_DIR="$PWD/3rdParty/linux"
-          VCPKG_ROOT="$BUILD_DIR/vcpkg"
-          export VCPKG_DIR="$VCPKG_ROOT/installed/arm64-linux-release"
-          export CPPFLAGS="-I$VCPKG_DIR/include -I$VCPKG_DIR/include/"
-          ./linux/arm64/ci_configure_libs.sh
-          make
+          . ./linux/arm64/ci_configure_libs.sh
+          make -j $(nproc --all)
 
       - name: Build apps for arm64 with vcpkg
         if: success() && matrix.type == 'apps-vcpkg-arm64'
         run: |
-          export CC=aarch64-linux-gnu-gcc
-          export CXX=aarch64-linux-gnu-g++
-          BUILD_DIR="$PWD/3rdParty/linux"
-          VCPKG_ROOT="$BUILD_DIR/vcpkg"
-          export VCPKG_DIR="$VCPKG_ROOT/installed/arm64-linux-release"
-          export CPPFLAGS="-I$VCPKG_DIR/include -I$VCPKG_DIR/include/"
-          ./linux/arm64/ci_configure_apps.sh
-          make
+          . ./linux/arm64/ci_configure_apps.sh
+          make -j $(nproc --all)
+
+      - name: Build client for arm64 with vcpkg
+        if: success() && matrix.type == 'client-vcpkg-arm64'
+        run: |
+          . ./linux/arm64/ci_configure_client.sh
+          make -j $(nproc --all)
+
+      - name: Build manager with webview for arm64 with vcpkg
+        if: success() && matrix.type == 'manager-with-webview-vcpkg-arm64'
+        run: |
+          . ./linux/arm64/ci_configure_manager.sh
+          make -j $(nproc --all)
 
       - name: Build libraries for arm64
         if: success() && matrix.type == 'libs-arm64'
@@ -260,7 +288,7 @@ jobs:
           export RELEASE_ARCH=arm64
           export PKG_CONFIG_LIBDIR=/usr/lib/aarch64-linux-gnu/pkgconfig:/usr/share/pkgconfig
           ./configure --host=aarch64-linux --with-boinc-platform="aarch64-unknown-linux-gnu" --with-boinc-alt-platform="arm-unknown-linux-gnueabihf" --enable-boinczip --disable-server --disable-manager --disable-client --disable-shared --enable-static
-          make
+          make -j $(nproc --all)
 
       - name: Build apps for arm64
         if: success() && matrix.type == 'apps-arm64'
@@ -274,7 +302,7 @@ jobs:
           export RELEASE_ARCH=arm64
           export PKG_CONFIG_LIBDIR=/usr/lib/aarch64-linux-gnu/pkgconfig:/usr/share/pkgconfig
           ./configure --host=aarch64-linux --with-boinc-platform="aarch64-unknown-linux-gnu" --with-boinc-alt-platform="arm-unknown-linux-gnueabihf" --enable-apps --disable-server --disable-manager --disable-client --disable-shared --enable-static
-          make
+          make -j $(nproc --all)
 
       - name: Prepare for coverity scan
         if: success() && matrix.type == 'coverity' && github.ref == 'refs/heads/master' && github.event_name == 'schedule'
@@ -392,7 +420,7 @@ jobs:
           export LDFLAGS="-static-libstdc++ -s"
           export RELEASE_ARCH=x86_64
           ./configure --enable-apps --enable-apps-vbox --disable-server --disable-client --disable-manager --disable-shared --enable-static
-          make
+          make -j $(nproc --all)
 
       - name: Make x86 apps
         if: success() && matrix.type == 'apps-x86'
@@ -402,7 +430,7 @@ jobs:
           export LDFLAGS="-static-libstdc++ -s -m32"
           export RELEASE_ARCH=i686
           ./configure --host=i686-linux-gnu --enable-apps --enable-apps-vbox --disable-server --disable-client --disable-manager --disable-shared --enable-static
-          make
+          make -j $(nproc --all)
 
       - name: Make arm64 apps
         if: success() && matrix.type == 'apps-arm64'
@@ -416,7 +444,7 @@ jobs:
           export RELEASE_ARCH=arm64
           export PKG_CONFIG_LIBDIR=/usr/lib/aarch64-linux-gnu/pkgconfig:/usr/share/pkgconfig
           ./configure --host=aarch64-linux --with-boinc-platform="aarch64-unknown-linux-gnu" --with-boinc-alt-platform="arm-unknown-linux-gnueabihf" --enable-apps --disable-server --disable-manager --disable-client --disable-shared --enable-static
-          make
+          make -j $(nproc --all)
 
       - name: Prepare logs on failure
         if: ${{ failure() }}

@@ -100,7 +100,6 @@ jobs:
         os: [fc37, fc38, fc39, fc40, fc41, fc42, suse15_4, suse15_5, suse15_6]
       fail-fast: false
     env:
-      ARCH: x86_64
       PUBKEY_HASH: D4460B4F0EEDE2C0662092F640254C9B29853EA6
     steps:
       - name: Check if build is running from origin repo
@@ -148,7 +147,7 @@ jobs:
 
             cd .github/workflows/rpmrepo/
             # Updates or creates the repository
-            ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${CWD} ${{ matrix.os }} "stable" ${{ env.PUBKEY }} ${{ env.PUBKEY_HASH }} ${{ env.ARCH }}
+            ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${CWD} ${{ matrix.os }} "stable" ${{ env.PUBKEY }} ${{ env.PUBKEY_HASH }}
 
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: ${{ success() && env.SKIP_RUN == 0 }}
