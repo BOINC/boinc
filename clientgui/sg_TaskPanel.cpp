@@ -764,6 +764,10 @@ void CSimpleTaskPanel::ReskinInterface() {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleTaskPanel::ReskinInterface - Function Begin"));
     CSimplePanelBase::ReskinInterface();
     m_SlideShowArea->AdvanceSlideShow(false, false);
+#ifdef __WXMAC__
+    m_TaskSelectionCtrl->Show();
+    m_myTasksLabel->Show();
+#endif
     UpdateTaskSelectionList(true);
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleTaskPanel::ReskinInterface - Function Begin"));
 }

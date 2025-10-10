@@ -1,5 +1,5 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
+// https://boinc.berkeley.edu
 // Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
@@ -244,3 +244,49 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
     wxGetApp().GetFrame()->GetEventHandler()->AddPendingEvent(evt);
     return noErr;
 }
+
+#include "wx/osx/private.h"
+#include "MacBitmapComboBox.h"
+
+void CBOINCBitmapChoice::SetItemBitmap(unsigned int index, const wxBitmap& bitmap) {
+    int x, y, topx, topy, h, w;
+    if (!bitmap.IsOk()) return;
+    // Get the center of this contol within our window
+    GetScreenPosition(&x, &y);
+    GetSize(&w, &h);
+    wxWindow *top = wxApp::GetMainTopWindow();
+    top->GetScreenPosition(&topx, &topy);
+    x = x-topx+w/2;
+    y = y-topy+h/2;
+
+    // Find the NSPopupButton control used by wxChoice
+    // using its position within our window.
+    NSWindow *window;
+    NSPoint pointInWindow;
+    NSArray<NSWindow *> *appWindows = [NSApp windows];
+    int n = [appWindows count];
+    for (int i=0; i<n; ++i) {
+        window = [appWindows objectAtIndex:i];
+        if ([window isMainWindow]) break;
+    }
+    if (![window isMainWindow]) return;
+
+    // Convert wxWidgets coordinates to MacOS coordinates.
+    float wh = [window frame].size.height;
+    pointInWindow.x = (float)x;
+    pointInWindow.y = wh-(float)y;
+
+    NSView *hitView = [[window contentView] hitTest:pointInWindow];
+    if (! [hitView isKindOfClass:[NSPopUpButton class]]) {
+        return;
+    }
+    // 'hitView' is the NSPopupButton control. Set the bitmap
+    //  for themenu item # index in the NSPopupButton's menu.
+    NSPopUpButton *foundButton = (NSPopUpButton *)hitView;
+    NSMenu *nsmenu = ((NSMenu*)[foundButton menu]);
+    if (index >= [ nsmenu numberOfItems ]) return;
+    NSMenuItem * item = [ nsmenu itemAtIndex:index ];
+    NSImage *nsImage = bitmap.GetNSImage();
+    [item setImage:nsImage];
+ }
+

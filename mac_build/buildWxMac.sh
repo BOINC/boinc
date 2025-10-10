@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -18,7 +18,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build the wxMac-3.1.6 wxCocoa library for BOINC
+# Script to build the wxMac-3.3.1 wxCocoa library for BOINC
 #
 # by Charlie Fenton    7/21/06
 # Updated for wx-Mac 2.8.10 and Unicode 4/17/09
@@ -45,12 +45,13 @@
 # Updated 10/18/21 to add -Werror=unguarded-availability compiler flag
 # Updated 2/6/23 changed MACOSX_DEPLOYMENT_TARGET to 10.13
 # Updated 4/6/23 for wxCocoa 3.1.6 and for args now accepted by patch utility
-# Updated 5/6/23/23 for wxCocoa 3.2.2.1
+# Updated 5/6/23 for wxCocoa 3.2.2.1
+# Updated 10/91/25 for wxCocoa 3.3.1
 #
 ## This script requires OS 10.6 or later
 ##
-## In Terminal, CD to the wxWidgets-3.1.6 directory.
-##    cd [path]/wxWidgets-3.1.6/
+## In Terminal, CD to the wxWidgets-3.3.1 directory.
+##    cd [path]/wxWidgets-3.3.1/
 ## then run this script:
 ##    source [ path_to_this_script ] [ -clean ] [ -nodebug ] [--prefix PATH]
 ##
@@ -75,121 +76,6 @@ if [ "$?" -eq "0" ]; then
 fi
 
 echo ""
-
-## Add our custom method SetItemBitmap(unsigned int n, const wxBitmap& bitmap)
-## to wxChoice. We use this to create our own custom CBOINCBitmapComboBox
-## which uses native Mac controls instead of wxBitmapComboBox which does not.
-## By using only native Mac controls in BOINC SImple View, MacOS will provide
-## accessibility support automatically.
-##
-## We patch 4 files to accomplish this.
-##
-# Patch wxWidgets-3.1.6/include/wx/osx/choice.h
-if [ ! -f include/wx/osx/choice.h.orig ]; then
-    cat >> /tmp/choice_h_diff << ENDOFFILE
---- include/wx/osx/choice.h
-+++ include/wx/osx/choice_patched.h
-@@ -73,6 +73,7 @@
-     virtual int FindString(const wxString& s, bool bCase = false) const wxOVERRIDE;
-     virtual wxString GetString(unsigned int n) const wxOVERRIDE;
-     virtual void SetString(unsigned int pos, const wxString& s) wxOVERRIDE;
-+    void SetItemBitmap(unsigned int n, const wxBitmap& bitmap);
-     // osx specific event handling common for all osx-ports
-
-     virtual bool OSXHandleClicked(double timestampsec) wxOVERRIDE;
-ENDOFFILE
-    patch -b -f -i /tmp/choice_h_diff include/wx/osx/choice.h
-    rm -f /tmp/choice_h_diff
-else
-    echo "include/wx/osx/choice.h already patched"
-fi
-
-echo ""
-
-# Patch wxWidgets-3.1.6/src/osx/choice_osx.cpp
-if [ ! -f src/osx/choice_osx.cpp.orig ]; then
-    cat >> /tmp/choice_osx_cpp_diff << ENDOFFILE
---- src/osx/choice_osx.cpp    2021-04-12 15:23:58.000000000 -0700
-+++ src/osx/choice_osx_patched.cpp    2021-09-30 00:26:06.000000000 -0700
-@@ -217,6 +217,13 @@
-     return m_strings[n] ;
- }
-
-+void wxChoice::SetItemBitmap(unsigned int n, const wxBitmap& bitmap)
-+{
-+    wxCHECK_RET( IsValid(n), wxT("wxChoice::SetItemBitmap(): invalid index") );
-+
-+    dynamic_cast<wxChoiceWidgetImpl*>(GetPeer())->SetItemBitmap(n, bitmap);
-+}
-+
- // ----------------------------------------------------------------------------
- // client data
- // ----------------------------------------------------------------------------
-ENDOFFILE
-    patch -b -f -i /tmp/choice_osx_cpp_diff src/osx/choice_osx.cpp
-    rm -f /tmp/choice_osx_cpp_diff
-else
-    echo "src/osx/choice_osx.cpp already patched"
-fi
-
-echo ""
-
-# Patch wxWidgets-3.1.6/include/wx/osx/core/private.h
-if [ ! -f include/wx/osx/core/private.h.orig ]; then
-    cat >> /tmp/private_h_cpp_diff << ENDOFFILE
---- include/wx/osx/core/private.h    2021-04-12 15:23:58.000000000 -0700
-+++ include/wx/osx/core/private_patched.h    2021-09-30 01:11:28.000000000 -0700
-@@ -821,6 +821,8 @@
-     }
-
-     virtual void SetItem(int pos, const wxString& item) = 0;
-+
-+    virtual void SetItemBitmap(unsigned int n, const wxBitmap& bitmap) = 0;
- };
-
-
-ENDOFFILE
-    patch -b -f -i /tmp/private_h_cpp_diff include/wx/osx/core/private.h
-    rm -f /tmp/private_h_cpp_diff
-else
-    echo "include/wx/osx/core/private.h already patched"
-fi
-
-echo ""
-
-# Patch wxWidgets-3.1.6/src/osx/cocoa/choice.mm
-if [ ! -f src/osx/cocoa/choice.mm.orig ]; then
-    cat >> /tmp/choice_mm_diff << ENDOFFILE
---- src/osx/cocoa/choice.mm    2021-09-28 22:52:32.000000000 -0700
-+++ src/osx/cocoa/choice_patched.mm    2021-09-30 01:08:32.000000000 -0700
-@@ -93,6 +93,15 @@
-         m_popUpMenu->FindItemByPosition( pos )->SetItemLabel( s ) ;
-     }
-
-+    void SetItemBitmap(unsigned int n, const wxBitmap& bitmap) wxOVERRIDE
-+    {
-+        if ( bitmap.Ok() ) {
-+            wxMenuItem *item = m_popUpMenu->FindItemByPosition( n );
-+            item->SetBitmap( bitmap );
-+            item->UpdateItemBitmap();
-+        }
-+    }
-+
- private:
-     wxMenu* m_popUpMenu;
- };
-ENDOFFILE
-    patch -b -f -i /tmp/choice_mm_diff src/osx/cocoa/choice.mm
-    rm -f /tmp/choice_mm_diff
-else
-    echo "src/osx/cocoa/choice.mm already patched"
-fi
-
-echo ""
-
-##***********************************************************
-##*************** End of patches section ********************
-##***********************************************************
 
 doclean=""
 stdout_target="/dev/stdout"
