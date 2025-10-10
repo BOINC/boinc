@@ -100,16 +100,16 @@ while [[ $# -gt 0 ]]; do
         shift
         ;;
         -q|--quiet)
-        stdout_target="/dev/null"
+## TEMPORARY FOR DEBUGGING        stdout_target="/dev/null"
         ;;
     esac
     shift # past argument or value
 done
 
-XCPRETTYPATH=`xcrun -find xcpretty 2>/dev/null`
-if [ $? -eq 0 ]; then
-    beautifier="xcpretty"
-fi
+## TEMPORARY FOR DEBUGGINGXCPRETTYPATH=`xcrun -find xcpretty 2>/dev/null`
+## TEMPORARY FOR DEBUGGINGif [ $? -eq 0 ]; then
+## TEMPORARY FOR DEBUGGING    beautifier="xcpretty"
+## TEMPORARY FOR DEBUGGINGfi
 
 retval=0
 alreadyBuilt=0
