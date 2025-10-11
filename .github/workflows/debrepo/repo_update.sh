@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2024 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -144,42 +144,26 @@ if [[ "$IS_MIRROR" -eq "0" ]]; then
 
 	# keep only 3 last versions of each package before adding new ones
 	packets=$(aptly -config=$CONF_FILE repo search boinc-$TYPE | grep -o '[^[:space:]]*_\([[:digit:]]*\.\)\{2\}[[:digit:]]*-\([[:digit:]]*_\)[^[:space:]]*' | sort -t '_' -k 2 -V | uniq)
-	declare -A split_lists
-	packets_list=()
-	while IFS= read -r line; do
-		packets_list+=("$line")
-	done <<< "$packets"
-	for item in "${packets_list[@]}"; do
-		prefix="${item%%_*}"     # Extract the prefix (text before the first underscore)
-		split_lists["$prefix"]+="$item"$'\n'  # Append the item to the corresponding prefix's list
-	done
-
-	for prefix in "${!split_lists[@]}"; do
-		echo "List for prefix: $prefix"
-		echo "${split_lists[$prefix]}"
-		count=$(echo "${split_lists[$prefix]}" | wc -l)
-		number=$(expr $count - 1)
-		echo "count=$number"
-		i=0
-		exceed=$(expr $number - 3)
-		echo "exceed=$exceed"
-		if (( exceed > 0)); then
-			values_list=()
-			while IFS= read -r line; do
-				values_list+=("$line")
-			done <<< "${split_lists[$prefix]}"
-			for value in "${values_list[@]}"; do
-				if (( i < exceed )); then
-					echo "Remove: $value"
-					i=$((i+1))
-					aptly -config=$CONF_FILE repo remove boinc-$TYPE $value
+    prefixes=$(echo "$packets"| cut -d '_' -f 1 | sort -n | uniq)
+    suffixes=$(echo "$packets"| cut -d '_' -f 3- | sort -V | uniq)
+    for prefix in $prefixes; do
+        echo $prefix
+        for suffix in $suffixes; do
+            echo "  $suffix"
+            matched_packets=$(echo "$packets" | grep "^${prefix}_.*_${suffix}$")
+            count=$(echo "$matched_packets" | wc -l)
+            echo "    count: $count"
+            exceed=$(expr $count - 3)
+            echo "    exceed: $exceed"
+            if (( exceed > 0 )); then
+                echo "$matched_packets" | head -n $exceed | while IFS= read -r packet; do
+                    echo "      Remove: $packet"
+					aptly -config=$CONF_FILE repo remove boinc-$TYPE $packet
 					exit_on_fail "Failed to remove the package"
-				else
-					break
-				fi
-			done
-		fi
-	done
+                done
+            fi
+        done
+    done
 
 	# creates the snapshot of the old situation
 	aptly -config=$CONF_FILE snapshot create old-boinc-$TYPE-snap from repo boinc-$TYPE
@@ -191,30 +175,21 @@ fi
 
 if [[ "$TYPE" == "stable" ]]; then
 	# get only one latest packages of each type from the alpha repo
-	alpha_packets=$(aptly -config=$CONF_FILE mirror search boinc-alpha-mirror | grep -o '[^[:space:]]*_\([[:digit:]]*\.\)\{2\}[[:digit:]]*-\([[:digit:]]*_\)[^[:space:]]*' | sort -t '_' -k 2 -V -r | uniq)
-	declare -A alpha_split_lists
-	alpha_packets_list=()
-	while IFS= read -r line; do
-		alpha_packets_list+=("$line")
-	done <<< "$alpha_packets"
-	for item in "${alpha_packets_list[@]}"; do
-		prefix="${item%%_*}"     # Extract the prefix (text before the first underscore)
-		alpha_split_lists["$prefix"]+="$item"$'\n'  # Append the item to the corresponding prefix's list
-	done
-	for prefix in "${!alpha_split_lists[@]}"; do
-		echo "List for prefix: $prefix"
-		echo "${alpha_split_lists[$prefix]}"
-		alpha_values_list=()
-		while IFS= read -r line; do
-			alpha_values_list+=("$line")
-		done <<< "${alpha_split_lists[$prefix]}"
-		for value in "${alpha_values_list[@]}"; do
-			# copy the latest package to the local repo
-			echo "Adding: $value"
-			aptly -config=$CONF_FILE repo import boinc-alpha-mirror boinc-$TYPE $value
-			break
-		done
-	done
+	packets=$(aptly -config=$CONF_FILE mirror search boinc-alpha-mirror | grep -o '[^[:space:]]*_\([[:digit:]]*\.\)\{2\}[[:digit:]]*-\([[:digit:]]*_\)[^[:space:]]*' | sort -t '_' -k 2 -V -r | uniq)
+    prefixes=$(echo "$packets"| cut -d '_' -f 1 | sort -n | uniq)
+    suffixes=$(echo "$packets"| cut -d '_' -f 3- | sort -V | uniq)
+    for prefix in $prefixes; do
+        echo $prefix
+        for suffix in $suffixes; do
+            echo "  $suffix"
+            matched_packets=$(echo "$packets" | grep "^${prefix}_.*_${suffix}$")
+            echo "$matched_packets" | tail -n 1 | while IFS= read -r packet; do
+                echo "      Adding: $packet"
+                aptly -config=$CONF_FILE repo remove boinc-$TYPE $packet
+                exit_on_fail "Failed to remove the package"
+                done
+        done
+    done
 else
 	# imports into the repo the new packages
 	aptly -config=$CONF_FILE repo add boinc-$TYPE $SRC/*.deb

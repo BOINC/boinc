@@ -26,6 +26,8 @@
         {
           "name": "libzip",
           "default-features": false
-        }
+        },
+        "libnotify",
+        "xcb-util"
     ]
 }

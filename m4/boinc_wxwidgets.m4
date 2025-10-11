@@ -9,6 +9,11 @@ AC_DEFUN([BOINC_OPTIONS_WXWIDGETS],[
      [])
 
    WX_CONFIG_OPTIONS
+dnl When building with '--with-wxwidgets=PATH', skip checking for cross-compile
+   cross_compiling_orig=$cross_compiling
+   if test "x$wx_config_name" != x ; then
+     cross_compiling=no
+   fi
      WX_CONFIG_CHECK([$1],
        [_ac_cv_have_wxwidgets=yes],
        [AC_MSG_ERROR([No suitable wxWidgets library found.])],
@@ -91,4 +96,5 @@ WARNING: No ${uprf} libraries for wxWidgets are installed.
    AC_SUBST([GTK_CFLAGS])
    AC_SUBST([GTK_LIBS])
    AC_MSG_RESULT([$gtkver])
+   cross_compiling=$cross_compiling_orig
 ])
