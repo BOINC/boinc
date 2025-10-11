@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -60,7 +60,6 @@
 #define __WXMAC_XCODE__ 1
 #define SCI_LEXER
 #define WX_PRECOMP 1
-#define wxUSE_UNICODE_UTF8 1
 
 #define TARGET_COCOA 1
 #define wxUSE_UNICODE 1

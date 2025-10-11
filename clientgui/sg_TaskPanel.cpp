@@ -449,7 +449,6 @@ CSimpleTaskPanel::CSimpleTaskPanel() {
 CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     CSimplePanelBase( parent )
 {
-    wxSize sz;
     int w, h;
     wxString str = wxEmptyString;
 
