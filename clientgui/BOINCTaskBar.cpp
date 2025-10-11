@@ -467,7 +467,7 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& )
     }
 
     unsigned char* iconBuffer = macIcon.GetData();
-    
+
     wxImage mac_badge_mask = wxImage(macbadgemask);
     unsigned char* maskBuffer = mac_badge_mask.GetData();
     h = macIcon.GetHeight();
