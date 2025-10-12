@@ -284,9 +284,7 @@
         <name>x86_64-pc-linux-gnu[native_mt]</name>
         <name>x86_64-pc-linux-gnu[vbox64_mt_mcore_atlas]</name>
         <name>x86_64-apple-darwin[vbox64_mt_mcore_atlas]</name>
-        <name>windows_intelx86</name>
         <name>windows_x86_64</name>
-        <name>i686-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/lhc.jpg</image>
