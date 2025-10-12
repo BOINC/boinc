@@ -281,7 +281,7 @@ void CBOINCBitmapChoice::SetItemBitmap(unsigned int index, const wxBitmap& bitma
         return;
     }
     // 'hitView' is the NSPopupButton control. Set the bitmap
-    //  for themenu item # index in the NSPopupButton's menu.
+    //  for menu item # index in the NSPopupButton's menu.
     NSPopUpButton *foundButton = (NSPopUpButton *)hitView;
     NSMenu *nsmenu = ((NSMenu*)[foundButton menu]);
     if (index >= [ nsmenu numberOfItems ]) return;
