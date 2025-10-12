@@ -601,6 +601,14 @@ bool PLAN_CLASS_SPEC::check(
                 add_no_work_message("Docker not present");
                 return false;
             }
+            if (strstr(sreq.host.os_name, "Darwin")) {
+                if (sreq.core_client_version < 80206) {
+                    add_no_work_message(
+                        "Docker jobs need 8.2.6+ client"
+                    );
+                    return false;
+                }
+            }
         }
     }
 
