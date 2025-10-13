@@ -427,6 +427,13 @@ function handle_update_only_own($user) {
         return;
     }
     $val = get_int('only_own');
+    if ($val) {
+        if (BoincHost::count("userid=$user->id") == 0) {
+            error_page(
+                "You don't have any computers running BOINC and attached to this project."
+            );
+        }
+    }
     $user->update("seti_id=$val");
     header("Location: submit.php");
 }
@@ -662,7 +669,9 @@ function handle_query_batch($user) {
         row2('description', $batch->description);
     }
     if ($owner) {
-        row2('submitter', $owner->name);
+        row2('submitter',
+            "<a href=show_user.php?userid=$owner->id>$owner->name</a>"
+        );
     }
     row2("application", $app?$app->name:'---');
     row2("state", batch_state_string($batch->state));
