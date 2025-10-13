@@ -21,7 +21,7 @@
 #define BOINC_RELEASE 0
 
 // wrapper version number
-#define WRAPPER_RELEASE 26018
+#define WRAPPER_RELEASE 26019
 
 // vboxwrapper version number
 #define VBOXWRAPPER_RELEASE 26211
