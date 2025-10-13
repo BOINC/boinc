@@ -5161,6 +5161,7 @@
 		DD9843E209920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				INFOPLIST_FILE = "BoincCmd-Info.plist";
 				OTHER_LDFLAGS = "-lboinc";
@@ -5366,6 +5367,7 @@
 		DD9E2376091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				INFOPLIST_FILE = "BoincCmd-Info.plist";
 				OTHER_LDFLAGS = "-lboinc";
