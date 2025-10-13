@@ -17,10 +17,10 @@
 \f1\b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 \cf0 Written by Charlie Fenton\
-Last updated 10/11/2025\
+Last updated 10/12/2025\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 \
-This document applies to BOINC version 8.3.0 and later. It has instructions for building the BOINC Client, Manager, installer and associated software for the Macintosh. Information for building science project applications to run under BOINC on Macintosh can be found {\field{\*\fldinst{HYPERLINK "https://github.com/BOINC/boinc/wiki/BuildMacApp"}}{\fldrslt \cf2 here}} and {\field{\*\fldinst{HYPERLINK "https://github.com/BOINC/boinc/wiki/ProjectMain"}}{\fldrslt here}}.\
+This document applies to BOINC version 8.2.6 and later. It has instructions for building the BOINC Client, Manager, installer and associated software for the Macintosh. Information for building science project applications to run under BOINC on Macintosh can be found {\field{\*\fldinst{HYPERLINK "https://github.com/BOINC/boinc/wiki/BuildMacApp"}}{\fldrslt \cf2 here}} and {\field{\*\fldinst{HYPERLINK "https://github.com/BOINC/boinc/wiki/ProjectMain"}}{\fldrslt here}}.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 
@@ -100,7 +100,7 @@ Source files are now archived using git. For details, see:\
 \pard\tx960\tx1920\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600\tx10560\tx11520\tx12480\tx13440\tx14400\tx15360\tx16320\tx17280\tx18240\tx19200\tx20160\tx21120\tx22080\tx23040\tx24000\tx24960\tx25920\tx26880\tx27840\tx28800\tx29760\tx30720\tx31680\tx32640\tx33600\tx34560\tx35520\tx36480\tx37440\tx38400\tx39360\tx40320\tx41280\tx42240\tx43200\tx44160\tx45120\tx46080\tx47040\tx48000\tx48960\tx49920\tx50880\tx51840\tx52800\tx53760\tx54720\tx55680\tx56640\tx57600\tx58560\tx59520\tx60480\tx61440\tx62400\tx63360\tx64320\tx65280\tx66240\tx67200\tx68160\tx69120\tx70080\tx71040\tx72000\tx72960\tx73920\tx74880\tx75840\tx76800\tx77760\tx78720\tx79680\tx80640\tx81600\tx82560\tx83520\tx84480\tx85440\tx86400\tx87360\tx88320\tx89280\tx90240\tx91200\tx92160\tx93120\tx94080\tx95040\tx96000\pardirnatural\partightenfactor0
 \cf0 \CocoaLigature0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-\cf0 \CocoaLigature1 BOINC depends on six third-party libraries: wxWidgets, c-ares, curl, openssl, freetype and ftgl. Different versions of BOINC require different versions of these libraries; any one version of BOINC will build with only one specific version of each library. For BOINC versions prior to 8.3.0, see 
+\cf0 \CocoaLigature1 BOINC depends on six third-party libraries: wxWidgets, c-ares, curl, openssl, freetype and ftgl. Different versions of BOINC require different versions of these libraries; any one version of BOINC will build with only one specific version of each library. For BOINC versions prior to 8.2.6, see 
 \f2\fs26 mac_build/HowToBuildBOINC.rtf
 \f1\fs24  in the source tree for that version of BOINC for the library versions needed and how to download them. \
 \
@@ -281,14 +281,12 @@ You should not need to build these three targets:\
 \
 	-uc2		Build the UpperCase2 samples: UC2-x86_64, UC2Gfx-x86_64 and slide_show-x86_64.\
 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
-\cf0 	-vboxwrapper  Build the VBoxWrapper target (used only for project applications.)\
+	-vboxwrapper  Build the VBoxWrapper target (used only for project applications.)\
 \
  	-docker_wrapper  Build the Docker Wrapper target (used only for project applications.)\
 \
  Both -lib and -client may be specified to build seven targets (no BOINC Manager or screensaver.)\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
-\cf0 \
+\
 The following arguments are used mainly for building the daily test builds and are not likely to be useful to you:\
 	-target targetName 	Build 
 \f5\i only
@@ -411,15 +409,15 @@ source mac_installer/release_boinc.sh x y z\
 
 \f1\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
-\cf0 Substitute the 3 parts of the BOINC version number for x y and z in the above. For example, to build the installer for BOINC version 8.3.0, the command would be\
+\cf0 Substitute the 3 parts of the BOINC version number for x y and z in the above. For example, to build the installer for BOINC version 8.2.6, the command would be\
 \pard\pardeftab720\partightenfactor0
 
-\f2\fs26 \cf0 source mac_installer/release_boinc.sh 8 3 0\
+\f2\fs26 \cf0 source mac_installer/release_boinc.sh 8 2 6\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 
-\f1\fs24 \cf0 This will create a directory "BOINC_Installer/New_Release_8_3_0" in the BOINC_dev directory, and the installer will be located in the directory: 
+\f1\fs24 \cf0 This will create a directory "BOINC_Installer/New_Release_8_2_6" in the BOINC_dev directory, and the installer will be located in the directory: 
 \f5\i "\{path\}
-\f1\i0 /BOINC_dev/BOINC_Installer/New_Release_8_3_0/boinc_8.3.0_macOSX_universal/"\
+\f1\i0 /BOINC_dev/BOINC_Installer/New_Release_8_2_6/boinc_8.2.6_macOSX_universal/"\
 \
 The installer script uses the deployment (release) build of BOINC; it won't work with a development (debug) build.\
 You can find the current version number in the file 
