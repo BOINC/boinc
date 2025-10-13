@@ -144,7 +144,12 @@ function handle_edit_form() {
         '', 'manage_apps', $apps, $manage, "id=manage_apps"
     );
     form_input_text('Quota', 'quota', $usub->quota);
-    form_input_text('Max jobs in progress', 'max_jobs_in_progress', $usub->max_jobs_in_progress);
+    form_input_text('Max jobs in progress',
+        'max_jobs_in_progress', $usub->max_jobs_in_progress
+    );
+    form_general('Run jobs only on own computers?',
+        $user->seti_id?'yes':'no'
+    );
     form_submit('Update');
     form_end();
 
