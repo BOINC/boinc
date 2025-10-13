@@ -308,6 +308,7 @@ function handle_submit($user) {
     $batch_desc = parse_batch_dir($batch_dir, $app_desc);
 
     if (!$batch_desc->jobs) {
+        system("rm -rf $batch_dir");
         page_head("No jobs created");
         echo "
             Your batch file (.zip) did not specify any jobs.
@@ -315,6 +316,12 @@ function handle_submit($user) {
         ";
         page_tail();
         return;
+    }
+    if (count($batch_desc->jobs > 10 && $user->seti_id) {
+        system("rm -rf $batch_dir");
+        error_page(
+            "Batches with > 10 jobs are not allowed if 'use only my computers' is set"
+        );
     }
 
     $batch = create_batch($user, count($batch_desc->jobs), $app);
@@ -341,7 +348,7 @@ function handle_submit($user) {
 
     // clean up batch dir
     //
-    //system("rm -rf $batch_dir");
+    system("rm -rf $batch_dir");
 
     header("Location: submit.php?action=query_batch&batch_id=$batch->id");
 }
