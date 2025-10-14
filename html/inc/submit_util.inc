@@ -347,7 +347,6 @@ function abort_batch($batch) {
 // Use ops/delete_batches.php to delete retired batches with no WUs
 //
 function retire_batch($batch) {
-    $batch->update("state=".BATCH_STATE_RETIRED);
     system("rm -rf ../../results/$batch->id");
 
     // get list of unsent WUs in this batch
@@ -357,9 +356,11 @@ function retire_batch($batch) {
         "batch = $batch->id"
     );
     get_batch_params($batch, $wus);
+    $batch->update("state=".BATCH_STATE_RETIRED);
+        // do this AFTER get_batch_params()
     $wu_ids = [];
     foreach ($wus as $wu) {
-        if ($wu->state == WU_STATE_UNSENT) {
+        if ($wu->status == WU_UNSENT) {
             $wu_ids[] = $wu->id;
         }
     }
