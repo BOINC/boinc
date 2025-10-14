@@ -317,7 +317,7 @@ function handle_submit($user) {
         page_tail();
         return;
     }
-    if (count($batch_desc->jobs > 10 && $user->seti_id) {
+    if (count($batch_desc->jobs) > 10 && $user->seti_id) {
         system("rm -rf $batch_dir");
         error_page(
             "Batches with > 10 jobs are not allowed if 'use only my computers' is set"
