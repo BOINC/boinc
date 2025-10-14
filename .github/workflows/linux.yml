@@ -136,6 +136,8 @@ jobs:
         run: |
           sudo apt install -y \
             libltdl-dev:arm64 \
+            libxi-dev:arm64 \
+            libxtst-dev:arm64 \
             python3-jinja2
 
       - name: Install dependencies for unit testing
