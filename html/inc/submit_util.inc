@@ -359,7 +359,7 @@ function retire_batch($batch) {
     get_batch_params($batch, $wus);
     $wu_ids = [];
     foreach ($wus as $wu) {
-        if ($wu->state == WU_STATE_UNSENT) {
+        if ($wu->status == WU_UNSENT) {
             $wu_ids[] = $wu->id;
         }
     }
