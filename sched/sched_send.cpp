@@ -1717,6 +1717,13 @@ void send_work() {
         }
     }
 
+    // if user is job submitter and has 'only run jobs on my computers' set,
+    // send them only their own jobs
+    //
+    if (g_reply->user.seti_id) {
+        goto done;
+    }
+
     if (config.enable_assignment_multi) {
         if (send_broadcast_jobs()) {
             if (config.debug_assignment) {
