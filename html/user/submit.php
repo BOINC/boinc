@@ -396,7 +396,7 @@ function show_submit_links($user) {
         'Jobs you submit can run', 'only_own',
         [
             [0, 'on any computer'],
-            [1, 'only on your computers']
+            [1, 'only on your computers (and no other jobs will run there)']
         ],
         $user->seti_id
     );
