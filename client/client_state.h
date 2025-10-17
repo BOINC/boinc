@@ -101,9 +101,12 @@ struct CLIENT_STATE {
     ACTIVE_TASK_SET active_tasks;
     HOST_INFO host_info;
 
-    // the following used only on Android
+#ifdef ANDROID
     DEVICE_STATUS device_status;
+        // info from GUI, e.g. battery status
     double device_status_time;
+        // time of last RPC from GUI
+#endif
 
     char language[16];                // ISO language code reported by GUI
     char client_brand[256];
@@ -705,8 +708,7 @@ extern void show_wsl_messages();
     // We rely on the GUI to report battery status.
 #define ANDROID_BATTERY_BACKOFF     300
     // Android: if battery is overheated or undercharged,
-    // suspend for at least this long
-    // (avoid rapid start/stop)
+    // suspend computing for at least this long (avoid rapid start/stop)
 
 #ifndef ANDROID
 #define USE_NET_PREFS

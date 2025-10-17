@@ -229,12 +229,9 @@ int CLIENT_STATE::check_suspend_processing() {
         ) {
             return SUSPEND_REASON_BATTERIES;
         }
-#ifndef ANDROID
-        // perform this check after SUSPEND_REASON_BATTERY_CHARGING on Android
         if (!global_prefs.run_if_user_active && user_active) {
             return SUSPEND_REASON_USER_ACTIVE;
         }
-#endif
         if (global_prefs.cpu_times.suspended(now)) {
             return SUSPEND_REASON_TIME_OF_DAY;
         }
@@ -265,55 +262,54 @@ int CLIENT_STATE::check_suspend_processing() {
     }
 
 #ifdef ANDROID
-    // suspend if we haven't heard from the GUI in 30 sec
-    // (we rely on it for battery info)
-    //
-    if (now > device_status_time + ANDROID_KEEPALIVE_TIMEOUT) {
-        requested_exit = true;
-        return SUSPEND_REASON_NO_GUI_KEEPALIVE;
-    }
+    // Battery checks.
+    // Do these only if we've received an RPC from the GUI
+    // (which is where we get battery info)
 
-    // check for hot battery
-    // If suspend because of hot battery, don't resume for at least 5 min
-    // (crude hysteresis)
-    //
-    static double battery_heat_resume_time=0;
-    if (now < battery_heat_resume_time) {
-        return SUSPEND_REASON_BATTERY_OVERHEATED;
-    }
-    if (device_status.battery_state == BATTERY_STATE_OVERHEATED) {
-        battery_heat_resume_time = now + ANDROID_BATTERY_BACKOFF;
-        return SUSPEND_REASON_BATTERY_OVERHEATED;
-    }
-    if (device_status.battery_temperature_celsius > global_prefs.battery_max_temperature) {
-        battery_heat_resume_time = now + ANDROID_BATTERY_BACKOFF;
-        return SUSPEND_REASON_BATTERY_OVERHEATED;
-    }
+    if (device_status_time) {
+        // exit if we haven't heard from the GUI in 30 sec
+        // (we rely on it for battery info)
+        //
+        if (now > device_status_time + ANDROID_KEEPALIVE_TIMEOUT) {
+            msg_printf(NULL, MSG_INTERNAL_ERROR,
+                "No RPC from GUI in last %d sec - exiting",
+                ANDROID_KEEPALIVE_TIMEOUT
+            );
+            requested_exit = true;
+            return SUSPEND_REASON_NO_GUI_KEEPALIVE;
+        }
 
-    // on some devices, running jobs can drain the battery even
-    // while it's recharging.
-    // So compute only if 95% charged or more.
-    //
-    static double battery_charge_resume_time=0;
-    if (now < battery_charge_resume_time) {
-        return SUSPEND_REASON_BATTERY_CHARGING;
-    }
-    int cp = device_status.battery_charge_pct;
-    if (cp >= 0) {
-        if (cp < global_prefs.battery_charge_min_pct) {
-            battery_charge_resume_time = now + ANDROID_BATTERY_BACKOFF;
+        // check for hot battery
+        // If suspend because of hot battery, don't resume for at least 5 min
+        // (crude hysteresis)
+        //
+        static double battery_heat_resume_time=0;
+        if (now < battery_heat_resume_time) {
+            return SUSPEND_REASON_BATTERY_OVERHEATED;
+        }
+        if (device_status.battery_state == BATTERY_STATE_OVERHEATED) {
+            battery_heat_resume_time = now + ANDROID_BATTERY_BACKOFF;
+            return SUSPEND_REASON_BATTERY_OVERHEATED;
+        }
+        if (device_status.battery_temperature_celsius > global_prefs.battery_max_temperature) {
+            battery_heat_resume_time = now + ANDROID_BATTERY_BACKOFF;
+            return SUSPEND_REASON_BATTERY_OVERHEATED;
+        }
+
+        // check for sufficient battery charge.
+        // If suspend, don't resume for at least 5 min
+        //
+        static double battery_charge_resume_time=0;
+        if (now < battery_charge_resume_time) {
             return SUSPEND_REASON_BATTERY_CHARGING;
         }
-    }
-
-    // user active.
-    // Do this check after checks that user can not influence on Android.
-    // E.g.
-    // 1. "connect to charger to continue computing"
-    // 2. "charge battery until 90%"
-    // 3. "turn screen off to continue computing"
-    if (!global_prefs.run_if_user_active && user_active) {
-        return SUSPEND_REASON_USER_ACTIVE;
+        int cp = device_status.battery_charge_pct;
+        if (cp >= 0) {
+            if (cp < global_prefs.battery_charge_min_pct) {
+                battery_charge_resume_time = now + ANDROID_BATTERY_BACKOFF;
+                return SUSPEND_REASON_BATTERY_CHARGING;
+            }
+        }
     }
 #endif
 
@@ -365,6 +361,7 @@ void CLIENT_STATE::show_suspend_tasks_message(int reason) {
                 suspend_reason_string(reason)
             );
         }
+#ifdef ANDROID
         switch (reason) {
         case SUSPEND_REASON_BATTERY_OVERHEATED:
             if (log_flags.task) {
@@ -385,6 +382,7 @@ void CLIENT_STATE::show_suspend_tasks_message(int reason) {
             }
             break;
         }
+#endif
     }
 }
 

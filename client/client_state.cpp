@@ -159,7 +159,9 @@ CLIENT_STATE::CLIENT_STATE()
     benchmarks_running = false;
     client_disk_usage = 0.0;
     total_disk_usage = 0.0;
+#ifdef ANDROID
     device_status_time = 0;
+#endif
 
     rec_interval_start = 0;
     total_cpu_time_this_rec_interval = 0.0;
@@ -183,7 +185,6 @@ CLIENT_STATE::CLIENT_STATE()
     now = 0.0;
     initialized = false;
     last_wakeup_time = dtime();
-    device_status_time = 0;
 #ifdef _WIN32
     have_sysmon_msg = false;
 #endif
@@ -481,9 +482,6 @@ int CLIENT_STATE::init() {
 
     srand((unsigned int)time(0));
     now = dtime();
-#ifdef ANDROID
-    device_status_time = dtime();
-#endif
     scheduler_op->url_random = drand();
 
     notices.init();
@@ -1093,7 +1091,9 @@ bool CLIENT_STATE::poll_slow_events() {
     if (get_idle_state) {
         bool old_user_active = user_active;
 #ifdef ANDROID
-        user_active = device_status.user_active;
+        if (device_status_time) {
+            user_active = device_status.user_active;
+        }
 #else
         idle_time = host_info.user_idle_time(check_all_logins);
         user_active = idle_time < global_prefs.idle_time_to_run * 60;
