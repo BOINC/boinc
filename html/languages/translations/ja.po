@@ -9,7 +9,7 @@
 # Jim Quinn <jameshiroki@gmail.com>, 2017
 # Kondo Yoshinori <taiyogakushujuku39@gmail.com>, 2018
 # Masahiro Tagashira, 2015
-# middlingphys, 2024
+# middlingphys, 2024-2025
 # Mita Ichiro <kokochandaisiki@icloud.com>, 2020
 # Soichiro Nitta <ns_theh1llzenk1d@outlook.com>, 2017
 # 137d22ea58966cb94105d6af710be089_4a8c650, 2023-2024
@@ -23,7 +23,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2025-02-09 02:28 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:29+0000\n"
-"Last-Translator: middlingphys, 2024\n"
+"Last-Translator: middlingphys, 2024-2025\n"
 "Language-Team: Japanese (http://app.transifex.com/boinc/boinc/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -782,15 +782,15 @@ msgstr "スレッドに新しい投稿があります:「 %1 」"
 
 #: html/inc/forum.inc:1467
 msgid "New threads in the forum %1"
-msgstr ""
+msgstr "フォーラム %1 の新しいスレッド"
 
 #: html/inc/forum.inc:1472
 msgid "New posts in subscribed forum"
-msgstr ""
+msgstr "参加しているフォーラムへの新しい投稿"
 
 #: html/inc/forum.inc:1473
 msgid "There are new threads in the forum '%1'"
-msgstr ""
+msgstr "フォーラム '%1' に新しいスレッドがあります"
 
 #: html/inc/forum.inc:1484
 msgid "Mark all threads as read"
@@ -963,7 +963,7 @@ msgstr "平均アップロード速度"
 
 #: html/inc/host.inc:161 html/inc/host.inc:168
 msgid "%1 MB/sec"
-msgstr ""
+msgstr "%1 MB/秒"
 
 #: html/inc/host.inc:163 html/inc/host.inc:170 html/inc/result.inc:235
 #: html/inc/result.inc:245 html/inc/result.inc:263 html/inc/result.inc:281
@@ -1266,11 +1266,11 @@ msgstr "宛先"
 
 #: html/inc/pm.inc:172
 msgid "User names, one per line"
-msgstr ""
+msgstr "ユーザー名、1行に1つずつ"
 
 #: html/inc/pm.inc:173
 msgid "User IDs or unique usernames, one per line"
-msgstr ""
+msgstr "ユーザーIDまたは一意なユーザー名、1行に1つずつ"
 
 #: html/inc/pm.inc:237
 msgid "sent you a private message; subject:"
@@ -1708,7 +1708,7 @@ msgstr "CPU をそれぞれに専用に割り当てて、GPU タスクを高速�
 
 #: html/inc/prefs_project.inc:74
 msgid "Allow CPU-only tasks"
-msgstr ""
+msgstr "CPUのみのタスクを許可"
 
 #: html/inc/prefs_project.inc:83
 msgid "Use AMD GPU"
@@ -2670,11 +2670,11 @@ msgstr "ユーザー名は空であってはなりません"
 
 #: html/inc/user_util.inc:90
 msgid "user name may not contain special characters"
-msgstr ""
+msgstr "ユーザー名に特殊文字を含んではなりません"
 
 #: html/inc/user_util.inc:94
 msgid "user name may not be a number"
-msgstr ""
+msgstr "ユーザー名は数であってはなりません"
 
 #: html/inc/user_util.inc:165
 msgid "Can't create account"
@@ -3513,11 +3513,11 @@ msgstr "新しいEメールアドレス '%1' は無効です。"
 
 #: html/user/edit_email_action.php:42
 msgid "Email address '%1' is flagged by stopforumspam.com."
-msgstr ""
+msgstr "Eメールアドレス '%1' は stopforumspam.com によりフラグが付いています。"
 
 #: html/user/edit_email_action.php:44
 msgid "New email address '%1' is banned."
-msgstr ""
+msgstr "新しいEメールアドレス '%1' はBANされています。"
 
 #: html/user/edit_email_action.php:46
 msgid "New email address is same as existing address. Nothing is changed."
@@ -3649,7 +3649,7 @@ msgstr "これは、あなたのアバターがどのように見えるかです
 msgid ""
 "Check out %1 various free services %2 <br> providing dynamic 'signature "
 "images' <br> showing your latest credit info, project news, etc."
-msgstr ""
+msgstr "%1 ここ %2 にシグネチャ用の様々な無料のサービスがあります。\n<br> あなたの最新の功績値や、プロジェクトの\n<br> ニュースなどを動的なシグネチャ画像で提供してくれます。"
 
 #: html/user/edit_forum_preferences_form.php:103
 msgid "Attach signature by default"
@@ -3719,15 +3719,15 @@ msgstr "一番上にスティッキーポストを移動しない"
 #. ------------ Message filtering  -----------
 #: html/user/edit_forum_preferences_form.php:148
 msgid "Message blocking"
-msgstr ""
+msgstr "メッセージのブロック"
 
 #: html/user/edit_forum_preferences_form.php:170
 msgid "Unblock"
-msgstr ""
+msgstr "ブロック解除"
 
 #: html/user/edit_forum_preferences_form.php:178
 msgid "Blocked users"
-msgstr ""
+msgstr "ブロックしたユーザー"
 
 #: html/user/edit_forum_preferences_form.php:179
 msgid "Ignore message board posts and private messages from these users."
@@ -3748,7 +3748,7 @@ msgstr "ユーザーID (たとえば、123456789)"
 
 #: html/user/edit_forum_preferences_form.php:192
 msgid "Block"
-msgstr ""
+msgstr "ブロック"
 
 #: html/user/edit_forum_preferences_form.php:196
 #: html/user/edit_forum_preferences_form.php:199
@@ -4397,7 +4397,7 @@ msgstr "そうするのは、ボランティアの全ての方が興味を持つ
 
 #: html/user/forum_post.php:188
 msgid "Subscribe to the new thread"
-msgstr ""
+msgstr "新しいスレッドを購読"
 
 #: html/user/forum_rate.php:58
 msgid "You need more average or total credit to rate a post."
@@ -4451,11 +4451,11 @@ msgstr "メッセージ:"
 
 #: html/user/forum_reply.php:191
 msgid "Post"
-msgstr ""
+msgstr "投稿"
 
 #: html/user/forum_reply.php:194
 msgid "Subscribe to this thread"
-msgstr ""
+msgstr "このスレッドを購読"
 
 #: html/user/forum_report_post.php:54
 msgid "You need more average or total credit to report a post."
@@ -4709,7 +4709,7 @@ msgstr "参加する"
 
 #: html/user/forum_thread.php:185
 msgid "Click to get notified when there are new posts in this thread"
-msgstr ""
+msgstr "スレッドの新しい投稿の通知を受けるにはクリック"
 
 #: html/user/forum_thread.php:196
 msgid "Unhide this thread"
@@ -5093,7 +5093,7 @@ msgstr "プレファレンスの変更は、コンピュータがこのプロジ
 
 #: html/user/host_venue_action.php:59
 msgid "Continue to home page"
-msgstr ""
+msgstr "ホームページへ"
 
 #: html/user/hosts_user.php:53
 msgid "Computers belonging to %1"
@@ -5524,7 +5524,7 @@ msgstr "あなたのメッセージは%1のチームメンバーへ送信され�
 msgid ""
 "Your message was flagged as spam by the Akismet anti-spam system.  Please "
 "modify your text and try again."
-msgstr ""
+msgstr "Akismetアンチスパムシステムによってメッセージがスパムと判定されました。テキストを編集してやり直してください。"
 
 #: html/user/pm.php:294
 msgid "Could not find user with id %1"
@@ -5540,7 +5540,7 @@ msgstr "ユーザー名 %1 は複数存在します。ユーザーIDを指定し
 
 #: html/user/pm.php:320
 msgid "User %1 is not accepting private messages from you."
-msgstr ""
+msgstr "ユーザー %1 はあなたからのプライベートメッセージを受け付けていません。"
 
 #: html/user/pm.php:323
 msgid "User %1 (ID: %2) is not accepting private messages from you."
@@ -6748,7 +6748,7 @@ msgstr "利用規約に合意してください。"
 
 #: html/user/user_agreetermsofuse_action.php:41
 msgid "Agree to terms of use to continue."
-msgstr ""
+msgstr "利用規約に同意して続ける。"
 
 #: html/user/user_search.php:63
 msgid "Filters"
@@ -6880,7 +6880,7 @@ msgstr "プロフィール: %1"
 
 #: html/user/view_profile.php:65
 msgid "User info"
-msgstr ""
+msgstr "ユーザー情報"
 
 #: html/user/weak_auth.php:53
 msgid ""

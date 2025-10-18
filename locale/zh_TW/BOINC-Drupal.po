@@ -6,23 +6,23 @@
 # 
 # Translators:
 # Bug Chong, 2018
-# Meng Pang Wang, 2023-2024
+# MP Wang, 2023-2024
 # Mingye Wang <arthur200126@gmail.com>, 2019
-# Po-Chun Huang <aphroteus@gmail.com>, 2015
+# Po-Chun Huang <aphroteus@gmail.com>, 2015,2025
 # Robert Kwan, 2020
 # Shih Han Lin <alexsh.tw@gmail.com>, 2016
 # Timo Liu <timoliu@gmail.com>, 2016
 # William Wu <df910105@gmail.com>, 2018
 # Yung Gaby <gabrielle@yungs.org>, 2018
 # 江昱輝 <darkanglephantom@gmail.com>, 2019
-# Meng Pang Wang, 2016
+# MP Wang, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2017-10-27 12:35+0000\n"
 "PO-Revision-Date: 2015-04-17 15:02+0000\n"
-"Last-Translator: Meng Pang Wang, 2023-2024\n"
+"Last-Translator: Po-Chun Huang <aphroteus@gmail.com>, 2015,2025\n"
 "Language-Team: Chinese (Taiwan) (http://app.transifex.com/boinc/boinc/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2219,7 +2219,7 @@ msgstr "沒有該類型的任務記錄"
 #: host-details
 msgctxt "host-details"
 msgid "Show IP address"
-msgstr "表示 IP 地址"
+msgstr "顯示 IP 位址"
 
 #: unit-of-time
 msgctxt "unit-of-time"
@@ -2632,7 +2632,7 @@ msgstr "你現在將登入進自己的帳號，可以更新你的電子郵件和
 #: authenticator-login-page
 msgctxt "authenticator-login-page"
 msgid "Log in with authenticator"
-msgstr "用身份驗證碼 (authenticator)來登入"
+msgstr "使用身分驗證器來登入"
 
 #: form-ok
 msgctxt "form-ok"
