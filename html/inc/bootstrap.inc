@@ -322,8 +322,10 @@ function form_start($action, $method='get', $extra='') {
 }
 
 function form_input_hidden($name, $value) {
-    echo '<input type="hidden" name="'.$name.'" value="'.$value.'">
-    ';
+    echo sprintf(
+        '<input type="hidden" name="%s" value="%s">',
+        $name, $value
+    );
 }
 
 function form_focus($form_name, $field_name) {
@@ -412,7 +414,7 @@ function form_select($label, $name, $items, $selected=null) {
     if (is_array($items)) {
         foreach ($items as $i) {
             echo sprintf(
-                '<option %s value=%s>%s</option>',
+                '<option %s value="%s">%s</option>',
                 ($i[0]==$selected)?'selected':'',
                 $i[0], $i[1]
             );
@@ -437,7 +439,7 @@ function form_select_multiple($label, $name, $items, $selected=null, $size=0) {
     );
     foreach ($items as $i) {
         echo sprintf(
-            '<option %s value=%s>%s</option>',
+            '<option %s value="%s">%s</option>',
             ($selected && in_array($i[0], $selected))?'selected':'',
             $i[0], $i[1]
         );
@@ -588,7 +590,7 @@ function form_select2_multi($label, $name, $items, $selected=null, $extra='') {
     );
     foreach ($items as $i) {
         echo sprintf(
-            '<option %s value=%s>%s</option>',
+            '<option %s value="%s">%s</option>',
             ($selected && in_array($i[0], $selected))?'selected':'',
             $i[0], $i[1]
         );
