@@ -42,7 +42,7 @@ if ($user) {
     exit;
 }
 
-page_head(tra("Log in"));
+page_head(tra("Log in to ".PROJECT));
 
 if (0) {
 echo '
