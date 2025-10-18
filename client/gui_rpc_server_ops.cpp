@@ -1700,6 +1700,7 @@ static void handle_set_language(GUI_RPC_CONN& grc) {
     grc.mfout.printf("<error>no language found</error>\n");
 }
 
+#ifdef ANDROID
 static void handle_report_device_status(GUI_RPC_CONN& grc) {
     DEVICE_STATUS d;
     while (!grc.xp.get_tag()) {
@@ -1764,6 +1765,8 @@ int DEVICE_STATUS::parse(XML_PARSER& xp) {
     }
     return ERR_XML_PARSE;
 }
+
+#endif      // ANDROID
 
 // Some of the RPCs have empty-element request messages.
 // We accept both <foo/> and <foo></foo>
@@ -1849,7 +1852,9 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("read_cc_config", handle_read_cc_config,                true,   false,  false),
     GUI_RPC("read_global_prefs_override", handle_read_global_prefs_override,
                                                                     true,   false,  false),
+#ifdef ANDROID
     GUI_RPC("report_device_status", handle_report_device_status,    true,   false,  false),
+#endif
     GUI_RPC("reset_host_info", handle_reset_host_info,              true,   false,  false),
     GUI_RPC("resume_result", handle_resume_result,                  true,   false,  false),
     GUI_RPC("run_benchmarks", handle_run_benchmarks,                true,   false,  false),
