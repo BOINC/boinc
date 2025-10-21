@@ -42,6 +42,17 @@ function submit_form($user) {
         <a href=https://github.com/BOINC/boinc/wiki/BUDA-job-submission>Details</a></small>.
     ";
     page_head("BUDA: Submit jobs to $app");
+
+    $us = BoincUserSubmit::lookup_userid($user->id);
+    if ($us->max_jobs_in_progress) {
+        $n = n_jobs_in_progress($user->id);
+        echo sprintf(
+            '<p>Note: you are limited to %d jobs in progress,
+            and you currently have %d, so this batch can be at most %d jobs.',
+            $us->max_jobs_in_progress, $n,
+            $us->max_jobs_in_progress - $n
+        );
+    }
     form_start('buda_submit.php');
     form_input_hidden('action', 'submit');
     form_input_hidden('app', $app);
@@ -317,11 +328,27 @@ function handle_submit($user) {
         page_tail();
         return;
     }
-    if (count($batch_desc->jobs) > 10 && $user->seti_id) {
+    $njobs = count($batch_desc->jobs);
+    if ($njobs > 10 && $user->seti_id) {
         system("rm -rf $batch_dir");
         error_page(
             "Batches with > 10 jobs are not allowed if 'use only my computers' is set"
         );
+    }
+    $us = BoincUserSubmit::lookup_userid($user->id);
+    if ($us->max_jobs_in_progress) {
+        $n = n_jobs_in_progress($user->id);
+        if ($n + $njobs > $us->max_jobs_in_progress) {
+            system("rm -rf $batch_dir");
+            error_page(
+                sprintf(
+                    'This batch is %d jobs, and you already have %d in-progress jobs.
+                    This would exceed your limit of %d in-progress jobs.
+                    ',
+                    $njobs, $n, $us->max_jobs_in_progress
+                )
+            );
+        }
     }
 
     $batch = create_batch($user, count($batch_desc->jobs), $app);

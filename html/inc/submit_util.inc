@@ -54,6 +54,28 @@ function log_write($x) {
     fflush($log_file);
 }
 
+// return # of in-progress jobs for user
+//
+function n_jobs_in_progress($user_id) {
+    $batches = BoincBatch::enum(
+        sprintf(
+            'user_id=%d and state=%d',
+            $user_id, BATCH_STATE_IN_PROGRESS
+        )
+    );
+    $ids = [];
+    foreach ($batches as $batch) {
+        $ids[] = $batch->id;
+    }
+    if (!$ids) return 0;
+    $ids = implode(',', $ids);
+    return BoincWorkunit::count(
+        sprintf('error_mask=0 and canonical_resultid=0 and batch in (%s)',
+            $ids
+        )
+    );
+}
+
 // in remote job submission,
 // for input files of type local, semilocal, and inline,
 // we need to give a unique physical name based on its content.
