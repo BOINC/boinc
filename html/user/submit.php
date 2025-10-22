@@ -664,28 +664,29 @@ function handle_query_batch($user) {
     page_head("Batch $batch_id");
     text_start(800);
     start_table();
-    row2("name", $batch->name);
+    row2("Batch name", $batch->name);
     if ($batch->description) {
-        row2('description', $batch->description);
+        row2('Description', $batch->description);
     }
     if ($owner) {
-        row2('submitter',
+        row2('Submitter',
             "<a href=show_user.php?userid=$owner->id>$owner->name</a>"
         );
     }
-    row2("application", $app?$app->name:'---');
-    row2("state", batch_state_string($batch->state));
+    row2("Submitted", time_str($batch->create_time));
+    row2("Application", $app?$app->name:'---');
+    row2("State", batch_state_string($batch->state));
     //row2("# jobs", $batch->njobs);
     //row2("# error jobs", $batch->nerror_jobs);
     //row2("logical end time", time_str($batch->logical_end_time));
     if ($batch->expire_time) {
-        row2("expiration time", time_str($batch->expire_time));
+        row2("Expiration time", time_str($batch->expire_time));
     }
     if ($batch->njobs) {
-        row2('progress', progress_bar($batch, $wus, 600));
+        row2('Progress', progress_bar($batch, $wus, 600));
     }
     if ($batch->completion_time) {
-        row2("completed", local_time_str($batch->completion_time));
+        row2("Completed", local_time_str($batch->completion_time));
     }
     row2("GFLOP/hours, estimated", number_format(credit_to_gflop_hours($batch->credit_estimate), 2));
     row2("GFLOP/hours, actual", number_format(credit_to_gflop_hours($batch->credit_canonical), 2));
@@ -968,6 +969,7 @@ function handle_abort_batch($user) {
     } else {
         page_head("Confirm abort batch");
         echo "
+            <p>
             Aborting a batch will cancel all unstarted jobs.
             Are you sure you want to do this?
             <p>

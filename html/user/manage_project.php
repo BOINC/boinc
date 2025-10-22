@@ -241,7 +241,7 @@ function handle_add_action() {
     if (!$user) error_page("no such user");
     $us = BoincUserSubmit::lookup_userid($user_id);
     if (!$us) {
-        if (!BoincUserSubmit::insert("(user_id, quota, logical_start_time, submit_all, manage_all, max_jobs_in_progress) values ($user_id, 0, 0, 0, 0, 0)")) {
+        if (!BoincUserSubmit::insert("(user_id, quota, logical_start_time, submit_all, manage_all, max_jobs_in_progress) values ($user_id, 1, 0, 0, 0, 10000)")) {
             error_page("Insert failed");
         }
     }
