@@ -48,7 +48,8 @@ function submit_form($user) {
         $n = n_jobs_in_progress($user->id);
         echo sprintf(
             '<p>Note: you are limited to %d jobs in progress,
-            and you currently have %d, so this batch can be at most %d jobs.',
+            and you currently have %d,
+            so this batch can be at most %d jobs.</p>',
             $us->max_jobs_in_progress, $n,
             $us->max_jobs_in_progress - $n
         );
