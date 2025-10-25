@@ -59,7 +59,7 @@ using std::string;
 
 static OSStatus DoUninstall(void);
 static OSStatus CleanupAllVisibleUsers(void);
-static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extension, char *dirPath);
+static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extension, char *dirPath, Boolean deleteSymLink);
 static void DeleteLoginItemOSAScript(char *userName);
 static Boolean DeleteLoginItemLaunchAgent(long brandID, passwd *pw);
 static void DeleteScreenSaverLaunchAgent(passwd *pw);
@@ -507,10 +507,16 @@ fprintf(stdout, "Starting privileged tool\n");
 #endif  // SEARCHFORALLBOINCMANAGERS
 
     // Phase 2: step through default Applications directory searching for our applications
-    err = DeleteOurBundlesFromDirectory(CFSTR("edu.berkeley.boinc"), "app", "/Applications");
+    // We installed the BOINC Manager in "/Library/Application Support" with a
+    // soft link to it from the /Applications directory. For an explanation why
+    // we do it this way see the comment in CBOINCGUIApp::OnInit() under
+    // "if (DetectDuplicateInstance())"
+    err = DeleteOurBundlesFromDirectory(CFSTR("edu.berkeley.boinc"), "app", "/Library/Application Support", true);
+    // Older installations put BOINC Manager in /Applications
+    err = DeleteOurBundlesFromDirectory(CFSTR("edu.berkeley.boinc"), "app", "/Applications", false);
 
     // Phase 3: step through default Screen Savers directory searching for our screen savers
-    err = DeleteOurBundlesFromDirectory(CFSTR("edu.berkeley.boincsaver"), "saver", "/Library/Screen Savers");
+    err = DeleteOurBundlesFromDirectory(CFSTR("edu.berkeley.boincsaver"), "saver", "/Library/Screen Savers", false);
 
     // Phase 4: Delete our files and directories at our installer's default locations
     // Remove everything we may have installed, though the above 2 calls already deleted some
@@ -559,7 +565,7 @@ fprintf(stdout, "Starting privileged tool\n");
 }
 
 
-static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extension, char *dirPath) {
+static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extension, char *dirPath, Boolean deleteSymLink) {
     DIR                     *dirp;
     dirent                  *dp;
     CFStringRef             urlStringRef = NULL;
@@ -612,7 +618,13 @@ static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extens
                                 showDebugMsg("Bundles: %s", myRmCommand);
 #endif
 
-                               callPosixSpawn(myRmCommand);
+                                callPosixSpawn(myRmCommand);
+                                if (deleteSymLink) {
+                                    strlcpy(myRmCommand, "rm -rf \"/Applications/", sizeof(myRmCommand));
+                                    strlcat(myRmCommand, dp->d_name, sizeof(myRmCommand));
+                                    strlcat(myRmCommand, "\"", sizeof(myRmCommand));
+                                    callPosixSpawn(myRmCommand);
+                                }
                             } else {
 #if TESTING
 //                                showDebugMsg("Bundles: Not deleting %s", myRmCommand+pathOffset);

@@ -1564,6 +1564,9 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshView - Function Begin"));
 
     if (IsShown()) {
+#ifdef __WXMAC__
+        wxGetApp().CheckPartialActivation();
+#endif
         CMainDocument*  pDoc = wxGetApp().GetDocument();
         CBOINCBaseView* pView = NULL;
         wxString        strTabTitle = wxEmptyString;

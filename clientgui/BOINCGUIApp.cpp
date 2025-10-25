@@ -509,16 +509,6 @@ bool CBOINCGUIApp::OnInit() {
     // Detect if BOINC Manager is already running, if so, bring it into the
     // foreground and then exit.
     if (DetectDuplicateInstance()) {
-#ifdef __WXMAC__
-        SetActivationPolicyAccessory(true);
-        // Hack to work around an issue with the Mac Installer
-        if (m_bBOINCMGRAutoStarted) return false;
-        // TODO: Should we also ignore duplicate instances that occur within
-        // TODO: a short time after login (detemined by getlastlogxbyname(),
-        // TODO: in case MacOS's "Reopen windows when logging in" functionality
-        // TODO: relaunched us after our LaunchAgent autostarted us?
-
-#endif
         if (GetBOINCMGRDisplayAnotherInstanceRunningMessage()) {
             wxString appName = m_pSkinManager->GetAdvanced()->GetApplicationName();
             wxString message;
@@ -528,21 +518,37 @@ bool CBOINCGUIApp::OnInit() {
             params.message = message;
             params.button2 = CDlgGenericMessageButton(false);
             CDlgGenericMessage dlg(NULL, &params);
+            ShowApplication(true);
             dlg.ShowModal();
             SetBOINCMGRDisplayAnotherInstanceRunningMessage(!dlg.GetDisableMessageValue());
         }
+#ifdef __WXMAC__
+        // A second instance of BOINC Manager is sometimes launched at login
+        // when the Manager is launched by the login startup item and also
+        // by the "restore open windows" or "restore open applications"
+        // feature of MacOS.
+        // Each time a second instance of BOINC Manager is launched, it
+        // normally adds an additional BOINC icon to the "recently run apps"
+        // section of the Dock, cluttering it up. To avoid this, we call
+        // this routine on the second instance to tell the system to hide
+        // the icon in the Dock. We do this after displaying the dialog to
+        // allow the dialog to be brought to the foreground.
+        // NOTE: This technique works only if BOINCManager.app is NOT in the
+        // /Applications directory or any of its subdirectories. Putting it
+        // in "/Library/Application Support" with a soft link to it from the
+        // /Applications directory does work.
+        // https://stackoverflow.com/questions/620841/how-to-hide-the-dock-icon
+        SetActivationPolicyAccessory(true);    // Hide our Dock tile
+        // Hack to work around an issue with the Mac Installer
+        if (m_bBOINCMGRAutoStarted) return false;
+        // TODO: Should we also ignore duplicate instances that occur within
+        // TODO: a short time after login (detemined by getlastlogxbyname(),
+        // TODO: in case MacOS's "Reopen windows when logging in" functionality
+        // TODO: relaunched us AFTER our LaunchAgent autostarted us?
+#endif
         return false;
     }
-#ifdef __WXMAC__
-    // Each time a second instance of BOINC Managr is launched, it normally
-    // nadds an additional BOINC icon to the "recently run apps" section
-    // of the Dock, cluttering it up. To avoid this, we set the LSUIElement
-    // key in its info.plist, which prevents the app from appearing in the
-    // Dock. But if this is not a duplicate instance, we call this routine
-    // to tell the system to show the icon in the Dock.
-    // https://stackoverflow.com/questions/620841/how-to-hide-the-dock-icon
-    SetActivationPolicyAccessory(false);    // Show our Dock tile
-#endif
+
     // Initialize the main document
     m_pDocument = new CMainDocument();
     wxASSERT(m_pDocument);
