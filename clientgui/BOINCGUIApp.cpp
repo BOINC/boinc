@@ -523,7 +523,7 @@ bool CBOINCGUIApp::OnInit() {
             SetBOINCMGRDisplayAnotherInstanceRunningMessage(!dlg.GetDisableMessageValue());
         }
 #ifdef __WXMAC__
-        // A second instance of BOINC Manager s osmetimes launched at login
+        // A second instance of BOINC Manager is sometimes launched at login
         // when the Manager is launched by the login startup item and also
         // by the "restore open windows" or "restore open applications"
         // feature of MacOS.

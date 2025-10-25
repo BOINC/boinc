@@ -186,12 +186,15 @@ Boolean IsWindowOnScreen(int iLeft, int iTop, int iWidth, int iHeight) {
     return false;
 }
 
-// Each time a second instance of BOINC Managr is launched, it normally
-// nadds an additional BOINC icon to the "recently run apps" section
-// of the Dock, cluttering it up. To avoid this, we set the LSUIElement
-// key in its info.plist, which prevents the app from appearing in the
-// Dock. But if this is not a duplicate instance, we call this routine
-// to tell the system to show the icon in the Dock.
+// A second instance of BOINC Manager is sometimes launched at login
+// when the Manager is launched by the login startup item and also
+// by the "restore open windows" or "restore open applications"
+// feature of MacOS.
+// Each time a second instance of BOINC Manager is launched, it
+// normally adds an additional BOINC icon to the "recently run apps"
+// section of the Dock, cluttering it up. To avoid this, we call
+// this routine on the second instance to tell the system to hide
+// the icon in the Dock.
 // https://stackoverflow.com/questions/620841/how-to-hide-the-dock-icon
 void CBOINCGUIApp::SetActivationPolicyAccessory(bool hideDock) {
     if (hideDock) {
