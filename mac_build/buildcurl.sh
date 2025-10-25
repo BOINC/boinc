@@ -44,7 +44,7 @@
 # Updated 11/16/21 for curl 7.79.1
 # Updated 2/6/23 changed MAC_OS_X_VERSION_MAX_ALLOWED to 101300 and MAC_OS_X_VERSION_MIN_REQUIRED to 101300 and MACOSX_DEPLOYMENT_TARGET to 10.13
 # Updated 4/5/23 for args now accepted by patch utility; set mmacosx-version-min=10.13
-# Updated 10/17/25 for curl 8.16.0. Secure Transport is deprecated so use OpenSSl again
+# Updated 10/19/25 for curl 8.16.0. Secure Transport is deprecated so use OpenSSl again
 #
 ## Curl's configure and make set the "-Werror=partial-availability" compiler flag,
 ## which generates an error if there is an API not available in our Deployment
@@ -205,6 +205,11 @@ else
         cd "${CURL_DIR}" || return 1
     fi
 
+## Set flags again in case c-ares make install modified them
+export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${CURL_DIR}/../${opensslDirName} "
+export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.13 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
+export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.13 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
+export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.13 -arch x86_64"
     ./configure --disable-shared --enable-ares="${libcares}" --with-openssl --without-apple-idn  --without-libidn2 --without-libpsl --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=x86_64-apple-darwin
     if [ $? -ne 0 ]; then return 1; fi
     echo ""
