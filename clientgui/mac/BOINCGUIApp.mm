@@ -125,7 +125,7 @@ bool CBOINCGUIApp::IsApplicationVisible() {
 ///
 void CBOINCGUIApp::ShowApplication(bool bShow) {
     if (bShow) {
-        [ NSApp activateIgnoringOtherApps:YES ];
+        [ NSApp activate ];
     } else {
         [ NSApp hide:NSApp ];
     }
