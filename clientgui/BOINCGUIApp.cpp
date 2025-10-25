@@ -533,7 +533,7 @@ bool CBOINCGUIApp::OnInit() {
         // this routine on the second instance to tell the system to hide
         // the icon in the Dock. We do this after displaying the dialog to
         // allow the dialog to be brought to the foreground.
-        // NOTE: This tehnique works only if BOINCManager.app is NOT in the
+        // NOTE: This technique works only if BOINCManager.app is NOT in the
         // /Applications directory or any of its subdirectories. Putting it
         // in "/Library/Application Support" with a soft link to it from the
         // /Applications directory does work.
