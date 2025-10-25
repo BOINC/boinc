@@ -322,12 +322,15 @@ int main(int argc, char *argv[])
         // under "if (DetectDuplicateInstance())"
         //
         // "rm -rf \"/Applications/GridRepublic Desktop.app\""
-        if (stat(appPath[brandID], &sbuf) != 0) {
+        if (stat(appPath[brandID], &sbuf) == 0) {
             if (S_ISLNK(sbuf.st_mode)) {
-                realpath(appPath[brandID], realPath);   // Get path to app from symbolic link
-                sprintf(s, "rm -rf \"%s\"", realPath);
-                err = callPosixSpawn (s);
-                REPORT_ERROR(err);
+                if (realpath(appPath[brandID], realPath)) {   // Get path to app from symbolic link
+                    sprintf(s, "rm -rf \"%s\"", realPath);
+                    err = callPosixSpawn (s);
+                    REPORT_ERROR(err);
+                } else {
+                    REPORT_ERROR(errno);
+                }
             }
         }
         // Delete either the symbolic link or the actual app if not a symbolic link
@@ -504,12 +507,15 @@ int main(int argc, char *argv[])
         // under "if (DetectDuplicateInstance())"
         //
         // "rm -rf \"/Applications/GridRepublic Desktop.app\""
-        if (stat(appPath[brandID], &sbuf) != 0) {
+        if (stat(appPath[i], &sbuf) == 0) {
             if (S_ISLNK(sbuf.st_mode)) {
-                realpath(appPath[i], realPath);   // Get path to app from symbolic link
-                sprintf(s, "rm -rf \"%s\"", realPath);
-                err = callPosixSpawn (s);
-                REPORT_ERROR(err);
+                if (realpath(appPath[i], realPath)) {   // Get path to app from symbolic link
+                    sprintf(s, "rm -rf \"%s\"", realPath);
+                    err = callPosixSpawn (s);
+                    REPORT_ERROR(err);
+                } else {
+                    REPORT_ERROR(errno);
+                }
             }
         }
         // Delete either the symbolic link or the actual app if not a symbolic link
