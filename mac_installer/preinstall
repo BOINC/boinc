@@ -18,7 +18,7 @@ if [[-L "/Applications/BOINCManager.app"]]; then
 fi
 rm -fR "/Library/Application Support/BOINCManager.app"  # Usually redundant
 
- ## If this is a symbolic link, deletes it. Otherise deletes the actual app
+ ## If this is a symbolic link, deletes it. Otherwise deletes the actual app
 rm -fR "/Applications/BOINCManager.app"
 rm -fR "/Library/Screen Savers/BOINCSaver.saver"
 

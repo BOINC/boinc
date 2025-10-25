@@ -620,7 +620,7 @@ static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extens
 
                                 callPosixSpawn(myRmCommand);
                                 if (deleteSymLink) {
-                                    strlcpy(myRmCommand, "rm -rf \"/Applications/", 10);
+                                    strlcpy(myRmCommand, "rm -rf \"/Applications/", sizeof(myRmCommand));
                                     strlcat(myRmCommand, dp->d_name, sizeof(myRmCommand));
                                     strlcat(myRmCommand, "\"", sizeof(myRmCommand));
                                     callPosixSpawn(myRmCommand);
