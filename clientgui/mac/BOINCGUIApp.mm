@@ -53,22 +53,13 @@ bool CBOINCGUIApp::CallOnInit() {
 // first time the user "opens" it he either
 // double-clicks on our Finder icon or uses
 // command-tab.  It becomes the frontmost
-// application (with its menu in the menubar)
-// but the windows remain hidden, and it does
-// not receive an activate event, so we must
-// handle this case by polling.
+// application but with an incomplete menubar.
 //
 // We can stop the polling after the windows
 // have been shown once, since this state only
-// occurs if the windows have never appeared.
-//
-// TODO: Can we avoid polling by using notification
-// TODO: [NSApplicationDelegate applicationDidUnhide: ] ?
+// occurs when the windows first appear.
 //
 void CBOINCGUIApp::CheckPartialActivation() {
-    // This code is not needed and has bad effects on OS 10.5.
-    // Initializing wasHidden this way avoids the problem
-    // because we are briefly shown at login on OS 10.5.
     static bool wasHidden = [ NSApp isHidden ];
 
     if (wasHidden) {
@@ -77,6 +68,7 @@ void CBOINCGUIApp::CheckPartialActivation() {
         if (! [ NSApp isHidden ]) {
             wasHidden = false;
             ShowInterface();
+            wxGetApp().GetFrame()->CreateMenus();
         }
     }
 }
