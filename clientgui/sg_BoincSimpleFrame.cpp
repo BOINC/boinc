@@ -775,6 +775,9 @@ void CSimpleFrame::OnNotification(CFrameEvent& WXUNUSED(event)) {
 void CSimpleFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnRefreshView - Function Start"));
 
+    if (IsShown()) {
+        wxGetApp().CheckPartialActivation();
+    }
     m_pBackgroundPanel->OnFrameRender();
 
     if (dlgMsgsPtr) {
