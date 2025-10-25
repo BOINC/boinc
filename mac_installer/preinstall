@@ -12,6 +12,13 @@
 ##sudo rm -fR /Library/Application\ Support/BOINC\ Data/skins/World\ Community\ Grid/
 
 # Remove any old BOINC Manager and BOINC Screen Saver bundles to guarantee a clean install
+if [[-L "/Applications/BOINCManager.app"]]; then
+    pathToRealManager=$(readlink -f "/Applications/BOINCManager.app")
+    rm -fR "${pathToRealManager}"
+fi
+rm -fR "/Library/Application Support/BOINCManager.app"  # Usually redundant
+
+ ## If this is a symbolic link, deletes it. Otherise deletes the actual app
 rm -fR "/Applications/BOINCManager.app"
 rm -fR "/Library/Screen Savers/BOINCSaver.saver"
 
