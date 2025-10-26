@@ -322,7 +322,7 @@ int main(int argc, char *argv[])
         // under "if (DetectDuplicateInstance())"
         //
         // "rm -rf \"/Applications/GridRepublic Desktop.app\""
-        if (stat(appPath[brandID], &sbuf) == 0) {
+        if (lstat(appPath[brandID], &sbuf) == 0) {
             if (S_ISLNK(sbuf.st_mode)) {
                 if (realpath(appPath[brandID], realPath)) {   // Get path to app from symbolic link
                     sprintf(s, "rm -rf \"%s\"", realPath);
@@ -507,7 +507,7 @@ int main(int argc, char *argv[])
         // under "if (DetectDuplicateInstance())"
         //
         // "rm -rf \"/Applications/GridRepublic Desktop.app\""
-        if (stat(appPath[i], &sbuf) == 0) {
+        if (lstat(appPath[i], &sbuf) == 0) {
             if (S_ISLNK(sbuf.st_mode)) {
                 if (realpath(appPath[i], realPath)) {   // Get path to app from symbolic link
                     sprintf(s, "rm -rf \"%s\"", realPath);
