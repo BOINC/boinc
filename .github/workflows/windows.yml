@@ -60,7 +60,7 @@ jobs:
           fetch-depth: 2
 
       - name: Download OpenCppCoverage
-        uses: suisei-cn/actions-download-file@818d6b7dc8fe73f2f924b6241f2b1134ca1377d9
+        uses: suisei-cn/actions-download-file@9f75b8c2dad5ccced7509c44a3b881c5613abde2
         if: success() && matrix.platform == 'x64' && matrix.configuration == 'Release'
         id: DownloadOpenCppCoverage
         with:
@@ -152,7 +152,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{failure()}}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: windows_logs_msbuild_${{matrix.platform}}_${{matrix.configuration}}_${{github.event.pull_request.head.sha}}
           path: deploy/logs.7z
@@ -168,42 +168,42 @@ jobs:
 
       - name: Upload apps
         if: success() && matrix.configuration == 'Release'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: win_apps_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
           path: deploy/win_apps.7z
 
       - name: Upload client
         if: success() && matrix.configuration == 'Release'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: win_client_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
           path: deploy/win_client.7z
 
       - name: Upload manager
         if: success() && matrix.configuration == 'Release'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: win_manager_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
           path: deploy/win_manager.7z
 
       - name: Upload installer files
         if: success() && matrix.configuration == 'Release'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: win_installer_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
           path: deploy/win_installer.7z
 
       - name: Upload symbol files
         if: success() && matrix.configuration == 'Release'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: win_pdb_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
           path: win_build/Build/${{matrix.platform}}/${{matrix.configuration}}/*.pdb
 
       - name: Upload Google Tests Results
         if: always() && matrix.platform == 'x64' && matrix.configuration == 'Release'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: Windows_tests_results
           path: "win_build/Build/${{matrix.platform}}/${{matrix.configuration}}/**/gtest.xml"
@@ -255,7 +255,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{failure()}}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: windows_logs_cmake_${{matrix.platform}}_${{matrix.configuration}}_${{github.event.pull_request.head.sha}}
           path: deploy/logs.7z
