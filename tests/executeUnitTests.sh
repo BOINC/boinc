@@ -76,9 +76,9 @@ make
 if [ $? -ne 0 ]; then cd ../..; exit 1; fi
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    MODULES="lib"
+    MODULES="lib client"
 else
-    MODULES="lib sched"
+    MODULES="lib client sched"
 fi
 for T in ${MODULES}; do
     XML_FLAGS=""

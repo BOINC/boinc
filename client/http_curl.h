@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -24,13 +24,12 @@
 #ifndef BOINC_HTTP_CURL_H
 #define BOINC_HTTP_CURL_H
 
+#include <atomic>
+
 #include <curl/curl.h>
 
 #include "network.h"
 #include "proxy_info.h"
-
-extern int curl_init();
-extern int curl_cleanup();
 
 #define HTTP_OP_NONE    0
 #define HTTP_OP_GET     1
@@ -199,6 +198,35 @@ public:
         // lookup by easycurl handle
     void cleanup_temp_files();
 
+};
+
+class HTTP_CURL {
+public:
+    std::string get_user_agent_string();
+    CURLM* get_curl_multi_handle();
+    unsigned int get_next_trace_id();
+    void set_use_http_1_0();
+    bool get_use_http_1_0();
+
+    static HTTP_CURL& instance() {
+        static HTTP_CURL instance;
+        return instance;
+    }
+private:
+    HTTP_CURL();
+    ~HTTP_CURL();
+    HTTP_CURL(HTTP_CURL const&); // must be private and unimplemented
+    void operator=(HTTP_CURL const&); // must be private and unimplemented
+
+    CURLM* curl_init();
+    void curl_cleanup();
+    CURLM* curlMulti;
+    std::string user_agent_string;
+    std::atomic_uint trace_count = 0;
+    // Whether we've got a 417 HTTP error.
+    // If we did, it's probably because we talked HTTP 1.1 to a 1.0 proxy;
+    // use 1.0 from now on.
+    std::atomic_bool use_http_1_0 = false;
 };
 
 #endif // BOINC_HTTP_CURL_H
