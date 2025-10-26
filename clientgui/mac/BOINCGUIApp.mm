@@ -53,22 +53,13 @@ bool CBOINCGUIApp::CallOnInit() {
 // first time the user "opens" it he either
 // double-clicks on our Finder icon or uses
 // command-tab.  It becomes the frontmost
-// application (with its menu in the menubar)
-// but the windows remain hidden, and it does
-// not receive an activate event, so we must
-// handle this case by polling.
+// application but with an incomplete menubar.
 //
 // We can stop the polling after the windows
 // have been shown once, since this state only
-// occurs if the windows have never appeared.
-//
-// TODO: Can we avoid polling by using notification
-// TODO: [NSApplicationDelegate applicationDidUnhide: ] ?
+// occurs when the windows first appear.
 //
 void CBOINCGUIApp::CheckPartialActivation() {
-    // This code is not needed and has bad effects on OS 10.5.
-    // Initializing wasHidden this way avoids the problem
-    // because we are briefly shown at login on OS 10.5.
     static bool wasHidden = [ NSApp isHidden ];
 
     if (wasHidden) {
@@ -77,6 +68,7 @@ void CBOINCGUIApp::CheckPartialActivation() {
         if (! [ NSApp isHidden ]) {
             wasHidden = false;
             ShowInterface();
+            wxGetApp().GetFrame()->CreateMenus();
         }
     }
 }
@@ -125,7 +117,7 @@ bool CBOINCGUIApp::IsApplicationVisible() {
 ///
 void CBOINCGUIApp::ShowApplication(bool bShow) {
     if (bShow) {
-        [ NSApp activateIgnoringOtherApps:YES ];
+        [ NSApp activate ];
     } else {
         [ NSApp hide:NSApp ];
     }
@@ -186,12 +178,15 @@ Boolean IsWindowOnScreen(int iLeft, int iTop, int iWidth, int iHeight) {
     return false;
 }
 
-// Each time a second instance of BOINC Managr is launched, it normally
-// nadds an additional BOINC icon to the "recently run apps" section
-// of the Dock, cluttering it up. To avoid this, we set the LSUIElement
-// key in its info.plist, which prevents the app from appearing in the
-// Dock. But if this is not a duplicate instance, we call this routine
-// to tell the system to show the icon in the Dock.
+// A second instance of BOINC Manager is sometimes launched at login
+// when the Manager is launched by the login startup item and also
+// by the "restore open windows" or "restore open applications"
+// feature of MacOS.
+// Each time a second instance of BOINC Manager is launched, it
+// normally adds an additional BOINC icon to the "recently run apps"
+// section of the Dock, cluttering it up. To avoid this, we call
+// this routine on the second instance to tell the system to hide
+// the icon in the Dock.
 // https://stackoverflow.com/questions/620841/how-to-hide-the-dock-icon
 void CBOINCGUIApp::SetActivationPolicyAccessory(bool hideDock) {
     if (hideDock) {

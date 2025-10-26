@@ -295,15 +295,15 @@ cp -fpRL "${BUILDPATH}/detect_rosetta_cpu" ../BOINC_Installer/Pkg_Root/Library/A
 cp -fpRL "${BUILDPATH}/Fix_BOINC_Users" ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 cp -fpRL "${BUILDPATH}/Run_Podman" ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 
-cp -fpRL "${BUILDPATH}/BOINCManager.app/." "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/"
-sed -i "" s/BOINCManager/"${MANAGERAPPNAME}"/g "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/Info.plist"
-sed -i "" s/BOINCMgr/"${MANAGERICON}"/g "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/Info.plist"
-mv "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/MacOS/BOINCManager" "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/MacOS/${MANAGERAPPNAME}"
-cp -fpRL clientgui/res/${MANAGERICON}.icns "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/Resources/"
-rm -rf "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/Resources/BOINCMgr.icns"
-sed -i "" s/"BOINC Manager"/"${MANAGERAPPNAME}"/g "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
+cp -fpRL "${BUILDPATH}/BOINCManager.app/." "../BOINC_Installer/Pkg_Root/Library/Application Support/${MANAGERAPPNAME}.app/"
+sed -i "" s/BOINCManager/"${MANAGERAPPNAME}"/g "../BOINC_Installer/Pkg_Root/Library/Application Support/${MANAGERAPPNAME}.app/Contents/Info.plist"
+sed -i "" s/BOINCMgr/"${MANAGERICON}"/g "../BOINC_Installer/Pkg_Root/Library/Application Support/${MANAGERAPPNAME}.app/Contents/Info.plist"
+mv "../BOINC_Installer/Pkg_Root/Library/Application Support/${MANAGERAPPNAME}.app/Contents/MacOS/BOINCManager" "../BOINC_Installer/Pkg_Root/Library/Application Support/${MANAGERAPPNAME}.app/Contents/MacOS/${MANAGERAPPNAME}"
+cp -fpRL clientgui/res/${MANAGERICON}.icns "../BOINC_Installer/Pkg_Root/Library/Application Support/${MANAGERAPPNAME}.app/Contents/Resources/"
+rm -rf "../BOINC_Installer/Pkg_Root/Library/Application Support/${MANAGERAPPNAME}.app/Contents/Resources/BOINCMgr.icns"
+sed -i "" s/"BOINC Manager"/"${MANAGERAPPNAME}"/g "../BOINC_Installer/Pkg_Root/Library/Application Support/${MANAGERAPPNAME}.app/Contents/Resources/English.lproj/InfoPlist.strings"
 
-echo ${BRANDING_INFO} > "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/Resources/Branding"
+echo ${BRANDING_INFO} > "../BOINC_Installer/Pkg_Root/Library/Application Support/${MANAGERAPPNAME}.app/Contents/Resources/Branding"
 echo ${BRANDING_INFO} > ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/Branding
 
 cp -fpRL "${BUILDPATH}/BOINCSaver.saver/." "../BOINC_Installer/Pkg_Root/Library/Screen Savers/${SSAVERAPPNAME}.saver/"
@@ -499,10 +499,10 @@ if [ -e "${HOME}/BOINCCodeSignIdentities.txt" ]; then
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Screen Savers/${SSAVERAPPNAME}.saver/"
 
     # Code Sign the BOINC client embedded in the Manager if we have a signing identity
-    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app/Contents/Resources/boinc"
+    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Application Support/${MANAGERAPPNAME}.app/Contents/Resources/boinc"
 
     # Code Sign the BOINC Manager if we have a signing identity
-    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Applications/${MANAGERAPPNAME}.app"
+    sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Library/Application Support/${MANAGERAPPNAME}.app"
 
     # Code Sign the PostInstall app embedded in the BOINC installer app if we have a signing identity
     sudo codesign -f -o runtime -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app"

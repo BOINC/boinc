@@ -203,6 +203,7 @@ int main(int argc, char *argv[])
     OSStatus                err;
     FILE                    *f;
     char                    s[2048];
+    char                    realPath[MAXPATHLEN];
     struct stat             sbuf;
 
 #ifndef SANDBOX
@@ -315,7 +316,24 @@ int main(int argc, char *argv[])
         // "\pSorry, this version of GridRepublic requires system 10.6 or higher."
         ShowMessage(false, (char *)_("Sorry, this version of %s requires system %s or higher."), brandName[brandID], Deployment_target);
 
+        // We install the BOINC Manager in "/Library/Application Support" with a
+        // soft link to it from the /Applications directory. For an explanation
+        // why we do it this way see the comment in CBOINCGUIApp::OnInit()
+        // under "if (DetectDuplicateInstance())"
+        //
         // "rm -rf \"/Applications/GridRepublic Desktop.app\""
+        if (stat(appPath[brandID], &sbuf) == 0) {
+            if (S_ISLNK(sbuf.st_mode)) {
+                if (realpath(appPath[brandID], realPath)) {   // Get path to app from symbolic link
+                    sprintf(s, "rm -rf \"%s\"", realPath);
+                    err = callPosixSpawn (s);
+                    REPORT_ERROR(err);
+                } else {
+                    REPORT_ERROR(errno);
+                }
+            }
+        }
+        // Delete either the symbolic link or the actual app if not a symbolic link
         sprintf(s, "rm -rf \"%s\"", appPath[brandID]);
         err = callPosixSpawn (s);
         REPORT_ERROR(err);
@@ -343,6 +361,11 @@ int main(int argc, char *argv[])
     }
 
     sleep (2);
+
+    // Create a symbolic link in /Applications/ directory
+    sprintf(s, "ln -s \"/Library/Application Support/%s.app\" \"%s\"", appName[brandID], appPath[brandID]);
+    err = callPosixSpawn (s);
+    REPORT_ERROR(err);
 
     // Install all_projects_list.xml file, but only if one doesn't
     // already exist, since a pre-existing one is probably newer.
@@ -478,7 +501,24 @@ int main(int argc, char *argv[])
     for (i=0; i< NUMBRANDS; i++) {
         if (i == brandID) continue;
 
+        // We install the BOINC Manager in "/Library/Application Support" with a
+        // soft link to it from the /Applications directory. For an explanation
+        // why we do it this way see the comment in CBOINCGUIApp::OnInit()
+        // under "if (DetectDuplicateInstance())"
+        //
         // "rm -rf \"/Applications/GridRepublic Desktop.app\""
+        if (stat(appPath[i], &sbuf) == 0) {
+            if (S_ISLNK(sbuf.st_mode)) {
+                if (realpath(appPath[i], realPath)) {   // Get path to app from symbolic link
+                    sprintf(s, "rm -rf \"%s\"", realPath);
+                    err = callPosixSpawn (s);
+                    REPORT_ERROR(err);
+                } else {
+                    REPORT_ERROR(errno);
+                }
+            }
+        }
+        // Delete either the symbolic link or the actual app if not a symbolic link
         sprintf(s, "rm -rf \"%s\"", appPath[i]);
         err = callPosixSpawn (s);
         REPORT_ERROR(err);
