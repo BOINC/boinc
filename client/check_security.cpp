@@ -212,36 +212,37 @@ int use_sandbox, int isManager, char* path_to_error, int len
         }
         if (retval2)
             return retval2;
-    }   // use_sandbox
 
-    snprintf(full_path, sizeof(full_path),
-        "%s/%s", DataDirPath, RUN_PODMAN_FILENAME
-    );
-    retval = stat(full_path, &sbuf);
-    if (retval)
-        return -1065;
+        snprintf(full_path, sizeof(full_path),
+            "%s/%s", DataDirPath, RUN_PODMAN_FILENAME
+        );
+        retval = stat(full_path, &sbuf);
+        if (retval)
+            return -1065;
 
-    if (sbuf.st_gid != boinc_master_gid)
-        return -1066;
+        if (sbuf.st_gid != boinc_master_gid)
+            return -1066;
 
-    if (use_sandbox) {
         if (sbuf.st_uid != 0)   // root
             return -1067;
 
         if ((sbuf.st_mode & 07777) != 04555)
             return -1068;
+#if 0
     } else {
         if (sbuf.st_uid != boinc_master_uid)
             return -1067;
 
         if ((sbuf.st_mode & 07777) != 0755)
             return -1068;
-    }
+#endif
+    }   // use_sandbox
 
 #endif  // __APPLE__
 
 #if 0   // Manager is no longer setgid
 #if (defined(__WXMAC__) || defined(_MAC_INSTALLER)) // If Mac BOINC Manager or installer
+    if (use_sandbox) {
         // Get the full path to BOINC Manager executable
         // inside this application's bundle
         //
@@ -269,32 +270,35 @@ int use_sandbox, int isManager, char* path_to_error, int len
             if ((sbuf.st_mode & S_ISGID) != S_ISGID)
                 return -1015;
         }
+    }   // use_sandbox
 #endif
 #endif   // Manager is no longer setgid
 
 
 #if (defined(__WXMAC__) || defined(_MAC_INSTALLER)) // If Mac BOINC Manager or installer
-        // Require absolute owner and group boinc_master:boinc_master
-        // Get the full path to BOINC Client inside this application's bundle
-        //
-    long brandId = 0;
-    FILE *f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
-    if (f) {
-        fscanf(f, "BrandId=%ld\n", &brandId);
-        fclose(f);
+    if (use_sandbox) {
+            // Require absolute owner and group boinc_master:boinc_master
+            // Get the full path to BOINC Client inside this application's bundle
+            //
+        long brandId = 0;
+        FILE *f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
+        if (f) {
+            fscanf(f, "BrandId=%ld\n", &brandId);
+            fclose(f);
+        }
+
+        snprintf(full_path, sizeof(full_path),"/%s/Contents/Resources/boinc", appPath[brandId]);
+            retval = stat(full_path, &sbuf);
+            if (retval)
+                return -1016;          // Should never happen
+
+            if (sbuf.st_gid != boinc_master_gid)
+                return -1017;
+
+            if (sbuf.st_uid != boinc_master_uid)
+                return -1018;
     }
-
-    snprintf(full_path, sizeof(full_path),"/%s/Contents/Resources/boinc", appPath[brandId]);
-        retval = stat(full_path, &sbuf);
-        if (retval)
-            return -1016;          // Should never happen
-
-        if (sbuf.st_gid != boinc_master_gid)
-            return -1017;
-
-        if (sbuf.st_uid != boinc_master_uid)
-            return -1018;
-#endif
+#endif  // use_sandbox
 
 #if (defined(__WXMAC__) || defined(_MAC_INSTALLER)) // If Mac BOINC Manager or installer
         // Version 6 screensaver has its own embedded switcher application, but older versions don't.
@@ -359,7 +363,6 @@ int use_sandbox, int isManager, char* path_to_error, int len
         return -1021;          // Should never happen
 
     if (use_sandbox) {
-
         // The top-level BOINC Data directory can have a different user if created by the Manager,
         // but it should always have group boinc_master.
         if (sbuf.st_gid != boinc_master_gid)
@@ -368,14 +371,12 @@ int use_sandbox, int isManager, char* path_to_error, int len
         // The top-level BOINC Data directory should have permission 771 or 571
         if ((sbuf.st_mode & 07577) != 0575)
             return -1023;
-
+#if 0
     } else {
-
         if (sbuf.st_uid != boinc_master_uid)
             return -1022;
-
+#endif
     }
-
     snprintf(full_path, sizeof(full_path), "%s/%s", dir_path, PROJECTS_DIR);
     retval = stat(full_path, &sbuf);
     if (!retval) {
@@ -385,13 +386,12 @@ int use_sandbox, int isManager, char* path_to_error, int len
             if (sbuf.st_gid != boinc_project_gid)
                 return -1024;
 
-        if ((sbuf.st_mode & 07777) != 0770)
-            return -1025;
+            if ((sbuf.st_mode & 07777) != 0770)
+                return -1025;
+
+            if (sbuf.st_uid != boinc_master_uid)
+                return -1026;
         }
-
-        if (sbuf.st_uid != boinc_master_uid)
-            return -1026;
-
         // Step through project directories
         retval = CheckNestedDirectories(full_path, 1, use_sandbox, isManager, false, path_to_error, len);
         if (retval)
@@ -407,10 +407,10 @@ int use_sandbox, int isManager, char* path_to_error, int len
 
             if ((sbuf.st_mode & 07777) != 0770)
                 return -1028;
-        }
 
-        if (sbuf.st_uid != boinc_master_uid)
-            return -1029;
+            if (sbuf.st_uid != boinc_master_uid)
+                return -1029;
+        }
 
         // Step through slot directories
         retval = CheckNestedDirectories(full_path, 1, use_sandbox, isManager, true, path_to_error, len);
@@ -454,13 +454,13 @@ int use_sandbox, int isManager, char* path_to_error, int len
 
             if ((sbuf.st_mode & 07777) != 0660)
                 return -1032;
+
+            if (sbuf.st_uid != boinc_master_uid)
+                return -1031;
         } else {
             if ((sbuf.st_mode & 07717) != 0600)
                 return -1032;
         }
-
-        if (sbuf.st_uid != boinc_master_uid)
-            return -1031;
     }
 
     if (use_sandbox) {
@@ -630,6 +630,8 @@ static int CheckNestedDirectories(
     DIR             *dirp;
     dirent          *dp;
     static int      errShown = 0;
+
+    if (!use_sandbox) return 0;
 
     dirp = opendir(basepath);
     if (dirp == NULL) {
