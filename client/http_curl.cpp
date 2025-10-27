@@ -57,7 +57,9 @@ using std::vector;
 
 HTTP_CURL::HTTP_CURL() :
     curlMulti(curl_init()),
-    user_agent_string(std::move(get_user_agent_string())) {
+    user_agent_string(std::move(build_user_agent_string())),
+    trace_count(0),
+    use_http_1_0(false) {
 }
 
 HTTP_CURL::~HTTP_CURL() {
@@ -76,10 +78,7 @@ void HTTP_CURL::curl_cleanup() {
     curl_global_cleanup();
 }
 
-std::string HTTP_CURL::get_user_agent_string() {
-    if (user_agent_string.size() > 0) {
-        return user_agent_string;
-    }
+std::string HTTP_CURL::build_user_agent_string() {
     std::stringstream ss;
     ss << "BOINC client (" << HOSTTYPE << " "
        << BOINC_MAJOR_VERSION << "."
@@ -89,6 +88,13 @@ std::string HTTP_CURL::get_user_agent_string() {
         ss << " (" << gstate.client_brand << ")";
     }
     return ss.str();
+}
+
+std::string HTTP_CURL::get_user_agent_string() {
+    if (user_agent_string.size() > 0) {
+        return user_agent_string;
+    }
+    return build_user_agent_string();
 }
 
 unsigned int HTTP_CURL::get_next_trace_id() {
@@ -689,8 +695,9 @@ int HTTP_OP::libcurl_exec(
     //
     if (log_flags.http_debug) {
         curl_easy_setopt(curlEasy, CURLOPT_DEBUGFUNCTION,
-            [](CURL*, curl_infotype type, char *data, size_t, HTTP_OP* phop) {
-            if (!log_flags.http_debug) return;
+            [](CURL*, curl_infotype type, char *data, size_t,
+            HTTP_OP* phop) -> int {
+            if (!log_flags.http_debug) return 0;
 
             const char* desc = NULL;
             switch (type) {
@@ -704,17 +711,18 @@ int HTTP_OP::libcurl_exec(
                 desc = "Received header from server:";
                 break;
             default: /* in case a new one is introduced to shock us */
-               return;
+               return 0;
             }
 
             std::stringstream ssData(data);
             std::string line;
             while(std::getline(ssData, line)) {
                 msg_printf(phop->project, MSG_INFO,
-                    "[http] [ID#%u] %s %s\n", phop->trace_id, desc, line.c_str()
+                    "[http] [ID#%u] %s %s\n", phop->trace_id, desc,
+                    line.c_str()
                 );
             }
-            return;
+            return 0;
         });
 
         curl_easy_setopt(curlEasy, CURLOPT_DEBUGDATA, this);

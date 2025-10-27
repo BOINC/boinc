@@ -212,21 +212,23 @@ public:
         static HTTP_CURL instance;
         return instance;
     }
+    HTTP_CURL(HTTP_CURL const&) = delete;
+    void operator=(HTTP_CURL const&) = delete;
 private:
     HTTP_CURL();
     ~HTTP_CURL();
-    HTTP_CURL(HTTP_CURL const&); // must be private and unimplemented
-    void operator=(HTTP_CURL const&); // must be private and unimplemented
 
     CURLM* curl_init();
     void curl_cleanup();
+    static std::string build_user_agent_string();
+
     CURLM* curlMulti;
     std::string user_agent_string;
-    std::atomic_uint trace_count = 0;
+    std::atomic_uint trace_count;
     // Whether we've got a 417 HTTP error.
     // If we did, it's probably because we talked HTTP 1.1 to a 1.0 proxy;
     // use 1.0 from now on.
-    std::atomic_bool use_http_1_0 = false;
+    std::atomic_bool use_http_1_0;
 };
 
 #endif // BOINC_HTTP_CURL_H
