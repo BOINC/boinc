@@ -53,7 +53,6 @@ const char file_redhatrelease[] = "/etc/redhat-release";
 
 extern const char* docker_cli_prog(DOCKER_TYPE type);
 extern const char* docker_type_str(DOCKER_TYPE type);
-extern const char* docker_cmd_prefix(DOCKER_TYPE type);
 
 // if you add fields, update clear_host_info()
 
@@ -136,6 +135,9 @@ public:
     int get_local_network_info();
     int get_virtualbox_version();
     bool have_docker();
+#ifdef __APPLE__
+    bool is_podman_VM_running();
+#endif
 #ifndef _WIN32
     // on Windows, Docker info is per WSL_DISTRO, not global
     bool get_docker_version();

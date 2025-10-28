@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,7 +21,7 @@
 
 MSIHANDLE MsiHelper::MsiRecordSet(const std::vector<std::variant<
     std::string, int, std::filesystem::path>>& values) {
-    const auto hRecord = MsiCreateRecord(values.size());
+    const auto hRecord = MsiCreateRecord(static_cast<UINT>(values.size()));
     if (hRecord == 0) {
         throw std::runtime_error("Failed to create record");
     }

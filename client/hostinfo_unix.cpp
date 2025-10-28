@@ -151,6 +151,7 @@ extern "C" {
 
 #include <dlfcn.h>
 #endif
+int podman_init_pid = 0;
 #endif  // __APPLE__
 
 #ifdef _HPUX_SOURCE
@@ -179,16 +180,6 @@ extern "C" {
 //
 #if (defined(__linux__) || defined(__GNU__) || defined(__GLIBC__))  && !defined(__HAIKU__)
 #define LINUX_LIKE_SYSTEM 1
-#endif
-
-#if WASM
-    #include <emscripten.h>
-#endif
-
-#if WASM
-    EM_JS(FILE*, popen, (const char* command, const char* mode), {
-        //TODO: add javascript code
-    });
 #endif
 
 // Returns the offset between LOCAL STANDARD TIME and UTC.
@@ -1234,14 +1225,33 @@ int HOST_INFO::get_virtualbox_version() {
     return 0;
 }
 
+#ifdef __APPLE__
+bool HOST_INFO::is_podman_VM_running() {
+    char cmd[1024], buf[256];
+
+    snprintf(cmd, sizeof(cmd), "%s machine list",
+        docker_cli_prog(PODMAN)
+    );
+    FILE* f = popen(cmd, "r");
+    if (!f) return false;
+    bool isrunning = false;
+    while (fgets(buf, sizeof(buf), f)) {
+        if (strcasestr(buf, "running")) {
+            isrunning = true;
+            break;
+        }
+    }
+    return isrunning;
+}
+#endif
+
 // check if docker/podman is installed and functional on this host.
 // if so, populate docker_version and return true
 //
 bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
     char cmd[1024], buf[256];
 
-    snprintf(cmd, sizeof(cmd), "%s %s --version 2>/dev/null",
-        docker_cmd_prefix(type),
+    snprintf(cmd, sizeof(cmd), "%s --version 2>/dev/null",
         docker_cli_prog(type)
     );
     FILE* f = popen(cmd, "r");
@@ -1265,26 +1275,44 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
     // download (if not there) and start QEMU VM
     if (type == PODMAN) {
         snprintf(cmd, sizeof(cmd),
-            "%s podman machine init 2>/dev/null",
-            docker_cmd_prefix(type)
+            "%s machine init -v /Library:/Library; %s machine start",
+            docker_cli_prog(type),
+            docker_cli_prog(type)
         );
-        system(cmd);
+        char * argv[4];
+        argv[0] = "sh";
+        argv[1] = "-c";
+        argv[2] = cmd;
+        argv[3] = NULL;
+        run_program(NULL, "/bin/sh", 0, argv, podman_init_pid);
+
+#if 0   // For debugging
         snprintf(cmd, sizeof(cmd),
-            "%s podman machine start 2>/dev/null",
-            docker_cmd_prefix(type)
+                 "%s machine list",
+            docker_cli_prog(type)
         );
-        system(cmd);
-    }
+        // fprintf(stderr, "\ncmd = %s\n\n", cmd);   // For debugging
+        f = popen(cmd, "r");
+        if (f) {
+            char buf[256];
+            while (fgets(buf, sizeof(buf), f)) {
+                fprintf(stderr, "podman machine list returned: %s\n", buf);
+            }
+        }
+        pclose(f);
 #endif
+    }
+#endif  // __APPLE__
 
 #ifdef __linux__
     // if we're running as an unprivileged user, Docker/podman may not work.
     // Check by running the Hello World image.
     //
-    // Since we do this every time on startup, don't delete the image.
+    // Since we do this every time on startup: delete the created container
+    // but don't delete the image.
     //
     snprintf(cmd, sizeof(cmd),
-        "%s run hello-world 2>/dev/null",
+        "%s run --rm hello-world 2>/dev/null",
         docker_cli_prog(type)
     );
     found = false;
@@ -1322,25 +1350,6 @@ bool HOST_INFO::get_docker_version(){
     }
 #endif
 
-#ifdef __APPLE__
-    // on Mac, Podman requires an accessable dir 'podman'
-    //
-    if (!is_dir(PODMAN_DIR)) {
-        boinc_mkdir(PODMAN_DIR);
-        if (g_use_sandbox) {
-            mode_t old_mask = umask(2); // Allow writing by group
-            chmod(PROJECTS_DIR,
-                S_IRUSR|S_IWUSR|S_IXUSR
-                |S_IRGRP|S_IWGRP|S_IXGRP
-            );
-            umask(old_mask);
-            // Only user boinc_master and group boinc_project can access
-            // project directories, to keep authenticators private
-            set_to_project_group(PODMAN_DIR);
-        }
-    }
-#endif
-
     if (check_podman) {
         if (get_docker_version_aux(PODMAN)) {
             docker_type = PODMAN;
@@ -1363,8 +1372,7 @@ bool HOST_INFO::get_docker_compose_version_aux(DOCKER_TYPE type){
     char cmd[1024];
 
     snprintf(cmd, sizeof(cmd),
-        "%s%s compose version 2>/dev/null",
-        docker_cmd_prefix(type),
+        "%s compose version 2>/dev/null",
         docker_cli_prog(type)
     );
     FILE* f = popen(cmd, "r");
@@ -1409,9 +1417,6 @@ int HOST_INFO::get_cpu_info() {
     strlcpy( p_model, cpuInfo.name.fromID, sizeof(p_model));
 #elif defined(__HAIKU__)
     get_cpu_info_haiku(*this);
-#elif WASM
-    strlcpy( p_vendor, "WASM", sizeof(p_vendor));
-    strlcpy( p_model, "WASM", sizeof(p_model));
 #elif HAVE_SYS_SYSCTL_H
     int mib[2];
     size_t len;
@@ -2326,7 +2331,7 @@ union headeru {
 // Returns 1 if application can run natively on this computer,
 // else returns 0.
 //
-// ToDo: determine whether x86_64 graphics apps emulated on arm64 Macs
+// TODO: determine whether x86_64 graphics apps emulated on arm64 Macs
 // properly run under Rosetta 2. Note: years ago, PowerPC apps emulated
 // by Rosetta on i386 Macs crashed when running graphics.
 //
@@ -2346,7 +2351,7 @@ bool can_run_on_this_CPU(char* exec_path) {
 
     if (need_CPU_architecture) {
         // Determine the architecture of the CPU we are running on
-        // ToDo: adjust this code accordingly.
+        // TODO: adjust this code accordingly.
         uint32_t cputype = 0;
         size_t size = sizeof (cputype);
         int res = sysctlbyname ("hw.cputype", &cputype, &size, NULL, 0);

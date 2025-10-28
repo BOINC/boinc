@@ -19,7 +19,7 @@ name: OSX
 on:
   push:
     branches: [ master, 'client_release/**' ]
-    tags: [ 'client_release/**', 'vboxwrapper/**', 'wrapper/**' ]
+    tags: [ 'client_release/**', 'vboxwrapper/**', 'wrapper/**', 'dockerwrapper/**', 'worker/**' ]
   pull_request:
     branches: [ master ]
   schedule:
@@ -33,7 +33,7 @@ env:
   AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
   AWS_DEFAULT_REGION: us-west-2
-  XCODE_VERSION: '16.2.0'
+  XCODE_VERSION: '26.0.1'
 
 jobs:
   build-dependencies:
@@ -44,10 +44,10 @@ jobs:
         with:
           xcode-version: ${{ env.XCODE_VERSION }}
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - name: Cache dependencies
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: 3rdParty/buildCache
           key: osx-${{ hashFiles('.github/workflows/osx.yml', '3rdParty/buildMacDependencies.sh', 'mac_build/dependencyNames.sh', 'mac_build/buildc-ares.sh', 'mac_build/buildcurl.sh', 'mac_build/buildfreetype.sh', 'mac_build/buildFTGL.sh', 'mac_build/buildopenssl.sh', 'mac_build/buildWxMac.sh') }}
@@ -68,10 +68,10 @@ jobs:
         with:
           xcode-version: ${{ env.XCODE_VERSION }}
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - name: Cache dependencies
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: 3rdParty/buildCache
           key: osx-${{ hashFiles('.github/workflows/osx.yml', '3rdParty/buildMacDependencies.sh', 'mac_build/dependencyNames.sh', 'mac_build/buildc-ares.sh', 'mac_build/buildcurl.sh', 'mac_build/buildfreetype.sh', 'mac_build/buildFTGL.sh', 'mac_build/buildopenssl.sh', 'mac_build/buildWxMac.sh') }}
@@ -90,7 +90,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: osx_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
@@ -100,27 +100,27 @@ jobs:
 
       - name: Upload manager
         if: matrix.type == 'manager'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: osx_manager_${{ github.event.pull_request.head.sha }}
           path: deploy/macos_manager.7z
 
       - name: Upload apps
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: osx_${{ matrix.type }}_apps_${{ github.event.pull_request.head.sha }}
           path: deploy/macos_apps.7z
 
       - name: Upload x86_64 apps
         if: matrix.type == 'samples-makefile'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: osx_x86_64_apps_${{ github.event.pull_request.head.sha }}
           path: deploy/macos_apps_x86_64.7z
 
       - name: Upload arm64 apps
         if: matrix.type == 'samples-makefile'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: osx_arm64_apps_${{ github.event.pull_request.head.sha }}
           path: deploy/macos_apps_arm64.7z
@@ -138,7 +138,7 @@ jobs:
         with:
           xcode-version: ${{ env.XCODE_VERSION }}
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - name: Check if build is running from origin repo
         if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
@@ -163,7 +163,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: osx_logs_cmake-build_${{ matrix.triplet }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z

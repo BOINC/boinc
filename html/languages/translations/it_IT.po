@@ -14,6 +14,7 @@
 # Gianfranco Costamagna <costamagnagianfranco@yahoo.it>, 2015
 # J M <fire.hi@gmail.com>, 2019
 # Massimiliano Caniparoli <massic80@gmail.com>, 2024
+# Mathieu Licata, 2025
 # SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2015-2017
 # SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2017-2019
 # SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2019-2023
@@ -24,7 +25,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2025-02-09 02:28 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:29+0000\n"
-"Last-Translator: Massimiliano Caniparoli <massic80@gmail.com>, 2024\n"
+"Last-Translator: Mathieu Licata, 2025\n"
 "Language-Team: Italian (Italy) (http://app.transifex.com/boinc/boinc/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -783,15 +784,15 @@ msgstr "Ci sono nuovi messaggi nella discussione '%1'"
 
 #: html/inc/forum.inc:1467
 msgid "New threads in the forum %1"
-msgstr ""
+msgstr "Nuovi thread nel forum %1"
 
 #: html/inc/forum.inc:1472
 msgid "New posts in subscribed forum"
-msgstr ""
+msgstr "Nuovi messaggi nel forum sottoscritto"
 
 #: html/inc/forum.inc:1473
 msgid "There are new threads in the forum '%1'"
-msgstr ""
+msgstr "Ci sono nuovi thread nel forum '%1'"
 
 #: html/inc/forum.inc:1484
 msgid "Mark all threads as read"
@@ -964,7 +965,7 @@ msgstr "Velocità media di upload"
 
 #: html/inc/host.inc:161 html/inc/host.inc:168
 msgid "%1 MB/sec"
-msgstr ""
+msgstr "%1 MB/sec"
 
 #: html/inc/host.inc:163 html/inc/host.inc:170 html/inc/result.inc:235
 #: html/inc/result.inc:245 html/inc/result.inc:263 html/inc/result.inc:281
@@ -1267,11 +1268,11 @@ msgstr "Per"
 
 #: html/inc/pm.inc:172
 msgid "User names, one per line"
-msgstr ""
+msgstr "Nomi utente, uno per riga"
 
 #: html/inc/pm.inc:173
 msgid "User IDs or unique usernames, one per line"
-msgstr ""
+msgstr "ID utente o nomi utente univoci, uno per riga"
 
 #: html/inc/pm.inc:237
 msgid "sent you a private message; subject:"
@@ -1709,7 +1710,7 @@ msgstr "Accelerare le attività GPU riservando a ciascuna una CPU?"
 
 #: html/inc/prefs_project.inc:74
 msgid "Allow CPU-only tasks"
-msgstr ""
+msgstr "Consenti attività solo CPU"
 
 #: html/inc/prefs_project.inc:83
 msgid "Use AMD GPU"
@@ -2671,11 +2672,11 @@ msgstr "lo username non può essere vuoto"
 
 #: html/inc/user_util.inc:90
 msgid "user name may not contain special characters"
-msgstr ""
+msgstr "Il nome utente non può contenere caratteri speciali"
 
 #: html/inc/user_util.inc:94
 msgid "user name may not be a number"
-msgstr ""
+msgstr "Il nome utente non può essere un numero"
 
 #: html/inc/user_util.inc:165
 msgid "Can't create account"
@@ -3418,7 +3419,7 @@ msgid ""
 "                then select <b>Tools / Use Account Manager</b>\n"
 "                to connect BOINC to your %1 account.\n"
 "                See <a href=%2>detailed instructions</a>."
-msgstr ""
+msgstr "Quando BOINC viene eseguito per la prima volta, ti chiederà di selezionare un progetto.\n                Chiudi questa finestra di dialogo,\n                poi seleziona Strumenti / Usa Gestore Account\n                per collegare BOINC al %1 tuo account.\n                Consulta le istruzioni dettagliate."
 
 #: html/user/download_software.php:252
 msgid ""
@@ -3514,11 +3515,11 @@ msgstr "Il nuovo indirizzo email '%1' non è valido."
 
 #: html/user/edit_email_action.php:42
 msgid "Email address '%1' is flagged by stopforumspam.com."
-msgstr ""
+msgstr "L’indirizzo email '%1' è segnalato da stopforumspam.com."
 
 #: html/user/edit_email_action.php:44
 msgid "New email address '%1' is banned."
-msgstr ""
+msgstr "Il nuovo indirizzo email '%1' è bloccato."
 
 #: html/user/edit_email_action.php:46
 msgid "New email address is same as existing address. Nothing is changed."
@@ -3554,7 +3555,7 @@ msgstr "Cambia l'indirizzo email"
 msgid ""
 "Note: if you change your email address, your %1weak account key%2 will "
 "change."
-msgstr ""
+msgstr "Nota: se modifichi il tuo indirizzo email, la tua %1chiave account debole%2 di %1 cambierà."
 
 #: html/user/edit_email_form.php:40
 msgid "New email address"
@@ -3650,7 +3651,7 @@ msgstr "Così apparirà il tuo avatar"
 msgid ""
 "Check out %1 various free services %2 <br> providing dynamic 'signature "
 "images' <br> showing your latest credit info, project news, etc."
-msgstr ""
+msgstr "Dai un’occhiata a %1 diversi servizi gratuiti %2 1 che forniscono “immagini firma” dinamiche 2 che mostrano le tue ultime informazioni sui crediti, le notizie sui progetti, ecc."
 
 #: html/user/edit_forum_preferences_form.php:103
 msgid "Attach signature by default"
@@ -3720,15 +3721,15 @@ msgstr "Non mettere i post offensivi all'inizio"
 #. ------------ Message filtering  -----------
 #: html/user/edit_forum_preferences_form.php:148
 msgid "Message blocking"
-msgstr ""
+msgstr "Blocco messaggi"
 
 #: html/user/edit_forum_preferences_form.php:170
 msgid "Unblock"
-msgstr ""
+msgstr "Sblocca"
 
 #: html/user/edit_forum_preferences_form.php:178
 msgid "Blocked users"
-msgstr ""
+msgstr "Utente bloccato"
 
 #: html/user/edit_forum_preferences_form.php:179
 msgid "Ignore message board posts and private messages from these users."
@@ -3749,7 +3750,7 @@ msgstr "ID utente (per esempio: 123456789)"
 
 #: html/user/edit_forum_preferences_form.php:192
 msgid "Block"
-msgstr ""
+msgstr "Blocca"
 
 #: html/user/edit_forum_preferences_form.php:196
 #: html/user/edit_forum_preferences_form.php:199
@@ -3787,7 +3788,7 @@ msgstr "La tua password è stata cambiata."
 #: html/user/edit_passwd_form.php:27
 msgid ""
 "Note: if you change your password, your %1weak account key%2 will change."
-msgstr ""
+msgstr "Nota: se cambi la password, la tua %1chiave account debole%2 cambierà."
 
 #: html/user/edit_passwd_form.php:34
 msgid "New password"
@@ -4398,7 +4399,7 @@ msgstr "Fallo solo per gli elementi che siano verosimilmente di interesse per tu
 
 #: html/user/forum_post.php:188
 msgid "Subscribe to the new thread"
-msgstr ""
+msgstr "Iscriviti al nuovo thread"
 
 #: html/user/forum_rate.php:58
 msgid "You need more average or total credit to rate a post."
@@ -4452,11 +4453,11 @@ msgstr "Messaggio:"
 
 #: html/user/forum_reply.php:191
 msgid "Post"
-msgstr ""
+msgstr "Pubblica"
 
 #: html/user/forum_reply.php:194
 msgid "Subscribe to this thread"
-msgstr ""
+msgstr "Iscriviti a questo thread"
 
 #: html/user/forum_report_post.php:54
 msgid "You need more average or total credit to report a post."
@@ -4710,7 +4711,7 @@ msgstr "Iscriviti"
 
 #: html/user/forum_thread.php:185
 msgid "Click to get notified when there are new posts in this thread"
-msgstr ""
+msgstr "Clicca per ricevere una notifica quando ci sono nuovi messaggi in questo thread"
 
 #: html/user/forum_thread.php:196
 msgid "Unhide this thread"
@@ -5076,7 +5077,7 @@ msgstr "Crediti degli host aggiornati"
 
 #: html/user/host_venue_action.php:41
 msgid "Computer venue updated"
-msgstr ""
+msgstr "Luogo del computer aggiornato"
 
 #: html/user/host_venue_action.php:43
 msgid "none"
@@ -5084,17 +5085,17 @@ msgstr "nessuno"
 
 #: html/user/host_venue_action.php:53
 msgid "The venue of this computer has been set to %1."
-msgstr ""
+msgstr "Il luogo di questo computer è stato impostato su %1."
 
 #: html/user/host_venue_action.php:56
 msgid ""
 "Preference changes will take effect when the computer communicates with this"
 " project."
-msgstr ""
+msgstr "Le modifiche alle preferenze avranno effetto quando il computer comunicherà con questo progetto."
 
 #: html/user/host_venue_action.php:59
 msgid "Continue to home page"
-msgstr ""
+msgstr "Continua alla pagina principale"
 
 #: html/user/hosts_user.php:53
 msgid "Computers belonging to %1"
@@ -5525,7 +5526,7 @@ msgstr "Il tuo messaggio è stato inviato a %1 componenti del team."
 msgid ""
 "Your message was flagged as spam by the Akismet anti-spam system.  Please "
 "modify your text and try again."
-msgstr ""
+msgstr "Il tuo messaggio è stato segnalato come spam dal sistema anti-spam Akismet. Modifica il testo e riprova."
 
 #: html/user/pm.php:294
 msgid "Could not find user with id %1"
@@ -5541,7 +5542,7 @@ msgstr "%1 è un nome che hanno più utenti, devi usare l'ID dell'utente"
 
 #: html/user/pm.php:320
 msgid "User %1 is not accepting private messages from you."
-msgstr ""
+msgstr "L’utente %1 non accetta messaggi privati da te."
 
 #: html/user/pm.php:323
 msgid "User %1 (ID: %2) is not accepting private messages from you."
@@ -5879,7 +5880,7 @@ msgstr "Attività per applicazione"
 
 #: html/user/server_status.php:175
 msgid "Runtime of recent tasks in hours: average, min, max"
-msgstr ""
+msgstr "Tempo di esecuzione delle attività recenti in ore: media, minimo, massimo"
 
 #: html/user/server_status.php:176
 msgid "Users in last 24 hours"
@@ -6749,7 +6750,7 @@ msgstr "Accetta i Termini di utilizzo."
 
 #: html/user/user_agreetermsofuse_action.php:41
 msgid "Agree to terms of use to continue."
-msgstr ""
+msgstr "Accetta i termini di utilizzo per continuare."
 
 #: html/user/user_search.php:63
 msgid "Filters"
@@ -6881,7 +6882,7 @@ msgstr "Profilo: %1"
 
 #: html/user/view_profile.php:65
 msgid "User info"
-msgstr ""
+msgstr "Informazioni utente"
 
 #: html/user/weak_auth.php:53
 msgid ""
@@ -6904,7 +6905,7 @@ msgid ""
 "       To do so, install BOINC,\n"
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
-msgstr ""
+msgstr "Collega un computer al tuo account senza usare il BOINC Manager.\nPer farlo, installa BOINC,\ncrea un file chiamato %1 nella directory dei dati di BOINC\ne impostane il contenuto su:"
 
 #: html/user/weak_auth.php:74
 msgid "Weak account key"
@@ -6923,7 +6924,7 @@ msgstr "La tua 'chiave di accesso debole' può essere usata per aggiungere compu
 msgid ""
 "The key depends on your account's email address and password.  If you change"
 " either of these, the weak account key will change."
-msgstr ""
+msgstr "La chiave dipende dall’indirizzo email e dalla password del tuo account. Se modifichi uno di questi, la chiave account debole cambierà."
 
 #: html/user/welcome.php:22
 msgid ""

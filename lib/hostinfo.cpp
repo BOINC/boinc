@@ -351,7 +351,7 @@ const char* docker_cli_prog(DOCKER_TYPE type) {
     switch (type) {
     case DOCKER: return "docker";
 #ifdef __APPLE__
-        case PODMAN: return "/opt/podman/bin/podman";
+        case PODMAN: return "\"/Library/Application Support/BOINC Data/Run_Podman\" ";
 #else
     case PODMAN: return "podman";
 #endif
@@ -370,29 +370,6 @@ const char* docker_type_str(DOCKER_TYPE type) {
     }
     return "unknown";
 }
-
-// on Mac+podman we need to set env variables
-// to use a directory accessable to boinc_master and boinc_projects
-//
-#ifdef __APPLE__
-const char* docker_cmd_prefix(DOCKER_TYPE type) {
-    static char buf[256];
-    if (type == PODMAN) {
-        const char* dir = "/Library/Application\ Support/BOINC\ Data/podman";
-        // must end w/ space
-        snprintf(buf, sizeof(buf),
-            "env XDG_CONFIG_HOME=\"%s\" XDG_DATA_HOME=\"%s\" ",
-            dir, dir
-        );
-        return buf;
-    }
-    return "";
-}
-#else
-const char* docker_cmd_prefix(DOCKER_TYPE) {
-    return "";
-}
-#endif
 
 // parse a string like
 // Docker version 24.0.7, build 24.0.7-0ubuntu2~22.04.1
@@ -448,7 +425,7 @@ bool HOST_INFO::get_docker_compose_version_string(
 bool HOST_INFO::have_docker() {
 #ifdef _WIN32
     for (WSL_DISTRO &wd: wsl_distros.distros) {
-        if (!empty(wd.docker_version)) return true;
+        if (!wd.docker_version.empty()) return true;
     }
     return false;
 #else

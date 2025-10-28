@@ -59,9 +59,7 @@ CBOINCBitmapChoice::CBOINCBitmapChoice(wxWindow *parent, wxWindowID id,
 CBOINCBitmapChoice::~CBOINCBitmapChoice() {
 }
 
-void CBOINCBitmapChoice::SetItemBitmap(unsigned int n, const wxBitmap& bitmap) {
-    wxChoice::SetItemBitmap(n, bitmap);
-}
+// CBOINCBitmapChoice::SetItemBitmap() is in BOINCGUIApp.mm
 
 void CBOINCBitmapChoice::OnMouseDown(wxMouseEvent& event) {
     wxToolTip::Enable(false);

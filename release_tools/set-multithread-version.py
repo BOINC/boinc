@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
 # Copyright (C) 2025 University of California

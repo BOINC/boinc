@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [focal, jammy, noble, buster, bullseye, bookworm]
+        os: [focal, jammy, noble, buster, bullseye, bookworm, trixie]
       fail-fast: false
     steps:
       - name: Check if build is running from origin repo
@@ -51,7 +51,7 @@ jobs:
         run: |
           echo "SKIP_RUN=1" >> $GITHUB_ENV
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         if: ${{ success() && env.SKIP_RUN == 0 }}
         with:
           fetch-depth: 2
@@ -77,7 +77,7 @@ jobs:
           cd ${{ github.workspace }}/.github/workflows/debrepo/
           ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${{ github.workspace }} ${{ matrix.os }} "stable" ${{ env.PUBKEY }}
 
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         if: ${{ success() && env.SKIP_RUN == 0 }}
         with:
           name: repo-stable-${{ matrix.os }}
@@ -100,7 +100,6 @@ jobs:
         os: [fc37, fc38, fc39, fc40, fc41, fc42, suse15_4, suse15_5, suse15_6]
       fail-fast: false
     env:
-      ARCH: x86_64
       PUBKEY_HASH: D4460B4F0EEDE2C0662092F640254C9B29853EA6
     steps:
       - name: Check if build is running from origin repo
@@ -113,7 +112,7 @@ jobs:
         run: |
           echo "SKIP_RUN=1" >> $GITHUB_ENV
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         if: ${{ success() && env.SKIP_RUN == 0 }}
         with:
           fetch-depth: 2
@@ -148,9 +147,9 @@ jobs:
 
             cd .github/workflows/rpmrepo/
             # Updates or creates the repository
-            ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${CWD} ${{ matrix.os }} "stable" ${{ env.PUBKEY }} ${{ env.PUBKEY_HASH }} ${{ env.ARCH }}
+            ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${CWD} ${{ matrix.os }} "stable" ${{ env.PUBKEY }} ${{ env.PUBKEY_HASH }}
 
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         if: ${{ success() && env.SKIP_RUN == 0 }}
         with:
           name: repo-stable-${{ matrix.os }}

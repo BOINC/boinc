@@ -20,7 +20,7 @@
 	<string>%VERSION%</string>
 	<key>CFBundleShortVersionString</key>
 	<string>%VERSION%</string>
-	<key>LSUIElement</key>
-	<true/>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
 </dict>
 </plist>

@@ -246,7 +246,8 @@ DirScanner::DirScanner(string const& path) {
 #endif
 }
 
-// Scan through a directory and return the next file name in it
+// Scan through a directory and return the next item (file or dir) in it
+// Skip items starting with .
 //
 bool DirScanner::scan(string& s) {
 #ifdef _WIN32

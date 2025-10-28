@@ -27,7 +27,7 @@ function exit_usage() {
 }
 
 case "$1_$2" in
-"focal_linux_client" | "jammy_linux_client" | "noble_linux_client" | "buster_linux_client" | "bullseye_linux_client" | "bookworm_linux_client")
+"focal_linux_client" | "jammy_linux_client" | "noble_linux_client" | "buster_linux_client" | "bullseye_linux_client" | "bookworm_linux_client" | "trixie_linux_client")
     echo "libc6,libxss1 (>= 1.2.3),ca-certificates"
     ;;
 *)  echo "libc6"

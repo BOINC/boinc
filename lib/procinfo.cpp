@@ -167,14 +167,15 @@ void procinfo_non_boinc(PROCINFO& procinfo, PROC_MAP& pm) {
 // get CPU time of things we don't want to count as non-BOINC-related
 // - BOINC apps
 // - low-priority processes
-// - (if Vbox apps are running) the Vbox daemon
+// - (if Vbox apps are running) Vbox processes
 // - Windows: WSL daemon ('vmmem')
 // - Linux/Mac:
 //      we don't account Docker/podman CPU time here,
 //      since we don't know what the processes are.
-//      Instead we do it in the client (by looking at ACTIVE_TASKS)
-//
-//      processes named 'podman'
+//      Instead we do it in the client (in get_memory_usage())
+//      by adding the current_cpu_time of ACTIVE_TASKS
+// - Mac:
+//      the VM used by Podman
 //
 // This is subtracted from total CPU time to get
 // the 'non-BOINC CPU time' used in computing preferences
@@ -196,6 +197,9 @@ double boinc_related_cpu_time(PROC_MAP& pm, bool vbox_app_running) {
                 // e.g. VBoxHeadless.exe and VBoxSVC.exe on Win
 #ifdef _WIN32
             || strstr(p.command, "vmmem")
+#endif
+#ifdef __APPLE__
+            || strstr(p.command, "com.apple.Virtualization.VirtualMachine")
 #endif
         ) {
             sum += (p.user_time + p.kernel_time);

@@ -101,9 +101,12 @@ struct CLIENT_STATE {
     ACTIVE_TASK_SET active_tasks;
     HOST_INFO host_info;
 
-    // the following used only on Android
+#ifdef ANDROID
     DEVICE_STATUS device_status;
+        // info from GUI, e.g. battery status
     double device_status_time;
+        // time of last RPC from GUI
+#endif
 
     char language[16];                // ISO language code reported by GUI
     char client_brand[256];
@@ -243,7 +246,7 @@ struct CLIENT_STATE {
     void process_autologin(bool first);
 
 // --------------- app_test.cpp:
-    bool app_test;          // this and the follow are not used,
+    bool app_test;          // this and the following are not used,
     string app_test_file;   // but if I remove them the client crashes on exit.  WTF???
     void app_test_init();
 
@@ -553,6 +556,11 @@ struct CLIENT_STATE {
 
 extern CLIENT_STATE gstate;
 
+#ifdef __APPLE__
+// PID of process that initializes Podman VM, or zero if it's finished
+extern int podman_init_pid;
+#endif
+
 extern bool gpus_usable;
     // set to false if GPUs not usable because of remote desktop
     // or login situation (Windows)
@@ -700,8 +708,7 @@ extern void show_wsl_messages();
     // We rely on the GUI to report battery status.
 #define ANDROID_BATTERY_BACKOFF     300
     // Android: if battery is overheated or undercharged,
-    // suspend for at least this long
-    // (avoid rapid start/stop)
+    // suspend computing for at least this long (avoid rapid start/stop)
 
 #ifndef ANDROID
 #define USE_NET_PREFS

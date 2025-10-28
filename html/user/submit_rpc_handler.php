@@ -628,7 +628,10 @@ function query_batches($r) {
     foreach ($batches as $batch) {
         if ($batch->state == BATCH_STATE_RETIRED) continue;
         if ($batch->state < BATCH_STATE_COMPLETE) {
-            $wus = BoincWorkunit::enum("batch = $batch->id");
+            $wus = BoincWorkunit::enum_fields(
+                'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
+                "batch = $batch->id"
+            );
             $batch = get_batch_params($batch, $wus);
         }
         echo "    <batch>\n";
@@ -731,7 +734,10 @@ function query_batch($r) {
         xml_error(-1, "not owner of batch");
     }
 
-    $wus = BoincWorkunit::enum("batch = $batch->id", "order by id");
+    $wus = BoincWorkunit::enum_fields(
+        'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
+        "batch = $batch->id", 'order by id'
+    );
     $batch = get_batch_params($batch, $wus);
     $get_cpu_time = (int)($r->get_cpu_time);
     $get_job_details = (int)($r->get_job_details);
@@ -742,13 +748,6 @@ function query_batch($r) {
         <name>$wu->name</name>
         <canonical_instance_id>$wu->canonical_resultid</canonical_instance_id>
 ";
-        // does anyone need this?
-        //
-        if (0) {
-            $n_outfiles = n_outfiles($wu);
-            echo "     <n_outfiles>$n_outfiles</n_outfiles>\n";
-        }
-
         if ($get_job_details) {
             show_job_details($wu);
         }

@@ -40,6 +40,7 @@ env:
   HOMEPAGE: https://boinc.berkeley.edu/
   DESCRIPTION: BOINC lets you help cutting-edge science research using your computer. The BOINC app, running on your computer, downloads scientific computing jobs and runs them invisibly in the background. It's easy and safe.
   BASEREPO: https://boinc.berkeley.edu/dl/linux # no trailing slash
+  AUTOCONF_WITH_VERSION: autoconf-2.70
 
 jobs:
   prepare-binaries:
@@ -54,11 +55,19 @@ jobs:
     strategy:
       matrix:
         type: [client, manager]
+        arch: [arm64, amd64]
       fail-fast: false
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           fetch-depth: 2
+
+      - name: Cache dependencies
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
+          key: ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
+
       - name: Check if build is running from origin repo
         if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
         run: |
@@ -77,7 +86,25 @@ jobs:
       - name: Install dependencies
         run: |
           apt-get -qq update
-          apt-get install -y autopoint make build-essential m4 pkg-config autoconf libtool git python3 python3-distutils python3-pip curl zip unzip tar bison p7zip-full libx11-dev libxft-dev libxext-dev libdbus-1-dev libxi-dev libxtst-dev libxrandr-dev libnotify-dev
+          apt-get install -y autopoint make build-essential m4 pkg-config autoconf libtool git python3 python3-distutils python3-jinja2 curl zip unzip tar bison p7zip-full dbus
+
+      - name: Install dependencies for arm64
+        if: matrix.arch == 'arm64'
+        run: |
+          apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
+
+      - name: Install updated version of autoconf
+        run: |
+          if [ ! -f ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz ]; then
+            curl https://ftp.gnu.org/gnu/autoconf/${{ env.AUTOCONF_WITH_VERSION }}.tar.gz -o ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
+          fi
+          tar -xzf ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
+          cd ${{ env.AUTOCONF_WITH_VERSION }}
+          ./configure --prefix=/usr
+          make -j $(nproc --all)
+          make install
+          cd ..
+          autoconf --version
 
       - name: Install aws cli tool
         run: |
@@ -85,27 +112,33 @@ jobs:
           unzip awscliv2.zip
           ./aws/install
 
-      - name: Update Python packages to build Manager
-        if: success() && matrix.type == 'manager'
-        run: |
-          pip3 install -U --user pip
-          pip3 install --user jinja2
-
       - name: Automake
         if: success()
         run: ./_autosetup
 
-      - name: Configure client
-        if: success() && matrix.type == 'client'
-        run: linux/ci_configure_client.sh --exec_prefix "/usr/local"
+      - name: Configure client (for arm64)
+        if: success() && matrix.type == 'client' && matrix.arch == 'arm64'
+        run: |
+          . linux/arm64/ci_configure_client.sh --exec_prefix "/usr/local"
+          make -j $(nproc --all)
 
-      - name: Configure manager
-        if: success() && matrix.type == 'manager'
-        run: linux/ci_configure_manager.sh --exec_prefix "/usr/local"
+      - name: Configure manager (for arm64)
+        if: success() && matrix.type == 'manager' && matrix.arch == 'arm64'
+        run: |
+          . linux/arm64/ci_configure_manager.sh --exec_prefix "/usr/local"
+          make -j $(nproc --all)
 
-      - name: Make
-        if: success()
-        run: make -j $(nproc --all) LDFLAGS="-static-libstdc++ -s"
+      - name: Configure client (for amd64)
+        if: success() && matrix.type == 'client' && matrix.arch == 'amd64'
+        run: |
+          . linux/ci_configure_client.sh --exec_prefix "/usr/local"
+          make -j $(nproc --all)
+
+      - name: Configure manager (for amd64)
+        if: success() && matrix.type == 'manager' && matrix.arch == 'amd64'
+        run: |
+          . linux/ci_configure_manager.sh --exec_prefix "/usr/local"
+          make -j $(nproc --all)
 
       - name: Prepare logs on failure
         if: ${{ failure() }}
@@ -113,9 +146,9 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
-          name: linux-package_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_logs_${{ matrix.type }}_${{ matrix.arch }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
 
       - name: Prepare artifacts for deploy
@@ -123,10 +156,10 @@ jobs:
         run: python3 ./deploy/prepare_deployment.py linux_${{ matrix.type }}
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         if: success()
         with:
-          name: linux-package_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_${{ matrix.type }}_${{ matrix.arch }}_${{ github.event.pull_request.head.sha }}
           path: deploy/linux_${{ matrix.type }}.7z
 
   build-deb-package:
@@ -135,13 +168,12 @@ jobs:
     needs: prepare-binaries
     strategy:
       matrix:
-        os: [focal, jammy, noble, buster, bullseye, bookworm]
+        os: [focal, jammy, noble, buster, bullseye, bookworm, trixie]
         type: [client, manager]
+        arch: [arm64, amd64]
       fail-fast: false
-    env:
-      ARCH: amd64
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         if: success()
         with:
           fetch-depth: 2
@@ -158,7 +190,7 @@ jobs:
           # Setup Environment vars
           PKG_NAME="boinc-${{ matrix.type }}"
           PKG_VERSION="${PKG_VERSION}-${{ github.run_number }}"
-          PKG_FULL="${PKG_NAME}_${PKG_VERSION}_${{ env.ARCH }}"
+          PKG_FULL="${PKG_NAME}_${PKG_VERSION}_${{ matrix.arch }}"
 
           echo "PKG_VERSION=${PKG_VERSION}" >> $GITHUB_ENV
           echo "PKG_NAME=${PKG_NAME}" >> $GITHUB_ENV
@@ -172,9 +204,9 @@ jobs:
 
       - name: Download
         if: success()
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
         with:
-          name: linux-package_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_${{ matrix.type }}_${{ matrix.arch }}_${{ github.event.pull_request.head.sha }}
           path: pkgs/
 
       - name: Prepare package
@@ -200,7 +232,7 @@ jobs:
           Maintainer:${{ env.MANTAINER }}
           Build-Depends: debhelper-compat (= 13)
           Depends:${PKG_DEPS}
-          Architecture:${{ env.ARCH }}
+          Architecture:${{ matrix.arch }}
           Homepage:${{ env.HOMEPAGE }}
           Description:${{ env.DESCRIPTION }}" \
           > "${{ github.workspace }}/${PKG_FULL}/DEBIAN/control"
@@ -217,7 +249,7 @@ jobs:
           fakeroot dpkg-deb -Zxz --build "${{ github.workspace }}/${PKG_FULL}"
 
       - name: Create Debian Package
-        if: ${{ success() && ( matrix.os == 'buster' || matrix.os == 'bullseye' || matrix.os == 'bookworm' ) }}
+        if: ${{ success() && ( matrix.os == 'buster' || matrix.os == 'bullseye' || matrix.os == 'bookworm' || matrix.os == 'trixie' ) }}
         run: |
           cd ${{ github.workspace }}/
           # Build the actual package for Debian with GZIP compression
@@ -230,10 +262,10 @@ jobs:
           dpkg-deb --info "${{ github.workspace }}/${PKG_FULL}.deb"
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         if: success()
         with:
-          name: linux-package_${{ matrix.type }}_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_${{ matrix.type }}_${{ matrix.arch }}_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
           path: ${{ github.workspace }}/${{ env.PKG_FULL }}.deb
 
   build-rpm-package:
@@ -246,12 +278,12 @@ jobs:
       matrix:
         os: [fc37, fc38, fc39, fc40, fc41, fc42, suse15_4, suse15_5, suse15_6]
         type: [client, manager]
+        arch: [arm64, amd64]
       fail-fast: false
     env:
-      ARCH: x86_64
       PUBKEY_HASH: D4460B4F0EEDE2C0662092F640254C9B29853EA6
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         if: success()
         with:
           fetch-depth: 2
@@ -276,7 +308,18 @@ jobs:
           # Setup Environment vars
           PKG_NAME="boinc-${{ matrix.type }}"
           PKG_VERSION="${PKG_VERSION}"
-          PKG_FULL="${PKG_NAME}-${PKG_VERSION}-${{ github.run_number }}.${{ env.ARCH }}"
+
+          if [ "${{ matrix.arch }}" == "amd64" ]; then
+            arch="x86_64"
+          elif [ "${{ matrix.arch }}" == "arm64" ]; then
+            arch="aarch64"
+          else
+            echo "Unsupported architecture ${arch}"
+            exit 1
+          fi
+          echo "ARCH=${arch}" >> $GITHUB_ENV
+
+          PKG_FULL="${PKG_NAME}-${PKG_VERSION}-${{ github.run_number }}.${arch}"
 
           echo "PKG_VERSION=${PKG_VERSION}" >> $GITHUB_ENV
           echo "PKG_NAME=${PKG_NAME}" >> $GITHUB_ENV
@@ -290,9 +333,9 @@ jobs:
 
       - name: Download
         if: success()
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
         with:
-          name: linux-package_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_${{ matrix.type }}_${{ matrix.arch }}_${{ github.event.pull_request.head.sha }}
           path: pkgs/
 
       - name: Create RPM folder
@@ -355,7 +398,6 @@ jobs:
             Name:${PKG_NAME}
             Version:${PKG_VERSION}
             Release:${{ github.run_number }}
-            BuildArch:${{ env.ARCH }}
             URL:${{ env.HOMEPAGE }}
             Summary:${{ env.DESCRIPTION }}
             License:LGPL3+
@@ -536,11 +578,11 @@ jobs:
             PKG_FILELIST=$(bash .github/workflows/rpmrepo/package_filelist.sh ${{ matrix.os }} linux_${{ matrix.type }})
 
             cd rpmbuild
+
             echo """
             Name:${PKG_NAME}
             Version:${PKG_VERSION}
             Release:${{ github.run_number }}
-            BuildArch:${{ env.ARCH }}
             URL:${{ env.HOMEPAGE }}
             Summary:${{ env.DESCRIPTION }}
             License:LGPL3+
@@ -579,7 +621,7 @@ jobs:
 
           # build package
           cd rpmbuild
-          rpmbuild --define "_topdir `pwd`" -v -ba SPECS/*
+          rpmbuild --define "_topdir `pwd`" -v -ba SPECS/* --target ${{ env.ARCH }}
 
           # keyring prepare
           gpg --import "../boinc.pub.key"
@@ -609,10 +651,10 @@ jobs:
           rpm -qp --qf '%|DSAHEADER?{%{DSAHEADER:pgpsig}}:{%|RSAHEADER?{%{RSAHEADER:pgpsig}}:{(none)}|}|\n' "RPMS/${{ env.ARCH }}/${PKG_FULL}.rpm"
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         if: success()
         with:
-          name: linux-package_${{ matrix.type }}_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_${{ matrix.type }}_${{ matrix.arch }}_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
           path: rpmbuild/RPMS/${{ env.ARCH }}/${{ env.PKG_FULL }}.rpm
 
   test-debian-deb-package:
@@ -623,11 +665,12 @@ jobs:
     needs: build-deb-package
     strategy:
       matrix:
-        os: [buster, bullseye, bookworm]
+        os: [buster, bullseye, bookworm, trixie]
         type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
+        arch: [amd64]
       fail-fast: false
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           fetch-depth: 2
 
@@ -649,7 +692,7 @@ jobs:
           mv /bin/systemctl /bin/systemctl.bak
 
       - name: Install distro package for further upgrade from the alpha
-        if: success() && matrix.type == 'upgrade-from-alpha'
+        if: success() && matrix.type == 'upgrade-from-alpha' && matrix.os != 'trixie'
         run: |
           mkdir -p /etc/apt/keyrings
           curl -fsSL https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }}/boinc.gpg | gpg --dearmor -o /etc/apt/keyrings/boinc.gpg
@@ -658,7 +701,7 @@ jobs:
           DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the stable
-        if: success() && matrix.type == 'upgrade-from-stable'
+        if: success() && matrix.type == 'upgrade-from-stable' && matrix.os != 'trixie'
         run: |
           mkdir -p /etc/apt/keyrings
           curl -fsSL https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }}/boinc.gpg | gpg --dearmor -o /etc/apt/keyrings/boinc.gpg
@@ -668,15 +711,15 @@ jobs:
 
       - name: Download client
         if: success()
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
         with:
-          name: linux-package_client_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_client_${{ matrix.arch }}_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: success()
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
         with:
-          name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_manager_${{ matrix.arch }}_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Install client and manager
         if: success()
@@ -700,9 +743,10 @@ jobs:
       matrix:
         os: [focal, jammy, noble]
         type: [install, upgrade, upgrade-from-ppa, upgrade-from-alpha, upgrade-from-stable]
+        arch: [amd64]
       fail-fast: false
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           fetch-depth: 2
 
@@ -750,15 +794,15 @@ jobs:
 
       - name: Download client
         if: success()
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
         with:
-          name: linux-package_client_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_client_${{ matrix.arch}}_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: success()
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
         with:
-          name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_manager_${{ matrix.arch }}_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Install client and manager
         if: success()
@@ -782,9 +826,10 @@ jobs:
       matrix:
         os: [37, 38, 39, 40, 41, 42]
         type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
+        arch: [amd64]
       fail-fast: false
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           fetch-depth: 2
 
@@ -814,7 +859,9 @@ jobs:
           dnf config-manager addrepo --from-repofile=https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc-alpha-fc${{ matrix.os }}.repo
           dnf config-manager setopt boinc-alpha-fc${{ matrix.os }}.enabled=1
           rpm --import https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc.gpg
-          dnf install -y boinc-client-8.2.4 boinc-manager-8.2.4
+          client_version=$(dnf list --available --repo boinc-alpha-fc${{ matrix.os }} | grep boinc-client | grep -oP '\b\d+\.\d+\.\d+\b')
+          manager_version=$(dnf list --available --repo boinc-alpha-fc${{ matrix.os }} | grep boinc-manager | grep -oP '\b\d+\.\d+\.\d+\b')
+          dnf install -y boinc-client-${client_version} boinc-manager-${manager_version}
 
       - name: Install distro package for further upgrade from the stable for Fedora < 41
         if: success() && matrix.type == 'upgrade-from-stable' && matrix.os != '41' && matrix.os != '42'
@@ -832,19 +879,21 @@ jobs:
           dnf config-manager addrepo --from-repofile=https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}/boinc-stable-fc${{ matrix.os }}.repo
           dnf config-manager setopt boinc-stable-fc${{ matrix.os }}.enabled=1
           rpm --import https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}/boinc.gpg
-          dnf install -y boinc-client-8.2.4 boinc-manager-8.2.4
+          client_version=$(dnf list --available --repo boinc-stable-fc${{ matrix.os }} | grep boinc-client | grep -oP '\b\d+\.\d+\.\d+\b')
+          manager_version=$(dnf list --available --repo boinc-stable-fc${{ matrix.os }} | grep boinc-manager | grep -oP '\b\d+\.\d+\.\d+\b')
+          dnf install -y boinc-client-${client_version} boinc-manager-${manager_version}
 
       - name: Download client
         if: success()
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
         with:
-          name: linux-package_client_fc${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_client_${{ matrix.arch }}_fc${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: success()
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
         with:
-          name: linux-package_manager_fc${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_manager_${{ matrix.arch }}_fc${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Install client and manager for Fedora < 41
         if: success() && matrix.os != '41' && matrix.os != '42'
@@ -873,6 +922,7 @@ jobs:
       matrix:
         os: [15.4, 15.5, 15.6]
         type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
+        arch: [amd64]
       fail-fast: false
     steps:
       - name: Install dependencies
@@ -880,7 +930,7 @@ jobs:
         run: |
           zypper install -y python3 tar gzip
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           fetch-depth: 2
 
@@ -910,15 +960,15 @@ jobs:
 
       - name: Download client
         if: success()
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
         with:
-          name: linux-package_client_suse${{ env.OS }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_client_${{ matrix.arch }}_suse${{ env.OS }}_${{ github.event.pull_request.head.sha }}
 
       - name: Download manager
         if: success()
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
         with:
-          name: linux-package_manager_suse${{ env.OS }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_manager_${{ matrix.arch }}_suse${{ env.OS }}_${{ github.event.pull_request.head.sha }}
 
       - name: Install client and manager
         if: success()
@@ -938,7 +988,7 @@ jobs:
     needs: [test-debian-deb-package, test-ubuntu-deb-package]
     strategy:
       matrix:
-        os: [focal, jammy, noble, buster, bullseye, bookworm]
+        os: [focal, jammy, noble, buster, bullseye, bookworm, trixie]
       fail-fast: false
     steps:
       - name: Check if build is running from origin repo
@@ -950,36 +1000,6 @@ jobs:
         if: ${{ success() && (env.REPO_PRIV_KEY == 0 || env.REPO_KEY == 0) }}
         run: |
           echo "SKIP_RUN=1" >> $GITHUB_ENV
-
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-        if: ${{ success() && env.SKIP_RUN == 0 }}
-        with:
-          fetch-depth: 2
-
-      - name: Install dependencies
-        if: ${{ success() && env.SKIP_RUN == 0 }}
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y aptly gnupg2 gpgv
-
-      - name: Setup GPG keys
-        if: ${{ success() && env.SKIP_RUN == 0 }}
-        run: |
-          echo "${{ env.REPO_PRIV_KEY }}" > ${{ github.workspace }}/boinc.priv.key
-          echo "${{ env.REPO_KEY }}" > ${{ github.workspace }}/boinc.pub.key
-          cp "${{ github.workspace }}/boinc.pub.key" "${{ github.workspace }}/${{ env.PUBKEY }}"
-
-      - name: Download client
-        if: ${{ success() && env.SKIP_RUN == 0 }}
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
-        with:
-          name: linux-package_client_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
-
-      - name: Download manager
-        if: ${{ success() && env.SKIP_RUN == 0 }}
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
-        with:
-          name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Check if Release type is alpha
         if: ${{ success() && env.SKIP_RUN == 0 && startsWith(github.ref, 'refs/tags/') }}
@@ -998,6 +1018,48 @@ jobs:
         run: |
           echo "SKIP_RUN=1" >> $GITHUB_ENV
 
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        with:
+          fetch-depth: 2
+
+      - name: Install dependencies
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y aptly gnupg2 gpgv
+
+      - name: Setup GPG keys
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        run: |
+          echo "${{ env.REPO_PRIV_KEY }}" > ${{ github.workspace }}/boinc.priv.key
+          echo "${{ env.REPO_KEY }}" > ${{ github.workspace }}/boinc.pub.key
+          cp "${{ github.workspace }}/boinc.pub.key" "${{ github.workspace }}/${{ env.PUBKEY }}"
+
+      - name: Download client arm64
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        with:
+          name: linux-package_client_arm64_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Download client amd64
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        with:
+          name: linux-package_client_amd64_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Download manager arm64
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        with:
+          name: linux-package_manager_arm64_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Download manager amd64
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        with:
+          name: linux-package_manager_amd64_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
       - name: Update or create the repository using aptly
         if: ${{ success() && env.SKIP_RUN == 0 }}
         run: |
@@ -1006,7 +1068,7 @@ jobs:
           cd ${{ github.workspace }}/.github/workflows/debrepo/
           ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${{ github.workspace }} ${{ matrix.os }} ${{ env.RELEASE_TYPE }} ${{ env.PUBKEY }}
 
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         if: ${{ success() && env.SKIP_RUN == 0 }}
         with:
           name: repo-${{ env.RELEASE_TYPE }}-${{ matrix.os }}
@@ -1030,7 +1092,6 @@ jobs:
         os: [fc37, fc38, fc39, fc40, fc41, fc42, suse15_4, suse15_5, suse15_6]
       fail-fast: false
     env:
-      ARCH: x86_64
       PUBKEY_HASH: D4460B4F0EEDE2C0662092F640254C9B29853EA6
     steps:
       - name: Check if build is running from origin repo
@@ -1043,7 +1104,24 @@ jobs:
         run: |
           echo "SKIP_RUN=1" >> $GITHUB_ENV
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Check if Release type is alpha
+        if: ${{ success() && env.SKIP_RUN == 0 && startsWith(github.ref, 'refs/tags/') }}
+        run: |
+          RELEASE_TYPE=alpha
+          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+
+      - name: Check if Release type is nightly
+        if: ${{ success() && env.SKIP_RUN == 0 && github.ref == 'refs/heads/master' && github.event_name == 'schedule' }}
+        run: |
+          RELEASE_TYPE=nightly
+          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+
+      - name: Check if Release type is not set
+        if: ${{ success() && env.SKIP_RUN == 0 && env.RELEASE_TYPE == 0 }}
+        run: |
+          echo "SKIP_RUN=1" >> $GITHUB_ENV
+
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         if: ${{ success() && env.SKIP_RUN == 0 }}
         with:
           fetch-depth: 2
@@ -1068,34 +1146,29 @@ jobs:
           expect -c 'spawn gpg --edit-key ${{ env.PUBKEY_HASH }} trust quit; send "5\ry\r"; expect eof'
           gpg --list-keys
 
-      - name: Download client
+      - name: Download client arm64
         if: ${{ success() && env.SKIP_RUN == 0 }}
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
         with:
-          name: linux-package_client_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_client_arm64_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
-      - name: Download manager
+      - name: Download client amd64
         if: ${{ success() && env.SKIP_RUN == 0 }}
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
         with:
-          name: linux-package_manager_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+          name: linux-package_client_amd64_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
-      - name: Check if Release type is alpha
-        if: ${{ success() && env.SKIP_RUN == 0 && startsWith(github.ref, 'refs/tags/') }}
-        run: |
-          RELEASE_TYPE=alpha
-          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
+      - name: Download manager arm64
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        with:
+          name: linux-package_manager_arm64_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
-      - name: Check if Release type is nightly
-        if: ${{ success() && env.SKIP_RUN == 0 && github.ref == 'refs/heads/master' && github.event_name == 'schedule' }}
-        run: |
-          RELEASE_TYPE=nightly
-          echo "RELEASE_TYPE=${RELEASE_TYPE}" >> $GITHUB_ENV
-
-      - name: Check if Release type is not set
-        if: ${{ success() && env.SKIP_RUN == 0 && env.RELEASE_TYPE == 0 }}
-        run: |
-          echo "SKIP_RUN=1" >> $GITHUB_ENV
+      - name: Download manager amd64
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        with:
+          name: linux-package_manager_amd64_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Update or create the repository
         if: ${{ success() && env.SKIP_RUN == 0 }}
@@ -1107,9 +1180,9 @@ jobs:
 
             cd .github/workflows/rpmrepo/
             # Updates or creates the repository
-            ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${CWD} ${{ matrix.os }} ${{ env.RELEASE_TYPE }} ${{ env.PUBKEY }} ${{ env.PUBKEY_HASH }} ${{ env.ARCH }}
+            ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${CWD} ${{ matrix.os }} ${{ env.RELEASE_TYPE }} ${{ env.PUBKEY }} ${{ env.PUBKEY_HASH }}
 
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         if: ${{ success() && env.SKIP_RUN == 0 }}
         with:
           name: repo-${{ env.RELEASE_TYPE }}-${{ matrix.os }}

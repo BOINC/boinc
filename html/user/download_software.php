@@ -54,8 +54,10 @@ require_once("../inc/account.inc");
 //
 function get_platform($user_agent) {
     if (strstr($user_agent, 'Windows')) {
-        if (strstr($user_agent, 'Win64')||strstr($user_agent, 'WOW64')) {
+        if (strstr($user_agent, 'x64')) {
             return 'windows_x86_64';
+        } else if (strstr($user_agent, 'arm')) {
+            return 'windows_arm64';
         } else {
             return 'windows_intelx86';
         }
@@ -154,8 +156,8 @@ function direct_to_boinc() {
     echo "<p>";
     show_button(
         "https://boinc.berkeley.edu/download.php",
-        tra("Go to the BOINC download page."),
-        null, null, 'target=_new'
+        tra("Go to the BOINC download page"),
+        null, null, button_style().' target=_new '
     );
 
     if (parse_bool(get_config(), 'account_manager')) {

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -42,20 +42,20 @@ opensslBaseName="openssl"
 opensslFileName="openssl-3.0.0.tar.gz"
 opensslURL="https://www.openssl.org/source/openssl-3.0.0.tar.gz"
 
-caresDirName="c-ares-1.17.2"
+caresDirName="c-ares-1.28.1"
 caresBaseName="c-ares"
-caresFileName="c-ares-1.17.2.tar.gz"
-caresURL="https://github.com/c-ares/c-ares/releases/download/cares-1_17_2/c-ares-1.17.2.tar.gz"
+caresFileName="c-ares-1.28.1.tar.gz"
+caresURL="https://github.com/c-ares/c-ares/releases/download/cares-1_28_1/c-ares-1.28.1.tar.gz"
 
-curlDirName="curl-7.79.1"
+curlDirName="curl-8.16.0"
 curlBaseName="curl"
-curlFileName="curl-7.79.1.tar.gz"
-curlURL="https://curl.se/download/curl-7.79.1.tar.gz"
+curlFileName="curl-8.16.0.tar.gz"
+curlURL="https://curl.se/download/curl-8.16.0.tar.gz"
 
-wxWidgetsDirName="wxWidgets-3.2.2.1"
+wxWidgetsDirName="wxWidgets-3.3.1"
 wxWidgetsBaseName="wxWidgets"
-wxWidgetsFileName="wxWidgets-3.2.2.1.tar.bz2"
-wxWidgetsURL="https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.2.1/wxWidgets-3.2.2.1.tar.bz2"
+wxWidgetsFileName="wxWidgets-3.3.1.tar.bz2"
+wxWidgetsURL="https://github.com/wxWidgets/wxWidgets/releases/download/v3.3.1/wxWidgets-3.3.1.tar.bz2"
 
 freetypeDirName="freetype-2.11.0"
 freetypeBaseName="freetype"
@@ -67,9 +67,14 @@ ftglBaseName="ftgl"
 ftglFileName="ftgl-2.1.3-rc5.tar.gz"
 ftglURL="https://sourceforge.net/projects/ftgl/files/FTGL%20Source/2.1.3%7Erc5/ftgl-2.1.3-rc5.tar.gz"
 
-# The baseNames and dirNames arrays are used by the checkDpendentVesions.sh script
-baseNames=(${opensslBaseName} ${caresBaseName} ${curlBaseName} ${wxWidgetsBaseName} ${freetypeBaseName} ${ftglBaseName})
+zipDirName="libzip-1.11.4"
+zipBaseName="libzip"
+zipFileName="libzip-1.11.4.tar.gz"
+zipURL="https://libzip.org/download/libzip-1.11.4.tar.gz"
 
-dirNames=(${opensslDirName} ${caresDirName} ${curlDirName} ${wxWidgetsDirName} ${freetypeDirName} ${ftglDirName})
+# The baseNames and dirNames arrays are used by the checkDpendentVesions.sh script
+baseNames=(${opensslBaseName} ${caresBaseName} ${curlBaseName} ${wxWidgetsBaseName} ${freetypeBaseName} ${ftglBaseName} ${zipBaseName})
+
+dirNames=(${opensslDirName} ${caresDirName} ${curlDirName} ${wxWidgetsDirName} ${freetypeDirName} ${ftglDirName} ${zipDirName})
 
 return 0
