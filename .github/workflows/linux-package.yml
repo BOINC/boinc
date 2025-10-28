@@ -852,16 +852,16 @@ jobs:
           rpm --import https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc.gpg
           yum install -y boinc-client boinc-manager
 
-      - name: Install distro package for further upgrade from the alpha for Fedora >= 41
-        if: success() && matrix.type == 'upgrade-from-alpha' && (matrix.os == '41' || matrix.os == '42')
-        run: |
-          dnf install -y dnf-plugins-core
-          dnf config-manager addrepo --from-repofile=https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc-alpha-fc${{ matrix.os }}.repo
-          dnf config-manager setopt boinc-alpha-fc${{ matrix.os }}.enabled=1
-          rpm --import https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc.gpg
-          client_version=$(dnf list --available --repo boinc-alpha-fc${{ matrix.os }} | grep boinc-client | grep -oP '\b\d+\.\d+\.\d+\b')
-          manager_version=$(dnf list --available --repo boinc-alpha-fc${{ matrix.os }} | grep boinc-manager | grep -oP '\b\d+\.\d+\.\d+\b')
-          dnf install -y boinc-client-${client_version} boinc-manager-${manager_version}
+      # - name: Install distro package for further upgrade from the alpha for Fedora >= 41
+      #   if: success() && matrix.type == 'upgrade-from-alpha' && (matrix.os == '41' || matrix.os == '42')
+      #   run: |
+      #     dnf install -y dnf-plugins-core
+      #     dnf config-manager addrepo --from-repofile=https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc-alpha-fc${{ matrix.os }}.repo
+      #     dnf config-manager setopt boinc-alpha-fc${{ matrix.os }}.enabled=1
+      #     rpm --import https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc.gpg
+      #     client_version=$(dnf list --available --repo boinc-alpha-fc${{ matrix.os }} | grep boinc-client | grep -oP '\b\d+\.\d+\.\d+\b')
+      #     manager_version=$(dnf list --available --repo boinc-alpha-fc${{ matrix.os }} | grep boinc-manager | grep -oP '\b\d+\.\d+\.\d+\b')
+      #     dnf install -y boinc-client-${client_version} boinc-manager-${manager_version}
 
       - name: Install distro package for further upgrade from the stable for Fedora < 41
         if: success() && matrix.type == 'upgrade-from-stable' && matrix.os != '41' && matrix.os != '42'
