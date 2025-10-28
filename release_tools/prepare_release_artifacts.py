@@ -50,9 +50,9 @@ def rename_installer(directory, filename, sevenzip_path):
     rename_file(directory, target_file, f"boinc_{version}_windows_{arch}.exe")
 
 def rename_linux_package(directory, filename):
-    codename = filename.split('_')[2]
+    codename = filename.split('_')[3]
     if codename.startswith('suse'):
-        codename = codename + "_" + filename.split('_')[3]
+        codename = codename + "_" + filename.split('_')[4]
     package_name = zipfile.ZipFile(f"{directory}/{filename}").filelist[0].filename
     extract_zip(f"{directory}/{filename}", directory)
     new_package_name = package_name.replace(".deb", f"_{codename}.deb") if package_name.endswith(".deb") else package_name.replace(".rpm", f"_{codename}.rpm")
