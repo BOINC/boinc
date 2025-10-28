@@ -276,7 +276,7 @@ jobs:
     needs: prepare-binaries
     strategy:
       matrix:
-        os: [fc37, fc38, fc39, fc40, fc41, fc42, suse15_4, suse15_5, suse15_6]
+        os: [fc37, fc38, fc39, fc40, fc41, fc42, suse15_4, suse15_5, suse15_6, suse16_0]
         type: [client, manager]
         arch: [arm64, amd64]
       fail-fast: false
@@ -388,7 +388,7 @@ jobs:
             "fc37" | "fc38" | "fc39" | "fc40" | "fc41" | "fc42")
               CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
               ;;
-            "suse15_4" | "suse15_5" | "suse15_6")
+            "suse15_4" | "suse15_5" | "suse15_6" | "suse16_0")
               CA_BUNDLE="/etc/ssl/ca-bundle.pem"
               ;;
             esac
@@ -916,11 +916,11 @@ jobs:
     name: Test openSUSE RPM Package
     runs-on: ubuntu-latest
     container:
-      image: opensuse/leap:${{ matrix.os }}
+      image: "opensuse/leap:${{ matrix.os }}"
     needs: build-rpm-package
     strategy:
       matrix:
-        os: [15.4, 15.5, 15.6]
+        os: ["15.4", "15.5", "15.6", "16.0"]
         type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
         arch: [amd64]
       fail-fast: false
@@ -928,7 +928,7 @@ jobs:
       - name: Install dependencies
         if: success()
         run: |
-          zypper install -y python3 tar gzip
+          zypper install -y python3 tar gzip findutils
 
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
@@ -939,20 +939,21 @@ jobs:
         run: |
           echo "OS=`echo ${{ matrix.os }} | sed 's/\./_/g'`" >> $GITHUB_ENV
 
+ # boinc-client paclage in the official repo is currently broken for openSUSE 16.0 with the error "usermod: group 'render' does not exist"
       - name: Install distro package for further upgrade
-        if: success() && matrix.type == 'upgrade'
+        if: success() && matrix.type == 'upgrade' && matrix.os != '16.0'
         run: |
           zypper install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the alpha
-        if: success() && matrix.type == 'upgrade-from-alpha'
+        if: success() && matrix.type == 'upgrade-from-alpha' && matrix.os != '16.0'
         run: |
           rpm --import https://boinc.berkeley.edu/dl/linux/alpha/suse${{ env.OS }}/boinc.gpg
           zypper --non-interactive --quiet ar -G -f https://boinc.berkeley.edu/dl/linux/alpha/suse${{ env.OS }} official-boinc-repo
           zypper install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the stable
-        if: success() && matrix.type == 'upgrade-from-stable'
+        if: success() && matrix.type == 'upgrade-from-stable' && matrix.os != '16.0'
         run: |
           rpm --import https://boinc.berkeley.edu/dl/linux/stable/suse${{ env.OS }}/boinc.gpg
           zypper --non-interactive --quiet ar -G -f https://boinc.berkeley.edu/dl/linux/stable/suse${{ env.OS }} official-boinc-repo
@@ -1089,7 +1090,7 @@ jobs:
     needs: [test-fedora-rpm-package, test-opensuse-rpm-package]
     strategy:
       matrix:
-        os: [fc37, fc38, fc39, fc40, fc41, fc42, suse15_4, suse15_5, suse15_6]
+        os: [fc37, fc38, fc39, fc40, fc41, fc42, suse15_4, suse15_5, suse15_6, suse16_0]
       fail-fast: false
     env:
       PUBKEY_HASH: D4460B4F0EEDE2C0662092F640254C9B29853EA6
