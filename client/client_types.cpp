@@ -867,7 +867,7 @@ void RESOURCE_USAGE::write(MIOFILE& out) {
 }
 
 void APP_VERSION::init() {
-    safe_strcpy(app_name, "");
+    app_name[0] = 0;
     version_num = 0;
     platform[0] = 0;
     plan_class[0] = 0;
@@ -875,6 +875,7 @@ void APP_VERSION::init() {
     resource_usage.clear();
     file_prefix[0] = 0;
     needs_network = false;
+    dont_throttle = false;
     app = NULL;
     project = NULL;
     ref_cnt = 0;
@@ -882,7 +883,8 @@ void APP_VERSION::init() {
     graphics_exec_path[0] = 0;
     graphics_exec_file[0] = 0;
     max_working_set_size = 0;
-    is_vm_app = false;
+    is_vbox_app = false;
+    is_docker_app = false;
     is_wrapper = false;
     index = 0;
 #ifdef SIM
@@ -897,12 +899,24 @@ int APP_VERSION::parse(XML_PARSER& xp) {
     init();
     while (!xp.get_tag()) {
         if (xp.match_tag("/app_version")) {
+            dont_throttle = false;
             resource_usage.check_gpu_libs(plan_class);
-            if (resource_usage.rsc_type || is_wrapper) {
+            if (is_wrapper) {
+                // fix problem where wrappers were never throttled
+                // can remove this in 8.5 or later
+                dont_throttle = false;
+            }
+            if (resource_usage.rsc_type) {
+                // never throttle GPU apps, even if wrapped
                 dont_throttle = true;
             }
             if (strstr(plan_class, "vbox")) {
-                is_vm_app = true;
+                // VBox does its own throttling
+                is_vbox_app = true;
+                dont_throttle = true;
+            }
+            if (strstr(plan_class, "docker")) {
+                is_docker_app = true;
             }
             return 0;
         }
@@ -914,9 +928,6 @@ int APP_VERSION::parse(XML_PARSER& xp) {
                     "couldn't parse file_ref: %s", boincerror(retval)
                 );
                 return retval;
-            }
-            if (strstr(file_ref.file_name, "vboxwrapper")) {
-                is_vm_app = true;
             }
             app_files.push_back(file_ref);
             continue;
@@ -1303,7 +1314,9 @@ int WORKUNIT::write(MIOFILE& out, bool gui) {
             sub_appname
         );
     }
-    resource_usage.write(out);
+    if (resource_usage.present()) {
+        resource_usage.write(out);
+    }
 
     if (!job_keyword_ids.empty()) {
         if (gui) {

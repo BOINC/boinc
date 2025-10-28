@@ -1,9 +1,30 @@
-cmake_minimum_required(VERSION 3.16)
+# This file is part of BOINC.
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+cmake_minimum_required(VERSION 3.20)
 project(boinc-libs)
 
 message(WARNING "This build is under development and may not work as expected")
 
-find_package(OpenSSL REQUIRED)
+set (CMAKE_CXX_STANDARD 11)
+
+find_package(OpenSSL CONFIG REQUIRED)
+find_package(libzip CONFIG REQUIRED)
 
 set(BOINC_DIR ${PROJECT_SOURCE_DIR}/..)
 
@@ -21,6 +42,7 @@ set(LIBBOINC_HEADERS_UNIX
 )
 
 set(LIBBOINC_HEADERS_APPLE
+    ${BOINC_DIR}/lib/synch.h
     ${BOINC_DIR}/lib/mac/dyld_gdb.h
     ${BOINC_DIR}/lib/mac/mac_backtrace.h
     ${BOINC_DIR}/lib/mac/mac_spawn.h
@@ -89,6 +111,7 @@ set(LIBBOINC_SOURCES_UNIX
 
 set(LIBBOINC_SOURCES_APPLE
     ${BOINC_DIR}/lib/procinfo_mac.cpp
+    ${BOINC_DIR}/lib/synch.cpp
     ${BOINC_DIR}/lib/mac/mac_backtrace.cpp
     ${BOINC_DIR}/lib/mac/mac_spawn.cpp
     ${BOINC_DIR}/lib/mac/QBacktrace.c
@@ -144,6 +167,15 @@ set(LIBBOINCAPI_SOURCES_GENERIC
     ${BOINC_DIR}/api/boinc_api.cpp
 )
 
+set(LIBBOINCZIP_HEADERS
+    ${BOINC_DIR}/zip/boinc_zip.h
+)
+
+set(LIBBOINCZIP_SOURCES
+    ${BOINC_DIR}/zip/boinc_zip.cpp
+)
+
+
 if(APPLE)
     set(LIBBOINC_HEADERS ${LIBBOINC_HEADERS_GENERIC} ${LIBBOINC_HEADERS_APPLE})
     set(LIBBOINC_SOURCES ${LIBBOINC_SOURCES_GENERIC} ${LIBBOINC_SOURCES_APPLE})
@@ -163,6 +195,7 @@ endif()
 
 add_library(boinc ${LIBBOINC_SOURCES})
 add_library(boincapi ${LIBBOINCAPI_SOURCES})
+add_library(boinc_zip ${LIBBOINCZIP_SOURCES})
 
 if(WIN32 OR APPLE)
     set_target_properties(boinc PROPERTIES PREFIX "lib")
@@ -170,6 +203,9 @@ if(WIN32 OR APPLE)
 
     set_target_properties(boincapi PROPERTIES PREFIX "lib")
     set_target_properties(boincapi PROPERTIES IMPORT_PREFIX "lib")
+
+    set_target_properties(boinc_zip PROPERTIES PREFIX "lib")
+    set_target_properties(boinc_zip PROPERTIES IMPORT_PREFIX "lib")
 endif()
 
 # currently this is for MinGW only
@@ -203,6 +239,13 @@ elseif(WIN32)
                                 ${build_options}
     )
 
+    target_compile_definitions(boinc_zip PUBLIC
+                                -D_CRT_SECURE_NO_WARNINGS
+                                -DWIN32
+                                -D_CONSOLE
+                                ${build_options}
+    )
+
     target_include_directories(boinc PUBLIC
                                 $<BUILD_INTERFACE:${BOINC_DIR}/win_build>
     )
@@ -210,10 +253,19 @@ elseif(WIN32)
     target_include_directories(boincapi PUBLIC
                                 $<BUILD_INTERFACE:${BOINC_DIR}/win_build>
     )
-elseif(UNIX)
-    execute_process(COMMAND ./configure --disable-server --disable-client --disable-manager)
 
-    execute_process(COMMAND ${BOINC_DIR}/configure --disable-server --disable-client --disable-manager
+    target_include_directories(boinc_zip PUBLIC
+                                $<BUILD_INTERFACE:${BOINC_DIR}/win_build>
+    )
+elseif(UNIX)
+    set(configure_options "")
+    if(DEFINED HOST AND NOT HOST STREQUAL "")
+        list(APPEND configure_options "--host=${HOST}")
+        if (HOST STREQUAL "armv6-linux" OR HOST STREQUAL "arm-linux" OR HOST STREQUAL "i686-linux")
+            list(APPEND configure_options "--disable-largefile")
+        endif()
+    endif()
+    execute_process(COMMAND ${BOINC_DIR}/configure --disable-server --disable-client --disable-manager ${configure_options}
         WORKING_DIRECTORY ${BOINC_DIR}
         ECHO_OUTPUT_VARIABLE
         ECHO_ERROR_VARIABLE
@@ -227,6 +279,10 @@ elseif(UNIX)
     )
 
     target_include_directories(boincapi PUBLIC
+                                $<BUILD_INTERFACE:${BOINC_DIR}/config-h>
+    )
+
+    target_include_directories(boinc_zip PUBLIC
                                 $<BUILD_INTERFACE:${BOINC_DIR}/config-h>
     )
 endif()
@@ -243,6 +299,12 @@ target_include_directories(boincapi PUBLIC
                             $<INSTALL_INTERFACE:include>
 )
 
+target_include_directories(boinc_zip PUBLIC
+                            $<BUILD_INTERFACE:${BOINC_DIR}>
+                            $<BUILD_INTERFACE:${BOINC_DIR}/lib>
+                            $<INSTALL_INTERFACE:include>
+)
+
 target_link_libraries(boinc PRIVATE
                         OpenSSL::SSL
                         OpenSSL::Crypto
@@ -251,17 +313,19 @@ target_link_libraries(boinc PRIVATE
 target_link_libraries(boincapi PRIVATE
                         boinc
 )
-
+target_link_libraries(boinc_zip PRIVATE
+                        libzip::zip
+)
 
 include(GNUInstallDirs)
 
-install(TARGETS boinc boincapi EXPORT boinc-config
+install(TARGETS boinc boincapi boinc_zip EXPORT boinc-config
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
-install(FILES ${LIBBOINC_HEADERS} ${LIBBOINCAPI_HEADERS}
+install(FILES ${LIBBOINC_HEADERS} ${LIBBOINCAPI_HEADERS} ${LIBBOINCZIP_HEADERS}
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/boinc
 )
 

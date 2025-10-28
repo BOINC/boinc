@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -74,11 +74,13 @@ void HOST_INFO::clear_host_info() {
     safe_strcpy(os_name, "");
     safe_strcpy(os_version, "");
 
-#ifdef _WIN64
+#ifdef _WIN32
     wsl_distros.clear();
 #else
     safe_strcpy(docker_version, "");
+    docker_type = NONE;
     safe_strcpy(docker_compose_version, "");
+    docker_compose_type = NONE;
 #endif
 
     safe_strcpy(product_name, "");
@@ -137,7 +139,7 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
         if (xp.parse_double("d_free", d_free)) continue;
         if (xp.parse_str("os_name", os_name, sizeof(os_name))) continue;
         if (xp.parse_str("os_version", os_version, sizeof(os_version))) continue;
-#ifdef _WIN64
+#ifdef _WIN32
         if (xp.match_tag("wsl")) {
             this->wsl_distros.parse(xp);
             continue;
@@ -242,7 +244,7 @@ int HOST_INFO::write(
         osv,
         coprocs.ndevs()
     );
-#ifdef _WIN64
+#ifdef _WIN32
     wsl_distros.write_xml(out);
 #else
     if (strlen(docker_version)) {
@@ -348,7 +350,11 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
 const char* docker_cli_prog(DOCKER_TYPE type) {
     switch (type) {
     case DOCKER: return "docker";
+#ifdef __APPLE__
+        case PODMAN: return "\"/Library/Application Support/BOINC Data/Run_Podman\" ";
+#else
     case PODMAN: return "podman";
+#endif
     default: break;
     }
     return "unknown";
@@ -419,7 +425,7 @@ bool HOST_INFO::get_docker_compose_version_string(
 bool HOST_INFO::have_docker() {
 #ifdef _WIN32
     for (WSL_DISTRO &wd: wsl_distros.distros) {
-        if (!empty(wd.docker_version)) return true;
+        if (!wd.docker_version.empty()) return true;
     }
     return false;
 #else

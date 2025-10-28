@@ -12,7 +12,7 @@
   <PropertyGroup>
     <PlatformSuffix Condition="'$(Platform)'=='x64'">x86_x64</PlatformSuffix>
     <PlatformSuffix Condition="'$(Platform)'=='ARM64'">ARM64</PlatformSuffix>
-    <TargetVersion>26018</TargetVersion>
+    <TargetVersion>26019</TargetVersion>
     <TargetName>$(ProjectName)_$(TargetVersion)_windows_$(PlatformSuffix)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup>
@@ -23,26 +23,17 @@
       <WholeProgramOptimization Condition="'$(Configuration)'=='Release'">true</WholeProgramOptimization>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>ole32.lib;psapi.lib;oldnames.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">libcmtd.lib;libcpmtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Configuration)'=='Release'">libcmt.lib;libcpmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(TargetDir)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ole32.lib;psapi.lib;oldnames.lib;zip.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">libcmtd.lib;libcpmtd.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)'=='Release'">libcmt.lib;libcpmt.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(TargetDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\samples\wrapper\regerror.c" />
-    <ClCompile Include="..\samples\wrapper\regexp.c" />
-    <ClCompile Include="..\samples\wrapper\regexp_memory.c" />
-    <ClCompile Include="..\samples\wrapper\regexp_report.c" />
-    <ClCompile Include="..\samples\wrapper\regsub.c" />
     <ClCompile Include="..\samples\wrapper\wrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\samples\wrapper\regexp.h" />
-    <ClInclude Include="..\samples\wrapper\regexp_custom.h" />
-    <ClInclude Include="..\samples\wrapper\regexp_int.h" />
-    <ClInclude Include="..\samples\wrapper\regmagic.h" />
     <ClInclude Include="..\samples\wrapper\wrapper_win.h" />
   </ItemGroup>
   <ItemGroup>

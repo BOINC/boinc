@@ -299,9 +299,9 @@ inline bool parse_int(const char* buf, const char* tag, int& x) {
     const char* p = strstr(buf, tag);
     if (!p) return false;
     errno = 0;
-    int y = strtol(p+strlen(tag), 0, 0);        // this parses 0xabcd correctly
+    long y = strtol(p+strlen(tag), 0, 0);        // this parses 0xabcd correctly
     if (errno) return false;
-    x = y;
+    x = (int)y;
     return true;
 }
 

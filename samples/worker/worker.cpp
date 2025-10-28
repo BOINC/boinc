@@ -1,5 +1,5 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
+// https://boinc.berkeley.edu
 // Copyright (C) 2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
@@ -18,11 +18,14 @@
 // worker - application without BOINC runtime system;
 // used for testing wrappers.
 //
-// worker [--nsecs N] infile outfile
+// worker [options] infile outfile
 //
 // copy infile to outfile, converting to uppercase
 // if infile is 'stdin', use stdin; same for stdout
-// --nsecs: use about N sec of CPU time
+//
+// options:
+// --nsecs: use about N sec of CPU time after writing file,
+//      write fraction done to file "fraction_done"
 //
 // THIS PROGRAM CAN'T USE ANY BOINC CODE.  That's the whole point.
 
@@ -32,7 +35,8 @@
 #include <string.h>
 #include <ctype.h>
 
-// do a billion floating-point ops
+// Do a billion floating-point ops.
+// This should take roughly .1 to 1 sec.
 // (note: I needed to add an arg to this;
 // otherwise the MS C++ compiler optimizes away
 // all but the first call to it!)
@@ -108,8 +112,13 @@ int main(int argc, char** argv) {
     int nchars = copy_uc(in, out);
 
     i=0;
-    while (clock()/(double)CLOCKS_PER_SEC < nsecs) {
+    while (1) {
+        double t = clock()/(double)CLOCKS_PER_SEC;
+        if (t >= nsecs) break;
         do_a_giga_flop(i++);
+        FILE *f = fopen("fraction_done", "w");
+        fprintf(f, "%f\n", t/nsecs);
+        fclose(f);
     }
 
     fprintf(stderr, "worker: done; copied %d chars\n", nchars);

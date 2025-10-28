@@ -27,6 +27,7 @@ $weak_auth = weak_auth($user);
 
 // strip http://
 //
+$master_url = master_url();
 $idx = strpos($master_url, '://');
 if ($idx) {
     $url = substr($master_url, $idx+strlen('://'));

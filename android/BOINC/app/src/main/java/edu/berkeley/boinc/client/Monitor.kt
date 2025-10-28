@@ -399,7 +399,7 @@ class Monitor : LifecycleService() {
 
                 // update notices notification
                 noticeNotification.update(
-                    clientStatus.rssNotices,
+                    clientStatus.getRssNotices(),
                     appPreferences.showNotificationForNotices
                 )
 
@@ -553,7 +553,7 @@ class Monitor : LifecycleService() {
             try {
                 // read preferences for GUI to be able to display data
                 val clientPrefs = clientInterface.globalPrefsWorkingStruct!!
-                clientStatus.prefs = clientPrefs
+                clientStatus.setPrefs(clientPrefs)
 
                 // set Android model as hostinfo
                 // should output something like "Samsung Galaxy SII - SDK:15 ABI:armeabi-v7a"
@@ -1017,7 +1017,8 @@ class Monitor : LifecycleService() {
 
         @Throws(RemoteException::class)
         override fun lookupCredentials(credentials: AccountIn): AccountOut {
-            return clientInterface.lookupCredentials(credentials)
+            return clientInterface.lookupCredentials(credentials) ?:
+                throw RemoteException("Credentials lookup failed")
         }
 
         @Throws(RemoteException::class)
@@ -1036,12 +1037,16 @@ class Monitor : LifecycleService() {
 
         @Throws(RemoteException::class)
         override fun getServerNotices(): List<Notice> {
-            return clientStatus.serverNotices
+            return clientStatus.getServerNotices()
         }
 
         @Throws(RemoteException::class)
         override fun getProjectConfigPolling(url: String): ProjectConfig {
-            return clientInterface.getProjectConfigPolling(url)
+            val result = clientInterface.getProjectConfigPolling(url)
+            if (result != null) {
+                return result
+            }
+            throw RemoteException("Project config polling failed")
         }
 
         @Throws(RemoteException::class)
@@ -1085,7 +1090,8 @@ class Monitor : LifecycleService() {
 
         @Throws(RemoteException::class)
         override fun createAccountPolling(information: AccountIn): AccountOut {
-            return clientInterface.createAccountPolling(information)
+            return clientInterface.createAccountPolling(information)?:
+                throw RemoteException("Account creation failed")
         }
 
         @Throws(RemoteException::class)
@@ -1133,7 +1139,11 @@ class Monitor : LifecycleService() {
 
         @Throws(RemoteException::class)
         override fun getAcctMgrInfoPresent(): Boolean {
-            return clientStatus.acctMgrInfo.isPresent
+            // Check if acctMgrInfo is present in clientStatus
+            if (clientStatus.acctMgrInfo == null) {
+                throw RemoteException("AcctMgrInfo is not initialized")
+            }
+            return clientStatus.acctMgrInfo!!.isPresent
         }
 
         @Throws(RemoteException::class)
@@ -1158,27 +1168,35 @@ class Monitor : LifecycleService() {
 
         @Throws(RemoteException::class)
         override fun getHostInfo(): HostInfo {
-            return clientStatus.hostInfo
+            if (clientStatus.hostInfo == null) {
+                throw RemoteException("HostInfo is not initialized")
+            }
+            return clientStatus.hostInfo!!
         }
 
         @Throws(RemoteException::class)
         override fun getPrefs(): GlobalPreferences {
-            return clientStatus.prefs
+            val prefs = clientStatus.getPrefs()
+                ?: throw RemoteException("GlobalPreferences is not initialized")
+            return prefs
         }
 
         @Throws(RemoteException::class)
         override fun getProjects(): List<Project> {
-            return clientStatus.projects
+            return clientStatus.getProjects()
         }
 
         @Throws(RemoteException::class)
         override fun getClientAcctMgrInfo(): AcctMgrInfo {
-            return clientStatus.acctMgrInfo
+            if (clientStatus.acctMgrInfo == null) {
+                throw RemoteException("AcctMgrInfo is not initialized")
+            }
+            return clientStatus.acctMgrInfo!!
         }
 
         @Throws(RemoteException::class)
         override fun getTransfers(): List<Transfer> {
-            return clientStatus.transfers
+            return clientStatus.getTransfers()
         }
 
         @Throws(RemoteException::class)
@@ -1263,7 +1281,7 @@ class Monitor : LifecycleService() {
 
         @Throws(RemoteException::class)
         override fun getRssNotices(): List<Notice> {
-            return clientStatus.rssNotices
+            return clientStatus.getRssNotices()
         }
 
         @Throws(RemoteException::class)

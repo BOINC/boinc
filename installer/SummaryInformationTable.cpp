@@ -80,7 +80,7 @@ bool SummaryInformationTable::generate(MSIHANDLE hDatabase) {
     std::cout << "Generating SummaryInformationTable" << std::endl;
 
     MSIHANDLE hSummaryInfo;
-    const auto updateCount = summary.size();
+    const auto updateCount = static_cast<UINT>(summary.size());
 
     auto result = MsiGetSummaryInformation(hDatabase, nullptr, updateCount,
         &hSummaryInfo);

@@ -1,0 +1,181 @@
+{
+    "Dialog": "AdminNetworkLocation",
+    "HCentering": 50,
+    "VCentering": 50,
+    "Width": 374,
+    "Height": 266,
+    "Attributes": 3,
+    "Title": "IDS_PRODUCTNAME",
+    "Control_First": "InstallNow",
+    "Control_Default": "InstallNow",
+    "Control_Cancel": "Cancel",
+    "Controls": [
+        {
+            "Control": "Back",
+            "Type": "PushButton",
+            "X": 164,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_BACK",
+            "Control_Next": "InstallNow",
+            "Events": [
+                {
+                    "Event": "NewDialog",
+                    "Argument": "AdminWelcome",
+                    "Condition": "1",
+                    "Ordering": 1
+                }
+            ]
+        },
+        {
+            "Control": "Banner",
+            "Type": "Bitmap",
+            "X": 0,
+            "Y": 0,
+            "Width": 374,
+            "Height": 44,
+            "Attributes": 1,
+            "Binary_": "banner.jpg"
+        },
+        {
+            "Control": "BannerLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 44,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "Browse",
+            "Type": "PushButton",
+            "X": 286,
+            "Y": 124,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS__IsAdminInstallPoint_Change",
+            "Control_Next": "Back",
+            "Events": [
+                {
+                    "Event": "SpawnDialog",
+                    "Argument": "AdminChangeFolder",
+                    "Condition": "1",
+                    "Ordering": 1
+                }
+            ]
+        },
+        {
+            "Control": "Cancel",
+            "Type": "PushButton",
+            "X": 301,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_CANCEL",
+            "Control_Next": "SetupPathEdit",
+            "Events": [
+                {
+                    "Event": "SpawnDialog",
+                    "Argument": "CancelSetup",
+                    "Condition": "1",
+                    "Ordering": 1
+                }
+            ]
+        },
+        {
+            "Control": "DlgDesc",
+            "Type": "Text",
+            "X": 21,
+            "Y": 23,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS__IsAdminInstallPoint_SpecifyNetworkLocation"
+        },
+        {
+            "Control": "DlgLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 234,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "DlgText",
+            "Type": "Text",
+            "X": 21,
+            "Y": 51,
+            "Width": 326,
+            "Height": 40,
+            "Attributes": 3,
+            "Text": "IDS__IsAdminInstallPoint_EnterNetworkLocation"
+        },
+        {
+            "Control": "DlgTitle",
+            "Type": "Text",
+            "X": 13,
+            "Y": 6,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS__IsAdminInstallPoint_NetworkLocationFormatted"
+        },
+        {
+            "Control": "InstallNow",
+            "Type": "PushButton",
+            "X": 230,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS__IsVerifyReadyDlg_Install",
+            "Control_Next": "Cancel",
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "Return",
+                    "Condition": "OutOfNoRbDiskSpace <> 1",
+                    "Ordering": 3
+                },
+                {
+                    "Event": "NewDialog",
+                    "Argument": "OutOfSpace",
+                    "Condition": "OutOfNoRbDiskSpace = 1",
+                    "Ordering": 2
+                },
+                {
+                    "Event": "SetTargetPath",
+                    "Argument": "TARGETDIR",
+                    "Condition": "1",
+                    "Ordering": 1
+                }
+            ]
+        },
+        {
+            "Control": "LBBrowse",
+            "Type": "Text",
+            "X": 21,
+            "Y": 90,
+            "Width": 100,
+            "Height": 10,
+            "Attributes": 3,
+            "Text": "IDS__IsAdminInstallPoint_NetworkLocation"
+        },
+        {
+            "Control": "SetupPathEdit",
+            "Type": "PathEdit",
+            "X": 21,
+            "Y": 102,
+            "Width": 330,
+            "Height": 17,
+            "Attributes": 3,
+            "Property": "TARGETDIR",
+            "Control_Next": "Browse"
+        }
+    ]
+}

@@ -126,7 +126,7 @@ function sandbox_file_select(
     return $x;
 }
 
-// Copy file and info file from sandbox to $dir
+// Copy file and corresponding .md5 file from sandbox to $dir
 // (which must have a subdir .md5/)
 // Used for BUDA app files.
 //

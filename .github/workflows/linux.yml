@@ -1,6 +1,6 @@
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -19,7 +19,7 @@ name: Linux
 on:
   push:
     branches: [ master, 'client_release/**' ]
-    tags: [ 'client_release/**', 'vboxwrapper/**', 'wrapper/**' ]
+    tags: [ 'client_release/**', 'vboxwrapper/**', 'wrapper/**', 'dockerwrapper/**', 'worker/**' ]
   pull_request:
     branches: [ master ]
   schedule:
@@ -40,20 +40,47 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [libs, client, apps, manager, libs-vcpkg, client-vcpkg, apps-vcpkg, libs-cmake, libs-arm64, apps-arm64, manager-with-webview-vcpkg, server, manager-with-webview, manager-without-webview, unit-test, integration-test]
+        type:
+            - apps
+            - apps-arm64
+            - apps-vcpkg
+            - apps-vcpkg-arm64
+            - client
+            - client-vcpkg
+            - client-vcpkg-arm64
+            - coverity
+            - integration-test
+            - libs
+            - libs-arm64
+            - libs-cmake
+            - libs-vcpkg
+            - libs-vcpkg-arm64
+            - manager
+            - manager-with-webview
+            - manager-with-webview-vcpkg
+            - manager-with-webview-vcpkg-arm64
+            - manager-without-webview
+            - server
+            - unit-test
       fail-fast: false
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           fetch-depth: 2
 
       - name: Install dependencies
+        if: matrix.type != 'coverity' || (github.ref == 'refs/heads/master' && github.event_name == 'schedule')
         run: |
           sudo apt-get -qq update
-          sudo apt-get install -y autopoint libftgl-dev freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk-3-dev libsecret-1-dev libgcrypt20-dev libsystemd-dev libwebkit2gtk-4.1-dev p7zip-full libxxf86vm-dev ocl-icd-opencl-dev zip libltdl-dev
+          sudo apt-get install -y autopoint p7zip-full zip
+
+      - name: Install dependencies for x64
+        if: success() && (! endsWith(matrix.type, 'arm64') && (matrix.type != 'coverity' || (github.ref == 'refs/heads/master' && github.event_name == 'schedule')))
+        run: |
+          sudo apt-get install -y libftgl-dev freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk-3-dev libsecret-1-dev libgcrypt20-dev libsystemd-dev libwebkit2gtk-4.1-dev libxxf86vm-dev ocl-icd-opencl-dev libltdl-dev libzip-dev nlohmann-json3-dev
 
       - name: Install dependencies for manager
-        if: success() && matrix.type == 'manager'
+        if: success() && (matrix.type == 'manager' || (matrix.type == 'coverity' && github.ref == 'refs/heads/master' && github.event_name == 'schedule'))
         run: |
           sudo apt-get install -y libwxgtk3.2-dev libwxgtk-webview3.2-dev
 
@@ -61,6 +88,55 @@ jobs:
         if: success() && endsWith(matrix.type, 'arm64')
         run: |
           sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
+
+      - name: Fix sources for arm64
+        if: success() && endsWith(matrix.type, 'arm64')
+        run: |
+          arch=arm64
+          sudo dpkg --add-architecture arm64
+          sudo sed -i '/^Types: deb$/a Architectures: amd64' /etc/apt/sources.list.d/ubuntu.sources
+          sudo sed -i '/^Types: deb$/a Architectures: amd64' /etc/apt/sources.list.d/azure-cli.sources
+          codename=$(lsb_release -cs)
+          cat <<EOT >> arm-cross-compile-sources.list
+          deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports $codename main restricted universe multiverse
+          deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports $codename-updates main restricted universe multiverse
+          deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports $codename-security main restricted universe multiverse
+          deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports $codename-backports main restricted universe multiverse
+          EOT
+          sudo mv arm-cross-compile-sources.list /etc/apt/sources.list.d/
+          sudo apt update
+
+      - name: Install dependencies for arm64 non-vcpkg
+        if: success() && (matrix.type == 'libs-arm64' || matrix.type == 'apps-arm64')
+        run: |
+          sudo apt install -y \
+            libcurl4-openssl-dev:arm64 \
+            libssl-dev:arm64 \
+            libzip-dev:arm64
+
+      - name: Install dependencies for apps arm64 vcpkg
+        if: success() && matrix.type == 'apps-vcpkg-arm64'
+        run: |
+          sudo apt install -y \
+            libxi-dev:arm64 \
+            libxmu-dev:arm64 \
+            libgl1-mesa-dev:arm64 \
+            libglu1-mesa-dev:arm64 \
+            mesa-common-dev:arm64 \
+            libxrandr-dev:arm64 \
+            libxxf86vm-dev:arm64 \
+            libjpeg-dev:arm64 \
+            ocl-icd-opencl-dev:arm64 \
+            libcurl4-openssl-dev:arm64 \
+            libssl-dev:arm64 \
+            libzip-dev:arm64
+
+      - name: Install dependencies for manager arm64 vcpkg
+        if: success() && matrix.type == 'manager-with-webview-vcpkg-arm64'
+        run: |
+          sudo apt install -y \
+            libltdl-dev:arm64 \
+            python3-jinja2
 
       - name: Install dependencies for unit testing
         if: success() && matrix.type == 'unit-test'
@@ -75,7 +151,7 @@ jobs:
           ./tests/integration_test/installTestSuite.sh
 
       - name: Cache dependencies
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: |
             3rdParty/buildCache
@@ -93,84 +169,152 @@ jobs:
           echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
 
       - name: Automake
-        if: success()
+        if: success() && (matrix.type != 'coverity' || (github.ref == 'refs/heads/master' && github.event_name == 'schedule'))
         run: ./_autosetup
 
-      - name: Configure libs
+      - name: Build libs
         if: success() && matrix.type == 'libs'
-        run: ./configure --disable-server --disable-client --disable-manager
+        run: |
+          ./configure --disable-server --disable-client --disable-manager --enable-boinczip
+          make -j $(nproc --all)
 
-      - name: Configure client
+      - name: Build client
         if: success() && matrix.type == 'client'
-        run: ./configure --disable-server --enable-client --disable-manager
+        run: |
+          ./configure --disable-server --enable-client --disable-manager
+          make -j $(nproc --all)
 
-      - name: Configure apps
+      - name: Build apps
         if: success() && matrix.type == 'apps'
-        run: ./configure --enable-apps --enable-apps-vbox --enable-apps-gui --disable-server --disable-client --disable-manager
+        run: |
+          ./configure --enable-apps --enable-apps-vbox --enable-apps-gui --disable-server --disable-client --disable-manager
+          make -j $(nproc --all)
 
-      - name: Configure manager
+      - name: Build manager
         if: success() && matrix.type == 'manager'
-        run: ./configure --disable-server --disable-client --enable-manager
+        run: |
+          ./configure --disable-server --disable-client --enable-manager
+          make -j $(nproc --all)
 
-      - name: Configure libs with vcpkg
+      - name: Build libs with vcpkg
         if: success() && matrix.type == 'libs-vcpkg'
-        run: linux/ci_configure_libs.sh
+        run: |
+          . ./linux/ci_configure_libs.sh
+          make -j $(nproc --all)
 
-      - name: Configure client with vcpkg
+      - name: Build client with vcpkg
         if: success() && matrix.type == 'client-vcpkg'
-        run: linux/ci_configure_client.sh
+        run: |
+          . ./linux/ci_configure_client.sh
+          make -j $(nproc --all)
 
-      - name: Configure apps with vcpkg
+      - name: Build apps with vcpkg
         if: success() && matrix.type == 'apps-vcpkg'
-        run: linux/ci_configure_apps.sh
+        run: |
+          . ./linux/ci_configure_apps.sh
+          make -j $(nproc --all)
 
-      - name: Configure libs with cmake vcpkg
+      - name: Build libs with cmake vcpkg
         if: success() && matrix.type == 'libs-cmake'
-        run: linux/ci_configure_libs_cmake.sh
-
-      - name: Configure manager with webview and vcpkg
-        if: success() && matrix.type == 'manager-with-webview-vcpkg'
-        run: linux/ci_configure_manager.sh
-
-      - name: Configure server
-        if: success() && matrix.type == 'server'
-        run: ./configure --enable-server --disable-client --disable-manager
-
-      - name: Configure manager with webview
-        if: success() && matrix.type == 'manager-with-webview'
-        run: ./3rdParty/buildLinuxDependencies.sh && ./configure --disable-server --disable-client --with-wx-prefix=${GITHUB_WORKSPACE}/3rdParty/buildCache/linux
-
-      - name: Configure manager without webview
-        if: success() && matrix.type == 'manager-without-webview'
-        run: ./3rdParty/buildLinuxDependencies.sh --disable-webview && ./configure --disable-server --disable-client --with-wx-prefix=${GITHUB_WORKSPACE}/3rdParty/buildCache/linux
-
-      - name: Configure server for unit testing
-        if: success() && matrix.type == 'unit-test'
-        run: ./configure --disable-client --disable-manager --enable-unit-tests CFLAGS="-g -O0" CXXFLAGS="-g -O0"
-
-      - name: Make
-        if: success() && ! contains(matrix.type, 'integration-test') && ! endsWith(matrix.type, 'cmake') && ! endsWith(matrix.type, 'arm64')
-        run: make
-
-      - name: Make for cmake
-        if: success() && endsWith(matrix.type, 'cmake')
-        run:
+        run: |
+          . ./linux/ci_configure_libs_cmake.sh
           cmake --build build
+
+      - name: Build manager with webview and vcpkg
+        if: success() && matrix.type == 'manager-with-webview-vcpkg'
+        run: |
+          . ./linux/ci_configure_manager.sh
+          make -j $(nproc --all)
+
+      - name: Build server
+        if: success() && matrix.type == 'server'
+        run: |
+          ./configure --enable-server --disable-client --disable-manager
+          make
+
+      - name: Build manager with webview
+        if: success() && matrix.type == 'manager-with-webview'
+        run: |
+          ./3rdParty/buildLinuxDependencies.sh
+          ./configure --disable-server --disable-client --with-wx-prefix=${GITHUB_WORKSPACE}/3rdParty/buildCache/linux
+          make -j $(nproc --all)
+
+      - name: Build manager without webview
+        if: success() && matrix.type == 'manager-without-webview'
+        run: |
+          ./3rdParty/buildLinuxDependencies.sh --disable-webview
+          ./configure --disable-server --disable-client --with-wx-prefix=${GITHUB_WORKSPACE}/3rdParty/buildCache/linux
+          make -j $(nproc --all)
+
+      - name: Build server for unit testing
+        if: success() && matrix.type == 'unit-test'
+        run: |
+          ./configure --disable-client --disable-manager --enable-unit-tests CFLAGS="-g -O0" CXXFLAGS="-g -O0"
+          make
+
+      - name: Build libraries for arm64 with vcpkg
+        if: success() && matrix.type == 'libs-vcpkg-arm64'
+        run: |
+          . ./linux/arm64/ci_configure_libs.sh
+          make -j $(nproc --all)
+
+      - name: Build apps for arm64 with vcpkg
+        if: success() && matrix.type == 'apps-vcpkg-arm64'
+        run: |
+          . ./linux/arm64/ci_configure_apps.sh
+          make -j $(nproc --all)
+
+      - name: Build client for arm64 with vcpkg
+        if: success() && matrix.type == 'client-vcpkg-arm64'
+        run: |
+          . ./linux/arm64/ci_configure_client.sh
+          make -j $(nproc --all)
+
+      - name: Build manager with webview for arm64 with vcpkg
+        if: success() && matrix.type == 'manager-with-webview-vcpkg-arm64'
+        run: |
+          . ./linux/arm64/ci_configure_manager.sh
+          make -j $(nproc --all)
 
       - name: Build libraries for arm64
         if: success() && matrix.type == 'libs-arm64'
         run: |
-          ./linux/arm64/build_libraries_arm64.sh
+          export CC=aarch64-linux-gnu-gcc
+          export CXX=aarch64-linux-gnu-g++
+          export LD=aarch64-linux-gnu-ld
+          export CFLAGS="-march=armv8-a -O3"
+          export CXXFLAGS="-march=armv8-a -O3 -std=c++11"
+          export LDFLAGS="-march=armv8-a -static-libstdc++ -s"
+          export RELEASE_ARCH=arm64
+          export PKG_CONFIG_LIBDIR=/usr/lib/aarch64-linux-gnu/pkgconfig:/usr/share/pkgconfig
+          ./configure --host=aarch64-linux --with-boinc-platform="aarch64-unknown-linux-gnu" --with-boinc-alt-platform="arm-unknown-linux-gnueabihf" --enable-boinczip --disable-server --disable-manager --disable-client --disable-shared --enable-static
+          make -j $(nproc --all)
 
       - name: Build apps for arm64
         if: success() && matrix.type == 'apps-arm64'
         run: |
-          export CI=yes
+          export CC=aarch64-linux-gnu-gcc
+          export CXX=aarch64-linux-gnu-g++
+          export LD=aarch64-linux-gnu-ld
+          export CFLAGS="-march=armv8-a -O3"
+          export CXXFLAGS="-march=armv8-a -O3 -std=c++11"
+          export LDFLAGS="-march=armv8-a -static-libstdc++ -s"
           export RELEASE_ARCH=arm64
-          ./linux/arm64/build_libraries_arm64.sh
-          ./linux/arm64/build_openssl_arm64.sh
-          ./linux/arm64/build_curl_arm64.sh
-          ./linux/arm64/build_example_arm64.sh
+          export PKG_CONFIG_LIBDIR=/usr/lib/aarch64-linux-gnu/pkgconfig:/usr/share/pkgconfig
+          ./configure --host=aarch64-linux --with-boinc-platform="aarch64-unknown-linux-gnu" --with-boinc-alt-platform="arm-unknown-linux-gnueabihf" --enable-apps --disable-server --disable-manager --disable-client --disable-shared --enable-static
+          make -j $(nproc --all)
+
+      - name: Prepare for coverity scan
+        if: success() && matrix.type == 'coverity' && github.ref == 'refs/heads/master' && github.event_name == 'schedule'
+        run: ./configure --enable-client --enable-manager --enable-apps --enable-apps-vbox --enable-apps-gui --enable-server --enable-boinczip
+
+      - name: Coverity Scan
+        if: ${{ success() && matrix.type == 'coverity' && github.ref == 'refs/heads/master' && github.event_name == 'schedule' }}
+        uses: vapier/coverity-scan-action@2068473c7bdf8c2fb984a6a40ae76ee7facd7a85
+        with:
+          project: 'BOINC/boinc'
+          token: ${{ secrets.COVERITY_SCAN_TOKEN }}
+          email: 'lestat.de.lionkur@gmail.com'
 
       - name: Execute unit-test and report coverage
         if: success() && matrix.type == 'unit-test'
@@ -190,24 +334,24 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: linux_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
 
       - name: Prepare artifacts for deploy
-        if: success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test')
+        if: success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') && matrix.type != 'coverity'
         run: python ./deploy/prepare_deployment.py linux_${{ matrix.type }}
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        if: ${{ ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') }}
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        if: ${{ ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') && matrix.type != 'coverity' }}
         with:
           name: linux_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/linux_${{ matrix.type }}.7z
 
       - name: Upload Google Tests Results
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         if: always() && matrix.type == 'unit-test'    # run this step even if previous step failed
         with:
           name: Linux_tests_results
@@ -215,7 +359,7 @@ jobs:
 
       - name: Upload coverage report
         if: success() && matrix.type == 'unit-test'
-        uses: codecov/codecov-action@ad3126e916f78f00edff4ed0317cf185271ccc2d
+        uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
@@ -231,6 +375,11 @@ jobs:
     env:
       ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
     steps:
+      - name: Fix debian sources
+        run: |
+          sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
+          sed -i 's/security.debian.org/archive.debian.org/g' /etc/apt/sources.list
+
       - name: Install dependencies
         run: |
           apt-get -qq update
@@ -241,19 +390,21 @@ jobs:
         run: |
           dpkg --add-architecture i386
           apt-get update
-          apt-get install -y gcc-multilib g++-multilib libcurl4-openssl-dev:i386 libssl-dev:i386
+          apt-get install -y gcc-multilib g++-multilib libcurl4-openssl-dev:i386 libssl-dev:i386 libzip-dev:i386
 
       - name: Install dependencies for x64
         if: success() && matrix.type == 'apps'
         run: |
-          apt-get install -y libcurl4-openssl-dev libssl-dev
+          apt-get install -y libcurl4-openssl-dev libssl-dev libzip-dev
 
       - name: Install dependencies for arm64
         if: success() && matrix.type == 'apps-arm64'
         run: |
-          apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu wget ca-certificates
+          dpkg --add-architecture arm64
+          apt-get update
+          apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu wget ca-certificates libcurl4-openssl-dev:arm64 libssl-dev:arm64 libzip-dev:arm64
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           fetch-depth: 2
 
@@ -268,7 +419,7 @@ jobs:
           export CXXFLAGS="-O3 -std=c++11"
           export LDFLAGS="-static-libstdc++ -s"
           export RELEASE_ARCH=x86_64
-          ./configure --enable-apps --enable-apps-vbox --disable-server --disable-client --disable-manager
+          ./configure --enable-apps --enable-apps-vbox --disable-server --disable-client --disable-manager --disable-shared --enable-static
           make -j $(nproc --all)
 
       - name: Make x86 apps
@@ -278,19 +429,22 @@ jobs:
           export CXXFLAGS="-O3 -m32 -std=c++11"
           export LDFLAGS="-static-libstdc++ -s -m32"
           export RELEASE_ARCH=i686
-          ./configure --enable-apps --enable-apps-vbox --disable-server --disable-client --disable-manager --host=i686-linux-gnu
+          ./configure --host=i686-linux-gnu --enable-apps --enable-apps-vbox --disable-server --disable-client --disable-manager --disable-shared --enable-static
           make -j $(nproc --all)
 
       - name: Make arm64 apps
         if: success() && matrix.type == 'apps-arm64'
         run: |
-          export CI=yes
-          export RELEASE=yes
+          export CC=aarch64-linux-gnu-gcc
+          export CXX=aarch64-linux-gnu-g++
+          export LD=aarch64-linux-gnu-ld
+          export CFLAGS="-march=armv8-a -O3"
+          export CXXFLAGS="-march=armv8-a -O3 -std=c++11"
+          export LDFLAGS="-march=armv8-a -static-libstdc++ -s"
           export RELEASE_ARCH=arm64
-          ./linux/arm64/build_libraries_arm64.sh
-          ./linux/arm64/build_openssl_arm64.sh
-          ./linux/arm64/build_curl_arm64.sh
-          ./linux/arm64/build_example_arm64.sh
+          export PKG_CONFIG_LIBDIR=/usr/lib/aarch64-linux-gnu/pkgconfig:/usr/share/pkgconfig
+          ./configure --host=aarch64-linux --with-boinc-platform="aarch64-unknown-linux-gnu" --with-boinc-alt-platform="arm-unknown-linux-gnueabihf" --enable-apps --disable-server --disable-manager --disable-client --disable-shared --enable-static
+          make -j $(nproc --all)
 
       - name: Prepare logs on failure
         if: ${{ failure() }}
@@ -298,7 +452,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: linux_release_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
@@ -308,7 +462,7 @@ jobs:
         run: python3 ./deploy/prepare_deployment.py linux_apps
 
       - name: Upload wrapper artifacts
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         if: success()
         with:
           name: linux_release_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}

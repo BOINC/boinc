@@ -21,16 +21,19 @@
 #define BOINC_RELEASE 0
 
 // wrapper version number
-#define WRAPPER_RELEASE 26018
+#define WRAPPER_RELEASE 26019
 
 // vboxwrapper version number
 #define VBOXWRAPPER_RELEASE 26211
 
 // worker version number
-#define WORKER_RELEASE 4
+#define WORKER_RELEASE 6
 
 // dockerwrapper version number
-#define DOCKERWRAPPER_RELEASE 5
+#define DOCKERWRAPPER_RELEASE 13
+
+// multi_thread version number
+#define MULTITHREAD_RELEASE 2
 
 // client version number as string
 #define BOINC_VERSION_STRING "8.3.0"

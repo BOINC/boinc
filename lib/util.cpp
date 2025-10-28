@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -63,6 +63,7 @@ extern "C" {
 #include "miofile.h"
 #include "parse.h"
 #include "hostinfo.h"
+#include "str_replace.h"
 #include "util.h"
 
 using std::min;
@@ -96,7 +97,7 @@ double dtime() {
 #else
     struct timeval tv;
     gettimeofday(&tv, 0);
-    return tv.tv_sec + (tv.tv_usec/1.e6);
+    return (double)tv.tv_sec + ((double)tv.tv_usec/1.e6);
 #endif
 #endif
 }
@@ -713,6 +714,7 @@ int DOCKER_CONN::init(
     DOCKER_TYPE docker_type, string distro_name, bool _verbose
 ) {
     string err_msg;
+    type = docker_type;
     cli_prog = docker_cli_prog(docker_type);
     if (docker_type == DOCKER) {
         int retval = ctl_wc.setup(err_msg);
@@ -733,6 +735,7 @@ int DOCKER_CONN::init(
 }
 #else
 int DOCKER_CONN::init(DOCKER_TYPE docker_type, bool _verbose) {
+    type = docker_type;
     cli_prog = docker_cli_prog(docker_type);
     verbose = _verbose;
     return 0;
@@ -747,11 +750,15 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     int retval;
     if (verbose) {
         fprintf(stderr, "running docker command: %s\n", cmd);
+        fprintf(stderr, "program: %s\n", cli_prog);
     }
 #ifdef _WIN32
     string output;
 
-    sprintf(buf, "%s %s; echo EOM\n", cli_prog, cmd);
+    // In the Win case we read the output from a pipe.
+    // Append 'EOM' to the output so we know when we've reached the end
+
+    snprintf(buf, sizeof(buf), "%s %s; echo EOM\n", cli_prog, cmd);
     write_to_pipe(ctl_wc.in_write, buf);
     retval = read_from_pipe(
         ctl_wc.out_read, ctl_wc.proc_handle, output, CMD_TIMEOUT, "EOM"
@@ -762,7 +769,10 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     }
     out = split(output, '\n');
 #else
-    sprintf(buf, "%s %s\n", cli_prog, cmd);
+    snprintf(buf, sizeof(buf),
+        "%s %s",
+        cli_prog, cmd
+    );
     retval = run_command(buf, out);
     if (retval) {
         if (verbose) {
@@ -770,7 +780,8 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
         }
         return retval;
     }
-#endif
+#endif  // _WIN32
+
     if (verbose) {
         fprintf(stderr, "command output:\n");
         for (string line: out) {
@@ -820,17 +831,15 @@ int DOCKER_CONN::parse_container_name(string line, string &name) {
 // - unique per WU (hence projurl__wuname)
 // - lowercase (required by Docker)
 //
-string docker_image_name(
-    const char* proj_url_esc, const char* wu_name
-) {
-    char buf[1024], url_buf[1024], wu_buf[1024];
+string docker_image_name(const char* proj_url_esc, const char* wu_name) {
+    char buf[2048], url_buf[512], wu_buf[512];
 
     safe_strcpy(url_buf, proj_url_esc);
     downcase_string(url_buf);
     safe_strcpy(wu_buf, wu_name);
     downcase_string(wu_buf);
 
-    sprintf(buf, "boinc__%s__%s", url_buf, wu_buf);
+    snprintf(buf, sizeof(buf), "boinc__%s__%s", url_buf, wu_buf);
     return string(buf);
 }
 
@@ -840,14 +849,14 @@ string docker_image_name(
 string docker_container_name(
     const char* proj_url_esc, const char* result_name
 ){
-    char buf[1024], url_buf[1024], result_buf[1024];
+    char buf[2048], url_buf[512], result_buf[512];
 
     safe_strcpy(url_buf, proj_url_esc);
     downcase_string(url_buf);
     safe_strcpy(result_buf, result_name);
     downcase_string(result_buf);
 
-    sprintf(buf, "boinc__%s__%s", url_buf, result_buf);
+    snprintf(buf, sizeof(buf), "boinc__%s__%s", url_buf, result_buf);
     return string(buf);
 }
 

@@ -23,6 +23,8 @@
 
 require_once("../inc/submit_db.inc");
 require_once("../inc/util.inc");
+require_once("../inc/keywords.inc");
+require_once("../inc/kw_prefs.inc");
 
 function user_row($u) {
     $user = BoincUser::lookup_id($u->user_id);
@@ -49,14 +51,22 @@ function user_row($u) {
         }
         $admin = $names?implode(', ', $names):'---';
     }
+    [$yes, $no] = read_kw_prefs($user);
+    global $job_keywords;
+    $kws = [];
+    foreach ($yes as $id) {
+        $kw = $job_keywords[$id];
+        $kws[] = $kw->name;
+    }
 
     table_row(
         sprintf(
-            '<a href=manage_project.php?action=edit_form&user_id=%d>%s</a>(ID: %d)',
-            $u->user_id, $user->name, $user->id
+            '<a href=manage_project.php?action=edit_form&user_id=%d>%s</a>',
+            $u->user_id, $user->name
         ),
         $sub,
         $admin,
+        implode('<br>', $kws),
         $u->quota,
         $u->max_jobs_in_progress,
         ($u->logical_start_time > time())?local_time_str($u->logical_start_time):'---'
@@ -75,6 +85,7 @@ function handle_list() {
         "User<br><small>Click to change permissions or quota</small>",
         "Can submit jobs to",
         "Can administer apps for",
+        'Keywords',
         "Quota",
         "Max jobs in progress<br><small>0 means no limit</small>",
         "Current priority<br><small>Later time = lower priority</small>"
@@ -133,7 +144,12 @@ function handle_edit_form() {
         '', 'manage_apps', $apps, $manage, "id=manage_apps"
     );
     form_input_text('Quota', 'quota', $usub->quota);
-    form_input_text('Max jobs in progress', 'max_jobs_in_progress', $usub->max_jobs_in_progress);
+    form_input_text('Max jobs in progress',
+        'max_jobs_in_progress', $usub->max_jobs_in_progress
+    );
+    form_general('Run jobs only on own computers?',
+        $user->seti_id?'yes':'no'
+    );
     form_submit('Update');
     form_end();
 
@@ -171,11 +187,15 @@ function handle_edit_action() {
     $us = BoincUserSubmit::lookup_userid($user_id);
     if (!$us) error_page("user not found");
     BoincUserSubmitApp::delete_user($user_id);
-    $submit_all = get_str('submit_all');
-    if ($submit_all) {
+    if (get_str('submit_all')) {
         $us->update("submit_all=1");
     } else {
         $us->update("submit_all=0");
+    }
+    if (get_str('manage_all')) {
+        $us->update("manage_all=1");
+    } else {
+        $us->update("manage_all=0");
     }
     $apps = BoincApp::enum("deprecated=0");
     $submit_apps = get_array('submit_apps');
@@ -221,7 +241,7 @@ function handle_add_action() {
     if (!$user) error_page("no such user");
     $us = BoincUserSubmit::lookup_userid($user_id);
     if (!$us) {
-        if (!BoincUserSubmit::insert("(user_id) values ($user_id)")) {
+        if (!BoincUserSubmit::insert("(user_id, quota, logical_start_time, submit_all, manage_all, max_jobs_in_progress) values ($user_id, 1, 0, 0, 0, 10000)")) {
             error_page("Insert failed");
         }
     }

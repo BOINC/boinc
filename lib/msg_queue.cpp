@@ -40,7 +40,7 @@ int create_message_queue(key_t key) {
 }
 
 int receive_message(key_t key, void *msg, size_t msg_size, bool wait) {
-    int mq_id, retval;
+    int mq_id;
 
     mq_id = msgget(key, 0666);
     if (mq_id < 0) {
@@ -48,7 +48,7 @@ int receive_message(key_t key, void *msg, size_t msg_size, bool wait) {
         return -1;
     }
 
-    retval = msgrcv(mq_id, msg, msg_size, 0, (wait?0:IPC_NOWAIT));
+    ssize_t retval = msgrcv(mq_id, msg, msg_size, 0, (wait?0:IPC_NOWAIT));
     if (retval < 0) {
         boinc::perror("receive_message: msgrcv");
         return -1;

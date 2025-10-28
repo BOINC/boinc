@@ -2,11 +2,7 @@
   "name": "boinc-msbuild",
   "dependencies":
   [
-    {
-      "name": "curl",
-      "features": ["schannel"],
-      "default-features": false
-    },
+    "curl",
     {
       "name": "openssl",
       "features": ["ssl3", "weak-ssl-ciphers"],
@@ -21,6 +17,10 @@
     "gtest",
     "ftgl",
     "opencl",
-    "nlohmann-json"
+    "nlohmann-json",
+    {
+      "name": "libzip",
+      "default-features": false
+    }
   ]
 }

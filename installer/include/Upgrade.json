@@ -1,0 +1,28 @@
+{
+    "Upgrade": [
+        {
+            "UpgradeCode": "{76DD37FC-EE51-408D-9FB5-3D59FC8ED22A}",
+            "VersionMin": "0.0.0",
+            "VersionMax": "255.255.65535",
+            "Attributes": 769,
+            "ActionProperty": "ISACTIONPROP2",
+            "Comments": "World Community Grid Upgrade (7.14.2)"
+        },
+        {
+            "UpgradeCode": "{862B80F6-835D-4F72-8C4F-EE68ED34C6F8}",
+            "VersionMin": "0.0.0",
+            "VersionMax": "255.255.65535",
+            "Attributes": 769,
+            "ActionProperty": "ISACTIONPROP1",
+            "Comments": "World Community Grid Upgrade"
+        },
+        {
+            "UpgradeCode": "{E913E54D-5080-42EC-A312-B21948BA1C02}",
+            "VersionMin": "0.0.0",
+            "VersionMax": "255.255.65535",
+            "Attributes": 769,
+            "ActionProperty": "ACTPROP_E913E54D_5080_42EC_A312_B21948BA1C02",
+            "Comments": "General Upgrade"
+        }
+    ]
+}

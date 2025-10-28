@@ -26,7 +26,7 @@
 // --dockerfile         Dockerfile name, default Dockerfile
 // --sporadic           app is sporadic
 //
-// args are passed as cmdline args to main prog in container
+// additional args are passed as cmdline args to main prog in container
 //
 // docker_wrapper runs in a directory (usually slot dir) containing
 //
@@ -84,6 +84,10 @@
 //
 //#define WIN_STANDALONE_TEST
 
+// docs:
+// https://docs.docker.com/reference/cli/docker/container/run/
+// https://docs.docker.com/engine/containers/resource_constraints/
+
 #include <cstdio>
 #include <string>
 #include <vector>
@@ -105,6 +109,7 @@ using std::vector;
 #define POLL_PERIOD 1.0
 #define STATUS_PERIOD 10
     // reports status this often
+#define FRACTION_DONE_FILENAME "fraction_done"
 
 int container_exit_code = 0;
 enum JOB_STATUS {JOB_IN_PROGRESS, JOB_SUCCESS, JOB_FAIL};
@@ -192,7 +197,7 @@ DOCKER_CONN docker_conn;
 vector<string> app_args;
 DOCKER_TYPE docker_type;
 
-// parse job config file
+// parse job config file (job.toml)
 //
 int parse_config_file() {
     // defaults
@@ -279,6 +284,58 @@ int error_output(vector<string> &out) {
     return 0;
 }
 
+//////////  PODMAN ARGS  ////////////
+
+#ifdef __APPLE__
+// podman doesn't correctly handle args containing unescaped spaces - WTF??
+//
+static void escape_spaces(const char* p, char *q) {
+    while (*p) {
+    	if (*p == ' ') {
+	    *q++ = '\\';
+	    *q++ = ' ';
+	} else {
+	    *q++ = *p;
+	}
+	p++;
+    }
+    *q = 0;
+}
+#endif
+
+char escaped_cwd[MAXPATHLEN];
+
+void get_escaped_cwd() {
+    // on MacOS/podman, you need the full path, not .
+    // Win: use . since full path has :
+    //
+#ifdef __APPLE__
+    char cwd2[MAXPATHLEN];
+    getcwd(cwd2, sizeof(cwd2));
+    escape_spaces(cwd2, escaped_cwd);
+#else
+    strcpy(escaped_cwd, ".");
+#endif
+}
+
+
+void get_app_args(char* buf) {
+    buf[0] = 0;
+#ifdef __APPLE__
+    for (string arg: app_args) {
+        char buf2[4096];
+        strcat(buf, "\\ ");
+        escape_spaces(arg.c_str(), buf2);
+        strcat(buf, buf2);
+    }
+#else
+    for (string arg: app_args) {
+        strcat(buf, " ");
+        strcat(buf, arg.c_str());
+    }
+#endif
+}
+
 //////////  IMAGE  ////////////
 
 void get_image_name() {
@@ -309,8 +366,8 @@ int image_exists(bool &exists) {
 int build_image() {
     char cmd[256];
     vector<string> out;
-    snprintf(cmd, sizeof(cmd), "build . -t %s -f %s %s",
-        image_name, dockerfile, config.build_args.c_str()
+    snprintf(cmd, sizeof(cmd), "build \"%s\" -t %s -f %s %s",
+        escaped_cwd, image_name, dockerfile, config.build_args.c_str()
     );
     int retval = docker_conn.command(cmd, out);
     if (retval) return retval;
@@ -367,32 +424,31 @@ int container_exists(bool &exists) {
 int create_container() {
     char cmd[1024];
     char slot_cmd[256], project_cmd[256], buf[256];
-    char cwd[MAXPATHLEN];
     vector<string> out;
     int retval;
 
     retval = get_image();
     if (retval) return retval;
 
-    // on MacOS/podman, you need the full path, not .
-    // Win: use . since full path has :
+    // mount slot dir at /app (or whatever is specified)
+    // Needs quotes since paths can contain spaces
     //
-#ifdef __APPLE__
-    getcwd(cwd, sizeof(cwd));
-#else
-    strcpy(cwd, ".");
-#endif
-    snprintf(slot_cmd, sizeof(slot_cmd), " -v %s:%s", cwd, config.workdir.c_str());
+    snprintf(slot_cmd, sizeof(slot_cmd),
+        " -v \"%s/\":\"%s\"",
+        escaped_cwd, config.workdir.c_str()
+    );
     if (config.project_dir_mount.empty()) {
         project_cmd[0] = 0;
     } else {
         if (boinc_is_standalone()) {
-            snprintf(project_cmd, sizeof(project_cmd), " -v %s/%s:%s",
-                cwd, project_dir, config.project_dir_mount.c_str()
+            snprintf(project_cmd, sizeof(project_cmd),
+                " -v \"%s/%s/\":\"%s\"",
+                escaped_cwd, project_dir, config.project_dir_mount.c_str()
             );
         } else {
-            snprintf(project_cmd, sizeof(project_cmd), " -v %s/../../projects/%s:%s",
-                cwd, project_dir, config.project_dir_mount.c_str()
+            snprintf(project_cmd, sizeof(project_cmd),
+                " -v \"%s/../../projects/%s/\":\"%s\"",
+                escaped_cwd, project_dir, config.project_dir_mount.c_str()
             );
         }
     }
@@ -401,14 +457,13 @@ int create_container() {
         slot_cmd, project_cmd
     );
 
-    // add command-line args
+    // add command-line args, space-escaped if needed (Mac)
     //
     if (app_args.size()) {
+        char arg_buf[4096];
         strcat(cmd, " -e ARGS=\"");
-        for (string arg: app_args) {
-            strcat(cmd, " ");
-            strcat(cmd, arg.c_str());
-        }
+        get_app_args(arg_buf);
+        strcat(cmd, arg_buf);
         strcat(cmd, "\"");
     }
 
@@ -420,6 +475,13 @@ int create_container() {
     }
     for (string s: config.portmaps) {
         snprintf(buf, sizeof(buf), " -p %s", s.c_str());
+        strcat(cmd, buf);
+    }
+
+    // multithread
+    //
+    if (aid.ncpus > 1) {
+        snprintf(buf, sizeof(buf), " --cpus %f", aid.ncpus);
         strcat(cmd, buf);
     }
 
@@ -488,8 +550,8 @@ int container_op(const char *op) {
 }
 
 // Clean up at end of job.
-// Show log output.
-// remove container and image
+// Copy log output to stderr.
+// Remove container and image
 //
 void cleanup() {
     char cmd[1024];
@@ -585,20 +647,39 @@ int get_stats(RSC_USAGE &ru) {
     int retval;
     size_t n;
 
+#ifdef __APPLE__
+    snprintf(cmd, sizeof(cmd),
+        "stats --no-stream  --format \"{{.CPUPerc}}\\ {{.MemUsage}}\" %s",
+        container_name
+    );
+#else
     snprintf(cmd, sizeof(cmd),
         "stats --no-stream  --format \"{{.CPUPerc}} {{.MemUsage}}\" %s",
         container_name
     );
+#endif
     retval = docker_conn.command(cmd, out);
     if (retval) return -1;
     if (out.empty()) return -1;
-    const char *buf = out[0].c_str();
+
     // output is like
     // 0.00% 420KiB / 503.8GiB
-    double cpu_pct, mem;
-    char mem_unit;
-    n = sscanf(buf, "%lf%% %lf%c", &cpu_pct, &mem, &mem_unit);
-    if (n != 3) return -1;
+    // but this can be preceded by lines with warning messages
+    //
+    bool found = false;
+    double cpu_pct=0, mem=0;
+    char mem_unit=0;
+    for (const string& line: out) {
+        n = sscanf(line.c_str(), "%lf%% %lf%c", &cpu_pct, &mem, &mem_unit);
+        if (n == 3) {
+            found = true;
+            break;
+        }
+    }
+    if (!found) {
+        fprintf(stderr, "Can't parse stats reply\n");
+        return -1;
+    }
     switch (mem_unit) {
     case 'G':
     case 'g':
@@ -619,6 +700,20 @@ int get_stats(RSC_USAGE &ru) {
     return 0;
 }
 
+// read fraction done from file if present, else 0
+// called every 10 sec
+//
+double get_fraction_done() {
+    FILE *f = fopen(FRACTION_DONE_FILENAME, "r");
+    if (!f) return 0;
+    double x, y=0;
+    if (fscanf(f, "%lf", &x) == 1) {
+        y = x;
+    }
+    fclose(f);
+    return y;
+}
+
 #ifdef _WIN32
 // find a WSL distro with Docker and set up a command link to it
 //
@@ -636,9 +731,27 @@ int wsl_init() {
         distro_name = distro->distro_name;
         docker_type = distro->docker_type;
     }
+    fprintf(stderr, "Using WSL distro %s\n", distro_name.c_str());
     return docker_conn.init(docker_type, distro_name, config.verbose>0);
 }
 #endif
+
+// checkpoint/restore
+// podman: https://podman.io/docs/checkpoint
+//      podman container checkpoint <name>
+//      podman container restore <name>
+// docker: https://docs.docker.com/reference/cli/docker/checkpoint/
+//      docker checkpoint create <cont_name> <checkpoint_name>
+//      docker checkpoint ls   (lists checkpoints)
+//      docker checkpoint rm   (delete checkpoint)
+//      docker start --checkpoint <checkpoint_name> <cont_name>
+//      (use <cont_name>_checkpoint as the checkpoint name)
+//      need --security-opt=seccomp:unconfined in initial run command?
+//
+// when we checkpoint, write a file with
+//      WSL distro name
+//      docker type
+// ... in case we somehow change WSL distro or docker type
 
 int main(int argc, char** argv) {
     BOINC_OPTIONS options;
@@ -669,7 +782,16 @@ int main(int argc, char** argv) {
     options.check_heartbeat = true;
     options.handle_process_control = true;
     boinc_init_options(&options);
+
+    // don't write to stderr before this; it won't go to stderr.txt
+
+    // parse job.toml
     retval = parse_config_file();
+    if (retval) {
+        fprintf(stderr, "can't parse config file\n");
+        exit(1);
+    }
+
     if (boinc_is_standalone()) {
         config.verbose = VERBOSE_STD;
         strcpy(image_name, "boinc");
@@ -682,10 +804,6 @@ int main(int argc, char** argv) {
         get_container_name();
     }
 
-    if (retval) {
-        fprintf(stderr, "can't parse config file\n");
-        exit(1);
-    }
     if (config.verbose) config.print();
 
     if (sporadic) {
@@ -696,6 +814,8 @@ int main(int argc, char** argv) {
         }
     }
 
+    get_escaped_cwd();
+
 #ifdef _WIN32
     retval = wsl_init();
     if (retval) {
@@ -703,7 +823,19 @@ int main(int argc, char** argv) {
         boinc_finish(1);
     }
 #else
-    docker_type = boinc_is_standalone()?PODMAN:aid.host_info.docker_type;
+    if (boinc_is_standalone()) {
+        docker_type = PODMAN;
+        fprintf(stderr, "Standalone mode; using Podman\n");
+    } else {
+        if (!strlen(aid.host_info.docker_version)
+            || aid.host_info.docker_type == NONE
+        ) {
+            fprintf(stderr, "Docker type missing from app_init_data.xml\n");
+            fprintf(stderr, "Check project plan class configuration\n");
+            boinc_finish(1);
+        }
+        docker_type = aid.host_info.docker_type;
+    }
     docker_conn.init(docker_type, config.verbose>0);
 #endif
     fprintf(stderr, "Using %s\n", docker_type_str(docker_type));
@@ -764,7 +896,7 @@ int main(int argc, char** argv) {
                 boinc_report_app_status_aux(
                     cpu_time,
                     0,      // checkpoint CPU time
-                    0,      // frac done
+                    get_fraction_done(),
                     0,      // other PID
                     0,0,    // bytes send/received
                     ru.wss

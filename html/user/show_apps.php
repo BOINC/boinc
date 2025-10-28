@@ -32,7 +32,7 @@ function show_submitters() {
 function show_buda_apps() {
     $apps = get_buda_apps();
     foreach ($apps as $app) {
-        $desc = get_buda_desc($app);
+        $desc = get_buda_app_desc($app);
         table_row(
             $desc->long_name,
             $desc->description,
@@ -72,6 +72,15 @@ function main() {
         }
     }
     end_table();
+    $user = get_logged_in_user(false);
+    if ($user) {
+        $us = BoincUserSubmit::lookup_userid($user->id);
+        if (!$us) {
+            show_button("apply.php", "Apply to submit jobs");
+        }
+    } else {
+        show_button("signup.php", "Register to submit jobs");
+    }
     show_submitters();
     page_tail();
 }

@@ -17,13 +17,14 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdwx.h</PrecompiledHeaderFile>
       <PreprocessorDefinitions>_UNICODE;UNICODE;wxUSE_GUI=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug'">wxDEBUG_LEVEL=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)'=='Release'">wxDEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ForcedIncludeFiles>stdwx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>ole32.lib;oleaut32.lib;oleacc.lib;shell32.lib;comdlg32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;lzma.lib;nanosvg.lib;nanosvgrast.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">wxbase32ud.lib;wxbase32ud_net.lib;wxbase32ud_xml.lib;wxmsw32ud_adv.lib;wxmsw32ud_core.lib;wxmsw32ud_html.lib;wxmsw32ud_qa.lib;wxmsw32ud_webview.lib;pcre2-8d.lib;pcre2-16d.lib;pcre2-32d.lib;pcre2-posixd.lib;libpng16d.lib;jpeg.lib;tiffd.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Configuration)'=='Release'">wxbase32u.lib;wxbase32u_net.lib;wxbase32u_xml.lib;wxmsw32u_adv.lib;wxmsw32u_core.lib;wxmsw32u_html.lib;wxmsw32u_qa.lib;wxmsw32u_webview.lib;pcre2-8.lib;pcre2-16.lib;pcre2-32.lib;pcre2-posix.lib;libpng16.lib;jpeg.lib;tiff.lib;zlib.lib;lzma.lib;nanosvg.lib;nanosvgrast.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ole32.lib;oleaut32.lib;oleacc.lib;shell32.lib;comdlg32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;lzma.lib;nanosvg.lib;nanosvgrast.lib;Ws2_32.Lib;libwebp.lib;libwebpdemux.lib;libsharpyuv.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">wxbase33ud.lib;wxbase33ud_net.lib;wxbase33ud_xml.lib;wxmsw33ud_adv.lib;wxmsw33ud_core.lib;wxmsw33ud_html.lib;wxmsw33ud_qa.lib;wxmsw33ud_webview.lib;pcre2-8d.lib;pcre2-16d.lib;pcre2-32d.lib;pcre2-posixd.lib;libpng16d.lib;jpeg.lib;tiffd.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)'=='Release'">wxbase33u.lib;wxbase33u_net.lib;wxbase33u_xml.lib;wxmsw33u_adv.lib;wxmsw33u_core.lib;wxmsw33u_html.lib;wxmsw33u_qa.lib;wxmsw33u_webview.lib;pcre2-8.lib;pcre2-16.lib;pcre2-32.lib;pcre2-posix.lib;libpng16.lib;jpeg.lib;tiff.lib;zlib.lib;lzma.lib;nanosvg.lib;nanosvgrast.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>

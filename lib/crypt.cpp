@@ -98,7 +98,7 @@ int print_raw_data(FILE* f, DATA_BLOCK& x) {
 int scan_raw_data(FILE *f, DATA_BLOCK& x) {
     int i=0,j;
     while(EOF!=(j=fgetc(f))) {
-        x.data[i]=j;
+        x.data[i]=(unsigned char)j;
         i++;
     }
     x.len = i;
@@ -132,7 +132,7 @@ int scan_hex_data(FILE* f, DATA_BLOCK& x) {
         int j;
         n = fscanf(f, "%2x", &j);
         if (n <= 0) break;
-        x.data[x.len] = j;
+        x.data[x.len] = (unsigned char)j;
         x.len++;
     }
 #endif
@@ -159,7 +159,7 @@ static int sscan_hex_data(const char* p, DATA_BLOCK& x) {
             );
             return ERR_BAD_HEX_FORMAT;
         }
-        x.data[x.len++] = m;
+        x.data[x.len++] = (unsigned char)m;
         nleft--;
         p += 2;
     }
@@ -173,7 +173,7 @@ int print_key_hex(FILE* f, KEY* key, int size) {
     DATA_BLOCK x;
 
     fprintf(f, "%d\n", key->bits);
-    len = size - sizeof(key->bits);
+    len = size - (int)sizeof(key->bits);
     x.data = key->data;
     x.len = len;
     return print_hex_data(f, x);
@@ -207,14 +207,14 @@ int scan_key_hex(FILE* f, KEY* key, int size) {
 #else
     int fs = fscanf(f, "%d", &num_bits);
     if (fs != 1) return ERR_NULL;
-    key->bits = num_bits;
-    len = size - sizeof(key->bits);
+    key->bits = (unsigned short)num_bits;
+    len = size - (int)sizeof(key->bits);
     for (i=0; i<len; i++) {
         // coverity[check_return]
         if (fscanf(f, "%2x", &n) != 1) {
             return ERR_NULL;
         }
-        key->data[i] = n;
+        key->data[i] = (unsigned char)n;
     }
     fs = fscanf(f, ".");
     if (fs == EOF) return ERR_NULL;
@@ -230,7 +230,7 @@ int sscan_key_hex(const char* buf, KEY* key, int size) {
 
     //fprintf(stderr, "buf = %s\n", buf);
     n = sscanf(buf, "%d", &num_bits);
-    key->bits = num_bits; //key->bits is a short
+    key->bits = (unsigned short)num_bits; //key->bits is a short
     //fprintf(stderr, "key->bits = %d\n", key->bits);
 
     if (n != 1) return ERR_XML_PARSE;
@@ -238,7 +238,7 @@ int sscan_key_hex(const char* buf, KEY* key, int size) {
     if (!buf) return ERR_XML_PARSE;
     buf += 1;
     db.data = key->data;
-    db.len = size - sizeof(key->bits); //huh???
+    db.len = (unsigned)(size - sizeof(key->bits));
     retval = sscan_hex_data(buf, db);
     return retval;
 }
@@ -479,7 +479,7 @@ void openssl_to_keys(
 #endif
 
     memset(&priv, 0, sizeof(priv));
-    priv.bits = nbits;
+    priv.bits = (unsigned short)nbits;
 #ifdef HAVE_OPAQUE_RSA_DSA_DH
     if (n)
         bn_to_bin(n, priv.modulus, sizeof(priv.modulus));
@@ -583,7 +583,7 @@ int openssl_to_private(RSA *from, R_RSA_PRIVATE_KEY *to) {
     RSA_get0_factors(from, &p, &q);
     RSA_get0_crt_params(from, &dmp1, &dmq1, &iqmp);
 
-    to->bits = BN_num_bits(n);
+    to->bits = (unsigned short)BN_num_bits(n);
     if (!_bn2bin(n,to->modulus,MAX_RSA_MODULUS_LEN))
         return(0);
     if (!_bn2bin(e,to->publicExponent,MAX_RSA_MODULUS_LEN))

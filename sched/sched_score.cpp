@@ -38,6 +38,7 @@
 #include "sched_shmem.h"
 #include "sched_types.h"
 #include "sched_version.h"
+#include "buda.h"
 
 #include "sched_score.h"
 
@@ -160,6 +161,9 @@ bool job_compare(JOB &j1, JOB &j2) {
 static double req_sec_save[NPROC_TYPES];
 static double req_inst_save[NPROC_TYPES];
 
+// clear requests for other resource types
+// (but save so we can restore them later)
+//
 static void clear_others(int rt) {
     for (int i=0; i<NPROC_TYPES; i++) {
         if (i == rt) continue;
@@ -198,6 +202,11 @@ void send_work_score_type(int rt) {
             "[send_scan] scanning %d slots starting at %d\n", nscan, rnd_off
         );
     }
+
+    // scan the list of available jobs.
+    // for each one that we can process using the given resource,
+    // make a JOB record (with a score).
+    //
     for (int j=0; j<nscan; j++) {
         int i = (j+rnd_off) % ssp->max_wu_results;
         WU_RESULT& wu_result = ssp->wu_results[i];
@@ -217,7 +226,14 @@ void send_work_score_type(int rt) {
             }
             continue;
         }
-        job.bavp = get_app_version(wu, true, false);
+
+        // for BUDA jobs, use the CPU app version
+        // even if we're looking only for GPU work
+        //
+        bool job_is_buda = is_buda(wu);
+        bool check_rsc_request = !job_is_buda;
+
+        job.bavp = get_app_version(wu, check_rsc_request, false);
         if (!job.bavp) {
             if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
@@ -228,17 +244,17 @@ void send_work_score_type(int rt) {
             continue;
         }
 
-        // check WU plan class (for BUDA jobs)
+        // it it's a BUDA job, pick a variant using the requested resource
         //
-        bool is_buda, is_ok;
-        HOST_USAGE hu;
-        check_buda_plan_class(wu, hu, is_buda, is_ok);
-        if (is_buda) {
-            if (!is_ok) continue;
-            job.host_usage = hu;
-            job.is_buda = true;
+        if (job_is_buda) {
+            if (!choose_buda_variant(
+                wu, rt, &(job.buda_variant), job.host_usage
+            )) {
+                continue;
+            }
         } else {
             job.host_usage = job.bavp->host_usage;
+            job.buda_variant = NULL;
         }
 
         job.index = i;
@@ -370,7 +386,7 @@ void send_work_score_type(int rt) {
             if (result_still_sendable(result, wu)) {
                 add_result_to_reply(
                     result, wu, job.bavp, job.host_usage,
-                    job.is_buda,
+                    job.buda_variant,
                     false   // locality scheduling
                 );
 
@@ -393,6 +409,11 @@ void send_work_score_type(int rt) {
 }
 
 void send_work_score() {
+    if (config.keyword_sched) {
+        if (g_request->user_keywords.empty()) {
+            read_kw_prefs(g_request->user_id, g_request->user_keywords);
+        }
+    }
     for (int i=NPROC_TYPES-1; i>= 0; i--) {
         if (g_wreq->need_proc_type(i)) {
             send_work_score_type(i);

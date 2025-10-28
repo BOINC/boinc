@@ -40,7 +40,6 @@ using std::string;
 #include "sched_util.h"
 #include "sched_shmem.h"
 
-
 void SCHED_SHMEM::init(int nwu_results) {
     int size = sizeof(SCHED_SHMEM) + nwu_results*sizeof(WU_RESULT);
     memset(this, 0, size);
@@ -106,18 +105,6 @@ static void overflow(const char* table, const char* param_name) {
         table, param_name
     );
     exit(1);
-}
-
-void get_buda_plan_classes(vector<string> &pcs) {
-    pcs.clear();
-    FILE *f = boinc::fopen("../buda_plan_classes", "r");
-    if (!f) return;
-    char buf[256];
-    while (boinc::fgets(buf, 256, f)) {
-        strip_whitespace(buf);
-        pcs.push_back(buf);
-    }
-    boinc::fclose(f);
 }
 
 // scan various DB tables and populate shared-memory arrays
@@ -256,12 +243,6 @@ int SCHED_SHMEM::scan_tables() {
     for (i=0; i<napp_versions; i++) {
         APP_VERSION& av = app_versions[i];
         int rt = plan_class_to_proc_type(av.plan_class);
-        have_apps_for_proc_type[rt] = true;
-    }
-    vector<string> buda_plan_classes;
-    get_buda_plan_classes(buda_plan_classes);
-    for (string pc: buda_plan_classes) {
-        int rt = plan_class_to_proc_type(pc.c_str());
         have_apps_for_proc_type[rt] = true;
     }
     for (i=0; i<NPROC_TYPES; i++) {
@@ -413,7 +394,7 @@ void SCHED_SHMEM::show(FILE* f) {
                 "WU ID",
                 "result ID",
                 "batch",
-                "HR class",
+                "kwds",
                 "priority",
                 "in shmem",
                 "size class",
@@ -432,13 +413,13 @@ void SCHED_SHMEM::show(FILE* f) {
             appname = app?app->name:"missing";
             delta_t = dtime() - wu_result.time_added_to_shared_memory;
             boinc::fprintf(f,
-                "%4d %12.12s %10lu %10lu %10d %8d %10d %7ds %9d %12s %9d %9d\n",
+                "%4d %12.12s %10lu %10lu %10d %8s %10d %7ds %9d %12s %9d %9d\n",
                 i,
                 appname,
                 wu_result.workunit.id,
                 wu_result.resultid,
                 wu_result.workunit.batch,
-                wu_result.workunit.hr_class,
+                wu_result.workunit.keywords,
                 wu_result.res_priority,
                 delta_t,
                 wu_result.workunit.size_class,

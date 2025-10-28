@@ -415,7 +415,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
             v = &(atp->other_pids);
         }
         procinfo_app(pi, v, pm, atp->app_version->graphics_exec_file);
-        if (atp->app_version->is_vm_app) {
+        if (atp->app_version->is_vbox_app) {
             vbox_app_running = true;
             // the memory of virtual machine apps is not reported correctly,
             // at least on Windows.  Use the VM size instead.
@@ -538,12 +538,29 @@ void ACTIVE_TASK_SET::get_memory_usage() {
 
 #if defined(__linux__) || defined(_WIN32) || defined(__APPLE__)
     // compute non_boinc_cpu_usage
-    // Improved version for systems where we can get total CPU (Win, Linux, Mac)
+    // Improved version for systems where we can get total CPU
+    // (Win, Linux, Mac)
     //
     static double last_nbrc=0;
     double total_cpu_time_now = total_cpu_time();
-    if (total_cpu_time_now != 0.0) {    // total_cpu_time() returns 0.0 on error
-        double nbrc = total_cpu_time_now - boinc_related_cpu_time(pm, vbox_app_running);
+
+    // total_cpu_time() returns 0.0 on error
+    //
+    if (total_cpu_time_now != 0.0) {
+        double brc = boinc_related_cpu_time(pm, vbox_app_running);
+#ifndef _WIN32
+        // on Win, boinc_related_cpu_time() includes CPU time of Docker jobs.
+        // On other platforms we need to do it by looking at the
+        // reported CPU times of the jobs
+        // (which may be less reliable/accurate)
+        //
+        for (ACTIVE_TASK* atp: active_tasks) {
+            if (atp->app_version->is_docker_app) {
+                brc += atp->current_cpu_time;
+            }
+        }
+#endif
+        double nbrc = total_cpu_time_now - brc;
         double delta_nbrc = nbrc - last_nbrc;
         if (delta_nbrc < 0) delta_nbrc = 0;
         last_nbrc = nbrc;

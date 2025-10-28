@@ -56,6 +56,7 @@
             <ExceptionHandling>Async</ExceptionHandling>
             <FloatingPointModel>Fast</FloatingPointModel>
             <FunctionLevelLinking>true</FunctionLevelLinking>
+            <MultiProcessorCompilation>true</MultiProcessorCompilation>
             <Optimization Condition="'$(Configuration)' == 'Debug'">Disabled</Optimization>
             <PreprocessorDefinitions>_WIN32;WIN32;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
             <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug'">_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>

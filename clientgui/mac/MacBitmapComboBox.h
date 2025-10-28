@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -52,7 +52,7 @@ public:
             const wxString& name = CBOINCBitmapChoiceNameStr);
 
     void OnMouseDown(wxMouseEvent& event);
-    void SetItemBitmap(unsigned int n, const wxBitmap& bitmap);
+    void SetItemBitmap(unsigned int index, const wxBitmap& bitmap);
 };
 
 class CBOINCBitmapComboBox : public wxPanel

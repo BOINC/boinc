@@ -1,0 +1,210 @@
+{
+    "Dialog": "AdminChangeFolder",
+    "HCentering": 50,
+    "VCentering": 50,
+    "Width": 374,
+    "Height": 266,
+    "Attributes": 3,
+    "Title": "IDS_PRODUCTNAME",
+    "Control_First": "Tail",
+    "Control_Default": "OK",
+    "Control_Cancel": "Cancel",
+    "Controls": [
+        {
+            "Control": "Banner",
+            "Type": "Bitmap",
+            "X": 0,
+            "Y": 0,
+            "Width": 374,
+            "Height": 44,
+            "Attributes": 1,
+            "Binary_": "banner.jpg"
+        },
+        {
+            "Control": "BannerLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 44,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "Cancel",
+            "Type": "PushButton",
+            "X": 301,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_CANCEL",
+            "Control_Next": "ComboText",
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "Return",
+                    "Condition": "1",
+                    "Ordering": 2
+                },
+                {
+                    "Event": "Reset",
+                    "Argument": "0",
+                    "Condition": "1",
+                    "Ordering": 1
+                }
+            ]
+        },
+        {
+            "Control": "Combo",
+            "Type": "DirectoryCombo",
+            "X": 21,
+            "Y": 64,
+            "Width": 277,
+            "Height": 80,
+            "Attributes": 458755,
+            "Property": "TARGETDIR",
+            "Text": "",
+            "Control_Next": "Up"
+        },
+        {
+            "Control": "ComboText",
+            "Type": "Text",
+            "X": 21,
+            "Y": 50,
+            "Width": 99,
+            "Height": 14,
+            "Attributes": 3,
+            "Text": "IDS__IsBrowseFolderDlg_LookIn",
+            "Control_Next": "Combo"
+        },
+        {
+            "Control": "DlgDesc",
+            "Type": "Text",
+            "X": 21,
+            "Y": 23,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS__IsBrowseFolderDlg_BrowseDestFolder"
+        },
+        {
+            "Control": "DlgLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 234,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "DlgTitle",
+            "Type": "Text",
+            "X": 13,
+            "Y": 6,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS__IsBrowseFolderDlg_ChangeCurrentFolder"
+        },
+        {
+            "Control": "List",
+            "Type": "DirectoryList",
+            "X": 21,
+            "Y": 90,
+            "Width": 332,
+            "Height": 97,
+            "Attributes": 7,
+            "Property": "TARGETDIR",
+            "Text": "",
+            "Control_Next": "TailText"
+        },
+        {
+            "Control": "NewFolder",
+            "Type": "PushButton",
+            "X": 335,
+            "Y": 66,
+            "Width": 19,
+            "Height": 19,
+            "Attributes": 3670019,
+            "Control_Next": "List",
+            "Help": "IDS__IsAdminInstallBrowse_CreateFolder",
+            "Binary_": "new.ico",
+            "Events": [
+                {
+                    "Event": "DirectoryListNew",
+                    "Argument": "0",
+                    "Condition": "1",
+                    "Ordering": 0
+                }
+            ]
+        },
+        {
+            "Control": "OK",
+            "Type": "PushButton",
+            "X": 230,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_OK",
+            "Control_Next": "Cancel",
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "Return",
+                    "Condition": "1",
+                    "Ordering": 0
+                },
+                {
+                    "Event": "SetTargetPath",
+                    "Argument": "TARGETDIR",
+                    "Condition": "1",
+                    "Ordering": 1
+                }
+            ]
+        },
+        {
+            "Control": "Tail",
+            "Type": "PathEdit",
+            "X": 21,
+            "Y": 207,
+            "Width": 332,
+            "Height": 17,
+            "Attributes": 3,
+            "Property": "TARGETDIR",
+            "Text": "",
+            "Control_Next": "OK"
+        },
+        {
+            "Control": "TailText",
+            "Type": "Text",
+            "X": 21,
+            "Y": 193,
+            "Width": 99,
+            "Height": 13,
+            "Attributes": 3,
+            "Text": "IDS__IsBrowseFolderDlg_FolderName",
+            "Control_Next": "Tail"
+        },
+        {
+            "Control": "Up",
+            "Type": "PushButton",
+            "X": 310,
+            "Y": 66,
+            "Width": 19,
+            "Height": 19,
+            "Attributes": 3670019,
+            "Control_Next": "NewFolder",
+            "Help": "IDS__IsAdminInstallBrowse_UpOneLevel",
+            "Binary_": "up.ico",
+            "Events": [
+                {
+                    "Event": "DirectoryListUp",
+                    "Argument": "0",
+                    "Condition": "1",
+                    "Ordering": 0
+                }
+            ]
+        }
+    ]
+}

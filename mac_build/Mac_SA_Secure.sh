@@ -70,6 +70,9 @@
 # Updated 4/6/23 revised setprojectgrp ownership to match PR #5061
 # Updated 2/11/25 to add Fix_BOINC_Users
 # Updated 2/23/25 to fix PrimaryGroupID for users boinc_master, boinc_project
+# Updated 5/9/25 to add podman directory
+# Updated 8/24/25 to add Run_Podman and BOINC podman directory
+# Updated 8/27/25 to allow podman to stat items under BOINC Data directory
 #
 # WARNING: do not use this script with versions of BOINC older
 # than 7.20.4
@@ -116,7 +119,7 @@ function make_boinc_user() {
 
         dscl . -create /users/$1
         dscl . -create /users/$1 uid $uid
-        dscl . -create /users/$1 shell /usr/bin/false
+        dscl . -create /users/$1 shell /bin/zsh
         dscl . -create /users/$1 home /var/empty
     else
         uid=$(dscl . read /users/$1 UniqueID | cut -d" " -f2 -s)
@@ -242,7 +245,7 @@ if [ -f ss_config.xml ] ; then
 fi
 
 # Set permissions of BOINC Data directory itself
-set_perm . boinc_master boinc_master 0771
+set_perm . boinc_master boinc_master 0775
 
 if [ -d projects ] ; then
     set_perm_recursive projects boinc_master boinc_project u+rw,g+rw,o+r-w
@@ -254,6 +257,13 @@ if [ -d slots ] ; then
     set_perm_recursive slots boinc_master boinc_project u+rw,g+rw,o+r-w
     set_perm slots boinc_master boinc_project 0770
     update_nested_dirs slots
+fi
+
+# Old podman directory is obsolete, but do this for backward compatibility
+if [ -d podman ] ; then
+    set_perm_recursive podman boinc_master boinc_project u+rw,g+rw,o+r-w
+    set_perm podman boinc_master boinc_project 0770
+    update_nested_dirs podman
 fi
 
 # AppStats application must run setuid root (used in BOINC 5.7 through 5.8.14 only)
@@ -274,6 +284,10 @@ if [ -f Fix_BOINC_Users ] ; then
     set_perm Fix_BOINC_Users root boinc_master 04555       # Fix_BOINC_Users
 fi
 
+if [ -f Run_Podman ] ; then
+    set_perm Run_Podman root boinc_master 04555       # Run_Podman
+fi
+
 if [ -f boinc ] ; then
     set_perm boinc boinc_master boinc_master 6555       # boinc client
 fi
@@ -284,6 +298,15 @@ fi
 
 if [ -f ss_config.xml ] ; then
     set_perm ss_config.xml boinc_master boinc_master 0664
+fi
+
+if [ -d "../BOINC podman" ] ; then
+    # We must not modify permissions of any of Podman's data so just set
+    # their owner and grpup
+    chown -R boinc_project:boinc_project "../BOINC podman"
+    # Set owner and permissions for the BOINC podman directory itself
+    # itself but not its contents.
+    set_perm "../BOINC podman" boinc_master boinc_project 0770
 fi
 
 if [ -x /Applications/BOINCManager.app/Contents/MacOS/BOINCManager ] ; then

@@ -61,7 +61,7 @@ namespace test_util {
         SUCCEED();
     }
 
-#ifndef _WIN32
+#if !defined(_WIN32) && !defined(__APPLE__)
     TEST_F(test_util, linux_cpu_time) {
         EXPECT_TRUE(linux_cpu_time(1) > 0);
     }
