@@ -156,6 +156,22 @@ We suggest that you manually retire batches after downloading needed output file
     }
 }
 
+// Retire batches that are complete and have no jobs.
+// This shouldn't happen anymore.
+//
+function retire_empty_batches() {
+    $batches = BoincBatch::enum(
+        sprintf('state in (%d, %d)', BATCH_STATE_COMPLETE, BATCH_STATE_ABORTED)
+    );
+    foreach ($batches as $batch) {
+        $n = BoincWorkunit::count("batch=$batch->id");
+        if ($n == 0) {
+            echo "Batch $batch->id has no jobs\n";
+            retire_batch($batch);
+        }
+    }
+}
+
 function main() {
     echo "-------- Starting at ".time_str(time())."-------\n";
     retire_batches();
@@ -163,6 +179,7 @@ function main() {
     echo "-------- Done at ".time_str(time())."-------\n";
 }
 
+//retire_empty_batches();
 main();
 
 ?>
