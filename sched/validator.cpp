@@ -35,14 +35,17 @@
 //  [--max_granted_credit X]    limit maximum granted credit to X
 //  [--update_credited_job]     add userid/wuid pair to credited_job table
 //
-//  credit options.  The default is to grant credit using an
-//  adaptive scheme that provides devices neutrality
+// credit options.
+// The default is to grant credit using an adaptive scheme
+// that provides devices neutrality.
+// This only works if job sizes are fairly uniform.
 //
 //  [--no_credit]               don't grant credit
 //                              Use this, e.g., if using trickles for credit
 //  [--post_assigned_credit]    init_result() must set result.claimed_credit
 //  [--credit_from_wu]          get credit from workunit.canonical_credit
-//  [--credit_from_runtime]     grant credit based on runtime,
+//  [--credit_from_runtime]     grant credit based on runtime
+//                              use this if big variation between job sizes
 //  [--wu_id n]                 Validate WU n (debugging)
 //  [--check_punitive]          check for results with long-term failure,
 //                              punish host
@@ -465,20 +468,22 @@ int handle_wu(
             // if we found a canonical instance, decide on credit
             //
             if (canonicalid) {
-                // always do the credit calculation, to update statistics,
+                // do the credit calculation, to update statistics,
                 // even if we're granting credit a different way
                 //
-                retval = assign_credit_set(
-                    wu, viable_results, app, app_versions, host_app_versions,
-                    max_granted_credit, credit
-                );
-                if (retval) {
-                    log_messages.printf(MSG_CRITICAL,
-                        "[WU#%lu %s] assign_credit_set(): %s\n",
-                        wu.id, wu.name, boincerror(retval)
+                if (!credit_from_runtime) {
+                    retval = assign_credit_set(
+                        wu, viable_results, app, app_versions,
+                        host_app_versions, max_granted_credit, credit
                     );
-                    transition_time = DELAYED;
-                    goto leave;
+                    if (retval) {
+                        log_messages.printf(MSG_CRITICAL,
+                            "[WU#%lu %s] assign_credit_set(): %s\n",
+                            wu.id, wu.name, boincerror(retval)
+                        );
+                        transition_time = DELAYED;
+                        goto leave;
+                    }
                 }
 
                 if (credit_from_wu) {
@@ -496,8 +501,15 @@ int handle_wu(
                     vector<double> cc;
                     for (i=0; i<viable_results.size(); i++) {
                         RESULT& result = viable_results[i];
+                        if (result.flops_estimate == 1e9) {
+                            result.flops_estimate = AVG_CPU_FPOPS;
+                        }
                         double runtime = result.elapsed_time;
-                        double c = result.flops_estimate * runtime * COBBLESTONE_SCALE;
+                        double pfc = result.flops_estimate * runtime;
+                        if (pfc > wu.rsc_fpops_bound*2) {
+                            pfc = wu.rsc_fpops_bound;
+                        }
+                        double c = pfc * COBBLESTONE_SCALE;
                         if (c <=0 || c > max_granted_credit) {
                             log_messages.printf(MSG_CRITICAL,
                                 "[WU#%lu %s] credit out of range: %f\n",
@@ -507,7 +519,7 @@ int handle_wu(
                             cc.push_back(c);
                         }
 
-                        log_messages.printf(MSG_DEBUG,
+                        log_messages.printf(MSG_NORMAL,
                             "[WU#%lu][RESULT#%lu] credit_from_runtime %.2f = %.0fs * %.2fGFLOPS\n",
                             wu.id, result.id,
                             c, runtime, result.flops_estimate/1e9

@@ -757,7 +757,7 @@ function handle_query_batch($user) {
         $url
     );
 
-    start_table();
+    start_table('table-striped');
     $x = [
         "Name <br><small>click for details</small>",
         "status",
