@@ -155,22 +155,20 @@ class BoincForumPrefs {
         } else {
             $prefs = self::lookup_userid($user->id);
             if (!$prefs) {
-                $db = BoincDb::get();
-                // is DB readonly? (shouldn't ever happen)
-                if ($db->dbnum) {
-                    return;
-                }
-                self::insert("(userid, last_post, forum_sorting, thread_sorting, rated_posts, ignorelist, pm_notification) values ($user->id, 0, 0, 8, '', '', 0)");
+                self::insert(
+                    sprintf(
+                        "(userid, last_post, forum_sorting, thread_sorting, rated_posts, ignorelist, pm_notification) values (%d, 0, 0, %d, '', '', 0)",
+                        $user->id, CREATE_TIME_OLD
+                    )
+                );
                 $prefs = self::lookup_userid($user->id);
-                $prefs->userid = $user->id;
-                $prefs->thread_sorting = 6;
             }
             self::$cache[$user->id] = $prefs;
         }
         $user->prefs = $prefs;
     }
     function privilege($specialbit) {
-         return (substr($this->special_user, $specialbit,1)==1);
+         return (substr($this->special_user, $specialbit, 1) == '1');
     }
     function update($clause) {
         $db = BoincDb::get();

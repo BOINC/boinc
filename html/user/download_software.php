@@ -127,8 +127,8 @@ function download_button($v, $project_id, $token, $user) {
         <input type=hidden name=token value="%s">
         <input type=hidden name=user_id value="%d">
         <input type=hidden name=filename value="%s">
-        <button class="btn" %s>
-        <font size=+1><u>Download BOINC</u></font>
+        <button %s class="btn">
+        <font size=2><u>Download BOINC</u></font>
         <br>for %s (%s MB)
         <br>BOINC %s</button>
         </form>
@@ -137,7 +137,7 @@ function download_button($v, $project_id, $token, $user) {
         $token,
         $user->id,
         (string)$v->filename,
-        button_style('green', 14),
+        button_style(),
         (string)$v->platform,
         (string)$v->size_mb,
         (string)$v->version_num

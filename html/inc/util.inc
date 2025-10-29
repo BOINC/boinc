@@ -916,11 +916,11 @@ function button_style($color='green', $font_size=null) {
     if ($font_size) {
         $fs = sprintf('; font-size:%dpx', $font_size);
     }
-    $c = 'seagreen';
-    if ($color == 'blue') $c = 'steelblue';
+    if ($color == 'green') $color = 'seagreen';
+    if ($color == 'blue') $color = 'steelblue';
     return sprintf(
         'style="background-color:%s; color:white; text-decoration:none%s"',
-        $c, $fs
+        $color, $fs
     );
 }
 // Show a link formatted to look like a button.
