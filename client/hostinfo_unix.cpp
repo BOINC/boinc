@@ -1825,7 +1825,7 @@ const vector<string> X_display_values_initialize() {
         }
     } else {
         if (log_flags.idle_detection_debug ) {
-            msg_printf(NULL, MSG_INFO, 
+            msg_printf(NULL, MSG_INFO,
                 "[idle_detection] scanning %s",  dir.c_str()
             );
         }
