@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2011 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -32,11 +32,14 @@ using std::max;
 
 /* Begin items to include "BOINC Manager" Mac menu items in localization templates */
 void ThisDummyRoutineIsNeverCalled() {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-value"
     wxString (_("Services"));
     wxString (_("Hide %s"));
     wxString (_("Hide Others"));
     wxString (_("Show All"));
     wxString (_("Quit %s"));
+#pragma clang diagnostic pop
 }
 /* End items to include "BOINC Manager" Mac menu items in localization templates */
 

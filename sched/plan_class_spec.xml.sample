@@ -4,6 +4,7 @@
         <min_ncpus>             2           </min_ncpus>
         <max_threads>           16          </max_threads>
         <projected_flops_scale> .99         </projected_flops_scale>
+        <nthreads_cmdline>      1           </nthreads_cmdline>
     </plan_class>
     <plan_class>
         <name>                  ati         </name>

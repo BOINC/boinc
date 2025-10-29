@@ -47,13 +47,23 @@ function news_item($date, $title, $post) {
     ";
 }
 
+// a project can get in a state where it has forums named 'News'
+// that aren't linked to a category; ignore them
+//
 function news_forum() {
     if (defined("NEWS_FORUM_NAME")) {
         $forum_name = NEWS_FORUM_NAME;
     } else {
         $forum_name = "News";
     }
-    return BoincForum::lookup("parent_type=0 and title = '$forum_name'");
+    $forums = BoincForum::enum("parent_type=0 and title = '$forum_name'");
+    foreach ($forums as $forum) {
+        $cat = BoincCategory::lookup_id($forum->category);
+        if ($cat && $cat->is_helpdesk == 0) {
+            return $forum;
+        }
+    }
+    return null;
 }
 
 function is_news_forum($forum) {

@@ -101,6 +101,8 @@ function create_account(
 // Get info needed to show Download buttons
 // that auto-attach to a particular project or account manager.
 //
+// I DON'T THINK THIS IS USED - OK TO DELETE
+//
 // args:
 //      $project_url: the URL of the project or account manager
 //      $rpc_key: a security token supplied by the above
@@ -127,7 +129,7 @@ function download_software($project_url, $rpc_key, $auth, $user_agent) {
     return array($r, 0, null);
 }
 
-if (1) {
+if (0) {
     // Example usage of download_software().
 
     // Show a download button, which when clicked will download a

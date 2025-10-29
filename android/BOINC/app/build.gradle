@@ -368,8 +368,9 @@ android {
         debug {
             minifyEnabled false
             debuggable true
-            testCoverageEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules-debug.txt'
+            enableUnitTestCoverage true
+            enableAndroidTestCoverage true
         }
 
         armv6_release {
@@ -379,6 +380,8 @@ android {
         armv6_debug {
             initWith debug
             minifyEnabled true
+            enableUnitTestCoverage true
+            enableAndroidTestCoverage true
         }
     }
 

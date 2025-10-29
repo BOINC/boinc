@@ -291,7 +291,7 @@ static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
 }
 
 static inline bool app_plan_ati(
-    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
+    SCHEDULER_REQUEST& sreq, const char* plan_class, HOST_USAGE& hu
 ) {
     COPROC_ATI& c = sreq.coprocs.ati;
     if (!c.count) {
@@ -509,7 +509,7 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
 // the following is for an app that uses an NVIDIA GPU
 //
 static inline bool app_plan_nvidia(
-    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
+    SCHEDULER_REQUEST& sreq, const char* plan_class, HOST_USAGE& hu
 ) {
     COPROC_NVIDIA& c = sreq.coprocs.nvidia;
     if (!c.count) {
@@ -874,7 +874,7 @@ static inline bool app_plan_opencl(
 // use 1 or 2 CPUs
 
 static inline bool app_plan_vbox(
-    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
+    SCHEDULER_REQUEST& sreq, const char* plan_class, HOST_USAGE& hu
 ) {
     bool can_use_multicore = true;
 
@@ -960,7 +960,7 @@ static inline bool app_plan_vbox(
 }
 
 static inline bool app_plan_wsl(
-    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
+    SCHEDULER_REQUEST& sreq, const char* plan_class, HOST_USAGE& hu
 ) {
     // no additional checks at the moment, just return true
     return true;
@@ -971,7 +971,7 @@ static inline bool app_plan_wsl(
 // See https://github.com/BOINC/boinc/wiki/AppPlan
 //
 bool app_plan(
-    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu,
+    SCHEDULER_REQUEST& sreq, const char* plan_class, HOST_USAGE& hu,
     const WORKUNIT* wu
 ) {
     char buf[256];

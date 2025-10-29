@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
- * http://boinc.berkeley.edu
- * Copyright (C) 2021 University of California
+ * https://boinc.berkeley.edu
+ * Copyright (C) 2025 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -164,13 +164,15 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
         }
     }
 
-    override fun getDefaultInput(): List<String?> {
-        var values: List<String?> = ArrayList()
-        if (asIsBound) {
-            values = attachService!!.userDefaultValues
+    override val defaultInput: List<String?>
+        get() {
+            var values: List<String?> = ArrayList()
+            if (asIsBound) {
+                values = attachService!!.userDefaultValues
+            }
+            return values
         }
-        return values
-    }
+
 
     private suspend fun attachProject(project: ProjectAttachWrapper, login: Boolean, email: String,
                                       name: String, pwd: String) {

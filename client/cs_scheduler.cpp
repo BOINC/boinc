@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,9 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // High-level logic for communicating with scheduling servers,
-// and for merging the result of a scheduler RPC into the client state
-
-// The scheduler RPC mechanism is in scheduler_op.C
+// and for merging the reply of a scheduler RPC into the client state
+// The scheduler RPC mechanism is in scheduler_op.cpp
 
 #include "cpp.h"
 
@@ -190,16 +189,18 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 
     // get and write disk usage
     //
-    get_disk_usages();
-    get_disk_shares();
-    fprintf(f,
-        "    <disk_usage>\n"
-        "        <d_boinc_used_total>%f</d_boinc_used_total>\n"
-        "        <d_boinc_used_project>%f</d_boinc_used_project>\n"
-        "        <d_project_share>%f</d_project_share>\n"
-        "    </disk_usage>\n",
-        total_disk_usage, p->disk_usage, p->disk_share
-    );
+    if (!cc_config.no_disk_usage) {
+        get_disk_usages();
+        get_disk_shares();
+        fprintf(f,
+            "    <disk_usage>\n"
+            "        <d_boinc_used_total>%f</d_boinc_used_total>\n"
+            "        <d_boinc_used_project>%f</d_boinc_used_project>\n"
+            "        <d_project_share>%f</d_project_share>\n"
+            "    </disk_usage>\n",
+            total_disk_usage, p->disk_usage, p->disk_share
+        );
+    }
 
     if (coprocs.n_rsc > 1) {
         work_fetch.copy_requests();

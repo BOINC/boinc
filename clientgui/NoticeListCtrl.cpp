@@ -356,11 +356,10 @@ bool CNoticeListCtrl::UpdateUI() {
             ((int)GetItemCount() != noticeCount))
         ) {
             pDoc->notices.complete = false;
-            Freeze();
             SetItemCount(noticeCount);
             m_bDisplayFetchingNotices = false;
             m_bDisplayEmptyNotice = false;
-            Thaw();
+            Refresh();
         }
 
         bAlreadyRunning = false;

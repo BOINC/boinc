@@ -68,6 +68,8 @@ int main(int argc, char** argv) {
     printf("%s\n", myPath);       // For debugging
 #endif
 
+    chdir(getenv("SRCROOT"));
+
     if (!file_exists("./English.lproj")) {
         retval = mkdir("./English.lproj", 0755);
         if (retval) {

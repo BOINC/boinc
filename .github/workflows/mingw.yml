@@ -1,6 +1,6 @@
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -40,10 +40,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [libs-mingw, apps-mingw, apps-mingw-vcpkg, libs-mingw-cmake]
+        type: [libs-mingw, apps-mingw-vcpkg, libs-mingw-cmake]
       fail-fast: false
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - name: Check if build is running from origin repo
         if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
@@ -63,29 +63,15 @@ jobs:
       - name: Make libs with mingw
         if: success() && matrix.type == 'libs-mingw'
         run: cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw
-
-      - name: Make apps with mingw
-        if: success() && matrix.type == 'apps-mingw'
-        run: cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper
-
       - name: Install Powershell for vcpkg
         if: success() && matrix.type == 'apps-mingw-vcpkg'
         run: |
-          POWERSHELL_DEPS="wget apt-transport-https software-properties-common"
-          # Install pre-requisite packages of PowerShell
-          sudo apt install -y $POWERSHELL_DEPS doxygen
-          # Download the Microsoft repository GPG keys
-          VERSION=$(lsb_release -r -s)
-          wget -q https://packages.microsoft.com/config/ubuntu/$VERSION/packages-microsoft-prod.deb
-          # Register the Microsoft repository GPG keys
-          sudo dpkg -i packages-microsoft-prod.deb
-          # Update the list of packages after we added packages.microsoft.com
-          sudo apt update
-          # Install PowerShell
-          sudo apt install -y powershell
+          sudo apt install -y wget apt-transport-https software-properties-common doxygen
+          wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -r -s)/packages-microsoft-prod.deb
+          sudo DEBIAN_FRONTEND=noninteractive apt install -y ./packages-microsoft-prod.deb powershell
 
       - name: Automake vcpkg and cmake
-        if: success() && (contains(matrix.type, 'vcpkg') || contains(matrix.type, 'cmake'))
+        if: success() && (matrix.type == 'apps-mingw-vcpkg' || matrix.type == 'libs-mingw-cmake')
         run: ./_autosetup
 
       - name: Configure mingw vcpkg apps
@@ -104,7 +90,7 @@ jobs:
           mingw/ci_make_apps.sh
 
       - name: Make for cmake
-        if: success() && endsWith(matrix.type, 'cmake')
+        if: success() && matrix.type == 'libs-mingw-cmake'
         run:
           cmake --build build
 
@@ -114,7 +100,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: mingw_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
@@ -124,7 +110,7 @@ jobs:
         run: python ./deploy/prepare_deployment.py win_${{ matrix.type }}
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         if: ${{! contains(matrix.type, 'libs')}}
         with:
           name: win_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}

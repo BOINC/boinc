@@ -109,6 +109,9 @@ struct PROC_STAT {
     int parse(char*);
 };
 
+// parse a /proc/<pid>/stat files (1 line)
+// see https://man7.org/linux/man-pages/man5/proc_pid_stat.5.html
+//
 int PROC_STAT::parse(char* buf) {
     int n = sscanf(buf,
         "%d (%[^)]) %c %d %d %d %d %d "
@@ -240,16 +243,16 @@ int procinfo_setup(PROC_MAP& pm) {
         p.clear();
         p.id = ps.pid;
         p.parentid = ps.ppid;
-        p.swap_size = ps.vsize;
+        p.swap_size = (double)ps.vsize;
         // rss = pages, need bytes
         // assumes page size = 4k
-        p.working_set_size = ps.rss * (float)getpagesize();
+        p.working_set_size = ps.rss * getpagesize();
         // page faults: I/O + non I/O
         p.page_fault_count = ps.majflt + ps.minflt;
         // times are in jiffies, need seconds
         // assumes 100 jiffies per second
-        p.user_time = ps.utime / 100.;
-        p.kernel_time = ps.stime / 100.;
+        p.user_time = (double)ps.utime / 100.;
+        p.kernel_time = (double)ps.stime / 100.;
         strlcpy(p.command, ps.comm, sizeof(p.command));
         p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
         p.is_low_priority = (ps.priority == 39);
@@ -278,7 +281,7 @@ double total_cpu_time() {
             return 0;
         }
         long hz = sysconf(_SC_CLK_TCK);
-        scale = 1./hz;
+        scale = 1./(double)hz;
     } else {
         fflush(f);
         rewind(f);

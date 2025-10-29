@@ -18,13 +18,11 @@
 #ifndef BOINC_APP_IPC_H
 #define BOINC_APP_IPC_H
 
-#ifdef __cplusplus
-
 #include <vector>
 #include <string>
 #include <cstdio>
 
-#include "filesys.h"
+#include "filesys.h"        // for MAXPATHLEN
 #include "hostinfo.h"
 #include "proxy_info.h"
 #include "prefs.h"
@@ -249,17 +247,8 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA&);
 // other filenames
 #define PROJECT_DIR "projects"
 
-extern int boinc_resolve_filename_s(const char*, std::string&);
-extern std::string resolve_soft_link(const char* project_dir, const char* file);
 extern void url_to_project_dir(char* url, char* dir, int dirsize);
+extern int resolve_soft_link(const char *virt_name, char *phys_name, int len);
 
-extern "C" {
-#endif
-
-extern int boinc_resolve_filename(const char*, char*, int len);
-
-#ifdef __cplusplus
-} // extern "C" {
-#endif
 
 #endif

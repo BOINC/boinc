@@ -1,0 +1,342 @@
+{
+    "ActionText": [
+        {
+            "Action": "Advertise",
+            "Description": "IDS_ACTIONTEXT_Advertising"
+        },
+        {
+            "Action": "AllocateRegistrySpace",
+            "Description": "IDS_ACTIONTEXT_AllocatingRegistry",
+            "Template": "IDS_ACTIONTEXT_FreeSpace"
+        },
+        {
+            "Action": "AppSearch",
+            "Description": "IDS_ACTIONTEXT_SearchInstalled",
+            "Template": "IDS_ACTIONTEXT_PropertySignature"
+        },
+        {
+            "Action": "BindImage",
+            "Description": "IDS_ACTIONTEXT_BindingExes",
+            "Template": "IDS_ACTIONTEXT_File"
+        },
+        {
+            "Action": "CCPSearch",
+            "Description": "IDS_ACTIONTEXT_UnregisterModules"
+        },
+        {
+            "Action": "CostFinalize",
+            "Description": "IDS_ACTIONTEXT_ComputingSpace"
+        },
+        {
+            "Action": "CostInitialize",
+            "Description": "IDS_ACTIONTEXT_ComputingSpace"
+        },
+        {
+            "Action": "CreateFolders",
+            "Description": "IDS_ACTIONTEXT_CreatingFolders",
+            "Template": "IDS_ACTIONTEXT_Folder"
+        },
+        {
+            "Action": "CreateShortcuts",
+            "Description": "IDS_ACTIONTEXT_CreatingShortcuts",
+            "Template": "IDS_ACTIONTEXT_Shortcut"
+        },
+        {
+            "Action": "DeleteServices",
+            "Description": "IDS_ACTIONTEXT_DeletingServices",
+            "Template": "IDS_ACTIONTEXT_Service"
+        },
+        {
+            "Action": "DuplicateFiles",
+            "Description": "IDS_ACTIONTEXT_CreatingDuplicate",
+            "Template": "IDS_ACTIONTEXT_FileDirSize"
+        },
+        {
+            "Action": "FileCost",
+            "Description": "IDS_ACTIONTEXT_ComputingSpace"
+        },
+        {
+            "Action": "FindRelatedProducts",
+            "Description": "IDS_ACTIONTEXT_SearchForRelated",
+            "Template": "IDS_ACTIONTEXT_FoundApp"
+        },
+        {
+            "Action": "GenerateScript",
+            "Description": "IDS_ACTIONTEXT_GeneratingScript",
+            "Template": "[1]"
+        },
+        {
+            "Action": "InstallAdminPackage",
+            "Description": "IDS_ACTIONTEXT_CopyingNetworkFiles",
+            "Template": "IDS_ACTIONTEXT_FileDirSize"
+        },
+        {
+            "Action": "InstallFiles",
+            "Description": "IDS_ACTIONTEXT_CopyingNewFiles",
+            "Template": "IDS_ACTIONTEXT_FileDirSize"
+        },
+        {
+            "Action": "InstallODBC",
+            "Description": "IDS_ACTIONTEXT_InstallODBC"
+        },
+        {
+            "Action": "InstallSFPCatalogFile",
+            "Description": "IDS_ACTIONTEXT_InstallingSystemCatalog",
+            "Template": "IDS_ACTIONTEXT_FileDependencies"
+        },
+        {
+            "Action": "InstallServices",
+            "Description": "IDS_ACTIONTEXT_InstallServices",
+            "Template": "IDS_ACTIONTEXT_Service2"
+        },
+        {
+            "Action": "InstallValidate",
+            "Description": "IDS_ACTIONTEXT_Validating"
+        },
+        {
+            "Action": "LaunchConditions",
+            "Description": "IDS_ACTIONTEXT_EvaluateLaunchConditions"
+        },
+        {
+            "Action": "MigrateFeatureStates",
+            "Description": "IDS_ACTIONTEXT_MigratingFeatureStates",
+            "Template": "IDS_ACTIONTEXT_Application"
+        },
+        {
+            "Action": "MoveFiles",
+            "Description": "IDS_ACTIONTEXT_MovingFiles",
+            "Template": "IDS_ACTIONTEXT_FileDirSize"
+        },
+        {
+            "Action": "PatchFiles",
+            "Description": "IDS_ACTIONTEXT_PatchingFiles",
+            "Template": "IDS_ACTIONTEXT_FileDirSize4"
+        },
+        {
+            "Action": "ProcessComponents",
+            "Description": "IDS_ACTIONTEXT_UpdateComponentRegistration"
+        },
+        {
+            "Action": "PublishComponents",
+            "Description": "IDS_ACTIONTEXT_PublishingQualifiedComponents",
+            "Template": "IDS_ACTIONTEXT_ComponentIDQualifier"
+        },
+        {
+            "Action": "PublishFeatures",
+            "Description": "IDS_ACTIONTEXT_PublishProductFeatures",
+            "Template": "IDS_ACTIONTEXT_Feature"
+        },
+        {
+            "Action": "PublishProduct",
+            "Description": "IDS_ACTIONTEXT_PublishProductInfo"
+        },
+        {
+            "Action": "RMCCPSearch",
+            "Description": "IDS_ACTIONTEXT_SearchingQualifyingProducts"
+        },
+        {
+            "Action": "RegisterClassInfo",
+            "Description": "IDS_ACTIONTEXT_RegisterClassServer",
+            "Template": "IDS_ACTIONTEXT_ClassId"
+        },
+        {
+            "Action": "RegisterComPlus",
+            "Description": "IDS_ACTIONTEXT_RegisteringComPlus",
+            "Template": "IDS_ACTIONTEXT_AppIdAppTypeRSN"
+        },
+        {
+            "Action": "RegisterExtensionInfo",
+            "Description": "IDS_ACTIONTEXT_RegisterExtensionServers",
+            "Template": "IDS_ACTIONTEXT_Extension"
+        },
+        {
+            "Action": "RegisterFonts",
+            "Description": "IDS_ACTIONTEXT_RegisterFonts",
+            "Template": "IDS_ACTIONTEXT_Font"
+        },
+        {
+            "Action": "RegisterMIMEInfo",
+            "Description": "IDS_ACTIONTEXT_RegisterMimeInfo",
+            "Template": "IDS_ACTIONTEXT_ContentTypeExtension"
+        },
+        {
+            "Action": "RegisterProduct",
+            "Description": "IDS_ACTIONTEXT_RegisteringProduct",
+            "Template": "[1]"
+        },
+        {
+            "Action": "RegisterProgIdInfo",
+            "Description": "IDS_ACTIONTEXT_RegisteringProgIdentifiers",
+            "Template": "IDS_ACTIONTEXT_ProgID"
+        },
+        {
+            "Action": "RegisterTypeLibraries",
+            "Description": "IDS_ACTIONTEXT_RegisterTypeLibs",
+            "Template": "IDS_ACTIONTEXT_LibId"
+        },
+        {
+            "Action": "RegisterUser",
+            "Description": "IDS_ACTIONTEXT_RegUser",
+            "Template": "[1]"
+        },
+        {
+            "Action": "RemoveDuplicateFiles",
+            "Description": "IDS_ACTIONTEXT_RemovingDuplicates",
+            "Template": "IDS_ACTIONTEXT_FileDir"
+        },
+        {
+            "Action": "RemoveEnvironmentStrings",
+            "Description": "IDS_ACTIONTEXT_EnvironmentStrings",
+            "Template": "IDS_ACTIONTEXT_NameValueAction"
+        },
+        {
+            "Action": "RemoveExistingProducts",
+            "Description": "IDS_ACTIONTEXT_RemoveApps",
+            "Template": "IDS_ACTIONTEXT_AppCommandLine"
+        },
+        {
+            "Action": "RemoveFiles",
+            "Description": "IDS_ACTIONTEXT_RemovingFiles",
+            "Template": "IDS_ACTIONTEXT_FileDir"
+        },
+        {
+            "Action": "RemoveFolders",
+            "Description": "IDS_ACTIONTEXT_RemovingFolders",
+            "Template": "IDS_ACTIONTEXT_Folder"
+        },
+        {
+            "Action": "RemoveIniValues",
+            "Description": "IDS_ACTIONTEXT_RemovingIni",
+            "Template": "IDS_ACTIONTEXT_FileSectionKeyValue"
+        },
+        {
+            "Action": "RemoveODBC",
+            "Description": "IDS_ACTIONTEXT_RemovingODBC"
+        },
+        {
+            "Action": "RemoveRegistryValues",
+            "Description": "IDS_ACTIONTEXT_RemovingRegistry",
+            "Template": "IDS_ACTIONTEXT_KeyName"
+        },
+        {
+            "Action": "RemoveShortcuts",
+            "Description": "IDS_ACTIONTEXT_RemovingShortcuts",
+            "Template": "IDS_ACTIONTEXT_Shortcut"
+        },
+        {
+            "Action": "Rollback",
+            "Description": "IDS_ACTIONTEXT_RollingBack",
+            "Template": "[1]"
+        },
+        {
+            "Action": "RollbackCleanup",
+            "Description": "IDS_ACTIONTEXT_RemovingBackup",
+            "Template": "IDS_ACTIONTEXT_File"
+        },
+        {
+            "Action": "SelfRegModules",
+            "Description": "IDS_ACTIONTEXT_RegisteringModules",
+            "Template": "IDS_ACTIONTEXT_FileFolder"
+        },
+        {
+            "Action": "SelfUnregModules",
+            "Description": "IDS_ACTIONTEXT_UnregisterModules",
+            "Template": "IDS_ACTIONTEXT_FileFolder"
+        },
+        {
+            "Action": "SetODBCFolders",
+            "Description": "IDS_ACTIONTEXT_InitializeODBCDirs"
+        },
+        {
+            "Action": "ShutdownBOINCManager",
+            "Description": "IDS_STRING4"
+        },
+        {
+            "Action": "StartServices",
+            "Description": "IDS_ACTIONTEXT_StartingServices",
+            "Template": "IDS_ACTIONTEXT_Service"
+        },
+        {
+            "Action": "StopServices",
+            "Description": "IDS_ACTIONTEXT_StoppingServices",
+            "Template": "IDS_ACTIONTEXT_Service"
+        },
+        {
+            "Action": "UnmoveFiles",
+            "Description": "IDS_ACTIONTEXT_RemovingMoved",
+            "Template": "IDS_ACTIONTEXT_FileDir"
+        },
+        {
+            "Action": "UnpublishComponents",
+            "Description": "IDS_ACTIONTEXT_UnpublishQualified",
+            "Template": "IDS_ACTIONTEXT_ComponentIDQualifier"
+        },
+        {
+            "Action": "UnpublishFeatures",
+            "Description": "IDS_ACTIONTEXT_UnpublishProductFeatures",
+            "Template": "IDS_ACTIONTEXT_Feature"
+        },
+        {
+            "Action": "UnpublishProduct",
+            "Description": "IDS_ACTIONTEXT_UnpublishingProductInfo"
+        },
+        {
+            "Action": "UnregisterClassInfo",
+            "Description": "IDS_ACTIONTEXT_UnregisterClassServers",
+            "Template": "IDS_ACTIONTEXT_ClassId"
+        },
+        {
+            "Action": "UnregisterComPlus",
+            "Description": "IDS_ACTIONTEXT_UnregisteringComPlus",
+            "Template": "IDS_ACTIONTEXT_AppId"
+        },
+        {
+            "Action": "UnregisterExtensionInfo",
+            "Description": "IDS_ACTIONTEXT_UnregisterExtensionServers",
+            "Template": "IDS_ACTIONTEXT_Extension"
+        },
+        {
+            "Action": "UnregisterFonts",
+            "Description": "IDS_ACTIONTEXT_UnregisteringFonts",
+            "Template": "IDS_ACTIONTEXT_Font"
+        },
+        {
+            "Action": "UnregisterMIMEInfo",
+            "Description": "IDS_ACTIONTEXT_UnregisteringMimeInfo",
+            "Template": "IDS_ACTIONTEXT_ContentTypeExtension"
+        },
+        {
+            "Action": "UnregisterProgIdInfo",
+            "Description": "IDS_ACTIONTEXT_UnregisteringProgramIds",
+            "Template": "IDS_ACTIONTEXT_ProgID"
+        },
+        {
+            "Action": "UnregisterTypeLibraries",
+            "Description": "IDS_ACTIONTEXT_UnregTypeLibs",
+            "Template": "IDS_ACTIONTEXT_LibId"
+        },
+        {
+            "Action": "WriteEnvironmentStrings",
+            "Description": "IDS_ACTIONTEXT_EnvironmentStrings",
+            "Template": "IDS_ACTIONTEXT_NameValueAction"
+        },
+        {
+            "Action": "WriteIniValues",
+            "Description": "IDS_ACTIONTEXT_WritingINI",
+            "Template": "IDS_ACTIONTEXT_FileSectionKeyValue"
+        },
+        {
+            "Action": "WriteRegistryValues",
+            "Description": "IDS_ACTIONTEXT_WritingRegistry",
+            "Template": "IDS_ACTIONTEXT_KeyNameValue"
+        },
+        {
+            "Action": "caCreateVRoots",
+            "Description": "IDS_ACTIONTEXT_CreatingIISRoots"
+        },
+        {
+            "Action": "caRemoveVRoots",
+            "Description": "IDS_ACTIONTEXT_RemovingIISRoots"
+        }
+    ]
+}

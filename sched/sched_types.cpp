@@ -1438,8 +1438,9 @@ int HOST::parse(XML_PARSER& xp) {
         if (xp.parse_string("accelerators", stemp)) continue;
 
 #if 1
-        // deprecated items
+        // deprecated items from old client versions
         //
+        if (xp.parse_int("wsl_available", x)) continue;
         if (xp.parse_string("cpu_caps", stemp)) continue;
         if (xp.parse_string("cache_l1", stemp)) continue;
         if (xp.parse_string("cache_l2", stemp)) continue;

@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
-# Sample script for the script-based assimilator (sched/script_assimilator.cpp)
+# Assimilator for batch-oriented apps
+# Use with the script-based assimilator (sched/script_assimilator.cpp)
 # Moves output files into a results/ hierarchy
 #
 # Use with a config.xml command of the form

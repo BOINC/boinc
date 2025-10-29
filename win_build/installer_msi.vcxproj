@@ -12,9 +12,59 @@
   <PropertyGroup>
     <TargetName>boinc</TargetName>
     <TargetExt>.msi</TargetExt>
+    <ReplaceWildcardsInProjectItems>true</ReplaceWildcardsInProjectItems>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\installer\boinc.json" />
+    <None Include="..\installer\include\ActionText.json" />
+    <None Include="..\installer\include\AdminExecuteSequence.json" />
+    <None Include="..\installer\include\AdminUISequence.json" />
+    <None Include="..\installer\include\AdvtExecuteSequence.json" />
+    <None Include="..\installer\include\Binary.json" />
+    <None Include="..\installer\include\Checkbox.json" />
+    <None Include="..\installer\include\CustomAction.json" />
+    <None Include="..\installer\include\Dialog.json" />
+    <None Include="..\installer\include\Directory.json" />
+    <None Include="..\installer\include\Error.json" />
+    <None Include="..\installer\include\Feature.json" />
+    <None Include="..\installer\include\Icon.json" />
+    <None Include="..\installer\include\InstallExecuteSequence.json" />
+    <None Include="..\installer\include\InstallUISequence.json" />
+    <None Include="..\installer\include\LaunchCondition.json" />
+    <None Include="..\installer\include\Listbox.json" />
+    <None Include="..\installer\include\Locale.json" />
+    <None Include="..\installer\include\Property.json" />
+    <None Include="..\installer\include\Summary.json" />
+    <None Include="..\installer\include\TextStyle.json" />
+    <None Include="..\installer\include\UIText.json" />
+    <None Include="..\installer\include\Upgrade.json" />
+    <None Include="..\installer\include\dialog\AdminChangeFolder.json" />
+    <None Include="..\installer\include\dialog\AdminNetworkLocation.json" />
+    <None Include="..\installer\include\dialog\AdminWelcome.json" />
+    <None Include="..\installer\include\dialog\CancelSetup.json" />
+    <None Include="..\installer\include\dialog\ChangeFolderData.json" />
+    <None Include="..\installer\include\dialog\ChangeFolderInstall.json" />
+    <None Include="..\installer\include\dialog\DiskSpaceRequirements.json" />
+    <None Include="..\installer\include\dialog\FeatureNotSupported.json" />
+    <None Include="..\installer\include\dialog\FilesInUse.json" />
+    <None Include="..\installer\include\dialog\InstallWelcome.json" />
+    <None Include="..\installer\include\dialog\LicenseAgreement.json" />
+    <None Include="..\installer\include\dialog\MaintenanceType.json" />
+    <None Include="..\installer\include\dialog\MaintenanceWelcome.json" />
+    <None Include="..\installer\include\dialog\MsiRMFilesInUse.json" />
+    <None Include="..\installer\include\dialog\OutOfSpace.json" />
+    <None Include="..\installer\include\dialog\PatchWelcome.json" />
+    <None Include="..\installer\include\dialog\ReadyToInstall.json" />
+    <None Include="..\installer\include\dialog\ReadyToRemove.json" />
+    <None Include="..\installer\include\dialog\SetupCompleteError.json" />
+    <None Include="..\installer\include\dialog\SetupCompleteSuccess.json" />
+    <None Include="..\installer\include\dialog\SetupConfig.json" />
+    <None Include="..\installer\include\dialog\SetupConfigAdvanced.json" />
+    <None Include="..\installer\include\dialog\SetupError.json" />
+    <None Include="..\installer\include\dialog\SetupInitialization.json" />
+    <None Include="..\installer\include\dialog\SetupInterrupted.json" />
+    <None Include="..\installer\include\dialog\SetupProgress.json" />
+    <None Include="..\installer\include\dialog\SetupResume.json" />
     <None Include="..\installer\locale\en.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
@@ -25,7 +75,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <CustomBuildStep>
-      <Inputs>$(SolutionDir)..\installer\boinc.json;$(SolutionDir)..\installer\locale\en.json;$(SolutionDir)Build\x64\$(Configuration)\installer.exe;$(SolutionDir)Build\$(Platform)\$(Configuration)\boinccas.dll</Inputs>
+      <Inputs>$(SolutionDir)..\installer\boinc.json;$(SolutionDir)..\installer\locale\*.json;$(SolutionDir)..\installer\include\*.json;$(SolutionDir)..\installer\include\dialog\*.json;$(SolutionDir)Build\x64\$(Configuration)\installer.exe;$(SolutionDir)Build\$(Platform)\$(Configuration)\boinccas.dll</Inputs>
       <Command>$(SolutionDir)Build\x64\$(Configuration)\installer.exe -p $(Platform)</Command>
       <Outputs>$(OutDir)$(TargetName)$(TargetExt)</Outputs>
     </CustomBuildStep>

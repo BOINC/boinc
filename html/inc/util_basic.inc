@@ -219,15 +219,16 @@ function dtime() {
 // which can have only A-Z a-z 0-9 . - _
 // In some cases filenames are used on volunteer hosts,
 // whose OSs may have such restrictions.
+// ALSO: allow spaces.
 //
 function is_valid_filename($x) {
     if (strlen($x)>255) return false;
     // \w means A-Za-z0-9_
-    return preg_match('/^[\w\-.]+$/', $x);
+    return preg_match('/^[\w\-. ]+$/', $x);
 }
 
 function filename_rules() {
-    return 'Names can contain only A-Z a-z 0-9 . - _';
+    return 'Names can contain only A-Z a-z 0-9 . - _ space';
 }
 
 ?>

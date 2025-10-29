@@ -41,7 +41,7 @@ jobs:
           revision_hash: ${{ steps.get_hash.outputs.revision_hash }}
         steps:
           - name: Checkout
-            uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+            uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
             with:
               fetch-depth: 2
           - name: Download revision archive
@@ -59,10 +59,11 @@ jobs:
       strategy:
         matrix:
           triplet: [ 'arm-android', 'arm-neon-android', 'arm64-android', 'x64-android', 'x86-android' ]
+          ndk: [ 'r23c', 'r27c' ]
         fail-fast: false
       steps:
         - name: Checkout
-          uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+          uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
           with:
             fetch-depth: 2
 
@@ -89,7 +90,7 @@ jobs:
 
         - name: Install Android NDK
           run: |
-            curl -L -o android-ndk.zip https://dl.google.com/android/repository/android-ndk-r23c-linux.zip
+            curl -L -o android-ndk.zip https://dl.google.com/android/repository/android-ndk-${{ matrix.ndk }}-linux.zip
             unzip android-ndk.zip
 
         - name: Prepare build
@@ -97,9 +98,9 @@ jobs:
             mkdir -p tests/vcpkg/build
 
         - name: Configure arm build
-          if: ${{ matrix.triplet == 'arm-android' }}
+          if: ${{ matrix.triplet == 'arm-android' && matrix.ndk == 'r23c' }}
           run: |
-            export ANDROID_NDK_HOME=$(pwd)/android-ndk-r23c
+            export ANDROID_NDK_HOME=$(pwd)/android-ndk-${{ matrix.ndk }}
             echo "ANDROID_NDK_HOME=${ANDROID_NDK_HOME}" >> $GITHUB_ENV
             toolchain_root="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64"
             tc_binaries="${toolchain_root}/bin"
@@ -119,7 +120,7 @@ jobs:
         - name: Configure arm-neon build
           if: ${{ matrix.triplet == 'arm-neon-android' }}
           run: |
-            export ANDROID_NDK_HOME="$(pwd)/android-ndk-r23c"
+            export ANDROID_NDK_HOME="$(pwd)/android-ndk-${{ matrix.ndk }}"
             echo "ANDROID_NDK_HOME=${ANDROID_NDK_HOME}" >> $GITHUB_ENV
             toolchain_root="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64"
             tc_binaries="${toolchain_root}/bin"
@@ -139,7 +140,7 @@ jobs:
         - name: Configure arm64 build
           if: ${{ matrix.triplet == 'arm64-android' }}
           run: |
-            export ANDROID_NDK_HOME="$(pwd)/android-ndk-r23c"
+            export ANDROID_NDK_HOME="$(pwd)/android-ndk-${{ matrix.ndk }}"
             echo "ANDROID_NDK_HOME=${ANDROID_NDK_HOME}" >> $GITHUB_ENV
             toolchain_root="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64"
             tc_binaries="${toolchain_root}/bin"
@@ -159,7 +160,7 @@ jobs:
         - name: Configure x64 build
           if: ${{ matrix.triplet == 'x64-android' }}
           run: |
-            export ANDROID_NDK_HOME="$(pwd)/android-ndk-r23c"
+            export ANDROID_NDK_HOME="$(pwd)/android-ndk-${{ matrix.ndk }}"
             echo "ANDROID_NDK_HOME=${ANDROID_NDK_HOME}" >> $GITHUB_ENV
             toolchain_root="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64"
             tc_binaries="${toolchain_root}/bin"
@@ -179,7 +180,7 @@ jobs:
         - name: Configure x86 build
           if: ${{ matrix.triplet == 'x86-android' }}
           run: |
-            export ANDROID_NDK_HOME="$(pwd)/android-ndk-r23c"
+            export ANDROID_NDK_HOME="$(pwd)/android-ndk-${{ matrix.ndk }}"
             echo "ANDROID_NDK_HOME=${ANDROID_NDK_HOME}" >> $GITHUB_ENV
             toolchain_root="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64"
             tc_binaries="${toolchain_root}/bin"
@@ -197,14 +198,15 @@ jobs:
             cmake -E env CC="${CC}" CXX="${CXX}" LD="${LD}" CFLAGS="${CFLAGS}" CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
 
         - name: Build
+          if: ${{ matrix.triplet != 'arm-android' || (matrix.triplet == 'arm-android' && matrix.ndk == 'r23c') }}
           run: |
             cmake --build tests/vcpkg/build --config Release
 
         - name: Upload logs on failure
           if: ${{ failure() }}
-          uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+          uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
           with:
-            name: vcpkg_test-logs-${{ matrix.triplet }}
+            name: vcpkg_test-logs-${{ matrix.triplet }}-${{ matrix.ndk }}
             path: vcpkg/buildtrees/**/*.log
 
     linux:
@@ -217,7 +219,7 @@ jobs:
         fail-fast: false
       steps:
         - name: Checkout
-          uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+          uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
           with:
             fetch-depth: 2
 
@@ -289,7 +291,7 @@ jobs:
 
         - name: Upload logs on failure
           if: ${{ failure() }}
-          uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+          uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
           with:
             name: vcpkg_test-logs-${{ matrix.triplet }}
             path: vcpkg/buildtrees/**/*.log
@@ -304,7 +306,7 @@ jobs:
         fail-fast: false
       steps:
         - name: Checkout
-          uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+          uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
           with:
             fetch-depth: 2
 
@@ -345,7 +347,7 @@ jobs:
             cmake --build tests/vcpkg/build --config Release
         - name: Upload logs on failure
           if: ${{ failure() }}
-          uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+          uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
           with:
             name: vcpkg_test-logs-${{ matrix.triplet }}
             path: vcpkg/buildtrees/**/*.log
@@ -360,7 +362,7 @@ jobs:
         fail-fast: false
       steps:
         - name: Checkout
-          uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+          uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
           with:
             fetch-depth: 2
         - name: Check if build is running from origin repo
@@ -407,7 +409,7 @@ jobs:
 
         - name: Upload logs on failure
           if: ${{ failure() }}
-          uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+          uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
           with:
             name: vcpkg_test-logs-${{ matrix.triplet }}
             path: vcpkg/buildtrees/**/*.log
@@ -422,7 +424,7 @@ jobs:
         fail-fast: false
       steps:
         - name: Checkout
-          uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+          uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
           with:
             fetch-depth: 2
         - name: Check if build is running from origin repo
@@ -466,7 +468,7 @@ jobs:
 
         - name: Upload logs on failure
           if: ${{ failure() }}
-          uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+          uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
           with:
             name: vcpkg_test-logs-${{ matrix.triplet }}
             path: vcpkg/buildtrees/**/*.log

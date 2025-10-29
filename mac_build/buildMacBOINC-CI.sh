@@ -176,9 +176,9 @@ else
     cd ..; show_version_errors; exit 1;
 fi
 
-target="zip apps"
+target="libs"
 echo "Building ${target}..."
-source BuildMacBOINC.sh ${config} ${doclean} -zipapps | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+source BuildMacBOINC.sh ${config} ${doclean} -lib -setting HEADER_SEARCH_PATHS "../ ../api/ ../lib/** ../api/ ../zip/ ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2 \\\${HEADER_SEARCH_PATHS}" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib  ../lib \\\${LIBRARY_SEARCH_PATHS}"| tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd "${rootPath}"; show_version_errors; exit 1;

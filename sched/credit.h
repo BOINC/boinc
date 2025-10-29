@@ -19,6 +19,9 @@
 
 #include "boinc_db.h"
 
+#define AVG_CPU_FPOPS   4.3e9;
+    // use this if host didn't report valid p_fpops
+
 #define MIN_HOST_SAMPLES  10
     // use host scaling only if have this many samples for host
 #define MIN_VERSION_SAMPLES   100

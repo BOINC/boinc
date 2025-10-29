@@ -189,7 +189,7 @@ void COPROCS::summary_string(char* buf, int len) {
         snprintf(buf2, sizeof(buf2),
             "[INTEL|%s|%d|%dMB|%s|%d]",
             intel_gpu.name, intel_gpu.count,
-            (int)(intel_gpu.opencl_prop.global_mem_size/MEGA),
+            (int)((double)intel_gpu.opencl_prop.global_mem_size/MEGA),
             intel_gpu.version,
             intel_gpu.opencl_prop.opencl_device_version_int
         );
@@ -199,7 +199,7 @@ void COPROCS::summary_string(char* buf, int len) {
         snprintf(buf2, sizeof(buf2),
             "[apple_gpu|%s|%d|%dMB|%d|%d]",
             apple_gpu.model, apple_gpu.count,
-            (int)(apple_gpu.opencl_prop.global_mem_size/MEGA),
+            (int)((double)apple_gpu.opencl_prop.global_mem_size/MEGA),
             apple_gpu.metal_support,
             apple_gpu.opencl_prop.opencl_device_version_int
         );
@@ -219,7 +219,7 @@ void COPROCS::summary_string(char* buf, int len) {
             "[opencl_gpu|%s|%d|%dMB|%d]",
             cp.type,
             cp.count,
-            (int)(cp.opencl_prop.global_mem_size/MEGA),
+            (int)((double)cp.opencl_prop.global_mem_size/MEGA),
             cp.opencl_prop.opencl_device_version_int
         );
         strlcat(buf, buf2, len);
@@ -582,8 +582,7 @@ void COPROC_NVIDIA::set_peak_flops() {
             flops_per_clock = 2;
             cores_per_proc = 64;
             break;
-        case 8:    // for cc8.0 (A100) and cc8.6 (GeForce RTX 30x0 - GA102 and above)
-        default:
+        case 8:    // for cc8.0 (A100) and cc8.6 (GeForce RTX 30x0 - GA102)
             flops_per_clock = 2;
             switch (minor) {
             case 0:    // special for A100 Tensor Core datacenter GPU
@@ -593,6 +592,10 @@ void COPROC_NVIDIA::set_peak_flops() {
                 cores_per_proc = 128;
                 break;
             }
+            break;
+        default:   // for cc9.0-12.0 (and above) (Hopper Datacenter H100/H200, Blackwell Datacenter B200, Blackwell GeForce 50x0)
+            flops_per_clock = 2;
+            cores_per_proc = 128;
             break;
         }
 
@@ -964,7 +967,7 @@ int COPROC_INTEL::parse(XML_PARSER& xp) {
 				set_peak_flops();
             }
             if (!available_ram) {
-                available_ram = opencl_prop.global_mem_size;
+                available_ram = (double)opencl_prop.global_mem_size;
             }
             return 0;
         }
@@ -1072,7 +1075,7 @@ int COPROC_APPLE::parse(XML_PARSER& xp) {
 				set_peak_flops();
             }
             if (!available_ram) {
-                available_ram = opencl_prop.global_mem_size;
+                available_ram = (double)opencl_prop.global_mem_size;
             }
             return 0;
         }

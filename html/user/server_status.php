@@ -406,6 +406,16 @@ function get_daemon_status() {
     return $x;
 }
 
+// get info for BUDA apps
+// enumerate BUDA batches; get list of app/variants names
+// for each app/variant
+//      join result/workunit/batch to get runtime stats, users
+//      join result/workunit/batch to get unsent, in_progress counts
+// return list of pseudo-apps
+//
+function get_buda_status() {
+}
+
 function get_job_status() {
     $s = unserialize(get_cached_data(STATUS_PAGE_TTL, "job_status"));
     if ($s) {
