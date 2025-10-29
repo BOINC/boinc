@@ -19,7 +19,7 @@
 
 #include "boinc_db.h"
 
-#define AVG_CPU_FPOPS   4.3e9;
+#define AVG_CPU_FPOPS   4.3e9
     // use this if host didn't report valid p_fpops
 
 #define MIN_HOST_SAMPLES  10

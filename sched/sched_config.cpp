@@ -319,6 +319,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool("credit_by_app", credit_by_app)) continue;
         if (xp.parse_bool("keyword_sched", keyword_sched)) continue;
         if (xp.parse_bool("rte_no_stats", rte_no_stats)) continue;
+        if (xp.parse_bool("batch_accel", batch_accel)) continue;
 
         //////////// SCHEDULER LOG FLAGS /////////
 

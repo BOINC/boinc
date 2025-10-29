@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// parsed version of config.xml
+
 #ifndef BOINC_SCHED_CONFIG_H
 #define BOINC_SCHED_CONFIG_H
 
@@ -187,6 +189,8 @@ struct SCHED_CONFIG {
         // score jobs based on keywords
     bool rte_no_stats;
         // don't use statistics in job runtime estimation
+    bool batch_accel;
+        // accelerate batch completion
 
     // time intervals
     double maintenance_delay;
