@@ -323,15 +323,16 @@ recheck:
             //
             result.id = wu_result.resultid;
             if (result_still_sendable(result, wu)) {
-                bool is_buda, is_ok;
                 HOST_USAGE hu;
-                check_buda_plan_class(wu, hu, is_buda, is_ok);
-                if (is_buda) {
-                    if (!is_ok) continue;
+                BUDA_VARIANT *bvp = NULL;
+                if (is_buda(wu)) {
+                    if (!choose_buda_variant(wu, -1, &bvp, hu)) {
+                        continue;
+                    }
                 } else {
                     hu = bavp->host_usage;
                 }
-                add_result_to_reply(result, wu, bavp, hu, is_buda, false);
+                add_result_to_reply(result, wu, bavp, hu, bvp, false);
 
                 // add_result_to_reply() fails only in pathological cases -
                 // e.g. we couldn't update the DB record or modify XML fields.

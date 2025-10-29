@@ -1,0 +1,291 @@
+{
+    "CustomAction": [
+        {
+            "Action": "CAAnnounceUpgrade",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "AnnounceUpgrade"
+        },
+        {
+            "Action": "CACleanupOldBinaries",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "CleanupOldBinaries"
+        },
+        {
+            "Action": "CACreateAcctMgrLoginFile",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "CreateAcctMgrLoginFile"
+        },
+        {
+            "Action": "CACreateBOINCAccounts",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "CreateBOINCAccounts"
+        },
+        {
+            "Action": "CACreateBOINCGroups",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "CreateBOINCGroups"
+        },
+        {
+            "Action": "CACreateClientAuthFile",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "CreateClientAuthFile"
+        },
+        {
+            "Action": "CACreateProjectInitFile",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "CreateProjectInitFile"
+        },
+        {
+            "Action": "CADeleteBOINCAccounts",
+            "Type": 65,
+            "Source": "boinccas.dll",
+            "Target": "DeleteBOINCAccounts"
+        },
+        {
+            "Action": "CADeleteBOINCGroups",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "DeleteBOINCGroups"
+        },
+        {
+            "Action": "CAGetAdministratorsGroupName",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "GetAdministratorsGroupName"
+        },
+        {
+            "Action": "CAGetUsersGroupName",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "GetUsersGroupName"
+        },
+        {
+            "Action": "CAGrantBOINCAdminsRights",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "GrantBOINCAdminsRights"
+        },
+        {
+            "Action": "CAGrantBOINCAdminsVirtualBoxRights",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "GrantBOINCAdminsVirtualBoxRights"
+        },
+        {
+            "Action": "CAGrantBOINCMasterRights",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "GrantBOINCMasterRights"
+        },
+        {
+            "Action": "CAGrantBOINCProjectRights",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "GrantBOINCProjectRights"
+        },
+        {
+            "Action": "CAGrantBOINCProjectsRights",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "GrantBOINCProjectsRights"
+        },
+        {
+            "Action": "CAGrantBOINCProjectsVirtualBoxRights",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "GrantBOINCProjectsVirtualBoxRights"
+        },
+        {
+            "Action": "CAGrantBOINCUsersRights",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "GrantBOINCUsersRights"
+        },
+        {
+            "Action": "CALaunchBOINCManager",
+            "Type": 65,
+            "Source": "boinccas.dll",
+            "Target": "LaunchBOINCManager"
+        },
+        {
+            "Action": "CALaunchBOINCTray",
+            "Type": 65,
+            "Source": "boinccas.dll",
+            "Target": "LaunchBOINCTray"
+        },
+        {
+            "Action": "CARestoreExecutionState",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "RestoreExecutionState"
+        },
+        {
+            "Action": "CARestorePermissionBOINCData",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "RestorePermissionBOINCData"
+        },
+        {
+            "Action": "CARestoreSetupState",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "RestoreSetupState"
+        },
+        {
+            "Action": "CARevokeBOINCAdminsRights",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "RevokeBOINCAdminsRights"
+        },
+        {
+            "Action": "CARevokeBOINCMasterRights",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "RevokeBOINCMasterRights"
+        },
+        {
+            "Action": "CARevokeBOINCProjectRights",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "RevokeBOINCProjectRights"
+        },
+        {
+            "Action": "CARevokeBOINCProjectsRights",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "RevokeBOINCProjectsRights"
+        },
+        {
+            "Action": "CARevokeBOINCUsersRights",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "RevokeBOINCUsersRights"
+        },
+        {
+            "Action": "CASaveExecutionState",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "SaveExecutionState"
+        },
+        {
+            "Action": "CASaveSetupState",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "SaveSetupState"
+        },
+        {
+            "Action": "CASetBOINCDataProjects",
+            "Type": 35,
+            "Source": "PROJECTS",
+            "Target": "[DATADIR]projects"
+        },
+        {
+            "Action": "CASetBOINCDataSlots",
+            "Type": 35,
+            "Source": "SLOTS",
+            "Target": "[DATADIR]slots"
+        },
+        {
+            "Action": "CASetPermissionBOINC",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "SetPermissionBOINC"
+        },
+        {
+            "Action": "CASetPermissionBOINCData",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "SetPermissionBOINCData"
+        },
+        {
+            "Action": "CASetPermissionBOINCDataProjects",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "SetPermissionBOINCDataProjects"
+        },
+        {
+            "Action": "CASetPermissionBOINCDataSlots",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "SetPermissionBOINCDataSlots"
+        },
+        {
+            "Action": "CAShutdownBOINC",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "ShutdownBOINC"
+        },
+        {
+            "Action": "CAShutdownBOINCManager",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "ShutdownBOINCManager"
+        },
+        {
+            "Action": "CAShutdownBOINCScreensaver",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "ShutdownBOINCScreensaver"
+        },
+        {
+            "Action": "CAValidateInstall",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "ValidateInstall"
+        },
+        {
+            "Action": "CAValidateRebootRequest",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "ValidateRebootRequest"
+        },
+        {
+            "Action": "CAValidateSetupType",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "ValidateSetupType"
+        },
+        {
+            "Action": "CAVerifyInstallDirectories",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "VerifyInstallDirectories"
+        },
+        {
+            "Action": "ISPreventDowngrade",
+            "Type": 19,
+            "Target": "[IS_PREVENT_DOWNGRADE_EXIT]"
+        },
+        {
+            "Action": "SetARPINSTALLLOCATION",
+            "Type": 51,
+            "Source": "ARPINSTALLLOCATION",
+            "Target": "[INSTALLDIR]"
+        },
+        {
+            "Action": "SetARPReadme",
+            "Type": 51,
+            "Source": "ARPREADME",
+            "Target": "[#readme.txt]"
+        },
+        {
+            "Action": "setAllUsersProfile2K",
+            "Type": 51,
+            "Source": "ALLUSERSPROFILE",
+            "Target": "[%ALLUSERSPROFILE]"
+        },
+        {
+            "Action": "setUserProfileNT",
+            "Type": 51,
+            "Source": "USERPROFILE",
+            "Target": "[%USERPROFILE]"
+        }
+    ]
+}

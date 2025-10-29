@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -121,6 +121,7 @@ typedef float CGFloat;
 static double gSS_StartTime = 0.0;
 mach_port_t gEventHandle = 0;
 extern bool IsDualGPUMacbook;
+extern bool ScreenIsBlanked;
 extern pthread_mutex_t saver_mutex;
 
 int gGoToBlank;      // True if we are to blank the screen
@@ -136,31 +137,40 @@ NSInteger myWindowNumber;
 NSRect gMovingRect;
 float gImageXIndent;
 float gTextBoxHeight;
-NSPoint gCurrentPosition;
-NSPoint gCurrentDelta;
 
 CGContextRef myContext;
 bool isErased;
+char gLastMsg[2048];
+HIThemeTextInfo gTextInfo;
+NSPoint gCurrentDelta;
+NSPoint gCurrentPosition;
+NSPoint imagePosition;
 bool gIsBigSur = false;
+NSRect myViewBounds;
 
 static SharedGraphicsController *mySharedGraphicsController;
 static bool runningSharedGraphics;
 static bool useCGWindowList;
-static pid_t childPid;
+static pid_t childPid;  // pid of the currently running graphics app, not actually our chkld
 static int gfxAppWindowNum;
 static NSView *imageView;
 static char gfxAppPath[MAXPATHLEN];
 static char gfxWuName[MAXPATHLEN];
 static int taskSlot;
-static NSRunningApplication *childApp;
+static NSRunningApplication *childApp;  // currently running graphics app, not actually our child
 static double gfxAppStartTime;
 static bool UseSharedOffscreenBuffer(void);
 static double lastGetSSMsgTime;
-static pthread_t mainThreadID;
 static int CGWindowListTries;
 static int DPI_multiplier = 1;
 static bool myIsPreview;
+static bool screensaverIsVisible = false;
+static bool logoIsCovered = false;
 
+//static long counter = 0;    // CAF
+static NSTimer * myTimer = NULL;
+
+//static CFMachPortRef eventTap = NULL;
 
 #define TEXTBOXMINWIDTH 400.0
 #define MINTEXTBOXHEIGHT 40.0
@@ -195,11 +205,13 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
         useCGWindowList = false;
         gfxAppStartTime = 0.0;
         gfxWuName[0] = '\0';
-        if (mySharedGraphicsController) {
-            [ mySharedGraphicsController cleanUpOpenGL ];
+        if (screensaverIsVisible) {    // Must be called from main thread
+            if (mySharedGraphicsController) {
+                [ mySharedGraphicsController cleanUpOpenGL ];
+            }
         }
         if (imageView) {
-            // removeFromSuperview must be called from main thread
+           // removeFromSuperview must be called from main thread
             if (NSThread.isMainThread) {
                 [imageView removeFromSuperview];   // Releases imageView
             } else {
@@ -215,6 +227,7 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
         }
     }
 }
+
 
 @implementation BOINC_Saver_ModuleView
 
@@ -240,6 +253,11 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
     } else {
         myIsPreview = isPreview;
     }
+
+    // Apparently, setAnimationTimeInterval now works only when called
+    // from initWithFrame and cannot be modified dynamically. I don't
+    // know if that was always true or if a more recent change.
+    [ self setAnimationTimeInterval:1.0/60.0 ];
 
     // OpenGL / GLUT apps which call glutFullScreen() and are built using
     // Xcode 11 apparently use window dimensions based on the number of
@@ -270,6 +288,8 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
         }
     }
 
+    screensaverIsVisible = true;
+    gLastMsg[0] = '\0';
     initBOINCSaver();
 
     if (self) {
@@ -282,6 +302,9 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
             if (gPathToBundleResources == NULL) {
                 gPathToBundleResources = [ myBundle resourcePath ];
             }
+
+            [ self setAutoresizesSubviews:YES ];	// make sure the subview resizes.
+        }
 
             ScreenSaverDefaults *defaults = [ ScreenSaverDefaults defaultsForModuleWithName:mBundleID ];
 
@@ -309,8 +332,9 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
                 [ defaults setInteger:period forKey:@"ChangePeriod" ];
 
                 // synchronize
-                [defaults synchronize];
             }
+
+            [defaults synchronize];
 
             // get defaults...
             gGoToBlank = [ defaults integerForKey:@"GoToBlank" ];
@@ -321,28 +345,18 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
             setGFXSciencePeriod((double)(period * 60));
             period = [ defaults integerForKey:@"ChangePeriod" ];
             setGGFXChangePeriod((double)(period * 60));
-
-           [ self setAutoresizesSubviews:YES ];	// make sure the subview resizes.
-        }
-    }
-
-    // Path to our copy of switcher utility application in this screensaver bundle
-    if (gPathToBundleResources == NULL) {
-        gPathToBundleResources = [ myBundle resourcePath ];
     }
 
     return self;
 }
 
+
 // If there are multiple displays, this may get called
 // multiple times (once for each display), so we need to guard
 // against any problems that may cause.
 - (void)startAnimation {
-    int newFrequency;
 
     gEventHandle = NXOpenEventStatus();
-
-    mainThreadID = pthread_self();
 
     // Under OS 10.14 Mojave, [super drawRect:] is slow but not needed if we do this:
     [[self window] setBackgroundColor:[NSColor blackColor]];
@@ -372,15 +386,10 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
         gCurrentDelta.x = 1.0;
         gCurrentDelta.y = 1.0;
 
-        [ self setAnimationTimeInterval:1/8.0 ];
+//      [ self setAnimationTimeInterval:1/8.0 ];
     }
 
     [ super startAnimation ];
-
-    if (myIsPreview) {
-        [ self setAnimationTimeInterval:1.0/8.0 ];
-        return;
-    }
 
     NSWindow *myWindow = [ self window ];
 #if DEBUG_UNDER_XCODE
@@ -398,9 +407,12 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
             [mySharedGraphicsController init:self];
         }
 
-        newFrequency = startBOINCSaver();
-        if (newFrequency) {
-            [ self setAnimationTimeInterval:1.0/newFrequency ];
+        startBOINCSaver();
+        if (myTimer == NULL) {
+            myViewBounds = [self bounds];
+            // See comments at advancePosition on why this is needed.
+            myTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval) 1./60. target:self selector:@selector(advancePosition:)
+                                        userInfo:nil repeats:YES];
         }
     }
     gSS_StartTime = getDTime();
@@ -409,10 +421,14 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
 // If there are multiple displays, this may get called
 // multiple times (once for each display), so we need to guard
 // against any problems that may cause.
+//
+// In recent versions of MacOS stopAnimation seems to be called only when
+// MacOS puts the displays to sleep, but not when user activity dismisses
+// the screensaver. (legacyScreenSaver coneinues running under MacOS 14.0
+//  and later.) So we must use the tests in doPeriodicTasks.
 - (void)stopAnimation {
     [ super stopAnimation ];
-
-    if (myIsPreview) return;
+   if (myIsPreview) return;
 #if ! DEBUG_UNDER_XCODE
     NSRect windowFrame = [ [ self window ] frame ];
     if ( (windowFrame.origin.x != 0) || (windowFrame.origin.y != 0) ) {
@@ -433,18 +449,10 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
     }
 
     if (!myIsPreview) {
-        closeBOINCSaver();
+        [self cleanupSaver:YES];
     }
 
     gTopWindowListIndex = -1;
-
-//    if (gBOINC_Logo) {
-//        [ gBOINC_Logo release ];
-//    }
-    gBOINC_Logo = NULL;
-
-    // gPathToBundleResources has been released by autorelease
-    gPathToBundleResources = NULL;
 }
 
 // If there are multiple displays, this may get called
@@ -459,22 +467,40 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
     }
 }
 
+- (void) cleanupSaver:(bool)mayExit {
+    closeBOINCSaver();
+
+    if (mayExit) {
+        screensaverIsVisible = false;
+        if (myTimer) {
+            [ myTimer invalidate ];
+            myTimer = NULL;
+        }
+    }
+    if (mySharedGraphicsController) {
+        [ mySharedGraphicsController cleanUpOpenGL ];   // Must be called from main thread
+        [ mySharedGraphicsController closeServerPort ]; // Must be called after cleanUpOpenGL
+        if (mayExit) {
+            [ NSApp terminate:nil ];    // Comment this out to let legacyScreensaver continue in background
+        }
+    }
+}
+
 // If there are multiple displays, this may get called
 // multiple times (once for each display), so we need to guard
 // against any problems that may cause.
 - (void)doPeriodicTasks {
-    int newFrequency = 0;
     int coveredFreq = 0;
     NSRect theFrame = [ self frame ];
-    NSUInteger n;
     double maxWaitTime;
     NSRect currentDrawingRect, eraseRect;
     CGFloat actualTextBoxHeight = MINTEXTBOXHEIGHT;
-    NSPoint imagePosition;
     char *msg;
     CFStringRef cf_msg;
-    double timeToBlock, frameStartTime = getDTime();
-    HIThemeTextInfo textInfo;
+
+    if (myTimer == NULL) {
+        return;
+    }
 
     NSWindow *myWindow = [ self window ];
     NSRect windowFrame = [ myWindow frame ];
@@ -483,19 +509,42 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
         // Under MacOS 14 Sonoma, screensavers continue to run and "draw" invisibly
         // after they are dismissed by user activity, to allow them to be used as
         // wallpaper. Since we don't want the BOINC screensaver to be used as wallpaper,
-        // this would waste system resources.
-        // The only way I've found to determine that the screensaver has been dismissed
-        // by the user is this test of the window level.
+        // this would waste system resources, so we probably want to terminate the
+        // legacyScreenSaver when that happens. Also, legacyScreenSaver under MacOS 26
+        // creates other problems; see comments at advancePosition: for details.
+        //
+        // The only way I've found to determine that the legacyScreenSaver has been
+        // dismissed by the user in all 3 OS versions (MacOS 14, MacOS 15 and MacOS 26)
+        // is testing the frontmost application: it is LoginWindow if and only if the
+        // screensaver is visible.
         if ((windowFrame.size.width > 500.) && (windowFrame.size.height > 500.)) {
-            if ([ [ self window ] level ] == 0) {
-//TODO: more cleanup as in stopAnimation ??
-                closeBOINCSaver();
-                return;
+            if (screensaverIsVisible) {
+                bool isLoginWindow = false;
+                NSRunningApplication *frontapp = [[ NSWorkspace sharedWorkspace] frontmostApplication];
+                if (frontapp) {
+                    NSString *bundleId = [frontapp bundleIdentifier];
+                    if (bundleId) {
+                        if ([bundleId UTF8String]) {
+                            isLoginWindow = (strcmp([bundleId UTF8String], "com.apple.loginwindow") == 0);
+                        }
+                    }
+                }
+                if (!isLoginWindow) {
+                    [self cleanupSaver:YES];
+                    return;
+                }
             }
         }
     }
 
-   if (myIsPreview) {
+    if (ScreenIsBlanked) {
+        if (screensaverIsVisible) {
+            [self cleanupSaver:NO];
+            return;
+        }
+    }
+
+    if (myIsPreview) {
 #if 1   // Currently drawRect just draws our logo in the preview window
         if (gPreview_Image == NULL) {
             NSString *fileName = [[ NSBundle bundleForClass:[ self class ]] pathForImageResource:@"boinc" ];
@@ -507,11 +556,9 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
             [ gPreview_Image setSize:theFrame.size ];
             [ gPreview_Image drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 ];
         }
-        [ self setAnimationTimeInterval:1/1.0 ];
 #else   // Code for possible future use if we want to draw more in preview
         myContext = [[NSGraphicsContext currentContext] graphicsPort];
         drawPreview(myContext);
-        [ self setAnimationTimeInterval:1/30.0 ];
 #endif
         return;
     }
@@ -521,7 +568,7 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
     // after user activity before calling stopAnimation, so we check user activity here
     if ((compareOSVersionTo(10, 7) >= 0) && ((getDTime() - gSS_StartTime) > 2.0)) {
         if (! gIsMojave) {
-               double idleTime =  CGEventSourceSecondsSinceLastEventType
+            double idleTime =  CGEventSourceSecondsSinceLastEventType
                         (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
             if (idleTime < 1.5) {
                 [ NSApp terminate:nil ];
@@ -623,7 +670,7 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
                 lastGetSSMsgTime = timeNow;
             }
             windowIsCovered();
-            [ self setAnimationTimeInterval:1.0 ];
+////            [ self setAnimationTimeInterval:1.0 ];
         }
 
         return;
@@ -643,8 +690,7 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
 
     NSRect viewBounds = [self bounds];
 
-    newFrequency = getSSMessage(&msg, &coveredFreq);
-
+    getSSMessage(&msg, &coveredFreq);
     if (UseSharedOffscreenBuffer()) {
         // If runningSharedGraphics is still false after MAXWAITFORCONNECTION,
         // assume the graphics app has not been built with MachO comunication
@@ -714,24 +760,6 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
             myWindowNumber = [ myWindow windowNumber ];
             gTopWindowListIndex = [theWindowList indexOfObjectIdenticalTo:[NSNumber numberWithInt:myWindowNumber]];
         }
-
-        if (coveredFreq) {
-            if ( (msg != NULL) && (msg[0] != '\0') ) {
-                NSArray *theWindowList = [NSWindow windowNumbersWithOptions:NSWindowNumberListAllApplications];
-                n = [theWindowList count];
-                if (gTopWindowListIndex < n) {
-                    if ([(NSNumber*)[theWindowList objectAtIndex:gTopWindowListIndex] integerValue] != myWindowNumber) {
-                        // Project graphics application has a window open above ours
-                        // Don't waste CPU cycles since our window is obscured by application graphics
-                        newFrequency = coveredFreq;
-                        msg = NULL;
-                        windowIsCovered();
-                    }
-                }
-            } else {
-                newFrequency = coveredFreq;
-            }
-        }
     }
 
     // Draw our moving BOINC logo and screensaver status text
@@ -741,147 +769,117 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
     currentDrawingRect.origin.x = (float) ((int)gCurrentPosition.x);
     currentDrawingRect.origin.y += (float) ((int)gCurrentPosition.y - gTextBoxHeight);
 
-    if ( (msg != NULL) && (msg[0] != '\0') ) {
+    if (! logoIsCovered) {
+        if ( (msg != NULL) && (msg[0] != '\0') ) {
+            cf_msg = CFStringCreateWithCString(NULL, msg, kCFStringEncodingMacRoman);
+            if (strncmp(msg, gLastMsg, sizeof(gLastMsg))) {
+                strlcpy(gLastMsg, msg, sizeof(gLastMsg));
 
-        cf_msg = CFStringCreateWithCString(NULL, msg, kCFStringEncodingMacRoman);
+                CTFontRef myFont = CTFontCreateWithName(CFSTR("Helvetica"), 20, NULL);
+                HIThemeTextInfo theTextInfo = {kHIThemeTextInfoVersionOne, kThemeStateActive, kThemeSpecifiedFont,
+                            kHIThemeTextHorizontalFlushLeft, kHIThemeTextVerticalFlushTop,
+                            kHIThemeTextBoxOptionNone, kHIThemeTextTruncationNone, 0, false,
+                            0, myFont
+                            };
+                gTextInfo = theTextInfo;
 
-        CTFontRef myFont = CTFontCreateWithName(CFSTR("Helvetica"), 20, NULL);
-        HIThemeTextInfo theTextInfo = {kHIThemeTextInfoVersionOne, kThemeStateActive, kThemeSpecifiedFont,
-                    kHIThemeTextHorizontalFlushLeft, kHIThemeTextVerticalFlushTop,
-                    kHIThemeTextBoxOptionNone, kHIThemeTextTruncationNone, 0, false,
-                    0, myFont
-                    };
-        textInfo = theTextInfo;
-
-        HIThemeGetTextDimensions(cf_msg, (float)gMovingRect.size.width, &textInfo, NULL, &actualTextBoxHeight, NULL);
-        gTextBoxHeight = actualTextBoxHeight + TEXTBOXTOPBORDER;
-
-        if (!isErased) {
-            [[NSColor blackColor] set];
-
-            // Erasing only 2 small rectangles reduces screensaver's CPU usage by about 25%
-            imagePosition.x = (float) ((int)gCurrentPosition.x + gImageXIndent);
-            imagePosition.y = (float) (int)gCurrentPosition.y;
-            eraseRect.origin.y = imagePosition.y;
-            eraseRect.size.height = currentDrawingRect.size.height - gTextBoxHeight;
-
-            if (gCurrentDelta.x > 0) {
-                eraseRect.origin.x = imagePosition.x - 1;
-                eraseRect.size.width = gCurrentDelta.x + 1;
-            } else {
-                eraseRect.origin.x = currentDrawingRect.origin.x + currentDrawingRect.size.width - gImageXIndent + gCurrentDelta.x - 1;
-                eraseRect.size.width = -gCurrentDelta.x + 1;
+                HIThemeGetTextDimensions(cf_msg, (float)gMovingRect.size.width, &gTextInfo, NULL, &actualTextBoxHeight, NULL);
+                gTextBoxHeight = actualTextBoxHeight + TEXTBOXTOPBORDER;
             }
 
-            eraseRect = NSInsetRect(eraseRect, -1, -1);
-            NSRectFill(eraseRect);
+            if (myTimer == NULL) {
+                return;
+            }
 
-            eraseRect.origin.x = imagePosition.x;
-            eraseRect.size.width = currentDrawingRect.size.width - gImageXIndent - gImageXIndent;
+            // Under MacOS 14 and later, if we allow legacyScreenSaver to continue running in the
+            // background when user activity dismisses the screensaver, it appears to create multiple
+            // instances of startAnimation, animateOneFrame and (perhaps) drawRect upon each subsequnt
+            // activation of the screensaver. As a result it tries to draw the same image in the same
+            // location multiple times. Apparently only one of those instances does actually draw to
+            // the screen, but we have no way of knowing which instance, so we need to allow them all
+            // to go through this code to ensure the drawing actually happens.
+            if (!isErased) {
+               [[NSColor blackColor] set];
 
-            if (gCurrentDelta.y > 0) {
+                 // Erasing only 2 small rectangles reduces screensaver's CPU usage by about 25%
+                imagePosition.x = (float) ((int)gCurrentPosition.x + gImageXIndent);
+                imagePosition.y = (float) (int)gCurrentPosition.y;
                 eraseRect.origin.y = imagePosition.y;
-                eraseRect.size.height = gCurrentDelta.y + 1;
-            } else {
-                eraseRect.origin.y = imagePosition.y + currentDrawingRect.size.height - gTextBoxHeight - 1;
-                eraseRect.size.height = -gCurrentDelta.y + 1;
-            }
-            eraseRect = NSInsetRect(eraseRect, -1, -1);
-            NSRectFill(eraseRect);
+                eraseRect.size.height = currentDrawingRect.size.height - gTextBoxHeight;
 
-            eraseRect = currentDrawingRect;
-            eraseRect.size.height = gTextBoxHeight;
-            eraseRect = NSInsetRect(eraseRect, -1, -1);
-            NSRectFill(eraseRect);
-
-            isErased = true;
-           // If text has changed and it now goes below bottom of screen, jump up to show it all.
-            if ((gCurrentPosition.y - gTextBoxHeight) <= SAFETYBORDER) {
-                gCurrentPosition.y = SAFETYBORDER + 1 + gTextBoxHeight;
-                if (gCurrentDelta.y < 0) {
-                    gCurrentDelta.y = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+                if (gCurrentDelta.x > 0) {
+                    eraseRect.origin.x = imagePosition.x - 1;
+                    eraseRect.size.width = gCurrentDelta.x + 1;
+                } else {
+                    eraseRect.origin.x = currentDrawingRect.origin.x + currentDrawingRect.size.width - gImageXIndent + gCurrentDelta.x - 1;
+                    eraseRect.size.width = -gCurrentDelta.x + 1;
                 }
+
+                eraseRect = NSInsetRect(eraseRect, -1, -1);
+                NSRectFill(eraseRect);
+
+                eraseRect.origin.x = imagePosition.x;
+                eraseRect.size.width = currentDrawingRect.size.width - gImageXIndent - gImageXIndent;
+
+                if (gCurrentDelta.y > 0) {
+                    eraseRect.origin.y = imagePosition.y;
+                    eraseRect.size.height = gCurrentDelta.y + 1;
+                } else {
+                    eraseRect.origin.y = imagePosition.y + currentDrawingRect.size.height - gTextBoxHeight - 1;
+                    eraseRect.size.height = -gCurrentDelta.y + 1;
+                }
+                eraseRect = NSInsetRect(eraseRect, -1, -1);
+                NSRectFill(eraseRect);
+
+                eraseRect = currentDrawingRect;
+                eraseRect.size.height = gTextBoxHeight;
+                eraseRect = NSInsetRect(eraseRect, -1, -1);
+                NSRectFill(eraseRect);
+
+               isErased = true;
             }
 
-            // Set direction of motion to "bounce" off edges of screen
-           if ( (gCurrentDelta.x < 0) && (gCurrentPosition.x <= SAFETYBORDER) ) {
-                gCurrentDelta.x = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
-                gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 16.;
+            [ gBOINC_Logo drawAtPoint:imagePosition fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 ];
+    #if 0
+        // For testing
+        gCurrentDelta.x = 0;
+        gCurrentDelta.y = 0;
+    #endif
+            CGRect bounds = CGRectMake((float) ((int)gCurrentPosition.x),
+                                 viewBounds.size.height - imagePosition.y + TEXTBOXTOPBORDER,
+                                 gMovingRect.size.width,
+                                 MAXTEXTBOXHEIGHT
+                            );
+
+            CGContextSaveGState (myContext);
+            CGContextTranslateCTM (myContext, 0, viewBounds.origin.y + viewBounds.size.height);
+            CGContextScaleCTM (myContext, 1.0f, -1.0f);
+
+            CGFloat myWhiteComponents[] = {1.0, 1.0, 1.0, 1.0};
+            CGColorSpaceRef myColorSpace = CGColorSpaceCreateDeviceRGB ();
+            CGColorRef myTextColor = CGColorCreate(myColorSpace, myWhiteComponents);
+
+            CGContextSetFillColorWithColor(myContext, myTextColor);
+
+            HIThemeDrawTextBox(cf_msg, &bounds, &gTextInfo, myContext, kHIThemeOrientationNormal);
+
+            CGColorRelease(myTextColor);
+            CGColorSpaceRelease(myColorSpace);
+            CGContextRestoreGState (myContext);
+            CFRelease(cf_msg);
+
+            isErased  = false;
+
+        } else {        // Empty or NULL message
+            if (!isErased) {
+                eraseRect = NSInsetRect(currentDrawingRect, -1, -1);
+                [[NSColor blackColor] set];
+                isErased  = true;
+                NSRectFill(eraseRect);
+                gMovingRect.size.height = [gBOINC_Logo size].height + gTextBoxHeight;
             }
-            if ( (gCurrentDelta.x > 0) && ( (gCurrentPosition.x + gMovingRect.size.width) >=
-                        (viewBounds.origin.x + viewBounds.size.width - SAFETYBORDER) ) ){
-                gCurrentDelta.x = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
-                gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 16.;
-            }
-            if ( (gCurrentDelta.y < 0) && (gCurrentPosition.y - gTextBoxHeight <= SAFETYBORDER) ) {
-                gCurrentDelta.y = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
-                gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 16.;
-            }
-            if ( (gCurrentDelta.y > 0) && ( (gCurrentPosition.y + gMovingRect.size.height) >=
-                       (viewBounds.origin.y + viewBounds.size.height - SAFETYBORDER) ) ) {
-                gCurrentDelta.y = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
-                gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 16.;
-            }
-        }
-
-        // Get the new drawing area
-        gCurrentPosition.x += gCurrentDelta.x;
-        gCurrentPosition.y += gCurrentDelta.y;
-
-        imagePosition.x = (float) ((int)gCurrentPosition.x + gImageXIndent);
-        imagePosition.y = (float) (int)gCurrentPosition.y;
-
-        [ gBOINC_Logo drawAtPoint:imagePosition fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 ];
-#if 0
-    // For testing
-    gCurrentDelta.x = 0;
-    gCurrentDelta.y = 0;
-#endif
-        CGRect bounds = CGRectMake((float) ((int)gCurrentPosition.x),
-                             viewBounds.size.height - imagePosition.y + TEXTBOXTOPBORDER,
-                             gMovingRect.size.width,
-                             MAXTEXTBOXHEIGHT
-                        );
-
-        CGContextSaveGState (myContext);
-        CGContextTranslateCTM (myContext, 0, viewBounds.origin.y + viewBounds.size.height);
-        CGContextScaleCTM (myContext, 1.0f, -1.0f);
-
-        CGFloat myWhiteComponents[] = {1.0, 1.0, 1.0, 1.0};
-        CGColorSpaceRef myColorSpace = CGColorSpaceCreateDeviceRGB ();
-        CGColorRef myTextColor = CGColorCreate(myColorSpace, myWhiteComponents);
-
-        CGContextSetFillColorWithColor(myContext, myTextColor);
-
-        HIThemeDrawTextBox(cf_msg, &bounds, &textInfo, myContext, kHIThemeOrientationNormal);
-
-        CGColorRelease(myTextColor);
-        CGColorSpaceRelease(myColorSpace);
-        CGContextRestoreGState (myContext);
-        CFRelease(cf_msg);
-
-        isErased  = false;
-
-    } else {        // Empty or NULL message
-        if (!isErased) {
-            eraseRect = NSInsetRect(currentDrawingRect, -1, -1);
-            [[NSColor blackColor] set];
-            isErased  = true;
-            NSRectFill(eraseRect);
-            gMovingRect.size.height = [gBOINC_Logo size].height + gTextBoxHeight;
         }
     }
-
-    if (newFrequency) {
-        [ self setAnimationTimeInterval:(1.0/newFrequency) ];
-        // setAnimationTimeInterval does not seem to be working, so we
-        // throttle the screensaver directly here.
-        timeToBlock = (1.0/newFrequency) - (getDTime() - frameStartTime);
-        if (timeToBlock > 0.0) {
-            doBoinc_Sleep(timeToBlock);
-        }
-    }
-
     // Check for a new graphics app sending us data
     if (UseSharedOffscreenBuffer() && gfxAppStartTime) {
         if (mySharedGraphicsController) {
@@ -912,9 +910,63 @@ void launchedGfxApp(char * appPath, char * wuName, pid_t thePID, int slot) {
     }
 }
 
+
+// This code was previously part of doPeriodicTasks, which is called from AnimateOneFrame
+// in MacOS before MacOS 10.14 Mojave and from drawRect (which is triggered by
+// AnimateOneFrame) since then.
+// But under MacOS 14 and later, If we allow legacyScreenSaver to continue running in the
+// background when user activity dismisses the screensaver, it appears to create multiple
+// instances of startAnimation, animateOneFrame and (perhaps) drawRect upon each subsequnt
+// activation of the screensaver. As a result, doPeriodicTasks is called several times
+// more often, causing the moving logo to move at several times the intended speed.
+// We solve this by using our own NSTimer to adjust the position at which to draw the
+// logo, while letting doPeriodicTasks prform the actual drawing.
+- (void) advancePosition:(NSTimer*)timer {
+{
+    if (logoIsCovered) {
+        return;
+    }
+    // If text has changed and it now goes below bottom of screen, jump up to show it all.
+    if ((gCurrentPosition.y - gTextBoxHeight) <= SAFETYBORDER) {
+        gCurrentPosition.y = SAFETYBORDER + 1 + gTextBoxHeight;
+        if (gCurrentDelta.y < 0) {
+            gCurrentDelta.y = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+        }
+    }
+
+   // Set direction of motion to "bounce" off edges of screen
+   if ( (gCurrentDelta.x < 0) && (gCurrentPosition.x <= SAFETYBORDER) ) {
+        gCurrentDelta.x = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+        gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 16.;
+    }
+    if ( (gCurrentDelta.x > 0) && ( (gCurrentPosition.x + gMovingRect.size.width) >=
+                (myViewBounds.origin.x + myViewBounds.size.width - SAFETYBORDER) ) ){
+        gCurrentDelta.x = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+        gCurrentDelta.y = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.y)) / 16.;
+    }
+    if ( (gCurrentDelta.y < 0) && (gCurrentPosition.y - gTextBoxHeight <= SAFETYBORDER) ) {
+        gCurrentDelta.y = (float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+        gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 16.;
+    }
+    if ( (gCurrentDelta.y > 0) && ( (gCurrentPosition.y + gMovingRect.size.height) >=
+               (myViewBounds.origin.y + myViewBounds.size.height - SAFETYBORDER) ) ) {
+        gCurrentDelta.y = -(float)SSRandomIntBetween(MINDELTA, MAXDELTA) / 16.;
+        gCurrentDelta.x = (float)(SSRandomIntBetween(MINDELTA, MAXDELTA) * signof(gCurrentDelta.x)) / 16.;
+    }
+}
+
+    // Get the new drawing area
+    gCurrentPosition.x += gCurrentDelta.x;
+    gCurrentPosition.y += gCurrentDelta.y;
+    imagePosition.x = (float) ((int)gCurrentPosition.x + gImageXIndent);
+    imagePosition.y = (float) (int)gCurrentPosition.y;
+}
+
+
 - (BOOL)hasConfigureSheet {
     return YES;
 }
+
 
 // Display the configuration sheet for the user to choose their settings
 - (NSWindow*)configureSheet
@@ -1140,12 +1192,12 @@ static bool okToDraw;
     mach_port_t servicePortNum = MACH_PORT_NULL;
     kern_return_t machErr;
     char *portNameV1 = "edu.berkeley.boincsaver";
-    char *portNameV2 = "edu.berkeley.boincsaver-v2";
+    char *portNameV3 = "edu.berkeley.boincsaver-v3";
 
     if ((!gMach_bootstrap_unavailable_to_screensavers) || (serverPort == MACH_PORT_NULL)) {
-       // Try to check in with master.
-// NSMachBootstrapServer is deprecated in OS 10.13, so use bootstrap_look_up
-//	serverPort = [(NSMachPort *)([[NSMachBootstrapServer sharedInstance] portForName:@"edu.berkeley.boincsaver"]) retain];
+        // Try to check in with master.
+        // NSMachBootstrapServer is deprecated in OS 10.13, so use bootstrap_look_up
+        //	serverPort = [(NSMachPort *)([[NSMachBootstrapServer sharedInstance] portForName:@"edu.berkeley.boincsaver"]) retain];
         machErr = bootstrap_look_up(bootstrap_port, portNameV1, &servicePortNum);
         if (machErr != KERN_SUCCESS) {
             if (machErr != BOOTSTRAP_NOT_PRIVILEGED) {
@@ -1154,19 +1206,19 @@ static bool okToDraw;
             // Keep trying bootstrap_look_up() until we get a connection from gfx app
             serverPort = MACH_PORT_NULL;
             } else {    //  bootstrap_look_up() returned error BOOTSTRAP_NOT_PRIVILEGED
-                // As of MacOS 14.0, the legacyScreenSave sandbox prevents using
+                // As of MacOS 14.0, the legacyScreenSaver sandbox prevents using
                 // bootstrap_look_up. I have filed bug report FB13300491 with
                 // Apple and hope they will change this in a future MacOS.
-                machErr = bootstrap_check_in(bootstrap_port, portNameV2, &servicePortNum);
+                machErr = bootstrap_check_in(bootstrap_port, portNameV3, &servicePortNum);
                 if (machErr != KERN_SUCCESS) {
-                    [NSApp terminate:nil];
+                   [NSApp terminate:nil];
                 }
                 gMach_bootstrap_unavailable_to_screensavers = true;
             }   //  bootstrap_look_up() returned error BOOTSTRAP_NOT_PRIVILEGED
         }   // bootstrap_look_up() did not return KERN_SUCCESS
 
          if (machErr == KERN_SUCCESS) {
-           serverPort = (NSMachPort*)[NSMachPort portWithMachPort:servicePortNum];
+           serverPort = (NSMachPort*)[NSMachPort portWithMachPort:servicePortNum options:NSMachPortDeallocateReceiveRight];
         }
 
         if ((serverPort != MACH_PORT_NULL) && (localPort == MACH_PORT_NULL)) {
@@ -1206,8 +1258,8 @@ static bool okToDraw;
 
 - (void)cleanUpOpenGL
 {
-    if (gMach_bootstrap_unavailable_to_screensavers) {
-        [serverPort removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    if (gMach_bootstrap_unavailable_to_screensavers && (serverPort != MACH_PORT_NULL)) {
+       [serverPort removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     }
     childPid=0;
     childApp = nil;
@@ -1217,19 +1269,24 @@ static bool okToDraw;
             ) {
         if (openGLView) {
             if (NSThread.isMainThread) {
-                [openGLView removeFromSuperview];   // Releases openGLView
+               [openGLView removeFromSuperview];   // Releases openGLView
             } else {
-                dispatch_sync(dispatch_get_main_queue(), ^{
-                    [openGLView removeFromSuperview];   // Releases openGLView
+                    static saverOpenGLView *temp = 0;   // Static to allow asynchronous use
+                    temp = openGLView;
+                    // Both dispatch_sync and dispatch_async cause problems when
+                    //  called from CScreensaver::DataManagementProc thread
+                    dispatch_sync(dispatch_get_main_queue(), ^{
+                        [temp removeFromSuperview];   // Releases openGLView
                 });
             }
             openGLView = nil;
+            logoIsCovered = false;
         }
 
     int i;
     for(i = 0; i < NUM_IOSURFACE_BUFFERS; i++) {
         if (_ioSurfaceBuffers[i]) {
-            CFRelease(_ioSurfaceBuffers[i]);
+           CFRelease(_ioSurfaceBuffers[i]);
             _ioSurfaceBuffers[i] = nil;
         }
 
@@ -1245,8 +1302,10 @@ static bool okToDraw;
     }
 
         runningSharedGraphics = false;  // Do this last!!
-        if (gMach_bootstrap_unavailable_to_screensavers) {
+        if (screensaverIsVisible) {
+            if (gMach_bootstrap_unavailable_to_screensavers) {
             [serverPort scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+            }
         }
     }
 }
@@ -1258,26 +1317,33 @@ static bool okToDraw;
     }
 	NSPort *port = [notification object];
 	if(port == serverPort) {
-        childApp = nil;
-        gfxAppStartTime = 0.0;
-        gfxAppPath[0] = '\0';
-        gfxWuName[0] = '\0';
+        [ self closeServerPort ];
+        [ self cleanUpOpenGL ];
+    }
+}
 
-        if ([serverPort isValid]) {
-            [serverPort invalidate];
+- (void)closeServerPort
+{
+    childApp = nil;
+    gfxAppStartTime = 0.0;
+    gfxAppPath[0] = '\0';
+    gfxWuName[0] = '\0';
+
+    if ([serverPort isValid]) {
+        [serverPort invalidate];
 //            [serverPort release];
-        }
-        serverPort = MACH_PORT_NULL;
-		[localPort removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    }
+    serverPort = MACH_PORT_NULL;
+
+    if (localPort != MACH_PORT_NULL) {
+        [localPort removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
 
         if ([localPort isValid]) {
             [localPort invalidate];
         }
-//        [localPort release];
+//          [localPort release];
         localPort = MACH_PORT_NULL;
-
-        [ self cleanUpOpenGL ];
-	}
+    }
 }
 
 - (void)handleMachMessage:(void *)msg
@@ -1317,9 +1383,9 @@ static bool okToDraw;
         theframe.origin.x = theframe.origin.y = 0.0;
         theframe.size.width = IOSurfaceWidth;
         theframe.size.height = IOSurfaceHeight;
-
         openGLView = [[saverOpenGLView alloc] initWithFrame:theframe];
         [screenSaverView addSubview:openGLView];
+        logoIsCovered = true;
     }
 
 	if(!_textureNames[frameIndex])

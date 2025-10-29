@@ -1,5 +1,5 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
+// https://boinc.berkeley.edu
 // Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
@@ -246,7 +246,11 @@ void CBOINCBaseFrame::OnRefreshView(CFrameEvent& ) {
 }
 
 
-void CBOINCBaseFrame::OnAlert(CFrameAlertEvent& event) {
+void CBOINCBaseFrame::OnAlert(CFrameAlertEvent&
+#ifndef __WXGTK__
+        event
+#endif
+        ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnAlert - Function Begin"));
     static bool       bAlreadyRunningLoop = false;
 

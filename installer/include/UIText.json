@@ -1,0 +1,203 @@
+{
+    "UIText": [
+        {
+            "Key": "AbsentPath"
+        },
+        {
+            "Key": "GB",
+            "Text": "IDS_UITEXT_GB"
+        },
+        {
+            "Key": "KB",
+            "Text": "IDS_UITEXT_KB"
+        },
+        {
+            "Key": "MB",
+            "Text": "IDS_UITEXT_MB"
+        },
+        {
+            "Key": "MenuAbsent",
+            "Text": "IDS_UITEXT_FeatureNotAvailable"
+        },
+        {
+            "Key": "MenuAdvertise",
+            "Text": "IDS_UITEXT_FeatureInstalledWhenRequired2"
+        },
+        {
+            "Key": "MenuAllCD",
+            "Text": "IDS_UITEXT_FeatureInstalledCD"
+        },
+        {
+            "Key": "MenuAllLocal",
+            "Text": "IDS_UITEXT_FeatureInstalledLocal"
+        },
+        {
+            "Key": "MenuAllNetwork",
+            "Text": "IDS_UITEXT_FeatureInstalledNetwork"
+        },
+        {
+            "Key": "MenuCD",
+            "Text": "IDS_UITEXT_FeatureOnCD"
+        },
+        {
+            "Key": "MenuLocal",
+            "Text": "IDS_UITEXT_FeatureInstalledLocal2"
+        },
+        {
+            "Key": "MenuNetwork",
+            "Text": "IDS_UITEXT_FeatureInstalledNetwork2"
+        },
+        {
+            "Key": "NewFolder",
+            "Text": "IDS_UITEXT_Folder"
+        },
+        {
+            "Key": "SelAbsentAbsent",
+            "Text": "IDS_UITEXT_GB"
+        },
+        {
+            "Key": "SelAbsentAdvertise",
+            "Text": "IDS_UITEXT_FeatureInstalledWhenRequired"
+        },
+        {
+            "Key": "SelAbsentCD",
+            "Text": "IDS_UITEXT_FeatureOnCD"
+        },
+        {
+            "Key": "SelAbsentLocal",
+            "Text": "IDS_UITEXT_FeatureLocal"
+        },
+        {
+            "Key": "SelAbsentNetwork",
+            "Text": "IDS_UITEXT_FeatureNetwork"
+        },
+        {
+            "Key": "SelAdvertiseAbsent",
+            "Text": "IDS_UITEXT_FeatureUnavailable"
+        },
+        {
+            "Key": "SelAdvertiseAdvertise",
+            "Text": "IDS_UITEXT_FeatureInstalledRequired"
+        },
+        {
+            "Key": "SelAdvertiseCD",
+            "Text": "IDS_UITEXT_FeatureOnCD2"
+        },
+        {
+            "Key": "SelAdvertiseLocal",
+            "Text": "IDS_UITEXT_FeatureLocal2"
+        },
+        {
+            "Key": "SelAdvertiseNetwork",
+            "Text": "IDS_UITEXT_FeatureNetwork2"
+        },
+        {
+            "Key": "SelCDAbsent",
+            "Text": "IDS_UITEXT_FeatureWillBeUninstalled"
+        },
+        {
+            "Key": "SelCDAdvertise",
+            "Text": "IDS_UITEXT_FeatureWasCD"
+        },
+        {
+            "Key": "SelCDCD",
+            "Text": "IDS_UITEXT_FeatureRunFromCD"
+        },
+        {
+            "Key": "SelCDLocal",
+            "Text": "IDS_UITEXT_FeatureWasCDLocal"
+        },
+        {
+            "Key": "SelChildCostNeg",
+            "Text": "IDS_UITEXT_FeatureFreeSpace"
+        },
+        {
+            "Key": "SelChildCostPos",
+            "Text": "IDS_UITEXT_FeatureRequiredSpace"
+        },
+        {
+            "Key": "SelCostPending",
+            "Text": "IDS_UITEXT_CompilingFeaturesCost"
+        },
+        {
+            "Key": "SelLocalAbsent",
+            "Text": "IDS_UITEXT_FeatureCompletelyRemoved"
+        },
+        {
+            "Key": "SelLocalAdvertise",
+            "Text": "IDS_UITEXT_FeatureRemovedUnlessRequired"
+        },
+        {
+            "Key": "SelLocalCD",
+            "Text": "IDS_UITEXT_FeatureRemovedCD"
+        },
+        {
+            "Key": "SelLocalLocal",
+            "Text": "IDS_UITEXT_FeatureRemainLocal"
+        },
+        {
+            "Key": "SelLocalNetwork",
+            "Text": "IDS_UITEXT_FeatureRemoveNetwork"
+        },
+        {
+            "Key": "SelNetworkAbsent",
+            "Text": "IDS_UITEXT_FeatureUninstallNoNetwork"
+        },
+        {
+            "Key": "SelNetworkAdvertise",
+            "Text": "IDS_UITEXT_FeatureWasOnNetworkInstalled"
+        },
+        {
+            "Key": "SelNetworkLocal",
+            "Text": "IDS_UITEXT_FeatureWasOnNetworkLocal"
+        },
+        {
+            "Key": "SelNetworkNetwork",
+            "Text": "IDS_UITEXT_FeatureContinueNetwork"
+        },
+        {
+            "Key": "SelParentCostNegNeg",
+            "Text": "IDS_UITEXT_FeatureSpaceFree"
+        },
+        {
+            "Key": "SelParentCostNegPos",
+            "Text": "IDS_UITEXT_FeatureSpaceFree"
+        },
+        {
+            "Key": "SelParentCostPosNeg",
+            "Text": "IDS_UITEXT_FeatureSpaceFree"
+        },
+        {
+            "Key": "SelParentCostPosPos",
+            "Text": "IDS_UITEXT_FeatureSpaceFree"
+        },
+        {
+            "Key": "TimeRemaining",
+            "Text": "IDS_UITEXT_TimeRemaining"
+        },
+        {
+            "Key": "VolumeCostAvailable",
+            "Text": "IDS_UITEXT_Available"
+        },
+        {
+            "Key": "VolumeCostDifference",
+            "Text": "IDS_UITEXT_Differences"
+        },
+        {
+            "Key": "VolumeCostRequired",
+            "Text": "IDS_UITEXT_Required"
+        },
+        {
+            "Key": "VolumeCostSize",
+            "Text": "IDS_UITEXT_DiskSize"
+        },
+        {
+            "Key": "VolumeCostVolume",
+            "Text": "IDS_UITEXT_Volume"
+        },
+        {
+            "Key": "bytes",
+            "Text": "IDS_UITEXT_Bytes"
+        }
+    ]
+}

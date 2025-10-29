@@ -1,3 +1,21 @@
+dnl This file is part of BOINC.
+dnl https://boinc.berkeley.edu
+dnl Copyright (C) 2025 University of California
+dnl
+dnl BOINC is free software; you can redistribute it and/or modify it
+dnl under the terms of the GNU Lesser General Public License
+dnl as published by the Free Software Foundation,
+dnl either version 3 of the License, or (at your option) any later version.
+dnl
+dnl BOINC is distributed in the hope that it will be useful,
+dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
+dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+dnl See the GNU Lesser General Public License for more details.
+dnl
+dnl You should have received a copy of the GNU Lesser General Public License
+dnl along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+dnl
+
 dnl -*- autoconf -*-
 
 dnl $Id$
@@ -11,17 +29,20 @@ AC_CONFIG_MACRO_DIR([m4])
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
 
-WRAPPER_RELEASE=26018
+WRAPPER_RELEASE=26019
 AC_SUBST([WRAPPER_RELEASE])
 
 VBOXWRAPPER_RELEASE=26211
 AC_SUBST([VBOXWRAPPER_RELEASE])
 
-WORKER_RELEASE=4
+WORKER_RELEASE=6
 AC_SUBST([WORKER_RELEASE])
 
-DOCKERWRAPPER_RELEASE=5
+DOCKERWRAPPER_RELEASE=13
 AC_SUBST([DOCKERWRAPPER_RELEASE])
+
+MULTITHREAD_RELEASE=2
+AC_SUBST([MULTITHREAD_RELEASE])
 
 AC_CANONICAL_TARGET
 
@@ -154,12 +175,6 @@ AC_ARG_ENABLE(apps-gui,
                    [enable building the boinc apps that depend on gui]),
     [enable_apps_gui=${enableval}],
     [enable_apps_gui=no])
-
-AC_ARG_ENABLE(wasm,
-    AS_HELP_STRING([--enable-wasm],
-                   [enable building the boinc wasm]),
-    [enable_wasm=${enableval}],
-    [enable_wasm=no])
 
 AC_ARG_ENABLE(unit-tests,
     AS_HELP_STRING([--enable-unit-tests],
@@ -384,10 +399,6 @@ dnl the manpages only if docbook2x-man is available.
 AC_PATH_PROG(DOCBOOK2X_MAN, docbook2x-man)
 AM_CONDITIONAL(HAVE_DOCBOOK2X_MAN, [test -n "${DOCBOOK2X_MAN}"])
 
-if test "${enable_wasm}" = yes ; then
-  EXEEXT=.html
-fi
-
 AC_SUBST([CLIENT_BIN_FILENAME],[boinc${EXEEXT}])
 AC_SUBST([CLIENT_CMD_BIN_FILENAME],[boinccmd${EXEEXT}])
 AC_SUBST([CLIENT_GUI_BIN_FILENAME],[boincmgr${EXEEXT}])
@@ -447,18 +458,44 @@ dnl
     dnl AC_SUBST(CFLAGS)
 dnl fi
 
+
 if test "${enable_server}" = yes; then
-   AC_CHECK_MYSQL
-   if test "${no_mysql}" = yes; then
-      AC_MSG_ERROR([
+  AC_CHECK_MYSQL
+  if test "${no_mysql}" = yes; then
+    AC_MSG_ERROR([
 ================================================================================
 ERROR: trying to build BOINC-server, but MYSQL was not found.
 
 If you do not want to build the server you should use --disable-server.
 
 ================================================================================
-])
+    ])
+  fi
+
+   dnl Check for nlohmann::json (header-only library)
+   AC_ARG_WITH([nlohmann_json],
+     [AS_HELP_STRING([--with-nlohmann_json=DIR], [Specify prefix for nlohmann::json (header-only) library])],
+     [nlohmann_json_dir="$withval"],
+     [nlohmann_json_dir=""])
+
+   if test "x$nlohmann_json_dir" != "x"; then
+     CPPFLAGS="$CPPFLAGS -I$nlohmann_json_dir/include"
    fi
+
+   dnl Ensure we use C++ and require C++11 for the header check
+   AC_LANG_PUSH([C++])
+   m4_ifdef([AX_CXX_COMPILE_STDCXX], [AX_CXX_COMPILE_STDCXX(11)])
+   AC_CHECK_HEADER([nlohmann/json.hpp],
+     [AC_MSG_RESULT([Found nlohmann::json])],
+     [AC_MSG_ERROR([
+================================================================================
+ERROR: nlohmann::json (nlohmann/json.hpp) is required to build the server but was not found.
+
+Please install it (e.g., via your package manager or from https://github.com/nlohmann/json),
+or specify its location with --with-nlohmann_json=DIR.
+================================================================================
+     ])])
+   AC_LANG_POP([C++])
 fi
 
 
@@ -733,11 +770,7 @@ AC_TYPE_SIGNAL
 if test "${isWIN32}" = "yes" ; then
   AC_CHECK_HEADERS(winsock2.h winsock.h windows.h ws2tcpip.h winternl.h crtdbg.h)
 fi
-AC_CHECK_HEADERS(sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h float.h sal.h execinfo.h xlocale.h)
-
-if test "${enable_wasm}" != yes ; then
-  AC_CHECK_HEADERS(sys/shm.h)
-fi
+AC_CHECK_HEADERS(sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h float.h sal.h execinfo.h xlocale.h)
 
 save_cxxflags="${CXXFLAGS}"
 save_cppflags="${CPPFLAGS}"
@@ -745,10 +778,10 @@ sse3_flags="-msse3"
 avx_flags="-mavx"
 CXXFLAGS="${save_cxxflags} ${sse3_flags}"
 CPPFLAGS="${save_cppflags} ${sse3_flags}"
-AC_LINK_IFELSE([AC_LANG_PROGRAM([],)], [], [sse_flags=""])
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([],)], [], [sse_flags=""])
 CXXFLAGS="${save_cxxflags} ${avx_flags}"
 CPPFLAGS="${save_cppflags} ${avx_flags}"
-AC_LINK_IFELSE([AC_LANG_PROGRAM([],)], [], [avx_flags=""])
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([],)], [], [avx_flags=""])
 CXXFLAGS="${save_cxxflags} ${sse3_flags}"
 CXXFLAGS="${save_cxxflags} ${sse3_flags}"
 AC_CHECK_HEADERS([intrin.h x86intrin.h pmmintrin.h xmmintrin.h emmintrin.h])
@@ -1112,6 +1145,24 @@ fi
 AM_CONDITIONAL(BUILD_X11_SCREENSAVER, [ test "$have_Xcb" = yes -a "$have_Xcbatom" = yes ])
 dnl -----------------------------------------------------------------------
 
+if test "${enable_boinczip}" = yes; then
+dnl ---------- libzip (required for libboinc_zip) ----------------------------
+PKG_CHECK_MODULES([LIBZIP], [libzip], [have_libzip=yes], [have_libzip=no])
+AS_IF([test "x${have_libzip}" != "xyes"], [
+  AC_MSG_ERROR([
+================================================================================
+ERROR: libzip development files not found. They are required for the BOINC library.
+
+  Install libzip (e.g., libzip-dev on Debian/Ubuntu, libzip-devel on Fedora,
+  or via vcpkg/homebrew on Windows/macOS) and re-run configure.
+================================================================================
+  ])
+])
+AC_SUBST([LIBZIP_CFLAGS])
+AC_SUBST([LIBZIP_LIBS])
+dnl -----------------------------------------------------------------------
+fi
+
 dnl Heres another way to set up host-specific stuff
 AM_CONDITIONAL(OS_DARWIN, [echo $host_os | grep '^darwin' > /dev/null])
 if echo $host_os | grep '^darwin' >/dev/null ; then
@@ -1135,10 +1186,6 @@ AM_CONDITIONAL(BUILD_APPS_WITH_VCPKG, [test "${enable_apps_vcpkg}" = yes])
 AM_CONDITIONAL(BUILD_WITH_VBOX, [test "${enable_apps_vbox}" = yes])
 AM_CONDITIONAL(BUILD_WITH_MINGW, [test "${enable_apps_mingw}" = yes])
 AM_CONDITIONAL(BUILD_WITH_GUI, [test "${enable_apps_gui}" = yes])
-if test "${enable_wasm}" = yes ; then
-  AC_DEFINE([WASM], [1], [build boinc wasm])
-fi
-
 
 dnl Whether to build fcgi components
 AM_CONDITIONAL(ENABLE_FCGI,[test "${enable_fcgi}" = yes])
@@ -1427,8 +1474,6 @@ AC_CONFIG_FILES([
                  vda/Makefile
                  zip/Makefile
                  zip/libboinc_zip.pc
-                 zip/zip/Makefile
-                 zip/unzip/Makefile
                  m4/Makefile
 		])
 

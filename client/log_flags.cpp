@@ -452,6 +452,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_int("max_tasks_reported", max_tasks_reported)) continue;
         if (xp.parse_int("ncpus", ncpus)) continue;
         if (xp.parse_bool("no_alt_platform", no_alt_platform)) continue;
+        if (xp.parse_bool("no_disk_usage", no_disk_usage)) continue;
         if (xp.parse_bool("no_gpus", no_gpus)) continue;
         if (xp.parse_bool("no_info_fetch", no_info_fetch)) continue;
         if (xp.parse_bool("no_opencl", no_opencl)) continue;
@@ -621,10 +622,9 @@ int read_config_file(bool init, const char* fname) {
 //   (used in work fetch)
 // - set PROJECT::rsc_pwf[rsc_type].ncoprocs_excluded
 //   (used in RR sim and work fetch)
-// - set APP_VERSION::coproc_missing for app versions where
+// - set APP_VERSION::missing_coproc for app versions where
 //   all instances are excluded
-// - set RESULT::coproc_missing for results for which
-//   APP_VERSION::coproc_missing is set.
+// - set RESULT::missing_coproc for results of these app versions
 //
 void process_gpu_exclusions() {
     unsigned int i, j, a;
@@ -783,7 +783,7 @@ void process_gpu_exclusions() {
         }
         if (found) continue;
         avp->resource_usage.missing_coproc = true;
-        safe_strcpy(avp->resource_usage.missing_coproc_name, "");
+        avp->resource_usage.missing_coproc_name[0] = 0;
         for (j=0; j<gstate.results.size(); j++) {
             RESULT* rp = gstate.results[j];
             if (rp->avp != avp) continue;
@@ -791,6 +791,8 @@ void process_gpu_exclusions() {
                 "marking %s as coproc missing",
                 rp->name
             );
+            rp->resource_usage.missing_coproc = true;
+            rp->resource_usage.missing_coproc_name[0] = 0;
         }
     }
 }

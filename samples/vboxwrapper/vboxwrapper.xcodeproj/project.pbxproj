@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -134,6 +134,7 @@
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 			};
 			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "vboxwrapper" */;
 			compatibilityVersion = "Xcode 3.1";

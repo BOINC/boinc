@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -135,7 +135,6 @@ int CNetworkConnection::GetLocalPassword(wxString& strPassword){
 void CNetworkConnection::Poll() {
     int retval;
     wxString strComputer = wxEmptyString;
-    wxString strComputerPassword = wxEmptyString;
 
     if (IsReconnecting()) {
         wxLogTrace(wxT("Function Status"), wxT("CNetworkConnection::Poll - Reconnection Detected"));
@@ -182,14 +181,12 @@ void CNetworkConnection::Poll() {
             // NOTE: Initial connection case.
             if (!m_strNewComputerName.empty()) {
                 strComputer = m_strNewComputerName;
-                strComputerPassword = m_strNewComputerPassword;
             } else {
                 // NOTE: Reconnect after a disconnect case.
                 //       Values are stored after the first successful connect to the host.
                 //       See: SetStateSuccess()
                 if (!m_strConnectedComputerName.empty()) {
                     strComputer = m_strConnectedComputerName;
-                    strComputerPassword = m_strConnectedComputerPassword;
                 }
             }
 
@@ -1367,7 +1364,7 @@ PROJECT* CMainDocument::project(unsigned int i) {
         if (!state.projects.empty())
             pProject = state.projects.at(i);
     }
-    catch (std::out_of_range e) {
+    catch (std::out_of_range&) {
         pProject = NULL;
     }
 
@@ -1522,7 +1519,7 @@ RESULT* CMainDocument::result(unsigned int i) {
         if (!results.results.empty())
             pResult = results.results.at(i);
     }
-    catch (std::out_of_range e) {
+    catch (std::out_of_range&) {
         pResult = NULL;
     }
 
@@ -1550,7 +1547,7 @@ RESULT* CMainDocument::result(const wxString& name, const wxString& project_url)
             }
         }
     }
-    catch (std::out_of_range e) {
+    catch (std::out_of_range&) {
         pResult = NULL;
     }
 
@@ -2106,7 +2103,7 @@ NOTICE* CMainDocument::notice(unsigned int i) {
         if (!notices.notices.empty())
             pNotice = notices.notices.at(i);
     }
-    catch (std::out_of_range e) {
+    catch (std::out_of_range&) {
         pNotice = NULL;
     }
 
@@ -2311,7 +2308,7 @@ FILE_TRANSFER* CMainDocument::file_transfer(unsigned int i) {
         if (!ft.file_transfers.empty())
             pFT = ft.file_transfers.at(i);
     }
-    catch (std::out_of_range e) {
+    catch (std::out_of_range&) {
         pFT = NULL;
     }
 
@@ -2336,7 +2333,7 @@ FILE_TRANSFER* CMainDocument::file_transfer(const wxString& fileName, const wxSt
             }
         }
     }
-    catch (std::out_of_range e) {
+    catch (std::out_of_range&) {
         pFT = NULL;
     }
 
@@ -2443,7 +2440,7 @@ PROJECT* CMainDocument::DiskUsageProject(unsigned int i) {
             pProject = disk_usage.projects.at(i);
         }
     }
-    catch (std::out_of_range e) {
+    catch (std::out_of_range&) {
         pProject = NULL;
     }
 
@@ -2484,7 +2481,7 @@ PROJECT* CMainDocument::statistic(unsigned int i) {
         if (!statistics_status.projects.empty())
             pProject = statistics_status.projects.at(i);
     }
-    catch (std::out_of_range e) {
+    catch (std::out_of_range&) {
         pProject = NULL;
     }
 
@@ -2605,6 +2602,7 @@ wxString suspend_reason_wxstring(int reason) {
     case SUSPEND_REASON_CPU_USAGE: return _("CPU is busy");
     case SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED: return _("network bandwidth limit exceeded");
     case SUSPEND_REASON_OS: return _("requested by operating system");
+    case SUSPEND_REASON_PODMAN_INIT: return _("Podman initializing");
     }
     return _("unknown reason");
 }

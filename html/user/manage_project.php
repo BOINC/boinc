@@ -144,7 +144,12 @@ function handle_edit_form() {
         '', 'manage_apps', $apps, $manage, "id=manage_apps"
     );
     form_input_text('Quota', 'quota', $usub->quota);
-    form_input_text('Max jobs in progress', 'max_jobs_in_progress', $usub->max_jobs_in_progress);
+    form_input_text('Max jobs in progress',
+        'max_jobs_in_progress', $usub->max_jobs_in_progress
+    );
+    form_general('Run jobs only on own computers?',
+        $user->seti_id?'yes':'no'
+    );
     form_submit('Update');
     form_end();
 
@@ -236,7 +241,7 @@ function handle_add_action() {
     if (!$user) error_page("no such user");
     $us = BoincUserSubmit::lookup_userid($user_id);
     if (!$us) {
-        if (!BoincUserSubmit::insert("(user_id, quota, logical_start_time, submit_all, manage_all, max_jobs_in_progress) values ($user_id, 0, 0, 0, 0, 0)")) {
+        if (!BoincUserSubmit::insert("(user_id, quota, logical_start_time, submit_all, manage_all, max_jobs_in_progress) values ($user_id, 1, 0, 0, 0, 10000)")) {
             error_page("Insert failed");
         }
     }

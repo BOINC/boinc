@@ -35,6 +35,9 @@ public:
 private:
     bool load_from_json(const nlohmann::json& json,
         const std::filesystem::path& path);
+    nlohmann::json load_json(const std::filesystem::path& json);
+    void process_json(nlohmann::json& json,
+        const std::filesystem::path& parent_file);
     bool forceCodePage(MSIHANDLE hDatabase);
 
     std::map<std::string, std::shared_ptr<GeneratorTable>> tables{};

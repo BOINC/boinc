@@ -1,0 +1,160 @@
+{
+    "Dialog": "SetupError",
+    "HCentering": 50,
+    "VCentering": 10,
+    "Width": 270,
+    "Height": 110,
+    "Attributes": 65543,
+    "Title": "IDS__IsErrorDlg_InstallerInfo",
+    "Control_First": "ErrorText",
+    "Control_Default": "O",
+    "Control_Cancel": "C",
+    "Controls": [
+        {
+            "Control": "A",
+            "Type": "PushButton",
+            "X": 192,
+            "Y": 80,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS__IsErrorDlg_Abort",
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "ErrorAbort",
+                    "Condition": "1",
+                    "Ordering": 0
+                }
+            ]
+        },
+        {
+            "Control": "C",
+            "Type": "PushButton",
+            "X": 192,
+            "Y": 80,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_CANCEL2",
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "ErrorCancel",
+                    "Condition": "1",
+                    "Ordering": 0
+                }
+            ]
+        },
+        {
+            "Control": "ErrorText",
+            "Type": "Text",
+            "X": 50,
+            "Y": 15,
+            "Width": 200,
+            "Height": 50,
+            "Attributes": 3,
+            "Text": "IDS__IsErrorDlg_ErrorText"
+        },
+        {
+            "Control": "I",
+            "Type": "PushButton",
+            "X": 192,
+            "Y": 80,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS__IsErrorDlg_Ignore",
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "ErrorIgnore",
+                    "Condition": "1",
+                    "Ordering": 0
+                }
+            ]
+        },
+        {
+            "Control": "N",
+            "Type": "PushButton",
+            "X": 192,
+            "Y": 80,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS__IsCancelDlg_No",
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "ErrorNo",
+                    "Condition": "1",
+                    "Ordering": 0
+                }
+            ]
+        },
+        {
+            "Control": "O",
+            "Type": "PushButton",
+            "X": 192,
+            "Y": 80,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS__IsErrorDlg_OK",
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "ErrorOk",
+                    "Condition": "1",
+                    "Ordering": 0
+                }
+            ]
+        },
+        {
+            "Control": "R",
+            "Type": "PushButton",
+            "X": 192,
+            "Y": 80,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS__IsErrorDlg_Retry",
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "ErrorRetry",
+                    "Condition": "1",
+                    "Ordering": 0
+                }
+            ]
+        },
+        {
+            "Control": "WarningIcon",
+            "Type": "Icon",
+            "X": 15,
+            "Y": 15,
+            "Width": 24,
+            "Height": 24,
+            "Attributes": 5242881,
+            "Binary_": "warning.ico"
+        },
+        {
+            "Control": "Y",
+            "Type": "PushButton",
+            "X": 192,
+            "Y": 80,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS__IsCancelDlg_Yes",
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "ErrorYes",
+                    "Condition": "1",
+                    "Ordering": 0
+                }
+            ]
+        }
+    ]
+}

@@ -32,7 +32,7 @@ function show_submitters() {
 function show_buda_apps() {
     $apps = get_buda_apps();
     foreach ($apps as $app) {
-        $desc = get_buda_desc($app);
+        $desc = get_buda_app_desc($app);
         table_row(
             $desc->long_name,
             $desc->description,

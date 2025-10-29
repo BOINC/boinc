@@ -407,17 +407,22 @@ struct HOST_DELETED {
     void clear();
 };
 
-// values for file_delete state
+// values for
+// WORKUNIT::file_delete_state
+// RESULT::file_delete_state
+// TRANSITIONER_ITEM::res_file_delete_state
 // see html/inc/common_defs.inc
+//
 #define FILE_DELETE_INIT        0
 #define FILE_DELETE_READY       1
-    // set to this value only when we believe all files are uploaded
+    // WU is assimilated and all results are OVER,
+    // so we don't need output files anymore
 #define FILE_DELETE_DONE        2
-    // means the files were successfully deleted
+    // files were successfully deleted
 #define FILE_DELETE_ERROR       3
-    // Any error was returned while attempting to delete the file
+    // error in file deletion
 
-// values for assimilate_state
+// values for WORKUNIT::assimilate_state
 #define ASSIMILATE_INIT         0
 #define ASSIMILATE_READY        1
 #define ASSIMILATE_DONE         2
@@ -436,7 +441,7 @@ struct HOST_DELETED {
 #define WU_ERROR_CANCELLED                      16
 #define WU_ERROR_NO_CANONICAL_RESULT            32
 
-// bit fields of transition_flags; used for assigned jobs
+// bit fields of WORKUNIT::transitioner_flags; used for assigned jobs
 //
 #define TRANSITION_NONE             1
     // don't transition; used for broadcast jobs

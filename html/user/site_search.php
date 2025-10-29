@@ -33,6 +33,6 @@ function site_search_form($url) {
     page_tail();
 }
 
-site_search_form($master_url);
+site_search_form(master_url());
 
 ?>

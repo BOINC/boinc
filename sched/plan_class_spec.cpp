@@ -601,6 +601,14 @@ bool PLAN_CLASS_SPEC::check(
                 add_no_work_message("Docker not present");
                 return false;
             }
+            if (strstr(sreq.host.os_name, "Darwin")) {
+                if (sreq.core_client_version < 80206) {
+                    add_no_work_message(
+                        "Docker jobs need 8.2.6+ client"
+                    );
+                    return false;
+                }
+            }
         }
     }
 
@@ -1120,7 +1128,7 @@ bool PLAN_CLASS_SPEC::check(
 }
 
 bool PLAN_CLASS_SPECS::check(
-    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu,
+    SCHEDULER_REQUEST& sreq, const char* plan_class, HOST_USAGE& hu,
     const WORKUNIT* wu
 ) {
     for (unsigned int i=0; i<classes.size(); i++) {
@@ -1133,7 +1141,7 @@ bool PLAN_CLASS_SPECS::check(
 }
 
 bool PLAN_CLASS_SPECS::wu_is_infeasible(
-    char* plan_class_name, const WORKUNIT* wu
+    const char* plan_class_name, const WORKUNIT* wu
 ) {
     if(wu_restricted_plan_class) {
         for (unsigned int i=0; i<classes.size(); i++) {

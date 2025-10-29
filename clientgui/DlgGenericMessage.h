@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -59,11 +59,11 @@
 
 struct CDlgGenericMessageButton
 {
-    CDlgGenericMessageButton(bool show = true, wxWindowID id = wxID_OK, wxString label = _T("&OK"))
+    CDlgGenericMessageButton(bool _show = true, wxWindowID _id = wxID_OK, wxString _label = _T("&OK"))
     {
-        this->show = show;
-        this->id = id;
-        this->label = label;
+        this->show = _show;
+        this->id = _id;
+        this->label = _label;
     }
     bool show = true;
     wxWindowID id = wxID_OK;

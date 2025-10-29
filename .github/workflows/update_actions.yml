@@ -1,6 +1,6 @@
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2024 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -20,6 +20,9 @@ on:
   schedule:
     - cron:  '0 0 * * 0'
 
+env:
+  ACTIONS_UPDATE_TOKEN: ${{ secrets.ACTIONS_UPDATE_TOKEN }}
+
 jobs:
   build:
     if: github.repository == 'BOINC/boinc'
@@ -30,7 +33,7 @@ jobs:
         type: [update_actions]
       fail-fast: false
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           fetch-depth: 2
       - name: Update actions
@@ -48,7 +51,7 @@ jobs:
           git diff > update_actions.patch
       - name: Upload patch
         if: failure()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
           name: update_actions.patch
           path: update_actions.patch

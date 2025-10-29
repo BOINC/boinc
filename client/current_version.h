@@ -36,9 +36,15 @@ struct GET_CURRENT_VERSION_OP: public GUI_HTTP_OP {
 
 extern void newer_version_startup_check();
 
+// where to get latest-version list from,
+// where to download new version from, etc.
+// Normally points to BOINC server but can override
+// using a file nvc_config.xml
+//
 struct NVC_CONFIG {
     std::string client_download_url;
     std::string client_new_version_name;
+        // if empty, we're using BOINC server and name is 'BOINC'
     std::string client_version_check_url;
     std::string network_test_url;
 

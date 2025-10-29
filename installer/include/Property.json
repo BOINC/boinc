@@ -1,0 +1,172 @@
+{
+    "Property": [
+        {
+            "Property": "ARPCOMMENTS",
+            "Value": "IDS_SUMMARY_DESCRIPTION"
+        },
+        {
+            "Property": "ARPHELPLINK",
+            "Value": "https://boinc.berkeley.edu/"
+        },
+        {
+            "Property": "ARPPRODUCTICON",
+            "Value": "ARPPRODUCTICON.exe"
+        },
+        {
+            "Property": "ARPREADME",
+            "Value": "IDS_README_LOCATION"
+        },
+        {
+            "Property": "ARPURLINFOABOUT",
+            "Value": "https://boinc.berkeley.edu/"
+        },
+        {
+            "Property": "ARPURLUPDATEINFO",
+            "Value": "https://boinc.berkeley.edu/"
+        },
+        {
+            "Property": "AgreeToLicense",
+            "Value": "No"
+        },
+        {
+            "Property": "DefaultUIFont",
+            "Value": "Tahoma8"
+        },
+        {
+            "Property": "DiskPrompt",
+            "Value": "[1]"
+        },
+        {
+            "Property": "ENABLELAUNCHATLOGON",
+            "Value": "1"
+        },
+        {
+            "Property": "ENABLESCREENSAVER",
+            "Value": "1"
+        },
+        {
+            "Property": "ENABLESTARTMENUITEMS",
+            "Value": "1"
+        },
+        {
+            "Property": "ENABLEUSEBYALLUSERS",
+            "Value": "1"
+        },
+        {
+            "Property": "ErrorDialog",
+            "Value": "SetupError"
+        },
+        {
+            "Property": "INSTALLLEVEL",
+            "Value": "100"
+        },
+        {
+            "Property": "InstallChoice",
+            "Value": "AR"
+        },
+        {
+            "Property": "LAUNCHPROGRAM",
+            "Value": "1"
+        },
+        {
+            "Property": "MSIRESTARTMANAGERCONTROL",
+            "Value": "Disable"
+        },
+        {
+            "Property": "Manufacturer",
+            "Value": "Space Sciences Laboratory, U.C. Berkeley"
+        },
+        {
+            "Property": "MsiHiddenProperties",
+            "Value": "BOINC_MASTER_PASSWORD;BOINC_PROJECT_PASSWORD"
+        },
+        {
+            "Property": "MsiLogging",
+            "Value": "voicewarmup"
+        },
+        {
+            "Property": "PIDTemplate",
+            "Value": "12345<#-%%%%%%%>@@@@@"
+        },
+        {
+            "Property": "PROGRAMFILETOLAUNCHATEND",
+            "Value": "[#boincmgr.exe]"
+        },
+        {
+            "Property": "ProductID",
+            "Value": "none"
+        },
+        {
+            "Property": "ProductLanguage",
+            "Value": "1033"
+        },
+        {
+            "Property": "ProductName",
+            "Value": "BOINC"
+        },
+        {
+            "Property": "ProductVersion",
+            "Value": "8.3.0"
+        },
+        {
+            "Property": "ProgressType0",
+            "Value": "install"
+        },
+        {
+            "Property": "ProgressType1",
+            "Value": "Installing"
+        },
+        {
+            "Property": "ProgressType2",
+            "Value": "installed"
+        },
+        {
+            "Property": "ProgressType3",
+            "Value": "installs"
+        },
+        {
+            "Property": "RETURN_REBOOTREQUESTED",
+            "Value": "0"
+        },
+        {
+            "Property": "RETURN_VALIDATEINSTALL",
+            "Value": "0"
+        },
+        {
+            "Property": "RETURN_VERIFYINSTALLDIRECTORIES",
+            "Value": "0"
+        },
+        {
+            "Property": "RebootYesNo",
+            "Value": "Yes"
+        },
+        {
+            "Property": "ReinstallModeText",
+            "Value": "omus"
+        },
+        {
+            "Property": "RestartManagerOption",
+            "Value": "CloseRestart"
+        },
+        {
+            "Property": "SecureCustomProperties",
+            "Value": "ACTPROP_E913E54D_5080_42EC_A312_B21948BA1C02;INSTALLDIR;ENABLEPROTECTEDAPPLICATIONEXECUTION3;LAUNCHPROGRAM;ISACTIONPROP1;ISACTIONPROP2"
+        },
+        {
+            "Property": "UpgradeCode",
+            "Value": "{E913E54D-5080-42EC-A312-B21948BA1C02}"
+        },
+        {
+            "Property": "_BrowseDataProperty",
+            "Value": "0"
+        },
+        {
+            "Property": "_BrowseInstallProperty",
+            "Value": "0"
+        },
+        {
+            "Property": "_IsMaintenance",
+            "Value": "Reinstall"
+        }
+    ]
+}

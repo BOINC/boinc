@@ -1,0 +1,170 @@
+{
+    "Dialog": "LicenseAgreement",
+    "HCentering": 50,
+    "VCentering": 50,
+    "Width": 374,
+    "Height": 266,
+    "Attributes": 2,
+    "Title": "IDS_PRODUCTNAME",
+    "Control_First": "Agree",
+    "Control_Default": "Next",
+    "Control_Cancel": "Cancel",
+    "Controls": [
+        {
+            "Control": "Agree",
+            "Type": "RadioButtonGroup",
+            "X": 8,
+            "Y": 190,
+            "Width": 291,
+            "Height": 40,
+            "Attributes": 3,
+            "Property": "AgreeToLicense",
+            "Control_Next": "Back",
+            "RadioButtons": [
+                {
+                    "Order": 1,
+                    "Value": "No",
+                    "X": 0,
+                    "Y": 15,
+                    "Width": 291,
+                    "Height": 15,
+                    "Text": "IDS__AgreeToLicense_0"
+                },
+                {
+                    "Order": 2,
+                    "Value": "Yes",
+                    "X": 0,
+                    "Y": 0,
+                    "Width": 291,
+                    "Height": 15,
+                    "Text": "IDS__AgreeToLicense_1"
+                }
+            ]
+        },
+        {
+            "Control": "Back",
+            "Type": "PushButton",
+            "X": 164,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_BACK",
+            "Control_Next": "Next",
+            "Events": [
+                {
+                    "Event": "NewDialog",
+                    "Argument": "InstallWelcome",
+                    "Condition": "1",
+                    "Ordering": 1
+                }
+            ]
+        },
+        {
+            "Control": "Banner",
+            "Type": "Bitmap",
+            "X": 0,
+            "Y": 0,
+            "Width": 374,
+            "Height": 44,
+            "Attributes": 1,
+            "Binary_": "banner.jpg"
+        },
+        {
+            "Control": "BannerLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 44,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "Cancel",
+            "Type": "PushButton",
+            "X": 301,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_CANCEL",
+            "Control_Next": "Agree",
+            "Events": [
+                {
+                    "Event": "SpawnDialog",
+                    "Argument": "CancelSetup",
+                    "Condition": "1",
+                    "Ordering": 1
+                }
+            ]
+        },
+        {
+            "Control": "DlgDesc",
+            "Type": "Text",
+            "X": 21,
+            "Y": 23,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS__IsLicenseDlg_ReadLicenseAgreement"
+        },
+        {
+            "Control": "DlgLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 234,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "DlgTitle",
+            "Type": "Text",
+            "X": 13,
+            "Y": 6,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS__IsLicenseDlg_LicenseAgreement"
+        },
+        {
+            "Control": "Memo",
+            "Type": "ScrollableText",
+            "X": 8,
+            "Y": 55,
+            "Width": 358,
+            "Height": 130,
+            "Attributes": 7,
+            "Text": "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang1033\\deflangfe1033{\\fonttbl{\\f0\\fmodern\\fprq1\\fcharset0 Courier New;}}\n{\\colortbl ;\\red0\\green0\\blue255;}\n{\\*\\generator Msftedit 5.41.21.2506;}\\viewkind4\\uc1\\pard\\nowidctlpar\\f0\\fs20 Berkeley Open Infrastructure for Network Computing (BOINC)\\par\n\\par\nLicense Agreement\\par\n\\par\nPlease carefully read the following terms and conditions before using this software. Your use of this software indicates your acceptance of this license agreement and warranty.\\par\n\\par\nDisclaimer of Warranty\\par\n\\par\nTHIS SOFTWARE AND THE ACCOMPANYING FILES ARE DISTRIBUTED \"AS IS\" AND WITHOUT WARRANTIES OF ANY KIND, AND THE IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE ARE HEREBY DISCLAIMED. ANY STATUTORY WARRANTY OF NON-INFRINGEMENT IS ALSO DISCLAIMED.\\par\n\\par\nRestrictions\\par\n\\par\nYou may use this software on a computer system only if you own the system or have the permission of the owner.\\par\n\\par\nDistribution\\par\n\\par\n\\pard This is free software. It is distributed under the terms of the GNU Lesser General Public License as published by the Free Software Foundation (https://www.fsf.org/). The source code may be obtained from the BOINC official repository on GitHub (https://github.com/BOINC/boinc/).\\par\n\\par\n}\n"
+        },
+        {
+            "Control": "Next",
+            "Type": "PushButton",
+            "X": 230,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_NEXT",
+            "Control_Next": "Cancel",
+            "Conditions": [
+                {
+                    "Action": "Disable",
+                    "Condition": "AgreeToLicense <> \"Yes\""
+                },
+                {
+                    "Action": "Enable",
+                    "Condition": "AgreeToLicense = \"Yes\""
+                }
+            ],
+            "Events": [
+                {
+                    "Event": "NewDialog",
+                    "Argument": "SetupConfig",
+                    "Condition": "1",
+                    "Ordering": 1
+                }
+            ]
+        }
+    ]
+}

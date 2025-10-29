@@ -23,7 +23,7 @@ check_get_args(array());
 
 page_head("News archive");
 
-show_old_news(0, 0);
+show_news(0, 0);
 
 page_tail();
 

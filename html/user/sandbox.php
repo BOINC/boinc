@@ -33,20 +33,19 @@ require_once("../inc/submit_util.inc");
 display_errors();
 
 function add_form() {
-    page_head('Upload files to your sandbox');
+    page_head('Add files to your sandbox');
     echo "
-        There are several ways to upload files:
+        There are several ways to add files:
         <p>
         <hr>
         <h3>Upload files from this computer</h3>
-    ";
-    form_start('sandbox.php', 'post', 'ENCTYPE="multipart/form-data"');
-    form_general('',
-        "NOTE: if you upload text files from Windows,
+        <p>
+        NOTE: if you upload text files from Windows,
         they will be given CRLF line endings.
         If they are shell scripts, they won't work on Linux.
-        Add shell scripts using 'Add text file' below."
-    );
+        Add shell scripts using 'Add text file' below.
+    ";
+    form_start('sandbox.php', 'post', 'ENCTYPE="multipart/form-data"');
     form_input_hidden('action', 'upload_file');
     form_general('',
         '<input size=80 type=file name="new_file[]" multiple="multiple">'
@@ -158,7 +157,7 @@ function list_files($user, $notice=null) {
         }
         end_table();
     }
-    show_button('sandbox.php?action=add_form', 'Upload files');
+    show_button('sandbox.php?action=add_form', 'Add files');
     page_tail();
 }
 
@@ -174,8 +173,8 @@ function upload_file($user) {
             error_page("$tmp_name is not uploaded file");
         }
         $name = $_FILES['new_file']['name'][$i];
-        if (strstr($name, "/")) {
-            error_page("no / allowed");
+        if (!is_valid_filename($name)) {
+            error_page('Invalid filename. '.filename_rules());
         }
         if (file_exists("$dir/$name")) {
             $notice .= "can't upload $name; file exists.<br>";
@@ -197,7 +196,7 @@ function add_file($user) {
     $dir = sandbox_dir($user);
     $name = post_str('name');
     if (!is_valid_filename($name)) {
-        error_page('bad filename');
+        error_page('Invalid filename. '.filename_rules());
     }
     if (!$name) error_page('No name given');
     if (file_exists("$dir/$name")) {
@@ -221,6 +220,9 @@ function get_file($user) {
         error_page('Not a valid URL');
     }
     $fname = basename($url);
+    if (!is_valid_filename($fname)) {
+        error_page('Invalid filename. '.filename_rules());
+    }
     $path = "$dir/$fname";
     if (file_exists($path)) {
         error_page("File $fname exists; delete it first.");
@@ -235,7 +237,7 @@ function get_file($user) {
 function delete_file($user) {
     $name = get_str('name');
     if (!is_valid_filename($name)) {
-        error_page('bad filename');
+        error_page('Invalid filename. '.filename_rules());
     }
     $dir = sandbox_dir($user);
     unlink("$dir/$name");
@@ -247,7 +249,7 @@ function delete_file($user) {
 function download_file($user) {
     $name = get_str('name');
     if (!is_valid_filename($name)) {
-        error_page('bad filename');
+        error_page('Invalid filename. '.filename_rules());
     }
     $dir = sandbox_dir($user);
     do_download("$dir/$name");
@@ -256,7 +258,7 @@ function download_file($user) {
 function view_file($user) {
     $name = get_str('name');
     if (!is_valid_filename($name)) {
-        error_page('bad filename');
+        error_page('Invalid filename. '.filename_rules());
     }
     $dir = sandbox_dir($user);
     $path = "$dir/$name";

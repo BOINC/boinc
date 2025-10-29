@@ -403,9 +403,9 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 
     // Set permissions of BOINC Data directory itself
     // chmod u=rwx,g=rwx,o=x "/Library/Application Support/BOINC Data"
-    // 0771 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IXOTH
-    // Set read, write and execute permission for user & group; execute-only permission for others
-    err = DoSudoPosixSpawn(chmodPath, "u=rwx,g=rwx,o=x", BOINCDataDirPath, NULL, NULL, NULL, NULL);
+    // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
+    // Set read, write and execute permission for user & group;  read and execute permission for others
+    err = DoSudoPosixSpawn(chmodPath, "u=rwx,g=rwx,o=rx", BOINCDataDirPath, NULL, NULL, NULL, NULL);
     if (err)
         return err;
 
@@ -425,6 +425,29 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 
         // Set permissions of Fix_BOINC_Users application
         // chmod u=rsx,g=rx,o=rx "/Library/Application Support/BOINC Data/Fix_BOINC_Users"
+        // 04555 = S_ISUID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
+        // Set setuid-on-execution plus read and execute permission for user, group & others
+        err = DoSudoPosixSpawn(chmodPath, "u=rsx,g=rx,o=rx", fullpath, NULL, NULL, NULL, NULL);
+        if (err)
+            return err;
+    }
+
+    strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
+    strlcat(fullpath, "/", MAXPATHLEN);
+    strlcat(fullpath, RUN_PODMAN_FILENAME, MAXPATHLEN);
+
+    result = stat(fullpath, &sbuf);
+    isDirectory = S_ISDIR(sbuf.st_mode);
+    if ((result == noErr) && (! isDirectory)) {
+       // Set owner and group of Run_Podman application
+        sprintf(buf1, "root:%s", boinc_master_group_name);
+        // chown root:boinc_master "/Library/Application Support/BOINC Data/Run_Podman"
+        err = DoSudoPosixSpawn(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
+        if (err)
+            return err;
+
+        // Set permissions of Run_Podman application
+        // chmod u=rsx,g=rx,o=rx "/Library/Application Support/BOINC Data/Run_Podman"
         // 04555 = S_ISUID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
         // Set setuid-on-execution plus read and execute permission for user, group & others
         err = DoSudoPosixSpawn(chmodPath, "u=rsx,g=rx,o=rx", fullpath, NULL, NULL, NULL, NULL);
@@ -531,49 +554,43 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     // Does podman directory exist?
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
     strlcat(fullpath, "/", MAXPATHLEN);
+#ifdef __APPLE__
+    // On the Mac, we can't put the Podman directory inside the BOINC Data
+    // directory because this routine would modify the permissions of
+    // Podman's files, which must be different for different files.
+    // So we put the "BOINC Podman" Directory in the directory
+    // "/Library/Application/Support/", alongside "BOINC Data" directory
+    strlcat(fullpath, "../", MAXPATHLEN);
+#endif
     strlcat(fullpath, PODMAN_DIR, MAXPATHLEN);
-
     result = stat(fullpath, &sbuf);
     isDirectory = S_ISDIR(sbuf.st_mode);
     if ((result == noErr) && (isDirectory)) {
-        // Set owner and group of podman directory and it's contents
-        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
-        // chown -R boinc_master:boinc_project "/Library/Application Support/BOINC Data/podman"
-        err = DoSudoPosixSpawn(chownPath, "-Rh", buf1, fullpath, NULL, NULL, NULL);
-        if (err)
-            return err;
+        // We always run Podman as use boinc_project (using our Run_Podman
+        // executable) which guarantees that all of Podman's data will
+        // have owner boinc_project and group. This is necessary for Podman
+        // to be able to access it files when running project applications.
+        //
+        // Set owner and group of BOINC podman directory's contents)
+        sprintf(buf1, "%s:%s", boinc_project_user_name, boinc_project_group_name);
+        // chown -R boinc_master:boinc_master "/Library/Application Support/BOINC Data"
+        err = DoSudoPosixSpawn(chownPath, "-R", buf1, fullpath, NULL, NULL, NULL);
 
-#if 0       // Redundant if the same as podman directory's contents
-        // Set owner and group of podman directory itself
+        // Set owner and group of BOINC podman directory itself
         sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
-        // chown boinc_master:boinc_project "/Library/Application Support/BOINC Data/podman"
+        // chown boinc_master:boinc_project "/Library/Application Support/BOINC podman"
         err = DoSudoPosixSpawn(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
-#endif
 
-        // Set permissions of podman directories' contents
-        // Contents of podman directories must be world-readable so BOINC Client can read
-        // files written by projects which have user boinc_project and group boinc_project
-        // chmod -R u+rw,g+rw,o+r-w "/Library/Application Support/BOINC Data/podman"
-        // 0664 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
-        // set read and write permission for user and group, no access for others (leaves execute bits unchanged)
-        //TODO: Should we allow others to read / write for files and traverse subdirectories?
-        err = DoSudoPosixSpawn(chmodPath, "-R", "u+rw,g+rw,o+r-w", fullpath, NULL, NULL, NULL);
-        if (err)
-            return err;
-
-        // Set permissions for podman directory itself (not its contents)
-        // chmod u=rwx,g=rwx,o= "/Library/Application Support/BOINC Data/podman"
+        // We must not modify permissions of any of Podman's data, so we set
+        // them for the BOINC podman directory itself but not its contents.
+        //
+        // Set permissions for BOINC podman directory itself (not its contents)
+        // chmod u=rwx,g=rwx,o= "/Library/Application Support/BOINC podman"
         // 0770 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP
         // Set read, write and execute permission for user & group, no access for others
-        //TODO: Should we allow others to read / write / traverse podman directory?
         err = DoSudoPosixSpawn(chmodPath, "u=rwx,g=rwx,o=", fullpath, NULL, NULL, NULL, NULL);
-        if (err)
-            return err;
-
-        // Set execute permissions for slot subdirectories
-        err = UpdateNestedDirectories(fullpath);    // Sets execute for user, group and others
         if (err)
             return err;
     }       // podman directory
@@ -751,6 +768,7 @@ static OSStatus MakeXMLFilesPrivate(char * basepath) {
 }
 
 
+//TODO: resolve symbolic links and update their ownership and permissions
 static OSStatus UpdateNestedDirectories(char * basepath) {
     Boolean         isDirectory;
     char            fullpath[MAXPATHLEN];
@@ -925,12 +943,6 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
         if (err)
             return err;
 
-        // Prevent a security hole by not allowing a login from this user
-        // Something like "dscl . -create /users/boinc_master shell /usr/bin/false"
-        err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "shell", "/usr/bin/false", NULL);
-        if (err)
-            return err;
-
         // Something like "dscl . -create /users/boinc_master home /var/empty"
         err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "home", "/var/empty", NULL);
         if (err)
@@ -938,6 +950,12 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
     }           // if (! userExists)
 
 setGroupForUser:
+    // Older versions set shell to /usr/bin/false so do this even if the user exists
+    // Something like "dscl . -create /users/boinc_master shell /bin/zsh"
+    err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "shell", "/bin/zsh", NULL);
+    if (err)
+        return err;
+
     // A MacOS update sometimes changes the PrimaryGroupID of users boinc_master
     // and boincproject to staff (20).
     // This sets the correct PrimaryGroupId whether or not we just created the user.

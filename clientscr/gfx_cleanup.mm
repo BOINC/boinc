@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -36,9 +36,9 @@
 #include "util.h"
 #include "mac_util.h"
 #include "shmem.h"
+#define FOR_TESTING_ONLY 0
 
 #define CREATE_LOG 0
-#define USE_TIMER 0
 
 #if CREATE_LOG
 void print_to_log_file(const char *format, ...);
@@ -46,10 +46,23 @@ void print_to_log_file(const char *format, ...);
 #define print_to_log_file(...)
 #endif
 
+//From mscglutfix.m:
+// The standard ScreenSaverView class actually sets the window
+// level to 2002, not the 1000 defined by NSScreenSaverWindowLevel
+// and kCGScreenSaverWindowLevel
+#define RealSaverLevel 2002
+#define gfx_app_widowlevel (RealSaverLevel+20)
+
+
+NSRect myWindowRect;
+NSWindow* myWindow = NULL;
+RPC_CLIENT *rpc;
 pid_t parentPid;
 int GFX_PidFromScreensaver = 0;
 pthread_t MonitorParentThread = 0;
+pthread_t MonitorStdinThread = 0;
 bool quit_MonitorParentThread = false;
+char userName[64];
 
 // struct ss_shmem_data must be kept in sync in these files:
 // screensaver.cpp
@@ -66,67 +79,48 @@ struct ss_shmem_data {
 
 static struct ss_shmem_data* ss_shmem = NULL;
 
-#if USE_TIMER
-time_t startTime = 0;
-time_t endTime = 0;
-time_t elapsedTime = 0;
+#if FOR_TESTING_ONLY
+typedef void (*handler_t)(int, siginfo_t*, void *);
+
+void boinc_catch_signal(int signal, siginfo_t*, void *) {
+    print_to_log_file("caught signal %s", signal);
+}
+
+extern "C" void boinc_set_signal_handler(int sig, handler_t handler) {
+    struct sigaction temp;
+    sigaction(sig, NULL, &temp);
+    temp.sa_sigaction = handler;
+    sigaction(sig, &temp, NULL);
+}
 #endif
 
 void killGfxApp(pid_t thePID) {
-#if 0
     print_to_log_file("in gfx_cleanup: killGfxApp()");
+#if 0
     kill(thePID, SIGKILL);
 #else
     char buf[256];
-    char userName[64];
-    RPC_CLIENT *rpc;
-    int retval;
-    std::string msg;
 
     chdir("/Library/Application Support/BOINC Data");
     safe_strcpy(buf, "");
-    read_gui_rpc_password(buf, msg);
-
-    rpc = new RPC_CLIENT;
-    if (rpc->init(NULL)) {     // Initialize communications with Core Client
-        fprintf(stderr, "in gfx_cleanup: killGfxApp(): rpc->init(NULL) failed");
-        return;
-    }
-    if (strlen(buf)) {
-        retval = rpc->authorize(buf);
-        if (retval) {
-            fprintf(stderr, "in gfx_cleanup: killGfxApp(): authorization failure: %d\n", retval);
-            rpc->close();
-            return;
-        }
-    }
-
-    CFStringRef cf_gUserName = SCDynamicStoreCopyConsoleUser(NULL, NULL, NULL);
-    CFStringGetCString(cf_gUserName, userName, sizeof(userName), kCFStringEncodingUTF8);
-
-    retval = rpc->run_graphics_app("stop", thePID, userName);
+#if CREATE_LOG
+    int retval =
+#endif
+    rpc->run_graphics_app("stop", thePID, userName);
     print_to_log_file("in gfx_cleanup: killGfxApp(): rpc->run_graphics_app(stop) returned retval=%d", retval);
 
     // Wait until graphics app has exited before closing our own black fullscreen
     // window to prevent an ugly white flash [see comment in main() below].
     int i;
-    pid_t p = 0;
     for (i=0; i<100; ++i) {
         boinc_sleep(0.1);
-        p = thePID;
-        // On OS 10.15+ (Catalina), it might be more efficient to get this from shared memory
-        retval = rpc->run_graphics_app("test", p, userName);
-        if (retval || (p==0)) break;
+        if (ss_shmem->gfx_pid == 0) break;
     }
- print_to_log_file("in gfx_cleanup: killGfxApp(%d): rpc->run_graphics_app(test) returned pid %d, retval %d when i = %d", thePID, p, retval, i);
 
     // Graphics apps called by screensaver or Manager (via Show
     // Graphics button) now write files in their slot directory as
     // the logged in user, not boinc_master. This ugly hack tells
     // BOINC client to fix all ownerships in this slot directory
-    char shmem_name[MAXPATHLEN];
-    snprintf(shmem_name, sizeof(shmem_name), "/tmp/boinc_ss_%s", userName);
-    retval = attach_shmem_mmap(shmem_name, (void**)&ss_shmem);
     if (ss_shmem) {
         rpc->run_graphics_app("stop", ss_shmem->gfx_slot, "");
         ss_shmem->gfx_slot = -1;
@@ -134,36 +128,97 @@ void killGfxApp(pid_t thePID) {
         ss_shmem->minor_version = 0;
         ss_shmem->release = 0;
     }
-
-    rpc->close();
 #endif
     return;
 }
 
 void * MonitorParent(void* param) {
-    print_to_log_file("in gfx_cleanup: Starting MonitorParent");
+    print_to_log_file("in gfx_cleanup: Starting MonitorParent: parentpid=%d", parentPid);
     while (true) {
         boinc_sleep(0.25);  // Test every 1/4 second
         if (getppid() != parentPid) {
+            print_to_log_file("in gfx_cleanup: MonitorParent: getppd=%d, parentpid=%d", getppid(), parentPid);
             if (GFX_PidFromScreensaver) {
+                print_to_log_file("in gfx_cleanup: MonitorParent: calling killGfxApp for GFX_PidFromScreensaver %d", GFX_PidFromScreensaver);
                 killGfxApp(GFX_PidFromScreensaver);
             }
             if (quit_MonitorParentThread) {
                 return 0;
             }
-            print_to_log_file("in gfx_cleanup: parent died, exiting (child) after handling %d",GFX_PidFromScreensaver);
-#if USE_TIMER
-            endTime = time(NULL);
-            elapsedTime = endTime - startTime;
-            print_to_log_file("elapsed time=%d", (int) elapsedTime);
-#endif
+
+            rpc->close();
+            print_to_log_file("in gfx_cleanup: MonitorParent calling exit(0)");
             exit(0);
         }
     }
 
 }
+void * MonitorStdin(void* param) {
+    char buf[256];
+    print_to_log_file("in gfx_cleanup: Starting MonitorStdin");
 
-NSWindow* myWindow;
+    while (true) {
+        fgets(buf, sizeof(buf), stdin);
+        print_to_log_file("in gfx_cleanup: buf=%s", buf);
+        if (feof(stdin)) {
+            print_to_log_file("in gfx_cleanup: got eof");
+            break;
+        }
+        if (ferror(stdin) && (errno != EINTR)) {
+            fprintf(stderr, "in gfx_cleanup: fgets got error %d %s", errno, strerror(errno));
+            print_to_log_file("in gfx_cleanup: fgets got error %d %s", errno, strerror(errno));
+            break;
+        }
+
+        if (!strcmp(buf, "Quit\n")) {
+            print_to_log_file("in gfx_cleanup: parent sent Quit to child");
+            break;
+        }
+        GFX_PidFromScreensaver = atoi(buf);
+
+        // Under MacOS 14.0, the legacyScreenSaver continues to run after the
+        // screensaver is dismissed. Our code elsewhere now kills it, but if
+        // that were to fail this black cover would block the user from
+        // accessing the desktop, so create the cover only when we have launched
+        // a graphics app and remove it right after the grapics app exits.
+        if (GFX_PidFromScreensaver) {
+            if (!myWindow) {
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    myWindow = [[NSWindow alloc] initWithContentRect:myWindowRect
+                                                                   styleMask:NSWindowStyleMaskBorderless
+                                                                     backing:NSBackingStoreBuffered
+                                                                       defer:NO];
+                    [myWindow setBackgroundColor:[NSColor blackColor]];
+                    [myWindow setLevel:gfx_app_widowlevel+20];    // Slightly above the graphics app's window
+                    [myWindow orderFrontRegardless];
+                });
+                print_to_log_file("in gfx_cleanup: MonitorStdin created covering window");
+            }
+        } else if (ss_shmem->gfx_pid == 0) {
+            print_to_log_file("in gfx_cleanup: MonitorStdin closing covering window");
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [myWindow close];
+                myWindow = NULL;
+            });
+        }
+    }
+    print_to_log_file("in gfx_cleanup: MonitorStdin exited while loop");
+
+    if (GFX_PidFromScreensaver) {
+        print_to_log_file("in gfx_cleanup: MonitorStdin calling killGfxApp");
+        killGfxApp(GFX_PidFromScreensaver);
+    }
+
+    quit_MonitorParentThread = true;
+
+    rpc->close();
+//    [NSApp stop:self];
+
+print_to_log_file("in gfx_cleanup: MonitorStdin calling exit(0)");
+    exit(0);
+
+
+}
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSUserNotificationCenterDelegate>
 {
@@ -176,56 +231,24 @@ NSWindow* myWindow;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     int retval __attribute__((unused)) = 0;
-    char buf[256];
 
     retval = pthread_create(&MonitorParentThread, NULL, MonitorParent, 0);
-
-    while (true) {
-        fgets(buf, sizeof(buf), stdin);
-        print_to_log_file("in gfx_cleanup: parent sent %d to child buf=%s", GFX_PidFromScreensaver, buf);
-        if (feof(stdin)) {
-            print_to_log_file("in gfx_cleanup: got eof");
-            break;
-        }
-        if (ferror(stdin) && (errno != EINTR)) {
-            fprintf(stderr, "in gfx_cleanup: fgets got error %d %s", errno, strerror(errno));
-            break;
-        }
-
-        if (!strcmp(buf, "Quit\n")) {
-            break;
-        }
-        GFX_PidFromScreensaver = atoi(buf);
-        print_to_log_file("in gfx_cleanup: parent sent %d to child buf=%s", GFX_PidFromScreensaver, buf);
-    }
-
-    if (GFX_PidFromScreensaver) {
-        killGfxApp(GFX_PidFromScreensaver);
-    }
-
-    quit_MonitorParentThread = true;
-
-//    [NSApp stop:self];
-    exit(0);
-
+    retval = pthread_create(&MonitorStdinThread, NULL, MonitorStdin, 0);
 }
 @end
 
 int main(int argc, char* argv[]) {
     print_to_log_file("Entered gfx_cleanup");
-#if USE_TIMER
-    startTime = time(NULL);
-#endif
     parentPid = getppid();
 
-    // Under MacOS 14.0, the legacyScreenSaver continues to run after the
-    // screensaver is dismissed. Our code elsewhere now kills it, but if
-    // that were to fail this black cover would block the user from
-    // accessing the desktop, so don't use the cover in MacOS 14 for now.
+#if FOR_TESTING_ONLY
+    freopen("/Users/Shared/stderr_gfx_cleanup.txt", "a", stderr);
+    freopen("/Users/Shared/stdout_gfx_cleanup.txt", "a", stdout);
 
-    bool cover_gfx_window = (compareOSVersionTo(10, 13) >= 0) &&
-                                (compareOSVersionTo(10, 14) < 0);
-
+    for (int i=1; i<NSIG; ++i) {
+        boinc_set_signal_handler(i, boinc_catch_signal);
+    }
+#endif
     // Create shared app instance
     [NSApplication sharedApplication];
 
@@ -236,17 +259,21 @@ int main(int argc, char* argv[]) {
     // briefly be visible until we kill the graphics app, causing an ugly and
     // annoying white flash. So we hide that with our own black fullscreen window
     // to prevent the white flash.
-   if (cover_gfx_window) {
-        NSArray *allScreens = [NSScreen screens];
-        NSRect windowRect = [ allScreens[0] frame ];
-        NSUInteger windowStyle = NSWindowStyleMaskBorderless;
-        NSWindow *myWindow = [[NSWindow alloc] initWithContentRect:windowRect
-                                                       styleMask:windowStyle
-                                                         backing:NSBackingStoreBuffered
-                                                           defer:NO];
-        [myWindow setBackgroundColor:[NSColor blackColor]];
-        [ myWindow setLevel:kCGOverlayWindowLevel ];    // slightly above the graphics app's window
-        [myWindow orderFrontRegardless];
+    NSArray *allScreens = [NSScreen screens];
+    myWindowRect = [ allScreens[0] frame ];
+
+    CFStringRef cf_gUserName = SCDynamicStoreCopyConsoleUser(NULL, NULL, NULL);
+    CFStringGetCString(cf_gUserName, userName, sizeof(userName), kCFStringEncodingUTF8);
+
+    char shmem_name[MAXPATHLEN];
+    snprintf(shmem_name, sizeof(shmem_name), "/tmp/boinc_ss_%s", userName);
+    attach_shmem_mmap(shmem_name, (void**)&ss_shmem);
+
+    rpc = new RPC_CLIENT;
+    if (rpc->init(NULL)) {     // Initialize communications with Core Client
+        fprintf(stderr, "in gfx_cleanup: killGfxApp(): rpc->init(NULL) failed");
+        print_to_log_file("in gfx_cleanup: killGfxApp(): rpc->init(NULL) failed");
+        return -1;
     }
 
     AppDelegate *myDelegate = [[AppDelegate alloc] init];
@@ -255,11 +282,6 @@ int main(int argc, char* argv[]) {
     [NSApp run];
 
     print_to_log_file("exiting gfx_cleanup after handling %d",GFX_PidFromScreensaver);
-#if USE_TIMER
-    endTime = time(NULL);
-    elapsedTime = endTime - startTime;
-    print_to_log_file("elapsed time=%d", (int) elapsedTime);
-#endif
 
     return 0;
 }
@@ -288,14 +310,7 @@ void print_to_log_file(const char *format, ...) {
     va_list args;
     char buf[256];
     time_t t;
-#if 0
-    strcpy(buf, "/Library/Application Support/test_log.txt");
-#else
-    strcpy(buf, getenv("HOME"));
-    strcat(buf, "/Library/Application Support/BOINC/test_log_gfx_cleanup.txt");
-#endif
-    f = fopen(buf, "a");
-//    f = fopen("/Library/Games_Demo/test_log.txt", "a");
+    f = fopen("/Users/Shared/test_log_gfx_cleanup.txt", "a");
     if (!f) return;
 
     time(&t);
@@ -310,7 +325,7 @@ void print_to_log_file(const char *format, ...) {
     va_end(args);
 
     fputs("\n", f);
-
+    fflush(f);
     fclose(f);
 }
 

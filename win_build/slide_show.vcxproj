@@ -15,7 +15,7 @@
       <PreprocessorDefinitions>_CONSOLE;FTGL_LIBRARY_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;psapi.lib;oldnames.lib;brotlicommon.lib;brotlidec.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;psapi.lib;oldnames.lib;brotlicommon.lib;brotlidec.lib;zip.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">libcmtd.lib;libcpmtd.lib;freetyped.lib;ftgld.lib;libpng16d.lib;bz2d.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies Condition="'$(Configuration)'=='Release'">libcmt.lib;libcpmt.lib;freetype.lib;ftgl.lib;libpng16.lib;bz2.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <DelayLoadDLLs>GDI32.DLL;OPENGL32.DLL;GLU32.DLL;%(DelayLoadDLLs)</DelayLoadDLLs>

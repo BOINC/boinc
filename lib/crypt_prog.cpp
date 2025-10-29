@@ -338,7 +338,7 @@ int test_crypt(const std::string& private_keyfile,
     strcpy((char*)buf2, test_string.c_str());
     DATA_BLOCK in, out;
     in.data = buf2;
-    in.len = test_string.size();
+    in.len = (unsigned)test_string.size();
     out.data = buf;
     retval = encrypt_private(private_key, in, out);
     if (retval) {

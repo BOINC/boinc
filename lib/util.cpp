@@ -97,7 +97,7 @@ double dtime() {
 #else
     struct timeval tv;
     gettimeofday(&tv, 0);
-    return tv.tv_sec + (tv.tv_usec/1.e6);
+    return (double)tv.tv_sec + ((double)tv.tv_usec/1.e6);
 #endif
 #endif
 }
@@ -750,6 +750,7 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     int retval;
     if (verbose) {
         fprintf(stderr, "running docker command: %s\n", cmd);
+        fprintf(stderr, "program: %s\n", cli_prog);
     }
 #ifdef _WIN32
     string output;
@@ -757,7 +758,7 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     // In the Win case we read the output from a pipe.
     // Append 'EOM' to the output so we know when we've reached the end
 
-    sprintf(buf, "%s %s; echo EOM\n", cli_prog, cmd);
+    snprintf(buf, sizeof(buf), "%s %s; echo EOM\n", cli_prog, cmd);
     write_to_pipe(ctl_wc.in_write, buf);
     retval = read_from_pipe(
         ctl_wc.out_read, ctl_wc.proc_handle, output, CMD_TIMEOUT, "EOM"
@@ -769,8 +770,8 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     out = split(output, '\n');
 #else
     snprintf(buf, sizeof(buf),
-        "%s%s %s",
-        docker_cmd_prefix(type), cli_prog, cmd
+        "%s %s",
+        cli_prog, cmd
     );
     retval = run_command(buf, out);
     if (retval) {
@@ -830,17 +831,15 @@ int DOCKER_CONN::parse_container_name(string line, string &name) {
 // - unique per WU (hence projurl__wuname)
 // - lowercase (required by Docker)
 //
-string docker_image_name(
-    const char* proj_url_esc, const char* wu_name
-) {
-    char buf[1024], url_buf[1024], wu_buf[1024];
+string docker_image_name(const char* proj_url_esc, const char* wu_name) {
+    char buf[2048], url_buf[512], wu_buf[512];
 
     safe_strcpy(url_buf, proj_url_esc);
     downcase_string(url_buf);
     safe_strcpy(wu_buf, wu_name);
     downcase_string(wu_buf);
 
-    sprintf(buf, "boinc__%s__%s", url_buf, wu_buf);
+    snprintf(buf, sizeof(buf), "boinc__%s__%s", url_buf, wu_buf);
     return string(buf);
 }
 
@@ -850,14 +849,14 @@ string docker_image_name(
 string docker_container_name(
     const char* proj_url_esc, const char* result_name
 ){
-    char buf[1024], url_buf[1024], result_buf[1024];
+    char buf[2048], url_buf[512], result_buf[512];
 
     safe_strcpy(url_buf, proj_url_esc);
     downcase_string(url_buf);
     safe_strcpy(result_buf, result_name);
     downcase_string(result_buf);
 
-    sprintf(buf, "boinc__%s__%s", url_buf, result_buf);
+    snprintf(buf, sizeof(buf), "boinc__%s__%s", url_buf, result_buf);
     return string(buf);
 }
 
