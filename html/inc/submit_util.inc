@@ -528,4 +528,24 @@ function file_ref_out($i, $fname) {
     );
 }
 
+////////////// ZIP FILES //////////////
+// our job submission systems (BUDA and autodock)
+// expect zip files that contain files.
+// But some people are used to creating zip files
+// that contain a (single) directory that contains files.
+
+// if the given directory contains a single item, and it's a directory,
+// return its name.
+// Else return false.
+//
+function contains_single_dir($dir) {
+    $files = scandir($dir);
+    if (count($files) != 3) return false;
+    foreach ($files as $file) {
+        if ($file[0] == '.') continue;
+        if (is_dir("$dir/$file")) return $file;
+        return false;
+    }
+}
+
 ?>
