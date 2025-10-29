@@ -168,7 +168,7 @@ class BoincForumPrefs {
         $user->prefs = $prefs;
     }
     function privilege($specialbit) {
-         return (substr($this->special_user, $specialbit, 1) == 1);
+         return (substr($this->special_user, $specialbit, 1) == '1');
     }
     function update($clause) {
         $db = BoincDb::get();
