@@ -50,7 +50,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo add-apt-repository universe
-          sudo apt-get -qq update
+          sudo apt-get update
           sudo apt-get install -y libncurses6
 
       - name: Fix libncurses5 missing for armv6
@@ -204,7 +204,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo add-apt-repository universe
-          sudo apt-get -qq update
+          sudo apt-get update
           sudo apt-get install -y libncurses6
 
       - name: Fix libncurses5 missing for armv6

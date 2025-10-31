@@ -57,7 +57,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get -qq update
+          sudo apt-get update
           sudo apt-get install -y mingw-w64 mingw-w64-tools mingw-w64-x86-64-dev mingw-w64-i686-dev tar curl zip unzip p7zip-full
 
       - name: Make libs with mingw
