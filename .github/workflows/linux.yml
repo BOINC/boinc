@@ -68,6 +68,12 @@ jobs:
         with:
           fetch-depth: 2
 
+      # (looks like sometimes there is a cache issue)
+      - name: Ignore mirrors when building arm64
+        if: success() && endsWith(matrix.type, 'arm64')
+        run: |
+          sudo sed -i 's|priority:1|priority:100|' /etc/apt/apt-mirrors.txt
+
       - name: Install dependencies
         if: matrix.type != 'coverity' || (github.ref == 'refs/heads/master' && github.event_name == 'schedule')
         run: |
