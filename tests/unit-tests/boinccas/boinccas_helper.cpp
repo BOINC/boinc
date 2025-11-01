@@ -80,7 +80,7 @@ void MsiHelper::insertProperties(
             std::to_string(result));
     }
     for (const auto& record : properties) {
-        const auto hRecord = MsiCreateRecord(static_cast<UINT>(2));
+        const auto hRecord = MsiCreateRecord(2);
         if (hRecord == 0) {
             throw std::runtime_error("Failed to create record");
         }

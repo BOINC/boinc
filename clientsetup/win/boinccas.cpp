@@ -423,7 +423,7 @@ UINT BOINCCABase::SetRegistryValue(
         &hkSetupHive,
         NULL
     );
-	if (lReturnValue != ERROR_SUCCESS) return ERROR_INSTALL_FAILURE;
+	if (lReturnValue != ERROR_SUCCESS) return ERROR_INSTALL_FAILURE + 3;
 
     lReturnValue = RegSetValueEx(
         hkSetupHive,
@@ -435,7 +435,7 @@ UINT BOINCCABase::SetRegistryValue(
     );
 
 	RegCloseKey(hkSetupHive);
-	if (lReturnValue != ERROR_SUCCESS) return ERROR_INSTALL_FAILURE;
+	if (lReturnValue != ERROR_SUCCESS) return ERROR_INSTALL_FAILURE + 4;
 
     strMessage  = _T("Successfully set registry value '") + strName;
     strMessage += _T("' to a value of '");
@@ -492,7 +492,7 @@ UINT BOINCCABase::GetProperty(
             NULL,
             strMessage.c_str()
         );
-        return ERROR_INSTALL_FAILURE;
+        return ERROR_INSTALL_FAILURE + 1;
         break;
     }
 
@@ -515,7 +515,7 @@ UINT BOINCCABase::GetProperty(
             strMessage.c_str()
         );
         if ( lpszBuffer ) free( lpszBuffer );
-        return ERROR_INSTALL_FAILURE;
+        return ERROR_INSTALL_FAILURE + 2;
         break;
     }
 
