@@ -94,7 +94,7 @@ void MsiHelper::insertProperties(
             throw std::runtime_error("Failed to set record, errorcode: " +
                 std::to_string(result));
         }
-        
+
         result = MsiViewExecute(hView, hRecord);
         if (result != ERROR_SUCCESS) {
             throw std::runtime_error("Error inserting record: " +
@@ -158,13 +158,8 @@ void cleanRegistryKey() {
     const auto openResult = RegOpenKeyEx(HKEY_LOCAL_MACHINE, registryKey, 0,
         KEY_WRITE, &hKey);
     if (openResult != ERROR_SUCCESS) {
-        throw std::runtime_error("RegOpenKeyEx failed: " +
-            std::to_string(openResult));
+        return;
     }
-    const auto deleteResult = RegDeleteKey(HKEY_LOCAL_MACHINE, registryKey);
+    RegDeleteKey(HKEY_LOCAL_MACHINE, registryKey);
     RegCloseKey(hKey);
-    if (deleteResult != ERROR_SUCCESS && deleteResult != ERROR_FILE_NOT_FOUND) {
-        throw std::runtime_error("RegDeleteKey failed: " +
-            std::to_string(deleteResult));
-    }
 }
