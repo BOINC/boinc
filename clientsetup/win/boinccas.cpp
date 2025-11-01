@@ -492,7 +492,7 @@ UINT BOINCCABase::GetProperty(
             NULL,
             strMessage.c_str()
         );
-        return ERROR_INSTALL_FAILURE + 1;
+        return uiReturnValue;
         break;
     }
 
