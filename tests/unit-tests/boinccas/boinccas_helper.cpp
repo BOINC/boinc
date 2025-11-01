@@ -112,6 +112,12 @@ void MsiHelper::insertProperties(
         throw std::runtime_error("Error closing view: " +
             std::to_string(result));
     }
+
+    result = MsiDatabaseCommit(hMsi);
+    if (result != ERROR_SUCCESS) {
+        throw std::runtime_error("MsiDatabaseCommit failed: " +
+            std::to_string(result));
+    }
 }
 
 constexpr auto registryKey =
