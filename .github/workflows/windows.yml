@@ -123,7 +123,7 @@ jobs:
 
       - name: Build
         if: success()
-        run: msbuild win_build\boinc.sln -p:Configuration=${{matrix.configuration}} -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -p:DLIB=${{ env.DLIB }} -p:DMDF=${{ env.DMDF }} -m
+        run: msbuild win_build\boinc.sln -p:Configuration=${{matrix.configuration}} -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -p:DLIB=${{ env.DLIB }} -p:DMDF=${{ env.DMDF }} -p:BOINCCAS_TEST=true -m
 
       - name: Run unit tests
         if: success() && matrix.platform == 'x64' && matrix.configuration == 'Release'

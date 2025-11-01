@@ -18,10 +18,11 @@
     <ClCompile>
       <AdditionalIncludeDirectories>../win_build;../lib;../zip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(BOINCCAS_TEST)' == 'true'">BOINCCAS_TEST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gtest_main.lib;gmock_main.lib;zip.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gtest_main.lib;gmock_main.lib;zip.lib;msi.lib;cabinet.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies Condition="'$(Configuration)'=='Release'">zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories Condition="'$(Configuration)'=='Debug'">$(VcpkgInstalledDir)/debug/lib/manual-link;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -30,6 +31,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\tests\unit-tests\boinccas\boinccas_helper.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CAAnnounceUpgrade.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_parse.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_str_util.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_url.cpp" />
@@ -46,6 +49,9 @@
     <ProjectReference Include="libboinczip.vcxproj">
       <Project>{753e897d-9ece-42b1-9f0d-cd566775c77e}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\tests\unit-tests\boinccas\boinccas_helper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
