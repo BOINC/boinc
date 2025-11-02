@@ -27,20 +27,16 @@ namespace test_boinccas_CAAnnounceUpgrade {
     class test_boinccas_CAAnnounceUpgrade : public ::testing::Test {
     protected:
         test_boinccas_CAAnnounceUpgrade() {
-            std::tie(hDll, hFunc) = load_function_from_boinccas<AnnounceUpgradeFn>("AnnounceUpgrade");
+            std::tie(hDll, hFunc) =
+                load_function_from_boinccas<AnnounceUpgradeFn>(
+                    "AnnounceUpgrade");
             cleanRegistryKey();
         }
         ~test_boinccas_CAAnnounceUpgrade() override {
             cleanRegistryKey();
         }
-        void TearDown() override {
-            if (hMsi != 0) {
-                MsiCloseHandle(hMsi);
-                hMsi = 0;
-            }
-        }
+
         AnnounceUpgradeFn hFunc = nullptr;
-        MSIHANDLE hMsi = 0;
         MsiHelper msiHelper;
     private:
         wil::unique_hmodule hDll = nullptr;
@@ -48,24 +44,29 @@ namespace test_boinccas_CAAnnounceUpgrade {
 
     constexpr auto expectedVersion = "1.2.3.4";
 #ifdef BOINCCAS_TEST
-    TEST_F(test_boinccas_CAAnnounceUpgrade, AnnounceUpgrade_Empty_ProductVersion) {
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
+    TEST_F(test_boinccas_CAAnnounceUpgrade,
+        AnnounceUpgrade_Empty_ProductVersion) {
+        PMSIHANDLE hMsi;
+        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
+            &hMsi);
         ASSERT_EQ(0u, result);
 
         EXPECT_EQ(0u, hFunc(hMsi));
         EXPECT_NE(expectedVersion, getRegistryValue("UpgradingTo"));
     }
 
-    TEST_F(test_boinccas_CAAnnounceUpgrade, AnnounceUpgrade_With_ProductVersion) {
+    TEST_F(test_boinccas_CAAnnounceUpgrade,
+        AnnounceUpgrade_With_ProductVersion) {
         msiHelper.insertProperties({
             {"ProductVersion", expectedVersion}
             });
-
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
+        PMSIHANDLE hMsi;
+        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
+            &hMsi);
         ASSERT_EQ(0u, result);
 
         EXPECT_EQ(0u, hFunc(hMsi));
         EXPECT_EQ(expectedVersion, getRegistryValue("UpgradingTo"));
-}
+    }
 #endif
 }

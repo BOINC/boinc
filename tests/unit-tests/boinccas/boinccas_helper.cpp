@@ -15,9 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <iostream>
-
-
 #include <filesystem>
 #include "boinccas_helper.h"
 #include <MsiQuery.h>
@@ -63,8 +60,8 @@ void MsiHelper::cleanup() {
         std::filesystem::remove(std::filesystem::current_path() / msiName);
     }
     catch (const std::exception& ex) {
-        std::cerr << "Failed to remove existing MSI file: " << ex.what() << std::endl;
-        std::rethrow_exception(std::current_exception());
+        throw std::runtime_error( "Failed to remove existing MSI file: " +
+            std::string(ex.what()));
     }
 }
 
@@ -190,12 +187,6 @@ void MsiHelper::fillSummaryInformationTable() {
         throw std::runtime_error("MsiSummaryInfoPersist failed:" +
             std::to_string(result));
     }
-
-    /*result = MsiCloseHandle(hSummaryInfo);
-    if (result != ERROR_SUCCESS) {
-        throw std::runtime_error("MsiCloseHandle failed:" +
-            std::to_string(result));
-    }*/
 }
 
 constexpr auto registryKey =
