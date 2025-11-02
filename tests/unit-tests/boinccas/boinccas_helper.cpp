@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <iostream>
+
+
 #include <filesystem>
 #include "boinccas_helper.h"
 #include <MsiQuery.h>
@@ -56,11 +59,17 @@ void MsiHelper::cleanup() {
         MsiCloseHandle(hMsi);
         hMsi = 0;
     }
-    std::filesystem::remove(std::filesystem::current_path() / msiName);
+    try {
+        std::filesystem::remove(std::filesystem::current_path() / msiName);
+    }
+    catch (const std::exception& ex) {
+        std::cerr << "Failed to remove existing MSI file: " << ex.what() << std::endl;
+        std::rethrow_exception(std::current_exception());
+    }
 }
 
 void MsiHelper::createTable(const std::string_view& sql_create) {
-    MSIHANDLE hView;
+    PMSIHANDLE hView;
     auto result = MsiDatabaseOpenView(hMsi, sql_create.data(), &hView);
     if (result != ERROR_SUCCESS) {
         throw std::runtime_error("Error creating view: " +
@@ -95,7 +104,7 @@ void MsiHelper::insertProperties(
     constexpr std::string_view sql_insert =
         "INSERT INTO `Property` (`Property`, `Value`) "
         "VALUES (?, ?)";
-    MSIHANDLE hView;
+    PMSIHANDLE hView;
     auto result = MsiDatabaseOpenView(hMsi, sql_insert.data(), &hView);
     if (result != ERROR_SUCCESS) {
         throw std::runtime_error("Error creating view: " +
@@ -143,7 +152,7 @@ void MsiHelper::insertProperties(
 }
 
 void MsiHelper::fillSummaryInformationTable() {
-    MSIHANDLE hSummaryInfo;
+    PMSIHANDLE hSummaryInfo;
     constexpr auto updateCount = 4;
 
     auto result = MsiGetSummaryInformation(hMsi, nullptr, updateCount,
@@ -182,11 +191,11 @@ void MsiHelper::fillSummaryInformationTable() {
             std::to_string(result));
     }
 
-    result = MsiCloseHandle(hSummaryInfo);
+    /*result = MsiCloseHandle(hSummaryInfo);
     if (result != ERROR_SUCCESS) {
         throw std::runtime_error("MsiCloseHandle failed:" +
             std::to_string(result));
-    }
+    }*/
 }
 
 constexpr auto registryKey =

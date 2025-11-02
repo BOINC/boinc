@@ -41,6 +41,7 @@ namespace test_boinccas_CAAnnounceUpgrade {
         }
         AnnounceUpgradeFn hFunc = nullptr;
         MSIHANDLE hMsi = 0;
+        MsiHelper msiHelper;
     private:
         wil::unique_hmodule hDll = nullptr;
     };
@@ -48,7 +49,6 @@ namespace test_boinccas_CAAnnounceUpgrade {
     constexpr auto expectedVersion = "1.2.3.4";
 #ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CAAnnounceUpgrade, AnnounceUpgrade_Empty_ProductVersion) {
-        MsiHelper msiHelper;
         const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
         ASSERT_EQ(0u, result);
 
@@ -57,7 +57,6 @@ namespace test_boinccas_CAAnnounceUpgrade {
     }
 
     TEST_F(test_boinccas_CAAnnounceUpgrade, AnnounceUpgrade_With_ProductVersion) {
-        MsiHelper msiHelper;
         msiHelper.insertProperties({
             {"ProductVersion", expectedVersion}
             });
