@@ -46,7 +46,7 @@ namespace test_boinccas_CAAnnounceUpgrade {
     };
 
     constexpr auto expectedVersion = "1.2.3.4";
-#ifndef BOINCCAS_TEST
+#ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CAAnnounceUpgrade, AnnounceUpgrade_Empty_ProductVersion) {
         MsiHelper msiHelper;
         const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
