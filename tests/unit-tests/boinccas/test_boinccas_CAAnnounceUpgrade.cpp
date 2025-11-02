@@ -32,12 +32,12 @@ namespace test_boinccas_CAAnnounceUpgrade {
         }
         ~test_boinccas_CAAnnounceUpgrade() override {
             cleanRegistryKey();
-            if (hMsi != 0) {
-                MsiCloseHandle(hMsi);
-            }
         }
         void TearDown() override {
-
+            if (hMsi != 0) {
+                MsiCloseHandle(hMsi);
+                hMsi = 0;
+            }
         }
         AnnounceUpgradeFn hFunc = nullptr;
         MsiHelper msiHelper;
@@ -46,25 +46,22 @@ namespace test_boinccas_CAAnnounceUpgrade {
         wil::unique_hmodule hDll = nullptr;
     };
 
+    constexpr auto expectedVersion = "1.2.3.4";
 #ifdef BOINCCAS_TEST
-    TEST_F(test_boinccas_CAAnnounceUpgrade, AnnounceUpgrade) {
-        constexpr auto expectedVersion = "1.2.3.4";
-        auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
+    TEST_F(test_boinccas_CAAnnounceUpgrade, AnnounceUpgrade_Empty_ProductVersion) {
+        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
         ASSERT_EQ(0u, result);
 
         EXPECT_EQ(0u, hFunc(hMsi));
         EXPECT_NE(expectedVersion, getRegistryValue("UpgradingTo"));
+    }
 
-        if (hMsi != 0) {
-            MsiCloseHandle(hMsi);
-            hMsi = 0;
-        }
-
+    TEST_F(test_boinccas_CAAnnounceUpgrade, AnnounceUpgrade_With_ProductVersion) {
         msiHelper.insertProperties({
             {"ProductVersion", expectedVersion}
             });
 
-        result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
+        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
         ASSERT_EQ(0u, result);
 
         EXPECT_EQ(0u, hFunc(hMsi));
