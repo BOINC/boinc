@@ -48,9 +48,12 @@ public:
     void createPropertiesTable();
     void insertProperties(
         const std::vector<std::pair<std::string, std::string>>& properties);
+    std::string getMsiHandle() const {
+        return "#" + std::to_string(hMsi);
+    }
 
-    MSIHANDLE hMsi = 0;
 private:
     void cleanup();
     void createTable(const std::string_view& sql_create);
+    MSIHANDLE hMsi = 0;
 };
