@@ -45,7 +45,6 @@ class MsiHelper {
 public:
     MsiHelper();
     ~MsiHelper();
-    void createPropertiesTable();
     void insertProperties(
         const std::vector<std::pair<std::string, std::string>>& properties);
     std::string getMsiHandle() const {
@@ -53,7 +52,10 @@ public:
     }
 
 private:
+    void init();
     void cleanup();
+    void fillSummaryInformationTable();
+    void createPropertiesTable();
     void createTable(const std::string_view& sql_create);
     MSIHANDLE hMsi = 0;
 };

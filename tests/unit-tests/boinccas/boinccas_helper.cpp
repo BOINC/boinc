@@ -23,15 +23,32 @@
 
 MsiHelper::MsiHelper() {
     cleanup();
-    const auto result = MsiOpenDatabase(msiName, MSIDBOPEN_CREATE, &hMsi);
-    if (result != ERROR_SUCCESS) {
-        throw std::runtime_error("MsiOpenDatabase failed: " +
-            std::to_string(result));
-    }
+    init();
 }
 
 MsiHelper::~MsiHelper() {
     cleanup();
+}
+
+void MsiHelper::init() {
+    auto result = MsiOpenDatabase(msiName, MSIDBOPEN_CREATE, &hMsi);
+    if (result != ERROR_SUCCESS) {
+        throw std::runtime_error("MsiOpenDatabase failed: " +
+            std::to_string(result));
+    }
+    fillSummaryInformationTable();
+    createPropertiesTable();
+    insertProperties({
+            {"ProductCode", "{3F18E95A-7D04-4807-839E-23A535627A86}"},
+            {"Manufacturer", "Test Manufacturer"},
+            {"ProductLanguage", "1033"},
+            {"ProductName", "Test"}
+        });
+    result = MsiDatabaseCommit(hMsi);
+    if (result != ERROR_SUCCESS) {
+        throw std::runtime_error("MsiDatabaseCommit failed: " +
+            std::to_string(result));
+    }
 }
 
 void MsiHelper::cleanup() {
@@ -57,6 +74,11 @@ void MsiHelper::createTable(const std::string_view& sql_create) {
     result = MsiViewClose(hView);
     if (result != ERROR_SUCCESS) {
         throw std::runtime_error("Error closing view: " +
+            std::to_string(result));
+    }
+    result = MsiDatabaseCommit(hMsi);
+    if (result != ERROR_SUCCESS) {
+        throw std::runtime_error("MsiDatabaseCommit failed: " +
             std::to_string(result));
     }
 }
@@ -116,6 +138,53 @@ void MsiHelper::insertProperties(
     result = MsiDatabaseCommit(hMsi);
     if (result != ERROR_SUCCESS) {
         throw std::runtime_error("MsiDatabaseCommit failed: " +
+            std::to_string(result));
+    }
+}
+
+void MsiHelper::fillSummaryInformationTable() {
+    MSIHANDLE hSummaryInfo;
+    constexpr auto updateCount = 4;
+
+    auto result = MsiGetSummaryInformation(hMsi, nullptr, updateCount,
+        &hSummaryInfo);
+    if (result != ERROR_SUCCESS) {
+        throw std::runtime_error("MsiGetSummaryInformation failed: " +
+            std::to_string(result));
+    }
+    result = MsiSummaryInfoSetProperty(hSummaryInfo, 2, VT_LPSTR, 0, nullptr,
+        "Test");
+    if (result != ERROR_SUCCESS) {
+        throw std::runtime_error("MsiSummaryInfoSetProperty 2 failed: " +
+            std::to_string(result));
+    }
+    result = MsiSummaryInfoSetProperty(hSummaryInfo, 7, VT_LPSTR, 0, nullptr,
+        "Intel;1033");
+    if (result != ERROR_SUCCESS) {
+        throw std::runtime_error("MsiSummaryInfoSetProperty 7 failed: " +
+            std::to_string(result));
+    }
+    result = MsiSummaryInfoSetProperty(hSummaryInfo, 9, VT_LPSTR, 0, nullptr,
+        "{2C4296B7-9E88-4CD8-9FC6-26CE7B053ED1}");
+    if (result != ERROR_SUCCESS) {
+        throw std::runtime_error("MsiSummaryInfoSetProperty 9 failed: " +
+            std::to_string(result));
+    }
+    result = MsiSummaryInfoSetProperty(hSummaryInfo, 14, VT_I4, 200, nullptr,
+        nullptr);
+    if (result != ERROR_SUCCESS) {
+        throw std::runtime_error("MsiSummaryInfoSetProperty 14 failed: " +
+            std::to_string(result));
+    }
+    result = MsiSummaryInfoPersist(hSummaryInfo);
+    if (result != ERROR_SUCCESS) {
+        throw std::runtime_error("MsiSummaryInfoPersist failed:" +
+            std::to_string(result));
+    }
+
+    result = MsiCloseHandle(hSummaryInfo);
+    if (result != ERROR_SUCCESS) {
+        throw std::runtime_error("MsiCloseHandle failed:" +
             std::to_string(result));
     }
 }

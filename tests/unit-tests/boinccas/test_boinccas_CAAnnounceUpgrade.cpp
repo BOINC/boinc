@@ -52,8 +52,16 @@ namespace test_boinccas_CAAnnounceUpgrade {
         EXPECT_NE(0u, hFunc(hMsi));
         EXPECT_NE(expectedVersion, getRegistryValue("UpgradingTo"));
 
-        msiHelper.createPropertiesTable();
-        msiHelper.insertProperties({{"ProductVersion", expectedVersion}});
+        if (hMsi != 0) {
+            MsiCloseHandle(hMsi);
+        }
+
+        msiHelper.insertProperties({
+            {"ProductVersion", expectedVersion}
+            });
+
+        result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
+        ASSERT_EQ(0u, result);
 
         EXPECT_EQ(0u, hFunc(hMsi));
         EXPECT_EQ(expectedVersion, getRegistryValue("UpgradingTo"));
