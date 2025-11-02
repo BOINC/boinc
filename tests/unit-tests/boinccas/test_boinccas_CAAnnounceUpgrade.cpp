@@ -36,6 +36,9 @@ namespace test_boinccas_CAAnnounceUpgrade {
                 MsiCloseHandle(hMsi);
             }
         }
+        void TearDown() override {
+
+        }
         AnnounceUpgradeFn hFunc = nullptr;
         MsiHelper msiHelper;
         MSIHANDLE hMsi = 0;
@@ -52,9 +55,17 @@ namespace test_boinccas_CAAnnounceUpgrade {
         EXPECT_EQ(0u, hFunc(hMsi));
         EXPECT_NE(expectedVersion, getRegistryValue("UpgradingTo"));
 
+        if (hMsi != 0) {
+            MsiCloseHandle(hMsi);
+            hMsi = 0;
+        }
+
         msiHelper.insertProperties({
             {"ProductVersion", expectedVersion}
             });
+
+        result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
+        ASSERT_EQ(0u, result);
 
         EXPECT_EQ(0u, hFunc(hMsi));
         EXPECT_EQ(expectedVersion, getRegistryValue("UpgradingTo"));
