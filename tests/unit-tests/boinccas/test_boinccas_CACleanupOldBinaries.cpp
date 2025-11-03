@@ -119,7 +119,7 @@ namespace test_boinccas_CACleanupOldBinaries {
         testDir = std::filesystem::current_path() /= "non_empty";
         std::filesystem::create_directory(testDir);
         createTestFilesInDir(testDir);
-        
+
         msiHelper.insertProperties({
             {"INSTALLDIR", testDir.string().c_str()}
             });
