@@ -33,6 +33,7 @@
   <ItemGroup>
     <ClCompile Include="..\tests\unit-tests\boinccas\boinccas_helper.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CAAnnounceUpgrade.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CACleanupOldBinaries.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_parse.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_str_util.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_url.cpp" />
