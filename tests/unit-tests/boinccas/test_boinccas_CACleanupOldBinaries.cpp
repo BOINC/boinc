@@ -34,8 +34,6 @@ namespace test_boinccas_CACleanupOldBinaries {
                 load_function_from_boinccas<CleanupOldBinariesFn>(
                     "CleanupOldBinaries");
         }
-        ~test_boinccas_CACleanupOldBinaries() override {
-        }
 
         void TearDown() override {
             if (!testDir.empty() && std::filesystem::exists(testDir)) {
@@ -79,7 +77,7 @@ namespace test_boinccas_CACleanupOldBinaries {
             &hMsi);
         ASSERT_EQ(0u, result);
 
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_NE(0u, hFunc(hMsi));
     }
 
     TEST_F(test_boinccas_CACleanupOldBinaries,

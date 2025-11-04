@@ -51,7 +51,7 @@ namespace test_boinccas_CAAnnounceUpgrade {
             &hMsi);
         ASSERT_EQ(0u, result);
 
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_NE(0u, hFunc(hMsi));
         EXPECT_NE(expectedVersion, getRegistryValue("UpgradingTo"));
     }
 

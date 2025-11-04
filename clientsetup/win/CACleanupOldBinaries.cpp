@@ -32,6 +32,9 @@ UINT CACleanupOldBinaries::OnExecution() {
     if (uiReturnValue != ERROR_SUCCESS) {
         return uiReturnValue;
     }
+    if (strInstallDirectory.empty()) {
+        return ERROR_INSTALL_FAILURE;
+    }
 
     DeleteFile(tstring(strInstallDirectory + _T("\\boinc.exe")).c_str());
     DeleteFile(tstring(strInstallDirectory + _T("\\boincmgr.exe")).c_str());
