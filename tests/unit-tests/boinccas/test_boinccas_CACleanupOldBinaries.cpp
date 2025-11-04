@@ -71,7 +71,7 @@ namespace test_boinccas_CACleanupOldBinaries {
 
 #ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CACleanupOldBinaries,
-        CleanupOldBinaries_Empty_INSTALLDIR_Property) {
+        Empty_INSTALLDIR_Property) {
         PMSIHANDLE hMsi;
         const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
             &hMsi);
@@ -81,7 +81,7 @@ namespace test_boinccas_CACleanupOldBinaries {
     }
 
     TEST_F(test_boinccas_CACleanupOldBinaries,
-        CleanupOldBinaries_NonExistent_INSTALLDIR_Directory) {
+        NonExistent_INSTALLDIR_Directory) {
         const auto dir =
             std::filesystem::current_path() /= "non_existent_directory";
         msiHelper.insertProperties({
@@ -97,7 +97,7 @@ namespace test_boinccas_CACleanupOldBinaries {
     }
 
     TEST_F(test_boinccas_CACleanupOldBinaries,
-        CleanupOldBinaries_Empty_INSTALLDIR_Directory) {
+        Empty_INSTALLDIR_Directory) {
         testDir = std::filesystem::current_path() /= "empty";
         std::filesystem::create_directory(testDir);
         msiHelper.insertProperties({
@@ -113,7 +113,7 @@ namespace test_boinccas_CACleanupOldBinaries {
     }
 
     TEST_F(test_boinccas_CACleanupOldBinaries,
-        CleanupOldBinaries_NonEmpty_INSTALLDIR_Directory_RemoveAllListedFiles) {
+        NonEmpty_INSTALLDIR_Directory_RemoveAllListedFiles) {
         testDir = std::filesystem::current_path() /= "non_empty";
         std::filesystem::create_directory(testDir);
         createTestFilesInDir(testDir);
@@ -131,7 +131,7 @@ namespace test_boinccas_CACleanupOldBinaries {
     }
 
     TEST_F(test_boinccas_CACleanupOldBinaries,
-        CleanupOldBinaries_NonEmpty_INSTALLDIR_Directory_KeepUnListedFiles) {
+        NonEmpty_INSTALLDIR_Directory_KeepUnListedFiles) {
         testDir = std::filesystem::current_path() /= "non_empty";
         std::filesystem::create_directory(testDir);
         createTestFilesInDir(testDir);
