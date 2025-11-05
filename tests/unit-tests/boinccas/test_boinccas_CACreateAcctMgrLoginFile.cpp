@@ -88,7 +88,7 @@ namespace test_boinccas_CACreateAcctMgrLoginFile {
         return { true, result };
     }
 
-#ifndef BOINCCAS_TEST
+#ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CACreateAcctMgrLoginFile,
         Empty_DATADIR_Property) {
         PMSIHANDLE hMsi;
