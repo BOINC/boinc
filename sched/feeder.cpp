@@ -712,6 +712,7 @@ void usage(char *name) {
         "Options:\n"
         "  [ -d X | --debug_level X]        Set log verbosity to X (1..4)\n"
         "  [ --allapps ]                    Interleave results from all applications uniformly.\n"
+        "  [ --batch_accel ]                query order for batch acceleration\n"
         "  [ --random_order ]               order by \"random\" field of result\n"
         "  [ --random_order_db ]            randomize order with SQL rand(sysdate())\n"
         "  [ --priority_asc ]               order by increasing \"priority\" field of result\n"
