@@ -320,7 +320,7 @@ struct WORK_ITEM {
     int res_server_state;
     double res_report_deadline;
     WORKUNIT wu;
-    void parse(MYSQL_ROW& row);
+    void parse(MYSQL_ROW& row, bool batch_accel=false);
 };
 
 class DB_WORK_ITEM : public WORK_ITEM, public DB_BASE_SPECIAL {
@@ -329,7 +329,8 @@ class DB_WORK_ITEM : public WORK_ITEM, public DB_BASE_SPECIAL {
 public:
     DB_WORK_ITEM(DB_CONN* p=0);
     int enumerate(
-        int limit, const char* select_clause, const char* order_clause
+        int limit, const char* select_clause, const char* order_clause,
+        bool batch_accel
     );
         // used by feeder
     int enumerate_all(

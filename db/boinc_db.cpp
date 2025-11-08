@@ -2051,13 +2051,17 @@ int DB_VALIDATOR_ITEM_SET::update_workunit(WORKUNIT& wu) {
     return retval;
 }
 
-void WORK_ITEM::parse(MYSQL_ROW& r) {
+// must correspond to query below
+void WORK_ITEM::parse(MYSQL_ROW& r, bool batch_accel) {
     int i=0;
     memset(this, 0, sizeof(WORK_ITEM));
     res_id = atol(r[i++]);
     res_priority = atoi(r[i++]);
     res_server_state = atoi(r[i++]);
     res_report_deadline = atof(r[i++]);
+    if (batch_accel) {
+        i++;
+    }
     wu.id = atol(r[i++]);
     wu.create_time = atoi(r[i++]);
     wu.appid = atol(r[i++]);
@@ -2096,17 +2100,24 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
 }
 
 int DB_WORK_ITEM::enumerate(
-    int limit, const char* select_clause, const char* order_clause
+    int limit, const char* select_clause, const char* order_clause,
+    bool batch_accel
 ) {
     char query[MAX_QUERY_LEN];
     int retval;
     MYSQL_ROW row;
+    const char* extra = "";
+
+    if (batch_accel) {
+        order_clause = "order by r1.priority+5*r desc ";
+        extra = " rand() as r, ";
+    }
     if (!cursor.active) {
         // use "r1" to refer to the result, since the feeder assumes that
         // (historical reasons)
         //
         sprintf(query,
-            "select high_priority r1.id, r1.priority, r1.server_state, r1.report_deadline, workunit.* from result r1 force index(ind_res_st), workunit, app "
+            "select high_priority r1.id, r1.priority, r1.server_state, r1.report_deadline, %s workunit.* from result r1 force index(ind_res_st), workunit, app "
             " where r1.server_state=%d "
             " and r1.workunitid=workunit.id "
             " and workunit.appid=app.id "
@@ -2115,11 +2126,13 @@ int DB_WORK_ITEM::enumerate(
             " %s "
             " %s "
             "limit %d",
+            extra,
             RESULT_SERVER_STATE_UNSENT,
             select_clause,
             order_clause,
             limit
         );
+        fprintf(stderr, "query: %s\n", query);
         retval = db->do_query(query);
         if (retval) return mysql_errno(db->mysql);
         cursor.rp = mysql_store_result(db->mysql);
@@ -2134,7 +2147,7 @@ int DB_WORK_ITEM::enumerate(
         if (retval) return ERR_DB_CONN_LOST;
         return ERR_DB_NOT_FOUND;
     } else {
-        parse(row);
+        parse(row, batch_accel);
     }
     return 0;
 }
