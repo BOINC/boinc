@@ -183,7 +183,7 @@ function show_host($host, $user, $ipprivate) {
             }
             row2(tra("Tasks"), $results);
         }
-        if (BATCH_ACCEL) {
+        if (defined('BATCH_ACCEL') && BATCH_ACCEL) {
             row2('Low turnaround time?',
                 $host->error_rate?'yes':'no'
             );

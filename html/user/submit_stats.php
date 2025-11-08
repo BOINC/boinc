@@ -177,7 +177,7 @@ function graph($data, $id, $xlabel, $ylabel) {
         ], true);
 
         var options = {
-          title: '$title',
+          title: '',
           legend:  'none',
           hAxis: {title: '$xlabel'},
           vAxis: {title: '$ylabel'}
@@ -199,7 +199,7 @@ function graph($data, $id, $xlabel, $ylabel) {
 function quantiles($vals) {
     sort($vals);
     $n = count($vals);
-    return [$vals[$n*.25], $vals[$n*.5], $vals[$n*.75]];
+    return [$vals[intval($n*.25)], $vals[intval($n*.5)], $vals[intval($n*.75)]];
 }
 
 // if $flops is true, show normalized runtime; else turnaround time
