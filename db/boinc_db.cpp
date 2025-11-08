@@ -2132,7 +2132,7 @@ int DB_WORK_ITEM::enumerate(
             order_clause,
             limit
         );
-        fprintf(stderr, "query: %s\n", query);
+        //fprintf(stderr, "query: %s\n", query);
         retval = db->do_query(query);
         if (retval) return mysql_errno(db->mysql);
         cursor.rp = mysql_store_result(db->mysql);
