@@ -64,6 +64,32 @@ bool JOB::get_score(int array_index) {
     WU_RESULT& wu_result = ssp->wu_results[array_index];
     score = 0;
 
+    if (config.batch_accel && app->accelerable()) {
+        // is the job high-priority?
+        //
+        if (wu_result.workunit.priority > 0) {
+            if (g_reply->host.low_turnaround()) {
+                // host is low-turnaround: boost score
+                //
+                if (config.debug_send_job) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[send_job] sending high-prio job to LTT host\n"
+                    );
+                }
+                score += 10;
+            } else {
+                // host is not low-turnaround: don't send
+                //
+                if (config.debug_send_job) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[send_job] not sending high-prio job to non-LTT host\n"
+                    );
+                }
+                return false;
+            }
+        }
+    }
+
     if (!app->beta && wu_result.need_reliable) {
         if (!bavp->reliable) {
             return false;
@@ -117,7 +143,7 @@ bool JOB::get_score(int array_index) {
         }
     }
 
-    if (app->n_size_classes > 1) {
+    if (config.size_classes && app->n_size_classes > 1) {
         double effective_speed = bavp->host_usage.projected_flops * available_frac(*bavp);
         int target_size = get_size_class(*app, effective_speed);
         if (config.debug_send_job) {

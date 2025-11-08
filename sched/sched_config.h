@@ -190,7 +190,10 @@ struct SCHED_CONFIG {
     bool rte_no_stats;
         // don't use statistics in job runtime estimation
     bool batch_accel;
-        // accelerate batch completion
+        // accelerate batch completion:
+        // send high-prio jobs only to low-turnaround hosts
+    bool size_classes;
+        // use size classes
 
     // time intervals
     double maintenance_delay;

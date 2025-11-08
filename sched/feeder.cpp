@@ -20,14 +20,16 @@
 //
 // Usage: feeder [ options ]
 //  [ -d x ]                debug level x
+//  [ --batch_accel ]       use order designed for batch acceleration
 //  [ --allapps ]           interleave results from all applications uniformly
 //  [ --by_batch ]          interleave results from all batches uniformly
 //  [ --random_order ]      order by "random" field of result
 //  [ --random_order_db ]   randomize order with SQL rand(sysdate())
-//  [ --priority_order ]    order by decreasing "priority" field of result
-//  [ --priority_asc ]      order by increasing "priority" field of result
+//  [ --priority_order ]    order by decreasing result priority
+//  [ --priority_asc ]      order by increasing result priority
 //  [ --priority_order_create_time ]
-//                          order by priority, then by increasing WU create time
+//                          order by desc result priority,
+//                          then increasing WU create time
 //  [ --mod n i ]           handle only results with (id mod n) == i
 //  [ --wmod n i ]          handle only workunits with (id mod n) == i
 //                          recommended if using HR with multiple schedulers
@@ -711,7 +713,7 @@ void usage(char *name) {
         "  [ --random_order_db ]            randomize order with SQL rand(sysdate())\n"
         "  [ --priority_asc ]               order by increasing \"priority\" field of result\n"
         "  [ --priority_order ]             order by decreasing \"priority\" field of result\n"
-        "  [ --priority_order_create_time ] order by priority, then by increasing WU create time\n"
+        "  [ --priority_order_create_time ] order by desc priority, then increasing WU create time\n"
         "  [ --purge_stale x ]              remove work items from the shared memory segment after x secs\n"
         "                                   that have been there for longer then x minutes\n"
         "                                   but haven't been assigned\n"
@@ -745,6 +747,8 @@ int main(int argc, char** argv) {
             if (dl == 4) g_print_queries = true;
         } else if (is_arg(argv[i], "random_order")) {
             order_clause = "order by r1.random ";
+        } else if (is_arg(argv[i], "batch_accel")) {
+            order_clause = "order by r1.priority+5*(r1.random/2147483648) desc ";
         } else if (is_arg(argv[i], "random_order_db")) {
             order_clause = "order by rand(sysdate()) ";
         } else if (is_arg(argv[i], "allapps")) {

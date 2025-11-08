@@ -158,9 +158,8 @@ function code_list($batch_id, $code) {
     page_tail();
 }
 
-function graph($data, $xlabel, $ylabel) {
+function graph($data, $id, $xlabel, $ylabel) {
     echo "
-    <script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>
     <script type=\"text/javascript\">
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
@@ -168,52 +167,76 @@ function graph($data, $xlabel, $ylabel) {
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
 ";
-    echo "['$xlabel','$ylabel'],\n";
+    // huh? should work, see https://developers.google.com/chart/interactive/docs/reference#google.visualization.arraytodatatable
+    //echo "[{label: '$xlabel', type:'number'},{label:'$ylabel', type='number'}],\n";
+    //echo "['$xlabel', '$ylabel'],\n";
     foreach ($data as [$x, $y]) {
         echo "[$x, $y],\n";
     }
     echo "
-        ]);
+        ], true);
 
         var options = {
-          title: 'Job runtime (hours)',
-          legend:  'none'
+          title: '$title',
+          legend:  'none',
+          hAxis: {title: '$xlabel'},
+          vAxis: {title: '$ylabel'}
         };
 
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+        var chart = new google.visualization.LineChart(document.getElementById('$id'));
 
         chart.draw(data, options);
       }
     </script>
     ";
-    echo "
-    <div id=\"curve_chart\" style=\"width: 900px; height: 500px\"></div>
-    ";
+    echo sprintf(
+        '<div id="%s" style="width: 900px; height: 500px"></div>', $id
+    );
 }
 
-function flops_graph($batch) {
-    page_head("Batch $batch->id job runtimes");
-    echo "
-    <p>
-    Runtimes of completed jobs, normalized to an average (4.3 GFLOPS) computer.
-    <p>
-    ";
-    $results = BoincResult::enum_fields(
-        'flops_estimate*elapsed_time as flops',
-        sprintf('batch=%d and outcome=%d',
-            $batch->id, RESULT_OUTCOME_SUCCESS
-        )
-    );
+// compute 25/50/75 quantiles of values
+//
+function quantiles($vals) {
+    sort($vals);
+    $n = count($vals);
+    return [$vals[$n*.25], $vals[$n*.5], $vals[$n*.75]];
+}
+
+// if $flops is true, show normalized runtime; else turnaround time
+//
+function batch_graph($batch, $flops) {
+    if ($flops) {
+        echo "<p>Runtimes of completed jobs, normalized to an average (4.3 GFLOPS) computer.<p>";
+        // 'flops' is CPU benchmark times elapsed (i.e. run) time.
+        // as of 10/2025, cpu_time is way off for BUDA jobs
+        //
+        $results = BoincResult::enum_fields(
+            'flops_estimate*elapsed_time/(4.3e9*3600) as val',
+            sprintf('batch=%d and outcome=%d',
+                $batch->id, RESULT_OUTCOME_SUCCESS
+            )
+        );
+    } else {
+        page_head("Batch $batch->id turnaround times");
+        echo "<p>Turnaround times of completed jobs.<p>";
+        $results = BoincResult::enum_fields(
+            '(received_time-sent_time)/3600 as val',
+            sprintf('batch=%d and outcome=%d',
+                $batch->id, RESULT_OUTCOME_SUCCESS
+            )
+        );
+    }
+
     $x = [];
     $min = 1e99;
     $max = 0;
     foreach ($results as $r) {
-        $f = $r->flops / (4.3e9 *3600);
+        $f = $r->val;
         if ($f > $max) $max = $f;
         if ($f < $min) $min = $f;
         $x[] = $f;
     }
-    $n = 800;
+    $n = 100;
     $count = [];
     for ($i=0; $i<$n; $i++) {
         $count[$i] = 0;
@@ -228,7 +251,28 @@ function flops_graph($batch) {
     for ($i=0; $i<$n; $i++) {
         $data[] = [$min+($i*$range)/$n, $count[$i]];
     }
-    graph($data, 'hours', 'count');
+    if ($flops) {
+        graph($data, 'runtime', 'Job runtime (hours)', 'job count');
+    } else {
+        graph($data, 'turnaround', 'Turnaround time (hours)', 'job count');
+    }
+    [$x25, $x5, $x75] = quantiles($x);
+    echo sprintf('quantiles: %s %s %s',
+        number_format($x25, 2),
+        number_format($x5, 2),
+        number_format($x75, 2)
+    );
+}
+
+function batch_graphs($batch) {
+    page_head("Batch $batch->id job times");
+    echo "
+        <script type=\"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>
+    ";
+    echo '<hr>';
+    batch_graph($batch, true);
+    echo '<hr>';
+    batch_graph($batch, false);
     page_tail();
 }
 
@@ -283,8 +327,8 @@ case 'host_list_errors':
 case 'code_list':
     code_list($batch->id, get_int('code'));
     break;
-case 'flops_graph':
-    flops_graph($batch);
+case 'graphs':
+    batch_graphs($batch);
     break;
 case 'show_hosts':
     show_hosts($batch);

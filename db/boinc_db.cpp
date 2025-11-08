@@ -1589,6 +1589,7 @@ void DB_STATE_COUNTS::db_parse(MYSQL_ROW& r) {
     workunit_file_delete_state_2 = atoi(r[i++]);
 }
 
+// must match the query in next function
 void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     int i=0;
     clear();
@@ -2257,14 +2258,6 @@ void SCHED_RESULT_ITEM::parse(MYSQL_ROW& r) {
     app_version_id = atol(r[i++]);
 }
 
-int DB_SCHED_RESULT_ITEM_SET::add_result(char* result_name) {
-    SCHED_RESULT_ITEM result;
-    result.id = 0;
-    strcpy2(result.queried_name, result_name);
-    results.push_back(result);
-    return 0;
-}
-
 int DB_SCHED_RESULT_ITEM_SET::enumerate() {
     string query;
     int retval;
@@ -2272,7 +2265,6 @@ int DB_SCHED_RESULT_ITEM_SET::enumerate() {
     MYSQL_RES* rp;
     MYSQL_ROW row;
     SCHED_RESULT_ITEM ri;
-
 
     query =
         "SELECT "
@@ -2326,6 +2318,14 @@ int DB_SCHED_RESULT_ITEM_SET::enumerate() {
         }
     } while (row);
 
+    return 0;
+}
+
+int DB_SCHED_RESULT_ITEM_SET::add_result(char* result_name) {
+    SCHED_RESULT_ITEM result;
+    result.id = 0;
+    strcpy2(result.queried_name, result_name);
+    results.push_back(result);
     return 0;
 }
 

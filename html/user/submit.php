@@ -725,7 +725,7 @@ function handle_query_batch($user) {
         <h3>Completed jobs</h3>
         <ul>
         <li>
-        <a href=submit_stats.php?action=flops_graph&batch_id=$batch_id>Job runtimes</a>
+        <a href=submit_stats.php?action=graphs&batch_id=$batch_id>Job runtimes</a>
         <li>
         <a href=submit.php?action=batch_stats&batch_id=$batch_id>Memory/disk usage</a>
         <li>
