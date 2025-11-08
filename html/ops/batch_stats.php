@@ -44,7 +44,7 @@ $hosts = [];
     // $hosts[id] is a struct
     //  ntt_n
     //  ntt_sum
-    
+
 // compute the median TT for the batch;
 // compute normalized TT for hosts w/ jobs
 // classify apps as accelerable or not
