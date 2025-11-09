@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
     }
 
     if (Podman_Path[0] == 0) {
-        // If we couldn't get it from that file, use default if iinstalled by Homebrew
+        // If we couldn't get it from that file, use default if installed by Homebrew
 #ifdef __arm64__
         strlcpy(Podman_Path, "/opt/homebrew/bin/podman", sizeof(Podman_Path));
 #else
@@ -116,22 +116,28 @@ int main(int argc, char *argv[])
 
     if (Podman_Path[0] == 0) {
         // Get the path to the podman executable dynamically
-        char                    s[2048];
         // Mac executables get a very limited PATH environment variable, so we must get the
-        // PATH variable used by Terminal and search ther of the path to podman
+        // PATH variable used by Terminal and search there for the path to podman
         f = popen("a=`/usr/libexec/path_helper`;b=${a%\\\"*}\\\";env ${b} which podman", "r");
-        s[0] = '\0';
         if (f) {
-            fgets(s, sizeof(s), f);
+            fgets(Podman_Path, sizeof(Podman_Path), f);
             pclose(f);
-            char * p=strstr(s, "\n");
+            char * p=strstr(Podman_Path, "\n");
             if (p) *p='\0'; // Remove the newline character
 #if VERBOSE
-            fprintf(debug_file, "popen returned podman path = \"%s\"\n", s);
+            fprintf(debug_file, "popen returned podman path = \"%s\"\n", Podman_Path);
 #endif
-            fclose(f);
         }
     }
+    if (Podman_Path[0] == 0) {
+#if VERBOSE
+        fprintf(debug_file, "Can't get path to Podman\n");
+        fflush(debug_file);
+        fclose(debug_file);
+#endif
+        exit(1);
+    }
+
 #if VERBOSE
     dup2(saved_stdout_fd, fileno(stdout));
     close(saved_stdout_fd); // Close the saved descriptor
@@ -179,6 +185,8 @@ int main(int argc, char *argv[])
             fprintf(stderr, "couldn't exec %s: %d\n", args[0], errno);
 #if VERBOSE
             fprintf(debug_file, "couldn't exec %s: %d\n", args[0], errno);
+            fflush(debug_file);
+            fclose(debug_file);
 #endif
             exit(errno);
         }
