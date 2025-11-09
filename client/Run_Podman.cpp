@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
     char buf [2048];
     char Podman_Path[1024];
     FILE *f;
+    struct stat sbuf;
     int status = 0;
 
     if (geteuid() != 0) {
@@ -77,36 +78,65 @@ int main(int argc, char *argv[])
     fflush(stdout);
 #endif
 
-    // While the official Podman installer puts the porman executable at
+    // While the official Podman installer puts the Podman executable at
     // "/opt/podman/bin/podman", other installation methods (e.g. brew) might not
-#if 1
+
     // The Mac installer wrote path to podman executable in Path_to_podman.txt
     Podman_Path[0] = 0;
     f = fopen("/Library/Application Support/BOINC Data/Path_to_podman.txt", "r");
     if (f) {
         fgets(Podman_Path, sizeof(Podman_Path), f);
         fclose(f);
+        char * p=strstr(Podman_Path, "\n");
+        if (p) *p = '\0'; // Remove the newline character
+    }
+    if (stat((const char*)Podman_Path, &sbuf)!= 0) {
+        Podman_Path[0] = 0;
+    }
+
+    if (Podman_Path[0] == 0) {
+        // If we couldn't get it from that file, use default if installed using Podman installer
+        strlcpy(Podman_Path, "/opt/podman/bin/podman", sizeof(Podman_Path));
+        if (stat((const char*)Podman_Path, &sbuf) != 0) {
+            Podman_Path[0] = 0;
+        }
+    }
+
+    if (Podman_Path[0] == 0) {
+        // If we couldn't get it from that file, use default if installed by Homebrew
+#ifdef __arm64__
+        strlcpy(Podman_Path, "/opt/homebrew/bin/podman", sizeof(Podman_Path));
+#else
+        strlcpy(Podman_Path, "/usr/local/bin/podman", sizeof(Podman_Path));
+#endif
+        if (stat(Podman_Path, &sbuf) != 0) {
+            Podman_Path[0] = 0;
+        }
+    }
+
+    if (Podman_Path[0] == 0) {
+        // Get the path to the podman executable dynamically
+        // Mac executables get a very limited PATH environment variable, so we must get the
+        // PATH variable used by Terminal and search there for the path to podman
+        f = popen("a=`/usr/libexec/path_helper`;b=${a%\\\"*}\\\";env ${b} which podman", "r");
+        if (f) {
+            fgets(Podman_Path, sizeof(Podman_Path), f);
+            pclose(f);
+            char * p=strstr(Podman_Path, "\n");
+            if (p) *p = '\0'; // Remove the newline character
+#if VERBOSE
+            fprintf(debug_file, "popen returned podman path = \"%s\"\n", Podman_Path);
+#endif
+        }
     }
     if (Podman_Path[0] == 0) {
-        // If we couldn't get it rom that file, use the default
-        strlcpy(Podman_Path, "/opt/podman/bin/podman", sizeof(Podman_Path));
-    }
-#else
-    // Get the path to the podman executable dynamically
-    char                    s[2048];
-    // Mac executables get a very limited PATH environment variable, so we must get the
-    // PATH variable used by Terminal and search ther of the path to podman
-    f = popen("a=`/usr/libexec/path_helper`;b=${a%\\\"*}\\\";env ${b} which podman", "r");
-    s[0] = '\0';
-    if (f) {
-        fgets(s, sizeof(s), f);
-        pclose(f);
-        char * p=strstr(s, "\n");
-        if (p) *p='\0'; // Remove the newline character
-        fprintf(debug_file, "popen #2 returned podman path = \"%s\"\n", s);
-        fclose(f);
-    }
+#if VERBOSE
+        fprintf(debug_file, "Can't get path to Podman\n");
+        fflush(debug_file);
+        fclose(debug_file);
 #endif
+        exit(1);
+    }
 
 #if VERBOSE
     dup2(saved_stdout_fd, fileno(stdout));
@@ -155,6 +185,8 @@ int main(int argc, char *argv[])
             fprintf(stderr, "couldn't exec %s: %d\n", args[0], errno);
 #if VERBOSE
             fprintf(debug_file, "couldn't exec %s: %d\n", args[0], errno);
+            fflush(debug_file);
+            fclose(debug_file);
 #endif
             exit(errno);
         }
