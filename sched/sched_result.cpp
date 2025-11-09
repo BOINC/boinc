@@ -388,18 +388,6 @@ int handle_results() {
         strlcpy(srip->stderr_out, rp->stderr_out, sizeof(srip->stderr_out));
         strlcpy(srip->xml_doc_out, rp->xml_doc_out, sizeof(srip->xml_doc_out));
 
-        // look for exit status and app version in stderr_out
-        // (historical - can be deleted at some point)
-        //
-        parse_int(srip->stderr_out, "<exit_status>", srip->exit_status);
-        parse_int(srip->stderr_out, "<app_version>", srip->app_version_num);
-
-        if (srip->exit_status == EXIT_ABORTED_BY_CLIENT && strstr(srip->stderr_out, "finish file present too long")) {
-            log_messages.printf(MSG_CRITICAL, "[handle] [RESULT#%lu] [WU#%lu] fixed finish file problem\n", srip->id, srip->workunitid);
-            srip->client_state = RESULT_FILES_UPLOADED;  // if not, it'll fail in validator
-            srip->exit_status = 0;
-        }
-
         if ((srip->client_state == RESULT_FILES_UPLOADED) && (srip->exit_status == 0)) {
             srip->outcome = RESULT_OUTCOME_SUCCESS;
             if (config.debug_handle_results) {

@@ -194,7 +194,7 @@ enum BATTERY_STATE {
     BATTERY_STATE_OVERHEATED
 };
 
-// Values of RESULT::state in client.
+// Values of RESULT::state (client) and RESULT::client_state (server)
 // THESE MUST BE IN NUMERICAL ORDER
 // (because of the > comparison in RESULT::computing_done())
 // see html/inc/common_defs.inc

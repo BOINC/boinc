@@ -93,6 +93,7 @@ struct APP {
         // type of locality scheduling used by this app (see above)
     int n_size_classes;
         // for multi-size apps, number of size classes
+        // if use batch acceleration: 'accelerable' flag
     bool fraction_done_exact;
         // fraction done reported by app is accurate
 
@@ -102,6 +103,9 @@ struct APP {
     // not in DB:
     bool have_job;
     double size_class_quantiles[MAX_SIZE_CLASSES];
+    inline bool accelerable() {
+        return n_size_classes > 0;
+    }
 };
 
 // A version of an application.
@@ -361,6 +365,7 @@ struct HOST {
         // dynamic estimate of fraction of results
         // that fail validation
         // DEPRECATED
+        // if use batch acceleration: 'low turnaround time' flag
     char product_name[256];
     double gpu_active_frac;
     int p_ngpus;
@@ -398,6 +403,9 @@ struct HOST {
     void fix_nans();
     void clear();
     bool get_opencl_cpu_prop(const char* platform, OPENCL_CPU_PROP&);
+    inline bool low_turnaround() {
+        return _error_rate > 0;
+    }
 };
 
 struct HOST_DELETED {

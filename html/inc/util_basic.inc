@@ -196,6 +196,25 @@ function dtime() {
     return microtime(true);
 }
 
+function date_str($x) {
+    if ($x == 0) return "---";
+    return gmdate('j M Y', (int)$x);
+}
+
+function time_str($x) {
+    if ($x == 0) return "---";
+    return gmdate('j M Y, G:i:s', (int)$x) . " UTC";
+}
+
+function local_time_str($x) {
+    if ($x == 0) return "---";
+    return date('j M Y, H:i T', (int)$x);
+}
+
+function pretty_time_str($x) {
+    return time_str($x);
+}
+
 // security vulnerabilities and user-supplied strings:
 // sources:
 // GET and POST arguments

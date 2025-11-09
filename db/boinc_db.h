@@ -42,7 +42,9 @@
 extern DB_CONN boinc_db;
 
 struct TRANSITIONER_ITEM {
-    DB_ID_TYPE id; // WARNING: this is the WU ID
+    // the following read from workunit table
+
+    DB_ID_TYPE id; // This is the WU ID
     char name[256];
     DB_ID_TYPE appid;
     int min_quorum;
@@ -63,6 +65,9 @@ struct TRANSITIONER_ITEM {
     DB_ID_TYPE app_version_id;
     int transitioner_flags;
     int size_class;
+
+    // the following read from result table
+
     DB_ID_TYPE res_id; // This is the RESULT ID
     char res_name[256];
     int res_report_deadline;
@@ -315,7 +320,7 @@ struct WORK_ITEM {
     int res_server_state;
     double res_report_deadline;
     WORKUNIT wu;
-    void parse(MYSQL_ROW& row);
+    void parse(MYSQL_ROW& row, bool batch_accel=false);
 };
 
 class DB_WORK_ITEM : public WORK_ITEM, public DB_BASE_SPECIAL {
@@ -324,7 +329,8 @@ class DB_WORK_ITEM : public WORK_ITEM, public DB_BASE_SPECIAL {
 public:
     DB_WORK_ITEM(DB_CONN* p=0);
     int enumerate(
-        int limit, const char* select_clause, const char* order_clause
+        int limit, const char* select_clause, const char* order_clause,
+        bool batch_accel
     );
         // used by feeder
     int enumerate_all(
@@ -363,6 +369,13 @@ public:
 
 struct SCHED_RESULT_ITEM {
     char queried_name[256];     // name as reported by client
+
+    // the following items are read from the DB.
+    // They are used to sanity-check the reported result
+    // (e.g. it may have been reported already)
+    // or to write to the job log
+    // TODO: do we need all of them?
+
     DB_ID_TYPE id;
     char name[256];
     DB_ID_TYPE workunitid;
@@ -373,17 +386,20 @@ struct SCHED_RESULT_ITEM {
     int outcome;
     DB_ID_TYPE hostid;
     DB_ID_TYPE userid;
-    DB_ID_TYPE teamid;
     int sent_time;
     int received_time;
+    int file_delete_state;
+    DB_ID_TYPE app_version_id;
+
+    // the following are populated, then written to the DB
+
+    DB_ID_TYPE teamid;
     double cpu_time;
     char xml_doc_out[BLOB_SIZE];
     char stderr_out[BLOB_SIZE];
     int app_version_num;
     int exit_status;
-    int file_delete_state;
     double elapsed_time;
-    DB_ID_TYPE app_version_id;
     double peak_working_set_size;
     double peak_swap_size;
     double peak_disk_usage;

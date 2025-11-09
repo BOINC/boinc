@@ -317,6 +317,10 @@ class BoincHost {
         $db = BoincDb::get();
         return $db->update($this, 'host', $clause);
     }
+    static function update_aux($clause, $where='') {
+        $db = BoincDb::get();
+        return $db->update_aux('host', $clause, $where);
+    }
     function delete() {
         $db = BoincDb::get();
         return $db->delete($this, 'host');
@@ -372,9 +376,9 @@ class BoincResult {
         $db = BoincDb::get();
         return $db->update($this, 'result', $clause);
     }
-    static function update_aux($clause) {
+    static function update_aux($clause, $where='') {
         $db = BoincDb::get();
-        return $db->update_aux('result', $clause);
+        return $db->update_aux('result', $clause, $where);
     }
     static function lookup_id($id) {
         $db = BoincDb::get();
@@ -419,9 +423,9 @@ class BoincWorkunit {
         $db = BoincDb::get();
         return $db->update($this, 'workunit', $clause);
     }
-    static function update_aux($clause) {
+    static function update_aux($clause, $where='') {
         $db = BoincDb::get();
-        return $db->update_aux('workunit', $clause);
+        return $db->update_aux('workunit', $clause, $where);
     }
     static function count($clause) {
         $db = BoincDb::get();
