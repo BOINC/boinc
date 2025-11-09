@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
     fflush(stdout);
 #endif
 
-    // While the official Podman installer puts the porman executable at
+    // While the official Podman installer puts the Podman executable at
     // "/opt/podman/bin/podman", other installation methods (e.g. brew) might not
 
     // The Mac installer wrote path to podman executable in Path_to_podman.txt
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
         fgets(Podman_Path, sizeof(Podman_Path), f);
         fclose(f);
         char * p=strstr(Podman_Path, "\n");
-        if (p) *p='\0'; // Remove the newline character
+        if (p) *p = '\0'; // Remove the newline character
     }
     if (stat((const char*)Podman_Path, &sbuf)!= 0) {
         Podman_Path[0] = 0;
@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
     if (Podman_Path[0] == 0) {
         // If we couldn't get it from that file, use default if installed using Podman installer
         strlcpy(Podman_Path, "/opt/podman/bin/podman", sizeof(Podman_Path));
-        if (stat((const char*)Podman_Path, &sbuf)!= 0) {
+        if (stat((const char*)Podman_Path, &sbuf) != 0) {
             Podman_Path[0] = 0;
         }
     }
@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
 #else
         strlcpy(Podman_Path, "/usr/local/bin/podman", sizeof(Podman_Path));
 #endif
-        if (stat((const char*)Podman_Path, &sbuf)!= 0) {
+        if (stat(Podman_Path, &sbuf) != 0) {
             Podman_Path[0] = 0;
         }
     }
@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
             fgets(Podman_Path, sizeof(Podman_Path), f);
             pclose(f);
             char * p=strstr(Podman_Path, "\n");
-            if (p) *p='\0'; // Remove the newline character
+            if (p) *p = '\0'; // Remove the newline character
 #if VERBOSE
             fprintf(debug_file, "popen returned podman path = \"%s\"\n", Podman_Path);
 #endif

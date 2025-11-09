@@ -309,7 +309,7 @@ if [ -f ss_config.xml ] ; then
     set_perm ss_config.xml boinc_master boinc_master 0664
 fi
 
-# Though "BOINC podman" directory is not  used on older
+# Though "BOINC podman" directory is not used on older
 # versions of BOINC, it doesn't hurt to add it to them
 if [ ! -d "../BOINC podman" ] ; then
     mkdir "../BOINC podman"
@@ -318,7 +318,7 @@ fi
 # their owner and group
 chown -R boinc_project:boinc_project "../BOINC podman"
 # Set owner and permissions for the BOINC podman directory itself
-# itself but not its contents.
+# but not its contents.
 set_perm "../BOINC podman" boinc_master boinc_project 0770
 
 if [ -x /Applications/BOINCManager.app/Contents/MacOS/BOINCManager ] ; then
