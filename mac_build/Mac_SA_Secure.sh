@@ -315,7 +315,7 @@ if [ ! -d "../BOINC podman" ] ; then
     mkdir "../BOINC podman"
 fi
 # We must not modify permissions of any of Podman's data so just set
-# their owner and grpup
+# their owner and group
 chown -R boinc_project:boinc_project "../BOINC podman"
 # Set owner and permissions for the BOINC podman directory itself
 # itself but not its contents.
