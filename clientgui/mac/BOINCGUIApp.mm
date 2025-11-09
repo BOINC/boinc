@@ -117,12 +117,12 @@ bool CBOINCGUIApp::IsApplicationVisible() {
 ///
 void CBOINCGUIApp::ShowApplication(bool bShow) {
     if (bShow) {
-        // unhide restores hidden windows and activates the app bur doesn't bring it to front
+        // unhide restores hidden windows and activates the app but doesn't bring it to front
 //        [ NSApp unhide:NSApp ];
-        if ([ NSApp respondsToSelector: @selector(activate:)]) {
+        if ([ NSApp respondsToSelector: @selector(activate)]) {
             [ NSApp activate ]; // Unavailable before MacOS 14.0
         } else {
-            [ NSApp activateIgnoringOtherApps:YES ];    // Deprecated in a future MacOS release
+            [ NSApp activateIgnoringOtherApps:YES ];    // Deprecated as of MacOS 14.0
         }
     } else {
         // Hides all the windows and deactivates the app

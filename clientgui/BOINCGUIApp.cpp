@@ -529,7 +529,7 @@ bool CBOINCGUIApp::OnInit() {
         // of BOINC Manager is running" dialog.
         if (m_bBOINCMGRAutoStarted) return false;
         // TODO: Should we also ignore duplicate instances that occur within
-        // TODO: a short time after login (detemined by getlastlogxbyname(),
+        // TODO: a short time after login (determined by getlastlogxbyname(),
         // TODO: in case MacOS's "Reopen windows when logging in" functionality
         // TODO: relaunched us AFTER our LaunchAgent autostarted us?
 #endif
