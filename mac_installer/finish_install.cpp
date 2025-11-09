@@ -235,7 +235,7 @@ static Boolean MakeLaunchManagerLaunchAgent(long brandID, passwd *pw)
     fprintf(f, "\t<string>edu.berkeley.launchBOINCManager</string>\n");
     fprintf(f, "\t<key>ProgramArguments</key>\n");
     fprintf(f, "\t<array>\n");
-    fprintf(f, "\t\t<string>/Library/Application Support/%s/Contents/MacOS/%s</string>\n", appPath[brandID], appName[brandID]);
+    fprintf(f, "\t\t<string>/Library/Application Support/%s.app/Contents/MacOS/%s</string>\n", appName[brandID], appName[brandID]);
     fprintf(f, "\t\t<string>--autostart</string>\n");
     fprintf(f, "\t</array>\n");
     if (compareOSVersionTo(13, 0) >= 0) {
