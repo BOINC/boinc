@@ -722,7 +722,7 @@ int DOCKER_CONN::init(
         retval = ctl_wc.run_program_in_wsl(distro_name, "", true);
         if (retval) return retval;
     } else if (docker_type == PODMAN) {
-        int retval = ctl_wc.setup_root(distro_name.c_str());
+        int retval = ctl_wc.setup_podman(distro_name.c_str());
         if (retval) return retval;
     } else {
         fprintf(stderr,

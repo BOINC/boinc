@@ -243,12 +243,17 @@ int WSL_CMD::setup(string &err_msg) {
     return 0;
 }
 
-int WSL_CMD::setup_root(const char* distro_name) {
+int WSL_CMD::setup_podman(const char* distro_name) {
     char cmd[1024];
-    sprintf(cmd, "wsl -d %s -u root", distro_name);
+    if (!strcmp(distro_name, "boinc-buda-runner")) {
+        // if using our own WSL distro, use default user (boinc)
+        sprintf(cmd, "wsl -d %s", distro_name);
+    } else {
+        sprintf(cmd, "wsl -d %s -u root", distro_name);
+    }
     int retval = run_program_pipe(cmd, in_write, out_read, proc_handle);
     if (retval) {
-        fprintf(stderr, "WSL_CMD::setup_root() failed: %d\n", retval);
+        fprintf(stderr, "WSL_CMD::setup_podman() failed: %d\n", retval);
         return retval;
     }
     return 0;
