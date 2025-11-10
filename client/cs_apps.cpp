@@ -410,6 +410,10 @@ void cleanup_docker(DOCKER_JOB_INFO &info, DOCKER_CONN &dc) {
     char cmd[1024];
     string name;
 
+    // debug
+    // dc.verbose = true;
+    // dc.command("system info; printenv", out);
+
     // first containers
     //
     retval = dc.command("ps --all", out);
