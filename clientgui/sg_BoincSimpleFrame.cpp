@@ -747,6 +747,7 @@ void CSimpleFrame::OnReloadSkin(CFrameEvent& WXUNUSED(event)) {
     wxASSERT(pSkinAdvanced);
 
     m_pBackgroundPanel->ReskinInterface();
+    CreateMenus();
     SetTitle(pSkinAdvanced->GetApplicationName());
     SetIcon(pSkinAdvanced->GetApplicationIcon()->GetIcon(wxDefaultSize));
 
