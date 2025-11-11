@@ -101,15 +101,15 @@ bool CNoticeListCtrl::Create( wxWindow* parent ) {
     SetSizer(topsizer);
 
     m_itemCount = 0;
-    if (wxGetApp().GetIsDarkMode()){
-#if wxUSE_WEBVIEW
-        m_noticesBody = wxT("<html><style>body{background-color:black;color:white;}</style><head></head><body></body></html>");
-#else
-        m_noticesBody = wxT("<html><head></head><body bgcolor=black></body></html>");
+// Don't hardcode colors in HTML - instead, let wxHtmlWindow use system colors
+#if !wxUSE_WEBVIEW
+    // For wxHtmlWindow, set system colors on the window itself
+    wxColour bgColor = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
+    wxColour fgColor = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
+    m_browser->SetForegroundColour(fgColor);
+    m_browser->SetBackgroundColour(bgColor);
 #endif
-    } else {
-        m_noticesBody = wxT("<html><head></head><body></body></html>");
-    }
+    m_noticesBody = wxT("<html><head></head><body></body></html>");
 
     // In Dark Mode, paint the window black immediately
 #if wxUSE_WEBVIEW
@@ -156,15 +156,8 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
     m_itemCount = newCount;
 
 
-    if (wxGetApp().GetIsDarkMode()){
-#if wxUSE_WEBVIEW
-        m_noticesBody =  wxT("<html><style>body{background-color:black;color:white;}</style><head></head><body><font face=helvetica>");
-#else
-       m_noticesBody =  wxT("<html><head></head><body bgcolor=black><font face=helvetica color=white bgcolor=black>");
-#endif
-    } else {
-        m_noticesBody =  wxT("<html><head></head><body><font face=helvetica>");
-    }
+    // Remove dark mode conditional - let system colors handle it
+    m_noticesBody = wxT("<html><head></head><body><font face=helvetica>");
 
     for (i=0; i<newCount; ++i) {
         if (pDoc->IsConnected()) {
