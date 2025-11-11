@@ -35,6 +35,7 @@
 #include "parse.h"
 #include "util.h"
 #include "str_replace.h"
+#include "filesys.h"
 
 #include "hostinfo.h"
 
@@ -345,13 +346,63 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
     return 0;
 }
 
+#ifdef __APPLE__
+    // While the official Podman installer puts the Podman executable at
+    // "/opt/podman/bin/podman", other installation methods (e.g. brew) might not
+    static void find_podman_path(char *path, size_t len) {
+    // Mac executables get a very limited PATH environment variable, so we must get the
+    // PATH variable used by Terminal and search there for the path to podman
+    FILE *f = popen("a=`/usr/libexec/path_helper`;b=${a%\\\"*}\\\";env ${b} which podman", "r");
+    if (f) {
+        fgets(path, len, f);
+        pclose(f);
+        char * p=strstr(path, "\n");
+        if (p) *p = '\0'; // Remove the newline character
+        }
+        if (boinc_file_exists(path)) return;
+
+        // If we couldn't get it from that file, use default when installed using Podman installer
+        strlcpy(path, "/opt/podman/bin/podman", len);
+        if (boinc_file_exists(path)) return;
+
+        // If we couldn't get it from that file, use default when installed by Homebrew
+#ifdef __arm64__
+        strlcpy(path, "/opt/homebrew/bin/podman", len);
+#else
+        strlcpy(path, "/usr/local/bin/podman", len);
+#endif
+        if (boinc_file_exists(path)) return;
+#endif
+        path[0] = '\0'; // Failed to find path to Podman
+        return;
+    }
+
 // name of CLI program
 //
 const char* docker_cli_prog(DOCKER_TYPE type) {
     switch (type) {
     case DOCKER: return "docker";
 #ifdef __APPLE__
-        case PODMAN: return "\"/Library/Application Support/BOINC Data/Run_Podman\" ";
+        case PODMAN:
+        static char docker_cli_string[MAXPATHLEN];
+        static bool docker_cli_inited = false;
+        char path[MAXPATHLEN];
+        if (docker_cli_inited) return docker_cli_string;
+        docker_cli_string[0] = '\0';
+        find_podman_path(path, sizeof(path));
+        if (path[0]) {
+            strlcpy(docker_cli_string,
+                    "\"/Library/Application Support/BOINC Data/Run_Podman\" ",
+                    sizeof(docker_cli_string)
+                    );
+            strlcat(docker_cli_string,
+                    path,
+                    sizeof(docker_cli_string)
+                    );
+            strlcat(docker_cli_string, " ", sizeof(docker_cli_string));
+        }
+        docker_cli_inited = true;
+        return docker_cli_string;
 #else
     case PODMAN: return "podman";
 #endif
