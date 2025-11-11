@@ -75,6 +75,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     wxDisplay *display = new wxDisplay(iDisplay);
     wxRect rDisplay = display->GetClientArea();
     const bool bNeedScrollableWindow = rDisplay.GetHeight() < 768;
+    this->SetMaxSize(wxSize(-1, rDisplay.GetHeight()));
 
     wxBoxSizer* dialogSizer = new wxBoxSizer( wxVERTICAL );
 
