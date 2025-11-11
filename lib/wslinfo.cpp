@@ -103,7 +103,7 @@ int WSL_DISTRO::parse(XML_PARSER& xp) {
             return 0;
         }
         if (xp.parse_string("distro_name", distro_name)) continue;
-        if (xp.parse_int("distro_version", distro_version)) continue;
+        if (xp.parse_int("distro_version", boinc_buda_runner_version)) continue;
         if (xp.parse_string("os_name", os_name)) continue;
         if (xp.parse_string("os_version", os_version)) continue;
         if (xp.parse_string("libc_version", libc_version)) continue;
