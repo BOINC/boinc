@@ -680,7 +680,7 @@ function handle_query_batch($user) {
     //row2("# error jobs", $batch->nerror_jobs);
     //row2("logical end time", time_str($batch->logical_end_time));
     if ($batch->expire_time) {
-        row2("Expiration time", time_str($batch->expire_time));
+        row2("Median turnaround time", time_diff($batch->expire_time));
     }
     if ($batch->njobs) {
         row2('Progress', progress_bar($batch, $wus, 600));
