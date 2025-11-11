@@ -52,6 +52,12 @@ void WSL_DISTRO::write_xml(MIOFILE& f) {
         v,
         wsl_version
     );
+    if (boinc_buda_runner_version) {
+        f.printf(
+            "            <distro_version>%d</distro_version>\n",
+            boinc_buda_runner_version
+        );
+    }
     if (is_default) {
         f.printf(
             "            <is_default/>\n"
