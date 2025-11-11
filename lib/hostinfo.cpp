@@ -372,10 +372,10 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
         strlcpy(path, "/usr/local/bin/podman", len);
 #endif
         if (boinc_file_exists(path)) return;
-#endif
         path[0] = '\0'; // Failed to find path to Podman
         return;
     }
+#endif
 
 // name of CLI program
 //
