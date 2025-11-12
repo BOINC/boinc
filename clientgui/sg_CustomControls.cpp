@@ -103,9 +103,6 @@ bool CTransparentButton::Create(wxWindow* parent, wxWindowID id, const wxString&
 #endif
     bool bRetVal = wxButton::Create(parent, id, label, pos, size, style|wxTRANSPARENT_WINDOW, validator, name);
 
-#ifdef __WXMAC__
-    SetBackgroundStyle(wxBG_STYLE_CUSTOM);
-#endif
 #ifndef __WXGTK__
     SetBackgroundColour(parent->GetBackgroundColour());
     SetForegroundColour(parent->GetForegroundColour());
