@@ -74,7 +74,6 @@
 # Updated 8/24/25 to add Run_Podman and BOINC podman directory
 # Updated 8/27/25 to allow podman to stat items under BOINC Data directory
 # Updated 11/9/25 to create "BOINC podman" directory if not present (for bare client)
-# Updated 11/9/25 to create Path_to_podman.txt if not present (for bare client)
 #
 # WARNING: do not use this script with versions of BOINC older
 # than 7.20.4
@@ -231,13 +230,6 @@ dscl . -merge /groups/boinc_master GroupMembership "$(LOGNAME)"
 #if [ $? -ne 0 ]; then
 dscl . -merge /groups/boinc_project GroupMembership "$(LOGNAME)"
 #fi
-
-if [ ! -f "Path_to_podman.txt" ]; then
-    a=`/usr/libexec/path_helper`;b=${a%\"*}\";env ${b} which podman >  /tmp/pathToPodman.txt
-    exec 6</tmp/pathToPodman.txt
-    read pathToPodman <&6
-    printf "%s" "$pathToPodman" > Path_to_podman.txt    # Strips off trailing newline
-fi
 
 # Set permissions of BOINC Data directory's contents:
 #   ss_config.xml is world-readable so screensaver coordinator can read it

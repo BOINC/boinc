@@ -43,9 +43,6 @@ int main(int argc, char *argv[])
     int argsCount = 0;
     int argvCount;
     char buf [2048];
-    char Podman_Path[1024];
-    FILE *f;
-    struct stat sbuf;
     int status = 0;
 
     if (geteuid() != 0) {
@@ -78,65 +75,6 @@ int main(int argc, char *argv[])
     fflush(stdout);
 #endif
 
-    // While the official Podman installer puts the Podman executable at
-    // "/opt/podman/bin/podman", other installation methods (e.g. brew) might not
-
-    // The Mac installer wrote path to podman executable in Path_to_podman.txt
-    Podman_Path[0] = 0;
-    f = fopen("/Library/Application Support/BOINC Data/Path_to_podman.txt", "r");
-    if (f) {
-        fgets(Podman_Path, sizeof(Podman_Path), f);
-        fclose(f);
-        char * p=strstr(Podman_Path, "\n");
-        if (p) *p = '\0'; // Remove the newline character
-    }
-    if (stat((const char*)Podman_Path, &sbuf)!= 0) {
-        Podman_Path[0] = 0;
-    }
-
-    if (Podman_Path[0] == 0) {
-        // If we couldn't get it from that file, use default if installed using Podman installer
-        strlcpy(Podman_Path, "/opt/podman/bin/podman", sizeof(Podman_Path));
-        if (stat((const char*)Podman_Path, &sbuf) != 0) {
-            Podman_Path[0] = 0;
-        }
-    }
-
-    if (Podman_Path[0] == 0) {
-        // If we couldn't get it from that file, use default if installed by Homebrew
-#ifdef __arm64__
-        strlcpy(Podman_Path, "/opt/homebrew/bin/podman", sizeof(Podman_Path));
-#else
-        strlcpy(Podman_Path, "/usr/local/bin/podman", sizeof(Podman_Path));
-#endif
-        if (stat(Podman_Path, &sbuf) != 0) {
-            Podman_Path[0] = 0;
-        }
-    }
-
-    if (Podman_Path[0] == 0) {
-        // Get the path to the podman executable dynamically
-        // Mac executables get a very limited PATH environment variable, so we must get the
-        // PATH variable used by Terminal and search there for the path to podman
-        f = popen("a=`/usr/libexec/path_helper`;b=${a%\\\"*}\\\";env ${b} which podman", "r");
-        if (f) {
-            fgets(Podman_Path, sizeof(Podman_Path), f);
-            pclose(f);
-            char * p=strstr(Podman_Path, "\n");
-            if (p) *p = '\0'; // Remove the newline character
-#if VERBOSE
-            fprintf(debug_file, "popen returned podman path = \"%s\"\n", Podman_Path);
-#endif
-        }
-    }
-    if (Podman_Path[0] == 0) {
-#if VERBOSE
-        fprintf(debug_file, "Can't get path to Podman\n");
-        fflush(debug_file);
-        fclose(debug_file);
-#endif
-        exit(1);
-    }
 
 #if VERBOSE
     dup2(saved_stdout_fd, fileno(stdout));
@@ -149,7 +87,7 @@ int main(int argc, char *argv[])
     // mostly in that user's home directory. To get around this, we
     // simulate a login by user boinc_project and set environment
     // variables for Podman to use our BOINC podman" directory instead
-    snprintf(buf, sizeof(buf), "env XDG_CONFIG_HOME=\"/Library/Application Support/BOINC podman\" XDG_DATA_HOME=\"/Library/Application Support/BOINC podman\" HOME=\"/Library/Application Support/BOINC podman\" %s", Podman_Path);
+    strlcpy(buf, "env XDG_CONFIG_HOME=\"/Library/Application Support/BOINC podman\" XDG_DATA_HOME=\"/Library/Application Support/BOINC podman\" HOME=\"/Library/Application Support/BOINC podman\" ", sizeof(buf));
 
     argvCount = 1;   // arguments to be passed to Podman
     while (argv[argvCount]) {
