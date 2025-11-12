@@ -74,9 +74,10 @@ CTransparentStaticText::CTransparentStaticText(wxWindow* parent, wxWindowID id, 
 bool CTransparentStaticText::Create(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) {
     bool bRetVal = wxStaticText::Create(parent, id, label, pos, size, style|wxTRANSPARENT_WINDOW, name);
 
+#ifndef __WXGTK__
     SetBackgroundColour(parent->GetBackgroundColour());
     SetForegroundColour(parent->GetForegroundColour());
-
+#endif
     return bRetVal;
 }
 
@@ -102,11 +103,13 @@ bool CTransparentButton::Create(wxWindow* parent, wxWindowID id, const wxString&
 #endif
     bool bRetVal = wxButton::Create(parent, id, label, pos, size, style|wxTRANSPARENT_WINDOW, validator, name);
 
-#ifndef __WXMAC__
+#ifdef __WXMAC__
     SetBackgroundStyle(wxBG_STYLE_CUSTOM);
 #endif
+#ifndef __WXGTK__
     SetBackgroundColour(parent->GetBackgroundColour());
     SetForegroundColour(parent->GetForegroundColour());
+#endif
 
     return bRetVal;
 }
@@ -160,7 +163,7 @@ bool CTransparentHyperlinkCtrl::Create(wxWindow *parent,
 
     m_pParentsBgBmp = parentsBgBmp;
 
-#ifndef __WXMAC__
+#if !defined(__WXMAC__) && !defined(__WXGTK__)
     SetBackgroundColour(parent->GetBackgroundColour());
     SetForegroundColour(wxColour(0, 100, 225));
     wxFont myFont = GetFont();
@@ -357,7 +360,7 @@ bool CTransparentCheckBox::Create(wxWindow *parent, wxWindowID id, const wxStrin
 
     m_pParentsBgBmp = parentsBgBmp;
 
-#ifndef __WXMAC__
+#if !defined(__WXMAC__) && !defined(__WXGTK__)
     SetBackgroundColour(parent->GetBackgroundColour());
     SetForegroundColour(parent->GetForegroundColour());
 #endif
