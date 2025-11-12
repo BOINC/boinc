@@ -75,12 +75,12 @@ namespace test_boinccas_CACreateAcctMgrLoginFile {
             return { false, result };
         }
 
-        auto* loginElem = root->FirstChildElement("login");
+        const auto* const loginElem = root->FirstChildElement("login");
         if (loginElem && loginElem->GetText()) {
             result.login = loginElem->GetText();
         }
 
-        auto* hashElem = root->FirstChildElement("password_hash");
+        const auto* const hashElem = root->FirstChildElement("password_hash");
         if (hashElem && hashElem->GetText()) {
             result.passwordHash = hashElem->GetText();
         }
