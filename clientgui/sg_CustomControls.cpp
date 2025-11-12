@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -60,9 +60,6 @@ IMPLEMENT_DYNAMIC_CLASS (CTransparentStaticText, wxStaticText)
 
 BEGIN_EVENT_TABLE(CTransparentStaticText, wxStaticText)
     EVT_ERASE_BACKGROUND(CTransparentStaticText::OnEraseBackground)
-#ifndef __WXMAC__
-    EVT_PAINT(CTransparentStaticText::OnPaint)
-#endif
 END_EVENT_TABLE()
 
 
@@ -77,20 +74,12 @@ CTransparentStaticText::CTransparentStaticText(wxWindow* parent, wxWindowID id, 
 bool CTransparentStaticText::Create(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) {
     bool bRetVal = wxStaticText::Create(parent, id, label, pos, size, style|wxTRANSPARENT_WINDOW, name);
 
+#ifndef __WXGTK__
     SetBackgroundColour(parent->GetBackgroundColour());
     SetForegroundColour(parent->GetForegroundColour());
-
+#endif
     return bRetVal;
 }
-
-
-#ifndef __WXMAC__
-void CTransparentStaticText::OnPaint(wxPaintEvent& /*event*/) {
-    wxPaintDC dc(this);
-    dc.SetFont(GetFont());
-    dc.DrawText(GetLabel(), 0, 0);
-}
-#endif
 
 
 IMPLEMENT_DYNAMIC_CLASS (CTransparentButton, wxButton)
@@ -114,11 +103,13 @@ bool CTransparentButton::Create(wxWindow* parent, wxWindowID id, const wxString&
 #endif
     bool bRetVal = wxButton::Create(parent, id, label, pos, size, style|wxTRANSPARENT_WINDOW, validator, name);
 
-#ifndef __WXMAC__
+#ifdef __WXMAC__
     SetBackgroundStyle(wxBG_STYLE_CUSTOM);
 #endif
+#ifndef __WXGTK__
     SetBackgroundColour(parent->GetBackgroundColour());
     SetForegroundColour(parent->GetForegroundColour());
+#endif
 
     return bRetVal;
 }
@@ -172,7 +163,7 @@ bool CTransparentHyperlinkCtrl::Create(wxWindow *parent,
 
     m_pParentsBgBmp = parentsBgBmp;
 
-#ifndef __WXMAC__
+#if !defined(__WXMAC__) && !defined(__WXGTK__)
     SetBackgroundColour(parent->GetBackgroundColour());
     SetForegroundColour(wxColour(0, 100, 225));
     wxFont myFont = GetFont();
@@ -369,7 +360,7 @@ bool CTransparentCheckBox::Create(wxWindow *parent, wxWindowID id, const wxStrin
 
     m_pParentsBgBmp = parentsBgBmp;
 
-#ifndef __WXMAC__
+#if !defined(__WXMAC__) && !defined(__WXGTK__)
     SetBackgroundColour(parent->GetBackgroundColour());
     SetForegroundColour(parent->GetForegroundColour());
 #endif
