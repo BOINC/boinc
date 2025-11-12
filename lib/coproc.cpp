@@ -214,6 +214,7 @@ void COPROCS::summary_string(char* buf, int len) {
         if (type == PROC_TYPE_NVIDIA_GPU) continue;
         if (type == PROC_TYPE_AMD_GPU) continue;
         if (type == PROC_TYPE_INTEL_GPU) continue;
+        if (type == PROC_TYPE_APPLE_GPU) continue;
         if (!strlen(cp.opencl_prop.name)) continue;
         snprintf(buf2, sizeof(buf2),
             "[opencl_gpu|%s|%d|%dMB|%d]",
