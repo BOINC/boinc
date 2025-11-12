@@ -356,7 +356,7 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
     if (f) {
         fgets(path, len, f);
         pclose(f);
-        char * p=strstr(path, "\n");
+        char* p = strstr(path, "\n");
         if (p) *p = '\0'; // Remove the newline character
         }
         if (boinc_file_exists(path)) return;
