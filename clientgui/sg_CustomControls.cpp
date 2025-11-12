@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -60,9 +60,6 @@ IMPLEMENT_DYNAMIC_CLASS (CTransparentStaticText, wxStaticText)
 
 BEGIN_EVENT_TABLE(CTransparentStaticText, wxStaticText)
     EVT_ERASE_BACKGROUND(CTransparentStaticText::OnEraseBackground)
-#ifndef __WXMAC__
-    EVT_PAINT(CTransparentStaticText::OnPaint)
-#endif
 END_EVENT_TABLE()
 
 
@@ -82,15 +79,6 @@ bool CTransparentStaticText::Create(wxWindow* parent, wxWindowID id, const wxStr
 
     return bRetVal;
 }
-
-
-#ifndef __WXMAC__
-void CTransparentStaticText::OnPaint(wxPaintEvent& /*event*/) {
-    wxPaintDC dc(this);
-    dc.SetFont(GetFont());
-    dc.DrawText(GetLabel(), 0, 0);
-}
-#endif
 
 
 IMPLEMENT_DYNAMIC_CLASS (CTransparentButton, wxButton)
