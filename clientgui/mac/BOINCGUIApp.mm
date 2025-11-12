@@ -263,15 +263,8 @@ void CBOINCBitmapChoice::SetItemBitmap(unsigned int index, const wxBitmap& bitma
 
     // Find the NSPopupButton control used by wxChoice
     // using its position within our window.
-    NSWindow *window;
     NSPoint pointInWindow;
-    NSArray<NSWindow *> *appWindows = [NSApp windows];
-    int n = [appWindows count];
-    for (int i=0; i<n; ++i) {
-        window = [appWindows objectAtIndex:i];
-        if ([window isMainWindow]) break;
-    }
-    if (![window isMainWindow]) return;
+    NSWindow *window = (NSWindow*)MacGetTopLevelWindowRef();
 
     // Convert wxWidgets coordinates to MacOS coordinates.
     float wh = [window frame].size.height;
