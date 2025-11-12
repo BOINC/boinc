@@ -253,7 +253,7 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
 void CBOINCBitmapChoice::SetItemBitmap(unsigned int index, const wxBitmap& bitmap) {
     int x, y, topx, topy, h, w;
     if (!bitmap.IsOk()) return;
-    // Get the center of this contol within our window
+    // Get the center of this control within our window
     GetScreenPosition(&x, &y);
     GetSize(&w, &h);
     wxWindow *top = wxApp::GetMainTopWindow();
