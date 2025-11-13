@@ -85,8 +85,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          apt-get -qq update
-          apt-get install -y autopoint make build-essential m4 pkg-config autoconf libtool git python3 python3-distutils python3-jinja2 curl zip unzip tar bison p7zip-full dbus
+          apt-get update
+          apt-get install -y autopoint make build-essential m4 pkg-config autoconf autoconf-archive libtool git python3 python3-distutils python3-jinja2 curl zip unzip tar bison p7zip-full dbus
 
       - name: Install dependencies for arm64
         if: matrix.arch == 'arm64'
@@ -682,7 +682,7 @@ jobs:
       - name: Install dependencies
         if: success()
         run: |
-          apt update -qq
+          apt update
           apt install -y python3 gnupg2 curl
 
       - name: Install distro package for further upgrade
@@ -692,12 +692,12 @@ jobs:
           mv /bin/systemctl /bin/systemctl.bak
 
       - name: Install distro package for further upgrade from the alpha
-        if: success() && matrix.type == 'upgrade-from-alpha' && matrix.os != 'trixie'
+        if: success() && matrix.type == 'upgrade-from-alpha'
         run: |
           mkdir -p /etc/apt/keyrings
           curl -fsSL https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }}/boinc.gpg | gpg --dearmor -o /etc/apt/keyrings/boinc.gpg
           echo deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/boinc.gpg] https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }} ${{ matrix.os }} main | tee /etc/apt/sources.list.d/boinc.list > /dev/null
-          apt update -qq
+          apt update
           DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the stable
@@ -706,7 +706,7 @@ jobs:
           mkdir -p /etc/apt/keyrings
           curl -fsSL https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }}/boinc.gpg | gpg --dearmor -o /etc/apt/keyrings/boinc.gpg
           echo deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/boinc.gpg] https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }} ${{ matrix.os }} main | tee /etc/apt/sources.list.d/boinc.list > /dev/null
-          apt update -qq
+          apt update
           DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
 
       - name: Download client
@@ -724,7 +724,7 @@ jobs:
       - name: Install client and manager
         if: success()
         run: |
-          apt update -qq
+          apt update
           apt install -y $(find ./ -type f -name "boinc-client*.deb" -printf "%p\n")
           apt install -y $(find ./ -type f -name "boinc-manager*.deb" -printf "%p\n")
 
@@ -753,7 +753,7 @@ jobs:
       - name: Install dependencies
         if: success()
         run: |
-          apt update -qq
+          apt update
           apt install -y python3 gnupg2 curl
 
       - name: Install distro package for further upgrade
@@ -766,7 +766,7 @@ jobs:
         run: |
           DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common
           add-apt-repository -y ppa:costamagnagianfranco/boinc
-          apt update -qq
+          apt update
           DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the alpha
@@ -775,7 +775,7 @@ jobs:
           mkdir -p /etc/apt/keyrings
           curl -fsSL https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }}/boinc.gpg | gpg --dearmor -o /etc/apt/keyrings/boinc.gpg
           echo deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/boinc.gpg] https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }} ${{ matrix.os }} main | tee /etc/apt/sources.list.d/boinc.list > /dev/null
-          apt update -qq
+          apt update
           DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the stable
@@ -784,7 +784,7 @@ jobs:
           mkdir -p /etc/apt/keyrings
           curl -fsSL https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }}/boinc.gpg | gpg --dearmor -o /etc/apt/keyrings/boinc.gpg
           echo deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/boinc.gpg] https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }} ${{ matrix.os }} main | tee /etc/apt/sources.list.d/boinc.list > /dev/null
-          apt update -qq
+          apt update
           DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
 
       - name: Rename systemctl (not supported on CI)
@@ -807,7 +807,7 @@ jobs:
       - name: Install client and manager
         if: success()
         run: |
-          apt update -qq
+          apt update
           apt install -y $(find ./ -type f -name "boinc-client*.deb" -printf "%p\n")
           apt install -y $(find ./ -type f -name "boinc-manager*.deb" -printf "%p\n")
 
@@ -852,16 +852,16 @@ jobs:
           rpm --import https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc.gpg
           yum install -y boinc-client boinc-manager
 
-      # - name: Install distro package for further upgrade from the alpha for Fedora >= 41
-      #   if: success() && matrix.type == 'upgrade-from-alpha' && (matrix.os == '41' || matrix.os == '42')
-      #   run: |
-      #     dnf install -y dnf-plugins-core
-      #     dnf config-manager addrepo --from-repofile=https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc-alpha-fc${{ matrix.os }}.repo
-      #     dnf config-manager setopt boinc-alpha-fc${{ matrix.os }}.enabled=1
-      #     rpm --import https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc.gpg
-      #     client_version=$(dnf list --available --repo boinc-alpha-fc${{ matrix.os }} | grep boinc-client | grep -oP '\b\d+\.\d+\.\d+\b')
-      #     manager_version=$(dnf list --available --repo boinc-alpha-fc${{ matrix.os }} | grep boinc-manager | grep -oP '\b\d+\.\d+\.\d+\b')
-      #     dnf install -y boinc-client-${client_version} boinc-manager-${manager_version}
+      - name: Install distro package for further upgrade from the alpha for Fedora >= 41
+        if: success() && matrix.type == 'upgrade-from-alpha' && (matrix.os == '41' || matrix.os == '42')
+        run: |
+          dnf install -y dnf-plugins-core
+          dnf config-manager addrepo --from-repofile=https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc-alpha-fc${{ matrix.os }}.repo
+          dnf config-manager setopt boinc-alpha-fc${{ matrix.os }}.enabled=1
+          rpm --import https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc.gpg
+          client_version=$(dnf list --available --repo boinc-alpha-fc${{ matrix.os }} | grep boinc-client | grep -oP '\b\d+\.\d+\.\d+\b' | head -n 1)
+          manager_version=$(dnf list --available --repo boinc-alpha-fc${{ matrix.os }} | grep boinc-manager | grep -oP '\b\d+\.\d+\.\d+\b' | head -n 1)
+          dnf install -y boinc-client-${client_version} boinc-manager-${manager_version}
 
       - name: Install distro package for further upgrade from the stable for Fedora < 41
         if: success() && matrix.type == 'upgrade-from-stable' && matrix.os != '41' && matrix.os != '42'
@@ -939,14 +939,14 @@ jobs:
         run: |
           echo "OS=`echo ${{ matrix.os }} | sed 's/\./_/g'`" >> $GITHUB_ENV
 
- # boinc-client paclage in the official repo is currently broken for openSUSE 16.0 with the error "usermod: group 'render' does not exist"
+ # boinc-client package in the official repo is currently broken for openSUSE 16.0 with the error "usermod: group 'render' does not exist"
       - name: Install distro package for further upgrade
         if: success() && matrix.type == 'upgrade' && matrix.os != '16.0'
         run: |
           zypper install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the alpha
-        if: success() && matrix.type == 'upgrade-from-alpha' && matrix.os != '16.0'
+        if: success() && matrix.type == 'upgrade-from-alpha'
         run: |
           rpm --import https://boinc.berkeley.edu/dl/linux/alpha/suse${{ env.OS }}/boinc.gpg
           zypper --non-interactive --quiet ar -G -f https://boinc.berkeley.edu/dl/linux/alpha/suse${{ env.OS }} official-boinc-repo
@@ -1027,7 +1027,7 @@ jobs:
       - name: Install dependencies
         if: ${{ success() && env.SKIP_RUN == 0 }}
         run: |
-          sudo apt-get update -qq
+          sudo apt-get update
           sudo apt-get install -y aptly gnupg2 gpgv
 
       - name: Setup GPG keys

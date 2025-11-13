@@ -20,14 +20,16 @@
 //
 // Usage: feeder [ options ]
 //  [ -d x ]                debug level x
+//  [ --batch_accel ]       use order designed for batch acceleration
 //  [ --allapps ]           interleave results from all applications uniformly
 //  [ --by_batch ]          interleave results from all batches uniformly
 //  [ --random_order ]      order by "random" field of result
 //  [ --random_order_db ]   randomize order with SQL rand(sysdate())
-//  [ --priority_order ]    order by decreasing "priority" field of result
-//  [ --priority_asc ]      order by increasing "priority" field of result
+//  [ --priority_order ]    order by decreasing result priority
+//  [ --priority_asc ]      order by increasing result priority
 //  [ --priority_order_create_time ]
-//                          order by priority, then by increasing WU create time
+//                          order by desc result priority,
+//                          then increasing WU create time
 //  [ --mod n i ]           handle only results with (id mod n) == i
 //  [ --wmod n i ]          handle only workunits with (id mod n) == i
 //                          recommended if using HR with multiple schedulers
@@ -160,6 +162,7 @@ bool using_hr;
     // true iff any app is using HR
 bool is_main_feeder = true;
     // false if using --mod or --wmod and this one isn't 0
+bool batch_accel = false;
 
 void signal_handler(int) {
     log_messages.printf(MSG_NORMAL, "Signaled by simulator\n");
@@ -260,7 +263,9 @@ static bool get_job_from_db(
         if (hrt && config.hr_allocate_slots) {
             retval = wi.enumerate_all(enum_size, select_clause);
         } else {
-            retval = wi.enumerate(enum_size, select_clause, order_clause);
+            retval = wi.enumerate(
+                enum_size, select_clause, order_clause, batch_accel
+            );
         }
         if (retval) {
             if (retval != ERR_DB_NOT_FOUND) {
@@ -707,11 +712,12 @@ void usage(char *name) {
         "Options:\n"
         "  [ -d X | --debug_level X]        Set log verbosity to X (1..4)\n"
         "  [ --allapps ]                    Interleave results from all applications uniformly.\n"
+        "  [ --batch_accel ]                query order for batch acceleration\n"
         "  [ --random_order ]               order by \"random\" field of result\n"
         "  [ --random_order_db ]            randomize order with SQL rand(sysdate())\n"
         "  [ --priority_asc ]               order by increasing \"priority\" field of result\n"
         "  [ --priority_order ]             order by decreasing \"priority\" field of result\n"
-        "  [ --priority_order_create_time ] order by priority, then by increasing WU create time\n"
+        "  [ --priority_order_create_time ] order by desc priority, then increasing WU create time\n"
         "  [ --purge_stale x ]              remove work items from the shared memory segment after x secs\n"
         "                                   that have been there for longer then x minutes\n"
         "                                   but haven't been assigned\n"
@@ -745,6 +751,8 @@ int main(int argc, char** argv) {
             if (dl == 4) g_print_queries = true;
         } else if (is_arg(argv[i], "random_order")) {
             order_clause = "order by r1.random ";
+        } else if (is_arg(argv[i], "batch_accel")) {
+            batch_accel = true;
         } else if (is_arg(argv[i], "random_order_db")) {
             order_clause = "order by rand(sysdate()) ";
         } else if (is_arg(argv[i], "allapps")) {

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -13,7 +13,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 //
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "DlgExclusiveApps.h"
@@ -75,17 +75,17 @@ CDlgExclusiveApps::CDlgExclusiveApps(wxWindow* parent) :
     m_exclusiveApsListBox = new wxListBox(exclusiveAppsListStaticBox, ID_LISTBOX_EXCLAPPS, wxDefaultPosition, wxSize(-1, 145), 0, NULL, wxLB_EXTENDED|wxLB_NEEDED_SB|wxLB_SORT);
     exclusiveAppsListBoxSizer->Add(m_exclusiveApsListBox, 1, wxALL|wxEXPAND, 5);
 
-	wxBoxSizer* exclusiveAppsButtonSizer = new wxBoxSizer( wxHORIZONTAL );
+    wxBoxSizer* exclusiveAppsButtonSizer = new wxBoxSizer( wxHORIZONTAL );
 
     m_addExclusiveAppButton = new wxButton( exclusiveAppsListStaticBox, ID_ADDEXCLUSIVEAPPBUTTON, _("Add..."), wxDefaultPosition, wxDefaultSize, 0 );
     m_addExclusiveAppButton->SetToolTip( _("Add an application to this list"));
-	exclusiveAppsButtonSizer->Add( m_addExclusiveAppButton, 0, wxRIGHT, 5 );
+    exclusiveAppsButtonSizer->Add( m_addExclusiveAppButton, 0, wxRIGHT, 5 );
 
     exclusiveAppsButtonSizer->AddStretchSpacer();
 
     m_removeExclusiveAppButton = new wxButton( exclusiveAppsListStaticBox, ID_REMOVEEXCLUSIVEAPPBUTTON, _("Remove"), wxDefaultPosition, wxDefaultSize, 0 );
     m_removeExclusiveAppButton->SetToolTip( _("Remove an application from this list"));
-	exclusiveAppsButtonSizer->Add( m_removeExclusiveAppButton, 0, wxLEFT, 5 );
+    exclusiveAppsButtonSizer->Add( m_removeExclusiveAppButton, 0, wxLEFT, 5 );
 
     exclusiveAppsListBoxSizer->Add(exclusiveAppsButtonSizer, 0, wxEXPAND|wxLEFT|wxRIGHT, 25 );
 
@@ -99,17 +99,17 @@ CDlgExclusiveApps::CDlgExclusiveApps(wxWindow* parent) :
     m_exclusiveGPUApsListBox = new wxListBox(exclusiveGPUAppsListStaticBox, ID_LISTBOX_EXCLGPUAPPS, wxDefaultPosition, wxSize(-1, 145), 0, NULL, wxLB_EXTENDED|wxLB_NEEDED_SB|wxLB_SORT);
     exclusiveGPUAppsListBoxSizer->Add(m_exclusiveGPUApsListBox, 1, wxALL|wxEXPAND, 5);
 
-	wxBoxSizer* exclusiveGPUAppsButtonSizer = new wxBoxSizer( wxHORIZONTAL );
+    wxBoxSizer* exclusiveGPUAppsButtonSizer = new wxBoxSizer( wxHORIZONTAL );
 
     m_addExclusiveGPUAppButton = new wxButton( exclusiveGPUAppsListStaticBox, ID_ADDEXCLUSIVEGPUAPPBUTTON, _("Add..."), wxDefaultPosition, wxDefaultSize, 0 );
     m_addExclusiveGPUAppButton->SetToolTip( _("Add an application to this list"));
-	exclusiveGPUAppsButtonSizer->Add( m_addExclusiveGPUAppButton, 0, wxRIGHT, 5 );
+    exclusiveGPUAppsButtonSizer->Add( m_addExclusiveGPUAppButton, 0, wxRIGHT, 5 );
 
     exclusiveGPUAppsButtonSizer->AddStretchSpacer();
 
     m_removeExclusiveGPUAppButton = new wxButton( exclusiveGPUAppsListStaticBox, ID_REMOVEEXCLUSIVEGPUAPPBUTTON, _("Remove"), wxDefaultPosition, wxDefaultSize, 0 );
     m_removeExclusiveGPUAppButton->SetToolTip( _("Remove an application from this list"));
-	exclusiveGPUAppsButtonSizer->Add( m_removeExclusiveGPUAppButton, 0, wxLEFT, 5 );
+    exclusiveGPUAppsButtonSizer->Add( m_removeExclusiveGPUAppButton, 0, wxLEFT, 5 );
 
     exclusiveGPUAppsListBoxSizer->Add(exclusiveGPUAppsButtonSizer, 0, wxEXPAND|wxLEFT|wxRIGHT, 25 );
 
@@ -127,8 +127,8 @@ CDlgExclusiveApps::CDlgExclusiveApps(wxWindow* parent) :
 
     moreOptionsLinkSizer->Add(
         new wxHyperlinkCtrl(
-            this, wxID_ANY, wxT("https://boinc.berkeley.edu/wiki/Client_configuration"),
-            wxT("https://boinc.berkeley.edu/wiki/Client_configuration"),
+            this, wxID_ANY, wxT("https://github.com/BOINC/boinc/wiki/Client-configuration"),
+            wxT("https://github.com/BOINC/boinc/wiki/Client-configuration"),
             wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE
         ),
 #ifdef __WXMAC__

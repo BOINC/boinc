@@ -105,6 +105,12 @@ int SCHED_CONFIG::parse(FILE* f) {
             continue;
         }
         if (xp.match_tag("/config")) {
+            if (batch_accel && size_classes) {
+                boinc::fprintf(stderr,
+                    "config.xml: can't have both batch_accel and size_classes\n"
+                );
+                return ERR_XML_PARSE;
+            }
             char hostname[256];
             gethostname(hostname, 256);
             if (!strcmp(hostname, db_host)) strcpy(db_host, "localhost");
@@ -319,6 +325,8 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool("credit_by_app", credit_by_app)) continue;
         if (xp.parse_bool("keyword_sched", keyword_sched)) continue;
         if (xp.parse_bool("rte_no_stats", rte_no_stats)) continue;
+        if (xp.parse_bool("batch_accel", batch_accel)) continue;
+        if (xp.parse_bool("size_classes", size_classes)) continue;
 
         //////////// SCHEDULER LOG FLAGS /////////
 

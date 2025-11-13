@@ -73,6 +73,7 @@
 # Updated 5/9/25 to add podman directory
 # Updated 8/24/25 to add Run_Podman and BOINC podman directory
 # Updated 8/27/25 to allow podman to stat items under BOINC Data directory
+# Updated 11/9/25 to create "BOINC podman" directory if not present (for bare client)
 #
 # WARNING: do not use this script with versions of BOINC older
 # than 7.20.4
@@ -300,14 +301,17 @@ if [ -f ss_config.xml ] ; then
     set_perm ss_config.xml boinc_master boinc_master 0664
 fi
 
-if [ -d "../BOINC podman" ] ; then
-    # We must not modify permissions of any of Podman's data so just set
-    # their owner and grpup
-    chown -R boinc_project:boinc_project "../BOINC podman"
-    # Set owner and permissions for the BOINC podman directory itself
-    # itself but not its contents.
-    set_perm "../BOINC podman" boinc_master boinc_project 0770
+# Though "BOINC podman" directory is not used on older
+# versions of BOINC, it doesn't hurt to add it to them
+if [ ! -d "../BOINC podman" ] ; then
+    mkdir "../BOINC podman"
 fi
+# We must not modify permissions of any of Podman's data so just set
+# their owner and group
+chown -R boinc_project:boinc_project "../BOINC podman"
+# Set owner and permissions for the BOINC podman directory itself
+# but not its contents.
+set_perm "../BOINC podman" boinc_master boinc_project 0770
 
 if [ -x /Applications/BOINCManager.app/Contents/MacOS/BOINCManager ] ; then
     set_perm  /Applications/BOINCManager.app/Contents/MacOS/BOINCManager boinc_master boinc_master 0555

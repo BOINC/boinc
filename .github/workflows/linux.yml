@@ -68,16 +68,22 @@ jobs:
         with:
           fetch-depth: 2
 
+      # (looks like sometimes there is a cache issue)
+      - name: Ignore mirrors when building arm64
+        if: success() && endsWith(matrix.type, 'arm64')
+        run: |
+          sudo sed -i 's|priority:1|priority:100|' /etc/apt/apt-mirrors.txt
+
       - name: Install dependencies
         if: matrix.type != 'coverity' || (github.ref == 'refs/heads/master' && github.event_name == 'schedule')
         run: |
-          sudo apt-get -qq update
+          sudo apt-get update
           sudo apt-get install -y autopoint p7zip-full zip
 
       - name: Install dependencies for x64
         if: success() && (! endsWith(matrix.type, 'arm64') && (matrix.type != 'coverity' || (github.ref == 'refs/heads/master' && github.event_name == 'schedule')))
         run: |
-          sudo apt-get install -y libftgl-dev freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk-3-dev libsecret-1-dev libgcrypt20-dev libsystemd-dev libwebkit2gtk-4.1-dev libxxf86vm-dev ocl-icd-opencl-dev libltdl-dev libzip-dev nlohmann-json3-dev
+          sudo apt-get install -y autoconf-archive libftgl-dev freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk-3-dev libsecret-1-dev libgcrypt20-dev libsystemd-dev libwebkit2gtk-4.1-dev libxxf86vm-dev ocl-icd-opencl-dev libltdl-dev libzip-dev nlohmann-json3-dev
 
       - name: Install dependencies for manager
         if: success() && (matrix.type == 'manager' || (matrix.type == 'coverity' && github.ref == 'refs/heads/master' && github.event_name == 'schedule'))
@@ -90,7 +96,7 @@ jobs:
           sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
 
       - name: Fix sources for arm64
-        if: success() && endsWith(matrix.type, 'arm64')
+        if: success() && endsWith(matrix.type, 'arm64') && matrix.type != 'client-vcpkg-arm64'
         run: |
           arch=arm64
           sudo dpkg --add-architecture arm64
@@ -136,7 +142,8 @@ jobs:
         run: |
           sudo apt install -y \
             libltdl-dev:arm64 \
-            python3-jinja2
+            python3-jinja2 \
+            autoconf-archive
 
       - name: Install dependencies for unit testing
         if: success() && matrix.type == 'unit-test'
@@ -382,7 +389,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          apt-get -qq update
+          apt-get update
           apt-get install -y make build-essential m4 pkg-config autoconf libtool git p7zip-full python3
 
       - name: Install dependencies for x86

@@ -117,8 +117,15 @@ bool CBOINCGUIApp::IsApplicationVisible() {
 ///
 void CBOINCGUIApp::ShowApplication(bool bShow) {
     if (bShow) {
-        [ NSApp activate ];
+        // unhide restores hidden windows and activates the app but doesn't bring it to front
+//        [ NSApp unhide:NSApp ];
+        if ([ NSApp respondsToSelector: @selector(activate)]) {
+            [ NSApp activate ]; // Unavailable before MacOS 14.0
+        } else {
+            [ NSApp activateIgnoringOtherApps:YES ];    // Deprecated as of MacOS 14.0
+        }
     } else {
+        // Hides all the windows and deactivates the app
         [ NSApp hide:NSApp ];
     }
 }
@@ -246,7 +253,7 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
 void CBOINCBitmapChoice::SetItemBitmap(unsigned int index, const wxBitmap& bitmap) {
     int x, y, topx, topy, h, w;
     if (!bitmap.IsOk()) return;
-    // Get the center of this contol within our window
+    // Get the center of this control within our window
     GetScreenPosition(&x, &y);
     GetSize(&w, &h);
     wxWindow *top = wxApp::GetMainTopWindow();
@@ -256,15 +263,8 @@ void CBOINCBitmapChoice::SetItemBitmap(unsigned int index, const wxBitmap& bitma
 
     // Find the NSPopupButton control used by wxChoice
     // using its position within our window.
-    NSWindow *window;
     NSPoint pointInWindow;
-    NSArray<NSWindow *> *appWindows = [NSApp windows];
-    int n = [appWindows count];
-    for (int i=0; i<n; ++i) {
-        window = [appWindows objectAtIndex:i];
-        if ([window isMainWindow]) break;
-    }
-    if (![window isMainWindow]) return;
+    NSWindow *window = (NSWindow*)MacGetTopLevelWindowRef();
 
     // Convert wxWidgets coordinates to MacOS coordinates.
     float wh = [window frame].size.height;

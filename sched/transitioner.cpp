@@ -83,7 +83,7 @@ int result_suffix(char* name) {
 // A result timed out; penalize the corresponding host_app_version
 //
 static int result_timed_out(
-    TRANSITIONER_ITEM res_item, TRANSITIONER_ITEM& wu_item
+    TRANSITIONER_ITEM &res_item, TRANSITIONER_ITEM& wu_item
 ) {
     DB_HOST_APP_VERSION hav;
     char query[512], clause[512];

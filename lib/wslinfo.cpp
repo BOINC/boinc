@@ -54,6 +54,12 @@ void WSL_DISTRO::write_xml(MIOFILE& f) {
         v,
         wsl_version
     );
+    if (boinc_buda_runner_version) {
+        f.printf(
+            "            <distro_version>%d</distro_version>\n",
+            boinc_buda_runner_version
+        );
+    }
     if (is_default) {
         f.printf(
             "            <is_default/>\n"
@@ -99,6 +105,7 @@ int WSL_DISTRO::parse(XML_PARSER& xp) {
             return 0;
         }
         if (xp.parse_string("distro_name", distro_name)) continue;
+        if (xp.parse_int("distro_version", boinc_buda_runner_version)) continue;
         if (xp.parse_string("os_name", os_name)) continue;
         if (xp.parse_string("os_version", os_version)) continue;
         if (xp.parse_string("libc_version", libc_version)) continue;

@@ -21,6 +21,7 @@
 #include "boinc_win.h"
 #include "win_util.h"
 
+#include "error_numbers.h"
 #include "str_replace.h"
 #include "client_state.h"
 #include "client_msgs.h"
@@ -51,8 +52,12 @@ int get_all_distros(WSL_DISTROS& distros) {
     LONG lRet = RegOpenKeyEx(HKEY_CURRENT_USER,
         lxss_path.c_str(), 0, KEY_QUERY_VALUE | KEY_ENUMERATE_SUB_KEYS, &hKey
     );
+    if (lRet == ERROR_FILE_NOT_FOUND) {
+      msg_printf(0, MSG_INFO, "WSL: registry key not found; assuming no WSL distros are installed");
+      return 0;
+    }
     if (lRet != ERROR_SUCCESS) {
-        msg_printf(0, MSG_INFO, "WSL: registry open failed");
+        msg_printf(0, MSG_INFO, "WSL: registry open failed (error %ld)", lRet);
         return -1;
     }
 
@@ -64,8 +69,9 @@ int get_all_distros(WSL_DISTROS& distros) {
         (LPBYTE)default_wsl_guid, &default_wsl_guid_len
     );
     if ((lRet != ERROR_SUCCESS) || (default_wsl_guid_len > buf_len)) {
-        msg_printf(0, MSG_INFO, "WSL: registry query failed");
-        return -1;
+        msg_printf(0, MSG_INFO, "WSL: registry query for DefaultDistribution failed (error %ld)", lRet);
+        RegCloseKey(hKey);
+        return 0;
     }
 
     // scan subkeys (one per distro)
@@ -97,6 +103,7 @@ int get_all_distros(WSL_DISTROS& distros) {
             hSubKey, "State", NULL, NULL, (LPBYTE)&wsl_state, &wsl_state_len
         );
         if (ret != ERROR_SUCCESS || wsl_state != 1) {
+            RegCloseKey(hSubKey);
             continue;
         }
 
@@ -196,16 +203,21 @@ int get_wsl_information(WSL_DISTROS &distros) {
     WSL_DISTROS all_distros;
     int retval = get_all_distros(all_distros);
     if (retval) return retval;
+    if (all_distros.distros.empty()) {
+        distros.distros.clear();
+        return 0;
+    }
     string err_msg;
 
     WSL_CMD rs;
 
     if (rs.setup(err_msg)) {
-        msg_printf(0, MSG_INFO, "WSL setup error: %s", err_msg.c_str());
-        return -1;
+        msg_printf(0, MSG_INFO, "WSL unavailable: %s", err_msg.c_str());
+        return 0;
     }
 
     string reply;
+    bool launch_failed = false;
 
     // loop over all WSL distros
     for (WSL_DISTRO &wd: all_distros.distros) {
@@ -234,6 +246,9 @@ int get_wsl_information(WSL_DISTROS &distros) {
             );
             CloseHandle(rs.proc_handle);
             update_os(wd, os_name, os_version);
+        } else {
+            launch_failed = true;
+            break;
         }
 
         // try reading '/etc/os-relese'
@@ -249,6 +264,9 @@ int get_wsl_information(WSL_DISTROS &distros) {
                 );
                 CloseHandle(rs.proc_handle);
                 update_os(wd, os_name, os_version);
+            } else {
+                launch_failed = true;
+                break;
             }
         }
 
@@ -256,9 +274,7 @@ int get_wsl_information(WSL_DISTROS &distros) {
         //
         if (!got_both(wd)) {
             const std::string command_redhatrelease = "cat " + std::string(file_redhatrelease);
-            if (!rs.run_program_in_wsl(
-                wd.distro_name, command_redhatrelease
-            )) {
+            if (!rs.run_program_in_wsl(wd.distro_name, command_redhatrelease)) {
                 read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
                 HOST_INFO::parse_linux_os_info(
                     reply, redhatrelease,
@@ -267,6 +283,9 @@ int get_wsl_information(WSL_DISTROS &distros) {
                 );
                 CloseHandle(rs.proc_handle);
                 update_os(wd, os_name, os_version);
+            } else {
+                launch_failed = true;
+                break;
             }
         }
 
@@ -287,6 +306,9 @@ int get_wsl_information(WSL_DISTROS &distros) {
                 );
                 CloseHandle(rs.proc_handle);
                 update_os(wd, os_name_str.c_str(), os_version_str.c_str());
+            } else {
+                launch_failed = true;
+                break;
             }
         }
 
@@ -301,6 +323,9 @@ int get_wsl_information(WSL_DISTROS &distros) {
                 strip_whitespace(os_name_str);
                 CloseHandle(rs.proc_handle);
                 update_os(wd, os_name_str.c_str(), "");
+            } else {
+                launch_failed = true;
+                break;
             }
         }
 
@@ -315,6 +340,9 @@ int get_wsl_information(WSL_DISTROS &distros) {
                 strip_whitespace(os_version_str);
                 CloseHandle(rs.proc_handle);
                 update_os(wd, "", os_version_str.c_str());
+            } else {
+                launch_failed = true;
+                break;
             }
         }
 
@@ -370,6 +398,11 @@ int get_wsl_information(WSL_DISTROS &distros) {
         }
 
         distros.distros.push_back(wd);
+    }
+
+    if (launch_failed) {
+        msg_printf(0, MSG_INFO, "WSL commands cannot be launched; skipping WSL detection");
+        distros.distros.clear();
     }
 
     return 0;

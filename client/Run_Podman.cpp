@@ -43,8 +43,6 @@ int main(int argc, char *argv[])
     int argsCount = 0;
     int argvCount;
     char buf [2048];
-    char Podman_Path[1024];
-    FILE *f;
     int status = 0;
 
     if (geteuid() != 0) {
@@ -77,36 +75,6 @@ int main(int argc, char *argv[])
     fflush(stdout);
 #endif
 
-    // While the official Podman installer puts the porman executable at
-    // "/opt/podman/bin/podman", other installation methods (e.g. brew) might not
-#if 1
-    // The Mac installer wrote path to podman executable in Path_to_podman.txt
-    Podman_Path[0] = 0;
-    f = fopen("/Library/Application Support/BOINC Data/Path_to_podman.txt", "r");
-    if (f) {
-        fgets(Podman_Path, sizeof(Podman_Path), f);
-        fclose(f);
-    }
-    if (Podman_Path[0] == 0) {
-        // If we couldn't get it rom that file, use the default
-        strlcpy(Podman_Path, "/opt/podman/bin/podman", sizeof(Podman_Path));
-    }
-#else
-    // Get the path to the podman executable dynamically
-    char                    s[2048];
-    // Mac executables get a very limited PATH environment variable, so we must get the
-    // PATH variable used by Terminal and search ther of the path to podman
-    f = popen("a=`/usr/libexec/path_helper`;b=${a%\\\"*}\\\";env ${b} which podman", "r");
-    s[0] = '\0';
-    if (f) {
-        fgets(s, sizeof(s), f);
-        pclose(f);
-        char * p=strstr(s, "\n");
-        if (p) *p='\0'; // Remove the newline character
-        fprintf(debug_file, "popen #2 returned podman path = \"%s\"\n", s);
-        fclose(f);
-    }
-#endif
 
 #if VERBOSE
     dup2(saved_stdout_fd, fileno(stdout));
@@ -119,7 +87,7 @@ int main(int argc, char *argv[])
     // mostly in that user's home directory. To get around this, we
     // simulate a login by user boinc_project and set environment
     // variables for Podman to use our BOINC podman" directory instead
-    snprintf(buf, sizeof(buf), "env XDG_CONFIG_HOME=\"/Library/Application Support/BOINC podman\" XDG_DATA_HOME=\"/Library/Application Support/BOINC podman\" HOME=\"/Library/Application Support/BOINC podman\" %s", Podman_Path);
+    strlcpy(buf, "env XDG_CONFIG_HOME=\"/Library/Application Support/BOINC podman\" XDG_DATA_HOME=\"/Library/Application Support/BOINC podman\" HOME=\"/Library/Application Support/BOINC podman\" ", sizeof(buf));
 
     argvCount = 1;   // arguments to be passed to Podman
     while (argv[argvCount]) {
@@ -155,6 +123,8 @@ int main(int argc, char *argv[])
             fprintf(stderr, "couldn't exec %s: %d\n", args[0], errno);
 #if VERBOSE
             fprintf(debug_file, "couldn't exec %s: %d\n", args[0], errno);
+            fflush(debug_file);
+            fclose(debug_file);
 #endif
             exit(errno);
         }

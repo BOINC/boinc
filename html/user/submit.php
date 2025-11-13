@@ -680,7 +680,7 @@ function handle_query_batch($user) {
     //row2("# error jobs", $batch->nerror_jobs);
     //row2("logical end time", time_str($batch->logical_end_time));
     if ($batch->expire_time) {
-        row2("Expiration time", time_str($batch->expire_time));
+        row2("Median turnaround time", time_diff($batch->expire_time));
     }
     if ($batch->njobs) {
         row2('Progress', progress_bar($batch, $wus, 600));
@@ -725,7 +725,7 @@ function handle_query_batch($user) {
         <h3>Completed jobs</h3>
         <ul>
         <li>
-        <a href=submit_stats.php?action=flops_graph&batch_id=$batch_id>Job runtimes</a>
+        <a href=submit_stats.php?action=graphs&batch_id=$batch_id>Job runtimes</a>
         <li>
         <a href=submit.php?action=batch_stats&batch_id=$batch_id>Memory/disk usage</a>
         <li>
@@ -757,7 +757,7 @@ function handle_query_batch($user) {
         $url
     );
 
-    start_table();
+    start_table('table-striped');
     $x = [
         "Name <br><small>click for details</small>",
         "status",
