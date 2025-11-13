@@ -266,6 +266,7 @@ int WSL_CMD::setup_podman(const char* distro_name) {
 int WSL_CMD::run_program_in_wsl(
     const string distro_name, const string command, bool use_cwd
 ) {
+    proc_handle = NULL;
     HRESULT ret = pWslLaunch(
         boinc_ascii_to_wide(distro_name).c_str(),
         boinc_ascii_to_wide(command).c_str(),
@@ -273,7 +274,9 @@ int WSL_CMD::run_program_in_wsl(
         &proc_handle
     );
     if (ret != S_OK) {
-        fprintf(stderr, "pWslLaunch failed: %d\n", ret);
+        fprintf(stderr, "pWslLaunch failed: 0x%08lx\n", ret);
+        proc_handle = NULL;
+        return ERR_NOT_FOUND;
     }
     return 0;
 }
