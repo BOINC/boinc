@@ -1236,6 +1236,10 @@ function update_2_15_2025() {
     do_query('alter table result add index res_batch(batch)');
 }
 
+function update_11_23_2025() {
+    do_query("alter table host add column misc text not null default''");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,

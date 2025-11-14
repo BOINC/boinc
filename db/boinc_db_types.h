@@ -22,8 +22,6 @@
 #ifndef _BOINC_DB_TYPES_
 #define _BOINC_DB_TYPES_
 
-#include <vector>
-
 #include "average.h"
 #include "opencl_boinc.h"
 #include "parse.h"
@@ -370,6 +368,8 @@ struct HOST {
     double gpu_active_frac;
     int p_ngpus;
     double p_gpu_fpops;
+    char misc[BLOB_SIZE];
+        // JSON description of GPUs, Docker etc.
 
     // the following items are passed in scheduler requests,
     // and used in the scheduler,

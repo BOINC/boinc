@@ -63,9 +63,6 @@ struct PLAN_CLASS_SPEC {
     int min_core_client_version;
     int max_core_client_version;
         // for non-compute-intensive, or override for GPU apps
-    bool have_host_summary_regex;
-    regex_t host_summary_regex;
-        // matched against host.serialnum
     int user_id;
     double infeasible_random;
     long min_wu_id;
