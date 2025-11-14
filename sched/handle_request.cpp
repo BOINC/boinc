@@ -589,9 +589,7 @@ static int modify_host_struct(HOST& host) {
 
     string s;
     host_info_json(s);
-    log_messages.printf(MSG_CRITICAL,
-        "host info: %s\n", s.c_str()
-    );
+    //log_messages.printf(MSG_CRITICAL, "host info: %s\n", s.c_str());
     safe_strcpy(host.misc, s.c_str());
 
     if (strcmp(host.last_ip_addr, g_request->host.last_ip_addr)) {

@@ -125,8 +125,7 @@ function show_host($host, $user, $ipprivate) {
     row2(tra("Virtualization"), vbox_desc($misc));
     row2(tra("Docker"), docker_desc($misc));
     row2(tra("Operating System"), "$host->os_name <br> $host->os_version");
-    $v = boinc_version($misc);
-    row2(tra("BOINC version"), $misc->client_version);
+    row2(tra("BOINC version"), boinc_version($misc));
     $x = $host->m_nbytes/GIGA;
     $y = round($x, 2);
     row2(tra("Memory"), tra("%1 GB", $y));

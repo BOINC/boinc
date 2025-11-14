@@ -23,8 +23,6 @@
 #include <unistd.h>
 #include <cmath>
 
-using std::string;
-
 // For machines with finite() defined in ieeefp.h
 #if HAVE_IEEEFP_H
 #include <ieeefp.h>
@@ -36,6 +34,8 @@ using std::string;
 #include "util.h"
 #include "error_numbers.h"
 #include "boinc_db.h"
+
+using std::string;
 
 extern "C" {
     int isnan(double);

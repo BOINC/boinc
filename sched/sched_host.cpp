@@ -25,7 +25,7 @@
 // This is bad for several reasons (e.g. we can overflow the 254 chars)
 //
 // New way:
-// store them in JSON in a new field host.host_info
+// store them in JSON in a new field host.misc
 
 // This file has code for both ways.
 // At some point we can delete the old way.
@@ -117,8 +117,8 @@ void host_info_json(string &out) {
         sprintf(buf, ",\n"\
 "    \"vbox\": {\n"\
 "        \"version\": \"%s\",\n"\
-"        \"hw_accel\": \"%s\",\n"\
-"        \"hw_accel_enabled\": \"%s\"\n"\
+"        \"hw_accel\": %s,\n"\
+"        \"hw_accel_enabled\": %s\n"\
 "    }",
             g_request->host.virtualbox_version,
             (strstr(g_request->host.p_features, "vmx") || strstr(g_request->host.p_features, "svm"))?"true":"false",

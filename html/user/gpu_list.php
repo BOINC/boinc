@@ -44,9 +44,12 @@ function strip_vendor($model) {
 //
 function get_gpu_model($x, $vendor) {
     if (empty($x->gpus)) return null;
-    $g = $x->gpus;
-    if (empty($x->$vendor)) return null;
-    return $x->$vendor->model;
+    foreach ($x->gpus as $gpu) {
+        if ($gpu->type == $vendor) {
+            return $gpu->model;
+        }
+    }
+    return null;
 }
 
 function add_model($model, $r, $wu, &$models) {
