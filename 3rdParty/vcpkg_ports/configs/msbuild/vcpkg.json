@@ -21,6 +21,8 @@
     {
       "name": "libzip",
       "default-features": false
-    }
+    },
+    "wil",
+    "tinyxml2"
   ]
 }
