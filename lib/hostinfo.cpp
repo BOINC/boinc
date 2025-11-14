@@ -51,7 +51,6 @@ HOST_INFO::HOST_INFO() {
 void HOST_INFO::clear_host_info() {
     timezone = 0;
     safe_strcpy(domain_name, "");
-    safe_strcpy(serialnum, "");
     safe_strcpy(ip_addr, "");
     safe_strcpy(host_cpid, "");
 

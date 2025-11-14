@@ -810,29 +810,6 @@ char* lf_terminate(char* p) {
     return p;
 }
 
-void parse_serialnum(char* in, char* boinc, char* vbox, char* coprocs) {
-    strcpy(boinc, "");
-    strcpy(vbox, "");
-    strcpy(coprocs, "");
-    while (*in) {
-        if (*in != '[') break;      // format error
-        char* p = strchr(in, ']');
-        if (!p) break;              // format error
-        p++;
-        char c = *p;
-        *p = 0;
-        if (strstr(in, "BOINC")) {
-            strcpy(boinc, in);
-        } else if (strstr(in, "vbox")) {
-            strcpy(vbox, in);
-        } else {
-            strcat(coprocs, in);
-        }
-        *p = c;
-        in = p;
-    }
-}
-
 // split a string with the given delimiter (e.g. \n).
 //
 vector<string> split(string s, char delim) {

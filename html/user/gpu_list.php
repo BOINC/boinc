@@ -39,18 +39,15 @@ function strip_vendor($model) {
     return $model;
 }
 
-// take a host.serialnum field (which may encode several GPUs)
-// and extract the model name for the given vendor
+// given a host.misc field,
+// extract the GPU model name for the given vendor
 //
 function get_gpu_model($x, $vendor) {
-    $descs = explode("]", $x);
-    array_pop($descs);
-    foreach ($descs as $desc) {
-        $desc = trim($desc, "[");
-        $d = explode("|", $desc);
-        if ($d[0] == "BOINC") continue;
-        if ($d[0] != $vendor) continue;
-        return strip_vendor(trim($d[1]));
+    if (empty($x->gpus)) return null;
+    foreach ($x->gpus as $gpu) {
+        if ($gpu->type == $vendor) {
+            return $gpu->model;
+        }
     }
     return null;
 }
@@ -118,15 +115,15 @@ function get_gpu_list($vendor, $alt_vendor=null) {
         if (!$wu) continue;
         $v = "";
         if ($vendor == "cuda") {
-            $v = "CUDA";
+            $v = "nvidia";
         } else if ($vendor == "intel_gpu") {
-            $v = "INTEL";
+            $v = "intel";
         } else if ($vendor == "apple_gpu") {
-            $v = "Apple";
+            $v = "apple";
         } else {
             $v = "CAL";
         }
-        $model = get_gpu_model($h->serialnum, $v);
+        $model = get_gpu_model($h->misc, $v);
         if (!$model) continue;
         add_model($model, $r, $wu, $total);
         if (strstr($h->os_name, "Windows")) {
