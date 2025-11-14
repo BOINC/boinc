@@ -524,8 +524,23 @@ void CBOINCListCtrl::DrawProgressBars()
     int n = (int)m_iRowsNeedingProgressBars.GetCount();
     if (n <= 0) return;
 
-    wxColour progressColor = isDarkMode ? wxColour(0, 64, 128) : wxColour(192, 217, 217);
+    wxColour progressColor;
+    wxColour remainderColor;
+    wxColour textColor;
+
+    if (isDarkMode) {
+        progressColor = wxColour(96, 96, 96);
+        remainderColor = wxColour(24, 24, 24);
+        textColor = wxColour(230, 230, 230);
+    } else {
+        progressColor = wxColour(192, 217, 217);
+        remainderColor = *wxWHITE;
+        textColor = *wxBLACK;
+    }
+
     wxBrush progressBrush(progressColor);
+    wxBrush remainderBrush(remainderColor);
+    wxPen remainderPen(remainderColor);
 
     numItems = GetItemCount();
     if (numItems) {
@@ -606,12 +621,13 @@ void CBOINCListCtrl::DrawProgressBars()
             dc.SetPen(bkgd);
             dc.SetBrush(bkgd);
 #else
-            dc.SetPen(isDarkMode ? *wxBLACK_PEN : *wxWHITE_PEN);
-            dc.SetBrush(isDarkMode ? *wxBLACK_BRUSH : *wxWHITE_BRUSH);
+            dc.SetPen(remainderPen);
+            dc.SetBrush(remainderBrush);
 #endif
             dc.DrawRectangle( rr );
 
             dc.SetPen(*wxBLACK_PEN);
+            dc.SetTextForeground(textColor);
             dc.SetBackgroundMode(wxBRUSHSTYLE_TRANSPARENT);
             if (xx > (r.width - 7)) {
                 dc.DrawText(progressString, r.x, r.y);
