@@ -66,7 +66,7 @@ object Logging {
 
     @JvmStatic
     fun isLoggable(level: Level, logCategory: Category): Boolean {
-        return level.logLevel <= logLevel && logCategory in categories
+        return true //level.logLevel <= logLevel && logCategory in categories
     }
 
     @JvmStatic
