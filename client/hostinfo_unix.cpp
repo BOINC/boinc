@@ -1847,12 +1847,14 @@ int HOST_INFO::get_host_info(bool init) {
     // a run of the client
     //
 
+#ifndef ANDROID
     if (!cc_config.dont_use_vbox) {
         get_virtualbox_version();
     }
 
     get_docker_version();
     get_docker_compose_version();
+#endif
 
     get_cpu_info();
     get_cpu_count();
