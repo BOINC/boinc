@@ -266,7 +266,7 @@ int CLIENT_STATE::check_suspend_processing() {
     // Do these only if we've received an RPC from the GUI
     // (which is where we get battery info)
 
-    msg_printf(NULL, MSG_DEBUG,
+    msg_printf(NULL, MSG_INFO,
         "[suspend] device_status_time %.0f now %.0f",
         device_status_time, now
     );
@@ -276,7 +276,7 @@ int CLIENT_STATE::check_suspend_processing() {
         // (we rely on it for battery info)
         //
 
-        msg_printf(NULL, MSG_DEBUG,
+        msg_printf(NULL, MSG_INFO,
             "[suspend] last GUI RPC %.0f sec ago",
             now - device_status_time
         );
