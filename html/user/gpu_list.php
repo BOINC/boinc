@@ -23,6 +23,8 @@
 //
 // elapsed_time(J)/rsc_fpops_est(J)
 // over completed jobs J currently in the DB
+//
+// TODO: this is fantastically inefficient
 
 require_once("../inc/util.inc");
 
@@ -70,10 +72,19 @@ function add_model($model, $r, $wu, &$models) {
 // $x->linux
 // $x->mac
 //
-function get_gpu_list($vendor, $alt_vendor=null) {
+// vendor is nvidia, amd, intel, or apple
+
+function get_gpu_list($vendor) {
+
+    // plan class names contain:
+    // nvidia
+    // amd or ati
+    // intel
+    // apple
+
     $clause = "plan_class like '%$vendor%'";
-    if ($alt_vendor) {
-        $clause .= " or plan_class like '%$alt_vendor%'";
+    if ($vendor == 'amd') {
+        $clause .= " or plan_class like 'ati'";
     }
     $avs = BoincAppVersion::enum($clause);
     if (count($avs) == 0) {
@@ -82,21 +93,21 @@ function get_gpu_list($vendor, $alt_vendor=null) {
         return $x;
     }
 
-    $av_ids = "";
+    $av_ids = [];
     foreach($avs as $av) {
-        $av_ids .= "$av->id, ";
+        $av_ids[] = $av->id;
     }
-    if ($vendor == "cuda") {
-        $av_ids .= "-3";
-    } else if ($vendor == "ati") {
-        $av_ids .= "-4";
-    } else if ($vendor == "intel_gpu") {
-        $av_ids .= "-5";
-    } else if ($vendor == "apple_gpu") {
-        $av_ids .= "-6";
-    } else {
-        $av_ids .= "0";
+    if ($vendor == "nvidia") {
+        $av_ids[] = ANON_PLATFORM_NVIDIA;
+    } else if ($vendor == "amd") {
+        $av_ids[] = ANON_PLATFORM_ATI;
+    } else if ($vendor == "intel") {
+        $av_ids[] = ANON_PLATFORM_INTEL_GPU;
+    } else if ($vendor == "apple") {
+        $av_ids[] = ANON_PLATFORM_APPLE_GPU;
     }
+
+    $av_ids = implode(',', $av_ids);
 
     $t = time() - 30*86400;
     //echo "start enum $vendor $av_ids\n";
@@ -113,17 +124,7 @@ function get_gpu_list($vendor, $alt_vendor=null) {
         if (!$h) continue;
         $wu = BoincWorkunit::lookup_id($r->workunitid);
         if (!$wu) continue;
-        $v = "";
-        if ($vendor == "cuda") {
-            $v = "nvidia";
-        } else if ($vendor == "intel_gpu") {
-            $v = "intel";
-        } else if ($vendor == "apple_gpu") {
-            $v = "apple";
-        } else {
-            $v = "CAL";
-        }
-        $model = get_gpu_model($h->misc, $v);
+        $model = get_gpu_model(json_decode($h->misc), $vendor);
         if (!$model) continue;
         add_model($model, $r, $wu, $total);
         if (strstr($h->os_name, "Windows")) {
@@ -148,9 +149,9 @@ function get_gpu_list($vendor, $alt_vendor=null) {
 function get_gpu_lists() {
     $x = new StdClass;
     $x->cuda = get_gpu_list("cuda", "nvidia");
-    $x->ati = get_gpu_list("ati", "amd");
-    $x->intel_gpu = get_gpu_list("intel_gpu");
-    $x->apple_gpu = get_gpu_list("apple_gpu");
+    $x->ati = get_gpu_list("amd");
+    $x->intel_gpu = get_gpu_list("intel");
+    $x->apple_gpu = get_gpu_list("apple");
     $x->time = time();
     return $x;
 }

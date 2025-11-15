@@ -840,7 +840,7 @@ bool PLAN_CLASS_SPEC::check(
 
     // Apple GPU
 
-    } else if (!strcmp(gpu_type, "apple_cpu")) {
+    } else if (!strcmp(gpu_type, "apple")) {
         COPROC& cp = sreq.coprocs.apple_gpu;
         cpp = &cp;
 
