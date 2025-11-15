@@ -266,10 +266,21 @@ int CLIENT_STATE::check_suspend_processing() {
     // Do these only if we've received an RPC from the GUI
     // (which is where we get battery info)
 
+    msg_printf(NULL, MSG_DEBUG,
+        "[suspend] device_status_time %.0f now %.0f",
+        device_status_time, now
+    );
+
     if (device_status_time) {
         // exit if we haven't heard from the GUI in 30 sec
         // (we rely on it for battery info)
         //
+
+        msg_printf(NULL, MSG_DEBUG,
+            "[suspend] last GUI RPC %.0f sec ago",
+            now - device_status_time
+        );
+
         if (now > device_status_time + ANDROID_KEEPALIVE_TIMEOUT) {
             msg_printf(NULL, MSG_INTERNAL_ERROR,
                 "No RPC from GUI in last %d sec - exiting",

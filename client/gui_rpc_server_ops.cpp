@@ -660,6 +660,7 @@ static void handle_get_screensaver_tasks(GUI_RPC_CONN& grc) {
 }
 
 static void handle_quit(GUI_RPC_CONN& grc) {
+    msg_printf(NULL, MSG_INFO, "GUI requested client shutdown");
     gstate.requested_exit = true;
     grc.mfout.printf("<success/>\n");
 }
