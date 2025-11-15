@@ -84,7 +84,7 @@ function get_gpu_list($vendor) {
 
     $clause = "plan_class like '%$vendor%'";
     if ($vendor == 'amd') {
-        $clause .= " or plan_class like 'ati'";
+        $clause .= " or plan_class like '%ati%'";
     }
     $avs = BoincAppVersion::enum($clause);
     if (count($avs) == 0) {
@@ -148,7 +148,7 @@ function get_gpu_list($vendor) {
 
 function get_gpu_lists() {
     $x = new StdClass;
-    $x->cuda = get_gpu_list("cuda", "nvidia");
+    $x->cuda = get_gpu_list("nvidia");
     $x->ati = get_gpu_list("amd");
     $x->intel_gpu = get_gpu_list("intel");
     $x->apple_gpu = get_gpu_list("apple");
