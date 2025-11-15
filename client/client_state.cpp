@@ -160,7 +160,7 @@ CLIENT_STATE::CLIENT_STATE()
     client_disk_usage = 0.0;
     total_disk_usage = 0.0;
 #ifdef ANDROID
-    device_status_time = 0;
+    device_status_time = dtime();
 #endif
 
     rec_interval_start = 0;
