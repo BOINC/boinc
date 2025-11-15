@@ -1301,6 +1301,7 @@ $db_updates = array (
     array(27027, "update_8_23_2018"),
     array(27028, "update_9_12_2018"),
     array(27029, "update_2_15_2025"),
+    array(27030, "update_11_23_2025"),
 );
 
 ?>
