@@ -118,8 +118,21 @@ function to_struct($p) {
     return $s;
 }
 
+function parse_serialnum($serialnum) {
+    $parts = explode('[', $serialnum);
+    $ret = [];
+    foreach ($parts as $part) {
+        if (!$part) continue;
+        $part = substr($part, 0, -1);
+        $f = explode('|', $part);
+        if (!$f) continue;
+        $ret[$f[0]] = $f;
+    }
+    return $ret;
+}
+
 function main() {
-    $hosts = BoincHost::enum("serialnum<>''", '');
+    $hosts = BoincHost::enum('', '');
     foreach ($hosts as $h) {
         //echo "$h->serialnum\n";
         $p = parse_serialnum($h->serialnum);

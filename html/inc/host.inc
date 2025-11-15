@@ -166,9 +166,14 @@ function show_host($host, $user, $ipprivate) {
     } else {
         row2(tra("Average download rate"), tra("Unknown"));
     }
-    $x = $host->avg_turnaround/86400;
+
+    // This code is used by Science United,
+    // which knows about hosts but doesn't compute
     if (!NO_COMPUTING) {
-        row2(tra("Average turnaround time"), tra("%1 days", round($x, 2)));
+        $x = $host->avg_turnaround;
+        if ($x) {
+            row2(tra("Average turnaround time"), time_diff($x));
+        }
         row2(tra("Application details"),
             "<a href=host_app_versions.php?hostid=$host->id>".tra("Show")."</a>"
         );
@@ -207,12 +212,19 @@ function show_host($host, $user, $ipprivate) {
             }
         }
         row2(tra("Location"), location_form($host));
+        row2(tra("Merge duplicate records of this computer"), "<a class=\"btn btn-primary btn-sm\" href=host_edit_form.php?hostid=$host->id>".tra("Merge")."</a>");
         if ($show_results && $nresults == 0) {
-            $x = " &middot; <a href=host_delete.php?hostid=$host->id".url_tokens($user->authenticator).">".tra("Delete this computer")."</a> ";
-        } else {
-            $x = "";
+            row2('',
+                button_text(
+                    sprintf(
+                        'host_delete.php?hostid=%d%s',
+                        $host->id,
+                        url_tokens($user->authenticator)
+                    ),
+                    tra("Delete this computer")
+                )
+            );
         }
-        row2(tra("Merge duplicate records of this computer"), "<a class=\"btn btn-primary btn-sm\" href=host_edit_form.php?hostid=$host->id>".tra("Merge")."</a> $x");
     } else {
         row2(tra("Number of times client has contacted server"), $host->rpc_seqno);
         row2(tra("Last contact"), date_str($host->rpc_time));
@@ -281,10 +293,10 @@ function docker_desc($misc) {
     if (!empty($misc->config)) {
         $c = $misc->config;
         if (!empty($c->dont_use_wsl)) {
-            $x .= "Config: don't use WSL";
+            $x .= "<br>Config: don't use WSL";
         }
         if (!empty($c->dont_use_docker)) {
-            $x .= "Config: don't use Docker";
+            $x .= "<br>Config: don't use Docker";
         }
     }
     return $x;
@@ -315,6 +327,9 @@ function gpu_desc($misc) {
 // Given the same string as above, return the BOINC version
 //
 function boinc_version($misc) {
+    if (empty($misc->client_version)) {
+        return '---';
+    }
     $x = $misc->client_version;
     if (!empty($misc->client_brand)) {
         $x .= " ($misc->client_brand)";
