@@ -537,6 +537,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     }
 
 #if defined(__linux__) || defined(_WIN32) || defined(__APPLE__)
+#ifndef ANDROID
     // compute non_boinc_cpu_usage
     // Improved version for systems where we can get total CPU
     // (Win, Linux, Mac)
@@ -569,6 +570,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
             //printf("non_boinc_cpu_usage %f\n", non_boinc_cpu_usage);
         }
     } else
+#endif
 #endif
     {
         // compute non_boinc_cpu_usage the old way
