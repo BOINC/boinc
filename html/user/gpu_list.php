@@ -77,7 +77,7 @@ function add_model($model, $r, $wu, &$models) {
 function get_gpu_list($vendor) {
 
     // plan class names contain:
-    // nvidia
+    // nvidia or cuda
     // amd or ati
     // intel
     // apple
@@ -85,6 +85,9 @@ function get_gpu_list($vendor) {
     $clause = "plan_class like '%$vendor%'";
     if ($vendor == 'amd') {
         $clause .= " or plan_class like '%ati%'";
+    }
+    if ($vendor == 'nvidia') {
+        $clause .= " or plan_class like '%cuda%'";
     }
     $avs = BoincAppVersion::enum($clause);
     if (count($avs) == 0) {
