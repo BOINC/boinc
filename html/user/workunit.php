@@ -87,6 +87,7 @@ function show_wu($wu) {
         if (function_exists('project_workunit')) {
             project_workunit($wu);
         }
+        row2('Priority', $wu->priority);
         end_table();
 
         echo "<h2>Job instances</h2>\n";
