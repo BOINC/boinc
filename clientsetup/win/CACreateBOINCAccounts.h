@@ -1,6 +1,6 @@
 // Berkeley Open Infrastructure for Network Computing
-// http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // This is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -18,20 +18,11 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-#ifndef _CACREATEBOINCACCOUNTS_H_
-#define _CACREATEBOINCACCOUNTS_H_
-
+#pragma once
 
 class CACreateBOINCAccounts : public BOINCCABase
 {
 public:
-
     CACreateBOINCAccounts(MSIHANDLE hMSIHandle);
-    ~CACreateBOINCAccounts();
-    virtual UINT OnExecution();
-
+    UINT OnExecution() override final;
 };
-
-
-#endif
-

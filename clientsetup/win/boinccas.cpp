@@ -1,5 +1,5 @@
 // Berkeley Open Infrastructure for Network Computing
-// http://boinc.berkeley.edu
+// https://boinc.berkeley.edu
 // Copyright (C) 2025 University of California
 //
 // This is free software; you can redistribute it and/or
@@ -21,74 +21,17 @@
 #include "stdafx.h"
 #include "boinccas.h"
 
-
-/////////////////////////////////////////////////////////////////////
-//
-// Function:    BOINCCABase::BOINCCABase
-//
-// Description: Initialize the Custom Action infrastructure.
-//
-/////////////////////////////////////////////////////////////////////
-
-BOINCCABase::BOINCCABase(
-    MSIHANDLE hMSIHandle,
-    const tstring strActionName,
-    const tstring strProgressTitle
-    )
-{
-
-    // Store the parameters for later use
-    m_hMSIHandle = hMSIHandle;
-    m_strActionName = strActionName;
-    m_strProgressTitle = strProgressTitle;
-
-    // Initialize all other values to zero or null
-	m_phActionStartRec = NULL;
-	m_phActionDataRec = NULL;
-    m_phProgressRec = NULL;
-    m_phLogInfoRec = NULL;
+BOINCCABase::BOINCCABase(MSIHANDLE hMSIHandle,
+    tstring strActionName,
+    tstring strProgressTitle
+) : m_hMSIHandle(hMSIHandle),
+    m_strActionName(std::move(strActionName)),
+    m_strProgressTitle(std::move(strProgressTitle)),
+    m_phActionStartRec(0),
+    m_phActionDataRec(0),
+    m_phProgressRec(0),
+    m_phLogInfoRec(0) {
 }
-
-
-/////////////////////////////////////////////////////////////////////
-//
-// Function:    BOINCCABase::~BOINCCABase
-//
-// Description: Cleanup up allocation resources.
-//
-/////////////////////////////////////////////////////////////////////
-BOINCCABase::~BOINCCABase()
-{
-
-    if (m_phActionStartRec)
-    {
-        MsiCloseHandle(m_phActionStartRec);
-        m_phActionStartRec = NULL;
-    }
-
-    if (m_phActionDataRec)
-    {
-        MsiCloseHandle(m_phActionDataRec);
-        m_phActionDataRec = NULL;
-    }
-
-    if (m_phProgressRec)
-    {
-        MsiCloseHandle(m_phProgressRec);
-        m_phProgressRec = NULL;
-    }
-
-    if (m_phLogInfoRec)
-    {
-        MsiCloseHandle(m_phLogInfoRec);
-        m_phLogInfoRec = NULL;
-    }
-
-    m_strActionName.clear();
-    m_strProgressTitle.clear();
-
-}
-
 
 /////////////////////////////////////////////////////////////////////
 //

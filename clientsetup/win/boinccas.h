@@ -1,6 +1,6 @@
 // Berkeley Open Infrastructure for Network Computing
-// http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // This is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -31,7 +31,7 @@ public:
         const tstring      strProgressTitle
         );
 
-    ~BOINCCABase();
+    virtual ~BOINCCABase() = default;
 
 
     // Main Custom Action Execution Routine
