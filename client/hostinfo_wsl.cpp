@@ -201,23 +201,21 @@ static bool got_both(WSL_DISTRO &wd) {
 //
 int get_wsl_information(WSL_DISTROS &distros) {
     WSL_DISTROS all_distros;
+    distros.distros.clear();
     int retval = get_all_distros(all_distros);
     if (retval) return retval;
     if (all_distros.distros.empty()) {
-        distros.distros.clear();
         return 0;
     }
-    string err_msg;
 
+    string err_msg;
+    string reply;
     WSL_CMD rs;
 
     if (rs.setup(err_msg)) {
         msg_printf(0, MSG_INFO, "WSL unavailable: %s", err_msg.c_str());
         return 0;
     }
-
-    string reply;
-    bool launch_failed = false;
 
     // loop over all WSL distros
     for (WSL_DISTRO &wd: all_distros.distros) {
@@ -247,8 +245,9 @@ int get_wsl_information(WSL_DISTROS &distros) {
             CloseHandle(rs.proc_handle);
             update_os(wd, os_name, os_version);
         } else {
-            launch_failed = true;
-            break;
+            // if failure, skip this distro, but try others;
+            // might be a problem with this distro
+            continue;
         }
 
         // try reading '/etc/os-relese'
@@ -265,8 +264,7 @@ int get_wsl_information(WSL_DISTROS &distros) {
                 CloseHandle(rs.proc_handle);
                 update_os(wd, os_name, os_version);
             } else {
-                launch_failed = true;
-                break;
+                continue;
             }
         }
 
@@ -284,8 +282,7 @@ int get_wsl_information(WSL_DISTROS &distros) {
                 CloseHandle(rs.proc_handle);
                 update_os(wd, os_name, os_version);
             } else {
-                launch_failed = true;
-                break;
+                continue;
             }
         }
 
@@ -307,8 +304,7 @@ int get_wsl_information(WSL_DISTROS &distros) {
                 CloseHandle(rs.proc_handle);
                 update_os(wd, os_name_str.c_str(), os_version_str.c_str());
             } else {
-                launch_failed = true;
-                break;
+                continue;
             }
         }
 
@@ -324,8 +320,7 @@ int get_wsl_information(WSL_DISTROS &distros) {
                 CloseHandle(rs.proc_handle);
                 update_os(wd, os_name_str.c_str(), "");
             } else {
-                launch_failed = true;
-                break;
+                continue;
             }
         }
 
@@ -341,8 +336,7 @@ int get_wsl_information(WSL_DISTROS &distros) {
                 CloseHandle(rs.proc_handle);
                 update_os(wd, "", os_version_str.c_str());
             } else {
-                launch_failed = true;
-                break;
+                continue;
             }
         }
 
@@ -398,11 +392,6 @@ int get_wsl_information(WSL_DISTROS &distros) {
         }
 
         distros.distros.push_back(wd);
-    }
-
-    if (launch_failed) {
-        msg_printf(0, MSG_INFO, "WSL commands cannot be launched; skipping WSL detection");
-        distros.distros.clear();
     }
 
     return 0;
