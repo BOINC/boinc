@@ -732,7 +732,7 @@ function show_result($result, $show_outfile_links=false) {
     row2(tra("Computer ID"), host_link($result->hostid));
     row2(tra("Run time"), time_diff($result->elapsed_time));
     row2(tra("CPU time"), time_diff($result->cpu_time));
-    row2('priority', $result->priority);
+    row2('Priority', $result->priority);
     row2(tra("Validate state"), validate_state_str($result));
     row2(tra("Credit"), number_format($result->granted_credit, 2));
     row2(tra("Device peak FLOPS"), number_format($result->flops_estimate/1e9, 2)." GFLOPS");
