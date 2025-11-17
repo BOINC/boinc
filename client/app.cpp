@@ -567,7 +567,12 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         last_nbrc = nbrc;
         if (!first) {
             non_boinc_cpu_usage = delta_nbrc/(diff*gstate.host_info.p_ncpus);
-            //printf("non_boinc_cpu_usage %f\n", non_boinc_cpu_usage);
+            if (log_flags.mem_usage_debug) {
+                msg_printf(NULL, MSG_INFO,
+                    "[mem_usage] total CPU time %f, brc %f, nbrc: %f, delta_nbrc %f, df %f",
+					total_cpu_time_now, brc, nbrc, delta_nbrc, diff
+                );
+			}
         }
     } else
 #endif
