@@ -22,12 +22,16 @@
 require_once('../inc/boinc_db.inc');
 require_once('../inc/submit_db.inc');
 require_once('../inc/submit_util.inc');
+require_once('../project/project.inc');
 
 ini_set('display_errors', true);
 
 // accelerate batches if at least this frac done
+// can be set in project.inc
 //
-define('MIN_FRAC_DONE', .9);
+if (!defined('BATCH_ACCEL_MIN_FRAC_DONE')){
+    define('BATCH_ACCEL_MIN_FRAC_DONE', .85);
+}
 
 $apps = [];
 
@@ -111,7 +115,7 @@ function do_batch($batch, $wus) {
 
 function main() {
     global $apps;
-    echo sprintf("starting: %s\n", time_str(time()));
+    echo sprintf("batch_accel starting: %s\n", time_str(time()));
 
     $as = BoincApp::enum('');
     foreach ($as as $a) {
@@ -131,14 +135,14 @@ function main() {
             echo "batch $batch->id not in progress\n";
             continue;
         }
-        if ($batch->fraction_done < MIN_FRAC_DONE) {
+        if ($batch->fraction_done < BATCH_ACCEL_MIN_FRAC_DONE) {
             echo "batch $batch->id only $batch->fraction_done done\n";
             continue;
         }
         echo "doing batch $batch->id\n";
         do_batch($batch, $wus);
     }
-    echo sprintf("finished: %s\n", time_str(time()));
+    echo sprintf("batch_accel finished: %s\n", time_str(time()));
 }
 
 main();
