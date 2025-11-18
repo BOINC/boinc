@@ -234,6 +234,9 @@ void boinc_related_cpu_time(
         || (low_prio < prev_low_prio)
         || (vbox < prev_vbox)
         || (docker < prev_docker);
+    if (reset) {
+        //fprintf(stderr, "boinc_related_cpu_time: reset\n");
+	}
     prev_boinc_app = boinc_app;
     prev_low_prio = low_prio;
     prev_vbox = vbox;
