@@ -594,7 +594,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
                         total_cpu_time_now, brc, nbrc, delta_nbrc, delta_t
                     );
                 }
-			}
+            }
         }
         prev_nbrc = nbrc;
     } else

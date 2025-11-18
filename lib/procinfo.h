@@ -88,7 +88,7 @@ extern double total_cpu_time();
     // total user-mode CPU time, as reported by OS
 
 extern void boinc_related_cpu_time(
-    PROC_MAP&, bool vbox_app_running, double& brc, bool &reset
+    PROC_MAP&, bool vbox_app_running, double& brc, bool& reset
 );
     // return total CPU of
     // - BOINC processes

@@ -192,7 +192,7 @@ void procinfo_non_boinc(PROCINFO& procinfo, PROC_MAP& pm) {
 //
 void boinc_related_cpu_time(
     PROC_MAP& pm, bool vbox_app_running,
-    double &brc, bool &reset
+    double& brc, bool& reset
 ) {
     static double prev_boinc_app = 0;
     static double prev_low_prio = 0;
@@ -236,7 +236,7 @@ void boinc_related_cpu_time(
         || (docker < prev_docker);
     if (reset) {
         //fprintf(stderr, "boinc_related_cpu_time: reset\n");
-	}
+    }
     prev_boinc_app = boinc_app;
     prev_low_prio = low_prio;
     prev_vbox = vbox;
