@@ -823,6 +823,7 @@ int DOCKER_CONN::parse_container_name(string line, string &name) {
     char *p = strrchr(buf, ' ');
     if (!p) return -1;
     name = (string)(p+1);
+    strip_whitespace(name);
     return 0;
 }
 
