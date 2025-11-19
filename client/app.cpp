@@ -363,19 +363,19 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     unsigned int i;
     int retval;
     static bool first = true;
-    double diff=0;
+    double delta_t=0;
     bool vbox_app_running = false;
 
     if (!first) {
-        diff = gstate.now - last_mem_time;
-        if (diff < 0 || diff > MEMORY_USAGE_PERIOD + 10) {
+        delta_t = gstate.now - last_mem_time;
+        if (delta_t < 0 || delta_t > MEMORY_USAGE_PERIOD + 10) {
             // user has changed system clock,
             // or there has been a long system sleep
             //
             last_mem_time = gstate.now;
             return;
         }
-        if (diff < MEMORY_USAGE_PERIOD) return;
+        if (delta_t < MEMORY_USAGE_PERIOD) return;
     }
 
     last_mem_time = gstate.now;
@@ -436,7 +436,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
 
         if (!first) {
             int pf = pi.page_fault_count - last_page_fault_count;
-            pi.page_fault_rate = pf/diff;
+            pi.page_fault_rate = pf/delta_t;
             if (log_flags.mem_usage_debug) {
                 msg_printf(atp->result->project, MSG_INFO,
                     "[mem_usage] %s%s: WS %.2fMB, smoothed %.2fMB, swap %.2fMB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
@@ -536,39 +536,67 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         }
     }
 
+    // compute non_boinc_cpu_usage
+    non_boinc_cpu_usage = 0;
+
 #if defined(__linux__) || defined(_WIN32) || defined(__APPLE__)
 #ifndef ANDROID
-    // compute non_boinc_cpu_usage
     // Improved version for systems where we can get total CPU
     // (Win, Linux, Mac)
     //
-    static double last_nbrc=0;
     double total_cpu_time_now = total_cpu_time();
 
-    // total_cpu_time() returns 0.0 on error
+    // total_cpu_time() returns 0 on error
     //
-    if (total_cpu_time_now != 0.0) {
-        double brc = boinc_related_cpu_time(pm, vbox_app_running);
-#ifndef _WIN32
-        // on Win, boinc_related_cpu_time() includes CPU time of Docker jobs.
-        // On other platforms we need to do it by looking at the
+    if (total_cpu_time_now != 0) {
+        double brc;
+        bool reset;
+        boinc_related_cpu_time(pm, vbox_app_running, brc, reset);
+#ifdef __linux__
+        // on Win and Mac,
+        // boinc_related_cpu_time() includes CPU time of Docker jobs.
+        // On Linux we need to do it by looking at the
         // reported CPU times of the jobs
         // (which may be less reliable/accurate)
         //
+        static double prev_docker = 0;
+        double docker = 0;
         for (ACTIVE_TASK* atp: active_tasks) {
             if (atp->app_version->is_docker_app) {
-                brc += atp->current_cpu_time;
+                docker += atp->current_cpu_time;
             }
         }
-#endif
-        double nbrc = total_cpu_time_now - brc;
-        double delta_nbrc = nbrc - last_nbrc;
-        if (delta_nbrc < 0) delta_nbrc = 0;
-        last_nbrc = nbrc;
-        if (!first) {
-            non_boinc_cpu_usage = delta_nbrc/(diff*gstate.host_info.p_ncpus);
-            //printf("non_boinc_cpu_usage %f\n", non_boinc_cpu_usage);
+        brc += docker;
+        if (docker < prev_docker) {
+            reset = true;
         }
+        prev_docker = docker;
+#endif
+        // At this point we have brc (BOINC-related CPU).
+        // If reset is true, it's incomparable with the previous value
+
+        static double prev_nbrc=0;
+        double nbrc = total_cpu_time_now - brc;
+        if (!first) {
+            if (reset) {
+                if (log_flags.mem_usage_debug) {
+                    msg_printf(NULL, MSG_INFO,
+                        "[mem_usage] reset in BOINC-related CPU"
+                    );
+                }
+            } else {
+                double delta_nbrc = nbrc - prev_nbrc;
+                if (delta_nbrc < 0) delta_nbrc = 0;
+                non_boinc_cpu_usage = delta_nbrc/(delta_t*gstate.host_info.p_ncpus);
+                if (log_flags.mem_usage_debug) {
+                    msg_printf(NULL, MSG_INFO,
+                        "[mem_usage] total CPU time %.2f, brc %.2f, nbrc: %.2f, delta_nbrc %.2f, dt %.2f",
+                        total_cpu_time_now, brc, nbrc, delta_nbrc, delta_t
+                    );
+                }
+            }
+        }
+        prev_nbrc = nbrc;
     } else
 #endif
 #endif
@@ -597,7 +625,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         }
         double new_cpu_time = pi.user_time + pi.kernel_time;
         if (!first) {
-            non_boinc_cpu_usage = (new_cpu_time - last_cpu_time)/(diff*gstate.host_info.p_ncpus);
+            non_boinc_cpu_usage = (new_cpu_time - last_cpu_time)/(delta_t*gstate.host_info.p_ncpus);
             // processes might have exited in the last 10 sec,
             // causing this to be negative.
             if (non_boinc_cpu_usage < 0) non_boinc_cpu_usage = 0;
