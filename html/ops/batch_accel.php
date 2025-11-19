@@ -19,10 +19,10 @@
 
 // identify batches that are almost complete, and accelerate their completion
 
+require_once('../inc/util.inc');
 require_once('../inc/boinc_db.inc');
 require_once('../inc/submit_db.inc');
 require_once('../inc/submit_util.inc');
-require_once('../project/project.inc');
 
 ini_set('display_errors', true);
 
@@ -51,30 +51,39 @@ function do_batch($batch, $wus) {
             if ($wu->error_mask) {
                 continue;
             }
-            echo "looking at WU $wu->id\n";
+            echo "accelerating WU $wu->id\n";
             $results = BoincResult::enum_fields(
-                'id, server_state, sent_time',
+                'id, server_state, sent_time, priority',
                 "workunitid=$wu->id"
             );
             $make_another_result = false;
             if (count($results) < $wu->max_total_results) {
                 $make_another_result = true;
                 foreach ($results as $r) {
-                    if ($r->server_state == RESULT_SERVER_STATE_UNSENT) {
-                        echo "unsent result $r->id\n";
+                    switch ($r->server_state) {
+                    case RESULT_SERVER_STATE_UNSENT:
+                        echo "   have unsent result $r->id\n";
                         $make_another_result = false;
+                        if ($r->priority == 0) {
+                            echo "   boosting its priority\n";
+                            $r->update('priority=1');
+                        } else {
+                            echo "   already high priority\n";
+                        }
                         break;
-                    }
-                    $age = $now - $r->sent_time;
-                    if ($age<$batch->expire_time) {
-                        $make_another_result = false;
+                    case RESULT_SERVER_STATE_IN_PROGRESS:
+                        $age = $now - $r->sent_time;
+                        if ($age<$batch->expire_time) {
+                            echo "   have recent in-progress result\n";
+                            $make_another_result = false;
+                        }
                         break;
                     }
                 }
             }
             $query = [];
             if ($make_another_result) {
-                echo "creating another instance for WU $wu->id\n";
+                echo "   creating another instance\n";
                 $query[] = sprintf(
                     'target_nresults=%d', $wu->target_nresults+1
                 );
@@ -82,22 +91,14 @@ function do_batch($batch, $wus) {
                     'transition_time=%f', $now
                 );
             }
-            if (!$wu->priority) {
-                echo "setting WU $wu->id to high prio\n";
+            if ($wu->priority == 0) {
+                echo "   setting WU to high prio\n";
                 $query[] = 'priority=1';
             }
             if ($query) {
                 $query = implode(',', $query);
                 BoincWorkunit::update_aux($query, "id=$wu->id");
             }
-
-            echo "boosting results for WU $wu->id\n";
-            BoincResult::update_aux(
-                'priority=1',
-                sprintf('priority=0 and server_state=%d and workunitid=%d',
-                    RESULT_SERVER_STATE_UNSENT, $wu->id
-                )
-            );
         }
     } else {
         // not accelerable; reset job priorities
