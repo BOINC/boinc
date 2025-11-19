@@ -1079,7 +1079,7 @@ function update_3_8_2018() {
 
 function update_4_5_2018() {
     do_query("create table token (
-        token                   varchar(255)    not null,
+        token                   varchar(64)    not null,
         userid                  integer         not null,
         type                    char            not null,
         create_time             integer         not null,
