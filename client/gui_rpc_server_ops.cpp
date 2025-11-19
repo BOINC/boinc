@@ -24,6 +24,7 @@
 #include <libproc.h>
 #include "sandbox.h"
 #include "mac_branding.h"
+extern int compareOSVersionTo(int toMajor, int toMinor);
 #endif
 
 #ifdef _WIN32
@@ -1420,7 +1421,6 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
     char cmd[256];
     bool need_to_launch_gfx_ss_bridge = false;
     static int gfx_ss_bridge_pid = 0;
-    extern int compareOSVersionTo(int toMajor, int toMinor);
 
     while (!grc.xp.get_tag()) {
         if (grc.xp.match_tag("/run_graphics_app")) break;
