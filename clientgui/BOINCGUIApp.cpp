@@ -1,5 +1,5 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
+// https://boinc.berkeley.edu
 // Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
@@ -510,14 +510,28 @@ bool CBOINCGUIApp::OnInit() {
     // foreground and then exit.
     if (DetectDuplicateInstance()) {
 #ifdef __WXMAC__
-        SetActivationPolicyAccessory(true);
-        // Hack to work around an issue with the Mac Installer
+        // Each time a second instance of BOINC Manager is launched, it
+        // normally adds an additional BOINC icon to the "recently run apps"
+        // section of the Dock, cluttering it up. To avoid this, we call
+        // this routine on the second instance to tell the system to hide
+        // the icon in the Dock.
+        // NOTE: This technique works only if BOINCManager.app is NOT in the
+        // /Applications directory or any of its subdirectories. Putting it
+        // in "/Library/Application Support" with a soft link to it from the
+        // /Applications directory does work.
+        // https://stackoverflow.com/questions/620841/how-to-hide-the-dock-icon
+        SetActivationPolicyAccessory(true);    // Hide our Dock tile
+
+        // A second instance of BOINC Manager is sometimes launched at login
+        // when the Manager is launched by the login startup item and also
+        // by the "restore open windows" or "restore open applications"
+        // feature of MacOS. In that case, don't show the "Another instance
+        // of BOINC Manager is running" dialog.
         if (m_bBOINCMGRAutoStarted) return false;
         // TODO: Should we also ignore duplicate instances that occur within
-        // TODO: a short time after login (detemined by getlastlogxbyname(),
+        // TODO: a short time after login (determined by getlastlogxbyname(),
         // TODO: in case MacOS's "Reopen windows when logging in" functionality
-        // TODO: relaunched us after our LaunchAgent autostarted us?
-
+        // TODO: relaunched us AFTER our LaunchAgent autostarted us?
 #endif
         if (GetBOINCMGRDisplayAnotherInstanceRunningMessage()) {
             wxString appName = m_pSkinManager->GetAdvanced()->GetApplicationName();
@@ -528,21 +542,13 @@ bool CBOINCGUIApp::OnInit() {
             params.message = message;
             params.button2 = CDlgGenericMessageButton(false);
             CDlgGenericMessage dlg(NULL, &params);
+            ShowApplication(true);
             dlg.ShowModal();
             SetBOINCMGRDisplayAnotherInstanceRunningMessage(!dlg.GetDisableMessageValue());
         }
         return false;
     }
-#ifdef __WXMAC__
-    // Each time a second instance of BOINC Managr is launched, it normally
-    // nadds an additional BOINC icon to the "recently run apps" section
-    // of the Dock, cluttering it up. To avoid this, we set the LSUIElement
-    // key in its info.plist, which prevents the app from appearing in the
-    // Dock. But if this is not a duplicate instance, we call this routine
-    // to tell the system to show the icon in the Dock.
-    // https://stackoverflow.com/questions/620841/how-to-hide-the-dock-icon
-    SetActivationPolicyAccessory(false);    // Show our Dock tile
-#endif
+
     // Initialize the main document
     m_pDocument = new CMainDocument();
     wxASSERT(m_pDocument);
@@ -561,7 +567,6 @@ bool CBOINCGUIApp::OnInit() {
 #ifndef __WXGTK__
     // Initialize the task bar icon
 	m_pTaskBarIcon = new CTaskBarIcon(
-        m_pSkinManager->GetAdvanced()->GetApplicationName(),
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationDisconnectedIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
@@ -573,7 +578,6 @@ bool CBOINCGUIApp::OnInit() {
 #endif // __WXGTK__
 #ifdef __WXMAC__
     m_pMacDockIcon = new CTaskBarIcon(
-        m_pSkinManager->GetAdvanced()->GetApplicationName(),
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationDisconnectedIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()

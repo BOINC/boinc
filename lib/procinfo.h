@@ -87,7 +87,14 @@ extern double process_tree_cpu_time(int pid);
 extern double total_cpu_time();
     // total user-mode CPU time, as reported by OS
 
-extern double boinc_related_cpu_time(PROC_MAP&, bool vbox_app_running);
-    // total CPU of current BOINC processes, low-priority processes,
-    // and (if a VBox app is running) VBox-related processes
+extern void boinc_related_cpu_time(
+    PROC_MAP&, bool vbox_app_running, double& brc, bool& reset
+);
+    // return total CPU of
+    // - BOINC processes
+    // - low-priority processes
+    // - if a VBox app is running, VBox-related processes
+    // - (Mac/Win): the VM in which Docker/Podman runs
+    // Compute these totals separately.
+    // If any total has decreased since last time, set reset=true
 #endif

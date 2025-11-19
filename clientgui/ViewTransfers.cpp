@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -117,13 +117,13 @@ static bool CompareViewTransferItems(int iRowIndex1, int iRowIndex2) {
 
     try {
         transfer1 = MyCViewTransfers->m_TransferCache.at(iRowIndex1);
-    } catch ( std::out_of_range ) {
+    } catch ( std::out_of_range& ) {
         return 0;
     }
 
     try {
         transfer2 = MyCViewTransfers->m_TransferCache.at(iRowIndex2);
-    } catch ( std::out_of_range ) {
+    } catch ( std::out_of_range& ) {
         return 0;
     }
 
@@ -498,7 +498,7 @@ wxString CViewTransfers::OnListGetItemText(long item, long column) const {
 
     try {
         transfer = m_TransferCache.at(m_iSortedIndexes[item]);
-    } catch ( std::out_of_range ) {
+    } catch ( std::out_of_range& ) {
         transfer = NULL;
     }
 
@@ -814,8 +814,10 @@ wxInt32 CViewTransfers::FormatSize(double fBytesSent, double fFileSize, wxString
             strBuffer.Printf(wxT("%0.2f MB"), fBytesSent/xMega);
         } else if (fBytesSent >= xKilo) {
             strBuffer.Printf(wxT("%0.2f KB"), fBytesSent/xKilo);
-        } else {
+        } else if (fBytesSent > 0) {
             strBuffer.Printf(wxT("%0.0f bytes"), fBytesSent);
+        } else {
+            strBuffer.Printf(wxT("---"));
         }
     }
 
@@ -983,7 +985,7 @@ wxString CViewTransfers::GetProgressText( long item) {
 int CViewTransfers::GetTransferCacheAtIndex(CTransfer*& transferPtr, int index) {
     try {
         transferPtr = m_TransferCache.at(index);
-    } catch ( std::out_of_range ) {
+    } catch ( std::out_of_range& ) {
         transferPtr = NULL;
         return -1;
     }

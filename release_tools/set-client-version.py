@@ -1,6 +1,8 @@
+#!/usr/bin/env python3
+
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2022 University of California
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -89,14 +91,14 @@ def set_build_gradle(version):
                     line = f'    def version = \'{version} : DEVELOPMENT\'\n'
             f.write(line)
 
-def set_boinc_json(version):
-    with open('installer/boinc.json','r') as f:
+def set_property_json(version):
+    with open('installer/include/Property.json','r') as f:
         data = json.load(f)
     for item in data['Property']:
         if item['Property'] == 'ProductVersion':
             item['Value'] = version
             break
-    with open('installer/boinc.json','w') as f:
+    with open('installer/include/Property.json','w') as f:
         json.dump(data, f, indent=4)
 
 def set_snapcraft(version):
@@ -135,7 +137,7 @@ set_configure_ac(version)
 set_version_h(version)
 set_version_h_in(version)
 set_build_gradle(version)
-set_boinc_json(version)
+set_property_json(version)
 set_snapcraft(version)
 set_snap_boinc_desktop(version)
 

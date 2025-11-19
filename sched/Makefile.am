@@ -155,6 +155,7 @@ EXTRA_DIST = \
     start
 
 cgi_sources = \
+    buda.cpp \
 	credit.cpp \
     edf_sim.cpp \
     handle_request.cpp \
@@ -166,6 +167,7 @@ cgi_sources = \
     sched_check.cpp \
     sched_customize.cpp \
     sched_files.cpp \
+    sched_host.cpp \
     sched_hr.cpp \
     sched_keyword.cpp \
     sched_limit.cpp \

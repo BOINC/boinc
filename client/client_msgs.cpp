@@ -161,8 +161,9 @@ void msg_printf(PROJ_AM *p, int priority, const char *fmt, ...) {
 
 void msg_printf_notice(
     PROJ_AM *p,
-    bool is_html,   // msg has HTML tags; don't XML-escape it
-    const char* link, const char *fmt, ...
+    bool is_html,       // msg has HTML tags; don't XML-escape it
+    const char* link,   // where 'more info' goes to
+    const char *fmt, ...
 ) {
     char buf[8192];  // output can be much longer than format
     va_list ap;

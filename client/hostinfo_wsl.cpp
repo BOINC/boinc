@@ -15,16 +15,21 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-using std::vector;
-using std::string;
+// enumerate the WSL distros on this host.
+// For each one, see if it contains Podman or Docker, and get the version
 
 #include "boinc_win.h"
 #include "win_util.h"
 
+#include "error_numbers.h"
 #include "str_replace.h"
+#include "client_state.h"
 #include "client_msgs.h"
 #include "hostinfo.h"
 #include "util.h"
+
+using std::vector;
+using std::string;
 
 // timeout for commands run in WSL container
 // If something goes wrong we don't want client to hang
@@ -47,8 +52,12 @@ int get_all_distros(WSL_DISTROS& distros) {
     LONG lRet = RegOpenKeyEx(HKEY_CURRENT_USER,
         lxss_path.c_str(), 0, KEY_QUERY_VALUE | KEY_ENUMERATE_SUB_KEYS, &hKey
     );
+    if (lRet == ERROR_FILE_NOT_FOUND) {
+      msg_printf(0, MSG_INFO, "WSL: registry key not found; assuming no WSL distros are installed");
+      return 0;
+    }
     if (lRet != ERROR_SUCCESS) {
-        msg_printf(0, MSG_INFO, "WSL: registry open failed");
+        msg_printf(0, MSG_INFO, "WSL: registry open failed (error %ld)", lRet);
         return -1;
     }
 
@@ -60,8 +69,9 @@ int get_all_distros(WSL_DISTROS& distros) {
         (LPBYTE)default_wsl_guid, &default_wsl_guid_len
     );
     if ((lRet != ERROR_SUCCESS) || (default_wsl_guid_len > buf_len)) {
-        msg_printf(0, MSG_INFO, "WSL: registry query failed");
-        return -1;
+        msg_printf(0, MSG_INFO, "WSL: registry query for DefaultDistribution failed (error %ld)", lRet);
+        RegCloseKey(hKey);
+        return 0;
     }
 
     // scan subkeys (one per distro)
@@ -93,6 +103,7 @@ int get_all_distros(WSL_DISTROS& distros) {
             hSubKey, "State", NULL, NULL, (LPBYTE)&wsl_state, &wsl_state_len
         );
         if (ret != ERROR_SUCCESS || wsl_state != 1) {
+            RegCloseKey(hSubKey);
             continue;
         }
 
@@ -122,6 +133,17 @@ int get_all_distros(WSL_DISTROS& distros) {
     }
 
     RegCloseKey(hKey);
+
+    // if boinc-buda-runner is present, ignore others
+    //
+    for (WSL_DISTRO &wd: distros.distros) {
+        if (wd.distro_name == BOINC_WSL_DISTRO_NAME) {
+            WSL_DISTRO distro = wd;
+            distros.distros.clear();
+            distros.distros.push_back(distro);
+            break;
+        }
+    }
 
     return 0;
 }
@@ -179,18 +201,21 @@ static bool got_both(WSL_DISTRO &wd) {
 //
 int get_wsl_information(WSL_DISTROS &distros) {
     WSL_DISTROS all_distros;
+    distros.distros.clear();
     int retval = get_all_distros(all_distros);
     if (retval) return retval;
-    string err_msg;
+    if (all_distros.distros.empty()) {
+        return 0;
+    }
 
+    string err_msg;
+    string reply;
     WSL_CMD rs;
 
     if (rs.setup(err_msg)) {
-        msg_printf(0, MSG_INFO, "WSL setup error: %s", err_msg.c_str());
-        return -1;
+        msg_printf(0, MSG_INFO, "WSL unavailable: %s", err_msg.c_str());
+        return 0;
     }
-
-    string reply;
 
     // loop over all WSL distros
     for (WSL_DISTRO &wd: all_distros.distros) {
@@ -219,6 +244,10 @@ int get_wsl_information(WSL_DISTROS &distros) {
             );
             CloseHandle(rs.proc_handle);
             update_os(wd, os_name, os_version);
+        } else {
+            // if failure, skip this distro, but try others;
+            // might be a problem with this distro
+            continue;
         }
 
         // try reading '/etc/os-relese'
@@ -234,6 +263,8 @@ int get_wsl_information(WSL_DISTROS &distros) {
                 );
                 CloseHandle(rs.proc_handle);
                 update_os(wd, os_name, os_version);
+            } else {
+                continue;
             }
         }
 
@@ -241,9 +272,7 @@ int get_wsl_information(WSL_DISTROS &distros) {
         //
         if (!got_both(wd)) {
             const std::string command_redhatrelease = "cat " + std::string(file_redhatrelease);
-            if (!rs.run_program_in_wsl(
-                wd.distro_name, command_redhatrelease
-            )) {
+            if (!rs.run_program_in_wsl(wd.distro_name, command_redhatrelease)) {
                 read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
                 HOST_INFO::parse_linux_os_info(
                     reply, redhatrelease,
@@ -252,6 +281,8 @@ int get_wsl_information(WSL_DISTROS &distros) {
                 );
                 CloseHandle(rs.proc_handle);
                 update_os(wd, os_name, os_version);
+            } else {
+                continue;
             }
         }
 
@@ -272,6 +303,8 @@ int get_wsl_information(WSL_DISTROS &distros) {
                 );
                 CloseHandle(rs.proc_handle);
                 update_os(wd, os_name_str.c_str(), os_version_str.c_str());
+            } else {
+                continue;
             }
         }
 
@@ -286,6 +319,8 @@ int get_wsl_information(WSL_DISTROS &distros) {
                 strip_whitespace(os_name_str);
                 CloseHandle(rs.proc_handle);
                 update_os(wd, os_name_str.c_str(), "");
+            } else {
+                continue;
             }
         }
 
@@ -300,6 +335,8 @@ int get_wsl_information(WSL_DISTROS &distros) {
                 strip_whitespace(os_version_str);
                 CloseHandle(rs.proc_handle);
                 update_os(wd, "", os_version_str.c_str());
+            } else {
+                continue;
             }
         }
 
@@ -335,6 +372,25 @@ int get_wsl_information(WSL_DISTROS &distros) {
         if (std::find(dw.begin(), dw.end(), wd.distro_name) != dw.end()) {
             wd.disallowed = true;
         }
+
+        // if it's boinc-buda-runner, look for version file
+        //
+        if (wd.distro_name == BOINC_WSL_DISTRO_NAME) {
+            wd.boinc_buda_runner_version = 1;
+            if (!rs.run_program_in_wsl(
+                wd.distro_name, "cat /home/boinc/version.txt"
+            )) {
+                string buf;
+                char buf2[256];
+                read_from_pipe(rs.out_read, rs.proc_handle, buf, CMD_TIMEOUT);
+                safe_strcpy(buf2, buf.c_str());
+                char *p = strstr(buf2, "version: ");
+                if (p) {
+                    wd.boinc_buda_runner_version = atoi(p+strlen("version: "));
+                }
+            }
+        }
+
         distros.distros.push_back(wd);
     }
 
@@ -405,4 +461,24 @@ static bool get_docker_compose_version_aux(
 static void get_docker_compose_version(WSL_CMD& rs, WSL_DISTRO &wd) {
     if (get_docker_compose_version_aux(rs, wd, PODMAN)) return;
     get_docker_compose_version_aux(rs, wd, DOCKER);
+}
+
+// called on startup (after scanning distros)
+// and after doing an RPC to get latest version info.
+//
+void show_wsl_messages() {
+    int bdv = gstate.host_info.wsl_distros.boinc_distro_version();
+    const char *url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Windows";
+    if (bdv == 0) {
+        msg_printf_notice(0, true, url,
+            "Some BOINC projects require Docker.  <a href=%s>Learn how to install it</a>",
+            url
+        );
+    } else if (bdv < gstate.latest_boinc_buda_runner_version) {
+        const char *url2 = "https://github.com/BOINC/boinc/wiki/Updating-the-BOINC-WSL-distro";
+        msg_printf_notice(0, true, url,
+            "A new version of the BOINC WSL distro is available.  <a href=%s>Learn how to upgrade.</a>",
+            url2
+        );
+    }
 }

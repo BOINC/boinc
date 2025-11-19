@@ -12,7 +12,7 @@
   <PropertyGroup>
     <PlatformSuffix Condition="'$(Platform)'=='x64'">x86_64</PlatformSuffix>
     <PlatformSuffix Condition="'$(Platform)'=='ARM64'">ARM64</PlatformSuffix>
-    <TargetVersion>6</TargetVersion>
+    <TargetVersion>15</TargetVersion>
     <TargetName>$(ProjectName)_$(TargetVersion)_windows_$(PlatformSuffix)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup>

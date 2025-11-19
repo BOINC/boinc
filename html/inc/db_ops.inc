@@ -924,7 +924,7 @@ function admin_show_host($host) {
     );
 
     row("Venue", $host->venue);
-    row("Info", $host->serialnum);
+    row("Info", $host->misc);
     row("Total credit", $host->total_credit);
     row("Average credit", $host->expavg_credit);
     row("Average update time", time_str($host->expavg_time));

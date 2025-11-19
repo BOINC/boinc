@@ -73,6 +73,12 @@ static int send_job_for_app(APP& app) {
         WORKUNIT wu = wu_result.workunit;
 
         if (wu.appid != app.id) continue;
+        if (is_buda(wu)) {
+            log_messages.printf(MSG_CRITICAL,
+                "BUDA NCI jobs are not currently supported"
+            );
+            return -1;
+        }
 
         if (!can_send_nci(wu_result, wu, bavp, &app)) {
             // All jobs for a given NCI app are identical.
@@ -94,7 +100,7 @@ static int send_job_for_app(APP& app) {
                     "Sending non-CPU-intensive job: %s\n", wu.name
                 );
             }
-            add_result_to_reply(result, wu, bavp, bavp->host_usage, false, false);
+            add_result_to_reply(result, wu, bavp, bavp->host_usage, NULL, false);
             return 0;
         }
         log_messages.printf(MSG_NORMAL,

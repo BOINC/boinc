@@ -35,6 +35,7 @@
 #include "parse.h"
 #include "util.h"
 #include "str_replace.h"
+#include "filesys.h"
 
 #include "hostinfo.h"
 
@@ -50,7 +51,6 @@ HOST_INFO::HOST_INFO() {
 void HOST_INFO::clear_host_info() {
     timezone = 0;
     safe_strcpy(domain_name, "");
-    safe_strcpy(serialnum, "");
     safe_strcpy(ip_addr, "");
     safe_strcpy(host_cpid, "");
 
@@ -78,7 +78,9 @@ void HOST_INFO::clear_host_info() {
     wsl_distros.clear();
 #else
     safe_strcpy(docker_version, "");
+    docker_type = NONE;
     safe_strcpy(docker_compose_version, "");
+    docker_compose_type = NONE;
 #endif
 
     safe_strcpy(product_name, "");
@@ -343,13 +345,63 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
     return 0;
 }
 
+#ifdef __APPLE__
+    // While the official Podman installer puts the Podman executable at
+    // "/opt/podman/bin/podman", other installation methods (e.g. brew) might not
+    static void find_podman_path(char *path, size_t len) {
+    // Mac executables get a very limited PATH environment variable, so we must get the
+    // PATH variable used by Terminal and search there for the path to podman
+    FILE *f = popen("a=`/usr/libexec/path_helper`;b=${a%\\\"*}\\\";env ${b} which podman", "r");
+    if (f) {
+        fgets(path, len, f);
+        pclose(f);
+        char* p = strstr(path, "\n");
+        if (p) *p = '\0'; // Remove the newline character
+        }
+        if (boinc_file_exists(path)) return;
+
+        // If we couldn't get it from that file, use default when installed using Podman installer
+        strlcpy(path, "/opt/podman/bin/podman", len);
+        if (boinc_file_exists(path)) return;
+
+        // If we couldn't get it from that file, use default when installed by Homebrew
+#ifdef __arm64__
+        strlcpy(path, "/opt/homebrew/bin/podman", len);
+#else
+        strlcpy(path, "/usr/local/bin/podman", len);
+#endif
+        if (boinc_file_exists(path)) return;
+        path[0] = '\0'; // Failed to find path to Podman
+        return;
+    }
+#endif
+
 // name of CLI program
 //
 const char* docker_cli_prog(DOCKER_TYPE type) {
     switch (type) {
     case DOCKER: return "docker";
 #ifdef __APPLE__
-        case PODMAN: return "/opt/podman/bin/podman";
+        case PODMAN:
+        static char docker_cli_string[MAXPATHLEN];
+        static bool docker_cli_inited = false;
+        char path[MAXPATHLEN];
+        if (docker_cli_inited) return docker_cli_string;
+        docker_cli_string[0] = '\0';
+        find_podman_path(path, sizeof(path));
+        if (path[0]) {
+            strlcpy(docker_cli_string,
+                    "\"/Library/Application Support/BOINC Data/Run_Podman\" ",
+                    sizeof(docker_cli_string)
+                    );
+            strlcat(docker_cli_string,
+                    path,
+                    sizeof(docker_cli_string)
+                    );
+            strlcat(docker_cli_string, " ", sizeof(docker_cli_string));
+        }
+        docker_cli_inited = true;
+        return docker_cli_string;
 #else
     case PODMAN: return "podman";
 #endif
@@ -368,29 +420,6 @@ const char* docker_type_str(DOCKER_TYPE type) {
     }
     return "unknown";
 }
-
-// on Mac+podman we need to set env variables
-// to use a directory accessable to boinc_master and boinc_projects
-//
-#ifdef __APPLE__
-const char* docker_cmd_prefix(DOCKER_TYPE type) {
-    static char buf[256];
-    if (type == PODMAN) {
-        const char* dir = "/Library/Application Support/BOINC Data/podman";
-        // must end w/ space
-        snprintf(buf, sizeof(buf),
-            "env XDG_CONFIG_HOME=\"%s\" XDG_DATA_HOME=\"%s\" ",
-            dir, dir
-        );
-        return buf;
-    }
-    return "";
-}
-#else
-const char* docker_cmd_prefix(DOCKER_TYPE) {
-    return "";
-}
-#endif
 
 // parse a string like
 // Docker version 24.0.7, build 24.0.7-0ubuntu2~22.04.1
@@ -446,7 +475,7 @@ bool HOST_INFO::get_docker_compose_version_string(
 bool HOST_INFO::have_docker() {
 #ifdef _WIN32
     for (WSL_DISTRO &wd: wsl_distros.distros) {
-        if (!empty(wd.docker_version)) return true;
+        if (!wd.docker_version.empty()) return true;
     }
     return false;
 #else

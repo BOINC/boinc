@@ -243,12 +243,21 @@ int WSL_CMD::setup(string &err_msg) {
     return 0;
 }
 
-int WSL_CMD::setup_root(const char* distro_name) {
+int WSL_CMD::setup_podman(const char* distro_name) {
     char cmd[1024];
-    sprintf(cmd, "wsl -d %s -u root", distro_name);
+    if (distro_name == NULL) {
+        fprintf(stderr, "WSL_CMD::setup_podman() error: distro_name is NULL\n");
+        return -1;
+    }
+    if (!strcmp(distro_name, "boinc-buda-runner")) {
+        // if using our own WSL distro, use default user (boinc)
+        snprintf(cmd, sizeof(cmd), "wsl -d %s", distro_name);
+    } else {
+        snprintf(cmd, sizeof(cmd), "wsl -d %s -u root", distro_name);
+    }
     int retval = run_program_pipe(cmd, in_write, out_read, proc_handle);
     if (retval) {
-        fprintf(stderr, "WSL_CMD::setup_root() failed: %d\n", retval);
+        fprintf(stderr, "WSL_CMD::setup_podman() failed: %d\n", retval);
         return retval;
     }
     return 0;
@@ -257,6 +266,7 @@ int WSL_CMD::setup_root(const char* distro_name) {
 int WSL_CMD::run_program_in_wsl(
     const string distro_name, const string command, bool use_cwd
 ) {
+    proc_handle = NULL;
     HRESULT ret = pWslLaunch(
         boinc_ascii_to_wide(distro_name).c_str(),
         boinc_ascii_to_wide(command).c_str(),
@@ -264,7 +274,9 @@ int WSL_CMD::run_program_in_wsl(
         &proc_handle
     );
     if (ret != S_OK) {
-        fprintf(stderr, "pWslLaunch failed: %d\n", ret);
+        fprintf(stderr, "pWslLaunch failed: 0x%08lx\n", ret);
+        proc_handle = NULL;
+        return ERR_NOT_FOUND;
     }
     return 0;
 }

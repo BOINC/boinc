@@ -278,7 +278,7 @@ static void print_to_log_file(const char *format, ...) {
     char buf[256];
     time_t t;
 
-    f = fopen("/Users/Shared/test_log_gfx_switcher.txt", "a");
+    f = fopen("/Users/Shared/test_log_switcher.txt", "a");
     if (!f) return;
 
 //  freopen(buf, "a", stdout);
@@ -298,7 +298,7 @@ static void print_to_log_file(const char *format, ...) {
     fputs("\n", f);
     fflush(f);
     fclose(f);
-    chmod("/Users/Shared/test_log_gfx_switcher.txt", 0666);
+    chmod("/Users/Shared/test_log_switcher.txt", 0666);
 }
 
 static void strip_cr(char *buf)

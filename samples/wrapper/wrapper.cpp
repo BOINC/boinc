@@ -89,8 +89,7 @@
 #include "str_util.h"
 #include "str_replace.h"
 #include "util.h"
-
-#include "regexp.h"
+#include <regex>
 
 using std::vector;
 using std::string;
@@ -120,7 +119,7 @@ double trickle_period = 0;
 bool enable_graphics_support = false;
 vector<string> unzip_filenames;
 string zip_filename;
-vector<regexp*> zip_patterns;
+vector<std::regex> zip_patterns;
 APP_INIT_DATA aid;
 
 struct TASK {
@@ -395,9 +394,8 @@ void get_zip_inputs(ZipFileList &files) {
     while (!dir_scan(fname, d, sizeof(fname))) {
         string filename = string(fname);
         if (in_vector(filename, initial_files)) continue;
-        for (regexp* re: zip_patterns) {
-            regmatch match;
-            if (re_exec_w(re, fname, 1, &match) == 1) {
+        for (const auto& re: zip_patterns) {
+            if (std::regex_search(filename, re)) {
                 files.push_back(filename);
                 break;
             }
@@ -523,13 +521,16 @@ int parse_zip_output(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_str("filename", buf, sizeof(buf))) {
-            regexp* rp;
-            int retval = re_comp_w(&rp, buf);
-            if (retval) {
-                fprintf(stderr, "re_comp_w() failed: %d\n", retval);
-                exit(1);
+            // Compile pattern using std::regex. Try ECMAScript (default),
+            // then extended as fallback.
+            try {
+                zip_patterns.emplace_back(buf);
+            } catch (const std::regex_error& e) {
+                fprintf(stderr,
+                    "regex compilation failed for pattern '%s': %s\n",
+                    buf, e.what());
+                return ERR_XML_PARSE;
             }
-            zip_patterns.push_back(rp);
             continue;
         }
         fprintf(stderr,

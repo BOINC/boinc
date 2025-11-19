@@ -23,8 +23,6 @@
 #include "common_defs.h"
 #include "wslinfo.h"
 
-#define BOINC_DISTRO_NAME "boinc-buda-runner"
-
 void WSL_DISTRO::clear() {
     distro_name = "";
     os_name = "";
@@ -35,6 +33,7 @@ void WSL_DISTRO::clear() {
     wsl_version = 0;
     docker_version = "";
     docker_compose_version = "";
+    boinc_buda_runner_version = 0;
 }
 
 void WSL_DISTRO::write_xml(MIOFILE& f) {
@@ -53,6 +52,12 @@ void WSL_DISTRO::write_xml(MIOFILE& f) {
         v,
         wsl_version
     );
+    if (boinc_buda_runner_version) {
+        f.printf(
+            "            <distro_version>%d</distro_version>\n",
+            boinc_buda_runner_version
+        );
+    }
     if (is_default) {
         f.printf(
             "            <is_default/>\n"
@@ -98,6 +103,7 @@ int WSL_DISTRO::parse(XML_PARSER& xp) {
             return 0;
         }
         if (xp.parse_string("distro_name", distro_name)) continue;
+        if (xp.parse_int("distro_version", boinc_buda_runner_version)) continue;
         if (xp.parse_string("os_name", os_name)) continue;
         if (xp.parse_string("os_version", os_version)) continue;
         if (xp.parse_string("libc_version", libc_version)) continue;
@@ -186,9 +192,9 @@ WSL_DISTRO* WSL_DISTROS::find_docker() {
     // look for the BOINC distro first
     //
     for (WSL_DISTRO &wd: distros) {
-        if (wd.distro_name != BOINC_DISTRO_NAME) continue;
+        if (wd.distro_name != BOINC_WSL_DISTRO_NAME) continue;
         if (wd.docker_version.empty()) {
-            fprintf(stderr, "%s is missing Podman", BOINC_DISTRO_NAME);
+            fprintf(stderr, "%s is missing Podman", BOINC_WSL_DISTRO_NAME);
         } else {
             return &wd;
         }
@@ -201,6 +207,15 @@ WSL_DISTRO* WSL_DISTROS::find_docker() {
         }
     }
     return NULL;
+}
+
+int WSL_DISTROS::boinc_distro_version() {
+    for (WSL_DISTRO &wd: distros) {
+        if (wd.distro_name == BOINC_WSL_DISTRO_NAME) {
+            return wd.boinc_buda_runner_version;
+        }
+    }
+    return 0;
 }
 
 #endif  // _USING_FCGI_

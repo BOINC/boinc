@@ -159,7 +159,9 @@ CLIENT_STATE::CLIENT_STATE()
     benchmarks_running = false;
     client_disk_usage = 0.0;
     total_disk_usage = 0.0;
-    device_status_time = 0;
+#ifdef ANDROID
+    device_status_time = dtime();
+#endif
 
     rec_interval_start = 0;
     total_cpu_time_this_rec_interval = 0.0;
@@ -183,7 +185,6 @@ CLIENT_STATE::CLIENT_STATE()
     now = 0.0;
     initialized = false;
     last_wakeup_time = dtime();
-    device_status_time = 0;
 #ifdef _WIN32
     have_sysmon_msg = false;
 #endif
@@ -252,12 +253,12 @@ void CLIENT_STATE::show_host_info() {
         msg_printf(NULL, MSG_INFO, "WSL: no usable distros found");
     } else {
         msg_printf(NULL, MSG_INFO, "Usable WSL distros:");
-        for (auto &wsl: host_info.wsl_distros.distros) {
+        for (auto& wsl : host_info.wsl_distros.distros) {
             msg_printf(NULL, MSG_INFO,
                 "-   %s (WSL %d)%s",
                 wsl.distro_name.c_str(),
                 wsl.wsl_version,
-                wsl.is_default?" (default)":""
+                wsl.is_default ? " (default)" : ""
             );
             msg_printf(NULL, MSG_INFO,
                 "-      OS: %s (%s)",
@@ -278,6 +279,11 @@ void CLIENT_STATE::show_host_info() {
                 msg_printf(NULL, MSG_INFO, "-      Docker compose version %s (%s)",
                     wsl.docker_compose_version.c_str(),
                     docker_type_str(wsl.docker_compose_type)
+                );
+            }
+            if (wsl.boinc_buda_runner_version) {
+                msg_printf(NULL, MSG_INFO, "-      BOINC WSL distro version %d",
+                    wsl.boinc_buda_runner_version
                 );
             }
         }
@@ -422,14 +428,16 @@ bool CLIENT_STATE::is_new_client() {
         || (core_client_version.minor != old_minor_version)
         || (core_client_version.release != old_release)
     ) {
-        msg_printf_notice(0, true, 0,
-            "The BOINC client version has changed from %d.%d.%d to %d.%d.%d.<br>To see what's new, view the <a href=%s>Client release notes</a>.",
-            old_major_version, old_minor_version, old_release,
-            core_client_version.major,
-            core_client_version.minor,
-            core_client_version.release,
-            "https://github.com/BOINC/boinc/wiki/Client-release-notes"
-        );
+        if (old_major_version) {
+            msg_printf_notice(0, true, 0,
+                "The BOINC client version has changed from %d.%d.%d to %d.%d.%d.<br>To see what's new, view the <a href=%s>Client release notes</a>.",
+                old_major_version, old_minor_version, old_release,
+                core_client_version.major,
+                core_client_version.minor,
+                core_client_version.release,
+                "https://github.com/BOINC/boinc/wiki/Client-release-notes"
+            );
+        }
         new_client = true;
     }
     if (statefile_platform_name.size() && strcmp(get_primary_platform(), statefile_platform_name.c_str())) {
@@ -474,9 +482,6 @@ int CLIENT_STATE::init() {
 
     srand((unsigned int)time(0));
     now = dtime();
-#ifdef ANDROID
-    device_status_time = dtime();
-#endif
     scheduler_op->url_random = drand();
 
     notices.init();
@@ -720,6 +725,10 @@ int CLIENT_STATE::init() {
     //
     newer_version_startup_check();
 
+#if !defined(SIM) && defined(_WIN32)
+    show_wsl_messages();
+#endif
+
     // parse account files again,
     // now that we know the host's venue on each project
     //
@@ -778,6 +787,9 @@ int CLIENT_STATE::init() {
         } else {
             net_status.need_to_contact_reference_site = true;
         }
+    }
+    if (host_info.p_fpops == 0) {
+        run_cpu_benchmarks = true;
     }
 
     check_if_need_benchmarks();
@@ -915,16 +927,23 @@ int CLIENT_STATE::init() {
     // if Docker not present, notify user
     //
 #ifndef ANDROID
+#ifdef _WIN32
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Windows";
+#elif defined(__APPLE__)
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Mac";
+#else
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Linux";
+#endif
     if (!host_info.have_docker()) {
         msg_printf(NULL, MSG_INFO,
             "Some projects require Docker."
         );
         msg_printf(NULL, MSG_INFO,
-            "To install Docker, visit https://github.com/BOINC/boinc/wiki/Installing-Docker"
+            "To install Docker, visit %s", url
         );
         NOTICE n;
-        n.description = "Some projects require Docker.  We recommend that you install it.  Instructions are <a href=https://github.com/BOINC/boinc/wiki/Installing-Docker>here</a>.";
-        strcpy(n.link, "https://github.com/BOINC/boinc/wiki/Installing-Docker");
+        n.description = "Some projects require Docker.  We recommend that you install it.  Instructions are <a href=" + (string)url + (string)">here</a>.";
+        strcpy(n.link, url);
         n.create_time = now;
         n.arrival_time = now;
         strcpy(n.category, "client");
@@ -1072,7 +1091,9 @@ bool CLIENT_STATE::poll_slow_events() {
     if (get_idle_state) {
         bool old_user_active = user_active;
 #ifdef ANDROID
-        user_active = device_status.user_active;
+        if (device_status_time) {
+            user_active = device_status.user_active;
+        }
 #else
         idle_time = host_info.user_idle_time(check_all_logins);
         user_active = idle_time < global_prefs.idle_time_to_run * 60;
@@ -1123,6 +1144,31 @@ bool CLIENT_STATE::poll_slow_events() {
     //
     active_tasks.get_memory_usage();
     suspend_reason = check_suspend_processing();
+
+#ifdef __APPLE__
+    // Mac: if Podman VM initialization is active, see if it's done
+    static bool need_podman_check = true;
+    if (need_podman_check && podman_init_pid) {
+        int ret, status;
+        ret = waitpid(podman_init_pid, &status, WNOHANG);
+        if (ret > 0) {
+            need_podman_check = false;
+            // process has exited
+            if (host_info.is_podman_VM_running()) {
+                msg_printf(NULL, MSG_INFO, "Podman VM initialized");
+            } else {
+                // couldn't init VM; can't use Podman
+                msg_printf(NULL, MSG_INFO,
+                    "Podman VM initialization failed"
+                );
+                gstate.host_info.docker_version[0] = 0;
+            }
+            podman_init_pid = 0;
+        } else {
+            suspend_reason = SUSPEND_REASON_PODMAN_INIT;
+        }
+    }
+#endif
 
     // suspend or resume activities (but only if already did startup)
     //

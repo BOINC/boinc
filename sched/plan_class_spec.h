@@ -63,9 +63,6 @@ struct PLAN_CLASS_SPEC {
     int min_core_client_version;
     int max_core_client_version;
         // for non-compute-intensive, or override for GPU apps
-    bool have_host_summary_regex;
-    regex_t host_summary_regex;
-        // matched against host.serialnum
     int user_id;
     double infeasible_random;
     long min_wu_id;
@@ -135,7 +132,9 @@ struct PLAN_CLASS_SPECS {
     std::vector<PLAN_CLASS_SPEC> classes;
     int parse_file(const char*);
     int parse_specs(FILE*);
-    bool check(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu, const WORKUNIT* wu);
-    bool wu_is_infeasible(char* plan_class, const WORKUNIT* wu);
+    bool check(SCHEDULER_REQUEST& sreq, const char* plan_class,
+        HOST_USAGE& hu, const WORKUNIT* wu
+    );
+    bool wu_is_infeasible(const char* plan_class, const WORKUNIT* wu);
     PLAN_CLASS_SPECS(){};
 };

@@ -66,6 +66,7 @@ parts:
     - libdbus-1-dev
     - libxtst-dev
     # vcpkg dependencies
+    - autoconf-archive
     - build-essential
     - pkg-config
     - tar

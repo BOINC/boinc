@@ -42,6 +42,10 @@
 #include "mac_backtrace.h"
 #endif
 
+#if defined(ANDROID) && __ANDROID_API__ < 33
+#undef HAVE_EXECINFO_H
+#endif
+
 #ifdef HAVE_EXECINFO_H
 #include <execinfo.h>
 #endif

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -127,13 +127,13 @@ static bool CompareViewProjectsItems(int iRowIndex1, int iRowIndex2) {
 
     try {
         project1 = myCViewProjects->m_ProjectCache.at(iRowIndex1);
-    } catch ( std::out_of_range ) {
+    } catch ( std::out_of_range& ) {
         return 0;
     }
 
     try {
         project2 = myCViewProjects->m_ProjectCache.at(iRowIndex2);
-    } catch ( std::out_of_range ) {
+    } catch ( std::out_of_range& ) {
         return 0;
     }
 
@@ -652,7 +652,7 @@ wxString CViewProjects::OnListGetItemText(long item, long column) const {
 
     try {
         project = m_ProjectCache.at(m_iSortedIndexes[item]);
-    } catch ( std::out_of_range ) {
+    } catch ( std::out_of_range& ) {
         project = NULL;
     }
 
@@ -958,7 +958,7 @@ wxInt32 CViewProjects::FormatProjectName(wxInt32 item, wxString& strBuffer) cons
 
     try {
         project = m_ProjectCache.at(m_iSortedIndexes[item]);
-    } catch ( std::out_of_range ) {
+    } catch ( std::out_of_range& ) {
         project = NULL;
     }
 
@@ -993,7 +993,7 @@ wxInt32 CViewProjects::FormatAccountName(wxInt32 item, wxString& strBuffer) cons
 
     try {
         project = m_ProjectCache.at(m_iSortedIndexes[item]);
-    } catch ( std::out_of_range ) {
+    } catch ( std::out_of_range& ) {
         project = NULL;
     }
     if (project) {
@@ -1027,7 +1027,7 @@ wxInt32 CViewProjects::FormatTeamName(wxInt32 item, wxString& strBuffer) const {
 
     try {
         project = m_ProjectCache.at(m_iSortedIndexes[item]);
-    } catch ( std::out_of_range ) {
+    } catch ( std::out_of_range& ) {
         project = NULL;
     }
 
@@ -1171,7 +1171,7 @@ wxInt32 CViewProjects::FormatStatus(wxInt32 item, wxString& strBuffer) const {
 
     try {
         project = m_ProjectCache.at(m_iSortedIndexes[item]);
-    } catch ( std::out_of_range ) {
+    } catch ( std::out_of_range& ) {
         project = NULL;
     }
 
@@ -1206,7 +1206,7 @@ double CViewProjects::GetProgressValue(long item) {
 
     try {
         project = m_ProjectCache.at(m_iSortedIndexes[item]);
-    } catch ( std::out_of_range ) {
+    } catch ( std::out_of_range& ) {
         project = NULL;
     }
 
@@ -1224,7 +1224,7 @@ wxString CViewProjects::GetProgressText( long item) {
 
     try {
         project = m_ProjectCache.at(m_iSortedIndexes[item]);
-    } catch ( std::out_of_range ) {
+    } catch ( std::out_of_range& ) {
         project = NULL;
     }
 
@@ -1275,7 +1275,7 @@ wxInt32 CViewProjects::ConvertLinkToWebsiteIndex(const wxString& strLink, wxInt3
 int CViewProjects::GetProjectCacheAtIndex(CProject*& projectPtr, int index) {
     try {
         projectPtr = m_ProjectCache.at(index);
-    } catch ( std::out_of_range ) {
+    } catch ( std::out_of_range& ) {
         projectPtr = NULL;
         return -1;
     }

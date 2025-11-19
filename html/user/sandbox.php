@@ -173,8 +173,8 @@ function upload_file($user) {
             error_page("$tmp_name is not uploaded file");
         }
         $name = $_FILES['new_file']['name'][$i];
-        if (strstr($name, "/")) {
-            error_page("no / allowed");
+        if (!is_valid_filename($name)) {
+            error_page('Invalid filename. '.filename_rules());
         }
         if (file_exists("$dir/$name")) {
             $notice .= "can't upload $name; file exists.<br>";
@@ -196,7 +196,7 @@ function add_file($user) {
     $dir = sandbox_dir($user);
     $name = post_str('name');
     if (!is_valid_filename($name)) {
-        error_page('bad filename');
+        error_page('Invalid filename. '.filename_rules());
     }
     if (!$name) error_page('No name given');
     if (file_exists("$dir/$name")) {
@@ -220,6 +220,9 @@ function get_file($user) {
         error_page('Not a valid URL');
     }
     $fname = basename($url);
+    if (!is_valid_filename($fname)) {
+        error_page('Invalid filename. '.filename_rules());
+    }
     $path = "$dir/$fname";
     if (file_exists($path)) {
         error_page("File $fname exists; delete it first.");
@@ -234,7 +237,7 @@ function get_file($user) {
 function delete_file($user) {
     $name = get_str('name');
     if (!is_valid_filename($name)) {
-        error_page('bad filename');
+        error_page('Invalid filename. '.filename_rules());
     }
     $dir = sandbox_dir($user);
     unlink("$dir/$name");
@@ -246,7 +249,7 @@ function delete_file($user) {
 function download_file($user) {
     $name = get_str('name');
     if (!is_valid_filename($name)) {
-        error_page('bad filename');
+        error_page('Invalid filename. '.filename_rules());
     }
     $dir = sandbox_dir($user);
     do_download("$dir/$name");
@@ -255,7 +258,7 @@ function download_file($user) {
 function view_file($user) {
     $name = get_str('name');
     if (!is_valid_filename($name)) {
-        error_page('bad filename');
+        error_page('Invalid filename. '.filename_rules());
     }
     $dir = sandbox_dir($user);
     $path = "$dir/$name";

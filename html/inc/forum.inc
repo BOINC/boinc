@@ -150,8 +150,7 @@ function show_forum_header($user) {
         <input type="text" class="" name="search_keywords">
     ';
     echo sprintf(
-        '<input class="%s" %s title="%s" type="submit" value="%s"><br>',
-        'btn btn-sm',
+        '<input class="btn" %s title="%s" type="submit" value="%s"><br>',
         button_style(),
         tra("Search for words in forum messages"),
         tra("Search forums")

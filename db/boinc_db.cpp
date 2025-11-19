@@ -542,6 +542,7 @@ void DB_HOST::db_print(char* buf){
     ESCAPE(os_name);
     ESCAPE(os_version);
     ESCAPE(product_name);
+    ESCAPE(misc);
     sprintf(buf,
         "create_time=%d, userid=%lu, "
         "rpc_seqno=%d, rpc_time=%d, "
@@ -565,7 +566,8 @@ void DB_HOST::db_print(char* buf){
         "error_rate=%.15e, "
         "product_name='%s', "
         "gpu_active_frac=%.15e, "
-        "p_ngpus=%d, p_gpu_fpops=%.15e ",
+        "p_ngpus=%d, p_gpu_fpops=%.15e, "
+        "misc='%s' ",
         create_time, userid,
         rpc_seqno, rpc_time,
         total_credit, expavg_credit, expavg_time,
@@ -588,7 +590,8 @@ void DB_HOST::db_print(char* buf){
         _error_rate,
         product_name,
         gpu_active_frac,
-        p_ngpus, p_gpu_fpops
+        p_ngpus, p_gpu_fpops,
+        misc
     );
     UNESCAPE(domain_name);
     UNESCAPE(serialnum);
@@ -599,6 +602,7 @@ void DB_HOST::db_print(char* buf){
     UNESCAPE(os_version);
     UNESCAPE(host_cpid);
     UNESCAPE(product_name);
+    UNESCAPE(misc);
 }
 
 void DB_HOST::db_parse(MYSQL_ROW &r) {
@@ -650,6 +654,9 @@ void DB_HOST::db_parse(MYSQL_ROW &r) {
     _error_rate = atof(r[i++]);
     strcpy2(product_name, r[i++]);
     gpu_active_frac = atof(r[i++]);
+    p_ngpus = atoi(r[i++]);
+    p_gpu_fpops = atof(r[i++]);
+    strcpy2(misc, r[i++]);
 }
 
 int DB_HOST::update_diff_validator(HOST& h) {
@@ -881,6 +888,12 @@ int DB_HOST::update_diff_sched(HOST& h) {
     }
     if (p_gpu_fpops != h.p_gpu_fpops) {
         sprintf(buf, " p_gpu_fpops=%.15e,", p_gpu_fpops);
+        strcat(updates, buf);
+    }
+    if (strcmp(misc, h.misc)) {
+        escape_string(misc, sizeof(misc));
+        sprintf(buf, " misc='%s',", misc);
+        unescape_string(misc, sizeof(misc));
         strcat(updates, buf);
     }
 
@@ -1589,6 +1602,7 @@ void DB_STATE_COUNTS::db_parse(MYSQL_ROW& r) {
     workunit_file_delete_state_2 = atoi(r[i++]);
 }
 
+// must match the query in next function
 void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     int i=0;
     clear();
@@ -2050,13 +2064,21 @@ int DB_VALIDATOR_ITEM_SET::update_workunit(WORKUNIT& wu) {
     return retval;
 }
 
-void WORK_ITEM::parse(MYSQL_ROW& r) {
+//#define BATCH_ACCEL_RANDOM 1
+
+// must correspond to query below
+void WORK_ITEM::parse(MYSQL_ROW& r, bool batch_accel) {
     int i=0;
     memset(this, 0, sizeof(WORK_ITEM));
     res_id = atol(r[i++]);
     res_priority = atoi(r[i++]);
     res_server_state = atoi(r[i++]);
     res_report_deadline = atof(r[i++]);
+#ifdef BATCH_ACCEL_RANDOM
+    if (batch_accel) {
+        i++;
+    }
+#endif
     wu.id = atol(r[i++]);
     wu.create_time = atoi(r[i++]);
     wu.appid = atol(r[i++]);
@@ -2095,17 +2117,40 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
 }
 
 int DB_WORK_ITEM::enumerate(
-    int limit, const char* select_clause, const char* order_clause
+    int limit, const char* select_clause, const char* order_clause,
+    bool batch_accel
 ) {
     char query[MAX_QUERY_LEN];
     int retval;
     MYSQL_ROW row;
+    const char* extra = "";
+
+    if (batch_accel) {
+        // we generally have results with priority 0 and 1.
+        // The scheduler only sends prio 1 results to LTT hosts.
+        // So we want shmem to contain a mixture of prio 0 and 1.
+        //
+        // One way to do this is to order by priority + X*random desc.
+        // If X is, say, 5 this should give 80% low-priority results.
+        //
+        // But this has the drawback that it doesn't do oldest first.
+        // So the 2nd way is to order by priority desc, id.
+        // If there lots of high-priority results they'll fill shmem.
+        // But in the steady state I don't think this happens.
+
+#ifdef BATCH_ACCEL_RANDOM
+        order_clause = "order by r1.priority+5*r desc ";
+        extra = " rand() as r, ";
+#else
+        order_clause = "order by r1.priority desc, workunit.id";
+#endif
+    }
     if (!cursor.active) {
         // use "r1" to refer to the result, since the feeder assumes that
         // (historical reasons)
         //
         sprintf(query,
-            "select high_priority r1.id, r1.priority, r1.server_state, r1.report_deadline, workunit.* from result r1 force index(ind_res_st), workunit, app "
+            "select high_priority r1.id, r1.priority, r1.server_state, r1.report_deadline, %s workunit.* from result r1 force index(ind_res_st), workunit, app "
             " where r1.server_state=%d "
             " and r1.workunitid=workunit.id "
             " and workunit.appid=app.id "
@@ -2114,11 +2159,13 @@ int DB_WORK_ITEM::enumerate(
             " %s "
             " %s "
             "limit %d",
+            extra,
             RESULT_SERVER_STATE_UNSENT,
             select_clause,
             order_clause,
             limit
         );
+        //fprintf(stderr, "query: %s\n", query);
         retval = db->do_query(query);
         if (retval) return mysql_errno(db->mysql);
         cursor.rp = mysql_store_result(db->mysql);
@@ -2133,7 +2180,7 @@ int DB_WORK_ITEM::enumerate(
         if (retval) return ERR_DB_CONN_LOST;
         return ERR_DB_NOT_FOUND;
     } else {
-        parse(row);
+        parse(row, batch_accel);
     }
     return 0;
 }
@@ -2257,14 +2304,6 @@ void SCHED_RESULT_ITEM::parse(MYSQL_ROW& r) {
     app_version_id = atol(r[i++]);
 }
 
-int DB_SCHED_RESULT_ITEM_SET::add_result(char* result_name) {
-    SCHED_RESULT_ITEM result;
-    result.id = 0;
-    strcpy2(result.queried_name, result_name);
-    results.push_back(result);
-    return 0;
-}
-
 int DB_SCHED_RESULT_ITEM_SET::enumerate() {
     string query;
     int retval;
@@ -2272,7 +2311,6 @@ int DB_SCHED_RESULT_ITEM_SET::enumerate() {
     MYSQL_RES* rp;
     MYSQL_ROW row;
     SCHED_RESULT_ITEM ri;
-
 
     query =
         "SELECT "
@@ -2326,6 +2364,14 @@ int DB_SCHED_RESULT_ITEM_SET::enumerate() {
         }
     } while (row);
 
+    return 0;
+}
+
+int DB_SCHED_RESULT_ITEM_SET::add_result(char* result_name) {
+    SCHED_RESULT_ITEM result;
+    result.id = 0;
+    strcpy2(result.queried_name, result_name);
+    results.push_back(result);
     return 0;
 }
 

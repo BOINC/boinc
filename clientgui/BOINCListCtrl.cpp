@@ -280,7 +280,7 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
                 for (int k = 0; k < pView->m_iNumDefaultShownColumns; ++k) {
                     defaultArray.Add(pView->m_aStdColNameOrder->Item(pView->m_iDefaultShownColumns[k]));
                 }
-                for (int k = 0; k < defaultArray.GetCount(); ++k) {
+                for (size_t k = 0; k < defaultArray.GetCount(); ++k) {
                     if (defaultArray[k].IsSameAs(columnNameToFind)) {
                         orderArray.Add(columnNameToFind);
                         foundNewDefaultColumns = true;

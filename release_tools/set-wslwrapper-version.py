@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
 # Copyright (C) 2025 University of California
@@ -17,15 +19,6 @@
 
 import sys
 
-def set_version_h(version):
-    with open('version.h', 'r') as f:
-        lines = f.readlines()
-    with open('version.h', 'w') as f:
-        for line in lines:
-            if line.startswith('#define WSL_WRAPPER_RELEASE'):
-                line = f'#define WSL_WRAPPER_RELEASE {version}\n'
-            f.write(line)
-
 def set_vcxproj(version):
     for vcxproj in ['win_build/wsl_wrapper.vcxproj']:
         with open(vcxproj, 'r') as f:
@@ -44,7 +37,6 @@ version = sys.argv[1]
 
 print(f'Setting wsl_wrapper version to {version}...')
 
-set_version_h(version)
 set_vcxproj(version)
 
 print('Done.')

@@ -1,5 +1,5 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
+// https://boinc.berkeley.edu
 // Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
@@ -53,22 +53,13 @@ bool CBOINCGUIApp::CallOnInit() {
 // first time the user "opens" it he either
 // double-clicks on our Finder icon or uses
 // command-tab.  It becomes the frontmost
-// application (with its menu in the menubar)
-// but the windows remain hidden, and it does
-// not receive an activate event, so we must
-// handle this case by polling.
+// application but with an incomplete menubar.
 //
 // We can stop the polling after the windows
 // have been shown once, since this state only
-// occurs if the windows have never appeared.
-//
-// TODO: Can we avoid polling by using notification
-// TODO: [NSApplicationDelegate applicationDidUnhide: ] ?
+// occurs when the windows first appear.
 //
 void CBOINCGUIApp::CheckPartialActivation() {
-    // This code is not needed and has bad effects on OS 10.5.
-    // Initializing wasHidden this way avoids the problem
-    // because we are briefly shown at login on OS 10.5.
     static bool wasHidden = [ NSApp isHidden ];
 
     if (wasHidden) {
@@ -77,6 +68,7 @@ void CBOINCGUIApp::CheckPartialActivation() {
         if (! [ NSApp isHidden ]) {
             wasHidden = false;
             ShowInterface();
+            wxGetApp().GetFrame()->CreateMenus();
         }
     }
 }
@@ -125,8 +117,15 @@ bool CBOINCGUIApp::IsApplicationVisible() {
 ///
 void CBOINCGUIApp::ShowApplication(bool bShow) {
     if (bShow) {
-        [ NSApp activateIgnoringOtherApps:YES ];
+        // unhide restores hidden windows and activates the app but doesn't bring it to front
+//        [ NSApp unhide:NSApp ];
+        if ([ NSApp respondsToSelector: @selector(activate)]) {
+            [ NSApp activate ]; // Unavailable before MacOS 14.0
+        } else {
+            [ NSApp activateIgnoringOtherApps:YES ];    // Deprecated as of MacOS 14.0
+        }
     } else {
+        // Hides all the windows and deactivates the app
         [ NSApp hide:NSApp ];
     }
 }
@@ -186,12 +185,15 @@ Boolean IsWindowOnScreen(int iLeft, int iTop, int iWidth, int iHeight) {
     return false;
 }
 
-// Each time a second instance of BOINC Managr is launched, it normally
-// nadds an additional BOINC icon to the "recently run apps" section
-// of the Dock, cluttering it up. To avoid this, we set the LSUIElement
-// key in its info.plist, which prevents the app from appearing in the
-// Dock. But if this is not a duplicate instance, we call this routine
-// to tell the system to show the icon in the Dock.
+// A second instance of BOINC Manager is sometimes launched at login
+// when the Manager is launched by the login startup item and also
+// by the "restore open windows" or "restore open applications"
+// feature of MacOS.
+// Each time a second instance of BOINC Manager is launched, it
+// normally adds an additional BOINC icon to the "recently run apps"
+// section of the Dock, cluttering it up. To avoid this, we call
+// this routine on the second instance to tell the system to hide
+// the icon in the Dock.
 // https://stackoverflow.com/questions/620841/how-to-hide-the-dock-icon
 void CBOINCGUIApp::SetActivationPolicyAccessory(bool hideDock) {
     if (hideDock) {
@@ -244,3 +246,42 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
     wxGetApp().GetFrame()->GetEventHandler()->AddPendingEvent(evt);
     return noErr;
 }
+
+#include "wx/osx/private.h"
+#include "MacBitmapComboBox.h"
+
+void CBOINCBitmapChoice::SetItemBitmap(unsigned int index, const wxBitmap& bitmap) {
+    int x, y, topx, topy, h, w;
+    if (!bitmap.IsOk()) return;
+    // Get the center of this control within our window
+    GetScreenPosition(&x, &y);
+    GetSize(&w, &h);
+    wxWindow *top = wxApp::GetMainTopWindow();
+    top->GetScreenPosition(&topx, &topy);
+    x = x-topx+w/2;
+    y = y-topy+h/2;
+
+    // Find the NSPopupButton control used by wxChoice
+    // using its position within our window.
+    NSPoint pointInWindow;
+    NSWindow *window = (NSWindow*)MacGetTopLevelWindowRef();
+
+    // Convert wxWidgets coordinates to MacOS coordinates.
+    float wh = [window frame].size.height;
+    pointInWindow.x = (float)x;
+    pointInWindow.y = wh-(float)y;
+
+    NSView *hitView = [[window contentView] hitTest:pointInWindow];
+    if (! [hitView isKindOfClass:[NSPopUpButton class]]) {
+        return;
+    }
+    // 'hitView' is the NSPopupButton control. Set the bitmap
+    //  for menu item # index in the NSPopupButton's menu.
+    NSPopUpButton *foundButton = (NSPopUpButton *)hitView;
+    NSMenu *nsmenu = ((NSMenu*)[foundButton menu]);
+    if (index >= [ nsmenu numberOfItems ]) return;
+    NSMenuItem * item = [ nsmenu itemAtIndex:index ];
+    NSImage *nsImage = bitmap.GetNSImage();
+    [item setImage:nsImage];
+ }
+

@@ -60,6 +60,11 @@
 
 #include "backend_lib.h"
 
+// the max length of a job description line;
+// also the max length of a job command line
+//
+#define CMD_SIZE    4096
+
 using std::string;
 using std::map;
 
@@ -139,7 +144,7 @@ struct JOB_DESC {
     char result_template_file[256];
     char result_template_path[MAXPATHLEN];
     vector <INFILE_DESC> infiles;
-    char command_line[1024];
+    char command_line[CMD_SIZE];
     bool assign_flag;
     bool assign_multi;
     int assign_id;
@@ -251,13 +256,22 @@ void get_wu_template(JOB_DESC& jd2) {
     strcpy(jd2.wu_template, wu_templates[s]);
 }
 
+// if a buffer is full after a fgets(), it was too small
+//
+void check_buffer(char *p, int len) {
+    if (strlen(p) == len-1) {
+        fprintf(stderr, "fgets() buffer was too small\n");
+        exit(1);
+    }
+}
+
 int main(int argc, char** argv) {
     DB_APP app;
     int retval;
     int i;
     char download_dir[256], db_name[256], db_passwd[256];
     char db_user[256],db_host[256];
-    char buf[4096];
+    char buf[CMD_SIZE];
     JOB_DESC jd;
     bool show_wu_name = true;
     bool use_stdin = false;
@@ -462,6 +476,7 @@ int main(int argc, char** argv) {
             for (int j=0; ; j++) {
                 char* p = fgets(buf, sizeof(buf), stdin);
                 if (p == NULL) break;
+                check_buffer(buf, sizeof(buf));
                 JOB_DESC jd2 = jd;
                     // things default to what was passed on cmdline
                 strcpy(jd2.wu.name, "");
@@ -501,6 +516,7 @@ int main(int argc, char** argv) {
             for (int j=0; ; j++) {
                 char* p = fgets(buf, sizeof(buf), stdin);
                 if (p == NULL) break;
+                check_buffer(buf, sizeof(buf));
                 JOB_DESC jd2 = jd;
                 strcpy(jd2.wu.name, "");
                 _argc = parse_command_line(buf, _argv);

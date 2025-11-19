@@ -722,7 +722,7 @@ int DOCKER_CONN::init(
         retval = ctl_wc.run_program_in_wsl(distro_name, "", true);
         if (retval) return retval;
     } else if (docker_type == PODMAN) {
-        int retval = ctl_wc.setup_root(distro_name.c_str());
+        int retval = ctl_wc.setup_podman(distro_name.c_str());
         if (retval) return retval;
     } else {
         fprintf(stderr,
@@ -750,6 +750,7 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     int retval;
     if (verbose) {
         fprintf(stderr, "running docker command: %s\n", cmd);
+        fprintf(stderr, "program: %s\n", cli_prog);
     }
 #ifdef _WIN32
     string output;
@@ -769,8 +770,8 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     out = split(output, '\n');
 #else
     snprintf(buf, sizeof(buf),
-        "%s%s %s",
-        docker_cmd_prefix(type), cli_prog, cmd
+        "%s %s",
+        cli_prog, cmd
     );
     retval = run_command(buf, out);
     if (retval) {
@@ -822,6 +823,7 @@ int DOCKER_CONN::parse_container_name(string line, string &name) {
     char *p = strrchr(buf, ' ');
     if (!p) return -1;
     name = (string)(p+1);
+    strip_whitespace(name);
     return 0;
 }
 

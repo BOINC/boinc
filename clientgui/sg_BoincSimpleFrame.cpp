@@ -747,6 +747,7 @@ void CSimpleFrame::OnReloadSkin(CFrameEvent& WXUNUSED(event)) {
     wxASSERT(pSkinAdvanced);
 
     m_pBackgroundPanel->ReskinInterface();
+    CreateMenus();
     SetTitle(pSkinAdvanced->GetApplicationName());
     SetIcon(pSkinAdvanced->GetApplicationIcon()->GetIcon(wxDefaultSize));
 
@@ -775,6 +776,11 @@ void CSimpleFrame::OnNotification(CFrameEvent& WXUNUSED(event)) {
 void CSimpleFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnRefreshView - Function Start"));
 
+#ifdef __WXMAC__
+    if (IsShown()) {
+        wxGetApp().CheckPartialActivation();
+    }
+#endif
     m_pBackgroundPanel->OnFrameRender();
 
     if (dlgMsgsPtr) {
@@ -811,9 +817,6 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     ACCT_MGR_INFO ami;
     PROJECT_INIT_STATUS pis;
     CC_STATUS     status;
-#ifndef __WXMAC__
-    int wasShown = 0;
-#endif
     int wasVisible = 0;
 
     wxASSERT(pDoc);
@@ -841,8 +844,8 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         // take care of attaching to projects when it completes the RPCs
         //
     } else if (ami.acct_mgr_url.size() && !ami.have_credentials) {
-#ifndef __WXMAC__
-        wasShown = IsShown();
+#if !defined(__WXMAC__) && (defined(_GRIDREPUBLIC) || defined(_PROGRESSTHRUPROCESSORS) || defined(_CHARITYENGINE))
+        int wasShown = IsShown();
 #endif
         Show();
         wasVisible = wxGetApp().IsApplicationVisible();

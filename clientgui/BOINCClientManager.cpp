@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -202,12 +202,14 @@ bool CBOINCClientManager::StartupBOINCCore() {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainDocument::StartupBOINCCore - Function Begin"));
 
     bool                bReturnValue = false;
+#ifndef __WXMAC__
     wxString            strExecute = wxEmptyString;
-    wxString            strDataDir = wxEmptyString;
+#endif
 
     if (IsBOINCCoreRunning()) return true;
 
 #if defined(__WXMSW__)
+    wxString     strDataDir = wxEmptyString;
     const char*  pszExecute = NULL;
     const char*  pszDataDirectory = NULL;
 

@@ -2,14 +2,14 @@
     "name": "boinc-libs",
     "dependencies":
     [
-        {
-          "name": "curl",
-          "features": ["schannel"],
-          "default-features": false
-        },
+        "curl",
         {
           "name": "openssl",
           "features": ["ssl3", "weak-ssl-ciphers"],
+          "default-features": false
+        },
+        {
+          "name": "libzip",
           "default-features": false
         }
     ]
