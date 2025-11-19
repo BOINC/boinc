@@ -181,7 +181,7 @@ function show_hosts() {
 
 function main() {
     global $apps;
-    echo sprintf("starting: %s\n", time_str(time()));
+    echo sprintf("starting batch_stats: %s\n", time_str(time()));
     $as = BoincApp::enum('');
     foreach ($as as $a) {
         $apps[$a->id] = [];
@@ -197,7 +197,7 @@ function main() {
         do_batch($batch);
     }
     update_db();
-    echo sprintf("finished: %s\n", time_str(time()));
+    echo sprintf("finished batch_stats: %s\n", time_str(time()));
 }
 
 main();

@@ -115,7 +115,8 @@ function do_batch($batch, $wus) {
 
 function main() {
     global $apps;
-    echo sprintf("batch_accel starting: %s\n", time_str(time()));
+
+    echo sprintf("starting batch_accel: %s\n", time_str(time()));
 
     $as = BoincApp::enum('');
     foreach ($as as $a) {
@@ -142,9 +143,10 @@ function main() {
         echo "doing batch $batch->id\n";
         do_batch($batch, $wus);
     }
-    echo sprintf("batch_accel finished: %s\n", time_str(time()));
+    echo sprintf("finished batch_accel: %s\n", time_str(time()));
 }
 
+system("./batch_stats.php");
 main();
 
 ?>
