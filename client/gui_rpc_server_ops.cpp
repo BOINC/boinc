@@ -1420,6 +1420,7 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
     char cmd[256];
     bool need_to_launch_gfx_ss_bridge = false;
     static int gfx_ss_bridge_pid = 0;
+    extern int compareOSVersionTo(int toMajor, int toMinor);
 
     while (!grc.xp.get_tag()) {
         if (grc.xp.match_tag("/run_graphics_app")) break;
@@ -1501,34 +1502,36 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
         return;
     }
 
-    // As of MacOS 14.0, the legacyScreenSaver sandbox prevents using
-    // bootstrap_look_up, so we launch a bridging utility to relay Mach
-    // communications between the graphics apps and the legacyScreenSaver.
-    if (gfx_ss_bridge_pid == 0) {
-        need_to_launch_gfx_ss_bridge = true;
-    } else if (waitpid(gfx_ss_bridge_pid, 0, WNOHANG)) {
-        gfx_ss_bridge_pid = 0;
-        need_to_launch_gfx_ss_bridge = true;
-    }
-    if (need_to_launch_gfx_ss_bridge) {
-        if (g_use_sandbox) {
+    if (compareOSVersionTo(14, 0) >= 0) {
+        // As of MacOS 14.0, the legacyScreenSaver sandbox prevents using
+        // bootstrap_look_up, so we launch a bridging utility to relay Mach
+        // communications between the graphics apps and the legacyScreenSaver.
+        if (gfx_ss_bridge_pid == 0) {
+            need_to_launch_gfx_ss_bridge = true;
+        } else if (waitpid(gfx_ss_bridge_pid, 0, WNOHANG)) {
+            gfx_ss_bridge_pid = 0;
+            need_to_launch_gfx_ss_bridge = true;
+        }
+        if (need_to_launch_gfx_ss_bridge) {
+            if (g_use_sandbox) {
 
-            snprintf(gfx_switcher_path, sizeof(gfx_switcher_path),
-                "/Library/Screen Savers/%s.saver/Contents/Resources/gfx_switcher",
-                saverName[iBrandID]
-            );
+                snprintf(gfx_switcher_path, sizeof(gfx_switcher_path),
+                    "/Library/Screen Savers/%s.saver/Contents/Resources/gfx_switcher",
+                    saverName[iBrandID]
+                );
+            }
+            argv[0] = const_cast<char*>("gfx_switcher");
+            argv[1] = "-run_bridge";
+            argv[2] = gfx_switcher_path;
+            argc = 3;
+            if (!theScreensaverLoginUser.empty()) {
+                argv[argc++] = "--ScreensaverLoginUser";
+                safe_strcpy(screensaverLoginUser, theScreensaverLoginUser.c_str());
+                argv[argc++] = screensaverLoginUser;
+            }
+            argv[argc] = 0;
+            retval = run_program(current_dir, gfx_switcher_path, argc, argv, gfx_ss_bridge_pid);
         }
-        argv[0] = const_cast<char*>("gfx_switcher");
-        argv[1] = "-run_bridge";
-        argv[2] = gfx_switcher_path;
-        argc = 3;
-        if (!theScreensaverLoginUser.empty()) {
-            argv[argc++] = "--ScreensaverLoginUser";
-            safe_strcpy(screensaverLoginUser, theScreensaverLoginUser.c_str());
-            argv[argc++] = screensaverLoginUser;
-        }
-        argv[argc] = 0;
-        retval = run_program(current_dir, gfx_switcher_path, argc, argv, gfx_ss_bridge_pid);
     }
 
     if (slot == -1) {
