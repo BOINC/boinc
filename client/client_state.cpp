@@ -1180,8 +1180,13 @@ bool CLIENT_STATE::poll_slow_events() {
             }
             last_suspend_reason = suspend_reason;
         } else {
-            if (tasks_suspended && !tasks_throttled) {
-                resume_tasks(last_suspend_reason);
+            if (tasks_suspended) {
+                if (log_flags.task) {
+                    msg_printf(NULL, MSG_INFO, "Resuming computation");
+                }
+                if (!tasks_throttled) {
+                    resume_tasks(last_suspend_reason);
+                }
             }
         }
     } else if (first) {
