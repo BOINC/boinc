@@ -184,6 +184,9 @@ function variant_form($user) {
         // can't change CPU type of existing variant
         form_input_hidden('variant', $variant);
         form_input_hidden('edit', 'true');
+        $x = explode('_', $variant);
+        $cpu_type = $x[0];
+        form_input_hidden('cpu_type', $cpu_type);
     } else {
         form_radio_buttons(
             'CPU type', 'cpu_type',
@@ -225,7 +228,7 @@ function create_templates($app, $desc, $dir) {
     $x = "<input_template>\n";
     $ninfiles = count($desc->input_file_names);
     for ($i=0; $i<$ninfiles; $i++) {
-        $x .= "   <file_info>\n      <sticky/>\n      <no_delete/>\n      <executable/>\n   </file_info>\n";
+        $x .= "   <file_info>\n      <no_delete/>\n   </file_info>\n";
     }
     $x .= "   <workunit>\n";
     foreach ($desc->input_file_names as $fname) {
