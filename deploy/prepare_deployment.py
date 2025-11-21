@@ -162,6 +162,7 @@ windows_apps_list = [
     './win_build/Build/x64/Release/crypt_prog.exe',
     './win_build/Build/x64/Release/wsl_wrapper.exe',
     './win_build/Build/x64/Release/docker_wrapper*.exe',
+    './win_build/Build/x64/Release/cudart*.dll',
     './win_build/Build/ARM64/Release/htmlgfx*.exe',
     './win_build/Build/ARM64/Release/wrapper*.exe',
     './win_build/Build/ARM64/Release/vboxwrapper*.exe',

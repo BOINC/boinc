@@ -55,5 +55,11 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="nvcuda.targets" />
   </ImportGroup>
+  <Target Name="CopyCudaRuntimeLibrary" DependsOnTargets="Build" AfterTargets="Build">
+    <ItemGroup>
+      <RTDLLs Include="$(CUDA_BIN_PATH)\*.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(RTDLLs)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+  </Target>
   <Import Project="boinc_signing.targets" />
 </Project>
