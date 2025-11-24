@@ -185,8 +185,8 @@ if [[ "$TYPE" == "stable" ]]; then
             matched_packets=$(echo "$packets" | grep "^${prefix}_.*_${suffix}$")
             echo "$matched_packets" | tail -n 1 | while IFS= read -r packet; do
                 echo "      Adding: $packet"
-                aptly -config=$CONF_FILE repo remove boinc-$TYPE $packet
-                exit_on_fail "Failed to remove the package"
+				aptly -config=$CONF_FILE repo import boinc-alpha-mirror boinc-$TYPE $packet
+                exit_on_fail "Failed to add the package"
                 done
         done
     done
