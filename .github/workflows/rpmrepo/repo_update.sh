@@ -173,7 +173,7 @@ max_parallel_downloads = 2
         for suffix in $suffixes; do
             echo "  $suffix"
             matched_packets=$(echo "$packets" | grep "^${prefix}-.*\.${suffix}.rpm$")
-            echo "$matched_packets" | tail -n 1 | while IFS= read -r packet; do
+            echo "$matched_packets" | head -n 1 | while IFS= read -r packet; do
 			echo "Copy: $packet"
 			cp $packet $CWD/mirror/
 			exit_on_fail "Failed to copy the package $packet"
