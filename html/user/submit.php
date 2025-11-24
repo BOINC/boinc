@@ -826,7 +826,6 @@ function handle_query_job($user) {
     $is_assim_move = is_assim_move($app);
 
     page_head("Job '$wu->name'");
-    text_start(800);
 
     echo "
         <ul>
@@ -845,6 +844,9 @@ function handle_query_job($user) {
     table_header(
         "ID<br><small>click for details and stderr</small>",
         "State",
+        'Sent',
+        'Received',
+        'Priority',
         "Output files"
     );
     $results = BoincResult::enum("workunitid=$wuid");
@@ -853,7 +855,10 @@ function handle_query_job($user) {
     foreach ($results as $result) {
         $x = [
             "<a href=result.php?resultid=$result->id>$result->id</a>",
-            state_string($result)
+            state_string($result),
+            time_str($result->sent_time),
+            time_str($result->received_time),
+            $result->priority
         ];
         if ($is_assim_move) {
             if ($result->id == $wu->canonical_resultid) {
@@ -937,7 +942,6 @@ function handle_query_job($user) {
         echo "The job has no input files.<p>";
     }
 
-    text_end();
     return_link();
     page_tail();
 }

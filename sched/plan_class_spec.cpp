@@ -311,20 +311,6 @@ bool PLAN_CLASS_SPEC::check(
         return false;
     }
 
-    // host summary
-    //
-    if (have_host_summary_regex
-        && regexec(&(host_summary_regex), g_reply->host.serialnum, 0, NULL, 0)
-    ) {
-        if (config.debug_version_select) {
-            log_messages.printf(MSG_NORMAL,
-                "[version] plan_class_spec: host summary '%s' didn't match regexp\n",
-                g_reply->host.serialnum
-            );
-        }
-        return false;
-    }
-
     // OS version
     //
     if (have_os_regex && regexec(&(os_regex), sreq.host.os_version, 0, NULL, 0)) {
@@ -854,7 +840,7 @@ bool PLAN_CLASS_SPEC::check(
 
     // Apple GPU
 
-    } else if (!strcmp(gpu_type, "apple_cpu")) {
+    } else if (!strcmp(gpu_type, "apple")) {
         COPROC& cp = sreq.coprocs.apple_gpu;
         cpp = &cp;
 
@@ -1211,14 +1197,6 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
             have_cpu_model_regex = true;
             continue;
         }
-        if (xp.parse_str("host_summary_regex", buf, sizeof(buf))) {
-            if (regcomp(&(host_summary_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
-                log_messages.printf(MSG_CRITICAL, "BAD HOST SUMMARY REGEXP: %s\n", buf);
-                return ERR_XML_PARSE;
-            }
-            have_host_summary_regex = true;
-            continue;
-        }
         if (xp.parse_int("user_id", user_id)) continue;
         if (xp.parse_double("infeasible_random", infeasible_random)) continue;
         if (xp.parse_double("min_os_version", min_os_version)) continue;
@@ -1338,7 +1316,6 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     avg_ncpus = 0;
     min_core_client_version = 0;
     max_core_client_version = 0;
-    have_host_summary_regex = false;
     user_id = 0;
     infeasible_random = 0;
     min_wu_id=0;

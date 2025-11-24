@@ -390,9 +390,6 @@ int CLIENT_STATE::resume_tasks(int reason) {
     if (reason == SUSPEND_REASON_CPU_THROTTLE) {
         active_tasks.unsuspend_all(SUSPEND_REASON_CPU_THROTTLE);
     } else {
-        if (log_flags.task) {
-            msg_printf(NULL, MSG_INFO, "Resuming computation");
-        }
         active_tasks.unsuspend_all();
         request_schedule_cpus("Resuming computation");
     }
