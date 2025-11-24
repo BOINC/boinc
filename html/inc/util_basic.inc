@@ -21,6 +21,7 @@
 // Doesn't contain web-specific stuff like translation.inc
 
 require_once("../inc/random_compat/random.inc");
+    // for random_bytes()
 
 // show PHP errors in output (e.g. web pages).
 // Call this from your project.inc if you want.
@@ -215,6 +216,33 @@ function pretty_time_str($x) {
     return time_str($x);
 }
 
+// convert time interval in seconds to a string of the form
+// 'D days h hours m min s sec'.
+
+function time_diff($x, $res=3) {
+    $x = (int)$x;
+    $days    = (int)($x/86400);
+    $hours   = (int)(($x-$days*86400)/3600);
+    $minutes = (int)(($x-$days*86400-$hours*3600)/60);
+    $seconds = $x % 60;
+
+    $s = "";
+    if ($days) {
+        $s .= "$days ".tra("days")." ";
+    }
+    if ($res>0 && ($hours || strlen($s))) {
+        $s .= "$hours ".tra("hours")." ";
+    }
+    if ($res>1 && ($minutes || strlen($s))) {
+        $s .= "$minutes ".tra("min")." ";
+    }
+    if ($res>2) {
+        $s .= "$seconds ".tra("sec")." ";
+    }
+    return $s;
+}
+
+
 // security vulnerabilities and user-supplied strings:
 // sources:
 // GET and POST arguments
@@ -249,5 +277,10 @@ function is_valid_filename($x) {
 function filename_rules() {
     return 'Names can contain only A-Z a-z 0-9 . - _ space';
 }
+
+define('KILO', 1024);
+define('MEGA', 1024*KILO);
+define('GIGA', 1024*MEGA);
+define('TERA', 1024*GIGA);
 
 ?>

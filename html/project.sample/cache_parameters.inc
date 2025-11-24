@@ -9,6 +9,8 @@
 //
 // TTL = 0 means don't cache that type of page
 
+require_once('../inc/util_basic.inc');
+
 define('TEAM_PAGE_TTL', 3600);
 define('USER_PAGE_TTL', 3600);
 define('USER_PROFILE_TTL', 3600);
@@ -19,13 +21,12 @@ define('INDEX_PAGE_TTL', 3600);
 define('STATUS_PAGE_TTL', 3600);
 define('REMOTE_PROJECTS_TTL', 86400);
 
-// max allowed cache usage, bytes
+// max cache usage, bytes
 //
-define('MAX_CACHE_USAGE', 1e9);
+define('MAX_CACHE_USAGE', 10*MEGA);
 
-// the cache can grow without bound,
-// so every so often we need to check its size and
-// delete old entries.
+// the cache can grow without bound;
+// every so often we need to check its size and delete old entries.
 // We do this randomly, on average every N page views
 
 define('CACHE_SIZE_CHECK_FREQ', 1000);
