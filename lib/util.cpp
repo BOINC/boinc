@@ -711,22 +711,22 @@ string parse_ldd_libc(const char* input) {
 //
 #ifdef _WIN32
 int DOCKER_CONN::init(
-    DOCKER_TYPE docker_type, string distro_name, bool _verbose
+    WSL_DISTRO &wd, bool _verbose
 ) {
     string err_msg;
-    type = docker_type;
-    cli_prog = docker_cli_prog(docker_type);
-    if (docker_type == DOCKER) {
+    type = wd.docker_type;
+    cli_prog = docker_cli_prog(wd.docker_type);
+    if (wd.docker_type == DOCKER) {
         int retval = ctl_wc.setup(err_msg);
         if (retval) return retval;
-        retval = ctl_wc.run_program_in_wsl(distro_name, "", true);
+        retval = ctl_wc.run_program_in_wsl(wd, "", true);
         if (retval) return retval;
-    } else if (docker_type == PODMAN) {
-        int retval = ctl_wc.setup_podman(distro_name.c_str());
+    } else if (wd.docker_type == PODMAN) {
+        int retval = ctl_wc.setup_podman(wd);
         if (retval) return retval;
     } else {
         fprintf(stderr,
-            "DOCKER_CONN::init(): bad docker type %d\n", docker_type
+            "DOCKER_CONN::init(): bad docker type %d\n", wd.docker_type
         );
         return -1;
     }

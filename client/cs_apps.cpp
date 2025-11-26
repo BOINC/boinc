@@ -484,7 +484,7 @@ void CLIENT_STATE::docker_cleanup() {
     for (WSL_DISTRO &wd: host_info.wsl_distros.distros) {
         if (wd.docker_version.empty()) continue;
         DOCKER_CONN dc;
-        dc.init(wd.docker_type, wd.distro_name);
+        dc.init(wd);
         cleanup_docker(info, dc);
     }
 #else
