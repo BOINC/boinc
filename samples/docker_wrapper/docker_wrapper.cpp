@@ -718,21 +718,21 @@ double get_fraction_done() {
 // find a WSL distro with Docker and set up a command link to it
 //
 int wsl_init() {
-    string distro_name;
+	WSL_DISTRO* distro;
     if (boinc_is_standalone()) {
-        distro_name = "Ubuntu";
-        docker_type = PODMAN;
+        distro = new WSL_DISTRO;
+        distro->distro_name = "boinc-buda-wrapper";
+        distro->docker_type = PODMAN;
+        distro->boinc_buda_runner_version = 4;
     } else {
-        WSL_DISTRO* distro = aid.host_info.wsl_distros.find_docker();
+        distro = aid.host_info.wsl_distros.find_docker();
         if (!distro) {
             fprintf(stderr, "wsl_init(): no usable WSL distro\n");
             return -1;
         }
-        distro_name = distro->distro_name;
-        docker_type = distro->docker_type;
     }
-    fprintf(stderr, "Using WSL distro %s\n", distro_name.c_str());
-    return docker_conn.init(docker_type, distro_name, config.verbose>0);
+    fprintf(stderr, "Using WSL distro %s\n", distro->distro_name.c_str());
+    return docker_conn.init(*distro, config.verbose>0);
 }
 #endif
 
