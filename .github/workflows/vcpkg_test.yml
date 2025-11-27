@@ -226,20 +226,8 @@ jobs:
         - name: Install x86 dependencies
           if: ${{ matrix.triplet == 'x86-linux' }}
           run: |
-            sudo sed -i 's|priority:1|priority:100|' /etc/apt/apt-mirrors.txt
-            sudo dpkg --add-architecture i386
-            sudo sed -i '/^Types: deb$/a Architectures: amd64' /etc/apt/sources.list.d/ubuntu.sources
-            sudo sed -i '/^Types: deb$/a Architectures: amd64' /etc/apt/sources.list.d/azure-cli.sources
-            codename=$(lsb_release -cs)
-            cat <<EOT >> arm-cross-compile-sources.list
-            deb [arch=i386] http://ports.ubuntu.com/ubuntu-ports $codename main restricted universe multiverse
-            deb [arch=i386] http://ports.ubuntu.com/ubuntu-ports $codename-updates main restricted universe multiverse
-            deb [arch=i386] http://ports.ubuntu.com/ubuntu-ports $codename-security main restricted universe multiverse
-            deb [arch=i386] http://ports.ubuntu.com/ubuntu-ports $codename-backports main restricted universe multiverse
-            EOT
-            sudo mv arm-cross-compile-sources.list /etc/apt/sources.list.d/
             sudo apt-get update
-            sudo apt-get install -y g++-multilib gcc-multilib crossbuild-essential-i386
+            sudo apt-get install -y g++-multilib gcc-multilib
 
         - name: Install arm dependencies
           if: ${{ matrix.triplet == 'arm-linux' }}
@@ -295,7 +283,7 @@ jobs:
         - name: Configure x86 build
           if: ${{ matrix.triplet == 'x86-linux' }}
           run: |
-            cmake -E env CC="gcc -m32" CXX="g++ -m32" CFLAGS="-m32" CXXFLAGS="-m32" LDFLAGS="-m32" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+            cmake -E env CC="gcc -m32" CXX="g++ -m32" CFLAGS="-m32" CXXFLAGS="-m32" LDFLAGS="-m32" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DCMAKE_C_COMPILER="gcc -m32" -DCMAKE_CXX_COMPILER="g++ -m32" -DCMAKE_LINKER="ld"
 
         - name: Build
           run: |
