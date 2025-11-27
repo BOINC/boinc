@@ -291,13 +291,13 @@ int error_output(vector<string> &out) {
 //
 static void escape_spaces(const char* p, char *q) {
     while (*p) {
-    	if (*p == ' ') {
-	    *q++ = '\\';
-	    *q++ = ' ';
-	} else {
-	    *q++ = *p;
-	}
-	p++;
+        if (*p == ' ') {
+            *q++ = '\\';
+            *q++ = ' ';
+        } else {
+            *q++ = *p;
+        }
+        p++;
     }
     *q = 0;
 }
@@ -718,10 +718,10 @@ double get_fraction_done() {
 // find a WSL distro with Docker and set up a command link to it
 //
 int wsl_init() {
-	WSL_DISTRO* distro;
+    WSL_DISTRO* distro;
     if (boinc_is_standalone()) {
         distro = new WSL_DISTRO;
-        distro->distro_name = "boinc-buda-wrapper";
+        distro->distro_name = BOINC_WSL_DISTRO_NAME;
         distro->docker_type = PODMAN;
         distro->boinc_buda_runner_version = 4;
     } else {

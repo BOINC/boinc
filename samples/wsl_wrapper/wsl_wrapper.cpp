@@ -272,7 +272,7 @@ int main(int argc, char** argv) {
     if (boinc_is_standalone()) {
         SetCurrentDirectoryA("C:/ProgramData/BOINC/slots/test");
         distro = new WSL_DISTRO;
-        distro->distro_name = "boinc-buda-wrapper";
+        distro->distro_name = BOINC_WSL_DISTRO_NAME;
         distro->docker_type = PODMAN;
         distro->boinc_buda_runner_version = 4;
     } else {
