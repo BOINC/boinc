@@ -732,6 +732,7 @@ int wsl_init() {
         }
     }
     fprintf(stderr, "Using WSL distro %s\n", distro->distro_name.c_str());
+    docker_type = distro->docker_type;
     return docker_conn.init(*distro, config.verbose>0);
 }
 #endif
