@@ -227,7 +227,7 @@ jobs:
           if: ${{ matrix.triplet == 'x86-linux' }}
           run: |
             sudo apt-get update
-            sudo apt-get install -y g++-multilib gcc-multilib
+            sudo apt-get install -y crossbuild-essential-i386
 
         - name: Install arm dependencies
           if: ${{ matrix.triplet == 'arm-linux' }}
@@ -259,7 +259,6 @@ jobs:
         - name: Set up vcpkg
           run: |
             git clone https://github.com/microsoft/vcpkg.git
-            git -C vcpkg checkout 06903b819de551902853f802cc5edd27740b19c2
             ./vcpkg/bootstrap-vcpkg.sh
 
         - name: Prepare build
