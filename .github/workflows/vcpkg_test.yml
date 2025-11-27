@@ -259,7 +259,7 @@ jobs:
         - name: Set up vcpkg
           run: |
             git clone https://github.com/microsoft/vcpkg.git
-            git -C vcpkg checkout c70c929e4854f1add688dab6abd5e0f466864767
+            git -C vcpkg checkout 06903b819de551902853f802cc5edd27740b19c2
             ./vcpkg/bootstrap-vcpkg.sh
 
         - name: Prepare build
