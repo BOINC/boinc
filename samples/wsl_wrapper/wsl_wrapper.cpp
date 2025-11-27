@@ -281,7 +281,7 @@ int main(int argc, char** argv) {
             os_name_regexp, os_version_regexp, min_libc_version
         );
         if (!dp) {
-            fprintf(stderr, "can't find distro\n");
+            fprintf(stderr, "can't find usable WSL distro\n");
             exit(1);
         }
     }

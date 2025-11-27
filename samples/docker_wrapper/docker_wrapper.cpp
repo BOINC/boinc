@@ -724,11 +724,12 @@ int wsl_init() {
         distro.docker_type = PODMAN;
         distro.boinc_buda_runner_version = 4;
         dp = &distro;
-    }
-    dp = aid.host_info.wsl_distros.find_docker();
-    if (!dp) {
-        fprintf(stderr, "wsl_init(): no usable WSL distro\n");
-        return -1;
+    } else {
+        dp = aid.host_info.wsl_distros.find_docker();
+        if (!dp) {
+            fprintf(stderr, "wsl_init(): no usable WSL distro\n");
+            return -1;
+        }
     }
     fprintf(stderr, "Using WSL distro %s\n", dp->distro_name.c_str());
     docker_type = dp->docker_type;
