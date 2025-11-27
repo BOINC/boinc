@@ -227,7 +227,7 @@ jobs:
           if: ${{ matrix.triplet == 'x86-linux' }}
           run: |
             sudo apt-get update
-            sudo apt-get install -y crossbuild-essential-i386
+            sudo apt-get install -y g++-multilib gcc-multilib crossbuild-essential-i386
 
         - name: Install arm dependencies
           if: ${{ matrix.triplet == 'arm-linux' }}
