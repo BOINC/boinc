@@ -227,19 +227,19 @@ jobs:
           if: ${{ matrix.triplet == 'x86-linux' }}
           run: |
             sudo sed -i 's|priority:1|priority:100|' /etc/apt/apt-mirrors.txt
-            sudo dpkg --add-architecture arm64
+            sudo dpkg --add-architecture i386
             sudo sed -i '/^Types: deb$/a Architectures: amd64' /etc/apt/sources.list.d/ubuntu.sources
             sudo sed -i '/^Types: deb$/a Architectures: amd64' /etc/apt/sources.list.d/azure-cli.sources
             codename=$(lsb_release -cs)
             cat <<EOT >> arm-cross-compile-sources.list
-            deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports $codename main restricted universe multiverse
-            deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports $codename-updates main restricted universe multiverse
-            deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports $codename-security main restricted universe multiverse
-            deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports $codename-backports main restricted universe multiverse
+            deb [arch=i386] http://ports.ubuntu.com/ubuntu-ports $codename main restricted universe multiverse
+            deb [arch=i386] http://ports.ubuntu.com/ubuntu-ports $codename-updates main restricted universe multiverse
+            deb [arch=i386] http://ports.ubuntu.com/ubuntu-ports $codename-security main restricted universe multiverse
+            deb [arch=i386] http://ports.ubuntu.com/ubuntu-ports $codename-backports main restricted universe multiverse
             EOT
             sudo mv arm-cross-compile-sources.list /etc/apt/sources.list.d/
             sudo apt-get update
-            sudo apt-get install -y g++-multilib gcc-multilib crossbuild-essential-i386 g++:i386 gcc:i386
+            sudo apt-get install -y g++-multilib gcc-multilib crossbuild-essential-i386
 
         - name: Install arm dependencies
           if: ${{ matrix.triplet == 'arm-linux' }}
