@@ -239,7 +239,7 @@ jobs:
             EOT
             sudo mv arm-cross-compile-sources.list /etc/apt/sources.list.d/
             sudo apt-get update
-            sudo apt-get install -y g++-multilib gcc-multilib crossbuild-essential-i386
+            sudo apt-get install -y g++-multilib gcc-multilib crossbuild-essential-i386 g++:i386 gcc:i386
 
         - name: Install arm dependencies
           if: ${{ matrix.triplet == 'arm-linux' }}
