@@ -271,9 +271,9 @@ int main(int argc, char** argv) {
     WSL_DISTRO distro, *dp;
     if (boinc_is_standalone()) {
         SetCurrentDirectoryA("C:/ProgramData/BOINC/slots/test");
-        distro->distro_name = BOINC_WSL_DISTRO_NAME;
-        distro->docker_type = PODMAN;
-        distro->boinc_buda_runner_version = 4;
+        distro.distro_name = BOINC_WSL_DISTRO_NAME;
+        distro.docker_type = PODMAN;
+        distro.boinc_buda_runner_version = 4;
         dp = &distro;
     } else {
         boinc_get_init_data(aid);
