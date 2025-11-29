@@ -291,13 +291,13 @@ int error_output(vector<string> &out) {
 //
 static void escape_spaces(const char* p, char *q) {
     while (*p) {
-    	if (*p == ' ') {
-	    *q++ = '\\';
-	    *q++ = ' ';
-	} else {
-	    *q++ = *p;
-	}
-	p++;
+        if (*p == ' ') {
+            *q++ = '\\';
+            *q++ = ' ';
+        } else {
+            *q++ = *p;
+        }
+        p++;
     }
     *q = 0;
 }
@@ -718,21 +718,22 @@ double get_fraction_done() {
 // find a WSL distro with Docker and set up a command link to it
 //
 int wsl_init() {
-    string distro_name;
+    WSL_DISTRO distro, *dp;
     if (boinc_is_standalone()) {
-        distro_name = "Ubuntu";
-        docker_type = PODMAN;
+        distro.distro_name = BOINC_WSL_DISTRO_NAME;
+        distro.docker_type = PODMAN;
+        distro.boinc_buda_runner_version = 4;
+        dp = &distro;
     } else {
-        WSL_DISTRO* distro = aid.host_info.wsl_distros.find_docker();
-        if (!distro) {
+        dp = aid.host_info.wsl_distros.find_docker();
+        if (!dp) {
             fprintf(stderr, "wsl_init(): no usable WSL distro\n");
             return -1;
         }
-        distro_name = distro->distro_name;
-        docker_type = distro->docker_type;
     }
-    fprintf(stderr, "Using WSL distro %s\n", distro_name.c_str());
-    return docker_conn.init(docker_type, distro_name, config.verbose>0);
+    fprintf(stderr, "Using WSL distro %s\n", dp->distro_name.c_str());
+    docker_type = dp->docker_type;
+    return docker_conn.init(*dp, config.verbose>0);
 }
 #endif
 
