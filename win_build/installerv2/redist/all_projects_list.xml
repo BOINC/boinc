@@ -724,9 +724,7 @@
         <description><![CDATA[Testing and comparison of heuristic methods for getting separations of parallel algorithms working in the CAD system for designing logic control systems]]></description>
         <home>Southwest State University (Russia)</home>
     <platforms>
-        <name>windows_intelx86</name>
         <name>windows_x86_64</name>
-        <name>i686-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/gerasim.gif</image>
