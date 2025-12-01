@@ -162,6 +162,13 @@ enum SCHEDULER_STATE {
 // - doesn't need to be a bitmap, but keep for compatibility
 // - with new CPU throttling implementation (separate thread)
 //   CLIENT_STATE.suspend_reason will never be SUSPEND_REASON_CPU_THROTTLE.
+// - If you add anything, you may have to change
+//      lib/str_util.cpp: suspend_reason_string()
+//      clientgui/MainDocument.cpp: suspend_reason_wxstring()
+//      android/BOINC/app/src/main/java/edu/berkeley/boinc/
+//          util/BOINCDefs.kt
+//          client/ClientStatus.kt
+//      ... as well as probably client/cs_prefs.cpp
 //
 enum SUSPEND_REASON {
     SUSPEND_REASON_BATTERIES = 1,
