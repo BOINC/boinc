@@ -166,7 +166,7 @@ enum SCHEDULER_STATE {
 //      lib/str_util.cpp: suspend_reason_string()
 //      clientgui/MainDocument.cpp: suspend_reason_wxstring()
 //      android/BOINC/app/src/main/java/edu/berkeley/boinc/
-//          util/BOINCDefs.kt
+//          utils/BOINCDefs.kt
 //          client/ClientStatus.kt
 //      ... as well as probably client/cs_prefs.cpp
 //
