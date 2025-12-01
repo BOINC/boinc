@@ -283,7 +283,6 @@ int CLIENT_STATE::check_suspend_processing() {
         // If suspend because of hot battery, don't resume for at least 5 min
         // (crude hysteresis)
         //
-        static double battery_heat_resume_time=0;
         if (device_status.battery_state == BATTERY_STATE_OVERHEATED) {
             battery_heat_resume_time = now + ANDROID_BATTERY_BACKOFF;
             return SUSPEND_REASON_BATTERY_OVERHEATED;
