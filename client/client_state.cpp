@@ -161,6 +161,8 @@ CLIENT_STATE::CLIENT_STATE()
     total_disk_usage = 0.0;
 #ifdef ANDROID
     device_status_time = dtime();
+    battery_charge_resume_time = 0;
+    battery_heat_resume_time = 0;
 #endif
 
     rec_interval_start = 0;
