@@ -283,10 +283,6 @@ int CLIENT_STATE::check_suspend_processing() {
         // If suspend because of hot battery, don't resume for at least 5 min
         // (crude hysteresis)
         //
-        static double battery_heat_resume_time=0;
-        if (now < battery_heat_resume_time) {
-            return SUSPEND_REASON_BATTERY_OVERHEATED;
-        }
         if (device_status.battery_state == BATTERY_STATE_OVERHEATED) {
             battery_heat_resume_time = now + ANDROID_BATTERY_BACKOFF;
             return SUSPEND_REASON_BATTERY_OVERHEATED;
@@ -295,20 +291,20 @@ int CLIENT_STATE::check_suspend_processing() {
             battery_heat_resume_time = now + ANDROID_BATTERY_BACKOFF;
             return SUSPEND_REASON_BATTERY_OVERHEATED;
         }
+        if (now < battery_heat_resume_time) {
+            return SUSPEND_REASON_BATTERY_HEAT_WAIT;
+        }
 
         // check for sufficient battery charge.
         // If suspend, don't resume for at least 5 min
         //
-        static double battery_charge_resume_time=0;
-        if (now < battery_charge_resume_time) {
+        int cp = device_status.battery_charge_pct;
+        if ((cp >= 0) && (cp < global_prefs.battery_charge_min_pct)) {
+            battery_charge_resume_time = now + ANDROID_BATTERY_BACKOFF;
             return SUSPEND_REASON_BATTERY_CHARGING;
         }
-        int cp = device_status.battery_charge_pct;
-        if (cp >= 0) {
-            if (cp < global_prefs.battery_charge_min_pct) {
-                battery_charge_resume_time = now + ANDROID_BATTERY_BACKOFF;
-                return SUSPEND_REASON_BATTERY_CHARGING;
-            }
+        if (now < battery_charge_resume_time) {
+            return SUSPEND_REASON_BATTERY_CHARGE_WAIT;
         }
     }
 #endif
@@ -375,9 +371,25 @@ void CLIENT_STATE::show_suspend_tasks_message(int reason) {
         case SUSPEND_REASON_BATTERY_CHARGING:
             if (log_flags.task) {
                 msg_printf(NULL, MSG_INFO,
-                    "(battery charge level %.1f%% < threshold %.1f%%",
+                    "(battery charge level %.1f%% < threshold %.1f%%)",
                     device_status.battery_charge_pct,
                     global_prefs.battery_charge_min_pct
+                );
+            }
+            break;
+        case SUSPEND_REASON_BATTERY_CHARGE_WAIT:
+            if (log_flags.task) {
+                msg_printf(NULL, MSG_INFO,
+                    "(battery charge wait: %.0f sec)",
+                    battery_charge_resume_time - now
+                );
+            }
+            break;
+        case SUSPEND_REASON_BATTERY_HEAT_WAIT:
+            if (log_flags.task) {
+                msg_printf(NULL, MSG_INFO,
+                    "(battery heat wait: %.0f sec)",
+                    battery_heat_resume_time - now
                 );
             }
             break;

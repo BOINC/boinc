@@ -106,6 +106,8 @@ struct CLIENT_STATE {
         // info from GUI, e.g. battery status
     double device_status_time;
         // time of last RPC from GUI
+    double battery_charge_resume_time;
+    double battery_heat_resume_time;
 #endif
 
     char language[16];                // ISO language code reported by GUI
