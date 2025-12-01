@@ -300,15 +300,13 @@ int CLIENT_STATE::check_suspend_processing() {
         // If suspend, don't resume for at least 5 min
         //
         static double battery_charge_resume_time=0;
-        if (now < battery_charge_resume_time) {
+        int cp = device_status.battery_charge_pct;
+        if ((cp >= 0) && (cp < global_prefs.battery_charge_min_pct)) {
+            battery_charge_resume_time = now + ANDROID_BATTERY_BACKOFF;
             return SUSPEND_REASON_BATTERY_CHARGING;
         }
-        int cp = device_status.battery_charge_pct;
-        if (cp >= 0) {
-            if (cp < global_prefs.battery_charge_min_pct) {
-                battery_charge_resume_time = now + ANDROID_BATTERY_BACKOFF;
-                return SUSPEND_REASON_BATTERY_CHARGING;
-            }
+        if (now < battery_charge_resume_time) {
+            return SUSPEND_REASON_BATTERY_CHARGE_WAIT;
         }
     }
 #endif
@@ -378,6 +376,14 @@ void CLIENT_STATE::show_suspend_tasks_message(int reason) {
                     "(battery charge level %.1f%% < threshold %.1f%%",
                     device_status.battery_charge_pct,
                     global_prefs.battery_charge_min_pct
+                );
+            }
+            break;
+        case SUSPEND_REASON_BATTERY_CHARGE_WAIT:
+            if (log_flags.task) {
+                msg_printf(NULL, MSG_INFO,
+                    "(battery charge wait: %.0f sec",
+                    battery_charge_resume_time - now
                 );
             }
             break;
