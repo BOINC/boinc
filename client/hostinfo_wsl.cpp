@@ -200,6 +200,14 @@ static bool got_both(WSL_DISTRO &wd) {
 // Return nonzero on error
 //
 int get_wsl_information(WSL_DISTROS &distros) {
+    // Skip WSL detection when running as a service since HKEY_CURRENT_USER
+    // registry is not available in service mode
+    if (gstate.executing_as_daemon) {
+        distros.distros.clear();
+        msg_printf(0, MSG_INFO, "WSL detection skipped: running as service");
+        return 0;
+    }
+
     WSL_DISTROS all_distros;
     distros.distros.clear();
     int retval = get_all_distros(all_distros);

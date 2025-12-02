@@ -252,7 +252,10 @@ void CLIENT_STATE::show_host_info() {
 
 #ifdef _WIN64
     if (host_info.wsl_distros.distros.empty()) {
-        msg_printf(NULL, MSG_INFO, "WSL: no usable distros found");
+        // Don't print this message when running as a service (WSL detection is skipped)
+        if (!executing_as_daemon) {
+            msg_printf(NULL, MSG_INFO, "WSL: no usable distros found");
+        }
     } else {
         msg_printf(NULL, MSG_INFO, "Usable WSL distros:");
         for (auto& wsl : host_info.wsl_distros.distros) {
