@@ -105,6 +105,7 @@ int CLIENT_STATE::make_project_dirs() {
     DirScanner dir(PROJECTS_DIR);
     while (dir.scan(name)) {
         if (name == "app_test") continue;
+        if (!strcasecmp(name.c_str(), "virtualbox")) continue;
         snprintf(path, sizeof(path), "projects/%s", name.c_str());
         if (std::find(pds.begin(), pds.end(), path) != pds.end()) {
             continue;
