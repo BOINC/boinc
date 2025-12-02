@@ -79,7 +79,7 @@ mingw_apps_vcpkg_list = [
     './samples/wrappture/wrappture_example.exe',
     './samples/wrappture/fermi.exe',
     './samples/sporadic/sporadic.exe',
-    './samples/wsl_wrapper/wsl_wrapper.exe',
+    './samples/wsl_wrapper/wsl_wrapper*.exe',
     './samples/docker_wrapper/docker_wrapper*.exe',
 ]
 
@@ -160,7 +160,7 @@ windows_apps_list = [
     './win_build/Build/x64/Release/test*.exe',
     './win_build/Build/x64/Release/wrappture*.exe',
     './win_build/Build/x64/Release/crypt_prog.exe',
-    './win_build/Build/x64/Release/wsl_wrapper.exe',
+    './win_build/Build/x64/Release/wsl_wrapper*.exe',
     './win_build/Build/x64/Release/docker_wrapper*.exe',
     './win_build/Build/x64/Release/cudart*.dll',
     './win_build/Build/ARM64/Release/htmlgfx*.exe',
@@ -176,7 +176,7 @@ windows_apps_list = [
     './win_build/Build/ARM64/Release/test*.exe',
     './win_build/Build/ARM64/Release/wrappture*.exe',
     './win_build/Build/ARM64/Release/crypt_prog.exe',
-    './win_build/Build/ARM64/Release/wsl_wrapper.exe',
+    './win_build/Build/ARM64/Release/wsl_wrapper*.exe',
     './win_build/Build/ARM64/Release/docker_wrapper*.exe',
 ]
 
