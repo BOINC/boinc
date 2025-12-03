@@ -146,6 +146,11 @@ inline bool daily_quota_exceeded(DB_ID_TYPE gavid, HOST_USAGE& hu) {
             );
         }
         havp->daily_quota_exceeded = true;
+        char message[1024];
+        snprintf(message, sizeof(message),
+            "Daily job limit (%d) has been reached", q
+        );
+        add_no_work_message(message);
         return true;
     }
     return false;
