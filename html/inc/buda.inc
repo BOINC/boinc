@@ -50,27 +50,4 @@ function variant_name($desc) {
     }
 }
 
-// can user submit job to BUDA app?
-//
-function user_can_submit($user, $app_desc) {
-    if ($app_desc->user_id == $user->id) {
-        return true;
-    }
-    if (!empty($app_desc->submitters)
-        && in_array($user->id, $app_desc->submitters)
-    ) {
-        return true;
-    }
-    return false;
-}
-
-// can user edit app or variants?
-//
-function user_can_manage($user, $app_desc) {
-    if ($app_desc->user_id == $user->id) {
-        return true;
-    }
-    return false;
-}
-
 ?>
