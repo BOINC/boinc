@@ -32,7 +32,7 @@ void validate_handler_usage() {
 }
 
 int init_result(RESULT& result, void*&) {
-    // treat all errors as long-term failures,
+    // treat client errors as long-term failures,
     // so that we'll limit the host to 1 job a day
     //
     if (result.outcome == RESULT_OUTCOME_CLIENT_ERROR) {
