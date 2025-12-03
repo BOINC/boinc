@@ -764,7 +764,7 @@ struct HOST_APP_VERSION {
         // we use this for CPU time stats
     int max_jobs_per_day;
         // send at most this # of jobs per day.
-        // does 0 means no limit??
+        // does 0 mean no limit??
         // if >1, it's scaled so the actual limit is:
         // for GPU versions:
         //   this times config.gpu_multiplier * #GPUs of this type
