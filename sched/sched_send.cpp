@@ -1642,6 +1642,9 @@ void send_work_setup() {
     }
 }
 
+// given the jobs we're sending,
+// update (in memory) the n_jobs_today of host_app_version records.
+// Written later in update_host_app_versions().
 // If a record is not in DB, create it.
 //
 int update_host_app_versions(vector<SCHED_DB_RESULT>& results, int hostid) {

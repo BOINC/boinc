@@ -62,7 +62,7 @@ function av_desc($gavid, $show_dep) {
         if (!$platform) return tra("Missing platform");
         $pc = (strlen($av->plan_class))?"($av->plan_class)":"";
         $v = number_format($av->version_num/100, 2);
-        return "$app->user_friendly_name $v $platform->name $pc";
+        return "$app->user_friendly_name $v $platform->name $pc (ID $av->id)";
     }
 }
 
@@ -70,9 +70,9 @@ function show_hav($hav, $show_dep) {
     $desc = av_desc($hav->app_version_id, $show_dep);
     if (!$desc) return;
     row1($desc);
-    row2(tra("Number of tasks completed"), $hav->et_n);
+    row2(tra("# Tasks completed"), $hav->et_n);
     row2(tra("Max tasks per day"), $hav->max_jobs_per_day);
-    row2(tra("Number of tasks today"), $hav->n_jobs_today);
+    row2(tra("# Tasks sent today"), $hav->n_jobs_today);
     row2(tra("Consecutive valid tasks"), $hav->consecutive_valid);
     $x = number_format($hav->turnaround_avg/86400, 2);
     if ($hav->et_avg) {

@@ -763,12 +763,28 @@ struct HOST_APP_VERSION {
         // for old clients (which don't report elapsed time)
         // we use this for CPU time stats
     int max_jobs_per_day;
-        // the actual limit is:
+        // send at most this # of jobs per day.
+        // does 0 mean no limit??
+        // if >1, it's scaled so the actual limit is:
         // for GPU versions:
         //   this times config.gpu_multiplier * #GPUs of this type
         // for CPU versions:
         //   this times #CPUs
+        // scheduler:
+        //      limit is enforced in sched_version.cpp:daily_quota_exceeded()
+        //      double if get success result (not necc. validated)
+        //          sched_result.cpp:got_good_result()
+        //      decrement (down to 1) if get failed result
+        //          sched_result.cpp:got_bad_result()
+        //      Used as a temp to enforce global limit?
+        // transitioner:
+        //      decrement if result times out
+        // validator:
+        //      increment if valid result
+        //      decrement if invalid result and > global limit (???)
+        //      set to 1 if init_result() returns LONG_TERM_FAIL
     int n_jobs_today;
+        // number of jobs sent today.
     AVERAGE_VAR turnaround;
         // the stats of turnaround time (received - sent)
         // (NOT normalized by wu.rsc_fpops_est)
