@@ -100,27 +100,29 @@ function file_row($app, $variant, $dir, $f) {
     );
 }
 
-function variant_view() {
+function variant_view($user) {
     global $buda_root, $manage_access;
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
+    $app_desc = get_buda_app_desc($app);
     $variant = get_str('variant');
     if (!is_valid_filename($variant)) die('bad arg');
+
     page_head("BUDA variant");
     $dir = "$buda_root/$app/$variant";
-    $desc = json_decode(file_get_contents("$dir/variant.json"));
+    $variant_desc = json_decode(file_get_contents("$dir/variant.json"));
     start_table('table-striped');
     row2("BUDA App", $app);
     row2("Variant name", $variant);
-    row2("CPU type", $desc->cpu_type);
-    row2("Plan class", $desc->plan_class);
+    row2("CPU type", $variant_desc->cpu_type);
+    row2("Plan class", $variant_desc->plan_class);
     end_table();
     echo "<h3>App files</h3>";
     start_table();
     table_header('Dockerfile', 'size', 'md5');
-    file_row($app, $variant, $dir, $desc->dockerfile);
+    file_row($app, $variant, $dir, $variant_desc->dockerfile);
     table_header('App files', '', '');
-    foreach ($desc->app_files as $f) {
+    foreach ($variant_desc->app_files as $f) {
         file_row($app, $variant, $dir, $f);
     }
     table_header('Auto-generated files', '', '');
@@ -128,7 +130,7 @@ function variant_view() {
     end_table();
     echo '<hr>';
 
-    if ($manage_access) {
+    if ($manage_access && user_can_manage($user, $app_desc)) {
         echo '<p>';
         show_button_small(
             "buda.php?action=variant_form&app=$app&variant=$variant",
@@ -148,13 +150,13 @@ function variant_view() {
 // form for creating an app variant or editing an existing one
 //
 function variant_form($user) {
-    $sbitems = sandbox_select_items($user);
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
 
     // name of variant directory, if we're editing
     $variant = get_str('variant', true);
 
+    $sbitems = sandbox_select_items($user);
     if ($variant) {
         global $buda_root;
         $variant_dir = "$buda_root/$app/$variant";
@@ -309,10 +311,17 @@ function file_xml_elements($log_name, $phys_name, $md5, $nbytes) {
     return [$file_info, $file_ref];
 }
 
-// create variant
+// create or edit variant
 //
 function variant_action($user) {
     global $buda_root;
+    $app = get_str('app');
+    if (!is_valid_filename($app)) die('bad arg');
+    $app_desc = get_buda_app_desc($app);
+    if (!user_can_manage($user, $app_desc)) {
+        error_page('no access');
+    }
+
     $cpu_type = get_str('cpu_type');
     $plan_class = get_str('plan_class');
     $variant = get_str('variant', true);
@@ -325,8 +334,6 @@ function variant_action($user) {
     if (!is_valid_filename($variant)) {
         error_page(filename_rules());
     }
-    $app = get_str('app');
-    if (!is_valid_filename($app)) die('bad arg');
 
     $dockerfile = get_str('dockerfile');
     if (!is_valid_filename($dockerfile)) {
@@ -525,6 +532,11 @@ function app_form($desc=null) {
         keyword_select_options(KW_CATEGORY_SCIENCE),
         $desc->sci_kw
     );
+    form_input_text(
+        'Additional submitters<br><small>(user IDs)</small>',
+        'submitters',
+        implode(' ', $desc->submitters)
+    );
     // don't include location keywords;
     // various people may submit jobs to this app
     form_submit('OK');
@@ -542,6 +554,10 @@ function app_action($user) {
         $app_name = $edit_name;
         $desc->user_id = get_int('user_id');
         $desc->create_time = get_int('create_time');
+        $app_desc = get_buda_app_desc($app_name);
+        if (!user_can_manage($user, $app_desc)) {
+            error_page('no access');
+        }
     } else {
         // creating new app
         $app_name = get_str('name');
@@ -607,6 +623,20 @@ function app_action($user) {
     $desc->max_delay_days = $max_delay_days;
     $desc->description = get_str('description');
     $desc->sci_kw = array_map('intval', get_array('sci_kw'));
+    $x = get_str('submitters');
+    $x = explode(' ', $x);
+    $desc->submitters = [];
+    global $buda_app;
+    foreach ($x as $id) {
+        if (!is_numeric($id)) error_page('bad user ID');
+        $id = intval($id);
+        $u = BoincUser::lookup_id($id);
+        if (!$u) error_page("no user $id");
+        if (!has_submit_access($u, $buda_app->id)) {
+            error_page("user $id has no BUDA submit access");
+        }
+        $desc->submitters[] = $id;
+    }
     file_put_contents("$dir/desc.json", json_encode($desc, JSON_PRETTY_PRINT));
 
     create_templates($app_name, $desc, $dir);
@@ -634,7 +664,7 @@ function handle_app_edit() {
     app_form(get_buda_app_desc($name));
 }
 
-function app_details() {
+function app_details($user) {
     global $buda_root, $manage_access;
     $name = get_str('name');
     $desc = get_buda_app_desc($name);
@@ -642,11 +672,11 @@ function app_details() {
     page_head("BUDA app: $desc->long_name");
     start_table('table-striped');
     row2('Internal name', $desc->name);
-    $user = BoincUser::lookup_id($desc->user_id);
+    $user2 = BoincUser::lookup_id($desc->user_id);
     row2('Creator',
         sprintf('<a href=show_user.php?userid=%d>%s</a>',
-            $user->id,
-            $user->name
+            $user2->id,
+            $user2->name
         )
     );
     row2('Created', date_str($desc->create_time));
@@ -675,7 +705,7 @@ function app_details() {
     } else {
         row2('Max job turnaround time, days:', '7');
     }
-    if ($manage_access) {
+    if ($manage_access && user_can_manage($user, $desc)) {
         row2('',
             button_text_small(
                 sprintf('buda.php?action=%s&name=%s', 'app_edit', $desc->name),
@@ -692,7 +722,7 @@ function app_details() {
             );
         }
         row2('Variants', implode('<p>', $x));
-        if ($manage_access) {
+        if ($manage_access && user_can_manage($user, $desc)) {
             row2('',
                 button_text_small(
                     "buda.php?action=variant_form&app=$name",
@@ -741,7 +771,7 @@ case 'app_action':
     if (!$manage_access) error_page('no access');
     app_action($user); break;
 case 'app_details':
-    app_details(); break;
+    app_details($user); break;
 case 'app_delete':
     if (!$manage_access) error_page('no access');
     app_delete(); break;
