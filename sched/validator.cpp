@@ -204,11 +204,15 @@ void scan_punitive(vector<VALIDATOR_ITEM>& items) {
             int retval = hav.lookup(buf);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "scan_punitive(): can't find HAV for results %ld",
+                    "scan_punitive(): can't find HAV for results %ld\n",
                     result.id
                 );
                 continue;
             }
+            log_messages.printf(MSG_NORMAL,
+                "punishing host %ld for app version %ld\n",
+                result.hostid, result.app_version_id
+            );
             hav2 = hav;
             hav2.max_jobs_per_day = 1;
             hav2.n_jobs_today = 1;

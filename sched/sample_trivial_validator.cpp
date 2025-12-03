@@ -31,8 +31,13 @@ void validate_handler_usage() {
     //);
 }
 
-
-int init_result(RESULT&, void*&) {
+int init_result(RESULT& result, void*&) {
+    // treat all errors as long-term failures,
+    // so that we'll limit the host to 1 job a day
+    //
+    if (result.outcome == RESULT_OUTCOME_CLIENT_ERROR) {
+        return VAL_RESULT_LONG_TERM_FAIL;
+    }
     return 0;
 }
 
