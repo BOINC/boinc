@@ -95,6 +95,7 @@ parts:
     - software-properties-common
     - cmake
     - dbus
+    - python3-venv
     source: .
     plugin: autotools
     build-environment:
