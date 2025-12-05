@@ -226,8 +226,9 @@ jobs:
         - name: Install x86 dependencies
           if: ${{ matrix.triplet == 'x86-linux' }}
           run: |
+            sudo sed -i 's|priority:1|priority:100|' /etc/apt/apt-mirrors.txt
             sudo apt-get update
-            sudo apt-get install -y g++-multilib gcc-multilib gcc-i686-linux-gnu g++-i686-linux-gnu binutils-i686-linux-gnu
+            sudo apt-get install -y g++-multilib gcc-multilib g++-i686-linux-gnu
 
         - name: Install arm dependencies
           if: ${{ matrix.triplet == 'arm-linux' }}
