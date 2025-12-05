@@ -227,7 +227,7 @@ jobs:
           if: ${{ matrix.triplet == 'x86-linux' }}
           run: |
             sudo apt-get update
-            sudo apt-get install -y g++-multilib gcc-multilib
+            sudo apt-get install -y g++-multilib gcc-multilib gcc-i686-linux-gnu g++-i686-linux-gnu binutils-i686-linux-gnu
 
         - name: Install arm dependencies
           if: ${{ matrix.triplet == 'arm-linux' }}
@@ -283,7 +283,7 @@ jobs:
         - name: Configure x86 build
           if: ${{ matrix.triplet == 'x86-linux' }}
           run: |
-            cmake -E env CC="gcc -m32" CXX="g++ -m32" CFLAGS="-m32" CXXFLAGS="-m32" LDFLAGS="-m32" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }} -DCMAKE_C_COMPILER="gcc -m32" -DCMAKE_CXX_COMPILER="g++ -m32" -DCMAKE_LINKER="ld"
+            cmake -E env CC="gcc -m32" CXX="g++ -m32" CFLAGS="-m32" CXXFLAGS="-m32" LDFLAGS="-m32" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
 
         - name: Build
           run: |
