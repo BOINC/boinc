@@ -226,15 +226,8 @@ jobs:
         - name: Install x86 dependencies
           if: ${{ matrix.triplet == 'x86-linux' }}
           run: |
-            sudo sed -i 's|priority:1|priority:100|' /etc/apt/apt-mirrors.txt
-            sudo apt-add-repository universe
-            sudo apt-add-repository main
-            sudo apt-add-repository restricted
-            sudo apt-add-repository multiverse
-            sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-            echo "deb http://deb.debian.org/debian bookworm main" | sudo tee /etc/apt/sources.list.d/debian.list
             sudo apt-get update
-            sudo apt-get install -y g++-multilib gcc-multilib g++-i686-linux-gnu
+            sudo apt-get install -y g++-multilib gcc-multilib
 
         - name: Install arm dependencies
           if: ${{ matrix.triplet == 'arm-linux' }}
@@ -265,7 +258,8 @@ jobs:
 
         - name: Set up vcpkg
           run: |
-            git clone https://github.com/microsoft/vcpkg.git
+            git clone https://github.com/AenBleidd/vcpkg.git
+            git -C vcpkg checkout origin/vko_fix_x86-linux_build
             ./vcpkg/bootstrap-vcpkg.sh
 
         - name: Prepare build
