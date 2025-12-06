@@ -101,6 +101,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <filesystem>
 
 // Misc Includes
 #include <tchar.h>

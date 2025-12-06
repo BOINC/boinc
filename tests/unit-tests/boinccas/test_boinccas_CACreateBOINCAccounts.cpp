@@ -15,18 +15,36 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
-#include "boinccas.h"
-#include "CAAnnounceUpgrade.h"
+#include <filesystem>
+#include <fstream>
 
-CAAnnounceUpgrade::CAAnnounceUpgrade(MSIHANDLE hMSIHandle) :
-    BOINCCABase(hMSIHandle, _T("CAAnnounceUpgrade"),
-        _T("Announce the new BOINC version to all components.")) {}
+#include "gtest/gtest.h"
 
-UINT CAAnnounceUpgrade::OnExecution() {
-    return SetUpgradeParameters();
-}
+#include "boinccas_helper.h"
 
-UINT __stdcall AnnounceUpgrade(MSIHANDLE hInstall) {
-    return CAAnnounceUpgrade(hInstall).Execute();
+using namespace std;
+
+namespace test_boinccas_CACreateBOINCAccounts {
+    using CreateBOINCAccountsFn = UINT(WINAPI*)(MSIHANDLE);
+
+    class test_boinccas_CACreateBOINCAccounts : public ::testing::Test {
+    protected:
+        test_boinccas_CACreateBOINCAccounts() {
+            std::tie(hDll, hFunc) =
+                load_function_from_boinccas<CreateBOINCAccountsFn>(
+                    "CreateBOINCAccounts");
+        }
+
+        void TearDown() override {
+        }
+
+        CreateBOINCAccountsFn hFunc = nullptr;
+        MsiHelper msiHelper;
+    private:
+        wil::unique_hmodule hDll = nullptr;
+    };
+
+#ifndef BOINCCAS_TEST
+
+#endif
 }
