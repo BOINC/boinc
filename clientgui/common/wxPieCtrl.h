@@ -139,6 +139,8 @@ public:
 	/// Sets the colour used for displaying legend box background
 	void SetLegendBackColour(wxColour colour);
 
+    void ApplyTheme(bool isDarkMode);
+
 	void SetLabel(const wxString& label);
 
 
