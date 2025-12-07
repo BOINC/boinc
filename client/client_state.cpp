@@ -2539,7 +2539,7 @@ void show_docker_messages() {
             }
         } else {
             msg_printf_notice(0, true, url,
-                "Docker is present but not using the BOINC WSL distro.  Some proect apps may not function properly. We recommend that you install the BOINC WSL distro."
+                "Docker is present but not using the BOINC WSL distro.  Some project apps may not function properly. We recommend that you install the BOINC WSL distro."
             );
         }
 #endif
