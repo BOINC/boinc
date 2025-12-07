@@ -295,7 +295,7 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
         show_newer_version_msg(newest_version);
     }
 
-#if !defined(SIM)
+#if !defined(SIM) && !defined(ANDROID)
     show_docker_messages();
 #endif
 
