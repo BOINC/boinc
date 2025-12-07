@@ -295,8 +295,8 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
         show_newer_version_msg(newest_version);
     }
 
-#if !defined(SIM) && defined(_WIN32)
-    show_wsl_messages();
+#if !defined(SIM)
+    show_docker_messages();
 #endif
 
     // Cache newer version number. Empty string if no newer version
