@@ -43,7 +43,7 @@ jobs:
         type: [armv6, arm, arm64, x86, x86_64]
       fail-fast: false
     steps:
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           fetch-depth: 2
 
@@ -105,7 +105,7 @@ jobs:
         task: [assembleRelease, assembleArmv6_release, jacocoTestReportDebug]
       fail-fast: false
     steps:
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           fetch-depth: 2
 
@@ -140,7 +140,7 @@ jobs:
           path: android/BOINC/app/src/main/assets/
 
       - name: Setup Java
-        uses: actions/setup-java@dded0888837ed1f317902acf8a20df0ad188d165
+        uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e
         with:
           distribution: 'zulu'
           java-version: "17"
@@ -197,7 +197,7 @@ jobs:
         type: [libs, apps, libs-cmake]
       fail-fast: false
     steps:
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           fetch-depth: 2
 
