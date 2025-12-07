@@ -132,10 +132,10 @@ void show_message(
     );
     printf("%s", evt_message);
     if (link) {
-        snprintf(evt_message, sizeof(evt_message),
+        snprintf(event_msg, sizeof(event_msg),
             "%s [%s] See %s\n", time_string,  x, link
         );
-        printf("%s", evt_message);
+        printf("%s", event_msg);
     }
 
 #ifdef _WIN32
