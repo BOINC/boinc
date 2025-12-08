@@ -101,11 +101,16 @@ void MsiHelper::createPropertiesTable() {
 
 void MsiHelper::insertProperties(
     const std::vector<std::pair<std::string, std::string>>& properties) {
+    return MsiHelper::insertProperties(hMsi, properties);
+}
+
+void MsiHelper::insertProperties(MSIHANDLE hMsiHandle,
+    const std::vector<std::pair<std::string, std::string>>& properties) {
     constexpr std::string_view sql_insert =
         "INSERT INTO `Property` (`Property`, `Value`) "
         "VALUES (?, ?)";
     PMSIHANDLE hView;
-    auto result = MsiDatabaseOpenView(hMsi, sql_insert.data(), &hView);
+    auto result = MsiDatabaseOpenView(hMsiHandle, sql_insert.data(), &hView);
     if (result != ERROR_SUCCESS) {
         throw std::runtime_error("Error creating view: " +
             std::to_string(result));
@@ -144,7 +149,7 @@ void MsiHelper::insertProperties(
             std::to_string(result));
     }
 
-    result = MsiDatabaseCommit(hMsi);
+    result = MsiDatabaseCommit(hMsiHandle);
     if (result != ERROR_SUCCESS) {
         throw std::runtime_error("MsiDatabaseCommit failed: " +
             std::to_string(result));
@@ -152,21 +157,33 @@ void MsiHelper::insertProperties(
 }
 
 std::string MsiHelper::getProperty(const std::string& propertyName) {
+    return getProperty(hMsi, propertyName);
+}
+
+std::string MsiHelper::getProperty(MSIHANDLE hMsiHandle,
+    const std::string& propertyName) {
     DWORD size = 0;
-    auto result = MsiGetProperty(hMsi, propertyName.c_str(), nullptr, &size);
+    auto result =
+        MsiGetProperty(hMsiHandle, propertyName.c_str(), nullptr, &size);
+    if (result == ERROR_MORE_DATA) {
+        std::string value(size, '\0');
+        result =
+            MsiGetProperty(hMsiHandle, propertyName.c_str(), &value.front(),
+                &size);
+        if (result != ERROR_SUCCESS) {
+            throw std::runtime_error("MsiGetProperty failed: " +
+                std::to_string(result));
+        }
+
+        return value;
+    }
+
     if (result != ERROR_SUCCESS) {
         throw std::runtime_error("MsiGetProperty failed: " +
             std::to_string(result));
     }
 
-    std::string value(size, '\0');
-    result = MsiGetProperty(hMsi, propertyName.c_str(), &value.front(), &size);
-    if (result != ERROR_SUCCESS) {
-        throw std::runtime_error("MsiGetProperty failed: " +
-            std::to_string(result));
-    }
-
-    return value;
+    return {};
 }
 
 void MsiHelper::fillSummaryInformationTable() {

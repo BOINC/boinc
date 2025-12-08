@@ -31,7 +31,8 @@ namespace test_boinccas_CACreateBOINCAccounts {
 
     using CreateBOINCAccountsFn = UINT(WINAPI*)(MSIHANDLE);
 
-    class test_boinccas_CACreateBOINCAccounts : public ::testing::TestWithParam<MsiNTProductType> {
+    class test_boinccas_CACreateBOINCAccounts :
+        public ::testing::TestWithParam<MsiNTProductType> {
     protected:
         test_boinccas_CACreateBOINCAccounts() {
             std::tie(hDll, hFunc) =
@@ -44,12 +45,13 @@ namespace test_boinccas_CACreateBOINCAccounts {
                 MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
             ASSERT_EQ(0u, result);
 
-            msiHelper.insertProperties({
-                {"MsiNTProductType", productTypeString()}
+            msiHelper.insertProperties(hMsi,
+                {
+                    {"MsiNTProductType", productTypeString()}
                 });
 
             ASSERT_EQ(productTypeString(),
-                msiHelper.getProperty("MsiNTProductType"));
+                msiHelper.getProperty(hMsi, "MsiNTProductType"));
         }
 
         void TearDown() override {
