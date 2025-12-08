@@ -23,8 +23,6 @@
 
 #include "boinccas_helper.h"
 
-using namespace std;
-
 namespace test_boinccas_CACreateAcctMgrLoginFile {
     using CreateAcctMgrLoginFileFn = UINT(WINAPI*)(MSIHANDLE);
 

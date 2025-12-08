@@ -22,12 +22,16 @@
 
 #include "boinccas_helper.h"
 
-using namespace std;
-
 namespace test_boinccas_CACreateBOINCAccounts {
+    enum class MsiNTProductType {
+        Workstation = 1,
+        DomainController = 2,
+        Server = 3
+    };
+
     using CreateBOINCAccountsFn = UINT(WINAPI*)(MSIHANDLE);
 
-    class test_boinccas_CACreateBOINCAccounts : public ::testing::Test {
+    class test_boinccas_CACreateBOINCAccounts : public ::testing::TestWithParam<MsiNTProductType> {
     protected:
         test_boinccas_CACreateBOINCAccounts() {
             std::tie(hDll, hFunc) =
@@ -35,16 +39,94 @@ namespace test_boinccas_CACreateBOINCAccounts {
                     "CreateBOINCAccounts");
         }
 
+        void SetUp() override {
+            const auto result =
+                MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
+            ASSERT_EQ(0u, result);
+
+            msiHelper.insertProperties({
+                {"MsiNTProductType", productTypeString()}
+                });
+
+            ASSERT_EQ(productTypeString(),
+                msiHelper.getProperty("MsiNTProductType"));
+        }
+
         void TearDown() override {
+            if (userExists(masterAccountName)) {
+                userDelete(masterAccountName);
+            }
+            if (userExists(projectAccountName)) {
+                userDelete(projectAccountName);
+            }
         }
 
         CreateBOINCAccountsFn hFunc = nullptr;
         MsiHelper msiHelper;
+
+        std::string productTypeString() const {
+            switch (GetParam()) {
+            case MsiNTProductType::Workstation:
+                return "1";
+            case MsiNTProductType::DomainController:
+                return "2";
+            case MsiNTProductType::Server:
+                return "3";
+            default:
+                throw std::runtime_error("Unknown MsiNTProductType");
+            }
+        }
+
+        std::string getExpectedMasterAccountName() const {
+            switch (GetParam()) {
+            case MsiNTProductType::Workstation:
+            case MsiNTProductType::Server:
+                return "boinc_master";
+            case MsiNTProductType::DomainController:
+                return "boinc_master_test";
+            default:
+                throw std::runtime_error("Unknown MsiNTProductType");
+            }
+        }
+
+        std::string getExpectedProjectAccountName() const {
+            switch (GetParam()) {
+            case MsiNTProductType::Workstation:
+            case MsiNTProductType::Server:
+                return "boinc_project";
+            case MsiNTProductType::DomainController:
+                return "boinc_project_test";
+            default:
+                throw std::runtime_error("Unknown MsiNTProductType");
+            }
+        }
+
+        std::string masterAccountName;
+        std::string projectAccountName;
+        PMSIHANDLE hMsi;
+
     private:
         wil::unique_hmodule hDll = nullptr;
     };
 
-#ifndef BOINCCAS_TEST
+#ifdef BOINCCAS_TEST
+    INSTANTIATE_TEST_SUITE_P(MsiNTProductTypeTests,
+        test_boinccas_CACreateBOINCAccounts,
+        ::testing::Values(
+            MsiNTProductType::Workstation,
+            MsiNTProductType::DomainController,
+            MsiNTProductType::Server
+        )
+    );
 
+    TEST_P(test_boinccas_CACreateBOINCAccounts, CreateAccounts) {
+        masterAccountName = getExpectedMasterAccountName();
+        projectAccountName = getExpectedProjectAccountName();
+        EXPECT_FALSE(userExists(masterAccountName));
+        EXPECT_FALSE(userExists(projectAccountName));
+        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_TRUE(userExists(masterAccountName));
+        EXPECT_TRUE(userExists(projectAccountName));
+    }
 #endif
 }

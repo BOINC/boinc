@@ -39,6 +39,10 @@ std::pair<wil::unique_hmodule, F> load_function_from_boinccas(
 std::string getRegistryValue(const std::string& valueName);
 void cleanRegistryKey();
 
+bool userExists(const std::string& username);
+bool userCreate(const std::string& username, const std::string& password);
+bool userDelete(const std::string& username);
+
 constexpr auto msiName = "test.msi";
 
 class MsiHelper {
@@ -47,6 +51,7 @@ public:
     ~MsiHelper();
     void insertProperties(
         const std::vector<std::pair<std::string, std::string>>& properties);
+    std::string getProperty(const std::string& propertyName);
     std::string getMsiHandle() const {
         return "#" + std::to_string(hMsi);
     }

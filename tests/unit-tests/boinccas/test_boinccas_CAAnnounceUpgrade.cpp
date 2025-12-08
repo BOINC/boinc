@@ -19,8 +19,6 @@
 
 #include "boinccas_helper.h"
 
-using namespace std;
-
 namespace test_boinccas_CAAnnounceUpgrade {
     using AnnounceUpgradeFn = UINT(WINAPI*)(MSIHANDLE);
 

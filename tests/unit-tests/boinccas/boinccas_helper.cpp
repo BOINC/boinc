@@ -19,6 +19,9 @@
 #include "boinccas_helper.h"
 #include <MsiQuery.h>
 #include <Windows.h>
+#include <LMaccess.h>
+#include <lmerr.h>
+#include <LMAPIbuf.h>
 #include <stdexcept>
 
 MsiHelper::MsiHelper() {
@@ -148,6 +151,24 @@ void MsiHelper::insertProperties(
     }
 }
 
+std::string MsiHelper::getProperty(const std::string& propertyName) {
+    DWORD size = 0;
+    auto result = MsiGetProperty(hMsi, propertyName.c_str(), nullptr, &size);
+    if (result != ERROR_SUCCESS) {
+        throw std::runtime_error("MsiGetProperty failed: " +
+            std::to_string(result));
+    }
+
+    std::string value(size, '\0');
+    result = MsiGetProperty(hMsi, propertyName.c_str(), &value.front(), &size);
+    if (result != ERROR_SUCCESS) {
+        throw std::runtime_error("MsiGetProperty failed: " +
+            std::to_string(result));
+    }
+
+    return value;
+}
+
 void MsiHelper::fillSummaryInformationTable() {
     PMSIHANDLE hSummaryInfo;
     constexpr auto updateCount = 4;
@@ -237,4 +258,37 @@ void cleanRegistryKey() {
     }
     RegDeleteKey(HKEY_LOCAL_MACHINE, registryKey);
     RegCloseKey(hKey);
+}
+
+bool userExists(const std::string& username) {
+    LPUSER_INFO_0 pBuf = nullptr;
+    const auto result = NetUserGetInfo(nullptr,
+        std::wstring(username.begin(), username.end()).c_str(),
+        0, reinterpret_cast<LPBYTE*>(&pBuf));
+    if (pBuf != nullptr) {
+        NetApiBufferFree(pBuf);
+    }
+
+    return result == NERR_Success;
+}
+
+bool userCreate(const std::string& username, const std::string& password) {
+    USER_INFO_1 ui;
+    ui.usri1_name = std::wstring(username.begin(), username.end()).data();
+    ui.usri1_password = std::wstring(password.begin(), password.end()).data();
+    ui.usri1_comment = nullptr;
+    ui.usri1_priv = USER_PRIV_USER;
+    ui.usri1_home_dir = nullptr;
+    ui.usri1_comment = nullptr;
+    ui.usri1_flags = UF_SCRIPT;
+    ui.usri1_script_path = nullptr;
+
+    DWORD dwParameterError;
+    return NetUserAdd(nullptr, 1,
+        reinterpret_cast<LPBYTE>(&ui), &dwParameterError) == NERR_Success;
+}
+
+bool userDelete(const std::string& username) {
+    return NetUserDel(nullptr, std::wstring(username.begin(),
+        username.end()).c_str()) == NERR_Success;
 }
