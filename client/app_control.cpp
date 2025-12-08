@@ -1097,7 +1097,7 @@ int ACTIVE_TASK_SET::exit_tasks(bool will_restart, PROJECT* proj) {
     if (log_flags.task_debug) {
         msg_printf(NULL, MSG_INFO,
             "[task_debug] requesting tasks to %s",
-            will_restart?"quit":"abort"
+            will_restart ? "quit" : "abort"
         );
     }
     request_tasks_exit(will_restart, proj);

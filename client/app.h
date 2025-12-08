@@ -251,7 +251,7 @@ struct ACTIVE_TASK {
     //              get list of descendants
     //          normal exit handled in handle_premature_exit()
     //          timeout handled in ACTIVE_TASK_SET::poll()
-    // "request_abort": like request exit,
+    // "request_abort": like request quit,
     //      but send an abort message rather than quit.
     //      Use this if the job won't be restarted.
     //      called from:
