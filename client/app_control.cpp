@@ -199,7 +199,7 @@ static void print_descendants(int pid, const vector<int>& desc, const char* wher
 
 // Send a quit message, start timer, get descendants
 //
-int ACTIVE_TASK::request_exit() {
+int ACTIVE_TASK::request_quit() {
     if (app_client_shm.shm) {
         process_control_queue.msg_queue_send(
             "<quit/>",
@@ -1086,18 +1086,21 @@ void ACTIVE_TASK_SET::request_reread_app_info() {
 }
 
 
-// send quit message to all tasks in the project
+// send quit or abort message to all tasks in the project
 // (or all tasks, if proj is NULL).
 // If they don't exit in QUIT_TIMEOUT seconds,
 // send them a kill signal and wait up to 5 more seconds to exit.
 // This is called when the client exits,
 // or when a project is detached or reset
 //
-int ACTIVE_TASK_SET::exit_tasks(PROJECT* proj) {
+int ACTIVE_TASK_SET::exit_tasks(bool will_restart, PROJECT* proj) {
     if (log_flags.task_debug) {
-        msg_printf(NULL, MSG_INFO, "[task_debug] requesting tasks to exit");
+        msg_printf(NULL, MSG_INFO,
+            "[task_debug] requesting tasks to %s",
+            will_restart?"quit":"abort"
+        );
     }
-    request_tasks_exit(proj);
+    request_tasks_exit(will_restart, proj);
 
     // Wait for tasks to exit normally; if they don't then kill them
     //
@@ -1137,6 +1140,7 @@ int ACTIVE_TASK_SET::exit_tasks(PROJECT* proj) {
 // Wait up to wait_time seconds for processes to exit
 // If proj is zero, wait for all processes, else that project's
 // NOTE: it's bad form to sleep, but it would be complex to avoid it here
+// Return 0 if they all exit.
 //
 int ACTIVE_TASK_SET::wait_for_exit(double wait_time, PROJECT* proj) {
     bool all_exited;
@@ -1166,7 +1170,7 @@ int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
     vector<ACTIVE_TASK*>::iterator task_iter;
     ACTIVE_TASK* atp;
 
-    exit_tasks(project);
+    exit_tasks(false, project);
     task_iter = active_tasks.begin();
     while (task_iter != active_tasks.end()) {
         atp = *task_iter;
@@ -1301,18 +1305,22 @@ bool ACTIVE_TASK_SET::is_task_executing() {
     return false;
 }
 
-// Send quit message to all app processes
+// Send quit or abort message to all app processes
 // This is called when the client exits,
 // or when a project is detached or reset
 //
-void ACTIVE_TASK_SET::request_tasks_exit(PROJECT* proj) {
+void ACTIVE_TASK_SET::request_tasks_exit(bool will_restart, PROJECT* proj) {
     unsigned int i;
     ACTIVE_TASK *atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (proj && atp->wup->project != proj) continue;
         if (!atp->process_exists()) continue;
-        atp->request_exit();
+        if (will_restart) {
+            atp->request_quit();
+        } else {
+            atp->request_abort();
+        }
     }
 }
 

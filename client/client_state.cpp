@@ -2379,7 +2379,7 @@ int CLIENT_STATE::quit_activities() {
     // Do this last because it could take a long time,
     // and the OS might kill us in the middle
     //
-    int retval = active_tasks.exit_tasks();
+    int retval = active_tasks.exit_tasks(true, NULL);
     if (retval) {
         msg_printf(NULL, MSG_INTERNAL_ERROR,
             "Couldn't exit tasks: %s", boincerror(retval)
