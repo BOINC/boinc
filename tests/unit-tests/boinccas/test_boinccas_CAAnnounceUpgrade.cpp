@@ -33,9 +33,13 @@ namespace test_boinccas_CAAnnounceUpgrade {
         ~test_boinccas_CAAnnounceUpgrade() override {
             cleanRegistryKey();
         }
+        void SetUp() override {
+
+        }
 
         AnnounceUpgradeFn hFunc = nullptr;
         MsiHelper msiHelper;
+        PMSIHANDLE hMsi;
     private:
         wil::unique_hmodule hDll = nullptr;
     };
