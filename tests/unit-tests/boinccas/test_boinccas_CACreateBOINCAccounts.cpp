@@ -56,7 +56,7 @@ namespace test_boinccas_CACreateBOINCAccounts {
     constexpr auto masterAccountName = "boinc_master";
     constexpr auto projectAccountName = "boinc_project";
 
-#ifndef BOINCCAS_TEST
+#ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CACreateBOINCAccounts, CreateAccounts) {
         const auto result =
             MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
