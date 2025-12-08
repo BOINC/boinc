@@ -51,11 +51,14 @@ public:
     ~MsiHelper();
     void insertProperties(
         const std::vector<std::pair<std::string, std::string>>& properties);
-    void insertProperties(MSIHANDLE hMsiHandle,
-        const std::vector<std::pair<std::string, std::string>>& properties);
     std::string getProperty(const std::string& propertyName);
     std::string getProperty(MSIHANDLE hMsiHandle,
         const std::string& propertyName);
+    void setProperty(const std::string& propertyName,
+        const std::string& propertyValue);
+    void setProperty(MSIHANDLE hMsiHandle, const std::string& propertyName,
+        const std::string& propertyValue);
+
     std::string getMsiHandle() const {
         return "#" + std::to_string(hMsi);
     }

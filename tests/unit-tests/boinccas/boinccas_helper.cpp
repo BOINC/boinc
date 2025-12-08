@@ -101,16 +101,11 @@ void MsiHelper::createPropertiesTable() {
 
 void MsiHelper::insertProperties(
     const std::vector<std::pair<std::string, std::string>>& properties) {
-    return MsiHelper::insertProperties(hMsi, properties);
-}
-
-void MsiHelper::insertProperties(MSIHANDLE hMsiHandle,
-    const std::vector<std::pair<std::string, std::string>>& properties) {
     constexpr std::string_view sql_insert =
         "INSERT INTO `Property` (`Property`, `Value`) "
         "VALUES (?, ?)";
     PMSIHANDLE hView;
-    auto result = MsiDatabaseOpenView(hMsiHandle, sql_insert.data(), &hView);
+    auto result = MsiDatabaseOpenView(hMsi, sql_insert.data(), &hView);
     if (result != ERROR_SUCCESS) {
         throw std::runtime_error("Error creating view: " +
             std::to_string(result));
@@ -149,7 +144,7 @@ void MsiHelper::insertProperties(MSIHANDLE hMsiHandle,
             std::to_string(result));
     }
 
-    result = MsiDatabaseCommit(hMsiHandle);
+    result = MsiDatabaseCommit(hMsi);
     if (result != ERROR_SUCCESS) {
         throw std::runtime_error("MsiDatabaseCommit failed: " +
             std::to_string(result));
@@ -184,6 +179,21 @@ std::string MsiHelper::getProperty(MSIHANDLE hMsiHandle,
     }
 
     return {};
+}
+
+void MsiHelper::setProperty(const std::string& propertyName,
+    const std::string& propertyValue) {
+    setProperty(hMsi, propertyName, propertyValue);
+}
+
+void MsiHelper::setProperty(MSIHANDLE hMsiHandle,
+    const std::string& propertyName, const std::string& propertyValue) {
+    const auto result = MsiSetProperty(hMsiHandle, propertyName.c_str(),
+        propertyValue.c_str());
+    if (result != ERROR_SUCCESS) {
+        throw std::runtime_error("MsiSetProperty failed: " +
+            std::to_string(result));
+    }
 }
 
 void MsiHelper::fillSummaryInformationTable() {

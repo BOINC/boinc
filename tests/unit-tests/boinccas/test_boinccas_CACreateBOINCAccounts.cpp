@@ -45,10 +45,8 @@ namespace test_boinccas_CACreateBOINCAccounts {
                 MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
             ASSERT_EQ(0u, result);
 
-            msiHelper.insertProperties(hMsi,
-                {
-                    {"MsiNTProductType", productTypeString()}
-                });
+            msiHelper.setProperty(hMsi, "MsiNTProductType",
+                productTypeString());
 
             ASSERT_EQ(productTypeString(),
                 msiHelper.getProperty(hMsi, "MsiNTProductType"));
