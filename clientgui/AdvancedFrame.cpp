@@ -2032,13 +2032,6 @@ void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event)
     // TODO: figure out how to preserve notices tab (currentPage == VW_NOTIF) scrolled position
 
     StartTimers();
-
-    CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
-    if (eventLog) {
-        wxGetApp().OnEventLogClose();
-        delete eventLog;    // eventLog->Destroy() creates a race condition if used here.
-        wxGetApp().DisplayEventLog();
-    }
 #endif  // #if SUPPORTDARKMODE
 }
 
