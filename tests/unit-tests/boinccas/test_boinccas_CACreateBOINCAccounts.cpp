@@ -54,11 +54,14 @@ namespace test_boinccas_CACreateBOINCAccounts {
 
     constexpr auto masterAccountNameDefault = "boinc_master";
     constexpr auto projectAccountNameDefault = "boinc_project";
+    constexpr auto masterAccountPasswordDefault = "qwerty123456!@#$%^";
+    constexpr auto projectAccountPasswordDefault = "ytrewq654321^%$#@!";
 
 #ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CACreateBOINCAccounts, CanCreateAccounts) {
         ASSERT_FALSE(userExists(masterAccountNameDefault));
-        ASSERT_EQ(0, userCreate(masterAccountNameDefault, "test"));
+        ASSERT_EQ(0,userCreate(masterAccountNameDefault,
+            masterAccountPasswordDefault));
         ASSERT_TRUE(userExists(masterAccountNameDefault));
         ASSERT_TRUE(userDelete(masterAccountNameDefault));
         ASSERT_FALSE(userExists(masterAccountNameDefault));
