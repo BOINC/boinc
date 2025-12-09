@@ -52,16 +52,16 @@ namespace test_boinccas_CACreateBOINCAccounts {
         wil::unique_hmodule hDll = nullptr;
     };
 
-    constexpr auto masterAccountName = "boinc_master";
-    constexpr auto projectAccountName = "boinc_project";
+    constexpr auto masterAccountNameDefault = "boinc_master";
+    constexpr auto projectAccountNameDefault = "boinc_project";
 
 #ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CACreateBOINCAccounts, CanCreateAccounts) {
-        ASSERT_FALSE(userExists(masterAccountName));
-        ASSERT_EQ(0, userCreate(masterAccountName, "test"));
-        ASSERT_TRUE(userExists(masterAccountName));
-        ASSERT_TRUE(userDelete(masterAccountName));
-        ASSERT_FALSE(userExists(masterAccountName));
+        ASSERT_FALSE(userExists(masterAccountNameDefault));
+        ASSERT_EQ(0, userCreate(masterAccountNameDefault, "test"));
+        ASSERT_TRUE(userExists(masterAccountNameDefault));
+        ASSERT_TRUE(userDelete(masterAccountNameDefault));
+        ASSERT_FALSE(userExists(masterAccountNameDefault));
     }
 
     /*TEST_F(test_boinccas_CACreateBOINCAccounts, CreateAccounts) {
