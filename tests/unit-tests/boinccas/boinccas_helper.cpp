@@ -299,7 +299,7 @@ bool userExists(const std::string& username) {
     return result == NERR_Success;
 }
 
-bool userCreate(const std::string& username, const std::string& password) {
+DWORD userCreate(const std::string& username, const std::string& password) {
     USER_INFO_1 ui;
     ui.usri1_name = std::wstring(username.begin(), username.end()).data();
     ui.usri1_password = std::wstring(password.begin(), password.end()).data();
@@ -312,7 +312,7 @@ bool userCreate(const std::string& username, const std::string& password) {
 
     DWORD dwParameterError;
     return NetUserAdd(nullptr, 1,
-        reinterpret_cast<LPBYTE>(&ui), &dwParameterError) == NERR_Success;
+        reinterpret_cast<LPBYTE>(&ui), &dwParameterError);// == NERR_Success;
 }
 
 bool userDelete(const std::string& username) {

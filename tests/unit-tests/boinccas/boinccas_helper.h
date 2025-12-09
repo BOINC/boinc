@@ -40,7 +40,7 @@ std::string getRegistryValue(const std::string& valueName);
 void cleanRegistryKey();
 
 bool userExists(const std::string& username);
-bool userCreate(const std::string& username, const std::string& password);
+DWORD userCreate(const std::string& username, const std::string& password);
 bool userDelete(const std::string& username);
 
 constexpr auto msiName = "test.msi";
