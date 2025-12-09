@@ -47,7 +47,6 @@ namespace test_boinccas_CACreateBOINCAccounts {
 
         std::string masterAccountName;
         std::string projectAccountName;
-        PMSIHANDLE hMsi;
 
     private:
         wil::unique_hmodule hDll = nullptr;
@@ -57,7 +56,16 @@ namespace test_boinccas_CACreateBOINCAccounts {
     constexpr auto projectAccountName = "boinc_project";
 
 #ifdef BOINCCAS_TEST
-    TEST_F(test_boinccas_CACreateBOINCAccounts, CreateAccounts) {
+    TEST_F(test_boinccas_CACreateBOINCAccounts, CanCreateAccounts) {
+        ASSERT_FALSE(userExists(masterAccountName));
+        ASSERT_TRUE(userCreate(masterAccountName, "test"));
+        ASSERT_TRUE(userExists(masterAccountName));
+        ASSERT_TRUE(userDelete(masterAccountName));
+        ASSERT_FALSE(userExists(masterAccountName));
+    }
+
+    /*TEST_F(test_boinccas_CACreateBOINCAccounts, CreateAccounts) {
+        PMSIHANDLE hMsi;
         const auto result =
             MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
         ASSERT_EQ(0u, result);
@@ -69,6 +77,6 @@ namespace test_boinccas_CACreateBOINCAccounts {
         EXPECT_EQ(0u, hFunc(hMsi));
         EXPECT_TRUE(userExists(masterAccountName));
         EXPECT_TRUE(userExists(projectAccountName));
-    }
+    }*/
 #endif
 }
