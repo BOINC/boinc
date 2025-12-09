@@ -460,23 +460,3 @@ static void get_docker_compose_version(WSL_CMD& rs, WSL_DISTRO &wd) {
     if (get_docker_compose_version_aux(rs, wd, PODMAN)) return;
     get_docker_compose_version_aux(rs, wd, DOCKER);
 }
-
-// called on startup (after scanning distros)
-// and after doing an RPC to get latest version info.
-//
-void show_wsl_messages() {
-    int bdv = gstate.host_info.wsl_distros.boinc_distro_version();
-    const char *url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Windows";
-    if (bdv == 0) {
-        msg_printf_notice(0, true, url,
-            "Some BOINC projects require Docker.  <a href=%s>Learn how to install it</a>",
-            url
-        );
-    } else if (bdv < gstate.latest_boinc_buda_runner_version) {
-        const char *url2 = "https://github.com/BOINC/boinc/wiki/Updating-the-BOINC-WSL-distro";
-        msg_printf_notice(0, true, url,
-            "A new version of the BOINC WSL distro is available.  <a href=%s>Learn how to upgrade.</a>",
-            url2
-        );
-    }
-}

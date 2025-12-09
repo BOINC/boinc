@@ -295,6 +295,13 @@ void CLIENT_STATE::show_host_info() {
     }
 #endif
 
+    // show Docker-related messages
+    //
+#ifndef ANDROID
+    show_docker_messages();
+#endif
+
+
     if (strlen(host_info.virtualbox_version)) {
         msg_printf(NULL, MSG_INFO,
             "VirtualBox version: %s",
@@ -517,7 +524,7 @@ int CLIENT_STATE::init() {
 
     log_flags.show();
 
-    msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
+    msg_printf(NULL, MSG_INFO, "cURL libraries: %s", curl_version());
 
     if (cc_config.lower_client_priority) {
         set_client_priority();
@@ -730,10 +737,6 @@ int CLIENT_STATE::init() {
     //
     newer_version_startup_check();
 
-#if !defined(SIM) && defined(_WIN32)
-    show_wsl_messages();
-#endif
-
     // parse account files again,
     // now that we know the host's venue on each project
     //
@@ -928,33 +931,6 @@ int CLIENT_STATE::init() {
     throttle_thread.run(throttler, NULL);
 
     sporadic_init();
-
-    // if Docker not present, notify user
-    //
-#ifndef ANDROID
-#ifdef _WIN32
-    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Windows";
-#elif defined(__APPLE__)
-    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Mac";
-#else
-    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Linux";
-#endif
-    if (!host_info.have_docker()) {
-        msg_printf(NULL, MSG_INFO,
-            "Some projects require Docker."
-        );
-        msg_printf(NULL, MSG_INFO,
-            "To install Docker, visit %s", url
-        );
-        NOTICE n;
-        n.description = "Some projects require Docker.  We recommend that you install it.  Instructions are <a href=" + (string)url + (string)">here</a>.";
-        strcpy(n.link, url);
-        n.create_time = now;
-        n.arrival_time = now;
-        strcpy(n.category, "client");
-        notices.append(n);
-    }
-#endif
 
     initialized = true;
     return 0;
@@ -2529,3 +2505,44 @@ void CLIENT_STATE::init_result_resource_usage() {
         }
     }
 }
+
+// shows messages (as notices) related to Docker and WSL:
+// All platforms: if no Docker, suggest they install it
+// Win:
+//      if Docker but not our WSL distro, suggest they use ours
+//      if they have our distro but not current, suggest upgrade
+//
+// Called on startup, and after doing a get-version RPC
+//
+#ifndef ANDROID
+void show_docker_messages() {
+#ifdef _WIN32
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Windows";
+#elif defined(__APPLE__)
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Mac";
+#else
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Linux";
+#endif
+    if (!gstate.host_info.have_docker()) {
+        msg_printf_notice(0, true, url,
+            "Some projects require Docker; we recommend that you install it."
+        );
+#ifdef _WIN32
+    } else {
+        int bdv = gstate.host_info.wsl_distros.boinc_distro_version();
+        if (bdv) {
+            if (bdv < gstate.latest_boinc_buda_runner_version) {
+                msg_printf_notice(0, true,
+                    "https://github.com/BOINC/boinc/wiki/Updating-the-BOINC-WSL-distro",
+                    "A new version of the BOINC WSL distro is available; we recommend that you install it."
+                );
+            }
+        } else {
+            msg_printf_notice(0, true, url,
+                "Docker is present but not using the BOINC WSL distro.  Some project apps may not function properly. We recommend that you install the BOINC WSL distro."
+            );
+        }
+#endif
+    }
+}
+#endif

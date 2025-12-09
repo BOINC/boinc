@@ -1803,10 +1803,6 @@ int HOST_INFO::get_os_info() {
 
     string libc_version(""), libc_extra_info("");
     if (!get_libc_version(libc_version, libc_extra_info)) {
-        msg_printf(NULL, MSG_INFO,
-            "libc: %s version %s",
-            libc_extra_info.c_str(), libc_version.c_str()
-        );
         // add info to os_version_extra
         //
         if (!os_version_extra.empty()) {

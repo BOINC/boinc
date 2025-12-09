@@ -126,11 +126,17 @@ void show_message(
         x = "---";
     }
 
-    // Construct message to be logged/displayed
-    snprintf(evt_message, sizeof(evt_message), "%s [%s] %s\n", time_string,  x, message);
-
     // print message to the console
+    snprintf(evt_message, sizeof(evt_message),
+        "%s [%s] %s\n", time_string,  x, message
+    );
     printf("%s", evt_message);
+    if (link) {
+        snprintf(event_msg, sizeof(event_msg),
+            "%s [%s] See %s\n", time_string,  x, link
+        );
+        printf("%s", event_msg);
+    }
 
 #ifdef _WIN32
     // MSVCRT doesn't support line buffered streams
