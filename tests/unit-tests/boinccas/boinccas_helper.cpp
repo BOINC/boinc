@@ -15,14 +15,17 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <filesystem>
 #include "boinccas_helper.h"
+
+#include <filesystem>
 #include <MsiQuery.h>
 #include <Windows.h>
 #include <LMaccess.h>
 #include <lmerr.h>
 #include <LMAPIbuf.h>
 #include <stdexcept>
+
+#include "win_util.h"
 
 MsiHelper::MsiHelper() {
     cleanup();
@@ -288,9 +291,10 @@ void cleanRegistryKey() {
 }
 
 bool userExists(const std::string& username) {
+    auto un = boinc_ascii_to_wide(username);
     LPUSER_INFO_0 pBuf = nullptr;
     const auto result = NetUserGetInfo(nullptr,
-        std::wstring(username.begin(), username.end()).c_str(),
+        un.c_str(),
         0, reinterpret_cast<LPBYTE*>(&pBuf));
     if (pBuf != nullptr) {
         NetApiBufferFree(pBuf);
@@ -300,9 +304,11 @@ bool userExists(const std::string& username) {
 }
 
 DWORD userCreate(const std::string& username, const std::string& password) {
+    auto un = boinc_ascii_to_wide(username);
+    auto up = boinc_ascii_to_wide(password);
     USER_INFO_1 ui;
-    ui.usri1_name = std::wstring(username.begin(), username.end()).data();
-    ui.usri1_password = std::wstring(password.begin(), password.end()).data();
+    ui.usri1_name = un.data();
+    ui.usri1_password = up.data();
     ui.usri1_comment = nullptr;
     ui.usri1_priv = USER_PRIV_USER;
     ui.usri1_home_dir = nullptr;
@@ -316,6 +322,6 @@ DWORD userCreate(const std::string& username, const std::string& password) {
 }
 
 bool userDelete(const std::string& username) {
-    return NetUserDel(nullptr, std::wstring(username.begin(),
-        username.end()).c_str()) == NERR_Success;
+    auto un = boinc_ascii_to_wide(username);
+    return NetUserDel(nullptr, un.c_str()) == NERR_Success;
 }

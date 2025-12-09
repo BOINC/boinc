@@ -18,6 +18,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "wil/resource.h"
 #include <Msi.h>
 
