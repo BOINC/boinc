@@ -114,8 +114,8 @@ int ACTIVE_TASK::suspend() {
     return 0;
 }
 
-int ACTIVE_TASK::request_exit() {
-    set_task_state(PROCESS_UNINITIALIZED, "request_exit");
+int ACTIVE_TASK::request_quit() {
+    set_task_state(PROCESS_UNINITIALIZED, "request_quit");
     return 0;
 }
 
