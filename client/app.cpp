@@ -209,7 +209,7 @@ int ACTIVE_TASK::preempt(PREEMPT_TYPE preempt_type, int reason) {
                 result->name
             );
         }
-        return request_exit();
+        return request_quit();
     } else {
         if (show_msg) {
             msg_printf(result->project, MSG_INFO,
