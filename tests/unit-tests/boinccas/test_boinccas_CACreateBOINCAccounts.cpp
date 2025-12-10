@@ -76,16 +76,16 @@ namespace test_boinccas_CACreateBOINCAccounts {
         EXPECT_TRUE(userExists(masterAccountName));
         EXPECT_TRUE(userExists(projectAccountName));
         EXPECT_EQ(masterAccountName,
-            msiHelper.getProperty("BOINC_MASTER_USERNAME"));
+            msiHelper.getProperty(hMsi, "BOINC_MASTER_USERNAME"));
         EXPECT_EQ(projectAccountName,
-            msiHelper.getProperty("BOINC_PROJECT_USERNAME"));
+            msiHelper.getProperty(hMsi, "BOINC_PROJECT_USERNAME"));
         EXPECT_EQ(std::string(".\\") + masterAccountName,
-            msiHelper.getProperty("BOINC_MASTER_ISUSERNAME"));
+            msiHelper.getProperty(hMsi, "BOINC_MASTER_ISUSERNAME"));
         EXPECT_EQ(std::string(".\\") + projectAccountName,
-            msiHelper.getProperty("BOINC_PROJECT_ISUSERNAME"));
-        EXPECT_NE("", msiHelper.getProperty("BOINC_MASTER_PASSWORD"));
-        EXPECT_NE("", msiHelper.getProperty("BOINC_PROJECT_PASSWORD"));
-        EXPECT_EQ("1", msiHelper.getProperty("RETURN_REBOOTREQUESTED"));
+            msiHelper.getProperty(hMsi, "BOINC_PROJECT_ISUSERNAME"));
+        EXPECT_NE("", msiHelper.getProperty(hMsi, "BOINC_MASTER_PASSWORD"));
+        EXPECT_NE("", msiHelper.getProperty(hMsi, "BOINC_PROJECT_PASSWORD"));
+        EXPECT_EQ("1", msiHelper.getProperty(hMsi, "RETURN_REBOOTREQUESTED"));
         EXPECT_TRUE(MsiGetMode(hMsi, MSIRUNMODE_REBOOTATEND));
         // cancel reboot
         MsiSetMode(hMsi, MSIRUNMODE_REBOOTATEND, FALSE);

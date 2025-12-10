@@ -169,16 +169,14 @@ std::string MsiHelper::getProperty(MSIHANDLE hMsiHandle,
             MsiGetProperty(hMsiHandle, propertyName.c_str(), &value.front(),
                 &size);
         if (result != ERROR_SUCCESS) {
-            throw std::runtime_error("MsiGetProperty failed: " +
-                std::to_string(result));
+            return {};
         }
 
         return value;
     }
 
     if (result != ERROR_SUCCESS) {
-        throw std::runtime_error("MsiGetProperty failed: " +
-            std::to_string(result));
+        return {};
     }
 
     return {};

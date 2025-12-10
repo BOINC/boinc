@@ -446,7 +446,7 @@ UINT CACreateBOINCAccounts::OnExecution()
     SetProperty( _T("BOINC_PROJECT_PASSWORD"), strBOINCProjectAccountPassword, false );
 
     if (bBOINCMasterAccountCreated || bBOINCProjectAccountCreated) {
-        //RebootWhenFinished();
+        RebootWhenFinished();
     }
 
     return ERROR_SUCCESS;
