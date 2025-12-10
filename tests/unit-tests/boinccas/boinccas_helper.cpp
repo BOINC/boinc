@@ -154,11 +154,11 @@ void MsiHelper::insertProperties(
     }
 }
 
-std::string MsiHelper::getProperty(const std::string& propertyName) {
+std::tuple<unsigned int, std::string> MsiHelper::getProperty(const std::string& propertyName) {
     return getProperty(hMsi, propertyName);
 }
 
-std::string MsiHelper::getProperty(MSIHANDLE hMsiHandle,
+std::tuple<unsigned int, std::string> MsiHelper::getProperty(MSIHANDLE hMsiHandle,
     const std::string& propertyName) {
     DWORD size = 0;
     auto result =
@@ -169,17 +169,17 @@ std::string MsiHelper::getProperty(MSIHANDLE hMsiHandle,
             MsiGetProperty(hMsiHandle, propertyName.c_str(), &value.front(),
                 &size);
         if (result != ERROR_SUCCESS) {
-            return {};
+            return { result, {} };
         }
 
-        return value;
+        return { result, value };
     }
 
     if (result != ERROR_SUCCESS) {
-        return {};
+        return { result, {} };
     }
 
-    return {};
+    return { result, {} };
 }
 
 void MsiHelper::setProperty(const std::string& propertyName,

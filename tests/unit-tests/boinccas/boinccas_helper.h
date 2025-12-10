@@ -52,8 +52,9 @@ public:
     ~MsiHelper();
     void insertProperties(
         const std::vector<std::pair<std::string, std::string>>& properties);
-    std::string getProperty(const std::string& propertyName);
-    std::string getProperty(MSIHANDLE hMsiHandle,
+    std::tuple<unsigned int, std::string> getProperty(
+        const std::string& propertyName);
+    std::tuple<unsigned int, std::string> getProperty(MSIHANDLE hMsiHandle,
         const std::string& propertyName);
     void setProperty(const std::string& propertyName,
         const std::string& propertyValue);

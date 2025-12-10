@@ -75,17 +75,42 @@ namespace test_boinccas_CACreateBOINCAccounts {
         EXPECT_EQ(0u, hFunc(hMsi));
         EXPECT_TRUE(userExists(masterAccountName));
         EXPECT_TRUE(userExists(projectAccountName));
-        EXPECT_EQ(masterAccountName,
-            msiHelper.getProperty(hMsi, "BOINC_MASTER_USERNAME"));
-        EXPECT_EQ(projectAccountName,
-            msiHelper.getProperty(hMsi, "BOINC_PROJECT_USERNAME"));
-        EXPECT_EQ(std::string(".\\") + masterAccountName,
-            msiHelper.getProperty(hMsi, "BOINC_MASTER_ISUSERNAME"));
-        EXPECT_EQ(std::string(".\\") + projectAccountName,
-            msiHelper.getProperty(hMsi, "BOINC_PROJECT_ISUSERNAME"));
-        EXPECT_NE("", msiHelper.getProperty(hMsi, "BOINC_MASTER_PASSWORD"));
-        EXPECT_NE("", msiHelper.getProperty(hMsi, "BOINC_PROJECT_PASSWORD"));
-        EXPECT_EQ("1", msiHelper.getProperty(hMsi, "RETURN_REBOOTREQUESTED"));
+
+        auto [errorcode, value] =
+            msiHelper.getProperty(hMsi, "BOINC_MASTER_USERNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ(masterAccountName, value);
+
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "BOINC_PROJECT_USERNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ(projectAccountName, value);
+
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "BOINC_MASTER_ISUSERNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ(std::string(".\\") + masterAccountName, value);
+
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "BOINC_PROJECT_ISUSERNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ(std::string(".\\") + projectAccountName, value);
+
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "BOINC_MASTER_PASSWORD");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_NE("", value);
+
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "BOINC_PROJECT_PASSWORD");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_NE("", value);
+
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "RETURN_REBOOTREQUESTED");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ("1", value);
+
         EXPECT_TRUE(MsiGetMode(hMsi, MSIRUNMODE_REBOOTATEND));
         // cancel reboot
         MsiSetMode(hMsi, MSIRUNMODE_REBOOTATEND, FALSE);
