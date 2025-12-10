@@ -303,7 +303,7 @@ bool userExists(const std::string& username) {
     return result == NERR_Success;
 }
 
-DWORD userCreate(const std::string& username, const std::string& password) {
+bool userCreate(const std::string& username, const std::string& password) {
     auto un = boinc_ascii_to_wide(username);
     auto up = boinc_ascii_to_wide(password);
     USER_INFO_1 ui;
@@ -318,7 +318,7 @@ DWORD userCreate(const std::string& username, const std::string& password) {
 
     DWORD dwParameterError;
     return NetUserAdd(nullptr, 1,
-        reinterpret_cast<LPBYTE>(&ui), &dwParameterError);// == NERR_Success;
+        reinterpret_cast<LPBYTE>(&ui), &dwParameterError) == NERR_Success;
 }
 
 bool userDelete(const std::string& username) {

@@ -22,7 +22,14 @@
 
 #include "boinccas_helper.h"
 
+#include <MsiQuery.h>
+
 namespace test_boinccas_CACreateBOINCAccounts {
+    constexpr auto masterAccountName = "boinc_master";
+    constexpr auto projectAccountName = "boinc_project";
+    constexpr auto masterAccountPassword = "qwerty123456!@#$%^";
+    constexpr auto projectAccountPassword = "ytrewq654321^%$#@!";
+
     using CreateBOINCAccountsFn = UINT(WINAPI*)(MSIHANDLE);
 
     class test_boinccas_CACreateBOINCAccounts : public ::testing::Test {
@@ -44,42 +51,44 @@ namespace test_boinccas_CACreateBOINCAccounts {
 
         CreateBOINCAccountsFn hFunc = nullptr;
         MsiHelper msiHelper;
-
-        std::string masterAccountName;
-        std::string projectAccountName;
-
     private:
         wil::unique_hmodule hDll = nullptr;
     };
 
-    constexpr auto masterAccountNameDefault = "boinc_master";
-    constexpr auto projectAccountNameDefault = "boinc_project";
-    constexpr auto masterAccountPasswordDefault = "qwerty123456!@#$%^";
-    constexpr auto projectAccountPasswordDefault = "ytrewq654321^%$#@!";
-
 #ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CACreateBOINCAccounts, CanCreateAccounts) {
-        ASSERT_FALSE(userExists(masterAccountNameDefault));
-        ASSERT_EQ(0,userCreate(masterAccountNameDefault,
-            masterAccountPasswordDefault));
-        ASSERT_TRUE(userExists(masterAccountNameDefault));
-        ASSERT_TRUE(userDelete(masterAccountNameDefault));
-        ASSERT_FALSE(userExists(masterAccountNameDefault));
+        ASSERT_FALSE(userExists(masterAccountName));
+        ASSERT_EQ(0,userCreate(masterAccountName, masterAccountPassword));
+        ASSERT_TRUE(userExists(masterAccountName));
+        ASSERT_TRUE(userDelete(masterAccountName));
+        ASSERT_FALSE(userExists(masterAccountName));
     }
 
-    /*TEST_F(test_boinccas_CACreateBOINCAccounts, CreateAccounts) {
+    TEST_F(test_boinccas_CACreateBOINCAccounts, CreateAccounts) {
         PMSIHANDLE hMsi;
         const auto result =
             MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
         ASSERT_EQ(0u, result);
 
-        masterAccountName = masterAccountName;
-        projectAccountName = projectAccountName;
         EXPECT_FALSE(userExists(masterAccountName));
         EXPECT_FALSE(userExists(projectAccountName));
         EXPECT_EQ(0u, hFunc(hMsi));
         EXPECT_TRUE(userExists(masterAccountName));
         EXPECT_TRUE(userExists(projectAccountName));
-    }*/
+        EXPECT_EQ(masterAccountName,
+            msiHelper.getProperty("BOINC_MASTER_USERNAME"));
+        EXPECT_EQ(projectAccountName,
+            msiHelper.getProperty("BOINC_PROJECT_USERNAME"));
+        EXPECT_EQ(std::string(".\\") + masterAccountName,
+            msiHelper.getProperty("BOINC_MASTER_ISUSERNAME"));
+        EXPECT_EQ(std::string(".\\") + projectAccountName,
+            msiHelper.getProperty("BOINC_PROJECT_ISUSERNAME"));
+        EXPECT_NE("", msiHelper.getProperty("BOINC_MASTER_PASSWORD"));
+        EXPECT_NE("", msiHelper.getProperty("BOINC_PROJECT_PASSWORD"));
+        EXPECT_EQ("1", msiHelper.getProperty("RETURN_REBOOTREQUESTED"));
+        EXPECT_TRUE(MsiGetMode(hMsi, MSIRUNMODE_REBOOTATEND));
+        // cancel reboot
+        MsiSetMode(hMsi, MSIRUNMODE_REBOOTATEND, FALSE);
+    }
 #endif
 }
