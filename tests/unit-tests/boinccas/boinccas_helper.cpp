@@ -166,7 +166,7 @@ std::tuple<unsigned int, std::string> MsiHelper::getProperty(MSIHANDLE hMsiHandl
     if (result == ERROR_MORE_DATA) {
         std::string value(size, '\0');
         result =
-            MsiGetProperty(hMsiHandle, propertyName.c_str(), &value.front(),
+            MsiGetProperty(hMsiHandle, propertyName.c_str(), value.data(),
                 &size);
         if (result != ERROR_SUCCESS) {
             return { result, {} };
