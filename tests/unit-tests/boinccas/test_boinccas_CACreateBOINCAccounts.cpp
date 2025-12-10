@@ -58,7 +58,7 @@ namespace test_boinccas_CACreateBOINCAccounts {
 #ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CACreateBOINCAccounts, CanCreateAccounts) {
         ASSERT_FALSE(userExists(masterAccountName));
-        ASSERT_EQ(0,userCreate(masterAccountName, masterAccountPassword));
+        ASSERT_TRUE(userCreate(masterAccountName, masterAccountPassword));
         ASSERT_TRUE(userExists(masterAccountName));
         ASSERT_TRUE(userDelete(masterAccountName));
         ASSERT_FALSE(userExists(masterAccountName));
