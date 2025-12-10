@@ -128,8 +128,8 @@ namespace test_boinccas_CACreateBOINCAccounts {
         ASSERT_TRUE(userCreate(projectAccountName, projectAccountPassword));
         ASSERT_TRUE(userExists(masterAccountName));
         ASSERT_TRUE(userExists(projectAccountName));
-        msiHelper.setProperty("BOINC_MASTER_USERNAME", masterAccountName);
-        msiHelper.setProperty("BOINC_PROJECT_USERNAME", projectAccountName);
+        msiHelper.setProperty(hMsi, "BOINC_MASTER_USERNAME", masterAccountName);
+        msiHelper.setProperty(hMsi, "BOINC_PROJECT_USERNAME", projectAccountName);
 
         EXPECT_EQ(0u, hFunc(hMsi));
         EXPECT_TRUE(userExists(masterAccountName));
@@ -190,10 +190,10 @@ namespace test_boinccas_CACreateBOINCAccounts {
         ASSERT_TRUE(userCreate(testProjectAccountName, projectAccountPassword));
         ASSERT_TRUE(userExists(testMasterAccountName));
         ASSERT_TRUE(userExists(testProjectAccountName));
-        msiHelper.setProperty("BOINC_MASTER_USERNAME", testMasterAccountName);
-        msiHelper.setProperty("BOINC_MASTER_PASSWORD", masterAccountPassword);
-        msiHelper.setProperty("BOINC_PROJECT_USERNAME", testProjectAccountName);
-        msiHelper.setProperty("BOINC_PROJECT_PASSWORD", projectAccountPassword);
+        msiHelper.setProperty(hMsi, "BOINC_MASTER_USERNAME", testMasterAccountName);
+        msiHelper.setProperty(hMsi, "BOINC_MASTER_PASSWORD", masterAccountPassword);
+        msiHelper.setProperty(hMsi, "BOINC_PROJECT_USERNAME", testProjectAccountName);
+        msiHelper.setProperty(hMsi, "BOINC_PROJECT_PASSWORD", projectAccountPassword);
 
         EXPECT_EQ(0u, hFunc(hMsi));
         EXPECT_TRUE(userExists(testMasterAccountName));
