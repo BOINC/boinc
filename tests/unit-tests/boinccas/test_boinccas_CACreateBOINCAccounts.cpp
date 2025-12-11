@@ -51,13 +51,29 @@ namespace test_boinccas_CACreateBOINCAccounts {
             }
         }
 
+        auto getMasterAccountName() const {
+            if (GetParam() == "2") {
+                return std::string(masterAccountName) + "_"
+                    + testPCName;
+            }
+            return std::string(masterAccountName);
+        }
+
+        auto getProjectAccountName() const {
+            if (GetParam() == "2") {
+                return std::string(projectAccountName) + "_"
+                    + testPCName;
+            }
+            return std::string(projectAccountName);
+        }
+
         CreateBOINCAccountsFn hFunc = nullptr;
         MsiHelper msiHelper;
     private:
         wil::unique_hmodule hDll = nullptr;
     };
 
-#ifdef BOINCCAS_TEST
+#ifndef BOINCCAS_TEST
     INSTANTIATE_TEST_SUITE_P(test_boinccas_CACreateBOINCAccountsProductType,
         test_boinccas_CACreateBOINCAccounts,
         testing::Values("1", "2", "3"));
@@ -88,55 +104,31 @@ namespace test_boinccas_CACreateBOINCAccounts {
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ(testPCName, value);
 
-        EXPECT_FALSE(userExists(masterAccountName));
-        EXPECT_FALSE(userExists(projectAccountName));
+        EXPECT_FALSE(userExists(getMasterAccountName()));
+        EXPECT_FALSE(userExists(getProjectAccountName()));
         EXPECT_EQ(0u, hFunc(hMsi));
-        EXPECT_TRUE(userExists(masterAccountName));
-        EXPECT_TRUE(userExists(projectAccountName));
+        EXPECT_TRUE(userExists(getMasterAccountName()));
+        EXPECT_TRUE(userExists(getProjectAccountName()));
 
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi, "BOINC_MASTER_USERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        if (GetParam() == "2") {
-            EXPECT_TRUE(value._Starts_with(
-                masterAccountName + std::string("_")));
-        }
-        else {
-            EXPECT_EQ(masterAccountName, value);
-        }
+        EXPECT_EQ(getMasterAccountName(), value);
 
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi, "BOINC_PROJECT_USERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        if (GetParam() == "2") {
-            EXPECT_TRUE(value._Starts_with(
-                projectAccountName + std::string("_")));
-        }
-        else {
-            EXPECT_EQ(projectAccountName, value);
-        }
+        EXPECT_EQ(getProjectAccountName(), value);
 
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi, "BOINC_MASTER_ISUSERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        if (GetParam() == "2") {
-            EXPECT_TRUE(value._Starts_with(
-                std::string(".\\") + masterAccountName + std::string("_")));
-        }
-        else {
-            EXPECT_EQ(std::string(".\\") + masterAccountName, value);
-        }
+        EXPECT_EQ(".\\" + getMasterAccountName(), value);
 
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi, "BOINC_PROJECT_ISUSERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        if (GetParam() == "2") {
-            EXPECT_TRUE(value._Starts_with(
-                std::string(".\\") + projectAccountName + std::string("_")));
-        }
-        else {
-            EXPECT_EQ(std::string(".\\") + projectAccountName, value);
-        }
+        EXPECT_EQ(".\\" + getProjectAccountName(), value);
 
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi, "BOINC_MASTER_PASSWORD");
@@ -176,64 +168,42 @@ namespace test_boinccas_CACreateBOINCAccounts {
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ(testPCName, value);
 
-        EXPECT_FALSE(userExists(masterAccountName));
-        EXPECT_FALSE(userExists(projectAccountName));
-        ASSERT_TRUE(userCreate(masterAccountName, masterAccountPassword));
-        ASSERT_TRUE(userCreate(projectAccountName, projectAccountPassword));
-        ASSERT_TRUE(userExists(masterAccountName));
-        ASSERT_TRUE(userExists(projectAccountName));
+        EXPECT_FALSE(userExists(getMasterAccountName()));
+        EXPECT_FALSE(userExists(getProjectAccountName()));
+        ASSERT_TRUE(userCreate(getMasterAccountName(),
+            masterAccountPassword));
+        ASSERT_TRUE(userCreate(getProjectAccountName(),
+            projectAccountPassword));
+        ASSERT_TRUE(userExists(getMasterAccountName()));
+        ASSERT_TRUE(userExists(getProjectAccountName()));
         msiHelper.setProperty(
-            hMsi, "BOINC_MASTER_USERNAME", masterAccountName);
+            hMsi, "BOINC_MASTER_USERNAME", getMasterAccountName());
         msiHelper.setProperty(
-            hMsi, "BOINC_PROJECT_USERNAME", projectAccountName);
+            hMsi, "BOINC_PROJECT_USERNAME", getProjectAccountName());
 
         EXPECT_EQ(0u, hFunc(hMsi));
-        EXPECT_TRUE(userExists(masterAccountName));
-        EXPECT_TRUE(userExists(projectAccountName));
+        EXPECT_TRUE(userExists(getMasterAccountName()));
+        EXPECT_TRUE(userExists(getProjectAccountName()));
 
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi, "BOINC_MASTER_USERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        if (GetParam() == "2") {
-            EXPECT_EQ(masterAccountName + std::string("_") + testPCName,
-                value);
-        }
-        else {
-            EXPECT_EQ(masterAccountName, value);
-        }
+        EXPECT_EQ(getMasterAccountName(), value);
 
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi, "BOINC_PROJECT_USERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        if (GetParam() == "2") {
-            EXPECT_EQ(projectAccountName + std::string("_") + testPCName,
-                value);
-        }
-        else {
-            EXPECT_EQ(projectAccountName, value);
-        }
+        EXPECT_EQ(getProjectAccountName(), value);
 
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi, "BOINC_MASTER_ISUSERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        if (GetParam() == "2") {
-            EXPECT_EQ(std::string(".\\") + masterAccountName +
-                std::string("_") + testPCName, value);
-        }
-        else {
-            EXPECT_EQ(std::string(".\\") + masterAccountName, value);
-        }
+        EXPECT_EQ(".\\" + getMasterAccountName(), value);
 
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi, "BOINC_PROJECT_ISUSERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        if (GetParam() == "2") {
-            EXPECT_EQ(std::string(".\\") + projectAccountName +
-                std::string("_") + testPCName, value);
-        }
-        else {
-            EXPECT_EQ(std::string(".\\") + projectAccountName, value);
-        }
+        EXPECT_EQ(".\\" + getProjectAccountName(), value);
 
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi, "BOINC_MASTER_PASSWORD");
@@ -278,14 +248,20 @@ namespace test_boinccas_CACreateBOINCAccounts {
 
         EXPECT_FALSE(userExists(testMasterAccountName));
         EXPECT_FALSE(userExists(testProjectAccountName));
-        ASSERT_TRUE(userCreate(testMasterAccountName, masterAccountPassword));
-        ASSERT_TRUE(userCreate(testProjectAccountName, projectAccountPassword));
+        ASSERT_TRUE(userCreate(testMasterAccountName,
+            masterAccountPassword));
+        ASSERT_TRUE(userCreate(testProjectAccountName,
+            projectAccountPassword));
         ASSERT_TRUE(userExists(testMasterAccountName));
         ASSERT_TRUE(userExists(testProjectAccountName));
-        msiHelper.setProperty(hMsi, "BOINC_MASTER_USERNAME", testMasterAccountName);
-        msiHelper.setProperty(hMsi, "BOINC_MASTER_PASSWORD", masterAccountPassword);
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_USERNAME", testProjectAccountName);
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_PASSWORD", projectAccountPassword);
+        msiHelper.setProperty(hMsi, "BOINC_MASTER_USERNAME",
+            testMasterAccountName);
+        msiHelper.setProperty(hMsi, "BOINC_MASTER_PASSWORD",
+            masterAccountPassword);
+        msiHelper.setProperty(hMsi, "BOINC_PROJECT_USERNAME",
+            testProjectAccountName);
+        msiHelper.setProperty(hMsi, "BOINC_PROJECT_PASSWORD",
+            projectAccountPassword);
 
         EXPECT_EQ(0u, hFunc(hMsi));
         EXPECT_TRUE(userExists(testMasterAccountName));
