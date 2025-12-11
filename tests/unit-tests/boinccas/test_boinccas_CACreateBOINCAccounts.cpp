@@ -148,6 +148,8 @@ namespace test_boinccas_CACreateBOINCAccounts {
         EXPECT_TRUE(MsiGetMode(hMsi, MSIRUNMODE_REBOOTATEND));
         // cancel reboot
         MsiSetMode(hMsi, MSIRUNMODE_REBOOTATEND, FALSE);
+
+        TearDown();
     }
 
     TEST_P(test_boinccas_CACreateBOINCAccounts, ChangePasswords) {
@@ -223,6 +225,8 @@ namespace test_boinccas_CACreateBOINCAccounts {
         EXPECT_FALSE(MsiGetMode(hMsi, MSIRUNMODE_REBOOTATEND));
         // cancel reboot
         MsiSetMode(hMsi, MSIRUNMODE_REBOOTATEND, FALSE);
+
+        TearDown();
     }
 
     TEST_P(test_boinccas_CACreateBOINCAccounts, DontChangeExistingAccounts) {
@@ -305,6 +309,8 @@ namespace test_boinccas_CACreateBOINCAccounts {
         EXPECT_FALSE(MsiGetMode(hMsi, MSIRUNMODE_REBOOTATEND));
         // cancel reboot
         MsiSetMode(hMsi, MSIRUNMODE_REBOOTATEND, FALSE);
+
+        TearDown();
     }
 #endif
 }
