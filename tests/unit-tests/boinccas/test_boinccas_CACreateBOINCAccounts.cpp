@@ -73,7 +73,7 @@ namespace test_boinccas_CACreateBOINCAccounts {
         wil::unique_hmodule hDll = nullptr;
     };
 
-#ifndef BOINCCAS_TEST
+#ifdef BOINCCAS_TEST
     INSTANTIATE_TEST_SUITE_P(test_boinccas_CACreateBOINCAccountsProductType,
         test_boinccas_CACreateBOINCAccounts,
         testing::Values("1", "2", "3"));
