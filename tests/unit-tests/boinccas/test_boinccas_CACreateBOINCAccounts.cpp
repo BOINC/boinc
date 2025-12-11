@@ -43,11 +43,11 @@ namespace test_boinccas_CACreateBOINCAccounts {
         }
 
         void TearDown() override {
-            if (userExists(masterAccountName)) {
-                userDelete(masterAccountName);
+            if (userExists(getMasterAccountName())) {
+                userDelete(getMasterAccountName());
             }
-            if (userExists(projectAccountName)) {
-                userDelete(projectAccountName);
+            if (userExists(getProjectAccountName())) {
+                userDelete(getProjectAccountName());
             }
         }
 
