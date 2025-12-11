@@ -82,6 +82,12 @@ namespace test_boinccas_CACreateBOINCAccounts {
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ(GetParam(), value);
 
+        msiHelper.setProperty(hMsi, "ComputerName", testPCName);
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "ComputerName");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(testPCName, value);
+
         EXPECT_FALSE(userExists(masterAccountName));
         EXPECT_FALSE(userExists(projectAccountName));
         EXPECT_EQ(0u, hFunc(hMsi));
@@ -260,6 +266,12 @@ namespace test_boinccas_CACreateBOINCAccounts {
             msiHelper.getProperty(hMsi, "MsiNTProductType");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ(GetParam(), value);
+
+        msiHelper.setProperty(hMsi, "ComputerName", testPCName);
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "ComputerName");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(testPCName, value);
 
         constexpr auto testMasterAccountName = "test_master";
         constexpr auto testProjectAccountName = "test_project";
