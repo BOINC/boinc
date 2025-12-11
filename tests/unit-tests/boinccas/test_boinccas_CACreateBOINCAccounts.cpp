@@ -310,6 +310,13 @@ namespace test_boinccas_CACreateBOINCAccounts {
         // cancel reboot
         MsiSetMode(hMsi, MSIRUNMODE_REBOOTATEND, FALSE);
 
+        if (userExists(testMasterAccountName)) {
+            userDelete(testMasterAccountName);
+        }
+        if (userExists(testProjectAccountName)) {
+            userDelete(testProjectAccountName);
+        }
+
         TearDown();
     }
 #endif
