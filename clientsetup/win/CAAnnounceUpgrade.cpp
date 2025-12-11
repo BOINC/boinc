@@ -24,7 +24,24 @@ CAAnnounceUpgrade::CAAnnounceUpgrade(MSIHANDLE hMSIHandle) :
         _T("Announce the new BOINC version to all components.")) {}
 
 UINT CAAnnounceUpgrade::OnExecution() {
-    return SetUpgradeParameters();
+    tstring strCurrentProductVersion;
+
+    auto uiReturnValue = GetProperty(_T("ProductVersion"),
+        strCurrentProductVersion);
+    if (uiReturnValue) {
+        return uiReturnValue;
+    }
+    if (strCurrentProductVersion.empty()) {
+        return ERROR_INSTALL_FAILURE;
+    }
+
+    uiReturnValue = SetRegistryValue(_T("UpgradingTo"),
+        strCurrentProductVersion);
+    if (uiReturnValue) {
+        return uiReturnValue;
+    }
+
+    return ERROR_SUCCESS;
 }
 
 UINT __stdcall AnnounceUpgrade(MSIHANDLE hInstall) {

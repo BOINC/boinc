@@ -49,7 +49,6 @@ public:
     virtual UINT OnExecution();
 
     //
-    UINT SetUpgradeParameters();
     BOOL IsUpgrading();
 
     // Registry Property Management
