@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -133,7 +133,7 @@ struct CLIENT_STATE {
         // - (Mac) client was started from screensaver,
         //   which has since exited
     bool os_requested_suspend;
-        // we should suspend for OS reasonts (used on Win only).
+        // we should suspend for OS reasons (used on Win only).
         // Set when
         // - got BATTERY_LOW, SUSPEND, SERVICE_CONTROL_PAUSE
     double os_requested_suspend_time;
@@ -439,6 +439,7 @@ struct CLIENT_STATE {
         const char* fname = GLOBAL_PREFS_FILE_NAME,
         const char* override_fname = GLOBAL_PREFS_OVERRIDE_FILE
     );
+    void validate_global_prefs(const GLOBAL_PREFS_MASK& mask);
     void print_global_prefs();
     int save_global_prefs(const char* prefs, char* url, char* sched);
     double available_ram();
