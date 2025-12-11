@@ -363,8 +363,6 @@ static int initialize() {
     }
 #endif
 
-    curl_init();
-
 #ifdef _WIN32
     if(!startup_idle_monitor()) {
         log_message_error(
@@ -396,8 +394,6 @@ static int finalize() {
     cleanup_system_monitor();
 
 #endif
-
-    curl_cleanup();
 
 #ifdef _DEBUG
     gstate.free_mem();
