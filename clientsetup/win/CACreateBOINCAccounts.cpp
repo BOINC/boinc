@@ -18,7 +18,6 @@
 #include "stdafx.h"
 #include "boinccas.h"
 #include "CACreateBOINCAccounts.h"
-#include "lsaprivs.h"
 #include "password.h"
 
 CACreateBOINCAccounts::CACreateBOINCAccounts(MSIHANDLE hMSIHandle) :

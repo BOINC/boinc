@@ -15,9 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <filesystem>
-#include <fstream>
-
 #include "gtest/gtest.h"
 
 #include "boinccas_helper.h"
@@ -130,15 +127,19 @@ namespace test_boinccas_CACreateBOINCAccounts {
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         EXPECT_EQ(".\\" + getProjectAccountName(), value);
 
-        std::tie(errorcode, value) =
+        std::string masterPassword;
+        std::tie(errorcode, masterPassword) =
             msiHelper.getProperty(hMsi, "BOINC_MASTER_PASSWORD");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        EXPECT_NE("", value);
+        EXPECT_NE("", masterPassword);
 
-        std::tie(errorcode, value) =
+        std::string projectPassword;
+        std::tie(errorcode, projectPassword) =
             msiHelper.getProperty(hMsi, "BOINC_PROJECT_PASSWORD");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        EXPECT_NE("", value);
+        EXPECT_NE("", projectPassword);
+
+        EXPECT_NE(masterPassword, projectPassword);
 
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi, "RETURN_REBOOTREQUESTED");
