@@ -141,28 +141,6 @@ static BOOL IsVersionNewer(const tstring v1, const tstring v2) {
     return FALSE;
 }
 
-
-/////////////////////////////////////////////////////////////////////
-//
-// Function:    SetUpgradeParameters
-//
-// Description:
-//
-/////////////////////////////////////////////////////////////////////
-UINT BOINCCABase::SetUpgradeParameters()
-{
-    tstring strCurrentProductVersion;
-    UINT    uiReturnValue = 0;
-
-    uiReturnValue = GetProperty( _T("ProductVersion"), strCurrentProductVersion );
-    if ( uiReturnValue ) return uiReturnValue;
-
-    uiReturnValue = SetRegistryValue( _T("UpgradingTo"), strCurrentProductVersion );
-    if ( uiReturnValue ) return uiReturnValue;
-
-    return ERROR_SUCCESS;
-}
-
 /////////////////////////////////////////////////////////////////////
 //
 // Function:    IsUpgrading
