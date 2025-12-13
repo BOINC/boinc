@@ -131,12 +131,14 @@ namespace test_boinccas_CACreateBOINCAccounts {
         std::tie(errorcode, masterPassword) =
             msiHelper.getProperty(hMsi, "BOINC_MASTER_PASSWORD");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ(33, masterPassword.length());
         EXPECT_NE("", masterPassword);
 
         std::string projectPassword;
         std::tie(errorcode, projectPassword) =
             msiHelper.getProperty(hMsi, "BOINC_PROJECT_PASSWORD");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ(33, projectPassword.length());
         EXPECT_NE("", projectPassword);
 
         EXPECT_NE(masterPassword, projectPassword);
@@ -208,15 +210,21 @@ namespace test_boinccas_CACreateBOINCAccounts {
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         EXPECT_EQ(".\\" + getProjectAccountName(), value);
 
-        std::tie(errorcode, value) =
+        std::string masterPassword;
+        std::tie(errorcode, masterPassword) =
             msiHelper.getProperty(hMsi, "BOINC_MASTER_PASSWORD");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        EXPECT_NE(masterAccountPassword, value);
+        EXPECT_NE(masterAccountPassword, masterPassword);
+        EXPECT_EQ(33, masterPassword.length());
 
-        std::tie(errorcode, value) =
+        std::string projectPassword;
+        std::tie(errorcode, projectPassword) =
             msiHelper.getProperty(hMsi, "BOINC_PROJECT_PASSWORD");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        EXPECT_NE(projectAccountPassword, value);
+        EXPECT_NE(projectAccountPassword, projectPassword);
+        EXPECT_EQ(33, projectPassword.length());
+
+        EPECT_NE(masterPassword, projectPassword);
 
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi, "RETURN_REBOOTREQUESTED");
