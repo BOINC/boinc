@@ -224,7 +224,7 @@ namespace test_boinccas_CACreateBOINCAccounts {
         EXPECT_NE(projectAccountPassword, projectPassword);
         EXPECT_EQ(33, projectPassword.length());
 
-        EPECT_NE(masterPassword, projectPassword);
+        EXPECT_NE(masterPassword, projectPassword);
 
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi, "RETURN_REBOOTREQUESTED");
