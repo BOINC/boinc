@@ -22,4 +22,6 @@ class CACreateBOINCAccounts : public BOINCCABase
 public:
     CACreateBOINCAccounts(MSIHANDLE hMSIHandle);
     UINT OnExecution() override final;
+private:
+    tstring GenerateRandomPassword(size_t dwDesiredLength);
 };

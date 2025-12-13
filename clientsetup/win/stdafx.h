@@ -1,21 +1,19 @@
-// Berkeley Open Infrastructure for Network Computing
-// http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// This file is part of BOINC.
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
-// This is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation;
-// either version 2.1 of the License, or (at your option) any later version.
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
-// This software is distributed in the hope that it will be useful,
+// BOINC is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // See the GNU Lesser General Public License for more details.
 //
-// To view the GNU Lesser General Public License visit
-// http://www.gnu.org/copyleft/lesser.html
-// or write to the Free Software Foundation, Inc.,
-// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
 
 // stdafx.h : include file for standard system include files,
@@ -29,41 +27,27 @@
 // Windows System Libraries
 //
 
-// Visual Studio 2005 has extended the C Run-Time Library by including "secure"
-// runtime functions and deprecating the previous function prototypes.  Since
-// we need to use the previous prototypes to maintain compatibility with other
-// platforms we are going to disable the deprecation warnings if we are compiling
-// on Visual Studio 2005
-#if _MSC_VER >= 1400
-#ifndef _CRT_SECURE_NO_DEPRECATE
-#define _CRT_SECURE_NO_DEPRECATE
-#endif
-#ifndef _CRT_NON_CONFORMING_SWPRINTFS
-#define _CRT_NON_CONFORMING_SWPRINTFS
-#endif
-#endif
-
 // Modify the following defines if you have to target a platform prior to the ones specified below.
 // Refer to MSDN for the latest info on corresponding values for different platforms.
 
 #ifndef WINVER
-#define WINVER 0x0501
+#define WINVER 0x0600
 #endif
 
 #ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x0501
+#define _WIN32_WINNT 0x0600
 #endif
 
 #ifndef _WIN32_WINDOWS
-#define _WIN32_WINDOWS 0x0501
+#define _WIN32_WINDOWS 0x0600
 #endif
 
 #ifndef _WIN32_IE
-#define _WIN32_IE 0x0500
+#define _WIN32_IE 0x0700
 #endif
 
 #ifndef _WIN32_MSI
-#define _WIN32_MSI 200
+#define _WIN32_MSI 400
 #endif
 
 // ATL Headers Files:
@@ -100,6 +84,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <vector>
 #include <filesystem>
 

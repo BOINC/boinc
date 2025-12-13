@@ -78,7 +78,6 @@
     <ClCompile Include="..\clientsetup\win\lkuprid.cpp" />
     <ClCompile Include="..\clientsetup\win\lsaprivs.cpp" />
     <ClCompile Include="..\clientsetup\win\main.cpp" />
-    <ClCompile Include="..\clientsetup\win\password.cpp" />
     <ClCompile Include="..\clientsetup\win\sdmgmt.cpp" />
     <ClCompile Include="..\clientsetup\win\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
@@ -136,7 +135,6 @@
     <ClInclude Include="..\clientsetup\win\lkuprid.h" />
     <ClInclude Include="..\clientsetup\win\lsaprivs.h" />
     <ClInclude Include="..\clientsetup\win\main.h" />
-    <ClInclude Include="..\clientsetup\win\password.h" />
     <ClInclude Include="..\clientsetup\win\resource.h" />
     <ClInclude Include="..\clientsetup\win\stdafx.h" />
     <ClInclude Include="..\clientsetup\win\terminate.h" />

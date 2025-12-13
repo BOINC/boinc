@@ -18,11 +18,13 @@
 #include "stdafx.h"
 #include "boinccas.h"
 #include "CACreateBOINCAccounts.h"
-#include "password.h"
+#include "win_util.h"
+#include "wil/resource.h"
 
 CACreateBOINCAccounts::CACreateBOINCAccounts(MSIHANDLE hMSIHandle) :
     BOINCCABase(hMSIHandle, _T("CACreateBOINCAccounts"),
-        _T("Validating user accounts used by BOINC for secure sandboxes")) {}
+        _T("Validating user accounts used by BOINC for secure sandboxes")) {
+}
 
 
 UINT CACreateBOINCAccounts::OnExecution() {
@@ -90,7 +92,7 @@ UINT CACreateBOINCAccounts::OnExecution() {
     }
 
     if (strProductType == _T("2") && (strBOINCMasterAccountUsername ==
-            (_T("boinc_master_") + strComputerName))) {
+        (_T("boinc_master_") + strComputerName))) {
         bCreateBOINCMasterAccount = true;
     }
 
@@ -119,7 +121,10 @@ UINT CACreateBOINCAccounts::OnExecution() {
         if (strBOINCMasterAccountPassword.empty()) {
             LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL,
                 _T("Generating 'boinc_master' password"));
-            GenerateRandomPassword(strBOINCMasterAccountPassword, 32);
+            strBOINCMasterAccountPassword = GenerateRandomPassword(32);
+            if (strBOINCMasterAccountPassword.empty()) {
+                return ERROR_INSTALL_FAILURE;
+            }
             strBOINCMasterAccountPassword =
                 _T("!") + strBOINCMasterAccountPassword;
         }
@@ -135,7 +140,7 @@ UINT CACreateBOINCAccounts::OnExecution() {
         if (pBuf != nullptr) {
             NetApiBufferFree(pBuf);
         }
-        if(result == NERR_Success) {
+        if (result == NERR_Success) {
             LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL,
                 _T("Resetting 'boinc_master' password"));
 
@@ -155,7 +160,8 @@ UINT CACreateBOINCAccounts::OnExecution() {
                         "'boinc_master' account."));
                 return ERROR_INSTALL_FAILURE;
             }
-        } else {
+        }
+        else {
             LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL,
                 _T("Creating 'boinc_master' account"));
 
@@ -205,8 +211,8 @@ UINT CACreateBOINCAccounts::OnExecution() {
     if (strBOINCProjectAccountUsername == _T("boinc_project")) {
         bCreateBOINCProjectAccount = true;
     }
-    if (strProductType == _T("2") &&(strBOINCProjectAccountUsername ==
-            (_T("boinc_project_") + strComputerName))) {
+    if (strProductType == _T("2") && (strBOINCProjectAccountUsername ==
+        (_T("boinc_project_") + strComputerName))) {
         bCreateBOINCProjectAccount = true;
     }
 
@@ -235,7 +241,10 @@ UINT CACreateBOINCAccounts::OnExecution() {
         if (strBOINCProjectAccountPassword.empty()) {
             LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL,
                 _T("Generating 'boinc_project' password"));
-            GenerateRandomPassword(strBOINCProjectAccountPassword, 32);
+            strBOINCProjectAccountPassword = GenerateRandomPassword(32);
+            if (strBOINCProjectAccountPassword.empty()) {
+                return ERROR_INSTALL_FAILURE;
+            }
             strBOINCProjectAccountPassword =
                 _T("!") + strBOINCProjectAccountPassword;
         }
@@ -251,7 +260,7 @@ UINT CACreateBOINCAccounts::OnExecution() {
             NetApiBufferFree(pBuf);
         }
         // Check if user exists
-        if(result == NERR_Success) {
+        if (result == NERR_Success) {
             LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL,
                 _T("Resetting 'boinc_project' password"));
 
@@ -271,7 +280,8 @@ UINT CACreateBOINCAccounts::OnExecution() {
                         "'boinc_project' account."));
                 return ERROR_INSTALL_FAILURE;
             }
-        } else {
+        }
+        else {
             LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL,
                 _T("Creating 'boinc_project' account"));
 
@@ -314,7 +324,8 @@ UINT CACreateBOINCAccounts::OnExecution() {
     if (bBOINCMasterAccountModified) {
         SetProperty(_T("BOINC_MASTER_ISUSERNAME"), _T(".\\") +
             strBOINCMasterAccountUsername);
-    } else {
+    }
+    else {
         SetProperty(_T("BOINC_MASTER_ISUSERNAME"),
             strBOINCMasterAccountUsername);
     }
@@ -325,7 +336,8 @@ UINT CACreateBOINCAccounts::OnExecution() {
     if (bBOINCProjectAccountModified) {
         SetProperty(_T("BOINC_PROJECT_ISUSERNAME"),
             _T(".\\") + strBOINCProjectAccountUsername);
-    } else {
+    }
+    else {
         SetProperty(_T("BOINC_PROJECT_ISUSERNAME"),
             strBOINCProjectAccountUsername);
     }
@@ -337,6 +349,47 @@ UINT CACreateBOINCAccounts::OnExecution() {
     }
 
     return ERROR_SUCCESS;
+}
+
+// Source Code Originally from:
+// http://support.microsoft.com/kb/814463
+tstring CACreateBOINCAccounts::GenerateRandomPassword(
+    size_t desiredLength)
+{
+    wil::unique_hcryptprov hProv;
+    if (!CryptAcquireContext(&hProv, nullptr, nullptr, PROV_RSA_FULL,
+        CRYPT_SILENT)) {
+        return { };
+    }
+
+    const auto dwBufSize = desiredLength * 4;
+    std::vector<BYTE> randomBuffer(dwBufSize);
+    if (!CryptGenRandom(hProv.get(), static_cast<DWORD>(dwBufSize),
+        randomBuffer.data())) {
+        return { };
+    }
+
+    wil::unique_hcrypthash hHash;
+    if (!CryptCreateHash(hProv.get(), CALG_SHA1, 0, 0, &hHash)) {
+        return { };
+    }
+
+    if (!CryptHashData(hHash.get(), randomBuffer.data(),
+        static_cast<DWORD>(dwBufSize), 0)) {
+        return { };
+    }
+
+    auto dwSize = Base64EncodeGetRequiredLength(static_cast<int>(dwBufSize));
+    std::string encodedString(dwSize, '\0');
+    if (!Base64Encode(randomBuffer.data(), static_cast<int>(dwBufSize), encodedString.data(),
+        &dwSize, 0)) {
+        return { };
+    }
+
+    auto randomPwd = boinc_ascii_to_wide(encodedString);
+    tstring resultPwd(desiredLength, _T('\0'));
+    randomPwd.copy(resultPwd.data(), desiredLength);
+    return { resultPwd };
 }
 
 UINT __stdcall CreateBOINCAccounts(MSIHANDLE hInstall) {

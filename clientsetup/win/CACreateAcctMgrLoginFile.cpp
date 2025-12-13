@@ -37,19 +37,18 @@ UINT CACreateAcctMgrLoginFile::OnExecution() {
         return ERROR_INSTALL_FAILURE;
     }
 
-    tstring strAcctMgrLogin;
-    uiReturnValue = GetProperty(_T("ACCTMGR_LOGIN"), strAcctMgrLogin);
+    tstring login;
+    uiReturnValue = GetProperty(_T("ACCTMGR_LOGIN"), login);
     if (uiReturnValue != ERROR_SUCCESS) {
         return uiReturnValue;
     }
 
-    if (strAcctMgrLogin.empty()) {
+    if (login.empty()) {
         return ERROR_SUCCESS;
     }
 
-    tstring strAcctMgrPasswordHash;
-    uiReturnValue = GetProperty(_T("ACCTMGR_PASSWORDHASH"),
-        strAcctMgrPasswordHash);
+    tstring pwdHash;
+    uiReturnValue = GetProperty(_T("ACCTMGR_PASSWORDHASH"), pwdHash);
     if (uiReturnValue != ERROR_SUCCESS) {
         return uiReturnValue;
     }
@@ -58,17 +57,13 @@ UINT CACreateAcctMgrLoginFile::OnExecution() {
     //
     const auto strAcctMgrLoginFile =
         strDataDirectory + _T("\\acct_mgr_login.xml");
-    auto fAcctMgrLoginFile = _tfopen(strAcctMgrLoginFile.c_str(), _T("w"));
-    _ftprintf(
-        fAcctMgrLoginFile,
-        _T("<acct_mgr_login>\n")
-        _T("    <login>%s</login>\n")
-        _T("    <password_hash>%s</password_hash>\n")
-        _T("</acct_mgr_login>\n"),
-        strAcctMgrLogin.c_str(),
-        strAcctMgrPasswordHash.c_str()
-    );
-    fclose(fAcctMgrLoginFile);
+    std::wofstream fAcctMgrLoginFile(strAcctMgrLoginFile);
+    fAcctMgrLoginFile <<
+        _T("<acct_mgr_login>\n") <<
+        _T("    <login>") << login << _T("</login>\n") <<
+        _T("    <password_hash>") << pwdHash << _T("</password_hash>\n") <<
+        _T("</acct_mgr_login>\n");
+    fAcctMgrLoginFile.close();
 
     return ERROR_SUCCESS;
 }
