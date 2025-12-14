@@ -204,7 +204,7 @@ jobs:
 
         - name: Upload logs on failure
           if: ${{ failure() }}
-          uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+          uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
           with:
             name: vcpkg_test-logs-${{ matrix.triplet }}-${{ matrix.ndk }}
             path: vcpkg/buildtrees/**/*.log
@@ -291,7 +291,7 @@ jobs:
 
         - name: Upload logs on failure
           if: ${{ failure() }}
-          uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+          uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
           with:
             name: vcpkg_test-logs-${{ matrix.triplet }}
             path: vcpkg/buildtrees/**/*.log
@@ -347,7 +347,7 @@ jobs:
             cmake --build tests/vcpkg/build --config Release
         - name: Upload logs on failure
           if: ${{ failure() }}
-          uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+          uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
           with:
             name: vcpkg_test-logs-${{ matrix.triplet }}
             path: vcpkg/buildtrees/**/*.log
@@ -409,7 +409,7 @@ jobs:
 
         - name: Upload logs on failure
           if: ${{ failure() }}
-          uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+          uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
           with:
             name: vcpkg_test-logs-${{ matrix.triplet }}
             path: vcpkg/buildtrees/**/*.log
@@ -468,7 +468,7 @@ jobs:
 
         - name: Upload logs on failure
           if: ${{ failure() }}
-          uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+          uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
           with:
             name: vcpkg_test-logs-${{ matrix.triplet }}
             path: vcpkg/buildtrees/**/*.log
