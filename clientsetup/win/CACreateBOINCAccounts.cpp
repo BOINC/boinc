@@ -72,14 +72,6 @@ UINT CACreateBOINCAccounts::OnExecution() {
         return uiReturnValue;
     }
 
-    tstring strEnableProtectedApplicationExecution;
-    uiReturnValue =
-        GetProperty(_T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"),
-            strEnableProtectedApplicationExecution);
-    if (uiReturnValue != ERROR_SUCCESS) {
-        return uiReturnValue;
-    }
-
     // Only create a new account or change the password on an existing account
     //   if the user hasn't explicitly defined an account
     auto bCreateBOINCMasterAccount = false;

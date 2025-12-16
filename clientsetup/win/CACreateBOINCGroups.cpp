@@ -95,6 +95,12 @@ UINT CACreateBOINCGroups::OnExecution()
     uiReturnValue = GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strEnableProtectedApplicationExecution );
     if ( uiReturnValue ) return uiReturnValue;
 
+    //////////////////////////////////////////////
+    if (strEnableProtectedApplicationExecution.empty()) {
+        strEnableProtectedApplicationExecution = _T("0");
+    }
+    //////////////////////////////////////////////
+
 
     // Create a SID for the BUILTIN\Administrators group.
     if(!AllocateAndInitializeSid(
