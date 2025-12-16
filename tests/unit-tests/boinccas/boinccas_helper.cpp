@@ -425,15 +425,18 @@ std::string getLocalizedUsersGroupName() {
         return "Users";
     }
 
-    unsigned long nameSize = 256;
-    std::string name(static_cast<size_t>(nameSize), '\0');
-    unsigned long domainSize = 256;
-    std::string domain(static_cast<size_t>(domainSize), '\0');
+    auto nameSize = 0ul;
+    auto domainSize = 0ul;
     SID_NAME_USE use;
+    LookupAccountSid(nullptr, &buffer, nullptr, &nameSize,
+        nullptr, &domainSize, &use);
+    std::string name(static_cast<size_t>(nameSize), '\0');
+    std::string domain(static_cast<size_t>(domainSize), '\0');
     if (!LookupAccountSid(nullptr, &buffer, name.data(), &nameSize,
         domain.data(), &domainSize, &use)) {
         return "Users";
     }
+    name.erase(name.find('\0'));
     return name;
 }
 

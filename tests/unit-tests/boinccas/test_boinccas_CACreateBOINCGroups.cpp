@@ -85,7 +85,6 @@ namespace test_boinccas_CACreateBOINCGroups {
     private:
         wil::unique_hmodule hDll = nullptr;
     };
-
 #ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CACreateBOINCGroups,
         CreateGroups_NoGROUP_ALIAS_USERS) {
