@@ -23,6 +23,7 @@
 #include "boinccas_helper.h"
 
 #include <MsiQuery.h>
+#include <Lm.h>
 
 namespace test_boinccas_CACreateBOINCGroups {
     constexpr auto masterAccountName = "boinc_master";
@@ -30,11 +31,13 @@ namespace test_boinccas_CACreateBOINCGroups {
     constexpr auto masterAccountPassword = "qwerty123456!@#$%^";
     constexpr auto projectAccountPassword = "ytrewq654321^%$#@!";
     constexpr auto testPCName = "testpc";
+    constexpr auto adminsGroupName = "boinc_admins";
+    constexpr auto usersGroupName = "boinc_users";
+    constexpr auto projectsGroupName = "boinc_projects";
 
     using CreateBOINCGroupsFn = UINT(WINAPI*)(MSIHANDLE);
 
-    class test_boinccas_CACreateBOINCGroups :
-        public ::testing::TestWithParam<std::string_view> {
+    class test_boinccas_CACreateBOINCGroups : public ::testing::Test {
     protected:
         test_boinccas_CACreateBOINCGroups() {
             std::tie(hDll, hFunc) =
@@ -43,37 +46,38 @@ namespace test_boinccas_CACreateBOINCGroups {
         }
 
         void SetUp() override {
-            ASSERT_FALSE(userExists(getMasterAccountName()));
-            ASSERT_FALSE(userExists(getProjectAccountName()));
-            ASSERT_TRUE(userCreate(getMasterAccountName(), masterAccountPassword));
-            ASSERT_TRUE(userCreate(getProjectAccountName(), projectAccountPassword));
-            ASSERT_TRUE(userExists(getMasterAccountName()));
-            ASSERT_TRUE(userExists(getProjectAccountName()));
+            ASSERT_FALSE(userExists(masterAccountName));
+            ASSERT_FALSE(userExists(projectAccountName));
+            ASSERT_TRUE(userCreate(masterAccountName,
+                masterAccountPassword));
+            ASSERT_TRUE(userCreate(projectAccountName,
+                projectAccountPassword));
+            ASSERT_TRUE(userExists(masterAccountName));
+            ASSERT_TRUE(userExists(projectAccountName));
+            
+            ASSERT_FALSE(localGroupExists(adminsGroupName));
+            ASSERT_FALSE(localGroupExists(usersGroupName));
+            ASSERT_FALSE(localGroupExists(projectsGroupName));
+
         }
 
         void TearDown() override {
-            if (userExists(getMasterAccountName())) {
-                userDelete(getMasterAccountName());
+            if (userExists(masterAccountName)) {
+                userDelete(masterAccountName);
             }
-            if (userExists(getProjectAccountName())) {
-                userDelete(getProjectAccountName());
+            if (userExists(projectAccountName)) {
+                userDelete(projectAccountName);
             }
-        }
-
-        auto getMasterAccountName() const {
-            if (GetParam() == "2") {
-                return std::string(masterAccountName) + "_"
-                    + testPCName;
+            
+            if (localGroupExists(adminsGroupName)) {
+                deleteLocalGroup(adminsGroupName);
             }
-            return std::string(masterAccountName);
-        }
-
-        auto getProjectAccountName() const {
-            if (GetParam() == "2") {
-                return std::string(projectAccountName) + "_"
-                    + testPCName;
+            if (localGroupExists(usersGroupName)) {
+                deleteLocalGroup(usersGroupName);
             }
-            return std::string(projectAccountName);
+            if (localGroupExists(projectsGroupName)) {
+                deleteLocalGroup(projectsGroupName);
+            }
         }
 
         CreateBOINCGroupsFn hFunc = nullptr;
@@ -82,251 +86,318 @@ namespace test_boinccas_CACreateBOINCGroups {
         wil::unique_hmodule hDll = nullptr;
     };
 
-#ifndef BOINCCAS_TEST
-    INSTANTIATE_TEST_SUITE_P(test_boinccas_CACreateBOINCGroupsProductType,
-        test_boinccas_CACreateBOINCGroups,
-        testing::Values("1", "2", "3"));
+#ifdef BOINCCAS_TEST
+    TEST_F(test_boinccas_CACreateBOINCGroups,
+        CreateGroups_NoGROUP_ALIAS_USERS) {
+        PMSIHANDLE hMsi;
+        const auto result =
+            MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
+        ASSERT_EQ(0u, result);
 
-    //TEST_P(test_boinccas_CACreateBOINCAccounts, CanCreateAccounts) {
-    //    ASSERT_FALSE(userExists(masterAccountName));
-    //    ASSERT_TRUE(userCreate(masterAccountName, masterAccountPassword));
-    //    ASSERT_TRUE(userExists(masterAccountName));
-    //    ASSERT_TRUE(userDelete(masterAccountName));
-    //    ASSERT_FALSE(userExists(masterAccountName));
-    //}
+        const auto usersGroup = getLocalizedUsersGroupName();
+        ASSERT_FALSE(usersGroup.empty());
+        const auto currentSid = getCurrentUserSidString();
+        ASSERT_FALSE(currentSid.empty());
 
-    //TEST_P(test_boinccas_CACreateBOINCAccounts, CreateDefaultAccounts) {
-    //    PMSIHANDLE hMsi;
-    //    const auto result =
-    //        MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
-    //    ASSERT_EQ(0u, result);
+        msiHelper.setProperty(hMsi, "UserSID", currentSid);
+        auto [errorcode, value] =
+            msiHelper.getProperty(hMsi, "UserSID");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(currentSid, value);
 
-    //    msiHelper.setProperty(hMsi, "MsiNTProductType", GetParam().data());
-    //    auto [errorcode, value] =
-    //        msiHelper.getProperty(hMsi, "MsiNTProductType");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    ASSERT_EQ(GetParam(), value);
+        msiHelper.setProperty(hMsi, "GROUPALIAS_USERS", usersGroup);
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "GROUPALIAS_USERS");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(usersGroup, value);
 
-    //    msiHelper.setProperty(hMsi, "ComputerName", testPCName);
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "ComputerName");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    ASSERT_EQ(testPCName, value);
+        EXPECT_EQ(0u, hFunc(hMsi));
+    }
 
-    //    EXPECT_FALSE(userExists(getMasterAccountName()));
-    //    EXPECT_FALSE(userExists(getProjectAccountName()));
-    //    EXPECT_EQ(0u, hFunc(hMsi));
-    //    EXPECT_TRUE(userExists(getMasterAccountName()));
-    //    EXPECT_TRUE(userExists(getProjectAccountName()));
+    TEST_F(test_boinccas_CACreateBOINCGroups,
+        CreateGroups_ProtectionIsNotSet) {
+        PMSIHANDLE hMsi;
+        const auto result =
+            MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
+        ASSERT_EQ(0u, result);
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "BOINC_MASTER_USERNAME");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_EQ(getMasterAccountName(), value);
+        const auto usersGroup = getLocalizedUsersGroupName();
+        ASSERT_FALSE(usersGroup.empty());
+        const auto currentSid = getCurrentUserSidString();
+        ASSERT_FALSE(currentSid.empty());
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "BOINC_PROJECT_USERNAME");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_EQ(getProjectAccountName(), value);
+        msiHelper.setProperty(hMsi, "UserSID", currentSid);
+        auto [errorcode, value] =
+            msiHelper.getProperty(hMsi, "UserSID");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(currentSid, value);
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "BOINC_MASTER_ISUSERNAME");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_EQ(".\\" + getMasterAccountName(), value);
+        EXPECT_EQ(0u, hFunc(hMsi));
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "BOINC_PROJECT_ISUSERNAME");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_EQ(".\\" + getProjectAccountName(), value);
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "BOINC_ADMINS_GROUPNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ(adminsGroupName, value);
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "BOINC_MASTER_PASSWORD");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_NE("", value);
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "BOINC_USERS_GROUPNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ(usersGroupName, value);
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "BOINC_PROJECT_PASSWORD");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_NE("", value);
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "BOINC_PROJECTS_GROUPNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ(projectsGroupName, value);
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "RETURN_REBOOTREQUESTED");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_EQ("1", value);
+        EXPECT_TRUE(localGroupExists(adminsGroupName));
+        EXPECT_TRUE(localGroupExists(usersGroupName));
+        EXPECT_TRUE(localGroupExists(projectsGroupName));
 
-    //    EXPECT_TRUE(MsiGetMode(hMsi, MSIRUNMODE_REBOOTATEND));
-    //    // cancel reboot
-    //    MsiSetMode(hMsi, MSIRUNMODE_REBOOTATEND, FALSE);
+        EXPECT_TRUE(isAccountMemberOfLocalGroup({}, adminsGroupName));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup({}, projectsGroupName));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup({}, usersGroupName));
 
-    //    TearDown();
-    //}
+        EXPECT_FALSE(isAccountMemberOfLocalGroup(masterAccountName, adminsGroupName));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup(projectAccountName, projectsGroupName));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup(projectAccountName, usersGroupName));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup(masterAccountName, usersGroupName));
+    }
 
-    //TEST_P(test_boinccas_CACreateBOINCAccounts, ChangePasswords) {
-    //    PMSIHANDLE hMsi;
-    //    const auto result =
-    //        MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
-    //    ASSERT_EQ(0u, result);
+    TEST_F(test_boinccas_CACreateBOINCGroups, CreateGroups_ProtectedDisabled) {
+        PMSIHANDLE hMsi;
+        const auto result =
+            MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
+        ASSERT_EQ(0u, result);
 
-    //    msiHelper.setProperty(hMsi, "MsiNTProductType", GetParam().data());
-    //    auto [errorcode, value] =
-    //        msiHelper.getProperty(hMsi, "MsiNTProductType");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    ASSERT_EQ(GetParam(), value);
+        const auto usersGroup = getLocalizedUsersGroupName();
+        ASSERT_FALSE(usersGroup.empty());
+        const auto currentSid = getCurrentUserSidString();
+        ASSERT_FALSE(currentSid.empty());
 
-    //    msiHelper.setProperty(hMsi, "ComputerName", testPCName);
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "ComputerName");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    ASSERT_EQ(testPCName, value);
+        msiHelper.setProperty(hMsi, "UserSID", currentSid);
+        auto [errorcode, value] =
+            msiHelper.getProperty(hMsi, "UserSID");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(currentSid, value);
 
-    //    EXPECT_FALSE(userExists(getMasterAccountName()));
-    //    EXPECT_FALSE(userExists(getProjectAccountName()));
-    //    ASSERT_TRUE(userCreate(getMasterAccountName(),
-    //        masterAccountPassword));
-    //    ASSERT_TRUE(userCreate(getProjectAccountName(),
-    //        projectAccountPassword));
-    //    ASSERT_TRUE(userExists(getMasterAccountName()));
-    //    ASSERT_TRUE(userExists(getProjectAccountName()));
-    //    msiHelper.setProperty(
-    //        hMsi, "BOINC_MASTER_USERNAME", getMasterAccountName());
-    //    msiHelper.setProperty(
-    //        hMsi, "BOINC_PROJECT_USERNAME", getProjectAccountName());
+        msiHelper.setProperty(hMsi, "GROUPALIAS_USERS", usersGroup);
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "GROUPALIAS_USERS");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(usersGroup, value);
 
-    //    EXPECT_EQ(0u, hFunc(hMsi));
-    //    EXPECT_TRUE(userExists(getMasterAccountName()));
-    //    EXPECT_TRUE(userExists(getProjectAccountName()));
+        msiHelper.setProperty(hMsi, "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
+            "0");
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi,
+                "ENABLEPROTECTEDAPPLICATIONEXECUTION3");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ("0", value);
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "BOINC_MASTER_USERNAME");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_EQ(getMasterAccountName(), value);
+        EXPECT_EQ(0u, hFunc(hMsi));
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "BOINC_PROJECT_USERNAME");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_EQ(getProjectAccountName(), value);
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "BOINC_ADMINS_GROUPNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ(adminsGroupName, value);
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "BOINC_MASTER_ISUSERNAME");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_EQ(".\\" + getMasterAccountName(), value);
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "BOINC_USERS_GROUPNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ(usersGroupName, value);
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "BOINC_PROJECT_ISUSERNAME");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_EQ(".\\" + getProjectAccountName(), value);
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "BOINC_PROJECTS_GROUPNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ(projectsGroupName, value);
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "BOINC_MASTER_PASSWORD");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_NE(masterAccountPassword, value);
+        EXPECT_TRUE(localGroupExists(adminsGroupName));
+        EXPECT_TRUE(localGroupExists(usersGroupName));
+        EXPECT_TRUE(localGroupExists(projectsGroupName));
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "BOINC_PROJECT_PASSWORD");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_NE(projectAccountPassword, value);
+        EXPECT_TRUE(isAccountMemberOfLocalGroup({}, adminsGroupName));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup({}, projectsGroupName));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup({}, usersGroupName));
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "RETURN_REBOOTREQUESTED");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_EQ("", value);
+        EXPECT_FALSE(isAccountMemberOfLocalGroup(masterAccountName, adminsGroupName));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup(projectAccountName, projectsGroupName));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup(projectAccountName, usersGroupName));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup(masterAccountName, usersGroupName));
+    }
 
-    //    EXPECT_FALSE(MsiGetMode(hMsi, MSIRUNMODE_REBOOTATEND));
-    //    // cancel reboot
-    //    MsiSetMode(hMsi, MSIRUNMODE_REBOOTATEND, FALSE);
+    TEST_F(test_boinccas_CACreateBOINCGroups,
+        CreateGroups_ProtectedEnabled_NoMasterAccount) {
+        PMSIHANDLE hMsi;
+        const auto result =
+            MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
+        ASSERT_EQ(0u, result);
 
-    //    TearDown();
-    //}
+        const auto usersGroup = getLocalizedUsersGroupName();
+        ASSERT_FALSE(usersGroup.empty());
+        const auto currentSid = getCurrentUserSidString();
+        ASSERT_FALSE(currentSid.empty());
 
-    //TEST_P(test_boinccas_CACreateBOINCAccounts, DontChangeExistingAccounts) {
-    //    PMSIHANDLE hMsi;
-    //    const auto result =
-    //        MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
-    //    ASSERT_EQ(0u, result);
+        msiHelper.setProperty(hMsi, "UserSID", currentSid);
+        auto [errorcode, value] =
+            msiHelper.getProperty(hMsi, "UserSID");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(currentSid, value);
 
-    //    msiHelper.setProperty(hMsi, "MsiNTProductType", GetParam().data());
-    //    auto [errorcode, value] =
-    //        msiHelper.getProperty(hMsi, "MsiNTProductType");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    ASSERT_EQ(GetParam(), value);
+        msiHelper.setProperty(hMsi, "GROUPALIAS_USERS", usersGroup);
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "GROUPALIAS_USERS");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(usersGroup, value);
 
-    //    msiHelper.setProperty(hMsi, "ComputerName", testPCName);
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "ComputerName");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    ASSERT_EQ(testPCName, value);
+        msiHelper.setProperty(hMsi, "BOINC_PROJECT_USERNAME",
+            projectAccountName);
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "BOINC_PROJECT_USERNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(projectAccountName, value);
 
-    //    constexpr auto testMasterAccountName = "test_master";
-    //    constexpr auto testProjectAccountName = "test_project";
+        msiHelper.setProperty(hMsi, "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
+            "1");
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi,
+                "ENABLEPROTECTEDAPPLICATIONEXECUTION3");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ("1", value);
 
-    //    EXPECT_FALSE(userExists(testMasterAccountName));
-    //    EXPECT_FALSE(userExists(testProjectAccountName));
-    //    ASSERT_TRUE(userCreate(testMasterAccountName,
-    //        masterAccountPassword));
-    //    ASSERT_TRUE(userCreate(testProjectAccountName,
-    //        projectAccountPassword));
-    //    ASSERT_TRUE(userExists(testMasterAccountName));
-    //    ASSERT_TRUE(userExists(testProjectAccountName));
-    //    msiHelper.setProperty(hMsi, "BOINC_MASTER_USERNAME",
-    //        testMasterAccountName);
-    //    msiHelper.setProperty(hMsi, "BOINC_MASTER_PASSWORD",
-    //        masterAccountPassword);
-    //    msiHelper.setProperty(hMsi, "BOINC_PROJECT_USERNAME",
-    //        testProjectAccountName);
-    //    msiHelper.setProperty(hMsi, "BOINC_PROJECT_PASSWORD",
-    //        projectAccountPassword);
+        EXPECT_NE(0u, hFunc(hMsi));
+    }
 
-    //    EXPECT_EQ(0u, hFunc(hMsi));
-    //    EXPECT_TRUE(userExists(testMasterAccountName));
-    //    EXPECT_TRUE(userExists(testProjectAccountName));
+    TEST_F(test_boinccas_CACreateBOINCGroups,
+        CreateGroups_ProtectedEnabled_NoProjectAccount) {
+        PMSIHANDLE hMsi;
+        const auto result =
+            MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
+        ASSERT_EQ(0u, result);
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "BOINC_MASTER_USERNAME");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_EQ(testMasterAccountName, value);
+        const auto usersGroup = getLocalizedUsersGroupName();
+        ASSERT_FALSE(usersGroup.empty());
+        const auto currentSid = getCurrentUserSidString();
+        ASSERT_FALSE(currentSid.empty());
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "BOINC_PROJECT_USERNAME");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_EQ(testProjectAccountName, value);
+        msiHelper.setProperty(hMsi, "UserSID", currentSid);
+        auto [errorcode, value] =
+            msiHelper.getProperty(hMsi, "UserSID");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(currentSid, value);
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "BOINC_MASTER_ISUSERNAME");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_EQ(testMasterAccountName, value);
+        msiHelper.setProperty(hMsi, "GROUPALIAS_USERS", usersGroup);
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "GROUPALIAS_USERS");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(usersGroup, value);
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "BOINC_PROJECT_ISUSERNAME");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_EQ(testProjectAccountName, value);
+        msiHelper.setProperty(hMsi, "BOINC_MASTER_USERNAME", masterAccountName);
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "BOINC_MASTER_USERNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(masterAccountName, value);
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "BOINC_MASTER_PASSWORD");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_EQ(masterAccountPassword, value);
+        msiHelper.setProperty(hMsi, "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
+            "1");
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi,
+                "ENABLEPROTECTEDAPPLICATIONEXECUTION3");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ("1", value);
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "BOINC_PROJECT_PASSWORD");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_EQ(projectAccountPassword, value);
+        EXPECT_NE(0u, hFunc(hMsi));
+    }
 
-    //    std::tie(errorcode, value) =
-    //        msiHelper.getProperty(hMsi, "RETURN_REBOOTREQUESTED");
-    //    EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-    //    EXPECT_EQ("", value);
+    TEST_F(test_boinccas_CACreateBOINCGroups,
+        CreateGroups_ProtectedEnabled_NoAccounts) {
+        PMSIHANDLE hMsi;
+        const auto result =
+            MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
+        ASSERT_EQ(0u, result);
 
-    //    EXPECT_FALSE(MsiGetMode(hMsi, MSIRUNMODE_REBOOTATEND));
-    //    // cancel reboot
-    //    MsiSetMode(hMsi, MSIRUNMODE_REBOOTATEND, FALSE);
+        const auto usersGroup = getLocalizedUsersGroupName();
+        ASSERT_FALSE(usersGroup.empty());
+        const auto currentSid = getCurrentUserSidString();
+        ASSERT_FALSE(currentSid.empty());
 
-    //    if (userExists(testMasterAccountName)) {
-    //        userDelete(testMasterAccountName);
-    //    }
-    //    if (userExists(testProjectAccountName)) {
-    //        userDelete(testProjectAccountName);
-    //    }
+        msiHelper.setProperty(hMsi, "UserSID", currentSid);
+        auto [errorcode, value] =
+            msiHelper.getProperty(hMsi, "UserSID");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(currentSid, value);
 
-    //    TearDown();
-    //}
+        msiHelper.setProperty(hMsi, "GROUPALIAS_USERS", usersGroup);
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "GROUPALIAS_USERS");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(usersGroup, value);
+
+        msiHelper.setProperty(hMsi, "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
+            "1");
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi,
+                "ENABLEPROTECTEDAPPLICATIONEXECUTION3");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ("1", value);
+
+        EXPECT_NE(0u, hFunc(hMsi));
+    }
+
+    TEST_F(test_boinccas_CACreateBOINCGroups,
+        CreateGroups_ProtectedEnabled_AddMembers) {
+        PMSIHANDLE hMsi;
+        const auto result =
+            MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
+        ASSERT_EQ(0u, result);
+
+        const auto usersGroup = getLocalizedUsersGroupName();
+        ASSERT_FALSE(usersGroup.empty());
+        const auto currentSid = getCurrentUserSidString();
+        ASSERT_FALSE(currentSid.empty());
+
+        msiHelper.setProperty(hMsi, "UserSID", currentSid);
+        auto [errorcode, value] =
+            msiHelper.getProperty(hMsi, "UserSID");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(currentSid, value);
+
+        msiHelper.setProperty(hMsi, "GROUPALIAS_USERS", usersGroup);
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "GROUPALIAS_USERS");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(usersGroup, value);
+
+        msiHelper.setProperty(hMsi, "BOINC_MASTER_USERNAME", masterAccountName);
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "BOINC_MASTER_USERNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(masterAccountName, value);
+
+        msiHelper.setProperty(hMsi, "BOINC_PROJECT_USERNAME",
+            projectAccountName);
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "BOINC_PROJECT_USERNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(projectAccountName, value);
+
+        msiHelper.setProperty(hMsi, "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
+            "1");
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi,
+                "ENABLEPROTECTEDAPPLICATIONEXECUTION3");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ("1", value);
+
+        EXPECT_EQ(0u, hFunc(hMsi));
+
+        EXPECT_TRUE(localGroupExists(adminsGroupName));
+        EXPECT_TRUE(localGroupExists(usersGroupName));
+        EXPECT_TRUE(localGroupExists(projectsGroupName));
+
+        EXPECT_TRUE(isAccountMemberOfLocalGroup(masterAccountName, adminsGroupName));
+        EXPECT_TRUE(isAccountMemberOfLocalGroup(projectAccountName, projectsGroupName));
+        EXPECT_TRUE(isAccountMemberOfLocalGroup(projectAccountName, usersGroup));
+        EXPECT_TRUE(isAccountMemberOfLocalGroup(masterAccountName, usersGroup));
+    }
 #endif
 }

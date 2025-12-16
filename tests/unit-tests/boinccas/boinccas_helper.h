@@ -43,6 +43,12 @@ void cleanRegistryKey();
 bool userExists(const std::string& username);
 bool userCreate(const std::string& username, const std::string& password);
 bool userDelete(const std::string& username);
+std::string getCurrentUserSidString();
+bool isAccountMemberOfLocalGroup(const std::string& accountName,
+    const std::string& groupName);
+std::string getLocalizedUsersGroupName();
+bool localGroupExists(const std::string& groupName);
+void deleteLocalGroup(const std::string& groupName);
 
 constexpr auto msiName = "test.msi";
 

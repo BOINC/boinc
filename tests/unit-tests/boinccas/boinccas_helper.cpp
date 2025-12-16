@@ -23,7 +23,9 @@
 #include <LMaccess.h>
 #include <lmerr.h>
 #include <LMAPIbuf.h>
+#include <sddl.h>
 #include <stdexcept>
+#include <array>
 
 #include "win_util.h"
 
@@ -66,7 +68,7 @@ void MsiHelper::cleanup() {
         std::filesystem::remove(std::filesystem::current_path() / msiName);
     }
     catch (const std::exception& ex) {
-        throw std::runtime_error( "Failed to remove existing MSI file: " +
+        throw std::runtime_error("Failed to remove existing MSI file: " +
             std::string(ex.what()));
     }
 }
@@ -322,4 +324,125 @@ bool userCreate(const std::string& username, const std::string& password) {
 bool userDelete(const std::string& username) {
     auto un = boinc_ascii_to_wide(username);
     return NetUserDel(nullptr, un.c_str()) == NERR_Success;
+}
+
+PSID getCurrentUserSid() {
+    wil::unique_handle token;
+    if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &token)) {
+        return nullptr;
+    }
+    DWORD len = 0;
+    GetTokenInformation(token.get(), TokenUser, nullptr, 0, &len);
+    std::vector<BYTE> buf(len);
+    if (!GetTokenInformation(token.get(), TokenUser, buf.data(), len, &len)) {
+        return nullptr;
+    }
+    auto tu = reinterpret_cast<TOKEN_USER*>(buf.data());
+    return tu->User.Sid;
+}
+
+std::string getCurrentUserSidString() {
+    LPSTR sidStr = nullptr;
+    if (!ConvertSidToStringSid(getCurrentUserSid(), &sidStr)) {
+        if (sidStr) {
+            LocalFree(sidStr);
+        }
+        return {};
+    }
+    std::string result = sidStr ? sidStr : "";
+    LocalFree(sidStr);
+    return result;
+}
+
+bool isAccountMemberOfLocalGroup(const std::string& accountName,
+    const std::string& groupName) {
+    PSID acctSid = nullptr;
+    if (accountName.empty()) {
+        acctSid = getCurrentUserSid();
+        if (!acctSid) {
+            return false;
+        }
+    }
+    else {
+        DWORD sidSize = 0;
+        SID_NAME_USE use;
+        DWORD domainSize = 256;
+        std::string domainName(domainSize, '\0');
+        LookupAccountName(nullptr, accountName.c_str(), nullptr, &sidSize,
+            domainName.data(), &domainSize, &use);
+        if (sidSize == 0) {
+            return false;
+        }
+
+        std::vector<BYTE> sidBuf(sidSize);
+        domainSize = 256;
+        if (!LookupAccountName(nullptr, accountName.c_str(), sidBuf.data(),
+            &sidSize, domainName.data(), &domainSize, &use)) {
+            return false;
+        }
+
+        acctSid = reinterpret_cast<PSID>(sidBuf.data());
+    }
+
+    LOCALGROUP_MEMBERS_INFO_0* members = nullptr;
+    DWORD entries = 0, total = 0;
+    const auto gn = boinc_ascii_to_wide(groupName);
+    const auto rc = NetLocalGroupGetMembers(nullptr, gn.c_str(), 0,
+        reinterpret_cast<LPBYTE*>(&members), MAX_PREFERRED_LENGTH,
+        &entries, &total, nullptr);
+    if (rc != NERR_Success) {
+        if (members) {
+            NetApiBufferFree(members);
+        }
+        return false;
+    }
+    if (!members) {
+        return false;
+    }
+    bool found = false;
+    for (auto i = 0u; i < entries; ++i) {
+        if (EqualSid(members[i].lgrmi0_sid, acctSid)) { 
+            found = true;
+            break;
+        }
+    }
+    if (members) {
+        NetApiBufferFree(members);
+    }
+    return found;
+}
+
+std::string getLocalizedUsersGroupName() {
+    std::array<BYTE, SECURITY_MAX_SID_SIZE> buffer;
+    DWORD size = SECURITY_MAX_SID_SIZE;
+    if (!CreateWellKnownSid(WinBuiltinUsersSid, nullptr, &buffer,
+        &size)) {
+        return "Users";
+    }
+
+    unsigned long nameSize = 256;
+    std::string name(static_cast<size_t>(nameSize), '\0');
+    unsigned long domainSize = 256;
+    std::string domain(static_cast<size_t>(domainSize), '\0');
+    SID_NAME_USE use;
+    if (!LookupAccountSid(nullptr, &buffer, name.data(), &nameSize,
+        domain.data(), &domainSize, &use)) {
+        return "Users";
+    }
+    return name;
+}
+
+bool localGroupExists(const std::string& groupName) {
+    LOCALGROUP_INFO_0* info = nullptr;
+    const auto gn = boinc_ascii_to_wide(groupName);
+    const auto rc = NetLocalGroupGetInfo(nullptr, gn.c_str(), 0, reinterpret_cast<LPBYTE*>(&info));
+    if (info) {
+        NetApiBufferFree(info);
+    }
+    return rc == NERR_Success;
+}
+
+void deleteLocalGroup(const std::string& groupName) {
+    const auto gn = boinc_ascii_to_wide(groupName);
+    NetLocalGroupDel(nullptr, gn.c_str());
 }
