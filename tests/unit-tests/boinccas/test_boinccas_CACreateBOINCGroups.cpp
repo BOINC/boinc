@@ -46,38 +46,38 @@ namespace test_boinccas_CACreateBOINCGroups {
         }
 
         void SetUp() override {
-            //ASSERT_FALSE(userExists(masterAccountName));
-            //ASSERT_FALSE(userExists(projectAccountName));
-            //ASSERT_TRUE(userCreate(masterAccountName,
-            //    masterAccountPassword));
-            //ASSERT_TRUE(userCreate(projectAccountName,
-            //    projectAccountPassword));
-            //ASSERT_TRUE(userExists(masterAccountName));
-            //ASSERT_TRUE(userExists(projectAccountName));
+            ASSERT_FALSE(userExists(masterAccountName));
+            ASSERT_FALSE(userExists(projectAccountName));
+            ASSERT_TRUE(userCreate(masterAccountName,
+                masterAccountPassword));
+            ASSERT_TRUE(userCreate(projectAccountName,
+                projectAccountPassword));
+            ASSERT_TRUE(userExists(masterAccountName));
+            ASSERT_TRUE(userExists(projectAccountName));
 
-            //ASSERT_FALSE(localGroupExists(adminsGroupName));
-            //ASSERT_FALSE(localGroupExists(usersGroupName));
-            //ASSERT_FALSE(localGroupExists(projectsGroupName));
+            ASSERT_FALSE(localGroupExists(adminsGroupName));
+            ASSERT_FALSE(localGroupExists(usersGroupName));
+            ASSERT_FALSE(localGroupExists(projectsGroupName));
 
         }
 
         void TearDown() override {
-            //if (userExists(masterAccountName)) {
-            //    userDelete(masterAccountName);
-            //}
-            //if (userExists(projectAccountName)) {
-            //    userDelete(projectAccountName);
-            //}
+            if (userExists(masterAccountName)) {
+                userDelete(masterAccountName);
+            }
+            if (userExists(projectAccountName)) {
+                userDelete(projectAccountName);
+            }
 
-            //if (localGroupExists(adminsGroupName)) {
-            //    deleteLocalGroup(adminsGroupName);
-            //}
-            //if (localGroupExists(usersGroupName)) {
-            //    deleteLocalGroup(usersGroupName);
-            //}
-            //if (localGroupExists(projectsGroupName)) {
-            //    deleteLocalGroup(projectsGroupName);
-            //}
+            if (localGroupExists(adminsGroupName)) {
+                deleteLocalGroup(adminsGroupName);
+            }
+            if (localGroupExists(usersGroupName)) {
+                deleteLocalGroup(usersGroupName);
+            }
+            if (localGroupExists(projectsGroupName)) {
+                deleteLocalGroup(projectsGroupName);
+            }
         }
 
         CreateBOINCGroupsFn hFunc = nullptr;
@@ -111,6 +111,15 @@ namespace test_boinccas_CACreateBOINCGroups {
         ASSERT_EQ(usersGroup, value);
 
         EXPECT_EQ(0u, hFunc(hMsi));
+
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "RETURN_REBOOTREQUESTED");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ("1", value);
+
+        EXPECT_TRUE(MsiGetMode(hMsi, MSIRUNMODE_REBOOTATEND));
+        // cancel reboot
+        MsiSetMode(hMsi, MSIRUNMODE_REBOOTATEND, FALSE);
     }
 
     TEST_F(test_boinccas_CACreateBOINCGroups,
@@ -160,6 +169,15 @@ namespace test_boinccas_CACreateBOINCGroups {
         EXPECT_FALSE(isAccountMemberOfLocalGroup(projectAccountName, projectsGroupName));
         EXPECT_FALSE(isAccountMemberOfLocalGroup(projectAccountName, usersGroupName));
         EXPECT_FALSE(isAccountMemberOfLocalGroup(masterAccountName, usersGroupName));
+
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "RETURN_REBOOTREQUESTED");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ("1", value);
+
+        EXPECT_TRUE(MsiGetMode(hMsi, MSIRUNMODE_REBOOTATEND));
+        // cancel reboot
+        MsiSetMode(hMsi, MSIRUNMODE_REBOOTATEND, FALSE);
     }
 
     TEST_F(test_boinccas_CACreateBOINCGroups, CreateGroups_ProtectedDisabled) {
@@ -222,6 +240,15 @@ namespace test_boinccas_CACreateBOINCGroups {
         EXPECT_FALSE(isAccountMemberOfLocalGroup(projectAccountName, projectsGroupName));
         EXPECT_FALSE(isAccountMemberOfLocalGroup(projectAccountName, usersGroupName));
         EXPECT_FALSE(isAccountMemberOfLocalGroup(masterAccountName, usersGroupName));
+
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "RETURN_REBOOTREQUESTED");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ("1", value);
+
+        EXPECT_TRUE(MsiGetMode(hMsi, MSIRUNMODE_REBOOTATEND));
+        // cancel reboot
+        MsiSetMode(hMsi, MSIRUNMODE_REBOOTATEND, FALSE);
     }
 
     TEST_F(test_boinccas_CACreateBOINCGroups,
@@ -264,6 +291,9 @@ namespace test_boinccas_CACreateBOINCGroups {
         ASSERT_EQ("1", value);
 
         EXPECT_NE(0u, hFunc(hMsi));
+
+        // cancel reboot
+        MsiSetMode(hMsi, MSIRUNMODE_REBOOTATEND, FALSE);
     }
 
     TEST_F(test_boinccas_CACreateBOINCGroups,
@@ -305,6 +335,9 @@ namespace test_boinccas_CACreateBOINCGroups {
         ASSERT_EQ("1", value);
 
         EXPECT_NE(0u, hFunc(hMsi));
+
+        // cancel reboot
+        MsiSetMode(hMsi, MSIRUNMODE_REBOOTATEND, FALSE);
     }
 
     TEST_F(test_boinccas_CACreateBOINCGroups,
@@ -340,6 +373,9 @@ namespace test_boinccas_CACreateBOINCGroups {
         ASSERT_EQ("1", value);
 
         EXPECT_NE(0u, hFunc(hMsi));
+
+        // cancel reboot
+        MsiSetMode(hMsi, MSIRUNMODE_REBOOTATEND, FALSE);
     }
 
     TEST_F(test_boinccas_CACreateBOINCGroups,
@@ -397,6 +433,15 @@ namespace test_boinccas_CACreateBOINCGroups {
         EXPECT_TRUE(isAccountMemberOfLocalGroup(projectAccountName, projectsGroupName));
         EXPECT_TRUE(isAccountMemberOfLocalGroup(projectAccountName, usersGroup));
         EXPECT_TRUE(isAccountMemberOfLocalGroup(masterAccountName, usersGroup));
+
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "RETURN_REBOOTREQUESTED");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ("1", value);
+
+        EXPECT_TRUE(MsiGetMode(hMsi, MSIRUNMODE_REBOOTATEND));
+        // cancel reboot
+        MsiSetMode(hMsi, MSIRUNMODE_REBOOTATEND, FALSE);
     }
 #endif
 }
