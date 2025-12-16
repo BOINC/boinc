@@ -326,7 +326,7 @@ bool userDelete(const std::string& username) {
     return NetUserDel(nullptr, un.c_str()) == NERR_Success;
 }
 
-PSID getCurrentUserSid() {
+wil::unique_sid getCurrentUserSid() {
     wil::unique_handle token;
     if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &token)) {
         return nullptr;
@@ -338,12 +338,17 @@ PSID getCurrentUserSid() {
         return nullptr;
     }
     auto tu = reinterpret_cast<TOKEN_USER*>(buf.data());
-    return tu->User.Sid;
+    const auto sidLen = GetLengthSid(tu->User.Sid);
+    wil::unique_sid sid(static_cast<PSID>(LocalAlloc(LMEM_FIXED, sidLen)));
+    CopySid(sidLen, sid.get(), tu->User.Sid);
+    return std::move(sid);
 }
 
 std::string getCurrentUserSidString() {
     LPSTR sidStr = nullptr;
-    if (!ConvertSidToStringSid(getCurrentUserSid(), &sidStr)) {
+    auto sid = getCurrentUserSid();
+    if (!ConvertSidToStringSid(sid.get(), &sidStr)) {
+        auto err = GetLastError();
         if (sidStr) {
             LocalFree(sidStr);
         }
@@ -356,7 +361,7 @@ std::string getCurrentUserSidString() {
 
 bool isAccountMemberOfLocalGroup(const std::string& accountName,
     const std::string& groupName) {
-    PSID acctSid = nullptr;
+    wil::unique_sid acctSid;
     if (accountName.empty()) {
         acctSid = getCurrentUserSid();
         if (!acctSid) {
@@ -381,7 +386,7 @@ bool isAccountMemberOfLocalGroup(const std::string& accountName,
             return false;
         }
 
-        acctSid = reinterpret_cast<PSID>(sidBuf.data());
+        acctSid.reset(reinterpret_cast<PSID>(sidBuf.data()));
     }
 
     LOCALGROUP_MEMBERS_INFO_0* members = nullptr;
@@ -401,7 +406,7 @@ bool isAccountMemberOfLocalGroup(const std::string& accountName,
     }
     bool found = false;
     for (auto i = 0u; i < entries; ++i) {
-        if (EqualSid(members[i].lgrmi0_sid, acctSid)) { 
+        if (EqualSid(members[i].lgrmi0_sid, acctSid.get())) {
             found = true;
             break;
         }

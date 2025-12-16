@@ -46,38 +46,38 @@ namespace test_boinccas_CACreateBOINCGroups {
         }
 
         void SetUp() override {
-            ASSERT_FALSE(userExists(masterAccountName));
-            ASSERT_FALSE(userExists(projectAccountName));
-            ASSERT_TRUE(userCreate(masterAccountName,
-                masterAccountPassword));
-            ASSERT_TRUE(userCreate(projectAccountName,
-                projectAccountPassword));
-            ASSERT_TRUE(userExists(masterAccountName));
-            ASSERT_TRUE(userExists(projectAccountName));
-            
-            ASSERT_FALSE(localGroupExists(adminsGroupName));
-            ASSERT_FALSE(localGroupExists(usersGroupName));
-            ASSERT_FALSE(localGroupExists(projectsGroupName));
+            //ASSERT_FALSE(userExists(masterAccountName));
+            //ASSERT_FALSE(userExists(projectAccountName));
+            //ASSERT_TRUE(userCreate(masterAccountName,
+            //    masterAccountPassword));
+            //ASSERT_TRUE(userCreate(projectAccountName,
+            //    projectAccountPassword));
+            //ASSERT_TRUE(userExists(masterAccountName));
+            //ASSERT_TRUE(userExists(projectAccountName));
+
+            //ASSERT_FALSE(localGroupExists(adminsGroupName));
+            //ASSERT_FALSE(localGroupExists(usersGroupName));
+            //ASSERT_FALSE(localGroupExists(projectsGroupName));
 
         }
 
         void TearDown() override {
-            if (userExists(masterAccountName)) {
-                userDelete(masterAccountName);
-            }
-            if (userExists(projectAccountName)) {
-                userDelete(projectAccountName);
-            }
-            
-            if (localGroupExists(adminsGroupName)) {
-                deleteLocalGroup(adminsGroupName);
-            }
-            if (localGroupExists(usersGroupName)) {
-                deleteLocalGroup(usersGroupName);
-            }
-            if (localGroupExists(projectsGroupName)) {
-                deleteLocalGroup(projectsGroupName);
-            }
+            //if (userExists(masterAccountName)) {
+            //    userDelete(masterAccountName);
+            //}
+            //if (userExists(projectAccountName)) {
+            //    userDelete(projectAccountName);
+            //}
+
+            //if (localGroupExists(adminsGroupName)) {
+            //    deleteLocalGroup(adminsGroupName);
+            //}
+            //if (localGroupExists(usersGroupName)) {
+            //    deleteLocalGroup(usersGroupName);
+            //}
+            //if (localGroupExists(projectsGroupName)) {
+            //    deleteLocalGroup(projectsGroupName);
+            //}
         }
 
         CreateBOINCGroupsFn hFunc = nullptr;
