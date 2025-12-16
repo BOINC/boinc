@@ -100,6 +100,7 @@
 #include "network.h"
 
 #ifdef _WIN32
+#include "str_replace.h"
 #include "win_util.h"
 #endif
 
