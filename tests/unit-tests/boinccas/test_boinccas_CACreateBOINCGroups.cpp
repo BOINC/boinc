@@ -85,9 +85,10 @@ namespace test_boinccas_CACreateBOINCGroups {
     private:
         wil::unique_hmodule hDll = nullptr;
     };
+
 #ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CACreateBOINCGroups,
-        CreateGroups_NoGROUP_ALIAS_USERS) {
+        CreateGroups_No_GROUPALIAS_USERS) {
         PMSIHANDLE hMsi;
         const auto result =
             MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
@@ -104,13 +105,7 @@ namespace test_boinccas_CACreateBOINCGroups {
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ(currentSid, value);
 
-        msiHelper.setProperty(hMsi, "GROUPALIAS_USERS", usersGroup);
-        std::tie(errorcode, value) =
-            msiHelper.getProperty(hMsi, "GROUPALIAS_USERS");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ(usersGroup, value);
-
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_NE(0u, hFunc(hMsi));
 
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi, "RETURN_REBOOTREQUESTED");
@@ -140,6 +135,12 @@ namespace test_boinccas_CACreateBOINCGroups {
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ(currentSid, value);
 
+        msiHelper.setProperty(hMsi, "GROUPALIAS_USERS", usersGroup);
+        std::tie(errorcode, value) =
+            msiHelper.getProperty(hMsi, "GROUPALIAS_USERS");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(usersGroup, value);
+
         EXPECT_EQ(0u, hFunc(hMsi));
 
         std::tie(errorcode, value) =
@@ -166,9 +167,12 @@ namespace test_boinccas_CACreateBOINCGroups {
         EXPECT_FALSE(isAccountMemberOfLocalGroup({}, usersGroupName));
 
         EXPECT_FALSE(isAccountMemberOfLocalGroup(masterAccountName, adminsGroupName));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup(masterAccountName, projectsGroupName));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup(masterAccountName, usersGroupName));
         EXPECT_FALSE(isAccountMemberOfLocalGroup(projectAccountName, projectsGroupName));
         EXPECT_FALSE(isAccountMemberOfLocalGroup(projectAccountName, usersGroupName));
-        EXPECT_FALSE(isAccountMemberOfLocalGroup(masterAccountName, usersGroupName));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup(projectAccountName, usersGroup));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup(masterAccountName, usersGroup));
 
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi, "RETURN_REBOOTREQUESTED");
@@ -237,9 +241,12 @@ namespace test_boinccas_CACreateBOINCGroups {
         EXPECT_FALSE(isAccountMemberOfLocalGroup({}, usersGroupName));
 
         EXPECT_FALSE(isAccountMemberOfLocalGroup(masterAccountName, adminsGroupName));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup(masterAccountName, projectsGroupName));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup(masterAccountName, usersGroupName));
         EXPECT_FALSE(isAccountMemberOfLocalGroup(projectAccountName, projectsGroupName));
         EXPECT_FALSE(isAccountMemberOfLocalGroup(projectAccountName, usersGroupName));
-        EXPECT_FALSE(isAccountMemberOfLocalGroup(masterAccountName, usersGroupName));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup(projectAccountName, usersGroup));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup(masterAccountName, usersGroup));
 
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi, "RETURN_REBOOTREQUESTED");
@@ -430,8 +437,11 @@ namespace test_boinccas_CACreateBOINCGroups {
         EXPECT_TRUE(localGroupExists(projectsGroupName));
 
         EXPECT_TRUE(isAccountMemberOfLocalGroup(masterAccountName, adminsGroupName));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup(masterAccountName, projectsGroupName));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup(masterAccountName, usersGroupName));
         EXPECT_TRUE(isAccountMemberOfLocalGroup(projectAccountName, projectsGroupName));
-        EXPECT_TRUE(isAccountMemberOfLocalGroup(projectAccountName, usersGroup));
+        EXPECT_TRUE(isAccountMemberOfLocalGroup(projectAccountName, usersGroupName));
+        EXPECT_FALSE(isAccountMemberOfLocalGroup(projectAccountName, usersGroup));
         EXPECT_TRUE(isAccountMemberOfLocalGroup(masterAccountName, usersGroup));
 
         std::tie(errorcode, value) =
