@@ -109,7 +109,13 @@ using std::vector;
 #define POLL_PERIOD 1.0
 #define STATUS_PERIOD 10
     // reports status this often
+#define MIN_CHECKPOINT_INTERVAL 900
+    // checkpoint at most every 15 min
+#define CHECKPOINT_INTERVAL_FACTOR  100
+    // if checkpoint takes X sec, don't do another one for X*100 sec
 #define FRACTION_DONE_FILENAME "fraction_done"
+#define CHECKPOINT_FILENAME "checkpoint_time"
+    // on successful checkpoint, write how long it took to this file
 
 int container_exit_code = 0;
 enum JOB_STATUS {JOB_IN_PROGRESS, JOB_SUCCESS, JOB_FAIL};
@@ -125,7 +131,7 @@ struct RSC_USAGE {
 
 // verbosity levels
 #define VERBOSE_STD     1
-    // include only start/end commands
+    // include only start/pause/end commands
 #define VERBOSE_ALL     2
     // include poll commands as well
 
@@ -196,6 +202,8 @@ const char* dockerfile = "Dockerfile";
 DOCKER_CONN docker_conn;
 vector<string> app_args;
 DOCKER_TYPE docker_type;
+string wsl_distro_name;
+bool checkpoint_failed = false;
 
 // parse job config file (job.toml)
 //
@@ -318,7 +326,6 @@ void get_escaped_cwd() {
 #endif
 }
 
-
 void get_app_args(char* buf) {
     buf[0] = 0;
 #ifdef __APPLE__
@@ -403,21 +410,47 @@ void get_container_name() {
     strcpy(container_name, s.c_str());
 }
 
-int container_exists(bool &exists) {
+#define CONTAINER_ABSENT    1
+#define CONTAINER_CREATED   2
+#define CONTAINER_RUNNING   3
+#define CONTAINER_PAUSED    4
+#define CONTAINER_EXITED    5
+#define CONTAINER_OTHER     6
+
+int get_container_state(int &state) {
     char cmd[1024];
     int retval;
     vector<string> out;
 
-    snprintf(cmd, sizeof(cmd), "ps --all --filter \"name=%s\"", container_name);
+    snprintf(cmd, sizeof(cmd),
+        "ps --all --filter \"name=^%s$\" --format \"{{.Names}}|{{.Status}}\"",
+
+        container_name
+    );
     retval = docker_conn.command(cmd, out);
     if (retval) return retval;
     for (string line: out) {
-        if (strstr(line.c_str(), container_name)) {
-            exists = true;
+        char buf[256];
+        strcpy(buf, line.c_str());
+        if (strstr(buf, container_name)) {
+            char *p = strchr(buf, '|');
+            if (!p) break;
+            p++;
+            if (!strcasestr(p, "created")) {
+                state = CONTAINER_CREATED;
+            } else if (!strcasestr(p, "running")) {
+                state = CONTAINER_RUNNING;
+            } else if (!strcasestr(p, "paused")) {
+                state = CONTAINER_PAUSED;
+            } else if (!strcasestr(p, "exited")) {
+                state = CONTAINER_EXITED;
+            } else {
+                state = CONTAINER_OTHER;
+            }
             return 0;
         }
     }
-    exists = false;
+    state = CONTAINER_ABSENT;
     return 0;
 }
 
@@ -583,9 +616,20 @@ void cleanup() {
 void poll_client_msgs() {
     BOINC_STATUS status;
     boinc_get_status(&status);
-    if (status.no_heartbeat || status.quit_request || status.abort_request) {
-        fprintf(stderr, "got quit/abort from client\n");
+    if (status.no_heartbeat) {
+        fprintf(stderr, "no heartbeat from client - pausing\n");
+        container_op("pause");
+        running = false;
+        return;
+    } else if (status.quit_request) {
+        fprintf(stderr, "got quit request from client - pausing\n");
+        container_op("pause");
+        running = false;
+        return;
+    } else if (status.abort_request) {
+        fprintf(stderr, "got abort request from client\n");
         container_op("stop");
+        cleanup();
         exit(0);
     }
     if (status.suspended) {
@@ -609,7 +653,7 @@ void poll_client_msgs() {
 
 // check whether job has exited
 // Note: on both Podman and Docker this takes significant CPU time
-// (like .03 sec) so do it infrequently (like 5 sec)
+// (like .03 sec) so do it infrequently (10 sec)
 //
 JOB_STATUS poll_app() {
     char cmd[1024];
@@ -639,7 +683,7 @@ JOB_STATUS poll_app() {
 }
 
 // Get CPU and mem usage.
-// This is also surprisingly slow.
+// This is also surprisingly slow; do it every 10 sec
 //
 int get_stats(RSC_USAGE &ru) {
     char cmd[1024];
@@ -714,6 +758,84 @@ double get_fraction_done() {
     return y;
 }
 
+//////////  CHECKPOINT  ////////////
+
+// podman: https://podman.io/docs/checkpoint
+//      podman container checkpoint <name>
+//      podman container restore <name>
+// docker: https://docs.docker.com/reference/cli/docker/checkpoint/
+//      docker checkpoint create <cont_name> <checkpoint_name>
+//      docker checkpoint ls   (lists checkpoints)
+//      docker checkpoint rm   (delete checkpoint)
+//      docker start --checkpoint <checkpoint_name> <cont_name>
+//      (use <cont_name>_checkpoint as the checkpoint name)
+//      need --security-opt=seccomp:unconfined in initial run command?
+//
+// when we checkpoint, write a file with
+//      duration of checkpoint operation
+//      CPU time at time of checkpoint
+//      docker type
+//      [WSL distro name]
+// ... the latter 2 in case we somehow change WSL distro or docker type
+
+double get_min_checkpoint_time(double last_dur) {
+    double d = last_dur*CHECKPOINT_INTERVAL_FACTOR;
+    if (d > MIN_CHECKPOINT_INTERVAL) {
+        return dtime() + d;
+    } else {
+        return dtime() + MIN_CHECKPOINT_INTERVAL;
+    }
+}
+
+bool have_checkpoint(double &dur, double &lct) {
+    int dt;
+    char wsl_distro[256];
+    FILE *f = fopen(CHECKPOINT_FILENAME, "r");
+    if (!f) return false;
+    int n = fscanf(f, "%lf\n%lf\n%d\n%s\n",
+        &dur, &lct, &dt, wsl_distro
+    );
+    if (n != 4
+        || dt != docker_type
+#ifdef _WIN32
+        || wsl_distro_name != (string)wsl_distro
+#endif
+    ) {
+        boinc_delete_file(CHECKPOINT_FILENAME);
+        return false;
+    }
+    return true;
+}
+
+void clear_checkpoint() {
+    boinc_delete_file(CHECKPOINT_FILENAME);
+}
+
+int make_checkpoint(double cpu_time, double &dur) {
+    double start = dtime();
+    int retval = container_op("container checkpoint");
+    if (retval) {
+        // Checkpoint failed, probably because CRIU missing.
+        fprintf(stderr, "container checkpoint failed\n");
+        boinc_delete_file(CHECKPOINT_FILENAME);
+        return -1;
+    }
+    FILE *f = fopen(CHECKPOINT_FILENAME, "w");
+    if (!f) {
+        fprintf(stderr, "Can't create checkpoint file\n");
+        return -1;
+    }
+    dur = dtime() - start;
+    fprintf(f, "%f\n%f\n%d\n%s\n",
+        dur, cpu_time, docker_type, wsl_distro_name.c_str()
+    );
+    fclose(f);
+    fprintf(stderr, "Created checkpoint; dur %f cpu %f \n", dur, cpu_time);
+    return 0;
+}
+
+//////////  INITIALIZATION  ////////////
+
 #ifdef _WIN32
 // find a WSL distro with Docker and set up a command link to it
 //
@@ -737,28 +859,14 @@ int wsl_init() {
 }
 #endif
 
-// checkpoint/restore
-// podman: https://podman.io/docs/checkpoint
-//      podman container checkpoint <name>
-//      podman container restore <name>
-// docker: https://docs.docker.com/reference/cli/docker/checkpoint/
-//      docker checkpoint create <cont_name> <checkpoint_name>
-//      docker checkpoint ls   (lists checkpoints)
-//      docker checkpoint rm   (delete checkpoint)
-//      docker start --checkpoint <checkpoint_name> <cont_name>
-//      (use <cont_name>_checkpoint as the checkpoint name)
-//      need --security-opt=seccomp:unconfined in initial run command?
-//
-// when we checkpoint, write a file with
-//      WSL distro name
-//      docker type
-// ... in case we somehow change WSL distro or docker type
-
 int main(int argc, char** argv) {
     BOINC_OPTIONS options;
     int retval;
-    bool sporadic = false, exists;
+    bool sporadic = false;
     RSC_USAGE ru;
+    double cpu_time = 0, checkpoint_cpu_time = 0;
+    double last_checkpoint_dur = 0;
+    double min_checkpoint_time = 0;
 
     for (int j=1; j<argc; j++) {
         if (!strcmp(argv[j], "--sporadic")) {
@@ -805,7 +913,9 @@ int main(int argc, char** argv) {
         get_container_name();
     }
 
-    if (config.verbose) config.print();
+    if (config.verbose) {
+        config.print();
+    }
 
     if (sporadic) {
         retval = boinc_sporadic_dir(".");
@@ -841,12 +951,15 @@ int main(int argc, char** argv) {
 #endif
     fprintf(stderr, "Using %s\n", docker_type_str(docker_type));
 
-    retval = container_exists(exists);
+    int state;
+    retval = get_container_state(state);
     if (retval) {
-        fprintf(stderr, "container_exists() failed: %d\n", retval);
+        fprintf(stderr, "get_container_state() failed: %d\n", retval);
         boinc_finish(1);
     }
-    if (!exists) {
+    bool need_start = false;
+    switch (state) {
+    case CONTAINER_ABSENT:
         if (config.verbose) {
             fprintf(stderr, "creating container %s\n", container_name);
         }
@@ -855,23 +968,64 @@ int main(int argc, char** argv) {
             fprintf(stderr, "create_container() failed: %d\n", retval);
             boinc_finish(1);
         }
+        need_start = true;
+        break;
+    case CONTAINER_RUNNING:
+        // already running; do nothing
+        break;
+    case CONTAINER_PAUSED:
+        retval = container_op("unpause");
+        if (retval) {
+            need_start = true;
+        }
+        break;
+    case CONTAINER_EXITED:
+        // This probably means the host was rebooted.
+        // If we have a checkpoint, restore from there.
+        // Otherwise start from the beginning.
+        //
+        double dur, lct;
+        if (have_checkpoint(dur, lct)) {
+            retval = container_op("restore");
+            if (retval) {
+                clear_checkpoint();
+                need_start = true;
+            } else {
+                last_checkpoint_dur = dur;
+                cpu_time = checkpoint_cpu_time = lct;
+            }
+        } else {
+            need_start = true;
+        }
+        break;
+    case CONTAINER_OTHER:
+        container_op("stop");
+        need_start = true;
+        break;
     }
-    if (config.verbose) {
-        fprintf(stderr, "starting container\n");
+    if (need_start) {
+        if (config.verbose) {
+            fprintf(stderr, "starting container\n");
+        }
+        retval = container_op("start");
+        if (retval) {
+            fprintf(stderr, "start failed: %d\n", retval);
+            cleanup();
+            boinc_finish(1);
+        }
     }
-    retval = container_op("start");
-    if (retval) {
-        fprintf(stderr, "resume() failed: %d\n", retval);
-        cleanup();
-        boinc_finish(1);
-    }
+
+    min_checkpoint_time = get_min_checkpoint_time(last_checkpoint_dur);
+
     running = true;
-    double cpu_time = 0;
     for (int i=0; ; i++) {
         boinc_sleep(POLL_PERIOD);
             // do this before poll to avoid race condition on startup
         poll_client_msgs();
         if (i%STATUS_PERIOD == 0) {
+            // do this stuff every 10 sec
+            // First, see if app has exited
+            //
             switch(poll_app()) {
             case JOB_FAIL:
                 cleanup();
@@ -888,6 +1042,9 @@ int main(int argc, char** argv) {
             default:
                 break;
             }
+
+            // If not, get its resource usage
+            //
             retval = get_stats(ru);
             if (!retval) {
                 cpu_time += STATUS_PERIOD*ru.cpu_frac;
@@ -896,12 +1053,29 @@ int main(int argc, char** argv) {
                 }
                 boinc_report_app_status_aux(
                     cpu_time,
-                    0,      // checkpoint CPU time
+                    checkpoint_cpu_time,
                     get_fraction_done(),
                     0,      // other PID
                     0,0,    // bytes send/received
                     ru.wss
                 );
+            }
+
+            // see if we should checkpoint
+            //
+            if (!checkpoint_failed
+                && boinc_time_to_checkpoint()
+                && dtime() > min_checkpoint_time
+            ) {
+                double dur;
+                retval = make_checkpoint(cpu_time, dur);
+                if (retval) {
+                    // If failed, don't try again.
+                    checkpoint_failed = true;
+                } else {
+                    checkpoint_cpu_time = cpu_time;
+                    min_checkpoint_time = get_min_checkpoint_time(dur);
+                }
             }
         }
     }
