@@ -43,12 +43,15 @@ void cleanRegistryKey();
 bool userExists(const std::string& username);
 bool userCreate(const std::string& username, const std::string& password);
 bool userDelete(const std::string& username);
+wil::unique_sid getUserSid(const std::string& username);
 std::string getCurrentUserSidString();
 bool isAccountMemberOfLocalGroup(const std::string& accountName,
     const std::string& groupName);
 std::string getLocalizedUsersGroupName();
+std::string getLocalizedAdministratorsGroupName();
 bool localGroupExists(const std::string& groupName);
 void deleteLocalGroup(const std::string& groupName);
+bool addUserToTheBuiltinAdministratorsGroup(wil::unique_sid&& userSid);
 
 constexpr auto msiName = "test.msi";
 
@@ -78,4 +81,5 @@ private:
     void createPropertiesTable();
     void createTable(const std::string_view& sql_create);
     MSIHANDLE hMsi = 0;
+    INSTALLUILEVEL originalUiLevel;
 };

@@ -39,6 +39,15 @@ namespace test_boinccas_CACreateBOINCAccounts {
                     "CreateBOINCAccounts");
         }
 
+        void SetUp() override {
+            if (userExists(getMasterAccountName())) {
+                userDelete(getMasterAccountName());
+            }
+            if (userExists(getProjectAccountName())) {
+                userDelete(getProjectAccountName());
+            }
+        }
+
         void TearDown() override {
             if (userExists(getMasterAccountName())) {
                 userDelete(getMasterAccountName());

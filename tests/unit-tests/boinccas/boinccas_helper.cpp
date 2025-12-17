@@ -30,12 +30,14 @@
 #include "win_util.h"
 
 MsiHelper::MsiHelper() {
+    originalUiLevel = MsiSetInternalUI(INSTALLUILEVEL_NONE, nullptr);
     cleanup();
     init();
 }
 
 MsiHelper::~MsiHelper() {
     cleanup();
+    MsiSetInternalUI(originalUiLevel, nullptr);
 }
 
 void MsiHelper::init() {
@@ -156,12 +158,13 @@ void MsiHelper::insertProperties(
     }
 }
 
-std::tuple<unsigned int, std::string> MsiHelper::getProperty(const std::string& propertyName) {
+std::tuple<unsigned int, std::string> MsiHelper::getProperty(
+    const std::string& propertyName) {
     return getProperty(hMsi, propertyName);
 }
 
-std::tuple<unsigned int, std::string> MsiHelper::getProperty(MSIHANDLE hMsiHandle,
-    const std::string& propertyName) {
+std::tuple<unsigned int, std::string> MsiHelper::getProperty(
+    MSIHANDLE hMsiHandle, const std::string& propertyName) {
     DWORD size = 0;
     auto result =
         MsiGetProperty(hMsiHandle, propertyName.c_str(), "", &size);
@@ -344,11 +347,31 @@ wil::unique_sid getCurrentUserSid() {
     return std::move(sid);
 }
 
+wil::unique_sid getUserSid(const std::string& username) {
+    DWORD sidSize = 0;
+    SID_NAME_USE use;
+    DWORD domainSize = 0;
+    LookupAccountName(nullptr, username.c_str(), nullptr, &sidSize,
+        nullptr, &domainSize, &use);
+    if (sidSize == 0 || domainSize == 0) {
+        return nullptr;
+    }
+    std::string domainName(domainSize, '\0');
+    std::vector<BYTE> sidBuf(sidSize);
+    domainSize = 256;
+    if (!LookupAccountName(nullptr, username.c_str(), sidBuf.data(),
+        &sidSize, domainName.data(), &domainSize, &use)) {
+        return nullptr;
+    }
+    wil::unique_sid sid(static_cast<PSID>(LocalAlloc(LMEM_FIXED, sidSize)));
+    CopySid(sidSize, sid.get(), reinterpret_cast<PSID>(sidBuf.data()));
+    return std::move(sid);
+}
+
 std::string getCurrentUserSidString() {
     LPSTR sidStr = nullptr;
     auto sid = getCurrentUserSid();
     if (!ConvertSidToStringSid(sid.get(), &sidStr)) {
-        auto err = GetLastError();
         if (sidStr) {
             LocalFree(sidStr);
         }
@@ -369,26 +392,11 @@ bool isAccountMemberOfLocalGroup(const std::string& accountName,
         }
     }
     else {
-        DWORD sidSize = 0;
-        SID_NAME_USE use;
-        DWORD domainSize = 256;
-        std::string domainName(domainSize, '\0');
-        LookupAccountName(nullptr, accountName.c_str(), nullptr, &sidSize,
-            domainName.data(), &domainSize, &use);
-        if (sidSize == 0) {
+        acctSid = getUserSid(accountName);
+        if (!acctSid) {
             return false;
         }
-
-        std::vector<BYTE> sidBuf(sidSize);
-        domainSize = 256;
-        if (!LookupAccountName(nullptr, accountName.c_str(), sidBuf.data(),
-            &sidSize, domainName.data(), &domainSize, &use)) {
-            return false;
-        }
-
-        acctSid.reset(reinterpret_cast<PSID>(sidBuf.data()));
     }
-
     LOCALGROUP_MEMBERS_INFO_0* members = nullptr;
     DWORD entries = 0, total = 0;
     const auto gn = boinc_ascii_to_wide(groupName);
@@ -404,7 +412,7 @@ bool isAccountMemberOfLocalGroup(const std::string& accountName,
     if (!members) {
         return false;
     }
-    bool found = false;
+    auto found = false;
     for (auto i = 0u; i < entries; ++i) {
         if (EqualSid(members[i].lgrmi0_sid, acctSid.get())) {
             found = true;
@@ -417,6 +425,22 @@ bool isAccountMemberOfLocalGroup(const std::string& accountName,
     return found;
 }
 
+std::string getLocalizedGroupName(wil::unique_sid&& sid) {
+    auto nameSize = 0ul;
+    auto domainSize = 0ul;
+    SID_NAME_USE use;
+    LookupAccountSid(nullptr, sid.get(), nullptr, &nameSize,
+        nullptr, &domainSize, &use);
+    std::string name(static_cast<size_t>(nameSize), '\0');
+    std::string domain(static_cast<size_t>(domainSize), '\0');
+    if (!LookupAccountSid(nullptr, sid.get(), name.data(), &nameSize,
+        domain.data(), &domainSize, &use)) {
+        return "Users";
+    }
+    name.erase(name.find('\0'));
+    return name;
+}
+
 std::string getLocalizedUsersGroupName() {
     std::array<BYTE, SECURITY_MAX_SID_SIZE> buffer;
     DWORD size = SECURITY_MAX_SID_SIZE;
@@ -425,25 +449,29 @@ std::string getLocalizedUsersGroupName() {
         return "Users";
     }
 
-    auto nameSize = 0ul;
-    auto domainSize = 0ul;
-    SID_NAME_USE use;
-    LookupAccountSid(nullptr, &buffer, nullptr, &nameSize,
-        nullptr, &domainSize, &use);
-    std::string name(static_cast<size_t>(nameSize), '\0');
-    std::string domain(static_cast<size_t>(domainSize), '\0');
-    if (!LookupAccountSid(nullptr, &buffer, name.data(), &nameSize,
-        domain.data(), &domainSize, &use)) {
-        return "Users";
+    wil::unique_sid sid(static_cast<PSID>(LocalAlloc(LMEM_FIXED, size)));
+    CopySid(size, sid.get(), reinterpret_cast<PSID>(buffer.data()));
+
+    return getLocalizedGroupName(std::move(sid));
+}
+
+std::string getLocalizedAdministratorsGroupName() {
+    std::array<BYTE, SECURITY_MAX_SID_SIZE> buffer;
+    DWORD size = SECURITY_MAX_SID_SIZE;
+    if (!CreateWellKnownSid(WinBuiltinAdministratorsSid, nullptr, &buffer,
+        &size)) {
+        return "Administrators";
     }
-    name.erase(name.find('\0'));
-    return name;
+    wil::unique_sid sid(static_cast<PSID>(LocalAlloc(LMEM_FIXED, size)));
+    CopySid(size, sid.get(), reinterpret_cast<PSID>(buffer.data()));
+    return getLocalizedGroupName(std::move(sid));
 }
 
 bool localGroupExists(const std::string& groupName) {
     LOCALGROUP_INFO_0* info = nullptr;
     const auto gn = boinc_ascii_to_wide(groupName);
-    const auto rc = NetLocalGroupGetInfo(nullptr, gn.c_str(), 0, reinterpret_cast<LPBYTE*>(&info));
+    const auto rc = NetLocalGroupGetInfo(nullptr, gn.c_str(), 0,
+        reinterpret_cast<LPBYTE*>(&info));
     if (info) {
         NetApiBufferFree(info);
     }
@@ -453,4 +481,33 @@ bool localGroupExists(const std::string& groupName) {
 void deleteLocalGroup(const std::string& groupName) {
     const auto gn = boinc_ascii_to_wide(groupName);
     NetLocalGroupDel(nullptr, gn.c_str());
+}
+
+bool addUserToTheBuiltinAdministratorsGroup(wil::unique_sid&& userSid) {
+    std::array<BYTE, SECURITY_MAX_SID_SIZE> adminSidBuf{};
+    DWORD sidSize = SECURITY_MAX_SID_SIZE;
+    if (!CreateWellKnownSid(WinBuiltinAdministratorsSid, nullptr,
+        adminSidBuf.data(), &sidSize)) {
+        return false;
+    }
+
+    wil::unique_sid sid(static_cast<PSID>(LocalAlloc(LMEM_FIXED, sidSize)));
+    CopySid(sidSize, sid.get(), reinterpret_cast<PSID>(adminSidBuf.data()));
+    auto adminGroupName =
+        boinc_ascii_to_wide(getLocalizedGroupName(std::move(sid)));
+
+
+    LOCALGROUP_MEMBERS_INFO_0 member{};
+    member.lgrmi0_sid = reinterpret_cast<PSID>(userSid.get());
+    const auto rc = NetLocalGroupAddMembers(
+        nullptr,
+        adminGroupName.c_str(),
+        0,
+        reinterpret_cast<LPBYTE>(&member),
+        1
+    );
+    if (rc != NERR_Success && rc != ERROR_MEMBER_IN_ALIAS) {
+        return false;
+    }
+    return true;
 }
