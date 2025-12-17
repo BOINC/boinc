@@ -17,8 +17,7 @@
 
 #pragma once
 
-class CACreateAcctMgrLoginFile : public BOINCCABase
-{
+class CACreateAcctMgrLoginFile : public BOINCCABase {
 public:
     CACreateAcctMgrLoginFile(MSIHANDLE hMSIHandle);
     UINT OnExecution() override final;

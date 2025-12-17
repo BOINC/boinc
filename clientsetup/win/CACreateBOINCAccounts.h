@@ -17,8 +17,7 @@
 
 #pragma once
 
-class CACreateBOINCAccounts : public BOINCCABase
-{
+class CACreateBOINCAccounts : public BOINCCABase {
 public:
     CACreateBOINCAccounts(MSIHANDLE hMSIHandle);
     UINT OnExecution() override final;

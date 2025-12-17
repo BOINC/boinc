@@ -17,8 +17,7 @@
 
 #pragma once
 
-class CAAnnounceUpgrade : public BOINCCABase
-{
+class CAAnnounceUpgrade : public BOINCCABase {
 public:
     CAAnnounceUpgrade(MSIHANDLE hMSIHandle);
     UINT OnExecution() override final;

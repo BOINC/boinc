@@ -17,8 +17,7 @@
 
 #pragma once
 
-class CACleanupOldBinaries : public BOINCCABase
-{
+class CACleanupOldBinaries : public BOINCCABase {
 public:
     CACleanupOldBinaries(MSIHANDLE hMSIHandle);
     UINT OnExecution() override final;

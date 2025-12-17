@@ -86,6 +86,7 @@
 #include <sstream>
 #include <fstream>
 #include <vector>
+#include <array>
 #include <filesystem>
 
 // Misc Includes

@@ -91,7 +91,7 @@ UINT CACreateBOINCAccounts::OnExecution() {
     auto bBOINCMasterAccountCreated = false;
     auto bBOINCMasterAccountModified = false;
     if (bCreateBOINCMasterAccount) {
-        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL,
+        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
             _T("Using automatic account creation and management of "
                 "'boinc_master' account"));
 
@@ -99,7 +99,7 @@ UINT CACreateBOINCAccounts::OnExecution() {
         //   of the inputs
         //
         if (strBOINCMasterAccountUsername.empty()) {
-            LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
                 _T("Generating 'boinc_master' account name"));
             strBOINCMasterAccountUsername = _T("boinc_master");
             // Domain Controller
@@ -111,7 +111,7 @@ UINT CACreateBOINCAccounts::OnExecution() {
         // Generate random passwords if needed
         //
         if (strBOINCMasterAccountPassword.empty()) {
-            LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
                 _T("Generating 'boinc_master' password"));
             strBOINCMasterAccountPassword = GenerateRandomPassword(32);
             if (strBOINCMasterAccountPassword.empty()) {
@@ -133,7 +133,7 @@ UINT CACreateBOINCAccounts::OnExecution() {
             NetApiBufferFree(pBuf);
         }
         if (result == NERR_Success) {
-            LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
                 _T("Resetting 'boinc_master' password"));
 
             // Account already exists, just change the password
@@ -142,19 +142,19 @@ UINT CACreateBOINCAccounts::OnExecution() {
             ui.usri1003_password = strBOINCMasterAccountPassword.data();
 
             DWORD dwParameterError;
-            const auto nasReturnValue = NetUserSetInfo(NULL,
+            const auto nasReturnValue = NetUserSetInfo(nullptr,
                 strBOINCMasterAccountUsername.c_str(), 1003,
                 reinterpret_cast<LPBYTE>(&ui), &dwParameterError);
 
             if (nasReturnValue != NERR_Success) {
-                LogMessage(INSTALLMESSAGE_ERROR, NULL, NULL, NULL,
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                     nasReturnValue, _T("Failed to reset password on the "
                         "'boinc_master' account."));
                 return ERROR_INSTALL_FAILURE;
             }
         }
         else {
-            LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
                 _T("Creating 'boinc_master' account"));
 
             // Account does not exist, create it
@@ -165,24 +165,23 @@ UINT CACreateBOINCAccounts::OnExecution() {
             ui.usri1_comment =
                 _T("Account used to execute BOINC as a system service");
             ui.usri1_priv = USER_PRIV_USER;
-            ui.usri1_home_dir = NULL;
-            ui.usri1_comment = NULL;
+            ui.usri1_home_dir = nullptr;
+            ui.usri1_comment = nullptr;
             ui.usri1_flags =
                 UF_SCRIPT | UF_PASSWD_CANT_CHANGE | UF_DONT_EXPIRE_PASSWD;
-            ui.usri1_script_path = NULL;
+            ui.usri1_script_path = nullptr;
 
             DWORD dwParameterError;
-            const auto nasReturnValue = NetUserAdd(NULL, 1,
+            const auto nasReturnValue = NetUserAdd(nullptr, 1,
                 reinterpret_cast<LPBYTE>(&ui), &dwParameterError);
 
             if (nasReturnValue != NERR_Success) {
-                LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL,
-                    nasReturnValue, _T("NetUserAdd retval"));
-                LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL,
-                    dwParameterError, _T("NetUserAdd dwParameterError")
+                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+                    _T("NetUserAdd retval"));
+                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, dwParameterError,
+                    _T("NetUserAdd dwParameterError")
                 );
-                LogMessage(INSTALLMESSAGE_ERROR, NULL, NULL, NULL,
-                    nasReturnValue,
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
                     _T("Failed to create the 'boinc_master' account.")
                 );
                 return ERROR_INSTALL_FAILURE;
@@ -211,7 +210,7 @@ UINT CACreateBOINCAccounts::OnExecution() {
     auto bBOINCProjectAccountCreated = false;
     auto bBOINCProjectAccountModified = false;
     if (bCreateBOINCProjectAccount) {
-        LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL,
+        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
             _T("Using automatic account creation and management of "
                 "'boinc_project' account"));
 
@@ -219,7 +218,7 @@ UINT CACreateBOINCAccounts::OnExecution() {
         //   of the inputs
         //
         if (strBOINCProjectAccountUsername.empty()) {
-            LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
                 _T("Generating 'boinc_project' account name"));
             strBOINCProjectAccountUsername = _T("boinc_project");
             // Domain Controller
@@ -231,7 +230,7 @@ UINT CACreateBOINCAccounts::OnExecution() {
         // Generate random passwords if needed
         //
         if (strBOINCProjectAccountPassword.empty()) {
-            LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
                 _T("Generating 'boinc_project' password"));
             strBOINCProjectAccountPassword = GenerateRandomPassword(32);
             if (strBOINCProjectAccountPassword.empty()) {
@@ -253,7 +252,7 @@ UINT CACreateBOINCAccounts::OnExecution() {
         }
         // Check if user exists
         if (result == NERR_Success) {
-            LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
                 _T("Resetting 'boinc_project' password"));
 
             // Account already exists, just change the password
@@ -262,19 +261,19 @@ UINT CACreateBOINCAccounts::OnExecution() {
             ui.usri1003_password = strBOINCProjectAccountPassword.data();
 
             DWORD dwParameterError;
-            const auto nasReturnValue = NetUserSetInfo(NULL,
+            const auto nasReturnValue = NetUserSetInfo(nullptr,
                 strBOINCProjectAccountUsername.c_str(), 1003,
                 reinterpret_cast<LPBYTE>(&ui), &dwParameterError);
 
             if (nasReturnValue != NERR_Success) {
-                LogMessage(INSTALLMESSAGE_ERROR, NULL, NULL, NULL,
-                    nasReturnValue, _T("Failed to reset password on the "
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+                    _T("Failed to reset password on the "
                         "'boinc_project' account."));
                 return ERROR_INSTALL_FAILURE;
             }
         }
         else {
-            LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL, NULL,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
                 _T("Creating 'boinc_project' account"));
 
             // Account does not exist, create it
@@ -285,23 +284,22 @@ UINT CACreateBOINCAccounts::OnExecution() {
             ui.usri1_comment =
                 _T("Account used to execute BOINC applications");
             ui.usri1_priv = USER_PRIV_USER;
-            ui.usri1_home_dir = NULL;
-            ui.usri1_comment = NULL;
+            ui.usri1_home_dir = nullptr;
+            ui.usri1_comment = nullptr;
             ui.usri1_flags =
                 UF_SCRIPT | UF_PASSWD_CANT_CHANGE | UF_DONT_EXPIRE_PASSWD;
-            ui.usri1_script_path = NULL;
+            ui.usri1_script_path = nullptr;
 
             DWORD dwParameterError;
-            const auto nasReturnValue = NetUserAdd(NULL, 1,
+            const auto nasReturnValue = NetUserAdd(nullptr, 1,
                 reinterpret_cast<LPBYTE>(&ui), &dwParameterError);
 
             if (nasReturnValue != NERR_Success) {
-                LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL,
-                    nasReturnValue, _T("NetUserAdd retval"));
-                LogMessage(INSTALLMESSAGE_INFO, NULL, NULL, NULL,
-                    dwParameterError, _T("NetUserAdd dwParameterError"));
-                LogMessage(INSTALLMESSAGE_ERROR, NULL, NULL, NULL,
-                    nasReturnValue,
+                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+                    _T("NetUserAdd retval"));
+                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, dwParameterError,
+                    _T("NetUserAdd dwParameterError"));
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
                     _T("Failed to create the 'boinc_project' account."));
                 return ERROR_INSTALL_FAILURE;
             }
