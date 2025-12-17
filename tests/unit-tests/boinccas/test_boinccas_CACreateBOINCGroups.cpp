@@ -110,7 +110,7 @@ namespace test_boinccas_CACreateBOINCGroups {
         wil::unique_hmodule hDll = nullptr;
     };
 
-#ifndef BOINCCAS_TEST
+#ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CACreateBOINCGroups,
         CreateGroups_No_GROUPALIAS_USERS_ProtectionNotSet) {
         PMSIHANDLE hMsi;
