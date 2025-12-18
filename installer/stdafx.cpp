@@ -15,19 +15,4 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#pragma once
-
-#include "Record.h"
-#include "InstallerStrings.h"
-
-class Property : public Record {
-public:
-    explicit Property(const nlohmann::json& json,
-        InstallerStrings& installerStrings);
-    explicit Property(const std::string& property, const std::string& value);
-    ~Property() = default;
-    MSIHANDLE getRecord() const override;
-private:
-    std::string property{};
-    std::string value{};
-};
+#include "stdafx.h"

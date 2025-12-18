@@ -17,17 +17,21 @@
 
 #pragma once
 
-#include "Record.h"
-#include "InstallerStrings.h"
+#include <filesystem>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <map>
+#include <memory>
+#include <sstream>
+#include <string>
+#include <type_traits>
+#include <unordered_set>
+#include <variant>
+#include <vector>
 
-class Property : public Record {
-public:
-    explicit Property(const nlohmann::json& json,
-        InstallerStrings& installerStrings);
-    explicit Property(const std::string& property, const std::string& value);
-    ~Property() = default;
-    MSIHANDLE getRecord() const override;
-private:
-    std::string property{};
-    std::string value{};
-};
+#include <nlohmann/json.hpp>
+
+#include <Windows.h>
+#include <Msi.h>
+#include <MsiQuery.h>

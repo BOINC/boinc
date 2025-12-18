@@ -17,8 +17,6 @@
 
 #pragma once
 
-#include <nlohmann/json.hpp>
-
 #include "ActionText.h"
 #include "InstallerStrings.h"
 #include "Generator.h"
