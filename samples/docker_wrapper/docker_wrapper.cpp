@@ -1081,7 +1081,7 @@ int main(int argc, char** argv) {
         fprintf(stderr, "container is paused; unpausing\n");
         retval = container_op("unpause");
         if (retval) {
-            fprintf(stderr, "unpaused failed; killing\n");
+            fprintf(stderr, "unpause failed; killing\n");
             retval = container_op("kill");
             if (retval) {
                 fprintf(stderr, "kill also failed - quitting\n");
