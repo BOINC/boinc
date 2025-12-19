@@ -675,10 +675,9 @@ void poll_client_msgs() {
     );
 #endif
     if (status.no_heartbeat) {
-        fprintf(stderr, "no heartbeat from client - pausing\n");
+        fprintf(stderr, "no heartbeat from client - pausing and exiting\n");
         container_op("pause");
-        running = false;
-        return;
+        exit(0);
     } else if (status.quit_request) {
         fprintf(stderr, "got quit request from client - pausing container\n");
         container_op("pause");
@@ -841,7 +840,7 @@ bool have_checkpoint(double &dur, double &lct) {
     if (!f) return false;
 #ifdef _WIN32
     char wsl_distro[256];
-    int n = fscanf(f, "%lf\n%lf\n%d\n%s\n", &dur, &lct, &dt, wsl_distro);
+    int n = fscanf(f, "%lf\n%lf\n%d\n%255s\n", &dur, &lct, &dt, wsl_distro);
     nitems = 4;
 #else
     int n = fscanf(f, "%lf\n%lf\n%d", &dur, &lct, &dt);
@@ -936,15 +935,13 @@ int wsl_init() {
 
 #ifndef _WIN32
 
+bool pause_and_exit = false;
+
 // if we get killed, pause the container
 
 void signal_handler(int signum) {
     fprintf(stderr, "got signal %d\n", signum);
-    if (running) {
-        container_op("pause");
-        running = false;
-    }
-    exit(0);
+    pause_and_exit = true;
 }
 
 void init_signal_handler() {
@@ -1019,6 +1016,7 @@ int main(int argc, char** argv) {
         retval = boinc_sporadic_dir(".");
         if (retval) {
             fprintf(stderr, "can't create sporadic files\n");
+            cleanup();
             boinc_finish(retval);
         }
     }
@@ -1029,6 +1027,7 @@ int main(int argc, char** argv) {
     retval = wsl_init();
     if (retval) {
         fprintf(stderr, "wsl_init() failed: %d\n", retval);
+        cleanup();
         boinc_finish(1);
     }
 #else
@@ -1041,6 +1040,7 @@ int main(int argc, char** argv) {
         ) {
             fprintf(stderr, "Docker type missing from app_init_data.xml\n");
             fprintf(stderr, "Check project plan class configuration\n");
+            cleanup();
             boinc_finish(1);
         }
         docker_type = aid.host_info.docker_type;
@@ -1064,6 +1064,7 @@ int main(int argc, char** argv) {
         retval = create_container();
         if (retval) {
             fprintf(stderr, "create_container() failed: %d\n", retval);
+            cleanup();
             boinc_finish(1);
         }
         need_start = true;
@@ -1083,7 +1084,9 @@ int main(int argc, char** argv) {
             fprintf(stderr, "unpaused failed; killing\n");
             retval = container_op("kill");
             if (retval) {
-                fprintf(stderr, "kill also failed\n");
+                fprintf(stderr, "kill also failed - quitting\n");
+                cleanup();
+                boinc_finish(1);
             }
             need_start = true;
         }
@@ -1126,6 +1129,8 @@ int main(int argc, char** argv) {
         break;
     default:
         fprintf(stderr, "bad container state %d\n", state);
+        cleanup();
+        boinc_finish(1);
     }
     if (need_start) {
         if (config.verbose) {
@@ -1148,6 +1153,14 @@ int main(int argc, char** argv) {
     for (int i=0; ; i++) {
         boinc_sleep(POLL_PERIOD);
             // do this before poll to avoid race condition on startup
+#ifndef _WIN32
+        if (pause_and_exit) {
+            if (running) {
+                container_op("pause");
+            }
+            exit(0);
+        }
+#endif
         poll_client_msgs();
         if (i%STATUS_PERIOD == 0) {
             // do this stuff every 10 sec

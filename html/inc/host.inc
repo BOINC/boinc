@@ -293,7 +293,8 @@ function docker_desc($misc) {
         } else {
             $x .= sprintf(
                 '<br>WSL distro: %s ver %d',
-                $d->wsl_distro, $d->boinc_buda_runner_version
+                htmlspecialchars($d->wsl_distro),
+                $d->boinc_buda_runner_version
             );
         }
     }
