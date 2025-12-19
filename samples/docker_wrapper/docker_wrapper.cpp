@@ -46,10 +46,11 @@
 //      The host must have Docker or Podman
 //      The wrapper runs Docker commands using popen()
 //
-// Logic:
+// Startup logic:
 // If the container already exists
 //      this is a restart of the job
-//      start the container if it's stopped
+//      start the container if it's stopped,
+//      unpause if it's paused
 // else
 //      this is the first run of the job
 //      if the image doesn't already exist
@@ -58,6 +59,7 @@
 //      create the container with -v to mount slot, project dirs
 //      copy input files as needed
 // start container
+//
 // loop: handle msgs from client, check for container exit
 // on successful exit
 //      copy output files as needed
@@ -88,6 +90,43 @@
 // https://docs.docker.com/reference/cli/docker/container/run/
 // https://docs.docker.com/engine/containers/resource_constraints/
 
+// ************** Checkpoint/restart ***************
+//
+// This would limit lost work if the host is rebooted
+// while a BUDA job is running.
+// In other cases (e.g. the user exits the client)
+// we pause the container and no work is lost.
+//
+// Podman and Docker have different interfaces:
+// podman: https://podman.io/docs/checkpoint
+//      podman container checkpoint <name>
+//      podman container restore <name>
+// docker: https://docs.docker.com/reference/cli/docker/checkpoint/
+//      docker checkpoint create <cont_name> <checkpoint_name>
+//      docker checkpoint ls   (lists checkpoints)
+//      docker checkpoint rm   (delete checkpoint)
+//      docker start --checkpoint <checkpoint_name> <cont_name>
+//      (use <cont_name>_checkpoint as the checkpoint name)
+//      need --security-opt=seccomp:unconfined in initial run command?
+//
+// In both cases the CRIU library is required.
+//
+// Note: I spent several days trying to get it to work on Podman
+// with all sorts of variants like --pre-checkpoint, --keep etc.
+// Whenever I did
+// - create a checkpoint
+// - compute some more
+// - stop or kill the container
+// - restore
+// I always get
+// Error: OCI runtime error: runc: criu failed: type RESTORE errno 0
+//
+// So I gave up; checkpoint/restart is only relevant to the reboot scenario,
+// this is rare.
+// If we ever figure this out, uncomment the following
+
+//#define CHECKPOINT_RESTART
+
 #include <cstdio>
 #include <string>
 #include <vector>
@@ -98,6 +137,7 @@
 #include "util.h"
 #include "boinc_api.h"
 #include "network.h"
+#include "version.h"
 
 #ifdef _WIN32
 #include "str_replace.h"
@@ -110,7 +150,7 @@ using std::vector;
 #define POLL_PERIOD 1.0
 #define STATUS_PERIOD 10
     // reports status this often
-#define MIN_CHECKPOINT_INTERVAL 900
+#define MIN_CHECKPOINT_INTERVAL 600
     // checkpoint at most every 15 min
 #define CHECKPOINT_INTERVAL_FACTOR  100
     // if checkpoint takes X sec, don't do another one for X*100 sec
@@ -204,7 +244,14 @@ DOCKER_CONN docker_conn;
 vector<string> app_args;
 DOCKER_TYPE docker_type;
 string wsl_distro_name;
+double cpu_time = 0;
+double checkpoint_cpu_time = 0;
+
+#ifdef CHECKPOINT_RESTART
 bool checkpoint_failed = false;
+double last_checkpoint_dur = 0;
+double min_checkpoint_time = 0;
+#endif
 
 // parse job config file (job.toml)
 //
@@ -437,13 +484,14 @@ int get_container_state(int &state) {
             char *p = strchr(buf, '|');
             if (!p) break;
             p++;
-            if (!strcasestr(p, "created")) {
+            fprintf(stderr, "container state: %s\n", p);
+            if (strcasestr(p, "created")) {
                 state = CONTAINER_CREATED;
-            } else if (!strcasestr(p, "running")) {
+            } else if (strcasestr(p, "running")) {
                 state = CONTAINER_RUNNING;
-            } else if (!strcasestr(p, "paused")) {
+            } else if (strcasestr(p, "paused")) {
                 state = CONTAINER_PAUSED;
-            } else if (!strcasestr(p, "exited")) {
+            } else if (strcasestr(p, "exited")) {
                 state = CONTAINER_EXITED;
             } else {
                 state = CONTAINER_OTHER;
@@ -584,6 +632,7 @@ int container_op(const char *op) {
 }
 
 // Clean up at end of job.
+// Container is assumed to be stopped.
 // Copy log output to stderr.
 // Remove container and image
 //
@@ -598,8 +647,6 @@ void cleanup() {
         fprintf(stderr, "%s", line.c_str());
     }
     fprintf(stderr, "stderr end\n");
-
-    container_op("stop");
 
     snprintf(cmd, sizeof(cmd), "container rm %s", container_name);
     docker_conn.command(cmd, out);
@@ -617,19 +664,26 @@ void cleanup() {
 void poll_client_msgs() {
     BOINC_STATUS status;
     boinc_get_status(&status);
+#if 0
+    fprintf(stderr, "client messages: nohb %d quit %d abort %d suspended %d\n",
+        status.no_heartbeat,
+        status.quit_request,
+        status.abort_request,
+        status.suspended
+    );
+#endif
     if (status.no_heartbeat) {
         fprintf(stderr, "no heartbeat from client - pausing\n");
         container_op("pause");
         running = false;
         return;
     } else if (status.quit_request) {
-        fprintf(stderr, "got quit request from client - pausing\n");
+        fprintf(stderr, "got quit request from client - pausing container\n");
         container_op("pause");
-        running = false;
-        return;
+        exit(0);
     } else if (status.abort_request) {
         fprintf(stderr, "got abort request from client\n");
-        container_op("stop");
+        container_op("kill");
         cleanup();
         exit(0);
     }
@@ -761,17 +815,8 @@ double get_fraction_done() {
 
 //////////  CHECKPOINT  ////////////
 
-// podman: https://podman.io/docs/checkpoint
-//      podman container checkpoint <name>
-//      podman container restore <name>
-// docker: https://docs.docker.com/reference/cli/docker/checkpoint/
-//      docker checkpoint create <cont_name> <checkpoint_name>
-//      docker checkpoint ls   (lists checkpoints)
-//      docker checkpoint rm   (delete checkpoint)
-//      docker start --checkpoint <checkpoint_name> <cont_name>
-//      (use <cont_name>_checkpoint as the checkpoint name)
-//      need --security-opt=seccomp:unconfined in initial run command?
-//
+#ifdef CHECKPOINT_RESTART
+
 // when we checkpoint, write a file with
 //      duration of checkpoint operation
 //      CPU time at time of checkpoint
@@ -789,19 +834,34 @@ double get_min_checkpoint_time(double last_dur) {
 }
 
 bool have_checkpoint(double &dur, double &lct) {
-    int dt;
-    char wsl_distro[256];
+    int dt, nitems;
     FILE *f = fopen(CHECKPOINT_FILENAME, "r");
     if (!f) return false;
-    int n = fscanf(f, "%lf\n%lf\n%d\n%s\n",
-        &dur, &lct, &dt, wsl_distro
-    );
-    if (n != 4
-        || dt != docker_type
 #ifdef _WIN32
-        || wsl_distro_name != (string)wsl_distro
+    char wsl_distro[256];
+    int n = fscanf(f, "%lf\n%lf\n%d\n%s\n", &dur, &lct, &dt, wsl_distro);
+    nitems = 4;
+#else
+    int n = fscanf(f, "%lf\n%lf\n%d", &dur, &lct, &dt);
+    nitems = 3;
 #endif
-    ) {
+    bool file_ok = true;
+    if (n != nitems) {
+        fprintf(stderr, "bad checkpoint file contents\n");
+        file_ok = false;
+    } else {
+        if (dt != docker_type) {
+            fprintf(stderr, "checkpoint file has wrong docker type\n");
+            file_ok = false;
+        }
+#ifdef _WIN32
+        if (wsl_distro_name != (string)wsl_distro) {
+            fprintf(stderr, "checkpoint file has wrong WSL distro\n");
+            file_ok = false;
+        }
+#endif
+    }
+    if (!file_ok) {
         boinc_delete_file(CHECKPOINT_FILENAME);
         return false;
     }
@@ -812,28 +872,38 @@ void clear_checkpoint() {
     boinc_delete_file(CHECKPOINT_FILENAME);
 }
 
-int make_checkpoint(double cpu_time, double &dur) {
+void make_checkpoint() {
     double start = dtime();
-    int retval = container_op("container checkpoint");
+    int retval = container_op("container checkpoint --leave-running");
     if (retval) {
         // Checkpoint failed, probably because CRIU missing.
         fprintf(stderr, "container checkpoint failed\n");
         boinc_delete_file(CHECKPOINT_FILENAME);
-        return -1;
+        checkpoint_failed = true;
+        return;
     }
     FILE *f = fopen(CHECKPOINT_FILENAME, "w");
     if (!f) {
-        fprintf(stderr, "Can't create checkpoint file\n");
-        return -1;
+        fprintf(stderr, "Can't create checkpoint status file\n");
+        checkpoint_failed = true;
+        return;
     }
-    dur = dtime() - start;
+    double dur = dtime() - start;
+#ifdef _WIN32
     fprintf(f, "%f\n%f\n%d\n%s\n",
         dur, cpu_time, docker_type, wsl_distro_name.c_str()
     );
+#else
+    fprintf(f, "%f\n%f\n%d\n", dur, cpu_time, docker_type);
+#endif
     fclose(f);
-    fprintf(stderr, "Created checkpoint; dur %f cpu %f \n", dur, cpu_time);
-    return 0;
+    fprintf(stderr, "Successfully checkpointed; dur %f cpu %f \n",
+        dur, cpu_time
+    );
+    checkpoint_cpu_time = cpu_time;
+    min_checkpoint_time = get_min_checkpoint_time(dur);
 }
+#endif
 
 //////////  INITIALIZATION  ////////////
 
@@ -860,14 +930,36 @@ int wsl_init() {
 }
 #endif
 
+#ifndef _WIN32
+
+// if we get killed, pause the container
+
+void signal_handler(int signum) {
+    fprintf(stderr, "got signal %d\n", signum);
+    if (running) {
+        container_op("pause");
+        running = false;
+    }
+    exit(0);
+}
+
+void init_signal_handler() {
+    struct sigaction sa;
+    sa.sa_handler = signal_handler;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+    if (sigaction(SIGINT, &sa, NULL) == -1) perror("sigaction");
+    if (sigaction(SIGQUIT, &sa, NULL) == -1) perror("sigaction");
+    if (sigaction(SIGTERM, &sa, NULL) == -1) perror("sigaction");
+    if (sigaction(SIGTSTP, &sa, NULL) == -1) perror("sigaction");
+}
+#endif
+
 int main(int argc, char** argv) {
     BOINC_OPTIONS options;
     int retval;
     bool sporadic = false;
     RSC_USAGE ru;
-    double cpu_time = 0, checkpoint_cpu_time = 0;
-    double last_checkpoint_dur = 0;
-    double min_checkpoint_time = 0;
 
     for (int j=1; j<argc; j++) {
         if (!strcmp(argv[j], "--sporadic")) {
@@ -895,6 +987,7 @@ int main(int argc, char** argv) {
 
     // don't write to stderr before this; it won't go to stderr.txt
 
+    fprintf(stderr, "docker_wrapper %d starting\n", DOCKERWRAPPER_RELEASE);
     // parse job.toml
     retval = parse_config_file();
     if (retval) {
@@ -971,10 +1064,16 @@ int main(int argc, char** argv) {
         }
         need_start = true;
         break;
+    case CONTAINER_CREATED:
+        fprintf(stderr, "container is created\n");
+        need_start = true;
+        break;
     case CONTAINER_RUNNING:
         // already running; do nothing
+        fprintf(stderr, "container is already running\n");
         break;
     case CONTAINER_PAUSED:
+        fprintf(stderr, "container is paused; unpausing\n");
         retval = container_op("unpause");
         if (retval) {
             need_start = true;
@@ -985,24 +1084,39 @@ int main(int argc, char** argv) {
         // If we have a checkpoint, restore from there.
         // Otherwise start from the beginning.
         //
+        fprintf(stderr, "container is exited; restarting\n");
+        need_start = true;
+#ifdef CHECKPOINT_RESTART
         double dur, lct;
         if (have_checkpoint(dur, lct)) {
-            retval = container_op("restore");
+            fprintf(stderr, "have checkpoint - restoring\n");
+            retval = container_op("container restore");
+                // keep the checkpoint in case we need it again
             if (retval) {
+                fprintf(stderr, "restore failed; restarting\n");
                 clear_checkpoint();
                 need_start = true;
             } else {
+                fprintf(stderr, "restore successful; dur %lf lct %lf\n",
+                    dur, lct
+                );
                 last_checkpoint_dur = dur;
                 cpu_time = checkpoint_cpu_time = lct;
+                min_checkpoint_time = get_min_checkpoint_time(dur);
             }
-        } else {
-            need_start = true;
+            // the restore consumed the checkpoint; make a new one
+            make_checkpoint();
+            need_start = false;
         }
+#endif
         break;
     case CONTAINER_OTHER:
-        container_op("stop");
+        fprintf(stderr, "container is in other state; restarting\n");
+        container_op("kill");
         need_start = true;
         break;
+    default:
+        fprintf(stderr, "bad container state %d\n", state);
     }
     if (need_start) {
         if (config.verbose) {
@@ -1011,12 +1125,15 @@ int main(int argc, char** argv) {
         retval = container_op("start");
         if (retval) {
             fprintf(stderr, "start failed: %d\n", retval);
+            container_op("kill");
             cleanup();
             boinc_finish(1);
         }
     }
 
-    min_checkpoint_time = get_min_checkpoint_time(last_checkpoint_dur);
+#ifndef _WIN32
+    init_signal_handler();
+#endif
 
     running = true;
     for (int i=0; ; i++) {
@@ -1062,22 +1179,16 @@ int main(int argc, char** argv) {
                 );
             }
 
+#ifdef CHECKPOINT_RESTART
             // see if we should checkpoint
             //
             if (!checkpoint_failed
                 && boinc_time_to_checkpoint()
                 && dtime() > min_checkpoint_time
             ) {
-                double dur;
-                retval = make_checkpoint(cpu_time, dur);
-                if (retval) {
-                    // If failed, don't try again.
-                    checkpoint_failed = true;
-                } else {
-                    checkpoint_cpu_time = cpu_time;
-                    min_checkpoint_time = get_min_checkpoint_time(dur);
-                }
+                make_checkpoint();
             }
+#endif
         }
     }
 }
