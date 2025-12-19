@@ -286,7 +286,10 @@ function docker_desc($misc) {
     );
     if (!empty($d->wsl_distro)) {
         if (empty($d->boinc_buda_runner_version)) {
-            $x .= sprintf('<br>WSL distro: %s', $d->wsl_distro);
+            $x .= sprintf(
+                '<br>WSL distro: %s',
+                htmlspecialchars($d->wsl_distro)
+            );
         } else {
             $x .= sprintf(
                 '<br>WSL distro: %s ver %d',

@@ -136,12 +136,13 @@
     // from https://github.com/mayah/tinytoml
 
 #include "util.h"
+#include "str_replace.h"
+#include "str_util.h"
 #include "boinc_api.h"
 #include "network.h"
 #include "version.h"
 
 #ifdef _WIN32
-#include "str_replace.h"
 #include "win_util.h"
 #endif
 
@@ -151,7 +152,7 @@ using std::vector;
 #define POLL_PERIOD 1.0
 #define STATUS_PERIOD 10
     // reports status this often
-#define MIN_CHECKPOINT_INTERVAL 600
+#define MIN_CHECKPOINT_INTERVAL 900
     // checkpoint at most every 15 min
 #define CHECKPOINT_INTERVAL_FACTOR  100
     // if checkpoint takes X sec, don't do another one for X*100 sec
@@ -397,9 +398,9 @@ void get_app_args(char* buf) {
 void get_image_name() {
     if (config.image_name.empty()) {
         string s = docker_image_name(project_dir, aid.wu_name);
-        strcpy(image_name, s.c_str());
+        safe_strcpy(image_name, s.c_str());
     } else {
-        strcpy(image_name, config.image_name.c_str());
+        safe_strcpy(image_name, config.image_name.c_str());
     }
 }
 
@@ -456,7 +457,7 @@ int get_image() {
 
 void get_container_name() {
     string s = docker_container_name(project_dir, aid.result_name);
-    strcpy(container_name, s.c_str());
+    safe_strcpy(container_name, s.c_str());
 }
 
 #define CONTAINER_ABSENT    1
@@ -480,7 +481,7 @@ int get_container_state(int &state) {
     if (retval) return retval;
     for (string line: out) {
         char buf[256];
-        strcpy(buf, line.c_str());
+        safe_strcpy(buf, line.c_str());
         if (strstr(buf, container_name)) {
             char *p = strchr(buf, '|');
             if (!p) break;
@@ -846,6 +847,7 @@ bool have_checkpoint(double &dur, double &lct) {
     int n = fscanf(f, "%lf\n%lf\n%d", &dur, &lct, &dt);
     nitems = 3;
 #endif
+    fclose(f);
     bool file_ok = true;
     if (n != nitems) {
         fprintf(stderr, "bad checkpoint file contents\n");
@@ -926,6 +928,7 @@ int wsl_init() {
         }
     }
     fprintf(stderr, "Using WSL distro %s\n", dp->distro_name.c_str());
+    wsl_distro_name = dp->distro_name;
     docker_type = dp->docker_type;
     return docker_conn.init(*dp, config.verbose>0);
 }
@@ -1077,6 +1080,11 @@ int main(int argc, char** argv) {
         fprintf(stderr, "container is paused; unpausing\n");
         retval = container_op("unpause");
         if (retval) {
+            fprintf(stderr, "unpaused failed; killing\n");
+            retval = container_op("kill");
+            if (retval) {
+                fprintf(stderr, "kill also failed\n");
+            }
             need_start = true;
         }
         break;
