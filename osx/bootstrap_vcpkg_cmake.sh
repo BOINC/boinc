@@ -18,5 +18,4 @@ if [ ! -d $VCPKG_ROOT ]; then
 fi
 
 git -C $VCPKG_ROOT pull
-git -C $VCPKG_ROOT checkout 43f6bb399bae64df9b937e377e3a8aae8cd7a15f
 $VCPKG_ROOT/bootstrap-vcpkg.sh
