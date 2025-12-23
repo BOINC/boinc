@@ -851,6 +851,7 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
     char            *args[5];
     extern char     **environ;
     pid_t           thePid = 0;
+    int             status = 0;
 
     // OS 10.4 has problems with Accounts pane if we create uid or gid > 501
     pw = getpwnam(user_name);
@@ -865,8 +866,8 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
         groupExists = true;
     }
 
-    sprintf(buf1, "/groups/%s", group_name);
-    sprintf(buf2, "/users/%s", user_name);
+    sprintf(buf1, "/Groups/%s", group_name);
+    sprintf(buf2, "/Users/%s", user_name);
 
     if ( userExists && groupExists )
         goto setGroupForUser;       // User and group already exist
@@ -991,8 +992,19 @@ setGroupForUser:
     args[3] = buf2;
     args[4] = NULL;
     err = posix_spawnp(&thePid, "/usr/bin/sudo", NULL, NULL, args, environ);
-    if (err)
-        return err;
+    waitpid(thePid, &status, WUNTRACED);
+    if (status != 0) {
+        err = status;
+    } else {
+        if (WIFEXITED(status)) {
+            err = WEXITSTATUS(status);
+            if (err == 1) {
+                err = errno;
+            }
+        }   // end if (WIFEXITED(status)) else
+    }       // end if waitpid returned 0 sstaus else
+if (err)
+    return err;
 
     err = ResynchDSSystem();
     if (err != noErr)
