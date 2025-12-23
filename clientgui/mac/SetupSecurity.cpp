@@ -848,6 +848,9 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
     char            buf2[80];
     char            buf3[80];
     char            buf4[80];
+    char            *args[5];
+    extern char     **environ;
+    pid_t           thePid = 0;
 
     // OS 10.4 has problems with Accounts pane if we create uid or gid > 501
     pw = getpwnam(user_name);
@@ -968,17 +971,26 @@ setGroupForUser:
     if (err)
         return err;
 
-    // Always set the RealName field to an empty string
-    // Note: create RealName with empty string fails under OS 10.7, but
-    // creating it with non-empty string and changing to empty string does work.
-    //
-    // Something like "dscl . -create /users/boinc_master RealName tempName"
+    // Set the RealName field in case System Events Useers & Groups shows it for some reason
+    // Something like "dscl . -create /users/boinc_master RealName boinc_master"
     err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "RealName", user_name, NULL);
     if (err)
         return err;
 
-    // Something like 'dscl . -change /users/boinc_master RealName ""'
-    err = DoSudoPosixSpawn(dsclPath, ".", "-change", buf2, "RealName", user_name, "");
+    // Hide user from System Events and Login screen https://support.apple.com/en-mn/102099
+    // Something like "dscl . -create /users/boinc_master IsHidden 1"
+    err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "IsHidden", "1", NULL);
+    if (err)
+        return err;
+
+    // Hide the home directory and share point https://support.apple.com/en-mn/102099
+    // Something like "sudo chflags hidden /Users/boinc_master"
+    args[0] = "/usr/bin/sudo";
+    args[1] = "chflags";
+    args[2] = "hidden";
+    args[3] = buf2;
+    args[4] = NULL;
+    err = posix_spawnp(&thePid, "/usr/bin/sudo", NULL, NULL, args, environ);
     if (err)
         return err;
 
