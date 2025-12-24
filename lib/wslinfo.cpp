@@ -194,7 +194,7 @@ WSL_DISTRO* WSL_DISTROS::find_docker() {
     for (WSL_DISTRO &wd: distros) {
         if (wd.distro_name != BOINC_WSL_DISTRO_NAME) continue;
         if (wd.docker_version.empty()) {
-            fprintf(stderr, "%s is missing Podman", BOINC_WSL_DISTRO_NAME);
+            fprintf(stderr, "%s is missing Podman\n", BOINC_WSL_DISTRO_NAME);
         } else {
             return &wd;
         }

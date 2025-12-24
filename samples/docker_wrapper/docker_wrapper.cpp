@@ -443,7 +443,9 @@ int get_image() {
         exit(1);
     }
     if (!exists) {
-        if (config.verbose) fprintf(stderr, "building image\n");
+        if (config.verbose) {
+            fprintf(stderr, "building image\n");
+        }
         retval = build_image();
         if (retval) {
             fprintf(stderr, "build_image() failed: %d\n", retval);
@@ -1011,6 +1013,7 @@ int main(int argc, char** argv) {
     if (config.verbose) {
         config.print();
     }
+    config.verbose = VERBOSE_STD;
 
     if (sporadic) {
         retval = boinc_sporadic_dir(".");
