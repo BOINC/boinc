@@ -492,6 +492,7 @@ function app_form($desc=null) {
         $desc->description = null;
         $desc->sci_kw = null;
         $desc->url = null;
+        $desc->submitters = [];
         form_input_text('Internal name<br><small>No spaces</small>', 'name');
     }
     form_input_text('User-visible name', 'long_name', $desc->long_name);
@@ -623,19 +624,23 @@ function app_action($user) {
     $desc->max_delay_days = $max_delay_days;
     $desc->description = get_str('description');
     $desc->sci_kw = array_map('intval', get_array('sci_kw'));
-    $x = get_str('submitters');
-    $x = explode(' ', $x);
     $desc->submitters = [];
-    global $buda_app;
-    foreach ($x as $id) {
-        if (!is_numeric($id)) error_page('bad user ID');
-        $id = intval($id);
-        $u = BoincUser::lookup_id($id);
-        if (!$u) error_page("no user $id");
-        if (!has_submit_access($u, $buda_app->id)) {
-            error_page("user $id has no BUDA submit access");
+    $x = get_str('submitters');
+    if ($x) {
+        $x = explode(' ', $x);
+        global $buda_app;
+        foreach ($x as $id) {
+            if (!is_numeric($id)) {
+                error_page('bad user ID');
+            }
+            $id = intval($id);
+            $u = BoincUser::lookup_id($id);
+            if (!$u) error_page("no user $id");
+            if (!has_submit_access($u, $buda_app->id)) {
+                error_page("user $id has no BUDA submit access");
+            }
+            $desc->submitters[] = $id;
         }
-        $desc->submitters[] = $id;
     }
     file_put_contents("$dir/desc.json", json_encode($desc, JSON_PRETTY_PRINT));
 
