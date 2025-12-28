@@ -162,6 +162,33 @@ struct PROC_RESOURCES {
         } else {
             return (ncpus_used_st < ncpus);
         }
+
+        // if job uses Docker, make sure it's installed
+        //
+        if (rp->uses_docker()) {
+            if (!strlen(gstate.host_info.docker_version)) {
+                static bool first = true;
+                if (first) {
+                    msg_printf(NULL, MSG_USER_ALERT,
+                        "Docker jobs are present but Podman/Docker not found; please install it."
+                    );
+                    msg_printf(NULL, MSG_USER_ALERT,
+                        "See https://github.com/BOINC/boinc/wiki/Installing-Docker"
+                    );
+                    first = false;
+                }
+                return false;
+            }
+#ifdef __APPLE__
+            // and on Mac, make sure it's inited
+            //
+            if (gstate.host_info.docker_type == PODMAN
+                && !gstate.host_info.podman_inited
+            ) {
+                return false;
+            }
+#endif
+        }
     }
 
     // we've decided to add this to the runnable list; update bookkeeping

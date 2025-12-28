@@ -185,7 +185,21 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     //
     host_info.get_host_info(false);
     set_n_usable_cpus();
+
+#ifdef __APPLE__
+    // if Podman hasn't inited yet, don't include Docker info in sched req
+    char tmp[256];
+    safe_strcpy(tmp, host_info.docker_version);
+    if (hostinfo.docker_type == PODMAN && !podman_inited) {
+        host_info.docker_version[0] = 0;
+    }
+#endif
+
     host_info.write(mf, !cc_config.suppress_net_info, false);
+
+#ifdef __APPLE__
+    safe_strcpy(host_info.docker_version, tmp);
+#endif
 
     // get and write disk usage
     //
