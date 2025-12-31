@@ -163,7 +163,7 @@ struct RESULT {
         return resource_usage.rsc_type;
     }
     inline bool uses_docker() {
-        return (strstr(plan_class, "docker") != NULL);
+        return strstr(plan_class, "docker") != NULL;
     }
     inline bool non_cpu_intensive() {
         if (project->non_cpu_intensive) return true;
