@@ -190,7 +190,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     // if Podman hasn't inited yet, don't include Docker info in sched req
     char tmp[256];
     safe_strcpy(tmp, host_info.docker_version);
-    if (hostinfo.docker_type == PODMAN && !podman_inited) {
+    if (host_info.docker_type == PODMAN && !host_info.podman_inited) {
         host_info.docker_version[0] = 0;
     }
 #endif
