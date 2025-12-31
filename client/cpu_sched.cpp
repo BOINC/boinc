@@ -166,7 +166,7 @@ struct PROC_RESOURCES {
         // if job uses Docker, make sure it's installed
         //
         if (rp->uses_docker()) {
-            if (!strlen(gstate.host_info.docker_version)) {
+            if (!gstate.host_info.have_docker()) {
                 static bool first = true;
                 if (first) {
                     msg_printf(NULL, MSG_USER_ALERT,
