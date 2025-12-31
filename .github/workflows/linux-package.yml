@@ -659,7 +659,7 @@ jobs:
 
   test-debian-deb-package:
     name: Test Debian DEB Package
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
     container:
       image: debian:${{ matrix.os }}
     needs: build-deb-package
@@ -667,7 +667,12 @@ jobs:
       matrix:
         os: [buster, bullseye, bookworm, trixie]
         type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
-        arch: [amd64]
+        arch: [amd64, arm64]
+        include:
+          - arch: amd64
+            runner: ubuntu-latest
+          - arch: arm64
+            runner: ubuntu-24.04-arm
       fail-fast: false
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
@@ -735,7 +740,7 @@ jobs:
 
   test-ubuntu-deb-package:
     name: Test Ubuntu DEB Package
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
     container:
       image: ubuntu:${{ matrix.os }}
     needs: build-deb-package
@@ -743,7 +748,12 @@ jobs:
       matrix:
         os: [focal, jammy, noble]
         type: [install, upgrade, upgrade-from-ppa, upgrade-from-alpha, upgrade-from-stable]
-        arch: [amd64]
+        arch: [amd64, arm64]
+        include:
+          - arch: amd64
+            runner: ubuntu-latest
+          - arch: arm64
+            runner: ubuntu-24.04-arm
       fail-fast: false
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
@@ -818,7 +828,7 @@ jobs:
 
   test-fedora-rpm-package:
     name: Test Fedora RPM Package
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
     container:
       image: fedora:${{ matrix.os }}
     needs: build-rpm-package
@@ -826,7 +836,12 @@ jobs:
       matrix:
         os: [37, 38, 39, 40, 41, 42, 43]
         type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
-        arch: [amd64]
+        arch: [amd64, arm64]
+        include:
+          - arch: amd64
+            runner: ubuntu-latest
+          - arch: arm64
+            runner: ubuntu-24.04-arm
       fail-fast: false
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
@@ -914,7 +929,7 @@ jobs:
 
   test-opensuse-rpm-package:
     name: Test openSUSE RPM Package
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
     container:
       image: "opensuse/leap:${{ matrix.os }}"
     needs: build-rpm-package
@@ -922,7 +937,12 @@ jobs:
       matrix:
         os: ["15.4", "15.5", "15.6", "16.0"]
         type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
-        arch: [amd64]
+        arch: [amd64, arm64]
+        include:
+          - arch: amd64
+            runner: ubuntu-latest
+          - arch: arm64
+            runner: ubuntu-24.04-arm
       fail-fast: false
     steps:
       - name: Install dependencies
