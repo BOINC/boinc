@@ -88,6 +88,10 @@ void HOST_INFO::clear_host_info() {
 
     safe_strcpy(virtualbox_version, "");
     num_opencl_cpu_platforms = 0;
+
+#ifdef __APPLE__
+    podman_inited = false;
+#endif
 }
 
 int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {

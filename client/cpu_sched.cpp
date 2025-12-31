@@ -151,16 +151,19 @@ struct PROC_RESOURCES {
             if (gpu_suspend_reason) return false;
         }
         if (rp->uses_coprocs()) {
-            if (sufficient_coprocs(*rp)) {
-                return true;
-            } else {
+            if (!sufficient_coprocs(*rp)) {
                 return false;
             }
         } else if (rp->resource_usage.avg_ncpus > 1) {
-            if (ncpus_used_mt == 0) return true;
-            return (ncpus_used_mt + rp->resource_usage.avg_ncpus <= ncpus);
+            if (ncpus_used_mt > 0) {
+                if (ncpus_used_mt + rp->resource_usage.avg_ncpus > ncpus) {
+                    return false;
+                }
+            }
         } else {
-            return (ncpus_used_st < ncpus);
+            if (ncpus_used_st >= ncpus) {
+                return false;
+            }
         }
 
         // if job uses Docker, make sure it's installed
@@ -189,6 +192,7 @@ struct PROC_RESOURCES {
             }
 #endif
         }
+        return true;
     }
 
     // we've decided to add this to the runnable list; update bookkeeping
