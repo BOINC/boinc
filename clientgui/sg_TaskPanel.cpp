@@ -1180,11 +1180,8 @@ bool CSimpleTaskPanel::Suspended() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
 
-    if (!pDoc->IsConnected()) {
-        return true;
-    }
     pDoc->GetCoreClientStatus(status);
-    if (status.task_suspend_reason) {
+    if (pDoc->IsConnected() && status.task_suspend_reason) {
         return true;
     }
     return false;
