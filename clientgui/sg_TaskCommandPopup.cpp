@@ -124,7 +124,7 @@ void CSimpleTaskPopupButton::ShowTaskCommandsMenu(wxPoint pos) {
     }
 
     pDoc->GetCoreClientStatus(status);
-    if (status.task_suspend_reason & ~(SUSPEND_REASON_CPU_THROTTLE)) {
+    if (status.task_suspend_reason) {
         enableShowGraphics = false;
     }
 

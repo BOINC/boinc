@@ -608,7 +608,7 @@ struct CC_STATUS {
     int network_status;         // values: NETWORK_STATUS_*
     bool ams_password_error;
     bool manager_must_quit;
-    int task_suspend_reason;    // bitmap, see common_defs.h
+    int task_suspend_reason;    // see common_defs.h
     int task_mode;              // always/auto/never; see common_defs.h
     int task_mode_perm;         // same, but permanent version
     double task_mode_delay;     // time until perm becomes actual

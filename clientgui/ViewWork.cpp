@@ -933,7 +933,7 @@ void CViewWork::UpdateSelection() {
         enableAbort = true;
 
         pDoc->GetCoreClientStatus(status);
-        if (status.task_suspend_reason & ~(SUSPEND_REASON_CPU_THROTTLE)) {
+        if (status.task_suspend_reason) {
             enableShowGraphics = false;
             enableShowVMConsole = false;
         }

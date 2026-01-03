@@ -712,13 +712,10 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
     if (!pDoc->IsConnected()) {
         SetIcon(m_iconTaskBarDisconnected);
     } else {
-        switch(status.task_suspend_reason) {
-        case SUSPEND_REASON_CPU_THROTTLE:
-        case 0:
-            SetIcon(m_iconTaskBarNormal);
-            break;
-        default:
+        if (status.task_suspend_reason) {
             SetIcon(m_iconTaskBarSnooze);
+        } else {
+            SetIcon(m_iconTaskBarNormal);
         }
     }
 #else
@@ -736,17 +733,13 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
     if (pDoc->IsConnected()) {
         icnIcon = m_iconTaskBarNormal;
         bool comp_suspended = false;
-        switch(status.task_suspend_reason) {
-        case SUSPEND_REASON_CPU_THROTTLE:
-        case 0:
-            strMessage += _("Computing is enabled");
-            break;
-        default:
+        if (status.task_suspend_reason) {
             icnIcon = m_iconTaskBarSnooze;
             strMessage += _("Computing is suspended - ");
             strMessage += suspend_reason_wxstring(status.task_suspend_reason);
             comp_suspended = true;
-            break;
+        } else {
+            strMessage += _("Computing is enabled");
         }
         strMessage += wxT(".\n");
 

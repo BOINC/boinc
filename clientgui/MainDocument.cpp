@@ -2589,22 +2589,7 @@ int CMainDocument::GetSimpleGUIWorkCount() {
 }
 
 wxString suspend_reason_wxstring(int reason) {
-    switch (reason) {
-    case SUSPEND_REASON_BATTERIES: return _("on batteries");
-    case SUSPEND_REASON_USER_ACTIVE: return _("computer is in use");
-    case SUSPEND_REASON_USER_REQ: return _("user request");
-    case SUSPEND_REASON_TIME_OF_DAY: return _("time of day");
-    case SUSPEND_REASON_BENCHMARKS: return _("CPU benchmarks in progress");
-    case SUSPEND_REASON_DISK_SIZE: return _("need disk space - check preferences");
-    case SUSPEND_REASON_NO_RECENT_INPUT: return _("computer is not in use");
-    case SUSPEND_REASON_INITIAL_DELAY: return _("starting up");
-    case SUSPEND_REASON_EXCLUSIVE_APP_RUNNING: return _("an exclusive app is running");
-    case SUSPEND_REASON_CPU_USAGE: return _("CPU is busy");
-    case SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED: return _("network bandwidth limit exceeded");
-    case SUSPEND_REASON_OS: return _("requested by operating system");
-    case SUSPEND_REASON_PODMAN_INIT: return _("Podman initializing");
-    }
-    return _("unknown reason");
+    return wxString(suspend_reason_string(reason), wxConvUTF8));
 }
 
 bool uses_gpu(RESULT* r) {
@@ -2630,7 +2615,6 @@ wxString result_description(RESULT* result, bool show_resources) {
     }
 
     project = doc->state.lookup_project(result->project_url);
-    int throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_THROTTLE;
     switch(result->state) {
     case RESULT_NEW:
         strBuffer += _("New");
@@ -2652,7 +2636,7 @@ wxString result_description(RESULT* result, bool show_resources) {
             strBuffer += _("Project suspended by user");
         } else if (result->suspended_via_gui) {
             strBuffer += _("Task suspended by user");
-        } else if (status.task_suspend_reason && !throttled && result->active_task_state != PROCESS_EXECUTING) {
+        } else if (status.task_suspend_reason && && result->active_task_state != PROCESS_EXECUTING) {
             // an NCI process can be running even though computation is suspended
             // (because of <dont_suspend_nci>
             //
