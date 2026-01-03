@@ -2589,7 +2589,7 @@ int CMainDocument::GetSimpleGUIWorkCount() {
 }
 
 wxString suspend_reason_wxstring(int reason) {
-    return wxString(suspend_reason_string(reason), wxConvUTF8));
+    return wxString(suspend_reason_string(reason), wxConvUTF8);
 }
 
 bool uses_gpu(RESULT* r) {
@@ -2636,7 +2636,7 @@ wxString result_description(RESULT* result, bool show_resources) {
             strBuffer += _("Project suspended by user");
         } else if (result->suspended_via_gui) {
             strBuffer += _("Task suspended by user");
-        } else if (status.task_suspend_reason && && result->active_task_state != PROCESS_EXECUTING) {
+        } else if (status.task_suspend_reason && result->active_task_state != PROCESS_EXECUTING) {
             // an NCI process can be running even though computation is suspended
             // (because of <dont_suspend_nci>
             //
