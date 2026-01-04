@@ -136,15 +136,6 @@ jobs:
         if: success() && !startsWith(github.ref, 'refs/tags/') && matrix.configuration == 'Release'
         run: python ./tests/msi_validation.py "C:\Program Files (x86)\MsiVal2\MsiVal2.exe" "${{github.workspace}}\win_build\Build\${{matrix.platform}}\${{matrix.configuration}}\boinc.msi" "${{github.workspace}}\installer\darice.cub"
 
-      - name: Run installation
-        if: success() && matrix.platform == 'x64' && matrix.configuration == 'Release'
-        shell: powershell
-        run: Start-Process "msiexec.exe" -ArgumentList "/i ${{github.workspace}}\win_build\Build\x64\${{matrix.configuration}}\boinc.msi /quiet /qn /l*v ${{github.workspace}}\win_build\Build\x64\${{matrix.configuration}}\install.log" -Wait
-
-      - name: Run installation tests
-        if: success() && matrix.platform == 'x64' && matrix.configuration == 'Release'
-        run: python ./tests/windows_installer_integration_tests.py
-
       - name: Prepare logs on failure
         if: ${{failure()}}
         run: |
@@ -213,6 +204,73 @@ jobs:
         uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  msbuild-test:
+    name: ${{matrix.platform}}-${{matrix.type}}-msbuild-test
+    runs-on: ${{matrix.runner}}
+    needs: msbuild
+    strategy:
+      matrix:
+        type: [install, upgrade_from_alpha, upgrade_from_stable]
+        platform: [x64, arm64]
+        include:
+          - platform: x64
+            runner: windows-latest
+          - platform: arm64
+            runner: windows-11-arm
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+        with:
+          fetch-depth: 2
+
+      - name: Install previous alpha version
+        if: success() && matrix.type == 'upgrade_from_alpha'
+        shell: powershell
+        run: |
+          python ./tests/download_boinc_installer.py ${{matrix.platform}} alpha
+          if (Test-Path "./${{matrix.platform}}_alpha.exe") {
+            Start-Process "./${{matrix.platform}}_alpha.exe" -ArgumentList "/quiet /qn /l*v alpha.log" -Wait
+          }
+
+      - name: Install previous stable version
+        if: success() && matrix.type == 'upgrade_from_stable'
+        shell: powershell
+        run: |
+          python ./tests/download_boinc_installer.py ${{matrix.platform}} release
+          if (Test-Path "./${{matrix.platform}}_release.exe") {
+            Start-Process "./${{matrix.platform}}_release.exe" -ArgumentList "/quiet /qn /l*v release.log" -Wait
+          }
+
+      - name: Download installer artifact
+        if: success()
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
+        with:
+          name: win_installer_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
+
+      - name: Extract installer artifact
+        if: success()
+        run: |
+          7z x win_installer.7z
+
+      - name: Run installation
+        if: success()
+        shell: powershell
+        run: Start-Process "./installer_setup.exe" -ArgumentList "/quiet /qn /l*v install.log" -Wait
+
+      - name: Run installation tests
+        if: success()
+        run: python ./tests/windows_installer_integration_tests.py
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: windows_installer_test_logs_${{matrix.platform}}_${{matrix.type}}_${{github.event.pull_request.head.sha}}
+          path: |
+            install.log
+            alpha.log
+            release.log
 
   cmake:
     name: ${{matrix.configuration}}-${{matrix.platform}}-cmake
