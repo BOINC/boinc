@@ -31,9 +31,9 @@ if (!parse_bool($config, "show_results")) {
 
 // Add DataTables CSS and JS for client-side table sorting
 $head_extra = '
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap4.min.css">
-<script type="text/javascript" src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap4.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap4.min.css" crossorigin="anonymous">
+<script type="text/javascript" src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
 ';
 
 BoincDb::get(true);
@@ -107,6 +107,7 @@ if (count($results)) {
         if ($i++ >= $results_per_page) break;
         show_result_row($result, true, $show_host_link, $show_names);
     }
+    echo "</tbody>\n";
     end_table();
 } else {
     start_table();
