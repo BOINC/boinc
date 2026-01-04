@@ -387,7 +387,10 @@ function result_page_url($info) {
 }
 
 function result_table_start($show_wu_link, $show_host_link, $info) {
-    start_table('table-striped');
+    // Start table with ID for DataTables sorting
+    echo '<div class="table">
+      <table width="100%" class="table table-condensed table-striped" id="results-table">
+    ';
     $x = array();
     $a = array(null);
 
