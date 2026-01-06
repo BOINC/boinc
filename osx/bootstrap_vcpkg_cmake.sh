@@ -18,6 +18,8 @@ if [ ! -d $VCPKG_ROOT ]; then
 fi
 
 git -C $VCPKG_ROOT pull
+git -C $VCPKG_ROOT fetch origin pull/49242/head:git-pr-49242
+git -C $VCPKG_ROOT checkout git-pr-49242
 #git -C $VCPKG_ROOT checkout 43f6bb399bae64df9b937e377e3a8aae8cd7a15f
 $VCPKG_ROOT/bootstrap-vcpkg.sh
 $VCPKG_ROOT/vcpkg fetch ninja
