@@ -48,13 +48,13 @@ function admin_page_head($title) {
 function admin_page_tail() {
     echo sprintf('
         <hr><center><a href=index.php>Main page</a></center>
-        <script src="%s/jquery.min.js"></script>
+        <script src="%s"></script>
         <script src="%s/bootstrap.min.js"></script>
         </div>
         </body>
         </html>
         ',
-        secure_url_base(),
+        JQUERY_URL,
         secure_url_base()
     );
 }
