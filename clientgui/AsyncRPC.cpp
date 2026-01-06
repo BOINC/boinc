@@ -300,12 +300,6 @@ int RPCThread::ProcessRPCRequest() {
             *(double*)(current_request->arg2)
         );
         break;
-    case RPC_GET_SCREENSAVER_TASKS:
-        retval = (m_pDoc->rpcClient).get_screensaver_tasks(
-            *(int*)(current_request->arg1),
-            *(RESULTS*)(current_request->arg2)
-        );
-        break;
     case RPC_RUN_BENCHMARKS:
         retval = (m_pDoc->rpcClient).run_benchmarks();
         break;

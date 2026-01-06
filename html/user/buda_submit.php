@@ -167,9 +167,9 @@ function parse_batch_dir($batch_dir, $app_desc) {
             error_page("$fname doesn't have all input files");
         }
 
-        if (!$cmdline && !$job_files) {
-            error_page("job $f2 has no cmdline and no input files");
-        }
+        //if (!$cmdline && !$job_files) {
+        //    error_page("job $fname has no cmdline and no input files");
+        //}
 
         $file_infos = [];
         foreach ($unshared_files as $f2) {

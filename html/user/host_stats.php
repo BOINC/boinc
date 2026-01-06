@@ -122,7 +122,6 @@ function hosts_other($os_names) {
 
 function get_os_data() {
     global $db, $min_credit;
-    $db = BoincDb::get();
     $names = $db->enum_general(
         'StdClass',
         "select distinct(os_name) from host where expavg_credit>$min_credit"
@@ -219,6 +218,7 @@ function hosts_by_boinc_version() {
     page_tail();
 }
 
+$db = BoincDb::get();
 if (get_str("boinc_version", true)) {
     hosts_by_boinc_version();
 } else {

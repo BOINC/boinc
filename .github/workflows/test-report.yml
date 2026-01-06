@@ -34,7 +34,7 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
           path: test-reports
           pattern: '*_tests_results'
-      - uses: dorny/test-reporter@fe45e9537387dac839af0d33ba56eed8e24189e8
+      - uses: dorny/test-reporter@b082adf0eced0765477756c2a610396589b8c637
         with:
           name: 'Tests Report'
           path: 'test-reports/**/*.xml'

@@ -97,7 +97,7 @@ jobs:
       image: fedora:38
     strategy:
       matrix:
-        os: [fc37, fc38, fc39, fc40, fc41, fc42, suse15_4, suse15_5, suse15_6, suse16_0]
+        os: [fc37, fc38, fc39, fc40, fc41, fc42, fc43, suse15_4, suse15_5, suse15_6, suse16_0]
       fail-fast: false
     env:
       PUBKEY_HASH: D4460B4F0EEDE2C0662092F640254C9B29853EA6
