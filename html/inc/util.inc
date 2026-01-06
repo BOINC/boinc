@@ -29,6 +29,8 @@ require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/bootstrap.inc");
 
+define('JQUERY_URL', 'https://code.jquery.com/jquery-3.7.1.slim.min.js');
+
 function master_url() {
     return parse_config(get_config() , "<master_url>");
 }
@@ -166,7 +168,7 @@ function send_cookie($name, $value, $permanent, $ops=false) {
     setcookie($name, $value, $expire, $path,
         '',
         is_https(),     // if this page is secure, make cookie secure
-        true            // httponly; no JS access
+        true            // use cookie for HTTP only; no JS access
     );
 }
 
@@ -292,7 +294,7 @@ function page_head(
         <html lang="en">
         <head>
     ';
-    echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>';
+    echo sprintf('<script src="%s"></script>', JQUERY_URL);
 
     if (defined('GLOBAL_HEAD_EXTRA')) {
         echo GLOBAL_HEAD_EXTRA;
