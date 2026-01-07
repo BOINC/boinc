@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -55,7 +55,7 @@ jobs:
     strategy:
       matrix:
         type: [client, manager]
-        arch: [arm64, amd64]
+        arch: [arm64, amd64, armhf]
       fail-fast: false
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
@@ -93,6 +93,11 @@ jobs:
         run: |
           apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
 
+      - name: Install dependencies for armhf
+        if: matrix.arch == 'armhf'
+        run: |
+          apt-get install -y gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
+
       - name: Install updated version of autoconf
         run: |
           if [ ! -f ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz ]; then
@@ -126,6 +131,18 @@ jobs:
         if: success() && matrix.type == 'manager' && matrix.arch == 'arm64'
         run: |
           . linux/arm64/ci_configure_manager.sh --exec_prefix "/usr/local"
+          make -j $(nproc --all)
+
+      - name: Configure client (for armhf)
+        if: success() && matrix.type == 'client' && matrix.arch == 'armhf'
+        run: |
+          . linux/armhf/ci_configure_client.sh --exec_prefix "/usr/local"
+          make -j $(nproc --all)
+
+      - name: Configure manager (for armhf)
+        if: success() && matrix.type == 'manager' && matrix.arch == 'armhf'
+        run: |
+          . linux/armhf/ci_configure_manager.sh --exec_prefix "/usr/local"
           make -j $(nproc --all)
 
       - name: Configure client (for amd64)
@@ -170,7 +187,7 @@ jobs:
       matrix:
         os: [focal, jammy, noble, buster, bullseye, bookworm, trixie]
         type: [client, manager]
-        arch: [arm64, amd64]
+        arch: [arm64, amd64, armhf]
       fail-fast: false
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
@@ -278,7 +295,7 @@ jobs:
       matrix:
         os: [fc37, fc38, fc39, fc40, fc41, fc42, fc43, suse15_4, suse15_5, suse15_6, suse16_0]
         type: [client, manager]
-        arch: [arm64, amd64]
+        arch: [arm64, amd64, armhf]
       fail-fast: false
     env:
       PUBKEY_HASH: D4460B4F0EEDE2C0662092F640254C9B29853EA6
@@ -313,6 +330,8 @@ jobs:
             arch="x86_64"
           elif [ "${{ matrix.arch }}" == "arm64" ]; then
             arch="aarch64"
+          elif [ "${{ matrix.arch }}" == "armhf" ]; then
+            arch="armv7hl"
           else
             echo "Unsupported architecture ${arch}"
             exit 1
@@ -667,11 +686,13 @@ jobs:
       matrix:
         os: [buster, bullseye, bookworm, trixie]
         type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
-        arch: [amd64, arm64]
+        arch: [amd64, arm64, armhf]
         include:
           - arch: amd64
             runner: ubuntu-latest
           - arch: arm64
+            runner: ubuntu-24.04-arm
+          - arch: armhf
             runner: ubuntu-24.04-arm
       fail-fast: false
     steps:
@@ -684,6 +705,13 @@ jobs:
         run: |
           sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
           sed -i 's/security.debian.org/archive.debian.org/g' /etc/apt/sources.list
+
+      - name: Enable armhf architecture
+        if: success() && matrix.arch == 'armhf'
+        run: |
+          dpkg --add-architecture armhf
+          apt update
+
       - name: Install dependencies
         if: success()
         run: |
@@ -748,17 +776,25 @@ jobs:
       matrix:
         os: [focal, jammy, noble]
         type: [install, upgrade, upgrade-from-ppa, upgrade-from-alpha, upgrade-from-stable]
-        arch: [amd64, arm64]
+        arch: [amd64, arm64, armhf]
         include:
           - arch: amd64
             runner: ubuntu-latest
           - arch: arm64
+            runner: ubuntu-24.04-arm
+          - arch: armhf
             runner: ubuntu-24.04-arm
       fail-fast: false
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           fetch-depth: 2
+
+      - name: Enable armhf architecture
+        if: success() && matrix.arch == 'armhf'
+        run: |
+          dpkg --add-architecture armhf
+          apt update
 
       - name: Install dependencies
         if: success()
@@ -1069,6 +1105,12 @@ jobs:
         with:
           name: linux-package_client_amd64_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
+      - name: Download client armhf
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
+        with:
+          name: linux-package_client_armhf_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
       - name: Download manager arm64
         if: ${{ success() && env.SKIP_RUN == 0 }}
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
@@ -1080,6 +1122,12 @@ jobs:
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
         with:
           name: linux-package_manager_amd64_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Download manager armhf
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
+        with:
+          name: linux-package_manager_armhf_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Update or create the repository using aptly
         if: ${{ success() && env.SKIP_RUN == 0 }}
@@ -1179,6 +1227,12 @@ jobs:
         with:
           name: linux-package_client_amd64_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
+      - name: Download client armhf
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
+        with:
+          name: linux-package_client_armhf_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
       - name: Download manager arm64
         if: ${{ success() && env.SKIP_RUN == 0 }}
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
@@ -1190,6 +1244,12 @@ jobs:
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
         with:
           name: linux-package_manager_amd64_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
+
+      - name: Download manager armhf
+        if: ${{ success() && env.SKIP_RUN == 0 }}
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
+        with:
+          name: linux-package_manager_armhf_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Update or create the repository
         if: ${{ success() && env.SKIP_RUN == 0 }}
