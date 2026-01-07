@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -25,15 +25,6 @@
 
 #if !defined(_WIN32) || defined(__CYGWIN32__)
 
-// Access to binary files in /proc filesystem doesn't work in the 64bit
-// files environment on some systems.
-// None of the functions here need 64bit file functions,
-// so undefine _FILE_OFFSET_BITS and _LARGE_FILES.
-//
-#undef _FILE_OFFSET_BITS
-#undef _LARGE_FILES
-#undef _LARGEFILE_SOURCE
-#undef _LARGEFILE64_SOURCE
 #include <iostream>
 #include <vector>
 #include <string>

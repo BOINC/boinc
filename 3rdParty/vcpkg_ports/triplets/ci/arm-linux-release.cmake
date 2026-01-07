@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
 # Copyright (C) 2026 University of California
@@ -17,25 +15,20 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-# support functions
-function exit_usage() {
-	printf "Usage: deb_depends.sh <os-version> <package-name>\n"
-	exit 1
-}
+include(${CMAKE_CURRENT_LIST_DIR}/../../vcpkg_root_find.cmake)
+include(${VCPKG_ROOT}/triplets/community/arm-linux-release.cmake)
 
-case "$1_$2" in
-# fedora distros
-"fc37_linux_client" | "fc38_linux_client" | "fc39_linux_client" | "fc40_linux_client" | "fc41_linux_client" | "fc42_linux_client" | "fc43_linux_client")
-    echo "glibc,libXScrnSaver >= 1.2.3,ca-certificates,libatomic"
-    ;;
-# opensuse distros
-"suse15_4_linux_client" | "suse15_5_linux_client" | "suse15_6_linux_client" | "suse16_0_linux_client")
-    echo "glibc,libXss1 >= 1.2.2,ca-certificates,libatomic1"
-    ;;
+set(X_VCPKG_FORCE_VCPKG_X_LIBRARIES ON)
 
-*)  echo "glibc"
-	;;
-
-esac
-
-exit 0
+if(PORT STREQUAL "dbus")
+    if(NOT $ENV{TMPDIR} STREQUAL "")
+        set(DBUS_SESSION_SOCKET_DIR $ENV{TMPDIR})
+    elseif(NOT $ENV{TEMP} STREQUAL "")
+        set(DBUS_SESSION_SOCKET_DIR $ENV{TEMP})
+    elseif(NOT $ENV{TMP} STREQUAL "")
+        set(DBUS_SESSION_SOCKET_DIR $ENV{TMP})
+    else()
+        set(DBUS_SESSION_SOCKET_DIR /tmp)
+    endif()
+    LIST(APPEND VCPKG_CMAKE_CONFIGURE_OPTIONS "-DDBUS_SESSION_SOCKET_DIR=${DBUS_SESSION_SOCKET_DIR}")
+endif()
