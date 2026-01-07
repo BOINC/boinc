@@ -1226,6 +1226,9 @@ int HOST_INFO::get_virtualbox_version() {
 }
 
 #ifdef __APPLE__
+// called after podman init process finishes.
+// check if the VM is running
+//
 bool HOST_INFO::is_podman_VM_running() {
     char cmd[1024], buf[256];
 
@@ -1241,6 +1244,7 @@ bool HOST_INFO::is_podman_VM_running() {
             break;
         }
     }
+    pclose(f);
     return isrunning;
 }
 #endif
@@ -1288,6 +1292,7 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
         argv[2] = cmd;
         argv[3] = NULL;
         run_program(NULL, "/bin/sh", 0, argv, podman_init_pid);
+        podman_inited = false;
 
 #if 0   // For debugging
         snprintf(cmd, sizeof(cmd),

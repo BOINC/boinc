@@ -93,6 +93,9 @@ public:
     DOCKER_TYPE docker_type;
     char docker_compose_version[256];
     DOCKER_TYPE docker_compose_type;
+#ifdef __APPLE__
+    bool podman_inited;     // podman VM is running
+#endif
 #endif
 
     char product_name[256];       // manufacturer and/or model of system
