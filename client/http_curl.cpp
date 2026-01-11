@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -55,159 +55,62 @@
 using std::min;
 using std::vector;
 
-static CURLM* g_curlMulti = NULL;
-static char g_user_agent_string[256] = {""};
-static unsigned int g_trace_count = 0;
-static bool got_expectation_failed = false;
-    // Whether we've got a 417 HTTP error.
-    // If we did, it's probably because we talked HTTP 1.1 to a 1.0 proxy;
-    // use 1.0 from now on.
-
-static void get_user_agent_string() {
-    if (g_user_agent_string[0]) return;
-    snprintf(g_user_agent_string, sizeof(g_user_agent_string),
-        "BOINC client (%s %d.%d.%d)",
-        HOSTTYPE,
-        BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, BOINC_RELEASE
-    );
-    if (strlen(gstate.client_brand)) {
-        char buf[1024];
-        snprintf(buf, sizeof(buf), " (%s)", gstate.client_brand);
-        safe_strcat(g_user_agent_string, buf);
-    }
+HTTP_CURL::HTTP_CURL() :
+    curlMulti(curl_init()),
+    user_agent_string(std::move(build_user_agent_string())),
+    trace_count(0),
+    use_http_1_0(false) {
 }
 
-size_t libcurl_write(void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
-    // take the stream param as a FILE* and write to disk
-    // TODO: maybe assert stRead == size*nmemb,
-    // add exception handling on phop members
-    //
-    size_t stWrite = fwrite(ptr, size, nmemb, phop->fileOut);
-    if (log_flags.http_xfer_debug) {
-        msg_printf(NULL, MSG_INFO,
-            "[http_xfer] [ID#%d] HTTP: wrote %d bytes", phop->trace_id, (int)stWrite
-        );
-    }
-    phop->bytes_xferred += (double)(stWrite);
-    phop->update_speed();  // this should update the transfer speed
-    daily_xfer_history.add(stWrite, false);
-    return stWrite;
+HTTP_CURL::~HTTP_CURL() {
+    curl_cleanup();
 }
 
-size_t libcurl_read(void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
-    // read data from inFile (or from header if present)
-    // and move to buffer for Curl to send it.
-    //
-    size_t stSend = size * nmemb;
-    int stRead = 0;
-
-    if (phop->req1 && !phop->bSentHeader) {
-        // need to send headers first, then data file
-        // so requests from 0 to strlen(req1)-1 are from memory,
-        // and from strlen(req1) to content_length are from the file
-        if (phop->lSeek < (long) strlen(phop->req1)) {
-            // need to read header, either just starting to read
-            // (i.e. this is the first time in this function for this phop)
-            // or the last read didn't ask for the entire header
-
-            stRead = (int)strlen(phop->req1) - phop->lSeek;
-                // how much of header left to read
-
-            // only memcpy if request isn't out of bounds
-            if (stRead < 0) {
-                stRead = 0;
-            } else {
-                memcpy(ptr, (void*)(phop->req1 + phop->lSeek), stRead);
-            }
-            phop->lSeek += (long) stRead;  // increment lSeek to new position
-
-            // Don't count header in bytes transferred.
-            // Otherwise the GUI will show e.g. "400 out of 300 bytes xferred"
-            //phop->bytes_xferred += (double)(stRead);
-            daily_xfer_history.add(stRead, true);
-
-            // see if we're done with headers
-            if (phop->lSeek >= (long) strlen(phop->req1)) {
-                phop->bSentHeader = true;
-                phop->lSeek = 0;
-            }
-            return stRead;
-        } else {
-            // shouldn't happen
-            phop->bSentHeader = true;
-            phop->lSeek = 0;
-        }
-    }
-    if (phop->fileIn) {
-        long lFileSeek = phop->lSeek + (long) phop->file_offset;
-        fseek(phop->fileIn, lFileSeek, SEEK_SET);
-        if (!feof(phop->fileIn)) {
-            stRead = (int)fread(ptr, 1, stSend, phop->fileIn);
-        }
-        phop->lSeek += (long) stRead;
-        phop->bytes_xferred += (double)(stRead);
-        daily_xfer_history.add(stRead, true);
-    }
-    phop->update_speed();
-    return stRead;
+CURLM* HTTP_CURL::curl_init() {
+    curl_global_init(CURL_GLOBAL_ALL);
+    return curl_multi_init();
 }
 
-curlioerr libcurl_ioctl(CURL*, curliocmd cmd, HTTP_OP* phop) {
-    // reset input stream to beginning - resends header
-    // and restarts data back to starting point
-
-    switch(cmd) {
-    case CURLIOCMD_RESTARTREAD:
-        phop->lSeek = 0;
-        phop->bytes_xferred = phop->file_offset;
-        phop->bSentHeader = false;
-        break;
-    default: // should never get here
-        return CURLIOE_UNKNOWNCMD;
+void HTTP_CURL::curl_cleanup() {
+    if (curlMulti) {
+        curl_multi_cleanup(curlMulti);
     }
-    return CURLIOE_OK;
+    curl_global_cleanup();
 }
 
-void libcurl_logdebug(
-    HTTP_OP* phop, const char* desc, char *data
-) {
-    if (!log_flags.http_debug) return;
-
-    char hdr[256];
-    char buf[2048], *p = buf;
-
-    snprintf(hdr, sizeof(hdr), "[ID#%u] %s", phop->trace_id, desc);
-
-    strlcpy(buf, data, sizeof(buf));
-
-    p = strtok(buf, "\n");
-    while(p) {
-        msg_printf(phop->project, MSG_INFO,
-            "[http] %s %s\n", hdr, p
-        );
-        p = strtok(NULL, "\n");
+std::string HTTP_CURL::build_user_agent_string() {
+    std::stringstream ss;
+    ss << "BOINC client (" << HOSTTYPE << " "
+       << BOINC_MAJOR_VERSION << "."
+       << BOINC_MINOR_VERSION << "."
+       << BOINC_RELEASE << ")";
+    if (gstate.client_brand[0]) {
+        ss << " (" << gstate.client_brand << ")";
     }
+    return ss.str();
 }
 
-int libcurl_debugfunction(
-    CURL*, curl_infotype type, char *data, size_t /*size*/, HTTP_OP* phop
-) {
-    const char* desc = NULL;
-    switch (type) {
-    case CURLINFO_TEXT:
-        desc = "Info: ";
-        break;
-    case CURLINFO_HEADER_OUT:
-        desc = "Sent header to server:";
-        break;
-    case CURLINFO_HEADER_IN:
-        desc = "Received header from server:";
-        break;
-    default: /* in case a new one is introduced to shock us */
-       return 0;
+std::string HTTP_CURL::get_user_agent_string() {
+    if (user_agent_string.size() > 0) {
+        return user_agent_string;
     }
-    libcurl_logdebug(phop, desc, data);
-    return 0;
+    return build_user_agent_string();
+}
+
+unsigned int HTTP_CURL::get_next_trace_id() {
+    return ++trace_count;
+}
+
+CURLM* HTTP_CURL::get_curl_multi_handle() {
+    return curlMulti;
+}
+
+void HTTP_CURL::set_use_http_1_0() {
+    use_http_1_0 = true;
+}
+
+bool HTTP_CURL::get_use_http_1_0() {
+    return use_http_1_0;
 }
 
 void HTTP_OP::init(PROJECT* p) {
@@ -249,7 +152,7 @@ HTTP_OP::HTTP_OP() {
     http_op_state = HTTP_STATE_IDLE;
     http_op_type = HTTP_OP_NONE;
     http_op_retval = 0;
-    trace_id = g_trace_count++;
+    trace_id = HTTP_CURL::instance().get_next_trace_id();
     pcurlList = NULL; // these have to be NULL, just in constructor
     curlEasy = NULL;
     pcurlFormStart = NULL;
@@ -416,10 +319,6 @@ int HTTP_OP::libcurl_exec(
     char buf[256];
     static int outfile_seqno=0;
 
-    if (g_user_agent_string[0] == 0x00) {
-        get_user_agent_string();
-    }
-
     if (in) {
         safe_strcpy(infile, in);
     }
@@ -493,7 +392,8 @@ int HTTP_OP::libcurl_exec(
 
     // set the user agent as this boinc client & version
     //
-    curl_easy_setopt(curlEasy, CURLOPT_USERAGENT, g_user_agent_string);
+    curl_easy_setopt(curlEasy, CURLOPT_USERAGENT,
+        HTTP_CURL::instance().get_user_agent_string().c_str());
 
     // bypass any signal handlers that curl may want to install
     //
@@ -519,7 +419,8 @@ int HTTP_OP::libcurl_exec(
     // force curl to use HTTP/1.0 if config specifies it
     // (curl uses 1.1 by default)
     //
-    if (cc_config.http_1_0 || (cc_config.force_auth == "ntlm") || got_expectation_failed) {
+    if (cc_config.http_1_0 || (cc_config.force_auth == "ntlm") ||
+        HTTP_CURL::instance().get_use_http_1_0()) {
         curl_easy_setopt(curlEasy, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
     }
     curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 50L);
@@ -593,7 +494,23 @@ int HTTP_OP::libcurl_exec(
         // we can make the libcurl_write "fancier" in the future,
         // for now it just fwrite's to the file request, which is sufficient
         //
-        curl_easy_setopt(curlEasy, CURLOPT_WRITEFUNCTION, libcurl_write);
+        curl_easy_setopt(curlEasy, CURLOPT_WRITEFUNCTION,
+            [](void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) -> size_t {
+            // take the stream param as a FILE* and write to disk
+            // TODO: maybe assert stRead == size*nmemb,
+            // add exception handling on phop members
+            //
+            size_t stWrite = fwrite(ptr, size, nmemb, phop->fileOut);
+            if (log_flags.http_xfer_debug) {
+                msg_printf(NULL, MSG_INFO,
+                    "[http_xfer] [ID#%d] HTTP: wrote %d bytes",
+                    phop->trace_id, static_cast<int>(stWrite));
+            }
+            phop->bytes_xferred += static_cast<double>(stWrite);
+            phop->update_speed();  // this should update the transfer speed
+            daily_xfer_history.add(stWrite, false);
+            return stWrite;
+        });
         // note that in my lib_write I'm sending in a pointer
         // to this instance of HTTP_OP
         //
@@ -661,14 +578,93 @@ int HTTP_OP::libcurl_exec(
         //
         curl_easy_setopt(curlEasy, CURLOPT_POSTFIELDS, NULL);
         curl_easy_setopt(curlEasy, CURLOPT_POSTFIELDSIZE_LARGE, fs);
-        curl_easy_setopt(curlEasy, CURLOPT_READFUNCTION, libcurl_read);
+        curl_easy_setopt(curlEasy, CURLOPT_READFUNCTION,
+            [](void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) -> size_t {
+            // read data from inFile (or from header if present)
+            // and move to buffer for Curl to send it.
+            //
+            size_t stSend = size * nmemb;
+            int stRead = 0;
+
+            if (phop->req1 && !phop->bSentHeader) {
+                // need to send headers first, then data file
+                // so requests from 0 to strlen(req1)-1 are from memory,
+                // and from strlen(req1) to content_length are from the file
+                if (phop->lSeek < static_cast<long>(strlen(phop->req1))) {
+                    // need to read header, either just starting to read
+                    // (i.e. this is the first time in this function
+                    // for this phop)
+                    // or the last read didn't ask for the entire header
+
+                    stRead = static_cast<int>(strlen(phop->req1)) - phop->lSeek;
+                    // how much of header left to read
+
+                    // only memcpy if request isn't out of bounds
+                    if (stRead < 0) {
+                        stRead = 0;
+                    } else {
+                        memcpy(ptr,
+                            reinterpret_cast<void*>(phop->req1 + phop->lSeek),
+                            stRead);
+                    }
+                    // increment lSeek to new position
+                    phop->lSeek += static_cast<long>(stRead);
+
+                    // Don't count header in bytes transferred.
+                    // Otherwise the GUI will show
+                    // e.g. "400 out of 300 bytes xferred"
+                    //phop->bytes_xferred += (double)(stRead);
+                    daily_xfer_history.add(stRead, true);
+
+                    // see if we're done with headers
+                    if (phop->lSeek >= static_cast<long>(strlen(phop->req1))) {
+                        phop->bSentHeader = true;
+                        phop->lSeek = 0;
+                    }
+                    return stRead;
+                } else {
+                    // shouldn't happen
+                    phop->bSentHeader = true;
+                    phop->lSeek = 0;
+                }
+            }
+            if (phop->fileIn) {
+                long lFileSeek = phop->lSeek +
+                    static_cast<long>(phop->file_offset);
+                fseek(phop->fileIn, lFileSeek, SEEK_SET);
+                if (!feof(phop->fileIn)) {
+                    stRead =
+                        static_cast<int>(fread(ptr, 1, stSend, phop->fileIn));
+                }
+                phop->lSeek += static_cast<long>(stRead);
+                phop->bytes_xferred += static_cast<double>(stRead);
+                daily_xfer_history.add(stRead, true);
+            }
+            phop->update_speed();
+            return stRead;
+        });
         // in my lib_write I'm sending in a pointer to this instance of HTTP_OP
         //
         curl_easy_setopt(curlEasy, CURLOPT_READDATA, this);
 
         // callback function to rewind input file
         //
-        curl_easy_setopt(curlEasy, CURLOPT_IOCTLFUNCTION, libcurl_ioctl);
+        curl_easy_setopt(curlEasy, CURLOPT_IOCTLFUNCTION,
+            [](CURL*, curliocmd cmd, HTTP_OP* phop) -> curlioerr {
+            // reset input stream to beginning - resends header
+            // and restarts data back to starting point
+
+            switch(cmd) {
+            case CURLIOCMD_RESTARTREAD:
+                phop->lSeek = 0;
+                phop->bytes_xferred = phop->file_offset;
+                phop->bSentHeader = false;
+                break;
+            default: // should never get here
+                return CURLIOE_UNKNOWNCMD;
+            }
+            return CURLIOE_OK;
+        });
         curl_easy_setopt(curlEasy, CURLOPT_IOCTLDATA, this);
 
         curl_easy_setopt(curlEasy, CURLOPT_POST, 1L);
@@ -698,14 +694,45 @@ int HTTP_OP::libcurl_exec(
     // turn on debug info if tracing enabled
     //
     if (log_flags.http_debug) {
-        curl_easy_setopt(curlEasy, CURLOPT_DEBUGFUNCTION, libcurl_debugfunction);
-        curl_easy_setopt(curlEasy, CURLOPT_DEBUGDATA, this );
+        curl_easy_setopt(curlEasy, CURLOPT_DEBUGFUNCTION,
+            [](CURL*, curl_infotype type, char *data, size_t,
+            HTTP_OP* phop) -> int {
+            if (!log_flags.http_debug) return 0;
+
+            const char* desc = NULL;
+            switch (type) {
+            case CURLINFO_TEXT:
+                desc = "Info: ";
+                break;
+            case CURLINFO_HEADER_OUT:
+                desc = "Sent header to server:";
+                break;
+            case CURLINFO_HEADER_IN:
+                desc = "Received header from server:";
+                break;
+            default: /* in case a new one is introduced to shock us */
+               return 0;
+            }
+
+            std::stringstream ssData(data);
+            std::string line;
+            while(std::getline(ssData, line)) {
+                msg_printf(phop->project, MSG_INFO,
+                    "[http] [ID#%u] %s %s\n", phop->trace_id, desc,
+                    line.c_str()
+                );
+            }
+            return 0;
+        });
+
+        curl_easy_setopt(curlEasy, CURLOPT_DEBUGDATA, this);
         curl_easy_setopt(curlEasy, CURLOPT_VERBOSE, 1L);
     }
 
     // last but not least, add this to the curl_multi
 
-    curlMErr = curl_multi_add_handle(g_curlMulti, curlEasy);
+    curlMErr = curl_multi_add_handle(
+    HTTP_CURL::instance().get_curl_multi_handle(), curlEasy);
     if (curlMErr != CURLM_OK && curlMErr != CURLM_CALL_MULTI_PERFORM) {
         // bad error, couldn't attach easy curl handle
         msg_printf(0, MSG_INTERNAL_ERROR,
@@ -855,27 +882,6 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
     }
 }
 
-
-// the file descriptor sets need to be global so libcurl has access always
-//
-fd_set read_fds, write_fds, error_fds;
-
-// call these once at the start of the program and once at the end
-//
-int curl_init() {
-    curl_global_init(CURL_GLOBAL_ALL);
-    g_curlMulti = curl_multi_init();
-    return (int)(g_curlMulti == NULL);
-}
-
-int curl_cleanup() {
-    if (g_curlMulti) {
-        curl_multi_cleanup(g_curlMulti);
-    }
-    curl_global_cleanup();
-    return 0;
-}
-
 void HTTP_OP::close_socket() {
     // this cleans up the curlEasy, and "spoofs" the old close_socket
     //
@@ -888,8 +894,9 @@ void HTTP_OP::close_socket() {
         curl_formfree(pcurlFormEnd);
         pcurlFormStart = pcurlFormEnd = NULL;
     }
-    if (curlEasy && g_curlMulti) {  // release this handle
-        curl_multi_remove_handle(g_curlMulti, curlEasy);
+    CURLM *curlMulti = HTTP_CURL::instance().get_curl_multi_handle();
+    if (curlEasy && curlMulti) {  // release this handle
+        curl_multi_remove_handle(curlMulti, curlEasy);
         curl_easy_cleanup(curlEasy);
         curlEasy = NULL;
     }
@@ -910,7 +917,8 @@ void HTTP_OP::close_files() {
 
 void HTTP_OP_SET::get_fdset(FDSET_GROUP& fg) {
     curl_multi_fdset(
-        g_curlMulti, &fg.read_fds, &fg.write_fds, &fg.exc_fds, &fg.max_fd
+        HTTP_CURL::instance().get_curl_multi_handle(),
+        &fg.read_fds, &fg.write_fds, &fg.exc_fds, &fg.max_fd
     );
 }
 
@@ -981,7 +989,7 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
             break;
         default:                                    // 400
             if (response == HTTP_STATUS_EXPECTATION_FAILED) {
-                got_expectation_failed = true;
+                HTTP_CURL::instance().set_use_http_1_0();
             }
             http_op_retval = ERR_HTTP_PERMANENT;
             safe_strcpy(error_msg, boincerror(response));
@@ -1062,7 +1070,7 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
     int iNumMsg;
     HTTP_OP* hop = NULL;
     CURLMsg *pcurlMsg = NULL;
-
+    CURLM *curlMulti = HTTP_CURL::instance().get_curl_multi_handle();
     int iRunning = 0;  // curl flags for max # of fds & # running queries
     CURLMcode curlMErr;
 
@@ -1070,7 +1078,7 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
     // use timeout value so that we don't hog CPU in this loop
     //
     while (1) {
-        curlMErr = curl_multi_perform(g_curlMulti, &iRunning);
+        curlMErr = curl_multi_perform(curlMulti, &iRunning);
         if (curlMErr != CURLM_CALL_MULTI_PERFORM) break;
         if (dtime() - gstate.now > timeout) break;
     }
@@ -1078,7 +1086,7 @@ void HTTP_OP_SET::got_select(FDSET_GROUP&, double timeout) {
     // read messages from curl that may have come in from the above loop
     //
     while (1) {
-        pcurlMsg = curl_multi_info_read(g_curlMulti, &iNumMsg);
+        pcurlMsg = curl_multi_info_read(curlMulti, &iNumMsg);
         if (!pcurlMsg) break;
 
         // if we have a msg, then somebody finished
