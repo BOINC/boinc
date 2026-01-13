@@ -28,6 +28,7 @@
           "default-features": false
         },
         "libnotify",
-        "xcb-util"
+        "xcb-util",
+        "pixbufloader-svg"
     ]
 }

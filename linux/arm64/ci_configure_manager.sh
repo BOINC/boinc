@@ -59,4 +59,4 @@ export CPPFLAGS="-I$VCPKG_DIR/include"
 export LDFLAGS="-march=armv8-a -static-libstdc++ -s"
 export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
 
-./configure --host=aarch64-linux-gnu --with-boinc-platform="aarch64-unknown-linux-gnu" --with-boinc-alt-platform="arm-unknown-linux-gnueabihf" --disable-server --disable-client --with-wx-config=$VCPKG_DIR/tools/wxwidgets/wx-config CPPFLAGS="-DwxDEBUG_LEVEL=0 -DBUILD_WITH_VCPKG=1" GTK_LIBS="$(pkg-config --libs gtk+-3.0 librsvg-2.0)" $exec_prefix
+./configure --host=aarch64-linux-gnu --with-boinc-platform="aarch64-unknown-linux-gnu" --with-boinc-alt-platform="arm-unknown-linux-gnueabihf" --disable-server --disable-client --with-wx-config=$VCPKG_DIR/tools/wxwidgets/wx-config CPPFLAGS="-DwxDEBUG_LEVEL=0 -DBUILD_WITH_VCPKG=1" GTK_LIBS="$(pkg-config --libs gtk+-3.0 librsvg-2.0 pixbufloader-svg)" $exec_prefix
