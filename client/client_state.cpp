@@ -706,19 +706,7 @@ int CLIENT_STATE::init() {
     // (typically anonymous platform)
     //
     for (APP_VERSION* avp: app_versions) {
-        if (!avp->resource_usage.avg_ncpus) {
-            avp->resource_usage.avg_ncpus = 1;
-        }
-        if (!avp->resource_usage.flops) {
-            avp->resource_usage.flops = avp->resource_usage.avg_ncpus * host_info.p_fpops;
-
-            // for GPU apps, use conservative estimate:
-            // assume GPU runs at 10X peak CPU speed
-            //
-            if (avp->resource_usage.rsc_type) {
-                avp->resource_usage.flops += avp->resource_usage.coproc_usage * 10 * host_info.p_fpops;
-            }
-        }
+        avp->fill_in_resource_usage();
     }
 
     // must go after check_app_config() and parse_state_file()
