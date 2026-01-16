@@ -657,7 +657,7 @@ PROJECT* WORK_FETCH::non_cpu_intensive_project_needing_work() {
     return 0;
 }
 
-static bool higher_priority(PROJECT *p1, PROJECT *p2) {
+static bool higher_priority(const PROJECT *p1, const PROJECT *p2) {
     return (p1->sched_priority > p2->sched_priority);
 }
 
