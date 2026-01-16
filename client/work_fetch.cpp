@@ -712,15 +712,15 @@ void WORK_FETCH::setup() {
     // and from project/resource pairs.
     // Must do this after rr_simulation() and compute_nuploading_results()
     //
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+    for (unsigned int i = 0; i < gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         p->pwf.project_reason = compute_project_reason(p);
-        for (int j=0; j<coprocs.n_rsc; j++) {
+        for (int j = 0; j < coprocs.n_rsc; j++) {
             RSC_PROJECT_WORK_FETCH& rpwf = p->rsc_pwf[j];
             rpwf.rsc_project_reason = rpwf.compute_rsc_project_reason(p);
         }
     }
-    for (int j=0; j<coprocs.n_rsc; j++) {
+    for (int j = 0; j < coprocs.n_rsc; j++) {
         rsc_work_fetch[j].dont_fetch_reason = RSC_REASON_NONE;
     }
 
@@ -734,11 +734,13 @@ void WORK_FETCH::setup() {
     // which will generally be between 0 and 1.
     // This is a little arbitrary but I can't think of anything better.
     //
-    double max_queued_flops = gstate.work_buf_total()*total_peak_flops();
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
-        PROJECT* p = rp->project;
-        p->sched_priority -= rp->estimated_flops_remaining()/max_queued_flops;
+    double max_queued_flops = gstate.work_buf_total() * total_peak_flops();
+    if (max_queued_flops) {
+        for (unsigned int i = 0; i < gstate.results.size(); i++) {
+            RESULT* rp = gstate.results[i];
+            PROJECT* p = rp->project;
+            p->sched_priority -= rp->estimated_flops_remaining() / max_queued_flops;
+        }
     }
 
     projects_sorted = gstate.projects;
