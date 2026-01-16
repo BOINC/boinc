@@ -913,7 +913,7 @@ void APP_VERSION::fill_in_resource_usage() {
     if (resource_usage.avg_ncpus == 0) {
         resource_usage.avg_ncpus = 1;
     }
-    if (resource_usage.flops) {
+    if (resource_usage.flops == 0) {
         resource_usage.flops = resource_usage.avg_ncpus * gstate.host_info.p_fpops;
 
         // for GPU apps, use conservative estimate:
