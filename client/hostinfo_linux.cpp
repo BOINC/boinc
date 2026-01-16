@@ -33,8 +33,13 @@
 #endif
 
 #include "str_replace.h"
+#include "str_util.h"
+#include "util.h"
 
 #include "hostinfo.h"
+
+using std::vector;
+using std::string;
 
 // functions for getting Linux OS and version from various sources
 // (lsb_release -a, /etc/os-release, /etc/redhat-release)
@@ -206,4 +211,20 @@ bool HOST_INFO::parse_linux_os_info(
         strlcpy(os_name, dist_name, os_name_size);
     }
     return true;
+}
+
+int is_filesystem_remote(const char* path, bool &result) {
+    char cmd[256], buf[256];
+    vector<string> out;
+    result = false;
+    sprintf(cmd, "stat --file-system --format=%%T %s", path);
+    int retval = run_command(cmd, out);
+    if (retval) return retval;
+    if (out.empty()) return -1;
+    strcpy(buf, out[0].c_str());
+    strip_whitespace(buf);
+    if (!strcmp(buf, "nfs")) result = true;
+    else if (!strcmp(buf, "nfs4")) result = true;
+    else if (!strcmp(buf, "smb")) result = true;
+    return 0;
 }

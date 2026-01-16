@@ -21,7 +21,7 @@ require_once('../inc/util.inc');
 require_once('../inc/account.inc');
 require_once('../inc/countries.inc');
 require_once('../inc/translation.inc');
-require_once('../inc/recaptchalib.php');
+require_once('../inc/recaptchalib.inc');
 
 check_get_args(array("next_url", "teamid"));
 
@@ -66,9 +66,8 @@ if ($teamid) {
 
 form_start("create_account_action.php","post");
 create_account_form($teamid, $next_url);
-global $recaptcha_public_key;
-if ($recaptcha_public_key) {
-    form_general("", boinc_recaptcha_get_html($recaptcha_public_key));
+if (recaptcha_public_key()) {
+    form_general("", boinc_recaptcha_get_html(recaptcha_public_key()));
 }
 form_submit(tra("Create account"));
 form_end();

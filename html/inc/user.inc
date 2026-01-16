@@ -34,7 +34,7 @@ if (!defined('REMOTE_PROJECTS_TTL')) {
 //
 function get_other_projects($user) {
     $cpid = md5($user->cross_project_id . $user->email_addr);
-    $url = "http://boinc.netsoft-online.com/get_user.php?cpid=".$cpid;
+    $url = "https://api.free-dc.org/get_user.php?cpid=$cpid";
 
     // Check the cache for that URL
     //
@@ -333,15 +333,20 @@ function show_preference_links() {
             "<a href=\"prefs.php?subset=project\">".tra("%1 preferences", PROJECT)."</a>"
         );
     }
+    if (parse_bool(get_config(), 'keyword_sched')) {
+        row2(
+            tra('What types of jobs to run'),
+            sprintf('<a href=kw_prefs.php>%s</a>',
+                tra('Science and location preferences')
+            )
+        );
+    }
 }
 
 // return string describing a friend:
 // their name, and profile picture if it exists
 //
 function friend_links($user) {
-    if (is_banished($user)) {
-        return "";
-    }
     $x = sprintf(
         '<a href="%s%s?userid=%d" style="%s">%s</a>',
         url_base(),
@@ -383,9 +388,6 @@ function user_links($user, $badge_height=0, $name_limit=0) {
         return;
     }
     BoincForumPrefs::lookup($user);
-    if (is_banished($user)) {
-        return "(banished: ID $user->id)";
-    }
     $x = "";
     if ($user->has_profile) {
         $img_url = url_base()."img/head_20.png";
@@ -418,6 +420,8 @@ function user_links($user, $badge_height=0, $name_limit=0) {
     return $name_limit?"<nobr>$x</nobr>":$x;
 }
 
+// show community links for the logged in user
+//
 function show_community_private($user) {
     show_badges_row(true, $user);
     if (!DISABLE_PROFILES) {
@@ -431,7 +435,17 @@ function show_community_private($user) {
     if (!DISABLE_FORUMS) {
         $tot = total_posts($user);
         if ($tot) {
-            row2(tra("Message boards"), "<a href=\"".url_base()."forum_user_posts.php?userid=$user->id\">".tra("%1 posts", $tot)."</a>");
+            if (is_banished($user)) {
+                row2(tra("Message boards"), tra('(banished)'));
+            } else {
+                row2(
+                    tra("Message boards"),
+                    sprintf(
+                        '<a href="%s/forum_user_posts.php?userid=%d">%s</a>',
+                        url_base(), $user->id, tra('%1 posts', $tot)
+                    )
+                );
+            }
         }
     }
 
@@ -573,7 +587,19 @@ function community_links($clo, $logged_in_user){
     }
     if (!DISABLE_FORUMS) {
         if ($tot) {
-            row2(tra("Message boards"), "<a href=\"".url_base()."forum_user_posts.php?userid=$user->id\">".tra("%1 posts", $tot)."</a>");
+            $link = sprintf(
+                '<a href="%s/forum_user_posts.php?userid=%d">%s</a>',
+                url_base(), $user->id, tra("%1 posts", $tot)
+            );
+            if (is_banished($user)) {
+                if (is_moderator($logged_in_user)) {
+                    row2(tra("Message boards"), $link.' (banished)');
+                } else {
+                    row2(tra("Message boards"), tra('(banished)'));
+                }
+            } else {
+                row2(tra("Message boards"), $link);
+            }
         }
     }
     if ($logged_in_user && $logged_in_user->id != $user->id) {

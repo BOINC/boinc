@@ -257,8 +257,6 @@ public:
             { return RPC_Wait(RPC_SET_GPU_MODE, (void*)&mode, (void*)&duration); }
     int set_network_mode(int mode, double duration)
             { return RPC_Wait(RPC_SET_NETWORK_MODE, (void*)&mode, (void*)&duration); }
-    int get_screensaver_tasks(int& suspend_reason, RESULTS& rbuf)
-            { return RPC_Wait(RPC_GET_SCREENSAVER_TASKS, (void*)&suspend_reason, (void*)&rbuf); }
     int run_benchmarks()
             { return RPC_Wait(RPC_RUN_BENCHMARKS); }
     int set_proxy_settings(GR_PROXY_INFO& arg1)

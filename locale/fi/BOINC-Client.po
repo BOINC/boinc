@@ -1,5 +1,5 @@
 # BOINC client localization template
-# Copyright (C) 2024 University of California
+# Copyright (C) 2025 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2024-03-10 13:41 UTC\n"
+"POT-Creation-Date: 2025-02-09 02:28 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:28+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>, 2015,2017-2018,2022,2024\n"
 "Language-Team: Finnish (http://app.transifex.com/boinc/boinc/language/fi/)\n"
@@ -25,34 +25,34 @@ msgstr ""
 msgid "Message from account manager"
 msgstr "Viesti tilihallitsijalta"
 
-#: client/client_msgs.cpp:81
+#: client/client_msgs.cpp:76
 msgid "Message from server"
 msgstr "Viesti palvelimelta"
 
-#: client/client_state.cpp:329
+#: client/client_state.cpp:364
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "Osa tehtävistä vaatii enemmän muistia kuin asetuksissa on sallittu.  Tarkistathan asetukset."
 
-#: client/client_state.cpp:708
+#: client/client_state.cpp:745
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Tilatiedoston kirjoitus ei onnistu, tarkista kansion käyttöoikeudet"
 
-#: client/cs_cmdline.cpp:299
+#: client/cs_cmdline.cpp:295
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "HTTP_PROXY ympäristömuuttujalle pitää määritellä HTTP proxy"
 
-#: client/cs_scheduler.cpp:592
+#: client/cs_scheduler.cpp:595
 #, c-format
 msgid "Master URL changed from %s to %s"
 msgstr "Pää-URL on vaihtunut tästä %s tähän %s"
 
-#: client/cs_statefile.cpp:873
+#: client/cs_statefile.cpp:884
 msgid "Syntax error in app_info.xml"
 msgstr "Syntaksivirhe tiedostossa app_info.xml"
 
-#: client/cs_statefile.cpp:917
+#: client/cs_statefile.cpp:928
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "app_info.xml -tiedostossa olevaa tiedostoviittausta ei ole: "
 
@@ -90,87 +90,87 @@ msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "ei voi käyttää CUDA- tai OpenCL-laskentaan CUDA-ajurien versiolla 6.5 tai uudemmalla"
 
-#: client/log_flags.cpp:330 client/log_flags.cpp:515
+#: client/log_flags.cpp:344 client/log_flags.cpp:535
 msgid "Unexpected text in cc_config.xml"
 msgstr "Odottamatonta tekstiä cc_config.xml -tiedostossa"
 
-#: client/log_flags.cpp:489 client/log_flags.cpp:544
+#: client/log_flags.cpp:509 client/log_flags.cpp:564
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Tunnistamaton merkki cc_config.xml -tiedostossa"
 
-#: client/log_flags.cpp:506
+#: client/log_flags.cpp:526
 msgid "Missing start tag in cc_config.xml"
 msgstr "Puuttuva alkumerkki cc_config.xml -tiedostossa"
 
-#: client/log_flags.cpp:534
+#: client/log_flags.cpp:554
 msgid "Error in cc_config.xml options"
 msgstr "Virhe tiedoston cc_config.xml valinnoissa"
 
-#: client/log_flags.cpp:552
+#: client/log_flags.cpp:572
 msgid "Missing end tag in cc_config.xml"
 msgstr "Puuttuva loppumerkki tiedostossa cc_config.xml"
 
-#: sched/handle_request.cpp:313
+#: sched/handle_request.cpp:350
 msgid "Invalid or missing account key.  To fix, remove and add this project."
 msgstr "Väärä tai puuttuva tiliavain.  Poista projekti ja lisää se uudelleen."
 
-#: sched/handle_request.cpp:947
+#: sched/handle_request.cpp:1002
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
 msgstr "Projekti on vaihtanut suojausavaintaan.  Poista projekti ja lisää se uudelleen."
 
-#: sched/handle_request.cpp:1018
+#: sched/handle_request.cpp:1073
 msgid "This project doesn't support operating system"
 msgstr "Projekti ei tue käyttöjärjestelmää"
 
-#: sched/handle_request.cpp:1044
+#: sched/handle_request.cpp:1099
 msgid "This project doesn't support CPU type"
 msgstr "Projekti ei tue CPU-tyyppiä"
 
-#: sched/handle_request.cpp:1068
+#: sched/handle_request.cpp:1123
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr "BOINC-versiosi on liian vanha.  Asenna uusin versio."
 
-#: sched/handle_request.cpp:1344
+#: sched/handle_request.cpp:1399
 msgid "This project doesn't support computers of type"
 msgstr "Tämä projekti ei tue tietokonetyyppejä"
 
-#: sched/sched_send.cpp:1146
+#: sched/sched_send.cpp:1250
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "Päivitä uusimpaan ajuriin käyttääksesi tietokoneen GPUta laskennassa"
 
-#: sched/sched_send.cpp:1153
+#: sched/sched_send.cpp:1257
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "Päivitä uusimpaan ajuriin käyttääksesi projektin kaikkia GPU-sovelluksia"
 
-#: sched/sched_send.cpp:1172
+#: sched/sched_send.cpp:1276
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "NVIDIA GPUn käyttöön tarvitaan uudempi versio BOINCista, päivitä versio"
 
-#: sched/sched_send.cpp:1206
+#: sched/sched_send.cpp:1310
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "%s GPU tarvitaan tämän projektin tehtävien suorittamiseen"
 
-#: sched/sched_send.cpp:1328
+#: sched/sched_send.cpp:1432
 msgid "No tasks are available for the applications you have selected."
 msgstr "Valitsemillesi sovelluksille ei ole tehtäviä."
 
-#: sched/sched_send.cpp:1354
+#: sched/sched_send.cpp:1458
 msgid "Your computer type is not supported by this project"
 msgstr "Tämä projekti ei tue tietokoneesi tyyppiä"
 
-#: sched/sched_send.cpp:1360
+#: sched/sched_send.cpp:1464
 msgid "Newer BOINC version required; please install current version"
 msgstr "Uudempi BOINC-versio tarvitaan, asenna uusin versio"
 
-#: sched/sched_send.cpp:1371
+#: sched/sched_send.cpp:1475
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"

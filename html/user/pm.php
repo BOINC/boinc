@@ -187,6 +187,8 @@ function do_read($logged_in_user) {
     page_tail();
 }
 
+// form to send a personal message
+//
 function do_new($logged_in_user) {
     global $replyto, $userid;
     check_banished($logged_in_user);

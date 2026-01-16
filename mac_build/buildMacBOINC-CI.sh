@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -176,9 +176,9 @@ else
     cd ..; show_version_errors; exit 1;
 fi
 
-target="zip apps"
+target="libs"
 echo "Building ${target}..."
-source BuildMacBOINC.sh ${config} ${doclean} -zipapps | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+source BuildMacBOINC.sh ${config} ${doclean} -lib -setting HEADER_SEARCH_PATHS "../ ../api/ ../lib/** ../api/ ../zip/ ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2 \\\${HEADER_SEARCH_PATHS}" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "${libSearchPathDbg} ${cache_dir}/lib  ../lib \\\${LIBRARY_SEARCH_PATHS}"| tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd "${rootPath}"; show_version_errors; exit 1;
@@ -205,5 +205,15 @@ if [ ${retval} -ne 0 ]; then
 fi
 
 verify_product_archs "${rootPath}/samples/vboxwrapper/build/${style}"
+
+target="docker_wrapper"
+echo "Building ${target}..."
+source BuildMacBOINC.sh ${config} ${doclean} -docker_wrapper -setting HEADER_SEARCH_PATHS "../../ ../../api/ ../../lib/ ../../clientgui/mac/ ../samples/jpeglib ${cache_dir}/include \\\${HEADER_SEARCH_PATHS}"  -setting LIBRARY_SEARCH_PATHS "../../mac_build/build/Deployment ${cache_dir}/lib \\\${LIBRARY_SEARCH_PATHS}" | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
+    cd "${rootPath}"; show_version_errors; exit 1;
+fi
+
+verify_product_archs "${rootPath}/samples/docker_wrapper/build/${style}"
 
 cd "${rootPath}"

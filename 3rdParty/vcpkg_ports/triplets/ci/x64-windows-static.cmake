@@ -16,5 +16,3 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 include(${CMAKE_CURRENT_LIST_DIR}/../default/x64-windows-static.cmake)
-
-set(VCPKG_BUILD_TYPE release)

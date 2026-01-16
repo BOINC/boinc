@@ -460,7 +460,7 @@ function user_erase_team_delta($user) {
 }
 
 function team_edit_form($team, $label, $url) {
-    global $team_types, $recaptcha_public_key;
+    global $team_types;
     echo "<form method=post action=$url>\n";
     if ($team) {
         echo "<input type=hidden name=teamid value=$team->id>\n";
@@ -507,10 +507,10 @@ function team_edit_form($team, $label, $url) {
     row2(tra("Accept new members?"), "<input type=checkbox name=joinable $x>");
     // Check if we're using reCaptcha to prevent spam accounts
     //
-    if (!$team && $recaptcha_public_key) {
+    if (!$team && recaptcha_public_key()) {
         row2(
             "",
-            boinc_recaptcha_get_html($recaptcha_public_key)
+            boinc_recaptcha_get_html(recaptcha_public_key())
         );
     }
     row2("",

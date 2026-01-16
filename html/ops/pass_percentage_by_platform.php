@@ -90,23 +90,23 @@ SELECT
            else $unknown_platform
        end AS platform,
        COUNT(*) AS total_results,
-       ((SUM(case when outcome = '1' then 1 else 0 end) / COUNT(*)) * 100) AS pass_rate,
-       ((SUM(case when outcome = '3' then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate,
-       ((SUM(case when outcome = '3' and client_state = '1' then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate1,
-       ((SUM(case when outcome = '3' and client_state = '2' then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate2,
-       ((SUM(case when outcome = '3' and client_state = '3' then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate3,
-       ((SUM(case when outcome = '3' and client_state = '4' then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate4,
-       ((SUM(case when outcome = '3' and client_state = '5' then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate5,
-       ((SUM(case when outcome = '3' and client_state = '6' then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate6
+       ((SUM(case when outcome = 1 then 1 else 0 end) / COUNT(*)) * 100) AS pass_rate,
+       ((SUM(case when outcome = 3 then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate,
+       ((SUM(case when outcome = 3 and client_state = 1 then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate1,
+       ((SUM(case when outcome = 3 and client_state = 2 then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate2,
+       ((SUM(case when outcome = 3 and client_state = 3 then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate3,
+       ((SUM(case when outcome = 3 and client_state = 4 then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate4,
+       ((SUM(case when outcome = 3 and client_state = 5 then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate5,
+       ((SUM(case when outcome = 3 and client_state = 6 then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate6
 FROM   result
            left join host on result.hostid = host.id
 WHERE
-       appid = '$query_appid' AND
-       server_state = '5' AND
+       appid = $query_appid AND
+       server_state = 5 AND
        $limit_app_versions
-       received_time > '$query_received_time'
+       received_time > $query_received_time
 GROUP BY
-       app_version_id DESC,
+       app_version_id,
        platform
 ORDER BY
        $query_order

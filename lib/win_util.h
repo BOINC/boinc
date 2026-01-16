@@ -18,6 +18,8 @@
 #ifndef BOINC_WIN_UTIL_H
 #define BOINC_WIN_UTIL_H
 
+#include "wslinfo.h"
+
 extern BOOL TerminateProcessById(DWORD dwProcessId);
 extern void chdir_to_data_dir();
 
@@ -53,17 +55,17 @@ struct WSL_CMD {
     // Use WslLaunch() to run a shell in the WSL container
     // The shell will run as the default user
     //
-    int setup(std::string&);
+    int setup(std::string& err_msg);
 
-    // Use wsl.exe to run a shell as root in the WSL container
+    // Use wsl.exe to run a shell in the WSL container
     //
-    int setup_root(const char* distro_name);
+    int setup_podman(WSL_DISTRO&);
 
     // run command, direct both stdout and stderr to the out pipe
     // Use read_from_pipe() to get the output.
     //
     int run_program_in_wsl(
-        const std::string distro_name, const std::string command,
+        WSL_DISTRO&, const std::string command,
         bool use_cwd = false
     );
 };

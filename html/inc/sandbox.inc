@@ -45,7 +45,7 @@ require_once("../inc/dir_hier.inc");
 function sandbox_dir($user) {
     $dir = parse_config(get_config(), "<sandbox_dir>");
     if (!$dir) {
-        $dir = "../../sandbox/";
+        $dir = "../../sandbox";
     }
     if (!is_dir($dir)) {
         mkdir($dir);
@@ -58,6 +58,13 @@ function sandbox_dir($user) {
         mkdir("$d/.md5");
     }
     return $d;
+}
+
+// return path of sandbox file
+//
+function sandbox_path($user, $fname) {
+    $dir = sandbox_dir($user);
+    return "$dir/$fname";
 }
 
 // parse a sandbox file's info file.
@@ -119,7 +126,7 @@ function sandbox_file_select(
     return $x;
 }
 
-// Copy file and info file from sandbox to $dir
+// Copy file and corresponding .md5 file from sandbox to $dir
 // (which must have a subdir .md5/)
 // Used for BUDA app files.
 //

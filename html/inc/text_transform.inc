@@ -112,16 +112,19 @@ function substr2($s, $n1, $n2) {
 function replace_pre_code($text, $export) {
     $out = '';
     $pos = 0;
+
+    // there maybe several.  Scan the text
+    //
     while (true) {
+        // find the first instance of either [code] or [pre]
+        //
         $n1 = strpos($text, '[code]', $pos);
         $n2 = strpos($text, '[pre]', $pos);
         if ($n1 === false && $n2 === false) {
             $out .= substr($text, $pos);
             break;
         }
-        if ($n1 === false) $n1 = 9999;
-        if ($n2 === false) $n2 = 9999;
-        if ($n1 < $n2) {
+        if ($n2 === false || $n1 < $n2) {
             $n = $n1;
             $tag = '[code]';
             $tag2 = '[/code]';
@@ -130,17 +133,29 @@ function replace_pre_code($text, $export) {
             $tag = '[pre]';
             $tag2 = '[/pre]';
         }
+        // output the part before that
+        //
         $out .= substr2($text, $pos, $n);
-        $n2 = strpos($text, $tag2, $n);
+
+        // find the close tag
+        //
         $n += strlen($tag);
+        $n2 = strpos($text, $tag2, $n);
+
+        // if none, output rest of string and we're done
+        //
         if (!$n2) {
             $out .= substr($text, $n);
             break;
         }
+
+        // get the text between open and close tags, and sanitize it
+        //
         $x = substr2($text, $n, $n2);
         $x = remove_br($x);
         $x = htmlspecialchars($x, ENT_COMPAT, "UTF-8", false);
         $x = str_replace("[", "&#91;", $x);
+
         if ($export) {
             if ($tag == '[pre]') {
                 $out .= "<pre>$x</pre>";
@@ -150,6 +165,14 @@ function replace_pre_code($text, $export) {
         } else {
             $out .= "<pre style=\"white-space:pre-wrap;\">$x</pre>";
         }
+
+        // check for overflow (debug, shouldn't happen)
+        if (strlen($out) > 2*strlen($text)) {
+            return "<P>REPLACE_PRE_CODE BUG<p>text:<p><pre>$text</pre>\n";
+        }
+
+        // move past the close tag
+        //
         $pos = $n2 + strlen($tag2);
     }
     return $out;
@@ -175,6 +198,9 @@ function bb2html_aux($text, $export) {
     //     [2] => a.b.c
     // )
 
+    $email_addr_regex = "([A-Za-z0-9\.\-\_\@]*)";
+        // should match all valid email addrs,
+        // but not any hacker stuff like " alert(1)
     $httpsregex = "(?:\"?)https\:\/\/([^\[\"<\ ]+)(?:\"?)";
     // List of allowable tags
     $bbtags = array (
@@ -198,8 +224,8 @@ function bb2html_aux($text, $export) {
         "@\[color=(?:\"?)(.{3,8})(?:\"?)\](.*?)\[/color\]@is",
         "@((?:<ol>|<ul>).*?)\n\*([^\n]+)\n(.*?(</ol>|</ul>))@is",
         "@\[size=([1-9]|[0-2][0-9])\](.*?)\[/size\]@is",
-        "@\[mailto\](.*?)\[/mailto\]@is",
-        "@\[email\](.*?)\[/email\]@is",
+        "@\[mailto\]$email_addr_regex\[/mailto\]@is",
+        "@\[email\]$email_addr_regex\[/email\]@is",
         "@\[github\](?:\#|ticket:)(\d+)\[/github\]@is",
         "@\[github\]wiki:(.*?)\[/github\]@is",
     );

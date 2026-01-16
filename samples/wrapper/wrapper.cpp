@@ -29,6 +29,9 @@
 // --use_tstp       use SIGTSTP instead of SIGSTOP to suspend children
 //                  (Unix only).  SIGTSTP can be caught.
 //                  Use this if the wrapped program is itself a wrapper.
+// --passthrough_child
+//                  cmdline args beyond this one are passed to
+//                  tasks for which <append_cmdline_args> is set in job.xml
 //
 // Handles:
 // - suspend/resume/quit/abort
@@ -86,13 +89,14 @@
 #include "str_util.h"
 #include "str_replace.h"
 #include "util.h"
-
-#include "regexp.h"
+#include <regex>
 
 using std::vector;
 using std::string;
 
 bool use_tstp = false;
+
+//#define DEBUG
 
 #ifdef DEBUG
 inline void debug_msg(const char* x) {
@@ -115,7 +119,7 @@ double trickle_period = 0;
 bool enable_graphics_support = false;
 vector<string> unzip_filenames;
 string zip_filename;
-vector<regexp*> zip_patterns;
+vector<std::regex> zip_patterns;
 APP_INIT_DATA aid;
 
 struct TASK {
@@ -139,6 +143,7 @@ struct TASK {
         // contribution of this task to overall fraction done
     bool is_daemon;
     bool append_cmdline_args;
+        // append wrapper args following --passthrough_child
     bool multi_process;
     bool forward_slashes;
     double time_limit;
@@ -167,7 +172,7 @@ struct TASK {
     int parse(XML_PARSER&);
     void substitute_macros();
     bool poll(int& status);
-    int run(int argc, char** argv);
+    int run(const vector<string> &child_args);
     void kill();
     void stop();
     void resume();
@@ -281,41 +286,38 @@ void str_replace_all(string &str, const string& s1, const string& s2) {
 //
 void macro_substitute(string &str) {
     const char* pd = strlen(aid.project_dir)?aid.project_dir:".";
-    str_replace_all(str, "$PROJECT_DIR", pd);
-#ifdef DEBUG
-    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PROJECT_DIR", pd);
+    char nt[256], cwd[1024];
+
+    sprintf(nt, "%d", nthreads);
+#ifdef _WIN32
+    GetCurrentDirectory(sizeof(cwd), cwd);
+#else
+    getcwd(cwd, sizeof(cwd));
 #endif
 
-    char nt[256];
-    sprintf(nt, "%d", nthreads);
-    str_replace_all(str, "$NTHREADS", nt);
 #ifdef DEBUG
-    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$NTHREADS", nt);
+    fprintf(stderr, "[DEBUG] macro_substitute '%s'\n", str.c_str());
+    fprintf(stderr, "[DEBUG] replacing $PROJECT_DIR with '%s'\n", pd);
+    fprintf(stderr, "[DEBUG] replacing $NTHREADS with '%s'\n", nt);
+    fprintf(stderr, "[DEBUG] replacing $PWD with '%s'\n", cwd);
 #endif
+    str_replace_all(str, "$PROJECT_DIR", pd);
+    str_replace_all(str, "$NTHREADS", nt);
+    str_replace_all(str, "$PWD", cwd);
 
     if (aid.gpu_device_num >= 0) {
         gpu_device_num = aid.gpu_device_num;
     }
     if (gpu_device_num >= 0) {
-        sprintf(nt, "%d", gpu_device_num);
-        str_replace_all(str, "$GPU_DEVICE_NUM", nt);
+        char buf[256];
+        sprintf(buf, "%d", gpu_device_num);
+        str_replace_all(str, "$GPU_DEVICE_NUM", buf);
 #ifdef DEBUG
-        fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$GPU_DEVICE_NUM", nt);
+        fprintf(stderr, "[DEBUG] replacing $GPU_DEVICE_NUM with '%s'\n", buf);
 #endif
     }
-
-#ifdef _WIN32
-    GetCurrentDirectory(sizeof(nt),nt);
-    str_replace_all(str, "$PWD", nt);
 #ifdef DEBUG
-    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PWD", nt);
-#endif
-#else
-    char cwd[1024];
-    str_replace_all(str, "$PWD", getcwd(cwd, sizeof(cwd)));
-#ifdef DEBUG
-    fprintf(stderr, "[DEBUG] replacing '%s' with '%s'\n", "$PWD", getcwd(cwd, sizeof(cwd)));
-#endif
+    fprintf(stderr, "[DEBUG] macro_substitute result '%s'\n", str.c_str());
 #endif
 }
 
@@ -392,9 +394,8 @@ void get_zip_inputs(ZipFileList &files) {
     while (!dir_scan(fname, d, sizeof(fname))) {
         string filename = string(fname);
         if (in_vector(filename, initial_files)) continue;
-        for (regexp* re: zip_patterns) {
-            regmatch match;
-            if (re_exec_w(re, fname, 1, &match) == 1) {
+        for (const auto& re: zip_patterns) {
+            if (std::regex_search(filename, re)) {
                 files.push_back(filename);
                 break;
             }
@@ -520,13 +521,16 @@ int parse_zip_output(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_str("filename", buf, sizeof(buf))) {
-            regexp* rp;
-            int retval = re_comp_w(&rp, buf);
-            if (retval) {
-                fprintf(stderr, "re_comp_w() failed: %d\n", retval);
-                exit(1);
+            // Compile pattern using std::regex. Try ECMAScript (default),
+            // then extended as fallback.
+            try {
+                zip_patterns.emplace_back(buf);
+            } catch (const std::regex_error& e) {
+                fprintf(stderr,
+                    "regex compilation failed for pattern '%s': %s\n",
+                    buf, e.what());
+                return ERR_XML_PARSE;
             }
-            zip_patterns.push_back(rp);
             continue;
         }
         fprintf(stderr,
@@ -596,9 +600,9 @@ int parse_job_file() {
     return ERR_XML_PARSE;
 }
 
-int start_daemons(int argc, char** argv) {
+int start_daemons(const vector<string>& child_args) {
     for (TASK& task: daemons) {
-        int retval = task.run(argc, argv);
+        int retval = task.run(child_args);
         if (retval) return retval;
     }
     return 0;
@@ -675,7 +679,7 @@ void backslash_to_slash(char* p) {
     }
 }
 
-int TASK::run(int argct, char** argvt) {
+int TASK::run(const vector<string> &child_args) {
     string stdout_path, stdin_path, stderr_path;
     char app_path[1024], buf[256];
 
@@ -697,13 +701,13 @@ int TASK::run(int argct, char** argvt) {
         exit(1);
     }
 
-    // Optionally append wrapper's command-line arguments
+    // Optionally append wrapper's pass-through args
     // to those in the job file.
     //
     if (append_cmdline_args) {
-        for (int i=1; i<argct; i++){
+        for (const string& arg: child_args) {
             command_line += string(" ");
-            command_line += argvt[i];
+            command_line += arg;
         }
     }
 
@@ -1140,6 +1144,31 @@ int read_checkpoint(int& ntasks_completed, double& cpu, double& rt) {
     return 0;
 }
 
+// if the given file is a soft link of the form ../../project_dir/x,
+// return x, else return empty string
+//
+string resolve_proj_soft_link(const char* project_dir, const char* file) {
+    char buf[1024], physical_name[1024];
+    FILE* fp = boinc_fopen(file, "r");
+    if (!fp) {
+        return string("");
+    }
+    buf[0] = 0;
+    char* p = fgets(buf, sizeof(buf), fp);
+    fclose(fp);
+    if (!p) {
+        return string("");
+    }
+    if (!parse_str(buf, "<soft_link>", physical_name, sizeof(physical_name))) {
+        return string("");
+    }
+    snprintf(buf, sizeof(buf), "../../%s/", project_dir);
+    if (strstr(physical_name, buf) != physical_name) {
+        return string("");
+    }
+    return string(physical_name + strlen(buf));
+}
+
 // Check whether executable files (tasks and daemons) are code-signed.
 // The client supplies a list of app version files, which are code-signed.
 // For each executable file:
@@ -1150,7 +1179,7 @@ int read_checkpoint(int& ntasks_completed, double& cpu, double& rt) {
 void check_execs(vector<TASK> &t) {
     for (unsigned int i=0; i<t.size(); i++) {
         TASK &task = t[i];
-        string phys_name = resolve_soft_link(
+        string phys_name = resolve_proj_soft_link(
             aid.project_dir, task.application.c_str()
         );
         if (phys_name.empty()) {
@@ -1183,6 +1212,7 @@ void usage() {
         "   --trickle X\n"
         "   --version\n"
         "   --use_tstp\n"
+        "   --passthrough_child\n"
     );
     boinc_finish(EXIT_INIT_FAILURE);
 }
@@ -1196,9 +1226,9 @@ int main(int argc, char** argv) {
         // total CPU time at last checkpoint
     char buf[256];
     bool is_sporadic = false;
+    bool passthrough_child = false;
+    vector<string> child_args;
 
-    // Log banner
-    //
     fprintf(stderr, "%s wrapper (%d.%d.%d): starting\n",
         boinc_msg_prefix(buf, sizeof(buf)),
         BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, WRAPPER_RELEASE
@@ -1209,7 +1239,9 @@ int main(int argc, char** argv) {
 #endif
 
     for (int j=1; j<argc; j++) {
-        if (!strcmp(argv[j], "--nthreads")) {
+        if (passthrough_child) {
+            child_args.push_back(argv[j]);
+        } else if (!strcmp(argv[j], "--nthreads")) {
             nthreads = atoi(argv[++j]);
         } else if (!strcmp(argv[j], "--device")) {
             gpu_device_num = atoi(argv[++j]);
@@ -1224,6 +1256,8 @@ int main(int argc, char** argv) {
 #endif
         } else if (!strcmp(argv[j], "--use_tstp")) {
             use_tstp = true;
+        } else if (!strcmp(argv[j], "--passthrough_child")) {
+            passthrough_child = true;
         } else {
             fprintf(stderr, "Unrecognized option %s\n", argv[j]);
             usage();
@@ -1290,7 +1324,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    retval = start_daemons(argc, argv);
+    retval = start_daemons(child_args);
     if (retval) {
         fprintf(stderr,
             "%s start_daemons(): %d\n",
@@ -1313,7 +1347,8 @@ int main(int argc, char** argv) {
         double cpu_time = 0;
 
         task.starting_cpu = checkpoint_cpu_time;
-        retval = task.run(argc, argv);
+        retval = task.run(child_args);
+
         if (retval) {
             boinc_finish(retval);
         }

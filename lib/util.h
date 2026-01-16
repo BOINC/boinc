@@ -28,6 +28,7 @@
 #include "win_util.h"
 #endif
 #include "common_defs.h"
+#include "wslinfo.h"
 
 extern double dtime();
 extern double dday();
@@ -154,13 +155,17 @@ struct DOCKER_CONN {
     bool verbose;
 #ifdef _WIN32
     WSL_CMD ctl_wc;
-    int init(DOCKER_TYPE type, std::string distro_name, bool verbose=false);
+    int init(WSL_DISTRO&, bool verbose=false);
 #else
     int init(DOCKER_TYPE, bool verbose=false);
 #endif
     int command(const char* cmd, std::vector<std::string> &out);
 
-    static const int TIMEOUT = 10;    // timeout for docker commands
+    static const int CMD_TIMEOUT = 600;
+        // timeout for docker commands.
+        // This includes build commands that may have to download
+        // a lot of big files, so make it fairly large.
+        // Note: this is enforced only on Win.
 
     // parse a line from "docker images" output; return name
     int parse_image_name(std::string line, std::string &name);

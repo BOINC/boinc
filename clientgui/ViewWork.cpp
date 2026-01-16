@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -138,13 +138,13 @@ static bool CompareViewWorkItems(int iRowIndex1, int iRowIndex2) {
 
     try {
         work1 = myCViewWork->m_WorkCache.at(iRowIndex1);
-    } catch ( std::out_of_range ) {
+    } catch ( std::out_of_range& ) {
         return 0;
     }
 
     try {
         work2 = myCViewWork->m_WorkCache.at(iRowIndex2);
-    } catch ( std::out_of_range ) {
+    } catch ( std::out_of_range& ) {
         return 0;
     }
 
@@ -807,7 +807,7 @@ wxString CViewWork::OnListGetItemText(long item, long column) const {
 
     try {
         work = m_WorkCache.at(m_iSortedIndexes[item]);
-    } catch ( std::out_of_range ) {
+    } catch ( std::out_of_range& ) {
         work = NULL;
     }
 
@@ -933,7 +933,7 @@ void CViewWork::UpdateSelection() {
         enableAbort = true;
 
         pDoc->GetCoreClientStatus(status);
-        if (status.task_suspend_reason & ~(SUSPEND_REASON_CPU_THROTTLE)) {
+        if (status.task_suspend_reason) {
             enableShowGraphics = false;
             enableShowVMConsole = false;
         }
@@ -1253,6 +1253,12 @@ void CViewWork::GetDocApplicationName(wxInt32 item, wxString& strBuffer) const {
         if (!state_result) return;
         WORKUNIT* wup = state_result->wup;
         if (!wup) return;
+
+        if (strlen(wup->sub_appname)) {
+            strBuffer = HtmlEntityDecode(wxString(wup->sub_appname, wxConvUTF8));
+            return;
+        }
+
         APP* app = wup->app;
         if (!app) return;
         APP_VERSION* avp = state_result->avp;
@@ -1413,7 +1419,7 @@ wxInt32 CViewWork::FormatStatus(wxInt32 item, wxString& strBuffer) const {
 
     try {
         work = m_WorkCache.at(m_iSortedIndexes[item]);
-    } catch ( std::out_of_range ) {
+    } catch ( std::out_of_range& ) {
         work = NULL;
     }
 
@@ -1473,7 +1479,7 @@ wxString CViewWork::GetProgressText( long item) {
 int CViewWork::GetWorkCacheAtIndex(CWork*& workPtr, int index) {
     try {
         workPtr = m_WorkCache.at(index);
-    } catch ( std::out_of_range ) {
+    } catch ( std::out_of_range& ) {
         workPtr = NULL;
         return -1;
     }

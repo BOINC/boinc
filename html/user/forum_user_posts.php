@@ -35,6 +35,10 @@ $items_per_page = 20;
 $logged_in_user = get_logged_in_user(false);
 BoincForumPrefs::lookup($logged_in_user);
 
+if (!is_moderator($logged_in_user) && is_banished($user)) {
+    error_page('User is banished');
+}
+
 // Policy for what to show:
 // Team message board posts:
 //    if requesting user is a member of team

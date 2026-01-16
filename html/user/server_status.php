@@ -36,6 +36,7 @@ require_once("../inc/util.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/server_version.inc");
+require_once("../inc/common_defs.inc");
 
 if (!defined('STATUS_PAGE_TTL')) {
     define('STATUS_PAGE_TTL', 3600);
@@ -405,6 +406,16 @@ function get_daemon_status() {
     return $x;
 }
 
+// get info for BUDA apps
+// enumerate BUDA batches; get list of app/variants names
+// for each app/variant
+//      join result/workunit/batch to get runtime stats, users
+//      join result/workunit/batch to get unsent, in_progress counts
+// return list of pseudo-apps
+//
+function get_buda_status() {
+}
+
 function get_job_status() {
     $s = unserialize(get_cached_data(STATUS_PAGE_TTL, "job_status"));
     if ($s) {
@@ -416,13 +427,17 @@ function get_job_status() {
     foreach ($apps as $app) {
         $info = BoincDB::get()->lookup_fields("result", "stdClass",
             "ceil(avg(elapsed_time)/3600*100)/100 as avg,
-            ceil(min(elapsed_time)/3600*100)/100 as min,
-            ceil(max(elapsed_time)/3600*100)/100 as max,
-            count(distinct userid) as users",
-            "appid = $app->id
-            AND validate_state=1
-            AND received_time > (unix_timestamp()-86400)
-            "
+                ceil(min(elapsed_time)/3600*100)/100 as min,
+                ceil(max(elapsed_time)/3600*100)/100 as max,
+                count(distinct userid) as users
+            ",
+            sprintf('appid=%d
+                AND validate_state=%d
+                AND received_time > (unix_timestamp()-86400)
+                ',
+                $app->id,
+                VALIDATE_STATE_VALID
+            )
         );
         // $info fields will be null if app has no results
         if ($info->avg) {
@@ -430,16 +445,34 @@ function get_job_status() {
         } else {
             $app->info = null;
         }
-        $app->unsent = BoincResult::count("appid=$app->id and server_state=2");
-        $app->in_progress = BoincResult::count("appid=$app->id and server_state=4");
+        $app->unsent = BoincResult::count(
+            sprintf('appid=%d and server_state=%d',
+                $app->id, RESULT_SERVER_STATE_UNSENT
+            )
+        );
+        $app->in_progress = BoincResult::count(
+            sprintf('appid=%d and server_state=%d',
+                $app->id, RESULT_SERVER_STATE_IN_PROGRESS
+            )
+        );
     }
     $s->apps = $apps;
-    $s->results_ready_to_send = BoincResult::count("server_state=2");
-    $s->results_in_progress = BoincResult::count("server_state=4");
-    $s->results_need_file_delete = BoincResult::count("file_delete_state=1");
+    $s->results_ready_to_send = BoincResult::count(
+        sprintf('server_state=%d', RESULT_SERVER_STATE_UNSENT)
+    );
+    $s->results_in_progress = BoincResult::count(
+        sprintf('server_state=%d', RESULT_SERVER_STATE_IN_PROGRESS)
+    );
+    $s->results_need_file_delete = BoincResult::count(
+        sprintf('file_delete_state=%d', FILE_DELETE_READY)
+    );
     $s->wus_need_validate = BoincWorkunit::count("need_validate=1");
-    $s->wus_need_assimilate = BoincWorkunit::count("assimilate_state=1");
-    $s->wus_need_file_delete = BoincWorkunit::count("file_delete_state=1");
+    $s->wus_need_assimilate = BoincWorkunit::count(
+        sprintf('assimilate_state=%d', ASSIMILATE_READY)
+    );
+    $s->wus_need_file_delete = BoincWorkunit::count(
+        sprintf('file_delete_state=%d', FILE_DELETE_READY)
+    );
     $x = BoincDB::get()->lookup_fields("workunit", "stdClass", "MIN(transition_time) as min", "TRUE");
     $gap = (time() - $x->min)/3600;
     if (($gap < 0) || ($x->min == 0)) {
@@ -468,12 +501,22 @@ function get_job_status() {
 function show_counts_xml() {
     xml_header();
     echo "<job_counts>\n";
-    item_xml('results_ready_to_send', BoincResult::count("server_state=2"));
-    item_xml('results_in_progress', BoincResult::count("server_state=4"));
-    item_xml('results_need_file_delete', BoincResult::count("file_delete_state=1"));
+    item_xml('results_ready_to_send', BoincResult::count(
+        sprintf('server_state=%d', RESULT_SERVER_STATE_UNSENT)
+    ));
+    item_xml('results_in_progress', BoincResult::count(
+        sprintf('server_state=%d', RESULT_SERVER_STATE_IN_PROGRESS)
+    ));
+    item_xml('results_need_file_delete', BoincResult::count(
+        sprintf('file_delete_state=%d', FILE_DELETE_READY)
+    ));
     item_xml('wus_need_validate', BoincWorkunit::count("need_validate=1"));
-    item_xml('wus_need_assimilate', BoincWorkunit::count("assimilate_state=1"));
-    item_xml('wus_need_file_delete', BoincWorkunit::count("file_delete_state=1"));
+    item_xml('wus_need_assimilate', BoincWorkunit::count(
+        sprintf('assimilate_state=%d', ASSIMILATE_READY)
+    ));
+    item_xml('wus_need_file_delete', BoincWorkunit::count(
+        sprintf('file_delete_state=%d', FILE_DELETE_READY)
+    ));
     echo "</job_counts>\n";
 }
 

@@ -17,10 +17,11 @@
 
 // wsl_wrapper: wrapper for WSL apps on Windows.
 //
-// cmdline options:
+// wsl_wrapper [options] arg1 arg2
+// arg1 arg2 ... are passed to the main program on cmdline
+// options:
 //
 // --main_prog X        name of main program (default "main")
-// --pass_thru args     additional cmdline arg for main program
 // --os_name_regex      use only distros w/ matching OS name
 // --os_version_regex
 // --min_libc_version MMmm      e.g. 235 means 2.35
@@ -34,11 +35,11 @@
 //   and relays this to the client.
 
 // implementation:
-// We use two WSL_CMDs (connections into the WSL container):
-// one to run the app, get its process group ID,
+// We use two WSL_CMDs (connections to shells the WSL container):
+// app_wc: run the app, get its process group ID,
 //      and capture its stdout and stderr
-// another to run a shell for monitoring and control operations (ps, kill)
-//      (this has less overhead than creating a shell per op)
+// ctl_wc: monitoring and control operations (ps, kill)
+//      this has less overhead than creating a shell per op
 //
 // Typically, the app has a control script as well as an executable.
 //      This might be written in bash or perl,
@@ -57,6 +58,7 @@
 
 #include <cstdio>
 #include <string>
+#include <vector>
 
 #include "boinc_win.h"
 #include "util.h"
@@ -65,6 +67,7 @@
 #include "app_ipc.h"
 
 using std::string;
+using std::vector;
 
 WSL_CMD app_wc;
 WSL_CMD ctl_wc;
@@ -95,13 +98,13 @@ int error(const char* where, int retval) {
 // launch application (typically ./main) and get process group ID.
 // This doesn't wait for the application to finish.
 //
-int launch(const char* distro, const char* cmd) {
+int launch(WSL_DISTRO &wd, const char* cmd) {
     char launch_cmd[256];
     string err_msg;
     sprintf(launch_cmd, "echo $$; %s; touch boinc_job_done\n", cmd);
     int retval = app_wc.setup(err_msg);
     if (retval) return error(err_msg.c_str(), retval);
-    retval = app_wc.run_program_in_wsl(distro, launch_cmd, true);
+    retval = app_wc.run_program_in_wsl(wd, launch_cmd, true);
     if (retval) return error("app run_program_in_wsl", retval);
 
     // get the process group ID
@@ -110,8 +113,8 @@ int launch(const char* distro, const char* cmd) {
     retval = read_from_pipe(app_wc.out_read, app_wc.proc_handle, reply, CMD_TIMEOUT, "\n");
     if (retval) return error("app read_from_pipe", retval);
     pgid = atoi(reply.c_str());
+    fprintf(stderr, "launch reply: [%s]\n", reply.c_str());
     if (verbose) {
-        fprintf(stderr, "launch reply: [%s]\n", reply.c_str());
         fprintf(stderr, "pgid: %d\n", pgid);
     }
     running = true;
@@ -120,7 +123,7 @@ int launch(const char* distro, const char* cmd) {
     //
     retval = ctl_wc.setup(err_msg);
     if (retval) return error(err_msg.c_str(), retval);
-    retval = ctl_wc.run_program_in_wsl(distro, "", true);
+    retval = ctl_wc.run_program_in_wsl(wd, "", true);
         // empty string means run shell
     if (retval) return error("ctl run_program_in_wsl", retval);
     return 0;
@@ -223,29 +226,25 @@ void poll_client_msgs() {
     }
 }
 
+// copy app_wc to our stderr;
+// called when job finishes
+//
+void copy_output() {
+    string reply;
+    read_from_pipe(
+        app_wc.out_read, app_wc.proc_handle, reply, CMD_TIMEOUT, NULL
+    );
+    fprintf(stderr, "output from container:\n%s\n", reply.c_str());
+}
+
 int main(int argc, char** argv) {
-    const char *os_name_regexp=".*", *os_version_regexp=".*", *pass_thru=NULL;
+    const char *os_name_regexp=".*", *os_version_regexp=".*";
     const char *main_prog = "main";
     int min_libc_version = 0;
-    for (int i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "--os_name_regexp")) {
-            os_name_regexp = argv[++i];
-        } else if (!strcmp(argv[i], "--os_version_regexp")) {
-            os_version_regexp = argv[++i];
-        } else if (!strcmp(argv[i], "--pass_thru")) {
-            pass_thru = argv[++i];
-        } else if (!strcmp(argv[i], "--min_libc_version")) {
-            min_libc_version = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "--verbose")) {
-            verbose = true;
-        } else if (!strcmp(argv[i], "--main_prog")) {
-            main_prog = argv[++i];
-        } else {
-            fprintf(stderr, "unknown option %s\n", argv[i]);
-            exit(1);
-        }
-    }
+    vector<string> app_args;
 
+    // do this before writing to stderr, else the messages will be lost
+    //
     BOINC_OPTIONS options;
     memset(&options, 0, sizeof(options));
     options.main_program = true;
@@ -253,29 +252,47 @@ int main(int argc, char** argv) {
     options.handle_process_control = true;
     boinc_init_options(&options);
 
-    string distro_name;
+    for (int i=1; i<argc; i++) {
+        if (!strcmp(argv[i], "--os_name_regexp")) {
+            os_name_regexp = argv[++i];
+        } else if (!strcmp(argv[i], "--os_version_regexp")) {
+            os_version_regexp = argv[++i];
+        } else if (!strcmp(argv[i], "--min_libc_version")) {
+            min_libc_version = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "--verbose")) {
+            verbose = true;
+        } else if (!strcmp(argv[i], "--main_prog")) {
+            main_prog = argv[++i];
+        } else {
+            app_args.push_back(argv[i]);
+        }
+    }
+
+    WSL_DISTRO distro, *dp;
     if (boinc_is_standalone()) {
         SetCurrentDirectoryA("C:/ProgramData/BOINC/slots/test");
-        distro_name = "Ubuntu-22.04";
+        distro.distro_name = BOINC_WSL_DISTRO_NAME;
+        distro.docker_type = PODMAN;
+        distro.boinc_buda_runner_version = 4;
+        dp = &distro;
     } else {
         boinc_get_init_data(aid);
-        WSL_DISTRO *distro = aid.host_info.wsl_distros.find_match(
+        dp = aid.host_info.wsl_distros.find_match(
             os_name_regexp, os_version_regexp, min_libc_version
         );
-        if (!distro) {
-            fprintf(stderr, "can't find distro\n");
+        if (!dp) {
+            fprintf(stderr, "can't find usable WSL distro\n");
             exit(1);
         }
-        distro_name = distro->distro_name;
     }
 
     string main_cmd = "./";
     main_cmd += main_prog;
-    if (pass_thru){
+    for (string s: app_args) {
         main_cmd += " ";
-        main_cmd += pass_thru;
+        main_cmd += s;
     }
-    if (launch(distro_name.c_str(), main_cmd.c_str())) {
+    if (launch(*dp, main_cmd.c_str())) {
         fprintf(stderr, "launch failed\n");
         exit(1);
     }
@@ -287,10 +304,12 @@ int main(int argc, char** argv) {
         switch (poll_app(ru)) {
         case JOB_FAIL:
             fprintf(stderr, "job failed\n");
+            copy_output();
             boinc_finish(1);
             goto done;
         case JOB_SUCCESS:
             fprintf(stderr, "job succeeded\n");
+            copy_output();
             boinc_finish(0);
             goto done;
         }

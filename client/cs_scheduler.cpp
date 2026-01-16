@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,9 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // High-level logic for communicating with scheduling servers,
-// and for merging the result of a scheduler RPC into the client state
-
-// The scheduler RPC mechanism is in scheduler_op.C
+// and for merging the reply of a scheduler RPC into the client state
+// The scheduler RPC mechanism is in scheduler_op.cpp
 
 #include "cpp.h"
 
@@ -186,20 +185,36 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     //
     host_info.get_host_info(false);
     set_n_usable_cpus();
+
+#ifdef __APPLE__
+    // if Podman hasn't inited yet, don't include Docker info in sched req
+    char tmp[256];
+    safe_strcpy(tmp, host_info.docker_version);
+    if (host_info.docker_type == PODMAN && !host_info.podman_inited) {
+        host_info.docker_version[0] = 0;
+    }
+#endif
+
     host_info.write(mf, !cc_config.suppress_net_info, false);
+
+#ifdef __APPLE__
+    safe_strcpy(host_info.docker_version, tmp);
+#endif
 
     // get and write disk usage
     //
-    get_disk_usages();
-    get_disk_shares();
-    fprintf(f,
-        "    <disk_usage>\n"
-        "        <d_boinc_used_total>%f</d_boinc_used_total>\n"
-        "        <d_boinc_used_project>%f</d_boinc_used_project>\n"
-        "        <d_project_share>%f</d_project_share>\n"
-        "    </disk_usage>\n",
-        total_disk_usage, p->disk_usage, p->disk_share
-    );
+    if (!cc_config.no_disk_usage) {
+        get_disk_usages();
+        get_disk_shares();
+        fprintf(f,
+            "    <disk_usage>\n"
+            "        <d_boinc_used_total>%f</d_boinc_used_total>\n"
+            "        <d_boinc_used_project>%f</d_boinc_used_project>\n"
+            "        <d_project_share>%f</d_project_share>\n"
+            "    </disk_usage>\n",
+            total_disk_usage, p->disk_usage, p->disk_share
+        );
+    }
 
     if (coprocs.n_rsc > 1) {
         work_fetch.copy_requests();
@@ -929,12 +944,10 @@ int CLIENT_STATE::handle_scheduler_reply(
             app, avpp.platform, avpp.version_num, avpp.plan_class
         );
         if (avp) {
-            // update app version attributes in case they changed on server
-            //
-            avp->resource_usage = avpp.resource_usage;
-            strlcpy(avp->api_version, avpp.api_version, sizeof(avp->api_version));
-            avp->dont_throttle = avpp.dont_throttle;
-            avp->needs_network = avpp.needs_network;
+            // don't copy resource usage info from avpp to avp.
+            // That would undo app_config.xml.
+            // App versions are immutable;
+            // if a project wants to change something, create a new one
 
             // if we had download failures, clear them
             //

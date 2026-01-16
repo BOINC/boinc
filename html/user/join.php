@@ -56,7 +56,7 @@ function show_choose($is_old) {
 }
 
 function show_new() {
-    global $master_url;
+    $master_url = master_url();
     panel(null,
         function() use ($master_url) {
             echo '
@@ -80,7 +80,7 @@ function show_new() {
 }
 
 function show_old() {
-    global $master_url;
+    $master_url = master_url();
     panel(null,
         function() use($master_url) {
             echo '

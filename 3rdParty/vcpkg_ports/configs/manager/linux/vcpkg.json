@@ -22,6 +22,13 @@
           "name": "gdk-pixbuf",
           "features": ["jpeg", "png", "svg", "tiff", "others"],
           "default-features": false
-        }
+        },
+        {
+          "name": "libzip",
+          "default-features": false
+        },
+        "libnotify",
+        "xcb-util",
+        "pixbufloader-svg"
     ]
 }

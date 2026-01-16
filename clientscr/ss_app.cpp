@@ -141,7 +141,7 @@ PROJECT_IMAGES* get_project_images(PROJECT* p) {
     pim.url = p->master_url;
     url_to_project_dir((char*)p->master_url.c_str(), dir, sizeof(dir));
     sprintf(path, "%s/stat_icon", dir);
-    boinc_resolve_filename(path, filename, 256);
+    resolve_soft_link(path, filename, sizeof(filename));
     pim.icon.load_image_file(filename);
     for (i=0; i<cc_state.apps.size(); i++) {
         APP& app = *cc_state.apps[i];
@@ -149,7 +149,7 @@ PROJECT_IMAGES* get_project_images(PROJECT* p) {
         APP_SLIDES as(app.name);
         for (int j=0; j<99; j++) {
             sprintf(path, "%s/slideshow_%s_%02d", dir, app.name.c_str(), j);
-            boinc_resolve_filename(path, filename, 256);
+            resolve_soft_link(path, filename, sizeof(filename));
             TEXTURE_DESC td;
             int retval = td.load_image_file(filename);
             if (retval) break;

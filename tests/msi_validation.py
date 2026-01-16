@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
 # Copyright (C) 2025 University of California
@@ -35,12 +37,14 @@ def main():
 
     cub_path = sys.argv[3]
     if not os.path.exists(cub_path):
-        print("'{cub_path}' not found")
+        print(f"'{cub_path}' not found")
         sys.exit(1)
 
     ignore_list = [
         "ICE          Type       Description",
         "ICE07        WARNING   '_BOINCScreensaver_LiberationSans_Regular.ttf' is a Font and must be installed to the FontsFolder. Current Install Directory: 'INSTALLDIR'",
+        "ICE30        WARNING   The target file 'BOINC.EXE|boinc.exe' might be installed in '[ProgramFiles64Folder]\\BOINC\\' by two different conditionalized components on an SFN system: 'BOINCServiceConfig' and '_BOINC'. If the conditions are not mutually exclusive, this will break the component reference counting system.",
+        "ICE30        WARNING   The target file 'BOINC.EXE|boinc.exe' might be installed in '[ProgramFiles64Folder]\\BOINC\\' by two different conditionalized components on an LFN system: 'BOINCServiceConfig' and '_BOINC'. If the conditions are not mutually exclusive, this will break the component reference counting system.",
         "ICE43        ERROR     Component _BOINCManagerStartMenu has non-advertised shortcuts. It should use a registry key under HKCU as its KeyPath, not a file.",
         "ICE57        ERROR     Component '_ScreensaverEnableNT' has both per-user and per-machine data with a per-machine KeyPath.",
         "ICE57        ERROR     Component '_BOINCManagerStartup' has both per-user and per-machine data with a per-machine KeyPath.",

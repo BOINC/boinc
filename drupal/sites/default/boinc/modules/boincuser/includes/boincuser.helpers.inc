@@ -589,7 +589,7 @@ function _boincuser_node_profile_delete_submit($form, &$form_state) {
  */
 function get_boinc_version($x) {
   require_boinc('host');
-  return function_exists('boinc_version') ? boinc_version($x) : 'err!';
+  return function_exists('boinc_version') ? boinc_version(parse_serialnum($x)) : 'err!';
 }
 
 

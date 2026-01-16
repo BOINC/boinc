@@ -48,6 +48,8 @@ function sort_stats_by_rac($stats) {
     return $stats;
 }
 
+// return a struct with nhosts and rac for hosts satisfying the clause
+//
 function get_stats($clause) {
     global $db, $min_credit;
     $results = $db->enum_general(
@@ -91,7 +93,7 @@ function hosts_darwin() {
     $os_stats = array();
     foreach ($vers as $ver) {
         $stats = get_stats(
-            "os_name='Darwin' and os_version='$v'"
+            "os_name='Darwin' and os_version='$ver'"
         );
         $os_stats[$ver] = $stats;
         $total->nhosts += $stats->nhosts;
@@ -120,7 +122,6 @@ function hosts_other($os_names) {
 
 function get_os_data() {
     global $db, $min_credit;
-    $db = BoincDb::get();
     $names = $db->enum_general(
         'StdClass',
         "select distinct(os_name) from host where expavg_credit>$min_credit"
@@ -167,27 +168,32 @@ function hosts_by_os() {
     page_tail();
 }
 
+// return a struct with
+// total_rac: total RAC over all hosts
+// vers:
+//   an array mapping client version to (rac, nhosts)
+//
 function get_boinc_version_data() {
     global $db, $min_credit;
-    $db = BoincDb::get();
-    $results = $db->enum_general(
-        'StdClass',
-        "select distinct substring(serialnum, locate('BOINC', serialnum), 14) as boinc_vers from host where expavg_credit>$min_credit"
-    );
-    $boinc_versions = array();
-    foreach ($results as $result) {
-        $boinc_vers = substr($result->boinc_vers, 6);
-        $boinc_vers = strstr($boinc_vers, "]", true);
-        if ($boinc_vers) $boinc_versions[] = $boinc_vers;
+    $versions = [];
+    $hosts = BoincHost::enum("expavg_credit>$min_credit");
+    foreach ($hosts as $h) {
+        $m = json_decode($h->misc);
+        $v = $m->client_version;
+        if (array_key_exists($v, $versions)) {
+            $versions[$v]->nhosts++;
+            $versions[$v]->rac += $h->expavg_credit;
+        } else {
+            $x = new StdClass;
+            $x->nhosts = 1;
+            $x->rac = $h->expavg_credit;
+            $versions[$v] = $x;
+        }
     }
-    $vers = array();
-    foreach ($boinc_versions as $boinc_vers) {
-        $vers[$boinc_vers] = get_stats("serialnum like '%$boinc_vers%'");
-    }
-    $vers = sort_stats_by_rac($vers);
+    $versions = sort_stats_by_rac($versions);
     $data = new StdClass;
     $data->total_rac = $db->sum('host', 'expavg_credit', '');
-    $data->vers = $vers;
+    $data->vers = $versions;
     return $data;
 }
 
@@ -212,6 +218,7 @@ function hosts_by_boinc_version() {
     page_tail();
 }
 
+$db = BoincDb::get();
 if (get_str("boinc_version", true)) {
     hosts_by_boinc_version();
 } else {

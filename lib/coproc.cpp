@@ -24,6 +24,9 @@
 #include <cmath>
 #endif
 
+#include <string>
+using std::string;
+
 #ifdef _WIN32
 #include "win_util.h"
 #else
@@ -159,70 +162,91 @@ int COPROC::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-// return a string, to be stored in host.serialnum,
-// describing the host's coprocessors
-//
-void COPROCS::summary_string(char* buf, int len) {
-    char buf2[1024];
+void summary_json(
+    char *buf,
+    const char *type, const char *model, int count, int ram_mb,
+    const char *driver_version, int opencl_version
+) {
+    sprintf(buf,
+"        {\n"\
+"            \"type\": \"%s\",\n"\
+"            \"model\": \"%s\",\n"\
+"            \"count\": %d,\n"\
+"            \"ram_mb\": %d,\n"\
+"            \"driver_version\": \"%s\",\n"\
+"            \"opencl_version\": \"%d\"\n"\
+"        }",
+        type, model, count, ram_mb, driver_version, opencl_version
+    );
+}
 
-    strlcpy(buf, "", len);
+void COPROCS::summary_string_json(string &out) {
+    char buf2[1024];
+    char buf[256];
+    out = "";
     if (nvidia.count) {
-        int mem = (int)(nvidia.prop.totalGlobalMem/MEGA);
-        snprintf(buf2, sizeof(buf2),
-            "[CUDA|%s|%d|%dMB|%d|%d]",
-            nvidia.prop.name, nvidia.count,
-            mem, nvidia.display_driver_version,
+        sprintf(buf, "%d", nvidia.display_driver_version);
+        summary_json(buf2,
+            "nvidia",
+            nvidia.prop.name,
+            nvidia.count,
+            (int)(nvidia.prop.totalGlobalMem/MEGA),
+            buf,
             nvidia.opencl_prop.opencl_device_version_int
         );
-        strlcat(buf, buf2, len);
+        out += buf2;
     }
     if (ati.count) {
-        snprintf(buf2, sizeof(buf2),
-            "[CAL|%s|%d|%uMB|%s|%d]",
+        if (!out.empty()) out += ",\n";
+        summary_json(buf2,
+            "amd",
             ati.name, ati.count,
             ati.attribs.localRAM, ati.version,
             ati.opencl_prop.opencl_device_version_int
         );
-        strlcat(buf, buf2, len);
+        out += buf2;
     }
     if (intel_gpu.count) {
-        snprintf(buf2, sizeof(buf2),
-            "[INTEL|%s|%d|%dMB|%s|%d]",
+        if (!out.empty()) out += ",\n";
+        summary_json(buf2,
+            "intel",
             intel_gpu.name, intel_gpu.count,
-            (int)(intel_gpu.opencl_prop.global_mem_size/MEGA),
+            (int)((double)intel_gpu.opencl_prop.global_mem_size/MEGA),
             intel_gpu.version,
             intel_gpu.opencl_prop.opencl_device_version_int
         );
-        strlcat(buf, buf2, len);
+        out += buf2;
     }
     if (apple_gpu.count) {
-        snprintf(buf2, sizeof(buf2),
-            "[apple_gpu|%s|%d|%dMB|%d|%d]",
+        if (!out.empty()) out += ",\n";
+        sprintf(buf, "%d", apple_gpu.metal_support);
+        summary_json(buf2,
+            "apple",
             apple_gpu.model, apple_gpu.count,
-            (int)(apple_gpu.opencl_prop.global_mem_size/MEGA),
-            apple_gpu.metal_support,
+            (int)((double)apple_gpu.opencl_prop.global_mem_size/MEGA),
+            buf,
             apple_gpu.opencl_prop.opencl_device_version_int
         );
-        strlcat(buf, buf2, len);
+        out += buf2;
     }
-
-    // add OpenCL devices other than nvidia/amd/intel/apple
-    //
     for (int i=1; i<n_rsc; i++) {
         COPROC& cp = coprocs[i];
         int type = coproc_type_name_to_num(cp.type);
         if (type == PROC_TYPE_NVIDIA_GPU) continue;
         if (type == PROC_TYPE_AMD_GPU) continue;
         if (type == PROC_TYPE_INTEL_GPU) continue;
+        if (type == PROC_TYPE_APPLE_GPU) continue;
         if (!strlen(cp.opencl_prop.name)) continue;
-        snprintf(buf2, sizeof(buf2),
-            "[opencl_gpu|%s|%d|%dMB|%d]",
+        if (!out.empty()) out += ",\n";
+        summary_json(buf2,
+            "opencl",
             cp.type,
             cp.count,
-            (int)(cp.opencl_prop.global_mem_size/MEGA),
+            (int)((double)cp.opencl_prop.global_mem_size/MEGA),
+            cp.opencl_prop.opencl_device_version,
             cp.opencl_prop.opencl_device_version_int
         );
-        strlcat(buf, buf2, len);
+        out += buf2;
     }
 }
 
@@ -582,8 +606,7 @@ void COPROC_NVIDIA::set_peak_flops() {
             flops_per_clock = 2;
             cores_per_proc = 64;
             break;
-        case 8:    // for cc8.0 (A100) and cc8.6 (GeForce RTX 30x0 - GA102 and above)
-        default:
+        case 8:    // for cc8.0 (A100) and cc8.6 (GeForce RTX 30x0 - GA102)
             flops_per_clock = 2;
             switch (minor) {
             case 0:    // special for A100 Tensor Core datacenter GPU
@@ -593,6 +616,10 @@ void COPROC_NVIDIA::set_peak_flops() {
                 cores_per_proc = 128;
                 break;
             }
+            break;
+        default:   // for cc9.0-12.0 (and above) (Hopper Datacenter H100/H200, Blackwell Datacenter B200, Blackwell GeForce 50x0)
+            flops_per_clock = 2;
+            cores_per_proc = 128;
             break;
         }
 
@@ -964,7 +991,7 @@ int COPROC_INTEL::parse(XML_PARSER& xp) {
 				set_peak_flops();
             }
             if (!available_ram) {
-                available_ram = opencl_prop.global_mem_size;
+                available_ram = (double)opencl_prop.global_mem_size;
             }
             return 0;
         }
@@ -1072,7 +1099,7 @@ int COPROC_APPLE::parse(XML_PARSER& xp) {
 				set_peak_flops();
             }
             if (!available_ram) {
-                available_ram = opencl_prop.global_mem_size;
+                available_ram = (double)opencl_prop.global_mem_size;
             }
             return 0;
         }

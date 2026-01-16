@@ -1,0 +1,4 @@
+- include_tasks: clone_boinc_server_docker.yml
+  tags: clone,boinc-server-docker
+- include_tasks: setup_boinc.yml
+  tags: clone,boinc

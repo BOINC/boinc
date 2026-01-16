@@ -29,20 +29,24 @@ require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/bootstrap.inc");
 
-// parse config.xml (do it here for efficiency)
-//
-$config = get_config();
-global $master_url;
-$master_url = parse_config($config , "<master_url>");
-$recaptcha_public_key = parse_config($config, "<recaptcha_public_key>");
-$recaptcha_private_key = parse_config($config, "<recaptcha_private_key>");
+define('JQUERY_URL', 'https://code.jquery.com/jquery-3.7.1.slim.min.js');
+
+function master_url() {
+    return parse_config(get_config() , "<master_url>");
+}
+function recaptcha_public_key() {
+    return parse_config(get_config(), "<recaptcha_public_key>");
+}
+function recaptcha_private_key() {
+    return parse_config(get_config(), "<recaptcha_private_key>");
+}
 
 // Set parameters to defaults if not defined in config.xml
 
-$x = parse_config($config, "<user_country>");
+$x = parse_config(get_config(), "<user_country>");
 define('USER_COUNTRY', ($x===null)?1:(int)$x);
 
-$x = parse_config($config, "<user_url>");
+$x = parse_config(get_config(), "<user_url>");
 define('USER_URL', ($x===null)?1:(int)$x);
 
 // Set parameters to defaults if not defined in project.inc
@@ -109,8 +113,10 @@ if (!defined('SHOW_USER_PAGE')) {
 if (!defined('POST_MAX_LINKS')) {
     define('POST_MAX_LINKS', 0);
 }
+
+// support dark mode if user has selected it
 if (!defined('DARK_MODE')) {
-    define('DARK_MODE', false);
+    define('DARK_MODE', true);
 }
 if (!defined('VALIDATE_EMAIL_TO_POST')) {
     define('VALIDATE_EMAIL_TO_POST', false);
@@ -134,11 +140,6 @@ $caching = false;
     // if set, we're writing to a file rather than to client
 $did_page_head = false;
 
-define('KILO', 1024);
-define('MEGA', 1024*KILO);
-define('GIGA', 1024*MEGA);
-define('TERA', 1024*GIGA);
-
 // return true if this page is HTTPS
 //
 function is_https() {
@@ -155,11 +156,9 @@ function url_base() {
 }
 
 function send_cookie($name, $value, $permanent, $ops=false) {
-    global $master_url;
-
     // the following allows independent login for projects on the same server
     //
-    $url = parse_url($master_url);
+    $url = parse_url(master_url());
     $path = $url['path'];
     if ($ops) {
         $path = substr($path, 0, -1);
@@ -169,13 +168,12 @@ function send_cookie($name, $value, $permanent, $ops=false) {
     setcookie($name, $value, $expire, $path,
         '',
         is_https(),     // if this page is secure, make cookie secure
-        true            // httponly; no JS access
+        true            // use cookie for HTTP only; no JS access
     );
 }
 
 function clear_cookie($name, $ops=false) {
-    global $master_url;
-    $url = parse_url($master_url);
+    $url = parse_url(master_url());
     $path = $url['path'];
     if ($ops) {
         $path = substr($path, 0, -1);
@@ -244,7 +242,7 @@ $is_login_page = false;
 //
 // Page_head() is overridable so that projects that want to integrate BOINC
 // with an existing web framework can more easily do so.
-// To do so, define page_head() in the project include file.
+// To do so, define page_head() in html/project/project.inc
 //
 if (!function_exists("page_head")){
 function page_head(
@@ -296,6 +294,8 @@ function page_head(
         <html lang="en">
         <head>
     ';
+    echo sprintf('<script src="%s"></script>', JQUERY_URL);
+
     if (defined('GLOBAL_HEAD_EXTRA')) {
         echo GLOBAL_HEAD_EXTRA;
     }
@@ -392,7 +392,6 @@ function page_tail(
     echo "<br>\n";
     project_footer($is_main, $show_date, $url_prefix);
     echo '
-        <script src="'.secure_url_base().'/jquery.min.js"></script>
         <script src="'.secure_url_base().'/bootstrap.min.js"></script>
         </div>
         </body>
@@ -416,52 +415,6 @@ function error_page($msg) {
     echo $msg;
     page_tail();
     exit();
-}
-
-// convert time interval in seconds to a string of the form
-// 'D days h hours m min s sec'.
-
-function time_diff($x, $res=3) {
-    $x = (int)$x;
-    $days    = (int)($x/86400);
-    $hours   = (int)(($x-$days*86400)/3600);
-    $minutes = (int)(($x-$days*86400-$hours*3600)/60);
-    $seconds = $x % 60;
-
-    $s = "";
-    if ($days) {
-        $s .= "$days ".tra("days")." ";
-    }
-    if ($res>0 && ($hours || strlen($s))) {
-        $s .= "$hours ".tra("hours")." ";
-    }
-    if ($res>1 && ($minutes || strlen($s))) {
-        $s .= "$minutes ".tra("min")." ";
-    }
-    if ($res>2) {
-        $s .= "$seconds ".tra("sec")." ";
-    }
-    return $s;
-}
-
-
-function date_str($x) {
-    if ($x == 0) return "---";
-    return gmdate('j M Y', (int)$x);
-}
-
-function time_str($x) {
-    if ($x == 0) return "---";
-    return gmdate('j M Y, G:i:s', (int)$x) . " UTC";
-}
-
-function local_time_str($x) {
-    if ($x == 0) return "---";
-    return date('j M Y, H:i T', (int)$x);
-}
-
-function pretty_time_str($x) {
-    return time_str($x);
 }
 
 function start_table_str($class="", $style="") {
@@ -914,11 +867,11 @@ function button_style($color='green', $font_size=null) {
     if ($font_size) {
         $fs = sprintf('; font-size:%dpx', $font_size);
     }
-    $c = 'seagreen';
-    if ($color == 'blue') $c = 'steelblue';
+    if ($color == 'green') $color = 'seagreen';
+    if ($color == 'blue') $color = 'steelblue';
     return sprintf(
         'style="background-color:%s; color:white; text-decoration:none%s"',
-        $c, $fs
+        $color, $fs
     );
 }
 // Show a link formatted to look like a button.
@@ -1251,6 +1204,5 @@ function check_validated_email($user) {
         exit;
     }
 }
-
 
 ?>

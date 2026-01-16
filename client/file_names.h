@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2021 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -77,6 +77,8 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #define CPU_BENCHMARKS_FILE_NAME    "cpu_benchmarks"
 #define CREATE_ACCOUNT_FILENAME     "create_account.xml"
 #define DAILY_XFER_HISTORY_FILENAME "daily_xfer_history.xml"
+#define FIX_BOINC_USERS_FILENAME    "Fix_BOINC_Users"
+#define RUN_PODMAN_FILENAME         "Run_Podman"
 #define GET_CURRENT_VERSION_FILENAME    "get_current_version.xml"
 #define GET_PROJECT_CONFIG_FILENAME "get_project_config.xml"
 #define GLOBAL_PREFS_FILE_NAME      "global_prefs.xml"
@@ -88,6 +90,11 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #define LOOKUP_WEBSITE_FILENAME     "lookup_website.html"
 #define MASTER_BASE                 "master_"
 #define NOTICES_DIR                 "notices"
+#ifdef __APPLE__
+#define PODMAN_DIR                  "BOINC podman"
+#else
+#define PODMAN_DIR                  "podman"
+#endif
 #define PROJECTS_DIR                "projects"
 #define REMOTEHOST_FILE_NAME        "remote_hosts.cfg"
 #define SCHED_OP_REPLY_BASE         "sched_reply_"

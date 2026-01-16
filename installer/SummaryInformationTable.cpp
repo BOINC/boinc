@@ -15,9 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "stdafx.h"
+
 #include <chrono>
-#include <iomanip>
-#include <iostream>
 
 #include "JsonHelper.h"
 #include "GuidHelper.h"
@@ -80,7 +80,7 @@ bool SummaryInformationTable::generate(MSIHANDLE hDatabase) {
     std::cout << "Generating SummaryInformationTable" << std::endl;
 
     MSIHANDLE hSummaryInfo;
-    const auto updateCount = summary.size();
+    const auto updateCount = static_cast<UINT>(summary.size());
 
     auto result = MsiGetSummaryInformation(hDatabase, nullptr, updateCount,
         &hSummaryInfo);

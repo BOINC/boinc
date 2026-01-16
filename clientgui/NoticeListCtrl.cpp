@@ -101,7 +101,12 @@ bool CNoticeListCtrl::Create( wxWindow* parent ) {
     SetSizer(topsizer);
 
     m_itemCount = 0;
-    if (wxGetApp().GetIsDarkMode()){
+    bool isWindowsDarkMode = false;
+#ifdef __WXMSW__
+    const wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
+    isWindowsDarkMode = appearance.IsSystemDark();
+#endif
+    if (wxGetApp().GetIsDarkMode() || isWindowsDarkMode){
 #if wxUSE_WEBVIEW
         m_noticesBody = wxT("<html><style>body{background-color:black;color:white;}</style><head></head><body></body></html>");
 #else
@@ -154,13 +159,16 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     m_itemCount = newCount;
-
-
-    if (wxGetApp().GetIsDarkMode()){
+    bool isWindowsDarkMode = false;
+#ifdef __WXMSW__
+    const wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
+    isWindowsDarkMode = appearance.IsSystemDark();
+#endif
+    if (wxGetApp().GetIsDarkMode() || isWindowsDarkMode){
 #if wxUSE_WEBVIEW
         m_noticesBody =  wxT("<html><style>body{background-color:black;color:white;}</style><head></head><body><font face=helvetica>");
 #else
-       m_noticesBody =  wxT("<html><head></head><body bgcolor=black><font face=helvetica color=white bgcolor=black>");
+        m_noticesBody =  wxT("<html><head></head><body bgcolor=black><font face=helvetica color=white bgcolor=black>");
 #endif
     } else {
         m_noticesBody =  wxT("<html><head></head><body><font face=helvetica>");
@@ -249,7 +257,7 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
 
             strBuffer += strDescription;
 
-            strBuffer += wxT("<br><font size=-2 color=#8f8f8f>");
+            strBuffer += wxT("<br><font size=-1 color=#8f8f8f>");
 
             strBuffer += strCreateTime;
 
@@ -257,7 +265,7 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
                 strTemp.Printf(
                     wxT(" &middot; <a href=%s>%s</a> "),
                     strURL.c_str(),
-                    _("more...")
+                    _("more info...")
                 );
                 strBuffer += strTemp;
             }
@@ -356,11 +364,10 @@ bool CNoticeListCtrl::UpdateUI() {
             ((int)GetItemCount() != noticeCount))
         ) {
             pDoc->notices.complete = false;
-            Freeze();
             SetItemCount(noticeCount);
             m_bDisplayFetchingNotices = false;
             m_bDisplayEmptyNotice = false;
-            Thaw();
+            Refresh();
         }
 
         bAlreadyRunning = false;

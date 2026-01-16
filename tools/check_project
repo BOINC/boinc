@@ -66,7 +66,7 @@ def determineapacheuser(user):
       print("WARNING: Script could not determine which user runs apache Web server. Aborting")
       print("         You should specify the apache user with the -a/--apache_user flag")
       print("         Try running the following command with apache Web server running:")
-      print("           ps -ef | egrep '(httpd|apache2|apache)' | grep -v `whoami` | grep -v root")
+      print("           ps -ef | grep -E '(httpd|apache2|apache)' | grep -v `whoami` | grep -v root")
       sys.exit(1)
    else:
       check_user(user)

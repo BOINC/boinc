@@ -30,7 +30,7 @@ jobs:
         type: [update_copyright_year]
       fail-fast: false
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           fetch-depth: 2
       - name: Update copyright year
@@ -45,7 +45,7 @@ jobs:
           echo "PR_REQUIRED=$?" >> $GITHUB_ENV
       - name: Create PR
         if: ${{ success() &&  env.PR_REQUIRED == 1 }}
-        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f
+        uses: peter-evans/create-pull-request@98357b18bf14b5342f975ff684046ec3b2a07725
         with:
           commit-message: Update copyright year
           title: Update copyright year

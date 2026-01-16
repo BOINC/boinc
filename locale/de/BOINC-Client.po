@@ -1,5 +1,5 @@
 # BOINC client localization template
-# Copyright (C) 2024 University of California
+# Copyright (C) 2025 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2024-03-10 13:41 UTC\n"
+"POT-Creation-Date: 2025-02-09 02:28 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:28+0000\n"
 "Last-Translator: Stephan R, 2024\n"
 "Language-Team: German (http://app.transifex.com/boinc/boinc/language/de/)\n"
@@ -28,34 +28,34 @@ msgstr ""
 msgid "Message from account manager"
 msgstr "Nachricht vom Kontomanager"
 
-#: client/client_msgs.cpp:81
+#: client/client_msgs.cpp:76
 msgid "Message from server"
 msgstr "Nachricht vom Server"
 
-#: client/client_state.cpp:329
+#: client/client_state.cpp:364
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "Einige Aufgaben benötigen mehr Arbeitsspeicher als von ihren Einstellungen erlaubt wird. Bitte die Einstellungen überprüfen."
 
-#: client/client_state.cpp:708
+#: client/client_state.cpp:745
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Konnte Statusdatei nicht schreiben; bitte Zugriffsrechte überprüfen"
 
-#: client/cs_cmdline.cpp:299
+#: client/cs_cmdline.cpp:295
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "Die HTTP_PROXY Umgebungsvariable muss einen HTTP-Proxy angeben"
 
-#: client/cs_scheduler.cpp:592
+#: client/cs_scheduler.cpp:595
 #, c-format
 msgid "Master URL changed from %s to %s"
 msgstr "Master URL wechselte von %s nach %s"
 
-#: client/cs_statefile.cpp:873
+#: client/cs_statefile.cpp:884
 msgid "Syntax error in app_info.xml"
 msgstr "Syntaxfehler in app_info.xml"
 
-#: client/cs_statefile.cpp:917
+#: client/cs_statefile.cpp:928
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "Datei auf die aus app_info.xml verwiesen wurde, existiert nicht: "
 
@@ -93,87 +93,87 @@ msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "kann nicht für CUDA- oder OpenCL-Berechnungen mit CUDA Treiber 6.5 oder höher verwendet werden"
 
-#: client/log_flags.cpp:330 client/log_flags.cpp:515
+#: client/log_flags.cpp:344 client/log_flags.cpp:535
 msgid "Unexpected text in cc_config.xml"
 msgstr "Unerwarteter Text in cc_config.xml"
 
-#: client/log_flags.cpp:489 client/log_flags.cpp:544
+#: client/log_flags.cpp:509 client/log_flags.cpp:564
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Nicht erkanntes Tag in cc_config.xml"
 
-#: client/log_flags.cpp:506
+#: client/log_flags.cpp:526
 msgid "Missing start tag in cc_config.xml"
 msgstr "Fehlendes Starttag in cc_config.xml"
 
-#: client/log_flags.cpp:534
+#: client/log_flags.cpp:554
 msgid "Error in cc_config.xml options"
 msgstr "Fehler in den cc_config.xml Optionen"
 
-#: client/log_flags.cpp:552
+#: client/log_flags.cpp:572
 msgid "Missing end tag in cc_config.xml"
 msgstr "Fehlendes Endetag in cc_config.xml"
 
-#: sched/handle_request.cpp:313
+#: sched/handle_request.cpp:350
 msgid "Invalid or missing account key.  To fix, remove and add this project."
 msgstr "Ungültiger oder fehlender Kontoschlüssel.  Projekt entfernen und neu hinzufügen zum beheben."
 
-#: sched/handle_request.cpp:947
+#: sched/handle_request.cpp:1002
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
 msgstr "Dieses Projekt hat einen neuen Sicherheitsschlüssel. Entfernen und fügen sie das Projekt neu hinzu."
 
-#: sched/handle_request.cpp:1018
+#: sched/handle_request.cpp:1073
 msgid "This project doesn't support operating system"
 msgstr "Dieses Projekt unterstützt nicht das Betriebssystem"
 
-#: sched/handle_request.cpp:1044
+#: sched/handle_request.cpp:1099
 msgid "This project doesn't support CPU type"
 msgstr "Dieses Projekt unterstützt nicht den Prozessortyp"
 
-#: sched/handle_request.cpp:1068
+#: sched/handle_request.cpp:1123
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr "Die BOINC Installation ist zu alt. Bitte die aktuelle Version installieren."
 
-#: sched/handle_request.cpp:1344
+#: sched/handle_request.cpp:1399
 msgid "This project doesn't support computers of type"
 msgstr "Dieses Projekt unterstützt keine Computer vom Typ"
 
-#: sched/sched_send.cpp:1146
+#: sched/sched_send.cpp:1250
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "Auf die neuesten Treiber aktualisieren, um die GPU dieses Computers nutzen zu können."
 
-#: sched/sched_send.cpp:1153
+#: sched/sched_send.cpp:1257
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "Auf die neuesten Treiber aktualisieren, um alle GPU-Anwendungen dieses Projekts nutzen zu können."
 
-#: sched/sched_send.cpp:1172
+#: sched/sched_send.cpp:1276
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "Eine neuere Version von BOINC ist erforderlich um die NVIDIA GPU zu verwenden. Bitte auf die aktuellste Version aktualisieren."
 
-#: sched/sched_send.cpp:1206
+#: sched/sched_send.cpp:1310
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "Für dieses Projekt wird eine %s GPU benötigt"
 
-#: sched/sched_send.cpp:1328
+#: sched/sched_send.cpp:1432
 msgid "No tasks are available for the applications you have selected."
 msgstr "Für die gewählten Anwendungen ist keine Arbeit verfügbar."
 
-#: sched/sched_send.cpp:1354
+#: sched/sched_send.cpp:1458
 msgid "Your computer type is not supported by this project"
 msgstr "Der Computertyp wird von diesem Projekt nicht unterstützt."
 
-#: sched/sched_send.cpp:1360
+#: sched/sched_send.cpp:1464
 msgid "Newer BOINC version required; please install current version"
 msgstr "Neuere BOINC Version wird benötigt. Bitte die aktuelle Version installieren."
 
-#: sched/sched_send.cpp:1371
+#: sched/sched_send.cpp:1475
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"

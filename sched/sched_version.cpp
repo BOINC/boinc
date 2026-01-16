@@ -36,6 +36,7 @@
 #include "sched_types.h"
 #include "sched_util.h"
 #include "credit.h"
+#include "buda.h"
 
 #include "sched_version.h"
 
@@ -145,6 +146,11 @@ inline bool daily_quota_exceeded(DB_ID_TYPE gavid, HOST_USAGE& hu) {
             );
         }
         havp->daily_quota_exceeded = true;
+        char message[1024];
+        snprintf(message, sizeof(message),
+            "Daily job limit (%d) has been reached", q
+        );
+        add_no_work_message(message);
         return true;
     }
     return false;
@@ -948,6 +954,13 @@ BEST_APP_VERSION* get_app_version(
         }   // loop over app versions
 
         if (config.prefer_primary_platform && found_feasible_version) {
+            break;
+        }
+
+        // use only primary platform for BUDA jobs
+        // (e.g. don't send Intel docker_wrapper to Mac/ARM)
+        //
+        if (is_buda(wu)) {
             break;
         }
     }   // loop over client platforms

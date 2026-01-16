@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2024 University of California
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -46,5 +46,8 @@ export VCPKG_DIR="$VCPKG_ROOT/installed/x64-linux"
 
 linux/update_vcpkg_client.sh
 
+export LDFLAGS="-static-libstdc++ -s"
 export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
+export PKG_CONFIG_PATH=$VCPKG_DIR/lib/pkgconfig/
+
 ./configure --with-libcurl=$VCPKG_DIR --with-ssl=$VCPKG_DIR --disable-server --enable-client --disable-manager $exec_prefix

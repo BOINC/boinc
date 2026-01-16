@@ -1,5 +1,5 @@
 # BOINC client localization template
-# Copyright (C) 2024 University of California
+# Copyright (C) 2025 University of California
 # 
 # This file is distributed under the same license as BOINC.
 # 
@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2024-03-10 13:41 UTC\n"
+"POT-Creation-Date: 2025-02-09 02:28 UTC\n"
 "PO-Revision-Date: 2015-02-08 15:28+0000\n"
 "Last-Translator: Shimmer Blade, 2024\n"
 "Language-Team: Bulgarian (http://app.transifex.com/boinc/boinc/language/bg/)\n"
@@ -26,34 +26,34 @@ msgstr ""
 msgid "Message from account manager"
 msgstr "Съобщение от акаунт мениджъра"
 
-#: client/client_msgs.cpp:81
+#: client/client_msgs.cpp:76
 msgid "Message from server"
 msgstr "Съобщение от сървъра"
 
-#: client/client_state.cpp:329
+#: client/client_state.cpp:364
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr "Някои задачи се нуждаят от повече памет, отколкото е позволена във вашите предпочитания.  Моля, проверете предпочитанията си."
 
-#: client/client_state.cpp:708
+#: client/client_state.cpp:745
 msgid "Couldn't write state file; check directory permissions"
 msgstr "Не може да се запише файла за състоянието; проверете правата на директорията"
 
-#: client/cs_cmdline.cpp:299
+#: client/cs_cmdline.cpp:295
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "Променливата HTTP_PROXY трябва да съдържа HTTP прокси"
 
-#: client/cs_scheduler.cpp:592
+#: client/cs_scheduler.cpp:595
 #, c-format
 msgid "Master URL changed from %s to %s"
 msgstr "Основният URL адрес е променен от %s на %s"
 
-#: client/cs_statefile.cpp:873
+#: client/cs_statefile.cpp:884
 msgid "Syntax error in app_info.xml"
 msgstr "Синтактична грешка в app_info.xml"
 
-#: client/cs_statefile.cpp:917
+#: client/cs_statefile.cpp:928
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "Файлът, посочен в app_info.xml не съществува: "
 
@@ -91,87 +91,87 @@ msgid ""
 "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
 msgstr "не може да бъде използвано за CUDA или OpenCL изчисления с CUDA драйвер 6.5 или по-нов"
 
-#: client/log_flags.cpp:330 client/log_flags.cpp:515
+#: client/log_flags.cpp:344 client/log_flags.cpp:535
 msgid "Unexpected text in cc_config.xml"
 msgstr "Неочакван текст в cc_config.xml"
 
-#: client/log_flags.cpp:489 client/log_flags.cpp:544
+#: client/log_flags.cpp:509 client/log_flags.cpp:564
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Неразпознат таг в cc_config.xml"
 
-#: client/log_flags.cpp:506
+#: client/log_flags.cpp:526
 msgid "Missing start tag in cc_config.xml"
 msgstr "Липсващ таг за начало в cc_config.xml"
 
-#: client/log_flags.cpp:534
+#: client/log_flags.cpp:554
 msgid "Error in cc_config.xml options"
 msgstr "Грешка в cc_config.xml"
 
-#: client/log_flags.cpp:552
+#: client/log_flags.cpp:572
 msgid "Missing end tag in cc_config.xml"
 msgstr "Липсващ таг за край в cc_config.xml"
 
-#: sched/handle_request.cpp:313
+#: sched/handle_request.cpp:350
 msgid "Invalid or missing account key.  To fix, remove and add this project."
 msgstr "Невалиден или липсващ акаунт ключ.  За да поправите това, премахнете и добавете отново този проект."
 
-#: sched/handle_request.cpp:947
+#: sched/handle_request.cpp:1002
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
 msgstr "Проектът е сменил своя ключ за сигурност.  Моля премахнете и добавете отново този проект."
 
-#: sched/handle_request.cpp:1018
+#: sched/handle_request.cpp:1073
 msgid "This project doesn't support operating system"
 msgstr "Този проект не поддържа операционна система"
 
-#: sched/handle_request.cpp:1044
+#: sched/handle_request.cpp:1099
 msgid "This project doesn't support CPU type"
 msgstr "Този проект не поддържа CPU тип"
 
-#: sched/handle_request.cpp:1068
+#: sched/handle_request.cpp:1123
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
 msgstr "Вашият BOINC клиент е твърде стара версия.  Моля, инсталирайте текущата версия."
 
-#: sched/handle_request.cpp:1344
+#: sched/handle_request.cpp:1399
 msgid "This project doesn't support computers of type"
 msgstr "Този проект не поддържа компютри от тип"
 
-#: sched/sched_send.cpp:1146
+#: sched/sched_send.cpp:1250
 msgid ""
 "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr "Обновете видео драйверите си до последна версия, за да обработвате задачи с помощта на вашата видеокарта"
 
-#: sched/sched_send.cpp:1153
+#: sched/sched_send.cpp:1257
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr "Обновете видео драйверите си до последна версия, за да използвате всички GPU приложения на този проект"
 
-#: sched/sched_send.cpp:1172
+#: sched/sched_send.cpp:1276
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
 " the current version"
 msgstr "Необходима е по-нова версия на BOINC, за да използвате вашето NVIDIA GPU; моля, обновете до текущата версия"
 
-#: sched/sched_send.cpp:1206
+#: sched/sched_send.cpp:1310
 #, c-format
 msgid "An %s GPU is required to run tasks for this project"
 msgstr "Необходимо е %s GPU за да могат да се обработват задачи от този проект"
 
-#: sched/sched_send.cpp:1328
+#: sched/sched_send.cpp:1432
 msgid "No tasks are available for the applications you have selected."
 msgstr "Няма налични задачи за приложенията, които сте избрали."
 
-#: sched/sched_send.cpp:1354
+#: sched/sched_send.cpp:1458
 msgid "Your computer type is not supported by this project"
 msgstr "Типът на вашия компютър не се поддържа от този проект"
 
-#: sched/sched_send.cpp:1360
+#: sched/sched_send.cpp:1464
 msgid "Newer BOINC version required; please install current version"
 msgstr "Необходима е по-нова версия на BOINC; моля, инсталирайте текущата версия"
 
-#: sched/sched_send.cpp:1371
+#: sched/sched_send.cpp:1475
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"

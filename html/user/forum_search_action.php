@@ -169,16 +169,23 @@ if ($search_author) {
 
 // First search thread titles; if we get a hit there it's probably relevant
 //
-$threads = search_thread_titles($search_list, $forum, $user, $min_timestamp, round($limit/7), $search_sort, $show_hidden_posts);
+$threads = search_thread_titles(
+    $search_list, $forum, $user, $min_timestamp, $limit,
+    $search_sort, $show_hidden_posts
+);
 
-// Display the threads while we search for posts
+// Display the threads
 //
 if (count($threads)){
     echo "<h3>" . tra("Thread titles matching your query:") . "</h3>";
     start_table('table-striped');
     thread_list_header();
     foreach ($threads as $thread){
-        if ($thread->hidden) continue;
+        if (!$show_hidden_posts) {
+            $u = BoincUser::lookup_id($thread->owner);
+            if ($u && is_banished($u)) continue;
+            if ($thread->hidden) continue;
+        }
         thread_list_item($thread, $logged_in_user);
     }
     end_table();
@@ -201,6 +208,10 @@ if (count($posts)){
     $options = get_output_options($logged_in_user);
     $options->setHighlightTerms($search_list);
     foreach ($posts as $post) {
+        if (!$show_hidden_posts) {
+            $u = BoincUser::lookup_id($post->user);
+            if (is_banished($u)) continue;
+        }
         $thread = BoincThread::lookup_id($post->thread);
         if (!$thread) continue;
         $forum = BoincForum::lookup_id($thread->forum);

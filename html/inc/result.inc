@@ -118,7 +118,7 @@ function result_granted_credit_string($result, $string_to_show) {
     }
 }
 
-// various states that we allow users to filter on
+// various result states that users can filter on
 
 define("STATE_ALL", 0);
 define("STATE_IN_PROGRESS", 1);
@@ -141,12 +141,35 @@ $state_name = array(
 
 $state_clause = array(
     "",
-    " and server_state=4 ",
-    " and server_state=5 and outcome=1 and validate_state=0 ",
-    " and server_state=5 and outcome=1 and validate_state=4 ",
-    " and server_state=5 and outcome=1 and validate_state=1 ",
-    " and server_state=5 and (outcome=6 or (outcome=1 and (validate_state=2 or validate_state=3 or validate_state=5))) ",
-    " and server_state=5 and (outcome=3 or outcome=4 or outcome=7) ",
+    sprintf(
+        ' and server_state=%d ',
+        RESULT_SERVER_STATE_IN_PROGRESS
+    ),
+    sprintf(
+        ' and server_state=%d and outcome=%d and validate_state=%d ',
+        RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS, VALIDATE_STATE_INIT
+    ),
+    sprintf(
+        ' and server_state=%d and outcome=%d and validate_state=%d ',
+        RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS,
+        VALIDATE_STATE_INCONCLUSIVE
+    ),
+    sprintf(
+        ' and server_state=%d and outcome=%d and validate_state=%d ',
+        RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS, VALIDATE_STATE_VALID
+    ),
+    sprintf(
+        ' and server_state=%d and (outcome=%d or (outcome=%d and (validate_state=%d or validate_state=%d or validate_state=%d))) ',
+        RESULT_SERVER_STATE_OVER,
+        RESULT_OUTCOME_VALIDATE_ERROR, RESULT_OUTCOME_SUCCESS,
+        VALIDATE_STATE_INVALID, VALIDATE_STATE_NO_CHECK,
+        VALIDATE_STATE_TOO_LATE
+    ),
+    sprintf(
+        ' and server_state=%d and (outcome=%d or outcome=%d or outcome=%d) ',
+        RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_CLIENT_ERROR,
+        RESULT_OUTCOME_NO_REPLY, RESULT_OUTCOME_CLIENT_DETACHED
+    )
 );
 
 function state_num($result) {
@@ -709,6 +732,7 @@ function show_result($result, $show_outfile_links=false) {
     row2(tra("Computer ID"), host_link($result->hostid));
     row2(tra("Run time"), time_diff($result->elapsed_time));
     row2(tra("CPU time"), time_diff($result->cpu_time));
+    row2('Priority', $result->priority);
     row2(tra("Validate state"), validate_state_str($result));
     row2(tra("Credit"), number_format($result->granted_credit, 2));
     row2(tra("Device peak FLOPS"), number_format($result->flops_estimate/1e9, 2)." GFLOPS");
@@ -742,14 +766,16 @@ function show_result($result, $show_outfile_links=false) {
         project_result($result);
     }
     end_table();
-    echo "<h3>".tra("Stderr output")."</h3> <pre>"
-        .htmlspecialchars(
-            $result->stderr_out,
-            ENT_QUOTES | (defined('ENT_SUBSTITUTE')?ENT_SUBSTITUTE:0),
-            'utf-8'
-        )
-        ."</pre>"
-    ;
+    if ($result->server_state == RESULT_SERVER_STATE_OVER) {
+        echo "<h3>".tra("Stderr output")."</h3> <pre>"
+            .htmlspecialchars(
+                $result->stderr_out,
+                ENT_QUOTES | (defined('ENT_SUBSTITUTE')?ENT_SUBSTITUTE:0),
+                'utf-8'
+            )
+            ."</pre>"
+        ;
+    }
 }
 
 function result_navigation($info, $where_clause) {

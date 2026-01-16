@@ -311,20 +311,6 @@ bool PLAN_CLASS_SPEC::check(
         return false;
     }
 
-    // host summary
-    //
-    if (have_host_summary_regex
-        && regexec(&(host_summary_regex), g_reply->host.serialnum, 0, NULL, 0)
-    ) {
-        if (config.debug_version_select) {
-            log_messages.printf(MSG_NORMAL,
-                "[version] plan_class_spec: host summary '%s' didn't match regexp\n",
-                g_reply->host.serialnum
-            );
-        }
-        return false;
-    }
-
     // OS version
     //
     if (have_os_regex && regexec(&(os_regex), sreq.host.os_version, 0, NULL, 0)) {
@@ -601,6 +587,14 @@ bool PLAN_CLASS_SPEC::check(
                 add_no_work_message("Docker not present");
                 return false;
             }
+            if (strstr(sreq.host.os_name, "Darwin")) {
+                if (sreq.core_client_version < 80206) {
+                    add_no_work_message(
+                        "Docker jobs need 8.2.6+ client"
+                    );
+                    return false;
+                }
+            }
         }
     }
 
@@ -846,7 +840,7 @@ bool PLAN_CLASS_SPEC::check(
 
     // Apple GPU
 
-    } else if (!strcmp(gpu_type, "apple_cpu")) {
+    } else if (!strcmp(gpu_type, "apple")) {
         COPROC& cp = sreq.coprocs.apple_gpu;
         cpp = &cp;
 
@@ -1120,7 +1114,7 @@ bool PLAN_CLASS_SPEC::check(
 }
 
 bool PLAN_CLASS_SPECS::check(
-    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu,
+    SCHEDULER_REQUEST& sreq, const char* plan_class, HOST_USAGE& hu,
     const WORKUNIT* wu
 ) {
     for (unsigned int i=0; i<classes.size(); i++) {
@@ -1133,7 +1127,7 @@ bool PLAN_CLASS_SPECS::check(
 }
 
 bool PLAN_CLASS_SPECS::wu_is_infeasible(
-    char* plan_class_name, const WORKUNIT* wu
+    const char* plan_class_name, const WORKUNIT* wu
 ) {
     if(wu_restricted_plan_class) {
         for (unsigned int i=0; i<classes.size(); i++) {
@@ -1161,6 +1155,7 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_bool("opencl", opencl)) continue;
         if (xp.parse_bool("virtualbox", virtualbox)) continue;
         if (xp.parse_bool("wsl", wsl)) continue;
+        if (xp.parse_bool("docker", docker)) continue;
         if (xp.parse_bool("is64bit", is64bit)) continue;
         if (xp.parse_str("cpu_feature", buf, sizeof(buf))) {
             cpu_features.push_back(" " + (string)buf + " ");
@@ -1200,14 +1195,6 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
                 return ERR_XML_PARSE;
             }
             have_cpu_model_regex = true;
-            continue;
-        }
-        if (xp.parse_str("host_summary_regex", buf, sizeof(buf))) {
-            if (regcomp(&(host_summary_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
-                log_messages.printf(MSG_CRITICAL, "BAD HOST SUMMARY REGEXP: %s\n", buf);
-                return ERR_XML_PARSE;
-            }
-            have_host_summary_regex = true;
             continue;
         }
         if (xp.parse_int("user_id", user_id)) continue;
@@ -1307,6 +1294,7 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     opencl = false;
     virtualbox = false;
     wsl = false;
+    docker = false;
     is64bit = false;
     min_ncpus = 0;
     max_threads = 1;
@@ -1328,7 +1316,6 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     avg_ncpus = 0;
     min_core_client_version = 0;
     max_core_client_version = 0;
-    have_host_summary_regex = false;
     user_id = 0;
     infeasible_random = 0;
     min_wu_id=0;

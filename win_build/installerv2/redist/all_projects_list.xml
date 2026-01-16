@@ -10,10 +10,10 @@
         <description><![CDATA[Study drugs to fight SARS-CoV-2]]></description>
         <home>The COVID.SI project and the Karelian Research Center of the Russian Academy of Sciences</home>
     <platforms>
-        <name>windows_x86_64</name>
-        <name>x86_64-pc-linux-gnu</name>
         <name>arm-unknown-linux-gnueabihf</name>
+        <name>windows_x86_64</name>
         <name>x86_64-openwrt-linux-musl</name>
+        <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/sidock.png</image>
       <summary>Study drugs to fight SARS-CoV-2</summary>
@@ -64,23 +64,20 @@
     <project>
         <name>GPUGrid.net</name>
         <id>6</id>
-        <url>https://www.gpugrid.net/</url>
-        <web_url>https://www.gpugrid.net/</web_url>
+        <url>https://gpugrid.net/gpugrid/</url>
+        <web_url>https://gpugrid.net/gpugrid/</web_url>
         <general_area>Biology and Medicine</general_area>
         <specific_area>Molecular simulations of proteins</specific_area>
         <description><![CDATA[GPUGrid.net opens novel computational scenarios by the first full-atom molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. New biomedical applications suddenly become possible giving a new role to computational biology for biomedical research.]]></description>
         <home>Barcelona Biomedical Research Park (PRBB)</home>
     <platforms>
-        <name>windows_intelx86[cuda60]</name>
-        <name>windows_intelx86[cuda65]</name>
-        <name>windows_intelx86[cuda80]</name>
-        <name>windows_intelx86[mt]</name>
-        <name>windows_intelx86_64[cuda80]</name>
-        <name>x86_64-pc-linux-gnu[cuda60]</name>
-        <name>x86_64-pc-linux-gnu[cuda65]</name>
-        <name>x86_64-pc-linux-gnu[cuda80]</name>
-        <name>x86_64-pc-linux-gnu[cuda85]</name>
-        <name>x86_64-pc-linux-gnu[mt]</name>
+        <name>windows_x86_64[cuda1121]</name>
+        <name>windows_x86_64[cuda124L]</name>
+        <name>windows_x86_64[cuda124S]</name>
+        <name>x86_64-pc-linux-gnu[cuda1121]</name>
+        <name>x86_64-pc-linux-gnu[cuda1188]</name>
+        <name>x86_64-pc-linux-gnu[cuda124L]</name>
+        <name>x86_64-pc-linux-gnu[cuda124S]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/gpugrid.png</image>
       <summary>Help biomedical research</summary>
@@ -114,8 +111,8 @@
     <project>
         <name>Asteroids@home</name>
         <id>11</id>
-        <url>http://asteroidsathome.net/boinc/</url>
-        <web_url>http://asteroidsathome.net/boinc/</web_url>
+        <url>https://asteroidsathome.net/boinc/</url>
+        <web_url>https://asteroidsathome.net/boinc/</web_url>
         <general_area>Physical Science</general_area>
         <specific_area>Astrophysics</specific_area>
         <description><![CDATA[The aim of the project is to derive shapes and spin for a significant part of the asteroid population. As input data, we use any asteroid photometry that is available. The results are asteroid convex shape models with the direction of the spin axis and the rotation period.]]></description>
@@ -180,10 +177,10 @@
         <description><![CDATA[The goal of Milkyway@Home is to create a highly accurate three dimensional model of the Milky Way galaxy using data gathered by the Sloan Digital Sky Survey.]]></description>
         <home>Rensselaer Polytechnic Institute</home>
     <platforms>
-        <name>windows_x86_64[mt]</name>
-        <name>x86_64-pc-linux-gnu[mt]</name>
         <name>windows_x86_64</name>
+        <name>windows_x86_64[mt]</name>
         <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[mt]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/mw.png</image>
       <summary>Study the structure of the Milky Way galaxy</summary>
@@ -217,6 +214,7 @@
         <name>powerpc-apple-darwin[ALTIVEC]</name>
         <name>windows_intelx86</name>
         <name>windows_intelx86[FGRPSSE]</name>
+        <name>windows_x86_64</name>
         <name>windows_x86_64[BRP4X64]</name>
         <name>windows_x86_64[BRP7-cuda102]</name>
         <name>windows_x86_64[BRP7-cuda55]</name>
@@ -230,10 +228,9 @@
         <name>windows_x86_64[FGRPopencl2-ati]</name>
         <name>windows_x86_64[FGRPopencl2Pup-nvidia]</name>
         <name>windows_x86_64[FGRPopenclTV-nvidia]</name>
-        <name>windows_x86_64[GW-opencl-ati-2]</name>
-        <name>windows_x86_64[GW-opencl-ati-3]</name>
-        <name>windows_x86_64[GW-opencl-nvidia-2]</name>
-        <name>windows_x86_64[GW-opencl-nvidia-3]</name>
+        <name>windows_x86_64[GW-opencl-ati]</name>
+        <name>windows_x86_64[GW-opencl-intel_gpu]</name>
+        <name>windows_x86_64[GW-opencl-nvidia]</name>
         <name>windows_x86_64[opencl-intel_gpu-new]</name>
         <name>windows_x86_64[opencl-intel_gpu-newer]</name>
         <name>x86_64-apple-darwin</name>
@@ -243,10 +240,8 @@
         <name>x86_64-apple-darwin[FGRPopencl2Pup-nvidia]</name>
         <name>x86_64-apple-darwin[FGRPopenclTV-nvidia]</name>
         <name>x86_64-apple-darwin[FGRPSSE]</name>
-        <name>x86_64-apple-darwin[GW-opencl-ati-2]</name>
-        <name>x86_64-apple-darwin[GW-opencl-ati-3]</name>
-        <name>x86_64-apple-darwin[GW-opencl-nvidia-2]</name>
-        <name>x86_64-apple-darwin[GW-opencl-nvidia-3]</name>
+        <name>x86_64-apple-darwin[GW-opencl-ati]</name>
+        <name>x86_64-apple-darwin[GW-opencl-nvidia]</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[BRP4X64]</name>
         <name>x86_64-pc-linux-gnu[BRP7-cuda102]</name>
@@ -261,12 +256,10 @@
         <name>x86_64-pc-linux-gnu[FGRPopenclTV-nvidia]</name>
         <name>x86_64-pc-linux-gnu[FGRPSSE]</name>
         <name>x86_64-pc-linux-gnu[GW-cuda]</name>
-        <name>x86_64-pc-linux-gnu[GW-cuda-3]</name>
-        <name>x86_64-pc-linux-gnu[GW-cuda-Beta-3]</name>
-        <name>x86_64-pc-linux-gnu[GW-opencl-ati-2]</name>
-        <name>x86_64-pc-linux-gnu[GW-opencl-ati-3]</name>
-        <name>x86_64-pc-linux-gnu[GW-opencl-nvidia-2]</name>
-        <name>x86_64-pc-linux-gnu[GW-opencl-nvidia-3]</name>
+        <name>x86_64-pc-linux-gnu[GW-cuda-2]</name>
+        <name>x86_64-pc-linux-gnu[GW-opencl-ati]</name>
+        <name>x86_64-pc-linux-gnu[GW-opencl-intel_gpu]</name>
+        <name>x86_64-pc-linux-gnu[GW-opencl-nvidia]</name>
         <name>x86_64-pc-linux-gnu[opencl-intel_gpu]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/einstein.jpg</image>
@@ -283,33 +276,18 @@
         <description><![CDATA[The Large Hadron Collider (LHC) is a particle accelerator at CERN, the European Organization for Nuclear Research, the world's largest particle physics laboratory.  It is the most powerful instrument ever built to investigate on particles proprieties. LHC@home runs simulations to improve the design of LHC and its detectors.]]></description>
         <home>CERN (European Organization for Nuclear Research)</home>
     <platforms>
-        <name>windows_intelx86</name>
-        <name>windows_intelx86[avx]</name>
-        <name>windows_intelx86[sse2]</name>
-        <name>windows_x86_64[avx]</name>
-        <name>windows_x86_64[sse2]</name>
-        <name>x86_64-pc-linux-gnu[avx]</name>
-        <name>x86_64-pc-linux-gnu[sse2]</name>
-        <name>x86_64-apple-darwin[avx]</name>
-        <name>x86_64-apple-darwin[sse2]</name>
-        <name>aarch64-android-linux-gnu[android]</name>
-        <name>aarch64-unknown-linux-gnu</name>
-        <name>x86_64-pc-freebsd[avx]</name>
-        <name>x86_64-pc-freebsd[sse2]</name>
-        <name>i686-pc-linux-gnu[sse2]</name>
-        <name>aarch64-android-linux-gnu</name>
         <name>windows_x86_64[vbox64_mt_mcore_cms]</name>
         <name>x86_64-pc-linux-gnu[vbox64_mt_mcore_cms]</name>
         <name>x86_64-apple-darwin[vbox64_mt_mcore_cms]</name>
         <name>windows_x86_64[vbox64_theory]</name>
         <name>x86_64-pc-linux-gnu[vbox64_theory]</name>
-        <name>x86_64-pc-linux-gnu[native_theory]</name>
         <name>x86_64-apple-darwin[vbox64_theory]</name>
-        <name>x86_64-pc-freebsd[vbox64_theory]</name>
         <name>windows_x86_64[vbox64_mt_mcore_atlas]</name>
         <name>x86_64-pc-linux-gnu[native_mt]</name>
         <name>x86_64-pc-linux-gnu[vbox64_mt_mcore_atlas]</name>
         <name>x86_64-apple-darwin[vbox64_mt_mcore_atlas]</name>
+        <name>windows_x86_64</name>
+        <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/lhc.jpg</image>
       <summary>Improve the design of the Large Hadron Collider</summary>
@@ -619,9 +597,11 @@
         <name>windows_x86_64[openclatiGFNEXTREME]</name>
         <name>windows_x86_64[opencl_ati_AP27]</name>
         <name>windows_x86_64[opencl_ati_cwsieve]</name>
+        <name>windows_x86_64[opencl_ati_fcsieve]</name>
         <name>windows_x86_64[opencl_ati_WW]</name>
         <name>windows_x86_64[opencl_intel_gpu_AP27]</name>
         <name>windows_x86_64[opencl_intel_gpu_cwsieve]</name>
+        <name>windows_x86_64[opencl_intel_gpu_fcsieve]</name>
         <name>windows_x86_64[opencl_intel_gpu_GFN15]</name>
         <name>windows_x86_64[opencl_intel_gpu_GFN16]</name>
         <name>windows_x86_64[opencl_intel_gpu_GFN17MEGA]</name>
@@ -632,6 +612,7 @@
         <name>windows_x86_64[opencl_intel_gpu_GFN22]</name>
         <name>windows_x86_64[opencl_intel_gpu_GFNEXTREME]</name>
         <name>windows_x86_64[opencl_nvidia_cwsieve]</name>
+        <name>windows_x86_64[opencl_nvidia_fcsieve]</name>
         <name>windows_x86_64[opencl_nvidia_WW]</name>
         <name>x86_64-apple-darwin</name>
         <name>x86_64-apple-darwin[cpuGFN15_mt]</name>
@@ -711,9 +692,11 @@
         <name>x86_64-pc-linux-gnu[openclatiPPSsieve]</name>
         <name>x86_64-pc-linux-gnu[opencl_ati_AP27]</name>
         <name>x86_64-pc-linux-gnu[opencl_ati_cwsieve]</name>
+        <name>x86_64-pc-linux-gnu[opencl_ati_fcsieve]</name>
         <name>x86_64-pc-linux-gnu[opencl_ati_WW]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_AP27]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_cwsieve]</name>
+        <name>x86_64-pc-linux-gnu[opencl_intel_gpu_fcsieve]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_GFN15]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_GFN16]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_GFN17MEGA]</name>
@@ -724,6 +707,7 @@
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_GFN22]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_GFNEXTREME]</name>
         <name>x86_64-pc-linux-gnu[opencl_nvidia_cwsieve]</name>
+        <name>x86_64-pc-linux-gnu[opencl_nvidia_fcsieve]</name>
         <name>x86_64-pc-linux-gnu[opencl_nvidia_WW]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/primegrid_logo.png</image>
@@ -756,16 +740,17 @@
         <description><![CDATA[SRBase is a mathematical research project that uses Internet-connected computers trying to solve Sierpinski / Riesel Bases up to 1030.]]></description>
         <home>Independent</home>
     <platforms>
+        <name>aarch64-unknown-linux-gnu[cuda102]</name>
+        <name>aarch64-unknown-linux-gnu[cuda129]</name>
         <name>windows_x86_64</name>
-        <name>windows_x86_64[cuda100]</name>
-        <name>windows_x86_64[cuda110]</name>
-        <name>windows_x86_64[cuda120]</name>
+        <name>windows_x86_64[cuda128]</name>
         <name>windows_x86_64[opencl_ati_101]</name>
         <name>windows_x86_64[opencl_intel_gpu_intelarc]</name>
+        <name>x86_64-apple-darwin</name>
         <name>x86_64-pc-linux-gnu</name>
-        <name>x86_64-pc-linux-gnu[cuda100]</name>
-        <name>x86_64-pc-linux-gnu[cuda112]</name>
+        <name>x86_64-pc-linux-gnu[cuda110]</name>
         <name>x86_64-pc-linux-gnu[cuda120]</name>
+        <name>x86_64-pc-linux-gnu[cuda128]</name>
         <name>x86_64-pc-linux-gnu[opencl_ati_101]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_intelarc]</name>
     </platforms>
@@ -815,6 +800,7 @@
     <platforms>
         <name>aarch64-unknown-linux-gnu</name>
         <name>arm64-apple-darwin</name>
+        <name>windows_arm64</name>
         <name>windows_x86_64</name>
         <name>x86_64-apple-darwin</name>
         <name>x86_64-pc-linux-gnu</name>
@@ -869,6 +855,8 @@
         <name>i686-pc-linux-gnu</name>
         <name>windows_intelx86</name>
         <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[mt_oifs]</name>
+        <name>x86_64-pc-linux-gnu[mt_oifs_bigmem]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/cpn_logo_world_1.jpg</image>
       <summary>Study long-term climate change</summary>
@@ -937,41 +925,27 @@
     <platforms>
         <name>aarch64-android-linux-gnu</name>
         <name>aarch64-unknown-linux-gnu</name>
+        <name>aarch64-unknown-linux-gnu[docker]</name>
         <name>arm-android-linux-gnu</name>
         <name>arm-unknown-linux-gnueabihf</name>
         <name>arm64-apple-darwin</name>
+        <name>arm64-apple-darwin[docker]</name>
+        <name>i686-pc-linux-gnu</name>
         <name>i686-pc-linux-gnu[libc_228]</name>
+        <name>windows_arm64[docker]</name>
         <name>windows_intelx86</name>
         <name>windows_x86_64</name>
+        <name>windows_x86_64[docker]</name>
         <name>x86-android-linux-gnu</name>
         <name>x86_64-android-linux-gnu</name>
         <name>x86_64-apple-darwin</name>
+        <name>x86_64-apple-darwin[docker]</name>
+        <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[docker]</name>
         <name>x86_64-pc-linux-gnu[libc_228]</name>
     </platforms>
       <summary>Support scientists from multiple institutions</summary>
         <keywords>23 24 9</keywords>
-    </project>
-    <project>
-        <name>Radioactive@Home</name>
-        <id>2</id>
-        <url>http://radioactiveathome.org/boinc/</url>
-        <web_url>http://radioactiveathome.org/boinc/</web_url>
-        <general_area>Distributed sensing</general_area>
-        <specific_area>Environmental research</specific_area>
-        <description><![CDATA[Radioactive@Home is creating a free and continuously updated map of radiation levels using sensors connected to volunteers' computers.  You must buy a sensor to participate.]]></description>
-        <home>BOINC Poland Foundation</home>
-    <platforms>
-        <name>windows_intelx86</name>
-        <name>i686-pc-linux-gnu[nci]</name>
-        <name>arm-unknown-linux-gnueabi</name>
-        <name>armv6l-unknown-linux-gnueabihf</name>
-        <name>arm-unknown-linux-gnueabihf</name>
-        <name>mipsel-unknown-linux-gnu</name>
-        <name>armv7l-unknown-linux-gnueabihf</name>
-    </platforms>
-      <image>https://boinc.berkeley.edu/images/radioactive.jpg</image>
-      <summary>Monitor radiation levels</summary>
-        <keywords>34 20 43</keywords>
     </project>
    <account_manager>
         <name>BAM!</name>

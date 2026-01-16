@@ -606,6 +606,7 @@ int WORKUNIT::parse(XML_PARSER& xp) {
         if (xp.match_tag("/workunit")) return 0;
         if (xp.parse_str("name", name, sizeof(name))) continue;
         if (xp.parse_str("app_name", app_name, sizeof(app_name))) continue;
+        if (xp.parse_str("sub_appname", sub_appname, sizeof(sub_appname))) continue;
         if (xp.parse_int("version_num", version_num)) continue;
         if (xp.parse_double("rsc_fpops_est", rsc_fpops_est)) continue;
         if (xp.parse_double("rsc_fpops_bound", rsc_fpops_bound)) continue;
@@ -620,8 +621,9 @@ int WORKUNIT::parse(XML_PARSER& xp) {
 }
 
 void WORKUNIT::clear() {
-    safe_strcpy(name, "");
-    safe_strcpy(app_name, "");
+    name[0] = 0;
+    app_name[0] = 0;
+    sub_appname[0] = 0;
     version_num = 0;
     rsc_fpops_est = 0;
     rsc_fpops_bound = 0;

@@ -58,7 +58,6 @@ function toggle_passwd() {
 }
 
 function create_account_form($teamid, $next_url) {
-    global $recaptcha_public_key;
     form_input_hidden('next_url', $next_url);
 
     if ($teamid) {

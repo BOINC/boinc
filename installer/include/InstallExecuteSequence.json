@@ -1,0 +1,489 @@
+{
+    "InstallExecuteSequence": [
+        {
+            "Action": "AllocateRegistrySpace",
+            "Condition": "NOT Installed",
+            "Sequence": 1562
+        },
+        {
+            "Action": "AppSearch",
+            "Sequence": 400
+        },
+        {
+            "Action": "BindImage",
+            "Sequence": 4300
+        },
+        {
+            "Action": "CAAnnounceUpgrade",
+            "Condition": "REMOVE <> \"ALL\"",
+            "Sequence": 1001
+        },
+        {
+            "Action": "CACleanupOldBinaries",
+            "Condition": "REMOVE <> \"ALL\"",
+            "Sequence": 796
+        },
+        {
+            "Action": "CACreateAcctMgrLoginFile",
+            "Condition": "NOT Installed",
+            "Sequence": 6605
+        },
+        {
+            "Action": "CACreateBOINCAccounts",
+            "Condition": "REMOVE <> \"ALL\" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
+            "Sequence": 1546
+        },
+        {
+            "Action": "CACreateBOINCGroups",
+            "Condition": "REMOVE <> \"ALL\" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
+            "Sequence": 1552
+        },
+        {
+            "Action": "CACreateClientAuthFile",
+            "Condition": "NOT Installed",
+            "Sequence": 6604
+        },
+        {
+            "Action": "CACreateProjectInitFile",
+            "Condition": "NOT Installed",
+            "Sequence": 6606
+        },
+        {
+            "Action": "CADeleteBOINCAccounts",
+            "Condition": "REMOVE = \"ALL\" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
+            "Sequence": 1551
+        },
+        {
+            "Action": "CADeleteBOINCGroups",
+            "Condition": "REMOVE = \"ALL\" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
+            "Sequence": 1561
+        },
+        {
+            "Action": "CAGetAdministratorsGroupName",
+            "Condition": "REMOVE <> \"ALL\"",
+            "Sequence": 1537
+        },
+        {
+            "Action": "CAGetUsersGroupName",
+            "Condition": "REMOVE <> \"ALL\"",
+            "Sequence": 1543
+        },
+        {
+            "Action": "CAGrantBOINCAdminsRights",
+            "Condition": "REMOVE <> \"ALL\" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
+            "Sequence": 1553
+        },
+        {
+            "Action": "CAGrantBOINCAdminsVirtualBoxRights",
+            "Condition": "REMOVE <> \"ALL\" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
+            "Sequence": 1555
+        },
+        {
+            "Action": "CAGrantBOINCMasterRights",
+            "Condition": "REMOVE <> \"ALL\" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
+            "Sequence": 1547
+        },
+        {
+            "Action": "CAGrantBOINCProjectRights",
+            "Condition": "REMOVE <> \"ALL\" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
+            "Sequence": 1549
+        },
+        {
+            "Action": "CAGrantBOINCProjectsRights",
+            "Condition": "REMOVE <> \"ALL\" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
+            "Sequence": 1558
+        },
+        {
+            "Action": "CAGrantBOINCProjectsVirtualBoxRights",
+            "Condition": "REMOVE <> \"ALL\" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
+            "Sequence": 1560
+        },
+        {
+            "Action": "CAGrantBOINCUsersRights",
+            "Condition": "REMOVE <> \"ALL\" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
+            "Sequence": 1556
+        },
+        {
+            "Action": "CARestorePermissionBOINCData",
+            "Condition": "REMOVE = \"ALL\" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
+            "Sequence": 6612
+        },
+        {
+            "Action": "CARestoreSetupState",
+            "Condition": "REMOVE = \"ALL\"",
+            "Sequence": 1002
+        },
+        {
+            "Action": "CARevokeBOINCAdminsRights",
+            "Condition": "REMOVE = \"ALL\" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
+            "Sequence": 1554
+        },
+        {
+            "Action": "CARevokeBOINCMasterRights",
+            "Condition": "REMOVE = \"ALL\" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
+            "Sequence": 1548
+        },
+        {
+            "Action": "CARevokeBOINCProjectRights",
+            "Condition": "REMOVE = \"ALL\" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
+            "Sequence": 1550
+        },
+        {
+            "Action": "CARevokeBOINCProjectsRights",
+            "Condition": "REMOVE = \"ALL\" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
+            "Sequence": 1559
+        },
+        {
+            "Action": "CARevokeBOINCUsersRights",
+            "Condition": "REMOVE = \"ALL\" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
+            "Sequence": 1557
+        },
+        {
+            "Action": "CASaveExecutionState",
+            "Sequence": 6614
+        },
+        {
+            "Action": "CASaveSetupState",
+            "Sequence": 6613
+        },
+        {
+            "Action": "CASetBOINCDataProjects",
+            "Sequence": 1004
+        },
+        {
+            "Action": "CASetBOINCDataSlots",
+            "Sequence": 1003
+        },
+        {
+            "Action": "CASetPermissionBOINC",
+            "Condition": "REMOVE <> \"ALL\"",
+            "Sequence": 6607
+        },
+        {
+            "Action": "CASetPermissionBOINCData",
+            "Condition": "REMOVE <> \"ALL\"",
+            "Sequence": 6609
+        },
+        {
+            "Action": "CASetPermissionBOINCDataProjects",
+            "Condition": "REMOVE <> \"ALL\"",
+            "Sequence": 6610
+        },
+        {
+            "Action": "CASetPermissionBOINCDataSlots",
+            "Condition": "REMOVE <> \"ALL\"",
+            "Sequence": 6611
+        },
+        {
+            "Action": "CAShutdownBOINC",
+            "Sequence": 403
+        },
+        {
+            "Action": "CAShutdownBOINCManager",
+            "Sequence": 404
+        },
+        {
+            "Action": "CAShutdownBOINCScreensaver",
+            "Sequence": 408
+        },
+        {
+            "Action": "CAValidateInstall",
+            "Condition": "REMOVE <> \"ALL\"",
+            "Sequence": 6602
+        },
+        {
+            "Action": "CAValidateRebootRequest",
+            "Condition": "REMOVE <> \"ALL\" AND RETURN_REBOOTREQUESTED = \"1\"",
+            "Sequence": 6603
+        },
+        {
+            "Action": "CAValidateSetupType",
+            "Sequence": 737
+        },
+        {
+            "Action": "CCPSearch",
+            "Condition": "CCP_TEST",
+            "Sequence": 500
+        },
+        {
+            "Action": "CostFinalize",
+            "Sequence": 1000
+        },
+        {
+            "Action": "CostInitialize",
+            "Sequence": 800
+        },
+        {
+            "Action": "CreateFolders",
+            "Sequence": 3700
+        },
+        {
+            "Action": "CreateShortcuts",
+            "Sequence": 4500
+        },
+        {
+            "Action": "DeleteServices",
+            "Sequence": 2000
+        },
+        {
+            "Action": "DuplicateFiles",
+            "Sequence": 4210
+        },
+        {
+            "Action": "FileCost",
+            "Sequence": 900
+        },
+        {
+            "Action": "FindRelatedProducts",
+            "Condition": "NOT ISSETUPDRIVEN",
+            "Sequence": 420
+        },
+        {
+            "Action": "ISPreventDowngrade",
+            "Condition": "ISFOUNDNEWERPRODUCTVERSION",
+            "Sequence": 450
+        },
+        {
+            "Action": "InstallFiles",
+            "Sequence": 4000
+        },
+        {
+            "Action": "InstallFinalize",
+            "Sequence": 6601
+        },
+        {
+            "Action": "InstallInitialize",
+            "Sequence": 1501
+        },
+        {
+            "Action": "InstallODBC",
+            "Sequence": 5400
+        },
+        {
+            "Action": "InstallServices",
+            "Sequence": 5800
+        },
+        {
+            "Action": "InstallValidate",
+            "Sequence": 1400
+        },
+        {
+            "Action": "IsolateComponents",
+            "Sequence": 950
+        },
+        {
+            "Action": "LaunchConditions",
+            "Condition": "Not Installed",
+            "Sequence": 410
+        },
+        {
+            "Action": "MigrateFeatureStates",
+            "Sequence": 1200
+        },
+        {
+            "Action": "MoveFiles",
+            "Sequence": 3800
+        },
+        {
+            "Action": "MsiConfigureServices",
+            "Condition": "VersionMsi >= \"5.00\"",
+            "Sequence": 5801
+        },
+        {
+            "Action": "MsiPublishAssemblies",
+            "Sequence": 6250
+        },
+        {
+            "Action": "MsiUnpublishAssemblies",
+            "Sequence": 1750
+        },
+        {
+            "Action": "PatchFiles",
+            "Sequence": 4090
+        },
+        {
+            "Action": "ProcessComponents",
+            "Sequence": 1600
+        },
+        {
+            "Action": "PublishComponents",
+            "Sequence": 6200
+        },
+        {
+            "Action": "PublishFeatures",
+            "Sequence": 6300
+        },
+        {
+            "Action": "PublishProduct",
+            "Sequence": 6400
+        },
+        {
+            "Action": "RMCCPSearch",
+            "Condition": "Not CCP_SUCCESS And CCP_TEST",
+            "Sequence": 600
+        },
+        {
+            "Action": "RegisterClassInfo",
+            "Sequence": 4600
+        },
+        {
+            "Action": "RegisterComPlus",
+            "Sequence": 5700
+        },
+        {
+            "Action": "RegisterExtensionInfo",
+            "Sequence": 4700
+        },
+        {
+            "Action": "RegisterFonts",
+            "Sequence": 5300
+        },
+        {
+            "Action": "RegisterMIMEInfo",
+            "Sequence": 4900
+        },
+        {
+            "Action": "RegisterProduct",
+            "Sequence": 6100
+        },
+        {
+            "Action": "RegisterProgIdInfo",
+            "Sequence": 4800
+        },
+        {
+            "Action": "RegisterTypeLibraries",
+            "Sequence": 5500
+        },
+        {
+            "Action": "RegisterUser",
+            "Sequence": 6000
+        },
+        {
+            "Action": "RemoveDuplicateFiles",
+            "Sequence": 3400
+        },
+        {
+            "Action": "RemoveEnvironmentStrings",
+            "Sequence": 3300
+        },
+        {
+            "Action": "RemoveExistingProducts",
+            "Sequence": 1410
+        },
+        {
+            "Action": "RemoveFiles",
+            "Sequence": 3500
+        },
+        {
+            "Action": "RemoveFolders",
+            "Sequence": 3600
+        },
+        {
+            "Action": "RemoveIniValues",
+            "Sequence": 3100
+        },
+        {
+            "Action": "RemoveODBC",
+            "Sequence": 2400
+        },
+        {
+            "Action": "RemoveRegistryValues",
+            "Sequence": 2600
+        },
+        {
+            "Action": "RemoveShortcuts",
+            "Sequence": 3200
+        },
+        {
+            "Action": "ResolveSource",
+            "Condition": "_IsMaintenance <> \"Remove\"",
+            "Sequence": 850
+        },
+        {
+            "Action": "ScheduleReboot",
+            "Condition": "ISSCHEDULEREBOOT",
+            "Sequence": 6410
+        },
+        {
+            "Action": "SelfRegModules",
+            "Sequence": 5600
+        },
+        {
+            "Action": "SelfUnregModules",
+            "Sequence": 2200
+        },
+        {
+            "Action": "SetARPINSTALLLOCATION",
+            "Condition": "Not Installed",
+            "Sequence": 1010
+        },
+        {
+            "Action": "SetARPReadme",
+            "Sequence": 1005
+        },
+        {
+            "Action": "SetODBCFolders",
+            "Sequence": 1100
+        },
+        {
+            "Action": "StartServices",
+            "Sequence": 5900
+        },
+        {
+            "Action": "StopServices",
+            "Sequence": 1900
+        },
+        {
+            "Action": "UnpublishComponents",
+            "Sequence": 1700
+        },
+        {
+            "Action": "UnpublishFeatures",
+            "Sequence": 1800
+        },
+        {
+            "Action": "UnregisterClassInfo",
+            "Sequence": 2700
+        },
+        {
+            "Action": "UnregisterComPlus",
+            "Sequence": 2100
+        },
+        {
+            "Action": "UnregisterExtensionInfo",
+            "Sequence": 2800
+        },
+        {
+            "Action": "UnregisterFonts",
+            "Sequence": 2500
+        },
+        {
+            "Action": "UnregisterMIMEInfo",
+            "Sequence": 3000
+        },
+        {
+            "Action": "UnregisterProgIdInfo",
+            "Sequence": 2900
+        },
+        {
+            "Action": "UnregisterTypeLibraries",
+            "Sequence": 2300
+        },
+        {
+            "Action": "ValidateProductID",
+            "Sequence": 700
+        },
+        {
+            "Action": "WriteEnvironmentStrings",
+            "Sequence": 5200
+        },
+        {
+            "Action": "WriteIniValues",
+            "Sequence": 5100
+        },
+        {
+            "Action": "WriteRegistryValues",
+            "Sequence": 5000
+        }
+    ]
+}

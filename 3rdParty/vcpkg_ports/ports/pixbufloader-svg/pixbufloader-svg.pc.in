@@ -1,0 +1,15 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+svgz_supported=true
+css_supported=true
+
+Name: pixbufloader-svg
+Description: A GdkPixbuf loader for SVG files using the librsvg library
+Version: 2.0
+Requires: gdk-pixbuf-2.0 librsvg-2.0
+Requires.private:
+Libs: -L${libdir} -lm
+Cflags:

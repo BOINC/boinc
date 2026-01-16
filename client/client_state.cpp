@@ -159,7 +159,11 @@ CLIENT_STATE::CLIENT_STATE()
     benchmarks_running = false;
     client_disk_usage = 0.0;
     total_disk_usage = 0.0;
-    device_status_time = 0;
+#ifdef ANDROID
+    device_status_time = dtime();
+    battery_charge_resume_time = 0;
+    battery_heat_resume_time = 0;
+#endif
 
     rec_interval_start = 0;
     total_cpu_time_this_rec_interval = 0.0;
@@ -183,7 +187,6 @@ CLIENT_STATE::CLIENT_STATE()
     now = 0.0;
     initialized = false;
     last_wakeup_time = dtime();
-    device_status_time = 0;
 #ifdef _WIN32
     have_sysmon_msg = false;
 #endif
@@ -249,15 +252,18 @@ void CLIENT_STATE::show_host_info() {
 
 #ifdef _WIN64
     if (host_info.wsl_distros.distros.empty()) {
-        msg_printf(NULL, MSG_INFO, "WSL: no usable distros found");
+        // Don't print this message when running as a service (WSL detection is skipped)
+        if (!executing_as_daemon) {
+            msg_printf(NULL, MSG_INFO, "WSL: no usable distros found");
+        }
     } else {
         msg_printf(NULL, MSG_INFO, "Usable WSL distros:");
-        for (auto &wsl: host_info.wsl_distros.distros) {
+        for (auto& wsl : host_info.wsl_distros.distros) {
             msg_printf(NULL, MSG_INFO,
                 "-   %s (WSL %d)%s",
                 wsl.distro_name.c_str(),
                 wsl.wsl_version,
-                wsl.is_default?" (default)":""
+                wsl.is_default ? " (default)" : ""
             );
             msg_printf(NULL, MSG_INFO,
                 "-      OS: %s (%s)",
@@ -280,9 +286,21 @@ void CLIENT_STATE::show_host_info() {
                     docker_type_str(wsl.docker_compose_type)
                 );
             }
+            if (wsl.boinc_buda_runner_version) {
+                msg_printf(NULL, MSG_INFO, "-      BOINC WSL distro version %d",
+                    wsl.boinc_buda_runner_version
+                );
+            }
         }
     }
 #endif
+
+    // show Docker-related messages
+    //
+#ifndef ANDROID
+    show_docker_messages();
+#endif
+
 
     if (strlen(host_info.virtualbox_version)) {
         msg_printf(NULL, MSG_INFO,
@@ -422,14 +440,16 @@ bool CLIENT_STATE::is_new_client() {
         || (core_client_version.minor != old_minor_version)
         || (core_client_version.release != old_release)
     ) {
-        msg_printf_notice(0, true, 0,
-            "The BOINC client version has changed from %d.%d.%d to %d.%d.%d.<br>To see what's new, view the <a href=%s>Client release notes</a>.",
-            old_major_version, old_minor_version, old_release,
-            core_client_version.major,
-            core_client_version.minor,
-            core_client_version.release,
-            "https://github.com/BOINC/boinc/wiki/Client-release-notes"
-        );
+        if (old_major_version) {
+            msg_printf_notice(0, true, 0,
+                "The BOINC client version has changed from %d.%d.%d to %d.%d.%d.<br>To see what's new, view the <a href=%s>Client release notes</a>.",
+                old_major_version, old_minor_version, old_release,
+                core_client_version.major,
+                core_client_version.minor,
+                core_client_version.release,
+                "https://github.com/BOINC/boinc/wiki/Client-release-notes"
+            );
+        }
         new_client = true;
     }
     if (statefile_platform_name.size() && strcmp(get_primary_platform(), statefile_platform_name.c_str())) {
@@ -463,6 +483,9 @@ static void set_client_priority() {
 #endif
 }
 
+// initialize the client, and print messages about
+// the host HW/SW and the configuration.
+//
 int CLIENT_STATE::init() {
     int retval;
     unsigned int i;
@@ -471,9 +494,6 @@ int CLIENT_STATE::init() {
 
     srand((unsigned int)time(0));
     now = dtime();
-#ifdef ANDROID
-    device_status_time = dtime();
-#endif
     scheduler_op->url_random = drand();
 
     notices.init();
@@ -504,7 +524,7 @@ int CLIENT_STATE::init() {
 
     log_flags.show();
 
-    msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
+    msg_printf(NULL, MSG_INFO, "cURL libraries: %s", curl_version());
 
     if (cc_config.lower_client_priority) {
         set_client_priority();
@@ -682,6 +702,30 @@ int CLIENT_STATE::init() {
     check_app_config();
     show_app_config();
 
+    // fill in resource usage for app versions that are missing it
+    // (typically anonymous platform)
+    //
+    for (APP_VERSION* avp: app_versions) {
+        if (!avp->resource_usage.avg_ncpus) {
+            avp->resource_usage.avg_ncpus = 1;
+        }
+        if (!avp->resource_usage.flops) {
+            avp->resource_usage.flops = avp->resource_usage.avg_ncpus * host_info.p_fpops;
+
+            // for GPU apps, use conservative estimate:
+            // assume GPU runs at 10X peak CPU speed
+            //
+            if (avp->resource_usage.rsc_type) {
+                avp->resource_usage.flops += avp->resource_usage.coproc_usage * 10 * host_info.p_fpops;
+            }
+        }
+    }
+
+    // must go after check_app_config() and parse_state_file()
+    // and after the above app version stuff
+    //
+    init_result_resource_usage();
+
     // this needs to go after parse_state_file() because
     // GPU exclusions refer to projects
     //
@@ -707,26 +751,6 @@ int CLIENT_STATE::init() {
             p->check_no_apps();
         } else {
             p->check_no_rsc_apps();
-        }
-    }
-
-    // fill in resource usage for app versions that are missing it
-    // (typically anonymous platform)
-    //
-    for (i=0; i<app_versions.size(); i++) {
-        APP_VERSION* avp = app_versions[i];
-        if (!avp->resource_usage.avg_ncpus) {
-            avp->resource_usage.avg_ncpus = 1;
-        }
-        if (!avp->resource_usage.flops) {
-            avp->resource_usage.flops = avp->resource_usage.avg_ncpus * host_info.p_fpops;
-
-            // for GPU apps, use conservative estimate:
-            // assume GPU runs at 10X peak CPU speed
-            //
-            if (avp->resource_usage.rsc_type) {
-                avp->resource_usage.flops += avp->resource_usage.coproc_usage * 10 * host_info.p_fpops;
-            }
         }
     }
 
@@ -771,6 +795,9 @@ int CLIENT_STATE::init() {
         } else {
             net_status.need_to_contact_reference_site = true;
         }
+    }
+    if (host_info.p_fpops == 0) {
+        run_cpu_benchmarks = true;
     }
 
     check_if_need_benchmarks();
@@ -1045,7 +1072,9 @@ bool CLIENT_STATE::poll_slow_events() {
     if (get_idle_state) {
         bool old_user_active = user_active;
 #ifdef ANDROID
-        user_active = device_status.user_active;
+        if (device_status_time) {
+            user_active = device_status.user_active;
+        }
 #else
         idle_time = host_info.user_idle_time(check_all_logins);
         user_active = idle_time < global_prefs.idle_time_to_run * 60;
@@ -1097,6 +1126,28 @@ bool CLIENT_STATE::poll_slow_events() {
     active_tasks.get_memory_usage();
     suspend_reason = check_suspend_processing();
 
+#ifdef __APPLE__
+    // Mac: if Podman VM initialization is active, see if it's done
+    if (podman_init_pid) {
+        int ret, status;
+        ret = waitpid(podman_init_pid, &status, WNOHANG);
+        if (ret > 0) {
+            // process has exited
+            if (host_info.is_podman_VM_running()) {
+                msg_printf(NULL, MSG_INFO, "Podman VM initialized");
+                gstate.host_info.podman_inited = true;
+            } else {
+                // couldn't init VM; can't use Podman
+                msg_printf(NULL, MSG_INFO,
+                    "Podman VM initialization failed"
+                );
+                gstate.host_info.docker_version[0] = 0;
+            }
+            podman_init_pid = 0;
+        }
+    }
+#endif
+
     // suspend or resume activities (but only if already did startup)
     //
     if (tasks_restarted) {
@@ -1107,8 +1158,13 @@ bool CLIENT_STATE::poll_slow_events() {
             }
             last_suspend_reason = suspend_reason;
         } else {
-            if (tasks_suspended && !tasks_throttled) {
-                resume_tasks(last_suspend_reason);
+            if (tasks_suspended) {
+                if (log_flags.task) {
+                    msg_printf(NULL, MSG_INFO, "Resuming computation");
+                }
+                if (!tasks_throttled) {
+                    resume_tasks(last_suspend_reason);
+                }
             }
         }
     } else if (first) {
@@ -1256,22 +1312,28 @@ bool CLIENT_STATE::poll_slow_events() {
 #endif // ifndef SIM
 
 // Find the project with the given master_url.
-// Ignore differences in protocol, case, and trailing /
+// Ignore differences in protocol, case, leading 'www.', and trailing /
+// (the URL could come from an account manager,
+// with differences from the real URL)
 //
 PROJECT* CLIENT_STATE::lookup_project(const char* master_url) {
     char buf[256];
 
     safe_strcpy(buf, master_url);
     canonicalize_master_url(buf, sizeof(buf));
-    char* p = strstr(buf, "//");
+    const char* p = strstr(buf, "//");
     if (!p) return NULL;
+    p += 2;
+    if (strcasestr(p, "www.") == p) p += 4;
 
-    for (unsigned int i=0; i<projects.size(); i++) {
-        char* q = strstr(projects[i]->master_url, "//");
+    for (PROJECT *project: projects) {
+        const char* q = strstr(project->master_url, "//");
         if (!q) continue;
+        q += 2;
+        if (strcasestr(q, "www.") == q) q += 4;
         if (!strcasecmp(p, q)) {
             // note: canonicalize_master_url() doesn't lower-case
-            return projects[i];
+            return project;
         }
     }
     return 0;
@@ -2290,7 +2352,7 @@ int CLIENT_STATE::quit_activities() {
     // Do this last because it could take a long time,
     // and the OS might kill us in the middle
     //
-    int retval = active_tasks.exit_tasks();
+    int retval = active_tasks.exit_tasks(true, NULL);
     if (retval) {
         msg_printf(NULL, MSG_INTERNAL_ERROR,
             "Couldn't exit tasks: %s", boincerror(retval)
@@ -2421,4 +2483,63 @@ bool CLIENT_STATE::abort_sequence_done() {
     return true;
 }
 
+#endif  // !SIM
+
+// for each result, copy resource usage either from
+// - workunit if present there (e.g. BUDA jobs)
+// - app version otherwise
+//
+// call this on startup and after reread app_config.xml
+// (which can change app version resource usage)
+//
+void CLIENT_STATE::init_result_resource_usage() {
+    for (RESULT* rp: results) {
+        rp->init_resource_usage();
+        if (rp->resource_usage.missing_coproc) {
+            msg_printf(rp->project, MSG_INFO,
+                "Missing coprocessor for task %s", rp->name
+            );
+        }
+    }
+}
+
+// shows messages (as notices) related to Docker and WSL:
+// All platforms: if no Docker, suggest they install it
+// Win:
+//      if Docker but not our WSL distro, suggest they use ours
+//      if they have our distro but not current, suggest upgrade
+//
+// Called on startup, and after doing a get-version RPC
+//
+#ifndef ANDROID
+void show_docker_messages() {
+#ifdef _WIN32
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Windows";
+#elif defined(__APPLE__)
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Mac";
+#else
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Linux";
+#endif
+    if (!gstate.host_info.have_docker()) {
+        msg_printf_notice(0, true, url,
+            "Some projects require Docker; we recommend that you install it."
+        );
+#ifdef _WIN32
+    } else {
+        int bdv = gstate.host_info.wsl_distros.boinc_distro_version();
+        if (bdv) {
+            if (bdv < gstate.latest_boinc_buda_runner_version) {
+                msg_printf_notice(0, true,
+                    "https://github.com/BOINC/boinc/wiki/Updating-the-BOINC-WSL-distro",
+                    "A new version of the BOINC WSL distro is available; we recommend that you install it."
+                );
+            }
+        } else {
+            msg_printf_notice(0, true, url,
+                "Docker is present but not using the BOINC WSL distro.  Some project apps may not function properly. We recommend that you install the BOINC WSL distro."
+            );
+        }
+#endif
+    }
+}
 #endif

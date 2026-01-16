@@ -296,6 +296,5 @@ a regisztrációhoz
   <string name="main_notification_channel_description">Megjeleníti a nem értesítési értesítéseket.</string>
   <string name="notice_notification_channel_name">Értesítések</string>
   <string name="notice_notification_channel_description">Értesítéseket jelenít meg a projektektől.</string>
-  <string name="agree_button">Elfogadás</string>
   <string name="prefs_expand_wu_data">Mindig bontsa ki a feladatinformációkat</string>
 </resources>

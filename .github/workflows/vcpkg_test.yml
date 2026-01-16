@@ -1,0 +1,474 @@
+# This file is part of BOINC.
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+name: vcpkg test
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron:  '0 0 * * *'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
+  AWS_DEFAULT_REGION: us-west-2
+
+jobs:
+    get-hash:
+        name: Get hash
+        runs-on: ubuntu-latest
+        outputs:
+          revision_hash: ${{ steps.get_hash.outputs.revision_hash }}
+        steps:
+          - name: Checkout
+            uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+            with:
+              fetch-depth: 2
+          - name: Download revision archive
+            run: |
+              curl -L -o boinc.tar.gz "https://github.com/BOINC/boinc/archive/${{ github.ref }}.tar.gz"
+          - name: Get hash
+            id: get_hash
+            run: |
+              echo "revision_hash=$(sha512sum boinc.tar.gz | awk '{ print $1 }')" >> $GITHUB_OUTPUT
+
+    android:
+      name: Android
+      runs-on: ubuntu-latest
+      needs: get-hash
+      strategy:
+        matrix:
+          triplet: [ 'arm-android', 'arm-neon-android', 'arm64-android', 'x64-android', 'x86-android' ]
+          ndk: [ 'r23c', 'r27c' ]
+        fail-fast: false
+      steps:
+        - name: Checkout
+          uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+          with:
+            fetch-depth: 2
+
+        - name: Check if build is running from origin repo
+          if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+          run: |
+            echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" >> $GITHUB_ENV
+
+        - name: Check if build is running from fork
+          if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+          run: |
+            echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
+
+        - name: Fix portfile
+          env:
+            revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
+          run: |
+            python ./tests/vcpkg/portfilefix.py "${{ github.ref }}" "${{ env.revision_hash }}"
+
+        - name: Set up vcpkg
+          run: |
+            git clone https://github.com/microsoft/vcpkg.git
+            ./vcpkg/bootstrap-vcpkg.sh
+
+        - name: Install Android NDK
+          run: |
+            curl -L -o android-ndk.zip https://dl.google.com/android/repository/android-ndk-${{ matrix.ndk }}-linux.zip
+            unzip android-ndk.zip
+
+        - name: Prepare build
+          run: |
+            mkdir -p tests/vcpkg/build
+
+        - name: Configure arm build
+          if: ${{ matrix.triplet == 'arm-android' && matrix.ndk == 'r23c' }}
+          run: |
+            export ANDROID_NDK_HOME=$(pwd)/android-ndk-${{ matrix.ndk }}
+            echo "ANDROID_NDK_HOME=${ANDROID_NDK_HOME}" >> $GITHUB_ENV
+            toolchain_root="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64"
+            tc_binaries="${toolchain_root}/bin"
+            tc_includes="${ANDROID_NDK_HOME}/arm-linux-androideabi"
+            export PATH="${tc_includes}:${tc_binaries}:${PATH}"
+            echo "PATH=${PATH}" >> $GITHUB_ENV
+            sysroot="${toolchain_root}/sysroot/"
+            includes="${ANDROID_NDK_HOME}/arm-linux-androideabi/"
+            CC="armv7a-linux-androideabi28-clang"
+            CXX="armv7a-linux-androideabi28-clang++"
+            LD="armv7a-linux-androideabi28-ld"
+            CFLAGS="--sysroot=${sysroot} -I${includes}/include -O3 -fomit-frame-pointer -fPIE -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16 -DANDROID_ABI=armeabi-v7a"
+            CXXFLAGS="${CFLAGS}"
+            LDFLAGS="-L${includes}/usr/lib -L${includes}/lib -fPIE -pie -march=armv7-a -static-libstdc++ -llog -latomic -Wl,--fix-cortex-a8"
+            cmake -E env CC="${CC}" CXX="${CXX}" LD="${LD}" CFLAGS="${CFLAGS}" CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+
+        - name: Configure arm-neon build
+          if: ${{ matrix.triplet == 'arm-neon-android' }}
+          run: |
+            export ANDROID_NDK_HOME="$(pwd)/android-ndk-${{ matrix.ndk }}"
+            echo "ANDROID_NDK_HOME=${ANDROID_NDK_HOME}" >> $GITHUB_ENV
+            toolchain_root="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64"
+            tc_binaries="${toolchain_root}/bin"
+            tc_includes="${ANDROID_NDK_HOME}/arm-linux-androideabi"
+            export PATH="${tc_includes}:${tc_binaries}:${PATH}"
+            echo "PATH=${PATH}" >> $GITHUB_ENV
+            sysroot="${toolchain_root}/sysroot/"
+            includes="${ANDROID_NDK_HOME}/arm-linux-androideabi/"
+            CC="armv7a-linux-androideabi28-clang"
+            CXX="armv7a-linux-androideabi28-clang++"
+            LD="armv7a-linux-androideabi28-ld"
+            CFLAGS="--sysroot=${sysroot} -I${includes}/include -O3 -fomit-frame-pointer -fPIE -march=armv7-a -mfloat-abi=softfp -mfpu=neon-vfpv3 -DANDROID_ABI=armeabi-v7a"
+            CXXFLAGS="${CFLAGS}"
+            LDFLAGS="-L${includes}/usr/lib -L${includes}/lib -fPIE -pie -march=armv7-a -static-libstdc++ -llog -latomic -Wl,--fix-cortex-a8"
+            cmake -E env CC="${CC}" CXX="${CXX}" LD="${LD}" CFLAGS="${CFLAGS}" CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+
+        - name: Configure arm64 build
+          if: ${{ matrix.triplet == 'arm64-android' }}
+          run: |
+            export ANDROID_NDK_HOME="$(pwd)/android-ndk-${{ matrix.ndk }}"
+            echo "ANDROID_NDK_HOME=${ANDROID_NDK_HOME}" >> $GITHUB_ENV
+            toolchain_root="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64"
+            tc_binaries="${toolchain_root}/bin"
+            tc_includes="${ANDROID_NDK_HOME}/aarch64-linux-android"
+            export PATH="${tc_includes}:${tc_binaries}:${PATH}"
+            echo "PATH=${PATH}" >> $GITHUB_ENV
+            sysroot="${toolchain_root}/sysroot/"
+            includes="${ANDROID_NDK_HOME}/aarch64-linux-android/"
+            CC="aarch64-linux-android28-clang"
+            CXX="aarch64-linux-android28-clang++"
+            LD="aarch64-linux-android28-ld"
+            CFLAGS="--sysroot=${sysroot} -I${includes}/include -O3 -fomit-frame-pointer -fPIE -DANDROID_ABI=arm64-v8a"
+            CXXFLAGS="${CFLAGS}"
+            LDFLAGS="-L${includes}/usr/lib -L${includes}/lib -fPIE -pie -static-libstdc++ -llog -latomic"
+            cmake -E env CC="${CC}" CXX="${CXX}" LD="${LD}" CFLAGS="${CFLAGS}" CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+
+        - name: Configure x64 build
+          if: ${{ matrix.triplet == 'x64-android' }}
+          run: |
+            export ANDROID_NDK_HOME="$(pwd)/android-ndk-${{ matrix.ndk }}"
+            echo "ANDROID_NDK_HOME=${ANDROID_NDK_HOME}" >> $GITHUB_ENV
+            toolchain_root="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64"
+            tc_binaries="${toolchain_root}/bin"
+            tc_includes="${ANDROID_NDK_HOME}/x86_64-linux-android"
+            export PATH="${tc_includes}:${tc_binaries}:${PATH}"
+            echo "PATH=${PATH}" >> $GITHUB_ENV
+            sysroot="${toolchain_root}/sysroot/"
+            includes="${ANDROID_NDK_HOME}/x86_64-linux-android/"
+            CC="x86_64-linux-android28-clang"
+            CXX="x86_64-linux-android28-clang++"
+            LD="x86_64-linux-android28-ld"
+            CFLAGS="--sysroot=${sysroot} -I${includes}/include -O3 -fomit-frame-pointer -fPIE -DANDROID_ABI=x86_64"
+            CXXFLAGS="${CFLAGS}"
+            LDFLAGS="-L${includes}/usr/lib -L${includes}/lib -fPIE -pie -static-libstdc++ -llog -latomic"
+            cmake -E env CC="${CC}" CXX="${CXX}" LD="${LD}" CFLAGS="${CFLAGS}" CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+
+        - name: Configure x86 build
+          if: ${{ matrix.triplet == 'x86-android' }}
+          run: |
+            export ANDROID_NDK_HOME="$(pwd)/android-ndk-${{ matrix.ndk }}"
+            echo "ANDROID_NDK_HOME=${ANDROID_NDK_HOME}" >> $GITHUB_ENV
+            toolchain_root="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64"
+            tc_binaries="${toolchain_root}/bin"
+            tc_includes="${ANDROID_NDK_HOME}/i686-linux-android"
+            export PATH="${tc_includes}:${tc_binaries}:${PATH}"
+            echo "PATH=${PATH}" >> $GITHUB_ENV
+            sysroot="${toolchain_root}/sysroot/"
+            includes="${ANDROID_NDK_HOME}/i686-linux-android/"
+            CC="i686-linux-android28-clang"
+            CXX="i686-linux-android28-clang++"
+            LD="i686-linux-android28-ld"
+            CFLAGS="--sysroot=${sysroot} -I${includes}/include -O3 -fomit-frame-pointer -fPIE  -DANDROID_ABI=x86"
+            CXXFLAGS="${CFLAGS}"
+            LDFLAGS="-L${includes}/usr/lib -L${includes}/lib -fPIE -pie -static-libstdc++ -llog -latomic"
+            cmake -E env CC="${CC}" CXX="${CXX}" LD="${LD}" CFLAGS="${CFLAGS}" CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+
+        - name: Build
+          if: ${{ matrix.triplet != 'arm-android' || (matrix.triplet == 'arm-android' && matrix.ndk == 'r23c') }}
+          run: |
+            cmake --build tests/vcpkg/build --config Release
+
+        - name: Upload logs on failure
+          if: ${{ failure() }}
+          uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+          with:
+            name: vcpkg_test-logs-${{ matrix.triplet }}-${{ matrix.ndk }}
+            path: vcpkg/buildtrees/**/*.log
+
+    linux:
+      name: Linux
+      runs-on: ubuntu-latest
+      needs: get-hash
+      strategy:
+        matrix:
+          triplet: [ 'arm-linux', 'arm64-linux', 'x64-linux', 'x86-linux' ]
+        fail-fast: false
+      steps:
+        - name: Checkout
+          uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+          with:
+            fetch-depth: 2
+
+        - name: Install x86 dependencies
+          if: ${{ matrix.triplet == 'x86-linux' }}
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y g++-multilib gcc-multilib
+
+        - name: Install arm dependencies
+          if: ${{ matrix.triplet == 'arm-linux' }}
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y g++-arm-linux-gnueabihf gcc-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
+
+        - name: Install arm64 dependencies
+          if: ${{ matrix.triplet == 'arm64-linux' }}
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y g++-aarch64-linux-gnu gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu
+        - name: Check if build is running from origin repo
+          if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+          run: |
+            echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" >> $GITHUB_ENV
+
+        - name: Check if build is running from fork
+          if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+          run: |
+            echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
+
+        - name: Fix portfile
+          env:
+            revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
+          run: |
+            python ./tests/vcpkg/portfilefix.py "${{ github.ref }}" "${{ env.revision_hash }}"
+
+        - name: Set up vcpkg
+          run: |
+            git clone https://github.com/microsoft/vcpkg.git
+            ./vcpkg/bootstrap-vcpkg.sh
+
+        - name: Prepare build
+          run: |
+            mkdir -p tests/vcpkg/build
+
+        - name: Configure arm build
+          if: ${{ matrix.triplet == 'arm-linux' }}
+          run: |
+            cmake -E env CC="arm-linux-gnueabihf-gcc" CXX="arm-linux-gnueabihf-g++" LD="arm-linux-gnueabihf-ld" CFLAGS="-march=armv7-a+vfpv3-d16" CXXFLAGS="-march=armv7-a+vfpv3-d16" LDFLAGS="-march=armv7-a+vfpv3-d16" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+
+        - name: Configure arm64 build
+          if: ${{ matrix.triplet == 'arm64-linux' }}
+          run: |
+            cmake -E env CC="aarch64-linux-gnu-gcc" CXX="aarch64-linux-gnu-g++" LD="aarch64-linux-gnu-ld" CFLAGS="-march=armv8-a" CXXFLAGS="-march=armv8-a" LDFLAGS="-march=armv8-a" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+
+        - name: Configure x64 build
+          if: ${{ matrix.triplet == 'x64-linux' }}
+          run: |
+            cmake -E env CC="gcc -m64" CXX="g++ -m64" CFLAGS="-m64" CXXFLAGS="-m64" LDFLAGS="-m64" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+
+        - name: Configure x86 build
+          if: ${{ matrix.triplet == 'x86-linux' }}
+          run: |
+            cmake -E env CC="gcc -m32" CXX="g++ -m32" CFLAGS="-m32" CXXFLAGS="-m32" LDFLAGS="-m32" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+
+        - name: Build
+          run: |
+            cmake --build tests/vcpkg/build --config Release
+
+        - name: Upload logs on failure
+          if: ${{ failure() }}
+          uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+          with:
+            name: vcpkg_test-logs-${{ matrix.triplet }}
+            path: vcpkg/buildtrees/**/*.log
+
+    macos:
+      name: macOS
+      runs-on: macos-latest
+      needs: get-hash
+      strategy:
+        matrix:
+          triplet: [ 'arm64-osx', 'x64-osx' ]
+        fail-fast: false
+      steps:
+        - name: Checkout
+          uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+          with:
+            fetch-depth: 2
+
+        - name: Check if build is running from origin repo
+          if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+          run: |
+            echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" >> $GITHUB_ENV
+
+        - name: Check if build is running from fork
+          if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+          run: |
+            echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
+
+        - name: Fix portfile
+          env:
+            revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
+          run: |
+            python ./tests/vcpkg/portfilefix.py "${{ github.ref }}" "${{ env.revision_hash }}"
+
+        - name: Set up vcpkg
+          run: |
+            git clone https://github.com/microsoft/vcpkg.git
+            ./vcpkg/bootstrap-vcpkg.sh
+
+        - name: Prepare build
+          run: |
+            mkdir -p tests/vcpkg/build
+        - name: Configure arm64 build
+          if: ${{ matrix.triplet == 'arm64-osx' }}
+          run: |
+            cmake -B tests/vcpkg/build -S tests/vcpkg/ -DCMAKE_OSX_ARCHITECTURES=arm64 -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+        - name: Configure x64 build
+          if: ${{ matrix.triplet == 'x64-osx' }}
+          run: |
+            cmake -B tests/vcpkg/build -S tests/vcpkg/ -DCMAKE_OSX_ARCHITECTURES=x86_64 -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+        - name: Build
+          run: |
+            cmake --build tests/vcpkg/build --config Release
+        - name: Upload logs on failure
+          if: ${{ failure() }}
+          uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+          with:
+            name: vcpkg_test-logs-${{ matrix.triplet }}
+            path: vcpkg/buildtrees/**/*.log
+
+    mingw:
+      name: MinGW
+      runs-on: ubuntu-latest
+      needs: get-hash
+      strategy:
+        matrix:
+          triplet: [ 'x64-mingw-static', 'x86-mingw-static' ]
+        fail-fast: false
+      steps:
+        - name: Checkout
+          uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+          with:
+            fetch-depth: 2
+        - name: Check if build is running from origin repo
+          if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+          run: |
+            echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" >> $GITHUB_ENV
+        - name: Check if build is running from fork
+          if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+          run: |
+            echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
+
+        - name: Fix portfile
+          env:
+            revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
+          run: |
+            python ./tests/vcpkg/portfilefix.py "${{ github.ref }}" "${{ env.revision_hash }}"
+
+        - name: Install dependencies
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y mingw-w64
+        - name: Set up vcpkg
+          run: |
+            git clone https://github.com/microsoft/vcpkg.git
+            ./vcpkg/bootstrap-vcpkg.sh
+
+        - name: Prepare build
+          run: |
+            mkdir -p tests/vcpkg/build
+
+        - name: Configure x64 build
+          if: ${{ matrix.triplet == 'x64-mingw-static' }}
+          run: |
+            cmake -E env CC="x86_64-w64-mingw32-gcc" CXX="x86_64-w64-mingw32-g++" LD="x86_64-w64-mingw32-ld" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+
+        - name: Configure x86 build
+          if: ${{ matrix.triplet == 'x86-mingw-static' }}
+          run: |
+            cmake -E env CC="i686-w64-mingw32-gcc" CXX="i686-w64-mingw32-g++" LD="i686-w64-mingw32-ld" cmake -B tests/vcpkg/build -S tests/vcpkg/ -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+
+        - name: Build
+          run: |
+            cmake --build tests/vcpkg/build --config Release
+
+        - name: Upload logs on failure
+          if: ${{ failure() }}
+          uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+          with:
+            name: vcpkg_test-logs-${{ matrix.triplet }}
+            path: vcpkg/buildtrees/**/*.log
+
+    windows:
+      name: Windows
+      runs-on: windows-latest
+      needs: get-hash
+      strategy:
+        matrix:
+          triplet: [ 'x64-windows-static', 'x86-windows-static' ]
+        fail-fast: false
+      steps:
+        - name: Checkout
+          uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+          with:
+            fetch-depth: 2
+        - name: Check if build is running from origin repo
+          if: ${{success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0}}
+          run: |
+            echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+
+        - name: Check if build is running from fork
+          if: ${{success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0)}}
+          run: |
+            echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+
+        - name: Fix portfile
+          env:
+            revision_hash: ${{ needs.get-hash.outputs.revision_hash }}
+          run: |
+            python ./tests/vcpkg/portfilefix.py "${{ github.ref }}" "${{ env.revision_hash }}"
+
+        - name: Set up vcpkg
+          run: |
+            git clone https://github.com/microsoft/vcpkg.git
+            vcpkg/bootstrap-vcpkg.bat
+
+        - name: Prepare build
+          run: |
+            mkdir -p tests/vcpkg/build
+
+        - name: Configure x64 build
+          if: ${{ matrix.triplet == 'x64-windows-static' }}
+          run: |
+            cmake -B tests/vcpkg/build -S tests/vcpkg/ -A x64 -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+
+        - name: Configure x86 build
+          if: ${{ matrix.triplet == 'x86-windows-static' }}
+          run: |
+            cmake -B tests/vcpkg/build -S tests/vcpkg/ -A Win32 -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+
+        - name: Build
+          run: |
+            cmake --build tests/vcpkg/build --config Release
+
+        - name: Upload logs on failure
+          if: ${{ failure() }}
+          uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+          with:
+            name: vcpkg_test-logs-${{ matrix.triplet }}
+            path: vcpkg/buildtrees/**/*.log

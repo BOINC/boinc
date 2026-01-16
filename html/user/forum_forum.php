@@ -199,6 +199,7 @@ function show_forum_threads($forum, $start, $sort_style, $user, $subs) {
     foreach ($threads as $thread) {
         $owner = BoincUser::lookup_id($thread->owner);
         if (!$owner) continue;
+        if (!$show_hidden && is_banished($owner)) continue;
         $unread = thread_is_unread($user, $thread);
 
         //if ($thread->status==1){
@@ -271,9 +272,11 @@ $user = get_logged_in_user(false);
 $action = get_str('action', true);
 
 if ($action == 'subscribe') {
+    $user = get_logged_in_user();
     BoincSubscription::replace($user->id, -$id);
     forum_page($forum, $user, 'You are now subscribed to this forum.');
 } else if ($action == 'unsubscribe') {
+    $user = get_logged_in_user();
     BoincSubscription::delete($user->id, -$id);
     forum_page($forum, $user, 'You are now unsubscribed from this forum.');
 } else {

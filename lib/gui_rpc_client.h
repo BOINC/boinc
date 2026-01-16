@@ -233,6 +233,7 @@ struct APP_VERSION {
 struct WORKUNIT {
     char name[256];
     char app_name[256];
+    char sub_appname[256];
     int version_num;    // backwards compat
     double rsc_fpops_est;
     double rsc_fpops_bound;
@@ -607,7 +608,7 @@ struct CC_STATUS {
     int network_status;         // values: NETWORK_STATUS_*
     bool ams_password_error;
     bool manager_must_quit;
-    int task_suspend_reason;    // bitmap, see common_defs.h
+    int task_suspend_reason;    // see common_defs.h
     int task_mode;              // always/auto/never; see common_defs.h
     int task_mode_perm;         // same, but permanent version
     double task_mode_delay;     // time until perm becomes actual

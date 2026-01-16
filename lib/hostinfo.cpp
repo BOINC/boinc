@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -35,6 +35,7 @@
 #include "parse.h"
 #include "util.h"
 #include "str_replace.h"
+#include "filesys.h"
 
 #include "hostinfo.h"
 
@@ -50,7 +51,6 @@ HOST_INFO::HOST_INFO() {
 void HOST_INFO::clear_host_info() {
     timezone = 0;
     safe_strcpy(domain_name, "");
-    safe_strcpy(serialnum, "");
     safe_strcpy(ip_addr, "");
     safe_strcpy(host_cpid, "");
 
@@ -74,11 +74,13 @@ void HOST_INFO::clear_host_info() {
     safe_strcpy(os_name, "");
     safe_strcpy(os_version, "");
 
-#ifdef _WIN64
+#ifdef _WIN32
     wsl_distros.clear();
 #else
     safe_strcpy(docker_version, "");
+    docker_type = NONE;
     safe_strcpy(docker_compose_version, "");
+    docker_compose_type = NONE;
 #endif
 
     safe_strcpy(product_name, "");
@@ -86,6 +88,10 @@ void HOST_INFO::clear_host_info() {
 
     safe_strcpy(virtualbox_version, "");
     num_opencl_cpu_platforms = 0;
+
+#ifdef __APPLE__
+    podman_inited = false;
+#endif
 }
 
 int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
@@ -137,15 +143,23 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
         if (xp.parse_double("d_free", d_free)) continue;
         if (xp.parse_str("os_name", os_name, sizeof(os_name))) continue;
         if (xp.parse_str("os_version", os_version, sizeof(os_version))) continue;
-#ifdef _WIN64
+#ifdef _WIN32
         if (xp.match_tag("wsl")) {
             this->wsl_distros.parse(xp);
             continue;
         }
 #else
+        int i;
         if (xp.parse_str("docker_version", docker_version, sizeof(docker_version))) continue;
+        if (xp.parse_int("docker_type", i)) {
+            docker_type = (DOCKER_TYPE)i;
+            continue;
+        }
         if (xp.parse_str("docker_compose_version", docker_compose_version, sizeof(docker_compose_version))) continue;
-        if (xp.parse_str("docker_version", docker_version, sizeof(docker_version))) continue;
+        if (xp.parse_int("docker_compose_type", i)) {
+            docker_compose_type = (DOCKER_TYPE)i;
+            continue;
+        }
 #endif
         if (xp.parse_str("product_name", product_name, sizeof(product_name))) continue;
         if (xp.parse_str("virtualbox_version", virtualbox_version, sizeof(virtualbox_version))) continue;
@@ -234,7 +248,7 @@ int HOST_INFO::write(
         osv,
         coprocs.ndevs()
     );
-#ifdef _WIN64
+#ifdef _WIN32
     wsl_distros.write_xml(out);
 #else
     if (strlen(docker_version)) {
@@ -335,12 +349,66 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
     return 0;
 }
 
+#ifdef __APPLE__
+    // While the official Podman installer puts the Podman executable at
+    // "/opt/podman/bin/podman", other installation methods (e.g. brew) might not
+    static void find_podman_path(char *path, size_t len) {
+    // Mac executables get a very limited PATH environment variable, so we must get the
+    // PATH variable used by Terminal and search there for the path to podman
+    FILE *f = popen("a=`/usr/libexec/path_helper`;b=${a%\\\"*}\\\";env ${b} which podman", "r");
+    if (f) {
+        fgets(path, len, f);
+        pclose(f);
+        char* p = strstr(path, "\n");
+        if (p) *p = '\0'; // Remove the newline character
+        }
+        if (boinc_file_exists(path)) return;
+
+        // If we couldn't get it from that file, use default when installed using Podman installer
+        strlcpy(path, "/opt/podman/bin/podman", len);
+        if (boinc_file_exists(path)) return;
+
+        // If we couldn't get it from that file, use default when installed by Homebrew
+#ifdef __arm64__
+        strlcpy(path, "/opt/homebrew/bin/podman", len);
+#else
+        strlcpy(path, "/usr/local/bin/podman", len);
+#endif
+        if (boinc_file_exists(path)) return;
+        path[0] = '\0'; // Failed to find path to Podman
+        return;
+    }
+#endif
+
 // name of CLI program
 //
 const char* docker_cli_prog(DOCKER_TYPE type) {
     switch (type) {
     case DOCKER: return "docker";
+#ifdef __APPLE__
+        case PODMAN:
+        static char docker_cli_string[MAXPATHLEN];
+        static bool docker_cli_inited = false;
+        char path[MAXPATHLEN];
+        if (docker_cli_inited) return docker_cli_string;
+        docker_cli_string[0] = '\0';
+        find_podman_path(path, sizeof(path));
+        if (path[0]) {
+            strlcpy(docker_cli_string,
+                    "\"/Library/Application Support/BOINC Data/Run_Podman\" ",
+                    sizeof(docker_cli_string)
+                    );
+            strlcat(docker_cli_string,
+                    path,
+                    sizeof(docker_cli_string)
+                    );
+            strlcat(docker_cli_string, " ", sizeof(docker_cli_string));
+        }
+        docker_cli_inited = true;
+        return docker_cli_string;
+#else
     case PODMAN: return "podman";
+#endif
     default: break;
     }
     return "unknown";
@@ -357,36 +425,33 @@ const char* docker_type_str(DOCKER_TYPE type) {
     return "unknown";
 }
 
+// parse a string like
+// Docker version 24.0.7, build 24.0.7-0ubuntu2~22.04.1
+// or
+// podman version 4.9.3
+// ... possibly with a \n at the end.
+// Return the version (24.0.7 or 4.9.3)
+//
 bool HOST_INFO::get_docker_version_string(
-    DOCKER_TYPE type, const char* raw, string &version
+    DOCKER_TYPE /*type*/, const char* raw, string &version
 ) {
     char *p, *q;
     const char *prefix;
-    switch (type) {
-    case DOCKER:
-        // Docker version 24.0.7, build 24.0.7-0ubuntu2~22.04.1
-        prefix = "Docker version ";
-        p = (char*)strstr(raw, prefix);
-        if (!p) return false;
-        p += strlen(prefix);
-        q = (char*)strstr(p, ",");
-        if (!q) return false;
-        *q = 0;
-        version = p;
-        return true;
-    case PODMAN:
-        // podman version 4.9.3
-        prefix = "podman version ";
-        p = (char*)strstr(raw, prefix);
-        if (!p) return false;
-        p += strlen(prefix);
-        q = (char*)strstr(p, "\n");
-        if (q) *q = 0;
-        version = p;
-        return true;
-    default: break;
+    prefix = "version ";
+    p = (char*)strstr(raw, prefix);
+    if (!p) return false;
+    p += strlen(prefix);
+    q = (char*)strstr(p, ",");
+    if (!q) {
+        q = (char*)strstr(p, " ");
     }
-    return false;
+    if (!q) {
+        q = (char*)strstr(p, "\n");
+    }
+    if (!q) return false;
+    *q = 0;
+    version = p;
+    return true;
 }
 
 bool HOST_INFO::get_docker_compose_version_string(
@@ -409,4 +474,15 @@ bool HOST_INFO::get_docker_compose_version_string(
     default: break;
     }
     return false;
+}
+
+bool HOST_INFO::have_docker() {
+#ifdef _WIN32
+    for (WSL_DISTRO &wd: wsl_distros.distros) {
+        if (!wd.docker_version.empty()) return true;
+    }
+    return false;
+#else
+    return strlen(docker_version)>0;
+#endif
 }

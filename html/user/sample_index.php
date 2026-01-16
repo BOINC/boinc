@@ -47,7 +47,7 @@ function panel_contents() {
 }
 
 function top() {
-    global $stopped, $master_url, $user;
+    global $stopped, $user;
     if ($stopped) {
         echo '
             <p class="lead text-center">'
@@ -59,11 +59,11 @@ function top() {
 }
 
 function left(){
-    global $user, $no_web_account_creation, $master_url, $project_id;
+    global $user, $no_web_account_creation, $project_id;
     panel(
         $user?tra("Welcome, %1", $user->name):tra("What is %1?", PROJECT),
         function() use($user) {
-            global $no_web_account_creation, $master_url, $project_id;
+            global $no_web_account_creation, $project_id;
             if ($user) {
                 $dt = time() - $user->create_time;
                 if ($dt < 86400) {

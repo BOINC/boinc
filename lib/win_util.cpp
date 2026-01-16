@@ -20,6 +20,7 @@
 #include "boinc_win.h"
 
 #include "diagnostics.h"
+#include "error_numbers.h"
 #include "util.h"
 #include "filesys.h"
 #include "str_replace.h"
@@ -242,24 +243,41 @@ int WSL_CMD::setup(string &err_msg) {
     return 0;
 }
 
-int WSL_CMD::setup_root(const char* distro_name) {
+int WSL_CMD::setup_podman(WSL_DISTRO &wd) {
     char cmd[1024];
-    sprintf(cmd, "wsl -d %s -u root", distro_name);
+
+    if (wd.distro_name == "boinc-buda-runner"
+        && wd.boinc_buda_runner_version < 4
+    ) {
+        // for early versions of our distro, use default user (boinc)
+        snprintf(cmd, sizeof(cmd), "wsl -d %s", wd.distro_name.c_str());
+    } else {
+        snprintf(cmd, sizeof(cmd), "wsl -d %s -u root", wd.distro_name.c_str());
+    }
     int retval = run_program_pipe(cmd, in_write, out_read, proc_handle);
-    if (retval) return retval;
+    if (retval) {
+        fprintf(stderr, "WSL_CMD::setup_podman() failed: %d\n", retval);
+        return retval;
+    }
     return 0;
 }
 
 int WSL_CMD::run_program_in_wsl(
-    const string distro_name, const string command, bool use_cwd
+    WSL_DISTRO &wd, const string command, bool use_cwd
 ) {
+    proc_handle = NULL;
     HRESULT ret = pWslLaunch(
-        boinc_ascii_to_wide(distro_name).c_str(),
+        boinc_ascii_to_wide(wd.distro_name).c_str(),
         boinc_ascii_to_wide(command).c_str(),
         use_cwd, in_read, out_write, out_write,
         &proc_handle
     );
-    return (ret == S_OK)?0:-1;
+    if (ret != S_OK) {
+        fprintf(stderr, "pWslLaunch failed: 0x%08lx\n", ret);
+        proc_handle = NULL;
+        return ERR_NOT_FOUND;
+    }
+    return 0;
 }
 
 int read_from_pipe(

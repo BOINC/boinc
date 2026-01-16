@@ -90,7 +90,7 @@ void parse_url(const char* url, PARSED_URL& purl) {
     //
     p = strchr(buf,':');
     if (p) {
-        purl.port = atol(p+1);
+        purl.port = (int)atol(p+1);
         *p = 0;
     } else {
         // CMC note:  if they didn't pass in a port #,
@@ -108,11 +108,19 @@ void parse_url(const char* url, PARSED_URL& purl) {
 // to be passed in a URL
 
 static char x2c(char *what) {
-    char digit;
-    digit = (what[0] >= 'A' ? ((what[0] & 0xdf) - 'A')+10 : (what[0] - '0'));
+    int digit;
+    if (what[0] >= 'A') {
+        digit = (what[0] & 0xdf) - 'A' + 10;
+    } else {
+        digit = what[0] - '0';
+    }
     digit *= 16;
-    digit += (what[1] >= 'A' ? ((what[1] & 0xdf) - 'A')+10 : (what[1] - '0'));
-    return digit;
+    if (what[1] >= 'A') {
+        digit += (what[1] & 0xdf) - 'A' + 10;
+    } else {
+        digit += what[1] - '0';
+    }
+    return (char)digit;
 }
 
 // size not really needed since unescaping can only shrink
@@ -142,8 +150,8 @@ static void c2x(unsigned char num, char* buf) {
     char d2 = num % 16;
     int abase1 = (d1 < 10) ? 48 : 55;
     int abase2 = (d2 < 10) ? 48 : 55;
-    buf[0] = d1 + abase1;
-    buf[1] = d2 + abase2;
+    buf[0] = d1 + (char)abase1;
+    buf[1] = d2 + (char)abase2;
     buf[2] = 0;
 }
 
@@ -201,11 +209,10 @@ void escape_url_readable(char *in, char* out) {
 
 
 // Canonicalize a master url.
-//   - Convert the first part of a URL (before the "://") to http://,
-// or prepend it
+//   - Prepend http:// if protocol missing
 //   - Remove double slashes in the rest
 //   - Add a trailing slash if necessary
-//   - Convert all alphabet characters to lower case
+//   - Convert all alphabetic characters to lower case
 //
 void canonicalize_master_url(char* url, int len) {
     char buf[1024];
@@ -219,6 +226,7 @@ void canonicalize_master_url(char* url, int len) {
     } else {
         strlcpy(buf, url, sizeof(buf));
     }
+
     while (1) {
         p = strstr(buf, "//");
         if (!p) break;
@@ -231,7 +239,7 @@ void canonicalize_master_url(char* url, int len) {
     for (size_t i=0; i<n-1; i++) {
         // stop converting to lower-case, if we've reached the boundary of the domain name
         if (buf[i] == '/') break;
-        buf[i] = tolower(static_cast<unsigned char>(buf[i]));
+        buf[i] = (char)tolower(static_cast<unsigned char>(buf[i]));
     }
     snprintf(url, len, "http%s://%s", (bSSL ? "s" : ""), buf);
     url[len-1] = 0;

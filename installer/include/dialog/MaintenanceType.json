@@ -1,0 +1,233 @@
+{
+    "Dialog": "MaintenanceType",
+    "HCentering": 50,
+    "VCentering": 50,
+    "Width": 374,
+    "Height": 266,
+    "Attributes": 3,
+    "Title": "IDS_PRODUCTNAME",
+    "Control_First": "RadioGroup",
+    "Control_Default": "Next",
+    "Control_Cancel": "Cancel",
+    "Controls": [
+        {
+            "Control": "Back",
+            "Type": "PushButton",
+            "X": 164,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_BACK",
+            "Control_Next": "Next",
+            "Events": [
+                {
+                    "Event": "NewDialog",
+                    "Argument": "MaintenanceWelcome",
+                    "Condition": "1",
+                    "Ordering": 1
+                }
+            ]
+        },
+        {
+            "Control": "Banner",
+            "Type": "Bitmap",
+            "X": 0,
+            "Y": 0,
+            "Width": 374,
+            "Height": 44,
+            "Attributes": 1,
+            "Binary_": "banner.jpg"
+        },
+        {
+            "Control": "BannerLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 44,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "Cancel",
+            "Type": "PushButton",
+            "X": 301,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_CANCEL",
+            "Control_Next": "RadioGroup",
+            "Events": [
+                {
+                    "Event": "SpawnDialog",
+                    "Argument": "CancelSetup",
+                    "Condition": "1",
+                    "Ordering": 0
+                }
+            ]
+        },
+        {
+            "Control": "DlgDesc",
+            "Type": "Text",
+            "X": 21,
+            "Y": 23,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS__IsMaintenanceDlg_MaitenanceOptions"
+        },
+        {
+            "Control": "DlgLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 234,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "DlgTitle",
+            "Type": "Text",
+            "X": 13,
+            "Y": 6,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS__IsMaintenanceDlg_ProgramMaintenance"
+        },
+        {
+            "Control": "Ico2",
+            "Type": "Icon",
+            "X": 35,
+            "Y": 75,
+            "Width": 24,
+            "Height": 24,
+            "Attributes": 6291457,
+            "Binary_": "reinstall.ico"
+        },
+        {
+            "Control": "Ico3",
+            "Type": "Icon",
+            "X": 35,
+            "Y": 135,
+            "Width": 24,
+            "Height": 24,
+            "Attributes": 6291457,
+            "Binary_": "remove.ico"
+        },
+        {
+            "Control": "Next",
+            "Type": "PushButton",
+            "X": 230,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_NEXT",
+            "Control_Next": "Cancel",
+            "Events": [
+                {
+                    "Event": "NewDialog",
+                    "Argument": "ReadyToInstall",
+                    "Condition": "_IsMaintenance = \"Reinstall\"",
+                    "Ordering": 8
+                },
+                {
+                    "Event": "NewDialog",
+                    "Argument": "ReadyToRemove",
+                    "Condition": "_IsMaintenance = \"Remove\"",
+                    "Ordering": 7
+                },
+                {
+                    "Event": "Reinstall",
+                    "Argument": "ALL",
+                    "Condition": "_IsMaintenance = \"Reinstall\"",
+                    "Ordering": 6
+                },
+                {
+                    "Event": "ReinstallMode",
+                    "Argument": "[ReinstallModeText]",
+                    "Condition": "_IsMaintenance = \"Reinstall\"",
+                    "Ordering": 5
+                },
+                {
+                    "Event": "[ProgressType0]",
+                    "Argument": "Repair",
+                    "Condition": "_IsMaintenance = \"Reinstall\"",
+                    "Ordering": 1
+                },
+                {
+                    "Event": "[ProgressType1]",
+                    "Argument": "Repairing",
+                    "Condition": "_IsMaintenance = \"Reinstall\"",
+                    "Ordering": 2
+                },
+                {
+                    "Event": "[ProgressType2]",
+                    "Argument": "repairs",
+                    "Condition": "_IsMaintenance = \"Reinstall\"",
+                    "Ordering": 3
+                },
+                {
+                    "Event": "[ProgressType3]",
+                    "Argument": "repairs",
+                    "Condition": "_IsMaintenance = \"Reinstall\"",
+                    "Ordering": 4
+                }
+            ]
+        },
+        {
+            "Control": "RadioGroup",
+            "Type": "RadioButtonGroup",
+            "X": 21,
+            "Y": 55,
+            "Width": 290,
+            "Height": 170,
+            "Attributes": 3,
+            "Property": "_IsMaintenance",
+            "Text": "",
+            "Control_Next": "Back",
+            "RadioButtons": [
+                {
+                    "Order": 2,
+                    "Value": "Reinstall",
+                    "X": 0,
+                    "Y": 0,
+                    "Width": 290,
+                    "Height": 14,
+                    "Text": "IDS__IsMaintenanceDlg_Repair"
+                },
+                {
+                    "Order": 3,
+                    "Value": "Remove",
+                    "X": 0,
+                    "Y": 60,
+                    "Width": 290,
+                    "Height": 14,
+                    "Text": "IDS__IsMaintenanceDlg_Remove"
+                }
+            ]
+        },
+        {
+            "Control": "Text2",
+            "Type": "Text",
+            "X": 80,
+            "Y": 75,
+            "Width": 260,
+            "Height": 35,
+            "Attributes": 3,
+            "Text": "IDS__IsMaintenanceDlg_RepairMessage"
+        },
+        {
+            "Control": "Text3",
+            "Type": "Text",
+            "X": 80,
+            "Y": 135,
+            "Width": 260,
+            "Height": 35,
+            "Attributes": 3,
+            "Text": "IDS__IsMaintenanceDlg_RemoveProductName"
+        }
+    ]
+}

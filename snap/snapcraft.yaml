@@ -1,6 +1,23 @@
+# This file is part of BOINC.
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
 name: boinc
 base: core22
-version: "8.1.0"
+version: "8.3.0"
 type: app
 title: BOINC Manager
 summary: BOINC lets you help cutting-edge science research using your computer.
@@ -66,6 +83,7 @@ parts:
     - libdbus-1-dev
     - libxtst-dev
     # vcpkg dependencies
+    - autoconf-archive
     - build-essential
     - pkg-config
     - tar
@@ -74,13 +92,10 @@ parts:
     - unzip
     - git
     - bison
-    # awscli dependencies
     - software-properties-common
-    build-snaps:
     - cmake
-    stage-packages:
-    - freeglut3-dev
-    - libxss-dev
+    - dbus
+    - python3-venv
     source: .
     plugin: autotools
     build-environment:
@@ -106,25 +121,18 @@ parts:
     override-build: |
       echo ARCH=$SNAPCRAFT_TARGET_ARCH
 
-      # cmake
       export PATH=/snap/cmake/current/bin/:$PATH
       cmake --version
 
-      # aws
       ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
       snap install aws-cli --classic
       aws --version
 
-      # ninja
       export PATH=$HOME/.local/bin:$PATH
       pip install -U --user pip
-      pip install --user ninja
-      ninja --version
-
       pip install --user jinja2
 
-      export CFLAGS=-w
-      export CMAKE_C_FLAGS=-w
       linux/update_vcpkg_manager.sh $triplet
+
       ./_autosetup
       snapcraftctl build

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -100,7 +100,7 @@ static io_connect_t GPUSelectConnect = IO_OBJECT_NULL;
 static bool OKToRunOnBatteries = false;
 static bool RunningOnBattery = true;
 static time_t ScreenSaverStartTime = 0;
-static bool ScreenIsBlanked = false;
+bool ScreenIsBlanked = false;
 static int retryCount = 0;
 static pthread_mutexattr_t saver_mutex_attr;
 pthread_mutex_t saver_mutex;
@@ -131,6 +131,7 @@ const char *  CCNotRunningMsg = "BOINC is not running.";
 
 //const char *  BOINCExitedSaverMode = "BOINC is no longer in screensaver mode.";
 
+static bool created = false;    // CAF
 
 // If there are multiple displays, this may get called
 // multiple times (once for each display), so we need to guard
@@ -144,9 +145,19 @@ void initBOINCSaver() {
         "stdoutscr", "stderrscr"
         );
 
+    // When gfx_cleanup exits, it will send a SIGCHLD to legacysceensaver
+    // which is normally set to also exit when it receives that signal
+    struct sigaction temp;
+    sigaction(SIGCHLD, NULL, &temp);
+    temp.sa_handler = SIG_IGN;
+    sigaction(SIGCHLD, &temp, NULL);
+
+for (int i=1; i<NSIG; ++i)
+boinc_set_signal_handler(i, boinc_catch_signal);
     if (gspScreensaver == NULL) {
         gspScreensaver = new CScreensaver();
-    }
+        created = false;    // CAF
+   }
 }
 
 
@@ -156,7 +167,10 @@ int startBOINCSaver() {
     IsDualGPUMacbook = true;
 #endif
     if (gspScreensaver) {
-        return gspScreensaver->Create();
+        if (!created) {     // CAF
+            created = true; // CAF
+            return gspScreensaver->Create();
+        }                   // CAF
     }
     return TEXTLOGOFREQUENCY;
 }
@@ -203,6 +217,8 @@ void closeBOINCSaver() {
         delete gspScreensaver;
         gspScreensaver = NULL;
     }
+for (int i=1; i<32; ++i)
+boinc_set_signal_handler(i, boinc_catch_signal);
 }
 
 
@@ -369,8 +385,12 @@ CScreensaver::CScreensaver() {
 }
 
 
+CScreensaver::~CScreensaver() {
+}
+
+
 int CScreensaver::Create() {
-        // Ugly workaround for a problem with the System Preferences app
+    // Ugly workaround for a problem with the System Preferences app
     // For an unknown reason, when this screensaver is run using the
     // Test button in the System Prefs Screensaver control panel, the
     // control panel calls our stopAnimation function as soon as the
@@ -412,13 +432,13 @@ int CScreensaver::Create() {
         strlcat(m_gfx_Cleanup_Path, m_gfx_Switcher_Path, sizeof(m_gfx_Cleanup_Path));
         strlcat(m_gfx_Switcher_Path, "/gfx_switcher", sizeof(m_gfx_Switcher_Path));
         strlcat(m_gfx_Cleanup_Path, "/gfx_cleanup\"", sizeof(m_gfx_Cleanup_Path));
-
         // Launch helper app to work around a bug in OS 10.15 Catalina to
         // kill current graphics app if ScreensaverEngine exits without
         // first calling [ScreenSaverView stopAnimation]
         //TODO: Should we use this on OS 10.13+ ?
-        m_gfx_Cleanup_IPC = popen(m_gfx_Cleanup_Path, "w");
-
+        if (!m_gfx_Cleanup_IPC) {
+            m_gfx_Cleanup_IPC = popen(m_gfx_Cleanup_Path, "w");
+        }
         initBOINCApp();
 
         CGDisplayHideCursor(kCGNullDirectDisplay);
@@ -567,7 +587,7 @@ int CScreensaver::getSSMessage(char **theMessage, int* coveredFreq) {
             // Wait 1 second to allow ScreenSaver engine to close us down
             if (++gQuitCounter > (m_MessageText[0] ? TEXTLOGOFREQUENCY : NOTEXTLOGOFREQUENCY)) {
                 closeBOINCSaver();
-                KillScreenSaver(); // Stop the ScreenSaver Engine
+                exit(0);    // Stop the ScreenSaver Engine
             }
             break;
 #endif
@@ -676,6 +696,13 @@ void CScreensaver::Shared_Offscreen_Buffer_Unavailable() {
 void CScreensaver::ShutdownSaver() {
     DestroyDataManagementThread();
 
+    if (m_gfx_Cleanup_IPC) {
+        fprintf(m_gfx_Cleanup_IPC, "Quit\n");
+        fflush(m_gfx_Cleanup_IPC);
+        pclose(m_gfx_Cleanup_IPC);
+        m_gfx_Cleanup_IPC = NULL;
+    }
+
     if (rpc) {
 #if 0       // OS X calls closeBOINCSaver() when energy saver puts display
             // to sleep, but we want to keep crunching.  So don't kill it.
@@ -688,6 +715,7 @@ void CScreensaver::ShutdownSaver() {
             rpc->quit();    // Kill core client if we launched it
         }
 #endif
+        rpc->close();
         delete rpc;
         rpc = NULL;
     }
@@ -700,19 +728,8 @@ void CScreensaver::ShutdownSaver() {
     m_bQuitDataManagementProc = false;
     saverState = SaverState_Idle;
     retryCount = 0;
-    if (m_gfx_Cleanup_IPC) {
-        fprintf(m_gfx_Cleanup_IPC, "Quit\n");
-        fflush(m_gfx_Cleanup_IPC);
-        pclose(m_gfx_Cleanup_IPC);
-    }
-
-    // Under MacOS 14.0 Sonoma, screensavers continue to run and "draw" invisibly
-    // after they are dismissed by user activity, to allow them to be used as
-    // wallpaper. Since we don't want the BOINC screensaver to be used as wallpaper,
-    // this would waste system resources.
-    if (gIsSonoma) {
-        KillScreenSaver();
-    }
+    ScreenSaverStartTime = 0;
+    ScreenIsBlanked = false;
 }
 
 
@@ -794,7 +811,6 @@ bool CScreensaver::DestroyDataManagementThread() {
         }
         boinc_sleep(0.1);
     }
-
     m_hDataManagementThread = NULL; // Don't delay more if this routine is called again.
 
     if (m_hGraphicsApplication) {
@@ -906,18 +922,6 @@ pid_t CScreensaver::getClientPID() {
 
     close(fd);
     return fl.l_pid;
-}
-
-
-// Send a Quit AppleEvent to the process which called this module
-// (i.e., tell the ScreenSaver engine to quit)
-int CScreensaver::KillScreenSaver() {
-    pid_t                       thisPID;
-    int                         retval;
-
-    thisPID = getpid();
-    retval = kill(thisPID, SIGABRT);   // SIGINT
-    return retval;
 }
 
 
@@ -1035,13 +1039,9 @@ void CScreensaver::CheckDualGPUPowerSource() {
 void print_to_log_file(const char *format, ...) {
 #if CREATE_LOG
     va_list args;
-    char buf[256];
     time_t t;
 #if USE_SPECIAL_LOG_FILE
-    safe_strcat(buf, getenv("HOME"));
-    safe_strcat(buf, "/Documents/ss_test_log.txt");
-    FILE *f;
-    f = fopen(buf, "a");
+    FILE *f = fopen("/Users/Shared/test_log_BOINCSaver.txt", "a");   // CAF
     if (!f) return;
 
 //  freopen(buf, "a", stdout);
@@ -1082,7 +1082,50 @@ void strip_cr(char *buf)
 }
 #endif	// CREATE_LOG
 
-void PrintBacktrace(void) {
-// Dummy routine to satisfy linker
-}
+#include "QCrashReport.h"
 
+void PrintBacktrace(void) {
+// We need this special version of PrintBacktrace because
+// mac_backtrace.cpp doesn't work with screensavr sandbox limitatons
+#define CALL_STACK_SIZE 128
+    typedef int     (*backtraceProc)(void**,int);
+    typedef char ** (*backtrace_symbolsProc)(void* const*,int);
+    QCrashReportRef             crRef = NULL;
+
+    int                         frames, i;
+    void                        *systemlib = NULL;
+    void                        *callstack[CALL_STACK_SIZE];
+    char                        **symbols = NULL;
+    char                        outBuf[1024];
+    backtraceProc               myBacktraceProc = NULL;
+    backtrace_symbolsProc       myBacktrace_symbolsProc = NULL;
+
+    QCRCreateFromSelf(&crRef);
+
+    systemlib = dlopen ("/usr/lib/libSystem.dylib", RTLD_NOW );
+    if (systemlib) {
+        myBacktraceProc = (backtraceProc)dlsym(systemlib, "backtrace");
+     }
+    if (! myBacktraceProc) {
+        fprintf(stderr, "no myBacktraceProc\n");
+        return;    // Should never happen
+    }
+    frames = myBacktraceProc(callstack, CALL_STACK_SIZE);
+    myBacktrace_symbolsProc = (backtrace_symbolsProc)dlsym(systemlib, "backtrace_symbols");
+    if (myBacktrace_symbolsProc) {
+        symbols = myBacktrace_symbolsProc(callstack, frames);
+    }
+
+    for (i=0; i<frames; i++) {
+        strlcpy(outBuf, symbols[i], sizeof(outBuf));
+        fprintf(stderr, "%s\n", outBuf);
+    }
+    fprintf(stderr, "\n");
+
+    // make sure this much gets written to file in case future
+    // versions of OS break our crash dump code beyond this point.
+    fflush(stderr);
+
+    QCRPrintThreadState(crRef, stderr);
+    QCRPrintImages(crRef, stderr);
+}

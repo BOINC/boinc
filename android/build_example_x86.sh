@@ -1,4 +1,23 @@
 #/bin/sh
+
+# This file is part of BOINC.
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+#
+
 set -e
 
 #script to compile Example for Android
@@ -29,6 +48,7 @@ CONFIG_LDFLAGS=""
 CONFIG_LDFLAGS="-L$VCPKG_DIR/lib"
 CONFIG_FLAGS="--with-ssl=$VCPKG_DIR --with-libcurl=$VCPKG_DIR --enable-apps-vcpkg"
 export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
+export PKG_CONFIG_PATH=$VCPKG_DIR/lib/pkgconfig/
 
 export ANDROID="yes"
 export PATH="$TCBINARIES:$TCINCLUDES/bin:$PATH"
@@ -67,7 +87,7 @@ if [ -n "$COMPILEBOINC" ]; then
     fi
     if [ -n "$CONFIGURE" ]; then
         ./_autosetup
-        ./configure --host=i686-linux --with-boinc-platform="x86-android-linux-gnu" --prefix="$TCINCLUDES" --libdir="$TCINCLUDES/lib" $CONFIG_FLAGS --enable-apps --disable-server --disable-manager --disable-client --disable-libraries --disable-shared --enable-static --disable-largefile --enable-boinczip
+        ./configure --host=i686-linux --with-boinc-platform="x86-android-linux-gnu" $CONFIG_FLAGS --enable-apps --disable-server --disable-manager --disable-client --disable-libraries --disable-shared --enable-static --disable-largefile
     fi
     echo MAKE_FLAGS=$MAKE_FLAGS
     make $MAKE_FLAGS

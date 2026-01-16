@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
- * http://boinc.berkeley.edu
- * Copyright (C) 2021 University of California
+ * https://boinc.berkeley.edu
+ * Copyright (C) 2025 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -54,7 +54,6 @@ import edu.berkeley.boinc.utils.getBitmapFromVectorDrawable
 class SplashActivity : AppCompatActivity() {
     private var binding: ActivitySplashBinding? = null
     private var mIsBound = false
-    private var mIsWelcomeSpecificFirstRun = true
     private val mConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             // This is called when the connection with the service has been established
@@ -65,8 +64,6 @@ class SplashActivity : AppCompatActivity() {
                 if (!isMutexAcquiredAsync().await()) {
                     showNotExclusiveDialog()
                 }
-                mIsWelcomeSpecificFirstRun =
-                    BuildConfig.BUILD_TYPE.contains("xiaomi") && !monitor!!.welcomeStateFile
                 // Read log level from monitor preferences and adjust accordingly
                 setLogLevel(monitor!!.logLevel)
                 setLogCategories(monitor!!.logCategories)
@@ -85,10 +82,6 @@ class SplashActivity : AppCompatActivity() {
         override fun onReceive(context: Context, intent: Intent) {
             if (mIsBound) {
                 try {
-                    if (mIsWelcomeSpecificFirstRun) {
-                        startActivity(Intent(this@SplashActivity, LicenseActivity::class.java))
-                        return
-                    }
                     when (monitor!!.setupStatus) {
                         ClientStatus.SETUP_STATUS_AVAILABLE -> {
                             Logging.logDebug(Logging.Category.GUI_ACTIVITY, "SplashActivity SETUP_STATUS_AVAILABLE")

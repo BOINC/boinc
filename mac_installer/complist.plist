@@ -12,7 +12,7 @@
 		<key>BundleOverwriteAction</key>
 		<string>upgrade</string>
 		<key>RootRelativeBundlePath</key>
-		<string>Applications/BOINCManager.app</string>
+		<string>/Library/Application Support/BOINCManager.app</string>
 	</dict>
 	<dict>
 		<key>BundleIsVersionChecked</key>

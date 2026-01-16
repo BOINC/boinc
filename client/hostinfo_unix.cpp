@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -25,15 +25,6 @@
 
 #if !defined(_WIN32) || defined(__CYGWIN32__)
 
-// Access to binary files in /proc filesystem doesn't work in the 64bit
-// files environment on some systems.
-// None of the functions here need 64bit file functions,
-// so undefine _FILE_OFFSET_BITS and _LARGE_FILES.
-//
-#undef _FILE_OFFSET_BITS
-#undef _LARGE_FILES
-#undef _LARGEFILE_SOURCE
-#undef _LARGEFILE64_SOURCE
 #include <iostream>
 #include <vector>
 #include <string>
@@ -128,6 +119,7 @@ using std::string;
 using std::min;
 
 #ifdef __APPLE__
+#include "sandbox.h"
 #include <IOKit/IOKitLib.h>
 #include <Carbon/Carbon.h>
 #include <CoreFoundation/CoreFoundation.h>
@@ -150,6 +142,7 @@ extern "C" {
 
 #include <dlfcn.h>
 #endif
+int podman_init_pid = 0;
 #endif  // __APPLE__
 
 #ifdef _HPUX_SOURCE
@@ -178,16 +171,6 @@ extern "C" {
 //
 #if (defined(__linux__) || defined(__GNU__) || defined(__GLIBC__))  && !defined(__HAIKU__)
 #define LINUX_LIKE_SYSTEM 1
-#endif
-
-#if WASM
-    #include <emscripten.h>
-#endif
-
-#if WASM
-    EM_JS(FILE*, popen, (const char* command, const char* mode), {
-        //TODO: add javascript code
-    });
 #endif
 
 // Returns the offset between LOCAL STANDARD TIME and UTC.
@@ -1233,32 +1216,148 @@ int HOST_INFO::get_virtualbox_version() {
     return 0;
 }
 
-// check if docker is installed on this host
-// populate docker_version on success
+#ifdef __APPLE__
+// called after podman init process finishes.
+// check if the VM is running
+//
+bool HOST_INFO::is_podman_VM_running() {
+    char cmd[1024], buf[256];
+
+    snprintf(cmd, sizeof(cmd), "%s machine list",
+        docker_cli_prog(PODMAN)
+    );
+    FILE* f = popen(cmd, "r");
+    if (!f) return false;
+    bool isrunning = false;
+    while (fgets(buf, sizeof(buf), f)) {
+        if (strcasestr(buf, "running")) {
+            isrunning = true;
+            break;
+        }
+    }
+    pclose(f);
+    return isrunning;
+}
+#endif
+
+// check if docker/podman is installed and functional on this host.
+// if so, populate docker_version and return true
 //
 bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
-    bool ret = false;
-    string cmd = string(docker_cli_prog(type)) + " --version";
-    FILE* f = popen(cmd.c_str(), "r");
-    if (f) {
-        char buf[256];
-        fgets(buf, 256, f);
-        std::string version;
+    char cmd[1024], buf[256];
+
+#ifdef __APPLE__
+    if (docker_cli_prog(type)[0] == '\0') return false;
+#endif
+    snprintf(cmd, sizeof(cmd), "%s --version 2>/dev/null",
+        docker_cli_prog(type)
+    );
+    FILE* f = popen(cmd, "r");
+    if (!f) return false;
+    // normally the version is on the first line,
+    // but it's on the 2nd line if using podman-docker
+    //
+    bool found = false;
+    while (fgets(buf, sizeof(buf), f)) {
+        string version;
         if (get_docker_version_string(type, buf, version)) {
             safe_strcpy(docker_version, version.c_str());
-            docker_type = type;
-            ret = true;
+            found = true;
+            break;
+        }
+    }
+    pclose(f);
+    if (!found) return false;
+
+#ifdef __APPLE__
+    // download (if not there) and start QEMU VM
+    if (type == PODMAN) {
+        snprintf(cmd, sizeof(cmd),
+            "%s machine init -v /Library:/Library; %s machine start",
+            docker_cli_prog(type),
+            docker_cli_prog(type)
+        );
+        char * argv[4];
+        argv[0] = "sh";
+        argv[1] = "-c";
+        argv[2] = cmd;
+        argv[3] = NULL;
+        run_program(NULL, "/bin/sh", 0, argv, podman_init_pid);
+        podman_inited = false;
+
+#if 0   // For debugging
+        snprintf(cmd, sizeof(cmd),
+                 "%s machine list",
+            docker_cli_prog(type)
+        );
+        // fprintf(stderr, "\ncmd = %s\n\n", cmd);   // For debugging
+        f = popen(cmd, "r");
+        if (f) {
+            char buf[256];
+            while (fgets(buf, sizeof(buf), f)) {
+                fprintf(stderr, "podman machine list returned: %s\n", buf);
+            }
+        }
+        pclose(f);
+#endif
+    }
+#endif  // __APPLE__
+
+#ifdef __linux__
+    // if we're running as an unprivileged user, Docker/podman may not work.
+    // Check by running the Hello World image.
+    //
+    // Since we do this every time on startup: delete the created container
+    // but don't delete the image.
+    //
+    snprintf(cmd, sizeof(cmd),
+        "%s run --rm hello-world 2>/dev/null",
+        docker_cli_prog(type)
+    );
+    found = false;
+    f = popen(cmd, "r");
+    if (f) {
+        while (fgets(buf, sizeof(buf), f)) {
+            if (strstr(buf, "Hello")) {
+                found = true;
+                break;
+            }
         }
         pclose(f);
     }
-    return ret;
+    if (!found) {
+        msg_printf(NULL, MSG_INFO,
+            "%s found but 'hello-world' test failed",
+            docker_type_str(type)
+        );
+        docker_version[0] = 0;
+        return false;
+    }
+#endif
+    return true;
 }
 
 bool HOST_INFO::get_docker_version(){
-    if (get_docker_version_aux(PODMAN)) {
-        return true;
+    bool check_podman = true;
+#ifdef __linux__
+    // podman doesn't work on Linux with remote FS
+    bool remote;
+    int retval = is_filesystem_remote(".", remote);
+    if (!retval && remote) {
+        check_podman = false;
+        msg_printf(NULL, MSG_INFO, "Data dir is remote: not checking podman");
     }
+#endif
+
+    if (check_podman) {
+        if (get_docker_version_aux(PODMAN)) {
+            docker_type = PODMAN;
+            return true;
+        }
+    }
+
     if (get_docker_version_aux(DOCKER)) {
+        docker_type = DOCKER;
         return true;
     }
     return false;
@@ -1269,16 +1368,23 @@ bool HOST_INFO::get_docker_version(){
 //
 bool HOST_INFO::get_docker_compose_version_aux(DOCKER_TYPE type){
     bool ret = false;
-    string cmd = string(docker_cli_prog(type)) + " compose version";
-    FILE* f = popen(cmd.c_str(), "r");
+    char cmd[1024];
+
+    snprintf(cmd, sizeof(cmd),
+        "%s compose version 2>/dev/null",
+        docker_cli_prog(type)
+    );
+    FILE* f = popen(cmd, "r");
     if (f) {
         char buf[256];
-        fgets(buf, 256, f);
-        std::string version;
-        if (get_docker_compose_version_string(type, buf, version)) {
-            safe_strcpy(docker_compose_version, version.c_str());
-            docker_compose_type = type;
-            ret = true;
+        while (fgets(buf, sizeof(buf), f)) {
+            string version;
+            if (get_docker_compose_version_string(type, buf, version)) {
+                safe_strcpy(docker_compose_version, version.c_str());
+                docker_compose_type = type;
+                ret = true;
+                break;
+            }
         }
         pclose(f);
     }
@@ -1286,9 +1392,11 @@ bool HOST_INFO::get_docker_compose_version_aux(DOCKER_TYPE type){
 }
 
 bool HOST_INFO::get_docker_compose_version(){
+#if defined(__APPLE__) || defined(_WIN32)
     if (get_docker_compose_version_aux(PODMAN)) {
         return true;
     }
+#endif
     if (get_docker_compose_version_aux(DOCKER)) {
         return true;
     }
@@ -1308,9 +1416,6 @@ int HOST_INFO::get_cpu_info() {
     strlcpy( p_model, cpuInfo.name.fromID, sizeof(p_model));
 #elif defined(__HAIKU__)
     get_cpu_info_haiku(*this);
-#elif WASM
-    strlcpy( p_vendor, "WASM", sizeof(p_vendor));
-    strlcpy( p_model, "WASM", sizeof(p_model));
 #elif HAVE_SYS_SYSCTL_H
     int mib[2];
     size_t len;
@@ -1694,10 +1799,6 @@ int HOST_INFO::get_os_info() {
 
     string libc_version(""), libc_extra_info("");
     if (!get_libc_version(libc_version, libc_extra_info)) {
-        msg_printf(NULL, MSG_INFO,
-            "libc: %s version %s",
-            libc_extra_info.c_str(), libc_version.c_str()
-        );
         // add info to os_version_extra
         //
         if (!os_version_extra.empty()) {
@@ -1738,12 +1839,14 @@ int HOST_INFO::get_host_info(bool init) {
     // a run of the client
     //
 
+#ifndef ANDROID
     if (!cc_config.dont_use_vbox) {
         get_virtualbox_version();
     }
 
     get_docker_version();
     get_docker_compose_version();
+#endif
 
     get_cpu_info();
     get_cpu_count();
@@ -2023,21 +2126,16 @@ inline long user_idle_time(struct utmp* u) {
 
 #if HAVE_XSS
 
-// Initializer for const vector<string> in xss_idle
+// return vector of X server names
 //
 const vector<string> X_display_values_initialize() {
     // According to "man Xserver", each local Xserver will have a socket file
     // at /tmp/.X11-unix/Xn, where "n" is the display number (0, 1, 2, etc).
     // We will parse this directory for currently open Xservers and attempt
-    // to ultimately query them for their idle time. If we can't open this
-    // directory, or the display_values vector is otherwise empty, then a
-    // static list of guesses for open display servers is utilized instead
-    // (DISPLAY values ":{0..6}") that will attempt connections to the first
-    // seven open Xservers.
+    // to ultimately query them for their idle time.
     //
-    // If we were unable to open _any_ Xserver, then we will log this and
-    // xss_idle returns true, effectively leaving idle detection up to other
-    // methods.
+    // If we are unable to open _any_ Xserver,
+    // idle detection is up to other methods.
     //
     static const string dir = "/tmp/.X11-unix/";
     vector<string> display_values;
@@ -2052,7 +2150,19 @@ const vector<string> X_display_values_initialize() {
             );
         }
     } else {
+        if (log_flags.idle_detection_debug ) {
+            msg_printf(NULL, MSG_INFO,
+                "[idle_detection] scanning %s",  dir.c_str()
+            );
+        }
         while ((dirp = readdir(dp)) != NULL) {
+            if (!strcmp(dirp->d_name, ".")) continue;
+            if (!strcmp(dirp->d_name, "..")) continue;
+            if (log_flags.idle_detection_debug ) {
+                msg_printf(NULL, MSG_INFO,
+                    "[idle_detection] found X server %s", dirp->d_name
+                );
+            }
             display_values.push_back(string(dirp->d_name));
         }
         closedir(dp);
@@ -2072,13 +2182,15 @@ const vector<string> X_display_values_initialize() {
     return display_values;
 }
 
-// Ask the X server for user idle time (using XScreenSaver API)
+// Ask X servers for user idle time (using XScreenSaver API)
 // Return min of idle times.
 // This function assumes that the boinc user has been
-// granted access to the Xservers a la "xhost +SI:localuser:boinc". If
-// access isn't available for an Xserver, then that Xserver is skipped.
+// granted access to the Xservers a la "xhost +SI:localuser:boinc".
+// If access isn't available for an Xserver, that Xserver is skipped.
 // One may drop a file in /etc/X11/Xsession.d/ that runs the xhost command
 // for all Xservers on a machine when the Xservers start up.
+//
+// TODO: call X_display_values_initialize() once, not once per second
 //
 long xss_idle() {
     long idle_time = USER_IDLE_TIME_INF;
@@ -2155,11 +2267,8 @@ long xss_idle() {
 
         if (log_flags.idle_detection_debug) {
             msg_printf(NULL, MSG_INFO,
-                "[idle_detection] XSS idle detection succeeded on display '%s'.",
-                it->c_str()
-            );
-            msg_printf(NULL, MSG_INFO,
-                "[idle_detection] display idle time: %ld sec", display_idle_time
+                "[idle_detection] XSS idle time on display '%s': %ld",
+                it->c_str(), display_idle_time
             );
         }
 
@@ -2225,7 +2334,7 @@ union headeru {
 // Returns 1 if application can run natively on this computer,
 // else returns 0.
 //
-// ToDo: determine whether x86_64 graphics apps emulated on arm64 Macs
+// TODO: determine whether x86_64 graphics apps emulated on arm64 Macs
 // properly run under Rosetta 2. Note: years ago, PowerPC apps emulated
 // by Rosetta on i386 Macs crashed when running graphics.
 //
@@ -2245,7 +2354,7 @@ bool can_run_on_this_CPU(char* exec_path) {
 
     if (need_CPU_architecture) {
         // Determine the architecture of the CPU we are running on
-        // ToDo: adjust this code accordingly.
+        // TODO: adjust this code accordingly.
         uint32_t cputype = 0;
         size_t size = sizeof (cputype);
         int res = sysctlbyname ("hw.cputype", &cputype, &size, NULL, 0);

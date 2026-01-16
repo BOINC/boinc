@@ -17,8 +17,6 @@
 
 #pragma once
 
-#include <nlohmann/json.hpp>
-
 #include "Record.h"
 
 class File : public Record {

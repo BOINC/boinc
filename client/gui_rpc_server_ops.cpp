@@ -24,6 +24,7 @@
 #include <libproc.h>
 #include "sandbox.h"
 #include "mac_branding.h"
+extern int compareOSVersionTo(int toMajor, int toMinor);
 #endif
 
 #ifdef _WIN32
@@ -642,23 +643,6 @@ static void handle_reset_host_info(GUI_RPC_CONN& grc) {
     grc.mfout.printf("<success/>\n");
 }
 
-static void handle_get_screensaver_tasks(GUI_RPC_CONN& grc) {
-    unsigned int i;
-    ACTIVE_TASK* atp;
-    grc.mfout.printf(
-        "<handle_get_screensaver_tasks>\n"
-        "    <suspend_reason>%d</suspend_reason>\n",
-        gstate.suspend_reason
-    );
-    for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
-        atp = gstate.active_tasks.active_tasks[i];
-        if (atp->scheduler_state == CPU_SCHED_SCHEDULED) {
-            atp->result->write_gui(grc.mfout);
-        }
-    }
-    grc.mfout.printf("</handle_get_screensaver_tasks>\n");
-}
-
 static void handle_quit(GUI_RPC_CONN& grc) {
     gstate.requested_exit = true;
     grc.mfout.printf("<success/>\n");
@@ -721,7 +705,7 @@ static void handle_get_cc_status(GUI_RPC_CONN& grc) {
         "   <max_event_log_lines>%d</max_event_log_lines>\n",
         net_status.network_status(),
         gstate.acct_mgr_info.password_error?1:0,
-        gstate.suspend_reason,
+        gstate.suspend_reason==SUSPEND_REASON_CPU_THROTTLE?0:gstate.suspend_reason,
         gstate.cpu_run_mode.get_current(),
         gstate.cpu_run_mode.get_perm(),
         gstate.cpu_run_mode.delay(),
@@ -1411,12 +1395,15 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
     string theScreensaverLoginUser;
     char screensaverLoginUser[256];
     char switcher_path[MAXPATHLEN];
+    char gfx_switcher_path[MAXPATHLEN];
     char *execName, *execPath;
     char current_dir[MAXPATHLEN];
     char *execDir;
     int newPID = 0;
     ACTIVE_TASK* atp = NULL;
     char cmd[256];
+    bool need_to_launch_gfx_ss_bridge = false;
+    static int gfx_ss_bridge_pid = 0;
 
     while (!grc.xp.get_tag()) {
         if (grc.xp.match_tag("/run_graphics_app")) break;
@@ -1496,6 +1483,38 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
                             theScreensaverLoginUser, grc);
         grc.mfout.printf("<success/>\n");
         return;
+    }
+
+    if (compareOSVersionTo(14, 0) >= 0) {
+        // As of MacOS 14.0, the legacyScreenSaver sandbox prevents using
+        // bootstrap_look_up, so we launch a bridging utility to relay Mach
+        // communications between the graphics apps and the legacyScreenSaver.
+        if (gfx_ss_bridge_pid == 0) {
+            need_to_launch_gfx_ss_bridge = true;
+        } else if (waitpid(gfx_ss_bridge_pid, 0, WNOHANG)) {
+            gfx_ss_bridge_pid = 0;
+            need_to_launch_gfx_ss_bridge = true;
+        }
+        if (need_to_launch_gfx_ss_bridge) {
+            if (g_use_sandbox) {
+
+                snprintf(gfx_switcher_path, sizeof(gfx_switcher_path),
+                    "/Library/Screen Savers/%s.saver/Contents/Resources/gfx_switcher",
+                    saverName[iBrandID]
+                );
+            }
+            argv[0] = const_cast<char*>("gfx_switcher");
+            argv[1] = "-run_bridge";
+            argv[2] = gfx_switcher_path;
+            argc = 3;
+            if (!theScreensaverLoginUser.empty()) {
+                argv[argc++] = "--ScreensaverLoginUser";
+                safe_strcpy(screensaverLoginUser, theScreensaverLoginUser.c_str());
+                argv[argc++] = screensaverLoginUser;
+            }
+            argv[argc] = 0;
+            retval = run_program(current_dir, gfx_switcher_path, argc, argv, gfx_ss_bridge_pid);
+        }
     }
 
     if (slot == -1) {
@@ -1667,6 +1686,7 @@ static void handle_set_language(GUI_RPC_CONN& grc) {
     grc.mfout.printf("<error>no language found</error>\n");
 }
 
+#ifdef ANDROID
 static void handle_report_device_status(GUI_RPC_CONN& grc) {
     DEVICE_STATUS d;
     while (!grc.xp.get_tag()) {
@@ -1732,6 +1752,8 @@ int DEVICE_STATUS::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+#endif      // ANDROID
+
 // Some of the RPCs have empty-element request messages.
 // We accept both <foo/> and <foo></foo>
 //
@@ -1781,7 +1803,6 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("get_old_results", handle_get_old_results,              false,  false,  true),
     GUI_RPC("get_project_status", handle_get_project_status,        false,  false,  true),
     GUI_RPC("get_results", handle_get_results,                      false,  false,  true),
-    GUI_RPC("get_screensaver_tasks", handle_get_screensaver_tasks,  false,  false,  true),
     GUI_RPC("get_simple_gui_info", handle_get_simple_gui_info,      false,  false,  true),
     GUI_RPC("get_state", handle_get_state,                          false,  false,  true),
     GUI_RPC("get_statistics", handle_get_statistics,                false,  false,  true),
@@ -1816,7 +1837,9 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("read_cc_config", handle_read_cc_config,                true,   false,  false),
     GUI_RPC("read_global_prefs_override", handle_read_global_prefs_override,
                                                                     true,   false,  false),
+#ifdef ANDROID
     GUI_RPC("report_device_status", handle_report_device_status,    true,   false,  false),
+#endif
     GUI_RPC("reset_host_info", handle_reset_host_info,              true,   false,  false),
     GUI_RPC("resume_result", handle_resume_result,                  true,   false,  false),
     GUI_RPC("run_benchmarks", handle_run_benchmarks,                true,   false,  false),

@@ -16,7 +16,7 @@ OSLOWER = $(shell uname -s 2>/dev/null | tr [:upper:] [:lower:])
 # 'linux' is output for Linux system, 'darwin' for OS X
 DARWIN = $(strip $(findstring DARWIN, $(OSUPPER)))
 ifneq ($(DARWIN),)
-   SNOWLEOPARD = $(strip $(findstring 10.6, $(shell egrep "<string>10\.6" /System/Library/CoreServices/SystemVersion.plist)))
+   SNOWLEOPARD = $(strip $(findstring 10.6, $(shell grep -E "<string>10\.6" /System/Library/CoreServices/SystemVersion.plist)))
 endif
 
 # detect 32-bit or 64-bit platform

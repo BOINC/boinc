@@ -108,10 +108,29 @@ struct VBOX_BASE : VBOX_JOB {
     VBOX_BASE();
     ~VBOX_BASE();
 
-    string virtualbox_home_directory;
-    string virtualbox_scratch_directory;
+    // Was 'virtualbox_home_directory' in previous releases.
+    // The directory where VirtualBox stores
+    // global configuration files and
+    // global logfiles such as VBoxSVC.log.
+    // It is user based and in the documentation sometimes
+    // referred to as "home", sometimes a "profile".
+    // Renamed since the latter seems to be more precise and a user can switch
+    // between different locations (=profiles) using the VBOX_USER_HOME environment variable.
+    //
+    string virtualbox_profile_directory;
+
+    // Directory where VirtualBox installs it's executables.
+    //
     string virtualbox_install_directory;
+
+    // Path where the VirtualBox Guest Additions iso file is located.
+    // Never mix "VirtualBox Guest Additions" with "VirtualBox Extension Pack".
+    // The first is part of the base package and to be installed in the guest VM,
+    // the latter is to be installed on the host OS and published under a different license.
+    // See the VirtualBox documentation for further details.
+    //
     string virtualbox_guest_additions;
+
     string virtualbox_version_raw;
     string virtualbox_version_display;
 
@@ -163,7 +182,6 @@ struct VBOX_BASE : VBOX_JOB {
     std::streamoff log_pointer;
 
     int vm_pid;
-    int vboxsvc_pid;
 #ifdef _WIN32
     // the handle to the process for the VM
     // NOTE: we get a handle to the pid right after we parse it from the
@@ -172,9 +190,6 @@ struct VBOX_BASE : VBOX_JOB {
     //   handle to the process, the OS is free to reuse the pid for some other
     //   executable.
     HANDLE vm_pid_handle;
-
-    // the handle to the vboxsvc process created by us in the sandbox'ed environment
-    HANDLE vboxsvc_pid_handle;
 #endif
 
     void dump_vmguestlog_entries();
@@ -211,8 +226,6 @@ struct VBOX_BASE : VBOX_JOB {
 
     static void sanitize_format(string& output);
     static void sanitize_output(string& output);
-
-    int launch_vboxsvc();
 
     int vbm_popen(
         string& command, string& output, const char* item,

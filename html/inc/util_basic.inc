@@ -21,6 +21,7 @@
 // Doesn't contain web-specific stuff like translation.inc
 
 require_once("../inc/random_compat/random.inc");
+    // for random_bytes()
 
 // show PHP errors in output (e.g. web pages).
 // Call this from your project.inc if you want.
@@ -91,14 +92,13 @@ function xml_error($num=-1, $msg=null, $file=null, $line=null) {
     exit();
 }
 
-$g_config = null;
 function get_config() {
-    global $g_config;
-    if ($g_config == null) {
+    static $config;
+    if ($config == null) {
         $d = project_dir();
-        $g_config = file_get_contents("$d/config.xml");
+        $config = file_get_contents("$d/config.xml");
     }
-    return $g_config;
+    return $config;
 }
 
 // Look for an element in a line of XML text
@@ -197,6 +197,52 @@ function dtime() {
     return microtime(true);
 }
 
+function date_str($x) {
+    if ($x == 0) return "---";
+    return gmdate('j M Y', (int)$x);
+}
+
+function time_str($x) {
+    if ($x == 0) return "---";
+    return gmdate('j M Y, G:i:s', (int)$x) . " UTC";
+}
+
+function local_time_str($x) {
+    if ($x == 0) return "---";
+    return date('j M Y, H:i T', (int)$x);
+}
+
+function pretty_time_str($x) {
+    return time_str($x);
+}
+
+// convert time interval in seconds to a string of the form
+// 'D days h hours m min s sec'.
+
+function time_diff($x, $res=3) {
+    $x = (int)$x;
+    $days    = (int)($x/86400);
+    $hours   = (int)(($x-$days*86400)/3600);
+    $minutes = (int)(($x-$days*86400-$hours*3600)/60);
+    $seconds = $x % 60;
+
+    $s = "";
+    if ($days) {
+        $s .= "$days ".tra("days")." ";
+    }
+    if ($res>0 && ($hours || strlen($s))) {
+        $s .= "$hours ".tra("hours")." ";
+    }
+    if ($res>1 && ($minutes || strlen($s))) {
+        $s .= "$minutes ".tra("min")." ";
+    }
+    if ($res>2) {
+        $s .= "$seconds ".tra("sec")." ";
+    }
+    return $s;
+}
+
+
 // security vulnerabilities and user-supplied strings:
 // sources:
 // GET and POST arguments
@@ -220,11 +266,21 @@ function dtime() {
 // which can have only A-Z a-z 0-9 . - _
 // In some cases filenames are used on volunteer hosts,
 // whose OSs may have such restrictions.
+// ALSO: allow spaces.
 //
 function is_valid_filename($x) {
     if (strlen($x)>255) return false;
     // \w means A-Za-z0-9_
-    return preg_match('/^[\w\-.]+$/', $x);
+    return preg_match('/^[\w\-. ]+$/', $x);
 }
+
+function filename_rules() {
+    return 'Names can contain only A-Z a-z 0-9 . - _ space';
+}
+
+define('KILO', 1024);
+define('MEGA', 1024*KILO);
+define('GIGA', 1024*MEGA);
+define('TERA', 1024*GIGA);
 
 ?>

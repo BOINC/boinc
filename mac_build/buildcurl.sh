@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -44,6 +44,7 @@
 # Updated 11/16/21 for curl 7.79.1
 # Updated 2/6/23 changed MAC_OS_X_VERSION_MAX_ALLOWED to 101300 and MAC_OS_X_VERSION_MIN_REQUIRED to 101300 and MACOSX_DEPLOYMENT_TARGET to 10.13
 # Updated 4/5/23 for args now accepted by patch utility; set mmacosx-version-min=10.13
+# Updated 10/19/25 for curl 8.16.0. Secure Transport is deprecated so use OpenSSl again
 #
 ## Curl's configure and make set the "-Werror=partial-availability" compiler flag,
 ## which generates an error if there is an API not available in our Deployment
@@ -66,33 +67,6 @@
 #
 ## NOTE: cURL depends on c-ares, so it must be built before cURL.
 #
-
-function patch_curl_config {
-    # If building with some SDKs or version of Xcode, either or
-    # both of these patches will fail because config has already
-    # set our desired values.
-    #
-    # The __builtin_available() function may cause problems in
-    # static libraries or older versions of MacOS. It's unclear
-    # to me whether this is still an issue, but I'm keeping this
-    # patch in here for now to be safe. - CF 10/11/21
-    rm -f /tmp/curl_config_h_diff1
-    cat >> /tmp/curl_config_h_diff1 << ENDOFFILE
---- lib/curl_config.h    2018-02-22 04:21:52.000000000 -0800
-+++ lib/curl_config1.h.in    2018-02-22 04:29:56.000000000 -0800
-@@ -168,5 +168,5 @@
-
- /* Define to 1 if you have the __builtin_available function. */
--#define HAVE_BUILTIN_AVAILABLE 1
-+/* #undef HAVE_BUILTIN_AVAILABLE */
-
- /* Define to 1 if you have the clock_gettime function and monotonic timer. */
-ENDOFFILE
-
-    patch -b -f -i /tmp/curl_config_h_diff1 lib/curl_config.h
-    rm -f /tmp/curl_config_h_diff1
-    rm -f lib/curl_config.h.rej
-}
 
 CURL_DIR=`pwd`
 
@@ -202,13 +176,13 @@ export MACOSX_DEPLOYMENT_TARGET=10.13
 export MAC_OS_X_VERSION_MAX_ALLOWED=101300
 export MAC_OS_X_VERSION_MIN_REQUIRED=101300
 
-export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.13 -stdlib=libc++"
-export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.13 -stdlib=libc++"
+export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${CURL_DIR}/../${opensslDirName} "
+export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.13 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
+export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.13 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
 export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.13 -arch x86_64"
 
 if [ "x${lprefix}" != "x" ]; then
-    PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --disable-shared --with-secure-transport --without-libidn --without-libidn2 --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=x86_64-apple-darwin
+    PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --disable-shared --with-openssl --without-apple-idn --without-libidn2 --without-libpsl --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=x86_64-apple-darwin
     if [ $? -ne 0 ]; then return 1; fi
 else
     # Get the name of the current versions of c-ares from the
@@ -231,12 +205,15 @@ else
         cd "${CURL_DIR}" || return 1
     fi
 
-    ./configure --disable-shared --with-secure-transport --enable-ares="${libcares}" --without-libidn --without-libidn2 --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=x86_64-apple-darwin
+## Set flags again in case c-ares make install modified them
+export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${CURL_DIR}/../${opensslDirName} "
+export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.13 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
+export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.13 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
+export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.13 -arch x86_64"
+    ./configure --disable-shared --enable-ares="${libcares}" --with-openssl --without-apple-idn  --without-libidn2 --without-libpsl --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=x86_64-apple-darwin
     if [ $? -ne 0 ]; then return 1; fi
     echo ""
 fi
-
-patch_curl_config
 
 if [ "${doclean}" = "yes" ]; then
     make clean
@@ -254,9 +231,9 @@ fi
 # Note: Some versions of Xcode 12 don't support building for arm64
 if [ $GCC_can_build_arm64 = "yes" ]; then
 
-export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=10.13 -stdlib=libc++"
-export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=10.13 -stdlib=libc++"
+export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64 -L${CURL_DIR}/../${opensslDirName} "
+export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=10.13 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
+export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=10.13 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
 export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.13 -target arm64-apple-macos"
 
 # c-ares configure creates a different ares_build.h file for each architecture
@@ -264,9 +241,9 @@ export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.13 -target arm64-app
 # x86_64 and arm64, so this is not currently an issue.
 ## cp -f ../"${caresDirName}"/ares_build_arm.h /tmp/installed-c-ares/include/ares_build.h
     if [ "x${lprefix}" != "x" ]; then
-        PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --disable-shared --with-secure-transport --without-libidn --without-libidn2 --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=arm-apple-darwin
+        PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --disable-shared --with-openssl --without-apple-idn --without-libidn2 --without-libpsl --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=arm-apple-darwin
     else
-        ./configure --disable-shared --with-secure-transport --enable-ares="${libcares}" --without-libidn --without-libidn2 --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=arm-apple-darwin
+        ./configure --disable-shared --with-openssl --without-apple-idn --enable-ares="${libcares}" --without-libidn2 --without-libpsl --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=arm-apple-darwin
         echo ""
     fi
 
@@ -282,8 +259,6 @@ export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.13 -target arm64-app
         # for x86_64 and arm64, so this is not currently an issue.
     ##    cp -f include/curl/curlbuild.h include/curl/curlbuild_x86_64.h
         mv -f lib/.libs/libcurl.a lib/libcurl_x86_64.a
-
-        patch_curl_config
 
         make clean
         if [  $? -ne 0 ]; then return 1; fi

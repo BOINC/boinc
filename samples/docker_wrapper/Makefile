@@ -1,13 +1,37 @@
+# This file is part of BOINC.
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+#
 
+ifdef ANDROID
+  DOCKERWRAPPER_RELEASE_SUFFIX =
+else
+  ifdef RELEASE_ARCH
+    DOCKERWRAPPER_RELEASE_SUFFIX = _$(DOCKERWRAPPER_RELEASE_VERSION)_$(RELEASE_ARCH)-pc-linux-gnu
+  else
+    DOCKERWRAPPER_RELEASE_SUFFIX = _$(DOCKERWRAPPER_RELEASE_VERSION)_x86_64-pc-linux-gnu
+  endif
+endif
 
 BOINC_DIR = ../..
 BOINC_SOURCE_API_DIR = $(BOINC_DIR)/api
 BOINC_SOURCE_LIB_DIR = $(BOINC_DIR)/lib
-BOINC_SOURCE_ZIP_DIR = $(BOINC_DIR)/zip
 
 BOINC_API_DIR = $(BOINC_SOURCE_API_DIR)
 BOINC_LIB_DIR = $(BOINC_SOURCE_LIB_DIR)
-BOINC_ZIP_DIR = $(BOINC_SOURCE_ZIP_DIR)
 
 MAKEFILE_LDFLAGS = -lpthread libstdc++.a
 MAKEFILE_STDLIB  = libstdc++.a
@@ -17,7 +41,6 @@ CXXFLAGS += -g \
     -I$(BOINC_DIR) \
     -I$(BOINC_SOURCE_API_DIR) \
     -I$(BOINC_SOURCE_LIB_DIR) \
-    -I$(BOINC_SOURCE_ZIP_DIR) \
     -L$(BOINC_API_DIR) \
     -L$(BOINC_LIB_DIR) \
     -L.
@@ -31,7 +54,13 @@ ifdef BUILD_APPS_WITH_VCPKG
     -L$(VCPKG_DIR)/lib
 endif
 
-all: docker_wrapper
+ifdef BUILD_WITH_MINGW
+  MAKEFILE_LDFLAGS += \
+    -lws2_32
+endif
+
+PROGS = docker_wrapper$(DOCKERWRAPPER_RELEASE_SUFFIX)
+all: $(PROGS)
 
 libstdc++.a:
 	ln -s `$(CXX) $(CXXFLAGS) -print-file-name=libstdc++.a`
@@ -39,11 +68,11 @@ libstdc++.a:
 clean: distclean
 
 distclean:
-	/bin/rm -f docker_wrapper $(addsuffix .exe, docker_wrapper) *.o libstdc++.a
+	/bin/rm -f $(PROGS) $(addsuffix .exe, $(PROGS)) *.o libstdc++.a
 
 install: all
 
-docker_wrapper: docker_wrapper.o $(MAKEFILE_STDLIB) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o docker_wrapper docker_wrapper.o \
+docker_wrapper$(DOCKERWRAPPER_RELEASE_SUFFIX): docker_wrapper.o $(MAKEFILE_STDLIB) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o docker_wrapper$(DOCKERWRAPPER_RELEASE_SUFFIX) docker_wrapper.o \
 	-lboinc_api -lboinc $(MAKEFILE_LDFLAGS) \
 	$(STDCPPTC)

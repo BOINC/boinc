@@ -1079,7 +1079,7 @@ function update_3_8_2018() {
 
 function update_4_5_2018() {
     do_query("create table token (
-        token                   varchar(255)    not null,
+        token                   varchar(64)    not null,
         userid                  integer         not null,
         type                    char            not null,
         create_time             integer         not null,
@@ -1230,6 +1230,16 @@ SELECT userid,
     ");
 }
 
+function update_2_15_2025() {
+    do_query('alter table result drop index res_wu_user');
+    do_query('alter table workunit add index wu_batch(batch)');
+    do_query('alter table result add index res_batch(batch)');
+}
+
+function update_11_23_2025() {
+    do_query("alter table host add column misc text not null default''");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -1289,7 +1299,9 @@ $db_updates = array (
     array(27025, "update_4_19_2018"),
     array(27026, "update_5_9_2018"),
     array(27027, "update_8_23_2018"),
-    array(27028, "update_9_12_2018")
+    array(27028, "update_9_12_2018"),
+    array(27029, "update_2_15_2025"),
+    array(27030, "update_11_23_2025"),
 );
 
 ?>

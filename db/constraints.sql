@@ -37,8 +37,10 @@ alter table workunit
         -- transitioner
     add index wu_filedel (file_delete_state),
         -- file_deleter, db_purge
-    add index wu_assim (appid, assimilate_state);
+    add index wu_assim (appid, assimilate_state),
         -- assimilator
+    add index wu_batch(batch);
+        -- job submission web
 
 alter table result
     add unique(name),
@@ -66,8 +68,8 @@ alter table result
     add index res_hostid_id (hostid, id desc),
         -- html_user/results.php
 
-    add index res_wu_user (workunitid, userid);
-        -- scheduler (avoid sending mult results of same WU to one user)
+    add index res_batch (batch);
+        -- show batch status
 
 alter table msg_from_host
     add index message_handled (handled),

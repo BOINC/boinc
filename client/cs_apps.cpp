@@ -410,6 +410,10 @@ void cleanup_docker(DOCKER_JOB_INFO &info, DOCKER_CONN &dc) {
     char cmd[1024];
     string name;
 
+    // debug
+    // dc.verbose = true;
+    // dc.command("system info; printenv", out);
+
     // first containers
     //
     retval = dc.command("ps --all", out);
@@ -480,7 +484,7 @@ void CLIENT_STATE::docker_cleanup() {
     for (WSL_DISTRO &wd: host_info.wsl_distros.distros) {
         if (wd.docker_version.empty()) continue;
         DOCKER_CONN dc;
-        dc.init(wd.docker_type, wd.distro_name);
+        dc.init(wd);
         cleanup_docker(info, dc);
     }
 #else

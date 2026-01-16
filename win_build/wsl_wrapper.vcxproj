@@ -9,6 +9,12 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="boinc.props" />
+  <PropertyGroup>
+    <PlatformSuffix Condition="'$(Platform)'=='x64'">x86_64</PlatformSuffix>
+    <PlatformSuffix Condition="'$(Platform)'=='ARM64'">ARM64</PlatformSuffix>
+    <TargetVersion>5</TargetVersion>
+    <TargetName>$(ProjectName)_$(TargetVersion)_windows_$(PlatformSuffix)</TargetName>
+  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>.;..;../api;../lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

@@ -29,8 +29,31 @@
 #ifndef BOINC_COMMON_DEFS_H
 #define BOINC_COMMON_DEFS_H
 
-#include "miofile.h"
-#include "parse.h"
+// states for sporadic apps
+//
+// client state
+enum SPORADIC_CA_STATE {
+    CA_NONE             = 0,
+    CA_DONT_COMPUTE     = 1,
+        // computing suspended (CPU and perhaps GPU)
+        // or other project have priority
+    CA_COULD_COMPUTE    = 2,
+        // not computing, but could
+    CA_COMPUTING        = 3
+        // go ahead and compute
+};
+
+// app state
+enum SPORADIC_AC_STATE {
+    AC_NONE                 = 0,
+    AC_DONT_WANT_COMPUTE    = 1,
+    AC_WANT_COMPUTE         = 2
+};
+
+#ifdef __cplusplus
+
+struct MIOFILE;
+struct XML_PARSER;
 
 #define GUI_RPC_PORT 31416
     // for TCP connection
@@ -139,6 +162,13 @@ enum SCHEDULER_STATE {
 // - doesn't need to be a bitmap, but keep for compatibility
 // - with new CPU throttling implementation (separate thread)
 //   CLIENT_STATE.suspend_reason will never be SUSPEND_REASON_CPU_THROTTLE.
+// - If you add anything, you may have to change
+//      lib/str_util.cpp: suspend_reason_string()
+//      clientgui/MainDocument.cpp: suspend_reason_wxstring()
+//      android/BOINC/app/src/main/java/edu/berkeley/boinc/
+//          utils/BOINCDefs.kt
+//          client/ClientStatus.kt
+//      ... as well as probably client/cs_prefs.cpp
 //
 enum SUSPEND_REASON {
     SUSPEND_REASON_BATTERIES = 1,
@@ -157,7 +187,10 @@ enum SUSPEND_REASON {
     SUSPEND_REASON_WIFI_STATE = 4097,
     SUSPEND_REASON_BATTERY_CHARGING = 4098,
     SUSPEND_REASON_BATTERY_OVERHEATED = 4099,
-    SUSPEND_REASON_NO_GUI_KEEPALIVE = 4100
+    SUSPEND_REASON_NO_GUI_KEEPALIVE = 4100,
+    SUSPEND_REASON_PODMAN_INIT = 4101,
+    SUSPEND_REASON_BATTERY_CHARGE_WAIT = 4102,
+    SUSPEND_REASON_BATTERY_HEAT_WAIT = 4103
 };
 
 // battery state (currently used only for Android)
@@ -170,27 +203,7 @@ enum BATTERY_STATE {
     BATTERY_STATE_OVERHEATED
 };
 
-// states for sporadic apps
-//
-// client state
-enum SPORADIC_CA_STATE {
-    CA_NONE             = 0,
-    CA_DONT_COMPUTE     = 1,
-    // computing suspended (CPU and perhaps GPU) or other project have priority
-    CA_COULD_COMPUTE    = 2,
-    // not computing, but could
-    CA_COMPUTING        = 3
-    // go ahead and compute
-};
-
-// app state
-enum SPORADIC_AC_STATE {
-    AC_NONE                 = 0,
-    AC_DONT_WANT_COMPUTE    = 1,
-    AC_WANT_COMPUTE         = 2
-};
-
-// Values of RESULT::state in client.
+// Values of RESULT::state (client) and RESULT::client_state (server)
 // THESE MUST BE IN NUMERICAL ORDER
 // (because of the > comparison in RESULT::computing_done())
 // see html/inc/common_defs.inc
@@ -275,7 +288,7 @@ enum SPORADIC_AC_STATE {
     // input/output files can be deleted,
     // result and workunit records can be purged.
 
-// credit types
+// credit types (not used AFAIK)
 //
 #define CREDIT_TYPE_FLOPS           0
 #define CREDIT_TYPE_STORAGE         1
@@ -394,7 +407,7 @@ struct DEVICE_STATUS {
         battery_temperature_celsius = 0;
         wifi_online = false;
         user_active = false;
-        strncpy(device_name, "", sizeof(device_name));
+        device_name[0] = 0;
     }
 };
 
@@ -425,4 +438,5 @@ struct DEVICE_STATUS {
 // impementations of Docker
 enum DOCKER_TYPE {NONE, DOCKER, PODMAN};
 
+#endif
 #endif

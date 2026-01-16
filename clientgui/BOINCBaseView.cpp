@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -208,8 +208,8 @@ int CBOINCBaseView::GetListRowCount() {
 }
 
 
-void CBOINCBaseView::FireOnListRender(wxTimerEvent& event) {
-    OnListRender(event);
+void CBOINCBaseView::FireOnListRender() {
+    OnListRender();
 }
 
 
@@ -233,7 +233,7 @@ int CBOINCBaseView::FireOnListGetItemImage(long item) const {
 }
 
 
-void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
+void CBOINCBaseView::OnListRender() {
     if (!m_bProcessingListRenderEvent) {
         m_bProcessingListRenderEvent = true;
 
@@ -314,8 +314,6 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
 
         m_bProcessingListRenderEvent = false;
     }
-
-    event.Skip();
 }
 
 

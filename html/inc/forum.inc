@@ -150,8 +150,7 @@ function show_forum_header($user) {
         <input type="text" class="" name="search_keywords">
     ';
     echo sprintf(
-        '<input class="%s" %s title="%s" type="submit" value="%s"><br>',
-        'btn btn-sm',
+        '<input class="btn" %s title="%s" type="submit" value="%s"><br>',
         button_style(),
         tra("Search for words in forum messages"),
         tra("Search forums")
@@ -589,9 +588,13 @@ function show_post(
     $is_posted_by_special = false;
     for ($i=0; $i<sizeof($special_user_bitfield);$i++) {
         if ($user->prefs && $user->prefs->privilege($keys[$i])) {
-            $fstatus.="<nobr>".$special_user_bitfield[$keys[$i]]."<nobr><br>";
+            $fstatus .= "<nobr>".$special_user_bitfield[$keys[$i]]."<nobr><br>";
             $is_posted_by_special = true;
         }
+    }
+
+    if (is_moderator($logged_in_user, $forum) && is_banished($user)) {
+        $fstatus .= '(banished)';
     }
 
     // Highlight special users if set in prefs;
@@ -810,13 +813,14 @@ function show_post_and_context($post, $thread, $forum, $options, $n) {
 }
 
 function is_banished($user) {
-    if (isset($user->prefs)) {
-        return ($user->prefs->banished_until > time());
-    } else {
-        return false;
-    }
+    BoincForumPrefs::lookup($user);
+    return ($user->prefs->banished_until > time());
 }
 
+// $user is the logged-in user.
+// They're trying to make a forum post or send a personal message.
+// If they're banished, don't allow it
+//
 function check_banished($user) {
     if (is_banished($user)) {
         error_page(

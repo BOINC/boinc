@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2024 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -29,14 +29,13 @@ function exit_on_fail() {
 
 function exit_usage() {
 	printf "Fail: $1\n"
-	printf "Usage: repo_update.sh <allow-create> <repo-url> <incoming-dir> [osversion] [release-type] [release-key] [key-hash] [arch]\n"
+	printf "Usage: repo_update.sh <allow-create> <repo-url> <incoming-dir> [osversion] [release-type] [release-key] [key-hash]\n"
 	exit 1
 }
 
 CWD=$(pwd)
 TYPE=stable
 DISTRO=fc38
-ARCH=x86_64
 RELEASEKEY=boinc.gpg
 
 # commandline params
@@ -66,7 +65,6 @@ fi
 
 RELEASEKEY="$6"
 HASH="$7"
-ARCH="$8"
 
 # static params
 PUBKEYFILE=${SRC}/boinc.pub.key
@@ -100,7 +98,6 @@ echo """#
 [boinc-$TYPE-$DISTRO]
 name = BOINC $TYPE $DISTRO repository
 baseurl = $BASEREPO/$TYPE/$DISTRO
-arch = $ARCH
 priority = 100
 enabled = 1
 gpgcheck = 1
@@ -117,7 +114,7 @@ dnf update -y -qq
 # mirror the currently deployed repo (if any)
 cd $CWD/mirror
 
-reposync --nobest -a $ARCH --download-metadata --norepopath --repoid boinc-$TYPE-$DISTRO
+reposync --nobest --download-metadata --norepopath --repoid boinc-$TYPE-$DISTRO
 if [[ "$?" -eq "0" ]]; then
 	# the command was successful and the mirror is created
 	IS_MIRROR=0
@@ -146,7 +143,6 @@ if [[ "$TYPE" == "stable" ]]; then
 [boinc-alpha-$DISTRO]
 name = BOINC alpha $DISTRO repository
 baseurl = $BASEREPO/alpha/$DISTRO
-arch = $ARCH
 priority = 100
 enabled = 1
 gpgcheck = 1
@@ -164,36 +160,26 @@ max_parallel_downloads = 2
 	mkdir -p $CWD/alpha
 	cd $CWD/alpha
 
-	reposync --nobest -a $ARCH --download-metadata --norepopath --repoid boinc-alpha-$DISTRO
+	reposync --nobest --download-metadata --norepopath --repoid boinc-alpha-$DISTRO
 	exit_on_fail "Could not mirror alpha ${REPO}"
 
 	# keep only 1 last version of each package
 	cd $CWD/alpha/
-	alpha_packets=$(find *.rpm | sort -t '-' -k 2 -V -r | uniq)
-	declare -A alpha_split_lists
-	alpha_packets_list=()
-	while IFS= read -r line; do
-		alpha_packets_list+=("$line")
-	done <<< "$alpha_packets"
-	for item in "${alpha_packets_list[@]}"; do
-		prefix=$(echo "$item" | cut -d '-' -f 1-2 ) # Extract the prefix (text before the second dash)
-		alpha_split_lists["$prefix"]+="$item"$'\n'  # Append the item to the corresponding prefix's list
-	done
-
-	for prefix in "${!alpha_split_lists[@]}"; do
-		echo "List for prefix: $prefix"
-		echo "${alpha_split_lists[$prefix]}"
-		values_list=()
-		while IFS= read -r line; do
-			values_list+=("$line")
-		done <<< "${alpha_split_lists[$prefix]}"
-		for value in "${values_list[@]}"; do
-			echo "Copy: $value"
-			cp $value $CWD/mirror/
-			exit_on_fail "Failed to copy the package $value"
-			break
-		done
-	done
+	packets=$(find *.rpm | sort -t '-' -k 2 -V -r | uniq)
+    prefixes=$(echo "$packets"| cut -d '-' -f 1-2 | sort -n | uniq)
+    suffixes=$(echo "$packets"| cut -d '.' -f 4 | sort -V | uniq)
+    for prefix in $prefixes; do
+        echo $prefix
+        for suffix in $suffixes; do
+            echo "  $suffix"
+            matched_packets=$(echo "$packets" | grep "^${prefix}-.*\.${suffix}.rpm$")
+            echo "$matched_packets" | head -n 1 | while IFS= read -r packet; do
+			echo "Copy: $packet"
+			cp $packet $CWD/mirror/
+			exit_on_fail "Failed to copy the package $packet"
+            done
+        done
+    done
 else
 	cp $RPMSRC/*.rpm $CWD/mirror/
 	exit_on_fail "Failed to add new packages"
@@ -202,41 +188,25 @@ fi
 cd $CWD/mirror/
 # keep only 4 last versions of each package
 packets=$(find *.rpm | sort -t '_' -k 2 -V | uniq)
-declare -A split_lists
-packets_list=()
-while IFS= read -r line; do
-	packets_list+=("$line")
-done <<< "$packets"
-for item in "${packets_list[@]}"; do
-	prefix=$(echo "$item" | cut -d '-' -f 1-2 ) # Extract the prefix (text before the second dash)
-	split_lists["$prefix"]+="$item"$'\n'  # Append the item to the corresponding prefix's list
-done
-
-for prefix in "${!split_lists[@]}"; do
-	echo "List for prefix: $prefix"
-	echo "${split_lists[$prefix]}"
-	count=$(echo "${split_lists[$prefix]}" | wc -l)
-	number=$(expr $count - 1)
-	echo "count=$number"
-	i=0
-	exceed=$(expr $number - 4)
-	echo "exceed=$exceed"
-	if (( exceed > 0)); then
-		values_list=()
-		while IFS= read -r line; do
-			values_list+=("$line")
-		done <<< "${split_lists[$prefix]}"
-		for value in "${values_list[@]}"; do
-			if (( i < exceed )); then
-				echo "Remove: $value"
-				i=$((i+1))
-				rm $value
-				exit_on_fail "Failed to remove the package"
-			else
-				break
-			fi
-		done
-	fi
+prefixes=$(echo "$packets"| cut -d '-' -f 1-2 | sort -n | uniq)
+suffixes=$(echo "$packets"| cut -d '.' -f 4 | sort -V | uniq)
+for prefix in $prefixes; do
+    echo $prefix
+    for suffix in $suffixes; do
+        echo "  $suffix"
+        matched_packets=$(echo "$packets" | grep "^${prefix}-.*\.${suffix}.rpm$")
+        count=$(echo "$matched_packets" | wc -l)
+        echo "    count: $count"
+        exceed=$(expr $count - 4)
+        echo "    exceed: $exceed"
+        if (( exceed > 0 )); then
+            echo "$matched_packets" | head -n $exceed | while IFS= read -r packet; do
+                echo "      Remove: $packet"
+                rm $packet
+			    exit_on_fail "Failed to remove the package"
+            done
+        fi
+    done
 done
 
 if [[ ! "$IS_MIRROR" -eq "0" ]]; then

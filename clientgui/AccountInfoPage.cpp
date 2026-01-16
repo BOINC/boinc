@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -13,7 +13,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "AccountInfoPage.h"
@@ -125,7 +125,7 @@ void CAccountInfoPage::CreateControls()
 
     m_pTitleStaticCtrl = new wxStaticText;
     m_pTitleStaticCtrl->Create( itemWizardPage56, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    m_pTitleStaticCtrl->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, FALSE, _T("Verdana")));
     itemBoxSizer57->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxGROW|wxALL, 5);
 
     m_pAccountQuestionStaticCtrl = new wxStaticText;
@@ -159,7 +159,7 @@ void CAccountInfoPage::CreateControls()
     itemFlexGridSizer64->Add(m_pAccountEmailAddressStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_pAccountEmailAddressCtrl = new wxTextCtrl;
-    m_pAccountEmailAddressCtrl->Create( itemWizardPage56, ID_ACCOUNTEMAILADDRESSCTRL, wxEmptyString, wxDefaultPosition, wxSize(200, 22), 0 );
+    m_pAccountEmailAddressCtrl->Create( itemWizardPage56, ID_ACCOUNTEMAILADDRESSCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer64->Add(m_pAccountEmailAddressCtrl, 0, wxEXPAND|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_pAccountUsernameStaticCtrl = new wxStaticText;
@@ -167,7 +167,7 @@ void CAccountInfoPage::CreateControls()
     itemFlexGridSizer64->Add(m_pAccountUsernameStaticCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_pAccountUsernameCtrl = new wxTextCtrl;
-    m_pAccountUsernameCtrl->Create( itemWizardPage56, ID_ACCOUNTUSERNAMECTRL, wxEmptyString, wxDefaultPosition, wxSize(200, 22), 0 );
+    m_pAccountUsernameCtrl->Create( itemWizardPage56, ID_ACCOUNTUSERNAMECTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer64->Add(m_pAccountUsernameCtrl, 0, wxEXPAND|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_pAccountPasswordStaticCtrl = new wxStaticText;
@@ -190,7 +190,7 @@ void CAccountInfoPage::CreateControls()
 
     m_pAccountPasswordRequirmentsStaticCtrl = new wxStaticText;
     m_pAccountPasswordRequirmentsStaticCtrl->Create( itemWizardPage56, ID_ACCOUNTREQUIREMENTSSTATICCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    m_pAccountPasswordRequirmentsStaticCtrl->SetFont(wxFont(7, wxDEFAULT, wxNORMAL, wxNORMAL, FALSE));
+    m_pAccountPasswordRequirmentsStaticCtrl->SetFont(wxFont(7, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, FALSE));
     itemFlexGridSizer64->Add(m_pAccountPasswordRequirmentsStaticCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_pAccountManagerLinkLabelStaticCtrl = new wxStaticText;

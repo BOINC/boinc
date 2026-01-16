@@ -106,12 +106,6 @@ int CLIENT_STATE::parse_state_file() {
         fname = STATE_FILE_PREV;
     } else {
         msg_printf(0, MSG_INFO, "Creating new client state file");
-
-        // avoid warning messages about version
-        //
-        old_major_version = BOINC_MAJOR_VERSION;
-        old_minor_version = BOINC_MINOR_VERSION;
-        old_release = BOINC_RELEASE;
         return ERR_FOPEN;
     }
     return parse_state_file_aux(fname);
@@ -394,12 +388,6 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                 delete rp;
                 continue;
             }
-            rp->init_resource_usage();
-            if (rp->resource_usage.missing_coproc) {
-                msg_printf(project, MSG_INFO,
-                    "Missing coprocessor for task %s", rp->name
-                );
-            }
             rp->wup->version_num = rp->version_num;
             results.push_back(rp);
             continue;
@@ -517,6 +505,11 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         if (xp.parse_string("newer_version", newer_version)) {
             continue;
         }
+#ifdef _WIN32
+        if (xp.parse_int("latest_boinc_buda_runner_version", latest_boinc_buda_runner_version)) {
+            continue;
+        }
+#endif
         if (xp.parse_string("client_version_check_url", client_version_check_url)) {
             continue;
         }
@@ -819,9 +812,15 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     if (strlen(language)) {
         f.printf("<language>%s</language>\n", language);
     }
-    if (newer_version.size()) {
+    if (!newer_version.empty()) {
         f.printf("<newer_version>%s</newer_version>\n", newer_version.c_str());
     }
+#ifdef _WIN32
+    f.printf(
+        "<latest_boinc_buda_runner_version>%d</latest_boinc_buda_runner_version>\n",
+        latest_boinc_buda_runner_version
+    );
+#endif
     if (client_version_check_url.size()) {
         f.printf("<client_version_check_url>%s</client_version_check_url>\n", client_version_check_url.c_str());
     }

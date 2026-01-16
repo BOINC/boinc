@@ -1,0 +1,117 @@
+# Makefile for building cgi
+#
+# to build:
+# 1) in boinc/, do _autosetup and configure (to generate config.h)
+# 2) in ../lib:
+#    make -f Makefile.linux clean all
+# 3) do the same in this dir
+
+#OPTS = -g -DBUDA_TEST
+OPTS = -g
+
+FOO = -Wformat -Wformat=2 \
+-Wimplicit-fallthrough \
+-Wno-deprecated-copy \
+-Werror=format-security \
+-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 \
+-D_GLIBCXX_ASSERTIONS \
+-fstack-protector -fstack-protector-strong \
+-Wl,-z,nodlopen -Wl,-z,noexecstack \
+-Wl,-z,relro -Wl,-z,now \
+-Wl,--as-needed -Wl,--no-copy-dt-needed-entries
+
+#-Wall -Wconversion \
+
+#CC = g++ -O4 -Wall -I ../ -I ../lib/
+#CC = g++ -g -Wall -I ../ -I ../lib/
+CC = g++ $(OPTS) -I ../ -I ../lib/ \
+    -I../db -I../tools -I. -I../vda \
+    -I/usr/include/mariadb/mysql -I/usr/include/mariadb \
+
+
+PROGS = cgi
+
+all: $(PROGS)
+
+OBJ = \
+    buda.o \
+	credit.o \
+    edf_sim.o \
+    handle_request.o \
+    hr.o \
+    hr_info.o \
+    plan_class_spec.o \
+    sched_array.o \
+    sched_assign.o \
+    sched_check.o \
+    sched_config.o \
+    sched_customize.o \
+    sched_files.o \
+    sched_host.o \
+    sched_hr.o \
+    sched_keyword.o \
+    sched_limit.o \
+    sched_locality.o \
+    sched_main.o \
+    sched_nci.o \
+    sched_resend.o \
+    sched_result.o \
+    sched_score.o \
+    sched_send.o \
+    sched_shmem.o \
+    sched_timezone.o \
+    sched_version.o \
+    sched_types.o \
+    time_stats_log.o
+
+SRC = \
+    buda.cpp \
+	credit.cpp \
+    edf_sim.cpp \
+    handle_request.cpp \
+    hr.cpp \
+    hr_info.cpp \
+    plan_class_spec.cpp \
+    sched_array.cpp \
+    sched_assign.cpp \
+    sched_check.cpp \
+    sched_config.cpp \
+    sched_customize.cpp \
+    sched_files.cpp \
+    sched_host.cpp \
+    sched_hr.cpp \
+    sched_keyword.cpp \
+    sched_limit.cpp \
+    sched_locality.cpp \
+    sched_main.cpp \
+    sched_nci.cpp \
+    sched_resend.cpp \
+    sched_result.cpp \
+    sched_score.cpp \
+    sched_send.cpp \
+    sched_shmem.cpp \
+    sched_timezone.cpp \
+    sched_version.cpp \
+    sched_types.cpp \
+    time_stats_log.cpp \
+    ../db/boinc_db.cpp
+
+clean:
+	rm -f $(PROGS) $(OBJ) dependencies
+
+LIBS = ../lib/boinc.a libsched.a \
+    -L /usr/local/lib/ \
+    -lmariadb \
+    -lcurl -lssl -lcrypto \
+    -lz
+
+.cpp.o:
+	$(CC) -c -o $*.o $<
+
+cgi: $(OBJ)
+	$(CC) $(OBJ) $(LIBS) -o cgi
+
+dependencies: $(SRC)
+	$(CC) -M $(SRC) > dependencies
+
+include dependencies

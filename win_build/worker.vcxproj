@@ -11,8 +11,10 @@
   </PropertyGroup>
   <Import Project="boinc.props" />
   <PropertyGroup>
-    <TargetVersion>4</TargetVersion>
-    <TargetName>worker_$(TargetVersion)_windows_x86_64</TargetName>
+    <PlatformSuffix Condition="'$(Platform)'=='x64'">x86_x64</PlatformSuffix>
+    <PlatformSuffix Condition="'$(Platform)'=='ARM64'">ARM64</PlatformSuffix>
+    <TargetVersion>6</TargetVersion>
+    <TargetName>$(ProjectName)_$(TargetVersion)_windows_$(PlatformSuffix)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>

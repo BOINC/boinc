@@ -17,7 +17,6 @@
 
 #pragma once
 
-#include <vector>
 #include "Dialog.h"
 #include "Control.h"
 #include "ValidationTable.h"

@@ -34,6 +34,8 @@
 #include <errno.h>
 #include <sys/stat.h>
 
+using std::string;
+
 #include "backend_lib.h"
 #include "boinc_db.h"
 #include "error_numbers.h"
@@ -46,18 +48,19 @@
 #include "sched_vda.h"
 
 #include "credit.h"
-#include "sched_files.h"
-#include "sched_main.h"
-#include "sched_types.h"
-#include "sched_util.h"
 #include "handle_request.h"
+#include "sched_config.h"
+#include "sched_customize.h"
+#include "sched_files.h"
+#include "sched_host.h"
+#include "sched_locality.h"
+#include "sched_main.h"
 #include "sched_msgs.h"
 #include "sched_resend.h"
-#include "sched_send.h"
-#include "sched_config.h"
-#include "sched_locality.h"
 #include "sched_result.h"
-#include "sched_customize.h"
+#include "sched_send.h"
+#include "sched_types.h"
+#include "sched_util.h"
 #include "time_stats_log.h"
 
 // are the 2 hosts obviously different computers?
@@ -583,28 +586,12 @@ inline static const char* get_remote_addr() {
 static int modify_host_struct(HOST& host) {
     host.timezone = g_request->host.timezone;
     strlcpy(host.domain_name, g_request->host.domain_name, sizeof(host.domain_name));
-    char buf[1024], buf2[1024];
-    sprintf(buf, "[BOINC|%d.%d.%d",
-        g_request->core_client_major_version,
-        g_request->core_client_minor_version,
-        g_request->core_client_release
-    );
-    if (strlen(g_request->client_brand)) {
-        strcat(buf, "|");
-        strcat(buf, g_request->client_brand);
-    }
-    strcat(buf, "]");
-    g_request->coprocs.summary_string(buf2, sizeof(buf2));
-    strlcpy(host.serialnum, buf, sizeof(host.serialnum));
-    strlcat(host.serialnum, buf2, sizeof(host.serialnum));
-    if (strlen(g_request->host.virtualbox_version)) {
-        sprintf(buf2, "[vbox|%s|%d|%d]",
-            g_request->host.virtualbox_version,
-            (strstr(g_request->host.p_features, "vmx") || strstr(g_request->host.p_features, "svm"))?1:0,
-            g_request->host.p_vm_extensions_disabled?0:1
-        );
-        strlcat(host.serialnum, buf2, sizeof(host.serialnum));
-    }
+
+    string s;
+    host_info_json(s);
+    //log_messages.printf(MSG_CRITICAL, "host info: %s\n", s.c_str());
+    safe_strcpy(host.misc, s.c_str());
+
     if (strcmp(host.last_ip_addr, g_request->host.last_ip_addr)) {
         strlcpy(
             host.last_ip_addr, g_request->host.last_ip_addr,
@@ -698,7 +685,7 @@ int send_result_abort() {
     int aborts_sent = 0;
     int retval = 0;
     DB_IN_PROGRESS_RESULT result;
-    std::string result_names;
+    string result_names;
     unsigned int i;
 
     if (g_request->other_results.size() == 0) {
@@ -1415,9 +1402,12 @@ void process_request(char* code_sign_key) {
 
     handle_results();
     handle_file_xfer_results();
+
+#if ENABLE_VDA
     if (config.enable_vda) {
         handle_vda();
     }
+#endif
 
     // Do this before resending lost jobs
     //

@@ -148,7 +148,7 @@ try {
 
     }
 } catch(ErrorException $e) {
-    echo $e->getMessage();
+    error_page('bad request');
 }
 
 

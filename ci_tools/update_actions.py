@@ -1,6 +1,8 @@
+#!/usr/bin/env python3
+
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2024 University of California
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -50,6 +52,7 @@ def get_action_with_sha(action, token):
         headers = {'Authorization': f'Bearer {token}'}
     else:
         headers = None
+    print("Getting latest release for: " + action)
     res = requests.get(f'https://api.github.com/repos/{action}/releases/latest', headers=headers).json()
     tag_name = res['tag_name']
     res = requests.get(f'https://api.github.com/repos/{action}/git/ref/tags/{tag_name}', headers=headers).json()

@@ -1,6 +1,8 @@
+#!/usr/bin/env python3
+
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2024 University of California
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -35,7 +37,7 @@ def check(directory, exclude_dirs, exclude_extensions, exclude_files, fix_errors
             if (pathlib.Path(filename).suffix in exclude_extensions):
                 continue
             src_file = os.path.join(root, filename)
-            if (os.path.islink(src_file) or src_file in exclude_files):
+            if (os.path.islink(src_file) or src_file in exclude_files or filename in exclude_files):
                 continue
             with open(src_file, "rb") as f:
                 if verbose:
@@ -100,11 +102,17 @@ exclude_dirs = [
     os.path.join(directory, "html", "inc", "random_compat"),
     os.path.join(directory, "html", "inc", "ReCaptcha"),
     os.path.join(directory, "locale"),
+    os.path.join(directory, "mac_build", "build"),
+    os.path.join(directory, "mac_build", "boinc.xcodeproj", "project.xcworkspace"),
     os.path.join(directory, "samples", "example_app", "bin"),
     os.path.join(directory, "samples", "gfx_html"),
     os.path.join(directory, "samples", "glut"),
     os.path.join(directory, "samples", "image_libs"),
     os.path.join(directory, "samples", "jpeglib"),
+    os.path.join(directory, "samples", "mac_build", "build"),
+    os.path.join(directory, "samples", "mac_build", "UpperCase2.xcodeproj", "project.xcworkspace"),
+    os.path.join(directory, "samples", "vboxwrapper", "build"),
+    os.path.join(directory, "samples", "vboxwrapper", "vboxwrapper.xcodeproj", "project.xcworkspace"),
     os.path.join(directory, "tests", "old"),
     os.path.join(directory, "win_build", "Build"),
     os.path.join(directory, "win_build", ".vs"),
@@ -112,9 +120,11 @@ exclude_dirs = [
     os.path.join(directory, "win_build", "installerv2", "redist"),
     os.path.join(directory, "zip", "unzip"),
     os.path.join(directory, "zip", "zip"),
+    os.path.join(directory, "zip", "boinc_zip.xcodeproj", "project.xcworkspace"),
 ]
 
 exclude_files = [
+    ".DS_Store",
     os.path.join(directory, "bolt_checkin_notes.txt"),
     os.path.join(directory, "checkin_notes"),
     os.path.join(directory, "checkin_notes_2004"),
@@ -131,6 +141,10 @@ exclude_files = [
     os.path.join(directory, "todo"),
     os.path.join(directory, "TODO_OLD"),
     os.path.join(directory, "aclocal.m4"),
+    os.path.join(directory, "api", "MultiGPUMig.h"),
+    os.path.join(directory, "api", "MultiGPUMigServer.c"),
+    os.path.join(directory, "api", "MultiGPUMigServer.h"),
+    os.path.join(directory, "api", "MultiGPUMigUser.c"),
     os.path.join(directory, "client", "boinc_client"),
     os.path.join(directory, "client", "boinccmd"),
     os.path.join(directory, "client", "boinc"),
@@ -140,6 +154,7 @@ exclude_files = [
     os.path.join(directory, "html", "inc", "geoip.inc"),
     os.path.join(directory, "html", "inc", "htmLawed.php"),
     os.path.join(directory, "html", "inc", "recaptcha_loader.php"),
+    os.path.join(directory, "samples", "vboxwrapper", "x86_64", "vboxwrapper"),
     os.path.join(directory, "samples", "wrapper", "regerror.c"),
     os.path.join(directory, "samples", "wrapper", "regexp_custom.h"),
     os.path.join(directory, "samples", "wrapper", "regexp_int.h"),
@@ -160,7 +175,9 @@ exclude_extensions = [
     ".bmp",
     ".cub",
     ".dll",
+    ".DS_Store",
     ".exe",
+    ".gch",
     ".gif",
     ".icns",
     ".ico",

@@ -480,39 +480,16 @@ void write_host(HOST& host, ZFILE* f, bool detail) {
         "    <p_model>%s</p_model>\n"
         "    <os_name>%s</os_name>\n"
         "    <os_version>%s</os_version>\n",
+        "    <misc><![CDATA[%s]]></misc>\n",
         host.total_credit,
         host.expavg_credit,
         host.expavg_time,
         p_vendor,
         p_model,
         os_name,
-        os_version
+        os_version,
+        host.misc
     );
-
-    // host.serialnum stores coprocessor description
-    // and client and vbox versions.
-    //
-    char boinc[256], vbox[256], coprocs[256];
-    char buf[1024];
-    parse_serialnum(host.serialnum, boinc, vbox, coprocs);
-    if (strlen(boinc)) {
-        xml_escape(boinc, buf, sizeof(buf));
-        f->write(
-            "    <boinc_version>%s</boinc_version>\n", buf
-        );
-    }
-    if (strlen(vbox)) {
-        xml_escape(vbox, buf, sizeof(buf));
-        f->write(
-            "    <vbox_version>%s</vbox_version>\n", buf
-        );
-    }
-    if (strlen(coprocs)) {
-        xml_escape(coprocs, buf, sizeof(buf));
-        f->write(
-            "    <coprocs>%s</coprocs>\n", buf
-        );
-    }
 
     if (detail) {
         f->write(
@@ -1318,6 +1295,7 @@ int main(int argc, char** argv) {
         log_messages.printf(MSG_CRITICAL,
             "%s failed: %s\n", buf, boincerror(retval)
         );
+        boinc_db.close();
         exit(retval);
     }
 
@@ -1347,6 +1325,7 @@ int main(int argc, char** argv) {
         retval = system(buf);
         if (retval) {
             log_messages.printf(MSG_CRITICAL, "Can't rename old stats\n");
+            boinc_db.close();
             exit(1);
         }
     }
@@ -1354,7 +1333,9 @@ int main(int argc, char** argv) {
     retval = system(buf);
     if (retval) {
         log_messages.printf(MSG_CRITICAL, "Can't rename new stats\n");
+        boinc_db.close();
         exit(1);
     }
     log_messages.printf(MSG_NORMAL, "db_dump finished\n");
+    boinc_db.close();
 }

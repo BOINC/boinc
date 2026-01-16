@@ -87,11 +87,12 @@ if ($format=="xml"){
     }
 
     $logged_in_user = get_logged_in_user(false);
+    $myself = $logged_in_user && ($logged_in_user->id == $user->id);
 
     page_head($user->name);
     grid(
         false,
-        function() use ($data) {
+        function() use ($data, $myself) {
             panel(
                 tra("Account information"),
                 function() use ($data) {
@@ -101,7 +102,7 @@ if ($format=="xml"){
                     end_table();
                 }
             );
-            show_other_projects($data->user, false);
+            show_other_projects($data->user, $myself);
         },
         function() use ($data, $logged_in_user) {
             panel(

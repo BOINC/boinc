@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -13,7 +13,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 //
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "DlgAbout.h"
@@ -156,7 +156,7 @@ void CDlgAbout::CreateControls() {
 
     m_AboutBOINCTitleCtrl = new wxStaticText;
     m_AboutBOINCTitleCtrl->Create( itemDialog1, wxID_STATIC, _("BOINC Manager"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
-    m_AboutBOINCTitleCtrl->SetFont(wxFont(16, wxDEFAULT, wxNORMAL, wxBOLD, false, _T("")));
+    m_AboutBOINCTitleCtrl->SetFont(wxFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, FALSE, _T("")));
     itemBoxSizer2->Add(m_AboutBOINCTitleCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
@@ -194,7 +194,7 @@ void CDlgAbout::CreateControls() {
     itemFlexGridSizer7->Add(itemStaticText12, 0, wxALIGN_RIGHT|wxALIGN_TOP|wxLEFT|wxRIGHT, 5);
 
     wxStaticText* itemStaticText13 = new wxStaticText;
-    itemStaticText13->Create( itemDialog1, wxID_STATIC, _("(C) 2003-2025 University of California, Berkeley.\nAll Rights Reserved."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText13->Create( itemDialog1, wxID_STATIC, _("(C) 2003-2026 University of California, Berkeley.\nAll Rights Reserved."), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer7->Add(itemStaticText13, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 5);
 
     wxString buf = wxEmptyString;

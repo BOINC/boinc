@@ -185,13 +185,13 @@ function stage_file($file, $user) {
     case "local_staged":
         return $file->source;
     case 'sandbox':
-        $name = sandbox_name_to_phys_name($user, $file->source);
-        if (!$name) {
+        [$md5, $size] = sandbox_parse_info_file($user, $file->source);
+        if (!$md5) {
             xml_error(-1, "sandbox link file $file->source not found");
         }
-        $path = dir_hier_path($name, $download_dir, $fanout);
-        if (file_exists($path)) return $name;
-        xml_error(-1, "sandbox physical file $file->source not found");
+        $phys_name = job_file_name($md5);
+        $path = sandbox_path($user, $file->source);
+        stage_file_aux($path, $md5, $size, $phys_name);
     case "inline":
         $md5 = md5($file->source);
         if (!$md5) {
@@ -310,6 +310,9 @@ function submit_jobs(
     $errfile = sprintf('/tmp/create_work_%d.err', getmypid());
     $cmd .= sprintf(' >%s 2>&1', $errfile);
 
+    //echo "command: $cmd\n";
+    //echo "stdin: $x\n";
+
     $h = popen($cmd, "w");
     if ($h === false) {
         xml_error(-1, "can't run create_work");
@@ -392,7 +395,9 @@ function xml_get_jobs($r) {
         $job->input_template = null;
         if ($j->input_template) {
             $job->input_template = $j->input_template;
-            $job->input_template_xml = $j->input_template->asXML();
+            $x = $j->input_template->asXML();
+            $x = str_replace('<file_info/>', '<file_info></file_info>', $x);
+            $job->input_template_xml = $x;
         }
         $job->output_template = null;
         if ($j->output_template) {
@@ -623,7 +628,10 @@ function query_batches($r) {
     foreach ($batches as $batch) {
         if ($batch->state == BATCH_STATE_RETIRED) continue;
         if ($batch->state < BATCH_STATE_COMPLETE) {
-            $wus = BoincWorkunit::enum("batch = $batch->id");
+            $wus = BoincWorkunit::enum_fields(
+                'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
+                "batch = $batch->id"
+            );
             $batch = get_batch_params($batch, $wus);
         }
         echo "    <batch>\n";
@@ -726,7 +734,10 @@ function query_batch($r) {
         xml_error(-1, "not owner of batch");
     }
 
-    $wus = BoincWorkunit::enum("batch = $batch->id", "order by id");
+    $wus = BoincWorkunit::enum_fields(
+        'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
+        "batch = $batch->id", 'order by id'
+    );
     $batch = get_batch_params($batch, $wus);
     $get_cpu_time = (int)($r->get_cpu_time);
     $get_job_details = (int)($r->get_job_details);
@@ -737,13 +748,6 @@ function query_batch($r) {
         <name>$wu->name</name>
         <canonical_instance_id>$wu->canonical_resultid</canonical_instance_id>
 ";
-        // does anyone need this?
-        //
-        if (0) {
-            $n_outfiles = n_outfiles($wu);
-            echo "     <n_outfiles>$n_outfiles</n_outfiles>\n";
-        }
-
         if ($get_job_details) {
             show_job_details($wu);
         }
@@ -1075,6 +1079,13 @@ estimate_batch($r);
 exit;
 }
 
+xml_header();
+if (0) {
+    $req = file_get_contents("req");
+} else {
+    $req = $_POST['request'];
+}
+
 // optionally write request message (XML) to log file
 //
 $request_log = parse_config(get_config(), "<remote_submit_request_log>");
@@ -1082,17 +1093,11 @@ if ($request_log) {
     $log_dir = parse_config(get_config(), "<log_dir>");
     $request_log = $log_dir . "/" . $request_log;
     if ($file = fopen($request_log, "a")) {
-        fwrite($file, "\n<submit_rpc_handler date=\"" . date(DATE_ATOM) . "\">\n" . $_POST['request'] . "\n</submit_rpc_handler>\n");
+        fwrite($file, "\n<submit_rpc_handler date=\"" . date(DATE_ATOM) . "\">\n" . $req . "\n</submit_rpc_handler>\n");
         fclose($file);
     }
 }
 
-xml_header();
-if (0) {
-    $req = file_get_contents("submit_req.xml");
-} else {
-    $req = $_POST['request'];
-}
 $r = simplexml_load_string($req);
 if (!$r) {
     log_write("----- RPC request: can't parse request message: $req");
@@ -1118,7 +1123,7 @@ switch ($r->getName()) {
     case 'submit_batch': submit_batch($r); break;
     default:
         log_write("bad command");
-        xml_error(-1, "bad command: ".$r->getName());
+        xml_error(-1, "bad command");
         break;
 }
 

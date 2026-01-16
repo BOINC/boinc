@@ -182,10 +182,11 @@ static int get_current_macos_version() {
 #endif
 
 // Parse the output of download.php?xml=1.
-// If there is a newer version for our primary platform,
-// copy it to new_version and return true.
+// If there is a version for our primary platform
+// that's newer than what we're running,
+// copy the version string to new_version and return true.
 //
-static bool parse_version(FILE* f, char* new_version, int len) {
+static bool parse_version(XML_PARSER &xp, char* new_version, int len) {
     char buf2[256];
     bool same_platform = false, newer_version_exists = false;
 #ifdef __APPLE__
@@ -193,10 +194,6 @@ static bool parse_version(FILE* f, char* new_version, int len) {
     int val = 0;
     int macOS_version = get_current_macos_version();
 #endif
-
-    MIOFILE mf;
-    XML_PARSER xp(&mf);
-    mf.init_file(f);
 
     while (!xp.get_tag()) {
         if (xp.match_tag("/version")) {
@@ -261,8 +258,12 @@ static void show_newer_version_msg(const char* new_vers) {
 }
 
 void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
-    char buf[256], new_version[256], newest_version[256];
+    char new_version[256], newest_version[256];
     int maj=0, min=0, rel=0;
+#ifdef _WIN32
+    int bbrv;
+#endif
+
     if (http_op_retval) {
         error_num = http_op_retval;
         return;
@@ -271,14 +272,21 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
     newest_version[0] = '\0';
     FILE* f = boinc_fopen(GET_CURRENT_VERSION_FILENAME, "r");
     if (!f) return;
-    while (fgets(buf, 256, f)) {
-        if (match_tag(buf, "<version>")) {
-            if (parse_version(f, new_version, sizeof(new_version))) {
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
+    mf.init_file(f);
+    while (!xp.get_tag()) {
+        if (xp.match_tag("version")) {
+            if (parse_version(xp, new_version, sizeof(new_version))) {
                 if (is_version_newer(new_version, maj, min, rel)) {
                     strlcpy(newest_version, new_version, sizeof(newest_version));
                     sscanf(newest_version, "%d.%d.%d", &maj, &min, &rel);
                 }
             }
+#ifdef _WIN32
+        } else if (xp.parse_int("boinc_buda_runner_version", bbrv)) {
+            gstate.latest_boinc_buda_runner_version = bbrv;
+#endif
         }
     }
     fclose(f);
@@ -287,7 +295,11 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
         show_newer_version_msg(newest_version);
     }
 
-    // Cache neweer version number. Empty string if no newer version
+#if !defined(SIM) && !defined(ANDROID)
+    show_docker_messages();
+#endif
+
+    // Cache newer version number. Empty string if no newer version
     gstate.newer_version = string(newest_version);
 }
 

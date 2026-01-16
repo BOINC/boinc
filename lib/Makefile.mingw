@@ -1,3 +1,21 @@
+# This file is part of BOINC.
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+#
+
 # Makefile for building BOINC with MinGW (gcc and gnumake)
 
 # if you want to use install/uninstall targets, set this to the prefix
@@ -16,32 +34,33 @@ endif
 
 # headers to install
 HEADERS = $(BOINC_SRC)/version.h \
+	$(BOINC_SRC)/svn_version.h \
+	$(BOINC_SRC)/win_build/config.h \
 	$(BOINC_SRC)/api/boinc_api.h \
 	$(BOINC_SRC)/api/boinc_opencl.h \
 	$(BOINC_SRC)/api/graphics2.h \
 	$(BOINC_SRC)/lib/app_ipc.h \
-	$(BOINC_SRC)/lib/boinc_win.h \
 	$(BOINC_SRC)/lib/boinc_stdio.h \
-	$(BOINC_SRC)/lib/url.h \
+	$(BOINC_SRC)/lib/boinc_win.h \
+	$(BOINC_SRC)/lib/cal_boinc.h \
+	$(BOINC_SRC)/lib/cl_boinc.h \
 	$(BOINC_SRC)/lib/common_defs.h \
+	$(BOINC_SRC)/lib/coproc.h \
 	$(BOINC_SRC)/lib/diagnostics.h \
 	$(BOINC_SRC)/lib/diagnostics_win.h \
 	$(BOINC_SRC)/lib/error_numbers.h \
 	$(BOINC_SRC)/lib/filesys.h \
 	$(BOINC_SRC)/lib/hostinfo.h \
-	$(BOINC_SRC)/lib/proxy_info.h \
-	$(BOINC_SRC)/lib/prefs.h \
-	$(BOINC_SRC)/lib/miofile.h \
 	$(BOINC_SRC)/lib/mfile.h  \
-	$(BOINC_SRC)/lib/parse.h \
-	$(BOINC_SRC)/lib/util.h \
-	$(BOINC_SRC)/lib/coproc.h \
-	$(BOINC_SRC)/lib/cal_boinc.h \
-	$(BOINC_SRC)/lib/cl_boinc.h \
+	$(BOINC_SRC)/lib/miofile.h \
 	$(BOINC_SRC)/lib/opencl_boinc.h \
-	$(BOINC_SRC)/svn_version.h \
-	$(BOINC_SRC)/win_build/config.h \
+	$(BOINC_SRC)/lib/parse.h \
+	$(BOINC_SRC)/lib/prefs.h \
+	$(BOINC_SRC)/lib/proxy_info.h \
 	$(BOINC_SRC)/lib/str_util.h \
+	$(BOINC_SRC)/lib/url.h \
+	$(BOINC_SRC)/lib/util.h \
+	$(BOINC_SRC)/lib/win_util.h \
 	$(BOINC_SRC)/lib/wslinfo.h
 
 ZIP_HEADERS = zip/boinc_zip.h
@@ -83,45 +102,7 @@ LIB_OBJ = app_ipc.o \
 	win_util.o \
 	wslinfo.o
 
-ZIP_OBJ = zip/boinc_zip.o \
-	zip/api.o \
-	zip/apihelp.o \
-	zip/crc32.o \
-	zip/crypt.o \
-	zip/explode.o \
-	zip/extract.o \
-	zip/fileio.o \
-	zip/globals.o \
-	zip/inflate.o \
-	zip/list.o \
-	zip/match.o \
-	zip/nt.o \
-	zip/process.o \
-	zip/ttyio.o \
-	zip/unreduce.o \
-	zip/unshrink.o \
-	zip/unzip.o \
-	zip/zipinfo.o \
-	zip/deflate.o \
-	zip/trees.o \
-	zip/util.o \
-	zip/win32.o \
-	zip/win32_boinc.o \
-	zip/win32i64.o \
-	zip/win32zip.o \
-	zip/z_fileio.o \
-	zip/z_globals.o \
-	zip/z_nt.o \
-	zip/zip.o \
-	zip/zipfile.o \
-	zip/zipup.o
-
-REGEXP_OBJS = \
-	regexp.o \
-	regsub.o \
-	regerror.o \
-	regexp_memory.o \
-	regexp_report.o
+ZIP_OBJ = zip/boinc_zip.o
 
 # libraries to build
 API_BIN = libboinc_api.a
@@ -156,15 +137,9 @@ CCXXFLAGS = $(INCS) $(DEBUG) --include $(BOINC_SRC)/version.h -DEINSTEINATHOME_C
 	-DNODB -D_CONSOLE -fexceptions $(OPTFLAGS) $(NOCYGWIN)
 
 # flags for compiling boinc_zip
-ZIP_VCPROJ_FLAGS = -DWIN32 -D_LIB -DDLL -D_CRT_SECURE_NO_WARNINGS -DNO_MKTEMP -DUSE_ZIPMAIN -DNO_CRYPT \
-	-DIZ_PWLEN=80 -DNO_ASM -DNO_UNICODE_SUPPORT -DNO_MBCS
-ZIP_BOINC_RENAMES = \
-	-Dinflate=inflate_boinc \
-	-Ddeflate=deflate_boinc \
-	-Dget_crc_table=get_crc_table_boinc \
-	-Dlongest_match=longest_match_boinc \
-	-Dinflate_codes=inflate_codes_boinc
-ZIP_FLAGS = $(ZIP_VCPROJ_FLAGS) $(ZIP_BOINC_RENAMES) -DUSE_MINGW_GLOBBING -DUSE_STRM_INPUT $(INCS) -O2 $(NOCYGWIN) -fcommon
+ZIP_VCPROJ_FLAGS = -DWIN32 -D_LIB -DDLL -D_CRT_SECURE_NO_WARNINGS
+
+ZIP_FLAGS = $(ZIP_VCPROJ_FLAGS) -DUSE_MINGW_GLOBBING -DUSE_STRM_INPUT $(INCS) -O3 $(NOCYGWIN) -fcommon
 
 # LDFLAGS = -lwinmm
 
@@ -177,20 +152,9 @@ CXXFLAGS += $(CCXXFLAGS)
 all: $(BIN) $(API_BIN)
 all-la: $(BIN) $(API_LIB)
 
-# zip target
-.PHONY: boinc_zip
-boinc_zip: $(ZIP_BIN)
-
-# The MinGW 64Bit msvcrt library doesn't export __p___mb_cur_max(), so
-# we need to hack our own in this case. However this is only needed for
-# boinc_zip, which is compiled without Unicode/MBCS support, so a function
-# that alway returns 2 (as max character length) should be more than safe.
-# The source file is in zip/zip.
-ZIP_MINGW64_FIX ?= $(if $(findstring x86_64-w64-mingw32,$(CXX)),zip/__p___mb_cur_max.o,)
-
 .PHONY: wrapper
 wrapper: wrapper.exe
-wrapper.exe: wrapper.o $(REGEXP_OBJS) $(API_BIN) $(LIB_BIN) $(ZIP_BIN) $(ZIP_MINGW64_FIX)
+wrapper.exe: wrapper.o $(API_BIN) $(LIB_BIN) $(ZIP_BIN)
 	 $(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $@ $^ -lpsapi
 
 # set to the target tools when cross-compiling
@@ -233,22 +197,10 @@ wrapper.o: $(BOINC_SRC)/samples/wrapper/wrapper.cpp
 %.o: $(BOINC_SRC)/samples/wrapper/%.c
 	$(CC) -c $< -o $@ $(CPPFLAGS) $(CFLAGS)
 
-# for boinc_zip. Don't change the order!
 zip:
 	mkdir -p $@
 zip/%.o: $(BOINC_SRC)/zip/%.cpp
 	$(CXX) -c $< -o $@ $(ZIP_FLAGS)
-zip/%.o: $(BOINC_SRC)/zip/unzip/win32/%.c
-	$(CC) -c $< -o $@ $(ZIP_FLAGS)
-zip/%.o: $(BOINC_SRC)/zip/unzip/%.c
-	$(CC) -c $< -o $@ $(ZIP_FLAGS)
-zip/%.o: $(BOINC_SRC)/zip/zip/win32/%.c
-	$(CC) -c $< -o $@ $(ZIP_FLAGS)
-zip/%.o: $(BOINC_SRC)/zip/zip/%.c
-	$(CC) -c $< -o $@ $(ZIP_FLAGS)
-zip/z_util.o: $(BOINC_SRC)/zip/zip/util.c
-	$(CC) -c $< -o $@ $(ZIP_FLAGS)
-
 $(BOINC_SRC)/svn_version.h:
 	cd $(BOINC_SRC) && sh ./generate_svn_version.sh
 
@@ -278,4 +230,4 @@ uninstall:
 	( cd $(BOINC_PREFIX)/lib && $(RM) -f $(BIN) $(API_BIN) $(API_LIB) || exit 0 )
 
 clean:
-	${RM} -rf *.o $(BIN) $(API_BIN) $(API_LIB) $(OCL_BIN) $(LIB_BIN) $(GPH_BIN) .libs $(ZIP_BIN) zip $(REGEXP_OBJS) wrapper.o wrapper.exe
+	${RM} -rf *.o $(BIN) $(API_BIN) $(API_LIB) $(OCL_BIN) $(LIB_BIN) $(GPH_BIN) .libs $(ZIP_BIN) zip wrapper.o wrapper.exe

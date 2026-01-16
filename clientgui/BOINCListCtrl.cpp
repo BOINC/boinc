@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -13,7 +13,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "BOINCListCtrl.h"
@@ -60,7 +60,7 @@ BEGIN_EVENT_TABLE(CBOINCListCtrl, LISTCTRL_BASE)
     EVT_DRAW_PROGRESSBAR(CBOINCListCtrl::OnDrawProgressBar)
 #else
 #ifdef __WXMAC__
-	EVT_SIZE(CBOINCListCtrl::OnSize)    // In MacAccessibility.mm
+    EVT_SIZE(CBOINCListCtrl::OnSize)    // In MacAccessibility.mm
 #endif
 #endif
 
@@ -280,7 +280,7 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
                 for (int k = 0; k < pView->m_iNumDefaultShownColumns; ++k) {
                     defaultArray.Add(pView->m_aStdColNameOrder->Item(pView->m_iDefaultShownColumns[k]));
                 }
-                for (int k = 0; k < defaultArray.GetCount(); ++k) {
+                for (size_t k = 0; k < defaultArray.GetCount(); ++k) {
                     if (defaultArray[k].IsSameAs(columnNameToFind)) {
                         orderArray.Add(columnNameToFind);
                         foundNewDefaultColumns = true;
@@ -589,7 +589,7 @@ void CBOINCListCtrl::DrawProgressBars()
             }
 
             dc.SetLogicalFunction(wxCOPY);
-            dc.SetBackgroundMode(wxSOLID);
+            dc.SetBackgroundMode(wxBRUSHSTYLE_SOLID);
             dc.SetPen(progressColor);
             dc.SetBrush(progressBrush);
             dc.DrawRectangle( rr );
@@ -612,7 +612,7 @@ void CBOINCListCtrl::DrawProgressBars()
             dc.DrawRectangle( rr );
 
             dc.SetPen(*wxBLACK_PEN);
-            dc.SetBackgroundMode(wxTRANSPARENT);
+            dc.SetBackgroundMode(wxBRUSHSTYLE_TRANSPARENT);
             if (xx > (r.width - 7)) {
                 dc.DrawText(progressString, r.x, r.y);
             } else {

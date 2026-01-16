@@ -1,7 +1,7 @@
 /*
  * This file is part of BOINC.
  * https://boinc.berkeley.edu
- * Copyright (C) 2022 University of California
+ * Copyright (C) 2025 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -97,7 +97,6 @@ class Monitor : LifecycleService() {
     private lateinit var fileNameNoMedia: String
     private lateinit var boincWorkingDir: String
     private lateinit var clientSocketAddress: String
-    private lateinit var fileNameWelcomeState: String
 
     private var clientStatusInterval by Delegates.notNull<Int>()
     private var deviceStatusIntervalScreenOff: Int = 0
@@ -204,7 +203,6 @@ class Monitor : LifecycleService() {
         fileNameGuiAuthentication = getString(R.string.auth_file_name)
         fileNameAllProjectsList = getString(R.string.all_projects_list)
         fileNameNoMedia = getString(R.string.nomedia)
-        fileNameWelcomeState = "welcome.state"
         clientStatusInterval = resources.getInteger(R.integer.status_update_interval_ms)
         deviceStatusIntervalScreenOff =
             resources.getInteger(R.integer.device_status_update_screen_off_every_X_loop)
@@ -311,18 +309,6 @@ class Monitor : LifecycleService() {
         } // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
     }
 
-    fun getWelcomeStateFile(): Boolean {
-        val file = File(boincWorkingDir + fileNameWelcomeState)
-        return file.exists()
-    }
-
-    fun setWelcomeStateFile() {
-        val file = File(boincWorkingDir + fileNameWelcomeState)
-        if (!file.exists()) {
-            file.createNewFile()
-        }
-    }
-
     //Kill boinc client nicely
     fun quitClient(): Boolean {
         if (clientInterface.isConnected) {
@@ -413,7 +399,7 @@ class Monitor : LifecycleService() {
 
                 // update notices notification
                 noticeNotification.update(
-                    clientStatus.rssNotices,
+                    clientStatus.getRssNotices(),
                     appPreferences.showNotificationForNotices
                 )
 
@@ -567,7 +553,7 @@ class Monitor : LifecycleService() {
             try {
                 // read preferences for GUI to be able to display data
                 val clientPrefs = clientInterface.globalPrefsWorkingStruct!!
-                clientStatus.prefs = clientPrefs
+                clientStatus.setPrefs(clientPrefs)
 
                 // set Android model as hostinfo
                 // should output something like "Samsung Galaxy SII - SDK:15 ABI:armeabi-v7a"
@@ -1031,7 +1017,8 @@ class Monitor : LifecycleService() {
 
         @Throws(RemoteException::class)
         override fun lookupCredentials(credentials: AccountIn): AccountOut {
-            return clientInterface.lookupCredentials(credentials)
+            return clientInterface.lookupCredentials(credentials) ?:
+                throw RemoteException("Credentials lookup failed")
         }
 
         @Throws(RemoteException::class)
@@ -1050,12 +1037,16 @@ class Monitor : LifecycleService() {
 
         @Throws(RemoteException::class)
         override fun getServerNotices(): List<Notice> {
-            return clientStatus.serverNotices
+            return clientStatus.getServerNotices()
         }
 
         @Throws(RemoteException::class)
         override fun getProjectConfigPolling(url: String): ProjectConfig {
-            return clientInterface.getProjectConfigPolling(url)
+            val result = clientInterface.getProjectConfigPolling(url)
+            if (result != null) {
+                return result
+            }
+            throw RemoteException("Project config polling failed")
         }
 
         @Throws(RemoteException::class)
@@ -1098,18 +1089,9 @@ class Monitor : LifecycleService() {
         }
 
         @Throws(RemoteException::class)
-        override fun getWelcomeStateFile(): Boolean {
-            return this@Monitor.getWelcomeStateFile()
-        }
-
-        @Throws(RemoteException::class)
-        override fun setWelcomeStateFile() {
-            this@Monitor.setWelcomeStateFile()
-        }
-
-        @Throws(RemoteException::class)
         override fun createAccountPolling(information: AccountIn): AccountOut {
-            return clientInterface.createAccountPolling(information)
+            return clientInterface.createAccountPolling(information)?:
+                throw RemoteException("Account creation failed")
         }
 
         @Throws(RemoteException::class)
@@ -1157,7 +1139,11 @@ class Monitor : LifecycleService() {
 
         @Throws(RemoteException::class)
         override fun getAcctMgrInfoPresent(): Boolean {
-            return clientStatus.acctMgrInfo.isPresent
+            // Check if acctMgrInfo is present in clientStatus
+            if (clientStatus.acctMgrInfo == null) {
+                throw RemoteException("AcctMgrInfo is not initialized")
+            }
+            return clientStatus.acctMgrInfo!!.isPresent
         }
 
         @Throws(RemoteException::class)
@@ -1182,27 +1168,35 @@ class Monitor : LifecycleService() {
 
         @Throws(RemoteException::class)
         override fun getHostInfo(): HostInfo {
-            return clientStatus.hostInfo
+            if (clientStatus.hostInfo == null) {
+                throw RemoteException("HostInfo is not initialized")
+            }
+            return clientStatus.hostInfo!!
         }
 
         @Throws(RemoteException::class)
         override fun getPrefs(): GlobalPreferences {
-            return clientStatus.prefs
+            val prefs = clientStatus.getPrefs()
+                ?: throw RemoteException("GlobalPreferences is not initialized")
+            return prefs
         }
 
         @Throws(RemoteException::class)
         override fun getProjects(): List<Project> {
-            return clientStatus.projects
+            return clientStatus.getProjects()
         }
 
         @Throws(RemoteException::class)
         override fun getClientAcctMgrInfo(): AcctMgrInfo {
-            return clientStatus.acctMgrInfo
+            if (clientStatus.acctMgrInfo == null) {
+                throw RemoteException("AcctMgrInfo is not initialized")
+            }
+            return clientStatus.acctMgrInfo!!
         }
 
         @Throws(RemoteException::class)
         override fun getTransfers(): List<Transfer> {
-            return clientStatus.transfers
+            return clientStatus.getTransfers()
         }
 
         @Throws(RemoteException::class)
@@ -1287,7 +1281,7 @@ class Monitor : LifecycleService() {
 
         @Throws(RemoteException::class)
         override fun getRssNotices(): List<Notice> {
-            return clientStatus.rssNotices
+            return clientStatus.getRssNotices()
         }
 
         @Throws(RemoteException::class)

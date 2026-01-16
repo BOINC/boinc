@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2024 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -52,6 +52,12 @@ update_nested_dirs() {
     done
 }
 
+if [ -x /bin/systemctl ] ; then
+    if systemctl is-active --quiet boinc-client.service; then
+        systemctl stop boinc-client.service
+    fi
+fi
+
 if ! getent group ${BOINCGROUP} >/dev/null; then
     groupadd -r ${BOINCGROUP}
 fi
@@ -59,6 +65,7 @@ fi
 if ! getent passwd ${BOINCUSER} >/dev/null; then
     useradd -r -g ${BOINCGROUP} -d ${BOINCDIR} -s /usr/sbin/nologin -c "BOINC user" ${BOINCUSER}
 fi
+usermod -d "$BOINCDIR" "$BOINCUSER"
 
 if ! getent group ${BOINCGROUP} | grep -q ${BOINCUSER}; then
     usermod -a -G ${BOINCGROUP} ${BOINCUSER}
@@ -76,25 +83,37 @@ if getent group render >/dev/null; then
     fi
 fi
 
+if getent group docker >/dev/null; then
+    if ! getent group docker | grep -q ${BOINCUSER}; then
+        usermod -a -G docker ${BOINCUSER}
+    fi
+fi
+
 if [ -n "$SUDO_USER" ]; then
     if ! getent group ${BOINCGROUP} | grep -q $SUDO_USER; then
         usermod -a -G ${BOINCGROUP} $SUDO_USER
     fi
 fi
 
+usermod --add-subuids 100000-165535 --add-subgids 100000-165535 ${BOINCUSER}
+
 if [ ! -d /etc/boinc-client ] ; then
     mkdir -p /etc/boinc-client
 fi
 
 if [ ! -e ${BOINCDIR}/cc_config.xml ] ; then
-    echo """
-    <!--
-    This is a configuration file of the BOINC client.
-    For a complete list of options see https://boinc.berkeley.edu/wiki/client_configuration
-    -->
-    <cc_config>
-    </cc_config>
-    """ > ${BOINCDIR}/cc_config.xml
+    if [ -e /etc/boinc-client/cc_config.xml ] && [ ! -L /etc/boinc-client/cc_config.xml ] ; then
+        mv /etc/boinc-client/cc_config.xml ${BOINCDIR}/cc_config.xml
+    else
+        echo """
+        <!--
+        This is a configuration file of the BOINC client.
+        For a complete list of options see https://boinc.berkeley.edu/wiki/client_configuration
+        -->
+        <cc_config>
+        </cc_config>
+        """ > ${BOINCDIR}/cc_config.xml
+    fi
 fi
 
 if [ ! -e /etc/boinc-client/cc_config.xml ] ; then
@@ -102,15 +121,19 @@ if [ ! -e /etc/boinc-client/cc_config.xml ] ; then
 fi
 
 if [ ! -e ${BOINCDIR}/global_prefs_override.xml ] ; then
-    echo """
-    <!--
-    This is a configuration file of the BOINC client that can be used to override global preferences
-    received from the attached project locally.
-    For a complete list of options see https://github.com/BOINC/boinc/wiki/PrefsOverride
-    -->
-    <global_preferences>
-    </global_preferences>
-    """ > ${BOINCDIR}/global_prefs_override.xml
+    if [ -e /etc/boinc-client/global_prefs_override.xml ] && [ ! -L /etc/boinc-client/global_prefs_override.xml ] ; then
+        mv /etc/boinc-client/global_prefs_override.xml ${BOINCDIR}/global_prefs_override.xml
+    else
+        echo """
+        <!--
+        This is a configuration file of the BOINC client that can be used to override global preferences
+        received from the attached project locally.
+        For a complete list of options see https://github.com/BOINC/boinc/wiki/PrefsOverride
+        -->
+        <global_preferences>
+        </global_preferences>
+        """ > ${BOINCDIR}/global_prefs_override.xml
+    fi
 fi
 
 if [ ! -e /etc/boinc-client/global_prefs_override.xml ] ; then
@@ -118,7 +141,11 @@ if [ ! -e /etc/boinc-client/global_prefs_override.xml ] ; then
 fi
 
 if [ ! -e ${BOINCDIR}/gui_rpc_auth.cfg ] ; then
-    echo "" > ${BOINCDIR}/gui_rpc_auth.cfg
+    if [ -e /etc/boinc-client/gui_rpc_auth.cfg ] && [ ! -L /etc/boinc-client/gui_rpc_auth.cfg ] ; then
+        mv /etc/boinc-client/gui_rpc_auth.cfg ${BOINCDIR}/gui_rpc_auth.cfg
+    else
+        echo "$(head -c 20 /dev/urandom | sha1sum | awk '{print $1}')" > ${BOINCDIR}/gui_rpc_auth.cfg
+    fi
 fi
 
 if [ ! -e /etc/boinc-client/gui_rpc_auth.cfg ] ; then
@@ -126,12 +153,16 @@ if [ ! -e /etc/boinc-client/gui_rpc_auth.cfg ] ; then
 fi
 
 if [ ! -e ${BOINCDIR}/remote_hosts.cfg ] ; then
-    echo """
-    # This file contains a list of remote host names or IP addresses (one per line)
-    # that are allowed to connect to the BOINC client via the GUI RPC interface.
-    # Only the hosts listed in this file will be allowed to connect.
-    # Lines starting with '#' and ';' are comments and are ignored.
-    """ > ${BOINCDIR}/remote_hosts.cfg
+    if [ -e /etc/boinc-client/remote_hosts.cfg ] && [ ! -L /etc/boinc-client/remote_hosts.cfg ] ; then
+        mv /etc/boinc-client/remote_hosts.cfg ${BOINCDIR}/remote_hosts.cfg
+    else
+        echo """
+        # This file contains a list of remote host names or IP addresses (one per line)
+        # that are allowed to connect to the BOINC client via the GUI RPC interface.
+        # Only the hosts listed in this file will be allowed to connect.
+        # Lines starting with '#' and ';' are comments and are ignored.
+        """ > ${BOINCDIR}/remote_hosts.cfg
+    fi
 fi
 
 if [ ! -e /etc/boinc-client/remote_hosts.cfg ] ; then

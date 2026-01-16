@@ -80,11 +80,13 @@
 #include "boinc_stdio.h"
 #include "miofile.h"
 #include "error_numbers.h"
-#include "parse.h"
 #include "cal_boinc.h"
 #include "cl_boinc.h"
 #include "opencl_boinc.h"
 #include "common_defs.h"
+
+struct MIOFILE;
+struct XML_PARSER;
 
 #define MAX_COPROC_INSTANCES 64
 #define MAX_RSC 8
@@ -443,7 +445,7 @@ struct COPROCS {
 #ifdef __APPLE__
     void opencl_get_ati_mem_size_from_opengl(std::vector<std::string> &warnings);
 #endif
-    void summary_string(char* buf, int len);
+    void summary_string_json(std::string& out);
 
     // Copy a coproc set, possibly setting usage to zero.
     // used in round-robin simulator and CPU scheduler,

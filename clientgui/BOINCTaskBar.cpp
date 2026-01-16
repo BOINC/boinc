@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -76,7 +76,7 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
 END_EVENT_TABLE()
 
 
-CTaskBarIcon::CTaskBarIcon(wxString title, wxIconBundle* icon, wxIconBundle* iconDisconnected, wxIconBundle* iconSnooze
+CTaskBarIcon::CTaskBarIcon(wxIconBundle* icon, wxIconBundle* iconDisconnected, wxIconBundle* iconSnooze
 #ifdef __WXMAC__
 , wxTaskBarIconType iconType
 #endif
@@ -420,6 +420,7 @@ wxMenu *CTaskBarIcon::CreatePopupMenu() {
     return menu;
 }
 
+
 // Override the standard wxTaskBarIcon::SetIcon() because we are only providing a
 // 16x16 icon for the menubar, while the Dock needs a 128x128 icon.
 // Rather than using an entire separate icon, overlay the Dock icon with a badge
@@ -465,32 +466,32 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& )
         return true;
     }
 
-    // Convert the wxImage into a wxBitmap so we can perform some
-    // wxBitmap operations with it
-    macIcon.InitAlpha();
-    wxBitmap bmp( macIcon ) ;
+    unsigned char* iconBuffer = macIcon.GetData();
 
-    // wxMac's XMP image format always uses 32-bit pixels but allows only
-    // 1-bit masks, so we use a separate XMP file for the 8-bit mask to
-    // allow us to do proper anti-aliasing of the badges.  This code assumes
-    // that all badges are the same size circle and at the same position so
-    // that they can share a single mask.
-    wxBitmap mask_bmp( macbadgemask ) ;
-    h = bmp.GetHeight();
-    w = bmp.GetWidth();
+    wxImage mac_badge_mask = wxImage(macbadgemask);
+    unsigned char* maskBuffer = mac_badge_mask.GetData();
+    h = macIcon.GetHeight();
+    w = macIcon.GetWidth();
+    wxASSERT(h == mac_badge_mask.GetHeight());
+    wxASSERT(w == mac_badge_mask.GetWidth());
 
-    wxASSERT(h == mask_bmp.GetHeight());
-    wxASSERT(w == mask_bmp.GetWidth());
-
-    unsigned char * iconBuffer = (unsigned char *)bmp.GetRawAccess();
-    unsigned char * maskBuffer = (unsigned char *)mask_bmp.GetRawAccess() + 1;
-
+    void * maskedIconData = malloc(h*w*4);
+    unsigned char * maskedIconDataChars = (unsigned char*)maskedIconData;
     for (y=0; y<h; y++) {
         for (x=0; x<w; x++) {
-            *iconBuffer = 255 - *maskBuffer;
-            iconBuffer += 4;
-            maskBuffer += 4;
+            *maskedIconDataChars++ = *iconBuffer++;
+            *maskedIconDataChars++ = *iconBuffer++;
+            *maskedIconDataChars++ = *iconBuffer++;
+            *maskedIconDataChars++ = 255 - *maskBuffer;
+            maskBuffer += 3;
         }
+    }
+
+    wxImage maskedIcon = wxImage(w, h);
+    maskedIcon.SetDataRGBA((unsigned char*)maskedIconData);
+    wxBitmap bmp = wxBitmap(maskedIcon);
+    if (!bmp.IsOk()) {
+        return false;
     }
 
     // Actually set the dock image
@@ -499,8 +500,9 @@ bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& )
 #endif
     SetDockBadge(&bmp);
 
+#if wxDEBUG_LEVEL
     wxASSERT(err == 0);
-
+#endif
     return true;
 }
 
@@ -710,13 +712,10 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
     if (!pDoc->IsConnected()) {
         SetIcon(m_iconTaskBarDisconnected);
     } else {
-        switch(status.task_suspend_reason) {
-        case SUSPEND_REASON_CPU_THROTTLE:
-        case 0:
-            SetIcon(m_iconTaskBarNormal);
-            break;
-        default:
+        if (status.task_suspend_reason) {
             SetIcon(m_iconTaskBarSnooze);
+        } else {
+            SetIcon(m_iconTaskBarNormal);
         }
     }
 #else
@@ -734,17 +733,13 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
     if (pDoc->IsConnected()) {
         icnIcon = m_iconTaskBarNormal;
         bool comp_suspended = false;
-        switch(status.task_suspend_reason) {
-        case SUSPEND_REASON_CPU_THROTTLE:
-        case 0:
-            strMessage += _("Computing is enabled");
-            break;
-        default:
+        if (status.task_suspend_reason) {
             icnIcon = m_iconTaskBarSnooze;
             strMessage += _("Computing is suspended - ");
             strMessage += suspend_reason_wxstring(status.task_suspend_reason);
             comp_suspended = true;
-            break;
+        } else {
+            strMessage += _("Computing is enabled");
         }
         strMessage += wxT(".\n");
 

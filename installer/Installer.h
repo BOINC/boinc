@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,11 +17,6 @@
 
 #pragma once
 
-#include <map>
-#include <memory>
-#include <filesystem>
-#include <nlohmann/json.hpp>
-
 #include "Generator.h"
 #include "InstallerStrings.h"
 
@@ -35,6 +30,9 @@ public:
 private:
     bool load_from_json(const nlohmann::json& json,
         const std::filesystem::path& path);
+    nlohmann::json load_json(const std::filesystem::path& json);
+    void process_json(nlohmann::json& json,
+        const std::filesystem::path& parent_file);
     bool forceCodePage(MSIHANDLE hDatabase);
 
     std::map<std::string, std::shared_ptr<GeneratorTable>> tables{};

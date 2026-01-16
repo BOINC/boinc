@@ -21,6 +21,15 @@
 
 require_once("../inc/submit_db.inc");
 
+// The status of a workunit.
+// Not stored in the DB;
+// it's computed by get_batch_params() and added to the workunit object
+//
+define('WU_UNSENT', 1);
+define('WU_IN_PROGRESS', 2);
+define('WU_SUCCESS', 3);
+define('WU_ERROR', 4);
+
 // write status and error messages to log
 //
 function log_write($x) {
@@ -43,6 +52,28 @@ function log_write($x) {
     if (!$enabled) return;
     fwrite($log_file, sprintf("%s: %s\n", strftime("%c"), $x));
     fflush($log_file);
+}
+
+// return # of in-progress jobs for user
+//
+function n_jobs_in_progress($user_id) {
+    $batches = BoincBatch::enum(
+        sprintf(
+            'user_id=%d and state=%d',
+            $user_id, BATCH_STATE_IN_PROGRESS
+        )
+    );
+    $ids = [];
+    foreach ($batches as $batch) {
+        $ids[] = $batch->id;
+    }
+    if (!$ids) return 0;
+    $ids = implode(',', $ids);
+    return BoincWorkunit::count(
+        sprintf('error_mask=0 and canonical_resultid=0 and batch in (%s)',
+            $ids
+        )
+    );
 }
 
 // in remote job submission,
@@ -73,9 +104,9 @@ function has_submit_access($user, $app_id) {
     return true;
 }
 
-// can user administer given app (or all apps if zero)?
+// can user manage given app (or all apps if zero)?
 //
-function has_admin_access($user, $app_id) {
+function has_manage_access($user, $app_id) {
     $us = BoincUserSubmit::lookup_userid($user->id);
     if (!$us) return false;
     if ($us->manage_all) return true;
@@ -126,7 +157,7 @@ function delete_remote_submit_user($user) {
     BoincUserSubmitApp::delete_user($user->id);
 }
 
-// given its WUs, compute parameters of a batch:
+// compute parameters of the batch:
 //   credit_canonical: credit granted to canonical instances
 //   fraction_done: frac of jobs that are done (success or failed)
 //   state: whether complete (all jobs done)
@@ -137,13 +168,18 @@ function delete_remote_submit_user($user) {
 //   njobs_success: # of jobs with canonical instance
 //   njobs_in_prog: # of jobs not success or fail,
 //      and at least one result in progress
-//
 // return the batch object, with these values
 //
-// NOTE: this involves reading the batch's WUs and results,
-// which could be inefficient for huge batches.
-// It could instead be done by server components
-// (transitioner, validator etc.) as jobs complete or time out
+// You need to pass in a list of the batch's WUs.
+// These need to have the following fields:
+//
+// id
+// rsc_fpops_est
+// canonical_resultid
+// canonical_credit
+// error_mask
+//
+// add 'status' field (UNSENT, IN_PROGRESS, SUCCESS) to WUs
 //
 // TODO: update est_completion_time
 //
@@ -162,15 +198,18 @@ function get_batch_params($batch, $wus) {
     }
 
     // make list of WU IDs with an in-progress result
-    $res_in_prog = BoincResult::enum(
-        sprintf('batch=%d and server_state<>%d',
-            $batch->id, RESULT_SERVER_STATE_IN_PROGRESS
+    $res_in_prog = BoincResult::enum_fields(
+        'workunitid',
+        sprintf('batch=%d and server_state in (%d, %d)',
+            $batch->id,
+            RESULT_SERVER_STATE_IN_PROGRESS, RESULT_SERVER_STATE_OVER
         )
     );
     $wus_in_prog = [];
     foreach ($res_in_prog as $res) {
         $wus_in_prog[$res->workunitid] = true;
     }
+    unset($res_in_progress);    // does this do anything?
 
     $fp_total = 0;
     $fp_done = 0;
@@ -185,12 +224,17 @@ function get_batch_params($batch, $wus) {
             $fp_done += $wu->rsc_fpops_est;
             $njobs_success++;
             $batch->credit_canonical += $wu->canonical_credit;
+            $wu->status = WU_SUCCESS;
         } else if ($wu->error_mask) {
             $batch->nerror_jobs++;
+            $wu->status = WU_ERROR;
         } else {
             $completed = false;
             if (array_key_exists($wu->id, $wus_in_prog)) {
                 $njobs_in_prog++;
+                $wu->status = WU_IN_PROGRESS;
+            } else {
+                $wu->status = WU_UNSENT;
             }
         }
     }
@@ -206,6 +250,24 @@ function get_batch_params($batch, $wus) {
     $batch->njobs_success = $njobs_success;
     $batch->njobs_in_prog = $njobs_in_prog;
     return $batch;
+}
+
+// get params of in-progress batches; they might not be in progress anymore.
+//
+function get_batches_params($batches) {
+    $b = [];
+    foreach ($batches as $batch) {
+        if ($batch->state == BATCH_STATE_IN_PROGRESS) {
+            $wus = BoincWorkunit::enum_fields(
+                'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
+                "batch = $batch->id"
+            );
+            $b[] = get_batch_params($batch, $wus);
+        } else {
+            $b[] = $batch;
+        }
+    }
+    return $b;
 }
 
 // get the physical names of a result's output files.
@@ -249,36 +311,92 @@ function get_outfile_paths($result) {
 
 function abort_workunit($wu) {
     BoincResult::update_aux(
-        "server_state=5, outcome=5 where server_state=2 and workunitid=$wu->id"
+        sprintf(
+            'server_state=%d, outcome=%d where server_state=%d and workunitid=%d',
+            RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_DIDNT_NEED,
+            RESULT_SERVER_STATE_UNSENT,
+            $wu->id
+        )
     );
-    $wu->update("error_mask=error_mask|16");
+    $wu->update(
+        sprintf('error_mask=error_mask|%d, file_delete_state=%d',
+            WU_ERROR_CANCELLED, FILE_DELETE_READY
+        )
+    );
 }
 
 function abort_batch($batch) {
-    $wus = BoincWorkunit::enum("batch=$batch->id");
+    $wus = BoincWorkunit::enum_fields(
+        'id',
+        "batch=$batch->id"
+    );
+    $ids = [];
     foreach ($wus as $wu) {
-        abort_workunit($wu);
+        $ids[] = $wu->id;
     }
-    $batch->update("state=".BATCH_STATE_ABORTED);
+    if ($ids) {
+        $ids = implode(',', $ids);
+        // cancel unsent instances
+        //
+        BoincResult::update_aux(
+            sprintf(
+                'server_state=%d, outcome=%d where server_state=%d and workunitid in (%s)',
+                RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_DIDNT_NEED,
+                RESULT_SERVER_STATE_UNSENT,
+                $ids
+            )
+        );
+        BoincWorkunit::update_aux(
+            sprintf('error_mask=error_mask|%d, file_delete_state=%d where id in(%s)',
+                WU_ERROR_CANCELLED, FILE_DELETE_READY, $ids
+            )
+        );
+    }
+    $batch->update(
+        sprintf('state=%d, completion_time=%d', BATCH_STATE_ABORTED, time())
+    );
     return 0;
 }
 
-// mark WUs as assimilated; this lets them be purged
+// retire a batch:
+// - mark the batch as retired (don't delete it; might be useful later)
+// - delete output files (results/batchid/)
+// - mark unsent WUs as cancelled
+//
+// Don't delete the batch; it may have in-progress jobs that
+// we still need to file-delete and purge,
+// and the batch needs to be present for this.
+// Use ops/delete_batches.php to delete retired batches with no WUs
 //
 function retire_batch($batch) {
-    $wus = BoincWorkunit::enum("batch=$batch->id");
-    $now = time();
+    system("rm -rf ../../results/$batch->id");
+
+    // get list of unsent WUs in this batch
+    //
+    $wus = BoincWorkunit::enum_fields(
+        'id, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
+        "batch = $batch->id"
+    );
+    get_batch_params($batch, $wus);
+    $batch->update("state=".BATCH_STATE_RETIRED);
+        // do this AFTER get_batch_params()
+    $wu_ids = [];
     foreach ($wus as $wu) {
-        $wu->update(
-            "assimilate_state=".ASSIMILATE_DONE.", transition_time=$now"
-        );
-        // remove output template if it's a temporary
-        //
-        if (strstr($wu->result_template_file, "templates/tmp/")) {
-            @unlink($wu->result_template_file);
+        if ($wu->status == WU_UNSENT) {
+            $wu_ids[] = $wu->id;
         }
     }
-    $batch->update("state=".BATCH_STATE_RETIRED);
+
+    // cancel them
+    //
+    if ($wu_ids) {
+        $wu_ids = implode(',', $wu_ids);
+        BoincWorkunit::update_aux(
+            sprintf('error_mask=error_mask|%d, file_delete_state=%d where id in (%s)',
+                WU_ERROR_CANCELLED, FILE_DELETE_READY, $wu_ids
+            )
+        );
+    }
 }
 
 function expire_batch($batch) {
@@ -301,7 +419,10 @@ function batch_state_string($state) {
 //
 function batch_output_file_size($batchid) {
     $batch_td_size=0;
-    $wus = BoincWorkunit::enum("batch=$batchid");
+    $wus = BoincWorkunit::enum_fields(
+        'canonical_resultid',
+        "batch=$batchid"
+    );
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     $upload_dir = parse_config(get_config(), "<upload_dir>");
     foreach ($wus as $wu) {
@@ -405,6 +526,26 @@ function file_ref_out($i, $fname) {
         </file_ref>
 ',      $i, $fname
     );
+}
+
+////////////// ZIP FILES //////////////
+// our job submission systems (BUDA and autodock)
+// expect zip files that contain files.
+// But some people are used to creating zip files
+// that contain a (single) directory that contains files.
+
+// if the given directory contains a single item, and it's a directory,
+// return its name.
+// Else return false.
+//
+function contains_single_dir($dir) {
+    $files = scandir($dir);
+    if (count($files) != 3) return false;
+    foreach ($files as $file) {
+        if ($file[0] == '.') continue;
+        if (is_dir("$dir/$file")) return $file;
+        return false;
+    }
 }
 
 ?>

@@ -1,18 +1,33 @@
+# This file is part of BOINC.
+# https://boinc.berkeley.edu
+# Copyright (C) 2025 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+#
+
 # makefile for openclapp BOINC example appication using AMD GPU on Linux.
 
 BOINC_DIR = ../..
 BOINC_SOURCE_API_DIR = $(BOINC_DIR)/api
 BOINC_SOURCE_LIB_DIR = $(BOINC_DIR)/lib
-BOINC_SOURCE_ZIP_DIR = $(BOINC_DIR)/zip
 
 ifndef ANDROID
   BOINC_API_DIR = $(BOINC_SOURCE_API_DIR)
   BOINC_LIB_DIR = $(BOINC_SOURCE_LIB_DIR)
-  BOINC_ZIP_DIR = $(BOINC_SOURCE_ZIP_DIR)
 else
   BOINC_API_DIR = $(TCINCLUDES)/lib
   BOINC_LIB_DIR = $(TCINCLUDES)/lib
-  BOINC_ZIP_DIR = $(TCINCLUDES)/lib
 endif
 
 CXXFLAGS += -g \
@@ -36,7 +51,7 @@ PROGS = openclapp
 all: $(PROGS)
 
 libstdc++.a:
-	ln -s `g++ -print-file-name=libstdc++.a`
+	ln -s `$(CXX) -print-file-name=libstdc++.a`
 
 clean:
 	/bin/rm -f $(PROGS) *.o libstdc++.a

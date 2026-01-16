@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -50,7 +50,6 @@
 #include "ViewProjects.h"
 #include "ViewWork.h"
 #include "ViewTransfers.h"
-#include "ViewMessages.h"
 #include "ViewStatistics.h"
 #include "ViewResources.h"
 #include "DlgAbout.h"
@@ -1565,9 +1564,11 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshView - Function Begin"));
 
     if (IsShown()) {
+#ifdef __WXMAC__
+        wxGetApp().CheckPartialActivation();
+#endif
         CMainDocument*  pDoc = wxGetApp().GetDocument();
         CBOINCBaseView* pView = NULL;
-        wxTimerEvent    timerEvent;
         wxString        strTabTitle = wxEmptyString;
         int             iCount = 0;
         static int      iLastCount = 0;
@@ -1613,7 +1614,7 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
 
         // Update current tab contents
         pView = wxDynamicCast(m_pNotebook->GetPage(m_pNotebook->GetSelection()), CBOINCBaseView);
-        pView->FireOnListRender(timerEvent);
+        pView->FireOnListRender();
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshView - Function End"));
@@ -1642,9 +1643,6 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxWindow* pwndNotebookPage = NULL;
     CBOINCBaseView* pView = NULL;
     int iItemCount = 0, iIndex;
-#ifndef __WXMAC__   // See comment in CBOINCGUIApp::OnFinishInit()
-    int wasShown = 0;
-#endif
     int wasVisible = 0;
 
     wxASSERT(m_pNotebook);
@@ -1708,8 +1706,8 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         // Yes, but we don't have have credentials.
         // Bring up the Wizard to get them.
         //
-#ifndef __WXMAC__   // See comment in CBOINCGUIApp::OnFinishInit()
-        wasShown = IsShown();
+#if !defined(__WXMAC__) && (defined(_GRIDREPUBLIC) || defined(_PROGRESSTHRUPROCESSORS) || defined(_CHARITYENGINE))   // See comment in CBOINCGUIApp::OnFinishInit()
+        int wasShown = IsShown();
 #endif
         Show();
         wasVisible = wxGetApp().IsApplicationVisible();
@@ -1996,8 +1994,7 @@ void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event)
 #if SUPPORTDARKMODE
     CBOINCBaseView* theView = NULL;;
     CBOINCListCtrl* theListCtrl = NULL;
-    long bottomItem;
-    wxTimerEvent    timerEvent;
+    long bottomItem = 0;
     int currentPage = _GetCurrentViewPage();
 
     StopTimers();
@@ -2026,7 +2023,7 @@ void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event)
     // Scroll the recreated list control to the same row as before
     if ((currentPage == VW_PROJ) || (currentPage == VW_TASK) || (currentPage == VW_XFER)) {
         theView = (CBOINCBaseView*)(m_pNotebook->GetPage(m_pNotebook->GetSelection()));
-        theView->FireOnListRender(timerEvent);
+        theView->FireOnListRender();
         theListCtrl = theView->GetListCtrl();
         if (theListCtrl->GetCountPerPage() < theListCtrl->GetItemCount()) {
             theListCtrl->EnsureVisible(bottomItem);
@@ -2035,13 +2032,6 @@ void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event)
     // TODO: figure out how to preserve notices tab (currentPage == VW_NOTIF) scrolled position
 
     StartTimers();
-
-    CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
-    if (eventLog) {
-        wxGetApp().OnEventLogClose();
-        delete eventLog;    // eventLog->Destroy() creates a race condition if used here.
-        wxGetApp().DisplayEventLog();
-    }
 #endif  // #if SUPPORTDARKMODE
 }
 

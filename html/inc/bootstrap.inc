@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// An interface to bootstrap navbars and grids.
+// An interface to bootstrap navbars, grids, and forms.
 
 $fixed_navbar = false;
 
@@ -149,7 +149,7 @@ function sample_navbar(
     $inverse=false
         // white on black?
 ) {
-    global $master_url;
+    $master_url = master_url();
 
     $brand = "<a class=\"navbar-brand\" href=$master_url>".PROJECT."</a>";
     navbar_start($brand, $fixed, $inverse);
@@ -182,13 +182,44 @@ function sample_navbar(
             array(tra("CPU models"), $url_prefix."cpu_list.php"),
             array(tra("Computer types"), $url_prefix."host_stats.php"),
         );
+        navbar_menu(tra("Computing"), $x);
+
         if (defined('REMOTE_JOB_SUBMISSION') && REMOTE_JOB_SUBMISSION) {
-            if ($user && BoincUserSubmit::lookup_userid($user->id)) {
-                $x[] = array("Job submission", $url_prefix."submit.php");
+            $user_submit = null;
+            if ($user) {
+                $user_submit = BoincUserSubmit::lookup_userid($user->id);
+            }
+            if ($user_submit) {
+                $x = [];
                 $x[] = ["File sandbox", "sandbox.php"];
+                $x[] = ["Submit jobs", $url_prefix."submit.php"];
+                $x[] = ["Job status", $url_prefix."submit.php?action=show_user_batches"];
+                if ($user_submit->manage_all) {
+                    $x[] = ["Manage batches and apps", $url_prefix."submit.php?action=admin"];
+                    $x[] = ["Manage permissions", $url_prefix."manage_project.php"];
+                } else {
+                    // if user has manage permissions for apps, show links
+                    $usas = BoincUserSubmitApp::enum("user_id=$user->id");
+                    foreach ($usas as $usa) {
+                        if ($usa->manage) {
+                            $app = BoincApp::lookup_id($usa->app_id);
+                            if ($app->name == 'buda') {
+                                $x[] = [
+                                    'Manage BUDA apps',
+                                    'buda.php'
+                                ];
+                            } else {
+                                $x[] = [
+                                    "Manage $app->name",
+                                    "manage_project.php"
+                                ];
+                            }
+                        }
+                    }
+                }
+                navbar_menu(tra("Job submission"), $x);
             }
         }
-        navbar_menu(tra("Computing"), $x);
     }
 
     navbar_menu(tra("Community"), array(
@@ -291,8 +322,10 @@ function form_start($action, $method='get', $extra='') {
 }
 
 function form_input_hidden($name, $value) {
-    echo '<input type="hidden" name="'.$name.'" value="'.$value.'">
-    ';
+    echo sprintf(
+        '<input type="hidden" name="%s" value="%s">',
+        $name, $value
+    );
 }
 
 function form_focus($form_name, $field_name) {
@@ -366,7 +399,8 @@ function form_input_textarea($label, $name, $value='', $nrows=4) {
     );
 }
 
-// $items is either a string of <option> elements, or an array
+// $items is either a string of <option> elements,
+// or an array of [value, name] pairs
 //
 function form_select($label, $name, $items, $selected=null) {
     echo sprintf('
@@ -380,7 +414,7 @@ function form_select($label, $name, $items, $selected=null) {
     if (is_array($items)) {
         foreach ($items as $i) {
             echo sprintf(
-                '<option %s value=%s>%s</option>',
+                '<option %s value="%s">%s</option>',
                 ($i[0]==$selected)?'selected':'',
                 $i[0], $i[1]
             );
@@ -394,18 +428,18 @@ function form_select($label, $name, $items, $selected=null) {
 // same, for multiple select.
 // $selected, if non-null, is a list of selected values
 //
-function form_select_multiple($label, $name, $items, $selected=null) {
+function form_select_multiple($label, $name, $items, $selected=null, $size=0) {
     echo sprintf('
         <div class="form-group">
             <label align=right class="%s" for="%s">%s</label>
             <div class="%s">
-                <select multiple class="form-control" id="%s" name="%s[]">
+                <select multiple class="form-control" id="%s" name="%s[]" size=%d>
         ',
-        FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS, $name, $name
+        FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS, $name, $name, $size
     );
     foreach ($items as $i) {
         echo sprintf(
-            '<option %s value=%s>%s</option>',
+            '<option %s value="%s">%s</option>',
             ($selected && in_array($i[0], $selected))?'selected':'',
             $i[0], $i[1]
         );
@@ -413,7 +447,7 @@ function form_select_multiple($label, $name, $items, $selected=null) {
     echo "</select></div></div>\n";
 }
 
-// return a list of string for checkbox items
+// return a list of strings for checkbox items
 //
 function checkbox_item_strings($items, $attrs='') {
     $x = [];
@@ -443,9 +477,12 @@ function form_checkboxes($label, $items, $attrs='') {
     ';
 }
 
-// $items is list of (value, label)
+// $items is list of [value, label]
 //
-function form_radio_buttons($label, $name, $items, $selected) {
+function form_radio_buttons(
+    $label, $name, $items, $selected,
+    $assign_ids=false       // assign IDs to buttons based on names
+) {
     echo sprintf('
         <div class="form-group">
             <label align=right class="%s">%s</label>
@@ -455,9 +492,14 @@ function form_radio_buttons($label, $name, $items, $selected) {
     );
     foreach ($items as $i) {
         $checked = ($selected == $i[0])?"checked":"";
-        echo sprintf('<input type="radio" name="%s" value="%s" %s> %s <br>
+        if ($assign_ids) {
+            $id = sprintf('id="%s_%s"', $name, $i[0]);
+        } else {
+            $id = '';
+        }
+        echo sprintf('<input type="radio" name="%s" value="%s" %s %s> %s <br>
             ',
-            $name, $i[0], $checked, $i[1]
+            $name, $i[0], $checked, $id, $i[1]
         );
     }
     echo '</div>
@@ -506,8 +548,54 @@ function form_checkbox($label, $name, $checked=false) {
         FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
     );
     echo sprintf('
-        <input type="checkbox" name="%s" %s>
+              <input type="checkbox" name="%s" %s>
+           </div>
         </div>
         ', $name, $checked?"checked":""
     );
 }
+
+// 'select2' is replacement for multiple select with a nicer UI:
+// https://github.com/select2/select2
+//
+// To use it you must use this version of page_head():
+
+function page_head_select2($title) {
+    $head_extra = '
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    ';
+    page_head($title, null, false, '', $head_extra);
+    echo "<script>
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2({placeholder: 'click to select'});
+        });
+        </script>
+    ";
+}
+
+// show a multi-select using select2.
+// $items is a list of [value, name] pairs;
+// $selected is the list of selected values.
+// $extra is e.g. id=foo
+//
+function form_select2_multi($label, $name, $items, $selected=null, $extra='') {
+    echo sprintf('
+        <div class="form-group">
+            <label align=right class="%s" for="%s">%s</label>
+            <div class="%s">
+                <select class="js-example-basic-multiple" name="%s[]" multiple="multiple" style="width: 100%%" %s>
+        ',
+        FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS, $name, $extra
+    );
+    foreach ($items as $i) {
+        echo sprintf(
+            '<option %s value="%s">%s</option>',
+            ($selected && in_array($i[0], $selected))?'selected':'',
+            $i[0], $i[1]
+        );
+    }
+    echo "</select></div></div>\n";
+}
+
+?>

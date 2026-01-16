@@ -105,7 +105,7 @@ class BoincDb {
     static function get($dbnum = 0) {
         global $generating_xml;
         if (isset(self::$instance)) {
-            if (self::$dbnum == $dbnum) {
+            if (intval(self::$dbnum) == intval($dbnum)) {
                 return self::$instance;
             }
             self::close();
@@ -317,6 +317,10 @@ class BoincHost {
         $db = BoincDb::get();
         return $db->update($this, 'host', $clause);
     }
+    static function update_aux($clause, $where='') {
+        $db = BoincDb::get();
+        return $db->update_aux('host', $clause, $where);
+    }
     function delete() {
         $db = BoincDb::get();
         return $db->delete($this, 'host');
@@ -362,17 +366,19 @@ class BoincResult {
         $db = BoincDb::get();
         return $db->enum('result', 'BoincResult', $where_clause);
     }
-	static function enum_fields($fields, $where_clause, $order_clause) {
+	static function enum_fields($fields, $where_clause, $order_clause=null) {
         $db = BoincDb::get();
-		return $db->enum_fields('result', 'BoincResult', $fields, $where_clause, $order_clause);
+		return $db->enum_fields(
+            'result', 'BoincResult', $fields, $where_clause, $order_clause
+        );
 	}
     function update($clause) {
         $db = BoincDb::get();
         return $db->update($this, 'result', $clause);
     }
-    static function update_aux($clause) {
+    static function update_aux($clause, $where='') {
         $db = BoincDb::get();
-        return $db->update_aux('result', $clause);
+        return $db->update_aux('result', $clause, $where);
     }
     static function lookup_id($id) {
         $db = BoincDb::get();
@@ -409,13 +415,17 @@ class BoincWorkunit {
         $db = BoincDb::get();
         return $db->enum('workunit', 'BoincWorkunit', $where_clause);
     }
+    static function enum_fields($fields, $where_clause, $order_clause=null) {
+        $db = BoincDb::get();
+        return $db->enum_fields('workunit', 'BoincWorkunit', $fields, $where_clause, $order_clause);
+    }
     function update($clause) {
         $db = BoincDb::get();
         return $db->update($this, 'workunit', $clause);
     }
-    static function update_aux($clause) {
+    static function update_aux($clause, $where='') {
         $db = BoincDb::get();
-        return $db->update_aux('workunit', $clause);
+        return $db->update_aux('workunit', $clause, $where);
     }
     static function count($clause) {
         $db = BoincDb::get();

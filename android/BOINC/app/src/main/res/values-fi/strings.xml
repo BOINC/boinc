@@ -292,5 +292,4 @@
   <string name="main_notification_channel_name">BOINC</string>
   <string name="notice_notification_channel_name">Ilmoitukset</string>
   <string name="notice_notification_channel_description">Näyttää ilmoituksia projekteistasi.</string>
-  <string name="agree_button">Hyväksy</string>
 </resources>

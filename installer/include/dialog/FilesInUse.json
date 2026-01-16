@@ -1,0 +1,140 @@
+{
+    "Dialog": "FilesInUse",
+    "HCentering": 50,
+    "VCentering": 50,
+    "Width": 374,
+    "Height": 266,
+    "Attributes": 19,
+    "Title": "IDS_PRODUCTNAME",
+    "Control_First": "Retry",
+    "Control_Default": "Retry",
+    "Control_Cancel": "Exit",
+    "Controls": [
+        {
+            "Control": "Banner",
+            "Type": "Bitmap",
+            "X": 0,
+            "Y": 0,
+            "Width": 374,
+            "Height": 44,
+            "Attributes": 1,
+            "Binary_": "banner.jpg"
+        },
+        {
+            "Control": "BannerLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 44,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "DlgDesc",
+            "Type": "Text",
+            "X": 21,
+            "Y": 23,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS__IsFilesInUse_FilesInUseMessage"
+        },
+        {
+            "Control": "DlgLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 234,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "DlgText",
+            "Type": "Text",
+            "X": 21,
+            "Y": 51,
+            "Width": 348,
+            "Height": 29,
+            "Attributes": 3,
+            "Text": "IDS__IsFilesInUse_ApplicationsUsingFiles"
+        },
+        {
+            "Control": "DlgTitle",
+            "Type": "Text",
+            "X": 13,
+            "Y": 6,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS__IsFilesInUse_FilesInUse"
+        },
+        {
+            "Control": "Exit",
+            "Type": "PushButton",
+            "X": 301,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS__IsFilesInUse_Exit",
+            "Control_Next": "List",
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "Exit",
+                    "Condition": "1",
+                    "Ordering": 0
+                }
+            ]
+        },
+        {
+            "Control": "Ignore",
+            "Type": "PushButton",
+            "X": 230,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS__IsErrorDlg_Ignore",
+            "Control_Next": "Exit",
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "Ignore",
+                    "Condition": "1",
+                    "Ordering": 0
+                }
+            ]
+        },
+        {
+            "Control": "List",
+            "Type": "ListBox",
+            "X": 21,
+            "Y": 87,
+            "Width": 331,
+            "Height": 135,
+            "Attributes": 7,
+            "Property": "FileInUseProcess",
+            "Control_Next": "Retry"
+        },
+        {
+            "Control": "Retry",
+            "Type": "PushButton",
+            "X": 164,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS__IsErrorDlg_Retry",
+            "Control_Next": "Ignore",
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "Retry",
+                    "Condition": "1",
+                    "Ordering": 0
+                }
+            ]
+        }
+    ]
+}
