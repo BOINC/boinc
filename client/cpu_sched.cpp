@@ -676,10 +676,13 @@ double total_peak_flops() {
 // Initialize project "priorities" based on REC:
 // compute resource share and REC fractions
 // among compute-intensive, non-suspended projects
+// Also compute rec_sum
 //
 void project_priority_init(bool for_work_fetch) {
     double rs_sum = 0;
+        // sum of resource share of runnable (or fetchable) projects
     rec_sum = 0;
+        // sum of recent work of runnable (or fetchable) projects
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
@@ -722,7 +725,11 @@ void PROJECT::compute_sched_priority() {
     if (resource_share == 0) {
         sched_priority = -1e3 - rec_frac;
     } else {
-        sched_priority = - rec_frac/resource_share_frac;
+        if (resource_share_frac > 0) {
+            sched_priority = - rec_frac/resource_share_frac;
+        } else {
+            sched_priority = - rec_frac;
+        }
     }
 }
 
