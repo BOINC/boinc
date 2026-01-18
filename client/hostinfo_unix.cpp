@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -25,15 +25,6 @@
 
 #if !defined(_WIN32) || defined(__CYGWIN32__)
 
-// Access to binary files in /proc filesystem doesn't work in the 64bit
-// files environment on some systems.
-// None of the functions here need 64bit file functions,
-// so undefine _FILE_OFFSET_BITS and _LARGE_FILES.
-//
-#undef _FILE_OFFSET_BITS
-#undef _LARGE_FILES
-#undef _LARGEFILE_SOURCE
-#undef _LARGEFILE64_SOURCE
 #include <iostream>
 #include <vector>
 #include <string>
@@ -1226,6 +1217,9 @@ int HOST_INFO::get_virtualbox_version() {
 }
 
 #ifdef __APPLE__
+// called after podman init process finishes.
+// check if the VM is running
+//
 bool HOST_INFO::is_podman_VM_running() {
     char cmd[1024], buf[256];
 
@@ -1241,6 +1235,7 @@ bool HOST_INFO::is_podman_VM_running() {
             break;
         }
     }
+    pclose(f);
     return isrunning;
 }
 #endif
@@ -1288,6 +1283,7 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
         argv[2] = cmd;
         argv[3] = NULL;
         run_program(NULL, "/bin/sh", 0, argv, podman_init_pid);
+        podman_inited = false;
 
 #if 0   // For debugging
         snprintf(cmd, sizeof(cmd),
@@ -1803,10 +1799,6 @@ int HOST_INFO::get_os_info() {
 
     string libc_version(""), libc_extra_info("");
     if (!get_libc_version(libc_version, libc_extra_info)) {
-        msg_printf(NULL, MSG_INFO,
-            "libc: %s version %s",
-            libc_extra_info.c_str(), libc_version.c_str()
-        );
         // add info to os_version_extra
         //
         if (!os_version_extra.empty()) {

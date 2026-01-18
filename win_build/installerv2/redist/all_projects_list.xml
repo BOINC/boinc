@@ -229,8 +229,11 @@
         <name>windows_x86_64[FGRPopencl2Pup-nvidia]</name>
         <name>windows_x86_64[FGRPopenclTV-nvidia]</name>
         <name>windows_x86_64[GW-opencl-ati]</name>
+        <name>windows_x86_64[GW-opencl-ati-4]</name>
         <name>windows_x86_64[GW-opencl-intel_gpu]</name>
+        <name>windows_x86_64[GW-opencl-intel_gpu-4]</name>
         <name>windows_x86_64[GW-opencl-nvidia]</name>
+        <name>windows_x86_64[GW-opencl-nvidia-4]</name>
         <name>windows_x86_64[opencl-intel_gpu-new]</name>
         <name>windows_x86_64[opencl-intel_gpu-newer]</name>
         <name>x86_64-apple-darwin</name>
@@ -241,7 +244,9 @@
         <name>x86_64-apple-darwin[FGRPopenclTV-nvidia]</name>
         <name>x86_64-apple-darwin[FGRPSSE]</name>
         <name>x86_64-apple-darwin[GW-opencl-ati]</name>
+        <name>x86_64-apple-darwin[GW-opencl-ati-4]</name>
         <name>x86_64-apple-darwin[GW-opencl-nvidia]</name>
+        <name>x86_64-apple-darwin[GW-opencl-nvidia-4]</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[BRP4X64]</name>
         <name>x86_64-pc-linux-gnu[BRP7-cuda102]</name>
@@ -257,9 +262,13 @@
         <name>x86_64-pc-linux-gnu[FGRPSSE]</name>
         <name>x86_64-pc-linux-gnu[GW-cuda]</name>
         <name>x86_64-pc-linux-gnu[GW-cuda-2]</name>
+        <name>x86_64-pc-linux-gnu[GW-cuda-4]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-ati]</name>
+        <name>x86_64-pc-linux-gnu[GW-opencl-ati-4]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-intel_gpu]</name>
+        <name>x86_64-pc-linux-gnu[GW-opencl-intel_gpu-4]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-nvidia]</name>
+        <name>x86_64-pc-linux-gnu[GW-opencl-nvidia-4]</name>
         <name>x86_64-pc-linux-gnu[opencl-intel_gpu]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/einstein.jpg</image>
@@ -741,18 +750,14 @@
         <home>Independent</home>
     <platforms>
         <name>aarch64-unknown-linux-gnu[cuda102]</name>
-        <name>aarch64-unknown-linux-gnu[cuda122]</name>
+        <name>aarch64-unknown-linux-gnu[cuda129]</name>
         <name>windows_x86_64</name>
-        <name>windows_x86_64[cuda100]</name>
-        <name>windows_x86_64[cuda110]</name>
-        <name>windows_x86_64[cuda120]</name>
         <name>windows_x86_64[cuda128]</name>
         <name>windows_x86_64[opencl_ati_101]</name>
         <name>windows_x86_64[opencl_intel_gpu_intelarc]</name>
         <name>x86_64-apple-darwin</name>
         <name>x86_64-pc-linux-gnu</name>
-        <name>x86_64-pc-linux-gnu[cuda100]</name>
-        <name>x86_64-pc-linux-gnu[cuda112]</name>
+        <name>x86_64-pc-linux-gnu[cuda110]</name>
         <name>x86_64-pc-linux-gnu[cuda120]</name>
         <name>x86_64-pc-linux-gnu[cuda128]</name>
         <name>x86_64-pc-linux-gnu[opencl_ati_101]</name>

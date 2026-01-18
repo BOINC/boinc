@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -43,34 +43,39 @@ jobs:
         type:
             - apps
             - apps-arm64
+            - apps-armhf
             - apps-vcpkg
             - apps-vcpkg-arm64
+            - apps-vcpkg-armhf
             - client
             - client-vcpkg
             - client-vcpkg-arm64
+            - client-vcpkg-armhf
             - coverity
             - integration-test
             - libs
             - libs-arm64
+            - libs-armhf
             - libs-cmake
             - libs-vcpkg
             - libs-vcpkg-arm64
+            - libs-vcpkg-armhf
             - manager
             - manager-with-webview
             - manager-with-webview-vcpkg
             - manager-with-webview-vcpkg-arm64
+            - manager-with-webview-vcpkg-armhf
             - manager-without-webview
             - server
             - unit-test
       fail-fast: false
     steps:
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           fetch-depth: 2
 
-      # (looks like sometimes there is a cache issue)
-      - name: Ignore mirrors when building arm64
-        if: success() && endsWith(matrix.type, 'arm64')
+      - name: Ignore mirrors when building arm64 or armhf
+        if: success() && (endsWith(matrix.type, 'arm64') || endsWith(matrix.type, 'armhf'))
         run: |
           sudo sed -i 's|priority:1|priority:100|' /etc/apt/apt-mirrors.txt
 
@@ -81,7 +86,7 @@ jobs:
           sudo apt-get install -y autopoint p7zip-full zip
 
       - name: Install dependencies for x64
-        if: success() && (! endsWith(matrix.type, 'arm64') && (matrix.type != 'coverity' || (github.ref == 'refs/heads/master' && github.event_name == 'schedule')))
+        if: success() && (! endsWith(matrix.type, 'arm64') && ! endsWith(matrix.type, 'armhf') && (matrix.type != 'coverity' || (github.ref == 'refs/heads/master' && github.event_name == 'schedule')))
         run: |
           sudo apt-get install -y autoconf-archive libftgl-dev freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk-3-dev libsecret-1-dev libgcrypt20-dev libsystemd-dev libwebkit2gtk-4.1-dev libxxf86vm-dev ocl-icd-opencl-dev libltdl-dev libzip-dev nlohmann-json3-dev
 
@@ -94,6 +99,11 @@ jobs:
         if: success() && endsWith(matrix.type, 'arm64')
         run: |
           sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
+
+      - name: Install dependencies for armhf
+        if: success() && endsWith(matrix.type, 'armhf')
+        run: |
+          sudo apt-get install -y gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
 
       - name: Fix sources for arm64
         if: success() && endsWith(matrix.type, 'arm64') && matrix.type != 'client-vcpkg-arm64'
@@ -112,6 +122,23 @@ jobs:
           sudo mv arm-cross-compile-sources.list /etc/apt/sources.list.d/
           sudo apt update
 
+      - name: Fix sources for armhf
+        if: success() && endsWith(matrix.type, 'armhf') && matrix.type != 'client-vcpkg-armhf'
+        run: |
+          arch=armhf
+          sudo dpkg --add-architecture armhf
+          sudo sed -i '/^Types: deb$/a Architectures: amd64' /etc/apt/sources.list.d/ubuntu.sources
+          sudo sed -i '/^Types: deb$/a Architectures: amd64' /etc/apt/sources.list.d/azure-cli.sources
+          codename=$(lsb_release -cs)
+          cat <<EOT >> armhf-cross-compile-sources.list
+          deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports $codename main restricted universe multiverse
+          deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports $codename-updates main restricted universe multiverse
+          deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports $codename-security main restricted universe multiverse
+          deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports $codename-backports main restricted universe multiverse
+          EOT
+          sudo mv armhf-cross-compile-sources.list /etc/apt/sources.list.d/
+          sudo apt update
+
       - name: Install dependencies for arm64 non-vcpkg
         if: success() && (matrix.type == 'libs-arm64' || matrix.type == 'apps-arm64')
         run: |
@@ -119,6 +146,14 @@ jobs:
             libcurl4-openssl-dev:arm64 \
             libssl-dev:arm64 \
             libzip-dev:arm64
+
+      - name: Install dependencies for armhf non-vcpkg
+        if: success() && (matrix.type == 'libs-armhf' || matrix.type == 'apps-armhf')
+        run: |
+          sudo apt install -y \
+            libcurl4-openssl-dev:armhf \
+            libssl-dev:armhf \
+            libzip-dev:armhf
 
       - name: Install dependencies for apps arm64 vcpkg
         if: success() && matrix.type == 'apps-vcpkg-arm64'
@@ -137,11 +172,36 @@ jobs:
             libssl-dev:arm64 \
             libzip-dev:arm64
 
+      - name: Install dependencies for apps armhf vcpkg
+        if: success() && matrix.type == 'apps-vcpkg-armhf'
+        run: |
+          sudo apt install -y \
+            libxi-dev:armhf \
+            libxmu-dev:armhf \
+            libgl1-mesa-dev:armhf \
+            libglu1-mesa-dev:armhf \
+            mesa-common-dev:armhf \
+            libxrandr-dev:armhf \
+            libxxf86vm-dev:armhf \
+            libjpeg-dev:armhf \
+            ocl-icd-opencl-dev:armhf \
+            libcurl4-openssl-dev:armhf \
+            libssl-dev:armhf \
+            libzip-dev:armhf
+
       - name: Install dependencies for manager arm64 vcpkg
         if: success() && matrix.type == 'manager-with-webview-vcpkg-arm64'
         run: |
           sudo apt install -y \
             libltdl-dev:arm64 \
+            python3-jinja2 \
+            autoconf-archive
+
+      - name: Install dependencies for manager armhf vcpkg
+        if: success() && matrix.type == 'manager-with-webview-vcpkg-armhf'
+        run: |
+          sudo apt install -y \
+            libltdl-dev:armhf \
             python3-jinja2 \
             autoconf-archive
 
@@ -158,7 +218,7 @@ jobs:
           ./tests/integration_test/installTestSuite.sh
 
       - name: Cache dependencies
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
         with:
           path: |
             3rdParty/buildCache
@@ -283,6 +343,30 @@ jobs:
           . ./linux/arm64/ci_configure_manager.sh
           make -j $(nproc --all)
 
+      - name: Build libraries for armhf with vcpkg
+        if: success() && matrix.type == 'libs-vcpkg-armhf'
+        run: |
+          . ./linux/armhf/ci_configure_libs.sh
+          make -j $(nproc --all)
+
+      - name: Build apps for armhf with vcpkg
+        if: success() && matrix.type == 'apps-vcpkg-armhf'
+        run: |
+          . ./linux/armhf/ci_configure_apps.sh
+          make -j $(nproc --all)
+
+      - name: Build client for armhf with vcpkg
+        if: success() && matrix.type == 'client-vcpkg-armhf'
+        run: |
+          . ./linux/armhf/ci_configure_client.sh
+          make -j $(nproc --all)
+
+      - name: Build manager with webview for armhf with vcpkg
+        if: success() && matrix.type == 'manager-with-webview-vcpkg-armhf'
+        run: |
+          . ./linux/armhf/ci_configure_manager.sh
+          make -j $(nproc --all)
+
       - name: Build libraries for arm64
         if: success() && matrix.type == 'libs-arm64'
         run: |
@@ -309,6 +393,34 @@ jobs:
           export RELEASE_ARCH=arm64
           export PKG_CONFIG_LIBDIR=/usr/lib/aarch64-linux-gnu/pkgconfig:/usr/share/pkgconfig
           ./configure --host=aarch64-linux --with-boinc-platform="aarch64-unknown-linux-gnu" --with-boinc-alt-platform="arm-unknown-linux-gnueabihf" --enable-apps --disable-server --disable-manager --disable-client --disable-shared --enable-static
+          make -j $(nproc --all)
+
+      - name: Build libraries for armhf
+        if: success() && matrix.type == 'libs-armhf'
+        run: |
+          export CC=arm-linux-gnueabihf-gcc
+          export CXX=arm-linux-gnueabihf-g++
+          export LD=arm-linux-gnueabihf-ld
+          export CFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3"
+          export CXXFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3 -std=c++11"
+          export LDFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -static-libstdc++ -s"
+          export RELEASE_ARCH=armhf
+          export PKG_CONFIG_LIBDIR=/usr/lib/arm-linux-gnueabihf/pkgconfig:/usr/share/pkgconfig
+          ./configure --host=arm-linux-gnueabihf --with-boinc-platform="arm-unknown-linux-gnueabihf" --with-boinc-alt-platform="aarch64-unknown-linux-gnu" --enable-boinczip --disable-server --disable-manager --disable-client --disable-shared --enable-static
+          make -j $(nproc --all)
+
+      - name: Build apps for armhf
+        if: success() && matrix.type == 'apps-armhf'
+        run: |
+          export CC=arm-linux-gnueabihf-gcc
+          export CXX=arm-linux-gnueabihf-g++
+          export LD=arm-linux-gnueabihf-ld
+          export CFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3"
+          export CXXFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3 -std=c++11"
+          export LDFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -static-libstdc++ -s"
+          export RELEASE_ARCH=armhf
+          export PKG_CONFIG_LIBDIR=/usr/lib/arm-linux-gnueabihf/pkgconfig:/usr/share/pkgconfig
+          ./configure --host=arm-linux-gnueabihf --with-boinc-platform="arm-unknown-linux-gnueabihf" --with-boinc-alt-platform="aarch64-unknown-linux-gnu" --enable-apps --disable-server --disable-manager --disable-client --disable-shared --enable-static
           make -j $(nproc --all)
 
       - name: Prepare for coverity scan
@@ -341,7 +453,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: linux_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
@@ -351,14 +463,14 @@ jobs:
         run: python ./deploy/prepare_deployment.py linux_${{ matrix.type }}
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         if: ${{ ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') && matrix.type != 'coverity' }}
         with:
           name: linux_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/linux_${{ matrix.type }}.7z
 
       - name: Upload Google Tests Results
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         if: always() && matrix.type == 'unit-test'    # run this step even if previous step failed
         with:
           name: Linux_tests_results
@@ -366,7 +478,7 @@ jobs:
 
       - name: Upload coverage report
         if: success() && matrix.type == 'unit-test'
-        uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7
+        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
@@ -377,7 +489,7 @@ jobs:
       image: debian:buster
     strategy:
       matrix:
-        type: [apps, apps-x86, apps-arm64]
+        type: [apps, apps-x86, apps-arm64, apps-armhf]
       fail-fast: false
     env:
       ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
@@ -411,7 +523,14 @@ jobs:
           apt-get update
           apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu wget ca-certificates libcurl4-openssl-dev:arm64 libssl-dev:arm64 libzip-dev:arm64
 
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
+      - name: Install dependencies for armhf
+        if: success() && matrix.type == 'apps-armhf'
+        run: |
+          dpkg --add-architecture armhf
+          apt-get update
+          apt-get install -y gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf binutils-arm-linux-gnueabihf wget ca-certificates libcurl4-openssl-dev:armhf libssl-dev:armhf libzip-dev:armhf
+
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           fetch-depth: 2
 
@@ -453,13 +572,27 @@ jobs:
           ./configure --host=aarch64-linux --with-boinc-platform="aarch64-unknown-linux-gnu" --with-boinc-alt-platform="arm-unknown-linux-gnueabihf" --enable-apps --disable-server --disable-manager --disable-client --disable-shared --enable-static
           make -j $(nproc --all)
 
+      - name: Make armhf apps
+        if: success() && matrix.type == 'apps-armhf'
+        run: |
+          export CC=arm-linux-gnueabihf-gcc
+          export CXX=arm-linux-gnueabihf-g++
+          export LD=arm-linux-gnueabihf-ld
+          export CFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3"
+          export CXXFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3 -std=c++11"
+          export LDFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -static-libstdc++ -s"
+          export RELEASE_ARCH=armhf
+          export PKG_CONFIG_LIBDIR=/usr/lib/arm-linux-gnueabihf/pkgconfig:/usr/share/pkgconfig
+          ./configure --host=arm-linux-gnueabihf --with-boinc-platform="arm-unknown-linux-gnueabihf" --with-boinc-alt-platform="aarch64-unknown-linux-gnu" --enable-apps --disable-server --disable-manager --disable-client --disable-shared --enable-static
+          make -j $(nproc --all)
+
       - name: Prepare logs on failure
         if: ${{ failure() }}
         run: python3 ./deploy/prepare_deployment.py logs
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: linux_release_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
@@ -469,7 +602,7 @@ jobs:
         run: python3 ./deploy/prepare_deployment.py linux_apps
 
       - name: Upload wrapper artifacts
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         if: success()
         with:
           name: linux_release_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}

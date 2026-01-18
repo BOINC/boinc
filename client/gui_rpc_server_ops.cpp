@@ -643,23 +643,6 @@ static void handle_reset_host_info(GUI_RPC_CONN& grc) {
     grc.mfout.printf("<success/>\n");
 }
 
-static void handle_get_screensaver_tasks(GUI_RPC_CONN& grc) {
-    unsigned int i;
-    ACTIVE_TASK* atp;
-    grc.mfout.printf(
-        "<handle_get_screensaver_tasks>\n"
-        "    <suspend_reason>%d</suspend_reason>\n",
-        gstate.suspend_reason
-    );
-    for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
-        atp = gstate.active_tasks.active_tasks[i];
-        if (atp->scheduler_state == CPU_SCHED_SCHEDULED) {
-            atp->result->write_gui(grc.mfout);
-        }
-    }
-    grc.mfout.printf("</handle_get_screensaver_tasks>\n");
-}
-
 static void handle_quit(GUI_RPC_CONN& grc) {
     gstate.requested_exit = true;
     grc.mfout.printf("<success/>\n");
@@ -722,7 +705,7 @@ static void handle_get_cc_status(GUI_RPC_CONN& grc) {
         "   <max_event_log_lines>%d</max_event_log_lines>\n",
         net_status.network_status(),
         gstate.acct_mgr_info.password_error?1:0,
-        gstate.suspend_reason,
+        gstate.suspend_reason==SUSPEND_REASON_CPU_THROTTLE?0:gstate.suspend_reason,
         gstate.cpu_run_mode.get_current(),
         gstate.cpu_run_mode.get_perm(),
         gstate.cpu_run_mode.delay(),
@@ -1820,7 +1803,6 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("get_old_results", handle_get_old_results,              false,  false,  true),
     GUI_RPC("get_project_status", handle_get_project_status,        false,  false,  true),
     GUI_RPC("get_results", handle_get_results,                      false,  false,  true),
-    GUI_RPC("get_screensaver_tasks", handle_get_screensaver_tasks,  false,  false,  true),
     GUI_RPC("get_simple_gui_info", handle_get_simple_gui_info,      false,  false,  true),
     GUI_RPC("get_state", handle_get_state,                          false,  false,  true),
     GUI_RPC("get_statistics", handle_get_statistics,                false,  false,  true),

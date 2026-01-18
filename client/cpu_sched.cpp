@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -120,8 +120,10 @@ struct PROC_RESOURCES {
         return true;
     }
 
-    // should we consider scheduling this job?
-    // (i.e add it to the runnable list; not actually run it)
+    // Should we add this job to the runnable list?
+    // There are two possible reasons not to:
+    // - the job won't be able to run (e.g. it's being aborted)
+    // - the runnable list has enough jobs of this type already
     //
     bool can_schedule(RESULT* rp, ACTIVE_TASK* atp) {
         if (atp) {
@@ -151,17 +153,52 @@ struct PROC_RESOURCES {
             if (gpu_suspend_reason) return false;
         }
         if (rp->uses_coprocs()) {
-            if (sufficient_coprocs(*rp)) {
-                return true;
-            } else {
+            if (!sufficient_coprocs(*rp)) {
                 return false;
             }
-        } else if (rp->resource_usage.avg_ncpus > 1) {
-            if (ncpus_used_mt == 0) return true;
-            return (ncpus_used_mt + rp->resource_usage.avg_ncpus <= ncpus);
         } else {
-            return (ncpus_used_st < ncpus);
+            // CPU jobs: see if we have enough already in list
+            //
+            if (rp->resource_usage.avg_ncpus > 1) {
+                if (ncpus_used_mt > 0) {
+                    if (ncpus_used_mt + rp->resource_usage.avg_ncpus > ncpus) {
+                        return false;
+                    }
+                }
+            } else {
+                if (ncpus_used_st >= ncpus) {
+                    return false;
+                }
+            }
         }
+
+        // if job uses Docker, make sure it's installed
+        //
+        if (rp->uses_docker()) {
+            if (!gstate.host_info.have_docker()) {
+                static bool first = true;
+                if (first) {
+                    msg_printf(NULL, MSG_USER_ALERT,
+                        "Docker jobs are present but Podman/Docker not found; please install it."
+                    );
+                    msg_printf(NULL, MSG_USER_ALERT,
+                        "See https://github.com/BOINC/boinc/wiki/Installing-Docker"
+                    );
+                    first = false;
+                }
+                return false;
+            }
+#ifdef __APPLE__
+            // and on Mac, make sure it's inited
+            //
+            if (gstate.host_info.docker_type == PODMAN
+                && !gstate.host_info.podman_inited
+            ) {
+                return false;
+            }
+#endif
+        }
+        return true;
     }
 
     // we've decided to add this to the runnable list; update bookkeeping
@@ -639,10 +676,13 @@ double total_peak_flops() {
 // Initialize project "priorities" based on REC:
 // compute resource share and REC fractions
 // among compute-intensive, non-suspended projects
+// Also compute rec_sum
 //
 void project_priority_init(bool for_work_fetch) {
     double rs_sum = 0;
+        // sum of resource share of runnable (or fetchable) projects
     rec_sum = 0;
+        // sum of recent work of runnable (or fetchable) projects
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
@@ -685,7 +725,11 @@ void PROJECT::compute_sched_priority() {
     if (resource_share == 0) {
         sched_priority = -1e3 - rec_frac;
     } else {
-        sched_priority = - rec_frac/resource_share_frac;
+        if (resource_share_frac > 0) {
+            sched_priority = - rec_frac/resource_share_frac;
+        } else {
+            sched_priority = - rec_frac;
+        }
     }
 }
 

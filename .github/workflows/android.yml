@@ -43,7 +43,7 @@ jobs:
         type: [armv6, arm, arm64, x86, x86_64]
       fail-fast: false
     steps:
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           fetch-depth: 2
 
@@ -84,14 +84,14 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: android_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
 
       - name: Upload client on success
         if: ${{ success() }}
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: android_client_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: android/BOINC/app/src/main/assets/
@@ -105,42 +105,42 @@ jobs:
         task: [assembleRelease, assembleArmv6_release, jacocoTestReportDebug]
       fail-fast: false
     steps:
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           fetch-depth: 2
 
       - name: Download armv6 client
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
         with:
           name: android_client_armv6_${{ github.event.pull_request.head.sha }}
           path: android/BOINC/app/src/main/assets/
 
       - name: Download arm client
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
         with:
           name: android_client_arm_${{ github.event.pull_request.head.sha }}
           path: android/BOINC/app/src/main/assets/
 
       - name: Download arm64 client
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
         with:
           name: android_client_arm64_${{ github.event.pull_request.head.sha }}
           path: android/BOINC/app/src/main/assets/
 
       - name: Download x86 client
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
         with:
           name: android_client_x86_${{ github.event.pull_request.head.sha }}
           path: android/BOINC/app/src/main/assets/
 
       - name: Download x86_64 client
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
         with:
           name: android_client_x86_64_${{ github.event.pull_request.head.sha }}
           path: android/BOINC/app/src/main/assets/
 
       - name: Setup Java
-        uses: actions/setup-java@dded0888837ed1f317902acf8a20df0ad188d165
+        uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e
         with:
           distribution: 'zulu'
           java-version: "17"
@@ -157,27 +157,27 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: android_logs_manager_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
 
       - name: Upload generic artifacts
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         if: ${{ matrix.task == 'assembleRelease' }}
         with:
           name: android_manager_${{ github.event.pull_request.head.sha }}
           path: android/BOINC/app/build/outputs/apk/release/app-release-unsigned.apk
 
       - name: Upload armv6 only manager
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         if: ${{ matrix.task == 'assembleArmv6_release' }}
         with:
           name: android_armv6_manager_${{ github.event.pull_request.head.sha }}
           path: android/BOINC/app/build/outputs/apk/armv6_release/app-armv6_release-unsigned.apk
 
       - name: Upload JUnit Tests Results
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         if: ${{ always() && matrix.task == 'jacocoTestReportDebug' }}
         with:
           name: Android_tests_results
@@ -185,7 +185,7 @@ jobs:
 
       - name: Upload coverage report
         if: ${{ matrix.task == 'jacocoTestReportDebug' }}
-        uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7
+        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
@@ -197,7 +197,7 @@ jobs:
         type: [libs, apps, libs-cmake]
       fail-fast: false
     steps:
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           fetch-depth: 2
 
@@ -246,7 +246,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: android_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
@@ -256,7 +256,7 @@ jobs:
         run: python ./deploy/prepare_deployment.py android_${{ matrix.type }}
 
       - name: Upload generic artifacts
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         if: ${{ success() && matrix.type == 'apps' }}
         with:
           name: android_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}

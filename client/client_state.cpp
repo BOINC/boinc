@@ -295,6 +295,13 @@ void CLIENT_STATE::show_host_info() {
     }
 #endif
 
+    // show Docker-related messages
+    //
+#ifndef ANDROID
+    show_docker_messages();
+#endif
+
+
     if (strlen(host_info.virtualbox_version)) {
         msg_printf(NULL, MSG_INFO,
             "VirtualBox version: %s",
@@ -517,7 +524,7 @@ int CLIENT_STATE::init() {
 
     log_flags.show();
 
-    msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
+    msg_printf(NULL, MSG_INFO, "cURL libraries: %s", curl_version());
 
     if (cc_config.lower_client_priority) {
         set_client_priority();
@@ -699,19 +706,7 @@ int CLIENT_STATE::init() {
     // (typically anonymous platform)
     //
     for (APP_VERSION* avp: app_versions) {
-        if (!avp->resource_usage.avg_ncpus) {
-            avp->resource_usage.avg_ncpus = 1;
-        }
-        if (!avp->resource_usage.flops) {
-            avp->resource_usage.flops = avp->resource_usage.avg_ncpus * host_info.p_fpops;
-
-            // for GPU apps, use conservative estimate:
-            // assume GPU runs at 10X peak CPU speed
-            //
-            if (avp->resource_usage.rsc_type) {
-                avp->resource_usage.flops += avp->resource_usage.coproc_usage * 10 * host_info.p_fpops;
-            }
-        }
+        avp->fill_in_resource_usage();
     }
 
     // must go after check_app_config() and parse_state_file()
@@ -729,10 +724,6 @@ int CLIENT_STATE::init() {
     // read_nvc_config_file()
     //
     newer_version_startup_check();
-
-#if !defined(SIM) && defined(_WIN32)
-    show_wsl_messages();
-#endif
 
     // parse account files again,
     // now that we know the host's venue on each project
@@ -928,33 +919,6 @@ int CLIENT_STATE::init() {
     throttle_thread.run(throttler, NULL);
 
     sporadic_init();
-
-    // if Docker not present, notify user
-    //
-#ifndef ANDROID
-#ifdef _WIN32
-    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Windows";
-#elif defined(__APPLE__)
-    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Mac";
-#else
-    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Linux";
-#endif
-    if (!host_info.have_docker()) {
-        msg_printf(NULL, MSG_INFO,
-            "Some projects require Docker."
-        );
-        msg_printf(NULL, MSG_INFO,
-            "To install Docker, visit %s", url
-        );
-        NOTICE n;
-        n.description = "Some projects require Docker.  We recommend that you install it.  Instructions are <a href=" + (string)url + (string)">here</a>.";
-        strcpy(n.link, url);
-        n.create_time = now;
-        n.arrival_time = now;
-        strcpy(n.category, "client");
-        notices.append(n);
-    }
-#endif
 
     initialized = true;
     return 0;
@@ -1152,15 +1116,14 @@ bool CLIENT_STATE::poll_slow_events() {
 
 #ifdef __APPLE__
     // Mac: if Podman VM initialization is active, see if it's done
-    static bool need_podman_check = true;
-    if (need_podman_check && podman_init_pid) {
+    if (podman_init_pid) {
         int ret, status;
         ret = waitpid(podman_init_pid, &status, WNOHANG);
         if (ret > 0) {
-            need_podman_check = false;
             // process has exited
             if (host_info.is_podman_VM_running()) {
                 msg_printf(NULL, MSG_INFO, "Podman VM initialized");
+                gstate.host_info.podman_inited = true;
             } else {
                 // couldn't init VM; can't use Podman
                 msg_printf(NULL, MSG_INFO,
@@ -1169,8 +1132,6 @@ bool CLIENT_STATE::poll_slow_events() {
                 gstate.host_info.docker_version[0] = 0;
             }
             podman_init_pid = 0;
-        } else {
-            suspend_reason = SUSPEND_REASON_PODMAN_INIT;
         }
     }
 #endif
@@ -2379,7 +2340,7 @@ int CLIENT_STATE::quit_activities() {
     // Do this last because it could take a long time,
     // and the OS might kill us in the middle
     //
-    int retval = active_tasks.exit_tasks();
+    int retval = active_tasks.exit_tasks(true, NULL);
     if (retval) {
         msg_printf(NULL, MSG_INTERNAL_ERROR,
             "Couldn't exit tasks: %s", boincerror(retval)
@@ -2529,3 +2490,44 @@ void CLIENT_STATE::init_result_resource_usage() {
         }
     }
 }
+
+// shows messages (as notices) related to Docker and WSL:
+// All platforms: if no Docker, suggest they install it
+// Win:
+//      if Docker but not our WSL distro, suggest they use ours
+//      if they have our distro but not current, suggest upgrade
+//
+// Called on startup, and after doing a get-version RPC
+//
+#ifndef ANDROID
+void show_docker_messages() {
+#ifdef _WIN32
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Windows";
+#elif defined(__APPLE__)
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Mac";
+#else
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Linux";
+#endif
+    if (!gstate.host_info.have_docker()) {
+        msg_printf_notice(0, true, url,
+            "Some projects require Docker; we recommend that you install it."
+        );
+#ifdef _WIN32
+    } else {
+        int bdv = gstate.host_info.wsl_distros.boinc_distro_version();
+        if (bdv) {
+            if (bdv < gstate.latest_boinc_buda_runner_version) {
+                msg_printf_notice(0, true,
+                    "https://github.com/BOINC/boinc/wiki/Updating-the-BOINC-WSL-distro",
+                    "A new version of the BOINC WSL distro is available; we recommend that you install it."
+                );
+            }
+        } else {
+            msg_printf_notice(0, true, url,
+                "Docker is present but not using the BOINC WSL distro.  Some project apps may not function properly. We recommend that you install the BOINC WSL distro."
+            );
+        }
+#endif
+    }
+}
+#endif

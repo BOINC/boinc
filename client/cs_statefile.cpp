@@ -262,9 +262,13 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                 continue;
             }
             if (retval) {
-                msg_printf(NULL, MSG_INTERNAL_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse application version in state file"
                 );
+                delete avp;
+                continue;
+            }
+            if (avp->disallowed_by_config(project)) {
                 delete avp;
                 continue;
             }
@@ -957,24 +961,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
                 delete avp;
                 continue;
             }
-            if (cc_config.dont_use_vbox && strstr(avp->plan_class, "vbox")) {
-                msg_printf(p, MSG_INFO,
-                    "skipping vbox app in app_info.xml; vbox disabled in cc_config.xml"
-                );
-                delete avp;
-                continue;
-            }
-            if (cc_config.dont_use_wsl && strstr(avp->plan_class, "wsl")) {
-                msg_printf(p, MSG_INFO,
-                    "skipping wsl app in app_info.xml; wsl disabled in cc_config.xml"
-                );
-                delete avp;
-                continue;
-            }
-            if (cc_config.dont_use_docker && strstr(avp->plan_class, "docker")) {
-                msg_printf(p, MSG_INFO,
-                    "skipping docker app in app_info.xml; docker disabled in cc_config.xml"
-                );
+            if (avp->disallowed_by_config(p)) {
                 delete avp;
                 continue;
             }

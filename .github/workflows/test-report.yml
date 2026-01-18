@@ -26,15 +26,15 @@ jobs:
   report:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       - name: Download artifacts
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
         with:
           github-token: ${{ secrets.ACTIONS_TEST_REPORT_TOKEN }}
           run-id: ${{ github.event.workflow_run.id }}
           path: test-reports
           pattern: '*_tests_results'
-      - uses: dorny/test-reporter@7b7927aa7da8b82e81e755810cb51f39941a2cc7
+      - uses: dorny/test-reporter@b082adf0eced0765477756c2a610396589b8c637
         with:
           name: 'Tests Report'
           path: 'test-reports/**/*.xml'

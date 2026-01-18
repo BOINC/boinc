@@ -816,6 +816,10 @@ int DOCKER_CONN::parse_image_name(string line, string &name) {
 // CONTAINER ID  IMAGE                                      COMMAND               CREATED        STATUS                   PORTS       NAMES
 // 6d4877e0d071  localhost/boinc__app_test__test_wu:latest  /bin/sh -c ./work...  43 hours ago   Exited (0) 21 hours ago              boinc__app_test__test_result
 //
+// if running, looks like
+// CONTAINER ID  IMAGE                       COMMAND       CREATED        STATUS        PORTS       NAMES
+// bf4ce6e19182  localhost/criu_test:latest  ./counter.sh  9 seconds ago  Up 9 seconds              competent_ishizaka
+
 int DOCKER_CONN::parse_container_name(string line, string &name) {
     char buf[1024];
     strcpy(buf, line.c_str());

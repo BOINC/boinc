@@ -12,6 +12,8 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>.;..;../api;../lib;$(VcpkgRootDir)\installed\arm64-windows-static\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="Exists('C:\Program Files (x86)\MsiVal2\MsiVal2.exe')">MSI_VALIDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -52,6 +54,8 @@
     <ClCompile Include="..\installer\DirectoryTable.cpp" />
     <ClCompile Include="..\installer\Error.cpp" />
     <ClCompile Include="..\installer\ErrorTable.cpp" />
+    <ClCompile Include="..\installer\EventMapping.cpp" />
+    <ClCompile Include="..\installer\EventMappingTable.cpp" />
     <ClCompile Include="..\installer\Feature.cpp" />
     <ClCompile Include="..\installer\FeatureComponents.cpp" />
     <ClCompile Include="..\installer\FeatureComponentsTable.cpp" />
@@ -91,6 +95,9 @@
     <ClCompile Include="..\installer\ServiceInstallTable.cpp" />
     <ClCompile Include="..\installer\Shortcut.cpp" />
     <ClCompile Include="..\installer\ShortcutTable.cpp" />
+    <ClCompile Include="..\installer\stdafx.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\installer\Stream.cpp" />
     <ClCompile Include="..\installer\StreamTable.cpp" />
     <ClCompile Include="..\installer\SummaryInformationTable.cpp" />
@@ -99,8 +106,6 @@
     <ClCompile Include="..\installer\TextStyleTable.cpp" />
     <ClCompile Include="..\installer\UIText.cpp" />
     <ClCompile Include="..\installer\UITextTable.cpp" />
-    <ClCompile Include="..\installer\EventMapping.cpp" />
-    <ClCompile Include="..\installer\EventMappingTable.cpp" />
     <ClCompile Include="..\installer\Upgrade.cpp" />
     <ClCompile Include="..\installer\UpgradeTable.cpp" />
     <ClCompile Include="..\installer\Validation.cpp" />
@@ -135,6 +140,8 @@
     <ClInclude Include="..\installer\DirectoryTable.h" />
     <ClInclude Include="..\installer\Error.h" />
     <ClInclude Include="..\installer\ErrorTable.h" />
+    <ClInclude Include="..\installer\EventMapping.h" />
+    <ClInclude Include="..\installer\EventMappingTable.h" />
     <ClInclude Include="..\installer\Feature.h" />
     <ClInclude Include="..\installer\FeatureComponents.h" />
     <ClInclude Include="..\installer\FeatureComponentsTable.h" />
@@ -176,6 +183,7 @@
     <ClInclude Include="..\installer\ServiceInstallTable.h" />
     <ClInclude Include="..\installer\Shortcut.h" />
     <ClInclude Include="..\installer\ShortcutTable.h" />
+    <ClInclude Include="..\installer\stdafx.h" />
     <ClInclude Include="..\installer\Stream.h" />
     <ClInclude Include="..\installer\StreamTable.h" />
     <ClInclude Include="..\installer\SummaryInformationTable.h" />
@@ -184,8 +192,6 @@
     <ClInclude Include="..\installer\TextStyleTable.h" />
     <ClInclude Include="..\installer\UIText.h" />
     <ClInclude Include="..\installer\UITextTable.h" />
-    <ClInclude Include="..\installer\EventMapping.h" />
-    <ClInclude Include="..\installer\EventMappingTable.h" />
     <ClInclude Include="..\installer\Upgrade.h" />
     <ClInclude Include="..\installer\UpgradeTable.h" />
     <ClInclude Include="..\installer\JsonHelper.h" />

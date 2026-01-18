@@ -578,9 +578,7 @@ extern double calculate_exponential_backoff(
 extern THREAD_LOCK client_thread_mutex;
 extern THREAD throttle_thread;
 
-#ifdef _WIN32
-extern void show_wsl_messages();
-#endif
+extern void show_docker_messages();
 
 //////// TIME-RELATED CONSTANTS ////////////
 

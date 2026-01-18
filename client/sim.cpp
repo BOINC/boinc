@@ -225,15 +225,16 @@ void make_job(
 ) {
     APP* app = choose_app(app_list);
     APP_VERSION* avp = choose_app_version(app);
-    rp->clear();
-    rp->avp = avp;
-    rp->app = app;
-    if (!rp->avp) {
+    if (!avp) {
         fprintf(stderr, "ERROR - NO APP VERSION\n");
         exit(1);
     }
+    rp->clear();
+    rp->avp = avp;
+    rp->app = app;
     rp->project = p;
     rp->wup = wup;
+    rp->resource_usage = avp->resource_usage;
     sprintf(rp->name, "%s_%d", p->project_name, p->result_index++);
     wup->project = p;
     wup->rsc_fpops_est = app->fpops_est;
