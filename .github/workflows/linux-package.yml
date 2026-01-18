@@ -63,7 +63,7 @@ jobs:
           fetch-depth: 2
 
       - name: Cache dependencies
-        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb
+        uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
         with:
           path: ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
           key: ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz

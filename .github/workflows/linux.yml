@@ -218,7 +218,7 @@ jobs:
           ./tests/integration_test/installTestSuite.sh
 
       - name: Cache dependencies
-        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb
+        uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
         with:
           path: |
             3rdParty/buildCache
