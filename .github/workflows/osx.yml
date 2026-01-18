@@ -47,7 +47,7 @@ jobs:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
       - name: Cache dependencies
-        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb
+        uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
         with:
           path: 3rdParty/buildCache
           key: osx-${{ hashFiles('.github/workflows/osx.yml', '3rdParty/buildMacDependencies.sh', 'mac_build/dependencyNames.sh', 'mac_build/buildc-ares.sh', 'mac_build/buildcurl.sh', 'mac_build/buildfreetype.sh', 'mac_build/buildFTGL.sh', 'mac_build/buildopenssl.sh', 'mac_build/buildWxMac.sh') }}
@@ -71,7 +71,7 @@ jobs:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
       - name: Cache dependencies
-        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb
+        uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7
         with:
           path: 3rdParty/buildCache
           key: osx-${{ hashFiles('.github/workflows/osx.yml', '3rdParty/buildMacDependencies.sh', 'mac_build/dependencyNames.sh', 'mac_build/buildc-ares.sh', 'mac_build/buildcurl.sh', 'mac_build/buildfreetype.sh', 'mac_build/buildFTGL.sh', 'mac_build/buildopenssl.sh', 'mac_build/buildWxMac.sh') }}
