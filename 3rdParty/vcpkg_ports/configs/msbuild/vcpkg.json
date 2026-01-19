@@ -21,6 +21,7 @@
     {
       "name": "libzip",
       "default-features": false
-    }
+    },
+    "openvino"
   ]
 }

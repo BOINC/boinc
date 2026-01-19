@@ -41,3 +41,48 @@ using std::string;
 
 #include "client_msgs.h"
 #include "gpu_detect.h"
+
+#include <openvino/openvino.hpp>
+#include <iostream>
+#include <vector>
+#include <string>
+
+int check_openvino() {
+    // Step 1. Initialize OpenVINO Runtime Core
+    ov::Core core;
+
+    // Step 2. Get available devices
+    std::vector<std::string> available_devices = core.get_available_devices();
+
+    std::cout << "Available devices:" << std::endl;
+
+    // Step 3. Query device properties
+    for (const std::string& device : available_devices) {
+        std::cout << "Device: " << device << std::endl;
+
+        // Get the full device name
+        auto full_device_name = core.get_property(device, ov::device::full_name);
+        std::cout << "\tFull Name: " << full_device_name << std::endl;
+
+        // Get the supported properties for the device
+        std::vector<std::string> supported_properties = core.get_property(device, ov::supported_properties);
+        std::cout << "\tSupported Properties:" << std::endl;
+        for (const std::string& prop : supported_properties) {
+            // Avoid querying 'SUPPORTED_PROPERTIES' again to prevent recursion
+            if (prop != ov::supported_properties) {
+                try {
+                    // Query the value of each property
+                    auto prop_value = core.get_property(device, prop);
+                    // Depending on the property type, you may need different ways to print it.
+                    // This is a basic example and might need type handling for complex properties.
+                    // std::cout << "\t\t" << prop << ": " << prop_value << std::endl; 
+                }
+                catch (const ov::Exception& ex) {
+                    std::cerr << "\t\t" << prop << ": UNSUPPORTED VALUE TYPE" << std::endl;
+                }
+            }
+        }
+    }
+
+    return 0;
+}
