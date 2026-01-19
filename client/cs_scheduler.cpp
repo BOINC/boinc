@@ -1226,7 +1226,7 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     // copy resource usages to non-running jobs in case app versions changed
     //
-    gstate.init_result_resource_usage();
+    gstate.init_result_resource_usage(project);
 
     // make sure we don't set no_rsc_apps[] for all processor types
     //

@@ -96,10 +96,6 @@ int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
         }
     }
 
-    // copy new app version resource usage to results
-    //
-    gstate.init_result_resource_usage();
-
     if (showed_notice) return ERR_XML_PARSE;
     return 0;
 }

@@ -2485,8 +2485,11 @@ bool CLIENT_STATE::abort_sequence_done() {
 // For running jobs, we've already populated resource_usage,
 // and we can't change it without restarting the job
 //
-void CLIENT_STATE::init_result_resource_usage() {
+void CLIENT_STATE::init_result_resource_usage(PROJECT *p) {
     for (RESULT* rp: results) {
+        if (p && rp->project != p) {
+            continue;
+        }
         if (lookup_active_task_by_result(rp)) {
             continue;
         }
