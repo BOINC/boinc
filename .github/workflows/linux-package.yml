@@ -505,7 +505,7 @@ jobs:
               echo \"\"\"
               <!--
               This is a configuration file of the BOINC client.
-              For a complete list of options see https://boinc.berkeley.edu/wiki/client_configuration
+              For a complete list of options see https://github.com/BOINC/boinc/wiki/Client-configuration
               -->
               <cc_config>
               </cc_config>
