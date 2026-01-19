@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -28,9 +28,6 @@ CACreateBOINCGroups::CACreateBOINCGroups(MSIHANDLE hMSIHandle) :
 
 UINT CACreateBOINCGroups::OnExecution()
 {
-    DWORD            dwParameterError;
-    SID_IDENTIFIER_AUTHORITY SIDAuthNT = SECURITY_NT_AUTHORITY;
-
     tstring strUserSID;
     auto uiReturnValue = GetProperty(_T("UserSID"), strUserSID);
     if (uiReturnValue != ERROR_SUCCESS) {
@@ -89,7 +86,9 @@ UINT CACreateBOINCGroups::OnExecution()
     std::array<BYTE, SECURITY_MAX_SID_SIZE> sidBuf{};
     DWORD sidSize = SECURITY_MAX_SID_SIZE;
     if (!CreateWellKnownSid(WinBuiltinAdministratorsSid, nullptr, sidBuf.data(), &sidSize)) {
-        return {};
+        LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+            _T("CreateWellKnownSid Error for BUILTIN\\Administrators"));
+        return ERROR_INSTALL_FAILURE;
     }
     wil::unique_sid pAdminSID(static_cast<PSID>(LocalAlloc(LMEM_FIXED, sidSize)));
     CopySid(sidSize, pAdminSID.get(), reinterpret_cast<PSID>(sidBuf.data()));
@@ -117,6 +116,7 @@ UINT CACreateBOINCGroups::OnExecution()
     lgrpiUsers.lgrpi1_comment =
         _T("Accounts in this group can monitor the BOINC client.");
 
+    DWORD dwParameterError;
     auto nasReturnValue = NetLocalGroupAdd(nullptr, 1,
         reinterpret_cast<LPBYTE>(&lgrpiUsers), &dwParameterError);
 
