@@ -944,10 +944,14 @@ int CLIENT_STATE::handle_scheduler_reply(
             app, avpp.platform, avpp.version_num, avpp.plan_class
         );
         if (avp) {
-            // don't copy resource usage info from avpp to avp.
-            // That would undo app_config.xml.
-            // App versions are immutable;
-            // if a project wants to change something, create a new one
+            // some projects dynamically change app version resource usage,
+            // e.g. via user prefs for #cpus.
+            // This is the only attribute that can be changed;
+            // anything else requires a new app version.
+            //
+            // Note: this change will not affect running jobs.
+            //
+            avp->resource_usage = avpp.resource_usage;
 
             // if we had download failures, clear them
             //
@@ -1219,6 +1223,10 @@ int CLIENT_STATE::handle_scheduler_reply(
     // apply it to any app versions we just got
     //
     project->app_configs.config_app_versions(project, false);
+
+    // copy resource usages to non-running jobs in case app versions changed
+    //
+    gstate.init_result_resource_usage(project);
 
     // make sure we don't set no_rsc_apps[] for all processor types
     //
