@@ -16,7 +16,10 @@
   </ImportGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>../win_build;../lib;../zip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;../lib;../zip;../tests/unit-tests/win;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>pch.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(BOINCCAS_TEST)' == 'true'">BOINCCAS_TEST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -37,6 +40,7 @@
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CACreateAcctMgrLoginFile.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CACreateBOINCAccounts.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CACreateBOINCGroups.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CACreateClientAuthFile.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_parse.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_str_util.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_url.cpp" />
@@ -45,6 +49,9 @@
     <ClCompile Include="..\tests\unit-tests\lib\test_md5_file.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_shmem.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_zip.cpp" />
+    <ClCompile Include="..\tests\unit-tests\win\pch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="libboinc.vcxproj">
@@ -56,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\tests\unit-tests\boinccas\boinccas_helper.h" />
+    <ClInclude Include="..\tests\unit-tests\win\pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

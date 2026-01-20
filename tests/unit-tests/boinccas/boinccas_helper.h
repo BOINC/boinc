@@ -17,10 +17,7 @@
 
 #pragma once
 
-#include <string>
-#include <vector>
 #include "wil/resource.h"
-#include <Msi.h>
 
 template <typename F>
 std::pair<wil::unique_hmodule, F> load_function_from_boinccas(

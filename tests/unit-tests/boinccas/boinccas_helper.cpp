@@ -17,9 +17,6 @@
 
 #include "boinccas_helper.h"
 
-#include <filesystem>
-#include <MsiQuery.h>
-#include <Windows.h>
 #include <LMaccess.h>
 #include <lmerr.h>
 #include <LMAPIbuf.h>

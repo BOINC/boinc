@@ -15,11 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "gtest/gtest.h"
-
 #include "boinccas_helper.h"
-
-#include <MsiQuery.h>
 
 namespace test_boinccas_CACreateBOINCAccounts {
     constexpr auto masterAccountName = "boinc_master";
