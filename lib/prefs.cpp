@@ -331,6 +331,10 @@ int GLOBAL_PREFS::parse_day(XML_PARSER& xp) {
     while (!xp.get_tag()) {
         if (!xp.is_tag) continue;
         if (xp.match_tag("/day_prefs")) {
+            // The day of the week is validated here because the struct TIME_SPAN
+            // is an array of a fixed size.  For validating the start_hour and
+            // end_hour, refer to CLIENT_STATE::validate_global_prefs in cs_prefs.cpp.
+            //
             if (day_of_week < 0 || day_of_week > 6) return ERR_XML_PARSE;
             if (has_cpu) {
                 cpu_times.week.set(day_of_week, start_hour, end_hour);
@@ -380,7 +384,6 @@ int GLOBAL_PREFS::parse_override(
     char buf2[256], attrs[256];
     bool in_venue = false, in_correct_venue=false;
     double dtemp;
-    int itemp;
 
     found_venue = false;
     mask.clear();
@@ -526,39 +529,30 @@ int GLOBAL_PREFS::parse_override(
             continue;
         }
         if (xp.parse_double("work_buf_min_days", work_buf_min_days)) {
-            if (work_buf_min_days < 0) work_buf_min_days = 0;
             mask.work_buf_min_days = true;
             continue;
         }
         if (xp.parse_double("work_buf_additional_days", work_buf_additional_days)) {
-            if (work_buf_additional_days < 0) work_buf_additional_days = 0;
             mask.work_buf_additional_days = true;
             continue;
         }
         if (xp.parse_double("max_ncpus_pct", max_ncpus_pct)) {
-            if (max_ncpus_pct < 0) max_ncpus_pct = 0;
-            if (max_ncpus_pct > 100) max_ncpus_pct = 100;
             mask.max_ncpus_pct = true;
             continue;
         }
         if (xp.parse_double("niu_max_ncpus_pct", niu_max_ncpus_pct)) {
-            if (niu_max_ncpus_pct <= 0) niu_max_ncpus_pct = 100;
-            if (niu_max_ncpus_pct > 100) niu_max_ncpus_pct = 100;
             mask.niu_max_ncpus_pct = true;
             continue;
         }
         if (xp.parse_int("max_cpus", max_ncpus)) {
-            if (max_ncpus < 0) max_ncpus = 0;
             mask.max_ncpus = true;
             continue;
         }
         if (xp.parse_double("disk_interval", disk_interval)) {
-            if (disk_interval<0) disk_interval = 0;
             mask.disk_interval = true;
             continue;
         }
         if (xp.parse_double("cpu_scheduling_period_minutes", cpu_scheduling_period_minutes)) {
-            if (cpu_scheduling_period_minutes < 0.0001) cpu_scheduling_period_minutes = 60;
             mask.cpu_scheduling_period_minutes = true;
             continue;
         }
@@ -592,41 +586,27 @@ int GLOBAL_PREFS::parse_override(
             continue;
         }
         if (xp.parse_double("max_bytes_sec_up", max_bytes_sec_up)) {
-            if (max_bytes_sec_up < 0) max_bytes_sec_up = 0;
             mask.max_bytes_sec_up = true;
             continue;
         }
         if (xp.parse_double("max_bytes_sec_down", max_bytes_sec_down)) {
-            if (max_bytes_sec_down < 0) max_bytes_sec_down = 0;
             mask.max_bytes_sec_down = true;
             continue;
         }
-        if (xp.parse_double("cpu_usage_limit", dtemp)) {
-            if (dtemp > 0 && dtemp <= 100) {
-                cpu_usage_limit = dtemp;
-                mask.cpu_usage_limit = true;
-            }
+        if (xp.parse_double("cpu_usage_limit", cpu_usage_limit)) {
+            mask.cpu_usage_limit = true;
             continue;
         }
-        if (xp.parse_double("niu_cpu_usage_limit", dtemp)) {
-            if (dtemp <= 0) dtemp = 100;
-            if (dtemp > 100) dtemp = 100;
-            niu_cpu_usage_limit = dtemp;
+        if (xp.parse_double("niu_cpu_usage_limit", niu_cpu_usage_limit)) {
             mask.niu_cpu_usage_limit = true;
             continue;
         }
-        if (xp.parse_double("daily_xfer_limit_mb", dtemp)) {
-            if (dtemp >= 0) {
-                daily_xfer_limit_mb = dtemp;
-                mask.daily_xfer_limit_mb = true;
-            }
+        if (xp.parse_double("daily_xfer_limit_mb", daily_xfer_limit_mb)) {
+            mask.daily_xfer_limit_mb = true;
             continue;
         }
-        if (xp.parse_int("daily_xfer_period_days", itemp)) {
-            if (itemp >= 0) {
-                daily_xfer_period_days = itemp;
-                mask.daily_xfer_period_days = true;
-            }
+        if (xp.parse_int("daily_xfer_period_days", daily_xfer_period_days)) {
+            mask.daily_xfer_period_days = true;
             continue;
         }
         if (xp.parse_bool("network_wifi_only", network_wifi_only)) {
