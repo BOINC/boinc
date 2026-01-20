@@ -53,8 +53,6 @@ UINT CACreateAcctMgrLoginFile::OnExecution() {
         return uiReturnValue;
     }
 
-    // The project_init.xml file is stored in the data directory.
-    //
     const auto strAcctMgrLoginFile =
         strDataDirectory + _T("\\acct_mgr_login.xml");
     std::wofstream fAcctMgrLoginFile(strAcctMgrLoginFile);
