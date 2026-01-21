@@ -180,6 +180,7 @@ struct RESULT {
         if (avp->dont_throttle) return true;
         return false;
     }
+    bool running();
     // make a string describing resource usage
     inline void rsc_string(char* buf, int len) {
         if (resource_usage.rsc_type) {
