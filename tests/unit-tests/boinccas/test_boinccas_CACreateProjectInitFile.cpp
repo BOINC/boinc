@@ -47,10 +47,10 @@ namespace test_boinccas_CACreateProjectInitFile {
             std::filesystem::current_path() /= "test_data";
     private:
         wil::unique_hmodule hDll = nullptr;
-        
+
     };
 
-#ifndef BOINCCAS_TEST
+#ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CACreateProjectInitFile,
         Empty_DATADIR_Property) {
         PMSIHANDLE hMsi;
