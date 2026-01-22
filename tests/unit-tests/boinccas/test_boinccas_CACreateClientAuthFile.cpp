@@ -87,6 +87,20 @@ namespace test_boinccas_CACreateClientAuthFile {
     }
 
     TEST_F(test_boinccas_CACreateClientAuthFile,
+        DATADIR_Doesnt_Exist) {
+        PMSIHANDLE hMsi;
+        const auto dir = std::filesystem::current_path() /= "test_data";
+        msiHelper.insertProperties({
+        {"DATADIR", dir.string().c_str()}
+            });
+        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
+            &hMsi);
+        ASSERT_EQ(0u, result);
+
+        EXPECT_NE(0u, hFunc(hMsi));
+    }
+
+    TEST_F(test_boinccas_CACreateClientAuthFile,
         ProtectionDisabled_No_XML_File_Created) {
         PMSIHANDLE hMsi;
         const auto dir = std::filesystem::current_path() /= "test_data";

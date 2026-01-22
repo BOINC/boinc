@@ -88,13 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\clientsetup\win\boinccas.h" />
-    <ClInclude Include="..\clientsetup\win\CAAnnounceUpgrade.h" />
-    <ClInclude Include="..\clientsetup\win\CACleanupOldBinaries.h" />
-    <ClInclude Include="..\clientsetup\win\CACreateAcctMgrLoginFile.h" />
-    <ClInclude Include="..\clientsetup\win\CACreateBOINCAccounts.h" />
-    <ClInclude Include="..\clientsetup\win\CACreateBOINCGroups.h" />
-    <ClInclude Include="..\clientsetup\win\CACreateClientAuthFile.h" />
-    <ClInclude Include="..\clientsetup\win\CACreateProjectInitFile.h" />
     <ClInclude Include="..\clientsetup\win\CADeleteBOINCAccounts.h" />
     <ClInclude Include="..\clientsetup\win\CADeleteBOINCGroups.h" />
     <ClInclude Include="..\clientsetup\win\CAGetAdministratorsGroupName.h" />

@@ -17,54 +17,62 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "CACreateAcctMgrLoginFile.h"
 
-CACreateAcctMgrLoginFile::CACreateAcctMgrLoginFile(MSIHANDLE hMSIHandle) :
-    BOINCCABase(hMSIHandle, _T("CACreateAcctMgrLoginFile"),
-        _T("Store account manager initialization data")) {
-}
+class CACreateAcctMgrLoginFile : public BOINCCABase {
+public:
+    virtual ~CACreateAcctMgrLoginFile() = default;
 
-UINT CACreateAcctMgrLoginFile::OnExecution() {
-    tstring strDataDirectory;
-    auto uiReturnValue = GetProperty(_T("DATADIR"), strDataDirectory);
-    if (uiReturnValue != ERROR_SUCCESS) {
-        return uiReturnValue;
-    }
-    if (strDataDirectory.empty()) {
-        return ERROR_INSTALL_FAILURE;
-    }
-    if (!std::filesystem::exists(strDataDirectory)) {
-        return ERROR_INSTALL_FAILURE;
+    explicit CACreateAcctMgrLoginFile(MSIHANDLE hMSIHandle) :
+        BOINCCABase(hMSIHandle, _T("CACreateAcctMgrLoginFile"),
+            _T("Store account manager initialization data")) {
     }
 
-    tstring login;
-    uiReturnValue = GetProperty(_T("ACCTMGR_LOGIN"), login);
-    if (uiReturnValue != ERROR_SUCCESS) {
-        return uiReturnValue;
-    }
+    UINT OnExecution() override final {
+        tstring strDataDirectory;
+        auto uiReturnValue = GetProperty(_T("DATADIR"), strDataDirectory);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
+        if (strDataDirectory.empty()) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+                _T("The data directory is empty."));
+            return ERROR_INSTALL_FAILURE;
+        }
+        if (!std::filesystem::exists(strDataDirectory)) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+                _T("The data directory doesn't exist."));
+            return ERROR_INSTALL_FAILURE;
+        }
 
-    if (login.empty()) {
+        tstring login;
+        uiReturnValue = GetProperty(_T("ACCTMGR_LOGIN"), login);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
+
+        if (login.empty()) {
+            return ERROR_SUCCESS;
+        }
+
+        tstring pwdHash;
+        uiReturnValue = GetProperty(_T("ACCTMGR_PASSWORDHASH"), pwdHash);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
+
+        const auto strAcctMgrLoginFile =
+            strDataDirectory + _T("\\acct_mgr_login.xml");
+        std::wofstream fAcctMgrLoginFile(strAcctMgrLoginFile);
+        fAcctMgrLoginFile <<
+            _T("<acct_mgr_login>\n") <<
+            _T("    <login>") << login << _T("</login>\n") <<
+            _T("    <password_hash>") << pwdHash << _T("</password_hash>\n") <<
+            _T("</acct_mgr_login>\n");
+        fAcctMgrLoginFile.close();
+
         return ERROR_SUCCESS;
     }
-
-    tstring pwdHash;
-    uiReturnValue = GetProperty(_T("ACCTMGR_PASSWORDHASH"), pwdHash);
-    if (uiReturnValue != ERROR_SUCCESS) {
-        return uiReturnValue;
-    }
-
-    const auto strAcctMgrLoginFile =
-        strDataDirectory + _T("\\acct_mgr_login.xml");
-    std::wofstream fAcctMgrLoginFile(strAcctMgrLoginFile);
-    fAcctMgrLoginFile <<
-        _T("<acct_mgr_login>\n") <<
-        _T("    <login>") << login << _T("</login>\n") <<
-        _T("    <password_hash>") << pwdHash << _T("</password_hash>\n") <<
-        _T("</acct_mgr_login>\n");
-    fAcctMgrLoginFile.close();
-
-    return ERROR_SUCCESS;
-}
+};
 
 UINT __stdcall CreateAcctMgrLoginFile(MSIHANDLE hInstall) {
     return CACreateAcctMgrLoginFile(hInstall).Execute();

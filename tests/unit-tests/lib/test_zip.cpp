@@ -18,6 +18,7 @@
 #ifndef _WIN32
 #include <filesystem>
 #include <fstream>
+#include "gtest/gtest.h"
 #endif
 
 #include "util.h"

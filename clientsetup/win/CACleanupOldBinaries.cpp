@@ -17,40 +17,57 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "CACleanupOldBinaries.h"
 
-CACleanupOldBinaries::CACleanupOldBinaries(MSIHANDLE hMSIHandle) :
-    BOINCCABase(hMSIHandle, _T("CACleanupOldBinaries"),
-        _T("Cleanup any old binaries that were left lying around from some "
-            "other install.")) {}
+class CACleanupOldBinaries : public BOINCCABase {
+public:
+    virtual ~CACleanupOldBinaries() = default;
 
-UINT CACleanupOldBinaries::OnExecution() {
-    tstring strInstallDirectory;
-
-    const auto uiReturnValue =
-        GetProperty(_T("INSTALLDIR"), strInstallDirectory);
-    if (uiReturnValue != ERROR_SUCCESS) {
-        return uiReturnValue;
-    }
-    if (strInstallDirectory.empty()) {
-        return ERROR_INSTALL_FAILURE;
+    explicit CACleanupOldBinaries(MSIHANDLE hMSIHandle) :
+        BOINCCABase(hMSIHandle, _T("CACleanupOldBinaries"),
+            _T("Cleanup any old binaries that were left lying around from "
+                "some other install.")) {
     }
 
-    DeleteFile(tstring(strInstallDirectory + _T("\\boinc.exe")).c_str());
-    DeleteFile(tstring(strInstallDirectory + _T("\\boincmgr.exe")).c_str());
-    DeleteFile(tstring(strInstallDirectory + _T("\\boinccmd.exe")).c_str());
-    DeleteFile(tstring(strInstallDirectory + _T("\\boinc.dll")).c_str());
-    DeleteFile(tstring(strInstallDirectory + _T("\\libcurl.dll")).c_str());
-    DeleteFile(tstring(strInstallDirectory + _T("\\libeay32.dll")).c_str());
-    DeleteFile(tstring(strInstallDirectory + _T("\\ssleay32.dll")).c_str());
-    DeleteFile(tstring(strInstallDirectory + _T("\\zlib1.dll")).c_str());
-    DeleteFile(tstring(strInstallDirectory + _T("\\dbghelp.dll")).c_str());
-    DeleteFile(tstring(strInstallDirectory + _T("\\dbghelp95.dll")).c_str());
-    DeleteFile(tstring(strInstallDirectory + _T("\\srcsrv.dll")).c_str());
-    DeleteFile(tstring(strInstallDirectory + _T("\\symsrv.dll")).c_str());
+    UINT OnExecution() override final {
+        tstring strInstallDirectory;
 
-    return ERROR_SUCCESS;
-}
+        const auto uiReturnValue =
+            GetProperty(_T("INSTALLDIR"), strInstallDirectory);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
+        if (strInstallDirectory.empty()) {
+            return ERROR_INSTALL_FAILURE;
+        }
+
+        DeleteFile(tstring(strInstallDirectory +
+            _T("\\boinc.exe")).c_str());
+        DeleteFile(tstring(strInstallDirectory +
+            _T("\\boincmgr.exe")).c_str());
+        DeleteFile(tstring(strInstallDirectory +
+            _T("\\boinccmd.exe")).c_str());
+        DeleteFile(tstring(strInstallDirectory +
+            _T("\\boinc.dll")).c_str());
+        DeleteFile(tstring(strInstallDirectory +
+            _T("\\libcurl.dll")).c_str());
+        DeleteFile(tstring(strInstallDirectory +
+            _T("\\libeay32.dll")).c_str());
+        DeleteFile(tstring(strInstallDirectory +
+            _T("\\ssleay32.dll")).c_str());
+        DeleteFile(tstring(strInstallDirectory +
+            _T("\\zlib1.dll")).c_str());
+        DeleteFile(tstring(strInstallDirectory +
+            _T("\\dbghelp.dll")).c_str());
+        DeleteFile(tstring(strInstallDirectory +
+            _T("\\dbghelp95.dll")).c_str());
+        DeleteFile(tstring(strInstallDirectory +
+            _T("\\srcsrv.dll")).c_str());
+        DeleteFile(tstring(strInstallDirectory +
+            _T("\\symsrv.dll")).c_str());
+
+        return ERROR_SUCCESS;
+    }
+};
 
 UINT __stdcall CleanupOldBinaries(MSIHANDLE hInstall) {
     return CACleanupOldBinaries(hInstall).Execute();

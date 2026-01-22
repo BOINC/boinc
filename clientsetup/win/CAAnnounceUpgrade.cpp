@@ -17,32 +17,37 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "CAAnnounceUpgrade.h"
 
-CAAnnounceUpgrade::CAAnnounceUpgrade(MSIHANDLE hMSIHandle) :
-    BOINCCABase(hMSIHandle, _T("CAAnnounceUpgrade"),
-        _T("Announce the new BOINC version to all components.")) {}
+class CAAnnounceUpgrade : public BOINCCABase {
+public:
+    virtual ~CAAnnounceUpgrade() = default;
 
-UINT CAAnnounceUpgrade::OnExecution() {
-    tstring strCurrentProductVersion;
-
-    auto uiReturnValue = GetProperty(_T("ProductVersion"),
-        strCurrentProductVersion);
-    if (uiReturnValue) {
-        return uiReturnValue;
-    }
-    if (strCurrentProductVersion.empty()) {
-        return ERROR_INSTALL_FAILURE;
+    explicit CAAnnounceUpgrade(MSIHANDLE hMSIHandle) :
+        BOINCCABase(hMSIHandle, _T("CAAnnounceUpgrade"),
+            _T("Announce the new BOINC version to all components.")) {
     }
 
-    uiReturnValue = SetRegistryValue(_T("UpgradingTo"),
-        strCurrentProductVersion);
-    if (uiReturnValue) {
-        return uiReturnValue;
-    }
+    UINT OnExecution() override final {
+        tstring strCurrentProductVersion;
 
-    return ERROR_SUCCESS;
-}
+        auto uiReturnValue = GetProperty(_T("ProductVersion"),
+            strCurrentProductVersion);
+        if (uiReturnValue) {
+            return uiReturnValue;
+        }
+        if (strCurrentProductVersion.empty()) {
+            return ERROR_INSTALL_FAILURE;
+        }
+
+        uiReturnValue = SetRegistryValue(_T("UpgradingTo"),
+            strCurrentProductVersion);
+        if (uiReturnValue) {
+            return uiReturnValue;
+        }
+
+        return ERROR_SUCCESS;
+    }
+};
 
 UINT __stdcall AnnounceUpgrade(MSIHANDLE hInstall) {
     return CAAnnounceUpgrade(hInstall).Execute();

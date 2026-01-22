@@ -17,123 +17,137 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "CACreateClientAuthFile.h"
+#include "win_util.h"
 
-CACreateClientAuthFile::CACreateClientAuthFile(MSIHANDLE hMSIHandle) :
-    BOINCCABase(hMSIHandle, _T("CACreateClientAuthFile"),
-        _T("Store client authorization data")) {
-}
+class CACreateClientAuthFile : public BOINCCABase {
+public:
+    virtual ~CACreateClientAuthFile() = default;
 
-UINT CACreateClientAuthFile::OnExecution() {
-    tstring strDataDirectory;
-    auto uiReturnValue = GetProperty(_T("DATADIR"), strDataDirectory);
-    if (uiReturnValue != ERROR_SUCCESS) {
-        return uiReturnValue;
-    }
-    if (strDataDirectory.empty()) {
-        LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
-            _T("The data directory is empty."));
-        return ERROR_INSTALL_FAILURE;
+    explicit CACreateClientAuthFile(MSIHANDLE hMSIHandle) :
+        BOINCCABase(hMSIHandle, _T("CACreateClientAuthFile"),
+            _T("Store client authorization data")) {
     }
 
-    tstring strEnableProtectedApplicationExecution;
-    uiReturnValue = GetProperty(_T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"),
-        strEnableProtectedApplicationExecution);
-    if (uiReturnValue != ERROR_SUCCESS) {
-        return uiReturnValue;
-    }
-    const auto bProtectedAppExecEnabled =
-        (strEnableProtectedApplicationExecution == _T("1"));
+    UINT OnExecution() override final {
+        tstring strDataDirectory;
+        auto uiReturnValue = GetProperty(_T("DATADIR"), strDataDirectory);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
+        if (strDataDirectory.empty()) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+                _T("The data directory is empty."));
+            return ERROR_INSTALL_FAILURE;
+        }
+        if (!std::filesystem::exists(strDataDirectory)) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+                _T("The data directory doesn't exist."));
+            return ERROR_INSTALL_FAILURE;
+        }
 
-    tstring strBOINCProjectAccountUsername;
-    uiReturnValue = GetProperty(_T("BOINC_PROJECT_ISUSERNAME"),
-        strBOINCProjectAccountUsername);
-    if (uiReturnValue != ERROR_SUCCESS) {
-        return uiReturnValue;
-    }
-    if (bProtectedAppExecEnabled && strBOINCProjectAccountUsername.empty()) {
-        LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
-            _T("The 'boinc_project' account username is empty."));
-        return ERROR_INSTALL_FAILURE;
-    }
+        tstring strEnableProtectedApplicationExecution;
+        uiReturnValue = GetProperty(_T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"),
+            strEnableProtectedApplicationExecution);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
+        const auto bProtectedAppExecEnabled =
+            (strEnableProtectedApplicationExecution == _T("1"));
 
-    tstring strBOINCProjectAccountPassword;
-    uiReturnValue = GetProperty(_T("BOINC_PROJECT_PASSWORD"),
-        strBOINCProjectAccountPassword);
-    if (uiReturnValue != ERROR_SUCCESS) {
-        return uiReturnValue;
-    }
-    if (bProtectedAppExecEnabled && strBOINCProjectAccountPassword.empty()) {
-        LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
-            _T("The 'boinc_project' account password is empty."));
-        return ERROR_INSTALL_FAILURE;
-    }
+        tstring strBOINCProjectAccountUsername;
+        uiReturnValue = GetProperty(_T("BOINC_PROJECT_ISUSERNAME"),
+            strBOINCProjectAccountUsername);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
+        if (bProtectedAppExecEnabled &&
+            strBOINCProjectAccountUsername.empty()) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+                _T("The 'boinc_project' account username is empty."));
+            return ERROR_INSTALL_FAILURE;
+        }
 
-    const auto strClientAuthFile = strDataDirectory + _T("\\client_auth.xml");
+        tstring strBOINCProjectAccountPassword;
+        uiReturnValue = GetProperty(_T("BOINC_PROJECT_PASSWORD"),
+            strBOINCProjectAccountPassword);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
+        if (bProtectedAppExecEnabled &&
+            strBOINCProjectAccountPassword.empty()) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+                _T("The 'boinc_project' account password is empty."));
+            return ERROR_INSTALL_FAILURE;
+        }
 
-    // If we are not installing in protected mode, there may not
-    //   be a valid 'boinc_project' account, so delete the
-    //   client_auth.xml file if it exists.
-    //
-    if (!bProtectedAppExecEnabled)
-    {
-        if (std::filesystem::exists(strClientAuthFile)) {
-            try {
-                if (std::filesystem::remove(strClientAuthFile)) {
-                    LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
-                        _T("The client_auth.xml file was "
-                            "successfully deleted.")
+        const auto strClientAuthFile =
+            strDataDirectory + _T("\\client_auth.xml");
+
+        // If we are not installing in protected mode, there may not
+        //   be a valid 'boinc_project' account, so delete the
+        //   client_auth.xml file if it exists.
+        //
+        if (!bProtectedAppExecEnabled)
+        {
+            if (std::filesystem::exists(strClientAuthFile)) {
+                try {
+                    if (std::filesystem::remove(strClientAuthFile)) {
+                        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+                            _T("The client_auth.xml file was "
+                                "successfully deleted.")
+                        );
+                    }
+                }
+                catch (const std::filesystem::filesystem_error&) {
+                    LogMessage(INSTALLMESSAGE_FATALEXIT, 0, 0, 0, 0,
+                        _T("The client_auth.xml could not be deleted "
+                            "from the data directory. Please delete the file "
+                            "and rerun setup. ")
                     );
+                    return ERROR_INSTALL_FAILURE;
                 }
             }
-            catch (const std::filesystem::filesystem_error&) {
-                LogMessage(INSTALLMESSAGE_FATALEXIT, 0, 0, 0, 0,
-                    _T("The client_auth.xml could not be deleted "
-                        "from the data directory. Please delete the file "
-                        "and rerun setup. ")
-                );
-                return ERROR_INSTALL_FAILURE;
-            }
+            return ERROR_SUCCESS;
         }
+
+        // We are installing in protected mode, which means the 'boinc_project'
+        // account password has been changed, so we need to write out the new
+        // username and password to the client_auth.xml file.
+        auto dwSize = Base64EncodeGetRequiredLength(
+            static_cast<int>(strBOINCProjectAccountPassword.size()));
+        std::string szBuffer;
+        szBuffer.resize(dwSize * sizeof(TCHAR), '\0');
+
+        // Base 64 encode the 'boinc_project' account password
+        //
+        const auto lpszASCIIDecodedPassword =
+            boinc_wide_to_ascii(strBOINCProjectAccountPassword.c_str());
+        if (!Base64Encode(
+            reinterpret_cast<const BYTE*>(lpszASCIIDecodedPassword.c_str()),
+            static_cast<int>(lpszASCIIDecodedPassword.size()),
+            szBuffer.data(), &dwSize, 0)) {
+            LogMessage(INSTALLMESSAGE_FATALEXIT, 0, 0, 0, 0,
+                _T("The 'boinc_project' account password failed to be "
+                    "encoded."));
+            return ERROR_INSTALL_FAILURE;
+        }
+        const auto pszUnicodeEncodedPassword =
+            boinc_ascii_to_wide(szBuffer.c_str());
+
+        std::wofstream fClientAuthFile(strClientAuthFile);
+        fClientAuthFile <<
+            _T("<client_authorization>\n") <<
+            _T("    <boinc_project>\n") <<
+            _T("        <username>") << strBOINCProjectAccountUsername <<
+            _T("</username>\n") <<
+            _T("        <password>") << pszUnicodeEncodedPassword <<
+            _T("</password>\n") <<
+            _T("    </boinc_project>\n") <<
+            _T("</client_authorization>\n");
+        fClientAuthFile.close();
         return ERROR_SUCCESS;
     }
-
-    // We are installing in protected mode, which means the 'boinc_project'
-    // account password has been changed, so we need to write out the new
-    // username and password to the client_auth.xml file.
-    auto dwSize = Base64EncodeGetRequiredLength(
-        static_cast<int>(strBOINCProjectAccountPassword.size()));
-    std::string szBuffer;
-    szBuffer.resize(dwSize * sizeof(TCHAR), '\0');
-
-    // Base 64 encode the 'boinc_project' account password
-    //
-    CW2A pszASCIIDecodedPassword(strBOINCProjectAccountPassword.c_str());
-    auto lpszASCIIDecodedPassword =
-        static_cast<LPSTR>(pszASCIIDecodedPassword);
-    if (!Base64Encode(
-        reinterpret_cast<const BYTE*>(lpszASCIIDecodedPassword),
-        static_cast<int>(strlen(lpszASCIIDecodedPassword)),
-        szBuffer.data(), &dwSize, 0)) {
-        LogMessage(INSTALLMESSAGE_FATALEXIT, 0, 0, 0, 0,
-            _T("The 'boinc_project' account password failed to be encoded."));
-        return ERROR_INSTALL_FAILURE;
-    }
-    CA2W pszUnicodeEncodedPassword(szBuffer.c_str());
-
-    std::wofstream fClientAuthFile(strClientAuthFile);
-    fClientAuthFile <<
-        _T("<client_authorization>\n") <<
-        _T("    <boinc_project>\n") <<
-        _T("        <username>") << strBOINCProjectAccountUsername <<
-        _T("</username>\n") <<
-        _T("        <password>") << pszUnicodeEncodedPassword.m_psz <<
-        _T("</password>\n") <<
-        _T("    </boinc_project>\n") <<
-        _T("</client_authorization>\n");
-    fClientAuthFile.close();
-    return ERROR_SUCCESS;
-}
+};
 
 UINT __stdcall CreateClientAuthFile(MSIHANDLE hInstall) {
     return CACreateClientAuthFile(hInstall).Execute();
