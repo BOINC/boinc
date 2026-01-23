@@ -88,7 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\clientsetup\win\boinccas.h" />
-    <ClInclude Include="..\clientsetup\win\CADeleteBOINCAccounts.h" />
     <ClInclude Include="..\clientsetup\win\CADeleteBOINCGroups.h" />
     <ClInclude Include="..\clientsetup\win\CAGetAdministratorsGroupName.h" />
     <ClInclude Include="..\clientsetup\win\CAGetUsersGroupName.h" />

@@ -279,6 +279,22 @@ std::string getRegistryValue(const std::string& valueName) {
     return value;
 }
 
+bool setRegistryValue(const std::string& valueName,
+    const std::string& valueData) {
+    HKEY hKey = nullptr;
+    const auto createResult = RegCreateKeyEx(HKEY_LOCAL_MACHINE, registryKey,
+        0, nullptr, REG_OPTION_NON_VOLATILE, KEY_WRITE, nullptr, &hKey,
+        nullptr);
+    if (createResult != ERROR_SUCCESS) {
+        return false;
+    }
+    const auto setResult = RegSetValueEx(hKey, valueName.c_str(), 0,
+        REG_SZ, reinterpret_cast<const BYTE*>(valueData.c_str()),
+        static_cast<DWORD>(valueData.size() + 1));
+    RegCloseKey(hKey);
+    return setResult == ERROR_SUCCESS;
+}
+
 void cleanRegistryKey() {
     HKEY hKey = nullptr;
     const auto openResult = RegOpenKeyEx(HKEY_LOCAL_MACHINE, registryKey, 0,

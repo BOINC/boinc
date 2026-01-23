@@ -35,6 +35,8 @@ std::pair<wil::unique_hmodule, F> load_function_from_boinccas(
 }
 
 std::string getRegistryValue(const std::string& valueName);
+bool setRegistryValue(const std::string& valueName,
+    const std::string& valueData);
 void cleanRegistryKey();
 
 bool userExists(const std::string& username);
