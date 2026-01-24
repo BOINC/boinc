@@ -1184,7 +1184,6 @@ int VBOX_VM::poll(bool log_state) {
     int retval = ERR_EXEC;
     string command;
     string output;
-    string::iterator iter;
     string vmstate;
     static string vmstate_old = "poweredoff";
 
@@ -1307,7 +1306,6 @@ int VBOX_VM::poll2(bool log_state) {
     int retval = ERR_EXEC;
     string command;
     string output;
-    string::iterator iter;
     string vmstate;
     static string vmstate_old = "poweroff";
     size_t vmstate_start;
@@ -2185,7 +2183,6 @@ int VBOX_VM::get_vm_network_bytes_received(double& received) {
 
 int VBOX_VM::get_vm_process_id() {
     string virtualbox_vm_log;
-    string::iterator iter;
     int retval = BOINC_SUCCESS;
     string line;
     string comp = "Process ID: ";
