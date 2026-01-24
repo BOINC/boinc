@@ -96,6 +96,7 @@ parts:
     - cmake
     - dbus
     - python3-venv
+    - flex
     source: .
     plugin: autotools
     build-environment:

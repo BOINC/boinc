@@ -29,6 +29,12 @@
         },
         "libnotify",
         "xcb-util",
-        "pixbufloader-svg"
+        "pixbufloader-svg",
+        "libxkbcommon",
+        {
+          "name": "wayland-protocols",
+          "features": ["force-build"],
+          "default-features": false
+        }
     ]
 }

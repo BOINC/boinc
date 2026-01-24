@@ -19,3 +19,4 @@ include(${CMAKE_CURRENT_LIST_DIR}/../../vcpkg_root_find.cmake)
 include(${VCPKG_ROOT}/triplets/community/x64-linux-release.cmake)
 
 set(X_VCPKG_FORCE_VCPKG_X_LIBRARIES ON)
+set(X_VCPKG_FORCE_VCPKG_WAYLAND_LIBRARIES ON)
