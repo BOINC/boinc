@@ -517,7 +517,7 @@ int VBOX_VM::create_vm() {
         vboxlog_msg("Hardware acceleration CPU extensions not detected. Disabling VirtualBox hardware acceleration support.");
         disable_acceleration = true;
     }
-    if (strstr(aid.host_info.p_features, "hypervisor")) {
+    if (strstr(aid.host_info.p_features, "hypervisor") && !is_virtualbox_version_newer(7, 1, 99)) {
         vboxlog_msg("Running under Hypervisor. Disabling VirtualBox hardware acceleration support.");
         disable_acceleration = true;
     }
