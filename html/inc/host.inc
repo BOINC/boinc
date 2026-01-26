@@ -269,12 +269,14 @@ function host_nresults($host) {
 function vbox_desc($misc) {
     if (empty($misc->vbox)) return '---';
     $v = $misc->vbox;
-    return sprintf(
-        'Virtualbox %s<br>HW acceleration: %s<br>Enabled: %s',
-        $v->version,
-        $v->hw_accel?'yes':'no',
-        $v->hw_accel_enabled?'yes':'no'
-    );
+    $x = sprintf('Virtualbox %s', $v->version);
+    if (!empty($v->hw_accel)) {
+        $x .= sprintf('<br>HW acceleration: %s', $v->hw_accel?'yes':'no');
+    }
+    if (!empty($v->hw_accel_enabled)) {
+        $x .= sprintf('<br>Enabled: %s', $v->hw_accel_enabled?'yes':'no');
+    }
+    return $x;
 }
 
 function docker_desc($misc) {
@@ -317,15 +319,19 @@ function gpu_desc($misc) {
     if (empty($misc->gpus)) return '---';
     $gpus = [];
     foreach ($misc->gpus as $g) {
-        $x = sprintf(
-            '%d %s; %dMB RAM',
-            $g->count, $g->model, $g->ram_mb
-        );
+        if (empty($g->count)) $g->count = 1;
+        $x = sprintf('%d %s', $g->count, $g->model);
+        if (!empty($g->ram_mb)) {
+            $x .= sprintf('; %s RAM', size_string($g->ram_mb*MEGA));
+        }
         if (!empty($g->driver_version)) {
             $x .= "; Driver: $g->driver_version";
         }
         if (!empty($g->opencl_version)) {
-            $x .= "; OpenCL: $g->opencl_version";
+            $x .= sprintf('; OpenCL: %d.%d',
+                $g->opencl_version/100,
+                $g->opencl_version%100
+            );
         }
         $gpus[] = $x;
     }
