@@ -316,7 +316,7 @@ function docker_desc($misc) {
 // return a human-readable version of the GPU info
 //
 function gpu_desc($misc) {
-    if (!isset($misc->gpus)) return '---';
+    if (empty($misc->gpus)) return '---';
     $gpus = [];
     foreach ($misc->gpus as $g) {
         if (empty($g->count)) $g->count = 1;
