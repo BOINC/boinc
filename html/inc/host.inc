@@ -269,7 +269,7 @@ function host_nresults($host) {
 function vbox_desc($misc) {
     if (!isset($misc->vbox)) return '---';
     $v = $misc->vbox;
-    $x = sprintf('Virtualbox %s', $v->version);
+    $x = sprintf('Virtualbox %s', htmlspecialchars($v->version));
     if (isset($v->hw_accel)) {
         $x .= sprintf('<br>HW acceleration: %s', $v->hw_accel?'yes':'no');
     }
@@ -284,7 +284,7 @@ function docker_desc($misc) {
     $d = $misc->docker;
     $x = sprintf('%s version %s',
         $d->type==1?"Docker":"Podman",
-        $d->version
+        htmlspecialchars($d->version)
     );
     if (isset($d->wsl_distro)) {
         if (empty($d->boinc_buda_runner_version)) {
@@ -312,7 +312,6 @@ function docker_desc($misc) {
     return $x;
 }
 
-
 // return a human-readable version of the GPU info
 //
 function gpu_desc($misc) {
@@ -325,7 +324,9 @@ function gpu_desc($misc) {
             $x .= sprintf('; %s RAM', size_string($g->ram_mb*MEGA));
         }
         if (!empty($g->driver_version)) {
-            $x .= "; Driver: $g->driver_version";
+            $x .= sprintf('; Driver: %s',
+                htmlspecialchars($g->driver_version)
+            );
         }
         if (!empty($g->opencl_version)) {
             $x .= sprintf('; OpenCL: %d.%d',
@@ -344,9 +345,11 @@ function boinc_version($misc) {
     if (!isset($misc->client_version)) {
         return '---';
     }
-    $x = $misc->client_version;
+    $x = htmlspecialchars($misc->client_version);
     if (!empty($misc->client_brand)) {
-        $x .= " ($misc->client_brand)";
+        $x .= sprintf(' (%s)',
+            htmlspecialchars($misc->client_brand)
+        );
     }
     return $x;
 }
