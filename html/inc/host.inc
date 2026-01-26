@@ -267,26 +267,26 @@ function host_nresults($host) {
 }
 
 function vbox_desc($misc) {
-    if (empty($misc->vbox)) return '---';
+    if (!isset($misc->vbox)) return '---';
     $v = $misc->vbox;
     $x = sprintf('Virtualbox %s', $v->version);
-    if (!empty($v->hw_accel)) {
+    if (isset($v->hw_accel)) {
         $x .= sprintf('<br>HW acceleration: %s', $v->hw_accel?'yes':'no');
     }
-    if (!empty($v->hw_accel_enabled)) {
+    if (isset($v->hw_accel_enabled)) {
         $x .= sprintf('<br>Enabled: %s', $v->hw_accel_enabled?'yes':'no');
     }
     return $x;
 }
 
 function docker_desc($misc) {
-    if (empty($misc->docker)) return '---';
+    if (!isset($misc->docker)) return '---';
     $d = $misc->docker;
     $x = sprintf('%s version %s',
         $d->type==1?"Docker":"Podman",
         $d->version
     );
-    if (!empty($d->wsl_distro)) {
+    if (isset($d->wsl_distro)) {
         if (empty($d->boinc_buda_runner_version)) {
             $x .= sprintf(
                 '<br>WSL distro: %s',
@@ -300,7 +300,7 @@ function docker_desc($misc) {
             );
         }
     }
-    if (!empty($misc->config)) {
+    if (isset($misc->config)) {
         $c = $misc->config;
         if (!empty($c->dont_use_wsl)) {
             $x .= "<br>Config: don't use WSL";
@@ -316,7 +316,7 @@ function docker_desc($misc) {
 // return a human-readable version of the GPU info
 //
 function gpu_desc($misc) {
-    if (empty($misc->gpus)) return '---';
+    if (!isset($misc->gpus)) return '---';
     $gpus = [];
     foreach ($misc->gpus as $g) {
         if (empty($g->count)) $g->count = 1;
@@ -341,7 +341,7 @@ function gpu_desc($misc) {
 // Given the same string as above, return the BOINC version
 //
 function boinc_version($misc) {
-    if (empty($misc->client_version)) {
+    if (!isset($misc->client_version)) {
         return '---';
     }
     $x = $misc->client_version;
