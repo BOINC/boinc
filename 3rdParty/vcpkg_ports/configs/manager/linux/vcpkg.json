@@ -29,6 +29,10 @@
         },
         "libnotify",
         "xcb-util",
-        "pixbufloader-svg"
+        "pixbufloader-svg",
+        {
+            "name": "gtk3",
+            "default-features": false
+        }
     ]
 }

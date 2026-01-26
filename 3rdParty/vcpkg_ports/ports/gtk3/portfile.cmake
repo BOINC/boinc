@@ -38,7 +38,11 @@ else()
     list(APPEND OPTIONS_RELEASE -Dintrospection=false)
 endif()
 
-list(APPEND OPTIONS -Dwayland_backend=false)
+if("wayland" IN_LIST FEATURES)
+    list(APPEND OPTIONS -Dwayland_backend=true)
+else()
+    list(APPEND OPTIONS -Dwayland_backend=false)
+endif()
 
 vcpkg_configure_meson(
     SOURCE_PATH "${SOURCE_PATH}"
