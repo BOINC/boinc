@@ -14,8 +14,7 @@
         },
         {
             "name": "gtk3",
-            "default-features": false,
-            "features": ["core"]
+            "default-features": false
         },
         {
           "name": "wxwidgets",
