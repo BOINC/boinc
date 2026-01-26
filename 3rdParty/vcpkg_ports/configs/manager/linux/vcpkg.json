@@ -13,6 +13,10 @@
           "default-features": false
         },
         {
+            "name": "gtk3",
+            "default-features": false
+        },
+        {
           "name": "wxwidgets",
           "default-features": false
         },
