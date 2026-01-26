@@ -16,7 +16,7 @@
   </ImportGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>../win_build;../lib;../zip;../tests/unit-tests/win;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;../lib;../zip;../api;../samples/vboxwrapper;../tests/unit-tests/win;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
@@ -25,9 +25,9 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gtest_main.lib;gmock_main.lib;zip.lib;msi.lib;cabinet.lib;Version.lib;tinyxml2.lib;Netapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Configuration)'=='Release'">zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gtest_main.lib;gmock_main.lib;zip.lib;atls.lib;ole32.lib;wsock32.lib;psapi.lib;msi.lib;cabinet.lib;Version.lib;tinyxml2.lib;Netapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">zlibd.lib;libcmtd.lib;libcpmtd.lib;comsuppwd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)'=='Release'">zlib.lib;libcmt.lib;libcpmt.lib;comsuppw.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories Condition="'$(Configuration)'=='Debug'">$(VcpkgInstalledDir)/debug/lib/manual-link;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalLibraryDirectories Condition="'$(Configuration)'=='Release'">$(VcpkgInstalledDir)/lib/manual-link;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
@@ -51,11 +51,22 @@
     <ClCompile Include="..\tests\unit-tests\lib\test_md5_file.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_shmem.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_zip.cpp" />
+    <ClCompile Include="..\tests\unit-tests\vboxwrapper\test_vbox_common.cpp" />
     <ClCompile Include="..\tests\unit-tests\win\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\samples\vboxwrapper\floppyio.cpp" />
+    <ClCompile Include="..\samples\vboxwrapper\vbox_common.cpp" />
+    <ClCompile Include="..\samples\vboxwrapper\vbox_vboxmanage.cpp" />
+    <ClCompile Include="..\samples\vboxwrapper\vboxjob.cpp" />
+    <ClCompile Include="..\samples\vboxwrapper\vboxlogging.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="libboincapi.vcxproj">
+      <Project>{07bda8f7-4aaf-4a3b-b96e-ea72a143c5ae}</Project>
+    </ProjectReference>
     <ProjectReference Include="libboinc.vcxproj">
       <Project>{e8f6bd7e-461a-4733-b7d8-37b09a099ed8}</Project>
     </ProjectReference>

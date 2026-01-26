@@ -307,7 +307,7 @@ struct CLIENT_STATE {
     void clear_absolute_times();
     void set_now();
     void log_show_projects();
-    void init_result_resource_usage();
+    void init_result_resource_usage(PROJECT *p = NULL);
 
 // --------------- cpu_sched.cpp:
     double total_resource_share();
