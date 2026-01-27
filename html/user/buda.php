@@ -67,7 +67,11 @@ function show_app($app_dir) {
     global $buda_root;
     $desc = null;
     $desc_path = "$buda_root/$app_dir/desc.json";
-    $desc = json_decode(file_get_contents($desc_path));
+    $desc = @json_decode(file_get_contents($desc_path));
+    if (!$desc) {
+        echo "$app_dir: No desc.json file";
+        return;
+    }
     echo '<hr>';
     echo sprintf('<h3>%s</h3><p>', $desc->long_name);
     show_button_small(

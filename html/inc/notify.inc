@@ -40,7 +40,7 @@ function show_notify_rss_item($notify) {
         pm_rss($notify, $title, $msg, $url);
         break;
     case NOTIFY_SUBSCRIBED_THREAD:
-        [$title, $msg, $url] = subscribe_rss($notify);
+        [$title, $msg, $url] = subscribed_thread_rss($notify);
         break;
     }
     if (!$msg) {
