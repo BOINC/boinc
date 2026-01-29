@@ -40,7 +40,6 @@
     <ClCompile Include="..\clientsetup\win\CACreateProjectInitFile.cpp" />
     <ClCompile Include="..\clientsetup\win\CADeleteBOINCAccounts.cpp" />
     <ClCompile Include="..\clientsetup\win\CADeleteBOINCGroups.cpp" />
-    <ClCompile Include="..\clientsetup\win\CAGetAdministratorsGroupName.cpp" />
     <ClCompile Include="..\clientsetup\win\CAGetUsersGroupName.cpp" />
     <ClCompile Include="..\clientsetup\win\CAGrantBOINCAdminsRights.cpp" />
     <ClCompile Include="..\clientsetup\win\CAGrantBOINCAdminsVirtualBoxRights.cpp" />
@@ -88,7 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\clientsetup\win\boinccas.h" />
-    <ClInclude Include="..\clientsetup\win\CAGetAdministratorsGroupName.h" />
     <ClInclude Include="..\clientsetup\win\CAGetUsersGroupName.h" />
     <ClInclude Include="..\clientsetup\win\CAGrantBOINCAdminsRights.h" />
     <ClInclude Include="..\clientsetup\win\CAGrantBOINCAdminsVirtualBoxRights.h" />

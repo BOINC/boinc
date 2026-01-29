@@ -59,11 +59,6 @@
             "Sequence": 1561
         },
         {
-            "Action": "CAGetAdministratorsGroupName",
-            "Condition": "REMOVE <> \"ALL\"",
-            "Sequence": 1537
-        },
-        {
             "Action": "CAGetUsersGroupName",
             "Condition": "REMOVE <> \"ALL\"",
             "Sequence": 1543
