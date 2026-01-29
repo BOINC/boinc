@@ -317,7 +317,7 @@ void HOST_INFO::print() {
 }
 
 void SIMPLE_GUI_INFO::print() {
-    unsigned int i=0;
+    int i=0;
     printf("======== Projects ========\n");
     for (PROJECT *p: projects) {
         printf("%d) -----------\n", ++i);
@@ -351,7 +351,7 @@ void TIME_STATS::print() {
 }
 
 void CC_STATE::print() {
-    unsigned int i;
+    int i;
     printf("======== Projects ========\n");
     i=0;
     for (PROJECT *p: projects) {
@@ -430,7 +430,7 @@ void CC_STATUS::print() {
 }
 
 void PROJECTS::print() {
-    unsigned int i=0;
+    int i=0;
     printf("======== Projects ========\n");
     for (PROJECT *p: projects) {
         printf("%d) -----------\n", ++i);
@@ -445,7 +445,7 @@ void PROJECTS::print_urls() {
 }
 
 void DISK_USAGE::print() {
-    unsigned int i=0;
+    int i=0;
     printf("======== Disk usage ========\n");
     printf("total: %.2fGB\n", d_total/GIGA);
     printf("free: %.2fGB\n", d_free/GIGA);
@@ -456,7 +456,7 @@ void DISK_USAGE::print() {
 }
 
 void RESULTS::print() {
-    unsigned int i=0;
+    int i=0;
     printf("\n======== Tasks ========\n");
     for (RESULT *rp: results) {
         printf("%d) -----------\n", ++i);
@@ -465,7 +465,7 @@ void RESULTS::print() {
 }
 
 void FILE_TRANSFERS::print() {
-    unsigned int i=0;
+    int i=0;
     printf("\n======== File transfers ========\n");
     for (FILE_TRANSFER *ftp: file_transfers) {
         printf("%d) -----------\n", ++i);
@@ -474,7 +474,7 @@ void FILE_TRANSFERS::print() {
 }
 
 void MESSAGES::print() {
-    unsigned int i=0;
+    int i=0;
     printf("\n======== Messages ========\n");
     for (MESSAGE *m: messages) {
         printf("%d) -----------\n", ++i);

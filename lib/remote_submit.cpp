@@ -127,7 +127,7 @@ static int do_http_post(
         CURLFORM_END
     );
     int i=0;
-    for (string s: send_files) {
+    for (string &s: send_files) {
         snprintf(buf, sizeof(buf), "file_%d", i++);
         curl_formadd(&formpost, &lastptr,
             CURLFORM_COPYNAME, buf,

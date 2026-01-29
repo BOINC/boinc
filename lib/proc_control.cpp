@@ -75,8 +75,8 @@ void get_descendants(int pid, vector<int>& pids) {
     get_descendants_aux(pm, pid, pids);
 #ifdef DEBUG_PROC_CONTROL
     fprintf(stderr, "descendants of %d:\n", pid);
-    for (int pid: pids) {
-        fprintf(stderr, "   %d\n", pid);
+    for (int dpid: pids) {
+        fprintf(stderr, "   %d\n", dpid);
     }
 #endif
 }
