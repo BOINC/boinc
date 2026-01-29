@@ -586,7 +586,11 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     //
     while (1) {
         bool found = false;
-        for (PROJECT* p: gstate.projects) {
+
+        // can't use range-based for here; detach_project can change list
+        //
+        for (unsigned int i=0; i<gstate.projects.size(); i++) {
+            PROJECT *p = gstate.projects[i];
             if (p->detach_when_done && !gstate.nresults_for_project(p) && p->attached_via_acct_mgr) {
                 gstate.detach_project(p);
                 found = true;

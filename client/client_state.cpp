@@ -1593,7 +1593,11 @@ bool CLIENT_STATE::garbage_collect() {
     //
     while (1) {
         bool found = false;
-        for (PROJECT* p: projects) {
+
+        // can't use range-based for here; detach_project changes list
+        //
+        for (unsigned int i=0; i<projects.size(); i++) {
+            PROJECT* p = projects[i];
             if (p->detach_when_done && !nresults_for_project(p)) {
                 // If we're using an AM,
                 // wait until the next successful RPC to detach project,
