@@ -579,10 +579,10 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
 
     // The RPC was successful
     //
-    // Detach projects that are
-    // - detach_when_done
-    // - done
-    // - attached via AM
+    // Detach projects that
+    // - are detach_when_done
+    // - have no jobs
+    // - are attached via AM
     //
     while (1) {
         bool found = false;
@@ -592,8 +592,10 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         for (unsigned int i=0; i<gstate.projects.size(); i++) {
             PROJECT *p = gstate.projects[i];
             if (p->detach_when_done && !gstate.nresults_for_project(p) && p->attached_via_acct_mgr) {
+                msg_printf(p, MSG_INFO, "Detaching - no more tasks");
                 gstate.detach_project(p);
                 found = true;
+                break;
             }
         }
         if (!found) break;

@@ -1608,6 +1608,7 @@ bool CLIENT_STATE::garbage_collect() {
                     detach_project(p);
                     action = true;
                     found = true;
+                    break;
                 }
             }
         }
@@ -2208,6 +2209,9 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
 // - delete account file
 // - delete project directory
 // - delete various per-project files
+// - remove PROJECT object from vector, and delete it
+//      NOTE: if you call this from a scan of the vector,
+//      you need to take this into account
 //
 int CLIENT_STATE::detach_project(PROJECT* project) {
     vector<PROJECT*>::iterator project_iter;
