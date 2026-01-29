@@ -48,8 +48,7 @@ using std::string;
 using std::vector;
 
 void DAILY_XFER_HISTORY::print() {
-    for (unsigned int i=0; i<daily_xfers.size(); i++) {
-        DAILY_XFER& dx = daily_xfers[i];
+    for (DAILY_XFER& dx: daily_xfers) {
         char buf[256];
         time_t t = dx.when*86400;
         struct tm* tm = localtime(&t);
@@ -76,8 +75,6 @@ void PROJECT::print_disk_usage() {
 }
 
 void PROJECT::print() {
-    unsigned int i;
-
     printf("   name: %s\n", project_name.c_str());
     printf("   master URL: %s\n", master_url);
     printf("   user_name: %s\n", user_name.c_str());
@@ -100,8 +97,8 @@ void PROJECT::print() {
     time_t foo = (time_t)last_rpc_time;
     printf("   last RPC: %s\n", ctime(&foo));
     printf("   project files downloaded: %f\n", project_files_downloaded_time);
-    for (i=0; i<gui_urls.size(); i++) {
-        gui_urls[i].print();
+    for (GUI_URL &g: gui_urls) {
+        g.print();
     }
     printf("   jobs succeeded: %d\n", njobs_success);
     printf("   jobs failed: %d\n", njobs_error);
@@ -142,8 +139,7 @@ void WORKUNIT::print() {
     printf("   disk bound: %.2f MB\n", rsc_disk_bound/MEGA);
     if (!job_keywords.empty()) {
         printf("   keywords:\n");
-        for (unsigned int i=0; i<job_keywords.keywords.size(); i++) {
-            KEYWORD &kw = job_keywords.keywords[i];
+        for (KEYWORD &kw: job_keywords.keywords) {
             printf("      %s\n", kw.name.c_str());
         }
     }
@@ -321,16 +317,17 @@ void HOST_INFO::print() {
 }
 
 void SIMPLE_GUI_INFO::print() {
-    unsigned int i;
+    unsigned int i=0;
     printf("======== Projects ========\n");
-    for (i=0; i<projects.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        projects[i]->print();
+    for (PROJECT *p: projects) {
+        printf("%d) -----------\n", ++i);
+        p->print();
     }
     printf("\n======== Tasks ========\n");
-    for (i=0; i<results.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        results[i]->print();
+    i=0;
+    for (RESULT *rp: results) {
+        printf("%d) -----------\n", ++i);
+        rp->print();
     }
 }
 
@@ -356,29 +353,34 @@ void TIME_STATS::print() {
 void CC_STATE::print() {
     unsigned int i;
     printf("======== Projects ========\n");
-    for (i=0; i<projects.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        projects[i]->print();
+    i=0;
+    for (PROJECT *p: projects) {
+        printf("%d) -----------\n", ++i);
+        p->print();
     }
     printf("\n======== Applications ========\n");
-    for (i=0; i<apps.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        apps[i]->print();
+    i=0;
+    for (APP *app: apps) {
+        printf("%d) -----------\n", ++i);
+        app->print();
     }
     printf("\n======== Application versions ========\n");
-    for (i=0; i<app_versions.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        app_versions[i]->print();
+    i=0;
+    for (APP_VERSION *avp: app_versions) {
+        printf("%d) -----------\n", ++i);
+        avp->print();
     }
     printf("\n======== Workunits ========\n");
-    for (i=0; i<wus.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        wus[i]->print();
+    i=0;
+    for (WORKUNIT *wup: wus) {
+        printf("%d) -----------\n", ++i);
+        wup->print();
     }
     printf("\n======== Tasks ========\n");
-    for (i=0; i<results.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        results[i]->print();
+    i=0;
+    for (RESULT *rp: results) {
+        printf("%d) -----------\n", ++i);
+        rp->print();
     }
     printf("\n======== Time stats ========\n");
     time_stats.print();
@@ -428,56 +430,55 @@ void CC_STATUS::print() {
 }
 
 void PROJECTS::print() {
-    unsigned int i;
+    unsigned int i=0;
     printf("======== Projects ========\n");
-    for (i=0; i<projects.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        projects[i]->print();
+    for (PROJECT *p: projects) {
+        printf("%d) -----------\n", ++i);
+        p->print();
     }
 }
 
 void PROJECTS::print_urls() {
-    unsigned int i;
-    for (i=0; i<projects.size(); i++) {
-        printf("%s\n", projects[i]->master_url);
+    for (PROJECT *p: projects) {
+        printf("%s\n", p->master_url);
     }
 }
 
 void DISK_USAGE::print() {
-    unsigned int i;
+    unsigned int i=0;
     printf("======== Disk usage ========\n");
     printf("total: %.2fGB\n", d_total/GIGA);
     printf("free: %.2fGB\n", d_free/GIGA);
-    for (i=0; i<projects.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        projects[i]->print_disk_usage();
+    for (PROJECT *p: projects) {
+        printf("%d) -----------\n", ++i);
+        p->print_disk_usage();
     }
 }
 
 void RESULTS::print() {
-    unsigned int i;
+    unsigned int i=0;
     printf("\n======== Tasks ========\n");
-    for (i=0; i<results.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        results[i]->print();
+    for (RESULT *rp: results) {
+        printf("%d) -----------\n", ++i);
+        rp->print();
     }
 }
 
 void FILE_TRANSFERS::print() {
-    unsigned int i;
+    unsigned int i=0;
     printf("\n======== File transfers ========\n");
-    for (i=0; i<file_transfers.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        file_transfers[i]->print();
+    for (FILE_TRANSFER *ftp: file_transfers) {
+        printf("%d) -----------\n", ++i);
+        ftp->print();
     }
 }
 
 void MESSAGES::print() {
-    unsigned int i;
+    unsigned int i=0;
     printf("\n======== Messages ========\n");
-    for (i=0; i<messages.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        messages[i]->print();
+    for (MESSAGE *m: messages) {
+        printf("%d) -----------\n", ++i);
+        m->print();
     }
 }
 

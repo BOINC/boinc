@@ -126,9 +126,9 @@ static int do_http_post(
         CURLFORM_COPYCONTENTS, request,
         CURLFORM_END
     );
-    for (unsigned int i=0; i<send_files.size(); i++) {
-        snprintf(buf, sizeof(buf), "file_%d", i);
-        string s = send_files[i];
+    int i=0;
+    for (string s: send_files) {
+        snprintf(buf, sizeof(buf), "file_%d", i++);
         curl_formadd(&formpost, &lastptr,
             CURLFORM_COPYNAME, buf,
             CURLFORM_FILE, s.c_str(),
@@ -171,8 +171,11 @@ int query_files(
         snprintf(buf, sizeof(buf), "<batch_id>%d</batch_id>\n", batch_id);
         req_msg += string(buf);
     }
-    for (unsigned int i=0; i<boinc_names.size(); i++) {
-        snprintf(buf, sizeof(buf), "   <phys_name>%s</phys_name>\n", boinc_names[i].c_str());
+    for (string &s: boinc_names) {
+        snprintf(buf, sizeof(buf),
+            "   <phys_name>%s</phys_name>\n",
+            s.c_str()
+        );
         req_msg += string(buf);
     }
     req_msg += "</query_files>\n";
@@ -231,8 +234,8 @@ int upload_files (
         snprintf(buf, sizeof(buf), "<batch_id>%d</batch_id>\n", batch_id);
         req_msg += string(buf);
     }
-    for (unsigned int i=0; i<boinc_names.size(); i++) {
-        snprintf(buf, sizeof(buf), "<phys_name>%s</phys_name>\n", boinc_names[i].c_str());
+    for (string &s: boinc_names) {
+        snprintf(buf, sizeof(buf), "<phys_name>%s</phys_name>\n", s.c_str());
         req_msg += string(buf);
     }
     req_msg += "</upload_files>\n";
@@ -344,8 +347,7 @@ int estimate_batch(
         app_name
     );
     string request = buf;
-    for (unsigned int i=0; i<jobs.size(); i++) {
-        JOB job = jobs[i];
+    for (JOB &job: jobs) {
         request += "<job>\n";
         if (!job.cmdline_args.empty()) {
             request += "<command_line>" + job.cmdline_args + "</command_line>\n";
@@ -445,16 +447,14 @@ int submit_jobs_params(
         job_params.delay_bound
     );
     string request = buf;
-    for (unsigned int i=0; i<jobs.size(); i++) {
-        JOB job = jobs[i];
+    for (JOB &job: jobs) {
         request += "<job>\n";
         snprintf(buf, sizeof(buf), "  <name>%s</name>\n", job.job_name);
         request += buf;
         if (!job.cmdline_args.empty()) {
             request += "<command_line>" + job.cmdline_args + "</command_line>\n";
         }
-        for (unsigned int j=0; j<job.infiles.size(); j++) {
-            INFILE infile = job.infiles[j];
+        for (INFILE &infile: job.infiles) {
             switch (infile.mode) {
             case FILE_MODE_LOCAL_STAGED:
                 snprintf(buf, sizeof(buf),
@@ -539,8 +539,8 @@ int query_batch_set(
     request += string(buf);
     snprintf(buf, sizeof(buf), "<min_mod_time>%f</min_mod_time>\n", min_mod_time);
     request += string(buf);
-    for (unsigned int i=0; i<batch_names.size(); i++) {
-        snprintf(buf, sizeof(buf), "<batch_name>%s</batch_name>\n", batch_names[i].c_str());
+    for (string &s: batch_names) {
+        snprintf(buf, sizeof(buf), "<batch_name>%s</batch_name>\n", s.c_str());
         request += string(buf);
     }
     request += "</query_batch2>\n";
@@ -799,8 +799,8 @@ int abort_jobs(
     request = "<abort_jobs>\n";
     snprintf(buf, sizeof(buf), "<authenticator>%s</authenticator>\n", authenticator);
     request += string(buf);
-    for (unsigned int i=0; i<job_names.size(); i++) {
-        snprintf(buf, sizeof(buf), "<job_name>%s</job_name>\n", job_names[i].c_str());
+    for (string &s: job_names) {
+        snprintf(buf, sizeof(buf), "<job_name>%s</job_name>\n", s.c_str());
         request += string(buf);
     }
     request += "</abort_jobs>\n";

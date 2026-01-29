@@ -536,10 +536,10 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         allow_remote_gui_rpc ? 1 : 0
     );
 
-    for (i=0; i<alt_platforms.size(); ++i) {
+    for (string &s: alt_platforms) {
         out.printf(
             "        <alt_platform>%s</alt_platform>\n",
-            alt_platforms[i].c_str()
+            s.c_str()
         );
     }
 
@@ -586,28 +586,28 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         dont_use_docker
     );
 
-    for (i=0; i<disallowed_wsls.size(); ++i) {
+    for (string &s: disallowed_wsls) {
         out.printf(
             "        <disallowed_wsl>%s</disallowed_wsl>\n",
-            disallowed_wsls[i].c_str()
+            s.c_str()
         );
     }
 
-    for (i=0; i<exclude_gpus.size(); i++) {
-        exclude_gpus[i].write(out);
+    for (EXCLUDE_GPU &e: exclude_gpus) {
+        e.write(out);
     }
 
-    for (i=0; i<exclusive_apps.size(); ++i) {
+    for (string &s: exclusive_apps) {
         out.printf(
             "        <exclusive_app>%s</exclusive_app>\n",
-            exclusive_apps[i].c_str()
+            s.c_str()
         );
     }
 
-    for (i=0; i<exclusive_gpu_apps.size(); ++i) {
+    for (string &s: exclusive_gpu_apps) {
         out.printf(
             "        <exclusive_gpu_app>%s</exclusive_gpu_app>\n",
-            exclusive_gpu_apps[i].c_str()
+            s.c_str()
         );
     }
 
@@ -632,24 +632,24 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         http_transfer_timeout_bps
     );
 
-    for (i=0; i<ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU].size(); ++i) {
+    for (int d: ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU]) {
         out.printf(
             "        <ignore_nvidia_dev>%d</ignore_nvidia_dev>\n",
-            ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU][i]
+            d
         );
     }
 
-    for (i=0; i<ignore_gpu_instance[PROC_TYPE_AMD_GPU].size(); ++i) {
+    for (int d: ignore_gpu_instance[PROC_TYPE_AMD_GPU]) {
         out.printf(
             "        <ignore_ati_dev>%d</ignore_ati_dev>\n",
-            ignore_gpu_instance[PROC_TYPE_AMD_GPU][i]
+            d
         );
     }
 
-    for (i=0; i<ignore_gpu_instance[PROC_TYPE_INTEL_GPU].size(); ++i) {
+    for (int d: ignore_gpu_instance[PROC_TYPE_INTEL_GPU]) {
         out.printf(
             "        <ignore_intel_dev>%d</ignore_intel_dev>\n",
-            ignore_gpu_instance[PROC_TYPE_INTEL_GPU][i]
+            d
         );
     }
 
@@ -904,8 +904,7 @@ void APP_CONFIGS::write(MIOFILE& out) {
     out.printf(
         "<app_config>\n"
     );
-    for (unsigned int i=0; i<app_configs.size(); i++) {
-        APP_CONFIG& ac = app_configs[i];
+    for (APP_CONFIG& ac: app_configs) {
         out.printf(
             "    <app>\n"
             "        <name>%s</name>\n"
@@ -925,8 +924,7 @@ void APP_CONFIGS::write(MIOFILE& out) {
             ac.report_results_immediately?1:0
         );
     }
-    for (unsigned int i=0; i<app_version_configs.size(); i++) {
-        APP_VERSION_CONFIG& avc = app_version_configs[i];
+    for (APP_VERSION_CONFIG& avc: app_version_configs) {
         out.printf(
             "    <app_version>\n"
             "        <app_name>%s</app_name>\n"
