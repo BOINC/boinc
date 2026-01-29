@@ -92,6 +92,8 @@
 // Misc Includes
 #include <tchar.h>
 
+#include <wil/resource.h>
+
 #ifdef _UNICODE
 #define tstring std::wstring
 #define tostringstream std::wostringstream

@@ -18,7 +18,6 @@
 #include "stdafx.h"
 #include "boinccas.h"
 #include "win_util.h"
-#include "wil/resource.h"
 
 class CACreateBOINCAccounts : public BOINCCABase {
 public:

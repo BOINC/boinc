@@ -16,7 +16,6 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
-#include "wil/resource.h"
 #include "boinccas.h"
 #include "lsaprivs.h"
 
