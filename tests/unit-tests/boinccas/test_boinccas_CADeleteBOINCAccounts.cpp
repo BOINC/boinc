@@ -16,7 +16,6 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "boinccas_helper.h"
-#include "project_init.h"
 
 namespace test_boinccas_CADeleteBOINCAccounts {
 

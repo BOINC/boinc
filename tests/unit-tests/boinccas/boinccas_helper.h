@@ -49,7 +49,8 @@ bool isAccountMemberOfLocalGroup(const std::string& accountName,
 std::string getLocalizedUsersGroupName();
 std::string getLocalizedAdministratorsGroupName();
 bool localGroupExists(const std::string& groupName);
-void deleteLocalGroup(const std::string& groupName);
+bool createLocalGroup(const std::string& groupName);
+bool deleteLocalGroup(const std::string& groupName);
 bool addUserToTheBuiltinAdministratorsGroup(wil::unique_sid&& userSid);
 
 constexpr auto msiName = "test.msi";

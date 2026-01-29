@@ -20,166 +20,59 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "CADeleteBOINCGroups.h"
-#include "lsaprivs.h"
 
+class CADeleteBOINCGroups : public BOINCCABase {
+public:
+    virtual ~CADeleteBOINCGroups() = default;
+    explicit CADeleteBOINCGroups(MSIHANDLE hMSIHandle) :
+        BOINCCABase(hMSIHandle, _T("CADeleteBOINCGroups"),
+            _T("Validating user groups used by BOINC for secure sandboxes")) {
+    }
 
-#define CUSTOMACTION_NAME               _T("CADeleteBOINCGroups")
-#define CUSTOMACTION_PROGRESSTITLE      _T("Validating user groups used by BOINC for secure sandboxes")
+    UINT OnExecution() override final {
+        if (IsUpgrading()) {
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+                _T("Upgrade detected, no need to delete groups"));
+            return ERROR_SUCCESS;
+        }
 
+        auto nasReturnValue = NetLocalGroupDel(nullptr, _T("boinc_admins"));
+        if ((nasReturnValue != NERR_Success) &&
+            (nasReturnValue != ERROR_ALIAS_EXISTS) &&
+            nasReturnValue != NERR_GroupNotFound) {
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+                _T("NetLocalGroupDel retval"));
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+                _T("Failed to delete the 'boinc_admins' group."));
+            return ERROR_INSTALL_FAILURE;
+        }
 
-/////////////////////////////////////////////////////////////////////
-//
-// Function:
-//
-// Description:
-//
-/////////////////////////////////////////////////////////////////////
-CADeleteBOINCGroups::CADeleteBOINCGroups(MSIHANDLE hMSIHandle) :
-    BOINCCABase(hMSIHandle, CUSTOMACTION_NAME, CUSTOMACTION_PROGRESSTITLE)
-{}
+        nasReturnValue = NetLocalGroupDel(nullptr, _T("boinc_users"));
+        if ((nasReturnValue != NERR_Success) &&
+            (nasReturnValue != ERROR_ALIAS_EXISTS) &&
+            nasReturnValue != NERR_GroupNotFound) {
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+                _T("NetLocalGroupDel retval"));
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+                _T("Failed to Delete the 'boinc_users' group."));
+            return ERROR_INSTALL_FAILURE;
+        }
 
+        nasReturnValue = NetLocalGroupDel(nullptr, _T("boinc_projects"));
+        if ((nasReturnValue != NERR_Success) &&
+            (nasReturnValue != ERROR_ALIAS_EXISTS) &&
+            nasReturnValue != NERR_GroupNotFound) {
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+                _T("NetLocalGroupDel retval"));
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+                _T("Failed to remove the 'boinc_projects' group."));
+            return ERROR_INSTALL_FAILURE;
+        }
 
-/////////////////////////////////////////////////////////////////////
-//
-// Function:
-//
-// Description:
-//
-/////////////////////////////////////////////////////////////////////
-CADeleteBOINCGroups::~CADeleteBOINCGroups()
-{
-    BOINCCABase::~BOINCCABase();
-}
-
-
-/////////////////////////////////////////////////////////////////////
-//
-// Function:
-//
-// Description:
-//
-/////////////////////////////////////////////////////////////////////
-UINT CADeleteBOINCGroups::OnExecution()
-{
-    NET_API_STATUS   nasReturnValue;
-
-
-    if (IsUpgrading())
-    {
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            _T("Upgrade detected, no need to delete groups")
-        );
         return ERROR_SUCCESS;
     }
+};
 
-
-    // Delete the 'boinc_admins'
-    //
-    nasReturnValue = NetLocalGroupDel(
-        NULL,
-        _T("boinc_admins")
-    );
-
-    if ((NERR_Success != nasReturnValue) && (ERROR_ALIAS_EXISTS != nasReturnValue)) {
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL,
-            NULL,
-            NULL,
-            nasReturnValue,
-            _T("NetLocalGroupDel retval")
-        );
-        LogMessage(
-            INSTALLMESSAGE_ERROR,
-            NULL,
-            NULL,
-            NULL,
-            nasReturnValue,
-            _T("Failed to delete the 'boinc_admins' group.")
-        );
-        return ERROR_INSTALL_FAILURE;
-    }
-
-    // Delete the 'boinc_users'
-    //
-    nasReturnValue = NetLocalGroupDel(
-        NULL,
-        _T("boinc_users")
-    );
-
-    if ((NERR_Success != nasReturnValue) && (ERROR_ALIAS_EXISTS != nasReturnValue)) {
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL,
-            NULL,
-            NULL,
-            nasReturnValue,
-            _T("NetLocalGroupDel retval")
-        );
-        LogMessage(
-            INSTALLMESSAGE_ERROR,
-            NULL,
-            NULL,
-            NULL,
-            nasReturnValue,
-            _T("Failed to Delete the 'boinc_users' group.")
-        );
-        return ERROR_INSTALL_FAILURE;
-    }
-
-    // Delete the 'boinc_projects'
-    //
-    nasReturnValue = NetLocalGroupDel(
-        NULL,
-        _T("boinc_projects")
-    );
-
-    if ((NERR_Success != nasReturnValue) && (ERROR_ALIAS_EXISTS != nasReturnValue)) {
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL,
-            NULL,
-            NULL,
-            nasReturnValue,
-            _T("NetLocalGroupDel retval")
-        );
-        LogMessage(
-            INSTALLMESSAGE_ERROR,
-            NULL,
-            NULL,
-            NULL,
-            nasReturnValue,
-            _T("Failed to remove the 'boinc_projects' group.")
-        );
-        return ERROR_INSTALL_FAILURE;
-    }
-
-    return ERROR_SUCCESS;
-}
-
-
-/////////////////////////////////////////////////////////////////////
-//
-// Function:    DeleteBOINCGroups
-//
-// Description: This custom action deletes the three user groups that
-//              are used to enforce the account based sandboxing scheme
-//              on Windows.
-//
-/////////////////////////////////////////////////////////////////////
-UINT __stdcall DeleteBOINCGroups(MSIHANDLE hInstall)
-{
-    UINT uiReturnValue = 0;
-
-    CADeleteBOINCGroups* pCA = new CADeleteBOINCGroups(hInstall);
-    uiReturnValue = pCA->Execute();
-    delete pCA;
-
-    return uiReturnValue;
+UINT __stdcall DeleteBOINCGroups(MSIHANDLE hInstall) {
+    return CADeleteBOINCGroups(hInstall).Execute();
 }

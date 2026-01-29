@@ -491,9 +491,21 @@ bool localGroupExists(const std::string& groupName) {
     return rc == NERR_Success;
 }
 
-void deleteLocalGroup(const std::string& groupName) {
+bool createLocalGroup(const std::string& groupName) {
+    auto gn = boinc_ascii_to_wide(groupName);
+    LOCALGROUP_INFO_0 info;
+    info.lgrpi0_name = gn.data();
+    const auto rc = NetLocalGroupAdd(nullptr,
+        0,
+        reinterpret_cast<LPBYTE>(&info),
+        nullptr);
+    return rc == NERR_Success || rc == NERR_GroupExists;
+}
+
+bool deleteLocalGroup(const std::string& groupName) {
     const auto gn = boinc_ascii_to_wide(groupName);
-    NetLocalGroupDel(nullptr, gn.c_str());
+    auto res = NetLocalGroupDel(nullptr, gn.c_str());
+    return res == NERR_Success;
 }
 
 bool addUserToTheBuiltinAdministratorsGroup(wil::unique_sid&& userSid) {
