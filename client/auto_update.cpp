@@ -102,8 +102,8 @@ void AUTO_UPDATE::write(MIOFILE& out) {
     if (install_failed) {
         out.printf("<install_failed>1</install_failed>\n");
     }
-    for (unsigned int i=0; i<file_refs.size(); i++) {
-        file_refs[i].write(out);
+    for (FILE_REF &fref: file_refs) {
+        fref.write(out);
     }
     out.printf(
         "</auto_update>\n"
@@ -116,7 +116,6 @@ void AUTO_UPDATE::write(MIOFILE& out) {
 int AUTO_UPDATE::validate_and_link(PROJECT* proj) {
     char dir[256];
     int retval;
-    unsigned int i;
     FILE_INFO* fip;
 
     if (!version.greater_than(gstate.core_client_version)) {
@@ -145,8 +144,7 @@ int AUTO_UPDATE::validate_and_link(PROJECT* proj) {
     project = proj;
 
     int nmain = 0;
-    for (i=0; i<file_refs.size(); i++) {
-        FILE_REF& fref = file_refs[i];
+    for (FILE_REF &fref: file_refs) {
         fip = gstate.lookup_file_info(project, fref.file_name);
         if (!fip) {
             msg_printf(project, MSG_INTERNAL_ERROR,
@@ -178,7 +176,6 @@ int AUTO_UPDATE::validate_and_link(PROJECT* proj) {
 }
 
 void AUTO_UPDATE::install() {
-    unsigned int i;
     FILE_INFO* fip=0;
     char version_dir[1024];
     char cwd[256];
@@ -193,8 +190,7 @@ void AUTO_UPDATE::install() {
     msg_printf(NULL, MSG_INFO, "Installing new version of BOINC: %d.%d.%d",
         version.major, version.minor, version.release
     );
-    for (i=0; i<file_refs.size(); i++) {
-        FILE_REF& fref = file_refs[i];
+    for (FILE_REF &fref: file_refs) {
         if (fref.main_program) {
             fip = fref.file_info;
             break;
@@ -255,8 +251,7 @@ void AUTO_UPDATE::poll() {
             }
         }
     } else {
-        for (unsigned int i=0; i<file_refs.size(); i++) {
-            FILE_REF& fref = file_refs[i];
+        for (FILE_REF &fref: file_refs) {
             FILE_INFO* fip = fref.file_info;
             if (fip->status != FILE_PRESENT) return;
         }

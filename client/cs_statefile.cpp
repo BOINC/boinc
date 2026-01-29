@@ -550,17 +550,16 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
     // if total resource share is zero, set all shares to 1
     //
     if (projects.size()) {
-        unsigned int i;
         double x=0;
-        for (i=0; i<projects.size(); i++) {
-            x += projects[i]->resource_share;
+        for (PROJECT* p: projects) {
+            x += p->resource_share;
         }
         if (!x) {
             msg_printf(NULL, MSG_INFO,
                 "All projects have zero resource share; setting to 100"
             );
-            for (i=0; i<projects.size(); i++) {
-                projects[i]->resource_share = 100;
+            for (PROJECT* p: projects) {
+                p->resource_share = 100;
             }
         }
     }
@@ -581,23 +580,17 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
 // This determines the order in which results are run.
 //
 void CLIENT_STATE::sort_results() {
-    unsigned int i;
-    for (i=0; i<results.size(); i++) {
-        RESULT* rp = results[i];
-        if (rp) {
-            rp->name_md5 = md5_string(string(rp->name));
-        }
+    for (RESULT *rp: results) {
+        rp->name_md5 = md5_string(string(rp->name));
     }
     std::sort(
         results.begin(),
         results.end(),
         arrived_first
     );
-    for (i=0; i<results.size(); i++) {
-        RESULT* rp = results[i];
-        if (rp) {
-            rp->index = i;
-        }
+    int i=0;
+    for (RESULT *rp: results) {
+        rp->index = i++;
     }
 }
 
@@ -736,7 +729,7 @@ int CLIENT_STATE::write_state_file() {
 }
 
 int CLIENT_STATE::write_state(MIOFILE& f) {
-    unsigned int i, j;
+    unsigned int i;
     int retval;
 
 #ifdef SIM
@@ -750,36 +743,34 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     if (retval) return retval;
     retval = net_stats.write(f);
     if (retval) return retval;
-    for (j=0; j<projects.size(); j++) {
-        PROJECT* p = projects[j];
+    for (PROJECT* p: projects) {
         if (p->app_test) continue;  // don't write app_test project
         retval = p->write_state(f);
         if (retval) return retval;
-        for (i=0; i<apps.size(); i++) {
-            if (apps[i]->project == p) {
-                retval = apps[i]->write(f);
+        for (APP *app: apps) {
+            if (app->project == p) {
+                retval = app->write(f);
                 if (retval) return retval;
             }
         }
-        for (i=0; i<file_infos.size(); i++) {
-            if (file_infos[i]->project != p) continue;
-            FILE_INFO* fip = file_infos[i];
+        for (FILE_INFO* fip: file_infos) {
+            if (fip->project != p) continue;
             // don't write file infos for anonymous platform app files
             //
             if (fip->anonymous_platform_file) continue;
             retval = fip->write(f, false);
             if (retval) return retval;
         }
-        for (i=0; i<app_versions.size(); i++) {
-            if (app_versions[i]->project == p) {
-                app_versions[i]->write(f);
+        for (APP_VERSION* avp: app_versions) {
+            if (avp->project == p) {
+                avp->write(f);
             }
         }
-        for (i=0; i<workunits.size(); i++) {
-            if (workunits[i]->project == p) workunits[i]->write(f, false);
+        for (WORKUNIT *wup: workunits) {
+            if (wup->project == p) wup->write(f, false);
         }
-        for (i=0; i<results.size(); i++) {
-            if (results[i]->project == p) results[i]->write(f, false);
+        for (RESULT *rp: results) {
+            if (rp->project == p) rp->write(f, false);
         }
         p->write_project_files(f);
 #ifdef ENABLE_AUTO_UPDATE
@@ -863,13 +854,11 @@ int CLIENT_STATE::write_state_file_if_needed() {
 // This is called before parsing client_state.xml
 //
 void CLIENT_STATE::check_anonymous() {
-    unsigned int i;
     char path[MAXPATHLEN];
     FILE* f;
     int retval;
 
-    for (i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
+    for (PROJECT* p: projects) {
         snprintf(path, sizeof(path), "%s/%s", p->project_dir(), APP_INFO_FILE_NAME);
         f = fopen(path, "r");
         if (!f) continue;
@@ -988,7 +977,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
 #ifndef SIM
 
 int CLIENT_STATE::write_state_gui(MIOFILE& f) {
-    unsigned int i, j;
+    unsigned int i;
     int retval;
 
     f.printf("<client_state>\n");
@@ -1017,24 +1006,23 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
     retval = time_stats.write(f, true);
     if (retval) return retval;
 
-    for (j=0; j<projects.size(); j++) {
-        PROJECT* p = projects[j];
+    for (PROJECT* p: projects) {
         retval = p->write_state(f, true);
         if (retval) return retval;
-        for (i=0; i<apps.size(); i++) {
-            if (apps[i]->project == p) {
-                retval = apps[i]->write(f);
+        for (APP *app: apps) {
+            if (app->project == p) {
+                retval = app->write(f);
                 if (retval) return retval;
             }
         }
-        for (i=0; i<app_versions.size(); i++) {
-            if (app_versions[i]->project == p) app_versions[i]->write(f);
+        for (APP_VERSION* avp: app_versions) {
+            if (avp->project == p) avp->write(f);
         }
-        for (i=0; i<workunits.size(); i++) {
-            if (workunits[i]->project == p) workunits[i]->write(f, true);
+        for (WORKUNIT *wup: workunits) {
+            if (wup->project == p) wup->write(f, true);
         }
-        for (i=0; i<results.size(); i++) {
-            if (results[i]->project == p) results[i]->write_gui(f);
+        for (RESULT *rp: results) {
+            if (rp->project == p) rp->write_gui(f);
         }
     }
     f.printf(
@@ -1078,22 +1066,16 @@ int CLIENT_STATE::write_tasks_gui(MIOFILE& f, bool active_only, bool ac_updated)
             }
         }
     } else {
-        for (i=0; i<results.size(); i++) {
-            RESULT* rp = results[i];
-            if (rp) {
-                rp->write_gui(f, ac_updated);
-            }
+        for (RESULT *rp: results) {
+            rp->write_gui(f, ac_updated);
         }
     }
     return 0;
 }
 
 int CLIENT_STATE::write_file_transfers_gui(MIOFILE& f) {
-    unsigned int i;
-
     f.printf("<file_transfers>\n");
-    for (i=0; i<file_infos.size(); i++) {
-        FILE_INFO* fip = file_infos[i];
+    for (FILE_INFO* fip: file_infos) {
         if (fip->pers_file_xfer) {
             fip->write_gui(f);
         }

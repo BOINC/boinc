@@ -331,13 +331,11 @@ void CLIENT_STATE::parse_env_vars() {
 }
 
 void CLIENT_STATE::do_cmdline_actions() {
-    unsigned int i;
-
     if (show_projects) {
         printf("projects:\n");
-        for (i=0; i<projects.size(); i++) {
+        for (PROJECT* p: projects) {
             msg_printf(NULL, MSG_INFO, "URL: %s name: %s\n",
-                projects[i]->master_url, projects[i]->project_name
+                p->master_url, p->project_name
             );
         }
         exit(0);

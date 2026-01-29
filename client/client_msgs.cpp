@@ -267,8 +267,7 @@ void MESSAGE_DESCS::cleanup() {
 
 string app_list_string(PROJECT* p) {
     string app_list;
-    for (unsigned int i=0; i<gstate.apps.size(); i++) {
-        APP* app = gstate.apps[i];
+    for (APP* app: gstate.apps) {
         if (app->project != p) continue;
         if (!app_list.empty()) {
             app_list += ", ";

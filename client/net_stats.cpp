@@ -158,15 +158,11 @@ int NET_STATUS::network_status() {
 // Do all communication that we can.
 //
 void NET_STATUS::network_available() {
-    unsigned int i;
-
     have_sporadic_connection = true;
-    for (i=0; i<gstate.pers_file_xfers->pers_file_xfers.size(); i++) {
-        PERS_FILE_XFER* pfx = gstate.pers_file_xfers->pers_file_xfers[i];
+    for (PERS_FILE_XFER* pfx: gstate.pers_file_xfers->pers_file_xfers) {
         pfx->next_request_time = 0;
     }
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         p->min_rpc_time = 0;
         p->upload_backoff.clear_temporary();
         p->download_backoff.clear_temporary();

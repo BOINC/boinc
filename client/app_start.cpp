@@ -276,8 +276,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
 #endif
     aid.wu_cpu_time = checkpoint_cpu_time;
     APP_VERSION* avp = app_version;
-    for (unsigned int i=0; i<avp->app_files.size(); i++) {
-        FILE_REF& fref = avp->app_files[i];
+    for (FILE_REF& fref: avp->app_files) {
         aid.app_files.push_back(string(fref.file_name));
     }
     aid.no_priority_change = cc_config.no_priority_change;
@@ -447,14 +446,10 @@ int ACTIVE_TASK::setup_file(
 
 int ACTIVE_TASK::link_user_files() {
     PROJECT* project = wup->project;
-    unsigned int i;
-    FILE_REF fref;
-    FILE_INFO* fip;
     char file_path[MAXPATHLEN];
 
-    for (i=0; i<project->user_files.size(); i++) {
-        fref = project->user_files[i];
-        fip = fref.file_info;
+    for (FILE_REF &fref: project->user_files) {
+        FILE_INFO* fip = fref.file_info;
         if (fip->status != FILE_PRESENT) continue;
         get_pathname(fip, file_path, sizeof(file_path));
         setup_file(fip, fref, file_path, true, false);
@@ -464,9 +459,7 @@ int ACTIVE_TASK::link_user_files() {
 
 int ACTIVE_TASK::copy_output_files() {
     char slotfile[MAXPATHLEN], projfile[256], open_name[256];
-    unsigned int i;
-    for (i=0; i<result->output_files.size(); i++) {
-        FILE_REF& fref = result->output_files[i];
+    for (FILE_REF& fref: result->output_files) {
         if (!must_copy_file(fref, true)) continue;
         FILE_INFO* fip = fref.file_info;
         prepend_prefix(
@@ -531,9 +524,7 @@ static int get_priority(bool is_high_priority) {
 // and return ERR_IN_PROGRESS.
 //
 int ACTIVE_TASK::setup_slot_dir(char *buf, unsigned int buf_len) {
-    unsigned int i;
     int retval;
-    FILE_REF fref;
     FILE_INFO *fip;
     char file_path[MAXPATHLEN];
     char path[1024];
@@ -557,8 +548,7 @@ int ACTIVE_TASK::setup_slot_dir(char *buf, unsigned int buf_len) {
 
     // set up app version files
     //
-    for (i=0; i<app_version->app_files.size(); i++) {
-        fref = app_version->app_files[i];
+    for (FILE_REF &fref: app_version->app_files) {
         fip = fref.file_info;
         get_pathname(fip, file_path, sizeof(file_path));
         if (fref.main_program) {
@@ -586,8 +576,7 @@ int ACTIVE_TASK::setup_slot_dir(char *buf, unsigned int buf_len) {
 
     // set up input, output files
     //
-    for (i=0; i<wup->input_files.size(); i++) {
-        fref = wup->input_files[i];
+    for (FILE_REF &fref: wup->input_files) {
         fip = fref.file_info;
         get_pathname(fref.file_info, file_path, sizeof(file_path));
         retval = setup_file(fip, fref, file_path, true, true);
@@ -598,8 +587,7 @@ int ACTIVE_TASK::setup_slot_dir(char *buf, unsigned int buf_len) {
             return retval;
         }
     }
-    for (i=0; i<result->output_files.size(); i++) {
-        fref = result->output_files[i];
+    for (FILE_REF &fref: result->output_files) {
         if (must_copy_file(fref, true)) continue;
         fip = fref.file_info;
         get_pathname(fref.file_info, file_path, sizeof(file_path));
@@ -633,8 +621,6 @@ int ACTIVE_TASK::setup_slot_dir(char *buf, unsigned int buf_len) {
 int ACTIVE_TASK::start() {
     char exec_name[256], file_path[MAXPATHLEN], buf[MAXPATHLEN], exec_path[MAXPATHLEN];
     char cmdline[80000];    // 64KB plus some extra
-    unsigned int i;
-    FILE_REF fref;
     FILE_INFO *fip;
     int retval;
     APP_INIT_DATA aid;
@@ -716,8 +702,7 @@ int ACTIVE_TASK::start() {
     // get main prog filename and path
     //
     safe_strcpy(exec_name, "");
-    for (i=0; i<app_version->app_files.size(); i++) {
-        fref = app_version->app_files[i];
+    for (FILE_REF &fref: app_version->app_files) {
         fip = fref.file_info;
         if (fref.main_program) {
             get_pathname(fip, file_path, sizeof(file_path));
