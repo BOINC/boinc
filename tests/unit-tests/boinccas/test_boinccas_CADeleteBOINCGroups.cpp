@@ -49,7 +49,7 @@ namespace test_boinccas_CADeleteBOINCGroups {
 
     };
 
-#ifndef BOINCCAS_TEST
+#ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CADeleteBOINCGroups,
         NoData_Expect_Success_With_No_Actions) {
         PMSIHANDLE hMsi;
