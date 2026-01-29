@@ -387,7 +387,8 @@ void RSC_WORK_FETCH::clear_request() {
 ///////////////  PROJECT_WORK_FETCH  ///////////////
 
 void PROJECT_WORK_FETCH::reset(PROJECT* p) {
-    for (int i=0; i<coprocs.n_rsc; i++) {
+    // this is called before n_rsc is known; initialize all
+    for (int i=0; i<MAX_RSC; i++) {
         p->rsc_pwf[i].reset(i);
     }
 }
