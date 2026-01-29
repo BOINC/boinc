@@ -627,7 +627,7 @@ int read_config_file(bool init, const char* fname) {
 // - set RESULT::missing_coproc for results of these app versions
 //
 void process_gpu_exclusions() {
-    unsigned int i, j, a;
+    unsigned int i, j;
 
     // check the syntactic validity of the exclusions
     //

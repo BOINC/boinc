@@ -368,8 +368,6 @@ int FILE_INFO::verify_file(
 // scan PERS_FILE_XFERs and delete finished ones.
 //
 bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
-    unsigned int i;
-    FILE_INFO* fip;
     PERS_FILE_XFER *pfx;
     bool action = false;
     int retval;
@@ -412,7 +410,7 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
         // from the set and delete it
         //
         if (pfx->pers_xfer_done) {
-            fip = pfx->fip;
+            FILE_INFO* fip = pfx->fip;
             if (pfx->is_upload) {
                 // file has been uploaded - delete if not sticky
                 //

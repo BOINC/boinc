@@ -224,6 +224,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     //
     int last_reported_index = 0;
     p->nresults_returned = 0;
+    i = 0;
     for (RESULT *rp: results) {
         if (rp->project == p && rp->ready_to_report) {
             p->nresults_returned++;
