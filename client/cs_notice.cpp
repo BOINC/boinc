@@ -877,8 +877,7 @@ void RSS_FEEDS::init() {
     boinc_mkdir(NOTICES_DIR);
 
     if (!gstate.acct_mgr_info.get_no_project_notices()) {
-        for (i=0; i<gstate.projects.size(); i++) {
-            PROJECT* p = gstate.projects[i];
+        for (PROJECT* p: gstate.projects) {
             init_proj_am(p);
         }
     }
@@ -954,8 +953,7 @@ void RSS_FEEDS::update_feed_list() {
         rf.found = false;
     }
     if (!gstate.acct_mgr_info.get_no_project_notices()) {
-        for (i=0; i<gstate.projects.size(); i++) {
-            PROJECT* p = gstate.projects[i];
+        for (PROJECT* p: gstate.projects) {
             update_proj_am(p);
         }
     }

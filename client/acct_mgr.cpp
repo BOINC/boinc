@@ -55,7 +55,6 @@ static const char *run_mode_name[] = {"", "always", "auto", "never"};
 //
 int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
     int retval;
-    unsigned int i;
     char buf[1024];
 
     ami = _ami;
@@ -73,8 +72,8 @@ int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
         boinc_delete_file(ACCT_MGR_URL_FILENAME);
         boinc_delete_file(ACCT_MGR_LOGIN_FILENAME);
         error_num = 0;
-        for (i=0; i<gstate.projects.size(); i++) {
-            gstate.projects[i]->detach_ams();
+        for (PROJECT *p: gstate.projects) {
+            p->detach_ams();
         }
         ::rss_feeds.update_feed_list();
         gstate.set_client_state_dirty("detach from AMS");
@@ -152,8 +151,7 @@ int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
             );
         }
     }
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         double not_started_dur, in_progress_dur;
         p->get_task_durs(not_started_dur, in_progress_dur);
         fprintf(f,
@@ -509,7 +507,6 @@ void ACCT_MGR_OP::handle_reply(int ) {
 }
 #else
 void ACCT_MGR_OP::handle_reply(int http_op_retval) {
-    unsigned int i;
     int retval;
     bool verified;
     PROJECT* pp;
@@ -589,8 +586,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     //
     while (1) {
         bool found = false;
-        for (i=0; i<gstate.projects.size(); i++) {
-            PROJECT* p = gstate.projects[i];
+        for (PROJECT* p: gstate.projects) {
             if (p->detach_when_done && !gstate.nresults_for_project(p) && p->attached_via_acct_mgr) {
                 gstate.detach_project(p);
                 found = true;
@@ -647,8 +643,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
 
         // process projects
         //
-        for (i=0; i<accounts.size(); i++) {
-            AM_ACCOUNT& acct = accounts[i];
+        for (AM_ACCOUNT& acct: accounts) {
             pp = gstate.lookup_project(acct.url.c_str());
             if (pp) {
                 if (acct.detach) {
@@ -1044,21 +1039,21 @@ int ACCT_MGR_INFO::parse_login_file(FILE* p) {
 //
 int ACCT_MGR_INFO::init() {
     MIOFILE mf;
-    FILE*   p;
+    FILE* f;
     int retval;
 
     clear();
-    p = fopen(ACCT_MGR_URL_FILENAME, "r");
-    if (!p) {
+    f = fopen(ACCT_MGR_URL_FILENAME, "r");
+    if (!f) {
         // if not using acct mgr, make sure projects not flagged,
         // otherwise won't be able to detach them.
         //
-        for (unsigned int i=0; i<gstate.projects.size(); i++) {
-            gstate.projects[i]->attached_via_acct_mgr = false;
+        for (PROJECT *p: gstate.projects) {
+            p->attached_via_acct_mgr = false;
         }
         return 0;
     }
-    mf.init_file(p);
+    mf.init_file(f);
     XML_PARSER xp(&mf);
     if (!xp.parse_start("acct_mgr")) {
         //
@@ -1091,12 +1086,12 @@ int ACCT_MGR_INFO::init() {
         }
         xp.skip_unexpected(log_flags.unparsed_xml, "ACCT_MGR_INFO::init");
     }
-    fclose(p);
+    fclose(f);
 
-    p = fopen(ACCT_MGR_LOGIN_FILENAME, "r");
-    if (p) {
-        parse_login_file(p);
-        fclose(p);
+    f = fopen(ACCT_MGR_LOGIN_FILENAME, "r");
+    if (f) {
+        parse_login_file(f);
+        fclose(f);
     }
     if (using_am()) {
         msg_printf(NULL, MSG_INFO, "Using account manager %s", project_name);
