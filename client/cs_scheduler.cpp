@@ -281,9 +281,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     // send descriptions of jobs in progress for this project
     //
     fprintf(f, "<other_results>\n");
-    i = -1;
+    i = 0;
     for (RESULT *rp: results) {
-        i++;
         if (rp->project != p) continue;
         if ((last_reported_index && (i > last_reported_index)) || !rp->ready_to_report) {
             fprintf(f,
@@ -305,6 +304,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
                 "    </other_result>\n"
             );
         }
+        i++;
     }
     fprintf(f, "</other_results>\n");
 

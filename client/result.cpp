@@ -217,7 +217,6 @@ int RESULT::parse_state(XML_PARSER& xp) {
 // write result descriptor to state file, GUI RPC reply, or sched request
 //
 int RESULT::write(MIOFILE& out, bool to_server) {
-    FILE_INFO* fip;
     int n, retval;
 
     out.printf(
@@ -315,7 +314,7 @@ int RESULT::write(MIOFILE& out, bool to_server) {
     }
     if (to_server) {
         for (FILE_REF& fref: output_files) {
-            fip = fref.file_info;
+            FILE_INFO* fip = fref.file_info;
             if (fip->uploaded) {
                 retval = fip->write(out, true);
                 if (retval) return retval;

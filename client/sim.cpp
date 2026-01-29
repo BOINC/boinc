@@ -483,7 +483,7 @@ void PROJECT::backoff() {
 }
 
 bool CLIENT_STATE::scheduler_rpc_poll() {
-    PROJECT *p;
+    PROJECT* p;
     bool action = false;
     static double last_time=0;
     static double last_work_fetch_time = 0;
@@ -564,7 +564,7 @@ bool ACTIVE_TASK_SET::poll() {
     }
     int n;
 
-    for (PROJECT *p: gstate.projects) {
+    for (PROJECT* p: gstate.projects) {
         p->idle = true;
     }
 
@@ -641,7 +641,7 @@ bool ACTIVE_TASK_SET::poll() {
         rp->project->idle = false;
     }
 
-    for (PROJECT *p: gstate.projects) {
+    for (PROJECT* p: gstate.projects) {
         if (p->idle) {
             p->idle_time += diff;
             p->idle_time_sumsq += diff*(p->idle_time*p->idle_time);
@@ -663,12 +663,12 @@ bool ACTIVE_TASK_SET::poll() {
 //
 double CLIENT_STATE::share_violation() {
     double tot = 0, trs=0;
-    for (PROJECT *p: projects) {
+    for (PROJECT* p: projects) {
         tot += p->project_results.flops_used;
         trs += p->resource_share;
     }
     double sum = 0;
-    for (PROJECT *p: projects) {
+    for (PROJECT* p: projects) {
         double t = p->project_results.flops_used;
         double rs = p->resource_share/trs;
         double rt = tot*rs;
@@ -691,7 +691,7 @@ double CLIENT_STATE::share_violation() {
 double CLIENT_STATE::monotony() {
     double sum = 0;
     double schedint = global_prefs.cpu_scheduling_period();
-    for (PROJECT *p: projects) {
+    for (PROJECT* p: projects) {
         double avg_ss = p->idle_time_sumsq/active_time;
         double s = sqrt(avg_ss);
         sum += s;
@@ -1027,11 +1027,13 @@ void make_graph(const char* title, const char* fname, int field) {
         "plot ",
         title
     );
+    unsigned int i=0;
     for (PROJECT* p: gstate.projects) {
         fprintf(f, "\"%srec.dat\" using 1:%d title \"%s\" with lines%s",
             outfile_prefix, 2+i+field, p->project_name,
             (i==gstate.projects.size()-1)?"\n":", \\\n"
         );
+        i++;
     }
     fclose(f);
     snprintf(png_fname, sizeof(png_fname), "%s%s.png", outfile_prefix, fname);
@@ -1362,7 +1364,7 @@ void cull_projects() {
 
     vector<PROJECT*>::iterator iter = gstate.projects.begin();
     while (iter != gstate.projects.end()) {
-        PROJECT *p = *iter;
+        PROJECT* p = *iter;
         if (p->ignore) {
             iter = gstate.projects.erase(iter);
         } else {
@@ -1450,7 +1452,7 @@ void do_client_simulation() {
     fprintf(summary_file, "--------------------------\n");
 
     int j=0;
-    for (PROJECT *p: gstate.projects) {
+    for (PROJECT* p: gstate.projects) {
         p->proj_index = j++;
     }
 
