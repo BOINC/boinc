@@ -91,6 +91,10 @@ int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
         }
     }
 
+    // update resource usage of this project's non-running jobs
+    //
+    gstate.init_result_resource_usage(p);
+
     if (showed_notice) return ERR_XML_PARSE;
     return 0;
 }

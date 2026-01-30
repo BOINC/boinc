@@ -2445,25 +2445,26 @@ bool CLIENT_STATE::abort_sequence_done() {
 
 #endif  // !SIM
 
-// for each result not currently running, copy resource usage either from
+// copy result.resource_usage either from
 // - workunit if present there (e.g. BUDA jobs)
 // - app version otherwise
 //
 // call this
-// - on startup
+// - on startup (project = NULL)
 // - after reread app_config.xml (which can change app version resource usage)
 // - after scheduler RPC (which can change app version resource usage)
-//
-// For running jobs, we've already populated resource_usage,
-// and we can't change it without restarting the job
+//  in the latter 2 cases, only change non-running jobs
+//  since we can't restart running jobs
 //
 void CLIENT_STATE::init_result_resource_usage(PROJECT *p) {
     for (RESULT* rp: results) {
-        if (p && rp->project != p) {
-            continue;
-        }
-        if (lookup_active_task_by_result(rp)) {
-            continue;
+        if (p) {
+            if (rp->project != p) {
+                continue;
+            }
+            if (rp->running()) {
+                continue;
+            }
         }
         rp->init_resource_usage();
         if (rp->resource_usage.missing_coproc) {

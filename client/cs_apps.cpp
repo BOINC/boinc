@@ -416,7 +416,7 @@ void cleanup_docker(DOCKER_JOB_INFO &info, DOCKER_CONN &dc) {
             if (retval) continue;
             if (!docker_is_boinc_name(name.c_str())) continue;
             if (info.container_present(name)) continue;
-            sprintf(cmd, "rm %s", name.c_str());
+            sprintf(cmd, "rm -f %s", name.c_str());
             retval = dc.command(cmd, out2);
             if (retval) {
                 fprintf(stderr, "Docker command failed: %s\n", cmd);

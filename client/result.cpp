@@ -623,6 +623,12 @@ bool RESULT::downloading() {
     return true;
 }
 
+bool RESULT::running() {
+    ACTIVE_TASK *atp = gstate.lookup_active_task_by_result(this);
+    if (!atp) return false;
+    return atp->task_state() != PROCESS_UNINITIALIZED;
+}
+
 double RESULT::estimated_runtime_uncorrected() {
     return wup->rsc_fpops_est/resource_usage.flops;
 }
