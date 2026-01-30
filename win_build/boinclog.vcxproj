@@ -14,7 +14,6 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>../win_build;../lib/;../api/;../client/win/;../client;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>wsock32.lib;wininet.lib;winmm.lib;oldnames.lib;%(AdditionalDependencies)</AdditionalDependencies>

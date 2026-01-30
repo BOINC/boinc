@@ -14,7 +14,6 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>../win_build;../lib;../api;../client/win;../client;..;$(VcpkgInstalledDir)/include/openssl/;$(VcpkgInstalledDir)/include/curl/;../coprocs/NVIDIA/include;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CONSOLE;_USE_CURL;USE_SSL;USE_SSLEAY;USE_OPENSSL;ZLIB_WINAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>libcrypto.lib;libssl.lib;wsock32.lib;winhttp.lib;winmm.lib;sensapi.lib;userenv.lib;shell32.lib;secur32.lib;wtsapi32.lib;Ws2_32.Lib;Crypt32.Lib;Wldap32.Lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>

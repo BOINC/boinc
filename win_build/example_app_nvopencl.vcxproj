@@ -13,8 +13,6 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>.;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;$(CUDA_INC_PATH);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NV_OS_WIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <WholeProgramOptimization Condition="'$(Configuration)'=='Release'">true</WholeProgramOptimization>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opencl.lib;cfgmgr32.lib;%(AdditionalDependencies)</AdditionalDependencies>

@@ -15,7 +15,6 @@
     <ClCompile>
       <AdditionalIncludeDirectories>../win_build;../lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PreprocessorDefinitions>_USRDLL;BOINCCAS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>atls.lib;msi.lib;delayimp.lib;netapi32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>

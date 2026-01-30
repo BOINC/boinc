@@ -14,7 +14,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>../coprocs/NVIDIA/include;../win_build;../lib;../api;../client/win;../client;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CONSOLE;SIM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SIM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>wsock32.lib;wininet.lib;winmm.lib;oldnames.lib;libcrypto.lib;libssl.lib;Ws2_32.Lib;Crypt32.Lib;Wldap32.Lib;Iphlpapi.lib;Secur32.lib;%(AdditionalDependencies)</AdditionalDependencies>

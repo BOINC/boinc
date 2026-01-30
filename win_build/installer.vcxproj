@@ -14,7 +14,6 @@
       <AdditionalIncludeDirectories>.;..;../api;../lib;$(VcpkgRootDir)\installed\arm64-windows-static\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="Exists('C:\Program Files (x86)\MsiVal2\MsiVal2.exe')">MSI_VALIDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>

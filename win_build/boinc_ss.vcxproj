@@ -17,7 +17,6 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>../win_build;.;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;$(VcpkgInstalledDir)/include/freetype;$(WindowsSdkDir)/Include/shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CONSOLE;FTGL_LIBRARY_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;glu32.lib;psapi.lib;wsock32.lib;brotlicommon.lib;brotlidec.lib;%(AdditionalDependencies)</AdditionalDependencies>
