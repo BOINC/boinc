@@ -753,7 +753,8 @@ int get_stats(RSC_USAGE &ru) {
     if (out.empty()) return -1;
 
     // output is like
-    // 0.00% 420KiB / 503.8GiB
+    // 97.12% 420KiB / 503.8GiB
+    // (cpu% mem-used / mem-max)
     // but this can be preceded by lines with warning messages
     //
     bool found = false;
@@ -787,6 +788,11 @@ int get_stats(RSC_USAGE &ru) {
     }
     ru.cpu_frac = cpu_pct/100.;
     ru.wss = mem;
+    // sanity checks
+    if (mem == 0 || ru.cpu_frac > aid.ncpus) {
+        fprintf(stderr, "invalid usage stats; using defaults\n");
+        return -1;
+    }
     return 0;
 }
 
@@ -1063,20 +1069,24 @@ int main(int argc, char** argv) {
             //
             if (running) {
                 retval = get_stats(ru);
-                if (!retval) {
-                    cpu_time += STATUS_PERIOD*ru.cpu_frac;
-                    if (config.verbose == VERBOSE_ALL) {
-                        fprintf(stderr, "reporting CPU %f WSS %f\n", cpu_time, ru.wss);
-                    }
-                    boinc_report_app_status_aux(
-                        cpu_time,
-                        cpu_time,       // report as checkpoint cpu time
-                        get_fraction_done(),
-                        0,      // other PID
-                        0,0,    // bytes send/received
-                        ru.wss
-                    );
+                if (retval) {
+                    // if can't get info from Podman, use defaults;
+                    // we need to tell the client something.
+                    ru.cpu_frac = aid.ncpus;
+                    ru.wss = 1e8;
                 }
+                cpu_time += STATUS_PERIOD*ru.cpu_frac;
+                if (config.verbose == VERBOSE_ALL) {
+                    fprintf(stderr, "reporting CPU %f WSS %f\n", cpu_time, ru.wss);
+                }
+                boinc_report_app_status_aux(
+                    cpu_time,
+                    cpu_time,       // report as checkpoint cpu time
+                    get_fraction_done(),
+                    0,      // other PID
+                    0,0,    // bytes send/received
+                    ru.wss
+                );
             }
         }
     }
