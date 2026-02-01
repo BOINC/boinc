@@ -649,7 +649,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
 
         // process projects
         //
-        for (AM_ACCOUNT& acct: accounts) {
+        for (const AM_ACCOUNT& acct: accounts) {
             pp = gstate.lookup_project(acct.url.c_str());
             if (pp) {
                 if (acct.detach) {

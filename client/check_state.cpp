@@ -92,20 +92,20 @@ void CLIENT_STATE::check_file_info(FILE_INFO& p) {
     check_project_pointer(p.project);
 }
 
-void CLIENT_STATE::check_file_ref(FILE_REF& p) {
+void CLIENT_STATE::check_file_ref(const FILE_REF& p) {
     check_file_info_pointer(p.file_info);
 }
 
 void CLIENT_STATE::check_app_version(APP_VERSION& p) {
     check_app_pointer(p.app);
     check_project_pointer(p.project);
-    for (FILE_REF& fr: p.app_files) {
+    for (const FILE_REF& fr: p.app_files) {
         check_file_ref(fr);
     }
 }
 
 void CLIENT_STATE::check_workunit(WORKUNIT& p) {
-    for (FILE_REF& fr: p.input_files) {
+    for (const FILE_REF& fr: p.input_files) {
         check_file_ref(fr);
     }
     check_project_pointer(p.project);
@@ -113,7 +113,7 @@ void CLIENT_STATE::check_workunit(WORKUNIT& p) {
 }
 
 void CLIENT_STATE::check_result(RESULT& p) {
-    for (FILE_REF& fr: p.output_files) {
+    for (const FILE_REF& fr: p.output_files) {
         check_file_ref(fr);
     }
     check_app_pointer(p.app);

@@ -313,7 +313,7 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         out.printf("</stderr_out>\n");
     }
     if (to_server) {
-        for (FILE_REF& fref: output_files) {
+        for (const FILE_REF& fref: output_files) {
             FILE_INFO* fip = fref.file_info;
             if (fip->uploaded) {
                 retval = fip->write(out, true);
@@ -334,7 +334,7 @@ int RESULT::write(MIOFILE& out, bool to_server) {
             report_deadline,
             received_time
         );
-        for (FILE_REF& fref: output_files) {
+        for (const FILE_REF& fref: output_files) {
             retval = fref.write(out);
             if (retval) return retval;
         }
@@ -477,7 +477,7 @@ int RESULT::write_gui(MIOFILE& out, bool check_resources) {
 bool RESULT::is_upload_done() {
     int retval;
 
-    for (FILE_REF& fref: output_files) {
+    for (const FILE_REF& fref: output_files) {
         FILE_INFO* fip = fref.file_info;
         if (fip->uploadable()) {
             if (fip->had_failure(retval)) continue;
@@ -492,7 +492,7 @@ bool RESULT::is_upload_done() {
 // resets all FILE_INFO's in result to uploaded = false
 //
 void RESULT::clear_uploaded_flags() {
-    for (FILE_REF& fref: output_files) {
+    for (const FILE_REF& fref: output_files) {
         FILE_INFO* fip = fref.file_info;
         fip->uploaded = false;
     }
@@ -513,7 +513,7 @@ bool RESULT::some_download_stalled() {
     PERS_FILE_XFER* pfx;
     bool some_file_missing = false;
 
-    for (FILE_REF &fref: wup->input_files) {
+    for (const FILE_REF &fref: wup->input_files) {
         fip = fref.file_info;
         if (fip->status != FILE_PRESENT) some_file_missing = true;
         pfx = fip->pers_file_xfer;
@@ -521,7 +521,7 @@ bool RESULT::some_download_stalled() {
             return true;
         }
     }
-    for (FILE_REF &fref: avp->app_files) {
+    for (const FILE_REF &fref: avp->app_files) {
         fip = fref.file_info;
         if (fip->status != FILE_PRESENT) some_file_missing = true;
         pfx = fip->pers_file_xfer;
@@ -545,7 +545,7 @@ FILE_REF* RESULT::lookup_file(FILE_INFO* fip) {
 }
 
 FILE_INFO* RESULT::lookup_file_logical(const char* lname) {
-    for (FILE_REF& fref: output_files) {
+    for (const FILE_REF& fref: output_files) {
         if (!strcmp(lname, fref.open_name)) {
             return fref.file_info;
         }

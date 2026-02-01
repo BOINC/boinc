@@ -986,7 +986,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         est_rsc_runtime[j] = 0;
         got_work_for_rsc[j] = false;
     }
-    for (RESULT& checked_result: sr.results) {
+    for (const RESULT& checked_result: sr.results) {
         RESULT* rp2 = lookup_result(project, checked_result.name);
         if (rp2) {
             // see if project wants to change the job's deadline

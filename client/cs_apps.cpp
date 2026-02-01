@@ -118,7 +118,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     case EXIT_ABORTED_BY_PROJECT:
         break;
     default:
-        for (FILE_REF& fref: rp->output_files) {
+        for (const FILE_REF& fref: rp->output_files) {
             fip = fref.file_info;
             if (fip->uploaded) continue;
             get_pathname(fip, path, sizeof(path));
@@ -239,7 +239,7 @@ int CLIENT_STATE::task_files_present(
     APP_VERSION* avp = rp->avp;
     int retval, ret = 0;
 
-    for (FILE_REF &fref: avp->app_files) {
+    for (const FILE_REF &fref: avp->app_files) {
         fip = fref.file_info;
         if (fip->status != FILE_PRESENT) {
             if (fipp) *fipp = fip;
@@ -253,7 +253,7 @@ int CLIENT_STATE::task_files_present(
         }
     }
 
-    for (FILE_REF &fref: wup->input_files) {
+    for (const FILE_REF &fref: wup->input_files) {
         if (fref.optional) continue;
         fip = fref.file_info;
         if (fip->status != FILE_PRESENT) {

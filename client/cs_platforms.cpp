@@ -447,7 +447,7 @@ void CLIENT_STATE::write_platforms(PROJECT* p, FILE *f) {
 }
 
 bool CLIENT_STATE::is_supported_platform(const char* p) {
-    for (PLATFORM& platform: platforms) {
+    for (const PLATFORM& platform: platforms) {
         if (!strcmp(p, platform.name.c_str())) {
             return true;
         }

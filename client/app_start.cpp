@@ -276,7 +276,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
 #endif
     aid.wu_cpu_time = checkpoint_cpu_time;
     APP_VERSION* avp = app_version;
-    for (FILE_REF& fref: avp->app_files) {
+    for (const FILE_REF& fref: avp->app_files) {
         aid.app_files.push_back(string(fref.file_name));
     }
     aid.no_priority_change = cc_config.no_priority_change;
@@ -344,7 +344,7 @@ static int create_dirs_for_logical_name(
     return 0;
 }
 
-static void prepend_prefix(APP_VERSION* avp, char* in, char* out, int len) {
+static void prepend_prefix(APP_VERSION* avp, const char* in, char* out, int len) {
     if (strlen(avp->file_prefix)) {
         snprintf(out, len, "%.16s/%.200s", avp->file_prefix, in);
     } else {
@@ -356,7 +356,7 @@ static void prepend_prefix(APP_VERSION* avp, char* in, char* out, int len) {
 // - the FILE_REFERENCE says so or
 // - the APP_VERSION has a non-empty file_prefix
 //
-bool ACTIVE_TASK::must_copy_file(FILE_REF& fref, bool is_io_file) {
+bool ACTIVE_TASK::must_copy_file(const FILE_REF& fref, bool is_io_file) {
     if (fref.copy_file) return true;
     if (is_io_file && strlen(app_version->file_prefix)) return true;
     return false;
@@ -368,7 +368,7 @@ bool ACTIVE_TASK::must_copy_file(FILE_REF& fref, bool is_io_file) {
 // 2) else make a soft link
 //
 int ACTIVE_TASK::setup_file(
-    FILE_INFO* fip, FILE_REF& fref, char* file_path, bool input, bool is_io_file
+    FILE_INFO* fip, const FILE_REF& fref, char* file_path, bool input, bool is_io_file
 ) {
     char link_path[MAXPATHLEN], rel_file_path[MAXPATHLEN], open_name[256];
     int retval;
@@ -448,7 +448,7 @@ int ACTIVE_TASK::link_user_files() {
     PROJECT* project = wup->project;
     char file_path[MAXPATHLEN];
 
-    for (FILE_REF &fref: project->user_files) {
+    for (const FILE_REF &fref: project->user_files) {
         FILE_INFO* fip = fref.file_info;
         if (fip->status != FILE_PRESENT) continue;
         get_pathname(fip, file_path, sizeof(file_path));
@@ -459,13 +459,14 @@ int ACTIVE_TASK::link_user_files() {
 
 int ACTIVE_TASK::copy_output_files() {
     char slotfile[MAXPATHLEN], projfile[256], open_name[256];
-    for (FILE_REF& fref: result->output_files) {
+    for (const FILE_REF& fref: result->output_files) {
         if (!must_copy_file(fref, true)) continue;
         FILE_INFO* fip = fref.file_info;
         prepend_prefix(
             app_version, fref.open_name, open_name, sizeof(open_name)
         );
-        snprintf(slotfile, sizeof(slotfile), "%.*s/%.*s", DIR_LEN, slot_dir, FILE_LEN, open_name);
+        snprintf(slotfile, sizeof(slotfile), "%.*s/%.*s", DIR_LEN, slot_dir,
+            FILE_LEN, open_name);
         get_pathname(fip, projfile, sizeof(projfile));
         int retval = boinc_rename(slotfile, projfile);
         // the rename fails if the output file isn't there.
@@ -548,7 +549,7 @@ int ACTIVE_TASK::setup_slot_dir(char *buf, unsigned int buf_len) {
 
     // set up app version files
     //
-    for (FILE_REF &fref: app_version->app_files) {
+    for (const FILE_REF &fref: app_version->app_files) {
         fip = fref.file_info;
         get_pathname(fip, file_path, sizeof(file_path));
         if (fref.main_program) {
@@ -576,7 +577,7 @@ int ACTIVE_TASK::setup_slot_dir(char *buf, unsigned int buf_len) {
 
     // set up input, output files
     //
-    for (FILE_REF &fref: wup->input_files) {
+    for (const FILE_REF &fref: wup->input_files) {
         fip = fref.file_info;
         get_pathname(fref.file_info, file_path, sizeof(file_path));
         retval = setup_file(fip, fref, file_path, true, true);
@@ -587,7 +588,7 @@ int ACTIVE_TASK::setup_slot_dir(char *buf, unsigned int buf_len) {
             return retval;
         }
     }
-    for (FILE_REF &fref: result->output_files) {
+    for (const FILE_REF &fref: result->output_files) {
         if (must_copy_file(fref, true)) continue;
         fip = fref.file_info;
         get_pathname(fref.file_info, file_path, sizeof(file_path));
@@ -702,7 +703,7 @@ int ACTIVE_TASK::start() {
     // get main prog filename and path
     //
     safe_strcpy(exec_name, "");
-    for (FILE_REF &fref: app_version->app_files) {
+    for (const FILE_REF &fref: app_version->app_files) {
         fip = fref.file_info;
         if (fref.main_program) {
             get_pathname(fip, file_path, sizeof(file_path));

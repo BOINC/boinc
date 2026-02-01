@@ -477,11 +477,11 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
             sticky_expire_time
         );
     }
-    for (string &s: download_urls.urls) {
+    for (const string &s: download_urls.urls) {
         xml_escape(s.c_str(), buf, sizeof(buf));
         out.printf("    <download_url>%s</download_url>\n", buf);
     }
-    for (string &s: upload_urls.urls) {
+    for (const string &s: upload_urls.urls) {
         xml_escape(s.c_str(), buf, sizeof(buf));
         out.printf("    <upload_url>%s</upload_url>\n", buf);
     }
@@ -1056,7 +1056,7 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
         out.printf("    <file_prefix>%s</file_prefix>\n", file_prefix);
     }
     if (write_file_info) {
-        for (FILE_REF& fref: app_files) {
+        for (const FILE_REF& fref: app_files) {
             retval = fref.write(out);
             if (retval) return retval;
         }
@@ -1085,7 +1085,7 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
 }
 
 bool APP_VERSION::had_download_failure(int& failnum) {
-    for (FILE_REF& fref: app_files) {
+    for (const FILE_REF& fref: app_files) {
         if (fref.file_info->had_failure(failnum)) {
             return true;
         }
@@ -1098,7 +1098,7 @@ void APP_VERSION::get_file_errors(string& str) {
     string msg;
 
     str = "couldn't get input files:\n";
-    for (FILE_REF& fref: app_files) {
+    for (const FILE_REF& fref: app_files) {
         FILE_INFO* fip = fref.file_info;
         if (fip->had_failure(errnum)) {
             fip->failure_message(msg);
@@ -1109,7 +1109,7 @@ void APP_VERSION::get_file_errors(string& str) {
 
 void APP_VERSION::clear_errors() {
     int x;
-    for (FILE_REF& fref: app_files) {
+    for (const FILE_REF& fref: app_files) {
         FILE_INFO* fip = fref.file_info;
         if (fip->had_failure(x)) {
             fip->reset();
@@ -1184,7 +1184,7 @@ int FILE_REF::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-int FILE_REF::write(MIOFILE& out) {
+int FILE_REF::write(MIOFILE& out) const {
 
     out.printf(
         "    <file_ref>\n"
@@ -1342,7 +1342,7 @@ int WORKUNIT::write(MIOFILE& out, bool gui) {
             command_line.c_str()
         );
     }
-    for (FILE_REF &fref: input_files) {
+    for (const FILE_REF &fref: input_files) {
         fref.write(out);
     }
     if (strlen(sub_appname)) {
@@ -1369,7 +1369,7 @@ int WORKUNIT::write(MIOFILE& out, bool gui) {
 }
 
 bool WORKUNIT::had_download_failure(int& failnum) {
-    for (FILE_REF &fref: input_files) {
+    for (const FILE_REF &fref: input_files) {
         if (fref.file_info->had_failure(failnum)) {
             return true;
         }
@@ -1382,7 +1382,7 @@ void WORKUNIT::get_file_errors(string& str) {
     string msg;
 
     str = "couldn't get input files:\n";
-    for (FILE_REF &fref: input_files) {
+    for (const FILE_REF &fref: input_files) {
         FILE_INFO* fip = fref.file_info;
         if (fip->had_failure(x)) {
             fip->failure_message(msg);
@@ -1396,7 +1396,7 @@ void WORKUNIT::get_file_errors(string& str) {
 //
 void WORKUNIT::clear_errors() {
     int x;
-    for (FILE_REF &fref: input_files) {
+    for (const FILE_REF &fref: input_files) {
         FILE_INFO* fip = fref.file_info;
         if (fip->had_failure(x)) {
             fip->reset();

@@ -514,7 +514,7 @@ int main(int argc, char** argv) {
         vector<OLD_RESULT> ors;
         retval = rpc.get_old_results(ors);
         if (!retval) {
-            for (OLD_RESULT& o: ors) {
+            for (const OLD_RESULT& o: ors) {
                 o.print();
             }
         }

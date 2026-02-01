@@ -590,11 +590,11 @@ int CLIENT_STATE::init() {
         coprocs.get(
             cc_config.use_all_gpus, descs, warnings, cc_config.ignore_gpu_instance
         );
-        for (string &s: descs) {
+        for (const string &s: descs) {
             msg_printf(NULL, MSG_INFO, "%s", s.c_str());
         }
         if (log_flags.coproc_debug) {
-            for (string &s: warnings) {
+            for (const string &s: warnings) {
                 msg_printf(NULL, MSG_INFO, "[coproc] %s", s.c_str());
             }
         }
@@ -1645,10 +1645,10 @@ bool CLIENT_STATE::garbage_collect_always() {
     // reference-count user and project files
     //
     for (PROJECT *p: projects) {
-        for (FILE_REF &fref: p->user_files) {
+        for (const FILE_REF &fref: p->user_files) {
             fref.file_info->ref_cnt++;
         }
-        for (FILE_REF &fref: p->project_files) {
+        for (const FILE_REF &fref: p->project_files) {
             fref.file_info->ref_cnt++;
         }
     }
@@ -1721,7 +1721,7 @@ bool CLIENT_STATE::garbage_collect_always() {
         }
         bool found_error = false;
         string error_str;
-        for (FILE_REF &fref: rp->output_files) {
+        for (const FILE_REF &fref: rp->output_files) {
             FILE_INFO *fip = fref.file_info;
             // If one of the output files had an upload failure,
             // mark the result as done and report the error.
@@ -1777,7 +1777,7 @@ bool CLIENT_STATE::garbage_collect_always() {
             wu_iter = workunits.erase(wu_iter);
             action = true;
         } else {
-            for (FILE_REF &fref: wup->input_files) {
+            for (const FILE_REF &fref: wup->input_files) {
                 fref.file_info->ref_cnt++;
             }
             ++wu_iter;
@@ -1820,7 +1820,7 @@ bool CLIENT_STATE::garbage_collect_always() {
     // bumping refcnt of associated files.
     //
     for (APP_VERSION *avp: app_versions) {
-        for (FILE_REF &fref: avp->app_files) {
+        for (const FILE_REF &fref: avp->app_files) {
             fref.file_info->ref_cnt++;
         }
     }

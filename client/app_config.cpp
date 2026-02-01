@@ -26,7 +26,7 @@
 #include "cc_config.h"
 #include "app_config.h"
 
-static void show_warning(PROJECT* p, char* name) {
+static void show_warning(PROJECT* p, const char* name) {
     msg_printf(p, MSG_USER_ALERT,
         "Your app_config.xml file refers to an unknown application '%s'.  Known applications: %s",
         name, app_list_string(p).c_str()
@@ -37,7 +37,7 @@ static void show_warning(PROJECT* p, char* name) {
 //
 int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
     bool showed_notice = false;
-    for (APP_CONFIG& ac: app_configs) {
+    for (const APP_CONFIG& ac: app_configs) {
         APP* app = gstate.lookup_app(p, ac.name);
         if (!app) {
             if (show_warnings) {
@@ -58,7 +58,7 @@ int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
             avp->resource_usage.avg_ncpus = ac.gpu_cpu_usage;
         }
     }
-    for (APP_VERSION_CONFIG& avc: app_version_configs) {
+    for (const APP_VERSION_CONFIG& avc: app_version_configs) {
         APP* app = gstate.lookup_app(p, avc.app_name);
         if (!app) {
             if (show_warnings) {
@@ -125,7 +125,7 @@ static void clear_app_config(PROJECT* p) {
 }
 
 static void print_msgs(vector<string> msgs, PROJECT* p) {
-    for (string &msg: msgs) {
+    for (const string &msg: msgs) {
         msg_printf_notice(p, false, NULL, "%s", msg.c_str());
     }
 }

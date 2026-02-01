@@ -471,7 +471,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     //
     static string exclusive_app_name;
         // name of currently running exclusive app, or blank if none
-    for (string &eapp: cc_config.exclusive_apps) {
+    for (const string &eapp: cc_config.exclusive_apps) {
         if (app_running(pm, eapp.c_str())) {
             if (log_flags.mem_usage_debug) {
                 msg_printf(NULL, MSG_INFO,
@@ -502,7 +502,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     }
 
     static string exclusive_gpu_app_name;
-    for (string &eapp: cc_config.exclusive_gpu_apps) {
+    for (const string &eapp: cc_config.exclusive_gpu_apps) {
         if (app_running(pm, eapp.c_str())) {
             if (log_flags.mem_usage_debug) {
                 msg_printf(NULL, MSG_INFO,
@@ -677,7 +677,7 @@ int ACTIVE_TASK::current_disk_usage(double& size) {
 
     retval = dir_size(slot_dir, size);
     if (retval) return retval;
-    for (FILE_REF &fref: result->output_files) {
+    for (const FILE_REF &fref: result->output_files) {
         fip = fref.file_info;
         get_pathname(fip, path, sizeof(path));
         retval = file_size(path, x);
@@ -1110,7 +1110,7 @@ void MSG_QUEUE::msg_queue_poll(MSG_CHANNEL& channel) {
         last_block = 0;
     }
     if (log_flags.app_msg_send) {
-        for (string &msg: msgs) {
+        for (const string &msg: msgs) {
             msg_printf(NULL, MSG_INFO,
                 "[app_msg_send] poll: deferred: %s", msg.c_str()
             );
