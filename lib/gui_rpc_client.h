@@ -664,7 +664,7 @@ struct OLD_RESULT {
     double create_time;
 
     int parse(XML_PARSER&);
-    void print();
+    void print() const;
 };
 
 struct RPC_CLIENT {

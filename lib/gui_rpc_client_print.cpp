@@ -500,7 +500,7 @@ void ACCOUNT_OUT::print() {
     }
 }
 
-void OLD_RESULT::print() {
+void OLD_RESULT::print() const {
     printf(
         "task %s:\n"
         "   project URL: %s\n"

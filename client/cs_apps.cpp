@@ -106,7 +106,6 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
 
 #ifndef SIM
     FILE_INFO* fip;
-    unsigned int i;
     char path[MAXPATHLEN];
     int retval;
     double size;
@@ -119,8 +118,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     case EXIT_ABORTED_BY_PROJECT:
         break;
     default:
-        for (i=0; i<rp->output_files.size(); i++) {
-            FILE_REF& fref = rp->output_files[i];
+        for (const FILE_REF& fref: rp->output_files) {
             fip = fref.file_info;
             if (fip->uploaded) continue;
             get_pathname(fip, path, sizeof(path));
@@ -238,12 +236,11 @@ int CLIENT_STATE::task_files_present(
 ) {
     WORKUNIT* wup = rp->wup;
     FILE_INFO* fip;
-    unsigned int i;
     APP_VERSION* avp = rp->avp;
     int retval, ret = 0;
 
-    for (i=0; i<avp->app_files.size(); i++) {
-        fip = avp->app_files[i].file_info;
+    for (const FILE_REF &fref: avp->app_files) {
+        fip = fref.file_info;
         if (fip->status != FILE_PRESENT) {
             if (fipp) *fipp = fip;
             ret = ERR_FILE_MISSING;
@@ -256,9 +253,9 @@ int CLIENT_STATE::task_files_present(
         }
     }
 
-    for (i=0; i<wup->input_files.size(); i++) {
-        if (wup->input_files[i].optional) continue;
-        fip = wup->input_files[i].file_info;
+    for (const FILE_REF &fref: wup->input_files) {
+        if (fref.optional) continue;
+        fip = fref.file_info;
         if (fip->status != FILE_PRESENT) {
             if (fipp) *fipp = fip;
             ret = ERR_FILE_MISSING;
@@ -283,8 +280,8 @@ int CLIENT_STATE::verify_app_version_files(RESULT* rp) {
 
     if (project->anonymous_platform) return 0;
     APP_VERSION* avp = rp->avp;
-    for (unsigned int i=0; i<avp->app_files.size(); i++) {
-        fip = avp->app_files[i].file_info;
+    for (FILE_REF &fref: avp->app_files) {
+        fip = fref.file_info;
         int retval = fip->verify_file(true, true, false);
         if (retval && log_flags.task_debug) {
             msg_printf(fip->project, MSG_INFO,
@@ -312,11 +309,9 @@ double CLIENT_STATE::get_fraction_done(RESULT* result) {
 // or -1 if can't find one
 //
 int CLIENT_STATE::latest_version(APP* app, char* platform) {
-    unsigned int i;
     int best = -1;
 
-    for (i=0; i<app_versions.size(); i++) {
-        APP_VERSION* avp = app_versions[i];
+    for (APP_VERSION* avp: app_versions) {
         if (avp->app != app) continue;
         if (strcmp(platform, avp->platform)) continue;
         if (avp->version_num < best) continue;
@@ -328,8 +323,7 @@ int CLIENT_STATE::latest_version(APP* app, char* platform) {
 // Find the ACTIVE_TASK in the current set with the matching PID
 //
 ACTIVE_TASK* ACTIVE_TASK_SET::lookup_pid(int pid) {
-    for (unsigned int i=0; i<active_tasks.size(); i++) {
-        ACTIVE_TASK *atp = active_tasks[i];
+    for (ACTIVE_TASK *atp: active_tasks) {
         if (atp->pid == pid) return atp;
     }
     return NULL;
@@ -338,8 +332,7 @@ ACTIVE_TASK* ACTIVE_TASK_SET::lookup_pid(int pid) {
 // Find the ACTIVE_TASK in the current set with the matching result
 //
 ACTIVE_TASK* ACTIVE_TASK_SET::lookup_result(RESULT* result) {
-    for (unsigned int i=0; i<active_tasks.size(); i++) {
-        ACTIVE_TASK *atp = active_tasks[i];
+    for (ACTIVE_TASK *atp: active_tasks) {
         if (atp->result == result) {
             return atp;
         }
@@ -348,8 +341,7 @@ ACTIVE_TASK* ACTIVE_TASK_SET::lookup_result(RESULT* result) {
 }
 
 ACTIVE_TASK* ACTIVE_TASK_SET::lookup_slot(int slot) {
-    for (unsigned int i=0; i<active_tasks.size(); i++) {
-        ACTIVE_TASK *atp = active_tasks[i];
+    for (ACTIVE_TASK *atp: active_tasks) {
         if (atp->slot == slot) {
             return atp;
         }
@@ -362,8 +354,7 @@ ACTIVE_TASK* ACTIVE_TASK_SET::lookup_slot(int slot) {
 // i.e. they finished as the client was shutting down
 //
 void ACTIVE_TASK_SET::check_for_finished_jobs() {
-    for (unsigned int i=0; i<active_tasks.size(); i++) {
-        ACTIVE_TASK* atp = active_tasks[i];
+    for (ACTIVE_TASK *atp: active_tasks) {
         int exit_code;
         if (atp->finish_file_present(exit_code)) {
             msg_printf(atp->wup->project, MSG_INFO,

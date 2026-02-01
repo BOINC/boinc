@@ -142,11 +142,7 @@ void set_rrsim_flops(RESULT* rp) {
 }
 
 void print_deadline_misses() {
-    unsigned int i;
-    RESULT* rp;
-    PROJECT* p;
-    for (i=0; i<gstate.results.size(); i++){
-        rp = gstate.results[i];
+    for (RESULT* rp: gstate.results) {
         if (rp->rr_sim_misses_deadline) {
             msg_printf(rp->project, MSG_INFO,
                 "[rr_sim] Result %s projected to miss deadline.",
@@ -154,8 +150,7 @@ void print_deadline_misses() {
             );
         }
     }
-    for (i=0; i<gstate.projects.size(); i++) {
-        p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         for (int j=0; j<coprocs.n_rsc; j++) {
             if (p->rsc_pwf[j].deadlines_missed) {
                 msg_printf(p, MSG_INFO,
@@ -173,15 +168,13 @@ void print_deadline_misses() {
 // NOTE: "results" is sorted by increasing arrival time.
 //
 void RR_SIM::init_pending_lists() {
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         for (int j=0; j<coprocs.n_rsc; j++) {
             p->rsc_pwf[j].pending.clear();
             p->rsc_pwf[j].queue_est = 0;
         }
     }
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
+    for (RESULT* rp: gstate.results) {
         rp->rr_sim_misses_deadline = false;
         rp->already_selected = false;
         if (!rp->nearly_runnable()) continue;
@@ -231,8 +224,7 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
 
     // save and restore rec_temp
     //
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         p->pwf.rec_temp_save = p->pwf.rec_temp;
         p->pwf.at_max_concurrent_limit = false;
     }
@@ -251,8 +243,7 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
         // Clear usage counts.
         // Initialize iterators to the pending list of each project.
         //
-        for (unsigned int i=0; i<gstate.projects.size(); i++) {
-            PROJECT* p = gstate.projects[i];
+        for (PROJECT* p: gstate.projects) {
             RSC_PROJECT_WORK_FETCH& rsc_pwf = p->rsc_pwf[rt];
             size_t s = rsc_pwf.pending.size();
 #if 0
@@ -370,8 +361,7 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
         }
     }
 
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         p->pwf.rec_temp = p->pwf.rec_temp_save;
     }
     if (log_flags.rr_simulation) {
@@ -427,8 +417,7 @@ static void handle_missed_deadline(RESULT* rpbest, double diff, double ar) {
 // update "MC shortfall" for projects with max concurrent restrictions
 //
 static void mc_update_stats(double sim_now, double dt, double buf_end) {
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         if (!p->app_configs.project_has_mc) continue;
         for (int rt=0; rt<coprocs.n_rsc; rt++) {
             RSC_PROJECT_WORK_FETCH& rsc_pwf = p->rsc_pwf[rt];
@@ -480,8 +469,7 @@ void RR_SIM::simulate() {
     init_pending_lists();
 
     if (have_max_concurrent) {
-        for (unsigned int i=0; i<gstate.projects.size(); i++) {
-            PROJECT* p = gstate.projects[i];
+        for (PROJECT* p: gstate.projects) {
             p->pwf.at_max_concurrent_limit = false;
         }
     }
@@ -601,8 +589,7 @@ void RR_SIM::simulate() {
         // update project REC
         //
         double f = gstate.host_info.p_fpops;
-        for (unsigned int i=0; i<gstate.projects.size(); i++) {
-            PROJECT* p = gstate.projects[i];
+        for (PROJECT* p: gstate.projects) {
             double dtemp = sim_now;
             double x = 0;
             for (int j=0; j<coprocs.n_rsc; j++) {
@@ -694,8 +681,7 @@ int n_idle_resources() {
         rsc_work_fetch[i].nidle_now = c;
         if (c > 0) nidle_rsc++;
     }
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
+    for (RESULT* rp: gstate.results) {
         if (!rp->nearly_runnable()) continue;
         if (rp->some_download_stalled()) continue;
         if (rsc_work_fetch[0].nidle_now) {

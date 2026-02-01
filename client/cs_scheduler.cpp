@@ -77,8 +77,7 @@ using std::string;
 int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     char buf[1024];
     MIOFILE mf;
-    unsigned int i;
-    RESULT* rp;
+    int i;
 
     get_sched_request_filename(*p, buf, sizeof(buf));
     FILE* f = boinc_fopen(buf, "wb");
@@ -223,10 +222,10 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 
     // report completed jobs
     //
-    unsigned int last_reported_index = 0;
+    int last_reported_index = 0;
     p->nresults_returned = 0;
-    for (i=0; i<results.size(); i++) {
-        rp = results[i];
+    i = 0;
+    for (RESULT *rp: results) {
         if (rp->project == p && rp->ready_to_report) {
             p->nresults_returned++;
             rp->write(mf, true);
@@ -237,14 +236,14 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
             last_reported_index = i;
             break;
         }
+        i++;
     }
 
     read_trickle_files(p, f);
 
     // report sticky files as needed
     //
-    for (i=0; i<file_infos.size(); i++) {
-        FILE_INFO* fip = file_infos[i];
+    for (FILE_INFO* fip: file_infos) {
         if (fip->project != p) continue;
         if (!fip->sticky) continue;
         fprintf(f,
@@ -273,8 +272,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     //
     fprintf(f, "<app_versions>\n");
     int j=0;
-    for (i=0; i<app_versions.size(); i++) {
-        APP_VERSION* avp = app_versions[i];
+    for (APP_VERSION* avp: app_versions) {
         if (avp->project != p) continue;
         avp->write(mf, false);
         avp->index = j++;
@@ -284,8 +282,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     // send descriptions of jobs in progress for this project
     //
     fprintf(f, "<other_results>\n");
-    for (i=0; i<results.size(); i++) {
-        rp = results[i];
+    i = 0;
+    for (RESULT *rp: results) {
         if (rp->project != p) continue;
         if ((last_reported_index && (i > last_reported_index)) || !rp->ready_to_report) {
             fprintf(f,
@@ -307,6 +305,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
                 "    </other_result>\n"
             );
         }
+        i++;
     }
     fprintf(f, "</other_results>\n");
 
@@ -315,8 +314,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     //
     if (p->send_full_workload) {
         fprintf(f, "<in_progress_results>\n");
-        for (i=0; i<results.size(); i++) {
-            rp = results[i];
+        for (RESULT *rp: results) {
             double x = rp->estimated_runtime_remaining();
             if (x == 0) continue;
             safe_strcpy(buf, "");
@@ -547,7 +545,6 @@ int CLIENT_STATE::handle_scheduler_reply(
     bool signature_valid, update_global_prefs=false, update_project_prefs=false;
     char buf[1024], filename[256];
     string old_gui_urls = project->gui_urls;
-    PROJECT* p2;
     vector<RESULT*>new_results;
 
     project->last_rpc_time = now;
@@ -656,10 +653,9 @@ int CLIENT_STATE::handle_scheduler_reply(
     // make sure we don't already have a project of same name
     //
     bool dup_name = false;
-    for (i=0; i<projects.size(); i++) {
-        p2 = projects[i];
-        if (project == p2) continue;
-        if (!strcmp(p2->project_name, project->project_name)) {
+    for (PROJECT *p: projects) {
+        if (project == p) continue;
+        if (!strcmp(p->project_name, project->project_name)) {
             dup_name = true;
             break;
         }
@@ -990,8 +986,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         est_rsc_runtime[j] = 0;
         got_work_for_rsc[j] = false;
     }
-    for (i=0; i<sr.results.size(); i++) {
-        RESULT& checked_result = sr.results[i];
+    for (const RESULT& checked_result: sr.results) {
         RESULT* rp2 = lookup_result(project, checked_result.name);
         if (rp2) {
             // see if project wants to change the job's deadline
@@ -1240,9 +1235,7 @@ int CLIENT_STATE::handle_scheduler_reply(
 #endif // SIM
 
 void CLIENT_STATE::check_project_timeout() {
-    unsigned int i;
-    for (i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
+    for (PROJECT *p: projects) {
         if (p->possibly_backed_off && now > p->min_rpc_time) {
             p->possibly_backed_off = false;
             char buf[1024];
@@ -1255,11 +1248,7 @@ void CLIENT_STATE::check_project_timeout() {
 // find a project that needs to have its master file fetched
 //
 PROJECT* CLIENT_STATE::next_project_master_pending() {
-    unsigned int i;
-    PROJECT* p;
-
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
+    for (PROJECT *p: projects) {
         if (p->waiting_until_min_rpc_time()) continue;
         if (p->suspended_via_gui) continue;
         if (p->master_url_fetch_pending) {
@@ -1276,11 +1265,7 @@ PROJECT* CLIENT_STATE::next_project_master_pending() {
 // - because the project was just attached (for verification)
 //
 PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
-    unsigned int i;
-    PROJECT* p;
-
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
+    for (PROJECT *p: projects) {
         bool honor_backoff = true;
         bool honor_suspend = true;
 
@@ -1327,11 +1312,7 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
 }
 
 PROJECT* CLIENT_STATE::next_project_trickle_up_pending() {
-    unsigned int i;
-    PROJECT* p;
-
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
+    for (PROJECT *p: projects) {
         if (p->waiting_until_min_rpc_time()) continue;
         if (p->suspended_via_gui) continue;
         if (p->trickle_up_pending) {
@@ -1356,11 +1337,7 @@ PROJECT* CLIENT_STATE::next_project_trickle_up_pending() {
 PROJECT* CLIENT_STATE::find_project_with_overdue_results(
     bool network_suspend_soon
 ) {
-    unsigned int i;
-    RESULT* r;
-
-    for (i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
+    for (PROJECT *p: projects) {
         p->n_ready = 0;
         p->dont_contact = false;
         if (p->waiting_until_min_rpc_time()) p->dont_contact = true;
@@ -1370,8 +1347,7 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results(
 #endif
     }
 
-    for (i=0; i<results.size(); i++) {
-        r = results[i];
+    for (RESULT *r: results) {
         if (!r->ready_to_report) continue;
 
         PROJECT* p = r->project;

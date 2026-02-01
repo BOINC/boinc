@@ -81,14 +81,12 @@ double CLIENT_STATE::allowed_disk_usage(double boinc_total) {
 int CLIENT_STATE::get_disk_usages() {
     unsigned int i;
     double size;
-    PROJECT* p;
     int retval;
     char buf[MAXPATHLEN];
 
     client_disk_usage = 0;
     total_disk_usage = 0;
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
+    for (PROJECT *p: projects) {
         p->disk_usage = 0;
         retval = dir_size_alloc(p->project_dir(), size);
         if (!retval) p->disk_usage = size;
@@ -101,8 +99,7 @@ int CLIENT_STATE::get_disk_usages() {
         if (retval) continue;
         atp->wup->project->disk_usage += size;
     }
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
+    for (PROJECT *p: projects) {
         total_disk_usage += p->disk_usage;
     }
     retval = dir_size_alloc(".", size, false);
@@ -130,15 +127,11 @@ int CLIENT_STATE::get_disk_usages() {
 //   + X*drs/(total drs of greedy projects)
 //
 void CLIENT_STATE::get_disk_shares() {
-    PROJECT* p;
-    unsigned int i;
-
     // compute disk resource shares
     //
     double trs = 0;
     double max_rs = 0;
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
+    for (PROJECT *p: projects) {
         p->ddu = std::max(p->disk_usage, p->desired_disk_usage);
         double rs = p->resource_share;
         trs += rs;
@@ -146,13 +139,11 @@ void CLIENT_STATE::get_disk_shares() {
     }
     if (trs) {
         max_rs /= 10;
-        for (i=0; i<projects.size(); i++) {
-            p = projects[i];
+        for (PROJECT *p: projects) {
             p->disk_resource_share = p->resource_share + max_rs;
         }
     } else {
-        for (i=0; i<projects.size(); i++) {
-            p = projects[i];
+        for (PROJECT *p: projects) {
             p->disk_resource_share = 1;
         }
     }
@@ -164,8 +155,7 @@ void CLIENT_STATE::get_disk_shares() {
     double greedy_drs = 0;
     double non_greedy_ddu = 0;
     double allowed = allowed_disk_usage(total_disk_usage);
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
+    for (PROJECT *p: projects) {
         p->disk_quota = allowed*p->disk_resource_share/trs;
         if (p->ddu > p->disk_quota) {
             greedy_drs += p->disk_resource_share;
@@ -181,8 +171,7 @@ void CLIENT_STATE::get_disk_shares() {
             allowed/GIGA, total_disk_usage/GIGA
         );
     }
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
+    for (PROJECT *p: projects) {
         double rs = p->disk_resource_share/trs;
         if (p->ddu > allowed*rs) {
             p->disk_share = greedy_allowed*p->disk_resource_share/greedy_drs;
