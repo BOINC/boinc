@@ -461,9 +461,9 @@ int hav_lookup(
 DB_APP_VERSION_VAL *av_lookup(
     DB_ID_TYPE id, vector<DB_APP_VERSION_VAL>& app_versions
 ) {
-    for (unsigned int i=0; i<app_versions.size(); i++) {
-        if (app_versions[i].id == id) {
-            return &app_versions[i];
+    for (DB_APP_VERSION_VAL &av: app_versions) {
+        if (av.id == id) {
+            return &av;
         }
     }
     DB_APP_VERSION_VAL av;
@@ -810,18 +810,17 @@ int get_pfc(
 // (reduces the weight of large outliers)
 //
 double low_average(vector<double>& v) {
-    int i;
     int n = v.size();
     if (n == 1) {
         return v[0];
     }
     double sum=0;
-    for (i=0; i<n; i++) {
-        sum += v[i];
+    for (double x: v) {
+        sum += x;
     }
     double total=0;
-    for (i=0; i<n; i++) {
-        total += v[i]*(sum-v[i]);
+    for (double x: v) {
+        total += x*(sum-x);
     }
     return total/((n-1)*sum);
 }
@@ -829,28 +828,27 @@ double low_average(vector<double>& v) {
 // compute the average of number weighted by proximity
 // to another number
 double pegged_average(vector<double>& v, double anchor) {
-    int n=v.size();
-    double weights=0,sum=0,w;
-    int i;
+    int n = v.size();
+    double weights=0, sum=0, w;
     if (n==1) {
         return v[0];
     }
-    for (i=0; i<n; i++) {
-        w=(1.0/(0.1*anchor+fabs(anchor-v[i])));
-        weights+=w;
-        sum+=w*v[i];
+    for (double x: v) {
+        w = (1.0/(0.1*anchor+fabs(anchor-x)));
+        weights += w;
+        sum += w*x;
     }
     return sum/weights;
 }
 
 double vec_min(vector<double>& v) {
-    double x = v[0];
-    for (unsigned int i=1; i<v.size(); i++) {
-        if (v[i] < x) {
-            x = v[i];
+    double m = v[0];
+    for (double x: v) {
+        if (x < m) {
+            m = x;
         }
     }
-    return x;
+    return m;
 }
 
 // Called by validator when canonical result has been selected.
@@ -873,13 +871,12 @@ int assign_credit_set(
     double max_granted_credit,
     double &credit      // out
 ) {
-    unsigned int i;
     int mode, retval;
     double pfc;
     vector<double> normal;
     vector<double> approx;
 
-    for (i=0; i<results.size(); i++) {
+    for (unsigned int i=0; i<results.size(); i++) {
         RESULT &r = results[i];
         if (r.validate_state != VALIDATE_STATE_VALID) {
             continue;
@@ -971,12 +968,10 @@ int assign_credit_set(
 // done at the end of every validator scan.
 //
 int write_modified_app_versions(vector<DB_APP_VERSION_VAL>& app_versions) {
-    unsigned int i, j;
     int retval = 0;
     double now = dtime();
 
-    for (i=0; i<app_versions.size(); i++) {
-        DB_APP_VERSION_VAL &av = app_versions[i];
+    for (DB_APP_VERSION_VAL &av: app_versions) {
         if (av.pfc_samples.empty() && av.credit_samples.empty()) {
             continue;
         }
@@ -984,13 +979,12 @@ int write_modified_app_versions(vector<DB_APP_VERSION_VAL>& app_versions) {
             double pfc_n_orig = av.pfc.n;
             double expavg_credit_orig = av.expavg_credit;
 
-            for (j=0; j<av.pfc_samples.size(); j++) {
+            for (double x: av.pfc_samples) {
                 av.pfc.update(
-                    av.pfc_samples[j],
-                    AV_AVG_THRESH, AV_AVG_WEIGHT, AV_AVG_LIMIT
+                    x, AV_AVG_THRESH, AV_AVG_WEIGHT, AV_AVG_LIMIT
                 );
             }
-            for (j=0; j<av.credit_samples.size(); j++) {
+            for (unsigned int j=0; j<av.credit_samples.size(); j++) {
                 update_average(
                     now,
                     av.credit_times[j], av.credit_samples[j], CREDIT_HALF_LIFE,
