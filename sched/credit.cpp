@@ -461,9 +461,9 @@ int hav_lookup(
 DB_APP_VERSION_VAL *av_lookup(
     DB_ID_TYPE id, vector<DB_APP_VERSION_VAL>& app_versions
 ) {
-    for (unsigned int i=0; i<app_versions.size(); i++) {
-        if (app_versions[i].id == id) {
-            return &app_versions[i];
+    for (DB_APP_VERSION_VAL &av: app_versions) {
+        if (av.id == id) {
+            return &av;
         }
     }
     DB_APP_VERSION_VAL av;
@@ -810,18 +810,17 @@ int get_pfc(
 // (reduces the weight of large outliers)
 //
 double low_average(vector<double>& v) {
-    int i;
     int n = v.size();
     if (n == 1) {
         return v[0];
     }
     double sum=0;
-    for (i=0; i<n; i++) {
-        sum += v[i];
+    for (double x: v) {
+        sum += x;
     }
     double total=0;
-    for (i=0; i<n; i++) {
-        total += v[i]*(sum-v[i]);
+    for (double x: v) {
+        total += x*(sum-x);
     }
     return total/((n-1)*sum);
 }
