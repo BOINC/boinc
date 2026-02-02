@@ -125,7 +125,7 @@
 // this is rare.
 //
 // I took out the checkpoint-related code 1/30/2026.
-// If you went to see it, look at an older version
+// If you want to see it, look at an older version
 
 #include <cstdio>
 #include <string>
@@ -241,7 +241,6 @@ vector<string> app_args;
 DOCKER_TYPE docker_type;
 string wsl_distro_name;
 double cpu_time = 0;
-double checkpoint_cpu_time = 0;
 
 // parse job config file (job.toml)
 //
