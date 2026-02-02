@@ -903,6 +903,8 @@ int main(int argc, char** argv) {
         strcpy(image_name, "boinc");
         strcpy(container_name, "boinc");
         project_dir = "project";
+        aid.ncpus = 1;
+        aid.wu_cpu_time = 0;
     } else {
         boinc_get_init_data(aid);
         project_dir = strrchr(aid.project_dir, '/')+1;
@@ -938,7 +940,6 @@ int main(int argc, char** argv) {
     if (boinc_is_standalone()) {
         docker_type = PODMAN;
         fprintf(stderr, "Standalone mode; using Podman\n");
-        aid.ncpus = 1;
     } else {
         if (!strlen(aid.host_info.docker_version)
             || aid.host_info.docker_type == NONE
