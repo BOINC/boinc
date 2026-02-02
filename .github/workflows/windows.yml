@@ -206,18 +206,27 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   msbuild-test:
-    name: ${{matrix.platform}}-${{matrix.type}}-msbuild-test
+    name: ${{matrix.platform}}-${{matrix.type}}-${{matrix.installation_type}}-msbuild-test
     runs-on: ${{matrix.runner}}
     needs: msbuild
     strategy:
       matrix:
         type: [install, upgrade_from_alpha, upgrade_from_stable]
         platform: [x64, arm64]
+        installation_type: [normal, service]
         include:
           - platform: x64
             runner: windows-latest
           - platform: arm64
             runner: windows-11-arm
+          - installation_type: normal
+            argument_list_alpha: "/quiet /qn /l*v alpha.log"
+            argument_list_release: "/quiet /qn /l*v release.log"
+            argument_list_install: "/quiet /qn /l*v install.log"
+          - installation_type: service
+            argument_list_alpha: "/quiet /qn /norestart /l*v alpha.log ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
+            argument_list_release: "/quiet /qn /norestart /l*v release.log ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
+            argument_list_install: "/quiet /qn /norestart /l*v install.log ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
       fail-fast: false
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
@@ -230,7 +239,7 @@ jobs:
         run: |
           python ./tests/download_boinc_installer.py ${{matrix.platform}} alpha
           if (Test-Path "./${{matrix.platform}}_alpha.exe") {
-            Start-Process "./${{matrix.platform}}_alpha.exe" -ArgumentList "/quiet /qn /l*v alpha.log" -Wait
+            Start-Process "./${{matrix.platform}}_alpha.exe" -ArgumentList "${{matrix.argument_list_alpha}}" -Wait
           }
 
       - name: Install previous stable version
@@ -239,7 +248,7 @@ jobs:
         run: |
           python ./tests/download_boinc_installer.py ${{matrix.platform}} release
           if (Test-Path "./${{matrix.platform}}_release.exe") {
-            Start-Process "./${{matrix.platform}}_release.exe" -ArgumentList "/quiet /qn /l*v release.log" -Wait
+            Start-Process "./${{matrix.platform}}_release.exe" -ArgumentList "${{matrix.argument_list_release}}" -Wait
           }
 
       - name: Download installer artifact
@@ -256,11 +265,11 @@ jobs:
       - name: Run installation
         if: success()
         shell: powershell
-        run: Start-Process "./installer_setup.exe" -ArgumentList "/quiet /qn /l*v install.log" -Wait
+        run: Start-Process "./installer_setup.exe" -ArgumentList "${{matrix.argument_list_install}}" -Wait
 
       - name: Run installation tests
         if: success()
-        run: python ./tests/windows_installer_integration_tests.py
+        run: python ./tests/windows_installer_integration_tests.py --installation-type ${{matrix.installation_type}}
 
       - name: Upload logs on failure
         if: failure()

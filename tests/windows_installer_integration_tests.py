@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -15,20 +15,27 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+import argparse
 import os
 import pathlib
+import subprocess
 import sys
 import winreg
 import testset as testset
 import testhelper as testhelper
 
 class IntegrationTests:
-    def __init__(self):
+    def __init__(self, installation_type="normal"):
         self.testhelper = testhelper.TestHelper()
+        self.installation_type = installation_type
         self.result = True
         self.result &= self.test_version()
         self.result &= self.test_files_exist()
         self.result &= self.test_registry_records_exist()
+        if self.installation_type == "service":
+            self.result &= self.test_service_exists()
+            self.result &= self.test_service_users_exist()
+            self.result &= self.test_service_groups_and_memberships()
 
     def _get_test_executable_file_path(self, filename):
         return pathlib.Path("C:\\Program Files\\BOINC\\") / filename
@@ -56,6 +63,50 @@ class IntegrationTests:
             print(f"Error accessing registry: {e}")
             return None
 
+    def _check_service_exists(self, service_name):
+        try:
+            result = subprocess.run(
+                ["sc", "query", service_name],
+                capture_output=True,
+                text=True,
+                check=False
+            )
+            return result.returncode == 0
+        except Exception as e:
+            print(f"Error checking service: {e}")
+            return False
+
+    def _check_user_exists(self, username):
+        try:
+            result = subprocess.run(
+                ["net", "user", username],
+                capture_output=True,
+                text=True,
+                check=False
+            )
+            return result.returncode == 0
+        except Exception as e:
+            print(f"Error checking user: {e}")
+            return False
+
+    def _check_group_exists(self, groupname, username=None):
+        try:
+            result = subprocess.run(
+                ["net", "localgroup", groupname],
+                capture_output=True,
+                text=True,
+                check=False
+            )
+            if username is not None:
+                if result.returncode != 0:
+                    return False
+                return username in result.stdout
+            # Just check if the group exists
+            return result.returncode == 0
+        except Exception as e:
+            print(f"Error checking group: {e}")
+            return False
+
     def test_version(self):
         ts = testset.TestSet("Test version is correct")
         current_version = self.testhelper.get_current_version_number()
@@ -81,7 +132,36 @@ class IntegrationTests:
         ts.expect_equal("C:\\Program Files\\BOINC\\", self._get_value_from_registry("HKEY_LOCAL_MACHINE\\SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup\\", "INSTALLDIR"), "Test 'INSTALLDIR' registry record exists and is set correctly")
         return ts.result()
 
+    def test_service_exists(self):
+        ts = testset.TestSet("Test BOINC service exists")
+        ts.expect_true(self._check_service_exists("boinc"), "Test 'boinc' service exists")
+        return ts.result()
+
+    def test_service_users_exist(self):
+        ts = testset.TestSet("Test BOINC service users exist")
+        ts.expect_true(self._check_user_exists("boinc_master"), "Test 'boinc_master' user exists")
+        ts.expect_true(self._check_user_exists("boinc_project"), "Test 'boinc_project' user exists")
+        return ts.result()
+
+    def test_service_groups_and_memberships(self):
+        ts = testset.TestSet("Test BOINC service groups and memberships")
+        ts.expect_true(self._check_group_exists("boinc_admins"), "Test 'boinc_admins' group exists")
+        ts.expect_true(self._check_group_exists("boinc_projects"), "Test 'boinc_projects' group exists")
+        ts.expect_true(self._check_group_exists("boinc_users"), "Test 'boinc_users' group exists")
+        ts.expect_true(self._check_group_exists("boinc_admins", "boinc_master"), "Test 'boinc_master' user is a member of 'boinc_admins' group")
+        ts.expect_true(self._check_group_exists("boinc_projects", "boinc_project"), "Test 'boinc_project' user is a member of 'boinc_projects' group")
+        return ts.result()
+
 if __name__ == "__main__":
-    if not IntegrationTests().result:
+    parser = argparse.ArgumentParser(description="BOINC Windows Installer Integration Tests")
+    parser.add_argument(
+        "--installation-type",
+        type=str,
+        default="normal",
+        help="Installation type (normal or service), default is 'normal'"
+    )
+    args = parser.parse_args()
+
+    if not IntegrationTests(installation_type=args.installation_type).result:
         sys.exit(1)
     sys.exit(0)
