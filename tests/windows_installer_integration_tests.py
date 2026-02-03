@@ -21,6 +21,7 @@ import pathlib
 import subprocess
 import sys
 import winreg
+import xml.etree.ElementTree as ET
 import testset as testset
 import testhelper as testhelper
 
@@ -36,6 +37,8 @@ class IntegrationTests:
             self.result &= self.test_service_exists()
             self.result &= self.test_service_users_exist()
             self.result &= self.test_service_groups_and_memberships()
+        if self.installation_type == "test_acct_mgr_login":
+            self.result &= self.test_acct_mgr_login()
 
     def _get_test_executable_file_path(self, filename):
         return pathlib.Path("C:\\Program Files\\BOINC\\") / filename
@@ -150,6 +153,37 @@ class IntegrationTests:
         ts.expect_true(self._check_group_exists("boinc_users"), "Test 'boinc_users' group exists")
         ts.expect_true(self._check_group_exists("boinc_admins", "boinc_master"), "Test 'boinc_master' user is a member of 'boinc_admins' group")
         ts.expect_true(self._check_group_exists("boinc_projects", "boinc_project"), "Test 'boinc_project' user is a member of 'boinc_projects' group")
+        return ts.result()
+
+    def test_acct_mgr_login(self):
+        ts = testset.TestSet("Test account manager login file")
+        acct_mgr_file = self._get_test_data_file_path("acct_mgr_login.xml")
+        ts.expect_true(os.path.exists(acct_mgr_file), "Test 'acct_mgr_login.xml' file exists in 'C:\\ProgramData\\BOINC\\'")
+
+        if os.path.exists(acct_mgr_file):
+            try:
+                tree = ET.parse(acct_mgr_file)
+                root = tree.getroot()
+
+                ts.expect_equal("acct_mgr_login", root.tag, "Test root element is 'acct_mgr_login'")
+
+                login_element = root.find("login")
+                password_hash_element = root.find("password_hash")
+
+                ts.expect_true(login_element is not None, "Test 'login' element exists")
+                ts.expect_true(password_hash_element is not None, "Test 'password_hash' element exists")
+
+                if login_element is not None:
+                    ts.expect_equal("test", login_element.text, "Test 'login' element contains 'test'")
+
+                if password_hash_element is not None:
+                    ts.expect_equal("0123456789abcdef", password_hash_element.text, "Test 'password_hash' element contains '0123456789abcdef'")
+
+            except ET.ParseError as e:
+                ts.expect_true(False, f"Test XML file is well-formed (Parse error: {e})")
+            except Exception as e:
+                ts.expect_true(False, f"Test XML file can be processed (Error: {e})")
+
         return ts.result()
 
 if __name__ == "__main__":
