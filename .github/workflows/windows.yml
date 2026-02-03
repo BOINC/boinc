@@ -213,7 +213,7 @@ jobs:
       matrix:
         type: [install, upgrade_from_alpha, upgrade_from_stable]
         platform: [x64, arm64]
-        installation_type: [normal, service]
+        installation_type: [normal, service, test_acct_mgr_login]
         include:
           - platform: x64
             runner: windows-latest
@@ -227,6 +227,10 @@ jobs:
             argument_list_alpha: "/quiet /qn /norestart /l*v alpha.log ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
             argument_list_release: "/quiet /qn /norestart /l*v release.log ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
             argument_list_install: "/quiet /qn /norestart /l*v install.log ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
+          - installation_type: test_acct_mgr_login
+            argument_list_alpha: "/quiet /qn /l*v alpha.log"
+            argument_list_release: "/quiet /qn /l*v release.log"
+            argument_list_install: "/quiet /qn /l*v install.log ACCTMGR_LOGIN=test ACCTMGR_PASSWORDHASH=0123456789abcdef"
       fail-fast: false
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
