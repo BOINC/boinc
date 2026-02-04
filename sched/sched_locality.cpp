@@ -155,8 +155,7 @@ bool host_has_file(char *filename, bool skip_last_wu) {
     // loop over files already on host to see if host already has the
     // file
     //
-    for (i=0; i<(int)g_request->file_infos.size(); i++) {
-        FILE_INFO& fi = g_request->file_infos[i];
+    for (FILE_INFO& fi: g_request->file_infos) {
         if (!strcmp(filename, fi.name)) {
             has_file=true;
             break;

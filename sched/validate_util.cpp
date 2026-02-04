@@ -150,8 +150,8 @@ int get_output_file_paths(RESULT const& result, vector<string>& paths) {
     int retval = get_output_file_infos(result, fis);
     if (retval) return retval;
     paths.clear();
-    for (unsigned int i=0; i<fis.size(); i++) {
-        paths.push_back(fis[i].path);
+    for (OUTPUT_FILE_INFO& fi: fis) {
+        paths.push_back(fi.path);
     }
     return 0;
 }

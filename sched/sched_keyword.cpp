@@ -80,8 +80,7 @@ double keyword_score_aux(
 ) {
     double score = 0;
 
-    for (unsigned int i=0; i<jks.ids.size(); i++) {
-        int jk = jks.ids[i];
+    for (int jk: jks.ids) {
         if (std::find(uks.yes.begin(), uks.yes.end(), jk) != uks.yes.end()) {
             score += 1;
         } else if (std::find(uks.no.begin(), uks.no.end(), jk) != uks.no.end()) {

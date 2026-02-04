@@ -205,8 +205,7 @@ int SCHED_SHMEM::scan_tables() {
                     }
                 }
             }
-            for (unsigned int k=0; k<avs.size(); k++) {
-                APP_VERSION& av1 = avs[k];
+            for (APP_VERSION& av1: avs) {
                 if (sapp.min_version) {
                     if (av1.version_num < sapp.min_version) {
                         boinc::fprintf(stderr, "version too small %d < %d\n",

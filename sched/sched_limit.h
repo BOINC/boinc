@@ -122,16 +122,15 @@ struct JOB_LIMITS {
     //
     inline void reset(int ninstances[]) {
         project_limits.reset(ninstances);
-        for (unsigned int i=0; i<app_limits.size(); i++) {
-            app_limits[i].reset(ninstances);
+        for (JOB_LIMIT& jl: app_limits) {
+            jl.reset(ninstances);
         }
     }
 
     inline JOB_LIMIT* lookup_app(char* name) {
-        for (unsigned int i=0; i<app_limits.size(); i++) {
-            JOB_LIMIT* jlp = &app_limits[i];
-            if (!strcmp(name, jlp->app_name)) {
-                return jlp;
+        for (JOB_LIMIT& jl: app_limits) {
+            if (!strcmp(name, jl.app_name)) {
+                return &jl;
             }
         }
         return NULL;

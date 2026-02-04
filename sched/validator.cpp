@@ -192,8 +192,8 @@ void scan_punitive(vector<VALIDATOR_ITEM>& items) {
     void* data=NULL;
     char buf[256];
 
-    for (unsigned int i=0; i<items.size(); i++) {
-        RESULT& result = items[i].res;
+    for (VALIDATOR_ITEM& vi: items) {
+        RESULT& result = vi.res;
         if (result.server_state != RESULT_SERVER_STATE_OVER) continue;
         if (result.outcome != RESULT_OUTCOME_CLIENT_ERROR) continue;
         if (init_result(result, data) == VAL_RESULT_LONG_TERM_FAIL) {
@@ -237,7 +237,6 @@ int handle_wu(
     int retval = 0, x;
     DB_ID_TYPE canonicalid = 0;
     double credit = 0;
-    unsigned int i;
 
     WORKUNIT& wu = items[0].wu;
     g_wup = &wu;
@@ -255,9 +254,9 @@ int handle_wu(
         // Here if WU already has a canonical result.
         // Get unchecked results and see if they match the canonical result
         //
-        for (i=0; i<items.size(); i++) {
-            RESULT& result = items[i].res;
-
+        for (unsigned int i=0; i<items.size(); i++) {
+            VALIDATOR_ITEM& vi = items[i];
+            RESULT& result = vi.res;
             if (result.id == wu.canonical_resultid) {
                 canonical_result_index = i;
             }
@@ -274,8 +273,8 @@ int handle_wu(
 
         // scan this WU's results, and check the unchecked ones
         //
-        for (i=0; i<items.size(); i++) {
-            RESULT& result = items[i].res;
+        for (VALIDATOR_ITEM& vi: items) {
+            RESULT& result = vi.res;
 
             if (result.server_state != RESULT_SERVER_STATE_OVER) continue;
             if (result.outcome !=  RESULT_OUTCOME_SUCCESS) continue;
@@ -429,8 +428,8 @@ int handle_wu(
         // make a vector of the "viable" (i.e. possibly canonical) results,
         // and a parallel vector of host_app_versions
         //
-        for (i=0; i<items.size(); i++) {
-            RESULT& result = items[i].res;
+        for (VALIDATOR_ITEM& vi: items) {
+            RESULT& result = vi.res;
 
             if (result.server_state != RESULT_SERVER_STATE_OVER) continue;
             if (result.outcome != RESULT_OUTCOME_SUCCESS) continue;
@@ -503,8 +502,7 @@ int handle_wu(
                     // is within range
                     //
                     vector<double> cc;
-                    for (i=0; i<viable_results.size(); i++) {
-                        RESULT& result = viable_results[i];
+                    for (RESULT& result: viable_results) {
                         if (result.flops_estimate == 1e9) {
                             result.flops_estimate = AVG_CPU_FPOPS;
                         }
@@ -544,8 +542,7 @@ int handle_wu(
                     }
                 } else if (post_assigned_credit) {
                     credit = 0;
-                    for (i=0; i<viable_results.size(); i++) {
-                        RESULT& result = viable_results[i];
+                    for (RESULT& result: viable_results) {
                         if (result.id != canonicalid) {
                             continue;
                         }
@@ -573,7 +570,7 @@ int handle_wu(
             // or validate_state INVALID)
             //
             int n_viable_results = 0;
-            for (i=0; i<viable_results.size(); i++) {
+            for (unsigned i=0; i<viable_results.size(); i++) {
                 RESULT& result = viable_results[i];
                 DB_HOST_APP_VERSION& hav = host_app_versions[i];
                 DB_HOST_APP_VERSION& hav_orig = host_app_versions_orig[i];
@@ -703,8 +700,8 @@ int handle_wu(
 
                 // don't need to send any more results
                 //
-                for (i=0; i<items.size(); i++) {
-                    RESULT& result = items[i].res;
+                for (VALIDATOR_ITEM& vi: items) {
+                    RESULT& result = vi.res;
 
                     if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
                         continue;
