@@ -114,8 +114,12 @@ public:
             if (strBOINCMasterAccountPassword.empty()) {
                 LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
                     _T("Generating 'boinc_master' password"));
-                strBOINCMasterAccountPassword = GenerateRandomPassword(32);
+                auto errorcode = 0;
+                std::tie(errorcode, strBOINCMasterAccountPassword)
+                    = GenerateRandomPassword(32);
                 if (strBOINCMasterAccountPassword.empty()) {
+                    LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, errorcode,
+                        _T("Failed to generate 'boinc_master' password"));
                     return ERROR_INSTALL_FAILURE;
                 }
                 strBOINCMasterAccountPassword =
@@ -233,8 +237,12 @@ public:
             if (strBOINCProjectAccountPassword.empty()) {
                 LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
                     _T("Generating 'boinc_project' password"));
-                strBOINCProjectAccountPassword = GenerateRandomPassword(32);
+                auto errorcode = 0;
+                std::tie(errorcode, strBOINCProjectAccountPassword) =
+                    GenerateRandomPassword(32);
                 if (strBOINCProjectAccountPassword.empty()) {
+                    LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, errorcode,
+                        _T("Failed to generate 'boinc_project' password"));
                     return ERROR_INSTALL_FAILURE;
                 }
                 strBOINCProjectAccountPassword =
@@ -347,30 +355,30 @@ public:
 private:
     // Source Code Originally from:
     // http://support.microsoft.com/kb/814463
-    tstring CACreateBOINCAccounts::GenerateRandomPassword(
+    std::pair<int, tstring> CACreateBOINCAccounts::GenerateRandomPassword(
         size_t desiredLength)
     {
         wil::unique_hcryptprov hProv;
         if (!CryptAcquireContext(&hProv, nullptr, nullptr, PROV_RSA_FULL,
             CRYPT_SILENT)) {
-            return { };
+            return { 1, {} };
         }
 
         const auto dwBufSize = desiredLength * 4;
         std::vector<BYTE> randomBuffer(dwBufSize);
         if (!CryptGenRandom(hProv.get(), static_cast<DWORD>(dwBufSize),
             randomBuffer.data())) {
-            return { };
+            return { 2, {} };
         }
 
         wil::unique_hcrypthash hHash;
         if (!CryptCreateHash(hProv.get(), CALG_SHA1, 0, 0, &hHash)) {
-            return { };
+            return { 3, {} };
         }
 
         if (!CryptHashData(hHash.get(), randomBuffer.data(),
             static_cast<DWORD>(dwBufSize), 0)) {
-            return { };
+            return { 4, {} };
         }
 
         auto dwSize = Base64EncodeGetRequiredLength(
@@ -378,13 +386,13 @@ private:
         std::string encodedString(dwSize, '\0');
         if (!Base64Encode(randomBuffer.data(), static_cast<int>(dwBufSize),
             encodedString.data(), &dwSize, 0)) {
-            return { };
+            return { 5, {} };
         }
 
         auto randomPwd = boinc_ascii_to_wide(encodedString);
         tstring resultPwd(desiredLength, _T('\0'));
         randomPwd.copy(resultPwd.data(), desiredLength);
-        return { resultPwd };
+        return { 0, resultPwd };
     }
 };
 
