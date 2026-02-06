@@ -229,10 +229,10 @@ namespace test_boinccas_CACreateClientAuthFile {
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1", value);
 
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_USERNAME", "");
+        msiHelper.setProperty(hMsi, "BOINC_PROJECT_ISUSERNAME", "");
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi,
-                "BOINC_PROJECT_USERNAME");
+                "BOINC_PROJECT_ISUSERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_TRUE(value.empty());
 
@@ -260,10 +260,10 @@ namespace test_boinccas_CACreateClientAuthFile {
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1", value);
 
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_USERNAME", "");
+        msiHelper.setProperty(hMsi, "BOINC_PROJECT_ISUSERNAME", "");
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi,
-                "BOINC_PROJECT_USERNAME");
+                "BOINC_PROJECT_ISUSERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_TRUE(value.empty());
 
@@ -329,10 +329,10 @@ namespace test_boinccas_CACreateClientAuthFile {
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1", value);
 
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_USERNAME", "username");
+        msiHelper.setProperty(hMsi, "BOINC_PROJECT_ISUSERNAME", "username");
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi,
-                "BOINC_PROJECT_USERNAME");
+                "BOINC_PROJECT_ISUSERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("username", value);
 
@@ -367,10 +367,10 @@ namespace test_boinccas_CACreateClientAuthFile {
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1", value);
 
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_USERNAME", "test_user");
+        msiHelper.setProperty(hMsi, "BOINC_PROJECT_ISUSERNAME", "test_user");
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi,
-                "BOINC_PROJECT_USERNAME");
+                "BOINC_PROJECT_ISUSERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("test_user", value);
 
@@ -418,10 +418,10 @@ namespace test_boinccas_CACreateClientAuthFile {
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1", value);
 
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_USERNAME", "test_user");
+        msiHelper.setProperty(hMsi, "BOINC_PROJECT_ISUSERNAME", "test_user");
         std::tie(errorcode, value) =
             msiHelper.getProperty(hMsi,
-                "BOINC_PROJECT_USERNAME");
+                "BOINC_PROJECT_ISUSERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("test_user", value);
 
