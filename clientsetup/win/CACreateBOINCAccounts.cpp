@@ -120,7 +120,7 @@ public:
                 if (strBOINCMasterAccountPassword.empty()) {
                     LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, errorcode,
                         _T("Failed to generate 'boinc_master' password"));
-                    return ERROR_INSTALL_FAILURE;
+                    return ERROR_INSTALL_FAILURE + errorcode;
                 }
                 strBOINCMasterAccountPassword =
                     _T("!") + strBOINCMasterAccountPassword;
