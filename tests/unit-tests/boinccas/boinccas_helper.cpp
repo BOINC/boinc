@@ -343,7 +343,7 @@ bool userDelete(const std::string& username) {
 }
 
 wil::unique_sid getCurrentUserSid() {
-    wil::unique_handle token;
+    wil::unique_handle token = nullptr;
     if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &token)) {
         return nullptr;
     }
@@ -397,7 +397,7 @@ std::string getCurrentUserSidString() {
 
 bool isAccountMemberOfLocalGroup(const std::string& accountName,
     const std::string& groupName) {
-    wil::unique_sid acctSid;
+    wil::unique_sid acctSid = nullptr;
     if (accountName.empty()) {
         acctSid = getCurrentUserSid();
         if (!acctSid) {

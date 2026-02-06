@@ -358,7 +358,7 @@ private:
     std::pair<int, tstring> CACreateBOINCAccounts::GenerateRandomPassword(
         size_t desiredLength)
     {
-        wil::unique_hcryptprov hProv;
+        wil::unique_hcryptprov hProv = nullptr;
         if (!CryptAcquireContext(&hProv, nullptr, nullptr, PROV_RSA_FULL,
             CRYPT_SILENT)) {
             return { 1, {} };
@@ -371,7 +371,7 @@ private:
             return { 2, {} };
         }
 
-        wil::unique_hcrypthash hHash;
+        wil::unique_hcrypthash hHash = nullptr;
         if (!CryptCreateHash(hProv.get(), CALG_SHA1, 0, 0, &hHash)) {
             return { 3, {} };
         }
