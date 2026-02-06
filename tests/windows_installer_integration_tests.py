@@ -26,9 +26,10 @@ import testset as testset
 import testhelper as testhelper
 
 class IntegrationTests:
-    def __init__(self, installation_type="normal"):
+    def __init__(self, installation_type="normal", test_type="install"):
         self.testhelper = testhelper.TestHelper()
         self.installation_type = installation_type
+        self.test_type = test_type
         self.result = True
         self.result &= self.test_version()
         self.result &= self.test_files_exist()
@@ -39,6 +40,10 @@ class IntegrationTests:
             self.result &= self.test_service_groups_and_memberships()
         if self.installation_type == "test_acct_mgr_login":
             self.result &= self.test_acct_mgr_login()
+        if self.installation_type == "test_client_auth_file":
+            self.result &= self.test_client_auth_file()
+            if self.test_type == "install":
+                self.result &= self.test_boinc_master_user_only_exists()
 
     def _get_test_executable_file_path(self, filename):
         return pathlib.Path("C:\\Program Files\\BOINC\\") / filename
@@ -146,6 +151,12 @@ class IntegrationTests:
         ts.expect_true(self._check_user_exists("boinc_project"), "Test 'boinc_project' user exists")
         return ts.result()
 
+    def test_boinc_master_user_only_exists(self):
+        ts = testset.TestSet("Test 'boinc_master' user only exists")
+        ts.expect_true(self._check_user_exists("boinc_master"), "Test 'boinc_master' user exists")
+        ts.expect_false(self._check_user_exists("boinc_project"), "Test 'boinc_project' user does not exist")
+        return ts.result()
+
     def test_service_groups_and_memberships(self):
         ts = testset.TestSet("Test BOINC service groups and memberships")
         ts.expect_true(self._check_group_exists("boinc_admins"), "Test 'boinc_admins' group exists")
@@ -186,16 +197,57 @@ class IntegrationTests:
 
         return ts.result()
 
+    def test_client_auth_file(self):
+        ts = testset.TestSet("Test client auth file")
+        client_auth_file = self._get_test_data_file_path("client_auth.xml")
+        ts.expect_true(os.path.exists(client_auth_file), "Test 'client_auth.xml' file exists in 'C:\\ProgramData\\BOINC\\'")
+
+        if os.path.exists(client_auth_file):
+            try:
+                tree = ET.parse(client_auth_file)
+                root = tree.getroot()
+
+                ts.expect_equal("client_authorization", root.tag, "Test root element is 'client_authorization'")
+
+                boinc_project_element = root.find("boinc_project")
+                ts.expect_true(boinc_project_element is not None, "Test 'boinc_project' element exists")
+
+                if boinc_project_element is not None:
+                    username_element = boinc_project_element.find("username")
+                    password_element = boinc_project_element.find("password")
+
+                    ts.expect_true(username_element is not None, "Test 'username' element exists")
+                    ts.expect_true(password_element is not None, "Test 'password' element exists")
+
+                    if username_element is not None:
+                        ts.expect_equal("test_user", username_element.text, "Test 'username' element contains 'test_user'")
+
+                    if password_element is not None:
+                        ts.expect_equal("cXdlcnR5MTIzNDU2IUAjJCVe", password_element.text.strip(), "Test 'password' element contains 'cXdlcnR5MTIzNDU2IUAjJCVe'")
+
+            except ET.ParseError as e:
+                ts.expect_true(False, f"Test XML file is well-formed (Parse error: {e})")
+            except Exception as e:
+                ts.expect_true(False, f"Test XML file can be processed (Error: {e})")
+
+        return ts.result()
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="BOINC Windows Installer Integration Tests")
     parser.add_argument(
         "--installation-type",
         type=str,
         default="normal",
-        help="Installation type (normal or service), default is 'normal'"
+        help="Installation type: 'normal' (default), 'service', 'test_acct_mgr_login', or 'test_client_auth_file'"
+    )
+    parser.add_argument(
+        "--type",
+        type=str,
+        default="install",
+        help="Test type: 'install' (default) or 'upgrade_from_alpha' or 'upgrade_from_stable'"
     )
     args = parser.parse_args()
 
-    if not IntegrationTests(installation_type=args.installation_type).result:
+    if not IntegrationTests(installation_type=args.installation_type, test_type=args.type).result:
         sys.exit(1)
     sys.exit(0)
