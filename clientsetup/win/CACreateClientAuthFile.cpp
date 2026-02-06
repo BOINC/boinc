@@ -55,7 +55,7 @@ public:
             (strEnableProtectedApplicationExecution == _T("1"));
 
         tstring strBOINCProjectAccountUsername;
-        uiReturnValue = GetProperty(_T("BOINC_PROJECT_ISUSERNAME"),
+        uiReturnValue = GetProperty(_T("BOINC_PROJECT_USERNAME"),
             strBOINCProjectAccountUsername);
         if (uiReturnValue != ERROR_SUCCESS) {
             return uiReturnValue;
