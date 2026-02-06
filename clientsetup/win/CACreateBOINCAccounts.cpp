@@ -358,11 +358,12 @@ private:
     std::pair<int, tstring> CACreateBOINCAccounts::GenerateRandomPassword(
         size_t desiredLength)
     {
-        wil::unique_hcryptprov hProv = nullptr;
-        if (!CryptAcquireContext(&hProv, nullptr, nullptr, PROV_RSA_FULL,
+        HCRYPTPROV prov = NULL;
+        if (!CryptAcquireContext(&prov, nullptr, nullptr, PROV_RSA_FULL,
             CRYPT_SILENT)) {
             return { 1, {} };
         }
+        wil::unique_hcryptprov hProv(prov);
 
         const auto dwBufSize = desiredLength * 4;
         std::vector<BYTE> randomBuffer(dwBufSize);
@@ -371,10 +372,11 @@ private:
             return { 2, {} };
         }
 
-        wil::unique_hcrypthash hHash = nullptr;
-        if (!CryptCreateHash(hProv.get(), CALG_SHA1, 0, 0, &hHash)) {
+        HCRYPTHASH hash = NULL;
+        if (!CryptCreateHash(hProv.get(), CALG_SHA1, 0, 0, &hash)) {
             return { 3, {} };
         }
+        wil::unique_hcrypthash hHash(hash);
 
         if (!CryptHashData(hHash.get(), randomBuffer.data(),
             static_cast<DWORD>(dwBufSize), 0)) {
