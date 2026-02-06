@@ -131,10 +131,8 @@ static void handle_exchange_versions(GUI_RPC_CONN& grc) {
 }
 
 static void handle_get_simple_gui_info(GUI_RPC_CONN& grc) {
-    unsigned int i;
     grc.mfout.printf("<simple_gui_info>\n");
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         p->write_state(grc.mfout, true);
     }
     gstate.write_tasks_gui(grc.mfout, true);
@@ -142,17 +140,14 @@ static void handle_get_simple_gui_info(GUI_RPC_CONN& grc) {
 }
 
 static void handle_get_project_status(GUI_RPC_CONN& grc) {
-    unsigned int i;
     grc.mfout.printf("<projects>\n");
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         p->write_state(grc.mfout, true);
     }
     grc.mfout.printf("</projects>\n");
 }
 
 static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
-    unsigned int i;
     double size, boinc_non_project, d_allowed;
 //    double boinc_total;
 
@@ -188,8 +183,7 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
 #endif
 //    boinc_total = boinc_non_project;
     gstate.get_disk_usages();
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         grc.mfout.printf(
             "<project>\n"
             "  <master_url>%s</master_url>\n"
@@ -676,8 +670,7 @@ static void handle_acct_mgr_info(GUI_RPC_CONN& grc) {
 
 static void handle_get_statistics(GUI_RPC_CONN& grc) {
     grc.mfout.printf("<statistics>\n");
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         p->write_statistics(grc.mfout);
     }
     grc.mfout.printf("</statistics>\n");
@@ -741,8 +734,7 @@ static void handle_get_project_init_status(GUI_RPC_CONN& grc) {
     // If we're already attached to the project specified in the
     // project init file, delete the file.
     //
-    for (unsigned i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         if (urls_match(p->master_url, gstate.project_init.url)) {
             gstate.project_init.remove();
             break;
@@ -856,7 +848,6 @@ static void handle_project_attach(GUI_RPC_CONN& grc) {
     string url, authenticator, project_name, email_addr;
     bool use_config_file = false;
     bool already_attached = false;
-    unsigned int i;
     int retval;
 
     while (!grc.xp.get_tag()) {
@@ -895,8 +886,7 @@ static void handle_project_attach(GUI_RPC_CONN& grc) {
 
     canonicalize_master_url(url);
 
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         string project_url = p->master_url;
         canonicalize_master_url(project_url);
 

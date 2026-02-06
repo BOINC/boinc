@@ -45,8 +45,7 @@ WORK_FETCH work_fetch;
 // (don't request another job from NCI project if so)
 //
 static bool has_a_job_in_progress(PROJECT* p) {
-    for (unsigned int j=0; j<gstate.results.size(); j++) {
-        RESULT* rp = gstate.results[j];
+    for (RESULT* rp: gstate.results) {
         if (rp->project != p) continue;
         if (rp->state() < RESULT_FILES_UPLOADED) {
             return true;
@@ -56,9 +55,7 @@ static bool has_a_job_in_progress(PROJECT* p) {
 }
 
 inline bool has_coproc_app(PROJECT* p, int rsc_type) {
-    unsigned int i;
-    for (i=0; i<gstate.app_versions.size(); i++) {
-        APP_VERSION* avp = gstate.app_versions[i];
+    for (APP_VERSION* avp: gstate.app_versions) {
         if (avp->project != p) continue;
         if (avp->resource_usage.rsc_type == rsc_type) return true;
     }
@@ -68,7 +65,6 @@ inline bool has_coproc_app(PROJECT* p, int rsc_type) {
 ///////////////  RSC_PROJECT_WORK_FETCH  ///////////////
 
 void RSC_PROJECT_WORK_FETCH::rr_init(PROJECT *p) {
-    unsigned int i;
     fetchable_share = 0;
     n_runnable_jobs = 0;
     sim_nused = 0;
@@ -79,8 +75,7 @@ void RSC_PROJECT_WORK_FETCH::rr_init(PROJECT *p) {
     if (p->app_configs.project_has_mc) {
         // compute x = max usage over this resource over P's app versions
         double x = 0;
-        for (i=0; i<gstate.app_versions.size(); i++) {
-            APP_VERSION* avp = gstate.app_versions[i];
+        for (APP_VERSION* avp: gstate.app_versions) {
             if (avp->project != p) continue;
             if (rsc_type && (avp->resource_usage.rsc_type == rsc_type)) {
                 if (avp->resource_usage.coproc_usage > x) x = avp->resource_usage.coproc_usage;
@@ -362,9 +357,8 @@ void RSC_WORK_FETCH::print_state(const char* name) {
 //    msg_printf(0, MSG_INFO, "[work_fetch] sim used inst %d sim excl inst %d",
 //        sim_used_instances, sim_excluded_instances
 //    );
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+    for (PROJECT* p: gstate.projects) {
         char buf[256];
-        PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
         RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
         double bt = rpwf.backoff_time>gstate.now?rpwf.backoff_time-gstate.now:0;
@@ -393,7 +387,8 @@ void RSC_WORK_FETCH::clear_request() {
 ///////////////  PROJECT_WORK_FETCH  ///////////////
 
 void PROJECT_WORK_FETCH::reset(PROJECT* p) {
-    for (int i=0; i<coprocs.n_rsc; i++) {
+    // this is called before n_rsc is known; initialize all
+    for (int i=0; i<MAX_RSC; i++) {
         p->rsc_pwf[i].reset(i);
     }
 }
@@ -432,14 +427,12 @@ void PROJECT_WORK_FETCH::print_state(PROJECT* p) {
 void WORK_FETCH::rr_init() {
     // compute PROJECT::RSC_PROJECT_WORK_FETCH::has_deferred_job
     //
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         for (int j=0; j<coprocs.n_rsc; j++) {
             p->rsc_pwf[j].has_deferred_job = false;
         }
     }
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
+    for (RESULT* rp: gstate.results) {
         if (rp->schedule_backoff) {
             if (rp->schedule_backoff > gstate.now) {
                 int rt = rp->resource_usage.rsc_type;
@@ -454,8 +447,7 @@ void WORK_FETCH::rr_init() {
     for (int i=0; i<coprocs.n_rsc; i++) {
         rsc_work_fetch[i].rr_init();
     }
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         p->pwf.rr_init(p);
         for (int j=0; j<coprocs.n_rsc; j++) {
             p->rsc_pwf[j].rr_init(p);
@@ -493,8 +485,7 @@ void WORK_FETCH::print_state() {
         gstate.work_buf_min(), gstate.work_buf_additional()
     );
     msg_printf(0, MSG_INFO, "[work_fetch] --- project states ---");
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         p->pwf.print_state(p);
     }
     for (int i=0; i<coprocs.n_rsc; i++) {
@@ -644,8 +635,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
 // see if there's a fetchable non-CPU-intensive project without work
 //
 PROJECT* WORK_FETCH::non_cpu_intensive_project_needing_work() {
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         if (!p->non_cpu_intensive) continue;
         if (!p->can_request_work()) continue;
         if (p->rsc_pwf[0].backoff_time > gstate.now) continue;
@@ -712,8 +702,7 @@ void WORK_FETCH::setup() {
     // and from project/resource pairs.
     // Must do this after rr_simulation() and compute_nuploading_results()
     //
-    for (unsigned int i = 0; i < gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         p->pwf.project_reason = compute_project_reason(p);
         for (int j = 0; j < coprocs.n_rsc; j++) {
             RSC_PROJECT_WORK_FETCH& rpwf = p->rsc_pwf[j];
@@ -736,8 +725,7 @@ void WORK_FETCH::setup() {
     //
     double max_queued_flops = gstate.work_buf_total() * total_peak_flops();
     if (max_queued_flops) {
-        for (unsigned int i = 0; i < gstate.results.size(); i++) {
-            RESULT* rp = gstate.results[i];
+        for (RESULT* rp: gstate.results) {
             PROJECT* p = rp->project;
             p->sched_priority -= rp->estimated_flops_remaining() / max_queued_flops;
         }
@@ -965,10 +953,7 @@ void WORK_FETCH::accumulate_inst_sec(ACTIVE_TASK* atp, double dt) {
 // find total and per-project resource shares for each resource
 //
 void WORK_FETCH::compute_shares() {
-    unsigned int i;
-    PROJECT* p;
-    for (i=0; i<gstate.projects.size(); i++) {
-        p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         if (p->non_cpu_intensive) continue;
         if (p->pwf.project_reason) continue;
         for (int j=0; j<coprocs.n_rsc; j++) {
@@ -977,8 +962,7 @@ void WORK_FETCH::compute_shares() {
             }
         }
     }
-    for (i=0; i<gstate.projects.size(); i++) {
-        p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         if (p->non_cpu_intensive) continue;
         if (p->pwf.project_reason) continue;
         for (int j=0; j<coprocs.n_rsc; j++) {
@@ -1049,8 +1033,7 @@ void WORK_FETCH::handle_reply(
         got_work[i] = false;
         requested_work_rsc[i] = (rsc_work_fetch[i].req_secs > 0);
     }
-    for (unsigned int i=0; i<new_results.size(); i++) {
-        RESULT* rp = new_results[i];
+    for (RESULT* rp: new_results) {
         got_work[rp->resource_usage.rsc_type] = true;
     }
 
@@ -1119,15 +1102,12 @@ void WORK_FETCH::init() {
 
     // see what resources anon platform projects can use
     //
-    unsigned int i, j;
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         if (!p->anonymous_platform) continue;
         for (int k=0; k<coprocs.n_rsc; k++) {
             p->rsc_pwf[k].anonymous_platform_no_apps = true;
         }
-        for (j=0; j<gstate.app_versions.size(); j++) {
-            APP_VERSION* avp = gstate.app_versions[j];
+        for (APP_VERSION* avp: gstate.app_versions) {
             if (avp->project != p) continue;
             p->rsc_pwf[avp->resource_usage.rsc_type].anonymous_platform_no_apps = false;
         }
@@ -1143,14 +1123,11 @@ void WORK_FETCH::clear_backoffs(APP_VERSION& av) {
 ////////////////////////
 
 void CLIENT_STATE::compute_nuploading_results() {
-    unsigned int i;
-
-    for (i=0; i<projects.size(); i++) {
-        projects[i]->nuploading_results = 0;
-        projects[i]->too_many_uploading_results = false;
+    for (PROJECT* p: projects) {
+        p->nuploading_results = 0;
+        p->too_many_uploading_results = false;
     }
-    for (i=0; i<results.size(); i++) {
-        RESULT* rp = results[i];
+    for (RESULT* rp: results) {
         if (rp->state() == RESULT_FILES_UPLOADING) {
             rp->project->nuploading_results++;
         }
@@ -1162,9 +1139,9 @@ void CLIENT_STATE::compute_nuploading_results() {
         }
     }
     n *= 2;
-    for (i=0; i<projects.size(); i++) {
-        if (projects[i]->nuploading_results > n) {
-            projects[i]->too_many_uploading_results = true;
+    for (PROJECT* p: projects) {
+        if (p->nuploading_results > n) {
+            p->too_many_uploading_results = true;
         }
     }
 }
@@ -1243,8 +1220,7 @@ double CLIENT_STATE::overall_cpu_and_network_frac() {
 //
 void CLIENT_STATE::scale_duration_correction_factors(double factor) {
     if (factor <= 0) return;
-    for (unsigned int i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
+    for (PROJECT* p: projects) {
         if (p->dont_use_dcf) continue;
         p->duration_correction_factor *= factor;
     }
@@ -1262,10 +1238,10 @@ void CLIENT_STATE::scale_duration_correction_factors(double factor) {
 //
 void CLIENT_STATE::generate_new_host_cpid() {
     host_info.generate_host_cpid();
-    for (unsigned int i=0; i<projects.size(); i++) {
-        if (projects[i]->attached_via_acct_mgr) {
-            projects[i]->sched_rpc_pending = RPC_REASON_ACCT_MGR_REQ;
-            projects[i]->set_min_rpc_time(now + 15, "Sending new host CPID");
+    for (PROJECT* p: projects) {
+        if (p->attached_via_acct_mgr) {
+            p->sched_rpc_pending = RPC_REASON_ACCT_MGR_REQ;
+            p->set_min_rpc_time(now + 15, "Sending new host CPID");
         }
     }
 }

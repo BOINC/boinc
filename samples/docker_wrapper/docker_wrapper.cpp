@@ -123,9 +123,9 @@
 //
 // So I gave up; checkpoint/restart is only relevant to the reboot scenario,
 // this is rare.
-// If we ever figure this out, uncomment the following
-
-//#define CHECKPOINT_RESTART
+//
+// I took out the checkpoint-related code 1/30/2026.
+// If you want to see it, look at an older version
 
 #include <cstdio>
 #include <string>
@@ -152,13 +152,7 @@ using std::vector;
 #define POLL_PERIOD 1.0
 #define STATUS_PERIOD 10
     // reports status this often
-#define MIN_CHECKPOINT_INTERVAL 900
-    // checkpoint at most every 15 min
-#define CHECKPOINT_INTERVAL_FACTOR  100
-    // if checkpoint takes X sec, don't do another one for X*100 sec
 #define FRACTION_DONE_FILENAME "fraction_done"
-#define CHECKPOINT_FILENAME "checkpoint_time"
-    // on successful checkpoint, write how long it took to this file
 
 int container_exit_code = 0;
 enum JOB_STATUS {JOB_IN_PROGRESS, JOB_SUCCESS, JOB_FAIL};
@@ -247,13 +241,6 @@ vector<string> app_args;
 DOCKER_TYPE docker_type;
 string wsl_distro_name;
 double cpu_time = 0;
-double checkpoint_cpu_time = 0;
-
-#ifdef CHECKPOINT_RESTART
-bool checkpoint_failed = false;
-double last_checkpoint_dur = 0;
-double min_checkpoint_time = 0;
-#endif
 
 // parse job config file (job.toml)
 //
@@ -765,7 +752,8 @@ int get_stats(RSC_USAGE &ru) {
     if (out.empty()) return -1;
 
     // output is like
-    // 0.00% 420KiB / 503.8GiB
+    // 97.12% 420KiB / 503.8GiB
+    // (cpu% mem-used / mem-max)
     // but this can be preceded by lines with warning messages
     //
     bool found = false;
@@ -799,6 +787,11 @@ int get_stats(RSC_USAGE &ru) {
     }
     ru.cpu_frac = cpu_pct/100.;
     ru.wss = mem;
+    // sanity checks
+    if (mem == 0 || ru.cpu_frac > aid.ncpus) {
+        fprintf(stderr, "invalid usage stats; using defaults\n");
+        return -1;
+    }
     return 0;
 }
 
@@ -815,99 +808,6 @@ double get_fraction_done() {
     fclose(f);
     return y;
 }
-
-//////////  CHECKPOINT  ////////////
-
-#ifdef CHECKPOINT_RESTART
-
-// when we checkpoint, write a file with
-//      duration of checkpoint operation
-//      CPU time at time of checkpoint
-//      docker type
-//      [WSL distro name]
-// ... the latter 2 in case we somehow change WSL distro or docker type
-
-double get_min_checkpoint_time(double last_dur) {
-    double d = last_dur*CHECKPOINT_INTERVAL_FACTOR;
-    if (d > MIN_CHECKPOINT_INTERVAL) {
-        return dtime() + d;
-    } else {
-        return dtime() + MIN_CHECKPOINT_INTERVAL;
-    }
-}
-
-bool have_checkpoint(double &dur, double &lct) {
-    int dt, nitems;
-    FILE *f = fopen(CHECKPOINT_FILENAME, "r");
-    if (!f) return false;
-#ifdef _WIN32
-    char wsl_distro[256];
-    int n = fscanf(f, "%lf\n%lf\n%d\n%255s\n", &dur, &lct, &dt, wsl_distro);
-    nitems = 4;
-#else
-    int n = fscanf(f, "%lf\n%lf\n%d", &dur, &lct, &dt);
-    nitems = 3;
-#endif
-    fclose(f);
-    bool file_ok = true;
-    if (n != nitems) {
-        fprintf(stderr, "bad checkpoint file contents\n");
-        file_ok = false;
-    } else {
-        if (dt != docker_type) {
-            fprintf(stderr, "checkpoint file has wrong docker type\n");
-            file_ok = false;
-        }
-#ifdef _WIN32
-        if (wsl_distro_name != (string)wsl_distro) {
-            fprintf(stderr, "checkpoint file has wrong WSL distro\n");
-            file_ok = false;
-        }
-#endif
-    }
-    if (!file_ok) {
-        boinc_delete_file(CHECKPOINT_FILENAME);
-        return false;
-    }
-    return true;
-}
-
-void clear_checkpoint() {
-    boinc_delete_file(CHECKPOINT_FILENAME);
-}
-
-void make_checkpoint() {
-    double start = dtime();
-    int retval = container_op("container checkpoint --leave-running");
-    if (retval) {
-        // Checkpoint failed, probably because CRIU missing.
-        fprintf(stderr, "container checkpoint failed\n");
-        boinc_delete_file(CHECKPOINT_FILENAME);
-        checkpoint_failed = true;
-        return;
-    }
-    FILE *f = fopen(CHECKPOINT_FILENAME, "w");
-    if (!f) {
-        fprintf(stderr, "Can't create checkpoint status file\n");
-        checkpoint_failed = true;
-        return;
-    }
-    double dur = dtime() - start;
-#ifdef _WIN32
-    fprintf(f, "%f\n%f\n%d\n%s\n",
-        dur, cpu_time, docker_type, wsl_distro_name.c_str()
-    );
-#else
-    fprintf(f, "%f\n%f\n%d\n", dur, cpu_time, docker_type);
-#endif
-    fclose(f);
-    fprintf(stderr, "Successfully checkpointed; dur %f cpu %f \n",
-        dur, cpu_time
-    );
-    checkpoint_cpu_time = cpu_time;
-    min_checkpoint_time = get_min_checkpoint_time(dur);
-}
-#endif
 
 //////////  INITIALIZATION  ////////////
 
@@ -1003,11 +903,14 @@ int main(int argc, char** argv) {
         strcpy(image_name, "boinc");
         strcpy(container_name, "boinc");
         project_dir = "project";
+        aid.ncpus = 1;
+        aid.wu_cpu_time = 0;
     } else {
         boinc_get_init_data(aid);
         project_dir = strrchr(aid.project_dir, '/')+1;
         get_image_name();
         get_container_name();
+        cpu_time = aid.wu_cpu_time;
     }
 
     if (config.verbose) {
@@ -1101,29 +1004,6 @@ int main(int argc, char** argv) {
         //
         fprintf(stderr, "container is exited; restarting\n");
         need_start = true;
-#ifdef CHECKPOINT_RESTART
-        double dur, lct;
-        if (have_checkpoint(dur, lct)) {
-            fprintf(stderr, "have checkpoint - restoring\n");
-            retval = container_op("container restore");
-                // keep the checkpoint in case we need it again
-            if (retval) {
-                fprintf(stderr, "restore failed; restarting\n");
-                clear_checkpoint();
-                need_start = true;
-            } else {
-                fprintf(stderr, "restore successful; dur %lf lct %lf\n",
-                    dur, lct
-                );
-                last_checkpoint_dur = dur;
-                cpu_time = checkpoint_cpu_time = lct;
-                min_checkpoint_time = get_min_checkpoint_time(dur);
-            }
-            // the restore consumed the checkpoint; make a new one
-            make_checkpoint();
-            need_start = false;
-        }
-#endif
         break;
     case CONTAINER_OTHER:
         fprintf(stderr, "container is in other state; restarting\n");
@@ -1186,34 +1066,29 @@ int main(int argc, char** argv) {
                 break;
             }
 
-            // If not, get its resource usage
+            // If container is running, get its resource usage
             //
-            retval = get_stats(ru);
-            if (!retval) {
+            if (running) {
+                retval = get_stats(ru);
+                if (retval) {
+                    // if can't get info from Podman, use defaults;
+                    // we need to tell the client something.
+                    ru.cpu_frac = aid.ncpus;
+                    ru.wss = 1e8;
+                }
                 cpu_time += STATUS_PERIOD*ru.cpu_frac;
                 if (config.verbose == VERBOSE_ALL) {
                     fprintf(stderr, "reporting CPU %f WSS %f\n", cpu_time, ru.wss);
                 }
                 boinc_report_app_status_aux(
                     cpu_time,
-                    checkpoint_cpu_time,
+                    cpu_time,       // report as checkpoint cpu time
                     get_fraction_done(),
                     0,      // other PID
                     0,0,    // bytes send/received
                     ru.wss
                 );
             }
-
-#ifdef CHECKPOINT_RESTART
-            // see if we should checkpoint
-            //
-            if (!checkpoint_failed
-                && boinc_time_to_checkpoint()
-                && dtime() > min_checkpoint_time
-            ) {
-                make_checkpoint();
-            }
-#endif
         }
     }
 }

@@ -506,7 +506,7 @@ struct CLIENT_STATE {
 
     void check_app(APP&);
     void check_file_info(FILE_INFO&);
-    void check_file_ref(FILE_REF&);
+    void check_file_ref(const FILE_REF&);
     void check_app_version(APP_VERSION&);
     void check_workunit(WORKUNIT&);
     void check_result(RESULT&);

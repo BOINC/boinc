@@ -414,8 +414,8 @@ int get_file_xml(
         file_name,
         max_nbytes
     );
-    for (unsigned int i=0; i<urls.size(); i++) {
-        sprintf(buf, "    <url>%s</url>\n", urls[i]);
+    for (const char *url: urls) {
+        sprintf(buf, "    <url>%s</url>\n", url);
         strcat(out, buf);
     }
     sprintf(buf,
@@ -492,8 +492,8 @@ int put_file_xml(
         "    <name>%s</name>\n",
         file_name
     );
-    for (unsigned int i=0; i<urls.size(); i++) {
-        sprintf(buf, "    <url>%s</url>\n", urls[i]);
+    for (const char* url: urls) {
+        sprintf(buf, "    <url>%s</url>\n", url);
         strcat(out, buf);
     }
     sprintf(buf,

@@ -197,7 +197,7 @@ struct FILE_REF {
     }
     FILE_REF() {clear();}
     int parse(XML_PARSER&);
-    int write(MIOFILE&);
+    int write(MIOFILE&) const;
 };
 
 // File xfer backoff state for a project and direction (up/down).

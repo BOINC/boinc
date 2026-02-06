@@ -26,7 +26,7 @@
 #include "cc_config.h"
 #include "app_config.h"
 
-static void show_warning(PROJECT* p, char* name) {
+static void show_warning(PROJECT* p, const char* name) {
     msg_printf(p, MSG_USER_ALERT,
         "Your app_config.xml file refers to an unknown application '%s'.  Known applications: %s",
         name, app_list_string(p).c_str()
@@ -36,10 +36,8 @@ static void show_warning(PROJECT* p, char* name) {
 // having parsed a project's app_config.xml, put the config into effect
 //
 int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
-    unsigned int i;
     bool showed_notice = false;
-    for (i=0; i<app_configs.size(); i++) {
-        APP_CONFIG& ac = app_configs[i];
+    for (const APP_CONFIG& ac: app_configs) {
         APP* app = gstate.lookup_app(p, ac.name);
         if (!app) {
             if (show_warnings) {
@@ -53,16 +51,14 @@ int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
         app->report_results_immediately = ac.report_results_immediately;
 
         if (!ac.gpu_gpu_usage || !ac.gpu_cpu_usage) continue;
-        for (unsigned int j=0; j<gstate.app_versions.size(); j++) {
-            APP_VERSION* avp = gstate.app_versions[j];
+        for (APP_VERSION* avp: gstate.app_versions) {
             if (avp->app != app) continue;
             if (!avp->resource_usage.rsc_type) continue;
             avp->resource_usage.coproc_usage = ac.gpu_gpu_usage;
             avp->resource_usage.avg_ncpus = ac.gpu_cpu_usage;
         }
     }
-    for (i=0; i<app_version_configs.size(); i++) {
-        APP_VERSION_CONFIG& avc = app_version_configs[i];
+    for (const APP_VERSION_CONFIG& avc: app_version_configs) {
         APP* app = gstate.lookup_app(p, avc.app_name);
         if (!app) {
             if (show_warnings) {
@@ -73,8 +69,7 @@ int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
         }
         bool found = false;
         const size_t cmdline_len = strlen(avc.cmdline);
-        for (unsigned int j=0; j<gstate.app_versions.size(); j++) {
-            APP_VERSION* avp = gstate.app_versions[j];
+        for (APP_VERSION* avp: gstate.app_versions) {
             if (avp->app != app) continue;
             if (strcmp(avp->plan_class, avc.plan_class)) continue;
             found = true;
@@ -96,6 +91,10 @@ int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
         }
     }
 
+    // update resource usage of this project's non-running jobs
+    //
+    gstate.init_result_resource_usage(p);
+
     if (showed_notice) return ERR_XML_PARSE;
     return 0;
 }
@@ -103,11 +102,11 @@ int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
 // clear app- and project-level counters to enforce max concurrent limits
 //
 void max_concurrent_init() {
-    for (unsigned int i=0; i<gstate.apps.size(); i++) {
-        gstate.apps[i]->app_n_concurrent = 0;
+    for (APP *app: gstate.apps) {
+        app->app_n_concurrent = 0;
     }
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        gstate.projects[i]->proj_n_concurrent = 0;
+    for (PROJECT *p: gstate.projects) {
+        p->proj_n_concurrent = 0;
     }
 }
 
@@ -118,8 +117,7 @@ void max_concurrent_init() {
 //
 static void clear_app_config(PROJECT* p) {
     p->app_configs.clear();
-    for (unsigned int i=0; i<gstate.apps.size(); i++) {
-        APP* app = gstate.apps[i];
+    for (APP *app: gstate.apps) {
         if (app->project != p) continue;
         app->max_concurrent = 0;
         app->report_results_immediately = false;
@@ -127,8 +125,8 @@ static void clear_app_config(PROJECT* p) {
 }
 
 static void print_msgs(vector<string> msgs, PROJECT* p) {
-    for (unsigned int i=0; i<msgs.size(); i++) {
-        msg_printf_notice(p, false, NULL, "%s", msgs[i].c_str());
+    for (const string &msg: msgs) {
+        msg_printf_notice(p, false, NULL, "%s", msg.c_str());
     }
 }
 
@@ -139,8 +137,7 @@ void check_app_config(const char* prefix) {
     char path[MAXPATHLEN];
     FILE* f;
 
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT *p: gstate.projects) {
         snprintf(path, sizeof(path), "%s%s/%s",
             prefix, p->project_dir(), APP_CONFIG_FILE_NAME
         );
@@ -166,16 +163,14 @@ void check_app_config(const char* prefix) {
 
 void show_app_config() {
     if (!have_max_concurrent) return;
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT *p: gstate.projects) {
         if (p->app_configs.project_max_concurrent) {
             msg_printf(p, MSG_INFO,
                 "Max %d concurrent jobs", p->app_configs.project_max_concurrent
             );
         }
     }
-    for (unsigned int i=0; i<gstate.apps.size(); i++) {
-        APP* app = gstate.apps[i];
+    for (APP* app: gstate.apps) {
         if (app->max_concurrent) {
             msg_printf(app->project, MSG_INFO,
                 "%s: Max %d concurrent jobs", app->name, app->max_concurrent

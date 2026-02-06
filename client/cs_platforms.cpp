@@ -419,8 +419,8 @@ void CLIENT_STATE::detect_platforms() {
 
     // add platforms listed in cc_config.xml AFTER the above.
     //
-    for (unsigned int i=0; i<cc_config.alt_platforms.size(); i++) {
-        add_platform(cc_config.alt_platforms[i].c_str());
+    for (const string &s: cc_config.alt_platforms) {
+        add_platform(s.c_str());
     }
 }
 
@@ -447,8 +447,7 @@ void CLIENT_STATE::write_platforms(PROJECT* p, FILE *f) {
 }
 
 bool CLIENT_STATE::is_supported_platform(const char* p) {
-    for (unsigned int i=0; i<platforms.size(); i++) {
-        PLATFORM& platform = platforms[i];
+    for (const PLATFORM& platform: platforms) {
         if (!strcmp(p, platform.name.c_str())) {
             return true;
         }

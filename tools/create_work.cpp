@@ -258,7 +258,7 @@ void get_wu_template(JOB_DESC& jd2) {
 
 // if a buffer is full after a fgets(), it was too small
 //
-void check_buffer(char *p, int len) {
+void check_buffer(char *p, size_t len) {
     if (strlen(p) == len-1) {
         fprintf(stderr, "fgets() buffer was too small\n");
         exit(1);
@@ -612,7 +612,7 @@ void JOB_DESC::create() {
     if (assign_flag) {
         wu.transitioner_flags = assign_multi?TRANSITION_NONE:TRANSITION_NO_NEW_RESULTS;
     }
-    char additional_xml[256], kwbuf[256];
+    char additional_xml[256];
     additional_xml[0] = 0;
     if (strlen(sub_appname)) {
         snprintf(additional_xml, sizeof(additional_xml),

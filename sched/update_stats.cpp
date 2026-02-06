@@ -28,6 +28,7 @@
 //  [--update_teams]
 //  [--update_users]
 //  [--update_hosts]
+//  [--update_avs]
 //  [--min_age nsec] don't update items updated more recently than this
 
 
@@ -84,7 +85,40 @@ int update_users() {
             return retval;
         }
     }
+    return 0;
+}
 
+int update_avs() {
+    DB_APP_VERSION av;
+    int retval;
+    char buf[256];
+    double now = dtime();
+
+    sprintf(buf, "where expavg_credit>0 and expavg_time < %f", max_update_time);
+    while (1) {
+        retval = av.enumerate(buf);
+        if (retval) {
+            if (retval == ERR_DB_NOT_FOUND) {
+                break;
+            }
+            log_messages.printf(MSG_CRITICAL, "lost DB conn\n");
+            exit(1);
+        }
+        update_average(
+            now, 0, 0, CREDIT_HALF_LIFE, av.expavg_credit, av.expavg_time
+        );
+        char buf2[256];
+        sprintf(buf2, "expavg_credit=%f, expavg_time=%f",
+            av.expavg_credit, av.expavg_time
+        );
+        retval = av.update_field(buf2);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "Can't update app version %lu\n", av.id
+            );
+            return retval;
+        }
+    }
     return 0;
 }
 
@@ -203,11 +237,12 @@ void usage(char *name) {
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
         "  [ -d X ]                        Set debug level to X\n"
-        "  [ --update_teams ]              Updates teams.\n"
-        "  [ --update_users ]              Updates users.\n"
-        "  [ --update_hosts ]              Updates hosts.\n"
-        "  [ -h | --help ]                 Shows this help text\n"
-        "  [ -v | --version ]              Shows version information\n",
+        "  [ --update_teams ]              Update teams\n"
+        "  [ --update_users ]              Update users\n"
+        "  [ --update_hosts ]              Update hosts\n"
+        "  [ --update_avs ]                Update app versions\n"
+        "  [ -h | --help ]                 Shows this text\n"
+        "  [ -v | --version ]              Shows version\n",
         name
     );
 }
@@ -217,6 +252,7 @@ int main(int argc, char** argv) {
     bool do_update_teams = false;
     bool do_update_users = false;
     bool do_update_hosts = false;
+    bool do_update_avs = false;
 
     max_update_time = time(0) - MIN_AGE;
 
@@ -229,6 +265,8 @@ int main(int argc, char** argv) {
             do_update_users = true;
         } else if (is_arg(argv[i], "update_hosts")) {
             do_update_hosts = true;
+        } else if (is_arg(argv[i], "update_avs")) {
+            do_update_avs = true;
         } else if (is_arg(argv[i], "min_age")) {
             double x = atof(argv[++i]);
             max_update_time = time(0) - x;
@@ -256,10 +294,11 @@ int main(int argc, char** argv) {
 
     // if no do_update flags set, set them all
     //
-    if (!do_update_teams && !do_update_users && !do_update_hosts) {
+    if (!do_update_teams && !do_update_users && !do_update_hosts && !do_update_avs) {
         do_update_teams = true;
         do_update_users = true;
         do_update_hosts = true;
+        do_update_avs = true;
     }
 
     log_messages.printf(MSG_NORMAL, "Starting\n");
@@ -271,7 +310,9 @@ int main(int argc, char** argv) {
         );
         exit(1);
     }
-    retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
+    retval = boinc_db.open(
+        config.db_name, config.db_host, config.db_user, config.db_passwd
+    );
     if (retval) {
         log_messages.printf(MSG_CRITICAL, "Can't open DB: %s\n",
             boinc_db.error_string()
@@ -294,6 +335,7 @@ int main(int argc, char** argv) {
             );
             exit(1);
         }
+        log_messages.printf(MSG_NORMAL, "Updated users\n");
     }
 
     if (do_update_hosts) {
@@ -304,6 +346,7 @@ int main(int argc, char** argv) {
             );
             exit(1);
         }
+        log_messages.printf(MSG_NORMAL, "Updated hosts\n");
     }
 
     if (do_update_teams) {
@@ -314,6 +357,17 @@ int main(int argc, char** argv) {
             );
             exit(1);
         }
+        log_messages.printf(MSG_NORMAL, "Updated teams\n");
+    }
+    if (do_update_avs) {
+        retval = update_avs();
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "update_avs failed: %s\n", boincerror(retval)
+            );
+            exit(1);
+        }
+        log_messages.printf(MSG_NORMAL, "Updated app versions\n");
     }
 
     log_messages.printf(MSG_NORMAL, "Finished\n");

@@ -290,8 +290,11 @@
         <name>x86_64-pc-linux-gnu[vbox64_mt_mcore_cms]</name>
         <name>x86_64-apple-darwin[vbox64_mt_mcore_cms]</name>
         <name>windows_x86_64[vbox64_theory]</name>
+        <name>windows_x86_64[docker]</name>
         <name>x86_64-pc-linux-gnu[vbox64_theory]</name>
+        <name>x86_64-pc-linux-gnu[docker]</name>
         <name>x86_64-apple-darwin[vbox64_theory]</name>
+        <name>x86_64-apple-darwin[docker]</name>
         <name>windows_x86_64[vbox64_mt_mcore_atlas]</name>
         <name>x86_64-pc-linux-gnu[native_mt]</name>
         <name>x86_64-pc-linux-gnu[vbox64_mt_mcore_atlas]</name>

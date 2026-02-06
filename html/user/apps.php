@@ -55,7 +55,7 @@ foreach ($apps as $app) {
                 <th>".tra("Platform")."</th>
                 <th>".tra("Version")."</th>
                 <th>".tra("Created")."</th>
-                <th>".tra("Average computing")."</th>
+                <th style=\"text-align: right\">".tra("Recent average GFLOPS")."</th>
             </tr>
         ";
     }
@@ -82,13 +82,13 @@ foreach ($apps as $app) {
                 }
                 $gf = $av->expavg_credit/200;
                 $total_gf += $gf;
-                $gf = number_format($gf, 0);
+                $gf = number_format($gf, 2);
                 $b = $av->beta?" (beta test)":"";
                 echo "<tr>
                     <td>$platform->user_friendly_name</td>
                     <td>$version_num_f$b</td>
                     <td>$create_time_f</td>
-                    <td align=right>$gf GigaFLOPS</td>
+                    <td align=right>$gf</td>
                     </tr>
                 ";
             }
