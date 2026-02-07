@@ -120,7 +120,7 @@ public:
                 if (strBOINCMasterAccountPassword.empty()) {
                     LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, errorcode,
                         _T("Failed to generate 'boinc_master' password"));
-                    return ERROR_INSTALL_FAILURE + errorcode;
+                    return ERROR_INSTALL_FAILURE;
                 }
                 strBOINCMasterAccountPassword =
                     _T("!") + strBOINCMasterAccountPassword;
@@ -357,17 +357,16 @@ private:
     // http://support.microsoft.com/kb/814463
     std::pair<decltype(GetLastError()), tstring>
         CACreateBOINCAccounts::GenerateRandomPassword(size_t desiredLength) {
-        HCRYPTPROV prov = NULL;
-        if (!CryptAcquireContext(&prov, nullptr, nullptr, PROV_RSA_FULL,
+        wil::unique_hcryptprov hProv = nullptr;
+        if (!CryptAcquireContext(&hProv, nullptr, nullptr, PROV_RSA_FULL,
             CRYPT_SILENT)) {
             if (GetLastError() == NTE_BAD_KEYSET) {
-                if (!CryptAcquireContext(&prov, nullptr, nullptr,
+                if (!CryptAcquireContext(&hProv, nullptr, nullptr,
                     PROV_RSA_FULL, CRYPT_SILENT | CRYPT_NEWKEYSET)) {
                     return { GetLastError(), {} };
                 }
             }
         }
-        wil::unique_hcryptprov hProv(prov);
 
         const auto dwBufSize = desiredLength * 4;
         std::vector<BYTE> randomBuffer(dwBufSize);
@@ -376,11 +375,10 @@ private:
             return { GetLastError(), {} };
         }
 
-        HCRYPTHASH hash = NULL;
-        if (!CryptCreateHash(hProv.get(), CALG_SHA1, 0, 0, &hash)) {
+        wil::unique_hcrypthash hHash = nullptr;
+        if (!CryptCreateHash(hProv.get(), CALG_SHA1, 0, 0, &hHash)) {
             return { GetLastError(), {} };
         }
-        wil::unique_hcrypthash hHash(hash);
 
         if (!CryptHashData(hHash.get(), randomBuffer.data(),
             static_cast<DWORD>(dwBufSize), 0)) {
