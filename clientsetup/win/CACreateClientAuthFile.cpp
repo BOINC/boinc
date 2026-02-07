@@ -136,7 +136,10 @@ public:
 
         // trim line endings
         const auto trim = [](auto& str) {
-            str.erase(std::remove(str.begin(), str.end(), '\n'), str.cend());
+            str.erase(
+                std::remove_if(str.begin(), str.end(),
+                    [](char c) { return c == '\n' || c == '\r'; }),
+                str.end());
             };
         trim(strBOINCProjectAccountUsername);
         trim(pszUnicodeEncodedPassword);
