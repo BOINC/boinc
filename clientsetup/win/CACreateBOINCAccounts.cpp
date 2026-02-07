@@ -355,9 +355,8 @@ public:
 private:
     // Source Code Originally from:
     // http://support.microsoft.com/kb/814463
-    std::pair<int, tstring> CACreateBOINCAccounts::GenerateRandomPassword(
-        size_t desiredLength)
-    {
+    std::pair<decltype(GetLastError()), tstring>
+        CACreateBOINCAccounts::GenerateRandomPassword(size_t desiredLength) {
         HCRYPTPROV prov = NULL;
         if (!CryptAcquireContext(&prov, nullptr, nullptr, PROV_RSA_FULL,
             CRYPT_SILENT)) {
