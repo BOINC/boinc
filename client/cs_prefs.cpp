@@ -256,6 +256,38 @@ int CLIENT_STATE::check_suspend_processing() {
     // (which is where we get battery info)
 
     if (device_status_time) {
+        
+        // Fixes bug #6710 #5305
+        static double last_valid_battery_level = -1.0;
+        double battery_level_to_check = device_status.battery_charge_pct;
+        bool skip_battery_suspend_logic = false;
+
+        // 1. Ignore old data (>5 min) to avoid using stale readings.
+        if ((now - device_status_time) > 300.0) {
+            if (log_flags.task) {
+                msg_printf(NULL, MSG_INFO,
+                    "[Android] Old battery data (%.0fs). Skipping low-batt check.",
+                    now - device_status_time
+                );
+            }
+            skip_battery_suspend_logic = true;
+        }
+        // 2. Ignore a sudden drop to 0% if we recently had good charge.
+        //    This is the core fix for the reported bug.
+        else if (device_status.battery_charge_pct == 0.0 && last_valid_battery_level >= 5.0) {
+            if (log_flags.task) {
+                msg_printf(NULL, MSG_INFO,
+                    "[Android] Ignoring 0%% reading (was %.1f%%).",
+                    last_valid_battery_level
+                );
+            }
+            battery_level_to_check = last_valid_battery_level;
+        }
+        // 3. Remember any new, plausible positive reading.
+        else if (device_status.battery_charge_pct > 0.0) {
+            last_valid_battery_level = device_status.battery_charge_pct;
+        }
+        
         // exit if we haven't heard from the GUI in 30 sec
         // (we rely on it for battery info)
         //
@@ -284,18 +316,24 @@ int CLIENT_STATE::check_suspend_processing() {
             return SUSPEND_REASON_BATTERY_HEAT_WAIT;
         }
 
-        // check for sufficient battery charge.
-        // If suspend, don't resume for at least 5 min
-        //
-        int cp = device_status.battery_charge_pct;
+            // check for sufficient battery charge.
+    // If suspend, don't resume for at least 5 min
+
+    // Apply fix: skip the check if data is stale/untrustworthy.
+    if (skip_battery_suspend_logic) {
+        // Do nothing; proceed to other checks (GPU, etc.)
+    } else {
+        int cp = (int)battery_level_to_check;
         if ((cp >= 0) && (cp < global_prefs.battery_charge_min_pct)) {
             battery_charge_resume_time = now + ANDROID_BATTERY_BACKOFF;
             return SUSPEND_REASON_BATTERY_CHARGING;
         }
-        if (now < battery_charge_resume_time) {
-            return SUSPEND_REASON_BATTERY_CHARGE_WAIT;
-        }
     }
+    // Resume-time backoff check (e.g., after previous suspension)
+    if (now < battery_charge_resume_time) {
+        return SUSPEND_REASON_BATTERY_CHARGE_WAIT;
+    }
+    
 #endif
 
     // CPU is not suspended.  See if GPUs are
