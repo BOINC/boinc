@@ -361,7 +361,12 @@ private:
         HCRYPTPROV prov = NULL;
         if (!CryptAcquireContext(&prov, nullptr, nullptr, PROV_RSA_FULL,
             CRYPT_SILENT)) {
-            return { 1, {} };
+            if (GetLastError() == NTE_BAD_KEYSET) {
+                if (!CryptAcquireContext(&prov, nullptr, nullptr,
+                    PROV_RSA_FULL, CRYPT_SILENT | CRYPT_NEWKEYSET)) {
+                    return { GetLastError(), {} };
+                }
+            }
         }
         wil::unique_hcryptprov hProv(prov);
 
@@ -369,18 +374,18 @@ private:
         std::vector<BYTE> randomBuffer(dwBufSize);
         if (!CryptGenRandom(hProv.get(), static_cast<DWORD>(dwBufSize),
             randomBuffer.data())) {
-            return { 2, {} };
+            return { GetLastError(), {} };
         }
 
         HCRYPTHASH hash = NULL;
         if (!CryptCreateHash(hProv.get(), CALG_SHA1, 0, 0, &hash)) {
-            return { 3, {} };
+            return { GetLastError(), {} };
         }
         wil::unique_hcrypthash hHash(hash);
 
         if (!CryptHashData(hHash.get(), randomBuffer.data(),
             static_cast<DWORD>(dwBufSize), 0)) {
-            return { 4, {} };
+            return { GetLastError(), {} };
         }
 
         auto dwSize = Base64EncodeGetRequiredLength(
@@ -388,7 +393,7 @@ private:
         std::string encodedString(dwSize, '\0');
         if (!Base64Encode(randomBuffer.data(), static_cast<int>(dwBufSize),
             encodedString.data(), &dwSize, 0)) {
-            return { 5, {} };
+            return { GetLastError(), {} };
         }
 
         auto randomPwd = boinc_ascii_to_wide(encodedString);
