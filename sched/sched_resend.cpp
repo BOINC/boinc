@@ -99,7 +99,6 @@ static int possibly_give_result_new_deadline(
 bool resend_lost_work() {
     SCHED_DB_RESULT result;
     std::vector<DB_RESULT>results;
-    unsigned int i;
     char buf[256];
     char warning_msg[256];
     bool did_any = false;
@@ -119,8 +118,7 @@ bool resend_lost_work() {
         }
 
         bool found = false;
-        for (i=0; i<g_request->other_results.size(); i++) {
-            OTHER_RESULT& orp = g_request->other_results[i];
+        for (OTHER_RESULT& orp: g_request->other_results) {
             if (!strcmp(orp.name, result.name)) {
                 found = true;
                 break;

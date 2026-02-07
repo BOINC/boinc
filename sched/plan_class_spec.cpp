@@ -286,12 +286,12 @@ bool PLAN_CLASS_SPEC::check(
         }
         downcase_string(buf);
 
-        for (unsigned int i=0; i<cpu_features.size(); i++) {
-            if (!strstr(buf, cpu_features[i].c_str())) {
+        for (string &s: cpu_features) {
+            if (!strstr(buf, s.c_str())) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
                         "[version] plan_class_spec: CPU lacks feature '%s' (got '%s')\n",
-                        cpu_features[i].c_str(), sreq.host.p_features
+                        s.c_str(), sreq.host.p_features
                     );
                 }
                 return false;
@@ -1117,9 +1117,9 @@ bool PLAN_CLASS_SPECS::check(
     SCHEDULER_REQUEST& sreq, const char* plan_class, HOST_USAGE& hu,
     const WORKUNIT* wu
 ) {
-    for (unsigned int i=0; i<classes.size(); i++) {
-        if (!strcmp(classes[i].name, plan_class)) {
-            return classes[i].check(sreq, hu, wu);
+    for (PLAN_CLASS_SPEC& spec: classes) {
+        if (!strcmp(spec.name, plan_class)) {
+            return spec.check(sreq, hu, wu);
         }
     }
     log_messages.printf(MSG_CRITICAL, "Unknown plan class: %s\n", plan_class);
@@ -1129,10 +1129,10 @@ bool PLAN_CLASS_SPECS::check(
 bool PLAN_CLASS_SPECS::wu_is_infeasible(
     const char* plan_class_name, const WORKUNIT* wu
 ) {
-    if(wu_restricted_plan_class) {
-        for (unsigned int i=0; i<classes.size(); i++) {
-            if(!strcmp(classes[i].name, plan_class_name)) {
-                return wu_is_infeasible_for_plan_class(&classes[i], wu);
+    if (wu_restricted_plan_class) {
+        for (PLAN_CLASS_SPEC& spec: classes) {
+            if(!strcmp(spec.name, plan_class_name)) {
+                return wu_is_infeasible_for_plan_class(&spec, wu);
             }
         }
     }
@@ -1393,13 +1393,13 @@ int main() {
         sreq.coprocs.ati.count = 0;
     }
 
-    for (unsigned int i=0; i<pcs.classes.size(); i++) {
+    for (PLAN_CLASS_SPEC& spec: pcs.classes) {
         WORKUNIT wu;
         wu.id = 100;
         wu.batch = 100;
-        bool b = pcs.check(sreq, pcs.classes[i].name, hu, &wu);
+        bool b = pcs.check(sreq, spec.name, hu, &wu);
         if (b) {
-            printf("%s: check succeeded\n", pcs.classes[i].name);
+            printf("%s: check succeeded\n", spec.name);
             printf("\tgpu_usage: %f\n\tgpu_ram: %fMB\n\tavg_ncpus: %f\n\tprojected_flops: %fG\n\tpeak_flops: %fG\n",
                 hu.gpu_usage,
                 hu.gpu_ram/1e6,
@@ -1408,7 +1408,7 @@ int main() {
                 hu.peak_flops/1e9
             );
         } else {
-            printf("%s: check failed\n", pcs.classes[i].name);
+            printf("%s: check failed\n", spec.name);
         }
     }
 }

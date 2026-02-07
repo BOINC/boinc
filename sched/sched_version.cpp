@@ -74,8 +74,7 @@ static bool need_this_resource(
 }
 
 static DB_HOST_APP_VERSION* lookup_host_app_version(DB_ID_TYPE gavid) {
-    for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
-        DB_HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
+    for (DB_HOST_APP_VERSION& hav: g_wreq->host_app_versions) {
         if (hav.app_version_id == gavid) return &hav;
     }
     return NULL;
@@ -167,7 +166,6 @@ bool daily_quota_exceeded(BEST_APP_VERSION* bavp) {
 CLIENT_APP_VERSION* get_app_version_anonymous(
     APP& app, bool need_64b, bool reliable_only
 ) {
-    unsigned int i;
     CLIENT_APP_VERSION* best = NULL;
     bool found = false;
     char message[256];
@@ -178,8 +176,7 @@ CLIENT_APP_VERSION* get_app_version_anonymous(
             app.name, reliable_only?" (reliable only)":""
         );
     }
-    for (i=0; i<g_request->client_app_versions.size(); i++) {
-        CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
+    for (CLIENT_APP_VERSION& cav: g_request->client_app_versions) {
         if (!cav.app) continue;
         if (cav.app->id != app.id) {
             continue;
@@ -283,9 +280,7 @@ CLIENT_APP_VERSION* get_app_version_anonymous(
 // called at start of send_work().
 //
 void estimate_flops_anon_platform() {
-    unsigned int i;
-    for (i=0; i<g_request->client_app_versions.size(); i++) {
-        CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
+    for (CLIENT_APP_VERSION& cav: g_request->client_app_versions) {
         if (!cav.app) continue;
 
         cav.rsc_fpops_scale = 1;
@@ -511,8 +506,7 @@ static BEST_APP_VERSION* check_homogeneous_app_version(
         // SCHEDULER_REPLY::old_app_versions
         //
         found = false;
-        for (unsigned int i=0; i<g_reply->old_app_versions.size(); i++) {
-            APP_VERSION& av = g_reply->old_app_versions[i];
+        for (APP_VERSION& av: g_reply->old_app_versions) {
             if (av.id == wu.app_version_id) {
                 avp = &av;
                 found = true;
@@ -531,8 +525,7 @@ static BEST_APP_VERSION* check_homogeneous_app_version(
     // see if this host supports the version's platform
     //
     found = false;
-    for (unsigned int i=0; i<g_request->platforms.list.size(); i++) {
-        PLATFORM* p = g_request->platforms.list[i];
+    for (PLATFORM* p: g_request->platforms.list) {
         if (p->id == avp->platformid) {
             found = true;
             bav.avp = avp;
@@ -585,7 +578,6 @@ static BEST_APP_VERSION* check_homogeneous_app_version(
 BEST_APP_VERSION* get_app_version(
     const WORKUNIT& wu, bool check_req, bool reliable_only
 ) {
-    unsigned int i;
     int j;
     BEST_APP_VERSION* bavp;
     char buf[256];
@@ -739,9 +731,8 @@ BEST_APP_VERSION* get_app_version(
 
     bavp->host_usage.projected_flops = 0;
     bavp->avp = NULL;
-    for (i=0; i<g_request->platforms.list.size(); i++) {
+    for (PLATFORM* p: g_request->platforms.list) {
         bool found_feasible_version = false;
-        PLATFORM* p = g_request->platforms.list[i];
         if (job_needs_64b && !is_64b_platform(p->name)) {
             continue;
         }
@@ -982,8 +973,7 @@ BEST_APP_VERSION* get_app_version(
             log_messages.printf(MSG_NORMAL,
                 "[version] returning NULL; platforms:\n"
             );
-            for (i=0; i<g_request->platforms.list.size(); i++) {
-                PLATFORM* p = g_request->platforms.list[i];
+            for (PLATFORM* p: g_request->platforms.list) {
                 log_messages.printf(MSG_NORMAL,
                     "[version] %s\n",
                     p->name

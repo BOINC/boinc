@@ -97,14 +97,13 @@ int assimilate_handler(
 ) {
     int retval;
     char cmd[4096], buf[256];
-    unsigned int i;
 
     if (wu.canonical_resultid) {
         sprintf(cmd, "../bin/%s", script_args[0].c_str());
         vector<OUTPUT_FILE_INFO> fis;
         retval = get_output_file_infos(canonical_result, fis);
         if (retval) return retval;
-        for (i=1; i<script_args.size(); i++) {
+        for (unsigned i=1; i<script_args.size(); i++) {
             string& s = script_args[i];
             if (s == "files") {
                 for (OUTPUT_FILE_INFO &fi: fis) {

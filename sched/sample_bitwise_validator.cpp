@@ -90,8 +90,7 @@ int init_result(RESULT& result, void*& data) {
         return retval;
     }
 
-    for (unsigned int i=0; i<files.size(); i++) {
-        OUTPUT_FILE_INFO& fi = files[i];
+    for (OUTPUT_FILE_INFO& fi: files) {
         if (fi.no_validate) continue;
         retval = md5_file(fi.path.c_str(), md5_buf, nbytes, is_gzip);
         if (retval) {

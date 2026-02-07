@@ -306,7 +306,7 @@ void send_work_score_type(int rt) {
     std::sort(jobs.begin(), jobs.end(), job_compare);
 
     bool sema_locked = false;
-    for (unsigned int i=0; i<jobs.size(); i++) {
+    for (JOB& job: jobs) {
 
         // check limit on total jobs
         //
@@ -319,7 +319,6 @@ void send_work_score_type(int rt) {
         if (!g_wreq->need_proc_type(rt)) {
             break;
         }
-        JOB& job = jobs[i];
 
         // check limits on jobs for this (app, processor type)
         //

@@ -73,7 +73,6 @@ int assimilate_handler(
 ) {
     int retval;
     char buf[1024];
-    unsigned int i;
 
     retval = boinc_mkdir(outdir);
     if (retval) return retval;
@@ -84,10 +83,8 @@ int assimilate_handler(
     if (wu.canonical_resultid) {
         vector<OUTPUT_FILE_INFO> output_files;
         get_output_file_infos(canonical_result, output_files);
-        unsigned int n = output_files.size();
         bool file_copied = false;
-        for (i=0; i<n; i++) {
-            OUTPUT_FILE_INFO& fi = output_files[i];
+        for (OUTPUT_FILE_INFO& fi: output_files) {
             sprintf(buf, "%s/%d/%s__file_%s",
                 outdir, wu.batch, wu.name, fi.logical_name.c_str()
             );

@@ -65,8 +65,7 @@ void validate_handler_usage() {
 }
 
 int init_result(RESULT& r, void*&) {
-    for(unsigned int i=0; i<stderr_strings.size(); i++) {
-        char* stderr_string = stderr_strings[i];
+    for(char* stderr_string: stderr_strings) {
         if (strstr(r.stderr_out, stderr_string)) {
             if (reject_if_present) return -1;
         } else {

@@ -60,8 +60,7 @@ int init_file_delete_regex() {
 }
 
 int do_file_delete_regex() {
-    for (unsigned int i=0; i<g_request->file_infos.size(); i++) {
-        FILE_INFO& fi = g_request->file_infos[i];
+    for (FILE_INFO& fi: g_request->file_infos) {
         bool found = false;
         for (unsigned int j=0; j<file_delete_regex.size(); j++) {
             regex_t& re = file_delete_regex[j];
