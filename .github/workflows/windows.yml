@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -213,7 +213,7 @@ jobs:
       matrix:
         type: [install, upgrade_from_alpha, upgrade_from_stable]
         platform: [x64, arm64]
-        installation_type: [normal, service, test_acct_mgr_login]
+        installation_type: [normal, service, test_acct_mgr_login, test_client_auth_file]
         include:
           - platform: x64
             runner: windows-latest
@@ -223,14 +223,22 @@ jobs:
             argument_list_alpha: "/quiet /qn /l*v alpha.log"
             argument_list_release: "/quiet /qn /l*v release.log"
             argument_list_install: "/quiet /qn /l*v install.log"
+            argument_list_prepare: ""
           - installation_type: service
             argument_list_alpha: "/quiet /qn /norestart /l*v alpha.log ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
             argument_list_release: "/quiet /qn /norestart /l*v release.log ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
             argument_list_install: "/quiet /qn /norestart /l*v install.log ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
+            argument_list_prepare: ""
           - installation_type: test_acct_mgr_login
             argument_list_alpha: "/quiet /qn /l*v alpha.log"
             argument_list_release: "/quiet /qn /l*v release.log"
             argument_list_install: "/quiet /qn /l*v install.log ACCTMGR_LOGIN=test ACCTMGR_PASSWORDHASH=0123456789abcdef"
+            argument_list_prepare: ""
+          - installation_type: test_client_auth_file
+            argument_list_alpha: "/quiet /qn /norestart /l*v alpha.log ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
+            argument_list_release: "/quiet /qn /norestart /l*v release.log ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
+            argument_list_install: "/quiet /qn /norestart /l*v install.log ENABLEPROTECTEDAPPLICATIONEXECUTION3=1 BOINC_PROJECT_USERNAME=test_user BOINC_PROJECT_PASSWORD=qwerty123456!@#$%^"
+            argument_list_prepare: '--create-user --username test_user --password "qwerty123456!@#$%^"'
       fail-fast: false
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
@@ -266,6 +274,11 @@ jobs:
         run: |
           7z x win_installer.7z
 
+      - name: Prepare installation for further testing
+        if: success() && matrix.argument_list_prepare != ''
+        shell: cmd
+        run: python ./tests/windows_installer_integration_tests_prepare.py ${{matrix.argument_list_prepare}}
+
       - name: Run installation
         if: success()
         shell: powershell
@@ -273,13 +286,13 @@ jobs:
 
       - name: Run installation tests
         if: success()
-        run: python ./tests/windows_installer_integration_tests.py --installation-type ${{matrix.installation_type}}
+        run: python ./tests/windows_installer_integration_tests.py --installation-type ${{matrix.installation_type}} --type ${{matrix.type}}
 
       - name: Upload logs on failure
         if: failure()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
-          name: windows_installer_test_logs_${{matrix.platform}}_${{matrix.type}}_${{github.event.pull_request.head.sha}}
+          name: windows_installer_test_logs_${{matrix.platform}}_${{matrix.type}}_${{matrix.installation_type}}_${{github.event.pull_request.head.sha}}
           path: |
             install.log
             alpha.log
