@@ -131,8 +131,15 @@ public:
                     "encoded."));
             return ERROR_INSTALL_FAILURE;
         }
-        const auto pszUnicodeEncodedPassword =
+        auto pszUnicodeEncodedPassword =
             boinc_ascii_to_wide(szBuffer.c_str());
+
+        // trim line endings
+        const auto trim = [](auto& str) {
+            str.erase(std::remove(str.begin(), str.end(), '\n'), str.cend());
+            };
+        trim(strBOINCProjectAccountUsername);
+        trim(pszUnicodeEncodedPassword);
 
         std::wofstream fClientAuthFile(strClientAuthFile);
         fClientAuthFile <<
