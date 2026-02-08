@@ -157,34 +157,65 @@ CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoin
     m_LegendDraw = true;
 
 // Default colours
-    m_pen_MarkerLineColour = wxColour(0, 0, 0);
-    m_pen_ZoomRectColour = wxColour (128, 64, 95);
-    m_brush_ZoomRectColour = wxColour(24, 31, 0);
-    m_brush_AxisColour = wxColour(192, 224, 255);
-    m_pen_AxisColour = wxColour(64, 128, 192);
-    m_pen_AxisColourZoom = wxColour(255, 64, 0);
-    m_pen_AxisColourAutoZoom = wxColour(64, 128, 192);
-    m_pen_AxisXColour = wxColour(64, 128, 192);
-    m_pen_AxisYColour = wxColour(64, 128, 192);
-    m_pen_AxisXTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
-    m_pen_AxisYTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
+    if (isDarkMode) {
+        m_pen_MarkerLineColour = wxColour(220, 220, 220);
+        m_pen_ZoomRectColour = wxColour(180, 200, 220);
+        m_brush_ZoomRectColour = wxColour(32, 48, 64);
+        m_brush_AxisColour = wxColour(24, 24, 24);
+        m_pen_AxisColour = wxColour(96, 128, 160);
+        m_pen_AxisColourZoom = wxColour(255, 128, 64);
+        m_pen_AxisColourAutoZoom = wxColour(96, 128, 160);
+        m_pen_AxisXColour = wxColour(80, 80, 80);
+        m_pen_AxisYColour = wxColour(80, 80, 80);
+        m_pen_AxisXTextColour = wxColour(255, 255, 255);
+        m_pen_AxisYTextColour = wxColour(255, 255, 255);
 
-    m_brush_LegendColour = isDarkMode ? wxColour(0, 64, 128) : wxColour(235, 255, 255);
-    m_brush_LegendSelectColour = wxColour(192, 224, 255);
-    m_pen_LegendSelectColour = wxColour(64, 128, 192);
-    m_pen_LegendSelectTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
-    m_pen_LegendColour = wxColour(64, 128, 192);
-    m_pen_LegendTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
-    m_brush_MainColour = isDarkMode ? wxColour(0,0,0) : wxColour(255, 255, 255);
-    m_pen_MainColour = wxColour(64, 128, 192);
+        m_brush_LegendColour = wxColour(32, 48, 64);
+        m_brush_LegendSelectColour = wxColour(64, 96, 128);
+        m_pen_LegendSelectColour = wxColour(128, 170, 212);
+        m_pen_LegendSelectTextColour = wxColour(255, 255, 255);
+        m_pen_LegendColour = wxColour(96, 128, 160);
+        m_pen_LegendTextColour = wxColour(255, 255, 255);
+        m_brush_MainColour = wxColour(0, 0, 0);
+        m_pen_MainColour = wxColour(96, 128, 160);
 
-    m_pen_HeadTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
-    m_pen_ProjectHeadTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
+        m_pen_HeadTextColour = wxColour(255, 255, 255);
+        m_pen_ProjectHeadTextColour = wxColour(255, 255, 255);
 
-    m_pen_GraphTotalColour = wxColour(255, 0, 0);
-    m_pen_GraphRACColour = wxColour(0, 160, 0);
-    m_pen_GraphTotalHostColour = wxColour(0, 0, 255);
-    m_pen_GraphRACHostColour = wxColour(0, 0, 0);
+        m_pen_GraphTotalColour = wxColour(255, 0, 0);
+        m_pen_GraphRACColour = wxColour(0, 200, 0);
+        m_pen_GraphTotalHostColour = wxColour(0, 128, 255);
+        m_pen_GraphRACHostColour = wxColour(255, 200, 0);
+    } else {
+        m_pen_MarkerLineColour = wxColour(0, 0, 0);
+        m_pen_ZoomRectColour = wxColour(128, 64, 95);
+        m_brush_ZoomRectColour = wxColour(24, 31, 0);
+        m_brush_AxisColour = wxColour(192, 224, 255);
+        m_pen_AxisColour = wxColour(64, 128, 192);
+        m_pen_AxisColourZoom = wxColour(255, 64, 0);
+        m_pen_AxisColourAutoZoom = wxColour(64, 128, 192);
+        m_pen_AxisXColour = wxColour(64, 128, 192);
+        m_pen_AxisYColour = wxColour(64, 128, 192);
+        m_pen_AxisXTextColour = wxColour(0, 0, 0);
+        m_pen_AxisYTextColour = wxColour(0, 0, 0);
+
+        m_brush_LegendColour = wxColour(235, 255, 255);
+        m_brush_LegendSelectColour = wxColour(192, 224, 255);
+        m_pen_LegendSelectColour = wxColour(64, 128, 192);
+        m_pen_LegendSelectTextColour = wxColour(0, 0, 0);
+        m_pen_LegendColour = wxColour(64, 128, 192);
+        m_pen_LegendTextColour = wxColour(0, 0, 0);
+        m_brush_MainColour = wxColour(255, 255, 255);
+        m_pen_MainColour = wxColour(64, 128, 192);
+
+        m_pen_HeadTextColour = wxColour(0, 0, 0);
+        m_pen_ProjectHeadTextColour = wxColour(0, 0, 0);
+
+        m_pen_GraphTotalColour = wxColour(255, 0, 0);
+        m_pen_GraphRACColour = wxColour(0, 160, 0);
+        m_pen_GraphTotalHostColour = wxColour(0, 0, 255);
+        m_pen_GraphRACHostColour = wxColour(0, 0, 0);
+    }
 
     m_dc_bmp.Create(1, 1);
     m_full_repaint = true;
