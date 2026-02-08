@@ -70,7 +70,7 @@ jobs:
             - unit-test
       fail-fast: false
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           fetch-depth: 2
 
@@ -530,7 +530,7 @@ jobs:
           apt-get update
           apt-get install -y gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf binutils-arm-linux-gnueabihf wget ca-certificates libcurl4-openssl-dev:armhf libssl-dev:armhf libzip-dev:armhf
 
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           fetch-depth: 2
 
