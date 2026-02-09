@@ -77,6 +77,7 @@ static void GetPreferredLanguages();
 static void LoadPreferredLanguages();
 static void showDebugMsg(const char *format, ...);
 static Boolean ShowMessage(Boolean allowCancel, Boolean continueButton, Boolean yesNoButtons, const char *format, ...);
+static void find_podman_path(char *path, size_t len);
 int callPosixSpawn(const char *cmd, bool delayForResult=false);
 static void print_to_log_file(const char *format, ...);
 
@@ -408,10 +409,11 @@ int main(int argc, char *argv[])
 
 
 static OSStatus DoUninstall(void) {
-    FILE                        *f;
+    FILE                    *f;
     pid_t                   coreClientPID = 0;
     int                     i;
     char                    cmd[1024];
+    char                    podmanPath[MAXPATHLEN];
     passwd                  *pw;
     OSStatus                err __attribute__((unused)) = noErr;
 #if SEARCHFORALLBOINCMANAGERS
@@ -518,7 +520,17 @@ fprintf(stdout, "Starting privileged tool\n");
     // Phase 3: step through default Screen Savers directory searching for our screen savers
     err = DeleteOurBundlesFromDirectory(CFSTR("edu.berkeley.boincsaver"), "saver", "/Library/Screen Savers", false);
 
-    // Phase 4: Delete our files and directories at our installer's default locations
+    // Phase 4: Remove our Podman VM if present
+    find_podman_path(podmanPath, sizeof(podmanPath));
+    if (podmanPath[0] == '\0') {
+        snprintf(cmd, sizeof(cmd), "./Run_Podman \"%s\" machine stop\n",  podmanPath);
+        callPosixSpawn(cmd);
+
+        snprintf(cmd, sizeof(cmd), "./Run_Podman \"%s\" machine rm --force",  podmanPath);
+        err = callPosixSpawn(cmd);
+    }
+
+    // Phase 5: Delete our files and directories at our installer's default locations
     // Remove everything we may have installed, though the above 2 calls already deleted some
 
     for (i=0; i<NUMBRANDS; ++i) {
@@ -543,7 +555,7 @@ fprintf(stdout, "Starting privileged tool\n");
         callPosixSpawn(cmd);
     }
 
-    // Phase 5: Set BOINC Data owner and group to logged in user
+    // Phase 6: Set BOINC Data owner and group to logged in user
     // We don't customize BOINC Data directory name for branding
 //    callPosixSpawn ("rm -rf \"/Library/Application Support/BOINC Data\"");
     pw = getpwnam(loginName);
@@ -552,7 +564,7 @@ fprintf(stdout, "Starting privileged tool\n");
     callPosixSpawn("chmod -R u+rw-s,g+r-w-s,o+r-w \"/Library/Application Support/BOINC Data\"");
     callPosixSpawn("chmod 600 \"/Library/Application Support/BOINC Data/gui_rpc_auth.cfg\"");
 
-    // Phase 6: step through all users and do user-specific cleanup
+    // Phase 7: step through all users and do user-specific cleanup
     CleanupAllVisibleUsers();
 
     // Use of sudo here may help avoid a warning alert from MacOS
@@ -1764,6 +1776,52 @@ static Boolean ShowMessage(Boolean allowCancel, Boolean continueButton, Boolean 
     // Return TRUE if user clicked Continue, Yes or OK, FALSE if user clicked Cancel or No
     // Note: if yesNoButtons is true, we made default button "No" and alternate button "Yes"
     return (yesNoButtons ? !result : result);
+}
+
+
+// While the official Podman installer puts the Podman executable at
+// "/opt/podman/bin/podman", other installation methods (e.g. brew) might not
+static void find_podman_path(char *path, size_t len) {
+    // Mac executables get a very limited PATH environment variable, so we must get the
+    // PATH variable used by Terminal and search there for the path to podman
+    struct stat buf;
+    char allpaths[2048];
+    char cmd[2048];
+
+    path[0] = '\0';
+    FILE *f = popen("a=`/usr/libexec/path_helper`;b=${a%\\\"*}\\\";echo ${b}", "r");
+    if (f) {
+        fgets(allpaths, sizeof(allpaths), f);
+        pclose(f);
+        char* p = strstr(allpaths, "\n");
+        if (p) *p = '\0'; // Remove the newline character
+
+        snprintf(cmd, sizeof(cmd), "env %s which podman", allpaths);
+        f = popen(cmd, "r");
+    }
+    if (f) {
+        fgets(path, (int)len, f);
+        pclose(f);
+        char* p = strstr(path, "\n");
+        if (p) *p = '\0'; // Remove the newline character
+        if (path[0] != '\0') {
+            if (stat(path, &buf) == 0) return;
+        }
+    }
+
+    // If we couldn't get it from that file, use default when installed using Podman installer
+    strlcpy(path, "/opt/podman/bin/podman", len);
+    if (stat(path, &buf) == 0) return;
+
+    // If we couldn't get it from that file, use default when installed by Homebrew
+#ifdef __arm64__
+    strlcpy(path, "/opt/homebrew/bin/podman", len);
+#else
+    strlcpy(path, "/usr/local/bin/podman", len);
+#endif
+    if (stat(path, &buf) == 0) return;
+    path[0] = '\0'; // Failed to find path to Podman
+    return;
 }
 
 
