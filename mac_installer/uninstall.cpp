@@ -522,7 +522,7 @@ fprintf(stdout, "Starting privileged tool\n");
 
     // Phase 4: Remove our Podman VM if present
     find_podman_path(podmanPath, sizeof(podmanPath));
-    if (podmanPath[0] == '\0') {
+    if (podmanPath[0] != '\0') {
         snprintf(cmd, sizeof(cmd), "./Run_Podman \"%s\" machine stop\n",  podmanPath);
         callPosixSpawn(cmd);
 
