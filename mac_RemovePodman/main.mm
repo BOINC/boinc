@@ -118,7 +118,7 @@ int doRemovePodman(char *podmanPath) {
     DoCommand("whoami");
 #endif
 
-    chdir("/Library/Application Support/BOINC Data");
+    err =   chdir("/Library/Application Support/BOINC Data");
     if (err) {
         perror("Could not chdir(\"/Library/Application Support/BOINC Data\"");
         return err;
