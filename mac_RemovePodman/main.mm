@@ -85,6 +85,7 @@ int DoCommand(char *cmd) {
     while (fgets(buf, sizeof(buf), f)) {
         puts(buf);
     }
+    // Note: we ignore errors from the actual command (its exit status)
     pclose(f);
 
     return 0;
@@ -177,44 +178,44 @@ int doRemovePodman(char *podmanPath) {
         seteuid(pw->pw_uid);
 
         err = DoCommand((char *)"killall -KILL podman");
-        if (err) return err;
+        if (err) goto bail;
 
         snprintf(cmd, sizeof(cmd), "\"%s\" machine stop\n",  podmanPath);
         err = DoCommand(cmd);
-        if (err) return err;
+        if (err) goto bail;
 
         snprintf(cmd, sizeof(cmd), "\"%s\" machine rm --force\n",  podmanPath);
         err = DoCommand(cmd);
-        if (err) return err;
+        if (err) goto bail;
 
         err = chdir("/Users");
         if (err) {
             perror("Could not chdir(\"/Users\"");
-            return err;
+        if (err) goto bail;
         }
 
         err = chdir(dp->d_name);
         if (err) {
             snprintf(cmd, sizeof(cmd), "Could not chdir(\"/Users/%s\"",  dp->d_name);
             perror(cmd);
-            return err;
+        if (err) goto bail;
         }
 
         snprintf(cmd, sizeof(cmd), "rm -Rf .local/share/containers");
         err = DoCommand(cmd);
-        if (err) return err;
+        if (err) goto bail;
 
         snprintf(cmd, sizeof(cmd), "rm -Rf .config/containers");
         err = DoCommand(cmd);
-        if (err) return err;
+        if (err) goto bail;
 
         snprintf(cmd, sizeof(cmd), "rm -Rf .ssh/*podman*");
         err = DoCommand(cmd);
-        if (err) return err;
+        if (err) goto bail;
 
+bail:
         seteuid(0); // Set effective user back to root
     }
-
     if (dirp) {
         closedir(dirp);
     }
@@ -281,9 +282,13 @@ int main(int argc, const char * argv[]) {
     strlcat(logPath, "/RemovePodmanLog.txt", sizeof(logPath));
 
     FILE *stdout_file = freopen(logPath, "a", stdout);
-    setbuf(stdout_file, 0);
+    if (stdout_file) {
+        setbuf(stdout_file, 0);
+    }
     FILE *stderr_file = freopen(logPath, "a", stderr);
-    setbuf(stderr_file, 0);
+    if (stderr_file) {
+        setbuf(stderr_file, 0);
+    }
 
     find_podman_path(podmanPath, sizeof(podmanPath));
     if (podmanPath[0] == '\0') {
