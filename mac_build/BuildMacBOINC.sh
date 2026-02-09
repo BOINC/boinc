@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -39,6 +39,7 @@
 # Updated 2/14/23 refactoring made to build zip apps (-zipapps), uc2 samples (-uc2) and vboxwrapper (-vboxwrapper)
 # Updated 3/12/23 Don't unnecessary rebuild libraries for uc2, zip apps or vboxwrapper
 # Updated 3/29/25 Build docker_wrapper
+# Updated 2.8.26 Build RemovePodman
 #
 ## This script requires OS 10.8 or later
 #
@@ -52,10 +53,10 @@
 ##     cd [path]/boinc/mac_build
 ##
 ## then invoke this script as follows:
-##      source BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-all] [-lib] [-client] [-uc2] [-vboxwrapper] [-docker_wrapper] [-target targetName] [-setting name value] [-help]
+##      source BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-all] [-lib] [-client] [-uc2] [-vboxwrapper] [-docker_wrapper] [-RemovePodman] [-target targetName] [-setting name value] [-help]
 ## or
 ##      chmod +x BuildMacBOINC.sh
-##      ./BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-all] [-lib] [-client] [-uc2] [-vboxwrapper] [-docker_wrapper] [-target targetName] [-setting name value] [-help]
+##      ./BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-all] [-lib] [-client] [-uc2] [-vboxwrapper] [-docker_wrapper] [-RemovePodman] [-target targetName] [-setting name value] [-help]
 ##
 ## optional arguments
 ## -dev         build the development (debug) version.
@@ -71,7 +72,7 @@
 ##
 ## -all         build all targets (i.e. target "Build_All" -- this is the default)
 ##              except UpperCase2 targets (UC2-x86_64, UC2Gfx-x86_64 and
-##              slide_show-x86_64) and VBoxWrapper
+##              slide_show-x86_64), VBoxWrapper, docker_wrapper or RemovePodman
 ##
 ## -lib         build the six libraries: libboinc_api.a, libboinc_graphics2.a,
 ##              libboinc.a, libboinc_opencl.a, libboinc_zip.a, jpeglib.a.
@@ -85,6 +86,8 @@
 ## -vboxwrapper build the VBoxWrapper target
 ##
 ## -docker_wrapper build the docker_wrapper target
+##
+## -RemovePodman build the RemovePodman target
 ##
 ## Both -lib and -client may be specified to build seven targets (no BOINC Manager)
 ##
@@ -106,6 +109,8 @@ buildzip=0
 builduc2=0
 buildvboxwrapper=0
 builddocker_wrapper=0
+buildRemovePodman=0
+
 style="Deployment"
 unset settings
 
@@ -120,6 +125,7 @@ while [ $# -gt 0 ]; do
     -uc2 ) builduc2=1 ; shift 1 ;;
     -vboxwrapper ) buildvboxwrapper=1 ; shift 1 ;;
     -docker_wrapper ) builddocker_wrapper=1 ; shift 1 ;;
+    -RemovePodman ) buildRemovePodman=1 ; shift 1 ;;
     -target ) shift 1 ; targets="$targets -target $1" ; shift 1 ;;
     -setting ) shift 1 ; name="$1" ;
                 shift 1 ; unset value ; value=("$1");
@@ -185,7 +191,7 @@ if [ "${buildclient}" = "1" ]; then
     targets="$targets -target BOINC_Client -target cmd_boinc"
 fi
 
-if [ "x${targets}" = "x" ] && [ "${buildlibs}" = "0" ] && [ "${buildclient}" = "0" ] && [ "${builduc2}" = "0" ] && [ "${buildvboxwrapper}" = "0" ] && [ "${builddocker_wrapper}" = "0" ] ; then
+if [ "x${targets}" = "x" ] && [ "${buildlibs}" = "0" ] && [ "${buildclient}" = "0" ] && [ "${builduc2}" = "0" ] && [ "${buildvboxwrapper}" = "0" ] && [ "${builddocker_wrapper}" = "0" ] && [ "${buildRemovePodman}" = "0" ] ; then
     buildall=1
 fi
 
@@ -256,6 +262,19 @@ if [ $result -eq 0 ]; then
     # build docker_wrapper app for -docker_wrapper
     if [ "${builddocker_wrapper}" = "1" ]; then
         eval "xcodebuild -project ../samples/docker_wrapper/docker_wrapper.xcodeproj -target docker_wrapper -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
+        result=$?
+    fi
+fi
+
+if [ $result -eq 0 ]; then
+    # build RemovePodman app for -docker_wrapper
+    if [ "${buildRemovePodman}" = "1" ]; then
+        if [ ${style} = "Deployment" ]; then
+            newStyle="Release"
+        else
+            newStyle="Debug"
+        fi
+        eval "xcodebuild -project ../mac_RemovePodman/RemovePodman.xcodeproj -target RemovePodman -configuration ${newStyle} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
         result=$?
     fi
 fi
