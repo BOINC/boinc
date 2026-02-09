@@ -27,12 +27,16 @@ static void find_podman_path(char *path, size_t len) {
     FILE *f = popen("a=`/usr/libexec/path_helper`;b=${a%\\\"*}\\\";echo ${b}", "r");
     if (f) {
         fgets(allpaths, sizeof(allpaths), f);
-        pclose(f);
-        char* p = strstr(allpaths, "\n");
-        if (p) *p = '\0'; // Remove the newline character
+        int err = pclose(f);
+        if (err) {
+            f = NULL;
+        } else {
+            char* p = strstr(allpaths, "\n");
+            if (p) *p = '\0'; // Remove the newline character
 
-        snprintf(cmd, sizeof(cmd), "env %s which podman", allpaths);
-        f = popen(cmd, "r");
+            snprintf(cmd, sizeof(cmd), "env %s which podman", allpaths);
+            f = popen(cmd, "r");
+        }
     }
     if (f) {
         fgets(path, (int)len, f);
