@@ -19,7 +19,7 @@
 
 ##
 #  Sign_Notarize_RemovePodman.sh
-#  
+#
 ## You must have done the following before running this script:
 ##  * Created an app-specific password by following the instructions on
 ##      "Using app-specific passwords" at <https://support.apple.com/en-us/HT204397>.
@@ -34,8 +34,8 @@
 ##     cd [path]/RemovePodman
 ##     source ./Sign_Notarize_RemovePodman.sh
 
-#  Created 2/3/26.
-#  
+#  Created 2/8/26.
+#
 BOINCPath=$PWD
 
 exec 7<"./Build_Deployment_Dir"

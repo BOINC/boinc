@@ -23,6 +23,7 @@ static void find_podman_path(char *path, size_t len) {
     char allpaths[2048];
     char cmd[2048];
 
+    path[0] = '\0';
     FILE *f = popen("a=`/usr/libexec/path_helper`;b=${a%\\\"*}\\\";echo ${b}", "r");
     if (f) {
         fgets(allpaths, sizeof(allpaths), f);
@@ -38,23 +39,25 @@ static void find_podman_path(char *path, size_t len) {
         pclose(f);
         char* p = strstr(path, "\n");
         if (p) *p = '\0'; // Remove the newline character
+        if (path[0] != '\0') {
+            if (stat(path, &buf) == 0) return;
         }
-        if (stat(path, &buf) == 0) return;
-
-        // If we couldn't get it from that file, use default when installed using Podman installer
-        strlcpy(path, "/opt/podman/bin/podman", len);
-        if (stat(path, &buf) == 0) return;
-
-        // If we couldn't get it from that file, use default when installed by Homebrew
-#ifdef __arm64__
-        strlcpy(path, "/opt/homebrew/bin/podman", len);
-#else
-        strlcpy(path, "/usr/local/bin/podman", len);
-#endif
-        if (stat(path, &buf) == 0) return;
-        path[0] = '\0'; // Failed to find path to Podman
-        return;
     }
+
+    // If we couldn't get it from that file, use default when installed using Podman installer
+    strlcpy(path, "/opt/podman/bin/podman", len);
+    if (stat(path, &buf) == 0) return;
+
+    // If we couldn't get it from that file, use default when installed by Homebrew
+#ifdef __arm64__
+    strlcpy(path, "/opt/homebrew/bin/podman", len);
+#else
+    strlcpy(path, "/usr/local/bin/podman", len);
+#endif
+    if (stat(path, &buf) == 0) return;
+    path[0] = '\0'; // Failed to find path to Podman
+    return;
+}
 
 int DoCommand(char *cmd) {
     passwd *pw;
@@ -116,6 +119,10 @@ int doRemovePodman(char *podmanPath) {
 #endif
 
     chdir("/Library/Application Support/BOINC Data");
+    if (err) {
+        perror("Could not chdir(\"/Library/Application Support/BOINC Data\"");
+        return err;
+    }
 
     err = DoCommand((char *)"killall -KILL podman");
     if (err) return err;
@@ -176,8 +183,18 @@ int doRemovePodman(char *podmanPath) {
         err = DoCommand(cmd);
         if (err) return err;
 
-        chdir("/Users");
-        chdir(dp->d_name);
+        err = chdir("/Users");
+        if (err) {
+            perror("Could not chdir(\"/Users\"");
+            return err;
+        }
+
+        err = chdir(dp->d_name);
+        if (err) {
+            snprintf(cmd, sizeof(cmd), "Could not chdir(\"/Users/%s\"",  dp->d_name);
+            perror(cmd);
+            return err;
+        }
 
         snprintf(cmd, sizeof(cmd), "rm -Rf .local/share/containers");
         err = DoCommand(cmd);
@@ -253,7 +270,7 @@ int main(int argc, const char * argv[]) {
                 return 0;
         }
     }
-    
+
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     strlcpy(logPath, [documentsDirectory UTF8String], sizeof(logPath));
