@@ -31,10 +31,10 @@
 
 ## Usage:
 ## cd to the directory containing RemovePodman.xcodeproj:
-##     cd [path]/RemovePodman
+##     cd [path]/mac_RemovePodman
 ##     source ./Sign_Notarize_RemovePodman.sh
 
-#  Created 2/8/26.
+#  Created 2/9/26.
 #
 BOINCPath=$PWD
 
