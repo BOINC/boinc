@@ -107,7 +107,19 @@ int main(int argc, char *argv[])
     FILE                        *pipe = NULL;
     OSStatus                    err = noErr;
 
-    FILE * stdout_file = freopen("/tmp/BOINC_Uninstall_log.txt", "w", stdout);
+    // Determine whether this is the initial launch or the relaunch with privileges
+    for (int i=0; i<argc; ++i) {
+        if (strcmp(argv[i], "--privileged") == 0) {
+            isPrivileged = true;
+            break;
+        }
+    }
+
+    if (!isPrivileged) {
+        callPosixSpawn("rm -f \"/tmp/BOINC_Uninstall_log.txt\"");
+    }
+
+    FILE * stdout_file = freopen("/tmp/BOINC_Uninstall_log.txt", "a", stdout);
     if (stdout_file) {
         setbuf(stdout_file, 0);
     }
@@ -152,13 +164,6 @@ int main(int argc, char *argv[])
 
     strlcpy(gBrandName, p, sizeof(gBrandName));
 
-    // Determine whether this is the initial launch or the relaunch with privileges
-    for (int i=0; i<argc; ++i) {
-        if (strcmp(argv[i], "--privileged") == 0) {
-            isPrivileged = true;
-            break;
-        }
-    }
     if (isPrivileged) {
         setuid(0);  // This is permitted bcause euid == 0
 
@@ -424,8 +429,8 @@ static OSStatus DoUninstall(void) {
     int                     pathOffset;
 #endif
 
-fprintf(stderr, "Starting privileged tool\n");
-fprintf(stdout, "Starting privileged tool\n");
+fprintf(stderr, "Starting privileged tool (stderr)\n");
+fprintf(stdout, "Starting privileged tool (stdout)\n");
 #if TESTING
     showDebugMsg("Permission OK after relaunch");
 #endif
@@ -522,12 +527,13 @@ fprintf(stdout, "Starting privileged tool\n");
 
     // Phase 4: Remove our Podman VM if present
     find_podman_path(podmanPath, sizeof(podmanPath));
+    fprintf(stderr, "\npodmanPath: %s\n", podmanPath);
     if (podmanPath[0] != '\0') {
-        snprintf(cmd, sizeof(cmd), "./Run_Podman \"%s\" machine stop\n",  podmanPath);
+        snprintf(cmd, sizeof(cmd), "\"/Library/Application Support/BOINC Data/Run_Podman\" \"%s\" machine stop",  podmanPath);
         callPosixSpawn(cmd);
 
-        snprintf(cmd, sizeof(cmd), "./Run_Podman \"%s\" machine rm --force",  podmanPath);
-        err = callPosixSpawn(cmd);
+        snprintf(cmd, sizeof(cmd), "\"/Library/Application Support/BOINC Data/Run_Podman\" \"%s\" machine rm --force",  podmanPath);
+        callPosixSpawn(cmd);
     }
 
     // Phase 5: Delete our files and directories at our installer's default locations
