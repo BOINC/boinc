@@ -244,10 +244,15 @@ bool ExtractResourceAndExecute(UINT ResourceID, std::string OutputFileName,
         CloseHandle(hFilemap);
         CloseHandle(hFile);
 
+        const auto bMode = CmdParameters == "" ? SW_SHOWNORMAL : SW_HIDE;
+        char self[MAX_PATH];
+        if (GetModuleFileName(nullptr, self, MAX_PATH) != 0) {
+            CmdParameters += " SETUPEXENAME=\"" +
+                std::filesystem::path(self).filename().string() + "\"";
+        }
         auto hInstance = ShellExecute(nullptr, "open",
             (outputDir / OutputFileName).string().c_str(),
-            CmdParameters.c_str(), nullptr,
-            CmdParameters == "" ? SW_SHOWNORMAL : SW_HIDE);
+            CmdParameters.c_str(), nullptr, bMode);
         if (reinterpret_cast<INT_PTR>(hInstance) <= 32) {
             Log("Failed to execute installer");
             MessageBox(NULL, "Failed to execute the installer!", "Error",
