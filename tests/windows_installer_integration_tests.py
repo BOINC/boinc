@@ -34,6 +34,7 @@ class IntegrationTests:
         self.result &= self.test_version()
         self.result &= self.test_files_exist()
         self.result &= self.test_registry_records_exist()
+        self.result &= self.test_login_token_file()
         if self.installation_type == "service":
             self.result &= self.test_service_exists()
             self.result &= self.test_service_users_exist()
@@ -229,6 +230,21 @@ class IntegrationTests:
                 ts.expect_true(False, f"Test XML file is well-formed (Parse error: {e})")
             except Exception as e:
                 ts.expect_true(False, f"Test XML file can be processed (Error: {e})")
+
+        return ts.result()
+
+    def test_login_token_file(self):
+        ts = testset.TestSet("Test login token file")
+        login_token_file = self._get_test_data_file_path("login_token.txt")
+        ts.expect_true(os.path.exists(login_token_file), "Test 'login_token.txt' file exists in 'C:\\ProgramData\\BOINC\\'")
+
+        if os.path.exists(login_token_file):
+            try:
+                with open(login_token_file, 'r') as f:
+                    content = f.read()
+                    ts.expect_equal("installer_setup.exe", content.strip(), "Test 'login_token.txt' contains 'installer_setup.exe' line")
+            except Exception as e:
+                ts.expect_true(False, f"Test 'login_token.txt' can be read (Error: {e})")
 
         return ts.result()
 
