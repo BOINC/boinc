@@ -261,7 +261,12 @@ function pm_web_line($notify) {
     $pm = BoincPrivateMessage::lookup_id($notify->opaque);
     $from_user = BoincUser::lookup_id($pm->senderid);
     if (!$pm || !$from_user) return null;
-    return "<a href=pm.php>".tra("Private message%1 from %2, subject:" , "</a>", $from_user->name ).htmlspecialchars($pm->subject);
+    return "<a href=pm.php>"
+        .tra("Private message%1 from %2, subject:" ,
+            "</a>",
+            htmlspecialchars($from_user->name)
+        )
+        .htmlspecialchars($pm->subject);
 }
 
 // Add a PM to the database, and notify the recipient.
