@@ -64,12 +64,15 @@ function user_can_submit($user, $app_desc) {
     return false;
 }
 
-// can user edit app or variants?
+// can user edit the BUDA app or variants?
+// needs to be creator or have manage_all access
 //
 function user_can_manage($user, $app_desc) {
     if ($app_desc->user_id == $user->id) {
         return true;
     }
+    $us = BoincUserSubmit::lookup_userid($user->id);
+    if ($us->manage_all) return true;
     return false;
 }
 
