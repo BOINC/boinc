@@ -24,7 +24,7 @@
 #define WRAPPER_RELEASE 26019
 
 // vboxwrapper version number
-#define VBOXWRAPPER_RELEASE 26211
+#define VBOXWRAPPER_RELEASE 26212
 
 // worker version number
 #define WORKER_RELEASE 6
