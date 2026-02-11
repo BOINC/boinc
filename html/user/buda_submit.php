@@ -89,7 +89,7 @@ function submit_form($user) {
         'exp_runtime_days', .5
     );
     form_checkbox(
-        "Enable debugging output <br><small>Write Docker commands and output to stderr. Not recommended for long-running jobs.</small>.",
+        "Enable debugging output <br><small>Write Docker commands and output to stderr. Not recommended for long-running jobs.</small>",
         'wrapper_verbose'
     );
     form_submit('OK');

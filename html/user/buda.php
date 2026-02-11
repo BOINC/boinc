@@ -134,7 +134,7 @@ function variant_view($user) {
     end_table();
     echo '<hr>';
 
-    if ($manage_access && user_can_manage($user, $app_desc)) {
+    if ($manage_access || user_can_manage($user, $app_desc)) {
         echo '<p>';
         show_button_small(
             "buda.php?action=variant_form&app=$app&variant=$variant",
@@ -266,7 +266,7 @@ function create_templates($app, $desc, $dir) {
     $x = "<output_template>\n";
     $i = 0;
     foreach ($desc->output_file_names as $fname) {
-        $x .= file_info_out($i++);
+        $x .= file_info_out($i++, $desc->max_nbytes_mb*MEGA);
     }
     $x .= "   <result>\n";
     $i = 0;
@@ -318,11 +318,11 @@ function file_xml_elements($log_name, $phys_name, $md5, $nbytes) {
 // create or edit variant
 //
 function variant_action($user) {
-    global $buda_root;
+    global $buda_root, $manage_access;
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
     $app_desc = get_buda_app_desc($app);
-    if (!user_can_manage($user, $app_desc)) {
+    if (!$manage_access && !user_can_manage($user, $app_desc)) {
         error_page('no access');
     }
 
@@ -490,6 +490,7 @@ function app_form($desc=null) {
         $desc->long_name = null;
         $desc->input_file_names = [];
         $desc->output_file_names = [];
+        $desc->max_nbytes_mb = 10;
         $desc->min_nsuccess = 1;
         $desc->max_total = 2;
         $desc->max_delay_days = 7;
@@ -509,6 +510,14 @@ function app_form($desc=null) {
         'Output file names<br><small>Space-separated</small>',
         'output_file_names',
         implode(' ', $desc->output_file_names)
+    );
+    if (empty($desc->max_nbytes_mb)) {
+        $desc->max_nbytes_mb = 10;
+    }
+    form_input_text(
+        'Max output file size, MB',
+        'max_nbytes_mb',
+        $desc->max_nbytes_mb
     );
     form_input_text(
         'Run at most this many total instances of each job',
@@ -550,7 +559,7 @@ function app_form($desc=null) {
 }
 
 function app_action($user) {
-    global $buda_root;
+    global $buda_root, $manage_access;
     $edit_name = get_str('edit_name', true);
     $desc = new StdClass;
     if ($edit_name) {
@@ -560,7 +569,7 @@ function app_action($user) {
         $desc->user_id = get_int('user_id');
         $desc->create_time = get_int('create_time');
         $app_desc = get_buda_app_desc($app_name);
-        if (!user_can_manage($user, $app_desc)) {
+        if (!$manage_access && !user_can_manage($user, $app_desc)) {
             error_page('no access');
         }
     } else {
@@ -620,6 +629,7 @@ function app_action($user) {
     } else {
         $output_file_names = [];
     }
+    $desc->max_nbytes_mb = get_int('max_nbytes_mb');
     $desc->long_name = get_str('long_name');
     $desc->input_file_names = $input_file_names;
     $desc->output_file_names = $output_file_names;
@@ -699,6 +709,12 @@ function app_details($user) {
         'Output filenames:',
         implode(',', $desc->output_file_names)
     );
+    if (!empty($desc->max_nbytes_mb)) {
+        row2(
+            'Max output file size, MB',
+            $desc->max_nbytes_mb
+        );
+    }
     if (!empty($desc->max_total)) {
         row2('Max total instances per job:', $desc->max_total);
     } else {
@@ -714,7 +730,7 @@ function app_details($user) {
     } else {
         row2('Max job turnaround time, days:', '7');
     }
-    if ($manage_access && user_can_manage($user, $desc)) {
+    if ($manage_access || user_can_manage($user, $desc)) {
         row2('',
             button_text_small(
                 sprintf('buda.php?action=%s&name=%s', 'app_edit', $desc->name),
@@ -731,7 +747,7 @@ function app_details($user) {
             );
         }
         row2('Variants', implode('<p>', $x));
-        if ($manage_access && user_can_manage($user, $desc)) {
+        if ($manage_access || user_can_manage($user, $desc)) {
             row2('',
                 button_text_small(
                     "buda.php?action=variant_form&app=$name",
