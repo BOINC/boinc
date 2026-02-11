@@ -503,17 +503,20 @@ function file_ref_in($fname) {
         $fname
     ));
 }
-function file_info_out($i) {
+function file_info_out($i, $max_nbytes) {
+    if (!$max_nbytes) {
+        $max_nbytes = MEGA;
+    }
     return sprintf(
 '    <file_info>
         <name><OUTFILE_%d/></name>
         <generated_locally/>
         <upload_when_present/>
-        <max_nbytes>5000000</max_nbytes>
+        <max_nbytes>%d</max_nbytes>
         <url><UPLOAD_URL/></url>
     </file_info>
 ',
-        $i
+        $i, $max_nbytes
     );
 }
 

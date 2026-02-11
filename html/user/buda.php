@@ -105,7 +105,7 @@ function file_row($app, $variant, $dir, $f) {
 }
 
 function variant_view($user) {
-    global $buda_root, $manage_access;
+    global $buda_root;
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
     $app_desc = get_buda_app_desc($app);
@@ -134,7 +134,7 @@ function variant_view($user) {
     end_table();
     echo '<hr>';
 
-    if ($manage_access && user_can_manage($user, $app_desc)) {
+    if (user_can_manage($user, $app_desc)) {
         echo '<p>';
         show_button_small(
             "buda.php?action=variant_form&app=$app&variant=$variant",
@@ -266,7 +266,7 @@ function create_templates($app, $desc, $dir) {
     $x = "<output_template>\n";
     $i = 0;
     foreach ($desc->output_file_names as $fname) {
-        $x .= file_info_out($i++);
+        $x .= file_info_out($i++, $desc->max_nbytes_mb*MEGA);
     }
     $x .= "   <result>\n";
     $i = 0;
@@ -490,6 +490,7 @@ function app_form($desc=null) {
         $desc->long_name = null;
         $desc->input_file_names = [];
         $desc->output_file_names = [];
+        $desc->max_nbytes_mb = 10;
         $desc->min_nsuccess = 1;
         $desc->max_total = 2;
         $desc->max_delay_days = 7;
@@ -509,6 +510,14 @@ function app_form($desc=null) {
         'Output file names<br><small>Space-separated</small>',
         'output_file_names',
         implode(' ', $desc->output_file_names)
+    );
+    if (empty($desc->max_nbytes_mb)) {
+        $desc->max_nbytes_mb = 10;
+    }
+    form_input_text(
+        'Max output file size, MB',
+        'max_nbytes_mb',
+        $desc->max_nbytes_mb
     );
     form_input_text(
         'Run at most this many total instances of each job',
@@ -620,6 +629,7 @@ function app_action($user) {
     } else {
         $output_file_names = [];
     }
+    $desc->max_nbytes_mb = get_int('max_nbytes_mb');
     $desc->long_name = get_str('long_name');
     $desc->input_file_names = $input_file_names;
     $desc->output_file_names = $output_file_names;
@@ -674,7 +684,7 @@ function handle_app_edit() {
 }
 
 function app_details($user) {
-    global $buda_root, $manage_access;
+    global $buda_root;
     $name = get_str('name');
     $desc = get_buda_app_desc($name);
     if (!$desc) error_page("no desc file $path");
@@ -699,6 +709,12 @@ function app_details($user) {
         'Output filenames:',
         implode(',', $desc->output_file_names)
     );
+    if (!empty($desc->max_nbytes_mb)) {
+        row2(
+            'Max output file size, MB',
+            $desc->max_nbytes_mb
+        );
+    }
     if (!empty($desc->max_total)) {
         row2('Max total instances per job:', $desc->max_total);
     } else {
@@ -714,7 +730,7 @@ function app_details($user) {
     } else {
         row2('Max job turnaround time, days:', '7');
     }
-    if ($manage_access && user_can_manage($user, $desc)) {
+    if (user_can_manage($user, $desc)) {
         row2('',
             button_text_small(
                 sprintf('buda.php?action=%s&name=%s', 'app_edit', $desc->name),
@@ -731,7 +747,7 @@ function app_details($user) {
             );
         }
         row2('Variants', implode('<p>', $x));
-        if ($manage_access && user_can_manage($user, $desc)) {
+        if (user_can_manage($user, $desc)) {
             row2('',
                 button_text_small(
                     "buda.php?action=variant_form&app=$name",
@@ -739,7 +755,7 @@ function app_details($user) {
                 )
             );
         }
-    } else if ($manage_access) {
+    } else if (user_can_manage($user, $desc)) {
         row2('Variants',
             button_text_small(
                 "buda.php?action=variant_form&app=$name",
@@ -759,42 +775,39 @@ function app_details($user) {
     page_tail();
 }
 
-// Users with manage access to BUDA can add/delete apps and variants.
-// Others can just view.
-// Might want to refine this at some point
-
 $user = get_logged_in_user();
 $buda_app = BoincApp::lookup("name='buda'");
 if (!$buda_app) error_page('no buda app');
-$manage_access = has_manage_access($user, $buda_app->id);
+
+// does user have right to right to view and create BUDA apps?
+//
+if (!has_manage_access($user, $buda_app->id)) {
+    error_page('no access');
+}
+
+$us = BoincUserSubmit::lookup_userid($user->id);
+$manage_all = $us->manage_all;
 
 $action = get_str('action', true);
 switch ($action) {
 case 'app_edit':
-    if (!$manage_access) error_page('no access');
     handle_app_edit(); break;
 case 'app_form':
-    if (!$manage_access) error_page('no access');
     app_form(); break;
 case 'app_action':
-    if (!$manage_access) error_page('no access');
     app_action($user); break;
 case 'app_details':
     app_details($user); break;
 case 'app_delete':
-    if (!$manage_access) error_page('no access');
     app_delete(); break;
 case 'variant_view':
     variant_view($user); break;
 case 'variant_form':
-    if (!$manage_access) error_page('no access');
     variant_form($user); break;
 case 'variant_action':
-    if (!$manage_access) error_page('no access');
     variant_action($user);
     break;
 case 'variant_delete':
-    if (!$manage_access) error_page('no access');
     variant_delete();
     break;
 case 'view_file':
