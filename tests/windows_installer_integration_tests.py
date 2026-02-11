@@ -45,6 +45,8 @@ class IntegrationTests:
             self.result &= self.test_client_auth_file()
             if self.test_type == "install":
                 self.result &= self.test_boinc_master_user_only_exists()
+        if self.installation_type == "test_proj_init_file":
+            self.result &= self.test_proj_init_file()
 
     def _get_test_executable_file_path(self, filename):
         return pathlib.Path("C:\\Program Files\\BOINC\\") / filename
@@ -248,13 +250,54 @@ class IntegrationTests:
 
         return ts.result()
 
+    def test_proj_init_file(self):
+        ts = testset.TestSet("Test project init file")
+        project_init_file = self._get_test_data_file_path("project_init.xml")
+        ts.expect_true(os.path.exists(project_init_file), "Test 'project_init.xml' file exists in 'C:\\ProgramData\\BOINC\\'")
+
+        if os.path.exists(project_init_file):
+            try:
+                tree = ET.parse(project_init_file)
+                root = tree.getroot()
+
+                ts.expect_equal("project_init", root.tag, "Test root element is 'project_init'")
+
+                url_element = root.find("url")
+                name_element = root.find("name")
+                account_key_element = root.find("account_key")
+                embedded_element = root.find("embedded")
+
+                ts.expect_true(url_element is not None, "Test 'url' element exists")
+                ts.expect_true(name_element is not None, "Test 'name' element exists")
+                ts.expect_true(account_key_element is not None, "Test 'account_key' element exists")
+                ts.expect_true(embedded_element is not None, "Test 'embedded' element exists")
+
+                if url_element is not None:
+                    ts.expect_equal("https://test.com", url_element.text, "Test 'url' element contains 'https://test.com'")
+
+                if name_element is not None:
+                    ts.expect_equal("test", name_element.text, "Test 'name' element contains 'test'")
+
+                if account_key_element is not None:
+                    ts.expect_equal("abcdef1234567890", account_key_element.text, "Test 'account_key' element contains 'abcdef1234567890'")
+
+                if embedded_element is not None:
+                    ts.expect_equal("0", embedded_element.text, "Test 'embedded' element contains '0'")
+
+            except ET.ParseError as e:
+                ts.expect_true(False, f"Test XML file is well-formed (Parse error: {e})")
+            except Exception as e:
+                ts.expect_true(False, f"Test XML file can be processed (Error: {e})")
+
+        return ts.result()
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="BOINC Windows Installer Integration Tests")
     parser.add_argument(
         "--installation-type",
         type=str,
         default="normal",
-        help="Installation type: 'normal' (default), 'service', 'test_acct_mgr_login', or 'test_client_auth_file'"
+        help="Installation type: 'normal' (default), 'service', 'test_acct_mgr_login', 'test_client_auth_file', or 'test_proj_init_file'"
     )
     parser.add_argument(
         "--type",
