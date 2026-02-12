@@ -9,7 +9,6 @@ EXPORTS
 	CreateBOINCAccounts
 	CreateBOINCGroups
 	CreateClientAuthFile
-	GetUsersGroupName
 	GrantBOINCMasterRights
 	GrantBOINCProjectRights
 	ShutdownBOINC

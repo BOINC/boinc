@@ -59,11 +59,6 @@
             "Sequence": 1561
         },
         {
-            "Action": "CAGetUsersGroupName",
-            "Condition": "REMOVE <> \"ALL\"",
-            "Sequence": 1543
-        },
-        {
             "Action": "CAGrantBOINCAdminsRights",
             "Condition": "REMOVE <> \"ALL\" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
             "Sequence": 1553

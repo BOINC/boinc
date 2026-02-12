@@ -55,12 +55,6 @@
             "Target": "DeleteBOINCGroups"
         },
         {
-            "Action": "CAGetUsersGroupName",
-            "Type": 1,
-            "Source": "boinccas.dll",
-            "Target": "GetUsersGroupName"
-        },
-        {
             "Action": "CAGrantBOINCAdminsRights",
             "Type": 1,
             "Source": "boinccas.dll",

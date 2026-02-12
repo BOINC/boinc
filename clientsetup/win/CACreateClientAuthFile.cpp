@@ -138,7 +138,7 @@ public:
         const auto trim = [](auto& str) {
             str.erase(
                 std::remove_if(str.begin(), str.end(),
-                    [](char c) { return c == '\n' || c == '\r'; }),
+                    [](const auto& c) { return c == '\n' || c == '\r'; }),
                 str.end());
             };
         trim(strBOINCProjectAccountUsername);

@@ -40,7 +40,6 @@
     <ClCompile Include="..\clientsetup\win\CACreateProjectInitFile.cpp" />
     <ClCompile Include="..\clientsetup\win\CADeleteBOINCAccounts.cpp" />
     <ClCompile Include="..\clientsetup\win\CADeleteBOINCGroups.cpp" />
-    <ClCompile Include="..\clientsetup\win\CAGetUsersGroupName.cpp" />
     <ClCompile Include="..\clientsetup\win\CAGrantBOINCAdminsRights.cpp" />
     <ClCompile Include="..\clientsetup\win\CAGrantBOINCAdminsVirtualBoxRights.cpp" />
     <ClCompile Include="..\clientsetup\win\CAGrantBOINCMasterRights.cpp" />
@@ -74,7 +73,6 @@
     <ClCompile Include="..\clientsetup\win\dirops.cpp" />
     <ClCompile Include="..\clientsetup\win\launcher.cpp" />
     <ClCompile Include="..\clientsetup\win\listacl.cpp" />
-    <ClCompile Include="..\clientsetup\win\lkuprid.cpp" />
     <ClCompile Include="..\clientsetup\win\lsaprivs.cpp" />
     <ClCompile Include="..\clientsetup\win\main.cpp" />
     <ClCompile Include="..\clientsetup\win\sdmgmt.cpp" />
@@ -87,7 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\clientsetup\win\boinccas.h" />
-    <ClInclude Include="..\clientsetup\win\CAGetUsersGroupName.h" />
     <ClInclude Include="..\clientsetup\win\CAGrantBOINCAdminsRights.h" />
     <ClInclude Include="..\clientsetup\win\CAGrantBOINCAdminsVirtualBoxRights.h" />
     <ClInclude Include="..\clientsetup\win\CAGrantBOINCMasterRights.h" />
@@ -121,7 +118,6 @@
     <ClInclude Include="..\clientsetup\win\dcomperm.h" />
     <ClInclude Include="..\clientsetup\win\dirops.h" />
     <ClInclude Include="..\clientsetup\win\launcher.h" />
-    <ClInclude Include="..\clientsetup\win\lkuprid.h" />
     <ClInclude Include="..\clientsetup\win\lsaprivs.h" />
     <ClInclude Include="..\clientsetup\win\main.h" />
     <ClInclude Include="..\clientsetup\win\resource.h" />

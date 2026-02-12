@@ -49,16 +49,16 @@ public:
         const auto bProtectedAppExecEnabled =
             (strEnableProtectedApplicationExecution == _T("1"));
 
-        tstring strUsersGroupName;
-        uiReturnValue = GetProperty(_T("GROUPALIAS_USERS"), strUsersGroupName);
-        if (uiReturnValue != ERROR_SUCCESS) {
-            return uiReturnValue;
-        }
-        if (bProtectedAppExecEnabled && strUsersGroupName.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
-                _T("The 'Users' group alias is empty."));
-            return ERROR_INSTALL_FAILURE;
-        }
+        //tstring strUsersGroupName;
+        //uiReturnValue = GetProperty(_T("GROUPALIAS_USERS"), strUsersGroupName);
+        //if (uiReturnValue != ERROR_SUCCESS) {
+        //    return uiReturnValue;
+        //}
+        //if (bProtectedAppExecEnabled && strUsersGroupName.empty()) {
+        //    LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+        //        _T("The 'Users' group alias is empty."));
+        //    return ERROR_INSTALL_FAILURE;
+        //}
 
         tstring strBOINCMasterAccountUsername;
         uiReturnValue = GetProperty(_T("BOINC_MASTER_USERNAME"),
@@ -279,9 +279,32 @@ public:
                 return ERROR_INSTALL_FAILURE;
             }
 
+            SID_IDENTIFIER_AUTHORITY sia = SECURITY_NT_AUTHORITY;
+            PSID pUsersSid = nullptr;
+            if (!AllocateAndInitializeSid(&sia, 2, SECURITY_BUILTIN_DOMAIN_RID,
+                DOMAIN_ALIAS_RID_USERS, 0, 0, 0, 0, 0, 0, &pUsersSid)) {
+                if (pUsersSid) {
+                    FreeSid(pUsersSid);
+                    pUsersSid = nullptr;
+                }
+            }
+            wil::unique_sid pUsersSIDDeleter(pUsersSid);
+            auto nameSize = 0ul;
+            auto domainSize = 0ul;
+            SID_NAME_USE snu;
+            LookupAccountSid(nullptr, pUsersSid, nullptr, &nameSize,
+                nullptr, &domainSize, &snu);
+            tstring name(static_cast<size_t>(nameSize), '\0');
+            tstring domain(static_cast<size_t>(domainSize), '\0');
+            if (!LookupAccountSid(nullptr, pUsersSid, name.data(), &nameSize,
+                domain.data(), &domainSize, &snu)) {
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+                    _T("Setup was unable to determine the Users group name."));
+                return ERROR_INSTALL_FAILURE;
+            }
+
             nasReturnValue = NetLocalGroupAddMembers(nullptr,
-                strUsersGroupName.c_str(), 0,
-                reinterpret_cast<LPBYTE>(&lgrmiMembers), 1);
+                name.c_str(), 0, reinterpret_cast<LPBYTE>(&lgrmiMembers), 1);
 
             if ((nasReturnValue != NERR_Success) &&
                 (nasReturnValue != ERROR_MEMBER_IN_ALIAS)) {
@@ -295,8 +318,7 @@ public:
 
             lgrmiMembers.lgrmi0_sid = pBOINCMasterSID;
             nasReturnValue = NetLocalGroupAddMembers(nullptr,
-                strUsersGroupName.c_str(), 0,
-                reinterpret_cast<LPBYTE>(&lgrmiMembers), 1);
+                name.c_str(), 0, reinterpret_cast<LPBYTE>(&lgrmiMembers), 1);
 
             if ((nasReturnValue != NERR_Success) &&
                 (nasReturnValue != ERROR_MEMBER_IN_ALIAS)) {
