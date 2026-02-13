@@ -1,0 +1,35 @@
+OPTS = -g
+
+CC = g++ $(OPTS) -I ../ -I ../lib/ \
+    -I../db \
+    -I/usr/include/mariadb/mysql -I/usr/include/mariadb \
+
+PROGS = feeder_user
+
+all: $(PROGS)
+
+OBJ = \
+    feeder_user.o \
+    ../db/boinc_db.o
+
+SRC = \
+    feeder_user.cpp \
+    ../db/boinc_db.cpp
+
+clean:
+	rm -f $(PROGS) $(OBJ) dependencies
+
+LIBS = -L. -L../lib -L /usr/local/lib/ \
+    -lsched -lboinc \
+    -lmariadb
+
+.cpp.o:
+	$(CC) -c -o $*.o $<
+
+feeder_user: $(OBJ)
+	$(CC) $(OBJ) $(LIBS) -o feeder_user
+
+feeder_dependencies: $(SRC)
+	$(CC) -M $(SRC) > feeder_dependencies
+
+include feeder_dependencies
