@@ -51,6 +51,9 @@ using std::vector;
     // failed to add new jobs, sleep for this
 #define EMPTY_BACKOFF_TIME  15
     // if job stream had no new jobs, don't query for this interval
+#define NJOBS_STARTUP   500
+    // if an idle user submits a bunch of jobs,
+    // at most this many will be picked before entering round robin
 
 #define REREAD_DB_FILENAME      "reread_db"
 
@@ -59,16 +62,16 @@ using std::vector;
 struct JOB_STREAM {
     DB_WORK_ITEM wi;
     int user_id;
-    double share;
-    double sent_share;
+    double inv_share;
+    double usage;
         // # jobs added / share
     double pause_until;
     int num_left;
 
     JOB_STREAM(int u, double s) {
         user_id = u;
-        share = s;
-        sent_share = 0;
+        inv_share = 1./s;
+        usage = 0;
         pause_until = 0;
         num_left = 0;
     }
@@ -85,6 +88,7 @@ int sleep_interval = SLEEP_INTERVAL;
 int num_work_items = MAX_WU_RESULTS;
 int enum_limit = MAX_WU_RESULTS*2;
 int purge_stale_time = 0;
+double max_usage;
 
 void cleanup_shmem() {
     ssp->ready = false;
@@ -163,15 +167,16 @@ bool JOB_STREAM::wi_is_usable() {
 
 JOB_STREAM* best_job_stream() {
     JOB_STREAM *best = NULL;
-    double best_sent_share = 1e15;
+    double best_usage = 1e15;
     double now = dtime();
     for (JOB_STREAM &js: job_streams) {
-        if (js.sent_share > best_sent_share) {
+        if (js.usage > best_usage) {
             continue;
         }
         if (js.pause_until > now) {
             continue;
         }
+        best_usage = js.usage;
         best = &js;
     }
     return best;
@@ -187,6 +192,9 @@ bool fill_slot(WU_RESULT &wr) {
             log_messages.printf(MSG_DEBUG, "No active job streams\n");
             break;
         }
+        log_messages.printf(MSG_DEBUG, "Best job stream: user %d\n",
+            js->user_id
+        );
         if (js->get_job(wr)) {
             return true;
         }
@@ -220,7 +228,15 @@ bool JOB_STREAM::scan_result_set(WU_RESULT &wu_result) {
             wu_result.state = WR_STATE_PRESENT;
             wu_result.infeasible_count = 0;
             wu_result.time_added_to_shared_memory = time(0);
-            sent_share += 1./share;
+            usage += inv_share;
+            if (usage > max_usage) {
+                double d = usage - max_usage;
+                for (JOB_STREAM &s: job_streams) {
+                    if (s.usage > d) {
+                        s.usage -= d;
+                    }
+                }
+            }
             return true;
         }
     }
@@ -319,12 +335,6 @@ void feeder_loop() {
     }
 }
 
-// write a summary of feeder state to stderr
-//
-void show_state(int) {
-    ssp->show(stderr);
-}
-
 void usage() {
     fprintf(stderr,
         "Usage: feeder_user options\n\n"
@@ -368,6 +378,32 @@ void parse_cmdline(int argc, char** argv) {
     }
 }
 
+void show_init_state() {
+    log_messages.printf(MSG_NORMAL, "feeder_user: starting\n");
+
+    log_messages.printf(MSG_NORMAL,
+        "read "
+        "%d platforms, "
+        "%d apps, "
+        "%d app_versions, "
+        "%d assignments\n",
+        ssp->nplatforms,
+        ssp->napps,
+        ssp->napp_versions,
+        ssp->nassignments
+    );
+    log_messages.printf(MSG_NORMAL,
+        "Using %d job slots\n", ssp->max_wu_results
+    );
+    log_messages.printf(MSG_NORMAL, "Users:\n");
+    for (JOB_STREAM js: job_streams) {
+        log_messages.printf(MSG_NORMAL, "ID %d inv_share %f\n",
+            js.user_id, js.inv_share
+        );
+    }
+    log_messages.printf(MSG_NORMAL, "max_usage: %f\n", max_usage);
+}
+
 void feeder_init() {
     int retval = config.parse_file();
     if (retval) {
@@ -378,8 +414,6 @@ void feeder_init() {
     }
 
     unlink(config.project_path(REREAD_DB_FILENAME));
-
-    log_messages.printf(MSG_NORMAL, "Starting\n");
 
     if (config.shmem_work_items) {
         num_work_items = config.shmem_work_items;
@@ -425,21 +459,6 @@ void feeder_init() {
     }
     ssp->scan_tables();
 
-    log_messages.printf(MSG_NORMAL,
-        "read "
-        "%d platforms, "
-        "%d apps, "
-        "%d app_versions, "
-        "%d assignments\n",
-        ssp->nplatforms,
-        ssp->napps,
-        ssp->napp_versions,
-        ssp->nassignments
-    );
-    log_messages.printf(MSG_NORMAL,
-        "Using %d job slots\n", ssp->max_wu_results
-    );
-
     retval = ssp->perf_info.get_from_db();
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
@@ -447,8 +466,17 @@ void feeder_init() {
         );
     }
 
-    signal(SIGUSR1, show_state);
     ssp->ready = true;
+
+    double x = 1e15;
+    for (JOB_STREAM &s: job_streams) {
+        if (s.inv_share < x) {
+            x = s.inv_share;
+        }
+    }
+    max_usage = NJOBS_STARTUP*x;
+
+    show_init_state();
 }
 
 int main(int argc, char** argv) {
