@@ -44,6 +44,7 @@
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CACreateProjectInitFile.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CADeleteBOINCAccounts.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CADeleteBOINCGroups.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CAGrantBOINCAdminsRights.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_parse.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_str_util.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_url.cpp" />

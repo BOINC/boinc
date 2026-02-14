@@ -18,54 +18,37 @@
 #include "boinccas_helper.h"
 
 namespace test_boinccas_CAAnnounceUpgrade {
-    using AnnounceUpgradeFn = UINT(WINAPI*)(MSIHANDLE);
-
-    class test_boinccas_CAAnnounceUpgrade : public ::testing::Test {
+    class test_boinccas_CAAnnounceUpgrade : public test_boinccas_TestBase {
     protected:
-        test_boinccas_CAAnnounceUpgrade() {
-            std::tie(hDll, hFunc) =
-                load_function_from_boinccas<AnnounceUpgradeFn>(
-                    "AnnounceUpgrade");
+        test_boinccas_CAAnnounceUpgrade() :
+            test_boinccas_TestBase("AnnounceUpgrade") {
             cleanRegistryKey();
         }
         ~test_boinccas_CAAnnounceUpgrade() override {
             cleanRegistryKey();
         }
-        void SetUp() override {
-
-        }
-
-        AnnounceUpgradeFn hFunc = nullptr;
-        MsiHelper msiHelper;
-        PMSIHANDLE hMsi;
-    private:
-        wil::unique_hmodule hDll = nullptr;
     };
 
     constexpr auto expectedVersion = "1.2.3.4";
 #ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CAAnnounceUpgrade,
         Empty_ProductVersion) {
-        PMSIHANDLE hMsi;
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        EXPECT_NE(0u, hFunc(hMsi));
+        EXPECT_NE(0u, executeAction());
         EXPECT_NE(expectedVersion, getRegistryValue("UpgradingTo"));
     }
 
     TEST_F(test_boinccas_CAAnnounceUpgrade,
         With_ProductVersion) {
-        msiHelper.insertProperties({
+        insertMsiProperties({
             {"ProductVersion", expectedVersion}
             });
-        PMSIHANDLE hMsi;
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_NE(0u, executeAction());
         EXPECT_EQ(expectedVersion, getRegistryValue("UpgradingTo"));
     }
 #endif

@@ -26,6 +26,8 @@
 
 #include "win_util.h"
 
+constexpr auto msiName = "test.msi";
+
 MsiHelper::MsiHelper() {
     originalUiLevel = MsiSetInternalUI(INSTALLUILEVEL_NONE, nullptr);
     cleanup();
@@ -156,11 +158,6 @@ void MsiHelper::insertProperties(
 }
 
 std::tuple<unsigned int, std::string> MsiHelper::getProperty(
-    const std::string& propertyName) {
-    return getProperty(hMsi, propertyName);
-}
-
-std::tuple<unsigned int, std::string> MsiHelper::getProperty(
     MSIHANDLE hMsiHandle, const std::string& propertyName) {
     DWORD size = 0;
     auto result =
@@ -182,11 +179,6 @@ std::tuple<unsigned int, std::string> MsiHelper::getProperty(
     }
 
     return { result, {} };
-}
-
-void MsiHelper::setProperty(const std::string& propertyName,
-    const std::string& propertyValue) {
-    setProperty(hMsi, propertyName, propertyValue);
 }
 
 void MsiHelper::setProperty(MSIHANDLE hMsiHandle,

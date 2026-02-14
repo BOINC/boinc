@@ -17,23 +17,6 @@
 
 #pragma once
 
-#include "wil/resource.h"
-
-template <typename F>
-std::pair<wil::unique_hmodule, F> load_function_from_boinccas(
-    const std::string& function_name) {
-    wil::unique_hmodule dll(LoadLibrary("boinccas.dll"));
-    if (!dll) {
-        throw std::runtime_error("Failed to load boinccas.dll");
-    }
-    auto func = reinterpret_cast<F>(GetProcAddress(dll.get(),
-        function_name.c_str()));
-    if (!func) {
-        throw std::runtime_error("Failed to load function: " + function_name);
-    }
-    return { std::move(dll), func };
-}
-
 std::string getRegistryValue(const std::string& valueName);
 bool setRegistryValue(const std::string& valueName,
     const std::string& valueData);
@@ -53,20 +36,14 @@ bool createLocalGroup(const std::string& groupName);
 bool deleteLocalGroup(const std::string& groupName);
 bool addUserToTheBuiltinAdministratorsGroup(wil::unique_sid&& userSid);
 
-constexpr auto msiName = "test.msi";
-
 class MsiHelper {
 public:
     MsiHelper();
     ~MsiHelper();
     void insertProperties(
         const std::vector<std::pair<std::string, std::string>>& properties);
-    std::tuple<unsigned int, std::string> getProperty(
-        const std::string& propertyName);
     std::tuple<unsigned int, std::string> getProperty(MSIHANDLE hMsiHandle,
         const std::string& propertyName);
-    void setProperty(const std::string& propertyName,
-        const std::string& propertyValue);
     void setProperty(MSIHANDLE hMsiHandle, const std::string& propertyName,
         const std::string& propertyValue);
 
@@ -82,4 +59,79 @@ private:
     void createTable(const std::string_view& sql_create);
     MSIHANDLE hMsi = 0;
     INSTALLUILEVEL originalUiLevel;
+};
+
+class test_boinccas_Base {
+    using boinccasFn = UINT(WINAPI*)(MSIHANDLE);
+public:
+    test_boinccas_Base() = delete;
+    virtual ~test_boinccas_Base() = default;
+protected:
+    test_boinccas_Base(std::string_view functionName) {
+        wil::unique_hmodule dll(LoadLibrary("boinccas.dll"));
+        if (!dll) {
+            throw std::runtime_error("Failed to load boinccas.dll");
+        }
+        auto func = reinterpret_cast<boinccasFn>(GetProcAddress(dll.get(),
+            functionName.data()));
+        if (!func) {
+            throw std::runtime_error("Failed to load function: " +
+                std::string(functionName));
+        }
+    }
+
+    auto openMsi() {
+        return MsiOpenPackage(msiHelper.getMsiHandle().c_str(), &hMsi);
+    }
+
+    auto executeAction() {
+        return hFunc(hMsi);
+    }
+
+    void insertMsiProperties(
+        const std::vector<std::pair<std::string, std::string>>& properties) {
+        msiHelper.insertProperties(properties);
+    }
+
+    std::tuple<unsigned int, std::string> getMsiProperty(
+        const std::string& propertyName) {
+        return msiHelper.getProperty(hMsi, propertyName);
+    }
+
+    void setMsiProperty(const std::string& propertyName,
+        const std::string& propertyValue) {
+        msiHelper.setProperty(hMsi, propertyName, propertyValue);
+    }
+
+    MSIHANDLE getMsiHandle() {
+        return hMsi;
+    }
+private:
+    wil::unique_hmodule hDll = nullptr;
+    boinccasFn hFunc = nullptr;
+    PMSIHANDLE hMsi;
+    MsiHelper msiHelper;
+};
+
+class test_boinccas_TestBase :
+    public test_boinccas_Base, public ::testing::Test {
+public:
+    test_boinccas_TestBase() = delete;
+    virtual ~test_boinccas_TestBase() override = default;
+protected:
+    test_boinccas_TestBase(std::string_view functionName) :
+        test_boinccas_Base(functionName) {
+    }
+};
+
+template <typename T>
+class test_boinccas_TestBase_WithParam :
+    public test_boinccas_Base, public ::testing::TestWithParam<T> {
+public:
+    test_boinccas_TestBase_WithParam() = delete;
+    virtual ~test_boinccas_TestBase_WithParam() override = default;
+protected:
+    test_boinccas_TestBase_WithParam(std::string_view functionName) :
+        test_boinccas_Base(functionName) {
+    }
 };

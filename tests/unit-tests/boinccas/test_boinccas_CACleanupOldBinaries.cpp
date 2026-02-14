@@ -18,14 +18,10 @@
 #include "boinccas_helper.h"
 
 namespace test_boinccas_CACleanupOldBinaries {
-    using CleanupOldBinariesFn = UINT(WINAPI*)(MSIHANDLE);
-
-    class test_boinccas_CACleanupOldBinaries : public ::testing::Test {
+    class test_boinccas_CACleanupOldBinaries : public test_boinccas_TestBase {
     protected:
-        test_boinccas_CACleanupOldBinaries() {
-            std::tie(hDll, hFunc) =
-                load_function_from_boinccas<CleanupOldBinariesFn>(
-                    "CleanupOldBinaries");
+        test_boinccas_CACleanupOldBinaries() :
+            test_boinccas_TestBase("CleanupOldBinaries") {
         }
 
         void TearDown() override {
@@ -55,54 +51,44 @@ namespace test_boinccas_CACleanupOldBinaries {
             createDummyFile(dirPath / "symsrv.dll");
         }
 
-        CleanupOldBinariesFn hFunc = nullptr;
-        MsiHelper msiHelper;
         std::filesystem::path testDir;
-    private:
-        wil::unique_hmodule hDll = nullptr;
     };
 
 #ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CACleanupOldBinaries,
         Empty_INSTALLDIR_Property) {
-        PMSIHANDLE hMsi;
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        EXPECT_NE(0u, hFunc(hMsi));
+        EXPECT_NE(0u, executeAction());
     }
 
     TEST_F(test_boinccas_CACleanupOldBinaries,
         NonExistent_INSTALLDIR_Directory) {
         const auto dir =
             std::filesystem::current_path() /= "non_existent_directory";
-        msiHelper.insertProperties({
+        insertMsiProperties({
             {"INSTALLDIR", dir.string().c_str()}
             });
 
-        PMSIHANDLE hMsi;
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_EQ(0u, executeAction());
     }
 
     TEST_F(test_boinccas_CACleanupOldBinaries,
         Empty_INSTALLDIR_Directory) {
         testDir = std::filesystem::current_path() /= "empty";
         std::filesystem::create_directory(testDir);
-        msiHelper.insertProperties({
+        insertMsiProperties({
             {"INSTALLDIR", testDir.string().c_str()}
             });
 
-        PMSIHANDLE hMsi;
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_EQ(0u, executeAction());
     }
 
     TEST_F(test_boinccas_CACleanupOldBinaries,
@@ -111,14 +97,12 @@ namespace test_boinccas_CACleanupOldBinaries {
         std::filesystem::create_directory(testDir);
         createTestFilesInDir(testDir);
 
-        msiHelper.insertProperties({
+        insertMsiProperties({
             {"INSTALLDIR", testDir.string().c_str()}
             });
-        PMSIHANDLE hMsi;
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_EQ(0u, executeAction());
         // verify that the directory is now empty
         EXPECT_TRUE(std::filesystem::is_empty(testDir));
     }
@@ -132,14 +116,12 @@ namespace test_boinccas_CACleanupOldBinaries {
         createDummyFile(testDir / "dummy.exe");
         createDummyFile(testDir / "dummy.dll");
 
-        msiHelper.insertProperties({
+        insertMsiProperties({
             {"INSTALLDIR", testDir.string().c_str()}
             });
-        PMSIHANDLE hMsi;
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_EQ(0u, executeAction());
         // verify that the directory is now empty
         EXPECT_FALSE(std::filesystem::is_empty(testDir));
         EXPECT_TRUE(std::filesystem::exists(testDir / "dummy.bin"));

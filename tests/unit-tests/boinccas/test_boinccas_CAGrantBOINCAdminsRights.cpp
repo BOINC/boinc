@@ -14,25 +14,24 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-//
 
-// pch.h : include file for standard system include files,
-// or project specific include files that are used frequently, but
-// are changed infrequently
-//
+#include "boinccas_helper.h"
 
-#pragma once
+namespace test_boinccas_CAGrantBOINCAdminsRights {
+    class test_boinccas_CAGrantBOINCAdminsRights :
+        public test_boinccas_TestBase {
+    protected:
+        test_boinccas_CAGrantBOINCAdminsRights() :
+            test_boinccas_TestBase("GrantBOINCAdminsRights") {
+        }
 
-#include <filesystem>
-#include <fstream>
-#include <ios>
-#include <string>
-#include <vector>
+        void TearDown() override {
+            if (localGroupExists("boinc_admins")) {
+                deleteLocalGroup("boinc_admins");
+            }
+        }
+    };
 
-#include <Windows.h>
-#include <Msi.h>
-#include <MsiQuery.h>
-
-#include "gtest/gtest.h"
-#include "tinyxml2.h"
-#include "wil/resource.h"
+#ifndef BOINCCAS_TEST
+#endif
+}

@@ -55,7 +55,7 @@ public:
             _T("symsrv.dll")
         };
 
-        for (const auto& file : filesToDelete) {
+        for (auto file : filesToDelete) {
             DeleteFile(
                 (strInstallDirectory + _T("\\") + file.data()).c_str());
         }

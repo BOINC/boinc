@@ -18,14 +18,10 @@
 #include "boinccas_helper.h"
 
 namespace test_boinccas_CACreateAcctMgrLoginFile {
-    using CreateAcctMgrLoginFileFn = UINT(WINAPI*)(MSIHANDLE);
-
-    class test_boinccas_CACreateAcctMgrLoginFile : public ::testing::Test {
+    class test_boinccas_CACreateAcctMgrLoginFile : public test_boinccas_TestBase {
     protected:
-        test_boinccas_CACreateAcctMgrLoginFile() {
-            std::tie(hDll, hFunc) =
-                load_function_from_boinccas<CreateAcctMgrLoginFileFn>(
-                    "CreateAcctMgrLoginFile");
+        test_boinccas_CACreateAcctMgrLoginFile() :
+            test_boinccas_TestBase("CreateAcctMgrLoginFile") {
         }
 
         void TearDown() override {
@@ -40,11 +36,7 @@ namespace test_boinccas_CACreateAcctMgrLoginFile {
             ofs.close();
         }
 
-        CreateAcctMgrLoginFileFn hFunc = nullptr;
-        MsiHelper msiHelper;
         std::filesystem::path testDir;
-    private:
-        wil::unique_hmodule hDll = nullptr;
     };
 
     struct AccountData {
@@ -83,73 +75,63 @@ namespace test_boinccas_CACreateAcctMgrLoginFile {
 #ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CACreateAcctMgrLoginFile,
         Empty_DATADIR_Property) {
-        PMSIHANDLE hMsi;
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        EXPECT_NE(0u, hFunc(hMsi));
+        EXPECT_NE(0u, executeAction());
     }
 
     TEST_F(test_boinccas_CACreateAcctMgrLoginFile,
         Empty_DATADIR_Directory) {
-        PMSIHANDLE hMsi;
         const auto dir = std::filesystem::current_path() /= "test_data";
-        msiHelper.insertProperties({
+        insertMsiProperties({
         {"DATADIR", dir.string().c_str()}
             });
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        EXPECT_NE(0u, hFunc(hMsi));
+        EXPECT_NE(0u, executeAction());
     }
 
     TEST_F(test_boinccas_CACreateAcctMgrLoginFile,
         Empty_DATADIR_Directory_And_ACCTMGR_LOGIN_Property_Set) {
-        PMSIHANDLE hMsi;
         testDir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(testDir);
-        msiHelper.insertProperties({
+        insertMsiProperties({
         {"DATADIR", testDir.string().c_str()},
         {"ACCTMGR_LOGIN", "testuser"}
             });
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_EQ(0u, executeAction());
     }
 
     TEST_F(test_boinccas_CACreateAcctMgrLoginFile,
         Empty_ACCTMGR_LOGIN_Property) {
-        PMSIHANDLE hMsi;
         testDir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(testDir);
-        msiHelper.insertProperties({
+        insertMsiProperties({
         {"DATADIR", testDir.string().c_str()}
             });
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_EQ(0u, executeAction());
     }
 
     TEST_F(test_boinccas_CACreateAcctMgrLoginFile,
         ACCTMGR_LOGIN_Property_Set_And_Empty_ACCTMGR_PASSWORDHASH_Property) {
-        PMSIHANDLE hMsi;
         testDir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(testDir);
-        msiHelper.insertProperties({
+        insertMsiProperties({
         {"DATADIR", testDir.string().c_str()},
         {"ACCTMGR_LOGIN", "testuser"}
             });
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_EQ(0u, executeAction());
         const auto acctMgrLoginFile = testDir / "acct_mgr_login.xml";
         EXPECT_TRUE(std::filesystem::exists(acctMgrLoginFile));
         auto [parsed, accountData] =
@@ -161,18 +143,16 @@ namespace test_boinccas_CACreateAcctMgrLoginFile {
 
     TEST_F(test_boinccas_CACreateAcctMgrLoginFile,
         ACCTMGR_LOGIN_And_ACCTMGR_PASSWORDHASH_Properties_Set) {
-        PMSIHANDLE hMsi;
         testDir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(testDir);
-        msiHelper.insertProperties({
+        insertMsiProperties({
         {"DATADIR", testDir.string().c_str()},
         {"ACCTMGR_LOGIN", "testuser"},
         {"ACCTMGR_PASSWORDHASH", "abcd1234hashvalue"}
             });
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_EQ(0u, executeAction());
         const auto acctMgrLoginFile = testDir / "acct_mgr_login.xml";
         EXPECT_TRUE(std::filesystem::exists(acctMgrLoginFile));
         auto [parsed, accountData] =
@@ -184,22 +164,20 @@ namespace test_boinccas_CACreateAcctMgrLoginFile {
 
     TEST_F(test_boinccas_CACreateAcctMgrLoginFile,
         acct_mgr_login_xml_overwrite) {
-        PMSIHANDLE hMsi;
         testDir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(testDir);
         const auto acctMgrLoginFile = testDir / "acct_mgr_login.xml";
         std::ofstream ofs(acctMgrLoginFile);
         ofs << "dummy content";
         ofs.close();
-        msiHelper.insertProperties({
+        insertMsiProperties({
         {"DATADIR", testDir.string().c_str()},
         {"ACCTMGR_LOGIN", "testuser"},
         {"ACCTMGR_PASSWORDHASH", "abcd1234hashvalue"}
             });
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_EQ(0u, executeAction());
         EXPECT_TRUE(std::filesystem::exists(acctMgrLoginFile));
         auto [parsed, accountData] =
             parseAccountXml(acctMgrLoginFile.string());

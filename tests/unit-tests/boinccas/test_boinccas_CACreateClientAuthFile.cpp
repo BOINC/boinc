@@ -18,21 +18,12 @@
 #include "boinccas_helper.h"
 
 namespace test_boinccas_CACreateClientAuthFile {
-
-    using CreateClientAuthFileFn = UINT(WINAPI*)(MSIHANDLE);
-
-    class test_boinccas_CACreateClientAuthFile : public ::testing::Test {
+    class test_boinccas_CACreateClientAuthFile :
+        public test_boinccas_TestBase {
     protected:
-        test_boinccas_CACreateClientAuthFile() {
-            std::tie(hDll, hFunc) =
-                load_function_from_boinccas<CreateClientAuthFileFn>(
-                    "CreateClientAuthFile");
+        test_boinccas_CACreateClientAuthFile() :
+            test_boinccas_TestBase("CreateClientAuthFile") {
         }
-
-        CreateClientAuthFileFn hFunc = nullptr;
-        MsiHelper msiHelper;
-    private:
-        wil::unique_hmodule hDll = nullptr;
     };
 
     struct AccountData {
@@ -78,49 +69,41 @@ namespace test_boinccas_CACreateClientAuthFile {
 #ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CACreateClientAuthFile,
         Empty_DATADIR_Property) {
-        PMSIHANDLE hMsi;
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        EXPECT_NE(0u, hFunc(hMsi));
+        EXPECT_NE(0u, executeAction());
     }
 
     TEST_F(test_boinccas_CACreateClientAuthFile,
         DATADIR_Doesnt_Exist) {
-        PMSIHANDLE hMsi;
         const auto dir = std::filesystem::current_path() /= "test_data";
-        msiHelper.insertProperties({
+        insertMsiProperties({
         {"DATADIR", dir.string().c_str()}
             });
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        EXPECT_NE(0u, hFunc(hMsi));
+        EXPECT_NE(0u, executeAction());
     }
 
     TEST_F(test_boinccas_CACreateClientAuthFile,
         ProtectionDisabled_No_XML_File_Created) {
-        PMSIHANDLE hMsi;
         const auto dir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(dir);
-        msiHelper.insertProperties({
+        insertMsiProperties({
         {"DATADIR", dir.string().c_str()}
             });
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        msiHelper.setProperty(hMsi, "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
-            "0");
+        setMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3", "0");
         auto [errorcode, value] =
-            msiHelper.getProperty(hMsi,
-                "ENABLEPROTECTEDAPPLICATIONEXECUTION3");
+            getMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("0", value);
 
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_EQ(0u, executeAction());
         const auto authFile = dir / "client_auth.xml";
         EXPECT_FALSE(std::filesystem::exists(authFile));
         std::filesystem::remove_all(dir);
@@ -128,7 +111,6 @@ namespace test_boinccas_CACreateClientAuthFile {
 
     TEST_F(test_boinccas_CACreateClientAuthFile,
         ProtectionDisabled_Existing_XML_File_Removed) {
-        PMSIHANDLE hMsi;
         const auto dir = std::filesystem::current_path() /= "test_data";
         const auto authFile = dir / "client_auth.xml";
         std::filesystem::create_directory(dir);
@@ -136,50 +118,43 @@ namespace test_boinccas_CACreateClientAuthFile {
             std::ofstream ofs(authFile);
             ofs << "<test>data</test>";
         }
-        msiHelper.insertProperties({
+        insertMsiProperties({
         {"DATADIR", dir.string().c_str()}
             });
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        msiHelper.setProperty(hMsi, "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
-            "0");
+        setMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3", "0");
         auto [errorcode, value] =
-            msiHelper.getProperty(hMsi,
-                "ENABLEPROTECTEDAPPLICATIONEXECUTION3");
+            getMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("0", value);
 
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_EQ(0u, executeAction());
         EXPECT_FALSE(std::filesystem::exists(authFile));
         std::filesystem::remove_all(dir);
     }
 
     TEST_F(test_boinccas_CACreateClientAuthFile,
         ProtectionDisabled_Existing_Opened_XML_File_Failed_To_Remove) {
-        PMSIHANDLE hMsi;
         const auto dir = std::filesystem::current_path() /= "test_data";
         const auto authFile = dir / "client_auth.xml";
         std::filesystem::create_directory(dir);
         std::ofstream ofs(authFile);
         ofs << "<test>data</test>";
-        msiHelper.insertProperties({
+        insertMsiProperties({
         {"DATADIR", dir.string().c_str()}
             });
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        msiHelper.setProperty(hMsi, "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
-            "0");
+        setMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3", "0");
         auto [errorcode, value] =
-            msiHelper.getProperty(hMsi,
-                "ENABLEPROTECTEDAPPLICATIONEXECUTION3");
+            getMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("0", value);
 
-        EXPECT_NE(0u, hFunc(hMsi));
+        EXPECT_NE(0u, executeAction());
         EXPECT_TRUE(std::filesystem::exists(authFile));
         ofs.close();
         std::filesystem::remove_all(dir);
@@ -187,201 +162,166 @@ namespace test_boinccas_CACreateClientAuthFile {
 
     TEST_F(test_boinccas_CACreateClientAuthFile,
         ProtectionEnabled_No_Username_And_Password) {
-        PMSIHANDLE hMsi;
         const auto dir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(dir);
-        msiHelper.insertProperties({
+        insertMsiProperties({
         {"DATADIR", dir.string().c_str()}
             });
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        msiHelper.setProperty(hMsi, "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
-            "1");
+        setMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3", "1");
         auto [errorcode, value] =
-            msiHelper.getProperty(hMsi,
-                "ENABLEPROTECTEDAPPLICATIONEXECUTION3");
+            getMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1", value);
 
-        EXPECT_NE(0u, hFunc(hMsi));
+        EXPECT_NE(0u, executeAction());
         std::filesystem::remove_all(dir);
     }
 
     TEST_F(test_boinccas_CACreateClientAuthFile,
         ProtectionEnabled_Empty_Username) {
-        PMSIHANDLE hMsi;
         const auto dir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(dir);
-        msiHelper.insertProperties({
+        insertMsiProperties({
         {"DATADIR", dir.string().c_str()}
             });
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        msiHelper.setProperty(hMsi, "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
-            "1");
+        setMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3", "1");
         auto [errorcode, value] =
-            msiHelper.getProperty(hMsi,
-                "ENABLEPROTECTEDAPPLICATIONEXECUTION3");
+            getMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1", value);
 
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_ISUSERNAME", "");
+        setMsiProperty("BOINC_PROJECT_ISUSERNAME", "");
         std::tie(errorcode, value) =
-            msiHelper.getProperty(hMsi,
-                "BOINC_PROJECT_ISUSERNAME");
+            getMsiProperty("BOINC_PROJECT_ISUSERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_TRUE(value.empty());
 
-        EXPECT_NE(0u, hFunc(hMsi));
+        EXPECT_NE(0u, executeAction());
         std::filesystem::remove_all(dir);
     }
 
     TEST_F(test_boinccas_CACreateClientAuthFile,
         ProtectionEnabled_Empty_Username_Valid_Password) {
-        PMSIHANDLE hMsi;
         const auto dir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(dir);
-        msiHelper.insertProperties({
+        insertMsiProperties({
         {"DATADIR", dir.string().c_str()}
             });
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        msiHelper.setProperty(hMsi, "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
-            "1");
+        setMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3", "1");
         auto [errorcode, value] =
-            msiHelper.getProperty(hMsi,
-                "ENABLEPROTECTEDAPPLICATIONEXECUTION3");
+            getMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1", value);
 
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_ISUSERNAME", "");
+        setMsiProperty("BOINC_PROJECT_ISUSERNAME", "");
         std::tie(errorcode, value) =
-            msiHelper.getProperty(hMsi,
-                "BOINC_PROJECT_ISUSERNAME");
+            getMsiProperty("BOINC_PROJECT_ISUSERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_TRUE(value.empty());
 
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_PASSWORD", "password");
+        setMsiProperty("BOINC_PROJECT_PASSWORD", "password");
         std::tie(errorcode, value) =
-            msiHelper.getProperty(hMsi,
-                "BOINC_PROJECT_PASSWORD");
+            getMsiProperty("BOINC_PROJECT_PASSWORD");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("password", value);
 
-        EXPECT_NE(0u, hFunc(hMsi));
+        EXPECT_NE(0u, executeAction());
         std::filesystem::remove_all(dir);
     }
 
     TEST_F(test_boinccas_CACreateClientAuthFile,
         ProtectionEnabled_Empty_Password) {
-        PMSIHANDLE hMsi;
         const auto dir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(dir);
-        msiHelper.insertProperties({
+        insertMsiProperties({
         {"DATADIR", dir.string().c_str()}
             });
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        msiHelper.setProperty(hMsi, "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
-            "1");
+        setMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3", "1");
         auto [errorcode, value] =
-            msiHelper.getProperty(hMsi,
-                "ENABLEPROTECTEDAPPLICATIONEXECUTION3");
+            getMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1", value);
 
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_PASSWORD", "");
-        std::tie(errorcode, value) =
-            msiHelper.getProperty(hMsi,
-                "BOINC_PROJECT_PASSWORD");
+        setMsiProperty("BOINC_PROJECT_PASSWORD", "");
+        std::tie(errorcode, value) = getMsiProperty("BOINC_PROJECT_PASSWORD");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_TRUE(value.empty());
 
-        EXPECT_NE(0u, hFunc(hMsi));
+        EXPECT_NE(0u, executeAction());
         std::filesystem::remove_all(dir);
     }
 
     TEST_F(test_boinccas_CACreateClientAuthFile,
         ProtectionEnabled_Empty_Password_ValidUsername) {
-        PMSIHANDLE hMsi;
         const auto dir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(dir);
-        msiHelper.insertProperties({
+        insertMsiProperties({
         {"DATADIR", dir.string().c_str()}
             });
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        msiHelper.setProperty(hMsi, "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
-            "1");
+        setMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3", "1");
         auto [errorcode, value] =
-            msiHelper.getProperty(hMsi,
-                "ENABLEPROTECTEDAPPLICATIONEXECUTION3");
+            getMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1", value);
 
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_ISUSERNAME", "username");
+        setMsiProperty("BOINC_PROJECT_ISUSERNAME", "username");
         std::tie(errorcode, value) =
-            msiHelper.getProperty(hMsi,
-                "BOINC_PROJECT_ISUSERNAME");
+            getMsiProperty("BOINC_PROJECT_ISUSERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("username", value);
 
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_PASSWORD", "");
-        std::tie(errorcode, value) =
-            msiHelper.getProperty(hMsi,
-                "BOINC_PROJECT_PASSWORD");
+        setMsiProperty("BOINC_PROJECT_PASSWORD", "");
+        std::tie(errorcode, value) = getMsiProperty("BOINC_PROJECT_PASSWORD");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_TRUE(value.empty());
 
-        EXPECT_NE(0u, hFunc(hMsi));
+        EXPECT_NE(0u, executeAction());
         std::filesystem::remove_all(dir);
     }
 
     TEST_F(test_boinccas_CACreateClientAuthFile,
         ProtectionEnabled_XML_File_Created) {
-        PMSIHANDLE hMsi;
         const auto dir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(dir);
-        msiHelper.insertProperties({
+        insertMsiProperties({
         {"DATADIR", dir.string().c_str()}
             });
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        msiHelper.setProperty(hMsi, "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
-            "1");
+        setMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3", "1");
         auto [errorcode, value] =
-            msiHelper.getProperty(hMsi,
-                "ENABLEPROTECTEDAPPLICATIONEXECUTION3");
+            getMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1", value);
 
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_ISUSERNAME", "test_user");
+        setMsiProperty("BOINC_PROJECT_ISUSERNAME", "test_user");
         std::tie(errorcode, value) =
-            msiHelper.getProperty(hMsi,
-                "BOINC_PROJECT_ISUSERNAME");
+            getMsiProperty("BOINC_PROJECT_ISUSERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("test_user", value);
 
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_PASSWORD", "test_password");
-        std::tie(errorcode, value) =
-            msiHelper.getProperty(hMsi,
-                "BOINC_PROJECT_PASSWORD");
+        setMsiProperty("BOINC_PROJECT_PASSWORD", "test_password");
+        std::tie(errorcode, value) = getMsiProperty("BOINC_PROJECT_PASSWORD");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("test_password", value);
 
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_EQ(0u, executeAction());
 
         const auto authFile = dir / "client_auth.xml";
         ASSERT_TRUE(std::filesystem::exists(authFile));
@@ -395,7 +335,6 @@ namespace test_boinccas_CACreateClientAuthFile {
 
     TEST_F(test_boinccas_CACreateClientAuthFile,
         ProtectionEnabled_XML_File_Overwritten) {
-        PMSIHANDLE hMsi;
         const auto dir = std::filesystem::current_path() /= "test_data";
         const auto authFile = dir / "client_auth.xml";
         std::filesystem::create_directory(dir);
@@ -403,36 +342,31 @@ namespace test_boinccas_CACreateClientAuthFile {
             std::ofstream ofs(authFile);
             ofs << "<test>data</test>";
         }
-        msiHelper.insertProperties({
+        insertMsiProperties({
         {"DATADIR", dir.string().c_str()}
             });
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        msiHelper.setProperty(hMsi, "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
-            "1");
+        setMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3", "1");
         auto [errorcode, value] =
-            msiHelper.getProperty(hMsi,
-                "ENABLEPROTECTEDAPPLICATIONEXECUTION3");
+            getMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1", value);
 
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_ISUSERNAME", "test_user");
+        setMsiProperty("BOINC_PROJECT_ISUSERNAME", "test_user");
         std::tie(errorcode, value) =
-            msiHelper.getProperty(hMsi,
+            getMsiProperty(
                 "BOINC_PROJECT_ISUSERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("test_user", value);
 
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_PASSWORD", "test_password");
-        std::tie(errorcode, value) =
-            msiHelper.getProperty(hMsi,
-                "BOINC_PROJECT_PASSWORD");
+        setMsiProperty("BOINC_PROJECT_PASSWORD", "test_password");
+        std::tie(errorcode, value) = getMsiProperty("BOINC_PROJECT_PASSWORD");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("test_password", value);
 
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_EQ(0u, executeAction());
 
         ASSERT_TRUE(std::filesystem::exists(authFile));
         auto [parsed, accountData] = parseAccountXml(authFile.string());

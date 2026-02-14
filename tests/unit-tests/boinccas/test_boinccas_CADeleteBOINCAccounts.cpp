@@ -18,15 +18,10 @@
 #include "boinccas_helper.h"
 
 namespace test_boinccas_CADeleteBOINCAccounts {
-
-    using DeleteBOINCAccountsFn = UINT(WINAPI*)(MSIHANDLE);
-
-    class test_boinccas_CADeleteBOINCAccounts : public ::testing::Test {
+    class test_boinccas_CADeleteBOINCAccounts : public test_boinccas_TestBase {
     protected:
-        test_boinccas_CADeleteBOINCAccounts() {
-            std::tie(hDll, hFunc) =
-                load_function_from_boinccas<DeleteBOINCAccountsFn>(
-                    "DeleteBOINCAccounts");
+        test_boinccas_CADeleteBOINCAccounts() :
+            test_boinccas_TestBase("DeleteBOINCAccounts") {
         }
 
         void TearDown() override {
@@ -38,72 +33,52 @@ namespace test_boinccas_CADeleteBOINCAccounts {
             }
             cleanRegistryKey();
         }
-
-        DeleteBOINCAccountsFn hFunc = nullptr;
-        MsiHelper msiHelper;
-    private:
-        wil::unique_hmodule hDll = nullptr;
-
     };
 
 #ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CADeleteBOINCAccounts,
         NoData_Expect_Success_With_No_Actions) {
-        PMSIHANDLE hMsi;
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_EQ(0u, executeAction());
     }
 
     TEST_F(test_boinccas_CADeleteBOINCAccounts,
         NoUpgrade_BOINC_MASTER_USERNAME_Is_Empty) {
-        PMSIHANDLE hMsi;
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        msiHelper.setProperty(hMsi, "BOINC_MASTER_USERNAME", "");
-        auto [errorcode, value] =
-            msiHelper.getProperty(hMsi,
-                "BOINC_MASTER_USERNAME");
+        setMsiProperty("BOINC_MASTER_USERNAME", "");
+        auto [errorcode, value] = getMsiProperty("BOINC_MASTER_USERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_TRUE(value.empty());
 
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_EQ(0u, executeAction());
     }
 
     TEST_F(test_boinccas_CADeleteBOINCAccounts,
         NoUpgrade_BOINC_PROJECT_USERNAME_Is_Empty) {
-        PMSIHANDLE hMsi;
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_USERNAME", "");
-        auto [errorcode, value] =
-            msiHelper.getProperty(hMsi,
-                "BOINC_PROJECT_USERNAME");
+        setMsiProperty("BOINC_PROJECT_USERNAME", "");
+        auto [errorcode, value] = getMsiProperty("BOINC_PROJECT_USERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_TRUE(value.empty());
 
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_EQ(0u, executeAction());
     }
 
     TEST_F(test_boinccas_CADeleteBOINCAccounts,
         NoUpgrade_BOINC_MASTER_USERNAME_Is_Set) {
-        PMSIHANDLE hMsi;
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
         constexpr auto username = "boinc_master";
 
-        msiHelper.setProperty(hMsi, "BOINC_MASTER_USERNAME", username);
-        auto [errorcode, value] =
-            msiHelper.getProperty(hMsi,
-                "BOINC_MASTER_USERNAME");
+        setMsiProperty("BOINC_MASTER_USERNAME", username);
+        auto [errorcode, value] = getMsiProperty("BOINC_MASTER_USERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ(username, value);
 
@@ -111,7 +86,7 @@ namespace test_boinccas_CADeleteBOINCAccounts {
         ASSERT_TRUE(userCreate(username, "qwerty123456!@#$%^"));
         ASSERT_TRUE(userExists(username));
 
-        ASSERT_EQ(0u, hFunc(hMsi));
+        ASSERT_EQ(0u, executeAction());
         auto userDeleted = false;
         for (auto i = 0; i < 10; ++i) {
             if (!userExists(username)) {
@@ -125,17 +100,13 @@ namespace test_boinccas_CADeleteBOINCAccounts {
 
     TEST_F(test_boinccas_CADeleteBOINCAccounts,
         NoUpgrade_BOINC_PROJECT_USERNAME_Is_Set) {
-        PMSIHANDLE hMsi;
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
         constexpr auto username = "boinc_project";
 
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_USERNAME", username);
-        auto [errorcode, value] =
-            msiHelper.getProperty(hMsi,
-                "BOINC_PROJECT_USERNAME");
+        setMsiProperty("BOINC_PROJECT_USERNAME", username);
+        auto [errorcode, value] = getMsiProperty("BOINC_PROJECT_USERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ(username, value);
 
@@ -143,7 +114,7 @@ namespace test_boinccas_CADeleteBOINCAccounts {
         ASSERT_TRUE(userCreate(username, "qwerty123456!@#$%^"));
         ASSERT_TRUE(userExists(username));
 
-        ASSERT_EQ(0u, hFunc(hMsi));
+        ASSERT_EQ(0u, executeAction());
         auto userDeleted = false;
         for (auto i = 0; i < 10; ++i) {
             if (!userExists(username)) {
@@ -157,16 +128,12 @@ namespace test_boinccas_CADeleteBOINCAccounts {
 
     TEST_F(test_boinccas_CADeleteBOINCAccounts,
         NoUpgrade_BOINC_MASTER_USERNAME_And_BOINC_PROJECT_USERNAME_Are_Set) {
-        PMSIHANDLE hMsi;
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
         constexpr auto username_master = "boinc_master";
-        msiHelper.setProperty(hMsi, "BOINC_MASTER_USERNAME", username_master);
-        auto [errorcode, value] =
-            msiHelper.getProperty(hMsi,
-                "BOINC_MASTER_USERNAME");
+        setMsiProperty("BOINC_MASTER_USERNAME", username_master);
+        auto [errorcode, value] = getMsiProperty("BOINC_MASTER_USERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ(username_master, value);
 
@@ -175,11 +142,8 @@ namespace test_boinccas_CADeleteBOINCAccounts {
         ASSERT_TRUE(userExists(username_master));
 
         constexpr auto username_project = "boinc_project";
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_USERNAME",
-            username_project);
-        std::tie(errorcode, value) =
-            msiHelper.getProperty(hMsi,
-                "BOINC_PROJECT_USERNAME");
+        setMsiProperty("BOINC_PROJECT_USERNAME", username_project);
+        std::tie(errorcode, value) = getMsiProperty("BOINC_PROJECT_USERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ(username_project, value);
 
@@ -187,7 +151,7 @@ namespace test_boinccas_CADeleteBOINCAccounts {
         ASSERT_TRUE(userCreate(username_project, "qwerty123456!@#$%^"));
         ASSERT_TRUE(userExists(username_project));
 
-        ASSERT_EQ(0u, hFunc(hMsi));
+        ASSERT_EQ(0u, executeAction());
         auto masterUserDeleted = false;
         for (auto i = 0; i < 10; ++i) {
             if (!userExists(username_master)) {
@@ -211,76 +175,58 @@ namespace test_boinccas_CADeleteBOINCAccounts {
 
     TEST_F(test_boinccas_CADeleteBOINCAccounts,
         DoUpgrade_BOINC_MASTER_USERNAME_Is_Empty) {
-        PMSIHANDLE hMsi;
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        msiHelper.setProperty(hMsi, "BOINC_MASTER_USERNAME", "");
-        auto [errorcode, value] =
-            msiHelper.getProperty(hMsi,
-                "BOINC_MASTER_USERNAME");
+        setMsiProperty("BOINC_MASTER_USERNAME", "");
+        auto [errorcode, value] = getMsiProperty("BOINC_MASTER_USERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_TRUE(value.empty());
 
-        msiHelper.setProperty(hMsi, "ProductVersion", "1.0.0");
-        std::tie(errorcode, value) =
-            msiHelper.getProperty(hMsi,
-                "ProductVersion");
+        setMsiProperty("ProductVersion", "1.0.0");
+        std::tie(errorcode, value) = getMsiProperty("ProductVersion");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1.0.0", value);
 
         ASSERT_TRUE(setRegistryValue("UpgradingTo", "2.0.0"));
 
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_EQ(0u, executeAction());
     }
 
     TEST_F(test_boinccas_CADeleteBOINCAccounts,
         DoUpgrade_BOINC_PROJECT_USERNAME_Is_Empty) {
-        PMSIHANDLE hMsi;
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_USERNAME", "");
-        auto [errorcode, value] =
-            msiHelper.getProperty(hMsi,
-                "BOINC_PROJECT_USERNAME");
+        setMsiProperty("BOINC_PROJECT_USERNAME", "");
+        auto [errorcode, value] = getMsiProperty("BOINC_PROJECT_USERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_TRUE(value.empty());
 
-        msiHelper.setProperty(hMsi, "ProductVersion", "1.0.0");
-        std::tie(errorcode, value) =
-            msiHelper.getProperty(hMsi,
-                "ProductVersion");
+        setMsiProperty("ProductVersion", "1.0.0");
+        std::tie(errorcode, value) = getMsiProperty("ProductVersion");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1.0.0", value);
 
         ASSERT_TRUE(setRegistryValue("UpgradingTo", "2.0.0"));
 
-        EXPECT_EQ(0u, hFunc(hMsi));
+        EXPECT_EQ(0u, executeAction());
     }
 
     TEST_F(test_boinccas_CADeleteBOINCAccounts,
         DoUpgrade_BOINC_MASTER_USERNAME_Is_Set) {
-        PMSIHANDLE hMsi;
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
         constexpr auto username = "boinc_master";
 
-        msiHelper.setProperty(hMsi, "BOINC_MASTER_USERNAME", username);
-        auto [errorcode, value] =
-            msiHelper.getProperty(hMsi,
-                "BOINC_MASTER_USERNAME");
+        setMsiProperty("BOINC_MASTER_USERNAME", username);
+        auto [errorcode, value] = getMsiProperty("BOINC_MASTER_USERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ(username, value);
 
-        msiHelper.setProperty(hMsi, "ProductVersion", "1.0.0");
-        std::tie(errorcode, value) =
-            msiHelper.getProperty(hMsi,
-                "ProductVersion");
+        setMsiProperty("ProductVersion", "1.0.0");
+        std::tie(errorcode, value) = getMsiProperty("ProductVersion");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1.0.0", value);
 
@@ -290,23 +236,19 @@ namespace test_boinccas_CADeleteBOINCAccounts {
         ASSERT_TRUE(userCreate(username, "qwerty123456!@#$%^"));
         ASSERT_TRUE(userExists(username));
 
-        ASSERT_EQ(0u, hFunc(hMsi));
+        ASSERT_EQ(0u, executeAction());
         EXPECT_TRUE(userExists(username));
     }
 
     TEST_F(test_boinccas_CADeleteBOINCAccounts,
         DoUpgrade_BOINC_PROJECT_USERNAME_Is_Set) {
-        PMSIHANDLE hMsi;
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
         constexpr auto username = "boinc_project";
 
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_USERNAME", username);
-        auto [errorcode, value] =
-            msiHelper.getProperty(hMsi,
-                "BOINC_PROJECT_USERNAME");
+        setMsiProperty("BOINC_PROJECT_USERNAME", username);
+        auto [errorcode, value] = getMsiProperty("BOINC_PROJECT_USERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ(username, value);
 
@@ -314,31 +256,25 @@ namespace test_boinccas_CADeleteBOINCAccounts {
         ASSERT_TRUE(userCreate(username, "qwerty123456!@#$%^"));
         ASSERT_TRUE(userExists(username));
 
-        msiHelper.setProperty(hMsi, "ProductVersion", "1.0.0");
-        std::tie(errorcode, value) =
-            msiHelper.getProperty(hMsi,
-                "ProductVersion");
+        setMsiProperty("ProductVersion", "1.0.0");
+        std::tie(errorcode, value) = getMsiProperty("ProductVersion");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1.0.0", value);
 
         ASSERT_TRUE(setRegistryValue("UpgradingTo", "2.0.0"));
 
-        ASSERT_EQ(0u, hFunc(hMsi));
+        ASSERT_EQ(0u, executeAction());
         EXPECT_TRUE(userExists(username));
     }
 
     TEST_F(test_boinccas_CADeleteBOINCAccounts,
         DoUpgrade_BOINC_MASTER_USERNAME_And_BOINC_PROJECT_USERNAME_Are_Set) {
-        PMSIHANDLE hMsi;
-        const auto result = MsiOpenPackage(msiHelper.getMsiHandle().c_str(),
-            &hMsi);
+        const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
         constexpr auto username_master = "boinc_master";
-        msiHelper.setProperty(hMsi, "BOINC_MASTER_USERNAME", username_master);
-        auto [errorcode, value] =
-            msiHelper.getProperty(hMsi,
-                "BOINC_MASTER_USERNAME");
+        setMsiProperty("BOINC_MASTER_USERNAME", username_master);
+        auto [errorcode, value] = getMsiProperty("BOINC_MASTER_USERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ(username_master, value);
 
@@ -347,11 +283,9 @@ namespace test_boinccas_CADeleteBOINCAccounts {
         ASSERT_TRUE(userExists(username_master));
 
         constexpr auto username_project = "boinc_project";
-        msiHelper.setProperty(hMsi, "BOINC_PROJECT_USERNAME",
+        setMsiProperty("BOINC_PROJECT_USERNAME",
             username_project);
-        std::tie(errorcode, value) =
-            msiHelper.getProperty(hMsi,
-                "BOINC_PROJECT_USERNAME");
+        std::tie(errorcode, value) = getMsiProperty("BOINC_PROJECT_USERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ(username_project, value);
 
@@ -359,16 +293,14 @@ namespace test_boinccas_CADeleteBOINCAccounts {
         ASSERT_TRUE(userCreate(username_project, "qwerty123456!@#$%^"));
         ASSERT_TRUE(userExists(username_project));
 
-        msiHelper.setProperty(hMsi, "ProductVersion", "1.0.0");
-        std::tie(errorcode, value) =
-            msiHelper.getProperty(hMsi,
-                "ProductVersion");
+        setMsiProperty("ProductVersion", "1.0.0");
+        std::tie(errorcode, value) = getMsiProperty("ProductVersion");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1.0.0", value);
 
         ASSERT_TRUE(setRegistryValue("UpgradingTo", "2.0.0"));
 
-        ASSERT_EQ(0u, hFunc(hMsi));
+        ASSERT_EQ(0u, executeAction());
         EXPECT_TRUE(userExists(username_master));
         EXPECT_TRUE(userExists(username_project));
     }
