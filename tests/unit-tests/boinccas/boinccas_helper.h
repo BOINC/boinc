@@ -78,6 +78,8 @@ protected:
             throw std::runtime_error("Failed to load function: " +
                 std::string(functionName));
         }
+        hDll = std::move(dll);
+        hFunc = func;
     }
 
     auto openMsi() {
