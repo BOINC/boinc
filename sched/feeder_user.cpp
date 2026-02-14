@@ -75,9 +75,9 @@ struct JOB_STREAM {
         pause_until = 0;
         num_left = 0;
     }
-    void init(double s, char* uname) {
+    void init(double s, const char* uname) {
         inv_share = 1./s;
-        strcpy(user_name, uname);
+        safe_strcpy(user_name, uname);
     }
     bool scan_result_set(WU_RESULT&);
     bool get_job(WU_RESULT&);
@@ -119,6 +119,7 @@ int check_reread_trigger() {
             log_messages.printf(MSG_CRITICAL,
                 "Can't unlink trigger file; exiting\n"
             );
+            exit(1);
         }
         log_messages.printf(MSG_NORMAL,
             "Done re-scanning: trigger file removed.\n"
@@ -343,7 +344,7 @@ void usage() {
     fprintf(stderr,
         "Usage: feeder_user options\n\n"
         "Options:\n"
-        "  --user ID share              job submitter (can have multiple)\n"
+        "  --user ID                    job submitter (can have multiple)\n"
         "  --purge_stale nsec           purge results not sent for this\n"
         "  -d X | --debug_level X       Set log verbosity to X (1..4)\n"
         "  -h | --help                  Shows this help text.\n"
@@ -383,30 +384,37 @@ void init_job_streams() {
     max_usage = NJOBS_STARTUP*x;
 }
 
+void need_arg(int argc, char** argv, int i, int count) {
+    if (i + count >= argc) {
+        log_messages.printf(MSG_CRITICAL, "missing arg for %s\n", argv[i]);
+        exit(1);
+    }
+}
+
 void parse_cmdline(int argc, char** argv) {
     for (int i=1; i<argc; i++) {
         if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
-            if (!argv[++i]) {
-                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
-                usage();
-                exit(1);
-            }
-            int dl = atoi(argv[i]);
+            need_arg(argc, argv, i, 1);
+            int dl = atoi(argv[++i]);
             log_messages.set_debug_level(dl);
             if (dl == 4) {
                 g_print_queries = true;
             }
         } else if (is_arg(argv[i], "user")) {
+            need_arg(argc, argv, i, 1);
             int user_id = atoi(argv[++i]);
             JOB_STREAM js(user_id);
             job_streams.push_back(js);
         } else if (is_arg(argv[i], "purge_stale")) {
+            need_arg(argc, argv, i, 1);
             purge_stale_time = atoi(argv[++i]);
         } else if (is_arg(argv[i], "h") || is_arg(argv[i], "help")) {
             usage();
             exit(0);
         } else {
-            log_messages.printf(MSG_CRITICAL, "unknown command line argument: %s\n\n", argv[i]);
+            log_messages.printf(MSG_CRITICAL,
+                "unknown command line argument: %s\n", argv[i]
+            );
             usage();
             exit(1);
         }
@@ -455,6 +463,11 @@ void feeder_init() {
     }
     char path[1024];
     strlcpy(path, config.project_dir, sizeof(path));
+
+    // create a semaphore to avoid race condition among schedulers.
+    // We don't use this semaphore because of the producer/consumer
+    // relationship between feeder and schedulers
+    //
     get_key(path, 'a', sema_key);
     destroy_semaphore(sema_key);
     create_semaphore(sema_key);
