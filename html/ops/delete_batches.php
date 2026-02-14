@@ -35,6 +35,8 @@ function main() {
         if (!$wus) {
             echo "deleting batch $batch->id\n";
             $batch->delete();
+            $dir = "../../results/$batch->id";
+            system("/bin/rm -rf $dir");
         }
     }
     echo "------- Finished at ".time_str(time())."-------\n";

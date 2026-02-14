@@ -507,7 +507,12 @@ function app_form($desc=null) {
         implode(' ', $desc->input_file_names)
     );
     form_input_text(
-        'Output file names<br><small>Space-separated</small>',
+        'Output file names<br><small>
+            Space-separated.
+            <br>The app must generate all of these.
+            They are uploaded to the server.
+            Do not include checkpoint or temp files.
+        </small>',
         'output_file_names',
         implode(' ', $desc->output_file_names)
     );
