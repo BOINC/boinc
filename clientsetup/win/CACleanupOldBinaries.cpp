@@ -40,7 +40,9 @@ public:
             return ERROR_INSTALL_FAILURE;
         }
 
-        constexpr std::array<std::wstring_view, 10> filesToDelete = {
+        constexpr std::array<std::wstring_view, 12> filesToDelete = {
+            _T("boinc.exe"),
+            _T("boincmgr.exe"),
             _T("boinccmd.exe"),
             _T("boinc.dll"),
             _T("libcurl.dll"),
