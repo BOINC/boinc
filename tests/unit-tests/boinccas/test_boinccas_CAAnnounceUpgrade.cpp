@@ -48,7 +48,7 @@ namespace test_boinccas_CAAnnounceUpgrade {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        EXPECT_NE(0u, executeAction());
+        EXPECT_EQ(0u, executeAction());
         EXPECT_EQ(expectedVersion, getRegistryValue("UpgradingTo"));
     }
 #endif

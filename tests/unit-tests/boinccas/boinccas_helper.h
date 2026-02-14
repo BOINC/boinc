@@ -111,8 +111,8 @@ protected:
 private:
     wil::unique_hmodule hDll = nullptr;
     boinccasFn hFunc = nullptr;
-    PMSIHANDLE hMsi;
     MsiHelper msiHelper;
+    PMSIHANDLE hMsi;
 };
 
 class test_boinccas_TestBase :
