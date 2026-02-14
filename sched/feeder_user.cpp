@@ -76,6 +76,13 @@ struct JOB_STREAM {
         num_left = 0;
     }
     void init(double s, const char* uname) {
+        if (s <= 0) {
+            log_messages.printf(MSG_CRITICAL,
+                "user %s has quota %f; using 1 instead\n",
+                uname, s
+            );
+            s = 1;
+        }
         inv_share = 1./s;
         safe_strcpy(user_name, uname);
     }
