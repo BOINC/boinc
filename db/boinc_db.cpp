@@ -2225,6 +2225,7 @@ int DB_WORK_ITEM::user_query(int limit, DB_ID_TYPE user_id) {
     if (cursor.rp) {
         mysql_free_result(cursor.rp);
         cursor.rp = NULL;
+        cursor.active = false;
     }
     sprintf(query,
         "select r1.id, r1.priority, r1.server_state, r1.report_deadline, workunit.* from result r1, workunit, batch "

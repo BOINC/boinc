@@ -239,6 +239,7 @@ bool JOB_STREAM::scan_result_set(WU_RESULT &wu_result) {
             wu_result.workunit = wi.wu;
             wu_result.state = WR_STATE_PRESENT;
             wu_result.infeasible_count = 0;
+            wu_result.need_reliable = false;
             wu_result.time_added_to_shared_memory = time(0);
             usage += inv_share;
             if (usage > max_usage) {
@@ -355,7 +356,6 @@ void usage() {
         "  --purge_stale nsec           purge results not sent for this\n"
         "  -d X | --debug_level X       Set log verbosity to X (1..4)\n"
         "  -h | --help                  Shows this help text.\n"
-        "  -v | --version               Shows version information.\n"
     );
 }
 
@@ -410,6 +410,10 @@ void parse_cmdline(int argc, char** argv) {
         } else if (is_arg(argv[i], "user")) {
             need_arg(argc, argv, i, 1);
             int user_id = atoi(argv[++i]);
+            if (user_id <= 0) {
+                log_messages.printf(MSG_CRITICAL, "bad user ID %d\n", user_id);
+                exit(1);
+            }
             JOB_STREAM js(user_id);
             job_streams.push_back(js);
         } else if (is_arg(argv[i], "purge_stale")) {

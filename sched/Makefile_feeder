@@ -17,7 +17,7 @@ SRC = \
     ../db/boinc_db.cpp
 
 clean:
-	rm -f $(PROGS) $(OBJ) dependencies
+	rm -f $(PROGS) $(OBJ) feeder_dependencies
 
 LIBS = -L. -L../lib -L /usr/local/lib/ \
     -lsched -lboinc \
