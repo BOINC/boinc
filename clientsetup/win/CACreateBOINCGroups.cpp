@@ -49,17 +49,6 @@ public:
         const auto bProtectedAppExecEnabled =
             (strEnableProtectedApplicationExecution == _T("1"));
 
-        //tstring strUsersGroupName;
-        //uiReturnValue = GetProperty(_T("GROUPALIAS_USERS"), strUsersGroupName);
-        //if (uiReturnValue != ERROR_SUCCESS) {
-        //    return uiReturnValue;
-        //}
-        //if (bProtectedAppExecEnabled && strUsersGroupName.empty()) {
-        //    LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
-        //        _T("The 'Users' group alias is empty."));
-        //    return ERROR_INSTALL_FAILURE;
-        //}
-
         tstring strBOINCMasterAccountUsername;
         uiReturnValue = GetProperty(_T("BOINC_MASTER_USERNAME"),
             strBOINCMasterAccountUsername);

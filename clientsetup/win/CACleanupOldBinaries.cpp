@@ -40,30 +40,23 @@ public:
             return ERROR_INSTALL_FAILURE;
         }
 
-        DeleteFile(tstring(strInstallDirectory +
-            _T("\\boinc.exe")).c_str());
-        DeleteFile(tstring(strInstallDirectory +
-            _T("\\boincmgr.exe")).c_str());
-        DeleteFile(tstring(strInstallDirectory +
-            _T("\\boinccmd.exe")).c_str());
-        DeleteFile(tstring(strInstallDirectory +
-            _T("\\boinc.dll")).c_str());
-        DeleteFile(tstring(strInstallDirectory +
-            _T("\\libcurl.dll")).c_str());
-        DeleteFile(tstring(strInstallDirectory +
-            _T("\\libeay32.dll")).c_str());
-        DeleteFile(tstring(strInstallDirectory +
-            _T("\\ssleay32.dll")).c_str());
-        DeleteFile(tstring(strInstallDirectory +
-            _T("\\zlib1.dll")).c_str());
-        DeleteFile(tstring(strInstallDirectory +
-            _T("\\dbghelp.dll")).c_str());
-        DeleteFile(tstring(strInstallDirectory +
-            _T("\\dbghelp95.dll")).c_str());
-        DeleteFile(tstring(strInstallDirectory +
-            _T("\\srcsrv.dll")).c_str());
-        DeleteFile(tstring(strInstallDirectory +
-            _T("\\symsrv.dll")).c_str());
+        constexpr std::array<std::wstring_view, 10> filesToDelete = {
+            _T("boinccmd.exe"),
+            _T("boinc.dll"),
+            _T("libcurl.dll"),
+            _T("libeay32.dll"),
+            _T("ssleay32.dll"),
+            _T("zlib1.dll"),
+            _T("dbghelp.dll"),
+            _T("dbghelp95.dll"),
+            _T("srcsrv.dll"),
+            _T("symsrv.dll")
+        };
+
+        for (const auto& file : filesToDelete) {
+            DeleteFile(
+                (strInstallDirectory + _T("\\") + file.data()).c_str());
+        }
 
         return ERROR_SUCCESS;
     }
