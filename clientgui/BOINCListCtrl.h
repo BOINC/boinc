@@ -104,9 +104,15 @@ private:
 #if USE_NATIVE_LISTCONTROL
 public:
    void                     PostDrawProgressBarEvent();
+   // Windows notification handler override (delegates to HandleDarkModeCustomDraw in dark mode)
+   bool                     MSWOnNotify(int idCtrl, WXLPARAM lParam, WXLPARAM *result) override;
 private:
+   // Windows dark mode: draw progress bars inside NM_CUSTOMDRAW back buffer
+   // instead of post-WM_PAINT wxClientDC (see BOINCListCtrl.cpp).
+   bool                     HandleDarkModeCustomDraw(int idCtrl, WXLPARAM lParam, WXLPARAM *result);
     void                    OnDrawProgressBar(CDrawProgressBarEvent& event);
     void                    DrawProgressBars(void);
+    void                    DrawItemProgressBar(HDC hdc, int item, int progressColumn);
 
     bool                    m_bProgressBarEventPending;
 #else
