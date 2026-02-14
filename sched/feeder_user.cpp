@@ -67,13 +67,17 @@ struct JOB_STREAM {
         // # jobs added / share
     double pause_until;
     int num_left;
+    char user_name[256];
 
-    JOB_STREAM(int u, double s) {
+    JOB_STREAM(int u) {
         user_id = u;
-        inv_share = 1./s;
         usage = 0;
         pause_until = 0;
         num_left = 0;
+    }
+    void init(double s, char* uname) {
+        inv_share = 1./s;
+        strcpy(user_name, uname);
     }
     bool scan_result_set(WU_RESULT&);
     bool get_job(WU_RESULT&);
@@ -192,8 +196,8 @@ bool fill_slot(WU_RESULT &wr) {
             log_messages.printf(MSG_DEBUG, "No active job streams\n");
             break;
         }
-        log_messages.printf(MSG_DEBUG, "Best job stream: user %d\n",
-            js->user_id
+        log_messages.printf(MSG_DEBUG, "Best job stream: user %s\n",
+            js->user_name
         );
         if (js->get_job(wr)) {
             return true;
@@ -347,6 +351,38 @@ void usage() {
     );
 }
 
+// for each job stream, look up user and set share based on quota
+//
+void init_job_streams() {
+    double x = 1e15;
+    for (JOB_STREAM &js: job_streams) {
+        DB_USER user;
+        int retval = user.lookup_id(js.user_id);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL, "user %d not found\n",
+                js.user_id
+            );
+            exit(1);
+        }
+        DB_USER_SUBMIT us;
+        char buf[256];
+        sprintf(buf, "where user_id=%d", js.user_id);
+        retval = us.lookup(buf);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL, "user submit %d not found\n",
+                js.user_id
+            );
+            exit(1);
+        }
+        js.init(us.quota, user.name);
+
+        if (js.inv_share < x) {
+            x = js.inv_share;
+        }
+    }
+    max_usage = NJOBS_STARTUP*x;
+}
+
 void parse_cmdline(int argc, char** argv) {
     for (int i=1; i<argc; i++) {
         if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
@@ -362,8 +398,7 @@ void parse_cmdline(int argc, char** argv) {
             }
         } else if (is_arg(argv[i], "user")) {
             int user_id = atoi(argv[++i]);
-            double share = atof(argv[++i]);
-            JOB_STREAM js(user_id, share);
+            JOB_STREAM js(user_id);
             job_streams.push_back(js);
         } else if (is_arg(argv[i], "purge_stale")) {
             purge_stale_time = atoi(argv[++i]);
@@ -397,8 +432,8 @@ void show_init_state() {
     );
     log_messages.printf(MSG_NORMAL, "Users:\n");
     for (JOB_STREAM js: job_streams) {
-        log_messages.printf(MSG_NORMAL, "ID %d inv_share %f\n",
-            js.user_id, js.inv_share
+        log_messages.printf(MSG_NORMAL, "ID %d name %s inv_share %f\n",
+            js.user_id, js.user_name, js.inv_share
         );
     }
     log_messages.printf(MSG_NORMAL, "max_usage: %f\n", max_usage);
@@ -468,13 +503,7 @@ void feeder_init() {
 
     ssp->ready = true;
 
-    double x = 1e15;
-    for (JOB_STREAM &s: job_streams) {
-        if (s.inv_share < x) {
-            x = s.inv_share;
-        }
-    }
-    max_usage = NJOBS_STARTUP*x;
+    init_job_streams();
 
     show_init_state();
 }
