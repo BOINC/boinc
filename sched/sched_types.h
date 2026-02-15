@@ -570,7 +570,7 @@ struct SCHEDULER_REPLY {
     void insert_workunit_unique(WORKUNIT&);
     void insert_result(SCHED_DB_RESULT&);
     void insert_message(const char* msg, const char* prio);
-    void insert_message(USER_MESSAGE&);
+    void insert_message(const USER_MESSAGE&);
     void set_delay(double);
 };
 

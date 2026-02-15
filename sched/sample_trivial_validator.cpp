@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -31,7 +31,7 @@ void validate_handler_usage() {
     //);
 }
 
-int init_result(RESULT& result, void*&) {
+int init_result(const RESULT& result, void*&) {
     // treat client errors as long-term failures,
     // so that we'll limit the host to 1 job a day
     //

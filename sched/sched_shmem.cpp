@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -205,8 +205,7 @@ int SCHED_SHMEM::scan_tables() {
                     }
                 }
             }
-            for (unsigned int k=0; k<avs.size(); k++) {
-                APP_VERSION& av1 = avs[k];
+            for (APP_VERSION& av1: avs) {
                 if (sapp.min_version) {
                     if (av1.version_num < sapp.min_version) {
                         boinc::fprintf(stderr, "version too small %d < %d\n",
@@ -264,7 +263,7 @@ int SCHED_SHMEM::scan_tables() {
     return 0;
 }
 
-PLATFORM* SCHED_SHMEM::lookup_platform(char* name) {
+PLATFORM* SCHED_SHMEM::lookup_platform(const char* name) {
     for (int i=0; i<nplatforms; i++) {
         if (!strcmp(platforms[i].name, name)) {
             return &platforms[i];

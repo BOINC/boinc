@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -152,11 +152,10 @@ int handle_wu(
 ) {
     int ntotal, nerrors, retval, ninprogress, nsuccess;
     int nunsent, ncouldnt_send, nover, ndidnt_need, nno_reply;
-    int canonical_result_index, j;
+    int canonical_result_index;
     char suffix[256];
     time_t now = time(0), x;
     bool all_over_and_validated, have_new_result_to_validate, do_delete;
-    unsigned int i;
 
     TRANSITIONER_ITEM& wu_item = items[0];
     TRANSITIONER_ITEM wu_item_original = wu_item;
@@ -181,7 +180,7 @@ int handle_wu(
     //
     canonical_result_index = -1;
     if (wu_item.canonical_resultid) {
-        for (i=0; i<items.size(); i++) {
+        for (unsigned int i=0; i<items.size(); i++) {
             TRANSITIONER_ITEM& res_item = items[i];
             if (!res_item.res_id) continue;
             if (res_item.res_id == wu_item.canonical_resultid) {
@@ -214,9 +213,7 @@ int handle_wu(
     // 4) see if we have a new result to validate
     //    (outcome SUCCESS and validate_state INIT)
     //
-    for (i=0; i<items.size(); i++) {
-        TRANSITIONER_ITEM& res_item = items[i];
-
+    for (TRANSITIONER_ITEM& res_item: items) {
         if (!res_item.res_id) continue;
         ntotal++;
 
@@ -397,8 +394,7 @@ int handle_wu(
     // and trigger assimilation if needed
     //
     if (wu_item.error_mask) {
-        for (i=0; i<items.size(); i++) {
-            TRANSITIONER_ITEM& res_item = items[i];
+        for (TRANSITIONER_ITEM& res_item: items) {
             if (!res_item.res_id) continue;
             bool update_result = false;
             switch(res_item.res_server_state) {
@@ -457,7 +453,7 @@ int handle_wu(
                 wu_item.id, wu_item.name, n_new_results_needed,
                 wu_item.target_nresults, nunsent, ninprogress, nsuccess
             );
-            for (j=0; j<n_new_results_needed; j++) {
+            for (int j=0; j<n_new_results_needed; j++) {
                 sprintf(suffix, "%d", max_result_suffix+j+1);
                 const char *rtfpath = config.project_path("%s", wu_item.result_template_file);
                 int priority_increase = 0;
@@ -502,8 +498,7 @@ int handle_wu(
     bool all_over_and_ready_to_assimilate = true;
         // used for the defer assimilation
     double most_recently_returned = 0;
-    for (i=0; i<items.size(); i++) {
-        TRANSITIONER_ITEM& res_item = items[i];
+    for (const TRANSITIONER_ITEM& res_item: items) {
         if (!res_item.res_id) continue;
         if (res_item.res_server_state == RESULT_SERVER_STATE_OVER) {
             if (res_item.res_received_time > most_recently_returned) {
@@ -559,7 +554,7 @@ int handle_wu(
             // output of error results can be deleted immediately;
             // output of success results can be deleted if validated
             //
-            for (i=0; i<items.size(); i++) {
+            for (unsigned i=0; i<items.size(); i++) {
                 TRANSITIONER_ITEM& res_item = items[i];
 
                 // can delete canonical result outputs only if all successful
@@ -631,8 +626,7 @@ int handle_wu(
 
     // handle timeout of in-progress results
     //
-    for (i=0; i<items.size(); i++) {
-        TRANSITIONER_ITEM& res_item = items[i];
+    for (const TRANSITIONER_ITEM& res_item: items) {
         if (!res_item.res_id) continue;
         if (res_item.res_server_state == RESULT_SERVER_STATE_IN_PROGRESS) {
             x = res_item.res_report_deadline;

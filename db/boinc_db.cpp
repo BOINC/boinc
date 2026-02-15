@@ -2397,7 +2397,7 @@ int DB_SCHED_RESULT_ITEM_SET::enumerate() {
     return 0;
 }
 
-int DB_SCHED_RESULT_ITEM_SET::add_result(char* result_name) {
+int DB_SCHED_RESULT_ITEM_SET::add_result(const char* result_name) {
     SCHED_RESULT_ITEM result;
     result.id = 0;
     strcpy2(result.queried_name, result_name);
@@ -2405,7 +2405,7 @@ int DB_SCHED_RESULT_ITEM_SET::add_result(char* result_name) {
     return 0;
 }
 
-int DB_SCHED_RESULT_ITEM_SET::lookup_result(char* result_name, SCHED_RESULT_ITEM** rip) {
+int DB_SCHED_RESULT_ITEM_SET::lookup_result(const char* result_name, SCHED_RESULT_ITEM** rip) {
     unsigned int i;
     for (i=0; i<results.size(); i++) {
         if (!strcmp(results[i].name, result_name)) {

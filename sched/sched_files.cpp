@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -60,8 +60,7 @@ int init_file_delete_regex() {
 }
 
 int do_file_delete_regex() {
-    for (unsigned int i=0; i<g_request->file_infos.size(); i++) {
-        FILE_INFO& fi = g_request->file_infos[i];
+    for (const FILE_INFO& fi: g_request->file_infos) {
         bool found = false;
         for (unsigned int j=0; j<file_delete_regex.size(); j++) {
             regex_t& re = file_delete_regex[j];

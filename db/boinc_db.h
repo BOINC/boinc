@@ -417,14 +417,14 @@ public:
     DB_SCHED_RESULT_ITEM_SET(DB_CONN* p=0);
     std::vector<SCHED_RESULT_ITEM> results;
 
-    int add_result(char* result_name);
+    int add_result(const char* result_name);
 
     int enumerate();
         // using a single SQL query, look up all the reported results,
         // (based on queried_name)
         // and fill in the rest of the entries in the results vector
 
-    int lookup_result(char* result_name, SCHED_RESULT_ITEM** result);
+    int lookup_result(const char* result_name, SCHED_RESULT_ITEM** result);
 
     int update_result(SCHED_RESULT_ITEM& result);
     int update_workunits();
