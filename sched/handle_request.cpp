@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -753,7 +753,7 @@ int send_result_abort() {
 
     // loop through the results and send the appropriate message (if any)
     //
-    for (OTHER_RESULT& orp: g_request->other_results) {
+    for (const OTHER_RESULT& orp: g_request->other_results) {
         if (orp.abort) {
             g_reply->result_aborts.push_back(orp.name);
             log_messages.printf(MSG_NORMAL,
@@ -1043,7 +1043,7 @@ void warn_user_if_core_client_upgrade_scheduled() {
 bool unacceptable_os() {
     char buf[1024];
 
-    for (regex_t& re: *config.ban_os) {
+    for (const regex_t& re: *config.ban_os) {
         safe_strcpy(buf, g_request->host.os_name);
         safe_strcat(buf, "\t");
         safe_strcat(buf, g_request->host.os_version);
@@ -1067,7 +1067,7 @@ bool unacceptable_os() {
 bool unacceptable_cpu() {
     char buf[1024];
 
-    for (regex_t& re: *config.ban_cpu) {
+    for (const regex_t& re: *config.ban_cpu) {
         safe_strcpy(buf, g_request->host.p_vendor);
         safe_strcat(buf, "\t");
         safe_strcat(buf, g_request->host.p_model);
@@ -1112,7 +1112,7 @@ void handle_msgs_from_host() {
     DB_MSG_FROM_HOST mfh;
     int retval;
 
-    for (MSG_FROM_HOST_DESC& md: g_request->msgs_from_host) {
+    for (const MSG_FROM_HOST_DESC& md: g_request->msgs_from_host) {
         g_reply->send_msg_ack = true;
         mfh.clear();
         mfh.create_time = time(0);
@@ -1367,7 +1367,7 @@ void process_request(char* code_sign_key) {
     // if primary platform is anonymous, ignore alternate platforms
     //
     if (strcmp(g_request->platform.name, "anonymous")) {
-        for (CLIENT_PLATFORM &p: g_request->alt_platforms) {
+        for (const CLIENT_PLATFORM &p: g_request->alt_platforms) {
             platform = ssp->lookup_platform(p.name);
             if (platform) {
                 g_request->platforms.list.push_back(platform);
@@ -1520,7 +1520,7 @@ static void log_incomplete_request() {
 }
 
 static void log_user_messages() {
-    for (USER_MESSAGE &um: g_reply->messages) {
+    for (const USER_MESSAGE &um: g_reply->messages) {
         log_messages.printf(MSG_NORMAL,
             "[user_messages] [HOST#%lu] MSG(%s) %s\n",
             g_reply->host.id, um.priority.c_str(), um.message.c_str()

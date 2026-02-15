@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -139,7 +139,7 @@ int send_nci() {
     // scan through the list of in-progress jobs,
     // flagging the associated apps as having jobs
     //
-    for (OTHER_RESULT& ores: g_request->other_results) {
+    for (const OTHER_RESULT& ores: g_request->other_results) {
         DB_RESULT r;
         sprintf(buf, "where name='%s'", ores.name);
         retval = r.lookup(buf);

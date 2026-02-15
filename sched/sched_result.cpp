@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -118,7 +118,7 @@ int handle_results() {
     // copy reported results to a separate vector, "result_handler",
     // initially with only the "name" field present
     //
-    for (SCHED_DB_RESULT& r: g_request->results) {
+    for (const SCHED_DB_RESULT& r: g_request->results) {
         result_handler.add_result(r.name);
     }
 
@@ -151,7 +151,7 @@ int handle_results() {
     // In other words, the only time we don't ack a result is when
     // it looks OK but the update failed.
     //
-    for (SCHED_DB_RESULT& r: g_request->results) {
+    for (const SCHED_DB_RESULT& r: g_request->results) {
         retval = result_handler.lookup_result(r.name, &srip);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,

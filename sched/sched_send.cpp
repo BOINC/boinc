@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -64,7 +64,7 @@ const double DEFAULT_RAM_SIZE = 64000000;
 int selected_app_message_index=0;
 
 static inline bool file_present_on_host(const char* name) {
-    for (FILE_INFO& fi: g_request->file_infos) {
+    for (const FILE_INFO& fi: g_request->file_infos) {
         if (!strstr(name, fi.name)) {
             return true;
         }
@@ -769,7 +769,7 @@ int update_wu_on_send(WORKUNIT wu, time_t x, APP& app, BEST_APP_VERSION& bav) {
 // return true iff a result for same WU is already being sent
 //
 bool wu_already_in_reply(WORKUNIT& wu) {
-    for (SCHED_DB_RESULT &r: g_reply->results) {
+    for (const SCHED_DB_RESULT &r: g_reply->results) {
         if (wu.id == r.workunitid) {
             return true;
         }
@@ -1320,7 +1320,7 @@ static void send_user_messages() {
 
             // Inform the user about applications with no work
             //
-            for (APP_INFO& ai: g_wreq->project_prefs.selected_apps) {
+            for (const APP_INFO& ai: g_wreq->project_prefs.selected_apps) {
                 if (!ai.work_available) {
                     APP* app = ssp->lookup_app(ai.appid);
                     // don't write message if the app is deprecated
@@ -1359,7 +1359,7 @@ static void send_user_messages() {
 
         // Tell the user about applications with no work
         //
-        for (APP_INFO& ai: g_wreq->project_prefs.selected_apps) {
+        for (const APP_INFO& ai: g_wreq->project_prefs.selected_apps) {
             if (!ai.work_available) {
                 APP* app = ssp->lookup_app(ai.appid);
                 // don't write message if the app is deprecated
@@ -1372,7 +1372,7 @@ static void send_user_messages() {
             }
         }
 
-        for (USER_MESSAGE& um: g_wreq->no_work_messages){
+        for (const USER_MESSAGE& um: g_wreq->no_work_messages){
             g_reply->insert_message(um);
         }
 
@@ -1478,7 +1478,7 @@ void send_work_setup() {
         for (int i=0; i<NPROC_TYPES; i++) {
             g_wreq->client_has_apps_for_proc_type[i] = false;
         }
-        for (CLIENT_APP_VERSION& cav: g_request->client_app_versions) {
+        for (const CLIENT_APP_VERSION& cav: g_request->client_app_versions) {
             int pt = cav.host_usage.proc_type;
             g_wreq->client_has_apps_for_proc_type[pt] = true;
         }
@@ -1512,7 +1512,7 @@ void send_work_setup() {
         }
     }
 
-    for (OTHER_RESULT& r: g_request->other_results) {
+    for (const OTHER_RESULT& r: g_request->other_results) {
         APP* app = NULL;
         int proc_type = PROC_TYPE_CPU;
         bool have_cav = false;
@@ -1585,7 +1585,7 @@ void send_work_setup() {
             log_messages.printf(MSG_NORMAL,
                 "[send] Anonymous platform app versions:\n"
             );
-            for (CLIENT_APP_VERSION& cav: g_request->client_app_versions) {
+            for (const CLIENT_APP_VERSION& cav: g_request->client_app_versions) {
                 char buf[256];
                 strcpy(buf, "");
                 int pt = cav.host_usage.proc_type;
@@ -1627,7 +1627,7 @@ int update_host_app_versions(vector<SCHED_DB_RESULT>& results, int hostid) {
     vector<DB_HOST_APP_VERSION> new_havs;
     int retval;
 
-    for (SCHED_DB_RESULT& r: results) {
+    for (const SCHED_DB_RESULT& r: results) {
         int gavid = generalized_app_version_id(r.app_version_id, r.appid);
         DB_HOST_APP_VERSION* havp = gavid_to_havp(gavid);
         if (!havp) {

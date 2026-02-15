@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -84,7 +84,7 @@ int assimilate_handler(
         vector<OUTPUT_FILE_INFO> output_files;
         get_output_file_infos(canonical_result, output_files);
         bool file_copied = false;
-        for (OUTPUT_FILE_INFO& fi: output_files) {
+        for (const OUTPUT_FILE_INFO& fi: output_files) {
             sprintf(buf, "%s/%d/%s__file_%s",
                 outdir, wu.batch, wu.name, fi.logical_name.c_str()
             );

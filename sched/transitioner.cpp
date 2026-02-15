@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -498,7 +498,7 @@ int handle_wu(
     bool all_over_and_ready_to_assimilate = true;
         // used for the defer assimilation
     double most_recently_returned = 0;
-    for (TRANSITIONER_ITEM& res_item: items) {
+    for (const TRANSITIONER_ITEM& res_item: items) {
         if (!res_item.res_id) continue;
         if (res_item.res_server_state == RESULT_SERVER_STATE_OVER) {
             if (res_item.res_received_time > most_recently_returned) {
@@ -626,7 +626,7 @@ int handle_wu(
 
     // handle timeout of in-progress results
     //
-    for (TRANSITIONER_ITEM& res_item: items) {
+    for (const TRANSITIONER_ITEM& res_item: items) {
         if (!res_item.res_id) continue;
         if (res_item.res_server_state == RESULT_SERVER_STATE_IN_PROGRESS) {
             x = res_item.res_report_deadline;

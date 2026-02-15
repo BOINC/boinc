@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -1044,7 +1044,7 @@ bool app_plan(
 }
 
 void handle_file_xfer_results() {
-    for (RESULT& r: g_request->file_xfer_results) {
+    for (const RESULT& r: g_request->file_xfer_results) {
         log_messages.printf(MSG_NORMAL, "completed file xfer %s\n", r.name);
         g_reply->result_acks.push_back(string(r.name));
     }

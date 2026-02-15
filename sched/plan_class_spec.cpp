@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -286,7 +286,7 @@ bool PLAN_CLASS_SPEC::check(
         }
         downcase_string(buf);
 
-        for (string &s: cpu_features) {
+        for (const string &s: cpu_features) {
             if (!strstr(buf, s.c_str())) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
@@ -1130,7 +1130,7 @@ bool PLAN_CLASS_SPECS::wu_is_infeasible(
     const char* plan_class_name, const WORKUNIT* wu
 ) {
     if (wu_restricted_plan_class) {
-        for (PLAN_CLASS_SPEC& spec: classes) {
+        for (const PLAN_CLASS_SPEC& spec: classes) {
             if(!strcmp(spec.name, plan_class_name)) {
                 return wu_is_infeasible_for_plan_class(&spec, wu);
             }
@@ -1393,7 +1393,7 @@ int main() {
         sreq.coprocs.ati.count = 0;
     }
 
-    for (PLAN_CLASS_SPEC& spec: pcs.classes) {
+    for (const PLAN_CLASS_SPEC& spec: pcs.classes) {
         WORKUNIT wu;
         wu.id = 100;
         wu.batch = 100;

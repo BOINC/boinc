@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -150,7 +150,7 @@ int get_output_file_paths(RESULT const& result, vector<string>& paths) {
     int retval = get_output_file_infos(result, fis);
     if (retval) return retval;
     paths.clear();
-    for (OUTPUT_FILE_INFO& fi: fis) {
+    for (const OUTPUT_FILE_INFO& fi: fis) {
         paths.push_back(fi.path);
     }
     return 0;
@@ -195,7 +195,7 @@ struct FILE_REF {
 
 // given a path returned by the above, get the corresponding logical name
 //
-int get_logical_name(RESULT& result, string& path, string& name) {
+int get_logical_name(RESULT& result, const string& path, string& name) {
     char buf[1024], phys_name[1024];
     MIOFILE mf;
     int retval;

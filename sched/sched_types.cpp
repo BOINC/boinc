@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -229,7 +229,7 @@ void PROJECT_PREFS::parse() {
 }
 
 void WORK_REQ::add_no_work_message(const char* message) {
-    for (USER_MESSAGE& m: no_work_messages) {
+    for (const USER_MESSAGE& m: no_work_messages) {
         if (!strcmp(message, m.message.c_str())){
             return;
         }
@@ -467,7 +467,7 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
             // Shouldn't happen, but if it does bad things will happen
             //
             bool found = false;
-            for (SCHED_DB_RESULT& r: results) {
+            for (const SCHED_DB_RESULT& r: results) {
                 if (!strcmp(r.name, result.name)) {
                     found = true;
                     break;
@@ -629,7 +629,7 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
         is_anonymous(platforms.list[0])?"true":"false"
     );
 
-    for (CLIENT_APP_VERSION& cav: client_app_versions) {
+    for (const CLIENT_APP_VERSION& cav: client_app_versions) {
         boinc::fprintf(fout,
             "  <app_version>\n"
             "    <app_name>%s</app_name>\n"
@@ -672,7 +672,7 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
         host.d_boinc_max
     );
 
-    for (SCHED_DB_RESULT& r: results) {
+    for (const SCHED_DB_RESULT& r: results) {
         boinc::fprintf(fout,
             "  <result>\n"
             "    <name>%s</name>\n"
@@ -689,7 +689,7 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
         );
     }
 
-    for (MSG_FROM_HOST_DESC& m: msgs_from_host) {
+    for (const MSG_FROM_HOST_DESC& m: msgs_from_host) {
         boinc::fprintf(fout,
             "  <msg_from_host>\n"
             "    <variety>%s</variety>\n"
@@ -700,7 +700,7 @@ int SCHEDULER_REQUEST::write(FILE* fout) {
         );
     }
 
-    for (FILE_INFO& fi: file_infos) {
+    for (const FILE_INFO& fi: file_infos) {
         boinc::fprintf(fout,
             "  <file_info>\n"
             "    <name>%s</name>\n"
@@ -805,7 +805,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     if (sreq.core_client_version <= 41900) {
         string msg;
         string pri = "low";
-        for (USER_MESSAGE& um: messages) {
+        for (const USER_MESSAGE& um: messages) {
             msg += um.message + string(" ");
             if (um.priority == "notice") {
                 pri = "notice";
@@ -827,7 +827,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         }
     } else if (sreq.core_client_version <= 61100) {
         char prio[256];
-        for (USER_MESSAGE& um: messages) {
+        for (const USER_MESSAGE& um: messages) {
             safe_strcpy(prio, um.priority.c_str());
             if (!strcmp(prio, "notice")) {
                 strcpy(prio, "high");
@@ -839,7 +839,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
             );
         }
     } else {
-        for (USER_MESSAGE& um: messages) {
+        for (const USER_MESSAGE& um: messages) {
             boinc::fprintf(fout,
                 "<message priority=\"%s\">%s</message>\n",
                 um.priority.c_str(),
@@ -955,7 +955,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
 
     // acknowledge results
     //
-    for (string &s: result_acks) {
+    for (const string &s: result_acks) {
         boinc::fprintf(fout,
             "<result_ack>\n"
             "    <name>%s</name>\n"
@@ -966,7 +966,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
 
     // abort results
     //
-    for (string &s: result_aborts) {
+    for (const string &s: result_aborts) {
         boinc::fprintf(fout,
             "<result_abort>\n"
             "    <name>%s</name>\n"
@@ -977,7 +977,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
 
     // abort results not started
     //
-    for (string &s: result_abort_if_not_starteds) {
+    for (const string &s: result_abort_if_not_starteds) {
         boinc::fprintf(fout,
             "<result_abort_if_not_started>\n"
             "    <name>%s</name>\n"
@@ -1019,7 +1019,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         boinc::fputs("<message_ack/>\n", fout);
     }
 
-    for (MSG_TO_HOST& md: msgs_to_host) {
+    for (const MSG_TO_HOST& md: msgs_to_host) {
         boinc::fprintf(fout, "%s\n", md.xml);
     }
 
@@ -1035,13 +1035,13 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         boinc::fprintf(fout, "<verify_files_on_app_start/>\n");
     }
 
-    for (FILE_INFO &fi: file_deletes) {
+    for (const FILE_INFO &fi: file_deletes) {
         boinc::fprintf(fout,
             "<delete_file_info>%s</delete_file_info>\n",
             fi.name
         );
     }
-    for (string &s: file_transfer_requests) {
+    for (const string &s: file_transfer_requests) {
         boinc::fprintf(fout, "%s", s.c_str());
     }
 
@@ -1116,21 +1116,21 @@ void SCHEDULER_REPLY::set_delay(double delay) {
 
 
 void SCHEDULER_REPLY::insert_app_unique(APP& app) {
-    for (APP &a: apps) {
+    for (const APP &a: apps) {
         if (app.id == a.id) return;
     }
     apps.push_back(app);
 }
 
 void SCHEDULER_REPLY::insert_app_version_unique(APP_VERSION& av) {
-    for (APP_VERSION &av2: app_versions) {
+    for (const APP_VERSION &av2: app_versions) {
         if (av2.id == av.id) return;
     }
     app_versions.push_back(av);
 }
 
 void SCHEDULER_REPLY::insert_workunit_unique(WORKUNIT& wu) {
-    for (WORKUNIT &wu2: wus) {
+    for (const WORKUNIT &wu2: wus) {
         if (wu.id == wu2.id) return;
     }
     wus.push_back(wu);
@@ -1144,7 +1144,7 @@ void SCHEDULER_REPLY::insert_message(const char* msg, const char* prio) {
     messages.push_back(USER_MESSAGE(msg, prio));
 }
 
-void SCHEDULER_REPLY::insert_message(USER_MESSAGE& um) {
+void SCHEDULER_REPLY::insert_message(const USER_MESSAGE& um) {
     messages.push_back(um);
 }
 

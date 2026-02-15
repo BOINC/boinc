@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -118,7 +118,7 @@ bool resend_lost_work() {
         }
 
         bool found = false;
-        for (OTHER_RESULT& orp: g_request->other_results) {
+        for (const OTHER_RESULT& orp: g_request->other_results) {
             if (!strcmp(orp.name, result.name)) {
                 found = true;
                 break;

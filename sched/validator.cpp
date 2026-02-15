@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -192,8 +192,8 @@ void scan_punitive(vector<VALIDATOR_ITEM>& items) {
     void* data=NULL;
     char buf[256];
 
-    for (VALIDATOR_ITEM& vi: items) {
-        RESULT& result = vi.res;
+    for (const VALIDATOR_ITEM& vi: items) {
+        const RESULT& result = vi.res;
         if (result.server_state != RESULT_SERVER_STATE_OVER) continue;
         if (result.outcome != RESULT_OUTCOME_CLIENT_ERROR) continue;
         if (init_result(result, data) == VAL_RESULT_LONG_TERM_FAIL) {
@@ -542,7 +542,7 @@ int handle_wu(
                     }
                 } else if (post_assigned_credit) {
                     credit = 0;
-                    for (RESULT& result: viable_results) {
+                    for (const RESULT& result: viable_results) {
                         if (result.id != canonicalid) {
                             continue;
                         }
