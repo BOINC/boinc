@@ -367,21 +367,13 @@ void SCHED_SHMEM::show(FILE* f) {
         );
     }
     boinc::fprintf(f,
-        "Jobs; key:\n"
-        "ap: app ID\n"
-        "ic: infeasible count\n"
-        "wu: workunit ID\n"
-        "rs: result ID\n"
-        "hr: HR class\n"
-        "nr: need reliable\n"
+        "host fpops mean %.2f GFLOPS stddev %.2f GFLOPS\n",
+        perf_info.host_fpops_mean/1e9, perf_info.host_fpops_stddev/1e9
     );
     boinc::fprintf(f,
-        "host fpops mean %f stddev %f\n",
-        perf_info.host_fpops_mean, perf_info.host_fpops_stddev
-    );
-    boinc::fprintf(f,
-        "host fpops 50th pctile %f 95th pctile %f\n",
-        perf_info.host_fpops_50_percentile, perf_info.host_fpops_95_percentile
+        "host fpops 50th pctile %.2f GFLOPS 95th pctile %.2f GFLOPS\n",
+        perf_info.host_fpops_50_percentile/1e9,
+        perf_info.host_fpops_95_percentile/1e9
     );
     boinc::fprintf(f, "ready: %d\n", ready);
     boinc::fprintf(f, "max_wu_results: %d\n", max_wu_results);

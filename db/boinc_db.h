@@ -320,7 +320,7 @@ struct WORK_ITEM {
     int res_server_state;
     double res_report_deadline;
     WORKUNIT wu;
-    void parse(MYSQL_ROW& row, bool batch_accel=false);
+    void parse(MYSQL_ROW& row);
 };
 
 class DB_WORK_ITEM : public WORK_ITEM, public DB_BASE_SPECIAL {
@@ -328,21 +328,25 @@ class DB_WORK_ITEM : public WORK_ITEM, public DB_BASE_SPECIAL {
         // when enumerate_all is used, keeps track of which ID to start from
 public:
     DB_WORK_ITEM(DB_CONN* p=0);
+    // used by feeder:
     int enumerate(
-        int limit, const char* select_clause, const char* order_clause,
-        bool batch_accel
+        int limit, const char* select_clause, const char* order_clause
     );
-        // used by feeder
-    int enumerate_all(
-        int limit, const char* select_clause
-    );
+    int enumerate_all(int limit, const char* select_clause);
         // used by feeder when HR is used.
         // Successive calls cycle through all results.
+
+    // used by feeder_user:
+    int user_query(int limit, DB_ID_TYPE user_id);
+        // get jobs submitted by user
+    int user_num_rows();
+    int user_fetch_row();
+
+    // used by scheduler:
     int read_result();
-        // used by scheduler to read result server state
+        // read result server state
     int update();
-        // used by scheduler to update WU transition time
-        // and various result fields
+        // update WU transition time and various result fields
 };
 
 // Used by the scheduler to send <result_abort> or <result_abort_if_not_started>

@@ -108,6 +108,7 @@ schedshare_PROGRAMS = \
     db_dump \
     db_purge \
     feeder \
+    feeder_user \
     file_deleter \
     message_handler \
     sample_assimilator \
@@ -203,6 +204,11 @@ feeder_SOURCES = \
     hr_info.cpp \
     ../lib/synch.cpp
 feeder_LDADD = $(SERVERLIBS)
+
+feeder_user_SOURCES = \
+    feeder_user.cpp \
+    ../lib/synch.cpp
+feeder_user_LDADD = $(SERVERLIBS)
 
 wu_check_SOURCES = wu_check.cpp
 wu_check_LDADD = $(SERVERLIBS)
