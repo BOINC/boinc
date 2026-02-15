@@ -447,7 +447,7 @@ int submit_jobs_params(
         job_params.delay_bound
     );
     string request = buf;
-    for (JOB &job: jobs) {
+    for (const JOB &job: jobs) {
         request += "<job>\n";
         snprintf(buf, sizeof(buf), "  <name>%s</name>\n", job.job_name);
         request += buf;
