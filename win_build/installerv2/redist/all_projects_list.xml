@@ -228,6 +228,7 @@
         <name>windows_x86_64[FGRPopencl2-ati]</name>
         <name>windows_x86_64[FGRPopencl2Pup-nvidia]</name>
         <name>windows_x86_64[FGRPopenclTV-nvidia]</name>
+        <name>windows_x86_64[GW-cuda]</name>
         <name>windows_x86_64[GW-opencl-ati-2G]</name>
         <name>windows_x86_64[GW-opencl-intel_gpu-2G]</name>
         <name>windows_x86_64[GW-opencl-nvidia-2G]</name>
@@ -259,6 +260,7 @@
         <name>x86_64-pc-linux-gnu[FGRPSSE]</name>
         <name>x86_64-pc-linux-gnu[GW-cuda-2-2G]</name>
         <name>x86_64-pc-linux-gnu[GW-cuda-2G]</name>
+        <name>x86_64-pc-linux-gnu[GW-cuda-Beta]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-ati-2G]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-intel_gpu-2G]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-nvidia-570-2G]</name>
@@ -757,6 +759,7 @@
         <name>x86_64-pc-linux-gnu[cuda120]</name>
         <name>x86_64-pc-linux-gnu[cuda128]</name>
         <name>x86_64-pc-linux-gnu[opencl_ati_101]</name>
+        <name>x86_64-pc-linux-gnu[opencl_intel_gpu_intelarc]</name>
     </platforms>
         <keywords>15 32</keywords>
     </project>
