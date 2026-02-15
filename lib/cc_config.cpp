@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -491,7 +491,7 @@ int CC_CONFIG::parse(XML_PARSER& xp, LOG_FLAGS& log_flags) {
     return ERR_XML_PARSE;
 }
 
-void EXCLUDE_GPU::write(MIOFILE& out) {
+void EXCLUDE_GPU::write(MIOFILE& out) const {
     out.printf(
         "    <exclude_gpu>\n"
         "        <url>%s</url>\n"
@@ -536,7 +536,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         allow_remote_gui_rpc ? 1 : 0
     );
 
-    for (string &s: alt_platforms) {
+    for (const string &s: alt_platforms) {
         out.printf(
             "        <alt_platform>%s</alt_platform>\n",
             s.c_str()
@@ -586,25 +586,25 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         dont_use_docker
     );
 
-    for (string &s: disallowed_wsls) {
+    for (const string &s: disallowed_wsls) {
         out.printf(
             "        <disallowed_wsl>%s</disallowed_wsl>\n",
             s.c_str()
         );
     }
 
-    for (EXCLUDE_GPU &e: exclude_gpus) {
+    for (const EXCLUDE_GPU &e: exclude_gpus) {
         e.write(out);
     }
 
-    for (string &s: exclusive_apps) {
+    for (const string &s: exclusive_apps) {
         out.printf(
             "        <exclusive_app>%s</exclusive_app>\n",
             s.c_str()
         );
     }
 
-    for (string &s: exclusive_gpu_apps) {
+    for (const string &s: exclusive_gpu_apps) {
         out.printf(
             "        <exclusive_gpu_app>%s</exclusive_gpu_app>\n",
             s.c_str()
@@ -904,7 +904,7 @@ void APP_CONFIGS::write(MIOFILE& out) {
     out.printf(
         "<app_config>\n"
     );
-    for (APP_CONFIG& ac: app_configs) {
+    for (const APP_CONFIG& ac: app_configs) {
         out.printf(
             "    <app>\n"
             "        <name>%s</name>\n"
@@ -924,7 +924,7 @@ void APP_CONFIGS::write(MIOFILE& out) {
             ac.report_results_immediately?1:0
         );
     }
-    for (APP_VERSION_CONFIG& avc: app_version_configs) {
+    for (const APP_VERSION_CONFIG& avc: app_version_configs) {
         out.printf(
             "    <app_version>\n"
             "        <app_name>%s</app_name>\n"

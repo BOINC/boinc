@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -48,7 +48,7 @@ using std::string;
 using std::vector;
 
 void DAILY_XFER_HISTORY::print() {
-    for (DAILY_XFER& dx: daily_xfers) {
+    for (const DAILY_XFER& dx: daily_xfers) {
         char buf[256];
         time_t t = dx.when*86400;
         struct tm* tm = localtime(&t);
@@ -59,7 +59,7 @@ void DAILY_XFER_HISTORY::print() {
     }
 }
 
-void GUI_URL::print() {
+void GUI_URL::print() const {
     printf(
         "GUI URL:\n"
         "   name: %s\n"
@@ -97,7 +97,7 @@ void PROJECT::print() {
     time_t foo = (time_t)last_rpc_time;
     printf("   last RPC: %s\n", ctime(&foo));
     printf("   project files downloaded: %f\n", project_files_downloaded_time);
-    for (GUI_URL &g: gui_urls) {
+    for (const GUI_URL &g: gui_urls) {
         g.print();
     }
     printf("   jobs succeeded: %d\n", njobs_success);
@@ -139,7 +139,7 @@ void WORKUNIT::print() {
     printf("   disk bound: %.2f MB\n", rsc_disk_bound/MEGA);
     if (!job_keywords.empty()) {
         printf("   keywords:\n");
-        for (KEYWORD &kw: job_keywords.keywords) {
+        for (const KEYWORD &kw: job_keywords.keywords) {
             printf("      %s\n", kw.name.c_str());
         }
     }

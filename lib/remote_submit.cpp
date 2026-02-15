@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -127,7 +127,7 @@ static int do_http_post(
         CURLFORM_END
     );
     int i=0;
-    for (string &s: send_files) {
+    for (const string &s: send_files) {
         snprintf(buf, sizeof(buf), "file_%d", i++);
         curl_formadd(&formpost, &lastptr,
             CURLFORM_COPYNAME, buf,
@@ -171,7 +171,7 @@ int query_files(
         snprintf(buf, sizeof(buf), "<batch_id>%d</batch_id>\n", batch_id);
         req_msg += string(buf);
     }
-    for (string &s: boinc_names) {
+    for (const string &s: boinc_names) {
         snprintf(buf, sizeof(buf),
             "   <phys_name>%s</phys_name>\n",
             s.c_str()
@@ -234,7 +234,7 @@ int upload_files (
         snprintf(buf, sizeof(buf), "<batch_id>%d</batch_id>\n", batch_id);
         req_msg += string(buf);
     }
-    for (string &s: boinc_names) {
+    for (const string &s: boinc_names) {
         snprintf(buf, sizeof(buf), "<phys_name>%s</phys_name>\n", s.c_str());
         req_msg += string(buf);
     }
@@ -347,7 +347,7 @@ int estimate_batch(
         app_name
     );
     string request = buf;
-    for (JOB &job: jobs) {
+    for (const JOB &job: jobs) {
         request += "<job>\n";
         if (!job.cmdline_args.empty()) {
             request += "<command_line>" + job.cmdline_args + "</command_line>\n";
@@ -454,7 +454,7 @@ int submit_jobs_params(
         if (!job.cmdline_args.empty()) {
             request += "<command_line>" + job.cmdline_args + "</command_line>\n";
         }
-        for (INFILE &infile: job.infiles) {
+        for (const INFILE &infile: job.infiles) {
             switch (infile.mode) {
             case FILE_MODE_LOCAL_STAGED:
                 snprintf(buf, sizeof(buf),
@@ -539,7 +539,7 @@ int query_batch_set(
     request += string(buf);
     snprintf(buf, sizeof(buf), "<min_mod_time>%f</min_mod_time>\n", min_mod_time);
     request += string(buf);
-    for (string &s: batch_names) {
+    for (const string &s: batch_names) {
         snprintf(buf, sizeof(buf), "<batch_name>%s</batch_name>\n", s.c_str());
         request += string(buf);
     }
@@ -799,7 +799,7 @@ int abort_jobs(
     request = "<abort_jobs>\n";
     snprintf(buf, sizeof(buf), "<authenticator>%s</authenticator>\n", authenticator);
     request += string(buf);
-    for (string &s: job_names) {
+    for (const string &s: job_names) {
         snprintf(buf, sizeof(buf), "<job_name>%s</job_name>\n", s.c_str());
         request += string(buf);
     }
