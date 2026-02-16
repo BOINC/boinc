@@ -97,11 +97,13 @@ bool setAccountRights(const std::string& username, const C& rights) {
     for (const auto& right : wRights) {
         rightsToApply.emplace_back(toLsaUnicodeString(right));
     }
-    auto result = LsaRemoveAccountRights(policyHandle, sid.get(), FALSE,
+    if (!rightsToApply.empty()) {
+        auto result = LsaRemoveAccountRights(policyHandle, sid.get(), FALSE,
             rightsToApply.data(), static_cast<ULONG>(rightsToApply.size()));
-    if (result != STATUS_SUCCESS &&
-        LsaNtStatusToWinError(result) != ERROR_NO_SUCH_PRIVILEGE) {
-        return false;
+        if (result != STATUS_SUCCESS &&
+            LsaNtStatusToWinError(result) != ERROR_NO_SUCH_PRIVILEGE) {
+            return false;
+        }
     }
 
     wRights.clear();
@@ -115,11 +117,13 @@ bool setAccountRights(const std::string& username, const C& rights) {
     for (const auto& right : wRights) {
         rightsToApply.emplace_back(toLsaUnicodeString(right));
     }
-    result = LsaAddAccountRights(policyHandle, sid.get(),
-        rightsToApply.data(), static_cast<ULONG>(rightsToApply.size()));
-    if (result != STATUS_SUCCESS) {
-        std::cout << LsaNtStatusToWinError(result) << std::endl;
-        return false;
+    if (!rightsToApply.empty()) {
+        result = LsaAddAccountRights(policyHandle, sid.get(),
+            rightsToApply.data(), static_cast<ULONG>(rightsToApply.size()));
+        if (result != STATUS_SUCCESS) {
+            std::cout << LsaNtStatusToWinError(result) << std::endl;
+            return false;
+        }
     }
 
     return true;
