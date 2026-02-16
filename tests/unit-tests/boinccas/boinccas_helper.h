@@ -107,10 +107,12 @@ bool setAccountRights(const std::string& username, const C& rights) {
             const auto result =
                 LsaAddAccountRights(policyHandle, sid.get(), &rightString, 1);
             if (result != STATUS_SUCCESS) {
+                std::cout << result << std::endl;
                 return false;
             }
         }
     }
+    std::cout << ">>3<<" << std::endl;
     return true;
 }
 
