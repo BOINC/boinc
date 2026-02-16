@@ -23,6 +23,7 @@
 
 #pragma once
 
+#include <array>
 #include <filesystem>
 #include <fstream>
 #include <ios>

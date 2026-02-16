@@ -85,7 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\clientsetup\win\boinccas.h" />
-    <ClInclude Include="..\clientsetup\win\CAGrantBOINCAdminsRights.h" />
     <ClInclude Include="..\clientsetup\win\CAGrantBOINCAdminsVirtualBoxRights.h" />
     <ClInclude Include="..\clientsetup\win\CAGrantBOINCMasterRights.h" />
     <ClInclude Include="..\clientsetup\win\CAGrantBOINCProjectRights.h" />

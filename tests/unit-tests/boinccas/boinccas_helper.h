@@ -17,6 +17,10 @@
 
 #pragma once
 
+#include <NTSecAPI.h>
+
+#include "win_util.h"
+
 std::string getRegistryValue(const std::string& valueName);
 bool setRegistryValue(const std::string& valueName,
     const std::string& valueData);
@@ -35,6 +39,87 @@ bool localGroupExists(const std::string& groupName);
 bool createLocalGroup(const std::string& groupName);
 bool deleteLocalGroup(const std::string& groupName);
 bool addUserToTheBuiltinAdministratorsGroup(wil::unique_sid&& userSid);
+
+// Need these lines copied from the wil library
+// to avoid symbol conflicts with the LSA functions.
+typedef wil::unique_any<LSA_HANDLE,
+    decltype(&::LsaClose), ::LsaClose> unique_hlsa;
+using lsa_freemem_deleter = wil::function_deleter<
+    decltype(&::LsaFreeMemory), LsaFreeMemory>;
+template <typename T>
+using unique_lsamem_ptr = wistd::unique_ptr<
+    wil::details::ensure_trivially_destructible_t<T>, lsa_freemem_deleter>;
+// End of lines copied from wil.
+
+LSA_HANDLE GetPolicyHandle();
+LSA_UNICODE_STRING toLsaUnicodeString(const std::wstring& str);
+
+std::vector<std::string> getAccountRights(const std::string& username);
+
+template<typename, typename = void>
+struct has_value_type : std::false_type {};
+
+template<typename T>
+struct has_value_type<T, std::void_t<typename T::value_type>> :
+    std::true_type {};
+
+template<
+    typename C,
+    typename T = typename C::value_type,
+    typename = std::enable_if_t<
+    has_value_type<C>::value&&
+    std::is_convertible<T, std::string>::value
+    >
+>
+std::pair<bool, std::vector<std::string>> setAccountRights(
+    const std::string& username, const C& rights) {
+    auto policyHandle = GetPolicyHandle();
+    if (policyHandle == nullptr) {
+        return {};
+    }
+    unique_hlsa pHandle(policyHandle);
+
+    const auto sid = getUserSid(username.c_str()).get();
+    const auto existingRights = getAccountRights(username);
+    auto opResult = true;
+    std::vector<std::string> failedRights;
+    for (const auto& right : existingRights) {
+        if (std::find(rights.cbegin(), rights.cend(), right)
+            == rights.cend()) {
+            auto rightString =
+                toLsaUnicodeString(boinc_ascii_to_wide(right).c_str());
+            unique_lsamem_ptr<LSA_UNICODE_STRING> pUserRights(&rightString);
+            const auto result =
+                LsaRemoveAccountRights(
+                    policyHandle, sid, FALSE, &rightString, 1);
+            if (result != STATUS_SUCCESS) {
+                opResult = false;
+                failedRights.emplace_back(right);
+            }
+        }
+    }
+    for (const auto& right : rights) {
+        if (std::find(existingRights.cbegin(), existingRights.cend(), right) ==
+            existingRights.cend()) {
+            auto rightString =
+                toLsaUnicodeString(boinc_ascii_to_wide(right).c_str());
+            unique_lsamem_ptr<LSA_UNICODE_STRING> pUserRights(&rightString);
+            const auto result =
+                LsaAddAccountRights(policyHandle, sid, &rightString, 1);
+            if (result != STATUS_SUCCESS) {
+                opResult = false;
+                failedRights.emplace_back(right);
+            }
+        }
+    }
+    return { opResult, failedRights };
+}
+
+//TODO: Currently unused, remove before the final merge
+//std::pair<bool, std::vector<std::string>> addAccountRights(const std::string& username,
+//    const std::vector<std::string>& rights);
+//std::pair<bool, std::vector<std::string>> removeAccountRights(const std::string& username,
+//    const std::vector<std::string>& rights);
 
 class MsiHelper {
 public:
@@ -65,8 +150,8 @@ class test_boinccas_Base {
     using boinccasFn = UINT(WINAPI*)(MSIHANDLE);
 public:
     test_boinccas_Base() = delete;
-    virtual ~test_boinccas_Base() = default;
 protected:
+    ~test_boinccas_Base() = default;
     test_boinccas_Base(std::string_view functionName) {
         wil::unique_hmodule dll(LoadLibrary("boinccas.dll"));
         if (!dll) {
@@ -119,8 +204,8 @@ class test_boinccas_TestBase :
     public test_boinccas_Base, public ::testing::Test {
 public:
     test_boinccas_TestBase() = delete;
-    virtual ~test_boinccas_TestBase() override = default;
 protected:
+    ~test_boinccas_TestBase() = default;
     test_boinccas_TestBase(std::string_view functionName) :
         test_boinccas_Base(functionName) {
     }
@@ -131,8 +216,8 @@ class test_boinccas_TestBase_WithParam :
     public test_boinccas_Base, public ::testing::TestWithParam<T> {
 public:
     test_boinccas_TestBase_WithParam() = delete;
-    virtual ~test_boinccas_TestBase_WithParam() override = default;
 protected:
+    ~test_boinccas_TestBase_WithParam() = default;
     test_boinccas_TestBase_WithParam(std::string_view functionName) :
         test_boinccas_Base(functionName) {
     }

@@ -32,6 +32,98 @@ namespace test_boinccas_CAGrantBOINCAdminsRights {
         }
     };
 
-#ifndef BOINCCAS_TEST
+    constexpr std::array expectedSetRights = {
+        "SeIncreaseQuotaPrivilege",
+        "SeChangeNotifyPrivilege",
+        "SeCreateGlobalPrivilege",
+        "SeAssignPrimaryTokenPrivilege"
+    };
+
+    constexpr std::array expectedRemovedRights = {
+        "SeNetworkLogonRight",
+        "SeRemoteInteractiveLogonRight",
+        "SeBatchLogonRight",
+        "SeInteractiveLogonRight",
+        "SeServiceLogonRight",
+        "SeDenyNetworkLogonRight",
+        "SeDenyInteractiveLogonRight",
+        "SeDenyBatchLogonRight",
+        "SeDenyServiceLogonRight",
+        "SeDenyRemoteInteractiveLogonRight",
+        "SeTcbPrivilege",
+        "SeMachineAccountPrivilege",
+        "SeBackupPrivilege",
+        "SeSystemTimePrivilege",
+        "SeCreateTokenPrivilege",
+        "SeCreatePagefilePrivilege",
+        "SeDebugPrivilege",
+        "SeEnableDelegationPrivilege",
+        "SeRemoteShutdownPrivilege",
+        "SeAuditPrivilege",
+        "SeImpersonatePrivilege",
+        "SeIncreaseBasePriorityPrivilege",
+        "SeLoadDriverPrivilege",
+        "SeLockMemoryPrivilege",
+        "SeSecurityPrivilege",
+        "SeSystemEnvironmentPrivilege",
+        "SeManageVolumePrivilege",
+        "SeProfileSingleProcessPrivilege",
+        "SeSystemProfilePrivilege",
+        "SeUndockPrivilege",
+        "SeRestorePrivilege",
+        "SeShutdownPrivilege",
+        "SeSynchAgentPrivilege",
+        "SeTakeOwnershipPrivilege"
+    };
+
+#ifdef BOINCCAS_TEST
+    TEST_F(test_boinccas_CAGrantBOINCAdminsRights, NoGroup_Expect_Fail) {
+        const auto result = openMsi();
+        ASSERT_EQ(0u, result);
+        ASSERT_FALSE(localGroupExists("boinc_admins"));
+        EXPECT_NE(0u, executeAction());
+    }
+
+    TEST_F(test_boinccas_CAGrantBOINCAdminsRights,
+        GroupExists_Expect_Correct_Rights_Set) {
+        const auto result = openMsi();
+        ASSERT_EQ(0u, result);
+        ASSERT_TRUE(createLocalGroup("boinc_admins"));
+        ASSERT_TRUE(localGroupExists("boinc_admins"));
+        EXPECT_EQ(0u, executeAction());
+
+        const auto rights = getAccountRights("boinc_admins");
+        for (const auto& expectedRight : expectedSetRights) {
+            EXPECT_NE(std::find(rights.cbegin(), rights.cend(),
+                expectedRight), rights.cend())
+                << "Expected right not found: " << expectedRight;
+        }
+        for (const auto& expectedRemovedRight : expectedRemovedRights) {
+            EXPECT_EQ(std::find(rights.cbegin(), rights.cend(),
+                expectedRemovedRight), rights.cend())
+                << "Unexpected right found: " << expectedRemovedRight;
+        }
+    }
+
+    TEST_F(test_boinccas_CAGrantBOINCAdminsRights,
+        GroupExistsWithOtherRights_Expect_CorrectRightsSet) {
+        const auto result = openMsi();
+        ASSERT_EQ(0u, result);
+        ASSERT_TRUE(createLocalGroup("boinc_admins"));
+        ASSERT_TRUE(localGroupExists("boinc_admins"));
+        setAccountRights("boinc_admins", expectedRemovedRights);
+        EXPECT_EQ(0u, executeAction());
+        const auto rights = getAccountRights("boinc_admins");
+        for (const auto& expectedRight : expectedSetRights) {
+            EXPECT_NE(std::find(rights.cbegin(), rights.cend(),
+                expectedRight), rights.cend())
+                << "Expected right not found: " << expectedRight;
+        }
+        for (const auto& expectedRemovedRight : expectedRemovedRights) {
+            EXPECT_EQ(std::find(rights.cbegin(), rights.cend(),
+                expectedRemovedRight), rights.cend())
+                << "Unexpected right found: " << expectedRemovedRight;
+        }
+    }
 #endif
 }

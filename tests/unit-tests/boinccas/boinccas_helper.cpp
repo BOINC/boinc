@@ -22,9 +22,6 @@
 #include <LMAPIbuf.h>
 #include <sddl.h>
 #include <stdexcept>
-#include <array>
-
-#include "win_util.h"
 
 constexpr auto msiName = "test.msi";
 
@@ -528,3 +525,113 @@ bool addUserToTheBuiltinAdministratorsGroup(wil::unique_sid&& userSid) {
     }
     return true;
 }
+
+LSA_HANDLE GetPolicyHandle()
+{
+    LSA_OBJECT_ATTRIBUTES ObjectAttributes;
+    LSA_HANDLE lsahPolicyHandle;
+    ZeroMemory(&ObjectAttributes, sizeof(ObjectAttributes));
+
+    const auto ntsResult = LsaOpenPolicy(nullptr, &ObjectAttributes,
+        POLICY_ALL_ACCESS, &lsahPolicyHandle);
+
+    if (ntsResult != STATUS_SUCCESS) {
+        return nullptr;
+    }
+    return lsahPolicyHandle;
+}
+
+std::vector<std::string> getAccountRights(const std::string& username) {
+    auto policyHandle = GetPolicyHandle();
+    if (policyHandle == nullptr) {
+        return {};
+    }
+    unique_hlsa pHandle(policyHandle);
+
+    PLSA_UNICODE_STRING userRights = nullptr;
+    ULONG countOfRights = 0;
+    const auto result = LsaEnumerateAccountRights(policyHandle,
+        getUserSid(username.c_str()).get(), &userRights, &countOfRights);
+    if (userRights == nullptr) {
+        return {};
+    }
+    unique_lsamem_ptr<LSA_UNICODE_STRING> pUserRights(userRights);
+
+    if (result != STATUS_SUCCESS || countOfRights == 0) {
+        return {};
+    }
+    std::vector<std::string> rights;
+    rights.reserve(countOfRights);
+    for (decltype(countOfRights) i = 0; i < countOfRights; ++i) {
+        std::wstring right(userRights[i].Buffer,
+            userRights[i].Length / sizeof(WCHAR));
+        rights.emplace_back(boinc_wide_to_ascii(right));
+    }
+    return rights;
+}
+
+LSA_UNICODE_STRING toLsaUnicodeString(const std::wstring& str) {
+    LSA_UNICODE_STRING lsaWStr;
+    size_t len = 0;
+
+    len = str.length();
+    LPWSTR cstr = new WCHAR[len + 1];
+    memcpy(cstr, str.c_str(), (len + 1) * sizeof(WCHAR));
+    lsaWStr.Buffer = cstr;
+    lsaWStr.Length = static_cast<USHORT>((len) * sizeof(WCHAR));
+    lsaWStr.MaximumLength =
+        static_cast<USHORT>((len + 1) * sizeof(WCHAR));
+    return lsaWStr;
+}
+
+//TODO: Currently unused, remove before the final merge
+//std::pair<bool, std::vector<std::string>> addAccountRights(
+//    const std::string& username, const std::vector<std::string>& rights) {
+//    auto policyHandle = GetPolicyHandle();
+//    if (policyHandle == nullptr) {
+//        return {};
+//    }
+//
+//    unique_hlsa pHandle(policyHandle);
+//    const auto sid = getUserSid(username.c_str()).get();
+//
+//    std::vector<std::string> failedRights;
+//    auto opResult = true;
+//    for (const auto& right : rights) {
+//        auto rightString =
+//            toLsaUnicodeString(boinc_ascii_to_wide(right).c_str());
+//        unique_lsamem_ptr<LSA_UNICODE_STRING> pUserRights(&rightString);
+//        const auto result =
+//            LsaAddAccountRights(policyHandle, sid, &rightString, 1);
+//        if (result != STATUS_SUCCESS) {
+//            opResult = false;
+//            failedRights.emplace_back(right);
+//        }
+//    }
+//    return { opResult, failedRights };
+//}
+//
+//std::pair<bool, std::vector<std::string>> removeAccountRights(
+//    const std::string& username, const std::vector<std::string>& rights) {
+//    auto policyHandle = GetPolicyHandle();
+//    if (policyHandle == nullptr) {
+//        return {};
+//    }
+//    unique_hlsa pHandle(policyHandle);
+//    const auto sid = getUserSid(username.c_str()).get();
+//
+//    std::vector<std::string> failedRights;
+//    auto opResult = true;
+//    for (const auto& right : rights) {
+//        auto rightString =
+//            toLsaUnicodeString(boinc_ascii_to_wide(right).c_str());
+//        unique_lsamem_ptr<LSA_UNICODE_STRING> pUserRights(&rightString);
+//        const auto result =
+//            LsaRemoveAccountRights(policyHandle, sid, FALSE, &rightString, 1);
+//        if (result != STATUS_SUCCESS) { 
+//            opResult = false;
+//            failedRights.emplace_back(right);
+//        }
+//    }
+//    return { opResult, failedRights };
+//}
