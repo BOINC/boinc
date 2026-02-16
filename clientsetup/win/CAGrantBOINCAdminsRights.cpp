@@ -37,7 +37,7 @@ public:
                     "for the selected user on the localhost"));
             return ERROR_INSTALL_FAILURE;
         }
-        wil::unique_sid pSidDeleter(pSid);
+        wil::unique_process_heap pSidDeleter(pSid);
 
         constexpr std::array rightsToSet = {
             L"SeIncreaseQuotaPrivilege",
