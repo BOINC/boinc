@@ -71,22 +71,18 @@ template<
     std::is_convertible<T, std::string>::value
     >
 >
-std::pair<bool, std::vector<std::string>> setAccountRights(
-    const std::string& username, const C& rights) {
+bool setAccountRights(const std::string& username, const C& rights) {
     std::cout << ">>1<<" << std::endl;
     auto policyHandle = GetPolicyHandle();
     if (policyHandle == nullptr) {
-        return { false, {} };
+        return false;
     }
     unique_hlsa pHandle(policyHandle);
     const auto sid = getUserSid(username);
     if (!sid.is_valid()) {
-        return { false, {} };
+        return false;
     }
     const auto existingRights = getAccountRights(username);
-    std::cout << existingRights.size() << std::endl;
-    auto opResult = true;
-    std::vector<std::string> failedRights;
     for (const auto& right : existingRights) {
         if (std::find(rights.cbegin(), rights.cend(), right)
             == rights.cend()) {
@@ -97,13 +93,12 @@ std::pair<bool, std::vector<std::string>> setAccountRights(
                 LsaRemoveAccountRights(
                     policyHandle, sid.get(), FALSE, &rightString, 1);
             if (result != STATUS_SUCCESS && result != ERROR_NO_SUCH_PRIVILEGE) {
-                opResult = false;
-                failedRights.emplace_back(right);
+                return false;
             }
         }
     }
     std::cout << ">>2<<" << std::endl;
-    for (const auto& right : rights) {
+    for (const auto right : rights) {
         if (std::find(existingRights.cbegin(), existingRights.cend(), right) ==
             existingRights.cend()) {
             auto rightString =
@@ -112,13 +107,11 @@ std::pair<bool, std::vector<std::string>> setAccountRights(
             const auto result =
                 LsaAddAccountRights(policyHandle, sid.get(), &rightString, 1);
             if (result != STATUS_SUCCESS) {
-                opResult = false;
-                failedRights.emplace_back(right);
+                return false;
             }
         }
     }
-    std::cout << ">>3<<" << std::endl;
-    return { opResult, failedRights };
+    return true;
 }
 
 class MsiHelper {
