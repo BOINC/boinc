@@ -92,7 +92,7 @@ function show_apps() {
         row_array([
             "<a href=apps.php?app_id=$app->id>$app->user_friendly_name$b</a>",
             pretty_time_str($app->create_time),
-            $gf
+            number_format($gf, 2)
         ]);
     }
     end_table();
@@ -125,7 +125,7 @@ function show_app($app_id) {
             $gf = number_format($gf, 2);
             $b = $av->beta?" (beta test)":"";
             row_array([
-                "<a href=apps.php?avid=$av->id>$av->id",
+                "<a href=apps.php?avid=$av->id>$av->id</a>",
                 $platform->user_friendly_name,
                 "$version_num_f$b",
                 $av->plan_class,
