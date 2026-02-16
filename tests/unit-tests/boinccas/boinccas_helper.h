@@ -73,45 +73,72 @@ template<
 >
 std::pair<bool, std::vector<std::string>> setAccountRights(
     const std::string& username, const C& rights) {
+    std::cout << "1" << std::endl;
     auto policyHandle = GetPolicyHandle();
     if (policyHandle == nullptr) {
         return {};
     }
+    std::cout << "2" << std::endl;
     unique_hlsa pHandle(policyHandle);
-
+    std::cout << "3" << std::endl;
     const auto sid = getUserSid(username.c_str()).get();
+    std::cout << "4" << std::endl;
     const auto existingRights = getAccountRights(username);
+    std::cout << "5" << std::endl;
     auto opResult = true;
     std::vector<std::string> failedRights;
+    std::cout << "6" << std::endl;
     for (const auto& right : existingRights) {
+        std::cout << "7" << std::endl;
+        std::cout << right << std::endl;
         if (std::find(rights.cbegin(), rights.cend(), right)
             == rights.cend()) {
+            std::cout << "8" << std::endl;
             auto rightString =
                 toLsaUnicodeString(boinc_ascii_to_wide(right));
+            std::cout << "9" << std::endl;
             unique_lsamem_ptr<LSA_UNICODE_STRING> pUserRights(&rightString);
+            std::cout << "10" << std::endl;
             const auto result =
                 LsaRemoveAccountRights(
                     policyHandle, sid, FALSE, &rightString, 1);
+            std::cout << "11" << std::endl;
             if (result != STATUS_SUCCESS) {
+                std::cout << "12" << std::endl;
                 opResult = false;
                 failedRights.emplace_back(right);
+                std::cout << "13" << std::endl;
             }
+            std::cout << "14" << std::endl;
         }
+        std::cout << "15" << std::endl;
     }
+    std::cout << "16" << std::endl;
     for (const auto& right : rights) {
+        std::cout << "17" << std::endl;
+        std::cout << right << std::endl;
         if (std::find(existingRights.cbegin(), existingRights.cend(), right) ==
             existingRights.cend()) {
+            std::cout << "18" << std::endl;
             auto rightString =
                 toLsaUnicodeString(boinc_ascii_to_wide(right));
+            std::cout << "19" << std::endl;
             unique_lsamem_ptr<LSA_UNICODE_STRING> pUserRights(&rightString);
+            std::cout << "20" << std::endl;
             const auto result =
                 LsaAddAccountRights(policyHandle, sid, &rightString, 1);
+            std::cout << "21" << std::endl;
             if (result != STATUS_SUCCESS) {
+                std::cout << "22" << std::endl;
                 opResult = false;
                 failedRights.emplace_back(right);
+                std::cout << "23" << std::endl;
             }
+            std::cout << "24" << std::endl;
         }
+        std::cout << "25" << std::endl;
     }
+    std::cout << "26" << std::endl;
     return { opResult, failedRights };
 }
 
