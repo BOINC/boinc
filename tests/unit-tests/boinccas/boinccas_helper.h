@@ -73,6 +73,7 @@ template<
 >
 std::pair<bool, std::vector<std::string>> setAccountRights(
     const std::string& username, const C& rights) {
+    std::cout << ">>1<<" << std::endl;
     auto policyHandle = GetPolicyHandle();
     if (policyHandle == nullptr) {
         return { false, {} };
@@ -83,6 +84,7 @@ std::pair<bool, std::vector<std::string>> setAccountRights(
         return { false, {} };
     }
     const auto existingRights = getAccountRights(username);
+    std::cout << existingRights.size() << std::endl;
     auto opResult = true;
     std::vector<std::string> failedRights;
     for (const auto& right : existingRights) {
@@ -100,6 +102,7 @@ std::pair<bool, std::vector<std::string>> setAccountRights(
             }
         }
     }
+    std::cout << ">>2<<" << std::endl;
     for (const auto& right : rights) {
         if (std::find(existingRights.cbegin(), existingRights.cend(), right) ==
             existingRights.cend()) {
@@ -114,6 +117,7 @@ std::pair<bool, std::vector<std::string>> setAccountRights(
             }
         }
     }
+    std::cout << ">>3<<" << std::endl;
     return { opResult, failedRights };
 }
 
