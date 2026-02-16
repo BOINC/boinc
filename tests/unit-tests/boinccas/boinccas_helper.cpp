@@ -550,8 +550,12 @@ std::vector<std::string> getAccountRights(const std::string& username) {
 
     PLSA_UNICODE_STRING userRights = nullptr;
     ULONG countOfRights = 0;
+    const auto sid = getUserSid(username);
+    if (!sid.is_valid()) {
+        return {};
+    }
     const auto result = LsaEnumerateAccountRights(policyHandle,
-        getUserSid(username.c_str()).get(), &userRights, &countOfRights);
+        sid.get(), &userRights, &countOfRights);
     if (userRights == nullptr) {
         return {};
     }
