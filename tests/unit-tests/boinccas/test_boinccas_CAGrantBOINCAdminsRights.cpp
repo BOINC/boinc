@@ -111,8 +111,20 @@ namespace test_boinccas_CAGrantBOINCAdminsRights {
         ASSERT_EQ(0u, result);
         ASSERT_TRUE(createLocalGroup("boinc_admins"));
         ASSERT_TRUE(localGroupExists("boinc_admins"));
-        const auto [opResult, _] = setAccountRights("boinc_admins", expectedRemovedRights);
-        ASSERT_TRUE(opResult);
+        auto rightSet = false;
+        for (auto i = 0; i < 10; ++i) {
+            const auto [opResult, failed] = setAccountRights("boinc_admins", expectedRemovedRights);
+            if (opResult) {
+                rightSet = true;
+                break;
+            }
+            if (!failed.empty()) {
+                break;
+            }
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+        }
+
+        ASSERT_TRUE(rightSet);
         EXPECT_EQ(0u, executeAction());
         const auto rights = getAccountRights("boinc_admins");
         for (const auto& expectedRight : expectedSetRights) {
