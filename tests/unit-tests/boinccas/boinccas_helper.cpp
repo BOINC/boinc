@@ -628,7 +628,7 @@ LSA_UNICODE_STRING toLsaUnicodeString(const std::wstring& str) {
 //        unique_lsamem_ptr<LSA_UNICODE_STRING> pUserRights(&rightString);
 //        const auto result =
 //            LsaRemoveAccountRights(policyHandle, sid, FALSE, &rightString, 1);
-//        if (result != STATUS_SUCCESS) { 
+//        if (result != STATUS_SUCCESS) {
 //            opResult = false;
 //            failedRights.emplace_back(right);
 //        }

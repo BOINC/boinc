@@ -87,7 +87,7 @@ std::pair<bool, std::vector<std::string>> setAccountRights(
         if (std::find(rights.cbegin(), rights.cend(), right)
             == rights.cend()) {
             auto rightString =
-                toLsaUnicodeString(boinc_ascii_to_wide(right).c_str());
+                toLsaUnicodeString(boinc_ascii_to_wide(right));
             unique_lsamem_ptr<LSA_UNICODE_STRING> pUserRights(&rightString);
             const auto result =
                 LsaRemoveAccountRights(
@@ -102,7 +102,7 @@ std::pair<bool, std::vector<std::string>> setAccountRights(
         if (std::find(existingRights.cbegin(), existingRights.cend(), right) ==
             existingRights.cend()) {
             auto rightString =
-                toLsaUnicodeString(boinc_ascii_to_wide(right).c_str());
+                toLsaUnicodeString(boinc_ascii_to_wide(right));
             unique_lsamem_ptr<LSA_UNICODE_STRING> pUserRights(&rightString);
             const auto result =
                 LsaAddAccountRights(policyHandle, sid, &rightString, 1);
