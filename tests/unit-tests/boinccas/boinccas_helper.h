@@ -121,7 +121,8 @@ bool setAccountRights(const std::string& username, const C& rights) {
     if (!rightsToApply.empty()) {
         const auto result = LsaAddAccountRights(policyHandle, sid.get(),
             rightsToApply.data(), static_cast<ULONG>(rightsToApply.size()));
-        if (result != STATUS_SUCCESS) {
+        if (result != STATUS_SUCCESS &&
+            LsaNtStatusToWinError(result) != ERROR_NO_SUCH_PRIVILEGE) {
             std::cout << LsaNtStatusToWinError(result) << std::endl;
             return false;
         }
