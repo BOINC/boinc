@@ -94,7 +94,7 @@ std::pair<bool, std::vector<std::string>> setAccountRights(
             const auto result =
                 LsaRemoveAccountRights(
                     policyHandle, sid.get(), FALSE, &rightString, 1);
-            if (result != STATUS_SUCCESS) {
+            if (result != STATUS_SUCCESS && result != ERROR_NO_SUCH_PRIVILEGE) {
                 opResult = false;
                 failedRights.emplace_back(right);
             }
