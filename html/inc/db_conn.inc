@@ -43,6 +43,7 @@ class DbConn {
         }
         global $mysqli;
         $mysqli = $this->db_conn;
+        $mysqli->set_charset("utf8mb4");
         if (!$this->db_conn) {
             return false;
         }
