@@ -63,7 +63,8 @@ struct has_value_type : std::false_type {};
 
 template<typename T>
 struct has_value_type<T, std::void_t<typename T::value_type>> :
-    std::true_type {};
+    std::true_type {
+};
 
 template<
     typename C,
@@ -74,7 +75,6 @@ template<
     >
 >
 bool setAccountRights(const std::string& username, const C& rights) {
-    std::cout << ">>1<<" << std::endl;
     auto policyHandle = GetPolicyHandle();
     if (policyHandle == nullptr) {
         return false;
@@ -84,37 +84,45 @@ bool setAccountRights(const std::string& username, const C& rights) {
     if (!sid.is_valid()) {
         return false;
     }
+    std::vector<std::wstring> wRights;
     const auto existingRights = getAccountRights(username);
     for (const auto& right : existingRights) {
         if (std::find(rights.cbegin(), rights.cend(), right)
             == rights.cend()) {
-            const auto wRight = boinc_ascii_to_wide(right);
-            auto rightString = toLsaUnicodeString(wRight);
-            //unique_lsamem_ptr<LSA_UNICODE_STRING> pUserRights(&rightString);
-            const auto result =
-                LsaRemoveAccountRights(
-                    policyHandle, sid.get(), FALSE, &rightString, 1);
-            if (result != STATUS_SUCCESS && result != ERROR_NO_SUCH_PRIVILEGE) {
-                return false;
-            }
+            wRights.emplace_back(boinc_ascii_to_wide(right));
         }
     }
-    std::cout << ">>2<<" << std::endl;
+    std::vector<LSA_UNICODE_STRING> rightsToApply;
+    rightsToApply.reserve(wRights.size());
+    for (const auto& right : wRights) {
+        rightsToApply.emplace_back(toLsaUnicodeString(right));
+    }
+    const auto result =
+        LsaRemoveAccountRights(policyHandle, sid.get(), FALSE,
+            &rightsToApply, rightsToApply.size());
+    if (result != STATUS_SUCCESS &&
+        LsaNtStatusToWinError(result) != ERROR_NO_SUCH_PRIVILEGE) {
+        return false;
+    }
+
+    wRights.clear();
     for (const auto right : rights) {
         if (std::find(existingRights.cbegin(), existingRights.cend(), right) ==
             existingRights.cend()) {
-            const auto wRight = boinc_ascii_to_wide(right);
-            auto rightString = toLsaUnicodeString(wRight);
-            //unique_lsamem_ptr<LSA_UNICODE_STRING> pUserRights(&rightString);
-            const auto result =
-                LsaAddAccountRights(policyHandle, sid.get(), &rightString, 1);
-            if (result != STATUS_SUCCESS) {
-                std::cout << result << std::endl;
-                return false;
-            }
+            wRights.emplace_back(boinc_ascii_to_wide(right));
         }
     }
-    std::cout << ">>3<<" << std::endl;
+    rightsToApply.reserve(wRights.size());
+    for (const auto& right : wRights) {
+        rightsToApply.emplace_back(toLsaUnicodeString(right));
+    }
+    const auto result =
+        LsaAddAccountRights(policyHandle, sid.get(), &rightsToApply, rightsToApply.size());
+    if (result != STATUS_SUCCESS) {
+        std::cout << LsaNtStatusToWinError(result) << std::endl;
+        return false;
+    }
+
     return true;
 }
 
