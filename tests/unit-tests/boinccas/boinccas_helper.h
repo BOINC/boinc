@@ -98,7 +98,8 @@ bool setAccountRights(const std::string& username, const C& rights) {
         rightsToApply.emplace_back(toLsaUnicodeString(right));
     }
     if (!rightsToApply.empty()) {
-        auto result = LsaRemoveAccountRights(policyHandle, sid.get(), FALSE,
+        const auto result =
+            LsaRemoveAccountRights(policyHandle, sid.get(), FALSE,
             rightsToApply.data(), static_cast<ULONG>(rightsToApply.size()));
         if (result != STATUS_SUCCESS &&
             LsaNtStatusToWinError(result) != ERROR_NO_SUCH_PRIVILEGE) {
@@ -118,7 +119,7 @@ bool setAccountRights(const std::string& username, const C& rights) {
         rightsToApply.emplace_back(toLsaUnicodeString(right));
     }
     if (!rightsToApply.empty()) {
-        result = LsaAddAccountRights(policyHandle, sid.get(),
+        const auto result = LsaAddAccountRights(policyHandle, sid.get(),
             rightsToApply.data(), static_cast<ULONG>(rightsToApply.size()));
         if (result != STATUS_SUCCESS) {
             std::cout << LsaNtStatusToWinError(result) << std::endl;
