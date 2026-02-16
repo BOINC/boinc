@@ -52,6 +52,8 @@ using unique_lsamem_ptr = wistd::unique_ptr<
 // End of lines copied from wil.
 
 LSA_HANDLE GetPolicyHandle();
+// unsafe: lifetime of the `str` should be
+// the same or longer as a resulting LSA_UNICODE_STRING
 LSA_UNICODE_STRING toLsaUnicodeString(const std::wstring& str);
 
 std::vector<std::string> getAccountRights(const std::string& username);
@@ -86,9 +88,9 @@ bool setAccountRights(const std::string& username, const C& rights) {
     for (const auto& right : existingRights) {
         if (std::find(rights.cbegin(), rights.cend(), right)
             == rights.cend()) {
-            auto rightString =
-                toLsaUnicodeString(boinc_ascii_to_wide(right));
-            unique_lsamem_ptr<LSA_UNICODE_STRING> pUserRights(&rightString);
+            const auto wRight = boinc_ascii_to_wide(right);
+            auto rightString = toLsaUnicodeString(wRight);
+            //unique_lsamem_ptr<LSA_UNICODE_STRING> pUserRights(&rightString);
             const auto result =
                 LsaRemoveAccountRights(
                     policyHandle, sid.get(), FALSE, &rightString, 1);
@@ -101,9 +103,9 @@ bool setAccountRights(const std::string& username, const C& rights) {
     for (const auto right : rights) {
         if (std::find(existingRights.cbegin(), existingRights.cend(), right) ==
             existingRights.cend()) {
-            auto rightString =
-                toLsaUnicodeString(boinc_ascii_to_wide(right));
-            unique_lsamem_ptr<LSA_UNICODE_STRING> pUserRights(&rightString);
+            const auto wRight = boinc_ascii_to_wide(right);
+            auto rightString = toLsaUnicodeString(wRight);
+            //unique_lsamem_ptr<LSA_UNICODE_STRING> pUserRights(&rightString);
             const auto result =
                 LsaAddAccountRights(policyHandle, sid.get(), &rightString, 1);
             if (result != STATUS_SUCCESS) {

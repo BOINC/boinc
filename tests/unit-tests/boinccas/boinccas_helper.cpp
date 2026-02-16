@@ -576,12 +576,8 @@ std::vector<std::string> getAccountRights(const std::string& username) {
 
 LSA_UNICODE_STRING toLsaUnicodeString(const std::wstring& str) {
     LSA_UNICODE_STRING lsaWStr;
-    size_t len = 0;
-
-    len = str.length();
-    LPWSTR cstr = new WCHAR[len + 1];
-    memcpy(cstr, str.c_str(), (len + 1) * sizeof(WCHAR));
-    lsaWStr.Buffer = cstr;
+    const auto len = str.length();
+    lsaWStr.Buffer = const_cast<wchar_t*>(str.c_str());
     lsaWStr.Length = static_cast<USHORT>((len) * sizeof(WCHAR));
     lsaWStr.MaximumLength =
         static_cast<USHORT>((len + 1) * sizeof(WCHAR));
