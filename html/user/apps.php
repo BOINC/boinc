@@ -18,28 +18,33 @@
 
 require_once("../inc/util.inc");
 
-check_get_args(array("xml"));
-
 BoincDb::get(true);
-$platforms = BoincPlatform::enum("deprecated=0");
 
-$xml = get_str('xml', true);
-if ($xml) {
+function main() {
+    if (get_str('xml', true)) {
+        show_apps_xml();
+        return;
+    }
+    $avid = get_int('avid', true);
+    if ($avid) {
+        show_app_version($avid);
+        return;
+    }
+    $app_id = get_int('app_id', true);
+    if ($app_id) {
+        show_app($app_id);
+        return;
+    }
+    show_apps();
+}
+
+function show_apps_xml() {
+    $platforms = BoincPlatform::enum("deprecated=0");
     require_once('../inc/xml.inc');
     xml_header();
     echo "<app_versions>\n";
-} else {
-    page_head(tra("Applications"));
-    echo tra("%1 currently has the following applications. When you participate in %1, tasks for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything.", PROJECT)."<br><br>
-    ";
-    start_table('table-striped');
-}
-
-$apps = BoincApp::enum("deprecated=0");
-
-$total_gf = 0;
-foreach ($apps as $app) {
-    if ($xml) {
+    $apps = BoincApp::enum("deprecated=0");
+    foreach ($apps as $app) {
         echo "<application>\n";
         echo "    <user_friendly_name>$app->user_friendly_name</user_friendly_name>\n";
         echo "    <name>$app->name</name>\n";
@@ -47,23 +52,10 @@ foreach ($apps as $app) {
         if ($app->beta) {
             echo "        <beta/>\n";
         }
-    } else {
-        $b = $app->beta?" (beta test)":"";
-        echo "
-            <tr><th class=\"bg-primary\" colspan=4>$app->user_friendly_name$b</th></tr>
-            <tr>
-                <th>".tra("Platform")."</th>
-                <th>".tra("Version")."</th>
-                <th>".tra("Created")."</th>
-                <th style=\"text-align: right\">".tra("Recent average GFLOPS")."</th>
-            </tr>
-        ";
-    }
-    foreach ($platforms as $platform) {
-        $avs = latest_avs_app_platform($app->id, $platform->id);
-        foreach($avs as $av) {
-            $create_time_f = pretty_time_str($av->create_time);
-            if ($xml) {
+        foreach ($platforms as $platform) {
+            $avs = latest_avs_app_platform($app->id, $platform->id);
+            foreach($avs as $av) {
+                $create_time_f = pretty_time_str($av->create_time);
                 echo "    <version>\n";
                 echo "        <platform_short>$platform->name</platform_short>\n";
                 echo "        <platform_long>$platform->user_friendly_name</platform_long>\n";
@@ -75,36 +67,100 @@ foreach ($apps as $app) {
                     echo "        <beta/>\n";
                 }
                 echo "    </version>\n";
-            } else {
-                $version_num_f = sprintf("%0.2f", $av->version_num/100);
-                if ($av->plan_class) {
-                    $version_num_f .= " ($av->plan_class)";
-                }
-                $gf = $av->expavg_credit/200;
-                $total_gf += $gf;
-                $gf = number_format($gf, 2);
-                $b = $av->beta?" (beta test)":"";
-                echo "<tr>
-                    <td>$platform->user_friendly_name</td>
-                    <td>$version_num_f$b</td>
-                    <td>$create_time_f</td>
-                    <td align=right>$gf</td>
-                    </tr>
-                ";
             }
         }
-    }
-    if ($xml) {
         echo "    </application>\n";
     }
+    echo "</app_versions>\n";
 }
 
-if ($xml) {
-    echo "</app_versions>\n";
-} else {
+function show_apps() {
+    page_head(tra("Applications"));
+    echo tra("%1 currently has the following applications. When you participate in %1, tasks for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything.", PROJECT)."<br><br>
+    ";
+
+    $apps = BoincApp::enum("deprecated=0");
+    start_table('table-striped');
+    row_heading_array([
+        'Name<br><small>Click for details</small>',
+        'Created',
+        'Recent average GFLOPS',
+    ]);
+    foreach ($apps as $app) {
+        $b = $app->beta?' (beta test)':'';
+        $gf = BoincAppVersion::sum('expavg_credit', "where appid=$app->id")/200;
+        row_array([
+            "<a href=apps.php?app_id=$app->id>$app->user_friendly_name$b</a>",
+            pretty_time_str($app->create_time),
+            number_format($gf, 2)
+        ]);
+    }
     end_table();
-    $x = number_format($total_gf, 0);
+    page_tail();
+}
+
+function show_app($app_id) {
+    $app = BoincApp::lookup_id($app_id);
+    if (!$app) error_page('no app');
+    page_head("$app->user_friendly_name");
+    echo "<h2>Versions</h2>";
+    start_table('table-striped');
+    $platforms = BoincPlatform::enum("deprecated=0");
+    $total_gf = 0;
+    row_heading_array([
+        'ID',
+        'Platform',
+        'Version',
+        'Plan class',
+        'Created',
+        'Recent average GFLOPS'
+    ]);
+    foreach ($platforms as $platform) {
+        $avs = latest_avs_app_platform($app->id, $platform->id);
+        foreach($avs as $av) {
+            $create_time_f = pretty_time_str($av->create_time);
+            $version_num_f = sprintf("%0.2f", $av->version_num/100);
+            $gf = $av->expavg_credit/200;
+            $total_gf += $gf;
+            $gf = number_format($gf, 2);
+            $b = $av->beta?" (beta test)":"";
+            row_array([
+                "<a href=apps.php?avid=$av->id>$av->id</a>",
+                $platform->user_friendly_name,
+                "$version_num_f$b",
+                $av->plan_class,
+                $create_time_f,
+                $gf
+            ]);
+        }
+    }
+    end_table();
+    $x = number_format($total_gf, 2);
     echo "<p>Total average computing: $x GigaFLOPS";
     page_tail();
 }
+
+function show_app_version($avid) {
+    $av = BoincAppVersion::lookup_id($avid);
+    if (!$av) error_page('no app version');
+    $app = BoincApp::lookup_id($av->appid);
+    $platform = BoincPlatform::lookup_id($av->platformid);
+    page_head("App version $avid");
+    start_table('table-striped');
+    row2('App', $app->user_friendly_name);
+    row2('Version', $av->version_num);
+    row2('Platform', $platform->user_friendly_name);
+    row2('Plan class', $av->plan_class);
+    row2('Created', pretty_time_str($av->create_time));
+    row2("pfc_n", $av->pfc_n);
+    row2("pfc_avg", number_format($av->pfc_avg, 3));
+    row2("pfc_scale", number_format($av->pfc_scale, 3));
+    row2("expavg_credit", number_format($av->expavg_credit, 3));
+    row2('expavg_time', pretty_time_str($av->expavg_time));
+    end_table();
+    page_tail();
+}
+
+main();
+
 ?>
