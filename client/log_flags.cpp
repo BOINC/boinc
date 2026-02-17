@@ -241,6 +241,12 @@ void CC_CONFIG::show() {
     if (fetch_on_update) {
         msg_printf(NULL, MSG_INFO, "Config: fetch on update");
     }
+    if (enable_idle_helper_rpc) {
+        msg_printf(NULL, MSG_INFO,
+            "Config: enable Linux idle helper RPC (%s, timeout %d ms)",
+            idle_helper_socket.c_str(), idle_helper_timeout_ms
+        );
+    }
     if (http_1_0) {
         msg_printf(NULL, MSG_INFO, "Config: use HTTP 1.0");
     }
@@ -420,6 +426,9 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         }
         if (xp.parse_bool("fetch_minimal_work", fetch_minimal_work)) continue;
         if (xp.parse_bool("fetch_on_update", fetch_on_update)) continue;
+        if (xp.parse_bool("enable_idle_helper_rpc", enable_idle_helper_rpc)) continue;
+        if (xp.parse_string("idle_helper_socket", idle_helper_socket)) continue;
+        if (xp.parse_int("idle_helper_timeout_ms", idle_helper_timeout_ms)) continue;
         if (xp.parse_string("force_auth", force_auth)) {
             downcase_string(force_auth);
             continue;

@@ -42,7 +42,6 @@
 #undef Always
 #include <dirent.h> //for opening /tmp/.X11-unix/
   // (There is a DirScanner class in BOINC, but it doesn't do what we want)
-#include "log_flags.h" // idle_detection_debug flag for verbose output
 #endif
 
 #include <cstdio>
@@ -114,6 +113,14 @@
 #include "client_types.h"
 #include "client_msgs.h"
 #include "hostinfo.h"
+
+#include "log_flags.h"
+
+#if LINUX_LIKE_SYSTEM
+#include <sys/socket.h>
+#include <sys/un.h>
+#include <sys/time.h>
+#endif
 
 using std::string;
 using std::min;
@@ -2124,6 +2131,85 @@ inline long user_idle_time(struct utmp* u) {
 
 #if LINUX_LIKE_SYSTEM
 
+
+static string linux_idle_helper_socket_path() {
+    string path = cc_config.idle_helper_socket;
+    const string placeholder = "%d";
+    size_t pos = path.find(placeholder);
+    if (pos != string::npos) {
+        path.replace(pos, placeholder.size(), std::to_string((int)getuid()));
+    }
+    return path;
+}
+
+static long linux_idle_helper_rpc() {
+    if (!cc_config.enable_idle_helper_rpc) {
+        return USER_IDLE_TIME_INF;
+    }
+
+    string sock_path = linux_idle_helper_socket_path();
+    if (sock_path.empty()) {
+        return USER_IDLE_TIME_INF;
+    }
+
+    int timeout_ms = cc_config.idle_helper_timeout_ms;
+    if (timeout_ms <= 0) timeout_ms = 50;
+
+    int fd = socket(AF_UNIX, SOCK_STREAM, 0);
+    if (fd < 0) {
+        return USER_IDLE_TIME_INF;
+    }
+
+    struct timeval tv;
+    tv.tv_sec = timeout_ms/1000;
+    tv.tv_usec = (timeout_ms%1000)*1000;
+    setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO, (const void*)&tv, sizeof(tv));
+    setsockopt(fd, SOL_SOCKET, SO_SNDTIMEO, (const void*)&tv, sizeof(tv));
+
+    sockaddr_un addr;
+    memset(&addr, 0, sizeof(addr));
+    if (sock_path.size() >= sizeof(addr.sun_path)) {
+        close(fd);
+        return USER_IDLE_TIME_INF;
+    }
+    addr.sun_family = AF_UNIX;
+    strncpy(addr.sun_path, sock_path.c_str(), sizeof(addr.sun_path)-1);
+
+    if (connect(fd, (struct sockaddr*)&addr, sizeof(addr)) != 0) {
+        close(fd);
+        return USER_IDLE_TIME_INF;
+    }
+
+    static const char req[] = "GET_IDLE_SECS\n";
+    if (write(fd, req, sizeof(req)-1) != (ssize_t)(sizeof(req)-1)) {
+        close(fd);
+        return USER_IDLE_TIME_INF;
+    }
+
+    char buf[256];
+    ssize_t n = read(fd, buf, sizeof(buf)-1);
+    close(fd);
+    if (n <= 0) return USER_IDLE_TIME_INF;
+    buf[n] = 0;
+
+    long idle_secs = USER_IDLE_TIME_INF;
+    char source[128] = {0};
+    if (sscanf(buf, "OK %ld %127s", &idle_secs, source) == 2) {
+        if (idle_secs < 0) return USER_IDLE_TIME_INF;
+        if (idle_secs > USER_IDLE_TIME_INF) idle_secs = USER_IDLE_TIME_INF;
+        if (log_flags.idle_detection_debug) {
+            msg_printf(NULL, MSG_INFO,
+                "[idle_detection] helper idle time %ld (source %s)",
+                idle_secs, source
+            );
+        }
+        return idle_secs;
+    }
+
+    return USER_IDLE_TIME_INF;
+}
+
+
 #if HAVE_XSS
 
 // return vector of X server names
@@ -2301,6 +2387,8 @@ long HOST_INFO::user_idle_time(bool check_all_logins) {
     idle_time = min(idle_time, all_tty_idle_time());
 
 #if LINUX_LIKE_SYSTEM
+
+    idle_time = min(idle_time, linux_idle_helper_rpc());
 
 #if HAVE_XSS
     idle_time = min(idle_time, xss_idle());

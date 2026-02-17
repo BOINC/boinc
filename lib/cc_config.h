@@ -180,6 +180,9 @@ struct CC_CONFIG {
     bool exit_when_idle;
     bool fetch_minimal_work;
     bool fetch_on_update;
+    bool enable_idle_helper_rpc;
+    std::string idle_helper_socket;
+    int idle_helper_timeout_ms;
     std::string force_auth;
     bool http_1_0;
     int http_transfer_timeout;
