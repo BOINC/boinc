@@ -15,19 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "boinccas_helper.h"
+#pragma once
 
-test_boinccas_Base::test_boinccas_Base(std::string_view functionName) {
-    wil::unique_hmodule dll(LoadLibrary("boinccas.dll"));
-    if (!dll) {
-        throw std::runtime_error("Failed to load boinccas.dll");
-    }
-    auto func = reinterpret_cast<boinccasFn>(GetProcAddress(dll.get(),
-        functionName.data()));
-    if (!func) {
-        throw std::runtime_error("Failed to load function: " +
-            std::string(functionName));
-    }
-    hDll = std::move(dll);
-    hFunc = func;
-}
+std::string getRegistryValue(const std::string& valueName);
+bool setRegistryValue(const std::string& valueName,
+    const std::string& valueData);
+void cleanRegistryKey();

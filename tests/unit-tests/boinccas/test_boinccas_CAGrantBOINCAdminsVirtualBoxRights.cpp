@@ -16,18 +16,23 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "boinccas_helper.h"
+#include "user_group_helper.h"
 
-test_boinccas_Base::test_boinccas_Base(std::string_view functionName) {
-    wil::unique_hmodule dll(LoadLibrary("boinccas.dll"));
-    if (!dll) {
-        throw std::runtime_error("Failed to load boinccas.dll");
-    }
-    auto func = reinterpret_cast<boinccasFn>(GetProcAddress(dll.get(),
-        functionName.data()));
-    if (!func) {
-        throw std::runtime_error("Failed to load function: " +
-            std::string(functionName));
-    }
-    hDll = std::move(dll);
-    hFunc = func;
+namespace test_boinccas_CAGrantBOINCAdminsVirtualBoxRights {
+    class test_boinccas_CAGrantBOINCAdminsVirtualBoxRights :
+        public test_boinccas_TestBase {
+    protected:
+        test_boinccas_CAGrantBOINCAdminsVirtualBoxRights() :
+            test_boinccas_TestBase("GrantBOINCAdminsVirtualBoxRights") {
+        }
+
+        void TearDown() override {
+            if (localGroupExists("boinc_admins")) {
+                deleteLocalGroup("boinc_admins");
+            }
+        }
+    };
+
+#ifndef BOINCCAS_TEST
+#endif
 }

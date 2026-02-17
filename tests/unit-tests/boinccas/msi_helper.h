@@ -15,19 +15,29 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "boinccas_helper.h"
+#pragma once
 
-test_boinccas_Base::test_boinccas_Base(std::string_view functionName) {
-    wil::unique_hmodule dll(LoadLibrary("boinccas.dll"));
-    if (!dll) {
-        throw std::runtime_error("Failed to load boinccas.dll");
+class MsiHelper {
+public:
+    MsiHelper();
+    ~MsiHelper();
+    void insertProperties(
+        const std::vector<std::pair<std::string, std::string>>& properties);
+    std::tuple<unsigned int, std::string> getProperty(MSIHANDLE hMsiHandle,
+        const std::string& propertyName);
+    void setProperty(MSIHANDLE hMsiHandle, const std::string& propertyName,
+        const std::string& propertyValue);
+
+    std::string getMsiHandle() const {
+        return "#" + std::to_string(hMsi);
     }
-    auto func = reinterpret_cast<boinccasFn>(GetProcAddress(dll.get(),
-        functionName.data()));
-    if (!func) {
-        throw std::runtime_error("Failed to load function: " +
-            std::string(functionName));
-    }
-    hDll = std::move(dll);
-    hFunc = func;
-}
+
+private:
+    void init();
+    void cleanup();
+    void fillSummaryInformationTable();
+    void createPropertiesTable();
+    void createTable(const std::string_view& sql_create);
+    MSIHANDLE hMsi = 0;
+    INSTALLUILEVEL originalUiLevel;
+};

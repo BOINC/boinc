@@ -16,6 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "boinccas_helper.h"
+#include "registry_helper.h"
 
 namespace test_boinccas_CAAnnounceUpgrade {
     class test_boinccas_CAAnnounceUpgrade : public test_boinccas_TestBase {

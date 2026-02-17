@@ -16,6 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "boinccas_helper.h"
+#include "registry_helper.h"
+#include "user_group_helper.h"
 
 namespace test_boinccas_CADeleteBOINCAccounts {
     class test_boinccas_CADeleteBOINCAccounts : public test_boinccas_TestBase {

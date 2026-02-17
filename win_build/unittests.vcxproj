@@ -35,6 +35,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\tests\unit-tests\boinccas\boinccas_helper.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\msi_helper.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\registry_helper.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\user_group_helper.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CAAnnounceUpgrade.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CACleanupOldBinaries.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CACreateAcctMgrLoginFile.cpp" />
@@ -45,6 +48,7 @@
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CADeleteBOINCAccounts.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CADeleteBOINCGroups.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CAGrantBOINCAdminsRights.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CAGrantBOINCAdminsVirtualBoxRights.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_parse.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_str_util.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_url.cpp" />
@@ -78,6 +82,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\tests\unit-tests\boinccas\boinccas_helper.h" />
+    <ClInclude Include="..\tests\unit-tests\boinccas\msi_helper.h" />
+    <ClInclude Include="..\tests\unit-tests\boinccas\registry_helper.h" />
+    <ClInclude Include="..\tests\unit-tests\boinccas\user_group_helper.h" />
     <ClInclude Include="..\tests\unit-tests\win\pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
