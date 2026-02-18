@@ -641,7 +641,7 @@ static void handle_get_screensaver_tasks(GUI_RPC_CONN& grc) {
     unsigned int i;
     ACTIVE_TASK* atp;
     grc.mfout.printf(
-        "<handle_get_screensaver_tasks>\n"
+        "<get_screensaver_tasks>\n"
         "    <suspend_reason>%d</suspend_reason>\n",
         gstate.suspend_reason
     );
@@ -651,7 +651,7 @@ static void handle_get_screensaver_tasks(GUI_RPC_CONN& grc) {
             atp->result->write_gui(grc.mfout);
         }
     }
-    grc.mfout.printf("</handle_get_screensaver_tasks>\n");
+    grc.mfout.printf("</get_screensaver_tasks>\n");
 }
 
 static void handle_quit(GUI_RPC_CONN& grc) {
