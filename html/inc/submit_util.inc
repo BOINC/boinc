@@ -184,6 +184,8 @@ function delete_remote_submit_user($user) {
 // TODO: update est_completion_time
 //
 function get_batch_params($batch, $wus) {
+    $batch->njobs_success = 0;
+    $batch->njobs_in_prog = 0;
     if ($batch->state == BATCH_STATE_INIT) {
         // a batch in INIT state has no jobs
         //
@@ -294,6 +296,8 @@ function get_outfile_log_names($result) {
     return $names;
 }
 
+// get output file paths for non-assim-move apps
+//
 function get_outfile_paths($result) {
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     $upload_dir = parse_config(get_config(), "<upload_dir>");
@@ -307,6 +311,20 @@ function get_outfile_paths($result) {
         $paths[] = $path;
     }
     return $paths;
+}
+
+// the path of an output file in the 'assim move' scheme.
+// This must agree with the corresponding assimilators:
+// tools/sample_assimilate.py
+// sched/sample_assimilator.cpp
+// and with tools/query_job
+//
+function assim_move_outfile_path($wu, $index, $log_names) {
+    if (!is_valid_filename($wu->name)) error_page("bad WU name");
+    if (!is_valid_filename($log_names[$index])) error_page("bad logical name");
+    return sprintf('../../results/%d/%s__file_%s',
+        $wu->batch, $wu->name, $log_names[$index]
+    );
 }
 
 function abort_workunit($wu) {
@@ -415,7 +433,8 @@ function batch_state_string($state) {
     }
     return "unknown state $state";
 }
-// get the total size of output files of a batch
+// get the total size of output files of a batch for non-assim-move apps
+// (i.e. files are in the upload hier)
 //
 function batch_output_file_size($batchid) {
     $batch_td_size=0;
@@ -532,6 +551,7 @@ function file_ref_out($i, $fname) {
 }
 
 ////////////// ZIP FILES //////////////
+//
 // our job submission systems (BUDA and autodock)
 // expect zip files that contain files.
 // But some people are used to creating zip files

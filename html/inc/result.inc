@@ -728,13 +728,17 @@ function show_result($result, $show_outfile_links=false) {
     row2(tra("Server state"), result_server_state_string($result));
     row2(tra("Outcome"), result_outcome_string($result));
     row2(tra("Client state"), result_client_state_string($result));
-    row2(tra("Exit status"), exit_status_string($result->exit_status));
     row2(tra("Computer ID"), host_link($result->hostid));
-    row2(tra("Run time"), time_diff($result->elapsed_time));
-    row2(tra("CPU time"), time_diff($result->cpu_time));
+    if ($result->server_state == RESULT_SERVER_STATE_OVER) {
+        row2(tra("Exit status"), exit_status_string($result->exit_status));
+    }
+    if ($result->outcome == RESULT_OUTCOME_SUCCESS) {
+        row2(tra("Run time"), time_diff($result->elapsed_time));
+        row2(tra("CPU time"), time_diff($result->cpu_time));
+        row2(tra("Credit"), number_format($result->granted_credit, 2));
+        row2(tra("Validate state"), validate_state_str($result));
+    }
     row2('Priority', $result->priority);
-    row2(tra("Validate state"), validate_state_str($result));
-    row2(tra("Credit"), number_format($result->granted_credit, 2));
     row2(tra("Device peak FLOPS"), number_format($result->flops_estimate/1e9, 2)." GFLOPS");
     row2(tra("Application version"), app_version_string($result));
     if ($result->peak_working_set_size) {
