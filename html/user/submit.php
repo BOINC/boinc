@@ -708,6 +708,7 @@ function handle_query_batch($user) {
     echo "<p>";
     switch ($batch->state) {
     case BATCH_STATE_IN_PROGRESS:
+    case BATCH_STATE_INIT:
         show_button(
             "submit.php?action=abort_batch&batch_id=$batch_id",
             "Abort batch"
@@ -866,8 +867,12 @@ function handle_query_job($user) {
                 $nfiles = count($log_names);
                 for ($i=0; $i<$nfiles; $i++) {
                     $name = $log_names[$i];
+                    $path = assim_move_outfile_path($wu, $i, $log_names);
+
                     // don't show 'view' link if it's a .zip
-                    $y = "$name: ";
+                    $y = sprintf('%s (%s): ',
+                        $name, size_string(filesize($path))
+                    );
                     if (!strstr($name, '.zip')) {
                         $y .= sprintf(
                             '<a href=get_output3.php?action=get_file&result_id=%d&index=%d>view</a> &middot; ',
