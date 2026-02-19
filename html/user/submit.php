@@ -868,21 +868,24 @@ function handle_query_job($user) {
                 for ($i=0; $i<$nfiles; $i++) {
                     $name = $log_names[$i];
                     $path = assim_move_outfile_path($wu, $i, $log_names);
-
-                    // don't show 'view' link if it's a .zip
-                    $y = sprintf('%s (%s): ',
-                        $name, size_string(filesize($path))
-                    );
-                    if (!strstr($name, '.zip')) {
+                    if (file_exists($path)) {
+                        $y = sprintf('%s (%s): ',
+                            $name, size_string(filesize($path))
+                        );
+                        // don't show 'view' link if it's a .zip
+                        if (!strstr($name, '.zip')) {
+                            $y .= sprintf(
+                                '<a href=get_output3.php?action=get_file&result_id=%d&index=%d>view</a> &middot; ',
+                                $result->id, $i
+                            );
+                        }
                         $y .= sprintf(
-                            '<a href=get_output3.php?action=get_file&result_id=%d&index=%d>view</a> &middot; ',
+                            '<a href=get_output3.php?action=get_file&result_id=%d&index=%d&download=1>download</a>',
                             $result->id, $i
                         );
+                    } else {
+                        $y = sprintf('%s: MISSING', $name);
                     }
-                    $y .= sprintf(
-                        '<a href=get_output3.php?action=get_file&result_id=%d&index=%d&download=1>download</a>',
-                        $result->id, $i
-                    );
                     $x[] = $y;
                 }
             } else {
