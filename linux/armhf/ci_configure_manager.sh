@@ -53,10 +53,10 @@ linux/update_vcpkg_manager.sh $TRIPLET
 export CC=arm-linux-gnueabihf-gcc
 export CXX=arm-linux-gnueabihf-g++
 export LD=arm-linux-gnueabihf-ld
-export CFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3"
-export CXXFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3 -std=c++11"
+export CFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3 -flto"
+export CXXFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3 -flto -std=c++11"
 export CPPFLAGS="-I$VCPKG_DIR/include"
-export LDFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -static-libstdc++ -s"
+export LDFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3 -flto -static-libstdc++ -s"
 export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
 
 ./configure --host=arm-linux-gnueabihf --with-boinc-platform="arm-unknown-linux-gnueabihf" --disable-server --disable-client --with-wx-config=$VCPKG_DIR/tools/wxwidgets/wx-config CPPFLAGS="-DwxDEBUG_LEVEL=0 -DBUILD_WITH_VCPKG=1" GTK_LIBS="$(pkg-config --libs gtk+-3.0 librsvg-2.0 pixbufloader-svg)" $exec_prefix

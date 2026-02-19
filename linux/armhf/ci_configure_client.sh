@@ -51,10 +51,10 @@ linux/update_vcpkg_client.sh $TRIPLET
 export CC=arm-linux-gnueabihf-gcc
 export CXX=arm-linux-gnueabihf-g++
 export LD=arm-linux-gnueabihf-ld
-export CFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3"
-export CXXFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3 -std=c++11"
+export CFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3 -flto"
+export CXXFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3 -flto -std=c++11"
 export CPPFLAGS="-I$VCPKG_DIR/include"
-export LDFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -static-libstdc++ -s"
+export LDFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3 -flto -static-libstdc++ -s"
 export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
 export PKG_CONFIG_PATH=$VCPKG_DIR/lib/pkgconfig/
 

@@ -31,6 +31,9 @@ export VCPKG_DIR="$VCPKG_ROOT/installed/x64-linux"
 
 linux/update_vcpkg_libs.sh
 
+export CFLAGS="-O3 -flto"
+export CXXFLAGS="-O3 -flto"
+export LDFLAGS="-O3 -flto -static-libstdc++ -s"
 export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
 export PKG_CONFIG_PATH=$VCPKG_DIR/lib/pkgconfig/
 ./configure --with-libcurl=$VCPKG_DIR --with-ssl=$VCPKG_DIR --disable-server --disable-client --disable-manager
