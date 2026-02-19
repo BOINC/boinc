@@ -189,6 +189,7 @@ sched/delete_file
 sched/fcgi
 sched/fcgi_file_upload_handler
 sched/feeder
+sched/feeder_user
 sched/file_deleter
 sched/file_upload_handler
 sched/get_file
