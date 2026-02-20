@@ -226,7 +226,7 @@ class IntegrationTests:
                         ts.expect_equal("test_user", username_element.text, "Test 'username' element contains 'test_user'")
 
                     if password_element is not None:
-                        ts.expect_equal("cXdlcnR5MTIzNDU2IUAjJCVe", password_element.text.strip(), "Test 'password' element contains 'cXdlcnR5MTIzNDU2IUAjJCVe'")
+                        ts.expect_equal("cXdlcnR5MTIzNDU2IUAjJCVe", password_element.text, "Test 'password' element contains 'cXdlcnR5MTIzNDU2IUAjJCVe'")
 
             except ET.ParseError as e:
                 ts.expect_true(False, f"Test XML file is well-formed (Parse error: {e})")

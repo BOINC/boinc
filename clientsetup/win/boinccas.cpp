@@ -1,6 +1,6 @@
 // Berkeley Open Infrastructure for Network Computing
 // http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // This is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -139,28 +139,6 @@ static BOOL IsVersionNewer(const tstring v1, const tstring v2) {
     if (v1_min < v2_min) return FALSE;
     if (v1_rel > v2_rel) return TRUE;
     return FALSE;
-}
-
-
-/////////////////////////////////////////////////////////////////////
-//
-// Function:    SetUpgradeParameters
-//
-// Description:
-//
-/////////////////////////////////////////////////////////////////////
-UINT BOINCCABase::SetUpgradeParameters()
-{
-    tstring strCurrentProductVersion;
-    UINT    uiReturnValue = 0;
-
-    uiReturnValue = GetProperty( _T("ProductVersion"), strCurrentProductVersion );
-    if ( uiReturnValue ) return uiReturnValue;
-
-    uiReturnValue = SetRegistryValue( _T("UpgradingTo"), strCurrentProductVersion );
-    if ( uiReturnValue ) return uiReturnValue;
-
-    return ERROR_SUCCESS;
 }
 
 /////////////////////////////////////////////////////////////////////

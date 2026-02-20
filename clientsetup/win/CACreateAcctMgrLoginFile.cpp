@@ -1,124 +1,79 @@
-// Berkeley Open Infrastructure for Network Computing
-// http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// This file is part of BOINC.
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
-// This is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation;
-// either version 2.1 of the License, or (at your option) any later version.
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
-// This software is distributed in the hope that it will be useful,
+// BOINC is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // See the GNU Lesser General Public License for more details.
 //
-// To view the GNU Lesser General Public License visit
-// http://www.gnu.org/copyleft/lesser.html
-// or write to the Free Software Foundation, Inc.,
-// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "CACreateAcctMgrLoginFile.h"
 
+class CACreateAcctMgrLoginFile : public BOINCCABase {
+public:
+    virtual ~CACreateAcctMgrLoginFile() = default;
 
-#define CUSTOMACTION_NAME               _T("CACreateAcctMgrLoginFile")
-#define CUSTOMACTION_PROGRESSTITLE      _T("Store account manager initialization data")
-
-
-/////////////////////////////////////////////////////////////////////
-//
-// Function:
-//
-// Description:
-//
-/////////////////////////////////////////////////////////////////////
-CACreateAcctMgrLoginFile::CACreateAcctMgrLoginFile(MSIHANDLE hMSIHandle) :
-    BOINCCABase(hMSIHandle, CUSTOMACTION_NAME, CUSTOMACTION_PROGRESSTITLE)
-{}
-
-
-/////////////////////////////////////////////////////////////////////
-//
-// Function:
-//
-// Description:
-//
-/////////////////////////////////////////////////////////////////////
-CACreateAcctMgrLoginFile::~CACreateAcctMgrLoginFile()
-{
-    BOINCCABase::~BOINCCABase();
-}
-
-
-/////////////////////////////////////////////////////////////////////
-//
-// Function:
-//
-// Description:
-//
-/////////////////////////////////////////////////////////////////////
-UINT CACreateAcctMgrLoginFile::OnExecution()
-{
-    tstring          strDataDirectory;
-    tstring          strAcctMgrLogin;
-    tstring          strAcctMgrPasswordHash;
-    tstring          strAcctMgrLoginFile;
-    UINT             uiReturnValue;
-
-
-    uiReturnValue = GetProperty( _T("DATADIR"), strDataDirectory );
-    if ( uiReturnValue ) return uiReturnValue;
-
-    uiReturnValue = GetProperty( _T("ACCTMGR_LOGIN"), strAcctMgrLogin );
-    if ( uiReturnValue ) return uiReturnValue;
-
-    uiReturnValue = GetProperty( _T("ACCTMGR_PASSWORDHASH"), strAcctMgrPasswordHash );
-    if ( uiReturnValue ) return uiReturnValue;
-
-
-    if (!strAcctMgrLogin.empty()) {
-
-        // The project_init.xml file is stored in the data directory.
-        //
-        strAcctMgrLoginFile = strDataDirectory + _T("\\acct_mgr_login.xml");
-
-        FILE* fAcctMgrLoginFile = _tfopen(strAcctMgrLoginFile.c_str(), _T("w"));
-
-        _ftprintf(
-            fAcctMgrLoginFile,
-            _T("<acct_mgr_login>\n")
-            _T("    <login>%s</login>\n")
-            _T("    <password_hash>%s</password_hash>\n")
-            _T("</acct_mgr_login>\n"),
-            strAcctMgrLogin.c_str(),
-            !strAcctMgrPasswordHash.empty() ? strAcctMgrPasswordHash.c_str() : _T("")
-        );
-
-        fclose(fAcctMgrLoginFile);
+    explicit CACreateAcctMgrLoginFile(MSIHANDLE hMSIHandle) :
+        BOINCCABase(hMSIHandle, _T("CACreateAcctMgrLoginFile"),
+            _T("Store account manager initialization data")) {
     }
 
-    return ERROR_SUCCESS;
-}
+    UINT OnExecution() override final {
+        tstring strDataDirectory;
+        auto uiReturnValue = GetProperty(_T("DATADIR"), strDataDirectory);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
+        if (strDataDirectory.empty()) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+                _T("The data directory is empty."));
+            return ERROR_INSTALL_FAILURE;
+        }
+        if (!std::filesystem::exists(strDataDirectory)) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+                _T("The data directory doesn't exist."));
+            return ERROR_INSTALL_FAILURE;
+        }
 
+        tstring login;
+        uiReturnValue = GetProperty(_T("ACCTMGR_LOGIN"), login);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
 
-/////////////////////////////////////////////////////////////////////
-//
-// Function:    CreateAcctMgrLoginFile
-//
-// Description: This custom action stores the account manager login data
-//                specified on the commandline in a file in the data
-//                directory.
-//
-/////////////////////////////////////////////////////////////////////
-UINT __stdcall CreateAcctMgrLoginFile(MSIHANDLE hInstall)
-{
-    UINT uiReturnValue = 0;
+        if (login.empty()) {
+            return ERROR_SUCCESS;
+        }
 
-    CACreateAcctMgrLoginFile* pCA = new CACreateAcctMgrLoginFile(hInstall);
-    uiReturnValue = pCA->Execute();
-    delete pCA;
+        tstring pwdHash;
+        uiReturnValue = GetProperty(_T("ACCTMGR_PASSWORDHASH"), pwdHash);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
 
-    return uiReturnValue;
+        const auto strAcctMgrLoginFile =
+            strDataDirectory + _T("\\acct_mgr_login.xml");
+        std::wofstream fAcctMgrLoginFile(strAcctMgrLoginFile);
+        fAcctMgrLoginFile <<
+            _T("<acct_mgr_login>\n") <<
+            _T("    <login>") << login << _T("</login>\n") <<
+            _T("    <password_hash>") << pwdHash << _T("</password_hash>\n") <<
+            _T("</acct_mgr_login>\n");
+        fAcctMgrLoginFile.close();
+
+        return ERROR_SUCCESS;
+    }
+};
+
+UINT __stdcall CreateAcctMgrLoginFile(MSIHANDLE hInstall) {
+    return CACreateAcctMgrLoginFile(hInstall).Execute();
 }

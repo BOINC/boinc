@@ -16,12 +16,16 @@
   </ImportGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>../win_build;../lib;../zip;../api;../samples/vboxwrapper;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;../lib;../zip;../api;../samples/vboxwrapper;../tests/unit-tests/win;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>pch.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(BOINCCAS_TEST)' == 'true'">BOINCCAS_TEST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>gtest_main.lib;gmock_main.lib;zip.lib;atls.lib;ole32.lib;wsock32.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gtest_main.lib;gmock_main.lib;zip.lib;atls.lib;ole32.lib;wsock32.lib;psapi.lib;msi.lib;cabinet.lib;Version.lib;tinyxml2.lib;Netapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">zlibd.lib;libcmtd.lib;libcpmtd.lib;comsuppwd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies Condition="'$(Configuration)'=='Release'">zlib.lib;libcmt.lib;libcpmt.lib;comsuppw.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories Condition="'$(Configuration)'=='Debug'">$(VcpkgInstalledDir)/debug/lib/manual-link;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -30,6 +34,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\tests\unit-tests\boinccas\boinccas_helper.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CAAnnounceUpgrade.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CACleanupOldBinaries.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CACreateAcctMgrLoginFile.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CACreateBOINCAccounts.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CACreateBOINCGroups.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CACreateClientAuthFile.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CACreateProjectInitFile.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CADeleteBOINCAccounts.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CADeleteBOINCGroups.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CAGrantBOINCAdminsRights.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_parse.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_str_util.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_url.cpp" />
@@ -39,6 +54,9 @@
     <ClCompile Include="..\tests\unit-tests\lib\test_shmem.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_zip.cpp" />
     <ClCompile Include="..\tests\unit-tests\vboxwrapper\test_vbox_common.cpp" />
+    <ClCompile Include="..\tests\unit-tests\win\pch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\samples\vboxwrapper\floppyio.cpp" />
@@ -57,6 +75,10 @@
     <ProjectReference Include="libboinczip.vcxproj">
       <Project>{753e897d-9ece-42b1-9f0d-cd566775c77e}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\tests\unit-tests\boinccas\boinccas_helper.h" />
+    <ClInclude Include="..\tests\unit-tests\win\pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

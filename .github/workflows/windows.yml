@@ -123,13 +123,18 @@ jobs:
 
       - name: Build
         if: success()
-        run: msbuild win_build\boinc.sln -p:Configuration=${{matrix.configuration}} -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -p:DLIB=${{ env.DLIB }} -p:DMDF=${{ env.DMDF }} -m
+        run: msbuild win_build\boinc.sln -p:Configuration=${{matrix.configuration}} -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -p:DLIB=${{ env.DLIB }} -p:DMDF=${{ env.DMDF }} -p:BOINCCAS_TEST=true -m
 
       - name: Run unit tests
         if: success() && matrix.platform == 'x64' && matrix.configuration == 'Release'
         working-directory: win_build\Build\${{matrix.platform}}\${{matrix.configuration}}
         run: |
           ${{github.workspace}}\temp\OpenCppCoverage\OpenCppCoverage.exe --cover_children --optimized_build --sources ${{github.workspace}} --export_type=binary:gtest.cov -- unittests.exe --gtest_output=xml:gtest.xml
+
+      - name: Run crypt_prog tests
+        if: success() && matrix.platform == 'x64' && matrix.configuration == 'Release'
+        working-directory: win_build\Build\${{matrix.platform}}\${{matrix.configuration}}
+        run: |
           ${{github.workspace}}\temp\OpenCppCoverage\OpenCppCoverage.exe --cover_children --optimized_build --modules ${{github.workspace}} --sources ${{github.workspace}} --input_coverage=gtest.cov --export_type=cobertura:cobertura.xml -- python ${{github.workspace}}\tests\crypt_prog_tests.py ${{github.workspace}}\win_build\Build\x64\${{matrix.configuration}}\crypt_prog.exe
 
       - name: Verify MSI file

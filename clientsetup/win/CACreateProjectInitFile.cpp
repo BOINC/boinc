@@ -1,158 +1,122 @@
-// Berkeley Open Infrastructure for Network Computing
-// http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// This file is part of BOINC.
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
-// This is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation;
-// either version 2.1 of the License, or (at your option) any later version.
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
-// This software is distributed in the hope that it will be useful,
+// BOINC is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // See the GNU Lesser General Public License for more details.
 //
-// To view the GNU Lesser General Public License visit
-// http://www.gnu.org/copyleft/lesser.html
-// or write to the Free Software Foundation, Inc.,
-// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 #include "boinccas.h"
 #include "project_init.h"
 #include "common_defs.h"
-#include "CACreateProjectInitFile.h"
+#include "win_util.h"
 
-
-#define CUSTOMACTION_NAME               _T("CACreateProjectInitFile")
-#define CUSTOMACTION_PROGRESSTITLE      _T("Store project initialization data")
-
-
-/////////////////////////////////////////////////////////////////////
-//
-// Function:
-//
-// Description:
-//
-/////////////////////////////////////////////////////////////////////
-CACreateProjectInitFile::CACreateProjectInitFile(MSIHANDLE hMSIHandle) :
-    BOINCCABase(hMSIHandle, CUSTOMACTION_NAME, CUSTOMACTION_PROGRESSTITLE)
-{}
-
-
-/////////////////////////////////////////////////////////////////////
-//
-// Function:
-//
-// Description:
-//
-/////////////////////////////////////////////////////////////////////
-CACreateProjectInitFile::~CACreateProjectInitFile()
-{
-    BOINCCABase::~BOINCCABase();
-}
-
-
-/////////////////////////////////////////////////////////////////////
-//
-// Function:
-//
-// Description:
-//
-/////////////////////////////////////////////////////////////////////
-UINT CACreateProjectInitFile::OnExecution()
-{
-    tstring          strSetupExeName;
-    tstring          strDataDirectory;
-    tstring          strProjectInitUrl;
-    tstring          strProjectInitAuthenticator;
-    tstring          project_name;
-    PROJECT_INIT     pi;
-    UINT             uiReturnValue = 0;
-
-    uiReturnValue = GetProperty( _T("DATADIR"), strDataDirectory );
-    if ( uiReturnValue ) return uiReturnValue;
-
-    uiReturnValue = GetProperty( _T("PROJINIT_URL"), strProjectInitUrl );
-    if ( uiReturnValue ) return uiReturnValue;
-
-    uiReturnValue = GetProperty(_T("PROJINIT_NAME"), project_name);
-    if (uiReturnValue) return uiReturnValue;
-
-    uiReturnValue = GetProperty( _T("PROJINIT_AUTH"), strProjectInitAuthenticator );
-    if ( uiReturnValue ) return uiReturnValue;
-
-    uiReturnValue = GetProperty( _T("SETUPEXENAME"), strSetupExeName );
-    if ( uiReturnValue ) return uiReturnValue;
-
-    LogMessage(
-        INSTALLMESSAGE_INFO,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        _T("Changing to the data directory")
-    );
-    _tchdir(strDataDirectory.c_str());
-
-    // write project_init.xml if project info was passed on cmdline
-    //
-    if (!strProjectInitUrl.empty()) {
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            _T("Detected command line parameters")
-        );
-
-        pi.init();
-
-        strncpy(pi.url, CW2A(strProjectInitUrl.c_str()), sizeof(pi.url) - 1);
-        if (!project_name.empty()) {
-            strncpy(pi.name, CW2A(project_name.c_str()), sizeof(pi.name) - 1);
-        } else {
-            strncpy(pi.name, CW2A(strProjectInitUrl.c_str()), sizeof(pi.name) - 1);
-        }
-
-        strncpy(pi.account_key, CW2A(strProjectInitAuthenticator.c_str()), sizeof(pi.account_key)-1);
-
-        pi.embedded = false;
-
-        pi.write();
-
+class CACreateProjectInitFile : public BOINCCABase {
+public:
+    virtual ~CACreateProjectInitFile() = default;
+    explicit CACreateProjectInitFile(MSIHANDLE hMSIHandle) :
+        BOINCCABase(hMSIHandle, _T("CACreateProjectInitFile"),
+            _T("Store project initialization data")) {
     }
 
-    // write installer filename to a file
-    //
-    char filename[256];
-    FILE* f = fopen(ACCOUNT_DATA_FILENAME, "w");
-    strncpy(filename, CW2A(strSetupExeName.c_str()), sizeof(filename)-1);
-    fputs(filename, f);
-    fclose(f);
+    UINT OnExecution() override final {
+        tstring strDataDirectory;
+        auto uiReturnValue = GetProperty(_T("DATADIR"), strDataDirectory);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
+        if (strDataDirectory.empty()) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+                _T("The data directory is empty."));
+            return ERROR_INSTALL_FAILURE;
+        }
+        if (!std::filesystem::exists(strDataDirectory)) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+                _T("The data directory doesn't exist."));
+            return ERROR_INSTALL_FAILURE;
+        }
 
-    return ERROR_SUCCESS;
-}
+        tstring strProjectInitUrl;
+        uiReturnValue = GetProperty(_T("PROJINIT_URL"), strProjectInitUrl);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
 
+        tstring project_name;
+        uiReturnValue = GetProperty(_T("PROJINIT_NAME"), project_name);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
 
-/////////////////////////////////////////////////////////////////////
-//
-// Function:    CreateProjectInitFile
-//
-// Description: This custom action stores the project init data
-//                specified on the commandline in a file in the data
-//                directory.
-//
-/////////////////////////////////////////////////////////////////////
-UINT __stdcall CreateProjectInitFile(MSIHANDLE hInstall)
-{
-    UINT uiReturnValue = 0;
+        tstring strProjectInitAuthenticator;
+        uiReturnValue = GetProperty(_T("PROJINIT_AUTH"), strProjectInitAuthenticator);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
 
-    CACreateProjectInitFile* pCA = new CACreateProjectInitFile(hInstall);
-    uiReturnValue = pCA->Execute();
-    delete pCA;
+        tstring strSetupExeName;
+        uiReturnValue = GetProperty(_T("SETUPEXENAME"), strSetupExeName);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
 
-    return uiReturnValue;
+        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+            _T("Changing to the data directory"));
+        const auto prev_dir = std::filesystem::current_path();
+        std::filesystem::current_path(strDataDirectory);
+
+        // write project_init.xml if project info was passed on cmdline
+        //
+        if (!strProjectInitUrl.empty() &&
+            !strProjectInitAuthenticator.empty()) {
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+                _T("Detected command line parameters"));
+
+            PROJECT_INIT pi;
+            strncpy(pi.url, boinc_wide_to_ascii(strProjectInitUrl).c_str(),
+                sizeof(pi.url) - 1);
+            if (!project_name.empty()) {
+                strncpy(pi.name, boinc_wide_to_ascii(project_name).c_str(),
+                    sizeof(pi.name) - 1);
+            }
+            else {
+                strncpy(pi.name,
+                    boinc_wide_to_ascii(strProjectInitUrl).c_str(),
+                    sizeof(pi.name) - 1);
+            }
+            strncpy(pi.account_key,
+                boinc_wide_to_ascii(strProjectInitAuthenticator).c_str(),
+                sizeof(pi.account_key) - 1);
+            pi.embedded = false;
+            pi.write();
+        }
+
+        if (!strSetupExeName.empty()) {
+            // write installer filename to a file
+            //
+            std::ofstream f(ACCOUNT_DATA_FILENAME);
+            f << boinc_wide_to_ascii(strSetupExeName);
+            f.close();
+        }
+
+        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+            _T("Restoring previous directory"));
+        std::filesystem::current_path(prev_dir);
+
+        return ERROR_SUCCESS;
+    }
+};
+
+UINT __stdcall CreateProjectInitFile(MSIHANDLE hInstall) {
+    return CACreateProjectInitFile(hInstall).Execute();
 }
