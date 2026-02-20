@@ -387,7 +387,11 @@ function result_page_url($info) {
 }
 
 function result_table_start($show_wu_link, $show_host_link, $info) {
-    start_table('table-striped');
+    // Use custom table start with ID for DataTables sorting
+    echo '<div class="table">
+      <table width="100%" class="table table-condensed table-striped" id="results-table">
+      <thead>
+    ';
     $x = array();
     $a = array(null);
 
@@ -437,6 +441,7 @@ function result_table_start($show_wu_link, $show_host_link, $info) {
     $x[] = tra("Application");
     $a[] = null;
     row_heading_array($x, $a);
+    echo "</thead>\n<tbody>\n";
 }
 
 // was result invalid or timed out?
