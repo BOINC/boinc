@@ -714,7 +714,6 @@ function handle_query_batch($user) {
         );
     }
     end_table();
-    echo "<p>";
 
     echo "<p>";
     if ($is_assim_move) {
