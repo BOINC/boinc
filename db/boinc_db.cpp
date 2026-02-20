@@ -2046,8 +2046,9 @@ int DB_VALIDATOR_ITEM_SET::update_workunit(WORKUNIT& wu) {
     char query[MAX_QUERY_LEN];
 
     sprintf(query,
-        "update workunit set need_validate=0, error_mask=%d, "
-        "assimilate_state=%d, transition_time=%d, "
+        "update workunit set need_validate=0, "
+        "error_mask=error_mask|%d, "
+        "transition_time=%d, "
         "target_nresults=%d, "
         "canonical_resultid=%lu, canonical_credit=%.15e "
         "where id=%lu",
