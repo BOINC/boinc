@@ -86,7 +86,7 @@ function get_batch_tar() {
         die('no batch dir');
     }
     $name = "batch_$batch_id.tar";
-    $cmd = "cd $dir; rm -f $name; tar -cvf $name .";
+    $cmd = "cd $dir; rm -f $name; tar -cf $name .";
     system($cmd);
     do_download("$dir/$name");
     unlink("$dir/$name");

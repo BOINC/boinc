@@ -286,11 +286,13 @@ function get_outfile_phys_names($result) {
 }
 
 function get_outfile_log_names($result) {
-    $names = [];
-    $gzip = [];
     $xml = "<a>".$result->xml_doc_in."</a>";
     $r = simplexml_load_string($xml);
-    if (!$r) return $names;
+    if (!$r) {
+        return [[],[]];
+    }
+    $names = [];
+    $gzip = [];
     foreach ($r->result->file_ref as $fr) {
         $names[] = (string)($fr->open_name);
     }

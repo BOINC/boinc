@@ -892,7 +892,7 @@ function handle_query_job($user) {
                 for ($i=0; $i<$nfiles; $i++) {
                     $name = $log_names[$i];
                     $path = assim_move_outfile_path($wu, $i, $log_names, $gzip);
-                    if (!file_exists($path)) {
+                    if (file_exists($path)) {
                         $y = sprintf('%s (%s): ',
                             $name, size_string(filesize($path))
                         );
