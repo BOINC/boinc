@@ -885,6 +885,7 @@ function handle_query_job($user) {
             time_str($result->received_time),
             $result->priority
         ];
+        $files = [];
         if ($is_assim_move) {
             if ($result->id == $wu->canonical_resultid) {
                 [$log_names, $gzip] = get_outfile_log_names($result);
@@ -896,8 +897,8 @@ function handle_query_job($user) {
                         $y = sprintf('%s (%s): ',
                             $name, size_string(filesize($path))
                         );
-                        // don't show 'view' link if it's a .zip
-                        if (!strstr($name, '.zip')) {
+                        // don't show 'view' link if it's zipped
+                        if (!strstr($name, '.zip') && !$gzip[$i]) {
                             $y .= sprintf(
                                 '<a href=get_output3.php?action=get_file&result_id=%d&index=%d>view</a> &middot; ',
                                 $result->id, $i
@@ -910,10 +911,10 @@ function handle_query_job($user) {
                     } else {
                         $y = sprintf('%s: MISSING', $name);
                     }
-                    $x[] = $y;
+                    $files[] = $y;
                 }
             } else {
-                $x[] = '---';
+                $files[] = '---';
             }
         } else {
             if ($result->server_state == RESULT_SERVER_STATE_OVER) {
@@ -931,19 +932,20 @@ function handle_query_job($user) {
                         );
                         $s = stat($path);
                         $size = $s['size'];
-                        $x[] = sprintf('<a href=%s>%s</a> (%s bytes)<br/>',
+                        $files[] = sprintf('<a href=%s>%s</a> (%s bytes)<br/>',
                             $url,
                             $log_names[$i],
                             number_format($size)
                         );
                     } else {
-                        $x[] = sprintf("file '%s' is missing", $log_names[$i]);
+                        $files[] = sprintf("file '%s' is missing", $log_names[$i]);
                     }
                 }
             } else {
-                $x[] = '---';
+                $files[] = '---';
             }
         }
+        $x[] = implode('<br>', $files);
         row_array($x);
     }
     end_table();
