@@ -36,7 +36,17 @@ BOINC_LIB_DIR = $(BOINC_SOURCE_LIB_DIR)
 MAKEFILE_LDFLAGS = -lpthread libstdc++.a
 MAKEFILE_STDLIB  = libstdc++.a
 
-CXXFLAGS += -g \
+ifdef RELEASE_ARCH
+  CFLAGS += -O3 -flto
+  CXXFLAGS += -O3 -flto
+  LDFLAGS += -O3 -flto -s -static-libstdc++
+else
+  CFLAGS += -O0 -g
+  CXXFLAGS += -O0 -g
+  LDFLAGS += -O0 -g
+endif
+
+CXXFLAGS += \
 	-Wall -W -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings -fno-common \
     -I$(BOINC_DIR) \
     -I$(BOINC_SOURCE_API_DIR) \

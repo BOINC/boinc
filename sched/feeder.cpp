@@ -162,7 +162,6 @@ bool using_hr;
     // true iff any app is using HR
 bool is_main_feeder = true;
     // false if using --mod or --wmod and this one isn't 0
-bool batch_accel = false;
 
 void signal_handler(int) {
     log_messages.printf(MSG_NORMAL, "Signaled by simulator\n");
@@ -264,7 +263,7 @@ static bool get_job_from_db(
             retval = wi.enumerate_all(enum_size, select_clause);
         } else {
             retval = wi.enumerate(
-                enum_size, select_clause, order_clause, batch_accel
+                enum_size, select_clause, order_clause
             );
         }
         if (retval) {
@@ -752,7 +751,7 @@ int main(int argc, char** argv) {
         } else if (is_arg(argv[i], "random_order")) {
             order_clause = "order by r1.random ";
         } else if (is_arg(argv[i], "batch_accel")) {
-            batch_accel = true;
+            order_clause = "order by r1.priority desc, workunit.id";
         } else if (is_arg(argv[i], "random_order_db")) {
             order_clause = "order by rand(sysdate()) ";
         } else if (is_arg(argv[i], "allapps")) {

@@ -22,6 +22,16 @@ BOINC_DIR = ../..
 BOINC_SOURCE_API_DIR = $(BOINC_DIR)/api
 BOINC_SOURCE_LIB_DIR = $(BOINC_DIR)/lib
 
+ifdef RELEASE_ARCH
+  CFLAGS += -O3 -flto
+  CXXFLAGS += -O3 -flto
+  LDFLAGS += -O3 -flto -s -static-libstdc++
+else
+  CFLAGS += -O0 -g
+  CXXFLAGS += -O0 -g
+  LDFLAGS += -O0 -g
+endif
+
 ifndef ANDROID
   BOINC_API_DIR = $(BOINC_SOURCE_API_DIR)
   BOINC_LIB_DIR = $(BOINC_SOURCE_LIB_DIR)
@@ -30,7 +40,7 @@ else
   BOINC_LIB_DIR = $(TCINCLUDES)/lib
 endif
 
-CXXFLAGS += -g \
+CXXFLAGS += \
     -I$(BOINC_DIR) \
     -I$(BOINC_SOURCE_API_DIR) \
     -I$(BOINC_SOURCE_LIB_DIR) \

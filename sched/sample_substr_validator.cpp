@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -64,9 +64,8 @@ void validate_handler_usage() {
     );
 }
 
-int init_result(RESULT& r, void*&) {
-    for(unsigned int i=0; i<stderr_strings.size(); i++) {
-        char* stderr_string = stderr_strings[i];
+int init_result(const RESULT& r, void*&) {
+    for(char* stderr_string: stderr_strings) {
         if (strstr(r.stderr_out, stderr_string)) {
             if (reject_if_present) return -1;
         } else {

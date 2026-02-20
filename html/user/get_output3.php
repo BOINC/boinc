@@ -17,7 +17,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// get output files, individually or zipped groups
+// get output files, individually or zipped groups,
+// for apps that use the 'assim move' scheme
 //
 // args:
 // action: get_file or get_batch
@@ -29,26 +30,10 @@
 //      downloads zip of batch's output files
 //      Assumes the layout used by sample_assimilator.cpp
 //      and sample_assimilate.py:
-//      <project>/results/
-//      <batchid>/   (0 if not in a batch)
-//
+//      <project>/results/<batchid>/   (0 if not in a batch)
 
 require_once("../inc/util.inc");
 require_once("../inc/submit_util.inc");
-
-// the path of an output file in the 'assim move' scheme.
-// This must agree with the corresponding assimilators:
-// tools/sample_assimilate.py
-// sched/sample_assimilator.cpp
-// and with tools/query_job
-//
-function outfile_path($wu, $index, $log_names) {
-    if (!is_valid_filename($wu->name)) error_page("bad WU name");
-    if (!is_valid_filename($log_names[$index])) error_page("bad logical name");
-    return sprintf('results/%d/%s__file_%s',
-        $wu->batch, $wu->name, $log_names[$index]
-    );
-}
 
 // show or download a single output file,
 // identified by result ID and file index
@@ -62,7 +47,7 @@ function get_file() {
     if (!$wu) error_page('no workunit');
     $log_names = get_outfile_log_names($result);
     if ($index >= count($log_names)) error_page('bad index');
-    $path = sprintf('../../%s', outfile_path($wu, $index, $log_names));
+    $path = assim_move_outfile_path($wu, $index, $log_names);
 
     if (get_str('download', true)) {
         do_download($path);

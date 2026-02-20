@@ -487,6 +487,10 @@ class BoincAppVersion {
         $db = BoincDb::get();
         return $db->update($this, 'app_version', $clause);
     }
+    static function sum($field, $clause) {
+        $db = BoincDb::get();
+        return $db->sum('app_version', $field, $clause);
+    }
 }
 
 #[AllowDynamicProperties]

@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // update_stats:
-// Update average credit for idle users, hosts and teams.
+// Update average credit for app versions, users, hosts and teams.
 // These fields are updated as new credit is granted;
 // the purpose of this program is to decay credit of entities
 // that are inactive for long periods.

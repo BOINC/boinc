@@ -33,6 +33,16 @@ BOINC_SOURCE_API_DIR = $(BOINC_DIR)/api
 BOINC_SOURCE_LIB_DIR = $(BOINC_DIR)/lib
 BOINC_SOURCE_ZIP_DIR = $(BOINC_DIR)/zip
 
+ifdef RELEASE_ARCH
+  CFLAGS += -O3 -flto
+  CXXFLAGS += -O3 -flto
+  LDFLAGS += -O3 -flto -s -static-libstdc++
+else
+  CFLAGS += -O0 -g
+  CXXFLAGS += -O0 -g
+  LDFLAGS += -O0 -g
+endif
+
 ifdef ANDROID
   BOINC_API_DIR = $(TCINCLUDES)/lib
   BOINC_LIB_DIR = $(TCINCLUDES)/lib
@@ -49,7 +59,7 @@ else
   MAKEFILE_STDLIB  = libstdc++.a
 endif
 
-CXXFLAGS += -g -O0 \
+CXXFLAGS += \
 	-Wall -W -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings -fno-common \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
