@@ -26,10 +26,8 @@ def is_gzip(path):
     try:
         with gzip.open(path, 'rb') as f:
             f.read(1)
-        print('is gzip')
         return True
     except:
-        print('not gzip')
         return False
 
 if sys.argv[1] == '--error':

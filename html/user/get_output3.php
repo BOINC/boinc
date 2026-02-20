@@ -35,6 +35,14 @@
 require_once("../inc/util.inc");
 require_once("../inc/submit_util.inc");
 
+function check_auth($batch_id){
+    $user = get_logged_in_user();
+    $batch = BoincBatch::lookup_id($batch_id);
+    if (!$batch || $user->id != $batch->user_id) {
+        error_page('not owner');
+    }
+}
+
 // show or download a single output file,
 // identified by result ID and file index
 //
@@ -49,6 +57,7 @@ function get_file() {
     if (!$wu) {
         error_page('no workunit');
     }
+    check_auth($wu->batch);
     [$log_names, $gzip] = get_outfile_log_names($result);
     if ($index >= count($log_names)) {
         error_page('bad index');
@@ -68,35 +77,49 @@ function get_file() {
 //
 function get_batch_zip() {
     $batch_id = get_int('batch_id');
+    check_auth($batch_id);
     $dir = "../../results/$batch_id";
     if (!is_dir($dir)) {
         die('no batch dir');
     }
     $name = "batch_$batch_id.zip";
     $cmd = "cd $dir; rm -f $name; zip -q $name *";
-    system($cmd);
+    $line = system($cmd, $ret);
+    if ($ret) {
+        error_page("Zip failed: $line");
+    }
     do_download("$dir/$name");
     unlink("$dir/$name");
 }
 
 function get_batch_tar() {
     $batch_id = get_int('batch_id');
+    check_auth($batch_id);
     $dir = "../../results/$batch_id";
     if (!is_dir($dir)) {
         die('no batch dir');
     }
     $name = "batch_$batch_id.tar";
     $cmd = "cd $dir; rm -f $name; tar -cf $name *";
-    system($cmd);
+    $line = system($cmd, $ret);
+    if ($ret) {
+        error_page("Tar failed: $line");
+    }
     do_download("$dir/$name");
     unlink("$dir/$name");
 }
 
 $action = get_str('action');
 switch ($action) {
-case 'get_file': get_file(); break;
-case 'get_batch_zip': get_batch_zip(); break;
-case 'get_batch_tar': get_batch_tar(); break;
+case 'get_file':
+    get_file();
+    break;
+case 'get_batch_zip':
+    get_batch_zip();
+    break;
+case 'get_batch_tar':
+    get_batch_tar();
+    break;
 }
 
 ?>
