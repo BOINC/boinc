@@ -717,7 +717,8 @@ function handle_query_batch($user) {
 
     echo "<p>";
     if ($is_assim_move) {
-        if (is_batch_gzipped($wus)) {
+        //if (is_batch_gzipped($wus)) {
+        if (true) {
             $url = "get_output3.php?action=get_batch_tar&batch_id=$batch->id";
             show_button($url, "Get tarred output files");
         } else {
