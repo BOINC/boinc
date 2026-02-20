@@ -612,6 +612,9 @@ extern void show_docker_messages();
 #define MEMORY_USAGE_PERIOD     10
     // computer memory usage and check for exclusive apps this often
 
+#define STUCK_CHECK_POLL_PERIOD 3600
+    // poll if a job is ever stuck
+
 //////// WORK FETCH
 
 #define WORK_FETCH_PERIOD   60
