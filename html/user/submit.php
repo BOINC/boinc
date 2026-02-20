@@ -638,6 +638,22 @@ function progress_bar($batch, $wus, $width) {
     return $x;
 }
 
+// see if the batch's output files are gzipped
+//
+function is_batch_gzipped($wus) {
+    foreach ($wus as $wu) {
+        if ($wu->canonical_resultid == 0) continue;
+        $result = BoincResult::lookup_id($wu->canonical_resultid);
+        if (!$result) return false;
+        [, $gzip] = get_outfile_log_names($result);
+        foreach ($gzip as $flag) {
+            if ($flag) return true;
+        }
+        return false;
+    }
+    return false;
+}
+
 // show the details of an existing batch.
 // $user has access to abort/retire the batch
 // and to get its output files
@@ -646,7 +662,9 @@ function handle_query_batch($user) {
     $batch_id = get_int('batch_id');
     $status = get_int('status', true);
     $batch = BoincBatch::lookup_id($batch_id);
-    if (!$batch) error_page('no batch');
+    if (!$batch) {
+        error_page('no batch');
+    }
     $app = BoincApp::lookup_id($batch->app_id);
     $wus = BoincWorkunit::enum_fields(
         'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
@@ -698,13 +716,19 @@ function handle_query_batch($user) {
     end_table();
     echo "<p>";
 
+    echo "<p>";
     if ($is_assim_move) {
-        $url = "get_output3.php?action=get_batch&batch_id=$batch->id";
+        if (is_batch_gzipped($wus)) {
+            $url = "get_output3.php?action=get_batch_tar&batch_id=$batch->id";
+            show_button($url, "Get tarred output files");
+        } else {
+            $url = "get_output3.php?action=get_batch_zip&batch_id=$batch->id";
+            show_button($url, "Get zipped output files");
+        }
     } else {
         $url = "get_output2.php?cmd=batch&batch_id=$batch->id";
+        show_button($url, "Get zipped output files");
     }
-    echo "<p>";
-    show_button($url, "Get zipped output files");
     echo "<p>";
     switch ($batch->state) {
     case BATCH_STATE_IN_PROGRESS:
@@ -863,12 +887,12 @@ function handle_query_job($user) {
         ];
         if ($is_assim_move) {
             if ($result->id == $wu->canonical_resultid) {
-                $log_names = get_outfile_log_names($result);
+                [$log_names, $gzip] = get_outfile_log_names($result);
                 $nfiles = count($log_names);
                 for ($i=0; $i<$nfiles; $i++) {
                     $name = $log_names[$i];
-                    $path = assim_move_outfile_path($wu, $i, $log_names);
-                    if (file_exists($path)) {
+                    $path = assim_move_outfile_path($wu, $i, $log_names, $gzip);
+                    if (!file_exists($path)) {
                         $y = sprintf('%s (%s): ',
                             $name, size_string(filesize($path))
                         );
@@ -894,7 +918,7 @@ function handle_query_job($user) {
         } else {
             if ($result->server_state == RESULT_SERVER_STATE_OVER) {
                 $phys_names = get_outfile_phys_names($result);
-                $log_names = get_outfile_log_names($result);
+                [$log_names,] = get_outfile_log_names($result);
                 $nfiles = count($log_names);
                 for ($i=0; $i<$nfiles; $i++) {
                     $path = dir_hier_path(

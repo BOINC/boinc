@@ -266,14 +266,16 @@ function create_templates($app, $desc, $dir) {
     $x = "<output_template>\n";
     $i = 0;
     foreach ($desc->output_file_names as $fname) {
-        $x .= file_info_out($i++, $desc->max_nbytes_mb*MEGA);
+        $x .= file_info_out(
+            $i++, $desc->max_nbytes_mb*MEGA, $desc->gzip_output
+        );
     }
-    $x .= "   <result>\n";
+    $x .= "    <result>\n";
     $i = 0;
     foreach ($desc->output_file_names as $fname) {
         $x .= file_ref_out($i++, $fname);
     }
-    $x .= "   </result>\n</output_template>\n";
+    $x .= "    </result>\n</output_template>\n";
     file_put_contents("$dir/template_out", $x);
 }
 
@@ -519,6 +521,13 @@ function app_form($desc=null) {
         'max_nbytes_mb',
         $desc->max_nbytes_mb
     );
+    if (empty($desc->gzip_output)) {
+        $desc->gzip_output = false;
+    }
+    form_checkboxes(
+        'Gzip output files?',
+        [['gzip_output', '', $desc->gzip_output]]
+    );
     form_input_text(
         'Run at most this many total instances of each job',
         'max_total',
@@ -637,6 +646,7 @@ function app_action($user) {
     $desc->max_total = $max_total;
     $desc->max_delay_days = $max_delay_days;
     $desc->description = get_str('description');
+    $desc->gzip_output = get_str('gzip_output', true)?true:false;
     $desc->sci_kw = array_map('intval', get_array('sci_kw'));
     $desc->submitters = [];
     $x = get_str('submitters');
@@ -715,6 +725,10 @@ function app_details($user) {
             $desc->max_nbytes_mb
         );
     }
+    row2(
+        'Gzip output files?',
+        empty($desc->gzip_output)?'no':'yes'
+    );
     if (!empty($desc->max_total)) {
         row2('Max total instances per job:', $desc->max_total);
     } else {

@@ -42,12 +42,18 @@ function get_file() {
     $result_id = get_int('result_id');
     $index = get_int('index');
     $result = BoincResult::lookup_id($result_id);
-    if (!$result) error_page('no result');
+    if (!$result) {
+        error_page('no result');
+    }
     $wu = BoincWorkunit::lookup_id($result->workunitid);
-    if (!$wu) error_page('no workunit');
-    $log_names = get_outfile_log_names($result);
-    if ($index >= count($log_names)) error_page('bad index');
-    $path = assim_move_outfile_path($wu, $index, $log_names);
+    if (!$wu) {
+        error_page('no workunit');
+    }
+    [$log_names, $gzip] = get_outfile_log_names($result);
+    if ($index >= count($log_names)) {
+        error_page('bad index');
+    }
+    $path = assim_move_outfile_path($wu, $index, $log_names, $gzip);
 
     if (get_str('download', true)) {
         do_download($path);
@@ -60,20 +66,37 @@ function get_file() {
 
 // download a zip of the given directory
 //
-function get_batch() {
+function get_batch_zip() {
     $batch_id = get_int('batch_id');
     $dir = "../../results/$batch_id";
-    if (!is_dir($dir)) die('no batch dir');
+    if (!is_dir($dir)) {
+        die('no batch dir');
+    }
     $name = "batch_$batch_id.zip";
     $cmd = "cd $dir; rm -f $name; zip -q $name *";
     system($cmd);
     do_download("$dir/$name");
+    unlink("$dir/$name");
+}
+
+function get_batch_tar() {
+    $batch_id = get_int('batch_id');
+    $dir = "../../results/$batch_id";
+    if (!is_dir($dir)) {
+        die('no batch dir');
+    }
+    $name = "batch_$batch_id.tar";
+    $cmd = "cd $dir; rm -f $name; tar -cvf $name .";
+    system($cmd);
+    do_download("$dir/$name");
+    unlink("$dir/$name");
 }
 
 $action = get_str('action');
 switch ($action) {
 case 'get_file': get_file(); break;
-case 'get_batch': get_batch(); break;
+case 'get_batch_zip': get_batch_zip(); break;
+case 'get_batch_tar': get_batch_tar(); break;
 }
 
 ?>

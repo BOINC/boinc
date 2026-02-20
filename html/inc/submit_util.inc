@@ -287,13 +287,17 @@ function get_outfile_phys_names($result) {
 
 function get_outfile_log_names($result) {
     $names = [];
+    $gzip = [];
     $xml = "<a>".$result->xml_doc_in."</a>";
     $r = simplexml_load_string($xml);
     if (!$r) return $names;
     foreach ($r->result->file_ref as $fr) {
         $names[] = (string)($fr->open_name);
     }
-    return $names;
+    foreach ($r->file_info as $fi) {
+        $gzip[] = isset($fi->gzip_when_done);
+    }
+    return [$names, $gzip];
 }
 
 // get output file paths for non-assim-move apps
@@ -319,11 +323,12 @@ function get_outfile_paths($result) {
 // sched/sample_assimilator.cpp
 // and with tools/query_job
 //
-function assim_move_outfile_path($wu, $index, $log_names) {
+function assim_move_outfile_path($wu, $index, $log_names, $gzip) {
     if (!is_valid_filename($wu->name)) error_page("bad WU name");
     if (!is_valid_filename($log_names[$index])) error_page("bad logical name");
-    return sprintf('../../results/%d/%s__file_%s',
-        $wu->batch, $wu->name, $log_names[$index]
+    return sprintf('../../results/%d/%s__file_%s%s',
+        $wu->batch, $wu->name, $log_names[$index],
+        $gzip[$index]?'.gz':''
     );
 }
 
@@ -522,21 +527,25 @@ function file_ref_in($fname) {
         $fname
     ));
 }
-function file_info_out($i, $max_nbytes) {
+function file_info_out($i, $max_nbytes, $gzip_output) {
     if (!$max_nbytes) {
         $max_nbytes = MEGA;
     }
-    return sprintf(
+    $x = sprintf(
 '    <file_info>
         <name><OUTFILE_%d/></name>
         <generated_locally/>
         <upload_when_present/>
         <max_nbytes>%d</max_nbytes>
         <url><UPLOAD_URL/></url>
-    </file_info>
 ',
         $i, $max_nbytes
     );
+    if ($gzip_output) {
+        $x .= "        <gzip_when_done/>\n";
+    }
+    $x .= "    </file_info>\n";
+    return $x;
 }
 
 function file_ref_out($i, $fname) {
