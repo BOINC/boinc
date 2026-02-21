@@ -18,7 +18,17 @@
 # in the 2nd case, write the error code
 #        to results/<batch_id>/<wu_name>_error
 
-import sys, os
+import sys, os, gzip
+
+def is_gzip(path):
+    if os.path.getsize(path) == 0:
+        return False
+    try:
+        with gzip.open(path, 'rb') as f:
+            f.read(1)
+        return True
+    except:
+        return False
 
 if sys.argv[1] == '--error':
     error_code = sys.argv[2]
@@ -43,8 +53,9 @@ else:
     for i in range(nfiles):
         outfile_path = sys.argv[2*i+3]
         logical_name = sys.argv[2*i+4]
-        cmd = 'mv %s %s/%s__file_%s'%(
-            outfile_path, outdir, wu_name, logical_name
+        cmd = 'mv %s %s/%s__file_%s%s'%(
+            outfile_path, outdir, wu_name, logical_name,
+            '.gz' if is_gzip(outfile_path) else ''
         )
         if os.system(cmd):
             #raise Exception('%s failed'%(cmd))
