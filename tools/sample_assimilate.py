@@ -53,7 +53,7 @@ else:
     for i in range(nfiles):
         outfile_path = sys.argv[2*i+3]
         if not os.path.exists(outfile_path):
-            print('file not found: ', outfile_path)
+            sys.stderr.write('file not found: %s\n'%(outfile_path))
             continue
         logical_name = sys.argv[2*i+4]
         cmd = 'mv %s %s/%s__file_%s%s'%(
