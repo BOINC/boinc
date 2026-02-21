@@ -524,8 +524,23 @@ void CBOINCListCtrl::DrawProgressBars()
     int n = (int)m_iRowsNeedingProgressBars.GetCount();
     if (n <= 0) return;
 
-    wxColour progressColor = isDarkMode ? wxColour(0, 64, 128) : wxColour(192, 217, 217);
+    wxColour progressColor;
+    wxColour remainderColor;
+    wxColour textColor;
+
+    if (isDarkMode) {
+        progressColor = wxColour(96, 96, 96);
+        remainderColor = wxColour(24, 24, 24);
+        textColor = wxColour(230, 230, 230);
+    } else {
+        progressColor = wxColour(192, 217, 217);
+        remainderColor = *wxWHITE;
+        textColor = *wxBLACK;
+    }
+
     wxBrush progressBrush(progressColor);
+    wxBrush remainderBrush(remainderColor);
+    wxPen remainderPen(remainderColor);
 
     numItems = GetItemCount();
     if (numItems) {
@@ -606,12 +621,13 @@ void CBOINCListCtrl::DrawProgressBars()
             dc.SetPen(bkgd);
             dc.SetBrush(bkgd);
 #else
-            dc.SetPen(isDarkMode ? *wxBLACK_PEN : *wxWHITE_PEN);
-            dc.SetBrush(isDarkMode ? *wxBLACK_BRUSH : *wxWHITE_BRUSH);
+            dc.SetPen(remainderPen);
+            dc.SetBrush(remainderBrush);
 #endif
             dc.DrawRectangle( rr );
 
             dc.SetPen(*wxBLACK_PEN);
+            // dc.SetTextForeground(textColor);
             dc.SetBackgroundMode(wxBRUSHSTYLE_TRANSPARENT);
             if (xx > (r.width - 7)) {
                 dc.DrawText(progressString, r.x, r.y);
@@ -628,7 +644,9 @@ void CBOINCListCtrl::DrawProgressBars()
 void MyEvtHandler::OnPaint(wxPaintEvent & event)
 {
     event.Skip();
-    if (m_listCtrl) {
+    // In dark mode, progress bars are drawn via NM_CUSTOMDRAW instead,
+    // so skip posting the deferred-paint event entirely.
+    if (m_listCtrl && !wxGetApp().GetIsDarkMode()) {
         m_listCtrl->PostDrawProgressBarEvent();
     }
 }
@@ -644,6 +662,247 @@ void CBOINCListCtrl::PostDrawProgressBarEvent() {
 void CBOINCListCtrl::OnDrawProgressBar(CDrawProgressBarEvent& event) {
     DrawProgressBars();
     event.Skip();
+}
+
+// -----------------------------------------------------------------------
+// Dark mode progress bar rendering via NM_CUSTOMDRAW
+// -----------------------------------------------------------------------
+//
+// WHY THIS IS NEEDED:
+//
+// BOINC's list views (Tasks, Transfers, Projects) show progress bars
+// inside a wxListCtrl column. These aren't native progress bar controls --
+// they are custom-drawn rectangles with text on top, painted by
+// DrawProgressBars() above.
+//
+// In light mode, the rendering flow works like this:
+//
+//   1. Windows sends WM_PAINT to the ListView.
+//   2. wxWidgets' MyEvtHandler::OnPaint() fires (we pushed it onto the
+//      event handler chain in the constructor). It calls event.Skip()
+//      to let the native ListView paint itself, then posts a custom
+//      wxEVT_DRAW_PROGRESSBAR event via PostDrawProgressBarEvent().
+//   3. That posted event is processed after WM_PAINT completes, calling
+//      DrawProgressBars(), which uses wxClientDC to draw directly onto
+//      the screen surface -- on top of whatever the ListView just painted.
+//
+// This works fine in light mode because the native Win32 ListView paints
+// directly to the screen, so our wxClientDC drawing persists until the
+// next WM_PAINT.
+//
+// In dark mode, wxWidgets enables full owner-draw rendering for the
+// ListView via MSWEnableDarkMode(). This changes the painting pipeline:
+//
+//   1. wxWidgets intercepts NM_CUSTOMDRAW notifications from the ListView.
+//   2. For each item, wxWidgets' HandleItemPaint() calls FillRect() to
+//      paint the entire row background, draws the item text, and returns
+//      CDRF_SKIPDEFAULT to suppress the native theme rendering.
+//   3. Critically, all of this drawing happens on a BACK BUFFER HDC --
+//      the ListView uses double-buffering (LVS_EX_DOUBLEBUFFER) to
+//      eliminate flicker. The back buffer is blitted to the screen only
+//      after the entire NM_CUSTOMDRAW cycle completes.
+//
+// This breaks the old approach: our wxClientDC draws onto the screen
+// surface AFTER WM_PAINT, but the back buffer doesn't contain our
+// progress bars. The next time the ListView needs to repaint (e.g. on
+// hover, which triggers hot-tracking animation via the Explorer theme),
+// it blits its back buffer to screen -- erasing our progress bars.
+// On hover this happens rapidly, making progress bars flicker or vanish.
+//
+// THE FIX:
+//
+// We override MSWOnNotify() which delegates to HandleDarkModeCustomDraw()
+// in dark mode to intercept NM_CUSTOMDRAW at two stages:
+//
+//   CDDS_ITEMPREPAINT: We let wxWidgets do its normal dark-mode row
+//   painting via the base class, but we OR in CDRF_NOTIFYPOSTPAINT
+//   into the return value. This tells the ListView to send us another
+//   notification after it's done painting the item.
+//
+//   CDDS_ITEMPOSTPAINT: We draw the progress bar directly onto the
+//   back buffer's HDC (provided in NMLVCUSTOMDRAW::nmcd.hdc). Since
+//   we're drawing on the same HDC that gets blitted to screen, the
+//   progress bars survive the double-buffer blit and persist across
+//   hover/repaint cycles.
+//
+// In light mode, MSWOnNotify() delegates to the base class for all
+// notifications, and the PostDrawProgressBarEvent() path handles
+// progress bars as before.
+//
+// This entire block is compiled only on Windows (#if USE_NATIVE_LISTCONTROL).
+// -----------------------------------------------------------------------
+bool CBOINCListCtrl::MSWOnNotify(int idCtrl, WXLPARAM lParam, WXLPARAM *result) {
+    if (wxGetApp().GetIsDarkMode()) {
+        return HandleDarkModeCustomDraw(idCtrl, lParam, result);
+    }
+    // In light mode, delegate to wxListCtrl's default processing.
+    return LISTCTRL_BASE::MSWOnNotify(idCtrl, lParam, result);
+}
+
+bool CBOINCListCtrl::HandleDarkModeCustomDraw(int idCtrl, WXLPARAM lParam, WXLPARAM *result) {
+    // lParam points to an NMHDR; for NM_CUSTOMDRAW it's actually the
+    // larger NMLVCUSTOMDRAW struct (NMHDR is the first member).
+    NMHDR* nmhdr = (NMHDR*)lParam;
+    if (nmhdr->code == NM_CUSTOMDRAW) {
+        NMLVCUSTOMDRAW* pcd = (NMLVCUSTOMDRAW*)lParam;
+        DWORD dwDrawStage = pcd->nmcd.dwDrawStage;
+
+        if (dwDrawStage == CDDS_ITEMPREPAINT) {
+            // The base class (wxListCtrl) handles dark-mode row painting
+            // here -- background fill, text, selection highlight, etc.
+            // We delegate to it, then OR in CDRF_NOTIFYPOSTPAINT so the
+            // ListView will send us a CDDS_ITEMPOSTPAINT notification
+            // after the row is fully painted. wxWidgets doesn't request
+            // post-paint by default, so we must add it ourselves.
+            bool handled = LISTCTRL_BASE::MSWOnNotify(idCtrl, lParam, result);
+            if (handled) {
+                *result |= CDRF_NOTIFYPOSTPAINT;
+            }
+            return handled;
+        }
+
+        if (dwDrawStage == CDDS_ITEMPOSTPAINT) {
+            // The row has been fully painted (background, text, selection).
+            // Now draw the progress bar on top, using the back buffer's
+            // HDC so it survives the double-buffer blit to screen.
+            int progressColumnID = m_pParentView->GetProgressColumn();
+            if (progressColumnID >= 0) {
+                // Map the column ID (e.g. COLUMN_PROGRESS) to the actual
+                // display index, which may differ if columns are reordered.
+                int progressColumn = m_pParentView->m_iColumnIDToColumnIndex[progressColumnID];
+                if (progressColumn >= 0) {
+                    int item = (int)pcd->nmcd.dwItemSpec;
+                    DrawItemProgressBar(pcd->nmcd.hdc, item, progressColumn);
+                }
+            }
+
+            // Restore the 1px bottom border of the row. In dark mode,
+            // wxWidgets' hot-tracking background fill paints over the
+            // bottom pixel that visually separates adjacent rows.
+            // Skip for focused items (preserves the dotted focus rect)
+            // and selected items (preserves consistent selection padding
+            // on all four sides).
+            if (!(pcd->nmcd.uItemState & (CDIS_FOCUS | CDIS_SELECTED))) {
+                wxRect itemRect;
+                if (GetItemRect((int)pcd->nmcd.dwItemSpec, itemRect)) {
+                    RECT rcBorder = {
+                        itemRect.x,
+                        itemRect.y + itemRect.height - 1,
+                        itemRect.x + itemRect.width,
+                        itemRect.y + itemRect.height
+                    };
+                    HBRUSH hBorderBrush = CreateSolidBrush(RGB(96, 96, 96));
+                    FillRect(pcd->nmcd.hdc, &rcBorder, hBorderBrush);
+                    DeleteObject(hBorderBrush);
+                }
+            }
+
+            *result = CDRF_DODEFAULT;
+            return true;
+        }
+    }
+    // For any notification we don't handle, delegate to wxListCtrl's default processing.
+    return LISTCTRL_BASE::MSWOnNotify(idCtrl, lParam, result);
+}
+
+// Draw a single progress bar for one item using Win32 GDI on the provided HDC.
+// This is a port of the relevant logic from DrawProgressBars() above, but uses
+// raw Win32 GDI calls instead of wxDC, because we're drawing directly onto the
+// ListView's NM_CUSTOMDRAW back buffer HDC (not a wxClientDC screen surface).
+//
+// wxWidgets does have an internal wxDCTemp class that wraps an existing HDC,
+// but it is a private implementation detail (declared in wx/msw/dc.h, not part
+// of the public API) and relying on it would be fragile across wxWidgets
+// versions. Since we already depend on Win32 NM_CUSTOMDRAW for the drawing
+// hook itself, using native GDI here is consistent and avoids coupling to
+// wxWidgets internals.
+//
+// The progress bar layout is a two-layer rectangle:
+//
+//   +------ outer rect (progress color) -------+
+//   | +--- inner left (filled portion) ------+ |
+//   | |                  | remainder color   | |
+//   | +--------------------------------------- |
+//   +------------------------------------------+
+//
+// With a percentage text label drawn on top (e.g. "42.50%").
+//
+void CBOINCListCtrl::DrawItemProgressBar(HDC hdc, int item, int progressColumn) {
+    // GetSubItemRect returns the cell bounds in client coordinates,
+    // which are already correct for the NM_CUSTOMDRAW HDC.
+    wxRect r;
+    if (!GetSubItemRect(item, progressColumn, r)) return;
+
+    // Get the progress percentage (0.0-1.0) and display text from the
+    // parent view (e.g. CViewWork, CViewTransfers, CViewProjects).
+    wxString progressString = m_pParentView->GetProgressText(item);
+    double progressValue = m_pParentView->GetProgressValue(item);
+
+    bool isDarkMode = wxGetApp().GetIsDarkMode();
+
+    // Colors match those used in DrawProgressBars() for visual consistency.
+    COLORREF progressColor, remainderColor, textColor;
+    if (isDarkMode) {
+        progressColor = RGB(96, 96, 96);
+        remainderColor = RGB(24, 24, 24);
+        textColor = RGB(230, 230, 230);
+    } else {
+        progressColor = RGB(192, 217, 217);
+        remainderColor = RGB(255, 255, 255);
+        textColor = RGB(0, 0, 0);
+    }
+
+    // Shrink the cell rect inward to add padding around the progress bar.
+    // (-1, -2) matches the Inflate() call in DrawProgressBars().
+    r.Inflate(-1, -2);
+
+    // Fill the entire outer rect with the progress color. This forms both
+    // the filled portion and a 2px/1px border around the inner area.
+    RECT rcOuter = { r.x, r.y, r.x + r.width, r.y + r.height };
+    HBRUSH hProgressBrush = CreateSolidBrush(progressColor);
+    FillRect(hdc, &rcOuter, hProgressBrush);
+    DeleteObject(hProgressBrush);
+
+    // The inner rect is inset by (2, 1) from the outer rect. We fill only
+    // the unfilled portion (right side) with the remainder color, leaving
+    // the filled portion showing through as the progress color from above.
+    RECT rcInner = { r.x + 2, r.y + 1, r.x + r.width - 2, r.y + r.height - 1 };
+    int innerWidth = rcInner.right - rcInner.left;
+    int filledWidth = (int)(innerWidth * progressValue);
+    RECT rcRemainder = { rcInner.left + filledWidth, rcInner.top, rcInner.right, rcInner.bottom };
+    HBRUSH hRemainderBrush = CreateSolidBrush(remainderColor);
+    FillRect(hdc, &rcRemainder, hRemainderBrush);
+    DeleteObject(hRemainderBrush);
+
+    // Draw the percentage text (e.g. "42.50%") on top of the bar.
+    RECT rcText = { r.x, r.y, r.x + r.width, r.y + r.height };
+    SetBkMode(hdc, TRANSPARENT);
+    SetTextColor(hdc, textColor);
+
+    // Use the wxListCtrl's font for consistent appearance.
+    // GetFont().GetHFONT() returns the native Win32 HFONT handle.
+    HFONT hFont = (HFONT)GetFont().GetHFONT();
+    HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
+
+    // Measure text width to decide alignment: if the text fits with at
+    // least 7px to spare, right-align it; otherwise left-align so it
+    // doesn't get clipped. DT_WORD_ELLIPSIS handles truncation if the
+    // column is too narrow even for left-aligned text.
+    SIZE textSize;
+    GetTextExtentPoint32W(hdc, progressString.wc_str(), progressString.length(), &textSize);
+
+    UINT dtFlags = DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS | DT_NOPREFIX;
+    if (textSize.cx > (r.width - 7)) {
+        dtFlags |= DT_LEFT;
+    } else {
+        dtFlags |= DT_RIGHT;
+        rcText.right -= 4;  // Small right margin for visual balance
+    }
+
+    DrawTextW(hdc, progressString.wc_str(), progressString.length(), &rcText, dtFlags);
+
+    // Restore the original font to avoid leaking GDI state.
+    SelectObject(hdc, hOldFont);
 }
 
 #else
