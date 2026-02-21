@@ -203,6 +203,7 @@ struct CC_CONFIG {
     bool no_priority_change;
     bool no_rdp_check;
     bool os_random_only;
+    bool prioritize_gpu;
     int process_priority;       // values in common_defs.h
     int process_priority_special;
     PROXY_INFO proxy_info;

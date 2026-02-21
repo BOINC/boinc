@@ -1070,6 +1070,15 @@ static void promote_multi_thread_jobs(vector<RESULT*>& runnable_jobs) {
 // return true if r0 is more important to run than r1
 //
 static inline bool more_important(RESULT* r0, RESULT* r1) {
+    bool cp0, cp1;
+
+    if (cc_config.prioritize_gpu) {
+        cp0 = r0->uses_coprocs();
+        cp1 = r1->uses_coprocs();
+        if (cp0 && !cp1) return true;
+        if (!cp0 && cp1) return false;
+    }
+
     // favor jobs in danger of deadline miss
     //
     bool miss0 = r0->edf_scheduled;
@@ -1080,10 +1089,12 @@ static inline bool more_important(RESULT* r0, RESULT* r1) {
     // favor coproc jobs, so that e.g. if we're RAM-limited
     // we'll use the GPU instead of the CPU
     //
-    bool cp0 = r0->uses_coprocs();
-    bool cp1 = r1->uses_coprocs();
-    if (cp0 && !cp1) return true;
-    if (!cp0 && cp1) return false;
+    if (!cc_config.prioritize_gpu) {
+        cp0 = r0->uses_coprocs();
+        cp1 = r1->uses_coprocs();
+        if (cp0 && !cp1) return true;
+        if (!cp0 && cp1) return false;
+    }
 
     // favor jobs in the middle of time slice,
     // or that haven't checkpointed since start of time slice
