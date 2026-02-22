@@ -667,7 +667,7 @@ function handle_query_batch($user) {
     }
     $app = BoincApp::lookup_id($batch->app_id);
     $wus = BoincWorkunit::enum_fields(
-        'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
+        'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask, priority',
         "batch = $batch->id"
     );
     $batch = get_batch_params($batch, $wus);
@@ -786,7 +786,8 @@ function handle_query_batch($user) {
     $x = [
         "Name <br><small>click for details</small>",
         "status",
-        "GFLOPS-hours"
+        "GFLOPS-hours",
+        "Priority"
     ];
     row_heading_array($x);
     foreach($wus as $wu) {
@@ -814,7 +815,8 @@ function handle_query_batch($user) {
         $x = [
             "<a href=submit.php?action=query_job&wuid=$wu->id>$wu->name</a>",
             $y,
-            $c
+            $c,
+            $wu->priority
         ];
         row_array($x);
     }
