@@ -86,12 +86,17 @@ int CLIENT_STATE::get_disk_usages() {
 
     client_disk_usage = 0;
     total_disk_usage = 0;
+
+    // disk usage in project directories
+    //
     for (PROJECT *p: projects) {
         p->disk_usage = 0;
         retval = dir_size_alloc(p->project_dir(), size);
         if (!retval) p->disk_usage = size;
     }
 
+    // disk usage in slot directories
+    //
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
         get_slot_dir(atp->slot, buf, sizeof(buf));
@@ -102,11 +107,29 @@ int CLIENT_STATE::get_disk_usages() {
     for (PROJECT *p: projects) {
         total_disk_usage += p->disk_usage;
     }
+
+    // disk usage top level of BOINC data dir: XML and log files
+    //
     retval = dir_size_alloc(".", size, false);
     if (!retval) {
         client_disk_usage = size;
         total_disk_usage += size;
     }
+
+#ifdef _WIN64
+    // Win: if using boinc-buda-runner WSL distro,
+    // include its disk image size
+    //
+    WSL_DISTRO *wd = host_info.wsl_distros.find_docker();
+    if (wd) {
+        retval = dir_size_alloc(wd->base_path.c_str(), size);
+        if (!retval) {
+            client_disk_usage += size;
+            total_disk_usage += size;
+        }
+    }
+#endif
+
     return 0;
 }
 

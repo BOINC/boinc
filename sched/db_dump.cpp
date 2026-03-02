@@ -479,7 +479,7 @@ void write_host(HOST& host, ZFILE* f, bool detail) {
         "    <p_vendor>%s</p_vendor>\n"
         "    <p_model>%s</p_model>\n"
         "    <os_name>%s</os_name>\n"
-        "    <os_version>%s</os_version>\n",
+        "    <os_version>%s</os_version>\n"
         "    <misc><![CDATA[%s]]></misc>\n",
         host.total_credit,
         host.expavg_credit,

@@ -250,6 +250,7 @@ void CC_CONFIG::defaults() {
     no_priority_change = false;
     no_rdp_check = false;
     os_random_only = false;
+    prioritize_gpu = false;
     process_priority = CONFIG_PRIORITY_UNSPECIFIED;
     process_priority_special = CONFIG_PRIORITY_UNSPECIFIED;
     proxy_info.clear();
@@ -424,6 +425,7 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool("no_priority_change", no_priority_change)) continue;
         if (xp.parse_bool("no_rdp_check", no_rdp_check)) continue;
         if (xp.parse_bool("os_random_only", os_random_only)) continue;
+        if (xp.parse_bool("prioritize_gpu", prioritize_gpu)) continue;
         if (xp.parse_int("process_priority", process_priority)) continue;
         if (xp.parse_int("process_priority_special", process_priority_special)) continue;
 #ifndef SIM
@@ -670,6 +672,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <no_priority_change>%d</no_priority_change>\n"
         "        <no_rdp_check>%d</no_rdp_check>\n"
         "        <os_random_only>%d</os_random_only>\n"
+        "        <prioritize_gpu>%d</prioritize_gpu>\n"
         "        <process_priority>%d</process_priority>\n"
         "        <process_priority_special>%d</process_priority_special>\n",
         max_event_log_lines,
@@ -688,6 +691,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         no_priority_change,
         no_rdp_check,
         os_random_only,
+        prioritize_gpu,
         process_priority,
         process_priority_special
     );

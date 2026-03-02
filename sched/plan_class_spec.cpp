@@ -452,12 +452,17 @@ bool PLAN_CLASS_SPEC::check(
             return false;
         }
 
-        // host must have VirtualBox 3.2 or later
-        //
         if (strlen(sreq.host.virtualbox_version) == 0) {
             add_no_work_message("VirtualBox is not installed");
             return false;
         }
+        if (strstr(sreq.host.virtualbox_version, "unusable")) {
+            add_no_work_message("VirtualBox is not usable");
+            return false;
+        }
+
+        // check version min/max
+        //
         int n, maj, min, rel;
         n = sscanf(sreq.host.virtualbox_version, "%d.%d.%d", &maj, &min, &rel);
         if (n != 3) {

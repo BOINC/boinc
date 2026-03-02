@@ -56,6 +56,8 @@ struct WSL_DISTRO {
     DOCKER_TYPE docker_compose_type;
     int boinc_buda_runner_version;
         // if this distro is boinc_buda_runner, the version
+    std::string base_path;
+        // the dir where the disk image (.vhdx file) is stored
 
     WSL_DISTRO(){
         clear();

@@ -127,6 +127,20 @@ int get_all_distros(WSL_DISTROS& distros) {
             if (!strcmp(wsl_guid, default_wsl_guid)) {
                 distro.is_default = true;
             }
+
+            // if BOINC distro, get its data dir so we can find disk usage
+            //
+            char path[256];
+            DWORD path_len = sizeof(path);
+            if (distro.distro_name == BOINC_WSL_DISTRO_NAME) {
+                ret = RegQueryValueEx(hSubKey, "BasePath", NULL, NULL,
+                    (LPBYTE)path, &path_len
+                );
+                if (ret == ERROR_SUCCESS) {
+                    distro.base_path = path;
+                }
+            }
+
             distros.distros.push_back(distro);
         }
         RegCloseKey(hSubKey);

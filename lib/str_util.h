@@ -36,8 +36,8 @@ extern void strip_quotes(std::string&);
 extern void unescape_os_release(char *str);
 extern void collapse_whitespace(char *str);
 extern void collapse_whitespace(std::string&);
-extern char* time_to_string(double);
-extern char* precision_time_to_string(double);
+extern char* time_to_string(double, bool utc=false);
+extern char* precision_time_to_string(double, bool utc=false);
 extern void secs_to_hmsf(double, char*);
 extern std::string timediff_format(double);
 

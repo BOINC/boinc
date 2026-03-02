@@ -258,7 +258,7 @@ void CLIENT_STATE::show_host_info() {
         }
     } else {
         msg_printf(NULL, MSG_INFO, "Usable WSL distros:");
-        for (auto& wsl : host_info.wsl_distros.distros) {
+        for (WSL_DISTRO &wsl : host_info.wsl_distros.distros) {
             msg_printf(NULL, MSG_INFO,
                 "-   %s (WSL %d)%s",
                 wsl.distro_name.c_str(),
@@ -290,6 +290,14 @@ void CLIENT_STATE::show_host_info() {
                 msg_printf(NULL, MSG_INFO, "-      BOINC WSL distro version %d",
                     wsl.boinc_buda_runner_version
                 );
+                if (!wsl.base_path.empty()) {
+                    double size;
+                    int retval = dir_size_alloc(wsl.base_path.c_str(), size);
+                    if (!retval) {
+                        nbytes_to_string(size, 0, buf, sizeof(buf));
+                        msg_printf(NULL, MSG_INFO, "-      Disk usage: %s", buf);
+                    }
+                }
             }
         }
     }

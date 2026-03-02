@@ -148,9 +148,6 @@ static void handle_get_project_status(GUI_RPC_CONN& grc) {
 }
 
 static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
-    double size, boinc_non_project, d_allowed;
-//    double boinc_total;
-
     grc.mfout.printf("<disk_usage_summary>\n");
     int retval = get_filesystem_info(
         gstate.host_info.d_total, gstate.host_info.d_free
@@ -161,27 +158,6 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
         );
     }
 
-    dir_size_alloc(".", boinc_non_project, false);
-    dir_size_alloc("locale", size, false);
-    boinc_non_project += size;
-#ifdef __APPLE__
-    if (gstate.launched_by_manager) {
-        // If launched by Manager, get Manager's size on disk
-        char path[MAXPATHLEN];
-        double manager_size = 0.0;
-        OSStatus err = noErr;
-
-        retval = proc_pidpath(getppid(), path, sizeof(path));
-        if (retval <= 0) {
-            err = fnfErr;
-        }
-        if (!err) {
-            dir_size_alloc(path, manager_size, true);
-            boinc_non_project += manager_size;
-        }
-    }
-#endif
-//    boinc_total = boinc_non_project;
     gstate.get_disk_usages();
     for (PROJECT* p: gstate.projects) {
         grc.mfout.printf(
@@ -191,9 +167,8 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
             "</project>\n",
             p->master_url, p->disk_usage
         );
-//        boinc_total += p->disk_usage;
     }
-    d_allowed = gstate.allowed_disk_usage(gstate.total_disk_usage);
+    double d_allowed = gstate.allowed_disk_usage(gstate.total_disk_usage);
     grc.mfout.printf(
         "<d_total>%f</d_total>\n"
         "<d_free>%f</d_free>\n"
@@ -201,7 +176,7 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
         "<d_allowed>%f</d_allowed>\n",
         gstate.host_info.d_total,
         gstate.host_info.d_free,
-        boinc_non_project,
+        gstate.client_disk_usage,
         d_allowed
     );
     grc.mfout.printf("</disk_usage_summary>\n");
@@ -635,6 +610,23 @@ static void handle_reset_host_info(GUI_RPC_CONN& grc) {
     gstate.request_schedule_cpus("reset_host_info");
     gstate.show_host_info();
     grc.mfout.printf("<success/>\n");
+}
+
+static void handle_get_screensaver_tasks(GUI_RPC_CONN& grc) {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+    grc.mfout.printf(
+        "<get_screensaver_tasks>\n"
+        "    <suspend_reason>%d</suspend_reason>\n",
+        gstate.suspend_reason
+    );
+    for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
+        atp = gstate.active_tasks.active_tasks[i];
+        if (atp->scheduler_state == CPU_SCHED_SCHEDULED && atp->result) {
+            atp->result->write_gui(grc.mfout);
+        }
+    }
+    grc.mfout.printf("</get_screensaver_tasks>\n");
 }
 
 static void handle_quit(GUI_RPC_CONN& grc) {
@@ -1793,6 +1785,7 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("get_old_results", handle_get_old_results,              false,  false,  true),
     GUI_RPC("get_project_status", handle_get_project_status,        false,  false,  true),
     GUI_RPC("get_results", handle_get_results,                      false,  false,  true),
+    GUI_RPC("get_screensaver_tasks", handle_get_screensaver_tasks,  false,  false,  true),
     GUI_RPC("get_simple_gui_info", handle_get_simple_gui_info,      false,  false,  true),
     GUI_RPC("get_state", handle_get_state,                          false,  false,  true),
     GUI_RPC("get_statistics", handle_get_statistics,                false,  false,  true),

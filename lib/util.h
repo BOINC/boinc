@@ -26,9 +26,9 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
+#include "wslinfo.h"
 #endif
 #include "common_defs.h"
-#include "wslinfo.h"
 
 extern double dtime();
 extern double dday();

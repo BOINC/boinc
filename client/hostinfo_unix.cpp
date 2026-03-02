@@ -1247,7 +1247,9 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
     char cmd[1024], buf[256];
 
 #ifdef __APPLE__
-    if (docker_cli_prog(type)[0] == '\0') return false;
+    if (docker_cli_prog(type)[0] == '\0') {
+        return false;
+    }
 #endif
     snprintf(cmd, sizeof(cmd), "%s --version 2>/dev/null",
         docker_cli_prog(type)

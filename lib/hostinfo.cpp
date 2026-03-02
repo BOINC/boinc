@@ -380,7 +380,8 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
     }
 #endif
 
-// name of CLI program
+// Return command to run Docker/Podman CLI program.
+// On Mac this uses a helper app, Run_Podman
 //
 const char* docker_cli_prog(DOCKER_TYPE type) {
     switch (type) {
@@ -390,18 +391,20 @@ const char* docker_cli_prog(DOCKER_TYPE type) {
         static char docker_cli_string[MAXPATHLEN];
         static bool docker_cli_inited = false;
         char path[MAXPATHLEN];
-        if (docker_cli_inited) return docker_cli_string;
+        if (docker_cli_inited) {
+            return docker_cli_string;
+        }
         docker_cli_string[0] = '\0';
         find_podman_path(path, sizeof(path));
         if (path[0]) {
             strlcpy(docker_cli_string,
-                    "\"/Library/Application Support/BOINC Data/Run_Podman\" ",
-                    sizeof(docker_cli_string)
-                    );
+                "\"/Library/Application Support/BOINC Data/Run_Podman\" ",
+                sizeof(docker_cli_string)
+            );
             strlcat(docker_cli_string,
-                    path,
-                    sizeof(docker_cli_string)
-                    );
+                path,
+                sizeof(docker_cli_string)
+            );
             strlcat(docker_cli_string, " ", sizeof(docker_cli_string));
         }
         docker_cli_inited = true;

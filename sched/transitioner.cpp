@@ -365,7 +365,9 @@ int handle_wu(
     // see how many new results we need to make
     //
     int n_new_results_needed = wu_item.target_nresults - nunsent - ninprogress - nsuccess;
-    if (n_new_results_needed < 0) n_new_results_needed = 0;
+    if (n_new_results_needed < 0) {
+        n_new_results_needed = 0;
+    }
     int n_new_results_allowed = wu_item.max_total_results - ntotal;
 
     // if we're already at the limit and need more, error out the WU
@@ -386,6 +388,11 @@ int handle_wu(
         log_messages.printf(MSG_NORMAL,
             "[WU#%lu %s] WU has too many total results (%d)\n",
             wu_item.id, wu_item.name, ntotal
+        );
+        log_messages.printf(MSG_NORMAL,
+            "   target_nresults=%d nunsent=%d ninprogress=%d nsuccess=%d new_needed=%d new_allowed=%d\n",
+            wu_item.target_nresults, nunsent, ninprogress, nsuccess,
+            n_new_results_needed, n_new_results_allowed
         );
         wu_item.error_mask |= WU_ERROR_TOO_MANY_TOTAL_RESULTS;
     }

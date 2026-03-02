@@ -404,34 +404,40 @@ void collapse_whitespace(char *str) {
     strcpy(str, s.c_str());
 }
 
-char* time_to_string(double t) {
+char* time_to_string(double t, bool utc) {
     static char buf[100];
     if (!t) {
         safe_strcpy(buf, "---");
     } else {
         time_t x = (time_t)t;
-        struct tm* tm = localtime(&x);
+        struct tm* tm = utc ? gmtime(&x) : localtime(&x);
         strftime(buf, sizeof(buf)-1, "%d-%b-%Y %H:%M:%S", tm);
+        if (utc) {
+            safe_strcat(buf, " UTC");
+        }
     }
     return buf;
 }
 
-char* precision_time_to_string(double t) {
+char* precision_time_to_string(double t, bool utc) {
     static char buf[100];
     char finer[16];
-    int hundreds_of_microseconds=(int)(10000*(t-(int)t));
+    int hundreds_of_microseconds = (int)(10000*(t - (int)t));
     if (hundreds_of_microseconds == 10000) {
         // paranoia -- this should never happen!
         //
-        hundreds_of_microseconds=0;
-        t+=1.0;
+        hundreds_of_microseconds = 0;
+        t += 1.0;
     }
     time_t x = (time_t)t;
-    struct tm* tm = localtime(&x);
+    struct tm* tm = utc ? gmtime(&x) : localtime(&x);
 
     strftime(buf, sizeof(buf)-1, "%Y-%m-%d %H:%M:%S", tm);
     snprintf(finer, sizeof(finer), ".%04d", hundreds_of_microseconds);
     safe_strcat(buf, finer);
+    if (utc) {
+        safe_strcat(buf, " UTC");
+    }
     return buf;
 }
 

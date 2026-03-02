@@ -1042,17 +1042,20 @@ function credit_to_gflop_hours($c) {
     return $c/(200/24);
 }
 
-function do_download($path) {
-    $name=basename($path);
+function download_header($name, $nbytes) {
     header('Content-Description: File Transfer');
     header('Content-Type: application/octet-stream');
-    header('Content-Disposition: attachment; filename='.$name);
+    header("Content-Disposition: attachment; filename=$name");
     header('Content-Transfer-Encoding: binary');
     header('Expires: 0');
     header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
     header('Pragma: public');
-    header('Content-Length: ' . filesize($path));
+    header("Content-Length: $nbytes");
     flush();
+}
+
+function do_download($path) {
+    download_header(basename($path), filesize($path));
     readfile($path);
 }
 

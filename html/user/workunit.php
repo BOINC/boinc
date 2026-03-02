@@ -46,7 +46,7 @@ function show_wu($wu) {
 
     start_table();
     row2(tra("name"), $wu->name);
-    row2(tra("application"), $app->user_friendly_name);
+    row2(tra("application"), "<a href=apps.php?app_id=$app->id>$app->user_friendly_name</a>");
     if ($wu->batch) {
         row2('batch',
             "<a href=submit.php?action=query_batch&batch_id=$wu->batch>$wu->batch</a>"
@@ -73,7 +73,7 @@ function show_wu($wu) {
         end_table();
     } else {
         row2(tra("minimum quorum"), $wu->min_quorum);
-        row2(tra("initial replication"), $wu->target_nresults);
+        row2(tra("target #results"), $wu->target_nresults);
         row2(tra("max # of error/total/success tasks"),
             "$wu->max_error_results, $wu->max_total_results, $wu->max_success_results"
         );

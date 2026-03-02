@@ -125,7 +125,7 @@ jobs:
 
     - name: Upload logs on failure
       if: ${{ failure() }}
-      uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
       with:
         name: snap_logs_${{ matrix.arch }}_${{ github.event.pull_request.head.sha }}
         path: deploy/logs.7z
@@ -149,7 +149,7 @@ jobs:
         release: beta
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
       if: success()
       with:
         name: linux_snap_${{ matrix.arch }}_${{ github.event.pull_request.head.sha }}

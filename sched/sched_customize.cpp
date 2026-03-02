@@ -891,6 +891,11 @@ static inline bool app_plan_vbox(
         add_no_work_message("VirtualBox is not installed");
         return false;
     }
+    if (strstr(sreq.host.virtualbox_version, "unusable")) {
+        add_no_work_message("VirtualBox is not usable");
+        return false;
+    }
+
     int n, maj, min, rel;
     n = sscanf(sreq.host.virtualbox_version, "%d.%d.%d", &maj, &min, &rel);
     if ((n != 3) || (maj < 3) || (maj == 3 and min < 2)) {

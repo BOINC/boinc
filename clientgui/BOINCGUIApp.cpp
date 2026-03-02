@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -855,6 +855,11 @@ bool CBOINCGUIApp::DetectDuplicateInstance() {
     m_pInstanceChecker = new wxSingleInstanceChecker(
             wxTheApp->GetAppName() + '-' + wxGetUserId(),
             wxFileName::GetHomeDir() + "/Library/Application Support/BOINC"
+            );
+#elif defined(__WXGTK__)
+    m_pInstanceChecker = new wxSingleInstanceChecker(
+            wxTheApp->GetAppName() + '-' + wxGetUserId(),
+            wxFileName::GetTempDir()
             );
 #else
     m_pInstanceChecker = new wxSingleInstanceChecker();

@@ -67,7 +67,7 @@ function check_auth($auth, $batch) {
 
 function do_result_aux($result, $batch, $file_num=null) {
     $phys_names = get_outfile_phys_names($result);
-    $log_names = get_outfile_log_names($result);
+    [$log_names,] = get_outfile_log_names($result);
     if ($file_num !== null) {
         $path = upload_path($phys_names[$file_num]);
         do_download($path,
@@ -138,7 +138,7 @@ function do_batch($batch_id, $auth) {
     foreach ($wus as $wu) {
         $result = BoincResult::lookup_id($wu->canonical_resultid);
         $phys_names = get_outfile_phys_names($result);
-        $log_names = get_outfile_log_names($result);
+        [$log_names,] = get_outfile_log_names($result);
         if (count($phys_names) == 1) {
             $cmd = sprintf('ln -s %s %s/%s__%s',
                 upload_path($phys_names[0]),

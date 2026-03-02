@@ -1677,7 +1677,16 @@ int HOST_INFO::get_host_info(bool init) {
     }
 #endif
 
+    // this must follow get_wsl_information()
+    //
     get_virtualbox_version();
+
+    // if Docker/Podman present, vbox won't work.
+    // The scheduler looks for 'unusable' - don't change
+    //
+    if (strlen(virtualbox_version) && wsl_distros.find_docker()) {
+        safe_strcat(virtualbox_version, " (unusable - Podman/Docker present)");
+    }
 
     get_processor_info(
         p_vendor, sizeof(p_vendor),

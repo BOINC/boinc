@@ -503,12 +503,18 @@ struct WORKUNIT {
     int target_nresults;
         // try to get this many "viable" results,
         // i.e. candidate for canonical result.
+        // should always be at least min_quorum.
         // may be > min_quorum to get consensus quicker or reflect loss rate
-    int max_error_results;      // WU error if < #error results
-    int max_total_results;      // WU error if < #total results
-        // (need this in case results are never returned)
-    int max_success_results;    // WU error if < #success results
-        // without consensus (i.e. WU is nondeterministic)
+    int max_error_results;
+        // transitioner: if # results without client compute error exceeds this,
+        // mark WU as WU_ERROR_TOO_MANY_ERROR_RESULTS
+    int max_total_results;
+        // transitioner: if we need more instances but it would exceed this,
+        // mark WU as WU_ERROR_TOO_MANY_TOTAL_RESULTS
+    int max_success_results;
+        // validator: if #success results exceeds this without consensus
+        // (i.e. WU seems nondeterministic)
+        // mark WU as WU_ERROR_TOO_MANY_SUCCESS_RESULTS
     char result_template_file[64];
     int priority;
     char mod_time[20];
