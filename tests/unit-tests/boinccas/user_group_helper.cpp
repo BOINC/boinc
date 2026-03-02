@@ -98,10 +98,9 @@ wil::unique_sid getUserSid(const std::string& username) {
     return std::move(sid);
 }
 
-std::string getCurrentUserSidString() {
+std::string getSidStringFromSid(wil::unique_sid&& userSid) {
     LPSTR sidStr = nullptr;
-    auto sid = getCurrentUserSid();
-    if (!ConvertSidToStringSid(sid.get(), &sidStr)) {
+    if (!ConvertSidToStringSid(userSid.get(), &sidStr)) {
         if (sidStr) {
             LocalFree(sidStr);
         }
@@ -110,6 +109,10 @@ std::string getCurrentUserSidString() {
     std::string result = sidStr ? sidStr : "";
     LocalFree(sidStr);
     return result;
+}
+
+std::string getCurrentUserSidString() {
+    return getSidStringFromSid(std::move(getCurrentUserSid()));
 }
 
 bool isAccountMemberOfLocalGroup(const std::string& accountName,

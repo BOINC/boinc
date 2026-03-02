@@ -17,68 +17,48 @@
 
 #include "registry_helper.h"
 
-constexpr auto registryKey =
+constexpr auto BOINC_SETUP_REGISTRY_KEY =
 "SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup";
 
 std::string getRegistryValue(const std::string& valueName) {
-    HKEY hKey = nullptr;
-    const auto openResult = RegOpenKeyEx(HKEY_LOCAL_MACHINE, registryKey, 0,
-        KEY_READ, &hKey);
-    if (openResult != ERROR_SUCCESS) {
-        return {};
-    }
-
-    DWORD type = 0;
-    DWORD size = 0;
-    auto queryResult = RegQueryValueEx(hKey, valueName.c_str(), nullptr,
-        &type, nullptr, &size);
-    if (queryResult != ERROR_SUCCESS) {
-        RegCloseKey(hKey);
-        return {};
-    }
-
-    std::string value;
-    value.resize(size);
-    queryResult = RegQueryValueEx(hKey, valueName.c_str(), nullptr, &type,
-        reinterpret_cast<LPBYTE>(value.data()), &size);
-    RegCloseKey(hKey);
-
-    if (queryResult != ERROR_SUCCESS) {
-        return {};
-    }
-
-    // Only REG_SZ and REG_EXPAND_SZ are expected; trim at first NUL.
-    const auto nulPos = value.find('\0');
-    if (nulPos != std::string::npos) {
-        value.resize(nulPos);
-    }
-
-    return value;
+    return getRegistryValue<std::string>(HKEY_LOCAL_MACHINE,
+        BOINC_SETUP_REGISTRY_KEY, valueName);
 }
 
 bool setRegistryValue(const std::string& valueName,
     const std::string& valueData) {
+    return setRegistryValue(HKEY_LOCAL_MACHINE,
+        BOINC_SETUP_REGISTRY_KEY, valueName, valueData);
+}
+
+bool setRegistryValue(HKEY hRootKey, const std::string& keyName,
+    const std::string& valueName, const std::string& valueData) {
     HKEY hKey = nullptr;
-    const auto createResult = RegCreateKeyEx(HKEY_LOCAL_MACHINE, registryKey,
-        0, nullptr, REG_OPTION_NON_VOLATILE, KEY_WRITE, nullptr, &hKey,
-        nullptr);
+    const auto createResult = RegCreateKeyEx(hRootKey, keyName.c_str(), 0,
+        nullptr, REG_OPTION_NON_VOLATILE, KEY_WRITE, nullptr, &hKey, nullptr);
     if (createResult != ERROR_SUCCESS) {
         return false;
     }
+    wil::unique_hkey autoKey(hKey);
+
     const auto setResult = RegSetValueEx(hKey, valueName.c_str(), 0,
         REG_SZ, reinterpret_cast<const BYTE*>(valueData.c_str()),
         static_cast<DWORD>(valueData.size() + 1));
-    RegCloseKey(hKey);
+
     return setResult == ERROR_SUCCESS;
 }
 
 void cleanRegistryKey() {
+    cleanRegistryKey(HKEY_LOCAL_MACHINE, BOINC_SETUP_REGISTRY_KEY);
+}
+
+void cleanRegistryKey(HKEY hRootKey, const std::string& keyName) {
     HKEY hKey = nullptr;
-    const auto openResult = RegOpenKeyEx(HKEY_LOCAL_MACHINE, registryKey, 0,
-        KEY_WRITE, &hKey);
+    const auto openResult = RegOpenKeyEx(hRootKey, keyName.c_str(), 0, KEY_WRITE,
+        &hKey);
     if (openResult != ERROR_SUCCESS) {
         return;
     }
-    RegDeleteKey(HKEY_LOCAL_MACHINE, registryKey);
     RegCloseKey(hKey);
+    RegDeleteKey(hRootKey, keyName.c_str());
 }

@@ -28,6 +28,7 @@
 #include <fstream>
 #include <ios>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 #include <Windows.h>

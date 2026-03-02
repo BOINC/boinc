@@ -25,9 +25,11 @@ bool userExists(const std::string& username);
 bool userCreate(const std::string& username, const std::string& password);
 bool userDelete(const std::string& username);
 wil::unique_sid getUserSid(const std::string& username);
+std::string getSidStringFromSid(wil::unique_sid&& userSid);
 std::string getCurrentUserSidString();
 bool isAccountMemberOfLocalGroup(const std::string& accountName,
     const std::string& groupName);
+std::string getLocalizedGroupName(wil::unique_sid&& sid);
 std::string getLocalizedUsersGroupName();
 std::string getLocalizedAdministratorsGroupName();
 bool localGroupExists(const std::string& groupName);
