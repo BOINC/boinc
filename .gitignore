@@ -196,7 +196,7 @@ sched/get_file
 sched/make_work
 sched/message_handler
 sched/put_file
-sched/sample_assimilator
+sched/batch_collect_assimilator
 sched/sample_bitwise_validator
 sched/sample_dummy_assimilator
 sched/sample_substr_validator

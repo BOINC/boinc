@@ -21,7 +21,7 @@ dist_toolbin_SCRIPTS = \
 		make_project \
 		parse_config \
 		query_job \
-		sample_assimilate.py \
+		batch_collect_assimilate.py \
 		submit_batch \
 		submit_buda \
 		submit_job \
