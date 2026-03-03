@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// A sample assimilator that:
+// An assimilator that implements the batch-collect paradigm:
 // 1) if success, copy the output file(s) to a directory
 //      ../results/<batchid>/<wu_name>__file_<log_name>
 //      where <log_name> is the file's logical name

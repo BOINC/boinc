@@ -18,11 +18,10 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // web API for fetching output files.
-// This is for apps that don't use an assimilator
-// that moves output files into project/results/...
+// This is for apps that don't use the batch_collect paradigm.
 // I.e., the output files are in the upload hierarchy with physical names
 //
-// For assim_move apps, use get_output3.php instead of this.
+// For batch_collect apps, use get_output3.php instead of this.
 
 // This is an updated version of get_output.php;
 // I didn't want to change that on the (unlikely) chance
