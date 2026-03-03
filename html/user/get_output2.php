@@ -18,7 +18,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // web API for fetching output files.
-// This is for apps that don't use the batch_collect paradigm.
+// This is for apps that don't use the batch-collect paradigm.
 // I.e., the output files are in the upload hierarchy with physical names
 //
 // For batch_collect apps, use get_output3.php instead of this.
