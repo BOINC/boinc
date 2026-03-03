@@ -19,7 +19,7 @@
 
 // get output files, individually or zipped groups,
 // for apps that use the 'batch-collect' paradigm
-// implemented by sample_assimilator.cpp and sample_assimilate.py:
+// implemented by batch_collect_assimilator.cpp and batch_collect_assimilate.py:
 // <project>/results/<batchid>/   (0 if not in a batch)
 //
 // args:

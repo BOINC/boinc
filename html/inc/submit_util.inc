@@ -326,8 +326,8 @@ function get_outfile_paths($result) {
 
 // Return the path of an output file in the 'batch-collect' paradigm.
 // This must agree with the corresponding assimilators:
-// tools/sample_assimilate.py
-// sched/sample_assimilator.cpp
+// tools/batch_collect_assimilate.py
+// sched/batch_collect_assimilator.cpp
 // and with tools/query_job
 //
 function batch_collect_outfile_path($wu, $index, $log_names, $gzip) {
