@@ -80,7 +80,7 @@ namespace test_boinccas_CAGrantBOINCMasterRights {
         "SeTakeOwnershipPrivilege"
     };
 
-#ifndef BOINCCAS_TEST
+#ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CAGrantBOINCMasterRights, NoUser_Expect_Fail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
