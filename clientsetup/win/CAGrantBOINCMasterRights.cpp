@@ -30,7 +30,7 @@ public:
     UINT OnExecution() override final {
 
         tstring strBOINCMasterAccountUsername;
-        auto uiReturnValue =
+        const auto uiReturnValue =
             GetProperty(_T("BOINC_MASTER_USERNAME"),
                 strBOINCMasterAccountUsername);
         if (uiReturnValue != ERROR_SUCCESS) {
@@ -55,7 +55,7 @@ public:
         constexpr std::array rightsToSet = {
             L"SeServiceLogonRight",
             L"SeDenyInteractiveLogonRight",
-            L"SeDenyRemoteInteractiveLogonRight",
+            L"SeDenyRemoteInteractiveLogonRight"
         };
         for (auto& right : rightsToSet) {
             if (!GrantUserRight(pSid, const_cast<wchar_t*>(right), TRUE)) {
@@ -100,7 +100,7 @@ public:
             L"SeRestorePrivilege",
             L"SeShutdownPrivilege",
             L"SeSynchAgentPrivilege",
-            L"SeTakeOwnershipPrivilege",
+            L"SeTakeOwnershipPrivilege"
         };
         for (auto& right : rightsToRemove) {
             GrantUserRight(pSid, const_cast<wchar_t*>(right), FALSE);
