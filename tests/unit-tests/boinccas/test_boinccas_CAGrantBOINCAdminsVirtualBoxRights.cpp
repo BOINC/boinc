@@ -23,6 +23,7 @@ namespace test_boinccas_CAGrantBOINCAdminsVirtualBoxRights {
     constexpr auto vboxKey = "APPID\\{819B4D85-9CEE-493C-B6FC-64FFE759B3C9}";
     constexpr std::array permissions =
     { "AccessPermission", "LaunchPermission" };
+    constexpr auto groupName = "boinc_admins";
 
     class test_boinccas_CAGrantBOINCAdminsVirtualBoxRights :
         public test_boinccas_TestBase {
@@ -33,7 +34,7 @@ namespace test_boinccas_CAGrantBOINCAdminsVirtualBoxRights {
 
         void TearDown() override {
             const auto boincAdminsSidString =
-                getSidStringFromSid(getUserSid("boinc_admins"));
+                getSidStringFromSid(getUserSid(groupName));
             const auto systemSidString =
                 getSidStringFromSid(getUserSid("SYSTEM"));
             const auto interactiveSidString =
@@ -98,15 +99,15 @@ namespace test_boinccas_CAGrantBOINCAdminsVirtualBoxRights {
                 }
             }
 
-            if (localGroupExists("boinc_admins")) {
-                deleteLocalGroup("boinc_admins");
+            if (localGroupExists(groupName)) {
+                deleteLocalGroup(groupName);
             }
             cleanRegistryKey(HKEY_CLASSES_ROOT, vboxKey);
         }
 
         void validatePermissions() {
             const auto boincAdminsSidString =
-                getSidStringFromSid(getUserSid("boinc_admins"));
+                getSidStringFromSid(getUserSid(groupName));
             ASSERT_FALSE(boincAdminsSidString.empty());
             const auto systemSidString =
                 getSidStringFromSid(getUserSid("SYSTEM"));
@@ -184,7 +185,7 @@ namespace test_boinccas_CAGrantBOINCAdminsVirtualBoxRights {
         NoBoincAdminsGroup_ExpectFail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
-        ASSERT_FALSE(localGroupExists("boinc_admins"));
+        ASSERT_FALSE(localGroupExists(groupName));
         EXPECT_NE(0u, executeAction());
     }
 
@@ -192,8 +193,8 @@ namespace test_boinccas_CAGrantBOINCAdminsVirtualBoxRights {
         BoincAdminsGroupExists_SingleRunSuccess) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
-        ASSERT_TRUE(createLocalGroup("boinc_admins"));
-        ASSERT_TRUE(localGroupExists("boinc_admins"));
+        ASSERT_TRUE(createLocalGroup(groupName));
+        ASSERT_TRUE(localGroupExists(groupName));
 
         ASSERT_EQ(0u, executeAction());
         validatePermissions();
@@ -203,8 +204,8 @@ namespace test_boinccas_CAGrantBOINCAdminsVirtualBoxRights {
         BoincAdminsGroupExists_PermissionsOwerwrittenSuccess) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
-        ASSERT_TRUE(createLocalGroup("boinc_admins"));
-        ASSERT_TRUE(localGroupExists("boinc_admins"));
+        ASSERT_TRUE(createLocalGroup(groupName));
+        ASSERT_TRUE(localGroupExists(groupName));
 
         ASSERT_EQ(0u, executeAction());
         validatePermissions();

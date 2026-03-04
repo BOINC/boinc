@@ -19,8 +19,7 @@
 #include "boinccas.h"
 #include "lsaprivs.h"
 
-class CAGrantBOINCAdminsRights : public BOINCCABase
-{
+class CAGrantBOINCAdminsRights : public BOINCCABase {
 public:
     virtual ~CAGrantBOINCAdminsRights() = default;
     explicit CAGrantBOINCAdminsRights(MSIHANDLE hMSIHandle) :

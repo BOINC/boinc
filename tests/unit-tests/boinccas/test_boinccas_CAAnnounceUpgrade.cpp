@@ -31,7 +31,7 @@ namespace test_boinccas_CAAnnounceUpgrade {
     };
 
     constexpr auto expectedVersion = "1.2.3.4";
-#ifndef BOINCCAS_TEST
+#ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CAAnnounceUpgrade,
         Empty_ProductVersion) {
         const auto result = openMsi();
