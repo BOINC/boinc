@@ -52,6 +52,7 @@
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CAGrantBOINCMasterRights.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CAGrantBOINCProjectRights.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CAGrantBOINCProjectsRights.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CAGrantBOINCProjectsVirtualBoxRights.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_parse.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_str_util.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_url.cpp" />
