@@ -18,7 +18,9 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // get output files, individually or zipped groups,
-// for apps that use the 'assim move' scheme
+// for apps that use the 'batch-collect' paradigm
+// implemented by batch_collect_assimilator.cpp and batch_collect_assimilate.py:
+// <project>/results/<batchid>/   (0 if not in a batch)
 //
 // args:
 // action: get_file or get_batch
@@ -28,9 +30,6 @@
 // get_batch:
 //      batch_id
 //      downloads zip of batch's output files
-//      Assumes the layout used by sample_assimilator.cpp
-//      and sample_assimilate.py:
-//      <project>/results/<batchid>/   (0 if not in a batch)
 
 require_once("../inc/util.inc");
 require_once("../inc/submit_util.inc");
@@ -68,7 +67,7 @@ function get_file() {
     if ($index >= count($log_names)) {
         error_page('bad index');
     }
-    $path = assim_move_outfile_path($wu, $index, $log_names, $gzip);
+    $path = batch_collect_outfile_path($wu, $index, $log_names, $gzip);
 
     if (get_str('download', true)) {
         do_download($path);

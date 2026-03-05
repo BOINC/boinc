@@ -109,7 +109,7 @@ static void initialize_result(DB_RESULT& result, WORKUNIT& wu) {
 int create_result_ti(
     TRANSITIONER_ITEM& ti,
     char* result_template_filename,
-    char* result_name_suffix,
+    char* result_name_suffix,   // "0", "1" etc.: instances of a WU
     R_RSA_PRIVATE_KEY& key,
     SCHED_CONFIG& config_loc,
     char* query_string,
@@ -161,8 +161,22 @@ int create_result(
     result.random = lrand48();
 
     result.priority += priority_increase;
-    snprintf(result.name, sizeof(result.name), "%s_%s", wu.name, result_name_suffix);
-    snprintf(base_outfile_name, sizeof(base_outfile_name), "%s_r%ld_", result.name, lrand48());
+
+    // result name is WU name followed by _<seqno>
+    //
+    snprintf(result.name, sizeof(result.name),
+        "%s_%s",
+        wu.name, result_name_suffix
+    );
+
+    // output file physical names start with <result_name>_r<rand>_
+    // The random part is to prevent users from uploading
+    // fake output files (of wingman instance) to get validation
+    //
+    snprintf(base_outfile_name, sizeof(base_outfile_name),
+        "%s_r%ld_",
+        result.name, lrand48()
+    );
     retval = read_filename(
         result_template_filename, result_template, sizeof(result_template)
     );
@@ -174,6 +188,8 @@ int create_result(
         return retval;
     }
 
+    // insert file names into the output template
+    //
     retval = process_result_template(
         result_template, key, base_outfile_name, config_loc
     );

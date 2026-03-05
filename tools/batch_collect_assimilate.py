@@ -1,16 +1,16 @@
 #! /usr/bin/env python3
 
-# Assimilator for batch-oriented apps
+# Assimilator for apps using the batch-collect paradigm:
+# moves output files to results/<batchid>/
 # Use with the script-based assimilator (sched/script_assimilator.cpp)
-# Moves output files into a results/ hierarchy
 #
 # Use with a config.xml command of the form
-# <cmd>script_assimilator -d 3 --app worker --script "sample_assimilate.py wu_name batch_id files2"</cmd>
+# <cmd>script_assimilator -d 3 --app worker --script "batch_collect_assimilate.py wu_name batch_id files2"</cmd>
 
 # With this command, this script will be invoked either as
-#       sample_assimilate.py wu_name batch_id outfile_path1 logical_name1 ...
+#       batch_collect_assimilate.py wu_name batch_id outfile_path1 logical_name1 ...
 # or
-#       sample_assimilator.py --error error_code wu_name wu_id batch_id
+#       batch_collect_assimilate.py --error error_code wu_name wu_id batch_id
 #
 # in the 1st case, move the output files from the upload hierarchy
 #       to results/<batch_id>/<wu_name>__file_<log_name>

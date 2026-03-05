@@ -285,6 +285,11 @@ function get_outfile_phys_names($result) {
     return $names;
 }
 
+// return two corresponding lists:
+// - logical names of output files
+// - whether files are gzipped (they may not have .gz extension)
+// TODO: return a list of pairs
+//
 function get_outfile_log_names($result) {
     $xml = "<a>".$result->xml_doc_in."</a>";
     $r = simplexml_load_string($xml);
@@ -302,7 +307,7 @@ function get_outfile_log_names($result) {
     return [$names, $gzip];
 }
 
-// get output file paths for non-assim-move apps
+// get output file paths for batch-static apps
 //
 function get_outfile_paths($result) {
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
@@ -319,15 +324,19 @@ function get_outfile_paths($result) {
     return $paths;
 }
 
-// the path of an output file in the 'assim move' scheme.
+// Return the path of an output file in the 'batch-collect' paradigm.
 // This must agree with the corresponding assimilators:
-// tools/sample_assimilate.py
-// sched/sample_assimilator.cpp
+// tools/batch_collect_assimilate.py
+// sched/batch_collect_assimilator.cpp
 // and with tools/query_job
 //
-function assim_move_outfile_path($wu, $index, $log_names, $gzip) {
-    if (!is_valid_filename($wu->name)) error_page("bad WU name");
-    if (!is_valid_filename($log_names[$index])) error_page("bad logical name");
+function batch_collect_outfile_path($wu, $index, $log_names, $gzip) {
+    if (!is_valid_filename($wu->name)) {
+        error_page("bad WU name");
+    }
+    if (!is_valid_filename($log_names[$index])) {
+        error_page("bad logical name");
+    }
     return sprintf('../../results/%d/%s__file_%s%s',
         $wu->batch, $wu->name, $log_names[$index],
         $gzip[$index]?'.gz':''
@@ -424,10 +433,12 @@ function retire_batch($batch) {
     }
 }
 
+// batches can have 'expiration times' when they automatically get retired
+// if you run html/ops/expire_batches
+//
 function expire_batch($batch) {
     abort_batch($batch);
     retire_batch($batch);
-    $batch->update("state=".BATCH_STATE_EXPIRED);
 }
 
 function batch_state_string($state) {
@@ -440,7 +451,7 @@ function batch_state_string($state) {
     }
     return "unknown state $state";
 }
-// get the total size of output files of a batch for non-assim-move apps
+// get the total size of output files of a batch for batch-static apps
 // (i.e. files are in the upload hier)
 //
 function batch_output_file_size($batchid) {
