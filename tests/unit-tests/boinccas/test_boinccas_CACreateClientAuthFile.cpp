@@ -79,7 +79,7 @@ namespace test_boinccas_CACreateClientAuthFile {
         DATADIR_Doesnt_Exist) {
         const auto dir = std::filesystem::current_path() /= "test_data";
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -92,7 +92,7 @@ namespace test_boinccas_CACreateClientAuthFile {
         const auto dir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(dir);
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -119,7 +119,7 @@ namespace test_boinccas_CACreateClientAuthFile {
             ofs << "<test>data</test>";
         }
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -143,7 +143,7 @@ namespace test_boinccas_CACreateClientAuthFile {
         std::ofstream ofs(authFile);
         ofs << "<test>data</test>";
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -165,7 +165,7 @@ namespace test_boinccas_CACreateClientAuthFile {
         const auto dir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(dir);
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -185,7 +185,7 @@ namespace test_boinccas_CACreateClientAuthFile {
         const auto dir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(dir);
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -211,7 +211,7 @@ namespace test_boinccas_CACreateClientAuthFile {
         const auto dir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(dir);
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -243,7 +243,7 @@ namespace test_boinccas_CACreateClientAuthFile {
         const auto dir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(dir);
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -268,7 +268,7 @@ namespace test_boinccas_CACreateClientAuthFile {
         const auto dir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(dir);
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -299,7 +299,7 @@ namespace test_boinccas_CACreateClientAuthFile {
         const auto dir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(dir);
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -343,7 +343,7 @@ namespace test_boinccas_CACreateClientAuthFile {
             ofs << "<test>data</test>";
         }
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);

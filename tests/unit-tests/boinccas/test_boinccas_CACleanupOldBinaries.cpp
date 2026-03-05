@@ -68,7 +68,7 @@ namespace test_boinccas_CACleanupOldBinaries {
         const auto dir =
             std::filesystem::current_path() /= "non_existent_directory";
         insertMsiProperties({
-            {"INSTALLDIR", dir.string().c_str()}
+            {"INSTALLDIR", dir.string()}
             });
 
         const auto result = openMsi();
@@ -82,7 +82,7 @@ namespace test_boinccas_CACleanupOldBinaries {
         testDir = std::filesystem::current_path() /= "empty";
         std::filesystem::create_directory(testDir);
         insertMsiProperties({
-            {"INSTALLDIR", testDir.string().c_str()}
+            {"INSTALLDIR", testDir.string()}
             });
 
         const auto result = openMsi();
@@ -98,7 +98,7 @@ namespace test_boinccas_CACleanupOldBinaries {
         createTestFilesInDir(testDir);
 
         insertMsiProperties({
-            {"INSTALLDIR", testDir.string().c_str()}
+            {"INSTALLDIR", testDir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -117,7 +117,7 @@ namespace test_boinccas_CACleanupOldBinaries {
         createDummyFile(testDir / "dummy.dll");
 
         insertMsiProperties({
-            {"INSTALLDIR", testDir.string().c_str()}
+            {"INSTALLDIR", testDir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);

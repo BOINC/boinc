@@ -53,7 +53,7 @@ namespace test_boinccas_CACreateProjectInitFile {
     TEST_F(test_boinccas_CACreateProjectInitFile,
         DATADIR_Doesnt_Exist) {
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -65,7 +65,7 @@ namespace test_boinccas_CACreateProjectInitFile {
         PROJINIT_URL_Empty_No_XML_File_Created) {
         std::filesystem::create_directory(dir);
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -84,7 +84,7 @@ namespace test_boinccas_CACreateProjectInitFile {
         PROJINIT_URL_Not_Empty_And_No_PROJINIT_AUTH_No_XML_File_Created) {
         std::filesystem::create_directory(dir);
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -103,7 +103,7 @@ namespace test_boinccas_CACreateProjectInitFile {
         PROJINIT_URL_Not_Empty_And_PROJINIT_AUTH_Empty_No_XML_File_Created) {
         std::filesystem::create_directory(dir);
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -127,7 +127,7 @@ namespace test_boinccas_CACreateProjectInitFile {
         PROJINIT_URL_And_PROJINIT_AUTH_Not_Empty_And_No_PROJINIT_NAME) {
         std::filesystem::create_directory(dir);
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -161,7 +161,7 @@ namespace test_boinccas_CACreateProjectInitFile {
         PROJINIT_URL_And_PROJINIT_AUTH_Not_Empty_PROJINIT_NAME_Empty) {
         std::filesystem::create_directory(dir);
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -200,7 +200,7 @@ namespace test_boinccas_CACreateProjectInitFile {
         PROJINIT_URL_And_PROJINIT_AUTH_And_PROJINIT_NAME_Not_Empty) {
         std::filesystem::create_directory(dir);
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -239,7 +239,7 @@ namespace test_boinccas_CACreateProjectInitFile {
         SETUPEXENAME_Doesnt_Exist_No_TXT_File_Created) {
         std::filesystem::create_directory(dir);
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -253,7 +253,7 @@ namespace test_boinccas_CACreateProjectInitFile {
         SETUPEXENAME_Empty_No_TXT_File_Created) {
         std::filesystem::create_directory(dir);
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -272,7 +272,7 @@ namespace test_boinccas_CACreateProjectInitFile {
         SETUPEXENAME_Set_And_TXT_File_Created) {
         std::filesystem::create_directory(dir);
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);

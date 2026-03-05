@@ -32,6 +32,7 @@
 #include <vector>
 
 #include <Windows.h>
+#include <TlHelp32.h>
 #include <Msi.h>
 #include <MsiQuery.h>
 

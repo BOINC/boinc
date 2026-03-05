@@ -85,7 +85,7 @@ namespace test_boinccas_CACreateAcctMgrLoginFile {
         Empty_DATADIR_Directory) {
         const auto dir = std::filesystem::current_path() /= "test_data";
         insertMsiProperties({
-        {"DATADIR", dir.string().c_str()}
+        {"DATADIR", dir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -98,7 +98,7 @@ namespace test_boinccas_CACreateAcctMgrLoginFile {
         testDir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(testDir);
         insertMsiProperties({
-        {"DATADIR", testDir.string().c_str()},
+        {"DATADIR", testDir.string()},
         {"ACCTMGR_LOGIN", "testuser"}
             });
         const auto result = openMsi();
@@ -112,7 +112,7 @@ namespace test_boinccas_CACreateAcctMgrLoginFile {
         testDir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(testDir);
         insertMsiProperties({
-        {"DATADIR", testDir.string().c_str()}
+        {"DATADIR", testDir.string()}
             });
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -125,7 +125,7 @@ namespace test_boinccas_CACreateAcctMgrLoginFile {
         testDir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(testDir);
         insertMsiProperties({
-        {"DATADIR", testDir.string().c_str()},
+        {"DATADIR", testDir.string()},
         {"ACCTMGR_LOGIN", "testuser"}
             });
         const auto result = openMsi();
@@ -146,7 +146,7 @@ namespace test_boinccas_CACreateAcctMgrLoginFile {
         testDir = std::filesystem::current_path() /= "test_data";
         std::filesystem::create_directory(testDir);
         insertMsiProperties({
-        {"DATADIR", testDir.string().c_str()},
+        {"DATADIR", testDir.string()},
         {"ACCTMGR_LOGIN", "testuser"},
         {"ACCTMGR_PASSWORDHASH", "abcd1234hashvalue"}
             });
@@ -171,7 +171,7 @@ namespace test_boinccas_CACreateAcctMgrLoginFile {
         ofs << "dummy content";
         ofs.close();
         insertMsiProperties({
-        {"DATADIR", testDir.string().c_str()},
+        {"DATADIR", testDir.string()},
         {"ACCTMGR_LOGIN", "testuser"},
         {"ACCTMGR_PASSWORDHASH", "abcd1234hashvalue"}
             });
