@@ -19,9 +19,6 @@
 #include "boinccas.h"
 #include "launcher.h"
 
-#define CUSTOMACTION_NAME               
-#define CUSTOMACTION_PROGRESSTITLE      
-
 class CALaunchBOINCManager : public BOINCCABase {
 public:
     virtual ~CALaunchBOINCManager() = default;
