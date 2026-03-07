@@ -318,7 +318,7 @@ UINT BOINCCABase::GetRegistryValue(
 	if (lReturnValue != ERROR_SUCCESS) return ERROR_INSTALL_FAILURE;
 
     // How large does our buffer need to be?
-    RegQueryValueEx(
+    lReturnValue = RegQueryValueEx(
         hkSetupHive,
         strName.c_str(),
         NULL,
@@ -326,6 +326,7 @@ UINT BOINCCABase::GetRegistryValue(
         NULL,
         &dwSize
     );
+    if (lReturnValue != ERROR_SUCCESS) return ERROR_INSTALL_FAILURE;
 
     // Allocate the buffer space.
     lpszRegistryValue = (LPTSTR) malloc(dwSize);
