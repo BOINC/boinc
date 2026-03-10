@@ -228,12 +228,10 @@ function confirm_sig_gen($name) {
     if ($sig_gen_confirmed) return true;
 
     echo "
-    NOTICE: You have not provided a signature file for $name,
-    and your project's code-signing private key is on your server.
-
-    IF YOUR PROJECT IS PUBLICLY ACCESSIBLE, THIS IS A SECURITY VULNERABILITY.
-    PLEASE STOP YOUR PROJECT IMMEDIATELY AND READ:
-    https://github.com/BOINC/boinc/wiki/CodeSigning
+    NOTICE: files will be signed with your project's code-signing private key
+    (keys/code_sign_private).
+    We recommend that you encrypt it when done; see
+    https://github.com/BOINC/boinc/wiki/Code-signing
 
     Continue (y/n)? ";
 

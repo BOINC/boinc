@@ -15,8 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// A sample assimilator that only writes a log message.
-// But WUs are marked as assimilated, which means file deleter
+// A sample assimilator that writes a log message
+// but doesn't do anything with the output files.
+// WUs are marked as assimilated, so the file deleter
 // will delete output files unless you mark them as no_delete,
 // or include 'no_delete' in the WU name
 
