@@ -49,7 +49,9 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
 #include <sys/param.h>
 
 #if HAVE_SYS_TYPES_H
@@ -64,8 +66,6 @@
 #if HAVE_SYS_VMMETER_H
 #include <sys/vmmeter.h>
 #endif
-
-#include <sys/stat.h>
 
 #if HAVE_SYS_SWAP_H
 #include <sys/swap.h>
@@ -106,6 +106,7 @@
 #include "error_numbers.h"
 #include "common_defs.h"
 #include "filesys.h"
+#include "shmem.h"
 #include "str_util.h"
 #include "str_replace.h"
 #include "util.h"
@@ -541,12 +542,11 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 
 #if defined(__aarch64__) || defined(__arm__)
         if (
-            // Hardware is specifying the board this CPU is on, store it in product_name while we parse /proc/cpuinfo
+            // Hardware is specifying the board this CPU is on,
+            // store it in product_name while we parse /proc/cpuinfo
             strstr(buf, "Hardware\t: ")
         ) {
-            // this makes sure we only ever copy as much bytes as we can still store in host.product_name
-            int t = sizeof(host.product_name) - strlen(host.product_name) - 2;
-            strlcpy(buf2, strchr(buf, ':') + 2, ((t<sizeof(buf2))?t:sizeof(buf2)));
+            strlcpy(buf2, strchr(buf, ':') + 2, sizeof(buf2));
             strip_whitespace(buf2);
             if (strlen(host.product_name)) {
                 safe_strcat(host.product_name, " ");
@@ -2291,8 +2291,47 @@ long xss_idle() {
 
 #endif // LINUX_LIKE_SYSTEM
 
+#ifndef ANDROID     // Android doesn't have shm_open()
+// idle time detection.
+// old approach: do it ourselves by looking at devices
+//  and trying to get info from X11
+//  (big mess, permissions problems, doesn't generally work)
+// new approach: get last-input time from a separate daemon process,
+//  communicated via shmem
+
+bool get_idle_time_from_daemon(long &idle_time) {
+    static int64_t* seg_ptr = NULL;
+    if (!seg_ptr) {
+        int fd = shm_open("/idle_detect_shmem",  O_RDONLY, 0);
+        seg_ptr = (int64_t*)mmap(
+            NULL, 2*sizeof(int64_t), PROT_READ, MAP_SHARED, fd, 0
+        );
+    }
+    if (!seg_ptr) return false;
+
+    // make sure the shmem is actually being updated
+    //
+    int64_t update_time = seg_ptr[0];
+    if (update_time > gstate.now+10) return false;
+    if (update_time < gstate.now-60) return false;
+
+    int64_t input_time = seg_ptr[1];
+    idle_time = gstate.now - input_time;
+    //printf("idle time: %ld\n", idle_time);
+    return true;
+}
+#endif      // !ANDROID
+
+// get idle time.  Try the new approach, if it fails use old
+//
 long HOST_INFO::user_idle_time(bool check_all_logins) {
     long idle_time = USER_IDLE_TIME_INF;
+
+#ifndef ANDROID
+    if (get_idle_time_from_daemon(idle_time)) {
+        return idle_time;
+    }
+#endif
 
 #if HAVE_UTMP_H
     if (check_all_logins) {
