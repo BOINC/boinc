@@ -108,6 +108,12 @@ bool CBOINCGUIApp::OnInit() {
 #if SUPPORTDARKMODE
     wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
     m_isDarkMode = appearance.IsDark();
+#if defined(__WXMSW__)
+    // wxWidgets' IsDark() returns false on Win 11 now even if dark mode is enabled
+    // so we need to additionally check AreAppsDark()
+    m_isDarkMode = m_isDarkMode || appearance.AreAppsDark();
+    MSWEnableDarkMode(wxApp::DarkMode_Auto);
+#endif
 #endif
 
     s_bSkipExitConfirmation = false;

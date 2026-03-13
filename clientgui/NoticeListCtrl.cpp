@@ -101,12 +101,8 @@ bool CNoticeListCtrl::Create( wxWindow* parent ) {
     SetSizer(topsizer);
 
     m_itemCount = 0;
-    bool isWindowsDarkMode = false;
-#ifdef __WXMSW__
-    const wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
-    isWindowsDarkMode = appearance.IsSystemDark();
-#endif
-    if (wxGetApp().GetIsDarkMode() || isWindowsDarkMode){
+
+    if (wxGetApp().GetIsDarkMode()){
 #if wxUSE_WEBVIEW
         m_noticesBody = wxT("<html><style>body{background-color:black;color:white;}</style><head></head><body></body></html>");
 #else
@@ -159,12 +155,7 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     m_itemCount = newCount;
-    bool isWindowsDarkMode = false;
-#ifdef __WXMSW__
-    const wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
-    isWindowsDarkMode = appearance.IsSystemDark();
-#endif
-    if (wxGetApp().GetIsDarkMode() || isWindowsDarkMode){
+    if (wxGetApp().GetIsDarkMode()){
 #if wxUSE_WEBVIEW
         m_noticesBody =  wxT("<html><style>body{background-color:black;color:white;}</style><head></head><body><font face=helvetica>");
 #else
