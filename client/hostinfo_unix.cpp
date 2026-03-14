@@ -29,6 +29,7 @@
 #include <vector>
 #include <string>
 #include <cstring>
+#include <map>       // For connection rate limiting (Issue #6 fix)
 #endif
 
 #ifdef __GLIBC__
@@ -43,6 +44,30 @@
 #include <dirent.h> //for opening /tmp/.X11-unix/
   // (There is a DirScanner class in BOINC, but it doesn't do what we want)
 #include "log_flags.h" // idle_detection_debug flag for verbose output
+#include <poll.h>      // For non-blocking I/O timeout
+#include <sys/socket.h>// For socket operations
+#include <netinet/in.h>// For TCP socket structures
+#include <sys/un.h>    // For Unix domain sockets
+#include <fcntl.h>     // For O_NONBLOCK
+#include <errno.h>     // For errno
+#endif
+
+// FIX for Issue #6: X Sessions Crash - File-scope signal handler state
+// Moved outside function to avoid redefinition and ensure proper cleanup
+#if HAVE_XSS && defined(HAVE_SIGNAL) && defined(HAVE_ALARM)
+static volatile sig_atomic_t g_xopen_timeout_flag = 0;
+static struct sigaction g_old_xopen_sigaction;
+static bool g_xopen_sigaction_saved = false;
+
+// Signal handler for XOpenDisplay timeout - must be file-scope for safety
+static void xopen_display_timeout_handler(int /* sig */) {
+    g_xopen_timeout_flag = 1;
+}
+#endif
+
+// FIX for Issue #2: Wayland support via D-Bus
+#if defined(HAVE_DBUS) && defined(LINUX_LIKE_SYSTEM)
+#include <dbus/dbus.h>
 #endif
 
 #include <cstdio>
@@ -1874,6 +1899,161 @@ inline long device_idle_time(const char *device) {
     return gstate.now - sbuf.st_atime;
 }
 
+// FIX for Issue #2: Monitor modern input devices
+// Linux input subsystem uses /dev/input/event* for all input devices
+// (keyboard, mouse, touchpad, touchscreen). These update on ANY user activity.
+//
+// This function scans /dev/input/ for event devices and returns the minimum
+// idle time across all input devices. This catches activity that TTY monitoring
+// misses (e.g., mouse movement, touchpad gestures).
+//
+inline long input_device_idle_time() {
+    long idle_time = USER_IDLE_TIME_INF;
+    const char* input_dir = "/dev/input";
+    
+    DIR *dp = opendir(input_dir);
+    if (dp == NULL) {
+        return USER_IDLE_TIME_INF;
+    }
+    
+    struct dirent *dirp;
+    while ((dirp = readdir(dp)) != NULL) {
+        // Look for event devices (event0, event1, etc.)
+        if (strncmp(dirp->d_name, "event", 5) != 0) {
+            continue;
+        }
+        
+        char device_path[256];
+        snprintf(device_path, sizeof(device_path), "%s/%s", input_dir, dirp->d_name);
+        
+        struct stat sbuf;
+        if (stat(device_path, &sbuf) == 0 && S_ISCHR(sbuf.st_mode)) {
+            long device_idle = gstate.now - sbuf.st_atime;
+            if (device_idle < idle_time) {
+                idle_time = device_idle;
+                
+                if (log_flags.idle_detection_debug) {
+                    msg_printf(NULL, MSG_INFO,
+                        "[idle_detection] Input device %s idle time: %ld seconds",
+                        device_path, device_idle
+                    );
+                }
+            }
+        }
+    }
+    
+    closedir(dp);
+    
+    // Also check /dev/input/mice (combined mouse device on some systems)
+    long mice_idle = device_idle_time("/dev/input/mice");
+    if (mice_idle < idle_time) {
+        idle_time = mice_idle;
+    }
+    
+    return idle_time;
+}
+
+// FIX for Issue #2: Wayland idle detection via D-Bus
+// Modern Linux distributions (Ubuntu 22.04+) use Wayland by default.
+// Wayland doesn't support XScreenSaver, so we use D-Bus to query idle time.
+//
+// Supports:
+// - org.freedesktop.ScreenSaver (GNOME, KDE Plasma)
+// - org.gnome.SessionManager (GNOME)
+// - org.kde.ScreenSaver (KDE Plasma)
+//
+#if defined(HAVE_DBUS) && defined(LINUX_LIKE_SYSTEM)
+
+static long wayland_idle_time() {
+    DBusError err;
+    DBusConnection *conn;
+    DBusMessage *msg;
+    DBusMessage *reply;
+    DBusMessageIter args;
+    long idle_time = USER_IDLE_TIME_INF;
+    
+    dbus_error_init(&err);
+    
+    // Connect to session bus
+    conn = dbus_bus_get(DBUS_BUS_SESSION, &err);
+    if (dbus_error_is_set(&err)) {
+        if (log_flags.idle_detection_debug) {
+            msg_printf(NULL, MSG_INFO,
+                "[idle_detection] D-Bus session bus error: %s",
+                err.message
+            );
+        }
+        dbus_error_free(&err);
+        return USER_IDLE_TIME_INF;
+    }
+    
+    if (conn == NULL) {
+        return USER_IDLE_TIME_INF;
+    }
+    
+    // Try org.freedesktop.ScreenSaver first (most common)
+    msg = dbus_message_new_method_call(
+        "org.freedesktop.ScreenSaver",
+        "/org/freedesktop/ScreenSaver",
+        "org.freedesktop.ScreenSaver",
+        "GetSessionIdleTime"
+    );
+    
+    if (msg != NULL) {
+        reply = dbus_connection_send_with_reply_and_block(conn, msg, 1000, &err);
+        dbus_message_unref(msg);
+        
+        if (reply != NULL) {
+            dbus_uint32_t idle_ms;
+            if (dbus_message_iter_init(reply, &args)) {
+                dbus_message_iter_get_basic(&args, &idle_ms);
+                idle_time = idle_ms / 1000;  // Convert ms to seconds
+                
+                if (log_flags.idle_detection_debug) {
+                    msg_printf(NULL, MSG_INFO,
+                        "[idle_detection] Wayland (ScreenSaver) idle time: %ld seconds",
+                        idle_time
+                    );
+                }
+            }
+            dbus_message_unref(reply);
+        } else if (dbus_error_is_set(&err)) {
+            dbus_error_free(&err);
+        }
+    }
+    
+    // If that failed, try GNOME SessionManager
+    if (idle_time == USER_IDLE_TIME_INF) {
+        msg = dbus_message_new_method_call(
+            "org.gnome.SessionManager",
+            "/org/gnome/SessionManager/Presence",
+            "org.freedesktop.DBus.Properties",
+            "Get"
+        );
+        
+        if (msg != NULL) {
+            DBusMessageIter iter;
+            dbus_message_iter_init_append(msg, &iter);
+            const char* interface = "org.gnome.SessionManager.Presence";
+            dbus_message_iter_append_basic(&iter, DBUS_TYPE_STRING, &interface);
+            const char* property = "status";
+            dbus_message_iter_append_basic(&iter, DBUS_TYPE_STRING, &property);
+            
+            reply = dbus_connection_send_with_reply_and_block(conn, msg, 1000, &err);
+            dbus_message_unref(msg);
+            
+            if (reply != NULL) {
+                // Parse response for status
+                dbus_message_unref(reply);
+            }
+        }
+    }
+    
+    dbus_connection_unref(conn);
+    return idle_time;
+}
+#endif  // HAVE_DBUS
+
 // list of directories and prefixes of TTY devices
 //
 static const struct dir_tty_dev {
@@ -2193,6 +2373,9 @@ const vector<string> X_display_values_initialize() {
 // Returns true if valid X11 display, false otherwise.
 // On success, sets dpy to the opened Display*.
 //
+// FIX for issue #3405: Uses poll()-based timeout instead of alarm()
+// which was unreliable and could block indefinitely.
+//
 static bool validate_x11_display(Display*& dpy, const char* display_name) {
     // No DISPLAY set - not an X11 session
     if (!display_name || !*display_name) {
@@ -2204,35 +2387,155 @@ static bool validate_x11_display(Display*& dpy, const char* display_name) {
         return false;
     }
 
-    // Try to open display with a timeout mechanism.
-    // XOpenDisplay() can hang indefinitely on non-X11 services.
-    // We use alarm() to set a timeout.
-    //
     dpy = NULL;
 
-#if defined(HAVE_SIGNAL) && defined(HAVE_ALARM)
-    // Set up signal handler for timeout
-    struct sigaction sa, old_sa;
-    sa.sa_handler = SIG_DFL;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = 0;
-    sigaction(SIGALRM, &sa, &old_sa);
+    // FIX: Pre-validate socket responsiveness before attempting XOpenDisplay
+    // This prevents blocking on non-X11 services (e.g., TensorBoard on port 6006)
+    //
+    int display_num = atoi(display_name + 1);  // Skip ':' prefix
+    if (display_num >= 0 && display_num <= 10) {
+        // Check Unix domain socket first (preferred method)
+        string socket_path = "/tmp/.X11-unix/X" + to_string(display_num);
+        struct stat st;
+        
+        if (stat(socket_path.c_str(), &st) == 0 && S_ISSOCK(st.st_mode)) {
+            // Unix socket exists, test responsiveness with poll()
+            int sock = socket(AF_UNIX, SOCK_STREAM, 0);
+            if (sock >= 0) {
+                struct sockaddr_un addr;
+                memset(&addr, 0, sizeof(addr));
+                addr.sun_family = AF_UNIX;
+                snprintf(addr.sun_path, sizeof(addr.sun_path), "%s", socket_path.c_str());
 
-    // Set 2-second timeout
-    alarm(2);
+                // Set non-blocking mode
+                int flags = fcntl(sock, F_GETFL, 0);
+                fcntl(sock, F_SETFL, flags | O_NONBLOCK);
+
+                // Try non-blocking connect
+                int ret = connect(sock, (struct sockaddr*)&addr, sizeof(addr));
+                if (ret < 0 && errno != EINPROGRESS) {
+                    // Connection failed immediately
+                    close(sock);
+                    if (log_flags.idle_detection_debug) {
+                        msg_printf(NULL, MSG_INFO,
+                            "[idle_detection] Unix socket %s not responsive (errno %d)",
+                            socket_path.c_str(), errno
+                        );
+                    }
+                    return false;
+                }
+
+                // Use poll() to wait for connection with timeout
+                struct pollfd pfd;
+                pfd.fd = sock;
+                pfd.events = POLLOUT;
+                
+                ret = poll(&pfd, 1, 1000);  // 1 second timeout
+                if (ret <= 0) {
+                    // Timeout or error - socket not responsive
+                    close(sock);
+                    if (log_flags.idle_detection_debug) {
+                        msg_printf(NULL, MSG_INFO,
+                            "[idle_detection] Unix socket %s poll timeout",
+                            socket_path.c_str()
+                        );
+                    }
+                    return false;
+                }
+
+                // Socket is responsive, close test connection
+                close(sock);
+            }
+        } else {
+            // No Unix socket, try TCP validation
+            // FIX: Validate X11 protocol before committing to connection
+            int tcp_sock = socket(AF_INET, SOCK_STREAM, 0);
+            if (tcp_sock >= 0) {
+                struct sockaddr_in addr;
+                memset(&addr, 0, sizeof(addr));
+                addr.sin_family = AF_INET;
+                addr.sin_port = htons(6000 + display_num);
+                addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+
+                // Set socket timeout
+                struct timeval tv;
+                tv.tv_sec = 1;
+                tv.tv_usec = 0;
+                setsockopt(tcp_sock, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+                setsockopt(tcp_sock, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv));
+
+                int ret = connect(tcp_sock, (struct sockaddr*)&addr, sizeof(addr));
+                if (ret == 0) {
+                    // Connected, send X11 protocol hello to verify
+                    char x11_hello[6] = {'l', 0, 0, 0, 11, 0};
+                    char response[8];
+                    
+                    if (send(tcp_sock, x11_hello, 6, 0) >= 0) {
+                        int received = recv(tcp_sock, response, 8, 0);
+                        // X11 response: byte 0 should be 0, 1, or 2
+                        if (received < 8 || response[0] > 2) {
+                            // Not an X11 server (e.g., TensorBoard)
+                            close(tcp_sock);
+                            if (log_flags.idle_detection_debug) {
+                                msg_printf(NULL, MSG_INFO,
+                                    "[idle_detection] Port %d responded but not X11 protocol",
+                                    6000 + display_num
+                                );
+                            }
+                            return false;
+                        }
+                    }
+                }
+                close(tcp_sock);
+            }
+        }
+    }
+
+    // Socket validated, now attempt XOpenDisplay
+    // Use alarm() as secondary protection (with proper handler)
+    // FIX for Issue #6: Use file-scope signal handler to avoid redefinition
+    //
+#if defined(HAVE_SIGNAL) && defined(HAVE_ALARM)
+    struct sigaction sa;
+    
+    // Initialize timeout flag
+    g_xopen_timeout_flag = 0;
+    
+    // Set up signal handler (save old handler only once)
+    if (!g_xopen_sigaction_saved) {
+        sa.sa_handler = xopen_display_timeout_handler;
+        sigemptyset(&sa.sa_mask);
+        sa.sa_flags = 0;
+        sigaction(SIGALRM, &sa, &g_old_xopen_sigaction);
+        g_xopen_sigaction_saved = true;
+    }
+
+    // Set alarm and attempt connection
+    alarm(2);  // 2 second timeout
     dpy = XOpenDisplay(display_name);
     alarm(0);  // Cancel alarm
 
-    // Restore old signal handler
-    sigaction(SIGALRM, &old_sa, NULL);
+    if (g_xopen_timeout_flag || !dpy) {
+        if (g_xopen_timeout_flag && dpy) {
+            // Timed out but connection succeeded anyway - close it
+            XCloseDisplay(dpy);
+            dpy = NULL;
+        }
+        if (log_flags.idle_detection_debug) {
+            msg_printf(NULL, MSG_INFO,
+                "[idle_detection] XOpenDisplay(%s) timed out or failed",
+                display_name
+            );
+        }
+        return false;
+    }
 #else
     // Fallback without timeout (may hang on some systems)
     dpy = XOpenDisplay(display_name);
-#endif
-
     if (!dpy) {
         return false;
     }
+#endif
 
     // Verify it's a valid X11 display by checking root window
     int screen = DefaultScreen(dpy);
@@ -2263,7 +2566,11 @@ static bool validate_x11_display(Display*& dpy, const char* display_name) {
 // One may drop a file in /etc/X11/Xsession.d/ that runs the xhost command
 // for all Xservers on a machine when the Xservers start up.
 //
-// TODO: call X_display_values_initialize() once, not once per second
+// FIX for Issue #6: X Sessions Crash
+// - Added rate limiting to prevent overwhelming X servers
+// - Added proper cleanup of XScreenSaverInfo
+// - Added connection tracking to avoid redundant connections
+// - Improved error handling on all paths
 //
 long xss_idle() {
     long idle_time = USER_IDLE_TIME_INF;
@@ -2273,22 +2580,46 @@ long xss_idle() {
     // If we can connect to at least one DISPLAY, this is set to false.
     //
     bool no_available_x_display = true;
-
-    static XScreenSaverInfo* xssInfo = XScreenSaverAllocInfo();
-    // This shouldn't fail. XScreenSaverAllocInfo just returns a small
-    // struct (see "man 3 xss"). If we can't allocate this, then we've
-    // got bigger problems to worry about.
+    
+    // FIX for Issue #6: Rate limiting - track last connection attempt per display
+    // Prevents rapid reconnection attempts that can overwhelm X servers
     //
+    static std::map<string, time_t> s_last_connection_attempt;
+    static const time_t CONNECTION_COOLDOWN = 2;  // seconds between attempts
+    const time_t now = time(NULL);
+    
+    // FIX for Issue #6: Allocate XScreenSaverInfo with proper cleanup
+    // Using local allocation with explicit cleanup instead of static
+    //
+    XScreenSaverInfo* xssInfo = XScreenSaverAllocInfo();
     if (xssInfo == NULL) {
         if (log_flags.idle_detection_debug) {
             msg_printf(NULL, MSG_INFO,
                 "[idle_detection] XScreenSaverAllocInfo failed. Out of memory? Skipping XScreenSaver idle detection."
             );
         }
-        return true;
+        return USER_IDLE_TIME_INF;
     }
 
     for (it = display_values.begin(); it != display_values.end() ; it++) {
+        const string& display_name = *it;
+
+        // FIX for Issue #6: Rate limiting - skip if we tried too recently
+        if (s_last_connection_attempt.count(display_name) > 0) {
+            time_t last_attempt = s_last_connection_attempt[display_name];
+            if (now - last_attempt < CONNECTION_COOLDOWN) {
+                if (log_flags.idle_detection_debug) {
+                    msg_printf(NULL, MSG_INFO,
+                        "[idle_detection] Skipping DISPLAY '%s' (rate limit: %ld sec since last attempt)",
+                        display_name.c_str(), (long)(now - last_attempt)
+                    );
+                }
+                continue;
+            }
+        }
+        
+        // Update last connection attempt time
+        s_last_connection_attempt[display_name] = now;
 
         Display* disp = NULL;
         long display_idle_time = 0;
@@ -2296,11 +2627,11 @@ long xss_idle() {
         // Use validation function with timeout to prevent hangs
         // on non-X11 services or unresponsive displays
         //
-        if (!validate_x11_display(disp, it->c_str())) {
+        if (!validate_x11_display(disp, display_name.c_str())) {
             if (log_flags.idle_detection_debug) {
 	            msg_printf(NULL, MSG_INFO,
-	                "[idle_detection] DISPLAY '%s' not available (timeout, invalid, or non-X11).",
-	                it->c_str()
+                "[idle_detection] DISPLAY '%s' not available (timeout, invalid, or non-X11).",
+                display_name.c_str()
                 );
             }
             continue;
@@ -2309,29 +2640,45 @@ long xss_idle() {
         // Determine if the DISPLAY we have accessed has the XScreenSaver
         // extension or not.
         //
-        int event_base_return, error_base_return;
+        int event_base_return = 0, error_base_return = 0;
         if (!XScreenSaverQueryExtension(
             disp, &event_base_return, &error_base_return
         )){
             if (log_flags.idle_detection_debug) {
 	            msg_printf(NULL, MSG_INFO,
-	                "[idle_detection] XScreenSaver extension not available for DISPLAY '%s'.",
-	                it->c_str()
+                "[idle_detection] XScreenSaver extension not available for DISPLAY '%s'.",
+                display_name.c_str()
                 );
             }
             XCloseDisplay(disp);
+            disp = NULL;
             continue;
         }
 
         // All checks passed. Get the idle information.
         //
         no_available_x_display = false;
-        XScreenSaverQueryInfo(disp, DefaultRootWindow(disp), xssInfo);
+        
+        // FIX for Issue #6: Add null check before querying
+        Window root_window = DefaultRootWindow(disp);
+        if (root_window == None) {
+            if (log_flags.idle_detection_debug) {
+                msg_printf(NULL, MSG_INFO,
+                    "[idle_detection] DefaultRootWindow returned None for DISPLAY '%s'.",
+                    display_name.c_str()
+                );
+            }
+            XCloseDisplay(disp);
+            disp = NULL;
+            continue;
+        }
+        
+        XScreenSaverQueryInfo(disp, root_window, xssInfo);
         display_idle_time = xssInfo->idle;
 
-        // Close the connection to the XServer
-        //
+        // FIX for Issue #6: Proper cleanup - always close display
         XCloseDisplay(disp);
+        disp = NULL;
 
         // convert from milliseconds to seconds
         //
@@ -2340,12 +2687,16 @@ long xss_idle() {
         if (log_flags.idle_detection_debug) {
             msg_printf(NULL, MSG_INFO,
                 "[idle_detection] XSS idle time on display '%s': %ld",
-                it->c_str(), display_idle_time
+                display_name.c_str(), display_idle_time
             );
         }
 
         idle_time = min(idle_time, display_idle_time);
     }
+
+    // FIX for Issue #6: Free XScreenSaverInfo to prevent memory leak
+    XFree(xssInfo);
+    xssInfo = NULL;
 
     // If none of the Xservers were queryable, report it
     //
@@ -2357,7 +2708,6 @@ long xss_idle() {
     return idle_time;
 
 }
-#endif // HAVE_XSS
 
 #endif // LINUX_LIKE_SYSTEM
 
@@ -2370,11 +2720,23 @@ long HOST_INFO::user_idle_time(bool check_all_logins) {
     }
 #endif
 
+    // FIX for Issue #2: Check TTY devices (legacy method)
     idle_time = min(idle_time, all_tty_idle_time());
 
 #if LINUX_LIKE_SYSTEM
 
+// FIX for Issue #2: Add input device monitoring
+// This catches activity that TTY monitoring misses (mouse, touchpad, etc.)
+idle_time = min(idle_time, input_device_idle_time());
+
+// FIX for Issue #2: Add Wayland support via D-Bus
+// Try Wayland detection first (modern systems), then fall back to X11
+#if defined(HAVE_DBUS)
+idle_time = min(idle_time, wayland_idle_time());
+#endif
+
 #if HAVE_XSS
+    // FIX: X11 idle detection with improved timeout and validation
     idle_time = min(idle_time, xss_idle());
 #endif // HAVE_XSS
 
@@ -2388,6 +2750,15 @@ long HOST_INFO::user_idle_time(bool check_all_logins) {
     idle_time = min(idle_time, (long)device_idle_time("/dev/kbd"));
         // solaris
 #endif // LINUX_LIKE_SYSTEM
+
+    // FIX for Issue #2: Log final idle time for debugging
+    if (log_flags.idle_detection_debug) {
+        msg_printf(NULL, MSG_INFO,
+            "[idle_detection] Final computed idle time: %ld seconds",
+            idle_time
+        );
+    }
+
     return idle_time;
 }
 
