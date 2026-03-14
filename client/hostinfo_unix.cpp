@@ -83,6 +83,9 @@
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+#if HAVE_SIGNAL_H
+#include <signal.h>
+#endif
 #if HAVE_UTMP_H
 #include <utmp.h>
 #endif
@@ -2184,6 +2187,74 @@ const vector<string> X_display_values_initialize() {
     return display_values;
 }
 
+// Validate X11 display before attempting to use it.
+// Prevents hangs when DISPLAY is set but no X11 server is running,
+// or when a non-X11 service is listening on port 6000+n.
+// Returns true if valid X11 display, false otherwise.
+// On success, sets dpy to the opened Display*.
+//
+static bool validate_x11_display(Display*& dpy, const char* display_name) {
+    // No DISPLAY set - not an X11 session
+    if (!display_name || !*display_name) {
+        return false;
+    }
+
+    // Basic format validation - must contain ":"
+    if (!strchr(display_name, ':')) {
+        return false;
+    }
+
+    // Try to open display with a timeout mechanism.
+    // XOpenDisplay() can hang indefinitely on non-X11 services.
+    // We use alarm() to set a timeout.
+    //
+    dpy = NULL;
+
+#if defined(HAVE_SIGNAL) && defined(HAVE_ALARM)
+    // Set up signal handler for timeout
+    struct sigaction sa, old_sa;
+    sa.sa_handler = SIG_DFL;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+    sigaction(SIGALRM, &sa, &old_sa);
+
+    // Set 2-second timeout
+    alarm(2);
+    dpy = XOpenDisplay(display_name);
+    alarm(0);  // Cancel alarm
+
+    // Restore old signal handler
+    sigaction(SIGALRM, &old_sa, NULL);
+#else
+    // Fallback without timeout (may hang on some systems)
+    dpy = XOpenDisplay(display_name);
+#endif
+
+    if (!dpy) {
+        return false;
+    }
+
+    // Verify it's a valid X11 display by checking root window
+    int screen = DefaultScreen(dpy);
+    Window root = RootWindow(dpy, screen);
+
+    if (root == None) {
+        XCloseDisplay(dpy);
+        dpy = NULL;
+        return false;
+    }
+
+    // Additional validation: try to get window attributes
+    XWindowAttributes attrs;
+    if (XGetWindowAttributes(dpy, root, &attrs) == 0) {
+        XCloseDisplay(dpy);
+        dpy = NULL;
+        return false;
+    }
+
+    return true;
+}
+
 // Ask X servers for user idle time (using XScreenSaver API)
 // Return min of idle times.
 // This function assumes that the boinc user has been
@@ -2222,14 +2293,13 @@ long xss_idle() {
         Display* disp = NULL;
         long display_idle_time = 0;
 
-        disp = XOpenDisplay(it->c_str());
-        // XOpenDisplay may return NULL if there is no running X
-        // or DISPLAY points to wrong/invalid display
+        // Use validation function with timeout to prevent hangs
+        // on non-X11 services or unresponsive displays
         //
-        if (disp == NULL) {
+        if (!validate_x11_display(disp, it->c_str())) {
             if (log_flags.idle_detection_debug) {
 	            msg_printf(NULL, MSG_INFO,
-	                "[idle_detection] DISPLAY '%s' not found or insufficient access.",
+	                "[idle_detection] DISPLAY '%s' not available (timeout, invalid, or non-X11).",
 	                it->c_str()
                 );
             }
