@@ -59,7 +59,6 @@ template <typename T, typename = std::enable_if_t<
 }
 std::string getRegistryValue(const std::string& valueName);
 
-
 bool setRegistryValue(HKEY hRootKey, const std::string& keyName,
     const std::string& valueName, const std::string& valueData);
 bool setRegistryValue(const std::string& valueName,
