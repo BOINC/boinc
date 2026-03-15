@@ -59,6 +59,7 @@
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CARestoreExecutionState.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CARestorePermissionBOINCData.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CARestoreSetupState.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CARevokeBOINCAdminsRights.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_parse.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_str_util.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_url.cpp" />

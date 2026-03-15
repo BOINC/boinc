@@ -180,7 +180,6 @@ public:
                     SetProperty(_T("ENABLEUSEBYALLUSERS"), _T(""));
                     SetProperty(_T("ALLUSERS"), _T(""));
                 }
-                
             }
         }
 
