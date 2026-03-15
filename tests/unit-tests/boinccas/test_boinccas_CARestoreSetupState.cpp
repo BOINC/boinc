@@ -440,6 +440,110 @@ namespace test_boinccas_CARestoreSetupState {
     }
 
     TEST_F(test_boinccas_CARestoreSetupState,
+        Corrected_LAUNCHPROGRAM) {
+        const auto result = openMsi();
+        ASSERT_EQ(0u, result);
+
+        ASSERT_TRUE(setRegistryValue("SETUPSTATESTORED", "TRUE"));
+        ASSERT_EQ("TRUE", getRegistryValue("SETUPSTATESTORED"));
+        ASSERT_TRUE(setRegistryValue("INSTALLDIR", "install_test"));
+        ASSERT_EQ("install_test", getRegistryValue("INSTALLDIR"));
+        ASSERT_TRUE(setRegistryValue("DATADIR", "data_test"));
+        ASSERT_EQ("data_test", getRegistryValue("DATADIR"));
+        ASSERT_TRUE(setRegistryValue("LAUNCHPROGRAM", "2"));
+        ASSERT_EQ("2", getRegistryValue("LAUNCHPROGRAM"));
+        ASSERT_TRUE(setRegistryValue("BOINC_MASTER_USERNAME", "test_master"));
+        ASSERT_EQ("test_master", getRegistryValue("BOINC_MASTER_USERNAME"));
+        ASSERT_TRUE(setRegistryValue("BOINC_PROJECT_USERNAME", "test_project"));
+        ASSERT_EQ("test_project", getRegistryValue("BOINC_PROJECT_USERNAME"));
+        ASSERT_TRUE(setRegistryValue("ENABLELAUNCHATLOGON", "1"));
+        ASSERT_EQ("1", getRegistryValue("ENABLELAUNCHATLOGON"));
+        ASSERT_TRUE(setRegistryValue("ENABLESCREENSAVER", "1"));
+        ASSERT_EQ("1", getRegistryValue("ENABLESCREENSAVER"));
+        ASSERT_TRUE(setRegistryValue("ENABLEPROTECTEDAPPLICATIONEXECUTION3", "1"));
+        ASSERT_EQ("1", getRegistryValue("ENABLEPROTECTEDAPPLICATIONEXECUTION3"));
+        ASSERT_TRUE(setRegistryValue("ENABLEUSEBYALLUSERS", "1"));
+        ASSERT_EQ("1", getRegistryValue("ENABLEUSEBYALLUSERS"));
+
+        EXPECT_TRUE(getRegistryValue("UpgradingTo").empty());
+
+        auto [errorcode, value] = getMsiProperty("OVERRIDE_INSTALLDIR");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_TRUE(value.empty());
+        std::tie(errorcode, value) = getMsiProperty("OVERRIDE_DATADIR");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_TRUE(value.empty());
+        std::tie(errorcode, value) = getMsiProperty("OVERRIDE_LAUNCHPROGRAM");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_TRUE(value.empty());
+        std::tie(errorcode, value) =
+            getMsiProperty("OVERRIDE_BOINC_MASTER_USERNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_TRUE(value.empty());
+        std::tie(errorcode, value) =
+            getMsiProperty("OVERRIDE_BOINC_PROJECT_USERNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_TRUE(value.empty());
+        std::tie(errorcode, value) =
+            getMsiProperty("OVERRIDE_ENABLELAUNCHATLOGON");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_TRUE(value.empty());
+        std::tie(errorcode, value) =
+            getMsiProperty("OVERRIDE_ENABLESCREENSAVER");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_TRUE(value.empty());
+        std::tie(errorcode, value) =
+            getMsiProperty("OVERRIDE_ENABLEPROTECTEDAPPLICATIONEXECUTION3");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_TRUE(value.empty());
+        std::tie(errorcode, value) =
+            getMsiProperty("OVERRIDE_ENABLEUSEBYALLUSERS");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_TRUE(value.empty());
+
+        ASSERT_EQ(0u, executeAction());
+
+        std::tie(errorcode, value) = getMsiProperty("DATADIR");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ("data_test", value);
+
+        std::tie(errorcode, value) = getMsiProperty("INSTALLDIR");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ("install_test", value);
+        std::tie(errorcode, value) = getMsiProperty("LAUNCHPROGRAM");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_TRUE(value.empty());
+        std::tie(errorcode, value) = getMsiProperty("BOINC_MASTER_USERNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ("test_master", value);
+        std::tie(errorcode, value) = getMsiProperty("BOINC_PROJECT_USERNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ("test_project", value);
+        std::tie(errorcode, value) = getMsiProperty("ENABLELAUNCHATLOGON");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ("1", value);
+        std::tie(errorcode, value) = getMsiProperty("ENABLESCREENSAVER");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ("1", value);
+        std::tie(errorcode, value) =
+            getMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ("1", value);
+        std::tie(errorcode, value) = getMsiProperty("ENABLEUSEBYALLUSERS");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ("1", value);
+        std::tie(errorcode, value) = getMsiProperty("ALLUSERS");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ("1", value);
+        std::tie(errorcode, value) = getMsiProperty("ProductVersion");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_TRUE(value.empty());
+        std::tie(errorcode, value) = getMsiProperty("IS_MAJOR_UPGRADE");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_TRUE(value.empty());
+    }
+
+    TEST_F(test_boinccas_CARestoreSetupState,
         SetupStateRestored_Set_No_Prev_Data_Override_Data_Set) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
