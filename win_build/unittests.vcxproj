@@ -63,6 +63,7 @@
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CARevokeBOINCMasterRights.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CARevokeBOINCProjectRights.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CARevokeBOINCProjectsRights.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CARevokeBOINCUsersRights.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_parse.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_str_util.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_url.cpp" />
