@@ -125,7 +125,8 @@ namespace test_boinccas_CAGrantBOINCProjectRights {
         ASSERT_EQ(0u, result);
         ASSERT_TRUE(userCreate(userName, userPassword));
         ASSERT_TRUE(userExists(userName));
-        const auto opResult = setAccountRights(userName, expectedRemovedRights);
+        const auto opResult = setAccountRights(userName,
+            expectedRemovedRights);
         ASSERT_TRUE(opResult);
         setMsiProperty("BOINC_PROJECT_USERNAME", userName);
         EXPECT_EQ(0u, executeAction());

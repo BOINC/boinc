@@ -85,7 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\clientsetup\win\boinccas.h" />
-    <ClInclude Include="..\clientsetup\win\CARevokeBOINCProjectsRights.h" />
     <ClInclude Include="..\clientsetup\win\CARevokeBOINCUsersRights.h" />
     <ClInclude Include="..\clientsetup\win\CASaveExecutionState.h" />
     <ClInclude Include="..\clientsetup\win\CASaveSetupState.h" />

@@ -114,7 +114,8 @@ namespace test_boinccas_CAGrantBOINCAdminsRights {
         ASSERT_EQ(0u, result);
         ASSERT_TRUE(createLocalGroup(groupName));
         ASSERT_TRUE(localGroupExists(groupName));
-        const auto opResult = setAccountRights(groupName, expectedRemovedRights);
+        const auto opResult = setAccountRights(groupName,
+            expectedRemovedRights);
         ASSERT_TRUE(opResult);
         EXPECT_EQ(0u, executeAction());
 

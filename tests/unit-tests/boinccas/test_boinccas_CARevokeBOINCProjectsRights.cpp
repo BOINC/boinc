@@ -18,14 +18,13 @@
 #include "boinccas_helper.h"
 #include "user_group_helper.h"
 
-namespace test_boinccas_CARevokeBOINCAdminsRights {
-    constexpr auto groupName = "boinc_admins";
-
-    class test_boinccas_CARevokeBOINCAdminsRights :
+namespace test_boinccas_CARevokeBOINCProjectsRights {
+    constexpr auto groupName = "boinc_projects";
+    class test_boinccas_CARevokeBOINCProjectsRights :
         public test_boinccas_TestBase {
     protected:
-        test_boinccas_CARevokeBOINCAdminsRights() :
-            test_boinccas_TestBase("RevokeBOINCAdminsRights") {
+        test_boinccas_CARevokeBOINCProjectsRights() :
+            test_boinccas_TestBase("RevokeBOINCProjectsRights") {
         }
 
         void TearDown() override {
@@ -36,10 +35,7 @@ namespace test_boinccas_CARevokeBOINCAdminsRights {
     };
 
     constexpr std::array expectedRemovedRights = {
-        "SeIncreaseQuotaPrivilege",
         "SeChangeNotifyPrivilege",
-        "SeCreateGlobalPrivilege",
-        "SeAssignPrimaryTokenPrivilege",
         "SeNetworkLogonRight",
         "SeRemoteInteractiveLogonRight",
         "SeBatchLogonRight",
@@ -52,10 +48,12 @@ namespace test_boinccas_CARevokeBOINCAdminsRights {
         "SeDenyRemoteInteractiveLogonRight",
         "SeTcbPrivilege",
         "SeMachineAccountPrivilege",
+        "SeIncreaseQuotaPrivilege",
         "SeBackupPrivilege",
         "SeSystemTimePrivilege",
         "SeCreateTokenPrivilege",
         "SeCreatePagefilePrivilege",
+        "SeCreateGlobalPrivilege",
         "SeDebugPrivilege",
         "SeEnableDelegationPrivilege",
         "SeRemoteShutdownPrivilege",
@@ -70,6 +68,7 @@ namespace test_boinccas_CARevokeBOINCAdminsRights {
         "SeProfileSingleProcessPrivilege",
         "SeSystemProfilePrivilege",
         "SeUndockPrivilege",
+        "SeAssignPrimaryTokenPrivilege",
         "SeRestorePrivilege",
         "SeShutdownPrivilege",
         "SeSynchAgentPrivilege",
@@ -77,14 +76,14 @@ namespace test_boinccas_CARevokeBOINCAdminsRights {
     };
 
 #ifdef BOINCCAS_TEST
-    TEST_F(test_boinccas_CARevokeBOINCAdminsRights, NoGroup_Expect_Fail) {
+    TEST_F(test_boinccas_CARevokeBOINCProjectsRights, NoGroup_Expect_Fail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
         ASSERT_FALSE(localGroupExists(groupName));
         EXPECT_NE(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CARevokeBOINCAdminsRights,
+    TEST_F(test_boinccas_CARevokeBOINCProjectsRights,
         GroupExists_Expect_Correct_Rights_Set) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -100,7 +99,7 @@ namespace test_boinccas_CARevokeBOINCAdminsRights {
         }
     }
 
-    TEST_F(test_boinccas_CARevokeBOINCAdminsRights,
+    TEST_F(test_boinccas_CARevokeBOINCProjectsRights,
         GroupExistsWithOtherRights_Expect_CorrectRightsSet) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
