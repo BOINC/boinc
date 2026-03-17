@@ -47,7 +47,6 @@ namespace test_boinccas_CASaveExecutionState {
 
     TEST_F(test_boinccas_CASaveExecutionState,
         PropertiesData_Set_Expect_Valid_Values) {
-
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
@@ -89,7 +88,6 @@ namespace test_boinccas_CASaveExecutionState {
 
     TEST_F(test_boinccas_CASaveExecutionState,
         REBOOTREQUESTED_Expect_LAUNCHPROGRAM_Empty) {
-
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
@@ -131,7 +129,6 @@ namespace test_boinccas_CASaveExecutionState {
 
     TEST_F(test_boinccas_CASaveExecutionState,
         VALIDATEINSTALL_Equal_0_Expect_LAUNCHPROGRAM_Empty) {
-
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
