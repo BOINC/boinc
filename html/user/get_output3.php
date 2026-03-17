@@ -17,7 +17,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// get output files, individually or zipped groups
+// get output files, individually or zipped groups,
+// for apps that use the 'batch-collect' paradigm
+// implemented by batch_collect_assimilator.cpp and batch_collect_assimilate.py:
+// <project>/results/<batchid>/   (0 if not in a batch)
 //
 // args:
 // action: get_file or get_batch
@@ -27,27 +30,22 @@
 // get_batch:
 //      batch_id
 //      downloads zip of batch's output files
-//      Assumes the layout used by sample_assimilator.cpp
-//      and sample_assimilate.py:
-//      <project>/results/
-//      <batchid>/   (0 if not in a batch)
-//
 
 require_once("../inc/util.inc");
 require_once("../inc/submit_util.inc");
 
-// the path of an output file in the 'assim move' scheme.
-// This must agree with the corresponding assimilators:
-// tools/sample_assimilate.py
-// sched/sample_assimilator.cpp
-// and with tools/query_job
+// user is allowed to download output files from batch only if
+// they own batch or have manage-all permissions
 //
-function outfile_path($wu, $index, $log_names) {
-    if (!is_valid_filename($wu->name)) error_page("bad WU name");
-    if (!is_valid_filename($log_names[$index])) error_page("bad logical name");
-    return sprintf('results/%d/%s__file_%s',
-        $wu->batch, $wu->name, $log_names[$index]
-    );
+function check_auth($batch_id) {
+    $user = get_logged_in_user();
+    if (has_manage_access($user, 0)) {
+        return;
+    }
+    $batch = BoincBatch::lookup_id($batch_id);
+    if (!$batch || $user->id != $batch->user_id) {
+        error_page('not owner');
+    }
 }
 
 // show or download a single output file,
@@ -57,12 +55,19 @@ function get_file() {
     $result_id = get_int('result_id');
     $index = get_int('index');
     $result = BoincResult::lookup_id($result_id);
-    if (!$result) error_page('no result');
+    if (!$result) {
+        error_page('no result');
+    }
     $wu = BoincWorkunit::lookup_id($result->workunitid);
-    if (!$wu) error_page('no workunit');
-    $log_names = get_outfile_log_names($result);
-    if ($index >= count($log_names)) error_page('bad index');
-    $path = sprintf('../../%s', outfile_path($wu, $index, $log_names));
+    if (!$wu) {
+        error_page('no workunit');
+    }
+    check_auth($wu->batch);
+    [$log_names, $gzip] = get_outfile_log_names($result);
+    if ($index >= count($log_names)) {
+        error_page('bad index');
+    }
+    $path = batch_collect_outfile_path($wu, $index, $log_names, $gzip);
 
     if (get_str('download', true)) {
         do_download($path);
@@ -75,20 +80,95 @@ function get_file() {
 
 // download a zip of the given directory
 //
-function get_batch() {
+function get_batch_zip() {
     $batch_id = get_int('batch_id');
+    check_auth($batch_id);
     $dir = "../../results/$batch_id";
-    if (!is_dir($dir)) die('no batch dir');
+    if (!is_dir($dir)) {
+        error_page('no batch dir');
+    }
     $name = "batch_$batch_id.zip";
     $cmd = "cd $dir; rm -f $name; zip -q $name *";
-    system($cmd);
+    $line = system($cmd, $ret);
+    if ($ret) {
+        error_page("Zip failed: $line");
+    }
     do_download("$dir/$name");
+    unlink("$dir/$name");
+}
+
+function get_batch_tar() {
+    $batch_id = get_int('batch_id');
+    check_auth($batch_id);
+    $dir = "../../results/$batch_id";
+    if (!is_dir($dir)) {
+        error_page('no batch dir');
+    }
+
+    $d = fopen($dir, 'r');
+    if (!$d) {
+        error_page('fopen() failed');
+    }
+    if (!flock($d, LOCK_EX|LOCK_NB)) {
+        error_page(
+            "A download of this batch is already in progress."
+        );
+    }
+
+    // get the size of the tar file (fast - doesn't read files)
+    //
+    $cmd = "cd $dir; tar --totals -cf /dev/null * 2>&1";
+    $f = popen($cmd, "r");
+    if (!$f) {
+        error_page('tar --totals failed');
+    }
+    $nbytes = -1;
+    while (1) {
+        $out = fgets($f);
+        if (!$out) break;
+        $x = sscanf($out, "Total bytes written: %d");
+        if (count($x)) {
+            $nbytes = $x[0];
+            break;
+        }
+    }
+    if ($nbytes<0) {
+        error_page("tar --totals didn't produce result");
+    }
+    pclose($f);
+
+    // generate tar file and stream to output
+    //
+    $name = "batch_$batch_id.tar";
+    download_header($name, $nbytes);
+    $cmd = "cd $dir; tar -cf - *";
+    $f = popen($cmd, "r");
+    if (!$f) {
+        error_page('tar failed');
+    }
+    while (1) {
+        $data = fread($f, 256*1024);
+        if (!$data) {
+            break;
+        }
+        echo $data;
+        flush();
+    }
+    pclose($f);
+    fclose($d);
 }
 
 $action = get_str('action');
 switch ($action) {
-case 'get_file': get_file(); break;
-case 'get_batch': get_batch(); break;
+case 'get_file':
+    get_file();
+    break;
+case 'get_batch_zip':
+    get_batch_zip();
+    break;
+case 'get_batch_tar':
+    get_batch_tar();
+    break;
 }
 
 ?>

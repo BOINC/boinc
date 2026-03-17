@@ -18,7 +18,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 // process turnaround time stats files
 
-// compute stats for batch acceleration
+// compute stats for batch acceleration, and update the DB accordingly
 //
 // - classify hosts as low turnaround time (LTT)
 //      host.error_rate = 1

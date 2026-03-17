@@ -1148,14 +1148,13 @@ bool CSimpleTaskPanel::isRunning(RESULT* result) {
     wxASSERT(pDoc);
 
     pDoc->GetCoreClientStatus(status);
-    // Make sure that the core client isn't global suspended for some reason
-    if (status.task_suspend_reason == 0 || status.task_suspend_reason == SUSPEND_REASON_CPU_THROTTLE) {
-        return true;
+    if (status.task_suspend_reason) {
+        return false;
     }
-    if (result->active_task_state == PROCESS_EXECUTING) {
-        return true;
+    if (result->active_task_state != PROCESS_EXECUTING) {
+        return false;
     }
-    return false;
+    return true;
 }
 
 
@@ -1181,12 +1180,11 @@ bool CSimpleTaskPanel::Suspended() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
 
-    bool result = false;
     pDoc->GetCoreClientStatus(status);
-    if ( pDoc->IsConnected() && status.task_suspend_reason > 0 && status.task_suspend_reason != SUSPEND_REASON_CPU_THROTTLE ) {
-        result = true;
+    if (pDoc->IsConnected() && status.task_suspend_reason) {
+        return true;
     }
-    return result;
+    return false;
 }
 
 // Check to see if a project update is scheduled or in progress
@@ -1218,24 +1216,13 @@ void CSimpleTaskPanel::DisplayIdleState() {
     } else if ( DownloadingResults() ) {
         error_time = 0;
         UpdateStaticText(&m_StatusValueText, _("Downloading work from the server."));
-    } else if ( Suspended() ) {
+    } else if (Suspended()) {
         CC_STATUS status;
         pDoc->GetCoreClientStatus(status);
-        if ( status.task_suspend_reason & SUSPEND_REASON_BATTERIES ) {
-            UpdateStaticText(&m_StatusValueText, _("Processing Suspended:  Running On Batteries."));
-        } else if ( status.task_suspend_reason & SUSPEND_REASON_USER_ACTIVE ) {
-            UpdateStaticText(&m_StatusValueText, _("Processing Suspended:  User Active."));
-        } else if ( status.task_suspend_reason & SUSPEND_REASON_USER_REQ ) {
-            UpdateStaticText(&m_StatusValueText, _("Processing Suspended:  User paused processing."));
-        } else if ( status.task_suspend_reason & SUSPEND_REASON_TIME_OF_DAY ) {
-            UpdateStaticText(&m_StatusValueText, _("Processing Suspended:  Time of Day."));
-        } else if ( status.task_suspend_reason & SUSPEND_REASON_BENCHMARKS ) {
-            UpdateStaticText(&m_StatusValueText, _("Processing Suspended:  Benchmarks Running."));
-        } else if ( status.task_suspend_reason & SUSPEND_REASON_DISK_SIZE ) {
-            UpdateStaticText(&m_StatusValueText, _("Processing Suspended:  need disk space."));
-        } else {
-            UpdateStaticText(&m_StatusValueText, _("Processing Suspended."));
-        }
+        UpdateStaticText(
+            &m_StatusValueText,
+            _("Computing suspended: ") + suspend_reason_wxstring(status.task_suspend_reason)
+        );
     } else if ( ProjectUpdateScheduled() ) {
         error_time = 0;
         UpdateStaticText(&m_StatusValueText, _("Waiting to contact project servers."));

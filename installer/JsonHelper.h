@@ -17,10 +17,6 @@
 
 #pragma once
 
-#include <type_traits>
-
-#include <nlohmann/json.hpp>
-
 #include "InstallerStrings.h"
 
 class JsonHelper {

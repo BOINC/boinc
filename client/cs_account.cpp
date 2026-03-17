@@ -307,10 +307,7 @@ int PROJECT::parse_account_file() {
 }
 
 int CLIENT_STATE::parse_account_files_venue() {
-    unsigned int i;
-
-    for (i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
+    for (PROJECT* p: projects) {
         if (strlen(p->host_venue)) {
             p->parse_account_file_venue();
         }
@@ -640,11 +637,8 @@ int CLIENT_STATE::add_project(
 }
 
 int CLIENT_STATE::parse_preferences_for_user_files() {
-    unsigned int i;
-
-    for (i=0; i<projects.size(); i++) {
-        projects[i]->parse_preferences_for_user_files();
+    for (PROJECT* p: projects) {
+        p->parse_preferences_for_user_files();
     }
     return 0;
 }
-

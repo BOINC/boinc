@@ -29,6 +29,8 @@ require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/bootstrap.inc");
 
+define('JQUERY_URL', 'https://code.jquery.com/jquery-3.7.1.slim.min.js');
+
 function master_url() {
     return parse_config(get_config() , "<master_url>");
 }
@@ -138,11 +140,6 @@ $caching = false;
     // if set, we're writing to a file rather than to client
 $did_page_head = false;
 
-define('KILO', 1024);
-define('MEGA', 1024*KILO);
-define('GIGA', 1024*MEGA);
-define('TERA', 1024*GIGA);
-
 // return true if this page is HTTPS
 //
 function is_https() {
@@ -171,7 +168,7 @@ function send_cookie($name, $value, $permanent, $ops=false) {
     setcookie($name, $value, $expire, $path,
         '',
         is_https(),     // if this page is secure, make cookie secure
-        true            // httponly; no JS access
+        true            // use cookie for HTTP only; no JS access
     );
 }
 
@@ -297,7 +294,7 @@ function page_head(
         <html lang="en">
         <head>
     ';
-    echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>';
+    echo sprintf('<script src="%s"></script>', JQUERY_URL);
 
     if (defined('GLOBAL_HEAD_EXTRA')) {
         echo GLOBAL_HEAD_EXTRA;
@@ -418,32 +415,6 @@ function error_page($msg) {
     echo $msg;
     page_tail();
     exit();
-}
-
-// convert time interval in seconds to a string of the form
-// 'D days h hours m min s sec'.
-
-function time_diff($x, $res=3) {
-    $x = (int)$x;
-    $days    = (int)($x/86400);
-    $hours   = (int)(($x-$days*86400)/3600);
-    $minutes = (int)(($x-$days*86400-$hours*3600)/60);
-    $seconds = $x % 60;
-
-    $s = "";
-    if ($days) {
-        $s .= "$days ".tra("days")." ";
-    }
-    if ($res>0 && ($hours || strlen($s))) {
-        $s .= "$hours ".tra("hours")." ";
-    }
-    if ($res>1 && ($minutes || strlen($s))) {
-        $s .= "$minutes ".tra("min")." ";
-    }
-    if ($res>2) {
-        $s .= "$seconds ".tra("sec")." ";
-    }
-    return $s;
 }
 
 function start_table_str($class="", $style="") {
@@ -1071,17 +1042,20 @@ function credit_to_gflop_hours($c) {
     return $c/(200/24);
 }
 
-function do_download($path) {
-    $name=basename($path);
+function download_header($name, $nbytes) {
     header('Content-Description: File Transfer');
     header('Content-Type: application/octet-stream');
-    header('Content-Disposition: attachment; filename='.$name);
+    header("Content-Disposition: attachment; filename=$name");
     header('Content-Transfer-Encoding: binary');
     header('Expires: 0');
     header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
     header('Pragma: public');
-    header('Content-Length: ' . filesize($path));
+    header("Content-Length: $nbytes");
     flush();
+}
+
+function do_download($path) {
+    download_header(basename($path), filesize($path));
     readfile($path);
 }
 

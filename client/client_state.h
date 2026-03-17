@@ -106,6 +106,8 @@ struct CLIENT_STATE {
         // info from GUI, e.g. battery status
     double device_status_time;
         // time of last RPC from GUI
+    double battery_charge_resume_time;
+    double battery_heat_resume_time;
 #endif
 
     char language[16];                // ISO language code reported by GUI
@@ -305,7 +307,7 @@ struct CLIENT_STATE {
     void clear_absolute_times();
     void set_now();
     void log_show_projects();
-    void init_result_resource_usage();
+    void init_result_resource_usage(PROJECT *p = NULL);
 
 // --------------- cpu_sched.cpp:
     double total_resource_share();
@@ -504,7 +506,7 @@ struct CLIENT_STATE {
 
     void check_app(APP&);
     void check_file_info(FILE_INFO&);
-    void check_file_ref(FILE_REF&);
+    void check_file_ref(const FILE_REF&);
     void check_app_version(APP_VERSION&);
     void check_workunit(WORKUNIT&);
     void check_result(RESULT&);
@@ -576,9 +578,7 @@ extern double calculate_exponential_backoff(
 extern THREAD_LOCK client_thread_mutex;
 extern THREAD throttle_thread;
 
-#ifdef _WIN32
-extern void show_wsl_messages();
-#endif
+extern void show_docker_messages();
 
 //////// TIME-RELATED CONSTANTS ////////////
 

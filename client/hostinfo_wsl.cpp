@@ -127,6 +127,20 @@ int get_all_distros(WSL_DISTROS& distros) {
             if (!strcmp(wsl_guid, default_wsl_guid)) {
                 distro.is_default = true;
             }
+
+            // if BOINC distro, get its data dir so we can find disk usage
+            //
+            char path[256];
+            DWORD path_len = sizeof(path);
+            if (distro.distro_name == BOINC_WSL_DISTRO_NAME) {
+                ret = RegQueryValueEx(hSubKey, "BasePath", NULL, NULL,
+                    (LPBYTE)path, &path_len
+                );
+                if (ret == ERROR_SUCCESS) {
+                    distro.base_path = path;
+                }
+            }
+
             distros.distros.push_back(distro);
         }
         RegCloseKey(hSubKey);
@@ -200,6 +214,14 @@ static bool got_both(WSL_DISTRO &wd) {
 // Return nonzero on error
 //
 int get_wsl_information(WSL_DISTROS &distros) {
+    // Skip WSL detection when running as a service since HKEY_CURRENT_USER
+    // registry is not available in service mode
+    if (gstate.executing_as_daemon) {
+        distros.distros.clear();
+        msg_printf(0, MSG_INFO, "WSL detection skipped: running as service");
+        return 0;
+    }
+
     WSL_DISTROS all_distros;
     distros.distros.clear();
     int retval = get_all_distros(all_distros);
@@ -235,7 +257,7 @@ int get_wsl_information(WSL_DISTROS &distros) {
 
         // try running 'lsb_release -a'
         //
-        if (!rs.run_program_in_wsl(wd.distro_name, command_lsbrelease)) {
+        if (!rs.run_program_in_wsl(wd, command_lsbrelease)) {
             read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
             HOST_INFO::parse_linux_os_info(
                 reply, lsbrelease,
@@ -254,7 +276,7 @@ int get_wsl_information(WSL_DISTROS &distros) {
         //
         if (!got_both(wd)) {
             const std::string command_osrelease = "cat " + std::string(file_osrelease);
-            if (!rs.run_program_in_wsl( wd.distro_name, command_osrelease)) {
+            if (!rs.run_program_in_wsl(wd, command_osrelease)) {
                 read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
                 HOST_INFO::parse_linux_os_info(
                     reply, osrelease,
@@ -272,7 +294,7 @@ int get_wsl_information(WSL_DISTROS &distros) {
         //
         if (!got_both(wd)) {
             const std::string command_redhatrelease = "cat " + std::string(file_redhatrelease);
-            if (!rs.run_program_in_wsl(wd.distro_name, command_redhatrelease)) {
+            if (!rs.run_program_in_wsl(wd, command_redhatrelease)) {
                 read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
                 HOST_INFO::parse_linux_os_info(
                     reply, redhatrelease,
@@ -293,9 +315,7 @@ int get_wsl_information(WSL_DISTROS &distros) {
         //
         if (!got_both(wd)) {
             const std::string command_sysctl = "sysctl -a";
-            if (!rs.run_program_in_wsl(
-                wd.distro_name, command_sysctl
-            )) {
+            if (!rs.run_program_in_wsl(wd, command_sysctl)) {
                 read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
                 parse_sysctl_output(
                     split(reply, '\n'),
@@ -312,9 +332,7 @@ int get_wsl_information(WSL_DISTROS &distros) {
         //
         if (!got_both(wd)) {
             const std::string command_uname_s = "uname -s";
-            if (!rs.run_program_in_wsl(
-                wd.distro_name, command_uname_s
-            )) {
+            if (!rs.run_program_in_wsl(wd, command_uname_s)) {
                 read_from_pipe(rs.out_read, rs.proc_handle, os_name_str, CMD_TIMEOUT);
                 strip_whitespace(os_name_str);
                 CloseHandle(rs.proc_handle);
@@ -328,9 +346,7 @@ int get_wsl_information(WSL_DISTROS &distros) {
         //
         if (!got_both(wd)) {
             const std::string command_uname_r = "uname -r";
-            if (!rs.run_program_in_wsl(
-                wd.distro_name, command_uname_r
-            )) {
+            if (!rs.run_program_in_wsl(wd, command_uname_r)) {
                 read_from_pipe(rs.out_read, rs.proc_handle, os_version_str, CMD_TIMEOUT);
                 strip_whitespace(os_version_str);
                 CloseHandle(rs.proc_handle);
@@ -353,9 +369,7 @@ int get_wsl_information(WSL_DISTROS &distros) {
         // ...
         // We currently don't parse this.
         //
-        if (!rs.run_program_in_wsl(
-            wd.distro_name, "ldd --version"
-        )) {
+        if (!rs.run_program_in_wsl(wd, "ldd --version")) {
             string buf;
             read_from_pipe(rs.out_read, rs.proc_handle, buf, CMD_TIMEOUT);
             wd.libc_version = parse_ldd_libc(buf.c_str());
@@ -377,9 +391,7 @@ int get_wsl_information(WSL_DISTROS &distros) {
         //
         if (wd.distro_name == BOINC_WSL_DISTRO_NAME) {
             wd.boinc_buda_runner_version = 1;
-            if (!rs.run_program_in_wsl(
-                wd.distro_name, "cat /home/boinc/version.txt"
-            )) {
+            if (!rs.run_program_in_wsl(wd, "cat /home/boinc/version.txt")) {
                 string buf;
                 char buf2[256];
                 read_from_pipe(rs.out_read, rs.proc_handle, buf, CMD_TIMEOUT);
@@ -403,7 +415,7 @@ static bool get_docker_version_aux(
     bool ret = false;
     string reply;
     string cmd = string(docker_cli_prog(type)) + " --version";
-    if (!rs.run_program_in_wsl(wd.distro_name, cmd.c_str())) {
+    if (!rs.run_program_in_wsl(wd, cmd.c_str())) {
         read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
         string version;
         if (HOST_INFO::get_docker_version_string(type, reply.c_str(), version)) {
@@ -443,7 +455,7 @@ static bool get_docker_compose_version_aux(
     bool ret = false;
     string reply;
     string cmd = string(docker_cli_prog(type)) + " compose version";
-    if (!rs.run_program_in_wsl(wd.distro_name, cmd.c_str())) {
+    if (!rs.run_program_in_wsl(wd, cmd.c_str())) {
         read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
         string version;
         if (HOST_INFO::get_docker_compose_version_string(
@@ -461,24 +473,4 @@ static bool get_docker_compose_version_aux(
 static void get_docker_compose_version(WSL_CMD& rs, WSL_DISTRO &wd) {
     if (get_docker_compose_version_aux(rs, wd, PODMAN)) return;
     get_docker_compose_version_aux(rs, wd, DOCKER);
-}
-
-// called on startup (after scanning distros)
-// and after doing an RPC to get latest version info.
-//
-void show_wsl_messages() {
-    int bdv = gstate.host_info.wsl_distros.boinc_distro_version();
-    const char *url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Windows";
-    if (bdv == 0) {
-        msg_printf_notice(0, true, url,
-            "Some BOINC projects require Docker.  <a href=%s>Learn how to install it</a>",
-            url
-        );
-    } else if (bdv < gstate.latest_boinc_buda_runner_version) {
-        const char *url2 = "https://github.com/BOINC/boinc/wiki/Updating-the-BOINC-WSL-distro";
-        msg_printf_notice(0, true, url,
-            "A new version of the BOINC WSL distro is available.  <a href=%s>Learn how to upgrade.</a>",
-            url2
-        );
-    }
 }

@@ -17,8 +17,6 @@
 
 #pragma once
 
-#include <filesystem>
-
 #include "Generator.h"
 #include "Binary.h"
 #include "ValidationTable.h"

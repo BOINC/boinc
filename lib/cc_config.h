@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -143,7 +143,7 @@ struct EXCLUDE_GPU {
     int device_num;         // -1 means all instances
 
     int parse(XML_PARSER&);
-    void write(MIOFILE&);
+    void write(MIOFILE&) const;
 };
 
 // if you add anything here, add it to
@@ -203,6 +203,7 @@ struct CC_CONFIG {
     bool no_priority_change;
     bool no_rdp_check;
     bool os_random_only;
+    bool prioritize_gpu;
     int process_priority;       // values in common_defs.h
     int process_priority_special;
     PROXY_INFO proxy_info;

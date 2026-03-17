@@ -103,14 +103,15 @@ schedbin_PROGRAMS = \
 
 schedshare_PROGRAMS = \
     antique_file_deleter \
+    batch_collect_assimilator \
     census \
     credit_test \
     db_dump \
     db_purge \
     feeder \
+    feeder_user \
     file_deleter \
     message_handler \
-    sample_assimilator \
     sample_bitwise_validator \
     sample_dummy_assimilator \
     sample_substr_validator \
@@ -187,6 +188,10 @@ cgi_sources = \
 cgi_SOURCES = $(cgi_sources)
 cgi_LDADD = $(SERVERLIBS)
 
+batch_collect_assimilator_SOURCES = $(ASSIMILATOR_SOURCES) \
+	batch_collect_assimilator.cpp
+batch_collect_assimilator_LDADD = $(SERVERLIBS)
+
 census_SOURCES = \
     census.cpp \
     hr.cpp \
@@ -203,6 +208,11 @@ feeder_SOURCES = \
     hr_info.cpp \
     ../lib/synch.cpp
 feeder_LDADD = $(SERVERLIBS)
+
+feeder_user_SOURCES = \
+    feeder_user.cpp \
+    ../lib/synch.cpp
+feeder_user_LDADD = $(SERVERLIBS)
 
 wu_check_SOURCES = wu_check.cpp
 wu_check_LDADD = $(SERVERLIBS)
@@ -241,10 +251,6 @@ ASSIMILATOR_SOURCES = \
 sample_dummy_assimilator_SOURCES = $(ASSIMILATOR_SOURCES) \
 	sample_dummy_assimilator.cpp
 sample_dummy_assimilator_LDADD = $(SERVERLIBS)
-
-sample_assimilator_SOURCES = $(ASSIMILATOR_SOURCES) \
-	sample_assimilator.cpp
-sample_assimilator_LDADD = $(SERVERLIBS)
 
 single_job_assimilator_SOURCES = $(ASSIMILATOR_SOURCES) \
 	single_job_assimilator.cpp

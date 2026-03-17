@@ -220,22 +220,29 @@ function pm_form_page($replyto, $userid, $error = null) {
 function send_pm_notification_email(
     $logged_in_user, $to_user, $subject, $content
 ) {
-    $message  = "
-You have received a new private message at ".PROJECT.".
+    $message  = sprintf('
+You have received a new private message at %s.
 
-From: $logged_in_user->name (ID $logged_in_user->id)
-Subject: $subject
-
-$content
+From: %s (ID %d)
+Subject: %s
+Message:
+%s
 
 --------------------------
 To delete or respond to this message, visit:
-".secure_url_base()."pm.php
+%spm.php
 
 To change email preferences, visit:
-".secure_url_base()."edit_forum_preferences_form.php
+%sedit_forum_preferences_form.php
+
 Do not reply to this message.
-" ;
+',
+        PROJECT, $logged_in_user->name, $logged_in_user->id,
+        $subject,
+        $content,
+        secure_url_base(),
+        secure_url_base()
+    );
     send_email($to_user, "[".PROJECT."] - private message", $message);
 }
 
@@ -243,18 +250,32 @@ function pm_email_line($notify) {
     $pm = BoincPrivateMessage::lookup_id($notify->opaque);
     $from_user = BoincUser::lookup_id($pm->senderid);
     if (!$pm || !$from_user) return null;
-    return "$from_user->name ".tra("sent you a private message; subject:")." '$pm->subject'";
+    return sprintf('%s %s "%s"',
+        $from_user->name,
+        tra("sent you a private message; subject:"),
+        $pm->subject
+    );
 }
 
 function pm_web_line($notify) {
     $pm = BoincPrivateMessage::lookup_id($notify->opaque);
     $from_user = BoincUser::lookup_id($pm->senderid);
     if (!$pm || !$from_user) return null;
-    return "<a href=pm.php>".tra("Private message%1 from %2, subject:" , "</a>", $from_user->name )." $pm->subject";
+    return "<a href=pm.php>"
+        .tra("Private message%1 from %2, subject:" ,
+            "</a>",
+            htmlspecialchars($from_user->name)
+        )
+        .htmlspecialchars($pm->subject);
 }
 
+// Add a PM to the database, and notify the recipient.
+// Note: the subject and content can have HTML tags,
+// and thus potential XSS stuff.
+// We need to use htmlspecialchars() whenever displaying these
+//
 function pm_send_msg($from_user, $to_user, $subject, $content, $send_email) {
-    $sql_subject = BoincDb::escape_string(sanitize_tags($subject));
+    $sql_subject = BoincDb::escape_string($subject);
     $sql_content = BoincDb::escape_string($content);
     $mid = BoincPrivateMessage::insert("(userid, senderid, date, subject, content) VALUES ($to_user->id, $from_user->id, UNIX_TIMESTAMP(), '$sql_subject', '$sql_content')");
     if (!$mid) {

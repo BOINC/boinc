@@ -131,10 +131,8 @@ static void handle_exchange_versions(GUI_RPC_CONN& grc) {
 }
 
 static void handle_get_simple_gui_info(GUI_RPC_CONN& grc) {
-    unsigned int i;
     grc.mfout.printf("<simple_gui_info>\n");
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         p->write_state(grc.mfout, true);
     }
     gstate.write_tasks_gui(grc.mfout, true);
@@ -142,20 +140,14 @@ static void handle_get_simple_gui_info(GUI_RPC_CONN& grc) {
 }
 
 static void handle_get_project_status(GUI_RPC_CONN& grc) {
-    unsigned int i;
     grc.mfout.printf("<projects>\n");
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         p->write_state(grc.mfout, true);
     }
     grc.mfout.printf("</projects>\n");
 }
 
 static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
-    unsigned int i;
-    double size, boinc_non_project, d_allowed;
-//    double boinc_total;
-
     grc.mfout.printf("<disk_usage_summary>\n");
     int retval = get_filesystem_info(
         gstate.host_info.d_total, gstate.host_info.d_free
@@ -166,30 +158,8 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
         );
     }
 
-    dir_size_alloc(".", boinc_non_project, false);
-    dir_size_alloc("locale", size, false);
-    boinc_non_project += size;
-#ifdef __APPLE__
-    if (gstate.launched_by_manager) {
-        // If launched by Manager, get Manager's size on disk
-        char path[MAXPATHLEN];
-        double manager_size = 0.0;
-        OSStatus err = noErr;
-
-        retval = proc_pidpath(getppid(), path, sizeof(path));
-        if (retval <= 0) {
-            err = fnfErr;
-        }
-        if (!err) {
-            dir_size_alloc(path, manager_size, true);
-            boinc_non_project += manager_size;
-        }
-    }
-#endif
-//    boinc_total = boinc_non_project;
     gstate.get_disk_usages();
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         grc.mfout.printf(
             "<project>\n"
             "  <master_url>%s</master_url>\n"
@@ -197,9 +167,8 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
             "</project>\n",
             p->master_url, p->disk_usage
         );
-//        boinc_total += p->disk_usage;
     }
-    d_allowed = gstate.allowed_disk_usage(gstate.total_disk_usage);
+    double d_allowed = gstate.allowed_disk_usage(gstate.total_disk_usage);
     grc.mfout.printf(
         "<d_total>%f</d_total>\n"
         "<d_free>%f</d_free>\n"
@@ -207,7 +176,7 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
         "<d_allowed>%f</d_allowed>\n",
         gstate.host_info.d_total,
         gstate.host_info.d_free,
-        boinc_non_project,
+        gstate.client_disk_usage,
         d_allowed
     );
     grc.mfout.printf("</disk_usage_summary>\n");
@@ -647,17 +616,17 @@ static void handle_get_screensaver_tasks(GUI_RPC_CONN& grc) {
     unsigned int i;
     ACTIVE_TASK* atp;
     grc.mfout.printf(
-        "<handle_get_screensaver_tasks>\n"
+        "<get_screensaver_tasks>\n"
         "    <suspend_reason>%d</suspend_reason>\n",
         gstate.suspend_reason
     );
     for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
         atp = gstate.active_tasks.active_tasks[i];
-        if (atp->scheduler_state == CPU_SCHED_SCHEDULED) {
+        if (atp->scheduler_state == CPU_SCHED_SCHEDULED && atp->result) {
             atp->result->write_gui(grc.mfout);
         }
     }
-    grc.mfout.printf("</handle_get_screensaver_tasks>\n");
+    grc.mfout.printf("</get_screensaver_tasks>\n");
 }
 
 static void handle_quit(GUI_RPC_CONN& grc) {
@@ -693,8 +662,7 @@ static void handle_acct_mgr_info(GUI_RPC_CONN& grc) {
 
 static void handle_get_statistics(GUI_RPC_CONN& grc) {
     grc.mfout.printf("<statistics>\n");
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         p->write_statistics(grc.mfout);
     }
     grc.mfout.printf("</statistics>\n");
@@ -722,7 +690,7 @@ static void handle_get_cc_status(GUI_RPC_CONN& grc) {
         "   <max_event_log_lines>%d</max_event_log_lines>\n",
         net_status.network_status(),
         gstate.acct_mgr_info.password_error?1:0,
-        gstate.suspend_reason,
+        gstate.suspend_reason==SUSPEND_REASON_CPU_THROTTLE?0:gstate.suspend_reason,
         gstate.cpu_run_mode.get_current(),
         gstate.cpu_run_mode.get_perm(),
         gstate.cpu_run_mode.delay(),
@@ -758,8 +726,7 @@ static void handle_get_project_init_status(GUI_RPC_CONN& grc) {
     // If we're already attached to the project specified in the
     // project init file, delete the file.
     //
-    for (unsigned i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         if (urls_match(p->master_url, gstate.project_init.url)) {
             gstate.project_init.remove();
             break;
@@ -873,7 +840,6 @@ static void handle_project_attach(GUI_RPC_CONN& grc) {
     string url, authenticator, project_name, email_addr;
     bool use_config_file = false;
     bool already_attached = false;
-    unsigned int i;
     int retval;
 
     while (!grc.xp.get_tag()) {
@@ -912,8 +878,7 @@ static void handle_project_attach(GUI_RPC_CONN& grc) {
 
     canonicalize_master_url(url);
 
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         string project_url = p->master_url;
         canonicalize_master_url(project_url);
 

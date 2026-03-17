@@ -26,6 +26,7 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
+#include "wslinfo.h"
 #endif
 #include "common_defs.h"
 
@@ -154,7 +155,7 @@ struct DOCKER_CONN {
     bool verbose;
 #ifdef _WIN32
     WSL_CMD ctl_wc;
-    int init(DOCKER_TYPE type, std::string distro_name, bool verbose=false);
+    int init(WSL_DISTRO&, bool verbose=false);
 #else
     int init(DOCKER_TYPE, bool verbose=false);
 #endif

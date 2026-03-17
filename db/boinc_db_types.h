@@ -503,12 +503,18 @@ struct WORKUNIT {
     int target_nresults;
         // try to get this many "viable" results,
         // i.e. candidate for canonical result.
+        // should always be at least min_quorum.
         // may be > min_quorum to get consensus quicker or reflect loss rate
-    int max_error_results;      // WU error if < #error results
-    int max_total_results;      // WU error if < #total results
-        // (need this in case results are never returned)
-    int max_success_results;    // WU error if < #success results
-        // without consensus (i.e. WU is nondeterministic)
+    int max_error_results;
+        // transitioner: if # results without client compute error exceeds this,
+        // mark WU as WU_ERROR_TOO_MANY_ERROR_RESULTS
+    int max_total_results;
+        // transitioner: if we need more instances but it would exceed this,
+        // mark WU as WU_ERROR_TOO_MANY_TOTAL_RESULTS
+    int max_success_results;
+        // validator: if #success results exceeds this without consensus
+        // (i.e. WU seems nondeterministic)
+        // mark WU as WU_ERROR_TOO_MANY_SUCCESS_RESULTS
     char result_template_file[64];
     int priority;
     char mod_time[20];
@@ -763,12 +769,28 @@ struct HOST_APP_VERSION {
         // for old clients (which don't report elapsed time)
         // we use this for CPU time stats
     int max_jobs_per_day;
-        // the actual limit is:
+        // send at most this # of jobs per day.
+        // does 0 mean no limit??
+        // if >1, it's scaled so the actual limit is:
         // for GPU versions:
         //   this times config.gpu_multiplier * #GPUs of this type
         // for CPU versions:
         //   this times #CPUs
+        // scheduler:
+        //      limit is enforced in sched_version.cpp:daily_quota_exceeded()
+        //      double if get success result (not necc. validated)
+        //          sched_result.cpp:got_good_result()
+        //      decrement (down to 1) if get failed result
+        //          sched_result.cpp:got_bad_result()
+        //      Used as a temp to enforce global limit?
+        // transitioner:
+        //      decrement if result times out
+        // validator:
+        //      increment if valid result
+        //      decrement if invalid result and > global limit (???)
+        //      set to 1 if init_result() returns LONG_TERM_FAIL
     int n_jobs_today;
+        // number of jobs sent today.
     AVERAGE_VAR turnaround;
         // the stats of turnaround time (received - sent)
         // (NOT normalized by wu.rsc_fpops_est)

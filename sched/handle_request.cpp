@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -83,8 +83,8 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
     // don't dig through hosts of these users
     // prevents flooding the DB with slow queries from users with many hosts
     //
-    for (unsigned int i=0; i < config.dont_search_host_for_userid.size(); i++) {
-        if (user.id == config.dont_search_host_for_userid[i]) {
+    for (int id: config.dont_search_host_for_userid) {
+        if (user.id == id) {
             return false;
         }
     }
@@ -460,7 +460,7 @@ lookup_user_and_make_new_host:
                     );
                 } else {
                     if ((g_request->allow_multiple_clients != 1)
-                        && (g_request->other_results.size() == 0)
+                        && (g_request->other_results.empty())
                     ) {
                         mark_results_over(host);
                     }
@@ -494,7 +494,7 @@ didnt_find_host:
                 "[HOST#%lu] [USER#%lu] Found similar existing host for this user - assigned.\n",
                 host.id, host.userid
             );
-            if (g_request->other_results.size() == 0) {
+            if (g_request->other_results.empty()) {
                 // mark host's jobs as abandoned
                 // if client has no jobs in progress
                 //
@@ -686,35 +686,34 @@ int send_result_abort() {
     int retval = 0;
     DB_IN_PROGRESS_RESULT result;
     string result_names;
-    unsigned int i;
 
-    if (g_request->other_results.size() == 0) {
+    if (g_request->other_results.empty()) {
         return 0;
     }
 
     // build list of result names
     //
-    for (i=0; i<g_request->other_results.size(); i++) {
-        OTHER_RESULT& orp=g_request->other_results[i];
+    bool first = true;
+    for (OTHER_RESULT& orp: g_request->other_results) {
         orp.abort = true;
             // if the host has a result not in the DB, abort it
         orp.abort_if_not_started = false;
         orp.reason = ABORT_REASON_NOT_FOUND;
-        if (i > 0) result_names.append(", ");
+        if (!first) result_names.append(", ");
         result_names.append("'");
         char buf[1024];
         safe_strcpy(buf, orp.name);
         escape_string(buf, sizeof(buf));
         result_names.append(buf);
         result_names.append("'");
+        first = false;
     }
 
     // look up selected fields from the results and their WUs,
     // and decide if they should be aborted
     //
     while (!(retval = result.enumerate(g_reply->host.id, result_names.c_str()))) {
-        for (i=0; i<g_request->other_results.size(); i++) {
-            OTHER_RESULT& orp = g_request->other_results[i];
+        for (OTHER_RESULT& orp: g_request->other_results) {
             if (!strcmp(orp.name, result.result_name)) {
                 if (result.error_mask&WU_ERROR_CANCELLED ) {
                     // if the WU has been canceled, abort the result
@@ -754,8 +753,7 @@ int send_result_abort() {
 
     // loop through the results and send the appropriate message (if any)
     //
-    for (i=0; i<g_request->other_results.size(); i++) {
-        OTHER_RESULT& orp = g_request->other_results[i];
+    for (const OTHER_RESULT& orp: g_request->other_results) {
         if (orp.abort) {
             g_reply->result_aborts.push_back(orp.name);
             log_messages.printf(MSG_NORMAL,
@@ -1043,11 +1041,9 @@ void warn_user_if_core_client_upgrade_scheduled() {
 }
 
 bool unacceptable_os() {
-    unsigned int i;
     char buf[1024];
 
-    for (i=0; i<config.ban_os->size(); i++) {
-        regex_t& re = (*config.ban_os)[i];
+    for (const regex_t& re: *config.ban_os) {
         safe_strcpy(buf, g_request->host.os_name);
         safe_strcat(buf, "\t");
         safe_strcat(buf, g_request->host.os_version);
@@ -1069,11 +1065,9 @@ bool unacceptable_os() {
 }
 
 bool unacceptable_cpu() {
-    unsigned int i;
     char buf[1024];
 
-    for (i=0; i<config.ban_cpu->size(); i++) {
-        regex_t& re = (*config.ban_cpu)[i];
+    for (const regex_t& re: *config.ban_cpu) {
         safe_strcpy(buf, g_request->host.p_vendor);
         safe_strcat(buf, "\t");
         safe_strcat(buf, g_request->host.p_model);
@@ -1115,13 +1109,11 @@ bool wrong_core_client_version() {
 }
 
 void handle_msgs_from_host() {
-    unsigned int i;
     DB_MSG_FROM_HOST mfh;
     int retval;
 
-    for (i=0; i<g_request->msgs_from_host.size(); i++) {
+    for (const MSG_FROM_HOST_DESC& md: g_request->msgs_from_host) {
         g_reply->send_msg_ack = true;
-        MSG_FROM_HOST_DESC& md = g_request->msgs_from_host[i];
         mfh.clear();
         mfh.create_time = time(0);
         safe_strcpy(mfh.variety, md.variety);
@@ -1215,7 +1207,6 @@ void process_request(char* code_sign_key) {
     bool have_no_work = false;
     char buf[256];
     HOST initial_host;
-    unsigned int i;
     time_t t;
 
     memset(&g_reply->wreq, 0, sizeof(g_reply->wreq));
@@ -1235,7 +1226,7 @@ void process_request(char* code_sign_key) {
 
     // if no jobs reported and none to send, return without accessing DB
     //
-    if (!ok_to_send_work && !g_request->results.size()) {
+    if (!ok_to_send_work && g_request->results.empty()) {
         return;
     }
 
@@ -1268,7 +1259,7 @@ void process_request(char* code_sign_key) {
         have_no_work
         && config.nowork_skip
         && requesting_work()
-        && (g_request->results.size() == 0)
+        && g_request->results.empty()
         && (g_request->hostid != 0)
     ) {
         g_reply->insert_message("No work available", "low");
@@ -1376,12 +1367,14 @@ void process_request(char* code_sign_key) {
     // if primary platform is anonymous, ignore alternate platforms
     //
     if (strcmp(g_request->platform.name, "anonymous")) {
-        for (i=0; i<g_request->alt_platforms.size(); i++) {
-            platform = ssp->lookup_platform(g_request->alt_platforms[i].name);
-            if (platform) g_request->platforms.list.push_back(platform);
+        for (const CLIENT_PLATFORM &p: g_request->alt_platforms) {
+            platform = ssp->lookup_platform(p.name);
+            if (platform) {
+                g_request->platforms.list.push_back(platform);
+            }
         }
     }
-    if (g_request->platforms.list.size() == 0) {
+    if (g_request->platforms.list.empty()) {
         sprintf(buf, "%s %s",
             _("This project doesn't support computers of type"),
             g_request->platform.name
@@ -1527,8 +1520,7 @@ static void log_incomplete_request() {
 }
 
 static void log_user_messages() {
-    for (unsigned int i=0; i<g_reply->messages.size(); i++) {
-        USER_MESSAGE um = g_reply->messages[i];
+    for (const USER_MESSAGE &um: g_reply->messages) {
         log_messages.printf(MSG_NORMAL,
             "[user_messages] [HOST#%lu] MSG(%s) %s\n",
             g_reply->host.id, um.priority.c_str(), um.message.c_str()

@@ -20,12 +20,11 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // - Remind job submitters to retire batches.
-//      Email a submitter if we haven't emailed them in last week,
-//      and they have batches aborted > 14 days ago
-//      or batches completed > 30 days ago.
+//      Email a submitter if they have batches aborted > 7 days ago
+//      or batches completed > 7 days ago.
 // - Retire batches after a while.
-//      Retire a batch if it was completed > 90 days ago
-//      or it was aborted > 30 days ago
+//      Retire a batch if it was completed > 30 days ago
+//      or it was aborted > 14 days ago
 //      If we retire any, send the user an email
 //
 // Run this once a week; the interval determines how often
@@ -36,10 +35,18 @@ include_once('../inc/submit_util.inc');
 include_once('../inc/email.inc');
 include_once('../inc/common_defs.inc');
 
-define('COMP_NOTIFY', 30);
-define('COMP_LIFE', 90);
-define('ABORT_NOTIFY', 14);
-define('ABORT_LIFE', 30);
+if (!defined('COMP_NOTIFY')) {
+    define('COMP_NOTIFY', 7);
+}
+if (!defined('COMP_LIFE')) {
+    define('COMP_LIFE', 30);
+}
+if (!defined('ABORT_NOTIFY')) {
+    define('ABORT_NOTIFY', 7);
+}
+if (!defined('ABORT_LIFE')) {
+    define('ABORT_LIFE', 14);
+}
 
 function send_retire_email($user, $ncomp, $nabort) {
     $subject = sprintf('%s job submission reminder', PROJECT);

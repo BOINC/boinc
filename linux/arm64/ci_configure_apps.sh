@@ -36,10 +36,10 @@ linux/update_vcpkg_apps.sh $TRIPLET
 export CC=aarch64-linux-gnu-gcc
 export CXX=aarch64-linux-gnu-g++
 export LD=aarch64-linux-gnu-ld
-export CFLAGS="-march=armv8-a -O3"
-export CXXFLAGS="-march=armv8-a -O3 -std=c++11"
+export CFLAGS="-march=armv8-a -O3 -flto"
+export CXXFLAGS="-march=armv8-a -O3 -flto -std=c++11"
 export CPPFLAGS="-I$VCPKG_DIR/include"
-export LDFLAGS="-march=armv8-a -static-libstdc++ -s"
+export LDFLAGS="-march=armv8-a -O3 -flto -static-libstdc++ -s"
 export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
 export PKG_CONFIG_PATH=$VCPKG_DIR/lib/pkgconfig/
 export X_EXTRA_LIBS="-I$VCPKG_DIR/include $(pkg-config --libs freeglut)"

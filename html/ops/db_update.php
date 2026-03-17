@@ -1237,7 +1237,7 @@ function update_2_15_2025() {
 }
 
 function update_11_23_2025() {
-    do_query("alter table host add column misc text not null default''");
+    do_query("alter table host add column misc text not null");
 }
 
 // Updates are done automatically if you use "upgrade".

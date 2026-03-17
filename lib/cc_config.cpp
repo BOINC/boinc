@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -250,6 +250,7 @@ void CC_CONFIG::defaults() {
     no_priority_change = false;
     no_rdp_check = false;
     os_random_only = false;
+    prioritize_gpu = false;
     process_priority = CONFIG_PRIORITY_UNSPECIFIED;
     process_priority_special = CONFIG_PRIORITY_UNSPECIFIED;
     proxy_info.clear();
@@ -424,6 +425,7 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool("no_priority_change", no_priority_change)) continue;
         if (xp.parse_bool("no_rdp_check", no_rdp_check)) continue;
         if (xp.parse_bool("os_random_only", os_random_only)) continue;
+        if (xp.parse_bool("prioritize_gpu", prioritize_gpu)) continue;
         if (xp.parse_int("process_priority", process_priority)) continue;
         if (xp.parse_int("process_priority_special", process_priority_special)) continue;
 #ifndef SIM
@@ -491,7 +493,7 @@ int CC_CONFIG::parse(XML_PARSER& xp, LOG_FLAGS& log_flags) {
     return ERR_XML_PARSE;
 }
 
-void EXCLUDE_GPU::write(MIOFILE& out) {
+void EXCLUDE_GPU::write(MIOFILE& out) const {
     out.printf(
         "    <exclude_gpu>\n"
         "        <url>%s</url>\n"
@@ -536,10 +538,10 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         allow_remote_gui_rpc ? 1 : 0
     );
 
-    for (i=0; i<alt_platforms.size(); ++i) {
+    for (const string &s: alt_platforms) {
         out.printf(
             "        <alt_platform>%s</alt_platform>\n",
-            alt_platforms[i].c_str()
+            s.c_str()
         );
     }
 
@@ -586,28 +588,28 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         dont_use_docker
     );
 
-    for (i=0; i<disallowed_wsls.size(); ++i) {
+    for (const string &s: disallowed_wsls) {
         out.printf(
             "        <disallowed_wsl>%s</disallowed_wsl>\n",
-            disallowed_wsls[i].c_str()
+            s.c_str()
         );
     }
 
-    for (i=0; i<exclude_gpus.size(); i++) {
-        exclude_gpus[i].write(out);
+    for (const EXCLUDE_GPU &e: exclude_gpus) {
+        e.write(out);
     }
 
-    for (i=0; i<exclusive_apps.size(); ++i) {
+    for (const string &s: exclusive_apps) {
         out.printf(
             "        <exclusive_app>%s</exclusive_app>\n",
-            exclusive_apps[i].c_str()
+            s.c_str()
         );
     }
 
-    for (i=0; i<exclusive_gpu_apps.size(); ++i) {
+    for (const string &s: exclusive_gpu_apps) {
         out.printf(
             "        <exclusive_gpu_app>%s</exclusive_gpu_app>\n",
-            exclusive_gpu_apps[i].c_str()
+            s.c_str()
         );
     }
 
@@ -632,24 +634,24 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         http_transfer_timeout_bps
     );
 
-    for (i=0; i<ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU].size(); ++i) {
+    for (int d: ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU]) {
         out.printf(
             "        <ignore_nvidia_dev>%d</ignore_nvidia_dev>\n",
-            ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU][i]
+            d
         );
     }
 
-    for (i=0; i<ignore_gpu_instance[PROC_TYPE_AMD_GPU].size(); ++i) {
+    for (int d: ignore_gpu_instance[PROC_TYPE_AMD_GPU]) {
         out.printf(
             "        <ignore_ati_dev>%d</ignore_ati_dev>\n",
-            ignore_gpu_instance[PROC_TYPE_AMD_GPU][i]
+            d
         );
     }
 
-    for (i=0; i<ignore_gpu_instance[PROC_TYPE_INTEL_GPU].size(); ++i) {
+    for (int d: ignore_gpu_instance[PROC_TYPE_INTEL_GPU]) {
         out.printf(
             "        <ignore_intel_dev>%d</ignore_intel_dev>\n",
-            ignore_gpu_instance[PROC_TYPE_INTEL_GPU][i]
+            d
         );
     }
 
@@ -670,6 +672,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <no_priority_change>%d</no_priority_change>\n"
         "        <no_rdp_check>%d</no_rdp_check>\n"
         "        <os_random_only>%d</os_random_only>\n"
+        "        <prioritize_gpu>%d</prioritize_gpu>\n"
         "        <process_priority>%d</process_priority>\n"
         "        <process_priority_special>%d</process_priority_special>\n",
         max_event_log_lines,
@@ -688,6 +691,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         no_priority_change,
         no_rdp_check,
         os_random_only,
+        prioritize_gpu,
         process_priority,
         process_priority_special
     );
@@ -904,8 +908,7 @@ void APP_CONFIGS::write(MIOFILE& out) {
     out.printf(
         "<app_config>\n"
     );
-    for (unsigned int i=0; i<app_configs.size(); i++) {
-        APP_CONFIG& ac = app_configs[i];
+    for (const APP_CONFIG& ac: app_configs) {
         out.printf(
             "    <app>\n"
             "        <name>%s</name>\n"
@@ -925,8 +928,7 @@ void APP_CONFIGS::write(MIOFILE& out) {
             ac.report_results_immediately?1:0
         );
     }
-    for (unsigned int i=0; i<app_version_configs.size(); i++) {
-        APP_VERSION_CONFIG& avc = app_version_configs[i];
+    for (const APP_VERSION_CONFIG& avc: app_version_configs) {
         out.printf(
             "    <app_version>\n"
             "        <app_name>%s</app_name>\n"

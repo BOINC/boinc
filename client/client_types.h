@@ -197,7 +197,7 @@ struct FILE_REF {
     }
     FILE_REF() {clear();}
     int parse(XML_PARSER&);
-    int write(MIOFILE&);
+    int write(MIOFILE&) const;
 };
 
 // File xfer backoff state for a project and direction (up/down).
@@ -390,6 +390,8 @@ struct APP_VERSION {
     ~APP_VERSION(){}
     void init();
     int parse(XML_PARSER&);
+    bool disallowed_by_config(PROJECT*);
+    void fill_in_resource_usage();
     int write(MIOFILE&, bool write_file_info = true);
     bool had_download_failure(int& failnum);
     void get_file_errors(std::string&);

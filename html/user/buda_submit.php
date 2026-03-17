@@ -29,12 +29,17 @@ define('AVG_CPU_FPOPS', 4.3e9);
 display_errors();
 
 function submit_form($user) {
+    $app = get_str('app');
+    if (!is_valid_filename($app)) die('bad arg');
+    $app_desc = get_buda_app_desc($app);
+    if (!user_can_submit($user, $app_desc)) {
+        error_page('no permission');
+    }
+
     $sbitems_zip = sandbox_select_items($user, '/.zip$/');
     if (!$sbitems_zip) {
         error_page("No .zip files in your sandbox.");
     }
-    $app = get_str('app');
-    if (!is_valid_filename($app)) die('bad arg');
 
     $desc = "<br><small>
         A zip file with one directory per job.
@@ -84,7 +89,7 @@ function submit_form($user) {
         'exp_runtime_days', .5
     );
     form_checkbox(
-        "Enable debugging output <br><small>Write Docker commands and output to stderr. Not recommended for long-running jobs.</small>.",
+        "Enable debugging output <br><small>Write Docker commands and output to stderr. Not recommended for long-running jobs.</small>",
         'wrapper_verbose'
     );
     form_submit('OK');
@@ -162,9 +167,9 @@ function parse_batch_dir($batch_dir, $app_desc) {
             error_page("$fname doesn't have all input files");
         }
 
-        if (!$cmdline && !$job_files) {
-            error_page("job $f2 has no cmdline and no input files");
-        }
+        //if (!$cmdline && !$job_files) {
+        //    error_page("job $fname has no cmdline and no input files");
+        //}
 
         $file_infos = [];
         foreach ($unshared_files as $f2) {
@@ -290,6 +295,11 @@ function handle_submit($user) {
 
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
+    $app_desc = get_buda_app_desc($app);
+    if (!user_can_submit($user, $app_desc)) {
+        error_page('no permission');
+    }
+
     $batch_file = get_str('batch_file');
     if (!is_valid_filename($batch_file)) die('bad arg');
     $wrapper_verbose = get_str('wrapper_verbose', true);
@@ -312,8 +322,6 @@ function handle_submit($user) {
         error_page('exp must be < max runtime');
     }
     $exp_fpops = $exp_runtime_days * AVG_CPU_FPOPS * 86400;
-
-    $app_desc = get_buda_app_desc($app);
 
     // unzip batch file into temp dir
     $batch_dir_name = unzip_batch_file($user, $batch_file);
@@ -384,15 +392,23 @@ function handle_submit($user) {
     header("Location: submit.php?action=query_batch&batch_id=$batch->id");
 }
 
-function show_list() {
+function show_app_list($user) {
     page_head('BUDA job submission');
     $apps = get_buda_apps();
     echo 'Select app:<p><br>';
+    $found = false;
     foreach ($apps as $app) {
         $desc = get_buda_app_desc($app);
+        if (!user_can_submit($user, $desc)) {
+            continue;
+        }
+        $found = true;
         echo sprintf('<p><a href=buda_submit.php?action=form&app=%s>%s</a>',
             $app, $desc->long_name
         );
+    }
+    if (!$found) {
+        echo "You don't have submit permissions for any BUDA apps.";
     }
     page_tail();
 }
@@ -409,7 +425,7 @@ if ($action == 'submit') {
 } else if ($action == 'form') {
     submit_form($user);
 } else {
-    show_list();
+    show_app_list($user);
 }
 
 ?>

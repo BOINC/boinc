@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -57,7 +57,6 @@ int assimilate_handler(
 ) {
     int retval;
     char buf[1024], filename[MAXPATHLEN], job_dir[MAXPATHLEN], job_dir_file[MAXPATHLEN];
-    unsigned int i;
 
     // delete the template files
     //
@@ -119,9 +118,7 @@ int assimilate_handler(
         vector<OUTPUT_FILE_INFO> output_files;
         char copy_path[MAXPATHLEN];
         get_output_file_infos(canonical_result, output_files);
-        unsigned int n = output_files.size();
-        for (i=0; i<n; i++) {
-            OUTPUT_FILE_INFO& fi = output_files[i];
+        for (const OUTPUT_FILE_INFO& fi: output_files) {
             string logical_name;
             retval = get_logical_name(canonical_result, fi.path, logical_name);
             if (retval) {

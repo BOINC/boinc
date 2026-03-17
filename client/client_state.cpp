@@ -161,6 +161,8 @@ CLIENT_STATE::CLIENT_STATE()
     total_disk_usage = 0.0;
 #ifdef ANDROID
     device_status_time = dtime();
+    battery_charge_resume_time = 0;
+    battery_heat_resume_time = 0;
 #endif
 
     rec_interval_start = 0;
@@ -250,10 +252,13 @@ void CLIENT_STATE::show_host_info() {
 
 #ifdef _WIN64
     if (host_info.wsl_distros.distros.empty()) {
-        msg_printf(NULL, MSG_INFO, "WSL: no usable distros found");
+        // Don't print this message when running as a service (WSL detection is skipped)
+        if (!executing_as_daemon) {
+            msg_printf(NULL, MSG_INFO, "WSL: no usable distros found");
+        }
     } else {
         msg_printf(NULL, MSG_INFO, "Usable WSL distros:");
-        for (auto& wsl : host_info.wsl_distros.distros) {
+        for (WSL_DISTRO &wsl : host_info.wsl_distros.distros) {
             msg_printf(NULL, MSG_INFO,
                 "-   %s (WSL %d)%s",
                 wsl.distro_name.c_str(),
@@ -285,10 +290,25 @@ void CLIENT_STATE::show_host_info() {
                 msg_printf(NULL, MSG_INFO, "-      BOINC WSL distro version %d",
                     wsl.boinc_buda_runner_version
                 );
+                if (!wsl.base_path.empty()) {
+                    double size;
+                    int retval = dir_size_alloc(wsl.base_path.c_str(), size);
+                    if (!retval) {
+                        nbytes_to_string(size, 0, buf, sizeof(buf));
+                        msg_printf(NULL, MSG_INFO, "-      Disk usage: %s", buf);
+                    }
+                }
             }
         }
     }
 #endif
+
+    // show Docker-related messages
+    //
+#ifndef ANDROID
+    show_docker_messages();
+#endif
+
 
     if (strlen(host_info.virtualbox_version)) {
         msg_printf(NULL, MSG_INFO,
@@ -353,13 +373,10 @@ const char* rsc_name_long(int i) {
 // (based on RAM estimate, not measured size)
 //
 static void check_too_large_jobs() {
-    unsigned int i, j;
     double m = gstate.max_available_ram();
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         bool found = false;
-        for (j=0; j<gstate.results.size(); j++) {
-            RESULT* rp = gstate.results[j];
+        for (RESULT* rp: gstate.results) {
             if (rp->project == p && rp->wup->rsc_memory_bound > m) {
                 found = true;
                 break;
@@ -478,7 +495,6 @@ int CLIENT_STATE::init() {
     int retval;
     unsigned int i;
     char buf[256];
-    PROJECT* p;
 
     srand((unsigned int)time(0));
     now = dtime();
@@ -512,7 +528,7 @@ int CLIENT_STATE::init() {
 
     log_flags.show();
 
-    msg_printf(NULL, MSG_INFO, "Libraries: %s", curl_version());
+    msg_printf(NULL, MSG_INFO, "cURL libraries: %s", curl_version());
 
     if (cc_config.lower_client_priority) {
         set_client_priority();
@@ -582,12 +598,12 @@ int CLIENT_STATE::init() {
         coprocs.get(
             cc_config.use_all_gpus, descs, warnings, cc_config.ignore_gpu_instance
         );
-        for (i=0; i<descs.size(); i++) {
-            msg_printf(NULL, MSG_INFO, "%s", descs[i].c_str());
+        for (const string &s: descs) {
+            msg_printf(NULL, MSG_INFO, "%s", s.c_str());
         }
         if (log_flags.coproc_debug) {
-            for (i=0; i<warnings.size(); i++) {
-                msg_printf(NULL, MSG_INFO, "[coproc] %s", warnings[i].c_str());
+            for (const string &s: warnings) {
+                msg_printf(NULL, MSG_INFO, "[coproc] %s", s.c_str());
             }
         }
 #if 0
@@ -694,19 +710,7 @@ int CLIENT_STATE::init() {
     // (typically anonymous platform)
     //
     for (APP_VERSION* avp: app_versions) {
-        if (!avp->resource_usage.avg_ncpus) {
-            avp->resource_usage.avg_ncpus = 1;
-        }
-        if (!avp->resource_usage.flops) {
-            avp->resource_usage.flops = avp->resource_usage.avg_ncpus * host_info.p_fpops;
-
-            // for GPU apps, use conservative estimate:
-            // assume GPU runs at 10X peak CPU speed
-            //
-            if (avp->resource_usage.rsc_type) {
-                avp->resource_usage.flops += avp->resource_usage.coproc_usage * 10 * host_info.p_fpops;
-            }
-        }
+        avp->fill_in_resource_usage();
     }
 
     // must go after check_app_config() and parse_state_file()
@@ -725,10 +729,6 @@ int CLIENT_STATE::init() {
     //
     newer_version_startup_check();
 
-#if !defined(SIM) && defined(_WIN32)
-    show_wsl_messages();
-#endif
-
     // parse account files again,
     // now that we know the host's venue on each project
     //
@@ -737,8 +737,7 @@ int CLIENT_STATE::init() {
     // fill in p->no_X_apps for anon platform projects,
     // and check no_rsc_apps for others
     //
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
+    for (PROJECT *p: projects) {
         if (p->anonymous_platform) {
             p->check_no_apps();
         } else {
@@ -923,33 +922,6 @@ int CLIENT_STATE::init() {
     throttle_thread.run(throttler, NULL);
 
     sporadic_init();
-
-    // if Docker not present, notify user
-    //
-#ifndef ANDROID
-#ifdef _WIN32
-    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Windows";
-#elif defined(__APPLE__)
-    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Mac";
-#else
-    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Linux";
-#endif
-    if (!host_info.have_docker()) {
-        msg_printf(NULL, MSG_INFO,
-            "Some projects require Docker."
-        );
-        msg_printf(NULL, MSG_INFO,
-            "To install Docker, visit %s", url
-        );
-        NOTICE n;
-        n.description = "Some projects require Docker.  We recommend that you install it.  Instructions are <a href=" + (string)url + (string)">here</a>.";
-        strcpy(n.link, url);
-        n.create_time = now;
-        n.arrival_time = now;
-        strcpy(n.category, "client");
-        notices.append(n);
-    }
-#endif
 
     initialized = true;
     return 0;
@@ -1147,15 +1119,14 @@ bool CLIENT_STATE::poll_slow_events() {
 
 #ifdef __APPLE__
     // Mac: if Podman VM initialization is active, see if it's done
-    static bool need_podman_check = true;
-    if (need_podman_check && podman_init_pid) {
+    if (podman_init_pid) {
         int ret, status;
         ret = waitpid(podman_init_pid, &status, WNOHANG);
         if (ret > 0) {
-            need_podman_check = false;
             // process has exited
             if (host_info.is_podman_VM_running()) {
                 msg_printf(NULL, MSG_INFO, "Podman VM initialized");
+                gstate.host_info.podman_inited = true;
             } else {
                 // couldn't init VM; can't use Podman
                 msg_printf(NULL, MSG_INFO,
@@ -1164,8 +1135,6 @@ bool CLIENT_STATE::poll_slow_events() {
                 gstate.host_info.docker_version[0] = 0;
             }
             podman_init_pid = 0;
-        } else {
-            suspend_reason = SUSPEND_REASON_PODMAN_INIT;
         }
     }
 #endif
@@ -1362,24 +1331,21 @@ PROJECT* CLIENT_STATE::lookup_project(const char* master_url) {
 }
 
 APP* CLIENT_STATE::lookup_app(PROJECT* p, const char* name) {
-    for (unsigned int i=0; i<apps.size(); i++) {
-        APP* app = apps[i];
+    for (APP* app: apps) {
         if (app->project == p && !strcmp(name, app->name)) return app;
     }
     return 0;
 }
 
 RESULT* CLIENT_STATE::lookup_result(PROJECT* p, const char* name) {
-    for (unsigned int i=0; i<results.size(); i++) {
-        RESULT* rp = results[i];
+    for (RESULT* rp: results) {
         if (rp->project == p && !strcmp(name, rp->name)) return rp;
     }
     return 0;
 }
 
 WORKUNIT* CLIENT_STATE::lookup_workunit(PROJECT* p, const char* name) {
-    for (unsigned int i=0; i<workunits.size(); i++) {
-        WORKUNIT* wup = workunits[i];
+    for (WORKUNIT* wup: workunits) {
         if (wup->project == p && !strcmp(name, wup->name)) return wup;
     }
     return 0;
@@ -1388,8 +1354,7 @@ WORKUNIT* CLIENT_STATE::lookup_workunit(PROJECT* p, const char* name) {
 APP_VERSION* CLIENT_STATE::lookup_app_version(
     APP* app, char* platform, int version_num, char* plan_class
 ) {
-    for (unsigned int i=0; i<app_versions.size(); i++) {
-        APP_VERSION* avp = app_versions[i];
+    for (APP_VERSION* avp: app_versions) {
         if (avp->app != app) continue;
         if (version_num != avp->version_num) continue;
         if (strcmp(avp->platform, platform)) continue;
@@ -1400,8 +1365,7 @@ APP_VERSION* CLIENT_STATE::lookup_app_version(
 }
 
 FILE_INFO* CLIENT_STATE::lookup_file_info(PROJECT* p, const char* name) {
-    for (unsigned int i=0; i<file_infos.size(); i++) {
-        FILE_INFO* fip = file_infos[i];
+    for (FILE_INFO* fip: file_infos) {
         if (fip->project == p && !strcmp(fip->name, name)) {
             return fip;
         }
@@ -1454,8 +1418,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
     safe_strcpy(avp->graphics_exec_path, "");
     safe_strcpy(avp->graphics_exec_file, "");
 
-    for (unsigned int i=0; i<avp->app_files.size(); i++) {
-        FILE_REF& file_ref = avp->app_files[i];
+    for (FILE_REF& file_ref: avp->app_files) {
         FILE_INFO* fip = lookup_file_info(p, file_ref.file_name);
         if (!fip) {
             msg_printf(p, MSG_INTERNAL_ERROR,
@@ -1498,7 +1461,6 @@ int CLIENT_STATE::link_file_ref(PROJECT* p, FILE_REF* file_refp) {
 
 int CLIENT_STATE::link_workunit(PROJECT* p, WORKUNIT* wup) {
     APP* app;
-    unsigned int i;
     int retval;
 
     app = lookup_app(p, wup->app_name);
@@ -1511,12 +1473,12 @@ int CLIENT_STATE::link_workunit(PROJECT* p, WORKUNIT* wup) {
     }
     wup->project = p;
     wup->app = app;
-    for (i=0; i<wup->input_files.size(); i++) {
-        retval = link_file_ref(p, &wup->input_files[i]);
+    for (FILE_REF &fref: wup->input_files) {
+        retval = link_file_ref(p, &fref);
         if (retval) {
             msg_printf(p, MSG_INTERNAL_ERROR,
                 "State file error: missing input file %s\n",
-                wup->input_files[i].file_name
+                fref.file_name
             );
             return retval;
         }
@@ -1526,7 +1488,6 @@ int CLIENT_STATE::link_workunit(PROJECT* p, WORKUNIT* wup) {
 
 int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
     WORKUNIT* wup;
-    unsigned int i;
     int retval;
 
     wup = lookup_workunit(p, rp->wu_name);
@@ -1539,8 +1500,8 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
     rp->project = p;
     rp->wup = wup;
     rp->app = wup->app;
-    for (i=0; i<rp->output_files.size(); i++) {
-        retval = link_file_ref(p, &rp->output_files[i]);
+    for (FILE_REF &fref: rp->output_files) {
+        retval = link_file_ref(p, &fref);
         if (retval) return retval;
     }
     return 0;
@@ -1550,50 +1511,56 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
 // are currently in the client state record
 //
 void CLIENT_STATE::print_summary() {
-    unsigned int i;
     double t;
 
     msg_printf(0, MSG_INFO, "[state] Client state summary:");
     msg_printf(0, MSG_INFO, "%d projects:", (int)projects.size());
-    for (i=0; i<projects.size(); i++) {
-        t = projects[i]->min_rpc_time;
+    for (PROJECT *p: projects) {
+        t = p->min_rpc_time;
         if (t) {
-            msg_printf(0, MSG_INFO, "    %s min RPC %f.0 seconds from now", projects[i]->master_url, t-now);
+            msg_printf(0, MSG_INFO, "    %s min RPC %f.0 seconds from now",
+                p->master_url, t-now
+            );
         } else {
-            msg_printf(0, MSG_INFO, "    %s", projects[i]->master_url);
+            msg_printf(0, MSG_INFO, "    %s", p->master_url);
         }
     }
     msg_printf(0, MSG_INFO, "%d file_infos:", (int)file_infos.size());
-    for (i=0; i<file_infos.size(); i++) {
-        msg_printf(0, MSG_INFO, "    %s status:%d %s", file_infos[i]->name, file_infos[i]->status, file_infos[i]->pers_file_xfer?"active":"inactive");
+    for (FILE_INFO *fip: file_infos) {
+        msg_printf(0, MSG_INFO, "    %s status:%d %s",
+            fip->name, fip->status, fip->pers_file_xfer?"active":"inactive"
+        );
     }
     msg_printf(0, MSG_INFO, "%d app_versions", (int)app_versions.size());
-    for (i=0; i<app_versions.size(); i++) {
-        msg_printf(0, MSG_INFO, "    %s %d", app_versions[i]->app_name, app_versions[i]->version_num);
+    for (APP_VERSION *avp: app_versions) {
+        msg_printf(0, MSG_INFO, "    %s %d", avp->app_name, avp->version_num);
     }
     msg_printf(0, MSG_INFO, "%d workunits", (int)workunits.size());
-    for (i=0; i<workunits.size(); i++) {
-        msg_printf(0, MSG_INFO, "    %s", workunits[i]->name);
+    for (WORKUNIT* wup: workunits) {
+        msg_printf(0, MSG_INFO, "    %s", wup->name);
     }
     msg_printf(0, MSG_INFO, "%d results", (int)results.size());
-    for (i=0; i<results.size(); i++) {
-        msg_printf(0, MSG_INFO, "    %s state:%d", results[i]->name, results[i]->state());
+    for (RESULT *rp: results) {
+        msg_printf(0, MSG_INFO, "    %s state:%d", rp->name, rp->state());
     }
-    msg_printf(0, MSG_INFO, "%d persistent file xfers", (int)pers_file_xfers->pers_file_xfers.size());
-    for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
-        const PERS_FILE_XFER* pers_file_xfer = pers_file_xfers->pers_file_xfers[i];
-        msg_printf(0, MSG_INFO, "    %s http op state: %d", pers_file_xfer->fip->name, pers_file_xfer->fxp?pers_file_xfer->fxp->http_op_state:-1);
+    msg_printf(0, MSG_INFO, "%d persistent file xfers",
+        (int)pers_file_xfers->pers_file_xfers.size()
+    );
+    for (PERS_FILE_XFER* pfx: pers_file_xfers->pers_file_xfers) {
+        msg_printf(0, MSG_INFO, "    %s http op state: %d",
+            pfx->fip->name, pfx->fxp?pfx->fxp->http_op_state:-1
+        );
     }
     msg_printf(0, MSG_INFO, "%d active tasks", (int)active_tasks.active_tasks.size());
-    for (i=0; i<active_tasks.active_tasks.size(); i++) {
-        msg_printf(0, MSG_INFO, "    %s", active_tasks.active_tasks[i]->result->name);
+    for (ACTIVE_TASK *atp: active_tasks.active_tasks) {
+        msg_printf(0, MSG_INFO, "    %s", atp->result->name);
     }
 }
 
 int CLIENT_STATE::nresults_for_project(PROJECT* p) {
     int n=0;
-    for (unsigned int i=0; i<results.size(); i++) {
-        if (results[i]->project == p) n++;
+    for (RESULT *rp: results) {
+        if (rp->project == p) n++;
     }
     return n;
 }
@@ -1601,8 +1568,7 @@ int CLIENT_STATE::nresults_for_project(PROJECT* p) {
 bool CLIENT_STATE::abort_unstarted_late_jobs() {
     bool action = false;
     if (now < 1235668593) return false; // skip if user reset system clock
-    for (unsigned int i=0; i<results.size(); i++) {
-        RESULT* rp = results[i];
+    for (RESULT *rp: results) {
         if (!rp->is_not_started()) continue;
         if (rp->report_deadline > now) continue;
         msg_printf(rp->project, MSG_INFO,
@@ -1635,7 +1601,10 @@ bool CLIENT_STATE::garbage_collect() {
     //
     while (1) {
         bool found = false;
-        for (unsigned i=0; i<projects.size(); i++) {
+
+        // can't use range-based for here; detach_project changes list
+        //
+        for (unsigned int i=0; i<projects.size(); i++) {
             PROJECT* p = projects[i];
             if (p->detach_when_done && !nresults_for_project(p)) {
                 // If we're using an AM,
@@ -1647,6 +1616,7 @@ bool CLIENT_STATE::garbage_collect() {
                     detach_project(p);
                     action = true;
                     found = true;
+                    break;
                 }
             }
         }
@@ -1659,44 +1629,35 @@ bool CLIENT_STATE::garbage_collect() {
 // delete unneeded records and files
 //
 bool CLIENT_STATE::garbage_collect_always() {
-    unsigned int i, j;
     int failnum;
-    FILE_INFO* fip;
     RESULT* rp;
-    WORKUNIT* wup;
-    APP_VERSION* avp, *avp2;
     vector<RESULT*>::iterator result_iter;
     vector<WORKUNIT*>::iterator wu_iter;
     vector<FILE_INFO*>::iterator fi_iter;
     vector<APP_VERSION*>::iterator avp_iter;
     bool action = false, found;
     string error_msgs;
-    PROJECT* project;
 
     // zero references counts on WUs, FILE_INFOs and APP_VERSIONs
 
-    for (i=0; i<workunits.size(); i++) {
-        wup = workunits[i];
+    for (WORKUNIT *wup: workunits) {
         wup->ref_cnt = 0;
     }
-    for (i=0; i<file_infos.size(); i++) {
-        fip = file_infos[i];
+    for (FILE_INFO* fip: file_infos) {
         fip->ref_cnt = 0;
     }
-    for (i=0; i<app_versions.size(); i++) {
-        avp = app_versions[i];
+    for (APP_VERSION *avp: app_versions) {
         avp->ref_cnt = 0;
     }
 
     // reference-count user and project files
     //
-    for (i=0; i<projects.size(); i++) {
-        project = projects[i];
-        for (j=0; j<project->user_files.size(); j++) {
-            project->user_files[j].file_info->ref_cnt++;
+    for (PROJECT *p: projects) {
+        for (const FILE_REF &fref: p->user_files) {
+            fref.file_info->ref_cnt++;
         }
-        for (j=0; j<project->project_files.size(); j++) {
-            project->project_files[j].file_info->ref_cnt++;
+        for (const FILE_REF &fref: p->project_files) {
+            fref.file_info->ref_cnt++;
         }
     }
 
@@ -1755,7 +1716,7 @@ bool CLIENT_STATE::garbage_collect_always() {
         // and we don't already have an error for this result
         //
         if (!rp->ready_to_report) {
-            wup = rp->wup;
+            WORKUNIT *wup = rp->wup;
             if (wup->had_download_failure(failnum)) {
                 wup->get_file_errors(error_msgs);
                 string err_msg = "WU download error: " + error_msgs;
@@ -1768,12 +1729,12 @@ bool CLIENT_STATE::garbage_collect_always() {
         }
         bool found_error = false;
         string error_str;
-        for (i=0; i<rp->output_files.size(); i++) {
+        for (const FILE_REF &fref: rp->output_files) {
+            FILE_INFO *fip = fref.file_info;
             // If one of the output files had an upload failure,
             // mark the result as done and report the error.
             //
             if (!rp->ready_to_report) {
-                fip = rp->output_files[i].file_info;
                 if (fip->had_failure(failnum)) {
                     string msg;
                     fip->failure_message(msg);
@@ -1781,7 +1742,7 @@ bool CLIENT_STATE::garbage_collect_always() {
                     error_str += msg;
                 }
             }
-            rp->output_files[i].file_info->ref_cnt++;
+            fip->ref_cnt++;
         }
 #ifdef SIM
         (void)found_error;
@@ -1812,7 +1773,7 @@ bool CLIENT_STATE::garbage_collect_always() {
     //
     wu_iter = workunits.begin();
     while (wu_iter != workunits.end()) {
-        wup = *wu_iter;
+        WORKUNIT *wup = *wu_iter;
         if (wup->ref_cnt == 0) {
             if (log_flags.state_debug) {
                 msg_printf(0, MSG_INFO,
@@ -1824,8 +1785,8 @@ bool CLIENT_STATE::garbage_collect_always() {
             wu_iter = workunits.erase(wu_iter);
             action = true;
         } else {
-            for (i=0; i<wup->input_files.size(); i++) {
-                wup->input_files[i].file_info->ref_cnt++;
+            for (const FILE_REF &fref: wup->input_files) {
+                fref.file_info->ref_cnt++;
             }
             ++wu_iter;
         }
@@ -1838,11 +1799,10 @@ bool CLIENT_STATE::garbage_collect_always() {
     //
     avp_iter = app_versions.begin();
     while (avp_iter != app_versions.end()) {
-        avp = *avp_iter;
+        APP_VERSION *avp = *avp_iter;
         if (avp->ref_cnt == 0) {
             found = false;
-            for (j=0; j<app_versions.size(); j++) {
-                avp2 = app_versions[j];
+            for (APP_VERSION* avp2: app_versions) {
                 if (avp2->app == avp->app
                     && avp2->version_num > avp->version_num
                     && (!strcmp(avp2->plan_class, avp->plan_class))
@@ -1867,18 +1827,16 @@ bool CLIENT_STATE::garbage_collect_always() {
     // Then go through remaining APP_VERSIONs,
     // bumping refcnt of associated files.
     //
-    for (i=0; i<app_versions.size(); i++) {
-        avp = app_versions[i];
-        for (j=0; j<avp->app_files.size(); j++) {
-            avp->app_files[j].file_info->ref_cnt++;
+    for (APP_VERSION *avp: app_versions) {
+        for (const FILE_REF &fref: avp->app_files) {
+            fref.file_info->ref_cnt++;
         }
     }
 
     // reference-count sticky files not marked for deletion
     //
-
     for (fi_iter = file_infos.begin(); fi_iter!=file_infos.end(); ++fi_iter) {
-        fip = *fi_iter;
+        FILE_INFO *fip = *fi_iter;
         if (fip->sticky_expire_time && now > fip->sticky_expire_time) {
             fip->sticky = false;
             fip->sticky_expire_time = 0;
@@ -1908,7 +1866,7 @@ bool CLIENT_STATE::garbage_collect_always() {
     //
     fi_iter = file_infos.begin();
     while (fi_iter != file_infos.end()) {
-        fip = *fi_iter;
+        FILE_INFO *fip = *fi_iter;
         if (fip->ref_cnt==0) {
             fip->delete_file();
             if (log_flags.state_debug) {
@@ -2145,12 +2103,10 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* err_msg) {
 // does not delete project dir
 //
 int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
-    unsigned int i;
     APP_VERSION* avp;
     APP* app;
     vector<APP*>::iterator app_iter;
     vector<APP_VERSION*>::iterator avp_iter;
-    RESULT* rp;
     PERS_FILE_XFER* pxp;
 
     msg_printf(project, MSG_INFO, "Resetting project");
@@ -2158,7 +2114,7 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
 
     // stop and remove file transfers
     //
-    for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
+    for (unsigned int i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
         pxp = pers_file_xfers->pers_file_xfers[i];
         if (pxp->fip->project == project) {
             if (pxp->fxp) {
@@ -2183,8 +2139,7 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
     // This will cause garbage_collect to delete them,
     // and in turn their WUs will be deleted
     //
-    for (i=0; i<results.size(); i++) {
-        rp = results[i];
+    for (RESULT *rp: results) {
         if (rp->project == project) {
             rp->got_server_ack = true;
         }
@@ -2195,8 +2150,7 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
 
     // clear flags so that sticky files get deleted
     //
-    for (i=0; i<file_infos.size(); i++) {
-        FILE_INFO* fip = file_infos[i];
+    for (FILE_INFO* fip: file_infos) {
         if (fip->project == project) {
             fip->sticky = false;
         }
@@ -2263,6 +2217,9 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
 // - delete account file
 // - delete project directory
 // - delete various per-project files
+// - remove PROJECT object from vector, and delete it
+//      NOTE: if you call this from a scan of the vector,
+//      you need to take this into account
 //
 int CLIENT_STATE::detach_project(PROJECT* project) {
     vector<PROJECT*>::iterator project_iter;
@@ -2374,7 +2331,7 @@ int CLIENT_STATE::quit_activities() {
     // Do this last because it could take a long time,
     // and the OS might kill us in the middle
     //
-    int retval = active_tasks.exit_tasks();
+    int retval = active_tasks.exit_tasks(true, NULL);
     if (retval) {
         msg_printf(NULL, MSG_INTERNAL_ERROR,
             "Couldn't exit tasks: %s", boincerror(retval)
@@ -2418,9 +2375,7 @@ void CLIENT_STATE::clear_absolute_times() {
     network_run_mode.temp_timeout = 0;
     time_stats.last_update = now;
 
-    unsigned int i;
-    for (i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
+    for (PROJECT* p: projects) {
         p->min_rpc_time = 0;
         if (p->next_rpc_time) {
             p->next_rpc_time = now;
@@ -2434,21 +2389,18 @@ void CLIENT_STATE::clear_absolute_times() {
         p->pwf.rec_time = now;
 //#endif
     }
-    for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
-        PERS_FILE_XFER* pfx = pers_file_xfers->pers_file_xfers[i];
+    for (PERS_FILE_XFER* pfx: pers_file_xfers->pers_file_xfers) {
         pfx->next_request_time = 0;
     }
 
-    for (i=0; i<results.size(); i++) {
-        RESULT* rp = results[i];
+    for (RESULT *rp: results) {
         rp->schedule_backoff = 0;
     }
 }
 
 void CLIENT_STATE::log_show_projects() {
     char buf[256];
-    for (unsigned int i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
+    for (PROJECT* p: projects) {
         if (p->hostid) {
             snprintf(buf, sizeof(buf), "%d", p->hostid);
         } else {
@@ -2472,12 +2424,9 @@ void CLIENT_STATE::log_show_projects() {
 // Abort jobs, and arrange to tell projects about it.
 //
 void CLIENT_STATE::start_abort_sequence() {
-    unsigned int i;
-
     in_abort_sequence = true;
 
-    for (i=0; i<results.size(); i++) {
-        RESULT* rp = results[i];
+    for (RESULT *rp: results) {
         rp->project->sched_rpc_pending = RPC_REASON_USER_REQ;
         if (rp->computing_done()) continue;
         ACTIVE_TASK* atp = lookup_active_task_by_result(rp);
@@ -2487,8 +2436,7 @@ void CLIENT_STATE::start_abort_sequence() {
             rp->abort_inactive(EXIT_CLIENT_EXITING);
         }
     }
-    for (i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
+    for (PROJECT* p: projects) {
         p->min_rpc_time = 0;
         p->dont_request_more_work = true;
     }
@@ -2497,9 +2445,7 @@ void CLIENT_STATE::start_abort_sequence() {
 // The second part of the above; check if RPCs are done
 //
 bool CLIENT_STATE::abort_sequence_done() {
-    unsigned int i;
-    for (i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
+    for (PROJECT* p: projects) {
         if (p->sched_rpc_pending == RPC_REASON_USER_REQ) return false;
     }
     return true;
@@ -2507,15 +2453,27 @@ bool CLIENT_STATE::abort_sequence_done() {
 
 #endif  // !SIM
 
-// for each result, copy resource usage either from
+// copy result.resource_usage either from
 // - workunit if present there (e.g. BUDA jobs)
 // - app version otherwise
 //
-// call this on startup and after reread app_config.xml
-// (which can change app version resource usage)
+// call this
+// - on startup (project = NULL)
+// - after reread app_config.xml (which can change app version resource usage)
+// - after scheduler RPC (which can change app version resource usage)
+//  in the latter 2 cases, only change non-running jobs
+//  since we can't restart running jobs
 //
-void CLIENT_STATE::init_result_resource_usage() {
+void CLIENT_STATE::init_result_resource_usage(PROJECT *p) {
     for (RESULT* rp: results) {
+        if (p) {
+            if (rp->project != p) {
+                continue;
+            }
+            if (rp->running()) {
+                continue;
+            }
+        }
         rp->init_resource_usage();
         if (rp->resource_usage.missing_coproc) {
             msg_printf(rp->project, MSG_INFO,
@@ -2524,3 +2482,44 @@ void CLIENT_STATE::init_result_resource_usage() {
         }
     }
 }
+
+// shows messages (as notices) related to Docker and WSL:
+// All platforms: if no Docker, suggest they install it
+// Win:
+//      if Docker but not our WSL distro, suggest they use ours
+//      if they have our distro but not current, suggest upgrade
+//
+// Called on startup, and after doing a get-version RPC
+//
+#ifndef ANDROID
+void show_docker_messages() {
+#ifdef _WIN32
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Windows";
+#elif defined(__APPLE__)
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Mac";
+#else
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Linux";
+#endif
+    if (!gstate.host_info.have_docker()) {
+        msg_printf_notice(0, true, url,
+            "Some projects require Docker; we recommend that you install it."
+        );
+#ifdef _WIN32
+    } else {
+        int bdv = gstate.host_info.wsl_distros.boinc_distro_version();
+        if (bdv) {
+            if (bdv < gstate.latest_boinc_buda_runner_version) {
+                msg_printf_notice(0, true,
+                    "https://github.com/BOINC/boinc/wiki/Updating-the-BOINC-WSL-distro",
+                    "A new version of the BOINC WSL distro is available; we recommend that you install it."
+                );
+            }
+        } else {
+            msg_printf_notice(0, true, url,
+                "Docker is present but not using the BOINC WSL distro.  Some project apps may not function properly. We recommend that you install the BOINC WSL distro."
+            );
+        }
+#endif
+    }
+}
+#endif

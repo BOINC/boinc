@@ -257,7 +257,7 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
 
             strBuffer += strDescription;
 
-            strBuffer += wxT("<br><font size=-2 color=#8f8f8f>");
+            strBuffer += wxT("<br><font size=-1 color=#8f8f8f>");
 
             strBuffer += strCreateTime;
 
@@ -265,7 +265,7 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
                 strTemp.Printf(
                     wxT(" &middot; <a href=%s>%s</a> "),
                     strURL.c_str(),
-                    _("more...")
+                    _("more info...")
                 );
                 strBuffer += strTemp;
             }

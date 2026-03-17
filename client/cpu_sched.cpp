@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -120,8 +120,10 @@ struct PROC_RESOURCES {
         return true;
     }
 
-    // should we consider scheduling this job?
-    // (i.e add it to the runnable list; not actually run it)
+    // Should we add this job to the runnable list?
+    // There are two possible reasons not to:
+    // - the job won't be able to run (e.g. it's being aborted)
+    // - the runnable list has enough jobs of this type already
     //
     bool can_schedule(RESULT* rp, ACTIVE_TASK* atp) {
         if (atp) {
@@ -151,17 +153,52 @@ struct PROC_RESOURCES {
             if (gpu_suspend_reason) return false;
         }
         if (rp->uses_coprocs()) {
-            if (sufficient_coprocs(*rp)) {
-                return true;
-            } else {
+            if (!sufficient_coprocs(*rp)) {
                 return false;
             }
-        } else if (rp->resource_usage.avg_ncpus > 1) {
-            if (ncpus_used_mt == 0) return true;
-            return (ncpus_used_mt + rp->resource_usage.avg_ncpus <= ncpus);
         } else {
-            return (ncpus_used_st < ncpus);
+            // CPU jobs: see if we have enough already in list
+            //
+            if (rp->resource_usage.avg_ncpus > 1) {
+                if (ncpus_used_mt > 0) {
+                    if (ncpus_used_mt + rp->resource_usage.avg_ncpus > ncpus) {
+                        return false;
+                    }
+                }
+            } else {
+                if (ncpus_used_st >= ncpus) {
+                    return false;
+                }
+            }
         }
+
+        // if job uses Docker, make sure it's installed
+        //
+        if (rp->uses_docker()) {
+            if (!gstate.host_info.have_docker()) {
+                static bool first = true;
+                if (first) {
+                    msg_printf(NULL, MSG_USER_ALERT,
+                        "Docker jobs are present but Podman/Docker not found; please install it."
+                    );
+                    msg_printf(NULL, MSG_USER_ALERT,
+                        "See https://github.com/BOINC/boinc/wiki/Installing-Docker"
+                    );
+                    first = false;
+                }
+                return false;
+            }
+#ifdef __APPLE__
+            // and on Mac, make sure it's inited
+            //
+            if (gstate.host_info.docker_type == PODMAN
+                && !gstate.host_info.podman_inited
+            ) {
+                return false;
+            }
+#endif
+        }
+        return true;
     }
 
     // we've decided to add this to the runnable list; update bookkeeping
@@ -268,13 +305,11 @@ bool gpus_usable = true;
 bool check_coprocs_usable() {
 #ifdef _WIN32
     if (cc_config.no_rdp_check) return false;
-    unsigned int i;
     bool new_usable = !is_remote_desktop();
     if (gpus_usable) {
         if (!new_usable) {
             gpus_usable = false;
-            for (i=0; i<gstate.results.size(); i++) {
-                RESULT* rp = gstate.results[i];
+            for (RESULT* rp: gstate.results) {
                 if (rp->resource_usage.rsc_type) {
                     rp->resource_usage.missing_coproc = true;
                 }
@@ -287,8 +322,7 @@ bool check_coprocs_usable() {
     } else {
         if (new_usable) {
             gpus_usable = true;
-            for (i=0; i<gstate.results.size(); i++) {
-                RESULT* rp = gstate.results[i];
+            for (RESULT* rp: gstate.results) {
                 if (rp->resource_usage.rsc_type) {
                     rp->resource_usage.missing_coproc = false;
                 }
@@ -336,21 +370,17 @@ static inline bool finished_time_slice(ACTIVE_TASK* atp) {
 // Should call it once, and have it make an ordered list per project.
 //
 void CLIENT_STATE::assign_results_to_projects() {
-    unsigned int i;
-    RESULT* rp;
-    PROJECT* project;
 
     // scan results with an ACTIVE_TASK
     //
-    for (i=0; i<active_tasks.active_tasks.size(); i++) {
-        ACTIVE_TASK *atp = active_tasks.active_tasks[i];
+    for (ACTIVE_TASK *atp: active_tasks.active_tasks) {
         if (atp->always_run()) continue;
         if (!atp->runnable()) continue;
-        rp = atp->result;
+        RESULT *rp = atp->result;
         if (rp->already_selected) continue;
         if (rp->uses_coprocs()) continue;
         if (!rp->runnable()) continue;
-        project = rp->project;
+        PROJECT *project = rp->project;
         if (!project->next_runnable_result) {
             project->next_runnable_result = rp;
             continue;
@@ -373,14 +403,13 @@ void CLIENT_STATE::assign_results_to_projects() {
 
     // Now consider results that don't have an active task
     //
-    for (i=0; i<results.size(); i++) {
-        rp = results[i];
+    for (RESULT *rp: results) {
         if (rp->already_selected) continue;
         if (rp->uses_coprocs()) continue;
         if (lookup_active_task_by_result(rp)) continue;
         if (!rp->runnable()) continue;
 
-        project = rp->project;
+        PROJECT *project = rp->project;
         if (project->next_runnable_result) continue;
         project->next_runnable_result = rp;
     }
@@ -388,8 +417,7 @@ void CLIENT_STATE::assign_results_to_projects() {
     // mark selected results, so CPU scheduler won't try to consider
     // a result more than once
     //
-    for (i=0; i<projects.size(); i++) {
-        project = projects[i];
+    for (PROJECT *project: projects) {
         if (project->next_runnable_result) {
             project->next_runnable_result->already_selected = true;
         }
@@ -404,10 +432,8 @@ RESULT* CLIENT_STATE::highest_prio_project_best_result() {
     PROJECT *best_project = NULL;
     double best_prio = 0;
     bool first = true;
-    unsigned int i;
 
-    for (i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
+    for (PROJECT *p: projects) {
         if (!p->next_runnable_result) continue;
         if (first || p->sched_priority > best_prio) {
             first = false;
@@ -435,11 +461,9 @@ RESULT* CLIENT_STATE::highest_prio_project_best_result() {
 // - an earlier finishes downloading and preempts
 //
 RESULT* first_coproc_result(int rsc_type) {
-    unsigned int i;
     RESULT* best = NULL;
     double best_prio=0, prio;
-    for (i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
+    for (RESULT* rp: gstate.results) {
         if (rp->resource_type() != rsc_type) continue;
         if (!rp->runnable()) {
             //msg_printf(rp->project, MSG_INFO, "not runnable: %s", rp->name);
@@ -491,10 +515,8 @@ RESULT* first_coproc_result(int rsc_type) {
 static RESULT* earliest_deadline_result(int rsc_type) {
     RESULT *best_result = NULL;
     ACTIVE_TASK* best_atp = NULL;
-    unsigned int i;
 
-    for (i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
+    for (RESULT* rp: gstate.results) {
         if (rp->resource_type() != rsc_type) continue;
         if (rp->already_selected) continue;
         if (!rp->runnable()) continue;
@@ -546,9 +568,7 @@ static RESULT* earliest_deadline_result(int rsc_type) {
 }
 
 void CLIENT_STATE::reset_rec_accounting() {
-    unsigned int i;
-    for (i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
+    for (PROJECT* p: projects) {
         for (int j=0; j<coprocs.n_rsc; j++) {
             p->rsc_pwf[j].reset_rec_accounting();
         }
@@ -568,9 +588,7 @@ static void update_rec() {
     double f = gstate.host_info.p_fpops;
     double on_frac = gstate.current_cpu_usage_limit() / 100;
 
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
-
+    for (PROJECT* p: gstate.projects) {
         double x = 0;
         for (int j=0; j<coprocs.n_rsc; j++) {
             double dt = p->rsc_pwf[j].secs_this_rec_interval * on_frac;
@@ -639,12 +657,14 @@ double total_peak_flops() {
 // Initialize project "priorities" based on REC:
 // compute resource share and REC fractions
 // among compute-intensive, non-suspended projects
+// Also compute rec_sum
 //
 void project_priority_init(bool for_work_fetch) {
     double rs_sum = 0;
+        // sum of resource share of runnable (or fetchable) projects
     rec_sum = 0;
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+        // sum of recent work of runnable (or fetchable) projects
+    for (PROJECT* p: gstate.projects) {
         if (p->non_cpu_intensive) continue;
         if (for_work_fetch) {
             if (!p->can_request_work()) continue;
@@ -658,8 +678,7 @@ void project_priority_init(bool for_work_fetch) {
     if (rec_sum == 0) {
         rec_sum = 1;
     }
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         if (p->non_cpu_intensive || p->suspended_via_gui || rs_sum==0) {
             p->resource_share_frac = 0;
             p->sched_priority = 0;
@@ -685,7 +704,11 @@ void PROJECT::compute_sched_priority() {
     if (resource_share == 0) {
         sched_priority = -1e3 - rec_frac;
     } else {
-        sched_priority = - rec_frac/resource_share_frac;
+        if (resource_share_frac > 0) {
+            sched_priority = - rec_frac/resource_share_frac;
+        } else {
+            sched_priority = - rec_frac;
+        }
     }
 }
 
@@ -707,7 +730,6 @@ double rec_adjust_period = REC_ADJUST_PERIOD;
 // adjust project REC
 //
 void CLIENT_STATE::adjust_rec() {
-    unsigned int i;
     double elapsed_time = now - rec_interval_start;
 
     // If the elapsed time is negative or more than 2*REC_ADJUST_PERIOD
@@ -735,8 +757,7 @@ void CLIENT_STATE::adjust_rec() {
 
     // total up how many instance-seconds projects got
     //
-    for (i=0; i<active_tasks.active_tasks.size(); i++) {
-        ACTIVE_TASK* atp = active_tasks.active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks.active_tasks) {
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         if (atp->non_cpu_intensive()) continue;
         work_fetch.accumulate_inst_sec(atp, elapsed_time);
@@ -795,8 +816,7 @@ bool CLIENT_STATE::schedule_cpus() {
 //   This avoids "thrashing" if a job oscillates between miss and not miss.
 //
 static void promote_once_ran_edf() {
-    for (unsigned int i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
-        ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[i];
+    for (ACTIVE_TASK* atp: gstate.active_tasks.active_tasks) {
         if (atp->result->rr_sim_misses_deadline) continue;
         if (atp->once_ran_edf) {
             RESULT* rp = atp->result;
@@ -868,11 +888,7 @@ void add_coproc_jobs(
 // Make an ordered list of jobs to run.
 //
 void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
-    RESULT* rp;
-    PROJECT* p;
-    unsigned int i;
     PROC_RESOURCES proc_rsc;
-    ACTIVE_TASK* atp;
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] schedule_cpus(): start");
@@ -908,14 +924,12 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
     // set temporary variables
     //
     project_priority_init(false);
-    for (i=0; i<results.size(); i++) {
-        rp = results[i];
+    for (RESULT *rp: results) {
         rp->already_selected = false;
         rp->edf_scheduled = false;
         rp->not_started = !rp->computing_done();
     }
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
+    for (PROJECT *p: projects) {
         p->next_runnable_result = NULL;
         for (int j=0; j<coprocs.n_rsc; j++) {
             p->rsc_pwf[j].deadlines_missed_copy = p->rsc_pwf[j].deadlines_missed;
@@ -925,11 +939,10 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
     // compute max working set size for app versions
     // (max of working sets of currently running jobs)
     //
-    for (i=0; i<app_versions.size(); i++) {
-        app_versions[i]->max_working_set_size = 0;
+    for (APP_VERSION *avp: app_versions) {
+        avp->max_working_set_size = 0;
     }
-    for (i=0; i<active_tasks.active_tasks.size(); i++) {
-        atp = active_tasks.active_tasks[i];
+    for (ACTIVE_TASK *atp: active_tasks.active_tasks) {
         atp->too_large = false;
         double w = atp->procinfo.working_set_size_smoothed;
         APP_VERSION* avp = atp->app_version;
@@ -965,13 +978,13 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
     if (!cpu_sched_rr_only) {
 #endif
     while (!proc_rsc.stop_scan_cpu()) {
-        rp = earliest_deadline_result(RSC_TYPE_CPU);
+        RESULT *rp = earliest_deadline_result(RSC_TYPE_CPU);
         if (!rp) break;
         rp->already_selected = true;
         if (have_max_concurrent && max_concurrent_exceeded(rp)) {
             continue;
         }
-        atp = lookup_active_task_by_result(rp);
+        ACTIVE_TASK *atp = lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp, atp)) continue;
         proc_rsc.schedule(rp, atp, true);
         rp->project->rsc_pwf[0].deadlines_missed_copy--;
@@ -992,14 +1005,14 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
             break;
         }
         assign_results_to_projects();
-        rp = highest_prio_project_best_result();
+        RESULT *rp = highest_prio_project_best_result();
         if (!rp) {
             break;
         }
         if (have_max_concurrent && max_concurrent_exceeded(rp)) {
             continue;
         }
-        atp = lookup_active_task_by_result(rp);
+        ACTIVE_TASK *atp = lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp, atp)) continue;
         proc_rsc.schedule(rp, atp, false);
         run_list.push_back(rp);
@@ -1010,8 +1023,8 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
 }
 
 static inline bool in_run_list(vector<RESULT*>& run_list, ACTIVE_TASK* atp) {
-    for (unsigned int i=0; i<run_list.size(); i++) {
-        if (atp->result == run_list[i]) return true;
+    for (RESULT *rp: run_list) {
+        if (atp->result == rp) return true;
     }
     return false;
 }
@@ -1057,6 +1070,15 @@ static void promote_multi_thread_jobs(vector<RESULT*>& runnable_jobs) {
 // return true if r0 is more important to run than r1
 //
 static inline bool more_important(RESULT* r0, RESULT* r1) {
+    bool cp0=false, cp1;
+
+    if (cc_config.prioritize_gpu) {
+        cp0 = r0->uses_coprocs();
+        cp1 = r1->uses_coprocs();
+        if (cp0 && !cp1) return true;
+        if (!cp0 && cp1) return false;
+    }
+
     // favor jobs in danger of deadline miss
     //
     bool miss0 = r0->edf_scheduled;
@@ -1067,10 +1089,12 @@ static inline bool more_important(RESULT* r0, RESULT* r1) {
     // favor coproc jobs, so that e.g. if we're RAM-limited
     // we'll use the GPU instead of the CPU
     //
-    bool cp0 = r0->uses_coprocs();
-    bool cp1 = r1->uses_coprocs();
-    if (cp0 && !cp1) return true;
-    if (!cp0 && cp1) return false;
+    if (!cc_config.prioritize_gpu) {
+        cp0 = r0->uses_coprocs();
+        cp1 = r1->uses_coprocs();
+        if (cp0 && !cp1) return true;
+        if (!cp0 && cp1) return false;
+    }
 
     // favor jobs in the middle of time slice,
     // or that haven't checkpointed since start of time slice
@@ -1099,12 +1123,12 @@ static inline bool more_important(RESULT* r0, RESULT* r1) {
 
 static void print_job_list(vector<RESULT*>& jobs) {
     char buf[256];
-    for (unsigned int i=0; i<jobs.size(); i++) {
-        RESULT* rp = jobs[i];
+    int i=0;
+    for (RESULT *rp: jobs) {
         rp->rsc_string(buf, 256);
         msg_printf(rp->project, MSG_INFO,
             "[cpu_sched_debug] %d: %s (%s; MD: %s; UTS: %s)",
-            i, rp->name,
+            i++, rp->name,
             buf,
             rp->edf_scheduled?"yes":"no",
             rp->unfinished_time_slice?"yes":"no"
@@ -1116,11 +1140,9 @@ static void print_job_list(vector<RESULT*>& jobs) {
 // Mark them as such, and add to list if not already there
 //
 void CLIENT_STATE::append_unfinished_time_slice(vector<RESULT*> &run_list) {
-    unsigned int i;
     int seqno = (int)run_list.size();
 
-    for (i=0; i<active_tasks.active_tasks.size(); i++) {
-        ACTIVE_TASK* atp = active_tasks.active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks.active_tasks) {
         atp->overdue_checkpoint = false;
         if (!atp->result->runnable()) continue;
         if (atp->result->uses_gpu() && gpu_suspend_reason) continue;
@@ -1153,10 +1175,8 @@ void CLIENT_STATE::append_unfinished_time_slice(vector<RESULT*> &run_list) {
 // based on scheduler_state and next_scheduler_state.
 //
 bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
-    unsigned int i;
     int retval;
     double ncpus_used=0;
-    ACTIVE_TASK* atp;
 
     bool action = false;
 
@@ -1181,14 +1201,13 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
 
     // Set next_scheduler_state to PREEMPT for all tasks
     //
-    for (i=0; i< active_tasks.active_tasks.size(); i++) {
-        atp = active_tasks.active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks.active_tasks) {
         atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
     }
 
-    for (i=0; i<run_list.size(); i++) {
-        RESULT* rp = run_list[i];
-        rp->seqno = i;
+    int i=0;
+    for (RESULT* rp: run_list) {
+        rp->seqno = i++;
         rp->unfinished_time_slice = false;
     }
 
@@ -1228,10 +1247,9 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
 
     // schedule non-CPU-intensive and sporadic tasks
     //
-    for (i=0; i<results.size(); i++) {
-        RESULT* rp = results[i];
+    for (RESULT* rp: results) {
         if (rp->always_run() && rp->runnable()) {
-            atp = get_task(rp);
+            ACTIVE_TASK *atp = get_task(rp);
             if (!atp) {
                 msg_printf(rp->project, MSG_INTERNAL_ERROR,
                     "Can't create task for %s", rp->name
@@ -1255,9 +1273,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
 
     // scan the run list
     //
-    for (i=0; i<run_list.size(); i++) {
-        RESULT* rp = run_list[i];
-
+    for (RESULT* rp: run_list) {
         if (have_max_concurrent && max_concurrent_exceeded(rp)) {
             if (log_flags.cpu_sched_debug) {
                 msg_printf(rp->project, MSG_INFO,
@@ -1268,7 +1284,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             continue;
         }
 
-        atp = lookup_active_task_by_result(rp);
+        ACTIVE_TASK *atp = lookup_active_task_by_result(rp);
 
         // if we're already using all the CPUs, don't allow additional CPU jobs;
         // allow coproc jobs if the resulting CPU load is at most ncpus+1
@@ -1398,8 +1414,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     // in QUIT_PENDING state (in which case we won't start new coproc jobs)
     //
     bool coproc_quit_pending = false;
-    for (i=0; i<active_tasks.active_tasks.size(); i++) {
-        atp = active_tasks.active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks.active_tasks) {
 #if 0
         if (log_flags.cpu_sched_debug) {
             msg_printf(atp->result->project, MSG_INFO,
@@ -1459,8 +1474,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     }
 
     bool coproc_start_deferred = false;
-    for (i=0; i<active_tasks.active_tasks.size(); i++) {
-        atp = active_tasks.active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks.active_tasks) {
         if (atp->next_scheduler_state != CPU_SCHED_SCHEDULED) continue;
         int ts = atp->task_state();
         if (ts == PROCESS_UNINITIALIZED || ts == PROCESS_SUSPENDED) {
@@ -1571,9 +1585,9 @@ void CLIENT_STATE::request_schedule_cpus(const char* where) {
 // Find the active task for a given result
 //
 ACTIVE_TASK* CLIENT_STATE::lookup_active_task_by_result(RESULT* rep) {
-    for (unsigned int i = 0; i < active_tasks.active_tasks.size(); i ++) {
-        if (active_tasks.active_tasks[i]->result == rep) {
-            return active_tasks.active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks.active_tasks) {
+        if (atp->result == rep) {
+            return atp;
         }
     }
     return NULL;
@@ -1583,9 +1597,9 @@ ACTIVE_TASK* CLIENT_STATE::lookup_active_task_by_result(RESULT* rep) {
 //
 double CLIENT_STATE::total_resource_share() {
     double x = 0;
-    for (unsigned int i=0; i<projects.size(); i++) {
-        if (!projects[i]->non_cpu_intensive ) {
-            x += projects[i]->resource_share;
+    for (PROJECT *p: projects) {
+        if (!p->non_cpu_intensive ) {
+            x += p->resource_share;
         }
     }
     return x;
@@ -1595,8 +1609,7 @@ double CLIENT_STATE::total_resource_share() {
 //
 double CLIENT_STATE::runnable_resource_share(int rsc_type) {
     double x = 0;
-    for (unsigned int i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
+    for (PROJECT *p: projects) {
         if (p->non_cpu_intensive) continue;
         if (p->runnable(rsc_type)) {
             x += p->resource_share;
@@ -1609,8 +1622,7 @@ double CLIENT_STATE::runnable_resource_share(int rsc_type) {
 //
 double CLIENT_STATE::potentially_runnable_resource_share() {
     double x = 0;
-    for (unsigned int i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
+    for (PROJECT *p: projects) {
         if (p->non_cpu_intensive) continue;
         if (p->potentially_runnable()) {
             x += p->resource_share;
@@ -1623,8 +1635,7 @@ double CLIENT_STATE::potentially_runnable_resource_share() {
 //
 double CLIENT_STATE::nearly_runnable_resource_share() {
     double x = 0;
-    for (unsigned int i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
+    for (PROJECT *p: projects) {
         if (p->non_cpu_intensive) continue;
         if (p->nearly_runnable()) {
             x += p->resource_share;

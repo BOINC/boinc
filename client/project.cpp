@@ -682,8 +682,7 @@ void PROJECT::resume() {
 }
 
 void PROJECT::abort_not_started() {
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
+    for (RESULT* rp: gstate.results) {
         if (rp->project != this) continue;
         if (rp->is_not_started()) {
             rp->abort_inactive(EXIT_ABORTED_VIA_GUI);
@@ -694,8 +693,7 @@ void PROJECT::abort_not_started() {
 void PROJECT::get_task_durs(double& not_started_dur, double& in_progress_dur) {
     not_started_dur = 0;
     in_progress_dur = 0;
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
+    for (RESULT* rp: gstate.results) {
         if (rp->project != this) continue;
         double d = rp->estimated_runtime_remaining();
         d /= gstate.time_stats.availability_frac(rp->resource_usage.rsc_type);
@@ -807,12 +805,9 @@ void PROJECT::update_project_files_downloaded_time() {
 
 bool PROJECT::some_download_stalled() {
 #ifndef SIM
-    unsigned int i;
-
     if (!download_backoff.ok_to_transfer()) return true;
 
-    for (i=0; i<gstate.pers_file_xfers->pers_file_xfers.size(); i++) {
-        PERS_FILE_XFER* pfx = gstate.pers_file_xfers->pers_file_xfers[i];
+    for (PERS_FILE_XFER* pfx: gstate.pers_file_xfers->pers_file_xfers) {
         if (pfx->fip->project != this) continue;
         if (pfx->is_upload) continue;
         if (pfx->next_request_time > gstate.now) return true;
@@ -823,8 +818,7 @@ bool PROJECT::some_download_stalled() {
 
 bool PROJECT::runnable(int rsc_type) {
     if (suspended_via_gui) return false;
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
+    for (RESULT* rp: gstate.results) {
         if (rp->project != this) continue;
         if (rsc_type != RSC_TYPE_ANY) {
             if (rp->resource_usage.rsc_type != rsc_type) {
@@ -837,9 +831,8 @@ bool PROJECT::runnable(int rsc_type) {
 }
 
 bool PROJECT::uploading() {
-    for (unsigned int i=0; i<gstate.file_xfers->file_xfers.size(); i++) {
-        FILE_XFER& fx = *gstate.file_xfers->file_xfers[i];
-        if (fx.fip->project == this && fx.is_upload) {
+    for (FILE_XFER* fxp: gstate.file_xfers->file_xfers) {
+        if (fxp->fip->project == this && fxp->is_upload) {
             return true;
         }
     }
@@ -848,8 +841,7 @@ bool PROJECT::uploading() {
 
 bool PROJECT::downloading() {
     if (suspended_via_gui) return false;
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
+    for (RESULT* rp: gstate.results) {
         if (rp->project != this) continue;
         if (rp->downloading()) return true;
     }
@@ -857,17 +849,14 @@ bool PROJECT::downloading() {
 }
 
 bool PROJECT::has_results() {
-    for (unsigned i=0; i<gstate.results.size(); i++) {
-        RESULT *rp = gstate.results[i];
+    for (RESULT* rp: gstate.results) {
         if (rp->project == this) return true;
     }
     return false;
 }
 
 bool PROJECT::some_result_suspended() {
-    unsigned int i;
-    for (i=0; i<gstate.results.size(); i++) {
-        RESULT *rp = gstate.results[i];
+    for (RESULT* rp: gstate.results) {
         if (rp->project != this) continue;
         if (rp->suspended_via_gui) return true;
     }
@@ -978,8 +967,7 @@ void PROJECT::check_no_apps() {
         no_rsc_apps[i] = true;
     }
 
-    for (unsigned int i=0; i<gstate.app_versions.size(); i++) {
-        APP_VERSION* avp = gstate.app_versions[i];
+    for (APP_VERSION* avp: gstate.app_versions) {
         if (avp->project != this) continue;
         no_rsc_apps[avp->resource_usage.rsc_type] = false;
     }

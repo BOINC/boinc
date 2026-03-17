@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -95,7 +95,7 @@ fi
 
 if [ ${share_paths} = "yes" ]; then
     ## all targets share the same header and library search paths
-    ## Note: this does not build zip apps, upper case or VBoxWrapper projects.
+    ## Note: this does not build zip apps, upper case, VBoxWrapper, docker_wrapper or RemovePodman projects.
     libSearchPathDbg=""
     source BuildMacBOINC.sh ${config} ${doclean} -all -setting HEADER_SEARCH_PATHS "../clientgui ../lib/** ../api/ ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2 \\\${HEADER_SEARCH_PATHS}" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "$libSearchPathDbg ${cache_dir}/lib ../lib \\\${LIBRARY_SEARCH_PATHS}" | tee xcodebuild_all.log | $beautifier; retval=${PIPESTATUS[0]}
     if [ $retval -ne 0 ]; then
@@ -144,7 +144,8 @@ target="x"
 rm -f /tmp/depversions.txt
 
 ## This is code that builds each target individually in the main BOINC Xcode
-## project, plus the zip apps, upper case and VBoxWrapper projects.
+## project, plus the zip apps, upper case, VBoxWrapper, docker_wrapper and
+## RemovePodman projects.
 for buildTarget in `xcodebuild -list -project boinc.xcodeproj`
 do
     if [[ "${target}" = "Build" && "${buildTarget}" = "Configurations:" ]]; then break; fi
@@ -215,5 +216,21 @@ if [ ${retval} -ne 0 ]; then
 fi
 
 verify_product_archs "${rootPath}/samples/docker_wrapper/build/${style}"
+
+target="RemovePodman"
+echo "Building ${target}..."
+source BuildMacBOINC.sh ${config} ${doclean} -RemovePodman | tee xcodebuild_${target}.log | $beautifier; retval=${PIPESTATUS[0]}
+if [ ${retval} -ne 0 ]; then
+    echo "Building ${target}...failed"
+    cd "${rootPath}"; show_version_errors; exit 1;
+fi
+
+if [ ${style} = "Deployment" ]; then
+    newStyle="Release"
+else
+    newStyle="Debug"
+fi
+
+verify_product_archs "${rootPath}/mac_RemovePodman/build/${newStyle}"
 
 cd "${rootPath}"

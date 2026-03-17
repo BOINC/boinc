@@ -217,8 +217,6 @@ int RESULT::parse_state(XML_PARSER& xp) {
 // write result descriptor to state file, GUI RPC reply, or sched request
 //
 int RESULT::write(MIOFILE& out, bool to_server) {
-    unsigned int i;
-    FILE_INFO* fip;
     int n, retval;
 
     out.printf(
@@ -315,8 +313,8 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         out.printf("</stderr_out>\n");
     }
     if (to_server) {
-        for (i=0; i<output_files.size(); i++) {
-            fip = output_files[i].file_info;
+        for (const FILE_REF& fref: output_files) {
+            FILE_INFO* fip = fref.file_info;
             if (fip->uploaded) {
                 retval = fip->write(out, true);
                 if (retval) return retval;
@@ -336,8 +334,8 @@ int RESULT::write(MIOFILE& out, bool to_server) {
             report_deadline,
             received_time
         );
-        for (i=0; i<output_files.size(); i++) {
-            retval = output_files[i].write(out);
+        for (const FILE_REF& fref: output_files) {
+            retval = fref.write(out);
             if (retval) return retval;
         }
     }
@@ -477,12 +475,10 @@ int RESULT::write_gui(MIOFILE& out, bool check_resources) {
 // successfully uploaded or have unrecoverable errors
 //
 bool RESULT::is_upload_done() {
-    unsigned int i;
-    FILE_INFO* fip;
     int retval;
 
-    for (i=0; i<output_files.size(); i++) {
-        fip = output_files[i].file_info;
+    for (const FILE_REF& fref: output_files) {
+        FILE_INFO* fip = fref.file_info;
         if (fip->uploadable()) {
             if (fip->had_failure(retval)) continue;
             if (!fip->uploaded) {
@@ -496,11 +492,8 @@ bool RESULT::is_upload_done() {
 // resets all FILE_INFO's in result to uploaded = false
 //
 void RESULT::clear_uploaded_flags() {
-    unsigned int i;
-    FILE_INFO* fip;
-
-    for (i=0; i<output_files.size(); i++) {
-        fip = output_files[i].file_info;
+    for (const FILE_REF& fref: output_files) {
+        FILE_INFO* fip = fref.file_info;
         fip->uploaded = false;
     }
 }
@@ -516,21 +509,20 @@ bool RESULT::is_not_started() {
 //
 bool RESULT::some_download_stalled() {
 #ifndef SIM
-    unsigned int i;
     FILE_INFO* fip;
     PERS_FILE_XFER* pfx;
     bool some_file_missing = false;
 
-    for (i=0; i<wup->input_files.size(); i++) {
-        fip = wup->input_files[i].file_info;
+    for (const FILE_REF &fref: wup->input_files) {
+        fip = fref.file_info;
         if (fip->status != FILE_PRESENT) some_file_missing = true;
         pfx = fip->pers_file_xfer;
         if (pfx && pfx->next_request_time > gstate.now) {
             return true;
         }
     }
-    for (i=0; i<avp->app_files.size(); i++) {
-        fip = avp->app_files[i].file_info;
+    for (const FILE_REF &fref: avp->app_files) {
+        fip = fref.file_info;
         if (fip->status != FILE_PRESENT) some_file_missing = true;
         pfx = fip->pers_file_xfer;
         if (pfx && pfx->next_request_time > gstate.now) {
@@ -546,18 +538,16 @@ bool RESULT::some_download_stalled() {
 }
 
 FILE_REF* RESULT::lookup_file(FILE_INFO* fip) {
-    for (unsigned int i=0; i<output_files.size(); i++) {
-        FILE_REF& fr = output_files[i];
-        if (fr.file_info == fip) return &fr;
+    for (FILE_REF& fref: output_files) {
+        if (fref.file_info == fip) return &fref;
     }
     return 0;
 }
 
 FILE_INFO* RESULT::lookup_file_logical(const char* lname) {
-    for (unsigned int i=0; i<output_files.size(); i++) {
-        FILE_REF& fr = output_files[i];
-        if (!strcmp(lname, fr.open_name)) {
-            return fr.file_info;
+    for (const FILE_REF& fref: output_files) {
+        if (!strcmp(lname, fref.open_name)) {
+            return fref.file_info;
         }
     }
     return 0;
@@ -631,6 +621,12 @@ bool RESULT::downloading() {
     if (state() > RESULT_FILES_DOWNLOADING) return false;
     if (some_download_stalled()) return false;
     return true;
+}
+
+bool RESULT::running() {
+    ACTIVE_TASK *atp = gstate.lookup_active_task_by_result(this);
+    if (!atp) return false;
+    return atp->task_state() != PROCESS_UNINITIALIZED;
 }
 
 double RESULT::estimated_runtime_uncorrected() {

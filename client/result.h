@@ -162,6 +162,9 @@ struct RESULT {
     inline int resource_type() {
         return resource_usage.rsc_type;
     }
+    inline bool uses_docker() {
+        return strstr(plan_class, "docker") != NULL;
+    }
     inline bool non_cpu_intensive() {
         if (project->non_cpu_intensive) return true;
         return app->non_cpu_intensive;
@@ -177,6 +180,7 @@ struct RESULT {
         if (avp->dont_throttle) return true;
         return false;
     }
+    bool running();
     // make a string describing resource usage
     inline void rsc_string(char* buf, int len) {
         if (resource_usage.rsc_type) {

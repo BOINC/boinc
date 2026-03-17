@@ -184,6 +184,8 @@ function delete_remote_submit_user($user) {
 // TODO: update est_completion_time
 //
 function get_batch_params($batch, $wus) {
+    $batch->njobs_success = 0;
+    $batch->njobs_in_prog = 0;
     if ($batch->state == BATCH_STATE_INIT) {
         // a batch in INIT state has no jobs
         //
@@ -283,17 +285,30 @@ function get_outfile_phys_names($result) {
     return $names;
 }
 
+// return two corresponding lists:
+// - logical names of output files
+// - whether files are gzipped (they may not have .gz extension)
+// TODO: return a list of pairs
+//
 function get_outfile_log_names($result) {
-    $names = [];
     $xml = "<a>".$result->xml_doc_in."</a>";
     $r = simplexml_load_string($xml);
-    if (!$r) return $names;
+    if (!$r) {
+        return [[],[]];
+    }
+    $names = [];
+    $gzip = [];
     foreach ($r->result->file_ref as $fr) {
         $names[] = (string)($fr->open_name);
     }
-    return $names;
+    foreach ($r->file_info as $fi) {
+        $gzip[] = isset($fi->gzip_when_done);
+    }
+    return [$names, $gzip];
 }
 
+// get output file paths for batch-static apps
+//
 function get_outfile_paths($result) {
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     $upload_dir = parse_config(get_config(), "<upload_dir>");
@@ -307,6 +322,25 @@ function get_outfile_paths($result) {
         $paths[] = $path;
     }
     return $paths;
+}
+
+// Return the path of an output file in the 'batch-collect' paradigm.
+// This must agree with the corresponding assimilators:
+// tools/batch_collect_assimilate.py
+// sched/batch_collect_assimilator.cpp
+// and with tools/query_job
+//
+function batch_collect_outfile_path($wu, $index, $log_names, $gzip) {
+    if (!is_valid_filename($wu->name)) {
+        error_page("bad WU name");
+    }
+    if (!is_valid_filename($log_names[$index])) {
+        error_page("bad logical name");
+    }
+    return sprintf('../../results/%d/%s__file_%s%s',
+        $wu->batch, $wu->name, $log_names[$index],
+        $gzip[$index]?'.gz':''
+    );
 }
 
 function abort_workunit($wu) {
@@ -399,10 +433,12 @@ function retire_batch($batch) {
     }
 }
 
+// batches can have 'expiration times' when they automatically get retired
+// if you run html/ops/expire_batches
+//
 function expire_batch($batch) {
     abort_batch($batch);
     retire_batch($batch);
-    $batch->update("state=".BATCH_STATE_EXPIRED);
 }
 
 function batch_state_string($state) {
@@ -415,7 +451,8 @@ function batch_state_string($state) {
     }
     return "unknown state $state";
 }
-// get the total size of output files of a batch
+// get the total size of output files of a batch for batch-static apps
+// (i.e. files are in the upload hier)
 //
 function batch_output_file_size($batchid) {
     $batch_td_size=0;
@@ -503,18 +540,25 @@ function file_ref_in($fname) {
         $fname
     ));
 }
-function file_info_out($i) {
-    return sprintf(
+function file_info_out($i, $max_nbytes, $gzip_output) {
+    if (!$max_nbytes) {
+        $max_nbytes = MEGA;
+    }
+    $x = sprintf(
 '    <file_info>
         <name><OUTFILE_%d/></name>
         <generated_locally/>
         <upload_when_present/>
-        <max_nbytes>5000000</max_nbytes>
+        <max_nbytes>%d</max_nbytes>
         <url><UPLOAD_URL/></url>
-    </file_info>
 ',
-        $i
+        $i, $max_nbytes
     );
+    if ($gzip_output) {
+        $x .= "        <gzip_when_done/>\n";
+    }
+    $x .= "    </file_info>\n";
+    return $x;
 }
 
 function file_ref_out($i, $fname) {
@@ -529,6 +573,7 @@ function file_ref_out($i, $fname) {
 }
 
 ////////////// ZIP FILES //////////////
+//
 // our job submission systems (BUDA and autodock)
 // expect zip files that contain files.
 // But some people are used to creating zip files

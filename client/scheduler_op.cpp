@@ -774,7 +774,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                     "Can't parse application version in scheduler reply: %s",
                     boincerror(retval)
                 );
-            } else {
+            } else if (!av.disallowed_by_config(project)) {
+                av.fill_in_resource_usage();
                 app_versions.push_back(av);
             }
         } else if (xp.match_tag("workunit")) {

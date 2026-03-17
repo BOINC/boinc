@@ -18,6 +18,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // identify batches that are almost complete, and accelerate their completion
+// We first run 'batch_stats.php', which computes needed data:
+// LTT hosts, accelerable batches, median TT of batches
 
 require_once('../inc/util.inc');
 require_once('../inc/boinc_db.inc');
@@ -26,16 +28,30 @@ require_once('../inc/submit_util.inc');
 
 ini_set('display_errors', true);
 
-// accelerate batches if at least this frac done
-// can be set in project.inc
+// the following can be set in project.inc
 //
-if (!defined('BATCH_ACCEL_MIN_FRAC_DONE')){
-    define('BATCH_ACCEL_MIN_FRAC_DONE', .85);
+// accelerate a batch if at least this frac of jobs are done (success or fail)
+// This value is a guess; it may not be optimal.
+// If too low, extra instances are created, reducing throughput.
+// If too high, batches take longer to finish.
+//
+if (!defined('BATCH_ACCEL_MIN_FRAC_DONE')) {
+    define('BATCH_ACCEL_MIN_FRAC_DONE', 0.85);
+}
+
+// accelerate a batch if the number of 'not done' jobs
+// (i.e. unsent or in progress) is less than this.
+// This helps small batches get done quicker
+//
+if (!defined('BATCH_ACCEL_MAX_NOT_DONE')) {
+    define('BATCH_ACCEL_MAX_NOT_DONE', 20);
 }
 
 $apps = [];
 
-// batch is in-progress and at least 90% done; accelerate its remaining jobs
+// batch is in-progress and qualifies for acceleration (see above);
+// accelerate its remaining jobs by marking them as high-priority
+// and possibly creating a new instance
 //
 function do_batch($batch, $wus) {
     global $apps;
@@ -56,6 +72,11 @@ function do_batch($batch, $wus) {
                 'id, server_state, sent_time, priority',
                 "workunitid=$wu->id"
             );
+
+            // create a new (high priority) result if
+            // - we're not at the max # of result
+            // - there are no unsent or recently sent results
+            //
             $make_another_result = false;
             if (count($results) < $wu->max_total_results) {
                 $make_another_result = true;
@@ -73,8 +94,8 @@ function do_batch($batch, $wus) {
                         break;
                     case RESULT_SERVER_STATE_IN_PROGRESS:
                         $age = $now - $r->sent_time;
-                        if ($age<$batch->expire_time) {
-                            echo "   have recent in-progress result\n";
+                        if ($age < $batch->expire_time) {
+                            echo "   have recent in-progress result $r->id\n";
                             $make_another_result = false;
                         }
                         break;
@@ -86,6 +107,9 @@ function do_batch($batch, $wus) {
                 echo "   creating another instance\n";
                 $query[] = sprintf(
                     'target_nresults=%d', $wu->target_nresults+1
+                );
+                $query[] = sprintf(
+                    'max_total_results=%d', $wu->max_total_results+1
                 );
                 $query[] = sprintf(
                     'transition_time=%f', $now
@@ -137,12 +161,16 @@ function main() {
             echo "batch $batch->id not in progress\n";
             continue;
         }
-        if ($batch->fraction_done < BATCH_ACCEL_MIN_FRAC_DONE) {
-            echo "batch $batch->id only $batch->fraction_done done\n";
-            continue;
+        $n_done = $batch->njobs_success + $batch->nerror_jobs;
+        $n_not_done = count($wus) - $n_done;
+        if ($batch->fraction_done > BATCH_ACCEL_MIN_FRAC_DONE
+            || $n_not_done < BATCH_ACCEL_MAX_NOT_DONE
+        ) {
+            echo "doing batch $batch->id\n";
+            do_batch($batch, $wus);
+        } else {
+            echo "not doing batch $batch->id: $batch->fraction_done done\n";
         }
-        echo "doing batch $batch->id\n";
-        do_batch($batch, $wus);
     }
     echo sprintf("finished batch_accel: %s\n", time_str(time()));
 }

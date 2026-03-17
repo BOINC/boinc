@@ -34,7 +34,7 @@ if (!defined('REMOTE_PROJECTS_TTL')) {
 //
 function get_other_projects($user) {
     $cpid = md5($user->cross_project_id . $user->email_addr);
-    $url = "http://boinc.netsoft-online.com/get_user.php?cpid=".$cpid;
+    $url = "https://api.free-dc.org/get_user.php?cpid=$cpid";
 
     // Check the cache for that URL
     //

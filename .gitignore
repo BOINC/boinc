@@ -189,13 +189,14 @@ sched/delete_file
 sched/fcgi
 sched/fcgi_file_upload_handler
 sched/feeder
+sched/feeder_user
 sched/file_deleter
 sched/file_upload_handler
 sched/get_file
 sched/make_work
 sched/message_handler
 sched/put_file
-sched/sample_assimilator
+sched/batch_collect_assimilator
 sched/sample_bitwise_validator
 sched/sample_dummy_assimilator
 sched/sample_substr_validator

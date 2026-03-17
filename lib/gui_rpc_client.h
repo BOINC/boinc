@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -56,7 +56,7 @@ struct GUI_URL {
     std::string url;
 
     int parse(XML_PARSER&);
-    void print();
+    void print() const;
 };
 
 // statistics at a specific day
@@ -608,7 +608,7 @@ struct CC_STATUS {
     int network_status;         // values: NETWORK_STATUS_*
     bool ams_password_error;
     bool manager_must_quit;
-    int task_suspend_reason;    // bitmap, see common_defs.h
+    int task_suspend_reason;    // see common_defs.h
     int task_mode;              // always/auto/never; see common_defs.h
     int task_mode_perm;         // same, but permanent version
     double task_mode_delay;     // time until perm becomes actual
@@ -664,7 +664,7 @@ struct OLD_RESULT {
     double create_time;
 
     int parse(XML_PARSER&);
-    void print();
+    void print() const;
 };
 
 struct RPC_CLIENT {

@@ -15,13 +15,13 @@ toolbin_PROGRAMS = \
 	stage_file_native
 
 dist_toolbin_SCRIPTS = \
+		batch_collect_assimilate.py \
 	    boinc_submit \
 		dbcheck_files_exist \
 		grep_logs \
 		make_project \
 		parse_config \
 		query_job \
-		sample_assimilate.py \
 		submit_batch \
 		submit_buda \
 		submit_job \

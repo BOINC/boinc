@@ -115,11 +115,7 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
 }
 
 void ACTIVE_TASK_SET::graphics_poll() {
-    unsigned int i;
-    ACTIVE_TASK* atp;
-
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
+    for (ACTIVE_TASK *atp: active_tasks) {
         if (!atp->process_exists()) continue;
         atp->graphics_request_queue.msg_queue_poll(
             atp->app_client_shm.shm->graphics_request
