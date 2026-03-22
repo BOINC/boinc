@@ -74,7 +74,7 @@ jobs:
           Start-Process "${{github.workspace}}\temp\OpenCppCoverageSetup-x64-${{ env.OpenCppCoverageVersion }}.exe" -ArgumentList "/verysilent /dir=${{github.workspace}}\temp\OpenCppCoverage" -Wait
 
       - name: Setup msbuild
-        uses: microsoft/setup-msbuild@6fb02220983dee41ce7ae257b6f4d8f9bf5ed4ce
+        uses: microsoft/setup-msbuild@30375c66a4eea26614e0d39710365f22f8b0af57
 
       - name: Check if build is running from origin repo
         if: ${{success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0}}
@@ -90,7 +90,7 @@ jobs:
         run: vcpkg.exe integrate remove
 
       - name: Cache dependencies
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: |
             ${{github.workspace}}\3rdParty\Windows\cuda\
@@ -206,7 +206,7 @@ jobs:
 
       - name: Upload coverage report
         if: success() && matrix.platform == 'x64' && matrix.configuration == 'Release'
-        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de
+        uses: codecov/codecov-action@1af58845a975a7985b0beb0cbe6fbbb71a41dbad
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
@@ -275,7 +275,7 @@ jobs:
 
       - name: Download installer artifact
         if: success()
-        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: win_installer_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
 
@@ -323,7 +323,7 @@ jobs:
           fetch-depth: 2
 
       - name: Setup msbuild
-        uses: microsoft/setup-msbuild@6fb02220983dee41ce7ae257b6f4d8f9bf5ed4ce
+        uses: microsoft/setup-msbuild@30375c66a4eea26614e0d39710365f22f8b0af57
 
       - name: Check if build is running from origin repo
         if: ${{success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0}}

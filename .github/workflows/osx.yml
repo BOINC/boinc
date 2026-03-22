@@ -40,14 +40,14 @@ jobs:
     name: build-dependencies
     runs-on: macos-latest
     steps:
-      - uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd
+      - uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90
         with:
           xcode-version: ${{ env.XCODE_VERSION }}
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: Cache dependencies
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: 3rdParty/buildCache
           key: osx-${{ hashFiles('.github/workflows/osx.yml', '3rdParty/buildMacDependencies.sh', 'mac_build/dependencyNames.sh', 'mac_build/buildc-ares.sh', 'mac_build/buildcurl.sh', 'mac_build/buildfreetype.sh', 'mac_build/buildFTGL.sh', 'mac_build/buildopenssl.sh', 'mac_build/buildWxMac.sh') }}
@@ -64,14 +64,14 @@ jobs:
         type: [manager, samples-makefile]
       fail-fast: false
     steps:
-      - uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd
+      - uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90
         with:
           xcode-version: ${{ env.XCODE_VERSION }}
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: Cache dependencies
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
         with:
           path: 3rdParty/buildCache
           key: osx-${{ hashFiles('.github/workflows/osx.yml', '3rdParty/buildMacDependencies.sh', 'mac_build/dependencyNames.sh', 'mac_build/buildc-ares.sh', 'mac_build/buildcurl.sh', 'mac_build/buildfreetype.sh', 'mac_build/buildFTGL.sh', 'mac_build/buildopenssl.sh', 'mac_build/buildWxMac.sh') }}
@@ -134,7 +134,7 @@ jobs:
         triplet: [x64-osx, arm64-osx]
       fail-fast: false
     steps:
-      - uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd
+      - uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90
         with:
           xcode-version: ${{ env.XCODE_VERSION }}
 

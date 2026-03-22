@@ -229,6 +229,7 @@
         <name>windows_x86_64[FGRPopencl2Pup-nvidia]</name>
         <name>windows_x86_64[FGRPopenclTV-nvidia]</name>
         <name>windows_x86_64[GW-cuda]</name>
+        <name>windows_x86_64[GW-cuda-Beta]</name>
         <name>windows_x86_64[GW-opencl-ati-2G]</name>
         <name>windows_x86_64[GW-opencl-intel_gpu-2G]</name>
         <name>windows_x86_64[GW-opencl-nvidia-2G]</name>

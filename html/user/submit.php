@@ -677,7 +677,7 @@ function handle_query_batch($user) {
         $owner = BoincUser::lookup_id($batch->user_id);
     }
 
-    $is_assim_move = is_assim_move($app);
+    $is_batch_collect = is_batch_collect($app);
 
     page_head("Batch $batch_id");
     text_start(800);
@@ -708,7 +708,7 @@ function handle_query_batch($user) {
     }
     row2("GFLOP/hours, estimated", number_format(credit_to_gflop_hours($batch->credit_estimate), 2));
     row2("GFLOP/hours, actual", number_format(credit_to_gflop_hours($batch->credit_canonical), 2));
-    if (!$is_assim_move) {
+    if (!$is_batch_collect) {
         row2("Total size of output files",
             size_string(batch_output_file_size($batch->id))
         );
@@ -716,7 +716,7 @@ function handle_query_batch($user) {
     end_table();
 
     echo "<p>";
-    if ($is_assim_move) {
+    if ($is_batch_collect) {
         //if (is_batch_gzipped($wus)) {
         if (true) {
             $url = "get_output3.php?action=get_batch_tar&batch_id=$batch->id";
@@ -824,16 +824,15 @@ function handle_query_batch($user) {
     page_tail();
 }
 
-// Does the assimilator for the given app move output files
-// to a results/<batchid>/ directory?
+// Does the app use the batch-collect paradigm?
 // This info is stored in the $remote_apps data structure in project.inc
 //
-function is_assim_move($app) {
+function is_batch_collect($app) {
     global $remote_apps;
     foreach ($remote_apps as $category => $apps) {
         foreach ($apps as $web_app) {
             if ($web_app->app_name == $app->name) {
-                return $web_app->is_assim_move;
+                return $web_app->batch_collect;
             }
         }
     }
@@ -848,7 +847,7 @@ function handle_query_job($user) {
     if (!$wu) error_page("no such job");
 
     $app = BoincApp::lookup_id($wu->appid);
-    $is_assim_move = is_assim_move($app);
+    $is_batch_collect = is_batch_collect($app);
 
     page_head("Job '$wu->name'");
 
@@ -886,13 +885,15 @@ function handle_query_job($user) {
             $result->priority
         ];
         $files = [];
-        if ($is_assim_move) {
+        if ($is_batch_collect) {
             if ($result->id == $wu->canonical_resultid) {
                 [$log_names, $gzip] = get_outfile_log_names($result);
                 $nfiles = count($log_names);
                 for ($i=0; $i<$nfiles; $i++) {
                     $name = $log_names[$i];
-                    $path = assim_move_outfile_path($wu, $i, $log_names, $gzip);
+                    $path = batch_collect_outfile_path(
+                        $wu, $i, $log_names, $gzip
+                    );
                     if (file_exists($path)) {
                         $y = sprintf('%s (%s): ',
                             $name, size_string(filesize($path))
