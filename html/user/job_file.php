@@ -297,7 +297,9 @@ if ($request_log) {
 
 xml_header();
 $req = $_POST['request'];
-$r = simplexml_load_string($req);
+// Prevent XXE: disable external entity loading
+libxml_disable_entity_loader(true);
+$r = simplexml_load_string($req, 'SimpleXMLElement', LIBXML_NOENT | LIBXML_NONET);
 if (!$r) {
     xml_error(-1, "can't parse request message: ".htmlspecialchars($req), __FILE__, __LINE__);
 }
