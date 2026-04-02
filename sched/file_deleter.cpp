@@ -15,10 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-// file deleter.  See usage() below for usage.
-// skips WUs with 'nodelete' in the name
-// skips files with <no_delete/> in the <file_info>
+// file deleter.
+// enumerate WUs and results with file_delete_state == FILE_DELETE_READY,
+// and delete the associated files.
+// skip WUs with 'nodelete' in the name
+// skip files with <no_delete/> in the <file_info>
 
 // enum sizes.  RESULT_PER_ENUM is three times larger on the
 // assumption of 3-fold average redundancy.

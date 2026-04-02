@@ -66,10 +66,6 @@ function get_cpu_list() {
     $x->cpus = $m2;
     $x->time = time();
     return $x;
-    foreach ($m2 as $x) {
-        $g = $x->p_fpops/1e9;
-        echo "$x->model: $g gflops $x->mean_ncores cores $x->nhosts hosts \n";
-    }
 }
 
 function show_cpu_list($data) {
@@ -80,7 +76,7 @@ function show_cpu_list($data) {
         of computers participating in this project.
         <p>
     ";
-    start_table();
+    start_table('table-striped');
     row_heading_array(
         array(
             "CPU model",

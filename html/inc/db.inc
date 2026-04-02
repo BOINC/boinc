@@ -168,10 +168,10 @@ function db_init_aux($try_replica=false) {
             if ($x) $db_name = $x;
         }
     }
-    if ($host == null) {
+    if (is_blank($host)) {
         $host = parse_config($config, "<db_host>");
     }
-    if ($host == null) {
+    if (is_blank($host)) {
         $host = "localhost";
     }
     if (1) {

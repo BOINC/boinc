@@ -51,7 +51,7 @@ function get_other_projects($user) {
             $xml_object = null;
             $f = @file_get_contents($url);
             if ($f) {
-                $xml_object = @simplexml_load_string($f);
+                $xml_object = @safe_simplexml_load_string($f);
             }
             ini_set('default_socket_timeout', $old_timeout);
             if (!$xml_object) {
@@ -67,7 +67,7 @@ function get_other_projects($user) {
             $rawxml = @curl_exec($ch);
             $xml_object = null;
             if ($rawxml) {
-                $xml_object = @simplexml_load_string($rawxml);
+                $xml_object = @safe_simplexml_load_string($rawxml);
             }
             curl_close($ch);
             if (!$xml_object) {

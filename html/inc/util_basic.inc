@@ -242,6 +242,13 @@ function time_diff($x, $res=3) {
     return $s;
 }
 
+// is the arg either null, '', or whitespace?
+// Note: if ($x) will be false if $x is '0'.
+// We don't want to treat '0' as blank.
+//
+function is_blank($x) {
+    return $x === null || trim($x) === '';
+}
 
 // security vulnerabilities and user-supplied strings:
 // sources:
@@ -282,5 +289,17 @@ define('KILO', 1024);
 define('MEGA', 1024*KILO);
 define('GIGA', 1024*MEGA);
 define('TERA', 1024*GIGA);
+
+// disallow 'external entities'
+//
+function safe_simplexml_load_file($name) {
+    @libxml_disable_entity_loader(true);
+        // deprecated in PHP 8; hide warning
+    return simplexml_load_file($name, 'SimpleXMLElement', LIBXML_NONET);
+}
+function safe_simplexml_load_string($str) {
+    @libxml_disable_entity_loader(true);
+    return simplexml_load_string($str, 'SimpleXMLElement', LIBXML_NONET);
+}
 
 ?>

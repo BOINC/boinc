@@ -791,6 +791,8 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         }
 
 #ifdef USE_NET_PREFS
+        // Prefs stuff - not used on Android
+
         bool read_prefs = false;
         if (strlen(host_venue) && strcmp(host_venue, gstate.main_host_venue)) {
             safe_strcpy(gstate.main_host_venue, host_venue);
@@ -827,7 +829,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         if (read_prefs) {
             gstate.read_global_prefs();
         }
-#endif
+#endif  // USE_NET_PREFS
 
         handle_sr_feeds(rss_feeds, &gstate.acct_mgr_info);
 
@@ -850,7 +852,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     gstate.acct_mgr_info.write_info();
     gstate.set_client_state_dirty("account manager RPC");
 }
-#endif
+#endif  // not SIM
 
 // write AM info to files.
 // This is done after each AM RPC.

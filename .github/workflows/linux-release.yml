@@ -1,0 +1,157 @@
+# This file is part of BOINC.
+# https://boinc.berkeley.edu
+# Copyright (C) 2026 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+name: Linux release
+on:
+  push:
+    branches: [ master ]
+    tags: [ 'vboxwrapper/**', 'wrapper/**', 'dockerwrapper/**', 'worker/**' ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron:  '0 0 * * *'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  build-release:
+    name: ${{ matrix.type }}-build-release
+    runs-on: ubuntu-latest
+    container:
+      image: debian:buster
+    strategy:
+      matrix:
+        type: [apps, apps-x86, apps-arm64, apps-armhf]
+      fail-fast: false
+    env:
+      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+    steps:
+      - name: Fix debian sources
+        run: |
+          sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
+          sed -i 's/security.debian.org/archive.debian.org/g' /etc/apt/sources.list
+
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y make build-essential m4 pkg-config autoconf libtool git p7zip-full python3
+
+      - name: Install dependencies for x86
+        if: success() && matrix.type == 'apps-x86'
+        run: |
+          dpkg --add-architecture i386
+          apt-get update
+          apt-get install -y gcc-multilib g++-multilib libcurl4-openssl-dev:i386 libssl-dev:i386 libzip-dev:i386
+
+      - name: Install dependencies for x64
+        if: success() && matrix.type == 'apps'
+        run: |
+          apt-get install -y libcurl4-openssl-dev libssl-dev libzip-dev
+
+      - name: Install dependencies for arm64
+        if: success() && matrix.type == 'apps-arm64'
+        run: |
+          dpkg --add-architecture arm64
+          apt-get update
+          apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu wget ca-certificates libcurl4-openssl-dev:arm64 libssl-dev:arm64 libzip-dev:arm64
+
+      - name: Install dependencies for armhf
+        if: success() && matrix.type == 'apps-armhf'
+        run: |
+          dpkg --add-architecture armhf
+          apt-get update
+          apt-get install -y gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf binutils-arm-linux-gnueabihf wget ca-certificates libcurl4-openssl-dev:armhf libssl-dev:armhf libzip-dev:armhf
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          fetch-depth: 2
+
+      - name: Automake
+        if: success()
+        run: ./_autosetup
+
+      - name: Make x64 apps
+        if: success() && matrix.type == 'apps'
+        run: |
+          export CFLAGS="-O3 -flto"
+          export CXXFLAGS="-O3 -flto -std=c++11"
+          export LDFLAGS="-O3 -flto -static-libstdc++ -s"
+          export RELEASE_ARCH=x86_64
+          ./configure --enable-apps --enable-apps-vbox --disable-server --disable-client --disable-manager --disable-shared --enable-static
+          make -j $(nproc --all)
+
+      - name: Make x86 apps
+        if: success() && matrix.type == 'apps-x86'
+        run: |
+          export CFLAGS="-O3 -flto -m32"
+          export CXXFLAGS="-O3 -flto -m32 -std=c++11"
+          export LDFLAGS="-O3 -flto -static-libstdc++ -s -m32"
+          export RELEASE_ARCH=i686
+          ./configure --host=i686-linux-gnu --enable-apps --enable-apps-vbox --disable-server --disable-client --disable-manager --disable-shared --enable-static
+          make -j $(nproc --all)
+
+      - name: Make arm64 apps
+        if: success() && matrix.type == 'apps-arm64'
+        run: |
+          export CC=aarch64-linux-gnu-gcc
+          export CXX=aarch64-linux-gnu-g++
+          export LD=aarch64-linux-gnu-ld
+          export CFLAGS="-march=armv8-a -O3 -flto"
+          export CXXFLAGS="-march=armv8-a -O3 -flto -std=c++11"
+          export LDFLAGS="-march=armv8-a -O3 -flto -static-libstdc++ -s"
+          export RELEASE_ARCH=arm64
+          export PKG_CONFIG_LIBDIR=/usr/lib/aarch64-linux-gnu/pkgconfig:/usr/share/pkgconfig
+          ./configure --host=aarch64-linux --with-boinc-platform="aarch64-unknown-linux-gnu" --with-boinc-alt-platform="arm-unknown-linux-gnueabihf" --enable-apps --disable-server --disable-manager --disable-client --disable-shared --enable-static
+          make -j $(nproc --all)
+
+      - name: Make armhf apps
+        if: success() && matrix.type == 'apps-armhf'
+        run: |
+          export CC=arm-linux-gnueabihf-gcc
+          export CXX=arm-linux-gnueabihf-g++
+          export LD=arm-linux-gnueabihf-ld
+          export CFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3 -flto"
+          export CXXFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3 -flto -std=c++11"
+          export LDFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3 -flto -static-libstdc++ -s"
+          export RELEASE_ARCH=armhf
+          export PKG_CONFIG_LIBDIR=/usr/lib/arm-linux-gnueabihf/pkgconfig:/usr/share/pkgconfig
+          ./configure --host=arm-linux-gnueabihf --with-boinc-platform="arm-unknown-linux-gnueabihf" --with-boinc-alt-platform="aarch64-unknown-linux-gnu" --enable-apps --disable-server --disable-manager --disable-client --disable-shared --enable-static
+          make -j $(nproc --all)
+
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        run: python3 ./deploy/prepare_deployment.py logs
+
+      - name: Upload logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        with:
+          name: linux_release_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/logs.7z
+
+      - name: Prepare artifacts for deploy
+        if: success()
+        run: python3 ./deploy/prepare_deployment.py linux_apps
+
+      - name: Upload wrapper artifacts
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        if: success()
+        with:
+          name: linux_release_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/linux_apps.7z

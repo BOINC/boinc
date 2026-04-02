@@ -20,7 +20,7 @@ require_once("../inc/util.inc");
 require_once("../inc/forum.inc");
 require_once("../inc/image.inc"); // Avatar scaling
 
-if (post_str("account_key", true) != null) {
+if (post_str("account_key", true) !== null) {
     $user = BoincUser::lookup_auth(post_str("account_key"));
     $rpc = true;
 } else {
@@ -82,7 +82,7 @@ if ($avatar_type==0){
 } elseif ($avatar_type == 1) {
     $avatar_url = "//www.gravatar.com/avatar/".md5($user->email_addr)."?s=100&amp;d=identicon";
 } elseif ($avatar_type==2){
-    if (($rpc && (post_str("avatar_url", true) != null)) || ($_FILES['picture']['tmp_name']!="")) {
+    if (($rpc && (post_str("avatar_url", true) !== null)) || ($_FILES['picture']['tmp_name']!="")) {
         if ($_FILES['picture']['tmp_name']!="") {
             $file = $_FILES['picture']['tmp_name'];
         } else {

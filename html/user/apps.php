@@ -76,8 +76,10 @@ function show_apps_xml() {
 
 function show_apps() {
     page_head(tra("Applications"));
+    text_start();
     echo tra("%1 currently has the following applications. When you participate in %1, tasks for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything.", PROJECT)."<br><br>
     ";
+    text_end();
 
     $apps = BoincApp::enum("deprecated=0");
     start_table('table-striped');

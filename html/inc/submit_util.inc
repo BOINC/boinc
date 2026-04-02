@@ -393,19 +393,19 @@ function abort_batch($batch) {
 }
 
 // retire a batch:
-// - mark the batch as retired (don't delete it; might be useful later)
+// - mark the batch as retired (don't delete it)
 // - delete output files (results/batchid/)
 // - mark unsent WUs as cancelled
 //
 // Don't delete the batch; it may have in-progress jobs that
-// we still need to file-delete and purge,
+// we'll need to file-delete and purge,
 // and the batch needs to be present for this.
 // Use ops/delete_batches.php to delete retired batches with no WUs
 //
 function retire_batch($batch) {
     system("rm -rf ../../results/$batch->id");
 
-    // get list of unsent WUs in this batch
+    // we need to call get_batch_params() to set WU.status
     //
     $wus = BoincWorkunit::enum_fields(
         'id, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
@@ -414,6 +414,9 @@ function retire_batch($batch) {
     get_batch_params($batch, $wus);
     $batch->update("state=".BATCH_STATE_RETIRED);
         // do this AFTER get_batch_params()
+
+    // get list of unsent WUs in this batch
+    //
     $wu_ids = [];
     foreach ($wus as $wu) {
         if ($wu->status == WU_UNSENT) {

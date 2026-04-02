@@ -199,7 +199,7 @@ function do_send_team($logged_in_user) {
         error_page("no team admin");
     }
 
-    if (($subject == null) || ($content == null)) {
+    if (is_blank($subject) || is_blank($content)) {
         pm_team_form(
             $logged_in_user, $teamid,
             tra("You need to fill all fields to send a private message")
@@ -235,7 +235,7 @@ function do_send($logged_in_user) {
         pm_form_page($replyto, $userid);
         return;
     }
-    if (($to == null) || ($subject == null) || ($content == null)) {
+    if (is_blank($to) || is_blank($subject) || is_blank($content)) {
         pm_form_page(
             $replyto, $userid,
             tra("You need to fill all fields to send a private message")

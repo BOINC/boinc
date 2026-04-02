@@ -1098,7 +1098,7 @@ if ($request_log) {
     }
 }
 
-$r = simplexml_load_string($req);
+$r = safe_simplexml_load_string($req);
 if (!$r) {
     log_write("----- RPC request: can't parse request message: $req");
     xml_error(-1, "can't parse request message: ".htmlspecialchars($req));

@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -30,9 +30,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
-  AWS_DEFAULT_REGION: us-west-2
   XCODE_VERSION: '26.0.1'
 
 jobs:
@@ -124,46 +121,3 @@ jobs:
         with:
           name: osx_arm64_apps_${{ github.event.pull_request.head.sha }}
           path: deploy/macos_apps_arm64.7z
-
-  cmake-build:
-    name: cmake-build
-    runs-on: macos-latest
-
-    strategy:
-      matrix:
-        triplet: [x64-osx, arm64-osx]
-      fail-fast: false
-    steps:
-      - uses: maxim-lobanov/setup-xcode@ed7a3b1fda3918c0306d1b724322adc0b8cc0a90
-        with:
-          xcode-version: ${{ env.XCODE_VERSION }}
-
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-
-      - name: Check if build is running from origin repo
-        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
-        run: |
-          echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" >> $GITHUB_ENV
-
-      - name: Check if build is running from fork
-        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
-        run: |
-          echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
-
-      - name: libs cmake
-        run: osx/ci_build_libs_cmake.sh ${{ matrix.triplet }}
-
-      - name: run unit tests
-        if: ${{ success() && matrix.triplet == 'arm64-osx' }}
-        run: ./tests/executeUnitTests.sh --report-coverage --report-xml
-
-      - name: Prepare logs on failure
-        if: ${{ failure() }}
-        run: python3 ./deploy/prepare_deployment.py logs
-
-      - name: Upload logs on failure
-        if: ${{ failure() }}
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
-        with:
-          name: osx_logs_cmake-build_${{ matrix.triplet }}_${{ github.event.pull_request.head.sha }}
-          path: deploy/logs.7z
