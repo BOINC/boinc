@@ -970,3 +970,12 @@ UINT BOINCCABase::RebootWhenFinished()
     return MsiSetMode(m_hMSIHandle, MSIRUNMODE_REBOOTATEND, TRUE);
 }
 
+bool BOINCCABase::localGroupExists(const tstring& groupName) {
+    LOCALGROUP_INFO_0* info = nullptr;
+    const auto rc = NetLocalGroupGetInfo(nullptr, groupName.c_str(), 0,
+        reinterpret_cast<LPBYTE*>(&info));
+    if (info) {
+        NetApiBufferFree(info);
+    }
+    return rc == NERR_Success;
+}

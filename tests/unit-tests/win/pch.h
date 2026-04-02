@@ -35,6 +35,7 @@
 #include <TlHelp32.h>
 #include <Msi.h>
 #include <MsiQuery.h>
+#include <AclAPI.h>
 
 #include "gtest/gtest.h"
 #include "tinyxml2.h"

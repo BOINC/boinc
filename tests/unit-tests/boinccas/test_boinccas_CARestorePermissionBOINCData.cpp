@@ -17,8 +17,6 @@
 
 #include "boinccas_helper.h"
 
-#include <AclAPI.h>
-
 namespace test_boinccas_CARestorePermissionBOINCData {
     class test_boinccas_CARestorePermissionBOINCData :
         public test_boinccas_TestBase {

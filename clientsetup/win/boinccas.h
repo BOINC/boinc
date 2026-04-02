@@ -116,6 +116,8 @@ protected:
 
     tstring     m_strActionName;
     tstring     m_strProgressTitle;
+
+    bool localGroupExists(const tstring& groupName);
 };
 
 #endif

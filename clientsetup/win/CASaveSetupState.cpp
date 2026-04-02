@@ -27,15 +27,15 @@ public:
     }
 
     UINT CASaveSetupState::OnExecution() override final {
-        tstring     strInstallDirectory;
+        tstring strInstallDirectory;
         GetProperty(_T("INSTALLDIR"), strInstallDirectory);
         SetRegistryValue(_T("INSTALLDIR"), strInstallDirectory);
 
-        tstring     strDataDirectory;
+        tstring strDataDirectory;
         GetProperty(_T("DATADIR"), strDataDirectory);
         SetRegistryValue(_T("DATADIR"), strDataDirectory);
 
-        tstring     strLaunchProgram;
+        tstring strLaunchProgram;
         GetProperty(_T("LAUNCHPROGRAM"), strLaunchProgram);
         if (_T("1") == strLaunchProgram) {
             SetRegistryValue(_T("LAUNCHPROGRAM"), _T("1"));
@@ -44,19 +44,19 @@ public:
             SetRegistryValue(_T("LAUNCHPROGRAM"), _T("0"));
         }
 
-        tstring     strBOINCMasterAccountUsername;
+        tstring strBOINCMasterAccountUsername;
         GetProperty(_T("BOINC_MASTER_USERNAME"),
             strBOINCMasterAccountUsername);
         SetRegistryValue(_T("BOINC_MASTER_USERNAME"),
             strBOINCMasterAccountUsername);
 
-        tstring     strBOINCProjectAccountUsername;
+        tstring strBOINCProjectAccountUsername;
         GetProperty(_T("BOINC_PROJECT_USERNAME"),
             strBOINCProjectAccountUsername);
         SetRegistryValue(_T("BOINC_PROJECT_USERNAME"),
             strBOINCProjectAccountUsername);
 
-        tstring     strEnableLaunchAtLogon;
+        tstring strEnableLaunchAtLogon;
         GetProperty(_T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon);
         if (_T("1") == strEnableLaunchAtLogon) {
             SetRegistryValue(_T("ENABLELAUNCHATLOGON"), _T("1"));
@@ -65,7 +65,7 @@ public:
             SetRegistryValue(_T("ENABLELAUNCHATLOGON"), _T("0"));
         }
 
-        tstring     strEnableScreensaver;
+        tstring strEnableScreensaver;
         GetProperty(_T("ENABLESCREENSAVER"), strEnableScreensaver);
         if (_T("1") == strEnableScreensaver) {
             SetRegistryValue(_T("ENABLESCREENSAVER"), _T("1"));
@@ -74,7 +74,7 @@ public:
             SetRegistryValue(_T("ENABLESCREENSAVER"), _T("0"));
         }
 
-        tstring     strEnableProtectedApplicationExecution;
+        tstring strEnableProtectedApplicationExecution;
         GetProperty(_T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"),
             strEnableProtectedApplicationExecution);
         if (_T("1") == strEnableProtectedApplicationExecution) {
@@ -86,7 +86,7 @@ public:
                 _T("0"));
         }
 
-        tstring     strEnableUseByAllUsers;
+        tstring strEnableUseByAllUsers;
         GetProperty(_T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers);
         if (_T("1") == strEnableUseByAllUsers) {
             SetRegistryValue(_T("ENABLEUSEBYALLUSERS"), _T("1"));
