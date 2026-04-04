@@ -135,13 +135,11 @@ public:
 
         PACL pOldACL = nullptr;
         PSECURITY_DESCRIPTOR pSD = nullptr;
-        
+
         auto dwRes = GetNamedSecurityInfo(
             reinterpret_cast<LPWSTR>(strBOINCInstallDirectory.data()),
             SE_FILE_OBJECT, DACL_SECURITY_INFORMATION, nullptr, nullptr,
             &pOldACL, nullptr, &pSD);
-        wil::unique_any<PACL, decltype(&::LocalFree),
-            ::LocalFree> pOldACLGuard(pOldACL);
         wil::unique_any<PSECURITY_DESCRIPTOR, decltype(&::LocalFree),
             ::LocalFree> pSDGuard(pSD);
         if (dwRes != ERROR_SUCCESS) {

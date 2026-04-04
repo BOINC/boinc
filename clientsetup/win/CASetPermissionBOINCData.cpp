@@ -140,7 +140,7 @@ public:
                     _T("The BOINC Projects group doesn't exist."));
                 return ERROR_INSTALL_FAILURE;
             }
-            
+
             ulEntries = enableUseByAllUsers ? 6 : 5;
             ea.resize(ulEntries);
 
