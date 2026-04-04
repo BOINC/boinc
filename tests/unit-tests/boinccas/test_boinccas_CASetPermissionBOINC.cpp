@@ -187,6 +187,44 @@ namespace test_boinccas_CASetPermissionBOINC {
     }
 
     TEST_F(test_boinccas_CASetPermissionBOINC,
+        INSTALLDIR_Directory_Doesnt_Exist_Expect_Fail) {
+        const auto result = openMsi();
+        ASSERT_EQ(0u, result);
+
+        setMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3", "1");
+        auto [errorcode, value] =
+            getMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ("1", value);
+
+        setMsiProperty("BOINC_ADMINS_GROUPNAME", adminsGroupName);
+        std::tie(errorcode, value) =
+            getMsiProperty("BOINC_ADMINS_GROUPNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(adminsGroupName, value);
+
+        ASSERT_TRUE(createLocalGroup(adminsGroupName));
+
+        setMsiProperty("BOINC_USERS_GROUPNAME", usersGroupName);
+        std::tie(errorcode, value) =
+            getMsiProperty("BOINC_USERS_GROUPNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(usersGroupName, value);
+
+        ASSERT_TRUE(createLocalGroup(usersGroupName));
+
+        testDir = std::filesystem::current_path() /= "test_data";
+
+        setMsiProperty("INSTALLDIR", testDir.string());
+        std::tie(errorcode, value) =
+            getMsiProperty("INSTALLDIR");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(testDir.string(), value);
+
+        EXPECT_NE(0u, executeAction());
+    }
+
+    TEST_F(test_boinccas_CASetPermissionBOINC,
         ProtectedMode_Not_Set_Expect_Success) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);

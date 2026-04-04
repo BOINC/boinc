@@ -26,9 +26,8 @@
 bool userExists(const std::string& username) {
     auto un = boinc_ascii_to_wide(username);
     LPUSER_INFO_0 pBuf = nullptr;
-    const auto result = NetUserGetInfo(nullptr,
-        un.c_str(),
-        0, reinterpret_cast<LPBYTE*>(&pBuf));
+    const auto result = NetUserGetInfo(nullptr,un.c_str(),0,
+        reinterpret_cast<LPBYTE*>(&pBuf));
     if (pBuf != nullptr) {
         NetApiBufferFree(pBuf);
     }

@@ -29,7 +29,8 @@ public:
 
     UINT OnExecution() override final {
         tstring strEnableProtectedApplicationExecution;
-        auto uiReturnValue = GetProperty(_T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"),
+        auto uiReturnValue =
+            GetProperty(_T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"),
             strEnableProtectedApplicationExecution);
         if (uiReturnValue != ERROR_SUCCESS) {
             return uiReturnValue;
@@ -46,7 +47,7 @@ public:
         }
         if (!std::filesystem::exists(strBOINCInstallDirectory)) {
             LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
-                _T("The data directory doesn't exist."));
+                _T("The install directory doesn't exist."));
             return ERROR_INSTALL_FAILURE;
         }
 
@@ -133,15 +134,16 @@ public:
 
 
         PACL pOldACL = nullptr;
-        wil::unique_any<PACL, decltype(&::LocalFree),
-            ::LocalFree> pOldACLGuard;
         PSECURITY_DESCRIPTOR pSD = nullptr;
-        wil::unique_any<PSECURITY_DESCRIPTOR, decltype(&::LocalFree),
-            ::LocalFree> pSDGuard;
+        
         auto dwRes = GetNamedSecurityInfo(
             reinterpret_cast<LPWSTR>(strBOINCInstallDirectory.data()),
             SE_FILE_OBJECT, DACL_SECURITY_INFORMATION, nullptr, nullptr,
             &pOldACL, nullptr, &pSD);
+        wil::unique_any<PACL, decltype(&::LocalFree),
+            ::LocalFree> pOldACLGuard(pOldACL);
+        wil::unique_any<PSECURITY_DESCRIPTOR, decltype(&::LocalFree),
+            ::LocalFree> pSDGuard(pSD);
         if (dwRes != ERROR_SUCCESS) {
             LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, GetLastError(),
                 _T("GetNamedSecurityInfo Error"));
@@ -151,8 +153,9 @@ public:
         }
 
         PACL pACL = nullptr;
-        wil::unique_any<PACL, decltype(&::LocalFree), ::LocalFree> pACLGuard;
-        dwRes = SetEntriesInAcl(ulEntries, &ea[0], pOldACL, &pACL);
+        dwRes = SetEntriesInAcl(ulEntries, ea.data(), pOldACL, &pACL);
+        wil::unique_any<PACL, decltype(&::LocalFree), ::LocalFree>
+            pACLGuard(pACL);
         if (dwRes != ERROR_SUCCESS) {
             LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, GetLastError(),
                 _T("SetEntriesInAcl Error"));
@@ -162,8 +165,8 @@ public:
         }
 
         dwRes = SetNamedSecurityInfo(
-            reinterpret_cast<LPWSTR>(strBOINCInstallDirectory.data()),
-            SE_FILE_OBJECT, DACL_SECURITY_INFORMATION, nullptr, nullptr, pACL,
+            strBOINCInstallDirectory.data(), SE_FILE_OBJECT,
+            DACL_SECURITY_INFORMATION, nullptr, nullptr, pACL,
             nullptr);
         if (dwRes != ERROR_SUCCESS) {
             LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, GetLastError(),

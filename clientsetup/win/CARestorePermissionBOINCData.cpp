@@ -77,8 +77,9 @@ public:
         ea[1].Trustee.ptstrName = reinterpret_cast<LPTSTR>(&bufferAdmin);
 
         PACL pACL = nullptr;
-        wil::unique_any<PACL, decltype(&::LocalFree), ::LocalFree> pACLGuard;
         auto dwRes = SetEntriesInAcl(ulEntries, ea.data(), nullptr, &pACL);
+        wil::unique_any<PACL, decltype(&::LocalFree), ::LocalFree>
+            pACLGuard(pACL);
         if (dwRes != ERROR_SUCCESS) {
             LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, GetLastError(),
                 _T("SetEntriesInAcl Error"));
