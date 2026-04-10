@@ -62,7 +62,11 @@ define('ST_NEW', 'New member');
 
 if (!defined('MAXIMUM_EDIT_TIME')) {
     define('MAXIMUM_EDIT_TIME', 3600);
-        // allow edits of forums posts up till one hour after posting.
+        // allow edits of forums posts up to one hour after posting.
+}
+
+if (!defined('NEED_CREDIT_TO_POST_EXCEPT_HELP')) {
+    define('NEED_CREDIT_TO_POST_EXCEPT_HELP', true);
 }
 
 define('MAX_FORUM_LOGGING_TIME', 2419200); //3600*24*28 - 28 days
@@ -1275,20 +1279,24 @@ function is_admin($user) {
     return false;
 }
 
-// return
-// 'yes' if logged in and can post (show New thread button)
-// 'login' if could post if logged in (show login to post msg)
-// 'no' if can't post (don't show anythin)
+// should we show a 'new thread' button in a forum page?
+// Note: we show the button even if in some cases
+// an attempt to post will fail (see below)
 //
-function user_can_create_thread($user, $forum) {
+function show_post_button($user, $forum) {
     if ($forum->is_dev_blog) {
-        return is_admin($user)?'yes':'no';
+        return is_admin($user);
     }
-    return $user ?'yes':'login';
+    return true;
 }
 
+// If the user is not allowed to post to the forum, show an error page.
+//
 function check_post_access($user, $forum) {
     if (is_admin($user)) return;
+    if ($forum->is_dev_blog) {
+        error_page("Can't post to News");
+    }
 
     switch ($forum->parent_type) {
     case 0:
@@ -1306,34 +1314,49 @@ function check_post_access($user, $forum) {
         break;
     }
 
-    // If user haven't got enough credit (according to forum regulations)
-    // We do not tell the (ab)user how much this is -
+    // check if user has enough credit according to forum settings.
+    // We don't tell the user how much this is -
     // no need to make it easy for them to break the system.
     //
-    if ($user->total_credit<$forum->post_min_total_credit || $user->expavg_credit<$forum->post_min_expavg_credit) {
-        error_page(tra("To create a new thread in %1 you must have a certain level of average credit. This is to protect against abuse of the system.", $forum->title));
+    if ($user->total_credit<$forum->post_min_total_credit
+        || $user->expavg_credit<$forum->post_min_expavg_credit
+    ) {
+        error_page(tra("To create a thread you must have computing credit."));
+    }
+
+    if (NEED_CREDIT_TO_POST_EXCEPT_HELP) {
+        if ($user->total_credit == 0) {
+            $category = BoincCategory::lookup_id($forum->category);
+            if (!$category->is_helpdesk) {
+                error_page(
+                    tra("To create a thread you must have computing credit.")
+                );
+            }
+        }
     }
 
     // If the user is posting faster than forum regulations allow
     // Tell the user to wait a while before creating any more posts
     //
-    if (time()-$user->prefs->last_post <$forum->post_min_interval) {
-        error_page(tra("You cannot create threads right now. Please wait before trying again. This is to protect against abuse of the system."));
+    if (time() - $user->prefs->last_post < $forum->post_min_interval) {
+        error_page(
+            tra(
+                "You can't create a thread right now. Please try again later."
+            )
+        );
     }
 }
 
+// if the user is not allowed to reply to threads in the forum,
+// show an error page
+//
 function check_reply_access($user, $forum, $thread) {
     if ($thread->locked && !is_moderator($user, $forum)) {
-        error_page(
-            tra("This thread is locked. Only forum moderators and administrators are allowed to post there.")
-        );
+        error_page(tra("This thread is locked."));
     }
     if ($thread->hidden) {
-        error_page(
-           tra("Can't post to a hidden thread.")
-        );
+        error_page(tra("Can't post to a hidden thread."));
     }
-
     check_post_access($user, $forum);
 }
 

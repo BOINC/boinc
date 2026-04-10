@@ -300,6 +300,14 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
     safe_strcpy(url_signature, "");
     authenticator.clear();
     resource_share.init();
+    user_avg_ec = 0;
+    user_total_ec = 0;
+    cpu_ec = 0;
+    cpu_time = 0;
+    gpu_ec = 0;
+    gpu_time = 0;
+    njobs_success = 0;
+    njobs_error = 0;
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
@@ -325,6 +333,14 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
         if (xp.parse_string("authenticator", authenticator)) continue;
         if (xp.parse_bool("detach", detach)) continue;
         if (xp.parse_bool("update", update)) continue;
+        if (xp.parse_double("user_avg_ec", user_avg_ec)) continue;
+        if (xp.parse_double("user_total_ec", user_total_ec)) continue;
+        if (xp.parse_double("cpu_ec", cpu_ec)) continue;
+        if (xp.parse_double("cpu_time", cpu_time)) continue;
+        if (xp.parse_double("gpu_ec", gpu_ec)) continue;
+        if (xp.parse_double("gpu_time", gpu_time)) continue;
+        if (xp.parse_int("njobs_success", njobs_success)) continue;
+        if (xp.parse_int("njobs_error", njobs_error)) continue;
         if (xp.parse_bool("no_cpu", btemp)) {
             handle_no_rsc("CPU", btemp);
             continue;
@@ -652,6 +668,10 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         for (const AM_ACCOUNT& acct: accounts) {
             pp = gstate.lookup_project(acct.url.c_str());
             if (pp) {
+                if (gstate.acct_mgr_info.dynamic) {
+                    pp->user_expavg_credit = acct.user_avg_ec;
+                    pp->user_total_credit = acct.user_total_ec;
+                }
                 if (acct.detach) {
                     if (pp->attached_via_acct_mgr) {
                         gstate.detach_project(pp);
@@ -780,6 +800,21 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     }
                     if (acct.suspend.present && acct.suspend.value) {
                         pp->suspend();
+                    }
+
+                    // The AM supplies initial accounting info
+                    // (in case the client was previously attached,
+                    // then detached).
+                    //
+                    if (gstate.acct_mgr_info.dynamic) {
+                        pp->user_expavg_credit = acct.user_avg_ec;
+                        pp->user_total_credit = acct.user_total_ec;
+                        pp->cpu_ec = acct.cpu_ec;
+                        pp->cpu_time = acct.cpu_time;
+                        pp->gpu_ec = acct.gpu_ec;
+                        pp->gpu_time = acct.gpu_time;
+                        pp->njobs_success = acct.njobs_success;
+                        pp->njobs_error = acct.njobs_error;
                     }
                 } else {
                     msg_printf(NULL, MSG_INTERNAL_ERROR,

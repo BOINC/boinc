@@ -16,6 +16,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 
+// functions to remove accounts
+// wipe_account(): delete account and all related DB records
+// obfuscate_account(): change name and email of account; delete forum items
+// delete_account(): call one of these (or project-supplied func)
+//  based on config setting
+//
+// NOTE: this is way too complex.  Just use the wipe option.
+
 require_once("../inc/common_defs.inc");
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
@@ -27,8 +35,7 @@ require_once("../inc/submit_util.inc");
 require_once("../project/project.inc");
 
 // Constants for different methods of deleting accounts
-// These correspond to the value used in the config.xml
-// field of <enable_delete_account/>
+// Selected in the <enable_delete_account/> element in config.xml
 //
 define("DELETE_ACCOUNT_METHOD_OBFUSCATE", 1);
 define("DELETE_ACCOUNT_METHOD_WIPE", 2);

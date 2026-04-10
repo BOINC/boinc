@@ -996,7 +996,7 @@ int ACTIVE_TASK::start() {
                     "ACTIVE_TASK::start(): can't create memory-mapped file: %s",
                     boincerror(retval)
                 );
-                return retval;
+                return ERR_MMAP;
             }
         } else {
             // Use shmget() shared memory
@@ -1211,9 +1211,6 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
     case PROCESS_UNINITIALIZED:
         str = (first_time)?"Starting":"Restarting";
         retval = start();
-        if ((retval == ERR_SHMGET) || (retval == ERR_SHMAT)) {
-            return retval;
-        }
         if (retval) {
             set_task_state(PROCESS_COULDNT_START, "resume_or_start1");
             return retval;
