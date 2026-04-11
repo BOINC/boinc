@@ -212,6 +212,8 @@ jobs:
 
       - name: Install dependencies for integration testing
         if: success() && matrix.type == 'integration-test'
+        env:
+          BOINC_INTEGRATION_LOG_DIR: ${{ runner.temp }}/integration-test-logs
         run: |
           sudo apt-get install ansible
           sudo service mysql stop
@@ -445,7 +447,42 @@ jobs:
 
       - name: Execute integration-test
         if: success() && matrix.type == 'integration-test'
+        env:
+          BOINC_INTEGRATION_LOG_DIR: ${{ runner.temp }}/integration-test-logs
         run: ./tests/integration_test/executeTestSuite.sh
+
+      - name: Collect integration-test docker logs
+        if: ${{ always() && matrix.type == 'integration-test' }}
+        env:
+          BOINC_INTEGRATION_LOG_DIR: ${{ runner.temp }}/integration-test-logs
+        run: |
+          mkdir -p "$BOINC_INTEGRATION_LOG_DIR"
+
+          if [ -d /tmp/boinc-server-docker ]; then
+            cd /tmp/boinc-server-docker
+
+            if ! docker compose ps -a > "$BOINC_INTEGRATION_LOG_DIR/docker-compose-ps.txt" 2>&1; then
+              echo "docker compose ps -a failed while collecting integration-test diagnostics" >> "$BOINC_INTEGRATION_LOG_DIR/docker-compose-ps.txt"
+            fi
+
+            if ! docker compose logs --no-color > "$BOINC_INTEGRATION_LOG_DIR/docker-compose.log" 2>&1; then
+              echo "docker compose logs failed while collecting integration-test diagnostics" >> "$BOINC_INTEGRATION_LOG_DIR/docker-compose.log"
+            fi
+          else
+            echo "/tmp/boinc-server-docker was not created" > "$BOINC_INTEGRATION_LOG_DIR/docker-compose.log"
+          fi
+
+          if ! docker ps -a > "$BOINC_INTEGRATION_LOG_DIR/docker-ps.txt" 2>&1; then
+            echo "docker ps -a failed while collecting integration-test diagnostics" >> "$BOINC_INTEGRATION_LOG_DIR/docker-ps.txt"
+          fi
+
+      - name: Upload integration-test docker logs
+        if: ${{ always() && matrix.type == 'integration-test' }}
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        with:
+          name: linux_integration_test_docker_logs_${{ github.sha }}
+          path: ${{ runner.temp }}/integration-test-logs
+          if-no-files-found: warn
 
       - name: Prepare logs on failure
         if: ${{ failure() }}
