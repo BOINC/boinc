@@ -419,7 +419,7 @@ function handle_show_user_batches($user) {
 }
 
 function handle_update_only_own($user) {
-    if (!parse_bool(get_config(), 'enable_assignment')) {
+    if (!project_config_bool('enable_assignment')) {
         error_page(
             'Job assignment is not enabled in the project config file.
             Please ask the project admins to enable it.'
@@ -876,8 +876,8 @@ function handle_query_job($user) {
         "Output files"
     );
     $results = BoincResult::enum("workunitid=$wuid");
-    $upload_dir = parse_config(get_config(), "<upload_dir>");
-    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+    $upload_dir = project_config_val("upload_dir");
+    $fanout = project_config_val("uldl_dir_fanout");
     foreach ($results as $result) {
         $x = [
             "<a href=result.php?resultid=$result->id>$result->id</a>",

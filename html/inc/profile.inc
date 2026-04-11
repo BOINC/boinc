@@ -39,8 +39,7 @@ define('GALLERY_HEIGHT', 4);
 function profile_screening() {
     static $val;
     if (!isset($val)) {
-        $config = get_config();
-        $val = parse_bool($config, "profile_screening");
+        $val = project_config_bool("profile_screening");
     }
     return $val;
 }
@@ -190,7 +189,7 @@ function get_profile_summary($profile) {
 }
 
 function check_whether_to_show_profile($user, $logged_in_user) {
-    $min_credit = parse_config(get_config(), "<profile_min_credit>");
+    $min_credit = project_config_val("profile_min_credit");
     if (!$logged_in_user && $min_credit && $user->expavg_credit < $min_credit ) {
         error_page(
            tra("To prevent spam, profiles of users with an average credit of less than %1 are displayed only to logged-in users. We apologize for this inconvenience.", $min_credit)

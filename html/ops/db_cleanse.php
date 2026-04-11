@@ -31,9 +31,8 @@ set_time_limit(0);
 // Do selects in this order so that we'll get all relevant results
 //
 function get_lists() {
-    $config = get_config();
-    $db_name = parse_config($config, "<db_name>");
-    $db_host = parse_config($config, "<db_host>");
+    $db_name = project_config_val("db_name");
+    $db_host = project_config_val("db_host");
     system("mysql $db_name -h $db_host -e \"select workunitid, id from result \" | tail -n +2 | sort -n > dbc_res.dat");
     system("mysql $db_name -h $db_host -e \"select id from workunit\" | tail -n +2 | sort -n > dbc_wu.dat");
 }

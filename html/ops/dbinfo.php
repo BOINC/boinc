@@ -24,8 +24,7 @@ class DB_REC {
     }
 }
 
-
-$db_name = parse_config(get_config(), "<db_name>");
+$db_name = project_config_val("db_name");
 
 db_init();
 

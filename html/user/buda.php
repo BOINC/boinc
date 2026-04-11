@@ -314,9 +314,9 @@ function create_templates($app, $desc, $dir) {
 function file_xml_elements($log_name, $phys_name, $md5, $nbytes) {
     static $download_dir, $download_url, $fanout;
     if ($download_dir == null) {
-        $download_dir = parse_element(get_config(), "<download_dir>");
-        $download_url = parse_element(get_config(), "<download_url>");
-        $fanout = (int)(parse_element(get_config(), "<uldl_dir_fanout>"));
+        $download_dir = project_config_val("download_dir");
+        $download_url = project_config_val("download_url");
+        $fanout = (int)(project_config_val("uldl_dir_fanout"));
     }
     $file_info = sprintf(
 "<file_info>

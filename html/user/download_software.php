@@ -160,7 +160,7 @@ function direct_to_boinc() {
         null, null, button_style().' target=_new '
     );
 
-    if (parse_bool(get_config(), 'account_manager')) {
+    if (project_config_bool('account_manager')) {
         echo sprintf(
             "<p><p>%s<p>",
             tra("When BOINC first runs it will ask you to select a project.
@@ -239,8 +239,7 @@ function show_download_page($user, $user_agent, $dev) {
 // if user already has BOINC installed, tell them how to attach.
 //
 function installed() {
-    $config = get_config();
-    $am = parse_bool($config, "account_manager");
+    $am = project_config_bool("account_manager");
     if ($am) {
         page_head(tra("Use %1", PROJECT));
         echo sprintf("%s
@@ -288,17 +287,16 @@ function installed() {
 function handle_get_info() {
     require_once("../inc/xml.inc");
     global $user;
-    $config = get_config();
     xml_header();
     $rpc_key = get_str('rpc_key');
-    if ($rpc_key != parse_config($config, "<rpc_key>")) {
+    if ($rpc_key != project_config_val("rpc_key")) {
         xml_error(-1, "RPC key mismatch");
     }
     $user = BoincUser::lookup_auth(get_str('auth'));
     if (!$user) {
         xml_error(-1, "user not found");
     }
-    $project_id = parse_config($config, '<project_id>');
+    $project_id = project_config_val('project_id');
     if (!$project_id) {
         xml_error(-1, "no project ID");
     }
@@ -335,8 +333,7 @@ function handle_get_info() {
 
 // get config.xml items
 //
-$config = get_config();
-$project_id = parse_config($config, "<project_id>");
+$project_id = project_config_val("project_id");
 
 $action = get_str("action", true);
 

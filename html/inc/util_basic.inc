@@ -92,21 +92,48 @@ function xml_error($num=-1, $msg=null, $file=null, $line=null) {
     exit();
 }
 
-function get_config() {
+// return the <config> element of config.xml as a simplexml object
+//
+function project_config_object() {
     static $config;
     if ($config == null) {
         $d = project_dir();
-        $config = file_get_contents("$d/config.xml");
+        $x = simplexml_load_file("$d/config.xml");
+        if (!$x || !isset($x->config)) {
+            error_page("Can't parse project config file.");
+        }
+        $config = $x->config;
     }
     return $config;
 }
 
-// TODO: GET RID OF THE FOLLOWING.  Use simplexml
-
-// Look for an element in a line of XML text
-// If it's a single-tag element, and it's present, just return the tag
+// return element from simplexml object, or null
 //
-function parse_element($xml, $tag) {
+function project_config_val($tag) {
+    $doc = project_config_object();
+    if (isset($doc->$tag)) {
+        return trim((string)$doc->$tag);
+    }
+    return null;
+}
+
+// get bool value from simplexml object; false if missing
+//
+function project_config_bool($tag) {
+    $doc = project_config_object();
+    if (!isset($doc->$tag)) {
+        return false;
+    }
+    if (trim((string)$doc->$tag) == '0') {
+        return false;
+    }
+    return true;
+}
+
+// parse an element from an XML string that may have errors
+// (e.g. job submission RPC replies)
+//
+function parse_element_text($xml, $tag) {
     $closetag = "</" . substr($tag,1);
     $x = strstr($xml, $tag);
     if ($x) {
@@ -119,24 +146,6 @@ function parse_element($xml, $tag) {
         }
     }
     return null;
-}
-
-// return true if XML contains either <tag/> or <tag>1</tag>
-//
-function parse_bool($xml, $tag) {
-    $x = "<$tag/>";
-    if (strstr($xml, $x)) return true;
-    $x = "<$tag>";
-    $y = (int)parse_element($xml, $x);
-    if ($y != 0) return true;
-    return false;
-}
-
-// look for a particular element in the config file
-//
-function parse_config($config, $tag) {
-    $element = parse_element($config, $tag);
-    return $element;
 }
 
 // uniform 0..1

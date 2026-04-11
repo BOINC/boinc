@@ -109,7 +109,7 @@ function show_form($all) {
     );
 
     $total_weight = BoincApp::sum("weight", "where deprecated=0");
-    $swi = parse_config(get_config(), "<shmem_work_items>");
+    $swi = project_config_val("shmem_work_items");
     if (!$swi) {
         $swi = 100;
     }

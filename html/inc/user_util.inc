@@ -98,10 +98,9 @@ function is_valid_user_name($name, &$reason) {
 }
 
 function default_show_hosts() {
-    $config = get_config();
     // If enable privacy by default is TRUE, then show_hosts' default
     // is FALSE.
-    return parse_bool($config, "enable_privacy_by_default") ? 0 : 1;
+    return project_config_bool("enable_privacy_by_default") ? 0 : 1;
 }
 
 // the following DB-escapes its args
@@ -175,9 +174,8 @@ function show_error($str) {
 // Else return user object
 //
 function validate_post_make_user() {
-    $config = get_config();
-    if (parse_bool($config, "disable_account_creation")
-        || parse_bool($config, "no_web_account_creation")
+    if (project_config_bool("disable_account_creation")
+        || project_config_bool("no_web_account_creation")
     ) {
         error_page("Account creation is disabled");
     }
@@ -270,7 +268,7 @@ function validate_post_make_user() {
 
     $passwd = post_str("passwd");
 
-    $min_passwd_length = parse_config($config, "<min_passwd_length>");
+    $min_passwd_length = project_config_val("min_passwd_length");
     if (!$min_passwd_length) $min_passwd_length = 6;
 
     if (!is_ascii($passwd)) {

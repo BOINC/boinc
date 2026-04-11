@@ -72,8 +72,7 @@ function insert_deleted_records($user) {
 // and make that a third mechanism if they have a need to
 //
 function delete_account($user) {
-    $config = get_config();
-    $enable_delete_account = parse_config($config, "<enable_delete_account>");
+    $enable_delete_account = project_config_val("enable_delete_account");
     if ($enable_delete_account == DELETE_ACCOUNT_METHOD_OBFUSCATE) {
         return obfuscate_account($user);
     } else if ($enable_delete_account == DELETE_ACCOUNT_METHOD_WIPE) {

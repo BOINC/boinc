@@ -32,21 +32,21 @@ require_once("../inc/bootstrap.inc");
 define('JQUERY_URL', 'https://code.jquery.com/jquery-3.7.1.slim.min.js');
 
 function master_url() {
-    return parse_config(get_config() , "<master_url>");
+    return project_config_val("master_url");
 }
 function recaptcha_public_key() {
-    return parse_config(get_config(), "<recaptcha_public_key>");
+    return project_config_val("recaptcha_public_key");
 }
 function recaptcha_private_key() {
-    return parse_config(get_config(), "<recaptcha_private_key>");
+    return project_config_val("recaptcha_private_key");
 }
 
 // Set parameters to defaults if not defined in config.xml
 
-$x = parse_config(get_config(), "<user_country>");
+$x = project_config_val("user_country");
 define('USER_COUNTRY', ($x===null)?1:(int)$x);
 
-$x = parse_config(get_config(), "<user_url>");
+$x = project_config_val("user_url");
 define('USER_URL', ($x===null)?1:(int)$x);
 
 // Set parameters to defaults if not defined in project.inc

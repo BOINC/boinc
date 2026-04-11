@@ -23,8 +23,7 @@ require_once("../inc/user.inc");
 
 function link_to_results($host) {
     if (!$host) return tra("No host");
-    $config = get_config();
-    if (!parse_bool($config, "show_results")) return tra("Unavailable");
+    if (!project_config_bool("show_results")) return tra("Unavailable");
     $nresults = host_nresults($host);
     if (!$nresults) return "0";
     return "<a href=results.php?hostid=$host->id>$nresults</a>";
@@ -81,7 +80,6 @@ function cross_project_links($host) {
 // and the logged in user (so show some extra fields)
 //
 function show_host($host, $user, $ipprivate) {
-    $config = get_config();
     start_table();
     row1(tra("Computer information"));
     $anonymous = false;
@@ -177,7 +175,7 @@ function show_host($host, $user, $ipprivate) {
         row2(tra("Application details"),
             "<a href=host_app_versions.php?hostid=$host->id>".tra("Show")."</a>"
         );
-        $show_results = parse_bool($config, "show_results");
+        $show_results = project_config_bool("show_results");
         if ($show_results) {
             $nresults = host_nresults($host);
             if ($nresults) {

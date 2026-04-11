@@ -37,11 +37,11 @@ function log_write($x) {
 
     if (!isset($enabled)) {
         $enabled = false;
-        $filename = parse_config(get_config(), "<remote_submit_log>");
+        $filename = project_config_val("remote_submit_log");
         if (!$filename) {
             return;
         }
-        $log_dir = parse_config(get_config(), "<log_dir>");
+        $log_dir = project_config_val("log_dir");
         if (!$log_dir) {
             return;
         }
@@ -310,8 +310,8 @@ function get_outfile_log_names($result) {
 // get output file paths for batch-static apps
 //
 function get_outfile_paths($result) {
-    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-    $upload_dir = parse_config(get_config(), "<upload_dir>");
+    $fanout = project_config_val("uldl_dir_fanout");
+    $upload_dir = project_config_val("upload_dir");
 
     $paths = array();
     $xml = "<a>".$result->xml_doc_out."</a>";
@@ -463,8 +463,8 @@ function batch_output_file_size($batchid) {
         'canonical_resultid',
         "batch=$batchid"
     );
-    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-    $upload_dir = parse_config(get_config(), "<upload_dir>");
+    $fanout = project_config_val("uldl_dir_fanout");
+    $upload_dir = project_config_val("upload_dir");
     foreach ($wus as $wu) {
         if (!$wu->canonical_resultid) continue;
         $result = BoincResult::lookup_id($wu->canonical_resultid);

@@ -33,8 +33,7 @@ if (defined('INVITE_CODES')) {
     exit;
 }
 
-$config = get_config();
-if (parse_bool($config, "disable_account_creation")) {
+if (project_config_bool("disable_account_creation")) {
     echo "Account creation is disabled\n";
     exit;
 }

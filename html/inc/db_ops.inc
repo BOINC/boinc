@@ -396,7 +396,7 @@ function link_results($n, $mq, $query, $clauses) {
 // @param String $stderr_out the stderr_out value to parse
 //
 function stderr_error_string($stderr_out){
-    $y = parse_element($stderr_out, "<error_code>");
+    $y = parse_element_text($stderr_out, "<error_code>");
     $x = 0;
     if ($y) {
         $x = (int)$y;
@@ -504,7 +504,7 @@ FROM result WHERE true
         // subtract X from mod time of  file-deleted results.
         // Otherwise we'll show lots of irrelevant results
         //
-        $delay = parse_config(get_config(), "<delete_delay_hours>");
+        $delay = project_config_val("delete_delay_hours");
         if ($delay) {
             $start2 = $start - $delay*3600;;
             $main_query .= " and ((file_delete_state>1 and mod_time>FROM_UNIXTIME($start2)) or (mod_time>FROM_UNIXTIME($start)))";

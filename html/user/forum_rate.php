@@ -23,8 +23,7 @@ require_once('../inc/util.inc');
 
 if (DISABLE_FORUMS) error_page("Forums are disabled");
 
-$config = get_config();
-if (parse_bool($config, "no_forum_rating")) {
+if (project_config_bool("no_forum_rating")) {
     error_page("disabled");
 }
 

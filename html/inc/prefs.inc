@@ -288,11 +288,10 @@ global $venue_name;
 // in config.xml so the right default is set for minimum free disk space
 //
 function get_disk_space_config() {
-    $config = get_config();
     $dp = new StdClass;
-    $dp->disk_max_used_gb = parse_config($config, "<default_disk_max_used_gb>");
-    $dp->disk_max_used_pct = parse_config($config, "<default_disk_max_used_pct>");
-    $dp->disk_min_free_gb = parse_config($config, "<default_disk_min_free_gb>");
+    $dp->disk_max_used_gb = project_config_val("default_disk_max_used_gb");
+    $dp->disk_max_used_pct = project_config_val("default_disk_max_used_pct");
+    $dp->disk_min_free_gb = project_config_val("default_disk_min_free_gb");
     // set some defaults if not found
     if (!$dp->disk_max_used_gb) $dp->disk_max_used_gb = 0;  // no limit
     if (!$dp->disk_max_used_pct) $dp->disk_max_used_pct = 90; // 90 percent
@@ -301,7 +300,7 @@ function get_disk_space_config() {
     // - depends on which scheduler is running
     $dp->new_sched_flag = 1;
     $dp->sched_disk_min_free_gb = $dp->disk_min_free_gb;
-    if (parse_config($config, "scheduler_disk_space_check_hardcoded>")) {
+    if (project_config_val("scheduler_disk_space_check_hardcoded")) {
         $dp->new_sched_flag = 0;
         $dp->sched_disk_min_free_gb = 0;
     }

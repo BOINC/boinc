@@ -753,7 +753,7 @@ function show_result($result, $show_outfile_links=false) {
         row2("Peak disk usage", size_string($result->peak_disk_usage));
     }
     if ($show_outfile_links && $result->outcome == 1) {
-        $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+        $fanout = project_config_val("uldl_dir_fanout");
         $names = get_outfile_phys_names($result);
         $i = 0;
         $x = "";

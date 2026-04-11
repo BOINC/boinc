@@ -24,8 +24,7 @@
 //
 function akismet_check($user, $post) {
     $master_url = master_url();
-    $config = get_config();
-    $key = parse_config($config, "<akismet_key>");
+    $key = project_config_val("akismet_key");
     if (!$key) {
         return true;
     }

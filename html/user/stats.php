@@ -22,7 +22,7 @@ page_head(tra('Credit leader boards and statistics'));
 
 check_get_args(array());
 
-$credit_by_app = parse_bool(get_config(), "credit_by_app");
+$credit_by_app = project_config_bool("credit_by_app");
 
 start_table();
 echo "

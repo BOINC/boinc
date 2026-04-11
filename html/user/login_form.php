@@ -54,9 +54,8 @@ echo '
 
 login_form($next_url);
 
-$config = get_config();
-if (!parse_bool($config, "disable_account_creation")
-    && !parse_bool($config, "no_web_account_creation")
+if (!project_config_bool("disable_account_creation")
+    && !project_config_bool("no_web_account_creation")
 ) {
     show_button(
         "create_account_form.php?next_url=$next_url",

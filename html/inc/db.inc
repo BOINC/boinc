@@ -151,25 +151,24 @@ if (MYSQLI) {
 }
 
 function db_init_aux($try_replica=false) {
-    $config = get_config();
-    $user = parse_config($config, "<db_user>");
-    $pass = parse_config($config, "<db_passwd>");
-    $db_name = parse_config($config, "<db_name>");
+    $user = project_config_val("db_user");
+    $pass = project_config_val("db_passwd");
+    $db_name = project_config_val("db_name");
     $host = null;
     if ($try_replica) {
-        $x = parse_config($config, "<replica_db_host>");
+        $x = project_config_val("replica_db_host");
         if ($x) {
             $host = $x;
-            $x = parse_config($config, "<replica_db_user>");
+            $x = project_config_val("replica_db_user");
             if ($x) $user = $x;
-            $x = parse_config($config, "<replica_db_passwd>");
+            $x = project_config_val("replica_db_passwd");
             if ($x) $pass = $x;
-            $x = parse_config($config, "<replica_db_name>");
+            $x = project_config_val("replica_db_name");
             if ($x) $db_name = $x;
         }
     }
     if (is_blank($host)) {
-        $host = parse_config($config, "<db_host>");
+        $host = project_config_val("db_host");
     }
     if (is_blank($host)) {
         $host = "localhost";

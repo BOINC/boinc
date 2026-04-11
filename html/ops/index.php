@@ -21,8 +21,7 @@ require_once("../inc/util_ops.inc");
 require_once("../inc/uotd.inc");
 require_once("../project/project.inc");
 
-$config = get_config();
-$stripchart_cgi_url = parse_config($config, "<stripchart_cgi_url>");
+$stripchart_cgi_url = project_config_val("stripchart_cgi_url");
 
 db_init();
 
@@ -49,7 +48,7 @@ if (!defined("SYS_ADMIN_EMAIL")) {
     ";
 }
 
-if (parse_bool($config, "disable_account_creation")) {
+if (project_config_bool("disable_account_creation")) {
     echo "<li><span style=\"color: #ff9900\">
         Account creation is disabled.</span></li>
     ";

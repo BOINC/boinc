@@ -81,12 +81,12 @@ function create_account(
         // old server code returns PHP warnings, which break XML.
         // do ad-hoc parsing instead
         //
-        $auth = parse_element($reply, "<authenticator>");
+        $auth = parse_element_text($reply, "<authenticator>");
         if ($auth) {
             return array($auth, 0, null);
         }
-        $error_num = parse_element($reply, "<error_num>");
-        $error_msg = parse_element($reply, "<error_msg>");
+        $error_num = parse_element_text($reply, "<error_num>");
+        $error_msg = parse_element_text($reply, "<error_msg>");
         if ($error_num) {
             return array(null, $error_num, $error_msg);
         }
