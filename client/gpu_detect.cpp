@@ -833,7 +833,7 @@ void COPROCS::bound_counts() {
 }
 
 void gpu_warning(vector<string> &warnings, const char* msg) {
-    fprintf(stderr, "%s\n", msg);
+    fprintf(stderr, "[%s] %s\n", time_to_str(dtime()), msg);
     warnings.push_back(msg);
 }
 
