@@ -109,6 +109,11 @@ static bool is_intel(char* vendor) {
     return false;
 }
 
+static bool is_ardeno(char* vendor) {
+    if (strcasestr(vendor, "QUALCOMM")) return true;
+    return false;
+}
+
 #ifdef __APPLE__
 static bool is_apple(char* vendor) {
     if (strcasestr(vendor, "apple")) return true;
@@ -742,8 +747,17 @@ void COPROCS::get_opencl(
                 //
                 prop.peak_flops = 0;
                 if (prop.max_compute_units) {
-                    double freq = ((double)prop.max_clock_frequency) * MEGA;
-                    prop.peak_flops = ((double)prop.max_compute_units) * freq;
+                    double freq = ((double)prop.max_clock_frequency);
+                    if (is_ardeno(prop.vendor)) {
+                        if (freq == 1.0) {
+                            freq = 1000.0; // Estimate 1 GHz if driver returns 1 Mhz
+                        }
+                    }
+                    // may be inaccurate
+                    int simd_width = 128; // 128-bit vector unit
+                    int simd_per_compute_unit = 4; // 4 × FP32 ops per cycle
+
+                    prop.peak_flops = ((double)prop.max_compute_units) * freq * simd_width * simd_per_compute_unit * 1e6;
                 }
                 if (prop.peak_flops <= 0 || prop.peak_flops > GPU_MAX_PEAK_FLOPS) {
                     char buf2[256];
