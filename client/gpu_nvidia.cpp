@@ -584,7 +584,7 @@ static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings
     retval = (*p_cuDeviceGet)(&device, cc.device_num);
     if (retval) {
         snprintf(buf, sizeof(buf),
-            "[coproc] cuDeviceGet(%d) returned %d", cc.device_num, retval
+            "cuDeviceGet(%d) returned %d", cc.device_num, retval
         );
         gpu_warning(warnings, buf);
         return;
@@ -592,22 +592,23 @@ static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings
     retval = (*p_cuCtxCreate)(&ctx, 0, device);
     if (retval) {
         snprintf(buf, sizeof(buf),
-            "[coproc] cuCtxCreate(%d) returned %d", cc.device_num, retval
+            "cuCtxCreate(%d) returned %d", cc.device_num, retval
         );
         gpu_warning(warnings, buf);
         return;
     }
-    if (p_cuMemGetInfo_v2) {
+    // cuMemGetInfo_v2() always returns 201 (no context)
+    if (false && p_cuMemGetInfo_v2) {
         retval = (*p_cuMemGetInfo_v2)(&memfree, &memtotal);
-    }
-    else {
+    } else {
         retval = (*p_cuMemGetInfo)(&memfree, &memtotal);
     }
+    snprintf(buf, sizeof(buf),
+        "cuMemGetInfo() returned %d; dev %d free %zu total %zu",
+        retval, cc.device_num, memfree, memtotal
+    );
+    gpu_warning(warnings, buf);
     if (retval) {
-        snprintf(buf, sizeof(buf),
-            "[coproc] cuMemGetInfo(%d) returned %d", cc.device_num, retval
-        );
-        gpu_warning(warnings, buf);
         (*p_cuCtxDestroy)(ctx);
         return;
     }

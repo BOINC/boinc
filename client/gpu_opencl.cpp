@@ -745,13 +745,15 @@ void COPROCS::get_opencl(
                     double freq = ((double)prop.max_clock_frequency) * MEGA;
                     prop.peak_flops = ((double)prop.max_compute_units) * freq;
                 }
+                char buf2[256];
+                snprintf(buf2, sizeof(buf2),
+                    "OpenCL generic: peak FLOPS %f; Max units %u, max freq %u MHz",
+					prop.peak_flops,
+                    prop.max_compute_units, prop.max_clock_frequency
+                );
+                gpu_warning(warnings, buf2);
                 if (prop.peak_flops <= 0 || prop.peak_flops > GPU_MAX_PEAK_FLOPS) {
-                    char buf2[256];
-                    snprintf(buf2, sizeof(buf2),
-                        "OpenCL generic: bad peak FLOPS; Max units %u, max freq %u MHz",
-                        prop.max_compute_units, prop.max_clock_frequency
-                    );
-                    gpu_warning(warnings, buf2);
+					gpu_warning(warnings, "bad peak flops value; using default");
                     prop.peak_flops = GPU_DEFAULT_PEAK_FLOPS;
                 }
 
