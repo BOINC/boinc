@@ -598,19 +598,22 @@ static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings
         return;
     }
     // cuMemGetInfo_v2() always returns 201 (no context)
-    if (false && p_cuMemGetInfo_v2) {
-        retval = (*p_cuMemGetInfo_v2)(&memfree, &memtotal);
-    } else {
+    if (p_cuMemGetInfo) {
         retval = (*p_cuMemGetInfo)(&memfree, &memtotal);
-    }
-    snprintf(buf, sizeof(buf),
-        "cuMemGetInfo() returned %d; dev %d free %zu total %zu",
-        retval, cc.device_num, memfree, memtotal
-    );
-    gpu_warning(warnings, buf);
-    if (retval) {
-        (*p_cuCtxDestroy)(ctx);
-        return;
+        snprintf(buf, sizeof(buf),
+            "cuMemGetInfo() returned %d; dev %d free %zu total %zu",
+            retval, cc.device_num, memfree, memtotal
+        );
+        gpu_warning(warnings, buf);
+    } else if (p_cuMemGetInfo_v2) {
+        retval = (*p_cuMemGetInfo_v2)(&memfree, &memtotal);
+        snprintf(buf, sizeof(buf),
+            "cuMemGetInfo_v2() returned %d; dev %d free %zu total %zu",
+            retval, cc.device_num, memfree, memtotal
+        );
+        gpu_warning(warnings, buf);
+    } else {
+        gpu_warning(warnings, "No MemGetInfo function available");
     }
     (*p_cuCtxDestroy)(ctx);
     cc.available_ram = (double) memfree;
