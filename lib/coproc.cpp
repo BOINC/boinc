@@ -363,9 +363,10 @@ void COPROC_NVIDIA::description(char* buf, int buflen) {
         safe_strcpy(cuda_vers, "unknown");
     }
     snprintf(buf, buflen,
-        "%s (driver version %s, CUDA version %s, compute capability %d.%d, %.2fGB, %.2fGB available, %.0f GFLOPS peak)",
+        "%s (driver version %s, CUDA version %s, compute capability %d.%d, %.2fGB, %.2fGB available, %s peak)",
         prop.name, vers, cuda_vers, prop.major, prop.minor,
-        prop.totalGlobalMem/GIGA, available_ram/GIGA, peak_flops/1e9
+        prop.totalGlobalMem/GIGA, available_ram/GIGA,
+        flops_to_string(peak_flops).c_str()
     );
 }
 
@@ -879,9 +880,9 @@ int COPROC_ATI::parse(XML_PARSER& xp) {
 
 void COPROC_ATI::description(char* buf, int buflen) {
     snprintf(buf, buflen,
-        "%s (CAL version %s, %.2fGB, %.2fGB available, %.0f GFLOPS peak)",
+        "%s (CAL version %s, %.2fGB, %.2fGB available, %s peak)",
         name, version, attribs.localRAM/1024.,
-        available_ram/GIGA, peak_flops/1.e9
+        available_ram/GIGA, flops_to_string(peak_flops).c_str()
     );
 }
 

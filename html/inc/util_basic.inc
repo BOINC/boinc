@@ -92,17 +92,47 @@ function xml_error($num=-1, $msg=null, $file=null, $line=null) {
     exit();
 }
 
-function get_config() {
+// return the <config> element of config.xml as a simplexml object
+//
+function project_config_object() {
     static $config;
     if ($config == null) {
         $d = project_dir();
-        $config = file_get_contents("$d/config.xml");
+        $x = simplexml_load_file("$d/config.xml");
+        if (!$x || !isset($x->config)) {
+            error_page("Can't parse project config file.");
+        }
+        $config = $x->config;
     }
     return $config;
 }
 
-// Look for an element in a line of XML text
-// If it's a single-tag element, and it's present, just return the tag
+// return element from simplexml object, or null
+//
+function project_config_val($tag) {
+    $doc = project_config_object();
+    if (isset($doc->$tag)) {
+        return trim((string)$doc->$tag);
+    }
+    return null;
+}
+
+// get bool value from simplexml object; false if missing
+//
+function project_config_bool($tag) {
+    $doc = project_config_object();
+    if (!isset($doc->$tag)) {
+        return false;
+    }
+    if (trim((string)$doc->$tag) == '0') {
+        return false;
+    }
+    return true;
+}
+
+// ad-hoc XML parsing functions.
+// currently used in job RPC handling and project-specific prefs.
+// TODO: changes these to use simplexml, and get rid of these
 //
 function parse_element($xml, $tag) {
     $closetag = "</" . substr($tag,1);
@@ -146,13 +176,6 @@ function parse_bool($xml, $tag) {
     $y = (int)parse_element($xml, $x);
     if ($y != 0) return true;
     return false;
-}
-
-// look for a particular element in the config file
-//
-function parse_config($config, $tag) {
-    $element = parse_element($config, $tag);
-    return $element;
 }
 
 // uniform 0..1
@@ -242,6 +265,13 @@ function time_diff($x, $res=3) {
     return $s;
 }
 
+// is the arg either null, '', or whitespace?
+// Note: if ($x) will be false if $x is '0'.
+// We don't want to treat '0' as blank.
+//
+function is_blank($x) {
+    return $x === null || trim($x) === '';
+}
 
 // security vulnerabilities and user-supplied strings:
 // sources:
@@ -282,5 +312,17 @@ define('KILO', 1024);
 define('MEGA', 1024*KILO);
 define('GIGA', 1024*MEGA);
 define('TERA', 1024*GIGA);
+
+// disallow 'external entities'
+//
+function safe_simplexml_load_file($name) {
+    @libxml_disable_entity_loader(true);
+        // deprecated in PHP 8; hide warning
+    return simplexml_load_file($name, 'SimpleXMLElement', LIBXML_NONET);
+}
+function safe_simplexml_load_string($str) {
+    @libxml_disable_entity_loader(true);
+    return simplexml_load_string($str, 'SimpleXMLElement', LIBXML_NONET);
+}
 
 ?>

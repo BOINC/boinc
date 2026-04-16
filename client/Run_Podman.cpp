@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
     // Podman always writes its files owned by the logged in user and
     // mostly in that user's home directory. To get around this, we
     // simulate a login by user boinc_project and set environment
-    // variables for Podman to use our BOINC podman" directory instead
+    // variables for Podman to use our "BOINC podman" directory instead
     strlcpy(buf, "env XDG_CONFIG_HOME=\"/Library/Application Support/BOINC podman\" XDG_DATA_HOME=\"/Library/Application Support/BOINC podman\" HOME=\"/Library/Application Support/BOINC podman\" ", sizeof(buf));
 
     argvCount = 1;   // arguments to be passed to Podman
@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
         system(buf);
     } else {
         args[argsCount++] = "su";
-        args[argsCount++] = "-l";
+        args[argsCount++] = "-m";   // boinc_project doesn't have a shell, so use root's shell /bin/sh
         args[argsCount++] = "boinc_project";    // Create Podman VM using boinc_project so projects can access it
         args[argsCount++] = "-c";
         args[argsCount++] = buf;

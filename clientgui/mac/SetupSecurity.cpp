@@ -954,9 +954,14 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
     }           // if (! userExists)
 
 setGroupForUser:
-    // Older versions set shell to /usr/bin/false so do this even if the user exists
-    // Something like "dscl . -create /users/boinc_master shell /bin/zsh"
-    err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "shell", "/bin/zsh", NULL);
+    // As part of implementing Podman support, some versions of BOINC changed the
+    // shell setting from /usr/bin/false to /bin/zsh (PR #6465, #6508, #6520), but
+    // this created a user directory (/Users/boinc_master or /Users/boinc_project)
+    // and also caused MacOS system updates to drop into Recovery Mode (Issue #6970.)
+    // To fix the Recovery Mode issue we are reverting to a shell of /usr/bin/false.
+    // Since some versions set shell to /bin/zsh, do this even if the user exists.
+    // Something like "dscl . -create /users/boinc_master shell /usr/bin/false"
+    err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "shell", "/usr/bin/false", NULL);
     if (err)
         return err;
 
@@ -986,25 +991,30 @@ setGroupForUser:
 
     // Hide the home directory and share point https://support.apple.com/en-mn/102099
     // Something like "sudo chflags hidden /Users/boinc_master"
-    args[0] = "/usr/bin/sudo";
-    args[1] = "chflags";
-    args[2] = "hidden";
-    args[3] = buf2;
-    args[4] = NULL;
-    err = posix_spawnp(&thePid, "/usr/bin/sudo", NULL, NULL, args, environ);
-    waitpid(thePid, &status, WUNTRACED);
-    if (status != 0) {
-        err = status;
-    } else {
-        if (WIFEXITED(status)) {
-            err = WEXITSTATUS(status);
-            if (err == 1) {
-                err = errno;
-            }
-        }   // end if (WIFEXITED(status)) else
-    }       // end if waitpid returned 0 sstaus else
-if (err)
-    return err;
+    // buf2 was overwritten to DSCL path "/users/<name>" above; rebuild filesystem path.
+    // Skip if the directory doesn't exist (fresh installs set home to /var/empty).
+    sprintf(buf2, "/Users/%s", user_name);
+    if (access(buf2, F_OK) == 0) {
+        args[0] = "/usr/bin/sudo";
+        args[1] = "chflags";
+        args[2] = "hidden";
+        args[3] = buf2;
+        args[4] = NULL;
+        err = posix_spawnp(&thePid, "/usr/bin/sudo", NULL, NULL, args, environ);
+        waitpid(thePid, &status, WUNTRACED);
+        if (status != 0) {
+            err = status;
+        } else {
+            if (WIFEXITED(status)) {
+                err = WEXITSTATUS(status);
+                if (err == 1) {
+                    err = errno;
+                }
+            }   // end if (WIFEXITED(status)) else
+        }       // end if waitpid returned 0 sstaus else
+        if (err)
+            return err;
+    }
 
     err = ResynchDSSystem();
     if (err != noErr)

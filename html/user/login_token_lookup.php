@@ -23,7 +23,6 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/xml.inc");
 
 function main() {
-    $config = get_config();
     $user_id = get_str("user_id");
     $token = get_str("token");
     $user = BoincUser::lookup_id($user_id);
@@ -38,7 +37,7 @@ function main() {
     }
     $uname = htmlentities($user->name);
     echo "<login_token_reply>\n";
-    if (parse_bool($config, "account_manager")) {
+    if (project_config_bool("account_manager")) {
         echo "   <user_name>$uname</user_name>\n";
 
         // the following for pre-7.12 clients; can be removed later

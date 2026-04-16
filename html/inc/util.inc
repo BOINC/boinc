@@ -32,21 +32,21 @@ require_once("../inc/bootstrap.inc");
 define('JQUERY_URL', 'https://code.jquery.com/jquery-3.7.1.slim.min.js');
 
 function master_url() {
-    return parse_config(get_config() , "<master_url>");
+    return project_config_val("master_url");
 }
 function recaptcha_public_key() {
-    return parse_config(get_config(), "<recaptcha_public_key>");
+    return project_config_val("recaptcha_public_key");
 }
 function recaptcha_private_key() {
-    return parse_config(get_config(), "<recaptcha_private_key>");
+    return project_config_val("recaptcha_private_key");
 }
 
 // Set parameters to defaults if not defined in config.xml
 
-$x = parse_config(get_config(), "<user_country>");
+$x = project_config_val("user_country");
 define('USER_COUNTRY', ($x===null)?1:(int)$x);
 
-$x = parse_config(get_config(), "<user_url>");
+$x = project_config_val("user_url");
 define('USER_URL', ($x===null)?1:(int)$x);
 
 // Set parameters to defaults if not defined in project.inc
@@ -240,8 +240,8 @@ $is_login_page = false;
 // then calls project_banner() (in html/project/project.inc)
 // to output whatever you want at the top of your web pages.
 //
-// Page_head() is overridable so that projects that want to integrate BOINC
-// with an existing web framework can more easily do so.
+// page_head() is overridable so that you can integrate BOINC
+// with an existing web framework.
 // To do so, define page_head() in html/project/project.inc
 //
 if (!function_exists("page_head")){
@@ -257,7 +257,7 @@ function page_head(
         // if set, include schedulers.txt.
         // also pass to project_banner() in case you want a different
         // header for your main page.
-    $url_prefix="",
+    $url_prefix='',
         // prepend this to links.
         // Use for web pages not in the top directory
     $head_extra=null

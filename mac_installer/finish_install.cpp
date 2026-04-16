@@ -88,6 +88,7 @@ int main(int argc, const char * argv[]) {
     bool                    calledFromInstaller = false;
     bool                    createdByUninstaller = false;
     bool                    calledFromManager = false;
+    bool                    commandLineInstall = false;
 
     // Wait until we are the active login (in case of fast user switching)
     userName = getenv("USER");
@@ -114,7 +115,9 @@ int main(int argc, const char * argv[]) {
         } else if (strcmp(argv[i], "-u") == 0) {
             isUninstall = true;
             createdByUninstaller = true;
-        }
+        } else if (strcmp(argv[i], "-c") == 0) {
+            commandLineInstall = true;
+       }
     }   // end for (i=i; i<argc; i+=2)
 
     if (isUninstall) {
@@ -143,8 +146,10 @@ int main(int argc, const char * argv[]) {
         if (!success) {
         }
         if (compareOSVersionTo(26, 0) >= 0) {
-            GetAndLoadPreferredLanguages();
-            MaybeSetScreenSaver(iBrandId);
+            if (! commandLineInstall){
+                GetAndLoadPreferredLanguages();
+                MaybeSetScreenSaver(iBrandId);
+            }
         }
 
         if (compareOSVersionTo(10, 13) >= 0) {
@@ -362,8 +367,8 @@ static Boolean IsUserActive(const char *userName){
 
 
 // It would be nice to check whether our screen saver is already set for
-// this user so we can ask wethr to set it only if necessary, but that
-// triggrs a scary warning asking for permission to let System Events
+// this user so we can ask whether to set it only if necessary, but that
+// triggers a scary warning asking for permission to let System Events
 // administer the Mac, so we don't. (If the user answers yes to setting
 // the screensaver, then the code which sets the screensaver will show
 // that warning, but this seems less scary than having it pop up for no
@@ -372,6 +377,22 @@ void MaybeSetScreenSaver(int brandId){
     char                buf[MAXPATHLEN];
     char                mySaverName[1024];
 
+// The installer can also be run from the command line.  This is useful
+//  for installation on remote Macs.  However, there is no way to respond
+//  to dialogs during a command-line install.
+//
+// Apple's command-line installer sets the following environment variable:
+//     COMMAND_LINE_INSTALL=1
+// The postinstall script, postupgrade script, Postinstall.app and
+// this BOINC_Finish_Install.app detect this environment variable and do
+// the following:
+//  * Suppress the 2 dialogs
+//  * test for the existence of a file /tmp/nonadminusersok.txt; if the
+//     file exists, allow non-administrative users to run BOINC Manager
+//  * test for the existence of a file /tmp/setboincsaver.txt; if the
+//     file exists, set BOINC as the screensaver for all BOINC users.
+//     (available only for MacOS < 14.0 Sonoma.)
+//
     if ((ShowMessage(true,
         (char *)_("Do you want to set %s as your screensaver?"),
                     brandName[brandId], brandName[brandId])) == false) {

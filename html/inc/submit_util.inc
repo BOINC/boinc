@@ -37,11 +37,11 @@ function log_write($x) {
 
     if (!isset($enabled)) {
         $enabled = false;
-        $filename = parse_config(get_config(), "<remote_submit_log>");
+        $filename = project_config_val("remote_submit_log");
         if (!$filename) {
             return;
         }
-        $log_dir = parse_config(get_config(), "<log_dir>");
+        $log_dir = project_config_val("log_dir");
         if (!$log_dir) {
             return;
         }
@@ -310,8 +310,8 @@ function get_outfile_log_names($result) {
 // get output file paths for batch-static apps
 //
 function get_outfile_paths($result) {
-    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-    $upload_dir = parse_config(get_config(), "<upload_dir>");
+    $fanout = project_config_val("uldl_dir_fanout");
+    $upload_dir = project_config_val("upload_dir");
 
     $paths = array();
     $xml = "<a>".$result->xml_doc_out."</a>";
@@ -393,19 +393,19 @@ function abort_batch($batch) {
 }
 
 // retire a batch:
-// - mark the batch as retired (don't delete it; might be useful later)
+// - mark the batch as retired (don't delete it)
 // - delete output files (results/batchid/)
 // - mark unsent WUs as cancelled
 //
 // Don't delete the batch; it may have in-progress jobs that
-// we still need to file-delete and purge,
+// we'll need to file-delete and purge,
 // and the batch needs to be present for this.
 // Use ops/delete_batches.php to delete retired batches with no WUs
 //
 function retire_batch($batch) {
     system("rm -rf ../../results/$batch->id");
 
-    // get list of unsent WUs in this batch
+    // we need to call get_batch_params() to set WU.status
     //
     $wus = BoincWorkunit::enum_fields(
         'id, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
@@ -414,6 +414,9 @@ function retire_batch($batch) {
     get_batch_params($batch, $wus);
     $batch->update("state=".BATCH_STATE_RETIRED);
         // do this AFTER get_batch_params()
+
+    // get list of unsent WUs in this batch
+    //
     $wu_ids = [];
     foreach ($wus as $wu) {
         if ($wu->status == WU_UNSENT) {
@@ -460,8 +463,8 @@ function batch_output_file_size($batchid) {
         'canonical_resultid',
         "batch=$batchid"
     );
-    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-    $upload_dir = parse_config(get_config(), "<upload_dir>");
+    $fanout = project_config_val("uldl_dir_fanout");
+    $upload_dir = project_config_val("upload_dir");
     foreach ($wus as $wu) {
         if (!$wu->canonical_resultid) continue;
         $result = BoincResult::lookup_id($wu->canonical_resultid);

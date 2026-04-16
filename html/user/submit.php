@@ -419,7 +419,7 @@ function handle_show_user_batches($user) {
 }
 
 function handle_update_only_own($user) {
-    if (!parse_bool(get_config(), 'enable_assignment')) {
+    if (!project_config_bool('enable_assignment')) {
         error_page(
             'Job assignment is not enabled in the project config file.
             Please ask the project admins to enable it.'
@@ -667,7 +667,7 @@ function handle_query_batch($user) {
     }
     $app = BoincApp::lookup_id($batch->app_id);
     $wus = BoincWorkunit::enum_fields(
-        'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
+        'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask, priority',
         "batch = $batch->id"
     );
     $batch = get_batch_params($batch, $wus);
@@ -786,7 +786,8 @@ function handle_query_batch($user) {
     $x = [
         "Name <br><small>click for details</small>",
         "status",
-        "GFLOPS-hours"
+        "GFLOPS-hours",
+        "Priority"
     ];
     row_heading_array($x);
     foreach($wus as $wu) {
@@ -814,7 +815,8 @@ function handle_query_batch($user) {
         $x = [
             "<a href=submit.php?action=query_job&wuid=$wu->id>$wu->name</a>",
             $y,
-            $c
+            $c,
+            $wu->priority
         ];
         row_array($x);
     }
@@ -874,8 +876,8 @@ function handle_query_job($user) {
         "Output files"
     );
     $results = BoincResult::enum("workunitid=$wuid");
-    $upload_dir = parse_config(get_config(), "<upload_dir>");
-    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+    $upload_dir = project_config_val("upload_dir");
+    $fanout = project_config_val("uldl_dir_fanout");
     foreach ($results as $result) {
         $x = [
             "<a href=result.php?resultid=$result->id>$result->id</a>",
@@ -1038,6 +1040,7 @@ function handle_retire_batch($user) {
     } else {
         page_head("Confirm retire batch");
         echo "
+            <p>
             Retiring a batch will remove all of its output files.
             Are you sure you want to do this?
             <p>

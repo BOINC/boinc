@@ -144,7 +144,7 @@ LIBS = ../lib/boinc.a \
     -lpthread \
     -lX11 \
     -lcurl -lssl -lcrypto \
-    -lz -ldl
+    -lz -ldl -lrt
 
 .cpp.o:
 	$(CC) -c -o $*.o $<

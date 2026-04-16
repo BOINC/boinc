@@ -152,14 +152,13 @@ extern double simtime;
 struct DOCKER_CONN {
     DOCKER_TYPE type;
     const char* cli_prog;
-    bool verbose;
 #ifdef _WIN32
     WSL_CMD ctl_wc;
-    int init(WSL_DISTRO&, bool verbose=false);
+    int init(WSL_DISTRO&);
 #else
-    int init(DOCKER_TYPE, bool verbose=false);
+    int init(DOCKER_TYPE);
 #endif
-    int command(const char* cmd, std::vector<std::string> &out);
+    int command(const char* cmd, std::vector<std::string> &out, bool verbose);
 
     static const int CMD_TIMEOUT = 600;
         // timeout for docker commands.

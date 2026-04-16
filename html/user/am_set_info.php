@@ -27,6 +27,9 @@ require_once("../inc/email.inc");
 require_once("../inc/password_compat/password.inc");
 require_once("../inc/user_util.inc");
 
+// now it doesn't exist
+xml_error(-1, "not supported");
+
 // do a very cursory check that the given text is valid;
 // for now, just make sure it has the given start and end tags,
 // and at least one \n in the middle.

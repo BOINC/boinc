@@ -74,7 +74,7 @@ void RSC_PROJECT_WORK_FETCH::rr_init(PROJECT *p) {
     last_mc_limit_reltime = 0;
     if (p->app_configs.project_has_mc) {
         // compute x = max usage over this resource over P's app versions
-        double x = 0;
+        double x = 1;   // in case there are no app versions
         for (APP_VERSION* avp: gstate.app_versions) {
             if (avp->project != p) continue;
             if (rsc_type && (avp->resource_usage.rsc_type == rsc_type)) {

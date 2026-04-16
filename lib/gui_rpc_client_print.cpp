@@ -126,7 +126,7 @@ void APP_VERSION::print() {
         printf("   coprocessor type: %s\n", proc_type_name(gpu_type));
         printf("   coprocessor usage: %.3f\n", gpu_usage);
     }
-    printf("   estimated GFLOPS: %.2f\n", flops/1e9);
+    printf("   estimated speed: %s\n", flops_to_string(flops).c_str());
     printf("   filename: %s\n", exec_filename);
 }
 

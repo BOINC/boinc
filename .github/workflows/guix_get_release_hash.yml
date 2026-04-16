@@ -15,28 +15,35 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-name: Check vcpkg ports
+name: Get Guix Release Hash
 on:
-  schedule:
-    - cron:  '0 0 * * *'
+  push:
+    tags: [ 'client_release/**' ]
+  pull_request:
+    branches: [ master ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
-  build:
-    if: github.repository == 'BOINC/boinc'
-    name: ${{ matrix.type }}
+  get-guix-release-hash:
+    name: get-guix-release-hash
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        type: [check]
       fail-fast: false
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           fetch-depth: 2
-      - name: Bootstrap vcpkg
+
+      - name: Install dependencies
+        if: ${{ success() }}
         run: |
-          ./linux/bootstrap_vcpkg_cmake.sh
-      - name: Check custom vcpkg ports for upstream updates
-        if: success()
+          sudo apt-get update
+          sudo apt-get install -y guix
+
+      - name: Get Guix Release Hash
+        if: ${{ success() }}
         run: |
-          python ./ci_tools/check_custom_vcpkg_ports_for_updates.py
+          ./release_tools/get_release_hash_for_guix.sh

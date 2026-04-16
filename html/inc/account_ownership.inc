@@ -21,8 +21,7 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/user.inc");
 require_once("../inc/util.inc");
 
-$temp_config = get_config();
-$temp_keydir = parse_config($temp_config, "<key_dir>"); // key directory can be customized
+$temp_keydir = project_config_val("key_dir"); // key directory can be customized
 
 $account_ownership_private_key_file_name = "account_ownership_private.pem"; // private key file name
 $account_ownership_private_key = "$temp_keydir/$account_ownership_private_key_file_name"; // for overwriting key

@@ -167,6 +167,7 @@ struct RSC_USAGE {
 };
 
 // verbosity levels
+#define VERBOSE_NONE    0
 #define VERBOSE_STD     1
     // include only start/pause/end commands
 #define VERBOSE_ALL     2
@@ -188,7 +189,7 @@ struct CONFIG {
         // additional args for docker build command
     string create_args;
         // additional args for docker create command
-    int verbose;
+    int verbose;    // see above
     bool use_gpu;
         // tell Docker to enable GPU access
     int web_graphics_guest_port;
@@ -242,12 +243,21 @@ DOCKER_TYPE docker_type;
 string wsl_distro_name;
 double cpu_time = 0;
 
+inline bool verbose_std() {
+    return config.verbose >= VERBOSE_STD;
+}
+
+inline bool verbose_all() {
+    return config.verbose >= VERBOSE_ALL;
+}
+
 // parse job config file (job.toml)
 //
 int parse_config_file() {
     // defaults
     config.workdir = "/app";
     config.use_gpu = false;
+    config.verbose = VERBOSE_STD;
 
     std::ifstream ifs(config_file);
     if (ifs.fail()) {
@@ -318,15 +328,22 @@ int parse_config_file() {
     return 0;
 }
 
-// See if command output includes "Error"
+// If command output includes "Error", show the output and return true
 //
-int error_output(vector<string> &out) {
+bool output_has_error(vector<string> &out, const char* cmd_name) {
+    bool found = false;
     for (string line: out) {
         if (strstr(line.c_str(), "Error")) {
-            return -1;
+            found = true;
+            break;
         }
     }
-    return 0;
+    if (!found) return false;
+    fprintf(stderr, "Error output from '%s' command:\n", cmd_name);
+    for (const string &line: out) {
+        fprintf(stderr, "   %s", line.c_str());
+    }
+    return true;
 }
 
 //////////  PODMAN ARGS  ////////////
@@ -394,7 +411,7 @@ void get_image_name() {
 int image_exists(bool &exists) {
     vector<string> out;
 
-    int retval = docker_conn.command("images", out);
+    int retval = docker_conn.command("images", out, verbose_std());
     if (retval) return retval;
     string image_name_space = image_name + string(" ");
     for (string line: out) {
@@ -413,7 +430,7 @@ int build_image() {
     snprintf(cmd, sizeof(cmd), "build \"%s\" -t %s -f %s %s",
         escaped_cwd, image_name, dockerfile, config.build_args.c_str()
     );
-    int retval = docker_conn.command(cmd, out);
+    int retval = docker_conn.command(cmd, out, verbose_std());
     if (retval) return retval;
     return 0;
 }
@@ -466,7 +483,7 @@ int get_container_state(int &state) {
 
         container_name
     );
-    retval = docker_conn.command(cmd, out);
+    retval = docker_conn.command(cmd, out, verbose_all());
     if (retval) return retval;
     for (string line: out) {
         char buf[256];
@@ -599,13 +616,12 @@ int create_container() {
 
     strcat(cmd, " ");
     strcat(cmd, image_name);
-    retval = docker_conn.command(cmd, out);
+    retval = docker_conn.command(cmd, out, verbose_std());
     if (retval) {
         fprintf(stderr, "create command failed: %d\n", retval);
         return retval;
     }
-    if (error_output(out)) {
-        fprintf(stderr, "create command output contains 'Error'\n");
+    if (output_has_error(out, "create")) {
         return -1;
     }
 
@@ -614,12 +630,22 @@ int create_container() {
 
 //////////  JOB CONTROL  ////////////
 
+// do an operation (e.g. pause/unpause) on a container.
+// If it fails, print error msgs and return nonzero.
+//
 int container_op(const char *op) {
     char cmd[1024];
     vector<string> out;
     snprintf(cmd, sizeof(cmd), "%s %s", op, container_name);
-    int retval = docker_conn.command(cmd, out);
-    return retval;
+    int retval = docker_conn.command(cmd, out, verbose_std());
+    if (retval) {
+        fprintf(stderr, "%s command failed: %d\n", op, retval);
+        return retval;
+    }
+    if (output_has_error(out, op)) {
+        return -1;
+    }
+    return 0;
 }
 
 // Clean up at end of job.
@@ -632,7 +658,7 @@ void cleanup() {
     vector<string> out;
 
     snprintf(cmd, sizeof(cmd), "logs %s", container_name);
-    docker_conn.command(cmd, out);
+    docker_conn.command(cmd, out, verbose_std());
     fprintf(stderr, "stderr from container:\n");
     for (string line: out) {
         fprintf(stderr, "%s", line.c_str());
@@ -640,21 +666,22 @@ void cleanup() {
     fprintf(stderr, "stderr end\n");
 
     snprintf(cmd, sizeof(cmd), "container rm %s", container_name);
-    docker_conn.command(cmd, out);
+    docker_conn.command(cmd, out, verbose_std());
 
     // don't remove image if it was specified in config
     //
     if (config.image_name.empty()) {
         snprintf(cmd, sizeof(cmd), "image rm %s", image_name);
-        docker_conn.command(cmd, out);
+        docker_conn.command(cmd, out, verbose_std());
     }
 }
 
 // check for commands from the client
 //
-void poll_client_msgs() {
+int poll_client_msgs() {
     BOINC_STATUS status;
     boinc_get_status(&status);
+    int retval;
 #if 0
     fprintf(stderr, "client messages: nohb %d quit %d abort %d suspended %d\n",
         status.no_heartbeat,
@@ -663,6 +690,9 @@ void poll_client_msgs() {
         status.suspended
     );
 #endif
+    // see if we should exit.
+    // Don't error-check docker ops; we'll do that on restart.
+    //
     if (status.no_heartbeat) {
         fprintf(stderr, "no heartbeat from client - pausing and exiting\n");
         container_op("pause");
@@ -682,7 +712,8 @@ void poll_client_msgs() {
             fprintf(stderr, "client: suspended\n");
         }
         if (running) {
-            container_op("pause");
+            retval = container_op("pause");
+            if (retval) return retval;
             running = false;
         }
     } else {
@@ -690,13 +721,18 @@ void poll_client_msgs() {
             fprintf(stderr, "client: not suspended\n");
         }
         if (!running) {
-            container_op("unpause");
+            retval = container_op("unpause");
+            if (retval) return retval;
             running = true;
         }
     }
+    return 0;
 }
 
-// check whether job has exited
+// check whether job:
+// - has exited success (JOB_SUCCESS)
+// - has exited failure (JOB_FAIL)
+// - is in progress (JOB_IN_PROGRESS)
 // Note: on both Podman and Docker this takes significant CPU time
 // (like .03 sec) so do it infrequently (10 sec)
 //
@@ -706,7 +742,7 @@ JOB_STATUS poll_app() {
     int retval;
 
     snprintf(cmd, sizeof(cmd), "ps --all -f \"name=%s\"", container_name);
-    retval = docker_conn.command(cmd, out);
+    retval = docker_conn.command(cmd, out, verbose_all());
     if (retval) return JOB_FAIL;
     for (string line: out) {
         if (strstr(line.c_str(), container_name)) {
@@ -747,7 +783,7 @@ int get_stats(RSC_USAGE &ru) {
         container_name
     );
 #endif
-    retval = docker_conn.command(cmd, out);
+    retval = docker_conn.command(cmd, out, verbose_all());
     if (retval) return -1;
     if (out.empty()) return -1;
 
@@ -831,7 +867,7 @@ int wsl_init() {
     fprintf(stderr, "Using WSL distro %s\n", dp->distro_name.c_str());
     wsl_distro_name = dp->distro_name;
     docker_type = dp->docker_type;
-    return docker_conn.init(*dp, config.verbose>0);
+    return docker_conn.init(*dp);
 }
 #endif
 
@@ -868,7 +904,7 @@ int main(int argc, char** argv) {
         if (!strcmp(argv[j], "--sporadic")) {
             sporadic = true;
         } else if (!strcmp(argv[j], "--verbose")) {
-            config.verbose = VERBOSE_STD;
+            config.verbose = VERBOSE_ALL;
         } else if (!strcmp(argv[j], "--config")) {
             config_file = argv[++j];
         } else if (!strcmp(argv[j], "--dockerfile")) {
@@ -951,7 +987,11 @@ int main(int argc, char** argv) {
         }
         docker_type = aid.host_info.docker_type;
     }
-    docker_conn.init(docker_type, config.verbose>0);
+    retval = docker_conn.init(docker_type);
+    if (retval) {
+        fprintf(stderr, "docker_conn.init() failed: %d\n", retval);
+        boinc_finish(1);
+    }
 #endif
     fprintf(stderr, "Using %s\n", docker_type_str(docker_type));
 
@@ -999,8 +1039,7 @@ int main(int argc, char** argv) {
         break;
     case CONTAINER_EXITED:
         // This probably means the host was rebooted.
-        // If we have a checkpoint, restore from there.
-        // Otherwise start from the beginning.
+        // Start from the beginning.
         //
         fprintf(stderr, "container is exited; restarting\n");
         need_start = true;
@@ -1012,6 +1051,7 @@ int main(int argc, char** argv) {
         break;
     default:
         fprintf(stderr, "bad container state %d\n", state);
+        container_op("kill");
         cleanup();
         boinc_finish(1);
     }
@@ -1044,25 +1084,31 @@ int main(int argc, char** argv) {
             exit(0);
         }
 #endif
-        poll_client_msgs();
+        retval = poll_client_msgs();
+        if (retval) {
+            fprintf(stderr, "poll_client_msgs() returned %d\n", retval);
+            // don't fail job; wrapper restart might fix things
+            exit(0);
+        }
         if (i%STATUS_PERIOD == 0) {
             // do this stuff every 10 sec
             // First, see if app has exited
             //
             switch(poll_app()) {
             case JOB_FAIL:
+                container_op("kill");
                 cleanup();
                 boinc_finish(1);
                 break;
             case JOB_SUCCESS:
-                cleanup();
-                // JOB_SUCCESS means Docker/Podman succeeded.
-                // In this case forward the exit code
-                // of the container payload.
+                // JOB_SUCCESS means the container exited.
+                // Forward the exit code of the container.
                 //
+                cleanup();
                 boinc_finish(container_exit_code);
                 break;
             default:
+                // in progress
                 break;
             }
 

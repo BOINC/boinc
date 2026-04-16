@@ -81,8 +81,11 @@ struct ACCT_MGR_INFO : PROJ_AM {
 
     bool password_error;
     bool dynamic;
-        // This AM dynamically decides what projects to assign.
-        // - send EC in AM RPCs
+        // This AM dynamically decides what projects to assign,
+        // and has a single user per project.
+        // Like Science United.
+        // - send EC in AM RPC requests
+        // - RPC replies will include user_avg_ec, user_total_ec per project
         // - send starvation info if idle resources
         // - network preferences are those from AM
     USER_KEYWORDS user_keywords;
@@ -156,6 +159,16 @@ struct AM_ACCOUNT {
     OPTIONAL_DOUBLE resource_share;
     OPTIONAL_BOOL suspend;
     OPTIONAL_BOOL abort_not_started;
+    double user_avg_ec;
+    double user_total_ec;
+    // the following supplied by dynamic AM if client not already attached
+    // to the project
+    double cpu_ec;
+    double cpu_time;
+    double gpu_ec;
+    double gpu_time;
+    int njobs_success;
+    int njobs_error;
 
     void handle_no_rsc(const char*, bool);
     int parse(XML_PARSER&);

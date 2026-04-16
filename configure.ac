@@ -556,7 +556,7 @@ dnl Special rules for specific targets go here:  It's easier to add static libs
 dnl than subtract them.  If you need to remove something from the list above,
 dnl please add it to the lists below...
 case ${target} in
-	*-linux*|*-k*bsd*-gnu)	STATIC_LIB_LIST="${STATIC_LIB_LIST} nsl"
+	*-linux*|*-k*bsd*-gnu)	STATIC_LIB_LIST="${STATIC_LIB_LIST} nsl rt"
 	;;
 	*-solaris*)	STATIC_LIB_LIST="${STATIC_LIB_LIST} X* ssl crypto"
 	;;
@@ -594,7 +594,7 @@ ERROR: could not find (recent enough) development-libs for libcurl.
       ],
       [
         ## add libcurl et al. to the list of statically linked libs
-        STATIC_LIB_LIST="${STATIC_LIB_LIST} curl idn ssh2 crypto ssl krb5 k5crypto gssapi_krb5 com_err resolv lber ldap socket nsl z rt gcrypt gpg-error"
+        STATIC_LIB_LIST="${STATIC_LIB_LIST} curl idn ssh2 ssl crypto krb5 k5crypto gssapi_krb5 com_err resolv lber ldap socket nsl z rt gcrypt gpg-error"
         CPPFLAGS="${CPPFLAGS} ${LIBCURL_CPPFLAGS}"
         CURL_LIB_PATHS=`echo $LIBCURL | sed 's/[^[a-zA-Z]]*-l[^ ]*//g'`
 
@@ -627,6 +627,8 @@ SAH_CHECK_LIB([nsl], [gethostbyname],
 SAH_CHECK_LIB([freetype], [fopen],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([socket], [bind],
+    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+SAH_CHECK_LIB([rt], [shm_open],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([z], [gzopen], [
       zlib_found=yes

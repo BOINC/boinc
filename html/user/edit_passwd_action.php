@@ -35,8 +35,7 @@ if (time() - $user->login_token_time > 86400) {
 
 $passwd = post_str("passwd");
 
-$config = get_config();
-$min_passwd_length = parse_config($config, "<min_passwd_length>");
+$min_passwd_length = project_config_val("min_passwd_length");
 if (!$min_passwd_length) $min_passwd_length = 6;
 
 if (!is_ascii($passwd)) {

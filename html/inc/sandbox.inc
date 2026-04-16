@@ -43,7 +43,7 @@ require_once("../inc/dir_hier.inc");
 // Create dir if not present.
 //
 function sandbox_dir($user) {
-    $dir = parse_config(get_config(), "<sandbox_dir>");
+    $dir = project_config_val("sandbox_dir");
     if (!$dir) {
         $dir = "../../sandbox";
     }
