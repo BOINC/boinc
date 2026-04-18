@@ -490,6 +490,13 @@ int HTTP_OP::libcurl_exec(
         curl_easy_setopt(curlEasy, CURLOPT_CAINFO, CA_BUNDLE_FILENAME);
     }
 #endif
+#ifdef __APPLE__
+    // It looks like for the Mac we need to specify the path
+    // to the system certificates file if it exists
+    if (boinc_file_exists("/etc/ssl/cert.pem")) {
+        curl_easy_setopt(curlEasy, CURLOPT_CAINFO, "/etc/ssl/cert.pem");
+    }
+#endif
 
     // set the user agent as this boinc client & version
     //
