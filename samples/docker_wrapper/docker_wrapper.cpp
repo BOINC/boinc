@@ -130,6 +130,7 @@
 #include <cstdio>
 #include <string>
 #include <vector>
+#include <algorithm>
 #include <signal.h>
 
 #include "toml.h"
@@ -763,6 +764,16 @@ JOB_STATUS poll_app() {
     return JOB_FAIL;
 }
 
+// print the given message, but only once
+//
+void print_once(const string& msg) {
+    static vector<string> msgs;
+    if (std::find(msgs.begin(), msgs.end(), msg) == msgs.end()) {
+        fprintf(stderr, "%s", msg.c_str());
+        msgs.push_back(msg);
+    }
+}
+
 // Get CPU and mem usage.
 // This is also surprisingly slow; do it every 10 sec
 //
@@ -784,8 +795,14 @@ int get_stats(RSC_USAGE &ru) {
     );
 #endif
     retval = docker_conn.command(cmd, out, verbose_all());
-    if (retval) return -1;
-    if (out.empty()) return -1;
+    if (retval) {
+        print_once(string("stats command failed\n"));
+        return -1;
+    }
+    if (out.empty()) {
+        print_once(string("stats command returned nothing\n"));
+        return -1;
+    }
 
     // output is like
     // 97.12% 420KiB / 503.8GiB
@@ -803,7 +820,7 @@ int get_stats(RSC_USAGE &ru) {
         }
     }
     if (!found) {
-        fprintf(stderr, "Can't parse stats reply\n");
+        print_once(string("stats command parse failed\n"));
         return -1;
     }
     switch (mem_unit) {
@@ -824,8 +841,12 @@ int get_stats(RSC_USAGE &ru) {
     ru.cpu_frac = cpu_pct/100.;
     ru.wss = mem;
     // sanity checks
-    if (mem == 0 || ru.cpu_frac > aid.ncpus) {
-        fprintf(stderr, "invalid usage stats; using defaults\n");
+    if (mem == 0 ) {
+        print_once(string("stats command returned zero memory\n"));
+        return -1;
+    }
+    if (ru.cpu_frac > aid.ncpus) {
+        print_once(string("stats command returned excessive CPU usage\n"));
         return -1;
     }
     return 0;

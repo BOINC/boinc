@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
         system(buf);
     } else {
         args[argsCount++] = "su";
-        args[argsCount++] = "-m";   // boinc_project doesn't have a shell, so use root's shell /bin/sh
+        args[argsCount++] = "-l";
         args[argsCount++] = "boinc_project";    // Create Podman VM using boinc_project so projects can access it
         args[argsCount++] = "-c";
         args[argsCount++] = buf;

@@ -141,7 +141,7 @@ int optionally_install_rosetta2();
 pid_t FindProcessPID(char* name, pid_t thePID, Boolean currentUserOnly);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 int callPosixSpawn(const char *cmd);
-void print_to_log(const char *format, ...);
+void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 void CopyPreviousErrorsToLog(void);
 
@@ -165,7 +165,7 @@ void notused() {
 static char * Catalog_Name = (char *)"BOINC-Setup";
 static char * Catalogs_Dir = (char *)"/Library/Application Support/BOINC Data/locale/";
 
-#define REPORT_ERROR(isError) if (isError) print_to_log("BOINC PostInstall error at line %d", __LINE__);
+#define REPORT_ERROR(isError) if (isError) print_to_log_file("BOINC PostInstall error at line %d", __LINE__);
 
 /* globals */
 static Boolean                  gCommandLineInstall = false;
@@ -2454,19 +2454,19 @@ int callPosixSpawn(const char *cmdline) {
     }
 
 #if VERBOSE_TEST
-    print_to_log("***********");
+    print_to_log_file("***********");
     for (int i=0; i<argc; ++i) {
-        print_to_log("argv[%d]=%s", i, argv[i]);
+        print_to_log_file("argv[%d]=%s", i, argv[i]);
     }
-    print_to_log("***********\n");
+    print_to_log_file("***********\n");
 #endif
 
     errno = 0;
 
     result = posix_spawnp(&thePid, progPath, NULL, NULL, argv, environ);
 #if VERBOSE_TEST
-    print_to_log("callPosixSpawn command: %s", cmdline);
-    print_to_log("callPosixSpawn: posix_spawnp returned %d: %s", result, strerror(result));
+    print_to_log_file("callPosixSpawn command: %s", cmdline);
+    print_to_log_file("callPosixSpawn: posix_spawnp returned %d: %s", result, strerror(result));
 #endif
     if (result) {
         return result;
@@ -2476,7 +2476,7 @@ int callPosixSpawn(const char *cmdline) {
 // CAF        if (val < 0) printf("first waitpid returned %d\n", val);
     if (status != 0) {
 #if VERBOSE_TEST
-        print_to_log("waitpid() returned status=%d", status);
+        print_to_log_file("waitpid() returned status=%d", status);
 #endif
         result = status;
     } else {
@@ -2484,13 +2484,13 @@ int callPosixSpawn(const char *cmdline) {
             result = WEXITSTATUS(status);
             if (result == 1) {
 #if VERBOSE_TEST
-                print_to_log("WEXITSTATUS(status) returned 1, errno=%d: %s", errno, strerror(errno));
+                print_to_log_file("WEXITSTATUS(status) returned 1, errno=%d: %s", errno, strerror(errno));
 #endif
                 result = errno;
             }
 #if VERBOSE_TEST
             else if (result) {
-                print_to_log("WEXITSTATUS(status) returned %d", result);
+                print_to_log_file("WEXITSTATUS(status) returned %d", result);
             }
 #endif
         }   // end if (WIFEXITED(status)) else
@@ -2513,7 +2513,7 @@ void strip_cr(char *buf)
 }
 
 // For debugging
-void print_to_log(const char *format, ...) {
+void print_to_log_file(const char *format, ...) {
     va_list args;
     char buf[256];
     time_t t;

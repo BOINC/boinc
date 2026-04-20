@@ -220,7 +220,7 @@ jobs:
           ./tests/integration_test/installTestSuite.sh
 
       - name: Cache dependencies
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
         with:
           path: |
             3rdParty/buildCache
@@ -478,7 +478,7 @@ jobs:
 
       - name: Upload integration-test docker logs
         if: ${{ always() && matrix.type == 'integration-test' }}
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: linux_integration_test_docker_logs_${{ github.sha }}
           path: ${{ runner.temp }}/integration-test-logs

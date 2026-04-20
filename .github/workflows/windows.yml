@@ -19,7 +19,7 @@ name: Windows
 on:
   push:
     branches: [ master, 'client_release/**' ]
-    tags: [ 'client_release/**' ]
+    tags: [ 'client_release/**', 'vboxwrapper/**', 'wrapper/**', 'dockerwrapper/**', 'wslwrapper/**', 'worker/**' ]
   pull_request:
     branches: [ master ]
   schedule:
@@ -89,7 +89,7 @@ jobs:
         run: vcpkg.exe integrate remove
 
       - name: Cache dependencies
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
         with:
           path: |
             ${{github.workspace}}\3rdParty\Windows\cuda\

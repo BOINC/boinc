@@ -19,7 +19,6 @@ name: Windows cmake
 on:
   push:
     branches: [ master ]
-    tags: [ 'vboxwrapper/**', 'wrapper/**', 'dockerwrapper/**', 'wslwrapper/**', 'worker/**' ]
   pull_request:
     branches: [ master ]
   schedule:

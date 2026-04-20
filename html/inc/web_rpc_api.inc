@@ -78,18 +78,6 @@ function create_account(
 
     $r = @simplexml_load_string($reply);
     if (!$r) {
-        // old server code returns PHP warnings, which break XML.
-        // do ad-hoc parsing instead
-        //
-        $auth = parse_element($reply, "<authenticator>");
-        if ($auth) {
-            return array($auth, 0, null);
-        }
-        $error_num = parse_element($reply, "<error_num>");
-        $error_msg = parse_element($reply, "<error_msg>");
-        if ($error_num) {
-            return array(null, $error_num, $error_msg);
-        }
         return array(null, -1, "Can't parse reply XML:\n$reply");
     }
     $auth = (string)$r->authenticator;
