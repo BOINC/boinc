@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Fix XDG_RUNTIME_DIR: snap confinement redirects it to a snap-specific subdirectory,
+# but the real runtime dir is needed to find display sockets (Wayland, X11).
+REAL_RUNTIME_DIR="/run/user/$(id -u)"
+if [ -d "$REAL_RUNTIME_DIR" ]; then
+    export XDG_RUNTIME_DIR="$REAL_RUNTIME_DIR"
+fi
+
+# Auto-detect WAYLAND_DISPLAY if not set
+if [ -z "$WAYLAND_DISPLAY" ]; then
+    for socket in wayland-0 wayland-1 wayland-2; do
+        if [ -S "${XDG_RUNTIME_DIR}/${socket}" ]; then
+            export WAYLAND_DISPLAY="$socket"
+            break
+        fi
+    done
+fi
+
+if [ -n "$WAYLAND_DISPLAY" ] && [ -S "${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}" ]; then
+    if [ -n "$DISPLAY" ]; then
+        # Both Wayland and X11 available — allow GTK to fall back to X11 if Wayland fails
+        # (e.g. WSLg where the Wayland socket resolves to /mnt/wslg/ outside the snap namespace)
+        export GDK_BACKEND=wayland,x11
+    else
+        export GDK_BACKEND=wayland
+    fi
+elif [ -n "$DISPLAY" ]; then
+    export GDK_BACKEND=x11
+fi
+
+exec "$SNAP/usr/bin/boincmgr" --datadir "$HOME" "$@"

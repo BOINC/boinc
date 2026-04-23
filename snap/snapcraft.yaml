@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -47,10 +47,13 @@ apps:
     - network-bind
 
   manager:
-    command: usr/bin/boincmgr --datadir $HOME
+    command: usr/bin/launch-manager
     plugs:
+    - home
     - network
     - network-bind
+    - wayland
+    - x11
     extensions:
     - gnome
     slots:
@@ -58,6 +61,7 @@ apps:
     common-id: boinc.manager
     environment:
       XAUTHORITY: $SNAP_REAL_HOME/.Xauthority
+      GDK_BACKEND: wayland,x11
 
 slots:
   dbus-daemon:
@@ -136,3 +140,11 @@ parts:
 
       ./_autosetup
       snapcraftctl build
+
+  snap-local:
+    plugin: dump
+    source: snap/local
+    organize:
+      launch-manager: usr/bin/launch-manager
+    stage:
+    - usr/bin/launch-manager
