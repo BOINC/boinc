@@ -50,34 +50,39 @@ require_once("../inc/util.inc");
 require_once("../inc/account.inc");
 
 // take the user agent string reported by web browser,
-// and return best guess for platform
+// and return best guess(es) for platform
 //
-function get_platform($user_agent) {
+function get_platforms($user_agent) {
     if (strstr($user_agent, 'Windows')) {
-        if (strstr($user_agent, 'x64')) {
-            return 'windows_x86_64';
-        } else if (strstr($user_agent, 'arm')) {
-            return 'windows_arm64';
+        // Chrome returns x64 even for ARM!
+        // Apparently Javascript 'feature detection' is preferred
+        // to user agent for detecting processor type.
+        // But we'll stick with this for now.
+        //
+        if (stristr($user_agent, 'arm')) {
+            return ['windows_arm64'];
+        } else if (strstr($user_agent, 'x86')) {
+            return ['windows_intelx86'];
         } else {
-            return 'windows_intelx86';
+            return ['windows_x86_64', 'windows_arm64'];
         }
     } else if (strstr($user_agent, 'Mac')) {
         if (strstr($user_agent, 'PPC Mac OS X')) {
-            return 'powerpc-apple-darwin';
+            return ['powerpc-apple-darwin'];
         } else {
-            return 'x86_64-apple-darwin';
+            return ['x86_64-apple-darwin'];
         }
     } else if (strstr($user_agent, 'Android')) {
         // Check for Android before Linux,
         // since Android contains the Linux kernel and the
         // web browser user agent string lists Linux too.
         //
-        return 'arm-android-linux-gnu';
+        return ['arm-android-linux-gnu'];
     } else if (strstr($user_agent, 'Linux')) {
         if (strstr($user_agent, 'x86_64')) {
-            return 'x86_64-pc-linux-gnu';
+            return ['x86_64-pc-linux-gnu'];
         } else {
-            return 'i686-pc-linux-gnu';
+            return ['i686-pc-linux-gnu'];
         }
     } else {
         return null;
@@ -101,23 +106,26 @@ function is_windows_or_mac() {
 
 // find release version for user's platform
 //
-function get_version($user_agent, $dev) {
-    $v = simplexml_load_file("versions.xml");
-    $p = get_platform($user_agent);
-    foreach ($v->version as $i=>$v) {
-        if ((string)$v->dbplatform != $p) {
+function get_versions($user_agent, $dev) {
+    $vs = simplexml_load_file("versions.xml");
+    $ps = get_platforms($user_agent);
+    $out = [];
+    foreach ($vs->version as $i=>$v) {
+        if (!in_array((string)$v->dbplatform, $ps)) {
             continue;
         }
-        if (strstr((string)$v->description, "Recommended")) {
-            return $v;
+        if ((string)$v->description == "Recommended version"
+            && (empty($v->max_os_version) || (string)$v->max_os_version == '999999')
+        ) {
+            $out[] = $v;
         }
         if ($dev) {
-            if (strstr((string)$v->description, "Development")) {
-                return $v;
+            if ((string)$v->description == "Development version") {
+                $out[] = $v;
             }
         }
     }
-    return null;
+    return $out;
 }
 
 function download_button($v, $project_id, $token, $user) {
@@ -128,10 +136,11 @@ function download_button($v, $project_id, $token, $user) {
         <input type=hidden name=user_id value="%d">
         <input type=hidden name=filename value="%s">
         <button %s class="btn">
-        <font size=2><u>Download BOINC</u></font>
+        <font size=+1><u>Download BOINC</u></font>
         <br>for %s (%s MB)
         <br>BOINC %s</button>
         </form>
+        <p>
         ',
         $project_id,
         $token,
@@ -196,12 +205,12 @@ function show_download_page($user, $user_agent, $dev) {
         direct_to_boinc();
         return;
     }
-    $v = get_version($user_agent, $dev);
+    $vs = get_versions($user_agent, $dev);
 
     // if we can't figure out the user's platform,
     // take them to the download page on the BOINC site
     //
-    if (!$v) {
+    if (!$vs) {
         direct_to_boinc();
         return;
     }
@@ -226,13 +235,16 @@ function show_download_page($user, $user_agent, $dev) {
     ";
 
     $token = make_login_token($user);
-    echo "<table border=0 cellpadding=20>\n";
-    table_row("", download_button($v, $project_id, $token, $user), "");
+    echo "<table>\n";
+    foreach ($vs as $v) {
+        table_row("", download_button($v, $project_id, $token, $user), "");
+    }
     echo "</table>\n";
     echo "<p><p>";
     echo tra("When the download is finished, open the downloaded file to install %1.", $dl);
     echo "<p><p>";
-    echo tra("All done? %1Click here to finish%2.", "<a href=welcome.php>", "</a>");
+    $welcome_page = defined('WELCOME_PAGE')?WELCOME_PAGE:"welcome.php";
+    echo tra("All done? %1Click here to finish%2.", "<a href=$welcome_page>", "</a>");
     page_tail();
 }
 
@@ -301,8 +313,8 @@ function handle_get_info() {
         xml_error(-1, "no project ID");
     }
     $user_agent = get_str('user_agent');
-    $v = get_version($user_agent, false);
-    if (!$v) {
+    $vs = get_version($user_agent, false);
+    if (!$vs) {
         xml_error(-1, "no version for platform");
     }
 
@@ -312,21 +324,26 @@ function handle_get_info() {
     <project_id>%s</project_id>
     <token>%s</token>
     <user_id>%d</user_id>
-    <platform>%s</platform>
-    <boinc>
+',
+        $project_id,
+        $token,
+        $user->id
+    );
+    foreach ($vs as $v) {
+        echo sprintf(
+'    <boinc>
+        <platform>%s</platform>
         <filename>%s</filename>
         <size_mb>%s</size_mb>
         <boinc_version>%s</boinc_version>
     </boinc>
 ',
-        $project_id,
-        $token,
-        $user->id,
-        (string)$v->platform,
-        (string)$v->filename,
-        (string)$v->size_mb,
-        (string)$v->version_num
-    );
+            (string)$v->platform,
+            (string)$v->filename,
+            (string)$v->size_mb,
+            (string)$v->version_num
+        );
+    }
     echo '</download_info>
 ';
 }
