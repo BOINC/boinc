@@ -1,5 +1,22 @@
 #!/bin/bash
 
+LOG=/tmp/boinc-launch-debug.log
+
+log() { echo "$@" >> "$LOG"; }
+
+{
+    echo ""
+    echo "=== boinc manager launch $(date) ==="
+    echo "uid=$(id -u) user=$(id -un)"
+} >> "$LOG"
+
+log "--- env before fixes ---"
+log "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR"
+log "WAYLAND_DISPLAY=$WAYLAND_DISPLAY"
+log "DISPLAY=$DISPLAY"
+log "GDK_BACKEND=$GDK_BACKEND"
+log "XAUTHORITY=$XAUTHORITY"
+
 # Fix XDG_RUNTIME_DIR: snap confinement redirects it to a snap-specific subdirectory,
 # but the real runtime dir is needed to find display sockets (Wayland, X11).
 REAL_RUNTIME_DIR="/run/user/$(id -u)"
@@ -7,11 +24,41 @@ if [ -d "$REAL_RUNTIME_DIR" ]; then
     export XDG_RUNTIME_DIR="$REAL_RUNTIME_DIR"
 fi
 
+log "--- wayland socket ---"
+log "XDG_RUNTIME_DIR (after fix)=$XDG_RUNTIME_DIR"
+log "socket: $(ls -la "$XDG_RUNTIME_DIR/wayland-0" 2>&1)"
+
+# Fix XAUTHORITY: on GNOME Wayland, $XAUTHORITY points to a session-specific file
+# in /run/user/ (e.g. .mutter-Xwaylandauth.XXXXX) which the snap's x11 AppArmor policy
+# may not allow reading (it only permits $HOME/.Xauthority). Try to merge the session
+# cookies into ~/.Xauthority so the snap can access them.
+log "--- xauthority fix ---"
+log "XAUTHORITY=$XAUTHORITY"
+log "XAUTHORITY readable: $([ -r "$XAUTHORITY" ] && echo yes || echo no)"
+log "~/.Xauthority exists: $([ -f "$HOME/.Xauthority" ] && echo yes || echo no)"
+if [ -n "$XAUTHORITY" ] && [ "$XAUTHORITY" != "$HOME/.Xauthority" ]; then
+    if command -v xauth >/dev/null 2>&1; then
+        log "xauth=$(command -v xauth)"
+        if xauth merge "$XAUTHORITY" 2>> "$LOG"; then
+            log "xauth merge succeeded"
+        else
+            log "xauth merge failed (AppArmor may block reading $XAUTHORITY)"
+        fi
+    else
+        log "xauth not found in PATH"
+    fi
+    # Point to ~/.Xauthority regardless; if merge worked it now has the right cookies,
+    # and if not it's the only path the snap's AppArmor policy allows.
+    export XAUTHORITY="$HOME/.Xauthority"
+    log "XAUTHORITY -> $XAUTHORITY"
+fi
+
 # Auto-detect WAYLAND_DISPLAY if not set
 if [ -z "$WAYLAND_DISPLAY" ]; then
     for socket in wayland-0 wayland-1 wayland-2; do
         if [ -S "${XDG_RUNTIME_DIR}/${socket}" ]; then
             export WAYLAND_DISPLAY="$socket"
+            log "auto-detected WAYLAND_DISPLAY=$WAYLAND_DISPLAY"
             break
         fi
     done
@@ -28,5 +75,13 @@ if [ -n "$WAYLAND_DISPLAY" ] && [ -S "${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}" ]; 
 elif [ -n "$DISPLAY" ]; then
     export GDK_BACKEND=x11
 fi
+
+log "--- env after fixes ---"
+log "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR"
+log "WAYLAND_DISPLAY=$WAYLAND_DISPLAY"
+log "DISPLAY=$DISPLAY"
+log "GDK_BACKEND=$GDK_BACKEND"
+log "XAUTHORITY=$XAUTHORITY"
+log "=== launching boincmgr ==="
 
 exec "$SNAP/usr/bin/boincmgr" --datadir "$HOME" "$@"
