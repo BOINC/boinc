@@ -28,30 +28,20 @@ log "--- wayland socket ---"
 log "XDG_RUNTIME_DIR (after fix)=$XDG_RUNTIME_DIR"
 log "socket: $(ls -la "$XDG_RUNTIME_DIR/wayland-0" 2>&1)"
 
-# Fix XAUTHORITY: on GNOME Wayland, $XAUTHORITY points to a session-specific file
-# in /run/user/ (e.g. .mutter-Xwaylandauth.XXXXX) which the snap's x11 AppArmor policy
-# may not allow reading (it only permits $HOME/.Xauthority). Try to merge the session
-# cookies into ~/.Xauthority so the snap can access them.
-log "--- xauthority fix ---"
+# TODO: XAUTHORITY fix — disabled pending investigation.
+# On GNOME Wayland, $XAUTHORITY may point to a session-specific file in /run/user/
+# (e.g. .mutter-Xwaylandauth.XXXXX) which the snap's x11 AppArmor policy doesn't allow
+# reading. When needed, the fix is to merge cookies into the real ~/.Xauthority:
+#   REAL_XAUTH="${SNAP_REAL_HOME:-$HOME}/.Xauthority"
+#   if [ -n "$XAUTHORITY" ] && [ ! -r "$XAUTHORITY" ]; then
+#       xauth merge "$XAUTHORITY" && export XAUTHORITY="$REAL_XAUTH"
+#   elif [ -z "$XAUTHORITY" ]; then
+#       export XAUTHORITY="$REAL_XAUTH"
+#   fi
+log "--- xauthority ---"
 log "XAUTHORITY=$XAUTHORITY"
 log "XAUTHORITY readable: $([ -r "$XAUTHORITY" ] && echo yes || echo no)"
-log "~/.Xauthority exists: $([ -f "$HOME/.Xauthority" ] && echo yes || echo no)"
-if [ -n "$XAUTHORITY" ] && [ "$XAUTHORITY" != "$HOME/.Xauthority" ]; then
-    if command -v xauth >/dev/null 2>&1; then
-        log "xauth=$(command -v xauth)"
-        if xauth merge "$XAUTHORITY" 2>> "$LOG"; then
-            log "xauth merge succeeded"
-        else
-            log "xauth merge failed (AppArmor may block reading $XAUTHORITY)"
-        fi
-    else
-        log "xauth not found in PATH"
-    fi
-    # Point to ~/.Xauthority regardless; if merge worked it now has the right cookies,
-    # and if not it's the only path the snap's AppArmor policy allows.
-    export XAUTHORITY="$HOME/.Xauthority"
-    log "XAUTHORITY -> $XAUTHORITY"
-fi
+log "SNAP_REAL_HOME=$SNAP_REAL_HOME"
 
 # Auto-detect WAYLAND_DISPLAY if not set
 if [ -z "$WAYLAND_DISPLAY" ]; then
@@ -64,12 +54,20 @@ if [ -z "$WAYLAND_DISPLAY" ]; then
     done
 fi
 
-if [ -n "$WAYLAND_DISPLAY" ] && [ -S "${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}" ]; then
-    if [ -n "$DISPLAY" ]; then
-        # Both Wayland and X11 available — allow GTK to fall back to X11 if Wayland fails
-        # (e.g. WSLg where the Wayland socket resolves to /mnt/wslg/ outside the snap namespace)
+# Determine GDK backend:
+#   - Native Wayland socket (real socket, not symlink): use Wayland only — it works natively
+#   - Symlinked Wayland socket (WSLg): socket may be inaccessible inside snap namespace,
+#     allow X11 fallback via XWayland
+#   - No Wayland at all: use X11
+WAYLAND_SOCKET="${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY}"
+log "--- backend selection ---"
+log "socket type: $([ -L "$WAYLAND_SOCKET" ] && echo symlink || ([ -S "$WAYLAND_SOCKET" ] && echo real || echo none))"
+if [ -n "$WAYLAND_DISPLAY" ] && [ -S "$WAYLAND_SOCKET" ]; then
+    if [ -L "$WAYLAND_SOCKET" ]; then
+        # Symlinked socket (e.g. WSLg) — allow X11 fallback if Wayland is inaccessible
         export GDK_BACKEND=wayland,x11
     else
+        # Real native Wayland socket — use Wayland directly
         export GDK_BACKEND=wayland
     fi
 elif [ -n "$DISPLAY" ]; then
