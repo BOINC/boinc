@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -96,6 +96,7 @@ parts:
     - cmake
     - dbus
     - python3-venv
+    - flex
     source: .
     plugin: autotools
     build-environment:
@@ -132,7 +133,11 @@ parts:
       pip install -U --user pip
       pip install --user jinja2
 
-      linux/update_vcpkg_manager.sh $triplet
+      # first parameter is the target triplet
+      # second parameter is the host triplet
+      # this needs to be changed is ever this will support a cross-compilation scenario
+      # but for now we only support building on the same architecture as the target
+      linux/update_vcpkg_manager.sh $triplet $triplet
 
       ./_autosetup
       snapcraftctl build
