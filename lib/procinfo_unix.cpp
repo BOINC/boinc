@@ -89,7 +89,7 @@ struct PROC_STAT {
     int itrealvalue;
     unsigned long starttime;
     unsigned long vsize;
-    int rss;
+    long rss;
     unsigned long rlim;
     unsigned long startcode;
     unsigned long endcode;
@@ -118,7 +118,7 @@ int PROC_STAT::parse(char* buf) {
         "%lu %lu %lu %lu %lu %lu %lu "
         "%d %d %d %d %d %d "
         "%lu %lu "
-        "%d "
+        "%ld "
         "%lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu "
         "%d %d",
         &pid,
