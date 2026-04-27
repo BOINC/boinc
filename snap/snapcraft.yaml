@@ -16,8 +16,8 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 name: boinc
-base: core22
 version: "8.2.11"
+base: core24
 type: app
 title: BOINC Manager
 summary: BOINC lets you help cutting-edge science research using your computer.
@@ -32,6 +32,14 @@ source-code: https://github.com/BOINC/boinc
 website: https://boinc.berkeley.edu/
 grade: stable
 confinement: strict
+
+platforms:
+  amd64:
+    build-on: amd64
+    build-for: amd64
+  arm64:
+    build-on: arm64
+    build-for: arm64
 
 apps:
   boinc:
@@ -101,13 +109,13 @@ parts:
     plugin: autotools
     build-environment:
     - CRYPTOGRAPHY_DONT_BUILD_RUST: "1"
-    - triplet: snap-linux-$SNAPCRAFT_TARGET_ARCH
+    - triplet: snap-linux-$CRAFT_ARCH_BUILD_FOR
     - VCPKG_DIR: "$PWD/3rdParty/linux/vcpkg/installed/$triplet"
     - _libcurl_pc: "$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
-    - VCPKG_BINARY_SOURCES: "$VCPKG_BINARY_SOURCES"
-    - AWS_ACCESS_KEY_ID: "$AWS_ACCESS_KEY_ID"
-    - AWS_SECRET_ACCESS_KEY: "$AWS_SECRET_ACCESS_KEY"
-    - AWS_DEFAULT_REGION: "$AWS_DEFAULT_REGION"
+    - VCPKG_BINARY_SOURCES: "${VCPKG_BINARY_SOURCES:+$VCPKG_BINARY_SOURCES}"
+    - AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID:+$AWS_ACCESS_KEY_ID}"
+    - AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY:+$AWS_SECRET_ACCESS_KEY}"
+    - AWS_DEFAULT_REGION: "${AWS_DEFAULT_REGION:+$AWS_DEFAULT_REGION}"
     - prefix: /usr
     - PKG_CONFIG_PATH: $VCPKG_DIR/lib/pkgconfig/
     autotools-configure-parameters:
@@ -120,7 +128,7 @@ parts:
     - --disable-server
     - GTK_LIBS="`pkg-config --libs gtk+-3.0`"
     override-build: |
-      echo ARCH=$SNAPCRAFT_TARGET_ARCH
+      echo ARCH=$CRAFT_ARCH_BUILD_FOR
 
       export PATH=/snap/cmake/current/bin/:$PATH
       cmake --version
@@ -140,4 +148,4 @@ parts:
       linux/update_vcpkg_manager.sh $triplet $triplet
 
       ./_autosetup
-      snapcraftctl build
+      craftctl default
