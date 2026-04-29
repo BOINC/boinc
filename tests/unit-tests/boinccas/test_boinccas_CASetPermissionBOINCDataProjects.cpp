@@ -18,7 +18,7 @@
 #include "boinccas_helper.h"
 #include "user_group_helper.h"
 
-namespace test_boinccas_CASetPermissionBOINCData {
+namespace test_boinccas_CASetPermissionBOINCDataProjects {
     constexpr auto adminsGroupName = "test_admins";
     constexpr auto usersGroupName = "test_users";
     constexpr auto projectsGroupName = "test_projects";
@@ -43,11 +43,11 @@ namespace test_boinccas_CASetPermissionBOINCData {
         }
     };
 
-    class test_boinccas_CASetPermissionBOINCData :
+    class test_boinccas_CASetPermissionBOINCDataProjects :
         public test_boinccas_TestBase {
     protected:
-        test_boinccas_CASetPermissionBOINCData() :
-            test_boinccas_TestBase("SetPermissionBOINCData") {
+        test_boinccas_CASetPermissionBOINCDataProjects() :
+            test_boinccas_TestBase("SetPermissionBOINCDataProjects") {
         }
 
         void TearDown() override {
@@ -162,8 +162,10 @@ namespace test_boinccas_CASetPermissionBOINCData {
                 if (projects_sid &&
                     EqualSid(entry.Trustee.ptstrName, projects_sid.get())) {
                     foundAccountsInfo.boinc_projects = true;
-                    if ((entry.grfAccessPermissions & FILE_TRAVERSE)
-                        != FILE_TRAVERSE) {
+                    if ((entry.grfAccessPermissions & FILE_ALL_ACCESS) !=
+                        FILE_ALL_ACCESS &&
+                        (entry.grfAccessPermissions & GENERIC_ALL) !=
+                        GENERIC_ALL) {
                         return 14;
                     }
                     if (entry.grfAccessMode != GRANT_ACCESS) {
@@ -251,9 +253,9 @@ namespace test_boinccas_CASetPermissionBOINCData {
 
         std::filesystem::path testDir;
     };
-
+#define BOINCCAS_TEST
 #ifdef BOINCCAS_TEST
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
         ProtectedMode_Empty_DATADIR_Property_Expect_Fail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -291,8 +293,8 @@ namespace test_boinccas_CASetPermissionBOINCData {
         EXPECT_NE(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
-        NormalMode_Empty_DATADIR_Property_Expect_Fail) {
+    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
+        NormalMode_Empty_Expect_Success) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
@@ -302,17 +304,10 @@ namespace test_boinccas_CASetPermissionBOINCData {
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("0", value);
 
-        const auto userSid = getCurrentUserSidString();
-        setMsiProperty("UserSID", userSid);
-        std::tie(errorcode, value) =
-            getMsiProperty("UserSID");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ(userSid, value);
-
-        EXPECT_NE(0u, executeAction());
+        EXPECT_EQ(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
         ProtectedMode_DATADIR_Doesnt_Exist_Expect_Fail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -358,25 +353,43 @@ namespace test_boinccas_CASetPermissionBOINCData {
         EXPECT_NE(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
-        NormalMode_DATADIR_Doesnt_Exist_Expect_Fail) {
+    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
+        ProtectedMode_DATADIR_Projects_Doesnt_Exist_Expect_Fail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
-        setMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3", "0");
+        setMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3", "1");
         auto [errorcode, value] =
             getMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ("0", value);
+        ASSERT_EQ("1", value);
 
-        const auto userSid = getCurrentUserSidString();
-        setMsiProperty("UserSID", userSid);
+        setMsiProperty("BOINC_ADMINS_GROUPNAME", adminsGroupName);
         std::tie(errorcode, value) =
-            getMsiProperty("UserSID");
+            getMsiProperty("BOINC_ADMINS_GROUPNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ(userSid, value);
+        ASSERT_EQ(adminsGroupName, value);
+
+        ASSERT_TRUE(createLocalGroup(adminsGroupName));
+
+        setMsiProperty("BOINC_USERS_GROUPNAME", usersGroupName);
+        std::tie(errorcode, value) =
+            getMsiProperty("BOINC_USERS_GROUPNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(usersGroupName, value);
+
+        ASSERT_TRUE(createLocalGroup(usersGroupName));
+
+        setMsiProperty("BOINC_PROJECTS_GROUPNAME", projectsGroupName);
+        std::tie(errorcode, value) =
+            getMsiProperty("BOINC_PROJECTS_GROUPNAME");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        ASSERT_EQ(projectsGroupName, value);
+
+        ASSERT_TRUE(createLocalGroup(projectsGroupName));
 
         testDir = std::filesystem::current_path() /= "test_data";
+        std::filesystem::create_directories(testDir);
 
         setMsiProperty("DATADIR", testDir.string());
         std::tie(errorcode, value) =
@@ -387,7 +400,7 @@ namespace test_boinccas_CASetPermissionBOINCData {
         EXPECT_NE(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
         ProtectedMode_Without_Admins_Group_Expect_Fail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -415,7 +428,7 @@ namespace test_boinccas_CASetPermissionBOINCData {
         ASSERT_TRUE(createLocalGroup(projectsGroupName));
 
         testDir = std::filesystem::current_path() /= "test_data";
-        std::filesystem::create_directories(testDir);
+        std::filesystem::create_directories(testDir /= "projects");
 
         setMsiProperty("DATADIR", testDir.string());
         std::tie(errorcode, value) =
@@ -426,7 +439,7 @@ namespace test_boinccas_CASetPermissionBOINCData {
         EXPECT_NE(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
         ProtectedMode_Without_Users_Group_Expect_Fail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -454,7 +467,7 @@ namespace test_boinccas_CASetPermissionBOINCData {
         ASSERT_TRUE(createLocalGroup(projectsGroupName));
 
         testDir = std::filesystem::current_path() /= "test_data";
-        std::filesystem::create_directories(testDir);
+        std::filesystem::create_directories(testDir /= "projects");
 
         setMsiProperty("DATADIR", testDir.string());
         std::tie(errorcode, value) =
@@ -465,7 +478,7 @@ namespace test_boinccas_CASetPermissionBOINCData {
         EXPECT_NE(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
         ProtectedMode_Without_Projects_Group_Expect_Fail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -493,7 +506,7 @@ namespace test_boinccas_CASetPermissionBOINCData {
         ASSERT_TRUE(createLocalGroup(usersGroupName));
 
         testDir = std::filesystem::current_path() /= "test_data";
-        std::filesystem::create_directories(testDir);
+        std::filesystem::create_directories(testDir /= "projects");
 
         setMsiProperty("DATADIR", testDir.string());
         std::tie(errorcode, value) =
@@ -504,7 +517,7 @@ namespace test_boinccas_CASetPermissionBOINCData {
         EXPECT_NE(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
         ProtectedMode_Admins_Group_Doesnt_Exist_Expect_Fail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -538,7 +551,7 @@ namespace test_boinccas_CASetPermissionBOINCData {
         ASSERT_TRUE(createLocalGroup(projectsGroupName));
 
         testDir = std::filesystem::current_path() /= "test_data";
-        std::filesystem::create_directories(testDir);
+        std::filesystem::create_directories(testDir /= "projects");
 
         setMsiProperty("DATADIR", testDir.string());
         std::tie(errorcode, value) =
@@ -549,7 +562,7 @@ namespace test_boinccas_CASetPermissionBOINCData {
         EXPECT_NE(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
         ProtectedMode_Users_Group_Doesnt_Exist_Expect_Fail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -583,7 +596,7 @@ namespace test_boinccas_CASetPermissionBOINCData {
         ASSERT_TRUE(createLocalGroup(projectsGroupName));
 
         testDir = std::filesystem::current_path() /= "test_data";
-        std::filesystem::create_directories(testDir);
+        std::filesystem::create_directories(testDir /= "projects");
 
         setMsiProperty("DATADIR", testDir.string());
         std::tie(errorcode, value) =
@@ -594,7 +607,7 @@ namespace test_boinccas_CASetPermissionBOINCData {
         EXPECT_NE(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
         ProtectedMode_Projects_Group_Doesnt_Exist_Expect_Fail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -628,7 +641,7 @@ namespace test_boinccas_CASetPermissionBOINCData {
         ASSERT_EQ(projectsGroupName, value);
 
         testDir = std::filesystem::current_path() /= "test_data";
-        std::filesystem::create_directories(testDir);
+        std::filesystem::create_directories(testDir /= "projects");
 
         setMsiProperty("DATADIR", testDir.string());
         std::tie(errorcode, value) =
@@ -639,7 +652,7 @@ namespace test_boinccas_CASetPermissionBOINCData {
         EXPECT_NE(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
         ProtectedMode_AllUsers_Not_Set_Expect_Success) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -676,19 +689,19 @@ namespace test_boinccas_CASetPermissionBOINCData {
 
         testDir = std::filesystem::current_path() /= "test_data";
         const std::array folders = {
-            testDir / "d1",
-            testDir / "d2",
-            testDir / "d1" / "d3",
-            testDir / "d1" / "d4"
+            testDir / "projects" / "d1",
+            testDir / "projects" / "d2",
+            testDir / "projects" / "d1" / "d3",
+            testDir / "projects" / "d1" / "d4"
         };
         const std::array files = {
-            testDir / "f1",
-            testDir / "f2",
-            testDir / "d1" / "f3",
-            testDir / "d1" / "f4",
-            testDir / "d2" / "f5",
-            testDir / "d1" / "d3" / "f6",
-            testDir / "d1" / "d4" / "f7"
+            testDir / "projects" / "f1",
+            testDir / "projects" / "f2",
+            testDir / "projects" / "d1" / "f3",
+            testDir / "projects" / "d1" / "f4",
+            testDir / "projects" / "d2" / "f5",
+            testDir / "projects" / "d1" / "d3" / "f6",
+            testDir / "projects" / "d1" / "d4" / "f7"
         };
 
         std::filesystem::create_directories(testDir);
@@ -714,7 +727,8 @@ namespace test_boinccas_CASetPermissionBOINCData {
         accountsInfo.boinc_users = true;
         accountsInfo.boinc_projects = true;
 
-        EXPECT_EQ(0, checkPermissions(testDir, accountsInfo, true));
+        EXPECT_EQ(0, checkPermissions(testDir / "projects", accountsInfo,
+            true));
         for (const auto& folder : folders) {
             EXPECT_EQ(0, checkPermissions(folder, accountsInfo, true));
         }
@@ -723,7 +737,7 @@ namespace test_boinccas_CASetPermissionBOINCData {
         }
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
         ProtectedMode_AllUsers_Set_Expect_Success) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -766,19 +780,19 @@ namespace test_boinccas_CASetPermissionBOINCData {
 
         testDir = std::filesystem::current_path() /= "test_data";
         const std::array folders = {
-            testDir / "d1",
-            testDir / "d2",
-            testDir / "d1" / "d3",
-            testDir / "d1" / "d4"
+            testDir / "projects" / "d1",
+            testDir / "projects" / "d2",
+            testDir / "projects" / "d1" / "d3",
+            testDir / "projects" / "d1" / "d4"
         };
         const std::array files = {
-            testDir / "f1",
-            testDir / "f2",
-            testDir / "d1" / "f3",
-            testDir / "d1" / "f4",
-            testDir / "d2" / "f5",
-            testDir / "d1" / "d3" / "f6",
-            testDir / "d1" / "d4" / "f7"
+            testDir / "projects" / "f1",
+            testDir / "projects" / "f2",
+            testDir / "projects" / "d1" / "f3",
+            testDir / "projects" / "d1" / "f4",
+            testDir / "projects" / "d2" / "f5",
+            testDir / "projects" / "d1" / "d3" / "f6",
+            testDir / "projects" / "d1" / "d4" / "f7"
         };
 
         std::filesystem::create_directories(testDir);
@@ -805,7 +819,8 @@ namespace test_boinccas_CASetPermissionBOINCData {
         accountsInfo.boinc_users = true;
         accountsInfo.boinc_projects = true;
 
-        EXPECT_EQ(0, checkPermissions(testDir, accountsInfo, true));
+        EXPECT_EQ(0, checkPermissions(testDir / "projects", accountsInfo,
+            true));
         for (const auto& folder : folders) {
             EXPECT_EQ(0, checkPermissions(folder, accountsInfo, true));
         }
@@ -814,7 +829,7 @@ namespace test_boinccas_CASetPermissionBOINCData {
         }
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
         ProtectedMode_AllUsers_Disabled_Expect_Success) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -857,19 +872,19 @@ namespace test_boinccas_CASetPermissionBOINCData {
 
         testDir = std::filesystem::current_path() /= "test_data";
         const std::array folders = {
-            testDir / "d1",
-            testDir / "d2",
-            testDir / "d1" / "d3",
-            testDir / "d1" / "d4"
+            testDir / "projects" / "d1",
+            testDir / "projects" / "d2",
+            testDir / "projects" / "d1" / "d3",
+            testDir / "projects" / "d1" / "d4"
         };
         const std::array files = {
-            testDir / "f1",
-            testDir / "f2",
-            testDir / "d1" / "f3",
-            testDir / "d1" / "f4",
-            testDir / "d2" / "f5",
-            testDir / "d1" / "d3" / "f6",
-            testDir / "d1" / "d4" / "f7"
+            testDir / "projects" / "f1",
+            testDir / "projects" / "f2",
+            testDir / "projects" / "d1" / "f3",
+            testDir / "projects" / "d1" / "f4",
+            testDir / "projects" / "d2" / "f5",
+            testDir / "projects" / "d1" / "d3" / "f6",
+            testDir / "projects" / "d1" / "d4" / "f7"
         };
 
         std::filesystem::create_directories(testDir);
@@ -895,7 +910,8 @@ namespace test_boinccas_CASetPermissionBOINCData {
         accountsInfo.boinc_users = true;
         accountsInfo.boinc_projects = true;
 
-        EXPECT_EQ(0, checkPermissions(testDir, accountsInfo, true));
+        EXPECT_EQ(0, checkPermissions(testDir / "projects", accountsInfo,
+            true));
         for (const auto& folder : folders) {
             EXPECT_EQ(0, checkPermissions(folder, accountsInfo, true));
         }
@@ -904,405 +920,7 @@ namespace test_boinccas_CASetPermissionBOINCData {
         }
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
-        NormalMode_AllUsers_Not_Set_Expect_Success) {
-        const auto result = openMsi();
-        ASSERT_EQ(0u, result);
-
-        setMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3", "0");
-        auto [errorcode, value] =
-            getMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ("0", value);
-
-        const auto userSid = getCurrentUserSidString();
-        setMsiProperty("UserSID", userSid);
-        std::tie(errorcode, value) =
-            getMsiProperty("UserSID");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ(userSid, value);
-
-        testDir = std::filesystem::current_path() /= "test_data";
-        const std::array folders = {
-            testDir / "d1",
-            testDir / "d2",
-            testDir / "d1" / "d3",
-            testDir / "d1" / "d4"
-        };
-        const std::array files = {
-            testDir / "f1",
-            testDir / "f2",
-            testDir / "d1" / "f3",
-            testDir / "d1" / "f4",
-            testDir / "d2" / "f5",
-            testDir / "d1" / "d3" / "f6",
-            testDir / "d1" / "d4" / "f7"
-        };
-
-        std::filesystem::create_directories(testDir);
-        for (const auto& folder : folders) {
-            std::filesystem::create_directories(folder);
-        }
-        for (const auto& file : files) {
-            createDummyFile(file);
-        }
-
-        setMsiProperty("DATADIR", testDir.string());
-        std::tie(errorcode, value) =
-            getMsiProperty("DATADIR");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ(testDir.string(), value);
-
-        EXPECT_EQ(0u, executeAction());
-
-        AccountsInfo accountsInfo;
-        accountsInfo.system = true;
-        accountsInfo.admins = true;
-        accountsInfo.currentUser = true;
-
-        EXPECT_EQ(0, checkPermissions(testDir, accountsInfo, false));
-        for (const auto& folder : folders) {
-            EXPECT_EQ(0, checkPermissions(folder, accountsInfo, false));
-        }
-        for (const auto& file : files) {
-            EXPECT_EQ(0, checkPermissions(file, accountsInfo, false));
-        }
-    }
-
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
-        NormalMode_AllUsers_Set_Expect_Success) {
-        const auto result = openMsi();
-        ASSERT_EQ(0u, result);
-
-        setMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3", "0");
-        auto [errorcode, value] =
-            getMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ("0", value);
-
-        const auto userSid = getCurrentUserSidString();
-        setMsiProperty("UserSID", userSid);
-        std::tie(errorcode, value) =
-            getMsiProperty("UserSID");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ(userSid, value);
-
-        setMsiProperty("ENABLEUSEBYALLUSERS", "1");
-        std::tie(errorcode, value) =
-            getMsiProperty("ENABLEUSEBYALLUSERS");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ("1", value);
-
-        testDir = std::filesystem::current_path() /= "test_data";
-        const std::array folders = {
-            testDir / "d1",
-            testDir / "d2",
-            testDir / "d1" / "d3",
-            testDir / "d1" / "d4"
-        };
-        const std::array files = {
-            testDir / "f1",
-            testDir / "f2",
-            testDir / "d1" / "f3",
-            testDir / "d1" / "f4",
-            testDir / "d2" / "f5",
-            testDir / "d1" / "d3" / "f6",
-            testDir / "d1" / "d4" / "f7"
-        };
-
-        std::filesystem::create_directories(testDir);
-        for (const auto& folder : folders) {
-            std::filesystem::create_directories(folder);
-        }
-        for (const auto& file : files) {
-            createDummyFile(file);
-        }
-
-        setMsiProperty("DATADIR", testDir.string());
-        std::tie(errorcode, value) =
-            getMsiProperty("DATADIR");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ(testDir.string(), value);
-
-        EXPECT_EQ(0u, executeAction());
-
-        AccountsInfo accountsInfo;
-        accountsInfo.system = true;
-        accountsInfo.admins = true;
-        accountsInfo.users = true;
-        accountsInfo.currentUser = true;
-
-        EXPECT_EQ(0, checkPermissions(testDir, accountsInfo, false));
-        for (const auto& folder : folders) {
-            EXPECT_EQ(0, checkPermissions(folder, accountsInfo, false));
-        }
-        for (const auto& file : files) {
-            EXPECT_EQ(0, checkPermissions(file, accountsInfo, false));
-        }
-    }
-
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
-        NormalMode_AllUsers_Disabled_Expect_Success) {
-        const auto result = openMsi();
-        ASSERT_EQ(0u, result);
-
-        setMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3", "0");
-        auto [errorcode, value] =
-            getMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ("0", value);
-
-        const auto userSid = getCurrentUserSidString();
-        setMsiProperty("UserSID", userSid);
-        std::tie(errorcode, value) =
-            getMsiProperty("UserSID");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ(userSid, value);
-
-        setMsiProperty("ENABLEUSEBYALLUSERS", "0");
-        std::tie(errorcode, value) =
-            getMsiProperty("ENABLEUSEBYALLUSERS");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ("0", value);
-
-        testDir = std::filesystem::current_path() /= "test_data";
-        const std::array folders = {
-            testDir / "d1",
-            testDir / "d2",
-            testDir / "d1" / "d3",
-            testDir / "d1" / "d4"
-        };
-        const std::array files = {
-            testDir / "f1",
-            testDir / "f2",
-            testDir / "d1" / "f3",
-            testDir / "d1" / "f4",
-            testDir / "d2" / "f5",
-            testDir / "d1" / "d3" / "f6",
-            testDir / "d1" / "d4" / "f7"
-        };
-
-        std::filesystem::create_directories(testDir);
-        for (const auto& folder : folders) {
-            std::filesystem::create_directories(folder);
-        }
-        for (const auto& file : files) {
-            createDummyFile(file);
-        }
-
-        setMsiProperty("DATADIR", testDir.string());
-        std::tie(errorcode, value) =
-            getMsiProperty("DATADIR");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ(testDir.string(), value);
-
-        EXPECT_EQ(0u, executeAction());
-
-        AccountsInfo accountsInfo;
-        accountsInfo.system = true;
-        accountsInfo.admins = true;
-        accountsInfo.currentUser = true;
-
-        EXPECT_EQ(0, checkPermissions(testDir, accountsInfo, false));
-        for (const auto& folder : folders) {
-            EXPECT_EQ(0, checkPermissions(folder, accountsInfo, false));
-        }
-        for (const auto& file : files) {
-            EXPECT_EQ(0, checkPermissions(file, accountsInfo, false));
-        }
-    }
-
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
-        NormalMode_Protected_Not_Set_AllUsers_Not_Set_Expect_Success) {
-        const auto result = openMsi();
-        ASSERT_EQ(0u, result);
-
-        const auto userSid = getCurrentUserSidString();
-        setMsiProperty("UserSID", userSid);
-        auto [errorcode, value] =
-            getMsiProperty("UserSID");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ(userSid, value);
-
-        testDir = std::filesystem::current_path() /= "test_data";
-        const std::array folders = {
-            testDir / "d1",
-            testDir / "d2",
-            testDir / "d1" / "d3",
-            testDir / "d1" / "d4"
-        };
-        const std::array files = {
-            testDir / "f1",
-            testDir / "f2",
-            testDir / "d1" / "f3",
-            testDir / "d1" / "f4",
-            testDir / "d2" / "f5",
-            testDir / "d1" / "d3" / "f6",
-            testDir / "d1" / "d4" / "f7"
-        };
-
-        std::filesystem::create_directories(testDir);
-        for (const auto& folder : folders) {
-            std::filesystem::create_directories(folder);
-        }
-        for (const auto& file : files) {
-            createDummyFile(file);
-        }
-
-        setMsiProperty("DATADIR", testDir.string());
-        std::tie(errorcode, value) =
-            getMsiProperty("DATADIR");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ(testDir.string(), value);
-
-        EXPECT_EQ(0u, executeAction());
-
-        AccountsInfo accountsInfo;
-        accountsInfo.system = true;
-        accountsInfo.admins = true;
-        accountsInfo.currentUser = true;
-
-        EXPECT_EQ(0, checkPermissions(testDir, accountsInfo, false));
-        for (const auto& folder : folders) {
-            EXPECT_EQ(0, checkPermissions(folder, accountsInfo, false));
-        }
-        for (const auto& file : files) {
-            EXPECT_EQ(0, checkPermissions(file, accountsInfo, false));
-        }
-    }
-
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
-        NormalMode_Protected_Not_Set_AllUsers_Set_Expect_Success) {
-        const auto result = openMsi();
-        ASSERT_EQ(0u, result);
-
-        const auto userSid = getCurrentUserSidString();
-        setMsiProperty("UserSID", userSid);
-        auto [errorcode, value] =
-            getMsiProperty("UserSID");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ(userSid, value);
-
-        setMsiProperty("ENABLEUSEBYALLUSERS", "1");
-        std::tie(errorcode, value) =
-            getMsiProperty("ENABLEUSEBYALLUSERS");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ("1", value);
-
-        testDir = std::filesystem::current_path() /= "test_data";
-        const std::array folders = {
-            testDir / "d1",
-            testDir / "d2",
-            testDir / "d1" / "d3",
-            testDir / "d1" / "d4"
-        };
-        const std::array files = {
-            testDir / "f1",
-            testDir / "f2",
-            testDir / "d1" / "f3",
-            testDir / "d1" / "f4",
-            testDir / "d2" / "f5",
-            testDir / "d1" / "d3" / "f6",
-            testDir / "d1" / "d4" / "f7"
-        };
-
-        std::filesystem::create_directories(testDir);
-        for (const auto& folder : folders) {
-            std::filesystem::create_directories(folder);
-        }
-        for (const auto& file : files) {
-            createDummyFile(file);
-        }
-
-        setMsiProperty("DATADIR", testDir.string());
-        std::tie(errorcode, value) =
-            getMsiProperty("DATADIR");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ(testDir.string(), value);
-
-        EXPECT_EQ(0u, executeAction());
-
-        AccountsInfo accountsInfo;
-        accountsInfo.system = true;
-        accountsInfo.admins = true;
-        accountsInfo.users = true;
-        accountsInfo.currentUser = true;
-
-        EXPECT_EQ(0, checkPermissions(testDir, accountsInfo, false));
-        for (const auto& folder : folders) {
-            EXPECT_EQ(0, checkPermissions(folder, accountsInfo, false));
-        }
-        for (const auto& file : files) {
-            EXPECT_EQ(0, checkPermissions(file, accountsInfo, false));
-        }
-    }
-
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
-        NormalMode_Protected_Not_Set_AllUsers_Disabled_Expect_Success) {
-        const auto result = openMsi();
-        ASSERT_EQ(0u, result);
-
-        const auto userSid = getCurrentUserSidString();
-        setMsiProperty("UserSID", userSid);
-        auto [errorcode, value] =
-            getMsiProperty("UserSID");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ(userSid, value);
-
-        setMsiProperty("ENABLEUSEBYALLUSERS", "0");
-        std::tie(errorcode, value) =
-            getMsiProperty("ENABLEUSEBYALLUSERS");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ("0", value);
-
-        testDir = std::filesystem::current_path() /= "test_data";
-        const std::array folders = {
-            testDir / "d1",
-            testDir / "d2",
-            testDir / "d1" / "d3",
-            testDir / "d1" / "d4"
-        };
-        const std::array files = {
-            testDir / "f1",
-            testDir / "f2",
-            testDir / "d1" / "f3",
-            testDir / "d1" / "f4",
-            testDir / "d2" / "f5",
-            testDir / "d1" / "d3" / "f6",
-            testDir / "d1" / "d4" / "f7"
-        };
-
-        std::filesystem::create_directories(testDir);
-        for (const auto& folder : folders) {
-            std::filesystem::create_directories(folder);
-        }
-        for (const auto& file : files) {
-            createDummyFile(file);
-        }
-
-        setMsiProperty("DATADIR", testDir.string());
-        std::tie(errorcode, value) =
-            getMsiProperty("DATADIR");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ(testDir.string(), value);
-
-        EXPECT_EQ(0u, executeAction());
-
-        AccountsInfo accountsInfo;
-        accountsInfo.system = true;
-        accountsInfo.admins = true;
-        accountsInfo.currentUser = true;
-
-        EXPECT_EQ(0, checkPermissions(testDir, accountsInfo, false));
-        for (const auto& folder : folders) {
-            EXPECT_EQ(0, checkPermissions(folder, accountsInfo, false));
-        }
-        for (const auto& file : files) {
-            EXPECT_EQ(0, checkPermissions(file, accountsInfo, false));
-        }
-    }
-
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
         ProtectedMode_Eveything_Set_Expect_Success) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -1352,19 +970,19 @@ namespace test_boinccas_CASetPermissionBOINCData {
 
         testDir = std::filesystem::current_path() /= "test_data";
         const std::array folders = {
-            testDir / "d1",
-            testDir / "d2",
-            testDir / "d1" / "d3",
-            testDir / "d1" / "d4"
+            testDir / "projects" / "d1",
+            testDir / "projects" / "d2",
+            testDir / "projects" / "d1" / "d3",
+            testDir / "projects" / "d1" / "d4"
         };
         const std::array files = {
-            testDir / "f1",
-            testDir / "f2",
-            testDir / "d1" / "f3",
-            testDir / "d1" / "f4",
-            testDir / "d2" / "f5",
-            testDir / "d1" / "d3" / "f6",
-            testDir / "d1" / "d4" / "f7"
+            testDir / "projects" / "f1",
+            testDir / "projects" / "f2",
+            testDir / "projects" / "d1" / "f3",
+            testDir / "projects" / "d1" / "f4",
+            testDir / "projects" / "d2" / "f5",
+            testDir / "projects" / "d1" / "d3" / "f6",
+            testDir / "projects" / "d1" / "d4" / "f7"
         };
 
         std::filesystem::create_directories(testDir);
@@ -1391,108 +1009,13 @@ namespace test_boinccas_CASetPermissionBOINCData {
         accountsInfo.boinc_users = true;
         accountsInfo.boinc_projects = true;
 
-        EXPECT_EQ(0, checkPermissions(testDir, accountsInfo, true));
+        EXPECT_EQ(0, checkPermissions(testDir / "projects", accountsInfo,
+            true));
         for (const auto& folder : folders) {
             EXPECT_EQ(0, checkPermissions(folder, accountsInfo, true));
         }
         for (const auto& file : files) {
             EXPECT_EQ(0, checkPermissions(file, accountsInfo, true));
-        }
-    }
-
-    TEST_F(test_boinccas_CASetPermissionBOINCData,
-        NormalMode_Eveything_Set_Expect_Success) {
-        const auto result = openMsi();
-        ASSERT_EQ(0u, result);
-
-        setMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3", "0");
-        auto [errorcode, value] =
-            getMsiProperty("ENABLEPROTECTEDAPPLICATIONEXECUTION3");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ("0", value);
-
-        setMsiProperty("BOINC_ADMINS_GROUPNAME", adminsGroupName);
-        std::tie(errorcode, value) =
-            getMsiProperty("BOINC_ADMINS_GROUPNAME");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ(adminsGroupName, value);
-
-        ASSERT_TRUE(createLocalGroup(adminsGroupName));
-
-        setMsiProperty("BOINC_USERS_GROUPNAME", usersGroupName);
-        std::tie(errorcode, value) =
-            getMsiProperty("BOINC_USERS_GROUPNAME");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ(usersGroupName, value);
-
-        ASSERT_TRUE(createLocalGroup(usersGroupName));
-
-        setMsiProperty("BOINC_PROJECTS_GROUPNAME", projectsGroupName);
-        std::tie(errorcode, value) =
-            getMsiProperty("BOINC_PROJECTS_GROUPNAME");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ(projectsGroupName, value);
-
-        ASSERT_TRUE(createLocalGroup(projectsGroupName));
-
-        const auto userSid = getCurrentUserSidString();
-        setMsiProperty("UserSID", userSid);
-        std::tie(errorcode, value) =
-            getMsiProperty("UserSID");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ(userSid, value);
-
-        setMsiProperty("ENABLEUSEBYALLUSERS", "1");
-        std::tie(errorcode, value) =
-            getMsiProperty("ENABLEUSEBYALLUSERS");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ("1", value);
-
-        testDir = std::filesystem::current_path() /= "test_data";
-        const std::array folders = {
-            testDir / "d1",
-            testDir / "d2",
-            testDir / "d1" / "d3",
-            testDir / "d1" / "d4"
-        };
-        const std::array files = {
-            testDir / "f1",
-            testDir / "f2",
-            testDir / "d1" / "f3",
-            testDir / "d1" / "f4",
-            testDir / "d2" / "f5",
-            testDir / "d1" / "d3" / "f6",
-            testDir / "d1" / "d4" / "f7"
-        };
-
-        std::filesystem::create_directories(testDir);
-        for (const auto& folder : folders) {
-            std::filesystem::create_directories(folder);
-        }
-        for (const auto& file : files) {
-            createDummyFile(file);
-        }
-
-        setMsiProperty("DATADIR", testDir.string());
-        std::tie(errorcode, value) =
-            getMsiProperty("DATADIR");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ(testDir.string(), value);
-
-        EXPECT_EQ(0u, executeAction());
-
-        AccountsInfo accountsInfo;
-        accountsInfo.system = true;
-        accountsInfo.admins = true;
-        accountsInfo.users = true;
-        accountsInfo.currentUser = true;
-
-        EXPECT_EQ(0, checkPermissions(testDir, accountsInfo, false));
-        for (const auto& folder : folders) {
-            EXPECT_EQ(0, checkPermissions(folder, accountsInfo, false));
-        }
-        for (const auto& file : files) {
-            EXPECT_EQ(0, checkPermissions(file, accountsInfo, false));
         }
     }
 #endif

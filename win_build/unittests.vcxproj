@@ -68,6 +68,7 @@
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CASaveSetupState.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CASetPermissionBOINC.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CASetPermissionBOINCData.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CASetPermissionBOINCDataProjects.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_parse.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_str_util.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_url.cpp" />
