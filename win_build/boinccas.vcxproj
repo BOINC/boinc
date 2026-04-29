@@ -71,7 +71,6 @@
     <ClCompile Include="..\clientsetup\win\CAValidateSetupType.cpp" />
     <ClCompile Include="..\clientsetup\win\CAVerifyInstallDirectories.cpp" />
     <ClCompile Include="..\clientsetup\win\launcher.cpp" />
-    <ClCompile Include="..\clientsetup\win\listacl.cpp" />
     <ClCompile Include="..\clientsetup\win\lsaprivs.cpp" />
     <ClCompile Include="..\clientsetup\win\main.cpp" />
     <ClCompile Include="..\clientsetup\win\sdmgmt.cpp" />

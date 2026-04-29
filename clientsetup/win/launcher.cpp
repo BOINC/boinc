@@ -19,35 +19,6 @@
 #include "boinccas.h"
 #include "launcher.h"
 
-
-#ifndef SECURITY_MANDATORY_UNTRUSTED_RID
-
-#define SECURITY_MANDATORY_UNTRUSTED_RID            (0x00000000L)
-#define SECURITY_MANDATORY_LOW_RID                  (0x00001000L)
-#define SECURITY_MANDATORY_MEDIUM_RID               (0x00002000L)
-#define SECURITY_MANDATORY_HIGH_RID                 (0x00003000L)
-#define SECURITY_MANDATORY_SYSTEM_RID               (0x00004000L)
-#define SECURITY_MANDATORY_PROTECTED_PROCESS_RID    (0x00005000L)
-
-typedef struct _TOKEN_MANDATORY_LABEL {
-    SID_AND_ATTRIBUTES Label;
-} TOKEN_MANDATORY_LABEL, *PTOKEN_MANDATORY_LABEL;
-
-typedef enum _MANDATORY_LEVEL {
-    MandatoryLevelUntrusted = 0,
-    MandatoryLevelLow,
-    MandatoryLevelMedium,
-    MandatoryLevelHigh,
-    MandatoryLevelSystem,
-    MandatoryLevelSecureProcess,
-    MandatoryLevelCount
-} MANDATORY_LEVEL, *PMANDATORY_LEVEL;
-
-#define TokenVirtualizationEnabled ((TOKEN_INFORMATION_CLASS)24)
-#define TokenIntegrityLevel ((TOKEN_INFORMATION_CLASS)25)
-
-#endif //!SECURITY_MANDATORY_UNTRUSTED_RID
-
 /*!
 @brief Function enables/disables/removes a privilege associated with the given token
 @detailed Calls LookupPrivilegeValue() and AdjustTokenPrivileges()

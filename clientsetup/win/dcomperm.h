@@ -21,52 +21,10 @@ Environment:
 
 --*/
 
-#define GUIDSTR_MAX 38
-
-#ifndef STR2UNI
-
-#define STR2UNI(unistr, regstr) \
-        mbstowcs (unistr, regstr, strlen (regstr)+1);
-
-#define UNI2STR(regstr, unistr) \
-        wcstombs (regstr, unistr, wcslen (unistr)+1);
-
-#endif
-
-
 //
 // Wrappers
 //
 
-DWORD
-ListDefaultAccessACL();
-
-DWORD
-ListDefaultLaunchACL();
-
-DWORD
-ListAppIDAccessACL (
-    LPTSTR AppID
-    );
-
-DWORD
-ListAppIDLaunchACL (
-    LPTSTR AppID
-    );
-
-DWORD
-ChangeDefaultAccessACL (
-    LPTSTR Principal,
-    BOOL SetPrincipal,
-    BOOL Permit
-    );
-
-DWORD
-ChangeDefaultLaunchACL (
-    LPTSTR Principal,
-    BOOL SetPrincipal,
-    BOOL Permit
-    );
 
 DWORD
 ChangeAppIDAccessACL (
@@ -82,27 +40,6 @@ ChangeAppIDLaunchACL (
     LPTSTR Principal,
     BOOL SetPrincipal,
     BOOL Permit
-    );
-
-DWORD GetRunAsPassword (
-    LPTSTR AppID,
-    LPTSTR Password
-    );
-
-DWORD SetRunAsPassword (
-    LPTSTR AppID,
-    LPTSTR Principal,
-    LPTSTR Password
-    );
-
-DWORD GetRunAsPassword (
-    LPTSTR AppID,
-    LPTSTR Password
-    );
-
-DWORD SetRunAsPassword (
-    LPTSTR AppID,
-    LPTSTR Password
     );
 
 //
@@ -135,13 +72,6 @@ GetNamedValueSD (
     LPTSTR ValueName,
     SECURITY_DESCRIPTOR **SD,
     BOOL *NewSD
-    );
-
-DWORD
-ListNamedValueSD (
-    HKEY RootKey,
-    LPTSTR KeyName,
-    LPTSTR ValueName
     );
 
 DWORD
@@ -190,9 +120,4 @@ DWORD
 RemovePrincipalFromACL (
     PACL Acl,
     LPTSTR Principal
-    );
-
-void
-ListACL (
-    PACL Acl
     );

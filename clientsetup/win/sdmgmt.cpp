@@ -296,47 +296,6 @@ GetNamedValueSD (
 }
 
 DWORD
-ListNamedValueSD (
-    HKEY RootKey,
-    LPTSTR KeyName,
-    LPTSTR ValueName
-    )
-{
-    DWORD               returnValue;
-    SECURITY_DESCRIPTOR *sd;
-    BOOL                present;
-    BOOL                defaultDACL;
-    PACL                dacl;
-    BOOL                newSD = FALSE;
-
-    returnValue = GetNamedValueSD (RootKey, KeyName, ValueName, &sd, &newSD);
-
-    if ((returnValue != ERROR_SUCCESS) || (newSD == TRUE))
-    {
-        free (sd);
-        return returnValue;
-    }
-
-    if (!GetSecurityDescriptorDacl (sd, &present, &dacl, &defaultDACL))
-    {
-        free (sd);
-        return GetLastError();
-    }
-
-    if (!present)
-    {
-        free (sd);
-        return ERROR_SUCCESS;
-    }
-
-    ListACL (dacl);
-
-    free (sd);
-
-    return ERROR_SUCCESS;
-}
-
-DWORD
 AddPrincipalToNamedValueSD (
     HKEY RootKey,
     LPTSTR KeyName,

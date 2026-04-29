@@ -25,8 +25,6 @@
 #define STATUS_INFO_LENGTH_MISMATCH             ((NTSTATUS)0xC0000004L)
 #define SystemProcessAndThreadInformation       5
 
-typedef LONG       NTSTATUS;
-
 typedef LONG       KPRIORITY;
 
 typedef struct _CLIENT_ID {
@@ -62,23 +60,6 @@ typedef struct _SYSTEM_THREADS {
     LONG           WaitReason;
 } SYSTEM_THREADS, * PSYSTEM_THREADS;
 
-typedef struct _SYSTEM_PROCESSES_NT4 {
-    ULONG          NextEntryDelta;
-    ULONG          ThreadCount;
-    ULONG          Reserved1[6];
-    LARGE_INTEGER  CreateTime;
-    LARGE_INTEGER  UserTime;
-    LARGE_INTEGER  KernelTime;
-    UNICODE_STRING ProcessName;
-    KPRIORITY      BasePriority;
-    ULONG          ProcessId;
-    ULONG          InheritedFromProcessId;
-    ULONG          HandleCount;
-    ULONG          Reserved2[2];
-    VM_COUNTERS    VmCounters;
-    SYSTEM_THREADS Threads[1];
-} SYSTEM_PROCESSES_NT4, *PSYSTEM_PROCESSES_NT4;
-
 typedef struct _SYSTEM_PROCESSES {
     ULONG          NextEntryDelta;
     ULONG          ThreadCount;
@@ -104,41 +85,6 @@ typedef struct _SYSTEM_PROCESSES {
     IO_COUNTERS    IoCounters;
     SYSTEM_THREADS Threads[1];
 } SYSTEM_PROCESSES, * PSYSTEM_PROCESSES;
-
-typedef enum _THREAD_STATE {
-    ThreadStateInitialized,
-    ThreadStateReady,
-    ThreadStateRunning,
-    ThreadStateStandby,
-    ThreadStateTerminated,
-    ThreadStateWaiting,
-    ThreadStateTransition
-} THREAD_STATE, *PTHREAD_STATE;
-
-typedef enum _THREAD_WAIT_REASON {
-    ThreadWaitReasonExecutive,
-    ThreadWaitReasonFreePage,
-    ThreadWaitReasonPageIn,
-    ThreadWaitReasonPoolAllocation,
-    ThreadWaitReasonDelayExecution,
-    ThreadWaitReasonSuspended,
-    ThreadWaitReasonUserRequest,
-    ThreadWaitReasonWrExecutive,
-    ThreadWaitReasonWrFreePage,
-    ThreadWaitReasonWrPageIn,
-    ThreadWaitReasonWrPoolAllocation,
-    ThreadWaitReasonWrDelayExecution,
-    ThreadWaitReasonWrSuspended,
-    ThreadWaitReasonWrUserRequest,
-    ThreadWaitReasonWrEventPairHigh,
-    ThreadWaitReasonWrEventPairLow,
-    ThreadWaitReasonWrLpcReceive,
-    ThreadWaitReasonWrLpcReply,
-    ThreadWaitReasonWrVirtualMemory,
-    ThreadWaitReasonWrPageOut,
-    ThreadWaitReasonMaximumWaitReason
-} THREAD_WAIT_REASON;
-
 
 // Prototypes
 BOOL TerminateProcessEx( tstring& strProcessName, bool bRecursive = true );
