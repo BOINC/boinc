@@ -17,6 +17,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once("../inc/credit.inc");
+require_once("../inc/cache.inc");
 require_once("../inc/email.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
@@ -285,8 +286,7 @@ function show_user_info_private($user) {
         );
     } else {
         $delete_account_str = "";
-        $config = get_config();
-        if (parse_bool($config, "enable_delete_account")) {
+        if (project_config_bool("enable_delete_account")) {
             $delete_account_str = " &middot; <a href=\"delete_account_request.php\">".tra("delete account")."</a>";
         }
 
@@ -333,7 +333,7 @@ function show_preference_links() {
             "<a href=\"prefs.php?subset=project\">".tra("%1 preferences", PROJECT)."</a>"
         );
     }
-    if (parse_bool(get_config(), 'keyword_sched')) {
+    if (project_config_bool('keyword_sched')) {
         row2(
             tra('What types of jobs to run'),
             sprintf('<a href=kw_prefs.php>%s</a>',

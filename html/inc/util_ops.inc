@@ -100,9 +100,8 @@ function show_profile_link_ops($user) {
 // command line instead of config.xml
 //
 function db_init_cli() {
-    $config = get_config();
-    $db_name = parse_config($config, "<db_name>");
-    $host = parse_config($config, "<db_host>");
+    $db_name = project_config_val("db_name");
+    $host = project_config_val("db_host");
     if (is_blank($host)) {
         $host = "localhost";
     }

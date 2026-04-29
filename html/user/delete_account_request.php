@@ -22,8 +22,7 @@ require_once("../inc/delete_account.inc");
 require_once("../inc/user_util.inc");
 require_once("../inc/email.inc");
 
-$config = get_config();
-if (!parse_bool($config, "enable_delete_account")) {
+if (!project_config_bool("enable_delete_account")) {
     error_page(
         tra("This feature is disabled.  Please contact the project administrator.")
     );

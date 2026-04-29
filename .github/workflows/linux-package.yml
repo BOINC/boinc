@@ -63,7 +63,7 @@ jobs:
           fetch-depth: 2
 
       - name: Cache dependencies
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
         with:
           path: ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
           key: ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
@@ -86,7 +86,7 @@ jobs:
       - name: Install dependencies
         run: |
           apt-get update
-          apt-get install -y autopoint make build-essential m4 pkg-config autoconf autoconf-archive libtool git python3 python3-distutils python3-jinja2 python3-venv curl zip unzip tar bison p7zip-full dbus
+          apt-get install -y autopoint make build-essential m4 pkg-config autoconf autoconf-archive libtool git python3 python3-distutils python3-jinja2 python3-venv curl zip unzip tar bison p7zip-full dbus flex
 
       - name: Install dependencies for arm64
         if: matrix.arch == 'arm64'
@@ -163,7 +163,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: linux-package_logs_${{ matrix.type }}_${{ matrix.arch }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
@@ -173,7 +173,7 @@ jobs:
         run: python3 ./deploy/prepare_deployment.py linux_${{ matrix.type }}
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: success()
         with:
           name: linux-package_${{ matrix.type }}_${{ matrix.arch }}_${{ github.event.pull_request.head.sha }}
@@ -185,7 +185,7 @@ jobs:
     needs: prepare-binaries
     strategy:
       matrix:
-        os: [focal, jammy, noble, buster, bullseye, bookworm, trixie]
+        os: [focal, jammy, noble, resolute, buster, bullseye, bookworm, trixie]
         type: [client, manager]
         arch: [arm64, amd64, armhf]
       fail-fast: false
@@ -258,19 +258,11 @@ jobs:
           cat "${{ github.workspace }}/${PKG_FULL}/DEBIAN/control"
           echo "------------------------"
 
-      - name: Create Ubuntu Package
-        if: ${{ success() && ( matrix.os == 'focal' || matrix.os == 'jammy' || matrix.os == 'noble' ) }}
+      - name: Create Package
+        if: success()
         run: |
           cd ${{ github.workspace }}/
-          # Build the actual package for Ubuntu with XZ compression
           fakeroot dpkg-deb -Zxz --build "${{ github.workspace }}/${PKG_FULL}"
-
-      - name: Create Debian Package
-        if: ${{ success() && ( matrix.os == 'buster' || matrix.os == 'bullseye' || matrix.os == 'bookworm' || matrix.os == 'trixie' ) }}
-        run: |
-          cd ${{ github.workspace }}/
-          # Build the actual package for Debian with GZIP compression
-          fakeroot dpkg-deb -Zgzip --build "${{ github.workspace }}/${PKG_FULL}"
 
       - name: Get info from generated package
         if: success()
@@ -279,7 +271,7 @@ jobs:
           dpkg-deb --info "${{ github.workspace }}/${PKG_FULL}.deb"
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: success()
         with:
           name: linux-package_${{ matrix.type }}_${{ matrix.arch }}_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
@@ -293,7 +285,7 @@ jobs:
     needs: prepare-binaries
     strategy:
       matrix:
-        os: [fc37, fc38, fc39, fc40, fc41, fc42, fc43, suse15_4, suse15_5, suse15_6, suse16_0]
+        os: [fc37, fc38, fc39, fc40, fc41, fc42, fc43, fc44, suse15_4, suse15_5, suse15_6, suse16_0]
         type: [client, manager]
         arch: [arm64, amd64, armhf]
       fail-fast: false
@@ -406,6 +398,9 @@ jobs:
             case ${{ matrix.os }} in
             "fc37" | "fc38" | "fc39" | "fc40" | "fc41" | "fc42" | "fc43")
               CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
+              ;;
+            "fc44")
+              CA_BUNDLE="/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem"
               ;;
             "suse15_4" | "suse15_5" | "suse15_6" | "suse16_0")
               CA_BUNDLE="/etc/ssl/ca-bundle.pem"
@@ -547,7 +542,9 @@ jobs:
               ln -s ${BOINCDIR}/remote_hosts.cfg /etc/boinc-client/remote_hosts.cfg
             fi
             if [ ! -e ${BOINCDIR}/ca-bundle.crt ] ; then
-              ln -s ${CA_BUNDLE} ${BOINCDIR}/ca-bundle.crt
+              if [ -e ${CA_BUNDLE} ] ; then
+                ln -s ${CA_BUNDLE} ${BOINCDIR}/ca-bundle.crt
+              fi
             fi
             set_perm_recursive ${BOINCDIR} ${BOINCUSER} ${BOINCGROUP} u+rw,g+rw,o+r-w
             set_perm ${BOINCDIR} ${BOINCUSER} ${BOINCGROUP} 0775
@@ -670,7 +667,7 @@ jobs:
           rpm -qp --qf '%|DSAHEADER?{%{DSAHEADER:pgpsig}}:{%|RSAHEADER?{%{RSAHEADER:pgpsig}}:{(none)}|}|\n' "RPMS/${{ env.ARCH }}/${PKG_FULL}.rpm"
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: success()
         with:
           name: linux-package_${{ matrix.type }}_${{ matrix.arch }}_${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
@@ -774,7 +771,7 @@ jobs:
     needs: build-deb-package
     strategy:
       matrix:
-        os: [focal, jammy, noble]
+        os: [focal, jammy, noble, resolute]
         type: [install, upgrade, upgrade-from-ppa, upgrade-from-alpha, upgrade-from-stable]
         arch: [amd64, arm64, armhf]
         include:
@@ -816,7 +813,7 @@ jobs:
           DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the alpha
-        if: success() && matrix.type == 'upgrade-from-alpha'
+        if: success() && matrix.type == 'upgrade-from-alpha' && matrix.os != 'resolute'
         run: |
           mkdir -p /etc/apt/keyrings
           curl -fsSL https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }}/boinc.gpg | gpg --dearmor -o /etc/apt/keyrings/boinc.gpg
@@ -825,7 +822,7 @@ jobs:
           DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the stable
-        if: success() && matrix.type == 'upgrade-from-stable'
+        if: success() && matrix.type == 'upgrade-from-stable' && matrix.os != 'resolute'
         run: |
           mkdir -p /etc/apt/keyrings
           curl -fsSL https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }}/boinc.gpg | gpg --dearmor -o /etc/apt/keyrings/boinc.gpg
@@ -870,7 +867,7 @@ jobs:
     needs: build-rpm-package
     strategy:
       matrix:
-        os: [37, 38, 39, 40, 41, 42, 43]
+        os: [37, 38, 39, 40, 41, 42, 43, 44]
         type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
         arch: [amd64, arm64]
         include:
@@ -895,7 +892,7 @@ jobs:
           dnf install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the alpha for Fedora < 41
-        if: success() && matrix.type == 'upgrade-from-alpha' && matrix.os != '41' && matrix.os != '42' && matrix.os != '43'
+        if: success() && matrix.type == 'upgrade-from-alpha' && matrix.os != '41' && matrix.os != '42' && matrix.os != '43' && matrix.os != '44'
         run: |
           dnf install -y dnf-plugins-core
           dnf config-manager --add-repo https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}
@@ -904,7 +901,7 @@ jobs:
           yum install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the alpha for Fedora >= 41
-        if: success() && matrix.type == 'upgrade-from-alpha' && (matrix.os == '41' || matrix.os == '42')
+        if: success() && matrix.type == 'upgrade-from-alpha' && (matrix.os == '41' || matrix.os == '42' || matrix.os == '43')
         run: |
           dnf install -y dnf-plugins-core
           dnf config-manager addrepo --from-repofile=https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc-alpha-fc${{ matrix.os }}.repo
@@ -915,7 +912,7 @@ jobs:
           dnf install -y boinc-client-${client_version} boinc-manager-${manager_version}
 
       - name: Install distro package for further upgrade from the stable for Fedora < 41
-        if: success() && matrix.type == 'upgrade-from-stable' && matrix.os != '41' && matrix.os != '42' && matrix.os != '43'
+        if: success() && matrix.type == 'upgrade-from-stable' && matrix.os != '41' && matrix.os != '42' && matrix.os != '43' && matrix.os != '44'
         run: |
           dnf install -y dnf-plugins-core
           dnf config-manager --add-repo https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}
@@ -924,7 +921,7 @@ jobs:
           yum install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the stable for Fedora > 41
-        if: success() && matrix.type == 'upgrade-from-stable' && (matrix.os == '41' || matrix.os == '42')
+        if: success() && matrix.type == 'upgrade-from-stable' && (matrix.os == '41' || matrix.os == '42' || matrix.os == '43')
         run: |
           dnf install -y dnf-plugins-core
           dnf config-manager addrepo --from-repofile=https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}/boinc-stable-fc${{ matrix.os }}.repo
@@ -947,13 +944,13 @@ jobs:
           name: linux-package_manager_${{ matrix.arch }}_fc${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
       - name: Install client and manager for Fedora < 41
-        if: success() && matrix.os != '41' && matrix.os != '42' && matrix.os != '43'
+        if: success() && matrix.os != '41' && matrix.os != '42' && matrix.os != '43' && matrix.os != '44'
         run: |
           yum localinstall -y --allowerasing $(find ./ -type f -name "boinc-client*.rpm" -printf "%p\n")
           yum localinstall -y --allowerasing $(find ./ -type f -name "boinc-manager*.rpm" -printf "%p\n")
 
       - name: Install client and manager for Fedora >= 41
-        if: success() && (matrix.os == '41' || matrix.os == '42' || matrix.os == '43')
+        if: success() && (matrix.os == '41' || matrix.os == '42' || matrix.os == '43' || matrix.os == '44')
         run: |
           dnf5 install -y --allowerasing $(find ./ -type f -name "boinc-client*.rpm" -printf "%p\n")
           dnf5 install -y --allowerasing $(find ./ -type f -name "boinc-manager*.rpm" -printf "%p\n")
@@ -1045,7 +1042,7 @@ jobs:
     needs: [test-debian-deb-package, test-ubuntu-deb-package]
     strategy:
       matrix:
-        os: [focal, jammy, noble, buster, bullseye, bookworm, trixie]
+        os: [focal, jammy, noble, resolute, buster, bullseye, bookworm, trixie]
       fail-fast: false
     steps:
       - name: Check if build is running from origin repo
@@ -1137,7 +1134,7 @@ jobs:
           cd ${{ github.workspace }}/.github/workflows/debrepo/
           ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${{ github.workspace }} ${{ matrix.os }} ${{ env.RELEASE_TYPE }} ${{ env.PUBKEY }}
 
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: ${{ success() && env.SKIP_RUN == 0 }}
         with:
           name: repo-${{ env.RELEASE_TYPE }}-${{ matrix.os }}
@@ -1158,7 +1155,7 @@ jobs:
     needs: [test-fedora-rpm-package, test-opensuse-rpm-package]
     strategy:
       matrix:
-        os: [fc37, fc38, fc39, fc40, fc41, fc42, fc43, suse15_4, suse15_5, suse15_6, suse16_0]
+        os: [fc37, fc38, fc39, fc40, fc41, fc42, fc43, fc44, suse15_4, suse15_5, suse15_6, suse16_0]
       fail-fast: false
     env:
       PUBKEY_HASH: D4460B4F0EEDE2C0662092F640254C9B29853EA6
@@ -1263,7 +1260,7 @@ jobs:
             # Updates or creates the repository
             ./repo_update.sh "$ALLOW_CREATE" ${{ env.BASEREPO }} ${CWD} ${{ matrix.os }} ${{ env.RELEASE_TYPE }} ${{ env.PUBKEY }} ${{ env.PUBKEY_HASH }}
 
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: ${{ success() && env.SKIP_RUN == 0 }}
         with:
           name: repo-${{ env.RELEASE_TYPE }}-${{ matrix.os }}

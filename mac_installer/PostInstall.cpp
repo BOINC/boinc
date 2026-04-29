@@ -24,7 +24,8 @@
 //  [1] allow non-administrative users to run the BOINC Manager
 //      (asked only if this Mac has any non-administrative users)
 //  [2] set BOINC as the screensaver for all users who can run BOINC
-//      (asked only if BOINC screensaver is not already set for them)
+//      (only for MacOS < 14.0 Sonoma and only if BOINC screensaver is
+//      not already set for them.)
 //
 // The installer can also be run from the command line.  This is useful
 //  for installation on remote Macs.  However, there is no way to respond
@@ -32,15 +33,15 @@
 //
 // Apple's command-line installer sets the following environment variable:
 //     COMMAND_LINE_INSTALL=1
-// The postinstall script, postupgrade script, and this Postinstall.app
-//   detect this environment variable and do the following:
-//  * Redirect the Postinstall.app log output to a file
-//      /tmp/BOINCInstallLog.txt
+// The postinstall script, postupgrade script, this Postinstall.app and
+// BOINC_Finish_Install.app detect this environment variable and do the
+// following:
 //  * Suppress the 2 dialogs
 //  * test for the existence of a file /tmp/nonadminusersok.txt; if the
 //     file exists, allow non-administrative users to run BOINC Manager
 //  * test for the existence of a file /tmp/setboincsaver.txt; if the
 //     file exists, set BOINC as the screensaver for all BOINC users.
+//     (available only for MacOS < 14.0 Sonoma.)
 //
 // The BOINC installer package to be used for command line installs can
 // be found embedded inside the GUI BOINC Installer application at:
@@ -140,7 +141,7 @@ int optionally_install_rosetta2();
 pid_t FindProcessPID(char* name, pid_t thePID, Boolean currentUserOnly);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 int callPosixSpawn(const char *cmd);
-void print_to_log(const char *format, ...);
+void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 void CopyPreviousErrorsToLog(void);
 
@@ -164,7 +165,7 @@ void notused() {
 static char * Catalog_Name = (char *)"BOINC-Setup";
 static char * Catalogs_Dir = (char *)"/Library/Application Support/BOINC Data/locale/";
 
-#define REPORT_ERROR(isError) if (isError) print_to_log("BOINC PostInstall error at line %d", __LINE__);
+#define REPORT_ERROR(isError) if (isError) print_to_log_file("BOINC PostInstall error at line %d", __LINE__);
 
 /* globals */
 static Boolean                  gCommandLineInstall = false;
@@ -219,6 +220,8 @@ int main(int argc, char *argv[])
     }
 
     // getlogin() gives unreliable results under OS 10.6.2, so use environment
+    // Note: command-line installer must be run as root, so loginName will
+    // always be root for command-line installs
     strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
     if (loginName[0] == '\0') {
         ShowMessage(false, (char *)_("Could not get user login name"));
@@ -384,9 +387,9 @@ int main(int argc, char *argv[])
     for (i=0; i<RETRY_LIMIT; ++i) {
         err = CreateBOINCUsersAndGroups();
         if (err != noErr) {
-            printf("CreateBOINCUsersAndGroups returned %d (repetition=%d)", err, i);
+            printf("CreateBOINCUsersAndGroups returned %d (repetition=%d)\n", err, i);
             fflush(stdout);
-            REPORT_ERROR(i >= RETRY_LIMIT);
+            REPORT_ERROR(i >= RETRY_LIMIT - 1);
             continue;
         }
 
@@ -394,17 +397,17 @@ int main(int argc, char *argv[])
         err = SetBOINCAppOwnersGroupsAndPermissions(appPath[brandID]);
 
         if (err != noErr) {
-            printf("SetBOINCAppOwnersGroupsAndPermissions returned %d (repetition=%d)", err, i);
+            printf("SetBOINCAppOwnersGroupsAndPermissions returned %d (repetition=%d)\n", err, i);
             fflush(stdout);
-            REPORT_ERROR(i >= RETRY_LIMIT);
+            REPORT_ERROR(i >= RETRY_LIMIT - 1);
             continue;
         }
 
         err = SetBOINCDataOwnersGroupsAndPermissions();
         if (err != noErr) {
-            printf("SetBOINCDataOwnersGroupsAndPermissions returned %d (repetition=%d)", err, i);
+            printf("SetBOINCDataOwnersGroupsAndPermissions returned %d (repetition=%d)\n", err, i);
             fflush(stdout);
-            REPORT_ERROR(i >= RETRY_LIMIT);
+            REPORT_ERROR(i >= RETRY_LIMIT - 1);
             continue;
         }
 
@@ -414,12 +417,21 @@ int main(int argc, char *argv[])
             true, false, NULL, 0
         );
         if (err != noErr) {
-            printf("check_security returned %d (repetition=%d)", err, i);
+            printf("check_security returned %d (repetition=%d)\n", err, i);
             fflush(stdout);
-            REPORT_ERROR(i >= RETRY_LIMIT);
+            REPORT_ERROR(i >= RETRY_LIMIT - 1);
         } else {
             break;
         }
+    }
+
+    // If security setup failed after all retries, report failure to the
+    // macOS Installer so it does not show "Installation Successful" when
+    // permissions were never set correctly.
+    if (err != noErr) {
+        printf("BOINC security setup failed after %d attempts (last error=%d)\n", RETRY_LIMIT, err);
+        fflush(stdout);
+        return err;
     }
 
 #else   // ! defined(SANDBOX)
@@ -777,6 +789,10 @@ Boolean IsRestartNeeded() {
     FILE *restartNeededFile;
     int value;
 
+    if (compareOSVersionTo(10, 9) >= 0) {
+        return false;
+    }
+
     snprintf(s, sizeof(s), "/tmp/%s/BOINC_restart_flag", tempDirName);
     restartNeededFile = fopen(s, "r");
     if (restartNeededFile) {
@@ -1011,12 +1027,15 @@ Boolean SetLoginItemLaunchAgent(long brandID, long oldBrandID, Boolean deleteLog
 #if COPY_FINISH_INSTALL_TO_USER_DIRECTORY
     fprintf(f, "\t\t<string>/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app/Contents/MacOS/%s_Finish_Install</string>\n", pw->pw_name, brandName[brandID], brandName[brandID]);
 #else
-    // For a reason I do't understand, setting the screensaver under MacOS 26
+    // For a reason I don't understand, setting the screensaver under MacOS 26
     // works if we use the BOINC_Finish_Install in the BOINC Data directory
     // but not one at /Users/%s/Library/Application Support/BOINC/ so we no
     // longer put one in the usr's directory tree.
     fprintf(f, "\t\t<string>/Library/Application Support/BOINC Data/%s_Finish_Install.app/Contents/MacOS/%s_Finish_Install</string>\n", brandName[brandID], brandName[brandID]);
 #endif
+    if (gCommandLineInstall) {
+        fprintf(f, "\t\t<string>-c</string>\n");
+    }
     if (deleteLogInItem) {
         fprintf(f, "\t\t<string>-d</string>\n");
         fprintf(f, "\t\t<string>%d</string>\n", (int)oldBrandID);
@@ -1549,17 +1568,20 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
                 currentUserCanRunBOINC = true;
             }
 
-            err = GetCurrentScreenSaverSelection(pw, s, sizeof(s) -1);
-            if (err == noErr) {
-                if (strcmp(s, saverName[brandID])) {
-                    saverAlreadySetForAll = false;
+            if (compareOSVersionTo(14, 0) < 0) {
+                // As of MacOS 14.0 Sonoma, this code no longer
+                // will detect the current screensaver,
+                err = GetCurrentScreenSaverSelection(pw, s, sizeof(s) -1);
+                if (err == noErr) {
+                    if (strcmp(s, saverName[brandID])) {
+                        saverAlreadySetForAll = false;
+                    }
                 }
+                printf("[1] Current Screensaver Selection for user %s is: \"%s\"\n", pw->pw_name, s);
+                fflush(stdout);
             }
-            printf("[1] Current Screensaver Selection for user %s is: \"%s\"\n", pw->pw_name, s);
-            fflush(stdout);
         }       // End if (isGroupMember)
     }           // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
-
     ResynchDSSystem();
 
     if (allNonAdminUsersAreSet) {
@@ -1717,6 +1739,8 @@ OSErr UpdateAllVisibleUsers(long brandID, long oldBrandID)
         // Set login item for this user
         bool useOSASript = false;
 
+        // Note: command-line installer must be run as root, so
+        // loginName will be root if this is a commmand-line install
         if ((compareOSVersionTo(10, 13) < 0)
             || (strcmp(loginName, human_user_name) == 0)
                 || (strcmp(loginName, pw->pw_name) == 0)
@@ -2430,19 +2454,19 @@ int callPosixSpawn(const char *cmdline) {
     }
 
 #if VERBOSE_TEST
-    print_to_log("***********");
+    print_to_log_file("***********");
     for (int i=0; i<argc; ++i) {
-        print_to_log("argv[%d]=%s", i, argv[i]);
+        print_to_log_file("argv[%d]=%s", i, argv[i]);
     }
-    print_to_log("***********\n");
+    print_to_log_file("***********\n");
 #endif
 
     errno = 0;
 
     result = posix_spawnp(&thePid, progPath, NULL, NULL, argv, environ);
 #if VERBOSE_TEST
-    print_to_log("callPosixSpawn command: %s", cmdline);
-    print_to_log("callPosixSpawn: posix_spawnp returned %d: %s", result, strerror(result));
+    print_to_log_file("callPosixSpawn command: %s", cmdline);
+    print_to_log_file("callPosixSpawn: posix_spawnp returned %d: %s", result, strerror(result));
 #endif
     if (result) {
         return result;
@@ -2452,7 +2476,7 @@ int callPosixSpawn(const char *cmdline) {
 // CAF        if (val < 0) printf("first waitpid returned %d\n", val);
     if (status != 0) {
 #if VERBOSE_TEST
-        print_to_log("waitpid() returned status=%d", status);
+        print_to_log_file("waitpid() returned status=%d", status);
 #endif
         result = status;
     } else {
@@ -2460,13 +2484,13 @@ int callPosixSpawn(const char *cmdline) {
             result = WEXITSTATUS(status);
             if (result == 1) {
 #if VERBOSE_TEST
-                print_to_log("WEXITSTATUS(status) returned 1, errno=%d: %s", errno, strerror(errno));
+                print_to_log_file("WEXITSTATUS(status) returned 1, errno=%d: %s", errno, strerror(errno));
 #endif
                 result = errno;
             }
 #if VERBOSE_TEST
             else if (result) {
-                print_to_log("WEXITSTATUS(status) returned %d", result);
+                print_to_log_file("WEXITSTATUS(status) returned %d", result);
             }
 #endif
         }   // end if (WIFEXITED(status)) else
@@ -2489,7 +2513,7 @@ void strip_cr(char *buf)
 }
 
 // For debugging
-void print_to_log(const char *format, ...) {
+void print_to_log_file(const char *format, ...) {
     va_list args;
     char buf[256];
     time_t t;

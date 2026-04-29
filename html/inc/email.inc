@@ -169,7 +169,7 @@ function is_valid_email_sfs($addr) {
     // could also look at 'frequency' and 'lastseen'
     // see https://www.stopforumspam.com/usage
     //
-    if (substr_count($x, '<appears>yes</appears>')) {
+    if ($x && substr_count($x, '<appears>yes</appears>')) {
         error_log("stopforumspam.com rejected email $addr, IP $ip");
         return false;
     }

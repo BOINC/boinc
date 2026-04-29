@@ -311,7 +311,7 @@ int CLIENT_STATE::check_suspend_processing() {
         // If suspend, don't resume for at least 5 min
         //
         int cp = device_status.battery_charge_pct;
-        if ((cp >= 0) && (cp < global_prefs.battery_charge_min_pct)) {
+        if ((cp > 0) && (cp < global_prefs.battery_charge_min_pct)) {
             battery_charge_resume_time = now + ANDROID_BATTERY_BACKOFF;
             return SUSPEND_REASON_BATTERY_CHARGING;
         }

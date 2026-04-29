@@ -339,8 +339,7 @@ if (VALIDATE_EMAIL_TO_POST) {
 }
 
 $profile = get_profile($user->id);
-$config = get_config();
-$min_credit = parse_config($config, "<profile_min_credit>");
+$min_credit = project_config_val("profile_min_credit");
 if ($min_credit && $user->expavg_credit < $min_credit) {
     error_page(
         tra("To prevent spam, an average credit of %1 or greater is required to create or edit a profile.  We apologize for this inconvenience.", $min_credit)

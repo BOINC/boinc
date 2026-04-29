@@ -68,7 +68,7 @@ if (get_str("submit",true)){
     }
 }
 
-$no_forum_rating = parse_bool(get_config(), "no_forum_rating");
+$no_forum_rating = project_config_bool("no_forum_rating");
 
 // Display part
 //

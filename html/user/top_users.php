@@ -23,8 +23,7 @@ require_once("../inc/boinc_db.inc");
 
 check_get_args(array("sort_by", "offset"));
 
-$config = get_config();
-$users_per_page = parse_config($config, "<users_per_page>");
+$users_per_page = project_config_val("users_per_page");
 if (!$users_per_page) {
     $users_per_page = 20;
 }

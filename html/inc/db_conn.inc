@@ -27,7 +27,7 @@ class DbConn {
 
     function init_conn($user, $passwd, $host, $name) {
         $x = explode(":", $host);
-        if (sizeof($x)>1) {
+        if (sizeof($x) > 1) {
             $host = $x[0];
             $port = $x[1];
         } else {
@@ -138,7 +138,7 @@ class DbConn {
     }
 
     function enum($table, $classname, $where_clause=null, $order_clause=null) {
-        return self::enum_fields(
+        return $this->enum_fields(
             $table, $classname, '*', $where_clause, $order_clause
         );
     }

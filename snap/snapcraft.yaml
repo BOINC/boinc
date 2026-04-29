@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -16,7 +16,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 name: boinc
-base: core22
+base: core24
 version: "8.3.0"
 type: app
 title: BOINC Manager
@@ -32,6 +32,14 @@ source-code: https://github.com/BOINC/boinc
 website: https://boinc.berkeley.edu/
 grade: stable
 confinement: strict
+
+platforms:
+  amd64:
+    build-on: amd64
+    build-for: amd64
+  arm64:
+    build-on: arm64
+    build-for: arm64
 
 apps:
   boinc:
@@ -96,17 +104,18 @@ parts:
     - cmake
     - dbus
     - python3-venv
+    - flex
     source: .
     plugin: autotools
     build-environment:
     - CRYPTOGRAPHY_DONT_BUILD_RUST: "1"
-    - triplet: snap-linux-$SNAPCRAFT_TARGET_ARCH
+    - triplet: snap-linux-$CRAFT_ARCH_BUILD_FOR
     - VCPKG_DIR: "$PWD/3rdParty/linux/vcpkg/installed/$triplet"
     - _libcurl_pc: "$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
-    - VCPKG_BINARY_SOURCES: "$VCPKG_BINARY_SOURCES"
-    - AWS_ACCESS_KEY_ID: "$AWS_ACCESS_KEY_ID"
-    - AWS_SECRET_ACCESS_KEY: "$AWS_SECRET_ACCESS_KEY"
-    - AWS_DEFAULT_REGION: "$AWS_DEFAULT_REGION"
+    - VCPKG_BINARY_SOURCES: "${VCPKG_BINARY_SOURCES:+$VCPKG_BINARY_SOURCES}"
+    - AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID:+$AWS_ACCESS_KEY_ID}"
+    - AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY:+$AWS_SECRET_ACCESS_KEY}"
+    - AWS_DEFAULT_REGION: "${AWS_DEFAULT_REGION:+$AWS_DEFAULT_REGION}"
     - prefix: /usr
     - PKG_CONFIG_PATH: $VCPKG_DIR/lib/pkgconfig/
     autotools-configure-parameters:
@@ -119,7 +128,7 @@ parts:
     - --disable-server
     - GTK_LIBS="`pkg-config --libs gtk+-3.0`"
     override-build: |
-      echo ARCH=$SNAPCRAFT_TARGET_ARCH
+      echo ARCH=$CRAFT_ARCH_BUILD_FOR
 
       export PATH=/snap/cmake/current/bin/:$PATH
       cmake --version
@@ -132,7 +141,11 @@ parts:
       pip install -U --user pip
       pip install --user jinja2
 
-      linux/update_vcpkg_manager.sh $triplet
+      # first parameter is the target triplet
+      # second parameter is the host triplet
+      # this needs to be changed is ever this will support a cross-compilation scenario
+      # but for now we only support building on the same architecture as the target
+      linux/update_vcpkg_manager.sh $triplet $triplet
 
       ./_autosetup
-      snapcraftctl build
+      craftctl default

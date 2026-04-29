@@ -212,13 +212,15 @@ jobs:
 
       - name: Install dependencies for integration testing
         if: success() && matrix.type == 'integration-test'
+        env:
+          BOINC_INTEGRATION_LOG_DIR: ${{ runner.temp }}/integration-test-logs
         run: |
           sudo apt-get install ansible
           sudo service mysql stop
           ./tests/integration_test/installTestSuite.sh
 
       - name: Cache dependencies
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
         with:
           path: |
             3rdParty/buildCache
@@ -445,7 +447,42 @@ jobs:
 
       - name: Execute integration-test
         if: success() && matrix.type == 'integration-test'
+        env:
+          BOINC_INTEGRATION_LOG_DIR: ${{ runner.temp }}/integration-test-logs
         run: ./tests/integration_test/executeTestSuite.sh
+
+      - name: Collect integration-test docker logs
+        if: ${{ always() && matrix.type == 'integration-test' }}
+        env:
+          BOINC_INTEGRATION_LOG_DIR: ${{ runner.temp }}/integration-test-logs
+        run: |
+          mkdir -p "$BOINC_INTEGRATION_LOG_DIR"
+
+          if [ -d /tmp/boinc-server-docker ]; then
+            cd /tmp/boinc-server-docker
+
+            if ! docker compose ps -a > "$BOINC_INTEGRATION_LOG_DIR/docker-compose-ps.txt" 2>&1; then
+              echo "docker compose ps -a failed while collecting integration-test diagnostics" >> "$BOINC_INTEGRATION_LOG_DIR/docker-compose-ps.txt"
+            fi
+
+            if ! docker compose logs --no-color > "$BOINC_INTEGRATION_LOG_DIR/docker-compose.log" 2>&1; then
+              echo "docker compose logs failed while collecting integration-test diagnostics" >> "$BOINC_INTEGRATION_LOG_DIR/docker-compose.log"
+            fi
+          else
+            echo "/tmp/boinc-server-docker was not created" > "$BOINC_INTEGRATION_LOG_DIR/docker-compose.log"
+          fi
+
+          if ! docker ps -a > "$BOINC_INTEGRATION_LOG_DIR/docker-ps.txt" 2>&1; then
+            echo "docker ps -a failed while collecting integration-test diagnostics" >> "$BOINC_INTEGRATION_LOG_DIR/docker-ps.txt"
+          fi
+
+      - name: Upload integration-test docker logs
+        if: ${{ always() && matrix.type == 'integration-test' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: linux_integration_test_docker_logs_${{ github.sha }}
+          path: ${{ runner.temp }}/integration-test-logs
+          if-no-files-found: warn
 
       - name: Prepare logs on failure
         if: ${{ failure() }}
@@ -453,7 +490,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: linux_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
@@ -463,14 +500,14 @@ jobs:
         run: python ./deploy/prepare_deployment.py linux_${{ matrix.type }}
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: ${{ ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') && matrix.type != 'coverity' }}
         with:
           name: linux_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
           path: deploy/linux_${{ matrix.type }}.7z
 
       - name: Upload Google Tests Results
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: always() && matrix.type == 'unit-test'    # run this step even if previous step failed
         with:
           name: Linux_tests_results

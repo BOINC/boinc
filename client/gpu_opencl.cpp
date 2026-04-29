@@ -741,15 +741,37 @@ void COPROCS::get_opencl(
                 // TODO: is there a better way to estimate peak_flops?
                 //
                 prop.peak_flops = 0;
-                if (prop.max_compute_units) {
-                    double freq = ((double)prop.max_clock_frequency) * MEGA;
-                    prop.peak_flops = ((double)prop.max_compute_units) * freq;
+
+                double freq;
+                if (prop.max_clock_frequency == 1) {
+                    // Adreno reports 1MHz, which is not correct.
+                    // Actual rate could be 155 MHz to 1.5 GHz;
+                    // split the difference.
+                    freq = 1e9;
+                } else {
+                    freq = ((double)prop.max_clock_frequency) * 1e6;
                 }
+
+                // OpenCL doesn't tell us this critical parameter;
+                // it varies between manufacturer and model.
+                // For recent Intel GPUs it's 8; we'll use this as a default
+                //
+                int alus_per_compute_unit = 8;
+
+                // other manufacturers
+                //
+                if (strcasestr(prop.vendor, "QUALCOMM")) {
+                    // can be 32 to 256; most are 128
+                    alus_per_compute_unit = 128;
+                }
+
+                prop.peak_flops = freq * prop.max_compute_units * alus_per_compute_unit;
                 if (prop.peak_flops <= 0 || prop.peak_flops > GPU_MAX_PEAK_FLOPS) {
                     char buf2[256];
                     snprintf(buf2, sizeof(buf2),
-                        "OpenCL generic: bad peak FLOPS; Max units %u, max freq %u MHz",
-                        prop.max_compute_units, prop.max_clock_frequency
+                        "OpenCL generic: bad peak FLOPS; Max units %u, max freq %u MHz ALUs per CU %d",
+                        prop.max_compute_units, prop.max_clock_frequency,
+                        alus_per_compute_unit
                     );
                     gpu_warning(warnings, buf2);
                     prop.peak_flops = GPU_DEFAULT_PEAK_FLOPS;

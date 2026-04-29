@@ -192,6 +192,20 @@ void secs_to_hmsf(double secs, char* buf) {
     sprintf(buf, "%uh%02um%02us%02u", h, m, s, f);
 }
 
+// return e.g. '12.23 GFLOPS'
+//
+string flops_to_string(double flops) {
+    char buf[256];
+    if (flops >= 1e12) {
+        snprintf(buf, 256, "%0.2f TFLOPS", flops/1e12);
+    } else if (flops >= 1e9) {
+        snprintf(buf, 256, "%0.2f GFLOPS", flops/1e9);
+    } else {
+        snprintf(buf, 256, "%0.2f MFLOPS", flops/1e6);
+    }
+    return string(buf);
+}
+
 // Convert nbytes into a string.  If total_bytes is non-zero,
 // convert the two into a fractional display (i.e. 4/16 KB)
 //

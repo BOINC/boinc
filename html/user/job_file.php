@@ -104,7 +104,7 @@ function query_files($r) {
     $now = time();
     $delete_time = (int)$r->delete_time;
     $batch_id = (int)$r->batch_id;
-    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+    $fanout = project_config_val("uldl_dir_fanout");
     $phys_names = [];
     foreach ($r->phys_name as $f) {
         $phys_names[] = (string)$f;
@@ -181,7 +181,7 @@ function delete_uploaded_files() {
 function upload_files($r) {
     xml_start_tag("upload_files");
     $user = check_remote_submit_permissions($r, null);
-    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+    $fanout = project_config_val("uldl_dir_fanout");
     $delete_time = (int)$r->delete_time;
     $batch_id = (int)$r->batch_id;
     //print_r($_FILES);
@@ -283,9 +283,9 @@ if (0) {
     exit;
 }
 
-$request_log = parse_config(get_config(), "<remote_submission_log>");
+$request_log = project_config_val("remote_submission_log");
 if ($request_log) {
-    $request_log_dir = parse_config(get_config(), "<log_dir>");
+    $request_log_dir = project_config_val("log_dir");
     if ($request_log_dir) {
         $request_log = $request_log_dir."/".$request_log;
     }

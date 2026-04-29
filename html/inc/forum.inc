@@ -543,13 +543,12 @@ function show_post(
         return;
     }
 
-    $config = get_config();
     BoincForumPrefs::lookup($user);
     if (is_banished($user) && !is_moderator($logged_in_user, $forum)) {
         return;
     }
 
-    $no_forum_rating = parse_bool($config, "no_forum_rating");
+    $no_forum_rating = project_config_bool("no_forum_rating");
 
     $tokens = "";
     $options = get_output_options($logged_in_user);
@@ -694,7 +693,7 @@ function show_post(
         show_button_small("forum_edit.php?id=".$post->id."$tokens", tra("Edit"), tra("Edit this message"));
     }
     if (is_moderator($logged_in_user, $forum)) {
-        show_post_moderation_links($config, $logged_in_user, $post, $forum, $tokens);
+        show_post_moderation_links($logged_in_user, $post, $forum, $tokens);
     }
     if ($post->modified) {
         echo "<br>".tra("Last modified: %1", pretty_time_Str($post->modified));
@@ -784,7 +783,6 @@ function show_post_and_context($post, $thread, $forum, $options, $n) {
         return;
     }
 
-    $config = get_config();
     $title = cleanup_title($thread->title);
     if ($post->hidden) {
         $deleted = "<br><font color=red>[".tra("Hidden by a moderator")."]</font>";
@@ -1222,10 +1220,10 @@ function get_thread_posts($threadid, $sort_style, $show_hidden) {
 // logged in user has moderation rights.
 //
 function show_post_moderation_links(
-    $config, $logged_in_user, $post, $forum, $tokens
+    $logged_in_user, $post, $forum, $tokens
 ){
-    $moderators_allowed_to_ban = parse_bool($config, "moderators_allowed_to_ban");
-    $moderators_vote_to_ban = parse_bool($config, "moderators_vote_to_ban");
+    $moderators_allowed_to_ban = project_config_bool("moderators_allowed_to_ban");
+    $moderators_vote_to_ban = project_config_bool("moderators_vote_to_ban");
 
     if ($post->hidden) {
         show_button_small("forum_moderate_post_action.php?action=unhide&amp;id=".$post->id."$tokens", tra("Unhide"), tra("Unhide this post"));
@@ -1458,7 +1456,7 @@ function is_subscribed($id, $subs) {
 //
 function is_forum_visible_to_user($forum, $user) {
     if ($forum->parent_type == 1) {
-        if (parse_config(get_config(), "<team_forums_members_only>")) {
+        if (project_config_val("team_forums_members_only")) {
             if (!$user) return false;
             if ($user->teamid != $forum->category) return false;
         }

@@ -21,8 +21,7 @@ require_once("../inc/util_ops.inc");
 require_once("../inc/uotd.inc");
 require_once("../project/project.inc");
 
-$config = get_config();
-$stripchart_cgi_url = parse_config($config, "<stripchart_cgi_url>");
+$stripchart_cgi_url = project_config_val("stripchart_cgi_url");
 
 db_init();
 
@@ -49,7 +48,7 @@ if (!defined("SYS_ADMIN_EMAIL")) {
     ";
 }
 
-if (parse_bool($config, "disable_account_creation")) {
+if (project_config_bool("disable_account_creation")) {
     echo "<li><span style=\"color: #ff9900\">
         Account creation is disabled.</span></li>
     ";
@@ -199,19 +198,23 @@ if ($show_deprecated) {
 }
 
 echo "<h3>Periodic tasks</h3>
-The following scripts should be run as periodic tasks, not via this web page
-(see <a href=\"https://github.com/BOINC/boinc/wiki/ProjectTasks\">https://github.com/BOINC/boinc/wiki/ProjectTasks</a>):
+<p>
+The following scripts should be run as
+<a href=https://github.com/BOINC/boinc/wiki/Periodic-tasks>periodic tasks</a>,
+not via this web page.
 <pre>
     update_forum_activities.php, update_profile_pages.php, update_uotd.php, delete_expired_tokens.php, delete_expired_users_and_hosts.php
 </pre>
 
 <h3>Repair tasks</h3>
+<p>
 The following scripts do one-time repair operations.
 Run them manually on the command line as needed
 (i.e. <tt>php scriptname.php</tt>):
 <pre>forum_repair.php, team_repair.php, repair_validator_problem.php</pre>
 
 <h3>Cleanup tasks</h3>
+<p>
 You can run the following as a periodic task, on the command line,
 or by clicking here:
     <ul>

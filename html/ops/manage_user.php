@@ -22,8 +22,7 @@
 // and forum suspension (banishment).   Put this in html/ops,
 // (or could be used by moderators for bans < 24 hrs).
 
-
-// TODO: use DB abstraction layer
+// TODO: use DB abstraction layer, get_str() functions etc.
 
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
@@ -97,12 +96,6 @@ function handle_suspend($user) {
             $t = $dt>0 ? time()+$dt : 0;
             $q = "UPDATE forum_preferences SET banished_until=$t WHERE userid=$user->id";
             _mysql_query($q);
-
-            // put a timestamp in wiki to trigger re-validation of credentials
-
-            if (function_exists('touch_wiki_user')){
-                touch_wiki_user($user);
-            }
 
             // Send suspension e-mail to user and administrators
 
@@ -204,7 +197,6 @@ function show_manage_user_form($user) {
     echo "</form>\n";
 
     echo "\n\n</td><td valign='TOP'>\n\n";
-
 
     // Suspended posting privileges
 

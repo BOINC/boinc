@@ -407,7 +407,7 @@ void cleanup_docker(DOCKER_JOB_INFO &info, DOCKER_CONN &dc) {
 
     // first containers
     //
-    retval = dc.command("ps --all", out);
+    retval = dc.command("ps --all", out, true);
     if (retval) {
         fprintf(stderr, "Docker command failed: ps --all\n");
     } else {
@@ -417,7 +417,7 @@ void cleanup_docker(DOCKER_JOB_INFO &info, DOCKER_CONN &dc) {
             if (!docker_is_boinc_name(name.c_str())) continue;
             if (info.container_present(name)) continue;
             sprintf(cmd, "rm -f %s", name.c_str());
-            retval = dc.command(cmd, out2);
+            retval = dc.command(cmd, out2, true);
             if (retval) {
                 fprintf(stderr, "Docker command failed: %s\n", cmd);
                 continue;
@@ -430,7 +430,7 @@ void cleanup_docker(DOCKER_JOB_INFO &info, DOCKER_CONN &dc) {
 
     // then images
     //
-    retval = dc.command("images", out);
+    retval = dc.command("images", out, true);
     if (retval) {
         fprintf(stderr, "Docker command failed: images\n");
     } else {
@@ -440,7 +440,7 @@ void cleanup_docker(DOCKER_JOB_INFO &info, DOCKER_CONN &dc) {
             if (!docker_is_boinc_name(name.c_str())) continue;
             if (info.image_present(name)) continue;
             sprintf(cmd, "image rm %s", name.c_str());
-            retval = dc.command(cmd, out2);
+            retval = dc.command(cmd, out2, true);
             if (retval) {
                 fprintf(stderr, "Docker command failed: %s\n", cmd);
                 continue;

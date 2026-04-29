@@ -747,7 +747,13 @@ int CLIENT_STATE::init() {
 
     process_gpu_exclusions();
 
-    docker_cleanup();
+    // delete Docker images and containers not used by current jobs.
+    // Skip this if multiple clients are allowed;
+    // otherwise we'd delete other clients' containers
+    //
+    if (!cc_config.allow_multiple_clients) {
+        docker_cleanup();
+    }
 
     check_clock_reset();
 

@@ -29,6 +29,21 @@
         },
         "libnotify",
         "xcb-util",
-        "pixbufloader-svg"
+        "pixbufloader-svg",
+        {
+            "name": "gtk3",
+            "features": ["wayland"],
+            "default-features": false
+        },
+        {
+            "name": "wayland",
+            "features": ["force-build"],
+            "default-features": false
+        },
+        {
+            "name": "wayland-protocols",
+            "features": ["force-build"],
+            "default-features": false
+        }
     ]
 }

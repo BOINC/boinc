@@ -161,6 +161,7 @@
 #endif
 
 #ifndef HAVE_SOCKLEN_T
+#include <stddef.h> // for size_t
 typedef size_t socklen_t;
 #endif
 

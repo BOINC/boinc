@@ -206,7 +206,7 @@ function variant_form($user) {
     ";
     $sb = '<br><small>From your <a href=sandbox.php>file sandbox</a></small>';
     $pc = '<br><small>Specify
-    <a href=https://github.com/BOINC/boinc/wiki/AppPlan>GPU and other host requirements</a>.<br>Leave blank if none.</small>';
+    <a href=https://github.com/BOINC/boinc/wiki/Plan-classes>GPU and other host requirements</a>.<br>Leave blank if none.</small>';
     form_start('buda.php');
     form_input_hidden('app', $app);
     form_input_hidden('action', 'variant_action');
@@ -314,9 +314,9 @@ function create_templates($app, $desc, $dir) {
 function file_xml_elements($log_name, $phys_name, $md5, $nbytes) {
     static $download_dir, $download_url, $fanout;
     if ($download_dir == null) {
-        $download_dir = parse_element(get_config(), "<download_dir>");
-        $download_url = parse_element(get_config(), "<download_url>");
-        $fanout = (int)(parse_element(get_config(), "<uldl_dir_fanout>"));
+        $download_dir = project_config_val("download_dir");
+        $download_url = project_config_val("download_url");
+        $fanout = (int)(project_config_val("uldl_dir_fanout"));
     }
     $file_info = sprintf(
 "<file_info>

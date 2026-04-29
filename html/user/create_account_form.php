@@ -27,12 +27,11 @@ check_get_args(array("next_url", "teamid"));
 
 $next_url = sanitize_local_url(get_str('next_url', true));
 
-$config = get_config();
-if (parse_bool($config, "disable_account_creation")) {
+if (project_config_bool("disable_account_creation")) {
     error_page("This project has disabled account creation");
 }
 
-if (parse_bool($config, "no_web_account_creation")) {
+if (project_config_bool("no_web_account_creation")) {
     error_page("This project has disabled Web account creation");
 }
 
