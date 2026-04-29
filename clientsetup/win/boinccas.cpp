@@ -979,3 +979,36 @@ bool BOINCCABase::localGroupExists(const tstring& groupName) {
     }
     return rc == NERR_Success;
 }
+
+bool BOINCCABase::RecursiveSetPermissions(const tstring& path, PACL pACL) {
+    const auto csPath = path + _T("\\");
+    const auto csPathMask = csPath + _T("*.*");
+
+    WIN32_FIND_DATA ffData;
+    auto hFind = FindFirstFile(csPathMask.c_str(), &ffData);
+
+    if (hFind == INVALID_HANDLE_VALUE) {
+        return false;
+    }
+
+    while (hFind && FindNextFile(hFind, &ffData)) {
+        if ((_tcscmp(ffData.cFileName, _T(".")) != 0) &&
+            (_tcscmp(ffData.cFileName, _T("..")) != 0))
+        {
+            auto csFullPath = csPath + ffData.cFileName;
+
+            SetNamedSecurityInfo(csFullPath.data(), SE_FILE_OBJECT,
+                DACL_SECURITY_INFORMATION, nullptr, nullptr, pACL, nullptr);
+
+            if (ffData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+                RecursiveSetPermissions(csFullPath, pACL);
+            }
+        }
+    }
+
+    if (hFind) {
+        FindClose(hFind);
+    }
+
+    return true;
+}

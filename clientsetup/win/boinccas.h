@@ -118,6 +118,7 @@ protected:
     tstring     m_strProgressTitle;
 
     bool localGroupExists(const tstring& groupName);
+    bool RecursiveSetPermissions(const tstring& path, PACL pACL);
 };
 
 #endif

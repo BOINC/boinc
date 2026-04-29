@@ -17,7 +17,6 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "dirops.h"
 
 class CASetPermissionBOINCDataProjects : public BOINCCABase {
 public:
@@ -27,7 +26,7 @@ public:
             _T("Setting permissions on the BOINC Projects directory.")) {
     }
 
-    UINT CASetPermissionBOINCDataProjects::OnExecution() override final {
+    UINT OnExecution() override final {
         tstring strEnableProtectedApplicationExecution;
         auto uiReturnValue =
             GetProperty(_T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"),

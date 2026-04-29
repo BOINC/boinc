@@ -70,7 +70,6 @@
     <ClCompile Include="..\clientsetup\win\CAValidateRebootRequest.cpp" />
     <ClCompile Include="..\clientsetup\win\CAValidateSetupType.cpp" />
     <ClCompile Include="..\clientsetup\win\CAVerifyInstallDirectories.cpp" />
-    <ClCompile Include="..\clientsetup\win\dirops.cpp" />
     <ClCompile Include="..\clientsetup\win\launcher.cpp" />
     <ClCompile Include="..\clientsetup\win\listacl.cpp" />
     <ClCompile Include="..\clientsetup\win\lsaprivs.cpp" />
@@ -85,7 +84,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\clientsetup\win\boinccas.h" />
-    <ClInclude Include="..\clientsetup\win\CASetPermissionBOINCDataSlots.h" />
     <ClInclude Include="..\clientsetup\win\CAShutdownBOINC.h" />
     <ClInclude Include="..\clientsetup\win\CAShutdownBOINCManager.h" />
     <ClInclude Include="..\clientsetup\win\CAShutdownBOINCScreensaver.h" />
@@ -94,7 +92,6 @@
     <ClInclude Include="..\clientsetup\win\CAValidateSetupType.h" />
     <ClInclude Include="..\clientsetup\win\CAVerifyInstallDirectories.h" />
     <ClInclude Include="..\clientsetup\win\dcomperm.h" />
-    <ClInclude Include="..\clientsetup\win\dirops.h" />
     <ClInclude Include="..\clientsetup\win\launcher.h" />
     <ClInclude Include="..\clientsetup\win\lsaprivs.h" />
     <ClInclude Include="..\clientsetup\win\main.h" />

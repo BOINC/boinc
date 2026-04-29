@@ -17,7 +17,6 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "dirops.h"
 
 class CARestorePermissionBOINCData : public BOINCCABase
 {

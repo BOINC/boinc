@@ -18,7 +18,7 @@
 #include "boinccas_helper.h"
 #include "user_group_helper.h"
 
-namespace test_boinccas_CASetPermissionBOINCDataProjects {
+namespace test_boinccas_CASetPermissionBOINCDataSlots {
     constexpr auto adminsGroupName = "test_admins";
     constexpr auto usersGroupName = "test_users";
     constexpr auto projectsGroupName = "test_projects";
@@ -43,11 +43,11 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         }
     };
 
-    class test_boinccas_CASetPermissionBOINCDataProjects :
+    class test_boinccas_CASetPermissionBOINCDataSlots :
         public test_boinccas_TestBase {
     protected:
-        test_boinccas_CASetPermissionBOINCDataProjects() :
-            test_boinccas_TestBase("SetPermissionBOINCDataProjects") {
+        test_boinccas_CASetPermissionBOINCDataSlots() :
+            test_boinccas_TestBase("SetPermissionBOINCDataSlots") {
         }
 
         void TearDown() override {
@@ -255,7 +255,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
     };
 
 #ifdef BOINCCAS_TEST
-    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataSlots,
         ProtectedMode_Empty_DATADIR_Property_Expect_Fail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -293,7 +293,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         EXPECT_NE(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataSlots,
         NormalMode_Empty_Expect_Success) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -307,7 +307,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         EXPECT_EQ(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataSlots,
         ProtectedMode_DATADIR_Doesnt_Exist_Expect_Fail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -353,8 +353,8 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         EXPECT_NE(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
-        ProtectedMode_DATADIR_Projects_Doesnt_Exist_Expect_Fail) {
+    TEST_F(test_boinccas_CASetPermissionBOINCDataSlots,
+        ProtectedMode_DATADIR_Slots_Doesnt_Exist_Expect_Fail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
 
@@ -400,7 +400,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         EXPECT_NE(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataSlots,
         ProtectedMode_Without_Admins_Group_Expect_Fail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -428,7 +428,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         ASSERT_TRUE(createLocalGroup(projectsGroupName));
 
         testDir = std::filesystem::current_path() /= "test_data";
-        std::filesystem::create_directories(testDir /= "projects");
+        std::filesystem::create_directories(testDir /= "slots");
 
         setMsiProperty("DATADIR", testDir.string());
         std::tie(errorcode, value) =
@@ -439,7 +439,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         EXPECT_NE(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataSlots,
         ProtectedMode_Without_Users_Group_Expect_Fail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -467,7 +467,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         ASSERT_TRUE(createLocalGroup(projectsGroupName));
 
         testDir = std::filesystem::current_path() /= "test_data";
-        std::filesystem::create_directories(testDir /= "projects");
+        std::filesystem::create_directories(testDir /= "slots");
 
         setMsiProperty("DATADIR", testDir.string());
         std::tie(errorcode, value) =
@@ -478,7 +478,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         EXPECT_NE(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataSlots,
         ProtectedMode_Without_Projects_Group_Expect_Fail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -506,7 +506,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         ASSERT_TRUE(createLocalGroup(usersGroupName));
 
         testDir = std::filesystem::current_path() /= "test_data";
-        std::filesystem::create_directories(testDir /= "projects");
+        std::filesystem::create_directories(testDir /= "slots");
 
         setMsiProperty("DATADIR", testDir.string());
         std::tie(errorcode, value) =
@@ -517,7 +517,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         EXPECT_NE(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataSlots,
         ProtectedMode_Admins_Group_Doesnt_Exist_Expect_Fail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -551,7 +551,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         ASSERT_TRUE(createLocalGroup(projectsGroupName));
 
         testDir = std::filesystem::current_path() /= "test_data";
-        std::filesystem::create_directories(testDir /= "projects");
+        std::filesystem::create_directories(testDir /= "slots");
 
         setMsiProperty("DATADIR", testDir.string());
         std::tie(errorcode, value) =
@@ -562,7 +562,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         EXPECT_NE(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataSlots,
         ProtectedMode_Users_Group_Doesnt_Exist_Expect_Fail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -596,7 +596,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         ASSERT_TRUE(createLocalGroup(projectsGroupName));
 
         testDir = std::filesystem::current_path() /= "test_data";
-        std::filesystem::create_directories(testDir /= "projects");
+        std::filesystem::create_directories(testDir /= "slots");
 
         setMsiProperty("DATADIR", testDir.string());
         std::tie(errorcode, value) =
@@ -607,7 +607,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         EXPECT_NE(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataSlots,
         ProtectedMode_Projects_Group_Doesnt_Exist_Expect_Fail) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -641,7 +641,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         ASSERT_EQ(projectsGroupName, value);
 
         testDir = std::filesystem::current_path() /= "test_data";
-        std::filesystem::create_directories(testDir /= "projects");
+        std::filesystem::create_directories(testDir /= "slots");
 
         setMsiProperty("DATADIR", testDir.string());
         std::tie(errorcode, value) =
@@ -652,7 +652,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         EXPECT_NE(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataSlots,
         ProtectedMode_AllUsers_Not_Set_Expect_Success) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -689,19 +689,19 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
 
         testDir = std::filesystem::current_path() /= "test_data";
         const std::array folders = {
-            testDir / "projects" / "d1",
-            testDir / "projects" / "d2",
-            testDir / "projects" / "d1" / "d3",
-            testDir / "projects" / "d1" / "d4"
+            testDir / "slots" / "d1",
+            testDir / "slots" / "d2",
+            testDir / "slots" / "d1" / "d3",
+            testDir / "slots" / "d1" / "d4"
         };
         const std::array files = {
-            testDir / "projects" / "f1",
-            testDir / "projects" / "f2",
-            testDir / "projects" / "d1" / "f3",
-            testDir / "projects" / "d1" / "f4",
-            testDir / "projects" / "d2" / "f5",
-            testDir / "projects" / "d1" / "d3" / "f6",
-            testDir / "projects" / "d1" / "d4" / "f7"
+            testDir / "slots" / "f1",
+            testDir / "slots" / "f2",
+            testDir / "slots" / "d1" / "f3",
+            testDir / "slots" / "d1" / "f4",
+            testDir / "slots" / "d2" / "f5",
+            testDir / "slots" / "d1" / "d3" / "f6",
+            testDir / "slots" / "d1" / "d4" / "f7"
         };
 
         std::filesystem::create_directories(testDir);
@@ -727,7 +727,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         accountsInfo.boinc_users = true;
         accountsInfo.boinc_projects = true;
 
-        EXPECT_EQ(0, checkPermissions(testDir / "projects", accountsInfo,
+        EXPECT_EQ(0, checkPermissions(testDir / "slots", accountsInfo,
             true));
         for (const auto& folder : folders) {
             EXPECT_EQ(0, checkPermissions(folder, accountsInfo, true));
@@ -737,7 +737,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         }
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataSlots,
         ProtectedMode_AllUsers_Set_Expect_Success) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -780,19 +780,19 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
 
         testDir = std::filesystem::current_path() /= "test_data";
         const std::array folders = {
-            testDir / "projects" / "d1",
-            testDir / "projects" / "d2",
-            testDir / "projects" / "d1" / "d3",
-            testDir / "projects" / "d1" / "d4"
+            testDir / "slots" / "d1",
+            testDir / "slots" / "d2",
+            testDir / "slots" / "d1" / "d3",
+            testDir / "slots" / "d1" / "d4"
         };
         const std::array files = {
-            testDir / "projects" / "f1",
-            testDir / "projects" / "f2",
-            testDir / "projects" / "d1" / "f3",
-            testDir / "projects" / "d1" / "f4",
-            testDir / "projects" / "d2" / "f5",
-            testDir / "projects" / "d1" / "d3" / "f6",
-            testDir / "projects" / "d1" / "d4" / "f7"
+            testDir / "slots" / "f1",
+            testDir / "slots" / "f2",
+            testDir / "slots" / "d1" / "f3",
+            testDir / "slots" / "d1" / "f4",
+            testDir / "slots" / "d2" / "f5",
+            testDir / "slots" / "d1" / "d3" / "f6",
+            testDir / "slots" / "d1" / "d4" / "f7"
         };
 
         std::filesystem::create_directories(testDir);
@@ -819,7 +819,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         accountsInfo.boinc_users = true;
         accountsInfo.boinc_projects = true;
 
-        EXPECT_EQ(0, checkPermissions(testDir / "projects", accountsInfo,
+        EXPECT_EQ(0, checkPermissions(testDir / "slots", accountsInfo,
             true));
         for (const auto& folder : folders) {
             EXPECT_EQ(0, checkPermissions(folder, accountsInfo, true));
@@ -829,7 +829,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         }
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataSlots,
         ProtectedMode_AllUsers_Disabled_Expect_Success) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -872,19 +872,19 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
 
         testDir = std::filesystem::current_path() /= "test_data";
         const std::array folders = {
-            testDir / "projects" / "d1",
-            testDir / "projects" / "d2",
-            testDir / "projects" / "d1" / "d3",
-            testDir / "projects" / "d1" / "d4"
+            testDir / "slots" / "d1",
+            testDir / "slots" / "d2",
+            testDir / "slots" / "d1" / "d3",
+            testDir / "slots" / "d1" / "d4"
         };
         const std::array files = {
-            testDir / "projects" / "f1",
-            testDir / "projects" / "f2",
-            testDir / "projects" / "d1" / "f3",
-            testDir / "projects" / "d1" / "f4",
-            testDir / "projects" / "d2" / "f5",
-            testDir / "projects" / "d1" / "d3" / "f6",
-            testDir / "projects" / "d1" / "d4" / "f7"
+            testDir / "slots" / "f1",
+            testDir / "slots" / "f2",
+            testDir / "slots" / "d1" / "f3",
+            testDir / "slots" / "d1" / "f4",
+            testDir / "slots" / "d2" / "f5",
+            testDir / "slots" / "d1" / "d3" / "f6",
+            testDir / "slots" / "d1" / "d4" / "f7"
         };
 
         std::filesystem::create_directories(testDir);
@@ -910,7 +910,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         accountsInfo.boinc_users = true;
         accountsInfo.boinc_projects = true;
 
-        EXPECT_EQ(0, checkPermissions(testDir / "projects", accountsInfo,
+        EXPECT_EQ(0, checkPermissions(testDir / "slots", accountsInfo,
             true));
         for (const auto& folder : folders) {
             EXPECT_EQ(0, checkPermissions(folder, accountsInfo, true));
@@ -920,7 +920,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         }
     }
 
-    TEST_F(test_boinccas_CASetPermissionBOINCDataProjects,
+    TEST_F(test_boinccas_CASetPermissionBOINCDataSlots,
         ProtectedMode_Eveything_Set_Expect_Success) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -970,19 +970,19 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
 
         testDir = std::filesystem::current_path() /= "test_data";
         const std::array folders = {
-            testDir / "projects" / "d1",
-            testDir / "projects" / "d2",
-            testDir / "projects" / "d1" / "d3",
-            testDir / "projects" / "d1" / "d4"
+            testDir / "slots" / "d1",
+            testDir / "slots" / "d2",
+            testDir / "slots" / "d1" / "d3",
+            testDir / "slots" / "d1" / "d4"
         };
         const std::array files = {
-            testDir / "projects" / "f1",
-            testDir / "projects" / "f2",
-            testDir / "projects" / "d1" / "f3",
-            testDir / "projects" / "d1" / "f4",
-            testDir / "projects" / "d2" / "f5",
-            testDir / "projects" / "d1" / "d3" / "f6",
-            testDir / "projects" / "d1" / "d4" / "f7"
+            testDir / "slots" / "f1",
+            testDir / "slots" / "f2",
+            testDir / "slots" / "d1" / "f3",
+            testDir / "slots" / "d1" / "f4",
+            testDir / "slots" / "d2" / "f5",
+            testDir / "slots" / "d1" / "d3" / "f6",
+            testDir / "slots" / "d1" / "d4" / "f7"
         };
 
         std::filesystem::create_directories(testDir);
@@ -1009,7 +1009,7 @@ namespace test_boinccas_CASetPermissionBOINCDataProjects {
         accountsInfo.boinc_users = true;
         accountsInfo.boinc_projects = true;
 
-        EXPECT_EQ(0, checkPermissions(testDir / "projects", accountsInfo,
+        EXPECT_EQ(0, checkPermissions(testDir / "slots", accountsInfo,
             true));
         for (const auto& folder : folders) {
             EXPECT_EQ(0, checkPermissions(folder, accountsInfo, true));

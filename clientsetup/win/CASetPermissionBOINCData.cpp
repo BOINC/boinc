@@ -17,7 +17,6 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "dirops.h"
 
 class CASetPermissionBOINCData : public BOINCCABase {
 public:
@@ -27,7 +26,7 @@ public:
             _T("Setting permissions on the BOINC Data directory.")) {
     }
 
-    UINT CASetPermissionBOINCData::OnExecution() override final {
+    UINT OnExecution() override final {
         tstring strBOINCDataDirectory;
         auto uiReturnValue = GetProperty(_T("DATADIR"), strBOINCDataDirectory);
         if (uiReturnValue != ERROR_SUCCESS) {
