@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Version=8.2.11
+Version=8.2.12
 Exec=boinc.manager
 Icon=${SNAP}/meta/gui/boinc.png
 Categories=System;Monitor;GTK;

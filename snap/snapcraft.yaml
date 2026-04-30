@@ -16,7 +16,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 name: boinc
-version: "8.2.11"
+version: "8.2.12"
 base: core24
 type: app
 title: BOINC Manager
