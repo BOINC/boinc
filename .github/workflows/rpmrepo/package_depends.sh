@@ -23,19 +23,35 @@ function exit_usage() {
 	exit 1
 }
 
-case "$1_$2" in
+case "$1" in
 # fedora distros
-"fc37_linux_client" | "fc38_linux_client" | "fc39_linux_client" | "fc40_linux_client" | "fc41_linux_client" | "fc42_linux_client" | "fc43_linux_client" | "fc44_linux_client")
-    echo "glibc,libXScrnSaver >= 1.2.3,ca-certificates,libatomic"
+"fc37" | "fc38" | "fc39" | "fc40" | "fc41" | "fc42" | "fc43" | "fc44")
+    case "$2" in
+    "client")
+        echo "glibc,libXScrnSaver >= 1.2.3,ca-certificates,libatomic"
+        ;;
+    "manager")
+        echo "glibc,libnotify,libX11,xkeyboard-config"
+        ;;
+    *)  echo "glibc"
+        ;;
+    esac
     ;;
 # opensuse distros
-"suse15_4_linux_client" | "suse15_5_linux_client" | "suse15_6_linux_client" | "suse16_0_linux_client")
-    echo "glibc,libXss1 >= 1.2.2,ca-certificates,libatomic1"
+"suse15_4" | "suse15_5" | "suse15_6" | "suse16_0")
+    case "$2" in
+    "client")
+        echo "glibc,libXss1 >= 1.2.2,ca-certificates,libatomic1"
+        ;;
+    "manager")
+        echo "glibc,libnotify4,libX11-6,xkeyboard-config"
+        ;;
+    *)  echo "glibc"
+        ;;
+    esac
     ;;
-
 *)  echo "glibc"
 	;;
-
 esac
 
 exit 0

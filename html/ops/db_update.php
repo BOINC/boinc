@@ -1240,13 +1240,59 @@ function update_11_23_2025() {
     do_query("alter table host add column misc text not null");
 }
 
+function update_5_2_2026a() {
+    do_query("alter table platform modify name varchar(191) not null");
+    do_query("alter table app modify name varchar(191) not null");
+    do_query("alter table app_version modify plan_class varchar(128) not null default ''");
+    do_query("alter table user modify email_addr varchar(191) not null");
+    do_query("alter table user modify name varchar(191)");
+    do_query("alter table user modify authenticator varchar(191)");
+    do_query("alter table team modify name varchar(191) not null");
+    do_query("alter table workunit modify name varchar(191) not null");
+    do_query("alter table result modify name varchar(191) not null");
+    do_query("alter table job_file modify name varchar(191) not null");
+    do_query("alter table category modify name varchar(180) not null");
+    do_query("alter table forum modify title varchar(175) not null");
+    do_query("alter table token modify token varchar(64) not null");
+    do_query("alter table consent_type modify shortname varchar(191) not null");
+}
+
+function update_5_2_2026b() {
+    do_query("alter table platform CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table app CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table app_version CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table user CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table team CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table host CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table workunit CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table result CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table batch CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table job_file CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table msg_from_host CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table msg_to_host CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table profile CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table category CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table forum CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table thread CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table post CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table forum_preferences CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table private_messages CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table donation_items CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table donation_paypal CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table friend CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table badge CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table token CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table consent CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table consent_type CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
-// (Look at your DB structure using "explain" queries to see
-// which ones you need).
+// (Look at your DB using "explain" queries to see which ones you need).
+// Update 'db_revision' when done.
 
 //update_3_17_2010();
 
@@ -1302,6 +1348,8 @@ $db_updates = array (
     array(27028, "update_9_12_2018"),
     array(27029, "update_2_15_2025"),
     array(27030, "update_11_23_2025"),
+    array(27031, "update_5_2_2026a"),
+    array(27032, "update_5_2_2026b"),
 );
 
 ?>

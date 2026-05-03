@@ -84,6 +84,8 @@ struct PLAN_CLASS_SPEC {
         // the project prefs tag for user-supplied gpu_utilization factor
     double min_gpu_peak_flops;
     double max_gpu_peak_flops;
+    bool have_gpu_type_regex;
+    regex_t gpu_type_regex;
 
     // AMD/ATI apps
     //

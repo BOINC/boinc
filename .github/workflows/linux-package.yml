@@ -40,7 +40,8 @@ env:
   HOMEPAGE: https://boinc.berkeley.edu/
   DESCRIPTION: BOINC lets you help cutting-edge science research using your computer. The BOINC app, running on your computer, downloads scientific computing jobs and runs them invisibly in the background. It's easy and safe.
   BASEREPO: https://boinc.berkeley.edu/dl/linux # no trailing slash
-  AUTOCONF_WITH_VERSION: autoconf-2.70
+  AUTOCONF_WITH_VERSION: autoconf-2.73
+  BISON_WITH_VERSION: bison-3.8.2
 
 jobs:
   prepare-binaries:
@@ -65,8 +66,10 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
         with:
-          path: ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
-          key: ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
+          path: |
+            ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
+            ${{ env.BISON_WITH_VERSION }}.tar.gz
+          key: ${{ env.AUTOCONF_WITH_VERSION }}_${{ env.BISON_WITH_VERSION }}
 
       - name: Check if build is running from origin repo
         if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
@@ -110,6 +113,19 @@ jobs:
           make install
           cd ..
           autoconf --version
+
+      - name: Install updated version of bison
+        run: |
+          if [ ! -f ${{ env.BISON_WITH_VERSION }}.tar.gz ]; then
+            curl https://ftp.gnu.org/gnu/bison/${{ env.BISON_WITH_VERSION }}.tar.gz -o ${{ env.BISON_WITH_VERSION }}.tar.gz
+          fi
+          tar -xzf ${{ env.BISON_WITH_VERSION }}.tar.gz
+          cd ${{ env.BISON_WITH_VERSION }}
+          ./configure --prefix=/usr
+          make -j $(nproc --all)
+          make install
+          cd ..
+          bison --version
 
       - name: Install aws cli tool
         run: |
@@ -238,7 +254,7 @@ jobs:
         run: |
           # Derive the package dependencies for the selected package / os / release combination selected
           cd ${{ github.workspace }}/.github/workflows/debrepo/
-          PKG_DEPS=$(bash package_depends.sh ${{ matrix.os }} linux_${{ matrix.type }})
+          PKG_DEPS=$(bash package_depends.sh ${{ matrix.os }} ${{ matrix.type }})
           echo "Dependencies: ${PKG_DEPS}"
 
           # Produce the package DEB definition
@@ -389,7 +405,7 @@ jobs:
         if: ${{ success() && matrix.type == 'client' }}
         run: |
             # Derive the package dependencies for the selected package / os / release combination selected
-            PKG_DEPS=$(bash .github/workflows/rpmrepo/package_depends.sh ${{ matrix.os }} linux_${{ matrix.type }})
+            PKG_DEPS=$(bash .github/workflows/rpmrepo/package_depends.sh ${{ matrix.os }} ${{ matrix.type }})
             PKG_FILELIST=$(bash .github/workflows/rpmrepo/package_filelist.sh ${{ matrix.os }} linux_${{ matrix.type }})
             BOINCUSER=boinc
             BOINCGROUP=boinc
@@ -457,7 +473,7 @@ jobs:
               fi
                 done
             }
-            if [ -x /bin/systemctl ] ; then
+            if command -v systemctl >/dev/null 2>&1 && [ -d /run/systemd/system ]; then
               if systemctl is-active --quiet boinc-client.service; then
                 systemctl stop boinc-client.service
               fi
@@ -574,7 +590,7 @@ jobs:
             if [ -e /etc/boinc-client/remote_hosts.cfg ] ; then
                 set_perm /etc/boinc-client/remote_hosts.cfg ${BOINCUSER} ${BOINCGROUP} 0660
             fi
-            if [ -x /bin/systemctl ] ; then
+            if command -v systemctl >/dev/null 2>&1 && [ -d /run/systemd/system ]; then
                 systemctl enable --now boinc-client.service
             fi
 
@@ -590,7 +606,7 @@ jobs:
         if: ${{ success() && matrix.type == 'manager' }}
         run: |
             # Derive the package dependencies for the selected package / os / release combination selected
-            PKG_DEPS=$(bash .github/workflows/rpmrepo/package_depends.sh ${{ matrix.os }} linux_${{ matrix.type }})
+            PKG_DEPS=$(bash .github/workflows/rpmrepo/package_depends.sh ${{ matrix.os }} ${{ matrix.type }})
             PKG_FILELIST=$(bash .github/workflows/rpmrepo/package_filelist.sh ${{ matrix.os }} linux_${{ matrix.type }})
 
             cd rpmbuild
@@ -719,7 +735,6 @@ jobs:
         if: success() && matrix.type == 'upgrade'
         run: |
           DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
-          mv /bin/systemctl /bin/systemctl.bak
 
       - name: Install distro package for further upgrade from the alpha
         if: success() && matrix.type == 'upgrade-from-alpha'
@@ -755,8 +770,8 @@ jobs:
         if: success()
         run: |
           apt update
-          apt install -y $(find ./ -type f -name "boinc-client*.deb" -printf "%p\n")
-          apt install -y $(find ./ -type f -name "boinc-manager*.deb" -printf "%p\n")
+          DEBIAN_FRONTEND=noninteractive apt install -y $(find ./ -type f -name "boinc-manager*.deb" -printf "%p\n")
+          DEBIAN_FRONTEND=noninteractive apt install -y $(find ./ -type f -name "boinc-client*.deb" -printf "%p\n")
 
       - name: Run integration tests
         if: success()
@@ -813,7 +828,7 @@ jobs:
           DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the alpha
-        if: success() && matrix.type == 'upgrade-from-alpha' && matrix.os != 'resolute'
+        if: success() && matrix.type == 'upgrade-from-alpha'
         run: |
           mkdir -p /etc/apt/keyrings
           curl -fsSL https://boinc.berkeley.edu/dl/linux/alpha/${{ matrix.os }}/boinc.gpg | gpg --dearmor -o /etc/apt/keyrings/boinc.gpg
@@ -822,18 +837,13 @@ jobs:
           DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the stable
-        if: success() && matrix.type == 'upgrade-from-stable' && matrix.os != 'resolute'
+        if: success() && matrix.type == 'upgrade-from-stable'
         run: |
           mkdir -p /etc/apt/keyrings
           curl -fsSL https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }}/boinc.gpg | gpg --dearmor -o /etc/apt/keyrings/boinc.gpg
           echo deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/boinc.gpg] https://boinc.berkeley.edu/dl/linux/stable/${{ matrix.os }} ${{ matrix.os }} main | tee /etc/apt/sources.list.d/boinc.list > /dev/null
           apt update
           DEBIAN_FRONTEND=noninteractive apt install -y boinc-client boinc-manager
-
-      - name: Rename systemctl (not supported on CI)
-        if: success() && (matrix.type == 'upgrade' || matrix.type == 'upgrade-from-ppa')
-        run: |
-          mv /bin/systemctl /bin/systemctl.bak
 
       - name: Download client
         if: success()
@@ -851,8 +861,8 @@ jobs:
         if: success()
         run: |
           apt update
-          apt install -y $(find ./ -type f -name "boinc-client*.deb" -printf "%p\n")
-          apt install -y $(find ./ -type f -name "boinc-manager*.deb" -printf "%p\n")
+          DEBIAN_FRONTEND=noninteractive apt install -y $(find ./ -type f -name "boinc-manager*.deb" -printf "%p\n")
+          DEBIAN_FRONTEND=noninteractive apt install -y $(find ./ -type f -name "boinc-client*.deb" -printf "%p\n")
 
       - name: Run integration tests
         if: success()
@@ -901,7 +911,7 @@ jobs:
           yum install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the alpha for Fedora >= 41
-        if: success() && matrix.type == 'upgrade-from-alpha' && (matrix.os == '41' || matrix.os == '42' || matrix.os == '43')
+        if: success() && matrix.type == 'upgrade-from-alpha' && (matrix.os == '41' || matrix.os == '42' || matrix.os == '43' || matrix.os == '44')
         run: |
           dnf install -y dnf-plugins-core
           dnf config-manager addrepo --from-repofile=https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc-alpha-fc${{ matrix.os }}.repo
@@ -921,7 +931,7 @@ jobs:
           yum install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the stable for Fedora > 41
-        if: success() && matrix.type == 'upgrade-from-stable' && (matrix.os == '41' || matrix.os == '42' || matrix.os == '43')
+        if: success() && matrix.type == 'upgrade-from-stable' && (matrix.os == '41' || matrix.os == '42' || matrix.os == '43' || matrix.os == '44')
         run: |
           dnf install -y dnf-plugins-core
           dnf config-manager addrepo --from-repofile=https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}/boinc-stable-fc${{ matrix.os }}.repo

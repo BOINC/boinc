@@ -124,7 +124,7 @@ bool wu_is_infeasible_custom(
     // Don't send if #procs is less than this.
     //
     if (!strcmp(app.name, "foobar") && bav.host_usage.proc_type == PROC_TYPE_NVIDIA_GPU) {
-        int n = g_request->coprocs.nvidia.prop.multiProcessorCount;
+        int n = g_request->coprocs.nvidia.cuda_prop.multiProcessorCount;
         if (n < wu.batch) {
            return true;
         }
@@ -416,13 +416,13 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
     double cpu_frac,    // fraction of FLOPS performed by CPU
     double flops_scale
 ) {
-    int cc = c.prop.major*100 + c.prop.minor;
+    int cc = c.cuda_prop.major*100 + c.cuda_prop.minor;
     if (min_cc && (cc < min_cc)) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] App requires compute capability > %d.%d (has %d.%d).\n",
                 min_cc/100,min_cc%100,
-                c.prop.major,c.prop.minor
+                c.cuda_prop.major,c.cuda_prop.minor
             );
         }
         return false;
@@ -433,7 +433,7 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
             log_messages.printf(MSG_NORMAL,
                 "[version] App requires compute capability <= %d.%d (has %d.%d).\n",
                 max_cc/100,max_cc%100,
-                c.prop.major,c.prop.minor
+                c.cuda_prop.major,c.cuda_prop.minor
             );
         }
         return false;

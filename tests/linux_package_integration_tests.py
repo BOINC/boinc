@@ -61,7 +61,7 @@ class IntegrationTests:
         return os.popen("id -un {username}".format(username=username)).read().strip() == username
 
     def _get_group_exists(self, groupname):
-        return os.popen("getent group {groupname}".format(groupname=groupname)).read().strip() != ""
+        return os.popen("getent group {groupname}".format(groupname=groupname)).read().strip().split(":")[0] == groupname
 
     def _get_user_in_group(self, username, groupname):
         return os.popen("id -Gn {username}".format(username=username)).read().strip().find(groupname) != -1
@@ -186,6 +186,8 @@ class IntegrationTests:
             ts.expect_true(self._get_user_in_group("boinc", "video"), "Test 'boinc' user is in 'video' group")
         if (self._get_group_exists("render")):
             ts.expect_true(self._get_user_in_group("boinc", "render"), "Test 'boinc' user is in 'render' group")
+        if (self._get_group_exists("docker")):
+            ts.expect_true(self._get_user_in_group("boinc", "docker"), "Test 'boinc' user is in 'docker' group")
         ts.expect_equal("/var/lib/boinc", self._get_user_home_directory("boinc"), "Test 'boinc' user home directory is '/var/lib/boinc'")
         ts.expect_equal("100000:65536", self._get_uid_range("boinc"), "Test 'boinc' user UID range is '100000:65536'")
         ts.expect_equal("100000:65536", self._get_gid_range("boinc"), "Test 'boinc' group GID range is '100000:65536'")

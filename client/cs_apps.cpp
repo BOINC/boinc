@@ -407,7 +407,7 @@ void cleanup_docker(DOCKER_JOB_INFO &info, DOCKER_CONN &dc) {
 
     // first containers
     //
-    retval = dc.command("ps --all", out, true);
+    retval = dc.command("ps --all", out, false);
     if (retval) {
         fprintf(stderr, "Docker command failed: ps --all\n");
     } else {
@@ -430,7 +430,7 @@ void cleanup_docker(DOCKER_JOB_INFO &info, DOCKER_CONN &dc) {
 
     // then images
     //
-    retval = dc.command("images", out, true);
+    retval = dc.command("images", out, false);
     if (retval) {
         fprintf(stderr, "Docker command failed: images\n");
     } else {

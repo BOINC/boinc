@@ -229,7 +229,6 @@
         <name>windows_x86_64[FGRPopencl2Pup-nvidia]</name>
         <name>windows_x86_64[FGRPopenclTV-nvidia]</name>
         <name>windows_x86_64[GW-cuda]</name>
-        <name>windows_x86_64[GW-cuda-Beta]</name>
         <name>windows_x86_64[GW-opencl-ati-2G]</name>
         <name>windows_x86_64[GW-opencl-intel_gpu-2G]</name>
         <name>windows_x86_64[GW-opencl-nvidia-2G]</name>
@@ -261,7 +260,6 @@
         <name>x86_64-pc-linux-gnu[FGRPSSE]</name>
         <name>x86_64-pc-linux-gnu[GW-cuda-2G]</name>
         <name>x86_64-pc-linux-gnu[GW-cuda-580-2G]</name>
-        <name>x86_64-pc-linux-gnu[GW-cuda-580-2G-Beta]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-ati-2G]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-intel_gpu-2G]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-nvidia-570-2G]</name>
@@ -538,6 +536,12 @@
         <name>i686-pc-linux-gnu[openclatiGFN22]</name>
         <name>i686-pc-linux-gnu[openclatiGFNEXTREME]</name>
         <name>i686-pc-linux-gnu[openclatiPPSsieve]</name>
+        <name>windows_arm64[cpuGFN16_mt]</name>
+        <name>windows_arm64[cpuGFN17MEGA_mt]</name>
+        <name>windows_arm64[cpuGFN18_mt]</name>
+        <name>windows_arm64[cpuGFN19_mt]</name>
+        <name>windows_arm64[cpuGFN20_mt]</name>
+        <name>windows_arm64[cpuGFN21_mt]</name>
         <name>windows_intelx86</name>
         <name>windows_intelx86[cpuGFN15_mt]</name>
         <name>windows_intelx86[cpuGFN16_mt]</name>

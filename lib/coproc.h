@@ -150,14 +150,16 @@ struct PCI_INFO {
     int parse(XML_PARSER&);
 };
 
-
 // represents a set of identical coprocessors on a particular computer.
 // Abstract class;
 // objects will always be a derived class (COPROC_CUDA, COPROC_ATI)
 // Used in both client and server.
 //
 struct COPROC {
-    char type[256];     // must be unique
+    char type[256];
+        // for the 'big 4' types: NVIDIA, ATI, intel_gpu, apple_gpu
+        // for other OpenCL: the opencl model name
+        // why not vendor name?  A chip could have both GPU and NPU
     int count;          // how many are present
     bool non_gpu;       // coproc is not a GPU
     double peak_flops;
@@ -302,7 +304,7 @@ typedef int CUdevice;
 struct COPROC_NVIDIA : public COPROC {
     int cuda_version;  // CUDA runtime version
     int display_driver_version;
-    CUDA_DEVICE_PROP prop;
+    CUDA_DEVICE_PROP cuda_prop;
 
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&, bool scheduler_rpc);
@@ -357,16 +359,11 @@ struct COPROC_ATI : public COPROC {
 };
 
 struct COPROC_INTEL : public COPROC {
-    char name[256];
-    char version[50];
-
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&, bool scheduler_rpc);
 #endif
     COPROC_INTEL(int): COPROC() {}
     COPROC_INTEL(): COPROC() {clear();}
-    void get(std::vector<std::string>& ) {};
-    void correlate(bool , std::vector<int>& ) {};
     void clear();
     int parse(XML_PARSER&);
     void set_peak_flops();
@@ -442,9 +439,6 @@ struct COPROCS {
     int read_coproc_info_file(std::vector<std::string> &warnings);
     int add_other_coproc_types();
 
-#ifdef __APPLE__
-    void opencl_get_ati_mem_size_from_opengl(std::vector<std::string> &warnings);
-#endif
     void summary_string_json(std::string& out);
 
     // Copy a coproc set, possibly setting usage to zero.
