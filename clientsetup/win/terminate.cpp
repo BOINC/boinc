@@ -114,7 +114,7 @@ int diagnostics_update_process_list( std::vector<BOINC_PROCESS>& ps ) {
 }
 
 
-tstring downcase_string(tstring& orig) {
+tstring downcase_string(const tstring& orig) {
     tstring retval = orig;
     for (size_t i=0; i < retval.length(); i++) {
         retval[i] = (wchar_t)tolower(retval[i]);
@@ -123,7 +123,7 @@ tstring downcase_string(tstring& orig) {
 }
 
 
-BOOL TerminateProcessEx( tstring& strProcessName, bool bRecursive ) {
+BOOL TerminateProcessEx(const tstring& strProcessName, bool bRecursive ) {
 	unsigned int i,j;
     std::vector<BOINC_PROCESS> ps;
     std::vector<BOINC_PROCESS> tps;

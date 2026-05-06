@@ -87,7 +87,7 @@ typedef struct _SYSTEM_PROCESSES {
 } SYSTEM_PROCESSES, * PSYSTEM_PROCESSES;
 
 // Prototypes
-BOOL TerminateProcessEx( tstring& strProcessName, bool bRecursive = true );
+BOOL TerminateProcessEx(const tstring& strProcessName, bool bRecursive = true );
 
 
 #endif

@@ -35,7 +35,6 @@
 *.pfx
 *.pvk
 *.spc
-/win_build/*.filters
 /win_build/boinc.sdf
 /win_build/boinc.opensdf
 /win_build/ipch

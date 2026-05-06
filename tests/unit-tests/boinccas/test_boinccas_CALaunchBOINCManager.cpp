@@ -121,7 +121,7 @@ namespace test_boinccas_CALaunchBOINCManager {
         testDir = std::filesystem::current_path() /= "non_empty";
         std::filesystem::create_directory(testDir);
 
-        ASSERT_TRUE(std::filesystem::copy_file("C:\\Windows\\System32\\calc.exe",
+        ASSERT_TRUE(std::filesystem::copy_file("unittest_dummy.exe",
             testDir / executableName));
         auto executableFound = false;
         for (auto i = 0u; i < 5u; ++i) {
