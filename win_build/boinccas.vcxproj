@@ -83,7 +83,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\clientsetup\win\boinccas.h" />
-    <ClInclude Include="..\clientsetup\win\CAShutdownBOINCManager.h" />
     <ClInclude Include="..\clientsetup\win\CAShutdownBOINCScreensaver.h" />
     <ClInclude Include="..\clientsetup\win\CAValidateInstall.h" />
     <ClInclude Include="..\clientsetup\win\CAValidateRebootRequest.h" />

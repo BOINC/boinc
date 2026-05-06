@@ -141,6 +141,9 @@
     <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CAShutdownBOINC.cpp">
       <Filter>boinccas</Filter>
     </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CAShutdownBOINCManager.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../tests/unit-tests/lib/test_base64.cpp">

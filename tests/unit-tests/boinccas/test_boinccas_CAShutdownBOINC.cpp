@@ -45,10 +45,9 @@ namespace test_boinccas_CAShutdownBOINC {
                 StopServiceByName(boincServiceName);
                 Sleep(1000);
                 DeleteServiceByName(boincServiceName);
-
-                if (!testDir.empty() && std::filesystem::exists(testDir)) {
-                    std::filesystem::remove_all(testDir);
-                }
+            }
+            if (!testDir.empty() && std::filesystem::exists(testDir)) {
+                std::filesystem::remove_all(testDir);
             }
         }
 
