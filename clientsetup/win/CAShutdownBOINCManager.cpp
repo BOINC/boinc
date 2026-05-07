@@ -31,7 +31,7 @@ public:
         const auto WM_TASKBARSHUTDOWN =
             ::RegisterWindowMessage(_T("TaskbarShutdown"));
 
-        TerminateProcessEx(tstring(_T("boincmgr.exe")), false);
+        TerminateProcessEx(_T("boincmgr.exe"), false);
         auto terminateResult = false;
         for (auto attempt = 0u; attempt <= 5u; ++attempt) {
             auto hWndBOINCManagerSystray =

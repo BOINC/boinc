@@ -146,6 +146,13 @@ namespace test_boinccas_CAShutdownBOINC {
 
 #ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CAShutdownBOINC,
+        NoRunningProcesses_Expect_Success) {
+        const auto result = openMsi();
+        ASSERT_EQ(0u, result);
+        ASSERT_EQ(0u, executeAction());
+    }
+
+    TEST_F(test_boinccas_CAShutdownBOINC,
         TestShutdown) {
         testDir = std::filesystem::current_path() /= "non_empty";
         std::filesystem::create_directory(testDir);

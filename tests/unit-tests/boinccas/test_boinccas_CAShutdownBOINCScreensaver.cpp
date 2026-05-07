@@ -17,13 +17,13 @@
 
 #include "boinccas_helper.h"
 
-namespace test_boinccas_CAShutdownBOINCManager {
-    constexpr auto executableName = "boincmgr.exe";
-    class test_boinccas_CAShutdownBOINCManager :
+namespace test_boinccas_CAShutdownBOINCScreensaver {
+    constexpr auto executableName = "boinc.scr";
+    class test_boinccas_CAShutdownBOINCScreensaver :
         public test_boinccas_TestBase {
     protected:
-        test_boinccas_CAShutdownBOINCManager() :
-            test_boinccas_TestBase("ShutdownBOINCManager") {
+        test_boinccas_CAShutdownBOINCScreensaver() :
+            test_boinccas_TestBase("ShutdownBOINCScreensaver") {
         }
 
         void TearDown() override {
@@ -82,14 +82,14 @@ namespace test_boinccas_CAShutdownBOINCManager {
     };
 
 #ifdef BOINCCAS_TEST
-    TEST_F(test_boinccas_CAShutdownBOINCManager,
+    TEST_F(test_boinccas_CAShutdownBOINCScreensaver,
         NoRunningProcesses_Expect_Success) {
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
         ASSERT_EQ(0u, executeAction());
     }
 
-    TEST_F(test_boinccas_CAShutdownBOINCManager, TestShutdown) {
+    TEST_F(test_boinccas_CAShutdownBOINCScreensaver, TestShutdown) {
         testDir = std::filesystem::current_path() /= "non_empty";
         std::filesystem::create_directory(testDir);
 
