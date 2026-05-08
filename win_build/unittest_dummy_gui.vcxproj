@@ -10,9 +10,6 @@
   </PropertyGroup>
   <Import Project="boinc.props" />
   <ItemDefinitionGroup>
-    <ClCompile>
-      <PreprocessorDefinitions>_GUI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
     <Link>
       <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">libcmtd.lib;libcpmtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies Condition="'$(Configuration)'=='Release'">libcmt.lib;libcpmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -20,7 +17,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\tests\unit-tests\boinccas\dummy.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\dummy_gui.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

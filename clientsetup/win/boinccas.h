@@ -119,6 +119,8 @@ protected:
 
     bool localGroupExists(const tstring& groupName);
     bool RecursiveSetPermissions(const tstring& path, PACL pACL);
+    void TerminateProcessEx(const tstring& strProcessName,
+        bool bRecursive = true);
 };
 
 #endif

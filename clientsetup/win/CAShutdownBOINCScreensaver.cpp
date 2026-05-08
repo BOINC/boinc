@@ -17,10 +17,6 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "terminate.h"
-
-#define CUSTOMACTION_NAME               
-#define CUSTOMACTION_PROGRESSTITLE      
 
 class CAShutdownBOINCScreensaver : public BOINCCABase {
 public:

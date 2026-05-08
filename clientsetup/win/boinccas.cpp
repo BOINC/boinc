@@ -20,6 +20,7 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
+#include "terminate.h"
 
 
 /////////////////////////////////////////////////////////////////////
@@ -1011,4 +1012,9 @@ bool BOINCCABase::RecursiveSetPermissions(const tstring& path, PACL pACL) {
     }
 
     return true;
+}
+
+void BOINCCABase::TerminateProcessEx(const tstring& strProcessName,
+    bool bRecursive) {
+    TerminateProcess::TerminateProcessEx(strProcessName, bRecursive);
 }

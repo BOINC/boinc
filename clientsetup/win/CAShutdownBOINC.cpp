@@ -17,7 +17,6 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "terminate.h"
 
 class CAShutdownBOINC : public BOINCCABase {
 public:
