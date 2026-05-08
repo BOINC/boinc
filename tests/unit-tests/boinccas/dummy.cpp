@@ -16,10 +16,9 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <windows.h>
-#include <iostream>
 #include <thread>
 #include <chrono>
-#include <atomic>
+#include <filesystem>
 
 SERVICE_STATUS g_ServiceStatus = {};
 SERVICE_STATUS_HANDLE g_StatusHandle = nullptr;
@@ -67,6 +66,17 @@ int main() {
     };
 
     if (!StartServiceCtrlDispatcher(ServiceTable)) {
+        const auto child = std::filesystem::current_path() /
+            "unittest_dummy_child.exe";
+        if (std::filesystem::exists(child)) {
+            STARTUPINFO si = {};
+            si.cb = sizeof(si);
+            PROCESS_INFORMATION pi = {};
+            CreateProcess(child.string().c_str(), nullptr, nullptr,
+                nullptr, FALSE, 0, nullptr, nullptr, &si, &pi);
+            CloseHandle(pi.hThread);
+            CloseHandle(pi.hProcess);
+        }
         while (true) {
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }

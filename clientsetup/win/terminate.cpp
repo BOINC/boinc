@@ -96,7 +96,7 @@ static PVOID diagnostics_get_process_information() {
 
     constexpr auto STATUS_INFO_LENGTH_MISMATCH =
         static_cast<NTSTATUS>(0xC0000004L);
-    
+
     constexpr ULONG SystemProcessAndThreadInformation = 5;
 
     auto hNTDllLib = GetModuleHandle(_T("ntdll.dll"));

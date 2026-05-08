@@ -157,6 +157,19 @@ namespace test_boinccas_CAShutdownBOINC {
         testDir = std::filesystem::current_path() /= "non_empty";
         std::filesystem::create_directory(testDir);
 
+        ASSERT_TRUE(std::filesystem::copy_file("unittest_dummy.exe",
+            testDir / "unittest_dummy_child.exe"));
+        auto executableFound = false;
+        for (auto i = 0u; i < 5u; ++i) {
+            if (std::filesystem::exists(
+                testDir / "unittest_dummy_child.exe")) {
+                executableFound = true;
+                break;
+            }
+            Sleep(1000);
+        }
+        ASSERT_TRUE(executableFound);
+
         for (const auto& executableName : executables) {
             ASSERT_TRUE(std::filesystem::copy_file("unittest_dummy.exe",
                 testDir / executableName));
@@ -238,6 +251,16 @@ namespace test_boinccas_CAShutdownBOINC {
             }
             EXPECT_FALSE(processFound);
         }
+
+        auto processFound = true;
+        for (auto i = 0u; i < 5u; ++i) {
+            if (!isProcessRunning("unittest_dummy_child.exe")) {
+                processFound = false;
+                break;
+            }
+            Sleep(1000);
+        }
+        EXPECT_FALSE(processFound);
 
         auto serviceStopped = false;
         for (auto i = 0u; i < 5u; ++i) {
