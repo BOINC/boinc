@@ -2488,7 +2488,10 @@ https://github.com/jamescowens/idle_detect");
 
 #if HAVE_XSS
 #ifndef ANDROID
-    if (!detect_wayland()) {
+    // Detect Wayland once. The display server type is not expected to
+    // change while this client process is running.
+    static bool wayland_detected = detect_wayland();
+    if (!wayland_detected) {
         //printf("Using XScreenSaver API for idle detection\n");
         idle_time = min(idle_time, xss_idle());
     }
