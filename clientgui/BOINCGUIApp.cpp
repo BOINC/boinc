@@ -191,11 +191,8 @@ bool CBOINCGUIApp::OnInit() {
 
 #ifdef __WXMAC__
     // Don't open main window if we were started automatically at login
-    if (compareOSVersionTo(13, 0) >= 0) {
         m_bGUIVisible = !m_bBOINCMGRAutoStarted;
-    } else {
-        m_bGUIVisible = IsApplicationVisible();
-    }
+
     if (getTimeSinceBoot() < 30.) {
         // If the system was just started, we usually get a "Connection
         // failed" error if we try to connect too soon, so delay a bit.
