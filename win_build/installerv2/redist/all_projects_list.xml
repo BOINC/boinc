@@ -542,6 +542,7 @@
         <name>windows_arm64[cpuGFN19_mt]</name>
         <name>windows_arm64[cpuGFN20_mt]</name>
         <name>windows_arm64[cpuGFN21_mt]</name>
+        <name>windows_arm64[opencl_Apple_M_GFN16]</name>
         <name>windows_intelx86</name>
         <name>windows_intelx86[cpuGFN15_mt]</name>
         <name>windows_intelx86[cpuGFN16_mt]</name>
@@ -884,20 +885,15 @@
         <description><![CDATA[Yoyo@home is an adapter between BOINC and several existing volunteer computing projects.]]></description>
         <home>Independent</home>
     <platforms>
-        <name>aarch64-unknown-linux-gnu</name>
-        <name>arm-android-linux-gnu</name>
-        <name>arm-linux-gnu</name>
-        <name>arm-unknown-linux-gnueabi</name>
-        <name>arm-unknown-linux-gnueabihf</name>
-        <name>i686-apple-darwin</name>
-        <name>i686-pc-linux-gnu</name>
-        <name>powerpc-apple-darwin</name>
-        <name>powerpc64-ps3-linux-gnu</name>
-        <name>sparc-sun-solaris</name>
         <name>windows_intelx86</name>
         <name>windows_x86_64</name>
-        <name>x86_64-apple-darwin</name>
+        <name>i686-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu</name>
+        <name>powerpc-apple-darwin</name>
+        <name>i686-apple-darwin</name>
+        <name>x86_64-apple-darwin</name>
+        <name>arm-unknown-linux-gnueabihf</name>
+        <name>aarch64-unknown-linux-gnu</name>
     </platforms>
       <summary>Do research in math</summary>
         <keywords>15 20 21</keywords>
