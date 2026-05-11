@@ -2013,7 +2013,7 @@ function pretty_application_version($appverid, $vernum, $plan_class, $plfm) {
       }
       else {
         $prettyv = sprintf("%d.%02d", $vernum/100, $vernum%100);
-        $prettyc = ($plan_class) ? "($av->plan_class)" : '';
+        $prettyc = ($plan_class) ? "($plan_class)" : '';
         return "v$prettyv $prettyc $plfm";
       }
   }
