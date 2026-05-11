@@ -114,12 +114,6 @@ py/lib/Boinc
 ## Python bytecode
 *.pyc
 
-## Drupal
-# ignore files with private/sensitive content in a public repo
-drupal/sites/default/dbconfig.php
-# ignore symlink to project-specific content (tracked in separate/project repo)
-drupal/sites/default/project
-
 ## translation system
 locale/*/*.flag
 
