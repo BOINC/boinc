@@ -152,7 +152,7 @@ echo "
 if ($dbrc) {
     echo "The database server is not accessable";
 } else {
-    $now=time(0);
+    $now=time();
     $s_day=24*3600;
     $d_ago=$now-$s_day;
     $s_week=7*$s_day;
@@ -276,7 +276,7 @@ if ($dbrc) {
         <tr><td>invalid</td><td>".number_format($n)."</td></tr>
     ";
 
-    $n = time(0)-find_oldest();
+    $n = time()-find_oldest();
     $days = (int)($n/86400);
     $hours=(int)($n/3600);
     $hours=$hours % 24;

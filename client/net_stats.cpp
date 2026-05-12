@@ -168,7 +168,7 @@ void NET_STATUS::network_available() {
         p->download_backoff.clear_temporary();
     }
 
-    // tell active tasks that network is available (for Folding@home)
+    // tell active tasks that network is available
     //
     gstate.active_tasks.network_available();
 }
