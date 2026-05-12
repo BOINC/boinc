@@ -1051,6 +1051,8 @@ function credit_to_gflop_hours($c) {
     return $c/(200/24);
 }
 
+// $name is the name of the downloaded file
+//
 function download_header($name, $nbytes) {
     header('Content-Description: File Transfer');
     header('Content-Type: application/octet-stream');
@@ -1063,8 +1065,11 @@ function download_header($name, $nbytes) {
     flush();
 }
 
-function do_download($path) {
-    download_header(basename($path), filesize($path));
+function do_download($path, $name=null) {
+    if (!$name) {
+        $name = basename($path);
+    }
+    download_header($name, filesize($path));
     readfile($path);
 }
 
