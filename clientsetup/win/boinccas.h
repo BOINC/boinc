@@ -121,7 +121,7 @@ protected:
     bool RecursiveSetPermissions(const tstring& path, PACL pACL);
     void TerminateProcessEx(const tstring& strProcessName,
         bool bRecursive = true);
-    DWORD ChangeAppIDAccessACL(std::wstring_view AppID, 
+    DWORD ChangeAppIDAccessACL(std::wstring_view AppID,
         std::wstring_view Principal);
     DWORD ChangeAppIDLaunchACL(std::wstring_view AppID,
         std::wstring_view Principal);

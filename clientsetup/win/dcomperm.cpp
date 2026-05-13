@@ -212,7 +212,9 @@ static DWORD CreateNewSD(SECURITY_DESCRIPTOR** SD) {
     if (returnValue != ERROR_SUCCESS) {
         return returnValue;
     }
-    wil::unique_process_heap pSidDeleter(sid);
+    typedef wil::unique_any<PSID, decltype(&::free), ::free>
+        unique_psid;
+    unique_psid pSidDeleter(sid);
 
     *SD = nullptr;
     const auto sidLength = GetLengthSid(sid);
@@ -257,6 +259,7 @@ static DWORD CreateNewSD(SECURITY_DESCRIPTOR** SD) {
     if (!SetSecurityDescriptorOwner(*SD, ownerSID, FALSE)) {
         return GetLastError();
     }
+    pSDDeleter.release();
     return ERROR_SUCCESS;
 }
 
@@ -369,8 +372,7 @@ static DWORD GetNamedValueSD(HKEY RootKey, std::wstring_view KeyName,
     returnValue = RegQueryValueEx(registryKey, ValueName.data(), nullptr,
         &valueType, nullptr, &valueSize);
 
-    if (returnValue && returnValue != ERROR_INSUFFICIENT_BUFFER)
-    {
+    if (returnValue && returnValue != ERROR_INSUFFICIENT_BUFFER) {
         *SD = nullptr;
         returnValue = CreateNewSD(SD);
         if (returnValue != ERROR_SUCCESS) {
