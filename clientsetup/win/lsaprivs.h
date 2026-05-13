@@ -55,7 +55,6 @@ OpenPolicy(
 
 BOOL
 GetAccountSid(
-    LPCTSTR SystemName,         // where to lookup account
     LPCTSTR AccountName,        // account of interest
     PSID *Sid                   // resultant buffer containing SID
     );

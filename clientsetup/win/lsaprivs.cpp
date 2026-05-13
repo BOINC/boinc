@@ -63,12 +63,7 @@ Scott Field (sfield)    12-Jul-95
 --*/
 
 BOOL
-GetAccountSid(
-    LPCTSTR SystemName,
-    LPCTSTR AccountName,
-    PSID *Sid
-    )
-{
+GetAccountSid(LPCTSTR AccountName, PSID *Sid) {
     LPTSTR ReferencedDomain=NULL;
     DWORD cbSid=128;    // initial allocation attempt
     DWORD cchReferencedDomain=16; // initial allocation size
@@ -96,7 +91,7 @@ GetAccountSid(
     // Obtain the SID of the specified account on the specified system.
     //
     while(!LookupAccountName(
-                    SystemName,         // machine to lookup account on
+                    nullptr,         // machine to lookup account on
                     AccountName,        // account to lookup
                     *Sid,               // SID of interest
                     &cbSid,             // size of SID

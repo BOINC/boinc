@@ -17,7 +17,6 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "dcomperm.h"
 
 class CAGrantBOINCProjectsVirtualBoxRights : public BOINCCABase {
 public:
@@ -30,7 +29,7 @@ public:
     UINT OnExecution() override final {
         auto result =
             ChangeAppIDAccessACL(_T("{819B4D85-9CEE-493C-B6FC-64FFE759B3C9}"),
-            _T("boinc_projects"), TRUE, TRUE);
+            _T("boinc_projects"));
         if (result != ERROR_SUCCESS) {
             LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
                 _T("Failed call to ChangeAppIDAccessACL"));
@@ -39,7 +38,7 @@ public:
 
         result =
             ChangeAppIDLaunchACL(_T("{819B4D85-9CEE-493C-B6FC-64FFE759B3C9}"),
-            _T("boinc_projects"), TRUE, TRUE);
+            _T("boinc_projects"));
         if (result != ERROR_SUCCESS) {
             LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
                 _T("Failed call to ChangeAppIDLaunchACL"));

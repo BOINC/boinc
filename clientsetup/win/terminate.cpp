@@ -141,13 +141,11 @@ static PVOID diagnostics_get_process_information() {
 
 
 static std::vector<BOINC_PROCESS> diagnostics_update_process_list() {
-    // Get a snapshot of the process and thread information.
     auto pBuffer = diagnostics_get_process_information();
     if (pBuffer == nullptr) {
         return {};
     }
 
-    // Lets start walking the structures to find the good stuff.
     auto pProcesses = reinterpret_cast<PSYSTEM_PROCESSES>(pBuffer);
     std::vector<BOINC_PROCESS> ps;
     do {
@@ -159,7 +157,6 @@ static std::vector<BOINC_PROCESS> diagnostics_update_process_list() {
             ps.emplace_back(pi);
         }
 
-        // Move to the next structure if one exists
         if (!pProcesses->NextEntryDelta) {
             break;
         }
@@ -168,7 +165,6 @@ static std::vector<BOINC_PROCESS> diagnostics_update_process_list() {
             pProcesses->NextEntryDelta));
     } while (pProcesses);
 
-    // Release resources
     if (pBuffer) {
         HeapFree(GetProcessHeap(), 0, pBuffer);
     }
@@ -186,7 +182,6 @@ void TerminateProcess::TerminateProcessEx(
         return str;
         };
 
-    // Get a list of currently executing processes.
     const auto ps = diagnostics_update_process_list();
 
     std::vector<BOINC_PROCESS> tps;

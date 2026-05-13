@@ -21,6 +21,7 @@
 #include "stdafx.h"
 #include "boinccas.h"
 #include "terminate.h"
+#include "dcomperm.h"
 
 
 /////////////////////////////////////////////////////////////////////
@@ -1017,4 +1018,14 @@ bool BOINCCABase::RecursiveSetPermissions(const tstring& path, PACL pACL) {
 void BOINCCABase::TerminateProcessEx(const tstring& strProcessName,
     bool bRecursive) {
     TerminateProcess::TerminateProcessEx(strProcessName, bRecursive);
+}
+
+DWORD BOINCCABase::ChangeAppIDAccessACL(std::wstring_view AppID,
+    std::wstring_view Principal) {
+    return DCOMPermissionConfig::ChangeAppIDAccessACL(AppID, Principal);
+}
+
+DWORD BOINCCABase::ChangeAppIDLaunchACL(std::wstring_view AppID,
+    std::wstring_view Principal) {
+    return DCOMPermissionConfig::ChangeAppIDLaunchACL(AppID, Principal);
 }

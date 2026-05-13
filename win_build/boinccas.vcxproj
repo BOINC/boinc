@@ -29,7 +29,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\clientsetup\win\aclmgmt.cpp" />
     <ClCompile Include="..\clientsetup\win\boinccas.cpp" />
     <ClCompile Include="..\clientsetup\win\CAAnnounceUpgrade.cpp" />
     <ClCompile Include="..\clientsetup\win\CACleanupOldBinaries.cpp" />
@@ -70,16 +69,14 @@
     <ClCompile Include="..\clientsetup\win\CAValidateRebootRequest.cpp" />
     <ClCompile Include="..\clientsetup\win\CAValidateSetupType.cpp" />
     <ClCompile Include="..\clientsetup\win\CAVerifyInstallDirectories.cpp" />
+    <ClCompile Include="..\clientsetup\win\dcomperm.cpp" />
     <ClCompile Include="..\clientsetup\win\launcher.cpp" />
     <ClCompile Include="..\clientsetup\win\lsaprivs.cpp" />
     <ClCompile Include="..\clientsetup\win\main.cpp" />
-    <ClCompile Include="..\clientsetup\win\sdmgmt.cpp" />
     <ClCompile Include="..\clientsetup\win\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\clientsetup\win\terminate.cpp" />
-    <ClCompile Include="..\clientsetup\win\utils.cpp" />
-    <ClCompile Include="..\clientsetup\win\wrappers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\clientsetup\win\boinccas.h" />

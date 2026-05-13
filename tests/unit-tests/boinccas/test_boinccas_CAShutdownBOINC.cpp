@@ -157,7 +157,7 @@ namespace test_boinccas_CAShutdownBOINC {
         testDir = std::filesystem::current_path() /= "non_empty";
         std::filesystem::create_directory(testDir);
 
-        ASSERT_TRUE(std::filesystem::copy_file("unittest_dummy.exe",
+        ASSERT_TRUE(std::filesystem::copy_file("unittest_dummy_gui.exe",
             testDir / "unittest_dummy_child.exe"));
         auto executableFound = false;
         for (auto i = 0u; i < 5u; ++i) {

@@ -42,7 +42,7 @@ public:
         }
 
         PSID pSid;
-        if (!GetAccountSid(nullptr, strBOINCMasterAccountUsername.c_str(),
+        if (!GetAccountSid(strBOINCMasterAccountUsername.c_str(),
             &pSid)) {
             LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
                 _T("Failed to be able to obtain the SID "

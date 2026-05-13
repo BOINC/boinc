@@ -210,7 +210,7 @@ public:
 
         if (bProtectedAppExecEnabled) {
             PSID pBOINCMasterSID = nullptr;
-            if (!GetAccountSid(NULL, strBOINCMasterAccountUsername.c_str(),
+            if (!GetAccountSid(strBOINCMasterAccountUsername.c_str(),
                 &pBOINCMasterSID))
             {
                 if (pBOINCMasterSID) {
@@ -239,7 +239,7 @@ public:
             }
 
             PSID pBOINCProjectSID = nullptr;
-            if (!GetAccountSid(NULL, strBOINCProjectAccountUsername.c_str(),
+            if (!GetAccountSid(strBOINCProjectAccountUsername.c_str(),
                 &pBOINCProjectSID)) {
                 if (pBOINCProjectSID) {
                     FreeSid(pBOINCProjectSID);

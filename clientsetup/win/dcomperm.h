@@ -1,3 +1,22 @@
+// This file is part of BOINC.
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// Implementation based on: DCOM Permission Configuration Sample
+// License below
+//
 /*++
 
 DCOM Permission Configuration Sample
@@ -21,103 +40,19 @@ Environment:
 
 --*/
 
-//
-// Wrappers
-//
+#pragma once
 
+class DCOMPermissionConfig
+{
+public:
+    DCOMPermissionConfig() = delete;
+    ~DCOMPermissionConfig() = delete;
+    DCOMPermissionConfig operator=(const DCOMPermissionConfig&) = delete;
+    DCOMPermissionConfig(const DCOMPermissionConfig&) = delete;
 
-DWORD
-ChangeAppIDAccessACL (
-    LPTSTR AppID,
-    LPTSTR Principal,
-    BOOL SetPrincipal,
-    BOOL Permit
-    );
+    static DWORD ChangeAppIDAccessACL(std::wstring_view AppID,
+        std::wstring_view Principal);
 
-DWORD
-ChangeAppIDLaunchACL (
-    LPTSTR AppID,
-    LPTSTR Principal,
-    BOOL SetPrincipal,
-    BOOL Permit
-    );
-
-//
-// Internal functions
-//
-
-DWORD
-CreateNewSD (
-    SECURITY_DESCRIPTOR **SD
-    );
-
-DWORD
-MakeSDAbsolute (
-    PSECURITY_DESCRIPTOR OldSD,
-    PSECURITY_DESCRIPTOR *NewSD
-    );
-
-DWORD
-SetNamedValueSD (
-    HKEY RootKey,
-    LPTSTR KeyName,
-    LPTSTR ValueName,
-    SECURITY_DESCRIPTOR *SD
-    );
-
-DWORD
-GetNamedValueSD (
-    HKEY RootKey,
-    LPTSTR KeyName,
-    LPTSTR ValueName,
-    SECURITY_DESCRIPTOR **SD,
-    BOOL *NewSD
-    );
-
-DWORD
-AddPrincipalToNamedValueSD (
-    HKEY RootKey,
-    LPTSTR KeyName,
-    LPTSTR ValueName,
-    LPTSTR Principal,
-    BOOL Permit
-    );
-
-DWORD
-RemovePrincipalFromNamedValueSD (
-    HKEY RootKey,
-    LPTSTR KeyName,
-    LPTSTR ValueName,
-    LPTSTR Principal
-    );
-
-DWORD
-GetCurrentUserSID (
-    PSID *Sid
-    );
-
-DWORD
-CopyACL (
-    PACL OldACL,
-    PACL NewACL
-    );
-
-DWORD
-AddAccessDeniedACEToACL (
-    PACL *Acl,
-    DWORD PermissionMask,
-    LPTSTR Principal
-    );
-
-DWORD
-AddAccessAllowedACEToACL (
-    PACL *Acl,
-    DWORD PermissionMask,
-    LPTSTR Principal
-    );
-
-DWORD
-RemovePrincipalFromACL (
-    PACL Acl,
-    LPTSTR Principal
-    );
+    static DWORD ChangeAppIDLaunchACL(std::wstring_view AppID,
+        std::wstring_view Principal);
+};

@@ -29,7 +29,7 @@ public:
 
     UINT OnExecution() override final {
         PSID pSid;
-        if (!GetAccountSid(nullptr, L"boinc_projects", &pSid)) {
+        if (!GetAccountSid(L"boinc_projects", &pSid)) {
             LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
                 _T("Failed to be able to obtain the SID "
                     "for the selected user on the localhost"));
