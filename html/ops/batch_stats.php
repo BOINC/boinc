@@ -148,8 +148,8 @@ function update_db() {
         $n = count($hlist);
         if ($n > 100) {
             $nfast = 0;
-            foreach ($hlist as $id=>$count) {
-                $x = $hosts[$id];
+            foreach ($hlist as $host_id=>$count) {
+                $x = $hosts[$host_id];
                 $avg = $x->ntt_sum / $x->ntt_n;
                 if ($avg < 1) {
                     $nfast++;
