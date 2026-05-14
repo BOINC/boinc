@@ -17,7 +17,6 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "lsaprivs.h"
 
 class CACreateBOINCGroups : public BOINCCABase {
 public:

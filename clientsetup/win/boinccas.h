@@ -125,6 +125,9 @@ protected:
         std::wstring_view Principal);
     DWORD ChangeAppIDLaunchACL(std::wstring_view AppID,
         std::wstring_view Principal);
+    bool GetAccountSid(std::wstring_view AccountName, PSID* Sid);
+    bool GrantUserRight(PSID psidAccountSid,
+        std::wstring_view pszUserRight, bool bEnable);
 };
 
 #endif

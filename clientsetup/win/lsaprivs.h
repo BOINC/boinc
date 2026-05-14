@@ -1,3 +1,23 @@
+// This file is part of BOINC.
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+//
+// Implementation based on: privs.c
+// Read the license below
+//
 /*++
 
 Copyright 1996 - 1997 Microsoft Corporation
@@ -45,37 +65,15 @@ Author:
 
 #pragma once
 
+class LsaPrivs {
+public:
+    LsaPrivs() = delete;
+    ~LsaPrivs() = delete;
+    LsaPrivs operator=(const LsaPrivs&) = delete;
+    LsaPrivs(const LsaPrivs&) = delete;
 
-NTSTATUS
-OpenPolicy(
-    LPWSTR ServerName,          // machine to open policy on (Unicode)
-    DWORD DesiredAccess,        // desired access to policy
-    PLSA_HANDLE PolicyHandle    // resultant policy handle
-    );
+    static bool GetAccountSid(std::wstring_view AccountName, PSID* Sid);
+    static bool GrantUserRight(PSID psidAccountSid,
+        std::wstring_view pszUserRight, bool bEnable);
+};
 
-BOOL
-GetAccountSid(
-    LPCTSTR AccountName,        // account of interest
-    PSID *Sid                   // resultant buffer containing SID
-    );
-
-NTSTATUS
-SetPrivilegeOnAccount(
-    LSA_HANDLE PolicyHandle,    // open policy handle
-    PSID AccountSid,            // SID to grant privilege to
-    LPWSTR PrivilegeName,       // privilege to grant (Unicode)
-    BOOL bEnable                // enable or disable
-    );
-
-void
-InitLsaString(
-    PLSA_UNICODE_STRING LsaString, // destination
-    LPWSTR String                  // source (Unicode)
-    );
-
-BOOL
-GrantUserRight(
-    PSID    psidAccountSid,
-    LPWSTR  pszUserRight,
-    BOOL    bEnable
-    );

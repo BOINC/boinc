@@ -22,6 +22,7 @@
 #include "boinccas.h"
 #include "terminate.h"
 #include "dcomperm.h"
+#include "lsaprivs.h"
 
 
 /////////////////////////////////////////////////////////////////////
@@ -1028,4 +1029,13 @@ DWORD BOINCCABase::ChangeAppIDAccessACL(std::wstring_view AppID,
 DWORD BOINCCABase::ChangeAppIDLaunchACL(std::wstring_view AppID,
     std::wstring_view Principal) {
     return DCOMPermissionConfig::ChangeAppIDLaunchACL(AppID, Principal);
+}
+
+bool BOINCCABase::GetAccountSid(std::wstring_view AccountName, PSID* Sid) {
+    return LsaPrivs::GetAccountSid(AccountName, Sid);
+}
+
+bool BOINCCABase::GrantUserRight(PSID psidAccountSid,
+    std::wstring_view pszUserRight, bool bEnable) {
+    return LsaPrivs::GrantUserRight(psidAccountSid, pszUserRight, bEnable);
 }

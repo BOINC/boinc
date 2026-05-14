@@ -17,7 +17,6 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "lsaprivs.h"
 
 class CARevokeBOINCProjectRights : public BOINCCABase {
 public:
@@ -90,8 +89,8 @@ public:
             L"SeSynchAgentPrivilege",
             L"SeTakeOwnershipPrivilege"
         };
-        for (auto& right : rightsToRemove) {
-            GrantUserRight(pSid, const_cast<wchar_t*>(right), FALSE);
+        for (auto right : rightsToRemove) {
+            GrantUserRight(pSid, right, false);
         }
 
         return ERROR_SUCCESS;

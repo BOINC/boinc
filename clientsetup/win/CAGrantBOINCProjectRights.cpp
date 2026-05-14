@@ -17,7 +17,6 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "lsaprivs.h"
 
 class CAGrantBOINCProjectRights : public BOINCCABase {
 public:
@@ -57,8 +56,8 @@ public:
             L"SeDenyInteractiveLogonRight",
             L"SeDenyRemoteInteractiveLogonRight"
         };
-        for (auto& right : rightsToSet) {
-            if (!GrantUserRight(pSid, const_cast<wchar_t*>(right), TRUE)) {
+        for (auto right : rightsToSet) {
+            if (!GrantUserRight(pSid, right, true)) {
                 LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
                     _T("Failed call to GrantUserRight - ") + tstring(right));
                 return ERROR_INSTALL_FAILURE;
@@ -101,8 +100,8 @@ public:
             L"SeSynchAgentPrivilege",
             L"SeTakeOwnershipPrivilege"
         };
-        for (auto& right : rightsToRemove) {
-            GrantUserRight(pSid, const_cast<wchar_t*>(right), FALSE);
+        for (auto right : rightsToRemove) {
+            GrantUserRight(pSid, right, false);
         }
 
         return ERROR_SUCCESS;

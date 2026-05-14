@@ -14,8 +14,9 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+//
 // Implementation based on: DCOM Permission Configuration Sample
-// License below
+// Read the license below
 //
 /*++
 
@@ -74,7 +75,7 @@ static DWORD AddAccessAllowedACEToACL(PACL* Acl, DWORD PermissionMask,
     std::wstring_view Principal) {
 
     PSID principalSID = nullptr;
-    if (!GetAccountSid(Principal.data(), &principalSID)) {
+    if (!LsaPrivs::GetAccountSid(Principal.data(), &principalSID)) {
         return GetLastError();
     }
     wil::unique_process_heap pPrincipalSIDDeleter(principalSID);
@@ -113,7 +114,7 @@ static DWORD AddAccessAllowedACEToACL(PACL* Acl, DWORD PermissionMask,
 
 static DWORD RemovePrincipalFromACL(PACL Acl, std::wstring_view Principal) {
     PSID principalSID = nullptr;
-    if (!GetAccountSid(Principal.data(), &principalSID)) {
+    if (!LsaPrivs::GetAccountSid(Principal.data(), &principalSID)) {
         return GetLastError();
     }
     wil::unique_process_heap pPrincipalSIDDeleter(principalSID);
@@ -123,7 +124,6 @@ static DWORD RemovePrincipalFromACL(PACL Acl, std::wstring_view Principal) {
         sizeof(ACL_SIZE_INFORMATION), AclSizeInformation)) {
         return GetLastError();
     }
-
 
     for (decltype(aclSizeInfo.AceCount) i = 0; i < aclSizeInfo.AceCount; ++i) {
         LPVOID ace = nullptr;
@@ -220,8 +220,7 @@ static DWORD CreateNewSD(SECURITY_DESCRIPTOR** SD) {
     const auto sidLength = GetLengthSid(sid);
     *SD = reinterpret_cast<SECURITY_DESCRIPTOR*>(malloc(
         (sizeof(ACL) + sizeof(ACCESS_ALLOWED_ACE) + sidLength) +
-        (2 * sidLength) +
-        sizeof(SECURITY_DESCRIPTOR)));
+        (2 * sidLength) + sizeof(SECURITY_DESCRIPTOR)));
 
     typedef wil::unique_any<SECURITY_DESCRIPTOR*, decltype(&::free), ::free>
         unique_sd;
@@ -456,7 +455,7 @@ static DWORD AddPrincipalToNamedValueSD(HKEY RootKey,
     else {
         sdAbsolute = sd;
     }
-    
+
     if (!SetSecurityDescriptorDacl(sdAbsolute, TRUE, dacl, FALSE)) {
         return GetLastError();
     }
