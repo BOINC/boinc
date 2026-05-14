@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -282,10 +282,6 @@ public:
     void                SetActivationPolicyAccessory(bool hideDock);
     void                CheckPartialActivation();
     long                GetBrandID();
-
-    // Override standard wxCocoa wxApp::CallOnInit() to allow Manager
-    // to run properly when launched hidden on login via Login Item.
-    bool                CallOnInit();
 #endif
 
 DECLARE_EVENT_TABLE()

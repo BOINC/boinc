@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -74,6 +74,7 @@
 # Updated 8/24/25 to add Run_Podman and BOINC podman directory
 # Updated 8/27/25 to allow podman to stat items under BOINC Data directory
 # Updated 11/9/25 to create "BOINC podman" directory if not present (for bare client)
+# Updated 5/7/26 to set home directories for users boinc_master & boinc_project
 #
 # WARNING: do not use this script with versions of BOINC older
 # than 7.20.4
@@ -121,7 +122,13 @@ function make_boinc_user() {
         dscl . -create /users/$1
         dscl . -create /users/$1 uid $uid
         dscl . -create /users/$1 shell /bin/zsh
-        dscl . -create /users/$1 home /var/empty
+        mkdir -m 0755 /Users/$1
+        chmod -f 0755 /Users/$1
+        dscl . -create /users/$1 IsHidden 1
+        dscl . -create /users/$1 home /Users/$1
+        chflags hidden /Users/$1
+        ## For some reason, "chown $1:staff" fails here but "chown $uid:staff" works.
+        chown $uid:staff /Users/$1
     else
         uid=$(dscl . read /users/$1 UniqueID | cut -d" " -f2 -s)
     fi

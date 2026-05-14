@@ -555,6 +555,8 @@ static int check_boinc_users_primarygroupIds(int useFakeProjectUserAndGroup, int
     passwd              *pw;
     group               *grp;
 
+    callPosixSpawn("/usr/bin/dscacheutil -flushcache");
+
     if ((!useFakeProjectUserAndGroup) || isMacInstaller) {
        // Require absolute owner and group boinc_master:boinc_master
         strlcpy(boinc_master_user_name, REAL_BOINC_MASTER_NAME, sizeof(boinc_master_user_name));

@@ -16,13 +16,6 @@ source_lang  = en
 type         = PO
 minimum_perc = 97
 
-[o:boinc:p:boinc:r:drupal]
-file_filter  = locale/<lang>/BOINC-Drupal.po
-source_file  = locale/templates/BOINC-Drupal.pot
-source_lang  = en
-type         = PO
-minimum_perc = 97
-
 [o:boinc:p:boinc:r:manager]
 file_filter  = locale/<lang>/BOINC-Manager.po
 source_file  = locale/templates/BOINC-Manager.pot

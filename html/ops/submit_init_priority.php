@@ -69,7 +69,7 @@ function process_batch($b) {
 }
 
 function scan_batches() {
-    $batches = BoincBatch::enum("", "order by id");
+    $batches = BoincBatch::enum('');
     foreach ($batches as $b) {
         process_batch($b);
     }

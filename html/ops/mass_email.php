@@ -58,7 +58,7 @@ if ($receiver > 0) {
         break;
     case 2:
         // unsuccessful users
-        $week_ago = time(0) - 7*86400;
+        $week_ago = time() - 7*86400;
         $query = "select user.id,user.name,user.email_addr from user left join result on user.id=result.userid where send_email>0 and total_credit=0 and user.create_time<$week_ago and isnull(result.id)";
         break;
     case 3:

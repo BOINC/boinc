@@ -806,7 +806,26 @@ jobs:
         if: success() && matrix.arch == 'armhf'
         run: |
           dpkg --add-architecture armhf
-          apt update
+
+      - name: Fix armhf architecture for resolute distro
+        if: success() && matrix.arch == 'armhf' && matrix.os == 'resolute'
+        run: |
+          rm -f /etc/apt/sources.list
+          rm -rf /etc/apt/sources.list.d/*
+          cat <<EOF | tee /etc/apt/sources.list
+          deb [arch=arm64] http://archive.ubuntu.com/ubuntu resolute main universe multiverse restricted
+          deb [arch=arm64] http://archive.ubuntu.com/ubuntu resolute-updates main universe multiverse restricted
+          deb [arch=arm64] http://archive.ubuntu.com/ubuntu resolute-backports main universe multiverse restricted
+          deb [arch=arm64] http://security.ubuntu.com/ubuntu resolute-security main universe multiverse restricted
+          EOF
+          cat <<EOF | tee /etc/apt/sources.list.d/armhf.list
+          deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports resolute main universe multiverse restricted
+          deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports resolute-updates main universe multiverse restricted
+          deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports resolute-security main universe multiverse restricted
+          deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports resolute-backports main universe multiverse restricted
+          EOF
+          rm -rf /var/lib/apt/lists/*
+          apt clean
 
       - name: Install dependencies
         if: success()

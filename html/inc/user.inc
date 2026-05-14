@@ -674,7 +674,7 @@ function show_account_private($user) {
             );
             panel(
                 tra("Preferences"),
-                function() use($user) {
+                function() {
                     start_table();
                     show_preference_links();
                     end_table();

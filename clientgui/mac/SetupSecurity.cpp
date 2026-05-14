@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -1019,7 +1019,7 @@ setGroupForUser:
     if (err)
         return err;
 
-    sprintf(buf5, "%s:wheel", user_name);
+    sprintf(buf5, "%s:staff", user_name);
     err = DoSudoPosixSpawn(chownPath, buf5, buf2, NULL, NULL, NULL, NULL);
     if (err)
         return err;

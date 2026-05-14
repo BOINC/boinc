@@ -578,6 +578,8 @@ fprintf(stdout, "Starting privileged tool (stdout)\n");
     callPosixSpawn ("sudo dscl . -delete /groups/boinc_master");
     callPosixSpawn ("sudo dscl . -delete /users/boinc_project");
     callPosixSpawn ("sudo dscl . -delete /groups/boinc_project");
+    callPosixSpawn ("sudo rm -fR /Users/boinc_master");
+    callPosixSpawn ("sudo rm -fR /Users/boinc_project");
 
     return 0;
 }
