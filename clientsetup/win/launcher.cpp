@@ -39,7 +39,7 @@ static HRESULT SetPrivilege(HANDLE hToken, std::wstring_view lpszPrivilege,
     }
 }
 
-// returns HRESULT of the operation on 
+// returns HRESULT of the operation on
 // SE_CREATE_GLOBAL_NAME (="SeCreateGlobalPrivilege")
 static HRESULT ReducePrivilegesForMediumIL(HANDLE hToken) {
     const auto hr =
@@ -122,7 +122,7 @@ static HRESULT CreateProcessWithIL(std::wstring_view szCmdLine) {
     }
 
     DWORD dwExplorerIL = 0;
-    if (GetProcessIL(dwExplorerID, &dwExplorerIL) == 0) {
+    if (GetProcessIL(dwExplorerID, &dwExplorerIL) != S_OK) {
         return HRESULT_FROM_WIN32(GetLastError());
     }
     if (dwExplorerIL != SECURITY_MANDATORY_MEDIUM_RID &&
@@ -131,7 +131,7 @@ static HRESULT CreateProcessWithIL(std::wstring_view szCmdLine) {
     }
 
     DWORD dwCurIL = 0;
-    if (GetProcessIL(GetCurrentProcessId(), &dwCurIL) == 0) {
+    if (GetProcessIL(GetCurrentProcessId(), &dwCurIL) != S_OK) {
         return HRESULT_FROM_WIN32(GetLastError());
     }
     if (dwCurIL != SECURITY_MANDATORY_MEDIUM_RID &&
@@ -164,7 +164,7 @@ static HRESULT CreateProcessWithIL(std::wstring_view szCmdLine) {
     }
     else {
         wil::unique_handle hProcessTokenDeleter(hProcessToken);
-        auto hr = SetPrivilege(hProcessToken, SE_INCREASE_QUOTA_NAME);
+        const auto hr = SetPrivilege(hProcessToken, SE_INCREASE_QUOTA_NAME);
         if (hr != S_OK) {
             return hr;
         }
@@ -173,7 +173,7 @@ static HRESULT CreateProcessWithIL(std::wstring_view szCmdLine) {
         }
     }
 
-    auto hr = ReducePrivilegesForMediumIL(hNewToken);
+    const auto hr = ReducePrivilegesForMediumIL(hNewToken);
     if (hr != S_OK) {
         return hr;
     }
