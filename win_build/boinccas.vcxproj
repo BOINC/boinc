@@ -87,7 +87,6 @@
     <ClInclude Include="..\clientsetup\win\dcomperm.h" />
     <ClInclude Include="..\clientsetup\win\launcher.h" />
     <ClInclude Include="..\clientsetup\win\lsaprivs.h" />
-    <ClInclude Include="..\clientsetup\win\main.h" />
     <ClInclude Include="..\clientsetup\win\resource.h" />
     <ClInclude Include="..\clientsetup\win\stdafx.h" />
     <ClInclude Include="..\clientsetup\win\terminate.h" />
