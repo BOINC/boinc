@@ -128,6 +128,7 @@ protected:
     bool GetAccountSid(std::wstring_view AccountName, PSID* Sid);
     bool GrantUserRight(PSID psidAccountSid,
         std::wstring_view pszUserRight, bool bEnable);
+    HRESULT CreateProcessWithExplorerIL(std::wstring_view szCmdLine);
 };
 
 #endif

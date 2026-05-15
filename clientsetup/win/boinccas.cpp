@@ -23,7 +23,7 @@
 #include "terminate.h"
 #include "dcomperm.h"
 #include "lsaprivs.h"
-
+#include "launcher.h"
 
 /////////////////////////////////////////////////////////////////////
 //
@@ -1038,4 +1038,8 @@ bool BOINCCABase::GetAccountSid(std::wstring_view AccountName, PSID* Sid) {
 bool BOINCCABase::GrantUserRight(PSID psidAccountSid,
     std::wstring_view pszUserRight, bool bEnable) {
     return LsaPrivs::GrantUserRight(psidAccountSid, pszUserRight, bEnable);
+}
+
+HRESULT BOINCCABase::CreateProcessWithExplorerIL(std::wstring_view szCmdLine) {
+    return Launcher::CreateProcessWithExplorerIL(szCmdLine);
 }

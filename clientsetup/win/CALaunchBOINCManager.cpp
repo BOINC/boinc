@@ -17,7 +17,6 @@
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "launcher.h"
 
 class CALaunchBOINCManager : public BOINCCABase {
 public:
@@ -41,8 +40,7 @@ public:
 
         auto strBuffer = tstring(_T("\"")) + strInstallDirectory +
             tstring(_T("\\boincmgr.exe\""));
-        const auto result = CreateProcessWithExplorerIL(nullptr,
-            strBuffer.data());
+        const auto result = CreateProcessWithExplorerIL(strBuffer);
 
         return result == S_OK ? ERROR_SUCCESS : ERROR_INSTALL_FAILURE;
     }
