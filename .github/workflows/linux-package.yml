@@ -42,11 +42,88 @@ env:
   BASEREPO: https://boinc.berkeley.edu/dl/linux # no trailing slash
   AUTOCONF_WITH_VERSION: autoconf-2.73
   BISON_WITH_VERSION: bison-3.8.2
+  PYTHON_VERSION: 3.9.0
 
 jobs:
+  prepare-build-dependencies:
+    name: Prepare build dependencies
+    runs-on: ubuntu-latest
+    container:
+      image: debian:buster
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          fetch-depth: 2
+
+      - name: Cache dependencies
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
+        with:
+          path: |
+            ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
+            ${{ env.BISON_WITH_VERSION }}.tar.gz
+            Python-${{ env.PYTHON_VERSION }}.tar.xz
+          key: ${{ env.AUTOCONF_WITH_VERSION }}_${{ env.BISON_WITH_VERSION }}_Python-${{ env.PYTHON_VERSION }}
+
+      - name: Fix debian sources
+        run: |
+          sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
+          sed -i 's/security.debian.org/archive.debian.org/g' /etc/apt/sources.list
+
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt install -y autopoint make build-essential m4 pkg-config autoconf autoconf-archive libtool curl tar xz-utils make gcc libssl-dev lzma-dev liblzma-dev libreadline-dev libbz2-dev libsqlite3-dev libgdbm-dev libgdbm-compat-dev uuid-dev libffi-dev tk-dev
+
+      - name: Build updated version of autoconf
+        run: |
+          if [ ! -f ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz ]; then
+            curl https://ftp.gnu.org/gnu/autoconf/${{ env.AUTOCONF_WITH_VERSION }}.tar.gz -o ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
+          fi
+          tar -xzf ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
+          cd ${{ env.AUTOCONF_WITH_VERSION }}
+          ./configure --prefix=/usr
+          make -j $(nproc --all)
+          cd ..
+
+      - name: Build updated version of bison
+        run: |
+          if [ ! -f ${{ env.BISON_WITH_VERSION }}.tar.gz ]; then
+            curl https://ftp.gnu.org/gnu/bison/${{ env.BISON_WITH_VERSION }}.tar.gz -o ${{ env.BISON_WITH_VERSION }}.tar.gz
+          fi
+          tar -xzf ${{ env.BISON_WITH_VERSION }}.tar.gz
+          cd ${{ env.BISON_WITH_VERSION }}
+          ./configure --prefix=/usr
+          make -j $(nproc --all)
+          cd ..
+
+      - name: Build updated version of python
+        run: |
+          if [ ! -f Python-${{ env.PYTHON_VERSION }}.tar.xz ]; then
+            curl https://www.python.org/ftp/python/${{ env.PYTHON_VERSION }}/Python-${{ env.PYTHON_VERSION }}.tar.xz -o Python-${{ env.PYTHON_VERSION }}.tar.xz
+          fi
+          tar -xf Python-${{ env.PYTHON_VERSION }}.tar.xz
+          cd Python-${{ env.PYTHON_VERSION }}
+          ./configure --prefix=/usr/local --with-ensurepip=install
+          make -j $(nproc --all)
+          cd ..
+
+      - name: Add prepared dependencies to archive
+        run: |
+           tar -cvzpf build-deps_${{ github.event.pull_request.head.sha }}.tar.gz \
+            ${{ env.AUTOCONF_WITH_VERSION }}/ \
+            ${{ env.BISON_WITH_VERSION }}/ \
+            Python-${{ env.PYTHON_VERSION }}/
+
+      - name: Upload prepared dependencies
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: build-deps_${{ github.event.pull_request.head.sha }}
+          path: build-deps_${{ github.event.pull_request.head.sha }}.tar.gz
+
   prepare-binaries:
     name: Prepare Binaries
     runs-on: ubuntu-latest
+    needs: prepare-build-dependencies
     container:
       image: debian:buster
       env:
@@ -62,14 +139,6 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           fetch-depth: 2
-
-      - name: Cache dependencies
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
-        with:
-          path: |
-            ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
-            ${{ env.BISON_WITH_VERSION }}.tar.gz
-          key: ${{ env.AUTOCONF_WITH_VERSION }}_${{ env.BISON_WITH_VERSION }}
 
       - name: Check if build is running from origin repo
         if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
@@ -89,7 +158,7 @@ jobs:
       - name: Install dependencies
         run: |
           apt-get update
-          apt-get install -y autopoint make build-essential m4 pkg-config autoconf autoconf-archive libtool git python3 python3-distutils python3-jinja2 python3-venv curl zip unzip tar bison p7zip-full dbus flex
+          apt-get install -y autopoint make build-essential m4 pkg-config autoconf autoconf-archive libtool git curl zip unzip tar p7zip-full dbus flex
 
       - name: Install dependencies for arm64
         if: matrix.arch == 'arm64'
@@ -101,31 +170,42 @@ jobs:
         run: |
           apt-get install -y gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
 
+      - name: Download prepared dependencies
+        if: success()
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: build-deps_${{ github.event.pull_request.head.sha }}
+
+      - name: Extract prepared dependencies
+        if: success()
+        run: |
+          tar -xvzpf build-deps_${{ github.event.pull_request.head.sha }}.tar.gz
+
       - name: Install updated version of autoconf
         run: |
-          if [ ! -f ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz ]; then
-            curl https://ftp.gnu.org/gnu/autoconf/${{ env.AUTOCONF_WITH_VERSION }}.tar.gz -o ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
-          fi
-          tar -xzf ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
           cd ${{ env.AUTOCONF_WITH_VERSION }}
-          ./configure --prefix=/usr
-          make -j $(nproc --all)
           make install
           cd ..
           autoconf --version
 
       - name: Install updated version of bison
         run: |
-          if [ ! -f ${{ env.BISON_WITH_VERSION }}.tar.gz ]; then
-            curl https://ftp.gnu.org/gnu/bison/${{ env.BISON_WITH_VERSION }}.tar.gz -o ${{ env.BISON_WITH_VERSION }}.tar.gz
-          fi
-          tar -xzf ${{ env.BISON_WITH_VERSION }}.tar.gz
           cd ${{ env.BISON_WITH_VERSION }}
-          ./configure --prefix=/usr
-          make -j $(nproc --all)
           make install
           cd ..
           bison --version
+
+      - name: Install updated version of python
+        run: |
+          cd Python-${{ env.PYTHON_VERSION }}
+          make install
+          cd ..
+          python3 --version
+
+      - name: Install python dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install jinja2
 
       - name: Install aws cli tool
         run: |

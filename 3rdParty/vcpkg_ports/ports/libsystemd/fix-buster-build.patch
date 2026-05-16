@@ -1,0 +1,499 @@
+diff --git a/src/basic/errno-list.c b/src/basic/errno-list.c
+index b6662bf05a..f60de6c673 100644
+--- a/src/basic/errno-list.c
++++ b/src/basic/errno-list.c
+@@ -24,7 +24,7 @@ int errno_from_name(const char *name) {
+         return sc->id;
+ }
+ 
+-#ifdef __GLIBC__
++#ifdef __GLIBC__ &&  __GLIBC_PREREQ(2, 32)
+ const char* errno_name_no_fallback(int id) {
+         if (id == 0) /* To stay in line with our implementation below.  */
+                 return NULL;
+diff --git a/src/basic/fd-util.c b/src/basic/fd-util.c
+index 6fb4e78c2f..8050cbcd7f 100644
+--- a/src/basic/fd-util.c
++++ b/src/basic/fd-util.c
+@@ -1072,6 +1072,9 @@ int path_is_root_at(int dir_fd, const char *path) {
+         return fds_inode_and_mount_same(dir_fd, XAT_FDROOT);
+ }
+ 
++#ifndef STATX_MNT_ID
++#define STATX_MNT_ID            0x00001000U
++#endif
+ int fds_inode_and_mount_same(int fd1, int fd2) {
+         struct statx sx1, sx2;
+         int r;
+diff --git a/src/basic/missing.h b/src/basic/missing.h
+new file mode 100644
+index 0000000000..36180c5b39
+--- /dev/null
++++ b/src/basic/missing.h
+@@ -0,0 +1,59 @@
++#pragma once
++
++#include <errno.h>
++#include <fcntl.h>
++#if HAVE_LINUX_TIME_TYPES_H
++/* This header defines __kernel_timespec for us, but is only available since Linux 5.1, hence conditionally
++ * include this. */
++#include <linux/time_types.h>
++#endif
++#include <signal.h>
++#include <sys/syscall.h>
++#include <sys/types.h>
++#include <sys/wait.h>
++#include <unistd.h>
++
++#ifdef ARCH_MIPS
++#include <asm/sgidefs.h>
++#endif
++
++//#include "macro.h"
++//#include "missing_keyctl.h"
++//#include "missing_sched.h"
++//#include "missing_stat.h"
++//#include "missing_syscall_def.h"
++
++/* linux/kcmp.h */
++#ifndef KCMP_FILE /* 3f4994cfc15f38a3159c6e3a4b3ab2e1481a6b02 (3.19) */
++#define KCMP_FILE 0
++#endif
++
++
++#if !HAVE_GETTID
++static inline pid_t missing_gettid(void) {
++#  if defined __NR_gettid && __NR_gettid >= 0
++        return (pid_t) syscall(__NR_gettid);
++#  else
++#    error "__NR_gettid not defined"
++#  endif
++}
++
++#  define gettid missing_gettid
++#endif
++
++#if !HAVE_CLOSE_RANGE
++static inline int missing_close_range(unsigned first_fd, unsigned end_fd, unsigned flags) {
++#  ifdef __NR_close_range
++        return syscall(__NR_close_range,
++                       first_fd,
++                       end_fd,
++                       flags);
++#  else
++        errno = ENOSYS;
++        return -1;
++#  endif
++}
++
++#  define close_range missing_close_range
++#endif
++
+diff --git a/src/basic/mountpoint-util.c b/src/basic/mountpoint-util.c
+index 79b51cb099..c0c9c8ee0a 100644
+--- a/src/basic/mountpoint-util.c
++++ b/src/basic/mountpoint-util.c
+@@ -44,6 +44,47 @@ bool is_name_to_handle_at_fatal_error(int err) {
+ 
+         return !IN_SET(err, -EOVERFLOW, -EINVAL);
+ }
++#ifndef STATX_MNT_ID
++#define STATX_MNT_ID            0x00001000U
++#endif
++struct new_statx {
++        __u32 stx_mask;
++        __u32 stx_blksize;
++        __u64 stx_attributes;
++        __u32 stx_nlink;
++        __u32 stx_uid;
++        __u32 stx_gid;
++        __u16 stx_mode;
++        __u16 __spare0[1];
++        __u64 stx_ino;
++        __u64 stx_size;
++        __u64 stx_blocks;
++        __u64 stx_attributes_mask;
++        struct statx_timestamp stx_atime;
++        struct statx_timestamp stx_btime;
++        struct statx_timestamp stx_ctime;
++        struct statx_timestamp stx_mtime;
++        __u32 stx_rdev_major;
++        __u32 stx_rdev_minor;
++        __u32 stx_dev_major;
++        __u32 stx_dev_minor;
++        __u64 stx_mnt_id;
++        __u64 __spare2;
++        __u64 __spare3[12];
++};
++#  define STRUCT_NEW_STATX_DEFINE(var)          \
++        union {                                 \
++                struct statx sx;                \
++                struct new_statx nsx;           \
++        } var
++#ifndef STATX_MNT_ID_UNIQUE
++#define STATX_MNT_ID_UNIQUE     0x00004000U
++#endif
++#ifndef STATX_ATTR_MOUNT_ROOT
++#define STATX_ATTR_MOUNT_ROOT   0x00002000
++#endif
++
++
+ 
+ int name_to_handle_at_loop(
+                 int fd,
+@@ -112,17 +153,16 @@ int name_to_handle_at_loop(
+                                 /* Hmm, AT_HANDLE_MNT_ID_UNIQUE is not supported? Let's try to acquire
+                                  * the unique mount id from statx() then, which has a slightly lower
+                                  * kernel version requirement (6.8 vs 6.12). */
+-
+-                                struct statx sx;
++                                STRUCT_NEW_STATX_DEFINE(buf);
+                                 r = xstatx(fd, path,
+                                            at_flags_normalize_nofollow(flags & (AT_SYMLINK_FOLLOW|AT_EMPTY_PATH))|AT_STATX_DONT_SYNC,
+                                            STATX_MNT_ID_UNIQUE,
+-                                           &sx);
++                                           &(buf.sx));
+                                 if (r >= 0) {
+                                         if (ret_handle)
+                                                 *ret_handle = TAKE_PTR(h);
+ 
+-                                        *ret_unique_mnt_id = sx.stx_mnt_id;
++                                        *ret_unique_mnt_id = buf.nsx.stx_mnt_id;
+ 
+                                         if (ret_mnt_id)
+                                                 *ret_mnt_id = -1;
+@@ -297,7 +337,7 @@ int path_is_mount_point_full(const char *path, const char *root, int flags) {
+ }
+ 
+ static int path_get_mnt_id_at_internal(int dir_fd, const char *path, bool unique, uint64_t *ret) {
+-        struct statx sx;
++        STRUCT_NEW_STATX_DEFINE(buf);
+         int r;
+ 
+         assert(dir_fd >= 0 || IN_SET(dir_fd, AT_FDCWD, XAT_FDROOT));
+@@ -308,11 +348,11 @@ static int path_get_mnt_id_at_internal(int dir_fd, const char *path, bool unique
+                    AT_NO_AUTOMOUNT |    /* don't trigger automounts, mnt_id is a local concept */
+                    AT_STATX_DONT_SYNC,  /* don't go to the network, mnt_id is a local concept */
+                    unique ? STATX_MNT_ID_UNIQUE : STATX_MNT_ID,
+-                   &sx);
++                   &(buf.sx));
+         if (r < 0)
+                 return r;
+ 
+-        *ret = sx.stx_mnt_id;
++        *ret = buf.nsx.stx_mnt_id;
+         return 0;
+ }
+ 
+diff --git a/src/basic/raw-clone.c b/src/basic/raw-clone.c
+index 5f560178c8..0c90d716a9 100644
+--- a/src/basic/raw-clone.c
++++ b/src/basic/raw-clone.c
+@@ -34,6 +34,9 @@
+  *
+  * Returns: 0 in the child process and the child process id in the parent.
+  */
++#ifndef CLONE_PIDFD
++#  define CLONE_PIDFD 0x00001000
++#endif
+ pid_t raw_clone(unsigned long flags) {
+         pid_t ret;
+ 
+diff --git a/src/basic/recurse-dir.c b/src/basic/recurse-dir.c
+index 0efa731868..cfe3021653 100644
+--- a/src/basic/recurse-dir.c
++++ b/src/basic/recurse-dir.c
+@@ -142,7 +142,9 @@ int readdir_all_at(int fd, const char *path, RecurseDirFlags flags, DirectoryEnt
+ 
+         return readdir_all(dir_fd, flags, ret);
+ }
+-
++#ifndef STATX_ATTR_MOUNT_ROOT
++#define STATX_ATTR_MOUNT_ROOT 0x00002000 /* Root of a mount */
++#endif
+ int recurse_dir(
+                 int dir_fd,
+                 const char *path,
+diff --git a/src/basic/socket-util.c b/src/basic/socket-util.c
+index eab09786b6..547247d4d6 100644
+--- a/src/basic/socket-util.c
++++ b/src/basic/socket-util.c
+@@ -1406,7 +1406,9 @@ int socket_bind_to_ifname(int fd, const char *ifname) {
+ 
+         return RET_NERRNO(setsockopt(fd, SOL_SOCKET, SO_BINDTODEVICE, ifname, strlen_ptr(ifname)));
+ }
+-
++#ifndef SO_BINDTOIFINDEX
++#define SO_BINDTOIFINDEX 62
++#endif
+ int socket_bind_to_ifindex(int fd, int ifindex) {
+         assert(fd >= 0);
+ 
+diff --git a/src/basic/stat-util.c b/src/basic/stat-util.c
+index ef39562992..a35d78dc73 100644
+--- a/src/basic/stat-util.c
++++ b/src/basic/stat-util.c
+@@ -4,6 +4,7 @@
+ #include <linux/magic.h>
+ #include <sys/statvfs.h>
+ #include <unistd.h>
++#include <linux/types.h>
+ 
+ #include "alloc-util.h"
+ #include "bitfield.h"
+@@ -294,7 +295,37 @@ int null_or_empty_path_with_root(const char *fn, const char *root) {
+ 
+ static const char* statx_mask_one_to_name(unsigned mask);
+ static const char* statx_attribute_to_name(uint64_t attr);
+-
++#ifndef STATX_ATTR_VERITY
++#define STATX_ATTR_VERITY 0x00100000
++#endif
++#ifndef STATX_ATTR_WRITE_ATOMIC
++#define STATX_ATTR_WRITE_ATOMIC 0x00400000
++#endif
++#ifndef STATX_ATTR_MOUNT_ROOT
++#define STATX_ATTR_MOUNT_ROOT 0x00002000
++#endif
++#ifndef STATX_ATTR_DAX
++#define STATX_ATTR_DAX 0x00200000
++#endif
++#ifndef STATX_SUBVOL
++#define STATX_SUBVOL 0x00008000U
++#endif
++#ifndef STATX_DIOALIGN
++#define STATX_DIOALIGN 0x00002000U
++#endif
++#ifndef STATX_MNT_ID_UNIQUE
++#define STATX_MNT_ID_UNIQUE 0x00004000U
++#endif
++#ifndef STATX_WRITE_ATOMIC
++#define STATX_WRITE_ATOMIC 0x00010000U
++#endif
++#ifndef STATX_MNT_ID
++#define STATX_MNT_ID 0x00001000U
++#define NEW_STATX
++#endif
++#ifndef STATX_DIO_READ_ALIGN
++#define STATX_DIO_READ_ALIGN 0x00020000U
++#endif
+ #include "statx-attribute-to-name.inc"
+ #include "statx-mask-to-name.inc"
+ 
+@@ -687,14 +718,42 @@ bool statx_inode_same(const struct statx *a, const struct statx *b) {
+                 a->stx_dev_minor == b->stx_dev_minor &&
+                 a->stx_ino == b->stx_ino;
+ }
+-
++struct new_statx {
++        __u32 stx_mask;
++        __u32 stx_blksize;
++        __u64 stx_attributes;
++        __u32 stx_nlink;
++        __u32 stx_uid;
++        __u32 stx_gid;
++        __u16 stx_mode;
++        __u16 __spare0[1];
++        __u64 stx_ino;
++        __u64 stx_size;
++        __u64 stx_blocks;
++        __u64 stx_attributes_mask;
++        struct statx_timestamp stx_atime;
++        struct statx_timestamp stx_btime;
++        struct statx_timestamp stx_ctime;
++        struct statx_timestamp stx_mtime;
++        __u32 stx_rdev_major;
++        __u32 stx_rdev_minor;
++        __u32 stx_dev_major;
++        __u32 stx_dev_minor;
++        __u64 stx_mnt_id;
++        __u64 __spare2;
++        __u64 __spare3[12];
++};
+ int statx_mount_same(const struct statx *a, const struct statx *b) {
+         if (!statx_is_set(a) || !statx_is_set(b))
+                 return false;
+ 
+         if ((FLAGS_SET(a->stx_mask, STATX_MNT_ID) && FLAGS_SET(b->stx_mask, STATX_MNT_ID)) ||
+             (FLAGS_SET(a->stx_mask, STATX_MNT_ID_UNIQUE) && FLAGS_SET(b->stx_mask, STATX_MNT_ID_UNIQUE)))
++#ifndef NEW_STATX
+                 return a->stx_mnt_id == b->stx_mnt_id;
++#else
++                return ((const struct new_statx*)a)->stx_mnt_id == ((const struct new_statx*)b)->stx_mnt_id;
++#endif
+ 
+         return -ENODATA;
+ }
+diff --git a/src/libc/mount.c b/src/libc/mount.c
+index 1d324ef386..2d9a28ab73 100644
+--- a/src/libc/mount.c
++++ b/src/libc/mount.c
+@@ -3,45 +3,81 @@
+ #include <sys/mount.h>
+ #include <sys/syscall.h>
+ #include <unistd.h>
++#include <errno.h>
+ 
+ #if !HAVE_FSOPEN
+ int missing_fsopen(const char *fsname, unsigned flags) {
++#ifdef __NR_fsopen
+         return syscall(__NR_fsopen, fsname, flags);
++#else
++        errno = ENOSYS;
++        return -1;
++#endif
+ }
+ #endif
+ 
+ #if !HAVE_FSMOUNT
+ int missing_fsmount(int fd, unsigned flags, unsigned ms_flags) {
++#ifdef __NR_fsmount
+         return syscall(__NR_fsmount, fd, flags, ms_flags);
++#else
++        errno = ENOSYS;
++        return -1;
++#endif
+ }
+ #endif
+ 
+ #if !HAVE_MOVE_MOUNT
+ int missing_move_mount(int from_dfd, const char *from_pathname, int to_dfd, const char *to_pathname, unsigned flags) {
++#ifdef __NR_move_mount
+         return syscall(__NR_move_mount, from_dfd, from_pathname, to_dfd, to_pathname, flags);
++#else
++        errno = ENOSYS;
++        return -1;
++#endif
+ }
+ #endif
+ 
+ #if !HAVE_FSCONFIG
+ int missing_fsconfig(int fd, unsigned cmd, const char *key, const void *value, int aux) {
++#ifdef __NR_fsconfig
+         return syscall(__NR_fsconfig, fd, cmd, key, value, aux);
++#else
++        errno = ENOSYS;
++        return -1;
++#endif
+ }
+ #endif
+ 
+ #if !HAVE_OPEN_TREE
+ int missing_open_tree(int dfd, const char *filename, unsigned flags) {
++#ifdef __NR_open_tree
+         return syscall(__NR_open_tree, dfd, filename, flags);
++#else
++        errno = ENOSYS;
++        return -1;
++#endif
+ }
+ #endif
+ 
+ #if !HAVE_MOUNT_SETATTR
+ int missing_mount_setattr(int dfd, const char *path, unsigned flags, struct mount_attr *attr, size_t size) {
++#ifdef __NR_mount_setattr
+         return syscall(__NR_mount_setattr, dfd, path, flags, attr, size);
++#else
++        errno = ENOSYS;
++        return -1;
++#endif
+ }
+ #endif
+ 
+ #if !HAVE_OPEN_TREE_ATTR
+ int missing_open_tree_attr(int dfd, const char *filename, unsigned int flags, struct mount_attr *attr, size_t size) {
++#ifdef __NR_open_tree_attr
+         return syscall(__NR_open_tree_attr, dfd, filename, flags, attr, size);
++#else
++        errno = ENOSYS;
++        return -1;
++#endif
+ }
+ #endif
+diff --git a/src/libc/pidfd.c b/src/libc/pidfd.c
+index a779e3459c..f2c084bac2 100644
+--- a/src/libc/pidfd.c
++++ b/src/libc/pidfd.c
+@@ -3,15 +3,26 @@
+ #include <sys/pidfd.h>
+ #include <sys/syscall.h>
+ #include <unistd.h>
++#include <errno.h>
+ 
+ #if !HAVE_PIDFD_OPEN
+ int missing_pidfd_open(pid_t pid, unsigned flags) {
++#ifdef __NR_pidfd_open
+         return syscall(__NR_pidfd_open, pid, flags);
++#else
++        errno = ENOSYS;
++        return -1;
++#endif
+ }
+ #endif
+ 
+ #if !HAVE_PIDFD_SEND_SIGNAL
+ int missing_pidfd_send_signal(int fd, int sig, siginfo_t *info, unsigned flags) {
++#ifdef __NR_pidfd_send_signal
+         return syscall(__NR_pidfd_send_signal, fd, sig, info, flags);
++#else
++        errno = ENOSYS;
++        return -1;
++#endif
+ }
+ #endif
+diff --git a/src/libsystemd/sd-event/sd-event.c b/src/libsystemd/sd-event/sd-event.c
+index b78cfe86fa..e169c6b306 100644
+--- a/src/libsystemd/sd-event/sd-event.c
++++ b/src/libsystemd/sd-event/sd-event.c
+@@ -41,7 +41,7 @@
+ #include "strv.h"
+ #include "strxcpyx.h"
+ #include "time-util.h"
+-
++#include "missing.h"
+ #define DEFAULT_ACCURACY_USEC (250 * USEC_PER_MSEC)
+ 
+ static bool EVENT_SOURCE_WATCH_PIDFD(const sd_event_source *s) {
+@@ -1881,9 +1881,9 @@ _public_ int sd_event_trim_memory(void) {
+          * NULL callback parameter. */
+ 
+         log_debug("Memory pressure event, trimming malloc() memory.");
+-
++#if __GLIBC_PREREQ(2, 33) && HAVE_MALLINFO2
+         struct mallinfo2 before_mallinfo = mallinfo2();
+-
++#endif
+         usec_t before_timestamp = now(CLOCK_MONOTONIC);
+         hashmap_trim_pools();
+         r = malloc_trim(0);
+@@ -1894,6 +1894,7 @@ _public_ int sd_event_trim_memory(void) {
+         else
+                 log_debug("Couldn't trim any memory.");
+ 
++#if __GLIBC_PREREQ(2, 33) && HAVE_MALLINFO2
+         usec_t period = after_timestamp - before_timestamp;
+ 
+         struct mallinfo2 after_mallinfo = mallinfo2();
+@@ -1906,7 +1907,7 @@ _public_ int sd_event_trim_memory(void) {
+                    LOG_MESSAGE_ID(SD_MESSAGE_MEMORY_TRIM_STR),
+                    LOG_ITEM("TRIMMED_BYTES=%zu", l),
+                    LOG_ITEM("TRIMMED_USEC=" USEC_FMT, period));
+-
++#endif
+         return 0;
+ }
+ 
+diff --git a/src/libsystemd/sd-resolve/sd-resolve.c b/src/libsystemd/sd-resolve/sd-resolve.c
+index 0f189a5044..10f25ce73e 100644
+--- a/src/libsystemd/sd-resolve/sd-resolve.c
++++ b/src/libsystemd/sd-resolve/sd-resolve.c
+@@ -23,7 +23,7 @@
+ #include "process-util.h"
+ #include "resolve-private.h"
+ #include "socket-util.h"
+-
++#include "missing.h"
+ #define WORKERS_MIN 1U
+ #define WORKERS_MAX 16U
+ #define QUERIES_MAX 256U
