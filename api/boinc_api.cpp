@@ -190,7 +190,6 @@ static volatile int running_interrupt_count = 0;
 static volatile bool finishing;
     // used for worker/timer synch during boinc_finish();
 static int want_network = 0;
-static int have_network = 1;
 static double bytes_sent = 0;
 static double bytes_received = 0;
 bool boinc_disable_timer_thread = false;
@@ -970,11 +969,6 @@ void boinc_exit(int status) {
 #endif
 }
 
-void boinc_network_usage(double sent, double received) {
-    bytes_sent = sent;
-    bytes_received = received;
-}
-
 int boinc_is_standalone() {
     if (standalone) return 1;
     return 0;
@@ -1370,9 +1364,6 @@ static void handle_process_control_msg() {
     }
     if (match_tag(buf, "<reread_app_info/>")) {
         boinc_status.reread_init_data_file = true;
-    }
-    if (match_tag(buf, "<network_available/>")) {
-        have_network = 1;
     }
 #ifdef ANDROID
     // Trigger call to worker_signal_handler() in the worker thread
@@ -1794,17 +1785,8 @@ int boinc_upload_status(std::string& name) {
     return ERR_NOT_FOUND;
 }
 
-void boinc_need_network() {
-    want_network = 1;
-    have_network = 0;
-}
-
-int boinc_network_poll() {
-    return have_network?0:1;
-}
-
-void boinc_network_done() {
-    want_network = 0;
+void boinc_waiting_for_network(bool x) {
+    want_network = x;
 }
 
 #ifndef _WIN32

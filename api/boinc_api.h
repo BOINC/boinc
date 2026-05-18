@@ -100,10 +100,7 @@ extern int boinc_report_app_status(
 extern int boinc_time_to_checkpoint(void);
 extern void boinc_begin_critical_section(void);
 extern void boinc_end_critical_section(void);
-extern void boinc_need_network(void);
-extern int boinc_network_poll(void);
-extern void boinc_network_done(void);
-extern void boinc_network_usage(double sent, double received);
+extern void boinc_waiting_for_network(bool);
 extern int boinc_is_standalone(void);
 extern void boinc_ops_per_cpu_sec(double fp, double integer);
 extern void boinc_ops_cumulative(double fp, double integer);

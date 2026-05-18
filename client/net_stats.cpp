@@ -122,6 +122,8 @@ int NET_STATS::parse(XML_PARSER& xp) {
 // WANT_DISCONNECT if we don't have any connections, and don't need any
 // LOOKUP_PENDING if a website lookup is pending (try again later)
 //
+// This is used for the get_cc_status() GUI RPC.
+//
 // There's a 10-second slop factor;
 // if we've done network comm in the last 10 seconds,
 // we act as if we're doing it now.
@@ -142,7 +144,7 @@ int NET_STATUS::network_status() {
         retval = NETWORK_STATUS_ONLINE;
     } else if (need_physical_connection) {
         retval = NETWORK_STATUS_WANT_CONNECTION;
-    } else if (gstate.active_tasks.want_network()) {
+    } else if (gstate.active_tasks.some_task_wants_network()) {
         retval = NETWORK_STATUS_WANT_CONNECTION;
     } else {
         have_sporadic_connection = false;
@@ -154,8 +156,9 @@ int NET_STATUS::network_status() {
     return retval;
 }
 
-// There's now a network connection, after some period of disconnection.
-// Do all communication that we can.
+// the user has requested file xfer retry;
+// presumably there's a network connection after a period of disconnection.
+// Clear backoffs.
 //
 void NET_STATUS::network_available() {
     have_sporadic_connection = true;
@@ -167,10 +170,6 @@ void NET_STATUS::network_available() {
         p->upload_backoff.clear_temporary();
         p->download_backoff.clear_temporary();
     }
-
-    // tell active tasks that network is available
-    //
-    gstate.active_tasks.network_available();
 }
 
 // An HTTP operation failed;
@@ -197,11 +196,12 @@ void NET_STATUS::got_http_error() {
         );
     }
     need_to_contact_reference_site = true;
-    show_ref_message = true;
 }
 
 void NET_STATUS::http_op_succeeded() {
     need_physical_connection = false;
+    notices.remove_notices(NULL, REMOVE_NETWORK_MSG);
+    network_notice_active = false;
 }
 
 void NET_STATUS::contact_reference_site() {
@@ -222,11 +222,9 @@ static void show_fail_msg() {
 int LOOKUP_WEBSITE_OP::do_rpc(string& url) {
     int retval;
 
-    if (net_status.show_ref_message) {
-        msg_printf(0, MSG_INFO,
-            "Project communication failed: attempting access to reference site"
-        );
-    }
+    msg_printf(0, MSG_INFO,
+        "Project communication failed: attempting access to reference site"
+    );
     retval = gui_http->do_rpc(this, url.c_str(), LOOKUP_WEBSITE_FILENAME, true);
     if (retval) {
         error_num = retval;
@@ -253,11 +251,9 @@ void LOOKUP_WEBSITE_OP::handle_reply(int http_op_retval) {
         net_status.last_comm_time = 0;
         show_fail_msg();
     } else {
-        if (net_status.show_ref_message) {
-            msg_printf(0, MSG_INFO,
-                "Internet access OK - project servers may be temporarily down."
-            );
-        }
+        msg_printf(0, MSG_INFO,
+            "Internet access OK - project servers may be temporarily down."
+        );
     }
 }
 
@@ -266,15 +262,22 @@ void NET_STATUS::poll() {
     // may still be coming up, so defer the reference site check;
     // otherwise might show spurious "need connection" message
     //
-    if (gstate.now < gstate.last_wakeup_time + 30) return;
+    if (gstate.now < gstate.last_wakeup_time + 30) {
+        return;
+    }
     // wait until after a round of automatic proxy detection
     // before attempting to contact the reference site
     //
-    if (working_proxy_info.autodetect_proxy_supported &&
-        working_proxy_info.need_autodetect_proxy_settings &&
-        !working_proxy_info.have_autodetect_proxy_settings) return;
+    if (working_proxy_info.autodetect_proxy_supported
+        && working_proxy_info.need_autodetect_proxy_settings
+        && !working_proxy_info.have_autodetect_proxy_settings
+    ) {
+        return;
+    }
 
-    if (net_status.need_to_contact_reference_site && !gstate.gui_http.is_busy()) {
+    if (net_status.need_to_contact_reference_site
+        && !gstate.gui_http.is_busy()
+    ) {
         net_status.contact_reference_site();
     }
 }

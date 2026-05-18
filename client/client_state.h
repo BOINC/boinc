@@ -717,6 +717,8 @@ extern void show_docker_messages();
     // Don't do this on Android
 #endif
 
-#define NEED_NETWORK_MSG _("BOINC can't access Internet - check network connection or proxy configuration.")
+#define NEED_NETWORK_MSG _("BOINC can't access Internet - check network connection")
+#define APP_NEED_NETWORK_MSG _("Tasks can't access Internet - check network connection")
+#define APP_NETWORK_SUSPENDED_MSG _("Tasks need Internet access - consider unsuspending network")
 
 #endif

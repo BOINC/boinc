@@ -351,3 +351,19 @@ int boinc_get_port(bool is_remote, int& port) {
     boinc_close_socket(sock);
     return 0;
 }
+
+// is the given host reachable?
+//
+bool is_reachable(const char* hostname) {
+    sockaddr_storage ip_addr;
+    int sock;
+    int retval = resolve_hostname(hostname, ip_addr);
+    if (retval) return false;
+    boinc_socket(sock, AF_INET);
+    retval = connect(sock, (const sockaddr*)(&ip_addr), addr_len(ip_addr));
+    if (retval) {
+        return false;
+    }
+    close(sock);
+    return true;
+}

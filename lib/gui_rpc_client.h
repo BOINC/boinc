@@ -295,6 +295,7 @@ struct RESULT {
     double bytes_received;
     bool too_large;
     bool needs_shmem;
+    bool want_network;
     bool edf_scheduled;
     char graphics_exec_path[MAXPATHLEN];
     char web_graphics_url[256];

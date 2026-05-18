@@ -74,7 +74,6 @@ public:
         // contact the reference site as soon as GUI_HTTP is idle
         // polled from NET_STATS::poll(), for want of a better place
     void contact_reference_site();
-    bool show_ref_message;
     bool need_physical_connection;
         // client wants to do network comm and no physical connection exists.
         // Initially false; set whenever a Curl operation
@@ -88,6 +87,11 @@ public:
         // so do as much network comm as possible
         // (e.g. report completed results)
     double last_comm_time;
+        // unclear what this means
+    bool network_notice_active;
+        // we posted a network-related notice,
+        // and there hasn't been evidence of a reconnection,
+        // so don't post another one.
 
     int network_status();
     void network_available();
@@ -97,8 +101,8 @@ public:
         need_physical_connection = false;
         have_sporadic_connection = false;
         need_to_contact_reference_site = false;
-        show_ref_message = false;
         last_comm_time = 0;
+        network_notice_active = false;
     }
     void poll();
 };
@@ -106,7 +110,7 @@ public:
 // This is used to access a reference website (like yahoo or google)
 // that is assumed to be 100% available.
 // It is used ONLY from the HTTP code, when a transaction fails
-
+//
 struct LOOKUP_WEBSITE_OP: public GUI_HTTP_OP {
     int error_num;
 

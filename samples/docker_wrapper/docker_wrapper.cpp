@@ -90,43 +90,6 @@
 // https://docs.docker.com/reference/cli/docker/container/run/
 // https://docs.docker.com/engine/containers/resource_constraints/
 
-// ************** Checkpoint/restart ***************
-//
-// This would limit lost work if the host is rebooted
-// while a BUDA job is running.
-// In other cases (e.g. the user exits the client)
-// we pause the container and no work is lost.
-//
-// Podman and Docker have different interfaces:
-// podman: https://podman.io/docs/checkpoint
-//      podman container checkpoint <name>
-//      podman container restore <name>
-// docker: https://docs.docker.com/reference/cli/docker/checkpoint/
-//      docker checkpoint create <cont_name> <checkpoint_name>
-//      docker checkpoint ls   (lists checkpoints)
-//      docker checkpoint rm   (delete checkpoint)
-//      docker start --checkpoint <checkpoint_name> <cont_name>
-//      (use <cont_name>_checkpoint as the checkpoint name)
-//      need --security-opt=seccomp:unconfined in initial run command?
-//
-// In both cases the CRIU library is required.
-//
-// Note: I spent several days trying to get it to work on Podman
-// with all sorts of variants like --pre-checkpoint, --keep etc.
-// Whenever I did
-// - create a checkpoint
-// - compute some more
-// - stop or kill the container
-// - restore
-// I always get
-// Error: OCI runtime error: runc: criu failed: type RESTORE errno 0
-//
-// So I gave up; checkpoint/restart is only relevant to the reboot scenario,
-// this is rare.
-//
-// I took out the checkpoint-related code 1/30/2026.
-// If you want to see it, look at an older version
-
 #include <cstdio>
 #include <string>
 #include <vector>
@@ -331,20 +294,20 @@ int parse_config_file() {
 
 // If command output includes "Error", show the output and return true
 //
-bool output_has_error(vector<string> &out, const char* cmd_name) {
-    bool found = false;
+bool output_has_str(vector<string> &out, const char* s) {
     for (string line: out) {
-        if (strstr(line.c_str(), "Error")) {
-            found = true;
-            break;
+        if (strstr(line.c_str(), s)) {
+            return true;
         }
     }
-    if (!found) return false;
+    return false;
+}
+
+void show_output(vector<string> &out, const char* cmd_name) {
     fprintf(stderr, "Error output from '%s' command:\n", cmd_name);
     for (const string &line: out) {
         fprintf(stderr, "   %s", line.c_str());
     }
-    return true;
 }
 
 //////////  PODMAN ARGS  ////////////
@@ -617,15 +580,56 @@ int create_container() {
 
     strcat(cmd, " ");
     strcat(cmd, image_name);
-    retval = docker_conn.command(cmd, out, verbose_std());
-    if (retval) {
-        fprintf(stderr, "create command failed: %d\n", retval);
-        return retval;
-    }
-    if (output_has_error(out, "create")) {
-        return -1;
-    }
 
+    // create command might fail because network is disconnected
+    //
+    bool google_unreachable = false;
+        // google was unreachable last time we checked
+    BOINC_STATUS status;
+    while (1) {
+        boinc_get_status(&status);
+        if (status.network_suspended) {
+            fprintf(stderr, "network suspended; sleeping 10\n");
+            boinc_waiting_for_network(true);
+            boinc_sleep(10);
+            continue;
+        }
+        // if google was previously unreachable, see if that's changed
+        if (google_unreachable) {
+            if (!is_reachable("google.com")) {
+                fprintf(stderr, "google still unreachable; sleeping 10\n");
+                boinc_sleep(10);
+                continue;
+            }
+        }
+        retval = docker_conn.command(cmd, out, verbose_std());
+        if (retval) {
+            fprintf(stderr, "create command failed: %d\n", retval);
+            return retval;
+        }
+        if (output_has_str(out, "retrying")) {
+            fprintf(stderr, "create cmd has 'retrying'\n");
+            if (is_reachable("google.com")) {
+                // network connection exists but the create operation
+                // couldn't reach a needed server; error out
+                fprintf(stderr, "... but google is reachable; quitting\n");
+                return -1;
+            }
+            fprintf(stderr, "google is unreachable; sleeping\n");
+            google_unreachable = true;
+            boinc_waiting_for_network(true);
+            boinc_sleep(10);
+            continue;
+        }
+        if (output_has_str(out, "Error")) {
+            show_output(out, "create");
+            return -1;
+        }
+        // here if create succeeded
+        fprintf(stderr, "create succeeded\n");
+        boinc_waiting_for_network(false);
+        break;
+    }
     return 0;
 }
 
@@ -643,7 +647,8 @@ int container_op(const char *op) {
         fprintf(stderr, "%s command failed: %d\n", op, retval);
         return retval;
     }
-    if (output_has_error(out, op)) {
+    if (output_has_str(out, "Error")) {
+        show_output(out, op);
         return -1;
     }
     return 0;
