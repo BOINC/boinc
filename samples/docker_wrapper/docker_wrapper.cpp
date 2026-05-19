@@ -363,6 +363,21 @@ void get_app_args(char* buf) {
 
 //////////  IMAGE  ////////////
 
+// used during build sleeps
+//
+void poll_client_msgs_init() {
+    BOINC_STATUS status;
+    boinc_get_status(&status);
+    if (status.no_heartbeat
+        || status.quit_request
+        || status.abort_request
+    ) {
+        fprintf(stderr, "client exit request during init\n");
+        exit(0);
+    }
+}
+
+// check whether job:
 void get_image_name() {
     if (config.image_name.empty()) {
         string s = docker_image_name(project_dir, aid.wu_name);
@@ -402,6 +417,7 @@ int build_image() {
         // google was unreachable last time we checked
     BOINC_STATUS status;
     while (1) {
+        poll_client_msgs_init();        // should we exit?
         boinc_get_status(&status);
         if (status.network_suspended) {
             fprintf(stderr, "network suspended; sleeping 10\n");
@@ -743,7 +759,6 @@ int poll_client_msgs() {
     return 0;
 }
 
-// check whether job:
 // - has exited success (JOB_SUCCESS)
 // - has exited failure (JOB_FAIL)
 // - is in progress (JOB_IN_PROGRESS)
