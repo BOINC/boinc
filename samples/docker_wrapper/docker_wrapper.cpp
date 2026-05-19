@@ -394,8 +394,57 @@ int build_image() {
     snprintf(cmd, sizeof(cmd), "build \"%s\" -t %s -f %s %s",
         escaped_cwd, image_name, dockerfile, config.build_args.c_str()
     );
-    int retval = docker_conn.command(cmd, out, verbose_std());
-    if (retval) return retval;
+
+    // build command might fail because network is disconnected
+    // (this is the only command that uses network)
+    //
+    bool google_unreachable = false;
+        // google was unreachable last time we checked
+    BOINC_STATUS status;
+    while (1) {
+        boinc_get_status(&status);
+        if (status.network_suspended) {
+            fprintf(stderr, "network suspended; sleeping 10\n");
+            boinc_waiting_for_network(true);
+            boinc_sleep(10);
+            continue;
+        }
+        // if google was previously unreachable, see if that's changed
+        if (google_unreachable) {
+            if (!is_reachable("google.com")) {
+                fprintf(stderr, "google still unreachable; sleeping 10\n");
+                boinc_sleep(10);
+                continue;
+            }
+        }
+        int retval = docker_conn.command(cmd, out, verbose_std());
+        if (retval) {
+            fprintf(stderr, "build command failed: %d\n", retval);
+            return retval;
+        }
+        if (output_has_str(out, "retrying")) {
+            fprintf(stderr, "build cmd output has 'retrying'\n");
+            if (is_reachable("google.com")) {
+                // network connection exists but the create operation
+                // couldn't reach a needed server; error out
+                fprintf(stderr, "... but google is reachable; quitting\n");
+                return -1;
+            }
+            fprintf(stderr, "google is unreachable; sleeping\n");
+            google_unreachable = true;
+            boinc_waiting_for_network(true);
+            boinc_sleep(10);
+            continue;
+        }
+        if (output_has_str(out, "Error")) {
+            show_output(out, "build");
+            return -1;
+        }
+        // here if build succeeded
+        fprintf(stderr, "build succeeded\n");
+        boinc_waiting_for_network(false);
+        break;
+    }
     return 0;
 }
 
@@ -580,55 +629,14 @@ int create_container() {
 
     strcat(cmd, " ");
     strcat(cmd, image_name);
-
-    // create command might fail because network is disconnected
-    //
-    bool google_unreachable = false;
-        // google was unreachable last time we checked
-    BOINC_STATUS status;
-    while (1) {
-        boinc_get_status(&status);
-        if (status.network_suspended) {
-            fprintf(stderr, "network suspended; sleeping 10\n");
-            boinc_waiting_for_network(true);
-            boinc_sleep(10);
-            continue;
-        }
-        // if google was previously unreachable, see if that's changed
-        if (google_unreachable) {
-            if (!is_reachable("google.com")) {
-                fprintf(stderr, "google still unreachable; sleeping 10\n");
-                boinc_sleep(10);
-                continue;
-            }
-        }
-        retval = docker_conn.command(cmd, out, verbose_std());
-        if (retval) {
-            fprintf(stderr, "create command failed: %d\n", retval);
-            return retval;
-        }
-        if (output_has_str(out, "retrying")) {
-            fprintf(stderr, "create cmd has 'retrying'\n");
-            if (is_reachable("google.com")) {
-                // network connection exists but the create operation
-                // couldn't reach a needed server; error out
-                fprintf(stderr, "... but google is reachable; quitting\n");
-                return -1;
-            }
-            fprintf(stderr, "google is unreachable; sleeping\n");
-            google_unreachable = true;
-            boinc_waiting_for_network(true);
-            boinc_sleep(10);
-            continue;
-        }
-        if (output_has_str(out, "Error")) {
-            show_output(out, "create");
-            return -1;
-        }
-        // here if create succeeded
-        fprintf(stderr, "create succeeded\n");
-        boinc_waiting_for_network(false);
-        break;
+    retval = docker_conn.command(cmd, out, verbose_std());
+    if (retval) {
+        fprintf(stderr, "create command failed: %d\n", retval);
+        return retval;
+    }
+    if (output_has_str(out, "Error")) {
+        show_output(out, "create");
+        return -1;
     }
     return 0;
 }
