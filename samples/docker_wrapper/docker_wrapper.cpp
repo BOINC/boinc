@@ -420,7 +420,9 @@ int build_image() {
         poll_client_msgs_init();        // should we exit?
         boinc_get_status(&status);
         if (status.network_suspended) {
-            fprintf(stderr, "network suspended; sleeping 10\n");
+            if (verbose_all()) {
+                fprintf(stderr, "network suspended; sleeping 10\n");
+            }
             boinc_waiting_for_network(true);
             boinc_report_app_status(0, 0, 0);
             boinc_sleep(10);
@@ -430,9 +432,11 @@ int build_image() {
         if (google_unreachable) {
             retval = network_connected();
             if (retval) {
-                fprintf(stderr,
-                    "google still unreachable (%d); sleeping 10\n", retval
-                );
+                if (verbose_all()) {
+                    fprintf(stderr,
+                        "google still unreachable (%d); sleeping 10\n", retval
+                    );
+                }
                 boinc_sleep(10);
                 continue;
             }
@@ -443,15 +447,21 @@ int build_image() {
             return retval;
         }
         if (output_has_str(out, "retrying")) {
-            fprintf(stderr, "build cmd output has 'retrying'\n");
+            if (verbose_std()) {
+                fprintf(stderr, "build cmd output has 'retrying'\n");
+            }
             retval = network_connected();
             if (retval == 0) {
                 // network connection exists but the create operation
                 // couldn't reach a needed server; error out
-                fprintf(stderr, "... but google is reachable; quitting\n");
+                if (verbose_std()) {
+                    fprintf(stderr, "... but google is reachable; quitting\n");
+                }
                 return -1;
             }
-            fprintf(stderr, "google is unreachable (%d); sleeping\n", retval);
+            if (verbose_std()) {
+                fprintf(stderr, "google is unreachable (%d); sleeping\n", retval);
+            }
             google_unreachable = true;
             boinc_waiting_for_network(true);
             boinc_report_app_status(0, 0, 0);
@@ -463,7 +473,9 @@ int build_image() {
             return -1;
         }
         // here if build succeeded
-        fprintf(stderr, "build succeeded\n");
+        if (verbose_std()) {
+            fprintf(stderr, "build succeeded\n");
+        }
         boinc_waiting_for_network(false);
         boinc_report_app_status(0, 0, 0);
         break;
