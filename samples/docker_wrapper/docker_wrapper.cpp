@@ -406,7 +406,7 @@ int build_image() {
     char cmd[256];
     vector<string> out;
     int retval;
-    snprintf(cmd, sizeof(cmd), "build \"%s\" -t %s -f %s %s",
+    snprintf(cmd, sizeof(cmd), "build \"%s\" --retry 0 -t %s -f %s %s",
         escaped_cwd, image_name, dockerfile, config.build_args.c_str()
     );
 

@@ -360,8 +360,15 @@ int boinc_get_port(bool is_remote, int& port) {
 // is the given host reachable?
 // (used w/ google.com to check for network connection)
 //
+// We used to do this directly, by gethostbyname() and connect().
+// But on Windows, gethostbyname() caches negative results,
+// so once 'google.com' fails (due to network disconnection)
+// it keeps failing after reconnection!  WTF??
+//
+// So use ping instead.
+// But guess what?  The Win version is different from Unix
+//
 int network_connected() {
-#if 1
 #ifdef _WIN32
     const char* cmd = "ping google.com -n 1";
 #else
@@ -372,28 +379,6 @@ int network_connected() {
     if (retval) {
         fprintf(stderr, "%s failed: %d\n", cmd, retval);
     }
-    for (string line: out) {
-        if (strstr(line.c_str(), "bytes from")) {   // Unix
-            return 0;
-        }
-        if (strstr(line.c_str(), "Reply from")) {   // Win
-            return 0;
-        }
-    }
-    return -1;
-#else
-    sockaddr_storage ip_addr;
-    int sock;
-    int retval = resolve_hostname("google.com", ip_addr);
-    if (retval) {
-        return ERR_GETHOSTBYNAME;
-    }
-    boinc_socket(sock, AF_INET);
-    retval = connect(sock, (const sockaddr*)(&ip_addr), addr_len(ip_addr));
-    close(sock);
-    if (retval) {
-        return ERR_CONNECT;
-    }
+    // ping exits nonzero on failure
     return 0;
-#endif
 }
