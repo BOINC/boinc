@@ -1418,6 +1418,9 @@ bool ACTIVE_TASK::get_app_status_msg() {
         sporadic_ac_state = (SPORADIC_AC_STATE)i;
     }
 
+    // if want_network goes from false to true, show notice
+    // if it goes true to false, remove notice
+    //
     switch (new_want_network) {
     case 0:
         if (want_network) {
