@@ -35,6 +35,11 @@
 #include <errno.h>
 #endif
 
+#include <vector>
+#include <string>
+using std::vector;
+using std::string;
+
 #include "error_numbers.h"
 #include "str_util.h"
 #include "util.h"
@@ -355,10 +360,24 @@ int boinc_get_port(bool is_remote, int& port) {
 // is the given host reachable?
 // (used w/ google.com to check for network connection)
 //
-int test_connect(const char* hostname) {
+int network_connected() {
+#if 1
+    const char* cmd = "ping google.com -c 1";
+    vector<string> out;
+    int retval = run_command(cmd, out);
+    if (retval) {
+        fprintf(stderr, "%s failed: %d\n", cmd, retval);
+    }
+    for (string line: out) {
+        if (strstr(line.c_str(), "bytes from")) {
+            return 0;
+        }
+    }
+    return -1;
+#else
     sockaddr_storage ip_addr;
     int sock;
-    int retval = resolve_hostname(hostname, ip_addr);
+    int retval = resolve_hostname("google.com", ip_addr);
     if (retval) {
         return ERR_GETHOSTBYNAME;
     }
@@ -369,4 +388,5 @@ int test_connect(const char* hostname) {
         return ERR_CONNECT;
     }
     return 0;
+#endif
 }

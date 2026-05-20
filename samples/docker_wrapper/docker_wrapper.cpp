@@ -427,7 +427,7 @@ int build_image() {
         }
         // if google was previously unreachable, see if that's changed
         if (google_unreachable) {
-            retval = test_connect("google.com");
+            retval = network_connected();
             if (retval) {
                 fprintf(stderr,
                     "google still unreachable (%d); sleeping 10\n", retval
@@ -443,7 +443,7 @@ int build_image() {
         }
         if (output_has_str(out, "retrying")) {
             fprintf(stderr, "build cmd output has 'retrying'\n");
-            retval = test_connect("google.com");
+            retval = network_connected();
             if (retval == 0) {
                 // network connection exists but the create operation
                 // couldn't reach a needed server; error out

@@ -286,7 +286,7 @@ int run_program(
 // Unix: if you want stderr too, add 2>&1 to command
 // Return error if command failed
 //
-int run_command(char *cmd, vector<string> &out) {
+int run_command(const char *cmd, vector<string> &out) {
     out.clear();
 #ifdef _WIN32
     HANDLE pipe_read, pipe_write;
