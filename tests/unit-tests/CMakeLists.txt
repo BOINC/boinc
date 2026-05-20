@@ -71,6 +71,7 @@ else()
 endif()
 
 add_subdirectory(lib)
+add_subdirectory(client)
 if (NOT APPLE)
     add_subdirectory(sched)
 endif()
