@@ -126,9 +126,11 @@ public:
 
 // parsed version of main init file
 // If you add anything here, update
-// APP_INIT_DATA::clear(), copy(),
-// write_init_data_file(), parse_init_data_file()
-// ACTIVE_TASK::init_app_init_data()
+// in app_ipc.cpp:
+//      APP_INIT_DATA::clear(), copy(),
+//      write_init_data_file(), parse_init_data_file()
+// in client/app_start.cpp:
+//      ACTIVE_TASK::init_app_init_data()
 //
 struct APP_INIT_DATA {
     int major_version;          // BOINC client version info
@@ -192,6 +194,10 @@ struct APP_INIT_DATA {
     // info for multicore apps: how many cores to use
     //
     double ncpus;
+
+    // for apps that use network
+    //
+    char network_test_url[256];
 
     // client configuration info, from cc_config.h
     //

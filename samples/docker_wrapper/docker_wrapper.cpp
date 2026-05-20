@@ -406,6 +406,21 @@ int build_image() {
     char cmd[256];
     vector<string> out;
     int retval;
+
+    char test_host[256];
+    if (strlen(aid.network_test_url)) {
+        // make URL into a hostname if it's not already
+        char *p = strstr(aid.network_test_url, "//");
+        if (p) {
+            strcpy(test_host, p+2);
+        }
+        p = strstr(test_host, "/");
+        if (p) {
+            *p = 0;
+        }
+    } else {
+        strcpy(test_host, "www.google.com");
+    }
     snprintf(cmd, sizeof(cmd),
         "build \"%s\" %s -t %s -f %s %s",
         escaped_cwd,
@@ -433,7 +448,7 @@ int build_image() {
         }
         // if google was previously unreachable, see if that's changed
         if (google_unreachable) {
-            retval = network_connected();
+            retval = network_connected(test_host);
             if (retval) {
                 if (verbose_all()) {
                     fprintf(stderr,
@@ -453,7 +468,7 @@ int build_image() {
             if (verbose_std()) {
                 fprintf(stderr, "build cmd output has 'retrying'\n");
             }
-            retval = network_connected();
+            retval = network_connected(test_host);
             if (retval == 0) {
                 // network connection exists but the create operation
                 // couldn't reach a needed server; error out

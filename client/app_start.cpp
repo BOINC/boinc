@@ -265,6 +265,9 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
         aid.gpu_usage = 0;
     }
     aid.ncpus = result->resource_usage.avg_ncpus;
+    if (strcmp(nvc_config.network_test_url.c_str(), DEFAULT_NETWORK_TEST_URL)) {
+        safe_strcpy(aid.network_test_url, nvc_config.network_test_url.c_str());
+    }
     aid.vbox_window = cc_config.vbox_window;
     aid.checkpoint_period = gstate.global_prefs.disk_interval;
     aid.fraction_done_start = 0;
