@@ -422,6 +422,7 @@ int build_image() {
         if (status.network_suspended) {
             fprintf(stderr, "network suspended; sleeping 10\n");
             boinc_waiting_for_network(true);
+            boinc_report_app_status(0, 0, 0);
             boinc_sleep(10);
             continue;
         }
@@ -453,6 +454,7 @@ int build_image() {
             fprintf(stderr, "google is unreachable (%d); sleeping\n", retval);
             google_unreachable = true;
             boinc_waiting_for_network(true);
+            boinc_report_app_status(0, 0, 0);
             boinc_sleep(10);
             continue;
         }
@@ -463,6 +465,7 @@ int build_image() {
         // here if build succeeded
         fprintf(stderr, "build succeeded\n");
         boinc_waiting_for_network(false);
+        boinc_report_app_status(0, 0, 0);
         break;
     }
     return 0;

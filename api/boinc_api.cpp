@@ -1116,6 +1116,9 @@ int boinc_report_app_status_aux(
         sprintf(buf, "<wss>%f</wss>\n", wss);
         strlcat(msg_buf, buf, sizeof(msg_buf));
     }
+    if (want_network) {
+        strlcat(msg_buf, "<want_network>1</want_network>\n", sizeof(msg_buf));
+    }
 #ifdef MSGS_FROM_FILE
     if (fout) {
         fputs(msg_buf, fout);
