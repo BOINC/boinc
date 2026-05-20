@@ -377,7 +377,6 @@ void poll_client_msgs_init() {
     }
 }
 
-// check whether job:
 void get_image_name() {
     if (config.image_name.empty()) {
         string s = docker_image_name(project_dir, aid.wu_name);
@@ -427,8 +426,11 @@ int build_image() {
         }
         // if google was previously unreachable, see if that's changed
         if (google_unreachable) {
-            if (!is_reachable("google.com")) {
-                fprintf(stderr, "google still unreachable; sleeping 10\n");
+            retval = test_connect("google.com");
+            if (retval) {
+                fprintf(stderr,
+                    "google still unreachable (%d); sleeping 10\n", retval
+                );
                 boinc_sleep(10);
                 continue;
             }
@@ -440,13 +442,14 @@ int build_image() {
         }
         if (output_has_str(out, "retrying")) {
             fprintf(stderr, "build cmd output has 'retrying'\n");
-            if (is_reachable("google.com")) {
+            retval = test_connect("google.com");
+            if (retval == 0) {
                 // network connection exists but the create operation
                 // couldn't reach a needed server; error out
                 fprintf(stderr, "... but google is reachable; quitting\n");
                 return -1;
             }
-            fprintf(stderr, "google is unreachable; sleeping\n");
+            fprintf(stderr, "google is unreachable (%d); sleeping\n", retval);
             google_unreachable = true;
             boinc_waiting_for_network(true);
             boinc_sleep(10);

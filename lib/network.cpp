@@ -353,17 +353,20 @@ int boinc_get_port(bool is_remote, int& port) {
 }
 
 // is the given host reachable?
+// (used w/ google.com to check for network connection)
 //
-bool is_reachable(const char* hostname) {
+int test_connect(const char* hostname) {
     sockaddr_storage ip_addr;
     int sock;
     int retval = resolve_hostname(hostname, ip_addr);
-    if (retval) return false;
+    if (retval) {
+        return ERR_GETHOSTBYNAME;
+    }
     boinc_socket(sock, AF_INET);
     retval = connect(sock, (const sockaddr*)(&ip_addr), addr_len(ip_addr));
-    if (retval) {
-        return false;
-    }
     close(sock);
-    return true;
+    if (retval) {
+        return ERR_CONNECT;
+    }
+    return 0;
 }
