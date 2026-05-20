@@ -100,7 +100,6 @@ extern int boinc_report_app_status(
 extern int boinc_time_to_checkpoint(void);
 extern void boinc_begin_critical_section(void);
 extern void boinc_end_critical_section(void);
-extern void boinc_waiting_for_network(bool);
 extern int boinc_is_standalone(void);
 extern void boinc_ops_per_cpu_sec(double fp, double integer);
 extern void boinc_ops_cumulative(double fp, double integer);
@@ -129,6 +128,7 @@ extern int setMacIcon(char *filename, char *iconData, long iconSize);
 #include <string>
 #include "app_ipc.h"
 
+extern void boinc_waiting_for_network(bool);
 extern int boinc_resolve_filename_s(const char*, std::string&);
 extern int boinc_get_init_data(APP_INIT_DATA&);
 extern int boinc_wu_cpu_time(double&);
