@@ -293,6 +293,11 @@ int run_command(const char *cmd, vector<string> &out) {
     SECURITY_ATTRIBUTES sa;
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
+    char cmd2[1024];
+
+    // CreateProcess() can modify its cmd arg (WTF???)
+    // So copy it to a temp buffer
+    safe_strcpy(cmd2, cmd);
 
     memset(&si, 0, sizeof(si));
     memset(&pi, 0, sizeof(pi));
@@ -314,7 +319,7 @@ int run_command(const char *cmd, vector<string> &out) {
 
     if (!CreateProcess(
         NULL,
-        (LPTSTR)cmd,
+        (LPTSTR)cmd2,
         NULL,
         NULL,
         TRUE,   // inherit handles
