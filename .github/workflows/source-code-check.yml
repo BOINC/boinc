@@ -17,12 +17,8 @@
 
 name: Source Code Check
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
-  schedule:
-    - cron:  '0 0 * * *'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}

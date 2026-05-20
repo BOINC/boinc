@@ -18,7 +18,6 @@
 name: Linux release
 on:
   push:
-    branches: [ master ]
     tags: [ 'vboxwrapper/**', 'wrapper/**', 'dockerwrapper/**', 'worker/**' ]
   pull_request:
     branches: [ master ]
