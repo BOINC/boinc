@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [focal, jammy, noble, resolute, buster, bullseye, bookworm, trixie]
+        os: [jammy, noble, resolute, bookworm, trixie]
       fail-fast: false
     steps:
       - name: Check if build is running from origin repo
@@ -94,10 +94,10 @@ jobs:
     if: github.repository == 'BOINC/boinc'
     runs-on: ubuntu-latest
     container:
-      image: fedora:38
+      image: fedora:44
     strategy:
       matrix:
-        os: [fc37, fc38, fc39, fc40, fc41, fc42, fc43, fc44, suse15_4, suse15_5, suse15_6, suse16_0]
+        os: [fc43, fc44, suse16_0]
       fail-fast: false
     env:
       PUBKEY_HASH: D4460B4F0EEDE2C0662092F640254C9B29853EA6
