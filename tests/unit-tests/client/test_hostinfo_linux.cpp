@@ -38,4 +38,19 @@ namespace test_hostinfo_linux {
         EXPECT_STREQ("Ubuntu", os_name);
         EXPECT_STREQ("Ubuntu 26.04 LTS", os_version);
     }
+
+    TEST_F(test_hostinfo_linux, parse_linux_os_info_os_release_openwrt) {
+        std::string fixture_path(__FILE__);
+        fixture_path = fixture_path.substr(0, fixture_path.find_last_of('/')) + "/../testdata/os-release.openwrt";
+
+        FILE* os_release = fopen(fixture_path.c_str(), "r");
+        ASSERT_NE(nullptr, os_release);
+
+        char os_name[256] = "", os_version[256] = "";
+        EXPECT_TRUE(HOST_INFO::parse_linux_os_info(os_release, osrelease, os_name, sizeof(os_name), os_version, sizeof(os_version)));
+        fclose(os_release);
+
+        EXPECT_STREQ("OpenWrt", os_name);
+        EXPECT_STREQ("OpenWrt 25.12.4", os_version);
+    }
 }
