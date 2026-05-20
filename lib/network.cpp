@@ -37,6 +37,7 @@
 
 #include <vector>
 #include <string>
+#include <cctype>
 using std::vector;
 using std::string;
 
@@ -369,6 +370,17 @@ int boinc_get_port(bool is_remote, int& port) {
 // But guess what?  The Win version is different from Unix
 //
 bool network_connected(const char *hostname) {
+    // make sure it's a valid hostname
+    //
+    for (unsigned int i=0; i<strlen(hostname); i++) {
+        char c = hostname[i];
+        if (std::isalpha(c)) continue;
+        if (std::isdigit(c)) continue;
+        if (c == '.') continue;
+        if (c == '-') continue;
+        fprintf(stderr, "network_connected: invalid hostname %s\n", hostname);
+        return true;
+    }
     char cmd[256];
     snprintf(cmd, sizeof(cmd), "ping %s %s",
         hostname,

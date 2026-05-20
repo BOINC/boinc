@@ -1363,7 +1363,7 @@ bool ACTIVE_TASK::get_app_status_msg() {
             "[app_msg_receive] got msg from slot %d: %s", slot, msg_buf
         );
     }
-    int new_want_network = -1;
+    int new_want_network = 0;
     current_cpu_time = checkpoint_cpu_time = 0.0;
     if (parse_double(msg_buf, "<fraction_done>", fd)) {
         // fraction_done will be reported as zero

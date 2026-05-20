@@ -413,6 +413,8 @@ int build_image() {
         char *p = strstr(aid.network_test_url, "//");
         if (p) {
             strcpy(test_host, p+2);
+        } else {
+            strcpy(test_host, aid.network_test_url);
         }
         p = strstr(test_host, "/");
         if (p) {
@@ -448,11 +450,10 @@ int build_image() {
         }
         // if google was previously unreachable, see if that's changed
         if (google_unreachable) {
-            retval = network_connected(test_host);
-            if (retval) {
+            if (!network_connected(test_host)) {
                 if (verbose_all()) {
                     fprintf(stderr,
-                        "google still unreachable (%d); sleeping 10\n", retval
+                        "test server still unreachable; sleeping 10\n"
                     );
                 }
                 boinc_sleep(10);
@@ -468,17 +469,16 @@ int build_image() {
             if (verbose_std()) {
                 fprintf(stderr, "build cmd output has 'retrying'\n");
             }
-            retval = network_connected(test_host);
-            if (retval == 0) {
+            if (network_connected(test_host)) {
                 // network connection exists but the create operation
                 // couldn't reach a needed server; error out
                 if (verbose_std()) {
-                    fprintf(stderr, "... but google is reachable; quitting\n");
+                    fprintf(stderr, "... but test server is reachable; quitting\n");
                 }
                 return -1;
             }
             if (verbose_std()) {
-                fprintf(stderr, "google is unreachable (%d); sleeping\n", retval);
+                fprintf(stderr, "test server is unreachable; sleeping\n");
             }
             google_unreachable = true;
             boinc_waiting_for_network(true);

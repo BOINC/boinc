@@ -424,12 +424,11 @@ static bool update_app_progress(double cpu_t, double cp_cpu_t) {
 
     snprintf(msg_buf, sizeof(msg_buf),
         "<current_cpu_time>%e</current_cpu_time>\n"
-        "<checkpoint_cpu_time>%e</checkpoint_cpu_time>\n",
-        cpu_t, cp_cpu_t
+        "<checkpoint_cpu_time>%e</checkpoint_cpu_time>\n"
+        "<want_network>%d</want_network>\n",
+        cpu_t, cp_cpu_t,
+        want_network?1:0
     );
-    if (want_network) {
-        strlcat(msg_buf, "<want_network>1</want_network>\n", sizeof(msg_buf));
-    }
     if (fraction_done >= 0) {
         double range = aid.fraction_done_end - aid.fraction_done_start;
         double fdone = aid.fraction_done_start + fraction_done*range;
