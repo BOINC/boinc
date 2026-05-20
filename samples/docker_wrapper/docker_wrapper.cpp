@@ -405,6 +405,7 @@ int image_exists(bool &exists) {
 int build_image() {
     char cmd[256];
     vector<string> out;
+    int retval;
     snprintf(cmd, sizeof(cmd), "build \"%s\" -t %s -f %s %s",
         escaped_cwd, image_name, dockerfile, config.build_args.c_str()
     );
@@ -435,7 +436,7 @@ int build_image() {
                 continue;
             }
         }
-        int retval = docker_conn.command(cmd, out, verbose_std());
+        retval = docker_conn.command(cmd, out, verbose_std());
         if (retval) {
             fprintf(stderr, "build command failed: %d\n", retval);
             return retval;
