@@ -369,21 +369,9 @@ int boinc_get_port(bool is_remote, int& port) {
 // So use ping instead.
 // But guess what?  The Win version is different from Unix
 //
-bool network_connected(const char *hostname) {
-    // make sure it's a valid hostname
-    //
-    for (unsigned int i=0; i<strlen(hostname); i++) {
-        char c = hostname[i];
-        if (std::isalpha(c)) continue;
-        if (std::isdigit(c)) continue;
-        if (c == '.') continue;
-        if (c == '-') continue;
-        fprintf(stderr, "network_connected: invalid hostname %s\n", hostname);
-        return true;
-    }
+bool network_connected() {
     char cmd[256];
-    snprintf(cmd, sizeof(cmd), "ping %s %s",
-        hostname,
+    snprintf(cmd, sizeof(cmd), "ping berkeley.edu %s",
 #ifdef _WIN32
         "-n 1"
 #else

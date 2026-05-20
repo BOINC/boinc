@@ -72,7 +72,6 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     safe_strcpy(authenticator, a.authenticator);
     memcpy(&shmem_seg_name, &a.shmem_seg_name, sizeof(SHMEM_SEG_NAME));
     safe_strcpy(gpu_type, a.gpu_type);
-    safe_strcpy(network_test_url, a.network_test_url);
 
     // use assignment for the rest, especially the classes
     // (so that the overloaded operators are called!)
@@ -163,10 +162,6 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     if (strlen(ai.user_name)) {
         xml_escape(ai.user_name, buf, sizeof(buf));
         fprintf(f, "<user_name>%s</user_name>\n", buf);
-    }
-    if (strlen(ai.network_test_url)) {
-        xml_escape(ai.network_test_url, buf, sizeof(buf));
-        fprintf(f, "<network_test_url>%s</network_test_url>\n", buf);
     }
     fprintf(f, "<project_dir>%s</project_dir>\n", ai.project_dir);
     fprintf(f, "<boinc_dir>%s</boinc_dir>\n", ai.boinc_dir);
@@ -304,7 +299,6 @@ void APP_INIT_DATA::clear() {
     gpu_opencl_dev_index = -1;
     gpu_usage = 0;
     ncpus = 0;
-    network_test_url[0] = 0;
     memset(&shmem_seg_name, 0, sizeof(shmem_seg_name));
     wu_cpu_time = 0;
     vbox_window = false;
@@ -415,7 +409,6 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_int("gpu_opencl_dev_index", ai.gpu_opencl_dev_index)) continue;
         if (xp.parse_double("gpu_usage", ai.gpu_usage)) continue;
         if (xp.parse_double("ncpus", ai.ncpus)) continue;
-        if (xp.parse_str("network_test_url", ai.network_test_url, sizeof(ai.network_test_url))) continue;
         if (xp.parse_double("fraction_done_start", ai.fraction_done_start)) continue;
         if (xp.parse_double("fraction_done_end", ai.fraction_done_end)) continue;
         if (xp.parse_bool("vbox_window", ai.vbox_window)) continue;

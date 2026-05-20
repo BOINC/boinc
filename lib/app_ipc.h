@@ -195,10 +195,6 @@ struct APP_INIT_DATA {
     //
     double ncpus;
 
-    // for apps that use network
-    //
-    char network_test_url[256];
-
     // client configuration info, from cc_config.h
     //
     bool vbox_window;       // whether to open a console window for VM apps

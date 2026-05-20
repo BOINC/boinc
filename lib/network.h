@@ -58,7 +58,7 @@ extern int get_socket_error(int fd);
 extern const char* socket_error_str();
 extern void reset_dns();
 extern int boinc_get_port(bool is_remote, int& port);
-extern bool network_connected(const char* hostname);
+extern bool network_connected();
 
 #ifdef _WIN32
 inline int addr_len(sockaddr_storage&) {

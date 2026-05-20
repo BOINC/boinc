@@ -407,22 +407,6 @@ int build_image() {
     vector<string> out;
     int retval;
 
-    char test_host[256];
-    if (strlen(aid.network_test_url)) {
-        // make URL into a hostname if it's not already
-        char *p = strstr(aid.network_test_url, "//");
-        if (p) {
-            strcpy(test_host, p+2);
-        } else {
-            strcpy(test_host, aid.network_test_url);
-        }
-        p = strstr(test_host, "/");
-        if (p) {
-            *p = 0;
-        }
-    } else {
-        strcpy(test_host, "www.google.com");
-    }
     snprintf(cmd, sizeof(cmd),
         "build \"%s\" %s -t %s -f %s %s",
         escaped_cwd,
@@ -433,8 +417,8 @@ int build_image() {
     // build command might fail because network is disconnected
     // (this is the only command that uses network)
     //
-    bool google_unreachable = false;
-        // google was unreachable last time we checked
+    bool test_host_unreachable = false;
+        // test host was unreachable last time we checked
     BOINC_STATUS status;
     while (1) {
         poll_client_msgs_init();        // should we exit?
@@ -448,9 +432,9 @@ int build_image() {
             boinc_sleep(10);
             continue;
         }
-        // if google was previously unreachable, see if that's changed
-        if (google_unreachable) {
-            if (!network_connected(test_host)) {
+        // if test host was previously unreachable, see if that's changed
+        if (test_host_unreachable) {
+            if (!network_connected()) {
                 if (verbose_all()) {
                     fprintf(stderr,
                         "test server still unreachable; sleeping 10\n"
@@ -469,7 +453,7 @@ int build_image() {
             if (verbose_std()) {
                 fprintf(stderr, "build cmd output has 'retrying'\n");
             }
-            if (network_connected(test_host)) {
+            if (network_connected()) {
                 // network connection exists but the create operation
                 // couldn't reach a needed server; error out
                 if (verbose_std()) {
@@ -480,7 +464,7 @@ int build_image() {
             if (verbose_std()) {
                 fprintf(stderr, "test server is unreachable; sleeping\n");
             }
-            google_unreachable = true;
+            test_host_unreachable = true;
             boinc_waiting_for_network(true);
             boinc_report_app_status(0, 0, 0);
             boinc_sleep(10);
