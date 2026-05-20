@@ -162,7 +162,7 @@ void msg_printf(PROJ_AM *p, int priority, const char *fmt, ...) {
     buf[sizeof(buf)-1] = 0;
     va_end(ap);
 
-    show_message(p, buf, priority, true, 0);
+    show_message(p, buf, priority, false, 0);
 }
 
 void msg_printf_notice(
