@@ -362,14 +362,21 @@ int boinc_get_port(bool is_remote, int& port) {
 //
 int network_connected() {
 #if 1
+#ifdef _WIN32
+    const char* cmd = "ping google.com -n 1";
+#else
     const char* cmd = "ping google.com -c 1";
+#endif
     vector<string> out;
     int retval = run_command(cmd, out);
     if (retval) {
         fprintf(stderr, "%s failed: %d\n", cmd, retval);
     }
     for (string line: out) {
-        if (strstr(line.c_str(), "bytes from")) {
+        if (strstr(line.c_str(), "bytes from")) {   // Unix
+            return 0;
+        }
+        if (strstr(line.c_str(), "Reply from")) {   // Win
             return 0;
         }
     }
