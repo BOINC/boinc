@@ -1418,21 +1418,24 @@ bool ACTIVE_TASK::get_app_status_msg() {
         sporadic_ac_state = (SPORADIC_AC_STATE)i;
     }
 
-    // if want_network goes from false to true, show notice
-    // if it goes true to false, remove notice
-    //
     switch (new_want_network) {
     case 0:
+        // if want_network goes true to false,
+        // and no tasks now want network, remove notice
+        //
         if (want_network) {
-            // app was waiting for network, now isn't.
-            if (net_status.network_notice_active) {
-                notices.remove_notices(NULL, REMOVE_NETWORK_MSG);
-                net_status.network_notice_active = false;
-            }
             want_network = 0;
+            if (net_status.network_notice_active) {
+                if (!gstate.active_tasks.some_task_wants_network()) {
+                    notices.remove_notices(NULL, REMOVE_NETWORK_MSG);
+                    net_status.network_notice_active = false;
+                }
+            }
         }
         break;
     case 1:
+        // if want_network goes from false to true, show notice
+        //
         if (!want_network) {
             if (!net_status.network_notice_active) {
                 if (gstate.network_suspended) {

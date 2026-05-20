@@ -368,7 +368,7 @@ int boinc_get_port(bool is_remote, int& port) {
 // So use ping instead.
 // But guess what?  The Win version is different from Unix
 //
-int network_connected() {
+bool network_connected() {
 #ifdef _WIN32
     const char* cmd = "ping google.com -n 1";
 #else
@@ -376,9 +376,9 @@ int network_connected() {
 #endif
     vector<string> out;
     int retval = run_command(cmd, out);
-    if (retval) {
-        fprintf(stderr, "%s failed: %d\n", cmd, retval);
-    }
     // ping exits nonzero on failure
-    return 0;
+    if (retval) {
+        return false;
+    }
+    return true;
 }

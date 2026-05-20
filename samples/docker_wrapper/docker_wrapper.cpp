@@ -406,8 +406,11 @@ int build_image() {
     char cmd[256];
     vector<string> out;
     int retval;
-    snprintf(cmd, sizeof(cmd), "build \"%s\" --retry 0 -t %s -f %s %s",
-        escaped_cwd, image_name, dockerfile, config.build_args.c_str()
+    snprintf(cmd, sizeof(cmd),
+        "build \"%s\" %s -t %s -f %s %s",
+        escaped_cwd,
+        docker_type == PODMAN?"--retry 0":"",
+        image_name, dockerfile, config.build_args.c_str()
     );
 
     // build command might fail because network is disconnected
