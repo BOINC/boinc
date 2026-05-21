@@ -204,7 +204,7 @@ int app_min_checkpoint_period = 0;
 static volatile SPORADIC_AC_STATE ac_state;
 static volatile int ac_fd, ca_fd;
 static volatile bool do_sporadic_files;
-bool got_heartbeat_message = false;
+volatile bool got_heartbeat_message = false;
 
 #define TIMER_PERIOD 0.1
     // Sleep interval for timer thread;
@@ -485,8 +485,6 @@ static void handle_heartbeat_msg() {
     if (parse_int(buf, "<sporadic_ca>", i)) {
         boinc_status.ca_state = (SPORADIC_CA_STATE)i;
     }
-    fprintf(stderr, "got heartbeat; net susp %d\n", boinc_status.network_suspended);
-    fprintf(stderr, "%s\n", buf);
     got_heartbeat_message = true;
 }
 

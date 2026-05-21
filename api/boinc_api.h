@@ -163,7 +163,7 @@ extern HANDLE worker_thread_handle;
 extern int boinc_init_options_general(BOINC_OPTIONS& opt);
 extern int start_timer_thread(void);
 extern bool boinc_disable_timer_thread;
-extern bool got_heartbeat_message;
+extern volatile bool got_heartbeat_message;
 
 inline void boinc_options_defaults(BOINC_OPTIONS& b) {
     b.main_program = 1;
