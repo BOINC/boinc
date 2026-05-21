@@ -449,9 +449,12 @@ int build_image() {
             fprintf(stderr, "build command failed: %d\n", retval);
             return retval;
         }
-        if (output_has_str(out, "retrying")) {
+        if (
+            output_has_str(out, "unable to copy")   // podman
+            || output_has_str(out, "unreachable")   // docker?
+        ) {
             if (verbose_std()) {
-                fprintf(stderr, "build cmd output has 'retrying'\n");
+                fprintf(stderr, "build cmd output indicates disconnection\n");
             }
             if (network_connected()) {
                 // network connection exists but the create operation
