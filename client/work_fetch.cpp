@@ -597,12 +597,24 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
             rwf.dont_fetch_reason = RSC_REASON_BUFFER_FULL;
             continue;
         }
+
+        // don't request this resource if there's a strictly higher priority
+        // project that we could get it from
+        //
         if (check_higher_priority_projects) {
             PROJECT* p2 = NULL;
             for (unsigned int j=0; j<projects_sorted.size(); j++) {
                 p2 = projects_sorted[j];
                 if (p2 == p) break;
                 if (p2->sched_priority == p->sched_priority) continue;
+                if (p2->sched_req_no_work[i]) {
+                    if (log_flags.work_fetch_debug) {
+                        msg_printf(p, MSG_INFO,
+                            "piggyback: %s doesn't have jobs", p2->project_name
+                        );
+                    }
+                    continue;
+                }
                 if (p2->pwf.project_reason) {
                     if (log_flags.work_fetch_debug) {
                         msg_printf(p, MSG_INFO,
@@ -702,7 +714,7 @@ static PROJECT_REASON compute_project_reason(PROJECT* p) {
 // setup for choose_project() and piggyback():
 // - do RR simulation
 // - set request fields for each resource
-// - compute "projects_sorted": priority-sorted list of projects
+// - compute "projects_sorted": list of projects sorted by decr priority
 //
 void WORK_FETCH::setup() {
     gstate.compute_nuploading_results();
