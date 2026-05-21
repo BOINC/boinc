@@ -358,20 +358,21 @@ int boinc_get_port(bool is_remote, int& port) {
     return 0;
 }
 
-// is the given host reachable?
-// (used w/ google.com to check for network connection)
+// is a high-availability server reachable?
+// (we use berkeley.edu for this purpose)
 //
 // We used to do this directly, by gethostbyname() and connect().
 // But on Windows, gethostbyname() caches negative results,
-// so once 'google.com' fails (due to network disconnection)
+// so once a DNS resolution fails (due to network disconnection)
 // it keeps failing after reconnection!  WTF??
 //
 // So use ping instead.
-// But guess what?  The Win version is different from Unix
+// The Win version is different from Unix, both the args and the output.
+// But both exit nonzero on failure.
 //
 bool network_connected() {
     char cmd[256];
-    snprintf(cmd, sizeof(cmd), "ping berkeley.edu %s",
+    snprintf(cmd, sizeof(cmd), "ping %s berkeley.edu",
 #ifdef _WIN32
         "-n 1"
 #else

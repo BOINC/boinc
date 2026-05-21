@@ -445,10 +445,6 @@ int build_image() {
             }
         }
         retval = docker_conn.command(cmd, out, verbose_std());
-        if (retval) {
-            fprintf(stderr, "build command failed: %d\n", retval);
-            return retval;
-        }
         if (
             output_has_str(out, "unable to copy")   // podman
             || output_has_str(out, "unreachable")   // docker?
@@ -472,6 +468,12 @@ int build_image() {
             boinc_report_app_status(0, 0, 0);
             boinc_sleep(10);
             continue;
+        }
+        // see if the build command failed for a reason other than network
+        //
+        if (retval) {
+            fprintf(stderr, "build command failed: %d\n", retval);
+            return -1;
         }
         if (output_has_str(out, "Error")) {
             show_output(out, "build");
