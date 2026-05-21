@@ -281,6 +281,7 @@ int run_program(
 #endif
 
 // Run command, wait for exit.
+// If command exits nonzero, return value is -1.
 // Return its output as vector of lines (\n-terminated).
 // Win: output includes stdout and stderr
 // Unix: if you want stderr too, add 2>&1 to command
@@ -371,9 +372,8 @@ int run_command(const char *cmd, vector<string> &out) {
     while (fgets(buf, 256, fp)) {
         out.push_back(buf);
     }
-    pclose(fp);
-    if (errno) {
-        fprintf(stderr, "popen() failed errno %d: %s\n", errno, cmd);
+    int exit_status = pclose(fp);
+    if (exit_status) {
         return -1;
     }
 #endif

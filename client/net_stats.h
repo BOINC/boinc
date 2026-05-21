@@ -87,7 +87,7 @@ public:
         // so do as much network comm as possible
         // (e.g. report completed results)
     double last_comm_time;
-        // unclear what this means
+        // last time there were HTTP ops in progress
     bool network_notice_active;
         // we posted a network-related notice,
         // and there hasn't been evidence of a reconnection,
