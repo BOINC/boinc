@@ -485,6 +485,8 @@ static void handle_heartbeat_msg() {
     if (parse_int(buf, "<sporadic_ca>", i)) {
         boinc_status.ca_state = (SPORADIC_CA_STATE)i;
     }
+    fprintf(stderr, "got heartbeat; net susp %d\n", boinc_status.network_suspended);
+    fprintf(stderr, "%s\n", buf);
     got_heartbeat_message = true;
 }
 

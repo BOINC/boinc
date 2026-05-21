@@ -424,6 +424,7 @@ int build_image() {
         check_exit_request();        // should we exit?
         if (!got_heartbeat_message) {
             // need a heartbeat msg to know network suspended status
+            fprintf(stderr, "waiting for heartbeat\n");
             boinc_sleep(1);
             continue;
         }
