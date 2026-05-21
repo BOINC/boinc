@@ -190,8 +190,6 @@ static volatile int running_interrupt_count = 0;
 static volatile bool finishing;
     // used for worker/timer synch during boinc_finish();
 static int want_network = 0;
-static double bytes_sent = 0;
-static double bytes_received = 0;
 bool boinc_disable_timer_thread = false;
     // simulate unresponsive app by setting to true (debugging)
 static FUNC_PTR timer_callback = 0;
@@ -434,14 +432,6 @@ static bool update_app_progress(double cpu_t, double cp_cpu_t) {
         double range = aid.fraction_done_end - aid.fraction_done_start;
         double fdone = aid.fraction_done_start + fraction_done*range;
         snprintf(buf, sizeof(buf), "<fraction_done>%e</fraction_done>\n", fdone);
-        strlcat(msg_buf, buf, sizeof(msg_buf));
-    }
-    if (bytes_sent) {
-        snprintf(buf, sizeof(buf), "<bytes_sent>%f</bytes_sent>\n", bytes_sent);
-        strlcat(msg_buf, buf, sizeof(msg_buf));
-    }
-    if (bytes_received) {
-        snprintf(buf, sizeof(buf), "<bytes_received>%f</bytes_received>\n", bytes_received);
         strlcat(msg_buf, buf, sizeof(msg_buf));
     }
     if (ac_state) {
@@ -1082,8 +1072,8 @@ int boinc_report_app_status_aux(
     double checkpoint_cpu_time,
     double _fraction_done,
     int other_pid,
-    double _bytes_sent,
-    double _bytes_received,
+    double /* _bytes_sent*/,
+    double /* _bytes_received*/,
     double wss
 ) {
     char msg_buf[MSG_CHANNEL_SIZE], buf[1024];
@@ -1099,14 +1089,6 @@ int boinc_report_app_status_aux(
     );
     if (other_pid) {
         snprintf(buf, sizeof(buf), "<other_pid>%d</other_pid>\n", other_pid);
-        safe_strcat(msg_buf, buf);
-    }
-    if (_bytes_sent) {
-        snprintf(buf, sizeof(buf), "<bytes_sent>%f</bytes_sent>\n", _bytes_sent);
-        safe_strcat(msg_buf, buf);
-    }
-    if (_bytes_received) {
-        snprintf(buf, sizeof(buf), "<bytes_received>%f</bytes_received>\n", _bytes_received);
         safe_strcat(msg_buf, buf);
     }
     if (ac_state) {

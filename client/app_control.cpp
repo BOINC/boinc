@@ -1420,15 +1420,18 @@ bool ACTIVE_TASK::get_app_status_msg() {
 
     switch (new_want_network) {
     case 0:
-        // if want_network goes true to false,
+        // if this task's want_network goes from true to false,
         // and no tasks now want network, remove notice
         //
         if (want_network) {
             want_network = 0;
-            if (net_status.network_notice_active) {
+            if (net_status.app_connection_notice_active
+                || net_status.app_suspend_notice_active
+            ) {
                 if (!gstate.active_tasks.some_task_wants_network()) {
                     notices.remove_notices(NULL, REMOVE_NETWORK_MSG);
-                    net_status.network_notice_active = false;
+                    net_status.app_suspend_notice_active = false;
+                    net_status.app_connection_notice_active = false;
                 }
             }
         }
@@ -1437,13 +1440,16 @@ bool ACTIVE_TASK::get_app_status_msg() {
         // if want_network goes from false to true, show notice
         //
         if (!want_network) {
-            if (!net_status.network_notice_active) {
-                if (gstate.network_suspended) {
+            if (gstate.network_suspended) {
+                if (!net_status.app_suspend_notice_active) {
                     msg_printf(0, MSG_USER_ALERT, APP_NETWORK_SUSPENDED_MSG);
-                } else {
-                    msg_printf(0, MSG_USER_ALERT, APP_NEED_NETWORK_MSG);
+                    net_status.app_suspend_notice_active = true;
                 }
-                net_status.network_notice_active = true;
+            } else {
+                if (!net_status.app_connection_notice_active) {
+                    msg_printf(0, MSG_USER_ALERT, APP_NEED_NETWORK_MSG);
+                    net_status.app_connection_notice_active = true;
+                }
             }
             want_network = 1;
         }

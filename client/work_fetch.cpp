@@ -561,7 +561,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
     //
     for (int i=0; i<coprocs.n_rsc; i++) {
         if (log_flags.work_fetch_debug) {
-            msg_printf(p, MSG_INFO, "piggyback: resource %s", rsc_name_long(i));
+            msg_printf(NULL, MSG_INFO, "piggyback: resource %s", rsc_name_long(i));
         }
         RSC_WORK_FETCH& rwf = rsc_work_fetch[i];
         if (i && !gpus_usable) {
@@ -575,7 +575,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
             break;
         default:
             if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO,
+                msg_printf(NULL, MSG_INFO,
                     "piggyback: can't fetch %s: %s",
                     rsc_name_long(i),
                     rsc_reason_string(rpwf.rsc_project_reason)
@@ -590,7 +590,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
         }
         if (!need_work) {
             if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "piggyback: don't need %s",
+                msg_printf(NULL, MSG_INFO, "piggyback: don't need %s",
                     rsc_name_long(i)
                 );
             }
@@ -609,7 +609,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
                 if (p2->sched_priority == p->sched_priority) continue;
                 if (p2->sched_req_no_work[i]) {
                     if (log_flags.work_fetch_debug) {
-                        msg_printf(p, MSG_INFO,
+                        msg_printf(NULL, MSG_INFO,
                             "piggyback: %s doesn't have jobs", p2->project_name
                         );
                     }
@@ -617,7 +617,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
                 }
                 if (p2->pwf.project_reason) {
                     if (log_flags.work_fetch_debug) {
-                        msg_printf(p, MSG_INFO,
+                        msg_printf(NULL, MSG_INFO,
                             "piggyback: %s can't fetch work", p2->project_name
                         );
                     }
@@ -626,7 +626,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
                 RSC_PROJECT_WORK_FETCH& rpwf2 = rwf.project_state(p2);
                 if (!rpwf2.rsc_project_reason) {
                     if (log_flags.work_fetch_debug) {
-                        msg_printf(p, MSG_INFO,
+                        msg_printf(NULL, MSG_INFO,
                             "piggyback: better proj %s", p2->project_name
                         );
                     }

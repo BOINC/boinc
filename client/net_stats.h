@@ -88,7 +88,8 @@ public:
         // (e.g. report completed results)
     double last_comm_time;
         // last time there were HTTP ops in progress
-    bool network_notice_active;
+    bool app_connection_notice_active;
+    bool app_suspend_notice_active;
         // we posted a network-related notice,
         // and there hasn't been evidence of a reconnection,
         // so don't post another one.
@@ -102,7 +103,8 @@ public:
         have_sporadic_connection = false;
         need_to_contact_reference_site = false;
         last_comm_time = 0;
-        network_notice_active = false;
+        app_connection_notice_active = false;
+        app_suspend_notice_active = false;
     }
     void poll();
 };

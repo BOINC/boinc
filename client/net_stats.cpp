@@ -201,7 +201,8 @@ void NET_STATUS::got_http_error() {
 void NET_STATUS::http_op_succeeded() {
     need_physical_connection = false;
     notices.remove_notices(NULL, REMOVE_NETWORK_MSG);
-    network_notice_active = false;
+    app_connection_notice_active = false;
+    app_suspend_notice_active = false;
 }
 
 void NET_STATUS::contact_reference_site() {

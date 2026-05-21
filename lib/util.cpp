@@ -339,7 +339,6 @@ int run_command(const char *cmd, vector<string> &out) {
 
     unsigned long exit_code;
     GetExitCodeProcess(pi.hProcess, &exit_code);
-    if (exit_code) return -1;
 
     DWORD count, nread;
     PeekNamedPipe(pipe_read, NULL, NULL, NULL, &count, NULL);
@@ -360,6 +359,7 @@ int run_command(const char *cmd, vector<string> &out) {
         p = q + 1;
     }
     free(buf);
+    if (exit_code) return -1;
 #else
 #ifndef _USING_FCGI_
     char buf[256];
