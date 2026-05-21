@@ -365,7 +365,7 @@ void get_app_args(char* buf) {
 
 // used during build sleeps
 //
-void poll_client_msgs_init() {
+void check_exit_request() {
     BOINC_STATUS status;
     boinc_get_status(&status);
     if (status.no_heartbeat
@@ -421,7 +421,12 @@ int build_image() {
         // test host was unreachable last time we checked
     BOINC_STATUS status;
     while (1) {
-        poll_client_msgs_init();        // should we exit?
+        check_exit_request();        // should we exit?
+        if (!got_heartbeat_message) {
+            // need a heartbeat msg to know network suspended status
+            boinc_sleep(1);
+            continue;
+        }
         boinc_get_status(&status);
         if (status.network_suspended) {
             if (verbose_all()) {

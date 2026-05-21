@@ -63,7 +63,7 @@ typedef struct BOINC_OPTIONS {
         // set this if application creates subprocesses.
 } BOINC_OPTIONS;
 
-// info passed from client to app in heartbeat message
+// info passed from client to app in heartbeat and process control messages
 //
 typedef struct BOINC_STATUS {
     int no_heartbeat;
@@ -163,6 +163,7 @@ extern HANDLE worker_thread_handle;
 extern int boinc_init_options_general(BOINC_OPTIONS& opt);
 extern int start_timer_thread(void);
 extern bool boinc_disable_timer_thread;
+extern bool got_heartbeat_message;
 
 inline void boinc_options_defaults(BOINC_OPTIONS& b) {
     b.main_program = 1;
@@ -174,7 +175,6 @@ inline void boinc_options_defaults(BOINC_OPTIONS& b) {
     b.multi_thread = 0;
     b.multi_process = 0;
 }
-
 
 /////////// IMPLEMENTATION STUFF ENDS HERE
 
