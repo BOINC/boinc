@@ -478,7 +478,7 @@ static void handle_heartbeat_msg() {
     if (parse_double(buf, "<max_wss>", dtemp)) {
         boinc_status.max_working_set_size = dtemp;
     }
-    if (parse_bool(buf, "suspend_network", btemp)) {
+    if (parse_bool(buf, "network_suspended", btemp)) {
         boinc_status.network_suspended = btemp;
     }
     if (parse_int(buf, "<sporadic_ca>", i)) {
