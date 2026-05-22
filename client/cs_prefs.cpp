@@ -122,8 +122,8 @@ int CLIENT_STATE::get_disk_usages() {
     //
     WSL_DISTRO *wd = host_info.wsl_distros.find_docker();
     if (wd
-        && wd.distro_name == BOINC_WSL_DISTRO_NAME
-        && !wd.base_path.empty()
+        && wd->distro_name == BOINC_WSL_DISTRO_NAME
+        && !wd->base_path.empty()
     ) {
         retval = dir_size_alloc(wd->base_path.c_str(), size);
         if (!retval) {
