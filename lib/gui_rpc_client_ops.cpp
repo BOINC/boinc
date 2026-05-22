@@ -1595,16 +1595,24 @@ int RPC_CLIENT::get_simple_gui_info(SIMPLE_GUI_INFO& info) {
     retval = rpc.do_rpc("<get_simple_gui_info/>\n");
     if (!retval) {
         while (rpc.fin.fgets(buf, 256)) {
-            if (match_tag(buf, "</simple_gui_info>")) break;
-            else if (match_tag(buf, "<project>")) {
+            if (match_tag(buf, "</simple_gui_info>")) {
+                break;
+            }
+            if (match_tag(buf, "<project>")) {
                 PROJECT* project = new PROJECT();
                 project->parse(rpc.xp);
                 info.projects.push_back(project);
                 continue;
             }
-            else if (match_tag(buf, "<result>")) {
+            if (match_tag(buf, "<result>")) {
                 RESULT* result = new RESULT();
                 result->parse(rpc.xp);
+                for (PROJECT *p: info.projects) {
+                    if (!strcmp(p->master_url, result->project_url)) {
+                        result->project = p;
+                        break;
+                    }
+                }
                 info.results.push_back(result);
                 continue;
             }
