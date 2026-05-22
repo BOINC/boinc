@@ -706,6 +706,7 @@ int RESULT::parse(XML_PARSER& xp) {
         if (xp.parse_double("bytes_received", bytes_received)) continue;
         if (xp.parse_bool("too_large", too_large)) continue;
         if (xp.parse_bool("needs_shmem", needs_shmem)) continue;
+        if (xp.parse_bool("want_network", want_network)) continue;
         if (xp.parse_bool("edf_scheduled", edf_scheduled)) continue;
         if (xp.parse_str("graphics_exec_path", graphics_exec_path, sizeof(graphics_exec_path))) continue;
         if (xp.parse_str("web_graphics_url", web_graphics_url, sizeof(web_graphics_url))) continue;
@@ -763,6 +764,7 @@ void RESULT::clear() {
     bytes_received = 0;
     too_large = false;
     needs_shmem = false;
+    want_network = false;
     edf_scheduled = false;
 
     app = NULL;

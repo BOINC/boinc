@@ -45,13 +45,14 @@ NVC_CONFIG::NVC_CONFIG() {
     defaults();
 }
 
-// this is called first thing by client right after CC_CONFIG::defaults()
+// this is called in main.cpp:init_core_client(),
+// right after CC_CONFIG::defaults()
 //
 void NVC_CONFIG::defaults() {
-    client_download_url = "https://boinc.berkeley.edu/download.php";
+    client_download_url = DEFAULT_DOWNLOAD_URL;
     client_new_version_name.clear();
     client_version_check_url = DEFAULT_VERSION_CHECK_URL;
-    network_test_url = "https://www.google.com/";
+    network_test_url = DEFAULT_NETWORK_TEST_URL;
 };
 
 int NVC_CONFIG::parse(FILE* f) {

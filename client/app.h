@@ -127,13 +127,6 @@ struct ACTIVE_TASK {
         // wall time at the last checkpoint
     double elapsed_time;
         // current total running time, adjusted for CPU throttling
-    double bytes_sent_episode;
-        // bytes sent in current episode of job,
-        // as (optionally) reported by boinc_network_usage()
-    double bytes_received_episode;
-    double bytes_sent;
-        // bytes in all episodes
-    double bytes_received;
     char slot_dir[256];
         // directory where process runs (relative)
     char slot_path[MAXPATHLEN];
@@ -159,8 +152,9 @@ struct ACTIVE_TASK {
     bool needs_shmem;
         // waiting for a free shared memory segment
     int want_network;
-        // This task wants to do network comm (for F@h)
-        // this is passed via share-memory message (app_status channel)
+        // This task is waiting for the network
+        // (physical connection or no suspension)
+        // This is passed via share-memory message (app_status channel)
     double abort_time;
         // when we sent an abort message to this app
         // kill it 5 seconds later if it doesn't exit
@@ -300,7 +294,6 @@ struct ACTIVE_TASK {
     int preempt(PREEMPT_TYPE preempt_type, int reason=0);
         // preempt (via suspend or quit) a running task
     int resume_or_start(bool);
-    void send_network_available();
 #ifdef _WIN32
     void handle_exited_app(unsigned long);
 #else
@@ -363,8 +356,7 @@ public:
     void report_overdue();
     void handle_upload_files();
     void upload_notify_app(FILE_INFO*);
-    bool want_network();    // does any task want network?
-    void network_available();   // notify tasks that network is available
+    bool some_task_wants_network();
     void free_mem();
     bool slot_taken(int);
     void get_memory_usage();

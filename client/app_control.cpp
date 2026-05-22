@@ -415,8 +415,6 @@ void ACTIVE_TASK::copy_final_info() {
     result->final_peak_working_set_size = peak_working_set_size;
     result->final_peak_swap_size = peak_swap_size;
     result->final_peak_disk_usage = peak_disk_usage;
-    result->final_bytes_sent = bytes_sent;
-    result->final_bytes_received = bytes_received;
 }
 
 // deal with a process that has exited, for whatever reason:
@@ -1341,15 +1339,6 @@ int ACTIVE_TASK::unsuspend(int reason) {
     return 0;
 }
 
-void ACTIVE_TASK::send_network_available() {
-    if (!app_client_shm.shm) return;
-    process_control_queue.msg_queue_send(
-        "<network_available/>",
-        app_client_shm.shm->process_control_request
-    );
-    return;
-}
-
 // See if the app has placed a new message in shared mem
 // (with CPU done, frac done etc.)
 // If so parse it and return true.
@@ -1358,7 +1347,6 @@ bool ACTIVE_TASK::get_app_status_msg() {
     char msg_buf[MSG_CHANNEL_SIZE];
     double fd;
     int other_pid, i;
-    double dtemp;
     static double last_msg_time=0;
 
     if (!app_client_shm.shm) {
@@ -1375,7 +1363,7 @@ bool ACTIVE_TASK::get_app_status_msg() {
             "[app_msg_receive] got msg from slot %d: %s", slot, msg_buf
         );
     }
-    want_network = 0;
+    int new_want_network = 0;
     current_cpu_time = checkpoint_cpu_time = 0.0;
     if (parse_double(msg_buf, "<fraction_done>", fd)) {
         // fraction_done will be reported as zero
@@ -1420,23 +1408,7 @@ bool ACTIVE_TASK::get_app_status_msg() {
     parse_double(msg_buf, "<fpops_cumulative>", result->fpops_cumulative);
     parse_double(msg_buf, "<intops_per_cpu_sec>", result->intops_per_cpu_sec);
     parse_double(msg_buf, "<intops_cumulative>", result->intops_cumulative);
-    if (parse_double(msg_buf, "<bytes_sent>", dtemp)) {
-        if (dtemp > bytes_sent_episode) {
-            double nbytes = dtemp - bytes_sent_episode;
-            daily_xfer_history.add(nbytes, true);
-            bytes_sent += nbytes;
-        }
-        bytes_sent_episode = dtemp;
-    }
-    if (parse_double(msg_buf, "<bytes_received>", dtemp)) {
-        if (dtemp > bytes_received_episode) {
-            double nbytes = dtemp - bytes_received_episode;
-            daily_xfer_history.add(nbytes, false);
-            bytes_received += nbytes;
-        }
-        bytes_received_episode = dtemp;
-    }
-    parse_int(msg_buf, "<want_network>", want_network);
+    parse_int(msg_buf, "<want_network>", new_want_network);
     if (parse_int(msg_buf, "<other_pid>", other_pid)) {
         // for now, we handle only one of these
         other_pids.clear();
@@ -1444,6 +1416,44 @@ bool ACTIVE_TASK::get_app_status_msg() {
     }
     if (parse_int(msg_buf, "<sporadic_ac>", i)) {
         sporadic_ac_state = (SPORADIC_AC_STATE)i;
+    }
+
+    switch (new_want_network) {
+    case 0:
+        // if this task's want_network goes from true to false,
+        // and no tasks now want network, remove notice
+        //
+        if (want_network) {
+            want_network = 0;
+            if (net_status.app_connection_notice_active
+                || net_status.app_suspend_notice_active
+            ) {
+                if (!gstate.active_tasks.some_task_wants_network()) {
+                    notices.remove_notices(NULL, REMOVE_NETWORK_MSG);
+                    net_status.app_suspend_notice_active = false;
+                    net_status.app_connection_notice_active = false;
+                }
+            }
+        }
+        break;
+    case 1:
+        // if want_network goes from false to true, show notice
+        //
+        if (!want_network) {
+            if (gstate.network_suspended) {
+                if (!net_status.app_suspend_notice_active) {
+                    msg_printf(0, MSG_USER_ALERT, APP_NETWORK_SUSPENDED_MSG);
+                    net_status.app_suspend_notice_active = true;
+                }
+            } else {
+                if (!net_status.app_connection_notice_active) {
+                    msg_printf(0, MSG_USER_ALERT, APP_NEED_NETWORK_MSG);
+                    net_status.app_connection_notice_active = true;
+                }
+            }
+            want_network = 1;
+        }
+        break;
     }
     return true;
 }

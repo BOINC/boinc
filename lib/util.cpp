@@ -281,18 +281,24 @@ int run_program(
 #endif
 
 // Run command, wait for exit.
+// If command exits nonzero, return value is -1.
 // Return its output as vector of lines (\n-terminated).
 // Win: output includes stdout and stderr
 // Unix: if you want stderr too, add 2>&1 to command
 // Return error if command failed
 //
-int run_command(char *cmd, vector<string> &out) {
+int run_command(const char *cmd, vector<string> &out) {
     out.clear();
 #ifdef _WIN32
     HANDLE pipe_read, pipe_write;
     SECURITY_ATTRIBUTES sa;
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
+    char cmd2[1024];
+
+    // CreateProcess() can modify its cmd arg (WTF???)
+    // So copy it to a temp buffer
+    safe_strcpy(cmd2, cmd);
 
     memset(&si, 0, sizeof(si));
     memset(&pi, 0, sizeof(pi));
@@ -314,7 +320,7 @@ int run_command(char *cmd, vector<string> &out) {
 
     if (!CreateProcess(
         NULL,
-        (LPTSTR)cmd,
+        (LPTSTR)cmd2,
         NULL,
         NULL,
         TRUE,   // inherit handles
@@ -333,7 +339,6 @@ int run_command(char *cmd, vector<string> &out) {
 
     unsigned long exit_code;
     GetExitCodeProcess(pi.hProcess, &exit_code);
-    if (exit_code) return -1;
 
     DWORD count, nread;
     PeekNamedPipe(pipe_read, NULL, NULL, NULL, &count, NULL);
@@ -354,6 +359,7 @@ int run_command(char *cmd, vector<string> &out) {
         p = q + 1;
     }
     free(buf);
+    if (exit_code) return -1;
 #else
 #ifndef _USING_FCGI_
     char buf[256];
@@ -366,9 +372,8 @@ int run_command(char *cmd, vector<string> &out) {
     while (fgets(buf, 256, fp)) {
         out.push_back(buf);
     }
-    pclose(fp);
-    if (errno) {
-        fprintf(stderr, "popen() failed errno %d: %s\n", errno, cmd);
+    int exit_status = pclose(fp);
+    if (exit_status) {
         return -1;
     }
 #endif

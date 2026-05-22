@@ -2650,6 +2650,8 @@ wxString result_description(RESULT* result, bool show_resources) {
                 strBuffer += _("Waiting for memory");
             } else if (result->needs_shmem) {
                 strBuffer += _("Waiting for shared memory");
+            } else if (result->want_network) {
+                strBuffer += _("Waiting for network");
             } else if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
                 strBuffer += _("Running");
                 if (project && project->non_cpu_intensive) {
