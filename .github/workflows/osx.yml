@@ -18,7 +18,6 @@
 name: OSX
 on:
   push:
-    branches: [ master, 'client_release/**' ]
     tags: [ 'client_release/**', 'vboxwrapper/**', 'wrapper/**', 'dockerwrapper/**', 'worker/**' ]
   pull_request:
     branches: [ master ]

@@ -65,8 +65,6 @@ void RESULT::clear() {
     final_peak_working_set_size = 0;
     final_peak_swap_size = 0;
     final_peak_disk_usage = 0;
-    final_bytes_sent = 0;
-    final_bytes_received = 0;
 #ifdef SIM
     peak_flop_count = 0;
 #endif
@@ -186,8 +184,6 @@ int RESULT::parse_state(XML_PARSER& xp) {
         if (xp.parse_double("final_peak_working_set_size", final_peak_working_set_size)) continue;
         if (xp.parse_double("final_peak_swap_size", final_peak_swap_size)) continue;
         if (xp.parse_double("final_peak_disk_usage", final_peak_disk_usage)) continue;
-        if (xp.parse_double("final_bytes_sent", final_bytes_sent)) continue;
-        if (xp.parse_double("final_bytes_received", final_bytes_received)) continue;
         if (xp.parse_int("exit_status", exit_status)) continue;
         if (xp.parse_bool("got_server_ack", got_server_ack)) continue;
         if (xp.parse_bool("ready_to_report", ready_to_report)) continue;
@@ -267,18 +263,6 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         out.printf(
             "    <final_peak_disk_usage>%.0f</final_peak_disk_usage>\n",
             final_peak_disk_usage
-        );
-    }
-    if (final_bytes_sent) {
-        out.printf(
-            "    <final_bytes_sent>%.0f</final_bytes_sent>\n",
-            final_bytes_sent
-        );
-    }
-    if (final_bytes_received) {
-        out.printf(
-            "    <final_bytes_received>%.0f</final_bytes_received>\n",
-            final_bytes_received
         );
     }
     if (to_server) {

@@ -18,7 +18,6 @@
 name: Snap
 on:
   push:
-    branches: [ master ]
     tags: [ 'client_release/**' ]
   pull_request:
     branches: [ master ]

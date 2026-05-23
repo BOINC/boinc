@@ -19,8 +19,6 @@ name: Get Guix Release Hash
 on:
   push:
     tags: [ 'client_release/**' ]
-  pull_request:
-    branches: [ master ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
