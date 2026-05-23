@@ -205,7 +205,7 @@ function show_form($all) {
         <form action=$action_url method=POST>
     ";
 
-    start_table("align='center' ");
+    start_table('', 'align="center";);
 
     table_header("Name", "Description", "&nbsp;");
 
