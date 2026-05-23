@@ -24,6 +24,21 @@
 namespace test_hostinfo_linux {
     class test_hostinfo_linux : public ::testing::Test {};
 
+    TEST_F(test_hostinfo_linux, parse_linux_os_info_lsb_release_ubuntu) {
+        std::string fixture_path(__FILE__);
+        fixture_path = fixture_path.substr(0, fixture_path.find_last_of('/')) + "/../testdata/lsb-release.ubuntu";
+
+        FILE* lsb_release = fopen(fixture_path.c_str(), "r");
+        ASSERT_NE(nullptr, lsb_release);
+
+        char os_name[256] = "", os_version[256] = "";
+        EXPECT_TRUE(HOST_INFO::parse_linux_os_info(lsb_release, lsbrelease, os_name, sizeof(os_name), os_version, sizeof(os_version)));
+        fclose(lsb_release);
+
+        EXPECT_STREQ("Ubuntu", os_name);
+        EXPECT_STREQ("Ubuntu 26.04 LTS", os_version);
+    }
+
     TEST_F(test_hostinfo_linux, parse_linux_os_info_os_release_ubuntu) {
         std::string fixture_path(__FILE__);
         fixture_path = fixture_path.substr(0, fixture_path.find_last_of('/')) + "/../testdata/os-release.ubuntu";
