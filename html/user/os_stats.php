@@ -112,13 +112,22 @@ function show($hosts) {
     table_row('Total', '', '', '', $hosts->count, $hosts->credit);
     foreach ($hosts->children as $proc_type=>$entry) {
         table_row($proc_type, 'all', '', '', $entry->count, $entry->credit);
-        foreach ($entry->children as $os_name=>$entry) {
-            table_row($proc_type, "$os_name", 'all', '', $entry->count, $entry->credit);
-            foreach ($entry->children as $os_version=>$entry) {
-                table_row($proc_type, $os_name, "$os_version", 'all', $entry->count, $entry->credit);
-                foreach ($entry->children as $os_detail=>$entry) {
+        foreach ($entry->children as $os_name=>$entry2) {
+            table_row(
+                $proc_type, "$os_name", 'all', '',
+                $entry2->count, $entry2->credit
+            );
+            foreach ($entry->children as $os_version=>$entry3) {
+                table_row(
+                    $proc_type, $os_name, "$os_version", 'all',
+                    $entry3->count, $entry3->credit
+                );
+                foreach ($entry->children as $os_detail=>$entry4) {
                     if (!$os_detail) continue;
-                    table_row($proc_type, $os_name, $os_version, $os_detail, $entry->count, $entry->credit);
+                    table_row(
+                        $proc_type, $os_name, $os_version, $os_detail,
+                        $entry4->count, $entry4->credit
+                    );
                 }
             }
         }
