@@ -424,15 +424,17 @@ function error_page($msg) {
     exit();
 }
 
-function start_table_str($class="", $style="") {
-    $s = $style?'style="'.$style.'"':'';
-    return '<div class="table">
-      <table '.$s.' width="100%" class="table table-condensed '.$class.'" >
-    ';
+function start_table_str($class='', $extra='') {
+    return sprintf(
+'<div class="table">
+    <table width="100%%" class="table table-condensed %s" %s>
+',
+        $class, $extra
+    );
 }
 
-function start_table($class="", $style="") {
-    echo start_table_str($class, $style);
+function start_table($class='', $extra='') {
+    echo start_table_str($class, $extra);
 }
 
 function end_table_str() {
@@ -548,6 +550,37 @@ function row_heading($x, $class='bg-primary') {
     echo sprintf('<tr><th class="%s" colspan=99>%s</th></tr>
         ', $class, $x
     );
+}
+
+// functions for DataTables (sortable tables)
+
+// pass to page_head()
+//
+function data_tables_head_extra() {
+    return '
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap4.min.css" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+';
+}
+
+function data_tables_script($id) {
+return sprintf('
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    // Check if table exists
+    if (jQuery("#%s").length) {
+        jQuery("#%s").DataTable({
+            "paging": false,        // Disable DataTables pagination (use existing navigation)
+            "searching": false,     // Disable search box (not needed)
+            "info": false,          // Disable info text (e.g., "Showing 1 to 10 of 57 entries")
+            "order": []             // No default sort, keep database order
+        });
+    }
+});
+</script>
+', $id, $id
+);
 }
 
 function url_tokens($auth) {
