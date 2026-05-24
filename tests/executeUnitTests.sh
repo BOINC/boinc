@@ -76,7 +76,7 @@ make
 if [ $? -ne 0 ]; then cd ../..; exit 1; fi
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    MODULES="lib client vboxwrapper"
+    MODULES="lib vboxwrapper"
 else
     MODULES="lib client sched vboxwrapper"
 fi
