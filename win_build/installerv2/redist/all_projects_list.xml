@@ -220,14 +220,6 @@
         <name>windows_x86_64[BRP7-cuda55]</name>
         <name>windows_x86_64[BRP7-opencl-ati]</name>
         <name>windows_x86_64[BRP7-opencl-intel_gpu]</name>
-        <name>windows_x86_64[FGRPopencl-ati]</name>
-        <name>windows_x86_64[FGRPopencl-intel_gpu]</name>
-        <name>windows_x86_64[FGRPopencl-nvidia]</name>
-        <name>windows_x86_64[FGRPopencl1K-ati]</name>
-        <name>windows_x86_64[FGRPopencl1K-nvidia]</name>
-        <name>windows_x86_64[FGRPopencl2-ati]</name>
-        <name>windows_x86_64[FGRPopencl2Pup-nvidia]</name>
-        <name>windows_x86_64[FGRPopenclTV-nvidia]</name>
         <name>windows_x86_64[GW-cuda]</name>
         <name>windows_x86_64[GW-opencl-ati-2G]</name>
         <name>windows_x86_64[GW-opencl-intel_gpu-2G]</name>
@@ -235,13 +227,8 @@
         <name>windows_x86_64[opencl-intel_gpu-new]</name>
         <name>windows_x86_64[opencl-intel_gpu-newer]</name>
         <name>x86_64-apple-darwin</name>
-        <name>x86_64-apple-darwin[Apple_M-opencl]</name>
         <name>x86_64-apple-darwin[BRP7-mac-opencl-ati]</name>
         <name>x86_64-apple-darwin[BRP7-mac-opencl-nvidia]</name>
-        <name>x86_64-apple-darwin[FGRPopencl-ati-mav]</name>
-        <name>x86_64-apple-darwin[FGRPopencl-nvidia-mav]</name>
-        <name>x86_64-apple-darwin[FGRPopencl2Pup-nvidia]</name>
-        <name>x86_64-apple-darwin[FGRPopenclTV-nvidia]</name>
         <name>x86_64-apple-darwin[FGRPSSE]</name>
         <name>x86_64-apple-darwin[GW-opencl-ati-2G]</name>
         <name>x86_64-apple-darwin[GW-opencl-nvidia-2G]</name>
@@ -250,13 +237,6 @@
         <name>x86_64-pc-linux-gnu[BRP7-cuda102]</name>
         <name>x86_64-pc-linux-gnu[BRP7-opencl-ati]</name>
         <name>x86_64-pc-linux-gnu[BRP7-opencl-nvidia]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopencl-ati]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopencl-nvidia]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopencl1K-ati]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopencl1K-nvidia]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopencl2-ati]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopencl2Pup-nvidia]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopenclTV-nvidia]</name>
         <name>x86_64-pc-linux-gnu[FGRPSSE]</name>
         <name>x86_64-pc-linux-gnu[GW-cuda-2G]</name>
         <name>x86_64-pc-linux-gnu[GW-cuda-580-2G]</name>
@@ -763,14 +743,18 @@
         <name>windows_x86_64</name>
         <name>windows_x86_64[cuda128]</name>
         <name>windows_x86_64[opencl_ati_101]</name>
+        <name>windows_x86_64[opencl_ati_200]</name>
         <name>windows_x86_64[opencl_intel_gpu_intelarc]</name>
+        <name>windows_x86_64[opencl_nvidia_200]</name>
         <name>x86_64-apple-darwin</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[cuda110]</name>
         <name>x86_64-pc-linux-gnu[cuda120]</name>
         <name>x86_64-pc-linux-gnu[cuda128]</name>
         <name>x86_64-pc-linux-gnu[opencl_ati_101]</name>
+        <name>x86_64-pc-linux-gnu[opencl_ati_200]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_intelarc]</name>
+        <name>x86_64-pc-linux-gnu[opencl_nvidia_200]</name>
     </platforms>
         <keywords>15 32</keywords>
     </project>
