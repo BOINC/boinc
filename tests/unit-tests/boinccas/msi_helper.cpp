@@ -77,11 +77,6 @@ void MsiHelper::createTable(const std::string_view& sql_create) {
         throw std::runtime_error("Error executing view: " +
             std::to_string(result));
     }
-    result = MsiViewClose(hView);
-    if (result != ERROR_SUCCESS) {
-        throw std::runtime_error("Error closing view: " +
-            std::to_string(result));
-    }
     result = MsiDatabaseCommit(hMsi);
     if (result != ERROR_SUCCESS) {
         throw std::runtime_error("MsiDatabaseCommit failed: " +
@@ -108,7 +103,7 @@ void MsiHelper::insertProperties(
             std::to_string(result));
     }
     for (const auto& record : properties) {
-        const auto hRecord = MsiCreateRecord(2);
+        PMSIHANDLE hRecord = MsiCreateRecord(2);
         if (hRecord == 0) {
             throw std::runtime_error("Failed to create record");
         }
@@ -128,17 +123,6 @@ void MsiHelper::insertProperties(
             throw std::runtime_error("Error inserting record: " +
                 std::to_string(result));
         }
-        result = MsiCloseHandle(hRecord);
-        if (result != ERROR_SUCCESS) {
-            throw std::runtime_error("Error closing record: " +
-                std::to_string(result));
-        }
-    }
-
-    result = MsiViewClose(hView);
-    if (result != ERROR_SUCCESS) {
-        throw std::runtime_error("Error closing view: " +
-            std::to_string(result));
     }
 
     result = MsiDatabaseCommit(hMsi);
@@ -221,4 +205,101 @@ void MsiHelper::fillSummaryInformationTable() {
         throw std::runtime_error("MsiSummaryInfoPersist failed:" +
             std::to_string(result));
     }
+}
+
+static std::string generateGuid() {
+    GUID guid;
+    if (CoCreateGuid(&guid) != S_OK) {
+        throw std::runtime_error("Failed to create GUID");
+    }
+
+    std::ostringstream oss;
+    oss << std::uppercase << std::hex << std::setfill('0')
+        << '{'
+        << std::setw(8) << guid.Data1 << '-'
+        << std::setw(4) << guid.Data2 << '-'
+        << std::setw(4) << guid.Data3 << '-'
+        << std::setw(2) << static_cast<int>(guid.Data4[0])
+        << std::setw(2) << static_cast<int>(guid.Data4[1]) << '-'
+        << std::setw(2) << static_cast<int>(guid.Data4[2])
+        << std::setw(2) << static_cast<int>(guid.Data4[3])
+        << std::setw(2) << static_cast<int>(guid.Data4[4])
+        << std::setw(2) << static_cast<int>(guid.Data4[5])
+        << std::setw(2) << static_cast<int>(guid.Data4[6])
+        << std::setw(2) << static_cast<int>(guid.Data4[7])
+        << '}';
+
+    return oss.str();
+}
+
+void MsiHelper::insertComponents(
+    const std::vector<std::pair<std::string, std::string>>& components) {
+    createComponentTable();
+    constexpr auto sql_insert = "INSERT INTO `Component` (`Component`, "
+        "`ComponentId`, `Directory_`, `Attributes`, `Condition`, `KeyPath`) "
+        "VALUES (?, ?, ?, ?, ?, ?)";
+    PMSIHANDLE hView;
+    auto result = MsiDatabaseOpenView(hMsi, sql_insert, &hView);
+    if (result != ERROR_SUCCESS) {
+        throw std::runtime_error("Error creating view: " +
+            std::to_string(result));
+    }
+    for (const auto& record : components) {
+        PMSIHANDLE hRecord = MsiCreateRecord(6);
+        if (hRecord == 0) {
+            throw std::runtime_error("Failed to create record");
+        }
+        result = MsiRecordSetString(hRecord, 1, record.first.c_str());
+        if (result != ERROR_SUCCESS) {
+            throw std::runtime_error("Failed to set record, errorcode: " +
+                std::to_string(result));
+        }
+        const auto componentId = generateGuid();
+        result = MsiRecordSetString(hRecord, 2, componentId.c_str());
+        if (result != ERROR_SUCCESS) {
+            throw std::runtime_error("Failed to set record, errorcode: " +
+                std::to_string(result));
+        }
+        result = MsiRecordSetString(hRecord, 3, "INSTALLDIR");
+        if (result != ERROR_SUCCESS) {
+            throw std::runtime_error("Failed to set record, errorcode: " +
+                std::to_string(result));
+        }
+        result = MsiRecordSetInteger(hRecord, 4, 256);
+        if (result != ERROR_SUCCESS) {
+            throw std::runtime_error("Failed to set record, errorcode: " +
+                std::to_string(result));
+        }
+        result = MsiRecordSetString(hRecord, 5, "");
+        if (result != ERROR_SUCCESS) {
+            throw std::runtime_error("Failed to set record, errorcode: " +
+                std::to_string(result));
+        }
+        result = MsiRecordSetString(hRecord, 6, record.second.c_str());
+        if (result != ERROR_SUCCESS) {
+            throw std::runtime_error("Failed to set record, errorcode: " +
+                std::to_string(result));
+        }
+
+        result = MsiViewExecute(hView, hRecord);
+        if (result != ERROR_SUCCESS) {
+            throw std::runtime_error("Error inserting record: " +
+                std::to_string(result));
+        }
+    }
+
+    result = MsiDatabaseCommit(hMsi);
+    if (result != ERROR_SUCCESS) {
+        throw std::runtime_error("MsiDatabaseCommit failed: " +
+            std::to_string(result));
+    }
+}
+
+void MsiHelper::createComponentTable() {
+    constexpr auto sql_create = "CREATE TABLE `Component` "
+        "(`Component` CHAR(72) NOT NULL, `ComponentId` CHAR(38), "
+        "`Directory_` CHAR(72) NOT NULL, "
+        "`Attributes` SHORT NOT NULL, `Condition` CHAR(255), KeyPath CHAR(72) "
+        "PRIMARY KEY `Component`)";
+    createTable(sql_create);
 }

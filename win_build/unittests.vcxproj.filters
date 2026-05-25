@@ -147,6 +147,9 @@
     <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CAShutdownBOINCScreensaver.cpp">
       <Filter>boinccas</Filter>
     </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CAValidateInstall.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../tests/unit-tests/lib/test_base64.cpp">

@@ -1,245 +1,177 @@
-// Berkeley Open Infrastructure for Network Computing
-// http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// This file is part of BOINC.
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
-// This is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation;
-// either version 2.1 of the License, or (at your option) any later version.
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
-// This software is distributed in the hope that it will be useful,
+// BOINC is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // See the GNU Lesser General Public License for more details.
 //
-// To view the GNU Lesser General Public License visit
-// http://www.gnu.org/copyleft/lesser.html
-// or write to the Free Software Foundation, Inc.,
-// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 #include "boinccas.h"
-#include "CAValidateInstall.h"
 
-#define CUSTOMACTION_NAME               _T("CAValidateInstall")
-#define CUSTOMACTION_PROGRESSTITLE      _T("Validating the install by checking all executables.")
-
-
-/////////////////////////////////////////////////////////////////////
-//
-// Function:
-//
-// Description:
-//
-/////////////////////////////////////////////////////////////////////
-CAValidateInstall::CAValidateInstall(MSIHANDLE hMSIHandle) :
-    BOINCCABase(hMSIHandle, CUSTOMACTION_NAME, CUSTOMACTION_PROGRESSTITLE)
-{}
-
-
-/////////////////////////////////////////////////////////////////////
-//
-// Function:
-//
-// Description:
-//
-/////////////////////////////////////////////////////////////////////
-CAValidateInstall::~CAValidateInstall()
-{
-    BOINCCABase::~BOINCCABase();
-}
-
-
-/////////////////////////////////////////////////////////////////////
-//
-// Function:
-//
-// Description:
-//
-/////////////////////////////////////////////////////////////////////
-UINT CAValidateInstall::OnExecution()
-{
-    tstring strInstallDirectory;
-    tstring strProductVersion;
-    tstring strFilename;
-    tstring strTemp;
-    UINT    uiReturnValue = 0;
-
-    uiReturnValue = GetProperty( _T("INSTALLDIR"), strInstallDirectory );
-    if ( uiReturnValue ) return uiReturnValue;
-
-    uiReturnValue = GetProperty( _T("ProductVersion"), strProductVersion );
-    if ( uiReturnValue ) return uiReturnValue;
-
-    // Default to success
-    SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("1"));
-
-    uiReturnValue = GetComponentKeyFilename( _T("_BOINC"), strFilename );
-    if ( uiReturnValue ) return uiReturnValue;
-
-    strTemp = strInstallDirectory + _T("\\") + strFilename;
-    if (!ValidateExecutable( strTemp, strProductVersion ))
-    {
-        SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
+class CAValidateInstall : public BOINCCABase {
+public:
+    virtual ~CAValidateInstall() = default;
+    explicit CAValidateInstall(MSIHANDLE hMSIHandle) :
+        BOINCCABase(hMSIHandle, _T("CAValidateInstall"),
+            _T("Validating the install by checking all executables.")) {
     }
 
-    uiReturnValue = GetComponentKeyFilename( _T("_BOINCManager"), strFilename );
-    if ( uiReturnValue ) return uiReturnValue;
+    UINT OnExecution() override final {
+        tstring strFilename;
+        tstring strTemp;
 
-    strTemp = strInstallDirectory + _T("\\") + strFilename;
-    if (!ValidateExecutable( strTemp, strProductVersion ))
-    {
-        SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
-    }
-
-    uiReturnValue = GetComponentKeyFilename( _T("_BOINCCMD"), strFilename );
-    if ( uiReturnValue ) return uiReturnValue;
-
-    strTemp = strInstallDirectory + _T("\\") + strFilename;
-    if (!ValidateExecutable( strTemp, strProductVersion ))
-    {
-        SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
-    }
-
-    uiReturnValue = GetComponentKeyFilename( _T("_BOINCTray"), strFilename );
-    if ( uiReturnValue ) return uiReturnValue;
-
-    strTemp = strInstallDirectory + _T("\\") + strFilename;
-    if (!ValidateExecutable( strTemp, strProductVersion ))
-    {
-        SetProperty(_T("RETURN_VALIDATEINSTALL"), _T("0"));
-    }
-
-
-    return ERROR_SUCCESS;
-}
-
-
-/////////////////////////////////////////////////////////////////////
-//
-// Function:
-//
-// Description:
-//
-/////////////////////////////////////////////////////////////////////
-BOOL CAValidateInstall::ValidateExecutable( tstring strExecutable, tstring strDesiredVersion )
-{
-    DWORD               dwHandle;
-    LPVOID              lpData;
-    DWORD               dwSize;
-    TCHAR               szQuery[256];
-    LPVOID              lpVar;
-    UINT                uiVarSize;
-    VS_FIXEDFILEINFO*   pFileInfo;
-    TCHAR               szVersionInfo[24];
-    TCHAR               szProductVersion[256];
-    TCHAR               szMessage[2048];
-
-    struct LANGANDCODEPAGE {
-        WORD wLanguage;
-        WORD wCodePage;
-    } *lpTranslate;
-
-
-    _sntprintf(
-        szMessage,
-        sizeof(szMessage),
-        _T("Validating Executable: '%s' Version: '%s'"),
-        strExecutable.c_str(),
-        strDesiredVersion.c_str()
-    );
-    LogMessage(
-        INSTALLMESSAGE_INFO,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        szMessage
-    );
-
-
-    // Get File Version Information
-    //
-    dwSize = GetFileVersionInfoSize(strExecutable.c_str(), &dwHandle);
-    if (dwSize) {
-        lpData = (LPVOID)malloc(dwSize);
-        if(GetFileVersionInfo(strExecutable.c_str(), dwHandle, dwSize, lpData)) {
-            LogMessage(
-                INSTALLMESSAGE_INFO,
-                NULL,
-                NULL,
-                NULL,
-                NULL,
-                _T("Executable Found")
-            );
-
-            // Which language should be used to lookup the structure?
-            _tcscpy(szQuery, _T("\\VarFileInfo\\Translation"));
-            VerQueryValue(lpData, szQuery, (LPVOID*)&lpTranslate, &uiVarSize);
-
-            // Version specified as part of the root record.
-            if (VerQueryValue(lpData, _T("\\"), (LPVOID*)&pFileInfo, &uiVarSize)) {
-                _sntprintf(szVersionInfo, sizeof(szVersionInfo), _T("%d.%d.%d.%d"),
-                    HIWORD(pFileInfo->dwFileVersionMS),
-                    LOWORD(pFileInfo->dwFileVersionMS),
-                    HIWORD(pFileInfo->dwFileVersionLS),
-                    LOWORD(pFileInfo->dwFileVersionLS)
-                );
-            }
-
-            // Product Version.
-            _stprintf(szQuery, _T("\\StringFileInfo\\%04x%04x\\ProductVersion"),
-                lpTranslate[0].wLanguage,
-                lpTranslate[0].wCodePage
-            );
-            if (VerQueryValue(lpData, szQuery, &lpVar, &uiVarSize)) {
-                uiVarSize = _sntprintf(szProductVersion, sizeof(szProductVersion), _T("%s"), lpVar);
-                if ((sizeof(szProductVersion) == uiVarSize) || (-1 == uiVarSize)) {
-                    szProductVersion[255] = '\0';
-                }
-            }
-
-            _sntprintf(
-                szMessage,
-                sizeof(szMessage),
-                _T("Product Version: '%s'"),
-                szProductVersion
-            );
-            LogMessage(
-                INSTALLMESSAGE_INFO,
-                NULL,
-                NULL,
-                NULL,
-                NULL,
-                szMessage
-            );
-            free(lpData);
+        tstring strInstallDirectory;
+        auto uiReturnValue =
+            GetProperty(_T("INSTALLDIR"), strInstallDirectory);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
         }
+        if (strInstallDirectory.empty()) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+                _T("The install directory is not set."));
+            return ERROR_INSTALL_FAILURE;
+        }
+
+        tstring strProductVersion;
+        uiReturnValue = GetProperty(_T("ProductVersion"), strProductVersion);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
+        if (strProductVersion.empty()) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+                _T("The product version is not set."));
+            return ERROR_INSTALL_FAILURE;
+        }
+
+        // Default to success
+        auto validateResult = true;
+
+        constexpr auto components = std::array{
+            _T("_BOINC"),
+            _T("_BOINCManager"),
+            _T("_BOINCCMD"),
+            _T("_BOINCTray")
+        };
+
+        for (const auto& component : components) {
+            if (ValidateComponent(
+                component, strInstallDirectory, strProductVersion) !=
+                ERROR_SUCCESS) {
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+                    _T("Component validation failed for: ") +
+                    tstring(component));
+                validateResult = false;
+            }
+        }
+
+        SetProperty(_T("RETURN_VALIDATEINSTALL"),
+            validateResult ? _T("1") : _T("0"));
+
+        return validateResult ? ERROR_SUCCESS : ERROR_INSTALL_FAILURE;
     }
 
-    if (strDesiredVersion != szProductVersion) {
-        return FALSE;
+private:
+    UINT ValidateComponent(const tstring& strComponent,
+        const tstring& strDirectory, const tstring& strDesiredVersion) {
+        tstring strExecutable;
+        const auto uiReturnValue =
+            GetComponentKeyFilename(strComponent, strExecutable);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
+        if (strExecutable.empty()) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0, _T("Component '") +
+                strComponent + _T("' is missing a key file."));
+            return ERROR_INSTALL_FAILURE;
+        }
+
+        strExecutable = strDirectory + _T("\\") + strExecutable;
+        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+            _T("Validating Executable: '") + strExecutable +
+            _T("' Version: '") + strDesiredVersion + _T("'"));
+
+
+        DWORD dwHandle;
+        const auto dwSize = GetFileVersionInfoSize(strExecutable.c_str(),
+            &dwHandle);
+        if (dwSize == 0) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+                _T("Failed to get version info size for executable: '") +
+                strExecutable + _T("'"));
+            return ERROR_INSTALL_FAILURE;
+        }
+
+        auto lpData = reinterpret_cast<LPVOID>(malloc(dwSize));
+        typedef wil::unique_any<LPVOID, decltype(&::free), ::free>
+            unique_lpvoid;
+        unique_lpvoid pDataDeleter(lpData);
+        if (!GetFileVersionInfo(strExecutable.c_str(), dwHandle, dwSize,
+            lpData)) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+                _T("Failed to get version info for executable: '") +
+                strExecutable + _T("'"));
+            return ERROR_INSTALL_FAILURE;
+        }
+        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+            _T("Successfully obtained version info for executable: '") +
+            strExecutable + _T("'"));
+
+        struct LANGANDCODEPAGE {
+            WORD wLanguage;
+            WORD wCodePage;
+        } *lpTranslate;
+        UINT uiVarSize;
+        if (!VerQueryValue(lpData, _T("\\VarFileInfo\\Translation"),
+            reinterpret_cast<LPVOID*>(&lpTranslate), &uiVarSize)) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+                _T("Failed to get version info translation "
+                    "for executable: '") + strExecutable + _T("'"));
+            return ERROR_INSTALL_FAILURE;
+        }
+
+        std::wostringstream ss;
+        ss << _T("\\StringFileInfo\\") <<
+            std::hex << std::setw(4) << std::setfill(_T('0')) <<
+            lpTranslate[0].wLanguage <<
+            std::hex << std::setw(4) << std::setfill(_T('0')) <<
+            lpTranslate[0].wCodePage <<
+            _T("\\ProductVersion");
+        LPVOID lpVar;
+        if (!VerQueryValue(lpData, ss.str().data(), &lpVar, &uiVarSize)) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+                _T("Failed to get product version from version info for "
+                    "executable: '") + strExecutable + _T("'"));
+            return ERROR_INSTALL_FAILURE;
+        }
+
+        const auto productVersion = tstring(reinterpret_cast<wchar_t*>(lpVar));
+        if (productVersion.empty()) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+                _T("Product version is empty in version info "
+                    "for executable: '") + strExecutable + _T("'"));
+            return ERROR_INSTALL_FAILURE;
+        }
+
+        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+            _T("Product Version: '") + productVersion + _T("'"));
+
+        if (strDesiredVersion != productVersion) {
+            return ERROR_INSTALL_FAILURE;
+        }
+        return ERROR_SUCCESS;
     }
-    return TRUE;
+};
+
+UINT __stdcall ValidateInstall(MSIHANDLE hInstall) {
+    return CAValidateInstall(hInstall).Execute();
 }
-
-
-/////////////////////////////////////////////////////////////////////
-//
-// Function:    ValidateInstall
-//
-// Description:
-//
-/////////////////////////////////////////////////////////////////////
-UINT __stdcall ValidateInstall(MSIHANDLE hInstall)
-{
-    UINT uiReturnValue = 0;
-
-    CAValidateInstall* pCA = new CAValidateInstall(hInstall);
-    uiReturnValue = pCA->Execute();
-    delete pCA;
-
-    return uiReturnValue;
-}
-

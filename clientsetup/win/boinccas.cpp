@@ -663,6 +663,8 @@ UINT BOINCCABase::GetComponentKeyFilename(
     {
     case ERROR_INVALID_HANDLE:
         MsiCloseHandle(hRecComponentName);
+        MsiViewClose(hView);
+        MsiCloseHandle(hView);
         MsiCloseHandle(hDatabase);
 
         LogMessage(
@@ -678,6 +680,8 @@ UINT BOINCCABase::GetComponentKeyFilename(
         break;
     case ERROR_INVALID_PARAMETER:
         MsiCloseHandle(hRecComponentName);
+        MsiViewClose(hView);
+        MsiCloseHandle(hView);
         MsiCloseHandle(hDatabase);
 
         LogMessage(
@@ -699,7 +703,9 @@ UINT BOINCCABase::GetComponentKeyFilename(
     switch(uiReturnValue)
     {
     case ERROR_FUNCTION_FAILED:
+        MsiCloseHandle(hRecComponentName);
         MsiViewClose(hView);
+        MsiCloseHandle(hView);
         MsiCloseHandle(hDatabase);
 
         LogMessage(
@@ -714,7 +720,9 @@ UINT BOINCCABase::GetComponentKeyFilename(
         return ERROR_INSTALL_FAILURE;
         break;
     case ERROR_INVALID_HANDLE:
+        MsiCloseHandle(hRecComponentName);
         MsiViewClose(hView);
+        MsiCloseHandle(hView);
         MsiCloseHandle(hDatabase);
 
         LogMessage(
@@ -736,7 +744,9 @@ UINT BOINCCABase::GetComponentKeyFilename(
     switch(uiReturnValue)
     {
     case ERROR_FUNCTION_FAILED:
+        MsiCloseHandle(hRecComponentName);
         MsiViewClose(hView);
+        MsiCloseHandle(hView);
         MsiCloseHandle(hDatabase);
 
         LogMessage(
@@ -751,7 +761,9 @@ UINT BOINCCABase::GetComponentKeyFilename(
         return ERROR_INSTALL_FAILURE;
         break;
     case ERROR_INVALID_HANDLE:
+        MsiCloseHandle(hRecComponentName);
         MsiViewClose(hView);
+        MsiCloseHandle(hView);
         MsiCloseHandle(hDatabase);
 
         LogMessage(
@@ -766,7 +778,9 @@ UINT BOINCCABase::GetComponentKeyFilename(
         return ERROR_INSTALL_FAILURE;
         break;
     case ERROR_INVALID_HANDLE_STATE:
+        MsiCloseHandle(hRecComponentName);
         MsiViewClose(hView);
+        MsiCloseHandle(hView);
         MsiCloseHandle(hDatabase);
 
         LogMessage(
@@ -780,6 +794,25 @@ UINT BOINCCABase::GetComponentKeyFilename(
 
         return ERROR_INSTALL_FAILURE;
         break;
+
+
+    case ERROR_NO_MORE_ITEMS:
+        MsiCloseHandle(hRecComponentName);
+        MsiViewClose(hView);
+        MsiCloseHandle(hView);
+        MsiCloseHandle(hDatabase);
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            _T("MsiViewFetch reports no valid items fetched")
+        );
+
+        return ERROR_INSTALL_FAILURE;
+        break;
     }
 
     // Okay, now it is time to parse the string that was returned.
@@ -788,7 +821,9 @@ UINT BOINCCABase::GetComponentKeyFilename(
     {
     case ERROR_INVALID_HANDLE:
         MsiCloseHandle(hRec);
+        MsiCloseHandle(hRecComponentName);
         MsiViewClose(hView);
+        MsiCloseHandle(hView);
         MsiCloseHandle(hDatabase);
 
         LogMessage(
@@ -804,7 +839,9 @@ UINT BOINCCABase::GetComponentKeyFilename(
         break;
     case ERROR_INVALID_PARAMETER:
         MsiCloseHandle(hRec);
+        MsiCloseHandle(hRecComponentName);
         MsiViewClose(hView);
+        MsiCloseHandle(hView);
         MsiCloseHandle(hDatabase);
 
         LogMessage(
@@ -843,6 +880,11 @@ UINT BOINCCABase::GetComponentKeyFilename(
         strMessage.c_str()
     );
 
+    MsiCloseHandle(hRec);
+    MsiCloseHandle(hRecComponentName);
+    MsiViewClose(hView);
+    MsiCloseHandle(hView);
+    MsiCloseHandle(hDatabase);
     return ERROR_SUCCESS;
 }
 

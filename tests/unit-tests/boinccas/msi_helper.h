@@ -27,6 +27,8 @@ public:
         const std::string& propertyName);
     void setProperty(MSIHANDLE hMsiHandle, const std::string& propertyName,
         const std::string& propertyValue);
+    void insertComponents(
+        const std::vector<std::pair<std::string, std::string>>& components);
 
     std::string getMsiHandle() const {
         return "#" + std::to_string(hMsi);
@@ -37,6 +39,7 @@ private:
     void cleanup();
     void fillSummaryInformationTable();
     void createPropertiesTable();
+    void createComponentTable();
     void createTable(const std::string_view& sql_create);
     MSIHANDLE hMsi = 0;
     INSTALLUILEVEL originalUiLevel;

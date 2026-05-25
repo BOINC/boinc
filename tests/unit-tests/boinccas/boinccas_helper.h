@@ -49,6 +49,11 @@ protected:
         msiHelper.setProperty(hMsi, propertyName, propertyValue);
     }
 
+    void insertMsiComponents(
+        const std::vector<std::pair<std::string, std::string>>& components) {
+        msiHelper.insertComponents(components);
+    }
+
     auto getMsiHandle() {
         return hMsi;
     }
