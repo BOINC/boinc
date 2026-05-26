@@ -65,3 +65,5 @@ bool setRegistryValue(std::string_view valueName, std::string_view valueData);
 
 void cleanRegistryKey(HKEY hRootKey, std::string_view keyName);
 void cleanRegistryKey();
+void cleanRegistryValue(HKEY hRootKey, std::string_view keyName,
+    std::string_view valueName);

@@ -62,3 +62,15 @@ void cleanRegistryKey(HKEY hRootKey, std::string_view keyName) {
     RegCloseKey(hKey);
     RegDeleteKey(hRootKey, keyName.data());
 }
+
+void cleanRegistryValue(HKEY hRootKey, std::string_view keyName,
+    std::string_view valueName) {
+    HKEY hKey = nullptr;
+    const auto openResult = RegOpenKeyEx(hRootKey, keyName.data(), 0,
+        KEY_SET_VALUE, &hKey);
+    if (openResult != ERROR_SUCCESS) {
+        return;
+    }
+    wil::unique_hkey autoKey(hKey);
+    RegDeleteValue(hKey, valueName.data());
+}

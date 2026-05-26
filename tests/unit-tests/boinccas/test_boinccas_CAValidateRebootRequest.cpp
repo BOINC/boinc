@@ -30,6 +30,9 @@ namespace test_boinccas_CAValidateRebootRequest {
             if (!testDir.empty() && std::filesystem::exists(testDir)) {
                 std::filesystem::remove_all(testDir);
             }
+            cleanRegistryValue(HKEY_LOCAL_MACHINE,
+                "SYSTEM\\CurrentControlSet\\Control\\Session Manager",
+                "PendingFileRenameOperations");
         }
 
         std::filesystem::path testDir;
@@ -58,6 +61,13 @@ namespace test_boinccas_CAValidateRebootRequest {
 
     TEST_F(test_boinccas_CAValidateRebootRequest,
         File_Exists_and_Removal_Pending) {
+        cleanRegistryValue(HKEY_LOCAL_MACHINE,
+            "SYSTEM\\CurrentControlSet\\Control\\Session Manager",
+            "PendingFileRenameOperations");
+        ASSERT_TRUE(getRegistryValue<std::string>(HKEY_LOCAL_MACHINE,
+            "SYSTEM\\CurrentControlSet\\Control\\Session Manager",
+            "PendingFileRenameOperations").empty());
+
         testDir =
             std::filesystem::current_path() / "test_directory";
         insertMsiProperties({
