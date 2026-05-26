@@ -20,29 +20,29 @@
 constexpr auto BOINC_SETUP_REGISTRY_KEY =
 "SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup";
 
-std::string getRegistryValue(const std::string& valueName) {
+std::string getRegistryValue(std::string_view valueName) {
     return getRegistryValue<std::string>(HKEY_LOCAL_MACHINE,
         BOINC_SETUP_REGISTRY_KEY, valueName);
 }
 
-bool setRegistryValue(const std::string& valueName,
+bool setRegistryValue(std::string_view valueName,
     const std::string& valueData) {
     return setRegistryValue(HKEY_LOCAL_MACHINE,
         BOINC_SETUP_REGISTRY_KEY, valueName, valueData);
 }
 
-bool setRegistryValue(HKEY hRootKey, const std::string& keyName,
-    const std::string& valueName, const std::string& valueData) {
+bool setRegistryValue(HKEY hRootKey, std::string_view keyName,
+    std::string_view valueName, std::string_view valueData) {
     HKEY hKey = nullptr;
-    const auto createResult = RegCreateKeyEx(hRootKey, keyName.c_str(), 0,
+    const auto createResult = RegCreateKeyEx(hRootKey, keyName.data(), 0,
         nullptr, REG_OPTION_NON_VOLATILE, KEY_WRITE, nullptr, &hKey, nullptr);
     if (createResult != ERROR_SUCCESS) {
         return false;
     }
     wil::unique_hkey autoKey(hKey);
 
-    const auto setResult = RegSetValueEx(hKey, valueName.c_str(), 0,
-        REG_SZ, reinterpret_cast<const BYTE*>(valueData.c_str()),
+    const auto setResult = RegSetValueEx(hKey, valueName.data(), 0,
+        REG_SZ, reinterpret_cast<const BYTE*>(valueData.data()),
         static_cast<DWORD>(valueData.size() + 1));
 
     return setResult == ERROR_SUCCESS;
@@ -52,13 +52,13 @@ void cleanRegistryKey() {
     cleanRegistryKey(HKEY_LOCAL_MACHINE, BOINC_SETUP_REGISTRY_KEY);
 }
 
-void cleanRegistryKey(HKEY hRootKey, const std::string& keyName) {
+void cleanRegistryKey(HKEY hRootKey, std::string_view keyName) {
     HKEY hKey = nullptr;
-    const auto openResult = RegOpenKeyEx(hRootKey, keyName.c_str(), 0, KEY_WRITE,
-        &hKey);
+    const auto openResult = RegOpenKeyEx(hRootKey, keyName.data(), 0,
+        KEY_WRITE, &hKey);
     if (openResult != ERROR_SUCCESS) {
         return;
     }
     RegCloseKey(hKey);
-    RegDeleteKey(hRootKey, keyName.c_str());
+    RegDeleteKey(hRootKey, keyName.data());
 }

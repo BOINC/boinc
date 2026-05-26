@@ -33,7 +33,7 @@ namespace test_boinccas_CAValidateInstall {
 
         std::filesystem::path testDir;
     };
-#define BOINCCAS_TEST
+
 #ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CAValidateInstall,
         NoProperties_Expect_Fail) {

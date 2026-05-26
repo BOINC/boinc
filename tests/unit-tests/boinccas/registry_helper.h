@@ -19,10 +19,10 @@
 
 template <typename T, typename = std::enable_if_t<
     std::is_same_v<T, std::string> || std::is_same_v<T, std::vector<BYTE>>>>
-    T getRegistryValue(HKEY hRootKey, const std::string& keyName,
-        const std::string& valueName) {
+    T getRegistryValue(HKEY hRootKey, std::string_view keyName,
+        std::string_view valueName) {
     HKEY hKey = nullptr;
-    const auto openResult = RegOpenKeyEx(hRootKey, keyName.c_str(), 0,
+    const auto openResult = RegOpenKeyEx(hRootKey, keyName.data(), 0,
         KEY_READ, &hKey);
     if (openResult != ERROR_SUCCESS) {
         return {};
@@ -31,7 +31,7 @@ template <typename T, typename = std::enable_if_t<
 
     DWORD type = 0;
     DWORD size = 0;
-    auto queryResult = RegQueryValueEx(hKey, valueName.c_str(), nullptr, &type,
+    auto queryResult = RegQueryValueEx(hKey, valueName.data(), nullptr, &type,
         nullptr, &size);
     if (queryResult != ERROR_SUCCESS) {
         return {};
@@ -39,7 +39,7 @@ template <typename T, typename = std::enable_if_t<
 
     T value;
     value.resize(size);
-    queryResult = RegQueryValueEx(hKey, valueName.c_str(), nullptr, &type,
+    queryResult = RegQueryValueEx(hKey, valueName.data(), nullptr, &type,
         reinterpret_cast<LPBYTE>(value.data()), &size);
 
     if (queryResult != ERROR_SUCCESS) {
@@ -57,12 +57,11 @@ template <typename T, typename = std::enable_if_t<
 
     return value;
 }
-std::string getRegistryValue(const std::string& valueName);
+std::string getRegistryValue(std::string_view valueName);
 
-bool setRegistryValue(HKEY hRootKey, const std::string& keyName,
-    const std::string& valueName, const std::string& valueData);
-bool setRegistryValue(const std::string& valueName,
-    const std::string& valueData);
+bool setRegistryValue(HKEY hRootKey, std::string_view keyName,
+    std::string_view valueName, std::string_view valueData);
+bool setRegistryValue(std::string_view valueName, std::string_view valueData);
 
-void cleanRegistryKey(HKEY hRootKey, const std::string& keyName);
+void cleanRegistryKey(HKEY hRootKey, std::string_view keyName);
 void cleanRegistryKey();

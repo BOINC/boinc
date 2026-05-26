@@ -74,6 +74,7 @@
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CAShutdownBOINCManager.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CAShutdownBOINCScreensaver.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CAValidateInstall.cpp" />
+    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CAValidateRebootRequest.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_parse.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_str_util.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_url.cpp" />

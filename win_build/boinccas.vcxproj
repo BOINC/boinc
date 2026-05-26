@@ -80,7 +80,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\clientsetup\win\boinccas.h" />
-    <ClInclude Include="..\clientsetup\win\CAValidateRebootRequest.h" />
     <ClInclude Include="..\clientsetup\win\CAValidateSetupType.h" />
     <ClInclude Include="..\clientsetup\win\CAVerifyInstallDirectories.h" />
     <ClInclude Include="..\clientsetup\win\dcomperm.h" />
