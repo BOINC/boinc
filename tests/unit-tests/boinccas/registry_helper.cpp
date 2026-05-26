@@ -26,7 +26,7 @@ std::string getRegistryValue(std::string_view valueName) {
 }
 
 bool setRegistryValue(std::string_view valueName,
-    const std::string& valueData) {
+    std::string_view valueData) {
     return setRegistryValue(HKEY_LOCAL_MACHINE,
         BOINC_SETUP_REGISTRY_KEY, valueName, valueData);
 }

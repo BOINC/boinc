@@ -34,7 +34,7 @@ namespace test_boinccas_CAValidateRebootRequest {
 
         std::filesystem::path testDir;
     };
-#define BOINCCAS_TEST
+
 #ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CAValidateRebootRequest,
         NoProperties_Expect_Fail) {
