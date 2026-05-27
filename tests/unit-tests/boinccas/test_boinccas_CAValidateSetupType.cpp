@@ -26,7 +26,7 @@ namespace test_boinccas_CAValidateSetupType {
             test_boinccas_TestBase("ValidateSetupType") {
         }
     };
-#define BOINCCAS_TEST
+
 #ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CAValidateSetupType,
         No_Properties_Set_Expect_Default) {

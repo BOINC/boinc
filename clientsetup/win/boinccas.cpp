@@ -903,6 +903,24 @@ UINT BOINCCABase::DisplayMessage(
     )
 {
     UINT        uiReturnValue = 0;
+    tstring uiLevel;
+    uiReturnValue = GetProperty(_T("UILevel"), uiLevel);
+    if (uiReturnValue != ERROR_SUCCESS)
+    {
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            _T("Failed to get UILevel property")
+        );
+        return ERROR_INSTALL_FAILURE;
+    }
+    if (uiLevel == _T("2")) {
+        return ERROR_SUCCESS;
+    }
+
 
     uiReturnValue = ::MessageBox(
         NULL,
