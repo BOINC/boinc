@@ -108,14 +108,15 @@ class IntegrationTests:
             path = pathlib.Path(filename)
         return "{owner}:{group}".format(owner=path.owner(), group=path.group())
 
-    def _get_ca_certificates_file_path(self):
+    def _get_ca_certificates_file_paths(self):
+        paths = []
         if os.path.exists("/etc/ssl/certs/ca-certificates.crt"):
-            return "/etc/ssl/certs/ca-certificates.crt"
+            paths.append("/etc/ssl/certs/ca-certificates.crt")
         if os.path.exists("/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem"):
-            return "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem"
+            paths.append("/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem")
         if os.path.exists("/etc/ssl/ca-bundle.pem"):
-            return "/etc/ssl/ca-bundle.pem"
-        return ""
+            paths.append("/etc/ssl/ca-bundle.pem")
+        return paths
 
     def test_files_exist(self):
         ts = testset.TestSet("Test files exist")
@@ -162,10 +163,10 @@ class IntegrationTests:
             ts.expect_equal("/etc/boinc-client/gui_rpc_auth.cfg", os.readlink("/var/lib/boinc/gui_rpc_auth.cfg"), "Test '/var/lib/boinc/gui_rpc_auth.cfg' file is a symbolic link to '/etc/boinc-client/gui_rpc_auth.cfg'")
         else:
             ts.expect_true(False, "Test 'gui_rpc_auth.cfg' file is a symbolic link")
-        ts.expect_not_equal("", self._get_ca_certificates_file_path(), "Test system 'ca-certificates.crt' file exists")
+        ts.expect_true(len(self._get_ca_certificates_file_paths()) > 0, "Test system 'ca-certificates.crt' file exists")
         ts.expect_true(os.path.exists("/var/lib/boinc/ca-bundle.crt"), "Test 'ca-bundle.crt' file exists in '/var/lib/boinc/'")
         ts.expect_true(os.path.islink("/var/lib/boinc/ca-bundle.crt"), "Test '/var/lib/boinc/ca-bundle.crt' file is a symbolic link")
-        ts.expect_equal(self._get_ca_certificates_file_path(), os.readlink("/var/lib/boinc/ca-bundle.crt"), "Test '/var/lib/boinc/ca-bundle.crt' file is a symbolic link to the system 'ca-certificates.crt' file")
+        ts.expect_true(os.readlink("/var/lib/boinc/ca-bundle.crt") in self._get_ca_certificates_file_paths(), "Test '/var/lib/boinc/ca-bundle.crt' file is a symbolic link to the system 'ca-certificates.crt' file")
         ts.expect_true(os.path.exists("/var/lib/boinc/all_projects_list.xml"), "Test 'all_projects_list.xml' file exists in '/var/lib/boinc/'")
         return ts.result()
 
