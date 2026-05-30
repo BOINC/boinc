@@ -293,7 +293,8 @@ struct RESULT {
         // actually, estimated elapsed time remaining
     double bytes_sent;
     double bytes_received;
-    bool too_large;
+    bool wss_too_large;
+    bool swap_too_large;
     bool needs_shmem;
     bool want_network;
     bool edf_scheduled;

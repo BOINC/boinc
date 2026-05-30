@@ -142,13 +142,14 @@ struct ACTIVE_TASK {
         // abort if memory usage exceeds this
     bool have_trickle_down;
     bool send_upload_file_status;
-    bool too_large;
+    bool wss_too_large;
         // Working set too large to run now; waiting for RAM
         // This is a slight misnomer.
         // It doesn't mean that this job itself is too large;
         // rather, it means that the last time we did CPU scheduling,
         // the set of jobs we tried to run was too big,
         // and this one came after we ran out of mem.
+    bool swap_too_large;
     bool needs_shmem;
         // waiting for a free shared memory segment
     int want_network;

@@ -128,7 +128,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
     max_mem_usage = 0;
     have_trickle_down = false;
     send_upload_file_status = false;
-    too_large = false;
+    wss_too_large = false;
+    swap_too_large = false;
     needs_shmem = false;
     want_network = 0;
     abort_time = 0;
@@ -385,10 +386,9 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         return;
     }
     PROCINFO boinc_total;
-    if (log_flags.mem_usage_debug) {
-        boinc_total.clear();
-        boinc_total.working_set_size_smoothed = 0;
-    }
+    boinc_total.clear();
+    boinc_total.working_set_size_smoothed = 0;
+
     for (ACTIVE_TASK* atp: active_tasks) {
         if (atp->task_state() == PROCESS_UNINITIALIZED) continue;
         if (atp->pid ==0) continue;
@@ -461,6 +461,17 @@ void ACTIVE_TASK_SET::get_memory_usage() {
                 boinc_total.page_fault_rate
             );
         }
+    }
+
+    // if memory limits exceeded, trigger reschedule
+    //
+    if (boinc_total.working_set_size > gstate.available_ram()) {
+        gstate.request_schedule_cpus("RAM limit exceeded");
+    }
+    if (boinc_total.swap_size
+        > (gstate.global_prefs.vm_max_used_frac)*gstate.host_info.m_swap
+    ) {
+        gstate.request_schedule_cpus("Swap limit exceeded");
     }
 
     // check for exclusive apps
@@ -840,7 +851,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         "    <working_set_size>%f</working_set_size>\n"
         "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
         "    <page_fault_rate>%f</page_fault_rate>\n"
-        "%s%s%s",
+        "%s%s%s%s",
         task_state(),
         app_version->version_num,
         slot,
@@ -854,7 +865,8 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         procinfo.working_set_size,
         procinfo.working_set_size_smoothed,
         procinfo.page_fault_rate,
-        too_large?"   <too_large/>\n":"",
+        wss_too_large?"   <too_large/>\n":"",   // backward compatibility
+        swap_too_large?"   <swap_too_large/>\n":"",
         needs_shmem?"   <needs_shmem/>\n":"",
         want_network?"   <want_network/>\n":""
     );
