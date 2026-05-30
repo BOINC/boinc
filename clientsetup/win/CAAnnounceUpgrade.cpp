@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
 
 class CAAnnounceUpgrade : public BOINCCABase {
@@ -26,7 +25,7 @@ public:
         BOINCCABase(hMSIHandle, _T("CAAnnounceUpgrade"),
             _T("Announce the new BOINC version to all components.")) {
     }
-
+private:
     UINT OnExecution() override final {
         tstring strCurrentProductVersion;
 

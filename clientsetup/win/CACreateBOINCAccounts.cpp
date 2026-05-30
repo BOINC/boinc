@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
 #include "win_util.h"
 
@@ -28,7 +27,7 @@ public:
             _T("Validating user accounts used by BOINC "
                 "for secure sandboxes")) {
     }
-
+private:
     UINT CACreateBOINCAccounts::OnExecution() override final {
         tstring strBOINCMasterAccountUsername;
         auto uiReturnValue =
@@ -93,14 +92,14 @@ public:
         auto bBOINCMasterAccountCreated = false;
         auto bBOINCMasterAccountModified = false;
         if (bCreateBOINCMasterAccount) {
-            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
                 _T("Using automatic account creation and management of "
                     "'boinc_master' account"));
 
             // Determine what the real values of the usernames should be
             // based off of the inputs
             if (strBOINCMasterAccountUsername.empty()) {
-                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
                     _T("Generating 'boinc_master' account name"));
                 strBOINCMasterAccountUsername = _T("boinc_master");
                 // Domain Controller
@@ -112,13 +111,13 @@ public:
             // Generate random passwords if needed
             //
             if (strBOINCMasterAccountPassword.empty()) {
-                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
                     _T("Generating 'boinc_master' password"));
                 auto errorcode = 0;
                 std::tie(errorcode, strBOINCMasterAccountPassword)
                     = GenerateRandomPassword(32);
                 if (strBOINCMasterAccountPassword.empty()) {
-                    LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, errorcode,
+                    LogMessage(INSTALLMESSAGE_ERROR, 0, 0, errorcode,
                         _T("Failed to generate 'boinc_master' password"));
                     return ERROR_INSTALL_FAILURE;
                 }
@@ -138,7 +137,7 @@ public:
                 NetApiBufferFree(pBuf);
             }
             if (result == NERR_Success) {
-                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
                     _T("Resetting 'boinc_master' password"));
 
                 // Account already exists, just change the password
@@ -152,14 +151,14 @@ public:
                     reinterpret_cast<LPBYTE>(&ui), &dwParameterError);
 
                 if (nasReturnValue != NERR_Success) {
-                    LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
+                    LogMessage(INSTALLMESSAGE_ERROR, 0, 0,
                         nasReturnValue, _T("Failed to reset password on the "
                             "'boinc_master' account."));
                     return ERROR_INSTALL_FAILURE;
                 }
             }
             else {
-                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
                     _T("Creating 'boinc_master' account"));
 
                 // Account does not exist, create it
@@ -181,12 +180,12 @@ public:
                     reinterpret_cast<LPBYTE>(&ui), &dwParameterError);
 
                 if (nasReturnValue != NERR_Success) {
-                    LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+                    LogMessage(INSTALLMESSAGE_INFO, 0, 0, nasReturnValue,
                         _T("NetUserAdd retval"));
-                    LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, dwParameterError,
+                    LogMessage(INSTALLMESSAGE_INFO, 0, 0, dwParameterError,
                         _T("NetUserAdd dwParameterError")
                     );
-                    LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+                    LogMessage(INSTALLMESSAGE_ERROR, 0, 0, nasReturnValue,
                         _T("Failed to create the 'boinc_master' account.")
                     );
                     return ERROR_INSTALL_FAILURE;
@@ -215,14 +214,14 @@ public:
         auto bBOINCProjectAccountCreated = false;
         auto bBOINCProjectAccountModified = false;
         if (bCreateBOINCProjectAccount) {
-            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
                 _T("Using automatic account creation and management of "
                     "'boinc_project' account"));
 
             // Determine what the real values of the usernames should be based
             // off of the inputs
             if (strBOINCProjectAccountUsername.empty()) {
-                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
                     _T("Generating 'boinc_project' account name"));
                 strBOINCProjectAccountUsername = _T("boinc_project");
                 // Domain Controller
@@ -235,13 +234,13 @@ public:
             // Generate random passwords if needed
             //
             if (strBOINCProjectAccountPassword.empty()) {
-                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
                     _T("Generating 'boinc_project' password"));
                 auto errorcode = 0;
                 std::tie(errorcode, strBOINCProjectAccountPassword) =
                     GenerateRandomPassword(32);
                 if (strBOINCProjectAccountPassword.empty()) {
-                    LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, errorcode,
+                    LogMessage(INSTALLMESSAGE_ERROR, 0, 0, errorcode,
                         _T("Failed to generate 'boinc_project' password"));
                     return ERROR_INSTALL_FAILURE;
                 }
@@ -261,7 +260,7 @@ public:
             }
             // Check if user exists
             if (result == NERR_Success) {
-                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
                     _T("Resetting 'boinc_project' password"));
 
                 // Account already exists, just change the password
@@ -275,14 +274,14 @@ public:
                     reinterpret_cast<LPBYTE>(&ui), &dwParameterError);
 
                 if (nasReturnValue != NERR_Success) {
-                    LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+                    LogMessage(INSTALLMESSAGE_ERROR, 0, 0, nasReturnValue,
                         _T("Failed to reset password on the "
                             "'boinc_project' account."));
                     return ERROR_INSTALL_FAILURE;
                 }
             }
             else {
-                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
                     _T("Creating 'boinc_project' account"));
 
                 // Account does not exist, create it
@@ -304,11 +303,11 @@ public:
                     reinterpret_cast<LPBYTE>(&ui), &dwParameterError);
 
                 if (nasReturnValue != NERR_Success) {
-                    LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+                    LogMessage(INSTALLMESSAGE_INFO, 0, 0, nasReturnValue,
                         _T("NetUserAdd retval"));
-                    LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, dwParameterError,
+                    LogMessage(INSTALLMESSAGE_INFO, 0, 0, dwParameterError,
                         _T("NetUserAdd dwParameterError"));
-                    LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+                    LogMessage(INSTALLMESSAGE_ERROR, 0, 0, nasReturnValue,
                         _T("Failed to create the 'boinc_project' account."));
                     return ERROR_INSTALL_FAILURE;
                 }
@@ -352,7 +351,6 @@ public:
         return ERROR_SUCCESS;
     }
 
-private:
     // Source Code Originally from:
     // http://support.microsoft.com/kb/814463
     std::pair<decltype(GetLastError()), tstring>

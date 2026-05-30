@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
 
 class CASaveExecutionState : public BOINCCABase {
@@ -25,7 +24,7 @@ public:
         BOINCCABase(hMSIHandle, _T("CASaveExecutionState"),
             _T("Save current execution parameters")) {
     }
-
+private:
     UINT OnExecution() override final {
         tstring strLaunchProgram;
         GetProperty(_T("LAUNCHPROGRAM"), strLaunchProgram);

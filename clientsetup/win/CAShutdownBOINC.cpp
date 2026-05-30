@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
 
 class CAShutdownBOINC : public BOINCCABase {
@@ -25,7 +24,7 @@ public:
         BOINCCABase(hMSIHandle, _T("CAShutdownBOINC"),
             _T("Shutting down running instances of BOINC")) {
     }
-
+private:
     UINT OnExecution() override final {
         auto schSCManager = OpenSCManager(nullptr, nullptr, GENERIC_READ);
         if (schSCManager) {

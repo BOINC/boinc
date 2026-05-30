@@ -63,7 +63,6 @@ Author:
 
 --*/
 
-#include "stdafx.h"
 #include "lsaprivs.h"
 
 static void InitLsaString(LSA_UNICODE_STRING& LsaString,
@@ -158,9 +157,8 @@ bool LsaPrivs::GrantUserRight(PSID psidAccountSid, std::wstring_view pszUserRigh
     if (Status != STATUS_SUCCESS) {
         return false;
     }
-    typedef wil::unique_any<LSA_HANDLE,
-        decltype(&::LsaClose), ::LsaClose> unique_hlsa;
-    unique_hlsa policyHandleDeleter(PolicyHandle);
+    wil::unique_any<LSA_HANDLE, decltype(&::LsaClose), ::LsaClose>
+        policyHandleDeleter(PolicyHandle);
 
     Status = SetPrivilegeOnAccount(PolicyHandle, psidAccountSid, pszUserRight,
         bEnable);

@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
 
 class CADeleteBOINCGroups : public BOINCCABase {
@@ -25,10 +24,10 @@ public:
         BOINCCABase(hMSIHandle, _T("CADeleteBOINCGroups"),
             _T("Validating user groups used by BOINC for secure sandboxes")) {
     }
-
+private:
     UINT OnExecution() override final {
         if (IsUpgrading()) {
-            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
                 _T("Upgrade detected, no need to delete groups"));
             return ERROR_SUCCESS;
         }
@@ -37,9 +36,9 @@ public:
         if ((nasReturnValue != NERR_Success) &&
             (nasReturnValue != ERROR_ALIAS_EXISTS) &&
             nasReturnValue != NERR_GroupNotFound) {
-            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, nasReturnValue,
                 _T("NetLocalGroupDel retval"));
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, nasReturnValue,
                 _T("Failed to delete the 'boinc_admins' group."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -48,9 +47,9 @@ public:
         if ((nasReturnValue != NERR_Success) &&
             (nasReturnValue != ERROR_ALIAS_EXISTS) &&
             nasReturnValue != NERR_GroupNotFound) {
-            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, nasReturnValue,
                 _T("NetLocalGroupDel retval"));
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, nasReturnValue,
                 _T("Failed to Delete the 'boinc_users' group."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -59,9 +58,9 @@ public:
         if ((nasReturnValue != NERR_Success) &&
             (nasReturnValue != ERROR_ALIAS_EXISTS) &&
             nasReturnValue != NERR_GroupNotFound) {
-            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, nasReturnValue,
                 _T("NetLocalGroupDel retval"));
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, nasReturnValue,
                 _T("Failed to remove the 'boinc_projects' group."));
             return ERROR_INSTALL_FAILURE;
         }

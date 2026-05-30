@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
 #include "win_util.h"
 
@@ -27,7 +26,7 @@ public:
         BOINCCABase(hMSIHandle, _T("CACreateClientAuthFile"),
             _T("Store client authorization data")) {
     }
-
+private:
     UINT OnExecution() override final {
         tstring strDataDirectory;
         auto uiReturnValue = GetProperty(_T("DATADIR"), strDataDirectory);
@@ -35,12 +34,12 @@ public:
             return uiReturnValue;
         }
         if (strDataDirectory.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The data directory is empty."));
             return ERROR_INSTALL_FAILURE;
         }
         if (!std::filesystem::exists(strDataDirectory)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The data directory doesn't exist."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -62,7 +61,7 @@ public:
         }
         if (bProtectedAppExecEnabled &&
             strBOINCProjectAccountUsername.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The 'boinc_project' account username is empty."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -75,7 +74,7 @@ public:
         }
         if (bProtectedAppExecEnabled &&
             strBOINCProjectAccountPassword.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The 'boinc_project' account password is empty."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -92,14 +91,14 @@ public:
             if (std::filesystem::exists(strClientAuthFile)) {
                 try {
                     if (std::filesystem::remove(strClientAuthFile)) {
-                        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+                        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
                             _T("The client_auth.xml file was "
                                 "successfully deleted.")
                         );
                     }
                 }
                 catch (const std::filesystem::filesystem_error&) {
-                    LogMessage(INSTALLMESSAGE_FATALEXIT, 0, 0, 0, 0,
+                    LogMessage(INSTALLMESSAGE_FATALEXIT, 0, 0, 0,
                         _T("The client_auth.xml could not be deleted "
                             "from the data directory. Please delete the file "
                             "and rerun setup. ")
@@ -126,7 +125,7 @@ public:
             reinterpret_cast<const BYTE*>(lpszASCIIDecodedPassword.c_str()),
             static_cast<int>(lpszASCIIDecodedPassword.size()),
             szBuffer.data(), &dwSize, 0)) {
-            LogMessage(INSTALLMESSAGE_FATALEXIT, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_FATALEXIT, 0, 0, 0,
                 _T("The 'boinc_project' account password failed to be "
                     "encoded."));
             return ERROR_INSTALL_FAILURE;

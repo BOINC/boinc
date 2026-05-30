@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
 
 class CARevokeBOINCProjectRights : public BOINCCABase {
@@ -25,7 +24,7 @@ public:
         BOINCCABase(hMSIHandle, _T("CARevokeBOINCProjectRights"),
             _T("Validating BOINC Project's privileges")) {
     }
-
+private:
     UINT OnExecution() override final {
         tstring strBOINCProjectAccountUsername;
         const auto uiReturnValue = GetProperty(_T("BOINC_PROJECT_USERNAME"),
@@ -34,7 +33,7 @@ public:
             return uiReturnValue;
         }
         if (strBOINCProjectAccountUsername.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The BOINC_PROJECT_USERNAME property is empty"));
             return ERROR_INSTALL_FAILURE;
         }
@@ -42,7 +41,7 @@ public:
         PSID pSid;
         if (!GetAccountSid(strBOINCProjectAccountUsername.c_str(),
             &pSid)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("Failed to be able to obtain the SID "
                     "for the selected user on the localhost"));
             return ERROR_INSTALL_FAILURE;
@@ -50,44 +49,44 @@ public:
         wil::unique_process_heap pSidDeleter(pSid);
 
         constexpr std::array rightsToRemove = {
-            L"SeNetworkLogonRight",
-            L"SeRemoteInteractiveLogonRight",
-            L"SeBatchLogonRight",
-            L"SeInteractiveLogonRight",
-            L"SeServiceLogonRight",
-            L"SeDenyNetworkLogonRight",
-            L"SeDenyInteractiveLogonRight",
-            L"SeDenyBatchLogonRight",
-            L"SeDenyServiceLogonRight",
-            L"SeDenyRemoteInteractiveLogonRight",
-            L"SeTcbPrivilege",
-            L"SeMachineAccountPrivilege",
-            L"SeIncreaseQuotaPrivilege",
-            L"SeBackupPrivilege",
-            L"SeChangeNotifyPrivilege",
-            L"SeSystemTimePrivilege",
-            L"SeCreateTokenPrivilege",
-            L"SeCreatePagefilePrivilege",
-            L"SeCreateGlobalPrivilege",
-            L"SeDebugPrivilege",
-            L"SeEnableDelegationPrivilege",
-            L"SeRemoteShutdownPrivilege",
-            L"SeAuditPrivilege",
-            L"SeImpersonatePrivilege",
-            L"SeIncreaseBasePriorityPrivilege",
-            L"SeLoadDriverPrivilege",
-            L"SeLockMemoryPrivilege",
-            L"SeSecurityPrivilege",
-            L"SeSystemEnvironmentPrivilege",
-            L"SeManageVolumePrivilege",
-            L"SeProfileSingleProcessPrivilege",
-            L"SeSystemProfilePrivilege",
-            L"SeUndockPrivilege",
-            L"SeAssignPrimaryTokenPrivilege",
-            L"SeRestorePrivilege",
-            L"SeShutdownPrivilege",
-            L"SeSynchAgentPrivilege",
-            L"SeTakeOwnershipPrivilege"
+            _T("SeNetworkLogonRight"),
+            _T("SeRemoteInteractiveLogonRight"),
+            _T("SeBatchLogonRight"),
+            _T("SeInteractiveLogonRight"),
+            _T("SeServiceLogonRight"),
+            _T("SeDenyNetworkLogonRight"),
+            _T("SeDenyInteractiveLogonRight"),
+            _T("SeDenyBatchLogonRight"),
+            _T("SeDenyServiceLogonRight"),
+            _T("SeDenyRemoteInteractiveLogonRight"),
+            _T("SeTcbPrivilege"),
+            _T("SeMachineAccountPrivilege"),
+            _T("SeIncreaseQuotaPrivilege"),
+            _T("SeBackupPrivilege"),
+            _T("SeChangeNotifyPrivilege"),
+            _T("SeSystemTimePrivilege"),
+            _T("SeCreateTokenPrivilege"),
+            _T("SeCreatePagefilePrivilege"),
+            _T("SeCreateGlobalPrivilege"),
+            _T("SeDebugPrivilege"),
+            _T("SeEnableDelegationPrivilege"),
+            _T("SeRemoteShutdownPrivilege"),
+            _T("SeAuditPrivilege"),
+            _T("SeImpersonatePrivilege"),
+            _T("SeIncreaseBasePriorityPrivilege"),
+            _T("SeLoadDriverPrivilege"),
+            _T("SeLockMemoryPrivilege"),
+            _T("SeSecurityPrivilege"),
+            _T("SeSystemEnvironmentPrivilege"),
+            _T("SeManageVolumePrivilege"),
+            _T("SeProfileSingleProcessPrivilege"),
+            _T("SeSystemProfilePrivilege"),
+            _T("SeUndockPrivilege"),
+            _T("SeAssignPrimaryTokenPrivilege"),
+            _T("SeRestorePrivilege"),
+            _T("SeShutdownPrivilege"),
+            _T("SeSynchAgentPrivilege"),
+            _T("SeTakeOwnershipPrivilege")
         };
         for (auto right : rightsToRemove) {
             GrantUserRight(pSid, right, false);

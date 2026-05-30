@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
 
 class CAValidateInstall : public BOINCCABase {
@@ -25,7 +24,7 @@ public:
         BOINCCABase(hMSIHandle, _T("CAValidateInstall"),
             _T("Validating the install by checking all executables.")) {
     }
-
+private:
     UINT OnExecution() override final {
         tstring strFilename;
         tstring strTemp;
@@ -37,7 +36,7 @@ public:
             return uiReturnValue;
         }
         if (strInstallDirectory.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The install directory is not set."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -48,7 +47,7 @@ public:
             return uiReturnValue;
         }
         if (strProductVersion.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The product version is not set."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -67,7 +66,7 @@ public:
             if (ValidateComponent(
                 component, strInstallDirectory, strProductVersion) !=
                 ERROR_SUCCESS) {
-                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                     _T("Component validation failed for: ") +
                     tstring(component));
                 validateResult = false;
@@ -80,7 +79,6 @@ public:
         return validateResult ? ERROR_SUCCESS : ERROR_INSTALL_FAILURE;
     }
 
-private:
     UINT ValidateComponent(const tstring& strComponent,
         const tstring& strDirectory, const tstring& strDesiredVersion) {
         tstring strExecutable;
@@ -90,13 +88,13 @@ private:
             return uiReturnValue;
         }
         if (strExecutable.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0, _T("Component '") +
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, _T("Component '") +
                 strComponent + _T("' is missing a key file."));
             return ERROR_INSTALL_FAILURE;
         }
 
         strExecutable = strDirectory + _T("\\") + strExecutable;
-        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
             _T("Validating Executable: '") + strExecutable +
             _T("' Version: '") + strDesiredVersion + _T("'"));
 
@@ -105,24 +103,23 @@ private:
         const auto dwSize = GetFileVersionInfoSize(strExecutable.c_str(),
             &dwHandle);
         if (dwSize == 0) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
                 _T("Failed to get version info size for executable: '") +
                 strExecutable + _T("'"));
             return ERROR_INSTALL_FAILURE;
         }
 
         auto lpData = reinterpret_cast<LPVOID>(malloc(dwSize));
-        typedef wil::unique_any<LPVOID, decltype(&::free), ::free>
-            unique_lpvoid;
-        unique_lpvoid pDataDeleter(lpData);
+        wil::unique_any<LPVOID, decltype(&::free), ::free>
+            pDataDeleter(lpData);
         if (!GetFileVersionInfo(strExecutable.c_str(), dwHandle, dwSize,
             lpData)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
                 _T("Failed to get version info for executable: '") +
                 strExecutable + _T("'"));
             return ERROR_INSTALL_FAILURE;
         }
-        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
             _T("Successfully obtained version info for executable: '") +
             strExecutable + _T("'"));
 
@@ -133,13 +130,13 @@ private:
         UINT uiVarSize;
         if (!VerQueryValue(lpData, _T("\\VarFileInfo\\Translation"),
             reinterpret_cast<LPVOID*>(&lpTranslate), &uiVarSize)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
                 _T("Failed to get version info translation "
                     "for executable: '") + strExecutable + _T("'"));
             return ERROR_INSTALL_FAILURE;
         }
 
-        std::wostringstream ss;
+        tostringstream ss;
         ss << _T("\\StringFileInfo\\") <<
             std::hex << std::setw(4) << std::setfill(_T('0')) <<
             lpTranslate[0].wLanguage <<
@@ -148,7 +145,7 @@ private:
             _T("\\ProductVersion");
         LPVOID lpVar;
         if (!VerQueryValue(lpData, ss.str().data(), &lpVar, &uiVarSize)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
                 _T("Failed to get product version from version info for "
                     "executable: '") + strExecutable + _T("'"));
             return ERROR_INSTALL_FAILURE;
@@ -156,13 +153,13 @@ private:
 
         const auto productVersion = tstring(reinterpret_cast<wchar_t*>(lpVar));
         if (productVersion.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("Product version is empty in version info "
                     "for executable: '") + strExecutable + _T("'"));
             return ERROR_INSTALL_FAILURE;
         }
 
-        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
             _T("Product Version: '") + productVersion + _T("'"));
 
         if (strDesiredVersion != productVersion) {

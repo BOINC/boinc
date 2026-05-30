@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
 
 class CACleanupOldBinaries : public BOINCCABase {
@@ -27,7 +26,7 @@ public:
             _T("Cleanup any old binaries that were left lying around from "
                 "some other install.")) {
     }
-
+private:
     UINT OnExecution() override final {
         tstring strInstallDirectory;
 

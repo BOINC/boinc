@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
 
 class CASetPermissionBOINC : public BOINCCABase {
@@ -25,7 +24,7 @@ public:
         BOINCCABase(hMSIHandle, _T("CASetPermissionBOINC"),
             _T("Setting permissions on the BOINC Executable directory.")) {
     }
-
+private:
     UINT OnExecution() override final {
         tstring strEnableProtectedApplicationExecution;
         auto uiReturnValue =
@@ -45,7 +44,7 @@ public:
             return uiReturnValue;
         }
         if (!std::filesystem::exists(strBOINCInstallDirectory)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The install directory doesn't exist."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -57,12 +56,12 @@ public:
             return uiReturnValue;
         }
         if (strBOINCAdminsGroupAlias.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The BOINC Admins group alias is empty."));
             return ERROR_INSTALL_FAILURE;
         }
         if(!localGroupExists(strBOINCAdminsGroupAlias)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The BOINC Admins group doesn't exist."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -74,12 +73,12 @@ public:
             return uiReturnValue;
         }
         if (strBOINCUsersGroupAlias.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The BOINC Users group alias is empty."));
             return ERROR_INSTALL_FAILURE;
         }
         if (!localGroupExists(strBOINCUsersGroupAlias)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The BOINC Users group doesn't exist."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -117,7 +116,7 @@ public:
             std::array<BYTE, SECURITY_MAX_SID_SIZE> bufferAllUsers;
             if (!CreateWellKnownSid(WinBuiltinUsersSid, nullptr,
                 &bufferAllUsers, &sizeAllUsers)) {
-                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
                     _T("CreateWellKnownSid Error for BUILTIN\\Users"));
                 return ERROR_INSTALL_FAILURE;
             }
@@ -142,9 +141,9 @@ public:
         wil::unique_any<PSECURITY_DESCRIPTOR, decltype(&::LocalFree),
             ::LocalFree> pSDGuard(pSD);
         if (dwRes != ERROR_SUCCESS) {
-            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, GetLastError(),
                 _T("GetNamedSecurityInfo Error"));
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
                 _T("GetNamedSecurityInfo Error"));
             return ERROR_INSTALL_FAILURE;
         }
@@ -154,9 +153,9 @@ public:
         wil::unique_any<PACL, decltype(&::LocalFree), ::LocalFree>
             pACLGuard(pACL);
         if (dwRes != ERROR_SUCCESS) {
-            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, GetLastError(),
                 _T("SetEntriesInAcl Error"));
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
                 _T("SetEntriesInAcl Error"));
             return ERROR_INSTALL_FAILURE;
         }
@@ -166,9 +165,9 @@ public:
             DACL_SECURITY_INFORMATION, nullptr, nullptr, pACL,
             nullptr);
         if (dwRes != ERROR_SUCCESS) {
-            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, GetLastError(),
                 _T("SetNamedSecurityInfo Error"));
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
                 _T("SetNamedSecurityInfo Error"));
             return ERROR_INSTALL_FAILURE;
         }

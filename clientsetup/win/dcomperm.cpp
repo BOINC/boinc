@@ -41,7 +41,6 @@ Environment:
 
 --*/
 
-#include "stdafx.h"
 #include "lsaprivs.h"
 #include "ntsecapi.h"
 #include "dcomperm.h"
@@ -190,9 +189,8 @@ static DWORD GetCurrentUserSID(PSID* Sid) {
     GetTokenInformation(tokenHandle, TokenUser, tokenUser, 0, &tokenSize);
 
     tokenUser = reinterpret_cast<TOKEN_USER*>(malloc(tokenSize));
-    typedef wil::unique_any<TOKEN_USER*, decltype(&::free), ::free>
-        unique_tu;
-    unique_tu tokenUserDeleter(tokenUser);
+    wil::unique_any<TOKEN_USER*, decltype(&::free), ::free>
+        tokenUserDeleter(tokenUser);
 
     if (!GetTokenInformation(tokenHandle, TokenUser, tokenUser, tokenSize,
         &tokenSize)) {
@@ -212,9 +210,8 @@ static DWORD CreateNewSD(SECURITY_DESCRIPTOR** SD) {
     if (returnValue != ERROR_SUCCESS) {
         return returnValue;
     }
-    typedef wil::unique_any<PSID, decltype(&::free), ::free>
-        unique_psid;
-    unique_psid pSidDeleter(sid);
+    wil::unique_any<PSID, decltype(&::free), ::free>
+        pSidDeleter(sid);
 
     *SD = nullptr;
     const auto sidLength = GetLengthSid(sid);
@@ -222,9 +219,8 @@ static DWORD CreateNewSD(SECURITY_DESCRIPTOR** SD) {
         (sizeof(ACL) + sizeof(ACCESS_ALLOWED_ACE) + sidLength) +
         (2 * sidLength) + sizeof(SECURITY_DESCRIPTOR)));
 
-    typedef wil::unique_any<SECURITY_DESCRIPTOR*, decltype(&::free), ::free>
-        unique_sd;
-    unique_sd pSDDeleter(*SD);
+    wil::unique_any<SECURITY_DESCRIPTOR*, decltype(&::free), ::free>
+        pSDDeleter(*SD);
 
     auto groupSID = reinterpret_cast<SID*>(*SD + 1);
     auto ownerSID = reinterpret_cast<SID*>(
@@ -479,7 +475,8 @@ static DWORD RemovePrincipalFromNamedValueSD(HKEY RootKey,
     std::wstring_view Principal) {
     SECURITY_DESCRIPTOR* sd = NULL;
     auto newSD = false;
-    auto returnValue = GetNamedValueSD(RootKey, KeyName, ValueName, &sd, newSD);
+    auto returnValue =
+        GetNamedValueSD(RootKey, KeyName, ValueName, &sd, newSD);
 
     if (returnValue != ERROR_SUCCESS)
         return returnValue;

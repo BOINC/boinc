@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
 
 class CASaveSetupState : public BOINCCABase {
@@ -25,7 +24,7 @@ public:
         BOINCCABase(hMSIHandle, _T("CASaveSetupState"),
             _T("Save current setup parameters")) {
     }
-
+private:
     UINT CASaveSetupState::OnExecution() override final {
         tstring strInstallDirectory;
         GetProperty(_T("INSTALLDIR"), strInstallDirectory);

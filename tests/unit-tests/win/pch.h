@@ -40,3 +40,5 @@
 #include "gtest/gtest.h"
 #include "tinyxml2.h"
 #include "wil/resource.h"
+
+#define BOINCCAS_TEST

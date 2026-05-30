@@ -16,16 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-// stdafx.h : include file for standard system include files,
-// or project specific include files that are used frequently, but
-// are changed infrequently
-//
-
-#ifndef _STDAFX_H_
-#define _STDAFX_H_
-
-// Windows System Libraries
-//
+#pragma once 
 
 // Modify the following defines if you have to target a platform prior to the ones specified below.
 // Refer to MSDN for the latest info on corresponding values for different platforms.
@@ -50,65 +41,22 @@
 #define _WIN32_MSI 400
 #endif
 
-// ATL Headers Files:
-#include <atlbase.h>
 #include <atlenc.h>
-
-// Windows Header Files:
 #include <windows.h>
-#include <crtdbg.h>
-#include <delayimp.h>
 #include <msiquery.h>
-// the following fixes mysterious/sporadic errors in Win include files; see
-// https://stackoverflow.com/questions/73025050/how-do-i-solve-c2371-errors-that-arise-from-including-both-ntsecapi-h-and-win
-//#include <Winternl.h>
-//#define _NTDEF_
 #include <ntsecapi.h>
 #include <lm.h>
-#include <shlobj.h>
 #include <sddl.h>
-#include <wincrypt.h>
 #include <aclapi.h>
-#include <winsafer.h>
 
-// CRT Header Files:
-#include <time.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <stdio.h>
-#include <errno.h>
-
-// STL Header Files:
-#include <cassert>
-#include <cstdio>
 #include <string>
-#include <iostream>
 #include <sstream>
 #include <fstream>
 #include <vector>
 #include <array>
 #include <filesystem>
 
-// Misc Includes
-#include <tchar.h>
-
 #include <wil/resource.h>
 
-#ifdef _UNICODE
 #define tstring std::wstring
 #define tostringstream std::wostringstream
-#else
-#define tstring std::string
-#define tostringstream std::ostringstream
-#endif
-
-
-// Define symbols not already defined in the SDK.
-//
-
-#ifndef STATUS_SUCCESS
-#define STATUS_SUCCESS  ((NTSTATUS)0x00000000L)
-#endif
-
-#endif
-

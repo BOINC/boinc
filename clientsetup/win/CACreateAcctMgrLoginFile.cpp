@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
 
 class CACreateAcctMgrLoginFile : public BOINCCABase {
@@ -26,7 +25,7 @@ public:
         BOINCCABase(hMSIHandle, _T("CACreateAcctMgrLoginFile"),
             _T("Store account manager initialization data")) {
     }
-
+private:
     UINT OnExecution() override final {
         tstring strDataDirectory;
         auto uiReturnValue = GetProperty(_T("DATADIR"), strDataDirectory);
@@ -34,12 +33,12 @@ public:
             return uiReturnValue;
         }
         if (strDataDirectory.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The data directory is empty."));
             return ERROR_INSTALL_FAILURE;
         }
         if (!std::filesystem::exists(strDataDirectory)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The data directory doesn't exist."));
             return ERROR_INSTALL_FAILURE;
         }

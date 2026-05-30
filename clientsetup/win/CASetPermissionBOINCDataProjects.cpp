@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
 
 class CASetPermissionBOINCDataProjects : public BOINCCABase {
@@ -25,7 +24,7 @@ public:
         BOINCCABase(hMSIHandle, _T("CASetPermissionBOINCDataProjects"),
             _T("Setting permissions on the BOINC Projects directory.")) {
     }
-
+private:
     UINT OnExecution() override final {
         tstring strEnableProtectedApplicationExecution;
         auto uiReturnValue =
@@ -44,7 +43,7 @@ public:
             return uiReturnValue;
         }
         if (!std::filesystem::exists(strBOINCDataDirectory)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The data directory doesn't exist."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -52,7 +51,7 @@ public:
         auto strBOINCDataProjectsDirectory =
             strBOINCDataDirectory + _T("\\projects");
         if (!std::filesystem::exists(strBOINCDataProjectsDirectory)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The projects directory doesn't exist."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -72,12 +71,12 @@ public:
             return uiReturnValue;
         }
         if (strBOINCAdminsGroupAlias.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The BOINC Admins group alias is empty."));
             return ERROR_INSTALL_FAILURE;
         }
         if (!localGroupExists(strBOINCAdminsGroupAlias)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The BOINC Admins group doesn't exist."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -89,12 +88,12 @@ public:
             return uiReturnValue;
         }
         if (strBOINCUsersGroupAlias.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The BOINC Users group alias is empty."));
             return ERROR_INSTALL_FAILURE;
         }
         if (!localGroupExists(strBOINCUsersGroupAlias)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The BOINC Users group doesn't exist."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -106,12 +105,12 @@ public:
             return uiReturnValue;
         }
         if (strBOINCProjectsGroupAlias.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The BOINC Projects group alias is empty."));
             return ERROR_INSTALL_FAILURE;
         }
         if (!localGroupExists(strBOINCProjectsGroupAlias)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The BOINC Projects group doesn't exist."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -120,7 +119,7 @@ public:
         std::array<BYTE, SECURITY_MAX_SID_SIZE> bufferSystem;
         if (!CreateWellKnownSid(WinLocalSystemSid, nullptr, &bufferSystem,
             &sizeSystem)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
                 _T("CreateWellKnownSid Error for SYSTEM"));
             return ERROR_INSTALL_FAILURE;
         }
@@ -129,7 +128,7 @@ public:
         std::array<BYTE, SECURITY_MAX_SID_SIZE> bufferAdmins;
         if (!CreateWellKnownSid(WinBuiltinAdministratorsSid, nullptr,
             &bufferAdmins, &sizeAdmins)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
                 _T("CreateWellKnownSid Error for BUILTIN\\Administrators"));
             return ERROR_INSTALL_FAILURE;
         }
@@ -139,7 +138,7 @@ public:
         if (enableUseByAllUsers) {
             if (!CreateWellKnownSid(WinBuiltinUsersSid, nullptr, &bufferUsers,
                 &sizeUsers)) {
-                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
                     _T("CreateWellKnownSid Error for BUILTIN\\Users"));
                 return ERROR_INSTALL_FAILURE;
             }
@@ -204,9 +203,9 @@ public:
         wil::unique_any<PACL, decltype(&::LocalFree), ::LocalFree>
             pACLGuard(pACL);
         if (dwRes != ERROR_SUCCESS) {
-            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, GetLastError(),
                 _T("SetEntriesInAcl Error"));
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
                 _T("SetEntriesInAcl Error"));
             return ERROR_INSTALL_FAILURE;
         }
@@ -216,9 +215,9 @@ public:
             DACL_SECURITY_INFORMATION | PROTECTED_DACL_SECURITY_INFORMATION,
             NULL, NULL, pACL, NULL);
         if (dwRes != ERROR_SUCCESS) {
-            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, GetLastError(),
                 _T("SetNamedSecurityInfo Error"));
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
                 _T("SetNamedSecurityInfo Error"));
             return ERROR_INSTALL_FAILURE;
         }

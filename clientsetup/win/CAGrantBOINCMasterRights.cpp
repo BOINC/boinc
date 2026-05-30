@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
 
 class CAGrantBOINCMasterRights : public BOINCCABase {
@@ -25,18 +24,17 @@ public:
         BOINCCABase(hMSIHandle, _T("CAGrantBOINCMasterRights"),
             _T("Validating BOINC Master's privileges")) {
     }
-
+private:
     UINT OnExecution() override final {
-
         tstring strBOINCMasterAccountUsername;
-        const auto uiReturnValue =
+        auto uiReturnValue =
             GetProperty(_T("BOINC_MASTER_USERNAME"),
                 strBOINCMasterAccountUsername);
         if (uiReturnValue != ERROR_SUCCESS) {
             return uiReturnValue;
         }
         if (strBOINCMasterAccountUsername.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The BOINC_MASTER_USERNAME property is empty"));
             return ERROR_INSTALL_FAILURE;
         }
@@ -44,7 +42,7 @@ public:
         PSID pSid;
         if (!GetAccountSid(strBOINCMasterAccountUsername.c_str(),
             &pSid)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("Failed to be able to obtain the SID "
                     "for the selected user on the localhost"));
             return ERROR_INSTALL_FAILURE;
@@ -52,54 +50,54 @@ public:
         wil::unique_process_heap pSidDeleter(pSid);
 
         constexpr std::array rightsToSet = {
-            L"SeServiceLogonRight",
-            L"SeDenyInteractiveLogonRight",
-            L"SeDenyRemoteInteractiveLogonRight"
+            _T("SeServiceLogonRight"),
+            _T("SeDenyInteractiveLogonRight"),
+            _T("SeDenyRemoteInteractiveLogonRight")
         };
         for (auto right : rightsToSet) {
             if (!GrantUserRight(pSid, right, true)) {
-                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                     _T("Failed call to GrantUserRight - ") + tstring(right));
                 return ERROR_INSTALL_FAILURE;
             }
         }
 
         constexpr std::array rightsToRemove = {
-            L"SeNetworkLogonRight",
-            L"SeRemoteInteractiveLogonRight",
-            L"SeBatchLogonRight",
-            L"SeInteractiveLogonRight",
-            L"SeDenyNetworkLogonRight",
-            L"SeDenyBatchLogonRight",
-            L"SeDenyServiceLogonRight",
-            L"SeTcbPrivilege",
-            L"SeMachineAccountPrivilege",
-            L"SeIncreaseQuotaPrivilege",
-            L"SeBackupPrivilege",
-            L"SeChangeNotifyPrivilege",
-            L"SeSystemTimePrivilege",
-            L"SeCreateTokenPrivilege",
-            L"SeCreatePagefilePrivilege",
-            L"SeCreateGlobalPrivilege",
-            L"SeDebugPrivilege",
-            L"SeEnableDelegationPrivilege",
-            L"SeRemoteShutdownPrivilege",
-            L"SeAuditPrivilege",
-            L"SeImpersonatePrivilege",
-            L"SeIncreaseBasePriorityPrivilege",
-            L"SeLoadDriverPrivilege",
-            L"SeLockMemoryPrivilege",
-            L"SeSecurityPrivilege",
-            L"SeSystemEnvironmentPrivilege",
-            L"SeManageVolumePrivilege",
-            L"SeProfileSingleProcessPrivilege",
-            L"SeSystemProfilePrivilege",
-            L"SeUndockPrivilege",
-            L"SeAssignPrimaryTokenPrivilege",
-            L"SeRestorePrivilege",
-            L"SeShutdownPrivilege",
-            L"SeSynchAgentPrivilege",
-            L"SeTakeOwnershipPrivilege"
+            _T("SeNetworkLogonRight"),
+            _T("SeRemoteInteractiveLogonRight"),
+            _T("SeBatchLogonRight"),
+            _T("SeInteractiveLogonRight"),
+            _T("SeDenyNetworkLogonRight"),
+            _T("SeDenyBatchLogonRight"),
+            _T("SeDenyServiceLogonRight"),
+            _T("SeTcbPrivilege"),
+            _T("SeMachineAccountPrivilege"),
+            _T("SeIncreaseQuotaPrivilege"),
+            _T("SeBackupPrivilege"),
+            _T("SeChangeNotifyPrivilege"),
+            _T("SeSystemTimePrivilege"),
+            _T("SeCreateTokenPrivilege"),
+            _T("SeCreatePagefilePrivilege"),
+            _T("SeCreateGlobalPrivilege"),
+            _T("SeDebugPrivilege"),
+            _T("SeEnableDelegationPrivilege"),
+            _T("SeRemoteShutdownPrivilege"),
+            _T("SeAuditPrivilege"),
+            _T("SeImpersonatePrivilege"),
+            _T("SeIncreaseBasePriorityPrivilege"),
+            _T("SeLoadDriverPrivilege"),
+            _T("SeLockMemoryPrivilege"),
+            _T("SeSecurityPrivilege"),
+            _T("SeSystemEnvironmentPrivilege"),
+            _T("SeManageVolumePrivilege"),
+            _T("SeProfileSingleProcessPrivilege"),
+            _T("SeSystemProfilePrivilege"),
+            _T("SeUndockPrivilege"),
+            _T("SeAssignPrimaryTokenPrivilege"),
+            _T("SeRestorePrivilege"),
+            _T("SeShutdownPrivilege"),
+            _T("SeSynchAgentPrivilege"),
+            _T("SeTakeOwnershipPrivilege")
         };
         for (auto right : rightsToRemove) {
             GrantUserRight(pSid, right, false);

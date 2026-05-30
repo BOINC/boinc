@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
 
 class CAShutdownBOINCScreensaver : public BOINCCABase {
@@ -25,7 +24,7 @@ public:
         BOINCCABase(hMSIHandle, _T("CAShutdownBOINCScreensaver"),
             _T("Shutting down running instances of BOINC Screensaver")) {
     }
-
+private:
     UINT OnExecution() override final {
         TerminateProcessEx(_T("boinc.scr"));
         return ERROR_SUCCESS;

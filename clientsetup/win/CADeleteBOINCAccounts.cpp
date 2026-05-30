@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
 
 class CADeleteBOINCAccounts : public BOINCCABase {
@@ -26,10 +25,10 @@ public:
             _T("Validating user accounts used by BOINC "
                 "for secure sandboxes")) {
     }
-
+private:
     UINT OnExecution() override final {
         if (IsUpgrading()) {
-            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
                 _T("Upgrade detected, no need to delete accounts"));
             return ERROR_SUCCESS;
         }
@@ -46,9 +45,9 @@ public:
             const auto nasReturnValue = NetUserDel(nullptr,
                     strBOINCMasterAccountUsername.c_str());
             if (nasReturnValue != NERR_Success) {
-                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+                LogMessage(INSTALLMESSAGE_INFO, 0, 0, nasReturnValue,
                     _T("NetUserDel retval"));
-                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, nasReturnValue,
                     _T("Failed to delete the 'boinc_master' account."));
                 return ERROR_INSTALL_FAILURE;
             }
@@ -64,9 +63,9 @@ public:
             const auto nasReturnValue = NetUserDel(nullptr,
                     strBOINCProjectAccountUsername.c_str());
             if (nasReturnValue != NERR_Success) {
-                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+                LogMessage(INSTALLMESSAGE_INFO, 0, 0, nasReturnValue,
                     _T("NetUserDel retval"));
-                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, nasReturnValue,
                     _T("Failed to delete the 'boinc_project' account."));
                 return ERROR_INSTALL_FAILURE;
             }

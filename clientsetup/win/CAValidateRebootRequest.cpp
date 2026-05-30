@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
 
 class CAValidateRebootRequest : public BOINCCABase {
@@ -25,7 +24,7 @@ public:
         BOINCCABase(hMSIHandle, _T("CAValidateRebootRequest"),
             _T("Validating any reboot requests.")) {
     }
-
+private:
     UINT OnExecution() override final {
         tstring strInstallDirectory;
         const auto uiReturnValue = GetProperty(_T("INSTALLDIR"),
@@ -34,12 +33,12 @@ public:
             return uiReturnValue;
         }
         if (strInstallDirectory.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The install directory is not set."));
             return ERROR_INSTALL_FAILURE;
         }
         if (!std::filesystem::exists(strInstallDirectory)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The install directory does not exist: ") +
                 strInstallDirectory);
             return ERROR_INSTALL_FAILURE;
@@ -54,7 +53,7 @@ public:
         //
         if (!MoveFileEx(strRebootPendingFilename.c_str(), NULL,
             MOVEFILE_DELAY_UNTIL_REBOOT)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
                 _T("Failed to schedule file for removal after reboot"));
             return ERROR_INSTALL_FAILURE;
         }

@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
 
 class CAShutdownBOINCManager : public BOINCCABase {
@@ -25,7 +24,7 @@ public:
         BOINCCABase(hMSIHandle, _T("CAShutdownBOINCManager"),
             _T("Shutting down running instances of BOINC Manager")) {
     }
-
+private:
     UINT OnExecution() override final {
         const auto WM_TASKBARSHUTDOWN =
             ::RegisterWindowMessage(_T("TaskbarShutdown"));
@@ -48,7 +47,7 @@ public:
 
                 if (GetWindowText(hWndBOINCManagerSystray, szWindowTitle,
                     szWindowTitleSize) == 0) {
-                    LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, GetLastError(),
+                    LogMessage(INSTALLMESSAGE_INFO, 0, 0, GetLastError(),
                         _T("Setup was unable to get the window title of the "
                             "BOINC Manager Systray window."));
                     break;
@@ -58,7 +57,7 @@ public:
                 const auto result = SendMessage(hWndBOINCManagerSystray,
                     WM_TASKBARSHUTDOWN, NULL, NULL);
                 if (result != 0) {
-                    LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
+                    LogMessage(INSTALLMESSAGE_INFO, 0, 0,
                         static_cast<int>(result), _T("Setup was unable to "
                             "shutdown the BOINC Manager Systray window."));
                     return ERROR_INSTALL_FAILURE;
@@ -68,7 +67,7 @@ public:
         }
 
         if (!terminateResult) {
-            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
                 _T("One or more BOINC Manager applications "
                     "could not be closed, terminating process(s)."));
             return ERROR_INSTALL_FAILURE;

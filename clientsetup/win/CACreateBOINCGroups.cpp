@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
 
 class CACreateBOINCGroups : public BOINCCABase {
@@ -26,7 +25,7 @@ public:
         BOINCCABase(hMSIHandle, _T("CACreateBOINCGroups"),
             _T("Validating user groups used by BOINC for secure sandboxes")) {
     }
-
+private:
     UINT OnExecution() override final {
         tstring strUserSID;
         auto uiReturnValue = GetProperty(_T("UserSID"), strUserSID);
@@ -34,7 +33,7 @@ public:
             return uiReturnValue;
         }
         if (strUserSID.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The installing user's SID is empty."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -56,7 +55,7 @@ public:
         }
         if (bProtectedAppExecEnabled &&
             strBOINCMasterAccountUsername.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The 'boinc_master' account username is empty."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -69,7 +68,7 @@ public:
         }
         if (bProtectedAppExecEnabled &&
             strBOINCProjectAccountUsername.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The 'boinc_project' account username is empty."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -78,7 +77,7 @@ public:
         DWORD sidSize = SECURITY_MAX_SID_SIZE;
         if (!CreateWellKnownSid(WinBuiltinAdministratorsSid, nullptr,
             sidBuf.data(), &sidSize)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
                 _T("CreateWellKnownSid Error for BUILTIN\\Administrators"));
             return ERROR_INSTALL_FAILURE;
         }
@@ -88,7 +87,7 @@ public:
             reinterpret_cast<PSID>(sidBuf.data()));
 
         if (!pAdminSID.is_valid()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
                 _T("AllocateAndInitializeSid Error for "
                     "BUILTIN\\Administrators"));
             return ERROR_INSTALL_FAILURE;
@@ -100,7 +99,7 @@ public:
                 LocalFree(pInstallingUserSID);
                 pInstallingUserSID = nullptr;
             }
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
                 _T("ConvertStringSidToSid Error for installing user"));
             return ERROR_INSTALL_FAILURE;
         }
@@ -117,9 +116,9 @@ public:
 
         if ((nasReturnValue != NERR_Success) &&
             (nasReturnValue != ERROR_ALIAS_EXISTS)) {
-            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, nasReturnValue,
                 _T("NetLocalGroupAdd retval"));
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, nasReturnValue,
                 _T("Failed to create the 'boinc_users' group."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -141,9 +140,9 @@ public:
 
         if ((nasReturnValue != NERR_Success) &&
             (nasReturnValue != ERROR_ALIAS_EXISTS)) {
-            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, nasReturnValue,
                 _T("NetLocalGroupAdd retval"));
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, nasReturnValue,
                 _T("Failed to create the 'boinc_projects' group."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -164,9 +163,9 @@ public:
 
         if ((nasReturnValue != NERR_Success) &&
             (nasReturnValue != ERROR_ALIAS_EXISTS)) {
-            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, nasReturnValue,
                 _T("NetLocalGroupAdd retval"));
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, nasReturnValue,
                 _T("Failed to create the 'boinc_admins' group."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -185,9 +184,9 @@ public:
 
         if ((nasReturnValue != NERR_Success) &&
             (nasReturnValue != ERROR_MEMBER_IN_ALIAS)) {
-            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, nasReturnValue,
                 _T("NetLocalGroupAddMembers retval"));
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, nasReturnValue,
                 _T("Failed to add user to the 'boinc_admins' group "
                     "(Administrator)."));
             return ERROR_INSTALL_FAILURE;
@@ -199,9 +198,9 @@ public:
 
         if ((nasReturnValue != NERR_Success) &&
             (nasReturnValue != ERROR_MEMBER_IN_ALIAS)) {
-            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, nasReturnValue,
                 _T("NetLocalGroupAddMembers retval"));
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, nasReturnValue,
                 _T("Failed to add user to the 'boinc_admins' group "
                     "(Installing User)."));
             return ERROR_INSTALL_FAILURE;
@@ -216,7 +215,7 @@ public:
                     FreeSid(pBOINCMasterSID);
                     pBOINCMasterSID = nullptr;
                 }
-                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
                     _T("GetAccountSid Error for 'boinc_master' user account"));
                 return ERROR_INSTALL_FAILURE;
             }
@@ -229,9 +228,9 @@ public:
 
             if ((nasReturnValue != NERR_Success) &&
                 (nasReturnValue != ERROR_MEMBER_IN_ALIAS)) {
-                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+                LogMessage(INSTALLMESSAGE_INFO, 0, 0, nasReturnValue,
                     _T("NetLocalGroupAddMembers retval"));
-                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, nasReturnValue,
                     _T("Failed to add user to the 'boinc_admins' group "
                         "(BOINC Master)."));
                 return ERROR_INSTALL_FAILURE;
@@ -244,7 +243,7 @@ public:
                     FreeSid(pBOINCProjectSID);
                     pBOINCProjectSID = nullptr;
                 }
-                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
                     _T("GetAccountSid Error for 'boinc_master' user account"));
                 return ERROR_INSTALL_FAILURE;
             }
@@ -259,9 +258,9 @@ public:
 
             if ((nasReturnValue != NERR_Success) &&
                 (nasReturnValue != ERROR_MEMBER_IN_ALIAS)) {
-                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+                LogMessage(INSTALLMESSAGE_INFO, 0, 0, nasReturnValue,
                     _T("NetLocalGroupAddMembers retval"));
-                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, nasReturnValue,
                     _T("Failed to add user to the 'boinc_projects' group "
                         "(boinc_project)."));
                 return ERROR_INSTALL_FAILURE;
@@ -286,7 +285,7 @@ public:
             tstring domain(static_cast<size_t>(domainSize), '\0');
             if (!LookupAccountSid(nullptr, pUsersSid, name.data(), &nameSize,
                 domain.data(), &domainSize, &snu)) {
-                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, GetLastError(),
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
                     _T("Setup was unable to determine the Users group name."));
                 return ERROR_INSTALL_FAILURE;
             }
@@ -296,9 +295,9 @@ public:
 
             if ((nasReturnValue != NERR_Success) &&
                 (nasReturnValue != ERROR_MEMBER_IN_ALIAS)) {
-                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+                LogMessage(INSTALLMESSAGE_INFO, 0, 0, nasReturnValue,
                     _T("NetLocalGroupAddMembers retval"));
-                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, nasReturnValue,
                     _T("Failed to add user to the 'Users' group "
                         "(boinc_project)."));
                 return ERROR_INSTALL_FAILURE;
@@ -310,9 +309,9 @@ public:
 
             if ((nasReturnValue != NERR_Success) &&
                 (nasReturnValue != ERROR_MEMBER_IN_ALIAS)) {
-                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, nasReturnValue,
+                LogMessage(INSTALLMESSAGE_INFO, 0, 0, nasReturnValue,
                     _T("NetLocalGroupAddMembers retval"));
-                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, nasReturnValue,
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, nasReturnValue,
                     _T("Failed to add user to the 'Users' group "
                         "(boinc_master)."));
                 return ERROR_INSTALL_FAILURE;

@@ -15,7 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
 #include "project_init.h"
 #include "common_defs.h"
@@ -28,7 +27,7 @@ public:
         BOINCCABase(hMSIHandle, _T("CACreateProjectInitFile"),
             _T("Store project initialization data")) {
     }
-
+private:
     UINT OnExecution() override final {
         tstring strDataDirectory;
         auto uiReturnValue = GetProperty(_T("DATADIR"), strDataDirectory);
@@ -36,12 +35,12 @@ public:
             return uiReturnValue;
         }
         if (strDataDirectory.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The data directory is empty."));
             return ERROR_INSTALL_FAILURE;
         }
         if (!std::filesystem::exists(strDataDirectory)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
                 _T("The data directory doesn't exist."));
             return ERROR_INSTALL_FAILURE;
         }
@@ -70,7 +69,7 @@ public:
             return uiReturnValue;
         }
 
-        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
             _T("Changing to the data directory"));
         const auto prev_dir = std::filesystem::current_path();
         std::filesystem::current_path(strDataDirectory);
@@ -79,7 +78,7 @@ public:
         //
         if (!strProjectInitUrl.empty() &&
             !strProjectInitAuthenticator.empty()) {
-            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
                 _T("Detected command line parameters"));
 
             PROJECT_INIT pi;
@@ -109,7 +108,7 @@ public:
             f.close();
         }
 
-        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, 0,
+        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
             _T("Restoring previous directory"));
         std::filesystem::current_path(prev_dir);
 
