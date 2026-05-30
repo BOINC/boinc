@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,12 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef _WIN32
 #include "gtest/gtest.h"
-
-#ifdef _WIN32
-    #include "boinc_win.h"
 #endif
-
 #include "shmem.h"
 
 using namespace std;
