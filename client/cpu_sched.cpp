@@ -1457,10 +1457,10 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                 if (atp->too_large) {
                     if (log_flags.mem_usage_debug) {
                         msg_printf(atp->result->project, MSG_INFO,
-                            "[mem_usage] job using too much memory, will preempt by quit"
+                            "[mem_usage] job using too much memory, will suspend"
                         );
                     }
-                    preempt_type = REMOVE_ALWAYS;
+                    preempt_type = REMOVE_NEVER;
                 }
                 atp->preempt(preempt_type);
                 break;
