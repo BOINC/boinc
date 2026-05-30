@@ -17,54 +17,56 @@
 
 #include "boinccas_helper.h"
 
-namespace test_boinccas_CACreateClientAuthFile {
+namespace test_boinccas {
+    struct AccountData {
+        std::string username;
+        std::string password;
+    };
+
     class test_boinccas_CACreateClientAuthFile :
         public test_boinccas_TestBase {
     protected:
         test_boinccas_CACreateClientAuthFile() :
             test_boinccas_TestBase("CreateClientAuthFile") {
         }
+
+        std::pair<bool, AccountData> parseAccountXml(
+            const std::string& filename)
+        {
+            AccountData result;
+
+            tinyxml2::XMLDocument doc;
+            const auto err = doc.LoadFile(filename.c_str());
+            if (err != tinyxml2::XML_SUCCESS) {
+                return { false, result };
+            }
+
+            const auto* root = doc.FirstChildElement("client_authorization");
+            if (!root) {
+                return { false, result };
+            }
+
+            const auto* project = root->FirstChildElement("boinc_project");
+            if (!project) {
+                return { false, result };
+            }
+
+            const auto* const usernameElem =
+                project->FirstChildElement("username");
+            if (usernameElem && usernameElem->GetText()) {
+                result.username = usernameElem->GetText();
+            }
+
+            const auto* const passwordElem =
+                project->FirstChildElement("password");
+            if (passwordElem && passwordElem->GetText()) {
+                result.password = passwordElem->GetText();
+            }
+
+            return { true, result };
+        }
+
     };
-
-    struct AccountData {
-        std::string username;
-        std::string password;
-    };
-
-    std::pair<bool, AccountData> parseAccountXml(const std::string& filename)
-    {
-        AccountData result;
-
-        tinyxml2::XMLDocument doc;
-        const auto err = doc.LoadFile(filename.c_str());
-        if (err != tinyxml2::XML_SUCCESS) {
-            return { false, result };
-        }
-
-        const auto* root = doc.FirstChildElement("client_authorization");
-        if (!root) {
-            return { false, result };
-        }
-
-        const auto* project = root->FirstChildElement("boinc_project");
-        if (!project) {
-            return { false, result };
-        }
-
-        const auto* const usernameElem =
-            project->FirstChildElement("username");
-        if (usernameElem && usernameElem->GetText()) {
-            result.username = usernameElem->GetText();
-        }
-
-        const auto* const passwordElem =
-            project->FirstChildElement("password");
-        if (passwordElem && passwordElem->GetText()) {
-            result.password = passwordElem->GetText();
-        }
-
-        return { true, result };
-    }
 
 #ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CACreateClientAuthFile,

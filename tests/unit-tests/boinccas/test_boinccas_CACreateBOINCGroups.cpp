@@ -20,7 +20,7 @@
 
 #include <Lm.h>
 
-namespace test_boinccas_CACreateBOINCGroups {
+namespace test_boinccas {
     constexpr auto masterAccountName = "boinc_master";
     constexpr auto projectAccountName = "boinc_project";
     constexpr auto masterAccountPassword = "qwerty123456!@#$%^";

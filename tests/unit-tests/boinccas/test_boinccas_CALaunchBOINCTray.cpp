@@ -17,7 +17,7 @@
 
 #include "boinccas_helper.h"
 
-namespace test_boinccas_CALaunchBOINCTray {
+namespace test_boinccas {
     constexpr auto executableName = "boinctray.exe";
     class test_boinccas_CALaunchBOINCTray : public test_boinccas_TestBase {
     protected:

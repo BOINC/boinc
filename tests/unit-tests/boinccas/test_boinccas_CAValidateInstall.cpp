@@ -17,7 +17,7 @@
 
 #include "boinccas_helper.h"
 
-namespace test_boinccas_CAValidateInstall {
+namespace test_boinccas {
     class test_boinccas_CAValidateInstall :
         public test_boinccas_TestBase {
     protected:

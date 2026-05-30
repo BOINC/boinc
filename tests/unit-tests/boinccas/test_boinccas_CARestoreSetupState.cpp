@@ -20,7 +20,7 @@
 
 #include <shlobj.h>
 
-namespace test_boinccas_CARestoreSetupState {
+namespace test_boinccas {
     class test_boinccas_CARestoreSetupState : public test_boinccas_TestBase {
     protected:
         test_boinccas_CARestoreSetupState() :

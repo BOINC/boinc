@@ -18,7 +18,7 @@
 #include "boinccas_helper.h"
 #include "registry_helper.h"
 
-namespace test_boinccas_CAValidateSetupType {
+namespace test_boinccas {
     class test_boinccas_CAValidateSetupType :
         public test_boinccas_TestBase {
     protected:

@@ -17,7 +17,7 @@
 
 #include "boinccas_helper.h"
 
-namespace test_boinccas_CACleanupOldBinaries {
+namespace test_boinccas {
     class test_boinccas_CACleanupOldBinaries : public test_boinccas_TestBase {
     protected:
         test_boinccas_CACleanupOldBinaries() :

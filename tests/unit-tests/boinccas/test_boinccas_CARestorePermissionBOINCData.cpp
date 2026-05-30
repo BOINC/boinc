@@ -17,7 +17,7 @@
 
 #include "boinccas_helper.h"
 
-namespace test_boinccas_CARestorePermissionBOINCData {
+namespace test_boinccas {
     class test_boinccas_CARestorePermissionBOINCData :
         public test_boinccas_TestBase {
     protected:

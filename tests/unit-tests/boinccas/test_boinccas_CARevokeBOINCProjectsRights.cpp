@@ -18,7 +18,7 @@
 #include "boinccas_helper.h"
 #include "user_group_helper.h"
 
-namespace test_boinccas_CARevokeBOINCProjectsRights {
+namespace test_boinccas {
     constexpr auto groupName = "boinc_projects";
     class test_boinccas_CARevokeBOINCProjectsRights :
         public test_boinccas_TestBase {

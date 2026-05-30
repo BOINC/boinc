@@ -19,7 +19,7 @@
 #include "registry_helper.h"
 #include "user_group_helper.h"
 
-namespace test_boinccas_CAGrantBOINCProjectsVirtualBoxRights {
+namespace test_boinccas {
     constexpr auto vboxKey = "APPID\\{819B4D85-9CEE-493C-B6FC-64FFE759B3C9}";
     constexpr std::array permissions =
     { "AccessPermission", "LaunchPermission" };

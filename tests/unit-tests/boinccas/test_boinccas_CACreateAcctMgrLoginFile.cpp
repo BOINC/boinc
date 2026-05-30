@@ -17,8 +17,14 @@
 
 #include "boinccas_helper.h"
 
-namespace test_boinccas_CACreateAcctMgrLoginFile {
-    class test_boinccas_CACreateAcctMgrLoginFile : public test_boinccas_TestBase {
+namespace test_boinccas {
+    struct AccountData {
+        std::string login;
+        std::string passwordHash;
+    };
+
+    class test_boinccas_CACreateAcctMgrLoginFile :
+        public test_boinccas_TestBase {
     protected:
         test_boinccas_CACreateAcctMgrLoginFile() :
             test_boinccas_TestBase("CreateAcctMgrLoginFile") {
@@ -36,41 +42,38 @@ namespace test_boinccas_CACreateAcctMgrLoginFile {
             ofs.close();
         }
 
+        std::pair<bool, AccountData> parseAccountXml(
+            const std::string& filename)
+        {
+            AccountData result;
+
+            tinyxml2::XMLDocument doc;
+            const auto err = doc.LoadFile(filename.c_str());
+            if (err != tinyxml2::XML_SUCCESS) {
+                return { false, result };
+            }
+
+            auto* root = doc.FirstChildElement("acct_mgr_login");
+            if (!root) {
+                return { false, result };
+            }
+
+            const auto* const loginElem = root->FirstChildElement("login");
+            if (loginElem && loginElem->GetText()) {
+                result.login = loginElem->GetText();
+            }
+
+            const auto* const hashElem =
+                root->FirstChildElement("password_hash");
+            if (hashElem && hashElem->GetText()) {
+                result.passwordHash = hashElem->GetText();
+            }
+
+            return { true, result };
+        }
+
         std::filesystem::path testDir;
     };
-
-    struct AccountData {
-        std::string login;
-        std::string passwordHash;
-    };
-
-    std::pair<bool, AccountData> parseAccountXml(const std::string& filename)
-    {
-        AccountData result;
-
-        tinyxml2::XMLDocument doc;
-        const auto err = doc.LoadFile(filename.c_str());
-        if (err != tinyxml2::XML_SUCCESS) {
-            return { false, result };
-        }
-
-        auto* root = doc.FirstChildElement("acct_mgr_login");
-        if (!root) {
-            return { false, result };
-        }
-
-        const auto* const loginElem = root->FirstChildElement("login");
-        if (loginElem && loginElem->GetText()) {
-            result.login = loginElem->GetText();
-        }
-
-        const auto* const hashElem = root->FirstChildElement("password_hash");
-        if (hashElem && hashElem->GetText()) {
-            result.passwordHash = hashElem->GetText();
-        }
-
-        return { true, result };
-    }
 
 #ifdef BOINCCAS_TEST
     TEST_F(test_boinccas_CACreateAcctMgrLoginFile,

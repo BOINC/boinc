@@ -18,7 +18,7 @@
 #include "boinccas_helper.h"
 #include "user_group_helper.h"
 
-namespace test_boinccas_CASetPermissionBOINCData {
+namespace test_boinccas {
     constexpr auto adminsGroupName = "test_admins";
     constexpr auto usersGroupName = "test_users";
     constexpr auto projectsGroupName = "test_projects";

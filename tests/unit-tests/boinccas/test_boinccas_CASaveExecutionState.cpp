@@ -18,7 +18,7 @@
 #include "boinccas_helper.h"
 #include "registry_helper.h"
 
-namespace test_boinccas_CASaveExecutionState {
+namespace test_boinccas {
     class test_boinccas_CASaveExecutionState : public test_boinccas_TestBase {
     protected:
         test_boinccas_CASaveExecutionState() :

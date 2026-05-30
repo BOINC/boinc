@@ -18,7 +18,7 @@
 #include "boinccas_helper.h"
 #include "project_init.h"
 
-namespace test_boinccas_CACreateProjectInitFile {
+namespace test_boinccas {
     class test_boinccas_CACreateProjectInitFile :
         public test_boinccas_TestBase {
     protected:

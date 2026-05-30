@@ -19,7 +19,7 @@
 #include "registry_helper.h"
 #include "user_group_helper.h"
 
-namespace test_boinccas_CADeleteBOINCGroups {
+namespace test_boinccas {
     class test_boinccas_CADeleteBOINCGroups : public test_boinccas_TestBase {
     protected:
         test_boinccas_CADeleteBOINCGroups() :

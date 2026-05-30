@@ -18,7 +18,7 @@
 #include "boinccas_helper.h"
 #include "user_group_helper.h"
 
-namespace test_boinccas_CARevokeBOINCMasterRights {
+namespace test_boinccas {
     constexpr auto userName = "boinc_master";
     constexpr auto userPassword = "qwerty123456!@#$%^";
 

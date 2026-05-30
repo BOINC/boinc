@@ -18,7 +18,7 @@
 #include "boinccas_helper.h"
 #include "registry_helper.h"
 
-namespace test_boinccas_CAAnnounceUpgrade {
+namespace test_boinccas {
     class test_boinccas_CAAnnounceUpgrade : public test_boinccas_TestBase {
     protected:
         test_boinccas_CAAnnounceUpgrade() :

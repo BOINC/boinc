@@ -18,8 +18,9 @@
 #include "boinccas_helper.h"
 #include "registry_helper.h"
 
-namespace test_boinccas_CARestoreExecutionState {
-    class test_boinccas_CARestoreExecutionState : public test_boinccas_TestBase {
+namespace test_boinccas {
+    class test_boinccas_CARestoreExecutionState :
+        public test_boinccas_TestBase {
     protected:
         test_boinccas_CARestoreExecutionState() :
             test_boinccas_TestBase("RestoreExecutionState") {

@@ -18,7 +18,7 @@
 #include "boinccas_helper.h"
 #include "user_group_helper.h"
 
-namespace test_boinccas_CACreateBOINCAccounts {
+namespace test_boinccas {
     constexpr auto masterAccountName = "boinc_master";
     constexpr auto projectAccountName = "boinc_project";
     constexpr auto masterAccountPassword = "qwerty123456!@#$%^";

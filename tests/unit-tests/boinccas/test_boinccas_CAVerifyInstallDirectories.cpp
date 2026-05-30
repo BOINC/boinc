@@ -18,7 +18,7 @@
 #include "boinccas_helper.h"
 #include "registry_helper.h"
 
-namespace test_boinccas_CAVerifyInstallDirectories {
+namespace test_boinccas {
     class test_boinccas_CAVerifyInstallDirectories :
         public test_boinccas_TestBase {
     protected:

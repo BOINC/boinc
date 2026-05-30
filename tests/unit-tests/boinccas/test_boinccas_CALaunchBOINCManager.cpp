@@ -17,7 +17,7 @@
 
 #include "boinccas_helper.h"
 
-namespace test_boinccas_CALaunchBOINCManager {
+namespace test_boinccas {
     constexpr auto executableName = "boincmgr.exe";
     class test_boinccas_CALaunchBOINCManager : public test_boinccas_TestBase {
     protected:

@@ -17,7 +17,7 @@
 
 #include "boinccas_helper.h"
 
-namespace test_boinccas_CAShutdownBOINC {
+namespace test_boinccas {
     constexpr std::array executables = {
         "boinc.exe",
         "boinctray.exe"
@@ -173,7 +173,7 @@ namespace test_boinccas_CAShutdownBOINC {
         for (const auto& executableName : executables) {
             ASSERT_TRUE(std::filesystem::copy_file("unittest_dummy.exe",
                 testDir / executableName));
-            auto executableFound = false;
+            executableFound = false;
             for (auto i = 0u; i < 5u; ++i) {
                 if (std::filesystem::exists(testDir / executableName)) {
                     executableFound = true;
