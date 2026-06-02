@@ -798,6 +798,13 @@ void CLIENT_STATE::print_global_prefs() {
     // other prefs
     //
 
+    double swap_limit = global_prefs.vm_max_used_frac*host_info.m_swap;
+    msg_printf(NULL MSG_INFO,
+        "-  Don't used more than %.2fGB swap space (%.2f of %.2GB)",
+        swap_limit/GIGA, global_prefs.vm_max_used_frac*100,
+        host_info.m_swap/GIGA
+    );
+
     if (!global_prefs.run_on_batteries) {
         msg_printf(NULL, MSG_INFO,
             "-  Suspend if running on batteries"
