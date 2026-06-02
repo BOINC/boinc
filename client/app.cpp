@@ -151,6 +151,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     sporadic_ca_state = CA_NONE;
     sporadic_ac_state = AC_NONE;
     sporadic_ignore_until = 0;
+    swap_kill_time = 0;
 }
 
 bool ACTIVE_TASK::process_exists() {

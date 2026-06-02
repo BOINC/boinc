@@ -168,6 +168,8 @@ struct ACTIVE_TASK {
         // running past end of time slice because not checkpointed;
         // when we do checkpoint, reschedule
     double last_deadline_miss_time;
+    double swap_kill_time;
+        // last time this task was killed to free swap space
 
     APP_CLIENT_SHM app_client_shm;
         // core/app shared mem segment
