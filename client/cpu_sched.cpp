@@ -808,7 +808,7 @@ static bool compare_swap_preempt(void *p1, void *p2) {
     ACTIVE_TASK *atp1 = (ACTIVE_TASK*)p1;
     ACTIVE_TASK *atp2 = (ACTIVE_TASK*)p2;
     double x1 = atp1->current_cpu_time - atp1->checkpoint_cpu_time;
-    double x2 = atp1->current_cpu_time - atp2->checkpoint_cpu_time;
+    double x2 = atp2->current_cpu_time - atp2->checkpoint_cpu_time;
     if (x1 < x2) return true;
     if (x1 > x2) return false;
     return atp1 < atp2;
@@ -873,7 +873,7 @@ bool CLIENT_STATE::swap_limit_check() {
             atp->preempt(REMOVE_ALWAYS);
                 // this changes state to QUIT_PENDING
             swap_usage -= atp->procinfo.swap_size;
-            if (swap_usage < swap_limit) {
+            if (swap_usage <= swap_limit) {
                 break;
             }
         }
