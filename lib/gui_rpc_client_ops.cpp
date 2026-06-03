@@ -704,7 +704,9 @@ int RESULT::parse(XML_PARSER& xp) {
         if (xp.parse_double("estimated_cpu_time_remaining", estimated_cpu_time_remaining)) continue;
         if (xp.parse_double("bytes_sent", bytes_sent)) continue;
         if (xp.parse_double("bytes_received", bytes_received)) continue;
-        if (xp.parse_bool("too_large", too_large)) continue;
+        if (xp.parse_bool("too_large", wss_too_large)) continue;
+            // backward compatibility
+        if (xp.parse_bool("swap_too_large", swap_too_large)) continue;
         if (xp.parse_bool("needs_shmem", needs_shmem)) continue;
         if (xp.parse_bool("want_network", want_network)) continue;
         if (xp.parse_bool("edf_scheduled", edf_scheduled)) continue;
@@ -762,7 +764,8 @@ void RESULT::clear() {
     estimated_cpu_time_remaining = 0;
     bytes_sent = 0;
     bytes_received = 0;
-    too_large = false;
+    wss_too_large = false;
+    swap_too_large = false;
     needs_shmem = false;
     want_network = false;
     edf_scheduled = false;

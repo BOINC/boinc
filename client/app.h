@@ -139,16 +139,20 @@ struct ACTIVE_TASK {
     double max_disk_usage;
         // abort if disk usage (in+out+temp) exceeds this
     double max_mem_usage;
-        // abort if memory usage exceeds this
+        // WU rsc_memory_bound
+        // the idea: abort if memory usage exceeds this
+        // but we don't do this because most projects
+        // don't give accurate rsc_memory_bound
     bool have_trickle_down;
     bool send_upload_file_status;
-    bool too_large;
+    bool wss_too_large;
         // Working set too large to run now; waiting for RAM
         // This is a slight misnomer.
         // It doesn't mean that this job itself is too large;
         // rather, it means that the last time we did CPU scheduling,
         // the set of jobs we tried to run was too big,
         // and this one came after we ran out of mem.
+    bool swap_too_large;
     bool needs_shmem;
         // waiting for a free shared memory segment
     int want_network;
@@ -167,6 +171,8 @@ struct ACTIVE_TASK {
         // running past end of time slice because not checkpointed;
         // when we do checkpoint, reschedule
     double last_deadline_miss_time;
+    double swap_kill_time;
+        // last time this task was killed to free swap space
 
     APP_CLIENT_SHM app_client_shm;
         // core/app shared mem segment

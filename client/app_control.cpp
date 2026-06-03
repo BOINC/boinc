@@ -857,19 +857,25 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     bool did_anything = false;
     char buf[256];
 
-    double ram_left = gstate.available_ram();
+    double avail_ram = gstate.available_ram();
     double max_ram = gstate.max_available_ram();
+    double total_wss = 0;
 
     // Some slot dirs have lots of files,
     // so only check every min(disk_interval, 300) secs
     //
     double min_interval = gstate.global_prefs.disk_interval;
     if (min_interval < 300) min_interval = 300;
-    if (gstate.clock_change || gstate.now > last_disk_check_time + min_interval) {
+    if (gstate.clock_change
+        || gstate.now > last_disk_check_time + min_interval
+    ) {
         do_disk_check = true;
     }
     for (ACTIVE_TASK* atp: active_tasks) {
         if (atp->task_state() != PROCESS_EXECUTING) continue;
+
+        // check for elapsed time limit exceeded
+
         if (!atp->always_run() && (atp->elapsed_time > atp->max_elapsed_time)) {
             snprintf(buf, sizeof(buf), "exceeded elapsed time limit %.2f (%.2fG/%.2fG)",
                 atp->max_elapsed_time,
@@ -884,8 +890,9 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
             continue;
         }
 #if 0
+        // check WSS < wu.rsc_memory_bound
         // removing this for now because most projects currently
-        // have too-low values of workunit.rsc_memory_bound
+        // have too-low values of rsc_memory_bound
         // (causing lots of aborts)
         // and I don't think we can expect projects to provide
         // accurate bounds.
@@ -903,6 +910,9 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
             continue;
         }
 #endif
+        // is the WSS too large for the job to ever run (busy or idle)?
+        // If so abort it.
+        //
         if (atp->procinfo.working_set_size_smoothed > max_ram) {
             snprintf(buf, sizeof(buf), "working set size > client RAM limit: %.2fMB > %.2fMB",
                 atp->procinfo.working_set_size_smoothed/MEGA, max_ram/MEGA
@@ -915,6 +925,12 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
             did_anything = true;
             continue;
         }
+        // is the WSS too large for the current limit?
+        // If so, do reschedule, which will swap-kill it
+        //
+        if (atp->procinfo.working_set_size_smoothed > avail_ram) {
+            gstate.request_schedule_cpus("job RAM usage limit exceeded");
+        }
         if (do_disk_check || atp->peak_disk_usage == 0) {
             if (atp->check_max_disk_exceeded()) {
                 did_anything = true;
@@ -925,11 +941,11 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
         // don't count RAM usage of non-CPU-intensive jobs
         //
         if (!atp->non_cpu_intensive()) {
-            ram_left -= atp->procinfo.working_set_size_smoothed;
+            total_wss += atp->procinfo.working_set_size_smoothed;
         }
     }
-    if (ram_left < 0) {
-        gstate.request_schedule_cpus("RAM usage limit exceeded");
+    if (total_wss > avail_ram) {
+        gstate.request_schedule_cpus("total RAM usage limit exceeded");
     }
     if (do_disk_check) {
         last_disk_check_time = gstate.now;
