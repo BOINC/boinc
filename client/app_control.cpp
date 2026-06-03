@@ -941,7 +941,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
         // don't count RAM usage of non-CPU-intensive jobs
         //
         if (!atp->non_cpu_intensive()) {
-            total_wss -= atp->procinfo.working_set_size_smoothed;
+            total_wss += atp->procinfo.working_set_size_smoothed;
         }
     }
     if (total_wss > avail_ram) {

@@ -428,6 +428,10 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         if (pi.swap_size > atp->peak_swap_size) {
             atp->peak_swap_size = pi.swap_size;
         }
+        boinc_total.working_set_size += pi.working_set_size;
+        boinc_total.working_set_size_smoothed += pi.working_set_size_smoothed;
+        boinc_total.swap_size += pi.swap_size;
+        boinc_total.page_fault_rate += pi.page_fault_rate;
 
         if (!first) {
             int pf = pi.page_fault_count - last_page_fault_count;
@@ -444,10 +448,6 @@ void ACTIVE_TASK_SET::get_memory_usage() {
                     pi.user_time,
                     pi.kernel_time
                 );
-                boinc_total.working_set_size += pi.working_set_size;
-                boinc_total.working_set_size_smoothed += pi.working_set_size_smoothed;
-                boinc_total.swap_size += pi.swap_size;
-                boinc_total.page_fault_rate += pi.page_fault_rate;
             }
         }
     }
