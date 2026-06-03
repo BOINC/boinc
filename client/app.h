@@ -139,7 +139,10 @@ struct ACTIVE_TASK {
     double max_disk_usage;
         // abort if disk usage (in+out+temp) exceeds this
     double max_mem_usage;
-        // abort if memory usage exceeds this
+        // WU rsc_memory_bound
+        // the idea: abort if memory usage exceeds this
+        // but we don't do this because most projects
+        // don't give accurate rsc_memory_bound
     bool have_trickle_down;
     bool send_upload_file_status;
     bool wss_too_large;
