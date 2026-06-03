@@ -801,21 +801,27 @@ bool CLIENT_STATE::schedule_cpus() {
     return true;
 }
 
-// sort by decreasing deadline
+// sort by increasing cpu_time - checkpoint_cpu_time;
+// that's how much CPU time will be lost if we kill that job
+//
 static bool compare_swap_preempt(void *p1, void *p2) {
     ACTIVE_TASK *atp1 = (ACTIVE_TASK*)p1;
     ACTIVE_TASK *atp2 = (ACTIVE_TASK*)p2;
-    if (atp1->result->report_deadline > atp2->result->report_deadline) return true;
-    if (atp1->result->report_deadline < atp2->result->report_deadline) return false;
+    double x1 = atp1->current_cpu_time - atp1->checkpoint_cpu_time;
+    double x2 = atp1->current_cpu_time - atp2->checkpoint_cpu_time;
+    if (x1 < x2) return true;
+    if (x1 > x2) return false;
     return atp1 < atp2;
 }
 
-// sort by decreasing kill time
-static bool compare_swap_kill_time(void *p1, void *p2) {
+// sort by increasing deadline; revive tasks with earlier dealines
+//
+static bool compare_swap_revive(void *p1, void *p2) {
     ACTIVE_TASK *atp1 = (ACTIVE_TASK*)p1;
     ACTIVE_TASK *atp2 = (ACTIVE_TASK*)p2;
-    if (atp1->swap_kill_time > atp2->swap_kill_time) return true;
-    if (atp1->swap_kill_time < atp2->swap_kill_time) return false;
+    if (atp1->result->report_deadline < atp2->result->report_deadline) return true;
+    if (atp1->result->report_deadline > atp2->result->report_deadline) return false;
+
     return atp1 < atp2;
 }
 
@@ -823,6 +829,10 @@ static bool compare_swap_kill_time(void *p1, void *p2) {
 // Return true if this is the case.
 //
 bool CLIENT_STATE::swap_limit_check() {
+    if (host_info.m_swap == 0) {
+        return false;
+    }
+
     vector<RESULT*> run_list;
 
     // compute swap usage of running tasks
@@ -905,7 +915,7 @@ bool CLIENT_STATE::swap_limit_check() {
         // see if we can run swap-killed tasks
         std::sort(
             swap_kill_tasks.begin(), swap_kill_tasks.end(),
-            compare_swap_kill_time
+            compare_swap_revive
         );
         // run as many as will fit
         //
