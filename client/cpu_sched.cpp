@@ -1383,8 +1383,8 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
 
     if (log_flags.mem_usage_debug) {
         msg_printf(0, MSG_INFO,
-            "[mem_usage] enforce: available RAM %.2fMB swap %.2fMB",
-            ram_left/MEGA, swap_left/MEGA
+            "[mem_usage] enforce: available RAM %.2fGB swap %.2fGB",
+            ram_left/GIGA, swap_left/GIGA
         );
     }
 
@@ -1522,8 +1522,8 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             }
             if (log_flags.cpu_sched_debug || log_flags.mem_usage_debug) {
                 msg_printf(rp->project, MSG_INFO,
-                    "[cpu_sched_debug] skipping %s: estimated WSS (%.2fMB) exceeds RAM left (%.2fMB)",
-                    rp->name,  ewss/MEGA, ram_left/MEGA
+                    "[cpu_sched_debug] skipping %s: estimated WSS (%.2fGB) exceeds RAM left (%.2fGB)",
+                    rp->name,  ewss/GIGA, ram_left/GIGA
                 );
             }
             continue;
@@ -1535,8 +1535,8 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                 }
                 if (log_flags.cpu_sched_debug || log_flags.mem_usage_debug) {
                     msg_printf(rp->project, MSG_INFO,
-                        "[cpu_sched_debug] skipping %s: estimated swap (%.2fMB) exceeds swap left (%.2fMB)",
-                        rp->name,  eswap/MEGA, swap_left/MEGA
+                        "[cpu_sched_debug] skipping %s: estimated swap (%.2fGB) exceeds swap left (%.2fGB)",
+                        rp->name,  eswap/GIGA, swap_left/GIGA
                     );
                 }
                 continue;
