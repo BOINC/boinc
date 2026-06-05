@@ -438,12 +438,12 @@ void ACTIVE_TASK_SET::get_memory_usage() {
             pi.page_fault_rate = pf/delta_t;
             if (log_flags.mem_usage_debug) {
                 msg_printf(atp->result->project, MSG_INFO,
-                    "[mem_usage] %s%s: WS %.2fMB, smoothed %.2fMB, swap %.2fMB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
+                    "[mem_usage] %s%s: WS %.2fGB, smoothed %.2fGB, swap %.2fGB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
                     atp->scheduler_state==CPU_SCHED_SCHEDULED?"":" (not running)",
                     atp->result->name,
-                    pi.working_set_size/MEGA,
-                    pi.working_set_size_smoothed/MEGA,
-                    pi.swap_size/MEGA,
+                    pi.working_set_size/GIGA,
+                    pi.working_set_size_smoothed/GIGA,
+                    pi.swap_size/GIGA,
                     pi.page_fault_rate,
                     pi.user_time,
                     pi.kernel_time
@@ -456,10 +456,10 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     //
     if (!first && log_flags.mem_usage_debug) {
         msg_printf(0, MSG_INFO,
-            "[mem_usage] BOINC totals: WSS %.2fMB, smoothed %.2fMB, swap %.2fMB, %.2f page faults/sec",
-            boinc_total.working_set_size/MEGA,
-            boinc_total.working_set_size_smoothed/MEGA,
-            boinc_total.swap_size/MEGA,
+            "[mem_usage] BOINC totals: WSS %.2fGB, smoothed %.2fGB, swap %.2fGB, %.2f page faults/sec",
+            boinc_total.working_set_size/GIGA,
+            boinc_total.working_set_size_smoothed/GIGA,
+            boinc_total.swap_size/GIGA,
             boinc_total.page_fault_rate
         );
         PROCINFO system_total;
@@ -634,8 +634,8 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         if (log_flags.mem_usage_debug) {
             //procinfo_show(pm);
             msg_printf(NULL, MSG_INFO,
-                "[mem_usage] All others: WS %.2fMB, swap %.2fMB, user %.3fs, kernel %.3fs",
-                pi.working_set_size/MEGA, pi.swap_size/MEGA,
+                "[mem_usage] All others: WS %.2fGB, swap %.2fGB, user %.3fs, kernel %.3fs",
+                pi.working_set_size/GIGA, pi.swap_size/GIGA,
                 pi.user_time, pi.kernel_time
             );
         }
