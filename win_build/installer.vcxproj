@@ -16,7 +16,6 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="Exists('C:\Program Files (x86)\MsiVal2\MsiVal2.exe')">MSI_VALIDATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>msi.lib;cabinet.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>

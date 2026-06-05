@@ -6,6 +6,7 @@
 *.ncb
 *.suo
 *.pdb
+*.aps
 
 # Visual Studio build directories
 /win_build/Build/
