@@ -438,7 +438,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
             pi.page_fault_rate = pf/delta_t;
             if (log_flags.mem_usage_debug) {
                 msg_printf(atp->result->project, MSG_INFO,
-                    "[mem_usage] %s%s: WS %.2fGB, smoothed %.2fGB, swap %.2fGB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
+                    "[mem_usage] %s%s: RSS %.2f GB (smoothed %.2f GB), virtual %.2f GB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
                     atp->scheduler_state==CPU_SCHED_SCHEDULED?"":" (not running)",
                     atp->result->name,
                     pi.working_set_size/GIGA,
@@ -456,7 +456,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     //
     if (!first && log_flags.mem_usage_debug) {
         msg_printf(0, MSG_INFO,
-            "[mem_usage] BOINC totals: WSS %.2fGB, smoothed %.2fGB, swap %.2fGB, %.2f page faults/sec",
+            "[mem_usage] BOINC totals: RSS %.2f GB (smoothed %.2f GB), virtual %.2f GB, %.2f page faults/sec",
             boinc_total.working_set_size/GIGA,
             boinc_total.working_set_size_smoothed/GIGA,
             boinc_total.swap_size/GIGA,
@@ -466,11 +466,12 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         system_total.clear();
         system_total.working_set_size_smoothed = 0;
         for (const auto& [pid, pi]: pm) {
+            (void)pid;
             system_total.working_set_size += pi.working_set_size;
             system_total.swap_size += pi.swap_size;
         }
         msg_printf(0, MSG_INFO,
-            "[mem_usage] System totals: WSS %.2fGB, swap %.2fGB",
+            "[mem_usage] System totals: RSS %.2f GB, virtual %.2f GB",
             system_total.working_set_size/GIGA,
             system_total.swap_size/GIGA
         );
@@ -634,7 +635,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         if (log_flags.mem_usage_debug) {
             //procinfo_show(pm);
             msg_printf(NULL, MSG_INFO,
-                "[mem_usage] All others: WS %.2fGB, swap %.2fGB, user %.3fs, kernel %.3fs",
+                "[mem_usage] All others: RSS %.2f GB, virtual %.2f GB, user %.3fs, kernel %.3fs",
                 pi.working_set_size/GIGA, pi.swap_size/GIGA,
                 pi.user_time, pi.kernel_time
             );
