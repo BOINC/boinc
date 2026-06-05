@@ -478,7 +478,7 @@ int HTTP_OP::libcurl_exec(
     curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, 1L);
     //curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, FALSE);
 
-    // MSW now uses schannel and Mac now uses Secure Transport
+    // MSW now uses schannel
     // so neither uses ca-bundle.crt
 #if (!defined(_WIN32) && !defined(__APPLE__))
     // if the above is nonzero, you need the following:
@@ -489,6 +489,19 @@ int HTTP_OP::libcurl_exec(
         //
         curl_easy_setopt(curlEasy, CURLOPT_CAINFO, CA_BUNDLE_FILENAME);
     }
+#endif
+
+#ifdef __APPLE__
+    // local override, call this only if a local copy of cert.pem exists
+    if (boinc_file_exists("cert.pem")) {
+        curl_easy_setopt(curlEasy, CURLOPT_CAINFO, "cert.pem");
+    // prefer openssl versions
+    } else if (boinc_file_exists("/opt/homebrew/etc/ca-certificates/cert.pem")) {
+        curl_easy_setopt(curlEasy, CURLOPT_CAINFO, "/opt/homebrew/etc/ca-certificates/cert.pem");
+    } else if (boinc_file_exists("/usr/local/etc/ca-certificates/cert.pem")) {
+        curl_easy_setopt(curlEasy, CURLOPT_CAINFO, "/usr/local/etc/ca-certificates/cert.pem");
+    }
+    // else the default "/etc/ssl/cert.pem"
 #endif
 
     // set the user agent as this boinc client & version
