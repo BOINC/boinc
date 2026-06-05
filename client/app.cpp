@@ -452,16 +452,28 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         }
     }
 
-    if (!first) {
-        if (log_flags.mem_usage_debug) {
-            msg_printf(0, MSG_INFO,
-                "[mem_usage] BOINC totals: WS %.2fMB, smoothed %.2fMB, swap %.2fMB, %.2f page faults/sec",
-                boinc_total.working_set_size/MEGA,
-                boinc_total.working_set_size_smoothed/MEGA,
-                boinc_total.swap_size/MEGA,
-                boinc_total.page_fault_rate
-            );
+    // log BOINC and system totals if requested
+    //
+    if (!first && log_flags.mem_usage_debug) {
+        msg_printf(0, MSG_INFO,
+            "[mem_usage] BOINC totals: WSS %.2fMB, smoothed %.2fMB, swap %.2fMB, %.2f page faults/sec",
+            boinc_total.working_set_size/MEGA,
+            boinc_total.working_set_size_smoothed/MEGA,
+            boinc_total.swap_size/MEGA,
+            boinc_total.page_fault_rate
+        );
+        PROCINFO system_total;
+        system_total.clear();
+        system_total.working_set_size_smoothed = 0;
+        for (const auto& [pid, pi]: pm) {
+            system_total.working_set_size += pi.working_set_size;
+            system_total.swap_size += pi.swap_size;
         }
+        msg_printf(0, MSG_INFO,
+            "[mem_usage] System totals: WSS $.2fMB, swap %.wfMB",
+            system_total.working_set_size,
+            system_total.swap_size
+        );
     }
 
     // if memory limits exceeded, trigger reschedule

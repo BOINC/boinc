@@ -2,6 +2,7 @@
 ## $Id$
 
 CXXFLAGS := $(filter-out -mfpu=vfpv3-d16,$(CXXFLAGS))
+CXXFLAGS += -std=gnu++1z
 
 include $(top_srcdir)/Makefile.incl
 
