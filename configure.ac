@@ -85,7 +85,7 @@ dnl Verify C++11 support
 AC_MSG_CHECKING([whether $CXX supports C++11])
 AC_LANG_PUSH([C++])
 save_CXXFLAGS="$CXXFLAGS"
-for flag in "-std=c++11" "-std=c++0x"; do
+for flag in "-std=gnu++1z" "-std=c++11" "-std=c++0x"; do
   CXXFLAGS="$save_CXXFLAGS $flag"
   AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
     #include <memory>

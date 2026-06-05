@@ -22,7 +22,6 @@
       <ForcedIncludeFiles>pch.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(BOINCCAS_TEST)' == 'true'">BOINCCAS_TEST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>gtest_main.lib;gmock_main.lib;zip.lib;atls.lib;ole32.lib;wsock32.lib;psapi.lib;msi.lib;cabinet.lib;Version.lib;tinyxml2.lib;Netapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>

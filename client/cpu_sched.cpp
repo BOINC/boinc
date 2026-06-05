@@ -850,7 +850,7 @@ bool CLIENT_STATE::swap_limit_check() {
     if (swap_usage > swap_limit) {
         if (log_flags.cpu_sched_debug) {
             msg_printf(NULL, MSG_INFO,
-                "[cpu_sched_debug] swap limit exceeded %.2fGB > %.2fGB",
+                "[cpu_sched_debug] virtual size limit exceeded: %.2f GB > %.2f GB",
                 swap_usage/GIGA, swap_limit/GIGA
             );
         }
@@ -1383,8 +1383,8 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
 
     if (log_flags.mem_usage_debug) {
         msg_printf(0, MSG_INFO,
-            "[mem_usage] enforce: available RAM %.2fMB swap %.2fMB",
-            ram_left/MEGA, swap_left/MEGA
+            "[mem_usage] enforce: available RAM %.2f GB virtual %.2f GB",
+            ram_left/GIGA, swap_left/GIGA
         );
     }
 
@@ -1522,8 +1522,8 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             }
             if (log_flags.cpu_sched_debug || log_flags.mem_usage_debug) {
                 msg_printf(rp->project, MSG_INFO,
-                    "[cpu_sched_debug] skipping %s: estimated WSS (%.2fMB) exceeds RAM left (%.2fMB)",
-                    rp->name,  ewss/MEGA, ram_left/MEGA
+                    "[cpu_sched_debug] skipping %s: estimated RSS (%.2f GB) exceeds RAM left (%.2f GB)",
+                    rp->name, ewss/GIGA, ram_left/GIGA
                 );
             }
             continue;
@@ -1535,8 +1535,8 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                 }
                 if (log_flags.cpu_sched_debug || log_flags.mem_usage_debug) {
                     msg_printf(rp->project, MSG_INFO,
-                        "[cpu_sched_debug] skipping %s: estimated swap (%.2fMB) exceeds swap left (%.2fMB)",
-                        rp->name,  eswap/MEGA, swap_left/MEGA
+                        "[cpu_sched_debug] skipping %s: virtual size (%.2f GB) exceeds swap left (%.2f GB)",
+                        rp->name,  eswap/GIGA, swap_left/GIGA
                     );
                 }
                 continue;

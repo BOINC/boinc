@@ -193,7 +193,7 @@ void CLIENT_STATE::get_disk_shares() {
     double greedy_allowed = allowed - non_greedy_ddu;
     if (log_flags.disk_usage_debug) {
         msg_printf(0, MSG_INFO,
-            "[disk_usage] allowed %.2fGB used %.2fGB",
+            "[disk_usage] allowed %.2f GB, used %.2f GB",
             allowed/GIGA, total_disk_usage/GIGA
         );
     }
@@ -206,7 +206,7 @@ void CLIENT_STATE::get_disk_shares() {
         }
         if (log_flags.disk_usage_debug) {
             msg_printf(p, MSG_INFO,
-                "[disk_usage] usage %.2fGB share %.2fGB",
+                "[disk_usage] usage %.2f GB, share %.2f GB",
                 p->disk_usage/GIGA, p->disk_share/GIGA
             );
         }

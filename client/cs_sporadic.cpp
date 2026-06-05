@@ -85,7 +85,7 @@ void SPORADIC_RESOURCES::print() {
     if (!ncpus_used) return;
     msg_printf(NULL, MSG_INFO, "Sporadic resources:");
     msg_printf(NULL, MSG_INFO, "   %f CPUs", ncpus_used);
-    msg_printf(NULL, MSG_INFO, "   %f MB RAM", mem_used/MEGA);
+    msg_printf(NULL, MSG_INFO, "   %f GB RAM", mem_used/GIGA);
     for (int i=1; i<sr_coprocs.n_rsc; i++) {
         COPROC& cp = sr_coprocs.coprocs[i];
         for (int j=0; j<cp.count; j++) {
