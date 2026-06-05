@@ -470,9 +470,9 @@ void ACTIVE_TASK_SET::get_memory_usage() {
             system_total.swap_size += pi.swap_size;
         }
         msg_printf(0, MSG_INFO,
-            "[mem_usage] System totals: WSS $.2fMB, swap %.wfMB",
-            system_total.working_set_size,
-            system_total.swap_size
+            "[mem_usage] System totals: WSS %.2fGB, swap %.2fGB",
+            system_total.working_set_size/GIGA,
+            system_total.swap_size/GIGA
         );
     }
 
