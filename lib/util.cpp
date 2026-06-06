@@ -369,8 +369,13 @@ int run_command(const char *cmd, vector<string> &out) {
         fprintf(stderr, "popen() failed: %s\n", cmd);
         return ERR_FOPEN;
     }
+    string s;
     while (fgets(buf, 256, fp)) {
-        out.push_back(buf);
+        s += buf;
+        if (strchr(buf, '\n')) {
+            out.push_back(s);
+            s.clear();
+        }
     }
     int exit_status = pclose(fp);
     if (exit_status) {
