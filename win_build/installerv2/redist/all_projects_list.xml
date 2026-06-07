@@ -181,6 +181,8 @@
         <name>windows_x86_64[mt]</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[mt]</name>
+        <name>aarch64-unknown-linux-gnu</name>
+        <name>aarch64-unknown-linux-gnu[mt]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/mw.png</image>
       <summary>Study the structure of the Milky Way galaxy</summary>
