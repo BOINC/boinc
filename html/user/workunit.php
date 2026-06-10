@@ -23,6 +23,10 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/result.inc");
 require_once("../inc/keywords.inc");
 
+if (REQUIRE_LOGIN) {
+    get_logged_in_user();
+}
+
 check_get_args(array("wuid"));
 
 function keyword_string($kwds) {
