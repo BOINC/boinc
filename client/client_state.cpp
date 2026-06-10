@@ -236,11 +236,12 @@ void CLIENT_STATE::show_host_info() {
 #endif
 
     nbytes_to_string(host_info.m_nbytes, 0, buf, sizeof(buf));
-    nbytes_to_string(host_info.m_swap, 0, buf2, sizeof(buf2));
-    msg_printf(NULL, MSG_INFO,
-        "Memory: %s physical, %s virtual",
-        buf, buf2
-    );
+    if (is_swap_defined()) {
+        nbytes_to_string(host_info.m_swap, 0, buf2, sizeof(buf2));
+        msg_printf(NULL, MSG_INFO, "Memory: %s physical, %s virtual", buf, buf2);
+    } else {
+        msg_printf(NULL, MSG_INFO, "Memory: %s physical", buf);
+    }
 
     nbytes_to_string(host_info.d_total, 0, buf, sizeof(buf));
     nbytes_to_string(host_info.d_free, 0, buf2, sizeof(buf2));

@@ -829,7 +829,7 @@ static bool compare_swap_revive(void *p1, void *p2) {
 // Return true if this is the case.
 //
 bool CLIENT_STATE::swap_limit_check() {
-    if (host_info.m_swap == 0) {
+    if (!is_swap_defined()) {
         return false;
     }
 
@@ -1377,9 +1377,12 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     if (have_sporadic_app) {
         ram_left -= sporadic_resources.mem_used;
     }
-    double swap_left = (global_prefs.vm_max_used_frac)*host_info.m_swap;
-    bool check_swap = (host_info.m_swap != 0);
-        // in case couldn't measure swap on this host
+    double swap_left;
+    bool check_swap = false;
+    if (is_swap_defined()) {
+        swap_left = (global_prefs.vm_max_used_frac)*host_info.m_swap;
+        check_swap = true;
+    }
 
     if (log_flags.mem_usage_debug) {
         msg_printf(0, MSG_INFO,
