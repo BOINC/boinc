@@ -305,10 +305,8 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         return err;
 #endif
 
-    strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
-
     // Does BOINC Data directory exist?
-    result = stat(fullpath, &sbuf);
+    result = stat(BOINCDataDirPath, &sbuf);
     isDirectory = S_ISDIR(sbuf.st_mode);
     if ((result != noErr) || (! isDirectory))
         return dirNFErr;                    // BOINC Data Directory does not exist
@@ -316,7 +314,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     // Set owner and group of BOINC Data directory's contents
     sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
     // chown -R boinc_master:boinc_master "/Library/Application Support/BOINC Data"
-    err = DoSudoPosixSpawn(chownPath, "-R", buf1, BOINCDataDirPath, NULL, NULL, NULL);
+    err = DoSudoPosixSpawn(chownPath, "-RL", buf1, BOINCDataDirPath, NULL, NULL, NULL);
     if (err)
         return err;
 
@@ -552,15 +550,18 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     }       // slots directory
 
     // Does podman directory exist?
-    strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
-    strlcat(fullpath, "/", MAXPATHLEN);
 #ifdef __APPLE__
     // On the Mac, we can't put the Podman directory inside the BOINC Data
     // directory because this routine would modify the permissions of
     // Podman's files, which must be different for different files.
     // So we put the "BOINC Podman" Directory in the directory
-    // "/Library/Application/Support/", alongside "BOINC Data" directory
-    strlcat(fullpath, "../", MAXPATHLEN);
+    // "/Library/Application/Support/". But we can't get its path relative
+    // to BOINCDataDirPath because a user can move the "BOINC Data" dir as
+    // described in https://github.com/BOINC/boinc/wiki/Tools-for-MacOS
+    strlcpy(fullpath, "/Library/Application Support/", MAXPATHLEN);
+#else
+    strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
+    strlcat(fullpath, "/../", MAXPATHLEN);
 #endif
     strlcat(fullpath, PODMAN_DIR, MAXPATHLEN);
     result = stat(fullpath, &sbuf);
@@ -574,7 +575,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // Set owner and group of BOINC podman directory's contents)
         sprintf(buf1, "%s:%s", boinc_project_user_name, boinc_project_group_name);
         // chown -R boinc_master:boinc_master "/Library/Application Support/BOINC Data"
-        err = DoSudoPosixSpawn(chownPath, "-R", buf1, fullpath, NULL, NULL, NULL);
+        err = DoSudoPosixSpawn(chownPath, "-RL", buf1, fullpath, NULL, NULL, NULL);
 
         // Set owner and group of BOINC podman directory itself
         sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
@@ -853,6 +854,7 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
     extern char     **environ;
     pid_t           thePid = 0;
     int             status = 0;
+    struct stat     sbuf;
 
     // OS 10.4 has problems with Accounts pane if we create uid or gid > 501
     pw = getpwnam(user_name);
@@ -962,7 +964,10 @@ setGroupForUser:
     if (err)
         return err;
 
-    DoSudoPosixSpawn("/bin/mkdir", "-m", "0755", buf2, NULL, NULL, NULL);
+    err = stat(buf2, &sbuf);
+    if (err) {
+        DoSudoPosixSpawn("/bin/mkdir", "-m", "0755", buf2, NULL, NULL, NULL);
+    }
 
     // Fix the directory's permissions if created by an earlier version of BOINC.
     DoSudoPosixSpawn(chmodPath, "-f", "0755", buf2, NULL, NULL, NULL);
