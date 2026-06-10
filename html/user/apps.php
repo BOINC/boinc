@@ -18,11 +18,11 @@
 
 require_once("../inc/util.inc");
 
+BoincDb::get(true);
+
 if (REQUIRE_LOGIN) {
     get_logged_in_user();
 }
-
-BoincDb::get(true);
 
 function main() {
     if (get_str('xml', true)) {

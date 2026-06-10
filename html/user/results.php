@@ -28,11 +28,11 @@ if (!project_config_bool("show_results")) {
     error_page(tra('This feature is disabled.'));
 }
 
+BoincDb::get(true);
+
 if (REQUIRE_LOGIN) {
     get_logged_in_user();
 }
-
-BoincDb::get(true);
 
 $results_per_page = 20;
 
