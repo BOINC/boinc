@@ -30,7 +30,7 @@ require_once('../inc/akismet.inc');
 
 if (DISABLE_FORUMS) error_page("Forums are disabled");
 
-$logged_in_user = get_logged_in_user(true);
+$logged_in_user = get_logged_in_user();
 BoincForumPrefs::lookup($logged_in_user);
 check_banished($logged_in_user);
 if (VALIDATE_EMAIL_TO_POST) {

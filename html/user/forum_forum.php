@@ -23,6 +23,10 @@ require_once('../inc/time.inc');
 require_once('../inc/forum.inc');
 require_once('../inc/pm.inc');
 
+if (REQUIRE_LOGIN_FORUM) {
+    get_logged_in_user();
+}
+
 // show a forum.
 // $user is null if not logged in
 //

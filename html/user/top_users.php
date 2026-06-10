@@ -21,6 +21,10 @@ require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 require_once("../inc/boinc_db.inc");
 
+if (REQUIRE_LOGIN) {
+    get_logged_in_user();
+}
+
 check_get_args(array("sort_by", "offset"));
 
 $config = get_config();

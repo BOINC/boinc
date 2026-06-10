@@ -21,7 +21,13 @@ require_once("../inc/util.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/uotd.inc");
 
-if (DISABLE_PROFILES) error_page("Profiles are disabled");
+if (DISABLE_PROFILES) {
+    error_page("Profiles are disabled");
+}
+
+if (REQUIRE_LOGIN) {
+    get_logged_in_user();
+}
 
 check_get_args(array("cmd", "pic"));
 

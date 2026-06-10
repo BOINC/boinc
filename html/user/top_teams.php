@@ -23,6 +23,10 @@ require_once("../inc/db.inc");
 
 if (DISABLE_TEAMS) error_page("Teams are disabled");
 
+if (REQUIRE_LOGIN) {
+    get_logged_in_user();
+}
+
 check_get_args(array("sort_by", "type", "offset"));
 
 $config = get_config();

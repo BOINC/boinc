@@ -95,6 +95,12 @@ if (!defined('NO_STATS')) {
 if (!defined('NO_GLOBAL_PREFS')) {
     define('NO_GLOBAL_PREFS', false);
 }
+if (!defined('REQUIRE_LOGIN')) {
+    define('REQUIRE_LOGIN', true);
+}
+if (!defined('REQUIRE_LOGIN_FORUM')) {
+    define('REQUIRE_LOGIN_FORUM', true);
+}
 
 // the 'home page' of the logged-in user.
 // go here after login, account creation, team operations, etc.
