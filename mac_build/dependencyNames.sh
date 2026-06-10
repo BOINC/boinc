@@ -47,10 +47,10 @@ caresBaseName="c-ares"
 caresFileName="c-ares-1.28.1.tar.gz"
 caresURL="https://github.com/c-ares/c-ares/releases/download/cares-1_28_1/c-ares-1.28.1.tar.gz"
 
-curlDirName="curl-8.16.0"
+curlDirName="curl-8.20.0"
 curlBaseName="curl"
-curlFileName="curl-8.16.0.tar.gz"
-curlURL="https://curl.se/download/curl-8.16.0.tar.gz"
+curlFileName="curl-8.20.0.tar.gz"
+curlURL="https://curl.se/download/curl-8.20.0.tar.gz"
 
 wxWidgetsDirName="wxWidgets-3.3.2"
 wxWidgetsBaseName="wxWidgets"
