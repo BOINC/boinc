@@ -24,6 +24,10 @@ require_once('../inc/forum.inc');
 
 if (DISABLE_FORUMS) error_page("Forums are disabled");
 
+if (REQUIRE_LOGIN_FORUM) {
+    get_logged_in_user();
+}
+
 check_get_args(array("forumid"));
 
 page_head(tra("Forum search"));
