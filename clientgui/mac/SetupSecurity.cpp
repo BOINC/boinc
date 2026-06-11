@@ -313,8 +313,8 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 
     // Set owner and group of BOINC Data directory's contents
     sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
-    // chown -R boinc_master:boinc_master "/Library/Application Support/BOINC Data"
-    err = DoSudoPosixSpawn(chownPath, "-RL", buf1, BOINCDataDirPath, NULL, NULL, NULL);
+    // chown -RH boinc_master:boinc_master "/Library/Application Support/BOINC Data"
+    err = DoSudoPosixSpawn(chownPath, "-RH", buf1, BOINCDataDirPath, NULL, NULL, NULL);
     if (err)
         return err;
 
