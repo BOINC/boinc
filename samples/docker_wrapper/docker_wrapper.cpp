@@ -573,8 +573,8 @@ int get_container_state(int &state) {
 }
 
 int create_container() {
-    char cmd[1024];
-    char slot_cmd[256], project_cmd[256], buf[256];
+    char cmd[4096];
+    char slot_cmd[256], project_cmd[256], buf[1024];
     vector<string> out;
     int retval;
 
@@ -608,14 +608,54 @@ int create_container() {
         slot_cmd, project_cmd
     );
 
-    // add command-line args, space-escaped if needed (Mac)
+    // add env var for command-line args, space-escaped if needed (Mac)
     //
     if (app_args.size()) {
-        char arg_buf[4096];
+        char arg_buf[1024];
         strcat(cmd, " -e ARGS=\"");
         get_app_args(arg_buf);
         strcat(cmd, arg_buf);
         strcat(cmd, "\"");
+    }
+    
+    // add env vars for proxy info
+    //
+    PROXY_INFO &pi = aid.proxy_info;
+    if (strlen(pi.http_server_name)) {
+        snprintf(buf, sizeof(buf), " -e HTTP_SERVER_NAME=\"%s\"", pi.http_server_name);
+        strcat(cmd, buf);
+    }
+    if (pi.http_server_port) {
+        snprintf(buf, sizeof(buf), " -e HTTP_SERVER_PORT=\"%d\"", pi.http_server_port);
+        strcat(cmd, buf);
+    }
+    if (strlen(pi.http_user_name)) {
+        snprintf(buf, sizeof(buf), " -e HTTP_USER_NAME=\"%s\"", pi.http_user_name);
+        strcat(cmd, buf);
+    }
+    if (strlen(pi.http_user_passwd)) {
+        snprintf(buf, sizeof(buf), " -e HTTP_USER_PASSWD=\"%s\"", pi.http_user_passwd);
+        strcat(cmd, buf);
+    }
+    if (strlen(pi.socks_server_name)) {
+        snprintf(buf, sizeof(buf), " -e SOCKS_SERVER_NAME=\"%s\"", pi.socks_server_name);
+        strcat(cmd, buf);
+    }
+    if (pi.socks_server_port) {
+        snprintf(buf, sizeof(buf), " -e SOCKS_SERVER_PORT=\"%d\"", pi.socks_server_port);
+        strcat(cmd, buf);
+    }
+    if (strlen(pi.socks5_user_name)) {
+        snprintf(buf, sizeof(buf), " -e SOCKS_USER_NAME=\"%s\"", pi.socks5_user_name);
+        strcat(cmd, buf);
+    }
+    if (strlen(pi.socks5_user_passwd)) {
+        snprintf(buf, sizeof(buf), " -e SOCKS_USER_PASSWD=\"%s\"", pi.socks5_user_passwd);
+        strcat(cmd, buf);
+    }
+    if (pi.socks5_remote_dns) {
+        snprintf(buf, sizeof(buf), " -e SOCKS_REMOTE_DNS=\"yes\"");
+        strcat(cmd, buf);
     }
 
     // add mounts and portmaps
