@@ -20,6 +20,12 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
+// handle team lookup by name.
+// show results as XML if specified.
+//
+// Or look up by ID, in which case XML is assumed.
+// (these functions should not be combined)
+
 if (DISABLE_TEAMS) error_page("Teams are disabled");
 
 check_get_args(array("format", "team_id", "team_ids", "team_name"));
@@ -28,19 +34,16 @@ $format = get_str("format", true);
 $team_id = get_int("team_id", true);
 $team_ids = get_str("team_ids", true);
 
-if ($format != 'xml') {
-    if (REQUIRE_LOGIN) {
-        get_logged_in_user();
-    }
-}
-
-BoincDb::get(true);
-
 if ($team_id || $team_ids || ($format == 'xml')) {
     require_once ('../inc/xml.inc');
     xml_header();
     $retval = db_init_xml();
     if ($retval) xml_error($retval);
+} else {
+    if (REQUIRE_LOGIN) {
+        get_logged_in_user();
+    }
+    BoincDb::get(true);
 }
 
 if ($team_id) {
