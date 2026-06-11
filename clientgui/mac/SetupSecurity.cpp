@@ -576,6 +576,8 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         sprintf(buf1, "%s:%s", boinc_project_user_name, boinc_project_group_name);
         // chown -R boinc_master:boinc_master "/Library/Application Support/BOINC Data"
         err = DoSudoPosixSpawn(chownPath, "-RL", buf1, fullpath, NULL, NULL, NULL);
+        if (err)
+            return err;
 
         // Set owner and group of BOINC podman directory itself
         sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
