@@ -57,6 +57,7 @@
 # Updated 8/25/25 to add Run_Podman and BOINC podman directory
 # Updated 5/2/26 to delete directories /Users/boinc_master & /Users/boinc_project
 # Updated 5/26/26 BOINC Podman dir is in standard location even if BOINC Data was moved
+# Updated 6/10/26 to work even if BOINC Podman dir was moved via symbolic link
 #
 
 function remove_boinc_users() {
@@ -130,7 +131,7 @@ fi
 if [ -d "/Library/Application Support/BOINC podman" ] ; then
     # We must not modify permissions of any of Podman's data so just set
     # their owner and grpup
-    chown -R ${user}:${group} "/Library/Application Support/BOINC podman"
+    chown -RL ${user}:${group} "/Library/Application Support/BOINC podman"
 fi
 
 if [ -x /Applications/BOINCManager.app/Contents/MacOS/BOINCManager ] ; then
