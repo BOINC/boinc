@@ -797,6 +797,32 @@ int DOCKER_CONN::command(
     return 0;
 }
 
+// like the above, but run a shell command (not a Docker command)
+//
+#ifdef _WIN32
+int DOCKER_CONN::shell_command(
+    const char* cmd, vector<string> &out, bool verbose
+) {
+    char buf[1024];
+    int retval;
+    if (verbose) {
+        fprintf(stderr, "running WSL shell command: %s\n", cmd);
+    }
+    string output;
+
+    snprintf(buf, sizeof(buf), "%s 2>&1; echo EOM\n", cmd);
+    write_to_pipe(ctl_wc.in_write, buf);
+    retval = read_from_pipe(
+        ctl_wc.out_read, ctl_wc.proc_handle, output, CMD_TIMEOUT, "EOM"
+    );
+    if (retval) {
+        fprintf(stderr, "read_from_pipe() error: %s\n", boincerror(retval));
+        return retval;
+    }
+    out = split(output, '\n');
+}
+#endif
+
 // parse the output of 'docker images'
 // from the following, return 'boinc__app_test__test_wu'
 //

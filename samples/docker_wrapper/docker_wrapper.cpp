@@ -994,11 +994,24 @@ void init_signal_handler() {
 }
 #endif
 
-// set an env var in our context;
-// if we're using Docker, make a copy to pass to containers
+// set a proxy-related env var;
+// in Win we set this in our WSL instance with an 'export' command.
+// in Mac/Unix we set it in our own environment.
+// Podman or Docker will see this and use the proxy to fetch stuff.
+// We also want the var to be visible inside the container.
+// With Podman this happens automatically.
+// With Docker, we need to do it with -e args to the 'create' command,
+// so put them in the 'env_vars' vector.
 //
 void set_env_var(const char* name, const char* value) {
+#ifdef _WIN32
+    vector<string> out;
+    char buf[256];
+    sprintf(buf, "export %s=\"%s\"", name, value);
+    docker_conn.shell_command(buf, out, verbose_std());
+#else
     setenv(name, value, 1);
+#endif
     if (docker_type == DOCKER) {
         env_vars.push_back(ENV_VAR(name, value));
     }

@@ -158,7 +158,16 @@ struct DOCKER_CONN {
 #else
     int init(DOCKER_TYPE);
 #endif
+
+    // issue a Docker command
     int command(const char* cmd, std::vector<std::string> &out, bool verbose);
+
+#ifdef _WIN32
+    // issue a shell command (e.g. 'export')
+    int shell_command(
+        const char* cmd, std::vector<std::string> &out, bool verbose
+    );
+#endif
 
     static const int CMD_TIMEOUT = 600;
         // timeout for docker commands.
@@ -181,6 +190,7 @@ extern std::string docker_container_name(
     const char* proj_url_esc,       // escaped project URL
     const char* result_name
 );
+
 // is the name (of a Docker image or container) a BOINC name?
 extern bool docker_is_boinc_name(const char* name);
 
