@@ -495,7 +495,7 @@ static void set_client_priority() {
 int CLIENT_STATE::init() {
     int retval;
     unsigned int i;
-    char buf[256];
+    char buf[MAXPATHLEN];
 
     srand((unsigned int)time(0));
     now = dtime();
