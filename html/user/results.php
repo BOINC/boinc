@@ -22,14 +22,15 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/result.inc");
 
-check_get_args(array("hostid", "userid", "offset", "appid", "state", "show_names"));
-
-if (!project_config_bool("show_results")) {
-    error_page(tra('This feature is disabled.'));
-}
-
 if (REQUIRE_LOGIN) {
     get_logged_in_user();
+}
+
+check_get_args(array("hostid", "userid", "offset", "appid", "state", "show_names"));
+
+$config = get_config();
+if (!parse_bool($config, "show_results")) {
+    error_page(tra("This feature is turned off temporarily"));
 }
 
 BoincDb::get(true);

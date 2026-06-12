@@ -18,10 +18,6 @@
 
 require_once("../inc/util.inc");
 
-if (REQUIRE_LOGIN) {
-    get_logged_in_user();
-}
-
 BoincDb::get(true);
 $platforms = BoincPlatform::enum("deprecated=0");
 
