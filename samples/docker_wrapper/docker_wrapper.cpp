@@ -633,7 +633,13 @@ int create_container() {
     // (Docker only; Podman does it automatically)
     //
     for (ENV_VAR e: env_vars) {
-        snprintf(buf, sizeof(buf), " -e %s=%s", e.name.c_str(), e.value.c_str());
+        const char *v = e.value.c_str();
+        // not sure it makes any difference, but check (user-supplied) value
+        if (strchr(v, '\'')) {
+            fprintf(stderr, "bad env var value %s\n", v);
+            continue;
+        }
+        snprintf(buf, sizeof(buf), " -e %s='%s'", e.name.c_str(), v);
         strcat(cmd, buf);
     }
 
