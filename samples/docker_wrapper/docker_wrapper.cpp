@@ -617,46 +617,6 @@ int create_container() {
         strcat(cmd, arg_buf);
         strcat(cmd, "\"");
     }
-    
-    // add env vars for proxy info
-    //
-    PROXY_INFO &pi = aid.proxy_info;
-    if (strlen(pi.http_server_name)) {
-        snprintf(buf, sizeof(buf), " -e HTTP_SERVER_NAME=\"%s\"", pi.http_server_name);
-        strcat(cmd, buf);
-    }
-    if (pi.http_server_port) {
-        snprintf(buf, sizeof(buf), " -e HTTP_SERVER_PORT=\"%d\"", pi.http_server_port);
-        strcat(cmd, buf);
-    }
-    if (strlen(pi.http_user_name)) {
-        snprintf(buf, sizeof(buf), " -e HTTP_USER_NAME=\"%s\"", pi.http_user_name);
-        strcat(cmd, buf);
-    }
-    if (strlen(pi.http_user_passwd)) {
-        snprintf(buf, sizeof(buf), " -e HTTP_USER_PASSWD=\"%s\"", pi.http_user_passwd);
-        strcat(cmd, buf);
-    }
-    if (strlen(pi.socks_server_name)) {
-        snprintf(buf, sizeof(buf), " -e SOCKS_SERVER_NAME=\"%s\"", pi.socks_server_name);
-        strcat(cmd, buf);
-    }
-    if (pi.socks_server_port) {
-        snprintf(buf, sizeof(buf), " -e SOCKS_SERVER_PORT=\"%d\"", pi.socks_server_port);
-        strcat(cmd, buf);
-    }
-    if (strlen(pi.socks5_user_name)) {
-        snprintf(buf, sizeof(buf), " -e SOCKS_USER_NAME=\"%s\"", pi.socks5_user_name);
-        strcat(cmd, buf);
-    }
-    if (strlen(pi.socks5_user_passwd)) {
-        snprintf(buf, sizeof(buf), " -e SOCKS_USER_PASSWD=\"%s\"", pi.socks5_user_passwd);
-        strcat(cmd, buf);
-    }
-    if (pi.socks5_remote_dns) {
-        snprintf(buf, sizeof(buf), " -e SOCKS_REMOTE_DNS=\"yes\"");
-        strcat(cmd, buf);
-    }
 
     // add mounts and portmaps
     //
@@ -1015,6 +975,62 @@ void init_signal_handler() {
 }
 #endif
 
+// create env vars for proxy info.
+// These will
+// - be used by Podman in downloading image files
+// - be copied (by Podman) into the containers it creates
+//
+// NOTE: BOINC doesn't currently let you say whether
+// the client/proxy connection is SSL.
+// So we'll assume that it's not.
+//
+// examples
+//
+// protocol://username:password@hostname:port
+// http_proxy=http://192.168.1.100:8080
+// https_proxy=http://192.168.1.100:8080
+// http_proxy=https://192.168.1.100:8080 (we won't use this, see above)
+// http_proxy=socks5://127.0.0.1:1080
+// http_proxy=socks5h://127.0.0.1:1080 (if DNS is handled by SOCKS server)
+// https_proxy=socks5://127.0.0.1:1080
+// also (if noproxy_hosts is nonempty)
+// no_proxy="localhost,127.0.0.1"
+//
+void set_proxy_env_vars() {
+    char auth_buf[540], host_buf[600], value[2096];
+    PROXY_INFO &pi = aid.proxy_info;
+    if (strlen(pi.http_server_name)) {
+        sprintf(host_buf, "%s:%d", pi.http_server_name, pi.http_server_port);
+        if (strlen(pi.http_user_name)) {
+            sprintf(auth_buf, "%s:%s@", pi.http_user_name, pi.http_user_passwd);
+        } else {
+            auth_buf[0] = 0;
+        }
+        sprintf(value, "http://%s%s", auth_buf, host_buf);
+        setenv("http_proxy", value, 1);
+        setenv("https_proxy", value, 1);
+        setenv("HTTP_PROXY", value, 1);
+        setenv("HTTPS_PROXY", value, 1);
+    } else if (strlen(pi.socks_server_name)) {
+        sprintf(host_buf, "%s:%d", pi.socks_server_name, pi.socks_server_port);
+        if (strlen(pi.socks5_user_name)) {
+            sprintf(auth_buf, "%s:%s@", pi.socks5_user_name, pi.socks5_user_passwd);
+        } else {
+            auth_buf[0] = 0;
+        }
+        const char* protocol = pi.socks5_remote_dns?"socks5h":"socks5";
+        sprintf(value, "%s://%s%s", protocol, auth_buf, host_buf);
+        setenv("http_proxy", value, 1);
+        setenv("https_proxy", value, 1);
+        setenv("HTTP_PROXY", value, 1);
+        setenv("HTTPS_PROXY", value, 1);
+    }
+    if (strlen(pi.noproxy_hosts)) {
+        setenv("no_proxy", pi.noproxy_hosts, 1);
+        setenv("NO_PROXY", pi.noproxy_hosts, 1);
+    }
+}
+
 int main(int argc, char** argv) {
     BOINC_OPTIONS options;
     int retval;
@@ -1060,6 +1076,8 @@ int main(int argc, char** argv) {
         strcpy(image_name, "boinc");
         strcpy(container_name, "boinc");
         project_dir = "project";
+        boinc_parse_init_data_file();
+        boinc_get_init_data(aid);
         aid.ncpus = 1;
         aid.wu_cpu_time = 0;
     } else {
@@ -1069,6 +1087,10 @@ int main(int argc, char** argv) {
         get_container_name();
         cpu_time = aid.wu_cpu_time;
     }
+
+    // set env vars based on HTTP proxy info from client
+    //
+    set_proxy_env_vars();
 
     if (config.verbose) {
         config.print();
