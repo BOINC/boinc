@@ -58,6 +58,10 @@ namespace test_boinccas {
         std::tie(errorcode, value) = getMsiProperty("BOINC_PROJECT_USERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         EXPECT_TRUE(value.empty());
+
+        std::tie(errorcode, value) = getMsiProperty("LAUNCHWSLIMAGEINSTALLER");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_TRUE(value.empty());
     }
 
     TEST_F(test_boinccas_CARestoreExecutionState,
@@ -88,6 +92,10 @@ namespace test_boinccas {
         std::tie(errorcode, value) = getMsiProperty("BOINC_PROJECT_USERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         EXPECT_TRUE(value.empty());
+
+        std::tie(errorcode, value) = getMsiProperty("LAUNCHWSLIMAGEINSTALLER");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_TRUE(value.empty());
     }
 
     TEST_F(test_boinccas_CARestoreExecutionState,
@@ -99,6 +107,7 @@ namespace test_boinccas {
             "RETURN_BOINC_MASTER_USERNAME", "test_master"));
         ASSERT_TRUE(setRegistryValue(
             "RETURN_BOINC_PROJECT_USERNAME", "test_project"));
+        ASSERT_TRUE(setRegistryValue("LAUNCHWSLIMAGEINSTALLER", "8"));
 
         const auto result = openMsi();
         ASSERT_EQ(0u, result);
@@ -124,6 +133,10 @@ namespace test_boinccas {
         std::tie(errorcode, value) = getMsiProperty("BOINC_PROJECT_USERNAME");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         EXPECT_EQ("test_project", value);
+
+        std::tie(errorcode, value) = getMsiProperty("LAUNCHWSLIMAGEINSTALLER");
+        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
+        EXPECT_EQ("8", value);
     }
 #endif
 }

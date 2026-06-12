@@ -14,6 +14,16 @@
     <TargetExt>.msi</TargetExt>
     <ReplaceWildcardsInProjectItems>true</ReplaceWildcardsInProjectItems>
   </PropertyGroup>
+  <PropertyGroup>
+    <BoincWslInstaller>$(OutDir)boinc-buda-runner-wsl-installer.exe</BoincWslInstaller>
+    <BoincWslInstallerVersion>2.3.2</BoincWslInstallerVersion>
+    <BoincWslInstallerGuardFile>$(BoincWslInstaller)_$(BoincWslInstallerVersion).lock</BoincWslInstallerGuardFile>
+    <BoincWslInstallerDownloadUrl>https://github.com/BOINC/boinc-buda-runner-wsl-installer/releases/download/v$(BoincWslInstallerVersion)/boinc-buda-runner-wsl-installer.exe</BoincWslInstallerDownloadUrl>
+  </PropertyGroup>
+  <Target Name="DownloadBoincWslInstaller" BeforeTargets="ClCompile" Condition="!Exists($(BoincWslInstaller)) Or !Exists($(BoincWslInstallerGuardFile))">
+    <DownloadFile SourceUrl="$(BoincWslInstallerDownloadUrl)" DestinationFolder="$(OutDir)" />
+    <Touch Files="$(BoincWslInstallerGuardFile)" AlwaysCreate="true" />
+  </Target>
   <ItemGroup>
     <None Include="..\installer\boinc.json" />
     <None Include="..\installer\include\ActionText.json" />
@@ -71,6 +81,7 @@
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <PropertyGroup>
+    <CustomBuildAfterTargets>DownloadBoincWslInstaller</CustomBuildAfterTargets>
     <CustomBuildBeforeTargets>ClCompile</CustomBuildBeforeTargets>
   </PropertyGroup>
   <ItemDefinitionGroup>

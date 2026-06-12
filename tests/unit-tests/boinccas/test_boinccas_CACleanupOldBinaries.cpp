@@ -49,6 +49,7 @@ namespace test_boinccas {
             createDummyFile(dirPath / "dbghelp95.dll");
             createDummyFile(dirPath / "srcsrv.dll");
             createDummyFile(dirPath / "symsrv.dll");
+            createDummyFile(dirPath / "boinc-buda-runner-wsl-installer.exe");
         }
 
         std::filesystem::path testDir;

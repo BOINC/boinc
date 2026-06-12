@@ -15,6 +15,10 @@
         {
             "Property": "LAUNCHPROGRAM",
             "Value": "1"
+        },
+        {
+            "Property": "LAUNCHWSLIMAGEINSTALLER",
+            "Value": "1"
         }
     ]
 }
