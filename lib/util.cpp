@@ -797,7 +797,8 @@ int DOCKER_CONN::command(
     return 0;
 }
 
-// like the above, but run a shell command (not a Docker command)
+// like the above, but run a shell command (not a Docker command).
+// We only need this in Win, to run commands in our WSL shell
 //
 #ifdef _WIN32
 int DOCKER_CONN::shell_command(
@@ -820,6 +821,7 @@ int DOCKER_CONN::shell_command(
         return retval;
     }
     out = split(output, '\n');
+    return 0;
 }
 #endif
 
