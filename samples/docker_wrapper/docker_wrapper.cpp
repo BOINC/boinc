@@ -130,6 +130,16 @@ struct RSC_USAGE {
     }
 };
 
+struct ENV_VAR {
+    string name;
+    string value;
+
+    ENV_VAR(const char* n, const char* v) {
+        name = n;
+        value = v;
+    }
+};
+
 // verbosity levels
 #define VERBOSE_NONE    0
 #define VERBOSE_STD     1
@@ -206,6 +216,7 @@ vector<string> app_args;
 DOCKER_TYPE docker_type;
 string wsl_distro_name;
 double cpu_time = 0;
+vector<ENV_VAR> env_vars;
 
 inline bool verbose_std() {
     return config.verbose >= VERBOSE_STD;
@@ -618,6 +629,14 @@ int create_container() {
         strcat(cmd, "\"");
     }
 
+    // pass proxy env vars to container
+    // (Docker only; Podman does it automatically)
+    //
+    for (ENV_VAR e: env_vars) {
+        snprintf(buf, sizeof(buf), " -e %s=%s", e.name.c_str(), e.value.c_str());
+        strcat(cmd, buf);
+    }
+
     // add mounts and portmaps
     //
     for (string s: config.mounts) {
@@ -975,6 +994,16 @@ void init_signal_handler() {
 }
 #endif
 
+// set an env var in our context;
+// if we're using Docker, make a copy to pass to containers
+//
+void set_env_var(const char* name, const char* value) {
+    setenv(name, value, 1);
+    if (docker_type == DOCKER) {
+        env_vars.push_back(ENV_VAR(name, value));
+    }
+}
+
 // create env vars for proxy info.
 // These will
 // - be used by Podman in downloading image files
@@ -1007,10 +1036,10 @@ void set_proxy_env_vars() {
             auth_buf[0] = 0;
         }
         sprintf(value, "http://%s%s", auth_buf, host_buf);
-        setenv("http_proxy", value, 1);
-        setenv("https_proxy", value, 1);
-        setenv("HTTP_PROXY", value, 1);
-        setenv("HTTPS_PROXY", value, 1);
+        set_env_var("http_proxy", value);
+        set_env_var("https_proxy", value);
+        set_env_var("HTTP_PROXY", value);
+        set_env_var("HTTPS_PROXY", value);
     } else if (strlen(pi.socks_server_name)) {
         sprintf(host_buf, "%s:%d", pi.socks_server_name, pi.socks_server_port);
         if (strlen(pi.socks5_user_name)) {
@@ -1020,14 +1049,14 @@ void set_proxy_env_vars() {
         }
         const char* protocol = pi.socks5_remote_dns?"socks5h":"socks5";
         sprintf(value, "%s://%s%s", protocol, auth_buf, host_buf);
-        setenv("http_proxy", value, 1);
-        setenv("https_proxy", value, 1);
-        setenv("HTTP_PROXY", value, 1);
-        setenv("HTTPS_PROXY", value, 1);
+        set_env_var("http_proxy", value);
+        set_env_var("https_proxy", value);
+        set_env_var("HTTP_PROXY", value);
+        set_env_var("HTTPS_PROXY", value);
     }
     if (strlen(pi.noproxy_hosts)) {
-        setenv("no_proxy", pi.noproxy_hosts, 1);
-        setenv("NO_PROXY", pi.noproxy_hosts, 1);
+        set_env_var("no_proxy", pi.noproxy_hosts);
+        set_env_var("NO_PROXY", pi.noproxy_hosts);
     }
 }
 
@@ -1088,10 +1117,6 @@ int main(int argc, char** argv) {
         cpu_time = aid.wu_cpu_time;
     }
 
-    // set env vars based on HTTP proxy info from client
-    //
-    set_proxy_env_vars();
-
     if (config.verbose) {
         config.print();
     }
@@ -1130,6 +1155,12 @@ int main(int argc, char** argv) {
         }
         docker_type = aid.host_info.docker_type;
     }
+
+    // set env vars based on HTTP proxy info from client
+    // must call after docker_type is set
+    //
+    set_proxy_env_vars();
+
     retval = docker_conn.init(docker_type);
     if (retval) {
         fprintf(stderr, "docker_conn.init() failed: %d\n", retval);
