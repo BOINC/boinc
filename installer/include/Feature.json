@@ -45,6 +45,15 @@
                     "Level": 1,
                     "Directory_": "INSTALLDIR",
                     "Attributes": 18
+                },
+                {
+                    "Feature": "BOINCWSLImageInstaller",
+                    "Title": "IDS_FEATURE_BOINC_WSL_IMAGE_INSTALLER_NAME",
+                    "Description": "IDS_FEATURE_BOINC_WSL_IMAGE_INSTALLER_DESCRIPTION",
+                    "Display": 1,
+                    "Level": 1,
+                    "Directory_": "INSTALLDIR",
+                    "Attributes": 2
                 }
             ]
         }
