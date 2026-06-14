@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -14,6 +14,8 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+#include <filesystem>
 
 #include "gtest/gtest.h"
 #include "md5_file.h"
@@ -37,9 +39,13 @@ namespace test_md5_file {
         char output[33];
         double bytes;
 #ifdef _WIN32
-        const string md5_file_path = "../../../../tests/unit-tests/lib/test_md5_file.txt";
+        const filesystem::path md5_file_path = filesystem::current_path()
+            .parent_path().parent_path().parent_path.parent_path() /
+            "tests" / "unit-tests" / "lib" /"test_md5_file.txt";
 #else
-        const string md5_file_path = "../unit-tests/lib/test_md5_file.txt";
+        const filesystem::path md5_file_path =
+            filesystem::current_path().parent_path() /
+            "unit-tests"/ "lib" / "test_md5_file.txt";
 #endif
         int result = md5_file(md5_file_path.c_str(), output, bytes);
         EXPECT_EQ(result, 0);

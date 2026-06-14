@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -78,7 +78,7 @@ if [ $? -ne 0 ]; then cd ../..; exit 1; fi
 if [[ "$OSTYPE" == "darwin"* ]]; then
     MODULES="lib vboxwrapper"
 else
-    MODULES="lib client sched vboxwrapper"
+    MODULES="client lib sched vboxwrapper"
 fi
 for T in ${MODULES}; do
     XML_FLAGS=""

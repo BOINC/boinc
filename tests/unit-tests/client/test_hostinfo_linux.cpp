@@ -15,20 +15,22 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "gtest/gtest.h"
-#include "hostinfo.h"
-
 #include <cstdio>
 #include <string>
+#include <filesystem>
+
+#include "gtest/gtest.h"
+#include "hostinfo.h"
 
 namespace test_hostinfo_linux {
     class test_hostinfo_linux : public ::testing::Test {};
 
     TEST_F(test_hostinfo_linux, parse_linux_os_info_lsb_release_ubuntu) {
-        std::string fixture_path(__FILE__);
-        fixture_path = fixture_path.substr(0, fixture_path.find_last_of('/')) + "/../testdata/lsb-release.ubuntu";
+        const std::filesystem::path fixture_path =
+            std::filesystem::current_path().parent_path() /
+            "testdata" / "lsb-release.ubuntu";
 
-        FILE* lsb_release = fopen(fixture_path.c_str(), "r");
+        FILE* lsb_release = fopen(fixture_path.string().c_str(), "r");
         ASSERT_NE(nullptr, lsb_release);
 
         char os_name[256] = "", os_version[256] = "";
@@ -40,10 +42,11 @@ namespace test_hostinfo_linux {
     }
 
     TEST_F(test_hostinfo_linux, parse_linux_os_info_os_release_ubuntu) {
-        std::string fixture_path(__FILE__);
-        fixture_path = fixture_path.substr(0, fixture_path.find_last_of('/')) + "/../testdata/os-release.ubuntu";
+        const std::filesystem::path fixture_path =
+            std::filesystem::current_path().parent_path() /
+            "testdata" / "os-release.ubuntu";
 
-        FILE* os_release = fopen(fixture_path.c_str(), "r");
+        FILE* os_release = fopen(fixture_path.string().c_str(), "r");
         ASSERT_NE(nullptr, os_release);
 
         char os_name[256] = "", os_version[256] = "";
@@ -55,10 +58,11 @@ namespace test_hostinfo_linux {
     }
 
     TEST_F(test_hostinfo_linux, parse_linux_os_info_os_release_openwrt) {
-        std::string fixture_path(__FILE__);
-        fixture_path = fixture_path.substr(0, fixture_path.find_last_of('/')) + "/../testdata/os-release.openwrt";
+        const std::filesystem::path fixture_path =
+            std::filesystem::current_path().parent_path() /
+            "testdata" / "os-release.openwrt";
 
-        FILE* os_release = fopen(fixture_path.c_str(), "r");
+        FILE* os_release = fopen(fixture_path.string().c_str(), "r");
         ASSERT_NE(nullptr, os_release);
 
         char os_name[256] = "", os_version[256] = "";
