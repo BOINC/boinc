@@ -130,6 +130,16 @@ struct RSC_USAGE {
     }
 };
 
+struct ENV_VAR {
+    string name;
+    string value;
+
+    ENV_VAR(const char* n, const char* v) {
+        name = n;
+        value = v;
+    }
+};
+
 // verbosity levels
 #define VERBOSE_NONE    0
 #define VERBOSE_STD     1
@@ -206,6 +216,7 @@ vector<string> app_args;
 DOCKER_TYPE docker_type;
 string wsl_distro_name;
 double cpu_time = 0;
+vector<ENV_VAR> env_vars;
 
 inline bool verbose_std() {
     return config.verbose >= VERBOSE_STD;
@@ -573,8 +584,8 @@ int get_container_state(int &state) {
 }
 
 int create_container() {
-    char cmd[1024];
-    char slot_cmd[256], project_cmd[256], buf[256];
+    char cmd[4096];
+    char slot_cmd[256], project_cmd[256], buf[1024];
     vector<string> out;
     int retval;
 
@@ -608,14 +619,28 @@ int create_container() {
         slot_cmd, project_cmd
     );
 
-    // add command-line args, space-escaped if needed (Mac)
+    // add env var for command-line args, space-escaped if needed (Mac)
     //
     if (app_args.size()) {
-        char arg_buf[4096];
+        char arg_buf[1024];
         strcat(cmd, " -e ARGS=\"");
         get_app_args(arg_buf);
         strcat(cmd, arg_buf);
         strcat(cmd, "\"");
+    }
+
+    // pass proxy env vars to container
+    // (Docker only; Podman does it automatically)
+    //
+    for (ENV_VAR e: env_vars) {
+        const char *v = e.value.c_str();
+        // not sure it makes any difference, but check (user-supplied) value
+        if (strchr(v, '\'')) {
+            fprintf(stderr, "bad env var value %s\n", v);
+            continue;
+        }
+        snprintf(buf, sizeof(buf), " -e %s='%s'", e.name.c_str(), v);
+        strcat(cmd, buf);
     }
 
     // add mounts and portmaps
@@ -975,6 +1000,85 @@ void init_signal_handler() {
 }
 #endif
 
+// set a proxy-related env var;
+// in Win we set this in our WSL instance with an 'export' command.
+// in Mac/Unix we set it in our own environment.
+// Podman or Docker will see this and use the proxy to fetch stuff.
+// We also want the var to be visible inside the container.
+// With Podman this happens automatically.
+// With Docker, we need to do it with -e args to the 'create' command,
+// so put them in the 'env_vars' vector.
+//
+void set_env_var(const char* name, const char* value) {
+#ifdef _WIN32
+    vector<string> out;
+    char buf[256];
+    sprintf(buf, "export %s=\"%s\"", name, value);
+    docker_conn.shell_command(buf, out, verbose_std());
+#else
+    setenv(name, value, 1);
+#endif
+    if (docker_type == DOCKER) {
+        env_vars.push_back(ENV_VAR(name, value));
+    }
+}
+
+// create env vars for proxy info.
+// These will
+// - be used by Podman in downloading image files
+// - be copied (by Podman) into the containers it creates
+//
+// NOTE: BOINC doesn't currently let you say whether
+// the client/proxy connection is SSL.
+// So we'll assume that it's not.
+//
+// examples
+//
+// protocol://username:password@hostname:port
+// http_proxy=http://192.168.1.100:8080
+// https_proxy=http://192.168.1.100:8080
+// http_proxy=https://192.168.1.100:8080 (we won't use this, see above)
+// http_proxy=socks5://127.0.0.1:1080
+// http_proxy=socks5h://127.0.0.1:1080 (if DNS is handled by SOCKS server)
+// https_proxy=socks5://127.0.0.1:1080
+// also (if noproxy_hosts is nonempty)
+// no_proxy="localhost,127.0.0.1"
+//
+void set_proxy_env_vars() {
+    char auth_buf[540], host_buf[600], value[2096];
+    PROXY_INFO &pi = aid.proxy_info;
+    if (strlen(pi.http_server_name)) {
+        sprintf(host_buf, "%s:%d", pi.http_server_name, pi.http_server_port);
+        if (strlen(pi.http_user_name)) {
+            sprintf(auth_buf, "%s:%s@", pi.http_user_name, pi.http_user_passwd);
+        } else {
+            auth_buf[0] = 0;
+        }
+        sprintf(value, "http://%s%s", auth_buf, host_buf);
+        set_env_var("http_proxy", value);
+        set_env_var("https_proxy", value);
+        //set_env_var("HTTP_PROXY", value);
+        set_env_var("HTTPS_PROXY", value);
+    } else if (strlen(pi.socks_server_name)) {
+        sprintf(host_buf, "%s:%d", pi.socks_server_name, pi.socks_server_port);
+        if (strlen(pi.socks5_user_name)) {
+            sprintf(auth_buf, "%s:%s@", pi.socks5_user_name, pi.socks5_user_passwd);
+        } else {
+            auth_buf[0] = 0;
+        }
+        const char* protocol = pi.socks5_remote_dns?"socks5h":"socks5";
+        sprintf(value, "%s://%s%s", protocol, auth_buf, host_buf);
+        set_env_var("http_proxy", value);
+        set_env_var("https_proxy", value);
+        //set_env_var("HTTP_PROXY", value);
+        set_env_var("HTTPS_PROXY", value);
+    }
+    if (strlen(pi.noproxy_hosts)) {
+        set_env_var("no_proxy", pi.noproxy_hosts);
+        set_env_var("NO_PROXY", pi.noproxy_hosts);
+    }
+}
+
 int main(int argc, char** argv) {
     BOINC_OPTIONS options;
     int retval;
@@ -1020,6 +1124,8 @@ int main(int argc, char** argv) {
         strcpy(image_name, "boinc");
         strcpy(container_name, "boinc");
         project_dir = "project";
+        boinc_parse_init_data_file();
+        boinc_get_init_data(aid);
         aid.ncpus = 1;
         aid.wu_cpu_time = 0;
     } else {
@@ -1068,6 +1174,12 @@ int main(int argc, char** argv) {
         }
         docker_type = aid.host_info.docker_type;
     }
+
+    // set env vars based on HTTP proxy info from client
+    // must call after docker_type is set
+    //
+    set_proxy_env_vars();
+
     retval = docker_conn.init(docker_type);
     if (retval) {
         fprintf(stderr, "docker_conn.init() failed: %d\n", retval);
