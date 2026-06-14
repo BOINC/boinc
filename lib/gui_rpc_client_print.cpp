@@ -150,9 +150,8 @@ void RESULT::print() {
     printf("   WU name: %s\n", wu_name);
     if (project) {
         printf("   project: %s\n", project->project_name.c_str());
-    } else {
-        printf("   project URL: %s\n", project_url);
     }
+    printf("   project URL: %s\n", project_url);
     time_t foo = (time_t)received_time;
     printf("   received: %s", ctime(&foo));
     foo = (time_t)report_deadline;

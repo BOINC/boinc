@@ -67,7 +67,7 @@ function mct_show_form() {
     if (!in_rops()) {
         echo "<strong>HELP: ProjectSpecific=0 consent types are defined by BOINC. You may add and remove project-specific consent types using this form.</strong>";
     }
-    start_table("");
+    start_table();
     table_header(
         "Name",
         "Description",
@@ -135,7 +135,7 @@ function mct_show_form() {
         <form action=manage_consent_types.php method=POST>
     ";
 
-    start_table("align='center' ");
+    start_table('', 'align="center"');
 
     table_header("Name", "Description", "&nbsp;");
 

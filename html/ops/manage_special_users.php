@@ -23,7 +23,7 @@ db_init();
 
 admin_page_head('Manage user privileges');
 
-start_table("align=\"center\"");
+start_table('', 'align="center"');
 row1("Current special users", '9');
 
 echo "<tr><td>User</td>";

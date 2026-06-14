@@ -23,6 +23,10 @@ require_once('../inc/util.inc');
 require_once('../inc/forum.inc');
 require_once('../inc/news.inc');
 
+if (REQUIRE_LOGIN_FORUM) {
+    get_logged_in_user();
+}
+
 $threadid = get_int('id');
 $sort_style = get_int('sort', true);
 $temp_sort_style = get_int('temp_sort_style', true);

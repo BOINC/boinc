@@ -18,7 +18,6 @@
 name: Linux Package
 on:
   push:
-    branches: [ 'master' ]
     tags: [ 'client_release/**' ]
   pull_request:
       branches: [ master ]
@@ -48,7 +47,7 @@ jobs:
     name: Prepare Binaries
     runs-on: ubuntu-latest
     container:
-      image: debian:buster
+      image: ubuntu:jammy
       env:
         AWS_ACCESS_KEY_ID: env.AWS_ACCESS_KEY_ID
         AWS_SECRET_ACCESS_KEY: env.AWS_SECRET_ACCESS_KEY
@@ -59,7 +58,7 @@ jobs:
         arch: [arm64, amd64, armhf]
       fail-fast: false
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         with:
           fetch-depth: 2
 
@@ -81,51 +80,20 @@ jobs:
         run: |
           echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
 
-      - name: Fix debian sources
-        run: |
-          sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
-          sed -i 's/security.debian.org/archive.debian.org/g' /etc/apt/sources.list
-
       - name: Install dependencies
         run: |
-          apt-get update
-          apt-get install -y autopoint make build-essential m4 pkg-config autoconf autoconf-archive libtool git python3 python3-distutils python3-jinja2 python3-venv curl zip unzip tar bison p7zip-full dbus flex
+          apt update
+          DEBIAN_FRONTEND=noninteractive apt install -y autopoint make build-essential m4 pkg-config autoconf autoconf-archive libtool git python3 python3-distutils python3-jinja2 python3-venv curl zip unzip tar bison p7zip-full dbus flex
 
       - name: Install dependencies for arm64
         if: matrix.arch == 'arm64'
         run: |
-          apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
+          DEBIAN_FRONTEND=noninteractive apt install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
 
       - name: Install dependencies for armhf
         if: matrix.arch == 'armhf'
         run: |
-          apt-get install -y gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
-
-      - name: Install updated version of autoconf
-        run: |
-          if [ ! -f ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz ]; then
-            curl https://ftp.gnu.org/gnu/autoconf/${{ env.AUTOCONF_WITH_VERSION }}.tar.gz -o ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
-          fi
-          tar -xzf ${{ env.AUTOCONF_WITH_VERSION }}.tar.gz
-          cd ${{ env.AUTOCONF_WITH_VERSION }}
-          ./configure --prefix=/usr
-          make -j $(nproc --all)
-          make install
-          cd ..
-          autoconf --version
-
-      - name: Install updated version of bison
-        run: |
-          if [ ! -f ${{ env.BISON_WITH_VERSION }}.tar.gz ]; then
-            curl https://ftp.gnu.org/gnu/bison/${{ env.BISON_WITH_VERSION }}.tar.gz -o ${{ env.BISON_WITH_VERSION }}.tar.gz
-          fi
-          tar -xzf ${{ env.BISON_WITH_VERSION }}.tar.gz
-          cd ${{ env.BISON_WITH_VERSION }}
-          ./configure --prefix=/usr
-          make -j $(nproc --all)
-          make install
-          cd ..
-          bison --version
+          DEBIAN_FRONTEND=noninteractive apt install -y gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
 
       - name: Install aws cli tool
         run: |
@@ -201,12 +169,12 @@ jobs:
     needs: prepare-binaries
     strategy:
       matrix:
-        os: [focal, jammy, noble, resolute, buster, bullseye, bookworm, trixie]
+        os: [jammy, noble, resolute, bookworm, trixie]
         type: [client, manager]
         arch: [arm64, amd64, armhf]
       fail-fast: false
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         if: success()
         with:
           fetch-depth: 2
@@ -301,14 +269,14 @@ jobs:
     needs: prepare-binaries
     strategy:
       matrix:
-        os: [fc37, fc38, fc39, fc40, fc41, fc42, fc43, fc44, suse15_4, suse15_5, suse15_6, suse16_0]
+        os: [fc43, fc44, suse16_0]
         type: [client, manager]
         arch: [arm64, amd64, armhf]
       fail-fast: false
     env:
       PUBKEY_HASH: D4460B4F0EEDE2C0662092F640254C9B29853EA6
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         if: success()
         with:
           fetch-depth: 2
@@ -412,13 +380,13 @@ jobs:
             BOINCDIR=/var/lib/boinc
 
             case ${{ matrix.os }} in
-            "fc37" | "fc38" | "fc39" | "fc40" | "fc41" | "fc42" | "fc43")
+            "fc43")
               CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
               ;;
             "fc44")
               CA_BUNDLE="/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem"
               ;;
-            "suse15_4" | "suse15_5" | "suse15_6" | "suse16_0")
+            "suse16_0")
               CA_BUNDLE="/etc/ssl/ca-bundle.pem"
               ;;
             esac
@@ -697,7 +665,7 @@ jobs:
     needs: build-deb-package
     strategy:
       matrix:
-        os: [buster, bullseye, bookworm, trixie]
+        os: [bookworm, trixie]
         type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
         arch: [amd64, arm64, armhf]
         include:
@@ -709,15 +677,9 @@ jobs:
             runner: ubuntu-24.04-arm
       fail-fast: false
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         with:
           fetch-depth: 2
-
-      - name: Fix debian sources
-        if: matrix.os == 'buster'
-        run: |
-          sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list
-          sed -i 's/security.debian.org/archive.debian.org/g' /etc/apt/sources.list
 
       - name: Enable armhf architecture
         if: success() && matrix.arch == 'armhf'
@@ -729,7 +691,7 @@ jobs:
         if: success()
         run: |
           apt update
-          apt install -y python3 gnupg2 curl
+          DEBIAN_FRONTEND=noninteractive apt install -y python3 gnupg2 curl
 
       - name: Install distro package for further upgrade
         if: success() && matrix.type == 'upgrade'
@@ -786,7 +748,7 @@ jobs:
     needs: build-deb-package
     strategy:
       matrix:
-        os: [focal, jammy, noble, resolute]
+        os: [jammy, noble, resolute]
         type: [install, upgrade, upgrade-from-ppa, upgrade-from-alpha, upgrade-from-stable]
         arch: [amd64, arm64, armhf]
         include:
@@ -798,7 +760,7 @@ jobs:
             runner: ubuntu-24.04-arm
       fail-fast: false
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         with:
           fetch-depth: 2
 
@@ -831,7 +793,7 @@ jobs:
         if: success()
         run: |
           apt update
-          apt install -y python3 gnupg2 curl
+          DEBIAN_FRONTEND=noninteractive apt install -y python3 gnupg2 curl
 
       - name: Install distro package for further upgrade
         if: success() && matrix.type == 'upgrade'
@@ -896,7 +858,7 @@ jobs:
     needs: build-rpm-package
     strategy:
       matrix:
-        os: [37, 38, 39, 40, 41, 42, 43, 44]
+        os: [43, 44]
         type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
         arch: [amd64, arm64]
         include:
@@ -906,7 +868,7 @@ jobs:
             runner: ubuntu-24.04-arm
       fail-fast: false
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         with:
           fetch-depth: 2
 
@@ -920,17 +882,8 @@ jobs:
         run: |
           dnf install -y boinc-client boinc-manager
 
-      - name: Install distro package for further upgrade from the alpha for Fedora < 41
-        if: success() && matrix.type == 'upgrade-from-alpha' && matrix.os != '41' && matrix.os != '42' && matrix.os != '43' && matrix.os != '44'
-        run: |
-          dnf install -y dnf-plugins-core
-          dnf config-manager --add-repo https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}
-          dnf config-manager --set-enabled boinc.berkeley.edu_dl_linux_alpha_fc${{ matrix.os }}
-          rpm --import https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc.gpg
-          yum install -y boinc-client boinc-manager
-
-      - name: Install distro package for further upgrade from the alpha for Fedora >= 41
-        if: success() && matrix.type == 'upgrade-from-alpha' && (matrix.os == '41' || matrix.os == '42' || matrix.os == '43' || matrix.os == '44')
+      - name: Install distro package for further upgrade from the alpha
+        if: success() && matrix.type == 'upgrade-from-alpha'
         run: |
           dnf install -y dnf-plugins-core
           dnf config-manager addrepo --from-repofile=https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc-alpha-fc${{ matrix.os }}.repo
@@ -940,17 +893,8 @@ jobs:
           manager_version=$(dnf list --available --repo boinc-alpha-fc${{ matrix.os }} | grep boinc-manager | grep -oP '\b\d+\.\d+\.\d+\b' | head -n 1)
           dnf install -y boinc-client-${client_version} boinc-manager-${manager_version}
 
-      - name: Install distro package for further upgrade from the stable for Fedora < 41
-        if: success() && matrix.type == 'upgrade-from-stable' && matrix.os != '41' && matrix.os != '42' && matrix.os != '43' && matrix.os != '44'
-        run: |
-          dnf install -y dnf-plugins-core
-          dnf config-manager --add-repo https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}
-          dnf config-manager --set-enabled boinc.berkeley.edu_dl_linux_stable_fc${{ matrix.os }}
-          rpm --import https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}/boinc.gpg
-          yum install -y boinc-client boinc-manager
-
-      - name: Install distro package for further upgrade from the stable for Fedora > 41
-        if: success() && matrix.type == 'upgrade-from-stable' && (matrix.os == '41' || matrix.os == '42' || matrix.os == '43' || matrix.os == '44')
+      - name: Install distro package for further upgrade from the stable
+        if: success() && matrix.type == 'upgrade-from-stable'
         run: |
           dnf install -y dnf-plugins-core
           dnf config-manager addrepo --from-repofile=https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}/boinc-stable-fc${{ matrix.os }}.repo
@@ -972,14 +916,8 @@ jobs:
         with:
           name: linux-package_manager_${{ matrix.arch }}_fc${{ matrix.os }}_${{ github.event.pull_request.head.sha }}
 
-      - name: Install client and manager for Fedora < 41
-        if: success() && matrix.os != '41' && matrix.os != '42' && matrix.os != '43' && matrix.os != '44'
-        run: |
-          yum localinstall -y --allowerasing $(find ./ -type f -name "boinc-client*.rpm" -printf "%p\n")
-          yum localinstall -y --allowerasing $(find ./ -type f -name "boinc-manager*.rpm" -printf "%p\n")
-
-      - name: Install client and manager for Fedora >= 41
-        if: success() && (matrix.os == '41' || matrix.os == '42' || matrix.os == '43' || matrix.os == '44')
+      - name: Install client and manager
+        if: success()
         run: |
           dnf5 install -y --allowerasing $(find ./ -type f -name "boinc-client*.rpm" -printf "%p\n")
           dnf5 install -y --allowerasing $(find ./ -type f -name "boinc-manager*.rpm" -printf "%p\n")
@@ -997,7 +935,7 @@ jobs:
     needs: build-rpm-package
     strategy:
       matrix:
-        os: ["15.4", "15.5", "15.6", "16.0"]
+        os: ["16.0"]
         type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
         arch: [amd64, arm64]
         include:
@@ -1012,7 +950,7 @@ jobs:
         run: |
           zypper install -y python3 tar gzip findutils
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         with:
           fetch-depth: 2
 
@@ -1071,7 +1009,7 @@ jobs:
     needs: [test-debian-deb-package, test-ubuntu-deb-package]
     strategy:
       matrix:
-        os: [focal, jammy, noble, resolute, buster, bullseye, bookworm, trixie]
+        os: [jammy, noble, resolute, bookworm, trixie]
       fail-fast: false
     steps:
       - name: Check if build is running from origin repo
@@ -1101,7 +1039,7 @@ jobs:
         run: |
           echo "SKIP_RUN=1" >> $GITHUB_ENV
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         if: ${{ success() && env.SKIP_RUN == 0 }}
         with:
           fetch-depth: 2
@@ -1109,8 +1047,8 @@ jobs:
       - name: Install dependencies
         if: ${{ success() && env.SKIP_RUN == 0 }}
         run: |
-          sudo apt-get update
-          sudo apt-get install -y aptly gnupg2 gpgv
+          sudo apt update
+          sudo DEBIAN_FRONTEND=noninteractive apt install -y aptly gnupg2 gpgv
 
       - name: Setup GPG keys
         if: ${{ success() && env.SKIP_RUN == 0 }}
@@ -1180,11 +1118,11 @@ jobs:
     if: github.repository == 'BOINC/boinc'
     runs-on: ubuntu-latest
     container:
-      image: fedora:38
+      image: fedora:44
     needs: [test-fedora-rpm-package, test-opensuse-rpm-package]
     strategy:
       matrix:
-        os: [fc37, fc38, fc39, fc40, fc41, fc42, fc43, fc44, suse15_4, suse15_5, suse15_6, suse16_0]
+        os: [fc43, fc44, suse16_0]
       fail-fast: false
     env:
       PUBKEY_HASH: D4460B4F0EEDE2C0662092F640254C9B29853EA6
@@ -1216,7 +1154,7 @@ jobs:
         run: |
           echo "SKIP_RUN=1" >> $GITHUB_ENV
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         if: ${{ success() && env.SKIP_RUN == 0 }}
         with:
           fetch-depth: 2

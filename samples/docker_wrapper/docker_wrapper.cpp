@@ -90,43 +90,6 @@
 // https://docs.docker.com/reference/cli/docker/container/run/
 // https://docs.docker.com/engine/containers/resource_constraints/
 
-// ************** Checkpoint/restart ***************
-//
-// This would limit lost work if the host is rebooted
-// while a BUDA job is running.
-// In other cases (e.g. the user exits the client)
-// we pause the container and no work is lost.
-//
-// Podman and Docker have different interfaces:
-// podman: https://podman.io/docs/checkpoint
-//      podman container checkpoint <name>
-//      podman container restore <name>
-// docker: https://docs.docker.com/reference/cli/docker/checkpoint/
-//      docker checkpoint create <cont_name> <checkpoint_name>
-//      docker checkpoint ls   (lists checkpoints)
-//      docker checkpoint rm   (delete checkpoint)
-//      docker start --checkpoint <checkpoint_name> <cont_name>
-//      (use <cont_name>_checkpoint as the checkpoint name)
-//      need --security-opt=seccomp:unconfined in initial run command?
-//
-// In both cases the CRIU library is required.
-//
-// Note: I spent several days trying to get it to work on Podman
-// with all sorts of variants like --pre-checkpoint, --keep etc.
-// Whenever I did
-// - create a checkpoint
-// - compute some more
-// - stop or kill the container
-// - restore
-// I always get
-// Error: OCI runtime error: runc: criu failed: type RESTORE errno 0
-//
-// So I gave up; checkpoint/restart is only relevant to the reboot scenario,
-// this is rare.
-//
-// I took out the checkpoint-related code 1/30/2026.
-// If you want to see it, look at an older version
-
 #include <cstdio>
 #include <string>
 #include <vector>
@@ -331,20 +294,20 @@ int parse_config_file() {
 
 // If command output includes "Error", show the output and return true
 //
-bool output_has_error(vector<string> &out, const char* cmd_name) {
-    bool found = false;
+bool output_has_str(vector<string> &out, const char* s) {
     for (string line: out) {
-        if (strstr(line.c_str(), "Error")) {
-            found = true;
-            break;
+        if (strstr(line.c_str(), s)) {
+            return true;
         }
     }
-    if (!found) return false;
+    return false;
+}
+
+void show_output(vector<string> &out, const char* cmd_name) {
     fprintf(stderr, "Error output from '%s' command:\n", cmd_name);
     for (const string &line: out) {
         fprintf(stderr, "   %s", line.c_str());
     }
-    return true;
 }
 
 //////////  PODMAN ARGS  ////////////
@@ -400,6 +363,20 @@ void get_app_args(char* buf) {
 
 //////////  IMAGE  ////////////
 
+// used during build sleeps
+//
+void check_exit_request() {
+    BOINC_STATUS status;
+    boinc_get_status(&status);
+    if (status.no_heartbeat
+        || status.quit_request
+        || status.abort_request
+    ) {
+        fprintf(stderr, "client exit request during init\n");
+        exit(0);
+    }
+}
+
 void get_image_name() {
     if (config.image_name.empty()) {
         string s = docker_image_name(project_dir, aid.wu_name);
@@ -428,11 +405,94 @@ int image_exists(bool &exists) {
 int build_image() {
     char cmd[256];
     vector<string> out;
-    snprintf(cmd, sizeof(cmd), "build \"%s\" -t %s -f %s %s",
-        escaped_cwd, image_name, dockerfile, config.build_args.c_str()
+    int retval;
+
+    snprintf(cmd, sizeof(cmd),
+        "build \"%s\" %s -t %s -f %s %s",
+        escaped_cwd,
+        docker_type == PODMAN?"--retry 0":"",
+        image_name, dockerfile, config.build_args.c_str()
     );
-    int retval = docker_conn.command(cmd, out, verbose_std());
-    if (retval) return retval;
+
+    // build command might fail because network is disconnected
+    // (this is the only command that uses network)
+    //
+    bool test_host_unreachable = false;
+        // test host was unreachable last time we checked
+    BOINC_STATUS status;
+    while (1) {
+        check_exit_request();        // should we exit?
+        if (!got_heartbeat_message) {
+            // need a heartbeat msg to know network suspended status
+            fprintf(stderr, "waiting for heartbeat\n");
+            boinc_sleep(1);
+            continue;
+        }
+        boinc_get_status(&status);
+        if (status.network_suspended) {
+            if (verbose_all()) {
+                fprintf(stderr, "network suspended; sleeping 10\n");
+            }
+            boinc_waiting_for_network(true);
+            boinc_report_app_status(0, 0, 0);
+            boinc_sleep(10);
+            continue;
+        }
+        // if test host was previously unreachable, see if that's changed
+        if (test_host_unreachable) {
+            if (!network_connected()) {
+                if (verbose_all()) {
+                    fprintf(stderr,
+                        "test server still unreachable; sleeping 10\n"
+                    );
+                }
+                boinc_sleep(10);
+                continue;
+            }
+        }
+        retval = docker_conn.command(cmd, out, verbose_std());
+        if (
+            output_has_str(out, "unable to copy")   // podman
+            || output_has_str(out, "unreachable")   // docker?
+        ) {
+            if (verbose_std()) {
+                fprintf(stderr, "build cmd output indicates disconnection\n");
+            }
+            if (network_connected()) {
+                // network connection exists but the create operation
+                // couldn't reach a needed server; error out
+                if (verbose_std()) {
+                    fprintf(stderr, "... but test server is reachable; quitting\n");
+                }
+                return -1;
+            }
+            if (verbose_std()) {
+                fprintf(stderr, "test server is unreachable; sleeping\n");
+            }
+            test_host_unreachable = true;
+            boinc_waiting_for_network(true);
+            boinc_report_app_status(0, 0, 0);
+            boinc_sleep(10);
+            continue;
+        }
+        // see if the build command failed for a reason other than network
+        //
+        if (retval) {
+            fprintf(stderr, "build command failed: %d\n", retval);
+            return -1;
+        }
+        if (output_has_str(out, "Error")) {
+            show_output(out, "build");
+            return -1;
+        }
+        // here if build succeeded
+        if (verbose_std()) {
+            fprintf(stderr, "build succeeded\n");
+        }
+        boinc_waiting_for_network(false);
+        boinc_report_app_status(0, 0, 0);
+        break;
+    }
     return 0;
 }
 
@@ -622,10 +682,10 @@ int create_container() {
         fprintf(stderr, "create command failed: %d\n", retval);
         return retval;
     }
-    if (output_has_error(out, "create")) {
+    if (output_has_str(out, "Error")) {
+        show_output(out, "create");
         return -1;
     }
-
     return 0;
 }
 
@@ -643,7 +703,8 @@ int container_op(const char *op) {
         fprintf(stderr, "%s command failed: %d\n", op, retval);
         return retval;
     }
-    if (output_has_error(out, op)) {
+    if (output_has_str(out, "Error")) {
+        show_output(out, op);
         return -1;
     }
     return 0;
@@ -730,7 +791,6 @@ int poll_client_msgs() {
     return 0;
 }
 
-// check whether job:
 // - has exited success (JOB_SUCCESS)
 // - has exited failure (JOB_FAIL)
 // - is in progress (JOB_IN_PROGRESS)

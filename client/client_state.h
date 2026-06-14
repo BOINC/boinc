@@ -325,6 +325,7 @@ struct CLIENT_STATE {
     void make_run_list(vector<RESULT*>&);
     bool enforce_run_list(vector<RESULT*>&);
     void append_unfinished_time_slice(vector<RESULT*>&);
+    bool swap_limit_check();
 
     double runnable_resource_share(int);
     void adjust_rec();
@@ -717,6 +718,20 @@ extern void show_docker_messages();
     // Don't do this on Android
 #endif
 
-#define NEED_NETWORK_MSG _("BOINC can't access Internet - check network connection or proxy configuration.")
+#define NEED_NETWORK_MSG _("BOINC can't access Internet - check network connection")
+#define APP_NEED_NETWORK_MSG _("Tasks can't access Internet - check network connection")
+#define APP_NETWORK_SUSPENDED_MSG _("Tasks need Internet access - consider unsuspending network")
+
+// are measurements of swap space a virtual sizes meaningful?
+// On MacOS, ps (which is how we measure virtual size)
+// says that every process is at least 33 GB.
+//
+inline bool is_swap_defined() {
+#ifdef __APPLE__
+    return false;
+#else
+    return gstate.host_info.m_swap > 0;
+#endif
+}
 
 #endif

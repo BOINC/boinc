@@ -24,6 +24,10 @@ require_once("../inc/boinc_db.inc");
 
 check_get_args(array("sort_by", "offset"));
 
+if (REQUIRE_LOGIN) {
+    get_logged_in_user();
+}
+
 $hosts_per_page = project_config_val("hosts_per_page");
 if (!$hosts_per_page) {
     $hosts_per_page = 20;

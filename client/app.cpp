@@ -121,10 +121,6 @@ ACTIVE_TASK::ACTIVE_TASK() {
     run_interval_start_wall_time = gstate.now;
     checkpoint_wall_time = 0;
     elapsed_time = 0;
-    bytes_sent_episode = 0;
-    bytes_received_episode = 0;
-    bytes_sent = 0;
-    bytes_received = 0;
     safe_strcpy(slot_dir, "");
     safe_strcpy(slot_path, "");
     max_elapsed_time = 0;
@@ -132,7 +128,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
     max_mem_usage = 0;
     have_trickle_down = false;
     send_upload_file_status = false;
-    too_large = false;
+    wss_too_large = false;
+    swap_too_large = false;
     needs_shmem = false;
     want_network = 0;
     abort_time = 0;
@@ -154,6 +151,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     sporadic_ca_state = CA_NONE;
     sporadic_ac_state = AC_NONE;
     sporadic_ignore_until = 0;
+    swap_kill_time = 0;
 }
 
 bool ACTIVE_TASK::process_exists() {
@@ -389,10 +387,9 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         return;
     }
     PROCINFO boinc_total;
-    if (log_flags.mem_usage_debug) {
-        boinc_total.clear();
-        boinc_total.working_set_size_smoothed = 0;
-    }
+    boinc_total.clear();
+    boinc_total.working_set_size_smoothed = 0;
+
     for (ACTIVE_TASK* atp: active_tasks) {
         if (atp->task_state() == PROCESS_UNINITIALIZED) continue;
         if (atp->pid ==0) continue;
@@ -431,39 +428,65 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         if (pi.swap_size > atp->peak_swap_size) {
             atp->peak_swap_size = pi.swap_size;
         }
+        boinc_total.working_set_size += pi.working_set_size;
+        boinc_total.working_set_size_smoothed += pi.working_set_size_smoothed;
+        boinc_total.swap_size += pi.swap_size;
+        boinc_total.page_fault_rate += pi.page_fault_rate;
 
         if (!first) {
             int pf = pi.page_fault_count - last_page_fault_count;
             pi.page_fault_rate = pf/delta_t;
             if (log_flags.mem_usage_debug) {
                 msg_printf(atp->result->project, MSG_INFO,
-                    "[mem_usage] %s%s: WS %.2fMB, smoothed %.2fMB, swap %.2fMB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
+                    "[mem_usage] %s%s: RSS %.2f GB (smoothed %.2f GB), virtual %.2f GB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
                     atp->scheduler_state==CPU_SCHED_SCHEDULED?"":" (not running)",
                     atp->result->name,
-                    pi.working_set_size/MEGA,
-                    pi.working_set_size_smoothed/MEGA,
-                    pi.swap_size/MEGA,
+                    pi.working_set_size/GIGA,
+                    pi.working_set_size_smoothed/GIGA,
+                    pi.swap_size/GIGA,
                     pi.page_fault_rate,
                     pi.user_time,
                     pi.kernel_time
                 );
-                boinc_total.working_set_size += pi.working_set_size;
-                boinc_total.working_set_size_smoothed += pi.working_set_size_smoothed;
-                boinc_total.swap_size += pi.swap_size;
-                boinc_total.page_fault_rate += pi.page_fault_rate;
             }
         }
     }
 
-    if (!first) {
-        if (log_flags.mem_usage_debug) {
-            msg_printf(0, MSG_INFO,
-                "[mem_usage] BOINC totals: WS %.2fMB, smoothed %.2fMB, swap %.2fMB, %.2f page faults/sec",
-                boinc_total.working_set_size/MEGA,
-                boinc_total.working_set_size_smoothed/MEGA,
-                boinc_total.swap_size/MEGA,
-                boinc_total.page_fault_rate
-            );
+    // log BOINC and system totals if requested
+    //
+    if (!first && log_flags.mem_usage_debug) {
+        msg_printf(0, MSG_INFO,
+            "[mem_usage] BOINC totals: RSS %.2f GB (smoothed %.2f GB), virtual %.2f GB, %.2f page faults/sec",
+            boinc_total.working_set_size/GIGA,
+            boinc_total.working_set_size_smoothed/GIGA,
+            boinc_total.swap_size/GIGA,
+            boinc_total.page_fault_rate
+        );
+        PROCINFO system_total;
+        system_total.clear();
+        system_total.working_set_size_smoothed = 0;
+        for (const auto& [pid, pi]: pm) {
+            (void)pid;
+            system_total.working_set_size += pi.working_set_size;
+            system_total.swap_size += pi.swap_size;
+        }
+        msg_printf(0, MSG_INFO,
+            "[mem_usage] System totals: RSS %.2f GB, virtual %.2f GB",
+            system_total.working_set_size/GIGA,
+            system_total.swap_size/GIGA
+        );
+    }
+
+    // if memory limits exceeded, trigger reschedule
+    //
+    if (boinc_total.working_set_size > gstate.available_ram()) {
+        gstate.request_schedule_cpus("RAM limit exceeded");
+    }
+    if (is_swap_defined()) {
+        if (boinc_total.swap_size
+            > (gstate.global_prefs.vm_max_used_frac)*gstate.host_info.m_swap
+        ) {
+            gstate.request_schedule_cpus("Swap limit exceeded");
         }
     }
 
@@ -614,8 +637,8 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         if (log_flags.mem_usage_debug) {
             //procinfo_show(pm);
             msg_printf(NULL, MSG_INFO,
-                "[mem_usage] All others: WS %.2fMB, swap %.2fMB, user %.3fs, kernel %.3fs",
-                pi.working_set_size/MEGA, pi.swap_size/MEGA,
+                "[mem_usage] All others: RSS %.2f GB, virtual %.2f GB, user %.3fs, kernel %.3fs",
+                pi.working_set_size/GIGA, pi.swap_size/GIGA,
                 pi.user_time, pi.kernel_time
             );
         }
@@ -795,9 +818,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <swap_size>%f</swap_size>\n"
         "    <working_set_size>%f</working_set_size>\n"
         "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
-        "    <page_fault_rate>%f</page_fault_rate>\n"
-        "    <bytes_sent>%f</bytes_sent>\n"
-        "    <bytes_received>%f</bytes_received>\n",
+        "    <page_fault_rate>%f</page_fault_rate>\n",
         result->project->master_url,
         result->name,
         task_state(),
@@ -812,9 +833,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         procinfo.swap_size,
         procinfo.working_set_size,
         procinfo.working_set_size_smoothed,
-        procinfo.page_fault_rate,
-        bytes_sent,
-        bytes_received
+        procinfo.page_fault_rate
     );
     fout.printf("</active_task>\n");
     return 0;
@@ -848,10 +867,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         "    <working_set_size>%f</working_set_size>\n"
         "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
         "    <page_fault_rate>%f</page_fault_rate>\n"
-        "    <bytes_sent>%f</bytes_sent>\n"
-        "    <bytes_received>%f</bytes_received>\n"
-        "%s"
-        "%s",
+        "%s%s%s%s",
         task_state(),
         app_version->version_num,
         slot,
@@ -865,10 +881,10 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         procinfo.working_set_size,
         procinfo.working_set_size_smoothed,
         procinfo.page_fault_rate,
-        bytes_sent,
-        bytes_received,
-        too_large?"   <too_large/>\n":"",
-        needs_shmem?"   <needs_shmem/>\n":""
+        wss_too_large?"   <too_large/>\n":"",   // backward compatibility
+        swap_too_large?"   <swap_too_large/>\n":"",
+        needs_shmem?"   <needs_shmem/>\n":"",
+        want_network?"   <want_network/>\n":""
     );
     if (elapsed_time > first_fraction_done_elapsed_time) {
         fout.printf(
@@ -1008,8 +1024,6 @@ int ACTIVE_TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_double("working_set_size_smoothed", procinfo.working_set_size_smoothed)) continue;
         else if (xp.parse_double("page_fault_rate", procinfo.page_fault_rate)) continue;
         else if (xp.parse_double("current_cpu_time", x)) continue;
-        else if (xp.parse_double("bytes_sent", bytes_sent)) continue;
-        else if (xp.parse_double("bytes_received", bytes_received)) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(project, MSG_INFO,
@@ -1220,21 +1234,11 @@ void ACTIVE_TASK_SET::handle_upload_files() {
     }
 }
 
-bool ACTIVE_TASK_SET::want_network() {
+bool ACTIVE_TASK_SET::some_task_wants_network() {
     for (ACTIVE_TASK* atp: active_tasks) {
         if (atp->want_network) return true;
     }
     return false;
-}
-
-void ACTIVE_TASK_SET::network_available() {
-#ifndef SIM
-    for (ACTIVE_TASK* atp: active_tasks) {
-        if (atp->want_network) {
-            atp->send_network_available();
-        }
-    }
-#endif
 }
 
 void ACTIVE_TASK::upload_notify_app(const FILE_INFO* fip, const FILE_REF* frp) {

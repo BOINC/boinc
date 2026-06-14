@@ -75,9 +75,10 @@
 # Updated 8/27/25 to allow podman to stat items under BOINC Data directory
 # Updated 11/9/25 to create "BOINC podman" directory if not present (for bare client)
 # Updated 5/7/26 to set home directories for users boinc_master & boinc_project
+# Updated 5/26/26 put BOINC Podman dir in standard location even if BOINC Data was moved
+# Updated 6/11/26 to work even if BOINC Podman dir was moved via symbolic link
 #
-# WARNING: do not use this script with versions of BOINC older
-# than 7.20.4
+# WARNING: do not use this script with versions of BOINC older than 7.20.4
 
 function make_boinc_user() {
     DarwinVersion=`uname -r`;
@@ -310,15 +311,17 @@ fi
 
 # Though "BOINC podman" directory is not used on older
 # versions of BOINC, it doesn't hurt to add it to them
-if [ ! -d "../BOINC podman" ] ; then
-    mkdir "../BOINC podman"
+if [ ! -d "/Library/Application Support/BOINC podman" ] ; then
+    mkdir "/Library/Application Support/BOINC podman"
 fi
 # We must not modify permissions of any of Podman's data so just set
 # their owner and group
-chown -R boinc_project:boinc_project "../BOINC podman"
-# Set owner and permissions for the BOINC podman directory itself
-# but not its contents.
-set_perm "../BOINC podman" boinc_master boinc_project 0770
+if cd "/Library/Application Support/BOINC podman"; then
+    chown -R boinc_project:boinc_project .
+    # Set owner and permissions for the BOINC podman directory itself
+    # but not its contents.
+    set_perm . boinc_master boinc_project 0770
+fi
 
 if [ -x /Applications/BOINCManager.app/Contents/MacOS/BOINCManager ] ; then
     set_perm  /Applications/BOINCManager.app/Contents/MacOS/BOINCManager boinc_master boinc_master 0555

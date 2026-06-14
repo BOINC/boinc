@@ -299,7 +299,6 @@ int SCHED_CONFIG::parse(FILE* f) {
             }
             continue;
         }
-        if (xp.parse_bool("no_vista_sandbox", no_vista_sandbox)) continue;
         if (xp.parse_bool("nowork_skip", nowork_skip)) continue;
         if (xp.parse_bool("one_result_per_host_per_wu", one_result_per_host_per_wu)) continue;
         if (xp.parse_bool("one_result_per_user_per_wu", one_result_per_user_per_wu)) continue;

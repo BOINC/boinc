@@ -17,7 +17,9 @@
 
 #include <filesystem>
 
+#ifndef _WIN32
 #include "gtest/gtest.h"
+#endif
 #include "md5_file.h"
 
 using namespace std;

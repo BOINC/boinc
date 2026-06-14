@@ -121,7 +121,10 @@ int CLIENT_STATE::get_disk_usages() {
     // include its disk image size
     //
     WSL_DISTRO *wd = host_info.wsl_distros.find_docker();
-    if (wd) {
+    if (wd
+        && wd->distro_name == BOINC_WSL_DISTRO_NAME
+        && !wd->base_path.empty()
+    ) {
         retval = dir_size_alloc(wd->base_path.c_str(), size);
         if (!retval) {
             client_disk_usage += size;
@@ -190,7 +193,7 @@ void CLIENT_STATE::get_disk_shares() {
     double greedy_allowed = allowed - non_greedy_ddu;
     if (log_flags.disk_usage_debug) {
         msg_printf(0, MSG_INFO,
-            "[disk_usage] allowed %.2fGB used %.2fGB",
+            "[disk_usage] allowed %.2f GB, used %.2f GB",
             allowed/GIGA, total_disk_usage/GIGA
         );
     }
@@ -203,7 +206,7 @@ void CLIENT_STATE::get_disk_shares() {
         }
         if (log_flags.disk_usage_debug) {
             msg_printf(p, MSG_INFO,
-                "[disk_usage] usage %.2fGB share %.2fGB",
+                "[disk_usage] usage %.2f GB, share %.2f GB",
                 p->disk_usage/GIGA, p->disk_share/GIGA
             );
         }
@@ -794,6 +797,15 @@ void CLIENT_STATE::print_global_prefs() {
 
     // other prefs
     //
+
+    if (is_swap_defined()) {
+        double swap_limit = global_prefs.vm_max_used_frac*host_info.m_swap;
+        msg_printf(NULL, MSG_INFO,
+            "-  Don't used more than %.2f GB swap space (%.0f%% of %.2f GB)",
+            swap_limit/GIGA, global_prefs.vm_max_used_frac*100,
+            host_info.m_swap/GIGA
+        );
+    }
 
     if (!global_prefs.run_on_batteries) {
         msg_printf(NULL, MSG_INFO,
