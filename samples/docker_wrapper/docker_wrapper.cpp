@@ -1057,7 +1057,7 @@ void set_proxy_env_vars() {
         sprintf(value, "http://%s%s", auth_buf, host_buf);
         set_env_var("http_proxy", value);
         set_env_var("https_proxy", value);
-        set_env_var("HTTP_PROXY", value);
+        //set_env_var("HTTP_PROXY", value);
         set_env_var("HTTPS_PROXY", value);
     } else if (strlen(pi.socks_server_name)) {
         sprintf(host_buf, "%s:%d", pi.socks_server_name, pi.socks_server_port);
@@ -1070,7 +1070,7 @@ void set_proxy_env_vars() {
         sprintf(value, "%s://%s%s", protocol, auth_buf, host_buf);
         set_env_var("http_proxy", value);
         set_env_var("https_proxy", value);
-        set_env_var("HTTP_PROXY", value);
+        //set_env_var("HTTP_PROXY", value);
         set_env_var("HTTPS_PROXY", value);
     }
     if (strlen(pi.noproxy_hosts)) {
