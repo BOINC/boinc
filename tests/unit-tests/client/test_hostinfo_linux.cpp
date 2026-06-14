@@ -28,7 +28,7 @@ namespace test_hostinfo_linux {
     TEST_F(test_hostinfo_linux, parse_linux_os_info_lsb_release_ubuntu) {
         const std::filesystem::path fixture_path =
             std::filesystem::current_path().parent_path() /
-            "testdata" / "lsb-release.ubuntu";
+            "unit-tests" / "testdata" / "lsb-release.ubuntu";
 
         FILE* lsb_release = fopen(fixture_path.string().c_str(), "r");
         ASSERT_NE(nullptr, lsb_release);
@@ -44,7 +44,7 @@ namespace test_hostinfo_linux {
     TEST_F(test_hostinfo_linux, parse_linux_os_info_os_release_ubuntu) {
         const std::filesystem::path fixture_path =
             std::filesystem::current_path().parent_path() /
-            "testdata" / "os-release.ubuntu";
+            "unit-tests" / "testdata" / "os-release.ubuntu";
 
         FILE* os_release = fopen(fixture_path.string().c_str(), "r");
         ASSERT_NE(nullptr, os_release);
@@ -60,7 +60,7 @@ namespace test_hostinfo_linux {
     TEST_F(test_hostinfo_linux, parse_linux_os_info_os_release_openwrt) {
         const std::filesystem::path fixture_path =
             std::filesystem::current_path().parent_path() /
-            "testdata" / "os-release.openwrt";
+            "unit-tests" / "testdata" / "os-release.openwrt";
 
         FILE* os_release = fopen(fixture_path.string().c_str(), "r");
         ASSERT_NE(nullptr, os_release);

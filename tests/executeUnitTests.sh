@@ -26,6 +26,8 @@
 # if --clean is given the tests will be rebuild from scratch otherwise an existing
 # build directory is used
 
+set -e
+
 # check working directory because the script needs to be called like: ./tests/executeUnitTests.sh
 if [ ! -d "tests" ]; then
     echo "start this script in the source root directory"

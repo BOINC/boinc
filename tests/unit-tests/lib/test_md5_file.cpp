@@ -42,7 +42,7 @@ namespace test_md5_file {
         double bytes;
 #ifdef _WIN32
         const filesystem::path md5_file_path = filesystem::current_path()
-            .parent_path().parent_path().parent_path.parent_path() /
+            .parent_path().parent_path().parent_path().parent_path() /
             "tests" / "unit-tests" / "lib" /"test_md5_file.txt";
 #else
         const filesystem::path md5_file_path =
