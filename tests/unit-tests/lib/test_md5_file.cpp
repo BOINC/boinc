@@ -15,9 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <filesystem>
-
 #ifndef _WIN32
+#include <filesystem>
 #include "gtest/gtest.h"
 #endif
 #include "md5_file.h"
@@ -49,7 +48,7 @@ namespace test_md5_file {
             filesystem::current_path().parent_path() /
             "unit-tests"/ "lib" / "test_md5_file.txt";
 #endif
-        int result = md5_file(md5_file_path.c_str(), output, bytes);
+        int result = md5_file(md5_file_path.string().c_str(), output, bytes);
         EXPECT_EQ(result, 0);
         EXPECT_STREQ(output, "3b13c74a05696e71f9aeb4e6f10cbae8");
         EXPECT_EQ(bytes, 737);
