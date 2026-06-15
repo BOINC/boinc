@@ -151,7 +151,7 @@ UINT BOINCCABase::GetRegistryValue(const tstring& strName,
         return ERROR_INSTALL_FAILURE;
     }
 
-    if (strValue.back() == _T('\0')) {
+    if (!strValue.empty() && strValue.back() == _T('\0')) {
         strValue.pop_back();
     }
 
