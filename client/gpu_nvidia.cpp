@@ -145,10 +145,10 @@ end:
 // If "loose", ignore FLOPS and tolerate small memory diff
 //
 int nvidia_compare(COPROC_NVIDIA& c1, COPROC_NVIDIA& c2, bool loose) {
-    if (c1.prop.major > c2.prop.major) return 1;
-    if (c1.prop.major < c2.prop.major) return -1;
-    if (c1.prop.minor > c2.prop.minor) return 1;
-    if (c1.prop.minor < c2.prop.minor) return -1;
+    if (c1.cuda_prop.major > c2.cuda_prop.major) return 1;
+    if (c1.cuda_prop.major < c2.cuda_prop.major) return -1;
+    if (c1.cuda_prop.minor > c2.cuda_prop.minor) return 1;
+    if (c1.cuda_prop.minor < c2.cuda_prop.minor) return -1;
     if (c1.cuda_version > c2.cuda_version) return 1;
     if (c1.cuda_version < c2.cuda_version) return -1;
     if (loose) {
@@ -402,7 +402,7 @@ void* cudalib = NULL;
     gpu_warning(warnings, buf);
 
     for (j=0; j<cuda_ndevs; j++) {
-        cc.prop.clear();
+        cc.cuda_prop.clear();
         CUdevice device;
         retval = (*p_cuDeviceGet)(&device, j);
         if (retval) {
@@ -410,44 +410,44 @@ void* cudalib = NULL;
             gpu_warning(warnings, buf);
             goto leave;
         }
-        retval = (*p_cuDeviceGetName)(cc.prop.name, 256, device);
+        retval = (*p_cuDeviceGetName)(cc.cuda_prop.name, 256, device);
         if (retval) {
             snprintf(buf, sizeof(buf), "cuDeviceGetName(%d) returned %d", j, retval);
             gpu_warning(warnings, buf);
             goto leave;
         }
-        (*p_cuDeviceComputeCapability)(&cc.prop.major, &cc.prop.minor, device);
+        (*p_cuDeviceComputeCapability)(&cc.cuda_prop.major, &cc.cuda_prop.minor, device);
         if (p_cuDeviceTotalMem_v2) {
             (*p_cuDeviceTotalMem_v2)(&global_mem, device);
         } else {
             (*p_cuDeviceTotalMem)(&global_mem, device);
         }
-        cc.prop.totalGlobalMem = (double) global_mem;
+        cc.cuda_prop.totalGlobalMem = (double) global_mem;
         (*p_cuDeviceGetAttribute)(&itemp, CU_DEVICE_ATTRIBUTE_SHARED_MEMORY_PER_BLOCK, device);
-        cc.prop.sharedMemPerBlock = (double) itemp;
-        (*p_cuDeviceGetAttribute)(&cc.prop.regsPerBlock, CU_DEVICE_ATTRIBUTE_REGISTERS_PER_BLOCK, device);
-        (*p_cuDeviceGetAttribute)(&cc.prop.warpSize, CU_DEVICE_ATTRIBUTE_WARP_SIZE, device);
+        cc.cuda_prop.sharedMemPerBlock = (double) itemp;
+        (*p_cuDeviceGetAttribute)(&cc.cuda_prop.regsPerBlock, CU_DEVICE_ATTRIBUTE_REGISTERS_PER_BLOCK, device);
+        (*p_cuDeviceGetAttribute)(&cc.cuda_prop.warpSize, CU_DEVICE_ATTRIBUTE_WARP_SIZE, device);
         (*p_cuDeviceGetAttribute)(&itemp, CU_DEVICE_ATTRIBUTE_MAX_PITCH, device);
-        cc.prop.memPitch = (double) itemp;
-        retval = (*p_cuDeviceGetAttribute)(&cc.prop.maxThreadsPerBlock, CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK, device);
-        retval = (*p_cuDeviceGetAttribute)(&cc.prop.maxThreadsDim[0], CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X, device);
-        (*p_cuDeviceGetAttribute)(&cc.prop.maxThreadsDim[1], CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Y, device);
-        (*p_cuDeviceGetAttribute)(&cc.prop.maxThreadsDim[2], CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Z, device);
-        (*p_cuDeviceGetAttribute)(&cc.prop.maxGridSize[0], CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_X, device);
-        (*p_cuDeviceGetAttribute)(&cc.prop.maxGridSize[1], CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Y, device);
-        (*p_cuDeviceGetAttribute)(&cc.prop.maxGridSize[2], CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Z, device);
-        (*p_cuDeviceGetAttribute)(&cc.prop.clockRate, CU_DEVICE_ATTRIBUTE_CLOCK_RATE, device);
+        cc.cuda_prop.memPitch = (double) itemp;
+        retval = (*p_cuDeviceGetAttribute)(&cc.cuda_prop.maxThreadsPerBlock, CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK, device);
+        retval = (*p_cuDeviceGetAttribute)(&cc.cuda_prop.maxThreadsDim[0], CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X, device);
+        (*p_cuDeviceGetAttribute)(&cc.cuda_prop.maxThreadsDim[1], CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Y, device);
+        (*p_cuDeviceGetAttribute)(&cc.cuda_prop.maxThreadsDim[2], CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Z, device);
+        (*p_cuDeviceGetAttribute)(&cc.cuda_prop.maxGridSize[0], CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_X, device);
+        (*p_cuDeviceGetAttribute)(&cc.cuda_prop.maxGridSize[1], CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Y, device);
+        (*p_cuDeviceGetAttribute)(&cc.cuda_prop.maxGridSize[2], CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Z, device);
+        (*p_cuDeviceGetAttribute)(&cc.cuda_prop.clockRate, CU_DEVICE_ATTRIBUTE_CLOCK_RATE, device);
         (*p_cuDeviceGetAttribute)(&itemp, CU_DEVICE_ATTRIBUTE_TOTAL_CONSTANT_MEMORY, device);
-        cc.prop.totalConstMem = (double) itemp;
+        cc.cuda_prop.totalConstMem = (double) itemp;
         (*p_cuDeviceGetAttribute)(&itemp, CU_DEVICE_ATTRIBUTE_TEXTURE_ALIGNMENT, device);
-        cc.prop.textureAlignment = (double) itemp;
-        (*p_cuDeviceGetAttribute)(&cc.prop.deviceOverlap, CU_DEVICE_ATTRIBUTE_GPU_OVERLAP, device);
-        (*p_cuDeviceGetAttribute)(&cc.prop.multiProcessorCount, CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT, device);
+        cc.cuda_prop.textureAlignment = (double) itemp;
+        (*p_cuDeviceGetAttribute)(&cc.cuda_prop.deviceOverlap, CU_DEVICE_ATTRIBUTE_GPU_OVERLAP, device);
+        (*p_cuDeviceGetAttribute)(&cc.cuda_prop.multiProcessorCount, CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT, device);
         (*p_cuDeviceGetAttribute)(&cc.pci_info.bus_id, CU_DEVICE_ATTRIBUTE_PCI_BUS_ID, device);
         (*p_cuDeviceGetAttribute)(&cc.pci_info.device_id, CU_DEVICE_ATTRIBUTE_PCI_DEVICE_ID, device);
         (*p_cuDeviceGetAttribute)(&cc.pci_info.domain_id, CU_DEVICE_ATTRIBUTE_PCI_DOMAIN_ID, device);
-        if (cc.prop.major <= 0) continue;  // major == 0 means emulation
-        if (cc.prop.major > 100) continue;  // e.g. 9999 is an error
+        if (cc.cuda_prop.major <= 0) continue;  // major == 0 means emulation
+        if (cc.cuda_prop.major > 100) continue;  // e.g. 9999 is an error
 #ifdef SIM
         cc.display_driver_version = 0;
 #elif defined(_WIN32)
@@ -498,7 +498,7 @@ void COPROC_NVIDIA::correlate(
         nvidia_gpus[i].is_used = COPROC_IGNORED;
         if (in_vector(nvidia_gpus[i].device_num, ignore_devs)) continue;
 #ifdef __APPLE__
-        if ((nvidia_gpus[i].cuda_version >= 6050) && nvidia_gpus[i].prop.major < 2) {
+        if ((nvidia_gpus[i].cuda_version >= 6050) && nvidia_gpus[i].cuda_prop.major < 2) {
             // Can't use GPUs with compute capability < 2 with CUDA drivers >= 6.5.x
             nvidia_gpus[i].is_used = COPROC_UNUSED;
             continue;
@@ -563,7 +563,7 @@ static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings
     void* ctx;
     char buf[256];
 
-    cc.available_ram = cc.prop.totalGlobalMem;
+    cc.available_ram = cc.cuda_prop.totalGlobalMem;
     if (!p_cuDeviceGet) {
         gpu_warning(warnings, "cuDeviceGet() missing from NVIDIA library");
         return;

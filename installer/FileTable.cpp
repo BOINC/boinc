@@ -193,6 +193,9 @@ FileTable::FileTable(const std::vector<Directory>& directories,
                     file.getFilepath().string());
                 if (!version.empty()) {
                     file.setVersion(version);
+                    if (language == 0) {
+                        file.setLanguage("1033");
+                    }
                 }
                 file.setFilesize(static_cast<int>(
                     GetFileSize(file.getFilepath().string())));

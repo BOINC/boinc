@@ -38,9 +38,9 @@ function terminate_job($p) {
     // echo "child process is $ret\n";
     $pids=preg_split('/\s+/',$ret);
     foreach($pids as $pid){
-        if(is_numeric($pid)){
+        if (is_numeric($pid)){
             if($GLOBALS["debug"])echo "killing child process $pid\n";
-            posix_kill($pid,9);
+            posix_kill(intval($pid), 9);
         }
     }
 }

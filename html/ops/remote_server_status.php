@@ -64,7 +64,9 @@ function is_daemon_running($host, $d) {
         $prog = $cmd[0];
         $path = "../../pid_$host/$prog".".pid";
     }
-    $pid = trim(@file_get_contents($path));
+    $x = @file_get_contents($path);
+    if ($x === false) return false;
+    $pid = trim($x);
     if ($pid === false) return false;
     $cmd = "ssh $host 'ps $pid'";
     $out = exec($cmd);

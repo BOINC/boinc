@@ -1268,7 +1268,7 @@ void send_gpu_messages() {
 
     if (g_request->coprocs.nvidia.count && ssp->have_apps_for_proc_type[PROC_TYPE_NVIDIA_GPU]) {
         send_gpu_property_messages(gpu_requirements[PROC_TYPE_NVIDIA_GPU],
-            g_request->coprocs.nvidia.prop.totalGlobalMem,
+            g_request->coprocs.nvidia.cuda_prop.totalGlobalMem,
             g_request->coprocs.nvidia.display_driver_version,
             proc_type_name(PROC_TYPE_NVIDIA_GPU)
         );

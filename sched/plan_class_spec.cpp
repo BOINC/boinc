@@ -777,7 +777,7 @@ bool PLAN_CLASS_SPEC::check(
             gpu_requirements[PROC_TYPE_NVIDIA_GPU].update(abs(min_driver_version), 0);
         }
         // compute capability
-        int v = (cp.prop.major)*100 + cp.prop.minor;
+        int v = (cp.cuda_prop.major)*100 + cp.cuda_prop.minor;
         if (min_nvidia_compcap && min_nvidia_compcap > v) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
@@ -817,7 +817,7 @@ bool PLAN_CLASS_SPEC::check(
                 return false;
             }
         }
-        gpu_ram = cp.prop.totalGlobalMem;
+        gpu_ram = cp.cuda_prop.totalGlobalMem;
         if (cp.bad_gpu_peak_flops("NVIDIA", msg)) {
             log_messages.printf(MSG_NORMAL, "%s\n", msg.c_str());
         }
@@ -870,8 +870,23 @@ bool PLAN_CLASS_SPEC::check(
             }
         }
 
-    // custom GPU type
+    // other (OpenCL) GPU type
     //
+    } else if (have_gpu_type_regex) {
+        for (int i=1; i<sreq.coprocs.n_rsc; i++) {
+            if (!regexec(&(gpu_type_regex), sreq.coprocs.coprocs[i].type, 0, NULL, 0)) {
+                cpp = &sreq.coprocs.coprocs[i];
+                break;
+            }
+        }
+        if (!cpp) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: No gpu_type match found\n"
+                );
+            }
+            return false;
+        }
     } else if (strlen(gpu_type)) {
         cpp = sreq.coprocs.lookup_type(gpu_type);
         if (!cpp) {
@@ -882,12 +897,14 @@ bool PLAN_CLASS_SPEC::check(
             }
             return false;
         }
+    }
+    if (cpp) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] plan_class_spec: Custom coproc %s found\n", gpu_type
+                "[version] plan_class_spec: OpenCL coproc %s found\n", cpp->type
             );
         }
-        if (cpp->bad_gpu_peak_flops("Custom GPU", msg)) {
+        if (cpp->bad_gpu_peak_flops("OpenCL coproc", msg)) {
             log_messages.printf(MSG_NORMAL, "%s\n", msg.c_str());
         }
     }
@@ -934,7 +951,7 @@ bool PLAN_CLASS_SPEC::check(
 
     // general GPU
     //
-    if (strlen(gpu_type)) {
+    if (cpp) {
 
         // GPU RAM
         //
@@ -1028,10 +1045,10 @@ bool PLAN_CLASS_SPEC::check(
         } else if (!strcmp(gpu_type, "nvidia")) {
             hu.proc_type = PROC_TYPE_NVIDIA_GPU;
             hu.gpu_usage = gpu_usage;
-        } else if (strstr(gpu_type, "intel")==gpu_type) {
+        } else if (strstr(gpu_type, "intel") == gpu_type) {
             hu.proc_type = PROC_TYPE_INTEL_GPU;
             hu.gpu_usage = gpu_usage;
-        } else if (strstr(gpu_type, "apple_gpu")==gpu_type) {
+        } else if (strstr(gpu_type, "apple_gpu") == gpu_type) {
             hu.proc_type = PROC_TYPE_APPLE_GPU;
             hu.gpu_usage = gpu_usage;
         } else {
@@ -1221,6 +1238,8 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_bool("project_prefs_default_true", project_prefs_default_true)) continue;
         if (xp.parse_double("avg_ncpus", avg_ncpus)) continue;
 
+        // GPU info
+        //
         if (xp.parse_double("cpu_frac", cpu_frac)) continue;
         if (xp.parse_double("min_gpu_ram_mb", min_gpu_ram_mb)) continue;
         if (xp.parse_double("gpu_ram_used_mb", gpu_ram_used_mb)) continue;
@@ -1231,10 +1250,6 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_int("min_driver_version", min_driver_version)) continue;
         if (xp.parse_int("max_driver_version", max_driver_version)) continue;
         if (xp.parse_str("gpu_utilization_tag", gpu_utilization_tag, sizeof(gpu_utilization_tag))) continue;
-        if (xp.parse_long("min_wu_id", min_wu_id)) {wu_restricted_plan_class = true; continue;}
-        if (xp.parse_long("max_wu_id", max_wu_id)) {wu_restricted_plan_class = true; continue;}
-        if (xp.parse_long("min_batch", min_batch)) {wu_restricted_plan_class = true; continue;}
-        if (xp.parse_long("max_batch", max_batch)) {wu_restricted_plan_class = true; continue;}
 
         if (xp.parse_bool("need_ati_libs", need_ati_libs)) continue;
         if (xp.parse_bool("need_amd_libs", need_amd_libs)) continue;
@@ -1256,7 +1271,19 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_bool("double_precision_fp", double_precision_fp)) continue;
 
         if (xp.parse_int("min_metal_support", min_metal_support)) continue;
+        if (xp.parse_str("gpu_type_regex", buf, sizeof(buf))) {
+            if (regcomp(&(gpu_type_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
+                log_messages.printf(MSG_CRITICAL,
+                    "BAD GPU TYPE REGEXP: %s\n", buf
+                );
+                return ERR_XML_PARSE;
+            }
+            have_gpu_type_regex = true;
+            continue;
+        }
 
+        // Virtualbox
+        //
         if (xp.parse_int("min_vbox_version", min_vbox_version)) continue;
         if (xp.parse_int("max_vbox_version", max_vbox_version)) continue;
         if (xp.parse_int("exclude_vbox_version", i)) {
@@ -1264,6 +1291,11 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool("vm_accel_required", vm_accel_required)) continue;
+
+        if (xp.parse_long("min_wu_id", min_wu_id)) {wu_restricted_plan_class = true; continue;}
+        if (xp.parse_long("max_wu_id", max_wu_id)) {wu_restricted_plan_class = true; continue;}
+        if (xp.parse_long("min_batch", min_batch)) {wu_restricted_plan_class = true; continue;}
+        if (xp.parse_long("max_batch", max_batch)) {wu_restricted_plan_class = true; continue;}
     }
     return ERR_XML_PARSE;
 }
@@ -1338,6 +1370,7 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     min_driver_version = 0;
     max_driver_version = 0;
     strcpy(gpu_utilization_tag, "");
+    have_gpu_type_regex = false;
 
     need_ati_libs = false;
     need_amd_libs = false;

@@ -18,7 +18,6 @@
 name: Linux
 on:
   push:
-    branches: [ master, 'client_release/**' ]
     tags: [ 'client_release/**' ]
   pull_request:
     branches: [ master ]
@@ -70,7 +69,7 @@ jobs:
             - unit-test
       fail-fast: false
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         with:
           fetch-depth: 2
 
@@ -515,6 +514,6 @@ jobs:
 
       - name: Upload coverage report
         if: success() && matrix.type == 'unit-test'
-        uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

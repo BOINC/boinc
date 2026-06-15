@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -55,6 +55,9 @@
 #
 # Updated 1/27/11 for BOINC versions 6.8.19, 6.10.30 and 6.11.1
 # Updated 8/25/25 to add Run_Podman and BOINC podman directory
+# Updated 5/2/26 to delete directories /Users/boinc_master & /Users/boinc_project
+# Updated 5/26/26 BOINC Podman dir is in standard location even if BOINC Data was moved
+# Updated 6/10/26 to work even if BOINC Podman dir was moved via symbolic link
 #
 
 function remove_boinc_users() {
@@ -62,6 +65,8 @@ function remove_boinc_users() {
     if [ "$name" = "boinc_master" ] ; then
         sudo dscl . -delete /users/boinc_master
     fi
+
+    rm -fR /Users/boinc_master
 
     name=$(dscl . search /groups RecordName boinc_master | cut -f1 -s)
     if [ "$name" = "boinc_master" ] ; then
@@ -72,6 +77,8 @@ function remove_boinc_users() {
     if [ "$name" = "boinc_project" ] ; then
         sudo dscl . -delete /users/boinc_project
     fi
+
+    rm -fR /Users/boinc_project
 
     name=$(dscl . search /groups RecordName boinc_project | cut -f1 -s)
     if [ "$name" = "boinc_project" ] ; then
@@ -121,10 +128,10 @@ chown root:${group} switcher/AppStats
 chmod 4550 switcher/AppStats
 fi
 
-if [ -d "../BOINC podman" ] ; then
+if [ -d "/Library/Application Support/BOINC podman" ] ; then
     # We must not modify permissions of any of Podman's data so just set
     # their owner and grpup
-    chown -R ${user}:${group} "../BOINC podman"
+    chown -RL ${user}:${group} "/Library/Application Support/BOINC podman"
 fi
 
 if [ -x /Applications/BOINCManager.app/Contents/MacOS/BOINCManager ] ; then

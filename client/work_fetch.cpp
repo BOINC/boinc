@@ -250,12 +250,23 @@ static bool wacky_dcf(PROJECT* p) {
 // don't request anything if project is backed off.
 //
 void RSC_WORK_FETCH::set_request(PROJECT* p) {
+    req_instances = 0;
+    req_secs = 0;
 
     // if backup project, fetch 1 job per idle instance
     //
     if (p->resource_share == 0) {
-        req_instances = nidle_now;
-        req_secs = 1;
+        if (nidle_now) {
+            // unless we're at the max concurrent limit
+            if (p->app_configs.project_has_mc
+                && p->app_configs.project_max_concurrent
+                && p->proj_n_concurrent >= p->app_configs.project_max_concurrent
+            ) {
+                return;
+            }
+            req_instances = 1;
+            req_secs = 1;
+        }
         return;
     }
     if (cc_config.fetch_minimal_work) {
@@ -550,7 +561,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
     //
     for (int i=0; i<coprocs.n_rsc; i++) {
         if (log_flags.work_fetch_debug) {
-            msg_printf(p, MSG_INFO, "piggyback: resource %s", rsc_name_long(i));
+            msg_printf(NULL, MSG_INFO, "piggyback: resource %s", rsc_name_long(i));
         }
         RSC_WORK_FETCH& rwf = rsc_work_fetch[i];
         if (i && !gpus_usable) {
@@ -564,7 +575,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
             break;
         default:
             if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO,
+                msg_printf(NULL, MSG_INFO,
                     "piggyback: can't fetch %s: %s",
                     rsc_name_long(i),
                     rsc_reason_string(rpwf.rsc_project_reason)
@@ -579,22 +590,34 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
         }
         if (!need_work) {
             if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO, "piggyback: don't need %s",
+                msg_printf(NULL, MSG_INFO, "piggyback: don't need %s",
                     rsc_name_long(i)
                 );
             }
             rwf.dont_fetch_reason = RSC_REASON_BUFFER_FULL;
             continue;
         }
+
+        // don't request this resource if there's a strictly higher priority
+        // project that we could get it from
+        //
         if (check_higher_priority_projects) {
             PROJECT* p2 = NULL;
             for (unsigned int j=0; j<projects_sorted.size(); j++) {
                 p2 = projects_sorted[j];
                 if (p2 == p) break;
                 if (p2->sched_priority == p->sched_priority) continue;
+                if (p2->sched_req_no_work[i]) {
+                    if (log_flags.work_fetch_debug) {
+                        msg_printf(NULL, MSG_INFO,
+                            "piggyback: %s doesn't have jobs", p2->project_name
+                        );
+                    }
+                    continue;
+                }
                 if (p2->pwf.project_reason) {
                     if (log_flags.work_fetch_debug) {
-                        msg_printf(p, MSG_INFO,
+                        msg_printf(NULL, MSG_INFO,
                             "piggyback: %s can't fetch work", p2->project_name
                         );
                     }
@@ -603,7 +626,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
                 RSC_PROJECT_WORK_FETCH& rpwf2 = rwf.project_state(p2);
                 if (!rpwf2.rsc_project_reason) {
                     if (log_flags.work_fetch_debug) {
-                        msg_printf(p, MSG_INFO,
+                        msg_printf(NULL, MSG_INFO,
                             "piggyback: better proj %s", p2->project_name
                         );
                     }
@@ -691,7 +714,7 @@ static PROJECT_REASON compute_project_reason(PROJECT* p) {
 // setup for choose_project() and piggyback():
 // - do RR simulation
 // - set request fields for each resource
-// - compute "projects_sorted": priority-sorted list of projects
+// - compute "projects_sorted": list of projects sorted by decr priority
 //
 void WORK_FETCH::setup() {
     gstate.compute_nuploading_results();

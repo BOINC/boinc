@@ -45,6 +45,7 @@
 # Updated 2/6/23 changed MAC_OS_X_VERSION_MAX_ALLOWED to 101300 and MAC_OS_X_VERSION_MIN_REQUIRED to 101300 and MACOSX_DEPLOYMENT_TARGET to 10.13
 # Updated 4/5/23 for args now accepted by patch utility; set mmacosx-version-min=10.13
 # Updated 10/19/25 for curl 8.16.0. Secure Transport is deprecated so use OpenSSl again
+# Updated 6/10/26 to build curl 8.20.0 with Apple SecTrust
 #
 ## Curl's configure and make set the "-Werror=partial-availability" compiler flag,
 ## which generates an error if there is an API not available in our Deployment
@@ -182,7 +183,7 @@ export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.13 -s
 export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.13 -arch x86_64"
 
 if [ "x${lprefix}" != "x" ]; then
-    PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --disable-shared --with-openssl --without-apple-idn --without-libidn2 --without-libpsl --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=x86_64-apple-darwin
+    PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --disable-shared --with-openssl --with-apple-sectrust --without-apple-idn --without-libidn2 --without-libpsl --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=x86_64-apple-darwin
     if [ $? -ne 0 ]; then return 1; fi
 else
     # Get the name of the current versions of c-ares from the
@@ -210,7 +211,7 @@ export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${CURL_DIR}/../${opens
 export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.13 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
 export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=10.13 -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
 export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.13 -arch x86_64"
-    ./configure --disable-shared --enable-ares="${libcares}" --with-openssl --without-apple-idn  --without-libidn2 --without-libpsl --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=x86_64-apple-darwin
+    ./configure --disable-shared --enable-ares="${libcares}" --with-openssl --with-apple-sectrust --without-apple-idn  --without-libidn2 --without-libpsl --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=x86_64-apple-darwin
     if [ $? -ne 0 ]; then return 1; fi
     echo ""
 fi
@@ -241,9 +242,9 @@ export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=10.13 -target arm64-app
 # x86_64 and arm64, so this is not currently an issue.
 ## cp -f ../"${caresDirName}"/ares_build_arm.h /tmp/installed-c-ares/include/ares_build.h
     if [ "x${lprefix}" != "x" ]; then
-        PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --disable-shared --with-openssl --without-apple-idn --without-libidn2 --without-libpsl --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=arm-apple-darwin
+        PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --disable-shared --with-openssl  --with-apple-sectrust --without-apple-idn --without-libidn2 --without-libpsl --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=arm-apple-darwin
     else
-        ./configure --disable-shared --with-openssl --without-apple-idn --enable-ares="${libcares}" --without-libidn2 --without-libpsl --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=arm-apple-darwin
+        ./configure --disable-shared --with-openssl  --with-apple-sectrust --without-apple-idn --enable-ares="${libcares}" --without-libidn2 --without-libpsl --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=arm-apple-darwin
         echo ""
     fi
 

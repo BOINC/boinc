@@ -95,6 +95,12 @@ if (!defined('NO_STATS')) {
 if (!defined('NO_GLOBAL_PREFS')) {
     define('NO_GLOBAL_PREFS', false);
 }
+if (!defined('REQUIRE_LOGIN')) {
+    define('REQUIRE_LOGIN', true);
+}
+if (!defined('REQUIRE_LOGIN_FORUM')) {
+    define('REQUIRE_LOGIN_FORUM', true);
+}
 
 // the 'home page' of the logged-in user.
 // go here after login, account creation, team operations, etc.
@@ -247,7 +253,9 @@ $is_login_page = false;
 if (!function_exists("page_head")){
 function page_head(
     $title,
-        // page title. Put in <title>, used as title for browser tab.
+        // Page title; passed to project_banner()
+        // Also put in <title> (title for browser tab)
+        // unless browser_title is specified
     $body_attrs=null,
         // <body XXXX>
         // e.g. Javascript to put focus in an input field
@@ -259,11 +267,14 @@ function page_head(
         // header for your main page.
     $url_prefix='',
         // prepend this to links.
-        // Use for web pages not in the top directory
-    $head_extra=null
+        // Use for web pages not in the top directory.
+        // Passed to project_banner()
+    $head_extra=null,
         // extra stuff to put in <head>. E.g.:
         // reCAPTCHA code (create_profile.php)
         // bbcode javascript (forums)
+    $browser_title = null
+        // <title> contents
 ) {
     global $caching, $cache_control_extra, $did_page_head;
     global $is_login_page, $fixed_navbar;
@@ -309,7 +320,9 @@ function page_head(
         readfile("schedulers.txt");
     }
 
-    $t = $title?$title:PROJECT;
+    $t = $browser_title;
+    if (!$t) $t = $title;
+    if (!$t) $t = PROJECT;
     echo "<title>$t</title>\n";
     echo '
         <meta charset="utf-8">
@@ -417,15 +430,17 @@ function error_page($msg) {
     exit();
 }
 
-function start_table_str($class="", $style="") {
-    $s = $style?'style="'.$style.'"':'';
-    return '<div class="table">
-      <table '.$s.' width="100%" class="table table-condensed '.$class.'" >
-    ';
+function start_table_str($class='', $extra='') {
+    return sprintf(
+'<div class="table">
+    <table width="100%%" class="table table-condensed %s" %s>
+',
+        $class, $extra
+    );
 }
 
-function start_table($class="", $style="") {
-    echo start_table_str($class, $style);
+function start_table($class='', $extra='') {
+    echo start_table_str($class, $extra);
 }
 
 function end_table_str() {
@@ -543,6 +558,37 @@ function row_heading($x, $class='bg-primary') {
     );
 }
 
+// functions for DataTables (sortable tables)
+
+// pass to page_head()
+//
+function data_tables_head_extra() {
+    return '
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap4.min.css" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+';
+}
+
+function data_tables_script($id) {
+return sprintf('
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    // Check if table exists
+    if (jQuery("#%s").length) {
+        jQuery("#%s").DataTable({
+            "paging": false,        // Disable DataTables pagination (use existing navigation)
+            "searching": false,     // Disable search box (not needed)
+            "info": false,          // Disable info text (e.g., "Showing 1 to 10 of 57 entries")
+            "order": []             // No default sort, keep database order
+        });
+    }
+});
+</script>
+', $id, $id
+);
+}
+
 function url_tokens($auth) {
     $now = time();
     $ttok = md5((string)$now.$auth);
@@ -592,11 +638,13 @@ function get_legal_filename($name) {
 }
 
 // Returns a string containing as many words
-// (being collections of characters separated by the character $delimiter)
-// as possible such that the total string length is <= $chars characters long.
-// If $ellipsis is true, then an ellipsis is added to any sentence which
-// is cut short.
-
+// (separated by $delimiter)
+// as possible such that the string length is <= $max_chars.
+// If $ellipsis is true, then add an ellipsis if we truncated.
+//
+// Don't use this if string can contain HTML tags;
+// we might remove the closing tag.
+//
 function sub_sentence($sentence, $delimiter, $max_chars, $ellipsis=false) {
     $words = explode($delimiter, $sentence);
     $total_chars = 0;
@@ -1042,6 +1090,8 @@ function credit_to_gflop_hours($c) {
     return $c/(200/24);
 }
 
+// $name is the name of the downloaded file
+//
 function download_header($name, $nbytes) {
     header('Content-Description: File Transfer');
     header('Content-Type: application/octet-stream');
@@ -1054,8 +1104,11 @@ function download_header($name, $nbytes) {
     flush();
 }
 
-function do_download($path) {
-    download_header(basename($path), filesize($path));
+function do_download($path, $name=null) {
+    if (!$name) {
+        $name = basename($path);
+    }
+    download_header($name, filesize($path));
     readfile($path);
 }
 

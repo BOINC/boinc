@@ -38,7 +38,7 @@ AC_SUBST([VBOXWRAPPER_RELEASE])
 WORKER_RELEASE=6
 AC_SUBST([WORKER_RELEASE])
 
-DOCKERWRAPPER_RELEASE=21
+DOCKERWRAPPER_RELEASE=22
 AC_SUBST([DOCKERWRAPPER_RELEASE])
 
 MULTITHREAD_RELEASE=2
@@ -85,7 +85,7 @@ dnl Verify C++11 support
 AC_MSG_CHECKING([whether $CXX supports C++11])
 AC_LANG_PUSH([C++])
 save_CXXFLAGS="$CXXFLAGS"
-for flag in "-std=c++11" "-std=c++0x"; do
+for flag in "-std=gnu++1z" "-std=c++11" "-std=c++0x"; do
   CXXFLAGS="$save_CXXFLAGS $flag"
   AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
     #include <memory>

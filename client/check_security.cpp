@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -419,9 +419,15 @@ int use_sandbox, int isManager, char* path_to_error, int len
     }
 
     if (use_sandbox) {
+#ifdef __APPLE__
         // "BOINC Podman" Directory is in "/Library/Application/Support/"
-        // directory, alongside "BOINC Data" directory
+        // directory. But we can't get its path relative to the "BOINC Data"
+        // dir because a user can move the "BOINC Data" dir as described in
+        // https://github.com/BOINC/boinc/wiki/Tools-for-MacOS
+        snprintf(full_path, sizeof(full_path), "/Library/Application Support/%s", PODMAN_DIR);
+#else
         snprintf(full_path, sizeof(full_path), "%s/../%s", dir_path, PODMAN_DIR);
+#endif
         retval = stat(full_path, &sbuf);
         if (retval)
             return -1071;
@@ -554,6 +560,8 @@ int use_sandbox, int isManager, char* path_to_error, int len
 static int check_boinc_users_primarygroupIds(int useFakeProjectUserAndGroup, int isMacInstaller) {
     passwd              *pw;
     group               *grp;
+
+    callPosixSpawn("/usr/bin/dscacheutil -flushcache");
 
     if ((!useFakeProjectUserAndGroup) || isMacInstaller) {
        // Require absolute owner and group boinc_master:boinc_master

@@ -21,6 +21,8 @@
 #include "gui_http.h"
 
 #define DEFAULT_VERSION_CHECK_URL "https://boinc.berkeley.edu/download.php?xml=1"
+#define DEFAULT_DOWNLOAD_URL "https://boinc.berkeley.edu/download.php"
+#define DEFAULT_NETWORK_TEST_URL "https://berkeley.edu/"
 
 struct GET_CURRENT_VERSION_OP: public GUI_HTTP_OP {
     int error_num;

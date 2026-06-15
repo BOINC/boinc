@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -2149,37 +2149,41 @@ void FindAllVisibleUsers() {
     for (userIndex=human_user_names.size(); userIndex>0; --userIndex) {
         flag = 0;
         strlcpy(human_user_name, human_user_names[userIndex-1].c_str(), sizeof(human_user_name));
-        sprintf(cmd, "dscl . -read \"/Users/%s\" NFSHomeDirectory", human_user_name);
-        f = popen(cmd, "r");
-        REPORT_ERROR(!f);
-        if (f) {
-            while (PersistentFGets(buf, sizeof(buf), f)) {
-                p = strrchr(buf, ' ');
-                if (p) {
-                    if (strstr(p, "/var/empty") != NULL) {
-                        flag = 1;
-                        break;
-                    }
-                }
-            }
-            pclose(f);
-        }
-
-        if (flag) {
-            sprintf(cmd, "dscl . -read \"/Users/%s\" UserShell", human_user_name);
+        if (strcmp(human_user_name, boinc_master_user_name) == 0) flag = 3;
+        if (strcmp(human_user_name, boinc_project_user_name) == 0) flag = 3;
+        if (flag != 3) {
+            sprintf(cmd, "dscl . -read \"/Users/%s\" NFSHomeDirectory", human_user_name);
             f = popen(cmd, "r");
             REPORT_ERROR(!f);
             if (f) {
                 while (PersistentFGets(buf, sizeof(buf), f)) {
                     p = strrchr(buf, ' ');
                     if (p) {
-                        if (strstr(p, "/usr/bin/false") != NULL) {
-                            flag |= 2;
+                        if (strstr(p, "/var/empty") != NULL) {
+                            flag = 1;
                             break;
                         }
-                   }
+                    }
                 }
                 pclose(f);
+            }
+
+            if (flag) {
+                sprintf(cmd, "dscl . -read \"/Users/%s\" UserShell", human_user_name);
+                f = popen(cmd, "r");
+                REPORT_ERROR(!f);
+                if (f) {
+                    while (PersistentFGets(buf, sizeof(buf), f)) {
+                        p = strrchr(buf, ' ');
+                        if (p) {
+                            if (strstr(p, "/usr/bin/false") != NULL) {
+                                flag |= 2;
+                                break;
+                            }
+                       }
+                    }
+                    pclose(f);
+                }
             }
         }
 

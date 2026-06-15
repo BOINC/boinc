@@ -9,7 +9,7 @@
 #define _BOINC_PASSWORD_
 
 // Prototypes
-BOOL GenerateRandomPassword( tstring& strPassword, DWORD dwDesiredLength );
+
 
 #endif
 

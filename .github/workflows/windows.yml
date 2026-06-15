@@ -18,7 +18,6 @@
 name: Windows
 on:
   push:
-    branches: [ master, 'client_release/**' ]
     tags: [ 'client_release/**', 'vboxwrapper/**', 'wrapper/**', 'dockerwrapper/**', 'wslwrapper/**', 'worker/**' ]
   pull_request:
     branches: [ master ]
@@ -54,7 +53,7 @@ jobs:
         configuration: [Release, Debug]
       fail-fast: false
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         with:
           fetch-depth: 2
 
@@ -122,13 +121,18 @@ jobs:
 
       - name: Build
         if: success()
-        run: msbuild win_build\boinc.sln -p:Configuration=${{matrix.configuration}} -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -p:DLIB=${{ env.DLIB }} -p:DMDF=${{ env.DMDF }} -m
+        run: msbuild win_build\boinc.slnx -p:Configuration=${{matrix.configuration}} -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -p:DLIB=${{ env.DLIB }} -p:DMDF=${{ env.DMDF }} -p:BOINCCAS_TEST=true -m
 
       - name: Run unit tests
         if: success() && matrix.platform == 'x64' && matrix.configuration == 'Release'
         working-directory: win_build\Build\${{matrix.platform}}\${{matrix.configuration}}
         run: |
           ${{github.workspace}}\temp\OpenCppCoverage\OpenCppCoverage.exe --cover_children --optimized_build --sources ${{github.workspace}} --export_type=binary:gtest.cov -- unittests.exe --gtest_output=xml:gtest.xml
+
+      - name: Run crypt_prog tests
+        if: success() && matrix.platform == 'x64' && matrix.configuration == 'Release'
+        working-directory: win_build\Build\${{matrix.platform}}\${{matrix.configuration}}
+        run: |
           ${{github.workspace}}\temp\OpenCppCoverage\OpenCppCoverage.exe --cover_children --optimized_build --modules ${{github.workspace}} --sources ${{github.workspace}} --input_coverage=gtest.cov --export_type=cobertura:cobertura.xml -- python ${{github.workspace}}\tests\crypt_prog_tests.py ${{github.workspace}}\win_build\Build\x64\${{matrix.configuration}}\crypt_prog.exe
 
       - name: Verify MSI file
@@ -200,7 +204,7 @@ jobs:
 
       - name: Upload coverage report
         if: success() && matrix.platform == 'x64' && matrix.configuration == 'Release'
-        uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
@@ -219,33 +223,33 @@ jobs:
           - platform: arm64
             runner: windows-11-arm
           - installation_type: normal
-            argument_list_alpha: "/quiet /qn /l*v alpha.log"
-            argument_list_release: "/quiet /qn /l*v release.log"
-            argument_list_install: "/quiet /qn /l*v install.log"
+            argument_list_alpha: "/quiet /qn /l*v alpha.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0"
+            argument_list_release: "/quiet /qn /l*v release.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0"
+            argument_list_install: "/quiet /qn /l*v install.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0"
             argument_list_prepare: ""
           - installation_type: service
-            argument_list_alpha: "/quiet /qn /norestart /l*v alpha.log ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
-            argument_list_release: "/quiet /qn /norestart /l*v release.log ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
-            argument_list_install: "/quiet /qn /norestart /l*v install.log ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
+            argument_list_alpha: "/quiet /qn /norestart /l*v alpha.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0 ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
+            argument_list_release: "/quiet /qn /norestart /l*v release.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0 ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
+            argument_list_install: "/quiet /qn /norestart /l*v install.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0 ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
             argument_list_prepare: ""
           - installation_type: test_acct_mgr_login
-            argument_list_alpha: "/quiet /qn /l*v alpha.log"
-            argument_list_release: "/quiet /qn /l*v release.log"
-            argument_list_install: "/quiet /qn /l*v install.log ACCTMGR_LOGIN=test ACCTMGR_PASSWORDHASH=0123456789abcdef"
+            argument_list_alpha: "/quiet /qn /l*v alpha.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0"
+            argument_list_release: "/quiet /qn /l*v release.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0"
+            argument_list_install: "/quiet /qn /l*v install.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0 ACCTMGR_LOGIN=test ACCTMGR_PASSWORDHASH=0123456789abcdef"
             argument_list_prepare: ""
           - installation_type: test_client_auth_file
-            argument_list_alpha: "/quiet /qn /norestart /l*v alpha.log ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
-            argument_list_release: "/quiet /qn /norestart /l*v release.log ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
-            argument_list_install: "/quiet /qn /norestart /l*v install.log ENABLEPROTECTEDAPPLICATIONEXECUTION3=1 BOINC_PROJECT_USERNAME=test_user BOINC_PROJECT_PASSWORD=qwerty123456!@#$%^"
+            argument_list_alpha: "/quiet /qn /norestart /l*v alpha.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0 ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
+            argument_list_release: "/quiet /qn /norestart /l*v release.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0 ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
+            argument_list_install: "/quiet /qn /norestart /l*v install.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0 ENABLEPROTECTEDAPPLICATIONEXECUTION3=1 BOINC_PROJECT_USERNAME=test_user BOINC_PROJECT_PASSWORD=qwerty123456!@#$%^"
             argument_list_prepare: '--create-user --username test_user --password "qwerty123456!@#$%^"'
           - installation_type: test_proj_init_file
-            argument_list_alpha: "/quiet /qn /l*v alpha.log"
-            argument_list_release: "/quiet /qn /l*v release.log"
-            argument_list_install: "/quiet /qn /l*v install.log PROJINIT_URL=https://test.com PROJINIT_NAME=test PROJINIT_AUTH=abcdef1234567890"
+            argument_list_alpha: "/quiet /qn /l*v alpha.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0"
+            argument_list_release: "/quiet /qn /l*v release.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0"
+            argument_list_install: "/quiet /qn /l*v install.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0 PROJINIT_URL=https://test.com PROJINIT_NAME=test PROJINIT_AUTH=abcdef1234567890"
             argument_list_prepare: ""
       fail-fast: false
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         with:
           fetch-depth: 2
 

@@ -704,8 +704,11 @@ int RESULT::parse(XML_PARSER& xp) {
         if (xp.parse_double("estimated_cpu_time_remaining", estimated_cpu_time_remaining)) continue;
         if (xp.parse_double("bytes_sent", bytes_sent)) continue;
         if (xp.parse_double("bytes_received", bytes_received)) continue;
-        if (xp.parse_bool("too_large", too_large)) continue;
+        if (xp.parse_bool("too_large", wss_too_large)) continue;
+            // backward compatibility
+        if (xp.parse_bool("swap_too_large", swap_too_large)) continue;
         if (xp.parse_bool("needs_shmem", needs_shmem)) continue;
+        if (xp.parse_bool("want_network", want_network)) continue;
         if (xp.parse_bool("edf_scheduled", edf_scheduled)) continue;
         if (xp.parse_str("graphics_exec_path", graphics_exec_path, sizeof(graphics_exec_path))) continue;
         if (xp.parse_str("web_graphics_url", web_graphics_url, sizeof(web_graphics_url))) continue;
@@ -761,8 +764,10 @@ void RESULT::clear() {
     estimated_cpu_time_remaining = 0;
     bytes_sent = 0;
     bytes_received = 0;
-    too_large = false;
+    wss_too_large = false;
+    swap_too_large = false;
     needs_shmem = false;
+    want_network = false;
     edf_scheduled = false;
 
     app = NULL;
@@ -1593,16 +1598,24 @@ int RPC_CLIENT::get_simple_gui_info(SIMPLE_GUI_INFO& info) {
     retval = rpc.do_rpc("<get_simple_gui_info/>\n");
     if (!retval) {
         while (rpc.fin.fgets(buf, 256)) {
-            if (match_tag(buf, "</simple_gui_info>")) break;
-            else if (match_tag(buf, "<project>")) {
+            if (match_tag(buf, "</simple_gui_info>")) {
+                break;
+            }
+            if (match_tag(buf, "<project>")) {
                 PROJECT* project = new PROJECT();
                 project->parse(rpc.xp);
                 info.projects.push_back(project);
                 continue;
             }
-            else if (match_tag(buf, "<result>")) {
+            if (match_tag(buf, "<result>")) {
                 RESULT* result = new RESULT();
                 result->parse(rpc.xp);
+                for (PROJECT *p: info.projects) {
+                    if (!strcmp(p->master_url, result->project_url)) {
+                        result->project = p;
+                        break;
+                    }
+                }
                 info.results.push_back(result);
                 continue;
             }

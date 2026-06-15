@@ -58,7 +58,7 @@
             "X": 151,
             "Y": 114,
             "Width": 10,
-            "Height": 9,
+            "Height": 13,
             "Attributes": 2,
             "Property": "LAUNCHPROGRAM",
             "Control_Next": "LaunchProgramText",
@@ -75,15 +75,50 @@
             "X": 165,
             "Y": 114,
             "Width": 198,
-            "Height": 15,
+            "Height": 13,
             "Attributes": 65538,
             "Property": "NewProperty1",
             "Text": "IDS_NEW_STRING2",
-            "Control_Next": "OK",
+            "Control_Next": "LaunchWSLImageInstallerCheck",
             "Conditions": [
                 {
                     "Action": "Show",
                     "Condition": "PROGRAMFILETOLAUNCHATEND <> \"\" And ACTION <> \"ADMIN\" And RETURN_VALIDATEINSTALL = \"1\" And RETURN_REBOOTREQUESTED = \"0\" And NOT Installed"
+                }
+            ]
+        },
+        {
+            "Control": "LaunchWSLImageInstallerCheck",
+            "Type": "CheckBox",
+            "X": 151,
+            "Y": 132,
+            "Width": 10,
+            "Height": 13,
+            "Attributes": 2,
+            "Property": "LAUNCHWSLIMAGEINSTALLER",
+            "Control_Next": "LaunchWSLImageInstallerText",
+            "Conditions": [
+                {
+                    "Action": "Show",
+                    "Condition": "INSTALLWSLIMAGEINSTALLER And ACTION = \"INSTALL\" And RETURN_VALIDATEINSTALL = \"1\" And RETURN_REBOOTREQUESTED = \"0\" And NOT Installed"
+                }
+            ]
+        },
+        {
+            "Control": "LaunchWSLImageInstallerText",
+            "Type": "Text",
+            "X": 165,
+            "Y": 132,
+            "Width": 198,
+            "Height": 13,
+            "Attributes": 65538,
+            "Property": "NewProperty2",
+            "Text": "IDS_NEW_STRING3",
+            "Control_Next": "OK",
+            "Conditions": [
+                {
+                    "Action": "Show",
+                    "Condition": "INSTALLWSLIMAGEINSTALLER And ACTION = \"INSTALL\" And RETURN_VALIDATEINSTALL = \"1\" And RETURN_REBOOTREQUESTED = \"0\" And NOT Installed"
                 }
             ]
         },
@@ -117,10 +152,16 @@
                     "Ordering": 2
                 },
                 {
+                    "Event": "DoAction",
+                    "Argument": "CALaunchBOINCWSLInstaller",
+                    "Condition": "INSTALLWSLIMAGEINSTALLER And LAUNCHWSLIMAGEINSTALLER And (ACTION <> \"ADMIN\")",
+                    "Ordering": 3
+                },
+                {
                     "Event": "EndDialog",
                     "Argument": "Exit",
                     "Condition": "1",
-                    "Ordering": 2
+                    "Ordering": 4
                 }
             ]
         },

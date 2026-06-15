@@ -91,7 +91,11 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
 
     // Only check if all the fields are populated
     //
-    if (strlen(req_host.domain_name) && strlen(req_host.last_ip_addr) && strlen(req_host.os_name) && strlen(req_host.p_model)) {
+    if (strlen(req_host.domain_name)
+        && strlen(req_host.last_ip_addr)
+        && strlen(req_host.os_name)
+        && strlen(req_host.p_model)
+    ) {
         safe_strcpy(dn, req_host.domain_name);
         escape_string(dn, sizeof(dn));
         safe_strcpy(ip, req_host.last_ip_addr);
@@ -172,7 +176,9 @@ void unlock_sched() {
     char filename[256];
 
     if (g_reply->lockfile_fd < 0) return;
-    sprintf(filename, "%s/CGI_%07lu", config.sched_lockfile_dir, g_reply->host.id);
+    sprintf(filename, "%s/CGI_%07lu",
+        config.sched_lockfile_dir, g_reply->host.id
+    );
     unlink(filename);
     close(g_reply->lockfile_fd);
 }
@@ -186,7 +192,8 @@ static bool find_host_by_cpid(DB_USER& user, char* host_cpid, DB_HOST& host) {
     md5_block((const unsigned char*)buf, strlen(buf), buf2);
 
     sprintf(buf,
-        "where userid=%lu and host_cpid='%s' order by id desc", user.id, buf2
+        "where userid=%lu and host_cpid='%s' order by id desc",
+        user.id, buf2
     );
     if (!host.enumerate(buf)) {
         host.end_enumerate();
@@ -559,9 +566,15 @@ got_host:
     if (!g_request->using_weak_auth && strlen(g_request->cross_project_id)) {
         if (strcmp(g_request->cross_project_id, g_reply->user.cross_project_id)) {
             user.id = g_reply->user.id;
-            escape_string(g_request->cross_project_id, sizeof(g_request->cross_project_id));
+            escape_string(
+                g_request->cross_project_id,
+                sizeof(g_request->cross_project_id)
+            );
             sprintf(buf, "cross_project_id='%s'", g_request->cross_project_id);
-            unescape_string(g_request->cross_project_id, sizeof(g_request->cross_project_id));
+            unescape_string(
+                g_request->cross_project_id,
+                sizeof(g_request->cross_project_id)
+            );
             user.update_field(buf);
         }
     }
@@ -589,7 +602,6 @@ static int modify_host_struct(HOST& host) {
 
     string s;
     host_info_json(s);
-    //log_messages.printf(MSG_CRITICAL, "host info: %s\n", s.c_str());
     safe_strcpy(host.misc, s.c_str());
 
     if (strcmp(host.last_ip_addr, g_request->host.last_ip_addr)) {
@@ -1020,8 +1032,8 @@ void warn_user_if_core_client_upgrade_scheduled() {
                 g_request->core_client_minor_version,
                 g_request->core_client_release
             );
-            // make this low priority until three days are left.  Then
-            // bump to high.
+            // make this low priority until three days are left.
+            // Then bump to high.
             //
             if (days<3) {
                 g_reply->insert_message(msg, "notice");
@@ -1038,6 +1050,20 @@ void warn_user_if_core_client_upgrade_scheduled() {
         }
     }
     return;
+}
+
+// complain if CPU vendor or OS name missing from req message
+// (but still try to send work, based on reported platform)
+//
+void check_missing_fields() {
+    if (!strlen(g_request->host.p_vendor)) {
+        log_messages.printf(MSG_NORMAL, "missing p_vendor\n");
+        g_reply->insert_message("Missing CPU type in request", "notice");
+    }
+    if (!strlen(g_request->host.os_name)) {
+        log_messages.printf(MSG_NORMAL, "missing os_name\n");
+        g_reply->insert_message("Missing OS name in request", "notice");
+    }
 }
 
 bool unacceptable_os() {
@@ -1169,23 +1195,6 @@ static void log_request() {
     log_messages.set_indent_level(2);
 }
 
-bool bad_install_type() {
-    if (config.no_vista_sandbox) {
-        if (!strcmp(g_request->host.os_name, "Microsoft Windows Vista")) {
-            if (g_request->sandbox == 1) {
-                log_messages.printf(MSG_NORMAL,
-                    "Vista secure install - not sending work\n"
-                );
-                g_reply->insert_message(
-                    "Unable to send work to Vista with BOINC installed in protected mode.  Please reinstall BOINC and uncheck 'Service Install'",
-                    "notice"
-                );
-            }
-        }
-    }
-    return false;
-}
-
 static inline bool requesting_work() {
     if (g_request->dont_send_work) return false;
     if (g_request->work_req_seconds > 0) return true;
@@ -1215,7 +1224,7 @@ void process_request(char* code_sign_key) {
     //
     do_file_delete_regex();
 
-    // if different major version of BOINC, just send a message
+    // if bad BOINC version / OS / CPU, send a message, don't send work
     //
     if (wrong_core_client_version()
         || unacceptable_os()
@@ -1223,6 +1232,10 @@ void process_request(char* code_sign_key) {
     ) {
         ok_to_send_work = false;
     }
+
+    // tell user if missing CPU type or OS name
+    //
+    check_missing_fields();
 
     // if no jobs reported and none to send, return without accessing DB
     //
@@ -1404,9 +1417,6 @@ void process_request(char* code_sign_key) {
 
     // Do this before resending lost jobs
     //
-    if (bad_install_type()) {
-        ok_to_send_work = false;
-    }
     if (!requesting_work()) {
         ok_to_send_work = false;
     }

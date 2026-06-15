@@ -243,6 +243,11 @@ void boinc_related_cpu_time(
     prev_docker = docker;
 }
 
+// get CPU time of the given process and its descendants.
+// To do this, we get info on all processes,
+// then figure out who the descendants are.
+// Is there a more efficient way?
+//
 double process_tree_cpu_time(int pid) {
     PROC_MAP pm;
     PROCINFO procinfo;

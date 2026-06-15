@@ -23,17 +23,12 @@
 //          - for a given resource, jobs in deadline danger first
 //          - jobs from projects with lower recent est. credit first
 //      In principle, the run list could include all runnable jobs.
-//      For efficiency, we stop adding:
+//      But for efficiency, we stop adding:
 //          - GPU jobs: when all GPU instances used
-//          - CPU jobs: when the # of CPUs allocated to single-thread jobs,
-//              OR the # allocated to multi-thread jobs, exceeds # CPUs
-//              (ensure we have enough single-thread jobs
-//              in case we can't run the multi-thread jobs)
-//      NOTE: RAM usage is not taken into consideration
-//          in the process of building this list.
-//          It's possible that we include a bunch of jobs that can't run
-//          because of memory limits,
-//          even though there are other jobs that could run.
+//          - CPU jobs: when all CPUs used, with a 2X slop factor
+//              so we have enough jobs even if some can't run
+//              because of their RAM usage.
+//      (RAM usage is not taken into consideration in building this list)
 //      - add running jobs to the list
 //          (in case they haven't finished time slice or checkpointed)
 //      - sort the list according to "more_important()"
@@ -43,9 +38,7 @@
 //      other jobs (enforce_run_list).
 //      Don't run a job if
 //      - its GPUs can't be assigned (possible if need >1 GPU)
-//      - it's a multi-thread job, and CPU usage would be #CPUs+1 or more
-//      - it's a single-thread job, don't oversaturate CPU
-//          (details depend on whether a MT job is running)
+//      - it would use too many CPUs (see details below)
 //      - its memory usage would exceed RAM limits
 //          If there's a running job using a given app version,
 //          unstarted jobs using that app version
@@ -84,6 +77,7 @@ using std::vector;
 using std::list;
 
 static double rec_sum;
+static int original_p_ncpus;
 
 // used in make_run_list() to keep track of resources used
 // by jobs tentatively scheduled so far
@@ -102,28 +96,42 @@ struct PROC_RESOURCES {
         pr_coprocs.clear_usage();
     }
 
-    // should we stop scanning jobs?
+    // In make_run_list(), should we stop scanning CPU jobs?
+    // factors:
+    // - we need to stop sometime; if there are 1000 jobs
+    //   it would be inefficient to scan them all
+    // - some jobs might use too much RAM to run,
+    //   so we scan jobs up to 2X #CPUs
     //
     inline bool stop_scan_cpu() {
-        if (ncpus_used_st >= ncpus) return true;
+        if (ncpus_used_st >= 2*ncpus) {
+            return true;
+        }
         if (ncpus_used_mt >= 2*ncpus) return true;
             // kind of arbitrary, but need to have some limit
             // in case there are only MT jobs, and lots of them
         return false;
     }
 
+    // similar, for GPU
+    //
     inline bool stop_scan_coproc(int rsc_type) {
         COPROC& cp = pr_coprocs.coprocs[rsc_type];
         for (int i=0; i<cp.count; i++) {
             if (cp.usage[i] < 1) return false;
+                // could make it 2 to provide more jobs
+                // for RAM exceeded case
         }
         return true;
     }
 
-    // Should we add this job to the runnable list?
-    // There are two possible reasons not to:
+    // Should we add this job to the run list?
+    // reasons not to:
     // - the job won't be able to run (e.g. it's being aborted)
-    // - the runnable list has enough jobs of this type already
+    // - it's backed off
+    // - it's GPU, and GPUs are suspended
+    // - it's Docker, and Docker not installed or not inited
+    // - it's GPU, and run list already commits the needed GPUs
     //
     bool can_schedule(RESULT* rp, ACTIVE_TASK* atp) {
         if (atp) {
@@ -155,20 +163,6 @@ struct PROC_RESOURCES {
         if (rp->uses_coprocs()) {
             if (!sufficient_coprocs(*rp)) {
                 return false;
-            }
-        } else {
-            // CPU jobs: see if we have enough already in list
-            //
-            if (rp->resource_usage.avg_ncpus > 1) {
-                if (ncpus_used_mt > 0) {
-                    if (ncpus_used_mt + rp->resource_usage.avg_ncpus > ncpus) {
-                        return false;
-                    }
-                }
-            } else {
-                if (ncpus_used_st >= ncpus) {
-                    return false;
-                }
             }
         }
 
@@ -212,7 +206,7 @@ struct PROC_RESOURCES {
         // If so, don't reserve CPU/GPU for it, to avoid starvation scenario
         //
         bool may_not_run = false;
-        if (atp && atp->too_large) {
+        if (atp && (atp->wss_too_large || atp->swap_too_large)) {
             may_not_run = true;
         }
         if (rt) {
@@ -251,6 +245,8 @@ struct PROC_RESOURCES {
         adjust_rec_sched(rp);
     }
 
+    // are there enough unused coproc instances to run this job?
+    //
     bool sufficient_coprocs(RESULT& r) {
         int rt = r.resource_usage.rsc_type;
         if (!rt) return true;
@@ -357,8 +353,7 @@ static inline bool finished_time_slice(ACTIVE_TASK* atp) {
 // Values are returned in project->next_runnable_result
 // (skip projects for which this is already non-NULL)
 //
-// Don't choose results with already_selected == true;
-// mark chosen results as already_selected.
+// Don't choose results with already_selected == true
 //
 // The preference order:
 // 1. results with active tasks that are running
@@ -413,15 +408,6 @@ void CLIENT_STATE::assign_results_to_projects() {
         if (project->next_runnable_result) continue;
         project->next_runnable_result = rp;
     }
-
-    // mark selected results, so CPU scheduler won't try to consider
-    // a result more than once
-    //
-    for (PROJECT *project: projects) {
-        if (project->next_runnable_result) {
-            project->next_runnable_result->already_selected = true;
-        }
-    }
 }
 
 // Among projects with a "next runnable result",
@@ -434,14 +420,18 @@ RESULT* CLIENT_STATE::highest_prio_project_best_result() {
     bool first = true;
 
     for (PROJECT *p: projects) {
-        if (!p->next_runnable_result) continue;
+        if (!p->next_runnable_result) {
+            continue;
+        }
         if (first || p->sched_priority > best_prio) {
             first = false;
             best_project = p;
             best_prio = p->sched_priority;
         }
     }
-    if (!best_project) return NULL;
+    if (!best_project) {
+        return NULL;
+    }
 
     RESULT* rp = best_project->next_runnable_result;
     best_project->next_runnable_result = 0;
@@ -804,8 +794,147 @@ bool CLIENT_STATE::schedule_cpus() {
     //
     tasks_throttled = false;
 
-    make_run_list(run_list);
-    return enforce_run_list(run_list);
+    if (!swap_limit_check()) {
+        make_run_list(run_list);
+        return enforce_run_list(run_list);
+    }
+    return true;
+}
+
+// sort by increasing cpu_time - checkpoint_cpu_time;
+// that's how much CPU time will be lost if we kill that job
+//
+static bool compare_swap_preempt(void *p1, void *p2) {
+    ACTIVE_TASK *atp1 = (ACTIVE_TASK*)p1;
+    ACTIVE_TASK *atp2 = (ACTIVE_TASK*)p2;
+    double x1 = atp1->current_cpu_time - atp1->checkpoint_cpu_time;
+    double x2 = atp2->current_cpu_time - atp2->checkpoint_cpu_time;
+    if (x1 < x2) return true;
+    if (x1 > x2) return false;
+    return atp1 < atp2;
+}
+
+// sort by increasing deadline; revive tasks with earlier dealines
+//
+static bool compare_swap_revive(void *p1, void *p2) {
+    ACTIVE_TASK *atp1 = (ACTIVE_TASK*)p1;
+    ACTIVE_TASK *atp2 = (ACTIVE_TASK*)p2;
+    if (atp1->result->report_deadline < atp2->result->report_deadline) return true;
+    if (atp1->result->report_deadline > atp2->result->report_deadline) return false;
+
+    return atp1 < atp2;
+}
+
+// if swap limit has been reached, we use different scheduling logic.
+// Return true if this is the case.
+//
+bool CLIENT_STATE::swap_limit_check() {
+    if (!is_swap_defined()) {
+        return false;
+    }
+
+    vector<RESULT*> run_list;
+
+    // compute swap usage of running tasks
+    //
+    double swap_usage = 0;
+    for (ACTIVE_TASK *atp: active_tasks.active_tasks) {
+        if (atp->task_state() == PROCESS_EXECUTING) {
+            swap_usage += atp->procinfo.swap_size;
+        }
+    }
+
+    // compare usage with limit
+    //
+    double swap_limit = global_prefs.vm_max_used_frac*host_info.m_swap;
+    if (swap_usage > swap_limit) {
+        if (log_flags.cpu_sched_debug) {
+            msg_printf(NULL, MSG_INFO,
+                "[cpu_sched_debug] virtual size limit exceeded: %.2f GB > %.2f GB",
+                swap_usage/GIGA, swap_limit/GIGA
+            );
+        }
+
+        // we're using too much swap.
+        // kill enough tasks to obey limit
+        //
+        vector<ACTIVE_TASK*> atps = active_tasks.active_tasks;
+        std::sort(atps.begin(), atps.end(), compare_swap_preempt);
+        for (ACTIVE_TASK* atp: atps) {
+            if (atp->task_state() != PROCESS_EXECUTING) {
+                continue;
+            }
+            if (log_flags.cpu_sched_debug) {
+                msg_printf(atp->result->project, MSG_INFO,
+                    "[cpu_sched_debug] killing %s", atp->result->name
+                );
+            }
+            atp->swap_kill_time = now;
+            atp->preempt(REMOVE_ALWAYS);
+                // this changes state to QUIT_PENDING
+            swap_usage -= atp->procinfo.swap_size;
+            if (swap_usage <= swap_limit) {
+                break;
+            }
+        }
+        // runnable list is the rest of the tasks
+        for (ACTIVE_TASK *atp: active_tasks.active_tasks) {
+            if (atp->task_state() == PROCESS_EXECUTING) {
+                run_list.push_back(atp->result);
+            }
+        }
+        enforce_run_list(run_list);
+    } else {
+        // here currently running tasks fit in swap
+        //
+        // make list of swap-killed tasks
+        vector<ACTIVE_TASK*> swap_kill_tasks;
+        for (ACTIVE_TASK *atp: active_tasks.active_tasks) {
+            if (atp->swap_kill_time) {
+                swap_kill_tasks.push_back(atp);
+            }
+        }
+        // if no swap-killed tasks, use normal scheduling
+        if (swap_kill_tasks.empty()) {
+            return false;
+        }
+
+        if (log_flags.cpu_sched_debug) {
+            msg_printf(NULL, MSG_INFO,
+                "[cpu_sched_debug] checking for runnable swap-killed tasks"
+            );
+        }
+
+        // initial run list is running tasks
+        //
+        for (ACTIVE_TASK *atp: active_tasks.active_tasks) {
+            if (atp->task_state() == PROCESS_EXECUTING) {
+                run_list.push_back(atp->result);
+            }
+        }
+        // see if we can run swap-killed tasks
+        std::sort(
+            swap_kill_tasks.begin(), swap_kill_tasks.end(),
+            compare_swap_revive
+        );
+        // run as many as will fit
+        //
+        for (ACTIVE_TASK *atp: swap_kill_tasks) {
+            if (swap_usage + atp->procinfo.swap_size > swap_limit) {
+                break;
+            }
+            if (log_flags.cpu_sched_debug) {
+                msg_printf(atp->result->project, MSG_INFO,
+                    "[cpu_sched_debug] restarting %s", atp->result->name
+                );
+            }
+            atp->swap_kill_time = 0;
+            run_list.push_back(atp->result);
+            swap_usage += atp->procinfo.swap_size;
+        }
+        enforce_run_list(run_list);
+    }
+    return true;
 }
 
 // Mark a job J as a deadline miss if either
@@ -891,7 +1020,7 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
     PROC_RESOURCES proc_rsc;
 
     if (log_flags.cpu_sched_debug) {
-        msg_printf(0, MSG_INFO, "[cpu_sched_debug] schedule_cpus(): start");
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] make_run_list(): start");
     }
 
     proc_rsc.init();
@@ -943,7 +1072,8 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
         avp->max_working_set_size = 0;
     }
     for (ACTIVE_TASK *atp: active_tasks.active_tasks) {
-        atp->too_large = false;
+        atp->wss_too_large = false;
+        atp->swap_too_large = false;
         double w = atp->procinfo.working_set_size_smoothed;
         APP_VERSION* avp = atp->app_version;
         if (w > avp->max_working_set_size) {
@@ -979,13 +1109,17 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
 #endif
     while (!proc_rsc.stop_scan_cpu()) {
         RESULT *rp = earliest_deadline_result(RSC_TYPE_CPU);
-        if (!rp) break;
+        if (!rp) {
+            break;
+        }
         rp->already_selected = true;
         if (have_max_concurrent && max_concurrent_exceeded(rp)) {
             continue;
         }
         ACTIVE_TASK *atp = lookup_active_task_by_result(rp);
-        if (!proc_rsc.can_schedule(rp, atp)) continue;
+        if (!proc_rsc.can_schedule(rp, atp)) {
+            continue;
+        }
         proc_rsc.schedule(rp, atp, true);
         rp->project->rsc_pwf[0].deadlines_missed_copy--;
         rp->edf_scheduled = true;
@@ -1009,16 +1143,23 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
         if (!rp) {
             break;
         }
+        rp->already_selected = true;
         if (have_max_concurrent && max_concurrent_exceeded(rp)) {
             continue;
         }
         ACTIVE_TASK *atp = lookup_active_task_by_result(rp);
-        if (!proc_rsc.can_schedule(rp, atp)) continue;
+        if (!proc_rsc.can_schedule(rp, atp)) {
+            continue;
+        }
         proc_rsc.schedule(rp, atp, false);
         run_list.push_back(rp);
         if (have_max_concurrent) {
             max_concurrent_inc(rp);
         }
+    }
+
+    if (log_flags.cpu_sched_debug) {
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] make_run_list(): end");
     }
 }
 
@@ -1236,12 +1377,17 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     if (have_sporadic_app) {
         ram_left -= sporadic_resources.mem_used;
     }
-    double swap_left = (global_prefs.vm_max_used_frac)*host_info.m_swap;
+    double swap_left;
+    bool check_swap = false;
+    if (is_swap_defined()) {
+        swap_left = (global_prefs.vm_max_used_frac)*host_info.m_swap;
+        check_swap = true;
+    }
 
     if (log_flags.mem_usage_debug) {
         msg_printf(0, MSG_INFO,
-            "[mem_usage] enforce: available RAM %.2fMB swap %.2fMB",
-            ram_left/MEGA, swap_left/MEGA
+            "[mem_usage] enforce: available RAM %.2f GB virtual %.2f GB",
+            ram_left/GIGA, swap_left/GIGA
         );
     }
 
@@ -1271,7 +1417,10 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     //
     assign_coprocs(run_list);
 
-    // scan the run list
+    // scan the run list.
+    // skip jobs that would exhaust a resource (CPUs, RAM, swap).
+    // for others, create ACTIVE_TASKs as needed,
+    // and mark as CPU_SCHED_SCHEDULED
     //
     for (RESULT* rp: run_list) {
         if (have_max_concurrent && max_concurrent_exceeded(rp)) {
@@ -1285,6 +1434,33 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         }
 
         ACTIVE_TASK *atp = lookup_active_task_by_result(rp);
+
+        // Skip jobs if they would cause too many CPUs to be used.
+        //
+        // An MT could overcommit the CPUs by > 1.
+        // Options are:
+        // 1) run it anyway, and overcommit the CPUs
+        // 2) don't run it.
+        //      This can result in starvation.
+        // 3) don't run it if there are additional 1-CPU jobs.
+        //      The problem here is that we may never run the MT job
+        //      until it reaches deadline pressure.
+        // We'll go with 1) except if user has limited the #CPUs
+
+        // if user has limited the # of CPUs, don't use more than the limit
+        // (even if it means idle instances of CPU or GPU)
+        //
+        if (n_usable_cpus < original_p_ncpus
+            && ncpus_used + rp->resource_usage.avg_ncpus > n_usable_cpus
+        ) {
+            if (log_flags.cpu_sched_debug) {
+                msg_printf(rp->project, MSG_INFO,
+                    "[cpu_sched_debug] skipping %s: would exceed user-specified CPU limit",
+                    rp->name
+                );
+            }
+            continue;
+        }
 
         // if we're already using all the CPUs, don't allow additional CPU jobs;
         // allow coproc jobs if the resulting CPU load is at most ncpus+1
@@ -1312,19 +1488,10 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             }
         }
 
-        // There's a possibility that this job is MT
-        // and would overcommit the CPUs by > 1.
-        // Options are:
-        // 1) run it anyway, and overcommit the CPUs
-        // 2) don't run it.
-        //      This can result in starvation.
-        // 3) don't run it if there are additional 1-CPU jobs.
-        //      The problem here is that we may never run the MT job
-        //      until it reaches deadline pressure.
-        // So we'll go with 1).
-
         // skip jobs whose 'expected working set size' (EWSS)
-        // is too large to fit in available RAM.
+        // is too large to fit in available RAM,
+        // or whose swap size is too large for available swap space.
+        //
         // To compute EWSS, we start with
         // - if the job has already run, its recent average WSS
         // - else if other jobs of this app version have run recently,
@@ -1336,31 +1503,47 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         // and then gets big.
         //
         double ewss = 0;
+        double eswap = 0;
         if (atp) {
-            atp->too_large = false;
+            atp->wss_too_large = false;
             ewss = atp->procinfo.working_set_size_smoothed;
+            eswap = atp->procinfo.swap_size;
         } else {
             ewss = rp->avp->max_working_set_size;
+            eswap = rp->avp->max_working_set_size;  // best guess
         }
         if (rp->project->strict_memory_bound) {
             ewss = std::max(ewss, rp->wup->rsc_memory_bound);
-        } else {
-            if (ewss == 0) {
-                ewss = rp->wup->rsc_memory_bound;
-            }
+        }
+        if (ewss == 0) {
+            ewss = rp->wup->rsc_memory_bound;
         }
 
         if (ewss > ram_left) {
             if (atp) {
-                atp->too_large = true;
+                atp->wss_too_large = true;
             }
             if (log_flags.cpu_sched_debug || log_flags.mem_usage_debug) {
                 msg_printf(rp->project, MSG_INFO,
-                    "[cpu_sched_debug] skipping %s: estimated WSS (%.2fMB) exceeds RAM left (%.2fMB)",
-                    rp->name,  ewss/MEGA, ram_left/MEGA
+                    "[cpu_sched_debug] skipping %s: estimated RSS (%.2f GB) exceeds RAM left (%.2f GB)",
+                    rp->name, ewss/GIGA, ram_left/GIGA
                 );
             }
             continue;
+        }
+        if (check_swap) {
+            if (eswap > swap_left) {
+                if (atp) {
+                    atp->swap_too_large = true;
+                }
+                if (log_flags.cpu_sched_debug || log_flags.mem_usage_debug) {
+                    msg_printf(rp->project, MSG_INFO,
+                        "[cpu_sched_debug] skipping %s: virtual size (%.2f GB) exceeds swap left (%.2f GB)",
+                        rp->name,  eswap/GIGA, swap_left/GIGA
+                    );
+                }
+                continue;
+            }
         }
 
         // We've decided to run this job
@@ -1387,6 +1570,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         ncpus_used += rp->resource_usage.avg_ncpus;
         atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
         ram_left -= ewss;
+        swap_left -= eswap;
         if (have_max_concurrent) {
             max_concurrent_inc(rp);
         }
@@ -1405,13 +1589,9 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         }
     }
 
-    bool check_swap = (host_info.m_swap != 0);
-        // in case couldn't measure swap on this host
-
-    // TODO: enforcement of swap space is broken right now
-
-    // preempt tasks as needed, and note whether there are any coproc jobs
-    // in QUIT_PENDING state (in which case we won't start new coproc jobs)
+    // Scan active tasks, preempt tasks as needed
+    // Note whether there are any coproc jobs in QUIT_PENDING state
+    // (in which case we won't start new coproc jobs)
     //
     bool coproc_quit_pending = false;
     for (ACTIVE_TASK* atp: active_tasks.active_tasks) {
@@ -1429,7 +1609,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             switch (atp->task_state()) {
             case PROCESS_EXECUTING:
                 action = true;
-                if (check_swap && swap_left < 0) {
+                if (atp->swap_too_large) {
                     if (log_flags.mem_usage_debug) {
                         msg_printf(atp->result->project, MSG_INFO,
                             "[mem_usage] out of swap space, will preempt by quit"
@@ -1437,13 +1617,13 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                     }
                     preempt_type = REMOVE_ALWAYS;
                 }
-                if (atp->too_large) {
+                if (atp->wss_too_large) {
                     if (log_flags.mem_usage_debug) {
                         msg_printf(atp->result->project, MSG_INFO,
-                            "[mem_usage] job using too much memory, will preempt by quit"
+                            "[mem_usage] job using too much memory, will suspend"
                         );
                     }
-                    preempt_type = REMOVE_ALWAYS;
+                    preempt_type = REMOVE_NEVER;
                 }
                 atp->preempt(preempt_type);
                 break;
@@ -1473,6 +1653,8 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         }
     }
 
+    // scan active tasks and run those that are scheduled
+    //
     bool coproc_start_deferred = false;
     for (ACTIVE_TASK* atp: active_tasks.active_tasks) {
         if (atp->next_scheduler_state != CPU_SCHED_SCHEDULED) continue;
@@ -1533,7 +1715,6 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             );
         }
         atp->scheduler_state = CPU_SCHED_SCHEDULED;
-        swap_left -= atp->procinfo.swap_size;
 
 #ifndef SIM
         // if we've been in this loop for > 10 secs,
@@ -1675,7 +1856,6 @@ void CLIENT_STATE::set_n_usable_cpus() {
     // config file can say to act like host has N CPUs
     //
     static bool first = true;
-    static int original_p_ncpus;
     if (first) {
         original_p_ncpus = host_info.p_ncpus;
         first = false;

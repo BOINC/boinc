@@ -127,13 +127,6 @@ struct ACTIVE_TASK {
         // wall time at the last checkpoint
     double elapsed_time;
         // current total running time, adjusted for CPU throttling
-    double bytes_sent_episode;
-        // bytes sent in current episode of job,
-        // as (optionally) reported by boinc_network_usage()
-    double bytes_received_episode;
-    double bytes_sent;
-        // bytes in all episodes
-    double bytes_received;
     char slot_dir[256];
         // directory where process runs (relative)
     char slot_path[MAXPATHLEN];
@@ -146,21 +139,26 @@ struct ACTIVE_TASK {
     double max_disk_usage;
         // abort if disk usage (in+out+temp) exceeds this
     double max_mem_usage;
-        // abort if memory usage exceeds this
+        // WU rsc_memory_bound
+        // the idea: abort if memory usage exceeds this
+        // but we don't do this because most projects
+        // don't give accurate rsc_memory_bound
     bool have_trickle_down;
     bool send_upload_file_status;
-    bool too_large;
+    bool wss_too_large;
         // Working set too large to run now; waiting for RAM
         // This is a slight misnomer.
         // It doesn't mean that this job itself is too large;
         // rather, it means that the last time we did CPU scheduling,
         // the set of jobs we tried to run was too big,
         // and this one came after we ran out of mem.
+    bool swap_too_large;
     bool needs_shmem;
         // waiting for a free shared memory segment
     int want_network;
-        // This task wants to do network comm (for F@h)
-        // this is passed via share-memory message (app_status channel)
+        // This task is waiting for the network
+        // (physical connection or no suspension)
+        // This is passed via share-memory message (app_status channel)
     double abort_time;
         // when we sent an abort message to this app
         // kill it 5 seconds later if it doesn't exit
@@ -173,6 +171,8 @@ struct ACTIVE_TASK {
         // running past end of time slice because not checkpointed;
         // when we do checkpoint, reschedule
     double last_deadline_miss_time;
+    double swap_kill_time;
+        // last time this task was killed to free swap space
 
     APP_CLIENT_SHM app_client_shm;
         // core/app shared mem segment
@@ -300,7 +300,6 @@ struct ACTIVE_TASK {
     int preempt(PREEMPT_TYPE preempt_type, int reason=0);
         // preempt (via suspend or quit) a running task
     int resume_or_start(bool);
-    void send_network_available();
 #ifdef _WIN32
     void handle_exited_app(unsigned long);
 #else
@@ -363,8 +362,7 @@ public:
     void report_overdue();
     void handle_upload_files();
     void upload_notify_app(FILE_INFO*);
-    bool want_network();    // does any task want network?
-    void network_available();   // notify tasks that network is available
+    bool some_task_wants_network();
     void free_mem();
     bool slot_taken(int);
     void get_memory_usage();

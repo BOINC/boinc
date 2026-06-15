@@ -2646,10 +2646,14 @@ wxString result_description(RESULT* result, bool show_resources) {
             strBuffer += _("GPU suspended - ");
             strBuffer += suspend_reason_wxstring(status.gpu_suspend_reason);
         } else if (result->active_task) {
-            if (result->too_large) {
+            if (result->wss_too_large) {
                 strBuffer += _("Waiting for memory");
+            } else if (result->swap_too_large) {
+                strBuffer += _("Waiting for swap space");
             } else if (result->needs_shmem) {
                 strBuffer += _("Waiting for shared memory");
+            } else if (result->want_network) {
+                strBuffer += _("Waiting for network");
             } else if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
                 strBuffer += _("Running");
                 if (project && project->non_cpu_intensive) {

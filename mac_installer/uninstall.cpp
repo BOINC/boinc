@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -564,13 +564,19 @@ fprintf(stdout, "Starting privileged tool (stdout)\n");
     // Phase 6: Set BOINC Data owner and group to logged in user
     // We don't customize BOINC Data directory name for branding
 //    callPosixSpawn ("rm -rf \"/Library/Application Support/BOINC Data\"");
-    pw = getpwnam(loginName);
-    sprintf(cmd, "chown -R %d:%d \"/Library/Application Support/BOINC Data\"", pw->pw_uid, pw->pw_gid);
-    callPosixSpawn (cmd);
+    if ((pw = getpwnam(loginName)) != NULL) {
+        sprintf(cmd, "chown -RH %d:%d \"/Library/Application Support/BOINC Data\"", pw->pw_uid, pw->pw_gid);
+        callPosixSpawn (cmd);
+    }
     callPosixSpawn("chmod -R u+rw-s,g+r-w-s,o+r-w \"/Library/Application Support/BOINC Data\"");
     callPosixSpawn("chmod 600 \"/Library/Application Support/BOINC Data/gui_rpc_auth.cfg\"");
 
-    // Phase 7: step through all users and do user-specific cleanup
+    // Phase 7: Set BOINC podman owner and group to logged in user
+    if ((pw = getpwnam(loginName)) != NULL) {
+        sprintf(cmd, "chown -RH %d:%d \"/Library/Application Support/BOINC podman\"", pw->pw_uid, pw->pw_gid);
+        callPosixSpawn (cmd);
+    }
+    // Phase 8: step through all users and do user-specific cleanup
     CleanupAllVisibleUsers();
 
     // Use of sudo here may help avoid a warning alert from MacOS
@@ -578,6 +584,8 @@ fprintf(stdout, "Starting privileged tool (stdout)\n");
     callPosixSpawn ("sudo dscl . -delete /groups/boinc_master");
     callPosixSpawn ("sudo dscl . -delete /users/boinc_project");
     callPosixSpawn ("sudo dscl . -delete /groups/boinc_project");
+    callPosixSpawn ("sudo rm -fR /Users/boinc_master");
+    callPosixSpawn ("sudo rm -fR /Users/boinc_project");
 
     return 0;
 }
