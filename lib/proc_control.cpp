@@ -103,6 +103,7 @@ int suspend_or_resume_threads(
     HANDLE threads, thread;
     THREADENTRY32 te = {0};
     static vector<DWORD> suspended_threads;
+    DWORD n = 0;
 
 #ifdef DEBUG_PROC_CONTROL
     fprintf(stderr, "start: check_exempt %d %s\n", check_exempt, precision_time_to_string(dtime()));
@@ -153,13 +154,15 @@ int suspend_or_resume_threads(
                 suspended_threads.begin(), suspended_threads.end(),
                 te.th32ThreadID
             ) != suspended_threads.end()) {
-                ResumeThread(thread);
+                n = ResumeThread(thread);
 #ifdef DEBUG_PROC_CONTROL
                 fprintf(stderr, "ResumeThread returns %d\n", n);
 #endif
+            } else {
+                n = 0;
             }
         } else {
-            SuspendThread(thread);
+            n = SuspendThread(thread);
             suspended_threads.push_back(te.th32ThreadID);
 #ifdef DEBUG_PROC_CONTROL
             fprintf(stderr, "SuspendThread returns %d\n", n);
@@ -172,7 +175,7 @@ int suspend_or_resume_threads(
 #ifdef DEBUG_PROC_CONTROL
     fprintf(stderr, "end: %s\n", precision_time_to_string(dtime()));
 #endif
-    return 0;
+    return n == (DWORD)-1 ? -1 : 0;
 }
 
 #else

@@ -379,6 +379,15 @@ namespace test_libboinc {
         EXPECT_EQ(";one;", tokens[0]);
         EXPECT_EQ(";two;", tokens[1]);
         EXPECT_EQ(";three;", tokens[2]);
+
+        str = "nodelimiter";
+        tokens = split_string(str, "");
+        ASSERT_EQ(1, tokens.size());
+        EXPECT_EQ("nodelimiter", tokens[0]);
+
+        str = "";
+        tokens = split_string(str, "");
+        ASSERT_EQ(0, tokens.size());
     }
 
 }

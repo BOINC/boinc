@@ -80,9 +80,17 @@ inline void downcase_string(char* p) {
 
 inline std::vector<std::string> split_string(const std::string& str,
     const std::string& delimiter) {
+    std::vector<std::string> tokens;
+
+    if (delimiter.empty()) {
+        if (!str.empty()) {
+            tokens.emplace_back(str);
+        }
+        return tokens;
+    }
+
     size_t pos_start = 0, pos_end = 0;
     const size_t delim_len = delimiter.length();
-    std::vector<std::string> tokens;
 
     while ((pos_end = str.find(delimiter, pos_start)) != std::string::npos) {
         std::string token = str.substr(pos_start, pos_end - pos_start);

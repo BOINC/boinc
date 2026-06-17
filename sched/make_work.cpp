@@ -76,8 +76,8 @@ void replace_file_name(char* xml_doc, char* filename, char* new_filename, size_t
         if (parse_str(p, "<name>", temp, sizeof(temp))) {
             if (!strcmp(filename, temp)) {
                 replace_element_contents(
-                    xml_doc + (p - buf),"<name>","</name>", new_filename, xml_doc_size
-                );
+                    xml_doc + (p - buf),"<name>","</name>", new_filename,
+                    xml_doc_size - (p - buf));
             }
         } else if (parse_str(p, "<file_name>", temp, sizeof(temp))) {
             if (!strcmp(filename, temp)) {

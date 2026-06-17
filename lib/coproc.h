@@ -467,7 +467,7 @@ struct COPROCS {
         ati.clear();
         intel_gpu.clear();
         COPROC c;
-        safe_strcpy(c.type, "CPU");
+        memcpy(c.type, "CPU", 4);
         c.clear_usage();
         add(c);
     }
@@ -534,7 +534,7 @@ struct COPROCS {
         ati.count = 0;
         intel_gpu.count = 0;
         COPROC c;
-        safe_strcpy(c.type, "CPU");
+        memcpy(c.type, "CPU", 4);
         c.clear_usage();
         add(c);
     }

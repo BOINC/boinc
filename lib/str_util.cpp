@@ -273,7 +273,7 @@ void strip_whitespace(char *str) {
     // will be either the same size or less
     // so ther should be enough space already
     if (size_res <= size_orig) {
-        strlcpy(str, s.c_str(), size_orig);
+        strlcpy(str, s.c_str(), size_orig + 1);
     }
 }
 
@@ -315,7 +315,7 @@ void strip_quotes(char *str) {
     // will be either the same size or less
     // so ther should be enough space already
     if (size_res <= size_orig) {
-        strlcpy(str, s.c_str(), size_orig);
+        strlcpy(str, s.c_str(), size_orig + 1);
     }
 }
 
@@ -371,7 +371,7 @@ void collapse_whitespace(char *str) {
     // will be either the same size or less
     // so ther should be enough space already
     if (size_res <= size_orig) {
-        strlcpy(str, s.c_str(), size_orig);
+        strlcpy(str, s.c_str(), size_orig + 1);
     }
 }
 
