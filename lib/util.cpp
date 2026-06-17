@@ -290,6 +290,13 @@ int run_program(
 // Unix: if you want stderr too, add 2>&1 to command
 // Return error if command failed
 //
+
+#ifdef _USING_FCGI_
+int run_command(const char*, vector<string> &out) {
+    out.clear();
+    return 0;
+}
+#else
 int run_command(const char *cmd, vector<string> &out) {
     out.clear();
 #ifdef _WIN32
@@ -364,7 +371,6 @@ int run_command(const char *cmd, vector<string> &out) {
     free(buf);
     if (exit_code) return -1;
 #else
-#ifndef _USING_FCGI_
     char buf[256];
     errno = 0;
     FILE* fp = popen(cmd, "r");
@@ -385,9 +391,9 @@ int run_command(const char *cmd, vector<string> &out) {
         return -1;
     }
 #endif
-#endif
     return 0;
 }
+#endif
 
 #ifdef _WIN32
 

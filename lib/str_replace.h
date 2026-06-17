@@ -23,6 +23,9 @@
 #ifndef _WIN32
 #include <sys/types.h>
 #include <ctype.h>
+#include <algorithm>
+#include <cstring>
+#include "errno.h"
 #endif
 
 #include "config.h"
@@ -57,6 +60,44 @@ inline int strcasecmp(const char* s1, const char* s2) {
     if (*s2) return -1;
     return 0;
 #endif
+}
+#endif
+
+#if !HAVE_STRNCPY_S
+inline int strncpy_s(char* dst, size_t dstsz, const char* src,
+    size_t count) {
+    if (dst == nullptr || src == nullptr || dstsz == 0) {
+        return EINVAL;
+    }
+    if (count >= dstsz) {
+        dst[0] = '\0';
+        return ERANGE;
+    }
+    const size_t max_copy = std::min(count, dstsz - 1);
+    strncpy(dst, src, max_copy);
+    dst[max_copy] = '\0';
+    return 0;
+}
+#endif
+
+#if !HAVE_STRNCAT_S
+inline int strncat_s(char* dst, size_t dstsz, const char* src, size_t count) {
+    if (dst == nullptr || src == nullptr || dstsz == 0) {
+        return EINVAL;
+    }
+    size_t dst_len = strnlen(dst, dstsz);
+    if (dst_len >= dstsz) {
+        dst[0] = '\0';
+        return ERANGE;
+    }
+    if (count >= dstsz - dst_len) {
+        dst[0] = '\0';
+        return ERANGE;
+    }
+    const size_t max_copy = std::min(count, dstsz - dst_len - 1);
+    strncat(dst, src, max_copy);
+    dst[dst_len + max_copy] = '\0';
+    return 0;
 }
 #endif
 

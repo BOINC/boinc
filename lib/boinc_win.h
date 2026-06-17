@@ -71,6 +71,11 @@
 #define HAVE_STRCASECMP 1
 #endif
 
+#ifdef _MSC_VER
+#define HAVE_STRNCPY_S 1
+#define HAVE_STRNCAT_S 1
+#endif
+
 /*
  * WINSOCK vs WINSOCK2 could be an issue in compiles because we include multiple
  * packages that have the same choice.  The wx currently packed with BOINC

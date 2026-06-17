@@ -26,6 +26,7 @@
 #include <string>
 #include <cerrno>
 #include <unistd.h>
+#include "str_replace.h"
 #endif
 
 #include "error_numbers.h"

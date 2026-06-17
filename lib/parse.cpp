@@ -241,8 +241,8 @@ void replace_element_contents(
     p += strlen(start);
     q = strstr(p, end);
     strlcpy(temp, q, sizeof(temp));
-    strlcpy(p, replacement, buf_len);
-    strlcat(p, temp, buf_len);
+    strlcpy(p, replacement, buf_len-(p-buf));
+    strlcat(p, temp, buf_len-(p-buf));
 }
 
 // if the string contains a substring of the form X...Y,
@@ -267,8 +267,8 @@ bool str_replace(char* str, const char* substr, const char* replacement,
     if (!p) return false;
     int n = (int)strlen(substr);
     safe_strcpy(temp, p+n);
-    strlcpy(p, replacement, str_len);
-    strlcat(p, temp, str_len);
+    strlcpy(p, replacement, str_len-(p-str));
+    strlcat(p, temp, str_len-(p-str));
     return true;
 }
 
@@ -337,7 +337,7 @@ void non_ascii_escape(const char* in, char* out, int len) {
         x &= 0xff;   // just in case
         if (x>127) {
             snprintf(buf, sizeof(buf), "&#%d;", x);
-            strlcpy(p, buf, len);
+            strlcpy(p, buf, len-(p-out));
             p += strlen(buf);
         } else {
             *p++ = (char)x;
@@ -361,14 +361,14 @@ void xml_escape(const char* in, char* out, int len) {
         int x = (int) *in;
         x &= 0xff;   // just in case
         if (x == '<') {
-            strlcpy(p, "&lt;", len);
+            strlcpy(p, "&lt;", len-(p-out));
             p += 4;
         } else if (x == '&') {
-            strlcpy(p, "&amp;", len);
+            strlcpy(p, "&amp;", len-(p-out));
             p += 5;
         } else if (x>127) {
             snprintf(buf, sizeof(buf), "&#%d;", x);
-            strlcpy(p, buf, len);
+            strlcpy(p, buf, len-(p-out));
             p += strlen(buf);
         } else if (x<32) {
             switch(x) {
@@ -376,14 +376,14 @@ void xml_escape(const char* in, char* out, int len) {
             case 10:
             case 13:
                 snprintf(buf, sizeof(buf), "&#%d;", x);
-                strlcpy(p, buf, len);
+                strlcpy(p, buf, len-(p-out));
                 p += strlen(buf);
                 break;
             }
         } else if (x == ']') {
             // two stage check, strncmp() is slow
             if (!strncmp(in, "]]>", 3)) {
-                strlcpy(p, "]]&gt;", len);
+                strlcpy(p, "]]&gt;", len-(p-out));
                 p += 6;
                 in += 2;  // +1 from for loop
             } else {
@@ -576,7 +576,7 @@ bool XML_PARSER::parse_str_aux(const char* start_tag, char* buf, int len) {
     char end_tag[TAG_BUF_LEN], tag[TAG_BUF_LEN];
 
     end_tag[0] = '/';
-    strlcpy(end_tag+1, start_tag, TAG_BUF_LEN);
+    strlcpy(end_tag+1, start_tag, TAG_BUF_LEN-1);
 
     // get text after start tag
     //
@@ -651,7 +651,7 @@ bool XML_PARSER::parse_int(const char* start_tag, int& i) {
     if (strcmp(parsed_tag, start_tag)) return false;
 
     end_tag[0] = '/';
-    strlcpy(end_tag+1, start_tag, TAG_BUF_LEN);
+    strlcpy(end_tag+1, start_tag, TAG_BUF_LEN-1);
 
     eof = get(buf, sizeof(buf), is_tag);
     if (eof) return false;
@@ -686,7 +686,7 @@ bool XML_PARSER::parse_long(const char* start_tag, long& i) {
     if (strcmp(parsed_tag, start_tag)) return false;
 
     end_tag[0] = '/';
-    strlcpy(end_tag+1, start_tag, TAG_BUF_LEN);
+    strlcpy(end_tag+1, start_tag, TAG_BUF_LEN-1);
 
     eof = get(buf, sizeof(buf), is_tag);
     if (eof) return false;
@@ -721,7 +721,7 @@ bool XML_PARSER::parse_double(const char* start_tag, double& x) {
     if (strcmp(parsed_tag, start_tag)) return false;
 
     end_tag[0] = '/';
-    strlcpy(end_tag+1, start_tag, TAG_BUF_LEN);
+    strlcpy(end_tag+1, start_tag, TAG_BUF_LEN-1);
 
     eof = get(buf, sizeof(buf), is_tag);
     if (eof) return false;
@@ -761,7 +761,7 @@ bool XML_PARSER::parse_ulong(const char* start_tag, unsigned long& x) {
     if (strcmp(parsed_tag, start_tag)) return false;
 
     end_tag[0] = '/';
-    strlcpy(end_tag+1, start_tag, TAG_BUF_LEN);
+    strlcpy(end_tag+1, start_tag, TAG_BUF_LEN-1);
 
     eof = get(buf, sizeof(buf), is_tag);
     if (eof) return false;
@@ -796,7 +796,7 @@ bool XML_PARSER::parse_ulonglong(const char* start_tag, unsigned long long& x) {
     if (strcmp(parsed_tag, start_tag)) return false;
 
     end_tag[0] = '/';
-    strlcpy(end_tag+1, start_tag, TAG_BUF_LEN);
+    strlcpy(end_tag+1, start_tag, TAG_BUF_LEN-1);
 
     eof = get(buf, sizeof(buf), is_tag);
     if (eof) return false;
@@ -848,7 +848,7 @@ bool XML_PARSER::parse_bool(const char* start_tag, bool& b) {
     if (end != buf+strlen(buf)) return false;
 
     end_tag[0] = '/';
-    strlcpy(end_tag+1, start_tag, TAG_BUF_LEN);
+    strlcpy(end_tag+1, start_tag, TAG_BUF_LEN-1);
     eof = get(tag, sizeof(tag), is_tag);
     if (eof) return false;
     if (!is_tag) return false;
