@@ -287,8 +287,9 @@ struct RESULT {
     double elapsed_time;
     double progress_rate;
         // avg increase in fraction done per second
-    double swap_size;
-    double working_set_size_smoothed;
+    double swap_usage;
+    double virtual_size;
+    double rss_smoothed;
     double estimated_cpu_time_remaining;
         // actually, estimated elapsed time remaining
     double bytes_sent;

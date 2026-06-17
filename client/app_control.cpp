@@ -412,8 +412,8 @@ void ACTIVE_TASK::handle_temporary_exit(
 void ACTIVE_TASK::copy_final_info() {
     result->final_cpu_time = current_cpu_time;
     result->final_elapsed_time = elapsed_time;
-    result->final_peak_working_set_size = peak_working_set_size;
-    result->final_peak_swap_size = peak_swap_size;
+    result->final_peak_rss = peak_rss;
+    result->final_peak_swap_usage = peak_swap_usage;
     result->final_peak_disk_usage = peak_disk_usage;
 }
 
@@ -706,7 +706,7 @@ void ACTIVE_TASK_SET::send_heartbeats() {
         snprintf(buf, sizeof(buf), "<heartbeat/>"
             "<wss>%e</wss>"
             "<max_wss>%e</max_wss>",
-            atp->procinfo.working_set_size, ar
+            atp->procinfo.rss, ar
         );
         if (gstate.network_suspended) {
             safe_strcat(buf, "<network_suspended/>");
@@ -859,7 +859,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 
     double avail_ram = gstate.available_ram();
     double max_ram = gstate.max_available_ram();
-    double total_wss = 0;
+    double total_rss = 0;
 
     // Some slot dirs have lots of files,
     // so only check every min(disk_interval, 300) secs
@@ -913,9 +913,9 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
         // is the WSS too large for the job to ever run (busy or idle)?
         // If so abort it.
         //
-        if (atp->procinfo.working_set_size_smoothed > max_ram) {
-            snprintf(buf, sizeof(buf), "working set size > client RAM limit: %.2fMB > %.2fMB",
-                atp->procinfo.working_set_size_smoothed/MEGA, max_ram/MEGA
+        if (atp->procinfo.rss_smoothed > max_ram) {
+            snprintf(buf, sizeof(buf), "resident set size > client RAM limit: %.2fMB > %.2fMB",
+                atp->procinfo.rss_smoothed/MEGA, max_ram/MEGA
             );
             msg_printf(atp->result->project, MSG_INFO,
                 "Aborting task %s: %s",
@@ -928,7 +928,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
         // is the WSS too large for the current limit?
         // If so, do reschedule, which will swap-kill it
         //
-        if (atp->procinfo.working_set_size_smoothed > avail_ram) {
+        if (atp->procinfo.rss_smoothed > avail_ram) {
             gstate.request_schedule_cpus("job RAM usage limit exceeded");
         }
         if (do_disk_check || atp->peak_disk_usage == 0) {
@@ -941,10 +941,10 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
         // don't count RAM usage of non-CPU-intensive jobs
         //
         if (!atp->non_cpu_intensive()) {
-            total_wss += atp->procinfo.working_set_size_smoothed;
+            total_rss += atp->procinfo.rss_smoothed;
         }
     }
-    if (total_wss > avail_ram) {
+    if (total_rss > avail_ram) {
         gstate.request_schedule_cpus("total RAM usage limit exceeded");
     }
     if (do_disk_check) {
@@ -1419,7 +1419,7 @@ bool ACTIVE_TASK::get_app_status_msg() {
             checkpoint_cpu_time = 0;
         }
     }
-    parse_double(msg_buf, "<wss>", wss_from_app);
+    parse_double(msg_buf, "<wss>", rss_from_app);
     parse_double(msg_buf, "<fpops_per_cpu_sec>", result->fpops_per_cpu_sec);
     parse_double(msg_buf, "<fpops_cumulative>", result->fpops_cumulative);
     parse_double(msg_buf, "<intops_per_cpu_sec>", result->intops_per_cpu_sec);
@@ -1606,8 +1606,8 @@ void ACTIVE_TASK::write_task_state_file() {
         checkpoint_cpu_time,
         checkpoint_elapsed_time,
         checkpoint_fraction_done,
-        peak_working_set_size,
-        peak_swap_size,
+        peak_rss,
+        peak_swap_usage,
         peak_disk_usage
     );
     fclose(f);
@@ -1668,10 +1668,10 @@ void ACTIVE_TASK::read_task_state_file() {
         }
     }
     if (parse_double(buf, "<peak_working_set_size>", x)) {
-        peak_working_set_size = x;
+        peak_rss = x;
     }
     if (parse_double(buf, "<peak_swap_size>", x)) {
-        peak_swap_size = x;
+        peak_swap_usage = x;
     }
     if (parse_double(buf, "<peak_disk_usage>", x)) {
         peak_disk_usage = x;

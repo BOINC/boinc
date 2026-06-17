@@ -91,9 +91,9 @@ int get_procinfo_XP(PROC_MAP& pm) {
         p.clear();
         p.id = pProcesses->ProcessId;
         p.parentid = pProcesses->InheritedFromProcessId;
-        p.swap_size = pProcesses->VmCounters.PagefileUsage;
-        p.working_set_size = pProcesses->VmCounters.WorkingSetSize;
-        p.page_fault_count = pProcesses->VmCounters.PageFaultCount;
+        p.swap_usage = pProcesses->VmCounters.PagefileUsage;
+        p.rss = pProcesses->VmCounters.WorkingSetSize;
+        p.virtual_size = pProcesses->VmCounters.VirtualSize;
         p.user_time = ((double) pProcesses->UserTime.QuadPart)/1e7;
         p.kernel_time = ((double) pProcesses->KernelTime.QuadPart)/1e7;
         p.is_low_priority = (pProcesses->BasePriority <= 4);

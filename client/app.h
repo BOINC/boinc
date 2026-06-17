@@ -83,8 +83,8 @@ struct ACTIVE_TASK {
         // in episodes before the current one)
     double checkpoint_elapsed_time;
         // elapsed time at last checkpoint
-    double peak_working_set_size;
-    double peak_swap_size;
+    double peak_rss;
+    double peak_swap_usage;
     double peak_disk_usage;
         // based on real (not allocated/compressed) file sizes
 
@@ -104,7 +104,7 @@ struct ACTIVE_TASK {
 
     // END OF ITEMS SAVED IN STATE FILES
 
-    double wss_from_app;
+    double rss_from_app;
         // work set size reported by the app
         // (e.g. docker_wrapper does this).
         // If nonzero, use this instead of procinfo data
@@ -145,8 +145,8 @@ struct ACTIVE_TASK {
         // don't give accurate rsc_memory_bound
     bool have_trickle_down;
     bool send_upload_file_status;
-    bool wss_too_large;
-        // Working set too large to run now; waiting for RAM
+    bool rss_too_large;
+        // Resident set too large to run now; waiting for RAM
         // This is a slight misnomer.
         // It doesn't mean that this job itself is too large;
         // rather, it means that the last time we did CPU scheduling,

@@ -133,8 +133,8 @@ int procinfo_setup(PROC_MAP& pm) {
         if (fgets(p.command, sizeof(p.command) , fd) == NULL) break;
         lf = strchr(p.command, '\n');
         if (lf) *lf = '\0';         // Strip trailing linefeed
-        p.working_set_size = (double)real_mem * 1024.;
-        p.swap_size = (double)virtual_mem * 1024.;
+        p.rss = (double)real_mem * 1024.;
+        p.virtual_size = (double)virtual_mem * 1024.;
         p.user_time += 60. * (float)hours;
         p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
         // Ideally, we should count ScreenSaverEngine or legacyScreenSaver

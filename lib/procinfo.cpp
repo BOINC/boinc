@@ -50,14 +50,12 @@ void add_child_totals(PROCINFO& procinfo, PROC_MAP& pm, PROC_MAP::iterator i) {
         procinfo.kernel_time += p.kernel_time;
         procinfo.user_time += p.user_time;
         p.scanned = true;
-
-        // only count process with most swap and memory
-        if (p.swap_size > procinfo.swap_size) {
-            procinfo.swap_size = p.swap_size;
-        }
-        if (p.working_set_size > procinfo.working_set_size) {
-            procinfo.working_set_size = p.working_set_size;
-        }
+#ifdef __linux__
+        p.get_mem_info();
+#endif
+        procinfo.virtual_size += p.virtual_size;
+        procinfo.swap_usage += p.swap_usage;
+        procinfo.rss += p.rss;
 
         p.is_boinc_app = true;
         add_child_totals(procinfo, pm, i2); // recursion - woo hoo!
@@ -79,8 +77,12 @@ void procinfo_app(
         ) {
             procinfo.kernel_time += p.kernel_time;
             procinfo.user_time += p.user_time;
-            procinfo.swap_size += p.swap_size;
-            procinfo.working_set_size += p.working_set_size;
+#ifdef __linux__
+            p.get_mem_info();
+#endif
+            procinfo.swap_usage += p.swap_usage;
+            procinfo.rss += p.rss;
+            procinfo.virtual_size += p.virtual_size;
             p.is_boinc_app = true;
             p.scanned = true;
 
@@ -154,8 +156,6 @@ void procinfo_non_boinc(PROCINFO& procinfo, PROC_MAP& pm) {
 #endif
         procinfo.kernel_time += p.kernel_time;
         procinfo.user_time += p.user_time;
-        procinfo.swap_size += p.swap_size;
-        procinfo.working_set_size += p.working_set_size;
     }
 #if 0
     fprintf(stderr,
@@ -247,6 +247,8 @@ void boinc_related_cpu_time(
 // To do this, we get info on all processes,
 // then figure out who the descendants are.
 // Is there a more efficient way?
+//
+// Used by wrapper and vboxwrapper
 //
 double process_tree_cpu_time(int pid) {
     PROC_MAP pm;
