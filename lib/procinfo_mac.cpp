@@ -102,7 +102,7 @@ int procinfo_setup(PROC_MAP& pm) {
 // from a process that has the DYLD_LIBRARY_PATH environment variable set.
 // "env -i command" prevents the command from inheriting the caller's
 // environment, which avoids the spurious warning.
-    fd = popen("env -i ps -axcopid,ppid,rss,vsz,pagein,time,command", "r");
+    fd = popen("env -i ps -axcopid,ppid,rss,vsz,time,command", "r");
     if (!fd) return ERR_FOPEN;
 
     // Skip over the header line
@@ -120,17 +120,16 @@ int procinfo_setup(PROC_MAP& pm) {
 
     while (1) {
         p.clear();
-        c = fscanf(fd, "%d%d%d%d%lu%d:%lf ",
+        c = fscanf(fd, "%d%d%d%d%d:%lf ",
             &p.id,
             &p.parentid,
             &real_mem,
             &virtual_mem,
-            &p.page_fault_count,
             &hours,
             &p.user_time
         );
         if (c < 7) break;
-        if (fgets(p.command, sizeof(p.command) , fd) == NULL) break;
+        if (fgets(p.command, sizeof(p.command), fd) == NULL) break;
         lf = strchr(p.command, '\n');
         if (lf) *lf = '\0';         // Strip trailing linefeed
         p.rss = (double)real_mem * 1024.;
