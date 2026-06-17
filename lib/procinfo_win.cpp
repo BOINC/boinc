@@ -67,10 +67,10 @@ static int get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
         }
 
         if (Status == STATUS_INFO_LENGTH_MISMATCH) {
-            HeapFree(hHeap, NULL, *ppBuffer);
+            HeapFree(hHeap, 0, *ppBuffer);
             *pcbBuffer *= 2;
         } else if (!NT_SUCCESS(Status)) {
-            HeapFree(hHeap, NULL, *ppBuffer);
+            HeapFree(hHeap, 0, *ppBuffer);
             return ERR_GETRUSAGE;
         } else {
             return 0;
@@ -146,7 +146,7 @@ int get_procinfo_XP(PROC_MAP& pm) {
         pProcesses = (PSYSTEM_PROCESSES)(((LPBYTE)pProcesses) + pProcesses->NextEntryDelta);
     }
 
-    if (pBuffer) HeapFree(GetProcessHeap(), NULL, pBuffer);
+    if (pBuffer) HeapFree(GetProcessHeap(), 0, pBuffer);
     find_children(pm);
     return 0;
 }

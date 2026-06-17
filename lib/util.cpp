@@ -344,7 +344,7 @@ int run_command(const char *cmd, vector<string> &out) {
     GetExitCodeProcess(pi.hProcess, &exit_code);
 
     DWORD count, nread;
-    PeekNamedPipe(pipe_read, NULL, NULL, NULL, &count, NULL);
+    PeekNamedPipe(pipe_read, NULL, 0, NULL, &count, NULL);
     if (count == 0) {
         return 0;
     }
