@@ -810,9 +810,10 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <checkpoint_fraction_done_elapsed_time>%f</checkpoint_fraction_done_elapsed_time>\n"
         "    <current_cpu_time>%f</current_cpu_time>\n"
         "    <once_ran_edf>%d</once_ran_edf>\n"
-        "    <swap_size>%f</swap_size>\n"
-        "    <working_set_size>%f</working_set_size>\n"
-        "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n",
+        "    <virtual_size>%.0f</virtual_size>\n"
+        "    <swap_size>%.0f</swap_size>\n"
+        "    <working_set_size>%.0f</working_set_size>\n"
+        "    <working_set_size_smoothed>%.0f</working_set_size_smoothed>\n",
         result->project->master_url,
         result->name,
         task_state(),
@@ -824,6 +825,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         checkpoint_fraction_done_elapsed_time,
         current_cpu_time,
         once_ran_edf?1:0,
+        procinfo.virtual_size,
         procinfo.swap_usage,
         procinfo.rss,
         procinfo.rss_smoothed
@@ -856,9 +858,10 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         "    <fraction_done>%f</fraction_done>\n"
         "    <current_cpu_time>%f</current_cpu_time>\n"
         "    <elapsed_time>%f</elapsed_time>\n"
-        "    <swap_size>%f</swap_size>\n"
-        "    <working_set_size>%f</working_set_size>\n"
-        "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
+        "    <swap_size>%.0f</swap_size>\n"
+        "    <virtual_size>%.0f</virtual_size>\n"
+        "    <working_set_size>%.0f</working_set_size>\n"
+        "    <working_set_size_smoothed>%.0f</working_set_size_smoothed>\n"
         "%s%s%s%s",
         task_state(),
         app_version->version_num,
@@ -870,6 +873,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         current_cpu_time,
         elapsed_time,
         procinfo.swap_usage,
+        procinfo.virtual_size,
         procinfo.rss,
         procinfo.rss_smoothed,
         rss_too_large?"   <too_large/>\n":"",   // backward compatibility

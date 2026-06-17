@@ -129,10 +129,12 @@ void PROCINFO::get_mem_info() {
     sprintf(path, "/proc/%d/status", id);
     FILE* f = fopen(path, "r");
     if (!f) return;
-    if (fgets(buf, sizeof(buf), f) == NULL) {
+    size_t n = fread(buf, 1, sizeof(buf)-1, f);
+    if (n == 0) {
         fclose(f);
         return;
     }
+    buf[n] = 0;
     virtual_size = get_field(buf, "VmSize:")*1024.;
     rss = get_field(buf, "VmRSS:")*1024.;
     swap_usage = get_field(buf, "VmSwap")*1024.;
