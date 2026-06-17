@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -252,8 +252,10 @@ static std::vector<UPLOAD_FILE_STATUS> upload_file_status;
 
 static int resume_activities();
 static void boinc_exit(int);
+#ifndef _WIN32
 static void block_sigalrm();
 static int start_worker_signals();
+#endif
 
 char* boinc_msg_prefix(char* sbuf, int len) {
 #ifdef ANDROID
@@ -288,7 +290,7 @@ char* boinc_msg_prefix(char* sbuf, int len) {
         return sbuf;
     }
 #ifdef _WIN32
-    n = _snprintf(sbuf, len, "%s (%d):", buf, GetCurrentProcessId());
+    n = _snprintf(sbuf, len, "%s (%ld):", buf, GetCurrentProcessId());
 #else
     n = snprintf(sbuf, len, "%s (%d):", buf, getpid());
 #endif
@@ -1211,7 +1213,7 @@ static void handle_upload_file_status() {
     int status;
     const size_t prefix_len = strlen(UPLOAD_FILE_STATUS_PREFIX);
 
-    relative_to_absolute("", path);
+    relative_to_absolute("", path, MAXPATHLEN);
     DirScanner dirscan(path);
     while (dirscan.scan(filename)) {
         strlcpy(buf, filename.c_str(), sizeof(buf));
@@ -1727,7 +1729,7 @@ int boinc_receive_trickle_down(char* buf, int len) {
     handle_trickle_downs = true;
 
     if (have_trickle_down) {
-        relative_to_absolute("", path);
+        relative_to_absolute("", path, MAXPATHLEN);
         DirScanner dirscan(path);
         while (dirscan.scan(filename)) {
             if (strstr(filename.c_str(), "trickle_down")) {

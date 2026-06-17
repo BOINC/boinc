@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -320,7 +320,8 @@ int RPC_CLIENT::get_reply(char*& mbuf) {
         mf.puts(buf);
         if (strchr(buf, '\003')) break;
     }
-    mf.get_buf(mbuf, n);
+    size_t len = n;
+    mf.get_buf(mbuf, len);
     return 0;
 }
 

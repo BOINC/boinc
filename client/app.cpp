@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -294,7 +294,7 @@ int ACTIVE_TASK::init(RESULT* rp) {
     max_disk_usage = rp->wup->rsc_disk_bound;
     max_mem_usage = rp->wup->rsc_memory_bound;
     get_slot_dir(slot, slot_dir, sizeof(slot_dir));
-    relative_to_absolute(slot_dir, slot_path);
+    relative_to_absolute(slot_dir, slot_path, MAXPATHLEN);
     return 0;
 }
 #endif

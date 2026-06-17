@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -23,6 +23,9 @@
 #ifndef _WIN32
 #include <sys/types.h>
 #include <ctype.h>
+#include <algorithm>
+#include <cstring>
+#include "errno.h"
 #endif
 
 #include "config.h"
@@ -44,6 +47,9 @@ extern const char *strcasestr(const char *s1, const char *s2);
 
 #if !HAVE_STRCASECMP
 inline int strcasecmp(const char* s1, const char* s2) {
+#ifdef _MSC_VER
+    return ::_stricmp(s1, s2);
+#else
     while (*s1 && *s2) {
         char c1 = tolower(*s1++);
         char c2 = tolower(*s2++);
@@ -52,6 +58,45 @@ inline int strcasecmp(const char* s1, const char* s2) {
     }
     if (*s1) return 1;
     if (*s2) return -1;
+    return 0;
+#endif
+}
+#endif
+
+#if !HAVE_STRNCPY_S
+inline int strncpy_s(char* dst, size_t dstsz, const char* src,
+    size_t count) {
+    if (dst == nullptr || src == nullptr || dstsz == 0) {
+        return EINVAL;
+    }
+    if (count >= dstsz) {
+        dst[0] = '\0';
+        return ERANGE;
+    }
+    const size_t max_copy = std::min(count, dstsz - 1);
+    strncpy(dst, src, max_copy);
+    dst[max_copy] = '\0';
+    return 0;
+}
+#endif
+
+#if !HAVE_STRNCAT_S
+inline int strncat_s(char* dst, size_t dstsz, const char* src, size_t count) {
+    if (dst == nullptr || src == nullptr || dstsz == 0) {
+        return EINVAL;
+    }
+    size_t dst_len = strnlen(dst, dstsz);
+    if (dst_len >= dstsz) {
+        dst[0] = '\0';
+        return ERANGE;
+    }
+    if (count >= dstsz - dst_len) {
+        dst[0] = '\0';
+        return ERANGE;
+    }
+    const size_t max_copy = std::min(count, dstsz - dst_len - 1);
+    strncat(dst, src, max_copy);
+    dst[dst_len + max_copy] = '\0';
     return 0;
 }
 #endif

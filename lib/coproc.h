@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -75,6 +75,9 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+// need this forward declaration to avoid cascading include
+// and dances with config.h that should not be exported
+extern size_t strlcpy(char*, const char*, size_t);
 #endif
 
 #include "boinc_stdio.h"
@@ -84,6 +87,7 @@
 #include "cl_boinc.h"
 #include "opencl_boinc.h"
 #include "common_defs.h"
+#include "str_util.h"
 
 struct MIOFILE;
 struct XML_PARSER;
@@ -463,7 +467,7 @@ struct COPROCS {
         ati.clear();
         intel_gpu.clear();
         COPROC c;
-        strcpy(c.type, "CPU");
+        memcpy(c.type, "CPU", 4);
         c.clear_usage();
         add(c);
     }
@@ -530,7 +534,7 @@ struct COPROCS {
         ati.count = 0;
         intel_gpu.count = 0;
         COPROC c;
-        strcpy(c.type, "CPU");
+        memcpy(c.type, "CPU", 4);
         c.clear_usage();
         add(c);
     }

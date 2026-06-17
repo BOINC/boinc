@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -64,30 +64,14 @@ BOOL diagnostics_get_registry_value(LPCSTR lpName, LPDWORD lpdwType, LPDWORD lpd
 	LONG  lRetVal;
 	HKEY  hKey;
 
-    // Detect platform information
-    OSVERSIONINFO osvi;
-    osvi.dwOSVersionInfoSize = sizeof(osvi);
-    GetVersionEx(&osvi);
-
-    if (VER_PLATFORM_WIN32_WINDOWS == osvi.dwPlatformId) {
-		lRetVal = RegOpenKeyExA(
-            HKEY_LOCAL_MACHINE,
-            "SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Diagnostics",
-			(DWORD)NULL,
-            KEY_READ,
-            &hKey
-        );
-		if (lRetVal != ERROR_SUCCESS) return FALSE;
-	} else {
-		lRetVal = RegOpenKeyExA(
-            HKEY_CURRENT_USER,
-            "SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Diagnostics",
-			(DWORD)NULL,
-            KEY_READ,
-            &hKey
-        );
-		if (lRetVal != ERROR_SUCCESS) return FALSE;
-	}
+	lRetVal = RegOpenKeyExA(
+        HKEY_CURRENT_USER,
+        "SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Diagnostics",
+		(DWORD)NULL,
+        KEY_READ,
+        &hKey
+    );
+	if (lRetVal != ERROR_SUCCESS) return FALSE;
 
 	lRetVal = RegQueryValueExA(hKey, lpName, NULL, lpdwType, lpData, lpdwSize);
 

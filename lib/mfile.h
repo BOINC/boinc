@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -32,21 +32,21 @@
 
 class MFILE {
     char* buf;      // NULL-terminated
-    int len;
+    size_t len;
     FILE* f;
 public:
     MFILE();
     ~MFILE();
     int open(const char* path, const char* mode);
     int _putchar(char);
-    int puts(const char*);
+    size_t puts(const char*);
     int vprintf(const char* format, va_list);
     int printf(const char* format, ...);
     size_t write(const void *, size_t size, size_t nitems);
     int close();
     int flush();
     long tell() const;
-    void get_buf(char*&, int&);
+    void get_buf(char*&, size_t&);
         // get the MFILE's internal buffer and its length.
         // The caller assumes ownership of the buffer and must free() it.
         // The MFILE's buffer is set to empty

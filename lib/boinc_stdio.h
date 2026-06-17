@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -59,6 +59,14 @@ namespace boinc {
     inline FILE* fopen(const char* path, const char* mode) {
 #ifdef _USING_FCGI_
         return FCGI_fopen(path, mode);
+#elif defined(_MSC_VER)
+        FILE *f;
+        if (::fopen_s(&f, path, mode) == 0) {
+            return f;
+        }
+        else {
+            return nullptr;
+        }
 #else
         return ::fopen(path, mode);
 #endif
@@ -130,9 +138,11 @@ namespace boinc {
 
     inline FILE* fdopen(int fd, const char *mode) {
 #ifdef _USING_FCGI_
-        return FCGI_fdopen(fd,mode);
+        return FCGI_fdopen(fd, mode);
+#elif defined(_MSC_VER)
+        return ::_fdopen(fd, mode);
 #else
-        return ::fdopen(fd,mode);
+        return ::fdopen(fd, mode);
 #endif
     }
 
@@ -187,6 +197,14 @@ namespace boinc {
     inline FILE* freopen(const char *path, const char *mode, FILE *file) {
 #ifdef _USING_FCGI_
         return FCGI_freopen(path,mode,file);
+#elif defined(_MSC_VER)
+        FILE *f;
+        if (::freopen_s(&f, path, mode, file) == 0) {
+            return f;
+        }
+        else {
+            return nullptr;
+        }
 #else
         return ::freopen(path,mode,file);
 #endif

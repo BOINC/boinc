@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -26,17 +26,13 @@
 #define BOINC_BOINC_WIN_H
 
 #ifdef _MSC_VER
-#pragma warning(disable: 4996)  // deprecated function names
-//#pragma warning(disable: 4127)  // constant conditional expression
-#pragma warning(disable: 4244)  // conversion from int to char
 #define chdir       _chdir
 #define finite      _finite
 #define getpid      _getpid
 #define getcwd      _getcwd
-#define strdate     _strdate
+#define strdate(x)  _strdate_s(x, sizeof(x))
 #define strdup      _strdup
-#define stricmp     _stricmp
-#define strtime     _strtime
+#define strtime(x)  _strtime_s(x, sizeof(x))
 #define unlink      _unlink
 #endif
 
@@ -73,6 +69,11 @@
 
 #ifdef __MINGW32__
 #define HAVE_STRCASECMP 1
+#endif
+
+#ifdef _MSC_VER
+#define HAVE_STRNCPY_S 1
+#define HAVE_STRNCAT_S 1
 #endif
 
 /*
@@ -116,20 +117,6 @@
 
 // Windows System Libraries
 //
-
-// Visual Studio 2005 has extended the C Run-Time Library by including "secure"
-// runtime functions and deprecating the previous function prototypes.  Since
-// we need to use the previous prototypes to maintain compatibility with other
-// platforms we are going to disable the deprecation warnings if we are compiling
-// on Visual Studio 2005
-#if _MSC_VER >= 1400
-#ifndef _CRT_SECURE_NO_DEPRECATE
-#define _CRT_SECURE_NO_DEPRECATE
-#endif
-#ifndef _CRT_SECURE_NO_WARNINGS
-#define _CRT_SECURE_NO_WARNINGS
-#endif
-#endif
 
 // Target Windows XP or better with Internet Explorer 5.01 or better
 #ifndef WINVER
@@ -319,6 +306,10 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #include <map>
 #include <set>
 #include <stdexcept>
+#endif
+
+#ifdef _MSC_VER
+#define sscanf      sscanf_s
 #endif
 
 // Define a generic string type that can be a Unicode string on

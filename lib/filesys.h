@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -65,7 +65,7 @@ extern "C" {
 #endif
     extern int boinc_rmdir(const char*);
     extern void boinc_getcwd(char*);
-    extern void relative_to_absolute(const char* relname, char* path);
+    extern void relative_to_absolute(const char* relname, char* path, size_t path_len);
     extern int boinc_make_dirs(const char*, const char*);
     extern char boinc_failed_file[MAXPATHLEN];
     extern int is_file(const char* path);
@@ -83,7 +83,7 @@ extern "C" {
 #else
     extern FILE* boinc_temp_file(const char* dir, const char* prefix, char* temp_path);
 #endif
-    extern void boinc_path_to_dir(const char* path, char* dir);
+    extern void boinc_path_to_dir(const char* path, char* dir, size_t dir_len);
         // given a file path, get path of its directory
         // (i.e. remove the last / and what follows)
 

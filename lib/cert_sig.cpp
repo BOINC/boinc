@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -130,11 +130,7 @@ int CERT_SIGS::parse(XML_PARSER &xp) {
 int CERT_SIGS::parse_file(const char* filename) {
     int retval;
 
-#ifndef _USING_FCGI_
-    FILE *f = fopen(filename, "r");
-#else
-    FCGI_FILE *f = FCGI::fopen(filename, "r");
-#endif
+    FILE* f = boinc::fopen(filename, "r");
     if (!f) return ERR_FOPEN;
     MIOFILE mf;
     mf.init_file(f);
@@ -144,7 +140,7 @@ int CERT_SIGS::parse_file(const char* filename) {
         return ERR_XML_PARSE;
     }
     retval = this->parse(xp);
-    fclose(f);
+    boinc::fclose(f);
     return retval;
 }
 
