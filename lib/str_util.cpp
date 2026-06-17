@@ -354,7 +354,7 @@ void unescape_os_release(char* buf) {
 void collapse_whitespace(string& str) {
     size_t n = str.length();
     if (n<2) return;
-    for (int i=1; i<n; i++) {
+    for (size_t i=1; i<n; i++) {
         if (isspace(str[i-1]) && isspace(str[i])) {
             str.erase(i, 1);
             n--; i--;

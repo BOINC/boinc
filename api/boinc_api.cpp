@@ -252,8 +252,10 @@ static std::vector<UPLOAD_FILE_STATUS> upload_file_status;
 
 static int resume_activities();
 static void boinc_exit(int);
+#ifndef _WIN32
 static void block_sigalrm();
 static int start_worker_signals();
+#endif
 
 char* boinc_msg_prefix(char* sbuf, int len) {
 #ifdef ANDROID
@@ -288,7 +290,7 @@ char* boinc_msg_prefix(char* sbuf, int len) {
         return sbuf;
     }
 #ifdef _WIN32
-    n = _snprintf(sbuf, len, "%s (%d):", buf, GetCurrentProcessId());
+    n = _snprintf(sbuf, len, "%s (%ld):", buf, GetCurrentProcessId());
 #else
     n = snprintf(sbuf, len, "%s (%d):", buf, getpid());
 #endif

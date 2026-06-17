@@ -108,6 +108,7 @@ static void*       libhandle;
 
 #ifdef _WIN32
 
+#ifdef _MSC_VER
 // Starting with Visual Studio 2005 the C Runtime Library has really started to
 //   enforce parameter validation. Problem is that the parameter validation code
 //   uses its own structured exception handler and terminates without writing
@@ -140,6 +141,7 @@ static void boinc_catch_signal_invalid_parameter(
     // Cause a Debug Breakpoint.
     DebugBreak();
 }
+#endif
 
 // Override default terminate and abort functions, call DebugBreak instead.
 //

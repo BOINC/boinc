@@ -86,7 +86,7 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool try_global) {
             0, 0, 0, 0, 0, 0, 0,
             &pEveryoneSID)
     ) {
-        fprintf(stderr, "AllocateAndInitializeSid Error %u\n", GetLastError());
+        fprintf(stderr, "AllocateAndInitializeSid Error %lu\n", GetLastError());
         goto Cleanup;
     }
 
@@ -103,19 +103,19 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool try_global) {
     // Create a new ACL that contains the new ACEs.
     dwRes = SetEntriesInAcl(1, &ea, NULL, &pACL);
     if (ERROR_SUCCESS != dwRes) {
-        fprintf(stderr, "SetEntriesInAcl Error %u\n", GetLastError());
+        fprintf(stderr, "SetEntriesInAcl Error %lu\n", GetLastError());
         goto Cleanup;
     }
 
     // Initialize a security descriptor.
     pSD = (PSECURITY_DESCRIPTOR) LocalAlloc(LPTR, SECURITY_DESCRIPTOR_MIN_LENGTH);
     if (NULL == pSD) {
-        fprintf(stderr, "LocalAlloc Error %u\n", GetLastError());
+        fprintf(stderr, "LocalAlloc Error %lu\n", GetLastError());
         goto Cleanup;
     }
 
     if (!InitializeSecurityDescriptor(pSD, SECURITY_DESCRIPTOR_REVISION)) {
-        fprintf(stderr, "InitializeSecurityDescriptor Error %u\n", GetLastError());
+        fprintf(stderr, "InitializeSecurityDescriptor Error %lu\n", GetLastError());
         goto Cleanup;
     }
 
@@ -126,7 +126,7 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool try_global) {
             FALSE) // not a default DACL
     ) {
         fprintf(stderr,
-            "SetSecurityDescriptorDacl Error %u\n", GetLastError()
+            "SetSecurityDescriptorDacl Error %lu\n", GetLastError()
         );
         goto Cleanup;
     }

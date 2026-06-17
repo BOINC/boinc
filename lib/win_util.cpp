@@ -180,7 +180,7 @@ char* windows_format_error_string(
 
     if (dwRet != 0) {
         // include the hex error code as well
-        snprintf(pszBuf, iSize, "%s (0x%x)", lpszTemp, dwError);
+        snprintf(pszBuf, iSize, "%s (0x%lx)", lpszTemp, dwError);
         if (lpszTemp) {
             LocalFree((HLOCAL)lpszTemp);
         }

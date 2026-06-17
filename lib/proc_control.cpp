@@ -102,8 +102,6 @@ int suspend_or_resume_threads(
 ) {
     HANDLE threads, thread;
     THREADENTRY32 te = {0};
-    int retval = 0;
-    DWORD n;
     static vector<DWORD> suspended_threads;
 
 #ifdef DEBUG_PROC_CONTROL
@@ -155,21 +153,18 @@ int suspend_or_resume_threads(
                 suspended_threads.begin(), suspended_threads.end(),
                 te.th32ThreadID
             ) != suspended_threads.end()) {
-                n = ResumeThread(thread);
+                ResumeThread(thread);
 #ifdef DEBUG_PROC_CONTROL
                 fprintf(stderr, "ResumeThread returns %d\n", n);
 #endif
-            } else {
-                n = 0;
             }
         } else {
-            n = SuspendThread(thread);
+            SuspendThread(thread);
             suspended_threads.push_back(te.th32ThreadID);
 #ifdef DEBUG_PROC_CONTROL
             fprintf(stderr, "SuspendThread returns %d\n", n);
 #endif
         }
-        if (n == -1) retval = -1;
         CloseHandle(thread);
     } while (Thread32Next(threads, &te));
 
@@ -177,7 +172,7 @@ int suspend_or_resume_threads(
 #ifdef DEBUG_PROC_CONTROL
     fprintf(stderr, "end: %s\n", precision_time_to_string(dtime()));
 #endif
-    return retval;
+    return 0;
 }
 
 #else
