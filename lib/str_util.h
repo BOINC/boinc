@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -26,7 +26,6 @@
 #define safe_strcat(x, y) strlcat(x, y, sizeof(x))
 
 extern void strcpy_overlap(char*, const char*);
-extern int ndays_to_string(double x, int smallest_timescale, char *buf);
 extern void nbytes_to_string(double nbytes, double total_bytes, char* str, int len);
 extern std::string flops_to_string(double flops);
 extern int parse_command_line(char*, char**);
@@ -39,7 +38,7 @@ extern void collapse_whitespace(char *str);
 extern void collapse_whitespace(std::string&);
 extern char* time_to_string(double, bool utc=false);
 extern char* precision_time_to_string(double, bool utc=false);
-extern void secs_to_hmsf(double, char*);
+extern void secs_to_hmsf(double, char*, size_t);
 extern std::string timediff_format(double);
 
 inline bool empty(char* p) {
@@ -79,14 +78,31 @@ inline void downcase_string(char* p) {
     }
 }
 
+inline std::vector<std::string> split_string(const std::string& str,
+    const std::string& delimiter) {
+    size_t pos_start = 0, pos_end = 0;
+    const size_t delim_len = delimiter.length();
+    std::vector<std::string> tokens;
+
+    while ((pos_end = str.find(delimiter, pos_start)) != std::string::npos) {
+        std::string token = str.substr(pos_start, pos_end - pos_start);
+        pos_start = pos_end + delim_len;
+        // skip empty tokens
+        if (!token.empty()) {
+            tokens.emplace_back(token);
+        }
+    }
+    std::string last_token = str.substr(pos_start);
+    if (!last_token.empty()) {
+        tokens.emplace_back(last_token);
+    }
+    return tokens;
+}
+
 extern int string_substitute(
     const char* haystack, char* out, int out_len,
     const char* needle, const char* target
 );
-
-// convert UNIX time to MySQL timestamp (yyyymmddhhmmss)
-//
-extern void mysql_timestamp(double, char*);
 
 // take a malloced string.
 // if \n is not last char, add it.
@@ -110,5 +126,4 @@ extern std::vector<std::string> split(std::string, char delim);
 extern bool is_valid_filename(const char*);
 
 extern int path_to_filename(std::string fpath, std::string& fname);
-extern int path_to_filename(std::string fpath, char* &fname);
 #endif

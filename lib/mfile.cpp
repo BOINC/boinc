@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -68,17 +68,17 @@ static inline char* realloc_aux(char* p, size_t len) {
 
 int MFILE::vprintf(const char* format, va_list ap) {
     char buf2[BUFSIZE];
-    int n, k;
 
-    k = vsnprintf(buf2, BUFSIZE, format, ap);
+    int k = vsnprintf(buf2, BUFSIZE, format, ap);
     if (k<=-1 || k>=BUFSIZE) {
         boinc::fprintf(stderr, "ERROR: buffer too small in MFILE::vprintf()\n");
         boinc::fprintf(stderr, "ERROR: format: %s\n", format);
         boinc::fprintf(stderr, "ERROR: k=%d, BUFSIZE=%d\n", k, BUFSIZE);
         return -1;
     }
-    n = (int)strlen(buf2);
-    buf = (char*)realloc_aux(buf, len+n+1);
+    const size_t n = strlen(buf2);
+    const size_t buf_len = len + n + 1;
+    buf = (char*)realloc_aux(buf, buf_len);
     if (!buf) {
         boinc::fprintf(stderr,
             "ERROR: realloc() failed in MFILE::vprintf(); len %d n %d\n",
@@ -86,7 +86,7 @@ int MFILE::vprintf(const char* format, va_list ap) {
         );
         exit(1);
     }
-    strncpy(buf+len, buf2, n+1);
+    strncpy_s(buf+len, buf_len, buf2, n+1);
     len += n;
     buf[len] = 0;
     return k;
@@ -106,13 +106,13 @@ size_t MFILE::write(const void *ptr, size_t size, size_t nitems) {
     buf = (char *)realloc_aux( buf, len+(size*nitems)+1 );
     if (!buf) {
         boinc::fprintf(stderr,
-            "ERROR: realloc() failed in MFILE::write(); len %d size %zu nitems %zu\n",
+            "ERROR: realloc() failed in MFILE::write(); len %zu size %zu nitems %zu\n",
             len, size, nitems
         );
         exit(1);
     }
     memcpy( buf+len, ptr, size*nitems );
-    len += (int)size*(int)nitems;
+    len += size*nitems;
     buf[len] = 0;
     return nitems;
 }
@@ -121,7 +121,7 @@ int MFILE::_putchar(char c) {
     buf = (char*)realloc_aux(buf, len+1+1);
     if (!buf) {
         boinc::fprintf(stderr,
-            "ERROR: realloc() failed in MFILE::_putchar(); len %d\n", len
+            "ERROR: realloc() failed in MFILE::_putchar(); len %zu\n", len
         );
         exit(1);
     }
@@ -131,16 +131,17 @@ int MFILE::_putchar(char c) {
     return c;
 }
 
-int MFILE::puts(const char* p) {
-    int n = (int)strlen(p);
-    buf = (char*)realloc_aux(buf, len+n+1);
+size_t MFILE::puts(const char* p) {
+    const size_t n = strlen(p);
+    const size_t buf_size = len + n + 1;
+    buf = (char*)realloc_aux(buf, buf_size);
     if (!buf) {
         boinc::fprintf(stderr,
-            "ERROR: realloc() failed in MFILE::puts() len %d n %d\n", len, n
+            "ERROR: realloc() failed in MFILE::puts() len %zu n %zu\n", len, n
         );
         exit(1);
     }
-    strncpy(buf+len, p, n+1);
+    strncpy_s(buf+len, buf_size, p, n+1);
     len += n;
     buf[len] = 0;
     return n;
@@ -164,9 +165,9 @@ int MFILE::close() {
 }
 
 int MFILE::flush() {
-    int n, old_len = len;
+    size_t old_len = len;
 
-    n = (int)boinc::fwrite(buf, 1, len, f);
+    size_t n = boinc::fwrite(buf, 1, len, f);
     len = 0;
     if (n != old_len) return ERR_FWRITE;
     if (boinc::fflush(f)) return ERR_FFLUSH;
@@ -180,10 +181,9 @@ long MFILE::tell() const {
     return f ? boinc::ftell(f) : -1;
 }
 
-void MFILE::get_buf(char*& b, int& l) {
+void MFILE::get_buf(char*& b, size_t& l) {
     b = buf;
     l = len;
     buf = 0;
     len = 0;
 }
-

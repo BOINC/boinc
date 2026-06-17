@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -329,22 +329,23 @@ inline bool parse_double(const char* buf, const char* tag, double& x) {
 extern bool parse(char* , char* );
 extern bool parse_str(const char*, const char*, char*, int);
 extern bool parse_str(const char* buf, const char* tag, std::string& dest);
-extern void parse_attr(const char* buf, const char* attrname, char* out, int len);
+extern void parse_attr(const char* buf, const char* attrname, char* out,
+    int len);
 extern bool parse_bool(const char*, const char*, bool&);
 
 /////////////// END DEPRECATED XML PARSER
 
 extern int copy_stream(FILE* in, FILE* out);
-extern int strcatdup(char*& p, char* buf);
 extern int dup_element_contents(FILE* in, const char* end_tag, char** pp);
 extern int dup_element(FILE* in, const char* end_tag, char** pp);
-extern int copy_element_contents(FILE* in, const char* end_tag, char* p, size_t len);
+extern int copy_element_contents(FILE* in, const char* end_tag, char* p,
+    size_t len);
 extern int copy_element_contents(FILE* in, const char* end_tag, std::string&);
 extern void replace_element_contents(
-    char* buf, const char* start, const char* end, const char* replacement
-);
+    char* buf, const char* start, const char* end, const char* replacement,
+    size_t buf_len);
 extern bool remove_element(char* buf, const char* start, const char* end);
-extern bool str_replace(char* str, const char* old, const char* neww);
+extern bool str_replace(char* str, const char* old, const char* neww, size_t str_len);
 extern char* sgets(char* buf, int len, char* &in);
 extern void non_ascii_escape(const char*, char*, int len);
 extern void xml_escape(const char*, char*, int len);

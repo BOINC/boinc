@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -1211,7 +1211,7 @@ static void handle_upload_file_status() {
     int status;
     const size_t prefix_len = strlen(UPLOAD_FILE_STATUS_PREFIX);
 
-    relative_to_absolute("", path);
+    relative_to_absolute("", path, MAXPATHLEN);
     DirScanner dirscan(path);
     while (dirscan.scan(filename)) {
         strlcpy(buf, filename.c_str(), sizeof(buf));
@@ -1727,7 +1727,7 @@ int boinc_receive_trickle_down(char* buf, int len) {
     handle_trickle_downs = true;
 
     if (have_trickle_down) {
-        relative_to_absolute("", path);
+        relative_to_absolute("", path, MAXPATHLEN);
         DirScanner dirscan(path);
         while (dirscan.scan(filename)) {
             if (strstr(filename.c_str(), "trickle_down")) {

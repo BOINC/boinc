@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -66,7 +66,7 @@ bool credit_from_wu = false;
 // (should appear twice, within <file_info> and <file_ref>)
 // Don't patch the URL; we'll download the same file
 //
-void replace_file_name(char* xml_doc, char* filename, char* new_filename) {
+void replace_file_name(char* xml_doc, char* filename, char* new_filename, size_t xml_doc_size) {
     char buf[BLOB_SIZE], temp[256];
     char * p;
 
@@ -76,13 +76,13 @@ void replace_file_name(char* xml_doc, char* filename, char* new_filename) {
         if (parse_str(p, "<name>", temp, sizeof(temp))) {
             if (!strcmp(filename, temp)) {
                 replace_element_contents(
-                    xml_doc + (p - buf),"<name>","</name>", new_filename
+                    xml_doc + (p - buf),"<name>","</name>", new_filename, xml_doc_size
                 );
             }
         } else if (parse_str(p, "<file_name>", temp, sizeof(temp))) {
             if (!strcmp(filename, temp)) {
                 replace_element_contents(
-                    xml_doc+(p-buf), "<file_name>","</file_name>", new_filename
+                    xml_doc+(p-buf), "<file_name>","</file_name>", new_filename, xml_doc_size
                 );
             }
         }
@@ -112,7 +112,7 @@ void make_new_wu(DB_WORKUNIT& original_wu, char* starting_xml, int start_time) {
                 new_file_name, "%s__%d_%d", file_name, start_time, file_seqno++
             );
             safe_strcpy(new_buf, starting_xml);
-            replace_file_name(new_buf, file_name, new_file_name);
+            replace_file_name(new_buf, file_name, new_file_name, BLOB_SIZE);
             safe_strcpy(wu.xml_doc, new_buf);
         }
         p = strtok(0, "\n");

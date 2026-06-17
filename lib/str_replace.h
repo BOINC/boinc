@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -44,6 +44,9 @@ extern const char *strcasestr(const char *s1, const char *s2);
 
 #if !HAVE_STRCASECMP
 inline int strcasecmp(const char* s1, const char* s2) {
+#ifdef _MSC_VER
+    return ::_stricmp(s1, s2);
+#else
     while (*s1 && *s2) {
         char c1 = tolower(*s1++);
         char c2 = tolower(*s2++);
@@ -53,6 +56,7 @@ inline int strcasecmp(const char* s1, const char* s2) {
     if (*s1) return 1;
     if (*s2) return -1;
     return 0;
+#endif
 }
 #endif
 

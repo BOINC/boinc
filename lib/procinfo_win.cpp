@@ -1,3 +1,20 @@
+// This file is part of BOINC.
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
 // much of this code is public-domain
 //
 #include "boinc_win.h"
@@ -91,8 +108,8 @@ int get_procinfo_XP(PROC_MAP& pm) {
         p.clear();
         p.id = pProcesses->ProcessId;
         p.parentid = pProcesses->InheritedFromProcessId;
-        p.swap_size = pProcesses->VmCounters.PagefileUsage;
-        p.working_set_size = pProcesses->VmCounters.WorkingSetSize;
+        p.swap_size = (double)pProcesses->VmCounters.PagefileUsage;
+        p.working_set_size = (double)pProcesses->VmCounters.WorkingSetSize;
         p.page_fault_count = pProcesses->VmCounters.PageFaultCount;
         p.user_time = ((double) pProcesses->UserTime.QuadPart)/1e7;
         p.kernel_time = ((double) pProcesses->KernelTime.QuadPart)/1e7;
@@ -137,18 +154,7 @@ int get_procinfo_XP(PROC_MAP& pm) {
 // get a list of all running processes.
 //
 int procinfo_setup(PROC_MAP& pm) {
-    OSVERSIONINFO osvi;
-    osvi.dwOSVersionInfoSize = sizeof(osvi);
-    GetVersionEx(&osvi);
-
-    switch(osvi.dwPlatformId) {
-    case VER_PLATFORM_WIN32_WINDOWS:
-        // Win95, Win98, WinME
-        return 0;   // not supported
-    case VER_PLATFORM_WIN32_NT:
-        return get_procinfo_XP(pm);
-    }
-    return 0;
+    return get_procinfo_XP(pm);
 }
 
 // get total CPU time

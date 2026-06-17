@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -939,7 +939,7 @@ const char* PROJECT::project_dir() {
 
 const char* PROJECT::project_dir_absolute() {
     if (_project_dir_absolute[0] == 0) {
-        relative_to_absolute(project_dir(), _project_dir_absolute);
+        relative_to_absolute(project_dir(), _project_dir_absolute, MAXPATHLEN);
     }
     return _project_dir_absolute;
 }

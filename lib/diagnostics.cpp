@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -37,6 +37,7 @@
 #endif
 
 #include "boinc_stdio.h"
+#include "str_replace.h"
 
 #ifdef __APPLE__
 #include "mac_backtrace.h"
@@ -54,10 +55,7 @@
 #include "error_numbers.h"
 #include "filesys.h"
 #include "util.h"
-#include "str_replace.h"
 #include "parse.h"
-#include "str_replace.h"
-
 
 #include "diagnostics.h"
 
@@ -297,7 +295,20 @@ int diagnostics_init(
         char user_dir[MAXPATHLEN];
 
 #if   defined(_WIN32)
+#if   defined(_MSC_VER)
+        char* pValue;
+        size_t len;
+        const errno_t err = _dupenv_s(&pValue, &len, "APPDATA");
+        if (err == 0 && pValue != nullptr) {
+            snprintf(user_dir, sizeof(user_dir), "%s", pValue);
+            free(pValue);
+        }
+        else {
+            return err;
+        }
+#else
         snprintf(user_dir, sizeof(user_dir), "%s", getenv("APPDATA"));
+#endif
         safe_strcat(user_dir, "/BOINC");
 #elif defined(__APPLE__)
         snprintf(user_dir, sizeof(user_dir), "%s", getenv("HOME"));
@@ -341,31 +352,31 @@ int diagnostics_init(
     if (flags & BOINC_DIAG_REDIRECTSTDERR) {
         file_size(stderr_log, stderr_file_size);
 #ifdef _WIN32
-        stderr_file = freopen(stderr_log, "ac", stderr);
+        stderr_file = boinc::freopen(stderr_log, "ac", stderr);
 #else
-        stderr_file = freopen(stderr_log, "a", stderr);
+        stderr_file = boinc::freopen(stderr_log, "a", stderr);
 #endif
         if (!stderr_file) {
             return ERR_FOPEN;
         }
-        setbuf(stderr_file, 0);
+        setvbuf(stderr_file, 0, _IOLBF, BUFSIZ);
     }
 
     if (flags & BOINC_DIAG_REDIRECTSTDERROVERWRITE) {
 #ifdef _WIN32
-        stderr_file = freopen(stderr_log, "wc", stderr);
+        stderr_file = boinc::freopen(stderr_log, "wc", stderr);
 #else
-        stderr_file = freopen(stderr_log, "w", stderr);
+        stderr_file = boinc::freopen(stderr_log, "w", stderr);
 #endif
         if (!stderr_file) {
             return ERR_FOPEN;
         }
-        setbuf(stderr_file, 0);
+        setvbuf(stderr_file, 0, _IOLBF, BUFSIZ);
     }
 
     if (flags & BOINC_DIAG_REDIRECTSTDOUT) {
         file_size(stdout_log, stdout_file_size);
-        stdout_file = freopen(stdout_log, "a", stdout);
+        stdout_file = boinc::freopen(stdout_log, "a", stdout);
         if (!stdout_file) {
             return ERR_FOPEN;
         }
@@ -373,7 +384,7 @@ int diagnostics_init(
     }
 
     if (flags & BOINC_DIAG_REDIRECTSTDOUTOVERWRITE) {
-        stdout_file = freopen(stdout_log, "w", stdout);
+        stdout_file = boinc::freopen(stdout_log, "w", stdout);
         if (!stdout_file) {
             return ERR_FOPEN;
         }
@@ -478,11 +489,7 @@ int diagnostics_init(
         safe_strcpy(proxy_address, "");
         proxy_port = 0;
 
-#ifndef _USING_FCGI_
-        p = fopen(INIT_DATA_FILE, "r");
-#else
-        p = FCGI::fopen(INIT_DATA_FILE, "r");
-#endif
+        p = boinc::fopen(INIT_DATA_FILE, "r");
 
 		if (p) {
 			mf.init_file(p);
@@ -497,7 +504,7 @@ int diagnostics_init(
 				else if (parse_str(buf, "<http_server_name>", proxy_address, sizeof(proxy_address))) continue;
 				else if (parse_int(buf, "<http_server_port>", proxy_port)) continue;
 			}
-			fclose(p);
+			boinc::fclose(p);
 		}
 
         if (boinc_proxy_enabled) {
@@ -679,22 +686,22 @@ int diagnostics_cycle_logs() {
     if (flags & BOINC_DIAG_REDIRECTSTDERR) {
         if (stderr_file_size > max_stderr_file_size) {
             if (NULL == stderr_file) return ERR_FOPEN;
-            fclose(stderr_file);
+            boinc::fclose(stderr_file);
             boinc_copy(stderr_log, stderr_archive);
             stderr_file_size = 0;
-            stderr_file = freopen(stderr_log, "w", stderr);
+            stderr_file = boinc::freopen(stderr_log, "w", stderr);
             if (NULL == stderr_file) return ERR_FOPEN;
-            setbuf(stderr_file, 0);
+            setvbuf(stderr_file, 0, _IOLBF, BUFSIZ);
         }
     }
 
     if (flags & BOINC_DIAG_REDIRECTSTDOUT) {
         if (stdout_file_size > max_stdout_file_size) {
             if (NULL == stdout_file) return ERR_FOPEN;
-            fclose(stdout_file);
+            boinc::fclose(stdout_file);
             stdout_file_size = 0;
             boinc_copy(stdout_log, stdout_archive);
-            stdout_file = freopen(stdout_log, "w", stdout);
+            stdout_file = boinc::freopen(stdout_log, "w", stdout);
             if (NULL == stdout_file) return ERR_FOPEN;
             setvbuf(stdout_file, NULL, _IOLBF, BUFSIZ);
         }

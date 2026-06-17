@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,9 +21,12 @@
 #include "win_util.h"
 #endif
 
+#ifdef __MINGW32__
+#define snprintf _snprintf
+#endif
+
 #if defined(_MSC_VER) || defined(__MINGW32__)
 #define finite   _finite
-#define snprintf _snprintf
 #endif
 
 #ifndef M_LN2
@@ -31,6 +34,7 @@
 #endif
 
 #include "boinc_stdio.h"
+#include "str_replace.h"
 
 #ifndef _WIN32
 #include "config.h"
@@ -63,7 +67,6 @@ extern "C" {
 #include "miofile.h"
 #include "parse.h"
 #include "hostinfo.h"
-#include "str_replace.h"
 #include "util.h"
 
 using std::min;
