@@ -436,11 +436,11 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         if (!first) {
             if (log_flags.mem_usage_debug) {
                 msg_printf(atp->result->project, MSG_INFO,
-                    "[mem_usage] %s%s: RSS %.2f GB (smoothed %.2f GB), swap usage %.2f GB, user CPU %.3f, kernel CPU %.3f",
+                    "[mem_usage] %s%s: virtual size %.2f GB, RSS %.2f GB, swap usage %.2f GB, user CPU %.3f, kernel CPU %.3f",
                     atp->scheduler_state==CPU_SCHED_SCHEDULED?"":" (not running)",
                     atp->result->name,
+                    pi.virtual_size/GIGA,
                     pi.rss/GIGA,
-                    pi.rss_smoothed/GIGA,
                     pi.swap_usage/GIGA,
                     pi.user_time,
                     pi.kernel_time
@@ -453,9 +453,8 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     //
     if (!first && log_flags.mem_usage_debug) {
         msg_printf(0, MSG_INFO,
-            "[mem_usage] BOINC totals: RSS %.2f GB (smoothed %.2f GB), swap usage %.2f GB",
+            "[mem_usage] BOINC totals: RSS %.2f GB, swap usage %.2f GB",
             boinc_total.rss/GIGA,
-            boinc_total.rss_smoothed/GIGA,
             boinc_total.swap_usage/GIGA
         );
 #ifdef _WIN32
@@ -859,7 +858,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         "    <elapsed_time>%f</elapsed_time>\n"
         "    <swap_size>%f</swap_size>\n"
         "    <working_set_size>%f</working_set_size>\n"
-        "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n",
+        "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
         "%s%s%s%s",
         task_state(),
         app_version->version_num,
