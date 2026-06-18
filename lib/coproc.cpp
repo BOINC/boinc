@@ -382,7 +382,7 @@ void COPROC_NVIDIA::write_xml(MIOFILE& f, bool scheduler_rpc) {
         "   <have_cuda>%d</have_cuda>\n"
         "   <have_opencl>%d</have_opencl>\n",
         count,
-        cuda_prop.name,
+        have_cuda?cuda_prop.name:opencl_prop.name,
         available_ram,
         have_cuda ? 1 : 0,
         have_opencl ? 1 : 0
@@ -951,9 +951,11 @@ void COPROC_INTEL::write_xml(MIOFILE& f, bool scheduler_rpc) {
     f.printf(
         "<coproc_intel_gpu>\n"
         "   <count>%d</count>\n"
+        "   <name>%s</name>\n"
         "   <available_ram>%f</available_ram>\n"
         "   <have_opencl>%d</have_opencl>\n",
         count,
+        opencl_prop.name,
         available_ram,
         have_opencl ? 1 : 0
     );
