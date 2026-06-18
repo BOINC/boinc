@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// https://boinc.berkeley.edu
-// Copyright (C) 2026 University of California
+// http://boinc.berkeley.edu
+// Copyright (C) 2012 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -72,7 +72,7 @@ int ASYNC_COPY::init(
     // to env var for temp directory; don't want this.
     //
     char dir[MAXPATHLEN];
-    boinc_path_to_dir(to_path, dir, MAXPATHLEN);
+    boinc_path_to_dir(to_path, dir);
 #ifdef _WIN32
     out = boinc_temp_file(dir, "cpy", temp_path, fip->nbytes);
 #else
@@ -189,7 +189,7 @@ int ASYNC_VERIFY::init(FILE_INFO* _fip) {
     if (fip->download_gzipped) {
         safe_strcpy(outpath, inpath);
         char dir[MAXPATHLEN];
-        boinc_path_to_dir(outpath, dir, MAXPATHLEN);
+        boinc_path_to_dir(outpath, dir);
 #ifdef _WIN32
         out = boinc_temp_file(dir, "vfy", temp_path, fip->nbytes);
 #else

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// https://boinc.berkeley.edu
-// Copyright (C) 2026 University of California
+// http://boinc.berkeley.edu
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -54,8 +54,8 @@ void chdir_to_data_dir() {
     LONG    lReturnValue;
     HKEY    hkSetupHive;
     char    szPath[MAX_PATH];
-    LPSTR   lpszValue = nullptr;
-    LPSTR   lpszExpandedValue = nullptr;
+    LPSTR   lpszValue = NULL;
+    LPSTR   lpszExpandedValue = NULL;
     DWORD   dwValueType = REG_EXPAND_SZ;
     DWORD   dwSize = 0;
 
@@ -79,7 +79,7 @@ void chdir_to_data_dir() {
         if (lReturnValue != ERROR_FILE_NOT_FOUND) {
             // Allocate the buffer space.
             lpszValue = (LPSTR) malloc(dwSize);
-            (*lpszValue) = '\0';
+            (*lpszValue) = NULL;
 
             // Now get the data
             lReturnValue = RegQueryValueExA(
@@ -99,7 +99,7 @@ void chdir_to_data_dir() {
             if (lReturnValue) {
                 // Make the buffer big enough for the expanded string
                 lpszExpandedValue = (LPSTR) malloc(lReturnValue);
-                (*lpszExpandedValue) = '\0';
+                (*lpszExpandedValue) = NULL;
                 dwSize = lReturnValue;
 
                 ExpandEnvironmentStringsA(lpszValue, lpszExpandedValue, dwSize);
@@ -180,7 +180,7 @@ char* windows_format_error_string(
 
     if (dwRet != 0) {
         // include the hex error code as well
-        snprintf(pszBuf, iSize, "%s (0x%lx)", lpszTemp, dwError);
+        snprintf(pszBuf, iSize, "%s (0x%x)", lpszTemp, dwError);
         if (lpszTemp) {
             LocalFree((HLOCAL)lpszTemp);
         }

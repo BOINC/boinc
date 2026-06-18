@@ -303,12 +303,8 @@ void OPENCL_CPU_PROP::clear() {
     opencl_prop.clear();
 }
 
-#ifdef _USING_FCGI_
-void OPENCL_CPU_PROP::write_xml(MIOFILE&) {
-    return;
-}
-#else
 void OPENCL_CPU_PROP::write_xml(MIOFILE& f) {
+#ifndef _USING_FCGI_
     f.printf(
         "<opencl_cpu_prop>\n"
         "   <platform_vendor>%s</platform_vendor>\n",
@@ -316,8 +312,8 @@ void OPENCL_CPU_PROP::write_xml(MIOFILE& f) {
     );
     opencl_prop.write_xml(f, "opencl_cpu_info");
     f.printf("</opencl_cpu_prop>\n");
-}
 #endif
+}
 
 int OPENCL_CPU_PROP::parse(XML_PARSER& xp) {
     int retval;

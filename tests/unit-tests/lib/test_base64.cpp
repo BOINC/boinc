@@ -23,7 +23,7 @@
 
 using namespace std;
 
-namespace test_libboinc {
+namespace test_base64 {
     class test_base64 : public ::testing::Test {};
 
     TEST_F(test_base64, r_base64_encode) {

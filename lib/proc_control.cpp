@@ -102,8 +102,9 @@ int suspend_or_resume_threads(
 ) {
     HANDLE threads, thread;
     THREADENTRY32 te = {0};
+    int retval = 0;
+    DWORD n;
     static vector<DWORD> suspended_threads;
-    DWORD n = 0;
 
 #ifdef DEBUG_PROC_CONTROL
     fprintf(stderr, "start: check_exempt %d %s\n", check_exempt, precision_time_to_string(dtime()));
@@ -168,6 +169,7 @@ int suspend_or_resume_threads(
             fprintf(stderr, "SuspendThread returns %d\n", n);
 #endif
         }
+        if (n == -1) retval = -1;
         CloseHandle(thread);
     } while (Thread32Next(threads, &te));
 
@@ -175,7 +177,7 @@ int suspend_or_resume_threads(
 #ifdef DEBUG_PROC_CONTROL
     fprintf(stderr, "end: %s\n", precision_time_to_string(dtime()));
 #endif
-    return n == (DWORD)-1 ? -1 : 0;
+    return retval;
 }
 
 #else

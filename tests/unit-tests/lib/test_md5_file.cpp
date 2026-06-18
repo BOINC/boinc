@@ -23,7 +23,7 @@
 
 using namespace std;
 
-namespace test_libboinc {
+namespace test_md5_file {
     class test_md5_file : public ::testing::Test {};
 
     TEST_F(test_md5_file, md5_string) {

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// https://boinc.berkeley.edu
-// Copyright (C) 2026 University of California
+// http://boinc.berkeley.edu
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -399,19 +399,14 @@ int boinc_truncate(const char* path, double size) {
     // that supposedly works with files over 2GB,
     // but it uses HANDLES
     //
-    int fd = 0;
-    retval = _sopen_s(&fd, path, _O_RDWR, _SH_DENYNO, 0);
-    if (retval != 0 || fd == -1) {
-        return ERR_TRUNCATE;
-    }
+    int fd = _open(path, _O_RDWR, 0);
+    if (fd == -1) return ERR_TRUNCATE;
     retval = _chsize(fd, (long)size);
     _close(fd);
 #else
     retval = truncate(path, (off_t)size);
 #endif
-    if (retval) {
-        return ERR_TRUNCATE;
-    }
+    if (retval) return ERR_TRUNCATE;
     return 0;
 }
 
@@ -941,11 +936,11 @@ void boinc_getcwd(char* path) {
 #endif
 }
 
-void relative_to_absolute(const char* relname, char* path, size_t path_len) {
+void relative_to_absolute(const char* relname, char* path) {
     boinc_getcwd(path);
     if (strlen(relname)) {
-        strlcat(path, "/", path_len);
-        strlcat(path, relname, path_len);
+        strcat(path, "/");
+        strcat(path, relname);
     }
 }
 
@@ -964,7 +959,7 @@ int boinc_allocate_file(const char* path, double size) {
     );
     if (h == INVALID_HANDLE_VALUE) return ERR_FOPEN;
     LARGE_INTEGER sz;
-    sz.LowPart = (DWORD)fmod(size, 4294967296.);
+    sz.LowPart = fmod(size, 4294967296.);
     sz.HighPart = (LONG)(size/4294967296.);
     if (SetFilePointerEx(h, sz, NULL, FILE_BEGIN) == 0) {
         retval = ERR_FOPEN;
@@ -1000,13 +995,13 @@ FILE* boinc_temp_file(const char* dir, const char* prefix, char* temp_path) {
 
 #endif
 
-void boinc_path_to_dir(const char* path, char* dir, size_t dir_len) {
-    strlcpy(dir, path, dir_len);
+void boinc_path_to_dir(const char* path, char* dir) {
+    strcpy(dir, path);
     char* p = strrchr(dir, '/');
     if (p) {
         *p = 0;
     } else {
-        strlcpy(dir, ".", dir_len);
+        strcpy(dir, ".");
     }
 }
 

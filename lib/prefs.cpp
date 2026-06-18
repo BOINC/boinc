@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// https://boinc.berkeley.edu
-// Copyright (C) 2026 University of California
+// http://boinc.berkeley.edu
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -161,15 +161,7 @@ void TIME_PREFS::clear() {
 
 bool TIME_PREFS::suspended(double now) {
     time_t t = (time_t)now;
-    struct tm tm;
-    struct tm* tmp = &tm;
-#ifdef _MSC_VER
-    if (localtime_s(&tm, &t) != 0) {
-        return false;
-    }
-#else
-    tmp = localtime(&t);
-#endif
+    struct tm* tmp = localtime(&t);
     double hour = (tmp->tm_hour * 3600 + tmp->tm_min * 60 + tmp->tm_sec) / 3600.;
     int day = tmp->tm_wday;
 
@@ -659,13 +651,17 @@ int GLOBAL_PREFS::parse_file(
     GLOBAL_PREFS_MASK mask;
     int retval;
 
-    f = boinc::fopen(filename, "r");
+#ifndef _USING_FCGI_
+    f = fopen(filename, "r");
+#else
+    f = FCGI::fopen(filename, "r");
+#endif
     if (!f) return ERR_FOPEN;
     MIOFILE mf;
     mf.init_file(f);
     XML_PARSER xp(&mf);
     retval = parse(xp, host_venue, found_venue, mask);
-    boinc::fclose(f);
+    fclose(f);
     return retval;
 }
 
