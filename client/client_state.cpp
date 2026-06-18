@@ -2498,9 +2498,45 @@ void CLIENT_STATE::init_result_resource_usage(PROJECT *p) {
 //
 // Called on startup, and after doing a get-version RPC
 //
+
+#ifdef _WIN32
+typedef VOID(WINAPI* RtlGetNtVersionNumbersPtr)(LPDWORD lpMajorVersion,
+    LPDWORD lpMinorVersion, LPDWORD lpBuildNumber);
+bool check_wsl_support() {
+    HMODULE hNTDllLib = GetModuleHandle("ntdll.dll");
+    if (hNTDllLib == nullptr) {
+        return false;
+    }
+    RtlGetNtVersionNumbersPtr rtlGetVersionNumbers =
+        reinterpret_cast<RtlGetNtVersionNumbersPtr>(
+            GetProcAddress(hNTDllLib, "RtlGetNtVersionNumbers"));
+
+    if (!rtlGetVersionNumbers) {
+        return false;
+    }
+
+    DWORD major, minor, build;
+    rtlGetVersionNumbers(&major, &minor, &build);
+    const DWORD buildNumber = build & 0xFFFF;
+
+    // WSL is supported on Windows 10 version 2004 (build 19041) and later
+    // or version 1903 (build 18362) and later.
+    // Windows 11 is fully supported (major version 10 build 22000).
+
+    bool isWSLSupported = false;
+    if (major > 10 || (major == 10 && buildNumber >= 18362)) {
+        isWSLSupported = true;
+    }
+    return isWSLSupported;
+}
+#endif
+
 #ifndef ANDROID
 void show_docker_messages() {
 #ifdef _WIN32
+    if (!check_wsl_support()) {
+        return;
+    }
     const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Windows";
 #elif defined(__APPLE__)
     const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Mac";
@@ -2513,17 +2549,20 @@ void show_docker_messages() {
         );
 #ifdef _WIN32
     } else {
-        int bdv = gstate.host_info.wsl_distros.boinc_distro_version();
+        const int bdv = gstate.host_info.wsl_distros.boinc_distro_version();
         if (bdv) {
             if (bdv < gstate.latest_boinc_buda_runner_version) {
                 msg_printf_notice(0, true,
                     "https://github.com/BOINC/boinc/wiki/Updating-the-BOINC-WSL-distro",
-                    "A new version of the BOINC WSL distro is available; we recommend that you install it."
+                    "A new version of the BOINC WSL distro is available; "
+                    "we recommend that you install it."
                 );
             }
         } else {
             msg_printf_notice(0, true, url,
-                "Docker is present but not using the BOINC WSL distro.  Some project apps may not function properly. We recommend that you install the BOINC WSL distro."
+                "Docker is present but not using the BOINC WSL distro. "
+                "Some project apps may not function properly. "
+                "We recommend that you install the BOINC WSL distro."
             );
         }
 #endif
