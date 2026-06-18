@@ -153,6 +153,10 @@ int procinfo_setup(PROC_MAP& pm) {
 
 // get total CPU time
 // see https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getsystemtimes
+// GetSystemTImes returns
+// - idle ticks
+// - system (kernel) ticks, WHICH INCLUDES IDLE (???)
+// - user-mode ticks
 //
 double total_cpu_time() {
     FILETIME i, s, u;

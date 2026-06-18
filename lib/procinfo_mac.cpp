@@ -172,7 +172,7 @@ int procinfo_setup(PROC_MAP& pm) {
     return 0;
 }
 
-// get total user-mode CPU time
+// get total user+kernel CPU time
 //
 // From usr/include/mach/processor_info.h:
 // struct processor_cpu_load_info {             /* number of ticks while running... */
@@ -185,7 +185,7 @@ double total_cpu_time() {
     processor_cpu_load_info_t cpuLoad;
     mach_msg_type_number_t processorMsgCount;
     static double scale;
-    uint64_t totalUserTime = 0;
+    uint64_t total = 0;
 
     if (first) {
         first = false;
@@ -204,11 +204,10 @@ double total_cpu_time() {
         // (values are natural_t)
         uint64_t user = 0, nice = 0;
 
-        user = cpuLoad[i].cpu_ticks[CPU_STATE_USER];
-        nice = cpuLoad[i].cpu_ticks[CPU_STATE_NICE];
-
-        totalUserTime = totalUserTime + user + nice;
+        total += cpuLoad[i].cpu_ticks[CPU_STATE_USER];
+        total += cpuLoad[i].cpu_ticks[CPU_STATE_NICE];
+        total += cpuLoad[i].cpu_ticks[CPU_STATE_SYSTEM];
     }
 
-    return totalUserTime * scale;
+    return total * scale;
 }

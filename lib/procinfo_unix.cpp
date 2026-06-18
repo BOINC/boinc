@@ -38,6 +38,7 @@
 #include <sys/wait.h>
 #include <dirent.h>
 #include <signal.h>
+#include <cstdlib>
 
 #if HAVE_UNISTD_H
 #include <unistd.h>
@@ -231,7 +232,7 @@ int procinfo_setup(PROC_MAP& pm) {
     return 0;
 }
 
-// get total user-mode CPU time
+// get total CPU time (user + kernel)
 // see https://www.baeldung.com/linux/get-cpu-usage
 //
 double total_cpu_time() {
@@ -254,11 +255,11 @@ double total_cpu_time() {
         fprintf(stderr, "can't read /proc/stat\n");
         return 0;
     }
-    double user, nice;
-    int n = sscanf(buf, "cpu %lf %lf", &user, &nice);
-    if (n != 2) {
+    double user, nice, kernel;
+    int n = sscanf(buf, "cpu %lf %lf %lf", &user, &nice, &kernel);
+    if (n != 3) {
         fprintf(stderr, "can't parse /proc/stat: %s\n", buf);
         return 0;
     }
-    return (user+nice)*scale;
+    return (user+nice+kernel)*scale;
 }

@@ -591,7 +591,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         // At this point we have brc (BOINC-related CPU).
         // If reset is true, it's incomparable with the previous value
 
-        static double prev_nbrc=0;
+        static double prev_nbrc = 0;
         double nbrc = total_cpu_time_now - brc;
         if (!first) {
             if (reset) {

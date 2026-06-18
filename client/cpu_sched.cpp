@@ -1620,7 +1620,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                 if (atp->rss_too_large) {
                     if (log_flags.mem_usage_debug) {
                         msg_printf(atp->result->project, MSG_INFO,
-                            "[mem_usage] job using too much memory, will suspend"
+                            "[mem_usage] insufficient RAM, will suspend"
                         );
                     }
                     preempt_type = REMOVE_NEVER;
