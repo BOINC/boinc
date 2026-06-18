@@ -1,5 +1,5 @@
 // This file is part of BOINC.
-// https://boinc.berkeley.edu
+// http://boinc.berkeley.edu
 // Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
@@ -1144,7 +1144,7 @@ void APP_VERSION::check_graphics_exec() {
 
     char relpath[MAXPATHLEN], path[MAXPATHLEN];
     get_pathname(graphics_exec_fip, relpath, sizeof(relpath));
-    relative_to_absolute(relpath, path, MAXPATHLEN);
+    relative_to_absolute(relpath, path);
 #ifdef __APPLE__
     if (!can_run_on_this_CPU(path)) {
         // if can't run this exec, don't check again

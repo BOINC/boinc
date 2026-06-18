@@ -24,11 +24,10 @@
 #include "url.h"
 #include "parse.h"
 
-extern size_t strlcpy(char*, const char*, size_t);
 
 using namespace std;
 
-namespace test_libboinc {
+namespace test_parse {
     class test_parse : public ::testing::Test {};
 
     TEST_F(test_parse, xml_unescape) {
@@ -75,7 +74,7 @@ namespace test_libboinc {
         int expects = 0;
 
         char name[64];
-        strlcpy(name, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", sizeof(name));
+        strncpy(name, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", sizeof(name));
 
         int val;
 

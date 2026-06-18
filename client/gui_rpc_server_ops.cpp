@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// https://boinc.berkeley.edu
-// Copyright (C) 2026 University of California
+// http://boinc.berkeley.edu
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -2108,7 +2108,7 @@ int GUI_RPC_CONN::handle_rpc() {
     if (!http_request) {
         mfout.printf("\003");   // delimiter for non-HTTP replies
     }
-    size_t n;
+    int n;
     mout.get_buf(p, n);
     if (http_request) {
         char buf[1024];
@@ -2121,14 +2121,14 @@ int GUI_RPC_CONN::handle_rpc() {
             "Access-Control-Allow-Headers: *\n"
             "Connection: close\n"
             "Content-Type: text/xml; charset=utf-8\n"
-            "Content-Length: %zu\n\n"
+            "Content-Length: %d\n\n"
             XML_HEADER,
-            n+strlen(XML_HEADER)
+            n+(int)strlen(XML_HEADER)
         );
         send(sock, buf, (int)strlen(buf), 0);
     }
     if (p) {
-        send(sock, p, (int)n, 0);
+        send(sock, p, n, 0);
         if (log_flags.gui_rpc_debug) {
             if (!http_request) {
                 p[n-1]=0;   // replace 003 with NULL

@@ -22,7 +22,7 @@
 
 using namespace std;
 
-namespace test_libboinc {
+namespace test_shmem {
     class test_shmem : public ::testing::Test {};
 
     // Test shmem functions for Windows/Unix/Linux/Mac V5 applications

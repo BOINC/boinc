@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// https://boinc.berkeley.edu
-// Copyright (C) 2026 University of California
+// http://boinc.berkeley.edu
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,7 +22,6 @@
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
-#include <algorithm>
 #endif
 
 #include <string>
@@ -151,11 +150,10 @@ int COPROC::parse(XML_PARSER& xp) {
         if (xp.parse_double("peak_flops", peak_flops)) continue;
         if (xp.parse_str("device_nums", buf, sizeof(buf))) {
             int i=0;
-            std::vector<string> tokens = split_string(buf, " ");
-            const size_t max_tokens = std::min(tokens.size(),
-                static_cast<size_t>(MAX_COPROC_INSTANCES));
-            for (size_t j = 0; j < max_tokens; j++) {
-                device_nums[i++] = atoi(tokens[j].c_str());
+            char* p = strtok(buf, " ");
+            while (p && i<MAX_COPROC_INSTANCES) {
+                device_nums[i++] = atoi(p);
+                p = strtok(NULL, " ");
             }
             continue;
         }
@@ -165,11 +163,11 @@ int COPROC::parse(XML_PARSER& xp) {
 }
 
 void summary_json(
-    char *buf, size_t buf_size,
+    char *buf,
     const char *type, const char *model, int count, int ram_mb,
     const char *driver_version, int opencl_version
 ) {
-    snprintf(buf, buf_size,
+    sprintf(buf,
 "        {\n"\
 "            \"type\": \"%s\",\n"\
 "            \"model\": \"%s\",\n"\
@@ -187,8 +185,8 @@ void COPROCS::summary_string_json(string &out) {
     char buf[256];
     out = "";
     if (nvidia.count) {
-        snprintf(buf, sizeof(buf), "%d", nvidia.display_driver_version);
-        summary_json(buf2, sizeof(buf2),
+        sprintf(buf, "%d", nvidia.display_driver_version);
+        summary_json(buf2,
             "nvidia",
             nvidia.cuda_prop.name,
             nvidia.count,
@@ -200,7 +198,7 @@ void COPROCS::summary_string_json(string &out) {
     }
     if (ati.count) {
         if (!out.empty()) out += ",\n";
-        summary_json(buf2, sizeof(buf2),
+        summary_json(buf2,
             "amd",
             ati.name, ati.count,
             ati.attribs.localRAM, ati.version,
@@ -210,7 +208,7 @@ void COPROCS::summary_string_json(string &out) {
     }
     if (intel_gpu.count) {
         if (!out.empty()) out += ",\n";
-        summary_json(buf2, sizeof(buf2),
+        summary_json(buf2,
             "intel",
             intel_gpu.opencl_prop.name, intel_gpu.count,
             (int)((double)intel_gpu.opencl_prop.global_mem_size/MEGA),
@@ -221,8 +219,8 @@ void COPROCS::summary_string_json(string &out) {
     }
     if (apple_gpu.count) {
         if (!out.empty()) out += ",\n";
-        snprintf(buf, sizeof(buf), "%d", apple_gpu.metal_support);
-        summary_json(buf2, sizeof(buf2),
+        sprintf(buf, "%d", apple_gpu.metal_support);
+        summary_json(buf2,
             "apple",
             apple_gpu.model, apple_gpu.count,
             (int)((double)apple_gpu.opencl_prop.global_mem_size/MEGA),
@@ -240,7 +238,7 @@ void COPROCS::summary_string_json(string &out) {
         if (type == PROC_TYPE_APPLE_GPU) continue;
         if (!strlen(cp.opencl_prop.name)) continue;
         if (!out.empty()) out += ",\n";
-        summary_json(buf2, sizeof(buf2),
+        summary_json(buf2,
             cp.opencl_prop.vendor,
             cp.opencl_prop.name,
             cp.count,

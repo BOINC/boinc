@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// https://boinc.berkeley.edu
-// Copyright (C) 2026 University of California
+// http://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,12 +21,9 @@
 #include "win_util.h"
 #endif
 
-#ifdef __MINGW32__
-#define snprintf _snprintf
-#endif
-
 #if defined(_MSC_VER) || defined(__MINGW32__)
 #define finite   _finite
+#define snprintf _snprintf
 #endif
 
 #ifndef M_LN2
@@ -34,7 +31,6 @@
 #endif
 
 #include "boinc_stdio.h"
-#include "str_replace.h"
 
 #ifndef _WIN32
 #include "config.h"
@@ -67,6 +63,7 @@ extern "C" {
 #include "miofile.h"
 #include "parse.h"
 #include "hostinfo.h"
+#include "str_replace.h"
 #include "util.h"
 
 using std::min;
@@ -290,13 +287,6 @@ int run_program(
 // Unix: if you want stderr too, add 2>&1 to command
 // Return error if command failed
 //
-
-#ifdef _USING_FCGI_
-int run_command(const char*, vector<string> &out) {
-    out.clear();
-    return 0;
-}
-#else
 int run_command(const char *cmd, vector<string> &out) {
     out.clear();
 #ifdef _WIN32
@@ -351,7 +341,7 @@ int run_command(const char *cmd, vector<string> &out) {
     GetExitCodeProcess(pi.hProcess, &exit_code);
 
     DWORD count, nread;
-    PeekNamedPipe(pipe_read, NULL, 0, NULL, &count, NULL);
+    PeekNamedPipe(pipe_read, NULL, NULL, NULL, &count, NULL);
     if (count == 0) {
         return 0;
     }
@@ -371,6 +361,7 @@ int run_command(const char *cmd, vector<string> &out) {
     free(buf);
     if (exit_code) return -1;
 #else
+#ifndef _USING_FCGI_
     char buf[256];
     errno = 0;
     FILE* fp = popen(cmd, "r");
@@ -391,9 +382,9 @@ int run_command(const char *cmd, vector<string> &out) {
         return -1;
     }
 #endif
+#endif
     return 0;
 }
-#endif
 
 #ifdef _WIN32
 
