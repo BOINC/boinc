@@ -479,19 +479,12 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     if (boinc_total.rss > gstate.available_ram()) {
         gstate.request_schedule_cpus("RAM limit exceeded");
     }
-<<<<<<< dpa_mem_usage2
-    if (boinc_total.swap_usage
-        > (gstate.global_prefs.vm_max_used_frac)*gstate.host_info.m_swap
-    ) {
-        gstate.request_schedule_cpus("Swap limit exceeded");
-=======
     if (is_swap_defined()) {
-        if (boinc_total.swap_size
+        if (boinc_total.swap_usage
             > (gstate.global_prefs.vm_max_used_frac)*gstate.host_info.m_swap
         ) {
             gstate.request_schedule_cpus("Swap limit exceeded");
         }
->>>>>>> master
     }
 
     // check for exclusive apps
