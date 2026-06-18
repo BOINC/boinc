@@ -22,11 +22,10 @@
 #endif
 #include "common_defs.h"
 #include "url.h"
-#include "str_replace.h"
 
 using namespace std;
 
-namespace test_libboinc {
+namespace test_url {
     class test_url : public ::testing::Test {};
 
     TEST_F(test_url, parse_url) {
@@ -115,17 +114,17 @@ namespace test_libboinc {
         char buf[1024];
         char url[1024];
 
-        strlcpy(url, "https://secure.example.com", sizeof(url));
+        strncpy(url, "https://secure.example.com", sizeof (url));
         escape_url_readable(url, buf);
         EXPECT_STREQ(buf, "secure.example.com");
 
-        //Convert the extra / and $ to _
-        strlcpy(url, "https://money.example.com/Dollar$", sizeof(url));
+	//Convert the extra / and $ to _
+        strncpy(url, "https://money.example.com/Dollar$", sizeof (url));
         escape_url_readable(url, buf);
         EXPECT_STREQ(buf, "money.example.com_Dollar_");
 
-        //Change all spaces and @ % to _
-        strlcpy(url, "nothing@ should %", sizeof(url));
+	//Change all spaces and @ % to _
+        strncpy(url, "nothing@ should %", sizeof (url));
         escape_url_readable(url, buf);
         EXPECT_STREQ(buf, "nothing__should__");
     }
@@ -187,23 +186,23 @@ namespace test_libboinc {
         char url[1024];
 
         //Check for a good unsecure url.
-        strlcpy(url, "http://www.example.com/", sizeof(url));
+        strncpy(url, "http://www.example.com/", sizeof (url));
         EXPECT_EQ(valid_master_url(url), true);
 
         //Check for a good secure url
-        strlcpy(url, "https://www.example.com/", sizeof(url));
+        strncpy(url, "https://www.example.com/", sizeof (url));
         EXPECT_EQ(valid_master_url(url), true);
 
         //Check for no http or https.
-        strlcpy(url, "hxxp://www.example.com/", sizeof(url));
+        strncpy(url, "hxxp://www.example.com/", sizeof (url));
         EXPECT_EQ(valid_master_url(url), false);
 
         //Check if missing final slash.
-        strlcpy(url, "http://www.example.com", sizeof(url));
+        strncpy(url, "http://www.example.com", sizeof (url));
         EXPECT_EQ(valid_master_url(url), false);
 
         //Check if it has no . in the name
-        strlcpy(url, "http://example/", sizeof(url));
+        strncpy(url, "http://example/", sizeof (url));
         EXPECT_EQ(valid_master_url(url), false);
     }
 
@@ -212,12 +211,12 @@ namespace test_libboinc {
         char url[1024];
 
         //testing a good url.
-        strlcpy(url, "https://secure.example.com", sizeof(url));
+        strncpy(url, "https://secure.example.com", sizeof (url));
         escape_project_url(url, buf);
         EXPECT_STREQ(buf, "secure.example.com");
 
         //Testing url with bad character at the end removed.
-        strlcpy(url, "https://secure.example.com/Dollar$", sizeof(url));
+        strncpy(url, "https://secure.example.com/Dollar$", sizeof (url));
         escape_project_url(url, buf);
         EXPECT_STREQ(buf, "secure.example.com_Dollar");
     }

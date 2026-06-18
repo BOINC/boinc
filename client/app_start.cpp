@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// https://boinc.berkeley.edu
-// Copyright (C) 2026 University of California
+// http://boinc.berkeley.edu
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -207,7 +207,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
     safe_strcpy(aid.user_name, project->user_name);
     safe_strcpy(aid.team_name, project->team_name);
     safe_strcpy(aid.project_dir, project->project_dir_absolute());
-    relative_to_absolute("", aid.boinc_dir, MAXPATHLEN);
+    relative_to_absolute("", aid.boinc_dir);
     safe_strcpy(aid.authenticator, project->authenticator);
     aid.slot = slot;
 #ifdef _WIN32
@@ -764,7 +764,7 @@ int ACTIVE_TASK::start() {
         }
     }
 
-    relative_to_absolute(slot_dir, slotdirpath, MAXPATHLEN);
+    relative_to_absolute(slot_dir, slotdirpath);
     int prio_mask;
     if (cc_config.no_priority_change) {
         prio_mask = 0;

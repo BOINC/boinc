@@ -40,6 +40,3 @@
 #include "gtest/gtest.h"
 #include "tinyxml2.h"
 #include "wil/resource.h"
-
-#define HAVE_STRNCPY_S 1
-#define HAVE_STRNCAT_S 1

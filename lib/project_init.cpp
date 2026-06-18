@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// https://boinc.berkeley.edu
-// Copyright (C) 2026 University of California
+// http://boinc.berkeley.edu
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -47,7 +47,7 @@ PROJECT_INIT::PROJECT_INIT() {
 
 int PROJECT_INIT::init() {
     clear();
-    FILE* f = boinc::fopen(PROJECT_INIT_FILENAME, "r");
+    FILE* f = fopen(PROJECT_INIT_FILENAME, "r");
     if (!f) return 0;
 
     MIOFILE mf;
@@ -63,7 +63,7 @@ int PROJECT_INIT::init() {
         }
         else if (xp.parse_bool("embedded", embedded)) continue;
     }
-    boinc::fclose(f);
+    fclose(f);
 
 	return 0;
 }
@@ -74,7 +74,7 @@ int PROJECT_INIT::remove() {
 }
 
 int PROJECT_INIT::write() {
-    FILE* f = boinc::fopen(PROJECT_INIT_FILENAME, "w");
+    FILE* f = fopen(PROJECT_INIT_FILENAME, "w");
     if (!f) return ERR_FOPEN;
 
     fprintf(f,
@@ -89,7 +89,7 @@ int PROJECT_INIT::write() {
         account_key,
         embedded
     );
-    boinc::fclose(f);
+    fclose(f);
 
     return 0;
 }
