@@ -137,7 +137,7 @@ void PROCINFO::get_mem_info() {
     buf[n] = 0;
     virtual_size = get_field(buf, "VmSize:")*1024.;
     rss = get_field(buf, "VmRSS:")*1024.;
-    swap_usage = get_field(buf, "VmSwap")*1024.;
+    swap_usage = get_field(buf, "VmSwap:")*1024.;
     fclose(f);
 }
 

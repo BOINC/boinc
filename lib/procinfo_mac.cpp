@@ -128,7 +128,7 @@ int procinfo_setup(PROC_MAP& pm) {
             &hours,
             &p.user_time
         );
-        if (c < 7) break;
+        if (c < 6) break;
         if (fgets(p.command, sizeof(p.command), fd) == NULL) break;
         lf = strchr(p.command, '\n');
         if (lf) *lf = '\0';         // Strip trailing linefeed
