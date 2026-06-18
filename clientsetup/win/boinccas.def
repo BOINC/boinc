@@ -46,3 +46,5 @@ EXPORTS
 	DeleteBOINCGroups
 	DeleteBOINCAccounts
 	AnnounceUpgrade
+	LaunchBOINCWSLInstaller
+	CheckWSLSupport

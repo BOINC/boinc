@@ -70,6 +70,26 @@ private:
                 }
             }
 
+            tstring strOverrideLaunchWSLImageInstaller;
+            GetProperty(_T("OVERRIDE_LAUNCHWSLIMAGEINSTALLER"),
+                strOverrideLaunchWSLImageInstaller);
+            if (!strOverrideLaunchWSLImageInstaller.empty()) {
+                SetProperty(_T("LAUNCHWSLIMAGEINSTALLER"),
+                    strOverrideLaunchWSLImageInstaller);
+            }
+            else {
+                tstring strLaunchWSLImageInstaller;
+                GetRegistryValue(_T("LAUNCHWSLIMAGEINSTALLER"),
+                    strLaunchWSLImageInstaller);
+                if (strLaunchWSLImageInstaller == _T("1") ||
+                    strLaunchWSLImageInstaller.empty()) {
+                    SetProperty(_T("LAUNCHWSLIMAGEINSTALLER"), _T("1"));
+                }
+                else {
+                    SetProperty(_T("LAUNCHWSLIMAGEINSTALLER"), _T(""));
+                }
+            }
+
             tstring strOverrideBOINCMasterAccountUsername;
             GetProperty(_T("OVERRIDE_BOINC_MASTER_USERNAME"),
                 strOverrideBOINCMasterAccountUsername);

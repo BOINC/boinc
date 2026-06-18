@@ -13,14 +13,14 @@
   <Import Project="boinc.props" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>../win_build;../lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../win_build;../lib;$(VcpkgInstalledDir)/include/openssl/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <PreprocessorDefinitions>_USRDLL;BOINCCAS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>atls.lib;msi.lib;delayimp.lib;netapi32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>atls.lib;msi.lib;delayimp.lib;netapi32.lib;version.lib;libcrypto.lib;libssl.lib;Ws2_32.Lib;Crypt32.Lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">libcmtd.lib;libcpmtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies Condition="'$(Configuration)'=='Release'">libcmt.lib;libcpmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <DelayLoadDLLs>netapi32.dll;advapi32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -32,6 +32,7 @@
   <ItemGroup>
     <ClCompile Include="..\clientsetup\win\boinccas.cpp" />
     <ClCompile Include="..\clientsetup\win\CAAnnounceUpgrade.cpp" />
+    <ClCompile Include="..\clientsetup\win\CACheckWSLSupport.cpp" />
     <ClCompile Include="..\clientsetup\win\CACleanupOldBinaries.cpp" />
     <ClCompile Include="..\clientsetup\win\CACreateAcctMgrLoginFile.cpp" />
     <ClCompile Include="..\clientsetup\win\CACreateBOINCAccounts.cpp" />
@@ -49,6 +50,7 @@
     <ClCompile Include="..\clientsetup\win\CAGrantBOINCUsersRights.cpp" />
     <ClCompile Include="..\clientsetup\win\CALaunchBOINCManager.cpp" />
     <ClCompile Include="..\clientsetup\win\CALaunchBOINCTray.cpp" />
+    <ClCompile Include="..\clientsetup\win\CALaunchBOINCWSLInstaller.cpp" />
     <ClCompile Include="..\clientsetup\win\CARestoreExecutionState.cpp" />
     <ClCompile Include="..\clientsetup\win\CARestorePermissionBOINCData.cpp" />
     <ClCompile Include="..\clientsetup\win\CARestoreSetupState.cpp" />

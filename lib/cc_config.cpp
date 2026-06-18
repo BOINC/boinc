@@ -15,8 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_config.h"
-
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
@@ -27,6 +25,7 @@
 #include <algorithm>
 #endif
 
+#include "str_replace.h"
 #include "common_defs.h"
 #include "diagnostics.h"
 #include "error_numbers.h"

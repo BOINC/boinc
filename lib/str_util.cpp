@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -88,12 +88,12 @@ const char *strcasestr(const char *s1, const char *s2) {
     // convert both strings to lower case
     p = haystack;
     while (*p) {
-        *p = tolower(*p);
+        *p = static_cast<char>(tolower(*p));
         p++;
     }
     p = needle;
     while (*p) {
-        *p = tolower(*p);
+        *p = static_cast<char>(tolower(*p));
         p++;
     }
     // find the substring
@@ -116,80 +116,16 @@ void strcpy_overlap(char* p, const char* q) {
     }
 }
 
-// Converts a double precision time (where the value of 1 represents
-// a day) into a string.  smallest_timescale determines the smallest
-// unit of time division used
-// smallest_timescale: 0=seconds, 1=minutes, 2=hours, 3=days, 4=years
-//
-int ndays_to_string (double x, int smallest_timescale, char *buf) {
-    double years, days, hours, minutes, seconds;
-    char year_buf[64], day_buf[16], hour_buf[16], min_buf[16], sec_buf[16];
-
-    if (x < 0 || buf == NULL) return ERR_NULL;
-
-    years = x / 365.25;
-    days = fmod(x, 365.25);
-    hours = fmod(x*24, 24);
-    minutes = fmod(x*24*60, 60);
-    seconds = fmod(x*24*60*60, 60);
-
-    if (smallest_timescale==4) {
-        snprintf( year_buf, sizeof(year_buf), "%.3f yr ", years );
-    } else if (years > 1 && smallest_timescale < 4) {
-        snprintf( year_buf, sizeof(year_buf), "%d yr ", (int)years );
-    } else {
-        safe_strcpy( year_buf, "" );
-    }
-
-    if (smallest_timescale==3) {
-        snprintf( day_buf, sizeof(day_buf), "%.2f day%s ", days, (days>1?"s":"") );
-    } else if (days > 1 && smallest_timescale < 3) {
-        snprintf( day_buf, sizeof(day_buf), "%d day%s ", (int)days, (days>1?"s":"") );
-    } else {
-        safe_strcpy( day_buf, "" );
-    }
-
-    if (smallest_timescale==2) {
-        snprintf( hour_buf, sizeof(hour_buf), "%.2f hr ", hours );
-    } else if (hours > 1 && smallest_timescale < 2) {
-        snprintf( hour_buf, sizeof(hour_buf), "%d hr ", (int)hours );
-    } else {
-        safe_strcpy( hour_buf, "" );
-    }
-
-    if (smallest_timescale==1) {
-        snprintf( min_buf, sizeof(min_buf), "%.2f min ", minutes );
-    } else if (minutes > 1 && smallest_timescale < 1) {
-        snprintf( min_buf, sizeof(min_buf), "%d min ", (int)minutes );
-    } else {
-        safe_strcpy( min_buf, "" );
-    }
-
-    if (smallest_timescale==0) {
-        snprintf( sec_buf, sizeof(sec_buf), "%.2f sec ", seconds );
-    } else if (seconds > 1 && smallest_timescale < 0) {
-        snprintf( sec_buf, sizeof(sec_buf), "%d sec ", (int)seconds );
-    } else {
-        safe_strcpy( sec_buf, "" );
-    }
-    // the "-0.05" below is to prevent it from printing 60.0 sec
-    // when the real value is e.g. 59.91
-    //
-    sprintf(buf, "%s%s%s%s%s", year_buf, day_buf, hour_buf, min_buf, sec_buf);
-
-    return 0;
-}
-
 // convert seconds into a string "0h00m00s00"
 //
-void secs_to_hmsf(double secs, char* buf) {
+void secs_to_hmsf(double secs, char* buf, size_t buf_size) {
     int s = (int)secs;
     int f = (int)((secs - s) * 100.0);
     int h = s / 3600;
     s -= h * 3600;
     int m = s / 60;
     s -= m * 60;
-    sprintf(buf, "%uh%02um%02us%02u", h, m, s, f);
+    snprintf(buf, buf_size, "%uh%02um%02us%02u", h, m, s, f);
 }
 
 // return e.g. '12.23 GFLOPS'
@@ -319,7 +255,7 @@ void strip_whitespace(string& str) {
         str.erase(0, 1);
     }
 
-    int n = (int) str.length();
+    size_t n = str.length();
     while (n>0) {
         if (!isascii(str[n-1])) break;
         if (!isspace(str[n-1])) break;
@@ -330,8 +266,15 @@ void strip_whitespace(string& str) {
 
 void strip_whitespace(char *str) {
     string s = str;
+    const size_t size_orig = s.length();
     strip_whitespace(s);
-    strcpy(str, s.c_str());
+    const size_t size_res = s.length();
+    // size_orig should be safe since the length of the string returned
+    // will be either the same size or less
+    // so ther should be enough space already
+    if (size_res <= size_orig) {
+        strlcpy(str, s.c_str(), size_orig + 1);
+    }
 }
 
 // remove whitespace and quotes from start and end of a string
@@ -348,7 +291,7 @@ void strip_quotes(string& str) {
         str.erase(0, 1);
     }
 
-    int n = (int) str.length();
+    size_t n = str.length();
     while (n>0) {
         if (str[n-1] == '"' || str[n-1] == '\'') {
             if (str[n-2] != '\\') {
@@ -365,8 +308,15 @@ void strip_quotes(string& str) {
 
 void strip_quotes(char *str) {
     string s = str;
+    const size_t size_orig = s.length();
     strip_quotes(s);
-    strcpy(str, s.c_str());
+    const size_t size_res = s.length();
+    // size_orig should be safe since the length of the string returned
+    // will be either the same size or less
+    // so ther should be enough space already
+    if (size_res <= size_orig) {
+        strlcpy(str, s.c_str(), size_orig + 1);
+    }
 }
 
 // This only unescapes some special shell characters used in /etc/os-release
@@ -402,9 +352,9 @@ void unescape_os_release(char* buf) {
 // collapse multiple whitespace into one (will not strip_whitespace)
 //
 void collapse_whitespace(string& str) {
-    int n = (int) str.length();
+    size_t n = str.length();
     if (n<2) return;
-    for (int i=1; i<n; i++) {
+    for (size_t i=1; i<n; i++) {
         if (isspace(str[i-1]) && isspace(str[i])) {
             str.erase(i, 1);
             n--; i--;
@@ -414,8 +364,15 @@ void collapse_whitespace(string& str) {
 
 void collapse_whitespace(char *str) {
     string s = str;
+    const size_t size_orig = s.length();
     collapse_whitespace(s);
-    strcpy(str, s.c_str());
+    const size_t size_res = s.length();
+    // size_orig should be safe since the length of the string returned
+    // will be either the same size or less
+    // so ther should be enough space already
+    if (size_res <= size_orig) {
+        strlcpy(str, s.c_str(), size_orig + 1);
+    }
 }
 
 char* time_to_string(double t, bool utc) {
@@ -424,8 +381,27 @@ char* time_to_string(double t, bool utc) {
         safe_strcpy(buf, "---");
     } else {
         time_t x = (time_t)t;
-        struct tm* tm = utc ? gmtime(&x) : localtime(&x);
-        strftime(buf, sizeof(buf)-1, "%d-%b-%Y %H:%M:%S", tm);
+        struct tm tm;
+        struct tm* tmp = &tm;
+        if (utc) {
+#ifdef _MSC_VER
+            if (gmtime_s(&tm, &x) != 0) {
+                safe_strcpy(buf, "---");
+            }
+#else
+            tmp = gmtime(&x);
+#endif
+        }
+        else {
+#ifdef _MSC_VER
+            if (localtime_s(&tm, &x) != 0) {
+                safe_strcpy(buf, "---");
+            }
+#else
+            tmp = localtime(&x);
+#endif
+        }
+        strftime(buf, sizeof(buf)-1, "%d-%b-%Y %H:%M:%S", tmp);
         if (utc) {
             safe_strcat(buf, " UTC");
         }
@@ -444,9 +420,28 @@ char* precision_time_to_string(double t, bool utc) {
         t += 1.0;
     }
     time_t x = (time_t)t;
-    struct tm* tm = utc ? gmtime(&x) : localtime(&x);
+    struct tm tm;
+    struct tm* tmp = &tm;
+    if (utc) {
+#ifdef _MSC_VER
+        if (gmtime_s(&tm, &x) != 0) {
+            safe_strcpy(buf, "---");
+        }
+#else
+        tmp = gmtime(&x);
+#endif
+    }
+    else {
+#ifdef _MSC_VER
+        if (localtime_s(&tm, &x) != 0) {
+            safe_strcpy(buf, "---");
+        }
+#else
+        tmp = localtime(&x);
+#endif
+    }
 
-    strftime(buf, sizeof(buf)-1, "%Y-%m-%d %H:%M:%S", tm);
+    strftime(buf, sizeof(buf)-1, "%Y-%m-%d %H:%M:%S", tmp);
     snprintf(finer, sizeof(finer), ".%04d", hundreds_of_microseconds);
     safe_strcat(buf, finer);
     if (utc) {
@@ -483,16 +478,6 @@ string timediff_format(double diff) {
     snprintf(buf, sizeof(buf), "%d days %02d:%02d:%02d", tdiff, hours, min, sex);
     return buf;
 
-}
-
-void mysql_timestamp(double dt, char* p) {
-    struct tm* tmp;
-    time_t t = (time_t)dt;
-    tmp = localtime(&t);     // MySQL timestamps are in local time
-    sprintf(p, "%4d%02d%02d%02d%02d%02d",
-        tmp->tm_year+1900, tmp->tm_mon+1, tmp->tm_mday,
-        tmp->tm_hour, tmp->tm_min, tmp->tm_sec
-    );
 }
 
 // Return a text-string description of a given error.
@@ -884,19 +869,5 @@ int path_to_filename(string fpath, string& fname) {
     } else {
         fname = fpath.substr(n+1);
     }
-    return 0;
-}
-
-// get the name part of a filepath
-//
-// wrapper for path_to_filename(string, string&)
-int path_to_filename(string fpath, char* &fname) {
-    string name;
-    int retval = path_to_filename(fpath, name);
-    if (retval) {
-        return retval;
-    }
-    fname = new char[name.size()+1];
-    strcpy(fname, name.c_str());
     return 0;
 }

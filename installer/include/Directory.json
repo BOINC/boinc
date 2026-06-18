@@ -949,6 +949,17 @@
                                     ]
                                 },
                                 {
+                                    "Feature_": "BOINCWSLImageInstaller",
+                                    "Component": "_BOINCWSLImageInstaller",
+                                    "Attributes": 256,
+                                    "Condition": "INSTALLWSLIMAGEINSTALLER = 1",
+                                    "Files": [
+                                        {
+                                            "FilePath": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\boinc-buda-runner-wsl-installer.exe"
+                                        }
+                                    ]
+                                },
+                                {
                                     "Feature_": "BOINC",
                                     "Component": "_BOINCSvcCtrl",
                                     "Attributes": 256,

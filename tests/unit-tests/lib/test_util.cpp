@@ -23,7 +23,7 @@
 
 using namespace std;
 
-namespace test_util {
+namespace test_libboinc {
     class test_util : public ::testing::Test {};
 
     TEST_F(test_util, dtime) {

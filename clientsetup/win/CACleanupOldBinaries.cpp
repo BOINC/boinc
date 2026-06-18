@@ -39,7 +39,7 @@ private:
             return ERROR_INSTALL_FAILURE;
         }
 
-        constexpr std::array<std::wstring_view, 12> filesToDelete = {
+        constexpr std::array<std::wstring_view, 13> filesToDelete = {
             _T("boinc.exe"),
             _T("boincmgr.exe"),
             _T("boinccmd.exe"),
@@ -51,7 +51,8 @@ private:
             _T("dbghelp.dll"),
             _T("dbghelp95.dll"),
             _T("srcsrv.dll"),
-            _T("symsrv.dll")
+            _T("symsrv.dll"),
+            _T("boinc-buda-runner-wsl-installer.exe")
         };
 
         for (auto file : filesToDelete) {

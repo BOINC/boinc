@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -49,26 +49,17 @@ using std::fclose;
 int mem_usage(double& vm_usage, double& resident_set) {
 
 #ifdef _WIN32
+    SIZE_T lpMinimumWorkingSetSize;
+    SIZE_T lpMaximumWorkingSetSize;
 
-    // Figure out if we're on WinNT
-    OSVERSIONINFO osvi;
-    osvi.dwOSVersionInfoSize = sizeof(osvi);
-    GetVersionEx( &osvi );
-    if (osvi.dwPlatformId == VER_PLATFORM_WIN32_NT) {
-        SIZE_T lpMinimumWorkingSetSize;
-        SIZE_T lpMaximumWorkingSetSize;
+    GetProcessWorkingSetSize(
+        GetCurrentProcess(),
+        &lpMinimumWorkingSetSize,
+        &lpMaximumWorkingSetSize
+    );
 
-        GetProcessWorkingSetSize(
-            GetCurrentProcess(),
-            &lpMinimumWorkingSetSize,
-            &lpMaximumWorkingSetSize
-        );
-
-        vm_usage = (double)lpMinimumWorkingSetSize;
-        resident_set = (double)lpMaximumWorkingSetSize;
-    } else {
-        return ERR_NOT_IMPLEMENTED;
-    }
+    vm_usage = (double)lpMinimumWorkingSetSize;
+    resident_set = (double)lpMaximumWorkingSetSize;
     return 0;
 #else
 

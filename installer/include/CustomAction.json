@@ -7,6 +7,12 @@
             "Target": "AnnounceUpgrade"
         },
         {
+            "Action": "CACheckWSLSupport",
+            "Type": 1,
+            "Source": "boinccas.dll",
+            "Target": "CheckWSLSupport"
+        },
+        {
             "Action": "CACleanupOldBinaries",
             "Type": 1,
             "Source": "boinccas.dll",
@@ -107,6 +113,12 @@
             "Type": 65,
             "Source": "boinccas.dll",
             "Target": "LaunchBOINCTray"
+        },
+        {
+            "Action": "CALaunchBOINCWSLInstaller",
+            "Type": 65,
+            "Source": "boinccas.dll",
+            "Target": "LaunchBOINCWSLInstaller"
         },
         {
             "Action": "CARestoreExecutionState",

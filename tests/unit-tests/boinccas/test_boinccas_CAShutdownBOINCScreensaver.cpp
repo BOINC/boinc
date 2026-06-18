@@ -18,10 +18,11 @@
 #include "boinccas_helper.h"
 
 namespace test_boinccas {
-    constexpr auto executableName = "boinc.scr";
     class test_boinccas_CAShutdownBOINCScreensaver :
         public test_boinccas_TestBase {
     protected:
+        const std::string executableName = "boinc.scr";
+
         test_boinccas_CAShutdownBOINCScreensaver() :
             test_boinccas_TestBase("ShutdownBOINCScreensaver") {
         }

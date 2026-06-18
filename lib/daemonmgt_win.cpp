@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -229,11 +229,12 @@ bool is_daemon_stopped()
  **/
 bool start_daemon_via_daemonctrl()
 {
+    const size_t        bufSize = MAX_PATH + 1;
     bool                bRetVal = false;
     BOOL                bProcessStarted;
     SHELLEXECUTEINFO    shex;
-    TCHAR               szPath[MAX_PATH+1];
-    TCHAR               szExe[MAX_PATH+1];
+    TCHAR               szPath[bufSize];
+    TCHAR               szExe[bufSize];
     unsigned long       ulExitCode;
 
     // Determine the path to the BOINC Service Control utility
@@ -247,8 +248,8 @@ bool start_daemon_via_daemonctrl()
     }
 
     // The executable needs to contain the path.
-    _sntprintf(
-        szExe, (sizeof(szPath)/sizeof(TCHAR)),
+    _sntprintf_s(
+        szExe, bufSize, (sizeof(szPath)/sizeof(TCHAR)),
         _T("\"%s\\boincsvcctrl.exe\""),
         szPath
     );
@@ -258,9 +259,9 @@ bool start_daemon_via_daemonctrl()
     shex.cbSize        = sizeof( SHELLEXECUTEINFO );
     shex.fMask         = SEE_MASK_NOCLOSEPROCESS;
     shex.hwnd          = NULL;
-    if ((LOBYTE(LOWORD(GetVersion()))) >= 6) {
-        shex.lpVerb        = _T("runas");
-    }
+    // currently we support Windows Vista and later,
+    // so we can always use "runas" to get elevation if needed.
+    shex.lpVerb        = _T("runas");
     shex.lpFile        = (LPCTSTR)&szExe;
     shex.lpParameters  = _T("--start");
     shex.lpDirectory   = (LPCTSTR)&szPath;
@@ -326,11 +327,12 @@ bool start_daemon()
  **/
 bool stop_daemon_via_daemonctrl()
 {
+    const size_t        bufSize = MAX_PATH + 1;
     bool                bRetVal = false;
     BOOL                bProcessStarted;
     SHELLEXECUTEINFO    shex;
-    TCHAR               szPath[MAX_PATH+1];
-    TCHAR               szExe[MAX_PATH+1];
+    TCHAR               szPath[bufSize];
+    TCHAR               szExe[bufSize];
     unsigned long       ulExitCode;
 
     // Determine the path to the BOINC Service Control utility
@@ -344,8 +346,8 @@ bool stop_daemon_via_daemonctrl()
     }
 
     // The executable needs to contain the path.
-    _sntprintf(
-        szExe, (sizeof(szPath)/sizeof(TCHAR)),
+    _sntprintf_s(
+        szExe, bufSize, (sizeof(szPath)/sizeof(TCHAR)),
         _T("\"%s\\boincsvcctrl.exe\""),
         szPath
     );
@@ -355,9 +357,9 @@ bool stop_daemon_via_daemonctrl()
     shex.cbSize        = sizeof( SHELLEXECUTEINFO );
     shex.fMask         = SEE_MASK_NOCLOSEPROCESS;
     shex.hwnd          = NULL;
-    if ((LOBYTE(LOWORD(GetVersion()))) >= 6) {
-        shex.lpVerb        = _T("runas");
-    }
+    // currently we support Windows Vista and later,
+    // so we can always use "runas" to get elevation if needed.
+    shex.lpVerb        = _T("runas");
     shex.lpFile        = (LPCTSTR)&szExe;
     shex.lpParameters  = _T("--stop");
     shex.lpDirectory   = (LPCTSTR)&szPath;

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -294,7 +294,7 @@ int ACTIVE_TASK::init(RESULT* rp) {
     max_disk_usage = rp->wup->rsc_disk_bound;
     max_mem_usage = rp->wup->rsc_memory_bound;
     get_slot_dir(slot, slot_dir, sizeof(slot_dir));
-    relative_to_absolute(slot_dir, slot_path);
+    relative_to_absolute(slot_dir, slot_path, MAXPATHLEN);
     return 0;
 }
 #endif
@@ -479,10 +479,19 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     if (boinc_total.rss > gstate.available_ram()) {
         gstate.request_schedule_cpus("RAM limit exceeded");
     }
+<<<<<<< dpa_mem_usage2
     if (boinc_total.swap_usage
         > (gstate.global_prefs.vm_max_used_frac)*gstate.host_info.m_swap
     ) {
         gstate.request_schedule_cpus("Swap limit exceeded");
+=======
+    if (is_swap_defined()) {
+        if (boinc_total.swap_size
+            > (gstate.global_prefs.vm_max_used_frac)*gstate.host_info.m_swap
+        ) {
+            gstate.request_schedule_cpus("Swap limit exceeded");
+        }
+>>>>>>> master
     }
 
     // check for exclusive apps

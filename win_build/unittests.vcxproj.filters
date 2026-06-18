@@ -45,6 +45,9 @@
     <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CAAnnounceUpgrade.cpp">
       <Filter>boinccas</Filter>
     </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CACheckWSLSupport.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
     <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CACleanupOldBinaries.cpp">
       <Filter>boinccas</Filter>
     </ClInclude>
@@ -94,6 +97,9 @@
       <Filter>boinccas</Filter>
     </ClInclude>
     <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CALaunchBOINCTray.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CALaunchBOINCWSLInstaller.cpp">
       <Filter>boinccas</Filter>
     </ClInclude>
     <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CARestoreExecutionState.cpp">

@@ -25,7 +25,9 @@
 #include "str_util.h"
 #include "error_numbers.h"
 
-namespace test_str_util {
+extern size_t strlcpy(char*, const char*, size_t);
+
+namespace test_libboinc {
     class test_str_util : public ::testing::Test {
     protected:
 #ifdef _WIN32
@@ -42,77 +44,52 @@ namespace test_str_util {
 #endif
     };
 
-    TEST_F(test_str_util, ndays_to_string) {
-        char buf[128];
-        char *nilbuf {0};
-        EXPECT_TRUE(ndays_to_string(-1.0, 0, buf));
-        EXPECT_FALSE(ndays_to_string(0.0, -1, buf));
-        EXPECT_STREQ(buf, "");
-        EXPECT_TRUE(ndays_to_string(1.0, 0, nilbuf));
-        EXPECT_FALSE(ndays_to_string(0.0, 0, buf));
-        EXPECT_STREQ(buf, "0.00 sec ");
-        EXPECT_FALSE(ndays_to_string(5, -1, buf));
-        EXPECT_STREQ(buf, "5 days ");
-        EXPECT_FALSE(ndays_to_string(1.234567890, 0, buf));
-        EXPECT_STREQ(buf, "1 days 5 hr 37 min 46.67 sec ");
-        EXPECT_FALSE(ndays_to_string(12.34567890, 1, buf));
-        EXPECT_STREQ(buf, "12 days 8 hr 17.78 min ");
-        EXPECT_FALSE(ndays_to_string(123.4567890, 2, buf));
-        EXPECT_STREQ(buf, "123 days 10.96 hr ");
-        EXPECT_FALSE(ndays_to_string(1234.567890, 3, buf));
-        EXPECT_STREQ(buf, "3 yr 138.82 days ");
-        EXPECT_FALSE(ndays_to_string(12345.67890, 4, buf));
-        EXPECT_STREQ(buf, "33.801 yr ");
-        EXPECT_FALSE(ndays_to_string(12345.67890, 5, buf));
-        EXPECT_STREQ(buf, "");
-        EXPECT_FALSE(ndays_to_string(1234.56789012345, 0, buf));
-        EXPECT_STREQ(buf, "3 yr 138 days 13 hr 37 min 45.71 sec ");
-    }
-
     TEST_F(test_str_util, secs_to_hmsf) {
         char buf[128];
-        //char *nilbuf {0};
-        secs_to_hmsf(0.0, buf);
+        secs_to_hmsf(0.0, buf, 128);
         EXPECT_STREQ(buf, "0h00m00s00");
-        secs_to_hmsf(1.0, buf);
+        secs_to_hmsf(1.0, buf, 128);
         EXPECT_STREQ(buf, "0h00m01s00");
-        secs_to_hmsf(1.23456789, buf);
+        secs_to_hmsf(1.23456789, buf, 128);
         EXPECT_STREQ(buf, "0h00m01s23");
-        secs_to_hmsf(12345.6789, buf);
+        secs_to_hmsf(12345.6789, buf, 128);
         EXPECT_STREQ(buf, "3h25m45s67");
-        secs_to_hmsf(123456.789, buf);
+        secs_to_hmsf(123456.789, buf, 128);
         EXPECT_STREQ(buf, "34h17m36s78");
     }
 
     TEST_F(test_str_util, nbytes_to_string) {
         char buf[256];
-        nbytes_to_string(5.0, 0.0, buf, sizeof (buf));
+        nbytes_to_string(5.0, 0.0, buf, sizeof(buf));
         EXPECT_STREQ(buf, "5 bytes");
-        nbytes_to_string(1024.0, 0.0, buf, sizeof (buf));
+        nbytes_to_string(1024.0, 0.0, buf, sizeof(buf));
         EXPECT_STREQ(buf, "1.00 KB");
-        nbytes_to_string(5.0*1024*1024, 0.0, buf, sizeof(buf));
+        nbytes_to_string(5.0 * 1024 * 1024, 0.0, buf, sizeof(buf));
         EXPECT_STREQ(buf, "5.00 MB");
-        nbytes_to_string(15.0*1024*1024*1024, 0.0, buf, sizeof(buf));
+        nbytes_to_string(15.0 * 1024 * 1024 * 1024, 0.0, buf, sizeof(buf));
         EXPECT_STREQ(buf, "15.00 GB");
-        nbytes_to_string(50000000000000.0, 0.0, buf, sizeof (buf));
+        nbytes_to_string(50000000000000.0, 0.0, buf, sizeof(buf));
         EXPECT_STREQ(buf, "45.47 TB");
         nbytes_to_string(2.0, 48.0, buf, sizeof(buf));
         EXPECT_STREQ(buf, "2/48 bytes");
-        nbytes_to_string(512.0, 1024.0, buf, sizeof (buf));
+        nbytes_to_string(512.0, 1024.0, buf, sizeof(buf));
         EXPECT_STREQ(buf, "0.50/1.00 KB");
-        nbytes_to_string(1024.0, 1.0 * 1024 * 1024, buf, sizeof (buf));
+        nbytes_to_string(1024.0, 1.0 * 1024 * 1024, buf, sizeof(buf));
         EXPECT_STREQ(buf, "0.00/1.00 MB");
-        nbytes_to_string(6.0*1024*1024*1024, 6.0*1024*1024*1024, buf, sizeof(buf));
+        nbytes_to_string(6.0 * 1024 * 1024 * 1024, 6.0 * 1024 * 1024 * 1024,
+            buf, sizeof(buf));
         EXPECT_STREQ(buf, "6.00/6.00 GB");
-        nbytes_to_string(24.0*1024*1024*1024*1024, 48.0*1024*1024*1024*1024, buf, sizeof(buf));
+        nbytes_to_string(24.0 * 1024 * 1024 * 1024 * 1024,
+            48.0 * 1024 * 1024 * 1024 * 1024, buf, sizeof(buf));
         EXPECT_STREQ(buf, "24.00/48.00 TB");
     }
 
-    TEST_F(test_str_util, parse_command_line) {;
+    TEST_F(test_str_util, parse_command_line) {
+        ;
         char buf[256];
         char* argv[100];
         int ret;
-        char *nilbuf {0};
+        char* nilbuf{ 0 };
         snprintf(buf, sizeof(buf), "one two three");
         ret = parse_command_line(buf, argv);
         EXPECT_EQ(ret, 3);
@@ -208,7 +185,11 @@ namespace test_str_util {
     TEST_F(test_str_util, time_to_string) {
         char* buf;
         setenv("TZ", "UTC", 1);
+#ifdef _MSC_VER
+        _tzset();
+#else
         tzset();
+#endif
         buf = time_to_string(false);
         EXPECT_STREQ(buf, "---");
         buf = time_to_string(1.0);
@@ -220,7 +201,11 @@ namespace test_str_util {
     TEST_F(test_str_util, precision_time_to_string) {
         char* buf;
         setenv("TZ", "UTC", 1);
+#ifdef _MSC_VER
+        _tzset();
+#else
         tzset();
+#endif
         buf = precision_time_to_string(false);
         EXPECT_STREQ(buf, "1970-01-01 00:00:00.0000");
         buf = precision_time_to_string(1.0);
@@ -228,12 +213,13 @@ namespace test_str_util {
         buf = precision_time_to_string(1555876749.1234);
         EXPECT_STREQ(buf, "2019-04-21 19:59:09.1233");
         buf = precision_time_to_string(12345678910.10000);
-        // here we have an undefined behavior that gives negative value on x64 and positive value on arm64
-        #ifdef __arm64__
-            EXPECT_STREQ(buf, "2361-03-21 19:15:10.2147483647");
-        #else
-            EXPECT_STREQ(buf, "2361-03-21 19:15:10.-2147483648");
-        #endif
+        // here we have an undefined behavior that gives
+        // negative value on x64 and positive value on arm64
+#ifdef __arm64__
+        EXPECT_STREQ(buf, "2361-03-21 19:15:10.2147483647");
+#else
+        EXPECT_STREQ(buf, "2361-03-21 19:15:10.-2147483648");
+#endif
     }
 
     TEST_F(test_str_util, timediff_format) {
@@ -250,23 +236,11 @@ namespace test_str_util {
         EXPECT_EQ(tmp, "1 days 10:17:36");
     }
 
-    TEST_F(test_str_util, mysql_timestamp) {
-        char buf[128];
-        //char *nilbuf {0};
-        mysql_timestamp(0.0, buf);
-        EXPECT_STREQ(buf, "19700101000000");
-        mysql_timestamp(1.0, buf);
-        EXPECT_STREQ(buf, "19700101000001");
-        mysql_timestamp(1555876749.1234, buf);
-        EXPECT_STREQ(buf, "20190421195909");
-        mysql_timestamp(12345678910.0, buf);
-        EXPECT_STREQ(buf, "23610321191510");
-    }
-
     TEST_F(test_str_util, string_substitute) {
         std::string tmp = "The quick brown fox jumps over the lazy dog";
         char buf[256];
-        int ret = string_substitute(tmp.c_str(), buf, sizeof(buf), "brown", "red");
+        int ret = string_substitute(tmp.c_str(), buf, sizeof(buf), "brown",
+            "red");
         EXPECT_EQ(ret, 0);
         EXPECT_STREQ(buf, "The quick red fox jumps over the lazy dog");
         ret = string_substitute(tmp.c_str(), buf, 13, "brown", "red");
@@ -274,30 +248,36 @@ namespace test_str_util {
         ret = string_substitute(tmp.c_str(), buf, 16, "brown", "red");
         EXPECT_EQ(ret, ERR_BUFFER_OVERFLOW);
         tmp = "Falsches Üben von Xylophonmusik quält jeden größeren Zwerg";
-        ret = string_substitute(tmp.c_str(), buf, sizeof(buf), "quält", "ärgert");
+        ret = string_substitute(tmp.c_str(), buf, sizeof(buf), "quält",
+            "ärgert");
         EXPECT_EQ(ret, 0);
-        EXPECT_STREQ(buf, "Falsches Üben von Xylophonmusik ärgert jeden größeren Zwerg");
+        EXPECT_STREQ(buf,
+            "Falsches Üben von Xylophonmusik ärgert jeden größeren Zwerg");
     }
 
     TEST_F(test_str_util, strip_translation) {
         char buf[256] = "_(\"The quick brown fox jumps over the lazy dog\")";
         strip_translation(buf);
         EXPECT_STREQ(buf, "The quick brown fox jumps over the lazy dog");
-        snprintf(buf, sizeof(buf), "The _(\"quick brown\") fox jumps over the _(\"lazy\") dog");
+        snprintf(buf, sizeof(buf),
+            "The _(\"quick brown\") fox jumps over the _(\"lazy\") dog");
         strip_translation(buf);
         EXPECT_STREQ(buf, "The quick brown fox jumps over the lazy dog");
-        snprintf(buf, sizeof(buf), "The _\"quick brown\" ) fox jumps over the (_\"lazy\") dog");
+        snprintf(buf, sizeof(buf),
+            "The _\"quick brown\" ) fox jumps over the (_\"lazy\") dog");
         strip_translation(buf);
-        EXPECT_STREQ(buf, "The _\"quick brown\" ) fox jumps over the (_\"lazy dog");
+        EXPECT_STREQ(buf,
+            "The _\"quick brown\" ) fox jumps over the (_\"lazy dog");
     }
 
     TEST_F(test_str_util, lf_terminate) {
-        char *buf;
-        buf = (char*)malloc(256);
-        strcpy(buf, "no\nlf ending");
+        char* buf;
+        const size_t buf_size = 256;
+        buf = (char*)malloc(buf_size);
+        strlcpy(buf, "no\nlf ending", buf_size);
         buf = lf_terminate(buf);
         EXPECT_STREQ(buf, "no\nlf ending\n");
-        strcpy(buf, "lf\n ending\n");
+        strlcpy(buf, "lf\n ending\n", buf_size);
         buf = lf_terminate(buf);
         EXPECT_STREQ(buf, "lf\n ending\n");
     }
@@ -325,16 +305,89 @@ namespace test_str_util {
         EXPECT_EQ(fname, "");
         EXPECT_EQ(path_to_filename("", fname), -1);
         EXPECT_EQ(fname, "");
-        char *buf;
-        EXPECT_EQ(path_to_filename("/home/blah", buf), 0);
-        EXPECT_STREQ(buf, "blah");
-        EXPECT_EQ(path_to_filename("hellokeith", buf), 0);
-        EXPECT_STREQ(buf, "hellokeith");
-        strcpy(buf, "");
-        EXPECT_EQ(path_to_filename("/home/blah/", buf), -2);
-        EXPECT_STREQ(buf, "");
-        EXPECT_EQ(path_to_filename("", buf), -1);
-        EXPECT_STREQ(buf, "");
+    }
+
+    TEST_F(test_str_util, split_string) {
+        std::string str = "one,two,three";
+        auto tokens = split_string(str, ",");
+        ASSERT_EQ(3, tokens.size());
+        EXPECT_EQ("one", tokens[0]);
+        EXPECT_EQ("two", tokens[1]);
+        EXPECT_EQ("three", tokens[2]);
+
+        str = "one,,two,,,three,";
+        tokens = split_string(str, ",");
+        ASSERT_EQ(3, tokens.size());
+        EXPECT_EQ("one", tokens[0]);
+        EXPECT_EQ("two", tokens[1]);
+        EXPECT_EQ("three", tokens[2]);
+
+        str = ",one,two,three,";
+        tokens = split_string(str, ",");
+        ASSERT_EQ(3, tokens.size());
+        EXPECT_EQ("one", tokens[0]);
+        EXPECT_EQ("two", tokens[1]);
+        EXPECT_EQ("three", tokens[2]);
+
+        str = ",,,one,,two,,,,,three,,,,";
+        tokens = split_string(str, ",");
+        ASSERT_EQ(3, tokens.size());
+        EXPECT_EQ("one", tokens[0]);
+        EXPECT_EQ("two", tokens[1]);
+        EXPECT_EQ("three", tokens[2]);
+
+        str = "";
+        tokens = split_string(str, ",");
+        ASSERT_EQ(0, tokens.size());
+
+        str = "one";
+        tokens = split_string(str, ",");
+        ASSERT_EQ(1, tokens.size());
+        EXPECT_EQ("one", tokens[0]);
+
+        str = "one;two;three";
+        tokens = split_string(str, ";");
+        ASSERT_EQ(3, tokens.size());
+        EXPECT_EQ("one", tokens[0]);
+        EXPECT_EQ("two", tokens[1]);
+        EXPECT_EQ("three", tokens[2]);
+
+        str = "one two three";
+        tokens = split_string(str, " ");
+        ASSERT_EQ(3, tokens.size());
+        EXPECT_EQ("one", tokens[0]);
+        EXPECT_EQ("two", tokens[1]);
+        EXPECT_EQ("three", tokens[2]);
+
+        str = "one\ntwo\nthree";
+        tokens = split_string(str, "\n");
+        ASSERT_EQ(3, tokens.size());
+        EXPECT_EQ("one", tokens[0]);
+        EXPECT_EQ("two", tokens[1]);
+        EXPECT_EQ("three", tokens[2]);
+
+        str = "onetesttwotestthreetest";
+        tokens = split_string(str, "test");
+        ASSERT_EQ(3, tokens.size());
+        EXPECT_EQ("one", tokens[0]);
+        EXPECT_EQ("two", tokens[1]);
+        EXPECT_EQ("three", tokens[2]);
+
+        str = ";one;,;two;,;three;";
+        tokens = split_string(str, ",");
+        ASSERT_EQ(3, tokens.size());
+        EXPECT_EQ(";one;", tokens[0]);
+        EXPECT_EQ(";two;", tokens[1]);
+        EXPECT_EQ(";three;", tokens[2]);
+
+        str = "nodelimiter";
+        tokens = split_string(str, "");
+        ASSERT_EQ(1, tokens.size());
+        EXPECT_EQ("nodelimiter", tokens[0]);
+
+        str = "";
+        tokens = split_string(str, "");
+        ASSERT_EQ(0, tokens.size());
     }
 
 }

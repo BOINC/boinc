@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -236,11 +236,12 @@ void CLIENT_STATE::show_host_info() {
 #endif
 
     nbytes_to_string(host_info.m_nbytes, 0, buf, sizeof(buf));
-    nbytes_to_string(host_info.m_swap, 0, buf2, sizeof(buf2));
-    msg_printf(NULL, MSG_INFO,
-        "Memory: %s physical, %s virtual",
-        buf, buf2
-    );
+    if (is_swap_defined()) {
+        nbytes_to_string(host_info.m_swap, 0, buf2, sizeof(buf2));
+        msg_printf(NULL, MSG_INFO, "Memory: %s physical, %s virtual", buf, buf2);
+    } else {
+        msg_printf(NULL, MSG_INFO, "Memory: %s physical", buf);
+    }
 
     nbytes_to_string(host_info.d_total, 0, buf, sizeof(buf));
     nbytes_to_string(host_info.d_free, 0, buf2, sizeof(buf2));
@@ -494,7 +495,7 @@ static void set_client_priority() {
 int CLIENT_STATE::init() {
     int retval;
     unsigned int i;
-    char buf[256];
+    char buf[MAXPATHLEN];
 
     srand((unsigned int)time(0));
     now = dtime();
@@ -542,7 +543,7 @@ int CLIENT_STATE::init() {
 #endif
     }
 
-    relative_to_absolute("", buf);
+    relative_to_absolute("", buf, MAXPATHLEN);
     msg_printf(NULL, MSG_INFO, "Data directory: %s", buf);
 
 #ifdef _WIN32
