@@ -2508,7 +2508,7 @@ void show_docker_messages() {
     ) {
         return;
     }
-    
+
     const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Windows";
 #elif defined(__APPLE__)
     const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Mac";
