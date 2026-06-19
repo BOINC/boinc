@@ -364,6 +364,8 @@ int HOST_INFO::get_os_information() {
     pGPI = (PGPI) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "GetProductInfo");
 
     BOOL bOsVersionInfoEx = get_OSVERSIONINFO(osvi);
+    major_version = osvi.dwMajorVersion;
+    build_number = osvi.dwBuildNumber;
 
     GetNativeSystemInfo(&si);
 

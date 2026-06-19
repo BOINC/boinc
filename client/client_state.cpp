@@ -2501,6 +2501,14 @@ void CLIENT_STATE::init_result_resource_usage(PROJECT *p) {
 #ifndef ANDROID
 void show_docker_messages() {
 #ifdef _WIN32
+    // don't show message if OS is too old for WSL
+    //
+    if (gstate.host_info.major_version < 10
+        || (gstate.host_info.major_version == 10 && gstate.host_info.build_number < 18362)
+    ) {
+        return;
+    }
+    
     const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Windows";
 #elif defined(__APPLE__)
     const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Mac";

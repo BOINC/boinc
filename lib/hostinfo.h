@@ -88,7 +88,9 @@ public:
 #ifdef _WIN32
     // on Windows, Docker info is per WSL_DISTRO, not global
     WSL_DISTROS wsl_distros;
-    void get_os_information();
+    int get_os_information();
+    int major_version;
+    int build_number;
 #else
     char docker_version[256]; // null if not present
     DOCKER_TYPE docker_type;
