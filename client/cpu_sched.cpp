@@ -1385,10 +1385,16 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     }
 
     if (log_flags.mem_usage_debug) {
-        msg_printf(0, MSG_INFO,
-            "[mem_usage] enforce: available RAM %.2f GB virtual %.2f GB",
-            ram_left/GIGA, swap_left/GIGA
-        );
+        if (is_swap_defined()) {
+            msg_printf(0, MSG_INFO,
+                "[mem_usage] enforce: available RAM %.2f GB, swap space %.2f GB",
+                ram_left/GIGA, swap_left/GIGA
+            );
+        } else {
+            msg_printf(0, MSG_INFO,
+                "[mem_usage] enforce: available RAM %.2f GB", ram_left/GIGA
+            );
+        }
     }
 
     // schedule non-CPU-intensive and sporadic tasks
