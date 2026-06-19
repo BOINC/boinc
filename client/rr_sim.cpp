@@ -388,10 +388,10 @@ static void handle_missed_deadline(RESULT* rpbest, double diff, double ar) {
     if (atp) {
         atp->last_deadline_miss_time = gstate.now;
     }
-    if (atp && atp->procinfo.working_set_size_smoothed > ar) {
+    if (atp && atp->procinfo.rss_smoothed > ar) {
         if (log_flags.rr_simulation) {
             msg_printf(pbest, MSG_INFO,
-                "[rr_sim] %s misses deadline but too large to run",
+                "[rr_sim] %s misses deadline but RSS too large to run",
                 rpbest->name
             );
         }

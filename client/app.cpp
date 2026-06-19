@@ -105,12 +105,12 @@ ACTIVE_TASK::ACTIVE_TASK() {
     checkpoint_fraction_done = 0;
     checkpoint_fraction_done_elapsed_time = 0;
     current_cpu_time = 0;
-    peak_working_set_size = 0;
-    peak_swap_size = 0;
+    peak_rss = 0;
+    peak_swap_usage = 0;
     peak_disk_usage = 0;
     once_ran_edf = false;
 
-    wss_from_app = 0;
+    rss_from_app = 0;
     fraction_done = 0;
     fraction_done_elapsed_time = 0;
     first_fraction_done = 0;
@@ -128,7 +128,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     max_mem_usage = 0;
     have_trickle_down = false;
     send_upload_file_status = false;
-    wss_too_large = false;
+    rss_too_large = false;
     swap_too_large = false;
     needs_shmem = false;
     want_network = 0;
@@ -136,7 +136,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     premature_exit_count = 0;
     quit_time = 0;
     procinfo.clear();
-    procinfo.working_set_size_smoothed = 0;
+    procinfo.rss_smoothed = 0;
 #ifdef _WIN32
     process_handle = NULL;
     shm_handle = NULL;
@@ -352,9 +352,11 @@ void procinfo_show(PROC_MAP& pm) {
 #endif
 
 // scan the set of all processes to
-// 1) get the working-set size of active tasks
+// 1) get the resource usage of each active task and BOINC total
 // 2) see if exclusive apps are running
 // 3) get CPU time of non-BOINC processes
+//
+// If total RSS exceeds limit, trigger reschedule
 //
 void ACTIVE_TASK_SET::get_memory_usage() {
     static double last_mem_time=0;
@@ -388,7 +390,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     }
     PROCINFO boinc_total;
     boinc_total.clear();
-    boinc_total.working_set_size_smoothed = 0;
+    boinc_total.rss_smoothed = 0;
 
     for (ACTIVE_TASK* atp: active_tasks) {
         if (atp->task_state() == PROCESS_UNINITIALIZED) continue;
@@ -402,7 +404,6 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         //    and suspend everything).
 
         PROCINFO& pi = atp->procinfo;
-        unsigned long last_page_fault_count = pi.page_fault_count;
         pi.clear();
         pi.id = atp->pid;
         vector<int>* v = NULL;
@@ -415,36 +416,32 @@ void ACTIVE_TASK_SET::get_memory_usage() {
             // the memory of virtual machine apps is not reported correctly,
             // at least on Windows.  Use the VM size instead.
             //
-            pi.working_set_size_smoothed = atp->wup->rsc_memory_bound;
-        } else if (atp->wss_from_app > 0) {
-            pi.working_set_size_smoothed = .5*(pi.working_set_size_smoothed + atp->wss_from_app);
+            pi.rss_smoothed = atp->wup->rsc_memory_bound;
+        } else if (atp->rss_from_app > 0) {
+            pi.rss_smoothed = .5*(pi.rss_smoothed + atp->rss_from_app);
         } else {
-            pi.working_set_size_smoothed = .5*(pi.working_set_size_smoothed + pi.working_set_size);
+            pi.rss_smoothed = .5*(pi.rss_smoothed + pi.rss);
         }
 
-        if (pi.working_set_size > atp->peak_working_set_size) {
-            atp->peak_working_set_size = pi.working_set_size;
+        if (pi.rss > atp->peak_rss) {
+            atp->peak_rss = pi.rss;
         }
-        if (pi.swap_size > atp->peak_swap_size) {
-            atp->peak_swap_size = pi.swap_size;
+        if (pi.swap_usage > atp->peak_swap_usage) {
+            atp->peak_swap_usage = pi.swap_usage;
         }
-        boinc_total.working_set_size += pi.working_set_size;
-        boinc_total.working_set_size_smoothed += pi.working_set_size_smoothed;
-        boinc_total.swap_size += pi.swap_size;
-        boinc_total.page_fault_rate += pi.page_fault_rate;
+        boinc_total.rss += pi.rss;
+        boinc_total.rss_smoothed += pi.rss_smoothed;
+        boinc_total.swap_usage += pi.swap_usage;
 
         if (!first) {
-            int pf = pi.page_fault_count - last_page_fault_count;
-            pi.page_fault_rate = pf/delta_t;
             if (log_flags.mem_usage_debug) {
                 msg_printf(atp->result->project, MSG_INFO,
-                    "[mem_usage] %s%s: RSS %.2f GB (smoothed %.2f GB), virtual %.2f GB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
+                    "[mem_usage] %s%s: virtual size %.2f GB, RSS %.2f GB, swap usage %.2f GB, user CPU %.3f, kernel CPU %.3f",
                     atp->scheduler_state==CPU_SCHED_SCHEDULED?"":" (not running)",
                     atp->result->name,
-                    pi.working_set_size/GIGA,
-                    pi.working_set_size_smoothed/GIGA,
-                    pi.swap_size/GIGA,
-                    pi.page_fault_rate,
+                    pi.virtual_size/GIGA,
+                    pi.rss/GIGA,
+                    pi.swap_usage/GIGA,
                     pi.user_time,
                     pi.kernel_time
                 );
@@ -452,38 +449,38 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         }
     }
 
-    // log BOINC and system totals if requested
+    // log BOINC totals if requested
     //
     if (!first && log_flags.mem_usage_debug) {
         msg_printf(0, MSG_INFO,
-            "[mem_usage] BOINC totals: RSS %.2f GB (smoothed %.2f GB), virtual %.2f GB, %.2f page faults/sec",
-            boinc_total.working_set_size/GIGA,
-            boinc_total.working_set_size_smoothed/GIGA,
-            boinc_total.swap_size/GIGA,
-            boinc_total.page_fault_rate
+            "[mem_usage] BOINC totals: RSS %.2f GB, swap usage %.2f GB",
+            boinc_total.rss/GIGA,
+            boinc_total.swap_usage/GIGA
         );
+#ifdef _WIN32
         PROCINFO system_total;
         system_total.clear();
-        system_total.working_set_size_smoothed = 0;
+        system_total.rss_smoothed = 0;
         for (const auto& [pid, pi]: pm) {
             (void)pid;
-            system_total.working_set_size += pi.working_set_size;
-            system_total.swap_size += pi.swap_size;
+            system_total.rss += pi.rss;
+            system_total.swap_usage += pi.swap_usage;
         }
         msg_printf(0, MSG_INFO,
-            "[mem_usage] System totals: RSS %.2f GB, virtual %.2f GB",
-            system_total.working_set_size/GIGA,
-            system_total.swap_size/GIGA
+            "[mem_usage] System totals: RSS %.2f GB, swap usage %.2f GB",
+            system_total.rss/GIGA,
+            system_total.swap_usage/GIGA
         );
+#endif
     }
 
     // if memory limits exceeded, trigger reschedule
     //
-    if (boinc_total.working_set_size > gstate.available_ram()) {
+    if (boinc_total.rss > gstate.available_ram()) {
         gstate.request_schedule_cpus("RAM limit exceeded");
     }
     if (is_swap_defined()) {
-        if (boinc_total.swap_size
+        if (boinc_total.swap_usage
             > (gstate.global_prefs.vm_max_used_frac)*gstate.host_info.m_swap
         ) {
             gstate.request_schedule_cpus("Swap limit exceeded");
@@ -578,23 +575,23 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         // reported CPU times of the jobs
         // (which may be less reliable/accurate)
         //
-        static double prev_docker = 0;
-        double docker = 0;
+        static double prev_docker_time = 0;
+        double docker_time = 0;
         for (ACTIVE_TASK* atp: active_tasks) {
             if (atp->app_version->is_docker_app) {
-                docker += atp->current_cpu_time;
+                docker_time += atp->current_cpu_time;
             }
         }
-        brc += docker;
-        if (docker < prev_docker) {
+        brc += docker_time;
+        if (docker_time < prev_docker_time) {
             reset = true;
         }
-        prev_docker = docker;
+        prev_docker_time = docker_time;
 #endif
         // At this point we have brc (BOINC-related CPU).
         // If reset is true, it's incomparable with the previous value
 
-        static double prev_nbrc=0;
+        static double prev_nbrc = 0;
         double nbrc = total_cpu_time_now - brc;
         if (!first) {
             if (reset) {
@@ -637,8 +634,8 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         if (log_flags.mem_usage_debug) {
             //procinfo_show(pm);
             msg_printf(NULL, MSG_INFO,
-                "[mem_usage] All others: RSS %.2f GB, virtual %.2f GB, user %.3fs, kernel %.3fs",
-                pi.working_set_size/GIGA, pi.swap_size/GIGA,
+                "[mem_usage] All others: RSS %.2f GB, swap usage %.2f GB, user %.3fs, kernel %.3fs",
+                pi.rss/GIGA, pi.swap_usage/GIGA,
                 pi.user_time, pi.kernel_time
             );
         }
@@ -815,10 +812,10 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <checkpoint_fraction_done_elapsed_time>%f</checkpoint_fraction_done_elapsed_time>\n"
         "    <current_cpu_time>%f</current_cpu_time>\n"
         "    <once_ran_edf>%d</once_ran_edf>\n"
-        "    <swap_size>%f</swap_size>\n"
-        "    <working_set_size>%f</working_set_size>\n"
-        "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
-        "    <page_fault_rate>%f</page_fault_rate>\n",
+        "    <virtual_size>%.0f</virtual_size>\n"
+        "    <swap_size>%.0f</swap_size>\n"
+        "    <working_set_size>%.0f</working_set_size>\n"
+        "    <working_set_size_smoothed>%.0f</working_set_size_smoothed>\n",
         result->project->master_url,
         result->name,
         task_state(),
@@ -830,10 +827,10 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         checkpoint_fraction_done_elapsed_time,
         current_cpu_time,
         once_ran_edf?1:0,
-        procinfo.swap_size,
-        procinfo.working_set_size,
-        procinfo.working_set_size_smoothed,
-        procinfo.page_fault_rate
+        procinfo.virtual_size,
+        procinfo.swap_usage,
+        procinfo.rss,
+        procinfo.rss_smoothed
     );
     fout.printf("</active_task>\n");
     return 0;
@@ -863,10 +860,10 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         "    <fraction_done>%f</fraction_done>\n"
         "    <current_cpu_time>%f</current_cpu_time>\n"
         "    <elapsed_time>%f</elapsed_time>\n"
-        "    <swap_size>%f</swap_size>\n"
-        "    <working_set_size>%f</working_set_size>\n"
-        "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
-        "    <page_fault_rate>%f</page_fault_rate>\n"
+        "    <swap_size>%.0f</swap_size>\n"
+        "    <virtual_size>%.0f</virtual_size>\n"
+        "    <working_set_size>%.0f</working_set_size>\n"
+        "    <working_set_size_smoothed>%.0f</working_set_size_smoothed>\n"
         "%s%s%s%s",
         task_state(),
         app_version->version_num,
@@ -877,11 +874,11 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         fd,
         current_cpu_time,
         elapsed_time,
-        procinfo.swap_size,
-        procinfo.working_set_size,
-        procinfo.working_set_size_smoothed,
-        procinfo.page_fault_rate,
-        wss_too_large?"   <too_large/>\n":"",   // backward compatibility
+        procinfo.swap_usage,
+        procinfo.virtual_size,
+        procinfo.rss,
+        procinfo.rss_smoothed,
+        rss_too_large?"   <too_large/>\n":"",   // backward compatibility
         swap_too_large?"   <swap_too_large/>\n":"",
         needs_shmem?"   <needs_shmem/>\n":"",
         want_network?"   <want_network/>\n":""
@@ -1019,10 +1016,9 @@ int ACTIVE_TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_double("fraction_done", fraction_done)) continue;
             // deprecated - for backwards compat
         else if (xp.parse_int("app_version_num", n)) continue;
-        else if (xp.parse_double("swap_size",  procinfo.swap_size)) continue;
-        else if (xp.parse_double("working_set_size", procinfo.working_set_size)) continue;
-        else if (xp.parse_double("working_set_size_smoothed", procinfo.working_set_size_smoothed)) continue;
-        else if (xp.parse_double("page_fault_rate", procinfo.page_fault_rate)) continue;
+        else if (xp.parse_double("swap_size",  procinfo.swap_usage)) continue;
+        else if (xp.parse_double("working_set_size", procinfo.rss)) continue;
+        else if (xp.parse_double("working_set_size_smoothed", procinfo.rss_smoothed)) continue;
         else if (xp.parse_double("current_cpu_time", x)) continue;
         else {
             if (log_flags.unparsed_xml) {

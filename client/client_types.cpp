@@ -872,7 +872,7 @@ void APP_VERSION::init() {
     graphics_exec_fip = NULL;
     graphics_exec_path[0] = 0;
     graphics_exec_file[0] = 0;
-    max_working_set_size = 0;
+    max_rss = 0;
     is_vbox_app = false;
     is_docker_app = false;
     is_wrapper = false;

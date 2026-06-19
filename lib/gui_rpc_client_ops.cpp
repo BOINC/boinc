@@ -698,8 +698,9 @@ int RESULT::parse(XML_PARSER& xp) {
         if (xp.parse_double("current_cpu_time", current_cpu_time)) continue;
         if (xp.parse_double("elapsed_time", elapsed_time)) continue;
         if (xp.parse_double("progress_rate", progress_rate)) continue;
-        if (xp.parse_double("swap_size", swap_size)) continue;
-        if (xp.parse_double("working_set_size_smoothed", working_set_size_smoothed)) continue;
+        if (xp.parse_double("virtual_size", virtual_size)) continue;
+        if (xp.parse_double("swap_size", swap_usage)) continue;
+        if (xp.parse_double("working_set_size_smoothed", rss_smoothed)) continue;
         if (xp.parse_double("fraction_done", fraction_done)) continue;
         if (xp.parse_double("estimated_cpu_time_remaining", estimated_cpu_time_remaining)) continue;
         if (xp.parse_double("bytes_sent", bytes_sent)) continue;
@@ -759,8 +760,9 @@ void RESULT::clear() {
     fraction_done = 0;
     elapsed_time = 0;
     progress_rate = 0;
-    swap_size = 0;
-    working_set_size_smoothed = 0;
+    virtual_size = 0;
+    swap_usage = 0;
+    rss_smoothed = 0;
     estimated_cpu_time_remaining = 0;
     bytes_sent = 0;
     bytes_received = 0;
@@ -2589,8 +2591,9 @@ int RPC_CLIENT::get_global_prefs_working(string& s) {
     return 0;
 }
 
-
-int RPC_CLIENT::get_global_prefs_working_struct(GLOBAL_PREFS& prefs, GLOBAL_PREFS_MASK& mask) {
+int RPC_CLIENT::get_global_prefs_working_struct(
+    GLOBAL_PREFS& prefs, GLOBAL_PREFS_MASK& mask
+) {
     int retval;
     SET_LOCALE sl;
     string s;
@@ -2656,7 +2659,9 @@ int RPC_CLIENT::set_global_prefs_override(string& s) {
     return rpc.parse_reply();
 }
 
-int RPC_CLIENT::get_global_prefs_override_struct(GLOBAL_PREFS& prefs, GLOBAL_PREFS_MASK& mask) {
+int RPC_CLIENT::get_global_prefs_override_struct(
+    GLOBAL_PREFS& prefs, GLOBAL_PREFS_MASK& mask
+) {
     int retval;
     SET_LOCALE sl;
     string s;
@@ -2675,7 +2680,9 @@ int RPC_CLIENT::get_global_prefs_override_struct(GLOBAL_PREFS& prefs, GLOBAL_PRE
     return 0;
 }
 
-int RPC_CLIENT::set_global_prefs_override_struct(GLOBAL_PREFS& prefs, GLOBAL_PREFS_MASK& mask) {
+int RPC_CLIENT::set_global_prefs_override_struct(
+    GLOBAL_PREFS& prefs, GLOBAL_PREFS_MASK& mask
+) {
     SET_LOCALE sl;
     char buf[64000];
     MIOFILE mf;

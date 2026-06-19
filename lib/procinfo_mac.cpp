@@ -102,7 +102,7 @@ int procinfo_setup(PROC_MAP& pm) {
 // from a process that has the DYLD_LIBRARY_PATH environment variable set.
 // "env -i command" prevents the command from inheriting the caller's
 // environment, which avoids the spurious warning.
-    fd = popen("env -i ps -axcopid,ppid,rss,vsz,pagein,time,command", "r");
+    fd = popen("env -i ps -axcopid,ppid,rss,vsz,time,command", "r");
     if (!fd) return ERR_FOPEN;
 
     // Skip over the header line
@@ -120,21 +120,20 @@ int procinfo_setup(PROC_MAP& pm) {
 
     while (1) {
         p.clear();
-        c = fscanf(fd, "%d%d%d%d%lu%d:%lf ",
+        c = fscanf(fd, "%d%d%d%d%d:%lf ",
             &p.id,
             &p.parentid,
             &real_mem,
             &virtual_mem,
-            &p.page_fault_count,
             &hours,
             &p.user_time
         );
-        if (c < 7) break;
-        if (fgets(p.command, sizeof(p.command) , fd) == NULL) break;
+        if (c < 6) break;
+        if (fgets(p.command, sizeof(p.command), fd) == NULL) break;
         lf = strchr(p.command, '\n');
         if (lf) *lf = '\0';         // Strip trailing linefeed
-        p.working_set_size = (double)real_mem * 1024.;
-        p.swap_size = (double)virtual_mem * 1024.;
+        p.rss = (double)real_mem * 1024.;
+        p.virtual_size = (double)virtual_mem * 1024.;
         p.user_time += 60. * (float)hours;
         p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
         // Ideally, we should count ScreenSaverEngine or legacyScreenSaver
@@ -173,7 +172,7 @@ int procinfo_setup(PROC_MAP& pm) {
     return 0;
 }
 
-// get total user-mode CPU time
+// get total user+kernel CPU time
 //
 // From usr/include/mach/processor_info.h:
 // struct processor_cpu_load_info {             /* number of ticks while running... */
@@ -186,7 +185,7 @@ double total_cpu_time() {
     processor_cpu_load_info_t cpuLoad;
     mach_msg_type_number_t processorMsgCount;
     static double scale;
-    uint64_t totalUserTime = 0;
+    uint64_t total = 0;
 
     if (first) {
         first = false;
@@ -205,11 +204,10 @@ double total_cpu_time() {
         // (values are natural_t)
         uint64_t user = 0, nice = 0;
 
-        user = cpuLoad[i].cpu_ticks[CPU_STATE_USER];
-        nice = cpuLoad[i].cpu_ticks[CPU_STATE_NICE];
-
-        totalUserTime = totalUserTime + user + nice;
+        total += cpuLoad[i].cpu_ticks[CPU_STATE_USER];
+        total += cpuLoad[i].cpu_ticks[CPU_STATE_NICE];
+        total += cpuLoad[i].cpu_ticks[CPU_STATE_SYSTEM];
     }
 
-    return totalUserTime * scale;
+    return total * scale;
 }

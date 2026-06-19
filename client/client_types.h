@@ -366,8 +366,8 @@ struct APP_VERSION {
     char graphics_exec_path[MAXPATHLEN];
     char graphics_exec_file[256];
 
-    double max_working_set_size;
-        // max working set of tasks using this app version.
+    double max_rss;
+        // max RSS of tasks using this app version.
         // unstarted jobs using this app version are assumed
         // to use this much RAM,
         // so that we don't run a long sequence of jobs,

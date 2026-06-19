@@ -62,8 +62,8 @@ void RESULT::clear() {
     got_server_ack = false;
     final_cpu_time = 0;
     final_elapsed_time = 0;
-    final_peak_working_set_size = 0;
-    final_peak_swap_size = 0;
+    final_peak_rss = 0;
+    final_peak_swap_usage = 0;
     final_peak_disk_usage = 0;
 #ifdef SIM
     peak_flop_count = 0;
@@ -181,8 +181,11 @@ int RESULT::parse_state(XML_PARSER& xp) {
         }
         if (xp.parse_double("final_cpu_time", final_cpu_time)) continue;
         if (xp.parse_double("final_elapsed_time", final_elapsed_time)) continue;
-        if (xp.parse_double("final_peak_working_set_size", final_peak_working_set_size)) continue;
-        if (xp.parse_double("final_peak_swap_size", final_peak_swap_size)) continue;
+
+        // old tags for compatibility
+        if (xp.parse_double("final_peak_working_set_size", final_peak_rss)) continue;
+        if (xp.parse_double("final_peak_swap_size", final_peak_swap_usage)) continue;
+
         if (xp.parse_double("final_peak_disk_usage", final_peak_disk_usage)) continue;
         if (xp.parse_int("exit_status", exit_status)) continue;
         if (xp.parse_bool("got_server_ack", got_server_ack)) continue;
@@ -247,16 +250,17 @@ int RESULT::write(MIOFILE& out, bool to_server) {
     if (intops_cumulative) {
         out.printf("    <intops_cumulative>%f</intops_cumulative>\n", intops_cumulative);
     }
-    if (final_peak_working_set_size) {
+    // use outdated tags for compatibility
+    if (final_peak_rss) {
         out.printf(
             "    <final_peak_working_set_size>%.0f</final_peak_working_set_size>\n",
-            final_peak_working_set_size
+            final_peak_rss
         );
     }
-    if (final_peak_swap_size) {
+    if (final_peak_swap_usage) {
         out.printf(
             "    <final_peak_swap_size>%.0f</final_peak_swap_size>\n",
-            final_peak_swap_size
+            final_peak_swap_usage
         );
     }
     if (final_peak_disk_usage) {

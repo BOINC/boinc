@@ -21,13 +21,14 @@
 #include <vector>
 #include <map>
 
+// platform-independent process descriptor
 struct PROCINFO {
     int id;
     int parentid;
-    double swap_size;
-    double working_set_size;
-    double working_set_size_smoothed;
-    unsigned long page_fault_count;
+    double swap_usage;
+    double virtual_size;
+    double rss;
+    double rss_smoothed;
     double user_time;
     double kernel_time;
     bool is_boinc_app;
@@ -35,7 +36,6 @@ struct PROCINFO {
         // running at or below priority of BOINC apps
     char command[256];
     bool scanned;
-    double page_fault_rate;        // derived by higher-level code
     std::vector<int> children;
 #ifdef _WIN32
     LARGE_INTEGER create_time;
@@ -43,25 +43,27 @@ struct PROCINFO {
 
     PROCINFO() {
       clear();
-      working_set_size_smoothed = 0;
+      rss_smoothed = 0;
     }
     void clear() {
         id = 0;
         parentid = 0;
-        swap_size = 0;
-        working_set_size = 0;
-        //working_set_size_smoothed = 0;
+        swap_usage = 0;
+        virtual_size = 0;
+        rss = 0;
+        //rss_smoothed = 0;
             // *Don't* clear this
-        page_fault_count = 0;
         user_time = 0;
         kernel_time = 0;
         is_boinc_app = false;
         is_low_priority = false;
         command[0] = 0;
         scanned = false;
-        page_fault_rate = 0;
         children.clear();
     }
+#ifdef __linux__
+    void get_mem_info();
+#endif
 };
 
 typedef std::map<int, PROCINFO> PROC_MAP;

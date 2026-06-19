@@ -206,7 +206,7 @@ struct PROC_RESOURCES {
         // If so, don't reserve CPU/GPU for it, to avoid starvation scenario
         //
         bool may_not_run = false;
-        if (atp && (atp->wss_too_large || atp->swap_too_large)) {
+        if (atp && (atp->rss_too_large || atp->swap_too_large)) {
             may_not_run = true;
         }
         if (rt) {
@@ -840,7 +840,7 @@ bool CLIENT_STATE::swap_limit_check() {
     double swap_usage = 0;
     for (ACTIVE_TASK *atp: active_tasks.active_tasks) {
         if (atp->task_state() == PROCESS_EXECUTING) {
-            swap_usage += atp->procinfo.swap_size;
+            swap_usage += atp->procinfo.swap_usage;
         }
     }
 
@@ -872,7 +872,7 @@ bool CLIENT_STATE::swap_limit_check() {
             atp->swap_kill_time = now;
             atp->preempt(REMOVE_ALWAYS);
                 // this changes state to QUIT_PENDING
-            swap_usage -= atp->procinfo.swap_size;
+            swap_usage -= atp->procinfo.swap_usage;
             if (swap_usage <= swap_limit) {
                 break;
             }
@@ -920,7 +920,7 @@ bool CLIENT_STATE::swap_limit_check() {
         // run as many as will fit
         //
         for (ACTIVE_TASK *atp: swap_kill_tasks) {
-            if (swap_usage + atp->procinfo.swap_size > swap_limit) {
+            if (swap_usage + atp->procinfo.swap_usage > swap_limit) {
                 break;
             }
             if (log_flags.cpu_sched_debug) {
@@ -930,7 +930,7 @@ bool CLIENT_STATE::swap_limit_check() {
             }
             atp->swap_kill_time = 0;
             run_list.push_back(atp->result);
-            swap_usage += atp->procinfo.swap_size;
+            swap_usage += atp->procinfo.swap_usage;
         }
         enforce_run_list(run_list);
     }
@@ -1069,15 +1069,15 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
     // (max of working sets of currently running jobs)
     //
     for (APP_VERSION *avp: app_versions) {
-        avp->max_working_set_size = 0;
+        avp->max_rss = 0;
     }
     for (ACTIVE_TASK *atp: active_tasks.active_tasks) {
-        atp->wss_too_large = false;
+        atp->rss_too_large = false;
         atp->swap_too_large = false;
-        double w = atp->procinfo.working_set_size_smoothed;
+        double w = atp->procinfo.rss_smoothed;
         APP_VERSION* avp = atp->app_version;
-        if (w > avp->max_working_set_size) {
-            avp->max_working_set_size = w;
+        if (w > avp->max_rss) {
+            avp->max_rss = w;
         }
         atp->result->not_started = false;
     }
@@ -1377,7 +1377,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     if (have_sporadic_app) {
         ram_left -= sporadic_resources.mem_used;
     }
-    double swap_left;
+    double swap_left = 0;
     bool check_swap = false;
     if (is_swap_defined()) {
         swap_left = (global_prefs.vm_max_used_frac)*host_info.m_swap;
@@ -1385,10 +1385,16 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     }
 
     if (log_flags.mem_usage_debug) {
-        msg_printf(0, MSG_INFO,
-            "[mem_usage] enforce: available RAM %.2f GB virtual %.2f GB",
-            ram_left/GIGA, swap_left/GIGA
-        );
+        if (is_swap_defined()) {
+            msg_printf(0, MSG_INFO,
+                "[mem_usage] enforce: available RAM %.2f GB, swap space %.2f GB",
+                ram_left/GIGA, swap_left/GIGA
+            );
+        } else {
+            msg_printf(0, MSG_INFO,
+                "[mem_usage] enforce: available RAM %.2f GB", ram_left/GIGA
+            );
+        }
     }
 
     // schedule non-CPU-intensive and sporadic tasks
@@ -1407,8 +1413,8 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             // don't count RAM usage because it's used sporadically,
             // and doing so can starve other jobs
             //
-            //ram_left -= atp->procinfo.working_set_size_smoothed;
-            swap_left -= atp->procinfo.swap_size;
+            //ram_left -= atp->procinfo.rss_smoothed;
+            swap_left -= atp->procinfo.swap_usage;
         }
     }
 
@@ -1502,31 +1508,31 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         // This is to handle apps (like CPDN) whose WSS is small for a while
         // and then gets big.
         //
-        double ewss = 0;
+        double erss = 0;
         double eswap = 0;
         if (atp) {
-            atp->wss_too_large = false;
-            ewss = atp->procinfo.working_set_size_smoothed;
-            eswap = atp->procinfo.swap_size;
+            atp->rss_too_large = false;
+            erss = atp->procinfo.rss_smoothed;
+            eswap = atp->procinfo.swap_usage;
         } else {
-            ewss = rp->avp->max_working_set_size;
-            eswap = rp->avp->max_working_set_size;  // best guess
+            erss = rp->avp->max_rss;
+            eswap = rp->avp->max_rss;  // best guess
         }
         if (rp->project->strict_memory_bound) {
-            ewss = std::max(ewss, rp->wup->rsc_memory_bound);
+            erss = std::max(erss, rp->wup->rsc_memory_bound);
         }
-        if (ewss == 0) {
-            ewss = rp->wup->rsc_memory_bound;
+        if (erss == 0) {
+            erss = rp->wup->rsc_memory_bound;
         }
 
-        if (ewss > ram_left) {
+        if (erss > ram_left) {
             if (atp) {
-                atp->wss_too_large = true;
+                atp->rss_too_large = true;
             }
             if (log_flags.cpu_sched_debug || log_flags.mem_usage_debug) {
                 msg_printf(rp->project, MSG_INFO,
                     "[cpu_sched_debug] skipping %s: estimated RSS (%.2f GB) exceeds RAM left (%.2f GB)",
-                    rp->name, ewss/GIGA, ram_left/GIGA
+                    rp->name, erss/GIGA, ram_left/GIGA
                 );
             }
             continue;
@@ -1569,7 +1575,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
 
         ncpus_used += rp->resource_usage.avg_ncpus;
         atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
-        ram_left -= ewss;
+        ram_left -= erss;
         swap_left -= eswap;
         if (have_max_concurrent) {
             max_concurrent_inc(rp);
@@ -1617,10 +1623,10 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                     }
                     preempt_type = REMOVE_ALWAYS;
                 }
-                if (atp->wss_too_large) {
+                if (atp->rss_too_large) {
                     if (log_flags.mem_usage_debug) {
                         msg_printf(atp->result->project, MSG_INFO,
-                            "[mem_usage] job using too much memory, will suspend"
+                            "[mem_usage] insufficient RAM, will suspend"
                         );
                     }
                     preempt_type = REMOVE_NEVER;
