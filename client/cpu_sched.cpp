@@ -1377,7 +1377,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     if (have_sporadic_app) {
         ram_left -= sporadic_resources.mem_used;
     }
-    double swap_left;
+    double swap_left = 0;
     bool check_swap = false;
     if (is_swap_defined()) {
         swap_left = (global_prefs.vm_max_used_frac)*host_info.m_swap;
