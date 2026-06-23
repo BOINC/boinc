@@ -188,9 +188,11 @@ int procinfo_setup(PROC_MAP& pm) {
         if (!f) continue;
         if (fread(&prusage, sizeof(prusage_t), 1, f) == 1) {
             p.user_time = (float)prusage.pr_utime.tv_sec
-                + ((float)prusage.pr_utime.tv_nsec)/1e+9;
+                + ((float)prusage.pr_utime.tv_nsec)/1e+9
+            ;
             p.kernel_time = (float)prusage.pr_stime.tv_sec
-                + ((float)prusage.pr_utime.tv_nsec)/1e+9;
+                + ((float)prusage.pr_stime.tv_nsec)/1e+9
+            ;
         }
         fclose(f);
         p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
