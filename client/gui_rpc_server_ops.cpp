@@ -1862,13 +1862,24 @@ GUI_RPC gui_rpcs[] = {
 static int handle_rpc_aux(GUI_RPC_CONN& grc) {
     int retval = 0;
     grc.mfin.init_buf_read(grc.request_msg);
-    if (grc.xp.get_tag()) {    // parse <boinc_gui_rpc_request>
+
+    // parse <boinc_gui_rpc_request>
+    //
+    if (grc.xp.get_tag()) {
         grc.mfout.printf("<error>missing boinc_gui_rpc_request tag</error>\n");
         return 0;
     }
-    if (grc.xp.get_tag()) {    // parse the request tag
+    // parse the request tag
+    //
+    if (grc.xp.get_tag()) {
         grc.mfout.printf("<error>missing request</error>\n");
         return 0;
+    }
+    if (log_flags.gui_rpc_debug) {
+        msg_printf(0, MSG_INFO,
+            "[gui_rpc] got request %s on socket %d",
+            grc.xp.parsed_tag, grc.sock
+        );
     }
     for (unsigned int i=0; i<sizeof(gui_rpcs)/sizeof(GUI_RPC); i++) {
         GUI_RPC& gr = gui_rpcs[i];
@@ -1898,13 +1909,19 @@ static int handle_rpc_aux(GUI_RPC_CONN& grc) {
 static bool is_http_post_request(char* buf) {
     if (strstr(buf, "POST") != buf) return false;
     char* p = strstr(buf, "Content-Length: ");
-    if (!p) return false;
+    if (!p) {
+        return false;
+    }
     p += strlen("Content-Length: ");
     int n = atoi(p);
     p = strstr(p, HTTP_HEADER_DELIM);
-    if (!p) return false;
+    if (!p) {
+        return false;
+    }
     p += 4;
-    if ((int)strlen(p) < n) return false;
+    if ((int)strlen(p) < n) {
+        return false;
+    }
     return true;
 }
 
