@@ -15,8 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cc_config.h"
-
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
@@ -73,6 +71,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("disk_usage_debug", disk_usage_debug)) continue;
         if (xp.parse_bool("file_xfer_debug", file_xfer_debug)) continue;
         if (xp.parse_bool("gui_rpc_debug", gui_rpc_debug)) continue;
+        if (xp.parse_bool("gui_rpc_msg_debug", gui_rpc_msg_debug)) continue;
         if (xp.parse_bool("heartbeat_debug", heartbeat_debug)) continue;
         if (xp.parse_bool("http_debug", http_debug)) continue;
         if (xp.parse_bool("http_xfer_debug", http_xfer_debug)) continue;
@@ -124,6 +123,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <disk_usage_debug>%d</disk_usage_debug>\n"
         "        <file_xfer_debug>%d</file_xfer_debug>\n"
         "        <gui_rpc_debug>%d</gui_rpc_debug>\n"
+        "        <gui_rpc_msg_debug>%d</gui_rpc_msg_debug>\n"
         "        <heartbeat_debug>%d</heartbeat_debug>\n"
         "        <http_debug>%d</http_debug>\n"
         "        <http_xfer_debug>%d</http_xfer_debug>\n"
@@ -168,6 +168,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         disk_usage_debug ? 1 : 0,
         file_xfer_debug ? 1 : 0,
         gui_rpc_debug ? 1 : 0,
+        gui_rpc_msg_debug ? 1 : 0,
         heartbeat_debug ? 1 : 0,
         http_debug ? 1 : 0,
         http_xfer_debug ? 1 : 0,

@@ -2015,9 +2015,9 @@ int GUI_RPC_CONN::handle_rpc() {
     }
     request_msg[request_nbytes] = 0;
 
-    if (log_flags.gui_rpc_debug) {
+    if (log_flags.gui_rpc_msg_debug) {
         msg_printf(0, MSG_INFO,
-            "[gui_rpc] GUI RPC Command = '%s'\n", request_msg
+            "[gui_rpc] GUI RPC request = '%s'\n", request_msg
         );
     }
 
@@ -2061,7 +2061,7 @@ int GUI_RPC_CONN::handle_rpc() {
             *p = 0;
             http_request = false;
         } else {
-            if (log_flags.gui_rpc_debug) {
+            if (log_flags.gui_rpc_msg_debug) {
                 msg_printf(0, MSG_INFO,
                     "[gui_rpc] partial GUI RPC Command = '%s'\n", request_msg
                 );
@@ -2129,11 +2129,13 @@ int GUI_RPC_CONN::handle_rpc() {
     }
     if (p) {
         send(sock, p, n, 0);
-        if (log_flags.gui_rpc_debug) {
+        if (log_flags.gui_rpc_msg_debug) {
             if (!http_request) {
-                p[n-1]=0;   // replace 003 with NULL
+                p[n-1] = 0;   // replace 003 with NULL
             }
-            if (n > 128) p[128] = 0;
+            if (n > 128) {
+                p[128] = 0;
+            }
             msg_printf(0, MSG_INFO,
                 "[gui_rpc] GUI RPC reply: '%s'\n", p
             );
