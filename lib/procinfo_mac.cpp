@@ -102,6 +102,7 @@ int procinfo_setup(PROC_MAP& pm) {
 // from a process that has the DYLD_LIBRARY_PATH environment variable set.
 // "env -i command" prevents the command from inheriting the caller's
 // environment, which avoids the spurious warning.
+
     fd = popen("env -i ps -axcopid,ppid,rss,vsz,time,command", "r");
     if (!fd) return ERR_FOPEN;
 
@@ -115,6 +116,7 @@ int procinfo_setup(PROC_MAP& pm) {
     } while (c != '\n');
 
     // Ensure %lf works correctly if called from non-English Manager
+    //
     old_locale = setlocale(LC_ALL, NULL);
     setlocale(LC_ALL, "C");
 
@@ -136,6 +138,7 @@ int procinfo_setup(PROC_MAP& pm) {
         p.virtual_size = (double)virtual_mem * 1024.;
         p.user_time += 60. * (float)hours;
         p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
+
         // Ideally, we should count ScreenSaverEngine or legacyScreenSaver
         // as a BOINC process only if BOINC is set as the screensaver. We
         // could set a flag in the client when the get_screensaver_tasks
@@ -143,12 +146,14 @@ int procinfo_setup(PROC_MAP& pm) {
         // reasons.
         //
         // Check for either ScreenSaverEngine or legacyScreenSaver
+        //
         if (strcasestr(p.command, "screensaver")) p.is_boinc_app = true;
 
         // We do not mark Mac processes as low priority because some processes
         // (e.g., Finder) change priority frequently, which would cause
         // procinfo_non_boinc() and ACTIVE_TASK_SET::get_memory_usage() to get
         // incorrect results for the % CPU used.
+        //
         p.is_low_priority = false;
 
         if (strcasestr(p.command, brandName[iBrandID])) {
@@ -163,7 +168,10 @@ int procinfo_setup(PROC_MAP& pm) {
 #if SHOW_TIMING
     end = UpTime();
     elapsed = AbsoluteToNanoseconds(SubAbsoluteFromAbsolute(end, start));
-    msg_printf(NULL, MSG_INFO, "elapsed time = %llu, m_swap = %lf\n", elapsed, gstate.host_info.m_swap);
+    msg_printf(NULL, MSG_INFO,
+        "elapsed time = %llu, m_swap = %lf\n",
+        elapsed, gstate.host_info.m_swap
+    );
 #endif
 
     find_children(pm);
@@ -193,17 +201,19 @@ double total_cpu_time() {
         scale = 1./hz;
     }
 
-    kern_return_t err = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &processorCount, (processor_info_array_t *)&cpuLoad, &processorMsgCount);
+    kern_return_t err = host_processor_info(
+        mach_host_self(),
+        PROCESSOR_CPU_LOAD_INFO,
+        &processorCount,
+        (processor_info_array_t *)&cpuLoad,
+        &processorMsgCount
+    );
 
     if (err != KERN_SUCCESS) {
         return 0.0;
     }
 
     for (natural_t i = 0; i < processorCount; i++) {
-        // Calc user and nice CPU usage, with guards against 32-bit overflow
-        // (values are natural_t)
-        uint64_t user = 0, nice = 0;
-
         total += cpuLoad[i].cpu_ticks[CPU_STATE_USER];
         total += cpuLoad[i].cpu_ticks[CPU_STATE_NICE];
         total += cpuLoad[i].cpu_ticks[CPU_STATE_SYSTEM];
