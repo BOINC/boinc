@@ -100,10 +100,11 @@ static inline char* skip_spaces(char* p, int n) {
 int PROC_STAT::parse_stat(char* buf) {
     pid = atoi(buf);
     char *p = strchr(buf, '(');
+    if (!p) return 1;
     char *q = strchr(p, ')');
-    if (!p || !q) return 1;
+    if (!q) return 1;
     *q = 0;
-    strcpy(command, p+1);
+    safe_strcpy(command, p+1);
     q += 4;
     ppid = atoi(q);
     q = skip_spaces(q, 10);
@@ -178,7 +179,7 @@ int procinfo_setup(PROC_MAP& pm) {
             p.parentid = psinfo.pr_ppid;
             p.virtual_size = psinfo.pr_size*1024.;
             p.rss = psinfo.pr_rssize * 1024.;
-            strlcpy(p.command, psinfo.pr_fname, sizeof(p.command));
+            safe_strcpy(p.command, psinfo.pr_fname);
         }
         fclose(f);
         snprintf(pidpath, sizeof(pidpath), "/proc/%s/usage", piddir->d_name);
@@ -186,10 +187,12 @@ int procinfo_setup(PROC_MAP& pm) {
         f = fopen(pidpath, "r");
         if (!f) continue;
         if (fread(&prusage, sizeof(prusage_t), 1, f) == 1) {
-            p.user_time = (float)prusage.pr_utime.tv_sec +
-                ((float)prusage.pr_utime.tv_nsec)/1e+9;
-            p.kernel_time = (float)prusage.pr_stime.tv_sec +
-                ((float)prusage.pr_utime.tv_nsec)/1e+9;
+            p.user_time = (float)prusage.pr_utime.tv_sec
+                + ((float)prusage.pr_utime.tv_nsec)/1e+9
+            ;
+            p.kernel_time = (float)prusage.pr_stime.tv_sec
+                + ((float)prusage.pr_stime.tv_nsec)/1e+9
+            ;
         }
         fclose(f);
         p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
@@ -213,12 +216,11 @@ int procinfo_setup(PROC_MAP& pm) {
         p.clear();
         p.id = ps.pid;
         p.parentid = ps.ppid;
-        p.virtual_size = (double)ps.virtual_size;
         // times are in jiffies, need seconds
         // assumes 100 jiffies per second
         p.user_time = (double)ps.utime / 100.;
         p.kernel_time = (double)ps.stime / 100.;
-        strlcpy(p.command, ps.command, sizeof(p.command));
+        safe_strcpy(p.command, ps.command);
         p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
         p.is_low_priority = (ps.priority == 39);
             // Internally Linux stores the process priority as nice + 20

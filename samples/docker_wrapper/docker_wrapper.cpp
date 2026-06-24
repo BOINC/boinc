@@ -414,7 +414,7 @@ int image_exists(bool &exists) {
 }
 
 int build_image() {
-    char cmd[256];
+    char cmd[1024];
     vector<string> out;
     int retval;
 
@@ -558,7 +558,7 @@ int get_container_state(int &state) {
     retval = docker_conn.command(cmd, out, verbose_all());
     if (retval) return retval;
     for (string line: out) {
-        char buf[256];
+        char buf[1024];
         safe_strcpy(buf, line.c_str());
         if (strstr(buf, container_name)) {
             char *p = strchr(buf, '|');
@@ -585,7 +585,7 @@ int get_container_state(int &state) {
 
 int create_container() {
     char cmd[4096];
-    char slot_cmd[256], project_cmd[256], buf[1024];
+    char slot_cmd[1024], project_cmd[1024], buf[1024];
     vector<string> out;
     int retval;
 
@@ -1012,7 +1012,7 @@ void init_signal_handler() {
 void set_env_var(const char* name, const char* value) {
 #ifdef _WIN32
     vector<string> out;
-    char buf[256];
+    char buf[1024];
     sprintf(buf, "export %s=\"%s\"", name, value);
     docker_conn.shell_command(buf, out, verbose_std());
 #else
