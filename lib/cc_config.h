@@ -85,6 +85,7 @@ struct LOG_FLAGS {
     bool file_xfer_debug;
         // show completion of FILE_XFER
     bool gui_rpc_debug;
+    bool gui_rpc_msg_debug;
     bool heartbeat_debug;
     bool http_debug;
     bool http_xfer_debug;
@@ -130,7 +131,7 @@ struct LOG_FLAGS {
         file_xfer = true;
         sched_ops = true;
     }
-    void init();
+    void init();    // sets defaults (only above flags set)
     int parse(XML_PARSER&);
     void show();
     int write(MIOFILE& out);
