@@ -131,7 +131,7 @@ struct LOG_FLAGS {
         file_xfer = true;
         sched_ops = true;
     }
-    void init();    // clears all flags
+    void init();    // sets defaults (only above flags set)
     int parse(XML_PARSER&);
     void show();
     int write(MIOFILE& out);
