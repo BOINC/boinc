@@ -172,6 +172,7 @@ samples/wrappture/*wrappture_example
 samples/wrappture/*fermi
 samples/**/*.exe
 samples/sporadic/sporadic
+samples/nvcuda/example_app_nvcuda
 sched/adjust_user_priority
 sched/antique_file_deleter
 sched/census

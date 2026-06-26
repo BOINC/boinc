@@ -32,6 +32,9 @@ env:
   AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
   AWS_DEFAULT_REGION: us-west-2
+  CUDA_VERSION_MM: 13-3
+  CUDA_VERSION_MMP: 13.3.0
+  CUDA_VERSION_FULL: 13.3.0-610.43.02-1
 
 jobs:
   build:
@@ -82,7 +85,7 @@ jobs:
         if: matrix.type != 'coverity' || (github.ref == 'refs/heads/master' && github.event_name == 'schedule')
         run: |
           sudo apt-get update
-          sudo apt-get install -y autopoint p7zip-full zip
+          sudo apt-get install -y autopoint p7zip-full zip wget
 
       - name: Install dependencies for x64
         if: success() && (! endsWith(matrix.type, 'arm64') && ! endsWith(matrix.type, 'armhf') && (matrix.type != 'coverity' || (github.ref == 'refs/heads/master' && github.event_name == 'schedule')))
@@ -217,6 +220,19 @@ jobs:
           sudo apt-get install ansible
           sudo service mysql stop
           ./tests/integration_test/installTestSuite.sh
+
+      - name: Install CUDA for apps and apps-vcpkg
+        if: success() && (matrix.type == 'apps' || matrix.type == 'apps-vcpkg')
+        run: |
+          distro_name=ubuntu$(echo $(lsb_release -rs) | sed 's/\.//g')
+          wget https://developer.download.nvidia.com/compute/cuda/repos/$distro_name/x86_64/cuda-$distro_name.pin
+          sudo mv cuda-$distro_name.pin /etc/apt/preferences.d/cuda-repository-pin-600
+          wget https://developer.download.nvidia.com/compute/cuda/${{ env.CUDA_VERSION_MMP }}/local_installers/cuda-repo-$distro_name-${{ env.CUDA_VERSION_MM }}-local_${{ env.CUDA_VERSION_FULL }}_amd64.deb
+          sudo dpkg -i cuda-repo-$distro_name-${{ env.CUDA_VERSION_MM }}-local_${{ env.CUDA_VERSION_FULL}}_amd64.deb
+          sudo cp /var/cuda-repo-$distro_name-${{ env.CUDA_VERSION_MM }}-local/cuda-*-keyring.gpg /usr/share/keyrings/
+          sudo apt update
+          sudo apt -y install cuda-toolkit-${{ env.CUDA_VERSION_MM }}
+          /usr/local/cuda/bin/nvcc --version
 
       - name: Cache dependencies
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
