@@ -300,6 +300,11 @@ namespace test_str_util {
         strcpy(buf, "lf\n ending\n");
         buf = lf_terminate(buf);
         EXPECT_STREQ(buf, "lf\n ending\n");
+        // empty string must not read p[-1]; should become a single newline
+        strcpy(buf, "");
+        buf = lf_terminate(buf);
+        EXPECT_STREQ(buf, "\n");
+        free(buf);
     }
 
     TEST_F(test_str_util, is_valid_filename) {

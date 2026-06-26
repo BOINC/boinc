@@ -824,7 +824,7 @@ void strip_translation(char* p) {
 
 char* lf_terminate(char* p) {
     int n = (int)strlen(p);
-    if (p[n-1] == '\n') {
+    if (n>0 && p[n-1] == '\n') {
         return p;
     }
     p = (char*)realloc(p, n+2);
