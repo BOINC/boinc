@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// structs describing WSL (Windows Subsystem for Linux) distros.
+// Structs describing WSL (Windows Subsystem for Linux) distros.
 // Used in Win client and also in server code (for plan class logic)
 
 #ifndef BOINC_WSLINFO_H
@@ -28,6 +28,27 @@
 #include "common_defs.h"
 
 #define BOINC_WSL_DISTRO_NAME "boinc-buda-runner"
+
+// A GPU type that is usable from a particular distro.
+// This info is obtained from the 'gpus.json' file,
+// typically created by the distro installer
+//
+struct WSL_GPU {
+    std::string name;
+        // CPU, NVIDIA, AMD, intel_gpu, apple_gpu
+        // or (for OpenCL) model name
+        // e.g. strings containing Mali, Adreno, etc.
+    bool has_opencl;
+    bool has_cuda;
+
+    void write_xml(MIOFILE&);
+    int parse(XML_PARSER&);
+    void clear() {
+        name.clear();
+        has_opencl = false;
+        has_cuda = false;
+    }
+};
 
 // describes a WSL (Windows Subsystem for Linux) distro,
 // and its Docker features
@@ -58,6 +79,9 @@ struct WSL_DISTRO {
         // if this distro is boinc_buda_runner, the version
     std::string base_path;
         // the dir where the disk image (.vhdx file) is stored
+    vector<WSL_GPU> wsl_gpus;
+        // info on the GPUs that are usable
+        // from containers running in the distro
 
     WSL_DISTRO(){
         clear();

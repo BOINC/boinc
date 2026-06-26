@@ -18,6 +18,8 @@
 // enumerate the WSL distros on this host.
 // For each one, see if it contains Podman or Docker, and get the version
 
+#include <nlohmann/json.hpp>
+
 #include "boinc_win.h"
 #include "win_util.h"
 
@@ -30,6 +32,7 @@
 
 using std::vector;
 using std::string;
+using nlohmann::json;
 
 // timeout for commands run in WSL container
 // If something goes wrong we don't want client to hang
@@ -38,6 +41,8 @@ using std::string;
 
 static void get_docker_version(WSL_CMD&, WSL_DISTRO&);
 static void get_docker_compose_version(WSL_CMD&, WSL_DISTRO&);
+
+static int get_json_gpu(json::basic_json&, WSL_GPU&)) {
 
 // scan the registry to get the list of all WSL distros on this host.
 // See https://patrickwu.space/2020/07/19/wsl-related-registry/
@@ -403,6 +408,37 @@ int get_wsl_information(WSL_DISTROS &distros) {
             }
         }
 
+        // parse gpus.json if present.
+        //
+        while (1) {
+            if (rs.run_program_in_wsl(
+                wd, "cat /home/boinc/gpus.json; echo EOM")
+            ) {
+                break;
+            }
+            string buf;
+            read_from_pipe(rs.out_read, rs.proc_handle, buf, CMD_TIMEOUT, "EOM");
+            json d;
+            d.json::parse(s, nullptr, false);   // no exceptions
+            if (d.is_discarded()) {
+                msg_printf(0, MSG_INFO,
+                    "Can't parse gpus.json in WSL distro %s", wd.name
+                );
+                break;
+            }
+
+            for (auto &el: d) {
+                WSL_GPU wg;
+                if (get_json_gpu(el, wg)) {
+                    msg_printf(0, MSG_INFO,
+                        "Can't parse GPU element in gpus.json"
+                    );
+                    continue;
+                }
+                gpus.push_back(wg);
+            }
+        }
+
         distros.distros.push_back(wd);
     }
 
@@ -473,4 +509,30 @@ static bool get_docker_compose_version_aux(
 static void get_docker_compose_version(WSL_CMD& rs, WSL_DISTRO &wd) {
     if (get_docker_compose_version_aux(rs, wd, PODMAN)) return;
     get_docker_compose_version_aux(rs, wd, DOCKER);
+}
+
+// populate the WSL_GPU with data from the JSON object
+//
+int get_json_gpu(json::basic_json& el, WSL_GPU& wg)) {
+    try {
+        wg.name = el["name"].get<string>();
+    } catch (...) {
+        return -1;
+    }
+    bool b;
+    try {
+        wg.has_cuda = el["has_cuda"].get<bool>();
+    } catch (...) {
+        wg.has_cuda = false;
+    }
+    try {
+        wg.has_opencl = el["has_opencl"].get<bool>();
+    } catch (...) {
+        wg.has_opencl = false;
+    }
+    try {
+        wg.has_metal = el["has_metal"].get<bool>();
+    } catch (...) {
+        wg.has_metal = false;
+    }
 }

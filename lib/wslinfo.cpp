@@ -90,6 +90,9 @@ void WSL_DISTRO::write_xml(MIOFILE& f) {
             docker_compose_type
         );
     }
+    for (WSL_GPU &wg: wsl_gpus) {
+        wg.write_xml();
+    }
     f.printf(
         "        </distro>\n"
     );
@@ -214,6 +217,37 @@ int WSL_DISTROS::boinc_distro_version() {
         if (wd.distro_name == BOINC_WSL_DISTRO_NAME) {
             return wd.boinc_buda_runner_version;
         }
+    }
+    return 0;
+}
+
+void WSL_GPU::write_xml(MIOFILE& f) {
+    f.printf(
+"    <wsl_gpu>\n"
+"        <name>%s</name>\n",
+        name
+    );
+    if (has_cuda) {
+        f.printf("        <has_cuda/>\n");
+    }
+    if (has_opencl) {
+        f.printf("        <has_opencl/>\n");
+    }
+    f.printf(
+"    </wsl_gpu>\n"
+    );
+}
+
+int parse(XML_PARSER &xp) {
+    clear();
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/wsl_gpu")) {
+            if (name.empty()) return -1;
+            break;
+        }
+        if (xp.parse_string("name", name)) continue;
+        if (xp.parse_bool("has_cuda", has_cuda)) continue;
+        if (xp.parse_bool("has_opencl", has_opencl)) continue;
     }
     return 0;
 }
