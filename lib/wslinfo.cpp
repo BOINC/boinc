@@ -70,7 +70,7 @@ void WSL_DISTRO::write_xml(MIOFILE& f) {
     }
     if (!libc_version.empty()) {
         f.printf(
-            "           <libc_version>%s</libc_version>\n",
+            "            <libc_version>%s</libc_version>\n",
             libc_version.c_str()
         );
     }
@@ -223,18 +223,18 @@ int WSL_DISTROS::boinc_distro_version() {
 
 void WSL_GPU::write_xml(MIOFILE& f) {
     f.printf(
-"    <wsl_gpu>\n"
-"        <name>%s</name>\n",
+"            <wsl_gpu>\n"
+"                <name>%s</name>\n",
         name.c_str()
     );
     if (has_cuda) {
-        f.printf("        <has_cuda/>\n");
+        f.printf("                <has_cuda/>\n");
     }
     if (has_opencl) {
-        f.printf("        <has_opencl/>\n");
+        f.printf("                <has_opencl/>\n");
     }
     f.printf(
-"    </wsl_gpu>\n"
+"            </wsl_gpu>\n"
     );
 }
 
