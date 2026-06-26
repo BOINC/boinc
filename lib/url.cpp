@@ -303,10 +303,10 @@ bool valid_master_url(char* buf) {
 
 void escape_project_url(char *in, char* out) {
     escape_url_readable(in, out);
-    char& last = out[strlen(out)-1];
+    size_t n = strlen(out);
     // remove trailing _
-    if (last == '_') {
-        last = '\0';
+    if (n>0 && out[n-1] == '_') {
+        out[n-1] = '\0';
     }
 }
 

@@ -219,6 +219,16 @@ namespace test_url {
         strncpy(url, "https://secure.example.com/Dollar$", sizeof (url));
         escape_project_url(url, buf);
         EXPECT_STREQ(buf, "secure.example.com_Dollar");
+
+        //Nothing after the scheme: must not read/write out of bounds (was out[-1]).
+        strncpy(url, "http://", sizeof (url));
+        escape_project_url(url, buf);
+        EXPECT_STREQ(buf, "");
+
+        //Empty input: must not read/write out of bounds.
+        strncpy(url, "", sizeof (url));
+        escape_project_url(url, buf);
+        EXPECT_STREQ(buf, "");
     }
 
 }
