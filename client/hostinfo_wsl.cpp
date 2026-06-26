@@ -42,7 +42,7 @@ using nlohmann::json;
 static void get_docker_version(WSL_CMD&, WSL_DISTRO&);
 static void get_docker_compose_version(WSL_CMD&, WSL_DISTRO&);
 
-static int get_json_gpu(json::basic_json&, WSL_GPU&)) {
+static int get_json_gpu(const nlohmann::json&, WSL_GPU&);
 
 // scan the registry to get the list of all WSL distros on this host.
 // See https://patrickwu.space/2020/07/19/wsl-related-registry/
@@ -418,11 +418,13 @@ int get_wsl_information(WSL_DISTROS &distros) {
             }
             string buf;
             read_from_pipe(rs.out_read, rs.proc_handle, buf, CMD_TIMEOUT, "EOM");
+            buf.erase(buf.size() - 4);
             json d;
-            d.json::parse(s, nullptr, false);   // no exceptions
-            if (d.is_discarded()) {
+            try {
+                d = json::parse(buf);
+            } catch (...) {
                 msg_printf(0, MSG_INFO,
-                    "Can't parse gpus.json in WSL distro %s", wd.name
+                    "Can't parse gpus.json in WSL distro %s", wd.distro_name.c_str()
                 );
                 break;
             }
@@ -435,8 +437,9 @@ int get_wsl_information(WSL_DISTROS &distros) {
                     );
                     continue;
                 }
-                gpus.push_back(wg);
+                wd.wsl_gpus.push_back(wg);
             }
+            break;
         }
 
         distros.distros.push_back(wd);
@@ -513,26 +516,14 @@ static void get_docker_compose_version(WSL_CMD& rs, WSL_DISTRO &wd) {
 
 // populate the WSL_GPU with data from the JSON object
 //
-int get_json_gpu(json::basic_json& el, WSL_GPU& wg)) {
+int get_json_gpu(const nlohmann::json& el, WSL_GPU& wg) {
     try {
         wg.name = el["name"].get<string>();
-    } catch (...) {
+    }
+    catch (...) {
         return -1;
     }
-    bool b;
-    try {
-        wg.has_cuda = el["has_cuda"].get<bool>();
-    } catch (...) {
-        wg.has_cuda = false;
-    }
-    try {
-        wg.has_opencl = el["has_opencl"].get<bool>();
-    } catch (...) {
-        wg.has_opencl = false;
-    }
-    try {
-        wg.has_metal = el["has_metal"].get<bool>();
-    } catch (...) {
-        wg.has_metal = false;
-    }
+    wg.has_cuda = el.value("has_cuda", false);
+    wg.has_opencl = el.value("has_opencl", false);
+    return 0;
 }

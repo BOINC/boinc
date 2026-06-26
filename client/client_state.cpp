@@ -292,7 +292,7 @@ void CLIENT_STATE::show_host_info() {
                     }
                 }
             }
-            foreach (WSL_GPU &wg: wsl.wslgpus) {
+            for (WSL_GPU &wg: wsl.wsl_gpus) {
                 msg_printf(NULL, MSG_INFO,
                     "-      Usable GPU: %s,%s%s",
                     wg.name.c_str(),

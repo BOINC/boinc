@@ -91,7 +91,7 @@ void WSL_DISTRO::write_xml(MIOFILE& f) {
         );
     }
     for (WSL_GPU &wg: wsl_gpus) {
-        wg.write_xml();
+        wg.write_xml(f);
     }
     f.printf(
         "        </distro>\n"
@@ -225,7 +225,7 @@ void WSL_GPU::write_xml(MIOFILE& f) {
     f.printf(
 "    <wsl_gpu>\n"
 "        <name>%s</name>\n",
-        name
+        name.c_str()
     );
     if (has_cuda) {
         f.printf("        <has_cuda/>\n");
@@ -238,7 +238,7 @@ void WSL_GPU::write_xml(MIOFILE& f) {
     );
 }
 
-int parse(XML_PARSER &xp) {
+int WSL_GPU::parse(XML_PARSER &xp) {
     clear();
     while (!xp.get_tag()) {
         if (xp.match_tag("/wsl_gpu")) {

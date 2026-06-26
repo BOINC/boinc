@@ -79,7 +79,7 @@ struct WSL_DISTRO {
         // if this distro is boinc_buda_runner, the version
     std::string base_path;
         // the dir where the disk image (.vhdx file) is stored
-    vector<WSL_GPU> wsl_gpus;
+    std::vector<WSL_GPU> wsl_gpus;
         // info on the GPUs that are usable
         // from containers running in the distro
 
