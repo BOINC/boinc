@@ -409,6 +409,10 @@ struct HOST {
     inline bool low_turnaround() {
         return _error_rate > 0;
     }
+    // for scheduler: see if client is Win
+    inline bool is_windows() {
+        return strcasestr(os_name, "windows") != NULL;
+    }
 };
 
 struct HOST_DELETED {
