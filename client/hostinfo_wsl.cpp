@@ -418,7 +418,11 @@ int get_wsl_information(WSL_DISTROS &distros) {
             }
             string buf;
             read_from_pipe(rs.out_read, rs.proc_handle, buf, CMD_TIMEOUT, "EOM");
-            buf.erase(buf.size() - 4);
+            size_t x = buf.find("EOM");
+            if (x == string::npos) {
+                break;
+            }
+            buf.erase(x);
             json d;
             try {
                 d = json::parse(buf);
@@ -519,11 +523,11 @@ static void get_docker_compose_version(WSL_CMD& rs, WSL_DISTRO &wd) {
 int get_json_gpu(const nlohmann::json& el, WSL_GPU& wg) {
     try {
         wg.name = el["name"].get<string>();
+        wg.has_cuda = el.value("has_cuda", false);
+        wg.has_opencl = el.value("has_opencl", false);
     }
     catch (...) {
         return -1;
     }
-    wg.has_cuda = el.value("has_cuda", false);
-    wg.has_opencl = el.value("has_opencl", false);
     return 0;
 }

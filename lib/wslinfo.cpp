@@ -123,6 +123,12 @@ int WSL_DISTRO::parse(XML_PARSER& xp) {
             docker_compose_type = (DOCKER_TYPE) i;
             continue;
         }
+        if (xp.match_tag("wsl_gpu")) {
+            WSL_GPU wg;
+            if (wg.parse(xp) == 0) {
+                wsl_gpus.push_back(wg);
+            }
+        }
     }
     return ERR_XML_PARSE;
 }
@@ -202,7 +208,7 @@ WSL_DISTRO* WSL_DISTROS::find_docker() {
             return &wd;
         }
     }
-    // if not found, use any old distro
+    // if not found, use any distro that has Podman or Docker
     //
     for (WSL_DISTRO &wd: distros) {
         if (!wd.docker_version.empty()) {
@@ -222,10 +228,12 @@ int WSL_DISTROS::boinc_distro_version() {
 }
 
 void WSL_GPU::write_xml(MIOFILE& f) {
+    char buf[256];
+    xml_escape(name.c_str(), buf, sizeof(buf));
     f.printf(
 "            <wsl_gpu>\n"
 "                <name>%s</name>\n",
-        name.c_str()
+        buf
     );
     if (has_cuda) {
         f.printf("                <has_cuda/>\n");
