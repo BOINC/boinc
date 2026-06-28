@@ -246,6 +246,8 @@ void WSL_GPU::write_xml(MIOFILE& f) {
     );
 }
 
+#endif  // _USING_FCGI_
+
 int WSL_GPU::parse(XML_PARSER &xp) {
     clear();
     while (!xp.get_tag()) {
@@ -259,5 +261,3 @@ int WSL_GPU::parse(XML_PARSER &xp) {
     }
     return 0;
 }
-
-#endif  // _USING_FCGI_
