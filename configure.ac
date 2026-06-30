@@ -777,6 +777,9 @@ if test "$enable_xss" = yes; then
     fi
 fi
 
+AX_CUDA
+AM_CONDITIONAL([HAVE_CUDA], [test "x$cuda_found" = "xyes"])
+
 dnl --------------------------------------------------------------------------------
 dnl put double-inclusion protection into config.h
 AH_TOP([
@@ -1242,9 +1245,7 @@ AM_CONDITIONAL(ENABLE_APPS, [test "${enable_apps}" = yes])
 AM_CONDITIONAL(ENABLE_UNIT_TESTS, [test "${enable_unit_tests}" = yes])
 AM_CONDITIONAL(ENABLE_BOINCCRYPT, [test "x${enable_server}" = xyes  || test "x${enable_client}" = xyes ])
 AM_CONDITIONAL(INSTALL_HEADERS, [test "${enable_install_headers}" = yes])
-AM_CONDITIONAL(HAVE_CUDA_LIB, [test "${enable_client}" = yes -a -f ./coprocs/CUDA/posix/${boinc_platform}/libcudart.so])
 AM_CONDITIONAL(BUILD_WITH_OPENCL, [test "x$with_opencl" = "xyes"])
-
 dnl ======================================================================
 dnl some more vodoo required for building portable client-binary (client, clientgui)
 dnl ======================================================================

@@ -51,6 +51,7 @@ linux_apps_list = [
     './samples/wrappture/fermi',
     './samples/sporadic/sporadic',
     './samples/docker_wrapper/docker_wrapper*pc-linux-gnu',
+    './samples/nvcuda/example_app_nvcuda',
 ]
 
 linux_manager_list = [
