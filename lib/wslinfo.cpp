@@ -218,6 +218,8 @@ WSL_DISTRO* WSL_DISTROS::find_docker() {
     return NULL;
 }
 
+#endif  // _USING_FCGI_
+
 int WSL_DISTROS::boinc_distro_version() {
     for (WSL_DISTRO &wd: distros) {
         if (wd.distro_name == BOINC_WSL_DISTRO_NAME) {
@@ -245,8 +247,6 @@ void WSL_GPU::write_xml(MIOFILE& f) {
 "            </wsl_gpu>\n"
     );
 }
-
-#endif  // _USING_FCGI_
 
 int WSL_GPU::parse(XML_PARSER &xp) {
     clear();
