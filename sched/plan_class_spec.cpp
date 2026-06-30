@@ -228,8 +228,28 @@ bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
     return true;
 }
 
-// See whether the given host/user can be sent this plan class.
-// If so return the resource usage and estimated FLOPS in hu.
+// the client is Win and it's a Docker/GPU plan class.
+// See whether a WSL distro has the needed GPU support
+//
+bool PLAN_CLASS_SPEC::check_wsl_gpu(SCHEDULER_REQUEST& sreq, string gpu_name) {
+    for (WSL_DISTRO &wd: sreq.host.wsl_distros.distros) {
+        for (WSL_GPU &wg: wd.wsl_gpus) {
+            if (wg.name == gpu_name) {
+                if (cuda && wg.has_cuda) {
+                    return true;
+                }
+                if (opencl && wg.has_opencl) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+// See whether the given host/user can be sent an app version
+// with this plan class.
+// If so, return the resource usage and estimated FLOPS in hu.
 //
 bool PLAN_CLASS_SPEC::check(
     SCHEDULER_REQUEST& sreq, HOST_USAGE& hu, const WORKUNIT* wu
@@ -237,6 +257,8 @@ bool PLAN_CLASS_SPEC::check(
     COPROC* cpp = NULL;
     bool can_use_multicore = true;
     string msg;
+    bool opencl_other = false;
+        // plan class selects a GPU type other than NVIDIA/AMD/intel/apple
 
     if (infeasible_random && drand()<infeasible_random) {
         return false;
@@ -704,7 +726,6 @@ bool PLAN_CLASS_SPEC::check(
             }
         }
 
-
         if (min_cal_target && cp.attribs.target < min_cal_target) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
@@ -749,6 +770,15 @@ bool PLAN_CLASS_SPEC::check(
                 log_messages.printf(MSG_NORMAL,
                     "[version] plan_class_spec: no CAL, driver version couldn't be determined\n"
                 );
+            }
+        }
+
+        if (sreq.host.is_windows() && docker) {
+            if (!check_wsl_gpu(sreq, "amd")) {
+                log_messages.printf(MSG_NORMAL,
+                    "AMD GPU not supported in WSL"
+                );
+                return false;
             }
         }
 
@@ -822,6 +852,15 @@ bool PLAN_CLASS_SPEC::check(
             log_messages.printf(MSG_NORMAL, "%s\n", msg.c_str());
         }
 
+        if (sreq.host.is_windows() && docker) {
+            if (!check_wsl_gpu(sreq, "nvidia")) {
+                log_messages.printf(MSG_NORMAL,
+                    "NVIDIA GPU not supported in WSL"
+                );
+                return false;
+            }
+        }
+
     // Intel GPU
     //
     } else if (strstr(gpu_type, "intel") == gpu_type) {
@@ -841,6 +880,15 @@ bool PLAN_CLASS_SPEC::check(
         }
         if (cp.bad_gpu_peak_flops("Intel GPU", msg)) {
             log_messages.printf(MSG_NORMAL, "%s\n", msg.c_str());
+        }
+
+        if (sreq.host.is_windows() && docker) {
+            if (!check_wsl_gpu(sreq, "intel")) {
+                log_messages.printf(MSG_NORMAL,
+                    "Intel GPU not supported in WSL"
+                );
+                return false;
+            }
         }
 
     // Apple GPU
@@ -887,6 +935,7 @@ bool PLAN_CLASS_SPEC::check(
             }
             return false;
         }
+        opencl_other = true;
     } else if (strlen(gpu_type)) {
         cpp = sreq.coprocs.lookup_type(gpu_type);
         if (!cpp) {
@@ -897,8 +946,9 @@ bool PLAN_CLASS_SPEC::check(
             }
             return false;
         }
+        opencl_other = true;
     }
-    if (cpp) {
+    if (opencl_other) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] plan_class_spec: OpenCL coproc %s found\n", cpp->type
@@ -906,6 +956,15 @@ bool PLAN_CLASS_SPEC::check(
         }
         if (cpp->bad_gpu_peak_flops("OpenCL coproc", msg)) {
             log_messages.printf(MSG_NORMAL, "%s\n", msg.c_str());
+        }
+
+        if (sreq.host.is_windows() && docker) {
+            if (!check_wsl_gpu(sreq, cpp->type)) {
+                log_messages.printf(MSG_NORMAL,
+                    "OpenCL %s GPU not supported in WSL", cpp->type
+                );
+                return false;
+            }
         }
     }
 

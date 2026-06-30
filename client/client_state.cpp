@@ -208,14 +208,6 @@ void CLIENT_STATE::show_host_info() {
     if (n_usable_cpus != host_info.p_ncpus) {
         msg_printf(NULL, MSG_INFO, "Using %d CPUs", n_usable_cpus);
     }
-#if 0
-    if (host_info.m_cache > 0) {
-        msg_printf(NULL, MSG_INFO,
-            "Processor: %s cache",
-            buf
-        );
-    }
-#endif
     msg_printf(NULL, MSG_INFO,
         "Processor features: %s", host_info.p_features
     );
@@ -226,7 +218,7 @@ void CLIENT_STATE::show_host_info() {
     strip_whitespace(buf);
     pclose(f);
     msg_printf(NULL, MSG_INFO,
-        "OS: Mac OS X %s (%s %s)", buf,
+        "OS: MacOS %s (%s %s)", buf,
         host_info.os_name, host_info.os_version
     );
 #else
@@ -299,6 +291,14 @@ void CLIENT_STATE::show_host_info() {
                         msg_printf(NULL, MSG_INFO, "-      Disk usage: %s", buf);
                     }
                 }
+            }
+            for (WSL_GPU &wg: wsl.wsl_gpus) {
+                msg_printf(NULL, MSG_INFO,
+                    "-      Usable GPU: %s,%s%s",
+                    wg.name.c_str(),
+                    wg.has_cuda?" CUDA":"",
+                    wg.has_opencl?" OpenCL":""
+                );
             }
         }
     }
