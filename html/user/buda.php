@@ -462,7 +462,13 @@ function variant_delete() {
             unlink($phys_path);
             unlink("$phys_path.md5");
         }
-        system(sprintf('rm -r %s', escapeshellarg("$buda_root/$app")), $ret);
+        system(
+            sprintf(
+                'rm -r %s',
+                escapeshellarg("$buda_root/$app/$variant")
+            ),
+            $ret
+        );
         if ($ret) {
             error_page("delete failed");
         }
@@ -491,7 +497,13 @@ function app_delete() {
         if ($vars) {
             error_page("You must delete all variants first.");
         }
-        system("rm -r $buda_root/$app", $ret);
+        system(
+            sprintf(
+                'rm -r %s',
+                escapeshellarg("$buda_root/$app")
+            ),
+            $ret
+        );
         if ($ret) {
             error_page('delete failed');
         }
