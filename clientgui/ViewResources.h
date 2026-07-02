@@ -52,6 +52,7 @@ protected:
 	wxPieCtrl*				m_pieCtrlTotal;
 
 	bool					m_BOINCwasEmpty;
+    bool                    m_isDarkTheme;
 
     virtual void            UpdateSelection();
 

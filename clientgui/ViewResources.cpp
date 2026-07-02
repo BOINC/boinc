@@ -40,26 +40,28 @@ END_EVENT_TABLE ()
 
 
 CViewResources::CViewResources()
+: m_BOINCwasEmpty(false)
+, m_isDarkTheme(wxGetApp().GetIsDarkMode())
 {}
 
 CViewResources::CViewResources(wxNotebook* pNotebook) :
 	CBOINCBaseView(pNotebook)
+, m_BOINCwasEmpty(false)
+, m_isDarkTheme(wxGetApp().GetIsDarkMode())
 {
-    bool isDarkMode = wxGetApp().GetIsDarkMode();
-	m_BOINCwasEmpty=false;
-
 	wxGridSizer* itemGridSizer = new wxGridSizer(2, 0, 3);
     wxASSERT(itemGridSizer);
 
 	// create pie chart ctrl for total disk usage
 	m_pieCtrlTotal = new wxPieCtrl(this, ID_PIECTRL_RESOURCEUTILIZATIONVIEWTOTAL, wxDefaultPosition, wxDefaultSize);
 	wxASSERT(m_pieCtrlTotal);
+    m_pieCtrlTotal->ApplyTheme(m_isDarkTheme);
 
     // setup the legend
     m_pieCtrlTotal->SetTransparent(true);
     m_pieCtrlTotal->SetHorLegendBorder(10);
     m_pieCtrlTotal->SetLabelFont(*wxSWISS_FONT);
-    m_pieCtrlTotal->SetLabelColour(isDarkMode ? *wxWHITE : *wxBLACK);
+    m_pieCtrlTotal->SetLabelColour(m_isDarkTheme ? *wxWHITE : *wxBLACK);
     m_pieCtrlTotal->SetLabel(_("Total disk usage"));
 
     // initialize pie control
@@ -75,12 +77,13 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
     // create pie chart ctrl for BOINC disk usage
 	m_pieCtrlBOINC = new wxPieCtrl(this, ID_PIECTRL_RESOURCEUTILIZATIONVIEW, wxDefaultPosition, wxDefaultSize);
 	wxASSERT(m_pieCtrlBOINC);
+    m_pieCtrlBOINC->ApplyTheme(m_isDarkTheme);
 
     //setup the legend
     m_pieCtrlBOINC->SetTransparent(true);
     m_pieCtrlBOINC->SetHorLegendBorder(10);
     m_pieCtrlBOINC->SetLabelFont(*wxSWISS_FONT);
-    m_pieCtrlTotal->SetLabelColour(isDarkMode ? *wxWHITE : *wxBLACK);
+    m_pieCtrlBOINC->SetLabelColour(m_isDarkTheme ? *wxWHITE : *wxBLACK);
     m_pieCtrlBOINC->SetLabel(_("Disk usage by BOINC projects"));
 
     // initialize pie control
@@ -173,7 +176,6 @@ void CViewResources::OnListRender() {
     wxString diskspace;
 	static double project_total=0.0;
 	unsigned int i;
-    bool isDarkMode = wxGetApp().GetIsDarkMode();
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -228,7 +230,7 @@ void CViewResources::OnListRender() {
 			wxPiePart part;
             part.SetLabel(_("no projects: 0 bytes used"));
 			part.SetValue(1);
-			part.SetColour(isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0));
+			part.SetColour(m_isDarkTheme ? wxColour(255, 255, 255) : wxColour(0,0,0));
 			m_pieCtrlBOINC->m_Series.Add(part);
 			m_pieCtrlBOINC->Refresh();
 			m_BOINCwasEmpty=true;
@@ -263,8 +265,7 @@ void CViewResources::OnListRender() {
         FormatDiskSpace(boinc_total, diskspace);
         part.SetLabel(_("used by BOINC: ") + diskspace);
 		part.SetValue(boinc_total);
-        part.SetColour(isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0));
-		part.SetColour(isDarkMode ? *wxWHITE : *wxBLACK);
+        part.SetColour(m_isDarkTheme ? *wxWHITE : *wxBLACK);
 		m_pieCtrlTotal->m_Series.Add(part);
 
         if (pDoc->disk_usage.d_allowed > 0) {
@@ -274,7 +275,7 @@ void CViewResources::OnListRender() {
             FormatDiskSpace(avail, diskspace);
             part.SetLabel(_("free, available to BOINC: ") + diskspace);
             part.SetValue(avail == 0 ? 1 : avail);
-            part.SetColour(isDarkMode ? wxColour(108, 108, 108) : wxColour(128, 128, 128));
+            part.SetColour(m_isDarkTheme ? wxColour(108, 108, 108) : wxColour(128, 128, 128));
             m_pieCtrlTotal->m_Series.Add(part);
 
             double not_avail = free - avail;
@@ -282,7 +283,7 @@ void CViewResources::OnListRender() {
 		        FormatDiskSpace(not_avail, diskspace);
                 part.SetLabel(_("free, not available to BOINC: ") + diskspace);
 		        part.SetValue(not_avail);
-		        part.SetColour(isDarkMode ? wxColour(172,172,172) : wxColour(238,238,238));
+		        part.SetColour(m_isDarkTheme ? wxColour(172,172,172) : wxColour(238,238,238));
 		        m_pieCtrlTotal->m_Series.Add(part);
             }
         } else {
@@ -292,7 +293,7 @@ void CViewResources::OnListRender() {
 		    FormatDiskSpace(free, diskspace);
             part.SetLabel(_("free: ") + diskspace);
 		    part.SetValue(free);
-            part.SetColour(isDarkMode ? wxColour(172,172,172) : wxColour(238,238,238));
+            part.SetColour(m_isDarkTheme ? wxColour(172,172,172) : wxColour(238,238,238));
 		    m_pieCtrlTotal->m_Series.Add(part);
         }
 
@@ -301,7 +302,7 @@ void CViewResources::OnListRender() {
 		FormatDiskSpace(used_by_others, diskspace);
         part.SetLabel(_("used by other programs: ") + diskspace);
 		part.SetValue(used_by_others);
-		part.SetColour(isDarkMode ? wxColour(140,140,140) : wxColour(192,192,192));
+		part.SetColour(m_isDarkTheme ? wxColour(140,140,140) : wxColour(192,192,192));
 		m_pieCtrlTotal->m_Series.Add(part);
 		m_pieCtrlTotal->Refresh();
 	}
