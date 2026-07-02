@@ -462,7 +462,7 @@ function variant_delete() {
             unlink($phys_path);
             unlink("$phys_path.md5");
         }
-        system("rm -r $buda_root/$app/$variant", $ret);
+        system(sprintf('rm -r %s', escapeshellarg("$buda_root/$app")), $ret);
         if ($ret) {
             error_page("delete failed");
         }
