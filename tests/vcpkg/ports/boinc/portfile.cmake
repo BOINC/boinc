@@ -50,6 +50,7 @@ file(WRITE "${CURRENT_PACKAGES_DIR}/share/boinc/boinc-config.cmake" "
 include(CMakeFindDependencyMacro)
 find_dependency(OpenSSL)
 find_dependency(libzip)
+find_dependency(fmt)
 ${BOINC_CONFIG}
 ")
 

@@ -23,6 +23,7 @@
       "default-features": false
     },
     "wil",
-    "tinyxml2"
+    "tinyxml2",
+    "fmt"
   ]
 }

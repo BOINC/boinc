@@ -56,26 +56,26 @@ jobs:
         run: |
           dpkg --add-architecture i386
           apt-get update
-          apt-get install -y gcc-multilib g++-multilib libcurl4-openssl-dev:i386 libssl-dev:i386 libzip-dev:i386
+          apt-get install -y gcc-multilib g++-multilib libcurl4-openssl-dev:i386 libssl-dev:i386 libzip-dev:i386 libfmt-dev:i386
 
       - name: Install dependencies for x64
         if: success() && matrix.type == 'apps'
         run: |
-          apt-get install -y libcurl4-openssl-dev libssl-dev libzip-dev
+          apt-get install -y libcurl4-openssl-dev libssl-dev libzip-dev libfmt-dev
 
       - name: Install dependencies for arm64
         if: success() && matrix.type == 'apps-arm64'
         run: |
           dpkg --add-architecture arm64
           apt-get update
-          apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu wget ca-certificates libcurl4-openssl-dev:arm64 libssl-dev:arm64 libzip-dev:arm64
+          apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu wget ca-certificates libcurl4-openssl-dev:arm64 libssl-dev:arm64 libzip-dev:arm64 libfmt-dev:arm64
 
       - name: Install dependencies for armhf
         if: success() && matrix.type == 'apps-armhf'
         run: |
           dpkg --add-architecture armhf
           apt-get update
-          apt-get install -y gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf binutils-arm-linux-gnueabihf wget ca-certificates libcurl4-openssl-dev:armhf libssl-dev:armhf libzip-dev:armhf
+          apt-get install -y gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf binutils-arm-linux-gnueabihf wget ca-certificates libcurl4-openssl-dev:armhf libssl-dev:armhf libzip-dev:armhf libfmt-dev:armhf
 
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:

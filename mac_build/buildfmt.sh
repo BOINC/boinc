@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -18,7 +18,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh 64-bit Intel library of libzip for
+# Script to build Macintosh 64-bit Intel library of fmt for
 # use in building BOINC.
 #
 #
@@ -28,11 +28,11 @@
 ## clicked the Install button on the dialog which appears to
 ## complete the Xcode installation before running this script.
 #
-## Where x.xx.x is the libzip version number:
-## In Terminal, CD to the libzip-x.xx.x directory.
-##     cd [path]/libzip-x.xx.x/
+## Where x.xx.x is the fmt version number:
+## In Terminal, CD to the fmt-x.xx.x directory.
+##     cd [path]/fmt-x.xx.x/
 ## then run this script:
-##     source [path]/buildlibzip.sh [ -clean ] [--prefix PATH]
+##     source [path]/buildfmt.sh [ -clean ] [--prefix PATH]
 ##
 ## the -clean argument will force a full rebuild.
 ## if --prefix is given as absolute path the library is installed into there
@@ -51,7 +51,7 @@
 
 doclean=""
 stdout_target="/dev/stdout"
-lprefix="/tmp/installed-libzip"
+lprefix="/tmp/installed-fmt"
 libPath="./lib"
 while [[ $# -gt 0 ]]; do
     key="$1"
@@ -83,16 +83,16 @@ if [[ "${GCC_archs}" = *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
 if [[ "${GCC_archs}" = *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
 
 if [ "${doclean}" != "yes" ]; then
-    if [ -f "${libPath}/libzip.a" ]; then
+    if [ -f "${libPath}/libfmt.a" ]; then
         alreadyBuilt=1
 
         if [ $GCC_can_build_x86_64 = "yes" ]; then
-            lipo "${libPath}/libzip.a" -verify_arch x86_64
+            lipo "${libPath}/libfmt.a" -verify_arch x86_64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
         fi
 
         if [ $alreadyBuilt -eq 1 ] && [ $GCC_can_build_arm64 = "yes" ]; then
-            lipo "${libPath}/libzip.a" -verify_arch arm64
+            lipo "${libPath}/libfmt.a" -verify_arch arm64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
         fi
 
@@ -140,7 +140,7 @@ export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":"${TOOLSPATH3}":/usr/local/bin:$PATH
 SDKPATH=`xcodebuild -version -sdk macosx Path`
 
 if [ -d "${libPath}" ]; then
-    rm -f "${libPath}/libzip.a"
+    rm -f "${libPath}/libfmt.a"
     if [ $? -ne 0 ]; then return 1; fi
 fi
 
@@ -148,7 +148,7 @@ fi
 
 ## The "-Werror=unguarded-availability" compiler flag generates an error if
 ## there is an unguarded API not available in our Deployment Target. This
-## helps ensure libzip won't try to use unavailable APIs on older Mac
+## helps ensure fmt won't try to use unavailable APIs on older Mac
 ## systems supported by BOINC.
 ## It also causes configure to reject any such APIs for which it tests.
 #
@@ -162,7 +162,7 @@ export MACOSX_DEPLOYMENT_TARGET=10.13
 export MAC_OS_X_VERSION_MAX_ALLOWED=101300
 export MAC_OS_X_VERSION_MIN_REQUIRED=101300
 
-cmake --fresh -B . -S . -DCMAKE_INSTALL_PREFIX=${lprefix} -DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DENABLE_COMMONCRYPTO=OFF -DENABLE_GNUTLS=OFF -DENABLE_MBEDTLS=OFF -DENABLE_OPENSSL=OFF -DENABLE_WINDOWS_CRYPTO=OFF -DENABLE_BZIP2=OFF -DENABLE_LZMA=OFF -DENABLE_ZSTD=OFF -DENABLE_FDOPEN=OFF -DBUILD_TOOLS=OFF -DBUILD_REGRESS=OFF -DBUILD_OSSFUZZ=OFF -DBUILD_EXAMPLES=OFF -DBUILD_DOC=OFF
+cmake --fresh -B . -S . -DCMAKE_INSTALL_PREFIX=${lprefix} -DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DFMT_TEST=OFF -DFMT_DOC=OFF
 if [ $? -ne 0 ]; then return 1; fi
 
 if [ "${doclean}" = "yes" ]; then
@@ -188,34 +188,34 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
     export MAC_OS_X_VERSION_MAX_ALLOWED=101300
     export MAC_OS_X_VERSION_MIN_REQUIRED=101300
 
-    cmake --fresh -B . -S . -DCMAKE_INSTALL_PREFIX=${lprefix} -DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DENABLE_COMMONCRYPTO=OFF -DENABLE_GNUTLS=OFF -DENABLE_MBEDTLS=OFF -DENABLE_OPENSSL=OFF -DENABLE_WINDOWS_CRYPTO=OFF -DENABLE_BZIP2=OFF -DENABLE_LZMA=OFF -DENABLE_ZSTD=OFF -DENABLE_FDOPEN=OFF -DBUILD_TOOLS=OFF -DBUILD_REGRESS=OFF -DBUILD_OSSFUZZ=OFF -DBUILD_EXAMPLES=OFF -DBUILD_DOC=OFF
+    cmake --fresh -B . -S . -DCMAKE_INSTALL_PREFIX=${lprefix} -DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DFMT_TEST=OFF -DFMT_DOC=OFF
     if [ $? -ne 0 ]; then
         echo "              ******"
-        echo "libzip: x86_64 build succeeded but could not build for arm64."
+        echo "fmt: x86_64 build succeeded but could not build for arm64."
         echo "              ******"
     else
 
-        mv -f ./lib/libzip.a ./lib/libzip_x86_64.a
+        mv -f ./libfmt.a ./libfmt_x86_64.a
 
         # Build for arm64 architecture
         make clean 1>$stdout_target
 
         make 1>$stdout_target
         if [ $? -ne 0 ]; then
-            rm -f ./lib/libzip_x86_64.a
+            rm -f ./lib/fmt_x86_64.a
             return 1
         fi
 
-        mv -f ./lib/libzip.a ./lib/libzip_arm64.a
+        mv -f ./libfmt.a ./libfmt_arm64.a
 
         # combine x86_64 and arm libraries
-        lipo -create ./lib/libzip_x86_64.a ./lib/libzip_arm64.a -output "./lib/libzip.a"
+        lipo -create ./libfmt_x86_64.a ./libfmt_arm64.a -output "./libfmt.a"
         if [ $? -ne 0 ]; then
-            rm -f ./lib/libzip_x86_64.a ./lib/libzip_arm64.a
+            rm -f ./libfmt_x86_64.a ./libfmt_arm64.a
             return 1
          fi
 
-        rm -f ./lib/libzip_x86_64.a ./lib/libzip_arm64.a
+        rm -f ./libfmt_x86_64.a ./libfmt_arm64.a
     fi
 fi
 
