@@ -458,7 +458,9 @@ jobs:
 
       - name: Execute automation tests
         if: success() && matrix.type == 'unit-test'
-        run: python ./tests/crypt_prog_tests.py ./lib/crypt_prog
+        run: |
+          python ./tests/crypt_prog_tests.py ./lib/crypt_prog
+          python ./tests/sign_executable_tests.py ./tools/sign_executable ./lib/crypt_prog
 
       - name: Execute integration-test
         if: success() && matrix.type == 'integration-test'

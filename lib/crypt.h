@@ -18,6 +18,10 @@
 #ifndef BOINC_CRYPT_H
 #define BOINC_CRYPT_H
 
+#include <cstdint>
+#include <vector>
+#include <string>
+
 // We're set up to use either RSAEuro or the OpenSSL crypto library.
 // We use our own data structures (R_RSA_PUBLIC_KEY and R_RSA_PRIVATE_KEY)
 // to store keys in either case.
@@ -80,11 +84,11 @@ struct DATA_BLOCK {
 
 // size of text-encoded signature
 #define SIGNATURE_SIZE_TEXT (SIGNATURE_SIZE_BINARY*2+20)
-extern int sprint_hex_data(char* p, DATA_BLOCK&);
+extern std::string sprint_hex_data(const std::vector<uint8_t> &data);
 #ifdef _USING_FCGI_
 #undef FILE
 #endif
-extern int print_hex_data(FILE* f, DATA_BLOCK&);
+extern bool print_hex_data(FILE *f, const std::vector<uint8_t> &data);
 extern int scan_hex_data(FILE* f, DATA_BLOCK&);
 extern int print_key_hex(FILE*, KEY* key, int len);
 extern int scan_key_hex(FILE*, KEY* key, int len);
@@ -116,11 +120,11 @@ extern int check_string_signature(
 extern int check_string_signature2(
     const char* text, const char* signature, const char* key, bool&
 );
-extern int print_raw_data(FILE* f, DATA_BLOCK& x);
+extern bool print_raw_data(FILE *f, const std::vector<uint8_t> &x);
 extern int scan_raw_data(FILE *f, DATA_BLOCK& x);
 extern int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key);
 extern int generate_signature(
-    char* text_to_sign, char* signature_hex, R_RSA_PRIVATE_KEY& key
+    char* text_to_sign, std::string& signature_hex, R_RSA_PRIVATE_KEY& key
 );
 
 //   Check if sfileMsg (of length sfsize) has been created from sha1_md using the

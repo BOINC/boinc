@@ -47,6 +47,9 @@
 
 #include "crypt.h"
 
+using std::string;
+using std::vector;
+
 // NOTE: the fast CGI I/O library doesn't have fscanf(),
 // so some of the following have been modified to use
 // fgets() and sscanf() instead
@@ -55,43 +58,46 @@
 // NOTE: since length may not be known to the reader,
 // we follow the data with a non-hex character '.'
 //
-int print_hex_data(FILE* f, DATA_BLOCK& x) {
-    unsigned int i;
-
-    for (i=0; i<x.len; i++) {
-        fprintf(f, "%02x", x.data[i]);
-        if (i%32==31) fprintf(f, "\n");
+bool print_hex_data(FILE *f, const vector<uint8_t> &x) {
+    if (!f) {
+        return false;
     }
-    if (x.len%32 != 0) fprintf(f, "\n");
-    fprintf(f, ".\n");
-    return 0;
+
+    string hex_data = sprint_hex_data(x);
+    fputs(hex_data.c_str(), f);
+
+    return true;
 }
 
 // same, but write to buffer
 //
-int sprint_hex_data(char* out_buf, DATA_BLOCK& x) {
-    unsigned int i;
+string sprint_hex_data(const vector<uint8_t> &x) {
     const char hex[] = "0123456789abcdef";
-    char* p = out_buf;
+    string result;
 
-    for (i=0; i<x.len; i++) {
-        *p++ = hex[x.data[i]/16];
-        *p++ = hex[x.data[i]%16];
-        if (i%32==31) *p++ = '\n';
+    for (size_t i = 0; i < x.size(); ++i) {
+        result.push_back(hex[x[i] / 16]);
+        result.push_back(hex[x[i] % 16]);
+        if ( i % 32 == 31) {
+            result.push_back('\n');
+        }
     }
-    if (x.len%32 != 0) *p++ = '\n';
-    strcpy(p, ".\n");
+    if (x.size() % 32 != 0) {
+        result.push_back('\n');
+    }
+    result += ".\n";
 
-    return 0;
+    return result;
 }
 
-int print_raw_data(FILE* f, DATA_BLOCK& x) {
-    unsigned int i;
-    for (i=0; i<x.len; i++) {
-        //printf("%x ", x.data[i]);
-        fprintf(f, "%c", x.data[i]);
+bool print_raw_data(FILE *f, const vector<uint8_t> &x) {
+    if (!f) {
+        return false;
     }
-    return 0;
+    for (uint8_t xc : x) {
+        fprintf(f, "%c", xc);
+    }
+    return true;
 }
 
 // NOTE: buffer must be big enough; no checking is done.
@@ -176,7 +182,8 @@ int print_key_hex(FILE* f, KEY* key, int size) {
     len = size - (int)sizeof(key->bits);
     x.data = key->data;
     x.len = len;
-    return print_hex_data(f, x);
+    vector<uint8_t> data_vector(x.data, x.data + x.len);
+    return print_hex_data(f, data_vector) ? 0 : 1;
 }
 
 int scan_key_hex(FILE* f, KEY* key, int size) {
@@ -316,7 +323,7 @@ int sign_block(DATA_BLOCK& data_block, R_RSA_PRIVATE_KEY& key, DATA_BLOCK& signa
 // compute an XML signature element for some text
 //
 int generate_signature(
-    char* text_to_sign, char* signature_hex, R_RSA_PRIVATE_KEY& key
+    char* text_to_sign, string& signature_hex, R_RSA_PRIVATE_KEY& key
 )  {
     DATA_BLOCK block, signature_data;
     unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
@@ -328,7 +335,8 @@ int generate_signature(
     signature_data.len = SIGNATURE_SIZE_BINARY;
     retval = sign_block(block, key, signature_data);
     if (retval) return retval;
-    sprint_hex_data(signature_hex, signature_data);
+    vector<uint8_t> signature_vector(signature_data.data, signature_data.data + signature_data.len);
+    signature_hex = sprint_hex_data(signature_vector);
     return 0;
 }
 

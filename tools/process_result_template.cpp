@@ -36,7 +36,6 @@
 //
 int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
     char* p = xml, *q1, *q2, buf[BLOB_SIZE], buf2[BLOB_SIZE];
-    char signature_hex[BLOB_SIZE];
     char signature_xml[BLOB_SIZE];
     char signed_xml[1024];
     int retval, len;
@@ -67,9 +66,10 @@ int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
         sprintf(signed_xml, "<name>%s</name><max_nbytes>%.0f</max_nbytes>",
             name, max_nbytes
         );
+        std::string signature_hex;
         retval = generate_signature(signed_xml, signature_hex, key);
         sprintf(signature_xml,
-            "<xml_signature>\n%s</xml_signature>\n", signature_hex
+            "<xml_signature>\n%s</xml_signature>\n", signature_hex.c_str()
         );
         if (retval) return retval;
         safe_strcpy(buf2, q2);

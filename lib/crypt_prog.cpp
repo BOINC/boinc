@@ -188,7 +188,8 @@ int sign(const std::string& file, const std::string& private_keyfile) {
         print_error("sign_file");
         return 2;
     }
-    print_hex_data(stdout, signature);
+    std::vector<unsigned char> signature_vector(signature.data, signature.data + signature.len);
+    print_hex_data(stdout, signature_vector);
     return 0;
 }
 
@@ -204,7 +205,7 @@ int sign_string(const std::string& str, const std::string& private_keyfile) {
         print_error("scan_key_hex");
         return 2;
     }
-    char cbuf[512];
+    std::string cbuf;
     // this const_cast need to be removed once 'generate_signature' is updated
     // to accept const char*
     retval = generate_signature(const_cast<char*>(str.c_str()), cbuf,
@@ -213,7 +214,7 @@ int sign_string(const std::string& str, const std::string& private_keyfile) {
         print_error("generate_signature");
         return 2;
     }
-    std::cout << cbuf;
+    std::cout << cbuf.c_str();
     return 0;
 }
 
@@ -379,7 +380,8 @@ int convsig_b2o(const std::string& input, const std::string& output) {
         print_error("fopen");
         return 2;
     }
-    print_raw_data(f, signature);
+    std::vector<unsigned char> signature_vector(signature.data, signature.data + signature.len);
+    print_raw_data(f, signature_vector);
     fclose(f);
     return 0;
 }
@@ -407,7 +409,8 @@ int convsig_o2b(const std::string& input, const std::string& output) {
         print_error("fopen");
         return 2;
     }
-    print_hex_data(f, signature);
+    std::vector<unsigned char> signature_vector(signature.data, signature.data + signature.len);
+    print_hex_data(f, signature_vector);
     fclose(f);
     return 0;
 }

@@ -17,12 +17,14 @@
 
 // syntax: sign_executable data_file private_key_file
 
+#include <string>
+#include <vector>
 #include <stdio.h>
 
 #include "config.h"
 #include "crypt.h"
 
-int sign_executable(char* path, char* code_sign_keyfile, char* signature_text) {
+int sign_executable(char* path, char* code_sign_keyfile, std::string& signature_text) {
     DATA_BLOCK signature;
     unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
     R_RSA_PRIVATE_KEY code_sign_key;
@@ -33,7 +35,8 @@ int sign_executable(char* path, char* code_sign_keyfile, char* signature_text) {
     }
     signature.data = signature_buf;
     sign_file(path, code_sign_key, signature);
-    sprint_hex_data(signature_text, signature);
+    std::vector<uint8_t> signature_vector(signature.data, signature.data + signature.len);
+    signature_text = sprint_hex_data(signature_vector);
     return 0;
 }
 
@@ -46,11 +49,11 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    char signature_text[1024];
+    std::string signature_text;
     if (sign_executable(argv[1], argv[2], signature_text)) {
         return 1;
     }
-    printf("%s", signature_text);
+    printf("%s", signature_text.c_str());
 
     return 0;
 }
