@@ -236,13 +236,11 @@ int verify(const std::string& file, const std::string& signature_file,
         print_error("fopen");
         return 2;
     }
-    const int signature_len = 256;
-    unsigned char signature_buf[signature_len];
     DATA_BLOCK signature;
-    signature.data = signature_buf;
-    signature.len = signature_len;
-    retval = scan_hex_data(f, signature);
-    if (retval) {
+    std::vector<uint8_t> signature_data = scan_hex_data(f);
+    signature.data = signature_data.data();
+    signature.len = signature_data.size();
+    if (signature_data.empty()) {
         print_error("scan_hex_data");
         return 2;
     }
@@ -363,14 +361,9 @@ int convsig_b2o(const std::string& input, const std::string& output) {
         print_error("fopen");
         return 2;
     }
-    const int signature_len = 256;
-    unsigned char signature_buf[signature_len];
-    DATA_BLOCK signature;
-    signature.data = signature_buf;
-    signature.len = signature_len;
-    int retval = scan_hex_data(f, signature);
+    std::vector<uint8_t> signature = scan_hex_data(f);
     fclose(f);
-    if (retval) {
+    if (signature.empty()) {
         print_error("scan_hex_data");
         return 2;
     }
@@ -380,8 +373,7 @@ int convsig_b2o(const std::string& input, const std::string& output) {
         print_error("fopen");
         return 2;
     }
-    std::vector<unsigned char> signature_vector(signature.data, signature.data + signature.len);
-    print_raw_data(f, signature_vector);
+    print_raw_data(f, signature);
     fclose(f);
     return 0;
 }
@@ -392,25 +384,15 @@ int convsig_o2b(const std::string& input, const std::string& output) {
         print_error("fopen");
         return 2;
     }
-    const int signature_len = 256;
-    unsigned char signature_buf[signature_len];
-    DATA_BLOCK signature;
-    signature.data = signature_buf;
-    signature.len = signature_len;
-    int retval = scan_raw_data(f, signature);
+    std::vector<uint8_t> signature = scan_raw_data(f);
     fclose(f);
-    if (retval) {
-        print_error("scan_raw_data");
-        return 2;
-    }
 
     f = fopen(output.c_str(), "w");
     if (!f) {
         print_error("fopen");
         return 2;
     }
-    std::vector<unsigned char> signature_vector(signature.data, signature.data + signature.len);
-    print_hex_data(f, signature_vector);
+    print_hex_data(f, signature);
     fclose(f);
     return 0;
 }
@@ -619,18 +601,13 @@ int cert_verify(const std::string& file, const std::string& signature_file,
         print_error("fopen");
         return 2;
     }
-    const int signature_len = 256;
-    unsigned char signature_buf[signature_len];
-    DATA_BLOCK signature;
-    signature.data = signature_buf;
-    signature.len = signature_len;
-    int retval = scan_hex_data(f, signature);
-    if (retval) {
+    std::vector<uint8_t> signature = scan_hex_data(f);
+    if (signature.empty()) {
         print_error("cannot scan_hex_data");
         return 2;
     }
     char* certpath = check_validity(certificate_dir.c_str(), file.c_str(),
-        signature.data, const_cast<char*>(ca_dir.c_str()));
+        signature.data(), const_cast<char*>(ca_dir.c_str()));
     if (certpath == NULL) {
         print_error("signature cannot be verified.");
         return 2;

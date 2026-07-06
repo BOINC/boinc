@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <cstdint>
+#include <sys/types.h>
 #ifndef _WIN32
 #include <filesystem>
 #include <fstream>
@@ -259,5 +261,184 @@ namespace test_lib {
 
         ASSERT_FALSE(result) <<
             "print_raw_data should return non-zero if file is not opened";
+    }
+
+    TEST_F(test_crypt, test_scan_raw_data) {
+        std::filesystem::path temp_file = test_data_dir / "temp_scan_raw_data.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+
+        const char* sample_data = "Hello, World!";
+        fwrite(sample_data, sizeof(char), strlen(sample_data), f);
+        fclose(f);
+
+        f = fopen(temp_file.string().c_str(), "r");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
+
+        std::vector<uint8_t> result = scan_raw_data(f);
+        fclose(f);
+
+        ASSERT_EQ(result.size(), strlen(sample_data)) << "Length mismatch";
+        std::string result_str(result.begin(), result.end());
+        ASSERT_EQ(result_str, sample_data) <<
+            "Data mismatch";
+    }
+
+    TEST_F(test_crypt, test_scan_raw_data_empty) {
+        std::filesystem::path temp_file =
+            test_data_dir / "temp_scan_raw_data_empty.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+        fclose(f);
+
+        f = fopen(temp_file.string().c_str(), "r");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
+
+        std::vector<uint8_t> result = scan_raw_data(f);
+        fclose(f);
+
+        ASSERT_EQ(result.size(), 0) << "Length should be zero for empty file";
+    }
+
+    TEST_F(test_crypt, test_scan_raw_data_file_not_found) {
+        std::filesystem::path temp_file =
+            test_data_dir / "non_existent_file.txt";
+
+        FILE* f = fopen(temp_file.string().c_str(), "r");
+        ASSERT_EQ(f, nullptr) << "File should not exist";
+
+        std::vector<uint8_t> result = scan_raw_data(f);
+
+        ASSERT_EQ(result.size(), 0) << "Length should be zero for non-existent file";
+    }
+
+    TEST_F(test_crypt, test_scan_hex_data) {
+        std::filesystem::path temp_file = test_data_dir / "temp_scan_hex_data.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+
+        const char* sample_hex_data = "48656c6c6f2c20576f726c6421\n.\n"; // "Hello, World!"
+        fputs(sample_hex_data, f);
+        fclose(f);
+
+        f = fopen(temp_file.string().c_str(), "r");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
+
+        std::vector<uint8_t> result = scan_hex_data(f);
+        fclose(f);
+
+        std::string result_str(result.begin(), result.end());
+        ASSERT_EQ(result_str, "Hello, World!") << "Data mismatch";
+    }
+
+    TEST_F(test_crypt, test_scan_hex_data_empty) {
+        std::filesystem::path temp_file =
+            test_data_dir / "temp_scan_hex_data_empty.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+        fclose(f);
+
+        f = fopen(temp_file.string().c_str(), "r");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
+
+        std::vector<uint8_t> result = scan_hex_data(f);
+        fclose(f);
+
+        ASSERT_EQ(result.size(), 0) << "Length should be zero for empty input";
+    }
+
+    TEST_F(test_crypt, test_scan_hex_data_file_not_found) {
+        std::filesystem::path temp_file =
+            test_data_dir / "non_existent_hex_file.txt";
+
+        FILE* f = fopen(temp_file.string().c_str(), "r");
+        ASSERT_EQ(f, nullptr) << "File should not exist";
+
+        std::vector<uint8_t> result = scan_hex_data(f);
+
+        ASSERT_EQ(result.size(), 0) << "Length should be zero for non-existent file";
+    }
+
+    TEST_F(test_crypt, test_scan_hex_data_invalid_format) {
+        std::filesystem::path temp_file =
+            test_data_dir / "temp_scan_hex_data_invalid.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+
+        const char* invalid_hex_data = "ZZZZZZ\n.\n"; // Invalid hex characters
+        fputs(invalid_hex_data, f);
+        fclose(f);
+
+        f = fopen(temp_file.string().c_str(), "r");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
+
+        std::vector<uint8_t> result = scan_hex_data(f);
+        fclose(f);
+
+        ASSERT_EQ(result.size(), 0) << "Length should be zero for invalid hex input";
+    }
+
+    TEST_F(test_crypt, test_scan_hex_data_upper_case) {
+        std::filesystem::path temp_file =
+            test_data_dir / "temp_scan_hex_data_uppercase.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+
+        const char* uppercase_hex_data = "48656C6C6F2C20576F726C6421\n.\n"; // "Hello, World!" in uppercase
+        fputs(uppercase_hex_data, f);
+        fclose(f);
+
+        f = fopen(temp_file.string().c_str(), "r");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
+
+        std::vector<uint8_t> result = scan_hex_data(f);
+        fclose(f);
+
+        std::string result_str(result.begin(), result.end());
+        ASSERT_EQ(result_str, "Hello, World!") << "Data mismatch on uppercase hex input";
+    }
+
+    TEST_F(test_crypt, test_scan_hex_data_mixed_case) {
+        std::filesystem::path temp_file =
+            test_data_dir / "temp_scan_hex_data_mixedcase.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+
+        const char* mixed_case_hex_data = "48656c6C6F2C20576F726C6421\n.\n"; // "Hello, World!" in mixed case
+        fputs(mixed_case_hex_data, f);
+        fclose(f);
+
+        f = fopen(temp_file.string().c_str(), "r");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
+
+        std::vector<uint8_t> result = scan_hex_data(f);
+        fclose(f);
+
+        std::string result_str(result.begin(), result.end());
+        ASSERT_EQ(result_str, "Hello, World!") << "Data mismatch on mixed case hex input";
+    }
+
+    TEST_F(test_crypt, test_scan_hex_data_multiline) {
+        std::filesystem::path temp_file =
+            test_data_dir / "temp_scan_hex_data_multiline.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+
+        const char* multiline_hex_data =
+            "48656c6c6f2c20576f726c6421\n"
+            "54686973206973206120746573742e\n"
+            ".\n"; // "Hello, World!This is a test."
+        fputs(multiline_hex_data, f);
+        fclose(f);
+
+        f = fopen(temp_file.string().c_str(), "r");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
+
+        std::vector<uint8_t> result = scan_hex_data(f);
+        fclose(f);
+
+        std::string result_str(result.begin(), result.end());
+        ASSERT_EQ(result_str, "Hello, World!This is a test.") <<
+            "Data mismatch on multiline hex input";
     }
 }

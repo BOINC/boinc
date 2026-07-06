@@ -89,7 +89,7 @@ extern std::string sprint_hex_data(const std::vector<uint8_t> &data);
 #undef FILE
 #endif
 extern bool print_hex_data(FILE *f, const std::vector<uint8_t> &data);
-extern int scan_hex_data(FILE* f, DATA_BLOCK&);
+extern std::vector<uint8_t> scan_hex_data(FILE* f);
 extern int print_key_hex(FILE*, KEY* key, int len);
 extern int scan_key_hex(FILE*, KEY* key, int len);
 #ifdef _USING_FCGI_
@@ -121,7 +121,7 @@ extern int check_string_signature2(
     const char* text, const char* signature, const char* key, bool&
 );
 extern bool print_raw_data(FILE *f, const std::vector<uint8_t> &x);
-extern int scan_raw_data(FILE *f, DATA_BLOCK& x);
+extern std::vector<uint8_t> scan_raw_data(FILE *f);
 extern int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key);
 extern int generate_signature(
     char* text_to_sign, std::string& signature_hex, R_RSA_PRIVATE_KEY& key

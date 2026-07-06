@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <cstdint>
 #if defined(_WIN32)
 #include "boinc_win.h"
 #else
@@ -78,7 +79,7 @@ string sprint_hex_data(const vector<uint8_t> &x) {
     for (size_t i = 0; i < x.size(); ++i) {
         result.push_back(hex[x[i] / 16]);
         result.push_back(hex[x[i] % 16]);
-        if ( i % 32 == 31) {
+        if (i % 32 == 31) {
             result.push_back('\n');
         }
     }
@@ -100,76 +101,52 @@ bool print_raw_data(FILE *f, const vector<uint8_t> &x) {
     return true;
 }
 
-// NOTE: buffer must be big enough; no checking is done.
-int scan_raw_data(FILE *f, DATA_BLOCK& x) {
-    int i=0,j;
-    while(EOF!=(j=fgetc(f))) {
-        x.data[i]=(unsigned char)j;
-        i++;
+vector<uint8_t> scan_raw_data(FILE *f) {
+    vector<uint8_t> data;
+    if (!f) {
+        return data;
     }
-    x.len = i;
-    return 0;
+    int j;
+    while(EOF != (j = fgetc(f))) {
+        data.emplace_back(static_cast<uint8_t>(j));
+    }
+    return data;
 }
 
 // scan data in hex notation.
 // stop when you reach a non-parsed character.
-// NOTE: buffer must be big enough; no checking is done.
 //
-int scan_hex_data(FILE* f, DATA_BLOCK& x) {
-    int n;
-
-    x.len = 0;
-#if _USING_FCGI_
-    char *p, buf[256];
-    int i, j;
-    while (1) {
-        p = fgets(buf, 256, f);
-        if (!p) return ERR_GETS;
-        n = strlen(p)/2;
-        if (n == 0) break;
-        for (i=0; i<n; i++) {
-            sscanf(buf+i*2, "%2x", &j);
-            x.data[x.len] = j;
-            x.len++;
+static vector<uint8_t> sscan_hex_data(const std::vector<uint8_t>& buffer) {
+    vector<uint8_t> data;
+    if (buffer.empty()) {
+        return data;
+    }
+    const char hex[] = "0123456789abcdef";
+    for(size_t i = 0; i < buffer.size(); ) {
+        int c1 = buffer[i++];
+        if (c1 == '\n') {
+            continue; // skip newlines
         }
+        if (!isxdigit(c1)) {
+            break;
+        }
+        if (i >= buffer.size()) {
+            break; // no second character
+        }
+        int c2 = buffer[i++];
+        if (!isxdigit(c2)) {
+            break;
+        }
+        int value = (strchr(hex, tolower(c1)) - hex) * 16 + (strchr(hex, tolower(c2)) - hex);
+        data.emplace_back(static_cast<uint8_t>(value));
     }
-#else
-    while (1) {
-        int j;
-        n = fscanf(f, "%2x", &j);
-        if (n <= 0) break;
-        x.data[x.len] = (unsigned char)j;
-        x.len++;
-    }
-#endif
-    return 0;
+    return data;
 }
 
-// same, but read from buffer
+// same, but read from file
 //
-static int sscan_hex_data(const char* p, DATA_BLOCK& x) {
-    int m, n, nleft=x.len;
-
-    x.len = 0;
-    while (1) {
-        if (isspace(*p)) {
-            ++p;
-            continue;
-        }
-        n = sscanf(p, "%2x", &m);
-        if (n <= 0) break;
-        if (nleft<=0) {
-            fprintf(stderr,
-                "%s: sscan_hex_data: buffer overflow\n",
-                time_to_string(dtime())
-            );
-            return ERR_BAD_HEX_FORMAT;
-        }
-        x.data[x.len++] = (unsigned char)m;
-        nleft--;
-        p += 2;
-    }
-    return 0;
+vector<uint8_t> scan_hex_data(FILE* f) {
+    return sscan_hex_data(scan_raw_data(f));
 }
 
 // print a key in ASCII form
@@ -233,7 +210,6 @@ int scan_key_hex(FILE* f, KEY* key, int size) {
 //
 int sscan_key_hex(const char* buf, KEY* key, int size) {
     int n, retval,num_bits;
-    DATA_BLOCK db;
 
     //fprintf(stderr, "buf = %s\n", buf);
     n = sscanf(buf, "%d", &num_bits);
@@ -244,9 +220,13 @@ int sscan_key_hex(const char* buf, KEY* key, int size) {
     buf = strchr(buf, '\n');
     if (!buf) return ERR_XML_PARSE;
     buf += 1;
-    db.data = key->data;
-    db.len = (unsigned)(size - sizeof(key->bits));
-    retval = sscan_hex_data(buf, db);
+    size_t len = (unsigned)(size - sizeof(key->bits));
+    vector<uint8_t> data = sscan_hex_data(vector<uint8_t>(buf, buf + strlen(buf)));
+    if (data.size() != len) {
+        fprintf(stderr, "sscan_key_hex: data size mismatch: expected %lu, got %zu\n", len, data.size());
+        return ERR_XML_PARSE;
+    }
+    memcpy(key->data, data.data(), len);
     return retval;
 }
 
@@ -386,7 +366,14 @@ int check_file_signature2(
     }
     signature.data = signature_buf;
     signature.len = sizeof(signature_buf);
-    retval = sscan_hex_data(signature_text, signature);
+    vector<uint8_t> data  = sscan_hex_data(vector<uint8_t>(signature_text, signature_text + strlen(signature_text)));
+    if (data.size() != sizeof(signature_buf)) {
+        fprintf(stderr, "%s: check_file_signature2: signature size mismatch: expected %zu, got %zu\n",
+            time_to_string(dtime()), sizeof(signature_buf), data.size()
+        );
+        return ERR_BAD_HEX_FORMAT;
+    }
+    memcpy(signature.data, data.data(), sizeof(signature_buf));
     if (retval) return retval;
     return check_file_signature(md5, key, signature, answer);
 }
@@ -408,8 +395,9 @@ int check_string_signature(
     n = (int)strlen(md5_buf);
     signature.data = signature_buf;
     signature.len = sizeof(signature_buf);
-    retval = sscan_hex_data(signature_text, signature);
-    if (retval) return retval;
+    vector<uint8_t> data  = sscan_hex_data(vector<uint8_t>(signature_text, signature_text + strlen(signature_text)));
+    signature.len = data.size();
+    memcpy(signature.data, data.data(), sizeof(signature_buf));
     clear_signature.data = (unsigned char*)clear_buf;
     clear_signature.len = 256;
     retval = decrypt_public(key, signature, clear_signature);
@@ -809,7 +797,13 @@ int cert_verify_file(
             return false;
         }
         sig_db.len=128;
-        sscan_hex_data(signatures->signatures.at(i).signature, sig_db);
+        vector<uint8_t> sig_vector = sscan_hex_data(vector<uint8_t>(signatures->signatures.at(i).signature, signatures->signatures.at(i).signature + strlen(signatures->signatures.at(i).signature)));
+        if (sig_vector.size() != 128) {
+            printf("Signature size mismatch: expected 128, got %zu\n", sig_vector.size());
+            free(sig_db.data);
+            return false;
+        }
+        memcpy(sig_db.data, sig_vector.data(), 128);
         file_counter = 0;
         while (1) {
             snprintf(fbuf, MAXPATHLEN, "%s/%s.%d", trustLocation, signatures->signatures.at(i).hash,
