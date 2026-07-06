@@ -151,16 +151,15 @@ vector<uint8_t> scan_hex_data(FILE* f) {
 
 // print a key in ASCII form
 //
-int print_key_hex(FILE* f, KEY* key, int size) {
-    int len;
-    DATA_BLOCK x;
+bool print_key_hex(FILE* f, KEY* key, size_t size) {
+    if (!f || !key || size == 0) {
+        return false;
+    }
 
     fprintf(f, "%d\n", key->bits);
-    len = size - (int)sizeof(key->bits);
-    x.data = key->data;
-    x.len = len;
-    vector<uint8_t> data_vector(x.data, x.data + x.len);
-    return print_hex_data(f, data_vector) ? 0 : 1;
+    const size_t len = size - sizeof(key->bits);
+    vector<uint8_t> data_vector(key->data, key->data + len);
+    return print_hex_data(f, data_vector);
 }
 
 int scan_key_hex(FILE* f, KEY* key, int size) {

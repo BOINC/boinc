@@ -24,8 +24,6 @@
 #endif
 #include "crypt.h"
 
-using namespace std;
-
 namespace test_lib {
     class test_crypt : public ::testing::Test {
         protected:
@@ -440,5 +438,81 @@ namespace test_lib {
         std::string result_str(result.begin(), result.end());
         ASSERT_EQ(result_str, "Hello, World!This is a test.") <<
             "Data mismatch on multiline hex input";
+    }
+
+    TEST_F(test_crypt, test_print_key_hex) {
+        std::filesystem::path temp_file = test_data_dir / "temp_key_hex.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+
+        const short int key_data_size = 32; // Example size for key data
+        unsigned char key_data[key_data_size + sizeof(key_data_size)];
+        KEY *key = reinterpret_cast<KEY*>(key_data);
+        key->bits = key_data_size * 8; // Example bit size
+        for (size_t i = 0; i < key_data_size; ++i) {
+            key->data[i] = static_cast<unsigned char>(i);
+        }
+
+        bool result = print_key_hex(f, key, sizeof(key_data));
+        fclose(f);
+
+        ASSERT_TRUE(result) << "print_key_hex failed";
+
+        std::ifstream infile(temp_file);
+        std::string output((std::istreambuf_iterator<char>(infile)),
+            std::istreambuf_iterator<char>());
+        infile.close();
+
+        std::string expected_output = "256\n000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f\n.\n";
+        ASSERT_EQ(output, expected_output) <<
+            "Key hex output does not match expected value";
+    }
+
+    TEST_F(test_crypt, test_print_key_hex_file_not_opened) {
+        FILE* f = nullptr; // Simulate a file that is not opened
+
+        const short int key_data_size = 32; // Example size for key data
+        unsigned char key_data[key_data_size + sizeof(key_data_size)];
+        KEY *key = reinterpret_cast<KEY*>(key_data);
+        key->bits = key_data_size * 8; // Example bit size
+        for (size_t i = 0; i < key_data_size; ++i) {
+            key->data[i] = static_cast<unsigned char>(i);
+        }
+
+        bool result = print_key_hex(f, key, sizeof(key_data));
+
+        ASSERT_FALSE(result) << "print_key_hex should return non-zero if file is not opened";
+    }
+
+    TEST_F(test_crypt, test_print_key_hex_invalid_key) {
+        std::filesystem::path temp_file = test_data_dir / "temp_key_hex_invalid.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+
+        KEY *key = nullptr; // Simulate an invalid key
+
+        bool result = print_key_hex(f, key, sizeof(KEY));
+        fclose(f);
+
+        ASSERT_FALSE(result) << "print_key_hex should return non-zero for invalid key";
+    }
+
+    TEST_F(test_crypt, test_print_key_hex_zero_size) {
+        std::filesystem::path temp_file = test_data_dir / "temp_key_hex_zero_size.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+
+        const short int key_data_size = 32; // Example size for key data
+        unsigned char key_data[key_data_size + sizeof(key_data_size)];
+        KEY *key = reinterpret_cast<KEY*>(key_data);
+        key->bits = key_data_size * 8; // Example bit size
+        for (size_t i = 0; i < key_data_size; ++i) {
+            key->data[i] = static_cast<unsigned char>(i);
+        }
+
+        bool result = print_key_hex(f, key, 0); // Zero size
+        fclose(f);
+
+        ASSERT_FALSE(result) << "print_key_hex should return non-zero for zero size";
     }
 }

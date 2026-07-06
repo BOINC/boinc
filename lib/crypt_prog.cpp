@@ -483,7 +483,7 @@ int convkey_private_o2b(const std::string& input, const std::string& output) {
         print_error("fopen");
         return 2;
     }
-    return print_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
+    return print_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key)) ? 0 : 1;
 }
 
 int convkey_public_b2o(const std::string& input, const std::string& output) {
@@ -565,7 +565,7 @@ int convkey_public_o2b(const std::string& input, const std::string& output) {
         print_error("fopen");
         return 2;
     }
-    return print_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
+    return print_key_hex(fpub, (KEY*)&public_key, sizeof(public_key)) ? 0 : 1;
 }
 
 int convkey(const std::string& conversion, const std::string& key_type,

@@ -90,7 +90,7 @@ extern std::string sprint_hex_data(const std::vector<uint8_t> &data);
 #endif
 extern bool print_hex_data(FILE *f, const std::vector<uint8_t> &data);
 extern std::vector<uint8_t> scan_hex_data(FILE* f);
-extern int print_key_hex(FILE*, KEY* key, int len);
+extern bool print_key_hex(FILE*, KEY* key, size_t len);
 extern int scan_key_hex(FILE*, KEY* key, int len);
 #ifdef _USING_FCGI_
 #define FILE FCGI_FILE
