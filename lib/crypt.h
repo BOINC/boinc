@@ -99,11 +99,6 @@ extern std::vector<uint8_t> scan_key_hex(FILE* f);
 #ifdef _USING_FCGI_
 #define FILE FCGI_FILE
 #endif
-// function returns a vector of bytes where two first bytes are the size of the key in bits, and the rest is the key Data
-// it can be casted to KEY in the following way:
-// std::vector<uint8_t> key_bytes = sscan_key_hex(buf);
-// KEY* key = reinterpret_cast<KEY*>(key_bytes.data());
-extern std::vector<uint8_t> sscan_key_hex(const char *buf);
 extern int encrypt_private(
     R_RSA_PRIVATE_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out
 );

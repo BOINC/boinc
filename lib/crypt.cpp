@@ -163,13 +163,9 @@ bool print_key_hex(FILE* f, KEY* key, size_t size) {
     return print_hex_data(f, data_vector);
 }
 
-vector<uint8_t> scan_key_hex(FILE* f) {
-    return sscan_key_hex(reinterpret_cast<char*>(scan_raw_data(f).data()));
-}
-
 // parse a text-encoded key from a memory buffer
 //
-std::vector<uint8_t> sscan_key_hex(const char* buf) {
+static std::vector<uint8_t> sscan_key_hex(const char* buf) {
     std::vector<uint8_t> result;
     if (!buf) {
         return result;
@@ -206,6 +202,10 @@ std::vector<uint8_t> sscan_key_hex(const char* buf) {
     result.reserve(result.size() + data.size());
     result.insert(result.end(), data.begin(), data.end());
     return result;
+}
+
+vector<uint8_t> scan_key_hex(FILE* f) {
+    return sscan_key_hex(reinterpret_cast<char*>(scan_raw_data(f).data()));
 }
 
 // encrypt some data.
