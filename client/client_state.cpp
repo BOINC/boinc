@@ -230,9 +230,9 @@ void CLIENT_STATE::show_host_info() {
     nbytes_to_string(host_info.m_nbytes, 0, buf, sizeof(buf));
     if (is_swap_defined()) {
         nbytes_to_string(host_info.m_swap, 0, buf2, sizeof(buf2));
-        msg_printf(NULL, MSG_INFO, "Memory: %s physical, %s virtual", buf, buf2);
+        msg_printf(NULL, MSG_INFO, "Memory: %s RAM, %s swap space", buf, buf2);
     } else {
-        msg_printf(NULL, MSG_INFO, "Memory: %s physical", buf);
+        msg_printf(NULL, MSG_INFO, "Memory: %s RAM", buf);
     }
 
     nbytes_to_string(host_info.d_total, 0, buf, sizeof(buf));
