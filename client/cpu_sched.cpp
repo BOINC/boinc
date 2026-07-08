@@ -850,7 +850,7 @@ bool CLIENT_STATE::swap_limit_check() {
     if (swap_usage > swap_limit) {
         if (log_flags.cpu_sched_debug) {
             msg_printf(NULL, MSG_INFO,
-                "[cpu_sched_debug] virtual size limit exceeded: %.2f GB > %.2f GB",
+                "[cpu_sched_debug] swap usage limit exceeded: %.2f GB > %.2f GB",
                 swap_usage/GIGA, swap_limit/GIGA
             );
         }
@@ -1494,18 +1494,18 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             }
         }
 
-        // skip jobs whose 'expected working set size' (EWSS)
-        // is too large to fit in available RAM,
-        // or whose swap size is too large for available swap space.
+        // skip jobs whose 'expected resident set size' (erss)
+        // exceeds available RAM,
+        // or whose swap usage exceeds available swap space.
         //
-        // To compute EWSS, we start with
-        // - if the job has already run, its recent average WSS
+        // To compute erss, we start with
+        // - if the job has already run, its recent average RSS
         // - else if other jobs of this app version have run recently,
-        //      the max of their WSSs
+        //      the max of their RSSs
         // - else the WU's rsc_memory_bound
         // If project->strict_memory_bound is set,
         // we max the above with wu.rsc_memory_bound.
-        // This is to handle apps (like CPDN) whose WSS is small for a while
+        // This is to handle apps (like CPDN) whose RSS is small for a while
         // and then gets big.
         //
         double erss = 0;
@@ -1544,7 +1544,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                 }
                 if (log_flags.cpu_sched_debug || log_flags.mem_usage_debug) {
                     msg_printf(rp->project, MSG_INFO,
-                        "[cpu_sched_debug] skipping %s: virtual size (%.2f GB) exceeds swap left (%.2f GB)",
+                        "[cpu_sched_debug] skipping %s: swap usage (%.2f GB) exceeds swap left (%.2f GB)",
                         rp->name,  eswap/GIGA, swap_left/GIGA
                     );
                 }
