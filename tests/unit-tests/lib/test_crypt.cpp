@@ -448,7 +448,7 @@ namespace test_lib {
         const short int key_data_size = 32; // Example size for key data
         unsigned char key_data[key_data_size + sizeof(key_data_size)];
         KEY *key = reinterpret_cast<KEY*>(key_data);
-        key->bits = key_data_size * 8; // Example bit size
+        key->bits = 256; // Example bit size
         for (size_t i = 0; i < key_data_size; ++i) {
             key->data[i] = static_cast<unsigned char>(i);
         }
@@ -474,7 +474,7 @@ namespace test_lib {
         const short int key_data_size = 32; // Example size for key data
         unsigned char key_data[key_data_size + sizeof(key_data_size)];
         KEY *key = reinterpret_cast<KEY*>(key_data);
-        key->bits = key_data_size * 8; // Example bit size
+        key->bits = 256; // Example bit size
         for (size_t i = 0; i < key_data_size; ++i) {
             key->data[i] = static_cast<unsigned char>(i);
         }
@@ -505,7 +505,7 @@ namespace test_lib {
         const short int key_data_size = 32; // Example size for key data
         unsigned char key_data[key_data_size + sizeof(key_data_size)];
         KEY *key = reinterpret_cast<KEY*>(key_data);
-        key->bits = key_data_size * 8; // Example bit size
+        key->bits = 256; // Example bit size
         for (size_t i = 0; i < key_data_size; ++i) {
             key->data[i] = static_cast<unsigned char>(i);
         }
@@ -514,5 +514,242 @@ namespace test_lib {
         fclose(f);
 
         ASSERT_FALSE(result) << "print_key_hex should return non-zero for zero size";
+    }
+
+    TEST_F(test_crypt, test_scan_key_hex) {
+        std::filesystem::path temp_file = test_data_dir / "temp_scan_key_hex.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+
+        const short int key_data_size = 32; // Example size for key data
+        unsigned char key_data[key_data_size + sizeof(key_data_size)];
+        KEY *key = reinterpret_cast<KEY*>(key_data);
+        key->bits = 256; // Example bit size
+        for (size_t i = 0; i < key_data_size; ++i) {
+            key->data[i] = static_cast<unsigned char>(i);
+        }
+
+        bool print_result = print_key_hex(f, key, sizeof(key_data));
+        fclose(f);
+        ASSERT_TRUE(print_result) << "print_key_hex failed";
+
+        f = fopen(temp_file.string().c_str(), "r");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
+
+        std::vector<uint8_t> scan_result = scan_key_hex(f);
+        fclose(f);
+        KEY *scanned_key = reinterpret_cast<KEY*>(scan_result.data());
+
+        ASSERT_EQ(scanned_key->bits, key->bits) << "Key bits mismatch";
+        ASSERT_EQ(memcmp(scanned_key->data, key->data, key_data_size), 0) <<
+            "Key data mismatch";
+    }
+
+    TEST_F(test_crypt, test_scan_key_hex_file_not_opened) {
+        FILE* f = nullptr; // Simulate a file that is not opened
+
+        std::vector<uint8_t> result = scan_key_hex(f);
+
+        ASSERT_TRUE(result.empty()) << "scan_key_hex should return empty vector if file is not opened";
+    }
+
+    TEST_F(test_crypt, test_scan_key_hex_invalid_key) {
+        std::filesystem::path temp_file = test_data_dir / "temp_scan_key_hex_invalid.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+
+        const char* invalid_key_data = "InvalidKeyData\n.\n";
+        fputs(invalid_key_data, f);
+        fclose(f);
+
+        f = fopen(temp_file.string().c_str(), "r");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
+
+        std::vector<uint8_t> scan_result = scan_key_hex(f);
+        fclose(f);
+
+        ASSERT_TRUE(scan_result.empty()) << "scan_key_hex should return empty vector for invalid key data";
+    }
+
+    TEST_F(test_crypt, test_scan_key_hex_file_not_found) {
+        std::filesystem::path temp_file =
+            test_data_dir / "non_existent_key_file.txt";
+
+        FILE* f = fopen(temp_file.string().c_str(), "r");
+        ASSERT_EQ(f, nullptr) << "File should not exist";
+
+        std::vector<uint8_t> scan_result = scan_key_hex(f);
+
+        ASSERT_TRUE(scan_result.empty()) << "scan_key_hex should return empty vector for non-existent file";
+    }
+
+    TEST_F(test_crypt, test_scan_key_hex_invalid_format) {
+        std::filesystem::path temp_file =
+            test_data_dir / "temp_scan_key_hex_invalid_format.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+
+        const char* invalid_key_data = "256\nZZZZZZ\n.\n"; // Invalid hex characters
+        fputs(invalid_key_data, f);
+        fclose(f);
+
+        f = fopen(temp_file.string().c_str(), "r");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
+
+        std::vector<uint8_t> scan_result = scan_key_hex(f);
+        fclose(f);
+
+        ASSERT_TRUE(scan_result.empty()) << "scan_key_hex should return empty vector for invalid hex input";
+    }
+
+    TEST_F(test_crypt, test_scan_key_hex_multiline) {
+        std::filesystem::path temp_file =
+            test_data_dir / "temp_scan_key_hex_multiline.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+
+        const char* multiline_key_data = "256\n"
+            "0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f\n"
+            "202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f40\n"
+            ".\n"; // Example multiline key data
+        fputs(multiline_key_data, f);
+        fclose(f);
+
+        f = fopen(temp_file.string().c_str(), "r");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
+
+        std::vector<uint8_t> scan_result = scan_key_hex(f);
+        fclose(f);
+
+        KEY *scanned_key = reinterpret_cast<KEY*>(scan_result.data());
+        ASSERT_EQ(scanned_key->bits, 256) << "Key bits mismatch";
+        for (size_t i = 0; i < 32; ++i) {
+            ASSERT_EQ(scanned_key->data[i], static_cast<unsigned char>(i + 1)) << "Key data mismatch at index " << i;
+        }
+    }
+
+    TEST_F(test_crypt, test_scan_key_hex_upper_case) {
+        std::filesystem::path temp_file =
+            test_data_dir / "temp_scan_key_hex_uppercase.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+
+        const char* uppercase_key_data = "256\n"
+            "0102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F20\n"
+            ".\n"; // Example uppercase key data
+        fputs(uppercase_key_data, f);
+        fclose(f);
+
+        f = fopen(temp_file.string().c_str(), "r");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
+
+        std::vector<uint8_t> scan_result = scan_key_hex(f);
+        fclose(f);
+
+        KEY *scanned_key = reinterpret_cast<KEY*>(scan_result.data());
+        ASSERT_EQ(scanned_key->bits, 256) << "Key bits mismatch";
+        for (size_t i = 0; i < 32; ++i) {
+            ASSERT_EQ(scanned_key->data[i], static_cast<unsigned char>(i + 1)) << "Key data mismatch at index " << i;
+        }
+    }
+
+    TEST_F(test_crypt, test_scan_key_hex_mixed_case) {
+        std::filesystem::path temp_file =
+            test_data_dir / "temp_scan_key_hex_mixedcase.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+
+        const char* mixed_case_key_data = "256\n"
+            "0102030405060708090a0B0C0D0E0F101112131415161718191A1B1C1D1E1F20\n"
+            ".\n"; // Example mixed case key data
+        fputs(mixed_case_key_data, f);
+        fclose(f);
+
+        f = fopen(temp_file.string().c_str(), "r");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
+
+        std::vector<uint8_t> scan_result = scan_key_hex(f);
+        fclose(f);
+
+        KEY *scanned_key = reinterpret_cast<KEY*>(scan_result.data());
+        ASSERT_EQ(scanned_key->bits, 256) << "Key bits mismatch";
+        for (size_t i = 0; i < 32; ++i) {
+            ASSERT_EQ(scanned_key->data[i], static_cast<unsigned char>(i + 1)) << "Key data mismatch at index " << i;
+        }
+    }
+
+    TEST_F(test_crypt, test_sscan_key_hex) {
+        const char* key_data_str = "256\n"
+            "0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20\n"
+            ".\n"; // Example key data string
+
+        std::vector<uint8_t> buffer(key_data_str, key_data_str + strlen(key_data_str));
+        std::vector<uint8_t> key_buffer = sscan_key_hex(reinterpret_cast<char*>(buffer.data()));
+
+        KEY *scanned_key = reinterpret_cast<KEY*>(key_buffer.data());
+        ASSERT_EQ(scanned_key->bits, 256) << "Key bits mismatch";
+        for (size_t i = 0; i < 32; ++i) {
+            ASSERT_EQ(scanned_key->data[i], static_cast<unsigned char>(i + 1)) << "Key data mismatch at index " << i;
+        }
+    }
+
+    TEST_F(test_crypt, test_sscan_key_hex_invalid_format) {
+        const char* invalid_key_data_str = "256\nZZZZZZ\n.\n"; // Invalid hex characters
+
+        std::vector<uint8_t> buffer(invalid_key_data_str, invalid_key_data_str + strlen(invalid_key_data_str));
+        std::vector<uint8_t> key_buffer = sscan_key_hex(reinterpret_cast<char*>(buffer.data()));
+        ASSERT_TRUE(key_buffer.empty()) << "sscan_key_hex should return empty vector for invalid hex input";
+    }
+
+    TEST_F(test_crypt, test_sscan_key_hex_empty) {
+        std::vector<uint8_t> buffer; // Empty buffer
+        std::vector<uint8_t> key_buffer = sscan_key_hex(reinterpret_cast<char*>(buffer.data()));
+        ASSERT_TRUE(key_buffer.empty()) << "sscan_key_hex should return empty vector for empty input";
+    }
+
+    TEST_F(test_crypt, test_sscan_key_hex_multiline) {
+        const char* multiline_key_data_str = "256\n"
+            "0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20\n"
+            "2122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f40\n"
+            ".\n"; // Example multiline key data string
+
+        std::vector<uint8_t> buffer(multiline_key_data_str, multiline_key_data_str + strlen(multiline_key_data_str));
+        std::vector<uint8_t> key_buffer = sscan_key_hex(reinterpret_cast<char*>(buffer.data()));
+
+        KEY *scanned_key = reinterpret_cast<KEY*>(key_buffer.data());
+        ASSERT_EQ(scanned_key->bits, 256) << "Key bits mismatch";
+        for (size_t i = 0; i < 64; ++i) {
+            ASSERT_EQ(scanned_key->data[i], static_cast<unsigned char>(i + 1)) << "Key data mismatch at index " << i;
+        }
+    }
+
+    TEST_F(test_crypt, test_sscan_key_hex_upper_case) {
+        const char* uppercase_key_data_str = "256\n"
+            "0102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F20\n"
+            ".\n"; // Example uppercase key data string
+
+        std::vector<uint8_t> buffer(uppercase_key_data_str, uppercase_key_data_str + strlen(uppercase_key_data_str));
+        std::vector<uint8_t> key_buffer = sscan_key_hex(reinterpret_cast<char*>(buffer.data()));
+
+        KEY *scanned_key = reinterpret_cast<KEY*>(key_buffer.data());
+        ASSERT_EQ(scanned_key->bits, 256) << "Key bits mismatch";
+        for (size_t i = 0; i < 32; ++i) {
+            ASSERT_EQ(scanned_key->data[i], static_cast<unsigned char>(i + 1)) << "Key data mismatch at index " << i;
+        }
+    }
+
+    TEST_F(test_crypt, test_sscan_key_hex_mixed_case) {
+        const char* mixed_case_key_data_str = "256\n"
+            "0102030405060708090a0B0C0D0E0F101112131415161718191A1B1C1D1E1F20\n"
+            ".\n"; // Example mixed case key data string
+
+        std::vector<uint8_t> buffer(mixed_case_key_data_str, mixed_case_key_data_str + strlen(mixed_case_key_data_str));
+        std::vector<uint8_t> key_buffer = sscan_key_hex(reinterpret_cast<char*>(buffer.data()));
+
+        KEY *scanned_key = reinterpret_cast<KEY*>(key_buffer.data());
+        ASSERT_EQ(scanned_key->bits, 256) << "Key bits mismatch";
+        for (size_t i = 0; i < 32; ++i) {
+            ASSERT_EQ(scanned_key->data[i], static_cast<unsigned char>(i + 1)) << "Key data mismatch at index " << i;
+        }
     }
 }

@@ -603,18 +603,22 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
 }
 
 int get_key(R_RSA_PUBLIC_KEY& key) {
-    int retval;
     char buf[256];
     sprintf(buf, "%s/upload_public", config.key_dir);
     FILE *f = boinc::fopen(buf, "r");
     if (!f) return -1;
+    std::vector<uint8_t> key_data;
 #ifdef _USING_FCGI_
-    retval = scan_key_hex(FCGI_ToFILE(f), (KEY*)&key, sizeof(key));
+    key_data = scan_key_hex(FCGI_ToFILE(f));
 #else
-    retval = scan_key_hex(f, (KEY*)&key, sizeof(key));
+    key_data = scan_key_hex(f);
 #endif
     boinc::fclose(f);
-    if (retval) return retval;
+    if (key_data.empty()) {
+        log_messages.printf(MSG_CRITICAL, "get_key(): failed to read key from %s\n", buf);
+        return -1;
+    }
+    memcpy(&key, key_data.data(), sizeof(key));
     return 0;
 }
 

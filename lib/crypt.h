@@ -89,13 +89,21 @@ extern std::string sprint_hex_data(const std::vector<uint8_t> &data);
 #undef FILE
 #endif
 extern bool print_hex_data(FILE *f, const std::vector<uint8_t> &data);
-extern std::vector<uint8_t> scan_hex_data(FILE* f);
-extern bool print_key_hex(FILE*, KEY* key, size_t len);
-extern int scan_key_hex(FILE*, KEY* key, int len);
+extern std::vector<uint8_t> scan_hex_data(FILE * f);
+extern bool print_key_hex(FILE *f, KEY *key, size_t len);
+// function returns a vector of bytes where two first bytes are the size of the key in bits, and the rest is the key Data
+// it can be casted to KEY in the following way:
+// std::vector<uint8_t> key_bytes = scan_key_hex(f);
+// KEY* key = reinterpret_cast<KEY*>(key_bytes.data());
+extern std::vector<uint8_t> scan_key_hex(FILE* f);
 #ifdef _USING_FCGI_
 #define FILE FCGI_FILE
 #endif
-extern int sscan_key_hex(const char*, KEY* key, int len);
+// function returns a vector of bytes where two first bytes are the size of the key in bits, and the rest is the key Data
+// it can be casted to KEY in the following way:
+// std::vector<uint8_t> key_bytes = sscan_key_hex(buf);
+// KEY* key = reinterpret_cast<KEY*>(key_bytes.data());
+extern std::vector<uint8_t> sscan_key_hex(const char *buf);
 extern int encrypt_private(
     R_RSA_PRIVATE_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out
 );

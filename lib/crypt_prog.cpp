@@ -38,6 +38,7 @@
 // -cert_verify file signature_file certificate_dir ca_dir
 //                  verify a signature using a directory of certificates
 
+#include <cstdint>
 #if defined(_WIN32)
 #include <windows.h>
 #else
@@ -172,18 +173,19 @@ int sign(const std::string& file, const std::string& private_keyfile) {
         print_error("fopen");
         return 2;
     }
-    R_RSA_PRIVATE_KEY private_key;
-    int retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
-    if (retval) {
+    std::vector<uint8_t> result = scan_key_hex(fpriv);
+    if (result.empty()) {
         print_error("scan_key_hex");
         return 2;
     }
+    R_RSA_PRIVATE_KEY private_key;
+    memcpy(&private_key, result.data(), sizeof(private_key));
     const int data_len = 256;
     unsigned char signature_buf[data_len];
     DATA_BLOCK signature;
     signature.data = signature_buf;
     signature.len = data_len;
-    retval = sign_file(file.c_str(), private_key, signature);
+    int retval = sign_file(file.c_str(), private_key, signature);
     if (retval) {
         print_error("sign_file");
         return 2;
@@ -199,16 +201,17 @@ int sign_string(const std::string& str, const std::string& private_keyfile) {
         print_error("fopen");
         return 2;
     }
-    R_RSA_PRIVATE_KEY private_key;
-    int retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
-    if (retval) {
+    std::vector<uint8_t> result = scan_key_hex(fpriv);
+    if (result.empty()) {
         print_error("scan_key_hex");
         return 2;
     }
+    R_RSA_PRIVATE_KEY private_key;
+    memcpy(&private_key, result.data(), sizeof(private_key));
     std::string cbuf;
     // this const_cast need to be removed once 'generate_signature' is updated
     // to accept const char*
-    retval = generate_signature(const_cast<char*>(str.c_str()), cbuf,
+    int retval = generate_signature(const_cast<char*>(str.c_str()), cbuf,
         private_key);
     if (retval) {
         print_error("generate_signature");
@@ -225,12 +228,13 @@ int verify(const std::string& file, const std::string& signature_file,
         print_error("fopen");
         return 2;
     }
-    R_RSA_PUBLIC_KEY public_key;
-    int retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
-    if (retval) {
+    std::vector<uint8_t> result = scan_key_hex(fpub);
+    if (result.empty()) {
         print_error("read_public_key");
         return 2;
     }
+    R_RSA_PUBLIC_KEY public_key;
+    memcpy(&public_key, result.data(), sizeof(public_key));
     FILE* f = fopen(signature_file.c_str(), "r");
     if (!f) {
         print_error("fopen");
@@ -247,7 +251,7 @@ int verify(const std::string& file, const std::string& signature_file,
 
     char md5_buf[64];
     double size;
-    retval = md5_file(file.c_str(), md5_buf, size);
+    int retval = md5_file(file.c_str(), md5_buf, size);
     if (retval) {
         print_error("md5_file");
         return 2;
@@ -276,12 +280,13 @@ int verify_string(const std::string& str, const std::string& signature_file,
         print_error("fopen");
         return 2;
     }
-    R_RSA_PUBLIC_KEY public_key;
-    int retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
-    if (retval) {
+    std::vector<uint8_t> result = scan_key_hex(fpub);
+    if (result.empty()) {
         print_error("read_public_key");
         return 2;
     }
+    R_RSA_PUBLIC_KEY public_key;
+    memcpy(&public_key, result.data(), sizeof(public_key));
     FILE* f = fopen(signature_file.c_str(), "r");
     if (!f) {
         print_error("fopen");
@@ -294,7 +299,7 @@ int verify_string(const std::string& str, const std::string& signature_file,
     cbuf[k] = 0;
 
     bool is_valid = false;
-    retval = check_string_signature(str.c_str(), cbuf, public_key, is_valid);
+    int retval = check_string_signature(str.c_str(), cbuf, public_key, is_valid);
     if (retval) {
         print_error("check_string_signature");
         return 2;
@@ -314,24 +319,26 @@ int test_crypt(const std::string& private_keyfile,
         print_error("fopen");
         return 2;
     }
-    R_RSA_PRIVATE_KEY private_key;
-    int retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
-    if (retval) {
+    std::vector<uint8_t> result = scan_key_hex(fpriv);
+    if (result.empty()) {
         print_error("scan_key_hex\n");
         return 2;
     }
+    R_RSA_PRIVATE_KEY private_key;
+    memcpy(&private_key, result.data(), sizeof(private_key));
     FILE* fpub = fopen(public_keyfile.c_str(), "r");
     if (!fpub) {
         print_error("fopen");
         return 2;
     }
 
-    R_RSA_PUBLIC_KEY public_key;
-    retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
-    if (retval) {
+    result = scan_key_hex(fpub);
+    if (result.empty()) {
         print_error("read_public_key");
         return 2;
     }
+    R_RSA_PUBLIC_KEY public_key;
+    memcpy(&public_key, result.data(), sizeof(public_key));
     const std::string test_string("encryption test successful");
     unsigned char buf[256], buf2[256];
     strcpy((char*)buf2, test_string.c_str());
@@ -339,7 +346,7 @@ int test_crypt(const std::string& private_keyfile,
     in.data = buf2;
     in.len = (unsigned)test_string.size();
     out.data = buf;
-    retval = encrypt_private(private_key, in, out);
+    int retval = encrypt_private(private_key, in, out);
     if (retval) {
         print_error("encrypt_private");
         return 2;
@@ -438,13 +445,14 @@ int convkey_private_b2o(const std::string& input, const std::string& output) {
         return 2;
     }
 
-    R_RSA_PRIVATE_KEY private_key;
-    int retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
+    std::vector<uint8_t> result = scan_key_hex(fpriv);
     fclose(fpriv);
-    if (retval) {
+    if (result.empty()) {
         print_error("scan_key_hex");
         return 2;
     }
+    R_RSA_PRIVATE_KEY private_key;
+    memcpy(&private_key, result.data(), sizeof(private_key));
     private_to_openssl(private_key, rsa_key);
 
 
@@ -514,20 +522,21 @@ int convkey_public_b2o(const std::string& input, const std::string& output) {
         print_error("fopen");
         return 2;
     }
-    R_RSA_PUBLIC_KEY public_key;
-    int retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
+    std::vector<uint8_t> result = scan_key_hex(fpub);
     fclose(fpub);
-    if (retval) {
+    if (result.empty()) {
         print_error("scan_key_hex");
         return 2;
     }
+    R_RSA_PUBLIC_KEY public_key;
+    memcpy(&public_key, result.data(), sizeof(public_key));
     fpub = fopen(output.c_str(), "w+");
     if (!fpub) {
         print_error("fopen");
         return 2;
     }
     public_to_openssl(public_key, rsa_key);
-    retval = PEM_write_RSA_PUBKEY(fpub, rsa_key);
+    int retval = PEM_write_RSA_PUBKEY(fpub, rsa_key);
     fclose(fpub);
     if (retval == 0) {
         ERR_print_errors(bio_err);

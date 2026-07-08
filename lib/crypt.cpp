@@ -16,6 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstdint>
+#include <vector>
 #if defined(_WIN32)
 #include "boinc_win.h"
 #else
@@ -162,71 +163,49 @@ bool print_key_hex(FILE* f, KEY* key, size_t size) {
     return print_hex_data(f, data_vector);
 }
 
-int scan_key_hex(FILE* f, KEY* key, int size) {
-    int len, i, n;
-    int num_bits;
-
-#if _USING_FCGI_
-    char *p, buf[256];
-    int j = 0, b;
-    fgets(buf, 256, f);
-    int fs = sscanf(buf, "%d", &num_bits);
-    if (fs != 1) return ERR_NULL;
-    key->bits = num_bits;
-    len = size - sizeof(key->bits);
-    while (1) {
-        p = fgets(buf, 256, f);
-        if (!p) break;
-        n = (strlen(p)-1)/2;
-        if (n == 0) break;
-        for (i=0; i<n; i++) {
-            // coverity[check_return]
-            sscanf(buf+i*2, "%2x", &b);
-            if (j == len) break;
-            key->data[j++] = b;
-        }
-    }
-    if (j != len) return ERR_NULL;
-#else
-    int fs = fscanf(f, "%d", &num_bits);
-    if (fs != 1) return ERR_NULL;
-    key->bits = (unsigned short)num_bits;
-    len = size - (int)sizeof(key->bits);
-    for (i=0; i<len; i++) {
-        // coverity[check_return]
-        if (fscanf(f, "%2x", &n) != 1) {
-            return ERR_NULL;
-        }
-        key->data[i] = (unsigned char)n;
-    }
-    fs = fscanf(f, ".");
-    if (fs == EOF) return ERR_NULL;
-#endif
-    return 0;
+vector<uint8_t> scan_key_hex(FILE* f) {
+    return sscan_key_hex(reinterpret_cast<char*>(scan_raw_data(f).data()));
 }
 
 // parse a text-encoded key from a memory buffer
 //
-int sscan_key_hex(const char* buf, KEY* key, int size) {
-    int n, retval,num_bits;
-
-    //fprintf(stderr, "buf = %s\n", buf);
-    n = sscanf(buf, "%d", &num_bits);
-    key->bits = (unsigned short)num_bits; //key->bits is a short
-    //fprintf(stderr, "key->bits = %d\n", key->bits);
-
-    if (n != 1) return ERR_XML_PARSE;
-    buf = strchr(buf, '\n');
-    if (!buf) return ERR_XML_PARSE;
-    buf += 1;
-    size_t len = (unsigned)(size - sizeof(key->bits));
-    vector<uint8_t> data = sscan_hex_data(vector<uint8_t>(buf, buf + strlen(buf)));
-    if (data.size() != len) {
-        fprintf(stderr, "sscan_key_hex: data size mismatch: expected %lu, got %zu\n", len, data.size());
-        return ERR_XML_PARSE;
+std::vector<uint8_t> sscan_key_hex(const char* buf) {
+    std::vector<uint8_t> result;
+    if (!buf) {
+        return result;
     }
-    memcpy(key->data, data.data(), len);
-    return retval;
+
+    unsigned short int num_bits = 0;
+    while(true) {
+        if (!buf) {
+            return result;
+        }
+        int c = *buf++;
+        if (c == '\n') {
+            break;
+        }
+        if (c == EOF || !isdigit(c)) {
+            return result;
+        }
+        if (num_bits > 0) {
+            num_bits = num_bits * 10 + (c - '0');
+        } else {
+            num_bits = c - '0';
+        }
+    }
+    if (num_bits <= 0) {
+        return result;
+    }
+
+    vector<uint8_t> data = sscan_hex_data(vector<uint8_t>(buf, buf + strlen(buf)));
+    if (data.empty()) {
+        return result;
+    }
+    result.resize(sizeof(num_bits));
+    *reinterpret_cast<short int*>(result.data()) = num_bits;
+    result.reserve(result.size() + data.size());
+    result.insert(result.end(), data.begin(), data.end());
+    return result;
 }
 
 // encrypt some data.
@@ -353,16 +332,16 @@ int check_file_signature2(
 ) {
     R_RSA_PUBLIC_KEY key;
     unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
-    int retval;
     DATA_BLOCK signature;
 
-    retval = sscan_key_hex(key_text, (KEY*)&key, sizeof(key));
-    if (retval) {
+    std::vector<uint8_t> key_data = sscan_key_hex(key_text);
+    if (key_data.empty()) {
         fprintf(stderr, "%s: check_file_signature2: sscan_key_hex failed\n",
             time_to_string(dtime())
         );
-        return retval;
+        return ERR_BAD_HEX_FORMAT;
     }
+    memcpy(&key, key_data.data(), sizeof(key));
     signature.data = signature_buf;
     signature.len = sizeof(signature_buf);
     vector<uint8_t> data  = sscan_hex_data(vector<uint8_t>(signature_text, signature_text + strlen(signature_text)));
@@ -373,7 +352,6 @@ int check_file_signature2(
         return ERR_BAD_HEX_FORMAT;
     }
     memcpy(signature.data, data.data(), sizeof(signature_buf));
-    if (retval) return retval;
     return check_file_signature(md5, key, signature, answer);
 }
 
@@ -413,8 +391,11 @@ int check_string_signature2(
     R_RSA_PUBLIC_KEY key;
     int retval;
 
-    retval = sscan_key_hex(key_text, (KEY*)&key, sizeof(key));
-    if (retval) return retval;
+    std::vector<uint8_t> key_data = sscan_key_hex(key_text);
+    if (key_data.empty()) {
+        return 1;
+    }
+    memcpy(&key, key_data.data(), sizeof(key));
     return check_string_signature(text, signature_text, key, answer);
 }
 
@@ -432,12 +413,13 @@ int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key) {
         );
         return ERR_FOPEN;
     }
-    retval = scan_key_hex(fkey, (KEY*)&key, sizeof(key));
+    vector<uint8_t> result = scan_key_hex(fkey);
     fclose(fkey);
-    if (retval) {
+    if (result.empty()) {
         fprintf(stderr, "%s: can't parse key\n", time_to_string(dtime()));
-        return retval;
+        return ERR_FREAD;
     }
+    memcpy(&key, result.data(), sizeof(key));
     return 0;
 }
 
