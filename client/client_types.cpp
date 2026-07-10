@@ -899,7 +899,7 @@ bool APP_VERSION::disallowed_by_config(PROJECT *p) {
     }
     if (cc_config.dont_use_docker && strstr(plan_class, "docker")) {
         msg_printf(p, MSG_INFO,
-            "skipping Docker app: disabled in cc_config.xml"
+            "skipping Podman app: disabled in cc_config.xml"
         );
         return true;
     }

@@ -268,13 +268,13 @@ void CLIENT_STATE::show_host_info() {
                 );
             }
             if (!wsl.docker_version.empty()) {
-                msg_printf(NULL, MSG_INFO, "-      Docker version %s (%s)",
+                msg_printf(NULL, MSG_INFO, "-      Podman version %s (%s)",
                     wsl.docker_version.c_str(),
                     docker_type_str(wsl.docker_type)
                 );
             }
             if (!wsl.docker_compose_version.empty()) {
-                msg_printf(NULL, MSG_INFO, "-      Docker compose version %s (%s)",
+                msg_printf(NULL, MSG_INFO, "-      Podman compose version %s (%s)",
                     wsl.docker_compose_version.c_str(),
                     docker_type_str(wsl.docker_compose_type)
                 );
@@ -328,13 +328,13 @@ void CLIENT_STATE::show_host_info() {
 
 #ifndef _WIN64
     if (strlen(host_info.docker_version)) {
-        msg_printf(NULL, MSG_INFO, "Docker: version %s (%s)",
+        msg_printf(NULL, MSG_INFO, "Podman: version %s (%s)",
             host_info.docker_version,
             docker_type_str(host_info.docker_type)
         );
     }
     if (strlen(host_info.docker_compose_version)) {
-        msg_printf(NULL, MSG_INFO, "Docker compose: version %s (%s)",
+        msg_printf(NULL, MSG_INFO, "Podman compose: version %s (%s)",
             host_info.docker_compose_version,
             docker_type_str(host_info.docker_compose_type)
         );
@@ -2509,15 +2509,15 @@ void show_docker_messages() {
         return;
     }
 
-    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Windows";
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Podman-on-Windows";
 #elif defined(__APPLE__)
-    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Mac";
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Podman-on-Mac";
 #else
-    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Linux";
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Podman-on-Linux";
 #endif
     if (!gstate.host_info.have_docker()) {
         msg_printf_notice(0, true, url,
-            "Some projects require Docker; we recommend that you install it."
+            "Some projects require Podman; we recommend that you install it."
         );
 #ifdef _WIN32
     } else {
@@ -2531,7 +2531,7 @@ void show_docker_messages() {
             }
         } else {
             msg_printf_notice(0, true, url,
-                "Docker is present but not using the BOINC WSL distro.  Some project apps may not function properly. We recommend that you install the BOINC WSL distro."
+                "Podman is present but not using the BOINC WSL distro.  Some project apps may not function properly. We recommend that you install the BOINC WSL distro."
             );
         }
 #endif

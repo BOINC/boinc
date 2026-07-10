@@ -1309,7 +1309,7 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
 #endif  // __APPLE__
 
 #ifdef __linux__
-    // if we're running as an unprivileged user, Docker/podman may not work.
+    // if we're running as an unprivileged user, Docker/Podman may not work.
     // Check by running the Hello World image.
     //
     // Since we do this every time on startup: delete the created container
