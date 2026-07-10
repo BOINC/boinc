@@ -146,6 +146,8 @@ extern double simtime;
 #define time(x) ((int)simtime)
 #endif
 
+// -------- Docker-related stuff; could move to a different file
+
 // represents a connection to a Docker/Podman installation
 // used from docker_wrapper and the client
 //
@@ -193,5 +195,55 @@ extern std::string docker_container_name(
 
 // is the name (of a Docker image or container) a BOINC name?
 extern bool docker_is_boinc_name(const char* name);
+
+// -------- stuff related to all_projects_list.xml;
+// could move to a different file
+
+// the following can represent either a project or an AM
+
+struct PROJECT_LIST_ENTRY {
+    std::string name;
+    int id;
+    std::string url;
+    std::string web_url;
+    std::string general_area;
+    std::string specific_area;
+    std::string description;
+    std::string home;       // sponsoring organization
+    std::string image;      // URL of logo
+    std::vector<std::string> platforms;
+        // platforms supported by project, or empty
+    bool is_account_manager;
+
+    PROJECT_LIST_ENTRY();
+
+    int parse(XML_PARSER&);
+    void clear();
+};
+
+struct ALL_PROJECTS_LIST {
+    std::vector<PROJECT_LIST_ENTRY*> projects;
+    std::vector<PROJECT_LIST_ENTRY*> account_managers;
+
+    ALL_PROJECTS_LIST();
+
+    void clear();
+    int parse(XML_PARSER&);
+    int read_file(const char* filename);
+    void alpha_sort();
+    PROJECT_LIST_ENTRY* lookup_id(int id) {
+        for (PROJECT_LIST_ENTRY *p: projects) {
+            if (p->id == id) {
+                return p;
+            }
+        }
+        for (PROJECT_LIST_ENTRY *p: account_managers) {
+            if (p->id == id) {
+                return p;
+            }
+        }
+        return NULL;
+    }
+};
 
 #endif

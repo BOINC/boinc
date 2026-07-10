@@ -47,6 +47,7 @@
 #include <string>
 #include <cstring>
 #include <cmath>
+#include <algorithm>
 #if HAVE_IEEEFP_H
 #include <ieeefp.h>
 extern "C" {
@@ -716,6 +717,8 @@ string parse_ldd_libc(const char* input) {
     return s;
 }
 
+// ------------ Docker stuff follows ------------
+
 // Set up to issue Docker commands.
 // On Win this requires connecting to a shell in the WSL distro
 //
@@ -902,4 +905,130 @@ string docker_container_name(
 bool docker_is_boinc_name(const char* name) {
     return strstr(name, "boinc__") == name;
 }
+
+// ------------ all_projects_list.xml stuff follows ---------
+
+PROJECT_LIST_ENTRY::PROJECT_LIST_ENTRY() {
+    clear();
+}
+
+int PROJECT_LIST_ENTRY::parse(XML_PARSER& xp) {
+    string platform;
+
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/project")) return 0;
+        if (xp.match_tag("/account_manager")) return 0;
+        if (xp.parse_string("name", name)) continue;
+        if (xp.parse_int("id", id)) continue;
+        if (xp.parse_string("url", url)) {
+            continue;
+        }
+        if (xp.parse_string("web_url", web_url)) {
+            continue;
+        }
+        if (xp.parse_string("general_area", general_area)) continue;
+        if (xp.parse_string("specific_area", specific_area)) continue;
+        if (xp.parse_string("description", description)) {
+            continue;
+        }
+        if (xp.parse_string("home", home)) continue;
+        if (xp.parse_string("image", image)) continue;
+        if (xp.match_tag("platforms")) {
+            while (!xp.get_tag()) {
+                if (xp.match_tag("/platforms")) break;
+                if (xp.parse_string("name", platform)) {
+                    platforms.push_back(platform);
+                }
+            }
+        }
+        xp.skip_unexpected(false, "");
+    }
+    return ERR_XML_PARSE;
+}
+
+void PROJECT_LIST_ENTRY::clear() {
+    name.clear();
+    id = 0;
+    url.clear();
+    web_url.clear();
+    general_area.clear();
+    specific_area.clear();
+    description.clear();
+    platforms.clear();
+    home.clear();
+    image.clear();
+}
+
+ALL_PROJECTS_LIST::ALL_PROJECTS_LIST() {
+}
+
+bool compare_project_list_entry(
+    const PROJECT_LIST_ENTRY* a, const PROJECT_LIST_ENTRY* b
+) {
+#ifdef _WIN32
+    return _stricmp(a->name.c_str(), b->name.c_str()) < 0;
+#else
+    return strcasecmp(a->name.c_str(), b->name.c_str()) < 0;
+#endif
+}
+
+void ALL_PROJECTS_LIST::alpha_sort() {
+    sort(projects.begin(), projects.end(), compare_project_list_entry);
+    sort(account_managers.begin(), account_managers.end(), compare_project_list_entry);
+}
+
+void ALL_PROJECTS_LIST::clear() {
+    for (PROJECT_LIST_ENTRY *p: projects) {
+        delete p;
+    }
+    for (PROJECT_LIST_ENTRY *am: account_managers) {
+        delete am;
+    }
+    projects.clear();
+    account_managers.clear();
+}
+
+int ALL_PROJECTS_LIST::parse(XML_PARSER &xp) {
+    PROJECT_LIST_ENTRY* entry;
+    int retval;
+
+    clear();
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/projects")) break;
+        else if (xp.match_tag("project")) {
+            entry = new PROJECT_LIST_ENTRY();
+            retval = entry->parse(xp);
+            if (!retval) {
+                entry->is_account_manager = false;
+                projects.push_back(entry);
+            } else {
+                delete entry;
+            }
+            continue;
+        } else if (xp.match_tag("account_manager")) {
+            entry = new PROJECT_LIST_ENTRY();
+            retval = entry->parse(xp);
+            if (!retval) {
+                entry->is_account_manager = true;
+                account_managers.push_back(entry);
+            } else {
+                delete entry;
+            }
+            continue;
+        }
+    }
+    return 0;
+}
+
+int ALL_PROJECTS_LIST::read_file(const char* filename) {
+    FILE* f = fopen(filename, "r");
+    if (!f) return ERR_FOPEN;
+    MIOFILE mf;
+    mf.init_file(f);
+    XML_PARSER xp(&mf);
+    int retval = parse(xp);
+    fclose(f);
+    return retval;
+}
+
 #endif  // _USING_FCGI

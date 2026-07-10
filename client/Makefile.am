@@ -84,7 +84,6 @@ boinc_client_SOURCES = \
     net_stats.cpp \
     pers_file_xfer.cpp \
     project.cpp \
-    project_list.cpp \
     result.cpp \
     rr_sim.cpp \
     sandbox.cpp \
