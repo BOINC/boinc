@@ -229,6 +229,9 @@ struct ALL_PROJECTS_LIST {
     ~ALL_PROJECTS_LIST() {
         clear();
     }
+    // make it non-copyable
+    ALL_PROJECTS_LIST(const ALL_PROJECTS_LIST&) = delete;
+    ALL_PROJECTS_LIST& operator=(const ALL_PROJECTS_LIST&) = delete;
 
     void clear();
     int parse(XML_PARSER&);
