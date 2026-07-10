@@ -2553,7 +2553,7 @@ void show_docker_messages() {
             for (PROJECT_LIST_ENTRY *ple: apl.projects) {
                 if (!strcmp(p->master_url, ple->url.c_str())) {
                     for (string plat: ple->platforms) {
-                        if (strstr("docker", plat.c_str())) {
+                        if (strstr(plat.c_str(), "docker")) {
                             show = true;
                             break;
                         }

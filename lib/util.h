@@ -225,7 +225,10 @@ struct ALL_PROJECTS_LIST {
     std::vector<PROJECT_LIST_ENTRY*> projects;
     std::vector<PROJECT_LIST_ENTRY*> account_managers;
 
-    ALL_PROJECTS_LIST();
+    ALL_PROJECTS_LIST(){}
+    ~ALL_PROJECTS_LIST() {
+        clear();
+    }
 
     void clear();
     int parse(XML_PARSER&);

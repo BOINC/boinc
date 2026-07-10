@@ -916,7 +916,12 @@ int PROJECT_LIST_ENTRY::parse(XML_PARSER& xp) {
     string platform;
 
     while (!xp.get_tag()) {
-        if (xp.match_tag("/project")) return 0;
+        if (xp.match_tag("/project")) {
+            if (id == 0) return ERR_XML_PARSE;
+            if (url.empty()) return ERR_XML_PARSE;
+            if (name.empty()) return ERR_XML_PARSE;
+            return 0;
+        }
         if (xp.match_tag("/account_manager")) return 0;
         if (xp.parse_string("name", name)) continue;
         if (xp.parse_int("id", id)) continue;
@@ -959,9 +964,6 @@ void PROJECT_LIST_ENTRY::clear() {
     image.clear();
 }
 
-ALL_PROJECTS_LIST::ALL_PROJECTS_LIST() {
-}
-
 bool compare_project_list_entry(
     const PROJECT_LIST_ENTRY* a, const PROJECT_LIST_ENTRY* b
 ) {
@@ -994,7 +996,9 @@ int ALL_PROJECTS_LIST::parse(XML_PARSER &xp) {
 
     clear();
     while (!xp.get_tag()) {
-        if (xp.match_tag("/projects")) break;
+        if (xp.match_tag("/projects")) {
+            return 0;
+        }
         else if (xp.match_tag("project")) {
             entry = new PROJECT_LIST_ENTRY();
             retval = entry->parse(xp);
@@ -1017,7 +1021,7 @@ int ALL_PROJECTS_LIST::parse(XML_PARSER &xp) {
             continue;
         }
     }
-    return 0;
+    return ERR_XML_PARSE;
 }
 
 int ALL_PROJECTS_LIST::read_file(const char* filename) {
