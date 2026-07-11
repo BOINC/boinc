@@ -19,7 +19,7 @@
 #define BOINC_ACCT_SETUP_H
 
 #include "error_numbers.h"
-#include "project_list.h"
+#include "util.h"
 #include "gui_http.h"
 
 struct ACCOUNT_IN {
@@ -91,14 +91,14 @@ struct GET_PROJECT_LIST_OP: public GUI_HTTP_OP {
 
 struct LOOKUP_LOGIN_TOKEN_OP: public GUI_HTTP_OP {
     int error_num;
-    PROJECT_LIST_ITEM* pli;
+    PROJECT_LIST_ENTRY* pli;
 
     LOOKUP_LOGIN_TOKEN_OP(GUI_HTTP* p){
         error_num = BOINC_SUCCESS;
         gui_http = p;
     }
     virtual ~LOOKUP_LOGIN_TOKEN_OP(){}
-    int do_rpc(PROJECT_LIST_ITEM*, int user_id, const char* login_token);
+    int do_rpc(PROJECT_LIST_ENTRY*, int user_id, const char* login_token);
     virtual void handle_reply(int http_op_retval);
 };
 
