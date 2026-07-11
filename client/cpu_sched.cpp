@@ -166,7 +166,7 @@ struct PROC_RESOURCES {
             }
         }
 
-        // if job uses Docker, make sure it's installed
+        // if job uses Podman, make sure it's installed
         //
         if (rp->uses_docker()) {
             if (!gstate.host_info.have_docker()) {

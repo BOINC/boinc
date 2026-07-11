@@ -52,7 +52,6 @@ const char file_osrelease[] = "/etc/os-release";
 const char file_redhatrelease[] = "/etc/redhat-release";
 
 extern const char* docker_cli_prog(DOCKER_TYPE type);
-extern const char* docker_type_str(DOCKER_TYPE type);
 
 // if you add fields, update clear_host_info()
 
@@ -223,5 +222,19 @@ extern NXEventHandle gEventHandle;
 // is the filesystem remote? (Linux only)
 //
 extern int is_filesystem_remote(const char* path, bool&);
+
+// user-visible name
+//
+inline const char* docker_type_str(DOCKER_TYPE t) {
+    switch (t) {
+    case DOCKER:
+        return "Docker";
+    case PODMAN:
+        return "Podman";
+    case NONE:
+        break;
+    }
+    return "Unknown";
+}
 
 #endif

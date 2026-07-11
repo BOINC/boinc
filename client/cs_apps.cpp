@@ -409,7 +409,9 @@ void cleanup_docker(DOCKER_JOB_INFO &info, DOCKER_CONN &dc) {
     //
     retval = dc.command("ps --all", out, false);
     if (retval) {
-        fprintf(stderr, "Podman command failed: ps --all\n");
+        fprintf(stderr, "%s command failed: ps --all\n",
+            docker_type_str(dc.type)
+        );
     } else {
         for (string line: out) {
             retval = dc.parse_container_name(line, name);
@@ -419,11 +421,14 @@ void cleanup_docker(DOCKER_JOB_INFO &info, DOCKER_CONN &dc) {
             sprintf(cmd, "rm -f %s", name.c_str());
             retval = dc.command(cmd, out2, true);
             if (retval) {
-                fprintf(stderr, "Podman command failed: %s\n", cmd);
+                fprintf(stderr, "%s command failed: %s\n",
+                    docker_type_str(dc.type), cmd
+                );
                 continue;
             }
             msg_printf(NULL, MSG_INFO,
-                "Removed unused Podman container: %s", name.c_str()
+                "Removed unused %s container: %s",
+                docker_type_str(dc.type), name.c_str()
             );
         }
     }
@@ -432,7 +437,9 @@ void cleanup_docker(DOCKER_JOB_INFO &info, DOCKER_CONN &dc) {
     //
     retval = dc.command("images", out, false);
     if (retval) {
-        fprintf(stderr, "Podman command failed: images\n");
+        fprintf(stderr, "%s command failed: images\n",
+            docker_type_str(dc.type)
+        );
     } else {
         for (string line: out) {
             retval = dc.parse_image_name(line, name);
@@ -442,11 +449,14 @@ void cleanup_docker(DOCKER_JOB_INFO &info, DOCKER_CONN &dc) {
             sprintf(cmd, "image rm %s", name.c_str());
             retval = dc.command(cmd, out2, true);
             if (retval) {
-                fprintf(stderr, "Podman command failed: %s\n", cmd);
+                fprintf(stderr, "%s command failed: %s\n",
+                    docker_type_str(dc.type), cmd
+                );
                 continue;
             }
             msg_printf(NULL, MSG_INFO,
-                "Removed unused Podman image: %s", name.c_str()
+                "Removed unused %s image: %s",
+                docker_type_str(dc.type), name.c_str()
             );
         }
     }

@@ -268,15 +268,15 @@ void CLIENT_STATE::show_host_info() {
                 );
             }
             if (!wsl.docker_version.empty()) {
-                msg_printf(NULL, MSG_INFO, "-      Podman version %s (%s)",
-                    wsl.docker_version.c_str(),
-                    docker_type_str(wsl.docker_type)
+                msg_printf(NULL, MSG_INFO, "-      %s version %s",
+                    docker_type_str(wsl.docker_type),
+                    wsl.docker_version.c_str()
                 );
             }
             if (!wsl.docker_compose_version.empty()) {
-                msg_printf(NULL, MSG_INFO, "-      Podman compose version %s (%s)",
-                    wsl.docker_compose_version.c_str(),
-                    docker_type_str(wsl.docker_compose_type)
+                msg_printf(NULL, MSG_INFO, "-      %s compose version %s",
+                    docker_type_str(wsl.docker_compose_type),
+                    wsl.docker_compose_version.c_str()
                 );
             }
             if (wsl.boinc_buda_runner_version) {
@@ -327,15 +327,15 @@ void CLIENT_STATE::show_host_info() {
 
 #ifndef _WIN64
     if (strlen(host_info.docker_version)) {
-        msg_printf(NULL, MSG_INFO, "Podman: version %s (%s)",
-            host_info.docker_version,
-            docker_type_str(host_info.docker_type)
+        msg_printf(NULL, MSG_INFO, "%s: version %s",
+            docker_type_str(host_info.docker_type),
+            host_info.docker_version
         );
     }
     if (strlen(host_info.docker_compose_version)) {
-        msg_printf(NULL, MSG_INFO, "Podman compose: version %s (%s)",
-            host_info.docker_compose_version,
-            docker_type_str(host_info.docker_compose_type)
+        msg_printf(NULL, MSG_INFO, "%s compose: version %s",
+            docker_type_str(host_info.docker_compose_type),
+            host_info.docker_compose_version
         );
     }
 #endif
@@ -2532,7 +2532,7 @@ void show_docker_messages() {
             }
         } else {
             msg_printf_notice(0, true, url,
-                "Podman is present but not using the BOINC WSL distro.  Some project apps may not function properly. We recommend that you install the BOINC WSL distro."
+                "Docker or Podman is present but not using the BOINC WSL distro.  Some project apps may not function properly. We recommend that you install the BOINC WSL distro."
             );
         }
 #endif
