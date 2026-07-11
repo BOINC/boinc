@@ -49,6 +49,7 @@
 #include "network.h"
 #include "notice.h"
 #include "prefs.h"
+#include "util.h"
 
 struct GUI_URL {
     std::string name;
@@ -71,46 +72,6 @@ struct DAILY_STATS {
     int parse(XML_PARSER&);
 };
 
-
-struct PROJECT_LIST_ENTRY {
-    std::string name;
-    std::string url;
-    std::string web_url;
-    std::string general_area;
-    std::string specific_area;
-    std::string description;
-    std::string home;       // sponsoring organization
-    std::string image;      // URL of logo
-    std::vector<std::string> platforms;
-        // platforms supported by project, or empty
-
-    PROJECT_LIST_ENTRY();
-
-    int parse(XML_PARSER&);
-    void clear();
-};
-
-struct AM_LIST_ENTRY {
-    std::string name;
-    std::string url;
-    std::string description;
-    std::string image;
-
-    AM_LIST_ENTRY();
-
-    int parse(XML_PARSER&);
-    void clear();
-};
-
-struct ALL_PROJECTS_LIST {
-    std::vector<PROJECT_LIST_ENTRY*> projects;
-    std::vector<AM_LIST_ENTRY*> account_managers;
-
-    ALL_PROJECTS_LIST();
-
-    void clear();
-    void alpha_sort();
-};
 
 struct RSC_DESC {
     double backoff_time;

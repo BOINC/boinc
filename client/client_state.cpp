@@ -310,7 +310,6 @@ void CLIENT_STATE::show_host_info() {
     show_docker_messages();
 #endif
 
-
     if (strlen(host_info.virtualbox_version)) {
         msg_printf(NULL, MSG_INFO,
             "VirtualBox version: %s",
@@ -2491,16 +2490,18 @@ void CLIENT_STATE::init_result_resource_usage(PROJECT *p) {
 }
 
 // shows messages (as notices) related to Docker and WSL:
-// All platforms: if no Docker, suggest they install it
-// Win:
-//      if Docker but not our WSL distro, suggest they use ours
-//      if they have our distro but not current, suggest upgrade
-//
 // Called on startup, and after doing a get-version RPC
+// to get boinc-buda-runner version
 //
 #ifndef ANDROID
 void show_docker_messages() {
+    if (cc_config.dont_use_docker) {
+        return;
+    }
 #ifdef _WIN32
+    if (cc_config.dont_use_wsl) {
+        return;
+    }
     // don't show message if OS is too old for WSL
     //
     if (gstate.host_info.major_version < 10
@@ -2515,12 +2516,8 @@ void show_docker_messages() {
 #else
     const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Linux";
 #endif
-    if (!gstate.host_info.have_docker()) {
-        msg_printf_notice(0, true, url,
-            "Some projects require Docker; we recommend that you install it."
-        );
+    if (gstate.host_info.have_docker()) {
 #ifdef _WIN32
-    } else {
         int bdv = gstate.host_info.wsl_distros.boinc_distro_version();
         if (bdv) {
             if (bdv < gstate.latest_boinc_buda_runner_version) {
@@ -2535,6 +2532,46 @@ void show_docker_messages() {
             );
         }
 #endif
+        return;
+    }
+
+    // here Docker is not present.
+    // Tell the user to install it if either
+    // - we're using Science United, or
+    // - we're attached to a project that has a Docker app
+    //
+    bool show = false;
+    if (gstate.acct_mgr_info.using_am() && gstate.acct_mgr_info.dynamic) {
+        show = true;
+    } else {
+        ALL_PROJECTS_LIST apl;
+        int retval = apl.read_file(ALL_PROJECTS_LIST_FILENAME);
+        if (retval) {
+            return;
+        }
+        for (PROJECT *p: gstate.projects) {
+            for (PROJECT_LIST_ENTRY *ple: apl.projects) {
+                if (!strcmp(p->master_url, ple->url.c_str())) {
+                    for (string plat: ple->platforms) {
+                        if (strstr(plat.c_str(), "docker")) {
+                            show = true;
+                            break;
+                        }
+                    }
+                }
+                if (show) {
+                    break;
+                }
+            }
+            if (show) {
+                break;
+            }
+        }
+    }
+    if (show) {
+        msg_printf_notice(0, true, url,
+            "Some projects require Podman; we recommend that you install it."
+        );
     }
 }
 #endif

@@ -51,7 +51,6 @@ using std::vector;
 #include "net_stats.h"
 #include "pers_file_xfer.h"
 #include "prefs.h"
-#include "project_list.h"
 #include "scheduler_op.h"
 #include "time_stats.h"
 
@@ -244,7 +243,6 @@ struct CLIENT_STATE {
         // the time we last successfully fetched the project list
     bool autologin_in_progress;
     bool autologin_fetching_project_list;
-    PROJECT_LIST project_list;
     void process_autologin(bool first);
 
 // --------------- app_test.cpp:

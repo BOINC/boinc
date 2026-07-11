@@ -148,114 +148,6 @@ int GUI_URL::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-
-PROJECT_LIST_ENTRY::PROJECT_LIST_ENTRY() {
-    clear();
-}
-
-int PROJECT_LIST_ENTRY::parse(XML_PARSER& xp) {
-    string platform;
-
-    while (!xp.get_tag()) {
-        if (xp.match_tag("/project")) return 0;
-        if (xp.parse_string("name", name)) continue;
-        if (xp.parse_string("url", url)) {
-            continue;
-        }
-        if (xp.parse_string("web_url", web_url)) {
-            continue;
-        }
-        if (xp.parse_string("general_area", general_area)) continue;
-        if (xp.parse_string("specific_area", specific_area)) continue;
-        if (xp.parse_string("description", description)) {
-            continue;
-        }
-        if (xp.parse_string("home", home)) continue;
-        if (xp.parse_string("image", image)) continue;
-        if (xp.match_tag("platforms")) {
-            while (!xp.get_tag()) {
-                if (xp.match_tag("/platforms")) break;
-                if (xp.parse_string("name", platform)) {
-                    platforms.push_back(platform);
-                }
-            }
-        }
-        xp.skip_unexpected(false, "");
-    }
-    return ERR_XML_PARSE;
-}
-
-void PROJECT_LIST_ENTRY::clear() {
-    name.clear();
-    url.clear();
-    web_url.clear();
-    general_area.clear();
-    specific_area.clear();
-    description.clear();
-    platforms.clear();
-    home.clear();
-    image.clear();
-}
-
-AM_LIST_ENTRY::AM_LIST_ENTRY() {
-    clear();
-}
-
-int AM_LIST_ENTRY::parse(XML_PARSER& xp) {
-    while (!xp.get_tag()) {
-        if (xp.match_tag("/account_manager")) return 0;
-        if (xp.parse_string("name", name)) continue;
-        if (xp.parse_string("url", url)) continue;
-        if (xp.parse_string("description", description)) continue;
-        if (xp.parse_string("image", image)) continue;
-    }
-    return 0;
-}
-
-void AM_LIST_ENTRY::clear() {
-    name.clear();
-    url.clear();
-    description.clear();
-    image.clear();
-}
-
-ALL_PROJECTS_LIST::ALL_PROJECTS_LIST() {
-}
-
-bool compare_project_list_entry(
-    const PROJECT_LIST_ENTRY* a, const PROJECT_LIST_ENTRY* b
-) {
-#ifdef _WIN32
-    return _stricmp(a->name.c_str(), b->name.c_str()) < 0;
-#else
-    return strcasecmp(a->name.c_str(), b->name.c_str()) < 0;
-#endif
-}
-
-bool compare_am_list_entry(const AM_LIST_ENTRY* a, const AM_LIST_ENTRY* b) {
-#ifdef _WIN32
-    return _stricmp(a->name.c_str(), b->name.c_str()) < 0;
-#else
-    return strcasecmp(a->name.c_str(), b->name.c_str()) < 0;
-#endif
-}
-
-void ALL_PROJECTS_LIST::alpha_sort() {
-    sort(projects.begin(), projects.end(), compare_project_list_entry);
-    sort(account_managers.begin(), account_managers.end(), compare_am_list_entry);
-}
-
-void ALL_PROJECTS_LIST::clear() {
-    for (PROJECT_LIST_ENTRY *p: projects) {
-        delete p;
-    }
-    for (AM_LIST_ENTRY *am: account_managers) {
-        delete am;
-    }
-    projects.clear();
-    account_managers.clear();
-}
-
 PROJECT::PROJECT() {
     clear();
 }
@@ -1655,37 +1547,13 @@ int RPC_CLIENT::get_project_status(PROJECTS& p) {
 int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
     int retval = 0;
     SET_LOCALE sl;
-    MIOFILE mf;
-    PROJECT_LIST_ENTRY* project;
-    AM_LIST_ENTRY* am;
+    //MIOFILE mf;
     RPC rpc(this);
-
-    pl.clear();
 
     retval = rpc.do_rpc("<get_all_projects_list/>\n");
     if (retval) return retval;
-    while (!rpc.xp.get_tag()) {
-        if (rpc.xp.match_tag("/projects")) break;
-        else if (rpc.xp.match_tag("project")) {
-            project = new PROJECT_LIST_ENTRY();
-            retval = project->parse(rpc.xp);
-            if (!retval) {
-                pl.projects.push_back(project);
-            } else {
-                delete project;
-            }
-            continue;
-        } else if (rpc.xp.match_tag("account_manager")) {
-            am = new AM_LIST_ENTRY();
-            retval = am->parse(rpc.xp);
-            if (!retval) {
-                pl.account_managers.push_back(am);
-            } else {
-                delete am;
-            }
-            continue;
-        }
-    }
+    retval = pl.parse(rpc.xp);
+    if (retval) return retval;
 
     pl.alpha_sort();
 
