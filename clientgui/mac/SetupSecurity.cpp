@@ -29,6 +29,7 @@
 #include <spawn.h>
 
 #include "file_names.h"
+#include "util.h"
 #include "mac_util.h"
 #include "SetupSecurity.h"
 
@@ -44,7 +45,6 @@ static OSStatus DoSudoPosixSpawn(const char *pathToTool, char *arg1, char *arg2,
 static OSStatus SetFakeMasterNames(void);
 #endif
 static OSStatus CreateUserAndGroup(char * user_name, char * group_name);
-static double dtime(void);
 static void SleepSeconds(double seconds);
 
 #if VERBOSE_TEST
@@ -1206,15 +1206,6 @@ void ShowSecurityError(const char *format, ...) {
     va_start(args, format);
     vfprintf(stderr, format, args);
     va_end(args);
-}
-
-
-// return time of day (seconds since 1970) as a double
-//
-static double dtime(void) {
-    struct timeval tv;
-    gettimeofday(&tv, 0);
-    return tv.tv_sec + (tv.tv_usec/1.e6);
 }
 
 // Uses usleep to sleep for full duration even if a signal is received
