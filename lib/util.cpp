@@ -962,6 +962,7 @@ void PROJECT_LIST_ENTRY::clear() {
     platforms.clear();
     home.clear();
     image.clear();
+    is_account_manager = false;
 }
 
 bool compare_project_list_entry(
