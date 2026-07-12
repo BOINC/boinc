@@ -417,17 +417,6 @@ const char* docker_cli_prog(DOCKER_TYPE type) {
     return "unknown";
 }
 
-// display name
-//
-const char* docker_type_str(DOCKER_TYPE type) {
-    switch (type) {
-    case DOCKER: return "Docker";
-    case PODMAN: return "podman";
-    default: break;
-    }
-    return "unknown";
-}
-
 // parse a string like
 // Docker version 24.0.7, build 24.0.7-0ubuntu2~22.04.1
 // or

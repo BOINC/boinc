@@ -268,15 +268,15 @@ void CLIENT_STATE::show_host_info() {
                 );
             }
             if (!wsl.docker_version.empty()) {
-                msg_printf(NULL, MSG_INFO, "-      Docker version %s (%s)",
-                    wsl.docker_version.c_str(),
-                    docker_type_str(wsl.docker_type)
+                msg_printf(NULL, MSG_INFO, "-      %s version %s",
+                    docker_type_str(wsl.docker_type),
+                    wsl.docker_version.c_str()
                 );
             }
             if (!wsl.docker_compose_version.empty()) {
-                msg_printf(NULL, MSG_INFO, "-      Docker compose version %s (%s)",
-                    wsl.docker_compose_version.c_str(),
-                    docker_type_str(wsl.docker_compose_type)
+                msg_printf(NULL, MSG_INFO, "-      %s compose version %s",
+                    docker_type_str(wsl.docker_compose_type),
+                    wsl.docker_compose_version.c_str()
                 );
             }
             if (wsl.boinc_buda_runner_version) {
@@ -327,15 +327,15 @@ void CLIENT_STATE::show_host_info() {
 
 #ifndef _WIN64
     if (strlen(host_info.docker_version)) {
-        msg_printf(NULL, MSG_INFO, "Docker: version %s (%s)",
-            host_info.docker_version,
-            docker_type_str(host_info.docker_type)
+        msg_printf(NULL, MSG_INFO, "%s: version %s",
+            docker_type_str(host_info.docker_type),
+            host_info.docker_version
         );
     }
     if (strlen(host_info.docker_compose_version)) {
-        msg_printf(NULL, MSG_INFO, "Docker compose: version %s (%s)",
-            host_info.docker_compose_version,
-            docker_type_str(host_info.docker_compose_type)
+        msg_printf(NULL, MSG_INFO, "%s compose: version %s",
+            docker_type_str(host_info.docker_compose_type),
+            host_info.docker_compose_version
         );
     }
 #endif
@@ -2510,14 +2510,18 @@ void show_docker_messages() {
         return;
     }
 
-    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Windows";
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Podman-on-Windows";
 #elif defined(__APPLE__)
-    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Mac";
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Podman-on-Mac";
 #else
-    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Docker-on-Linux";
+    const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Podman-on-Linux";
 #endif
-    if (gstate.host_info.have_docker()) {
+    if (!gstate.host_info.have_docker()) {
+        msg_printf_notice(0, true, url,
+            "Some projects require Podman; we recommend that you install it."
+        );
 #ifdef _WIN32
+    } else {
         int bdv = gstate.host_info.wsl_distros.boinc_distro_version();
         if (bdv) {
             if (bdv < gstate.latest_boinc_buda_runner_version) {
@@ -2528,7 +2532,7 @@ void show_docker_messages() {
             }
         } else {
             msg_printf_notice(0, true, url,
-                "Docker is present but not using the BOINC WSL distro.  Some project apps may not function properly. We recommend that you install the BOINC WSL distro."
+                "Docker or Podman is present but not using the BOINC WSL distro.  Some project apps may not function properly. We recommend that you install the BOINC WSL distro."
             );
         }
 #endif

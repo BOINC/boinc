@@ -215,7 +215,7 @@ static bool got_both(WSL_DISTRO &wd) {
 // Get list of WSL distros usable by BOINC
 // For each of them:
 //      try to find the OS name and version
-//      see if Docker and docker compose are present, get versions
+//      see if Docker/Podman and compose are present, get versions
 // Return nonzero on error
 //
 int get_wsl_information(WSL_DISTROS &distros) {
@@ -380,7 +380,7 @@ int get_wsl_information(WSL_DISTROS &distros) {
             wd.libc_version = parse_ldd_libc(buf.c_str());
         }
 
-        // see if Docker is installed in the distro
+        // see if Podman/Docker is installed in the distro
         //
         get_docker_version(rs, wd);
         get_docker_compose_version(rs, wd);
@@ -467,20 +467,21 @@ static bool get_docker_version_aux(
             ret = true;
             if (version.empty()) {
                 msg_printf(0, MSG_INFO,
-                    "Docker version parse failed: %s", reply.c_str()
+                    "%s version parse failed: %s",
+                    docker_type_str(type), reply.c_str()
                 );
             }
         } else {
-            msg_printf(0, MSG_INFO, "Docker detection in %s:",
-                wd.distro_name.c_str()
+            msg_printf(0, MSG_INFO, "%s detection in %s:",
+                docker_type_str(type), wd.distro_name.c_str()
             );
             msg_printf(0, MSG_INFO, "-   cmd: %s", cmd.c_str());
             msg_printf(0, MSG_INFO, "-   output: %s", reply.c_str());
         }
         CloseHandle(rs.proc_handle);
     } else {
-        msg_printf(0, MSG_INFO, "Docker detection in %s:",
-            wd.distro_name.c_str()
+        msg_printf(0, MSG_INFO, "%s detection in %s:",
+            docker_type_str(type), wd.distro_name.c_str()
         );
         msg_printf(0, MSG_INFO, "-   cmd failed: %s", cmd.c_str());
     }

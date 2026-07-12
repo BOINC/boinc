@@ -166,17 +166,17 @@ struct PROC_RESOURCES {
             }
         }
 
-        // if job uses Docker, make sure it's installed
+        // if job uses Podman, make sure it's installed
         //
         if (rp->uses_docker()) {
             if (!gstate.host_info.have_docker()) {
                 static bool first = true;
                 if (first) {
                     msg_printf(NULL, MSG_USER_ALERT,
-                        "Docker jobs are present but Podman/Docker not found; please install it."
+                        "Podman jobs are present but Podman not found; please install it."
                     );
                     msg_printf(NULL, MSG_USER_ALERT,
-                        "See https://github.com/BOINC/boinc/wiki/Installing-Docker"
+                        "See https://github.com/BOINC/boinc/wiki/Installing-Podman"
                     );
                     first = false;
                 }
