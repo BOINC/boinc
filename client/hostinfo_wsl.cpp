@@ -468,12 +468,12 @@ static bool get_docker_version_aux(
             if (version.empty()) {
                 msg_printf(0, MSG_INFO,
                     "%s version parse failed: %s",
-                    dock_pod_name(type), reply.c_str()
+                    docker_type_str(type), reply.c_str()
                 );
             }
         } else {
             msg_printf(0, MSG_INFO, "%s detection in %s:",
-                dock_pod_name(type), wd.distro_name.c_str()
+                docker_type_str(type), wd.distro_name.c_str()
             );
             msg_printf(0, MSG_INFO, "-   cmd: %s", cmd.c_str());
             msg_printf(0, MSG_INFO, "-   output: %s", reply.c_str());
@@ -481,7 +481,7 @@ static bool get_docker_version_aux(
         CloseHandle(rs.proc_handle);
     } else {
         msg_printf(0, MSG_INFO, "%s detection in %s:",
-            dock_pod_name(type), wd.distro_name.c_str()
+            docker_type_str(type), wd.distro_name.c_str()
         );
         msg_printf(0, MSG_INFO, "-   cmd failed: %s", cmd.c_str());
     }
