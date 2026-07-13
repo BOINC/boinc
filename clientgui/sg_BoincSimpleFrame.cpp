@@ -969,6 +969,13 @@ void CSimpleFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) )
         dlgPrefsPtr->GetPrefsPanel()->MakeBackgroundBitmap();
         dlgPrefsPtr->Refresh();
     }
+
+    CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
+    if (eventLog) {
+        wxGetApp().OnEventLogClose();
+        delete eventLog;    // eventLog->Destroy() creates a race condition if used here.
+        wxGetApp().DisplayEventLog();
+    }
 }
 
 
