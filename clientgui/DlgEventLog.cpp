@@ -1154,18 +1154,22 @@ wxInt32 CDlgEventLog::FormatMessage(wxInt32 item, wxString& strBuffer) const {
     MESSAGE*   message = wxGetApp().GetDocument()->message(item);
 
     if (message) {
-        if (m_isConnected) {
            switch(message->priority) {
             case MSG_INFO:
+        if (m_isConnected) {
                 m_pList->SetTextColour(m_normalTextColor);
+                } else {
+                    m_pList->SetTextColour(wxColour(96, 96, 96));
+                }
                 break;
             default:
-                m_pList->SetTextColour(*wxRED);
+                if (m_isConnected) {
+                    m_pList->SetTextColour(*wxRED);
+                } else {
+                    m_pList->SetTextColour(wxColour(192, 96, 96));
+                }
                 break;
             }
-        } else {
-            m_pList->SetTextColour(wxColour(255, 128, 128));
-        }
 
         strBuffer = wxString(message->body.c_str(), wxConvUTF8);
         remove_eols(strBuffer);
