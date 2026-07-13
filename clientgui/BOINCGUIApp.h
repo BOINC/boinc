@@ -260,13 +260,8 @@ public:
     void                SetAboutDialogIsOpen(bool set) { m_bAboutDialogIsOpen = set; }
     bool                GetAboutDialogIsOpen() { return m_bAboutDialogIsOpen; }
 
-#if SUPPORTDARKMODE
     void                SetIsDarkMode (bool isDarkMode) { m_isDarkMode = isDarkMode; }
     bool                GetIsDarkMode() { return m_isDarkMode; }
-#else
-    void                SetIsDarkMode (bool WXUNUSED(isDarkMode)) {}
-    bool                GetIsDarkMode() { return false; }
-#endif
 #ifdef __WXMAC__
     // The following Cocoa routines are in CBOINCGUIApp.mm
     //
