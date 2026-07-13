@@ -27,6 +27,7 @@
 #include "mac_util.h"
 #include "sandbox.h"
 #include "mac_branding.h"
+#include "BOINCListCtrl.h"
 #endif
 
 #include "stdwx.h"
