@@ -105,7 +105,6 @@ bool CBOINCGUIApp::OnInit() {
 #endif
 
     m_isDarkMode = false;
-#if SUPPORTDARKMODE
     wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
     m_isDarkMode = appearance.IsDark();
 #if defined(__WXMSW__)
@@ -113,7 +112,6 @@ bool CBOINCGUIApp::OnInit() {
     // so we need to additionally check AreAppsDark()
     m_isDarkMode = m_isDarkMode || appearance.AreAppsDark();
     MSWEnableDarkMode(wxApp::DarkMode_Auto);
-#endif
 #endif
 
     s_bSkipExitConfirmation = false;
