@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -179,6 +179,7 @@ bool CBOINCGUIApp::OnInit() {
     wxSystemOptions::SetOption(wxT("msw.staticbox.optimized-paint"), 0);
 #endif
 #ifdef __WXMAC__
+#if ! USE_NATIVE_LISTCONTROL
     // In wxMac-2.8.7, default wxListCtrl::RefreshItem() does not work
     // so use traditional generic implementation.
     // This has been fixed in wxMac-2.8.8, but the Mac native implementation:
@@ -186,6 +187,7 @@ bool CBOINCGUIApp::OnInit() {
     //  - seems to always redraw entire control even if asked to refresh only one row.
     //  - causes major flicker of progress bars, (probably due to full redraws.)
     wxSystemOptions::SetOption(wxT("mac.listctrl.always_use_generic"), 1);
+#endif
 
     AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
 #endif

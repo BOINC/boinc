@@ -650,9 +650,13 @@ void CBOINCListCtrl::DrawProgressBars()
 void MyEvtHandler::OnPaint(wxPaintEvent & event)
 {
     event.Skip();
+#ifdef __WXMSW__
     // In dark mode, progress bars are drawn via NM_CUSTOMDRAW instead,
     // so skip posting the deferred-paint event entirely.
-    if (m_listCtrl && !wxGetApp().GetIsDarkMode()) {
+    if (wxGetApp().GetIsDarkMode()) return;
+#endif
+
+    if (m_listCtrl) {
         m_listCtrl->PostDrawProgressBarEvent();
     }
 }
@@ -670,6 +674,7 @@ void CBOINCListCtrl::OnDrawProgressBar(CDrawProgressBarEvent& event) {
     event.Skip();
 }
 
+#ifdef __WXMSW__
 // -----------------------------------------------------------------------
 // Dark mode progress bar rendering via NM_CUSTOMDRAW
 // -----------------------------------------------------------------------
@@ -910,6 +915,7 @@ void CBOINCListCtrl::DrawItemProgressBar(HDC hdc, int item, int progressColumn) 
     // Restore the original font to avoid leaking GDI state.
     SelectObject(hdc, hOldFont);
 }
+#endif // __WXMSW__
 
 #else
 
