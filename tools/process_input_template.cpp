@@ -20,6 +20,9 @@
 // by scanning the input template, macro-substituting the input files,
 // and putting in the command line element and additional XML
 //
+// Input files must already be staged.
+// If the .md5 file is not present, create it.
+//
 // Called (only) in create_work.cpp
 
 #include <stdio.h>

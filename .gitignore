@@ -6,6 +6,7 @@
 *.ncb
 *.suo
 *.pdb
+*.aps
 
 # Visual Studio build directories
 /win_build/Build/
@@ -35,7 +36,6 @@
 *.pfx
 *.pvk
 *.spc
-/win_build/*.filters
 /win_build/boinc.sdf
 /win_build/boinc.opensdf
 /win_build/ipch
@@ -114,12 +114,6 @@ py/lib/Boinc
 ## Python bytecode
 *.pyc
 
-## Drupal
-# ignore files with private/sensitive content in a public repo
-drupal/sites/default/dbconfig.php
-# ignore symlink to project-specific content (tracked in separate/project repo)
-drupal/sites/default/project
-
 ## translation system
 locale/*/*.flag
 
@@ -178,6 +172,7 @@ samples/wrappture/*wrappture_example
 samples/wrappture/*fermi
 samples/**/*.exe
 samples/sporadic/sporadic
+samples/nvcuda/example_app_nvcuda
 sched/adjust_user_priority
 sched/antique_file_deleter
 sched/census
@@ -189,13 +184,14 @@ sched/delete_file
 sched/fcgi
 sched/fcgi_file_upload_handler
 sched/feeder
+sched/feeder_user
 sched/file_deleter
 sched/file_upload_handler
 sched/get_file
 sched/make_work
 sched/message_handler
 sched/put_file
-sched/sample_assimilator
+sched/batch_collect_assimilator
 sched/sample_bitwise_validator
 sched/sample_dummy_assimilator
 sched/sample_substr_validator

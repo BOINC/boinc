@@ -45,13 +45,14 @@ NVC_CONFIG::NVC_CONFIG() {
     defaults();
 }
 
-// this is called first thing by client right after CC_CONFIG::defaults()
+// this is called in main.cpp:init_core_client(),
+// right after CC_CONFIG::defaults()
 //
 void NVC_CONFIG::defaults() {
-    client_download_url = "https://boinc.berkeley.edu/download.php";
+    client_download_url = DEFAULT_DOWNLOAD_URL;
     client_new_version_name.clear();
     client_version_check_url = DEFAULT_VERSION_CHECK_URL;
-    network_test_url = "https://www.google.com/";
+    network_test_url = DEFAULT_NETWORK_TEST_URL;
 };
 
 int NVC_CONFIG::parse(FILE* f) {
@@ -295,8 +296,8 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
         show_newer_version_msg(newest_version);
     }
 
-#if !defined(SIM) && defined(_WIN32)
-    show_wsl_messages();
+#if !defined(SIM) && !defined(ANDROID)
+    show_docker_messages();
 #endif
 
     // Cache newer version number. Empty string if no newer version

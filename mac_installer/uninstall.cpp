@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -71,12 +71,12 @@ OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen
 OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type);
 static pid_t FindProcessPID(char* name, pid_t thePID);
 static int KillOneProcess(char* name);
-static double dtime(void);
 static void SleepSeconds(double seconds);
 static void GetPreferredLanguages();
 static void LoadPreferredLanguages();
 static void showDebugMsg(const char *format, ...);
 static Boolean ShowMessage(Boolean allowCancel, Boolean continueButton, Boolean yesNoButtons, const char *format, ...);
+static void find_podman_path(char *path, size_t len);
 int callPosixSpawn(const char *cmd, bool delayForResult=false);
 static void print_to_log_file(const char *format, ...);
 
@@ -106,7 +106,19 @@ int main(int argc, char *argv[])
     FILE                        *pipe = NULL;
     OSStatus                    err = noErr;
 
-    FILE * stdout_file = freopen("/tmp/BOINC_Uninstall_log.txt", "w", stdout);
+    // Determine whether this is the initial launch or the relaunch with privileges
+    for (int i=0; i<argc; ++i) {
+        if (strcmp(argv[i], "--privileged") == 0) {
+            isPrivileged = true;
+            break;
+        }
+    }
+
+    if (!isPrivileged) {
+        callPosixSpawn("rm -f \"/tmp/BOINC_Uninstall_log.txt\"");
+    }
+
+    FILE * stdout_file = freopen("/tmp/BOINC_Uninstall_log.txt", "a", stdout);
     if (stdout_file) {
         setbuf(stdout_file, 0);
     }
@@ -151,13 +163,6 @@ int main(int argc, char *argv[])
 
     strlcpy(gBrandName, p, sizeof(gBrandName));
 
-    // Determine whether this is the initial launch or the relaunch with privileges
-    for (int i=0; i<argc; ++i) {
-        if (strcmp(argv[i], "--privileged") == 0) {
-            isPrivileged = true;
-            break;
-        }
-    }
     if (isPrivileged) {
         setuid(0);  // This is permitted bcause euid == 0
 
@@ -408,10 +413,11 @@ int main(int argc, char *argv[])
 
 
 static OSStatus DoUninstall(void) {
-    FILE                        *f;
+    FILE                    *f;
     pid_t                   coreClientPID = 0;
     int                     i;
     char                    cmd[1024];
+    char                    podmanPath[MAXPATHLEN];
     passwd                  *pw;
     OSStatus                err __attribute__((unused)) = noErr;
 #if SEARCHFORALLBOINCMANAGERS
@@ -422,8 +428,8 @@ static OSStatus DoUninstall(void) {
     int                     pathOffset;
 #endif
 
-fprintf(stderr, "Starting privileged tool\n");
-fprintf(stdout, "Starting privileged tool\n");
+fprintf(stderr, "Starting privileged tool (stderr)\n");
+fprintf(stdout, "Starting privileged tool (stdout)\n");
 #if TESTING
     showDebugMsg("Permission OK after relaunch");
 #endif
@@ -518,7 +524,18 @@ fprintf(stdout, "Starting privileged tool\n");
     // Phase 3: step through default Screen Savers directory searching for our screen savers
     err = DeleteOurBundlesFromDirectory(CFSTR("edu.berkeley.boincsaver"), "saver", "/Library/Screen Savers", false);
 
-    // Phase 4: Delete our files and directories at our installer's default locations
+    // Phase 4: Remove our Podman VM if present
+    find_podman_path(podmanPath, sizeof(podmanPath));
+    fprintf(stderr, "\npodmanPath: %s\n", podmanPath);
+    if (podmanPath[0] != '\0') {
+        snprintf(cmd, sizeof(cmd), "\"/Library/Application Support/BOINC Data/Run_Podman\" \"%s\" machine stop",  podmanPath);
+        callPosixSpawn(cmd);
+
+        snprintf(cmd, sizeof(cmd), "\"/Library/Application Support/BOINC Data/Run_Podman\" \"%s\" machine rm --force",  podmanPath);
+        callPosixSpawn(cmd);
+    }
+
+    // Phase 5: Delete our files and directories at our installer's default locations
     // Remove everything we may have installed, though the above 2 calls already deleted some
 
     for (i=0; i<NUMBRANDS; ++i) {
@@ -543,16 +560,22 @@ fprintf(stdout, "Starting privileged tool\n");
         callPosixSpawn(cmd);
     }
 
-    // Phase 5: Set BOINC Data owner and group to logged in user
+    // Phase 6: Set BOINC Data owner and group to logged in user
     // We don't customize BOINC Data directory name for branding
 //    callPosixSpawn ("rm -rf \"/Library/Application Support/BOINC Data\"");
-    pw = getpwnam(loginName);
-    sprintf(cmd, "chown -R %d:%d \"/Library/Application Support/BOINC Data\"", pw->pw_uid, pw->pw_gid);
-    callPosixSpawn (cmd);
+    if ((pw = getpwnam(loginName)) != NULL) {
+        sprintf(cmd, "chown -RH %d:%d \"/Library/Application Support/BOINC Data\"", pw->pw_uid, pw->pw_gid);
+        callPosixSpawn (cmd);
+    }
     callPosixSpawn("chmod -R u+rw-s,g+r-w-s,o+r-w \"/Library/Application Support/BOINC Data\"");
     callPosixSpawn("chmod 600 \"/Library/Application Support/BOINC Data/gui_rpc_auth.cfg\"");
 
-    // Phase 6: step through all users and do user-specific cleanup
+    // Phase 7: Set BOINC podman owner and group to logged in user
+    if ((pw = getpwnam(loginName)) != NULL) {
+        sprintf(cmd, "chown -RH %d:%d \"/Library/Application Support/BOINC podman\"", pw->pw_uid, pw->pw_gid);
+        callPosixSpawn (cmd);
+    }
+    // Phase 8: step through all users and do user-specific cleanup
     CleanupAllVisibleUsers();
 
     // Use of sudo here may help avoid a warning alert from MacOS
@@ -560,6 +583,8 @@ fprintf(stdout, "Starting privileged tool\n");
     callPosixSpawn ("sudo dscl . -delete /groups/boinc_master");
     callPosixSpawn ("sudo dscl . -delete /users/boinc_project");
     callPosixSpawn ("sudo dscl . -delete /groups/boinc_project");
+    callPosixSpawn ("sudo rm -fR /Users/boinc_master");
+    callPosixSpawn ("sudo rm -fR /Users/boinc_project");
 
     return 0;
 }
@@ -1507,7 +1532,7 @@ static int KillOneProcess(char* name) {
 
 // return time of day (seconds since 1970) as a double
 //
-static double dtime(void) {
+static double dtime2(void) {
     struct timeval tv;
     gettimeofday(&tv, 0);
     return tv.tv_sec + (tv.tv_usec/1.e6);
@@ -1515,7 +1540,7 @@ static double dtime(void) {
 
 // Uses usleep to sleep for full duration even if a signal is received
 static void SleepSeconds(double seconds) {
-    double end_time = dtime() + seconds - 0.01;
+    double end_time = dtime2() + seconds - 0.01;
     // sleep() and usleep() can be interrupted by SIGALRM,
     // so we may need multiple calls
     //
@@ -1525,7 +1550,7 @@ static void SleepSeconds(double seconds) {
         } else {
             usleep((int)fmod(seconds*1000000, 1000000));
         }
-        seconds = end_time - dtime();
+        seconds = end_time - dtime2();
         if (seconds <= 0) break;
     }
 }
@@ -1764,6 +1789,52 @@ static Boolean ShowMessage(Boolean allowCancel, Boolean continueButton, Boolean 
     // Return TRUE if user clicked Continue, Yes or OK, FALSE if user clicked Cancel or No
     // Note: if yesNoButtons is true, we made default button "No" and alternate button "Yes"
     return (yesNoButtons ? !result : result);
+}
+
+
+// While the official Podman installer puts the Podman executable at
+// "/opt/podman/bin/podman", other installation methods (e.g. brew) might not
+static void find_podman_path(char *path, size_t len) {
+    // Mac executables get a very limited PATH environment variable, so we must get the
+    // PATH variable used by Terminal and search there for the path to podman
+    struct stat buf;
+    char allpaths[2048];
+    char cmd[2048];
+
+    path[0] = '\0';
+    FILE *f = popen("a=`/usr/libexec/path_helper`;b=${a%\\\"*}\\\";echo ${b}", "r");
+    if (f) {
+        fgets(allpaths, sizeof(allpaths), f);
+        pclose(f);
+        char* p = strstr(allpaths, "\n");
+        if (p) *p = '\0'; // Remove the newline character
+
+        snprintf(cmd, sizeof(cmd), "env %s which podman", allpaths);
+        f = popen(cmd, "r");
+    }
+    if (f) {
+        fgets(path, (int)len, f);
+        pclose(f);
+        char* p = strstr(path, "\n");
+        if (p) *p = '\0'; // Remove the newline character
+        if (path[0] != '\0') {
+            if (stat(path, &buf) == 0) return;
+        }
+    }
+
+    // If we couldn't get it from that file, use default when installed using Podman installer
+    strlcpy(path, "/opt/podman/bin/podman", len);
+    if (stat(path, &buf) == 0) return;
+
+    // If we couldn't get it from that file, use default when installed by Homebrew
+#ifdef __arm64__
+    strlcpy(path, "/opt/homebrew/bin/podman", len);
+#else
+    strlcpy(path, "/usr/local/bin/podman", len);
+#endif
+    if (stat(path, &buf) == 0) return;
+    path[0] = '\0'; // Failed to find path to Podman
+    return;
 }
 
 

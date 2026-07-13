@@ -266,32 +266,41 @@ function project_specific_prefs_show($prefs, $columns=false) {
 }
 
 function project_specific_prefs_parse($prefs_xml) {
+    $prefs_xml = "<foo>$prefs_xml</foo>";
+    $p = simplexml_load_string($prefs_xml);
+    if (!$p) {
+        error_page("Can't parse prefs:\n$prefs_xml\n");
+    }
     $prefs = new StdClass;
     if (COLOR_PREFS) {
-        $prefs->color_scheme = parse_element($prefs_xml, "<color_scheme>");
+        $prefs->color_scheme = (string)$p->color_scheme;
     }
     if (GFX_CPU_PREFS) {
-        $prefs->max_gfx_cpu_pct = parse_element($prefs_xml, "<max_gfx_cpu_pct>");
+        $prefs->max_gfx_cpu_pct = (string)$p->max_gfx_cpu_pct;
     }
     if (APP_SELECT_PREFS) {
-        $cursor = 0;
-        while ($thisxml = parse_next_element($prefs_xml, "<app_id>", $cursor)) {
-            if (is_numeric($thisxml)) {
-                $n = (int) $thisxml;
-                $prefs->app_ids[] = $n;
-            }
+        $prefs->app_ids = [];
+        // in older code, <app_id>s weren't enclosed in <app_selected>
+        //
+        if (empty($p->apps_selected)) {
+            $app_id_nodes = $p->app_id;
+        } else {
+            $app_id_nodes = $p->apps_selected->app_id;
         }
-        $prefs->allow_non_preferred_apps = parse_element($prefs_xml, "<allow_non_preferred_apps>");
+        foreach ($app_id_nodes as $item) {
+            $prefs->app_ids[] = (int)$item;
+        }
+        $prefs->allow_non_preferred_apps = (int)$p->allow_non_preferred_apps;
         $prefs->allow_non_preferred_apps_text = $prefs->allow_non_preferred_apps?"yes":"no";
     }
     if (NON_GRAPHICAL_PREF) {
-        $prefs->non_graphical = parse_bool($prefs_xml, "non_graphical");
+        $prefs->non_graphical = (int)$p->non_graphical;
     }
     if (MAX_JOBS_PREF) {
-        $prefs->max_jobs = parse_element($prefs_xml, "<max_jobs>");
+        $prefs->max_jobs = (string)$p->max_jobs;
     }
     if (MAX_CPUS_PREF) {
-        $prefs->max_cpus = parse_element($prefs_xml, "<max_cpus>");
+        $prefs->max_cpus = (string)$p->max_cpus;
     }
     return $prefs;
 }

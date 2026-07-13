@@ -1,0 +1,54 @@
+diff --git a/gdk-pixbuf-loader/io-svg.c b/gdk-pixbuf-loader/io-svg.c
+index bcdfd0b..0936cd1 100644
+--- a/gdk-pixbuf-loader/io-svg.c
++++ b/gdk-pixbuf-loader/io-svg.c
+@@ -21,11 +21,10 @@
+  * Boston, MA 02111-1307, USA.
+  */
+ 
+-#include "config.h"
+ 
+ #include <stdlib.h>
+ 
+-#include <rsvg.h>
++#include <librsvg/rsvg.h>
+ #include <gdk-pixbuf/gdk-pixbuf.h>
+ 
+ #define N_(string) (string)
+@@ -43,8 +42,6 @@ typedef struct {
+         gpointer                    user_data;
+ } SvgContext;
+ 
+-G_MODULE_EXPORT void fill_vtable (GdkPixbufModule *module);
+-G_MODULE_EXPORT void fill_info (GdkPixbufFormat *info);
+ 
+ enum {
+         ERROR_WRITING = 1,
+@@ -173,17 +170,23 @@ gdk_pixbuf__svg_image_stop_load (gpointer data, GError **error)
+         return result;
+ }
+ 
+-void
+-fill_vtable (GdkPixbufModule *module)
++#ifdef BUILD_SHARED_LIBS
++#define MODULE_ENTRY(function) G_MODULE_EXPORT void function
++#else
++#define MODULE_ENTRY(function) void _gdk_pixbuf__svg_ ## function
++#endif
++
++MODULE_ENTRY (fill_vtable) (GdkPixbufModule *module)
+ {
++        if (module == NULL) return;
+         module->begin_load     = gdk_pixbuf__svg_image_begin_load;
+         module->stop_load      = gdk_pixbuf__svg_image_stop_load;
+         module->load_increment = gdk_pixbuf__svg_image_load_increment;
+ }
+ 
+-void
+-fill_info (GdkPixbufFormat *info)
++MODULE_ENTRY (fill_info) (GdkPixbufFormat *info)
+ {
++        if (info == NULL) return;
+         static const GdkPixbufModulePattern signature[] = {
+                 {  " <svg",  "*    ", 100 },
+                 {  " <!DOCTYPE svg",  "*             ", 100 },

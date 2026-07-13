@@ -39,14 +39,22 @@ $platforms = BoincPlatform::enum("");
 $confirm = true;
 $verbose = false;
 
-$config = file_get_contents("config.xml");
-if (!$config) die("config.xml not found.  Run this in project root dir.\n");
-$download_url = parse_element($config, "<download_url>");
-if (!$download_url) die("<download_url> not found in config.xml\n");
-$download_dir = parse_element($config, "<download_dir>");
-if (!$download_dir) die("<download_dir> not found in config.xml\n");
-$key_dir = parse_element($config, "<key_dir>");
-if (!$key_dir) die("<key_dir> not found in config.xml\n");
+$c = simplexml_load_file("config.xml");
+if (!$c) {
+    die("config.xml not found.  Run this in project root dir.\n");
+}
+$download_url = (string)$c->config->download_url;
+if (!$download_url) {
+    die("<download_url> not found in config.xml\n");
+}
+$download_dir = (string)$c->config->download_dir;
+if (!$download_dir) {
+    die("<download_dir> not found in config.xml\n");
+}
+$key_dir = (string)$c->config->key_dir;
+if (!$key_dir) {
+    die("<key_dir> not found in config.xml\n");
+}
 
 function lookup_app($name) {
     global $apps;
@@ -228,12 +236,10 @@ function confirm_sig_gen($name) {
     if ($sig_gen_confirmed) return true;
 
     echo "
-    NOTICE: You have not provided a signature file for $name,
-    and your project's code-signing private key is on your server.
-
-    IF YOUR PROJECT IS PUBLICLY ACCESSIBLE, THIS IS A SECURITY VULNERABILITY.
-    PLEASE STOP YOUR PROJECT IMMEDIATELY AND READ:
-    https://github.com/BOINC/boinc/wiki/CodeSigning
+    NOTICE: files will be signed with your project's code-signing private key
+    (keys/code_sign_private).
+    We recommend that you encrypt it when done; see
+    https://github.com/BOINC/boinc/wiki/Code-signing
 
     Continue (y/n)? ";
 

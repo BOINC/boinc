@@ -196,7 +196,7 @@ void CC_CONFIG::show() {
         msg_printf(NULL, MSG_INFO, "Config: don't use VirtualBox");
     }
     if (dont_use_docker) {
-        msg_printf(NULL, MSG_INFO, "Config: don't use Docker");
+        msg_printf(NULL, MSG_INFO, "Config: don't use Podman/Docker");
     }
     if (dont_use_wsl) {
         msg_printf(NULL, MSG_INFO, "Config: don't use Windows Subsystem for Linux");
@@ -386,6 +386,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool("dont_use_docker", dont_use_docker)) continue;
+        if (xp.parse_bool("dont_use_podman", dont_use_docker)) continue;
         if (xp.match_tag("exclude_gpu")) {
             EXCLUDE_GPU eg;
             retval = eg.parse(xp);
@@ -459,6 +460,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool("no_priority_change", no_priority_change)) continue;
         if (xp.parse_bool("no_rdp_check", no_rdp_check)) continue;
         if (xp.parse_bool("os_random_only", os_random_only)) continue;
+        if (xp.parse_bool("prioritize_gpu", prioritize_gpu)) continue;
         if (xp.parse_int("process_priority", process_priority)) continue;
         if (xp.parse_int("process_priority_special", process_priority_special)) continue;
         if (xp.match_tag("proxy_info")) {
@@ -627,14 +629,13 @@ int read_config_file(bool init, const char* fname) {
 // - set RESULT::missing_coproc for results of these app versions
 //
 void process_gpu_exclusions() {
-    unsigned int i, j, a;
-    PROJECT *p;
+    unsigned int i, j;
 
     // check the syntactic validity of the exclusions
     //
     for (i=0; i<cc_config.exclude_gpus.size(); i++) {
         EXCLUDE_GPU& eg = cc_config.exclude_gpus[i];
-        p = gstate.lookup_project(eg.url.c_str());
+        PROJECT *p = gstate.lookup_project(eg.url.c_str());
         if (!p) {
             msg_printf(0, MSG_USER_ALERT,
                 "cc_config.xml: bad URL in GPU exclusion: %s", eg.url.c_str()
@@ -684,8 +685,7 @@ void process_gpu_exclusions() {
         }
     }
 
-    for (i=0; i<gstate.apps.size(); i++) {
-        APP* app = gstate.apps[i];
+    for (APP* app: gstate.apps) {
         for (int k=1; k<coprocs.n_rsc; k++) {
             COPROC& cp = coprocs.coprocs[k];
             for (int h=0; h<cp.count; h++) {
@@ -694,8 +694,7 @@ void process_gpu_exclusions() {
         }
     }
 
-    for (i=0; i<gstate.projects.size(); i++) {
-        p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         for (int k=1; k<coprocs.n_rsc; k++) {
             COPROC& cp = coprocs.coprocs[k];
             COPROC_INSTANCE_BITMAP all_instances = 0;
@@ -721,8 +720,7 @@ void process_gpu_exclusions() {
                 if (eg.appname.empty()) {
                     // exclusion applies to all apps
                     //
-                    for (a=0; a<gstate.apps.size(); a++) {
-                        APP* app = gstate.apps[a];
+                    for (APP* app: gstate.apps) {
                         if (app->project != p) continue;
                         app->non_excluded_instances[k] &= ~mask;
                     }
@@ -737,8 +735,7 @@ void process_gpu_exclusions() {
 
             bool found = false;
             p->rsc_pwf[k].non_excluded_instances = 0;
-            for (a=0; a<gstate.apps.size(); a++) {
-                APP* app = gstate.apps[a];
+            for (APP* app: gstate.apps) {
                 if (app->project != p) continue;
                 found = true;
                 p->rsc_pwf[k].non_excluded_instances |= app->non_excluded_instances[k];
@@ -756,8 +753,7 @@ void process_gpu_exclusions() {
             p->rsc_pwf[k].ncoprocs_excluded = 0;
             for (int b=0; b<cp.count; b++) {
                 COPROC_INSTANCE_BITMAP mask = ((COPROC_INSTANCE_BITMAP)1)<<b;
-                for (a=0; a<gstate.apps.size(); a++) {
-                    APP* app = gstate.apps[a];
+                for (APP* app: gstate.apps) {
                     if (app->project != p) continue;
                     if (!(app->non_excluded_instances[k] & mask)) {
                         p->rsc_pwf[k].ncoprocs_excluded++;
@@ -768,8 +764,7 @@ void process_gpu_exclusions() {
         }
     }
 
-    for (i=0; i<gstate.app_versions.size(); i++) {
-        APP_VERSION* avp = gstate.app_versions[i];
+    for (APP_VERSION* avp: gstate.app_versions) {
         if (avp->resource_usage.missing_coproc) continue;
         int rt = avp->resource_usage.rsc_type;
         if (!rt) continue;
@@ -784,8 +779,7 @@ void process_gpu_exclusions() {
         if (found) continue;
         avp->resource_usage.missing_coproc = true;
         avp->resource_usage.missing_coproc_name[0] = 0;
-        for (j=0; j<gstate.results.size(); j++) {
-            RESULT* rp = gstate.results[j];
+        for (RESULT* rp: gstate.results) {
             if (rp->avp != avp) continue;
             msg_printf(avp->project, MSG_INFO,
                 "marking %s as coproc missing",
@@ -815,8 +809,7 @@ bool gpu_excluded(APP* app, COPROC& cp, int ind) {
 // for a project, set a flag to that effect
 //
 void set_no_rsc_config() {
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT& p = *gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         for (int j=1; j<coprocs.n_rsc; j++) {
             bool allowed[MAX_COPROC_INSTANCES];
             memset(allowed, 0, sizeof(allowed));
@@ -826,7 +819,7 @@ void set_no_rsc_config() {
             }
             for (unsigned int k=0; k<cc_config.exclude_gpus.size(); k++) {
                 EXCLUDE_GPU& e = cc_config.exclude_gpus[k];
-                if (strcmp(e.url.c_str(), p.master_url)) continue;
+                if (strcmp(e.url.c_str(), p->master_url)) continue;
                 if (!e.type.empty() && strcmp(e.type.c_str(), c.type)) continue;
                 if (!e.appname.empty()) continue;
                 if (e.device_num < 0) {
@@ -835,10 +828,10 @@ void set_no_rsc_config() {
                 }
                 allowed[e.device_num] = false;
             }
-            p.no_rsc_config[j] = true;
+            p->no_rsc_config[j] = true;
             for (int k=0; k<c.count; k++) {
                 if (allowed[c.device_nums[k]]) {
-                    p.no_rsc_config[j] = false;
+                    p->no_rsc_config[j] = false;
                     break;
                 }
             }

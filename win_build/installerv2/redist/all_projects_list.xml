@@ -181,6 +181,8 @@
         <name>windows_x86_64[mt]</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[mt]</name>
+        <name>aarch64-unknown-linux-gnu</name>
+        <name>aarch64-unknown-linux-gnu[mt]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/mw.png</image>
       <summary>Study the structure of the Milky Way galaxy</summary>
@@ -220,58 +222,38 @@
         <name>windows_x86_64[BRP7-cuda55]</name>
         <name>windows_x86_64[BRP7-opencl-ati]</name>
         <name>windows_x86_64[BRP7-opencl-intel_gpu]</name>
-        <name>windows_x86_64[FGRPopencl-ati]</name>
-        <name>windows_x86_64[FGRPopencl-intel_gpu]</name>
-        <name>windows_x86_64[FGRPopencl-nvidia]</name>
-        <name>windows_x86_64[FGRPopencl1K-ati]</name>
-        <name>windows_x86_64[FGRPopencl1K-nvidia]</name>
-        <name>windows_x86_64[FGRPopencl2-ati]</name>
-        <name>windows_x86_64[FGRPopencl2Pup-nvidia]</name>
-        <name>windows_x86_64[FGRPopenclTV-nvidia]</name>
+        <name>windows_x86_64[GW-cuda-2G]</name>
         <name>windows_x86_64[GW-opencl-ati]</name>
-        <name>windows_x86_64[GW-opencl-ati-4]</name>
+        <name>windows_x86_64[GW-opencl-ati-2G]</name>
         <name>windows_x86_64[GW-opencl-intel_gpu]</name>
-        <name>windows_x86_64[GW-opencl-intel_gpu-4]</name>
+        <name>windows_x86_64[GW-opencl-intel_gpu-2G]</name>
         <name>windows_x86_64[GW-opencl-nvidia]</name>
-        <name>windows_x86_64[GW-opencl-nvidia-4]</name>
-        <name>windows_x86_64[GW-SSE2]</name>
+        <name>windows_x86_64[GW-opencl-nvidia-2G]</name>
         <name>windows_x86_64[opencl-intel_gpu-new]</name>
         <name>windows_x86_64[opencl-intel_gpu-newer]</name>
         <name>x86_64-apple-darwin</name>
-        <name>x86_64-apple-darwin[Apple_M-opencl]</name>
-        <name>x86_64-apple-darwin[FGRPopencl-ati-mav]</name>
-        <name>x86_64-apple-darwin[FGRPopencl-nvidia-mav]</name>
-        <name>x86_64-apple-darwin[FGRPopencl2Pup-nvidia]</name>
-        <name>x86_64-apple-darwin[FGRPopenclTV-nvidia]</name>
+        <name>x86_64-apple-darwin[BRP7-mac-opencl-ati]</name>
         <name>x86_64-apple-darwin[FGRPSSE]</name>
         <name>x86_64-apple-darwin[GW-opencl-ati]</name>
-        <name>x86_64-apple-darwin[GW-opencl-ati-4]</name>
+        <name>x86_64-apple-darwin[GW-opencl-ati-2G]</name>
         <name>x86_64-apple-darwin[GW-opencl-nvidia]</name>
-        <name>x86_64-apple-darwin[GW-opencl-nvidia-4]</name>
-        <name>x86_64-apple-darwin[GW-SSE2]</name>
+        <name>x86_64-apple-darwin[GW-opencl-nvidia-2G]</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[BRP4X64]</name>
         <name>x86_64-pc-linux-gnu[BRP7-cuda102]</name>
         <name>x86_64-pc-linux-gnu[BRP7-opencl-ati]</name>
         <name>x86_64-pc-linux-gnu[BRP7-opencl-nvidia]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopencl-ati]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopencl-nvidia]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopencl1K-ati]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopencl1K-nvidia]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopencl2-ati]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopencl2Pup-nvidia]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopenclTV-nvidia]</name>
         <name>x86_64-pc-linux-gnu[FGRPSSE]</name>
         <name>x86_64-pc-linux-gnu[GW-cuda]</name>
-        <name>x86_64-pc-linux-gnu[GW-cuda-2]</name>
-        <name>x86_64-pc-linux-gnu[GW-cuda-4]</name>
+        <name>x86_64-pc-linux-gnu[GW-cuda-580-2G]</name>
+        <name>x86_64-pc-linux-gnu[GW-cuda-580-Beta]</name>
+        <name>x86_64-pc-linux-gnu[GW-cuda-lin-2G]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-ati]</name>
-        <name>x86_64-pc-linux-gnu[GW-opencl-ati-4]</name>
+        <name>x86_64-pc-linux-gnu[GW-opencl-ati-2G]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-intel_gpu]</name>
-        <name>x86_64-pc-linux-gnu[GW-opencl-intel_gpu-4]</name>
+        <name>x86_64-pc-linux-gnu[GW-opencl-intel_gpu-2G]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-nvidia]</name>
-        <name>x86_64-pc-linux-gnu[GW-opencl-nvidia-4]</name>
-        <name>x86_64-pc-linux-gnu[GW-SSE2]</name>
+        <name>x86_64-pc-linux-gnu[GW-opencl-nvidia-570-2G]</name>
         <name>x86_64-pc-linux-gnu[opencl-intel_gpu]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/einstein.jpg</image>
@@ -292,8 +274,11 @@
         <name>x86_64-pc-linux-gnu[vbox64_mt_mcore_cms]</name>
         <name>x86_64-apple-darwin[vbox64_mt_mcore_cms]</name>
         <name>windows_x86_64[vbox64_theory]</name>
+        <name>windows_x86_64[docker]</name>
         <name>x86_64-pc-linux-gnu[vbox64_theory]</name>
+        <name>x86_64-pc-linux-gnu[docker]</name>
         <name>x86_64-apple-darwin[vbox64_theory]</name>
+        <name>x86_64-apple-darwin[docker]</name>
         <name>windows_x86_64[vbox64_mt_mcore_atlas]</name>
         <name>x86_64-pc-linux-gnu[native_mt]</name>
         <name>x86_64-pc-linux-gnu[vbox64_mt_mcore_atlas]</name>
@@ -542,6 +527,18 @@
         <name>i686-pc-linux-gnu[openclatiGFN22]</name>
         <name>i686-pc-linux-gnu[openclatiGFNEXTREME]</name>
         <name>i686-pc-linux-gnu[openclatiPPSsieve]</name>
+        <name>windows_arm64[cpuGFN16_mt]</name>
+        <name>windows_arm64[cpuGFN17MEGA_mt]</name>
+        <name>windows_arm64[cpuGFN18_mt]</name>
+        <name>windows_arm64[cpuGFN19_mt]</name>
+        <name>windows_arm64[cpuGFN20_mt]</name>
+        <name>windows_arm64[cpuGFN21_mt]</name>
+        <name>windows_arm64[opencl_Apple_M_GFN16]</name>
+        <name>windows_arm64[opencl_Apple_M_GFN17MEGA]</name>
+        <name>windows_arm64[opencl_Apple_M_GFN18]</name>
+        <name>windows_arm64[opencl_Apple_M_GFN19]</name>
+        <name>windows_arm64[opencl_Apple_M_GFN20]</name>
+        <name>windows_arm64[opencl_Apple_M_GFN21]</name>
         <name>windows_intelx86</name>
         <name>windows_intelx86[cpuGFN15_mt]</name>
         <name>windows_intelx86[cpuGFN16_mt]</name>
@@ -736,9 +733,7 @@
         <description><![CDATA[Testing and comparison of heuristic methods for getting separations of parallel algorithms working in the CAD system for designing logic control systems]]></description>
         <home>Southwest State University (Russia)</home>
     <platforms>
-        <name>windows_intelx86</name>
         <name>windows_x86_64</name>
-        <name>i686-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/gerasim.gif</image>
@@ -755,22 +750,22 @@
         <home>Independent</home>
     <platforms>
         <name>aarch64-unknown-linux-gnu[cuda102]</name>
-        <name>aarch64-unknown-linux-gnu[cuda122]</name>
+        <name>aarch64-unknown-linux-gnu[cuda129]</name>
         <name>windows_x86_64</name>
-        <name>windows_x86_64[cuda100]</name>
-        <name>windows_x86_64[cuda110]</name>
-        <name>windows_x86_64[cuda120]</name>
         <name>windows_x86_64[cuda128]</name>
         <name>windows_x86_64[opencl_ati_101]</name>
+        <name>windows_x86_64[opencl_ati_200]</name>
         <name>windows_x86_64[opencl_intel_gpu_intelarc]</name>
+        <name>windows_x86_64[opencl_nvidia_200]</name>
         <name>x86_64-apple-darwin</name>
         <name>x86_64-pc-linux-gnu</name>
-        <name>x86_64-pc-linux-gnu[cuda100]</name>
-        <name>x86_64-pc-linux-gnu[cuda112]</name>
+        <name>x86_64-pc-linux-gnu[cuda110]</name>
         <name>x86_64-pc-linux-gnu[cuda120]</name>
         <name>x86_64-pc-linux-gnu[cuda128]</name>
         <name>x86_64-pc-linux-gnu[opencl_ati_101]</name>
+        <name>x86_64-pc-linux-gnu[opencl_ati_200]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_intelarc]</name>
+        <name>x86_64-pc-linux-gnu[opencl_nvidia_200]</name>
     </platforms>
         <keywords>15 32</keywords>
     </project>
@@ -875,6 +870,7 @@
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[mt_oifs]</name>
         <name>x86_64-pc-linux-gnu[mt_oifs_bigmem]</name>
+        <name>x86_64-pc-linux-gnu[mt_wrf_longrun]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/cpn_logo_world_1.jpg</image>
       <summary>Study long-term climate change</summary>
@@ -947,6 +943,7 @@
         <name>arm-android-linux-gnu</name>
         <name>arm-unknown-linux-gnueabihf</name>
         <name>arm64-apple-darwin</name>
+        <name>arm64-apple-darwin[docker]</name>
         <name>i686-pc-linux-gnu</name>
         <name>i686-pc-linux-gnu[libc_228]</name>
         <name>windows_arm64[docker]</name>
@@ -956,34 +953,13 @@
         <name>x86-android-linux-gnu</name>
         <name>x86_64-android-linux-gnu</name>
         <name>x86_64-apple-darwin</name>
+        <name>x86_64-apple-darwin[docker]</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[docker]</name>
         <name>x86_64-pc-linux-gnu[libc_228]</name>
     </platforms>
       <summary>Support scientists from multiple institutions</summary>
         <keywords>23 24 9</keywords>
-    </project>
-    <project>
-        <name>Radioactive@Home</name>
-        <id>2</id>
-        <url>http://radioactiveathome.org/boinc/</url>
-        <web_url>http://radioactiveathome.org/boinc/</web_url>
-        <general_area>Distributed sensing</general_area>
-        <specific_area>Environmental research</specific_area>
-        <description><![CDATA[Radioactive@Home is creating a free and continuously updated map of radiation levels using sensors connected to volunteers' computers.  You must buy a sensor to participate.]]></description>
-        <home>BOINC Poland Foundation</home>
-    <platforms>
-        <name>windows_intelx86</name>
-        <name>i686-pc-linux-gnu[nci]</name>
-        <name>arm-unknown-linux-gnueabi</name>
-        <name>armv6l-unknown-linux-gnueabihf</name>
-        <name>arm-unknown-linux-gnueabihf</name>
-        <name>mipsel-unknown-linux-gnu</name>
-        <name>armv7l-unknown-linux-gnueabihf</name>
-    </platforms>
-      <image>https://boinc.berkeley.edu/images/radioactive.jpg</image>
-      <summary>Monitor radiation levels</summary>
-        <keywords>34 20 43</keywords>
     </project>
    <account_manager>
         <name>BAM!</name>

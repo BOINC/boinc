@@ -18,7 +18,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 // process turnaround time stats files
 
-// compute stats for batch acceleration
+// compute stats for batch acceleration, and update the DB accordingly
 //
 // - classify hosts as low turnaround time (LTT)
 //      host.error_rate = 1
@@ -148,8 +148,8 @@ function update_db() {
         $n = count($hlist);
         if ($n > 100) {
             $nfast = 0;
-            foreach ($hlist as $id=>$count) {
-                $x = $hosts[$id];
+            foreach ($hlist as $host_id=>$count) {
+                $x = $hosts[$host_id];
                 $avg = $x->ntt_sum / $x->ntt_n;
                 if ($avg < 1) {
                     $nfast++;
@@ -181,7 +181,7 @@ function show_hosts() {
 
 function main() {
     global $apps;
-    echo sprintf("starting: %s\n", time_str(time()));
+    echo sprintf("starting batch_stats: %s\n", time_str(time()));
     $as = BoincApp::enum('');
     foreach ($as as $a) {
         $apps[$a->id] = [];
@@ -197,7 +197,7 @@ function main() {
         do_batch($batch);
     }
     update_db();
-    echo sprintf("finished: %s\n", time_str(time()));
+    echo sprintf("finished batch_stats: %s\n", time_str(time()));
 }
 
 main();

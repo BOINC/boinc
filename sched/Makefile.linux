@@ -47,6 +47,7 @@ OBJ = \
     sched_config.o \
     sched_customize.o \
     sched_files.o \
+    sched_host.o \
     sched_hr.o \
     sched_keyword.o \
     sched_limit.o \
@@ -77,6 +78,7 @@ SRC = \
     sched_config.cpp \
     sched_customize.cpp \
     sched_files.cpp \
+    sched_host.cpp \
     sched_hr.cpp \
     sched_keyword.cpp \
     sched_limit.cpp \

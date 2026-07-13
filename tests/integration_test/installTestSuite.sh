@@ -64,7 +64,52 @@ fi
 
 ROOTDIR=$(pwd)
 PREFIX=$ROOTDIR/tests/server-test
+BOINC_SERVER_DOCKER_DIR=/tmp/boinc-server-docker
+INTEGRATION_LOG_DIR=${BOINC_INTEGRATION_LOG_DIR:-${TMPDIR:-/tmp}/boinc-integration-logs}
+STARTUP_TIMEOUT_SECONDS=${BOINC_SERVER_STARTUP_TIMEOUT_SECONDS:-300}
+STARTUP_POLL_INTERVAL_SECONDS=${BOINC_SERVER_STARTUP_POLL_INTERVAL_SECONDS:-5}
+docker_logs_pid=""
 test_dir=""
+
+start_docker_log_stream() {
+    current_dir=$(pwd)
+
+    if [ ! -f "${BOINC_SERVER_DOCKER_DIR}/docker-compose.yml" ]; then
+        return
+    fi
+
+    mkdir -p "${INTEGRATION_LOG_DIR}"
+    : > "${INTEGRATION_LOG_DIR}/docker-compose-live.log"
+
+    cd "${BOINC_SERVER_DOCKER_DIR}" || exit 1
+    docker compose logs -f --no-color > "${INTEGRATION_LOG_DIR}/docker-compose-live.log" 2>&1 &
+    docker_logs_pid=$!
+    cd "${current_dir}" || exit 1
+}
+
+stop_docker_log_stream() {
+    if [ -n "${docker_logs_pid}" ] && kill -0 "${docker_logs_pid}" 2>/dev/null; then
+        kill "${docker_logs_pid}"
+        wait "${docker_logs_pid}" 2>/dev/null
+    fi
+}
+
+on_exit() {
+    status=$1
+    trap - EXIT
+
+    stop_docker_log_stream
+
+    if [ "${status}" -ne 0 ] && [ -f "${INTEGRATION_LOG_DIR}/docker-compose-live.log" ]; then
+        echo
+        echo "Docker compose logs (last 200 lines):"
+        tail -n 200 "${INTEGRATION_LOG_DIR}/docker-compose-live.log"
+        echo
+        echo "Integration test diagnostics saved to ${INTEGRATION_LOG_DIR}"
+    fi
+}
+
+trap 'on_exit $?' EXIT
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
@@ -109,9 +154,20 @@ if [ $? -ne 0 ]; then exit 1; fi
 ansible-playbook -i hosts start.yml
 if [ $? -ne 0 ]; then exit 1; fi
 
-until $(curl -o /dev/null -SsifL http://127.0.0.1/boincserver/index.php ); do
+start_docker_log_stream
+
+startup_deadline=$((SECONDS + STARTUP_TIMEOUT_SECONDS))
+until curl -o /dev/null -SsifL http://127.0.0.1/boincserver/index.php; do
+    if [ "${SECONDS}" -ge "${startup_deadline}" ]; then
+        echo
+        echo "Timed out waiting ${STARTUP_TIMEOUT_SECONDS} seconds for http://127.0.0.1/boincserver/index.php"
+        mkdir -p "${INTEGRATION_LOG_DIR}"
+        curl -v http://127.0.0.1/boincserver/index.php > "${INTEGRATION_LOG_DIR}/curl-startup-check.txt" 2>&1
+        exit 1
+    fi
     printf '.'
-    sleep 5
+    sleep "${STARTUP_POLL_INTERVAL_SECONDS}"
 done
+printf '\n'
 
 cd "${ROOTDIR}" || exit 1

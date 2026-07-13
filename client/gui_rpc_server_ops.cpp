@@ -24,6 +24,7 @@
 #include <libproc.h>
 #include "sandbox.h"
 #include "mac_branding.h"
+extern int compareOSVersionTo(int toMajor, int toMinor);
 #endif
 
 #ifdef _WIN32
@@ -130,10 +131,8 @@ static void handle_exchange_versions(GUI_RPC_CONN& grc) {
 }
 
 static void handle_get_simple_gui_info(GUI_RPC_CONN& grc) {
-    unsigned int i;
     grc.mfout.printf("<simple_gui_info>\n");
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         p->write_state(grc.mfout, true);
     }
     gstate.write_tasks_gui(grc.mfout, true);
@@ -141,20 +140,14 @@ static void handle_get_simple_gui_info(GUI_RPC_CONN& grc) {
 }
 
 static void handle_get_project_status(GUI_RPC_CONN& grc) {
-    unsigned int i;
     grc.mfout.printf("<projects>\n");
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         p->write_state(grc.mfout, true);
     }
     grc.mfout.printf("</projects>\n");
 }
 
 static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
-    unsigned int i;
-    double size, boinc_non_project, d_allowed;
-//    double boinc_total;
-
     grc.mfout.printf("<disk_usage_summary>\n");
     int retval = get_filesystem_info(
         gstate.host_info.d_total, gstate.host_info.d_free
@@ -165,30 +158,8 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
         );
     }
 
-    dir_size_alloc(".", boinc_non_project, false);
-    dir_size_alloc("locale", size, false);
-    boinc_non_project += size;
-#ifdef __APPLE__
-    if (gstate.launched_by_manager) {
-        // If launched by Manager, get Manager's size on disk
-        char path[MAXPATHLEN];
-        double manager_size = 0.0;
-        OSStatus err = noErr;
-
-        retval = proc_pidpath(getppid(), path, sizeof(path));
-        if (retval <= 0) {
-            err = fnfErr;
-        }
-        if (!err) {
-            dir_size_alloc(path, manager_size, true);
-            boinc_non_project += manager_size;
-        }
-    }
-#endif
-//    boinc_total = boinc_non_project;
     gstate.get_disk_usages();
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         grc.mfout.printf(
             "<project>\n"
             "  <master_url>%s</master_url>\n"
@@ -196,9 +167,8 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
             "</project>\n",
             p->master_url, p->disk_usage
         );
-//        boinc_total += p->disk_usage;
     }
-    d_allowed = gstate.allowed_disk_usage(gstate.total_disk_usage);
+    double d_allowed = gstate.allowed_disk_usage(gstate.total_disk_usage);
     grc.mfout.printf(
         "<d_total>%f</d_total>\n"
         "<d_free>%f</d_free>\n"
@@ -206,7 +176,7 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
         "<d_allowed>%f</d_allowed>\n",
         gstate.host_info.d_total,
         gstate.host_info.d_free,
-        boinc_non_project,
+        gstate.client_disk_usage,
         d_allowed
     );
     grc.mfout.printf("</disk_usage_summary>\n");
@@ -646,17 +616,17 @@ static void handle_get_screensaver_tasks(GUI_RPC_CONN& grc) {
     unsigned int i;
     ACTIVE_TASK* atp;
     grc.mfout.printf(
-        "<handle_get_screensaver_tasks>\n"
+        "<get_screensaver_tasks>\n"
         "    <suspend_reason>%d</suspend_reason>\n",
         gstate.suspend_reason
     );
     for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
         atp = gstate.active_tasks.active_tasks[i];
-        if (atp->scheduler_state == CPU_SCHED_SCHEDULED) {
+        if (atp->scheduler_state == CPU_SCHED_SCHEDULED && atp->result) {
             atp->result->write_gui(grc.mfout);
         }
     }
-    grc.mfout.printf("</handle_get_screensaver_tasks>\n");
+    grc.mfout.printf("</get_screensaver_tasks>\n");
 }
 
 static void handle_quit(GUI_RPC_CONN& grc) {
@@ -692,8 +662,7 @@ static void handle_acct_mgr_info(GUI_RPC_CONN& grc) {
 
 static void handle_get_statistics(GUI_RPC_CONN& grc) {
     grc.mfout.printf("<statistics>\n");
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         p->write_statistics(grc.mfout);
     }
     grc.mfout.printf("</statistics>\n");
@@ -721,7 +690,7 @@ static void handle_get_cc_status(GUI_RPC_CONN& grc) {
         "   <max_event_log_lines>%d</max_event_log_lines>\n",
         net_status.network_status(),
         gstate.acct_mgr_info.password_error?1:0,
-        gstate.suspend_reason,
+        gstate.suspend_reason==SUSPEND_REASON_CPU_THROTTLE?0:gstate.suspend_reason,
         gstate.cpu_run_mode.get_current(),
         gstate.cpu_run_mode.get_perm(),
         gstate.cpu_run_mode.delay(),
@@ -757,8 +726,7 @@ static void handle_get_project_init_status(GUI_RPC_CONN& grc) {
     // If we're already attached to the project specified in the
     // project init file, delete the file.
     //
-    for (unsigned i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         if (urls_match(p->master_url, gstate.project_init.url)) {
             gstate.project_init.remove();
             break;
@@ -872,7 +840,6 @@ static void handle_project_attach(GUI_RPC_CONN& grc) {
     string url, authenticator, project_name, email_addr;
     bool use_config_file = false;
     bool already_attached = false;
-    unsigned int i;
     int retval;
 
     while (!grc.xp.get_tag()) {
@@ -911,8 +878,7 @@ static void handle_project_attach(GUI_RPC_CONN& grc) {
 
     canonicalize_master_url(url);
 
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         string project_url = p->master_url;
         canonicalize_master_url(project_url);
 
@@ -1501,34 +1467,36 @@ static void handle_run_graphics_app(GUI_RPC_CONN& grc) {
         return;
     }
 
-    // As of MacOS 14.0, the legacyScreenSaver sandbox prevents using
-    // bootstrap_look_up, so we launch a bridging utility to relay Mach
-    // communications between the graphics apps and the legacyScreenSaver.
-    if (gfx_ss_bridge_pid == 0) {
-        need_to_launch_gfx_ss_bridge = true;
-    } else if (waitpid(gfx_ss_bridge_pid, 0, WNOHANG)) {
-        gfx_ss_bridge_pid = 0;
-        need_to_launch_gfx_ss_bridge = true;
-    }
-    if (need_to_launch_gfx_ss_bridge) {
-        if (g_use_sandbox) {
+    if (compareOSVersionTo(14, 0) >= 0) {
+        // As of MacOS 14.0, the legacyScreenSaver sandbox prevents using
+        // bootstrap_look_up, so we launch a bridging utility to relay Mach
+        // communications between the graphics apps and the legacyScreenSaver.
+        if (gfx_ss_bridge_pid == 0) {
+            need_to_launch_gfx_ss_bridge = true;
+        } else if (waitpid(gfx_ss_bridge_pid, 0, WNOHANG)) {
+            gfx_ss_bridge_pid = 0;
+            need_to_launch_gfx_ss_bridge = true;
+        }
+        if (need_to_launch_gfx_ss_bridge) {
+            if (g_use_sandbox) {
 
-            snprintf(gfx_switcher_path, sizeof(gfx_switcher_path),
-                "/Library/Screen Savers/%s.saver/Contents/Resources/gfx_switcher",
-                saverName[iBrandID]
-            );
+                snprintf(gfx_switcher_path, sizeof(gfx_switcher_path),
+                    "/Library/Screen Savers/%s.saver/Contents/Resources/gfx_switcher",
+                    saverName[iBrandID]
+                );
+            }
+            argv[0] = const_cast<char*>("gfx_switcher");
+            argv[1] = "-run_bridge";
+            argv[2] = gfx_switcher_path;
+            argc = 3;
+            if (!theScreensaverLoginUser.empty()) {
+                argv[argc++] = "--ScreensaverLoginUser";
+                safe_strcpy(screensaverLoginUser, theScreensaverLoginUser.c_str());
+                argv[argc++] = screensaverLoginUser;
+            }
+            argv[argc] = 0;
+            retval = run_program(current_dir, gfx_switcher_path, argc, argv, gfx_ss_bridge_pid);
         }
-        argv[0] = const_cast<char*>("gfx_switcher");
-        argv[1] = "-run_bridge";
-        argv[2] = gfx_switcher_path;
-        argc = 3;
-        if (!theScreensaverLoginUser.empty()) {
-            argv[argc++] = "--ScreensaverLoginUser";
-            safe_strcpy(screensaverLoginUser, theScreensaverLoginUser.c_str());
-            argv[argc++] = screensaverLoginUser;
-        }
-        argv[argc] = 0;
-        retval = run_program(current_dir, gfx_switcher_path, argc, argv, gfx_ss_bridge_pid);
     }
 
     if (slot == -1) {
@@ -1894,13 +1862,24 @@ GUI_RPC gui_rpcs[] = {
 static int handle_rpc_aux(GUI_RPC_CONN& grc) {
     int retval = 0;
     grc.mfin.init_buf_read(grc.request_msg);
-    if (grc.xp.get_tag()) {    // parse <boinc_gui_rpc_request>
+
+    // parse <boinc_gui_rpc_request>
+    //
+    if (grc.xp.get_tag()) {
         grc.mfout.printf("<error>missing boinc_gui_rpc_request tag</error>\n");
         return 0;
     }
-    if (grc.xp.get_tag()) {    // parse the request tag
+    // parse the request tag
+    //
+    if (grc.xp.get_tag()) {
         grc.mfout.printf("<error>missing request</error>\n");
         return 0;
+    }
+    if (log_flags.gui_rpc_debug) {
+        msg_printf(0, MSG_INFO,
+            "[gui_rpc] got request %s on socket %d",
+            grc.xp.parsed_tag, grc.sock
+        );
     }
     for (unsigned int i=0; i<sizeof(gui_rpcs)/sizeof(GUI_RPC); i++) {
         GUI_RPC& gr = gui_rpcs[i];
@@ -1930,13 +1909,19 @@ static int handle_rpc_aux(GUI_RPC_CONN& grc) {
 static bool is_http_post_request(char* buf) {
     if (strstr(buf, "POST") != buf) return false;
     char* p = strstr(buf, "Content-Length: ");
-    if (!p) return false;
+    if (!p) {
+        return false;
+    }
     p += strlen("Content-Length: ");
     int n = atoi(p);
     p = strstr(p, HTTP_HEADER_DELIM);
-    if (!p) return false;
+    if (!p) {
+        return false;
+    }
     p += 4;
-    if ((int)strlen(p) < n) return false;
+    if ((int)strlen(p) < n) {
+        return false;
+    }
     return true;
 }
 
@@ -2047,9 +2032,9 @@ int GUI_RPC_CONN::handle_rpc() {
     }
     request_msg[request_nbytes] = 0;
 
-    if (log_flags.gui_rpc_debug) {
+    if (log_flags.gui_rpc_msg_debug) {
         msg_printf(0, MSG_INFO,
-            "[gui_rpc] GUI RPC Command = '%s'\n", request_msg
+            "[gui_rpc] GUI RPC request = '%s'\n", request_msg
         );
     }
 
@@ -2093,7 +2078,7 @@ int GUI_RPC_CONN::handle_rpc() {
             *p = 0;
             http_request = false;
         } else {
-            if (log_flags.gui_rpc_debug) {
+            if (log_flags.gui_rpc_msg_debug) {
                 msg_printf(0, MSG_INFO,
                     "[gui_rpc] partial GUI RPC Command = '%s'\n", request_msg
                 );
@@ -2161,11 +2146,13 @@ int GUI_RPC_CONN::handle_rpc() {
     }
     if (p) {
         send(sock, p, n, 0);
-        if (log_flags.gui_rpc_debug) {
+        if (log_flags.gui_rpc_msg_debug) {
             if (!http_request) {
-                p[n-1]=0;   // replace 003 with NULL
+                p[n-1] = 0;   // replace 003 with NULL
             }
-            if (n > 128) p[128] = 0;
+            if (n > 128) {
+                p[128] = 0;
+            }
             msg_printf(0, MSG_INFO,
                 "[gui_rpc] GUI RPC reply: '%s'\n", p
             );

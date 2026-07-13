@@ -39,9 +39,8 @@ function dir_hier_path($filename, $root, $fanout) {
 function upload_path($filename) {
     static $upload_dir=null;
     if (!$upload_dir) {
-        $config = get_config();
-        $upload_dir = parse_config($config, '<upload_dir>');
-        $uldl_dir_fanout = parse_config($config, '<uldl_dir_fanout>');
+        $upload_dir = project_config_val('upload_dir');
+        $uldl_dir_fanout = project_config_val('uldl_dir_fanout');
     }
     return dir_hier_path($filename, $upload_dir, $uldl_dir_fanout);
 }
@@ -124,9 +123,8 @@ function get_hier_info() {
     static $dl_dir = null;
     static $fanout = null;
     if (!$dl_dir) {
-        $conf = get_config();
-        $dl_dir = parse_config($conf, "<download_dir>");
-        $fanout = parse_config($conf, "<uldl_dir_fanout>");
+        $dl_dir = project_config_val("download_dir");
+        $fanout = project_config_val("uldl_dir_fanout");
     }
     return [$dl_dir, $fanout];
 }

@@ -26,6 +26,7 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
+#include "wslinfo.h"
 #endif
 #include "common_defs.h"
 
@@ -127,7 +128,7 @@ extern int get_exit_status(PROCESS_REF, int& status, double dt);
 // Wait for exit, and return output as vector of lines.
 // Return error if command failed
 //
-extern int run_command(char *cmd, std::vector<std::string> &out);
+extern int run_command(const char *cmd, std::vector<std::string> &out);
 
 // get the path of the calling process's executable
 //
@@ -145,20 +146,30 @@ extern double simtime;
 #define time(x) ((int)simtime)
 #endif
 
+// -------- Docker-related stuff; could move to a different file
+
 // represents a connection to a Docker/Podman installation
 // used from docker_wrapper and the client
 //
 struct DOCKER_CONN {
     DOCKER_TYPE type;
     const char* cli_prog;
-    bool verbose;
 #ifdef _WIN32
     WSL_CMD ctl_wc;
-    int init(DOCKER_TYPE type, std::string distro_name, bool verbose=false);
+    int init(WSL_DISTRO&);
 #else
-    int init(DOCKER_TYPE, bool verbose=false);
+    int init(DOCKER_TYPE);
 #endif
-    int command(const char* cmd, std::vector<std::string> &out);
+
+    // issue a Docker command
+    int command(const char* cmd, std::vector<std::string> &out, bool verbose);
+
+#ifdef _WIN32
+    // issue a shell command (e.g. 'export')
+    int shell_command(
+        const char* cmd, std::vector<std::string> &out, bool verbose
+    );
+#endif
 
     static const int CMD_TIMEOUT = 600;
         // timeout for docker commands.
@@ -181,7 +192,64 @@ extern std::string docker_container_name(
     const char* proj_url_esc,       // escaped project URL
     const char* result_name
 );
+
 // is the name (of a Docker image or container) a BOINC name?
 extern bool docker_is_boinc_name(const char* name);
+
+// -------- stuff related to all_projects_list.xml;
+// could move to a different file
+
+// the following can represent either a project or an AM
+
+struct PROJECT_LIST_ENTRY {
+    std::string name;
+    int id;
+    std::string url;
+    std::string web_url;
+    std::string general_area;
+    std::string specific_area;
+    std::string description;
+    std::string home;       // sponsoring organization
+    std::string image;      // URL of logo
+    std::vector<std::string> platforms;
+        // platforms supported by project, or empty
+    bool is_account_manager;
+
+    PROJECT_LIST_ENTRY();
+
+    int parse(XML_PARSER&);
+    void clear();
+};
+
+struct ALL_PROJECTS_LIST {
+    std::vector<PROJECT_LIST_ENTRY*> projects;
+    std::vector<PROJECT_LIST_ENTRY*> account_managers;
+
+    ALL_PROJECTS_LIST(){}
+    ~ALL_PROJECTS_LIST() {
+        clear();
+    }
+    // make it non-copyable
+    ALL_PROJECTS_LIST(const ALL_PROJECTS_LIST&) = delete;
+    ALL_PROJECTS_LIST& operator=(const ALL_PROJECTS_LIST&) = delete;
+
+    void clear();
+    int parse(XML_PARSER&);
+    int read_file(const char* filename);
+    void alpha_sort();
+    PROJECT_LIST_ENTRY* lookup_id(int id) {
+        for (PROJECT_LIST_ENTRY *p: projects) {
+            if (p->id == id) {
+                return p;
+            }
+        }
+        for (PROJECT_LIST_ENTRY *p: account_managers) {
+            if (p->id == id) {
+                return p;
+            }
+        }
+        return NULL;
+    }
+};
 
 #endif

@@ -504,7 +504,7 @@ FROM result WHERE true
         // subtract X from mod time of  file-deleted results.
         // Otherwise we'll show lots of irrelevant results
         //
-        $delay = parse_config(get_config(), "<delete_delay_hours>");
+        $delay = project_config_val("delete_delay_hours");
         if ($delay) {
             $start2 = $start - $delay*3600;;
             $main_query .= " and ((file_delete_state>1 and mod_time>FROM_UNIXTIME($start2)) or (mod_time>FROM_UNIXTIME($start)))";
@@ -924,7 +924,7 @@ function admin_show_host($host) {
     );
 
     row("Venue", $host->venue);
-    row("Info", $host->serialnum);
+    row("Info", $host->misc);
     row("Total credit", $host->total_credit);
     row("Average credit", $host->expavg_credit);
     row("Average update time", time_str($host->expavg_time));

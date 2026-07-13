@@ -32,7 +32,7 @@ function make_cache_dirs() {
         mkdir("../cache", 0770);
         chmod("../cache", 0770);
     }
-    for ($i=0;$i<256;$i++) {
+    for ($i=0; $i<256; $i++) {
         $j=sprintf("%02x",$i);
         if (!@filemtime("../cache/$j")) {
             mkdir("../cache/$j", 0770);
@@ -42,7 +42,9 @@ function make_cache_dirs() {
 }
 
 function get_path($params, $phpfile=null) {
-    if (!@filemtime("../cache/00")) make_cache_dirs();
+    if (!@filemtime("../cache/00")) {
+        make_cache_dirs();
+    }
     if ($phpfile) {
         $z = $phpfile;
     } else {
@@ -51,7 +53,7 @@ function get_path($params, $phpfile=null) {
     }
 
     // add a layer of subdirectories for reducing file lookup time
-    $sz = substr(md5($z."_".urlencode($params)),1,2);
+    $sz = substr(md5($z."_".urlencode($params)), 1, 2);
     $path = "../cache/".$sz."/".$z;
     if ($params) {
         $path = $path."_".urlencode($params);
@@ -60,19 +62,21 @@ function get_path($params, $phpfile=null) {
 }
 
 function disk_usage($dir) {
+    $handle = @opendir($dir);
+    if (!$handle) {
+        return 0;
+    }
     $usage=0;
-    if ($handle=@opendir($dir)) {
-        while ($file=readdir($handle)) {
-            if (($file != ".") && ($file != "..")) {
-                if (@is_dir($dir."/".$file)) {
-                    $usage+=disk_usage($dir."/".$file);
-                } else {
-                    $usage+=@filesize($dir."/".$file);
-                }
+    while ($file = readdir($handle)) {
+        if (($file != ".") && ($file != "..")) {
+            if (@is_dir($dir."/".$file)) {
+                $usage += disk_usage($dir."/".$file);
+            } else {
+                $usage += @filesize($dir."/".$file);
             }
         }
-        @closedir($handle);
     }
+    @closedir($handle);
     return $usage;
 }
 
@@ -81,8 +85,9 @@ function clean_cache($max_age, $dir) {
     if (!chdir($dir)) {
         return;
     }
-    if ($handle=@opendir(".")) {
-        while ($file=readdir($handle)) {
+    $handle = @opendir(".");
+    if ($handle) {
+        while ($file = readdir($handle)) {
             if ($file == ".") continue;
             if ($file == "..") continue;
 
@@ -108,8 +113,12 @@ function clean_cache($max_age, $dir) {
 // check cache size every once in a while, purge if too big
 //
 function cache_check_diskspace(){
-    if ((rand() % CACHE_SIZE_CHECK_FREQ)) return;
-    if (disk_usage("../cache") < MAX_CACHE_USAGE) return;
+    if ((rand() % CACHE_SIZE_CHECK_FREQ)) {
+        return;
+    }
+    if (disk_usage("../cache") < MAX_CACHE_USAGE) {
+        return;
+    }
     $x = max(TEAM_PAGE_TTL, USER_PAGE_TTL, USER_HOST_TTL,
         USER_PROFILE_TTL, TOP_PAGES_TTL, INDEX_PAGE_TTL
     );
@@ -138,11 +147,14 @@ function cache_need_to_regenerate($path, $max_age){
     return $regenerate;
 }
 
-// Returns cached data or false if nothing was found
+// Returns cached data or null if nothing was found
+//
 function get_cached_data($max_age, $params=""){
     global $no_cache;
 
-    if ($no_cache) return false;
+    if ($no_cache) {
+        return null;
+    }
 
     $path = get_path($params);
     if ($max_age) {
@@ -161,14 +173,16 @@ function get_cached_data($max_age, $params=""){
             }
         }
     }
-    return false; //No data was cached, just return
+    return null;
 }
 
 // DEPRECATED
 function start_cache($max_age, $params=""){
     global $no_cache, $caching, $memcache;
 
-    if ($no_cache) return;
+    if ($no_cache) {
+        return;
+    }
     $caching = true;
 
     if ($max_age) {
@@ -184,10 +198,12 @@ function start_cache($max_age, $params=""){
             }
         } else {
             $lastmodified = @filemtime($path);
-            cache_check_diskspace(); //Check free disk space once in a while
+            // Check free disk space once in a while
+            //
+            cache_check_diskspace();
             $regenerate = cache_need_to_regenerate($path, $max_age);
         }
-        //Is the stored version too old, do we need to regenerate it?
+        // Is the stored version too old, do we need to regenerate it?
         if ($regenerate){
             // If cached version is too old (or non-existent)
             // generate the page and write to cache
@@ -230,7 +246,9 @@ function start_cache($max_age, $params=""){
 // DEPRECATED
 function end_cache($max_age,$params=""){
     global $no_cache;
-    if ($no_cache) return;
+    if ($no_cache) {
+        return;
+    }
 
     // for the benefit of hackers
     if (strstr($params, "..")) {

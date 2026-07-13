@@ -258,7 +258,7 @@ void get_wu_template(JOB_DESC& jd2) {
 
 // if a buffer is full after a fgets(), it was too small
 //
-void check_buffer(char *p, int len) {
+void check_buffer(char *p, size_t len) {
     if (strlen(p) == len-1) {
         fprintf(stderr, "fgets() buffer was too small\n");
         exit(1);
@@ -504,12 +504,15 @@ int main(int argc, char** argv) {
             int _argc;
             char* _argv[100], value_buf[MAX_QUERY_LEN];
 
-            char additional_xml[256];
+            char additional_xml[256], sub_appname_esc[2048];
             additional_xml[0] = 0;
             if (strlen(jd.sub_appname)) {
+                xml_escape(
+                    jd.sub_appname, sub_appname_esc, sizeof(sub_appname_esc)
+                );
                 snprintf(additional_xml, sizeof(additional_xml),
                     "   <sub_appname>%s</sub_appname>",
-                    jd.sub_appname
+                    sub_appname_esc
                 );
             }
 
@@ -612,12 +615,16 @@ void JOB_DESC::create() {
     if (assign_flag) {
         wu.transitioner_flags = assign_multi?TRANSITION_NONE:TRANSITION_NO_NEW_RESULTS;
     }
-    char additional_xml[256], kwbuf[256];
+    char additional_xml[256];
     additional_xml[0] = 0;
     if (strlen(sub_appname)) {
+        char sub_appname_esc[2048];
+        xml_escape(
+            sub_appname, sub_appname_esc, sizeof(sub_appname_esc)
+        );
         snprintf(additional_xml, sizeof(additional_xml),
             "   <sub_appname>%s</sub_appname>",
-            sub_appname
+            sub_appname_esc
         );
     }
     int retval = create_work2(

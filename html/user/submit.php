@@ -419,7 +419,7 @@ function handle_show_user_batches($user) {
 }
 
 function handle_update_only_own($user) {
-    if (!parse_bool(get_config(), 'enable_assignment')) {
+    if (!project_config_bool('enable_assignment')) {
         error_page(
             'Job assignment is not enabled in the project config file.
             Please ask the project admins to enable it.'
@@ -638,6 +638,22 @@ function progress_bar($batch, $wus, $width) {
     return $x;
 }
 
+// see if the batch's output files are gzipped
+//
+function is_batch_gzipped($wus) {
+    foreach ($wus as $wu) {
+        if ($wu->canonical_resultid == 0) continue;
+        $result = BoincResult::lookup_id($wu->canonical_resultid);
+        if (!$result) return false;
+        [, $gzip] = get_outfile_log_names($result);
+        foreach ($gzip as $flag) {
+            if ($flag) return true;
+        }
+        return false;
+    }
+    return false;
+}
+
 // show the details of an existing batch.
 // $user has access to abort/retire the batch
 // and to get its output files
@@ -646,10 +662,12 @@ function handle_query_batch($user) {
     $batch_id = get_int('batch_id');
     $status = get_int('status', true);
     $batch = BoincBatch::lookup_id($batch_id);
-    if (!$batch) error_page('no batch');
+    if (!$batch) {
+        error_page('no batch');
+    }
     $app = BoincApp::lookup_id($batch->app_id);
     $wus = BoincWorkunit::enum_fields(
-        'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
+        'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask, priority',
         "batch = $batch->id"
     );
     $batch = get_batch_params($batch, $wus);
@@ -659,7 +677,7 @@ function handle_query_batch($user) {
         $owner = BoincUser::lookup_id($batch->user_id);
     }
 
-    $is_assim_move = is_assim_move($app);
+    $is_batch_collect = is_batch_collect($app);
 
     page_head("Batch $batch_id");
     text_start(800);
@@ -690,24 +708,31 @@ function handle_query_batch($user) {
     }
     row2("GFLOP/hours, estimated", number_format(credit_to_gflop_hours($batch->credit_estimate), 2));
     row2("GFLOP/hours, actual", number_format(credit_to_gflop_hours($batch->credit_canonical), 2));
-    if (!$is_assim_move) {
+    if (!$is_batch_collect) {
         row2("Total size of output files",
             size_string(batch_output_file_size($batch->id))
         );
     }
     end_table();
-    echo "<p>";
 
-    if ($is_assim_move) {
-        $url = "get_output3.php?action=get_batch&batch_id=$batch->id";
+    echo "<p>";
+    if ($is_batch_collect) {
+        //if (is_batch_gzipped($wus)) {
+        if (true) {
+            $url = "get_output3.php?action=get_batch_tar&batch_id=$batch->id";
+            show_button($url, "Get tarred output files");
+        } else {
+            $url = "get_output3.php?action=get_batch_zip&batch_id=$batch->id";
+            show_button($url, "Get zipped output files");
+        }
     } else {
         $url = "get_output2.php?cmd=batch&batch_id=$batch->id";
+        show_button($url, "Get zipped output files");
     }
-    echo "<p>";
-    show_button($url, "Get zipped output files");
     echo "<p>";
     switch ($batch->state) {
     case BATCH_STATE_IN_PROGRESS:
+    case BATCH_STATE_INIT:
         show_button(
             "submit.php?action=abort_batch&batch_id=$batch_id",
             "Abort batch"
@@ -761,7 +786,8 @@ function handle_query_batch($user) {
     $x = [
         "Name <br><small>click for details</small>",
         "status",
-        "GFLOPS-hours"
+        "GFLOPS-hours",
+        "Priority"
     ];
     row_heading_array($x);
     foreach($wus as $wu) {
@@ -789,7 +815,8 @@ function handle_query_batch($user) {
         $x = [
             "<a href=submit.php?action=query_job&wuid=$wu->id>$wu->name</a>",
             $y,
-            $c
+            $c,
+            $wu->priority
         ];
         row_array($x);
     }
@@ -799,16 +826,15 @@ function handle_query_batch($user) {
     page_tail();
 }
 
-// Does the assimilator for the given app move output files
-// to a results/<batchid>/ directory?
+// Does the app use the batch-collect paradigm?
 // This info is stored in the $remote_apps data structure in project.inc
 //
-function is_assim_move($app) {
+function is_batch_collect($app) {
     global $remote_apps;
     foreach ($remote_apps as $category => $apps) {
         foreach ($apps as $web_app) {
             if ($web_app->app_name == $app->name) {
-                return $web_app->is_assim_move;
+                return $web_app->batch_collect;
             }
         }
     }
@@ -823,10 +849,9 @@ function handle_query_job($user) {
     if (!$wu) error_page("no such job");
 
     $app = BoincApp::lookup_id($wu->appid);
-    $is_assim_move = is_assim_move($app);
+    $is_batch_collect = is_batch_collect($app);
 
     page_head("Job '$wu->name'");
-    text_start(800);
 
     echo "
         <ul>
@@ -845,43 +870,59 @@ function handle_query_job($user) {
     table_header(
         "ID<br><small>click for details and stderr</small>",
         "State",
+        'Sent',
+        'Received',
+        'Priority',
         "Output files"
     );
     $results = BoincResult::enum("workunitid=$wuid");
-    $upload_dir = parse_config(get_config(), "<upload_dir>");
-    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+    $upload_dir = project_config_val("upload_dir");
+    $fanout = project_config_val("uldl_dir_fanout");
     foreach ($results as $result) {
         $x = [
             "<a href=result.php?resultid=$result->id>$result->id</a>",
-            state_string($result)
+            state_string($result),
+            time_str($result->sent_time),
+            time_str($result->received_time),
+            $result->priority
         ];
-        if ($is_assim_move) {
+        $files = [];
+        if ($is_batch_collect) {
             if ($result->id == $wu->canonical_resultid) {
-                $log_names = get_outfile_log_names($result);
+                [$log_names, $gzip] = get_outfile_log_names($result);
                 $nfiles = count($log_names);
                 for ($i=0; $i<$nfiles; $i++) {
                     $name = $log_names[$i];
-                    // don't show 'view' link if it's a .zip
-                    $y = "$name: ";
-                    if (!strstr($name, '.zip')) {
+                    $path = batch_collect_outfile_path(
+                        $wu, $i, $log_names, $gzip
+                    );
+                    if (file_exists($path)) {
+                        $y = sprintf('%s (%s): ',
+                            $name, size_string(filesize($path))
+                        );
+                        // don't show 'view' link if it's zipped
+                        if (!strstr($name, '.zip') && !$gzip[$i]) {
+                            $y .= sprintf(
+                                '<a href=get_output3.php?action=get_file&result_id=%d&index=%d>view</a> &middot; ',
+                                $result->id, $i
+                            );
+                        }
                         $y .= sprintf(
-                            '<a href=get_output3.php?action=get_file&result_id=%d&index=%d>view</a> &middot; ',
+                            '<a href=get_output3.php?action=get_file&result_id=%d&index=%d&download=1>download</a>',
                             $result->id, $i
                         );
+                    } else {
+                        $y = sprintf('%s: MISSING', $name);
                     }
-                    $y .= sprintf(
-                        '<a href=get_output3.php?action=get_file&result_id=%d&index=%d&download=1>download</a>',
-                        $result->id, $i
-                    );
-                    $x[] = $y;
+                    $files[] = $y;
                 }
             } else {
-                $x[] = '---';
+                $files[] = '---';
             }
         } else {
             if ($result->server_state == RESULT_SERVER_STATE_OVER) {
                 $phys_names = get_outfile_phys_names($result);
-                $log_names = get_outfile_log_names($result);
+                [$log_names,] = get_outfile_log_names($result);
                 $nfiles = count($log_names);
                 for ($i=0; $i<$nfiles; $i++) {
                     $path = dir_hier_path(
@@ -894,19 +935,20 @@ function handle_query_job($user) {
                         );
                         $s = stat($path);
                         $size = $s['size'];
-                        $x[] = sprintf('<a href=%s>%s</a> (%s bytes)<br/>',
+                        $files[] = sprintf('<a href=%s>%s</a> (%s bytes)<br/>',
                             $url,
                             $log_names[$i],
                             number_format($size)
                         );
                     } else {
-                        $x[] = sprintf("file '%s' is missing", $log_names[$i]);
+                        $files[] = sprintf("file '%s' is missing", $log_names[$i]);
                     }
                 }
             } else {
-                $x[] = '---';
+                $files[] = '---';
             }
         }
+        $x[] = implode('<br>', $files);
         row_array($x);
     }
     end_table();
@@ -937,7 +979,6 @@ function handle_query_job($user) {
         echo "The job has no input files.<p>";
     }
 
-    text_end();
     return_link();
     page_tail();
 }
@@ -999,6 +1040,7 @@ function handle_retire_batch($user) {
     } else {
         page_head("Confirm retire batch");
         echo "
+            <p>
             Retiring a batch will remove all of its output files.
             Are you sure you want to do this?
             <p>

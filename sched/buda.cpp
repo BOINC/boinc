@@ -105,18 +105,13 @@ bool BUDA_APP::read_json() {
         );
         return false;
     }
-    if (d.find("name") == d.end()
-        || d.find("min_nsuccess") == d.end()
-        || d.find("max_total") == d.end()
-    ) {
+    if (d.find("name") == d.end()) {
         log_messages.printf(MSG_CRITICAL,
             "BUDA app: missing element in %s\n", path
         );
         return false;
     }
     name = d["name"].get<string>();
-    min_nsuccess = d["min_nsuccess"].get<int>();
-    max_total = d["max_total"].get<int>();
 
     sprintf(path, "%s/%s",
         BUDA_APPS_DIR,

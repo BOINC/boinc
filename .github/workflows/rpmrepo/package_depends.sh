@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -23,19 +23,35 @@ function exit_usage() {
 	exit 1
 }
 
-case "$1_$2" in
+case "$1" in
 # fedora distros
-"fc37_linux_client" | "fc38_linux_client" | "fc39_linux_client" | "fc40_linux_client" | "fc41_linux_client" | "fc42_linux_client")
-    echo "glibc,libXScrnSaver >= 1.2.3,ca-certificates"
+"fc43" | "fc44")
+    case "$2" in
+    "client")
+        echo "glibc,libXScrnSaver >= 1.2.3,ca-certificates,libatomic"
+        ;;
+    "manager")
+        echo "glibc,libnotify,libX11,xkeyboard-config"
+        ;;
+    *)  echo "glibc"
+        ;;
+    esac
     ;;
 # opensuse distros
-"suse15_4_linux_client" | "suse15_5_linux_client" | "suse15_6_linux_client" | "suse16_0_linux_client")
-    echo "glibc,libXss1 >= 1.2.2,ca-certificates"
+"suse16_0")
+    case "$2" in
+    "client")
+        echo "glibc,libXss1 >= 1.2.2,ca-certificates,libatomic1"
+        ;;
+    "manager")
+        echo "glibc,libnotify4,libX11-6,xkeyboard-config"
+        ;;
+    *)  echo "glibc"
+        ;;
+    esac
     ;;
-
 *)  echo "glibc"
 	;;
-
 esac
 
 exit 0

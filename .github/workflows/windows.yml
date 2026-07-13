@@ -1,6 +1,6 @@
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -18,7 +18,6 @@
 name: Windows
 on:
   push:
-    branches: [ master, 'client_release/**' ]
     tags: [ 'client_release/**', 'vboxwrapper/**', 'wrapper/**', 'dockerwrapper/**', 'wslwrapper/**', 'worker/**' ]
   pull_request:
     branches: [ master ]
@@ -54,8 +53,7 @@ jobs:
         configuration: [Release, Debug]
       fail-fast: false
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           fetch-depth: 2
 
@@ -74,7 +72,7 @@ jobs:
           Start-Process "${{github.workspace}}\temp\OpenCppCoverageSetup-x64-${{ env.OpenCppCoverageVersion }}.exe" -ArgumentList "/verysilent /dir=${{github.workspace}}\temp\OpenCppCoverage" -Wait
 
       - name: Setup msbuild
-        uses: microsoft/setup-msbuild@6fb02220983dee41ce7ae257b6f4d8f9bf5ed4ce
+        uses: microsoft/setup-msbuild@30375c66a4eea26614e0d39710365f22f8b0af57
 
       - name: Check if build is running from origin repo
         if: ${{success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0}}
@@ -90,7 +88,7 @@ jobs:
         run: vcpkg.exe integrate remove
 
       - name: Cache dependencies
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: |
             ${{github.workspace}}\3rdParty\Windows\cuda\
@@ -123,27 +121,23 @@ jobs:
 
       - name: Build
         if: success()
-        run: msbuild win_build\boinc.sln -p:Configuration=${{matrix.configuration}} -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -p:DLIB=${{ env.DLIB }} -p:DMDF=${{ env.DMDF }} -m
+        run: msbuild win_build\boinc.slnx -p:Configuration=${{matrix.configuration}} -p:Platform=${{matrix.platform}} -p:VcpkgTripletConfig=ci -p:DLIB=${{ env.DLIB }} -p:DMDF=${{ env.DMDF }} -p:BOINCCAS_TEST=true -m
 
       - name: Run unit tests
         if: success() && matrix.platform == 'x64' && matrix.configuration == 'Release'
         working-directory: win_build\Build\${{matrix.platform}}\${{matrix.configuration}}
         run: |
           ${{github.workspace}}\temp\OpenCppCoverage\OpenCppCoverage.exe --cover_children --optimized_build --sources ${{github.workspace}} --export_type=binary:gtest.cov -- unittests.exe --gtest_output=xml:gtest.xml
+
+      - name: Run crypt_prog tests
+        if: success() && matrix.platform == 'x64' && matrix.configuration == 'Release'
+        working-directory: win_build\Build\${{matrix.platform}}\${{matrix.configuration}}
+        run: |
           ${{github.workspace}}\temp\OpenCppCoverage\OpenCppCoverage.exe --cover_children --optimized_build --modules ${{github.workspace}} --sources ${{github.workspace}} --input_coverage=gtest.cov --export_type=cobertura:cobertura.xml -- python ${{github.workspace}}\tests\crypt_prog_tests.py ${{github.workspace}}\win_build\Build\x64\${{matrix.configuration}}\crypt_prog.exe
 
       - name: Verify MSI file
         if: success() && !startsWith(github.ref, 'refs/tags/') && matrix.configuration == 'Release'
         run: python ./tests/msi_validation.py "C:\Program Files (x86)\MsiVal2\MsiVal2.exe" "${{github.workspace}}\win_build\Build\${{matrix.platform}}\${{matrix.configuration}}\boinc.msi" "${{github.workspace}}\installer\darice.cub"
-
-      - name: Run installation
-        if: success() && matrix.platform == 'x64' && matrix.configuration == 'Release'
-        shell: powershell
-        run: Start-Process "msiexec.exe" -ArgumentList "/i ${{github.workspace}}\win_build\Build\x64\${{matrix.configuration}}\boinc.msi /quiet /qn /l*v ${{github.workspace}}\win_build\Build\x64\${{matrix.configuration}}\install.log" -Wait
-
-      - name: Run installation tests
-        if: success() && matrix.platform == 'x64' && matrix.configuration == 'Release'
-        run: python ./tests/windows_installer_integration_tests.py
 
       - name: Prepare logs on failure
         if: ${{failure()}}
@@ -152,7 +146,7 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{failure()}}
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: windows_logs_msbuild_${{matrix.platform}}_${{matrix.configuration}}_${{github.event.pull_request.head.sha}}
           path: deploy/logs.7z
@@ -168,94 +162,146 @@ jobs:
 
       - name: Upload apps
         if: success() && matrix.configuration == 'Release'
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: win_apps_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
           path: deploy/win_apps.7z
 
       - name: Upload client
         if: success() && matrix.configuration == 'Release'
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: win_client_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
           path: deploy/win_client.7z
 
       - name: Upload manager
         if: success() && matrix.configuration == 'Release'
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: win_manager_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
           path: deploy/win_manager.7z
 
       - name: Upload installer files
         if: success() && matrix.configuration == 'Release'
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: win_installer_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
           path: deploy/win_installer.7z
 
       - name: Upload symbol files
         if: success() && matrix.configuration == 'Release'
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: win_pdb_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
           path: win_build/Build/${{matrix.platform}}/${{matrix.configuration}}/*.pdb
 
       - name: Upload Google Tests Results
         if: always() && matrix.platform == 'x64' && matrix.configuration == 'Release'
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: Windows_tests_results
           path: "win_build/Build/${{matrix.platform}}/${{matrix.configuration}}/**/gtest.xml"
 
       - name: Upload coverage report
         if: success() && matrix.platform == 'x64' && matrix.configuration == 'Release'
-        uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-  cmake:
-    name: ${{matrix.configuration}}-${{matrix.platform}}-cmake
-    runs-on: windows-latest
+  msbuild-test:
+    name: ${{matrix.platform}}-${{matrix.type}}-${{matrix.installation_type}}-msbuild-test
+    runs-on: ${{matrix.runner}}
+    needs: msbuild
     strategy:
       matrix:
+        type: [install, upgrade_from_alpha, upgrade_from_stable]
         platform: [x64, arm64]
-        configuration: [Release, Debug]
+        installation_type: [normal, service, test_acct_mgr_login, test_client_auth_file, test_proj_init_file]
+        include:
+          - platform: x64
+            runner: windows-latest
+          - platform: arm64
+            runner: windows-11-arm
+          - installation_type: normal
+            argument_list_alpha: "/quiet /qn /l*v alpha.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0"
+            argument_list_release: "/quiet /qn /l*v release.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0"
+            argument_list_install: "/quiet /qn /l*v install.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0"
+            argument_list_prepare: ""
+          - installation_type: service
+            argument_list_alpha: "/quiet /qn /norestart /l*v alpha.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0 ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
+            argument_list_release: "/quiet /qn /norestart /l*v release.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0 ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
+            argument_list_install: "/quiet /qn /norestart /l*v install.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0 ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
+            argument_list_prepare: ""
+          - installation_type: test_acct_mgr_login
+            argument_list_alpha: "/quiet /qn /l*v alpha.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0"
+            argument_list_release: "/quiet /qn /l*v release.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0"
+            argument_list_install: "/quiet /qn /l*v install.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0 ACCTMGR_LOGIN=test ACCTMGR_PASSWORDHASH=0123456789abcdef"
+            argument_list_prepare: ""
+          - installation_type: test_client_auth_file
+            argument_list_alpha: "/quiet /qn /norestart /l*v alpha.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0 ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
+            argument_list_release: "/quiet /qn /norestart /l*v release.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0 ENABLEPROTECTEDAPPLICATIONEXECUTION3=1"
+            argument_list_install: "/quiet /qn /norestart /l*v install.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0 ENABLEPROTECTEDAPPLICATIONEXECUTION3=1 BOINC_PROJECT_USERNAME=test_user BOINC_PROJECT_PASSWORD=qwerty123456!@#$%^"
+            argument_list_prepare: '--create-user --username test_user --password "qwerty123456!@#$%^"'
+          - installation_type: test_proj_init_file
+            argument_list_alpha: "/quiet /qn /l*v alpha.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0"
+            argument_list_release: "/quiet /qn /l*v release.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0"
+            argument_list_install: "/quiet /qn /l*v install.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0 PROJINIT_URL=https://test.com PROJINIT_NAME=test PROJINIT_AUTH=abcdef1234567890"
+            argument_list_prepare: ""
       fail-fast: false
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           fetch-depth: 2
 
-      - name: Setup msbuild
-        uses: microsoft/setup-msbuild@6fb02220983dee41ce7ae257b6f4d8f9bf5ed4ce
-
-      - name: Check if build is running from origin repo
-        if: ${{success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0}}
+      - name: Install previous alpha version
+        if: success() && matrix.type == 'upgrade_from_alpha'
+        shell: powershell
         run: |
-          echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+          python ./tests/download_boinc_installer.py ${{matrix.platform}} alpha
+          if (Test-Path "./${{matrix.platform}}_alpha.exe") {
+            Start-Process "./${{matrix.platform}}_alpha.exe" -ArgumentList "${{matrix.argument_list_alpha}}" -Wait
+          }
 
-      - name: Check if build is running from fork
-        if: ${{success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0)}}
+      - name: Install previous stable version
+        if: success() && matrix.type == 'upgrade_from_stable'
+        shell: powershell
         run: |
-          echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+          python ./tests/download_boinc_installer.py ${{matrix.platform}} release
+          if (Test-Path "./${{matrix.platform}}_release.exe") {
+            Start-Process "./${{matrix.platform}}_release.exe" -ArgumentList "${{matrix.argument_list_release}}" -Wait
+          }
 
-      - name: Fix vcpkg
-        run: vcpkg.exe integrate remove
-
-      - name: Build
+      - name: Download installer artifact
         if: success()
-        run: windows\ci_build_libs_cmake.bat ${{matrix.platform}} ${{matrix.configuration}}
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: win_installer_${{matrix.platform}}_${{github.event.pull_request.head.sha}}
 
-      - name: Prepare logs on failure
-        if: ${{failure()}}
+      - name: Extract installer artifact
+        if: success()
         run: |
-          python ./deploy/prepare_deployment.py logs
+          7z x win_installer.7z
+
+      - name: Prepare installation for further testing
+        if: success() && matrix.argument_list_prepare != ''
+        shell: cmd
+        run: python ./tests/windows_installer_integration_tests_prepare.py ${{matrix.argument_list_prepare}}
+
+      - name: Run installation
+        if: success()
+        shell: powershell
+        run: Start-Process "./installer_setup.exe" -ArgumentList "${{matrix.argument_list_install}}" -Wait
+
+      - name: Run installation tests
+        if: success()
+        run: python ./tests/windows_installer_integration_tests.py --installation-type ${{matrix.installation_type}} --type ${{matrix.type}}
 
       - name: Upload logs on failure
-        if: ${{failure()}}
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          name: windows_logs_cmake_${{matrix.platform}}_${{matrix.configuration}}_${{github.event.pull_request.head.sha}}
-          path: deploy/logs.7z
+          name: windows_installer_test_logs_${{matrix.platform}}_${{matrix.type}}_${{matrix.installation_type}}_${{github.event.pull_request.head.sha}}
+          path: |
+            install.log
+            alpha.log
+            release.log

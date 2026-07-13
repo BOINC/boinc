@@ -85,7 +85,6 @@ using std::vector;
 //
 bool ACTIVE_TASK_SET::poll() {
     bool action;
-    unsigned int i;
     static double last_time = 0;
     if (!gstate.clock_change && gstate.now - last_time < TASK_POLL_PERIOD) return false;
     last_time = gstate.now;
@@ -96,8 +95,7 @@ bool ACTIVE_TASK_SET::poll() {
     process_control_poll();
     action |= check_rsc_limits_exceeded();
     get_msgs();
-    for (i=0; i<active_tasks.size(); i++) {
-        ACTIVE_TASK* atp = active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks) {
         if (atp->task_state() == PROCESS_ABORT_PENDING) {
             if (gstate.now > atp->abort_time + ABORT_TIMEOUT) {
                 if (log_flags.task_debug) {
@@ -130,8 +128,7 @@ bool ACTIVE_TASK_SET::poll() {
     if (gstate.clock_change || gstate.now - last_finish_check_time > 10) {
         last_finish_check_time = gstate.now;
         int exit_code;
-        for (i=0; i<active_tasks.size(); i++) {
-            ACTIVE_TASK* atp = active_tasks[i];
+        for (ACTIVE_TASK* atp: active_tasks) {
             if (atp->task_state() == PROCESS_UNINITIALIZED) continue;
             if (atp->finish_file_time) {
                 if (gstate.now - atp->finish_file_time > FINISH_FILE_TIMEOUT) {
@@ -188,18 +185,20 @@ bool ACTIVE_TASK::kill_all_children() {
 #endif
 #endif
 
-static void print_descendants(int pid, const vector<int>& desc, const char* where) {
+static void print_descendants(
+    int pid, const vector<int>& descs, const char* where
+) {
     msg_printf(0, MSG_INFO, "%s: PID %d has %d descendants",
-        where, pid, (int)desc.size()
+        where, pid, (int)descs.size()
     );
-    for (unsigned int i=0; i<desc.size(); i++) {
-        msg_printf(0, MSG_INFO, "   PID %d", desc[i]);
+    for (int desc: descs) {
+        msg_printf(0, MSG_INFO, "   PID %d", desc);
     }
 }
 
 // Send a quit message, start timer, get descendants
 //
-int ACTIVE_TASK::request_exit() {
+int ACTIVE_TASK::request_quit() {
     if (app_client_shm.shm) {
         process_control_queue.msg_queue_send(
             "<quit/>",
@@ -285,12 +284,11 @@ int ACTIVE_TASK::kill_running_task(bool will_restart) {
 // - its "other" processes, e.g. VMs
 //
 int ACTIVE_TASK::kill_subsidiary_processes() {
-    unsigned int i;
-    for (i=0; i<other_pids.size(); i++) {
-        kill_app_process(other_pids[i], false);
+    for (int pid2: other_pids) {
+        kill_app_process(pid2, false);
     }
-    for (i=0; i<descendants.size(); i++) {
-        kill_app_process(descendants[i], false);
+    for (int pid2: descendants) {
+        kill_app_process(pid2, false);
     }
     return 0;
 }
@@ -353,8 +351,7 @@ static void limbo_message(ACTIVE_TASK& at) {
 static void clear_schedule_backoffs(ACTIVE_TASK* atp) {
     int rt = atp->result->resource_usage.rsc_type;
     if (rt == RSC_TYPE_CPU) return;
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
+    for (RESULT* rp: gstate.results) {
         if (rp->resource_usage.rsc_type == rt) {
             rp->schedule_backoff = 0;
         }
@@ -415,11 +412,9 @@ void ACTIVE_TASK::handle_temporary_exit(
 void ACTIVE_TASK::copy_final_info() {
     result->final_cpu_time = current_cpu_time;
     result->final_elapsed_time = elapsed_time;
-    result->final_peak_working_set_size = peak_working_set_size;
-    result->final_peak_swap_size = peak_swap_size;
+    result->final_peak_rss = peak_rss;
+    result->final_peak_swap_usage = peak_swap_usage;
     result->final_peak_disk_usage = peak_disk_usage;
-    result->final_bytes_sent = bytes_sent;
-    result->final_bytes_received = bytes_received;
 }
 
 // deal with a process that has exited, for whatever reason:
@@ -685,11 +680,8 @@ bool ACTIVE_TASK::temporary_exit_file_present(
 }
 
 void ACTIVE_TASK_SET::send_trickle_downs() {
-    unsigned int i;
-    ACTIVE_TASK* atp;
     bool sent;
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks) {
         if (!atp->process_exists()) continue;
         if (atp->have_trickle_down) {
             if (!atp->app_client_shm.shm) continue;
@@ -705,19 +697,16 @@ void ACTIVE_TASK_SET::send_trickle_downs() {
 }
 
 void ACTIVE_TASK_SET::send_heartbeats() {
-    unsigned int i;
-    ACTIVE_TASK* atp;
     char buf[1024];
     double ar = gstate.available_ram();
 
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks) {
         if (!atp->process_exists()) continue;
         if (!atp->app_client_shm.shm) continue;
         snprintf(buf, sizeof(buf), "<heartbeat/>"
             "<wss>%e</wss>"
             "<max_wss>%e</max_wss>",
-            atp->procinfo.working_set_size, ar
+            atp->procinfo.rss, ar
         );
         if (gstate.network_suspended) {
             safe_strcat(buf, "<network_suspended/>");
@@ -749,11 +738,7 @@ void ACTIVE_TASK_SET::send_heartbeats() {
 // send queued process-control messages; check for timeout
 //
 void ACTIVE_TASK_SET::process_control_poll() {
-    unsigned int i;
-    ACTIVE_TASK* atp;
-
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks) {
         if (!atp->process_exists()) continue;
         if (!atp->app_client_shm.shm) continue;
 
@@ -778,15 +763,12 @@ void ACTIVE_TASK_SET::process_control_poll() {
 // See if any processes have exited
 //
 bool ACTIVE_TASK_SET::check_app_exited() {
-    ACTIVE_TASK* atp;
     bool found = false;
 
 #ifdef _WIN32
     unsigned long exit_code;
-    unsigned int i;
 
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks) {
         if (!atp->process_exists()) continue;
         if (GetExitCodeProcess(atp->process_handle, &exit_code)) {
             if (exit_code != STILL_ACTIVE) {
@@ -817,7 +799,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
     int pid, stat;
 
     if ((pid = waitpid(-1, &stat, WNOHANG)) > 0) {
-        atp = lookup_pid(pid);
+        ACTIVE_TASK* atp = lookup_pid(pid);
         if (!atp) {
             // if we're running benchmarks, exited process
             // is probably a benchmark process; don't show error
@@ -870,27 +852,30 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
 // refactor.
 //
 bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
-    unsigned int i;
-    ACTIVE_TASK *atp;
     static double last_disk_check_time = 0;
     bool do_disk_check = false;
     bool did_anything = false;
     char buf[256];
 
-    double ram_left = gstate.available_ram();
+    double avail_ram = gstate.available_ram();
     double max_ram = gstate.max_available_ram();
+    double total_rss = 0;
 
     // Some slot dirs have lots of files,
     // so only check every min(disk_interval, 300) secs
     //
     double min_interval = gstate.global_prefs.disk_interval;
     if (min_interval < 300) min_interval = 300;
-    if (gstate.clock_change || gstate.now > last_disk_check_time + min_interval) {
+    if (gstate.clock_change
+        || gstate.now > last_disk_check_time + min_interval
+    ) {
         do_disk_check = true;
     }
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks) {
         if (atp->task_state() != PROCESS_EXECUTING) continue;
+
+        // check for elapsed time limit exceeded
+
         if (!atp->always_run() && (atp->elapsed_time > atp->max_elapsed_time)) {
             snprintf(buf, sizeof(buf), "exceeded elapsed time limit %.2f (%.2fG/%.2fG)",
                 atp->max_elapsed_time,
@@ -905,8 +890,9 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
             continue;
         }
 #if 0
+        // check WSS < wu.rsc_memory_bound
         // removing this for now because most projects currently
-        // have too-low values of workunit.rsc_memory_bound
+        // have too-low values of rsc_memory_bound
         // (causing lots of aborts)
         // and I don't think we can expect projects to provide
         // accurate bounds.
@@ -924,9 +910,12 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
             continue;
         }
 #endif
-        if (atp->procinfo.working_set_size_smoothed > max_ram) {
-            snprintf(buf, sizeof(buf), "working set size > client RAM limit: %.2fMB > %.2fMB",
-                atp->procinfo.working_set_size_smoothed/MEGA, max_ram/MEGA
+        // is the WSS too large for the job to ever run (busy or idle)?
+        // If so abort it.
+        //
+        if (atp->procinfo.rss_smoothed > max_ram) {
+            snprintf(buf, sizeof(buf), "resident set size > client RAM limit: %.2fMB > %.2fMB",
+                atp->procinfo.rss_smoothed/MEGA, max_ram/MEGA
             );
             msg_printf(atp->result->project, MSG_INFO,
                 "Aborting task %s: %s",
@@ -935,6 +924,12 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
             atp->abort_task(EXIT_MEM_LIMIT_EXCEEDED, buf);
             did_anything = true;
             continue;
+        }
+        // is the WSS too large for the current limit?
+        // If so, do reschedule, which will swap-kill it
+        //
+        if (atp->procinfo.rss_smoothed > avail_ram) {
+            gstate.request_schedule_cpus("job RAM usage limit exceeded");
         }
         if (do_disk_check || atp->peak_disk_usage == 0) {
             if (atp->check_max_disk_exceeded()) {
@@ -946,11 +941,11 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
         // don't count RAM usage of non-CPU-intensive jobs
         //
         if (!atp->non_cpu_intensive()) {
-            ram_left -= atp->procinfo.working_set_size_smoothed;
+            total_rss += atp->procinfo.rss_smoothed;
         }
     }
-    if (ram_left < 0) {
-        gstate.request_schedule_cpus("RAM usage limit exceeded");
+    if (total_rss > avail_ram) {
+        gstate.request_schedule_cpus("total RAM usage limit exceeded");
     }
     if (do_disk_check) {
         last_disk_check_time = gstate.now;
@@ -1066,11 +1061,7 @@ int ACTIVE_TASK::request_reread_app_info() {
 // tell all running apps of a project to reread prefs
 //
 void ACTIVE_TASK_SET::request_reread_prefs(PROJECT* project) {
-    unsigned int i;
-    ACTIVE_TASK* atp;
-
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks) {
         if (atp->result->project != project) continue;
         if (!atp->process_exists()) continue;
         atp->request_reread_prefs();
@@ -1078,26 +1069,28 @@ void ACTIVE_TASK_SET::request_reread_prefs(PROJECT* project) {
 }
 
 void ACTIVE_TASK_SET::request_reread_app_info() {
-    for (unsigned int i=0; i<active_tasks.size(); i++) {
-        ACTIVE_TASK* atp = active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks) {
         if (!atp->process_exists()) continue;
         atp->request_reread_app_info();
     }
 }
 
 
-// send quit message to all tasks in the project
+// send quit or abort message to all tasks in the project
 // (or all tasks, if proj is NULL).
 // If they don't exit in QUIT_TIMEOUT seconds,
 // send them a kill signal and wait up to 5 more seconds to exit.
 // This is called when the client exits,
 // or when a project is detached or reset
 //
-int ACTIVE_TASK_SET::exit_tasks(PROJECT* proj) {
+int ACTIVE_TASK_SET::exit_tasks(bool will_restart, PROJECT* proj) {
     if (log_flags.task_debug) {
-        msg_printf(NULL, MSG_INFO, "[task_debug] requesting tasks to exit");
+        msg_printf(NULL, MSG_INFO,
+            "[task_debug] requesting tasks to %s",
+            will_restart ? "quit" : "abort"
+        );
     }
-    request_tasks_exit(proj);
+    request_tasks_exit(will_restart, proj);
 
     // Wait for tasks to exit normally; if they don't then kill them
     //
@@ -1137,17 +1130,12 @@ int ACTIVE_TASK_SET::exit_tasks(PROJECT* proj) {
 // Wait up to wait_time seconds for processes to exit
 // If proj is zero, wait for all processes, else that project's
 // NOTE: it's bad form to sleep, but it would be complex to avoid it here
+// Return 0 if they all exit.
 //
 int ACTIVE_TASK_SET::wait_for_exit(double wait_time, PROJECT* proj) {
-    bool all_exited;
-    unsigned int i,n;
-    ACTIVE_TASK *atp;
-
-    for (i=0; i<10; i++) {
-        all_exited = true;
-
-        for (n=0; n<active_tasks.size(); n++) {
-            atp = active_tasks[n];
+    for (int i=0; i<10; i++) {
+        bool all_exited = true;
+        for (ACTIVE_TASK* atp: active_tasks) {
             if (proj && atp->wup->project != proj) continue;
             if (!atp->has_task_exited()) {
                 all_exited = false;
@@ -1166,7 +1154,7 @@ int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
     vector<ACTIVE_TASK*>::iterator task_iter;
     ACTIVE_TASK* atp;
 
-    exit_tasks(project);
+    exit_tasks(false, project);
     task_iter = active_tasks.begin();
     while (task_iter != active_tasks.end()) {
         atp = *task_iter;
@@ -1186,8 +1174,7 @@ int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
 // e.g. because on batteries, time of day, benchmarking, CPU throttle, etc.
 //
 void ACTIVE_TASK_SET::suspend_all(int reason) {
-    for (unsigned int i=0; i<active_tasks.size(); i++) {
-        ACTIVE_TASK* atp = active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks) {
 
         // don't suspend if process doesn't exist,
         // or if quit/abort is pending.
@@ -1267,10 +1254,7 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
 // resume all currently scheduled tasks
 //
 void ACTIVE_TASK_SET::unsuspend_all(int reason) {
-    unsigned int i;
-    ACTIVE_TASK* atp;
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks) {
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         if (atp->task_state() == PROCESS_UNINITIALIZED) {
             if (atp->resume_or_start(false)) {
@@ -1290,10 +1274,7 @@ void ACTIVE_TASK_SET::unsuspend_all(int reason) {
 // the applications
 //
 bool ACTIVE_TASK_SET::is_task_executing() {
-    unsigned int i;
-    ACTIVE_TASK* atp;
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks) {
         if (atp->task_state() == PROCESS_EXECUTING) {
             return true;
         }
@@ -1301,18 +1282,19 @@ bool ACTIVE_TASK_SET::is_task_executing() {
     return false;
 }
 
-// Send quit message to all app processes
+// Send quit or abort message to all app processes
 // This is called when the client exits,
 // or when a project is detached or reset
 //
-void ACTIVE_TASK_SET::request_tasks_exit(PROJECT* proj) {
-    unsigned int i;
-    ACTIVE_TASK *atp;
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
+void ACTIVE_TASK_SET::request_tasks_exit(bool will_restart, PROJECT* proj) {
+    for (ACTIVE_TASK* atp: active_tasks) {
         if (proj && atp->wup->project != proj) continue;
         if (!atp->process_exists()) continue;
-        atp->request_exit();
+        if (will_restart) {
+            atp->request_quit();
+        } else {
+            atp->request_abort();
+        }
     }
 }
 
@@ -1320,10 +1302,7 @@ void ACTIVE_TASK_SET::request_tasks_exit(PROJECT* proj) {
 // Don't wait for them to exit
 //
 void ACTIVE_TASK_SET::kill_tasks(PROJECT* proj) {
-    unsigned int i;
-    ACTIVE_TASK *atp;
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks) {
         if (proj && atp->wup->project != proj) continue;
         if (!atp->process_exists()) continue;
         atp->kill_running_task(true);
@@ -1376,15 +1355,6 @@ int ACTIVE_TASK::unsuspend(int reason) {
     return 0;
 }
 
-void ACTIVE_TASK::send_network_available() {
-    if (!app_client_shm.shm) return;
-    process_control_queue.msg_queue_send(
-        "<network_available/>",
-        app_client_shm.shm->process_control_request
-    );
-    return;
-}
-
 // See if the app has placed a new message in shared mem
 // (with CPU done, frac done etc.)
 // If so parse it and return true.
@@ -1393,7 +1363,6 @@ bool ACTIVE_TASK::get_app_status_msg() {
     char msg_buf[MSG_CHANNEL_SIZE];
     double fd;
     int other_pid, i;
-    double dtemp;
     static double last_msg_time=0;
 
     if (!app_client_shm.shm) {
@@ -1410,7 +1379,7 @@ bool ACTIVE_TASK::get_app_status_msg() {
             "[app_msg_receive] got msg from slot %d: %s", slot, msg_buf
         );
     }
-    want_network = 0;
+    int new_want_network = 0;
     current_cpu_time = checkpoint_cpu_time = 0.0;
     if (parse_double(msg_buf, "<fraction_done>", fd)) {
         // fraction_done will be reported as zero
@@ -1450,28 +1419,12 @@ bool ACTIVE_TASK::get_app_status_msg() {
             checkpoint_cpu_time = 0;
         }
     }
-    parse_double(msg_buf, "<wss>", wss_from_app);
+    parse_double(msg_buf, "<wss>", rss_from_app);
     parse_double(msg_buf, "<fpops_per_cpu_sec>", result->fpops_per_cpu_sec);
     parse_double(msg_buf, "<fpops_cumulative>", result->fpops_cumulative);
     parse_double(msg_buf, "<intops_per_cpu_sec>", result->intops_per_cpu_sec);
     parse_double(msg_buf, "<intops_cumulative>", result->intops_cumulative);
-    if (parse_double(msg_buf, "<bytes_sent>", dtemp)) {
-        if (dtemp > bytes_sent_episode) {
-            double nbytes = dtemp - bytes_sent_episode;
-            daily_xfer_history.add(nbytes, true);
-            bytes_sent += nbytes;
-        }
-        bytes_sent_episode = dtemp;
-    }
-    if (parse_double(msg_buf, "<bytes_received>", dtemp)) {
-        if (dtemp > bytes_received_episode) {
-            double nbytes = dtemp - bytes_received_episode;
-            daily_xfer_history.add(nbytes, false);
-            bytes_received += nbytes;
-        }
-        bytes_received_episode = dtemp;
-    }
-    parse_int(msg_buf, "<want_network>", want_network);
+    parse_int(msg_buf, "<want_network>", new_want_network);
     if (parse_int(msg_buf, "<other_pid>", other_pid)) {
         // for now, we handle only one of these
         other_pids.clear();
@@ -1479,6 +1432,44 @@ bool ACTIVE_TASK::get_app_status_msg() {
     }
     if (parse_int(msg_buf, "<sporadic_ac>", i)) {
         sporadic_ac_state = (SPORADIC_AC_STATE)i;
+    }
+
+    switch (new_want_network) {
+    case 0:
+        // if this task's want_network goes from true to false,
+        // and no tasks now want network, remove notice
+        //
+        if (want_network) {
+            want_network = 0;
+            if (net_status.app_connection_notice_active
+                || net_status.app_suspend_notice_active
+            ) {
+                if (!gstate.active_tasks.some_task_wants_network()) {
+                    notices.remove_notices(NULL, REMOVE_NETWORK_MSG);
+                    net_status.app_suspend_notice_active = false;
+                    net_status.app_connection_notice_active = false;
+                }
+            }
+        }
+        break;
+    case 1:
+        // if want_network goes from false to true, show notice
+        //
+        if (!want_network) {
+            if (gstate.network_suspended) {
+                if (!net_status.app_suspend_notice_active) {
+                    msg_printf(0, MSG_USER_ALERT, APP_NETWORK_SUSPENDED_MSG);
+                    net_status.app_suspend_notice_active = true;
+                }
+            } else {
+                if (!net_status.app_connection_notice_active) {
+                    msg_printf(0, MSG_USER_ALERT, APP_NEED_NETWORK_MSG);
+                    net_status.app_connection_notice_active = true;
+                }
+            }
+            want_network = 1;
+        }
+        break;
     }
     return true;
 }
@@ -1534,8 +1525,6 @@ bool ACTIVE_TASK::get_trickle_up_msg() {
 // and update their elapsed time and other info
 //
 void ACTIVE_TASK_SET::get_msgs() {
-    unsigned int i;
-    ACTIVE_TASK *atp;
     double old_time;
     static double last_time=0;
     double delta_t;
@@ -1558,8 +1547,7 @@ void ACTIVE_TASK_SET::get_msgs() {
     double et_diff = delta_t;
     double et_diff_throttle = delta_t * gstate.current_cpu_usage_limit()/100;
 
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks) {
         if (!atp->process_exists()) continue;
         old_time = atp->checkpoint_cpu_time;
         if (atp->scheduler_state == CPU_SCHED_SCHEDULED && !gstate.tasks_suspended) {
@@ -1618,8 +1606,8 @@ void ACTIVE_TASK::write_task_state_file() {
         checkpoint_cpu_time,
         checkpoint_elapsed_time,
         checkpoint_fraction_done,
-        peak_working_set_size,
-        peak_swap_size,
+        peak_rss,
+        peak_swap_usage,
         peak_disk_usage
     );
     fclose(f);
@@ -1680,10 +1668,10 @@ void ACTIVE_TASK::read_task_state_file() {
         }
     }
     if (parse_double(buf, "<peak_working_set_size>", x)) {
-        peak_working_set_size = x;
+        peak_rss = x;
     }
     if (parse_double(buf, "<peak_swap_size>", x)) {
-        peak_swap_size = x;
+        peak_swap_usage = x;
     }
     if (parse_double(buf, "<peak_disk_usage>", x)) {
         peak_disk_usage = x;

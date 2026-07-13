@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -146,115 +146,6 @@ int GUI_URL::parse(XML_PARSER& xp) {
         if (xp.parse_string("url", url)) continue;
     }
     return ERR_XML_PARSE;
-}
-
-
-PROJECT_LIST_ENTRY::PROJECT_LIST_ENTRY() {
-    clear();
-}
-
-int PROJECT_LIST_ENTRY::parse(XML_PARSER& xp) {
-    string platform;
-
-    while (!xp.get_tag()) {
-        if (xp.match_tag("/project")) return 0;
-        if (xp.parse_string("name", name)) continue;
-        if (xp.parse_string("url", url)) {
-            continue;
-        }
-        if (xp.parse_string("web_url", web_url)) {
-            continue;
-        }
-        if (xp.parse_string("general_area", general_area)) continue;
-        if (xp.parse_string("specific_area", specific_area)) continue;
-        if (xp.parse_string("description", description)) {
-            continue;
-        }
-        if (xp.parse_string("home", home)) continue;
-        if (xp.parse_string("image", image)) continue;
-        if (xp.match_tag("platforms")) {
-            while (!xp.get_tag()) {
-                if (xp.match_tag("/platforms")) break;
-                if (xp.parse_string("name", platform)) {
-                    platforms.push_back(platform);
-                }
-            }
-        }
-        xp.skip_unexpected(false, "");
-    }
-    return ERR_XML_PARSE;
-}
-
-void PROJECT_LIST_ENTRY::clear() {
-    name.clear();
-    url.clear();
-    web_url.clear();
-    general_area.clear();
-    specific_area.clear();
-    description.clear();
-    platforms.clear();
-    home.clear();
-    image.clear();
-}
-
-AM_LIST_ENTRY::AM_LIST_ENTRY() {
-    clear();
-}
-
-int AM_LIST_ENTRY::parse(XML_PARSER& xp) {
-    while (!xp.get_tag()) {
-        if (xp.match_tag("/account_manager")) return 0;
-        if (xp.parse_string("name", name)) continue;
-        if (xp.parse_string("url", url)) continue;
-        if (xp.parse_string("description", description)) continue;
-        if (xp.parse_string("image", image)) continue;
-    }
-    return 0;
-}
-
-void AM_LIST_ENTRY::clear() {
-    name.clear();
-    url.clear();
-    description.clear();
-    image.clear();
-}
-
-ALL_PROJECTS_LIST::ALL_PROJECTS_LIST() {
-}
-
-bool compare_project_list_entry(
-    const PROJECT_LIST_ENTRY* a, const PROJECT_LIST_ENTRY* b
-) {
-#ifdef _WIN32
-    return _stricmp(a->name.c_str(), b->name.c_str()) < 0;
-#else
-    return strcasecmp(a->name.c_str(), b->name.c_str()) < 0;
-#endif
-}
-
-bool compare_am_list_entry(const AM_LIST_ENTRY* a, const AM_LIST_ENTRY* b) {
-#ifdef _WIN32
-    return _stricmp(a->name.c_str(), b->name.c_str()) < 0;
-#else
-    return strcasecmp(a->name.c_str(), b->name.c_str()) < 0;
-#endif
-}
-
-void ALL_PROJECTS_LIST::alpha_sort() {
-    sort(projects.begin(), projects.end(), compare_project_list_entry);
-    sort(account_managers.begin(), account_managers.end(), compare_am_list_entry);
-}
-
-void ALL_PROJECTS_LIST::clear() {
-    unsigned int i;
-    for (i=0; i<projects.size(); i++) {
-        delete projects[i];
-    }
-    for (i=0; i<account_managers.size(); i++) {
-        delete account_managers[i];
-    }
-    projects.clear();
-    account_managers.clear();
 }
 
 PROJECT::PROJECT() {
@@ -699,14 +590,18 @@ int RESULT::parse(XML_PARSER& xp) {
         if (xp.parse_double("current_cpu_time", current_cpu_time)) continue;
         if (xp.parse_double("elapsed_time", elapsed_time)) continue;
         if (xp.parse_double("progress_rate", progress_rate)) continue;
-        if (xp.parse_double("swap_size", swap_size)) continue;
-        if (xp.parse_double("working_set_size_smoothed", working_set_size_smoothed)) continue;
+        if (xp.parse_double("virtual_size", virtual_size)) continue;
+        if (xp.parse_double("swap_size", swap_usage)) continue;
+        if (xp.parse_double("working_set_size_smoothed", rss_smoothed)) continue;
         if (xp.parse_double("fraction_done", fraction_done)) continue;
         if (xp.parse_double("estimated_cpu_time_remaining", estimated_cpu_time_remaining)) continue;
         if (xp.parse_double("bytes_sent", bytes_sent)) continue;
         if (xp.parse_double("bytes_received", bytes_received)) continue;
-        if (xp.parse_bool("too_large", too_large)) continue;
+        if (xp.parse_bool("too_large", wss_too_large)) continue;
+            // backward compatibility
+        if (xp.parse_bool("swap_too_large", swap_too_large)) continue;
         if (xp.parse_bool("needs_shmem", needs_shmem)) continue;
+        if (xp.parse_bool("want_network", want_network)) continue;
         if (xp.parse_bool("edf_scheduled", edf_scheduled)) continue;
         if (xp.parse_str("graphics_exec_path", graphics_exec_path, sizeof(graphics_exec_path))) continue;
         if (xp.parse_str("web_graphics_url", web_graphics_url, sizeof(web_graphics_url))) continue;
@@ -757,13 +652,16 @@ void RESULT::clear() {
     fraction_done = 0;
     elapsed_time = 0;
     progress_rate = 0;
-    swap_size = 0;
-    working_set_size_smoothed = 0;
+    virtual_size = 0;
+    swap_usage = 0;
+    rss_smoothed = 0;
     estimated_cpu_time_remaining = 0;
     bytes_sent = 0;
     bytes_received = 0;
-    too_large = false;
+    wss_too_large = false;
+    swap_too_large = false;
     needs_shmem = false;
+    want_network = false;
     edf_scheduled = false;
 
     app = NULL;
@@ -1040,25 +938,24 @@ int CC_STATE::parse(XML_PARSER& xp) {
 }
 
 void CC_STATE::clear() {
-    unsigned int i;
-    for (i=0; i<projects.size(); i++) {
-        delete projects[i];
+    for (PROJECT *p: projects) {
+        delete p;
     }
     projects.clear();
-    for (i=0; i<apps.size(); i++) {
-        delete apps[i];
+    for (APP *app: apps) {
+        delete app;
     }
     apps.clear();
-    for (i=0; i<app_versions.size(); i++) {
-        delete app_versions[i];
+    for (APP_VERSION *avp: app_versions) {
+        delete avp;
     }
     app_versions.clear();
-    for (i=0; i<wus.size(); i++) {
-        delete wus[i];
+    for (WORKUNIT *wup: wus) {
+        delete wup;
     }
     wus.clear();
-    for (i=0; i<results.size(); i++) {
-        delete results[i];
+    for (RESULT *rp: results) {
+        delete rp;
     }
     results.clear();
     platforms.clear();
@@ -1069,18 +966,22 @@ void CC_STATE::clear() {
 }
 
 PROJECT* CC_STATE::lookup_project(const char* url) {
-    unsigned int i;
-    for (i=0; i<projects.size(); i++) {
-        if (!strcmp(projects[i]->master_url, url)) return projects[i];
+    for (PROJECT *p: projects) {
+        if (!strcmp(p->master_url, url)) {
+            return p;
+        }
     }
     return 0;
 }
 
 APP* CC_STATE::lookup_app(PROJECT* project, const char* name) {
-    unsigned int i;
-    for (i=0; i<apps.size(); i++) {
-        if (apps[i]->project != project) continue;
-        if (!strcmp(apps[i]->name, name)) return apps[i];
+    for (APP* app: apps) {
+        if (app->project != project) {
+            continue;
+        }
+        if (!strcmp(app->name, name)) {
+            return app;
+        }
     }
     return 0;
 }
@@ -1089,14 +990,13 @@ APP_VERSION* CC_STATE::lookup_app_version(
     PROJECT* project, APP* app,
     char* platform, int version_num, char* plan_class
 ) {
-    unsigned int i;
-    for (i=0; i<app_versions.size(); i++) {
-        if (app_versions[i]->project != project) continue;
-        if (app_versions[i]->app != app) continue;
-        if (strcmp(app_versions[i]->platform, platform)) continue;
-        if (app_versions[i]->version_num != version_num) continue;
-        if (strcmp(app_versions[i]->plan_class, plan_class)) continue;
-        return app_versions[i];
+    for (APP_VERSION *avp: app_versions) {
+        if (avp->project != project) continue;
+        if (avp->app != app) continue;
+        if (strcmp(avp->platform, platform)) continue;
+        if (avp->version_num != version_num) continue;
+        if (strcmp(avp->plan_class, plan_class)) continue;
+        return avp;
     }
     return 0;
 }
@@ -1105,13 +1005,12 @@ APP_VERSION* CC_STATE::lookup_app_version(
     PROJECT* project, APP* app,
     int version_num, char* plan_class
 ) {
-    unsigned int i;
-    for (i=0; i<app_versions.size(); i++) {
-        if (app_versions[i]->project != project) continue;
-        if (app_versions[i]->app != app) continue;
-        if (app_versions[i]->version_num != version_num) continue;
-        if (strcmp(app_versions[i]->plan_class, plan_class)) continue;
-        return app_versions[i];
+    for (APP_VERSION *avp: app_versions) {
+        if (avp->project != project) continue;
+        if (avp->app != app) continue;
+        if (avp->version_num != version_num) continue;
+        if (strcmp(avp->plan_class, plan_class)) continue;
+        return avp;
     }
     return 0;
 }
@@ -1119,55 +1018,59 @@ APP_VERSION* CC_STATE::lookup_app_version(
 APP_VERSION* CC_STATE::lookup_app_version(
     PROJECT* project, APP* app, int version_num
 ) {
-    unsigned int i;
-    for (i=0; i<app_versions.size(); i++) {
-        if (app_versions[i]->project != project) continue;
-        if (app_versions[i]->app != app) continue;
-        if (app_versions[i]->version_num != version_num) continue;
-        return app_versions[i];
+    for (APP_VERSION *avp: app_versions) {
+        if (avp->project != project) continue;
+        if (avp->app != app) continue;
+        if (avp->version_num != version_num) continue;
+        return avp;
     }
     return 0;
 }
 
 WORKUNIT* CC_STATE::lookup_wu(PROJECT* project, const char* name) {
-    unsigned int i;
-    for (i=0; i<wus.size(); i++) {
-        if (wus[i]->project != project) continue;
-        if (!strcmp(wus[i]->name, name)) return wus[i];
+    for (WORKUNIT *wup: wus) {
+        if (wup->project != project) {
+            continue;
+        }
+        if (!strcmp(wup->name, name)) {
+            return wup;
+        }
     }
     return 0;
 }
 
 RESULT* CC_STATE::lookup_result(PROJECT* project, const char* name) {
-    unsigned int i;
-    for (i=0; i<results.size(); i++) {
-        if (results[i]->project != project) continue;
-        if (!strcmp(results[i]->name, name)) return results[i];
+    for (RESULT *rp: results) {
+        if (rp->project != project) continue;
+        if (!strcmp(rp->name, name)) {
+            return rp;
+        }
     }
     return 0;
 }
 
 RESULT* CC_STATE::lookup_result(const char* url, const char* name) {
-    unsigned int i;
-    for (i=0; i<results.size(); i++) {
-        if (strcmp(results[i]->project_url, url)) continue;
-        if (!strcmp(results[i]->name, name)) return results[i];
+    for (RESULT *rp: results) {
+        if (strcmp(rp->project_url, url)) {
+            continue;
+        }
+        if (!strcmp(rp->name, name)) {
+            return rp;
+        }
     }
     return 0;
 }
 
 void PROJECTS::clear() {
-    unsigned int i;
-    for (i=0; i<projects.size(); i++) {
-        delete projects[i];
+    for (PROJECT *p: projects) {
+        delete p;
     }
     projects.clear();
 }
 
 void DISK_USAGE::clear() {
-    unsigned int i;
-    for (i=0; i<projects.size(); i++) {
-        delete projects[i];
+    for (PROJECT *p: projects) {
+        delete p;
     }
     projects.clear();
     d_free = 0;
@@ -1177,9 +1080,8 @@ void DISK_USAGE::clear() {
 }
 
 void RESULTS::clear() {
-    unsigned int i;
-    for (i=0; i<results.size(); i++) {
-        delete results[i];
+    for (RESULT *rp: results) {
+        delete rp;
     }
     results.clear();
 }
@@ -1189,9 +1091,8 @@ FILE_TRANSFERS::FILE_TRANSFERS() {
 }
 
 void FILE_TRANSFERS::clear() {
-    unsigned int i;
-    for (i=0; i<file_transfers.size(); i++) {
-        delete file_transfers[i];
+    for (FILE_TRANSFER *ftp: file_transfers) {
+        delete ftp;
     }
     file_transfers.clear();
 }
@@ -1201,9 +1102,8 @@ MESSAGES::MESSAGES() {
 }
 
 void MESSAGES::clear() {
-    unsigned int i;
-    for (i=0; i<messages.size(); i++) {
-        delete messages[i];
+    for (MESSAGE *m: messages) {
+        delete m;
     }
     messages.clear();
 }
@@ -1215,9 +1115,8 @@ NOTICES::NOTICES() {
 void NOTICES::clear() {
     complete = false;
     received = false;
-    unsigned int i;
-    for (i=0; i<notices.size(); i++) {
-        delete notices[i];
+    for (NOTICE *np: notices) {
+        delete np;
     }
     notices.clear();
 }
@@ -1593,16 +1492,24 @@ int RPC_CLIENT::get_simple_gui_info(SIMPLE_GUI_INFO& info) {
     retval = rpc.do_rpc("<get_simple_gui_info/>\n");
     if (!retval) {
         while (rpc.fin.fgets(buf, 256)) {
-            if (match_tag(buf, "</simple_gui_info>")) break;
-            else if (match_tag(buf, "<project>")) {
+            if (match_tag(buf, "</simple_gui_info>")) {
+                break;
+            }
+            if (match_tag(buf, "<project>")) {
                 PROJECT* project = new PROJECT();
                 project->parse(rpc.xp);
                 info.projects.push_back(project);
                 continue;
             }
-            else if (match_tag(buf, "<result>")) {
+            if (match_tag(buf, "<result>")) {
                 RESULT* result = new RESULT();
                 result->parse(rpc.xp);
+                for (PROJECT *p: info.projects) {
+                    if (!strcmp(p->master_url, result->project_url)) {
+                        result->project = p;
+                        break;
+                    }
+                }
                 info.results.push_back(result);
                 continue;
             }
@@ -1640,37 +1547,13 @@ int RPC_CLIENT::get_project_status(PROJECTS& p) {
 int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
     int retval = 0;
     SET_LOCALE sl;
-    MIOFILE mf;
-    PROJECT_LIST_ENTRY* project;
-    AM_LIST_ENTRY* am;
+    //MIOFILE mf;
     RPC rpc(this);
-
-    pl.clear();
 
     retval = rpc.do_rpc("<get_all_projects_list/>\n");
     if (retval) return retval;
-    while (!rpc.xp.get_tag()) {
-        if (rpc.xp.match_tag("/projects")) break;
-        else if (rpc.xp.match_tag("project")) {
-            project = new PROJECT_LIST_ENTRY();
-            retval = project->parse(rpc.xp);
-            if (!retval) {
-                pl.projects.push_back(project);
-            } else {
-                delete project;
-            }
-            continue;
-        } else if (rpc.xp.match_tag("account_manager")) {
-            am = new AM_LIST_ENTRY();
-            retval = am->parse(rpc.xp);
-            if (!retval) {
-                pl.account_managers.push_back(am);
-            } else {
-                delete am;
-            }
-            continue;
-        }
-    }
+    retval = pl.parse(rpc.xp);
+    if (retval) return retval;
 
     pl.alpha_sort();
 
@@ -2576,8 +2459,9 @@ int RPC_CLIENT::get_global_prefs_working(string& s) {
     return 0;
 }
 
-
-int RPC_CLIENT::get_global_prefs_working_struct(GLOBAL_PREFS& prefs, GLOBAL_PREFS_MASK& mask) {
+int RPC_CLIENT::get_global_prefs_working_struct(
+    GLOBAL_PREFS& prefs, GLOBAL_PREFS_MASK& mask
+) {
     int retval;
     SET_LOCALE sl;
     string s;
@@ -2643,7 +2527,9 @@ int RPC_CLIENT::set_global_prefs_override(string& s) {
     return rpc.parse_reply();
 }
 
-int RPC_CLIENT::get_global_prefs_override_struct(GLOBAL_PREFS& prefs, GLOBAL_PREFS_MASK& mask) {
+int RPC_CLIENT::get_global_prefs_override_struct(
+    GLOBAL_PREFS& prefs, GLOBAL_PREFS_MASK& mask
+) {
     int retval;
     SET_LOCALE sl;
     string s;
@@ -2662,7 +2548,9 @@ int RPC_CLIENT::get_global_prefs_override_struct(GLOBAL_PREFS& prefs, GLOBAL_PRE
     return 0;
 }
 
-int RPC_CLIENT::set_global_prefs_override_struct(GLOBAL_PREFS& prefs, GLOBAL_PREFS_MASK& mask) {
+int RPC_CLIENT::set_global_prefs_override_struct(
+    GLOBAL_PREFS& prefs, GLOBAL_PREFS_MASK& mask
+) {
     SET_LOCALE sl;
     char buf[64000];
     MIOFILE mf;

@@ -17,6 +17,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once("../inc/credit.inc");
+require_once("../inc/cache.inc");
 require_once("../inc/email.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
@@ -34,7 +35,7 @@ if (!defined('REMOTE_PROJECTS_TTL')) {
 //
 function get_other_projects($user) {
     $cpid = md5($user->cross_project_id . $user->email_addr);
-    $url = "http://boinc.netsoft-online.com/get_user.php?cpid=".$cpid;
+    $url = "https://api.free-dc.org/get_user.php?cpid=$cpid";
 
     // Check the cache for that URL
     //
@@ -51,7 +52,7 @@ function get_other_projects($user) {
             $xml_object = null;
             $f = @file_get_contents($url);
             if ($f) {
-                $xml_object = @simplexml_load_string($f);
+                $xml_object = @safe_simplexml_load_string($f);
             }
             ini_set('default_socket_timeout', $old_timeout);
             if (!$xml_object) {
@@ -67,7 +68,7 @@ function get_other_projects($user) {
             $rawxml = @curl_exec($ch);
             $xml_object = null;
             if ($rawxml) {
-                $xml_object = @simplexml_load_string($rawxml);
+                $xml_object = @safe_simplexml_load_string($rawxml);
             }
             curl_close($ch);
             if (!$xml_object) {
@@ -285,8 +286,7 @@ function show_user_info_private($user) {
         );
     } else {
         $delete_account_str = "";
-        $config = get_config();
-        if (parse_bool($config, "enable_delete_account")) {
+        if (project_config_bool("enable_delete_account")) {
             $delete_account_str = " &middot; <a href=\"delete_account_request.php\">".tra("delete account")."</a>";
         }
 
@@ -333,7 +333,7 @@ function show_preference_links() {
             "<a href=\"prefs.php?subset=project\">".tra("%1 preferences", PROJECT)."</a>"
         );
     }
-    if (parse_bool(get_config(), 'keyword_sched')) {
+    if (project_config_bool('keyword_sched')) {
         row2(
             tra('What types of jobs to run'),
             sprintf('<a href=kw_prefs.php>%s</a>',
@@ -674,7 +674,7 @@ function show_account_private($user) {
             );
             panel(
                 tra("Preferences"),
-                function() use($user) {
+                function() {
                     start_table();
                     show_preference_links();
                     end_table();

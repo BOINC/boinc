@@ -29,7 +29,7 @@ require_once("../inc/util_ops.inc");
 admin_page_head("Cancel Jobs");
 
 $limit = get_int('limit', true);
-if (!$limit || $limit==0) {
+if (!$limit) {
     $limit = 100;
 }
 

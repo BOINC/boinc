@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -479,40 +479,17 @@ void write_host(HOST& host, ZFILE* f, bool detail) {
         "    <p_vendor>%s</p_vendor>\n"
         "    <p_model>%s</p_model>\n"
         "    <os_name>%s</os_name>\n"
-        "    <os_version>%s</os_version>\n",
+        "    <os_version>%s</os_version>\n"
+        "    <misc><![CDATA[%s]]></misc>\n",
         host.total_credit,
         host.expavg_credit,
         host.expavg_time,
         p_vendor,
         p_model,
         os_name,
-        os_version
+        os_version,
+        host.misc
     );
-
-    // host.serialnum stores coprocessor description
-    // and client and vbox versions.
-    //
-    char boinc[256], vbox[256], coprocs[256];
-    char buf[1024];
-    parse_serialnum(host.serialnum, boinc, vbox, coprocs);
-    if (strlen(boinc)) {
-        xml_escape(boinc, buf, sizeof(buf));
-        f->write(
-            "    <boinc_version>%s</boinc_version>\n", buf
-        );
-    }
-    if (strlen(vbox)) {
-        xml_escape(vbox, buf, sizeof(buf));
-        f->write(
-            "    <vbox_version>%s</vbox_version>\n", buf
-        );
-    }
-    if (strlen(coprocs)) {
-        xml_escape(coprocs, buf, sizeof(buf));
-        f->write(
-            "    <coprocs>%s</coprocs>\n", buf
-        );
-    }
 
     if (detail) {
         f->write(
@@ -864,7 +841,6 @@ int tables_file(char* dir) {
 }
 
 int ENUMERATION::make_it_happen(char* output_dir) {
-    unsigned int i;
     int n, retval;
     DB_USER user;
     DB_USER_DELETED user_deleted;
@@ -886,8 +862,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
 
     sprintf(path, "%s/%s", output_dir, filename);
 
-    for (i=0; i<outputs.size(); i++) {
-        OUTPUT& out = outputs[i];
+    for (OUTPUT& out: outputs) {
         if (out.recs_per_file) {
             out.nzfile = new NUMBERED_ZFILE(
                 tag_name[table], out.compression, path, out.recs_per_file
@@ -967,8 +942,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             if (retval) break;
 
             if (!strncmp("deleted", user.authenticator, 7)) continue;
-            for (i=0; i<outputs.size(); i++) {
-                OUTPUT& out = outputs[i];
+            for (OUTPUT& out: outputs) {
                 if (sort == SORT_ID && out.recs_per_file) {
                     out.nzfile->set_id(n++);
                 }
@@ -992,8 +966,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             retval = user_deleted.enumerate("order by userid");
             if (retval) break;
             nusers_deleted++;
-            for (i=0; i<outputs.size(); i++) {
-                OUTPUT& out = outputs[i];
+            for (OUTPUT& out: outputs) {
                 if (sort == SORT_ID && out.recs_per_file) {
                     out.nzfile->set_id(n++);
                 }
@@ -1055,8 +1028,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             if (retval) break;
             if (!host.userid) continue;
             if (!strncmp("deleted", host.domain_name, 8)) continue;
-            for (i=0; i<outputs.size(); i++) {
-                OUTPUT& out = outputs[i];
+            for (OUTPUT& out: outputs) {
                 if (sort == SORT_ID && out.recs_per_file) {
                     out.nzfile->set_id(n++);
                 }
@@ -1080,8 +1052,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             retval = host_deleted.enumerate("order by hostid");
             if (retval) break;
             nhosts_deleted++;
-            for (i=0; i<outputs.size(); i++) {
-                OUTPUT& out = outputs[i];
+            for (OUTPUT& out: outputs) {
                 if (sort == SORT_ID && out.recs_per_file) {
                     out.nzfile->set_id(n++);
                 }
@@ -1110,8 +1081,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             retval = team.enumerate(clause);
             if (retval) break;
             nteams++;
-            for (i=0; i<outputs.size(); i++) {
-                OUTPUT& out = outputs[i];
+            for (OUTPUT& out: outputs) {
                 if (sort == SORT_ID && out.recs_per_file) {
                     out.nzfile->set_id(n++);
                 }
@@ -1130,8 +1100,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
         }
         break;
     }
-    for (i=0; i<outputs.size(); i++) {
-        OUTPUT& out = outputs[i];
+    for (OUTPUT& out: outputs) {
         if (out.zfile) {
           out.zfile->close();
           delete out.zfile;
@@ -1288,9 +1257,7 @@ int main(int argc, char** argv) {
 
     boinc_mkdir(spec.output_dir);
 
-    unsigned int j;
-    for (j=0; j<spec.enumerations.size(); j++) {
-        ENUMERATION& e = spec.enumerations[j];
+    for (ENUMERATION& e: spec.enumerations) {
         e.make_it_happen(spec.output_dir);
     }
 

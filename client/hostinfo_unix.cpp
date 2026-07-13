@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -25,15 +25,6 @@
 
 #if !defined(_WIN32) || defined(__CYGWIN32__)
 
-// Access to binary files in /proc filesystem doesn't work in the 64bit
-// files environment on some systems.
-// None of the functions here need 64bit file functions,
-// so undefine _FILE_OFFSET_BITS and _LARGE_FILES.
-//
-#undef _FILE_OFFSET_BITS
-#undef _LARGE_FILES
-#undef _LARGEFILE_SOURCE
-#undef _LARGEFILE64_SOURCE
 #include <iostream>
 #include <vector>
 #include <string>
@@ -49,16 +40,21 @@
 // prevents naming collision between X.h define of Always and boinc's
 // lib/prefs.h definition in an enum.
 #undef Always
-#include <dirent.h> //for opening /tmp/.X11-unix/
-  // (There is a DirScanner class in BOINC, but it doesn't do what we want)
 #include "log_flags.h" // idle_detection_debug flag for verbose output
+#endif
+
+#if LINUX_LIKE_SYSTEM
+#include <dirent.h> //for opening /tmp/.X11-unix/ and /run/user/
+  // (There is a DirScanner class in BOINC, but it doesn't do what we want)
 #endif
 
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
 #include <sys/param.h>
 
 #if HAVE_SYS_TYPES_H
@@ -73,8 +69,6 @@
 #if HAVE_SYS_VMMETER_H
 #include <sys/vmmeter.h>
 #endif
-
-#include <sys/stat.h>
 
 #if HAVE_SYS_SWAP_H
 #include <sys/swap.h>
@@ -115,6 +109,7 @@
 #include "error_numbers.h"
 #include "common_defs.h"
 #include "filesys.h"
+#include "shmem.h"
 #include "str_util.h"
 #include "str_replace.h"
 #include "util.h"
@@ -550,12 +545,11 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 
 #if defined(__aarch64__) || defined(__arm__)
         if (
-            // Hardware is specifying the board this CPU is on, store it in product_name while we parse /proc/cpuinfo
+            // Hardware is specifying the board this CPU is on,
+            // store it in product_name while we parse /proc/cpuinfo
             strstr(buf, "Hardware\t: ")
         ) {
-            // this makes sure we only ever copy as much bytes as we can still store in host.product_name
-            int t = sizeof(host.product_name) - strlen(host.product_name) - 2;
-            strlcpy(buf2, strchr(buf, ':') + 2, ((t<sizeof(buf2))?t:sizeof(buf2)));
+            strlcpy(buf2, strchr(buf, ':') + 2, sizeof(buf2));
             strip_whitespace(buf2);
             if (strlen(host.product_name)) {
                 safe_strcat(host.product_name, " ");
@@ -1226,6 +1220,9 @@ int HOST_INFO::get_virtualbox_version() {
 }
 
 #ifdef __APPLE__
+// called after podman init process finishes.
+// check if the VM is running
+//
 bool HOST_INFO::is_podman_VM_running() {
     char cmd[1024], buf[256];
 
@@ -1241,6 +1238,7 @@ bool HOST_INFO::is_podman_VM_running() {
             break;
         }
     }
+    pclose(f);
     return isrunning;
 }
 #endif
@@ -1252,7 +1250,9 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
     char cmd[1024], buf[256];
 
 #ifdef __APPLE__
-    if (docker_cli_prog(type)[0] == '\0') return false;
+    if (docker_cli_prog(type)[0] == '\0') {
+        return false;
+    }
 #endif
     snprintf(cmd, sizeof(cmd), "%s --version 2>/dev/null",
         docker_cli_prog(type)
@@ -1288,6 +1288,7 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
         argv[2] = cmd;
         argv[3] = NULL;
         run_program(NULL, "/bin/sh", 0, argv, podman_init_pid);
+        podman_inited = false;
 
 #if 0   // For debugging
         snprintf(cmd, sizeof(cmd),
@@ -1308,7 +1309,7 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
 #endif  // __APPLE__
 
 #ifdef __linux__
-    // if we're running as an unprivileged user, Docker/podman may not work.
+    // if we're running as an unprivileged user, Docker/Podman may not work.
     // Check by running the Hello World image.
     //
     // Since we do this every time on startup: delete the created container
@@ -1803,10 +1804,6 @@ int HOST_INFO::get_os_info() {
 
     string libc_version(""), libc_extra_info("");
     if (!get_libc_version(libc_version, libc_extra_info)) {
-        msg_printf(NULL, MSG_INFO,
-            "libc: %s version %s",
-            libc_extra_info.c_str(), libc_version.c_str()
-        );
         // add info to os_version_extra
         //
         if (!os_version_extra.empty()) {
@@ -1847,12 +1844,14 @@ int HOST_INFO::get_host_info(bool init) {
     // a run of the client
     //
 
+#ifndef ANDROID
     if (!cc_config.dont_use_vbox) {
         get_virtualbox_version();
     }
 
     get_docker_version();
     get_docker_compose_version();
+#endif
 
     get_cpu_info();
     get_cpu_count();
@@ -2295,8 +2294,187 @@ long xss_idle() {
 
 #endif // LINUX_LIKE_SYSTEM
 
+#ifndef ANDROID     // Android doesn't have shm_open()
+// idle time detection.
+// old approach: do it ourselves by looking at devices
+//  and trying to get info from X11
+//  (big mess, permissions problems, doesn't generally work)
+// new approach: get last-input time from a separate daemon process,
+//  communicated via shmem
+
+bool get_idle_time_from_daemon(long &idle_time) {
+    static int64_t* seg_ptr = NULL;
+    if (!seg_ptr) {
+        int fd = shm_open("/idle_detect_shmem",  O_RDONLY, 0);
+        if (fd < 0) {
+            return false;
+        }
+
+        struct stat st;
+        if (fstat(fd, &st)) {
+            close(fd);
+            return false;
+        }
+        if ((size_t)st.st_size < 2*sizeof(int64_t)) {
+            close(fd);
+            return false;
+        }
+
+        int64_t* mapped_ptr = (int64_t*)mmap(
+            NULL, 2*sizeof(int64_t), PROT_READ, MAP_SHARED, fd, 0
+        );
+        close(fd);
+        if (mapped_ptr == MAP_FAILED) {
+            return false;
+        }
+
+        seg_ptr = mapped_ptr;
+    }
+    if (!seg_ptr) return false;
+
+    // make sure the shmem is actually being updated
+    //
+    int64_t update_time = seg_ptr[0];
+    if (update_time > gstate.now+10) return false;
+    if (update_time < gstate.now-60) return false;
+
+    int64_t input_time = seg_ptr[1];
+    idle_time = gstate.now - input_time;
+    //printf("idle time: %ld\n", idle_time);
+    return true;
+}
+
+#if LINUX_LIKE_SYSTEM
+static bool is_wayland_socket(const string& path) {
+    struct stat st;
+    return stat(path.c_str(), &st) == 0 && S_ISSOCK(st.st_mode);
+}
+
+static bool detect_wayland_socket_in_dir(const string& dir) {
+    DIR* dp = opendir(dir.c_str());
+    if (!dp) {
+        return false;
+    }
+
+    struct dirent* dirp;
+    while ((dirp = readdir(dp)) != NULL) {
+        if (strncmp(dirp->d_name, "wayland-", 8) != 0) {
+            continue;
+        }
+        if (is_wayland_socket(dir + "/" + dirp->d_name)) {
+            closedir(dp);
+            return true;
+        }
+    }
+
+    closedir(dp);
+    return false;
+}
+
+static bool detect_wayland_socket() {
+    const char* xdg_runtime_dir = getenv("XDG_RUNTIME_DIR");
+    if (xdg_runtime_dir && strlen(xdg_runtime_dir)) {
+        if (detect_wayland_socket_in_dir(xdg_runtime_dir)) {
+            return true;
+        }
+    }
+
+    DIR* dp = opendir("/run/user");
+    if (!dp) {
+        return false;
+    }
+
+    struct dirent* dirp;
+    while ((dirp = readdir(dp)) != NULL) {
+        if (!strcmp(dirp->d_name, ".")) continue;
+        if (!strcmp(dirp->d_name, "..")) continue;
+        if (detect_wayland_socket_in_dir(string("/run/user/") + dirp->d_name)) {
+            closedir(dp);
+            return true;
+        }
+    }
+
+    closedir(dp);
+    return false;
+}
+
+static bool detect_xwayland_process() {
+    DIR* dp = opendir("/proc");
+    if (!dp) {
+        return false;
+    }
+
+    struct dirent* dirp;
+    while ((dirp = readdir(dp)) != NULL) {
+        if (dirp->d_name[0] < '0' || dirp->d_name[0] > '9') {
+            continue;
+        }
+
+        string comm_path = string("/proc/") + dirp->d_name + "/comm";
+        FILE* f = fopen(comm_path.c_str(), "r");
+        if (!f) {
+            continue;
+        }
+
+        char comm[32];
+        bool is_xwayland = fgets(comm, sizeof(comm), f)
+            && strncmp(comm, "Xwayland", 8) == 0;
+        fclose(f);
+
+        if (is_xwayland) {
+            closedir(dp);
+            return true;
+        }
+    }
+
+    closedir(dp);
+    return false;
+}
+#endif
+
+bool detect_wayland() {
+    const char* wayland_display = getenv("WAYLAND_DISPLAY");
+    if (wayland_display && strlen(wayland_display)) {
+        return true;
+    }
+    const char* xdg_session_type = getenv("XDG_SESSION_TYPE");
+    if (xdg_session_type && strcmp(xdg_session_type, "wayland") == 0) {
+        return true;
+    }
+    // boinc-client often runs as a daemon without the user's session
+    // environment.  Detect compositor sockets and Xwayland directly so we do
+    // not probe Xwayland displays with XOpenDisplay(), which can block
+    // indefinitely.
+#if LINUX_LIKE_SYSTEM
+    return detect_wayland_socket() || detect_xwayland_process();
+#else
+    return false;
+#endif
+}
+
+#endif      // !ANDROID
+
+// get idle time.  Try the new approach, if it fails use old
+//
 long HOST_INFO::user_idle_time(bool check_all_logins) {
     long idle_time = USER_IDLE_TIME_INF;
+
+#ifndef ANDROID
+    static bool show_idle_time_legacy_warning = true;
+    if (get_idle_time_from_daemon(idle_time)) {
+        show_idle_time_legacy_warning = false;
+        return idle_time;
+    }
+
+    if (show_idle_time_legacy_warning) {
+        msg_printf(NULL, MSG_INFO,
+            "Currently BOINC uses legacy idle detection methods that might not \
+work properly on all systems. Please consider installing a modern idle detection \
+utility that works on Wayland and X11: \
+https://github.com/jamescowens/idle_detect");
+        show_idle_time_legacy_warning = false;
+    }
+#endif
 
 #if HAVE_UTMP_H
     if (check_all_logins) {
@@ -2309,7 +2487,15 @@ long HOST_INFO::user_idle_time(bool check_all_logins) {
 #if LINUX_LIKE_SYSTEM
 
 #if HAVE_XSS
-    idle_time = min(idle_time, xss_idle());
+#ifndef ANDROID
+    // Detect Wayland once. The display server type is not expected to
+    // change while this client process is running.
+    static bool wayland_detected = detect_wayland();
+    if (!wayland_detected) {
+        //printf("Using XScreenSaver API for idle detection\n");
+        idle_time = min(idle_time, xss_idle());
+    }
+#endif // !ANDROID
 #endif // HAVE_XSS
 
 #else

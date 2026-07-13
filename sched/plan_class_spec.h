@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Plan class specifications in XML
-// See https://github.com/BOINC/boinc/wiki/AppPlanSpec
+// See https://github.com/BOINC/boinc/wiki/Plan-classes
 
 #include <string>
 #include <vector>
@@ -63,9 +63,6 @@ struct PLAN_CLASS_SPEC {
     int min_core_client_version;
     int max_core_client_version;
         // for non-compute-intensive, or override for GPU apps
-    bool have_host_summary_regex;
-    regex_t host_summary_regex;
-        // matched against host.serialnum
     int user_id;
     double infeasible_random;
     long min_wu_id;
@@ -87,6 +84,8 @@ struct PLAN_CLASS_SPEC {
         // the project prefs tag for user-supplied gpu_utilization factor
     double min_gpu_peak_flops;
     double max_gpu_peak_flops;
+    bool have_gpu_type_regex;
+    regex_t gpu_type_regex;
 
     // AMD/ATI apps
     //
@@ -125,10 +124,11 @@ struct PLAN_CLASS_SPEC {
     vector<int> exclude_vbox_version;
     bool vm_accel_required;
 
+    PLAN_CLASS_SPEC();
     int parse(XML_PARSER&);
     bool opencl_check(OPENCL_DEVICE_PROP&);
     bool check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu, const WORKUNIT* wu);
-    PLAN_CLASS_SPEC();
+    bool check_wsl_gpu(SCHEDULER_REQUEST& sreq, std::string gpu_name);
 };
 
 struct PLAN_CLASS_SPECS {

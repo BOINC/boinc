@@ -46,11 +46,9 @@ using std::string;
 // a multi-line string (it's broken up into lines
 // to get the prefix on each line), or a file (also broken up into lines).
 
-// Scheduler functions should use "sched_messages" which is an instance of
-// SCHED_MSG_LOG.  Client functions should use "client_messages",
-// which is an instance of CLIENT_MSG_LOG.
-
-// See sched/sched_msg_log.C and client/client_msg_log.C for those classes.
+// Base class for SCHED_MSG_LOG, used by scheduler components.
+// See sched/sched_msg_log.cpp
+// Client functions use CLIENT_MSG_LOG.
 
 MSG_LOG::MSG_LOG(FILE* output_) {
     debug_level = 0;
@@ -74,7 +72,7 @@ void MSG_LOG::set_indent_level(const int new_indent_level) {
 
 void MSG_LOG::vprintf(int kind, const char* format, va_list va) {
     char buf[256];
-    const char* now_timestamp = precision_time_to_string(dtime());
+    const char* now_timestamp = precision_time_to_string(dtime(), true);
     if (!v_message_wanted(kind)) return;
     if (pid) {
         snprintf(buf, sizeof(buf), " [PID=%-5d]", pid);
@@ -97,7 +95,7 @@ void MSG_LOG::vprintf_multiline(
     if (prefix_format) {
         vsnprintf(sprefix, sizeof(sprefix),prefix_format, va);
     }
-    const char* now_timestamp = precision_time_to_string(dtime());
+    const char* now_timestamp = precision_time_to_string(dtime(), true);
     const char* skind = v_format_kind(kind);
 
     string line;
@@ -124,7 +122,7 @@ void MSG_LOG::vprintf_file(
     if (prefix_format) {
         vsnprintf(sprefix, sizeof(sprefix), prefix_format, va);
     }
-    const char* now_timestamp = precision_time_to_string(dtime());
+    const char* now_timestamp = precision_time_to_string(dtime(), true);
     const char* skind = v_format_kind(kind);
 
     FILE* f = boinc::fopen(filename, "r");

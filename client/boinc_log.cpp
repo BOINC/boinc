@@ -201,9 +201,7 @@ int main(int argc, char** argv) {
 
         rpc.get_messages(g_message_sequence, msgs);
 
-        for (i=0; i<msgs.messages.size(); i++) {
-            MESSAGE* pMsg = msgs.messages[i];
-
+        for (MESSAGE* pMsg: msgs.messages) {
             msg_datetime.clear();
             msg_project.clear();
             msg_priority.clear();

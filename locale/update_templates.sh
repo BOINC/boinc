@@ -121,7 +121,6 @@ rm ${DB_FILE} ${SCHEMA_FILE} ${STRINGS_FILE} ${SQLPOT_FILE}
 #xgettext --omit-header --add-comments -o - --keyword=tra -L PHP ${FILE_LIST} >> ${TMPL_FILE}
 
 # The Android template is updated using Android Studio
-# The BOINC-Drupal.pot template is updated by Einstein@Home
 
 git add -u # only update already tracked files (will not track new files)
 if test $testmode -eq 0; then

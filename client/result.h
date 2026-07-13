@@ -41,11 +41,9 @@ struct RESULT {
         // we've received the ack for this result from the server
     double final_cpu_time;
     double final_elapsed_time;
-    double final_peak_working_set_size;
-    double final_peak_swap_size;
+    double final_peak_rss;
+    double final_peak_swap_usage;
     double final_peak_disk_usage;
-    double final_bytes_sent;
-    double final_bytes_received;
 #ifdef SIM
     double peak_flop_count;
     double sim_flops_left;
@@ -162,6 +160,9 @@ struct RESULT {
     inline int resource_type() {
         return resource_usage.rsc_type;
     }
+    inline bool uses_docker() {
+        return strstr(plan_class, "docker") != NULL;
+    }
     inline bool non_cpu_intensive() {
         if (project->non_cpu_intensive) return true;
         return app->non_cpu_intensive;
@@ -177,6 +178,7 @@ struct RESULT {
         if (avp->dont_throttle) return true;
         return false;
     }
+    bool running();
     // make a string describing resource usage
     inline void rsc_string(char* buf, int len) {
         if (resource_usage.rsc_type) {

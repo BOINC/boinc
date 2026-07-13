@@ -24,13 +24,13 @@
 #define WRAPPER_RELEASE 26019
 
 // vboxwrapper version number
-#define VBOXWRAPPER_RELEASE 26211
+#define VBOXWRAPPER_RELEASE 26212
 
 // worker version number
 #define WORKER_RELEASE 6
 
 // dockerwrapper version number
-#define DOCKERWRAPPER_RELEASE 14
+#define DOCKERWRAPPER_RELEASE 22
 
 // multi_thread version number
 #define MULTITHREAD_RELEASE 2

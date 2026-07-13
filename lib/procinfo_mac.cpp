@@ -102,7 +102,8 @@ int procinfo_setup(PROC_MAP& pm) {
 // from a process that has the DYLD_LIBRARY_PATH environment variable set.
 // "env -i command" prevents the command from inheriting the caller's
 // environment, which avoids the spurious warning.
-    fd = popen("env -i ps -axcopid,ppid,rss,vsz,pagein,time,command", "r");
+
+    fd = popen("env -i ps -axcopid,ppid,rss,vsz,time,command", "r");
     if (!fd) return ERR_FOPEN;
 
     // Skip over the header line
@@ -115,38 +116,44 @@ int procinfo_setup(PROC_MAP& pm) {
     } while (c != '\n');
 
     // Ensure %lf works correctly if called from non-English Manager
+    //
     old_locale = setlocale(LC_ALL, NULL);
     setlocale(LC_ALL, "C");
 
     while (1) {
         p.clear();
-        c = fscanf(fd, "%d%d%d%d%lu%d:%lf ",
+        c = fscanf(fd, "%d%d%d%d%d:%lf ",
             &p.id,
             &p.parentid,
             &real_mem,
             &virtual_mem,
-            &p.page_fault_count,
             &hours,
             &p.user_time
         );
-        if (c < 7) break;
-        if (fgets(p.command, sizeof(p.command) , fd) == NULL) break;
+        if (c < 6) break;
+        if (fgets(p.command, sizeof(p.command), fd) == NULL) break;
         lf = strchr(p.command, '\n');
         if (lf) *lf = '\0';         // Strip trailing linefeed
-        p.working_set_size = (double)real_mem * 1024.;
-        p.swap_size = (double)virtual_mem * 1024.;
+        p.rss = (double)real_mem * 1024.;
+        p.virtual_size = (double)virtual_mem * 1024.;
         p.user_time += 60. * (float)hours;
         p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
-        // Ideally, we should count ScreenSaverEngine.app as a BOINC process
-        // only if BOINC is set as the screensaver.  We could set a flag in
-        // the client when the get_screensaver_tasks rpc is called, but that
-        // would not be 100% reliable for several reasons.
-        if (strcasestr(p.command, "screensaverengine")) p.is_boinc_app = true;
+
+        // Ideally, we should count ScreenSaverEngine or legacyScreenSaver
+        // as a BOINC process only if BOINC is set as the screensaver. We
+        // could set a flag in the client when the get_screensaver_tasks
+        // rpc is called, but that would not be 100% reliable for several
+        // reasons.
+        //
+        // Check for either ScreenSaverEngine or legacyScreenSaver
+        //
+        if (strcasestr(p.command, "screensaver")) p.is_boinc_app = true;
 
         // We do not mark Mac processes as low priority because some processes
         // (e.g., Finder) change priority frequently, which would cause
         // procinfo_non_boinc() and ACTIVE_TASK_SET::get_memory_usage() to get
         // incorrect results for the % CPU used.
+        //
         p.is_low_priority = false;
 
         if (strcasestr(p.command, brandName[iBrandID])) {
@@ -161,7 +168,10 @@ int procinfo_setup(PROC_MAP& pm) {
 #if SHOW_TIMING
     end = UpTime();
     elapsed = AbsoluteToNanoseconds(SubAbsoluteFromAbsolute(end, start));
-    msg_printf(NULL, MSG_INFO, "elapsed time = %llu, m_swap = %lf\n", elapsed, gstate.host_info.m_swap);
+    msg_printf(NULL, MSG_INFO,
+        "elapsed time = %llu, m_swap = %lf\n",
+        elapsed, gstate.host_info.m_swap
+    );
 #endif
 
     find_children(pm);
@@ -170,7 +180,7 @@ int procinfo_setup(PROC_MAP& pm) {
     return 0;
 }
 
-// get total user-mode CPU time
+// get total user+kernel CPU time
 //
 // From usr/include/mach/processor_info.h:
 // struct processor_cpu_load_info {             /* number of ticks while running... */
@@ -183,7 +193,7 @@ double total_cpu_time() {
     processor_cpu_load_info_t cpuLoad;
     mach_msg_type_number_t processorMsgCount;
     static double scale;
-    uint64_t totalUserTime = 0;
+    uint64_t total = 0;
 
     if (first) {
         first = false;
@@ -191,22 +201,23 @@ double total_cpu_time() {
         scale = 1./hz;
     }
 
-    kern_return_t err = host_processor_info(mach_host_self(), PROCESSOR_CPU_LOAD_INFO, &processorCount, (processor_info_array_t *)&cpuLoad, &processorMsgCount);
+    kern_return_t err = host_processor_info(
+        mach_host_self(),
+        PROCESSOR_CPU_LOAD_INFO,
+        &processorCount,
+        (processor_info_array_t *)&cpuLoad,
+        &processorMsgCount
+    );
 
     if (err != KERN_SUCCESS) {
         return 0.0;
     }
 
     for (natural_t i = 0; i < processorCount; i++) {
-        // Calc user and nice CPU usage, with guards against 32-bit overflow
-        // (values are natural_t)
-        uint64_t user = 0, nice = 0;
-
-        user = cpuLoad[i].cpu_ticks[CPU_STATE_USER];
-        nice = cpuLoad[i].cpu_ticks[CPU_STATE_NICE];
-
-        totalUserTime = totalUserTime + user + nice;
+        total += cpuLoad[i].cpu_ticks[CPU_STATE_USER];
+        total += cpuLoad[i].cpu_ticks[CPU_STATE_NICE];
+        total += cpuLoad[i].cpu_ticks[CPU_STATE_SYSTEM];
     }
 
-    return totalUserTime * scale;
+    return total * scale;
 }

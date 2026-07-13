@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -17,9 +17,6 @@
 
 name: Linux-MinGW
 on:
-  push:
-    branches: [ master, 'client_release/**' ]
-    tags: [ 'client_release/**' ]
   pull_request:
     branches: [ master ]
   schedule:
@@ -36,14 +33,20 @@ env:
 
 jobs:
   build:
-    name: ${{ matrix.type }}-build
+    name: ${{ matrix.type }}-${{ matrix.arch }}-build
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        arch: [x86_64, aarch64]
         type: [libs-mingw, apps-mingw-vcpkg, libs-mingw-cmake]
+        exclude:
+          - arch: aarch64
+            type: apps-mingw-vcpkg
+          - arch: aarch64
+            type: libs-mingw-cmake
       fail-fast: false
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
 
       - name: Check if build is running from origin repo
         if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
@@ -58,11 +61,29 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y mingw-w64 mingw-w64-tools mingw-w64-x86-64-dev mingw-w64-i686-dev tar curl zip unzip p7zip-full
+          sudo apt-get install -y tar curl zip unzip p7zip-full
 
-      - name: Make libs with mingw
-        if: success() && matrix.type == 'libs-mingw'
+      - name: Install x86_64 mingw toolchain
+        if: success() && matrix.arch == 'x86_64'
+        run: |
+          sudo apt-get install -y mingw-w64 mingw-w64-tools mingw-w64-x86-64-dev mingw-w64-i686-dev
+
+      - name: Install aarch64 llvm-mingw toolchain
+        if: success() && matrix.arch == 'aarch64'
+        run: |
+          wget -q https://github.com/mstorsjo/llvm-mingw/releases/download/20260421/llvm-mingw-20260421-msvcrt-ubuntu-22.04-x86_64.tar.xz
+          echo "18488138efd8d621930fa85c86c3e3eb9967c0bfa253e1f6f73c5212f7180f31 llvm-mingw-20260421-msvcrt-ubuntu-22.04-x86_64.tar.xz" | sha256sum -c -
+          tar -Jxf llvm-mingw-20260421-msvcrt-ubuntu-22.04-x86_64.tar.xz
+          echo "$GITHUB_WORKSPACE/llvm-mingw-20260421-msvcrt-ubuntu-22.04-x86_64/bin" >> $GITHUB_PATH
+
+      - name: Build libs (x86_64)
+        if: matrix.type == 'libs-mingw' && matrix.arch == 'x86_64'
         run: cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw
+
+      - name: Build libs (aarch64)
+        if: success() && matrix.type == 'libs-mingw' && matrix.arch == 'aarch64'
+        run: cd lib && MINGW=aarch64-w64-mingw32 make -f Makefile.mingw
+
       - name: Install Powershell for vcpkg
         if: success() && matrix.type == 'apps-mingw-vcpkg'
         run: |
@@ -100,9 +121,9 @@ jobs:
 
       - name: Upload logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          name: mingw_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          name: mingw_logs_${{ matrix.type }}_${{ matrix.arch }}_${{ github.event.pull_request.head.sha }}
           path: deploy/logs.7z
 
       - name: Prepare artifacts for deploy
@@ -110,8 +131,8 @@ jobs:
         run: python ./deploy/prepare_deployment.py win_${{ matrix.type }}
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: ${{! contains(matrix.type, 'libs')}}
         with:
-          name: win_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          name: win_${{ matrix.type }}_${{ matrix.arch }}_${{ github.event.pull_request.head.sha }}
           path: deploy/win_${{ matrix.type }}.7z

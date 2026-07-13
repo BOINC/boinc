@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -49,6 +49,7 @@
 #include "network.h"
 #include "notice.h"
 #include "prefs.h"
+#include "util.h"
 
 struct GUI_URL {
     std::string name;
@@ -56,7 +57,7 @@ struct GUI_URL {
     std::string url;
 
     int parse(XML_PARSER&);
-    void print();
+    void print() const;
 };
 
 // statistics at a specific day
@@ -71,46 +72,6 @@ struct DAILY_STATS {
     int parse(XML_PARSER&);
 };
 
-
-struct PROJECT_LIST_ENTRY {
-    std::string name;
-    std::string url;
-    std::string web_url;
-    std::string general_area;
-    std::string specific_area;
-    std::string description;
-    std::string home;       // sponsoring organization
-    std::string image;      // URL of logo
-    std::vector<std::string> platforms;
-        // platforms supported by project, or empty
-
-    PROJECT_LIST_ENTRY();
-
-    int parse(XML_PARSER&);
-    void clear();
-};
-
-struct AM_LIST_ENTRY {
-    std::string name;
-    std::string url;
-    std::string description;
-    std::string image;
-
-    AM_LIST_ENTRY();
-
-    int parse(XML_PARSER&);
-    void clear();
-};
-
-struct ALL_PROJECTS_LIST {
-    std::vector<PROJECT_LIST_ENTRY*> projects;
-    std::vector<AM_LIST_ENTRY*> account_managers;
-
-    ALL_PROJECTS_LIST();
-
-    void clear();
-    void alpha_sort();
-};
 
 struct RSC_DESC {
     double backoff_time;
@@ -287,14 +248,17 @@ struct RESULT {
     double elapsed_time;
     double progress_rate;
         // avg increase in fraction done per second
-    double swap_size;
-    double working_set_size_smoothed;
+    double swap_usage;
+    double virtual_size;
+    double rss_smoothed;
     double estimated_cpu_time_remaining;
         // actually, estimated elapsed time remaining
     double bytes_sent;
     double bytes_received;
-    bool too_large;
+    bool wss_too_large;
+    bool swap_too_large;
     bool needs_shmem;
+    bool want_network;
     bool edf_scheduled;
     char graphics_exec_path[MAXPATHLEN];
     char web_graphics_url[256];
@@ -608,7 +572,7 @@ struct CC_STATUS {
     int network_status;         // values: NETWORK_STATUS_*
     bool ams_password_error;
     bool manager_must_quit;
-    int task_suspend_reason;    // bitmap, see common_defs.h
+    int task_suspend_reason;    // see common_defs.h
     int task_mode;              // always/auto/never; see common_defs.h
     int task_mode_perm;         // same, but permanent version
     double task_mode_delay;     // time until perm becomes actual
@@ -664,7 +628,7 @@ struct OLD_RESULT {
     double create_time;
 
     int parse(XML_PARSER&);
-    void print();
+    void print() const;
 };
 
 struct RPC_CLIENT {

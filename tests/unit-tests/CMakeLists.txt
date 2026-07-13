@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -38,13 +38,16 @@ endif()
 # so the paths below are hardcoded and are mainly suited for building on Travis CI
 # TODO: make paths configurable and generate them from boinc make or switch boinc to cmake
 
+include_directories("${PROJECT_SOURCE_DIR}/../../api")
 include_directories("${PROJECT_SOURCE_DIR}/../../lib")
 include_directories("${PROJECT_SOURCE_DIR}/../../zip")
+include_directories("${PROJECT_SOURCE_DIR}/../../samples/vboxwrapper")
+include_directories("${PROJECT_SOURCE_DIR}/../..")
 if (APPLE)
     include_directories(BEFORE "${PROJECT_SOURCE_DIR}/../../3rdParty/osx/vcpkg/installed/arm64-osx/include")
+    include_directories("${PROJECT_SOURCE_DIR}/../../clientgui/mac")
 else()
     include_directories(BEFORE "${PROJECT_SOURCE_DIR}/../../3rdParty/buildCache/linux/include")
-    include_directories("${PROJECT_SOURCE_DIR}/../..")
     include_directories("${PROJECT_SOURCE_DIR}/../../sched")
     include_directories("${PROJECT_SOURCE_DIR}/../../db")
     include_directories("${PROJECT_SOURCE_DIR}/../../tools")
@@ -55,10 +58,12 @@ endif()
 
 if (APPLE)
     find_library(BOINC_LIB libboinc.a PATHS ${PROJECT_SOURCE_DIR}/../../build-arm64-osx NO_DEFAULT_PATH)
+    find_library(BOINC_API_LIB libboincapi.a PATHS ${PROJECT_SOURCE_DIR}/../../build-arm64-osx NO_DEFAULT_PATH)
     find_library(BOINC_ZIP_LIB libboinc_zip.a PATHS ${PROJECT_SOURCE_DIR}/../../build-arm64-osx NO_DEFAULT_PATH)
 else()
     find_library(SCHED_LIB libsched.a PATHS ${PROJECT_SOURCE_DIR}/../../sched NO_DEFAULT_PATH)
     find_library(BOINC_CRYPT_LIB libboinc_crypt.a PATHS ${PROJECT_SOURCE_DIR}/../../lib NO_DEFAULT_PATH)
+    find_library(BOINC_API_LIB libboinc_api.a PATHS ${PROJECT_SOURCE_DIR}/../../api NO_DEFAULT_PATH)
     find_library(BOINC_LIB libboinc.a PATHS ${PROJECT_SOURCE_DIR}/../../lib NO_DEFAULT_PATH)
     find_library(BOINC_ZIP_LIB libboinc_zip.a PATHS ${PROJECT_SOURCE_DIR}/../../zip NO_DEFAULT_PATH)
     find_library(MYSQL_LIB NAMES mariadb mysqlclient)
@@ -66,6 +71,9 @@ else()
 endif()
 
 add_subdirectory(lib)
+
 if (NOT APPLE)
+    add_subdirectory(client)
     add_subdirectory(sched)
 endif()
+add_subdirectory(vboxwrapper)

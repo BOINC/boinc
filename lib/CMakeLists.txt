@@ -16,7 +16,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.20...3.30)
 project(boinc-libs)
 
 message(WARNING "This build is under development and may not work as expected")

@@ -517,7 +517,7 @@ int VBOX_VM::create_vm() {
         vboxlog_msg("Hardware acceleration CPU extensions not detected. Disabling VirtualBox hardware acceleration support.");
         disable_acceleration = true;
     }
-    if (strstr(aid.host_info.p_features, "hypervisor")) {
+    if (strstr(aid.host_info.p_features, "hypervisor") && !is_virtualbox_version_newer(7, 1, 99)) {
         vboxlog_msg("Running under Hypervisor. Disabling VirtualBox hardware acceleration support.");
         disable_acceleration = true;
     }
@@ -1184,7 +1184,6 @@ int VBOX_VM::poll(bool log_state) {
     int retval = ERR_EXEC;
     string command;
     string output;
-    string::iterator iter;
     string vmstate;
     static string vmstate_old = "poweredoff";
 
@@ -1307,7 +1306,6 @@ int VBOX_VM::poll2(bool log_state) {
     int retval = ERR_EXEC;
     string command;
     string output;
-    string::iterator iter;
     string vmstate;
     static string vmstate_old = "poweroff";
     size_t vmstate_start;
@@ -2185,7 +2183,6 @@ int VBOX_VM::get_vm_network_bytes_received(double& received) {
 
 int VBOX_VM::get_vm_process_id() {
     string virtualbox_vm_log;
-    string::iterator iter;
     int retval = BOINC_SUCCESS;
     string line;
     string comp = "Process ID: ";

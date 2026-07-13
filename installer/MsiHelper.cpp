@@ -15,9 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "MsiHelper.h"
+#include "stdafx.h"
 
 #include <stdexcept>
+
+#include "MsiHelper.h"
 
 MSIHANDLE MsiHelper::MsiRecordSet(const std::vector<std::variant<
     std::string, int, std::filesystem::path>>& values) {

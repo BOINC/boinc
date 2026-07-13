@@ -98,13 +98,13 @@ int error(const char* where, int retval) {
 // launch application (typically ./main) and get process group ID.
 // This doesn't wait for the application to finish.
 //
-int launch(const char* distro, const char* cmd) {
+int launch(WSL_DISTRO &wd, const char* cmd) {
     char launch_cmd[256];
     string err_msg;
     sprintf(launch_cmd, "echo $$; %s; touch boinc_job_done\n", cmd);
     int retval = app_wc.setup(err_msg);
     if (retval) return error(err_msg.c_str(), retval);
-    retval = app_wc.run_program_in_wsl(distro, launch_cmd, true);
+    retval = app_wc.run_program_in_wsl(wd, launch_cmd, true);
     if (retval) return error("app run_program_in_wsl", retval);
 
     // get the process group ID
@@ -123,7 +123,7 @@ int launch(const char* distro, const char* cmd) {
     //
     retval = ctl_wc.setup(err_msg);
     if (retval) return error(err_msg.c_str(), retval);
-    retval = ctl_wc.run_program_in_wsl(distro, "", true);
+    retval = ctl_wc.run_program_in_wsl(wd, "", true);
         // empty string means run shell
     if (retval) return error("ctl run_program_in_wsl", retval);
     return 0;
@@ -268,20 +268,22 @@ int main(int argc, char** argv) {
         }
     }
 
-    string distro_name;
+    WSL_DISTRO distro, *dp;
     if (boinc_is_standalone()) {
         SetCurrentDirectoryA("C:/ProgramData/BOINC/slots/test");
-        distro_name = "Ubuntu-22.04";
+        distro.distro_name = BOINC_WSL_DISTRO_NAME;
+        distro.docker_type = PODMAN;
+        distro.boinc_buda_runner_version = 4;
+        dp = &distro;
     } else {
         boinc_get_init_data(aid);
-        WSL_DISTRO *distro = aid.host_info.wsl_distros.find_match(
+        dp = aid.host_info.wsl_distros.find_match(
             os_name_regexp, os_version_regexp, min_libc_version
         );
-        if (!distro) {
-            fprintf(stderr, "can't find distro\n");
+        if (!dp) {
+            fprintf(stderr, "can't find usable WSL distro\n");
             exit(1);
         }
-        distro_name = distro->distro_name;
     }
 
     string main_cmd = "./";
@@ -290,7 +292,7 @@ int main(int argc, char** argv) {
         main_cmd += " ";
         main_cmd += s;
     }
-    if (launch(distro_name.c_str(), main_cmd.c_str())) {
+    if (launch(*dp, main_cmd.c_str())) {
         fprintf(stderr, "launch failed\n");
         exit(1);
     }

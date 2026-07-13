@@ -172,7 +172,7 @@ create table host (
     timezone                integer         not null,
     domain_name             varchar(254),
     serialnum               varchar(254),
-        /* now used to encode stuff related to GPUs and VBox */
+        /* summary of GPUs and VBox (deprecated) */
     last_ip_addr            varchar(254),
     nsame_ip_addr           integer         not null,
 
@@ -216,6 +216,8 @@ create table host (
     gpu_active_frac         double          not null,
     p_ngpus                 integer         not null,
     p_gpu_fpops             double          not null,
+    misc                    text            not null default '',
+        -- JSON description of GPUs, Docker etc.
 
     primary key (id)
 ) engine=InnoDB;

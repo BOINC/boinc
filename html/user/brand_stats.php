@@ -17,6 +17,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // show statistics by client "brand"
+ DEPRECATED
 
 require_once("../inc/util.inc");
 

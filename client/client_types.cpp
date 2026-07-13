@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,15 +22,6 @@
 #include "zlib.h"
 #else
 #include "config.h"
-// Somehow having config.h define _FILE_OFFSET_BITS or _LARGE_FILES is
-// causing open to be redefined to open64 which somehow, in some versions
-// of zlib.h causes gzopen to be redefined as gzopen64 which subsequently gets
-// reported as a linker error.  So for this file, we compile in small files
-// mode, regardless of these settings
-#undef _FILE_OFFSET_BITS
-#undef _LARGE_FILES
-#undef _LARGEFILE_SOURCE
-#undef _LARGEFILE64_SOURCE
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <zlib.h>
@@ -447,7 +438,6 @@ int FILE_INFO::parse(XML_PARSER& xp) {
 }
 
 int FILE_INFO::write(MIOFILE& out, bool to_server) {
-    unsigned int i;
     int retval;
     char buf[1024];
 
@@ -487,12 +477,12 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
             sticky_expire_time
         );
     }
-    for (i=0; i<download_urls.urls.size(); i++) {
-        xml_escape(download_urls.urls[i].c_str(), buf, sizeof(buf));
+    for (const string &s: download_urls.urls) {
+        xml_escape(s.c_str(), buf, sizeof(buf));
         out.printf("    <download_url>%s</download_url>\n", buf);
     }
-    for (i=0; i<upload_urls.urls.size(); i++) {
-        xml_escape(upload_urls.urls[i].c_str(), buf, sizeof(buf));
+    for (const string &s: upload_urls.urls) {
+        xml_escape(s.c_str(), buf, sizeof(buf));
         out.printf("    <upload_url>%s</upload_url>\n", buf);
     }
     if (!to_server && pers_file_xfer) {
@@ -882,7 +872,7 @@ void APP_VERSION::init() {
     graphics_exec_fip = NULL;
     graphics_exec_path[0] = 0;
     graphics_exec_file[0] = 0;
-    max_working_set_size = 0;
+    max_rss = 0;
     is_vbox_app = false;
     is_docker_app = false;
     is_wrapper = false;
@@ -892,6 +882,61 @@ void APP_VERSION::init() {
 #endif
 }
 
+// see if app version is disallowed by config
+//
+bool APP_VERSION::disallowed_by_config(PROJECT *p) {
+    if (cc_config.dont_use_vbox && strstr(plan_class, "vbox")) {
+        msg_printf(p, MSG_INFO,
+            "Skipping VirtualBox app version: disabled in cc_config.xml"
+        );
+        return true;
+    }
+    if (cc_config.dont_use_wsl && strstr(plan_class, "wsl")) {
+        msg_printf(p, MSG_INFO,
+            "skipping WSL app version: disabled in cc_config.xml"
+        );
+        return true;
+    }
+    if (cc_config.dont_use_docker && strstr(plan_class, "docker")) {
+        msg_printf(p, MSG_INFO,
+            "skipping Podman app: disabled in cc_config.xml"
+        );
+        return true;
+    }
+    return false;
+}
+
+// fill in resource usage if not already present
+//
+void APP_VERSION::fill_in_resource_usage() {
+    if (resource_usage.avg_ncpus == 0) {
+        resource_usage.avg_ncpus = 1;
+    }
+    if (resource_usage.flops == 0) {
+        resource_usage.flops = resource_usage.avg_ncpus * gstate.host_info.p_fpops;
+
+        // for GPU apps, use conservative estimate:
+        // assume GPU runs at 10X peak CPU speed
+        //
+        if (resource_usage.rsc_type) {
+            resource_usage.flops += resource_usage.coproc_usage * 10 * gstate.host_info.p_fpops;
+        }
+    }
+}
+
+// Parse an <app_version> element; called from
+// 1) parse scheduler reply: scheduler_op.cpp
+// 2) parse client state file: cs_statefile.cpp
+// 3) parse app_info.xml for anonymous platform: cs_statefile.cpp
+//
+// After this you need to:
+// - check if disallowed by config
+//      do this right away; config.xml has already been parsed
+// - fill in resource usage if not specified
+//      In cases 2 and 3 we don't have CPU FLOPS yet,
+//      so we have to do this a bit later.
+//      In case 1 we do it right away.
+//
 int APP_VERSION::parse(XML_PARSER& xp) {
     FILE_REF file_ref;
     double dtemp;
@@ -987,7 +1032,6 @@ int APP_VERSION::parse(XML_PARSER& xp) {
 }
 
 int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
-    unsigned int i;
     int retval;
 
     out.printf(
@@ -1012,8 +1056,8 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
         out.printf("    <file_prefix>%s</file_prefix>\n", file_prefix);
     }
     if (write_file_info) {
-        for (i=0; i<app_files.size(); i++) {
-            retval = app_files[i].write(out);
+        for (const FILE_REF& fref: app_files) {
+            retval = fref.write(out);
             if (retval) return retval;
         }
     }
@@ -1041,10 +1085,8 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
 }
 
 bool APP_VERSION::had_download_failure(int& failnum) {
-    unsigned int i;
-
-    for (i=0; i<app_files.size();i++) {
-        if (app_files[i].file_info->had_failure(failnum)) {
+    for (const FILE_REF& fref: app_files) {
+        if (fref.file_info->had_failure(failnum)) {
             return true;
         }
     }
@@ -1053,13 +1095,11 @@ bool APP_VERSION::had_download_failure(int& failnum) {
 
 void APP_VERSION::get_file_errors(string& str) {
     int errnum;
-    unsigned int i;
-    FILE_INFO* fip;
     string msg;
 
     str = "couldn't get input files:\n";
-    for (i=0; i<app_files.size();i++) {
-        fip = app_files[i].file_info;
+    for (const FILE_REF& fref: app_files) {
+        FILE_INFO* fip = fref.file_info;
         if (fip->had_failure(errnum)) {
             fip->failure_message(msg);
             str = str + msg;
@@ -1069,9 +1109,8 @@ void APP_VERSION::get_file_errors(string& str) {
 
 void APP_VERSION::clear_errors() {
     int x;
-    unsigned int i;
-    for (i=0; i<app_files.size();i++) {
-        FILE_INFO* fip = app_files[i].file_info;
+    for (const FILE_REF& fref: app_files) {
+        FILE_INFO* fip = fref.file_info;
         if (fip->had_failure(x)) {
             fip->reset();
         }
@@ -1145,7 +1184,7 @@ int FILE_REF::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-int FILE_REF::write(MIOFILE& out) {
+int FILE_REF::write(MIOFILE& out) const {
 
     out.printf(
         "    <file_ref>\n"
@@ -1276,8 +1315,6 @@ int WORKUNIT::parse(XML_PARSER& xp) {
 }
 
 int WORKUNIT::write(MIOFILE& out, bool gui) {
-    unsigned int i;
-
     out.printf(
         "<workunit>\n"
         "    <name>%s</name>\n"
@@ -1305,8 +1342,8 @@ int WORKUNIT::write(MIOFILE& out, bool gui) {
             command_line.c_str()
         );
     }
-    for (i=0; i<input_files.size(); i++) {
-        input_files[i].write(out);
+    for (const FILE_REF &fref: input_files) {
+        fref.write(out);
     }
     if (strlen(sub_appname)) {
         out.printf(
@@ -1332,10 +1369,8 @@ int WORKUNIT::write(MIOFILE& out, bool gui) {
 }
 
 bool WORKUNIT::had_download_failure(int& failnum) {
-    unsigned int i;
-
-    for (i=0;i<input_files.size();i++) {
-        if (input_files[i].file_info->had_failure(failnum)) {
+    for (const FILE_REF &fref: input_files) {
+        if (fref.file_info->had_failure(failnum)) {
             return true;
         }
     }
@@ -1344,13 +1379,11 @@ bool WORKUNIT::had_download_failure(int& failnum) {
 
 void WORKUNIT::get_file_errors(string& str) {
     int x;
-    unsigned int i;
-    FILE_INFO* fip;
     string msg;
 
     str = "couldn't get input files:\n";
-    for (i=0;i<input_files.size();i++) {
-        fip = input_files[i].file_info;
+    for (const FILE_REF &fref: input_files) {
+        FILE_INFO* fip = fref.file_info;
         if (fip->had_failure(x)) {
             fip->failure_message(msg);
             str = str + msg;
@@ -1363,9 +1396,8 @@ void WORKUNIT::get_file_errors(string& str) {
 //
 void WORKUNIT::clear_errors() {
     int x;
-    unsigned int i;
-    for (i=0; i<input_files.size();i++) {
-        FILE_INFO* fip = input_files[i].file_info;
+    for (const FILE_REF &fref: input_files) {
+        FILE_INFO* fip = fref.file_info;
         if (fip->had_failure(x)) {
             fip->reset();
         }

@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -17,8 +17,6 @@
 
 name: vcpkg test
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
   schedule:
@@ -41,7 +39,7 @@ jobs:
           revision_hash: ${{ steps.get_hash.outputs.revision_hash }}
         steps:
           - name: Checkout
-            uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+            uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
             with:
               fetch-depth: 2
           - name: Download revision archive
@@ -63,7 +61,7 @@ jobs:
         fail-fast: false
       steps:
         - name: Checkout
-          uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+          uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
           with:
             fetch-depth: 2
 
@@ -204,7 +202,7 @@ jobs:
 
         - name: Upload logs on failure
           if: ${{ failure() }}
-          uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+          uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
           with:
             name: vcpkg_test-logs-${{ matrix.triplet }}-${{ matrix.ndk }}
             path: vcpkg/buildtrees/**/*.log
@@ -219,7 +217,7 @@ jobs:
         fail-fast: false
       steps:
         - name: Checkout
-          uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+          uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
           with:
             fetch-depth: 2
 
@@ -291,7 +289,7 @@ jobs:
 
         - name: Upload logs on failure
           if: ${{ failure() }}
-          uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+          uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
           with:
             name: vcpkg_test-logs-${{ matrix.triplet }}
             path: vcpkg/buildtrees/**/*.log
@@ -306,7 +304,7 @@ jobs:
         fail-fast: false
       steps:
         - name: Checkout
-          uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+          uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
           with:
             fetch-depth: 2
 
@@ -347,7 +345,7 @@ jobs:
             cmake --build tests/vcpkg/build --config Release
         - name: Upload logs on failure
           if: ${{ failure() }}
-          uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+          uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
           with:
             name: vcpkg_test-logs-${{ matrix.triplet }}
             path: vcpkg/buildtrees/**/*.log
@@ -362,7 +360,7 @@ jobs:
         fail-fast: false
       steps:
         - name: Checkout
-          uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+          uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
           with:
             fetch-depth: 2
         - name: Check if build is running from origin repo
@@ -409,7 +407,7 @@ jobs:
 
         - name: Upload logs on failure
           if: ${{ failure() }}
-          uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+          uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
           with:
             name: vcpkg_test-logs-${{ matrix.triplet }}
             path: vcpkg/buildtrees/**/*.log
@@ -424,7 +422,7 @@ jobs:
         fail-fast: false
       steps:
         - name: Checkout
-          uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+          uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
           with:
             fetch-depth: 2
         - name: Check if build is running from origin repo
@@ -468,7 +466,7 @@ jobs:
 
         - name: Upload logs on failure
           if: ${{ failure() }}
-          uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+          uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
           with:
             name: vcpkg_test-logs-${{ matrix.triplet }}
             path: vcpkg/buildtrees/**/*.log

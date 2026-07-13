@@ -117,8 +117,6 @@ public:
     int init_unix_domain();
     void close();
     bool recent_rpc_needs_network(double interval);
-    void send_quits();
-    bool quits_sent();
     bool poll();
     void set_notice_refresh() {
         for (unsigned int i=0; i<gui_rpcs.size(); i++) {

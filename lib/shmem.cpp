@@ -302,7 +302,9 @@ int create_shmem_mmap(const char *path, size_t size, void** pp) {
 
     // Return NULL pointer if create_shmem fails
     *pp = 0;
-    if (size == 0) return ERR_SHMGET;
+    if (size == 0) {
+        return ERR_NULL;
+    }
 
     // NOTE: in principle it should be 0660, not 0666
     // (i.e. Apache should belong to the same group as the
@@ -313,12 +315,14 @@ int create_shmem_mmap(const char *path, size_t size, void** pp) {
     // and it's not a significant security issue.
     //
     fd = open(path, O_RDWR | O_CREAT, 0666);
-    if (fd < 0) return ERR_SHMGET;
+    if (fd < 0) {
+        return ERR_OPEN;
+    }
 
     retval = fstat(fd, &sbuf);
     if (retval) {
         close(fd);
-        return ERR_SHMGET;
+        return ERR_STAT;
     }
     if (sbuf.st_size < (long)size) {
         // The following 2 lines extend the file and clear its new
@@ -326,9 +330,9 @@ int create_shmem_mmap(const char *path, size_t size, void** pp) {
         // See the lseek man page for details.
         lseek(fd, size-1, SEEK_SET);
         if (1 != write(fd, "\0", 1)) {
-	    close(fd);
-	    return ERR_SHMGET;
-	}
+            close(fd);
+            return ERR_WRITE;
+        }
     }
 
     *pp = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, fd, 0);

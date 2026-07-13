@@ -32,13 +32,13 @@ AC_SUBST([LIBBOINC_VERSION])
 WRAPPER_RELEASE=26019
 AC_SUBST([WRAPPER_RELEASE])
 
-VBOXWRAPPER_RELEASE=26211
+VBOXWRAPPER_RELEASE=26212
 AC_SUBST([VBOXWRAPPER_RELEASE])
 
 WORKER_RELEASE=6
 AC_SUBST([WORKER_RELEASE])
 
-DOCKERWRAPPER_RELEASE=14
+DOCKERWRAPPER_RELEASE=22
 AC_SUBST([DOCKERWRAPPER_RELEASE])
 
 MULTITHREAD_RELEASE=2
@@ -85,7 +85,7 @@ dnl Verify C++11 support
 AC_MSG_CHECKING([whether $CXX supports C++11])
 AC_LANG_PUSH([C++])
 save_CXXFLAGS="$CXXFLAGS"
-for flag in "-std=c++11" "-std=c++0x"; do
+for flag in "-std=gnu++1z" "-std=c++11" "-std=c++0x"; do
   CXXFLAGS="$save_CXXFLAGS $flag"
   AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
     #include <memory>
@@ -556,7 +556,7 @@ dnl Special rules for specific targets go here:  It's easier to add static libs
 dnl than subtract them.  If you need to remove something from the list above,
 dnl please add it to the lists below...
 case ${target} in
-	*-linux*|*-k*bsd*-gnu)	STATIC_LIB_LIST="${STATIC_LIB_LIST} nsl"
+	*-linux*|*-k*bsd*-gnu)	STATIC_LIB_LIST="${STATIC_LIB_LIST} nsl rt"
 	;;
 	*-solaris*)	STATIC_LIB_LIST="${STATIC_LIB_LIST} X* ssl crypto"
 	;;
@@ -594,7 +594,7 @@ ERROR: could not find (recent enough) development-libs for libcurl.
       ],
       [
         ## add libcurl et al. to the list of statically linked libs
-        STATIC_LIB_LIST="${STATIC_LIB_LIST} curl idn ssh2 crypto ssl krb5 k5crypto gssapi_krb5 com_err resolv lber ldap socket nsl z rt gcrypt gpg-error"
+        STATIC_LIB_LIST="${STATIC_LIB_LIST} curl idn ssh2 ssl crypto krb5 k5crypto gssapi_krb5 com_err resolv lber ldap socket nsl z rt gcrypt gpg-error"
         CPPFLAGS="${CPPFLAGS} ${LIBCURL_CPPFLAGS}"
         CURL_LIB_PATHS=`echo $LIBCURL | sed 's/[^[a-zA-Z]]*-l[^ ]*//g'`
 
@@ -627,6 +627,8 @@ SAH_CHECK_LIB([nsl], [gethostbyname],
 SAH_CHECK_LIB([freetype], [fopen],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([socket], [bind],
+    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+SAH_CHECK_LIB([rt], [shm_open],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([z], [gzopen], [
       zlib_found=yes
@@ -774,6 +776,9 @@ if test "$enable_xss" = yes; then
         fi
     fi
 fi
+
+AX_CUDA
+AM_CONDITIONAL([HAVE_CUDA], [test "x$cuda_found" = "xyes"])
 
 dnl --------------------------------------------------------------------------------
 dnl put double-inclusion protection into config.h
@@ -1213,6 +1218,7 @@ AM_CONDITIONAL(OS_LINUX, [echo $host_os | grep '^linux' > /dev/null])
 AM_CONDITIONAL(OS_FREEBSD, [echo $host_os | grep '^freebsd' > /dev/null])
 dnl In case anyone wants to try building the windows code using mingw!
 AM_CONDITIONAL(OS_WIN32, [echo $host_os | grep -E '^mingw|^winnt' > /dev/null])
+AM_CONDITIONAL(OS_WINARM64, [echo $host_os | grep -E '^mingw|^winnt' > /dev/null && echo $host_cpu | grep -E '^aarch64' > /dev/null])
 AM_CONDITIONAL(OS_WIN32_MINGW, [echo $host_os | grep '^mingw' > /dev/null])
 dnl or OS2
 AM_CONDITIONAL(OS_OS2, [echo $host_os | grep '^os2' > /dev/null])
@@ -1239,9 +1245,7 @@ AM_CONDITIONAL(ENABLE_APPS, [test "${enable_apps}" = yes])
 AM_CONDITIONAL(ENABLE_UNIT_TESTS, [test "${enable_unit_tests}" = yes])
 AM_CONDITIONAL(ENABLE_BOINCCRYPT, [test "x${enable_server}" = xyes  || test "x${enable_client}" = xyes ])
 AM_CONDITIONAL(INSTALL_HEADERS, [test "${enable_install_headers}" = yes])
-AM_CONDITIONAL(HAVE_CUDA_LIB, [test "${enable_client}" = yes -a -f ./coprocs/CUDA/posix/${boinc_platform}/libcudart.so])
 AM_CONDITIONAL(BUILD_WITH_OPENCL, [test "x$with_opencl" = "xyes"])
-
 dnl ======================================================================
 dnl some more vodoo required for building portable client-binary (client, clientgui)
 dnl ======================================================================

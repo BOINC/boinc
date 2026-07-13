@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -675,14 +675,14 @@ void JOB_LIMIT::print_log() {
 void JOB_LIMITS::print_log() {
     log_messages.printf(MSG_NORMAL, "[quota] Overall limits on jobs in progress:\n");
     project_limits.print_log();
-    for (unsigned int i=0; i<app_limits.size(); i++) {
-        if (app_limits[i].any_limit()) {
-            APP* app = ssp->lookup_app_name(app_limits[i].app_name);
+    for (JOB_LIMIT& jl: app_limits) {
+        if (jl.any_limit()) {
+            APP* app = ssp->lookup_app_name(jl.app_name);
             if (!app) continue;
             log_messages.printf(MSG_NORMAL,
                 "[quota] Limits for %s:\n", app->name
             );
-            app_limits[i].print_log();
+            jl.print_log();
         }
     }
 }

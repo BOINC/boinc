@@ -23,6 +23,10 @@ require_once('../inc/time.inc');
 require_once('../inc/forum.inc');
 require_once('../inc/pm.inc');
 
+if (REQUIRE_LOGIN_FORUM) {
+    get_logged_in_user();
+}
+
 // show a forum.
 // $user is null if not logged in
 //
@@ -97,16 +101,15 @@ function forum_page($forum, $user, $msg=null) {
         <td colspan=2>
     ';
 
-    switch (user_can_create_thread($user, $forum)) {
-    case 'yes':
-        show_button(
-            "forum_post.php?id=$forum->id", tra("New thread"),
-            tra("Add a new thread to this forum")
-        );
-        break;
-    case 'login':
+    if ($user) {
+        if (show_post_button($user, $forum)) {
+            show_button(
+                "forum_post.php?id=$forum->id", tra("New thread"),
+                tra("Add a new thread to this forum")
+            );
+        }
+    } else {
         echo "To add a thread, you must <a href=login_form.php>log in</a>.";
-        break;
     }
 
     if ($user) {

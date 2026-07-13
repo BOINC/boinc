@@ -26,7 +26,7 @@ require_once("../inc/submit.inc");
 
 // global test configuration
 $req = new StdClass;
-$req->project = parse_config(get_config(), "<master_url>");
+$req->project = project_config_val("master_url");
 //$req->project       = "https://PROJECT_MASTER_URL/"; // use this to override the above value
 $req->authenticator = "xxxx"; // this user must have remote submit permissions
 //$req->batch_id = "1"; // optional, if used with query_files files will be added to this batch if they exist

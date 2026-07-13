@@ -17,8 +17,6 @@
 
 #pragma once
 
-#include <vector>
-
 #include "Generator.h"
 #include "ControlCondition.h"
 #include "Control.h"

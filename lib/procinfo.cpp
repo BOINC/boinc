@@ -50,14 +50,12 @@ void add_child_totals(PROCINFO& procinfo, PROC_MAP& pm, PROC_MAP::iterator i) {
         procinfo.kernel_time += p.kernel_time;
         procinfo.user_time += p.user_time;
         p.scanned = true;
-
-        // only count process with most swap and memory
-        if (p.swap_size > procinfo.swap_size) {
-            procinfo.swap_size = p.swap_size;
-        }
-        if (p.working_set_size > procinfo.working_set_size) {
-            procinfo.working_set_size = p.working_set_size;
-        }
+#ifdef __linux__
+        p.get_mem_info();
+#endif
+        procinfo.virtual_size += p.virtual_size;
+        procinfo.swap_usage += p.swap_usage;
+        procinfo.rss += p.rss;
 
         p.is_boinc_app = true;
         add_child_totals(procinfo, pm, i2); // recursion - woo hoo!
@@ -79,8 +77,12 @@ void procinfo_app(
         ) {
             procinfo.kernel_time += p.kernel_time;
             procinfo.user_time += p.user_time;
-            procinfo.swap_size += p.swap_size;
-            procinfo.working_set_size += p.working_set_size;
+#ifdef __linux__
+            p.get_mem_info();
+#endif
+            procinfo.swap_usage += p.swap_usage;
+            procinfo.rss += p.rss;
+            procinfo.virtual_size += p.virtual_size;
             p.is_boinc_app = true;
             p.scanned = true;
 
@@ -154,8 +156,6 @@ void procinfo_non_boinc(PROCINFO& procinfo, PROC_MAP& pm) {
 #endif
         procinfo.kernel_time += p.kernel_time;
         procinfo.user_time += p.user_time;
-        procinfo.swap_size += p.swap_size;
-        procinfo.working_set_size += p.working_set_size;
     }
 #if 0
     fprintf(stderr,
@@ -169,45 +169,87 @@ void procinfo_non_boinc(PROCINFO& procinfo, PROC_MAP& pm) {
 // - low-priority processes
 // - (if Vbox apps are running) Vbox processes
 // - Windows: WSL daemon ('vmmem')
-// - Linux/Mac:
+// - Mac: the VM used by Podman
+// - Linux:
 //      we don't account Docker/podman CPU time here,
 //      since we don't know what the processes are.
 //      Instead we do it in the client (in get_memory_usage())
-//      by adding the current_cpu_time of ACTIVE_TASKS
-// - Mac:
-//      the VM used by Podman
+//      by adding the current_cpu_time of Docker ACTIVE_TASKS
 //
 // This is subtracted from total CPU time to get
 // the 'non-BOINC CPU time' used in computing preferences
 //
-double boinc_related_cpu_time(PROC_MAP& pm, bool vbox_app_running) {
-    double sum = 0;
+// In each of the above cases we're adding the CPU times of a set of processes.
+// If one of these processes exits,
+// our next measurement will be lower than the previous one.
+// We'll return a too-low value,
+// leading to a too-high value of non-BOINC-related CPU,
+// and possibly an incorrect suspension.
+//
+// To deal with this, maintain the total for each case separately.
+// If any of them decreases, return reset = true,
+// meaning that the value shouldn't get compared with previous values.
+//
+void boinc_related_cpu_time(
+    PROC_MAP& pm, bool vbox_app_running,
+    double& brc, bool& reset
+) {
+    static double prev_boinc_app = 0;
+    static double prev_low_prio = 0;
+    static double prev_vbox = 0;
+    static double prev_docker = 0;
+
+    double boinc_app = 0;
+    double low_prio = 0;
+    double vbox = 0;
+    double docker = 0;
+
     PROC_MAP::iterator i;
     for (i=pm.begin(); i!=pm.end(); ++i) {
         PROCINFO& p = i->second;
 #ifdef _WIN32
         if (p.id == 0) continue;    // idle process
 #endif
-        if (
-            p.is_boinc_app
-            || p.is_low_priority
-            || (vbox_app_running && strstr(p.command, "VBox"))
-                // if a VBox app is running,
-                // count VBox processes as BOINC-related
-                // e.g. VBoxHeadless.exe and VBoxSVC.exe on Win
+        if (p.is_boinc_app) {
+            boinc_app += (p.user_time + p.kernel_time);
+        } else if (p.is_low_priority) {
+            low_prio += (p.user_time + p.kernel_time);
+        } else if (vbox_app_running && strstr(p.command, "VBox")) {
+            // if a VBox app is running,
+            // count VBox processes as BOINC-related
+            // e.g. VBoxHeadless.exe and VBoxSVC.exe on Win
+            vbox += (p.user_time + p.kernel_time);
 #ifdef _WIN32
-            || strstr(p.command, "vmmem")
+        } else if (strstr(p.command, "vmmem")) {
+            docker += (p.user_time + p.kernel_time);
 #endif
 #ifdef __APPLE__
-            || strstr(p.command, "com.apple.Virtualization.VirtualMachine")
+        } else if (strstr(p.command, "com.apple.Virtualization.VirtualMachine")) {
+            docker += (p.user_time + p.kernel_time);
 #endif
-        ) {
-            sum += (p.user_time + p.kernel_time);
         }
     }
-    return sum;
+    brc = boinc_app + low_prio + vbox + docker;
+    reset = (boinc_app < prev_boinc_app)
+        || (low_prio < prev_low_prio)
+        || (vbox < prev_vbox)
+        || (docker < prev_docker);
+    if (reset) {
+        //fprintf(stderr, "boinc_related_cpu_time: reset\n");
+    }
+    prev_boinc_app = boinc_app;
+    prev_low_prio = low_prio;
+    prev_vbox = vbox;
+    prev_docker = docker;
 }
 
+// get CPU time of the given process and its descendants.
+// To do this, we get info on all processes,
+// then figure out who the descendants are.
+// Is there a more efficient way?
+//
+// Used by wrapper and vboxwrapper
+//
 double process_tree_cpu_time(int pid) {
     PROC_MAP pm;
     PROCINFO procinfo;

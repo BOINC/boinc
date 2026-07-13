@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -51,6 +51,7 @@ linux_apps_list = [
     './samples/wrappture/fermi',
     './samples/sporadic/sporadic',
     './samples/docker_wrapper/docker_wrapper*pc-linux-gnu',
+    './samples/nvcuda/example_app_nvcuda',
 ]
 
 linux_manager_list = [
@@ -79,7 +80,7 @@ mingw_apps_vcpkg_list = [
     './samples/wrappture/wrappture_example.exe',
     './samples/wrappture/fermi.exe',
     './samples/sporadic/sporadic.exe',
-    './samples/wsl_wrapper/wsl_wrapper.exe',
+    './samples/wsl_wrapper/wsl_wrapper*.exe',
     './samples/docker_wrapper/docker_wrapper*.exe',
 ]
 
@@ -160,8 +161,9 @@ windows_apps_list = [
     './win_build/Build/x64/Release/test*.exe',
     './win_build/Build/x64/Release/wrappture*.exe',
     './win_build/Build/x64/Release/crypt_prog.exe',
-    './win_build/Build/x64/Release/wsl_wrapper.exe',
+    './win_build/Build/x64/Release/wsl_wrapper*.exe',
     './win_build/Build/x64/Release/docker_wrapper*.exe',
+    './win_build/Build/x64/Release/cudart*.dll',
     './win_build/Build/ARM64/Release/htmlgfx*.exe',
     './win_build/Build/ARM64/Release/wrapper*.exe',
     './win_build/Build/ARM64/Release/vboxwrapper*.exe',
@@ -175,7 +177,7 @@ windows_apps_list = [
     './win_build/Build/ARM64/Release/test*.exe',
     './win_build/Build/ARM64/Release/wrappture*.exe',
     './win_build/Build/ARM64/Release/crypt_prog.exe',
-    './win_build/Build/ARM64/Release/wsl_wrapper.exe',
+    './win_build/Build/ARM64/Release/wsl_wrapper*.exe',
     './win_build/Build/ARM64/Release/docker_wrapper*.exe',
 ]
 
@@ -234,6 +236,7 @@ macos_manager_list = [
     'mac_build/build/Deployment/switcher',
     'mac_build/build/Deployment/detect_rosetta_cpu',
     'mac_build/build/Deployment/Run_Podman',
+    'mac_RemovePodman/build/Release/RemovePodman',
 ]
 
 macos_apps_list = [
@@ -303,14 +306,23 @@ def prepare_linux_client_vcpkg(target_directory):
 def prepare_linux_client_vcpkg_arm64(target_directory):
     prepare_7z_archive('linux_client-vcpkg-arm64', target_directory, linux_client_list)
 
+def prepare_linux_client_vcpkg_armhf(target_directory):
+    prepare_7z_archive('linux_client-vcpkg-armhf', target_directory, linux_client_list)
+
 def prepare_linux_apps(target_directory):
     prepare_7z_archive('linux_apps', target_directory, linux_apps_list)
 
 def prepare_linux_apps_arm64(target_directory):
     prepare_7z_archive('linux_apps-arm64', target_directory, linux_apps_list)
 
+def prepare_linux_apps_armhf(target_directory):
+    prepare_7z_archive('linux_apps-armhf', target_directory, linux_apps_list)
+
 def prepare_linux_apps_vcpkg_arm64(target_directory):
     prepare_7z_archive('linux_apps-vcpkg-arm64', target_directory, linux_apps_list)
+
+def prepare_linux_apps_vcpkg_armhf(target_directory):
+    prepare_7z_archive('linux_apps-vcpkg-armhf', target_directory, linux_apps_list)
 
 def prepare_linux_apps_vcpkg(target_directory):
     prepare_7z_archive('linux_apps-vcpkg', target_directory, linux_apps_list)
@@ -326,6 +338,9 @@ def prepare_linux_manager_with_webview_vcpkg(target_directory):
 
 def prepare_linux_manager_with_webview_vcpkg_arm64(target_directory):
     prepare_7z_archive('linux_manager-with-webview-vcpkg-arm64', target_directory, linux_manager_list)
+
+def prepare_linux_manager_with_webview_vcpkg_armhf(target_directory):
+    prepare_7z_archive('linux_manager-with-webview-vcpkg-armhf', target_directory, linux_manager_list)
 
 def prepare_linux_manager_without_webview(target_directory):
     prepare_7z_archive('linux_manager-without-webview', target_directory, linux_manager_list)
@@ -367,15 +382,19 @@ boinc_types = {
     'android_apps': prepare_android_apps,
     'linux_apps': prepare_linux_apps,
     'linux_apps-arm64': prepare_linux_apps_arm64,
+    'linux_apps-armhf': prepare_linux_apps_armhf,
     'linux_apps-vcpkg': prepare_linux_apps_vcpkg,
     'linux_apps-vcpkg-arm64': prepare_linux_apps_vcpkg_arm64,
+    'linux_apps-vcpkg-armhf': prepare_linux_apps_vcpkg_armhf,
     'linux_client': prepare_linux_client,
     'linux_client-vcpkg': prepare_linux_client_vcpkg,
     'linux_client-vcpkg-arm64': prepare_linux_client_vcpkg_arm64,
+    'linux_client-vcpkg-armhf': prepare_linux_client_vcpkg_armhf,
     'linux_manager': prepare_linux_manager,
     'linux_manager-with-webview': prepare_linux_manager_with_webview,
     'linux_manager-with-webview-vcpkg': prepare_linux_manager_with_webview_vcpkg,
     'linux_manager-with-webview-vcpkg-arm64': prepare_linux_manager_with_webview_vcpkg_arm64,
+    'linux_manager-with-webview-vcpkg-armhf': prepare_linux_manager_with_webview_vcpkg_armhf,
     'linux_manager-without-webview': prepare_linux_manager_without_webview,
     'logs': prepare_logs,
     'macos_manager': prepare_macos_apps,

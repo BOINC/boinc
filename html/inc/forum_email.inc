@@ -65,7 +65,7 @@ function mail_report_list($forum, $subject, $body, $must_send=false) {
 function send_moderation_email($forum, $post, $thread, $explanation, $action) {
     $master_url = master_url();
 
-    $moderator=get_logged_in_user();
+    $moderator = get_logged_in_user();
     $body = "";
     $user = BoincUser::lookup_id($post->user);
 

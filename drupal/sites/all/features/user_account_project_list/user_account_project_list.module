@@ -1,3 +1,0 @@
-<?php
-
-include_once('user_account_project_list.features.inc');

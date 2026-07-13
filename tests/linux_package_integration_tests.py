@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -61,7 +61,7 @@ class IntegrationTests:
         return os.popen("id -un {username}".format(username=username)).read().strip() == username
 
     def _get_group_exists(self, groupname):
-        return os.popen("getent group {groupname}".format(groupname=groupname)).read().strip() != ""
+        return os.popen("getent group {groupname}".format(groupname=groupname)).read().strip().split(":")[0] == groupname
 
     def _get_user_in_group(self, username, groupname):
         return os.popen("id -Gn {username}".format(username=username)).read().strip().find(groupname) != -1
@@ -108,12 +108,15 @@ class IntegrationTests:
             path = pathlib.Path(filename)
         return "{owner}:{group}".format(owner=path.owner(), group=path.group())
 
-    def _get_ca_certificates_file_path(self):
+    def _get_ca_certificates_file_paths(self):
+        paths = []
         if os.path.exists("/etc/ssl/certs/ca-certificates.crt"):
-            return "/etc/ssl/certs/ca-certificates.crt"
+            paths.append("/etc/ssl/certs/ca-certificates.crt")
+        if os.path.exists("/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem"):
+            paths.append("/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem")
         if os.path.exists("/etc/ssl/ca-bundle.pem"):
-            return "/etc/ssl/ca-bundle.pem"
-        return ""
+            paths.append("/etc/ssl/ca-bundle.pem")
+        return paths
 
     def test_files_exist(self):
         ts = testset.TestSet("Test files exist")
@@ -160,10 +163,10 @@ class IntegrationTests:
             ts.expect_equal("/etc/boinc-client/gui_rpc_auth.cfg", os.readlink("/var/lib/boinc/gui_rpc_auth.cfg"), "Test '/var/lib/boinc/gui_rpc_auth.cfg' file is a symbolic link to '/etc/boinc-client/gui_rpc_auth.cfg'")
         else:
             ts.expect_true(False, "Test 'gui_rpc_auth.cfg' file is a symbolic link")
-        ts.expect_not_equal("", self._get_ca_certificates_file_path(), "Test system 'ca-certificates.crt' file exists")
+        ts.expect_true(len(self._get_ca_certificates_file_paths()) > 0, "Test system 'ca-certificates.crt' file exists")
         ts.expect_true(os.path.exists("/var/lib/boinc/ca-bundle.crt"), "Test 'ca-bundle.crt' file exists in '/var/lib/boinc/'")
         ts.expect_true(os.path.islink("/var/lib/boinc/ca-bundle.crt"), "Test '/var/lib/boinc/ca-bundle.crt' file is a symbolic link")
-        ts.expect_equal(self._get_ca_certificates_file_path(), os.readlink("/var/lib/boinc/ca-bundle.crt"), "Test '/var/lib/boinc/ca-bundle.crt' file is a symbolic link to the system 'ca-certificates.crt' file")
+        ts.expect_true(os.readlink("/var/lib/boinc/ca-bundle.crt") in self._get_ca_certificates_file_paths(), "Test '/var/lib/boinc/ca-bundle.crt' file is a symbolic link to the system 'ca-certificates.crt' file")
         ts.expect_true(os.path.exists("/var/lib/boinc/all_projects_list.xml"), "Test 'all_projects_list.xml' file exists in '/var/lib/boinc/'")
         return ts.result()
 
@@ -184,6 +187,8 @@ class IntegrationTests:
             ts.expect_true(self._get_user_in_group("boinc", "video"), "Test 'boinc' user is in 'video' group")
         if (self._get_group_exists("render")):
             ts.expect_true(self._get_user_in_group("boinc", "render"), "Test 'boinc' user is in 'render' group")
+        if (self._get_group_exists("docker")):
+            ts.expect_true(self._get_user_in_group("boinc", "docker"), "Test 'boinc' user is in 'docker' group")
         ts.expect_equal("/var/lib/boinc", self._get_user_home_directory("boinc"), "Test 'boinc' user home directory is '/var/lib/boinc'")
         ts.expect_equal("100000:65536", self._get_uid_range("boinc"), "Test 'boinc' user UID range is '100000:65536'")
         ts.expect_equal("100000:65536", self._get_gid_range("boinc"), "Test 'boinc' group GID range is '100000:65536'")

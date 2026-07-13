@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -25,6 +25,8 @@
 # if --report-coverage is given the test coverage will be reported to codecov.io
 # if --clean is given the tests will be rebuild from scratch otherwise an existing
 # build directory is used
+
+set -e
 
 # check working directory because the script needs to be called like: ./tests/executeUnitTests.sh
 if [ ! -d "tests" ]; then
@@ -76,9 +78,9 @@ make
 if [ $? -ne 0 ]; then cd ../..; exit 1; fi
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    MODULES="lib"
+    MODULES="lib vboxwrapper"
 else
-    MODULES="lib sched"
+    MODULES="client lib sched vboxwrapper"
 fi
 for T in ${MODULES}; do
     XML_FLAGS=""

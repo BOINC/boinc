@@ -20,6 +20,16 @@ BOINC_DIR = ../..
 BOINC_SOURCE_API_DIR = $(BOINC_DIR)/api
 BOINC_SOURCE_LIB_DIR = $(BOINC_DIR)/lib
 
+ifdef RELEASE_ARCH
+  CFLAGS += -O3 -flto
+  CXXFLAGS += -O3 -flto
+  LDFLAGS += -O3 -flto -s -static-libstdc++
+else
+  CFLAGS += -O0 -g
+  CXXFLAGS += -O0 -g
+  LDFLAGS += -O0 -g
+endif
+
 ifdef ANDROID
   BOINC_API_DIR = $(TCINCLUDES)/lib
   BOINC_LIB_DIR = $(TCINCLUDES)/lib
@@ -73,7 +83,7 @@ distclean: clean
 distclean-recursive: clean
 
 boinc_gahp: boinc_gahp.cpp $(BOINC_SOURCE_LIB_DIR)/remote_submit.h $(BOINC_SOURCE_LIB_DIR)/remote_submit.cpp $(BOINC_DIR)/svn_version.h $(BOINC_DIR)/version.h $(MAKEFILE_STDLIB)
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_FLAGS) -g -O3 \
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_FLAGS) \
 	-o boinc_gahp boinc_gahp.cpp $(BOINC_SOURCE_LIB_DIR)/remote_submit.cpp \
 	-lcurl -lssl -lcrypto -lboinc $(CURL_EXTRA_LDFLAGS) $(MAKEFILE_LDFLAGS) $(STDCPPTC)
 

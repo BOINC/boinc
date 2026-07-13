@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2010 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -56,7 +56,7 @@ struct AVERAGE {
         return truncated;
     }
 
-    inline double get_avg() {
+    inline double get_avg() const {
         return avg;
     }
 };

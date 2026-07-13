@@ -1,0 +1,108 @@
+<Solution>
+  <Configurations>
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="boinccas.vcxproj" Id="49723ca5-da05-43c0-93ab-6fd30d046919" />
+  <Project Path="boinccmd.vcxproj" Id="8f37e1f3-3a68-4a1d-9579-a1210bdd055e" />
+  <Project Path="boinclog.vcxproj" Id="3a8dfc5c-d169-4bb6-8282-ebd3d1318140" />
+  <Project Path="boincmgr.vcxproj" Id="06113715-ac51-4e91-8b9d-c987cabe0920">
+    <BuildDependency Project="vcpkg_3rdparty_dependencies.vcxproj" />
+  </Project>
+  <Project Path="boincsvcctrl.vcxproj" Id="9fc47e90-4e0d-4383-b446-a84314b00764" />
+  <Project Path="boinctray.vcxproj" Id="4a2c5963-6a8d-4da1-a312-c3d749b2ea81" />
+  <Project Path="boinc_cli.vcxproj" Id="c04f0fcc-bb5d-4627-8656-6173b28bd69e">
+    <BuildDependency Project="vcpkg_3rdparty_dependencies.vcxproj" />
+  </Project>
+  <Project Path="boinc_os_ss.vcxproj" Id="4a2c5963-6a8d-4ca1-a312-c3d749b2ea81" />
+  <Project Path="boinc_ss.vcxproj" Id="c3163aca-c2e6-49d2-aa21-b8b953331ef7">
+    <BuildDependency Project="vcpkg_3rdparty_dependencies.vcxproj" />
+  </Project>
+  <Project Path="crypt_prog.vcxproj" Id="c04f0f2c-b75d-4628-8656-6163b28bd69e">
+    <BuildDependency Project="vcpkg_3rdparty_dependencies.vcxproj" />
+  </Project>
+  <Project Path="docker_wrapper.vcxproj" Id="d6dddd6c-bb00-43b8-b21d-dd76dd6a4e03" />
+  <Project Path="example_app_atiopencl.vcxproj" Id="c41f5c14-772d-4b56-baf3-0fe8bf6807d5">
+    <BuildDependency Project="vcpkg_3rdparty_dependencies.vcxproj" />
+  </Project>
+  <Project Path="example_app_multi_thread.vcxproj" Id="bfe833c6-840f-4f2e-a1fa-a4de9b9277d6" />
+  <Project Path="example_app_nvcuda.vcxproj" Id="55f71337-32a6-4c26-8cba-a06a9183d6f2">
+    <Build Solution="*|ARM64" Project="false" />
+  </Project>
+  <Project Path="example_app_nvopencl.vcxproj" Id="bdc69ee0-033e-4ae1-b6ad-670e26fc117b">
+    <BuildDependency Project="vcpkg_3rdparty_dependencies.vcxproj" />
+  </Project>
+  <Project Path="glut.vcxproj" Id="c4165626-f68f-4f66-a126-3b82ddbb7480" />
+  <Project Path="htmlgfx.vcxproj" Id="25662612-421f-42f5-b5e1-d69ecbf3f5bb">
+    <BuildDependency Project="libgraphics2.vcxproj" />
+  </Project>
+  <Project Path="image_libs.vcxproj" Id="d3d21f11-a7e7-4ea2-8518-e24695133bff" />
+  <Project Path="installer.vcxproj" Id="bb5ef2ab-f453-463b-835a-65bbe7182378">
+    <BuildDependency Project="boinccas.vcxproj" />
+    <BuildDependency Project="boinccmd.vcxproj" />
+    <BuildDependency Project="boincmgr.vcxproj" />
+    <BuildDependency Project="boincsvcctrl.vcxproj" />
+    <BuildDependency Project="boinctray.vcxproj" />
+    <BuildDependency Project="boinc_cli.vcxproj" />
+    <BuildDependency Project="boinc_os_ss.vcxproj" />
+    <BuildDependency Project="boinc_ss.vcxproj" />
+    <BuildDependency Project="installer_icon.vcxproj" />
+    <BuildDependency Project="vcpkg_3rdparty_dependencies.vcxproj" />
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="installer_icon.vcxproj" Id="2ee8ad38-ec77-495b-8e16-9950a8c2ad3f" />
+  <Project Path="installer_msi.vcxproj" Id="88eb73fc-a865-4c3f-906d-44e00ef27a27">
+    <BuildDependency Project="boinccas.vcxproj" />
+    <BuildDependency Project="installer.vcxproj" />
+  </Project>
+  <Project Path="installer_setup.vcxproj" Id="80dff29a-7b1d-41f4-beae-307cdb39bf54">
+    <BuildDependency Project="installer_msi.vcxproj" />
+  </Project>
+  <Project Path="jpeglib.vcxproj" Id="5f065eac-b881-4e9a-9e34-7a21d7a01d98" />
+  <Project Path="libboinc.vcxproj" Id="e8f6bd7e-461a-4733-b7d8-37b09a099ed8">
+    <BuildDependency Project="vcpkg_3rdparty_dependencies.vcxproj" />
+  </Project>
+  <Project Path="libboincapi.vcxproj" Id="07bda8f7-4aaf-4a3b-b96e-ea72a143c5ae" />
+  <Project Path="libboincopencl.vcxproj" Id="c0a2deee-2ec5-4f67-8048-53264b6bd14d" />
+  <Project Path="libboinczip.vcxproj" Id="753e897d-9ece-42b1-9f0d-cd566775c77e">
+    <BuildDependency Project="vcpkg_3rdparty_dependencies.vcxproj" />
+  </Project>
+  <Project Path="libgraphics2.vcxproj" Id="814ebfd3-3ce6-4933-a580-c1fe3147acb4" />
+  <Project Path="sim.vcxproj" Id="b950e31b-c075-4f6d-8a2b-25eae9d46c93">
+    <BuildDependency Project="vcpkg_3rdparty_dependencies.vcxproj" />
+  </Project>
+  <Project Path="sleeper.vcxproj" Id="a9647cea-644d-4c0a-8733-d916cd344859" />
+  <Project Path="slide_show.vcxproj" Id="a4145505-5c0e-4675-bf6d-fc3f9119fd83">
+    <BuildDependency Project="vcpkg_3rdparty_dependencies.vcxproj" />
+  </Project>
+  <Project Path="sporadic.vcxproj" Id="0740e6dc-ade7-4272-bab0-52de62325d3e" />
+  <Project Path="uc2.vcxproj" Id="ccb9a37c-7ad8-4fc1-abec-1a6ed2268f83">
+    <BuildDependency Project="uc2_dll.vcxproj" />
+  </Project>
+  <Project Path="uc2_dll.vcxproj" Id="b275c525-5ef4-40ba-a70a-4e01a76a0cdd" />
+  <Project Path="uc2_graphics.vcxproj" Id="3cf31288-a44d-4c78-a3aa-b05b6e32df11">
+    <BuildDependency Project="vcpkg_3rdparty_dependencies.vcxproj" />
+  </Project>
+  <Project Path="unittests.vcxproj" Id="e3cfbba5-0bbc-4237-b3f8-7e7729df7e42">
+    <BuildDependency Project="boinccas.vcxproj" />
+    <BuildDependency Project="libboinczip.vcxproj" />
+    <BuildDependency Project="unittest_dummy.vcxproj" />
+    <BuildDependency Project="unittest_dummy_gui.vcxproj" />
+    <BuildDependency Project="vcpkg_3rdparty_dependencies.vcxproj" />
+  </Project>
+  <Project Path="unittest_dummy.vcxproj" Id="8e454709-8b4e-4b5b-b3f5-07f02cb3e900" />
+  <Project Path="unittest_dummy_gui.vcxproj" Id="25d55087-9f41-45c3-929f-f5b4568a2f9e" />
+  <Project Path="vboxwrapper.vcxproj" Id="f243b93c-73cb-44e7-9bdc-847bb95c27ca">
+    <BuildDependency Project="libgraphics2.vcxproj" />
+  </Project>
+  <Project Path="vcpkg_3rdparty_dependencies.vcxproj" Id="d3e5b5b5-4fb1-4877-9b2c-6708b3d568f7" />
+  <Project Path="worker.vcxproj" Id="f1be6109-586d-448e-8c5b-d5c2cb874ea2" />
+  <Project Path="wrapper.vcxproj" Id="f243b93c-73cb-44e7-9bdc-847bb95a27ca">
+    <BuildDependency Project="libboinczip.vcxproj" />
+    <BuildDependency Project="libgraphics2.vcxproj" />
+  </Project>
+  <Project Path="wrappture_example.vcxproj" Id="d9af7f68-b881-45b1-a41c-b10e61d764ef">
+    <BuildDependency Project="vcpkg_3rdparty_dependencies.vcxproj" />
+  </Project>
+  <Project Path="wsl_wrapper.vcxproj" Id="97f092a0-af80-4e60-89cb-d811f5afa542" />
+</Solution>

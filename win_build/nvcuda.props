@@ -22,9 +22,9 @@
       <MaxRegCount>32</MaxRegCount>
       <NvccCompilation>0</NvccCompilation>
       <compileout>0</compileout>
-      <Arch1>52</Arch1>
-      <Arch2>53</Arch2>
-      <Arch3>60</Arch3>
+      <Arch1>80</Arch1>
+      <Arch2>90</Arch2>
+      <Arch3>100</Arch3>
       <CompilerPath>0</CompilerPath>
       <Warning>3</Warning>
       <Optimization>2</Optimization>

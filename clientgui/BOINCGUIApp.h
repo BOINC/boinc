@@ -271,10 +271,6 @@ public:
     void                SetActivationPolicyAccessory(bool hideDock);
     void                CheckPartialActivation();
     long                GetBrandID();
-
-    // Override standard wxCocoa wxApp::CallOnInit() to allow Manager
-    // to run properly when launched hidden on login via Login Item.
-    bool                CallOnInit();
 #endif
 
 DECLARE_EVENT_TABLE()

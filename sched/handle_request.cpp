@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -48,18 +48,19 @@ using std::string;
 #include "sched_vda.h"
 
 #include "credit.h"
-#include "sched_files.h"
-#include "sched_main.h"
-#include "sched_types.h"
-#include "sched_util.h"
 #include "handle_request.h"
+#include "sched_config.h"
+#include "sched_customize.h"
+#include "sched_files.h"
+#include "sched_host.h"
+#include "sched_locality.h"
+#include "sched_main.h"
 #include "sched_msgs.h"
 #include "sched_resend.h"
-#include "sched_send.h"
-#include "sched_config.h"
-#include "sched_locality.h"
 #include "sched_result.h"
-#include "sched_customize.h"
+#include "sched_send.h"
+#include "sched_types.h"
+#include "sched_util.h"
 #include "time_stats_log.h"
 
 // are the 2 hosts obviously different computers?
@@ -82,15 +83,19 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
     // don't dig through hosts of these users
     // prevents flooding the DB with slow queries from users with many hosts
     //
-    for (unsigned int i=0; i < config.dont_search_host_for_userid.size(); i++) {
-        if (user.id == config.dont_search_host_for_userid[i]) {
+    for (int id: config.dont_search_host_for_userid) {
+        if (user.id == id) {
             return false;
         }
     }
 
     // Only check if all the fields are populated
     //
-    if (strlen(req_host.domain_name) && strlen(req_host.last_ip_addr) && strlen(req_host.os_name) && strlen(req_host.p_model)) {
+    if (strlen(req_host.domain_name)
+        && strlen(req_host.last_ip_addr)
+        && strlen(req_host.os_name)
+        && strlen(req_host.p_model)
+    ) {
         safe_strcpy(dn, req_host.domain_name);
         escape_string(dn, sizeof(dn));
         safe_strcpy(ip, req_host.last_ip_addr);
@@ -171,7 +176,9 @@ void unlock_sched() {
     char filename[256];
 
     if (g_reply->lockfile_fd < 0) return;
-    sprintf(filename, "%s/CGI_%07lu", config.sched_lockfile_dir, g_reply->host.id);
+    sprintf(filename, "%s/CGI_%07lu",
+        config.sched_lockfile_dir, g_reply->host.id
+    );
     unlink(filename);
     close(g_reply->lockfile_fd);
 }
@@ -185,7 +192,8 @@ static bool find_host_by_cpid(DB_USER& user, char* host_cpid, DB_HOST& host) {
     md5_block((const unsigned char*)buf, strlen(buf), buf2);
 
     sprintf(buf,
-        "where userid=%lu and host_cpid='%s' order by id desc", user.id, buf2
+        "where userid=%lu and host_cpid='%s' order by id desc",
+        user.id, buf2
     );
     if (!host.enumerate(buf)) {
         host.end_enumerate();
@@ -459,7 +467,7 @@ lookup_user_and_make_new_host:
                     );
                 } else {
                     if ((g_request->allow_multiple_clients != 1)
-                        && (g_request->other_results.size() == 0)
+                        && (g_request->other_results.empty())
                     ) {
                         mark_results_over(host);
                     }
@@ -493,7 +501,7 @@ didnt_find_host:
                 "[HOST#%lu] [USER#%lu] Found similar existing host for this user - assigned.\n",
                 host.id, host.userid
             );
-            if (g_request->other_results.size() == 0) {
+            if (g_request->other_results.empty()) {
                 // mark host's jobs as abandoned
                 // if client has no jobs in progress
                 //
@@ -558,9 +566,15 @@ got_host:
     if (!g_request->using_weak_auth && strlen(g_request->cross_project_id)) {
         if (strcmp(g_request->cross_project_id, g_reply->user.cross_project_id)) {
             user.id = g_reply->user.id;
-            escape_string(g_request->cross_project_id, sizeof(g_request->cross_project_id));
+            escape_string(
+                g_request->cross_project_id,
+                sizeof(g_request->cross_project_id)
+            );
             sprintf(buf, "cross_project_id='%s'", g_request->cross_project_id);
-            unescape_string(g_request->cross_project_id, sizeof(g_request->cross_project_id));
+            unescape_string(
+                g_request->cross_project_id,
+                sizeof(g_request->cross_project_id)
+            );
             user.update_field(buf);
         }
     }
@@ -579,72 +593,6 @@ inline static const char* get_remote_addr() {
     return r ? r : "?.?.?.?";
 }
 
-void get_docker_info(string &version, int &type) {
-    if (strstr(g_request->host.os_name, "Windows")) {
-        for (WSL_DISTRO &wd: g_request->host.wsl_distros.distros) {
-            if (wd.disallowed) continue;
-            if (wd.docker_version.empty()) continue;
-            version = wd.docker_version;
-            type = wd.docker_type;
-        }
-    } else {
-        version = g_request->host.docker_version;
-        type = g_request->host.docker_type;
-    }
-}
-
-// assemble a string with miscellaneous host info:
-// BOINC client, GPUs, VBox, and Docker
-//
-// The string is a sequence of descriptors,
-// each of the form [name|info|info|...]
-// (at some point we should use JSON instead)
-//
-// This is stored in host.serialnum, which is 254 chars.
-//
-static void get_misc_info(char* info, int info_len) {
-    char result[1024], buf[1024];
-    sprintf(buf, "[BOINC|%d.%d.%d",
-        g_request->core_client_major_version,
-        g_request->core_client_minor_version,
-        g_request->core_client_release
-    );
-    if (strlen(g_request->client_brand)) {
-        strcat(buf, "|");
-        strcat(buf, g_request->client_brand);
-    }
-    strcat(buf, "]");
-    safe_strcpy(result, buf);
-
-    g_request->coprocs.summary_string(buf, sizeof(buf));
-    safe_strcat(result, buf);
-
-    if (strlen(g_request->host.virtualbox_version)) {
-        sprintf(buf, "[vbox|%s|%d|%d]",
-            g_request->host.virtualbox_version,
-            (strstr(g_request->host.p_features, "vmx") || strstr(g_request->host.p_features, "svm"))?1:0,
-            g_request->host.p_vm_extensions_disabled?0:1
-        );
-        safe_strcat(result, buf);
-    }
-
-    string docker_version;
-    int docker_type;
-    get_docker_info(docker_version, docker_type);
-    if (!docker_version.empty()) {
-        sprintf(buf, "[docker|%s|%d]", docker_version.c_str(), docker_type);
-        safe_strcat(result, buf);
-    }
-    if (g_request->dont_use_docker) {
-        safe_strcat(result, "[dont_use_docker]");
-    }
-    if (g_request->dont_use_wsl) {
-        safe_strcat(result, "[dont_use_wsl]");
-    }
-
-    strlcpy(info, result, info_len);
-}
-
 // modify host struct based on request.
 // Copy all fields that are determined by the client.
 //
@@ -652,9 +600,9 @@ static int modify_host_struct(HOST& host) {
     host.timezone = g_request->host.timezone;
     strlcpy(host.domain_name, g_request->host.domain_name, sizeof(host.domain_name));
 
-    char buf[1024];
-    get_misc_info(buf, sizeof(buf));
-    safe_strcpy(host.serialnum, buf);
+    string s;
+    host_info_json(s);
+    safe_strcpy(host.misc, s.c_str());
 
     if (strcmp(host.last_ip_addr, g_request->host.last_ip_addr)) {
         strlcpy(
@@ -750,35 +698,34 @@ int send_result_abort() {
     int retval = 0;
     DB_IN_PROGRESS_RESULT result;
     string result_names;
-    unsigned int i;
 
-    if (g_request->other_results.size() == 0) {
+    if (g_request->other_results.empty()) {
         return 0;
     }
 
     // build list of result names
     //
-    for (i=0; i<g_request->other_results.size(); i++) {
-        OTHER_RESULT& orp=g_request->other_results[i];
+    bool first = true;
+    for (OTHER_RESULT& orp: g_request->other_results) {
         orp.abort = true;
             // if the host has a result not in the DB, abort it
         orp.abort_if_not_started = false;
         orp.reason = ABORT_REASON_NOT_FOUND;
-        if (i > 0) result_names.append(", ");
+        if (!first) result_names.append(", ");
         result_names.append("'");
         char buf[1024];
         safe_strcpy(buf, orp.name);
         escape_string(buf, sizeof(buf));
         result_names.append(buf);
         result_names.append("'");
+        first = false;
     }
 
     // look up selected fields from the results and their WUs,
     // and decide if they should be aborted
     //
     while (!(retval = result.enumerate(g_reply->host.id, result_names.c_str()))) {
-        for (i=0; i<g_request->other_results.size(); i++) {
-            OTHER_RESULT& orp = g_request->other_results[i];
+        for (OTHER_RESULT& orp: g_request->other_results) {
             if (!strcmp(orp.name, result.result_name)) {
                 if (result.error_mask&WU_ERROR_CANCELLED ) {
                     // if the WU has been canceled, abort the result
@@ -818,8 +765,7 @@ int send_result_abort() {
 
     // loop through the results and send the appropriate message (if any)
     //
-    for (i=0; i<g_request->other_results.size(); i++) {
-        OTHER_RESULT& orp = g_request->other_results[i];
+    for (const OTHER_RESULT& orp: g_request->other_results) {
         if (orp.abort) {
             g_reply->result_aborts.push_back(orp.name);
             log_messages.printf(MSG_NORMAL,
@@ -1086,8 +1032,8 @@ void warn_user_if_core_client_upgrade_scheduled() {
                 g_request->core_client_minor_version,
                 g_request->core_client_release
             );
-            // make this low priority until three days are left.  Then
-            // bump to high.
+            // make this low priority until three days are left.
+            // Then bump to high.
             //
             if (days<3) {
                 g_reply->insert_message(msg, "notice");
@@ -1106,12 +1052,24 @@ void warn_user_if_core_client_upgrade_scheduled() {
     return;
 }
 
+// complain if CPU vendor or OS name missing from req message
+// (but still try to send work, based on reported platform)
+//
+void check_missing_fields() {
+    if (!strlen(g_request->host.p_vendor)) {
+        log_messages.printf(MSG_NORMAL, "missing p_vendor\n");
+        g_reply->insert_message("Missing CPU type in request", "notice");
+    }
+    if (!strlen(g_request->host.os_name)) {
+        log_messages.printf(MSG_NORMAL, "missing os_name\n");
+        g_reply->insert_message("Missing OS name in request", "notice");
+    }
+}
+
 bool unacceptable_os() {
-    unsigned int i;
     char buf[1024];
 
-    for (i=0; i<config.ban_os->size(); i++) {
-        regex_t& re = (*config.ban_os)[i];
+    for (const regex_t& re: *config.ban_os) {
         safe_strcpy(buf, g_request->host.os_name);
         safe_strcat(buf, "\t");
         safe_strcat(buf, g_request->host.os_version);
@@ -1133,11 +1091,9 @@ bool unacceptable_os() {
 }
 
 bool unacceptable_cpu() {
-    unsigned int i;
     char buf[1024];
 
-    for (i=0; i<config.ban_cpu->size(); i++) {
-        regex_t& re = (*config.ban_cpu)[i];
+    for (const regex_t& re: *config.ban_cpu) {
         safe_strcpy(buf, g_request->host.p_vendor);
         safe_strcat(buf, "\t");
         safe_strcat(buf, g_request->host.p_model);
@@ -1179,13 +1135,11 @@ bool wrong_core_client_version() {
 }
 
 void handle_msgs_from_host() {
-    unsigned int i;
     DB_MSG_FROM_HOST mfh;
     int retval;
 
-    for (i=0; i<g_request->msgs_from_host.size(); i++) {
+    for (const MSG_FROM_HOST_DESC& md: g_request->msgs_from_host) {
         g_reply->send_msg_ack = true;
-        MSG_FROM_HOST_DESC& md = g_request->msgs_from_host[i];
         mfh.clear();
         mfh.create_time = time(0);
         safe_strcpy(mfh.variety, md.variety);
@@ -1241,23 +1195,6 @@ static void log_request() {
     log_messages.set_indent_level(2);
 }
 
-bool bad_install_type() {
-    if (config.no_vista_sandbox) {
-        if (!strcmp(g_request->host.os_name, "Microsoft Windows Vista")) {
-            if (g_request->sandbox == 1) {
-                log_messages.printf(MSG_NORMAL,
-                    "Vista secure install - not sending work\n"
-                );
-                g_reply->insert_message(
-                    "Unable to send work to Vista with BOINC installed in protected mode.  Please reinstall BOINC and uncheck 'Service Install'",
-                    "notice"
-                );
-            }
-        }
-    }
-    return false;
-}
-
 static inline bool requesting_work() {
     if (g_request->dont_send_work) return false;
     if (g_request->work_req_seconds > 0) return true;
@@ -1279,7 +1216,6 @@ void process_request(char* code_sign_key) {
     bool have_no_work = false;
     char buf[256];
     HOST initial_host;
-    unsigned int i;
     time_t t;
 
     memset(&g_reply->wreq, 0, sizeof(g_reply->wreq));
@@ -1288,7 +1224,7 @@ void process_request(char* code_sign_key) {
     //
     do_file_delete_regex();
 
-    // if different major version of BOINC, just send a message
+    // if bad BOINC version / OS / CPU, send a message, don't send work
     //
     if (wrong_core_client_version()
         || unacceptable_os()
@@ -1297,9 +1233,13 @@ void process_request(char* code_sign_key) {
         ok_to_send_work = false;
     }
 
+    // tell user if missing CPU type or OS name
+    //
+    check_missing_fields();
+
     // if no jobs reported and none to send, return without accessing DB
     //
-    if (!ok_to_send_work && !g_request->results.size()) {
+    if (!ok_to_send_work && g_request->results.empty()) {
         return;
     }
 
@@ -1332,7 +1272,7 @@ void process_request(char* code_sign_key) {
         have_no_work
         && config.nowork_skip
         && requesting_work()
-        && (g_request->results.size() == 0)
+        && g_request->results.empty()
         && (g_request->hostid != 0)
     ) {
         g_reply->insert_message("No work available", "low");
@@ -1440,12 +1380,14 @@ void process_request(char* code_sign_key) {
     // if primary platform is anonymous, ignore alternate platforms
     //
     if (strcmp(g_request->platform.name, "anonymous")) {
-        for (i=0; i<g_request->alt_platforms.size(); i++) {
-            platform = ssp->lookup_platform(g_request->alt_platforms[i].name);
-            if (platform) g_request->platforms.list.push_back(platform);
+        for (const CLIENT_PLATFORM &p: g_request->alt_platforms) {
+            platform = ssp->lookup_platform(p.name);
+            if (platform) {
+                g_request->platforms.list.push_back(platform);
+            }
         }
     }
-    if (g_request->platforms.list.size() == 0) {
+    if (g_request->platforms.list.empty()) {
         sprintf(buf, "%s %s",
             _("This project doesn't support computers of type"),
             g_request->platform.name
@@ -1475,9 +1417,6 @@ void process_request(char* code_sign_key) {
 
     // Do this before resending lost jobs
     //
-    if (bad_install_type()) {
-        ok_to_send_work = false;
-    }
     if (!requesting_work()) {
         ok_to_send_work = false;
     }
@@ -1591,8 +1530,7 @@ static void log_incomplete_request() {
 }
 
 static void log_user_messages() {
-    for (unsigned int i=0; i<g_reply->messages.size(); i++) {
-        USER_MESSAGE um = g_reply->messages[i];
+    for (const USER_MESSAGE &um: g_reply->messages) {
         log_messages.printf(MSG_NORMAL,
             "[user_messages] [HOST#%lu] MSG(%s) %s\n",
             g_reply->host.id, um.priority.c_str(), um.message.c_str()

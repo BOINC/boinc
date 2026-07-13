@@ -18,7 +18,7 @@
 
 // show certificate for user: signup date, credit, FLOPs
 // Projects can customize this:
-// https://github.com/BOINC/boinc/wiki/WebConfig#certificate-related-constants
+// https://github.com/BOINC/boinc/wiki/Web-configuration-file#certificate-related-constants
 
 require_once("../inc/util.inc");
 require_once("../inc/cert.inc");

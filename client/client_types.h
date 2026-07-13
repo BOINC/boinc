@@ -197,7 +197,7 @@ struct FILE_REF {
     }
     FILE_REF() {clear();}
     int parse(XML_PARSER&);
-    int write(MIOFILE&);
+    int write(MIOFILE&) const;
 };
 
 // File xfer backoff state for a project and direction (up/down).
@@ -366,8 +366,8 @@ struct APP_VERSION {
     char graphics_exec_path[MAXPATHLEN];
     char graphics_exec_file[256];
 
-    double max_working_set_size;
-        // max working set of tasks using this app version.
+    double max_rss;
+        // max RSS of tasks using this app version.
         // unstarted jobs using this app version are assumed
         // to use this much RAM,
         // so that we don't run a long sequence of jobs,
@@ -390,6 +390,8 @@ struct APP_VERSION {
     ~APP_VERSION(){}
     void init();
     int parse(XML_PARSER&);
+    bool disallowed_by_config(PROJECT*);
+    void fill_in_resource_usage();
     int write(MIOFILE&, bool write_file_info = true);
     bool had_download_failure(int& failnum);
     void get_file_errors(std::string&);

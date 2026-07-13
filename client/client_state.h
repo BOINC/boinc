@@ -51,7 +51,6 @@ using std::vector;
 #include "net_stats.h"
 #include "pers_file_xfer.h"
 #include "prefs.h"
-#include "project_list.h"
 #include "scheduler_op.h"
 #include "time_stats.h"
 
@@ -106,6 +105,8 @@ struct CLIENT_STATE {
         // info from GUI, e.g. battery status
     double device_status_time;
         // time of last RPC from GUI
+    double battery_charge_resume_time;
+    double battery_heat_resume_time;
 #endif
 
     char language[16];                // ISO language code reported by GUI
@@ -242,7 +243,6 @@ struct CLIENT_STATE {
         // the time we last successfully fetched the project list
     bool autologin_in_progress;
     bool autologin_fetching_project_list;
-    PROJECT_LIST project_list;
     void process_autologin(bool first);
 
 // --------------- app_test.cpp:
@@ -305,7 +305,7 @@ struct CLIENT_STATE {
     void clear_absolute_times();
     void set_now();
     void log_show_projects();
-    void init_result_resource_usage();
+    void init_result_resource_usage(PROJECT *p = NULL);
 
 // --------------- cpu_sched.cpp:
     double total_resource_share();
@@ -323,6 +323,7 @@ struct CLIENT_STATE {
     void make_run_list(vector<RESULT*>&);
     bool enforce_run_list(vector<RESULT*>&);
     void append_unfinished_time_slice(vector<RESULT*>&);
+    bool swap_limit_check();
 
     double runnable_resource_share(int);
     void adjust_rec();
@@ -504,7 +505,7 @@ struct CLIENT_STATE {
 
     void check_app(APP&);
     void check_file_info(FILE_INFO&);
-    void check_file_ref(FILE_REF&);
+    void check_file_ref(const FILE_REF&);
     void check_app_version(APP_VERSION&);
     void check_workunit(WORKUNIT&);
     void check_result(RESULT&);
@@ -576,9 +577,7 @@ extern double calculate_exponential_backoff(
 extern THREAD_LOCK client_thread_mutex;
 extern THREAD throttle_thread;
 
-#ifdef _WIN32
-extern void show_wsl_messages();
-#endif
+extern void show_docker_messages();
 
 //////// TIME-RELATED CONSTANTS ////////////
 
@@ -717,6 +716,20 @@ extern void show_wsl_messages();
     // Don't do this on Android
 #endif
 
-#define NEED_NETWORK_MSG _("BOINC can't access Internet - check network connection or proxy configuration.")
+#define NEED_NETWORK_MSG _("BOINC can't access Internet - check network connection")
+#define APP_NEED_NETWORK_MSG _("Tasks can't access Internet - check network connection")
+#define APP_NETWORK_SUSPENDED_MSG _("Tasks need Internet access - consider unsuspending network")
+
+// are measurements of swap space a virtual sizes meaningful?
+// On MacOS, ps (which is how we measure virtual size)
+// says that every process is at least 33 GB.
+//
+inline bool is_swap_defined() {
+#ifdef __APPLE__
+    return false;
+#else
+    return gstate.host_info.m_swap > 0;
+#endif
+}
 
 #endif

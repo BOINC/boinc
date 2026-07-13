@@ -52,7 +52,7 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
                 wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER
             ) {
 
-    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
@@ -63,7 +63,7 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
 
     wxString title;
     title.Printf(
-        _("%s Diagnostic Log Flags"),
+        _("%s event log options"),
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
 
@@ -81,7 +81,7 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
     m_headingSizer = new wxFlexGridSizer( 1 );
 
     m_headingText.Printf(
-        _("These flags enable various types of diagnostic messages in the Event Log.")
+        _("These flags enable various types of messages in the Event Log.")
     );
 
     m_heading = new wxStaticText(this, wxID_ANY, m_headingText);

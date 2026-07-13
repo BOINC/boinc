@@ -32,12 +32,11 @@ xml_header();
 $retval = db_init_xml();
 if ($retval) xml_error($retval);
 
-$config = get_config();
-if (parse_bool($config, "disable_account_creation")) {
+if (project_config_bool("disable_account_creation")) {
     xml_error(-1, "The project is not accepting new accounts.");
 }
-if (parse_bool($config, "disable_account_creation_rpc")) {
-    if (parse_bool($config, "no_web_account_creation")) {
+if (project_config_bool("disable_account_creation_rpc")) {
+    if (project_config_bool("no_web_account_creation")) {
         xml_error(-1, "The project is not accepting new accounts.");
     } else {
         xml_error(-1, "Please visit the project web site to create an account, then try again.");
@@ -105,7 +104,7 @@ if ($user) {
     // by setting "account_creation_rpc_require_consent" to 1 in
     // config.xml
     //
-    if (parse_bool($config, "account_creation_rpc_require_consent")) {
+    if (project_config_bool("account_creation_rpc_require_consent")) {
         // Consistency checks
         //
         if (!check_termsofuse()) {

@@ -22,8 +22,6 @@
 #ifndef _BOINC_DB_TYPES_
 #define _BOINC_DB_TYPES_
 
-#include <vector>
-
 #include "average.h"
 #include "opencl_boinc.h"
 #include "parse.h"
@@ -350,7 +348,10 @@ struct HOST {
     char venue[256];        // home/work/school
     int nresults_today;     // results sent since midnight
     double avg_turnaround;  // recent average result turnaround time
-    char host_cpid[256];    // host cross-project ID
+    char host_cpid[256];    // external host cross-project ID
+        // the client generates an 'internal' host CPID;
+        // the server hashes this with email addr to avoid spoofing
+        // See https://github.com/BOINC/boinc/wiki/Host-identification
     char external_ip_addr[256]; // IP address seen by scheduler
     int _max_results_day;
         // MRD is dynamically adjusted to limit work sent to bad hosts.
@@ -370,6 +371,8 @@ struct HOST {
     double gpu_active_frac;
     int p_ngpus;
     double p_gpu_fpops;
+    char misc[BLOB_SIZE];
+        // JSON description of GPUs, Docker etc.
 
     // the following items are passed in scheduler requests,
     // and used in the scheduler,
@@ -405,6 +408,10 @@ struct HOST {
     bool get_opencl_cpu_prop(const char* platform, OPENCL_CPU_PROP&);
     inline bool low_turnaround() {
         return _error_rate > 0;
+    }
+    // for scheduler: see if client is Win
+    inline bool is_windows() {
+        return strcasestr(os_name, "windows") != NULL;
     }
 };
 
@@ -503,12 +510,18 @@ struct WORKUNIT {
     int target_nresults;
         // try to get this many "viable" results,
         // i.e. candidate for canonical result.
+        // should always be at least min_quorum.
         // may be > min_quorum to get consensus quicker or reflect loss rate
-    int max_error_results;      // WU error if < #error results
-    int max_total_results;      // WU error if < #total results
-        // (need this in case results are never returned)
-    int max_success_results;    // WU error if < #success results
-        // without consensus (i.e. WU is nondeterministic)
+    int max_error_results;
+        // transitioner: if # results without client compute error exceeds this,
+        // mark WU as WU_ERROR_TOO_MANY_ERROR_RESULTS
+    int max_total_results;
+        // transitioner: if we need more instances but it would exceed this,
+        // mark WU as WU_ERROR_TOO_MANY_TOTAL_RESULTS
+    int max_success_results;
+        // validator: if #success results exceeds this without consensus
+        // (i.e. WU seems nondeterministic)
+        // mark WU as WU_ERROR_TOO_MANY_SUCCESS_RESULTS
     char result_template_file[64];
     int priority;
     char mod_time[20];
@@ -763,12 +776,28 @@ struct HOST_APP_VERSION {
         // for old clients (which don't report elapsed time)
         // we use this for CPU time stats
     int max_jobs_per_day;
-        // the actual limit is:
+        // send at most this # of jobs per day.
+        // does 0 mean no limit??
+        // if >1, it's scaled so the actual limit is:
         // for GPU versions:
         //   this times config.gpu_multiplier * #GPUs of this type
         // for CPU versions:
         //   this times #CPUs
+        // scheduler:
+        //      limit is enforced in sched_version.cpp:daily_quota_exceeded()
+        //      double if get success result (not necc. validated)
+        //          sched_result.cpp:got_good_result()
+        //      decrement (down to 1) if get failed result
+        //          sched_result.cpp:got_bad_result()
+        //      Used as a temp to enforce global limit?
+        // transitioner:
+        //      decrement if result times out
+        // validator:
+        //      increment if valid result
+        //      decrement if invalid result and > global limit (???)
+        //      set to 1 if init_result() returns LONG_TERM_FAIL
     int n_jobs_today;
+        // number of jobs sent today.
     AVERAGE_VAR turnaround;
         // the stats of turnaround time (received - sent)
         // (NOT normalized by wu.rsc_fpops_est)

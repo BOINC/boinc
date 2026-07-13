@@ -47,6 +47,7 @@
 #include <string>
 #include <cstring>
 #include <cmath>
+#include <algorithm>
 #if HAVE_IEEEFP_H
 #include <ieeefp.h>
 extern "C" {
@@ -281,18 +282,24 @@ int run_program(
 #endif
 
 // Run command, wait for exit.
+// If command exits nonzero, return value is -1.
 // Return its output as vector of lines (\n-terminated).
 // Win: output includes stdout and stderr
 // Unix: if you want stderr too, add 2>&1 to command
 // Return error if command failed
 //
-int run_command(char *cmd, vector<string> &out) {
+int run_command(const char *cmd, vector<string> &out) {
     out.clear();
 #ifdef _WIN32
     HANDLE pipe_read, pipe_write;
     SECURITY_ATTRIBUTES sa;
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
+    char cmd2[1024];
+
+    // CreateProcess() can modify its cmd arg (WTF???)
+    // So copy it to a temp buffer
+    safe_strcpy(cmd2, cmd);
 
     memset(&si, 0, sizeof(si));
     memset(&pi, 0, sizeof(pi));
@@ -314,7 +321,7 @@ int run_command(char *cmd, vector<string> &out) {
 
     if (!CreateProcess(
         NULL,
-        (LPTSTR)cmd,
+        (LPTSTR)cmd2,
         NULL,
         NULL,
         TRUE,   // inherit handles
@@ -333,7 +340,6 @@ int run_command(char *cmd, vector<string> &out) {
 
     unsigned long exit_code;
     GetExitCodeProcess(pi.hProcess, &exit_code);
-    if (exit_code) return -1;
 
     DWORD count, nread;
     PeekNamedPipe(pipe_read, NULL, NULL, NULL, &count, NULL);
@@ -354,6 +360,7 @@ int run_command(char *cmd, vector<string> &out) {
         p = q + 1;
     }
     free(buf);
+    if (exit_code) return -1;
 #else
 #ifndef _USING_FCGI_
     char buf[256];
@@ -363,12 +370,16 @@ int run_command(char *cmd, vector<string> &out) {
         fprintf(stderr, "popen() failed: %s\n", cmd);
         return ERR_FOPEN;
     }
+    string s;
     while (fgets(buf, 256, fp)) {
-        out.push_back(buf);
+        s += buf;
+        if (strchr(buf, '\n')) {
+            out.push_back(s);
+            s.clear();
+        }
     }
-    pclose(fp);
-    if (errno) {
-        fprintf(stderr, "popen() failed errno %d: %s\n", errno, cmd);
+    int exit_status = pclose(fp);
+    if (exit_status) {
         return -1;
     }
 #endif
@@ -706,46 +717,46 @@ string parse_ldd_libc(const char* input) {
     return s;
 }
 
+// ------------ Docker stuff follows ------------
+
 // Set up to issue Docker commands.
 // On Win this requires connecting to a shell in the WSL distro
 //
 #ifdef _WIN32
-int DOCKER_CONN::init(
-    DOCKER_TYPE docker_type, string distro_name, bool _verbose
-) {
+int DOCKER_CONN::init(WSL_DISTRO &wd) {
     string err_msg;
-    type = docker_type;
-    cli_prog = docker_cli_prog(docker_type);
-    if (docker_type == DOCKER) {
+    type = wd.docker_type;
+    cli_prog = docker_cli_prog(wd.docker_type);
+    if (wd.docker_type == DOCKER) {
         int retval = ctl_wc.setup(err_msg);
         if (retval) return retval;
-        retval = ctl_wc.run_program_in_wsl(distro_name, "", true);
+        retval = ctl_wc.run_program_in_wsl(wd, "", true);
         if (retval) return retval;
-    } else if (docker_type == PODMAN) {
-        int retval = ctl_wc.setup_podman(distro_name.c_str());
+    } else if (wd.docker_type == PODMAN) {
+        int retval = ctl_wc.setup_podman(wd);
         if (retval) return retval;
     } else {
         fprintf(stderr,
-            "DOCKER_CONN::init(): bad docker type %d\n", docker_type
+            "DOCKER_CONN::init(): bad docker type %d\n", wd.docker_type
         );
         return -1;
     }
-    verbose = _verbose;
     return 0;
 }
 #else
-int DOCKER_CONN::init(DOCKER_TYPE docker_type, bool _verbose) {
+int DOCKER_CONN::init(DOCKER_TYPE docker_type) {
     type = docker_type;
     cli_prog = docker_cli_prog(docker_type);
-    verbose = _verbose;
     return 0;
 }
 #endif
 
-// issue a Docker command and return its output
+// issue a Docker command and return its output (stdout + stderr)
 // as a vector of lines (\n-terminated)
 //
-int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
+int DOCKER_CONN::command(
+    const char* cmd, vector<string> &out, bool verbose
+) {
     char buf[1024];
     int retval;
     if (verbose) {
@@ -758,7 +769,7 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     // In the Win case we read the output from a pipe.
     // Append 'EOM' to the output so we know when we've reached the end
 
-    snprintf(buf, sizeof(buf), "%s %s; echo EOM\n", cli_prog, cmd);
+    snprintf(buf, sizeof(buf), "%s %s 2>&1; echo EOM\n", cli_prog, cmd);
     write_to_pipe(ctl_wc.in_write, buf);
     retval = read_from_pipe(
         ctl_wc.out_read, ctl_wc.proc_handle, output, CMD_TIMEOUT, "EOM"
@@ -770,14 +781,12 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     out = split(output, '\n');
 #else
     snprintf(buf, sizeof(buf),
-        "%s %s",
+        "%s %s 2>&1",
         cli_prog, cmd
     );
     retval = run_command(buf, out);
     if (retval) {
-        if (verbose) {
-            fprintf(stderr, "command failed: %s\n", boincerror(retval));
-        }
+        fprintf(stderr, "command failed: %s\n", boincerror(retval));
         return retval;
     }
 #endif  // _WIN32
@@ -791,6 +800,34 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
     return 0;
 }
 
+// like the above, but run a shell command (not a Docker command).
+// We only need this in Win, to run commands in our WSL shell
+//
+#ifdef _WIN32
+int DOCKER_CONN::shell_command(
+    const char* cmd, vector<string> &out, bool verbose
+) {
+    char buf[1024];
+    int retval;
+    if (verbose) {
+        fprintf(stderr, "running WSL shell command: %s\n", cmd);
+    }
+    string output;
+
+    snprintf(buf, sizeof(buf), "%s 2>&1; echo EOM\n", cmd);
+    write_to_pipe(ctl_wc.in_write, buf);
+    retval = read_from_pipe(
+        ctl_wc.out_read, ctl_wc.proc_handle, output, CMD_TIMEOUT, "EOM"
+    );
+    if (retval) {
+        fprintf(stderr, "read_from_pipe() error: %s\n", boincerror(retval));
+        return retval;
+    }
+    out = split(output, '\n');
+    return 0;
+}
+#endif
+
 // parse the output of 'docker images'
 // from the following, return 'boinc__app_test__test_wu'
 //
@@ -799,7 +836,7 @@ int DOCKER_CONN::command(const char* cmd, vector<string> &out) {
 //
 int DOCKER_CONN::parse_image_name(string line, string &name) {
     char buf[1024];
-    strcpy(buf, line.c_str());
+    safe_strcpy(buf, line.c_str());
     if (strstr(buf, "REPOSITORY")) return -1;
     if (strstr(buf, "localhost/") != buf) return -1;
     char *p = buf + strlen("localhost/");
@@ -816,13 +853,18 @@ int DOCKER_CONN::parse_image_name(string line, string &name) {
 // CONTAINER ID  IMAGE                                      COMMAND               CREATED        STATUS                   PORTS       NAMES
 // 6d4877e0d071  localhost/boinc__app_test__test_wu:latest  /bin/sh -c ./work...  43 hours ago   Exited (0) 21 hours ago              boinc__app_test__test_result
 //
+// if running, looks like
+// CONTAINER ID  IMAGE                       COMMAND       CREATED        STATUS        PORTS       NAMES
+// bf4ce6e19182  localhost/criu_test:latest  ./counter.sh  9 seconds ago  Up 9 seconds              competent_ishizaka
+
 int DOCKER_CONN::parse_container_name(string line, string &name) {
     char buf[1024];
-    strcpy(buf, line.c_str());
+    safe_strcpy(buf, line.c_str());
     if (strstr(buf, "CONTAINER")) return -1;
     char *p = strrchr(buf, ' ');
     if (!p) return -1;
     name = (string)(p+1);
+    strip_whitespace(name);
     return 0;
 }
 
@@ -863,4 +905,135 @@ string docker_container_name(
 bool docker_is_boinc_name(const char* name) {
     return strstr(name, "boinc__") == name;
 }
+
+// ------------ all_projects_list.xml stuff follows ---------
+
+PROJECT_LIST_ENTRY::PROJECT_LIST_ENTRY() {
+    clear();
+}
+
+int PROJECT_LIST_ENTRY::parse(XML_PARSER& xp) {
+    string platform;
+
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/project")) {
+            if (id == 0) return ERR_XML_PARSE;
+            if (url.empty()) return ERR_XML_PARSE;
+            if (name.empty()) return ERR_XML_PARSE;
+            return 0;
+        }
+        if (xp.match_tag("/account_manager")) return 0;
+        if (xp.parse_string("name", name)) continue;
+        if (xp.parse_int("id", id)) continue;
+        if (xp.parse_string("url", url)) {
+            continue;
+        }
+        if (xp.parse_string("web_url", web_url)) {
+            continue;
+        }
+        if (xp.parse_string("general_area", general_area)) continue;
+        if (xp.parse_string("specific_area", specific_area)) continue;
+        if (xp.parse_string("description", description)) {
+            continue;
+        }
+        if (xp.parse_string("home", home)) continue;
+        if (xp.parse_string("image", image)) continue;
+        if (xp.match_tag("platforms")) {
+            while (!xp.get_tag()) {
+                if (xp.match_tag("/platforms")) break;
+                if (xp.parse_string("name", platform)) {
+                    platforms.push_back(platform);
+                }
+            }
+        }
+        xp.skip_unexpected(false, "");
+    }
+    return ERR_XML_PARSE;
+}
+
+void PROJECT_LIST_ENTRY::clear() {
+    name.clear();
+    id = 0;
+    url.clear();
+    web_url.clear();
+    general_area.clear();
+    specific_area.clear();
+    description.clear();
+    platforms.clear();
+    home.clear();
+    image.clear();
+    is_account_manager = false;
+}
+
+bool compare_project_list_entry(
+    const PROJECT_LIST_ENTRY* a, const PROJECT_LIST_ENTRY* b
+) {
+#ifdef _WIN32
+    return _stricmp(a->name.c_str(), b->name.c_str()) < 0;
+#else
+    return strcasecmp(a->name.c_str(), b->name.c_str()) < 0;
+#endif
+}
+
+void ALL_PROJECTS_LIST::alpha_sort() {
+    sort(projects.begin(), projects.end(), compare_project_list_entry);
+    sort(account_managers.begin(), account_managers.end(), compare_project_list_entry);
+}
+
+void ALL_PROJECTS_LIST::clear() {
+    for (PROJECT_LIST_ENTRY *p: projects) {
+        delete p;
+    }
+    for (PROJECT_LIST_ENTRY *am: account_managers) {
+        delete am;
+    }
+    projects.clear();
+    account_managers.clear();
+}
+
+int ALL_PROJECTS_LIST::parse(XML_PARSER &xp) {
+    PROJECT_LIST_ENTRY* entry;
+    int retval;
+
+    clear();
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/projects")) {
+            return 0;
+        }
+        else if (xp.match_tag("project")) {
+            entry = new PROJECT_LIST_ENTRY();
+            retval = entry->parse(xp);
+            if (!retval) {
+                entry->is_account_manager = false;
+                projects.push_back(entry);
+            } else {
+                delete entry;
+            }
+            continue;
+        } else if (xp.match_tag("account_manager")) {
+            entry = new PROJECT_LIST_ENTRY();
+            retval = entry->parse(xp);
+            if (!retval) {
+                entry->is_account_manager = true;
+                account_managers.push_back(entry);
+            } else {
+                delete entry;
+            }
+            continue;
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
+int ALL_PROJECTS_LIST::read_file(const char* filename) {
+    FILE* f = fopen(filename, "r");
+    if (!f) return ERR_FOPEN;
+    MIOFILE mf;
+    mf.init_file(f);
+    XML_PARSER xp(&mf);
+    int retval = parse(xp);
+    fclose(f);
+    return retval;
+}
+
 #endif  // _USING_FCGI

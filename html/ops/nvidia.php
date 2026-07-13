@@ -18,6 +18,8 @@
 
 // script for studying NVIDIA GPUs on hosts
 
+TODO: use host.misc instead of host.serialnum
+
 $cli_only = true;
 require_once("../inc/util_ops.inc");
 

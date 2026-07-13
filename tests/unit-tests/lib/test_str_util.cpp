@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,13 +15,15 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef _WIN32
+#include <string>
+#include <ios>
 #include "gtest/gtest.h"
+#endif
+
 #include "common_defs.h"
 #include "str_util.h"
 #include "error_numbers.h"
-
-#include <string>
-#include <ios>
 
 namespace test_str_util {
     class test_str_util : public ::testing::Test {
@@ -298,62 +300,6 @@ namespace test_str_util {
         strcpy(buf, "lf\n ending\n");
         buf = lf_terminate(buf);
         EXPECT_STREQ(buf, "lf\n ending\n");
-    }
-
-    TEST_F(test_str_util, parse_serialnum) {
-        char buf[256] = "[BOINC|1.2.3]", buf1[256], buf2[256], buf3[256];
-        //sprintf(tmp, "[BOINC|1.2.3]");
-        parse_serialnum(buf, buf1, buf2, buf3);
-        EXPECT_STREQ(buf, "[BOINC|1.2.3]");
-        EXPECT_STREQ(buf1, "[BOINC|1.2.3]");
-        EXPECT_STREQ(buf2, "");
-        EXPECT_STREQ(buf3, "");
-        strncpy(buf, "[BOINC|1.2.3][vbox|4.5.6abc]", sizeof(buf));
-        parse_serialnum(buf, buf1, buf2, buf3);
-        EXPECT_STREQ(buf1, "[BOINC|1.2.3]");
-        EXPECT_STREQ(buf2, "[vbox|4.5.6abc]");
-        EXPECT_STREQ(buf3, "");
-        strncpy(buf, "[BOINC|1.2.3][INTEL|Intel(R) HD Graphics|1|2406MB||201]", sizeof(buf));
-        parse_serialnum(buf, buf1, buf2, buf3);
-        EXPECT_STREQ(buf1, "[BOINC|1.2.3]");
-        EXPECT_STREQ(buf2, "");
-        EXPECT_STREQ(buf3, "[INTEL|Intel(R) HD Graphics|1|2406MB||201]");
-        strncpy(buf, "[vbox|4.5.6abc][INTEL|Intel(R) HD Graphics|1|2406MB||201][BOINC|1.2.3]", sizeof(buf));
-        parse_serialnum(buf, buf1, buf2, buf3);
-        EXPECT_STREQ(buf1, "[BOINC|1.2.3]");
-        EXPECT_STREQ(buf2, "[vbox|4.5.6abc]");
-        EXPECT_STREQ(buf3, "[INTEL|Intel(R) HD Graphics|1|2406MB||201]");
-        strncpy(buf, "[BOINC|1.2.3][INTEL|Intel(R) HD Graphics|1|2406MB||201][vbox|4.5.6abc]", sizeof(buf));
-        parse_serialnum(buf, buf1, buf2, buf3);
-        EXPECT_STREQ(buf1, "[BOINC|1.2.3]");
-        EXPECT_STREQ(buf2, "[vbox|4.5.6abc]");
-        EXPECT_STREQ(buf3, "[INTEL|Intel(R) HD Graphics|1|2406MB||201]");
-        strncpy(buf, "[BOINC|1.2.3][vbox|4.5.6abc][INTEL|Intel(R) HD Graphics|1|2406MB||201]", sizeof(buf));
-        parse_serialnum(buf, buf1, buf2, buf3);
-        EXPECT_STREQ(buf1, "[BOINC|1.2.3]");
-        EXPECT_STREQ(buf2, "[vbox|4.5.6abc]");
-        EXPECT_STREQ(buf3, "[INTEL|Intel(R) HD Graphics|1|2406MB||201]");
-        strncpy(buf, "[BOINC|7.6.22][CAL|ATI Radeon HD 5800/5900 series (Cypress/Hemlock)|2|1024MB|1.4.1848|102][vbox|5.1.26]", sizeof(buf));
-        parse_serialnum(buf, buf1, buf2, buf3);
-        EXPECT_STREQ(buf1, "[BOINC|7.6.22]");
-        EXPECT_STREQ(buf2, "[vbox|5.1.26]");
-        EXPECT_STREQ(buf3, "[CAL|ATI Radeon HD 5800/5900 series (Cypress/Hemlock)|2|1024MB|1.4.1848|102]");
-        strncpy(buf, "[BOINC|7.6.22[CAL|ATI Radeon HD 5800/5900 series (Cypress/Hemlock)|2|1024MB|1.4.1848|102][vbox|5.1.26]", sizeof(buf));
-        parse_serialnum(buf, buf1, buf2, buf3);
-        EXPECT_STREQ(buf1, "[BOINC|7.6.22[CAL|ATI Radeon HD 5800/5900 series (Cypress/Hemlock)|2|1024MB|1.4.1848|102]");
-        EXPECT_STREQ(buf2, "[vbox|5.1.26]");
-        EXPECT_STREQ(buf3, "");
-        strncpy(buf, "[BOINC|7.6.22][CAL|ATI Radeon HD 5800/5900 series [Cypress/Hemlock]|2|1024MB|1.4.1848|102][vbox|5.1.26]", sizeof(buf));
-        parse_serialnum(buf, buf1, buf2, buf3);
-        EXPECT_STREQ(buf1, "[BOINC|7.6.22]");
-        EXPECT_STREQ(buf2, "");
-        EXPECT_STREQ(buf3, "[CAL|ATI Radeon HD 5800/5900 series [Cypress/Hemlock]");
-        strncpy(buf, "[BOINC|7.6.22][CAL|ATI Radeon HD 5800/5900 series (Cypress/Hemlock)|2|1024MB|1.4.1848|102][extra|7.8.9][vbox|5.1.26]", sizeof(buf));
-        parse_serialnum(buf, buf1, buf2, buf3);
-        EXPECT_STREQ(buf1, "[BOINC|7.6.22]");
-        EXPECT_STREQ(buf2, "[vbox|5.1.26]");
-        //TODO: fix parse_serialnum so this doesn't happen:
-        EXPECT_STREQ(buf3, "[CAL|ATI Radeon HD 5800/5900 series (Cypress/Hemlock)|2|1024MB|1.4.1848|102][extra|7.8.9]");
     }
 
     TEST_F(test_str_util, is_valid_filename) {

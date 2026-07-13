@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <sstream>
-#include <iostream>
+#include "stdafx.h"
+
 #include <locale>
 
 #include "FileTable.h"
@@ -193,6 +193,9 @@ FileTable::FileTable(const std::vector<Directory>& directories,
                     file.getFilepath().string());
                 if (!version.empty()) {
                     file.setVersion(version);
+                    if (language == 0) {
+                        file.setLanguage("1033");
+                    }
                 }
                 file.setFilesize(static_cast<int>(
                     GetFileSize(file.getFilepath().string())));

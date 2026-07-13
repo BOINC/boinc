@@ -74,6 +74,7 @@ Commands:\n\
  --get_notices [ seqno ]            show notices > seqno\n\
  --get_project_config URL\n\
  --get_project_status               show status of all attached projects\n\
+ --get_project_urls                 show master URLs of all attached projects\n\
  --get_proxy_settings\n\
  --get_simple_gui_info              show status of projects and active tasks\n\
  --get_state                        show entire state\n\
@@ -184,13 +185,12 @@ void show_alerts(RPC_CLIENT &rpc) {
         );
         return;
     }
-    for (unsigned int j=0; j<messages.messages.size(); j++) {
-        MESSAGE& md = *messages.messages[j];
-        if (md.priority != MSG_USER_ALERT) continue;
-        if (!md.project.empty()) continue;
-        strip_whitespace(md.body);
+    for (MESSAGE* md: messages.messages) {
+        if (md->priority != MSG_USER_ALERT) continue;
+        if (!md->project.empty()) continue;
+        strip_whitespace(md->body);
         fprintf(stderr, "\nAlert from client: %s\n",
-            md.body.c_str()
+            md->body.c_str()
         );
     }
 }
@@ -515,8 +515,7 @@ int main(int argc, char** argv) {
         vector<OLD_RESULT> ors;
         retval = rpc.get_old_results(ors);
         if (!retval) {
-            for (unsigned int j=0; j<ors.size(); j++) {
-                OLD_RESULT& o = ors[j];
+            for (const OLD_RESULT& o: ors) {
                 o.print();
             }
         }
@@ -696,16 +695,14 @@ int main(int argc, char** argv) {
         }
         retval = rpc.get_messages(seqno, messages);
         if (!retval) {
-            unsigned int j;
-            for (j=0; j<messages.messages.size(); j++) {
-                MESSAGE& md = *messages.messages[j];
-                strip_whitespace(md.body);
+            for (MESSAGE* md: messages.messages) {
+                strip_whitespace(md->body);
                 printf("%d: %s (%s) [%s] %s\n",
-                    md.seqno,
-                    time_to_string(md.timestamp),
-                    prio_name(md.priority),
-                    md.project.c_str(),
-                    md.body.c_str()
+                    md->seqno,
+                    time_to_string(md->timestamp),
+                    prio_name(md->priority),
+                    md->project.c_str(),
+                    md->body.c_str()
                 );
             }
         }
@@ -718,14 +715,12 @@ int main(int argc, char** argv) {
         }
         retval = rpc.get_notices(seqno, notices);
         if (!retval) {
-            unsigned int j;
-            for (j=0; j<notices.notices.size(); j++) {
-                NOTICE& n = *notices.notices[j];
-                strip_whitespace(n.description);
+            for (NOTICE *n: notices.notices) {
+                strip_whitespace(n->description);
                 printf("%d: (%s) %s\n",
-                    n.seqno,
-                    time_to_string(n.create_time),
-                    n.description.c_str()
+                    n->seqno,
+                    time_to_string(n->create_time),
+                    n->description.c_str()
                 );
             }
         }

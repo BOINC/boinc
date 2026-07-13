@@ -5,7 +5,7 @@ Wants=vboxdrv.service
 After=vboxdrv.service network-online.target
 
 [Service]
-Type=simple
+Type=exec
 ProtectHome=true
 ProtectSystem=strict
 ProtectControlGroups=true

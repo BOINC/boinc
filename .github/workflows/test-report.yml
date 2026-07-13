@@ -1,6 +1,6 @@
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -26,15 +26,15 @@ jobs:
   report:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
       - name: Download artifacts
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           github-token: ${{ secrets.ACTIONS_TEST_REPORT_TOKEN }}
           run-id: ${{ github.event.workflow_run.id }}
           path: test-reports
           pattern: '*_tests_results'
-      - uses: dorny/test-reporter@dc3a92680fcc15842eef52e8c4606ea7ce6bd3f3
+      - uses: dorny/test-reporter@a43b3a5f7366b97d083190328d2c652e1a8b6aa2
         with:
           name: 'Tests Report'
           path: 'test-reports/**/*.xml'

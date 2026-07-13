@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -29,6 +29,7 @@
 #include <spawn.h>
 
 #include "file_names.h"
+#include "util.h"
 #include "mac_util.h"
 #include "SetupSecurity.h"
 
@@ -44,7 +45,6 @@ static OSStatus DoSudoPosixSpawn(const char *pathToTool, char *arg1, char *arg2,
 static OSStatus SetFakeMasterNames(void);
 #endif
 static OSStatus CreateUserAndGroup(char * user_name, char * group_name);
-static double dtime(void);
 static void SleepSeconds(double seconds);
 
 #if VERBOSE_TEST
@@ -305,18 +305,16 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         return err;
 #endif
 
-    strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
-
     // Does BOINC Data directory exist?
-    result = stat(fullpath, &sbuf);
+    result = stat(BOINCDataDirPath, &sbuf);
     isDirectory = S_ISDIR(sbuf.st_mode);
     if ((result != noErr) || (! isDirectory))
         return dirNFErr;                    // BOINC Data Directory does not exist
 
     // Set owner and group of BOINC Data directory's contents
     sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
-    // chown -R boinc_master:boinc_master "/Library/Application Support/BOINC Data"
-    err = DoSudoPosixSpawn(chownPath, "-R", buf1, BOINCDataDirPath, NULL, NULL, NULL);
+    // chown -RH boinc_master:boinc_master "/Library/Application Support/BOINC Data"
+    err = DoSudoPosixSpawn(chownPath, "-RH", buf1, BOINCDataDirPath, NULL, NULL, NULL);
     if (err)
         return err;
 
@@ -552,15 +550,18 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     }       // slots directory
 
     // Does podman directory exist?
-    strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
-    strlcat(fullpath, "/", MAXPATHLEN);
 #ifdef __APPLE__
     // On the Mac, we can't put the Podman directory inside the BOINC Data
     // directory because this routine would modify the permissions of
     // Podman's files, which must be different for different files.
     // So we put the "BOINC Podman" Directory in the directory
-    // "/Library/Application/Support/", alongside "BOINC Data" directory
-    strlcat(fullpath, "../", MAXPATHLEN);
+    // "/Library/Application/Support/". But we can't get its path relative
+    // to BOINCDataDirPath because a user can move the "BOINC Data" dir as
+    // described in https://github.com/BOINC/boinc/wiki/Tools-for-MacOS
+    strlcpy(fullpath, "/Library/Application Support/", MAXPATHLEN);
+#else
+    strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
+    strlcat(fullpath, "/../", MAXPATHLEN);
 #endif
     strlcat(fullpath, PODMAN_DIR, MAXPATHLEN);
     result = stat(fullpath, &sbuf);
@@ -574,7 +575,9 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // Set owner and group of BOINC podman directory's contents)
         sprintf(buf1, "%s:%s", boinc_project_user_name, boinc_project_group_name);
         // chown -R boinc_master:boinc_master "/Library/Application Support/BOINC Data"
-        err = DoSudoPosixSpawn(chownPath, "-R", buf1, fullpath, NULL, NULL, NULL);
+        err = DoSudoPosixSpawn(chownPath, "-RL", buf1, fullpath, NULL, NULL, NULL);
+        if (err)
+            return err;
 
         // Set owner and group of BOINC podman directory itself
         sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
@@ -848,6 +851,12 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
     char            buf2[80];
     char            buf3[80];
     char            buf4[80];
+    char            buf5[80];
+    char            *args[5];
+    extern char     **environ;
+    pid_t           thePid = 0;
+    int             status = 0;
+    struct stat     sbuf;
 
     // OS 10.4 has problems with Accounts pane if we create uid or gid > 501
     pw = getpwnam(user_name);
@@ -862,8 +871,8 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
         groupExists = true;
     }
 
-    sprintf(buf1, "/groups/%s", group_name);
-    sprintf(buf2, "/users/%s", user_name);
+    sprintf(buf1, "/Groups/%s", group_name);
+    sprintf(buf2, "/Users/%s", user_name);
 
     if ( userExists && groupExists )
         goto setGroupForUser;       // User and group already exist
@@ -942,17 +951,54 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
         err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "uid", buf4, NULL);
         if (err)
             return err;
-
-        // Something like "dscl . -create /users/boinc_master home /var/empty"
-        err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "home", "/var/empty", NULL);
-        if (err)
-            return err;
     }           // if (! userExists)
 
 setGroupForUser:
-    // Older versions set shell to /usr/bin/false so do this even if the user exists
-    // Something like "dscl . -create /users/boinc_master shell /bin/zsh"
+    // Some versions of BOINC set the shell to /usr/bin/false and some to /bin/zsh.
+    // Having the user shell as /bin/zsh wthout specitying the home directory caused
+    // MacOS system updates to drop into Recovery Mode (Issue #6970.)
+    // To fix the Recovery Mode issue we are reverting to a shell of /bin/zsh and
+    // changing the home directory from /var/empty to /Users/boinc_master or
+    // /Users/boinc_master.
+    // Since some versions set shell to /bin/zsh, do this even if the user exists.
+    // Something like "dscl . -create /users/boinc_master shell /usr/bin/false"
     err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "shell", "/bin/zsh", NULL);
+    if (err)
+        return err;
+
+    err = stat(buf2, &sbuf);
+    if (err) {
+        DoSudoPosixSpawn("/bin/mkdir", "-m", "0755", buf2, NULL, NULL, NULL);
+    }
+
+    // Fix the directory's permissions if created by an earlier version of BOINC.
+    DoSudoPosixSpawn(chmodPath, "-f", "0755", buf2, NULL, NULL, NULL);
+
+    // Something like "dscl . -create /users/boinc_master home /Users/boinc_master"
+    // Since some versions set home dir to /var/empty, do this even if the user exists.
+    err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "home", buf2, NULL);
+    if (err)
+        return err;
+
+    // Hide the home directory and share point https://support.apple.com/en-mn/102099
+    // Something like "sudo chflags hidden /Users/boinc_master"
+    args[0] = "/usr/bin/sudo";
+    args[1] = "chflags";
+    args[2] = "hidden";
+    args[3] = buf2;
+    args[4] = NULL;
+    err = posix_spawnp(&thePid, "/usr/bin/sudo", NULL, NULL, args, environ);
+    waitpid(thePid, &status, WUNTRACED);
+    if (status != 0) {
+        err = status;
+    } else {
+        if (WIFEXITED(status)) {
+            err = WEXITSTATUS(status);
+            if (err == 1) {
+                err = errno;
+            }
+        }   // end if (WIFEXITED(status)) else
+    }       // end if waitpid returned 0 sstaus else
     if (err)
         return err;
 
@@ -968,17 +1014,20 @@ setGroupForUser:
     if (err)
         return err;
 
-    // Always set the RealName field to an empty string
-    // Note: create RealName with empty string fails under OS 10.7, but
-    // creating it with non-empty string and changing to empty string does work.
-    //
-    // Something like "dscl . -create /users/boinc_master RealName tempName"
+    // Set the RealName field in case System Events Useers & Groups shows it for some reason
+    // Something like "dscl . -create /users/boinc_master RealName boinc_master"
     err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "RealName", user_name, NULL);
     if (err)
         return err;
 
-    // Something like 'dscl . -change /users/boinc_master RealName ""'
-    err = DoSudoPosixSpawn(dsclPath, ".", "-change", buf2, "RealName", user_name, "");
+    // Hide user from System Events and Login screen https://support.apple.com/en-mn/102099
+    // Something like "dscl . -create /users/boinc_master IsHidden 1"
+    err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "IsHidden", "1", NULL);
+    if (err)
+        return err;
+
+    sprintf(buf5, "%s:staff", user_name);
+    err = DoSudoPosixSpawn(chownPath, buf5, buf2, NULL, NULL, NULL, NULL);
     if (err)
         return err;
 
@@ -1159,10 +1208,10 @@ void ShowSecurityError(const char *format, ...) {
     va_end(args);
 }
 
-
 // return time of day (seconds since 1970) as a double
+// ??? should use dtime() from lib/util.cpp
 //
-static double dtime(void) {
+static double dtime2(void) {
     struct timeval tv;
     gettimeofday(&tv, 0);
     return tv.tv_sec + (tv.tv_usec/1.e6);
@@ -1170,7 +1219,7 @@ static double dtime(void) {
 
 // Uses usleep to sleep for full duration even if a signal is received
 static void SleepSeconds(double seconds) {
-    double end_time = dtime() + seconds - 0.01;
+    double end_time = dtime2() + seconds - 0.01;
     // sleep() and usleep() can be interrupted by SIGALRM,
     // so we may need multiple calls
     //
@@ -1180,7 +1229,7 @@ static void SleepSeconds(double seconds) {
         } else {
             usleep((int)fmod(seconds*1000000, 1000000));
         }
-        seconds = end_time - dtime();
+        seconds = end_time - dtime2();
         if (seconds <= 0) break;
     }
 }
