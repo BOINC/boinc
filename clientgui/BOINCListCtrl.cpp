@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -526,22 +526,22 @@ void CBOINCListCtrl::DrawProgressBars()
 
     wxColour progressColor;
     wxColour remainderColor;
-    wxColour textColor;
+//    wxColour textColor;
 
     if (isDarkMode) {
 #if USE_NATIVE_LISTCONTROL
         progressColor = wxColour(96, 96, 96);
         remainderColor = wxColour(24, 24, 24);
-        textColor = wxColour(230, 230, 230);
+//        textColor = wxColour(230, 230, 230);
 #else
         progressColor = wxColour(0, 64, 128);
         remainderColor = *wxBLACK;
-        textColor = *wxBLACK;
+//        textColor = *wxBLACK;
 #endif
     } else {
         progressColor = wxColour(192, 217, 217);
         remainderColor = *wxWHITE;
-        textColor = *wxBLACK;
+//        textColor = *wxBLACK;
     }
 
     wxBrush progressBrush(progressColor);
