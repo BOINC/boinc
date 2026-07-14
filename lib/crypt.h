@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,6 +21,7 @@
 #include <cstdint>
 #include <vector>
 #include <string>
+#include <memory>
 
 // We're set up to use either RSAEuro or the OpenSSL crypto library.
 // We use our own data structures (R_RSA_PUBLIC_KEY and R_RSA_PRIVATE_KEY)
@@ -29,6 +30,19 @@
 #include <cstdio>
 
 #include <openssl/rsa.h>
+#include <openssl/evp.h>
+
+template <typename T, void (*FreeFunc)(T*)>
+struct OpenSSLDeleter {
+    void operator()(T* ptr) const noexcept{
+        if (ptr) {
+            FreeFunc(ptr);
+        }
+    }
+};
+
+using unique_EVP_PKEY =
+    std::unique_ptr<EVP_PKEY, OpenSSLDeleter<EVP_PKEY, EVP_PKEY_free>>;
 
 #if (OPENSSL_VERSION_NUMBER >= 0x10100000L) /* OpenSSL 1.1.0+ */
 #define HAVE_OPAQUE_EVP_PKEY 1 /* since 1.1.0 -pre3 */
@@ -62,8 +76,8 @@ typedef struct {
 extern void openssl_to_keys(
     RSA* rp, int nbits, R_RSA_PRIVATE_KEY& priv, R_RSA_PUBLIC_KEY& pub
 );
-extern void private_to_openssl(R_RSA_PRIVATE_KEY& priv, RSA* rp);
-extern void public_to_openssl(R_RSA_PUBLIC_KEY& pub, RSA* rp);
+extern unique_EVP_PKEY private_to_openssl(R_RSA_PRIVATE_KEY& priv);
+extern unique_EVP_PKEY public_to_openssl(R_RSA_PUBLIC_KEY& pub);
 extern int openssl_to_private(RSA *from, R_RSA_PRIVATE_KEY *to);
 
 struct KEY {
@@ -91,7 +105,9 @@ extern std::string sprint_hex_data(const std::vector<uint8_t> &data);
 extern bool print_hex_data(FILE *f, const std::vector<uint8_t> &data);
 extern std::vector<uint8_t> scan_hex_data(FILE * f);
 extern bool print_key_hex(FILE *f, KEY *key, size_t len);
-// function returns a vector of bytes where two first bytes are the size of the key in bits, and the rest is the key Data
+// function returns a vector of bytes
+// where two first bytes are the size of the key in bits,
+// and the rest is the key Data
 // it can be casted to KEY in the following way:
 // std::vector<uint8_t> key_bytes = scan_key_hex(f);
 // KEY* key = reinterpret_cast<KEY*>(key_bytes.data());

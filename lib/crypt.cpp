@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,6 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstdint>
+#include <memory>
 #include <vector>
 #if defined(_WIN32)
 #include "boinc_win.h"
@@ -39,6 +40,8 @@
 #include <openssl/err.h>
 #include <openssl/rsa.h>
 #include <openssl/bn.h>
+#include <openssl/core_names.h>
+#include <openssl/param_build.h>
 
 #include "boinc_stdio.h"
 #include "md5_file.h"
@@ -138,7 +141,9 @@ static vector<uint8_t> sscan_hex_data(const std::vector<uint8_t>& buffer) {
         if (!isxdigit(c2)) {
             break;
         }
-        int value = (strchr(hex, tolower(c1)) - hex) * 16 + (strchr(hex, tolower(c2)) - hex);
+        int value =
+            (strchr(hex, tolower(c1)) - hex) * 16 +
+            (strchr(hex, tolower(c2)) - hex);
         data.emplace_back(static_cast<uint8_t>(value));
     }
     return data;
@@ -193,7 +198,8 @@ static std::vector<uint8_t> sscan_key_hex(const char* buf) {
         return result;
     }
 
-    vector<uint8_t> data = sscan_hex_data(vector<uint8_t>(buf, buf + strlen(buf)));
+    vector<uint8_t> data =
+        sscan_hex_data(vector<uint8_t>(buf, buf + strlen(buf)));
     if (data.empty()) {
         return result;
     }
@@ -208,42 +214,180 @@ vector<uint8_t> scan_key_hex(FILE* f) {
     return sscan_key_hex(reinterpret_cast<char*>(scan_raw_data(f).data()));
 }
 
+using unique_PKEY_CTX = std::unique_ptr<EVP_PKEY_CTX, OpenSSLDeleter<EVP_PKEY_CTX, EVP_PKEY_CTX_free>>;
+using unique_BN = std::unique_ptr<BIGNUM, OpenSSLDeleter<BIGNUM, BN_free>>;
+using unique_BN_CTX = std::unique_ptr<BN_CTX, OpenSSLDeleter<BN_CTX, BN_CTX_free>>;
+
+unique_EVP_PKEY private_to_openssl(R_RSA_PRIVATE_KEY& priv) {
+    unique_BN n(BN_bin2bn(priv.modulus, sizeof(priv.modulus), nullptr));
+    unique_BN e(BN_bin2bn(priv.publicExponent, sizeof(priv.publicExponent), nullptr));
+    unique_BN d(BN_bin2bn(priv.exponent, sizeof(priv.exponent), nullptr));
+    unique_BN p(BN_bin2bn(priv.prime[0], sizeof(priv.prime[0]), nullptr));
+    unique_BN q(BN_bin2bn(priv.prime[1], sizeof(priv.prime[1]), nullptr));
+    unique_BN dmp1(BN_bin2bn(priv.primeExponent[0], sizeof(priv.primeExponent[0]), nullptr));
+    unique_BN dmq1(BN_bin2bn(priv.primeExponent[1], sizeof(priv.primeExponent[1]), nullptr));
+    unique_BN iqmp(BN_bin2bn(priv.coefficient, sizeof(priv.coefficient), nullptr));
+
+    if (!n || !e || !d || !p || !q || !dmp1 || !dmq1 || !iqmp) {
+        return nullptr;
+    }
+
+    using unique_BLD = std::unique_ptr<OSSL_PARAM_BLD, OpenSSLDeleter<OSSL_PARAM_BLD, OSSL_PARAM_BLD_free>>;
+
+    unique_BLD bld(OSSL_PARAM_BLD_new());
+    if (!bld) {
+        return nullptr;
+    }
+
+    if (!OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_N, n.get()) ||
+        !OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_E, e.get()) ||
+        !OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_D, d.get()) ||
+        !OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_FACTOR1, p.get()) ||
+        !OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_FACTOR2, q.get()) ||
+        !OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_EXPONENT1, dmp1.get()) ||
+        !OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_EXPONENT2, dmq1.get()) ||
+        !OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_COEFFICIENT1, iqmp.get())) {
+        return nullptr;
+    }
+
+    using unique_PARAMS = std::unique_ptr<OSSL_PARAM, OpenSSLDeleter<OSSL_PARAM, OSSL_PARAM_free>>;
+
+    unique_PARAMS params(OSSL_PARAM_BLD_to_param(bld.get()));
+    if (!params) {
+        return nullptr;
+    }
+
+    unique_PKEY_CTX ctx(EVP_PKEY_CTX_new_from_name(nullptr, "RSA", nullptr));
+    if (!ctx) {
+        return nullptr;
+    }
+
+    if (EVP_PKEY_fromdata_init(ctx.get()) <= 0) {
+        return nullptr;
+    }
+
+    EVP_PKEY* pkey_raw = nullptr;
+    if (EVP_PKEY_fromdata(ctx.get(), &pkey_raw, EVP_PKEY_KEYPAIR, params.get()) <= 0) {
+        return nullptr;
+    }
+
+    unique_EVP_PKEY pkey(pkey_raw);
+    return pkey;
+}
+
+unique_EVP_PKEY public_to_openssl(R_RSA_PUBLIC_KEY& pub) {
+    unique_BN n(BN_bin2bn(pub.modulus, sizeof(pub.modulus), nullptr));
+    unique_BN e(BN_bin2bn(pub.exponent, sizeof(pub.exponent), nullptr));
+
+    if (!n || !e) {
+        return nullptr;
+    }
+
+    using unique_BLD = std::unique_ptr<OSSL_PARAM_BLD, OpenSSLDeleter<OSSL_PARAM_BLD, OSSL_PARAM_BLD_free>>;
+
+    unique_BLD bld(OSSL_PARAM_BLD_new());
+    if (!bld) {
+        return nullptr;
+    }
+
+    if (!OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_N, n.get()) ||
+        !OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_E, e.get())) {
+        return nullptr;
+    }
+
+    using unique_PARAMS = std::unique_ptr<OSSL_PARAM, OpenSSLDeleter<OSSL_PARAM, OSSL_PARAM_free>>;
+
+    unique_PARAMS params(OSSL_PARAM_BLD_to_param(bld.get()));
+    if (!params) {
+        return nullptr;
+    }
+
+    unique_PKEY_CTX ctx(EVP_PKEY_CTX_new_from_name(nullptr, "RSA", nullptr));
+    if (!ctx) {
+        return nullptr;
+    }
+
+    if (EVP_PKEY_fromdata_init(ctx.get()) <= 0) {
+        return nullptr;
+    }
+
+    EVP_PKEY* pkey_raw = nullptr;
+    if (EVP_PKEY_fromdata(ctx.get(), &pkey_raw, EVP_PKEY_PUBLIC_KEY, params.get()) <= 0) {
+        return nullptr;
+    }
+    unique_EVP_PKEY pkey(pkey_raw);
+
+    return pkey;
+}
+
 // encrypt some data.
 // The amount encrypted may be less than what's supplied.
 // The output buffer must be at least MIN_OUT_BUFFER_SIZE.
 // The output block must be decrypted in its entirety.
 //
 int encrypt_private(R_RSA_PRIVATE_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out) {
-    int n, modulus_len, retval;
-
-    modulus_len = (key.bits+7)/8;
-    n = in.len;
+    const size_t modulus_len = (key.bits+7)/8;
+    size_t n = in.len;
     if (n >= modulus_len-11) {
         n = modulus_len-11;
     }
-    RSA* rp = RSA_new();
-    private_to_openssl(key, rp);
-    retval = RSA_private_encrypt(n, in.data, out.data, rp, RSA_PKCS1_PADDING);
-    if (retval < 0) {
-        RSA_free(rp);
+
+    unique_EVP_PKEY pkey = private_to_openssl(key);
+    if (!pkey) {
         return ERR_CRYPTO;
     }
-    out.len = RSA_size(rp);
-    RSA_free(rp);
+
+    unique_PKEY_CTX ctx(EVP_PKEY_CTX_new(pkey.get(), nullptr));
+    if (!ctx) {
+        return ERR_CRYPTO;
+    }
+
+    if (EVP_PKEY_sign_init(ctx.get()) <= 0) {
+        return ERR_CRYPTO;
+    }
+
+    if (EVP_PKEY_CTX_set_rsa_padding(ctx.get(), RSA_PKCS1_PADDING) <= 0) {
+        return ERR_CRYPTO;
+    }
+
+    size_t outlen = out.len;
+    if (EVP_PKEY_sign(ctx.get(), out.data, &outlen, in.data, n) <= 0) {
+        return ERR_CRYPTO;
+    }
+
+    out.len = static_cast<unsigned int>(outlen);
     return 0;
 }
 
 int decrypt_public(R_RSA_PUBLIC_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out) {
     int retval;
-    RSA* rp = RSA_new();
-    public_to_openssl(key, rp);
-    retval = RSA_public_decrypt(in.len, in.data, out.data, rp, RSA_PKCS1_PADDING);
-    if (retval < 0) {
-        RSA_free(rp);
+
+    unique_EVP_PKEY pkey = public_to_openssl(key);
+
+    if (!pkey) {
         return ERR_CRYPTO;
     }
-    out.len = RSA_size(rp);
-    RSA_free(rp);
+
+    unique_PKEY_CTX ctx(EVP_PKEY_CTX_new(pkey.get(), nullptr));
+    if (!ctx) {
+        return ERR_CRYPTO;
+    }
+
+    if (EVP_PKEY_verify_recover_init(ctx.get()) <= 0) {
+        return ERR_CRYPTO;
+    }
+
+    if (EVP_PKEY_CTX_set_rsa_padding(ctx.get(), RSA_PKCS1_PADDING) <= 0) {
+        return ERR_CRYPTO;
+    }
+
+    size_t outlen = out.len;
+
+    if (EVP_PKEY_verify_recover(ctx.get(), out.data, &outlen, in.data, in.len) <= 0) {
+        return ERR_CRYPTO;
+    }
+
+    out.len = static_cast<unsigned int>(outlen);
     return 0;
 }
 
@@ -483,53 +627,6 @@ void openssl_to_keys(
     bn_to_bin(rp->dmp1, priv.primeExponent[0], sizeof(priv.primeExponent[0]));
     bn_to_bin(rp->dmq1, priv.primeExponent[1], sizeof(priv.primeExponent[1]));
     bn_to_bin(rp->iqmp, priv.coefficient, sizeof(priv.coefficient));
-#endif
-}
-
-void private_to_openssl(R_RSA_PRIVATE_KEY& priv, RSA* rp) {
-#ifdef HAVE_OPAQUE_RSA_DSA_DH
-    BIGNUM *n;
-    BIGNUM *e;
-    BIGNUM *d;
-    BIGNUM *p;
-    BIGNUM *q;
-    BIGNUM *dmp1;
-    BIGNUM *dmq1;
-    BIGNUM *iqmp;
-
-    n = BN_bin2bn(priv.modulus, sizeof(priv.modulus), 0);
-    e = BN_bin2bn(priv.publicExponent, sizeof(priv.publicExponent), 0);
-    d = BN_bin2bn(priv.exponent, sizeof(priv.exponent), 0);
-    p = BN_bin2bn(priv.prime[0], sizeof(priv.prime[0]), 0);
-    q = BN_bin2bn(priv.prime[1], sizeof(priv.prime[1]), 0);
-    dmp1 = BN_bin2bn(priv.primeExponent[0], sizeof(priv.primeExponent[0]), 0);
-    dmq1 = BN_bin2bn(priv.primeExponent[1], sizeof(priv.primeExponent[1]), 0);
-    iqmp = BN_bin2bn(priv.coefficient, sizeof(priv.coefficient), 0);
-    RSA_set0_key(rp, n, e, d);
-    RSA_set0_factors(rp, p, q);
-    RSA_set0_crt_params(rp, dmp1, dmq1, iqmp);
-#else
-    rp->n = BN_bin2bn(priv.modulus, sizeof(priv.modulus), 0);
-    rp->e = BN_bin2bn(priv.publicExponent, sizeof(priv.publicExponent), 0);
-    rp->d = BN_bin2bn(priv.exponent, sizeof(priv.exponent), 0);
-    rp->p = BN_bin2bn(priv.prime[0], sizeof(priv.prime[0]), 0);
-    rp->q = BN_bin2bn(priv.prime[1], sizeof(priv.prime[1]), 0);
-    rp->dmp1 = BN_bin2bn(priv.primeExponent[0], sizeof(priv.primeExponent[0]), 0);
-    rp->dmq1 = BN_bin2bn(priv.primeExponent[1], sizeof(priv.primeExponent[1]), 0);
-    rp->iqmp = BN_bin2bn(priv.coefficient, sizeof(priv.coefficient), 0);
-#endif
-}
-
-void public_to_openssl(R_RSA_PUBLIC_KEY& pub, RSA* rp) {
-#ifdef HAVE_OPAQUE_RSA_DSA_DH
-    BIGNUM *n;
-    BIGNUM *e;
-    n = BN_bin2bn(pub.modulus, sizeof(pub.modulus), 0);
-    e = BN_bin2bn(pub.exponent, sizeof(pub.exponent), 0);
-    RSA_set0_key(rp, n, e, NULL);
-#else
-    rp->n = BN_bin2bn(pub.modulus, sizeof(pub.modulus), 0);
-    rp->e = BN_bin2bn(pub.exponent, sizeof(pub.exponent), 0);
 #endif
 }
 

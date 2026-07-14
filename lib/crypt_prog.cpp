@@ -49,11 +49,13 @@
 #include <cstdlib>
 #include <cstring>
 
-#include "openssl/bio.h"
+#include <openssl/bio.h>
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/conf.h>
 #include <openssl/err.h>
+#include <openssl/encoder.h>
+#include <openssl/core_names.h>
 
 #include "crypt.h"
 #include "md5_file.h"
@@ -416,6 +418,8 @@ int convsig(const std::string& conversion, const std::string& input,
     return 2;
 }
 
+using unique_OSSL_ENCODER_CTX = std::unique_ptr<OSSL_ENCODER_CTX, OpenSSLDeleter<OSSL_ENCODER_CTX, OSSL_ENCODER_CTX_free>>;
+
 int convkey_private_b2o(const std::string& input, const std::string& output) {
     OpenSSL_add_all_algorithms();
     ERR_load_crypto_strings();
@@ -433,12 +437,6 @@ int convkey_private_b2o(const std::string& input, const std::string& output) {
         return 2;
     }
 
-    RSA* rsa_key = RSA_new();
-    if (rsa_key == NULL) {
-        print_error("could not allocate memory for RSA structure.");
-        return 2;
-    }
-
     FILE* fpriv = fopen(input.c_str(), "r");
     if (!fpriv) {
         print_error("fopen");
@@ -453,16 +451,22 @@ int convkey_private_b2o(const std::string& input, const std::string& output) {
     }
     R_RSA_PRIVATE_KEY private_key;
     memcpy(&private_key, result.data(), sizeof(private_key));
-    private_to_openssl(private_key, rsa_key);
-
-
-    fpriv = fopen(output.c_str(), "w+");
-    if (!fpriv) {
-        print_error("fopen");
+    unique_EVP_PKEY rsa_key = private_to_openssl(private_key);
+    if(!rsa_key) {
+        print_error("private_to_openssl");
         return 2;
     }
-    PEM_write_RSAPrivateKey(fpriv, rsa_key, NULL, NULL, 0, 0, NULL);
-    fclose(fpriv);
+
+    unique_OSSL_ENCODER_CTX encoder_ctx(OSSL_ENCODER_CTX_new_for_pkey(rsa_key.get(), OSSL_KEYMGMT_SELECT_PRIVATE_KEY, "PEM", nullptr, nullptr));
+    if (!encoder_ctx) {
+        print_error("OSSL_ENCODER_CTX_new_for_pkey");
+        return 2;
+    }
+    if (OSSL_ENCODER_to_bio(encoder_ctx.get(), bio_out) <= 0) {
+        print_error("OSSL_ENCODER_to_bio");
+        return 2;
+    }
+    BIO_free(bio_out);
     return 0;
 }
 
@@ -511,12 +515,6 @@ int convkey_public_b2o(const std::string& input, const std::string& output) {
         return 2;
     }
 
-    RSA* rsa_key = RSA_new();
-    if (rsa_key == NULL) {
-        print_error("could not allocate memory for RSA structure.");
-        return 2;
-    }
-
     FILE* fpub = fopen(input.c_str(), "r");
     if (!fpub) {
         print_error("fopen");
@@ -530,19 +528,27 @@ int convkey_public_b2o(const std::string& input, const std::string& output) {
     }
     R_RSA_PUBLIC_KEY public_key;
     memcpy(&public_key, result.data(), sizeof(public_key));
+
     fpub = fopen(output.c_str(), "w+");
     if (!fpub) {
         print_error("fopen");
         return 2;
     }
-    public_to_openssl(public_key, rsa_key);
-    int retval = PEM_write_RSA_PUBKEY(fpub, rsa_key);
+
+    unique_EVP_PKEY rsa_key = public_to_openssl(public_key);
+    if (!rsa_key) {
+        print_error("public_to_openssl");
+        return 2;
+    }
+
+    int retval = PEM_write_PUBKEY(fpub, rsa_key.get());
     fclose(fpub);
     if (retval == 0) {
         ERR_print_errors(bio_err);
         print_error("could not write key file.");
         return 2;
     }
+
     return 0;
 }
 
@@ -568,7 +574,6 @@ int convkey_public_o2b(const std::string& input, const std::string& output) {
     R_RSA_PUBLIC_KEY public_key;
     R_RSA_PRIVATE_KEY private_key;
     openssl_to_keys(rsa_key, 1024, private_key, public_key);
-    public_to_openssl(public_key, rsa_key);
     fpub = fopen(output.c_str(), "w");
     if (!fpub) {
         print_error("fopen");
