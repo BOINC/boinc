@@ -22,12 +22,7 @@
 #pragma interface "BOINCListCtrl.cpp"
 #endif
 
-#ifdef __WXMSW__
-#define USE_NATIVE_LISTCONTROL 1
-#else
-#define USE_NATIVE_LISTCONTROL 0
-#endif
-
+#include "BOINCGUIApp.h"
 
 // Virtual wxListCtrl does not reliably generate selection and
 // deselection events, so we must check for these differently.

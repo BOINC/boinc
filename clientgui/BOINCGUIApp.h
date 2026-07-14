@@ -28,6 +28,12 @@
 #pragma interface "BOINCGUIApp.cpp"
 #endif
 
+#ifdef __WXMSW__
+#define USE_NATIVE_LISTCONTROL 1
+#else
+#define USE_NATIVE_LISTCONTROL 0
+#endif
+
 ///
 /// Which view is on display
 ///

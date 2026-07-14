@@ -22,11 +22,12 @@
 #pragma interface "DlgEventLogListCtrl.cpp"
 #endif
 
-#if (defined(__WXMAC__) || defined(__WXGTK__))
-#define DLG_LISTCTRL_BASE wxGenericListCtrl
-#else
-#define DLG_LISTCTRL_BASE wxListView
+#include "BOINCGUIApp.h"
 
+#if USE_NATIVE_LISTCONTROL
+#define DLG_LISTCTRL_BASE wxListView
+#else
+#define DLG_LISTCTRL_BASE wxGenericListCtrl
 #endif
 
 class CDlgEventLog;
