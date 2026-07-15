@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -18,11 +18,11 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh 64-bit Intel library of libzip for
+# Script to build Macintosh 64-bit (x86_64/arm64) library of libzip for
 # use in building BOINC.
 #
 #
-## This script requires OS 10.8 or later
+## This script requires OS 10.13 or later
 #
 ## After first installing Xcode, you must have opened Xcode and
 ## clicked the Install button on the dialog which appears to
@@ -43,7 +43,7 @@
 ##   Download CMake from https://cmake.org/download/
 ##   Open the disk image file and drag the CMAKE app into the /Applications
 ##       directory
-##   Eject the disk image and open the Cmake app
+##   Eject the disk image and open the CMake app
 ##   Enter the following in Terminal:
 ##       sudo "/Applications/CMake.app/Contents/bin/cmake-gui" --install
 ##   Enter your password when prompted

@@ -18,11 +18,11 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh 64-bit Intel library of fmt for
+# Script to build Macintosh 64-bit (x86_64/arm64) library of fmt for
 # use in building BOINC.
 #
 #
-## This script requires OS 10.8 or later
+## This script requires OS 10.13 or later
 #
 ## After first installing Xcode, you must have opened Xcode and
 ## clicked the Install button on the dialog which appears to
@@ -43,7 +43,7 @@
 ##   Download CMake from https://cmake.org/download/
 ##   Open the disk image file and drag the CMAKE app into the /Applications
 ##       directory
-##   Eject the disk image and open the Cmake app
+##   Eject the disk image and open the CMake app
 ##   Enter the following in Terminal:
 ##       sudo "/Applications/CMake.app/Contents/bin/cmake-gui" --install
 ##   Enter your password when prompted
@@ -52,7 +52,7 @@
 doclean=""
 stdout_target="/dev/stdout"
 lprefix="/tmp/installed-fmt"
-libPath="./lib"
+libPath="."
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
@@ -61,7 +61,7 @@ while [[ $# -gt 0 ]]; do
         ;;
         -prefix|--prefix)
         lprefix="$2"
-        libPath="${lprefix}/lib"
+        libPath="${lprefix}"
         shift
         ;;
         -q|--quiet)
@@ -202,7 +202,7 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
 
         make 1>$stdout_target
         if [ $? -ne 0 ]; then
-            rm -f ./lib/fmt_x86_64.a
+            rm -f ./libfmt_x86_64.a
             return 1
         fi
 
@@ -219,6 +219,9 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
     fi
 fi
 
+# Installing is perhaps redundant (at least for local [non-CI]
+# builds) because the library is available at fmt-x.y.z/libfmt.a
+# and the headers are available in fmt-x.y.z/include/fmt/
 if [ "x${lprefix}" != "x" ]; then
     make install 1>$stdout_target
     if [ $? -ne 0 ]; then return 1; fi
