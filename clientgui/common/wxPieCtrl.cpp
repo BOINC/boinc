@@ -8,6 +8,24 @@
 // Copyright:   (c) Volodymir (T-Rex) Tryapichko
 // Licence:     wxWidgets license
 /////////////////////////////////////////////////////////////////////////////
+
+// This file is part of BOINC and has been modified for BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
 #include <vector>
 #include <algorithm>
 #include "stdwx.h"
@@ -50,18 +68,11 @@ wxPieCtrl::wxPieCtrl(wxWindow * parent, wxWindowID id, wxPoint pos,
 		wxSize sz, long style, wxString name)
 		:wxWindow(parent, id, pos, sz, style, name)
 {
-    bool isDarkMode = wxGetApp().GetIsDarkMode();
-
-    if (isDarkMode) SetBackgroundColour(*wxBLACK);
+    ApplyTheme(wxGetApp().GetIsDarkMode());
 
 	m_ShowEdges=true;
 	m_CanRepaint=true;
-	m_BackColour = isDarkMode ? *wxBLACK : *wxWHITE;
 	m_padding=10;
-
-	m_TitleColour = isDarkMode ? wxColour(255,255,255) : wxColour(0,0,0);
-	m_LabelColour = isDarkMode ? *wxWHITE : *wxBLACK;
-	m_LegendBackColour = isDarkMode ? wxColour(0, 0, 255) : wxColour(255,255,0);
 	m_TitleFont = *wxSWISS_FONT;
 	m_TitleFont.SetWeight(wxFONTWEIGHT_BOLD);
 	m_LabelFont = *wxSWISS_FONT;
@@ -94,6 +105,14 @@ wxPieCtrl::~wxPieCtrl() {
     m_fauxResourcesView = NULL;
     RemoveMacAccessibilitySupport();
 #endif
+}
+
+void wxPieCtrl::ApplyTheme(bool isDarkMode) {
+    m_BackColour = isDarkMode ? *wxBLACK : *wxWHITE;
+    SetBackgroundColour(m_BackColour);
+    m_TitleColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0, 0, 0);
+    m_LabelColour = isDarkMode ? *wxWHITE : *wxBLACK;
+    m_LegendBackColour = isDarkMode ? wxColour(0, 0, 255) : wxColour(255, 255, 0);
 }
 
 /* getter and setter */

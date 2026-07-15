@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -126,14 +126,6 @@ wxString CDlgEventLogListCtrl::OnGetItemText(long item, long column) const {
 
 int CDlgEventLogListCtrl::OnGetItemImage(long /* item */) const {
     return 1;
-}
-
-
-wxListItemAttr* CDlgEventLogListCtrl::OnGetItemAttr(long item) const {
-    wxASSERT(m_pParentView);
-    wxASSERT(wxDynamicCast(m_pParentView, CDlgEventLog));
-
-    return m_pParentView->OnListGetItemAttr(item);
 }
 
 

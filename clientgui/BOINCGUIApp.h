@@ -28,6 +28,12 @@
 #pragma interface "BOINCGUIApp.cpp"
 #endif
 
+#ifdef __WXMSW__
+#define USE_NATIVE_LISTCONTROL 1
+#else
+#define USE_NATIVE_LISTCONTROL 0
+#endif
+
 ///
 /// Which view is on display
 ///
@@ -41,12 +47,6 @@
 // BOINC to adjust standard UI items for Dark Mode, be sure to guard
 // those changes so they do not affect the Mac implementation.
 //
-#if (defined(__WXMAC__) || defined(__WXGTK__))
-#define SUPPORTDARKMODE true
-#else
-#define SUPPORTDARKMODE false
-#endif
-
 
 class wxLogBOINC;
 class CBOINCBaseFrame;
@@ -266,13 +266,8 @@ public:
     void                SetAboutDialogIsOpen(bool set) { m_bAboutDialogIsOpen = set; }
     bool                GetAboutDialogIsOpen() { return m_bAboutDialogIsOpen; }
 
-#if SUPPORTDARKMODE
     void                SetIsDarkMode (bool isDarkMode) { m_isDarkMode = isDarkMode; }
     bool                GetIsDarkMode() { return m_isDarkMode; }
-#else
-    void                SetIsDarkMode (bool WXUNUSED(isDarkMode)) {}
-    bool                GetIsDarkMode() { return false; }
-#endif
 #ifdef __WXMAC__
     // The following Cocoa routines are in CBOINCGUIApp.mm
     //

@@ -105,9 +105,13 @@ bool CBOINCGUIApp::OnInit() {
 #endif
 
     m_isDarkMode = false;
-#if SUPPORTDARKMODE
     wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
     m_isDarkMode = appearance.IsDark();
+#if defined(__WXMSW__)
+    // wxWidgets' IsDark() returns false on Win 11 now even if dark mode is enabled
+    // so we need to additionally check AreAppsDark()
+    m_isDarkMode = m_isDarkMode || appearance.AreAppsDark();
+    MSWEnableDarkMode(wxApp::DarkMode_Auto);
 #endif
 
     s_bSkipExitConfirmation = false;
@@ -173,6 +177,7 @@ bool CBOINCGUIApp::OnInit() {
     wxSystemOptions::SetOption(wxT("msw.staticbox.optimized-paint"), 0);
 #endif
 #ifdef __WXMAC__
+#if ! USE_NATIVE_LISTCONTROL
     // In wxMac-2.8.7, default wxListCtrl::RefreshItem() does not work
     // so use traditional generic implementation.
     // This has been fixed in wxMac-2.8.8, but the Mac native implementation:
@@ -180,6 +185,7 @@ bool CBOINCGUIApp::OnInit() {
     //  - seems to always redraw entire control even if asked to refresh only one row.
     //  - causes major flicker of progress bars, (probably due to full redraws.)
     wxSystemOptions::SetOption(wxT("mac.listctrl.always_use_generic"), 1);
+#endif
 
     AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
 #endif

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,12 +22,7 @@
 #pragma interface "BOINCListCtrl.cpp"
 #endif
 
-#ifdef __WXMSW__
-#define USE_NATIVE_LISTCONTROL 1
-#else
-#define USE_NATIVE_LISTCONTROL 0
-#endif
-
+#include "BOINCGUIApp.h"
 
 // Virtual wxListCtrl does not reliably generate selection and
 // deselection events, so we must check for these differently.
@@ -104,7 +99,17 @@ private:
 #if USE_NATIVE_LISTCONTROL
 public:
    void                     PostDrawProgressBarEvent();
+#ifdef __WXMSW__
+   // Windows notification handler override (delegates to HandleDarkModeCustomDraw in dark mode)
+   bool                     MSWOnNotify(int idCtrl, WXLPARAM lParam, WXLPARAM *result) override;
+#endif
 private:
+#ifdef __WXMSW__
+   // Windows dark mode: draw progress bars inside NM_CUSTOMDRAW back buffer
+   // instead of post-WM_PAINT wxClientDC (see BOINCListCtrl.cpp).
+    bool                    HandleDarkModeCustomDraw(int idCtrl, WXLPARAM lParam, WXLPARAM *result);
+    void                    DrawItemProgressBar(HDC hdc, int item, int progressColumn);
+#endif
     void                    OnDrawProgressBar(CDrawProgressBarEvent& event);
     void                    DrawProgressBars(void);
 
