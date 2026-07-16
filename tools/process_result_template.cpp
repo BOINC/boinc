@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -66,12 +66,13 @@ int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
         sprintf(signed_xml, "<name>%s</name><max_nbytes>%.0f</max_nbytes>",
             name, max_nbytes
         );
-        std::string signature_hex;
-        retval = generate_signature(signed_xml, signature_hex, key);
+        std::string signature_hex = generate_signature(signed_xml, key);
         sprintf(signature_xml,
             "<xml_signature>\n%s</xml_signature>\n", signature_hex.c_str()
         );
-        if (retval) return retval;
+        if (!signature_hex.length()) {
+            return ERR_XML_PARSE;
+        }
         safe_strcpy(buf2, q2);
         strcpy(q1, buf);
         strcat(q1, signature_xml);

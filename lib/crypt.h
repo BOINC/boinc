@@ -76,8 +76,8 @@ typedef struct {
 extern void openssl_to_keys(
     RSA* rp, int nbits, R_RSA_PRIVATE_KEY& priv, R_RSA_PUBLIC_KEY& pub
 );
-extern unique_EVP_PKEY private_to_openssl(R_RSA_PRIVATE_KEY& priv);
-extern unique_EVP_PKEY public_to_openssl(R_RSA_PUBLIC_KEY& pub);
+extern unique_EVP_PKEY private_to_openssl(const R_RSA_PRIVATE_KEY& priv);
+extern unique_EVP_PKEY public_to_openssl(const R_RSA_PUBLIC_KEY& pub);
 extern int openssl_to_private(RSA *from, R_RSA_PRIVATE_KEY *to);
 
 struct KEY {
@@ -115,18 +115,13 @@ extern std::vector<uint8_t> scan_key_hex(FILE* f);
 #ifdef _USING_FCGI_
 #define FILE FCGI_FILE
 #endif
-extern int encrypt_private(
-    R_RSA_PRIVATE_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out
-);
+extern std::vector<uint8_t> encrypt_private(const R_RSA_PRIVATE_KEY& key,
+    const std::vector<uint8_t>& in);
 extern int decrypt_public(
     R_RSA_PUBLIC_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out
 );
-extern int sign_file(
-    const char* path, R_RSA_PRIVATE_KEY&, DATA_BLOCK& signature
-);
-extern int sign_block(
-    DATA_BLOCK& data, R_RSA_PRIVATE_KEY&, DATA_BLOCK& signature
-);
+extern std::vector<uint8_t> sign_file(const std::string& path, const R_RSA_PRIVATE_KEY& key);
+extern std::vector<uint8_t> sign_block(const std::vector<uint8_t>& data, const R_RSA_PRIVATE_KEY& key);
 extern int check_file_signature(
     const char* md5, R_RSA_PUBLIC_KEY&, DATA_BLOCK& signature, bool&
 );
@@ -142,9 +137,7 @@ extern int check_string_signature2(
 extern bool print_raw_data(FILE *f, const std::vector<uint8_t> &x);
 extern std::vector<uint8_t> scan_raw_data(FILE *f);
 extern int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key);
-extern int generate_signature(
-    char* text_to_sign, std::string& signature_hex, R_RSA_PRIVATE_KEY& key
-);
+extern std::string generate_signature(const std::string& text_to_sign, const R_RSA_PRIVATE_KEY& key);
 
 //   Check if sfileMsg (of length sfsize) has been created from sha1_md using the
 //   private key belonging to the public key file cFile

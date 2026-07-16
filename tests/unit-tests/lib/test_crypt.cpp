@@ -205,6 +205,33 @@ namespace test_lib {
                 return decrypted_data;
             }
 
+            std::string get_md5(const std::string& data) {
+                EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
+                if (!mdctx) {
+                    throw std::runtime_error("Failed to create EVP_MD_CTX");
+                }
+                std::unique_ptr<EVP_MD_CTX, decltype(&EVP_MD_CTX_free)>
+                    mdctx_guard(mdctx, EVP_MD_CTX_free);
+                if (EVP_DigestInit_ex2(mdctx, EVP_md5(), nullptr) <= 0) {
+                    throw std::runtime_error("Failed to initialize MD5 digest");
+                }
+                if (EVP_DigestUpdate(mdctx, data.data(), data.size()) <= 0) {
+                    throw std::runtime_error("Failed to update MD5 digest");
+                }
+                unsigned char md_value[EVP_MAX_MD_SIZE];
+                unsigned int md_len = 0;
+                if (EVP_DigestFinal_ex(mdctx, md_value, &md_len) <= 0) {
+                    throw std::runtime_error("Failed to finalize MD5 digest");
+                }
+                std::string md5_hex;
+                for (unsigned int i = 0; i < md_len; ++i) {
+                    char buf[3];
+                    snprintf(buf, sizeof(buf), "%02x", md_value[i]);
+                    md5_hex += buf;
+                }
+                return md5_hex;
+            }
+
             std::filesystem::path test_data_dir =
                 std::filesystem::current_path() / "test_data";
         };
@@ -895,19 +922,7 @@ namespace test_lib {
         std::vector<uint8_t> encrypted_data = encrypt(data, private_key);
         ASSERT_FALSE(encrypted_data.empty()) << "Encryption failed";
 
-        DATA_BLOCK input_block;
-        input_block.len = data.size();
-        input_block.data = data.data();
-
-        const size_t output_block_size = encrypted_data.size();
-        std::vector<uint8_t> encrypted_data_for_testing(output_block_size, 0);
-        DATA_BLOCK output_block;
-        output_block.len = encrypted_data_for_testing.size();
-        output_block.data = encrypted_data_for_testing.data();
-
-        int encrypt_result = encrypt_private(private_key_struct, input_block,
-            output_block);
-        ASSERT_EQ(encrypt_result, 0) << "encrypt_private failed";
+        std::vector<uint8_t> encrypted_data_for_testing = encrypt_private(private_key_struct, data);
 
         // compare encrypted_data with encrypted_data_for_testing
         ASSERT_EQ(encrypted_data.size(), encrypted_data_for_testing.size())
@@ -928,6 +943,10 @@ namespace test_lib {
         decrypted_block.len = data.size();
         std::vector<uint8_t> decrypted_data_for_testing(decrypted_block.len, 0);
         decrypted_block.data = decrypted_data_for_testing.data();
+
+        DATA_BLOCK output_block;
+        output_block.len = encrypted_data_for_testing.size();
+        output_block.data = encrypted_data_for_testing.data();
 
         int decrypt_result = decrypt_public(public_key_struct, output_block,
             decrypted_block);
@@ -1017,5 +1036,203 @@ namespace test_lib {
         ASSERT_FALSE(encrypted_data.empty()) << "Encryption failed";
         std::vector<uint8_t> decrypted_data = decrypt(encrypted_data, converted_public_key.get());
         ASSERT_EQ(decrypted_data, data) << "Decrypted data does not match original";
+    }
+
+    TEST_F(test_crypt, test_sign_file) {
+        std::filesystem::path temp_file = test_data_dir / "temp_sign_file.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+
+        const char* sample_data = "Hello, World!";
+        fwrite(sample_data, sizeof(char), strlen(sample_data), f);
+        fclose(f);
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        std::vector<uint8_t> signature_data = sign_file(temp_file.string(), private_key_struct);
+        ASSERT_FALSE(signature_data.empty()) << "Signing failed";
+
+        // calculate the MD5 hash of the file and compare with signature
+        std::string file_hash = get_md5(sample_data);
+        // convert file_hash to vector<uint8_t>
+        std::vector<uint8_t> file_hash_vec(file_hash.begin(), file_hash.end());
+        auto encrypted = encrypt(file_hash_vec, private_key);
+        ASSERT_EQ(encrypted.size(), signature_data.size()) << "Signature length does not match file hash length";
+        ASSERT_EQ(encrypted, signature_data) << "Signature does not match file hash";
+    }
+
+    TEST_F(test_crypt, test_sign_file_invalid_file) {
+        std::filesystem::path temp_file = test_data_dir / "non_existent_file.txt";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        std::vector<uint8_t> signature_data = sign_file(temp_file.string(), private_key_struct);
+        ASSERT_TRUE(signature_data.empty()) << "sign_file should fail for non-existent file";
+    }
+
+    TEST_F(test_crypt, test_sign_file_invalid_key) {
+        std::filesystem::path temp_file = test_data_dir / "temp_sign_file_invalid_key.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+
+        const char* sample_data = "Hello, World!";
+        fwrite(sample_data, sizeof(char), strlen(sample_data), f);
+        fclose(f);
+
+        R_RSA_PRIVATE_KEY private_key_struct; // Uninitialized key
+
+        std::vector<uint8_t> signature_data = sign_file(temp_file.string(), private_key_struct);
+        ASSERT_TRUE(signature_data.empty()) << "sign_file should fail for invalid key";
+    }
+
+    TEST_F(test_crypt, test_sign_file_empty_file) {
+        std::filesystem::path temp_file = test_data_dir / "temp_sign_file_empty.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+        fclose(f);
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        std::vector<uint8_t> signature_data = sign_file(temp_file.string(), private_key_struct);
+        ASSERT_FALSE(signature_data.empty()) << "Signing failed for empty file";
+    }
+
+    TEST_F(test_crypt, test_sign_block) {
+        const char* sample_data = "Hello, World!";
+        std::vector<uint8_t> data(sample_data,
+            sample_data + strlen(sample_data));
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        std::vector<uint8_t> signature_data = sign_block(data, private_key_struct);
+        ASSERT_FALSE(signature_data.empty()) << "Signing failed for block";
+    }
+
+    TEST_F(test_crypt, test_sign_block_invalid_key) {
+        const char* sample_data = "Hello, World!";
+        std::vector<uint8_t> data(sample_data,
+            sample_data + strlen(sample_data));
+
+        R_RSA_PRIVATE_KEY private_key_struct; // Uninitialized key
+
+        std::vector<uint8_t> signature_data = sign_block(data, private_key_struct);
+        ASSERT_TRUE(signature_data.empty()) << "sign_block should fail for invalid key";
+    }
+
+    TEST_F(test_crypt, test_sign_block_empty_data) {
+        std::vector<uint8_t> data; // Empty data
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        std::vector<uint8_t> signature_data = sign_block(data, private_key_struct);
+        ASSERT_FALSE(signature_data.empty()) << "Signing failed for empty data";
+    }
+
+    TEST_F(test_crypt, test_generate_signature) {
+        const char* sample_data = "Hello, World!";
+        std::vector<uint8_t> data(sample_data,
+            sample_data + strlen(sample_data));
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        std::string signature_hex = generate_signature(sample_data, private_key_struct);
+        ASSERT_FALSE(signature_hex.empty()) << "Generating signature failed";
+
+        std::string md5_hash = get_md5(sample_data);
+        std::vector<uint8_t> md5_hash_vec(md5_hash.begin(), md5_hash.end());
+        auto encrypted = encrypt(md5_hash_vec, private_key);
+        std::string expected_signature_hex = sprint_hex_data(encrypted);
+        ASSERT_EQ(signature_hex, expected_signature_hex) << "Signature hex does not match expected value";
+    }
+
+    TEST_F(test_crypt, test_generate_signature_invalid_key) {
+        const char* sample_data = "Hello, World!";
+        std::vector<uint8_t> data(sample_data,
+            sample_data + strlen(sample_data));
+
+        R_RSA_PRIVATE_KEY private_key_struct; // Uninitialized key
+
+        std::string signature_hex = generate_signature(sample_data, private_key_struct);
+        ASSERT_TRUE(signature_hex.empty()) << "generate_signature should fail for invalid key";
+    }
+
+    TEST_F(test_crypt, test_generate_signature_empty_data) {
+        const char* sample_data = "";
+        std::vector<uint8_t> data(sample_data,
+            sample_data + strlen(sample_data));
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        std::string signature_hex = generate_signature(sample_data, private_key_struct);
+        ASSERT_FALSE(signature_hex.empty()) << "Generating signature failed for empty data";
+
+        std::string md5_hash = get_md5(sample_data);
+        std::vector<uint8_t> md5_hash_vec(md5_hash.begin(), md5_hash.end());
+        auto encrypted = encrypt(md5_hash_vec, private_key);
+        std::string expected_signature_hex = sprint_hex_data(encrypted);
+        ASSERT_EQ(signature_hex, expected_signature_hex) << "Signature hex does not match expected value for empty data";
     }
 }

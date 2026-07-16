@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -25,18 +25,13 @@
 #include "crypt.h"
 
 int sign_executable(char* path, char* code_sign_keyfile, std::string& signature_text) {
-    DATA_BLOCK signature;
-    unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
     R_RSA_PRIVATE_KEY code_sign_key;
     int retval = read_key_file(code_sign_keyfile, code_sign_key);
     if (retval) {
         fprintf(stderr, "add: can't read key\n");
-        exit(1);
+        return 1;
     }
-    signature.data = signature_buf;
-    sign_file(path, code_sign_key, signature);
-    std::vector<uint8_t> signature_vector(signature.data, signature.data + signature.len);
-    signature_text = sprint_hex_data(signature_vector);
+    signature_text = sprint_hex_data(sign_file(path, code_sign_key));
     return 0;
 }
 

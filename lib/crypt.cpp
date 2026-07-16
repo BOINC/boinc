@@ -215,10 +215,12 @@ vector<uint8_t> scan_key_hex(FILE* f) {
 }
 
 using unique_PKEY_CTX = std::unique_ptr<EVP_PKEY_CTX, OpenSSLDeleter<EVP_PKEY_CTX, EVP_PKEY_CTX_free>>;
+using unique_BLD = std::unique_ptr<OSSL_PARAM_BLD, OpenSSLDeleter<OSSL_PARAM_BLD, OSSL_PARAM_BLD_free>>;
 using unique_BN = std::unique_ptr<BIGNUM, OpenSSLDeleter<BIGNUM, BN_free>>;
 using unique_BN_CTX = std::unique_ptr<BN_CTX, OpenSSLDeleter<BN_CTX, BN_CTX_free>>;
+using unique_PARAMS = std::unique_ptr<OSSL_PARAM, OpenSSLDeleter<OSSL_PARAM, OSSL_PARAM_free>>;
 
-unique_EVP_PKEY private_to_openssl(R_RSA_PRIVATE_KEY& priv) {
+unique_EVP_PKEY private_to_openssl(const R_RSA_PRIVATE_KEY& priv) {
     unique_BN n(BN_bin2bn(priv.modulus, sizeof(priv.modulus), nullptr));
     unique_BN e(BN_bin2bn(priv.publicExponent, sizeof(priv.publicExponent), nullptr));
     unique_BN d(BN_bin2bn(priv.exponent, sizeof(priv.exponent), nullptr));
@@ -231,8 +233,6 @@ unique_EVP_PKEY private_to_openssl(R_RSA_PRIVATE_KEY& priv) {
     if (!n || !e || !d || !p || !q || !dmp1 || !dmq1 || !iqmp) {
         return nullptr;
     }
-
-    using unique_BLD = std::unique_ptr<OSSL_PARAM_BLD, OpenSSLDeleter<OSSL_PARAM_BLD, OSSL_PARAM_BLD_free>>;
 
     unique_BLD bld(OSSL_PARAM_BLD_new());
     if (!bld) {
@@ -249,8 +249,6 @@ unique_EVP_PKEY private_to_openssl(R_RSA_PRIVATE_KEY& priv) {
         !OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_COEFFICIENT1, iqmp.get())) {
         return nullptr;
     }
-
-    using unique_PARAMS = std::unique_ptr<OSSL_PARAM, OpenSSLDeleter<OSSL_PARAM, OSSL_PARAM_free>>;
 
     unique_PARAMS params(OSSL_PARAM_BLD_to_param(bld.get()));
     if (!params) {
@@ -275,15 +273,13 @@ unique_EVP_PKEY private_to_openssl(R_RSA_PRIVATE_KEY& priv) {
     return pkey;
 }
 
-unique_EVP_PKEY public_to_openssl(R_RSA_PUBLIC_KEY& pub) {
+unique_EVP_PKEY public_to_openssl(const R_RSA_PUBLIC_KEY& pub) {
     unique_BN n(BN_bin2bn(pub.modulus, sizeof(pub.modulus), nullptr));
     unique_BN e(BN_bin2bn(pub.exponent, sizeof(pub.exponent), nullptr));
 
     if (!n || !e) {
         return nullptr;
     }
-
-    using unique_BLD = std::unique_ptr<OSSL_PARAM_BLD, OpenSSLDeleter<OSSL_PARAM_BLD, OSSL_PARAM_BLD_free>>;
 
     unique_BLD bld(OSSL_PARAM_BLD_new());
     if (!bld) {
@@ -294,8 +290,6 @@ unique_EVP_PKEY public_to_openssl(R_RSA_PUBLIC_KEY& pub) {
         !OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_E, e.get())) {
         return nullptr;
     }
-
-    using unique_PARAMS = std::unique_ptr<OSSL_PARAM, OpenSSLDeleter<OSSL_PARAM, OSSL_PARAM_free>>;
 
     unique_PARAMS params(OSSL_PARAM_BLD_to_param(bld.get()));
     if (!params) {
@@ -325,38 +319,43 @@ unique_EVP_PKEY public_to_openssl(R_RSA_PUBLIC_KEY& pub) {
 // The output buffer must be at least MIN_OUT_BUFFER_SIZE.
 // The output block must be decrypted in its entirety.
 //
-int encrypt_private(R_RSA_PRIVATE_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out) {
-    const size_t modulus_len = (key.bits+7)/8;
-    size_t n = in.len;
-    if (n >= modulus_len-11) {
-        n = modulus_len-11;
-    }
+vector<uint8_t> encrypt_private(const R_RSA_PRIVATE_KEY& key, const vector<uint8_t>& in) {
+    const size_t max_len = ((key.bits + 7) / 8) - 11;
+    const size_t n = in.size() < max_len ? in.size() : max_len;
+
+    vector<uint8_t> out;
 
     unique_EVP_PKEY pkey = private_to_openssl(key);
     if (!pkey) {
-        return ERR_CRYPTO;
+        return out;
     }
 
     unique_PKEY_CTX ctx(EVP_PKEY_CTX_new(pkey.get(), nullptr));
     if (!ctx) {
-        return ERR_CRYPTO;
+        return out;
     }
 
     if (EVP_PKEY_sign_init(ctx.get()) <= 0) {
-        return ERR_CRYPTO;
+        return out;
     }
 
     if (EVP_PKEY_CTX_set_rsa_padding(ctx.get(), RSA_PKCS1_PADDING) <= 0) {
-        return ERR_CRYPTO;
+        return out;
     }
 
-    size_t outlen = out.len;
-    if (EVP_PKEY_sign(ctx.get(), out.data, &outlen, in.data, n) <= 0) {
-        return ERR_CRYPTO;
+    size_t outlen = 0;
+    if (EVP_PKEY_sign(ctx.get(), nullptr, &outlen, in.data(), n) <= 0) {
+        return out;
     }
 
-    out.len = static_cast<unsigned int>(outlen);
-    return 0;
+    out.resize(outlen);
+
+    if (EVP_PKEY_sign(ctx.get(), out.data(), &outlen, in.data(), n) <= 0) {
+        out.clear();
+        return out;
+    }
+
+    return out;
 }
 
 int decrypt_public(R_RSA_PUBLIC_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out) {
@@ -391,55 +390,42 @@ int decrypt_public(R_RSA_PUBLIC_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out) {
     return 0;
 }
 
-int sign_file(const char* path, R_RSA_PRIVATE_KEY& key, DATA_BLOCK& signature) {
+// md5 requires further refactoring
+vector<uint8_t> sign_file(const string& path, const R_RSA_PRIVATE_KEY& key) {
     char md5_buf[MD5_LEN];
     double file_length;
-    DATA_BLOCK in_block;
-    int retval;
 
-    retval = md5_file(path, md5_buf, file_length);
-    if (retval) return retval;
-    in_block.data = (unsigned char*)md5_buf;
-    in_block.len = (unsigned int)strlen(md5_buf);
-    retval = encrypt_private(key, in_block, signature);
-    if (retval) return retval;
-    return 0;
+    int retval = md5_file(path.data(), md5_buf, file_length);
+    if (retval) {
+        return vector<uint8_t>();
+    }
+
+    vector<uint8_t> md5_vector(md5_buf, md5_buf + strlen(md5_buf));
+    return encrypt_private(key, md5_vector);
 }
 
-int sign_block(DATA_BLOCK& data_block, R_RSA_PRIVATE_KEY& key, DATA_BLOCK& signature) {
+// md5 requires further refactoring
+vector<uint8_t> sign_block(const vector<uint8_t>& data_block, const R_RSA_PRIVATE_KEY& key) {
     char md5_buf[MD5_LEN];
-    int retval;
-    DATA_BLOCK in_block;
 
-    md5_block(data_block.data, data_block.len, md5_buf);
-    in_block.data = (unsigned char*)md5_buf;
-    in_block.len = (unsigned int)strlen(md5_buf);
-    retval = encrypt_private(key, in_block, signature);
+    int retval = md5_block(data_block.data(), data_block.size(), md5_buf);
     if (retval) {
-        printf("sign_block: encrypt_private returned %d\n", retval);
-        return retval;
+        return vector<uint8_t>();
     }
-    return 0;
+
+    vector<uint8_t> md5_vector(md5_buf, md5_buf + strlen(md5_buf));
+    return encrypt_private(key, md5_vector);
 }
 
 // compute an XML signature element for some text
 //
-int generate_signature(
-    char* text_to_sign, string& signature_hex, R_RSA_PRIVATE_KEY& key
-)  {
-    DATA_BLOCK block, signature_data;
-    unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
-    int retval;
-
-    block.data = (unsigned char*)text_to_sign;
-    block.len = (unsigned int)strlen(text_to_sign);
-    signature_data.data = signature_buf;
-    signature_data.len = SIGNATURE_SIZE_BINARY;
-    retval = sign_block(block, key, signature_data);
-    if (retval) return retval;
-    vector<uint8_t> signature_vector(signature_data.data, signature_data.data + signature_data.len);
-    signature_hex = sprint_hex_data(signature_vector);
-    return 0;
+string generate_signature(const string& text_to_sign, const R_RSA_PRIVATE_KEY& key) {
+    vector<uint8_t> data_to_sign(text_to_sign.begin(), text_to_sign.end());
+    vector<uint8_t> signature = sign_block(data_to_sign, key);
+    if (signature.empty()) {
+        return string();
+    }
+    return sprint_hex_data(signature);
 }
 
 // check a file signature

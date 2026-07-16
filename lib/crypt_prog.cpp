@@ -39,6 +39,7 @@
 //                  verify a signature using a directory of certificates
 
 #include <cstdint>
+#include <sys/types.h>
 #if defined(_WIN32)
 #include <windows.h>
 #else
@@ -175,25 +176,19 @@ int sign(const std::string& file, const std::string& private_keyfile) {
         print_error("fopen");
         return 2;
     }
-    std::vector<uint8_t> result = scan_key_hex(fpriv);
+    const std::vector<uint8_t> result = scan_key_hex(fpriv);
     if (result.empty()) {
         print_error("scan_key_hex");
         return 2;
     }
     R_RSA_PRIVATE_KEY private_key;
     memcpy(&private_key, result.data(), sizeof(private_key));
-    const int data_len = 256;
-    unsigned char signature_buf[data_len];
-    DATA_BLOCK signature;
-    signature.data = signature_buf;
-    signature.len = data_len;
-    int retval = sign_file(file.c_str(), private_key, signature);
-    if (retval) {
+    const std::vector<uint8_t> signature = sign_file(file, private_key);
+    if (signature.empty()) {
         print_error("sign_file");
         return 2;
     }
-    std::vector<unsigned char> signature_vector(signature.data, signature.data + signature.len);
-    print_hex_data(stdout, signature_vector);
+    print_hex_data(stdout, signature);
     return 0;
 }
 
@@ -210,16 +205,12 @@ int sign_string(const std::string& str, const std::string& private_keyfile) {
     }
     R_RSA_PRIVATE_KEY private_key;
     memcpy(&private_key, result.data(), sizeof(private_key));
-    std::string cbuf;
-    // this const_cast need to be removed once 'generate_signature' is updated
-    // to accept const char*
-    int retval = generate_signature(const_cast<char*>(str.c_str()), cbuf,
-        private_key);
-    if (retval) {
+    const std::string signature = generate_signature(str, private_key);
+    if (signature.empty()) {
         print_error("generate_signature");
         return 2;
     }
-    std::cout << cbuf.c_str();
+    std::cout << signature.c_str();
     return 0;
 }
 
@@ -314,6 +305,7 @@ int verify_string(const std::string& str, const std::string& signature_file,
     return 0;
 }
 
+// this requires heavy refactoring after all the called functions are refactored
 int test_crypt(const std::string& private_keyfile,
     const std::string& public_keyfile) {
     FILE* fpriv = fopen(private_keyfile.c_str(), "r");
@@ -348,14 +340,16 @@ int test_crypt(const std::string& private_keyfile,
     in.data = buf2;
     in.len = (unsigned)test_string.size();
     out.data = buf;
-    int retval = encrypt_private(private_key, in, out);
-    if (retval) {
+    std::vector<uint8_t> in_data(test_string.begin(), test_string.end());
+    std::vector<uint8_t> encrypted = encrypt_private(private_key, in_data);
+    if (encrypted.empty()) {
         print_error("encrypt_private");
         return 2;
     }
-    in = out;
+    in.data = encrypted.data();
+    in.len = encrypted.size();
     out.data = buf2;
-    retval = decrypt_public(public_key, in, out);
+    int retval = decrypt_public(public_key, in, out);
     if (retval) {
         print_error("decrypt_public");
         return 2;
