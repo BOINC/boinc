@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -368,8 +368,8 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             "<name>%s</name><max_nbytes>%.0f</max_nbytes>",
             name, max_nbytes
         );
-        retval = check_string_signature(
-            signed_xml, xml_signature, key, is_valid
+        std::tie(retval, is_valid) = check_string_signature(
+            signed_xml, xml_signature, key
         );
         if (retval || !is_valid) {
             log_messages.printf(MSG_CRITICAL,

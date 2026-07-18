@@ -233,11 +233,8 @@ int verify(const std::string& file, const std::string& signature_file,
         print_error("fopen");
         return 2;
     }
-    DATA_BLOCK signature;
-    std::vector<uint8_t> signature_data = scan_hex_data(f);
-    signature.data = signature_data.data();
-    signature.len = signature_data.size();
-    if (signature_data.empty()) {
+    std::vector<uint8_t> signature = scan_hex_data(f);
+    if (signature.empty()) {
         print_error("scan_hex_data");
         return 2;
     }
@@ -250,9 +247,8 @@ int verify(const std::string& file, const std::string& signature_file,
         return 2;
     }
     bool is_valid = false;
-    retval = check_file_signature(
-        md5_buf, public_key, signature, is_valid
-    );
+    std::tie(retval, is_valid) = check_file_signature(
+        md5_buf, public_key, signature);
     if (retval) {
         print_error("check_file_signature");
         return 2;
@@ -292,7 +288,8 @@ int verify_string(const std::string& str, const std::string& signature_file,
     cbuf[k] = 0;
 
     bool is_valid = false;
-    int retval = check_string_signature(str.c_str(), cbuf, public_key, is_valid);
+    int retval = 0;
+    std::tie(retval, is_valid) = check_string_signature(str, cbuf, public_key);
     if (retval) {
         print_error("check_string_signature");
         return 2;
@@ -334,27 +331,18 @@ int test_crypt(const std::string& private_keyfile,
     R_RSA_PUBLIC_KEY public_key;
     memcpy(&public_key, result.data(), sizeof(public_key));
     const std::string test_string("encryption test successful");
-    unsigned char buf[256], buf2[256];
-    strcpy((char*)buf2, test_string.c_str());
-    DATA_BLOCK in, out;
-    in.data = buf2;
-    in.len = (unsigned)test_string.size();
-    out.data = buf;
     std::vector<uint8_t> in_data(test_string.begin(), test_string.end());
     std::vector<uint8_t> encrypted = encrypt_private(private_key, in_data);
     if (encrypted.empty()) {
         print_error("encrypt_private");
         return 2;
     }
-    in.data = encrypted.data();
-    in.len = encrypted.size();
-    out.data = buf2;
-    int retval = decrypt_public(public_key, in, out);
-    if (retval) {
+    const std::vector<uint8_t> out = decrypt_public(public_key, encrypted);
+    if (out.empty()) {
         print_error("decrypt_public");
         return 2;
     }
-    std::cout << "out: " << out.data << std::endl;
+    std::cout << "out: " << reinterpret_cast<const char*>(out.data()) << std::endl;
     return 0;
 }
 

@@ -18,6 +18,7 @@
 #include <cstdint>
 #include <memory>
 #include <sys/types.h>
+#include <vector>
 #ifndef _WIN32
 #include <filesystem>
 #include <fstream>
@@ -937,21 +938,9 @@ namespace test_lib {
         ASSERT_EQ(decrypted_data, data)
             << "Decrypted data does not match original";
 
-        // Now decrypt the data encrypted by the method under test
-        // with the method under test
-        DATA_BLOCK decrypted_block;
-        decrypted_block.len = data.size();
-        std::vector<uint8_t> decrypted_data_for_testing(decrypted_block.len, 0);
-        decrypted_block.data = decrypted_data_for_testing.data();
-
-        DATA_BLOCK output_block;
-        output_block.len = encrypted_data_for_testing.size();
-        output_block.data = encrypted_data_for_testing.data();
-
-        int decrypt_result = decrypt_public(public_key_struct, output_block,
-            decrypted_block);
-        ASSERT_EQ(decrypt_result, 0) << "decrypt_public failed";
-        ASSERT_EQ(decrypted_data_for_testing, data)
+        std::vector<uint8_t> decrypt_result = decrypt_public(public_key_struct, encrypted_data_for_testing);
+        ASSERT_FALSE(decrypt_result.empty()) << "Decryption failed";
+        ASSERT_EQ(decrypt_result, data)
             << "Decrypted data from method under test does not match original";
     }
 
@@ -1235,4 +1224,697 @@ namespace test_lib {
         std::string expected_signature_hex = sprint_hex_data(encrypted);
         ASSERT_EQ(signature_hex, expected_signature_hex) << "Signature hex does not match expected value for empty data";
     }
+
+    TEST_F(test_crypt, test_check_file_signature) {
+        const char* sample_data = "Hello, World!";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        // calculate the MD5 hash of the file and compare with signature
+        std::string hash = get_md5(sample_data);
+        // convert file_hash to vector<uint8_t>
+        std::vector<uint8_t> hash_vec(hash.begin(), hash.end());
+        auto encrypted = encrypt(hash_vec, private_key);
+        ASSERT_FALSE(encrypted.empty()) << "Encryption failed for signature generation";
+
+        auto [result, is_valid] = check_file_signature(hash, public_key_struct, encrypted);
+        ASSERT_EQ(result, 0) << "check_file_signature failed";
+        ASSERT_TRUE(is_valid) << "Signature verification failed";
+    }
+
+    TEST_F(test_crypt, test_check_file_signature_invalid_signature) {
+        const char* sample_data = "Hello, World!";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        // Create an invalid signature (random data)
+        std::vector<uint8_t> invalid_signature(32, 0xFF); // 32 bytes of 0xFF
+
+        auto [result, is_valid] = check_file_signature(sample_data, public_key_struct, invalid_signature);
+        ASSERT_NE(result, 0) << "check_file_signature failed";
+        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid signature";
+    }
+
+    TEST_F(test_crypt, test_check_file_signature_invalid_key) {
+        const char* sample_data = "Hello, World!";
+
+        R_RSA_PUBLIC_KEY public_key_struct; // Uninitialized key
+
+        // Create a dummy signature (random data)
+        std::vector<uint8_t> dummy_signature(32, 0xAA); // 32 bytes of 0xAA
+
+        auto [result, is_valid] = check_file_signature(sample_data, public_key_struct, dummy_signature);
+        ASSERT_NE(result, 0) << "check_file_signature should fail for invalid key";
+    }
+
+    TEST_F(test_crypt, test_check_file_signature_empty_signature) {
+        const char* sample_data = "Hello, World!";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        // Create an empty signature
+        std::vector<uint8_t> empty_signature;
+
+        auto [result, is_valid] = check_file_signature(sample_data, public_key_struct, empty_signature);
+        ASSERT_NE(result, 0) << "check_file_signature failed";
+        ASSERT_FALSE(is_valid) << "Signature verification should fail for empty signature";
+    }
+
+    TEST_F(test_crypt, test_check_file_signature_empty_data) {
+        const char* sample_data = "";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        // calculate the MD5 hash of the empty data and compare with signature
+        std::string hash = get_md5(sample_data);
+        // convert file_hash to vector<uint8_t>
+        std::vector<uint8_t> hash_vec(hash.begin(), hash.end());
+        auto encrypted = encrypt(hash_vec, private_key);
+        ASSERT_FALSE(encrypted.empty()) << "Encryption failed for signature generation";
+
+        auto [result, is_valid] = check_file_signature(sample_data, public_key_struct, encrypted);
+        ASSERT_EQ(result, 0) << "check_file_signature failed";
+        ASSERT_FALSE(is_valid) << "Signature verification failed for empty data";
+    }
+
+    TEST_F(test_crypt, test_check_file_signature_invalid_data) {
+        const char* sample_data = "Hello, World!";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        // calculate the MD5 hash of the file and compare with signature
+        std::string hash = get_md5(sample_data);
+        // convert file_hash to vector<uint8_t>
+        std::vector<uint8_t> hash_vec(hash.begin(), hash.end());
+        auto encrypted = encrypt(hash_vec, private_key);
+        ASSERT_FALSE(encrypted.empty()) << "Encryption failed for signature generation";
+
+        // Modify the sample data to be invalid
+        const char* invalid_sample_data = "Hello, Universe!";
+        auto [result, is_valid] = check_file_signature(invalid_sample_data, public_key_struct, encrypted);
+        ASSERT_EQ(result, 0) << "check_file_signature failed";
+        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid data";
+    }
+
+    TEST_F(test_crypt, test_check_file_signature2) {
+        const char* sample_data = "Hello, World!";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+        // calculate the MD5 hash of the file and compare with signature
+        std::string hash = get_md5(sample_data);
+        // convert file_hash to vector<uint8_t>
+        std::vector<uint8_t> hash_vec(hash.begin(), hash.end());
+        auto encrypted = encrypt(hash_vec, private_key);
+
+        std::vector<uint8_t> decrypted_data = decrypt_public(public_key_struct, encrypted);
+        ASSERT_FALSE(decrypted_data.empty()) << "decrypt_public failed";
+        ASSERT_FALSE(encrypted.empty()) << "Encryption failed for signature generation";
+
+        // convert encrypted to hex string
+        std::string signature_hex = sprint_hex_data(encrypted);
+        // convert public key to hex string
+        FILE* f = tmpfile();
+        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        bool print_result = print_key_hex(f, reinterpret_cast<KEY*>(&public_key_struct), sizeof(public_key_struct));
+        ASSERT_TRUE(print_result) << "print_key_hex failed for public key";
+        fseek(f, 0, SEEK_SET);
+        std::string public_key_hex;
+        char buffer[256];
+        while (fgets(buffer, sizeof(buffer), f) != nullptr) {
+            public_key_hex += buffer;
+        }
+        fclose(f);
+
+        auto [result, is_valid] = check_file_signature(hash, signature_hex, public_key_hex);
+        ASSERT_EQ(result, 0) << "check_file_signature2 failed";
+        ASSERT_TRUE(is_valid) << "Signature verification failed";
+    }
+
+    TEST_F(test_crypt, test_check_file_signature2_invalid_signature) {
+        const char* sample_data = "Hello, World!";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        // Create an invalid signature (random data)
+        std::string invalid_signature_hex = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"; // 64 hex characters of 'F'
+
+        // convert public key to hex string
+        FILE* f = tmpfile();
+        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        bool print_result = print_key_hex(f, reinterpret_cast<KEY*>(&public_key_struct), sizeof(public_key_struct));
+        ASSERT_TRUE(print_result) << "print_key_hex failed for public key";
+        fseek(f, 0, SEEK_SET);
+        std::string public_key_hex;
+        char buffer[256];
+        while (fgets(buffer, sizeof(buffer), f) != nullptr) {
+            public_key_hex += buffer;
+        }
+        fclose(f);
+
+        auto [result, is_valid] = check_file_signature(sample_data, invalid_signature_hex, public_key_hex);
+        ASSERT_NE(result, 0) << "check_file_signature2 should fail for invalid signature";
+        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid signature";
+    }
+
+    TEST_F(test_crypt, test_check_file_signature2_invalid_key) {
+        const char* sample_data = "Hello, World!";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        // calculate the MD5 hash of the file and compare with signature
+        std::string hash = get_md5(sample_data);
+        // convert file_hash to vector<uint8_t>
+        std::vector<uint8_t> hash_vec(hash.begin(), hash.end());
+        auto encrypted = encrypt(hash_vec, private_key);
+
+        // convert encrypted to hex string
+        std::string signature_hex = sprint_hex_data(encrypted);
+
+        // Create an invalid public key hex string (random data)
+        std::string invalid_public_key_hex = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"; // 64 hex characters of 'F'
+
+        auto [result, is_valid] = check_file_signature(sample_data, signature_hex, invalid_public_key_hex);
+        ASSERT_NE(result, 0) << "check_file_signature2 should fail for invalid public key";
+        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid public key";
+    }
+
+    TEST_F(test_crypt, test_check_file_signature2_empty_signature) {
+        const char* sample_data = "Hello, World!";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        // convert public key to hex string
+        FILE* f = tmpfile();
+        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        bool print_result = print_key_hex(f, reinterpret_cast<KEY*>(&public_key_struct), sizeof(public_key_struct));
+        ASSERT_TRUE(print_result) << "print_key_hex failed for public key";
+        fseek(f, 0, SEEK_SET);
+        std::string public_key_hex;
+        char buffer[256];
+        while (fgets(buffer, sizeof(buffer), f) != nullptr) {
+            public_key_hex += buffer;
+        }
+        fclose(f);
+
+        // Create an empty signature hex string
+        std::string empty_signature_hex;
+
+        auto [result, is_valid] = check_file_signature(sample_data, empty_signature_hex, public_key_hex);
+        ASSERT_NE(result, 0) << "check_file_signature2 should fail for empty signature";
+        ASSERT_FALSE(is_valid) << "Signature verification should fail for empty signature";
+    }
+
+    TEST_F(test_crypt, test_check_file_signature2_empty_data) {
+        const char* sample_data = "";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        // calculate the MD5 hash of the empty data and compare with signature
+        std::string hash = get_md5(sample_data);
+        // convert file_hash to vector<uint8_t>
+        std::vector<uint8_t> hash_vec(hash.begin(), hash.end());
+        auto encrypted = encrypt(hash_vec, private_key);
+
+        // convert encrypted to hex string
+        std::string signature_hex = sprint_hex_data(encrypted);
+
+        // convert public key to hex string
+        FILE* f = tmpfile();
+        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        bool print_result = print_key_hex(f, reinterpret_cast<KEY*>(&public_key_struct), sizeof(public_key_struct));
+        ASSERT_TRUE(print_result) << "print_key_hex failed for public key";
+        fseek(f, 0, SEEK_SET);
+        std::string public_key_hex;
+        char buffer[256];
+        while (fgets(buffer, sizeof(buffer), f) != nullptr) {
+            public_key_hex += buffer;
+        }
+        fclose(f);
+
+        auto [result, is_valid] = check_file_signature(sample_data, signature_hex, public_key_hex);
+        ASSERT_EQ(result, 0) << "check_file_signature2 failed";
+        ASSERT_FALSE(is_valid) << "Signature verification failed for empty data";
+    }
+
+    TEST_F(test_crypt, test_check_file_signature2_invalid_data) {
+        const char* sample_data = "Hello, World!";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        // calculate the MD5 hash of the file and compare with signature
+        std::string hash = get_md5(sample_data);
+        // convert file_hash to vector<uint8_t>
+        std::vector<uint8_t> hash_vec(hash.begin(), hash.end());
+        auto encrypted = encrypt(hash_vec, private_key);
+
+        // convert encrypted to hex string
+        std::string signature_hex = sprint_hex_data(encrypted);
+
+        // convert public key to hex string
+        FILE* f = tmpfile();
+        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        bool print_result = print_key_hex(f, reinterpret_cast<KEY*>(&public_key_struct), sizeof(public_key_struct));
+        ASSERT_TRUE(print_result) << "print_key_hex failed for public key";
+        fseek(f, 0, SEEK_SET);
+        std::string public_key_hex;
+        char buffer[256];
+        while (fgets(buffer, sizeof(buffer), f) != nullptr) {
+            public_key_hex += buffer;
+        }
+        fclose(f);
+
+        // Modify the sample data to be invalid
+        const char* invalid_sample_data = "Hello, Universe!";
+        auto [result, is_valid] = check_file_signature(invalid_sample_data, signature_hex, public_key_hex);
+        ASSERT_EQ(result, 0) << "check_file_signature2 failed";
+        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid data";
+    }
+
+    TEST_F(test_crypt, test_check_string_signature) {
+        const char* sample_data = "Hello, World!";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        // calculate the MD5 hash of the file and compare with signature
+        std::string hash = get_md5(sample_data);
+        // convert file_hash to vector<uint8_t>
+        std::vector<uint8_t> hash_vec(hash.begin(), hash.end());
+        auto encrypted = encrypt(hash_vec, private_key);
+
+        // convert encrypted to hex string
+        std::string signature_hex = sprint_hex_data(encrypted);
+
+        auto [result, is_valid] = check_string_signature(sample_data, signature_hex, public_key_struct);
+        ASSERT_EQ(result, 0) << "check_string_signature failed";
+        ASSERT_TRUE(is_valid) << "Signature verification failed";
+    }
+
+    TEST_F(test_crypt, test_check_string_signature_invalid_signature) {
+        const char* sample_data = "Hello, World!";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        // Create an invalid signature (random data)
+        std::string invalid_signature_hex = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"; // 64 hex characters of 'F'
+
+        auto [result, is_valid] = check_string_signature(sample_data, invalid_signature_hex, public_key_struct);
+        ASSERT_NE(result, 0) << "check_string_signature should fail for invalid signature";
+        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid signature";
+    }
+
+    TEST_F(test_crypt, test_check_string_signature_invalid_key) {
+        const char* sample_data = "Hello, World!";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        // calculate the MD5 hash of the file and compare with signature
+        std::string hash = get_md5(sample_data);
+        // convert file_hash to vector<uint8_t>
+        std::vector<uint8_t> hash_vec(hash.begin(), hash.end());
+        auto encrypted = encrypt(hash_vec, private_key);
+
+        // convert encrypted to hex string
+        std::string signature_hex = sprint_hex_data(encrypted);
+
+        R_RSA_PUBLIC_KEY invalid_public_key_struct; // Uninitialized key
+
+        auto [result, is_valid] = check_string_signature(sample_data, signature_hex, invalid_public_key_struct);
+        ASSERT_NE(result, 0) << "check_string_signature should fail for invalid key";
+        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid key";
+    }
+
+    TEST_F(test_crypt, test_check_string_signature_empty_data) {
+        const char* sample_data = "";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        // calculate the MD5 hash of the empty data and compare with signature
+        std::string hash = get_md5(sample_data);
+        // convert file_hash to vector<uint8_t>
+        std::vector<uint8_t> hash_vec(hash.begin(), hash.end());
+        auto encrypted = encrypt(hash_vec, private_key);
+
+        // convert encrypted to hex string
+        std::string signature_hex = sprint_hex_data(encrypted);
+
+        auto [result, is_valid] = check_string_signature(sample_data, signature_hex, public_key_struct);
+        ASSERT_EQ(result, 0) << "check_string_signature failed";
+        ASSERT_TRUE(is_valid) << "Signature verification failed for empty data";
+    }
+
+    TEST_F(test_crypt, test_check_string_signature_invalid_data) {
+        const char* sample_data = "Hello, World!";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        // calculate the MD5 hash of the file and compare with signature
+        std::string hash = get_md5(sample_data);
+        // convert file_hash to vector<uint8_t>
+        std::vector<uint8_t> hash_vec(hash.begin(), hash.end());
+        auto encrypted = encrypt(hash_vec, private_key);
+
+        // convert encrypted to hex string
+        std::string signature_hex = sprint_hex_data(encrypted);
+
+        // Modify the sample data to be invalid
+        const char* invalid_sample_data = "Hello, Universe!";
+        auto [result, is_valid] = check_string_signature(invalid_sample_data, signature_hex, public_key_struct);
+        ASSERT_EQ(result, 0) << "check_string_signature failed";
+        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid data";
+    }
+
+    TEST_F(test_crypt, test_check_string_signature2) {
+        const char* sample_data = "Hello, World!";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        // calculate the MD5 hash of the file and compare with signature
+        std::string hash = get_md5(sample_data);
+        // convert file_hash to vector<uint8_t>
+        std::vector<uint8_t> hash_vec(hash.begin(), hash.end());
+        auto encrypted = encrypt(hash_vec, private_key);
+
+        // convert encrypted to hex string
+        std::string signature_hex = sprint_hex_data(encrypted);
+
+        // convert public key to hex string
+        FILE* f = tmpfile();
+        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        bool print_result = print_key_hex(f, reinterpret_cast<KEY*>(&public_key_struct), sizeof(public_key_struct));
+        ASSERT_TRUE(print_result) << "print_key_hex failed for public key";
+        fseek(f, 0, SEEK_SET);
+        std::string public_key_hex;
+        char buffer[256];
+        while (fgets(buffer, sizeof(buffer), f) != nullptr) {
+            public_key_hex += buffer;
+        }
+        fclose(f);
+
+        auto [result, is_valid] = check_string_signature(sample_data, signature_hex, public_key_hex);
+        ASSERT_EQ(result, 0) << "check_string_signature2 failed";
+        ASSERT_TRUE(is_valid) << "Signature verification failed";
+    }
+
+    TEST_F(test_crypt, test_check_string_signature2_invalid_signature) {
+        const char* sample_data = "Hello, World!";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        // Create an invalid signature (random data)
+        std::string invalid_signature_hex = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"; // 64 hex characters of 'F'
+
+        // convert public key to hex string
+        FILE* f = tmpfile();
+        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        bool print_result = print_key_hex(f, reinterpret_cast<KEY*>(&public_key_struct), sizeof(public_key_struct));
+        ASSERT_TRUE(print_result) << "print_key_hex failed for public key";
+        fseek(f, 0, SEEK_SET);
+        std::string public_key_hex;
+        char buffer[256];
+        while (fgets(buffer, sizeof(buffer), f) != nullptr) {
+            public_key_hex += buffer;
+        }
+        fclose(f);
+
+        auto [result, is_valid] = check_string_signature(sample_data, invalid_signature_hex, public_key_hex);
+        ASSERT_NE(result, 0) << "check_string_signature2 should fail for invalid signature";
+        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid signature";
+    }
+
+    TEST_F(test_crypt, test_check_string_signature2_invalid_key) {
+        const char* sample_data = "Hello, World!";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        // calculate the MD5 hash of the file and compare with signature
+        std::string hash = get_md5(sample_data);
+        // convert file_hash to vector<uint8_t>
+        std::vector<uint8_t> hash_vec(hash.begin(), hash.end());
+        auto encrypted = encrypt(hash_vec, private_key);
+
+        // convert encrypted to hex string
+        std::string signature_hex = sprint_hex_data(encrypted);
+
+        // Create an invalid public key hex string (random data)
+        std::string invalid_public_key_hex = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"; // 64 hex characters of 'F'
+
+        auto [result, is_valid] = check_string_signature(sample_data, signature_hex, invalid_public_key_hex);
+        ASSERT_NE(result, 0) << "check_string_signature2 should fail for invalid public key";
+        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid public key";
+    }
+
+    TEST_F(test_crypt, test_check_string_signature2_empty_data) {
+        const char* sample_data = "";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        // calculate the MD5 hash of the empty data and compare with signature
+        std::string hash = get_md5(sample_data);
+        // convert file_hash to vector<uint8_t>
+        std::vector<uint8_t> hash_vec(hash.begin(), hash.end());
+        auto encrypted = encrypt(hash_vec, private_key);
+
+        // convert encrypted to hex string
+        std::string signature_hex = sprint_hex_data(encrypted);
+
+        // convert public key to hex string
+        FILE* f = tmpfile();
+        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        bool print_result = print_key_hex(f, reinterpret_cast<KEY*>(&public_key_struct), sizeof(public_key_struct));
+        ASSERT_TRUE(print_result) << "print_key_hex failed for public key";
+        fseek(f, 0, SEEK_SET);
+        std::string public_key_hex;
+        char buffer[256];
+        while (fgets(buffer, sizeof(buffer), f) != nullptr) {
+            public_key_hex += buffer;
+        }
+        fclose(f);
+
+        auto [result, is_valid] = check_string_signature(sample_data, signature_hex, public_key_hex);
+        ASSERT_EQ(result, 0) << "check_string_signature2 failed";
+        ASSERT_TRUE(is_valid) << "Signature verification failed for empty data";
+    }
+
+    TEST_F(test_crypt, test_check_string_signature2_invalid_data) {
+        const char* sample_data = "Hello, World!";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        // calculate the MD5 hash of the file and compare with signature
+        std::string hash = get_md5(sample_data);
+        // convert file_hash to vector<uint8_t>
+        std::vector<uint8_t> hash_vec(hash.begin(), hash.end());
+        auto encrypted = encrypt(hash_vec, private_key);
+        // convert encrypted to hex string
+        std::string signature_hex = sprint_hex_data(encrypted);
+
+        // convert public key to hex string
+        FILE* f = tmpfile();
+        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        bool print_result = print_key_hex(f, reinterpret_cast<KEY*>(&public_key_struct), sizeof(public_key_struct));
+        ASSERT_TRUE(print_result) << "print_key_hex failed for public key";
+        fseek(f, 0, SEEK_SET);
+        std::string public_key_hex;
+        char buffer[256];
+        while (fgets(buffer, sizeof(buffer), f) != nullptr) {
+            public_key_hex += buffer;
+        }
+        fclose(f);
+
+        // Modify the sample data to be invalid
+        const char* invalid_sample_data = "Hello, Universe!";
+        auto [result, is_valid] = check_string_signature(invalid_sample_data, signature_hex, public_key_hex);
+        ASSERT_EQ(result, 0) << "check_string_signature2 failed";
+        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid data";
+    }
+
 }

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -826,9 +826,9 @@ int CLIENT_STATE::handle_scheduler_reply(
             safe_strcpy(project->code_sign_key, sr.code_sign_key);
         } else {
             if (sr.code_sign_key_signature) {
-                retval = check_string_signature2(
+                std::tie(retval, signature_valid) = check_string_signature(
                     sr.code_sign_key, sr.code_sign_key_signature,
-                    project->code_sign_key, signature_valid
+                    project->code_sign_key
                 );
                 if (!retval && signature_valid) {
                     safe_strcpy(project->code_sign_key, sr.code_sign_key);

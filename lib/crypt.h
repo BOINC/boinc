@@ -117,23 +117,26 @@ extern std::vector<uint8_t> scan_key_hex(FILE* f);
 #endif
 extern std::vector<uint8_t> encrypt_private(const R_RSA_PRIVATE_KEY& key,
     const std::vector<uint8_t>& in);
-extern int decrypt_public(
-    R_RSA_PUBLIC_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out
-);
+extern std::vector<uint8_t> decrypt_public(const R_RSA_PUBLIC_KEY& key,
+    const std::vector<uint8_t>& in);
 extern std::vector<uint8_t> sign_file(const std::string& path, const R_RSA_PRIVATE_KEY& key);
 extern std::vector<uint8_t> sign_block(const std::vector<uint8_t>& data, const R_RSA_PRIVATE_KEY& key);
-extern int check_file_signature(
-    const char* md5, R_RSA_PUBLIC_KEY&, DATA_BLOCK& signature, bool&
-);
-extern int check_file_signature2(
-    const char* md5, const char* signature, const char* key, bool&
-);
-extern int check_string_signature(
-    const char* text, const char* signature, R_RSA_PUBLIC_KEY&, bool&
-);
-extern int check_string_signature2(
-    const char* text, const char* signature, const char* key, bool&
-);
+// return a pair of values:
+// first 'int' value indicates and error code (0 - success, everything else - error)
+// second 'bool' value indicates if the signature is valid (true - valid, false - invalid)
+extern std::pair<int, bool> check_file_signature(const std::string& md5, const R_RSA_PUBLIC_KEY& key, const std::vector<uint8_t>& signature);
+// return a pair of values:
+// first 'int' value indicates and error code (0 - success, everything else - error)
+// second 'bool' value indicates if the signature is valid (true - valid, false - invalid)
+extern std::pair<int, bool> check_file_signature(const std::string& md5, const std::string& signature, const std::string& key);
+// return a pair of values:
+// first 'int' value indicates and error code (0 - success, everything else - error)
+// second 'bool' value indicates if the signature is valid (true - valid, false - invalid)
+extern std::pair<int, bool> check_string_signature(const std::string& text, const std::string& signature, const R_RSA_PUBLIC_KEY& key);
+// return a pair of values:
+// first 'int' value indicates and error code (0 - success, everything else - error)
+// second 'bool' value indicates if the signature is valid (true - valid, false - invalid)
+extern std::pair<int, bool> check_string_signature(const std::string& text, const std::string& signature, const std::string& key);
 extern bool print_raw_data(FILE *f, const std::vector<uint8_t> &x);
 extern std::vector<uint8_t> scan_raw_data(FILE *f);
 extern int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key);

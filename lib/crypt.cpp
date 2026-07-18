@@ -17,6 +17,7 @@
 
 #include <cstdint>
 #include <memory>
+#include <utility>
 #include <vector>
 #if defined(_WIN32)
 #include "boinc_win.h"
@@ -358,39 +359,44 @@ vector<uint8_t> encrypt_private(const R_RSA_PRIVATE_KEY& key, const vector<uint8
     return out;
 }
 
-int decrypt_public(R_RSA_PUBLIC_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out) {
-    int retval;
-
+vector<uint8_t> decrypt_public(const R_RSA_PUBLIC_KEY& key, const vector<uint8_t>& in) {
+    vector<uint8_t> out;
     unique_EVP_PKEY pkey = public_to_openssl(key);
 
     if (!pkey) {
-        return ERR_CRYPTO;
+        return out;
     }
 
     unique_PKEY_CTX ctx(EVP_PKEY_CTX_new(pkey.get(), nullptr));
     if (!ctx) {
-        return ERR_CRYPTO;
+        return out;
     }
 
     if (EVP_PKEY_verify_recover_init(ctx.get()) <= 0) {
-        return ERR_CRYPTO;
+        return out;
     }
 
     if (EVP_PKEY_CTX_set_rsa_padding(ctx.get(), RSA_PKCS1_PADDING) <= 0) {
-        return ERR_CRYPTO;
+        return out;
     }
 
-    size_t outlen = out.len;
-
-    if (EVP_PKEY_verify_recover(ctx.get(), out.data, &outlen, in.data, in.len) <= 0) {
-        return ERR_CRYPTO;
+    size_t outlen = 0;
+    if (EVP_PKEY_verify_recover(ctx.get(), nullptr, &outlen, in.data(), in.size()) <= 0) {
+        return out;
     }
 
-    out.len = static_cast<unsigned int>(outlen);
-    return 0;
+    out.resize(outlen);
+
+    if (EVP_PKEY_verify_recover(ctx.get(), out.data(), &outlen, in.data(), in.size()) <= 0) {
+        out.clear();
+        return out;
+    }
+
+    out.resize(outlen);
+    return out;
 }
 
-// md5 requires further refactoring
+//TODO: md5 requires further refactoring
 vector<uint8_t> sign_file(const string& path, const R_RSA_PRIVATE_KEY& key) {
     char md5_buf[MD5_LEN];
     double file_length;
@@ -404,7 +410,7 @@ vector<uint8_t> sign_file(const string& path, const R_RSA_PRIVATE_KEY& key) {
     return encrypt_private(key, md5_vector);
 }
 
-// md5 requires further refactoring
+//TODO: md5 requires further refactoring
 vector<uint8_t> sign_block(const vector<uint8_t>& data_block, const R_RSA_PRIVATE_KEY& key) {
     char md5_buf[MD5_LEN];
 
@@ -430,103 +436,69 @@ string generate_signature(const string& text_to_sign, const R_RSA_PRIVATE_KEY& k
 
 // check a file signature
 //
-int check_file_signature(
-    const char* md5_buf, R_RSA_PUBLIC_KEY& key,
-    DATA_BLOCK& signature, bool& answer
-) {
-    char clear_buf[MD5_LEN];
-    int n, retval;
-    DATA_BLOCK clear_signature;
-    clear_buf[0]=0;
-
-    n = (int)strlen(md5_buf);
-    clear_signature.data = (unsigned char*)clear_buf;
-    clear_signature.len = MD5_LEN;
-    retval = decrypt_public(key, signature, clear_signature);
-    if (retval) {
+std::pair<int, bool> check_file_signature(const string& md5_buf, const R_RSA_PUBLIC_KEY& key, const vector<uint8_t>& signature) {
+    vector<uint8_t> decrypted = decrypt_public(key, signature);
+    if (decrypted.empty()) {
         fprintf(stderr,
-            "%s: check_file_signature: decrypt_public error %d\n",
-            time_to_string(dtime()), retval
-        );
-        return retval;
+            "%s: check_file_signature: decrypt_public error\n",
+            time_to_string(dtime()));
+        return std::make_pair(ERR_CRYPTO, false);
     }
-    answer = !strncmp(md5_buf, clear_buf, n);
-    return 0;
+    // convert string md5_buf to vector<uint8_t>
+    vector<uint8_t> md5_vector(md5_buf.begin(), md5_buf.end());
+    const bool answer = (decrypted == md5_vector);
+    return std::make_pair(0, answer);
 }
 
 // same, signature given as string
 //
-int check_file_signature2(
-    const char* md5, const char* signature_text,
-    const char* key_text, bool& answer
-) {
-    R_RSA_PUBLIC_KEY key;
-    unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
-    DATA_BLOCK signature;
-
-    std::vector<uint8_t> key_data = sscan_key_hex(key_text);
+std::pair<int, bool> check_file_signature(const string& md5, const string& signature_text, const string& key_text) {
+    std::vector<uint8_t> key_data = sscan_key_hex(key_text.data());
     if (key_data.empty()) {
-        fprintf(stderr, "%s: check_file_signature2: sscan_key_hex failed\n",
-            time_to_string(dtime())
-        );
-        return ERR_BAD_HEX_FORMAT;
+        return std::make_pair(ERR_BAD_HEX_FORMAT, false);
     }
+
+    R_RSA_PUBLIC_KEY key;
     memcpy(&key, key_data.data(), sizeof(key));
-    signature.data = signature_buf;
-    signature.len = sizeof(signature_buf);
-    vector<uint8_t> data  = sscan_hex_data(vector<uint8_t>(signature_text, signature_text + strlen(signature_text)));
-    if (data.size() != sizeof(signature_buf)) {
-        fprintf(stderr, "%s: check_file_signature2: signature size mismatch: expected %zu, got %zu\n",
-            time_to_string(dtime()), sizeof(signature_buf), data.size()
-        );
-        return ERR_BAD_HEX_FORMAT;
-    }
-    memcpy(signature.data, data.data(), sizeof(signature_buf));
-    return check_file_signature(md5, key, signature, answer);
+
+    vector<uint8_t> signature  = sscan_hex_data(vector<uint8_t>(signature_text.begin(), signature_text.end()));
+    return check_file_signature(md5, key, signature);
 }
 
+//TODO: this requires further refactoring after MD5 is refactored
 // same, both text and signature are char strings
 //
-int check_string_signature(
-    const char* text, const char* signature_text, R_RSA_PUBLIC_KEY& key,
-    bool& answer
-) {
+std::pair<int, bool> check_string_signature(const string& text, const string& signature_text, const R_RSA_PUBLIC_KEY& key) {
     char md5_buf[MD5_LEN];
-    unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
-    char clear_buf[MD5_LEN];
-    int retval, n;
-    DATA_BLOCK signature, clear_signature;
 
-    retval = md5_block((const unsigned char*)text, (int)strlen(text), md5_buf);
-    if (retval) return retval;
-    n = (int)strlen(md5_buf);
-    signature.data = signature_buf;
-    signature.len = sizeof(signature_buf);
-    vector<uint8_t> data  = sscan_hex_data(vector<uint8_t>(signature_text, signature_text + strlen(signature_text)));
-    signature.len = data.size();
-    memcpy(signature.data, data.data(), sizeof(signature_buf));
-    clear_signature.data = (unsigned char*)clear_buf;
-    clear_signature.len = 256;
-    retval = decrypt_public(key, signature, clear_signature);
-    if (retval) return retval;
-    answer = !strncmp(md5_buf, clear_buf, n);
-    return 0;
+    int retval = md5_block(reinterpret_cast<const unsigned char*>(text.data()), text.size(), md5_buf);
+    if (retval) {
+        return std::make_pair(retval, false);
+    }
+    vector<uint8_t> signature  = sscan_hex_data(vector<uint8_t>(signature_text.begin(), signature_text.end()));
+    vector<uint8_t> decrypted = decrypt_public(key, signature);
+    if (decrypted.empty()) {
+        fprintf(stderr,
+            "%s: check_string_signature: decrypt_public error\n",
+            time_to_string(dtime()));
+        return std::make_pair(ERR_CRYPTO, false);
+    }
+    vector<uint8_t> md5_vector(md5_buf, md5_buf + strlen(md5_buf));
+    const bool answer = (decrypted == md5_vector);
+    return std::make_pair(0, answer);
 }
 
 // Same, where public key is also encoded as text
 //
-int check_string_signature2(
-    const char* text, const char* signature_text, const char* key_text, bool& answer
-) {
+std::pair<int, bool> check_string_signature(const string& text, const string& signature_text, const string& key_text) {
     R_RSA_PUBLIC_KEY key;
-    int retval;
 
-    std::vector<uint8_t> key_data = sscan_key_hex(key_text);
+    std::vector<uint8_t> key_data = sscan_key_hex(key_text.data());
     if (key_data.empty()) {
-        return 1;
+        return std::make_pair(ERR_BAD_HEX_FORMAT, false);
     }
     memcpy(&key, key_data.data(), sizeof(key));
-    return check_string_signature(text, signature_text, key, answer);
+    return check_string_signature(text, signature_text, key);
 }
 
 int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key) {
