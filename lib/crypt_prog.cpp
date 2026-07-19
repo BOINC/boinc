@@ -39,6 +39,7 @@
 //                  verify a signature using a directory of certificates
 
 #include <cstdint>
+#include <openssl/rsa.h>
 #include <sys/types.h>
 #if defined(_WIN32)
 #include <windows.h>
@@ -138,20 +139,22 @@ int genkey(int n, const std::string& private_keyfile,
     std::cout << "creating keys in " << private_keyfile << " and "
         << public_keyfile << std::endl;
 
-    srand(random_int());
-    BIGNUM *e = BN_new();
-    if (BN_set_word(e, (unsigned long)65537) != 1) {
-        print_error("BN_set_word");
+    unique_PKEY_CTX ctx = unique_PKEY_CTX(EVP_PKEY_CTX_new_from_name(nullptr, "RSA", nullptr));
+    EVP_PKEY_keygen_init(ctx.get());
+    EVP_PKEY_CTX_set_rsa_keygen_bits(ctx.get(), n);
+    EVP_PKEY_CTX_set1_rsa_keygen_pubexp(ctx.get(), BN_new());
+    EVP_PKEY* rp = nullptr;
+    if (EVP_PKEY_keygen(ctx.get(), &rp) <= 0) {
+        print_error("EVP_PKEY_keygen");
         return 2;
     }
-    RSA* rp = RSA_new();
-    if (RSA_generate_key_ex(rp, n, e, NULL) != 1) {
-        print_error("RSA_generate_key_ex");
-        return 2;
-    }
+
+    unique_EVP_PKEY rsa_key(rp);
+
     R_RSA_PUBLIC_KEY public_key;
     R_RSA_PRIVATE_KEY private_key;
-    openssl_to_keys(rp, n, private_key, public_key);
+    int retval = 0;
+    std::tie(retval, private_key, public_key) = openssl_to_keys(rsa_key);
     FILE *fpriv = fopen(private_keyfile.c_str(), "w");
     if (!fpriv) {
         print_error("fopen");
@@ -463,15 +466,26 @@ int convkey_private_o2b(const std::string& input, const std::string& output) {
         print_error("fopen");
         return 2;
     }
-    RSA* rsa_key = PEM_read_RSAPrivateKey(fpriv, NULL, NULL, NULL);
+    BIO* bio = BIO_new_fp(fpriv, BIO_NOCLOSE);
+    if (!bio) {
+        print_error("BIO_new_fp");
+        fclose(fpriv);
+        return 2;
+    }
+
+    unique_EVP_PKEY rsa_key = unique_EVP_PKEY(PEM_read_bio_PrivateKey(bio, nullptr, nullptr, nullptr));
+    BIO_free(bio);
     fclose(fpriv);
-    if (rsa_key == NULL) {
+
+    if (!rsa_key) {
         ERR_print_errors(bio_err);
         print_error("could not load private key.");
         return 2;
     }
+
     R_RSA_PRIVATE_KEY private_key;
-    openssl_to_private(rsa_key, &private_key);
+    int retval = 0;
+    std::tie(retval, private_key) = openssl_to_private(rsa_key);
     fpriv = fopen(output.c_str(), "w");
     if (!fpriv) {
         print_error("fopen");
@@ -545,17 +559,31 @@ int convkey_public_o2b(const std::string& input, const std::string& output) {
         print_error("fopen");
         return 2;
     }
-    RSA* rsa_key = PEM_read_RSA_PUBKEY(fpub, NULL, NULL, NULL);
+
+    BIO *bio = BIO_new_fp(fpub, BIO_NOCLOSE);
+    if (!bio) {
+        print_error("BIO_new_fp");
+        fclose(fpub);
+        return 2;
+    }
+
+    unique_EVP_PKEY rsa_key = unique_EVP_PKEY(PEM_read_bio_PUBKEY(bio, nullptr, nullptr, nullptr));
+    BIO_free(bio);
     fclose(fpub);
 
-    if (rsa_key == NULL) {
+    if (!rsa_key) {
         ERR_print_errors(bio_err);
         print_error("could not load public key.");
         return 2;
     }
+    int retval = 0;
     R_RSA_PUBLIC_KEY public_key;
     R_RSA_PRIVATE_KEY private_key;
-    openssl_to_keys(rsa_key, 1024, private_key, public_key);
+    std::tie(retval, private_key, public_key) = openssl_to_keys(rsa_key);
+    if (retval) {
+        print_error("openssl_to_keys");
+        return 2;
+    }
     fpub = fopen(output.c_str(), "w");
     if (!fpub) {
         print_error("fopen");

@@ -43,6 +43,9 @@ struct OpenSSLDeleter {
 
 using unique_EVP_PKEY =
     std::unique_ptr<EVP_PKEY, OpenSSLDeleter<EVP_PKEY, EVP_PKEY_free>>;
+using unique_PKEY_CTX =
+    std::unique_ptr<EVP_PKEY_CTX,
+    OpenSSLDeleter<EVP_PKEY_CTX, EVP_PKEY_CTX_free>>;
 
 #if (OPENSSL_VERSION_NUMBER >= 0x10100000L) /* OpenSSL 1.1.0+ */
 #define HAVE_OPAQUE_EVP_PKEY 1 /* since 1.1.0 -pre3 */
@@ -73,12 +76,24 @@ typedef struct {
 // functions to convert between OpenSSL's keys (using BIGNUMs)
 // and our binary format
 
-extern void openssl_to_keys(
-    RSA* rp, int nbits, R_RSA_PRIVATE_KEY& priv, R_RSA_PUBLIC_KEY& pub
-);
+// function returns a tuple of values:
+// first 'int' value indicates and error code (0 - success, everything else - error)
+// second 'R_RSA_PRIVATE_KEY' value is the private key converted from OpenSSL's EVP_PKEY
+// third 'R_RSA_PUBLIC_KEY' value is the public key converted from OpenSSL's EVP_PKEY
+// if the first value is not 0, the second and third values are invalid
+extern std::tuple<int, R_RSA_PRIVATE_KEY, R_RSA_PUBLIC_KEY> openssl_to_keys(const unique_EVP_PKEY& pkey);
 extern unique_EVP_PKEY private_to_openssl(const R_RSA_PRIVATE_KEY& priv);
 extern unique_EVP_PKEY public_to_openssl(const R_RSA_PUBLIC_KEY& pub);
-extern int openssl_to_private(RSA *from, R_RSA_PRIVATE_KEY *to);
+// function returns a pair of values:
+// first 'int' value indicates and error code (0 - success, everything else - error)
+// second 'R_RSA_PUBLIC_KEY' value is the public key converted from OpenSSL's EVP_PKEY
+// if the first value is not 0, the second value is invalid
+extern std::pair<int, R_RSA_PUBLIC_KEY> openssl_to_public(const unique_EVP_PKEY& pkey);
+// function returns a pair of values:
+// first 'int' value indicates and error code (0 - success, everything else - error)
+// second 'R_RSA_PRIVATE_KEY' value is the private key converted from OpenSSL's EVP_PKEY
+// if the first value is not 0, the second value is invalid
+extern std::pair<int, R_RSA_PRIVATE_KEY> openssl_to_private(const unique_EVP_PKEY& pkey);
 
 struct KEY {
     unsigned short int bits;
@@ -139,7 +154,11 @@ extern std::pair<int, bool> check_string_signature(const std::string& text, cons
 extern std::pair<int, bool> check_string_signature(const std::string& text, const std::string& signature, const std::string& key);
 extern bool print_raw_data(FILE *f, const std::vector<uint8_t> &x);
 extern std::vector<uint8_t> scan_raw_data(FILE *f);
-extern int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key);
+// return a pair of values:
+// first 'int' value indicates and error code (0 - success, everything else - error)
+// second 'R_RSA_PRIVATE_KEY' value is the private key read from the file
+// if the first value is not 0, the second value is invalid
+extern std::pair<int, R_RSA_PRIVATE_KEY> read_key_file(const std::string& keyfile);
 extern std::string generate_signature(const std::string& text_to_sign, const R_RSA_PRIVATE_KEY& key);
 
 //   Check if sfileMsg (of length sfsize) has been created from sha1_md using the

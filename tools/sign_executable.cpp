@@ -25,8 +25,9 @@
 #include "crypt.h"
 
 int sign_executable(char* path, char* code_sign_keyfile, std::string& signature_text) {
+    int retval = 0;
     R_RSA_PRIVATE_KEY code_sign_key;
-    int retval = read_key_file(code_sign_keyfile, code_sign_key);
+    std::tie(retval, code_sign_key) = read_key_file(code_sign_keyfile);
     if (retval) {
         fprintf(stderr, "add: can't read key\n");
         return 1;

@@ -95,7 +95,7 @@ namespace test_lib {
                     &dmp1);
                 EVP_PKEY_get_bn_param(pkey, OSSL_PKEY_PARAM_RSA_EXPONENT2,
                     &dmq1);
-                EVP_PKEY_get_bn_param(pkey, OSSL_PKEY_PARAM_RSA_COEFFICIENT,
+                EVP_PKEY_get_bn_param(pkey, OSSL_PKEY_PARAM_RSA_COEFFICIENT1,
                     &iqmp);
 
                 public_key.bits = 1024;
@@ -1915,6 +1915,126 @@ namespace test_lib {
         auto [result, is_valid] = check_string_signature(invalid_sample_data, signature_hex, public_key_hex);
         ASSERT_EQ(result, 0) << "check_string_signature2 failed";
         ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid data";
+    }
+
+    TEST_F(test_crypt, test_read_key_file) {
+        std::filesystem::path temp_file =
+            test_data_dir / "temp_read_key_file.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+
+        EVP_PKEY* private_key = generate_rsa_key();
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+        std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+            private_key_guard(private_key, EVP_PKEY_free);
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key, private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        KEY *key = reinterpret_cast<KEY*>(&private_key_struct);
+
+        bool print_result = print_key_hex(f, key, sizeof(private_key_struct));
+        fclose(f);
+        ASSERT_TRUE(print_result) << "print_key_hex failed";
+
+        auto[result, scanned_key_struct] = read_key_file(temp_file.string());
+        ASSERT_EQ(result, 0) << "read_key_file failed";
+
+        ASSERT_EQ(memcmp(&private_key_struct, &scanned_key_struct, sizeof(private_key_struct)), 0) <<
+            "Key data mismatch";
+    }
+
+    TEST_F(test_crypt, test_read_key_file_invalid_path) {
+        auto [result, scanned_key_struct] = read_key_file("non_existent_file.txt");
+        ASSERT_NE(result, 0) << "read_key_file should fail for non-existent file";
+    }
+
+    TEST_F(test_crypt, test_read_key_file_invalid_content) {
+        std::filesystem::path temp_file =
+            test_data_dir / "temp_invalid_key_file.txt";
+        FILE* f = fopen(temp_file.string().c_str(), "w");
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
+
+        // Write invalid content to the file
+        fprintf(f, "Invalid key content\n");
+        fclose(f);
+
+        auto [result, scanned_key_struct] = read_key_file(temp_file.string());
+        ASSERT_NE(result, 0) << "read_key_file should fail for invalid content";
+    }
+
+    TEST_F(test_crypt, test_openssl_to_public) {
+        auto private_key = unique_EVP_PKEY(generate_rsa_key());
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key.get(), private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        auto [result, converted_public_key_struct] = openssl_to_public(private_key);
+        ASSERT_EQ(result, 0) << "openssl_to_public failed";
+        ASSERT_EQ(memcmp(&converted_public_key_struct, &public_key_struct, sizeof(public_key_struct)), 0) <<
+            "Public key data mismatch";
+    }
+
+    TEST_F(test_crypt, test_openssl_to_public_invalid_key) {
+        EVP_PKEY* invalid_key = nullptr; // Invalid key
+
+        auto [result, converted_public_key_struct] = openssl_to_public(unique_EVP_PKEY(invalid_key));
+        ASSERT_NE(result, 0) << "openssl_to_public should fail for invalid key";
+    }
+
+    TEST_F(test_crypt, test_openssl_to_private) {
+        auto private_key = unique_EVP_PKEY(generate_rsa_key());
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key.get(), private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        auto [result, converted_private_key_struct] = openssl_to_private(private_key);
+        ASSERT_EQ(result, 0) << "openssl_to_private failed";
+        ASSERT_EQ(memcmp(&converted_private_key_struct, &private_key_struct, sizeof(private_key_struct)), 0) <<
+            "Private key data mismatch";
+    }
+
+    TEST_F(test_crypt, test_openssl_to_private_invalid_key) {
+        EVP_PKEY* invalid_key = nullptr; // Invalid key
+
+        auto [result, converted_private_key_struct] = openssl_to_private(unique_EVP_PKEY(invalid_key));
+        ASSERT_NE(result, 0) << "openssl_to_private should fail for invalid key";
+    }
+
+    TEST_F(test_crypt, test_openssl_to_keys) {
+        auto private_key = unique_EVP_PKEY(generate_rsa_key());
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key.get(), private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        auto [result, converted_private_key_struct, converted_public_key_struct] = openssl_to_keys(private_key);
+        ASSERT_EQ(result, 0) << "openssl_to_keys failed";
+        ASSERT_EQ(memcmp(&converted_private_key_struct, &private_key_struct, sizeof(private_key_struct)), 0) <<
+            "Private key data mismatch";
+        ASSERT_EQ(memcmp(&converted_public_key_struct, &public_key_struct, sizeof(public_key_struct)), 0) <<
+            "Public key data mismatch";
+    }
+
+    TEST_F(test_crypt, test_openssl_to_keys_invalid_key) {
+        EVP_PKEY* invalid_key = nullptr; // Invalid key
+
+        auto [result, converted_private_key_struct, converted_public_key_struct] = openssl_to_keys(unique_EVP_PKEY(invalid_key));
+        ASSERT_NE(result, 0) << "openssl_to_keys should fail for invalid key";
     }
 
 }

@@ -501,157 +501,127 @@ std::pair<int, bool> check_string_signature(const string& text, const string& si
     return check_string_signature(text, signature_text, key);
 }
 
-int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key) {
-    int retval;
-#ifndef _USING_FCGI_
-    FILE* fkey = fopen(keyfile, "r");
-#else
-    FCGI_FILE* fkey = FCGI::fopen(keyfile, "r");
-#endif
+std::pair<int, R_RSA_PRIVATE_KEY> read_key_file(const string& keyfile) {
+    R_RSA_PRIVATE_KEY key;
+    memset(&key, 0, sizeof(key));
+    FILE* fkey = boinc::fopen(keyfile.data(), "r");
     if (!fkey) {
         fprintf(stderr,
             "%s: can't open key file (%s)\n",
-            time_to_string(dtime()), keyfile
+            time_to_string(dtime()), keyfile.data()
         );
-        return ERR_FOPEN;
+        return std::make_pair(ERR_FOPEN, key);
     }
     vector<uint8_t> result = scan_key_hex(fkey);
-    fclose(fkey);
+    boinc::fclose(fkey);
     if (result.empty()) {
         fprintf(stderr, "%s: can't parse key\n", time_to_string(dtime()));
-        return ERR_FREAD;
+        return std::make_pair(ERR_FREAD, key);
     }
     memcpy(&key, result.data(), sizeof(key));
-    return 0;
+    return std::make_pair(0, key);
 }
 
-static void bn_to_bin(const BIGNUM* bn, unsigned char* bin, int n) {
-    memset(bin, 0, n);
-    int m = BN_num_bytes(bn);
-    BN_bn2bin(bn, bin+n-m);
-}
-
-void openssl_to_keys(
-    RSA* rp, int nbits, R_RSA_PRIVATE_KEY& priv, R_RSA_PUBLIC_KEY& pub
-) {
-    pub.bits = nbits;
-#ifdef HAVE_OPAQUE_RSA_DSA_DH
-    const BIGNUM *n;
-    const BIGNUM *e;
-    const BIGNUM *d;
-    const BIGNUM *p;
-    const BIGNUM *q;
-    const BIGNUM *dmp1;
-    const BIGNUM *dmq1;
-    const BIGNUM *iqmp;
-    RSA_get0_key(rp, &n, &e, &d);
-    RSA_get0_factors(rp, &p, &q);
-    RSA_get0_crt_params(rp, &dmp1, &dmq1, &iqmp);
-
-    if (n)
-        bn_to_bin(n, pub.modulus, sizeof(pub.modulus));
-    if (e)
-        bn_to_bin(e, pub.exponent, sizeof(pub.exponent));
-#else
-    bn_to_bin(rp->n, pub.modulus, sizeof(pub.modulus));
-    bn_to_bin(rp->e, pub.exponent, sizeof(pub.exponent));
-#endif
-
-    memset(&priv, 0, sizeof(priv));
-    priv.bits = (unsigned short)nbits;
-#ifdef HAVE_OPAQUE_RSA_DSA_DH
-    if (n)
-        bn_to_bin(n, priv.modulus, sizeof(priv.modulus));
-    if (e)
-        bn_to_bin(e, priv.publicExponent, sizeof(priv.publicExponent));
-    if (d)
-        bn_to_bin(d, priv.exponent, sizeof(priv.exponent));
-    if (p)
-        bn_to_bin(p, priv.prime[0], sizeof(priv.prime[0]));
-    if (q)
-        bn_to_bin(q, priv.prime[1], sizeof(priv.prime[1]));
-    if (dmp1)
-        bn_to_bin(dmp1, priv.primeExponent[0], sizeof(priv.primeExponent[0]));
-    if (dmq1)
-        bn_to_bin(dmq1, priv.primeExponent[1], sizeof(priv.primeExponent[1]));
-    if (iqmp)
-        bn_to_bin(iqmp, priv.coefficient, sizeof(priv.coefficient));
-#else
-    bn_to_bin(rp->n, priv.modulus, sizeof(priv.modulus));
-    bn_to_bin(rp->e, priv.publicExponent, sizeof(priv.publicExponent));
-    bn_to_bin(rp->d, priv.exponent, sizeof(priv.exponent));
-    bn_to_bin(rp->p, priv.prime[0], sizeof(priv.prime[0]));
-    bn_to_bin(rp->q, priv.prime[1], sizeof(priv.prime[1]));
-    bn_to_bin(rp->dmp1, priv.primeExponent[0], sizeof(priv.primeExponent[0]));
-    bn_to_bin(rp->dmq1, priv.primeExponent[1], sizeof(priv.primeExponent[1]));
-    bn_to_bin(rp->iqmp, priv.coefficient, sizeof(priv.coefficient));
-#endif
-}
-
-static int _bn2bin(const BIGNUM *from, unsigned char *to, int max) {
-    int i;
-    i=BN_num_bytes(from);
-    if (i > max) {
-        return(0);
+static bool bn2bin(const BIGNUM *from, unsigned char *to, size_t max) {
+    int i = BN_num_bytes(from);
+    if (i > static_cast<int>(max)) {
+        return false;
     }
-    memset(to,0,(unsigned int)max);
+    memset(to,0,max);
     if (!BN_bn2bin(from,&(to[max-i])))
-        return(0);
-    return(1);
+        return false;
+    return true;
 }
 
-int openssl_to_private(RSA *from, R_RSA_PRIVATE_KEY *to) {
-#ifdef HAVE_OPAQUE_RSA_DSA_DH
-    const BIGNUM *n;
-    const BIGNUM *e;
-    const BIGNUM *d;
-    const BIGNUM *p;
-    const BIGNUM *q;
-    const BIGNUM *dmp1;
-    const BIGNUM *dmq1;
-    const BIGNUM *iqmp;
+std::pair<int, R_RSA_PUBLIC_KEY> openssl_to_public(const unique_EVP_PKEY& pkey) {
+    R_RSA_PUBLIC_KEY pub;
+    memset(&pub, 0, sizeof(pub));
 
-    RSA_get0_key(from, &n, &e, &d);
-    RSA_get0_factors(from, &p, &q);
-    RSA_get0_crt_params(from, &dmp1, &dmq1, &iqmp);
+    BIGNUM *n = nullptr, *e = nullptr;
+    if (!EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_N, &n) ||
+        !EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_E, &e)) {
+        return std::make_pair(ERR_CRYPTO, pub);
+    }
 
-    to->bits = (unsigned short)BN_num_bits(n);
-    if (!_bn2bin(n,to->modulus,MAX_RSA_MODULUS_LEN))
-        return(0);
-    if (!_bn2bin(e,to->publicExponent,MAX_RSA_MODULUS_LEN))
-        return(0);
-    if (!_bn2bin(d,to->exponent,MAX_RSA_MODULUS_LEN))
-        return(0);
-    if (!_bn2bin(p,to->prime[0],MAX_RSA_PRIME_LEN))
-        return(0);
-    if (!_bn2bin(q,to->prime[1],MAX_RSA_PRIME_LEN))
-        return(0);
-    if (!_bn2bin(dmp1,to->primeExponent[0],MAX_RSA_PRIME_LEN))
-        return(0);
-    if (!_bn2bin(dmq1,to->primeExponent[1],MAX_RSA_PRIME_LEN))
-        return(0);
-    if (!_bn2bin(iqmp,to->coefficient,MAX_RSA_PRIME_LEN))
-        return(0);
-#else
-    to->bits = BN_num_bits(from->n);
-    if (!_bn2bin(from->n,to->modulus,MAX_RSA_MODULUS_LEN))
-        return(0);
-    if (!_bn2bin(from->e,to->publicExponent,MAX_RSA_MODULUS_LEN))
-        return(0);
-    if (!_bn2bin(from->d,to->exponent,MAX_RSA_MODULUS_LEN))
-        return(0);
-    if (!_bn2bin(from->p,to->prime[0],MAX_RSA_PRIME_LEN))
-        return(0);
-    if (!_bn2bin(from->q,to->prime[1],MAX_RSA_PRIME_LEN))
-        return(0);
-    if (!_bn2bin(from->dmp1,to->primeExponent[0],MAX_RSA_PRIME_LEN))
-        return(0);
-    if (!_bn2bin(from->dmq1,to->primeExponent[1],MAX_RSA_PRIME_LEN))
-        return(0);
-    if (!_bn2bin(from->iqmp,to->coefficient,MAX_RSA_PRIME_LEN))
-        return(0);
-#endif
-    return 1;
+    if (!bn2bin(n, pub.modulus, sizeof(pub.modulus)) ||
+        !bn2bin(e, pub.exponent, sizeof(pub.exponent))) {
+        return std::make_pair(ERR_CRYPTO, pub);
+    }
+    pub.bits = EVP_PKEY_bits(pkey.get());
+
+    return std::make_pair(0, pub);
+}
+
+std::pair<int, R_RSA_PRIVATE_KEY> openssl_to_private(const unique_EVP_PKEY& pkey) {
+    R_RSA_PRIVATE_KEY priv;
+    memset(&priv, 0, sizeof(priv));
+
+    BIGNUM *n = nullptr, *e = nullptr, *d = nullptr;
+    BIGNUM *p = nullptr, *q = nullptr;
+    BIGNUM *dmp1 = nullptr, *dmq1 = nullptr, *iqmp = nullptr;
+
+    if (!EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_N, &n) ||
+        !EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_E, &e)) {
+        return std::make_pair(ERR_CRYPTO, priv);
+    }
+    EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_D, &d);
+    EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_FACTOR1, &p);
+    EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_FACTOR2, &q);
+    EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_EXPONENT1, &dmp1);
+    EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_EXPONENT2, &dmq1);
+    EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_COEFFICIENT1, &iqmp);
+
+    if (!n || !e) {
+        return std::make_pair(ERR_CRYPTO, priv);
+    }
+    if (!bn2bin(n, priv.modulus, sizeof(priv.modulus)) ||
+        !bn2bin(e, priv.publicExponent, sizeof(priv.publicExponent))) {
+            memset(&priv, 0, sizeof(priv));
+            return std::make_pair(ERR_CRYPTO, priv);
+    }
+    if (d && !bn2bin(d, priv.exponent, sizeof(priv.exponent))) {
+        memset(&priv, 0, sizeof(priv));
+        return std::make_pair(ERR_CRYPTO, priv);
+    }
+    if (p && !bn2bin(p, priv.prime[0], sizeof(priv.prime[0]))) {
+        memset(&priv, 0, sizeof(priv));
+        return std::make_pair(ERR_CRYPTO, priv);
+    }
+    if (q && !bn2bin(q, priv.prime[1], sizeof(priv.prime[1]))) {
+        memset(&priv, 0, sizeof(priv));
+        return std::make_pair(ERR_CRYPTO, priv);
+    }
+    if (dmp1 && !bn2bin(dmp1, priv.primeExponent[0], sizeof(priv.primeExponent[0]))) {
+        memset(&priv, 0, sizeof(priv));
+        return std::make_pair(ERR_CRYPTO, priv);
+    }
+    if (dmq1 && !bn2bin(dmq1, priv.primeExponent[1], sizeof(priv.primeExponent[1]))) {
+        memset(&priv, 0, sizeof(priv));
+        return std::make_pair(ERR_CRYPTO, priv);
+    }
+    if (iqmp && !bn2bin(iqmp, priv.coefficient, sizeof(priv.coefficient))) {
+        memset(&priv, 0, sizeof(priv));
+        return std::make_pair(ERR_CRYPTO, priv);
+    }
+    priv.bits = EVP_PKEY_bits(pkey.get());
+    return std::make_pair(0, priv);
+}
+
+std::tuple<int, R_RSA_PRIVATE_KEY, R_RSA_PUBLIC_KEY> openssl_to_keys(const unique_EVP_PKEY& pkey) {
+    int ret = 0;
+    R_RSA_PRIVATE_KEY priv;
+    R_RSA_PUBLIC_KEY pub;
+    memset(&priv, 0, sizeof(priv));
+    memset(&pub, 0, sizeof(pub));
+    std::tie(ret, priv) = openssl_to_private(pkey);
+    if (ret) {
+        return std::make_tuple(ret, priv, pub);
+    }
+    std::tie(ret, pub) = openssl_to_public(pkey);
+    if (ret) {
+        return std::make_tuple(ret, priv, pub);
+    }
+    return std::make_tuple(0, priv, pub);
 }
 
 int check_validity_of_cert(

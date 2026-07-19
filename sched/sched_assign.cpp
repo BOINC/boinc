@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -110,7 +110,7 @@ static int send_assigned_job(ASSIGNMENT& asg) {
     if (first) {
         first = false;
         sprintf(path, "%s/upload_private", config.key_dir);
-        retval = read_key_file(path, key);
+        std::tie(retval, key) = read_key_file(path);
         if (retval) {
             log_messages.printf(MSG_CRITICAL, "can't read key\n");
             return -1;

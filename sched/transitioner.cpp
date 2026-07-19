@@ -837,7 +837,7 @@ int main(int argc, char** argv) {
     }
 
     sprintf(path, "%s/upload_private", config.key_dir);
-    retval = read_key_file(path, key);
+    std::tie(retval, key) = read_key_file(path);
     if (retval) {
         log_messages.printf(MSG_CRITICAL, "can't read key\n");
         exit(1);
