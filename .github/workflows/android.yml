@@ -139,7 +139,7 @@ jobs:
           path: android/BOINC/app/src/main/assets/
 
       - name: Setup Java
-        uses: actions/setup-java@0f481fcb613427c0f801b606911222b5b6f3083a
+        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95
         with:
           distribution: 'zulu'
           java-version: "17"
