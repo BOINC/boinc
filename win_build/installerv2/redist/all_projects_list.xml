@@ -10,9 +10,7 @@
         <description><![CDATA[Study drugs to fight SARS-CoV-2]]></description>
         <home>The COVID.SI project and the Karelian Research Center of the Russian Academy of Sciences</home>
     <platforms>
-        <name>arm-unknown-linux-gnueabihf</name>
         <name>windows_x86_64</name>
-        <name>x86_64-openwrt-linux-musl</name>
         <name>x86_64-pc-linux-gnu</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/sidock.png</image>
