@@ -4,6 +4,7 @@ Type=Application
 Name=BOINC Manager
 Path=/var/lib/boinc
 Exec=boincmgr
+StartupWMClass=boincmgr
 Icon=boinc
 Terminal=false
 Keywords=computation;science;
