@@ -32,8 +32,7 @@ if ($argc > 2) {
 $t = time_str(time());
 echo "starting at $t\n";
 $t = time() - $max_age_days*86400;
-$db = BoincDb::get();
-if (!$db) die("can't open DB\n");
+$db = BoincDb::get_cli();
 $db->do_query("update ".$db->db_name.".thread, ".$db->db_name.".forum set ".$db->db_name.".thread.locked=1 where ".$db->db_name.".thread.forum=".$db->db_name.".forum.id and ".$db->db_name.".forum.parent_type=0 and ".$db->db_name.".thread.timestamp<$t and ".$db->db_name.".thread.locked=0 and ".$db->db_name.".thread.sticky=0");
 $n = $db->affected_rows();
 $t = time_str(time());

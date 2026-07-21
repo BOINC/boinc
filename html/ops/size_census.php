@@ -36,7 +36,7 @@ function do_app($app) {
     // enumerate the host_app_versions for this app,
     // joined to the host
 
-    $db = BoincDb::get();
+    $db = BoincDb::get_cli();
     $query = "select et_avg, host.on_frac, host.active_frac, host.gpu_active_frac, app_version.plan_class " .
         " from DBNAME.host_app_version, DBNAME.host, DBNAME.app_version " .
         " where host_app_version.app_version_id = app_version.id " .

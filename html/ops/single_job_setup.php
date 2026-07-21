@@ -24,7 +24,6 @@
 // Run this from project home dir.
 // usage: html/ops/single_job_setup path-to-boinc_samples
 
-
 ini_set('error_reporting', E_ALL);
 
 // globals
@@ -55,7 +54,7 @@ function get_includes() {
     $c = getcwd();
     chdir('html/ops');
     require_once('../inc/util_ops.inc');
-    BoincDb::get();
+    BoincDb::get_cli();
     chdir($c);
 }
 

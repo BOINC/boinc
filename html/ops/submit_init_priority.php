@@ -37,7 +37,7 @@ function process_batch($b) {
         $credit_total = $b->credit_canonical/$b->fraction_done;
         $fpops_total = $credit_total*(86400e9/200);
     } else {
-        $db = BoincDb::get();
+        $db = BoincDb::get_cli();
         $fpops_total = $db->sum(
             "workunit", "rsc_fpops_est*target_nresults", "where batch=$b->id"
         );

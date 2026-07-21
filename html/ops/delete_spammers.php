@@ -276,7 +276,7 @@ function delete_profiles_strict() {
 
 function delete_users($no_hosts, $no_posts, $no_teams, $have_url) {
     global $test, $min_days, $max_days;
-    $db = BoincDb::get();
+    $db = BoincDb::get_cli();
     $query = "select a.* from user a ";
     if ($no_hosts) {
         $query .= " left join host c on c.userid=a.id ";
