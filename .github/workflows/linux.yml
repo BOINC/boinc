@@ -90,7 +90,7 @@ jobs:
       - name: Install dependencies for x64
         if: success() && (! endsWith(matrix.type, 'arm64') && ! endsWith(matrix.type, 'armhf') && (matrix.type != 'coverity' || (github.ref == 'refs/heads/master' && github.event_name == 'schedule')))
         run: |
-          sudo apt-get install -y autoconf-archive libftgl-dev freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk-3-dev libsecret-1-dev libgcrypt20-dev libsystemd-dev libwebkit2gtk-4.1-dev libxxf86vm-dev ocl-icd-opencl-dev libltdl-dev libzip-dev nlohmann-json3-dev
+          sudo apt-get install -y autoconf-archive libftgl-dev freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk-3-dev libsecret-1-dev libgcrypt20-dev libsystemd-dev libwebkit2gtk-4.1-dev libxxf86vm-dev ocl-icd-opencl-dev libltdl-dev libzip-dev nlohmann-json3-dev libfmt-dev
 
       - name: Install dependencies for manager
         if: success() && (matrix.type == 'manager' || (matrix.type == 'coverity' && github.ref == 'refs/heads/master' && github.event_name == 'schedule'))
@@ -147,7 +147,8 @@ jobs:
           sudo apt install -y \
             libcurl4-openssl-dev:arm64 \
             libssl-dev:arm64 \
-            libzip-dev:arm64
+            libzip-dev:arm64 \
+            libfmt-dev:arm64
 
       - name: Install dependencies for armhf non-vcpkg
         if: success() && (matrix.type == 'libs-armhf' || matrix.type == 'apps-armhf')
@@ -155,7 +156,8 @@ jobs:
           sudo apt install -y \
             libcurl4-openssl-dev:armhf \
             libssl-dev:armhf \
-            libzip-dev:armhf
+            libzip-dev:armhf \
+            libfmt-dev:armhf
 
       - name: Install dependencies for apps arm64 vcpkg
         if: success() && matrix.type == 'apps-vcpkg-arm64'
