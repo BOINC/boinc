@@ -76,8 +76,8 @@ class BoincDb {
         $user = project_config_val('db_user');
         $name = project_config_val('db_name');
         $passwd = project_config_val('db_passwd');
-        if (!$name || !$user || !$passwd) {
-            error_log("BoincDb::get_aux(): must specify DB name, user, passwd");
+        if (!$name || !$user) {
+            error_log("BoincDb::get_aux(): must specify DB name and user");
             return;
         }
         $retval = $instance->init_conn($user, $passwd, $host, $name);
@@ -125,6 +125,19 @@ class BoincDb {
         } else {
             error_page("Can't connect to database");
         }
+    }
+
+    // connect to DB from a CLI script, e.g. ops/db_update.php
+    //
+    static function get_cli() {
+        if (isset(self::$instance)) {
+            return self::$instance;
+        }
+        self::get_aux(0);
+        if (self::$instance) {
+            return self::$instance;
+        }
+        die("can't connect to DB");
     }
 
     static function close() {

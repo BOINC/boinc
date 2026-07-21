@@ -22,7 +22,7 @@
 $cli_only = true;
 require_once("../inc/util_ops.inc");
 
-$db = BoincDb::get(0);
+$db = BoincDb::get_cli();
 if (!$db) {
     echo "db_update.php: Can't open database\n";
     exit;
