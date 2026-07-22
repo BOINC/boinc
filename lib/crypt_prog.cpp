@@ -165,8 +165,8 @@ int genkey(int n, const std::string& private_keyfile,
         print_error("fopen");
         return 2;
     }
-    print_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
-    print_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
+    print_private_key_hex(fpriv, private_key);
+    print_public_key_hex(fpub, public_key);
     fclose(fpriv);
     fclose(fpub);
 
@@ -490,7 +490,7 @@ int convkey_private_o2b(const std::string& input, const std::string& output) {
         print_error("fopen");
         return 2;
     }
-    return print_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key)) ? 0 : 1;
+    return print_private_key_hex(fpriv, private_key) ? 0 : 1;
 }
 
 int convkey_public_b2o(const std::string& input, const std::string& output) {
@@ -589,7 +589,7 @@ int convkey_public_o2b(const std::string& input, const std::string& output) {
         print_error("fopen");
         return 2;
     }
-    return print_key_hex(fpub, (KEY*)&public_key, sizeof(public_key)) ? 0 : 1;
+    return print_public_key_hex(fpub, public_key) ? 0 : 1;
 }
 
 int convkey(const std::string& conversion, const std::string& key_type,

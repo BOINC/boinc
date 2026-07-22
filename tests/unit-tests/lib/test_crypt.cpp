@@ -648,90 +648,6 @@ namespace test_lib {
             "Data mismatch on multiline hex input";
     }
 
-    TEST_F(test_crypt, test_print_key_hex) {
-        std::filesystem::path temp_file = test_data_dir / "temp_key_hex.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
-        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
-
-        const short int key_data_size = 32; // Example size for key data
-        unsigned char key_data[key_data_size + sizeof(key_data_size)];
-        KEY *key = reinterpret_cast<KEY*>(key_data);
-        key->bits = 256; // Example bit size
-        for (size_t i = 0; i < key_data_size; ++i) {
-            key->data[i] = static_cast<unsigned char>(i);
-        }
-
-        bool result = print_key_hex(f, key, sizeof(key_data));
-        fclose(f);
-
-        ASSERT_TRUE(result) << "print_key_hex failed";
-
-        std::ifstream infile(temp_file);
-        std::string output((std::istreambuf_iterator<char>(infile)),
-            std::istreambuf_iterator<char>());
-        infile.close();
-
-        std::string expected_output =
-            "256\n"
-            "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
-            "\n.\n";
-        ASSERT_EQ(output, expected_output) <<
-            "Key hex output does not match expected value";
-    }
-
-    TEST_F(test_crypt, test_print_key_hex_file_not_opened) {
-        FILE* f = nullptr; // Simulate a file that is not opened
-
-        const short int key_data_size = 32; // Example size for key data
-        unsigned char key_data[key_data_size + sizeof(key_data_size)];
-        KEY *key = reinterpret_cast<KEY*>(key_data);
-        key->bits = 256; // Example bit size
-        for (size_t i = 0; i < key_data_size; ++i) {
-            key->data[i] = static_cast<unsigned char>(i);
-        }
-
-        bool result = print_key_hex(f, key, sizeof(key_data));
-
-        ASSERT_FALSE(result) <<
-            "print_key_hex should return non-zero if file is not opened";
-    }
-
-    TEST_F(test_crypt, test_print_key_hex_invalid_key) {
-        std::filesystem::path temp_file =
-            test_data_dir / "temp_key_hex_invalid.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
-        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
-
-        KEY *key = nullptr; // Simulate an invalid key
-
-        bool result = print_key_hex(f, key, sizeof(KEY));
-        fclose(f);
-
-        ASSERT_FALSE(result) <<
-            "print_key_hex should return non-zero for invalid key";
-    }
-
-    TEST_F(test_crypt, test_print_key_hex_zero_size) {
-        std::filesystem::path temp_file =
-            test_data_dir / "temp_key_hex_zero_size.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
-        ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
-
-        const short int key_data_size = 32; // Example size for key data
-        unsigned char key_data[key_data_size + sizeof(key_data_size)];
-        KEY *key = reinterpret_cast<KEY*>(key_data);
-        key->bits = 256; // Example bit size
-        for (size_t i = 0; i < key_data_size; ++i) {
-            key->data[i] = static_cast<unsigned char>(i);
-        }
-
-        bool result = print_key_hex(f, key, 0); // Zero size
-        fclose(f);
-
-        ASSERT_FALSE(result) <<
-            "print_key_hex should return non-zero for zero size";
-    }
-
     TEST_F(test_crypt, test_encrypt_private_and_decrypt_public) {
         EVP_PKEY* private_key = generate_rsa_key();
         ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
@@ -1217,8 +1133,8 @@ namespace test_lib {
         // convert public key to hex string
         FILE* f = tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
-        bool print_result = print_key_hex(f, reinterpret_cast<KEY*>(&public_key_struct), sizeof(public_key_struct));
-        ASSERT_TRUE(print_result) << "print_key_hex failed for public key";
+        bool print_result = print_public_key_hex(f, public_key_struct);
+        ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
         fseek(f, 0, SEEK_SET);
         std::string public_key_hex;
         char buffer[256];
@@ -1252,8 +1168,8 @@ namespace test_lib {
         // convert public key to hex string
         FILE* f = tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
-        bool print_result = print_key_hex(f, reinterpret_cast<KEY*>(&public_key_struct), sizeof(public_key_struct));
-        ASSERT_TRUE(print_result) << "print_key_hex failed for public key";
+        bool print_result = print_public_key_hex(f, public_key_struct);
+        ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
         fseek(f, 0, SEEK_SET);
         std::string public_key_hex;
         char buffer[256];
@@ -1315,8 +1231,8 @@ namespace test_lib {
         // convert public key to hex string
         FILE* f = tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
-        bool print_result = print_key_hex(f, reinterpret_cast<KEY*>(&public_key_struct), sizeof(public_key_struct));
-        ASSERT_TRUE(print_result) << "print_key_hex failed for public key";
+        bool print_result = print_public_key_hex(f, public_key_struct);
+        ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
         fseek(f, 0, SEEK_SET);
         std::string public_key_hex;
         char buffer[256];
@@ -1359,8 +1275,8 @@ namespace test_lib {
         // convert public key to hex string
         FILE* f = tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
-        bool print_result = print_key_hex(f, reinterpret_cast<KEY*>(&public_key_struct), sizeof(public_key_struct));
-        ASSERT_TRUE(print_result) << "print_key_hex failed for public key";
+        bool print_result = print_public_key_hex(f, public_key_struct);
+        ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
         fseek(f, 0, SEEK_SET);
         std::string public_key_hex;
         char buffer[256];
@@ -1400,8 +1316,8 @@ namespace test_lib {
         // convert public key to hex string
         FILE* f = tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
-        bool print_result = print_key_hex(f, reinterpret_cast<KEY*>(&public_key_struct), sizeof(public_key_struct));
-        ASSERT_TRUE(print_result) << "print_key_hex failed for public key";
+        bool print_result = print_public_key_hex(f, public_key_struct);
+        ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
         fseek(f, 0, SEEK_SET);
         std::string public_key_hex;
         char buffer[256];
@@ -1581,8 +1497,8 @@ namespace test_lib {
         // convert public key to hex string
         FILE* f = tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
-        bool print_result = print_key_hex(f, reinterpret_cast<KEY*>(&public_key_struct), sizeof(public_key_struct));
-        ASSERT_TRUE(print_result) << "print_key_hex failed for public key";
+        bool print_result = print_public_key_hex(f, public_key_struct);
+        ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
         fseek(f, 0, SEEK_SET);
         std::string public_key_hex;
         char buffer[256];
@@ -1616,8 +1532,8 @@ namespace test_lib {
         // convert public key to hex string
         FILE* f = tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
-        bool print_result = print_key_hex(f, reinterpret_cast<KEY*>(&public_key_struct), sizeof(public_key_struct));
-        ASSERT_TRUE(print_result) << "print_key_hex failed for public key";
+        bool print_result = print_public_key_hex(f, public_key_struct);
+        ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
         fseek(f, 0, SEEK_SET);
         std::string public_key_hex;
         char buffer[256];
@@ -1688,8 +1604,8 @@ namespace test_lib {
         // convert public key to hex string
         FILE* f = tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
-        bool print_result = print_key_hex(f, reinterpret_cast<KEY*>(&public_key_struct), sizeof(public_key_struct));
-        ASSERT_TRUE(print_result) << "print_key_hex failed for public key";
+        bool print_result = print_public_key_hex(f, public_key_struct);
+        ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
         fseek(f, 0, SEEK_SET);
         std::string public_key_hex;
         char buffer[256];
@@ -1728,8 +1644,8 @@ namespace test_lib {
         // convert public key to hex string
         FILE* f = tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
-        bool print_result = print_key_hex(f, reinterpret_cast<KEY*>(&public_key_struct), sizeof(public_key_struct));
-        ASSERT_TRUE(print_result) << "print_key_hex failed for public key";
+        bool print_result = print_public_key_hex(f, public_key_struct);
+        ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
         fseek(f, 0, SEEK_SET);
         std::string public_key_hex;
         char buffer[256];
@@ -1762,11 +1678,9 @@ namespace test_lib {
             private_key, private_key_struct, public_key_struct))
             << "Failed to fill keys from EVP_PKEY";
 
-        KEY *key = reinterpret_cast<KEY*>(&private_key_struct);
-
-        bool print_result = print_key_hex(f, key, sizeof(private_key_struct));
+        bool print_result = print_private_key_hex(f, private_key_struct);
         fclose(f);
-        ASSERT_TRUE(print_result) << "print_key_hex failed";
+        ASSERT_TRUE(print_result) << "print_private_key_hex failed";
 
         auto[result, scanned_key_struct] = read_key_file(temp_file.string());
         ASSERT_EQ(result, 0) << "read_key_file failed";
@@ -1878,8 +1792,8 @@ namespace test_lib {
         // convert public key to hex string
         FILE* f = tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
-        bool print_result = print_key_hex(f, reinterpret_cast<KEY*>(&public_key_struct), sizeof(public_key_struct));
-        ASSERT_TRUE(print_result) << "print_key_hex failed for public key";
+        bool print_result = print_public_key_hex(f, public_key_struct);
+        ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
 
         fseek(f, 0, SEEK_SET);
         auto [result, scanned_public_key_struct] = scan_public_key_hex(f);
@@ -1944,8 +1858,8 @@ namespace test_lib {
         // convert private key to hex string
         FILE* f = tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for private key";
-        bool print_result = print_key_hex(f, reinterpret_cast<KEY*>(&private_key_struct), sizeof(private_key_struct));
-        ASSERT_TRUE(print_result) << "print_key_hex failed for private key";
+        bool print_result = print_private_key_hex(f, private_key_struct);
+        ASSERT_TRUE(print_result) << "print_private_key_hex failed for private key";
         fseek(f, 0, SEEK_SET);
 
         auto [result, scanned_private_key_struct] = scan_private_key_hex(f);
@@ -1995,4 +1909,119 @@ namespace test_lib {
 
         ASSERT_FALSE(result) << "scan_private_key_hex should fail for invalid content";
     }
+
+    TEST_F(test_crypt, test_print_public_key_hex) {
+        auto private_key = unique_EVP_PKEY(generate_rsa_key());
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key.get(), private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        FILE* f = tmpfile();
+        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        bool print_result = print_public_key_hex(f, public_key_struct);
+        ASSERT_TRUE(print_result) << "print_public_key_hex failed";
+        fseek(f, 0, SEEK_SET);
+
+        // Read back the printed public key and compare with original
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
+        auto [result, scanned_public_key_struct] = scan_public_key_hex(f);
+        fclose(f);
+        ASSERT_TRUE(result) << "scan_public_key_hex failed";
+        ASSERT_EQ(memcmp(&scanned_public_key_struct, &public_key_struct, sizeof(public_key_struct)), 0) <<
+            "Scanned public key data mismatch";
+    }
+
+    TEST_F(test_crypt, test_print_public_key_hex_invalid_file) {
+        FILE* f = tmpfile();
+        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+
+        // Close the file to make it invalid
+        fclose(f);
+
+        auto private_key = unique_EVP_PKEY(generate_rsa_key());
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key.get(), private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+        bool print_result = print_public_key_hex(f, public_key_struct);
+        ASSERT_FALSE(print_result) << "print_public_key_hex should fail for invalid file";
+    }
+
+    TEST_F(test_crypt, test_print_public_key_null_file) {
+        auto private_key = unique_EVP_PKEY(generate_rsa_key());
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key.get(), private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+        bool print_result = print_public_key_hex(nullptr, public_key_struct);
+        ASSERT_FALSE(print_result) << "print_public_key_hex should fail for null file pointer";
+    }
+
+    TEST_F(test_crypt, test_print_private_key_hex) {
+        auto private_key = unique_EVP_PKEY(generate_rsa_key());
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key.get(), private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+
+        FILE* f = tmpfile();
+        ASSERT_NE(f, nullptr) << "Failed to create temporary file for private key";
+        bool print_result = print_private_key_hex(f, private_key_struct);
+        ASSERT_TRUE(print_result) << "print_private_key_hex failed";
+        fseek(f, 0, SEEK_SET);
+
+        // Read back the printed private key and compare with original
+        ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
+        auto [result, scanned_private_key_struct] = scan_private_key_hex(f);
+        fclose(f);
+        ASSERT_TRUE(result) << "scan_private_key_hex failed";
+        ASSERT_EQ(memcmp(&scanned_private_key_struct, &private_key_struct, sizeof(private_key_struct)), 0) <<
+            "Scanned private key data mismatch";
+    }
+
+    TEST_F(test_crypt, test_print_private_key_hex_invalid_file) {
+        FILE* f = tmpfile();
+        ASSERT_NE(f, nullptr) << "Failed to create temporary file for private key";
+
+        // Close the file to make it invalid
+        fclose(f);
+
+        auto private_key = unique_EVP_PKEY(generate_rsa_key());
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key.get(), private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+        bool print_result = print_private_key_hex(f, private_key_struct);
+        ASSERT_FALSE(print_result) << "print_private_key_hex should fail for invalid file";
+    }
+
+    TEST_F(test_crypt, test_print_private_key_null_file) {
+        auto private_key = unique_EVP_PKEY(generate_rsa_key());
+        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
+
+        R_RSA_PRIVATE_KEY private_key_struct;
+        R_RSA_PUBLIC_KEY public_key_struct;
+        ASSERT_TRUE(fill_keys_from_evp(
+            private_key.get(), private_key_struct, public_key_struct))
+            << "Failed to fill keys from EVP_PKEY";
+        bool print_result = print_private_key_hex(nullptr, private_key_struct);
+        ASSERT_FALSE(print_result) << "print_private_key_hex should fail for null file pointer";
+    }
+
 }

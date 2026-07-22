@@ -70,7 +70,7 @@ bool print_hex_data(FILE *f, const vector<uint8_t> &x) {
     }
 
     string hex_data = sprint_hex_data(x);
-    fputs(hex_data.c_str(), f);
+    return fputs(hex_data.c_str(), f) >= 0;
 
     return true;
 }
@@ -158,7 +158,7 @@ vector<uint8_t> scan_hex_data(FILE* f) {
 
 // print a key in ASCII form
 //
-bool print_key_hex(FILE* f, KEY* key, size_t size) {
+bool print_key_hex(FILE* f, const KEY* key, size_t size) {
     if (!f || !key || size == 0) {
         return false;
     }
@@ -167,6 +167,14 @@ bool print_key_hex(FILE* f, KEY* key, size_t size) {
     const size_t len = size - sizeof(key->bits);
     vector<uint8_t> data_vector(key->data, key->data + len);
     return print_hex_data(f, data_vector);
+}
+
+bool print_private_key_hex(FILE* f, const R_RSA_PRIVATE_KEY& key) {
+    return print_key_hex(f, reinterpret_cast<const KEY*>(&key), sizeof(key));
+}
+
+bool print_public_key_hex(FILE* f, const R_RSA_PUBLIC_KEY& key) {
+    return print_key_hex(f, reinterpret_cast<const KEY*>(&key), sizeof(key));
 }
 
 // parse a text-encoded key from a memory buffer

@@ -119,7 +119,8 @@ extern std::string sprint_hex_data(const std::vector<uint8_t> &data);
 #endif
 extern bool print_hex_data(FILE *f, const std::vector<uint8_t> &data);
 extern std::vector<uint8_t> scan_hex_data(FILE *f);
-extern bool print_key_hex(FILE *f, KEY *key, size_t len);
+extern bool print_private_key_hex(FILE *f, const R_RSA_PRIVATE_KEY& key);
+extern bool print_public_key_hex(FILE *f, const R_RSA_PUBLIC_KEY& key);
 // return a pair of values:
 // first 'bool' value indicates if the key was read successfully (true - success, false - failure)
 // second 'R_RSA_PUBLIC_KEY' value is the public key read from the file
