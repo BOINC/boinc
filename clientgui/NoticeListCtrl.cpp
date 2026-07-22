@@ -157,9 +157,9 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
     m_itemCount = newCount;
     if (wxGetApp().GetIsDarkMode()){
 #if wxUSE_WEBVIEW
-        m_noticesBody =  wxT("<html><style>body{background-color:black;color:white;a:link {color:#0080FF;}}</style><head></head><body><font face=helvetica>");
+        m_noticesBody =  wxT("<html><style>body{background-color:#121212;color:#e0e0e0;a:link {color:#0080FF;}}</style><head></head><body><font face=helvetica>");
 #else
-        m_noticesBody =  wxT("<html><head></head><body bgcolor=black><font face=helvetica color=white bgcolor=black>");
+        m_noticesBody =  wxT("<html><head></head><body bgcolor=#121212><font face=helvetica color=#e0e0e0 bgcolor=#121212>");
 #endif
     } else {
         m_noticesBody =  wxT("<html><head></head><body><font face=helvetica>");
