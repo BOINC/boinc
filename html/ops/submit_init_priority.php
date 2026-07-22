@@ -24,8 +24,13 @@
 //   result.priority
 // based on existing batches
 
+$cli_only = true;
+
 require_once("../inc/boinc_db.inc");
+require_once("../inc/util_ops.inc");
 require_once("../inc/submit_db.inc");
+
+BoincDb::get_cli();
 
 function process_batch($b) {
     $app = BoincApp::lookup_id($b->app_id);

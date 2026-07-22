@@ -20,13 +20,10 @@
 // Don't run this unless you know what you're doing!
 
 $cli_only = true;
+
 require_once("../inc/util_ops.inc");
 
-$db = BoincDb::get_cli();
-if (!$db) {
-    echo "db_update.php: Can't open database\n";
-    exit;
-}
+BoincDb::get_cli();
 
 set_time_limit(0);
 

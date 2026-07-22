@@ -126,11 +126,15 @@ ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 ini_set('memory_limit', '4G');
 
+$cli_only = true;
+
 require_once("../inc/db.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/forum.inc");
 require_once("../inc/user_util.inc");
-db_init();
+require_once("../inc/util_ops.inc");
+
+BoincDb::get_cli();
 
 $min_days = 0;
 $max_days = 0;
