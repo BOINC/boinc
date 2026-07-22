@@ -118,15 +118,18 @@ extern std::string sprint_hex_data(const std::vector<uint8_t> &data);
 #undef FILE
 #endif
 extern bool print_hex_data(FILE *f, const std::vector<uint8_t> &data);
-extern std::vector<uint8_t> scan_hex_data(FILE * f);
+extern std::vector<uint8_t> scan_hex_data(FILE *f);
 extern bool print_key_hex(FILE *f, KEY *key, size_t len);
-// function returns a vector of bytes
-// where two first bytes are the size of the key in bits,
-// and the rest is the key Data
-// it can be casted to KEY in the following way:
-// std::vector<uint8_t> key_bytes = scan_key_hex(f);
-// KEY* key = reinterpret_cast<KEY*>(key_bytes.data());
-extern std::vector<uint8_t> scan_key_hex(FILE* f);
+// return a pair of values:
+// first 'bool' value indicates if the key was read successfully (true - success, false - failure)
+// second 'R_RSA_PUBLIC_KEY' value is the public key read from the file
+// if the first value is false, the second value is invalid
+extern std::pair<bool, R_RSA_PUBLIC_KEY> scan_public_key_hex(FILE *f);
+// return a pair of values:
+// first 'bool' value indicates if the key was read successfully (true - success, false - failure)
+// second 'R_RSA_PRIVATE_KEY' value is the private key read from the file
+// if the first value is false, the second value is invalid
+extern std::pair<bool, R_RSA_PRIVATE_KEY> scan_private_key_hex(FILE *f);
 #ifdef _USING_FCGI_
 #define FILE FCGI_FILE
 #endif

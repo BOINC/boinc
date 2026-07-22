@@ -211,8 +211,25 @@ static std::vector<uint8_t> sscan_key_hex(const char* buf) {
     return result;
 }
 
-vector<uint8_t> scan_key_hex(FILE* f) {
-    return sscan_key_hex(reinterpret_cast<char*>(scan_raw_data(f).data()));
+template<typename T>
+static inline std::pair<bool, T> scan_key_hex(FILE* f) {
+    T key;
+    memset(&key, 0, sizeof(key));
+    vector<uint8_t> result =
+        sscan_key_hex(reinterpret_cast<char*>(scan_raw_data(f).data()));
+    if (result.empty() || result.size() != sizeof(key)) {
+        return std::make_pair(false, key);
+    }
+    memcpy(&key, result.data(), sizeof(key));
+    return std::make_pair(true, key);
+}
+
+std::pair<bool, R_RSA_PUBLIC_KEY> scan_public_key_hex(FILE *f) {
+    return scan_key_hex<R_RSA_PUBLIC_KEY>(f);
+}
+
+std::pair<bool, R_RSA_PRIVATE_KEY> scan_private_key_hex(FILE *f) {
+    return scan_key_hex<R_RSA_PRIVATE_KEY>(f);
 }
 
 using unique_PKEY_CTX = std::unique_ptr<EVP_PKEY_CTX, OpenSSLDeleter<EVP_PKEY_CTX, EVP_PKEY_CTX_free>>;
@@ -512,13 +529,13 @@ std::pair<int, R_RSA_PRIVATE_KEY> read_key_file(const string& keyfile) {
         );
         return std::make_pair(ERR_FOPEN, key);
     }
-    vector<uint8_t> result = scan_key_hex(fkey);
+    bool result = false;
+    std::tie(result, key) = scan_private_key_hex(fkey);
     boinc::fclose(fkey);
-    if (result.empty()) {
+    if (!result) {
         fprintf(stderr, "%s: can't parse key\n", time_to_string(dtime()));
         return std::make_pair(ERR_FREAD, key);
     }
-    memcpy(&key, result.data(), sizeof(key));
     return std::make_pair(0, key);
 }
 

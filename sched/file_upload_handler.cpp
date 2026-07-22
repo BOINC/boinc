@@ -607,18 +607,17 @@ int get_key(R_RSA_PUBLIC_KEY& key) {
     sprintf(buf, "%s/upload_public", config.key_dir);
     FILE *f = boinc::fopen(buf, "r");
     if (!f) return -1;
-    std::vector<uint8_t> key_data;
+    bool result = false;
 #ifdef _USING_FCGI_
-    key_data = scan_key_hex(FCGI_ToFILE(f));
+    std::tie(result, key) = scan_public_key_hex(FCGI_ToFILE(f));
 #else
-    key_data = scan_key_hex(f);
+    std::tie(result, key) = scan_public_key_hex(f);
 #endif
     boinc::fclose(f);
-    if (key_data.empty()) {
+    if (!result) {
         log_messages.printf(MSG_CRITICAL, "get_key(): failed to read key from %s\n", buf);
         return -1;
     }
-    memcpy(&key, key_data.data(), sizeof(key));
     return 0;
 }
 
