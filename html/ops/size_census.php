@@ -26,17 +26,22 @@
 // --all_apps: compute quantiles for all apps;
 // use this during setup and testing.
 
+$cli_only = true;
+
 error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
 require_once("../inc/util.inc");
+require_once("../inc/util_ops.inc");
+
+BoincDb::get_cli();
 
 function do_app($app) {
     // enumerate the host_app_versions for this app,
     // joined to the host
 
-    $db = BoincDb::get();
+    $db = BoincDb::get_cli();
     $query = "select et_avg, host.on_frac, host.active_frac, host.gpu_active_frac, app_version.plan_class " .
         " from DBNAME.host_app_version, DBNAME.host, DBNAME.app_version " .
         " where host_app_version.app_version_id = app_version.id " .

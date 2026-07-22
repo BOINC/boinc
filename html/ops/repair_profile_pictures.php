@@ -23,7 +23,7 @@ ini_set("memory_limit", "1023M");
 $cli_only = true;
 require_once("../inc/util_ops.inc");
 
-BoincDb::get();
+BoincDb::get_cli();
 
 $profiles = BoincProfile::enum("");
 
