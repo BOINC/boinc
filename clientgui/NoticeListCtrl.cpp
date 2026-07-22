@@ -104,9 +104,9 @@ bool CNoticeListCtrl::Create( wxWindow* parent ) {
 
     if (wxGetApp().GetIsDarkMode()){
 #if wxUSE_WEBVIEW
-        m_noticesBody = wxT("<html><style>body{background-color:black;color:white;a:link {color:#0080FF;}}</style><head></head><body></body></html>");
+        m_noticesBody = wxT("<html><style>body{background-color:#121212;color:#e0e0e0;a:link {color:#0080FF;}}</style><head></head><body></body></html>");
 #else
-        m_noticesBody = wxT("<html><head></head><body bgcolor=black></body></html>");
+        m_noticesBody = wxT("<html><head></head><body bgcolor=#121212></body></html>");
 #endif
     } else {
         m_noticesBody = wxT("<html><head></head><body></body></html>");
