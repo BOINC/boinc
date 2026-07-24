@@ -39,21 +39,20 @@ $forum = BoincForum::lookup_id($thread->forum);
 if (!get_str('action')) {
     error_page("No action specified");
 }
+
 if (!is_moderator($logged_in_user, $forum)) {
     error_page("You are not authorized to moderate this post.");
 }
 
-page_head(tra("Moderate post"));
-
 echo "<form action=\"forum_moderate_post_action.php?id=".$post->id."\" method=\"POST\">\n";
 echo form_tokens($logged_in_user->authenticator);
-start_table();
 
 $get_reason = true;
 if (get_str('action')=="hide") {
-    //display input that selects reason
+    page_head(tra("Hide post"));
+    start_table();
+
     echo "<input type=hidden name=action value=hide>";
-    row1(tra("Hide post"));
     row2(tra("Reason"),
         select_from_array('category',
             array(
@@ -68,7 +67,8 @@ if (get_str('action')=="hide") {
         )
     );
 } elseif (get_str('action')=="move") {
-    row1(tra("Move post"));
+    page_head(tra("Move post"));
+    start_table();
     echo "<input type=hidden name=action value=move>";
     row2(tra("Destination thread ID:"), "<input name=\"threadid\">");
     // TODO: display where to move the post as a dropdown instead of having to get ID
@@ -83,8 +83,10 @@ if (get_str('action')=="hide") {
     if ($x>time()) {
         error_page(tra("User is already banished"));
     }
-    row1(tra("Banish user"));
-    row1(tra("Are you sure you want to banish %1 ?<br/>This will prevent %1 from posting for chosen time period.<br/>It should be done only if %1 has consistently exhibited trollish behavior.", $user->name));
+    page_head(tra("Banish user"));
+    echo tra("Are you sure you want to banish %1 ?<br/>This will prevent %1 from posting for the chosen duration.<br/>It should be done only if %1 has repeatedly violated message board rules.", $user->name);
+    echo "<p>";
+    start_table();
     row2(tra("Ban duration"), "<select class=\"form-control\" name=\"duration\">
             <option value=\"21600\">".tra("6 hours")."</option>
             <option value=\"43200\">".tra("12 hours")."</option>
@@ -99,7 +101,9 @@ if (get_str('action')=="hide") {
     echo "<input type=\"hidden\" name=\"userid\" value=\"".$userid."\">\n";
     echo "<input type=\"hidden\" name=\"confirmed\" value=\"yes\">\n";
 } elseif (get_str('action')=="delete") {
+    page_head(tra("Delete post"));
     echo "<input type=hidden name=action value=delete>";
+    start_table();
     row2(
         "Are you sure want to delete this post?  This cannot be undone.",
         "<input class=\"btn btn-danger\" type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
