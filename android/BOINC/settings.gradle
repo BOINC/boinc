@@ -1,11 +1,11 @@
 include ':app'
 
 buildscript {
-    ext.refreshVersions_version = "0.51.0"
+    ext.refreshVersions_version = "0.60.6"
     repositories {
         maven {
-            url "https://plugins.gradle.org/m2/"
-            name "Gradle Plugin Portal"
+            url = "https://plugins.gradle.org/m2/"
+            name = "Gradle Plugin Portal"
         }
     }
     dependencies {

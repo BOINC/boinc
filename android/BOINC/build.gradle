@@ -2,18 +2,19 @@
 buildscript {
     repositories {
         maven {
-            url 'https://maven.google.com/'
-            name 'Google'
+            url = 'https://maven.google.com/'
+            name = 'Google'
         }
         maven {
-            url 'https://repo1.maven.org/maven2/'
-            name 'Central Repository'
+            url = 'https://repo1.maven.org/maven2/'
+            name = 'Central Repository'
         }
         google()
     }
     dependencies {
         classpath Android.tools.build.gradlePlugin
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:_"
+        // Provides the com.android.legacy-kapt plugin (kapt support for AGP's built-in Kotlin)
+        classpath "com.android.tools.build:gradle-kotlin:_"
         classpath "org.jacoco:org.jacoco.core:_"
     }
 }
@@ -21,8 +22,8 @@ buildscript {
 allprojects {
     repositories {
         maven {
-            url 'https://maven.google.com/'
-            name 'Google'
+            url = 'https://maven.google.com/'
+            name = 'Google'
         }
     }
 }

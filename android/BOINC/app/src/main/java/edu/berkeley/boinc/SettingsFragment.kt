@@ -188,7 +188,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         builder.create().show()
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
         when (key) {
             // General
             "autostart" -> BOINCActivity.monitor!!.autostart = sharedPreferences.getBoolean(key, true)

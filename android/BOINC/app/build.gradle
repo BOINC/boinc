@@ -21,8 +21,7 @@ plugins {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+apply plugin: 'com.android.legacy-kapt'
 
 import org.ajoberstar.grgit.Grgit
 
@@ -81,11 +80,11 @@ def buildVersionName() {
 
 def checkAssetsFiles() {
     def configFile = android.sourceSets.main.res.sourceFiles.find { it.name.equals 'configuration.xml' }
-    def clientName      = new XmlParser().parse(configFile).string.find { it.@name.equals 'client_name' }.text()
-    def clientCabundle  = new XmlParser().parse(configFile).string.find { it.@name.equals 'client_cabundle' }.text()
-    def allProjectsList = new XmlParser().parse(configFile).string.find { it.@name.equals 'all_projects_list' }.text()
-    def nomedia         = new XmlParser().parse(configFile).string.find { it.@name.equals 'nomedia' }.text()
-    def client_config   = new XmlParser().parse(configFile).string.find { it.@name.equals 'client_config' }.text()
+    def clientName      = new groovy.xml.XmlParser().parse(configFile).string.find { it.@name.equals 'client_name' }.text()
+    def clientCabundle  = new groovy.xml.XmlParser().parse(configFile).string.find { it.@name.equals 'client_cabundle' }.text()
+    def allProjectsList = new groovy.xml.XmlParser().parse(configFile).string.find { it.@name.equals 'all_projects_list' }.text()
+    def nomedia         = new groovy.xml.XmlParser().parse(configFile).string.find { it.@name.equals 'nomedia' }.text()
+    def client_config   = new groovy.xml.XmlParser().parse(configFile).string.find { it.@name.equals 'client_config' }.text()
     def assets = "src/main/assets/"
     assert file(assets + "arm64-v8a/"   + clientName).exists()
     assert file(assets + "armeabi/"     + clientName).exists()
@@ -114,7 +113,7 @@ static def isStringXml(fileName) {
 
 static def buildStringsMapFromXml(fileName) {
     def stringsMap = new HashMap<String, Boolean>()
-    def xmlParser = new XmlParser()
+    def xmlParser = new groovy.xml.XmlParser()
     def xml = xmlParser.parse(fileName)
     xml.string.each {
         stringsMap.put(it.@name, false)
@@ -124,7 +123,7 @@ static def buildStringsMapFromXml(fileName) {
 
 static def buildStringsTranslationsMapFromXml(fileName) {
     def stringsTranslationsMap = new HashMap<String, String>()
-    def xmlParser = new XmlParser()
+    def xmlParser = new groovy.xml.XmlParser()
     def xml = xmlParser.parse(fileName)
     xml.string.each {
         stringsTranslationsMap.put(it.@name, it.text())
@@ -337,40 +336,39 @@ preBuild.doFirst {
 }
 
 android {
-    compileSdkVersion 33
-    buildToolsVersion '33.0.1'
+    compileSdk 34
 
     buildFeatures {
-        viewBinding true
-        buildConfig true
-        aidl true
+        viewBinding = true
+        buildConfig = true
+        aidl = true
     }
 
     defaultConfig {
         applicationId "edu.berkeley.boinc"
-        minSdkVersion 16
-        targetSdkVersion 28
+        minSdk 16
+        targetSdk 28
         versionCode buildVersionCode().toInteger()
         versionName buildVersionName()
 
         // Required when setting minSdkVersion to 20 or lower
-        multiDexEnabled true
+        multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            minifyEnabled = true
+            shrinkResources = true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.txt'
         }
 
         debug {
-            minifyEnabled false
-            debuggable true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules-debug.txt'
-            enableUnitTestCoverage true
-            enableAndroidTestCoverage true
+            minifyEnabled = false
+            debuggable = true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules-debug.txt'
+            enableUnitTestCoverage = true
+            enableAndroidTestCoverage = true
         }
 
         armv6_release {
@@ -379,18 +377,18 @@ android {
 
         armv6_debug {
             initWith debug
-            minifyEnabled true
-            enableUnitTestCoverage true
-            enableAndroidTestCoverage true
+            minifyEnabled = true
+            enableUnitTestCoverage = true
+            enableAndroidTestCoverage = true
         }
     }
 
-    applicationVariants.all { variant ->
-        if (variant.buildType.name.startsWith('armv6')) {
-            variant.mergeAssetsProvider.configure {
-                doLast {
-                    delete(fileTree(dir: outputDir, includes: ['**/arm64-v8a/*', '**/armeabi-v7a/*', '**/x86/*', '**/x86_64/*']))
-                }
+    // Strip non-ARMv6 client binaries from the merged assets of the armv6 variants.
+    // AGP 9 removed the legacy applicationVariants API, so match the merge tasks by name.
+    tasks.configureEach { task ->
+        if (task.name ==~ /mergeArmv6_(release|debug)Assets/) {
+            task.doLast { t ->
+                delete(fileTree(dir: t.outputDir, includes: ['**/arm64-v8a/*', '**/armeabi-v7a/*', '**/x86/*', '**/x86_64/*']))
             }
         }
     }
@@ -400,11 +398,7 @@ android {
         targetCompatibility JavaVersion.VERSION_17
 
         // Flag to enable support for the new language APIs
-        coreLibraryDesugaringEnabled true
-    }
-
-    kotlinOptions {
-        jvmTarget = '17'
+        coreLibraryDesugaringEnabled = true
     }
 
     testOptions {
@@ -420,10 +414,7 @@ android {
             }
         }
     }
-    testCoverage {
-        jacocoVersion
-    }
-    namespace 'edu.berkeley.boinc'
+    namespace = 'edu.berkeley.boinc'
 
     tasks.withType(JavaCompile) {
         options.compilerArgs << '-Xlint:unchecked'
@@ -434,6 +425,46 @@ android {
         testLogging {
             events "passed", "skipped", "failed"
         }
+    }
+}
+
+// Guard for the ARMv6 asset stripping above: fail the armv6 assemble tasks if
+// foreign ABI client binaries survive in the merged assets. Also fails loudly
+// (unknown task) if AGP ever renames the merge tasks the stripping matches by name.
+['Armv6_release', 'Armv6_debug'].each { variantName ->
+    def verifyStripped = tasks.register("verify${variantName}AssetsStripped") {
+        dependsOn("merge${variantName}Assets")
+        doLast {
+            def mergedAssetsDir = tasks.getByName("merge${variantName}Assets").outputDir.get().asFile
+            def foreignAbiDirs = ['arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64'].findAll { abi ->
+                def abiFiles = new File(mergedAssetsDir, abi).listFiles()
+                abiFiles != null && abiFiles.length > 0
+            }
+            if (!foreignAbiDirs.empty) {
+                throw new GradleException(
+                    "ARMv6 merged assets still contain client binaries for: ${foreignAbiDirs}")
+            }
+        }
+    }
+    tasks.matching { it.name == "assemble${variantName}" }.configureEach {
+        dependsOn(verifyStripped)
+    }
+}
+
+// The wiring above matches assemble tasks by name; if AGP ever renames them the
+// guards would silently stop running. Fail configuration instead.
+gradle.projectsEvaluated {
+    ['Armv6_release', 'Armv6_debug'].each { variantName ->
+        if (!tasks.names.contains("assemble${variantName}")) {
+            throw new GradleException(
+                "ARMv6 asset-stripping guard is no longer wired: task assemble${variantName} not found")
+        }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 
@@ -489,6 +520,8 @@ dependencies {
     testImplementation Testing.junit.jupiter.params
     testRuntimeOnly Testing.junit.jupiter.engine
     testRuntimeOnly "org.junit.vintage:junit-vintage-engine:_"
+    // Gradle 9 no longer provides the JUnit Platform launcher at runtime
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher:_"
 }
 
 repositories {
@@ -515,9 +548,5 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
             "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec",
             "outputs/code-coverage/debugAndroidTest/connected/coverage.ec"
     ]))
-}
-
-jacoco {
-    toolVersion
 }
 
