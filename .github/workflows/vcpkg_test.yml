@@ -39,7 +39,7 @@ jobs:
           revision_hash: ${{ steps.get_hash.outputs.revision_hash }}
         steps:
           - name: Checkout
-            uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+            uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
             with:
               fetch-depth: 2
           - name: Download revision archive
@@ -61,7 +61,7 @@ jobs:
         fail-fast: false
       steps:
         - name: Checkout
-          uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+          uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
           with:
             fetch-depth: 2
 
@@ -217,7 +217,7 @@ jobs:
         fail-fast: false
       steps:
         - name: Checkout
-          uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+          uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
           with:
             fetch-depth: 2
 
@@ -304,7 +304,7 @@ jobs:
         fail-fast: false
       steps:
         - name: Checkout
-          uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+          uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
           with:
             fetch-depth: 2
 
@@ -360,7 +360,7 @@ jobs:
         fail-fast: false
       steps:
         - name: Checkout
-          uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+          uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
           with:
             fetch-depth: 2
         - name: Check if build is running from origin repo
@@ -422,7 +422,7 @@ jobs:
         fail-fast: false
       steps:
         - name: Checkout
-          uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+          uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
           with:
             fetch-depth: 2
         - name: Check if build is running from origin repo
