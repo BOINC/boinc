@@ -253,10 +253,9 @@ void GLOBAL_PREFS::defaults() {
     suspend_cpu_usage = 25;
 #endif
     suspend_if_no_recent_input = 0;
-    vm_max_used_frac = 0.75;
+    vm_max_used_frac = 1.;
     work_buf_additional_days = 0.5;
     work_buf_min_days = 0.1;
-    vm_max_used_frac = 1.;
 
     override_file_present = false;
 
