@@ -1065,11 +1065,12 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
         }
     }
 
-    // compute max working set size for app versions
-    // (max of working sets of currently running jobs)
+    // compute max RSS and max swap usage for app versions
+    // (max over currently running jobs)
     //
     for (APP_VERSION *avp: app_versions) {
         avp->max_rss = 0;
+        avp->max_swap_usage = 0;
     }
     for (ACTIVE_TASK *atp: active_tasks.active_tasks) {
         atp->rss_too_large = false;
@@ -1078,6 +1079,19 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
         APP_VERSION* avp = atp->app_version;
         if (w > avp->max_rss) {
             avp->max_rss = w;
+        }
+        // count swap only while the process exists.
+        // Unlike RSS, swap usage depends on memory pressure rather than
+        // on the job itself, and get_memory_usage() stops updating it
+        // once the process is gone.
+        // Counting a stale figure here would charge unstarted jobs of
+        // this app version for it indefinitely.
+        //
+        if (atp->process_exists()) {
+            double s = atp->procinfo.swap_usage;
+            if (s > avp->max_swap_usage) {
+                avp->max_swap_usage = s;
+            }
         }
         atp->result->not_started = false;
     }
@@ -1516,7 +1530,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             eswap = atp->procinfo.swap_usage;
         } else {
             erss = rp->avp->max_rss;
-            eswap = rp->avp->max_rss;  // best guess
+            eswap = rp->avp->max_swap_usage;
         }
         if (rp->project->strict_memory_bound) {
             erss = std::max(erss, rp->wup->rsc_memory_bound);

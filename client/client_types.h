@@ -372,6 +372,10 @@ struct APP_VERSION {
         // to use this much RAM,
         // so that we don't run a long sequence of jobs,
         // each of which turns out not to fit in available RAM
+    double max_swap_usage;
+        // same, for swap space.
+        // Zero unless this app version's jobs are actually swapping,
+        // so it imposes no limit on a system under no memory pressure
     bool is_vbox_app;
         // set if plan class includes "vbox"
     bool is_docker_app;
