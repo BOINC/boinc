@@ -44,9 +44,13 @@ void add_child_totals(PROCINFO& procinfo, PROC_MAP& pm, PROC_MAP::iterator i) {
         PROC_MAP::iterator i2 = pm.find(child_pid);
         if (i2 == pm.end()) continue;
         PROCINFO& p = i2->second;
-        if (p.scanned) {
-            return;     // cycle in graph - shouldn't happen
-        }
+
+        // already counted: either a cycle in the graph,
+        // or a pid that's also in the app's other_pids.
+        // Skip just this one; its siblings still need scanning.
+        //
+        if (p.scanned) continue;
+
         procinfo.kernel_time += p.kernel_time;
         procinfo.user_time += p.user_time;
         p.scanned = true;
@@ -72,6 +76,15 @@ void procinfo_app(
     PROC_MAP::iterator i;
     for (i=pm.begin(); i!=pm.end(); ++i) {
         PROCINFO& p = i->second;
+        if (graphics_exec_file && !strcmp(p.command, graphics_exec_file)) {
+            p.is_boinc_app = true;
+        }
+
+        // an other_pid is typically a child of the app's main process,
+        // in which case add_child_totals() has already counted it
+        //
+        if (p.scanned) continue;
+
         if (p.id == procinfo.id
             || (other_pids && in_vector(p.id, *other_pids))
         ) {
@@ -89,9 +102,6 @@ void procinfo_app(
             // look for child processes
             //
             add_child_totals(procinfo, pm, i);
-        }
-        if (graphics_exec_file && !strcmp(p.command, graphics_exec_file)) {
-            p.is_boinc_app = true;
         }
     }
 }
