@@ -55,14 +55,62 @@ class MonitorTest {
         Assert.assertTrue(monitor.authFilePath.endsWith("/client/gui_rpc_auth.cfg"))
     }
 
-    @Test
-    fun `Expect arm-android-linux-gnu when getBoincPlatform() is called`() {
-        Assert.assertEquals("arm-android-linux-gnu", monitor.getString(monitor.boincPlatform))
+    // Pins the os.arch system property so platform detection tests give the
+    // same result on every build host (Linux CI reports amd64, macOS x86_64, etc.).
+    private fun withOsArch(arch: String, block: () -> Unit) {
+        val originalArch = System.getProperty("os.arch")
+        System.setProperty("os.arch", arch)
+        try {
+            block()
+        } finally {
+            if (originalArch != null) {
+                System.setProperty("os.arch", originalArch)
+            } else {
+                System.clearProperty("os.arch")
+            }
+        }
     }
 
     @Test
-    fun `Expect blank string when getBoincAltPlatform() is called`() {
-        Assert.assertTrue(monitor.boincAltPlatform.isEmpty())
+    fun `Expect platform name matching os arch when getBoincPlatform() is called`() {
+        mapOf(
+            "aarch64" to "aarch64-android-linux-gnu",
+            "arm64-v8a" to "aarch64-android-linux-gnu",
+            "x86_64" to "x86_64-android-linux-gnu",
+            "armv6l" to "armv6-android-linux-gnu",
+            "armv7l" to "arm-android-linux-gnu",
+            "i686" to "x86-android-linux-gnu",
+            // Unrecognized or blank architectures fall back to the ARM platform
+            "amd64" to "arm-android-linux-gnu",
+            "mips" to "arm-android-linux-gnu",
+            "" to "arm-android-linux-gnu"
+        ).forEach { (arch, expectedPlatform) ->
+            withOsArch(arch) {
+                Assert.assertEquals(
+                    "for os.arch=$arch",
+                    expectedPlatform,
+                    monitor.getString(monitor.boincPlatform)
+                )
+            }
+        }
+    }
+
+    @Test
+    fun `Expect alt platform name matching os arch when getBoincAltPlatform() is called`() {
+        mapOf(
+            "aarch64" to "arm-android-linux-gnu",
+            "armv6l" to "arm-android-linux-gnu",
+            "x86_64" to "x86-android-linux-gnu",
+            // Architectures without an alt platform give a blank string
+            "armv7l" to "",
+            "i686" to "",
+            "amd64" to "",
+            "" to ""
+        ).forEach { (arch, expectedAltPlatform) ->
+            withOsArch(arch) {
+                Assert.assertEquals("for os.arch=$arch", expectedAltPlatform, monitor.boincAltPlatform)
+            }
+        }
     }
 
 //    TODO: Need to be fixed
