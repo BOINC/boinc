@@ -1397,10 +1397,14 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         print_job_list(run_list);
     }
 
-    // Set next_scheduler_state to PREEMPT for all tasks
+    // Set next_scheduler_state to PREEMPT for all tasks.
+    // Clear the mem-limit flags here, not in the scan below that sets
+    // them; the scan skips some jobs before reaching it
     //
     for (ACTIVE_TASK* atp: active_tasks.active_tasks) {
         atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
+        atp->rss_too_large = false;
+        atp->swap_too_large = false;
     }
 
     int i=0;
@@ -1435,9 +1439,11 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         ram_left -= sporadic_resources.mem_used;
     }
     double swap_left = 0;
+    double swap_limit = 0;
     bool check_swap = false;
     if (is_swap_defined()) {
-        swap_left = (global_prefs.vm_max_used_frac)*host_info.m_swap;
+        swap_limit = (global_prefs.vm_max_used_frac)*host_info.m_swap;
+        swap_left = swap_limit;
         check_swap = true;
     }
 
@@ -1569,7 +1575,6 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         double eswap = 0;
         bool ignore_swap_limit = false;
         if (atp) {
-            atp->rss_too_large = false;
             erss = atp->procinfo.rss_smoothed;
             eswap = atp->procinfo.swap_usage;
             ignore_swap_limit = atp->ignore_swap_limit;
@@ -1598,12 +1603,21 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         }
         // a job that uses no swap can't exhaust it, whatever swap_left
         // says.  It can be negative: an always_run job is charged above
-        // without a test
+        // without a test, and so is a job exempted from the limit
         //
         if (check_swap && !ignore_swap_limit && eswap > 0) {
             if (eswap > swap_left) {
                 if (atp) {
                     atp->swap_too_large = true;
+
+                    // it doesn't fit even on an idle host, so waiting
+                    // won't help.  If the process is gone its swap died
+                    // with it, so drop the figure rather than block the
+                    // job on it for good; a live one is measured again
+                    //
+                    if (eswap > swap_limit && !atp->process_exists()) {
+                        atp->procinfo.swap_usage = 0;
+                    }
                 }
                 if (log_flags.cpu_sched_debug || log_flags.mem_usage_debug) {
                     msg_printf(rp->project, MSG_INFO,
@@ -1701,6 +1715,13 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                     }
                     preempt_type = REMOVE_NEVER;
                 }
+
+                // if we're quitting it to free swap space, say so;
+                // swap_limit_check() is what revives it
+                //
+                if (preempt_type == REMOVE_ALWAYS) {
+                    atp->swap_kill_time = now;
+                }
                 atp->preempt(preempt_type);
                 break;
             case PROCESS_SUSPENDED:
@@ -1710,6 +1731,19 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                 if (atp->result->uses_gpu()) {
                     atp->preempt(REMOVE_ALWAYS);
                     request_schedule_cpus("removed suspended GPU task");
+                    break;
+                }
+
+                // a suspended process still holds its swap space, so if
+                // it can't fit even on an idle host, leaving it in
+                // memory blocks it for good.  Anything less than that
+                // it can wait out; quitting costs it its checkpoint
+                //
+                if (atp->swap_too_large
+                    && atp->procinfo.swap_usage > swap_limit
+                ) {
+                    atp->swap_kill_time = now;
+                    atp->preempt(REMOVE_ALWAYS);
                     break;
                 }
 
