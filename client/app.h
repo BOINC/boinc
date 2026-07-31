@@ -175,7 +175,8 @@ struct ACTIVE_TASK {
         // last time this task was killed to free swap space
     bool ignore_swap_limit;
         // run this job even if it's over the swap limit;
-        // set when nothing else can run.
+        // set when it's the only one holding swap, or when nothing
+        // else can run.
         // enforce_run_list() clears it on every exit path
 
     APP_CLIENT_SHM app_client_shm;

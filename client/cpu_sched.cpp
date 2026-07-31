@@ -836,10 +836,14 @@ void CLIENT_STATE::swap_limit_check() {
     //
     double swap_usage = 0;
     int n_executing = 0;
+    int n_swappers = 0;
     for (ACTIVE_TASK *atp: active_tasks.active_tasks) {
         if (atp->task_state() == PROCESS_EXECUTING) {
             swap_usage += atp->procinfo.swap_usage;
             n_executing++;
+            if (atp->procinfo.swap_usage > 0) {
+                n_swappers++;
+            }
         }
     }
 
@@ -863,6 +867,28 @@ void CLIENT_STATE::swap_limit_check() {
             if (atp->task_state() != PROCESS_EXECUTING) {
                 continue;
             }
+
+            // a job that holds no swap frees none by dying.
+            // The sort is by how much CPU time a kill would lose, which
+            // says nothing about swap, so these turn up here as often as
+            // any other job
+            //
+            if (atp->procinfo.swap_usage <= 0) {
+                continue;
+            }
+
+            // leave the last job that holds swap running.
+            // We're still over the limit, so this job exceeds it by
+            // itself, and killing it would gain us nothing.
+            // enforce_run_list() applies the same test, so exempt it
+            // there too; otherwise it preempts the job by quit and,
+            // with no swap_kill_time set, nothing ever revives it.
+            //
+            if (n_swappers == 1) {
+                atp->ignore_swap_limit = true;
+                break;
+            }
+
             if (log_flags.cpu_sched_debug) {
                 msg_printf(atp->result->project, MSG_INFO,
                     "[cpu_sched_debug] killing %s", atp->result->name
@@ -872,6 +898,7 @@ void CLIENT_STATE::swap_limit_check() {
             atp->preempt(REMOVE_ALWAYS);
                 // this changes state to QUIT_PENDING
             swap_usage -= atp->procinfo.swap_usage;
+            n_swappers--;
             if (swap_usage <= swap_limit) {
                 break;
             }
