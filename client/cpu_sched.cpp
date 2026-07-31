@@ -794,11 +794,9 @@ bool CLIENT_STATE::schedule_cpus() {
     //
     tasks_throttled = false;
 
-    if (!swap_limit_check()) {
-        make_run_list(run_list);
-        return enforce_run_list(run_list);
-    }
-    return true;
+    swap_limit_check();
+    make_run_list(run_list);
+    return enforce_run_list(run_list);
 }
 
 // sort by increasing cpu_time - checkpoint_cpu_time;
@@ -825,22 +823,23 @@ static bool compare_swap_revive(void *p1, void *p2) {
     return atp1 < atp2;
 }
 
-// if swap limit has been reached, we use different scheduling logic.
-// Return true if this is the case.
+// Enforce the swap limit: kill jobs if we're over it, revive
+// swap-killed ones if we're under it.  Scheduling itself is
+// make_run_list()'s and enforce_run_list()'s business either way.
 //
-bool CLIENT_STATE::swap_limit_check() {
+void CLIENT_STATE::swap_limit_check() {
     if (!is_swap_defined()) {
-        return false;
+        return;
     }
-
-    vector<RESULT*> run_list;
 
     // compute swap usage of running tasks
     //
     double swap_usage = 0;
+    int n_executing = 0;
     for (ACTIVE_TASK *atp: active_tasks.active_tasks) {
         if (atp->task_state() == PROCESS_EXECUTING) {
             swap_usage += atp->procinfo.swap_usage;
+            n_executing++;
         }
     }
 
@@ -877,13 +876,6 @@ bool CLIENT_STATE::swap_limit_check() {
                 break;
             }
         }
-        // runnable list is the rest of the tasks
-        for (ACTIVE_TASK *atp: active_tasks.active_tasks) {
-            if (atp->task_state() == PROCESS_EXECUTING) {
-                run_list.push_back(atp->result);
-            }
-        }
-        enforce_run_list(run_list);
     } else {
         // here currently running tasks fit in swap
         //
@@ -894,9 +886,9 @@ bool CLIENT_STATE::swap_limit_check() {
                 swap_kill_tasks.push_back(atp);
             }
         }
-        // if no swap-killed tasks, use normal scheduling
+        // if no swap-killed tasks, there's nothing to revive
         if (swap_kill_tasks.empty()) {
-            return false;
+            return;
         }
 
         if (log_flags.cpu_sched_debug) {
@@ -905,23 +897,20 @@ bool CLIENT_STATE::swap_limit_check() {
             );
         }
 
-        // initial run list is running tasks
-        //
-        for (ACTIVE_TASK *atp: active_tasks.active_tasks) {
-            if (atp->task_state() == PROCESS_EXECUTING) {
-                run_list.push_back(atp->result);
-            }
-        }
         // see if we can run swap-killed tasks
         std::sort(
             swap_kill_tasks.begin(), swap_kill_tasks.end(),
             compare_swap_revive
         );
-        // run as many as will fit
+        // revive as many as will fit.
+        // The list is in deadline order; skip one that doesn't fit
+        // rather than stopping, so it can't veto the smaller jobs
+        // behind it
         //
+        int n_revived = 0;
         for (ACTIVE_TASK *atp: swap_kill_tasks) {
             if (swap_usage + atp->procinfo.swap_usage > swap_limit) {
-                break;
+                continue;
             }
             if (log_flags.cpu_sched_debug) {
                 msg_printf(atp->result->project, MSG_INFO,
@@ -929,12 +918,33 @@ bool CLIENT_STATE::swap_limit_check() {
                 );
             }
             atp->swap_kill_time = 0;
-            run_list.push_back(atp->result);
             swap_usage += atp->procinfo.swap_usage;
+            n_revived++;
         }
-        enforce_run_list(run_list);
+
+        // a swap-killed job's figure is from when it last ran, and
+        // nothing updates it meanwhile, so it can only be an
+        // over-estimate.  If nothing runs and nothing fits, we'd sit
+        // idle on a number that can never improve; run the
+        // earliest-deadline job anyway.
+        // enforce_run_list() applies the same test, so exempt it
+        //
+        if (!n_revived && !n_executing) {
+            ACTIVE_TASK* atp = swap_kill_tasks[0];
+            if (log_flags.cpu_sched_debug) {
+                msg_printf(atp->result->project, MSG_INFO,
+                    "[cpu_sched_debug] restarting %s: nothing else can run",
+                    atp->result->name
+                );
+            }
+            atp->ignore_swap_limit = true;
+            atp->swap_kill_time = 0;
+        }
+
+        // whatever is still swap-killed doesn't stop the rest of the
+        // client.  enforce_run_list() applies the same test to each
+        // job's own figure
     }
-    return true;
 }
 
 // Mark a job J as a deadline miss if either
@@ -1343,6 +1353,12 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     // check whether GPUs are usable
     //
     if (check_coprocs_usable()) {
+        // exemptions apply to the scan below only;
+        // don't let one leak into a later pass
+        //
+        for (ACTIVE_TASK* atp: active_tasks.active_tasks) {
+            atp->ignore_swap_limit = false;
+        }
         request_schedule_cpus("GPU usability change");
         return true;
     }
@@ -1524,10 +1540,12 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         //
         double erss = 0;
         double eswap = 0;
+        bool ignore_swap_limit = false;
         if (atp) {
             atp->rss_too_large = false;
             erss = atp->procinfo.rss_smoothed;
             eswap = atp->procinfo.swap_usage;
+            ignore_swap_limit = atp->ignore_swap_limit;
         } else {
             erss = rp->avp->max_rss;
             eswap = rp->avp->max_swap_usage;
@@ -1555,7 +1573,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         // says.  It can be negative: an always_run job is charged above
         // without a test
         //
-        if (check_swap && eswap > 0) {
+        if (check_swap && !ignore_swap_limit && eswap > 0) {
             if (eswap > swap_left) {
                 if (atp) {
                     atp->swap_too_large = true;
@@ -1598,6 +1616,13 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         if (have_max_concurrent) {
             max_concurrent_inc(rp);
         }
+    }
+
+    // exemptions apply to the scan above only.
+    // Clear them here, not in it; it skips jobs before reading the flag
+    //
+    for (ACTIVE_TASK* atp: active_tasks.active_tasks) {
+        atp->ignore_swap_limit = false;
     }
 
     // if CPUs are starved, ask for more jobs

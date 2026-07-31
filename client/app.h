@@ -173,6 +173,10 @@ struct ACTIVE_TASK {
     double last_deadline_miss_time;
     double swap_kill_time;
         // last time this task was killed to free swap space
+    bool ignore_swap_limit;
+        // run this job even if it's over the swap limit;
+        // set when nothing else can run.
+        // enforce_run_list() clears it on every exit path
 
     APP_CLIENT_SHM app_client_shm;
         // core/app shared mem segment

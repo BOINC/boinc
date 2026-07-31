@@ -323,7 +323,7 @@ struct CLIENT_STATE {
     void make_run_list(vector<RESULT*>&);
     bool enforce_run_list(vector<RESULT*>&);
     void append_unfinished_time_slice(vector<RESULT*>&);
-    bool swap_limit_check();
+    void swap_limit_check();
 
     double runnable_resource_share(int);
     void adjust_rec();
