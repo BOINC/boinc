@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,10 +19,10 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-/* get annotation macros from sal.h */
-/* define the ones that don't exist */
+// get annotation macros from sal.h
+// define the ones that don't exist
 #include "sal.h"
-/* These are just an annotations.  They don't do anything */
+// These are just an annotations.  They don't do anything
 #ifndef __success
 #define __success(x)
 #endif
@@ -165,6 +165,8 @@ int nvidia_compare(COPROC_NVIDIA& c1, COPROC_NVIDIA& c2, bool loose) {
     return 0;
 }
 
+// NOTE: WE SHOULD BE GETTING THESE FROM AN NVIDIA .h FILE!
+//
 enum CUdevice_attribute_enum {
     CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK = 1,
     CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X = 2,
@@ -187,7 +189,9 @@ enum CUdevice_attribute_enum {
     CU_DEVICE_ATTRIBUTE_CAN_MAP_HOST_MEMORY = 19,
     CU_DEVICE_ATTRIBUTE_PCI_BUS_ID = 33,
     CU_DEVICE_ATTRIBUTE_PCI_DEVICE_ID = 34,
-    CU_DEVICE_ATTRIBUTE_PCI_DOMAIN_ID = 50
+    CU_DEVICE_ATTRIBUTE_PCI_DOMAIN_ID = 50,
+    CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MAJOR = 75,
+    CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MINOR = 76
 };
 
 #ifdef _WIN32
@@ -214,6 +218,8 @@ CUDA_GDN p_cuDeviceGetName = NULL;
 CUDA_GDM p_cuDeviceTotalMem = NULL;
 CUDA_GDM p_cuDeviceTotalMem_v2 = NULL;
 CUDA_GDCC p_cuDeviceComputeCapability = NULL;
+    // as of Jul 2026 this is deprecated.
+    // Use it if present, else use DeviceGetAttribute()
 CUDA_CC p_cuCtxCreate = NULL;
 CUDA_CD p_cuCtxDestroy = NULL;
 CUDA_MA p_cuMemAlloc = NULL;
@@ -257,19 +263,19 @@ void COPROC_NVIDIA::get(
         gpu_warning(warnings, "No NVIDIA library found");
         return;
     }
-    p_cuDeviceGetCount = (CUDA_GDC)GetProcAddress( cudalib, "cuDeviceGetCount" );
-    p_cuDriverGetVersion = (CUDA_GDV)GetProcAddress( cudalib, "cuDriverGetVersion" );
-    p_cuInit = (CUDA_GDI)GetProcAddress( cudalib, "cuInit" );
-    p_cuDeviceGet = (CUDA_GDG)GetProcAddress( cudalib, "cuDeviceGet" );
-    p_cuDeviceGetAttribute = (CUDA_GDA)GetProcAddress( cudalib, "cuDeviceGetAttribute" );
-    p_cuDeviceGetName = (CUDA_GDN)GetProcAddress( cudalib, "cuDeviceGetName" );
-    p_cuDeviceTotalMem = (CUDA_GDM)GetProcAddress( cudalib, "cuDeviceTotalMem" );
+    p_cuDeviceGetCount = (CUDA_GDC)GetProcAddress(cudalib, "cuDeviceGetCount");
+    p_cuDriverGetVersion = (CUDA_GDV)GetProcAddress(cudalib, "cuDriverGetVersion");
+    p_cuInit = (CUDA_GDI)GetProcAddress(cudalib, "cuInit");
+    p_cuDeviceGet = (CUDA_GDG)GetProcAddress(cudalib, "cuDeviceGet");
+    p_cuDeviceGetAttribute = (CUDA_GDA)GetProcAddress(cudalib, "cuDeviceGetAttribute");
+    p_cuDeviceGetName = (CUDA_GDN)GetProcAddress(cudalib, "cuDeviceGetName");
+    p_cuDeviceTotalMem = (CUDA_GDM)GetProcAddress(cudalib, "cuDeviceTotalMem");
     p_cuDeviceTotalMem_v2 = (CUDA_GDM)GetProcAddress(cudalib, "cuDeviceTotalMem_v2");
-    p_cuDeviceComputeCapability = (CUDA_GDCC)GetProcAddress( cudalib, "cuDeviceComputeCapability" );
-    p_cuCtxCreate = (CUDA_CC)GetProcAddress( cudalib, "cuCtxCreate" );
-    p_cuCtxDestroy = (CUDA_CD)GetProcAddress( cudalib, "cuCtxDestroy" );
-    p_cuMemAlloc = (CUDA_MA)GetProcAddress( cudalib, "cuMemAlloc" );
-    p_cuMemFree = (CUDA_MF)GetProcAddress( cudalib, "cuMemFree" );
+    p_cuDeviceComputeCapability = (CUDA_GDCC)GetProcAddress(cudalib, "cuDeviceComputeCapability");
+    p_cuCtxCreate = (CUDA_CC)GetProcAddress(cudalib, "cuCtxCreate");
+    p_cuCtxDestroy = (CUDA_CD)GetProcAddress(cudalib, "cuCtxDestroy");
+    p_cuMemAlloc = (CUDA_MA)GetProcAddress(cudalib, "cuMemAlloc");
+    p_cuMemFree = (CUDA_MF)GetProcAddress(cudalib, "cuMemFree");
     p_cuMemGetInfo = (CUDA_MGI)GetProcAddress(cudalib, "cuMemGetInfo");
     p_cuMemGetInfo_v2 = (CUDA_MGI)GetProcAddress(cudalib, "cuMemGetInfo_v2");
 
@@ -309,19 +315,19 @@ void* cudalib = NULL;
         return;
     }
     p_cuDeviceGetCount = (int(*)(int*)) dlsym(cudalib, "cuDeviceGetCount");
-    p_cuDriverGetVersion = (int(*)(int*)) dlsym( cudalib, "cuDriverGetVersion" );
-    p_cuInit = (int(*)(unsigned int)) dlsym( cudalib, "cuInit" );
-    p_cuDeviceGet = (int(*)(int*, int)) dlsym( cudalib, "cuDeviceGet" );
-    p_cuDeviceGetAttribute = (int(*)(int*, int, int)) dlsym( cudalib, "cuDeviceGetAttribute" );
-    p_cuDeviceGetName = (int(*)(char*, int, int)) dlsym( cudalib, "cuDeviceGetName" );
-    p_cuDeviceTotalMem = (int(*)(size_t*, int)) dlsym( cudalib, "cuDeviceTotalMem" );
+    p_cuDriverGetVersion = (int(*)(int*)) dlsym(cudalib, "cuDriverGetVersion");
+    p_cuInit = (int(*)(unsigned int)) dlsym(cudalib, "cuInit");
+    p_cuDeviceGet = (int(*)(int*, int)) dlsym(cudalib, "cuDeviceGet");
+    p_cuDeviceGetAttribute = (int(*)(int*, int, int)) dlsym(cudalib, "cuDeviceGetAttribute");
+    p_cuDeviceGetName = (int(*)(char*, int, int)) dlsym(cudalib, "cuDeviceGetName");
+    p_cuDeviceTotalMem = (int(*)(size_t*, int)) dlsym(cudalib, "cuDeviceTotalMem");
     p_cuDeviceTotalMem_v2 = (int(*)(size_t*, int)) dlsym(cudalib, "cuDeviceTotalMem_v2");
-    p_cuDeviceComputeCapability = (int(*)(int*, int*, int)) dlsym( cudalib, "cuDeviceComputeCapability" );
-    p_cuCtxCreate = (int(*)(void**, unsigned int, unsigned int)) dlsym( cudalib, "cuCtxCreate" );
-    p_cuCtxDestroy = (int(*)(void*)) dlsym( cudalib, "cuCtxDestroy" );
-    p_cuMemAlloc = (int(*)(unsigned int*, size_t)) dlsym( cudalib, "cuMemAlloc" );
-    p_cuMemFree = (int(*)(unsigned int)) dlsym( cudalib, "cuMemFree" );
-    p_cuMemGetInfo = (int(*)(size_t*, size_t*)) dlsym( cudalib, "cuMemGetInfo" );
+    p_cuDeviceComputeCapability = (int(*)(int*, int*, int)) dlsym(cudalib, "cuDeviceComputeCapability");
+    p_cuCtxCreate = (int(*)(void**, unsigned int, unsigned int)) dlsym(cudalib, "cuCtxCreate");
+    p_cuCtxDestroy = (int(*)(void*)) dlsym(cudalib, "cuCtxDestroy");
+    p_cuMemAlloc = (int(*)(unsigned int*, size_t)) dlsym(cudalib, "cuMemAlloc");
+    p_cuMemFree = (int(*)(unsigned int)) dlsym(cudalib, "cuMemFree");
+    p_cuMemGetInfo = (int(*)(size_t*, size_t*)) dlsym(cudalib, "cuMemGetInfo");
     p_cuMemGetInfo_v2 = (int(*)(size_t*, size_t*)) dlsym(cudalib, "cuMemGetInfo_v2");
 #endif
 
@@ -349,10 +355,12 @@ void* cudalib = NULL;
         gpu_warning(warnings, "cuDeviceTotalMem() missing from NVIDIA library");
         goto leave;
     }
+#if 0
     if (!p_cuDeviceComputeCapability) {
         gpu_warning(warnings, "cuDeviceComputeCapability() missing from NVIDIA library");
         goto leave;
     }
+#endif
     if (!p_cuMemAlloc) {
         gpu_warning(warnings, "cuMemAlloc() missing from NVIDIA library");
         goto leave;
@@ -416,36 +424,98 @@ void* cudalib = NULL;
             gpu_warning(warnings, buf);
             goto leave;
         }
-        (*p_cuDeviceComputeCapability)(&cc.cuda_prop.major, &cc.cuda_prop.minor, device);
+
+        // use deprecated API function if present, else newer one
+        if (p_cuDeviceComputeCapability) {
+            (*p_cuDeviceComputeCapability)(&cc.cuda_prop.major, &cc.cuda_prop.minor, device);
+        } else {
+            (*p_cuDeviceGetAttribute)(
+                &cc.cuda_prop.major,
+                CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MAJOR, device
+            );
+            (*p_cuDeviceGetAttribute)(
+                &cc.cuda_prop.minor,
+                CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MINOR, device
+            );
+        }
         if (p_cuDeviceTotalMem_v2) {
             (*p_cuDeviceTotalMem_v2)(&global_mem, device);
         } else {
             (*p_cuDeviceTotalMem)(&global_mem, device);
         }
         cc.cuda_prop.totalGlobalMem = (double) global_mem;
-        (*p_cuDeviceGetAttribute)(&itemp, CU_DEVICE_ATTRIBUTE_SHARED_MEMORY_PER_BLOCK, device);
+        (*p_cuDeviceGetAttribute)(
+            &itemp, CU_DEVICE_ATTRIBUTE_SHARED_MEMORY_PER_BLOCK, device
+        );
         cc.cuda_prop.sharedMemPerBlock = (double) itemp;
-        (*p_cuDeviceGetAttribute)(&cc.cuda_prop.regsPerBlock, CU_DEVICE_ATTRIBUTE_REGISTERS_PER_BLOCK, device);
-        (*p_cuDeviceGetAttribute)(&cc.cuda_prop.warpSize, CU_DEVICE_ATTRIBUTE_WARP_SIZE, device);
-        (*p_cuDeviceGetAttribute)(&itemp, CU_DEVICE_ATTRIBUTE_MAX_PITCH, device);
+        (*p_cuDeviceGetAttribute)(
+            &cc.cuda_prop.regsPerBlock,
+            CU_DEVICE_ATTRIBUTE_REGISTERS_PER_BLOCK, device
+        );
+        (*p_cuDeviceGetAttribute)(
+            &cc.cuda_prop.warpSize, CU_DEVICE_ATTRIBUTE_WARP_SIZE, device
+        );
+        (*p_cuDeviceGetAttribute)(
+            &itemp, CU_DEVICE_ATTRIBUTE_MAX_PITCH, device
+        );
         cc.cuda_prop.memPitch = (double) itemp;
-        retval = (*p_cuDeviceGetAttribute)(&cc.cuda_prop.maxThreadsPerBlock, CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK, device);
-        retval = (*p_cuDeviceGetAttribute)(&cc.cuda_prop.maxThreadsDim[0], CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X, device);
-        (*p_cuDeviceGetAttribute)(&cc.cuda_prop.maxThreadsDim[1], CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Y, device);
-        (*p_cuDeviceGetAttribute)(&cc.cuda_prop.maxThreadsDim[2], CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Z, device);
-        (*p_cuDeviceGetAttribute)(&cc.cuda_prop.maxGridSize[0], CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_X, device);
-        (*p_cuDeviceGetAttribute)(&cc.cuda_prop.maxGridSize[1], CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Y, device);
-        (*p_cuDeviceGetAttribute)(&cc.cuda_prop.maxGridSize[2], CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Z, device);
-        (*p_cuDeviceGetAttribute)(&cc.cuda_prop.clockRate, CU_DEVICE_ATTRIBUTE_CLOCK_RATE, device);
-        (*p_cuDeviceGetAttribute)(&itemp, CU_DEVICE_ATTRIBUTE_TOTAL_CONSTANT_MEMORY, device);
+        retval = (*p_cuDeviceGetAttribute)(
+            &cc.cuda_prop.maxThreadsPerBlock,
+            CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK, device
+        );
+        retval = (*p_cuDeviceGetAttribute)(
+            &cc.cuda_prop.maxThreadsDim[0],
+            CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_X, device
+        );
+        (*p_cuDeviceGetAttribute)(
+            &cc.cuda_prop.maxThreadsDim[1],
+            CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Y, device
+        );
+        (*p_cuDeviceGetAttribute)(
+            &cc.cuda_prop.maxThreadsDim[2],
+            CU_DEVICE_ATTRIBUTE_MAX_BLOCK_DIM_Z, device
+        );
+        (*p_cuDeviceGetAttribute)(
+            &cc.cuda_prop.maxGridSize[0],
+            CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_X, device
+        );
+        (*p_cuDeviceGetAttribute)(
+            &cc.cuda_prop.maxGridSize[1],
+            CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Y, device
+        );
+        (*p_cuDeviceGetAttribute)(
+            &cc.cuda_prop.maxGridSize[2],
+            CU_DEVICE_ATTRIBUTE_MAX_GRID_DIM_Z, device
+        );
+        (*p_cuDeviceGetAttribute)(
+            &cc.cuda_prop.clockRate,
+            CU_DEVICE_ATTRIBUTE_CLOCK_RATE, device
+        );
+        (*p_cuDeviceGetAttribute)(
+            &itemp, CU_DEVICE_ATTRIBUTE_TOTAL_CONSTANT_MEMORY, device
+        );
         cc.cuda_prop.totalConstMem = (double) itemp;
-        (*p_cuDeviceGetAttribute)(&itemp, CU_DEVICE_ATTRIBUTE_TEXTURE_ALIGNMENT, device);
+        (*p_cuDeviceGetAttribute)(
+            &itemp, CU_DEVICE_ATTRIBUTE_TEXTURE_ALIGNMENT, device
+        );
         cc.cuda_prop.textureAlignment = (double) itemp;
-        (*p_cuDeviceGetAttribute)(&cc.cuda_prop.deviceOverlap, CU_DEVICE_ATTRIBUTE_GPU_OVERLAP, device);
-        (*p_cuDeviceGetAttribute)(&cc.cuda_prop.multiProcessorCount, CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT, device);
-        (*p_cuDeviceGetAttribute)(&cc.pci_info.bus_id, CU_DEVICE_ATTRIBUTE_PCI_BUS_ID, device);
-        (*p_cuDeviceGetAttribute)(&cc.pci_info.device_id, CU_DEVICE_ATTRIBUTE_PCI_DEVICE_ID, device);
-        (*p_cuDeviceGetAttribute)(&cc.pci_info.domain_id, CU_DEVICE_ATTRIBUTE_PCI_DOMAIN_ID, device);
+        (*p_cuDeviceGetAttribute)(
+            &cc.cuda_prop.deviceOverlap,
+            CU_DEVICE_ATTRIBUTE_GPU_OVERLAP, device
+        );
+        (*p_cuDeviceGetAttribute)(
+            &cc.cuda_prop.multiProcessorCount,
+            CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT, device
+        );
+        (*p_cuDeviceGetAttribute)(
+            &cc.pci_info.bus_id, CU_DEVICE_ATTRIBUTE_PCI_BUS_ID, device
+        );
+        (*p_cuDeviceGetAttribute)(
+            &cc.pci_info.device_id, CU_DEVICE_ATTRIBUTE_PCI_DEVICE_ID, device
+        );
+        (*p_cuDeviceGetAttribute)(
+            &cc.pci_info.domain_id, CU_DEVICE_ATTRIBUTE_PCI_DOMAIN_ID, device
+        );
         if (cc.cuda_prop.major <= 0) continue;  // major == 0 means emulation
         if (cc.cuda_prop.major > 100) continue;  // e.g. 9999 is an error
 #ifdef SIM
@@ -556,7 +626,9 @@ void COPROC_NVIDIA::correlate(
 //   from the scheduler.  Note that it was abandoned
 //   due to repeated calls crashing the driver.
 //
-static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings) {
+static void get_available_nvidia_ram(
+    COPROC_NVIDIA &cc, vector<string>& warnings
+) {
     int retval;
     size_t memfree = 0, memtotal = 0;
     int device;
@@ -599,8 +671,7 @@ static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings
     }
     if (p_cuMemGetInfo_v2) {
         retval = (*p_cuMemGetInfo_v2)(&memfree, &memtotal);
-    }
-    else {
+    } else {
         retval = (*p_cuMemGetInfo)(&memfree, &memtotal);
     }
     if (retval) {
@@ -646,7 +717,10 @@ bool COPROC_NVIDIA::check_running_graphics_app() {
         int device, kernel_timeout;
         retval = (*p_cuDeviceGet)(&device, j);
         if (!retval) {
-            retval = (*p_cuDeviceGetAttribute)(&kernel_timeout, CU_DEVICE_ATTRIBUTE_KERNEL_EXEC_TIMEOUT, device);
+            retval = (*p_cuDeviceGetAttribute)(
+                &kernel_timeout, CU_DEVICE_ATTRIBUTE_KERNEL_EXEC_TIMEOUT,
+                device
+            );
             if (!retval && !kernel_timeout) {
                 new_val = false;
             }
