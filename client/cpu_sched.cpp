@@ -1551,7 +1551,11 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             }
             continue;
         }
-        if (check_swap) {
+        // a job that uses no swap can't exhaust it, whatever swap_left
+        // says.  It can be negative: an always_run job is charged above
+        // without a test
+        //
+        if (check_swap && eswap > 0) {
             if (eswap > swap_left) {
                 if (atp) {
                     atp->swap_too_large = true;
