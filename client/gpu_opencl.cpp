@@ -806,8 +806,7 @@ leave:
 }
 
 void COPROCS::correlate_opencl(
-    bool use_all,
-    IGNORE_GPU_INSTANCE& ignore_gpu_instance
+    bool use_all, IGNORE_GPU_INSTANCE& ignore_gpu_instance
 ) {
     if (nvidia_opencls.size() > 0) {
         if (nvidia.have_cuda) { // If CUDA already found the "best" NVIDIA GPU
@@ -815,12 +814,17 @@ void COPROCS::correlate_opencl(
                 nvidia_opencls, ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU]
             );
         } else {
+            // We don't have CUDA, just OpenCL.
+            // Find the most capable ones.
+            //
             nvidia.find_best_opencls(
                 use_all, nvidia_opencls, ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU]
             );
             nvidia.cuda_prop.totalGlobalMem = nvidia.opencl_prop.global_mem_size;
             nvidia.available_ram = nvidia.opencl_prop.global_mem_size;
             nvidia.cuda_prop.clockRate = nvidia.opencl_prop.max_clock_frequency * 1000;
+            nvidia.cuda_prop.major = nvidia.opencl_prop.nv_compute_capability_major;
+            nvidia.cuda_prop.minor = nvidia.opencl_prop.nv_compute_capability_minor;
             safe_strcpy(nvidia.cuda_prop.name, nvidia.opencl_prop.name);
         }
     }
@@ -1191,6 +1195,9 @@ void COPROC::merge_opencl(
     }
 }
 
+// From the given list of OpenCL descriptions,
+// find the most capable and copy it to *this.
+// See if there are others that are equivalent and set count and IDs.
 // This is called for ATI GPUs without CAL or NVIDIA GPUs without CUDA
 //
 void COPROC::find_best_opencls(
