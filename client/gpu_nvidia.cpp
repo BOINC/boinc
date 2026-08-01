@@ -218,7 +218,7 @@ CUDA_GDN p_cuDeviceGetName = NULL;
 CUDA_GDM p_cuDeviceTotalMem = NULL;
 CUDA_GDM p_cuDeviceTotalMem_v2 = NULL;
 CUDA_GDCC p_cuDeviceComputeCapability = NULL;
-    // as of Jul 2026 this is deprecated.
+    // this was deprecated in ~2019 and may be removed.
     // Use it if present, else use DeviceGetAttribute()
 CUDA_CC p_cuCtxCreate = NULL;
 CUDA_CD p_cuCtxDestroy = NULL;
@@ -355,12 +355,9 @@ void* cudalib = NULL;
         gpu_warning(warnings, "cuDeviceTotalMem() missing from NVIDIA library");
         goto leave;
     }
-#if 0
-    if (!p_cuDeviceComputeCapability) {
-        gpu_warning(warnings, "cuDeviceComputeCapability() missing from NVIDIA library");
-        goto leave;
-    }
-#endif
+
+    // don't check p_cuDeviceComputeCapability (see above)
+
     if (!p_cuMemAlloc) {
         gpu_warning(warnings, "cuMemAlloc() missing from NVIDIA library");
         goto leave;
