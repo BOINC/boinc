@@ -429,14 +429,29 @@ void* cudalib = NULL;
         if (p_cuDeviceComputeCapability) {
             (*p_cuDeviceComputeCapability)(&cc.cuda_prop.major, &cc.cuda_prop.minor, device);
         } else {
-            (*p_cuDeviceGetAttribute)(
+            retval = (*p_cuDeviceGetAttribute)(
                 &cc.cuda_prop.major,
                 CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MAJOR, device
             );
-            (*p_cuDeviceGetAttribute)(
+            // we can't use the GPU if we don't know its compute capability
+            if (retval) {
+                snprintf(buf, sizeof(buf),
+                    "cuDeviceGetAttribute() returned %d", retval
+                );
+                gpu_warning(warnings, buf);
+                goto leave;
+            }
+            retval = (*p_cuDeviceGetAttribute)(
                 &cc.cuda_prop.minor,
                 CU_DEVICE_ATTRIBUTE_COMPUTE_CAPABILITY_MINOR, device
             );
+            if (retval) {
+                snprintf(buf, sizeof(buf),
+                    "cuDeviceGetAttribute() returned %d", retval
+                );
+                gpu_warning(warnings, buf);
+                goto leave;
+            }
         }
         if (p_cuDeviceTotalMem_v2) {
             (*p_cuDeviceTotalMem_v2)(&global_mem, device);
