@@ -253,7 +253,6 @@
         <name>x86_64-pc-linux-gnu[GW-opencl-intel_gpu]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-intel_gpu-2G]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-nvidia]</name>
-        <name>x86_64-pc-linux-gnu[GW-opencl-nvidia-2G]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-nvidia-570-2G]</name>
         <name>x86_64-pc-linux-gnu[opencl-intel_gpu]</name>
     </platforms>
