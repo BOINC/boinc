@@ -19,6 +19,9 @@
 #pragma implementation "AsyncRPC.h"
 #endif
 
+#define PRINT_DEBUG_INFO 1
+#define PRINT_ONLY_DEMAND_RPC_INFO 0
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #endif
@@ -38,6 +41,68 @@
 #include "SkinManager.h"
 #include "DlgEventLog.h"
 #include "util.h"
+
+#if PRINT_DEBUG_INFO
+static void print_with_time_stamp(const char *format, ...);
+
+const char *RPC_DEBUG_NAMES[] = {
+    "RPC_ZERO",
+    "RPC_AUTHORIZE",
+    "RPC_EXCHANGE_VERSIONS",
+    "RPC_GET_STATE",
+    "RPC_GET_RESULTS",
+    "RPC_GET_FILE_TRANSFERS",
+    "RPC_GET_SIMPLE_GUI_INFO1",
+    "RPC_GET_SIMPLE_GUI_INFO2",
+    "RPC_GET_PROJECT_STATUS1",
+    "RPC_GET_PROJECT_STATUS2",
+    "RPC_GET_ALL_PROJECTS_LIST",  // 10
+    "RPC_GET_DISK_USAGE",
+    "RPC_PROJECT_OP",
+    "RPC_SET_RUN_MODE",
+    "RPC_SET_GPU_MODE",
+    "RPC_SET_NETWORK_MODE",
+    "RPC_GET_SCREENSAVER_TASKS",
+    "RPC_RUN_BENCHMARKS",
+    "RPC_SET_PROXY_SETTINGS",
+    "RPC_GET_PROXY_SETTINGS",
+    "RPC_GET_MESSAGES",       // 20
+    "RPC_FILE_TRANSFER_OP",
+    "RPC_RESULT_OP",
+    "RPC_GET_HOST_INFO",
+    "RPC_QUIT",
+    "RPC_ACCT_MGR_INFO",
+    "RPC_GET_STATISTICS",
+    "RPC_NETWORK_AVAILABLE",
+    "RPC_GET_PROJECT_INIT_STATUS",
+    "RPC_GET_PROJECT_CONFIG",
+    "RPC_GET_PROJECT_CONFIG_POLL",    // 30
+    "RPC_LOOKUP_ACCOUNT",
+    "RPC_LOOKUP_ACCOUNT_POLL",
+    "RPC_CREATE_ACCOUNT",
+    "RPC_CREATE_ACCOUNT_POLL",
+    "RPC_PROJECT_ATTACH",
+    "RPC_PROJECT_ATTACH_FROM_FILE",
+    "RPC_PROJECT_ATTACH_POLL",
+    "RPC_ACCT_MGR_RPC",
+    "RPC_ACCT_MGR_RPC_POLL",
+    "RPC_GET_NEWER_VERSION",      // 40
+    "RPC_READ_GLOBAL_PREFS_OVERRIDE",
+    "RPC_READ_CC_CONFIG",
+    "RPC_GET_CC_STATUS",
+    "RPC_GET_GLOBAL_PREFS_FILE",
+    "RPC_GET_GLOBAL_PREFS_WORKING",
+    "RPC_GET_GLOBAL_PREFS_WORKING_STRUCT",
+    "RPC_GET_GLOBAL_PREFS_OVERRIDE",
+    "RPC_SET_GLOBAL_PREFS_OVERRIDE",
+    "RPC_GET_GLOBAL_PREFS_OVERRIDE_STRUCT",
+    "RPC_SET_GLOBAL_PREFS_OVERRIDE_STRUCT",   // 50
+    "RPC_GET_NOTICES",
+    "RPC_GET_CC_CONFIG",
+    "RPC_SET_CC_CONFIG",
+	"RPC_SET_LANGUAGE"
+};
+#endif
 
 extern bool s_bSkipExitConfirmation;
 
@@ -508,6 +573,15 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         }
     }
 
+#if PRINT_DEBUG_INFO
+#if PRINT_ONLY_DEMAND_RPC_INFO
+    if (request.rpcType == RPC_TYPE_WAIT_FOR_COMPLETION)
+#endif
+    {
+        print_with_time_stamp("RequestRPC %s", RPC_DEBUG_NAMES[(int)request.which_rpc]);
+    }
+#endif
+
     if ((request.rpcType == RPC_TYPE_WAIT_FOR_COMPLETION) && (request.resultPtr == NULL)) {
         request.resultPtr = &retval;
     }
@@ -657,8 +731,28 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         // undesirable recursion.
         //
         if (m_RPCWaitDlg) {
+#if PRINT_DEBUG_INFO
+        print_with_time_stamp("***************************");
+    print_with_time_stamp("Showing Communicating dialog for %s", RPC_DEBUG_NAMES[(int)request.which_rpc]);
+    if (RPC_requests.size() == 1) {
+        print_with_time_stamp("No prior RPC requests on queue");
+    } else {
+        print_with_time_stamp("RPC request queue:");
+        int n = (int) RPC_requests.size();
+            for (int i=0; i<n; ++i) {
+            print_with_time_stamp("    %d: %s", i, RPC_DEBUG_NAMES[(int)RPC_requests[i].which_rpc]);
+        }
+    }
+
+#endif
             response = m_RPCWaitDlg->ShowModal();
-            // Remember time the dialog was closed for use by RunPeriodicRPCs()
+#if PRINT_DEBUG_INFO
+    print_with_time_stamp("Closed Communicating dialog for %s with %s",
+        RPC_DEBUG_NAMES[(int)request.which_rpc],
+        response == wxID_OK ? "OK" : (response == wxID_EXIT ? "Exit BOINC Manager" : "Cancel"));
+        print_with_time_stamp("***************************");
+#endif
+           // Remember time the dialog was closed for use by RunPeriodicRPCs()
             m_dtLasAsyncRPCDlgTime = wxDateTime::Now();
             if (response != wxID_OK) {
                 // TODO: If user presses Cancel in Please Wait dialog but request
@@ -772,6 +866,15 @@ void CMainDocument::HandleCompletedRPC() {
     // called from RequestRPC, the CRPCFinishedEvent will still be
     // on the event queue, so we get called twice.  Check for this here.
     if (current_rpc_request.which_rpc == 0) return; // already handled by a call from RequestRPC
+
+#if PRINT_DEBUG_INFO
+#if PRINT_ONLY_DEMAND_RPC_INFO
+    if (current_rpc_request.rpcType == RPC_TYPE_WAIT_FOR_COMPLETION)
+#endif
+    {
+        print_with_time_stamp("HandleCompletedRPC %s", RPC_DEBUG_NAMES[(int)current_rpc_request.which_rpc]);
+    }
+#endif
 
     // Find our completed request in the queue
     n = (int) RPC_requests.size();
@@ -1165,3 +1268,30 @@ void CMainDocument::TestAsyncRPC() {
 }
 
 #endif
+
+#if PRINT_DEBUG_INFO
+
+#include <time.h>
+#include <sys/time.h>
+
+static void print_with_time_stamp(const char *format, ...) {
+    va_list args;
+    char buf[256];
+    struct timeval tv;
+
+    gettimeofday(&tv, NULL);
+    time_t cur_time = tv.tv_sec;
+    struct tm *info = localtime(&cur_time);
+    strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", info);
+    fputs(buf, stderr);
+    fprintf(stderr, ".%06d  ", tv.tv_usec);
+
+    va_start(args, format);
+    vfprintf(stderr, format, args);
+    va_end(args);
+
+    fputs("\n", stderr);
+    fflush(stderr);
+}
+#endif
+
