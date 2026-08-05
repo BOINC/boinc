@@ -743,7 +743,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
 #if PRINT_DEBUG_INFO
     print_with_time_stamp("Closed Communicating dialog for %s with %s",
         RPC_DEBUG_NAMES[(int)request.which_rpc],
-        response == wxID_OK ? "OK" : "Cancel");
+        response == wxID_OK ? "OK" : (response == wxID_EXIT ? "Exit" : "Cancel"));
         print_with_time_stamp("***************************");
 #endif
            // Remember time the dialog was closed for use by RunPeriodicRPCs()
