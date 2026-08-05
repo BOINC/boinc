@@ -20,6 +20,7 @@
 #endif
 
 #define PRINT_DEBUG_INFO 1
+#define PRINT_ONLY_DEMAND_RPC_INFO 0
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -573,7 +574,12 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     }
 
 #if PRINT_DEBUG_INFO
-    print_with_time_stamp("RequestRPC %s", RPC_DEBUG_NAMES[(int)request.which_rpc]);
+#if PRINT_ONLY_DEMAND_RPC_INFO
+    if (request.rpcType == RPC_TYPE_WAIT_FOR_COMPLETION)
+#endif
+    {
+        print_with_time_stamp("RequestRPC %s", RPC_DEBUG_NAMES[(int)request.which_rpc]);
+    }
 #endif
 
     if ((request.rpcType == RPC_TYPE_WAIT_FOR_COMPLETION) && (request.resultPtr == NULL)) {
@@ -862,7 +868,12 @@ void CMainDocument::HandleCompletedRPC() {
     if (current_rpc_request.which_rpc == 0) return; // already handled by a call from RequestRPC
 
 #if PRINT_DEBUG_INFO
-    print_with_time_stamp("HandleCompletedRPC %s", RPC_DEBUG_NAMES[(int)current_rpc_request.which_rpc]);
+#if PRINT_ONLY_DEMAND_RPC_INFO
+    if (current_rpc_request.rpcType == RPC_TYPE_WAIT_FOR_COMPLETION)
+#endif
+    {
+        print_with_time_stamp("HandleCompletedRPC %s", RPC_DEBUG_NAMES[(int)current_rpc_request.which_rpc]);
+    }
 #endif
 
     // Find our completed request in the queue
