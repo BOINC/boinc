@@ -18,11 +18,8 @@
 #ifndef BOINC_BASE64_H
 #define BOINC_BASE64_H
 
-#ifndef _WIN32
-#include <cstdio>
-#include <cstdlib>
+#include <stddef.h>
 #include <string>
-#endif
 
 class InvalidBase64Exception
 {
