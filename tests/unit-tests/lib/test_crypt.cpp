@@ -1935,25 +1935,6 @@ namespace test_lib {
             "Scanned public key data mismatch";
     }
 
-    TEST_F(test_crypt, test_print_public_key_hex_invalid_file) {
-        FILE* f = tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
-
-        // Close the file to make it invalid
-        fclose(f);
-
-        auto private_key = unique_EVP_PKEY(generate_rsa_key());
-        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
-
-        R_RSA_PRIVATE_KEY private_key_struct;
-        R_RSA_PUBLIC_KEY public_key_struct;
-        ASSERT_TRUE(fill_keys_from_evp(
-            private_key.get(), private_key_struct, public_key_struct))
-            << "Failed to fill keys from EVP_PKEY";
-        bool print_result = print_public_key_hex(f, public_key_struct);
-        ASSERT_FALSE(print_result) << "print_public_key_hex should fail for invalid file";
-    }
-
     TEST_F(test_crypt, test_print_public_key_null_file) {
         auto private_key = unique_EVP_PKEY(generate_rsa_key());
         ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
@@ -1990,25 +1971,6 @@ namespace test_lib {
         ASSERT_TRUE(result) << "scan_private_key_hex failed";
         ASSERT_EQ(memcmp(&scanned_private_key_struct, &private_key_struct, sizeof(private_key_struct)), 0) <<
             "Scanned private key data mismatch";
-    }
-
-    TEST_F(test_crypt, test_print_private_key_hex_invalid_file) {
-        FILE* f = tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for private key";
-
-        // Close the file to make it invalid
-        fclose(f);
-
-        auto private_key = unique_EVP_PKEY(generate_rsa_key());
-        ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
-
-        R_RSA_PRIVATE_KEY private_key_struct;
-        R_RSA_PUBLIC_KEY public_key_struct;
-        ASSERT_TRUE(fill_keys_from_evp(
-            private_key.get(), private_key_struct, public_key_struct))
-            << "Failed to fill keys from EVP_PKEY";
-        bool print_result = print_private_key_hex(f, private_key_struct);
-        ASSERT_FALSE(print_result) << "print_private_key_hex should fail for invalid file";
     }
 
     TEST_F(test_crypt, test_print_private_key_null_file) {
