@@ -626,12 +626,13 @@ int cert_verify(const std::string& file, const std::string& signature_file,
         return 2;
     }
     std::vector<uint8_t> signature = scan_hex_data(f);
+    fclose(f);
     if (signature.empty()) {
         print_error("cannot scan_hex_data");
         return 2;
     }
     char* certpath = check_validity(certificate_dir.c_str(), file.c_str(),
-        signature.data(), const_cast<char*>(ca_dir.c_str()));
+        signature.data(), signature.size(), const_cast<char*>(ca_dir.c_str()));
     if (certpath == NULL) {
         print_error("signature cannot be verified.");
         return 2;

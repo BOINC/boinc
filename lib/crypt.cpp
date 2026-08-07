@@ -691,42 +691,46 @@ int check_validity_of_cert(
         BIO_vfree(bio);
         return 0;
     }
-#ifdef HAVE_OPAQUE_EVP_PKEY
     if (EVP_PKEY_id(pubKey) == EVP_PKEY_RSA) {
-#else
-    if (pubKey->type == EVP_PKEY_RSA) {
-#endif
-        BN_CTX *c = BN_CTX_new();
-        if (!c) {
+        unique_PKEY_CTX pkey_ctx(EVP_PKEY_CTX_new(pubKey, nullptr));
+        if (!pkey_ctx) {
             X509_free(cert);
             EVP_PKEY_free(pubKey);
             BIO_vfree(bio);
             return 0;
         }
-#ifdef HAVE_OPAQUE_RSA_DSA_DH
-        RSA *rsa;
-        // CAUTION: In OpenSSL 3.0.0, EVP_PKEY_get0_RSA() now returns a
-        // pointer of type "const struct rsa_st*" to an immutable value.
-        // Do not try to modify the contents of the returned struct.
-        rsa = (rsa_st*)EVP_PKEY_get0_RSA(pubKey);
-        if (!RSA_blinding_on(rsa, c)) {
-#else
-        if (!RSA_blinding_on(pubKey->pkey.rsa, c)) {
-#endif
+        if (EVP_PKEY_verify_recover_init(pkey_ctx.get()) <= 0 ||
+            EVP_PKEY_CTX_set_rsa_padding(pkey_ctx.get(), RSA_PKCS1_PADDING) <= 0) {
             X509_free(cert);
             EVP_PKEY_free(pubKey);
             BIO_vfree(bio);
-            BN_CTX_free(c);
             return 0;
         }
-#ifdef HAVE_OPAQUE_RSA_DSA_DH
-        retval = RSA_verify(NID_md5, md5_md, MD5_DIGEST_LENGTH, sfileMsg, sfsize, rsa);
-        RSA_blinding_off(rsa);
-#else
-        retval = RSA_verify(NID_md5, md5_md, MD5_DIGEST_LENGTH, sfileMsg, sfsize, pubKey->pkey.rsa);
-        RSA_blinding_off(pubKey->pkey.rsa);
-#endif
-        BN_CTX_free(c);
+
+        size_t recovered_len = 0;
+        if (EVP_PKEY_verify_recover(
+                pkey_ctx.get(), nullptr, &recovered_len, sfileMsg, sfsize
+            ) <= 0) {
+            retval = 0;
+        } else {
+            vector<uint8_t> recovered(recovered_len);
+            if (EVP_PKEY_verify_recover(
+                    pkey_ctx.get(), recovered.data(), &recovered_len, sfileMsg, sfsize
+                ) <= 0) {
+                retval = 0;
+            } else {
+                recovered.resize(recovered_len);
+                char md5_hex[MD5_DIGEST_LENGTH * 2 + 1];
+                for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
+                    snprintf(md5_hex + (i * 2), 3, "%02x", md5_md[i]);
+                }
+                md5_hex[MD5_DIGEST_LENGTH * 2] = '\0';
+                retval = (
+                    recovered_len == (MD5_DIGEST_LENGTH * 2) &&
+                    !memcmp(recovered.data(), md5_hex, recovered_len)
+                );
+            }
+        }
     }
 #ifdef HAVE_OPAQUE_EVP_PKEY
     if (EVP_PKEY_id(pubKey) == EVP_PKEY_DSA) {
@@ -747,6 +751,7 @@ int check_validity_of_cert(
 
 char *check_validity(
     const char *certPath, const char *origFile, unsigned char *signature,
+    size_t signature_len,
     char* caPath
 ) {
     MD5_CTX md5CTX;
@@ -777,8 +782,9 @@ char *check_validity(
     while (!dir_scan(file, dir, sizeof(file))) {
         char fpath[MAXPATHLEN];
         snprintf(fpath, sizeof(fpath), "%.*s/%.*s", DIR_LEN, certPath, FILE_LEN, file);
-        // TODO : replace '128'
-        if (check_validity_of_cert(fpath, md5_md, signature, 128, caPath)) {
+        if (check_validity_of_cert(
+                fpath, md5_md, signature, static_cast<int>(signature_len), caPath
+            )) {
             dir_close(dir);
             return strdup(fpath);
         }
@@ -878,4 +884,3 @@ int cert_verify_file(
     }
     return verified;
 }
-

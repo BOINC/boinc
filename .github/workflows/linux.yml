@@ -210,7 +210,7 @@ jobs:
       - name: Install dependencies for unit testing
         if: success() && matrix.type == 'unit-test'
         run: |
-          sudo apt-get install -y libgtest-dev
+          sudo apt-get install -y libgtest-dev python3-openssl
 
       - name: Install dependencies for integration testing
         if: success() && matrix.type == 'integration-test'

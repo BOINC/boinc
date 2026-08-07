@@ -176,7 +176,7 @@ extern int check_validity_of_cert(
 );
 
 extern char *check_validity(const char *certPath, const char *origFile,
-    unsigned char *signature, char* caPath
+    unsigned char *signature, size_t signature_len, char* caPath
 );
 
 struct CERT_SIGS;
