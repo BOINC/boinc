@@ -104,6 +104,7 @@
 #include "file_names.h"
 #include "util.h"
 #include "str_replace.h"
+#include "str_util.h"
 
 #include "client_msgs.h"
 #include "client_state.h"
@@ -822,7 +823,7 @@ void COPROCS::bound_counts() {
 }
 
 void gpu_warning(vector<string> &warnings, const char* msg) {
-    fprintf(stderr, "%s\n", msg);
+    fprintf(stderr, "[%s] %s\n", time_to_string(dtime()), msg);
     warnings.push_back(msg);
 }
 
