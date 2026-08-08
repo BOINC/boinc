@@ -631,9 +631,11 @@ int cert_verify(const std::string& file, const std::string& signature_file,
         print_error("cannot scan_hex_data");
         return 2;
     }
-    char* certpath = check_validity(certificate_dir.c_str(), file.c_str(),
-        signature.data(), signature.size(), const_cast<char*>(ca_dir.c_str()));
-    if (certpath == NULL) {
+    bool result = false;
+    std::string certpath;
+    std::tie(result, certpath) = check_validity(certificate_dir, file,
+        signature, ca_dir);
+    if (!result || certpath.empty()) {
         print_error("signature cannot be verified.");
         return 2;
     }

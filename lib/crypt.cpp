@@ -17,6 +17,7 @@
 
 #include <cstdint>
 #include <memory>
+#include <string>
 #include <utility>
 #include <vector>
 #if defined(_WIN32)
@@ -649,30 +650,26 @@ std::tuple<int, R_RSA_PRIVATE_KEY, R_RSA_PUBLIC_KEY> openssl_to_keys(const uniqu
     return std::make_tuple(0, priv, pub);
 }
 
-int check_validity_of_cert(
-    const char *cFile, const unsigned char *md5_md, unsigned char *sfileMsg,
-    const int sfsize, const char* caPath
-) {
-    int retval = 0;
-    X509 *cert;
-    X509_STORE *store;
-    X509_LOOKUP *lookup;
-    X509_STORE_CTX *ctx = 0;
-    EVP_PKEY *pubKey;
-    BIO *bio;
+using unique_BIO = std::unique_ptr<BIO, OpenSSLDeleter<BIO, BIO_vfree>>;
+using unique_X509 = std::unique_ptr<X509, OpenSSLDeleter<X509, X509_free>>;
 
-    bio = BIO_new(BIO_s_file());
-    BIO_read_filename(bio, cFile);
-    if (NULL == (cert = PEM_read_bio_X509(bio, NULL, 0, NULL))) {
-        BIO_vfree(bio);
-        return 0;
+bool check_validity_of_cert(const string &cFile, const vector<uint8_t> &md5_md,
+    const vector<uint8_t> &sfileMsg, const string &caPath) {
+    unique_BIO bio(BIO_new(BIO_s_file()));
+    BIO_read_filename(bio.get(), cFile.data());
+    unique_X509 cert(PEM_read_bio_X509(bio.get(), nullptr, 0, nullptr));
+    if (!cert) {
+        return false;
     }
+
     // verify certificate
-    store = X509_STORE_new();
-    lookup = X509_STORE_add_lookup(store, X509_LOOKUP_hash_dir());
-    X509_LOOKUP_add_dir(lookup, (char *)caPath, X509_FILETYPE_PEM);
-    if ((ctx = X509_STORE_CTX_new()) != 0) {
-        if (X509_STORE_CTX_init(ctx, store, cert, 0) == 1)
+    X509_STORE *store = X509_STORE_new();
+    X509_LOOKUP *lookup = X509_STORE_add_lookup(store, X509_LOOKUP_hash_dir());
+    X509_LOOKUP_add_dir(lookup, caPath.data(), X509_FILETYPE_PEM);
+    int retval = 0;
+    X509_STORE_CTX *ctx = X509_STORE_CTX_new();
+    if (ctx != nullptr) {
+        if (X509_STORE_CTX_init(ctx, store, cert.get(), 0) == 1)
             retval = X509_verify_cert(ctx);
         X509_STORE_CTX_free(ctx);
     }
@@ -681,117 +678,94 @@ int check_validity_of_cert(
     if (retval != 1) {
         fprintf(stderr,
             "%s: ERROR: Cannot verify certificate ('%s')\n",
-            time_to_string(dtime()), cFile
+            time_to_string(dtime()), cFile.data()
         );
-        return 0;
+        return false;
     }
-    pubKey = X509_get_pubkey(cert);
+    unique_EVP_PKEY pubKey(X509_get_pubkey(cert.get()));
     if (!pubKey) {
-        X509_free(cert);
-        BIO_vfree(bio);
-        return 0;
+        return false;
     }
-    if (EVP_PKEY_id(pubKey) == EVP_PKEY_RSA) {
-        unique_PKEY_CTX pkey_ctx(EVP_PKEY_CTX_new(pubKey, nullptr));
-        if (!pkey_ctx) {
-            X509_free(cert);
-            EVP_PKEY_free(pubKey);
-            BIO_vfree(bio);
-            return 0;
-        }
-        if (EVP_PKEY_verify_recover_init(pkey_ctx.get()) <= 0 ||
-            EVP_PKEY_CTX_set_rsa_padding(pkey_ctx.get(), RSA_PKCS1_PADDING) <= 0) {
-            X509_free(cert);
-            EVP_PKEY_free(pubKey);
-            BIO_vfree(bio);
-            return 0;
-        }
 
-        size_t recovered_len = 0;
-        if (EVP_PKEY_verify_recover(
-                pkey_ctx.get(), nullptr, &recovered_len, sfileMsg, sfsize
-            ) <= 0) {
-            retval = 0;
-        } else {
-            vector<uint8_t> recovered(recovered_len);
-            if (EVP_PKEY_verify_recover(
-                    pkey_ctx.get(), recovered.data(), &recovered_len, sfileMsg, sfsize
-                ) <= 0) {
-                retval = 0;
-            } else {
-                recovered.resize(recovered_len);
-                char md5_hex[MD5_DIGEST_LENGTH * 2 + 1];
-                for (int i = 0; i < MD5_DIGEST_LENGTH; ++i) {
-                    snprintf(md5_hex + (i * 2), 3, "%02x", md5_md[i]);
-                }
-                md5_hex[MD5_DIGEST_LENGTH * 2] = '\0';
-                retval = (
-                    recovered_len == (MD5_DIGEST_LENGTH * 2) &&
-                    !memcmp(recovered.data(), md5_hex, recovered_len)
-                );
-            }
-        }
-    }
-#ifdef HAVE_OPAQUE_EVP_PKEY
-    if (EVP_PKEY_id(pubKey) == EVP_PKEY_DSA) {
-#else
-    if (pubKey->type == EVP_PKEY_DSA) {
-#endif
+    if (EVP_PKEY_id(pubKey.get()) != EVP_PKEY_RSA) {
         fprintf(stderr,
-            "%s: ERROR: DSA keys are not supported.\n",
+            "%s: ERROR: only RSA keys are supported.\n",
             time_to_string(dtime())
         );
-        return 0;
+        return false;
     }
-    EVP_PKEY_free(pubKey);
-    X509_free(cert);
-    BIO_vfree(bio);
-    return retval;
+
+    unique_PKEY_CTX pkey_ctx(EVP_PKEY_CTX_new(pubKey.get(), nullptr));
+    if (!pkey_ctx) {
+        return false;
+    }
+    if (EVP_PKEY_verify_recover_init(pkey_ctx.get()) <= 0 ||
+        EVP_PKEY_CTX_set_rsa_padding(pkey_ctx.get(), RSA_PKCS1_PADDING) <= 0) {
+        return false;
+    }
+
+    size_t recovered_len = 0;
+    if (EVP_PKEY_verify_recover(
+            pkey_ctx.get(), nullptr, &recovered_len, sfileMsg.data(), sfileMsg.size()
+        ) <= 0) {
+        return false;
+    }
+    vector<uint8_t> recovered(recovered_len);
+    if (EVP_PKEY_verify_recover(
+            pkey_ctx.get(), recovered.data(), &recovered_len, sfileMsg.data(), sfileMsg.size()
+        ) <= 0) {
+        return false;
+    }
+    recovered.resize(recovered_len);
+    char md5_hex[MD5_DIGEST_LENGTH * 2 + 1];
+    for (size_t i = 0; i < MD5_DIGEST_LENGTH; ++i) {
+        snprintf(md5_hex + (i * 2), 3, "%02x", md5_md[i]);
+    }
+    md5_hex[MD5_DIGEST_LENGTH * 2] = '\0';
+    return (
+        recovered_len == (MD5_DIGEST_LENGTH * 2) &&
+        !memcmp(recovered.data(), md5_hex, recovered_len)
+    );
 }
 
-char *check_validity(
-    const char *certPath, const char *origFile, unsigned char *signature,
-    size_t signature_len,
-    char* caPath
-) {
-    MD5_CTX md5CTX;
-    int rbytes;
-    unsigned char md5_md[MD5_DIGEST_LENGTH],  rbuf[2048];
+std::pair<bool, string> check_validity(const string &certPath, const string &origFile,
+    const vector<uint8_t> &signature, const string &caPath) {
+    vector<uint8_t> md5_md(MD5_DIGEST_LENGTH);
+    unsigned char rbuf[2048];
 
-// OpenSSL 1.1 does initialization internally. This is default.
-#if OPENSSL_VERSION_NUMBER < 0x10100000L || defined(HAVE_LIBRESSL)
-    SSL_load_error_strings();
-    SSL_library_init();
-#endif
-
-    if (!is_file(origFile)) {
-        return NULL;
+    if (!is_file(origFile.data())) {
+        return std::make_pair(false, std::string());
     }
-    FILE* of = boinc_fopen(origFile, "r");
-    if (!of) return NULL;
+    FILE* of = boinc_fopen(origFile.data(), "r");
+    if (!of) {
+        return std::make_pair(false, std::string());
+    }
+
+    MD5_CTX md5CTX;
     MD5_Init(&md5CTX);
-    while (0 != (rbytes = (int)fread(rbuf, 1, sizeof(rbuf), of))) {
+    size_t rbytes;
+    while (0 != (rbytes = fread(rbuf, 1, sizeof(rbuf), of))) {
         MD5_Update(&md5CTX, rbuf, rbytes);
     }
-    MD5_Final(md5_md, &md5CTX);
+    MD5_Final(md5_md.data(), &md5CTX);
     fclose(of);
 
-    DIRREF dir = dir_open(certPath);
+    DIRREF dir = dir_open(certPath.data());
 
     char file[MAXPATHLEN];
     while (!dir_scan(file, dir, sizeof(file))) {
         char fpath[MAXPATHLEN];
-        snprintf(fpath, sizeof(fpath), "%.*s/%.*s", DIR_LEN, certPath, FILE_LEN, file);
+        snprintf(fpath, sizeof(fpath), "%.*s/%.*s", DIR_LEN, certPath.data(), FILE_LEN, file);
         if (check_validity_of_cert(
-                fpath, md5_md, signature, static_cast<int>(signature_len), caPath
+                fpath, md5_md, signature, caPath
             )) {
             dir_close(dir);
-            return strdup(fpath);
+            return std::make_pair(true, strdup(fpath));
         }
     }
 
     dir_close(dir);
-    return NULL;
+    return std::make_pair(false, std::string());
 }
 
 int cert_verify_file(
@@ -873,7 +847,10 @@ int cert_verify_file(
                 file_counter++;
                 continue;
             }
-            verified = check_validity_of_cert(fbuf, md5_md, sig_db.data, 128, trustLocation);
+            //TODO: temp
+            vector<uint8_t> md5_vector(md5_md, md5_md + MD5_DIGEST_LENGTH);
+            vector<uint8_t> sig_vector(sig_db.data, sig_db.data + 128);
+            verified = check_validity_of_cert(fbuf, md5_vector, sig_vector, trustLocation);
             if (verified)
                 break;
             file_counter++;

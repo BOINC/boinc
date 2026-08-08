@@ -2101,7 +2101,7 @@ namespace test_lib {
         ASSERT_FALSE(signature.empty());
 
         const std::string message = "test message";
-        unsigned char md5[MD5_DIGEST_LENGTH] = {0};
+        std::vector<uint8_t> md5(MD5_DIGEST_LENGTH, 0);
         unsigned int md5_len = 0;
         EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
         ASSERT_NE(mdctx, nullptr);
@@ -2109,11 +2109,10 @@ namespace test_lib {
             mdctx_guard(mdctx, EVP_MD_CTX_free);
         ASSERT_EQ(EVP_DigestInit_ex(mdctx, EVP_md5(), nullptr), 1);
         ASSERT_EQ(EVP_DigestUpdate(mdctx, message.data(), message.size()), 1);
-        ASSERT_EQ(EVP_DigestFinal_ex(mdctx, md5, &md5_len), 1);
+        ASSERT_EQ(EVP_DigestFinal_ex(mdctx, md5.data(), &md5_len), 1);
 
-        ASSERT_EQ(check_validity_of_cert(leaf_cert_path.string().c_str(),
-            md5, signature.data(), static_cast<int>(signature.size()),
-            const_cast<char*>(ca_dir.string().c_str())), 1);
+        ASSERT_TRUE(check_validity_of_cert(leaf_cert_path.string().c_str(),
+            md5, signature, ca_dir.string()));
     }
 
     TEST_F(test_crypt, test_check_validity_of_cert_rejects_missing_ca) {
@@ -2150,12 +2149,11 @@ namespace test_lib {
 
         std::filesystem::path empty_ca = test_data_dir / "empty_ca";
         std::filesystem::create_directories(empty_ca);
-        unsigned char md5[MD5_DIGEST_LENGTH] = {0};
+        std::vector<uint8_t> md5(MD5_DIGEST_LENGTH, 0);
         std::vector<uint8_t> sig(256, 0);
 
-        ASSERT_EQ(check_validity_of_cert(cert_path.string().c_str(),
-            md5, sig.data(), static_cast<int>(sig.size()),
-            const_cast<char*>(empty_ca.string().c_str())), 0);
+        ASSERT_FALSE(check_validity_of_cert(cert_path.string().c_str(),
+            md5, sig, empty_ca.string()));
     }
 
     TEST_F(test_crypt, test_check_validity_success) {
@@ -2262,11 +2260,12 @@ namespace test_lib {
             leaf_private_key);
         ASSERT_FALSE(signature.empty());
 
-        char* result = check_validity(test_data_dir.string().c_str(),
-            orig_file.string().c_str(), signature.data(), signature.size(),
-            const_cast<char*>(ca_dir.string().c_str()));
-        ASSERT_NE(result, nullptr);
-        free(result);
+        bool result = false;
+        std::string cert;
+        std::tie(result, cert) = check_validity(test_data_dir.string(),
+            orig_file.string(), signature, ca_dir.string());
+        ASSERT_TRUE(result) << "check_validity failed";
+        ASSERT_FALSE(cert.empty()) << "check_validity failed";
     }
 
     TEST_F(test_crypt, test_cert_verify_file_success) {

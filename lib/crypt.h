@@ -23,9 +23,9 @@
 #include <string>
 #include <memory>
 
-// We're set up to use either RSAEuro or the OpenSSL crypto library.
+// We're set up to use OpenSSL crypto library.
 // We use our own data structures (R_RSA_PUBLIC_KEY and R_RSA_PRIVATE_KEY)
-// to store keys in either case.
+// to store keys.
 
 #include <cstdio>
 
@@ -165,19 +165,18 @@ extern std::vector<uint8_t> scan_raw_data(FILE *f);
 extern std::pair<int, R_RSA_PRIVATE_KEY> read_key_file(const std::string& keyfile);
 extern std::string generate_signature(const std::string& text_to_sign, const R_RSA_PRIVATE_KEY& key);
 
-//   Check if sfileMsg (of length sfsize) has been created from sha1_md using the
+//   Check if sfileMsg (of length sfsize) has been created from md5_md using the
 //   private key belonging to the public key file cFile
-//   Return:
-//    1: YES
-//    0: NO or error
-extern int check_validity_of_cert(
-    const char *cFile, const unsigned char *sha1_md,
-    unsigned char *sfileMsg, const int sfsize, const char* caPath
-);
+extern bool check_validity_of_cert(
+    const std::string &cFile, const std::vector<uint8_t> &md5_md,
+    const std::vector<uint8_t> &sfileMsg, const std::string &caPath);
 
-extern char *check_validity(const char *certPath, const char *origFile,
-    unsigned char *signature, size_t signature_len, char* caPath
-);
+// return a pair of values:
+// first 'bool' value indicates if the signature is valid
+// second 'string' value return a path to the certificate that was used for signing
+// if the first value is false, the second value is invalid
+extern std::pair<bool, std::string> check_validity(const std::string &certPath, const std::string &origFile,
+    const std::vector<uint8_t> &signature, const std::string &caPath);
 
 struct CERT_SIGS;
 
