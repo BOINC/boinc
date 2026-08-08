@@ -24,8 +24,6 @@ if (DISABLE_FORUMS) error_page("Forums are disabled");
 
 check_get_args(array("action", "userid"));
 
-$config = get_config();
-
 $logged_in_user = get_logged_in_user();
 BoincForumPrefs::lookup($logged_in_user);
 
@@ -34,7 +32,7 @@ if (!get_str('action')) {
 }
 if (!$logged_in_user->prefs->privilege(S_MODERATOR)) {
     // Can't moderate without being moderator
-    error_page(tra("You are not authorized to banish users."));
+    error_page("You are not authorized to banish users.");
 }
 
 $userid = get_int('userid');
@@ -79,9 +77,9 @@ row2(
     "<input class=\"btn btn-default\" type=\"submit\" name=\"submit\" value=\"".tra("Proceed with vote")."\">"
 );
 } elseif (get_str('action')=="yes") {
-    vote_yes($config,$logged_in_user,$user);
+    vote_yes($logged_in_user, $user);
 } elseif (get_str('action')=="no") {
-    vote_no($config,$logged_in_user,$user);
+    vote_no($logged_in_user, $user);
 } else {
     error_page("Unknown action");
 }

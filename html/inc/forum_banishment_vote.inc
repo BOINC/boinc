@@ -51,10 +51,9 @@ function vote_is_in_progress($userid) {
     return $foobar->count;
 }
 
-function start_vote($config,$logged_in_user,$user,$category,$reason) {
+function start_vote($logged_in_user, $user, $category, $reason) {
     $now=time();
     $fin=$now+21600;
-
 
     if ( vote_is_in_progress($user->id) !=0 ) {
         echo "A banishment vote is already underway for this user.<p>";
@@ -83,7 +82,7 @@ function start_vote($config,$logged_in_user,$user,$category,$reason) {
     return send_banish_vote_email($user, 86400*14, $reason, $now+21600);
 }
 
-function vote_yes($config,$logged_in_user,$user) {
+function vote_yes($logged_in_user, $user) {
     $now=time();
     // Check that a vote is underway.
     if (vote_is_in_progress($user->id)<1) {
@@ -124,7 +123,7 @@ function vote_yes($config,$logged_in_user,$user) {
     return 1;
 }
 
-function vote_no($config,$logged_in_user,$user) {
+function vote_no($logged_in_user, $user) {
     // Check that a vote is underway.
     $now=time();
     if (vote_is_in_progress($user->id)<1) {
