@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -38,26 +38,16 @@
 // -cert_verify file signature_file certificate_dir ca_dir
 //                  verify a signature using a directory of certificates
 
-#include <cstdint>
-#include <openssl/rsa.h>
-#include <sys/types.h>
 #if defined(_WIN32)
 #include <windows.h>
 #else
 #include "config.h"
 #endif
 #include <iostream>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
 
-#include <openssl/bio.h>
-#include <openssl/evp.h>
 #include <openssl/pem.h>
-#include <openssl/conf.h>
 #include <openssl/err.h>
 #include <openssl/encoder.h>
-#include <openssl/core_names.h>
 
 #include "crypt.h"
 #include "md5_file.h"
@@ -67,7 +57,7 @@ void print_error(const std::string& error) {
 }
 
 void usage() {
-    fprintf(stderr,
+    std::cerr <<
         "Usage: crypt_prog options\n\n"
         "Options:\n\n"
         "-genkey n private_keyfile public_keyfile\n"
@@ -87,52 +77,13 @@ void usage() {
         "-convsig b2o/o2b input_file output_file\n"
         "    convert signature between BOINC and OpenSSL format\n"
         "-cert_verify file signature certificate_dir ca_dir\n"
-        "    verify a signature using a directory of certificates\n"
-   );
-}
-
-unsigned int random_int() {
-    unsigned int n = 0;
-#if defined(_WIN32)
-#if defined(__CYGWIN32__)
-    HMODULE hLib=LoadLibrary((const char *)"ADVAPI32.DLL");
-#else
-    HMODULE hLib=LoadLibrary("ADVAPI32.DLL");
-#endif
-    if (!hLib) {
-        print_error("Can't load ADVAPI32.DLL");
-        return 2;
-    }
-    BOOLEAN (APIENTRY *pfn)(void*, ULONG) =
-        (BOOLEAN (APIENTRY *)(void*,ULONG))GetProcAddress(hLib,"SystemFunction036");
-    if (pfn) {
-        char buff[32];
-        ULONG ulCbBuff = sizeof(buff);
-        if(pfn(buff,ulCbBuff)) {
-            // use buff full of random goop
-            memcpy(&n,buff,sizeof(n));
-        }
-    }
-    FreeLibrary(hLib);
-#else
-    FILE* f = fopen("/dev/random", "r");
-    if (!f) {
-        print_error("can't open /dev/random\n");
-        return 2;
-    }
-    if (1 != fread(&n, sizeof(n), 1, f)) {
-        print_error("couldn't read from /dev/random\n");
-        return 2;
-    }
-    fclose(f);
-#endif
-    return n;
+        "    verify a signature using a directory of certificates\n";
 }
 
 int genkey(int n, const std::string& private_keyfile,
     const std::string& public_keyfile) {
     if (n != 1024) {
-        std::cerr << "only 1024-bit keys are supported" << std::endl;
+        print_error("only 1024-bit keys are supported");
         return 2;
     }
 
@@ -305,7 +256,6 @@ int verify_string(const std::string& str, const std::string& signature_file,
     return 0;
 }
 
-// this requires heavy refactoring after all the called functions are refactored
 int test_crypt(const std::string& private_keyfile,
     const std::string& public_keyfile) {
     FILE* fpriv = fopen(private_keyfile.c_str(), "r");
@@ -403,19 +353,15 @@ int convsig(const std::string& conversion, const std::string& input,
 }
 
 using unique_OSSL_ENCODER_CTX = std::unique_ptr<OSSL_ENCODER_CTX, OpenSSLDeleter<OSSL_ENCODER_CTX, OSSL_ENCODER_CTX_free>>;
+using unique_BIO = std::unique_ptr<BIO, OpenSSLDeleter<BIO, BIO_vfree>>;
 
 int convkey_private_b2o(const std::string& input, const std::string& output) {
     OpenSSL_add_all_algorithms();
     ERR_load_crypto_strings();
 
-    BIO* bio_err = NULL;
-    if (bio_err == NULL) {
-        bio_err = BIO_new_fp(stdout, BIO_NOCLOSE);
-    }
-
-    BIO* bio_out = NULL;
-    bio_out = BIO_new(BIO_s_file());
-    if (BIO_write_filename(bio_out,
+    unique_BIO bio_err(BIO_new_fp(stdout, BIO_NOCLOSE));
+    unique_BIO bio_out(BIO_new(BIO_s_file()));
+    if (BIO_write_filename(bio_out.get(),
         reinterpret_cast<void*>(const_cast<char*>(output.c_str()))) <= 0) {
         print_error("could not create output file.");
         return 2;
@@ -446,38 +392,33 @@ int convkey_private_b2o(const std::string& input, const std::string& output) {
         print_error("OSSL_ENCODER_CTX_new_for_pkey");
         return 2;
     }
-    if (OSSL_ENCODER_to_bio(encoder_ctx.get(), bio_out) <= 0) {
+    if (OSSL_ENCODER_to_bio(encoder_ctx.get(), bio_out.get()) <= 0) {
         print_error("OSSL_ENCODER_to_bio");
         return 2;
     }
-    BIO_free(bio_out);
     return 0;
 }
 
 int convkey_private_o2b(const std::string& input, const std::string& output) {
-    BIO* bio_err = NULL;
-    if (bio_err == NULL) {
-        bio_err = BIO_new_fp(stdout, BIO_NOCLOSE);
-    }
+    unique_BIO bio_err(BIO_new_fp(stdout, BIO_NOCLOSE));
 
     FILE* fpriv = fopen(input.c_str(), "r");
     if (!fpriv) {
         print_error("fopen");
         return 2;
     }
-    BIO* bio = BIO_new_fp(fpriv, BIO_NOCLOSE);
+    unique_BIO bio(BIO_new_fp(fpriv, BIO_NOCLOSE));
     if (!bio) {
         print_error("BIO_new_fp");
         fclose(fpriv);
         return 2;
     }
 
-    unique_EVP_PKEY rsa_key = unique_EVP_PKEY(PEM_read_bio_PrivateKey(bio, nullptr, nullptr, nullptr));
-    BIO_free(bio);
+    unique_EVP_PKEY rsa_key = unique_EVP_PKEY(PEM_read_bio_PrivateKey(bio.get(), nullptr, nullptr, nullptr));
     fclose(fpriv);
 
     if (!rsa_key) {
-        ERR_print_errors(bio_err);
+        ERR_print_errors(bio_err.get());
         print_error("could not load private key.");
         return 2;
     }
@@ -497,14 +438,9 @@ int convkey_public_b2o(const std::string& input, const std::string& output) {
     OpenSSL_add_all_algorithms();
     ERR_load_crypto_strings();
 
-    BIO* bio_err = NULL;
-    if (bio_err == NULL) {
-        bio_err = BIO_new_fp(stdout, BIO_NOCLOSE);
-    }
-
-    BIO* bio_out = NULL;
-    bio_out = BIO_new(BIO_s_file());
-    if (BIO_write_filename(bio_out,
+    unique_BIO bio_err(BIO_new_fp(stdout, BIO_NOCLOSE));
+    unique_BIO bio_out(BIO_new(BIO_s_file()));
+    if (BIO_write_filename(bio_out.get(),
         reinterpret_cast<void*>(const_cast<char*>(output.c_str()))) <= 0) {
         print_error("could not create output file.");
         return 2;
@@ -540,7 +476,7 @@ int convkey_public_b2o(const std::string& input, const std::string& output) {
     int retval = PEM_write_PUBKEY(fpub, rsa_key.get());
     fclose(fpub);
     if (retval == 0) {
-        ERR_print_errors(bio_err);
+        ERR_print_errors(bio_err.get());
         print_error("could not write key file.");
         return 2;
     }
@@ -549,10 +485,7 @@ int convkey_public_b2o(const std::string& input, const std::string& output) {
 }
 
 int convkey_public_o2b(const std::string& input, const std::string& output) {
-    BIO* bio_err = NULL;
-    if (bio_err == NULL) {
-        bio_err = BIO_new_fp(stdout, BIO_NOCLOSE);
-    }
+    unique_BIO bio_err(BIO_new_fp(stdout, BIO_NOCLOSE));
 
     FILE* fpub = fopen(input.c_str(), "r");
     if (!fpub) {
@@ -560,19 +493,18 @@ int convkey_public_o2b(const std::string& input, const std::string& output) {
         return 2;
     }
 
-    BIO *bio = BIO_new_fp(fpub, BIO_NOCLOSE);
+    unique_BIO bio(BIO_new_fp(fpub, BIO_NOCLOSE));
     if (!bio) {
         print_error("BIO_new_fp");
         fclose(fpub);
         return 2;
     }
 
-    unique_EVP_PKEY rsa_key = unique_EVP_PKEY(PEM_read_bio_PUBKEY(bio, nullptr, nullptr, nullptr));
-    BIO_free(bio);
+    unique_EVP_PKEY rsa_key = unique_EVP_PKEY(PEM_read_bio_PUBKEY(bio.get(), nullptr, nullptr, nullptr));
     fclose(fpub);
 
     if (!rsa_key) {
-        ERR_print_errors(bio_err);
+        ERR_print_errors(bio_err.get());
         print_error("could not load public key.");
         return 2;
     }
@@ -653,44 +585,44 @@ int main(int argc, char** argv) {
     }
     const std::string operation(argv[1]);
     if (operation == "-genkey") {
-        if (argc < 5) {
+        if (argc != 5) {
             usage();
             return 1;
         }
         return genkey(atoi(argv[2]), argv[3], argv[4]);
     }
     if (operation == "-sign") {
-        if (argc < 4) {
+        if (argc != 4) {
             usage();
-            exit(1);
+            return 1;
         }
         return sign(argv[2], argv[3]);
     }
     if (operation == "-sign_string") {
-        if (argc < 4) {
+        if (argc != 4) {
             usage();
-            exit(1);
+            return 1;
         }
         return sign_string(argv[2], argv[3]);
     }
     if (operation == "-verify") {
-        if (argc < 5) {
+        if (argc != 5) {
             usage();
-            exit(1);
+            return 1;
         }
         return verify(argv[2], argv[3], argv[4]);
     }
     if (operation == "-verify_string") {
-        if (argc < 5) {
+        if (argc != 5) {
             usage();
-            exit(1);
+            return 1;
         }
         return verify_string(argv[2], argv[3], argv[4]);
     }
     if (operation == "-test_crypt") {
-        if (argc < 4) {
+        if (argc != 4) {
             usage();
-            exit(1);
+            return 1;
         }
         return test_crypt(argv[2], argv[3]);
     }
@@ -698,23 +630,23 @@ int main(int argc, char** argv) {
 // and signature converted to OpenSSL format cannot be verified with
 // OpenSSL
     if (operation == "-convsig") {
-        if (argc < 5) {
+        if (argc != 5) {
             usage();
-            exit(1);
+            return 1;
         }
         return convsig(argv[2], argv[3], argv[4]);
     }
     if (operation == "-convkey") {
-        if (argc < 6) {
+        if (argc != 6) {
             usage();
-            exit(1);
+            return 1;
         }
         return convkey(argv[2], argv[3], argv[4], argv[5]);
     }
     if (operation  == "-cert_verify") {
-        if (argc < 6) {
+        if (argc != 6) {
             usage();
-            exit(1);
+            return 1;
         }
         return cert_verify(argv[2], argv[3], argv[4], argv[5]);
     }
