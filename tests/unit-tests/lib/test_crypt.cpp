@@ -2552,8 +2552,8 @@ namespace test_lib {
         sig.type = MD5_HASH;
         cert_sigs.signatures.push_back(sig);
 
-        ASSERT_TRUE(cert_verify_file(&cert_sigs, orig_file.string().c_str(),
-            trust_dir.string().c_str()));
+        ASSERT_TRUE(cert_verify_file(&cert_sigs, orig_file.string(),
+            trust_dir.string()));
     }
 
     TEST_F(test_crypt, test_cert_verify_file_rejects_empty_signature_list) {

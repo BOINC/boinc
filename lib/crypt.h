@@ -27,10 +27,10 @@
 // We use our own data structures (R_RSA_PUBLIC_KEY and R_RSA_PRIVATE_KEY)
 // to store keys.
 
-#include <cstdio>
-
 #include <openssl/rsa.h>
 #include <openssl/evp.h>
+
+#include "cert_sig.h"
 
 template <typename T, void (*FreeFunc)(T*)>
 struct OpenSSLDeleter {
@@ -46,11 +46,6 @@ using unique_EVP_PKEY =
 using unique_PKEY_CTX =
     std::unique_ptr<EVP_PKEY_CTX,
     OpenSSLDeleter<EVP_PKEY_CTX, EVP_PKEY_CTX_free>>;
-
-#if (OPENSSL_VERSION_NUMBER >= 0x10100000L) /* OpenSSL 1.1.0+ */
-#define HAVE_OPAQUE_EVP_PKEY 1 /* since 1.1.0 -pre3 */
-#define HAVE_OPAQUE_RSA_DSA_DH 1 /* since 1.1.0 -pre5 */
-#endif
 
 #define MAX_RSA_MODULUS_BITS 1024
 #define MAX_RSA_MODULUS_LEN ((MAX_RSA_MODULUS_BITS + 7) / 8)
@@ -100,19 +95,6 @@ struct KEY {
     unsigned char data[1];
 };
 
-struct DATA_BLOCK {
-    unsigned char* data;
-    unsigned int len;
-};
-
-#define MIN_OUT_BUFFER_SIZE (MAX_RSA_MODULUS_LEN+1)
-
-// the size of a binary signature (encrypted MD5)
-//
-#define SIGNATURE_SIZE_BINARY MIN_OUT_BUFFER_SIZE
-
-// size of text-encoded signature
-#define SIGNATURE_SIZE_TEXT (SIGNATURE_SIZE_BINARY*2+20)
 extern std::string sprint_hex_data(const std::vector<uint8_t> &data);
 #ifdef _USING_FCGI_
 #undef FILE
@@ -172,9 +154,6 @@ extern std::string generate_signature(const std::string& text_to_sign, const R_R
 extern std::pair<bool, std::string> check_validity(const std::string &certPath, const std::string &origFile,
     const std::vector<uint8_t> &signature, const std::string &caPath);
 
-struct CERT_SIGS;
-
-int cert_verify_file(
-    CERT_SIGS* signatures, const char* origFile, const char* trustLocation
-);
+bool cert_verify_file(CERT_SIGS *signatures, const std::string &origFile,
+    const std::string &trustLocation);
 #endif

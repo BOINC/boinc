@@ -15,17 +15,13 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cstdint>
 #include <memory>
-#include <string>
 #include <utility>
-#include <vector>
 #if defined(_WIN32)
 #include "boinc_win.h"
 #else
 #include "config.h"
 #include <cctype>
-#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <sys/types.h>
@@ -36,18 +32,15 @@
 #include <openssl/ssl.h>
 #include <openssl/md5.h>
 #include <openssl/bio.h>
-#include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/conf.h>
 #include <openssl/err.h>
-#include <openssl/rsa.h>
 #include <openssl/bn.h>
 #include <openssl/core_names.h>
 #include <openssl/param_build.h>
 
 #include "boinc_stdio.h"
 #include "md5_file.h"
-#include "cert_sig.h"
 #include "filesys.h"
 #include "error_numbers.h"
 #include "util.h"
@@ -343,7 +336,6 @@ unique_EVP_PKEY public_to_openssl(const R_RSA_PUBLIC_KEY& pub) {
 
 // encrypt some data.
 // The amount encrypted may be less than what's supplied.
-// The output buffer must be at least MIN_OUT_BUFFER_SIZE.
 // The output block must be decrypted in its entirety.
 //
 vector<uint8_t> encrypt_private(const R_RSA_PRIVATE_KEY& key, const vector<uint8_t>& in) {
@@ -790,88 +782,68 @@ std::pair<bool, string> check_validity(const string &certPath, const string &ori
     return std::make_pair(false, std::string());
 }
 
-int cert_verify_file(
-    CERT_SIGS* signatures, const char* origFile, const char* trustLocation
-) {
-    MD5_CTX md5CTX;
-    int rbytes;
-    unsigned char md5_md[MD5_DIGEST_LENGTH],  rbuf[2048];
-    char buf[256];
-    char fbuf[MAXPATHLEN];
-    int verified = false;
-    int file_counter = 0;
-    DATA_BLOCK sig_db;
-    BIO *bio;
-    X509 *cert;
-    X509_NAME *subj;
+bool cert_verify_file(CERT_SIGS* signatures, const string &origFile,
+    const string &trustLocation) {
+    if (signatures == nullptr) {
+        return false;
+    }
 
     if (signatures->signatures.size() == 0) {
-        printf("No signatures available for file ('%s').\n", origFile);
+        printf("No signatures available for file ('%s').\n", origFile.data());
         fflush(stdout);
         return false;
     }
-    if (!is_file(origFile)) return false;
-    FILE* of = boinc_fopen(origFile, "r");
-    if (!of) return false;
-    MD5_Init(&md5CTX);
-    while (0 != (rbytes = (int)fread(rbuf, 1, sizeof(rbuf), of))) {
-        MD5_Update(&md5CTX, rbuf, rbytes);
+
+    if (!is_file(origFile.data())) {
+        return false;
     }
-    MD5_Final(md5_md, &md5CTX);
-    fclose(of);
-    for(unsigned int i=0;i < signatures->signatures.size(); i++) {
-        sig_db.data = (unsigned char*)calloc(128, sizeof(char));
-        if (sig_db.data == NULL) {
-            printf("Cannot allocate 128 bytes for signature buffer\n");
-            return false;
-        }
-        sig_db.len=128;
-        vector<uint8_t> sig_vector = sscan_hex_data(vector<uint8_t>(signatures->signatures.at(i).signature, signatures->signatures.at(i).signature + strlen(signatures->signatures.at(i).signature)));
+
+    bool result = false;
+    vector<uint8_t> md5_md;
+    std::tie(result, md5_md) = get_md5(origFile);
+    if (!result) {
+        return false;
+    }
+
+    for(const CERT_SIG &cert_sig : signatures->signatures) {
+        vector<uint8_t> sig_vector = sscan_hex_data(vector<uint8_t>(cert_sig.signature, cert_sig.signature + strlen(cert_sig.signature)));
         if (sig_vector.size() != 128) {
             printf("Signature size mismatch: expected 128, got %zu\n", sig_vector.size());
-            free(sig_db.data);
             return false;
         }
-        memcpy(sig_db.data, sig_vector.data(), 128);
-        file_counter = 0;
+        size_t file_counter = 0;
         while (1) {
-            snprintf(fbuf, MAXPATHLEN, "%s/%s.%d", trustLocation, signatures->signatures.at(i).hash,
+            char fbuf[MAXPATHLEN];
+            snprintf(fbuf, MAXPATHLEN, "%s/%s.%ld", trustLocation.data(), cert_sig.hash,
                 file_counter);
             FILE *f = boinc::fopen(fbuf, "r");
-            if (f==NULL)
+            if (f  ==  NULL) {
                 break;
+            }
             boinc::fclose(f);
-            bio = BIO_new(BIO_s_file());
-            BIO_read_filename(bio, fbuf);
-            if (NULL == (cert = PEM_read_bio_X509(bio, NULL, 0, NULL))) {
-                BIO_vfree(bio);
+            unique_BIO bio(BIO_new(BIO_s_file()));
+            BIO_read_filename(bio.get(), fbuf);
+            unique_X509 cert(PEM_read_bio_X509(bio.get(), nullptr, 0, nullptr));
+            if (!cert) {
                 printf("Cannot read certificate ('%s')\n", fbuf);
-                file_counter++;
+                ++file_counter;
                 continue;
             }
             fflush(stdout);
-            subj = X509_get_subject_name(cert);
+            X509_NAME *subj = X509_get_subject_name(cert.get());
+
+            char buf[256];
             X509_NAME_oneline(subj, buf, 256);
-            // ???
-            //X509_NAME_free(subj);
-            X509_free(cert);
-            BIO_vfree(bio);
-            if (strcmp(buf, signatures->signatures.at(i).subject)) {
-                printf("Subject does not match ('%s' <-> '%s')\n", buf, signatures->signatures.at(i).subject);
-                file_counter++;
+            if (strcmp(buf, cert_sig.subject)) {
+                printf("Subject does not match ('%s' <-> '%s')\n", buf, cert_sig.subject);
+                ++file_counter;
                 continue;
             }
-            //TODO: temp
-            vector<uint8_t> md5_vector(md5_md, md5_md + MD5_DIGEST_LENGTH);
-            vector<uint8_t> sig_vector(sig_db.data, sig_db.data + 128);
-            verified = check_validity_of_cert(fbuf, md5_vector, sig_vector, trustLocation);
-            if (verified)
-                break;
-            file_counter++;
+            if (check_validity_of_cert(fbuf, md5_md, sig_vector, trustLocation)) {
+                return true;
+            }
+            ++file_counter;
         }
-        free(sig_db.data);
-        if (!verified)
-            return false;
     }
-    return verified;
+    return false;
 }
