@@ -2566,5 +2566,4 @@ namespace test_lib {
         ASSERT_FALSE(cert_verify_file(&cert_sigs, orig_file.string().c_str(),
             test_data_dir.string().c_str()));
     }
-
 }

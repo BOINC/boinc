@@ -470,7 +470,6 @@ std::pair<int, bool> check_file_signature(const string& md5_buf, const R_RSA_PUB
             time_to_string(dtime()));
         return std::make_pair(ERR_CRYPTO, false);
     }
-    // convert string md5_buf to vector<uint8_t>
     vector<uint8_t> md5_vector(md5_buf.begin(), md5_buf.end());
     const bool answer = (decrypted == md5_vector);
     return std::make_pair(0, answer);
@@ -728,27 +727,50 @@ static bool check_validity_of_cert(const string &cFile, const vector<uint8_t> &m
     );
 }
 
+using unique_EVP_MD_CTX =
+    std::unique_ptr<EVP_MD_CTX, OpenSSLDeleter<EVP_MD_CTX, EVP_MD_CTX_free>>;
+
+static std::pair<bool, vector<uint8_t>> get_md5(const string &file) {
+    FILE *f = boinc_fopen(file.data(), "r");
+    if (!f) {
+        return std::make_pair(false, std::vector<uint8_t>());
+    }
+
+    unique_EVP_MD_CTX mdctx(EVP_MD_CTX_new());
+    if (!mdctx) {
+        return std::make_pair(false, std::vector<uint8_t>());
+    }
+    if (EVP_DigestInit_ex2(mdctx.get(), EVP_md5(), nullptr) <= 0) {
+        return std::make_pair(false, std::vector<uint8_t>());
+    }
+    unsigned char rbuf[2048];
+    size_t rbytes;
+    while (0 != (rbytes = fread(rbuf, 1, sizeof(rbuf), f))) {
+        if (EVP_DigestUpdate(mdctx.get(), rbuf, rbytes) <= 0) {
+            return std::make_pair(false, std::vector<uint8_t>());
+        }
+    }
+    std::vector<uint8_t> md_value(EVP_MAX_MD_SIZE, 0);
+    unsigned int md_len = 0;
+    if (EVP_DigestFinal_ex(mdctx.get(), md_value.data(), &md_len) <= 0) {
+        return std::make_pair(false, std::vector<uint8_t>());
+    }
+    md_value.resize(md_len);
+    return std::make_pair(true, md_value);
+}
+
 std::pair<bool, string> check_validity(const string &certPath, const string &origFile,
     const vector<uint8_t> &signature, const string &caPath) {
-    vector<uint8_t> md5_md(MD5_DIGEST_LENGTH);
-    unsigned char rbuf[2048];
-
     if (!is_file(origFile.data())) {
         return std::make_pair(false, std::string());
     }
-    FILE* of = boinc_fopen(origFile.data(), "r");
-    if (!of) {
+
+    bool result = false;
+    vector<uint8_t> md5_md;
+    std::tie(result, md5_md) = get_md5(origFile);
+    if (!result) {
         return std::make_pair(false, std::string());
     }
-
-    MD5_CTX md5CTX;
-    MD5_Init(&md5CTX);
-    size_t rbytes;
-    while (0 != (rbytes = fread(rbuf, 1, sizeof(rbuf), of))) {
-        MD5_Update(&md5CTX, rbuf, rbytes);
-    }
-    MD5_Final(md5_md.data(), &md5CTX);
-    fclose(of);
 
     DIRREF dir = dir_open(certPath.data());
 
@@ -788,10 +810,6 @@ int cert_verify_file(
         fflush(stdout);
         return false;
     }
-// OpenSSL 1.1 does initialization internally. This is default.
-#if OPENSSL_VERSION_NUMBER < 0x10100000L || defined(HAVE_LIBRESSL)
-    SSL_library_init();
-#endif
     if (!is_file(origFile)) return false;
     FILE* of = boinc_fopen(origFile, "r");
     if (!of) return false;
@@ -819,14 +837,10 @@ int cert_verify_file(
         while (1) {
             snprintf(fbuf, MAXPATHLEN, "%s/%s.%d", trustLocation, signatures->signatures.at(i).hash,
                 file_counter);
-#ifndef _USING_FCGI_
-            FILE *f = fopen(fbuf, "r");
-#else
-            FCGI_FILE *f = FCGI::fopen(fbuf, "r");
-#endif
+            FILE *f = boinc::fopen(fbuf, "r");
             if (f==NULL)
                 break;
-            fclose(f);
+            boinc::fclose(f);
             bio = BIO_new(BIO_s_file());
             BIO_read_filename(bio, fbuf);
             if (NULL == (cert = PEM_read_bio_X509(bio, NULL, 0, NULL))) {
