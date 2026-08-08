@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "DlgHiddenColumns.cpp"
+#pragma implementation "DlgHiddenColumns.h"
 #endif
 
 #include "stdwx.h"
@@ -32,10 +32,10 @@
 #include "BOINCBaseView.h"
 #include "BOINCListCtrl.h"
 
-#define DLGDIAGNOSTICS_INITIAL_WIDTH ADJUSTFORXDPI(480)
-#define DLGDIAGNOSTICS_INITIAL_HEIGHT ADJUSTFORYDPI(480)
-#define DLGDIAGNOSTICS_MIN_WIDTH ADJUSTFORXDPI(400)
-#define DLGDIAGNOSTICS_MIN_HEIGHT ADJUSTFORYDPI(400)
+const int dlgHiddenColumnsInitialWidth = 480;
+const int dlgHiddenColumnsInitialHeight = 480;
+const int dlgHiddenColumnsMinWidth = 400;
+const int dlgHiddenColumnsMinHeight = 400;
 
 IMPLEMENT_DYNAMIC_CLASS(CDlgHiddenColumns, wxDialog)
 
@@ -51,7 +51,7 @@ END_EVENT_TABLE()
 /* Constructor */
 CDlgHiddenColumns::CDlgHiddenColumns(wxWindow* parent) :
     wxDialog( parent, ID_ANYDIALOG, wxEmptyString, wxDefaultPosition,
-                wxSize( DLGDIAGNOSTICS_INITIAL_WIDTH,DLGDIAGNOSTICS_INITIAL_HEIGHT ),
+                wxSize(dlgHiddenColumnsInitialWidth, dlgHiddenColumnsInitialHeight),
                 wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER
             ) {
 
@@ -66,18 +66,18 @@ CDlgHiddenColumns::CDlgHiddenColumns(wxWindow* parent) :
     );
 
     SetTitle(title);
-    
-    SetSizeHints(DLGDIAGNOSTICS_MIN_WIDTH, DLGDIAGNOSTICS_MIN_HEIGHT);
+
+    SetSizeHints(dlgHiddenColumnsMinWidth, dlgHiddenColumnsMinHeight);
     SetExtraStyle( GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY );
-    
+
     wxBoxSizer* bSizer1 = new wxBoxSizer( wxVERTICAL );
     m_headingSizer = new wxGridSizer( 1 );
-    
+
     m_headingText.Printf(
         _("Select which columns %s should show."),
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
-    
+
     m_heading = new wxStaticText(this, wxID_ANY, m_headingText);
 
     m_headingSizer->Add(m_heading, 1, wxLEFT | wxRIGHT, 25);
@@ -90,14 +90,14 @@ CDlgHiddenColumns::CDlgHiddenColumns(wxWindow* parent) :
     m_scrolledWindow->SetScrollRate( 5, 5 );
 
     m_scrolledSizer = new wxBoxSizer(wxVERTICAL);
-    
+
     CreateCheckboxes();
-    
+
     bSizer1->Add( m_scrolledWindow, 1, wxEXPAND | wxALL, 5 );
-    
+
     wxBoxSizer* buttonSizer = new wxBoxSizer( wxHORIZONTAL );
 
-    m_btnOK = new wxButton( this, wxID_OK, _("Save"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_btnOK = new wxButton( this, wxID_OK, _("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnOK->SetToolTip( _("Save all values and close the dialog") );
     buttonSizer->Add( m_btnOK, 0, wxALL, 5 );
 
@@ -111,13 +111,13 @@ CDlgHiddenColumns::CDlgHiddenColumns(wxWindow* parent) :
 
     btnCancel->SetDefault();
     bSizer1->Add( buttonSizer, 0, wxALIGN_RIGHT | wxALL, 15 );
-    
+
     SetSizer( bSizer1 );
-    
+
     RestoreState();
     Layout();
     Center( wxBOTH );
-    
+
 #if defined(__WXMSW__) || defined(__WXGTK__)
     SetDoubleBuffered(true);
 #endif
@@ -145,7 +145,7 @@ void CDlgHiddenColumns::CreateCheckboxes() {
     bool val;
     CAdvancedFrame* pFrame = (CAdvancedFrame*)GetParent();
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
-    
+
     wxNotebook* pNotebook = pFrame->GetNotebook();
     wxASSERT(pNotebook);
 
@@ -156,7 +156,7 @@ void CDlgHiddenColumns::CreateCheckboxes() {
         delete checkbox_list;
     }
     m_checkbox_list.clear();
-    
+
     wxWindow*       pwndNotebookPage = NULL;
     CBOINCBaseView* pView = NULL;
     long            iIndex;
@@ -175,7 +175,7 @@ void CDlgHiddenColumns::CreateCheckboxes() {
         if (!listPane) continue;
 
         m_pBOINCBaseView.push_back(pView);
-        
+
         std::vector <wxCheckBox*> *checkbox_list = new std::vector <wxCheckBox*>;
 
         wxStaticBox* tabStaticBox = new wxStaticBox(m_scrolledWindow, -1, pView->GetViewDisplayName());
@@ -195,7 +195,7 @@ void CDlgHiddenColumns::CreateCheckboxes() {
 #endif
 
         stdCount = pView->m_aStdColNameOrder->GetCount();
-        
+
 #ifdef wxHAS_LISTCTRL_COLUMN_ORDER
         // Create checkboxes for shown columns in current column order
         for (i=0; i<iShownColumnCount; ++i) {
@@ -237,7 +237,7 @@ void CDlgHiddenColumns::CreateCheckboxes() {
 #endif
 
         m_checkbox_list.push_back(checkbox_list);
-        
+
         tabStaticBoxSizer->Add(checkboxSizer, 0, wxEXPAND, 1 );
         m_scrolledSizer->Add(tabStaticBoxSizer, 0, wxEXPAND, 1 );
     }
@@ -259,7 +259,7 @@ bool CDlgHiddenColumns::SaveState() {
     pConfig->Write(wxT("Height"), GetSize().GetHeight());
 
     pConfig->Flush();
-    
+
     return true;
 }
 
@@ -273,15 +273,15 @@ bool CDlgHiddenColumns::RestoreState() {
 
     pConfig->SetPath("/DlgHiddenColumns/");
 
-    pConfig->Read(wxT("Width"), &iWidth, DLGDIAGNOSTICS_INITIAL_WIDTH);
-    pConfig->Read(wxT("Height"), &iHeight, DLGDIAGNOSTICS_INITIAL_HEIGHT);
+    pConfig->Read(wxT("Width"), &iWidth, dlgHiddenColumnsInitialWidth);
+    pConfig->Read(wxT("Height"), &iHeight, dlgHiddenColumnsInitialHeight);
 
     // Guard against a rare situation where registry values are zero
-    if ((iWidth < 50) && (iWidth != wxDefaultCoord)) iWidth = DLGDIAGNOSTICS_INITIAL_WIDTH;
-    if ((iHeight < 50) && (iHeight != wxDefaultCoord)) iHeight = DLGDIAGNOSTICS_INITIAL_HEIGHT;
+    if ((iWidth < 50) && (iWidth != wxDefaultCoord)) iWidth = dlgHiddenColumnsInitialWidth;
+    if ((iHeight < 50) && (iHeight != wxDefaultCoord)) iHeight = dlgHiddenColumnsInitialHeight;
 
     // Set size to saved values or defaults if no saved values
-    SetSize(std::max(iWidth, DLGDIAGNOSTICS_MIN_WIDTH), std::max(iHeight, DLGDIAGNOSTICS_MIN_HEIGHT));
+    SetSize(std::max(iWidth, dlgHiddenColumnsMinWidth), std::max(iHeight, dlgHiddenColumnsMinHeight));
 
     return true;
 }
@@ -294,14 +294,14 @@ void CDlgHiddenColumns::OnSize(wxSizeEvent& event) {
     Layout();
     SaveState();
     Refresh();
-    
+
     event.Skip();
 }
 
 
 void CDlgHiddenColumns::OnCheckboxClick(wxCommandEvent& event){
     bool bAllOffInGroup, bEnableOK = true;
-    
+
     size_t actualCount = m_checkbox_list.size();
     for (size_t i=0; i<actualCount; ++i) {
         std::vector <wxCheckBox*> *checkbox_list = m_checkbox_list[i];
@@ -319,7 +319,7 @@ void CDlgHiddenColumns::OnCheckboxClick(wxCommandEvent& event){
         }
     }
     m_btnOK->Enable(bEnableOK);
-    
+
     event.Skip();
 }
 
@@ -327,7 +327,7 @@ void CDlgHiddenColumns::OnCheckboxClick(wxCommandEvent& event){
 void CDlgHiddenColumns::OnOK(wxCommandEvent& event) {
     size_t actualCount = m_checkbox_list.size();
     wxASSERT (m_pBOINCBaseView.size() == actualCount);
-    
+
     for (size_t i=0; i<actualCount; ++i) {
         CBOINCBaseView* pView = m_pBOINCBaseView[i];
         std::vector <wxCheckBox*> *checkbox_list = m_checkbox_list[i];
@@ -339,10 +339,10 @@ void CDlgHiddenColumns::OnOK(wxCommandEvent& event) {
                 orderArray.Add(name);
             }
         }
-        
+
         CBOINCListCtrl* listPane = pView->GetListCtrl();
         listPane->SetListColumnOrder(orderArray);
- 
+
         // Write the new column configuration to the registry
         wxConfigBase* pConfig = wxConfigBase::Get(false);
         pConfig->SetPath(wxT("/") + pView->GetViewName());
@@ -356,14 +356,14 @@ void CDlgHiddenColumns::OnOK(wxCommandEvent& event) {
 void CDlgHiddenColumns::OnSetDefaults(wxCommandEvent& ) {
     wxMessageDialog* dlg = new wxMessageDialog(this, _("Are you sure you want to reset all list columns to the default configurations?"),
                     _("Confirm defaults"), wxOK|wxCANCEL|wxCENTRE, wxDefaultPosition);
-        
+
     if (dlg->ShowModal() != wxID_OK) return;
-    
+
     int count = m_pBOINCBaseView.size();
     for (int i=0; i<count; ++i) {
         CBOINCBaseView* pView = m_pBOINCBaseView[i];
         CBOINCListCtrl* listPane = pView->GetListCtrl();
-    
+
         listPane->SetListColumnOrder(*(pView->m_aStdColNameOrder));
         listPane->SetDefaultColumnDisplay();
 

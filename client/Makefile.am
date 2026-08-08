@@ -1,6 +1,9 @@
 ## -*- mode: makefile; tab-width: 4 -*-
 ## $Id$
 
+CXXFLAGS := $(filter-out -mfpu=vfpv3-d16,$(CXXFLAGS))
+CXXFLAGS += -std=gnu++1z
+
 include $(top_srcdir)/Makefile.incl
 
 if ENABLE_CLIENT_RELEASE
@@ -18,13 +21,11 @@ endif ## ENABLE_CLIENT_RELEASE
 
 LIBS += $(CLIENTLIBS)
 
+bin_PROGRAMS = boinc_client boinccmd boinc
+
 if OS_DARWIN
    LIBS += -framework IOKit -framework Foundation -framework ScreenSaver -framework Cocoa -framework CoreServices
-endif
-
-bin_PROGRAMS = boinc_client boinccmd
-if !OS_WIN32
-bin_PROGRAMS += switcher
+   bin_PROGRAMS += switcher
 endif
 
 boinccmd_SOURCES = boinc_cmd.cpp
@@ -40,6 +41,7 @@ boinc_client_SOURCES = \
     app_config.cpp \
     app_control.cpp \
     app_start.cpp \
+    app_test.cpp \
     async_file.cpp \
     check_state.cpp \
     client_msgs.cpp \
@@ -57,6 +59,7 @@ boinc_client_SOURCES = \
     cs_prefs.cpp \
     cs_proxy.cpp \
     cs_scheduler.cpp \
+    cs_sporadic.cpp \
     cs_statefile.cpp \
     cs_trickle.cpp \
     current_version.cpp \
@@ -81,7 +84,6 @@ boinc_client_SOURCES = \
     net_stats.cpp \
     pers_file_xfer.cpp \
     project.cpp \
-    project_list.cpp \
     result.cpp \
     rr_sim.cpp \
     sandbox.cpp \
@@ -114,13 +116,17 @@ boinc_client_LDADD = $(LIBBOINC) $(LIBBOINC_CRYPT) $(BOINC_EXTRA_LIBS) $(PTHREAD
 boinc_clientdir = $(bindir)
 
 if OS_ARM_LINUX
+boinccmd_CPPFLAGS += -mfpu=vfpv3-d16
+boinc_client_CPPFLAGS += -mfpu=vfpv3-d16
+boinc_client_CXXFLAGS += -mfpu=vfpv3-d16
+EXTRA_boinc_client_DEPENDENCIES = libwhetneon.a libwhetvfp.a
 boinc_client_LDADD += libwhetneon.a libwhetvfp.a
 noinst_LIBRARIES = libwhetneon.a libwhetvfp.a
 libwhetneon_a_SOURCES = whetstone.cpp
-libwhetneon_a_CXXFLAGS = $(boinc_client_CXXFLAGS) -DANDROID_NEON -mfloat-abi=softfp -mfpu=neon
+libwhetneon_a_CXXFLAGS = $(filter-out -mfpu=vfpv3-d16,$(boinc_client_CXXFLAGS)) -DANDROID_NEON -mfloat-abi=softfp -mfpu=neon
 
 libwhetvfp_a_SOURCES = whetstone.cpp
-libwhetvfp_a_CXXFLAGS = $(boinc_client_CXXFLAGS) -DANDROID_VFP -mfloat-abi=softfp -mfpu=vfp
+libwhetvfp_a_CXXFLAGS = $(boinc_client_CXXFLAGS) -DANDROID_VFP -mfloat-abi=softfp -mfpu=vfpv3-d16
 endif
 
 switcher_SOURCES = switcher.cpp

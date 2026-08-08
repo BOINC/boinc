@@ -29,5 +29,4 @@ $host->update("rpc_time=0");
 echo "Host RPC time cleared for host ID: $hostid\n";
 
 admin_page_tail();
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

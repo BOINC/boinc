@@ -56,7 +56,7 @@ static std::vector<char *> envstrings;
 int setenv(const char *name, const char *value, int overwrite) {
     char *buf;
     int rv;
-    // Name can't contant an equal sign.
+    // Name can't contain an equal sign.
     if (strchr(name,'=')) {
         errno=EINVAL;
         return -1;
@@ -93,7 +93,7 @@ int setenv(const char *name, const char *value, int overwrite) {
         errno=ENOMEM;
         return -1;
     }
-    sprintf(buf,"%s=%s",name,value);
+    sprintf(buf, "%s=%s",name,value);
     rv=putenv(buf);
     // Yes, there is a potential memory leak here.  Some versions of operating
     // systems copy the string into the environment, others make the
@@ -143,9 +143,9 @@ int daemon(int nochdir, int noclose) {
         // setsid() failed
         return -1;
     }
- 
+
     // success
     return 0;
-}    
+}
 
 #endif /* !HAVE_DAEMON */

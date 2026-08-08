@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2020 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -17,7 +17,8 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:orientation="vertical"
               android:layout_gravity="center">
@@ -31,10 +32,11 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:text="@string/attachproject_hint_projectwebsite_header"/>
+                android:text="@string/attachproject_hint_projectwebsite_header"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -46,20 +48,23 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/hint_contribution_image_1"
                 android:layout_toLeftOf="@+id/hint_contribution_image_1"
-                android:text="@string/attachproject_hint_projectwebsite_science"/>
+                android:text="@string/attachproject_hint_projectwebsite_science"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ImageView
                 android:id="@+id/hint_contribution_image_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/magnifierb"
-                android:contentDescription="@string/attachproject_hint_projectwebsite_science"/>
+                android:contentDescription="@string/attachproject_hint_projectwebsite_science"
+                app:srcCompat="@drawable/ic_baseline_search" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -71,20 +76,23 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/hint_contribution_image_2"
                 android:layout_toLeftOf="@+id/hint_contribution_image_2"
-                android:text="@string/attachproject_hint_projectwebsite_stats"/>
+                android:text="@string/attachproject_hint_projectwebsite_stats"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ImageView
                 android:id="@+id/hint_contribution_image_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/chartb"
-                android:contentDescription="@string/attachproject_hint_projectwebsite_stats"/>
+                android:contentDescription="@string/attachproject_hint_projectwebsite_stats"
+                app:srcCompat="@drawable/ic_baseline_show_chart" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -96,19 +104,22 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/hint_contribution_image_3"
                 android:layout_toLeftOf="@+id/hint_contribution_image_3"
-                android:text="@string/attachproject_hint_projectwebsite_community"/>
+                android:text="@string/attachproject_hint_projectwebsite_community"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ImageView
                 android:id="@+id/hint_contribution_image_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/speechbubbleb"
-                android:contentDescription="@string/attachproject_hint_projectwebsite_community"/>
+                android:contentDescription="@string/attachproject_hint_projectwebsite_community"
+                app:srcCompat="@drawable/ic_baseline_chat" />
     </RelativeLayout>
 </LinearLayout>

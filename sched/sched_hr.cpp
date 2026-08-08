@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -25,18 +25,13 @@
 #include <string>
 
 #include "error_numbers.h"
-
 #include "sched_types.h"
 #include "sched_config.h"
 #include "sched_msgs.h"
 #include "sched_main.h"
 #include "hr.h"
 #include "sched_hr.h"
-
-
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
+#include "boinc_stdio.h"
 
 // return true if HR rules out sending any work to this host
 //

@@ -18,26 +18,11 @@
 
 require_once("../inc/util_basic.inc");
 
-// database-related functions.
-// Presentation code (HTML) shouldn't be here
+// functions for doing arbitrary SQL queries, including joins.
+// When possible, use the classes in boinc_db.inc instead.
+// Lots of old code uses these functions, e.g. in ops/
 
-// DEPRECATED; use boinc_db.inc instead.
-// TODO: replace calls to these functions
-
-// use mysqli if available,
-// but let projects not use it if they want
-// (put <no_mysqli/> in config.xml)
-//
-if (parse_bool(get_config(), "no_mysqli")) {
-    define("MYSQLI", false);
-} else {
-    if (class_exists("mysqli")) {
-        define("MYSQLI", true);
-        $mysqli = null;
-    } else {
-        define("MYSQLI", false);
-    }
-}
+define("MYSQLI", true);
 
 if (MYSQLI) {
     function _mysql_connect($host, $user, $pass, $dbname) {
@@ -50,6 +35,9 @@ if (MYSQLI) {
             $port = null;
         }
         $mysqli = @new mysqli($host, $user, $pass, $dbname, $port);
+        if ($mysqli->connect_errno) {
+            return null;
+        }
         return $mysqli;
     }
     function _mysql_query($q) {
@@ -163,27 +151,26 @@ if (MYSQLI) {
 }
 
 function db_init_aux($try_replica=false) {
-    $config = get_config();
-    $user = parse_config($config, "<db_user>");
-    $pass = parse_config($config, "<db_passwd>");
-    $db_name = parse_config($config, "<db_name>");
+    $user = project_config_val("db_user");
+    $pass = project_config_val("db_passwd");
+    $db_name = project_config_val("db_name");
     $host = null;
     if ($try_replica) {
-        $x = parse_config($config, "<replica_db_host>");
+        $x = project_config_val("replica_db_host");
         if ($x) {
             $host = $x;
-            $x = parse_config($config, "<replica_db_user>");
+            $x = project_config_val("replica_db_user");
             if ($x) $user = $x;
-            $x = parse_config($config, "<replica_db_passwd>");
+            $x = project_config_val("replica_db_passwd");
             if ($x) $pass = $x;
-            $x = parse_config($config, "<replica_db_name>");
+            $x = project_config_val("replica_db_name");
             if ($x) $db_name = $x;
         }
     }
-    if ($host == null) {
-        $host = parse_config($config, "<db_host>");
+    if (is_blank($host)) {
+        $host = project_config_val("db_host");
     }
-    if ($host == null) {
+    if (is_blank($host)) {
         $host = "localhost";
     }
     if (1) {

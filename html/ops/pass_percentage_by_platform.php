@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// web page showing stats per platform
+
 require_once("../inc/util_ops.inc");
 
 admin_page_head("Result summary per app version");
@@ -64,7 +66,7 @@ if ($query_all_versions == "1") {
                 $valid_app_versions .= ", $av->id";
             }
         }
-        $limit_app_versions = "app_version_id IN ( $valid_app_versions ) AND";  
+        $limit_app_versions = "app_version_id IN ( $valid_app_versions ) AND";
         $query_order = "app_version_id DESC";
     } else {
         $limit_app_versions = "";
@@ -90,23 +92,23 @@ SELECT
            else $unknown_platform
        end AS platform,
        COUNT(*) AS total_results,
-       ((SUM(case when outcome = '1' then 1 else 0 end) / COUNT(*)) * 100) AS pass_rate,
-       ((SUM(case when outcome = '3' then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate,
-       ((SUM(case when outcome = '3' and client_state = '1' then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate1,
-       ((SUM(case when outcome = '3' and client_state = '2' then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate2,
-       ((SUM(case when outcome = '3' and client_state = '3' then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate3,
-       ((SUM(case when outcome = '3' and client_state = '4' then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate4,
-       ((SUM(case when outcome = '3' and client_state = '5' then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate5,
-       ((SUM(case when outcome = '3' and client_state = '6' then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate6
+       ((SUM(case when outcome = 1 then 1 else 0 end) / COUNT(*)) * 100) AS pass_rate,
+       ((SUM(case when outcome = 3 then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate,
+       ((SUM(case when outcome = 3 and client_state = 1 then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate1,
+       ((SUM(case when outcome = 3 and client_state = 2 then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate2,
+       ((SUM(case when outcome = 3 and client_state = 3 then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate3,
+       ((SUM(case when outcome = 3 and client_state = 4 then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate4,
+       ((SUM(case when outcome = 3 and client_state = 5 then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate5,
+       ((SUM(case when outcome = 3 and client_state = 6 then 1 else 0 end) / COUNT(*)) * 100) AS fail_rate6
 FROM   result
            left join host on result.hostid = host.id
 WHERE
-       appid = '$query_appid' AND
-       server_state = '5' AND
+       appid = $query_appid AND
+       server_state = 5 AND
        $limit_app_versions
-       received_time > '$query_received_time'
+       received_time > $query_received_time
 GROUP BY
-       app_version_id DESC,
+       app_version_id,
        platform
 ORDER BY
        $query_order
@@ -197,5 +199,4 @@ echo "</form>\n";
 
 admin_page_tail();
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

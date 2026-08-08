@@ -1,0 +1,4 @@
+Využijte svůj telefon nebo tablet ke studiu nemocí, předpovídání globálního oteplování, nebo k objevení pulsarů! BOINC umí využít volný výpočetní výkon vašeho zařízení se systémem Android ke zpracování úkolu pro vědecko-výzkumné projekty. Můžete si vybrat z projektů v mnoha vědních oborech, od předních akademických institucí. BOINC počítá pouze tehdy, když je váš přístroj připojený na nabíječku a nabitý, nebude vám tak vybíjet baterii. Také přenáší data pouze přes WiFi, čímž šetří váš datový limit.
+
+Supports:
+Asteroids@home, Einstein@home, LHC@home, Moo!Wrapper, Rosetta@home, Universe@home, World Community Grid, Yoyo@home.

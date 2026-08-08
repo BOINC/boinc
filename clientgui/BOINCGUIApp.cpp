@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,10 +21,12 @@
 
 #ifdef __WXMAC__
 #include <Carbon/Carbon.h>
+#include <wx/uilocale.h>
 #include "filesys.h"
 #include "util.h"
 #include "mac_util.h"
 #include "sandbox.h"
+#include "mac_branding.h"
 #endif
 
 #include "stdwx.h"
@@ -35,6 +37,7 @@
 #include "miofile.h"
 #include "parse.h"
 #include "idlemon.h"
+
 #include "Events.h"
 #include "LogBOINC.h"
 #include "BOINCGUIApp.h"
@@ -48,6 +51,7 @@
 #include "DlgEventLog.h"
 #include "procinfo.h"
 #include "sg_BoincSimpleFrame.h"
+#include "DlgGenericMessage.h"
 
 
 bool s_bSkipExitConfirmation = false;
@@ -66,12 +70,48 @@ BEGIN_EVENT_TABLE (CBOINCGUIApp, wxApp)
 #endif
 END_EVENT_TABLE ()
 
+#if defined(__WXGTK__) && defined(BUILD_WITH_VCPKG)
+extern "C" {
+    void _gdk_pixbuf__svg_fill_info (void*);
+    void _gdk_pixbuf__svg_fill_vtable (void*);
+    unsigned int rsvg_error_quark (void);
+    void rsvg_handle_get_pixbuf (void*);
+}
+
+typedef void (*GdkPixbufFillInfo) (void*);
+typedef void (*GdkPixbufFillVtable) (void*);
+typedef unsigned int (*RsvgErrorQuark) (void);
+typedef void (*RsvgHandleGetPixbuf) (void*);
+#endif
+
 bool CBOINCGUIApp::OnInit() {
+#if defined(__WXGTK__) && defined(BUILD_WITH_VCPKG)
+    try {
+        GdkPixbufFillInfo fi = _gdk_pixbuf__svg_fill_info;
+        GdkPixbufFillVtable fv = _gdk_pixbuf__svg_fill_vtable;
+        RsvgErrorQuark eq = rsvg_error_quark;
+        RsvgHandleGetPixbuf hp = rsvg_handle_get_pixbuf;
+        fi(NULL);
+        fv(NULL);
+        eq();
+        hp(NULL);
+    } catch (...) {}
+#endif
     // Initialize globals
 #ifdef SANDBOX
     g_use_sandbox = true;
 #else
     g_use_sandbox = false;
+#endif
+
+    m_isDarkMode = false;
+    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
+    m_isDarkMode = appearance.IsDark();
+#if defined(__WXMSW__)
+    // wxWidgets' IsDark() returns false on Win 11 now even if dark mode is enabled
+    // so we need to additionally check AreAppsDark()
+    m_isDarkMode = m_isDarkMode || appearance.AreAppsDark();
+    MSWEnableDarkMode(wxApp::DarkMode_Auto);
 #endif
 
     s_bSkipExitConfirmation = false;
@@ -101,25 +141,32 @@ bool CBOINCGUIApp::OnInit() {
     m_iRPCPortArg = GUI_RPC_PORT;
     m_strBOINCArguments = wxEmptyString;
     m_strISOLanguageCode = wxEmptyString;
+    m_bUseDefaultLocale = true;
     m_bGUIVisible = true;
     m_bDebugSkins = false;
     m_bMultipleInstancesOK = false;
+    m_bHostnamePasswordSet = false;
     m_bBOINCMGRAutoStarted = false;
     m_iBOINCMGRDisableAutoStart = 0;
     m_iShutdownCoreClient = 0;
     m_iDisplayExitDialog = 1;
     m_iDisplayShutdownConnectedClientDialog = 1;
+    m_iDisplayAnotherInstanceRunningDialog = 1;
+#ifdef __WXMAC__
+    m_iHideMenuBarIcon = 0;
+    m_iWasShutDownBySystemWhileHidden = 0;
+#endif
     m_iGUISelected = BOINC_SIMPLEGUI;
     m_bSafeMessageBoxDisplayed = 0;
     m_bRunDaemon = true;
     m_bNeedRunDaemon = true;
 
     // Initialize local variables
-    int      iErrorCode = 0;
-    int      iDesiredLanguageCode = 0;
+    int      iDesiredLanguageCode = wxLANGUAGE_DEFAULT;
     bool     bOpenEventLog = false;
     wxString strDesiredSkinName = wxEmptyString;
 #ifdef SANDBOX
+    int      iErrorCode = 0;
     wxString strDialogMessage = wxEmptyString;
 #endif
     bool     success = false;
@@ -130,6 +177,7 @@ bool CBOINCGUIApp::OnInit() {
     wxSystemOptions::SetOption(wxT("msw.staticbox.optimized-paint"), 0);
 #endif
 #ifdef __WXMAC__
+#if ! USE_NATIVE_LISTCONTROL
     // In wxMac-2.8.7, default wxListCtrl::RefreshItem() does not work
     // so use traditional generic implementation.
     // This has been fixed in wxMac-2.8.8, but the Mac native implementation:
@@ -137,15 +185,19 @@ bool CBOINCGUIApp::OnInit() {
     //  - seems to always redraw entire control even if asked to refresh only one row.
     //  - causes major flicker of progress bars, (probably due to full redraws.)
     wxSystemOptions::SetOption(wxT("mac.listctrl.always_use_generic"), 1);
+#endif
 
     AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
 #endif
 
+    // Commandline parsing is done in wxApp::OnInit()
+    if (!wxApp::OnInit()) {
+        return false;
+    }
+
 #ifdef __WXMAC__
     // Don't open main window if we were started automatically at login
-    // We are launched hidden if started from our login item (except if
-    // we had windows open at logout, the system "restores" them.)
-    m_bGUIVisible = IsApplicationVisible();
+        m_bGUIVisible = !m_bBOINCMGRAutoStarted;
 
     if (getTimeSinceBoot() < 30.) {
         // If the system was just started, we usually get a "Connection
@@ -153,12 +205,6 @@ bool CBOINCGUIApp::OnInit() {
         sleep(10);
     }
 #endif
-
-
-    // Commandline parsing is done in wxApp::OnInit()
-    if (!wxApp::OnInit()) {
-        return false;
-    }
 
     if (g_use_sandbox) {
         wxCHANGE_UMASK(2);  // Set file creation mask to be writable by both user and group
@@ -187,15 +233,50 @@ bool CBOINCGUIApp::OnInit() {
     m_pConfig->Read(wxT("AutomaticallyShutdownClient"), &m_iShutdownCoreClient, 0L);
     m_pConfig->Read(wxT("DisplayShutdownClientDialog"), &m_iDisplayExitDialog, 1L);
     m_pConfig->Read(wxT("DisplayShutdownConnectedClientDialog"), &m_iDisplayShutdownConnectedClientDialog, 1L);
+    m_pConfig->Read(wxT("DisplayAnotherInstanceRunningDialog"), &m_iDisplayAnotherInstanceRunningDialog, 1L);
+#ifdef __WXMAC__
+    m_pConfig->Read(wxT("HideMenuBarIcon"), &m_iHideMenuBarIcon, 0L);
+    m_pConfig->Read(wxT("WasShutDownBySystemWhileHidden"), &m_iWasShutDownBySystemWhileHidden, 0L);
+    // If Manager was hidden and was shut down by system when user last logged
+    // out, MacOS's "Reopen windows when logging in" functionality may relaunch
+    // us visible before our LaunchAgent launches us with the "autostart" arg.
+    // QuitAppleEventHandler() set m_iWasShutDownBySystemWhileHidden to 1, causing
+    // CBOINCGUIApp::SaveState to set WasShutDownBySystemWhileHidden in our
+    // configuration file to tell us to treat this as an autostart and launch hidden.
+    if (m_iWasShutDownBySystemWhileHidden) {
+        m_iWasShutDownBySystemWhileHidden = 0;
+        m_bBOINCMGRAutoStarted = true;
+        m_bGUIVisible = false;
+    }
+#endif
     m_pConfig->Read(wxT("DisableAutoStart"), &m_iBOINCMGRDisableAutoStart, 0L);
     m_pConfig->Read(wxT("LanguageISO"), &m_strISOLanguageCode, wxT(""));
+    m_bUseDefaultLocale = false;
+    bool bUseDefaultLocaleDefault = false;
+#ifdef __WXMAC__
+    // Because our translations don't use Apple's standard localization
+    // scheme, the Cocoa APIs used by wxLocale for wxLANGUAGE_DEFAULT
+    // always return English as the language for the reasons explained
+    // in https://stackoverflow.com/questions/48136456. The wxLocale
+    // documentation warns us to use wxUILocale::GetSystemLanguage().
+    int systemLanguageCode = wxUILocale::GetSystemLanguage();
+    wxString defaultLanguageCode = wxLocale::GetLanguageCanonicalName(systemLanguageCode);
+    bUseDefaultLocaleDefault = m_strISOLanguageCode == defaultLanguageCode;
+#else
+    const wxLanguageInfo *defaultLanguageInfo = wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT);
+    if (defaultLanguageInfo != NULL) {
+        // Migration: assume a selected language code that matches the system default means "auto select"
+        bUseDefaultLocaleDefault = m_strISOLanguageCode == defaultLanguageInfo->CanonicalName;;
+    }
+#endif
+    m_pConfig->Read(wxT("UseDefaultLocale"), &m_bUseDefaultLocale, bUseDefaultLocaleDefault);
     m_pConfig->Read(wxT("GUISelection"), &m_iGUISelected, BOINC_SIMPLEGUI);
     m_pConfig->Read(wxT("EventLogOpen"), &bOpenEventLog);
     m_pConfig->Read(wxT("RunDaemon"), &m_bRunDaemon, 1L);
 
     // Detect if the daemon should be launched
     m_bNeedRunDaemon = m_bNeedRunDaemon && m_bRunDaemon;
-    
+
     // Should we abort the BOINC Manager startup process?
     if (m_bBOINCMGRAutoStarted && m_iBOINCMGRDisableAutoStart) {
         return false;
@@ -204,7 +285,7 @@ bool CBOINCGUIApp::OnInit() {
     // Detect where BOINC Manager executable name.
     DetectExecutableName();
 
-    // Detect where BOINC Manager was installed too.
+    // Detect where BOINC Manager was installed to.
     DetectRootDirectory();
 
     // Detect where the BOINC Data files are.
@@ -223,7 +304,9 @@ bool CBOINCGUIApp::OnInit() {
         }
     }
 
+#ifdef SANDBOX
     if (!success) iErrorCode = -1016;
+#endif
 
     // Initialize the BOINC Diagnostics Framework
     int dwDiagnosticsFlags =
@@ -231,7 +314,7 @@ bool CBOINCGUIApp::OnInit() {
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_MEMORYLEAKCHECKENABLED |
 #endif
-        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+        BOINC_DIAG_DUMPCALLSTACKENABLED |
         BOINC_DIAG_PERUSERLOGFILES |
         BOINC_DIAG_REDIRECTSTDERR |
         BOINC_DIAG_REDIRECTSTDOUT |
@@ -256,12 +339,25 @@ bool CBOINCGUIApp::OnInit() {
     wxASSERT(m_pLocale);
 
     //
-    if (m_strISOLanguageCode.IsEmpty()) {
-        iDesiredLanguageCode = wxLANGUAGE_DEFAULT;
-        m_pLocale->Init(iDesiredLanguageCode);
+    if (!m_bUseDefaultLocale && !m_strISOLanguageCode.IsEmpty()) {
+        const wxLanguageInfo* pLI = wxLocale::FindLanguageInfo(m_strISOLanguageCode);
+        if (pLI) {
+            iDesiredLanguageCode = pLI->Language;
+        }
+    }
+
+#ifdef __WXMAC__
+    // wxLocale::Init(wxLANGUAGE_DEFAULT) does not work correctly
+    // on the Mac so we must use wxUILocale::GetSystemLanguage().
+    if (m_bUseDefaultLocale || (iDesiredLanguageCode == wxLANGUAGE_DEFAULT)) {
+        iDesiredLanguageCode = wxUILocale::GetSystemLanguage();
+        m_strISOLanguageCode = wxLocale::GetLanguageCanonicalName(iDesiredLanguageCode);
+    }
+#endif
+
+    m_pLocale->Init(iDesiredLanguageCode);
+    if (iDesiredLanguageCode == wxLANGUAGE_DEFAULT) {
         m_strISOLanguageCode = m_pLocale->GetCanonicalName();
-    } else {
-        m_pLocale->Init(wxLocale::FindLanguageInfo(m_strISOLanguageCode)->Language);
     }
 
     // Look for the localization files by absolute and relative locations.
@@ -309,13 +405,12 @@ bool CBOINCGUIApp::OnInit() {
     //
     char path_to_error[MAXPATHLEN];
     path_to_error[0] = '\0';
-    
+
     if (!iErrorCode) {
         iErrorCode = check_security(
             g_use_sandbox, true, path_to_error, sizeof(path_to_error)
         );
     }
-
     if (iErrorCode) {
 
 #if (defined(__WXMAC__) && (!defined (_DEBUG)))
@@ -354,14 +449,14 @@ bool CBOINCGUIApp::OnInit() {
                 strDialogMessage += wxString::FromUTF8(path_to_error);
             }
             strDialogMessage += _(")");
-            
+
             fprintf(stderr, "%s\n", (const char*)strDialogMessage.utf8_str());
         }
 
         wxMessageDialog* pDlg = new wxMessageDialog(
-                                    NULL, 
-                                    strDialogMessage, 
-                                    m_pSkinManager->GetAdvanced()->GetApplicationName(), 
+                                    NULL,
+                                    strDialogMessage,
+                                    m_pSkinManager->GetAdvanced()->GetApplicationName(),
                                     wxOK
                                     );
 
@@ -377,9 +472,9 @@ bool CBOINCGUIApp::OnInit() {
 #ifdef __WXMSW__
     // Perform any last minute checks that should keep the manager
     // from starting up.
-    wxString strRebootPendingFile = 
+    wxString strRebootPendingFile =
         GetRootDirectory() + wxFileName::GetPathSeparator() + wxT("RebootPending.txt");
-    
+
     if (wxFile::Exists(strRebootPendingFile)) {
         wxMessageDialog dialog(
             NULL,
@@ -405,12 +500,56 @@ bool CBOINCGUIApp::OnInit() {
     if (WasFileModifiedBeforeSystemBoot((char *)(const char*)lockFilePath.utf8_str())) {
         boinc_delete_file(lockFilePath.utf8_str());
     }
+
+    wxString launchAgentPath = wxFileName::GetHomeDir() + "/Library/LaunchAgents/edu.berkeley.launchboincmanager.plist";
+    if (!wxFileName::FileExists(launchAgentPath)) { // If we are still using old style login item
+        char s[MAXPATHLEN];
+        snprintf(s, sizeof(s), "open \"/Library/Application Support/BOINC Data/%s_Finish_Install.app\" --args -m", brandName[GetBrandID()]);
+        callPosixSpawn(s);   // run BOINC_Finish_Install utility to update to launchagent
+    }
 #endif
 
     // Detect if BOINC Manager is already running, if so, bring it into the
     // foreground and then exit.
     if (DetectDuplicateInstance()) {
-            return false;
+#ifdef __WXMAC__
+        // Each time a second instance of BOINC Manager is launched, it
+        // normally adds an additional BOINC icon to the "recently run apps"
+        // section of the Dock, cluttering it up. To avoid this, we call
+        // this routine on the second instance to tell the system to hide
+        // the icon in the Dock.
+        // NOTE: This technique works only if BOINCManager.app is NOT in the
+        // /Applications directory or any of its subdirectories. Putting it
+        // in "/Library/Application Support" with a soft link to it from the
+        // /Applications directory does work.
+        // https://stackoverflow.com/questions/620841/how-to-hide-the-dock-icon
+        SetActivationPolicyAccessory(true);    // Hide our Dock tile
+
+        // A second instance of BOINC Manager is sometimes launched at login
+        // when the Manager is launched by the login startup item and also
+        // by the "restore open windows" or "restore open applications"
+        // feature of MacOS. In that case, don't show the "Another instance
+        // of BOINC Manager is running" dialog.
+        if (m_bBOINCMGRAutoStarted) return false;
+        // TODO: Should we also ignore duplicate instances that occur within
+        // TODO: a short time after login (determined by getlastlogxbyname(),
+        // TODO: in case MacOS's "Reopen windows when logging in" functionality
+        // TODO: relaunched us AFTER our LaunchAgent autostarted us?
+#endif
+        if (GetBOINCMGRDisplayAnotherInstanceRunningMessage()) {
+            wxString appName = m_pSkinManager->GetAdvanced()->GetApplicationName();
+            wxString message;
+            message.Printf(_("Another instance of %s is already running."), appName);
+            CDlgGenericMessageParameters params;
+            params.caption = appName;
+            params.message = message;
+            params.button2 = CDlgGenericMessageButton(false);
+            CDlgGenericMessage dlg(NULL, &params);
+            ShowApplication(true);
+            dlg.ShowModal();
+            SetBOINCMGRDisplayAnotherInstanceRunningMessage(!dlg.GetDisableMessageValue());
+        }
+        return false;
     }
 
     // Initialize the main document
@@ -431,7 +570,6 @@ bool CBOINCGUIApp::OnInit() {
 #ifndef __WXGTK__
     // Initialize the task bar icon
 	m_pTaskBarIcon = new CTaskBarIcon(
-        m_pSkinManager->GetAdvanced()->GetApplicationName(), 
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationDisconnectedIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
@@ -443,7 +581,6 @@ bool CBOINCGUIApp::OnInit() {
 #endif // __WXGTK__
 #ifdef __WXMAC__
     m_pMacDockIcon = new CTaskBarIcon(
-        m_pSkinManager->GetAdvanced()->GetApplicationName(), 
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationDisconnectedIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
@@ -454,7 +591,7 @@ bool CBOINCGUIApp::OnInit() {
 
     // Startup the System Idle Detection code
     IdleTrackerAttach();
-    
+
     // Show the UI
     SetActiveGUI(m_iGUISelected, m_bGUIVisible);
 
@@ -468,14 +605,14 @@ bool CBOINCGUIApp::OnInit() {
             m_pFrame->Raise();
         }
     }
-    
+
     return true;
 }
 
 #ifdef __WXMAC__
 // We can "show" (unhide) the main window when the
 // application is hidden and it won't be visible.
-// If we don't do this under wxCocoa 3.0, the Dock 
+// If we don't do this under wxCocoa 3.0, the Dock
 // icon will bounce (as in notification) when we
 // click on our menu bar icon.
 // But wxFrame::Show(true) makes the application
@@ -486,13 +623,13 @@ bool CBOINCGUIApp::OnInit() {
 // loop is running, so this is called from
 // CBOINCBaseFrame::OnPeriodicRPC() at the first
 // firing of ID_PERIODICRPCTIMER.
-// 
+//
 void CBOINCGUIApp::OnFinishInit() {
     if (!m_bGUIVisible) {
         HideThisApp();
-    
+
         m_pFrame->wxWindow::Show();
-        
+
         if (m_pEventLog) {
             m_pEventLog->wxWindow::Show();
         }
@@ -586,9 +723,15 @@ void CBOINCGUIApp::SaveState() {
         m_pConfig->Write(wxT("Skin"), m_pSkinManager->GetSelectedSkin());
     }
     m_pConfig->Write(wxT("LanguageISO"), m_strISOLanguageCode);
+    m_pConfig->Write(wxT("UseDefaultLocale"), m_bUseDefaultLocale);
     m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
     m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
     m_pConfig->Write(wxT("DisplayShutdownConnectedClientDialog"), m_iDisplayShutdownConnectedClientDialog);
+    m_pConfig->Write(wxT("DisplayAnotherInstanceRunningDialog"), m_iDisplayAnotherInstanceRunningDialog);
+#ifdef __WXMAC__
+    m_pConfig->Write(wxT("HideMenuBarIcon"), m_iHideMenuBarIcon);
+    m_pConfig->Write(wxT("WasShutDownBySystemWhileHidden"), m_iWasShutDownBySystemWhileHidden);
+#endif
     m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);
     m_pConfig->Write(wxT("RunDaemon"), m_bRunDaemon);
 }
@@ -638,6 +781,9 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
 #if defined(__WXMSW__) || defined(__WXMAC__)
     if (parser.Found(wxT("systray"))) {
         m_bGUIVisible = false;
+#ifdef __WXMAC__
+        m_bBOINCMGRAutoStarted = true;
+#endif
     }
 #endif
     if (parser.Found(wxT("insecure"))) {
@@ -664,7 +810,7 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     if (m_strBOINCMGRDataDirectory.Last() != '/') {
         m_strBOINCMGRDataDirectory.Append('/');
     }
-#endif    
+#endif
 
     if (parser.Found(wxT("namehost"), &m_strHostNameArg)) {
         hostNameSpecified = true;
@@ -681,7 +827,7 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
     } else {
         m_iRPCPortArg = GUI_RPC_PORT;
     }
-    
+
     if (parser.Found(wxT("password"), &m_strPasswordArg)) {
         passwordSpecified = true;
     } else {
@@ -690,6 +836,7 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
 
     if (hostNameSpecified && passwordSpecified) {
         m_bMultipleInstancesOK = true;
+        m_bHostnamePasswordSet = true;
     }
 
     if (parser.Found(wxT("no-daemon"))) {
@@ -711,6 +858,11 @@ bool CBOINCGUIApp::DetectDuplicateInstance() {
     m_pInstanceChecker = new wxSingleInstanceChecker(
             wxTheApp->GetAppName() + '-' + wxGetUserId(),
             wxFileName::GetHomeDir() + "/Library/Application Support/BOINC"
+            );
+#elif defined(__WXGTK__)
+    m_pInstanceChecker = new wxSingleInstanceChecker(
+            wxTheApp->GetAppName() + '-' + wxGetUserId(),
+            wxFileName::GetTempDir()
             );
 #else
     m_pInstanceChecker = new wxSingleInstanceChecker();
@@ -735,7 +887,7 @@ void CBOINCGUIApp::DetectExecutableName() {
 
     // change the current directory to the boinc install directory
     GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
-		
+
     TCHAR *pszProg = _tcsrchr(szPath, '\\');
     if (pszProg) {
         pszProg++;
@@ -766,7 +918,7 @@ void CBOINCGUIApp::DetectRootDirectory() {
 
     // change the current directory to the boinc install directory
     GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
-		
+
     TCHAR *pszProg = _tcsrchr(szPath, '\\');
     if (pszProg) {
         szPath[pszProg - szPath + 1] = 0;
@@ -807,9 +959,9 @@ void CBOINCGUIApp::DetectDataDirectory() {
 
     // change the current directory to the boinc data directory if it exists
 	lReturnValue = RegOpenKeyEx(
-        HKEY_LOCAL_MACHINE, 
+        HKEY_LOCAL_MACHINE,
         _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),
-		0, 
+		0,
         KEY_READ,
         &hkSetupHive
     );
@@ -829,7 +981,7 @@ void CBOINCGUIApp::DetectDataDirectory() {
             (*lpszValue) = NULL;
 
             // Now get the data
-            lReturnValue = RegQueryValueEx( 
+            lReturnValue = RegQueryValueEx(
                 hkSetupHive,
                 _T("DATADIR"),
                 NULL,
@@ -842,13 +994,13 @@ void CBOINCGUIApp::DetectDataDirectory() {
             // We need to get the size of the buffer needed
             dwSize = 0;
             lReturnValue = ExpandEnvironmentStrings(lpszValue, NULL, dwSize);
-   
+
             if (lReturnValue) {
                 // Make the buffer big enough for the expanded string
                 lpszExpandedValue = (LPTSTR) malloc(lReturnValue*sizeof(TCHAR));
                 (*lpszExpandedValue) = NULL;
                 dwSize = lReturnValue;
-   
+
                 ExpandEnvironmentStrings(lpszValue, lpszExpandedValue, dwSize);
 
                 // Store the root directory for later use.
@@ -877,22 +1029,112 @@ void CBOINCGUIApp::DetectDataDirectory() {
 
 
 void CBOINCGUIApp::InitSupportedLanguages() {
-    wxInt32               iIndex = 0;
-    const wxLanguageInfo* liLanguage = NULL;
+    m_astrLanguages.clear();
 
-    // Prepare the array
-    m_astrLanguages.Insert(wxEmptyString, 0, wxLANGUAGE_USER_DEFINED+1);
-
-    // These are just special tags so deal with them in a special way
-    m_astrLanguages[wxLANGUAGE_DEFAULT]                    = _("(Automatic Detection)");
-    m_astrLanguages[wxLANGUAGE_UNKNOWN]                    = _("(Unknown)");
-    m_astrLanguages[wxLANGUAGE_USER_DEFINED]               = _("(User Defined)");
-
-    for (iIndex = 0; iIndex <= wxLANGUAGE_USER_DEFINED; iIndex++) {
-        liLanguage = wxLocale::GetLanguageInfo(iIndex);
-        if (liLanguage) {
-            m_astrLanguages[iIndex] = liLanguage->Description;
+    // Find available translations
+    std::vector<const wxLanguageInfo*> availableTranslations;
+    // English is a special case:
+    //  - it's guaranteed to be available because it's compiled in
+    //  - it must be added to the list even though we don't expect to find a translation for it
+    const wxLanguageInfo* pLIen = wxLocale::GetLanguageInfo(wxLANGUAGE_ENGLISH);
+    if (pLIen) {
+        availableTranslations.push_back(pLIen);
+    }
+    // Now fill in the rest from the available message catalogs
+    const wxTranslations* pTranslations = wxTranslations::Get();
+    if (pTranslations) {
+        wxArrayString langCodes = pTranslations->GetAvailableTranslations(wxT("BOINC-Manager"));
+        for (const wxString& langCode : langCodes) {
+            if (langCode == wxT("en")) continue;
+            const wxLanguageInfo* pLI = wxLocale::FindLanguageInfo(langCode);
+            if (pLI) {
+                availableTranslations.push_back(pLI);
+            }
         }
+    }
+
+    // Synthesize labels to be used in the options dialog
+    //
+    // As we are building strings that potentially contain both left-to-right and
+    // right-to-left text, we must insert direction markers to ensure the layout is
+    // correct. Otherwise strange things happen - particularly when the strings contain
+    // parentheses, which can end up in the wrong place and pointing the wrong way.
+    // The usage here has been determined largely by trial and error, and may not be
+    // strictly correct...
+    const wxString LRM = L'\x200E'/*LEFT-TO-RIGHT MARK*/;
+    const wxString RLM = L'\x200F'/*RIGHT-TO-LEFT MARK*/;
+    const wxLanguageInfo* pLIui = wxLocale::FindLanguageInfo(GetISOLanguageCode());
+    wxLayoutDirection uiLayoutDirection = pLIui ? pLIui->LayoutDirection : wxLayout_Default;
+    GUI_SUPPORTED_LANG newItem;
+
+    // CDlgOptions depends on "Auto" being the first item in the list
+    // if
+    newItem.Language = wxLANGUAGE_DEFAULT;
+    wxString strAutoEnglish = wxT("(Automatic Detection)");
+    wxString strAutoTranslated = wxGetTranslation(strAutoEnglish);
+    newItem.Label = strAutoTranslated;
+    if (strAutoTranslated != strAutoEnglish) {
+        if (uiLayoutDirection == wxLayout_RightToLeft) {
+            newItem.Label += RLM;
+        } else if (uiLayoutDirection == wxLayout_LeftToRight) {
+            newItem.Label += LRM;
+        }
+        newItem.Label += wxT(" ");
+        if (uiLayoutDirection == wxLayout_RightToLeft) {
+            newItem.Label += RLM;
+        }
+        newItem.Label += LRM + strAutoEnglish + LRM;
+    }
+    m_astrLanguages.push_back(newItem);
+
+    // Add known locales to the list
+    for (int langID = wxLANGUAGE_UNKNOWN+1; langID < wxLANGUAGE_USER_DEFINED; ++langID) {
+        const wxLanguageInfo* pLI = wxLocale::GetLanguageInfo(langID);
+        if (pLI == NULL) continue;
+        wxString lang_region = pLI->CanonicalName.BeforeFirst('@');
+        wxString lang = lang_region.BeforeFirst('_');
+        wxString script = pLI->CanonicalName.AfterFirst('@');
+        wxString lang_script = lang;
+        if (!script.empty()) {
+            lang_script += wxT("@") + script;
+        }
+        std::vector<const wxLanguageInfo*>::const_iterator foundit = availableTranslations.begin();
+        while (foundit != availableTranslations.end()) {
+            const wxLanguageInfo* pLIavail = *foundit;
+            if (pLIavail->CanonicalName == lang_script ||
+                pLIavail->CanonicalName == pLI->CanonicalName) {
+                break;
+            }
+            ++foundit;
+        }
+        // If we don't have a translation, don't add to the list -
+        // unless the locale has been explicitly selected by the user
+        // (setting migrated from an earlier version, or manually configured)
+        if (foundit == availableTranslations.end() && pLI != pLIui) continue;
+        newItem.Language = langID;
+#if wxCHECK_VERSION(3,1,6)
+        if (pLI->DescriptionNative != pLI->Description &&
+            !pLI->DescriptionNative.empty()) {
+            // The "NativeName (EnglishName)" format of the label matches that used
+            // for Web sites [language_select() in html/inc/language_names.inc]
+            newItem.Label = pLI->DescriptionNative;
+            if (pLI->LayoutDirection == wxLayout_RightToLeft) {
+                newItem.Label += RLM;
+            } else if (pLI->LayoutDirection == wxLayout_LeftToRight) {
+                newItem.Label += LRM;
+            }
+            newItem.Label += wxT(" ");
+            if (uiLayoutDirection == wxLayout_RightToLeft) {
+                newItem.Label += RLM;
+            }
+            newItem.Label += LRM + wxT("(") + pLI->Description + wxT(")") + LRM;
+        } else {
+            newItem.Label = pLI->Description + LRM;
+        }
+#else
+        newItem.Label = pLI->Description + LRM;
+#endif
+        m_astrLanguages.push_back(newItem);
     }
 }
 
@@ -913,48 +1155,62 @@ int CBOINCGUIApp::IdleTrackerDetach() {
 }
 
 
+// TODO: Does the Mac really need the OnActivateApp() routine?
 void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
     m_bProcessingActivateAppEvent = true;
 
-    if (event.GetActive()) {
-#ifdef __WXMAC__
-        ShowInterface();
-#else
-#ifdef __WXGTK__
-        // Linux allows the Event Log to be brought forward and made active
-        // even if we have a modal dialog displayed (associated with our
-        // main frame.) This test is needed to allow bringing the modal
-        // dialog forward again by clicking on its title bar.
-        if (!IsModalDialogDisplayed())
+#ifndef __WXMSW__  // On Win, the following raises the wrong window
+    if (event.GetActive())
 #endif
+    {
+#ifdef __WXMAC__
+        // When our LaunchAgent / login item launches us at login, it activates
+        // this app, but we want it hidden. So we immediatly hide it upon the
+        // first activation when run as a login item.
+        static bool first = true;
+
+        CMainDocument*      pDoc = wxGetApp().GetDocument();
+        if (m_bBOINCMGRAutoStarted && (!pDoc->IsConnected()) && first) {
+            first = false;
+            ShowApplication(false);
+        } else
+#endif
+#if (defined (__WXMAC__) || defined(__WXGTK__))
         {
-            bool keepEventLogInFront = m_bEventLogWasActive;
-            
-            if (m_pEventLog && !m_pEventLog->IsIconized() && !keepEventLogInFront) {
-                m_pEventLog->Raise();
-            }
-            if (m_pFrame) {
-                m_pFrame->Raise();
-            }
-            if (m_pEventLog && !m_pEventLog->IsIconized() && keepEventLogInFront) {
-                m_pEventLog->Raise();
+           // Linux allows the Event Log to be brought forward and made active
+            // even if we have a modal dialog displayed (associated with our
+            // main frame.) This test is needed to allow bringing the modal
+            // dialog forward again by clicking on its title bar.
+            if (!IsModalDialogDisplayed())
+            {
+                bool keepEventLogInFront = m_bEventLogWasActive;
+
+                if (m_pEventLog && !m_pEventLog->IsIconized() && !keepEventLogInFront) {
+                    m_pEventLog->Raise();
+                }
+                if (m_pFrame) {
+                    m_pFrame->Raise();
+                }
+                if (m_pEventLog && !m_pEventLog->IsIconized() && keepEventLogInFront) {
+                    m_pEventLog->Raise();
+                }
             }
         }
 #endif
     }
 
     event.Skip();
-    
+
     m_bProcessingActivateAppEvent = false;
 }
 
 
 void CBOINCGUIApp::OnRPCFinished( CRPCFinishedEvent& event ) {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
-   
+
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    
+
     pDoc->OnRPCComplete(event);
 }
 
@@ -1033,7 +1289,7 @@ void CBOINCGUIApp::OnEventLogClose() {
     }
 }
 
-    
+
 // The skin has changed and all UI elements need to reload their bitmaps.
 //
 void CBOINCGUIApp::FireReloadSkin() {
@@ -1081,7 +1337,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             m_pConfig->Read(wxT("YPos"), &iTop, 30);
             m_pConfig->Read(wxT("XPos"), &iLeft, 30);
 
-            // We don't save Simple View's width & height since it's 
+            // We don't save Simple View's width & height since it's
             // window is not resizable, so don't try to read them
 #ifdef __WXMAC__
 //            m_pConfig->Read(wxT("Width"), &iWidth, 409);
@@ -1123,7 +1379,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
         if (BOINC_ADVANCEDGUI == iGUISelection) {
             // Initialize the advanced gui window
             pNewFrame = new CAdvancedFrame(
-                m_pSkinManager->GetAdvanced()->GetApplicationName(), 
+                m_pSkinManager->GetAdvanced()->GetApplicationName(),
                 m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
                 wxPoint(iLeft, iTop),
                 wxSize(iWidth, iHeight)
@@ -1131,7 +1387,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
         } else {
             // Initialize the simple gui window
             pNewFrame = new CSimpleFrame(
-                m_pSkinManager->GetAdvanced()->GetApplicationName(), 
+                m_pSkinManager->GetAdvanced()->GetApplicationName(),
                 m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
                 wxPoint(iLeft, iTop),
                 wxSize(iWidth, iHeight)
@@ -1146,7 +1402,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             // Store the new frame for future use
             m_pFrame = pNewFrame;
 
-            // Hide the old one if it exists.  We must do this 
+            // Hide the old one if it exists.  We must do this
             // after updating m_pFrame to prevent Mac OSX from
             // hiding the application
             if (pOldFrame) pOldFrame->Hide();
@@ -1163,7 +1419,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
         }
     }
 
-    // Show the new frame if needed 
+    // Show the new frame if needed
     if (!m_bProcessingActivateAppEvent) {
         if (m_pFrame && bShowWindow) {
             if (m_pEventLog && !m_pEventLog->IsIconized()) {
@@ -1207,18 +1463,18 @@ int CBOINCGUIApp::ConfirmExit() {
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
-    
+
     pDoc->GetConnectedComputerName(strConnectedCompter);
     if (!pDoc->IsComputerNameLocal(strConnectedCompter)) {
         // Don't shut down remote clients on Manager exit
         return 1;
     }
 
-    // Don't run confirmation dialog if logging out or shutting down Mac, 
+    // Don't run confirmation dialog if logging out or shutting down Mac,
     // or if emergency exit from AsyncRPCDlg
     if (s_bSkipExitConfirmation) return 1;
 
-    // Don't run confirmation dialog if second instance of Manager 
+    // Don't run confirmation dialog if second instance of Manager
     if (IsMgrMultipleInstance()) return 1;
 
     if (!m_iDisplayExitDialog) {
@@ -1268,16 +1524,16 @@ int CBOINCGUIApp::ConfirmExit() {
 }
 
 
-// Use this instead of wxMessageBox from all tab Views to suppress 
+// Use this instead of wxMessageBox from all tab Views to suppress
 // Periodic RPCs.  See comment in CMainDocument::RunPeriodicRPCs()
 // for a fuller explanation.
 int CBOINCGUIApp::SafeMessageBox(const wxString& message, const wxString& caption, long style,
                  wxWindow *parent, int x, int y )
 {
     int retval;
-    
+
     m_bSafeMessageBoxDisplayed++;
-    
+
     retval = wxMessageBox(message, caption, style, parent, x, y);
 
     m_bSafeMessageBoxDisplayed--;
@@ -1286,14 +1542,33 @@ int CBOINCGUIApp::SafeMessageBox(const wxString& message, const wxString& captio
 }
 
 
-#ifndef __WXMAC__
+#ifdef __WXMAC__
+long CBOINCGUIApp::GetBrandID()
+{
+    long iBrandId;
+
+    iBrandId = 0;   // Default value
+
+    FILE *f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
+    if (f) {
+        fscanf(f, "BrandId=%ld\n", &iBrandId);
+        fclose(f);
+    }
+    if ((iBrandId < 0) || (iBrandId > (NUMBRANDS-1))) {
+        iBrandId = 0;
+    }
+    return iBrandId;
+}
+
+
+#else
 // See clientgui/mac/BOINCGUIApp.mm for the Mac versions.
 ///
 /// Determines if the current process is visible.
 ///
 /// @return
 ///  true if the current process is visible, otherwise false.
-/// 
+///
 bool CBOINCGUIApp::IsApplicationVisible() {
     return false;
 }
@@ -1330,13 +1605,13 @@ bool CBOINCGUIApp::ShowNotifications() {
 
 bool CBOINCGUIApp::IsModalDialogDisplayed() {
     if (m_bSafeMessageBoxDisplayed) return true;
-    
-    // Search for the dialog by ID since all of BOINC Manager's 
+
+    // Search for the dialog by ID since all of BOINC Manager's
     // dialog IDs are 10000.
     if (wxDynamicCast(wxWindow::FindWindowById(ID_ANYDIALOG), wxDialog)) {
         return true;
     }
-    
+
     if (m_pDocument) {
         if (m_pDocument->WaitingForRPC()) {
             return true;
@@ -1344,6 +1619,7 @@ bool CBOINCGUIApp::IsModalDialogDisplayed() {
     }
     return false;
 }
+
 
 // Prevent recursive entry of CMainDocument::RequestRPC()
 int CBOINCGUIApp::FilterEvent(wxEvent &event) {
@@ -1356,14 +1632,14 @@ int CBOINCGUIApp::FilterEvent(wxEvent &event) {
     theEventType = event.GetEventType();
 
     if (m_pDocument->WaitingForRPC()) {
-        // If in RPC Please Wait dialog, reject all command 
-        // and timer events except: 
+        // If in RPC Please Wait dialog, reject all command
+        // and timer events except:
         //  - RPC Finished
         //  - those for that dialog or its children
         //  - Open Manager menu item from system tray icon
 
         if ((theEventType == wxEVT_COMMAND_MENU_SELECTED) && (event.GetId() == wxID_OPEN)) {
-            return -1;        
+            return -1;
         }
 
         theRPCWaitDialog = m_pDocument->GetRPCWaitDialog();
@@ -1375,7 +1651,7 @@ int CBOINCGUIApp::FilterEvent(wxEvent &event) {
         }
         // Continue with rest of filtering below
     } else {
-        // Do limited filtering if shutting down to allow RPC 
+        // Do limited filtering if shutting down to allow RPC
         // completion events but not events which start new RPCs
         if (!m_bFilterEvents) return -1;
     }
@@ -1384,17 +1660,16 @@ int CBOINCGUIApp::FilterEvent(wxEvent &event) {
     if (event.IsCommandEvent()) {
         return false;
     }
-    
+
     if (theEventType == wxEVT_TIMER) {
         return false;
     }
-    
+
 #ifdef __WXMSW__
     if (theEventType == wxEVT_TASKBAR_MOVE) {
         return false;
     }
 #endif
-   
+
     return -1;
 }
-

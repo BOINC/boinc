@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,7 +17,7 @@
 
 // This is a test framework for the rr_simulation() function.
 // To use it:
-// - cut and paste the current code from cpu_sched.C (see below)
+// - cut and paste the current code from cpu_sched.cpp (see below)
 // - edit main() to set up your test case
 
 #include <vector>
@@ -111,8 +111,8 @@ struct CLIENT_STATE gstate;
 
 double CLIENT_STATE::nearly_runnable_resource_share() {
     double x=0;
-    for (unsigned int i=0; i<projects.size(); i++) {
-        x += projects[i]->resource_share;
+    for (PROJECT *p: projects) {
+        x += p->resource_share;
     }
     return x;
 }
@@ -159,8 +159,8 @@ void PROJECT::set_rrsim_proc_rate(double rrs) {
     // if this project has fewer active results than CPUs,
     // scale up its share to reflect this
     //
-    if (nactive < gstate.ncpus) {
-        x *= ((double)gstate.ncpus)/nactive;
+    if (nactive < gstate.n_usable_cpus) {
+        x *= ((double)gstate.n_usable_cpus)/nactive;
     }
 
     // But its rate on a given CPU can't exceed 1
@@ -179,8 +179,8 @@ void PROJECT::set_rrsim_proc_rate(double rrs) {
 bool CLIENT_STATE::rr_simulation() {
     double rrs = nearly_runnable_resource_share();
     double trs = total_resource_share();
-    PROJECT* p, *pbest;
-    RESULT* rp, *rpbest;
+    PROJECT *pbest;
+    RESULT *rpbest;
     vector<RESULT*> active;
     unsigned int i;
     double x;
@@ -198,20 +198,18 @@ bool CLIENT_STATE::rr_simulation() {
     // "active" is what's currently running (in the simulation)
     // "pending" is what's queued
     //
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
+    for (PROJECT *p: projects) {
         p->active.clear();
         p->pending.clear();
         p->rr_sim_deadlines_missed = 0;
         p->cpu_shortfall = 0;
     }
 
-    for (i=0; i<results.size(); i++) {
-        rp = results[i];
+    for (RESULT* rp: results) {
         if (!rp->nearly_runnable()) continue;
         if (rp->project->non_cpu_intensive) continue;
         rp->rrsim_cpu_left = rp->estimated_cpu_time_remaining();
-        p = rp->project;
+        PROJECT *p = rp->project;
         if (p->active.size() < (unsigned int)ncpus) {
             active.push_back(rp);
             p->active.push_back(rp);
@@ -222,8 +220,7 @@ bool CLIENT_STATE::rr_simulation() {
         rp->rr_sim_misses_deadline = false;
     }
 
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
+    for (PROJECT *p: projects) {
         p->set_rrsim_proc_rate(rrs);
         // if there are no results for a project,
         // the shortfall is its entire share.
@@ -334,8 +331,7 @@ bool CLIENT_STATE::rr_simulation() {
                     pbest->resource_share, rrs
                 );
             }
-            for (i=0; i<projects.size(); i++) {
-                p = projects[i];
+            for (PROJECT *p: projects) {
                 p->set_rrsim_proc_rate(rrs);
             }
         }
@@ -366,7 +362,7 @@ bool CLIENT_STATE::rr_simulation() {
             if (end_time < buf_end) {
                 d_time = buf_end - end_time;
                 // if this is the last result for this project, account for the tail
-                if (!pbest->active.size()) { 
+                if (!pbest->active.size()) {
                     pbest->cpu_shortfall += d_time * proj_cpu_share;
                     if (log_flags.rr_simulation) {
                          msg_printf(pbest, MSG_INFO, "rr_sim proj out of work; shortfall %f d %f pcs %f",
@@ -379,7 +375,7 @@ bool CLIENT_STATE::rr_simulation() {
                 msg_printf(0, MSG_INFO,
                     "rr_sim total: idle cpus %d, last active %d, active %d, shortfall %f",
                     nidle_cpus, last_active_size, (int)active.size(), cpu_shortfall
-                    
+
                 );
                 msg_printf(0, MSG_INFO,
                     "rr_sim proj %s: last active %d, active %d, shortfall %f",
@@ -397,8 +393,7 @@ bool CLIENT_STATE::rr_simulation() {
     }
 
     if (log_flags.rr_simulation) {
-        for (i=0; i<projects.size(); i++) {
-            p = projects[i];
+        for (PROJECT *p: projects) {
             if (p->cpu_shortfall) {
                 msg_printf(p, MSG_INFO,
                     "rr_sim: shortfall %f\n", p->cpu_shortfall
@@ -424,7 +419,7 @@ int main() {
     gstate.global_prefs.work_buf_min_days = 1;
     gstate.global_prefs.work_buf_additional_days = 1;
     gstate.global_prefs.cpu_scheduling_period_minutes = 60;
-    gstate.ncpus = 1;
+    gstate.n_usable_cpus = 1;
     gstate.now = 0;
 
     p = new PROJECT("project A", 33.);

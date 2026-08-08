@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 //  make_app_icon_h.C
-// Utility to convert *.icns file into app_icon.h file for use 
+// Utility to convert *.icns file into app_icon.h file for use
 // with api/setMacIcon() in science applications.
 
 // THIS CODE IS OBSOLETE! A better way to add an icon to science applications
@@ -43,20 +43,20 @@ int main(int argc, char** argv) {
         puts ("usage: make_app_icon_h source_path dest_path\n");
         return 0;
     }
-    
+
     inFile = fopen(argv[1], "rb");
     if (inFile == NULL) {
         printf ("Couldn't open input file %s\n", argv[1]);
         return 0;
     }
-    
+
     outFile = fopen(argv[2], "w");
     if (outFile == NULL) {
         printf ("Couldn't create output file %s\n", argv[2]);
         fclose(inFile);
         return 0;
     }
-    
+
     fputs("char MacAppIconData[] = {\n\t", outFile);
     count = 16;
     c = getc(inFile);
@@ -66,9 +66,9 @@ int main(int argc, char** argv) {
         fclose(outFile);
         return 0;
     }
-    
+
     fprintf(outFile, "0X%02X", c);
-    
+
     while ((c = getc(inFile)) != EOF) {
         if (--count)
             fputs(",", outFile);
@@ -76,14 +76,14 @@ int main(int argc, char** argv) {
             fputs(",\n\t", outFile);
             count = 16;
         }
-        
+
         fprintf(outFile, "0X%02X", c);
     }
-    
+
     fputs("\n};\n", outFile);
     fclose(inFile);
     fclose(outFile);
-    
+
     return retval;
 }
-    
+

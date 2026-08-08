@@ -35,7 +35,7 @@ if (DISABLE_FORUMS && !is_admin($logged_in_user)) {
 }
 
 $owner = BoincUser::lookup_id($thread->owner);
-if ($logged_in_user->id == $owner->id){ 
+if ($logged_in_user->id == $owner->id){
     $action = get_str("action");
     if ($action == "set") {
         $ret = $thread->update("status=1");

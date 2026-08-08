@@ -56,6 +56,8 @@
 #define ID_ENABLEAUTOSTART 10031
 #define ID_ENABLEEXITMESSAGE 10032
 #define ID_ENABLERUNDAEMON 10033
+#define ID_ENABLESHUTDOWNMESSAGE 10034
+#define ID_ENABLEMENUBARICON 10035
 #define ID_CONNECTONS 10019
 #define ID_NETWORKAUTODETECT 10020
 #define ID_NETWORKLAN 10021
@@ -98,7 +100,7 @@
  */
 
 class CDlgOptions: public wxDialog
-{    
+{
     DECLARE_DYNAMIC_CLASS( CDlgOptions )
     DECLARE_EVENT_TABLE()
 
@@ -109,7 +111,7 @@ public:
 
     /// Destructor
     ~CDlgOptions( );
-    
+
     /// Creation
     bool Create( wxWindow* parent, wxWindowID id = SYMBOL_CDLGOPTIONS_IDNAME, const wxString& caption = SYMBOL_CDLGOPTIONS_TITLE, const wxPoint& pos = SYMBOL_CDLGOPTIONS_POSITION, const wxSize& size = SYMBOL_CDLGOPTIONS_SIZE, long style = SYMBOL_CDLGOPTIONS_STYLE );
 
@@ -156,8 +158,6 @@ public:
     wxString GetDefaultDialupConnection() const;
     void SetDefaultDialupConnection(wxString value);
 
-    bool UpdateControlStates();
-
     bool ReadSettings();
     bool SaveSettings();
 
@@ -167,6 +167,8 @@ private:
     wxComboBox* m_ReminderFrequencyCtrl;
     wxCheckBox* m_EnableBOINCManagerAutoStartCtrl;
     wxCheckBox* m_EnableBOINCManagerExitMessageCtrl;
+    wxCheckBox* m_EnableBOINCClientShutdownMessageCtrl;
+    wxCheckBox* m_EnableBOINCMenuBarIconCtrl;
     wxCheckBox* m_EnableRunDaemonCtrl;
     wxStaticBoxSizer* m_DialupStaticBoxCtrl;
     wxListBox* m_DialupConnectionsCtrl;
@@ -184,8 +186,8 @@ private:
     wxTextCtrl* m_SOCKSPortCtrl;
     wxTextCtrl* m_SOCKSUsernameCtrl;
     wxTextCtrl* m_SOCKSPasswordCtrl;
-	wxTextCtrl* m_HTTPNoProxiesCtrl;
-	wxTextCtrl* m_SOCKSNoProxiesCtrl;
+    wxTextCtrl* m_HTTPNoProxiesCtrl;
+    wxTextCtrl* m_SOCKSNoProxiesCtrl;
 ////@end CDlgOptions member variables
     bool m_bRetrievedProxyConfiguration;
 };

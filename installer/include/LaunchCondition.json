@@ -1,0 +1,12 @@
+{
+    "LaunchCondition": [
+        {
+            "Condition": "VersionNT>=600",
+            "Description": "IDS_STRING39"
+        },
+        {
+            "Condition": "Privileged",
+            "Description": "IDS_IDPROP_EXPRESS_LAUNCH_CONDITION_ADMIN"
+        }
+    ]
+}

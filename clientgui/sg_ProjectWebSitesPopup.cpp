@@ -33,29 +33,29 @@ END_EVENT_TABLE()
 
 CSimpleProjectWebSitesPopupButton::CSimpleProjectWebSitesPopupButton() {
 }
-        
-CSimpleProjectWebSitesPopupButton::CSimpleProjectWebSitesPopupButton(wxWindow* parent, wxWindowID id, 
-        const wxString& label, const wxPoint& pos, const wxSize& size, 
+
+CSimpleProjectWebSitesPopupButton::CSimpleProjectWebSitesPopupButton(wxWindow* parent, wxWindowID id,
+        const wxString& label, const wxPoint& pos, const wxSize& size,
         long style, const wxValidator& validator, const wxString& name) :
         CTransparentButton(parent, id, label, pos, size, style, validator, name)
     {
 
     m_ProjectWebSitesPopUpMenu = new wxMenu();
     Connect(
-        id, 
+        id,
         wxEVT_BUTTON,
         (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction) &CSimpleProjectWebSitesPopupButton::OnProjectWebSitesKeyboardNav
     );
 }
-        
+
 
 CSimpleProjectWebSitesPopupButton::~CSimpleProjectWebSitesPopupButton() {
     delete m_ProjectWebSitesPopUpMenu;
 }
 
 
-void CSimpleProjectWebSitesPopupButton::AddMenuItems() 
-{ 
+void CSimpleProjectWebSitesPopupButton::AddMenuItems()
+{
     CMainDocument* pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -78,7 +78,7 @@ void CSimpleProjectWebSitesPopupButton::AddMenuItems()
 	for(unsigned int i = 0; i < urlCount; i++){
         urlItem = new wxMenuItem(m_ProjectWebSitesPopUpMenu, WEBSITE_URL_MENU_ID + i, wxGetTranslation(wxString(project->gui_urls[i].name.c_str(), wxConvUTF8)));
 	    Connect( WEBSITE_URL_MENU_ID + i,  wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(CSimpleProjectWebSitesPopupButton::OnMenuLinkClicked) );
- 
+
 		m_ProjectWebSitesPopUpMenu->Append(urlItem);
 	}
 }
@@ -127,7 +127,7 @@ void CSimpleProjectWebSitesPopupButton::OnMenuLinkClicked(wxCommandEvent& event)
      } else{
          int menuId = menuIDevt - WEBSITE_URL_MENU_ID;
          PROJECT* project = pDoc->state.lookup_project(ctrl_url);
-     
+
          wxLaunchDefaultBrowser(wxString(project->gui_urls[menuId].url.c_str(),wxConvUTF8));
 	 }
 }

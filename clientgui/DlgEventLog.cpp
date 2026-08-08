@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -48,10 +48,10 @@
 ////@begin XPM images
 ////@end XPM images
 
-#define DLGEVENTLOG_INITIAL_WIDTH ADJUSTFORXDPI(640)
-#define DLGEVENTLOG_INITIAL_HEIGHT ADJUSTFORYDPI(480)
-#define DLGEVENTLOG_MIN_WIDTH ADJUSTFORXDPI(600)
-#define DLGEVENTLOG_MIN_HEIGHT ADJUSTFORYDPI(250)
+const int dlgEventlogInitialWidth = 640;
+const int dlgEventLogInitialHeight = 480;
+const int dlgEventlogMinWidth = 600;
+const int dlgEventlogMinHeight = 250;
 
 #define COLUMN_PROJECT              0
 #define COLUMN_TIME                 1
@@ -60,6 +60,8 @@
 
 static bool s_bIsFiltered = false;
 static bool s_bFilteringChanged = false;
+static bool s_bErrorIsFiltered = false;
+static bool s_bErrorFilteringChanged = false;
 static std::string s_strFilteredProjectName;
 
 /*!
@@ -79,6 +81,7 @@ BEGIN_EVENT_TABLE( CDlgEventLog, DlgEventLogBase )
     EVT_BUTTON(wxID_OK, CDlgEventLog::OnOK)
     EVT_BUTTON(ID_COPYAll, CDlgEventLog::OnMessagesCopyAll)
     EVT_BUTTON(ID_COPYSELECTED, CDlgEventLog::OnMessagesCopySelected)
+    EVT_BUTTON(ID_TASK_MESSAGES_FILTERBYERROR, CDlgEventLog::OnErrorFilter)
     EVT_BUTTON(ID_TASK_MESSAGES_FILTERBYPROJECT, CDlgEventLog::OnMessagesFilter)
     EVT_BUTTON(ID_SIMPLE_HELP, CDlgEventLog::OnButtonHelp)
 	EVT_MENU(ID_SGDIAGNOSTICLOGFLAGS, CDlgEventLog::OnDiagnosticLogFlags)
@@ -105,26 +108,6 @@ CDlgEventLog::CDlgEventLog( wxWindow* parent, wxWindowID id, const wxString& cap
 
 CDlgEventLog::~CDlgEventLog() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Destructor Function Begin"));
- 
-    if (m_pMessageInfoAttr) {
-        delete m_pMessageInfoAttr;
-        m_pMessageInfoAttr = NULL;
-    }
-
-    if (m_pMessageErrorAttr) {
-        delete m_pMessageErrorAttr;
-        m_pMessageErrorAttr = NULL;
-    }
-
-    if (m_pMessageInfoGrayAttr) {
-        delete m_pMessageInfoGrayAttr;
-        m_pMessageInfoGrayAttr = NULL;
-    }
-
-    if (m_pMessageErrorGrayAttr) {
-        delete m_pMessageErrorGrayAttr;
-        m_pMessageErrorGrayAttr = NULL;
-    }
 
     m_iFilteredIndexes.Clear();
 
@@ -144,7 +127,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    
+
     m_iPreviousRowCount = 0;
     m_iTotalDocCount = 0;
     m_iPreviousFirstMsgSeqNum = pDoc->GetFirstMsgSeqNum();
@@ -152,7 +135,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 
     m_iNumDeletedFilteredRows = 0;
     m_iTotalDeletedFilterRows = 0;
-    
+
     if (!s_bIsFiltered) {
         s_strFilteredProjectName.clear();
     }
@@ -188,7 +171,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
         if ( oTempSize.GetWidth() > rDisplay.width ) oTempSize.SetWidth(rDisplay.width);
         if ( oTempSize.GetHeight() > rDisplay.height ) oTempSize.SetHeight(rDisplay.height);
 
-        // Check if part of the display was going to be off the screen, if so, center the 
+        // Check if part of the display was going to be off the screen, if so, center the
         // display on that axis
 		if ( oTempPoint.x < rDisplay.x ) {
 			oTempPoint.x = rDisplay.x;
@@ -205,7 +188,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
         delete display;
 #endif
 #ifdef __WXMAC__
-        // If the user has changed the arrangement of multiple 
+        // If the user has changed the arrangement of multiple
         // displays, make sure the window title bar is still on-screen.
     if (!IsWindowOnScreen(oTempPoint.x, oTempPoint.y, oTempSize.GetWidth(), oTempSize.GetHeight())) {
         oTempPoint.y = oTempPoint.x = 30;
@@ -218,7 +201,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 
     DlgEventLogBase::Create( parent, id, caption, oTempPoint, oTempSize, style );
 
-    SetSizeHints(DLGEVENTLOG_MIN_WIDTH, DLGEVENTLOG_MIN_HEIGHT);
+    SetSizeHints(dlgEventlogMinWidth, dlgEventlogMinHeight);
     SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
 
     // Initialize Application Title
@@ -233,73 +216,22 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 
     CreateControls();
 
+    m_normalTextColor = m_pList->GetTextColour();
+
 	// Create List Pane Items
     m_pList->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 109);
     m_pList->InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, 130);
     m_pList->InsertColumn(COLUMN_MESSAGE, _("Message"), wxLIST_FORMAT_LEFT, 378);
 
-    m_pMessageInfoAttr = new wxListItemAttr(
-        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
-        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW),
-        wxNullFont
-    );
-    m_pMessageErrorAttr = new wxListItemAttr(
-        *wxRED,
-        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW),
-        wxNullFont
-    );
-
 #if EVENT_LOG_STRIPES
     m_pList->EnableAlternateRowColours();
-    wxColour stripe_color;
-
-#if wxCHECK_VERSION(3, 1, 0)
-    stripe_color = m_pList->GetAlternateRowColour();
-    if (!stripe_color.IsOk())
 #endif
-    {
-        // copied from wxListCtrlBase::EnableAlternateRowColours(bool)
-
-        // Determine the alternate rows colour automatically from the
-        // background colour.
-        const wxColour bgColour = m_pList->GetBackgroundColour();
-
-        // Depending on the background, alternate row color
-        // will be 3% more dark or 50% brighter.
-        int alpha = bgColour.GetRGB() > 0x808080 ? 97 : 150;
-        stripe_color = bgColour.ChangeLightness(alpha);
-    }
-
-#ifdef __WXMSW__
-    // work around a bug in wxWidgets 3.1 and earlier
-    // if row background color is wxSYS_COLOR_BTNFACE selected unfocused row is drawn with wrong colors
-    if (stripe_color == wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE)) {
-        // adjust the color just enough to make it different
-        stripe_color.SetRGB(stripe_color.GetRGB() + 1);
-    }
-#endif
-
-    m_pMessageInfoGrayAttr = new wxListItemAttr(
-        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
-        stripe_color,
-        wxNullFont
-    );
-    m_pMessageErrorGrayAttr = new wxListItemAttr(
-        *wxRED,
-        stripe_color,
-        wxNullFont
-    );
-#else
-    m_pMessageInfoGrayAttr = new wxListItemAttr(*m_pMessageInfoAttr);
-    m_pMessageErrorGrayAttr = new wxListItemAttr(*m_pMessageErrorAttr);
-#endif
-
-    SetTextColor();
+    m_isConnected = wxGetApp().GetDocument()->IsConnected();
     RestoreState();
     OnRefresh();
     // Register that we had the Event Log open immediately
     SaveState();
-    
+
     m_Shortcuts[0].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'F', ID_SGDIAGNOSTICLOGFLAGS);
     m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
 
@@ -324,8 +256,11 @@ void CDlgEventLog::CreateControls()
     itemFlexGridSizer2->Add(m_pList, 0, wxGROW|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
-    
+
     itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 12);
+
+    m_pErrorFilterButton = new wxButton(this, ID_TASK_MESSAGES_FILTERBYERROR, _("Show only aler&ts"), wxDefaultPosition, wxDefaultSize);
+    itemBoxSizer4->Add(m_pErrorFilterButton, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
 
     m_pFilterButton = new wxButton(this, ID_TASK_MESSAGES_FILTERBYPROJECT, _("&Show only this project"),  wxDefaultPosition, wxDefaultSize);
     itemBoxSizer4->Add(m_pFilterButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -365,7 +300,7 @@ void CDlgEventLog::CreateControls()
     wxButton* itemButton44 = new wxButton(this, wxID_OK, _("&Close"),  wxDefaultPosition, wxDefaultSize);
     itemBoxSizer4->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    SetFilterButtonText(); 
+    SetFilterButtonText();
 }
 
 
@@ -383,30 +318,22 @@ void CDlgEventLog::SetFilterButtonText() {
         m_pFilterButton->SetToolTip(_("Show only the messages for the selected project"));
 #endif
     }
+    if (s_bErrorIsFiltered) {
+        m_pErrorFilterButton->SetLabel(_("Show al&l"));
+        m_pErrorFilterButton->SetHelpText(_("Shows messages of all types (information, alerts, etc.)"));
+#ifdef wxUSE_TOOLTIPS
+        m_pErrorFilterButton->SetToolTip(_("Shows messages of all types (information, alerts, etc.)"));
+#endif
+    }
+    else {
+        m_pErrorFilterButton->SetLabel(_("Show only aler&ts"));
+        m_pErrorFilterButton->SetHelpText(_("Shows only the messages that are alerts"));
+#ifdef wxUSE_TOOLTIPS
+        m_pErrorFilterButton->SetToolTip(_("Show only the messages that are alerts"));
+#endif
+    }
     // Adjust button size for new text
     Layout();
-}
-
-
-/*!
- * Text color selection for CDlgEventLog
- */
-
-void CDlgEventLog::SetTextColor() {
-    bool isConnected = wxGetApp().GetDocument()->IsConnected();
-
-    if (isConnected) {
-        m_pMessageInfoAttr->SetTextColour(*wxBLACK);
-        m_pMessageErrorAttr->SetTextColour(*wxRED);
-        m_pMessageInfoGrayAttr->SetTextColour(*wxBLACK);
-        m_pMessageErrorGrayAttr->SetTextColour(*wxRED);
-    } else {
-        wxColourDatabase colorBase;
-        m_pMessageInfoAttr->SetTextColour(wxColour(128, 128, 128));
-        m_pMessageErrorAttr->SetTextColour(wxColour(255, 128, 128));
-        m_pMessageInfoGrayAttr->SetTextColour(wxColour(128, 128, 128));
-        m_pMessageErrorGrayAttr->SetTextColour(wxColour(255, 128, 128));
-    }
 }
 
 
@@ -470,43 +397,105 @@ void CDlgEventLog::OnClose(wxCloseEvent& WXUNUSED(event)) {
 }
 
 
+// Function used to filter errors displayed in the Event Log.
+// This Function will first check if errors are currently filtered.  Then, regardless if true or false,
+// will evaluate if a project filter is active or not.  Depending on the combination of error and
+// project filters, the filtered list will be updated.  One of three possibilities could happen:
+// 1.  Restarting from the original event log list (if error filter was active and it is being deactivated)
+// 2.  Restarting the list and re-filtering (if both filters were active, but then one is being deactivated)
+// 3.  Filtering the currently filtered list (if one filter was active and the other filter is being activated).
+// After filtering is completed, then the buttons in the event log window are updated and the event log list
+// is updated to reflect the changes made to the list.
+//
+void CDlgEventLog::OnErrorFilter(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::OnErrorFilter - Function Begin"));
+    wxASSERT(m_pList);
+    if (s_bErrorIsFiltered) {
+        // Errors are currently filtered.  Whether a project filter is enabled or not,
+        // the list will need to be reset to the original list first.
+        //
+        s_bErrorIsFiltered = false;
+        m_iFilteredDocCount = m_iTotalDocCount;
+        m_iFilteredIndexes.Clear();
+        m_iTotalDeletedFilterRows = 0;
+        // Now that the settings are changed, need to determine if project filtering is currently
+        // enabled or not.  If it is not enabled, do nothing.  If it is enabled, need to re-filter
+        // by the project.
+        //
+        if (s_bIsFiltered) {  // Errors are currently filtered and a project is filtered
+            FindProjectMessages(false);
+        }
+    }
+    else {
+        // Errors are not currently filtered.  Take the list as it is and filter out errors.
+        s_bErrorIsFiltered = true;
+        if (!s_bIsFiltered) {  // Errors are not currently filtered but are filtered by a project.  Filter from the current list.
+            m_iFilteredDocCount = m_iTotalDocCount;
+            m_iFilteredIndexes.Clear();
+            m_iTotalDeletedFilterRows = 0;
+        }
+        FindErrorMessages(s_bIsFiltered);
+    }
+
+    s_bErrorFilteringChanged = true;
+    SetFilterButtonText();
+    // Force a complete update
+    m_iPreviousRowCount = 0;
+    m_pList->DeleteAllItems();
+    m_pList->SetItemCount(m_iFilteredDocCount);
+    OnRefresh();
+    wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::OnErrorFilter - Function End"));
+}
+
+
 void CDlgEventLog::OnMessagesFilter( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::OnMessagesFilter - Function Begin"));
 
     wxInt32 iIndex = -1;
-    MESSAGE* message;
-    
     wxASSERT(m_pList);
 
-    m_iFilteredIndexes.Clear();
-    s_strFilteredProjectName.clear();
-    m_iTotalDeletedFilterRows = 0;
-
     if (s_bIsFiltered) {
+        // Event log is filtering by a project.  Whether the error filter is enabled or not,
+        // the list will need to be reset to the original list first.
+        //
         s_bIsFiltered = false;
         m_iFilteredDocCount = m_iTotalDocCount;
-    } else {
+        m_iFilteredIndexes.Clear();
+        s_strFilteredProjectName.clear();
+        m_iTotalDeletedFilterRows = 0;
+        // Now that the settings are changed, need to determine if error filtering is currently
+        // enabled or not.  If it is not enabled, do nothing.  If it is enabled, need to re-filter
+        // by errors.
+        //
+        if (s_bErrorIsFiltered) {  // List is currently filtered by project and by error.
+            FindErrorMessages(false);
+        }
+    } else {  // List will now be filtered by a project.
+        // Get project name to be filtered.
+        s_strFilteredProjectName.clear();
+        MESSAGE* message;
         iIndex = m_pList->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         if (iIndex >= 0) {
-             message = wxGetApp().GetDocument()->message(iIndex);
+            message = wxGetApp().GetDocument()->message(GetFilteredMessageIndex(iIndex));
+            if (message) {
              if ((message->project).size() > 0) {
                 s_strFilteredProjectName = message->project;
-                s_bIsFiltered = true;
-                for (iIndex = 0; iIndex < m_iTotalDocCount; iIndex++) {
-                    message = wxGetApp().GetDocument()->message(iIndex);
-                    if (message->project.empty() || (message->project == s_strFilteredProjectName)) {
-                        m_iFilteredIndexes.Add(iIndex);
                     }
-
                 }
-                m_iFilteredDocCount = (int)(m_iFilteredIndexes.GetCount());
            }
+        if (!s_bErrorIsFiltered) {
+            // List is not filtered by errors nor by a project, so clear filtered indexes, count, etc.
+            m_iFilteredIndexes.Clear();
+            m_iFilteredDocCount = m_iTotalDocCount;
+            m_iTotalDeletedFilterRows = 0;
         }
+        FindProjectMessages(s_bErrorIsFiltered);
+        s_bIsFiltered = true;
     }
-    
+
     s_bFilteringChanged = true;
     SetFilterButtonText();
-    
+
     // Force a complete update
     m_iPreviousRowCount = 0;
     m_pList->DeleteAllItems();
@@ -518,7 +507,7 @@ void CDlgEventLog::OnMessagesFilter( wxCommandEvent& WXUNUSED(event) ) {
 
 
 wxInt32 CDlgEventLog::GetFilteredMessageIndex( wxInt32 iRow) const {
-    if (s_bIsFiltered) return m_iFilteredIndexes[iRow];
+    if (s_bIsFiltered || s_bErrorIsFiltered) return m_iFilteredIndexes[iRow];
     return iRow;
 }
 
@@ -529,12 +518,13 @@ wxInt32 CDlgEventLog::GetFilteredMessageIndex( wxInt32 iRow) const {
 //
 // Get the (possibly filtered) item count (i.e., the Row count) and
 // make any needed adjustments if oldest items have been deleted.
+//
 wxInt32 CDlgEventLog::GetDocCount() {
     int i, j, numDeletedRows;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    
+
     m_iTotalDocCount = pDoc->GetMessageCount();
 
     numDeletedRows = pDoc->GetFirstMsgSeqNum() - m_iPreviousFirstMsgSeqNum;
@@ -543,7 +533,7 @@ wxInt32 CDlgEventLog::GetDocCount() {
     }
     m_iNumDeletedFilteredRows = 0;
 
-    if (s_bIsFiltered) {
+    if (s_bIsFiltered || s_bErrorIsFiltered) {
         if (numDeletedRows > 0) {
             // Remove any deleted messages from our filtered list
             while (m_iFilteredIndexes.GetCount() > 0) {
@@ -552,22 +542,32 @@ wxInt32 CDlgEventLog::GetDocCount() {
                 m_iNumDeletedFilteredRows++;
                 m_iTotalDeletedFilterRows++;
             }
-            
+
             // Adjust the remaining indexes
             for (i = m_iFilteredIndexes.GetCount()-1; i >= 0; i--) {
                 m_iFilteredIndexes[i] -= numDeletedRows;
             }
         }
-        
+
         // Add indexes of new messages to filtered list as appropriate
         i = m_iTotalDocCount - (pDoc->GetLastMsgSeqNum() - m_iPreviousLastMsgSeqNum);
         if (i < 0) i = 0;
         for (; i < m_iTotalDocCount; i++) {
             MESSAGE* message = pDoc->message(i);
-            if (message->project.empty() || (message->project == s_strFilteredProjectName)) {
+                if (message) {
+                    if (s_bIsFiltered) {
+                        if (s_bErrorIsFiltered) {
+                            if (message->priority == MSG_USER_ALERT && (message->project.empty() || message->project == s_strFilteredProjectName)) {
+                                m_iFilteredIndexes.Add(i);
+                            }
+                        } else if (message->project.empty() || message->project == s_strFilteredProjectName) {
+                            m_iFilteredIndexes.Add(i);
+                        }
+                    } else if (s_bErrorIsFiltered && message->priority == MSG_USER_ALERT) {
                 m_iFilteredIndexes.Add(i);
             }
         }
+            }
         m_iFilteredDocCount = (int)(m_iFilteredIndexes.GetCount());
     } else {
         m_iFilteredDocCount = m_iTotalDocCount;
@@ -577,7 +577,7 @@ wxInt32 CDlgEventLog::GetDocCount() {
     if (numDeletedRows > 0) {
         // Adjust the selected row numbers
         wxArrayInt arrSelRows;
-        
+
         i = -1;
         for (;;) {
             i = m_pList->GetNextItem(i, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
@@ -595,8 +595,8 @@ wxInt32 CDlgEventLog::GetDocCount() {
             }
         }
     }
-    
-    return s_bIsFiltered ? m_iFilteredDocCount : m_iTotalDocCount;
+
+    return (s_bIsFiltered || s_bErrorIsFiltered) ? m_iFilteredDocCount : m_iTotalDocCount;
 }
 
 
@@ -604,13 +604,12 @@ wxInt32 CDlgEventLog::GetDocCount() {
  * called from CMainDocument::HandleCompletedRPC() after wxEVT_RPC_FINISHED event
  */
 void CDlgEventLog::OnRefresh() {
-    bool isConnected;
     static wxString strLastMachineName = wxEmptyString;
     wxString strNewMachineName = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    
+
     if (!IsShown()) return;
 
     if (!m_bProcessingRefreshEvent) {
@@ -619,16 +618,22 @@ void CDlgEventLog::OnRefresh() {
 
         wxInt32 iRowCount = GetDocCount();
         long topItem = m_pList->GetTopItem();
-        
-        if (0 >= iRowCount) {
+
+        // If the total rows is negative then it is presumed that something went wrong.
+        // This conditional resets message filtering, clears the list of event logs that were to
+        // be displayed.  This also happens if the row count is zero, since there should always be
+        // a message.  One exception to this is when error filtering is enabled since it is possible
+        // for no errors to occur.
+        //
+        if ((0 >= iRowCount) && !s_bErrorIsFiltered) {
             m_pList->DeleteAllItems();
             ResetMessageFiltering();
             m_iPreviousFirstMsgSeqNum = 0;
             m_iPreviousLastMsgSeqNum = 0;
         } else {
             // If connected computer changed, reset message filtering
-            isConnected = wxGetApp().GetDocument()->IsConnected();
-            if (isConnected) {
+            m_isConnected = wxGetApp().GetDocument()->IsConnected();
+            if (m_isConnected) {
                 pDoc->GetConnectedComputerName(strNewMachineName);
                 if (strLastMachineName != strNewMachineName) {
                     strLastMachineName = strNewMachineName;
@@ -641,9 +646,8 @@ void CDlgEventLog::OnRefresh() {
             }
 
             // If connection status changed, adjust color of messages display
-            if (m_bWasConnected != isConnected) {
-                m_bWasConnected = isConnected;
-                SetTextColor();
+            if (m_bWasConnected != m_isConnected) {
+                m_bWasConnected = m_isConnected;
 
                 // Force a complete update
                 m_pList->DeleteAllItems();
@@ -666,6 +670,9 @@ void CDlgEventLog::OnRefresh() {
             if (s_bFilteringChanged) {
                 m_pList->EnsureVisible(iRowCount - 1);
                 s_bFilteringChanged = false;
+            } else if (s_bErrorFilteringChanged) {
+                m_pList->EnsureVisible(iRowCount - 1);
+                s_bErrorFilteringChanged = false;
             } else {
                 if (m_iPreviousLastMsgSeqNum != pDoc->GetLastMsgSeqNum()) {
                     if (EnsureLastItemVisible()) {
@@ -686,7 +693,7 @@ void CDlgEventLog::OnRefresh() {
             m_iPreviousFirstMsgSeqNum = pDoc->GetFirstMsgSeqNum();
             m_iPreviousLastMsgSeqNum = pDoc->GetLastMsgSeqNum();
         }
-        
+
         UpdateButtons();
 
         m_bProcessingRefreshEvent = false;
@@ -809,16 +816,16 @@ void CDlgEventLog::GetWindowDimensions( wxPoint& position, wxSize& size ) {
 
     pConfig->Read(wxT("YPos"), &iTop, 30);
     pConfig->Read(wxT("XPos"), &iLeft, 30);
-    pConfig->Read(wxT("Width"), &iWidth, DLGEVENTLOG_INITIAL_WIDTH);
-    pConfig->Read(wxT("Height"), &iHeight, DLGEVENTLOG_INITIAL_HEIGHT);
+    pConfig->Read(wxT("Width"), &iWidth, dlgEventlogInitialWidth);
+    pConfig->Read(wxT("Height"), &iHeight, dlgEventLogInitialHeight);
 
     // Guard against a rare situation where registry values are zero
-    if (iWidth < 50) iWidth = DLGEVENTLOG_INITIAL_WIDTH;
-    if (iHeight < 50) iHeight = DLGEVENTLOG_INITIAL_HEIGHT;
+    if (iWidth < 50) iWidth = dlgEventlogInitialWidth;
+    if (iHeight < 50) iHeight = dlgEventLogInitialHeight;
     position.y = iTop;
     position.x = iLeft;
-    size.x = std::max(iWidth, DLGEVENTLOG_MIN_WIDTH);
-    size.y = std::max(iHeight, DLGEVENTLOG_MIN_HEIGHT);
+    size.x = std::max(iWidth, dlgEventlogMinWidth);
+    size.y = std::max(iHeight, dlgEventlogMinHeight);
 }
 
 
@@ -866,7 +873,7 @@ void CDlgEventLog::OnMessagesCopyAll( wxCommandEvent& WXUNUSED(event) ) {
     OpenClipboard( iRowCount * 1024 );
 
     for (iIndex = 0; iIndex < iRowCount; iIndex++) {
-        CopyToClipboard(iIndex);            
+        CopyToClipboard(iIndex);
     }
 
     CloseClipboard();
@@ -894,7 +901,7 @@ void CDlgEventLog::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
         );
         if (iIndex == -1) break;
 
-        iRowCount++;            
+        iRowCount++;
     }
 
     OpenClipboard( iRowCount * 1024 );
@@ -908,7 +915,7 @@ void CDlgEventLog::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
         );
         if (iIndex == -1) break;
 
-        CopyToClipboard(iIndex);            
+        CopyToClipboard(iIndex);
     }
 
     CloseClipboard();
@@ -959,7 +966,9 @@ void CDlgEventLog::OnColResize( wxListEvent& ) {
 
 void CDlgEventLog::ResetMessageFiltering() {
     s_bFilteringChanged = false;
+    s_bErrorFilteringChanged = false;
     s_bIsFiltered = false;
+    s_bErrorIsFiltered = false;
     s_strFilteredProjectName.clear();
     m_iFilteredIndexes.Clear();
     SetFilterButtonText();
@@ -967,25 +976,108 @@ void CDlgEventLog::ResetMessageFiltering() {
 }
 
 
+// Function to search through messages and find messages that contain an error.  This function first reads the input
+// to see if it should search all indexes or a pre-filtered set of indexes.  Then, it will search through the indexes.
+// For each index that is an error (priority == MSG_USER_ALERT), it will add that message's index to a temporary
+// array of indexes.  After the for loop is complete, the recently filtered indexes will be written to m_iFilteredIndexes
+// and the recently filtered indexes will be stored in m_iFilteredDocCount.
+//
+// The following input variable is required:
+//  isfiltered:  If the wxArrayInt that we want to search is already filtered (m_iFilteredIndexes), this will be true.
+//                 If we want to search all indexes (m_iTotalIndexes), this will be false).
+//
+void CDlgEventLog::FindErrorMessages(bool isFiltered) {
+    wxArrayInt filteredindexes;
+    MESSAGE* message;
+    wxInt32 i = 0;
+    if (isFiltered) {
+        for (i=0; i < m_iFilteredDocCount; i++) {
+            message = wxGetApp().GetDocument()->message(GetFilteredMessageIndex(i));
+            if (message) {
+                if (message->priority == MSG_USER_ALERT) {
+                    filteredindexes.Add(GetFilteredMessageIndex(i));
+                }
+            }
+        }
+    }
+    else {
+        for (i=0; i < m_iTotalDocCount; i++) {
+            message = wxGetApp().GetDocument()->message(i);
+            if (message) {
+                if (message->priority == MSG_USER_ALERT) {
+                    filteredindexes.Add(i);
+                }
+            }
+        }
+    }
+    m_iFilteredIndexes = filteredindexes;
+    m_iFilteredDocCount = static_cast<wxInt32>(filteredindexes.GetCount());
+}
+
+
+// Function to search through messages and find all messages that are associated with a specific project.  Messages that do
+// not have a project are included in the filtered indexes.
+//
+// This function first reads the input to see if it should search all indexes or a pre-filtered set of indexes.
+// Then, it will search through those indexes.  For each message that matches the associated
+// project (s_strFilteredProjectName) or has no associated project, it will add that message's index to a temporary
+// array of indexes.  After the for loop is complete, the recently filtered indexes will be written to
+// m_iFilteredIndexes and the recently filtered indexes will be stored in m_iFilteredDocCount.
+//
+// It is assumed s_strFilteredProjectName is correct prior to this function being called.
+//
+// The following input variable is required:
+//  isfiltered:  If the wxArrayInt that we want to search is already filtered (m_iFilteredIndexes), this will be true.
+//                 If we want to search all indexes (m_iTotalIndexes), this will be false).
+//
+void CDlgEventLog::FindProjectMessages(bool isFiltered) {
+    wxArrayInt filteredindexes;
+    MESSAGE* message;
+    wxInt32 i = 0;
+    if (isFiltered) {
+        for (i=0; i < m_iFilteredDocCount; i++) {
+            message = wxGetApp().GetDocument()->message(GetFilteredMessageIndex(i));
+            if (message) {
+                if (message->project.empty() || message->project == s_strFilteredProjectName) {
+                    filteredindexes.Add(GetFilteredMessageIndex(i));
+                }
+            }
+        }
+    }
+    else {
+        for (i=0; i < m_iTotalDocCount; i++) {
+            message = wxGetApp().GetDocument()->message(i);
+            if (message) {
+                if (message->project.empty() || message->project == s_strFilteredProjectName) {
+                    filteredindexes.Add(i);
+                }
+            }
+        }
+    }
+    m_iFilteredIndexes = filteredindexes;
+    m_iFilteredDocCount = static_cast<wxInt32>(m_iFilteredIndexes.GetCount());
+}
+
+
 void CDlgEventLog::UpdateButtons() {
-    bool enableFilterButton = s_bIsFiltered; 
-    bool enableCopySelectedButon = false; 
+    bool enableFilterButton = s_bIsFiltered;
+    bool enableCopySelectedButton = false;
     if (m_iTotalDocCount > 0) {
         int n = m_pList->GetSelectedItemCount();
         if (n > 0) {
-            enableCopySelectedButon = true;
+            enableCopySelectedButton = true;
         }
-        
+
         if ((n == 1) && (! s_bIsFiltered)) {
             n = m_pList->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-            MESSAGE* message = wxGetApp().GetDocument()->message(n);
+            MESSAGE* message = wxGetApp().GetDocument()->message(GetFilteredMessageIndex(n));
             if ((message->project).size() > 0) {
                 enableFilterButton = true;
             }
         }
     }
     m_pFilterButton->Enable(enableFilterButton);
-    m_pCopySelectedButton->Enable(enableCopySelectedButon);
+    m_pCopySelectedButton->Enable(enableCopySelectedButton);
 }
 
 
@@ -1009,41 +1101,16 @@ wxString CDlgEventLog::OnListGetItemText(long item, long column) const {
 }
 
 
-wxListItemAttr* CDlgEventLog::OnListGetItemAttr(long item) const {
-    wxListItemAttr* pAttribute  = NULL;
-    wxInt32         index       = GetFilteredMessageIndex(item);
-    MESSAGE*        message     = wxGetApp().GetDocument()->message(index);
-
-    // If we are using some theme where the default background color isn't
-    //   white, then our whole system is boned. Use defaults instead.
-    if (wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW) != wxColor(wxT("WHITE"))) return NULL;
-
-    if (message) {
-        item += s_bIsFiltered ? m_iTotalDeletedFilterRows : m_iPreviousFirstMsgSeqNum;
-        switch(message->priority) {
-        case MSG_USER_ALERT:
-            pAttribute = item % 2 ? m_pMessageErrorGrayAttr : m_pMessageErrorAttr;
-            break;
-        default:
-           pAttribute = item % 2 ? m_pMessageInfoGrayAttr : m_pMessageInfoAttr;
-            break;
-        }
-    }
-
-    return pAttribute;
-}
-
-
 bool CDlgEventLog::EnsureLastItemVisible() {
     int numVisible = m_pList->GetCountPerPage();
 
     // Auto-scroll only if already at bottom of list
     if ((m_iPreviousRowCount > numVisible)
-         && ((m_pList->GetTopItem() + numVisible) < (m_iPreviousRowCount-1)) 
+         && ((m_pList->GetTopItem() + numVisible) < (m_iPreviousRowCount-1))
     ) {
         return false;
     }
-    
+
     return true;
 }
 
@@ -1085,11 +1152,30 @@ wxInt32 CDlgEventLog::FormatTime(wxInt32 item, wxString& strBuffer) const {
 
 wxInt32 CDlgEventLog::FormatMessage(wxInt32 item, wxString& strBuffer) const {
     MESSAGE*   message = wxGetApp().GetDocument()->message(item);
-    
+
     if (message) {
+           switch(message->priority) {
+            case MSG_INFO:
+        if (m_isConnected) {
+                m_pList->SetTextColour(m_normalTextColor);
+                } else {
+                    m_pList->SetTextColour(wxColour(96, 96, 96));
+                }
+                break;
+            default:
+                if (m_isConnected) {
+                    m_pList->SetTextColour(*wxRED);
+                } else {
+                    m_pList->SetTextColour(wxColour(192, 96, 96));
+                }
+                break;
+            }
+
         strBuffer = wxString(message->body.c_str(), wxConvUTF8);
         remove_eols(strBuffer);
         localize(strBuffer);
+    } else {
+        m_pList->SetTextColour(m_normalTextColor);
     }
 
     return 0;

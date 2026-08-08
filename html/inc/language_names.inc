@@ -18,7 +18,7 @@
 
 $language_names = array(
     array("ar", "العربية", "Arabic"),
-    array("az", "Азәрбајҹан дили", "Azerbaijani"),
+    array("az", "Azərbaycan", "Azerbaijani"),
     array("be", "Беларускі", "Belarusian"),
     array("bg", "Български", "Bulgarian"),
     array("ca", "Català", "Catalan"),
@@ -65,7 +65,7 @@ function language_select($cur_lang_name) {
     $supported_languages[] = "en";
     $sel = $cur_lang_name?"":"selected";
     echo "
-        <option $sel value=auto> Browser default
+        <option $sel value=auto>Language: default
     ";
     foreach ($language_names as $lang) {
         if (!in_array($lang[0], $supported_languages)) continue;

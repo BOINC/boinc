@@ -1,5 +1,3 @@
-## $Id$
-
 # quarl 2003-10-16 initial version based on conglomeration of
 #                  coursesurvey/database.py and boinc/database.py
 
@@ -11,11 +9,8 @@
 # will do a database.Results.find1(id=wu.resultid) the first time
 
 from __future__ import generators
-
 import MySQLdb, MySQLdb.cursors
 import sys, os, weakref
-
-ID = '$Id$'
 
 dbconnection = None
 
@@ -74,13 +69,13 @@ def _commit_object(tablename, paramdict, id=None):
     equalcommands = []
     for key in paramdict.keys():
         value = paramdict[key]
-        if value == None:
+        if value is None:
             continue
         elif isinstance(value, int):
             equalcommands.append('%s=%d' %(key,value))
         else:
             equalcommands.append("%s='%s'"%(key,dbconnection.escape_string(str(value))))
-    if id == None:
+    if id is None:
         command = 'INSERT INTO %s SET %s' % \
             (tablename, ', '.join(equalcommands))
         if debug.mysql:
@@ -102,7 +97,7 @@ def _remove_object(command, id=None):
         id is given, it assembles the SQL command and deletes the object
         from the database.  Does nothing if no id is given."""
     assert(dbconnection)
-    if id == None:
+    if id is None:
         pass
     else:
         cursor = dbconnection.cursor()
@@ -127,7 +122,7 @@ def _select_object(table, searchdict, extra_args="", extra_params=[], select_wha
     if join:
         command += "," + join
     for (key,value) in searchdict.items():
-        if value == None:
+        if value is None:
             value = ''
         escaped_value = dbconnection.escape_string(str(value))
         if key == 'text':
@@ -145,13 +140,13 @@ def _select_object(table, searchdict, extra_args="", extra_params=[], select_wha
     return cursor
 
 def _select_object_fetchall(*args, **kwargs):
-    cursor = apply(_select_object, args, kwargs)
+    cursor = _select_object(*args, **kwargs)
     results = cursor.fetchall()
     cursor.close()
     return results
 
 def _select_object_iterate(*args, **kwargs):
-    cursor = apply(_select_object, args, kwargs)
+    cursor = _select_object(*args, **kwargs)
     while True:
         result = cursor.fetchone()
         if not result: return
@@ -159,7 +154,7 @@ def _select_object_iterate(*args, **kwargs):
 
 def _select_count_objects(*args, **kwargs):
     kwargs['select_what'] = 'count(*)'
-    cursor = apply(_select_object, args, kwargs)
+    cursor = _select_object(*args, **kwargs)
     result = cursor.fetchone().values()[0]
     cursor.close()
     return result
@@ -323,7 +318,7 @@ class DatabaseTable:
         return
 
     def _create_objects_from_sql_results(self, results, kwargs):
-        return [ self._create_object_from_sql_result for result in  results ]
+        return [ self._create_object_from_sql_result(result) for result in results ]
 
     def _create_object_from_sql_result(self, result):
         id = result['id']
@@ -338,7 +333,7 @@ class DatabaseTable:
                 object.do_init(result)
         except KeyError:
             # create the object - looking up instructors, etc
-            object = apply(self.object_class, [], result)
+            object = self.object_class(**result)
             if object.id:
                 self.objects[object.id] = object
                 self._cache(object)
@@ -347,7 +342,7 @@ class DatabaseTable:
     def find1(self, **kwargs):
         '''Return a single result.  Raises a DatabaseInconsistency if not
         exactly 1 result returned.'''
-        objects = apply(self.find, [], kwargs)
+        objects = self.find(**kwargs)
         if len(objects) != 1:
             raise DatabaseInconsistency(
                 descript="find1: expected 1 result but found %d"%len(objects),
@@ -506,6 +501,7 @@ def close():
 def get_dbconnection():
     return dbconnection
 def set_dbconnection(d):
+    global dbconnection
     dbconnection = d
 
 def init_table_classes(database_classes_, more_id_lookups = {}):

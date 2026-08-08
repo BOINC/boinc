@@ -24,9 +24,11 @@ check_get_args(array());
 $user = get_logged_in_user();
 
 page_head(tra("Change email address"));
+echo tra("Note: if you change your email address, your %1weak account key%2 will change.", "<a href=weak_auth.php>", "</a>");
+echo "<p>";
 
 $email_text = "";
-if (is_valid_email_addr($user->email_addr)) {
+if (is_valid_email_syntax($user->email_addr)) {
     $email_text = $user->email_addr;
 }
 
@@ -43,7 +45,7 @@ if ($user->email_addr_change_time + 604800 > time()) {
     // we need the password here not for verification,
     // but because we store it salted with email address,
     // which is about to change.
-    
+
     form_input_text(tra("Password"), "passwd", "", "password");
     form_submit(tra("Change email address"));
     form_end();

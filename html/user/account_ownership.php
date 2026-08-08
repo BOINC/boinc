@@ -20,7 +20,7 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/user.inc");
 require_once("../inc/util.inc");
 require_once("../inc/countries.inc");
-require_once('../inc/recaptchalib.php');
+require_once('../inc/recaptchalib.inc');
 
 check_get_args(array("tnow", "ttok"));
 
@@ -31,10 +31,9 @@ function account_ownership_action($user) {
   // POST request - the user has submitted the form.
   page_head(tra("Proof of account ownership results"), null, null, null, boinc_recaptcha_get_head_extra());
 
-  global $recaptcha_private_key;
-  if ($recaptcha_private_key) {
+  if (recaptcha_private_key()) {
       // Recaptcha is enabled on the BOINC server
-      if (!boinc_recaptcha_isValidated($recaptcha_private_key)) {
+      if (!boinc_recaptcha_isValidated(recaptcha_private_key())) {
           // The user failed to solve the recaptcha prompt - redirect them to an error message!
           error_page(
               tra("Your reCAPTCHA response was not correct. Please try again.")
@@ -88,7 +87,7 @@ function account_ownership_action($user) {
       if ($sig_verification == 1) {
           $url_tokens = url_tokens($user->authenticator);
           // The generated signature has been successfully verified using the public key.
-          global $master_url; // Define global master_url variable for use in output
+          $master_url = master_url();
           echo "<p>Do not share this information with anyone other than the external system which has requested this proof of account ownership.</p>";
           echo "<textarea rows='13' cols='50' id='result_textbox'><account_ownership_verification>\n<master_url>$master_url</master_url>\n<msg>$message_data</msg>\n<signature>$base64_sig</signature>\n</account_ownership_verification></textarea>";
           echo "<br/><br/><button class='btn btn-success' onclick='copy_result_textbox()'>Copy text</button>";
@@ -135,8 +134,7 @@ function account_ownership_form($user) {
 
       echo "<p>This tool is designed to create a proof of account ownership for external systems.</p>";
 
-      global $recaptcha_public_key;
-      if ($recaptcha_public_key) {
+      if (recaptcha_public_key()) {
           // Recaptcha configured
           echo "<p>Enter a message with length less than 4096 characters into the input textbox below, solve the captcha then click the 'Generate' button.</p>";
       } else {
@@ -149,9 +147,9 @@ function account_ownership_form($user) {
       echo form_tokens($user->authenticator);
       echo "<textarea rows='4' cols='50' name=user_data type=text size=20 placeholder='Enter text'></textarea><br/><br/>";
 
-      if ($recaptcha_public_key) {
+      if (recaptcha_public_key()) {
           // Trigger recaptcha!
-          form_general("", boinc_recaptcha_get_html($recaptcha_public_key));
+          form_general("", boinc_recaptcha_get_html(recaptcha_public_key()));
       }
 
       echo "<input class=\"btn btn-success\" type=submit value='".tra("Generate")."'>";

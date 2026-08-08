@@ -18,21 +18,14 @@
 #include <boinc_win.h>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include <string.h>
-
 #include "str_replace.h"
 #include "url.h"
-
 #include "client_msgs.h"
 #include "client_state.h"
 #include "log_flags.h"
 #include "result.h"
 #include "sandbox.h"
-
 #include "project.h"
 
 PROJECT::PROJECT() {
@@ -44,8 +37,8 @@ void PROJECT::init() {
     safe_strcpy(authenticator, "");
     safe_strcpy(_project_dir, "");
     safe_strcpy(_project_dir_absolute, "");
-    project_specific_prefs = "";
-    gui_urls = "";
+    project_specific_prefs.clear();
+    gui_urls.clear();
     resource_share = 100;
     resource_share_frac = 0.0;
     disk_resource_share = 0.0;
@@ -94,7 +87,7 @@ void PROJECT::init() {
     disk_share = 0.0;
     anonymous_platform = false;
     non_cpu_intensive = false;
-    verify_files_on_app_start = false;
+    strict_memory_bound = false;
     report_results_immediately = false;
     pwf.reset(this);
     send_time_stats_log = 0;
@@ -132,6 +125,9 @@ void PROJECT::init() {
     gpu_ec = 0;
     gpu_time = 0;
     app_configs.clear();
+    upload_backoff.is_upload = true;
+    download_backoff.is_upload = false;
+    app_test = false;
 
 #ifdef SIM
     idle_time = 0;
@@ -251,7 +247,7 @@ int PROJECT::parse_state(XML_PARSER& xp) {
         if (xp.parse_bool("send_full_workload", send_full_workload)) continue;
         if (xp.parse_bool("dont_use_dcf", dont_use_dcf)) continue;
         if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) continue;
-        if (xp.parse_bool("verify_files_on_app_start", verify_files_on_app_start)) continue;
+        if (xp.parse_bool("strict_memory_bound", strict_memory_bound)) continue;
         if (xp.parse_bool("suspended_via_gui", suspended_via_gui)) continue;
         if (xp.parse_bool("dont_request_more_work", dont_request_more_work)) continue;
         if (xp.parse_bool("detach_when_done", detach_when_done)) continue;
@@ -304,6 +300,8 @@ int PROJECT::parse_state(XML_PARSER& xp) {
             if (btemp) handle_no_rsc_ams(this, "CPU");
             continue;
         }
+
+        // the following 3 deprecated; use no_rsc_ams instead
         if (xp.parse_bool("no_cuda_ams", btemp)) {
             if (btemp) handle_no_rsc_ams(this, GPU_TYPE_NVIDIA);
             continue;
@@ -316,6 +314,7 @@ int PROJECT::parse_state(XML_PARSER& xp) {
             if (btemp) handle_no_rsc_ams(this, GPU_TYPE_INTEL);
             continue;
         }
+
         if (xp.parse_str("no_rsc_ams", buf, sizeof(buf))) {
             handle_no_rsc_ams(this, buf);
             continue;
@@ -417,6 +416,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <rec>%f</rec>\n"
         "    <rec_time>%f</rec_time>\n"
         "    <resource_share>%f</resource_share>\n"
+        "    <disk_usage>%f</disk_usage>\n"
+        "    <disk_share>%f</disk_share>\n"
         "    <desired_disk_usage>%f</desired_disk_usage>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
         "    <sched_rpc_pending>%d</sched_rpc_pending>\n"
@@ -454,6 +455,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         pwf.rec,
         pwf.rec_time,
         resource_share,
+        disk_usage, disk_share,
         desired_disk_usage,
         duration_correction_factor,
         sched_rpc_pending,
@@ -469,7 +471,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         send_full_workload?"    <send_full_workload/>\n":"",
         dont_use_dcf?"    <dont_use_dcf/>\n":"",
         non_cpu_intensive?"    <non_cpu_intensive/>\n":"",
-        verify_files_on_app_start?"    <verify_files_on_app_start/>\n":"",
+        strict_memory_bound?"    <strict_memory_bound/>\n":"",
         suspended_via_gui?"    <suspended_via_gui/>\n":"",
         dont_request_more_work?"    <dont_request_more_work/>\n":"",
         detach_when_done?"    <detach_when_done/>\n":"",
@@ -557,10 +559,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
             "    <cpu_ec>%f</cpu_ec>\n"
             "    <cpu_time>%f</cpu_time>\n"
             "    <gpu_ec>%f</gpu_ec>\n"
-            "    <gpu_time>%f</gpu_time>\n"
-            "    <disk_usage>%f</disk_usage>\n"
-            "    <disk_share>%f</disk_share>\n",
-            cpu_ec, cpu_time, gpu_ec, gpu_time, disk_usage, disk_share
+            "    <gpu_time>%f</gpu_time>\n",
+            cpu_ec, cpu_time, gpu_ec, gpu_time
         );
     }
     out.printf(
@@ -574,6 +574,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
 //
 void PROJECT::copy_state_fields(PROJECT& p) {
     scheduler_urls = p.scheduler_urls;
+    safe_strcpy(master_url, p.master_url);      // client_state.xml is authoritative
     safe_strcpy(project_name, p.project_name);
     safe_strcpy(user_name, p.user_name);
     safe_strcpy(team_name, p.team_name);
@@ -609,10 +610,10 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     pwf = p.pwf;
     send_full_workload = p.send_full_workload;
     dont_use_dcf = p.dont_use_dcf;
+    non_cpu_intensive = p.non_cpu_intensive;
+    strict_memory_bound = p.strict_memory_bound;
     send_time_stats_log = p.send_time_stats_log;
     send_job_log = p.send_job_log;
-    non_cpu_intensive = p.non_cpu_intensive;
-    verify_files_on_app_start = p.verify_files_on_app_start;
     suspended_via_gui = p.suspended_via_gui;
     dont_request_more_work = p.dont_request_more_work;
     detach_when_done = p.detach_when_done;
@@ -681,8 +682,7 @@ void PROJECT::resume() {
 }
 
 void PROJECT::abort_not_started() {
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
+    for (RESULT* rp: gstate.results) {
         if (rp->project != this) continue;
         if (rp->is_not_started()) {
             rp->abort_inactive(EXIT_ABORTED_VIA_GUI);
@@ -693,11 +693,10 @@ void PROJECT::abort_not_started() {
 void PROJECT::get_task_durs(double& not_started_dur, double& in_progress_dur) {
     not_started_dur = 0;
     in_progress_dur = 0;
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
+    for (RESULT* rp: gstate.results) {
         if (rp->project != this) continue;
         double d = rp->estimated_runtime_remaining();
-        d /= gstate.time_stats.availability_frac(rp->avp->gpu_usage.rsc_type);
+        d /= gstate.time_stats.availability_frac(rp->resource_usage.rsc_type);
         if (rp->is_not_started()) {
             not_started_dur += d;
         } else {
@@ -724,7 +723,7 @@ void PROJECT::delete_project_file_symlinks() {
 
     for (i=0; i<project_files.size(); i++) {
         FILE_REF& fref = project_files[i];
-        snprintf(path, sizeof(path), "%s/%s", project_dir(), fref.open_name);
+        snprintf(path, sizeof(path), "%.*s/%s", DIR_LEN, project_dir(), fref.open_name);
         delete_project_owned_file(path, false);
     }
 }
@@ -784,8 +783,8 @@ int PROJECT::write_symlink_for_project_file(FILE_INFO* fip) {
     for (i=0; i<project_files.size(); i++) {
         FILE_REF& fref = project_files[i];
         if (fref.file_info != fip) continue;
-        snprintf(link_path, sizeof(link_path), "%s/%s", project_dir(), fref.open_name);
-        snprintf(file_path, sizeof(file_path), "%s/%s", project_dir(), fip->name);
+        snprintf(link_path, sizeof(link_path), "%.*s/%s", DIR_LEN, project_dir(), fref.open_name);
+        snprintf(file_path, sizeof(file_path), "%.*s/%s", DIR_LEN, project_dir(), fip->name);
         make_soft_link(this, link_path, file_path);
     }
     return 0;
@@ -806,12 +805,9 @@ void PROJECT::update_project_files_downloaded_time() {
 
 bool PROJECT::some_download_stalled() {
 #ifndef SIM
-    unsigned int i;
-
     if (!download_backoff.ok_to_transfer()) return true;
 
-    for (i=0; i<gstate.pers_file_xfers->pers_file_xfers.size(); i++) {
-        PERS_FILE_XFER* pfx = gstate.pers_file_xfers->pers_file_xfers[i];
+    for (PERS_FILE_XFER* pfx: gstate.pers_file_xfers->pers_file_xfers) {
         if (pfx->fip->project != this) continue;
         if (pfx->is_upload) continue;
         if (pfx->next_request_time > gstate.now) return true;
@@ -822,11 +818,10 @@ bool PROJECT::some_download_stalled() {
 
 bool PROJECT::runnable(int rsc_type) {
     if (suspended_via_gui) return false;
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
+    for (RESULT* rp: gstate.results) {
         if (rp->project != this) continue;
         if (rsc_type != RSC_TYPE_ANY) {
-            if (rp->avp->gpu_usage.rsc_type != rsc_type) {
+            if (rp->resource_usage.rsc_type != rsc_type) {
                 continue;
             }
         }
@@ -836,9 +831,8 @@ bool PROJECT::runnable(int rsc_type) {
 }
 
 bool PROJECT::uploading() {
-    for (unsigned int i=0; i<gstate.file_xfers->file_xfers.size(); i++) {
-        FILE_XFER& fx = *gstate.file_xfers->file_xfers[i];
-        if (fx.fip->project == this && fx.is_upload) {
+    for (FILE_XFER* fxp: gstate.file_xfers->file_xfers) {
+        if (fxp->fip->project == this && fxp->is_upload) {
             return true;
         }
     }
@@ -847,8 +841,7 @@ bool PROJECT::uploading() {
 
 bool PROJECT::downloading() {
     if (suspended_via_gui) return false;
-    for (unsigned int i=0; i<gstate.results.size(); i++) {
-        RESULT* rp = gstate.results[i];
+    for (RESULT* rp: gstate.results) {
         if (rp->project != this) continue;
         if (rp->downloading()) return true;
     }
@@ -856,17 +849,14 @@ bool PROJECT::downloading() {
 }
 
 bool PROJECT::has_results() {
-    for (unsigned i=0; i<gstate.results.size(); i++) {
-        RESULT *rp = gstate.results[i];
+    for (RESULT* rp: gstate.results) {
         if (rp->project == this) return true;
     }
     return false;
 }
 
 bool PROJECT::some_result_suspended() {
-    unsigned int i;
-    for (i=0; i<gstate.results.size(); i++) {
-        RESULT *rp = gstate.results[i];
+    for (RESULT* rp: gstate.results) {
         if (rp->project != this) continue;
         if (rp->suspended_via_gui) return true;
     }
@@ -977,58 +967,37 @@ void PROJECT::check_no_apps() {
         no_rsc_apps[i] = true;
     }
 
-    for (unsigned int i=0; i<gstate.app_versions.size(); i++) {
-        APP_VERSION* avp = gstate.app_versions[i];
+    for (APP_VERSION* avp: gstate.app_versions) {
         if (avp->project != this) continue;
-        no_rsc_apps[avp->gpu_usage.rsc_type] = false;
+        no_rsc_apps[avp->resource_usage.rsc_type] = false;
     }
 }
 
-// show a notice if we can't get work from this project,
-// and there's something the user could do about it.
+// show devices this project is not allowed to compute for
+// because of a user setting
 //
 void PROJECT::show_no_work_notice() {
-    bool some_banned = false;
     for (int i=0; i<coprocs.n_rsc; i++) {
         if (no_rsc_apps[i]) continue;
-        bool banned_by_user = no_rsc_pref[i] || no_rsc_config[i];
-        if (!gstate.acct_mgr_info.dynamic) {
-            // dynamic account managers manage rsc usage themselves, not user
-            //
-            banned_by_user = banned_by_user || no_rsc_ams[i];
-            // note to self: ||= doesn't exist
-        }
-        if (!banned_by_user) {
-            continue;
-        }
-        string x;
-        x = NO_WORK_MSG;
-        x += " ";
-        x += rsc_name_long(i);
-        x += ".  ";
-        x += _("To fix this, you can ");
+            // project can't use resource anyway
 
-        bool first = true;
         if (no_rsc_pref[i]) {
-            x += _("change Project Preferences on the project's web site");
-            first = false;
+            msg_printf(this, MSG_INFO,
+                "Not using %s: project preferences",
+                rsc_name_long(i)
+            );
         }
         if (no_rsc_config[i]) {
-            if (!first) x += ", or ";
-            x += _("remove GPU exclusions in your cc_config.xml file");
-            first = false;
+            msg_printf(this, MSG_INFO,
+                "Not using %s: GPU exclusions in cc_config.xml",
+                rsc_name_long(i)
+            );
         }
         if (no_rsc_ams[i] && !gstate.acct_mgr_info.dynamic) {
-            if (!first) x += ", or ";
-            x += _("change your settings at your account manager web site");
+            msg_printf(this, MSG_INFO,
+                "Not using %s: account manager settings",
+                rsc_name_long(i)
+            );
         }
-        x += ".";
-        msg_printf(this, MSG_USER_ALERT, "%s", x.c_str());
-        some_banned = true;
     }
-    if (!some_banned) {
-        notices.remove_notices(this, REMOVE_NO_WORK_MSG);
-        return;
-    }
-
 }

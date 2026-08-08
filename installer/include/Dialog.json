@@ -1,0 +1,85 @@
+{
+    "Dialog": [
+        {
+            "include": "dialog/AdminChangeFolder.json"
+        },
+        {
+            "include": "dialog/AdminNetworkLocation.json"
+        },
+        {
+            "include": "dialog/AdminWelcome.json"
+        },
+        {
+            "include": "dialog/CancelSetup.json"
+        },
+        {
+            "include": "dialog/ChangeFolderData.json"
+        },
+        {
+            "include": "dialog/ChangeFolderInstall.json"
+        },
+        {
+            "include": "dialog/DiskSpaceRequirements.json"
+        },
+        {
+            "include": "dialog/FeatureNotSupported.json"
+        },
+        {
+            "include": "dialog/FilesInUse.json"
+        },
+        {
+            "include": "dialog/InstallWelcome.json"
+        },
+        {
+            "include": "dialog/LicenseAgreement.json"
+        },
+        {
+            "include": "dialog/MaintenanceType.json"
+        },
+        {
+            "include": "dialog/MaintenanceWelcome.json"
+        },
+        {
+            "include": "dialog/MsiRMFilesInUse.json"
+        },
+        {
+            "include": "dialog/OutOfSpace.json"
+        },
+        {
+            "include": "dialog/PatchWelcome.json"
+        },
+        {
+            "include": "dialog/ReadyToInstall.json"
+        },
+        {
+            "include": "dialog/ReadyToRemove.json"
+        },
+        {
+            "include": "dialog/SetupCompleteError.json"
+        },
+        {
+            "include": "dialog/SetupCompleteSuccess.json"
+        },
+        {
+            "include": "dialog/SetupConfig.json"
+        },
+        {
+            "include": "dialog/SetupConfigAdvanced.json"
+        },
+        {
+            "include": "dialog/SetupError.json"
+        },
+        {
+            "include": "dialog/SetupInitialization.json"
+        },
+        {
+            "include": "dialog/SetupInterrupted.json"
+        },
+        {
+            "include": "dialog/SetupProgress.json"
+        },
+        {
+            "include": "dialog/SetupResume.json"
+        }
+    ]
+}

@@ -106,7 +106,7 @@ HWND CHTMLBrowserHost::Create(
         return NULL;
 
     // Allocate the thunk structure here, where we can fail gracefully.
-    BOOL result = m_thunk.Init(NULL,NULL);
+    BOOL result = m_thunk.Init(NULL, NULL);
     if (result == FALSE)
     {
         SetLastError(ERROR_OUTOFMEMORY);

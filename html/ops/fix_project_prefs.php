@@ -117,7 +117,7 @@ function repair_prefs($prefs) {
     }
 
     $root = $prefs_dom->firstChild;
-    if ($root->hasChildNodes()) {
+    if ($root && $root->hasChildNodes()) {
         $subNodes = $root->childNodes;
         $to_remove = array();
         foreach ($subNodes as $subNode) {

@@ -1,4 +1,4 @@
-/* 
+/*
  * Boinc Attach - (c) 2005 Yuri Dario
  *
  * Attach a new project to boinc client

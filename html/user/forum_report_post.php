@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// Copyright (C) 2021 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,9 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Some posts may contain material that is not suited for public
-// viewing. This file allows people to report such posts
-// For this file to work the project must have defined who
+// Let people report posts that violate rules.
+// The project must define who
 // should receive such reports (in the configuration file)
 
 require_once('../inc/util.inc');
@@ -32,12 +31,18 @@ check_get_args(array("post", "submit", "reason", "tnow", "ttok"));
 $postId = get_int('post');
 
 $post = BoincPost::lookup_id($postId);
+if (!$post) error_page("No such post.");
 $thread = BoincThread::lookup_id($post->thread);
+if (!$thread) error_page("No such thread.");
 $forum = BoincForum::lookup_id($thread->forum);
+if (!$forum) error_page("No such forum.");
 
 $user = get_logged_in_user();
 BoincForumPrefs::lookup($user);
 check_banished($user);
+if (VALIDATE_EMAIL_TO_POST) {
+    check_validated_email($user);
+}
 
 // Make sure the user has the forum's minimum amount of RAC and total credit
 // before allowing them to report a post.
@@ -62,7 +67,7 @@ if (get_str("submit",true)){
     }
 }
 
-$no_forum_rating = parse_bool(get_config(), "no_forum_rating");
+$no_forum_rating = project_config_bool("no_forum_rating");
 
 // Display part
 //

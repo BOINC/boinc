@@ -15,10 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #else
 #include "config.h"
 #if HAVE_PROCFS_H
@@ -53,7 +51,7 @@ int mem_usage(double& vm_usage, double& resident_set) {
 #ifdef _WIN32
 
     // Figure out if we're on WinNT
-    OSVERSIONINFO osvi; 
+    OSVERSIONINFO osvi;
     osvi.dwOSVersionInfoSize = sizeof(osvi);
     GetVersionEx( &osvi );
     if (osvi.dwPlatformId == VER_PLATFORM_WIN32_NT) {
@@ -106,7 +104,7 @@ int mem_usage(double& vm_usage, double& resident_set) {
         int i;
         unsigned long tmp;
 
-        i = fread(buf, sizeof(char), 255, f);
+        i = (int)fread(buf, sizeof(char), 255, f);
         buf[i] = '\0'; // terminate string
         p = &buf[0];
 

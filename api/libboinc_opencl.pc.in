@@ -1,0 +1,13 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: boinc_opencl
+Description: BOINC OpenCL API
+Version: @PACKAGE_VERSION@
+URL: https://github.com/BOINC/boinc/wiki/OpenclApps
+
+Cflags: -I${includedir}/boinc
+Cflags.private: @GLUT_CFLAGS@
+Libs: -L${libdir} -lboinc_opencl

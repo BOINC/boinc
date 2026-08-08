@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2021 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,10 +18,10 @@
 
 // TODO: the following is organized in a funky way.  Clean it up
 
-require_once("..inc/util.inc");
+require_once("../inc/util.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/akismet.inc");
-require_once("../inc/recaptchalib.php");
+require_once("../inc/recaptchalib.inc");
 
 if (DISABLE_PROFILES) error_page("Profiles are disabled");
 
@@ -54,11 +54,11 @@ function show_picture_option($profile) {
     row1(tra("Picture"));
 
     $warning = "";
-    if (profile_screening() && $profile->has_picture) {
+    if (profile_screening() && $profile && $profile->has_picture) {
         $warning = offensive_profile_warning($profile->verification);
     }
 
-    if (($profile) && ($profile->has_picture)) {
+    if ($profile && ($profile->has_picture)) {
         echo "
 <tr><td colspan=2>
 <table border=0 cellpadding=5
@@ -106,9 +106,8 @@ function show_language_selection($profile) {
 
 function show_submit() {
     row1(tra("Submit profile"));
-    global $recaptcha_public_key;
-    if ($recaptcha_public_key) {
-        table_row(boinc_recaptcha_get_html($recaptcha_public_key));
+    if (recaptcha_public_key()) {
+        table_row(boinc_recaptcha_get_html(recaptcha_public_key()));
     }
     table_row("<p><input class=\"btn btn-success\" type=\"submit\" value=\"".tra("Create/edit profile") ."\" name=\"submit\">");
 }
@@ -193,14 +192,12 @@ function show_textarea($name, $text) {
 // Don't assign to $profile->x if this is the case.
 //
 function process_create_profile($user, $profile) {
-    global $recaptcha_private_key;
-
     $response1 = post_str('response1', true);
     $response2 = post_str('response2', true);
     $language = post_str('language', true);
 
-    if ($recaptcha_private_key) {
-        if (!boinc_recaptcha_isValidated($recaptcha_private_key)) {
+    if (recaptcha_private_key()) {
+        if (!boinc_recaptcha_isValidated(recaptcha_private_key())) {
             $profile->response1 = $response1;
             $profile->response2 = $response2;
             show_profile_form($profile,
@@ -337,9 +334,12 @@ function show_profile_form($profile, $warning=null) {
 }
 
 $user = get_logged_in_user(true);
+if (VALIDATE_EMAIL_TO_POST) {
+    check_validated_email($user);
+}
+
 $profile = get_profile($user->id);
-$config = get_config();
-$min_credit = parse_config($config, "<profile_min_credit>");
+$min_credit = project_config_val("profile_min_credit");
 if ($min_credit && $user->expavg_credit < $min_credit) {
     error_page(
         tra("To prevent spam, an average credit of %1 or greater is required to create or edit a profile.  We apologize for this inconvenience.", $min_credit)

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,12 +16,13 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Support for plan classes defined using an XML file.
-// See https://boinc.berkeley.edu/trac/wiki/AppPlanSpec
+// See https://github.com/BOINC/boinc/wiki/AppPlanSpec
 
 #include <cmath>
 
 #include "util.h"
 #include "coproc.h"
+#include "hostinfo.h"
 
 #include "sched_config.h"
 #include "sched_customize.h"
@@ -45,16 +46,51 @@ static double os_version_num(HOST h) {
         if (p && (sscanf(p, "(%u.%u.%u.%u)", &a, &b, &c, &d) == 4)) {
             return 100000000.0*a + 1000000.0*b + 100.0*c +d;
         }
-    } else if (strstr(h.os_name, "Android") || strstr(h.os_name, "Linux")) {
-        // example: 3.0.31-g6fb96c9
+    } else if (strstr(h.os_name, "Android")) {
+        // examples:
+        // 3.0.31-g6fb96c9
+        // 2.6.36.3
+        // 3.4.0
         //
         if (sscanf(h.os_version, "%u.%u.%u", &a, &b, &c) == 3) {
+            return 10000.*a + 100.*b + c;
+        }
+    } else if (strstr(h.os_name, "Linux")) {
+        // os_name seems to always contain "Linux".
+        // os_version is pretty diverse:
+        //
+        // Linux Mint 19 Tara [4.18.12-041812-generic|libc 2.27 (Ubuntu GLIBC 2.27-3ubuntu1)]
+        // CentOS Linux 7 (Core) [3.10.0-862.14.4.el7.x86_64|libc 2.17 (GNU libc)]
+        // Ubuntu 18.04.1 LTS [4.15.0-36-generic|libc 2.27 (Ubuntu GLIBC 2.27-3ubuntu1)]
+        // 3.13.0-103-generic
+        // 4.9.0-8-amd64
+        // Manjaro Linux [4.19.42-1-MANJARO|libc 2.29 (GNU libc)]
+
+        char* p = strchr(h.os_version, '[');
+        if (p) {
+            p++;
+        } else {
+            p = h.os_version;
+        }
+        if (sscanf(p, "%u.%u.%u", &a, &b, &c) == 3) {
             return 10000.*a + 100.*b + c;
         }
     }
     // could not determine numerical OS version
     //
     return 0;
+}
+
+// if os_version has [...|libc 2.27 ...], return 227.  else 0
+//
+static int libc_version(HOST &h) {
+    char *p = strstr(h.os_version, "|libc ");
+    if (!p) return 0;
+    p += strlen("|libc ");
+    int maj, min;
+    int n = sscanf(p, "%d.%d", &maj, &min);
+    if (n != 2) return 0;
+    return maj*100+min;
 }
 
 // parse version# from "(Android 4.3.1)" or "(Android 4.3)" or "(Android 4)"
@@ -121,20 +157,18 @@ static bool wu_is_infeasible_for_plan_class(
     return false;
 }
 
+// parse plan_class_spec.xml
+//
 int PLAN_CLASS_SPECS::parse_file(const char* path) {
-#ifndef _USING_FCGI_
-    FILE* f = fopen(path, "r");
-#else
-    FCGI_FILE *f = FCGI::fopen(path, "r");
-#endif
+    FILE* f = boinc::fopen(path, "r");
     if (!f) return ERR_FOPEN;
     int retval = parse_specs(f);
-    fclose(f);
+    boinc::fclose(f);
     return retval;
 }
 
 bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
-    if (min_opencl_version && opencl_prop.opencl_device_version_int 
+    if (min_opencl_version && opencl_prop.opencl_device_version_int
         && min_opencl_version > opencl_prop.opencl_device_version_int
     ) {
         if (config.debug_version_select) {
@@ -146,7 +180,7 @@ bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
         return false;
     }
 
-    if (max_opencl_version && opencl_prop.opencl_device_version_int 
+    if (max_opencl_version && opencl_prop.opencl_device_version_int
         && max_opencl_version < opencl_prop.opencl_device_version_int
     ) {
         if (config.debug_version_select) {
@@ -158,7 +192,7 @@ bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
         return false;
     }
 
-    if (min_opencl_driver_revision && opencl_prop.opencl_device_version_int 
+    if (min_opencl_driver_revision && opencl_prop.opencl_device_version_int
         && min_opencl_driver_revision > opencl_prop.opencl_driver_revision
     ) {
         if (config.debug_version_select) {
@@ -170,7 +204,7 @@ bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
         return false;
     }
 
-    if (max_opencl_driver_revision && opencl_prop.opencl_device_version_int 
+    if (max_opencl_driver_revision && opencl_prop.opencl_device_version_int
         && max_opencl_driver_revision < opencl_prop.opencl_driver_revision
     ) {
         if (config.debug_version_select) {
@@ -194,8 +228,28 @@ bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
     return true;
 }
 
-// See whether the given host/user can be sent this plan class.
-// If so return the resource usage and estimated FLOPS in hu.
+// the client is Win and it's a Docker/GPU plan class.
+// See whether a WSL distro has the needed GPU support
+//
+bool PLAN_CLASS_SPEC::check_wsl_gpu(SCHEDULER_REQUEST& sreq, string gpu_name) {
+    for (WSL_DISTRO &wd: sreq.host.wsl_distros.distros) {
+        for (WSL_GPU &wg: wd.wsl_gpus) {
+            if (wg.name == gpu_name) {
+                if (cuda && wg.has_cuda) {
+                    return true;
+                }
+                if (opencl && wg.has_opencl) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+// See whether the given host/user can be sent an app version
+// with this plan class.
+// If so, return the resource usage and estimated FLOPS in hu.
 //
 bool PLAN_CLASS_SPEC::check(
     SCHEDULER_REQUEST& sreq, HOST_USAGE& hu, const WORKUNIT* wu
@@ -203,6 +257,8 @@ bool PLAN_CLASS_SPEC::check(
     COPROC* cpp = NULL;
     bool can_use_multicore = true;
     string msg;
+    bool opencl_other = false;
+        // plan class selects a GPU type other than NVIDIA/AMD/intel/apple
 
     if (infeasible_random && drand()<infeasible_random) {
         return false;
@@ -238,7 +294,7 @@ bool PLAN_CLASS_SPEC::check(
     // so we can look for them with strstr()
     //
     if (!cpu_features.empty()) {
-        char buf[8192], buf2[512];
+        char buf[P_FEATURES_SIZE], buf2[512];
         sprintf(buf, " %s ", sreq.host.p_features);
         char* p = strrchr(sreq.host.p_model, '[');
         if (p) {
@@ -252,12 +308,12 @@ bool PLAN_CLASS_SPEC::check(
         }
         downcase_string(buf);
 
-        for (unsigned int i=0; i<cpu_features.size(); i++) {
-            if (!strstr(buf, cpu_features[i].c_str())) {
+        for (const string &s: cpu_features) {
+            if (!strstr(buf, s.c_str())) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
                         "[version] plan_class_spec: CPU lacks feature '%s' (got '%s')\n",
-                        cpu_features[i].c_str(), sreq.host.p_features
+                        s.c_str(), sreq.host.p_features
                     );
                 }
                 return false;
@@ -272,20 +328,6 @@ bool PLAN_CLASS_SPEC::check(
             log_messages.printf(MSG_NORMAL,
                 "[version] plan_class_spec: not enough CPUs: %d < %f\n",
                 g_wreq->effective_ncpus, min_ncpus
-            );
-        }
-        return false;
-    }
-
-    // host summary
-    //
-    if (have_host_summary_regex
-        && regexec(&(host_summary_regex), g_reply->host.serialnum, 0, NULL, 0)
-    ) {
-        if (config.debug_version_select) {
-            log_messages.printf(MSG_NORMAL,
-                "[version] plan_class_spec: host summary '%s' didn't match regexp\n",
-                g_reply->host.serialnum
             );
         }
         return false;
@@ -364,6 +406,21 @@ bool PLAN_CLASS_SPEC::check(
         }
     }
 
+    // libc version (linux)
+    //
+    if (min_libc_version) {
+        int v = libc_version(sreq.host);
+        if (v < min_libc_version) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: libc version too low (%d < %d)\n",
+                    v, min_libc_version
+                );
+            }
+            return false;
+        }
+    }
+
     // CPU vendor and model
     //
     if (have_cpu_vendor_regex && regexec(&(cpu_vendor_regex), sreq.host.p_vendor, 0, NULL, 0)) {
@@ -417,12 +474,17 @@ bool PLAN_CLASS_SPEC::check(
             return false;
         }
 
-        // host must have VirtualBox 3.2 or later
-        //
         if (strlen(sreq.host.virtualbox_version) == 0) {
             add_no_work_message("VirtualBox is not installed");
             return false;
         }
+        if (strstr(sreq.host.virtualbox_version, "unusable")) {
+            add_no_work_message("VirtualBox is not usable");
+            return false;
+        }
+
+        // check version min/max
+        //
         int n, maj, min, rel;
         n = sscanf(sreq.host.virtualbox_version, "%d.%d.%d", &maj, &min, &rel);
         if (n != 3) {
@@ -493,6 +555,73 @@ bool PLAN_CLASS_SPEC::check(
             if (!is64bit) return false;
         } else {
             if (is64bit) return false;
+        }
+    }
+
+    if (wsl) {
+        if (sreq.dont_use_wsl) {
+            add_no_work_message("Client config does not allow using WSL");
+            return false;
+        }
+        if (sreq.host.wsl_distros.distros.empty()) {
+            add_no_work_message("No WSL distros found");
+            return false;
+        }
+        bool found = false;
+        for (WSL_DISTRO &wd: sreq.host.wsl_distros.distros) {
+            if (wd.disallowed) continue;
+            if (min_libc_version) {
+                if (wd.libc_version_int() < min_libc_version) continue;
+            }
+            found = true;
+        }
+        if (!found) {
+            add_no_work_message("No usable WSL distros found");
+            return false;
+        }
+    }
+
+    // Docker apps: check that:
+    // - Docker is allowed
+    // - Win:
+    //      - WSL is allowed
+    //      - There's an allowed WSL distro containing Docker
+    // - Unix:
+    //      - Docker is present
+    if (docker) {
+        if (sreq.dont_use_docker) {
+            add_no_work_message("Client config does not allow using Docker");
+            return false;
+        }
+        if (strstr(sreq.host.os_name, "Windows")) {
+            if (sreq.dont_use_wsl) {
+                add_no_work_message("Client config does not allow using WSL");
+                return false;
+            }
+            bool found = false;
+            for (WSL_DISTRO &wd: sreq.host.wsl_distros.distros) {
+                if (wd.disallowed) continue;
+                if (wd.docker_version.empty()) continue;
+                found = true;
+                break;
+            }
+            if (!found) {
+                add_no_work_message("No usable WSL distros found");
+                return false;
+            }
+        } else {
+            if (strlen(sreq.host.docker_version) == 0) {
+                add_no_work_message("Docker not present");
+                return false;
+            }
+            if (strstr(sreq.host.os_name, "Darwin")) {
+                if (sreq.core_client_version < 80206) {
+                    add_no_work_message(
+                        "Docker jobs need 8.2.6+ client"
+                    );
+                    return false;
+                }
+            }
         }
     }
 
@@ -597,7 +726,6 @@ bool PLAN_CLASS_SPEC::check(
             }
         }
 
-
         if (min_cal_target && cp.attribs.target < min_cal_target) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
@@ -645,6 +773,15 @@ bool PLAN_CLASS_SPEC::check(
             }
         }
 
+        if (sreq.host.is_windows() && docker) {
+            if (!check_wsl_gpu(sreq, "amd")) {
+                log_messages.printf(MSG_NORMAL,
+                    "AMD GPU not supported in WSL"
+                );
+                return false;
+            }
+        }
+
     // NVIDIA
     //
     } else if (!strcmp(gpu_type, "nvidia")) {
@@ -659,8 +796,8 @@ bool PLAN_CLASS_SPEC::check(
             }
             return false;
         }
-        
-        // in analogy to ATI/AMD 
+
+        // in analogy to ATI/AMD
         driver_version=cp.display_driver_version;
 
         if (min_gpu_ram_mb) {
@@ -670,7 +807,7 @@ bool PLAN_CLASS_SPEC::check(
             gpu_requirements[PROC_TYPE_NVIDIA_GPU].update(abs(min_driver_version), 0);
         }
         // compute capability
-        int v = (cp.prop.major)*100 + cp.prop.minor;
+        int v = (cp.cuda_prop.major)*100 + cp.cuda_prop.minor;
         if (min_nvidia_compcap && min_nvidia_compcap > v) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
@@ -710,9 +847,18 @@ bool PLAN_CLASS_SPEC::check(
                 return false;
             }
         }
-        gpu_ram = cp.prop.totalGlobalMem;
+        gpu_ram = cp.cuda_prop.totalGlobalMem;
         if (cp.bad_gpu_peak_flops("NVIDIA", msg)) {
             log_messages.printf(MSG_NORMAL, "%s\n", msg.c_str());
+        }
+
+        if (sreq.host.is_windows() && docker) {
+            if (!check_wsl_gpu(sreq, "nvidia")) {
+                log_messages.printf(MSG_NORMAL,
+                    "NVIDIA GPU not supported in WSL"
+                );
+                return false;
+            }
         }
 
     // Intel GPU
@@ -736,8 +882,60 @@ bool PLAN_CLASS_SPEC::check(
             log_messages.printf(MSG_NORMAL, "%s\n", msg.c_str());
         }
 
-    // custom GPU type
+        if (sreq.host.is_windows() && docker) {
+            if (!check_wsl_gpu(sreq, "intel")) {
+                log_messages.printf(MSG_NORMAL,
+                    "Intel GPU not supported in WSL"
+                );
+                return false;
+            }
+        }
+
+    // Apple GPU
+
+    } else if (!strcmp(gpu_type, "apple")) {
+        COPROC& cp = sreq.coprocs.apple_gpu;
+        cpp = &cp;
+
+        if (!cp.count) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: No Apple GPUs found\n"
+                );
+            }
+            return false;
+        }
+        if (min_gpu_ram_mb) {
+            gpu_requirements[PROC_TYPE_APPLE_GPU].update(0, min_gpu_ram_mb * MEGA);
+        }
+        if (cp.bad_gpu_peak_flops("Apple GPU", msg)) {
+            log_messages.printf(MSG_NORMAL, "%s\n", msg.c_str());
+        }
+
+        if (min_metal_support) {
+            if (sreq.coprocs.apple_gpu.metal_support < min_metal_support) {
+                return false;
+            }
+        }
+
+    // other (OpenCL) GPU type
     //
+    } else if (have_gpu_type_regex) {
+        for (int i=1; i<sreq.coprocs.n_rsc; i++) {
+            if (!regexec(&(gpu_type_regex), sreq.coprocs.coprocs[i].type, 0, NULL, 0)) {
+                cpp = &sreq.coprocs.coprocs[i];
+                break;
+            }
+        }
+        if (!cpp) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: No gpu_type match found\n"
+                );
+            }
+            return false;
+        }
+        opencl_other = true;
     } else if (strlen(gpu_type)) {
         cpp = sreq.coprocs.lookup_type(gpu_type);
         if (!cpp) {
@@ -748,13 +946,25 @@ bool PLAN_CLASS_SPEC::check(
             }
             return false;
         }
+        opencl_other = true;
+    }
+    if (opencl_other) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
-                "[version] plan_class_spec: Custom coproc %s found\n", gpu_type
+                "[version] plan_class_spec: OpenCL coproc %s found\n", cpp->type
             );
         }
-        if (cpp->bad_gpu_peak_flops("Custom GPU", msg)) {
+        if (cpp->bad_gpu_peak_flops("OpenCL coproc", msg)) {
             log_messages.printf(MSG_NORMAL, "%s\n", msg.c_str());
+        }
+
+        if (sreq.host.is_windows() && docker) {
+            if (!check_wsl_gpu(sreq, cpp->type)) {
+                log_messages.printf(MSG_NORMAL,
+                    "OpenCL %s GPU not supported in WSL", cpp->type
+                );
+                return false;
+            }
         }
     }
 
@@ -800,7 +1010,7 @@ bool PLAN_CLASS_SPEC::check(
 
     // general GPU
     //
-    if (strlen(gpu_type)) {
+    if (cpp) {
 
         // GPU RAM
         //
@@ -880,7 +1090,7 @@ bool PLAN_CLASS_SPEC::check(
                 hu.avg_ncpus = avg_ncpus;
             }
             // I believe the first term here is just hu.projected_flops,
-            // but I'm leaving it spelled out to match GPU scheduling 
+            // but I'm leaving it spelled out to match GPU scheduling
             // code in sched_customize.cpp
             //
             hu.peak_flops = gpu_peak_flops_scale*gpu_usage*cpp->peak_flops
@@ -894,11 +1104,11 @@ bool PLAN_CLASS_SPEC::check(
         } else if (!strcmp(gpu_type, "nvidia")) {
             hu.proc_type = PROC_TYPE_NVIDIA_GPU;
             hu.gpu_usage = gpu_usage;
-        } else if (strstr(gpu_type, "intel")==gpu_type) {
+        } else if (strstr(gpu_type, "intel") == gpu_type) {
             hu.proc_type = PROC_TYPE_INTEL_GPU;
             hu.gpu_usage = gpu_usage;
-        } else if (!strcmp(gpu_type, "miner_asic")) {
-            hu.proc_type = PROC_TYPE_MINER_ASIC;
+        } else if (strstr(gpu_type, "apple_gpu") == gpu_type) {
+            hu.proc_type = PROC_TYPE_APPLE_GPU;
             hu.gpu_usage = gpu_usage;
         } else {
             if (config.debug_version_select) {
@@ -985,12 +1195,12 @@ bool PLAN_CLASS_SPEC::check(
 }
 
 bool PLAN_CLASS_SPECS::check(
-    SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu,
+    SCHEDULER_REQUEST& sreq, const char* plan_class, HOST_USAGE& hu,
     const WORKUNIT* wu
 ) {
-    for (unsigned int i=0; i<classes.size(); i++) {
-        if (!strcmp(classes[i].name, plan_class)) {
-            return classes[i].check(sreq, hu, wu);
+    for (PLAN_CLASS_SPEC& spec: classes) {
+        if (!strcmp(spec.name, plan_class)) {
+            return spec.check(sreq, hu, wu);
         }
     }
     log_messages.printf(MSG_CRITICAL, "Unknown plan class: %s\n", plan_class);
@@ -998,12 +1208,12 @@ bool PLAN_CLASS_SPECS::check(
 }
 
 bool PLAN_CLASS_SPECS::wu_is_infeasible(
-    char* plan_class_name, const WORKUNIT* wu
+    const char* plan_class_name, const WORKUNIT* wu
 ) {
-    if(wu_restricted_plan_class) {
-        for (unsigned int i=0; i<classes.size(); i++) {
-            if(!strcmp(classes[i].name, plan_class_name)) {
-                return wu_is_infeasible_for_plan_class(&classes[i], wu);
+    if (wu_restricted_plan_class) {
+        for (const PLAN_CLASS_SPEC& spec: classes) {
+            if(!strcmp(spec.name, plan_class_name)) {
+                return wu_is_infeasible_for_plan_class(&spec, wu);
             }
         }
     }
@@ -1025,6 +1235,8 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_bool("cal", cal)) continue;
         if (xp.parse_bool("opencl", opencl)) continue;
         if (xp.parse_bool("virtualbox", virtualbox)) continue;
+        if (xp.parse_bool("wsl", wsl)) continue;
+        if (xp.parse_bool("docker", docker)) continue;
         if (xp.parse_bool("is64bit", is64bit)) continue;
         if (xp.parse_str("cpu_feature", buf, sizeof(buf))) {
             cpu_features.push_back(" " + (string)buf + " ");
@@ -1066,20 +1278,13 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
             have_cpu_model_regex = true;
             continue;
         }
-        if (xp.parse_str("host_summary_regex", buf, sizeof(buf))) {
-            if (regcomp(&(host_summary_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
-                log_messages.printf(MSG_CRITICAL, "BAD HOST SUMMARY REGEXP: %s\n", buf);
-                return ERR_XML_PARSE;
-            }
-            have_host_summary_regex = true;
-            continue;
-        }
         if (xp.parse_int("user_id", user_id)) continue;
         if (xp.parse_double("infeasible_random", infeasible_random)) continue;
         if (xp.parse_double("min_os_version", min_os_version)) continue;
         if (xp.parse_double("max_os_version", max_os_version)) continue;
         if (xp.parse_int("min_android_version", min_android_version)) continue;
         if (xp.parse_int("max_android_version", max_android_version)) continue;
+        if (xp.parse_int("min_libc_version", min_libc_version)) continue;
         if (xp.parse_str("project_prefs_tag", project_prefs_tag, sizeof(project_prefs_tag))) continue;
         if (xp.parse_str("project_prefs_regex", buf, sizeof(buf))) {
             if (regcomp(&(project_prefs_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
@@ -1092,6 +1297,8 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_bool("project_prefs_default_true", project_prefs_default_true)) continue;
         if (xp.parse_double("avg_ncpus", avg_ncpus)) continue;
 
+        // GPU info
+        //
         if (xp.parse_double("cpu_frac", cpu_frac)) continue;
         if (xp.parse_double("min_gpu_ram_mb", min_gpu_ram_mb)) continue;
         if (xp.parse_double("gpu_ram_used_mb", gpu_ram_used_mb)) continue;
@@ -1102,10 +1309,6 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_int("min_driver_version", min_driver_version)) continue;
         if (xp.parse_int("max_driver_version", max_driver_version)) continue;
         if (xp.parse_str("gpu_utilization_tag", gpu_utilization_tag, sizeof(gpu_utilization_tag))) continue;
-        if (xp.parse_long("min_wu_id", min_wu_id)) {wu_restricted_plan_class = true; continue;}
-        if (xp.parse_long("max_wu_id", max_wu_id)) {wu_restricted_plan_class = true; continue;}
-        if (xp.parse_long("min_batch", min_batch)) {wu_restricted_plan_class = true; continue;}
-        if (xp.parse_long("max_batch", max_batch)) {wu_restricted_plan_class = true; continue;}
 
         if (xp.parse_bool("need_ati_libs", need_ati_libs)) continue;
         if (xp.parse_bool("need_amd_libs", need_amd_libs)) continue;
@@ -1126,6 +1329,20 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_int("max_opencl_driver_revision", max_opencl_driver_revision)) continue;
         if (xp.parse_bool("double_precision_fp", double_precision_fp)) continue;
 
+        if (xp.parse_int("min_metal_support", min_metal_support)) continue;
+        if (xp.parse_str("gpu_type_regex", buf, sizeof(buf))) {
+            if (regcomp(&(gpu_type_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
+                log_messages.printf(MSG_CRITICAL,
+                    "BAD GPU TYPE REGEXP: %s\n", buf
+                );
+                return ERR_XML_PARSE;
+            }
+            have_gpu_type_regex = true;
+            continue;
+        }
+
+        // Virtualbox
+        //
         if (xp.parse_int("min_vbox_version", min_vbox_version)) continue;
         if (xp.parse_int("max_vbox_version", max_vbox_version)) continue;
         if (xp.parse_int("exclude_vbox_version", i)) {
@@ -1133,6 +1350,11 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool("vm_accel_required", vm_accel_required)) continue;
+
+        if (xp.parse_long("min_wu_id", min_wu_id)) {wu_restricted_plan_class = true; continue;}
+        if (xp.parse_long("max_wu_id", max_wu_id)) {wu_restricted_plan_class = true; continue;}
+        if (xp.parse_long("min_batch", min_batch)) {wu_restricted_plan_class = true; continue;}
+        if (xp.parse_long("max_batch", max_batch)) {wu_restricted_plan_class = true; continue;}
     }
     return ERR_XML_PARSE;
 }
@@ -1144,7 +1366,7 @@ int PLAN_CLASS_SPECS::parse_specs(FILE* f) {
     if (!xp.parse_start("plan_classes")) return ERR_XML_PARSE;
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
-            fprintf(stderr, "PLAN_CLASS_SPECS::parse(): unexpected text %s\n", xp.parsed_tag);
+            boinc::fprintf(stderr, "PLAN_CLASS_SPECS::parse(): unexpected text %s\n", xp.parsed_tag);
             continue;
         }
         if (xp.match_tag("/plan_classes")) {
@@ -1160,7 +1382,6 @@ int PLAN_CLASS_SPECS::parse_specs(FILE* f) {
     return ERR_XML_PARSE;
 }
 
-
 PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     strcpy(name, "");
     strcpy(gpu_type, "");
@@ -1168,6 +1389,8 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     cal = false;
     opencl = false;
     virtualbox = false;
+    wsl = false;
+    docker = false;
     is64bit = false;
     min_ncpus = 0;
     max_threads = 1;
@@ -1182,13 +1405,13 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     max_os_version = 0;
     min_android_version = 0;
     max_android_version = 0;
+    min_libc_version = 0;
     strcpy(project_prefs_tag, "");
     have_project_prefs_regex = false;
     project_prefs_default_true = false;
     avg_ncpus = 0;
     min_core_client_version = 0;
     max_core_client_version = 0;
-    have_host_summary_regex = false;
     user_id = 0;
     infeasible_random = 0;
     min_wu_id=0;
@@ -1206,6 +1429,7 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     min_driver_version = 0;
     max_driver_version = 0;
     strcpy(gpu_utilization_tag, "");
+    have_gpu_type_regex = false;
 
     need_ati_libs = false;
     need_amd_libs = false;
@@ -1266,20 +1490,22 @@ int main() {
         sreq.coprocs.ati.count = 0;
     }
 
-    for (unsigned int i=0; i<pcs.classes.size(); i++) {
-        bool b = pcs.check(sreq, pcs.classes[i].name, hu);
+    for (const PLAN_CLASS_SPEC& spec: pcs.classes) {
+        WORKUNIT wu;
+        wu.id = 100;
+        wu.batch = 100;
+        bool b = pcs.check(sreq, spec.name, hu, &wu);
         if (b) {
-            printf("%s: check succeeded\n", pcs.classes[i].name);
-            printf("\tncudas: %f\n\tnatis: %f\n\tgpu_ram: %fMB\n\tavg_ncpus: %f\n\tprojected_flops: %fG\n\tpeak_flops: %fG\n",
-                hu.ncudas,
-                hu.natis,
+            printf("%s: check succeeded\n", spec.name);
+            printf("\tgpu_usage: %f\n\tgpu_ram: %fMB\n\tavg_ncpus: %f\n\tprojected_flops: %fG\n\tpeak_flops: %fG\n",
+                hu.gpu_usage,
                 hu.gpu_ram/1e6,
                 hu.avg_ncpus,
                 hu.projected_flops/1e9,
                 hu.peak_flops/1e9
             );
         } else {
-            printf("%s: check failed\n", pcs.classes[i].name);
+            printf("%s: check failed\n", spec.name);
         }
     }
 }

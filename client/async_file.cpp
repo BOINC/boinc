@@ -27,10 +27,6 @@
 #include <string.h>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "crypt.h"
 #include "error_numbers.h"
 #include "filesys.h"
@@ -50,7 +46,7 @@ using std::vector;
 vector<ASYNC_VERIFY*> async_verifies;
 vector<ASYNC_COPY*> async_copies;
 
-#define BUFSIZE 64*1024
+#define BUFSIZE (64*1024)
 
 // set up an async copy operation.
 //
@@ -132,7 +128,7 @@ int ASYNC_COPY::copy_chunk() {
                 "[async] async copy of %s finished", to_path
             );
         }
-    
+
         atp->async_copy = NULL;
         fip->set_permissions(to_path);
 

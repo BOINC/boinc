@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -26,14 +26,10 @@
 
 #include "filesys.h"
 #include "parse.h"
-
 #include "sched_types.h"
 #include "sched_msgs.h"
 #include "sched_config.h"
-
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
+#include "boinc_stdio.h"
 
 typedef struct urltag {
     int zone;
@@ -111,11 +107,7 @@ URLTYPE* read_download_list() {
     if (cached) return cached;
 
     const char *download_servers = config.project_path("download_servers");
-#ifndef _USING_FCGI_
-    FILE *fp=fopen(download_servers, "r");
-#else
-    FCGI_FILE *fp=FCGI::fopen(download_servers, "r");
-#endif
+    FILE *fp=boinc::fopen(download_servers, "r");
 
     if (!fp) {
         log_messages.printf(MSG_CRITICAL,
@@ -131,13 +123,13 @@ URLTYPE* read_download_list() {
         if ((count % BLOCKSIZE)==0) {
             cached=(URLTYPE *)realloc(cached, (count+BLOCKSIZE)*sizeof(URLTYPE));
             if (!cached) {
-                fclose(fp);
+                boinc::fclose(fp);
                 return NULL;
             }
         }
         // read timezone offset and URL from file, and store in cache list
         //
-        if (2==fscanf(fp, "%d %s", &(cached[count].zone), cached[count].name)) {
+        if (2==boinc::fscanf(fp, "%d %s", &(cached[count].zone), cached[count].name)) {
             count++;
         } else {
             // provide a null terminator so we don't need to keep
@@ -147,7 +139,7 @@ URLTYPE* read_download_list() {
             break;
         }
     }
-    fclose(fp);
+    boinc::fclose(fp);
 
     if (!count) {
         log_messages.printf(MSG_CRITICAL,

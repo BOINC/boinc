@@ -18,10 +18,6 @@
 // platform-independent part of graphics library
 //
 
-#ifdef _MSC_VER
-#define strdup _strdup
-#define snprintf _snprintf
-#endif
 #ifdef _WIN32
 #include <boinc_win.h>
 #endif
@@ -45,7 +41,7 @@ bool throttled_app_render(int x, int y, double t) {
     static double time_until_render = 0;
     static double last_now = 0;
     static double elapsed_time = 0;
-    double now, t0, t1, diff, frac;
+    double now, t0=0, t1, diff, frac;
     bool ok_to_render = true;
 
     now = dtime();
@@ -87,7 +83,7 @@ bool throttled_app_render(int x, int y, double t) {
         if (boinc_max_gfx_cpu_frac) {
             boinc_calling_thread_cpu_time(t0);
         }
-        
+
        app_graphics_render(x, y, t);
 
 #ifdef __APPLE__

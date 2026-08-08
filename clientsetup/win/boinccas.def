@@ -9,14 +9,11 @@ EXPORTS
 	CreateBOINCAccounts
 	CreateBOINCGroups
 	CreateClientAuthFile
-	GetAdministratorsGroupName
-	GetUsersGroupName
 	GrantBOINCMasterRights
 	GrantBOINCProjectRights
 	ShutdownBOINC
 	ShutdownBOINCManager
 	ShutdownBOINCScreensaver
-	ShutdownUD
 	GrantBOINCAdminsRights
 	GrantBOINCAdminsVirtualBoxRights
 	GrantBOINCUsersRights
@@ -33,12 +30,11 @@ EXPORTS
 	SaveSetupState
 	ShutdownBOINCManager
 	CleanupOldBinaries
-	VerifyInstallDirectories	
+	VerifyInstallDirectories
 	ValidateInstall
 	ValidateRebootRequest
 	SaveExecutionState
 	RestoreExecutionState
-	CCConfigMd5sum
 	CreateProjectInitFile
 	CreateAcctMgrLoginFile
 	RestorePermissionBOINCData
@@ -50,3 +46,5 @@ EXPORTS
 	DeleteBOINCGroups
 	DeleteBOINCAccounts
 	AnnounceUpgrade
+	LaunchBOINCWSLInstaller
+	CheckWSLSupport

@@ -35,9 +35,9 @@ echo "<input type=\"hidden\" name=\"table\" value=\"$table\">\n";
 start_table();
 
 switch($table){
-	case "platform": 
+	case "platform":
 		break;
-	case "app": 
+	case "app":
 		break;
     case "app_version":
         print_detail_field();
@@ -102,5 +102,4 @@ echo "</form>\n";
 print_describe_table($table, 4);
 
 admin_page_tail();
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

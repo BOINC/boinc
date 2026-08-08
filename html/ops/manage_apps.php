@@ -96,11 +96,11 @@ function show_form($all) {
         "ID",
         "Name and description<br><small>Click for details</small>",
         "Created",
-        "weight<br><a href=https://boinc.berkeley.edu/trac/wiki/BackendPrograms#feeder><small>details</small></a>",
+        "weight<br><a href=https://github.com/BOINC/boinc/wiki/Daemons#feeder><small>details</small></a>",
         "shmem items",
-        "HR type<br><a href=https://boinc.berkeley.edu/trac/wiki/HomogeneousRedundancy><small>details</small></a>",
-        "Adaptive replication<br><a href=http://boinc.berkeley.edu/trac/wiki/AdaptiveReplication><small>details</small></a>",
-        "homogeneous app version?<br><a href=https://boinc.berkeley.edu/trac/wiki/HomogeneousAppVersion><small>details</small></a>",
+        "HR type<br><a href=https://github.com/BOINC/boinc/wiki/Homogeneous-Redundancy><small>details</small></a>",
+        "Adaptive replication<br><a href=https://github.com/BOINC/boinc/wiki/Adaptive-Replication><small>details</small></a>",
+        "homogeneous app version?<br><a href=https://github.com/BOINC/boinc/wiki/Homogeneous-App-Version><small>details</small></a>",
         "deprecated?",
         "Non-CPU-intensive?",
         "Beta?",
@@ -109,7 +109,7 @@ function show_form($all) {
     );
 
     $total_weight = BoincApp::sum("weight", "where deprecated=0");
-    $swi = parse_config(get_config(), "<shmem_work_items>");
+    $swi = project_config_val("shmem_work_items");
     if (!$swi) {
         $swi = 100;
     }
@@ -133,7 +133,7 @@ function show_form($all) {
         $v = $app->weight;
         echo "  <TD align='center'>
         <input type='text' size='4' name='weight' value='$v'></TD>\n";
-        
+
         if ($app->deprecated || ($total_weight == 0)) {
             echo '<td></td>';
         } else {
@@ -205,7 +205,7 @@ function show_form($all) {
         <form action=$action_url method=POST>
     ";
 
-    start_table("align='center' ");
+    start_table('', 'align="center"');
 
     table_header("Name", "Description", "&nbsp;");
 

@@ -34,7 +34,7 @@ if (get_int('hostid')) {
     error_page("no hostid");
 }
 
-$timestr = time_str(time(0));
+$timestr = time_str(time());
 $title = "host ".$hostid." max_results_day set to 1 at ".$timestr;
 
 admin_page_head($title);

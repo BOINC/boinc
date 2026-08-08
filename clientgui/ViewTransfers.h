@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -37,12 +37,14 @@ public:
     double m_fBytesXferred;
     double m_fTotalBytes;
     double m_dTime;
+    double m_fTimeToCompletion;
     double m_dSpeed;
     wxString m_strStatus;
     wxString m_strProjectURL;   // Used internally, not displayed
     wxString m_strProgress;
     wxString m_strSize;
     wxString m_strTime;
+    wxString m_strTimeToCompletion;
     wxString m_strSpeed;
 };
 
@@ -95,6 +97,7 @@ protected:
     void                    GetDocTotalBytes(wxInt32 item, double& fBuffer) const;
     wxInt32                 FormatSize( double fBytesSent, double fFileSize, wxString& strBuffer ) const;
     void                    GetDocTime(wxInt32 item, double& fBuffer) const;
+    void                    GetDocTimeToCompletion(wxInt32 item, double& fBuffer) const;
     void                    GetDocSpeed(wxInt32 item, double& fBuffer) const;
     wxInt32                 FormatSpeed( double fBuffer, wxString& strBuffer ) const;
     void                    GetDocStatus(wxInt32 item, wxString& strBuffer) const;
@@ -102,7 +105,7 @@ protected:
 
     virtual double          GetProgressValue(long item);
     virtual wxString        GetProgressText( long item);
-    
+
     int                     GetTransferCacheAtIndex(CTransfer*& transferPtr, int index);
 
     DECLARE_EVENT_TABLE()

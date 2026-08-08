@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -30,10 +30,6 @@
 #include "boinc_api.h"
 #include "mac_branding.h"
 #include <sys/socket.h>
-#endif
-
-#ifdef _MSC_VER
-#define snprintf _snprintf
 #endif
 
 #include "boinc_gl.h"
@@ -145,7 +141,7 @@ PROJECT_IMAGES* get_project_images(PROJECT* p) {
     pim.url = p->master_url;
     url_to_project_dir((char*)p->master_url.c_str(), dir, sizeof(dir));
     sprintf(path, "%s/stat_icon", dir);
-    boinc_resolve_filename(path, filename, 256);
+    resolve_soft_link(path, filename, sizeof(filename));
     pim.icon.load_image_file(filename);
     for (i=0; i<cc_state.apps.size(); i++) {
         APP& app = *cc_state.apps[i];
@@ -153,7 +149,7 @@ PROJECT_IMAGES* get_project_images(PROJECT* p) {
         APP_SLIDES as(app.name);
         for (int j=0; j<99; j++) {
             sprintf(path, "%s/slideshow_%s_%02d", dir, app.name.c_str(), j);
-            boinc_resolve_filename(path, filename, 256);
+            resolve_soft_link(path, filename, sizeof(filename));
             TEXTURE_DESC td;
             int retval = td.load_image_file(filename);
             if (retval) break;
@@ -183,7 +179,7 @@ static void init_lights() {
 
 static void draw_logo(float* pos, float alpha) {
     if (logo.present) {
-        float size[3] = {.6, .4, 0};
+        float size[3] = {.6f, .4f, 0};
         logo.draw(pos, size, ALIGN_CENTER, ALIGN_CENTER, alpha);
     }
 }
@@ -192,22 +188,22 @@ void show_result(RESULT* r, float x, float& y, float alpha) {
     PROGRESS_2D progress;
     char buf[256];
     ttf_render_string(x, y, 0, TASK_PROJ_SIZE, white, (char*)r->project->project_name.c_str());
-    y -= .02;
+    y -= .02f;
     float prog_pos[] = {x, y, 0};
-    float prog_c[] = {.5, .4, .1, alpha/2};
-    float prog_ci[] = {.1, .8, .2, alpha};
-    progress.init(prog_pos, .4, -.01, -0.008, prog_c, prog_ci);
+    float prog_c[] = {.5f, .4f, .1f, alpha/2};
+    float prog_ci[] = {.1f, .8f, .2f, alpha};
+    progress.init(prog_pos, .4f, -.01f, -0.008f, prog_c, prog_ci);
     progress.draw(r->fraction_done);
     snprintf(buf, sizeof(buf), "%.2f%% ", r->fraction_done*100);
     ttf_render_string(x+.41, y, 0, TASK_INFO_SIZE, white, buf);
-    y -= .03;
-    x += .05;
+    y -= .03f;
+    x += .05f;
     snprintf(buf, sizeof(buf), "Elapsed: %.0f sec  Remaining: %.0f sec", r->elapsed_time, r->estimated_cpu_time_remaining);
     ttf_render_string(x, y, 0, TASK_INFO_SIZE, white, buf);
-    y -= .03;
+    y -= .03f;
     snprintf(buf, sizeof(buf), "App: %s  Task: %s", r->app->user_friendly_name, r->wup->name);
     ttf_render_string(x, y, 0, TASK_INFO_SIZE, white, buf);
-    y -= .03;
+    y -= .03f;
 }
 
 #if 0
@@ -228,44 +224,44 @@ void show_coords() {
 #endif
 
 void show_project(unsigned int index, float /*alpha*/) {
-    float x=.2, y=.6;
+    float x=.2f, y=.6f;
     char buf[1024];
     ttf_render_string(x, y, 0, PROJ_INTRO_SIZE, white, "This computer is participating in");
-    y -= .07;
+    y -= .07f;
     PROJECT *p = cc_state.projects[index];
     ttf_render_string(x, y, 0, PROJ_NAME_SIZE, white, (char*)p->project_name.c_str());
-    y -= .07;
+    y -= .07f;
     ttf_render_string(x, y, 0, PROJ_INFO_SIZE, white, p->master_url);
-    y -= .05;
+    y -= .05f;
     snprintf(buf, sizeof(buf), "User: %s", p->user_name.c_str());
     ttf_render_string(x, y, 0, PROJ_INFO_SIZE, white, buf);
-    y -= .05;
+    y -= .05f;
     if (p->team_name.size()) {
         snprintf(buf, sizeof(buf), "Team: %s",  p->team_name.c_str());
         ttf_render_string(x, y, 0, PROJ_INFO_SIZE, white, buf);
-        y -= .05;
+        y -= .05f;
     }
     snprintf(buf, sizeof(buf), "Total credit: %.0f   Average credit: %.0f", p->user_total_credit, p->user_expavg_credit);
     ttf_render_string(x, y, 0, PROJ_INFO_SIZE, white, buf);
-    y -= .05;
+    y -= .05f;
     if (p->suspended_via_gui) {
         ttf_render_string(x, y, 0, PROJ_INFO_SIZE, white, "Suspended");
     }
 }
 
 void show_disconnected() {
-    float x=.3, y=.3;
+    float x=.3f, y=.3f;
     char buf[256];
     snprintf(buf, sizeof(buf), "%s is not running.", brand_name);
     ttf_render_string(x, y, 0, ALERT_SIZE, white, buf);
 }
 
 void show_no_projects() {
-    float x=.2, y=.3;
+    float x=.2f, y=.3f;
     char buf[256];
     snprintf(buf, sizeof(buf), "%s is not attached to any projects.", brand_name);
     ttf_render_string(x, y, 0, ALERT_SIZE, white, buf);
-    y = .25;
+    y = .25f;
     snprintf(buf, sizeof(buf), "Attach to projects using %s.", brand_name);
     ttf_render_string(x, y, 0, ALERT_SIZE, white, buf);
 }
@@ -275,12 +271,12 @@ void show_no_projects() {
 // index is where to start looking in job array
 //
 void show_jobs(unsigned int index, double alpha) {
-    float x=.1, y=.7;
+    float x=.1f, y=.7f;
     unsigned int nfound = 0;
     unsigned int i;
     cc_status.task_suspend_reason &= ~SUSPEND_REASON_CPU_THROTTLE;
     char buf[256];
-    
+
     if (!cc_status.task_suspend_reason) {
         for (i=0; i<cc_state.results.size(); i++) {
             int j = (i + index) % cc_state.results.size();
@@ -289,16 +285,16 @@ void show_jobs(unsigned int index, double alpha) {
             if (r->scheduler_state != CPU_SCHED_SCHEDULED) continue;
             if (!nfound) {
                 ttf_render_string(x, y, 0, TASK_INTRO_SIZE, white, "Running tasks:");
-                y -= .05;
+                y -= .05f;
             }
             show_result(r, x, y, alpha);
-            y -= .05;
+            y -= .05f;
             nfound++;
             if (nfound == MAX_JOBS_DISPLAY) break;
         }
     }
     if (!nfound) {
-        y = .5;
+        y = .5f;
         ttf_render_string(x, y, 0, TASK_NONE_SIZE, white, "No running tasks");
         char *p = 0;
         switch (cc_status.task_suspend_reason) {
@@ -328,7 +324,7 @@ void show_jobs(unsigned int index, double alpha) {
             p = "Computing suspended because processor usage is high"; break;
         }
         if (p) {
-            y -= .1;
+            y -= .1f;
             ttf_render_string(x, y, 0, TASK_NONE_REASON_SIZE, white, p);
         }
     }
@@ -386,7 +382,7 @@ void app_graphics_render(int , int , double t) {
     double alpha;
     static bool showing_project = false;
     static unsigned int project_index = 0, job_index=0;
-    static float logo_pos[3] = {.2, .2, 0};
+    static float logo_pos[3] = {.2f, .2f, 0};
     int retval;
 
     if (!connected) {
@@ -497,8 +493,10 @@ int main(int argc, char** argv) {
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_MEMORYLEAKCHECKENABLED |
 #endif
-        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+        BOINC_DIAG_DUMPCALLSTACKENABLED |
+#ifndef __APPLE__   // Can't access user's directories under sandbox security
         BOINC_DIAG_PERUSERLOGFILES |
+#endif
         BOINC_DIAG_REDIRECTSTDERR |
         BOINC_DIAG_REDIRECTSTDOUT |
         BOINC_DIAG_TRACETOSTDOUT;
@@ -516,7 +514,7 @@ int main(int argc, char** argv) {
         }
         exit(ERR_CONNECT);
     }
-    
+
 #ifdef __APPLE__
     long brandId = 0;
     // For branded installs, the installer put a branding file in our data directory

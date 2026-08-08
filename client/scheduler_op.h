@@ -38,7 +38,7 @@
 #define RETRY_CAP               10
     // cap on nrpc_failures
 #define MASTER_FETCH_RETRY_CAP 3
-    // after this many master-fetch failures, 
+    // after this many master-fetch failures,
     // move into a state in which we retry master fetch
     // at the frequency below
 #define MASTER_FETCH_INTERVAL (86400)    // 1 day
@@ -121,9 +121,9 @@ struct SCHEDULER_REPLY {
     char* code_sign_key_signature;
     bool message_ack;
     bool project_is_down;
-    bool send_file_list;      
-    bool send_full_workload;      
-    bool dont_use_dcf;      
+    bool send_file_list;
+    bool send_full_workload;
+    bool dont_use_dcf;
     int send_time_stats_log;
     int send_job_log;
     int scheduler_version;

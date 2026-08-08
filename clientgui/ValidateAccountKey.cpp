@@ -91,7 +91,7 @@ bool CValidateAccountKey::Validate(wxWindow *parent) {
 bool CValidateAccountKey::TransferToWindow(void) {
     if(!CheckValidator())
         return FALSE;
-    
+
     if (!m_stringValue)
         return TRUE;
 

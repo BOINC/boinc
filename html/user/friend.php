@@ -248,7 +248,7 @@ function handle_cancel_confirm($user) {
         ) ."<p>\n"
     ;
     show_button("friend.php?action=cancel&userid=$destid", tra("Yes"), tra("Cancel friendship"));
-    show_button(USER_HOME, tra("No"), tra("Stay friends"));
+    show_button(HOME_PAGE, tra("No"), tra("Stay friends"));
     echo "</ul>";
     page_tail();
 }

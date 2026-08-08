@@ -69,13 +69,6 @@ $since_clause = "and create_time > $since_time";
 
 $notifies = BoincNotify::enum("userid = $userid $since_clause");
 
-$forum = news_forum();
-if ($forum) {
-    $threads = BoincThread::enum(
-        "forum = $forum->id and hidden=0 and status=0 $since_clause"
-    );
-}
-
 // there may be a better way to do this
 
 $items = array();
@@ -87,12 +80,18 @@ foreach ($notifies as $n) {
     $items[] = $i;
 }
 
-foreach ($threads as $t) {
-    $i = new StdClass;
-    $i->type = 1;
-    $i->time = $t->create_time;
-    $i->val = $t;
-    $items[] = $i;
+$forum = news_forum();
+if ($forum) {
+    $threads = BoincThread::enum(
+        "forum = $forum->id and hidden=0 and status=0 $since_clause"
+    );
+    foreach ($threads as $t) {
+        $i = new StdClass;
+        $i->type = 1;
+        $i->time = $t->create_time;
+        $i->val = $t;
+        $items[] = $i;
+    }
 }
 
 usort($items, 'notice_cmp');

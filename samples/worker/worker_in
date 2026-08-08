@@ -1,0 +1,11 @@
+<input_template>
+    <file_info>
+    </file_info>
+    <workunit>
+        <file_ref>
+            <open_name>in</open_name>
+        </file_ref>
+        <rsc_disk_bound>4e9</rsc_disk_bound>
+        <rsc_memory_bound>4e9</rsc_memory_bound>
+    </workunit>
+</input_template>

@@ -103,7 +103,7 @@ class GUI_RPC_CONN_SET {
     void get_password();
     int insert(GUI_RPC_CONN*);
     bool check_allowed_list(sockaddr_storage& ip_addr);
-    bool remote_hosts_file_exists;
+    bool remote_hosts_configured;
 public:
     int lsock;
     double time_of_last_rpc_needing_network;
@@ -117,8 +117,6 @@ public:
     int init_unix_domain();
     void close();
     bool recent_rpc_needs_network(double interval);
-    void send_quits();
-    bool quits_sent();
     bool poll();
     void set_notice_refresh() {
         for (unsigned int i=0; i<gui_rpcs.size(); i++) {

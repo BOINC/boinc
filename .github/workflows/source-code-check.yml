@@ -1,0 +1,66 @@
+# This file is part of BOINC.
+# https://boinc.berkeley.edu
+# Copyright (C) 2026 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+name: Source Code Check
+on:
+  pull_request:
+    branches: [ master ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  source-code-check-illegal-symbols:
+    name: source-code-check-illegal-symbols
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+      - name: Check source code for illegal symbols
+        if: ${{ success() }}
+        run: |
+          python ./ci_tools/source_code_check.py .
+
+  source-code-check-trailing-whitespaces:
+    name: source-code-check-trailing-whitespaces
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+      - name: Check source code for trailing whitespaces
+        if: ${{ success() }}
+        run: |
+          python ./ci_tools/trailing_whitespaces_check.py .
+      - name: Prepare patch file
+        if: failure()
+        run: |
+          python ./ci_tools/trailing_whitespaces_check.py . --fix
+          git diff > trailing_whitespaces.patch
+      - name: Upload patch
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: trailing_whitespaces.patch
+          path: trailing_whitespaces.patch
+

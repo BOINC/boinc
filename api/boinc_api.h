@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,18 +15,18 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// The basic API functions are compiled with C linkage (no name munging)
+// so that they can be used from C programs
+
 #ifndef BOINC_BOINC_API_H
 #define BOINC_BOINC_API_H
-
-#include <stddef.h>     // for NULL
 
 #ifdef _WIN32
 #include "boinc_win.h"
 #endif
-#include "app_ipc.h"
+#include "common_defs.h"
 
-// ANSI C API BEGINS HERE
-// Do not put implementation stuff here
+// Basic (C linkage) functions
 
 #ifdef __cplusplus
 extern "C" {
@@ -63,6 +63,8 @@ typedef struct BOINC_OPTIONS {
         // set this if application creates subprocesses.
 } BOINC_OPTIONS;
 
+// info passed from client to app in heartbeat and process control messages
+//
 typedef struct BOINC_STATUS {
     int no_heartbeat;
     int suspended;
@@ -72,6 +74,7 @@ typedef struct BOINC_STATUS {
     double working_set_size;
     double max_working_set_size;
     int network_suspended;
+    enum SPORADIC_CA_STATE ca_state;
 } BOINC_STATUS;
 
 extern volatile BOINC_STATUS boinc_status;
@@ -84,6 +87,7 @@ extern int boinc_init(void);
 extern int boinc_finish(int status);
 extern int boinc_get_init_data_p(struct APP_INIT_DATA*);
 extern int boinc_parse_init_data_file(void);
+extern int boinc_resolve_filename(const char*, char*, int len);
 extern int boinc_send_trickle_up(char* variety, char* text);
 extern int boinc_set_min_checkpoint_period(int);
 extern int boinc_checkpoint_completed(void);
@@ -96,10 +100,6 @@ extern int boinc_report_app_status(
 extern int boinc_time_to_checkpoint(void);
 extern void boinc_begin_critical_section(void);
 extern void boinc_end_critical_section(void);
-extern void boinc_need_network(void);
-extern int boinc_network_poll(void);
-extern void boinc_network_done(void);
-extern void boinc_network_usage(double sent, double received);
 extern int boinc_is_standalone(void);
 extern void boinc_ops_per_cpu_sec(double fp, double integer);
 extern void boinc_ops_cumulative(double fp, double integer);
@@ -123,10 +123,13 @@ extern int setMacIcon(char *filename, char *iconData, long iconSize);
 } // extern "C" {
 #endif
 
-// C++ API follows 
+// C++ API follows
 #ifdef __cplusplus
 #include <string>
+#include "app_ipc.h"
 
+extern void boinc_waiting_for_network(bool);
+extern int boinc_resolve_filename_s(const char*, std::string&);
 extern int boinc_get_init_data(APP_INIT_DATA&);
 extern int boinc_wu_cpu_time(double&);
 extern double boinc_elapsed_time(void);
@@ -135,14 +138,18 @@ extern int boinc_upload_status(std::string& name);
 extern char* boinc_msg_prefix(char*, int);
 extern int boinc_report_app_status_aux(
     double cpu_time, double checkpoint_cpu_time, double _fraction_done,
-    int other_pid, double bytes_sent, double bytes_received
+    int other_pid, double bytes_sent, double bytes_received,
+    double wss
 );
 extern int boinc_temporary_exit(
-    int delay, const char* reason=NULL, bool is_notice=false
+    int delay, const char* reason=0, bool is_notice=false
 );
 extern int boinc_finish_message(
     int status, const char* message, bool is_notice
 );
+extern void boinc_sporadic_set_ac_state(SPORADIC_AC_STATE);
+extern SPORADIC_CA_STATE boinc_sporadic_get_ca_state();
+extern int boinc_sporadic_dir(const char*);
 
 /////////// API ENDS HERE
 
@@ -156,6 +163,7 @@ extern HANDLE worker_thread_handle;
 extern int boinc_init_options_general(BOINC_OPTIONS& opt);
 extern int start_timer_thread(void);
 extern bool boinc_disable_timer_thread;
+extern volatile bool got_heartbeat_message;
 
 inline void boinc_options_defaults(BOINC_OPTIONS& b) {
     b.main_program = 1;
@@ -167,7 +175,6 @@ inline void boinc_options_defaults(BOINC_OPTIONS& b) {
     b.multi_thread = 0;
     b.multi_process = 0;
 }
-
 
 /////////// IMPLEMENTATION STUFF ENDS HERE
 

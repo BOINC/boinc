@@ -17,9 +17,9 @@
 // For sample code to get preferred system language, see
 // wxLocale::GetSystemLanguage() in wxWidgets src/common/intl.cpp
 //
-// Those portions of this code which are taken from wxWidgets are 
-// Copyright:   (c) 1998 Vadim Zeitlin 
-// and are covered by the wxWidgets license which can be found here: 
+// Those portions of this code which are taken from wxWidgets are
+// Copyright:   (c) 1998 Vadim Zeitlin
+// and are covered by the wxWidgets license which can be found here:
 // <http://www.wxwidgets.org/about/licence3.txt>
 //
 // This code assumes all catalogs are encoded UTF-8
@@ -30,7 +30,7 @@
 // language, then for each desired catalog (*.mo) file for the
 // user's second preferred language and (optionally) then for each
 // desired catalog (*.mo) file for the user's third preferred
-// language.  This will make it more likley that a translation 
+// language.  This will make it more likely that a translation
 // will be found in some language useful to the user.
 //
 
@@ -122,7 +122,7 @@ static bool LoadCatalog(const char * catalogsDir,
     MsgTableEntry *pOrigTable;
     MsgTableEntry *pTransTable;
     MsgCatalogData *pCatalog;
-    
+
 #if VERBOSE
     fprintf(stderr, "Attempting to load catalog %s for language code %s\n",
             catalogName, languageCode);
@@ -149,8 +149,8 @@ static bool LoadCatalog(const char * catalogsDir,
             }
         }
     }
-    
-    // Since the original strings are English, no 
+
+    // Since the original strings are English, no
     // translation is needed for language en.
     if (!strcmp("en", languageCode)) {
         pCatalog = &(theCatalogData[numLoadedCatalogs++]);
@@ -158,7 +158,7 @@ static bool LoadCatalog(const char * catalogsDir,
         strlcpy(pCatalog->catalogName, catalogName, sizeof(pCatalog->catalogName));
         return true;
     }
-  
+
     strlcpy(searchPath, catalogsDir, sizeof(searchPath));
     strlcat(searchPath, languageCode, sizeof(searchPath));
     strlcat(searchPath, "/", sizeof(searchPath));
@@ -166,7 +166,7 @@ static bool LoadCatalog(const char * catalogsDir,
     strlcat(searchPath, ".mo", sizeof(searchPath));
     if (stat(searchPath, &sbuf) != 0) {
         // Try just base locale name: for things like "fr_BE" (belgium
-        // french) we should use "fr" if no belgium specific message 
+        // french) we should use "fr" if no belgium specific message
         // catalogs exist
         strlcpy(temp, languageCode, sizeof(temp));
         underscore = strchr(temp, (int)'_');
@@ -179,7 +179,7 @@ static bool LoadCatalog(const char * catalogsDir,
         strlcat(searchPath, ".mo", sizeof(searchPath));
         if (stat(searchPath, &sbuf) != 0) return false;
     }
-    
+
 
     pData = (uint8_t*)malloc(sbuf.st_size);
     if (pData == NULL) return false;
@@ -196,7 +196,7 @@ static bool LoadCatalog(const char * catalogsDir,
         pData = NULL;
         return false;
     }
-    
+
     // examine header
     bool bValid = nSize + (size_t)0 > sizeof(MsgCatalogHeader);
 
@@ -219,7 +219,7 @@ static bool LoadCatalog(const char * catalogsDir,
     // initialize
     NumStrings  = Swap(pHeader->numStrings, bSwapped);
     if (NumStrings <= 1) {
-        // This file has no translations (is effectively 
+        // This file has no translations (is effectively
         // empty) so don't load it for better efficiency.
 #if VERBOSE
         fprintf(stderr, "File %s contains no translated strings!\n", searchPath);
@@ -273,23 +273,23 @@ static bool LoadCatalog(const char * catalogsDir,
 
 // Searches through the catalogs in the order they were added
 // until it finds a translation for the src string, and
-// returns a ponter to the UTF-8 encoded localized string.
+// returns a pointer to the UTF-8 encoded localized string.
 // Returns a pointer to the original string if no translation
 // was found.
 //
 uint8_t * _(char *src) {
     unsigned int i, j;
     MsgCatalogData *pCatalog;
-    
+
     for (j=0; j<numLoadedCatalogs; ++j) {
         pCatalog = &(theCatalogData[j]);
-        
-        // Since the original strings are English, no 
+
+        // Since the original strings are English, no
         // translation is needed for language en.
         if (!strcmp("en", pCatalog->languageCode)) {
             continue;   // Try next catalog
         }
-        
+
         if (pCatalog->pData == NULL) continue;    // Should never happen
         for (i=0; i<pCatalog->NumStrings; ++i) {
             if (!strcmp((char *)pCatalog->pData + pCatalog->pOrigTable[i].ofsString, src)) {
@@ -321,7 +321,7 @@ bool BOINCTranslationAddCatalog(const char * catalogsDir,
     DIRREF dirp;
     char filename[64];
     int retval;
-    
+
     if (numLoadedCatalogs >= (MAXCATALOGS)) {
 #if VERBOSE
         fprintf(stderr, "Trying to load too many catalogs\n");
@@ -331,7 +331,7 @@ bool BOINCTranslationAddCatalog(const char * catalogsDir,
 
     // Add a catalog for this exact language and region code
     success = LoadCatalog(catalogsDir, languageCode, catalogName);
-    
+
     // Add catalogs for the same language code but different region codes
     dirp = dir_open(catalogsDir);
     if (dirp) {
@@ -345,10 +345,10 @@ bool BOINCTranslationAddCatalog(const char * catalogsDir,
                 }
             }
         }
-        
+
         dir_close(dirp);
     }
-    
+
     return success;
 }
 
@@ -356,9 +356,9 @@ bool BOINCTranslationAddCatalog(const char * catalogsDir,
 void BOINCTranslationInit() {
     int i;
     MsgCatalogData *pCatalog;
-    
+
     numLoadedCatalogs = 0;
-    
+
     for (i=0; i<MAXCATALOGS; ++i) {
         pCatalog = &(theCatalogData[i]);
         pCatalog->pData = NULL;
@@ -369,7 +369,7 @@ void BOINCTranslationInit() {
         pCatalog->pTransTable = NULL;
         pCatalog->languageCode[0] = '\0';
         pCatalog->catalogName[0] = '\0';
-        
+
     }
 }
 
@@ -377,7 +377,7 @@ void BOINCTranslationInit() {
 void BOINCTranslationCleanup() {
     int i;
     MsgCatalogData *pCatalog;
-    
+
     for (i=0; i<MAXCATALOGS; ++i) {
         pCatalog = &(theCatalogData[i]);
         if (pCatalog->pData) free(pCatalog->pData);

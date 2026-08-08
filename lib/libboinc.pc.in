@@ -1,0 +1,13 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: boinc
+Description: BOINC library
+Version: @PACKAGE_VERSION@
+
+Cflags: -I${includedir}/boinc
+Cflags.private: @PTHREAD_CFLAGS@
+Libs: -L${libdir} -lboinc
+Libs.private: @PTHREAD_LIBS@

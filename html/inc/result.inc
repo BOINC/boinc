@@ -76,10 +76,15 @@ function app_version_string($result) {
         return anon_platform_string($result, tra("NVIDIA GPU"));
     case ANON_PLATFORM_ATI:
         return anon_platform_string($result, tra("AMD GPU"));
-    case ANON_PLATFORM_INTEL:
+    case ANON_PLATFORM_INTEL_GPU:
         return anon_platform_string($result, tra("Intel GPU"));
+    case ANON_PLATFORM_APPLE_GPU:
+        return anon_platform_string($result, tra("Apple GPU"));
     }
     $av = get_app_version($id);
+    if (!$av) {
+        return "missing app version $id";
+    }
     $app = get_app($av->appid);
     $platform = get_platform($av->platformid);
     $n = $app->user_friendly_name;
@@ -113,7 +118,7 @@ function result_granted_credit_string($result, $string_to_show) {
     }
 }
 
-// various states that we allow users to filter on
+// various result states that users can filter on
 
 define("STATE_ALL", 0);
 define("STATE_IN_PROGRESS", 1);
@@ -136,12 +141,35 @@ $state_name = array(
 
 $state_clause = array(
     "",
-    " and server_state=4 ",
-    " and server_state=5 and outcome=1 and validate_state=0 ",
-    " and server_state=5 and outcome=1 and validate_state=4 ",
-    " and server_state=5 and outcome=1 and validate_state=1 ",
-    " and server_state=5 and (outcome=6 or (outcome=1 and (validate_state=2 or validate_state=3 or validate_state=5))) ",
-    " and server_state=5 and (outcome=3 or outcome=4 or outcome=7) ",
+    sprintf(
+        ' and server_state=%d ',
+        RESULT_SERVER_STATE_IN_PROGRESS
+    ),
+    sprintf(
+        ' and server_state=%d and outcome=%d and validate_state=%d ',
+        RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS, VALIDATE_STATE_INIT
+    ),
+    sprintf(
+        ' and server_state=%d and outcome=%d and validate_state=%d ',
+        RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS,
+        VALIDATE_STATE_INCONCLUSIVE
+    ),
+    sprintf(
+        ' and server_state=%d and outcome=%d and validate_state=%d ',
+        RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS, VALIDATE_STATE_VALID
+    ),
+    sprintf(
+        ' and server_state=%d and (outcome=%d or (outcome=%d and (validate_state=%d or validate_state=%d or validate_state=%d))) ',
+        RESULT_SERVER_STATE_OVER,
+        RESULT_OUTCOME_VALIDATE_ERROR, RESULT_OUTCOME_SUCCESS,
+        VALIDATE_STATE_INVALID, VALIDATE_STATE_NO_CHECK,
+        VALIDATE_STATE_TOO_LATE
+    ),
+    sprintf(
+        ' and server_state=%d and (outcome=%d or outcome=%d or outcome=%d) ',
+        RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_CLIENT_ERROR,
+        RESULT_OUTCOME_NO_REPLY, RESULT_OUTCOME_CLIENT_DETACHED
+    )
 );
 
 function state_num($result) {
@@ -310,7 +338,11 @@ function file_delete_state_str($s) {
     }
     return "Unknown";
 }
-function wu_error_mask_str($s) {
+
+// convert WU error bitmask to str.
+// If $color, add HTML red color
+//
+function wu_error_mask_str($s, $color=false) {
     $x = "";
     if ($s & WU_ERROR_COULDNT_SEND_RESULT) {
         $x = $x." ".tra("Couldn't send result");
@@ -339,10 +371,8 @@ function wu_error_mask_str($s) {
     if ($s) {
         $x = $x." ".tra("Unrecognized Error: %1", $s);
     }
-    if (strlen($x)) {
-        $x="<font color=\"#ff3333\">".$x."</font>";
-    } else {
-        $x="";
+    if ($color) {
+        return sprintf('<font color="#ff3333">%s</font>', $x);
     }
     return $x;
 }
@@ -638,8 +668,8 @@ function error_code_str($x){
     case -192: return "ERR_MKDIR";
     case -193: return "ERR_INVALID_EVENT";
     case -194: return "ERR_ALREADY_RUNNING";
-    case -195: return "ERR_NO_APP_VERSION";  
-    case -196: return "ERR_WU_USER_RULE";    
+    case -195: return "ERR_NO_APP_VERSION";
+    case -196: return "ERR_WU_USER_RULE";
     case -197: return "ERR_ABORTED_VIA_GUI";
     case -198: return "ERR_INSUFFICIENT_RESOURCE";
     case -199: return "ERR_RETRY";
@@ -698,12 +728,17 @@ function show_result($result, $show_outfile_links=false) {
     row2(tra("Server state"), result_server_state_string($result));
     row2(tra("Outcome"), result_outcome_string($result));
     row2(tra("Client state"), result_client_state_string($result));
-    row2(tra("Exit status"), exit_status_string($result->exit_status));
     row2(tra("Computer ID"), host_link($result->hostid));
-    row2(tra("Run time"), time_diff($result->elapsed_time));
-    row2(tra("CPU time"), time_diff($result->cpu_time));
-    row2(tra("Validate state"), validate_state_str($result));
-    row2(tra("Credit"), number_format($result->granted_credit, 2));
+    if ($result->server_state == RESULT_SERVER_STATE_OVER) {
+        row2(tra("Exit status"), exit_status_string($result->exit_status));
+    }
+    if ($result->outcome == RESULT_OUTCOME_SUCCESS) {
+        row2(tra("Run time"), time_diff($result->elapsed_time));
+        row2(tra("CPU time"), time_diff($result->cpu_time));
+        row2(tra("Credit"), number_format($result->granted_credit, 2));
+        row2(tra("Validate state"), validate_state_str($result));
+    }
+    row2('Priority', $result->priority);
     row2(tra("Device peak FLOPS"), number_format($result->flops_estimate/1e9, 2)." GFLOPS");
     row2(tra("Application version"), app_version_string($result));
     if ($result->peak_working_set_size) {
@@ -718,8 +753,8 @@ function show_result($result, $show_outfile_links=false) {
         row2("Peak disk usage", size_string($result->peak_disk_usage));
     }
     if ($show_outfile_links && $result->outcome == 1) {
-        $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-        $names = get_outfile_names($result);
+        $fanout = project_config_val("uldl_dir_fanout");
+        $names = get_outfile_phys_names($result);
         $i = 0;
         $x = "";
         foreach ($names as $name) {
@@ -731,15 +766,20 @@ function show_result($result, $show_outfile_links=false) {
         }
         row2(tra("Output files"), $x);
     }
+    if (function_exists('project_result')) {
+        project_result($result);
+    }
     end_table();
-    echo "<h3>".tra("Stderr output")."</h3> <pre>"
-        .htmlspecialchars(
-            $result->stderr_out,
-            ENT_QUOTES | (defined('ENT_SUBSTITUTE')?ENT_SUBSTITUTE:0),
-            'utf-8'
-        )
-        ."</pre>"
-    ;
+    if ($result->server_state == RESULT_SERVER_STATE_OVER) {
+        echo "<h3>".tra("Stderr output")."</h3> <pre>"
+            .htmlspecialchars(
+                $result->stderr_out,
+                ENT_QUOTES | (defined('ENT_SUBSTITUTE')?ENT_SUBSTITUTE:0),
+                'utf-8'
+            )
+            ."</pre>"
+        ;
+    }
 }
 
 function result_navigation($info, $where_clause) {
@@ -838,6 +878,5 @@ function result_navigation($info, $where_clause) {
     return $x;
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

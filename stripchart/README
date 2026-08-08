@@ -3,12 +3,12 @@ Stripchart version 2.0
 Author: Matt Lebofsky
         BOINC/SETI@home - University of California, Berkeley
         mattl@ssl.berkeley.edu
-        
+
 Date of recent version: November 4, 2002
 
 Requirements:
   * a gnuplot with the ability to generate gifs
-  * perl 
+  * perl
   * apache or other cgi-enabled web browser
 
 Send all thoughts and queries to: mattl@ssl.berkeley.edu
@@ -31,7 +31,7 @@ Q: What is stripchart?
 A: Well, it's actually two relatively small perl programs:
 
    1. stripchart
-   
+
       stripchart reads in time-based user data and, depending on a flurry of
       command line options, generates a web-friendly .gif plotting the data.
       The user can supply the time range, the y axis range, even the color
@@ -47,8 +47,8 @@ Q: Why do you bother writing this program?
 
 A: Working as a systems administrator (amongst other things) for SETI@home,
    we kept finding ourselves in dire problem-solving situations, i.e. Why
-   did the database stop working? Why is load on our web server so high? 
-      
+   did the database stop working? Why is load on our web server so high?
+
    So we started collecting data in flat files, keeping track of server
    loads, database checkpoint times, even CPU temperatures. When these files
    grew too large and unwieldy, I found myself writing (and rewriting) simple
@@ -56,7 +56,7 @@ A: Working as a systems administrator (amongst other things) for SETI@home,
    a new problem arose, I wrote stripchart version 1.0.
 
    Its usefulness became immediately apparent when I added on stripchart.cgi.
-   I couldn't bear to teach everybody the many command line options to 
+   I couldn't bear to teach everybody the many command line options to
    stripchart, so I wrote this CGI to do all the dirty work. Suddenly we were
    able to line up several plots, look for causes and effects, or just enjoy
    watching the counts in our database tables grow to impossibly high numbers.
@@ -65,7 +65,7 @@ A: Working as a systems administrator (amongst other things) for SETI@home,
    of all the data server, user, and web statistics has proven to be quite a
    life saver. So when BOINC came around we felt that any project aiming to
    embark on a similar project may need this tool. So I rewrote stripchart to
-   be a bit more friendly and general. 
+   be a bit more friendly and general.
 
 Q: Why don't you make .pngs or .jpgs instead of .gifs? The latest gnuplot
    doesn't support .gifs.
@@ -96,7 +96,7 @@ options:
   -i: input FILE      - name of input data file (mandatory)
   -o: output FILE     - name of output .gif file (default: STDOUT)
   -O: output FILE     - name of output .gif file and dump to STDOUT as well
-  -f: from TIME       - stripchart with data starting at TIME 
+  -f: from TIME       - stripchart with data starting at TIME
                         (default: 24 hours ago)
   -t: to TIME         - stripchart with data ending at TIME (default: now)
   -r: range RANGE     - stripchart data centered around "from" time the size
@@ -169,7 +169,7 @@ default.
 
 Note: stripchart will understand time in both epoch seconds and julian date.
 If the second time field is in julian date, you should supply the command line
-flag "-j" to warn stripchart so it knows how to handle it. 
+flag "-j" to warn stripchart so it knows how to handle it.
 
 Okay. So you have this data file now. A very common thing to plot would be the
 data over the past 24 hours. Turns out that's the default! If you type on the
@@ -237,7 +237,7 @@ average over the time range and plots that as the baseline. Simple!
 If you want to excise certain y values, you can do so with the dump
 flags, i.e. "-d" and "-D". In particular, any values lower than the one
 supplied with "-d" will be dumped, and any values higher supplied by
-"-D" will be dumped. 
+"-D" will be dumped.
 
 To log the y axis, use the "-L" flag. Quite straightforward.
 
@@ -274,7 +274,7 @@ is sitting. If all is well..
 You will be immediately presented with a web form. Ignore the "select query"
 pulldown menu for now. Underneath that you will see a line:
 
-Number of stripcharts: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 
+Number of stripcharts: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
 
 By default stripchart.cgi presents you with the ability to plot 4 simultaneous
 stripcharts, but you can select any number 1-20 by clicking on those numbers.
@@ -290,7 +290,7 @@ before it. Then enter the range via the pull down menus.
 
 Then you get a simple list of checkbox/input options. You can check to log
 the y axis, baseline the average, baseline an arbitrary value (which you
-enter in the window, enter a y minimum, or enter a maximum. 
+enter in the window, enter a y minimum, or enter a maximum.
 
 When everything is selected, click on the "click here" button to plot.
 Depending on the speed of your machine, you should soon be presented with
@@ -323,7 +323,7 @@ III. Known bugs, things to do, etc.
 * plots that don't work via stripchart.cgi either show ugly broken image icons
   or nothing at all - either way it's ungraceful.
 * pulldown menus and various plots sometimes need to be refreshed via a hard
-  refresh (i.e. shift-refresh). 
+  refresh (i.e. shift-refresh).
 * this readme kinda stinks.
 * and many many other issues I'm failing to detail now!
 

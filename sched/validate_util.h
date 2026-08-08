@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -27,8 +27,9 @@
 // of result.xml_doc_in
 //
 struct OUTPUT_FILE_INFO {
-    std::string name;
+    std::string phys_name;
     std::string path;
+    std::string logical_name;
     bool optional;
         // sample_bitwise_validator: not an error if this file is missing
     bool no_validate;
@@ -46,7 +47,7 @@ extern int get_output_file_paths(
     RESULT const& result, std::vector<std::string>&
 );
 extern int get_logical_name(
-    RESULT& result, std::string& path, std::string& name
+    RESULT& result, const std::string& path, std::string& name
 );
 
 extern int get_credit_from_wu(WORKUNIT&, std::vector<RESULT>& results, double&);

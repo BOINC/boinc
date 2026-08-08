@@ -80,5 +80,5 @@ case "submit": handle_submit(); break;
 case "get_output": handle_get_output(); break;
 default: usage();
 }
-   
+
 ?>

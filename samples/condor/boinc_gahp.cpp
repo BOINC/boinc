@@ -30,7 +30,9 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <time.h>
 
+#include "str_util.h"
 #include "md5_file.h"
 #include "parse.h"
 #include "remote_submit.h"
@@ -285,7 +287,7 @@ int COMMAND::parse_submit(char* p) {
         }
         submit_req.jobs.push_back(job);
     }
-    
+
     JOB_PARAMS jp;
     char *chr = NULL;
     chr = strtok_r(NULL, " ", &p);

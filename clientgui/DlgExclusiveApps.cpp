@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -13,7 +13,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 //
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "DlgExclusiveApps.h"
@@ -75,17 +75,17 @@ CDlgExclusiveApps::CDlgExclusiveApps(wxWindow* parent) :
     m_exclusiveApsListBox = new wxListBox(exclusiveAppsListStaticBox, ID_LISTBOX_EXCLAPPS, wxDefaultPosition, wxSize(-1, 145), 0, NULL, wxLB_EXTENDED|wxLB_NEEDED_SB|wxLB_SORT);
     exclusiveAppsListBoxSizer->Add(m_exclusiveApsListBox, 1, wxALL|wxEXPAND, 5);
 
-	wxBoxSizer* exclusiveAppsButtonSizer = new wxBoxSizer( wxHORIZONTAL );
+    wxBoxSizer* exclusiveAppsButtonSizer = new wxBoxSizer( wxHORIZONTAL );
 
     m_addExclusiveAppButton = new wxButton( exclusiveAppsListStaticBox, ID_ADDEXCLUSIVEAPPBUTTON, _("Add..."), wxDefaultPosition, wxDefaultSize, 0 );
     m_addExclusiveAppButton->SetToolTip( _("Add an application to this list"));
-	exclusiveAppsButtonSizer->Add( m_addExclusiveAppButton, 0, wxRIGHT, 5 );
-    
+    exclusiveAppsButtonSizer->Add( m_addExclusiveAppButton, 0, wxRIGHT, 5 );
+
     exclusiveAppsButtonSizer->AddStretchSpacer();
-    
+
     m_removeExclusiveAppButton = new wxButton( exclusiveAppsListStaticBox, ID_REMOVEEXCLUSIVEAPPBUTTON, _("Remove"), wxDefaultPosition, wxDefaultSize, 0 );
     m_removeExclusiveAppButton->SetToolTip( _("Remove an application from this list"));
-	exclusiveAppsButtonSizer->Add( m_removeExclusiveAppButton, 0, wxLEFT, 5 );
+    exclusiveAppsButtonSizer->Add( m_removeExclusiveAppButton, 0, wxLEFT, 5 );
 
     exclusiveAppsListBoxSizer->Add(exclusiveAppsButtonSizer, 0, wxEXPAND|wxLEFT|wxRIGHT, 25 );
 
@@ -99,17 +99,17 @@ CDlgExclusiveApps::CDlgExclusiveApps(wxWindow* parent) :
     m_exclusiveGPUApsListBox = new wxListBox(exclusiveGPUAppsListStaticBox, ID_LISTBOX_EXCLGPUAPPS, wxDefaultPosition, wxSize(-1, 145), 0, NULL, wxLB_EXTENDED|wxLB_NEEDED_SB|wxLB_SORT);
     exclusiveGPUAppsListBoxSizer->Add(m_exclusiveGPUApsListBox, 1, wxALL|wxEXPAND, 5);
 
-	wxBoxSizer* exclusiveGPUAppsButtonSizer = new wxBoxSizer( wxHORIZONTAL );
+    wxBoxSizer* exclusiveGPUAppsButtonSizer = new wxBoxSizer( wxHORIZONTAL );
 
     m_addExclusiveGPUAppButton = new wxButton( exclusiveGPUAppsListStaticBox, ID_ADDEXCLUSIVEGPUAPPBUTTON, _("Add..."), wxDefaultPosition, wxDefaultSize, 0 );
     m_addExclusiveGPUAppButton->SetToolTip( _("Add an application to this list"));
-	exclusiveGPUAppsButtonSizer->Add( m_addExclusiveGPUAppButton, 0, wxRIGHT, 5 );
-    
+    exclusiveGPUAppsButtonSizer->Add( m_addExclusiveGPUAppButton, 0, wxRIGHT, 5 );
+
     exclusiveGPUAppsButtonSizer->AddStretchSpacer();
-    
+
     m_removeExclusiveGPUAppButton = new wxButton( exclusiveGPUAppsListStaticBox, ID_REMOVEEXCLUSIVEGPUAPPBUTTON, _("Remove"), wxDefaultPosition, wxDefaultSize, 0 );
     m_removeExclusiveGPUAppButton->SetToolTip( _("Remove an application from this list"));
-	exclusiveGPUAppsButtonSizer->Add( m_removeExclusiveGPUAppButton, 0, wxLEFT, 5 );
+    exclusiveGPUAppsButtonSizer->Add( m_removeExclusiveGPUAppButton, 0, wxLEFT, 5 );
 
     exclusiveGPUAppsListBoxSizer->Add(exclusiveGPUAppsButtonSizer, 0, wxEXPAND|wxLEFT|wxRIGHT, 25 );
 
@@ -127,8 +127,8 @@ CDlgExclusiveApps::CDlgExclusiveApps(wxWindow* parent) :
 
     moreOptionsLinkSizer->Add(
         new wxHyperlinkCtrl(
-            this, wxID_ANY, wxT("http://boinc.berkeley.edu/wiki/Client_configuration"),
-            wxT("http://boinc.berkeley.edu/wiki/Client_configuration"), 
+            this, wxID_ANY, wxT("https://github.com/BOINC/boinc/wiki/Client-configuration"),
+            wxT("https://github.com/BOINC/boinc/wiki/Client-configuration"),
             wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE
         ),
 #ifdef __WXMAC__
@@ -143,18 +143,18 @@ CDlgExclusiveApps::CDlgExclusiveApps(wxWindow* parent) :
     m_panelButtons = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
     wxBoxSizer* buttonSizer = new wxBoxSizer( wxHORIZONTAL );
 
-    m_btnOK = new wxButton( m_panelButtons, wxID_OK, _("Save"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_btnOK->SetToolTip( _("save all values and close the dialog") );
-    
+    m_btnOK = new wxButton( m_panelButtons, wxID_OK, _("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_btnOK->SetToolTip( _("Save all values and close the dialog") );
+
     buttonSizer->Add( m_btnOK, 0, wxALL, 5 );
 
     m_btnCancel = new wxButton( m_panelButtons, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_btnCancel->SetToolTip( _("close the dialog without saving") );
+    m_btnCancel->SetToolTip( _("Close the dialog without saving") );
     m_btnCancel->SetDefault();
 
     buttonSizer->Add( m_btnCancel, 0, wxALL, 5 );
 
-    m_btnHelp = new wxButton( m_panelButtons, ID_HELPBOINC, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_btnHelp = new wxButton( m_panelButtons, ID_HELPBOINC, _("&Help"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnHelp->SetToolTip( _("shows the preferences web page") );
 
     buttonSizer->Add( m_btnHelp, 0, wxALL, 5 );
@@ -162,20 +162,21 @@ CDlgExclusiveApps::CDlgExclusiveApps(wxWindow* parent) :
     m_panelButtons->SetSizer( buttonSizer );
     m_panelButtons->Layout();
     buttonSizer->Fit( m_panelButtons );
-    dialogSizer->Add( m_panelButtons, 0, wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL|wxALL, 1 );
+    dialogSizer->Add( m_panelButtons, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 1 );
 
     m_removeExclusiveAppButton->Disable();
     m_removeExclusiveGPUAppButton->Disable();
 
     ReadPreferenceSettings();
 
-// CAF  SetSizerAndFit(dialogSizer);
-     Layout();
-     dialogSizer->Fit( this );
-     SetSizer( dialogSizer );
+    Layout();
+    SetSizerAndFit(dialogSizer);
 
-// CAF    Fit();
-    Centre();
+    Centre();   // Center the dialog over the main window
+
+#if defined(__WXMSW__) || defined(__WXGTK__)
+    SetDoubleBuffered(true);
+#endif
 }
 
 /* destructor */
@@ -389,10 +390,15 @@ void CDlgExclusiveApps::OnRemoveExclusiveApp(wxCommandEvent& ev) {
 
     // The selection indices are returned in random order.
     // We must sort them to ensure deleting the correct items.
+    //
     selections.Sort((sortcomparefunc)&myCompareInts);
     for (int i=numSelected-1; i>=0; --i) {
         m_exclusiveApsListBox->Delete(selections[i]);
         m_bExclusiveAppsDataChanged = true;
+    }
+    // Check if no more exclusive apps exist.  If no more, disable remove button.
+    if (!m_exclusiveApsListBox->HasClientObjectData()) {
+        m_removeExclusiveAppButton->Disable();
     }
     ev.Skip();
 }
@@ -403,10 +409,15 @@ void CDlgExclusiveApps::OnRemoveExclusiveGPUApp(wxCommandEvent& ev) {
 
     // The selection indices are returned in random order.
     // We must sort them to ensure deleting the correct items.
+    //
     selections.Sort((sortcomparefunc)&myCompareInts);
     for (int i=numSelected-1; i>=0; --i) {
         m_exclusiveGPUApsListBox->Delete(selections[i]);
         m_bExclusiveAppsDataChanged = true;
+    }
+    // Check if no more exclusive GPU apps exist.  If no more, disable remove button.
+    if (!m_exclusiveGPUApsListBox->HasClientObjectData()) {
+        m_removeExclusiveGPUAppButton->Disable();
     }
     ev.Skip();
 }
@@ -414,7 +425,7 @@ void CDlgExclusiveApps::OnRemoveExclusiveGPUApp(wxCommandEvent& ev) {
 // handles OK button clicked
 void CDlgExclusiveApps::OnOK(wxCommandEvent& ev) {
     SavePreferencesSettings();
-    
+
     ev.Skip();
 }
 

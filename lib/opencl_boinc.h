@@ -19,8 +19,9 @@
 #define BOINC_OPENCL_BOINC_H
 
 #include "cl_boinc.h"
-#include "miofile.h"
-#include "parse.h"
+
+struct MIOFILE;
+struct XML_PARSER;
 
 #define MAX_OPENCL_PLATFORMS 16
 #define MAX_OPENCL_CPU_PLATFORMS 4
@@ -36,8 +37,10 @@ enum COPROC_USAGE {
 //
 struct OPENCL_DEVICE_PROP {
     cl_device_id device_id;
-    char name[256];                     // Device name
-    char vendor[256];                   // Device vendor (NVIDIA, ATI, AMD, etc.)
+    char name[256];                     // model name
+        // e.g. Intel(R) UHD Graphics 630
+    char vendor[256];                   // vendor
+        // e.g. Intel(R) Corporation
     cl_uint vendor_id;                  // Vendor's unique ID for this device on this host
     cl_bool available;                  // Is this device available?
     cl_device_fp_config half_fp_config; // Half precision capabilities
@@ -72,7 +75,7 @@ struct OPENCL_DEVICE_PROP {
     int get_device_version_int();       // call this to encode
     int opencl_driver_revision;         // OpenCL runtime revision is available
     int get_opencl_driver_revision();   // call this to encode
-    char opencl_driver_version[32];     // For example: "CLH 1.0"
+    char opencl_driver_version[512];    // For example: "CLH 1.0"
     int device_num;                     // temp used in scan process
     double peak_flops;                  // temp used in scan process
     COPROC_USAGE is_used;               // temp used in scan process
@@ -85,8 +88,10 @@ struct OPENCL_DEVICE_PROP {
 #endif
     int parse(XML_PARSER&, const char* end_tag);
     void description(char* buf, int buflen, const char* type);
+    OPENCL_DEVICE_PROP(){}
     void clear() {
-        memset(this, 0, sizeof(*this));
+        static const OPENCL_DEVICE_PROP x;
+        *this = x;
     }
 };
 
@@ -97,7 +102,7 @@ struct OPENCL_DEVICE_PROP {
 struct OPENCL_CPU_PROP {
     char platform_vendor[256];
     OPENCL_DEVICE_PROP opencl_prop;
-    
+
     OPENCL_CPU_PROP() {
         clear();
     }

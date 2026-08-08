@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -13,11 +13,18 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
+//
 
+// On Macintosh we use only native controls in Simple View so the macOS
+// automatically provides accessibility support. Though wxBitmapComboBox
+// does not use MacOS native controls, wxChoice uses NSPopUpButton, so
+// we create our own BitmapComboBox on Macintosh based on wxChoice, which
+// we have hacked to allow adding bitmaps.
+//
 #include "stdwx.h"
 #include "MacBitmapComboBox.h"
-
+#include "mac_util.h"
 #define POPUPBUTTONCONTROLHEIGHT 40
 
 // wxChoice uses CreatePopupButtonControl
@@ -34,7 +41,7 @@ END_EVENT_TABLE()
 CBOINCBitmapChoice::CBOINCBitmapChoice() {}
 
 CBOINCBitmapChoice::CBOINCBitmapChoice(wxWindow *parent, wxWindowID id,
-            const wxString& value, 
+            const wxString& value,
             const wxPoint& pos,
             const wxSize& size,
             int n, const wxString choices[],
@@ -52,14 +59,8 @@ CBOINCBitmapChoice::CBOINCBitmapChoice(wxWindow *parent, wxWindowID id,
 CBOINCBitmapChoice::~CBOINCBitmapChoice() {
 }
 
-void CBOINCBitmapChoice::SetItemBitmap(unsigned int n, const wxBitmap& bitmap) {
-    wxMenuItem *item = m_popUpMenu->FindItemByPosition(n);
+// CBOINCBitmapChoice::SetItemBitmap() is in BOINCGUIApp.mm
 
-    if ( item && bitmap.Ok() )
-    {
-        item->SetBitmap(bitmap);
-    }
-}
 void CBOINCBitmapChoice::OnMouseDown(wxMouseEvent& event) {
     wxToolTip::Enable(false);
     event.Skip();
@@ -72,7 +73,7 @@ DEFINE_EVENT_TYPE(wxEVT_DRAW_LARGEBITMAP)
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBitmapComboBox, wxPanel)
 
 BEGIN_EVENT_TABLE(CBOINCBitmapComboBox, wxPanel)
-//	EVT_ERASE_BACKGROUND(CBOINCBitmapComboBox::OnEraseBackground)
+//    EVT_ERASE_BACKGROUND(CBOINCBitmapComboBox::OnEraseBackground)
     EVT_PAINT(CBOINCBitmapComboBox::OnPaint)
     EVT_DRAW_LARGEBITMAP(CBOINCBitmapComboBox::DrawLargeBitmap)
 //    EVT_CHOICE(CBOINCBitmapComboBox::OnSelection)
@@ -81,7 +82,7 @@ END_EVENT_TABLE()
 CBOINCBitmapComboBox::CBOINCBitmapComboBox() {}
 
 CBOINCBitmapComboBox::CBOINCBitmapComboBox(wxWindow *parent, wxWindowID id,
-            const wxString& value, 
+            const wxString& value,
             const wxPoint& pos,
             const wxSize& size,
             int n, const wxString choices[],
@@ -96,11 +97,11 @@ CBOINCBitmapComboBox::CBOINCBitmapComboBox(wxWindow *parent, wxWindowID id,
     m_ChoiceControl = new CBOINCBitmapChoice(this, id, value, wxDefaultPosition,
                 wxSize(size.x, m_bHaveLargeBitmaps ? POPUPBUTTONCONTROLHEIGHT : size.y),
                 n, choices, style, validator);
-	wxBoxSizer* bSizer1;
-	bSizer1 = new wxBoxSizer( wxVERTICAL );
+    wxBoxSizer* bSizer1;
+    bSizer1 = new wxBoxSizer( wxVERTICAL );
     int margin = m_bHaveLargeBitmaps ? (size.y - POPUPBUTTONCONTROLHEIGHT)/2 : 0;
-	bSizer1->Add( m_ChoiceControl, 1, wxTOP | wxBOTTOM | wxEXPAND, margin);
-	this->SetSizer( bSizer1 );
+    bSizer1->Add( m_ChoiceControl, 1, wxTOP | wxBOTTOM | wxEXPAND, margin);
+    this->SetSizer( bSizer1 );
     Layout();
     if (m_bHaveLargeBitmaps) {
         for (i=0; i<n; ++i) {
@@ -135,7 +136,7 @@ void CBOINCBitmapComboBox::SetItemBitmap(unsigned int n, const wxBitmap& bitmap)
         m_BitmapCache.at(n) = *bm;
         delete bm;
     }
-    
+
     m_ChoiceControl->SetItemBitmap(n, bitmap);
     if (n == (unsigned int)m_ChoiceControl->GetSelection()) {
         Refresh();
@@ -159,7 +160,7 @@ int CBOINCBitmapComboBox::Append(const wxString& item, const wxBitmap& bitmap) {
     if (m_bHaveLargeBitmaps) {
         m_BitmapCache.push_back(bitmap);
     }
-    
+
     int n = m_ChoiceControl->Append(item);
     SetItemBitmap(n, bitmap);
     return n;
@@ -197,7 +198,7 @@ int CBOINCBitmapComboBox::Insert(const wxString& item, const wxBitmap& bitmap, u
         m_BitmapCache.insert(insertionPoint + pos, *bm);
         delete bm;
     }
-    
+
     int n = m_ChoiceControl->Insert(item, pos, clientData);
     SetItemBitmap(n, bitmap);
     return n;
@@ -210,7 +211,7 @@ void CBOINCBitmapComboBox::Delete(unsigned int n) {
             std::vector<wxBitmap>::iterator deletionPoint = m_BitmapCache.begin();
             m_BitmapCache.erase(deletionPoint + n);
         }
-        
+
         m_ChoiceControl->Delete(n);
         Refresh();
     }
@@ -220,7 +221,7 @@ void CBOINCBitmapComboBox::Delete(unsigned int n) {
 void CBOINCBitmapComboBox::Clear() {
     m_BitmapCache.clear();
     int count = GetCount();
-	for(int j = count-1; j >=0; --j) {
+    for(int j = count-1; j >=0; --j) {
         wxASSERT(!m_ChoiceControl->GetClientData(j));
         m_ChoiceControl->SetClientData(j, NULL);
     }
@@ -245,10 +246,10 @@ void CBOINCBitmapComboBox::DrawLargeBitmap(CDrawLargeBitmapEvent&) {
     wxPen oldPen = myDC.GetPen();
     wxBrush oldBrush = myDC.GetBrush();
     int oldMode = myDC.GetBackgroundMode();
-    
+
     myDC.SetPen(*wxTRANSPARENT_PEN);
     myDC.SetBrush(*wxWHITE_BRUSH);
-    myDC.SetBackgroundMode(wxSOLID);
+    myDC.SetBackgroundMode(wxBRUSHSTYLE_SOLID);
 
     GetSize(&x, &y);
     myDC.DrawRectangle(9, 1, y-2, y-2);
@@ -265,7 +266,7 @@ void CBOINCBitmapComboBox::OnPaint(wxPaintEvent& event) {
     if (!m_bHaveLargeBitmaps) return;
 
     int x, y;
-	wxPaintDC myDC(this);
+    wxPaintDC myDC(this);
     unsigned int i = GetSelection();
     if (m_BitmapCache.size() <= i) {
         return;
@@ -275,27 +276,29 @@ void CBOINCBitmapComboBox::OnPaint(wxPaintEvent& event) {
     wxBrush oldBrush = myDC.GetBrush();
     int oldMode = myDC.GetBackgroundMode();
 
-    myDC.SetPen(*wxMEDIUM_GREY_PEN);
+    myDC.SetPen(*wxLIGHT_GREY_PEN);
     myDC.SetBrush(*wxWHITE_BRUSH);
-    myDC.SetBackgroundMode(wxSOLID);
+    myDC.SetBackgroundMode(wxBRUSHSTYLE_SOLID);
 
     GetSize(&x, &y);
     myDC.DrawRectangle(7, 0, y+1, y);
-    
-    // Restore Mode, Pen and Brush 
+
+    // Restore Mode, Pen and Brush
     myDC.SetBackgroundMode(oldMode);
     myDC.SetPen(oldPen);
     myDC.SetBrush(oldBrush);
 
-    CDrawLargeBitmapEvent newEvent(wxEVT_DRAW_LARGEBITMAP, this);
-    AddPendingEvent(newEvent);
+    if (compareOSVersionTo(10, 14) < 0) {
+        CDrawLargeBitmapEvent newEvent(wxEVT_DRAW_LARGEBITMAP, this);
+        AddPendingEvent(newEvent);
+    }
 }
 
 
 void CBOINCBitmapComboBox::EmptyBitmapCache() {
 #if 0
     unsigned int i, cacheSize;
-    
+
     cacheSize = m_BitmapCache.size();
     for (i=0; i<cacheSize; i++) {
         if (m_BitmapCache.at(i) != NULL) {

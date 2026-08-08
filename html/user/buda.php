@@ -1,0 +1,844 @@
+<?php
+// This file is part of BOINC.
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+// interface for:
+//      - viewing details of BUDA science apps and variants
+//      - managing these if user has permission
+//
+// in the following, 'app' means BUDA science app
+// and 'variant' means a variant of one of these (e.g. CPU, GPU)
+
+require_once('../inc/util.inc');
+require_once('../inc/sandbox.inc');
+require_once('../inc/keywords.inc');
+require_once('../inc/submit_util.inc');
+require_once('../inc/buda.inc');
+
+display_errors();
+
+$buda_root = "../../buda_apps";
+
+// job parameters; can override in project.inc (include that first)
+
+if (!defined('MIN_QUORUM')) {
+    define('MIN_QUORUM', 1);
+}
+if (!defined('TARGET_NRESULTS')) {
+    define('TARGET_NRESULTS', 1);
+}
+if (!defined('MAX_ERROR_RESULTS')) {
+    define('MAX_ERROR_RESULTS', 2);
+}
+if (!defined('MAX_TOTAL_RESULTS')) {
+    define('MAX_TOTAL_RESULTS', 3);
+}
+if (!defined('MAX_SUCCESS_RESULTS')) {
+    define('MAX_SUCCESS_RESULTS', 3);
+}
+
+if (MIN_QUORUM > TARGET_NRESULTS
+    || TARGET_NRESULTS > MAX_TOTAL_RESULTS
+) {
+    error_page("bad job parameters");
+}
+
+// show list of BUDA apps and variants,
+// w/ buttons for adding and deleting
+//
+function app_list($notice=null) {
+    global $buda_root;
+    if (!is_dir($buda_root)) {
+        mkdir($buda_root);
+    }
+    page_head('Manage BUDA apps');
+    if ($notice) {
+        echo "$notice <p>\n";
+    }
+    text_start();
+    echo "
+        <p>BUDA lets you submit Docker jobs using a web interface.
+        <a href=https://github.com/BOINC/boinc/wiki/BUDA-overview>Learn more</a>.
+        <p>
+        <h3>BUDA science apps</h3>
+    ";
+
+    $apps = get_buda_apps();
+    foreach ($apps as $app) {
+        show_app($app);
+    }
+    echo '<hr>';
+    show_button_small('buda.php?action=app_form', 'Add science app');
+    text_end();
+    page_tail();
+}
+
+function show_app($app_dir) {
+    global $buda_root;
+    $desc = null;
+    $desc_path = "$buda_root/$app_dir/desc.json";
+    $desc = @json_decode(file_get_contents($desc_path));
+    if (!$desc) {
+        echo "$app_dir: No desc.json file";
+        return;
+    }
+    echo '<hr>';
+    echo sprintf('<h3>%s</h3><p>', $desc->long_name);
+    show_button_small(
+        sprintf('buda.php?action=app_details&name=%s', $desc->name),
+        'App details'
+    );
+    $var_dirs = get_buda_variants($app_dir);
+    if ($var_dirs) {
+        echo "<p>Variants:<ul>";
+        foreach ($var_dirs as $var_dir) {
+            $var_desc = get_buda_var_desc($app_dir, $var_dir);
+            echo sprintf(
+                '<li><a href=buda.php?action=variant_view&app=%s&variant=%s>%s</a>',
+                $app_dir, $var_dir, variant_name($var_desc)
+            );
+        }
+        echo '</ul>';
+    } else {
+        echo '<p>No variants';
+    }
+    echo "<p>";
+}
+
+function file_row($app, $variant, $dir, $f) {
+    [$md5, $size] = parse_info_file("$dir/.md5/$f");
+    table_row(
+        "<a href=buda.php?action=view_file&app=$app&variant=$variant&fname=$f>$f</a>",
+        $size,
+        $md5
+    );
+}
+
+function variant_view($user) {
+    global $buda_root;
+    $app = get_str('app');
+    if (!is_valid_filename($app)) die('bad arg');
+    $app_desc = get_buda_app_desc($app);
+    $variant = get_str('variant');
+    if (!is_valid_filename($variant)) die('bad arg');
+
+    page_head("BUDA variant");
+    $dir = "$buda_root/$app/$variant";
+    $variant_desc = json_decode(file_get_contents("$dir/variant.json"));
+    start_table('table-striped');
+    row2("BUDA App", $app);
+    row2("Variant name", $variant);
+    row2("CPU type", $variant_desc->cpu_type);
+    row2("Plan class", $variant_desc->plan_class);
+    end_table();
+    echo "<h3>App files</h3>";
+    start_table();
+    table_header('Dockerfile', 'size', 'md5');
+    file_row($app, $variant, $dir, $variant_desc->dockerfile);
+    table_header('App files', '', '');
+    foreach ($variant_desc->app_files as $f) {
+        file_row($app, $variant, $dir, $f);
+    }
+    table_header('Auto-generated files', '', '');
+    file_row($app, $variant, $dir, 'variant.json');
+    end_table();
+    echo '<hr>';
+
+    if (user_can_manage($user, $app_desc)) {
+        echo '<p>';
+        show_button_small(
+            "buda.php?action=variant_form&app=$app&variant=$variant",
+            'Edit variant'
+        );
+        echo '<p>';
+        show_button(
+            "buda.php?action=variant_delete&app=$app&variant=$variant",
+            'Delete variant',
+            null,
+            'btn btn-xs btn-warning'
+        );
+    }
+    page_tail();
+}
+
+// form for creating an app variant or editing an existing one
+//
+function variant_form($user) {
+    $app = get_str('app');
+    if (!is_valid_filename($app)) die('bad arg');
+
+    // name of variant directory, if we're editing
+    $variant = get_str('variant', true);
+
+    $sbitems = sandbox_select_items($user);
+    if ($variant) {
+        global $buda_root;
+        $variant_dir = "$buda_root/$app/$variant";
+        $variant_desc = json_decode(
+            file_get_contents("$variant_dir/variant.json")
+        );
+        if (!$variant_desc) error_page('no such variant');
+        page_head_select2("Edit variant $variant of BUDA app $app");
+    } else {
+        $variant_desc = new StdClass;
+        $variant_desc->cpu_type = 'intel';
+        $variant_desc->plan_class = '';
+        $variant_desc->dockerfile = '';
+        $variant_desc->app_files = [];
+        page_head_select2("Create a variant of BUDA app $app");
+    }
+    echo "
+        Details are <a href=https://github.com/BOINC/boinc/wiki/BUDA-job-submission#adding-a-variant>here</a>.
+    ";
+    $sb = '<br><small>From your <a href=sandbox.php>file sandbox</a></small>';
+    $pc = '<br><small>Specify
+    <a href=https://github.com/BOINC/boinc/wiki/Plan-classes>GPU and other host requirements</a>.<br>Leave blank if none.</small>';
+    form_start('buda.php');
+    form_input_hidden('app', $app);
+    form_input_hidden('action', 'variant_action');
+    if ($variant) {
+        // can't change CPU type of existing variant
+        form_input_hidden('variant', $variant);
+        form_input_hidden('edit', 'true');
+        $x = explode('_', $variant);
+        $cpu_type = $x[0];
+        form_input_hidden('cpu_type', $cpu_type);
+    } else {
+        form_radio_buttons(
+            'CPU type', 'cpu_type',
+            [
+                ['intel', 'Intel'],
+                ['arm', 'ARM']
+            ],
+            $variant_desc->cpu_type
+        );
+    }
+    form_input_text("Plan class$pc", 'plan_class', $variant_desc->plan_class);
+    form_select("Dockerfile$sb", 'dockerfile', $sbitems, $variant_desc->dockerfile);
+    form_select2_multi("Application files$sb", 'app_files', $sbitems, $variant_desc->app_files);
+    form_submit('OK');
+    form_end();
+    page_tail();
+}
+
+function buda_file_phys_name($app, $variant, $md5) {
+    return sprintf('buda_%s_%s_%s', $app, $variant, $md5);
+}
+
+// copy file from sandbox to variant dir, and stage to download hier
+// return physical name, md5, and size
+//
+function copy_and_stage_file($user, $fname, $variant_dir, $app, $variant) {
+    copy_sandbox_file($user, $fname, $variant_dir);
+    [$md5, $size] = parse_info_file("$variant_dir/.md5/$fname");
+    $phys_name = buda_file_phys_name($app, $variant, $md5);
+    stage_file_aux("$variant_dir/$fname", $md5, $size, $phys_name);
+    return [$phys_name, $md5, $size];
+}
+
+// create templates and put them in app dir
+//
+function create_templates($app, $desc, $dir) {
+    // input template
+    //
+    $x = "<input_template>\n";
+    $ninfiles = count($desc->input_file_names);
+    for ($i=0; $i<$ninfiles; $i++) {
+        $x .= "   <file_info>\n      <no_delete/>\n   </file_info>\n";
+    }
+    $x .= "   <workunit>\n";
+    foreach ($desc->input_file_names as $fname) {
+        $x .= file_ref_in($fname);
+    }
+
+    // replication params
+    //
+    $x .= sprintf("      <min_quorum>%d</min_quorum>\n",
+        MIN_QUORUM
+    );
+    $x .= sprintf("      <target_nresults>%d</target_nresults>\n",
+        TARGET_NRESULTS
+    );
+    $x .= sprintf("      <max_error_results>%d</max_error_results>\n",
+        MAX_ERROR_RESULTS
+    );
+    $x .= sprintf("      <max_total_results>%d</max_total_results>\n",
+        MAX_TOTAL_RESULTS
+    );
+    $x .= sprintf("      <max_success_results>%d</max_success_results>\n",
+        MAX_SUCCESS_RESULTS
+    );
+
+    $x .= sprintf("      <max_delay>%f</max_delay>\n",
+        $desc->max_delay_days * 86400.
+    );
+
+    $x .= "      <buda_app_name>$app</buda_app_name>\n";
+    $x .= "   </workunit>\n</input_template>\n";
+    file_put_contents("$dir/template_in", $x);
+
+    // output template
+    //
+    $x = "<output_template>\n";
+    $i = 0;
+    foreach ($desc->output_file_names as $fname) {
+        $x .= file_info_out(
+            $i++, $desc->max_nbytes_mb*MEGA, $desc->gzip_output
+        );
+    }
+    $x .= "    <result>\n";
+    $i = 0;
+    foreach ($desc->output_file_names as $fname) {
+        $x .= file_ref_out($i++, $fname);
+    }
+    $x .= "    </result>\n</output_template>\n";
+    file_put_contents("$dir/template_out", $x);
+}
+
+// return <file_info> and <file_ref> elements for given file
+//
+function file_xml_elements($log_name, $phys_name, $md5, $nbytes) {
+    static $download_dir, $download_url, $fanout;
+    if ($download_dir == null) {
+        $download_dir = project_config_val("download_dir");
+        $download_url = project_config_val("download_url");
+        $fanout = (int)(project_config_val("uldl_dir_fanout"));
+    }
+    $file_info = sprintf(
+"<file_info>
+    <sticky/>
+    <no_delete/>
+    <executable/>
+    <name>%s</name>
+    <url>%s/%s/%s</url>
+    <md5_cksum>%s</md5_cksum>
+    <nbytes>%d</nbytes>
+</file_info>
+",
+        $phys_name,
+        $download_url, filename_hash($phys_name, $fanout), $phys_name,
+        $md5,
+        $nbytes
+    );
+    $file_ref = sprintf(
+"<file_ref>
+    <file_name>%s</file_name>
+    <open_name>%s</open_name>
+    <copy_file/>
+</file_ref>
+",
+        $phys_name,
+        $log_name
+    );
+    return [$file_info, $file_ref];
+}
+
+// create or edit variant
+//
+function variant_action($user) {
+    global $buda_root;
+    $app = get_str('app');
+    if (!is_valid_filename($app)) die('bad arg');
+    $app_desc = get_buda_app_desc($app);
+    if (!user_can_manage($user, $app_desc)) {
+        error_page('no access');
+    }
+
+    $cpu_type = get_str('cpu_type');
+    $plan_class = get_str('plan_class');
+    $variant = get_str('variant', true);
+    if ($variant) {
+        $creating = false;
+    } else {
+        $creating = true;
+    }
+    $variant = sprintf('%s_%s', $cpu_type, $plan_class?$plan_class:'cpu');
+    if (!is_valid_filename($variant)) {
+        error_page(filename_rules());
+    }
+
+    $dockerfile = get_str('dockerfile');
+    if (!is_valid_filename($dockerfile)) {
+        error_page("Invalid dockerfile name: ".filename_rules());
+    }
+    $app_files = get_array('app_files');
+    foreach ($app_files as $fname) {
+        if (!is_valid_filename($fname)) {
+            error_page("Invalid app file name: ".filename_rules());
+        }
+    }
+
+    $dir = "$buda_root/$app/$variant";
+    if ($creating) {
+        if (file_exists($dir)) {
+            error_page("Variant '$variant' already exists.");
+        }
+    } else {
+        system("rm -r $dir");
+    }
+    mkdir($dir);
+    mkdir("$dir/.md5");
+
+    // collect variant params into a struct
+    //
+    $desc = new StdClass;
+    $desc->dockerfile = $dockerfile;
+    $desc->app_files = $app_files;
+    $desc->cpu_type = $cpu_type;
+    $desc->plan_class = $plan_class;
+    $desc->file_infos = '';
+    $desc->file_refs = '';
+
+    // copy dockerfile and app files from sandbox to variant dir,
+    // and stage them to download dir
+    //
+    [$pname, $md5, $nbytes] = copy_and_stage_file(
+        $user, $dockerfile, $dir, $app, $variant
+    );
+    $desc->dockerfile_phys = $pname;
+    $desc->app_files_phys = [];
+    [$file_info, $file_ref] = file_xml_elements(
+        'Dockerfile', $pname, $md5, $nbytes
+    );
+    $desc->file_infos .= $file_info;
+    $desc->file_refs .= $file_ref;
+
+    foreach ($app_files as $fname) {
+        [$pname, $md5, $nbytes] = copy_and_stage_file(
+            $user, $fname, $dir, $app, $variant
+        );
+        $desc->app_files_phys[] = $pname;
+        [$file_info, $file_ref] = file_xml_elements(
+            $fname, $pname, $md5, $nbytes
+        );
+        $desc->file_infos .= $file_info;
+        $desc->file_refs .= $file_ref;
+    }
+
+    // write variant params to a JSON file
+    //
+    file_put_contents(
+        "$dir/variant.json",
+        json_encode($desc, JSON_PRETTY_PRINT)
+    );
+
+    // Note: we don't currently allow indirect file access.
+    // If we did, we'd need to create job.toml to mount project dir
+
+    app_list("Variant $variant added for app $app.");
+}
+
+function variant_delete() {
+    global $buda_root;
+    $app = get_str('app');
+    if (!is_valid_filename($app)) die('bad arg');
+    $variant = get_str('variant');
+    if (!is_valid_filename($variant)) die('bad arg');
+    $confirmed = get_str('confirmed', true);
+    if ($confirmed) {
+        $dir = "$buda_root/$app/$variant";
+        if (!file_exists($dir)) error_page('no such variant');
+        // delete staged files
+        //
+        foreach (scandir("$dir/.md5") as $fname) {
+            if ($fname[0] == '.') continue;
+            [$md5, $size] = parse_info_file("$dir/.md5/$fname");
+            $phys_name = buda_file_phys_name($app, $variant, $md5);
+            $phys_path = download_hier_path($phys_name);
+            unlink($phys_path);
+            unlink("$phys_path.md5");
+        }
+        system(
+            sprintf(
+                'rm -r %s',
+                escapeshellarg("$buda_root/$app/$variant")
+            ),
+            $ret
+        );
+        if ($ret) {
+            error_page("delete failed");
+        }
+        $notice = "Variant $variant of app $app removed.";
+        app_list($notice);
+    } else {
+        page_head("Confirm");
+        echo "<p>Are you sure you want to delete variant $variant of BUDA app $app?  <p>";
+        show_button(
+            "buda.php?action=variant_delete&app=$app&variant=$variant&confirmed=yes",
+            "Yes"
+        );
+        page_tail();
+    }
+}
+
+function app_delete() {
+    global $buda_root;
+    $app = get_str('app');
+    if (!is_valid_filename($app)) die('bad arg');
+    $confirmed = get_str('confirmed', true);
+    if ($confirmed) {
+        $dir = "$buda_root/$app";
+        if (!file_exists($dir)) error_page('no such app');
+        $vars = get_buda_variants($app);
+        if ($vars) {
+            error_page("You must delete all variants first.");
+        }
+        system(
+            sprintf(
+                'rm -r %s',
+                escapeshellarg("$buda_root/$app")
+            ),
+            $ret
+        );
+        if ($ret) {
+            error_page('delete failed');
+        }
+        $notice = "App $app removed.";
+        app_list($notice);
+    } else {
+        page_head('Confirm');
+        echo "<p>Are you sure you want to delete BUDA science app $app?  <p>";
+        show_button(
+            "buda.php?action=app_delete&app=$app&confirmed=yes",
+            "Yes"
+        );
+        page_tail();
+    }
+}
+
+function app_form($desc=null) {
+    page_head_select2($desc?"Edit BUDA app $desc->name":'Create BUDA app');
+    form_start('buda.php');
+    form_input_hidden('action', 'app_action');
+    if ($desc) {
+        form_input_hidden('edit_name', $desc->name);
+        form_input_hidden('user_id', $desc->user_id);
+        form_input_hidden('create_time', $desc->create_time);
+    } else {
+        $desc = new StdClass;
+        $desc->long_name = null;
+        $desc->input_file_names = [];
+        $desc->output_file_names = [];
+        $desc->max_nbytes_mb = 10;
+        $desc->max_delay_days = 7;
+        $desc->description = null;
+        $desc->sci_kw = null;
+        $desc->url = null;
+        $desc->submitters = [];
+        form_input_text('Internal name<br><small>No spaces</small>', 'name');
+    }
+    form_input_text('User-visible name', 'long_name', $desc->long_name);
+    form_input_text(
+        'Input file names<br><small>Space-separated</small>',
+        'input_file_names',
+        implode(' ', $desc->input_file_names)
+    );
+    form_input_text(
+        'Output file names<br><small>
+            Space-separated.
+            <br>The app must generate all of these.
+            They are uploaded to the server.
+            Do not include checkpoint or temp files.
+        </small>',
+        'output_file_names',
+        implode(' ', $desc->output_file_names)
+    );
+    if (empty($desc->max_nbytes_mb)) {
+        $desc->max_nbytes_mb = 10;
+    }
+    form_input_text(
+        'Max output file size, MB',
+        'max_nbytes_mb',
+        $desc->max_nbytes_mb
+    );
+    if (empty($desc->gzip_output)) {
+        $desc->gzip_output = false;
+    }
+    form_checkboxes(
+        'Gzip output files?',
+        [['gzip_output', '', $desc->gzip_output]]
+    );
+    form_input_text(
+        'Max job turnaround time, days',
+        'max_delay_days',
+        $desc->max_delay_days
+    );
+    form_input_textarea(
+        'Description<br><small>... of what the app does and of the research goals</small>',
+        'description',
+        $desc->description
+    );
+    form_select2_multi('Science keywords',
+        'sci_kw',
+        keyword_select_options(KW_CATEGORY_SCIENCE),
+        $desc->sci_kw
+    );
+    form_input_text(
+        'Additional submitters<br><small>(user IDs)</small>',
+        'submitters',
+        implode(' ', $desc->submitters)
+    );
+    // don't include location keywords;
+    // various people may submit jobs to this app
+    form_submit('OK');
+    form_end();
+    page_tail();
+}
+
+function app_action($user) {
+    global $buda_root;
+    $edit_name = get_str('edit_name', true);
+    $desc = new StdClass;
+    if ($edit_name) {
+        // editing existing app
+        $dir = "$buda_root/$edit_name";
+        $app_name = $edit_name;
+        $desc->user_id = get_int('user_id');
+        $desc->create_time = get_int('create_time');
+        $app_desc = get_buda_app_desc($app_name);
+        if (!user_can_manage($user, $app_desc)) {
+            error_page('no access');
+        }
+    } else {
+        // creating new app
+        $app_name = get_str('name');
+        if (!is_valid_filename($app_name)) {
+            error_page(filename_rules());
+        }
+        $dir = "$buda_root/$app_name";
+        if (file_exists($dir)) {
+            error_page("App $app_name already exists.");
+        }
+        mkdir($dir);
+        $desc->user_id = $user->id;
+        $desc->create_time = time();
+    }
+    $desc->name = $app_name;
+    $max_delay_days = get_str('max_delay_days');
+    if (!is_numeric($max_delay_days)) {
+        error_page('Must specify max delay');
+    }
+    $max_delay_days = floatval($max_delay_days);
+    if ($max_delay_days <= 0) {
+        error_page('Must specify positive max delay');
+    }
+
+    $input_file_names = get_str('input_file_names', true);
+    if ($input_file_names) {
+        $input_file_names = explode(' ', $input_file_names);
+        foreach ($input_file_names as $fname) {
+            if (!is_valid_filename($fname)) {
+                error_page("Invalid input file name: ".filename_rules());
+            }
+        }
+    } else {
+        $input_file_names = [];
+    }
+    $output_file_names = get_str('output_file_names', true);
+    if ($output_file_names) {
+        $output_file_names = explode(' ', $output_file_names);
+        foreach ($output_file_names as $fname) {
+            if (!is_valid_filename($fname)) {
+                error_page("Invalid output file name: ".filename_rules());
+            }
+        }
+    } else {
+        $output_file_names = [];
+    }
+    $desc->max_nbytes_mb = get_int('max_nbytes_mb');
+    $desc->long_name = get_str('long_name');
+    $desc->input_file_names = $input_file_names;
+    $desc->output_file_names = $output_file_names;
+    $desc->max_delay_days = $max_delay_days;
+    $desc->description = get_str('description');
+    $desc->gzip_output = get_str('gzip_output', true)?true:false;
+    $desc->sci_kw = array_map('intval', get_array('sci_kw'));
+    $desc->submitters = [];
+    $x = get_str('submitters');
+    if ($x) {
+        $x = explode(' ', $x);
+        global $buda_app;
+        foreach ($x as $id) {
+            if (!is_numeric($id)) {
+                error_page('bad user ID');
+            }
+            $id = intval($id);
+            $u = BoincUser::lookup_id($id);
+            if (!$u) error_page("no user $id");
+            if (!has_submit_access($u, $buda_app->id)) {
+                error_page("user $id has no BUDA submit access");
+            }
+            $desc->submitters[] = $id;
+        }
+    }
+    file_put_contents("$dir/desc.json", json_encode($desc, JSON_PRETTY_PRINT));
+
+    create_templates($app_name, $desc, $dir);
+
+    header("Location: buda.php");
+}
+
+function view_file() {
+    global $buda_root;
+    $app = get_str('app');
+    if (!is_valid_filename($app)) die('bad arg');
+    $variant = get_str('variant');
+    if (!is_valid_filename($variant)) die('bad arg');
+    $fname = get_str('fname');
+    if (!is_valid_filename($fname)) die('bad arg');
+    echo "<pre>\n";
+    $x = file_get_contents("$buda_root/$app/$variant/$fname");
+    echo htmlspecialchars($x);
+    echo "</pre>\n";
+}
+
+function handle_app_edit() {
+    global $buda_root;
+    $name = get_str('name');
+    app_form(get_buda_app_desc($name));
+}
+
+function app_details($user) {
+    global $buda_root;
+    $name = get_str('name');
+    $desc = get_buda_app_desc($name);
+    if (!$desc) error_page("no desc file $path");
+    page_head("BUDA app: $desc->long_name");
+    start_table('table-striped');
+    row2('Internal name', $desc->name);
+    $user2 = BoincUser::lookup_id($desc->user_id);
+    row2('Creator',
+        sprintf('<a href=show_user.php?userid=%d>%s</a>',
+            $user2->id,
+            $user2->name
+        )
+    );
+    row2('Created', date_str($desc->create_time));
+    row2('Description', $desc->description);
+    row2('Science keywords', kw_array_to_str($desc->sci_kw));
+    row2(
+        'Input filenames:',
+        implode(',', $desc->input_file_names)
+    );
+    row2(
+        'Output filenames:',
+        implode(',', $desc->output_file_names)
+    );
+    if (!empty($desc->max_nbytes_mb)) {
+        row2(
+            'Max output file size',
+            "$desc->max_nbytes_mb MB"
+        );
+    }
+    row2(
+        'gzip output files?',
+        empty($desc->gzip_output)?'no':'yes'
+    );
+    if (!empty($desc->max_delay_days)) {
+        row2('Max job turnaround time, days:', $desc->max_delay_days);
+    } else {
+        row2('Max job turnaround time, days:', '7');
+    }
+    if (user_can_manage($user, $desc)) {
+        row2('',
+            button_text_small(
+                sprintf('buda.php?action=%s&name=%s', 'app_edit', $desc->name),
+                'Edit app info'
+            )
+        );
+    }
+    $vars = get_buda_variants($name);
+    if ($vars) {
+        $x = [];
+        foreach ($vars as $var) {
+            $x[] = sprintf('<a href=buda.php?action=variant_view&app=%s&variant=%s>%s</a>',
+                $name, $var, $var
+            );
+        }
+        row2('Variants', implode('<p>', $x));
+        if (user_can_manage($user, $desc)) {
+            row2('',
+                button_text_small(
+                    "buda.php?action=variant_form&app=$name",
+                    'Add variant'
+                )
+            );
+        }
+    } else if (user_can_manage($user, $desc)) {
+        row2('Variants',
+            button_text_small(
+                "buda.php?action=variant_form&app=$name",
+                'Add variant'
+            )
+        );
+        row2('',
+            button_text(
+                "buda.php?action=app_delete&app=$name",
+                "Delete app",
+                null,
+                'btn btn-xs btn-warning'
+            )
+        );
+    }
+    end_table();
+    page_tail();
+}
+
+$user = get_logged_in_user();
+$buda_app = BoincApp::lookup("name='buda'");
+if (!$buda_app) error_page('no buda app');
+
+// does user have right to right to view and create BUDA apps?
+//
+if (!has_manage_access($user, $buda_app->id)) {
+    error_page('no access');
+}
+
+$us = BoincUserSubmit::lookup_userid($user->id);
+$manage_all = $us->manage_all;
+
+$action = get_str('action', true);
+switch ($action) {
+case 'app_edit':
+    handle_app_edit(); break;
+case 'app_form':
+    app_form(); break;
+case 'app_action':
+    app_action($user); break;
+case 'app_details':
+    app_details($user); break;
+case 'app_delete':
+    app_delete(); break;
+case 'variant_view':
+    variant_view($user); break;
+case 'variant_form':
+    variant_form($user); break;
+case 'variant_action':
+    variant_action($user);
+    break;
+case 'variant_delete':
+    variant_delete();
+    break;
+case 'view_file':
+    view_file(); break;
+case null:
+    app_list(); break;
+default:
+    error_page("unknown action");
+}
+
+?>

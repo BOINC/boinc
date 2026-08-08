@@ -1,0 +1,79 @@
+<!--
+  This file is part of BOINC.
+  http://boinc.berkeley.edu
+  Copyright (C) 2020 University of California
+
+  BOINC is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License
+  as published by the Free Software Foundation,
+  either version 3 of the License, or (at your option) any later version.
+
+  BOINC is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:tint="?attr/colorControlNormal"
+    android:viewportWidth="12.7"
+    android:viewportHeight="12.7">
+  <path
+      android:fillColor="@android:color/black"
+      android:pathData="M4.8616,6.7549a1.3808,1.4113 0,1 0,2.7616 0a1.3808,1.4113 0,1 0,-2.7616 0z"
+      android:strokeWidth="0.03566416"/>
+  <path
+      android:pathData="M10.4048,11.6562m0.8034,-0a0.8034,0.8034 0,1 1,-1.6069 -0a0.8034,0.8034 0,1 1,1.6069 -0"
+      android:strokeWidth="0.20896828"
+      android:strokeColor="@android:color/black"/>
+  <path
+      android:pathData="M9.9267,11.119 L6.6337,7.249"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="0.21069998"
+      android:strokeColor="@android:color/black"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="M2.2133,11.518m-0.8034,-0a0.8034,0.8034 0,1 0,1.6069 -0a0.8034,0.8034 0,1 0,-1.6069 -0"
+      android:strokeWidth="0.20896828"
+      android:strokeColor="@android:color/black"/>
+  <path
+      android:pathData="m2.6913,10.981 l3.2931,-3.8701"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="0.21069998"
+      android:strokeColor="@android:color/black"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="M0.9703,4.7231m-0.8034,-0a0.8034,0.8034 0,1 0,1.6069 -0a0.8034,0.8034 0,1 0,-1.6069 -0"
+      android:strokeWidth="0.20896828"
+      android:strokeColor="@android:color/black"/>
+  <path
+      android:pathData="M5.3672,6.39 L1.7764,5.0641"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="0.21341223"
+      android:strokeColor="@android:color/black"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="M11.7054,4.8612m0.8034,-0a0.8034,0.8034 0,1 1,-1.6069 -0a0.8034,0.8034 0,1 1,1.6069 -0"
+      android:strokeWidth="0.20896828"
+      android:strokeColor="@android:color/black"/>
+  <path
+      android:pathData="m7.3085,6.5281 l3.5908,-1.3258"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="0.21341223"
+      android:strokeColor="@android:color/black"
+      android:strokeLineCap="butt"/>
+  <path
+      android:pathData="M6.264,1.1047m0.8034,-0a0.8034,0.8034 0,1 1,-1.6069 -0a0.8034,0.8034 0,1 1,1.6069 -0"
+      android:strokeWidth="0.20896828"
+      android:strokeColor="@android:color/black"/>
+  <path
+      android:pathData="M6.2787,5.7271 L6.251,1.9153"
+      android:strokeLineJoin="miter"
+      android:strokeWidth="0.20669463"
+      android:strokeColor="@android:color/black"
+      android:strokeLineCap="butt"/>
+</vector>

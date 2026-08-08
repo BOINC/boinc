@@ -31,6 +31,7 @@
 //    [ <no_cuda>1</no_cuda> ]
 //    [ <no_ati>1</no_ati> ]
 //    [ <no_intel_gpu>1</no_intel_gpu> ]
+//    [ <no_apple_gpu>1</no_apple_gpu> ]
 //    <project-specific>
 //            ... (arbitrary project-specific XML)
 //    </project-specific>
@@ -43,6 +44,7 @@
 // (send_email and show_hosts) that are treated as project preferences
 
 include_once("../inc/prefs_util.inc");
+include_once("../inc/app_types.inc");
 include_once("../project/project_specific_prefs.inc");
 
 global $app_types;
@@ -69,7 +71,7 @@ if (!empty($accelerate_gpu_apps_pref)) {
 
 if ($app_types->cpu) {
     $project_pref_descs[] = new PREF_BOOL (
-        tra("Use CPU"),
+        tra("Allow CPU-only tasks"),
         "Request CPU-only tasks from this project.",
         "no_cpu",
         false,
@@ -99,6 +101,15 @@ if ($app_types->intel_gpu) {
         tra("Use Intel GPU"),
         "Request Intel GPU tasks from this project.",
         "no_intel_gpu",
+        false,
+        true
+    );
+}
+if ($app_types->apple_gpu) {
+    $project_pref_descs[] = new PREF_BOOL (
+        tra("Use Apple GPU"),
+        "Request Apple GPU tasks from this project.",
+        "no_apple_gpu",
         false,
         true
     );

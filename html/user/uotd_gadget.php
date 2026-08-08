@@ -24,7 +24,7 @@ xml_header();
 echo "
 <Module>
   <ModulePrefs
-     title=\"".PROJECT." User of the Day\" 
+     title=\"".PROJECT." User of the Day\"
      author=\"BOINC project\"
      author_email=\"".SYS_ADMIN_EMAIL."\"
      author_affiliation=\"".COPYRIGHT_HOLDER."\"
@@ -32,8 +32,8 @@ echo "
      description=\"Shows today's User of the Day for the BOINC-based distributed
                    computing project ".PROJECT."\"
      height=\"100\"
-  /> 
-  <Content type=\"url\" href=\"".secure_url_base()."user_profile/uotd_gadget.html\" /> 
+  />
+  <Content type=\"url\" href=\"".secure_url_base()."user_profile/uotd_gadget.html\" />
 </Module>
 ";
 

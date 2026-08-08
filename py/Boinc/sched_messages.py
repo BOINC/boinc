@@ -1,4 +1,4 @@
-import sys, time 
+import sys, time
 
 CRITICAL=0
 NORMAL=1
@@ -20,6 +20,6 @@ class SchedMessages:
             elif kind==DEBUG:
                 kind = "debug   "
             else:
-                kind = "*** internal error: invalid MessageKind ***";
+                kind = "*** internal error: invalid MessageKind ***"
             sys.stderr.write("%s [%s] " % (time.strftime("%Y/%m/%d %H:%M:%S", time.localtime()), kind))
             sys.stderr.write(format % args)

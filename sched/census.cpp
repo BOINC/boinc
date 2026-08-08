@@ -36,7 +36,7 @@ void usage(char *name) {
         "%s: how much RAC each HR class is getting\n"
         "    (needed if you use homogeneous redundancy).\n"
         "This should be run as a periodic task (about once a day) from config.xml.\n"
-        "For more info, see http://boinc.berkeley.edu/trac/wiki/HomogeneousRedundancy\n\n"
+        "For more info, see https://github.com/BOINC/boinc/wiki/Homogeneous-Redundancy\n\n"
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
         "  -h --help     shows this help text.\n"
@@ -48,7 +48,7 @@ void usage(char *name) {
 int main(int argc, char** argv) {
     HR_INFO hri;
     int retval;
-    
+
     for (int i=1; i<argc; i++) {
         if (is_arg(argv[i], "help") || is_arg(argv[i], "h")) {
             usage(argv[0]);
@@ -76,7 +76,9 @@ int main(int argc, char** argv) {
         config.db_name, config.db_host, config.db_user, config.db_passwd
     );
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "Can't open DB\n");
+        log_messages.printf(MSG_CRITICAL, "Can't open DB: %s\n",
+            boinc_db.error_string()
+        );
         exit(1);
     }
     log_messages.printf(MSG_NORMAL, "Starting\n");

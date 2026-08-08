@@ -23,6 +23,7 @@
 #include "boinc_db.h"
 #include "sched_shmem.h"
 #include "sched_types.h"
+#include "buda.h"
 
 const int MAX_GPUS = 64;
     // don't believe clients who claim they have more GPUs than this
@@ -33,6 +34,7 @@ extern void send_work();
 
 extern int add_result_to_reply(
     SCHED_DB_RESULT& result, WORKUNIT& wu, BEST_APP_VERSION* bavp,
+    HOST_USAGE&, BUDA_VARIANT*,
     bool locality_scheduling
 );
 

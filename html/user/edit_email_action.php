@@ -36,10 +36,12 @@ $passwd = post_str("passwd", true);
 
 page_head(tra("Change email address of account"));
 
-if (!is_valid_email_addr($email_addr)) {
+if (!is_valid_email_syntax($email_addr)) {
     echo tra("New email address '%1' is invalid.", $email_addr);
+} else if (!is_valid_email_sfs($email_addr)) {
+    echo tra("Email address '%1' is flagged by stopforumspam.com.", $email_addr);
 } else if (is_banned_email_addr($email_addr)) {
-    echo tra("New email address '%1' is invalid.", $email_addr);
+    echo tra("New email address '%1' is banned.", $email_addr);
 } else if ($email_addr == $user->email_addr) {
     echo tra("New email address is same as existing address. Nothing is changed.");
 } else if ($user->email_addr_change_time + 604800 > time()) {

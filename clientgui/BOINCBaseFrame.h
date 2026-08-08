@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -64,6 +64,7 @@ public:
     virtual void        OnClose( wxCloseEvent& event );
     virtual void        OnCloseWindow( wxCommandEvent& event );
     virtual void        OnExit( wxCommandEvent& event );
+    virtual void        OnDarkModeChanged( wxSysColourChangedEvent& event );
 
     void                OnWizardAttachProject( wxCommandEvent& event );
     void                OnWizardUpdate( wxCommandEvent& event );
@@ -83,7 +84,7 @@ public:
     void                FireNotification();
 
     bool                SelectComputer(wxString& hostName, int& portNum, wxString& password, bool required = false);
-    void                ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword, int iReadGUIRPCAuthFailure );
+    void                ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword, int iReadGUIRPCAuthFailure, std::string);
     void                ShowConnectionFailedAlert();
     void                ShowDaemonStartFailedAlert();
     void                ShowNotCurrentlyConnectedAlert();
@@ -94,7 +95,7 @@ public:
     virtual void        StopTimers() {}
     virtual void        UpdateRefreshTimerInterval();
 
-    void                ShowAlert( 
+    void                ShowAlert(
                             const wxString title,
                             const wxString message,
                             const int style,
@@ -103,11 +104,11 @@ public:
                         );
 
     bool                Show( bool bShow = true );
-    
+
     virtual bool        RestoreState();
     virtual bool        SaveState();
     virtual bool        CreateMenus(){return true;}
-    void ResetReminderTimers();
+    void                ResetReminderTimers();
 
 protected:
 

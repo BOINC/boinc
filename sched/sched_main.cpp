@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -30,11 +30,8 @@
 
 #include "config.h"
 #include <cassert>
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
+#include <ctime>
+#include "boinc_stdio.h"
 #include <cstdlib>
 #include <vector>
 #include <string>
@@ -58,6 +55,7 @@
 #include "synch.h"
 #include "util.h"
 
+#include "buda.h"
 #include "handle_request.h"
 #include "sched_config.h"
 #include "sched_files.h"
@@ -87,7 +85,7 @@ bool mark_jobs_done = false;
 bool all_apps_use_hr;
 
 static void usage(char* p) {
-    fprintf(stderr,
+    boinc::fprintf(stderr,
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
         "  --batch            stdin contains a sequence of request messages.\n"
@@ -105,11 +103,7 @@ static void usage(char* p) {
 
 void debug_sched(const char *trigger) {
     char tmpfilename[256];
-#ifndef _USING_FCGI_
     FILE *fp;
-#else
-    FCGI_FILE *fp;
-#endif
 
     if (!boinc_file_exists(config.project_path("%s", trigger))) {
         return;
@@ -121,11 +115,7 @@ void debug_sched(const char *trigger) {
     // use _XXXXXX if you want random filenames rather than
     // deterministic mkstemp(tmpfilename);
 
-#ifndef _USING_FCGI_
-    fp=fopen(tmpfilename, "w");
-#else
-    fp=FCGI::fopen(tmpfilename,"w");
-#endif
+    fp=boinc::fopen(tmpfilename, "w");
 
     if (!fp) {
         log_messages.printf(MSG_CRITICAL,
@@ -139,16 +129,12 @@ void debug_sched(const char *trigger) {
     );
 
     g_reply->write(fp, *g_request);
-    fclose(fp);
+    boinc::fclose(fp);
 
     sprintf(tmpfilename,
         "sched_request_%06ld_%06d", g_request->hostid, g_request->rpc_seqno
     );
-#ifndef _USING_FCGI_
-    fp=fopen(tmpfilename, "w");
-#else
-    fp=FCGI::fopen(tmpfilename,"w");
-#endif
+    fp=boinc::fopen(tmpfilename, "w");
 
     if (!fp) {
         log_messages.printf(MSG_CRITICAL,
@@ -162,7 +148,7 @@ void debug_sched(const char *trigger) {
     );
 
     g_request->write(fp);
-    fclose(fp);
+    boinc::fclose(fp);
 
     return;
 }
@@ -170,7 +156,7 @@ void debug_sched(const char *trigger) {
 // call this only if we're not going to call handle_request()
 //
 static void send_message(const char* msg, int delay) {
-    fprintf(stdout,
+    boinc::fprintf(stdout,
         "Content-type: text/plain\n\n"
         "<scheduler_reply>\n"
         "    <message priority=\"low\">%s</message>\n"
@@ -200,7 +186,9 @@ int open_database() {
         config.db_name, config.db_host, config.db_user, config.db_passwd
     );
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "can't open database\n");
+        log_messages.printf(MSG_CRITICAL, "can't open database: %s\n",
+            boinc_db.error_string()
+        );
         return retval;
     }
     db_opened = true;
@@ -219,7 +207,7 @@ void sigterm_handler(int /*signo*/) {
         "Caught SIGTERM (sent by Apache); exiting\n"
     );
     unlock_sched();
-    fflush((FILE*)NULL);
+    boinc::fflush((FILE*)NULL);
     exit(1);
     return;
 }
@@ -275,9 +263,9 @@ void set_core_dump_size_limit() {
         } else {
             short_message += sprintf(short_message,"%d\n", (int)limit.rlim_max);
         }
-      
+
         log_messages.printf(MSG_DEBUG, "%s", short_string);
-        
+
         // now set limit to the maximum allowed value
         limit.rlim_cur=limit.rlim_max;
         if (setrlimit(RLIMIT_CORE, &limit)) {
@@ -288,7 +276,7 @@ void set_core_dump_size_limit() {
             log_messages.printf(MSG_DEBUG,
                 "Set limit for core dump size to max value.\n"
             );
-        }   
+        }
     }
 }
 #endif
@@ -357,7 +345,8 @@ inline static const char* get_remote_addr() {
     return r ? r : "?.?.?.?";
 }
 
-#if 0       // performance test for XML parsing (use a large request)
+#if defined(XML_PERF_TEST)
+// performance test for XML parsing (use a large request)
 int main(int, char**) {
     SCHEDULER_REQUEST sreq;
     FILE* f = fopen("req", "r");
@@ -369,16 +358,13 @@ int main(int, char**) {
         fseek(f, 0, SEEK_SET);
     }
 }
+#elif defined(PLAN_CLASS_TEST)
+    // main() defined in plan_class_spec.cpp
+#elif defined(BUDA_TEST)
+    // main() defined in buda.cpp
 #else
-
-#if !defined(PLAN_CLASS_TEST)
-
 int main(int argc, char** argv) {
-#ifndef _USING_FCGI_
     FILE* fin, *fout;
-#else
-    FCGI_FILE *fin, *fout;
-#endif
     int i, retval;
     char req_path[MAXPATHLEN], reply_path[MAXPATHLEN];
     char log_path[MAXPATHLEN], path[MAXPATHLEN];
@@ -404,7 +390,7 @@ int main(int argc, char** argv) {
                 exit(1);
             }
             simtime = atof(argv[i]);
-#endif 
+#endif
         } else if(!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
             usage(argv[0]);
             exit(0);
@@ -424,14 +410,14 @@ int main(int argc, char** argv) {
     signal(SIGTERM, sigterm_handler);
 
     if (debug_log) {
-        if (!freopen("debug_log", "w", stderr)) {
-            fprintf(stderr, "Can't redirect stderr\n");
+        if (!boinc::freopen("debug_log", "w", stderr)) {
+            boinc::fprintf(stderr, "Can't redirect stderr\n");
             exit(1);
         }
     } else {
         char *stderr_buffer;
         if (get_log_path(path, "scheduler.log") == ERR_MKDIR) {
-            fprintf(stderr, "Can't create log directory '%s'  (errno: %d)\n", path, errno);
+            boinc::fprintf(stderr, "Can't create log directory '%s'  (errno: %d)\n", path, errno);
         }
 #ifndef _USING_FCGI_
         char buf[256];
@@ -442,12 +428,12 @@ int main(int argc, char** argv) {
             exit(1);
         }
 #else
-        FCGI_FILE* f = FCGI::fopen(path, "a");
+        FILE* f = boinc::fopen(path, "a");
         if (f) {
             log_messages.redirect(f);
         } else {
             char buf[256];
-            fprintf(stderr, "Can't redirect FCGI log messages\n");
+            boinc::fprintf(stderr, "Can't redirect FCGI log messages\n");
             sprintf(buf, "Server can't open log file for FCGI (%s)", path);
             send_message(buf, config.maintenance_delay);
             exit(1);
@@ -517,6 +503,7 @@ int main(int argc, char** argv) {
     }
     strip_whitespace(code_sign_key);
 
+    buda_init();
 
     g_pid = getpid();
 #ifdef _USING_FCGI_
@@ -565,29 +552,21 @@ int main(int argc, char** argv) {
         // this allows to associate at least the scheduler request with the client
         // IP address (as shown in httpd error log) in case of a crash
         sprintf(log_path, "%s/%d_%u_sched.log", config.debug_req_reply_dir, g_pid, counter);
-#ifndef _USING_FCGI_
-        fout = fopen(log_path, "a");
-#else
-        fout = FCGI::fopen(log_path,"a");
-#endif
+        fout = boinc::fopen(log_path, "a");
         if (!fout) {
             log_messages.printf(MSG_CRITICAL,
                 "can't write client log file %s\n", log_path
             );
             exit(1);
         }
-        fprintf(fout, "PID: %d Client IP: %s\n", g_pid, get_remote_addr());
-        fclose(fout);
+        boinc::fprintf(fout, "PID: %d Client IP: %s\n", g_pid, get_remote_addr());
+        boinc::fclose(fout);
 
         log_messages.printf(MSG_DEBUG,
             "keeping sched_request in %s, sched_reply in %s, custom log in %s\n",
             req_path, reply_path, log_path
         );
-#ifndef _USING_FCGI_
-        fout = fopen(req_path, "w");
-#else
-        fout = FCGI::fopen(req_path,"w");
-#endif
+        fout = boinc::fopen(req_path, "w");
         if (!fout) {
             log_messages.printf(MSG_CRITICAL,
                 "can't write request file\n"
@@ -595,7 +574,7 @@ int main(int argc, char** argv) {
             exit(1);
         }
         copy_stream(stdin, fout);
-        fclose(fout);
+        boinc::fclose(fout);
         stat(req_path, &statbuf);
         if (length>=0 && (statbuf.st_size != length)) {
             log_messages.printf(MSG_CRITICAL,
@@ -604,22 +583,14 @@ int main(int argc, char** argv) {
             );
         }
 
-#ifndef _USING_FCGI_
-        fin = fopen(req_path, "r");
-#else
-        fin = FCGI::fopen(req_path,"r");
-#endif
+        fin = boinc::fopen(req_path, "r");
         if (!fin) {
             log_messages.printf(MSG_CRITICAL,
                 "can't read request file\n"
             );
             exit(1);
         }
-#ifndef _USING_FCGI_
-        fout = fopen(reply_path, "w");
-#else
-        fout = FCGI::fopen(reply_path, "w");
-#endif
+        fout = boinc::fopen(reply_path, "w");
         if (!fout) {
             log_messages.printf(MSG_CRITICAL,
                 "can't write reply file\n"
@@ -628,13 +599,9 @@ int main(int argc, char** argv) {
         }
 
         handle_request(fin, fout, code_sign_key);
-        fclose(fin);
-        fclose(fout);
-#ifndef _USING_FCGI_
-        fin = fopen(reply_path, "r");
-#else
-        fin = FCGI::fopen(reply_path, "r");
-#endif
+        boinc::fclose(fin);
+        boinc::fclose(fout);
+        fin = boinc::fopen(reply_path, "r");
         if (!fin) {
             log_messages.printf(MSG_CRITICAL,
                 "can't read reply file\n"
@@ -642,7 +609,7 @@ int main(int argc, char** argv) {
             exit(1);
         }
         copy_stream(fin, stdout);
-        fclose(fin);
+        boinc::fclose(fin);
 
         // if not contacted from a client, don't keep the log files
         /* not sure what lead to the assumption of a client setting
@@ -663,7 +630,7 @@ int main(int argc, char** argv) {
 #endif
     } else {
         handle_request(stdin, stdout, code_sign_key);
-        fflush(stderr);
+        boinc::fflush(stderr);
     }
 done:
 #ifdef _USING_FCGI_
@@ -675,19 +642,18 @@ done:
         log_messages.flush();
     }   // do()
     if (counter == MAX_FCGI_COUNT) {
-        fprintf(stderr, "FCGI: counter passed MAX_FCGI_COUNT - exiting..\n");
+        boinc::fprintf(stderr, "FCGI: counter passed MAX_FCGI_COUNT - exiting..\n");
     } else {
-        fprintf(stderr, "FCGI: FCGI_Accept failed - exiting..\n");
+        boinc::fprintf(stderr, "FCGI: FCGI_Accept failed - exiting..\n");
     }
     // when exiting, write headers back to apache so it won't complain
     // about "incomplete headers"
-    fprintf(stdout,"Content-type: text/plain\n\n");
+    boinc::fprintf(stdout,"Content-type: text/plain\n\n");
 #endif
     if (db_opened) {
         boinc_db.close();
     }
 }
-#endif
 #endif
 
 // the following stuff is here because if you put it in sched_limit.cpp
@@ -709,14 +675,14 @@ void JOB_LIMIT::print_log() {
 void JOB_LIMITS::print_log() {
     log_messages.printf(MSG_NORMAL, "[quota] Overall limits on jobs in progress:\n");
     project_limits.print_log();
-    for (unsigned int i=0; i<app_limits.size(); i++) {
-        if (app_limits[i].any_limit()) {
-            APP* app = ssp->lookup_app_name(app_limits[i].app_name);
+    for (JOB_LIMIT& jl: app_limits) {
+        if (jl.any_limit()) {
+            APP* app = ssp->lookup_app_name(jl.app_name);
             if (!app) continue;
             log_messages.printf(MSG_NORMAL,
                 "[quota] Limits for %s:\n", app->name
             );
-            app_limits[i].print_log();
+            jl.print_log();
         }
     }
 }

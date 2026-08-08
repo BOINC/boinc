@@ -19,7 +19,7 @@
 // action = 'initiate_transfer':
 //    handle a user's request to initiate a foundership transfer
 // action = 'finalize_transfer':
-//    handle a user's request to finalize a foundership transfer 
+//    handle a user's request to finalize a foundership transfer
 // action = 'decline':
 //    handle the current founder's declining of the request
 
@@ -46,7 +46,7 @@ function send_founder_transfer_email($team, $user, $founder) {
     $body = "Team member ".$user->name." has asked that you
 transfer foundership of $team->name.
 Please go [url=".secure_url_base()."team_change_founder_form.php?teamid=$team->id]here[/url] to grant or decline the request.
-    
+
 If you do not respond within 60 days, ".$user->name." will
 be allowed to become the team founder.
 ";
@@ -59,10 +59,10 @@ transfer foundership of $team->name in ".PROJECT.".
 Please visit
 ".secure_url_base()."team_change_founder_form.php?teamid=".$team->id."
 to grant or decline the request.
-    
+
 If you do not respond within 60 days, ".$user->name." will
 be allowed to become the team founder.
-    
+
 Please do not respond to this email.
 The mailbox is not monitored and the email
 was sent using an automated system.";
@@ -73,11 +73,11 @@ function send_founder_transfer_decline_email($team, $user) {
     $body = "The founder of ".$team->name." has declined your request
 to become the founder in ".PROJECT.".
 You can repeat the request at least 90 days after the initial request.
-    
+
 Please do not respond to this email.
 The mailbox is not monitored and the email
 was sent using an automated system.";
-    
+
     return send_email($user, PROJECT." team founder transfer declined", $body);
 }
 
@@ -120,7 +120,7 @@ case "finalize_transfer":
         $team->update("userid=$user->id, ping_user=0, ping_time=0");
         echo tra("Congratulations, you are now the founder of team %1. Go to %2 Your Account page %3 to find the Team Admin options.",
             $team->name,
-            sprintf('<a href="%s%s">', secure_url_base(), USER_HOME),
+            sprintf('<a href="%s%s">', secure_url_base(), HOME_PAGE),
             "</a>"
         );
     } else {
@@ -132,10 +132,10 @@ case "decline":
     $team = BoincTeam::lookup_id($teamid);
     require_founder_login($user, $team);
     page_head(tra("Decline founder change request"));
-    
+
     if ($team->ping_user) {
         $ping_user = BoincUser::lookup_id($team->ping_user);
-        
+
         $team->update("ping_user=0");
         send_founder_transfer_decline_email($team, $ping_user);
         echo "<p>".tra("The foundership request from %1 has been declined.", user_links($ping_user))
@@ -145,13 +145,12 @@ case "decline":
     }
     break;
 default:
-    error_page(tra("undefined action %1", $action));
+    error_page("undefined action ".htmlspecialchars($action));
 }
 
 echo "<a href='team_display.php?teamid=$team->id'>".tra("Return to team page")."</a>";
 
 page_tail();
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

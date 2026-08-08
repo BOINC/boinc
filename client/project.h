@@ -121,12 +121,16 @@ struct PROJECT : PROJ_AM {
         // and this should go to 1.
         // But we need to keep it around for older projects
 
-    // accounting info; estimated credit and time for CPU and GPU
+    // accounting info for use with dynamic account managers;
+    // obtained from the AM on attach,
+    // updated by the client, and reported in AM RPCs
     //
-    double cpu_ec;
-    double cpu_time;
+    double cpu_ec;      // estimated credit
+    double cpu_time;    // device/seconds
     double gpu_ec;
     double gpu_time;
+    int njobs_success;
+    int njobs_error;
 
     // stuff related to scheduler RPCs and master fetch
     //
@@ -154,6 +158,7 @@ struct PROJECT : PROJ_AM {
         // computed by get_disk_usages()
     double disk_share;
         // computed by get_disk_shares();
+    bool dont_use_dcf;
 
     ///////  END OF ITEMS STORED IN client_state.xml
 
@@ -168,12 +173,15 @@ struct PROJECT : PROJ_AM {
         // app_versions.xml file found in project dir;
         // use those apps rather then getting from server
     bool non_cpu_intensive;
-        // All this project's apps are non-CPU-intensive.
-        // Apps can also be individually marked as NCI
-    bool verify_files_on_app_start;
-        // Check app version and input files on app startup,
-        // to make sure they haven't been tampered with.
-        // This provides only the illusion of security.
+        // The project has asserted (in sched reply) that
+        // all its apps are non-CPU-intensive.
+    bool strict_memory_bound;
+        // assume that jobs from this project will have a WSS
+        // of wu.rsc_memory_bound,
+        // even if it's currently less.
+        // For example, CPDN jobs start small and get big later.
+        // If we run a lot of them (based on the small WSS)
+        // the system will run out of RAM and swap when they get big
     bool use_symlinks;
     bool report_results_immediately;
     bool sched_req_no_work[MAX_RSC];
@@ -189,14 +197,13 @@ struct PROJECT : PROJ_AM {
         // if nonzero, send this project's job log from that point on
     bool send_full_workload;
 
-    bool dont_use_dcf;
-
     bool suspended_via_gui;
-    bool dont_request_more_work; 
+    bool dont_request_more_work;
         // Return work, but don't request more
         // Used for a clean exit to a project,
         // or if a user wants to pause doing work for the project
     bool attached_via_acct_mgr;
+        // if set, don't let user remove project directly
     bool detach_when_done;
         // when no results for this project, detach it.
         // if using AM, do AM RPC before detaching
@@ -206,6 +213,9 @@ struct PROJECT : PROJ_AM {
     std::vector<FILE_REF> user_files;
     std::vector<FILE_REF> project_files;
         // files not specific to apps or work - e.g. icons
+    bool app_test;
+        // this is the project created by app_test_init();
+        // use slots/app_test for its jobs
 
     ///////////////// member functions /////////////////
 
@@ -223,7 +233,7 @@ struct PROJECT : PROJ_AM {
         // If it's the last one, set project_files_downloaded_time to now
 
     void update_duration_correction_factor(ACTIVE_TASK*);
-    
+
     // fields used by CPU scheduler and work fetch
     // everything from here on applies only to CPU intensive projects
 
@@ -237,8 +247,6 @@ struct PROJECT : PROJ_AM {
         // runnable or contactable or downloading
     bool nearly_runnable();
         // runnable or downloading
-    bool overworked();
-        // the project has used too much CPU time recently
     bool some_download_stalled();
         // a download is backed off
     bool some_result_suspended();
@@ -271,9 +279,9 @@ struct PROJECT : PROJ_AM {
     //
     RSC_PROJECT_WORK_FETCH rsc_pwf[MAX_RSC];
     PROJECT_WORK_FETCH pwf;
-    inline void reset() {
+    inline void work_fetch_reset() {
         for (int i=0; i<coprocs.n_rsc; i++) {
-            rsc_pwf[i].reset();
+            rsc_pwf[i].reset(i);
         }
     }
     inline int deadlines_missed(int rsc_type) {
@@ -311,11 +319,6 @@ struct PROJECT : PROJ_AM {
     //
     APP_CONFIGS app_configs;
 
-    // job counting
-    //
-    int njobs_success;
-    int njobs_error;
-
     // total elapsed time of this project's jobs (for export to GUI)
     //
     double elapsed_time;
@@ -336,7 +339,6 @@ struct PROJECT : PROJ_AM {
 
     // statistic of the last x days
     std::vector<DAILY_STATS> statistics;
-    int parse_statistics(MIOFILE&);
     int parse_statistics(FILE*);
     int write_statistics(MIOFILE&);
     int write_statistics_file();
@@ -364,7 +366,7 @@ struct PROJECT : PROJ_AM {
 
 #ifdef SIM
     RANDOM_PROCESS available;
-    int index;
+    int proj_index; // order among projects; used for color coding
     int result_index;
     double idle_time;
     double idle_time_sumsq;
@@ -381,7 +383,6 @@ struct PROJECT : PROJ_AM {
     PROJECT_RESULTS project_results;
     void print_results(FILE*, SIM_RESULTS&);
     void backoff();
-    void update_dcf_stats(RESULT*);
 #endif
 };
 

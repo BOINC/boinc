@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# $Id$
+
 # projectxml.py - module to read and parse project.xml
 
 '''

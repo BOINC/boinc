@@ -1,0 +1,100 @@
+{
+    "Dialog": "DiskSpaceRequirements",
+    "HCentering": 50,
+    "VCentering": 50,
+    "Width": 374,
+    "Height": 266,
+    "Attributes": 3,
+    "Title": "IDS_PRODUCTNAME",
+    "Control_First": "OK",
+    "Control_Default": "OK",
+    "Control_Cancel": "OK",
+    "Controls": [
+        {
+            "Control": "Banner",
+            "Type": "Bitmap",
+            "X": 0,
+            "Y": 0,
+            "Width": 374,
+            "Height": 44,
+            "Attributes": 1,
+            "Binary_": "banner.jpg"
+        },
+        {
+            "Control": "BannerLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 44,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "DlgDesc",
+            "Type": "Text",
+            "X": 17,
+            "Y": 23,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS__IsFeatureDetailsDlg_SpaceRequired"
+        },
+        {
+            "Control": "DlgLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 234,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "DlgText",
+            "Type": "Text",
+            "X": 10,
+            "Y": 185,
+            "Width": 358,
+            "Height": 41,
+            "Attributes": 3,
+            "Text": "IDS__IsDiskSpaceDlg_HighlightedVolumes"
+        },
+        {
+            "Control": "DlgTitle",
+            "Type": "Text",
+            "X": 9,
+            "Y": 6,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS__IsFeatureDetailsDlg_DiskSpaceRequirements"
+        },
+        {
+            "Control": "List",
+            "Type": "VolumeCostList",
+            "X": 8,
+            "Y": 55,
+            "Width": 358,
+            "Height": 125,
+            "Attributes": 393223,
+            "Text": "{120}{70}{70}{70}{70}"
+        },
+        {
+            "Control": "OK",
+            "Type": "PushButton",
+            "X": 301,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_OK",
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "Return",
+                    "Condition": "1",
+                    "Ordering": 0
+                }
+            ]
+        }
+    ]
+}

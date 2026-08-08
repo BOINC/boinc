@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -13,7 +13,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 
 // command-line version of the BOINC client
 
@@ -25,10 +25,6 @@
 #include "boinc_win.h"
 #include "sysmon_win.h"
 #include "win_util.h"
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #else
 #include "config.h"
 #if HAVE_SYS_SOCKET_H
@@ -158,7 +154,7 @@ void log_message_error(const char* msg, int error_code) {
 }
 
 #ifndef _WIN32
-static void signal_handler(int signum) {
+static void signal_handler(int signum, siginfo_t*, void*) {
     msg_printf(NULL, MSG_INFO, "Received signal %d", signum);
     switch(signum) {
     case SIGHUP:
@@ -190,18 +186,19 @@ static void init_core_client(int argc, char** argv) {
     gstate.now = dtime();
 
 #ifdef _WIN32
-    if (!cc_config.allow_multiple_clients) {
+    if (!cc_config.allow_multiple_clients && !gstate.cmdline_dir) {
         chdir_to_data_dir();
     }
 #endif
 
 #ifndef _WIN32
-    if (g_use_sandbox)
+    if (g_use_sandbox) {
         // Set file creation mask to be writable by both user and group and
         // world-executable but neither world-readable nor world-writable
         // Our umask will be inherited by all our child processes
         //
         umask (6);
+    }
 #endif
 
     // Initialize the BOINC Diagnostics Framework
@@ -219,6 +216,13 @@ static void init_core_client(int argc, char** argv) {
             BOINC_DIAG_REDIRECTSTDOUT;
     }
 
+    // Win32 - detach from console if requested
+#ifdef _WIN32
+    if (gstate.detach_console) {
+        FreeConsole();
+    }
+#endif
+
     diagnostics_init(flags, "stdoutdae", "stderrdae");
 
 #ifdef _WIN32
@@ -234,19 +238,14 @@ static void init_core_client(int argc, char** argv) {
 #endif
 
     read_config_file(true);
-    
+
     // NOTE: this must be called BEFORE newer_version_startup_check()
+    // Only branded builds of BOINC should have an nvc_config.xml file
+    // in the BOINC Data directory. See comments in current_version.cpp.
     //
-    if (read_vc_config_file()) {
+    if (read_nvc_config_file()) {
        // msg_printf(NULL, MSG_INFO, "nvc_config.xml not found - using defaults");
     }
-    
-    // Win32 - detach from console if requested
-#ifdef _WIN32
-    if (gstate.detach_console) {
-        FreeConsole();
-    }
-#endif
 
     // Unix: install signal handlers
 #ifndef _WIN32
@@ -261,17 +260,18 @@ static void init_core_client(int argc, char** argv) {
 #endif
 }
 
-// Some dual-GPU laptops (e.g., Macbook Pro) don't power down
-// the more powerful GPU until all applications which used them exit.
-// To save battery life, the client launches a second instance
-// of the client as a child process to detect and get info
-// about the GPUs.
-// The child process writes the info to a temp file which our main
-// client then reads.
+// detect GPUs and write a description of them (and error/warning messages)
+// to coproc_info.xml.
+//
+// We do this in a separate process for two reasons:
+// 1) GPU detection can crash even if we catch signals
+// 2) Some dual-GPU laptops (e.g., Macbook Pro) don't power down
+//  the more powerful GPU until all processes which used them exit.
+//  If we detected such GPUs in the client, they'd never power down.
 //
 static void do_gpu_detection(int argc, char** argv) {
     vector<string> warnings;
-    
+
     boinc_install_signal_handlers();
     gstate.parse_cmdline(argc, argv);
     gstate.now = dtime();
@@ -292,13 +292,64 @@ static void do_gpu_detection(int argc, char** argv) {
     warnings.clear();
 }
 
+//////// functions to prevent two clients from running on the same host
+
+#ifdef _WIN32
+static int get_client_mutex(const char*) {
+    char buf[MAX_PATH] = "";
+
+    // Global mutex on Win2k and later
+    //
+    safe_strcpy(buf, "Global\\");
+    safe_strcat(buf, RUN_MUTEX);
+
+    HANDLE h = CreateMutexA(NULL, true, buf);
+    if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
+        return ERR_ALREADY_RUNNING;
+    }
+#else
+static int get_client_mutex(const char* dir) {
+    char path[MAXPATHLEN];
+    static FILE_LOCK file_lock;
+
+    snprintf(path, sizeof(path), "%s/%s", dir, LOCK_FILE_NAME);
+    path[sizeof(path)-1] = 0;
+
+    int retval = file_lock.lock(path);
+    if (retval == ERR_FCNTL) {
+        return ERR_ALREADY_RUNNING;
+    } else if (retval) {
+        return retval;
+    }
+#endif
+    return 0;
+}
+
+int wait_client_mutex(const char* dir, double timeout) {
+    double start = dtime();
+    int retval = 0;
+    while (1) {
+        retval = get_client_mutex(dir);
+        if (!retval) return 0;
+        boinc_sleep(1);
+        if (dtime() - start > timeout) break;
+    }
+    return retval;
+}
+
 static int initialize() {
     int retval;
 
     if (!cc_config.allow_multiple_clients) {
         retval = wait_client_mutex(".", 10);
         if (retval) {
-            log_message_error("Another instance of BOINC is running.");
+            if (retval == ERR_ALREADY_RUNNING) {
+                log_message_error("Another instance of BOINC is running.");
+            } else if (retval == ERR_OPEN) {
+                log_message_error("Failed to open lockfile. Check file/directory permissions.");
+            } else {
+                log_message_error("Failed to lock directory.", retval);
+            }
             return ERR_EXEC;
         }
     }
@@ -364,9 +415,11 @@ int boinc_main_loop() {
     if (retval) return retval;
 
 #ifdef __APPLE__
-    // If we run too soon during system boot we can cause a kernel panic
+    // If we run too soon during system boot we can cause a kernel panic.
+    // Sleep if system has been up for less than 2 minutes
+    //
     if (gstate.executing_as_daemon) {
-        if (get_system_uptime() < 120) {    // If system has been up for less than 2 minutes
+        if (get_system_uptime() < 120) {
             boinc_sleep(30.);
         }
     }
@@ -380,6 +433,7 @@ int boinc_main_loop() {
 
     log_message_startup("Initialization completed");
 
+    // client main loop; poll interval is 1 sec
     while (1) {
         if (!gstate.poll_slow_events()) {
             gstate.do_io_or_sleep(POLL_INTERVAL);
@@ -408,6 +462,7 @@ int boinc_main_loop() {
                 break;
             }
         }
+        gstate.check_overdue();
     }
 
     return finalize();
@@ -437,11 +492,6 @@ int main(int argc, char** argv) {
         if (!strcmp(argv[index], "--detect_gpus")) {
             do_gpu_detection(argc, argv);
             return 0;
-        }
-
-        if (!strcmp(argv[index], "--run_test_app")) {
-            read_config_file(true);
-            run_test_app();
         }
 
 #ifdef _WIN32
@@ -482,8 +532,10 @@ int main(int argc, char** argv) {
             memset(&si, 0, sizeof(si));
             si.cb = sizeof(si);
 
-            // If process creation succeeds, we exit, if it fails punt and continue
-            // as usual.  We won't detach properly, but the program will run.
+            // If process creation succeeds, we exit,
+            // if it fails punt and continue as usual.
+            // We won't detach properly, but the program will run.
+            //
             if (CreateProcess(NULL, commandLine, NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) {
                 exit(0);
             }
@@ -522,6 +574,7 @@ int main(int argc, char** argv) {
     // current user is a member of both groups boinc_master and boinc_project.
     // However, this has not been thoroughly tested. Please see the comments
     // in SetupSecurity.cpp and check_security.cpp for more details.
+    //
     int securityErr = check_security(g_use_sandbox, false, NULL, 0);
     if (securityErr) {
 #if (defined(__APPLE__) && defined (_DEBUG))
@@ -550,6 +603,6 @@ int main(int argc, char** argv) {
     retval = boinc_main_loop();
 
 #endif
+    main_exited = true;
     return retval;
 }
-

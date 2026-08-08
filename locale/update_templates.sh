@@ -1,9 +1,12 @@
 #!/bin/bash
 
-set -e # abort if a command exits non-zero
-
 # update template files from source and send them to transifex
 # Then commit and push changes.
+#
+# Run this in boinc/
+# ** Make sure you're on "master" on github **
+
+set -e # abort if a command exits non-zero
 
 testmode=0
 if test $# -gt 0; then
@@ -118,7 +121,6 @@ rm ${DB_FILE} ${SCHEMA_FILE} ${STRINGS_FILE} ${SQLPOT_FILE}
 #xgettext --omit-header --add-comments -o - --keyword=tra -L PHP ${FILE_LIST} >> ${TMPL_FILE}
 
 # The Android template is updated using Android Studio
-# The BOINC-Drupal.pot template is updated by Einstein@Home
 
 git add -u # only update already tracked files (will not track new files)
 if test $testmode -eq 0; then

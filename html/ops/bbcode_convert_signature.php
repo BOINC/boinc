@@ -44,12 +44,12 @@ function fix_forum_preferencess() {
     echo _mysql_error();
     $i=0;
     while ($forum_preferences = _mysql_fetch_object($forum_preferencess)){
-        $i++; 
+        $i++;
         if ($i%100 == 0) {                      //For every 100 forum_preferencess
             echo $forum_preferences->userid.". "; flush();   // print out where we are
             //usleep(200000);
         }
-        
+
         if ($forum_preferences->userid > $start_id){
             fix_forum_preferences($forum_preferences);
         }

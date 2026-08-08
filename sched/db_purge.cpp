@@ -15,18 +15,24 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// db_purge options
+// db_purge [options]
 // options are listed in usage() below
 //
-// purge workunit and result records that are no longer needed.
-// Specifically, purges WUs for which file_delete_state=DONE.
-// Purging a WU means writing it and all its results
-// to XML-format archive files, then deleting it and its results from the DB.
+// purge (delete) workunit and result DB records that are no longer needed.
+// Purging a WU means optionally writing it and its results
+// to XML archive files,
+// then deleting it and the results from the DB.
+//
+// Purge WUs for which file_delete_state == FILE_DELETE_DONE
+// and if --batch:
+// the WU is either
+//    - in a retired batch
+//    - not in a batch
 //
 // The XML files have names of the form
 // wu_archive_TIME and result_archive_TIME
 // where TIME is the time it was created.
-// In addition generate index files associating each WU and result ID
+// In addition, generate index files associating each WU and result ID
 // with the timestamp of the file it's in.
 
 #include "config.h"
@@ -42,6 +48,8 @@
 #include <errno.h>
 #include <string.h>
 #include "zlib.h"
+
+using std::string;
 
 #include "boinc_db.h"
 #include "filesys.h"
@@ -61,22 +69,22 @@ void usage() {
     fprintf(stderr,
         "Purge workunit and result records that are no longer needed.\n\n"
         "Usage: db_purge [options]\n"
-        "    [-d N | --debug_level N]      Set verbosity level (1 to 4)\n"
-        "    [--min_age_days N]            Purge Wus w/ mod time at least N days ago\n"
-        "    [--max N]                     Purge at most N WUs\n"
-        "    [--zip]                       Compress output files by piping through zip\n"
-        "    [--gzip]                      Compress output files by piping through gzip\n"
-        "    [--zlib]                      Compress output files using zlib\n"
-        "    [--no_archive]                Don't write output files, just purge\n"
-        "    [--daily_dir]                 Write archives in a new directory each day\n"
-        "    [--max_wu_per_file N]         Write at most N WUs per output file\n"
-        "    [--sleep N]                   Sleep N sec after DB scan\n"
-        "    [--one_pass]                  Make one DB scan, then exit\n"
-        "    [--dont_delete]               Don't actually delete anything from the DB (for testing only)\n"
-        "    [--mod M R ]                  Handle only WUs with ID mod M == R\n"
-        "    [--batches]                   Delete retired batches from the batch table\n"
-        "    [--h | --help]                Show this help text\n"
-        "    [--v | --version]             Show version information\n"
+        "   -d N or --debug_level N     Set verbosity level (1-4; 3=normal, 4=debug)\n"
+        "   --batch                     purge batch jobs only if retired\n"
+        "   --min_age_days N            Purge Wus w/ mod time at least N days ago\n"
+        "   --max N                     Purge at most N WUs\n"
+        "   --zip                       Compress output files by piping through zip\n"
+        "   --gzip                      Compress output files by piping through gzip\n"
+        "   --zlib                      Compress output files using zlib\n"
+        "   --no_archive                Don't write output files, just purge\n"
+        "   --daily_dir                 Write archives in a new directory each day\n"
+        "   --max_wu_per_file N         Write at most N WUs per output file\n"
+        "   --sleep N                   Sleep N sec after DB scan\n"
+        "   --one_pass                  Make one DB scan, then exit\n"
+        "   --dont_delete               Don't actually delete anything from the DB (for testing)\n"
+        "   --mod M R                   Handle only WUs with ID mod M == R\n"
+        "   -h or --help                Show this help text\n"
+        "   -v or --version             Show version information\n"
     );
 }
 
@@ -226,15 +234,15 @@ void* re_index_stream=NULL;
 int time_int=0;
 double min_age_days = 0;
 bool no_archive = false;
+bool batch = false;
 bool dont_delete = false;
 bool daily_dir = false;
-bool delete_batches = false;
-int purged_workunits = 0;
-    // used if limiting the total number of workunits to eliminate
 int max_number_workunits_to_purge = 0;
     // If nonzero, maximum number of workunits to purge.
     // Since all results associated with a purged workunit are also purged,
     // this also limits the number of purged results.
+int purged_workunits = 0;
+    // # of WUs purged so far
 const char *suffix[4] = {"", ".gz", ".zip", ".gz"};
     // subscripts MUST be in agreement with defines above
 int compression_type = COMPRESSION_NONE;
@@ -306,9 +314,7 @@ void open_archive(const char* filename_prefix, void*& f){
         snprintf(command, sizeof(command), "zip - - > %s", path);
     }
 
-    log_messages.printf(MSG_NORMAL,
-        "Opening archive %s\n", path
-    );
+    log_messages.printf(MSG_NORMAL, "Opening archive %s\n", path);
 
     if (compression_type == COMPRESSION_NONE) {
         if (!(f = fopen(path,"w"))) {
@@ -588,9 +594,14 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
             );
         } else {
             retval = result.delete_from_db();
-            if (retval) return retval;
-            log_messages.printf(MSG_DEBUG,
-                "Purged result [%lu] from database\n", result.id
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "Couldn't delete result [%lu] from database\n", result.id
+                );
+                return retval;
+            }
+            log_messages.printf(MSG_NORMAL,
+                "Purged result [%lu] batch %d\n", result.id, result.batch
             );
         }
         number_results++;
@@ -598,9 +609,37 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
     return 0;
 }
 
+// get list of IDs of retired batches (and 0, = no batch)
+//
+int get_retired_batch_ids(string &out) {
+    out = "0";
+    char query[256];
+    sprintf(query, "select id from batch where state=%d", BATCH_STATE_RETIRED);
+    int retval = boinc_db.do_query(query);
+    if (retval) {
+        return mysql_errno(boinc_db.mysql);
+    }
+
+    MYSQL_RES *rp;
+    rp = mysql_store_result(boinc_db.mysql);
+    if (!rp) {
+        return mysql_errno(boinc_db.mysql);
+    }
+    while (1) {
+        MYSQL_ROW row = mysql_fetch_row(rp);
+        if (!row) {
+            mysql_free_result(rp);
+            break;
+        }
+        out += ",";
+        out += row[0];
+    }
+    return 0;
+}
+
 // return true if did anything
 //
-bool do_pass() {
+bool do_pass(string &retired_batch_ids) {
     int retval = 0;
 
     // The number of workunits/results purged in a single pass of do_pass().
@@ -620,45 +659,42 @@ bool do_pass() {
 
     bool did_something = false;
     DB_WORKUNIT wu;
-    char buf[256], buf2[256];
-
-    if (delete_batches) {
-      if (dont_delete) {
-	log_messages.printf(MSG_DEBUG,
-			  "Didn't delete retired batches from database (-dont_delete)\n");
-      } else {
-        DB_BATCH batch;
-	sprintf(buf, "state=%d", BATCH_STATE_RETIRED);
-        batch.delete_from_db_multi(buf);
-      }
-    }
+    char buf[256];
+    string clause;
 
     sprintf(buf, "where file_delete_state=%d", FILE_DELETE_DONE);
+    clause = buf;
     if (min_age_days) {
         min_age_seconds = (int) (min_age_days*86400);
-        sprintf(buf2,
+        sprintf(buf,
             " and mod_time<current_timestamp() - interval %d second",
             min_age_seconds
         );
-        strcat(buf, buf2);
+        clause += buf;
     }
     if (id_modulus) {
-        sprintf(buf2, " and id %% %d = %d", id_modulus, id_remainder);
-        strcat(buf, buf2);
+        sprintf(buf, " and id %% %d = %d", id_modulus, id_remainder);
+        clause += buf;
     }
     if (strlen(app_name)) {
-        sprintf(buf2, " and appid=%lu", app.id);
-        strcat(buf, buf2);
+        sprintf(buf, " and appid=%lu", app.id);
+        clause += buf;
     }
-    sprintf(buf2, " limit %d", DB_QUERY_LIMIT);
-    strcat(buf, buf2);
+    if (batch) {
+        clause += " and batch in (";
+        clause += retired_batch_ids;
+        clause += ")";
+    }
+
+    sprintf(buf, " limit %d", DB_QUERY_LIMIT);
+    clause += buf;
 
     int n=0;
     while (1) {
-        retval = wu.enumerate(buf);
+        retval = wu.enumerate(clause.c_str());
         if (retval) {
             if (retval != ERR_DB_NOT_FOUND) {
-                log_messages.printf(MSG_DEBUG,
+                log_messages.printf(MSG_CRITICAL,
                     "DB connection lost, exiting\n"
                 );
                 exit(0);
@@ -675,6 +711,10 @@ bool do_pass() {
         }
 
         retval = purge_and_archive_results(wu, n);
+        // if a result fails to be deleted, don't purge this workunit,
+        // or this result will be left orphaned and never get deleted
+        if (retval) continue;
+
         do_pass_purged_results += n;
 
         if (!no_archive) {
@@ -698,24 +738,24 @@ bool do_pass() {
         //
         if (dont_delete) {
             log_messages.printf(MSG_DEBUG,
-                "Didn't purge workunit [%lu] from database (-dont_delete)\n", wu.id
+                "Didn't purge workunit [%lu] from database (--dont_delete)\n", wu.id
             );
         } else {
             retval= wu.delete_from_db();
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "Can't delete workunit [%lu] from database:%d\n",
+                    "Can't delete workunit [%lu] from database: %d\n",
                     wu.id, retval
                 );
                 exit(6);
             }
             if (config.enable_assignment) {
                 DB_ASSIGNMENT asg;
-                sprintf(buf2, "workunitid=%lu", wu.id);
-                asg.delete_from_db_multi(buf2);
+                sprintf(buf, "workunitid=%lu", wu.id);
+                asg.delete_from_db_multi(buf);
             }
-            log_messages.printf(MSG_DEBUG,
-                "Purged workunit [%lu] from database\n", wu.id
+            log_messages.printf(MSG_NORMAL,
+                "Purged workunit [%lu] batch %d\n", wu.id, wu.batch
             );
         }
 
@@ -766,13 +806,15 @@ int main(int argc, char** argv) {
     int retval;
     bool one_pass = false;
     int i;
-    int sleep_sec = 600;
+    int sleep_sec = 300;
     check_stop_daemons();
     char buf[256];
 
     for (i=1; i<argc; i++) {
         if (is_arg(argv[i], "one_pass")) {
             one_pass = true;
+        } else if (is_arg(argv[i], "batch")) {
+            batch = true;
         } else if (is_arg(argv[i], "dont_delete")) {
             dont_delete = true;
         } else if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
@@ -783,7 +825,9 @@ int main(int argc, char** argv) {
             }
             int dl = atoi(argv[i]);
             log_messages.set_debug_level(dl);
-            if (dl == 4) g_print_queries = true;
+            if (dl >= MSG_DEBUG) {
+                g_print_queries = true;
+            }
         } else if (is_arg(argv[i], "min_age_days")) {
             if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
@@ -799,7 +843,7 @@ int main(int argc, char** argv) {
             }
             max_number_workunits_to_purge= atoi(argv[i]);
         } else if (is_arg(argv[i], "daily_dir")) {
-            daily_dir=true;
+            daily_dir = true;
         } else if (is_arg(argv[i], "zip")) {
             compression_type=COMPRESSION_ZIP;
         } else if (is_arg(argv[i], "gzip")) {
@@ -815,10 +859,8 @@ int main(int argc, char** argv) {
             max_wu_per_file = atoi(argv[i]);
         } else if (is_arg(argv[i], "no_archive")) {
             no_archive = true;
-        } else if (is_arg(argv[i], "batches")) {
-            delete_batches=true;
         } else if (is_arg(argv[i], "sleep")) {
-            if(!argv[++i]) {
+            if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage();
                 exit(1);
@@ -832,10 +874,10 @@ int main(int argc, char** argv) {
                 usage();
                 exit(1);
             }
-        } else if (is_arg(argv[i], "--help") || is_arg(argv[i], "-help") || is_arg(argv[i], "-h")) {
+        } else if (is_arg(argv[i], "--help") || is_arg(argv[i], "-h")) {
             usage();
             return 0;
-        } else if (is_arg(argv[i], "--version") || is_arg(argv[i], "-version")) {
+        } else if (is_arg(argv[i], "--version") || is_arg(argv[i], "-v")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
         } else if (is_arg(argv[i], "mod")) {
@@ -881,9 +923,12 @@ int main(int argc, char** argv) {
         config.db_name, config.db_host, config.db_user, config.db_passwd
     );
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "Can't open DB\n");
+        log_messages.printf(MSG_CRITICAL, "Can't open DB: %s\n",
+            boinc_db.error_string()
+        );
         exit(2);
     }
+
     install_stop_signal_handler();
     boinc_mkdir(config.project_path("archives"));
 
@@ -907,12 +952,28 @@ int main(int argc, char** argv) {
         if (time_to_quit()) {
             break;
         }
-        if (!do_pass() && !one_pass) {
-            log_messages.printf(MSG_NORMAL, "Sleeping....\n");
-            daemon_sleep(sleep_sec);
+        string retired_batch_ids;
+        if (batch) {
+            retval = get_retired_batch_ids(retired_batch_ids);
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "Can't get retired batch IDs; retval %d\n",
+                    retval
+                );
+                exit(1);
+            }
         }
+
+        bool did_something = do_pass(retired_batch_ids);
         if (one_pass) {
             break;
+        }
+        if (!did_something) {
+            log_messages.printf(MSG_NORMAL,
+                "No WUs to purge; sleeping %d\n",
+                sleep_sec
+            );
+            daemon_sleep(sleep_sec);
         }
     }
 

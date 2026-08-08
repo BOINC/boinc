@@ -31,7 +31,7 @@ function getSingleQuery($query) {
     require_once("../inc/db.inc");
     //require_once("../inc/trickle.inc");
     require_once("../inc/wap.inc");
- 
+
     // show the home page of app user from envvar
 
     $valid = $_GET['id'];

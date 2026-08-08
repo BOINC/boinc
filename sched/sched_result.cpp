@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -30,6 +30,7 @@
 #include "sched_config.h"
 
 #include "sched_result.h"
+#include <ctime>
 
 // got a SUCCESS result; double max jobs per day.
 // TODO: shouldn't we do this only for valid results?
@@ -101,9 +102,7 @@ static inline void got_bad_result(SCHED_RESULT_ITEM& sri) {
 int handle_results() {
     DB_SCHED_RESULT_ITEM_SET result_handler;
     SCHED_RESULT_ITEM* srip;
-    unsigned int i;
     int retval;
-    RESULT* rp;
 
     if (g_request->results.size() == 0) return 0;
 
@@ -119,8 +118,8 @@ int handle_results() {
     // copy reported results to a separate vector, "result_handler",
     // initially with only the "name" field present
     //
-    for (i=0; i<g_request->results.size(); i++) {
-        result_handler.add_result(g_request->results[i].name);
+    for (const SCHED_DB_RESULT& r: g_request->results) {
+        result_handler.add_result(r.name);
     }
 
     // read results from database into "result_handler".
@@ -152,17 +151,15 @@ int handle_results() {
     // In other words, the only time we don't ack a result is when
     // it looks OK but the update failed.
     //
-    for (i=0; i<g_request->results.size(); i++) {
-        rp = &g_request->results[i];
-
-        retval = result_handler.lookup_result(rp->name, &srip);
+    for (const SCHED_DB_RESULT& r: g_request->results) {
+        retval = result_handler.lookup_result(r.name, &srip);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
                 "[HOST#%lu] [RESULT#? %s] reported result not in DB\n",
-                g_reply->host.id, rp->name
+                g_reply->host.id, r.name
             );
 
-            g_reply->result_acks.push_back(std::string(rp->name));
+            g_reply->result_acks.push_back(std::string(r.name));
             continue;
         }
 
@@ -236,7 +233,7 @@ int handle_results() {
                     );
                 }
                 srip->id = 0;
-                g_reply->result_acks.push_back(std::string(rp->name));
+                g_reply->result_acks.push_back(std::string(r.name));
                 continue;
             }
         }
@@ -247,7 +244,7 @@ int handle_results() {
                 g_reply->host.id, srip->id, srip->workunitid, srip->server_state
             );
             srip->id = 0;
-            g_reply->result_acks.push_back(std::string(rp->name));
+            g_reply->result_acks.push_back(std::string(r.name));
             continue;
         }
 
@@ -258,7 +255,7 @@ int handle_results() {
                 time_to_string(srip->received_time)
             );
             srip->id = 0;
-            g_reply->result_acks.push_back(std::string(rp->name));
+            g_reply->result_acks.push_back(std::string(r.name));
             continue;
         }
 
@@ -276,7 +273,7 @@ int handle_results() {
                     srip->id, srip->workunitid, srip->hostid
                 );
                 srip->id = 0;
-                g_reply->result_acks.push_back(std::string(rp->name));
+                g_reply->result_acks.push_back(std::string(r.name));
                 continue;
             } else if (result_host.userid != g_reply->host.userid) {
                 log_messages.printf(MSG_CRITICAL,
@@ -284,7 +281,7 @@ int handle_results() {
                     g_reply->host.userid, g_reply->host.id, srip->id, srip->workunitid, result_host.userid
                 );
                 srip->id = 0;
-                g_reply->result_acks.push_back(std::string(rp->name));
+                g_reply->result_acks.push_back(std::string(r.name));
                 continue;
             } else {
                 log_messages.printf(MSG_CRITICAL,
@@ -301,12 +298,12 @@ int handle_results() {
         srip->hostid = g_reply->host.id;
         srip->teamid = g_reply->user.teamid;
         srip->received_time = time(0);
-        srip->client_state = rp->client_state;
-        srip->cpu_time = rp->cpu_time;
-        srip->elapsed_time = rp->elapsed_time;
-        srip->peak_working_set_size = rp->peak_working_set_size;
-        srip->peak_swap_size = rp->peak_swap_size;
-        srip->peak_disk_usage = rp->peak_disk_usage;
+        srip->client_state = r.client_state;
+        srip->cpu_time = r.cpu_time;
+        srip->elapsed_time = r.elapsed_time;
+        srip->peak_working_set_size = r.peak_working_set_size;
+        srip->peak_swap_size = r.peak_swap_size;
+        srip->peak_disk_usage = r.peak_disk_usage;
 
         // elapsed time is used to compute credit.
         // do various sanity checks on it.
@@ -380,24 +377,12 @@ int handle_results() {
             srip->cpu_time = srip->elapsed_time*g_reply->host.p_ncpus;
         }
 
-        srip->exit_status = rp->exit_status;
-        srip->app_version_num = rp->app_version_num;
+        srip->exit_status = r.exit_status;
+        srip->app_version_num = r.app_version_num;
         srip->server_state = RESULT_SERVER_STATE_OVER;
 
-        strlcpy(srip->stderr_out, rp->stderr_out, sizeof(srip->stderr_out));
-        strlcpy(srip->xml_doc_out, rp->xml_doc_out, sizeof(srip->xml_doc_out));
-
-        // look for exit status and app version in stderr_out
-        // (historical - can be deleted at some point)
-        //
-        parse_int(srip->stderr_out, "<exit_status>", srip->exit_status);
-        parse_int(srip->stderr_out, "<app_version>", srip->app_version_num);
-
-        if (srip->exit_status == EXIT_ABORTED_BY_CLIENT && strstr(srip->stderr_out, "finish file present too long")) {
-            log_messages.printf(MSG_CRITICAL, "[handle] [RESULT#%lu] [WU#%lu] fixed finish file problem\n", srip->id, srip->workunitid);
-            srip->client_state = RESULT_FILES_UPLOADED;  // if not, it'll fail in validator
-            srip->exit_status = 0;
-        }
+        strlcpy(srip->stderr_out, r.stderr_out, sizeof(srip->stderr_out));
+        strlcpy(srip->xml_doc_out, r.xml_doc_out, sizeof(srip->xml_doc_out));
 
         if ((srip->client_state == RESULT_FILES_UPLOADED) && (srip->exit_status == 0)) {
             srip->outcome = RESULT_OUTCOME_SUCCESS;
@@ -408,7 +393,7 @@ int handle_results() {
                 );
             }
             got_good_result(*srip);
-            
+
             if (config.dont_store_success_stderr) {
                 strcpy(srip->stderr_out, "");
             }
@@ -434,8 +419,7 @@ int handle_results() {
     // Update the result records
     // (skip items that we previously marked to skip)
     //
-    for (i=0; i<result_handler.results.size(); i++) {
-        SCHED_RESULT_ITEM& sri = result_handler.results[i];
+    for (SCHED_RESULT_ITEM& sri: result_handler.results) {
         if (sri.id == 0) continue;
         retval = result_handler.update_result(sri);
         if (retval) {

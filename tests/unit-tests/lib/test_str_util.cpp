@@ -1,43 +1,46 @@
-#include "gtest/gtest.h"
-#include "common_defs.h"
-#include "str_util.h"
+// This file is part of BOINC.
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+#ifndef _WIN32
 #include <string>
 #include <ios>
+#include "gtest/gtest.h"
+#endif
+
+#include "common_defs.h"
+#include "str_util.h"
+#include "error_numbers.h"
 
 namespace test_str_util {
-
-    // The fixture for testing class Foo.
-
     class test_str_util : public ::testing::Test {
     protected:
-        // You can remove any or all of the following functions if its body
-        // is empty.
-
-        test_str_util() {
-            // You can do set-up work for each test here.
+#ifdef _WIN32
+        int setenv(const char* name, const char* value, int overwrite)
+        {
+            int errcode = 0;
+            if (!overwrite) {
+                size_t envsize = 0;
+                errcode = getenv_s(&envsize, NULL, 0, name);
+                if (errcode || envsize) return errcode;
+            }
+            return _putenv_s(name, value);
         }
-
-        virtual ~test_str_util() {
-            // You can do clean-up work that doesn't throw exceptions here.
-        }
-
-        // If the constructor and destructor are not enough for setting up
-        // and cleaning up each test, you can define the following methods:
-
-        virtual void SetUp() {
-            // Code here will be called immediately after the constructor (right
-            // before each test).
-        }
-
-        virtual void TearDown() {
-            // Code here will be called immediately after each test (right
-            // before the destructor).
-        }
-
-        // Objects declared here can be used by all tests in the test case for Foo.
+#endif
     };
-
-    // Tests that Foo does Xyz.
 
     TEST_F(test_str_util, ndays_to_string) {
         char buf[128];
@@ -110,7 +113,7 @@ namespace test_str_util {
         char* argv[100];
         int ret;
         char *nilbuf {0};
-        sprintf(buf, "one two three");
+        snprintf(buf, sizeof(buf), "one two three");
         ret = parse_command_line(buf, argv);
         EXPECT_EQ(ret, 3);
         EXPECT_STREQ(argv[0], "one");
@@ -118,7 +121,7 @@ namespace test_str_util {
         EXPECT_STREQ(argv[2], "three");
         EXPECT_STREQ(argv[3], nilbuf);
         EXPECT_STREQ(buf, "one");
-        sprintf(buf, "four \'five\' \"six\"");
+        snprintf(buf, sizeof(buf), "four \'five\' \"six\"");
         ret = parse_command_line(buf, argv);
         EXPECT_EQ(ret, 3);
         EXPECT_STREQ(argv[0], "four");
@@ -126,7 +129,7 @@ namespace test_str_util {
         EXPECT_STREQ(argv[2], "six");
         EXPECT_STREQ(argv[3], nilbuf);
         EXPECT_STREQ(buf, "four");
-        sprintf(buf, "seven \'eig ht\' \"ni ne\"");
+        snprintf(buf, sizeof(buf), "seven \'eig ht\' \"ni ne\"");
         ret = parse_command_line(buf, argv);
         EXPECT_EQ(ret, 3);
         EXPECT_STREQ(argv[0], "seven");
@@ -134,7 +137,7 @@ namespace test_str_util {
         EXPECT_STREQ(argv[2], "ni ne");
         EXPECT_STREQ(argv[3], nilbuf);
         EXPECT_STREQ(buf, "seven");
-        sprintf(buf, "tän \'elèv én\' \"tŵelv e\"");
+        snprintf(buf, sizeof(buf), "tän \'elèv én\' \"tŵelv e\"");
         ret = parse_command_line(buf, argv);
         EXPECT_EQ(ret, 3);
         EXPECT_STREQ(argv[0], "tän");
@@ -143,7 +146,7 @@ namespace test_str_util {
         EXPECT_STREQ(argv[3], nilbuf);
         EXPECT_STREQ(buf, "tän");
         // function doesn't check syntax so this works too
-        sprintf(buf, "13\" \'\"4teen\'\"   ");
+        snprintf(buf, sizeof(buf), "13\" \'\"4teen\'\"   ");
         ret = parse_command_line(buf, argv);
         EXPECT_EQ(ret, 3);
         EXPECT_STREQ(argv[0], "13\"");
@@ -225,7 +228,12 @@ namespace test_str_util {
         buf = precision_time_to_string(1555876749.1234);
         EXPECT_STREQ(buf, "2019-04-21 19:59:09.1233");
         buf = precision_time_to_string(12345678910.10000);
-        EXPECT_STREQ(buf, "2361-03-21 19:15:10.-2147483648");
+        // here we have an undefined behavior that gives negative value on x64 and positive value on arm64
+        #ifdef __arm64__
+            EXPECT_STREQ(buf, "2361-03-21 19:15:10.2147483647");
+        #else
+            EXPECT_STREQ(buf, "2361-03-21 19:15:10.-2147483648");
+        #endif
     }
 
     TEST_F(test_str_util, timediff_format) {
@@ -275,10 +283,10 @@ namespace test_str_util {
         char buf[256] = "_(\"The quick brown fox jumps over the lazy dog\")";
         strip_translation(buf);
         EXPECT_STREQ(buf, "The quick brown fox jumps over the lazy dog");
-        sprintf(buf, "The _(\"quick brown\") fox jumps over the _(\"lazy\") dog");
+        snprintf(buf, sizeof(buf), "The _(\"quick brown\") fox jumps over the _(\"lazy\") dog");
         strip_translation(buf);
         EXPECT_STREQ(buf, "The quick brown fox jumps over the lazy dog");
-        sprintf(buf, "The _\"quick brown\" ) fox jumps over the (_\"lazy\") dog");
+        snprintf(buf, sizeof(buf), "The _\"quick brown\" ) fox jumps over the (_\"lazy\") dog");
         strip_translation(buf);
         EXPECT_STREQ(buf, "The _\"quick brown\" ) fox jumps over the (_\"lazy dog");
     }
@@ -292,62 +300,6 @@ namespace test_str_util {
         strcpy(buf, "lf\n ending\n");
         buf = lf_terminate(buf);
         EXPECT_STREQ(buf, "lf\n ending\n");
-    }
-
-    TEST_F(test_str_util, parse_serialnum) {
-        char buf[256] = "[BOINC|1.2.3]", buf1[256], buf2[256], buf3[256];
-        //sprintf(tmp, "[BOINC|1.2.3]");
-        parse_serialnum(buf, buf1, buf2, buf3);
-        EXPECT_STREQ(buf, "[BOINC|1.2.3]");
-        EXPECT_STREQ(buf1, "[BOINC|1.2.3]");
-        EXPECT_STREQ(buf2, "");
-        EXPECT_STREQ(buf3, "");
-        strcpy(buf, "[BOINC|1.2.3][vbox|4.5.6abc]");
-        parse_serialnum(buf, buf1, buf2, buf3);
-        EXPECT_STREQ(buf1, "[BOINC|1.2.3]");
-        EXPECT_STREQ(buf2, "[vbox|4.5.6abc]");
-        EXPECT_STREQ(buf3, "");
-        strcpy(buf, "[BOINC|1.2.3][INTEL|Intel(R) HD Graphics|1|2406MB||201]");
-        parse_serialnum(buf, buf1, buf2, buf3);
-        EXPECT_STREQ(buf1, "[BOINC|1.2.3]");
-        EXPECT_STREQ(buf2, "");
-        EXPECT_STREQ(buf3, "[INTEL|Intel(R) HD Graphics|1|2406MB||201]");
-        strcpy(buf, "[vbox|4.5.6abc][INTEL|Intel(R) HD Graphics|1|2406MB||201][BOINC|1.2.3]");
-        parse_serialnum(buf, buf1, buf2, buf3);
-        EXPECT_STREQ(buf1, "[BOINC|1.2.3]");
-        EXPECT_STREQ(buf2, "[vbox|4.5.6abc]");
-        EXPECT_STREQ(buf3, "[INTEL|Intel(R) HD Graphics|1|2406MB||201]");
-        strcpy(buf, "[BOINC|1.2.3][INTEL|Intel(R) HD Graphics|1|2406MB||201][vbox|4.5.6abc]");
-        parse_serialnum(buf, buf1, buf2, buf3);
-        EXPECT_STREQ(buf1, "[BOINC|1.2.3]");
-        EXPECT_STREQ(buf2, "[vbox|4.5.6abc]");
-        EXPECT_STREQ(buf3, "[INTEL|Intel(R) HD Graphics|1|2406MB||201]");
-        strcpy(buf, "[BOINC|1.2.3][vbox|4.5.6abc][INTEL|Intel(R) HD Graphics|1|2406MB||201]");
-        parse_serialnum(buf, buf1, buf2, buf3);
-        EXPECT_STREQ(buf1, "[BOINC|1.2.3]");
-        EXPECT_STREQ(buf2, "[vbox|4.5.6abc]");
-        EXPECT_STREQ(buf3, "[INTEL|Intel(R) HD Graphics|1|2406MB||201]");
-        strcpy(buf, "[BOINC|7.6.22][CAL|ATI Radeon HD 5800/5900 series (Cypress/Hemlock)|2|1024MB|1.4.1848|102][vbox|5.1.26]");
-        parse_serialnum(buf, buf1, buf2, buf3);
-        EXPECT_STREQ(buf1, "[BOINC|7.6.22]");
-        EXPECT_STREQ(buf2, "[vbox|5.1.26]");
-        EXPECT_STREQ(buf3, "[CAL|ATI Radeon HD 5800/5900 series (Cypress/Hemlock)|2|1024MB|1.4.1848|102]");
-        strcpy(buf, "[BOINC|7.6.22[CAL|ATI Radeon HD 5800/5900 series (Cypress/Hemlock)|2|1024MB|1.4.1848|102][vbox|5.1.26]");
-        parse_serialnum(buf, buf1, buf2, buf3);
-        EXPECT_STREQ(buf1, "[BOINC|7.6.22[CAL|ATI Radeon HD 5800/5900 series (Cypress/Hemlock)|2|1024MB|1.4.1848|102]");
-        EXPECT_STREQ(buf2, "[vbox|5.1.26]");
-        EXPECT_STREQ(buf3, "");
-        strcpy(buf, "[BOINC|7.6.22][CAL|ATI Radeon HD 5800/5900 series [Cypress/Hemlock]|2|1024MB|1.4.1848|102][vbox|5.1.26]");
-        parse_serialnum(buf, buf1, buf2, buf3);
-        EXPECT_STREQ(buf1, "[BOINC|7.6.22]");
-        EXPECT_STREQ(buf2, "");
-        EXPECT_STREQ(buf3, "[CAL|ATI Radeon HD 5800/5900 series [Cypress/Hemlock]");
-        strcpy(buf, "[BOINC|7.6.22][CAL|ATI Radeon HD 5800/5900 series (Cypress/Hemlock)|2|1024MB|1.4.1848|102][extra|7.8.9][vbox|5.1.26]");
-        parse_serialnum(buf, buf1, buf2, buf3);
-        EXPECT_STREQ(buf1, "[BOINC|7.6.22]");
-        EXPECT_STREQ(buf2, "[vbox|5.1.26]");
-        //TODO: fix parse_serialnum so this doesn't happen:
-        EXPECT_STREQ(buf3, "[CAL|ATI Radeon HD 5800/5900 series (Cypress/Hemlock)|2|1024MB|1.4.1848|102][extra|7.8.9]");
     }
 
     TEST_F(test_str_util, is_valid_filename) {
@@ -385,4 +337,4 @@ namespace test_str_util {
         EXPECT_STREQ(buf, "");
     }
 
-} // namespace
+}

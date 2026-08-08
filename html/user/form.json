@@ -1,0 +1,50 @@
+{
+    "title": "Example form",
+    "handler": "json_form_handler.php",
+    "fields": [
+        {
+            "type": "text",
+            "title": "type some text",
+            "name": "foobar"
+        },
+        {
+            "type": "integer",
+            "title": "type an integer",
+            "name": "foobar_int",
+            "min_value": 0
+        },
+        {
+            "type": "file_select",
+            "title": "choose file",
+            "name": "file",
+            "suffix": ".zip"
+        },
+        {
+            "type": "file_select_multi",
+            "title": "choose several files",
+            "name": "file_multi",
+            "suffix": "",
+            "min_items": 2
+        },
+        {
+            "type": "select",
+            "title": "choose option",
+            "name": "chooser",
+            "items": [
+                ["Red", "red"],
+                ["Blue", "blue"],
+                ["Green", "green"]
+            ]
+        },
+        {
+            "type": "select_multi",
+            "title": "choose several options",
+            "name": "chooser2",
+            "items": [
+                ["Red", "red"],
+                ["Blue", "blue"],
+                ["Green", "green"]
+            ]
+        }
+    ]
+}

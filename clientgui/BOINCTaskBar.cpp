@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -76,14 +76,14 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
 END_EVENT_TABLE()
 
 
-CTaskBarIcon::CTaskBarIcon(wxString title, wxIconBundle* icon, wxIconBundle* iconDisconnected, wxIconBundle* iconSnooze
+CTaskBarIcon::CTaskBarIcon(wxIconBundle* icon, wxIconBundle* iconDisconnected, wxIconBundle* iconSnooze
 #ifdef __WXMAC__
 , wxTaskBarIconType iconType
 #endif
 ) :
 #ifdef __WXMAC__
     wxTaskBarIcon(iconType)
-#else 
+#else
     wxTaskBarIconEx(wxT("BOINCManagerSystray"), 1)
 #endif
 {
@@ -91,19 +91,27 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIconBundle* icon, wxIconBundle* ico
     m_iconType = iconType;
     m_pNotificationRequest = NULL;
     if (iconType == wxTBI_DOCK) {
-        // This code expects the wxTBI_CUSTOM_STATUSITEM CTaskBarIcon 
+        // This code expects the wxTBI_CUSTOM_STATUSITEM CTaskBarIcon
         // to be constructed before the wxTBI_DOCK CTaskBarIcon.
         //
         // Ensure that m_pTaskBarIcon and m_pMacDockIcon use same copy of each icon.
         m_iconTaskBarNormal = wxGetApp().GetTaskBarIcon()->m_iconTaskBarNormal;
         m_iconTaskBarDisconnected = wxGetApp().GetTaskBarIcon()->m_iconTaskBarDisconnected;
         m_iconTaskBarSnooze = wxGetApp().GetTaskBarIcon()->m_iconTaskBarSnooze;
-    } else 
+    } else
 #endif
     {
+
+#ifdef __WXMAC__
+        m_iconTaskBarNormal = icon->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_SYSTEM);
+        m_iconTaskBarDisconnected = iconDisconnected->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_SYSTEM);
+        m_iconTaskBarSnooze = iconSnooze->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_SYSTEM);
+#else
         m_iconTaskBarNormal = icon->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
         m_iconTaskBarDisconnected = iconDisconnected->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
         m_iconTaskBarSnooze = iconSnooze->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
+#endif
+
     }
     m_SnoozeGPUMenuItem = NULL;
 
@@ -277,7 +285,7 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
         }
     }
 #endif
-    
+
     wxGetApp().ShowApplication(true);
 
     ResetTaskBar();
@@ -356,15 +364,19 @@ void CTaskBarIcon::OnReloadSkin(CTaskbarEvent& WXUNUSED(event)) {
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-    m_iconTaskBarNormal = pSkinAdvanced->GetApplicationIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
-    m_iconTaskBarDisconnected = pSkinAdvanced->GetApplicationDisconnectedIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
-    m_iconTaskBarSnooze = pSkinAdvanced->GetApplicationSnoozeIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
-
 #ifdef __WXMAC__
+    m_iconTaskBarNormal = pSkinAdvanced->GetApplicationIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_SYSTEM);
+    m_iconTaskBarDisconnected = pSkinAdvanced->GetApplicationDisconnectedIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_SYSTEM);
+    m_iconTaskBarSnooze = pSkinAdvanced->GetApplicationSnoozeIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_SYSTEM);
+
     // Ensure that m_pTaskBarIcon and m_pMacDockIcon use same copy of each icon.
     wxGetApp().GetMacDockIcon()->m_iconTaskBarNormal = m_iconTaskBarNormal;
     wxGetApp().GetMacDockIcon()->m_iconTaskBarDisconnected = m_iconTaskBarDisconnected;
     wxGetApp().GetMacDockIcon()->m_iconTaskBarSnooze = m_iconTaskBarSnooze;
+#else
+    m_iconTaskBarNormal = pSkinAdvanced->GetApplicationIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
+    m_iconTaskBarDisconnected = pSkinAdvanced->GetApplicationDisconnectedIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
+    m_iconTaskBarSnooze = pSkinAdvanced->GetApplicationSnoozeIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
 #endif
 }
 
@@ -385,6 +397,8 @@ wxSize CTaskBarIcon::GetBestIconSize() {
 
 #ifdef _WIN32
     size = wxSize(wxSystemSettings::GetMetric(wxSYS_SMALLICON_X), wxSystemSettings::GetMetric(wxSYS_SMALLICON_Y));
+#elif defined(__WXMAC__)
+    size = wxDefaultSize;
 #else
     size = wxSize(16, 16);
 #endif
@@ -395,9 +409,9 @@ wxSize CTaskBarIcon::GetBestIconSize() {
 
 #ifdef __WXMAC__
 
-// The mac version of WxWidgets will delete this menu when 
+// The mac version of WxWidgets will delete this menu when
 //  done with it; we must not delete it.  See the comments
-//  in wxTaskBarIcon::PopupMenu() and DoCreatePopupMenu() 
+//  in wxTaskBarIcon::PopupMenu() and DoCreatePopupMenu()
 //  in WxMac/src/mac/carbon/taskbar.cpp for details
 
 // Overridables
@@ -406,71 +420,93 @@ wxMenu *CTaskBarIcon::CreatePopupMenu() {
     return menu;
 }
 
-// Override the standard wxTaskBarIcon::SetIcon() because we are only providing a 
+
+// Override the standard wxTaskBarIcon::SetIcon() because we are only providing a
 // 16x16 icon for the menubar, while the Dock needs a 128x128 icon.
-// Rather than using an entire separate icon, overlay the Dock icon with a badge 
+// Rather than using an entire separate icon, overlay the Dock icon with a badge
 // so we don't need additional Snooze and Disconnected icons for branding.
-bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
-    wxIcon macIcon;
-    bool result;
+#if wxCHECK_VERSION(3,1,6)
+bool CTaskBarIcon::SetIcon(const wxBitmapBundle& newIcon, const wxString& )
+#else
+bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& )
+#endif
+{
+    wxImage macIcon;
+#if wxDEBUG_LEVEL
     int err = noErr;
+#endif
     int w, h, x, y;
 
+#if wxCHECK_VERSION(3,1,6)
+    wxIcon icon = newIcon.GetIcon(wxDefaultSize);
+#endif
+
     if (m_iconType != wxTBI_DOCK) {
-        result = wxGetApp().GetMacDockIcon()->SetIcon(icon);
-        return (result && wxTaskBarIcon::SetIcon(icon));
+        if (wxGetApp().GetBOINCMGRHideMenuBarIcon()) {
+            RemoveIcon();
+            return true;
+        }
+        return (wxGetApp().GetMacDockIcon()->SetIcon(icon) && wxTaskBarIcon::SetIcon(icon));
     }
 
     if (icon.IsSameAs(m_iconCurrentIcon))
         return true;
-    
+
     m_iconCurrentIcon = icon;
-    
+
     if (m_iconTaskBarDisconnected.IsSameAs(icon))
-        macIcon = macdisconnectbadge;
+        macIcon = wxImage(macdisconnectbadge);
     else if (m_iconTaskBarSnooze.IsSameAs(icon))
-        macIcon = macsnoozebadge;
+        macIcon = wxImage(macsnoozebadge);
     else {
-        err = SetDockBadge(NULL);
+#if wxDEBUG_LEVEL
+        err =
+#endif
+        SetDockBadge(NULL);
         return true;
     }
-    
-    // Convert the wxIcon into a wxBitmap so we can perform some
-    // wxBitmap operations with it
-    wxBitmap bmp( macIcon ) ;
-    
-    // wxMac's XMP image format always uses 32-bit pixels but allows only 
-    // 1-bit masks, so we use a separate XMP file for the 8-bit mask to 
-    // allow us to do proper anti-aliasing of the badges.  This code assumes 
-    // that all badges are the same size circle and at the same position so 
-    // that they can share a single mask.
-    wxBitmap mask_bmp( macbadgemask ) ;
-    h = bmp.GetHeight();
-    w = bmp.GetWidth();
 
-    wxASSERT(h == mask_bmp.GetHeight());
-    wxASSERT(w == mask_bmp.GetWidth());
+    unsigned char* iconBuffer = macIcon.GetData();
 
-    unsigned char * iconBuffer = (unsigned char *)bmp.GetRawAccess();
-    unsigned char * maskBuffer = (unsigned char *)mask_bmp.GetRawAccess() + 1;
+    wxImage mac_badge_mask = wxImage(macbadgemask);
+    unsigned char* maskBuffer = mac_badge_mask.GetData();
+    h = macIcon.GetHeight();
+    w = macIcon.GetWidth();
+    wxASSERT(h == mac_badge_mask.GetHeight());
+    wxASSERT(w == mac_badge_mask.GetWidth());
 
+    void * maskedIconData = malloc(h*w*4);
+    unsigned char * maskedIconDataChars = (unsigned char*)maskedIconData;
     for (y=0; y<h; y++) {
         for (x=0; x<w; x++) {
-            *iconBuffer = 255 - *maskBuffer;
-            iconBuffer += 4;
-            maskBuffer += 4;
+            *maskedIconDataChars++ = *iconBuffer++;
+            *maskedIconDataChars++ = *iconBuffer++;
+            *maskedIconDataChars++ = *iconBuffer++;
+            *maskedIconDataChars++ = 255 - *maskBuffer;
+            maskBuffer += 3;
         }
     }
 
-    // Actually set the dock image    
-    err = SetDockBadge(&bmp);
-    
-    wxASSERT(err == 0);
+    wxImage maskedIcon = wxImage(w, h);
+    maskedIcon.SetDataRGBA((unsigned char*)maskedIconData);
+    wxBitmap bmp = wxBitmap(maskedIcon);
+    if (!bmp.IsOk()) {
+        return false;
+    }
 
+    // Actually set the dock image
+#if wxDEBUG_LEVEL
+    err =
+#endif
+    SetDockBadge(&bmp);
+
+#if wxDEBUG_LEVEL
+    wxASSERT(err == 0);
+#endif
     return true;
 }
 
-#endif  // ! __WXMAC__
+#endif  // __WXMAC__
 
 
 void CTaskBarIcon::DisplayContextMenu() {
@@ -494,7 +530,7 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-    // Prevent recursive entry of CMainDocument::RequestRPC() 
+    // Prevent recursive entry of CMainDocument::RequestRPC()
     if (!pDoc->WaitingForRPC()) {
         if (pDoc->IsConnected()) {
             // Account managers have a different menu arrangement
@@ -502,7 +538,7 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
             is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
         }
     }
-    
+
     if (is_acct_mgr_detected) {
         menuName.Printf(
             _("Open %s Web..."),
@@ -560,19 +596,19 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    // BOINC Manager crashes if user selects "Exit" from taskbar menu while 
-    //  a dialog is open, so we must disable the "Exit" menu item if a dialog 
-    //  is open. 
-    // On the Mac, the user can open multiple instances of the About dialog 
-    //  by repeatedly selecting "About" menu item from the taskbar, so we 
-    //  must also disable that item.  For consistency with the Mac standard, 
+    // BOINC Manager crashes if user selects "Exit" from taskbar menu while
+    //  a dialog is open, so we must disable the "Exit" menu item if a dialog
+    //  is open.
+    // On the Mac, the user can open multiple instances of the About dialog
+    //  by repeatedly selecting "About" menu item from the taskbar, so we
+    //  must also disable that item.  For consistency with the Mac standard,
     //  we disable the entire taskbar menu when a modal dialog is open.
     if (wxGetApp().IsModalDialogDisplayed()) {
         is_dialog_detected = true;
     }
-    
+
     enableSnoozeItems = (!is_dialog_detected) && pDoc->IsConnected();
-        
+
     for (loc = 0; loc < pMenu->GetMenuItemCount(); loc++) {
         pMenuItem = pMenu->FindItemByPosition(loc);
         if (is_dialog_detected && (pMenuItem->GetId() != wxID_OPEN)) {
@@ -583,9 +619,9 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     }
 
 #ifdef __WXMSW__
-    // Wierd things happen with menus and wxWidgets on Windows when you try
-    //   to change the font and use the system default as the baseline, so 
-    //   instead of fighting the system get the original font and tweak it 
+    // Weird things happen with menus and wxWidgets on Windows when you try
+    //   to change the font and use the system default as the baseline, so
+    //   instead of fighting the system get the original font and tweak it
     //   a bit. It shouldn't hurt other platforms.
     for (loc = 0; loc < pMenu->GetMenuItemCount(); loc++) {
         pMenuItem = pMenu->FindItemByPosition(loc);
@@ -604,7 +640,7 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     }
 #endif
 
-    // Prevent recursive entry of CMainDocument::RequestRPC() 
+    // Prevent recursive entry of CMainDocument::RequestRPC()
     if (pDoc->WaitingForRPC()) return;
 
     pDoc->GetCoreClientStatus(status);
@@ -626,7 +662,7 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
         m_SnoozeMenuItem->Check(false);
     }
     m_SnoozeMenuItem->Enable(enableSnoozeItems);
-    
+
     if (pDoc->state.have_gpu()) {
         switch (status.gpu_mode) {
         case RUN_MODE_NEVER:
@@ -676,13 +712,10 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
     if (!pDoc->IsConnected()) {
         SetIcon(m_iconTaskBarDisconnected);
     } else {
-        switch(status.task_suspend_reason) {
-        case SUSPEND_REASON_CPU_THROTTLE:
-        case 0:
-            SetIcon(m_iconTaskBarNormal);
-            break;
-        default:
+        if (status.task_suspend_reason) {
             SetIcon(m_iconTaskBarSnooze);
+        } else {
+            SetIcon(m_iconTaskBarNormal);
         }
     }
 #else
@@ -700,17 +733,13 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
     if (pDoc->IsConnected()) {
         icnIcon = m_iconTaskBarNormal;
         bool comp_suspended = false;
-        switch(status.task_suspend_reason) {
-        case SUSPEND_REASON_CPU_THROTTLE:
-        case 0:
-            strMessage += _("Computing is enabled");
-            break;
-        default:
+        if (status.task_suspend_reason) {
             icnIcon = m_iconTaskBarSnooze;
             strMessage += _("Computing is suspended - ");
             strMessage += suspend_reason_wxstring(status.task_suspend_reason);
             comp_suspended = true;
-            break;
+        } else {
+            strMessage += _("Computing is enabled");
         }
         strMessage += wxT(".\n");
 
@@ -768,22 +797,22 @@ void CTaskBarIcon::UpdateNoticeStatus() {
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     if (!pFrame) return;
-    
+
     // Repeat notification for unread notices at user-selected reminder frequency
     wxTimeSpan tsLastNotificationDisplayed = wxDateTime::Now() - m_dtLastNotificationAlertExecuted;
     if (
-        (tsLastNotificationDisplayed.GetMinutes() >= pFrame->GetReminderFrequency()) 
+        (tsLastNotificationDisplayed.GetMinutes() >= pFrame->GetReminderFrequency())
         && (pFrame->GetReminderFrequency() != 0)
     ) {
 
-        if (pDoc->GetUnreadNoticeCount() 
+        if (pDoc->GetUnreadNoticeCount()
             && (pDoc->GetUnreadNoticeCount() != m_iLastNotificationUnreadMessageCount)
         ) {
 #ifdef __WXMAC__
             // Delay notification while user is inactive
             // NOTE: This API requires OS 10.4 or later
             double idleTime = CGEventSourceSecondsSinceLastEventType (
-                                kCGEventSourceStateCombinedSessionState, 
+                                kCGEventSourceStateCombinedSessionState,
                                 kCGAnyInputEventType
                                 );
             if (idleTime > MIN_IDLE_TIME_FOR_NOTIFICATION) return;
@@ -820,8 +849,8 @@ void CTaskBarIcon::UpdateNoticeStatus() {
     } else {
         // Stop bouncing BOINC Dock icon after MAX_NOTIFICATION_DURATION seconds
         if (m_pNotificationRequest) {
-            if (wxGetApp().IsActive() || 
-                (tsLastNotificationDisplayed.GetSeconds() >= MAX_NOTIFICATION_DURATION) 
+            if (wxGetApp().IsActive() ||
+                (tsLastNotificationDisplayed.GetSeconds() >= MAX_NOTIFICATION_DURATION)
             ) {
                 MacCancelUserAttentionRequest();
             }

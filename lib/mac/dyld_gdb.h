@@ -18,13 +18,13 @@
  *  dyld_gdb.h
  *
  */
- 
-/* This is part of a backtrace generator for boinc project applications.  
+
+/* This is part of a backtrace generator for boinc project applications.
 *
 * Adapted from Apple Developer Technical Support Sample Code QCrashReport
 *
-* This code handles Mac OS X 10.3.x through 10.4.9.  It may require some 
-* adjustment for future OS versions; see the discussion of _sigtramp and 
+* This code handles Mac OS X 10.3.x through 10.4.9.  It may require some
+* adjustment for future OS versions; see the discussion of _sigtramp and
 * PowerPC Signal Stack Frames in file QBacktrace.c.
 *
 *  For useful tips on using backtrace information, see Apple Tech Note 2123:
@@ -32,10 +32,10 @@
 *
 *  To convert addresses to correct symbols, use the atos command-line tool:
 *  atos -o path/to/executable/with/symbols address
-*  Note: if address 1a23 is hex, use 0x1a23.  
+*  Note: if address 1a23 is hex, use 0x1a23.
 *
-*  To demangle mangled C++ symbols, use the c++filt command-line tool. 
-*  You may need to prefix C++ symbols with an additonal underscore before 
+*  To demangle mangled C++ symbols, use the c++filt command-line tool.
+*  You may need to prefix C++ symbols with an additional underscore before
 *  passing them to c++filt (so they begin with two underscore characters).
 *
 * A very useful shell script to add symbols to a crash dump can be found at:
@@ -47,14 +47,14 @@
  * Copyright (c) 2003 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_LICENSE_HEADER_START@
- * 
+ *
  * This file contains Original Code and/or Modifications of Original Code
  * as defined in and that are subject to the Apple Public Source License
  * Version 2.0 (the 'License'). You may not use this file except in
  * compliance with the License. Please obtain a copy of the License at
  * http://www.opensource.apple.com/apsl/ and read it before using this
  * file.
- * 
+ *
  * The Original Code and all software distributed under the License are
  * distributed on an 'AS IS' basis, WITHOUT WARRANTY OF ANY KIND, EITHER
  * EXPRESS OR IMPLIED, AND APPLE HEREBY DISCLAIMS ALL SUCH WARRANTIES,
@@ -62,7 +62,7 @@
  * FITNESS FOR A PARTICULAR PURPOSE, QUIET ENJOYMENT OR NON-INFRINGEMENT.
  * Please see the License for the specific language governing rights and
  * limitations under the License.
- * 
+ *
  * @APPLE_LICENSE_HEADER_END@
  */
 #ifndef _DYLD_GDB_
@@ -91,7 +91,7 @@ extern "C" {
  */
 extern unsigned int gdb_dyld_version;
 
-/* 
+/*
  * gdb_dyld_state_changed is the internal dyld routine called by dyld to notify
  * gdb that the state of the data structures has changed.  gdb is expected to
  * put a break point on this routine and re-read the internal dyld data
@@ -108,12 +108,12 @@ extern void gdb_dyld_state_changed(void);
  *
  *  struct object_images {
  *      struct object_image images[NOBJECT_IMAGES];
- *      unsigned long nimages; 
- *      struct object_images *next_images; 
+ *      unsigned long nimages;
+ *      struct object_images *next_images;
  *      ...
  *  };
  *
- *  struct library_images { 
+ *  struct library_images {
  *      struct library_image images[NLIBRARY_IMAGES];
  *      unsigned long nimages;
  *      struct library_images *next_images;
@@ -123,7 +123,7 @@ extern void gdb_dyld_state_changed(void);
  * Both the object_image structure and the library_image structure
  * start with a structure containing the following fields:
  *
- *  struct image {   
+ *  struct image {
  *      char *physical_name;        physical image name (file name)
  *      unsigned long vmaddr_slide; the slide from the staticly linked address
  *      struct mach_header *mh;     address of the mach header of the image
@@ -160,7 +160,7 @@ extern unsigned int gdb_library_image_size;
 #endif /* OLD_GDB_DYLD_INTERFACE */
 
 
-/* 
+/*
  *	Beginning in Mac OS X 10.4, there is a new mechanism for dyld to notify gdb and other about new images.
  *
  *
@@ -179,25 +179,25 @@ struct dyld_image_info {
 
 typedef void (*dyld_image_notifier)(enum dyld_image_mode mode, uint32_t infoCount, const struct dyld_image_info info[]);
 
-/* 
- *	gdb looks for the symbol "_dyld_all_image_infos" in dyld.  It contains the fields below.  
+/*
+ *	gdb looks for the symbol "_dyld_all_image_infos" in dyld.  It contains the fields below.
  *
  *	For a snap shot of what images are currently loaded, the infoArray fields contain a pointer
  *	to an array of all images. If infoArray is NULL, it means it is being modified, come back later.
  *
  *	To be notified of changes, gdb sets a break point on the notification field.  The function
  *	it points to is called by dyld with an array of information about what images have been added
- *	(dyld_image_adding) or are about to be removed (dyld_image_removing). 
+ *	(dyld_image_adding) or are about to be removed (dyld_image_removing).
  *
  * The notification is called after infoArray is updated.  This means that if gdb attaches to a process
- * and infoArray is NULL, gdb can set a break point on notification and let the proccess continue to
+ * and infoArray is NULL, gdb can set a break point on notification and let the process continue to
  * run until the break point.  Then gdb can inspect the full infoArray.
  */
  struct dyld_all_image_infos {
 	uint32_t						version;		/* == 1 in Mac OS X 10.4 */
 	uint32_t						infoArrayCount;
 	const struct dyld_image_info*	infoArray;
-	dyld_image_notifier				notification;		
+	dyld_image_notifier				notification;
 	bool							processDetachedFromSharedRegion;
 };
 extern struct dyld_all_image_infos  dyld_all_image_infos;

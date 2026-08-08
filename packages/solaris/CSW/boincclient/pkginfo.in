@@ -1,5 +1,5 @@
 PKG=CSWboincclient
-NAME=boincclient - BOINC volunteer distributed computing client 
+NAME=boincclient - BOINC volunteer distributed computing client
 VERSION=@PACKAGE_VERSION@,REV=@RDATE@_r@REV@
 CATEGORY=application
 VENDOR=http://boinc.berkeley.edu/ packaged for CSW by @FULLNAME@

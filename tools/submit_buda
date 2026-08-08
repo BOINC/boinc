@@ -1,0 +1,89 @@
+#! /usr/bin/env php
+<?php
+
+// Submit a job for a BUDA (BOINC Universal Docker app) science app
+// Use for debugging, but not production;
+// it doesn't make a batch, so there's not association with user
+
+function usage() {
+    echo "Usage:
+submit_buda [options] sci_app infile ...
+
+--cmdline x         pass cmdline args to app
+--variant x         app variant, default 'intel_cpu'
+--verbose
+";
+    exit();
+}
+
+$buda_root = 'buda_apps';
+$infiles = [];
+$verbose = false;
+$variant = 'intel_cpu';
+$sci_app = null;
+$cmdline = null;
+
+for ($i=1; $i<$argc; $i++) {
+    if ($argv[$i] == '--variant') {
+        $variant = $argv[++$i];
+    } else if ($argv[$i] == '--cmdline') {
+        $cmdline = $argv[++$i];
+    } else if ($argv[$i] == '--verbose') {
+        $verbose = true;
+    } else {
+        if (!$sci_app) {
+            $sci_app = $argv[$i];
+        } else {
+            $infiles[] = $argv[$i];
+        }
+    }
+}
+
+if (!$sci_app) {
+    usage();
+}
+
+$app_dir = "$buda_root/$sci_app";
+$variant_dir = "$app_dir/$variant";
+if (!is_dir($variant_dir)) {
+    die("No version dir $variant_dir\n");
+}
+$variant_desc = json_decode(
+    file_get_contents("$variant_dir/variant.json")
+);
+
+$cmd = sprintf(
+    'bin/create_work --appname buda --wu_template %s --result_template %s',
+    "$app_dir/template_in",
+    "$app_dir/template_out"
+);
+
+$cmd .= sprintf(' --command_line "%s%s"',
+    $verbose?'--verbose ':'',
+    $cmdline?$cmdline:''
+);
+
+foreach ($infiles as $path) {
+    if (!file_exists($path)) {
+        die("missing input file '$path'\n");
+    }
+    $fname = basename($path);
+    system("cp $path `bin/dir_hier_path $fname`", $ret);
+    if ($ret) {
+        die("Couldn't stage input file $path");
+    }
+    $cmd .= " $fname";
+}
+
+echo "command: $cmd\n";
+
+if (system($cmd, $ret) === false) {
+    die("system($cmd) failed\n");
+}
+if ($ret) {
+    die("$cmd returned $ret\n");
+}
+
+echo "job created\n";
+
+?>

@@ -32,12 +32,14 @@ function email_sent_message($email_addr) {
 
     page_head("Email sent");
     echo "
+        <p>
         Instructions for resetting your password have been emailed to $email_addr.
         <p>
-        If the email doesn't arrive in a few minutes,
-        your ISP may be blocking it as spam.
-        In this case please ask your ISP to not block email from $email_from.
+        If the email doesn't arrive in a few minutes, check your spam folder.
     ";
+    if (defined('MAIL_PASSWD_EXTRA')) {
+        echo MAIL_PASSWD_EXTRA;
+    }
 }
 
 $email_addr = strtolower(post_str("email_addr"));

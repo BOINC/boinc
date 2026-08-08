@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -28,22 +28,17 @@
 #include <sys/param.h>
 
 using std::vector;
+using std::string;
 
 #include "boinc_db.h"
 #include "error_numbers.h"
 #include "filesys.h"
-
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
-
+#include "boinc_stdio.h"
 #include "sched_config.h"
 #include "sched_msgs.h"
 #include "sched_types.h"
 #include "sched_util.h"
-
 #include "sched_shmem.h"
-
 
 void SCHED_SHMEM::init(int nwu_results) {
     int size = sizeof(SCHED_SHMEM) + nwu_results*sizeof(WU_RESULT);
@@ -62,7 +57,7 @@ void SCHED_SHMEM::init(int nwu_results) {
 }
 
 static int error_return(const char* p, int expe, int got) {
-    fprintf(stderr, "shmem: size mismatch in %s: expected %d, got %d\n", p, expe, got);
+    boinc::fprintf(stderr, "shmem: size mismatch in %s: expected %d, got %d\n", p, expe, got);
     return ERR_SCHED_SHMEM;
 }
 
@@ -112,6 +107,8 @@ static void overflow(const char* table, const char* param_name) {
     exit(1);
 }
 
+// scan various DB tables and populate shared-memory arrays
+//
 int SCHED_SHMEM::scan_tables() {
     DB_PLATFORM platform;
     DB_APP app;
@@ -148,11 +145,7 @@ int SCHED_SHMEM::scan_tables() {
         if (app.n_size_classes > 1) {
             char path[MAXPATHLEN];
             sprintf(path, "../size_census_%s", app.name);
-#ifndef _USING_FCGI_
-            FILE* f = fopen(path, "r");
-#else
-            FCGI_FILE* f = FCGI::fopen(path, "r");
-#endif
+            FILE* f = boinc::fopen(path, "r");
             if (!f) {
                 log_messages.printf(MSG_CRITICAL,
                     "Missing size census file for app %s\n", app.name
@@ -161,17 +154,17 @@ int SCHED_SHMEM::scan_tables() {
             }
             for (int i=0; i<app.n_size_classes-1; i++) {
                 char buf[256];
-                char* p = fgets(buf, 256, f);
+                char* p = boinc::fgets(buf, 256, f);
                 if (!p) {
                     log_messages.printf(MSG_CRITICAL,
                         "Size census file for app %s is too short\n", app.name
                     );
-                    fclose(f);
+                    boinc::fclose(f);
                     return ERR_XML_PARSE;   // whatever
                 }
                 app.size_class_quantiles[i] = atof(buf);
             }
-            fclose(f);
+            boinc::fclose(f);
         }
         apps[n++] = app;
     }
@@ -212,11 +205,10 @@ int SCHED_SHMEM::scan_tables() {
                     }
                 }
             }
-            for (unsigned int k=0; k<avs.size(); k++) {
-                APP_VERSION& av1 = avs[k];
+            for (APP_VERSION& av1: avs) {
                 if (sapp.min_version) {
                     if (av1.version_num < sapp.min_version) {
-                        fprintf(stderr, "version too small %d < %d\n",
+                        boinc::fprintf(stderr, "version too small %d < %d\n",
                             av1.version_num, sapp.min_version
                         );
                         continue;
@@ -225,11 +217,11 @@ int SCHED_SHMEM::scan_tables() {
                     if (av1.deprecated) continue;
                 }
                 if (av1.min_core_version && av1.min_core_version < 10000) {
-                    fprintf(stderr, "min core version too small - multiplying by 100\n");
+                    boinc::fprintf(stderr, "min core version too small - multiplying by 100\n");
                     av1.min_core_version *= 100;
                 }
                 if (av1.max_core_version && av1.max_core_version < 10000) {
-                    fprintf(stderr, "max core version too small - multiplying by 100\n");
+                    boinc::fprintf(stderr, "max core version too small - multiplying by 100\n");
                     av1.max_core_version *= 100;
                 }
 
@@ -253,7 +245,7 @@ int SCHED_SHMEM::scan_tables() {
         have_apps_for_proc_type[rt] = true;
     }
     for (i=0; i<NPROC_TYPES; i++) {
-        fprintf(stderr, "have apps for %s: %s\n",
+        boinc::fprintf(stderr, "have apps for %s: %s\n",
             proc_type_name(i),
             have_apps_for_proc_type[i]?"yes":"no"
         );
@@ -271,7 +263,7 @@ int SCHED_SHMEM::scan_tables() {
     return 0;
 }
 
-PLATFORM* SCHED_SHMEM::lookup_platform(char* name) {
+PLATFORM* SCHED_SHMEM::lookup_platform(const char* name) {
     for (int i=0; i<nplatforms; i++) {
         if (!strcmp(platforms[i].name, name)) {
             return &platforms[i];
@@ -351,57 +343,49 @@ void SCHED_SHMEM::restore_work(int pid) {
 }
 
 void SCHED_SHMEM::show(FILE* f) {
-    fprintf(f, "apps:\n");
+    boinc::fprintf(f, "apps:\n");
     for (int i=0; i<napps; i++) {
         APP& app = apps[i];
-        fprintf(f, "id: %lu name: %s hr: %d weight: %.2f beta: %d hav: %d nci: %d\n",
+        boinc::fprintf(f, "id: %lu name: %s hr: %d weight: %.2f beta: %d hav: %d nci: %d\n",
             app.id, app.name, app.homogeneous_redundancy, app.weight,
             app.beta, app.homogeneous_app_version, app.non_cpu_intensive
         );
     }
-    fprintf(f, "app versions:\n");
+    boinc::fprintf(f, "app versions:\n");
     for (int i=0; i<napp_versions; i++) {
         APP_VERSION av = app_versions[i];
-        fprintf(f, "appid: %lu platformid: %lu version_num: %d plan_class: %s\n",
+        boinc::fprintf(f, "appid: %lu platformid: %lu version_num: %d plan_class: %s\n",
             av.appid, av.platformid, av.version_num, av.plan_class
         );
     }
     for (int i=0; i<NPROC_TYPES; i++) {
-        fprintf(f,
+        boinc::fprintf(f,
             "have %s apps: %s\n",
             proc_type_name(i),
             have_apps_for_proc_type[i]?"yes":"no"
         );
     }
-    fprintf(f,
-        "Jobs; key:\n"
-        "ap: app ID\n"
-        "ic: infeasible count\n"
-        "wu: workunit ID\n"
-        "rs: result ID\n"
-        "hr: HR class\n"
-        "nr: need reliable\n"
+    boinc::fprintf(f,
+        "host fpops mean %.2f GFLOPS stddev %.2f GFLOPS\n",
+        perf_info.host_fpops_mean/1e9, perf_info.host_fpops_stddev/1e9
     );
-    fprintf(f,
-        "host fpops mean %f stddev %f\n",
-        perf_info.host_fpops_mean, perf_info.host_fpops_stddev
+    boinc::fprintf(f,
+        "host fpops 50th pctile %.2f GFLOPS 95th pctile %.2f GFLOPS\n",
+        perf_info.host_fpops_50_percentile/1e9,
+        perf_info.host_fpops_95_percentile/1e9
     );
-    fprintf(f,
-        "host fpops 50th pctile %f 95th pctile %f\n",
-        perf_info.host_fpops_50_percentile, perf_info.host_fpops_95_percentile
-    );
-    fprintf(f, "ready: %d\n", ready);
-    fprintf(f, "max_wu_results: %d\n", max_wu_results);
+    boinc::fprintf(f, "ready: %d\n", ready);
+    boinc::fprintf(f, "max_wu_results: %d\n", max_wu_results);
     for (int i=0; i<max_wu_results; i++) {
         if (i%24 == 0) {
-            fprintf(f,
+            boinc::fprintf(f,
                 "%4s %12s %10s %10s %10s %8s %10s %8s %12s %12s %9s %9s\n",
                 "slot",
                 "app",
                 "WU ID",
                 "result ID",
                 "batch",
-                "HR class",
+                "kwds",
                 "priority",
                 "in shmem",
                 "size class",
@@ -419,14 +403,14 @@ void SCHED_SHMEM::show(FILE* f) {
             app = lookup_app(wu_result.workunit.appid);
             appname = app?app->name:"missing";
             delta_t = dtime() - wu_result.time_added_to_shared_memory;
-            fprintf(f,
-                "%4d %12.12s %10lu %10lu %10d %8d %10d %7ds %9d %12s %9d %9d\n",
+            boinc::fprintf(f,
+                "%4d %12.12s %10lu %10lu %10d %8s %10d %7ds %9d %12s %9d %9d\n",
                 i,
                 appname,
                 wu_result.workunit.id,
                 wu_result.resultid,
                 wu_result.workunit.batch,
-                wu_result.workunit.hr_class,
+                wu_result.workunit.keywords,
                 wu_result.res_priority,
                 delta_t,
                 wu_result.workunit.size_class,
@@ -436,10 +420,10 @@ void SCHED_SHMEM::show(FILE* f) {
             );
             break;
         case WR_STATE_EMPTY:
-            fprintf(f, "%4d: ---\n", i);
+            boinc::fprintf(f, "%4d: ---\n", i);
             break;
         default:
-            fprintf(f, "%4d: PID %d: result %lu\n", i, wu_result.state, wu_result.resultid);
+            boinc::fprintf(f, "%4d: PID %d: result %lu\n", i, wu_result.state, wu_result.resultid);
         }
     }
 }

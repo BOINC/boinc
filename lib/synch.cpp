@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -27,12 +27,8 @@
 
 using std::memset;
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
-
+#include "boinc_stdio.h"
 #include "error_numbers.h"
-
 #include "synch.h"
 
 union SEMUN {

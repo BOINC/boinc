@@ -1,6 +1,6 @@
 AC_DEFUN([SAH_STATICIZE_LDFLAGS],[
    STATIC_LIB_LIST="${STATIC_LIB_LIST} $3"
-   liblist=`echo $1 | $AWK '{for (i=1;i<(NF+1);i++) {print $[]i;}}' | grep -v "Wl,[sd]" ` 
+   liblist=`echo $1 | $AWK '{for (i=1;i<(NF+1);i++) {print $[]i;}}' | grep -v "Wl,[sd]" `
    ssl_sah_save_libs="${LIBS}"
    echo "DEBUG: before mangling $2:$1" >&5
    sah_outputlibs=
@@ -27,7 +27,7 @@ AC_DEFUN([SAH_STATICIZE_LDFLAGS],[
          tmp_pattern_a="s/x${ld_dynamic_option}//"
          tmp_pattern_b="s/x${ld_static_option}//"
          if test -n "`echo x${somelib} | sed ${tmp_pattern_a}`" -a \
-	         -n "`echo x${somelib} | sed ${tmp_pattern_b}`" 
+	         -n "`echo x${somelib} | sed ${tmp_pattern_b}`"
 	 then
 	    sah_outputlibs="${sah_outputlibs} ${somelib}"
 	    LIBS="${LIBS} ${somelib}"

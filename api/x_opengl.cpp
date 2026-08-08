@@ -19,9 +19,9 @@
 
 #include "config.h"
 #include <cstdlib>
-#include <cstdio>    
-#include <csetjmp>    
-#include <unistd.h> 
+#include <cstdio>
+#include <csetjmp>
+#include <unistd.h>
 #include <pthread.h>
 #include <cstring>
 #include <csignal>
@@ -106,7 +106,7 @@ static bool suspend_render = false;
 // If running freeglut, also get the version.
 //
 #ifdef __APPLE__
-static bool glut_is_freeglut = false;   // Avoid warning message to stderr from glutGet(GLUT_VERSION) 
+static bool glut_is_freeglut = false;   // Avoid warning message to stderr from glutGet(GLUT_VERSION)
 static bool need_show = false;
 #else
 static bool glut_is_freeglut = true;
@@ -119,7 +119,7 @@ static int glut_version = 0;
 // hide/show it as necessary.
 //
 static int fg_window_state;   // values same as mode
-static bool fg_window_is_fullscreen; 
+static bool fg_window_is_fullscreen;
 
 static jmp_buf jbuf;    // longjump/setjump for exit/signal handler
 static struct sigaction original_signal_handler; // store previous ABRT signal-handler
@@ -134,14 +134,14 @@ extern pthread_t worker_thread;
 
 // possible longjmp-values to signal from where we jumped:
 //
-enum { 
+enum {
   JUMP_NONE = 0,
   JUMP_EXIT,
   JUMP_ABORT,
   JUMP_LAST
 };
 // 1= exit caught by atexit, 2 = signal caught by handler
-       
+
 int xwin_glut_is_initialized() {
     return glut_is_initialized;
 }
@@ -193,7 +193,7 @@ void mouse_click_move(int x, int y){
     }
 }
 
-// maybe_render() can be called directly by GLUT when a window is 
+// maybe_render() can be called directly by GLUT when a window is
 // uncovered, so we let that happen even if suspend_render is true.
 static void maybe_render() {
     int width, height;
@@ -273,14 +273,14 @@ static void make_new_window(int mode) {
           }
 	  fg_window_state = MODE_WINDOW;
     }
-    
+
 #ifdef __APPLE__
     if (win)
         have_window = true;
 #endif
 
     if (!have_window) {
-        win = glutCreateWindow(window_title); 
+        win = glutCreateWindow(window_title);
         if (debug) fprintf(stderr, "glutCreateWindow() succeeded. win = %d\n", win);
 
         glutReshapeFunc(app_graphics_resize);
@@ -288,17 +288,17 @@ static void make_new_window(int mode) {
         glutKeyboardUpFunc(keyboardU);
         glutMouseFunc(mouse_click);
         glutMotionFunc(mouse_click_move);
-        glutDisplayFunc(maybe_render); 
+        glutDisplayFunc(maybe_render);
         glEnable(GL_DEPTH_TEST);
-  
+
         app_graphics_init();
     }
-  
+
 #ifdef __APPLE__
     glutWMCloseFunc(CloseWindow);   // Enable the window's close box
     BringAppToFront();
-    // Show window only after a successful call to throttled_app_render(); 
-    // this avoids momentary display of old image when screensaver restarts 
+    // Show window only after a successful call to throttled_app_render();
+    // this avoids momentary display of old image when screensaver restarts
     // which made image appear to "jump."
     need_show = true;
 #endif
@@ -324,17 +324,17 @@ static void boinc_glut_init() {
     const char* args[2] = {"screensaver", NULL};
     int one=1;
     static bool first = true;
-    
+
     win = 0;
     if (debug) fprintf(stderr, "Calling glutInit()... \n");
     glutInit (&one, (char**)args);
     if (debug) fprintf(stderr, "survived glutInit(). \n");
 
     // figure out whether we're running GLUT or freeglut.
-    // 
+    //
     // note - glutGet(GLUT_VERSION) is supported in freeglut,
     //        other GLUT  returns -1 and outputs a warning
-    //        message to stderr. 
+    //        message to stderr.
     //      - must be after glutInit or will get SIGABRT
     //
     if (first) {
@@ -353,9 +353,9 @@ static void boinc_glut_init() {
        }
     }
 
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowPosition(xpos, ypos);
-    glutInitWindowSize(600, 400); 
+    glutInitWindowSize(600, 400);
     g_bmsp->boinc_get_init_data_hook(aid);
     if (!strlen(aid.app_name))  {
         strlcpy(aid.app_name, "BOINC Application", sizeof(aid.app_name));
@@ -386,18 +386,18 @@ void KillWindow() {
             xpos = glutGet(GLUT_WINDOW_X);
             ypos = glutGet(GLUT_WINDOW_Y);
         } else {
-            // If fullscreen, resize now to avoid ugly flash if we subsequently 
+            // If fullscreen, resize now to avoid ugly flash if we subsequently
             // redisplay as MODE_WINDOW.
             glutPositionWindow(xpos, ypos);
             glutReshapeWindow(win_width, win_height);
         }
-        
-        // On Intel Macs (but not on PowerPC Macs) GLUT's destuctors often crash when 
+
+        // On Intel Macs (but not on PowerPC Macs) GLUT's destructors often crash when
         // glutDestroyWindow() is called.  So far, this has only been reported for
-        // SETI@home. Since it doesn't occur on PowerPC Macs, we suspect a bug in GLUT.  
-        // To work around this, we just hide the window instead.  Though this does not 
-        // free up RAM and VM used by the graphics, glutDestroyWindow() doesn't free 
-        // them either (surprisingly), so there is no additional penalty for doing it 
+        // SETI@home. Since it doesn't occur on PowerPC Macs, we suspect a bug in GLUT.
+        // To work around this, we just hide the window instead.  Though this does not
+        // free up RAM and VM used by the graphics, glutDestroyWindow() doesn't free
+        // them either (surprisingly), so there is no additional penalty for doing it
         // this way.
         glutHideWindow();
 #else
@@ -409,7 +409,7 @@ void KillWindow() {
          glutDestroyWindow(oldwin);
       }
 #endif
-   } 
+   }
 }
 
 void set_mode(int mode) {
@@ -423,7 +423,7 @@ void set_mode(int mode) {
 //              glutPopWindow();
        	        glutShowWindow();
             }
-#endif 
+#endif
        }
         return;
     }
@@ -434,9 +434,9 @@ void set_mode(int mode) {
         KillWindow();
         if (debug) fprintf(stderr, "KillWindow() survived.\n");
     }
-    
+
     if (mode != MODE_HIDE_GRAPHICS) {
-        if (debug) fprintf(stderr, "set_mode(): Calling make_new_window(%d)\n", mode); 
+        if (debug) fprintf(stderr, "set_mode(): Calling make_new_window(%d)\n", mode);
         make_new_window(mode);
         if (debug) fprintf(stderr, "make_new_window() survived.\n");
     }
@@ -527,7 +527,7 @@ void restart() {
     // if we are standalone and glut was initialized,
     // we assume user pressed 'close', and we exit the app
     //
-    // 
+    //
     if (glut_is_initialized ) {
         if (boinc_is_standalone()) {
             if (debug) fprintf(stderr,
@@ -629,7 +629,7 @@ void xwin_graphics_event_loop() {
     if (glut_is_initialized && glut_is_freeglut) {
         if (1 == (glut_is_initialized = FREEGLUT_IS_INITIALIZED)) {
 	       if (!GLUT_HAVE_WINDOW) {
-	          win = 0; 
+	          win = 0;
 	       }
 	    }
     }
@@ -642,7 +642,7 @@ void xwin_graphics_event_loop() {
         } else {
             // open the graphics-window
             set_mode(MODE_WINDOW);
-            glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);      
+            glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);
         }
     } else {
         if (!glut_is_initialized) {

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 /// db_dump: dump database views in XML format
-// see https://boinc.berkeley.edu/trac/wiki/DbDump
+// see https://github.com/BOINC/boinc/wiki/DbDump
 
 // Note:
 // 1) this program is way more configurable than it needs to be.
@@ -30,6 +30,7 @@
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
+#include <ctime>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -328,7 +329,7 @@ class ZFILE {
 protected:
     string tag;     // enclosing XML tag
     OUTPUT_STREAM* stream;
-public:    
+public:
     ZFILE(string tag_, int comp): tag(tag_) {
         switch(comp) {
         case COMPRESSION_ZIP:
@@ -364,8 +365,8 @@ public:
         }
 
         write(
-            "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<%s>\n", tag.c_str()
-        );        
+            "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<%s>\n", tag.c_str()
+        );
     }
 
     void open_num(const char* filename, int filenum) {
@@ -478,40 +479,17 @@ void write_host(HOST& host, ZFILE* f, bool detail) {
         "    <p_vendor>%s</p_vendor>\n"
         "    <p_model>%s</p_model>\n"
         "    <os_name>%s</os_name>\n"
-        "    <os_version>%s</os_version>\n",
+        "    <os_version>%s</os_version>\n"
+        "    <misc><![CDATA[%s]]></misc>\n",
         host.total_credit,
         host.expavg_credit,
         host.expavg_time,
         p_vendor,
         p_model,
         os_name,
-        os_version
+        os_version,
+        host.misc
     );
-
-    // host.serialnum stores coprocessor description
-    // and client and vbox versions.
-    //
-    char boinc[256], vbox[256], coprocs[256];
-    char buf[1024];
-    parse_serialnum(host.serialnum, boinc, vbox, coprocs);
-    if (strlen(boinc)) {
-        xml_escape(boinc, buf, sizeof(buf));
-        f->write(
-            "    <boinc_version>%s</boinc_version>\n", buf
-        );
-    }
-    if (strlen(vbox)) {
-        xml_escape(vbox, buf, sizeof(buf));
-        f->write(
-            "    <vbox_version>%s</vbox_version>\n", buf
-        );
-    }
-    if (strlen(coprocs)) {
-        xml_escape(coprocs, buf, sizeof(buf));
-        f->write(
-            "    <coprocs>%s</coprocs>\n", buf
-        );
-    }
 
     if (detail) {
         f->write(
@@ -863,7 +841,6 @@ int tables_file(char* dir) {
 }
 
 int ENUMERATION::make_it_happen(char* output_dir) {
-    unsigned int i;
     int n, retval;
     DB_USER user;
     DB_USER_DELETED user_deleted;
@@ -885,8 +862,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
 
     sprintf(path, "%s/%s", output_dir, filename);
 
-    for (i=0; i<outputs.size(); i++) {
-        OUTPUT& out = outputs[i];
+    for (OUTPUT& out: outputs) {
         if (out.recs_per_file) {
             out.nzfile = new NUMBERED_ZFILE(
                 tag_name[table], out.compression, path, out.recs_per_file
@@ -966,8 +942,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             if (retval) break;
 
             if (!strncmp("deleted", user.authenticator, 7)) continue;
-            for (i=0; i<outputs.size(); i++) {
-                OUTPUT& out = outputs[i];
+            for (OUTPUT& out: outputs) {
                 if (sort == SORT_ID && out.recs_per_file) {
                     out.nzfile->set_id(n++);
                 }
@@ -991,8 +966,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             retval = user_deleted.enumerate("order by userid");
             if (retval) break;
             nusers_deleted++;
-            for (i=0; i<outputs.size(); i++) {
-                OUTPUT& out = outputs[i];
+            for (OUTPUT& out: outputs) {
                 if (sort == SORT_ID && out.recs_per_file) {
                     out.nzfile->set_id(n++);
                 }
@@ -1054,8 +1028,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             if (retval) break;
             if (!host.userid) continue;
             if (!strncmp("deleted", host.domain_name, 8)) continue;
-            for (i=0; i<outputs.size(); i++) {
-                OUTPUT& out = outputs[i];
+            for (OUTPUT& out: outputs) {
                 if (sort == SORT_ID && out.recs_per_file) {
                     out.nzfile->set_id(n++);
                 }
@@ -1079,8 +1052,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             retval = host_deleted.enumerate("order by hostid");
             if (retval) break;
             nhosts_deleted++;
-            for (i=0; i<outputs.size(); i++) {
-                OUTPUT& out = outputs[i];
+            for (OUTPUT& out: outputs) {
                 if (sort == SORT_ID && out.recs_per_file) {
                     out.nzfile->set_id(n++);
                 }
@@ -1109,8 +1081,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
             retval = team.enumerate(clause);
             if (retval) break;
             nteams++;
-            for (i=0; i<outputs.size(); i++) {
-                OUTPUT& out = outputs[i];
+            for (OUTPUT& out: outputs) {
                 if (sort == SORT_ID && out.recs_per_file) {
                     out.nzfile->set_id(n++);
                 }
@@ -1129,8 +1100,7 @@ int ENUMERATION::make_it_happen(char* output_dir) {
         }
         break;
     }
-    for (i=0; i<outputs.size(); i++) {
-        OUTPUT& out = outputs[i];
+    for (OUTPUT& out: outputs) {
         if (out.zfile) {
           out.zfile->close();
           delete out.zfile;
@@ -1147,7 +1117,7 @@ void usage(char* name) {
     fprintf(stderr,
         "This program generates XML files containing project statistics.\n"
         "It should be run once a day as a periodic task in config.xml.\n"
-        "For more info, see https://boinc.berkeley.edu/trac/wiki/DbDump\n\n"
+        "For more info, see https://github.com/BOINC/boinc/wiki/DbDump\n\n"
         "Usage: %s [options]\n"
         "Options:\n"
         "    --dump_spec filename          Use the given config file (use ../db_dump_spec.xml)\n"
@@ -1271,9 +1241,11 @@ int main(int argc, char** argv) {
         config.replica_db_user,
         config.replica_db_passwd
     ))) {
-        log_messages.printf(MSG_CRITICAL, "Can't open DB: %d\n", retval);
+        log_messages.printf(MSG_CRITICAL, "Can't open DB: %s\n",
+            boinc_db.error_string()
+        );
         if (retry_period == 0) exit(1);
-	boinc_sleep(retry_period);
+        boinc_sleep(retry_period);
     }
     retval = boinc_db.set_isolation_level(READ_UNCOMMITTED);
     if (retval) {
@@ -1285,9 +1257,7 @@ int main(int argc, char** argv) {
 
     boinc_mkdir(spec.output_dir);
 
-    unsigned int j;
-    for (j=0; j<spec.enumerations.size(); j++) {
-        ENUMERATION& e = spec.enumerations[j];
+    for (ENUMERATION& e: spec.enumerations) {
         e.make_it_happen(spec.output_dir);
     }
 
@@ -1315,6 +1285,7 @@ int main(int argc, char** argv) {
         log_messages.printf(MSG_CRITICAL,
             "%s failed: %s\n", buf, boincerror(retval)
         );
+        boinc_db.close();
         exit(retval);
     }
 
@@ -1344,6 +1315,7 @@ int main(int argc, char** argv) {
         retval = system(buf);
         if (retval) {
             log_messages.printf(MSG_CRITICAL, "Can't rename old stats\n");
+            boinc_db.close();
             exit(1);
         }
     }
@@ -1351,7 +1323,9 @@ int main(int argc, char** argv) {
     retval = system(buf);
     if (retval) {
         log_messages.printf(MSG_CRITICAL, "Can't rename new stats\n");
+        boinc_db.close();
         exit(1);
     }
     log_messages.printf(MSG_NORMAL, "db_dump finished\n");
+    boinc_db.close();
 }

@@ -23,8 +23,7 @@ require_once("../inc/user.inc");
 
 function link_to_results($host) {
     if (!$host) return tra("No host");
-    $config = get_config();
-    if (!parse_bool($config, "show_results")) return tra("Unavailable");
+    if (!project_config_bool("show_results")) return tra("Unavailable");
     $nresults = host_nresults($host);
     if (!$nresults) return "0";
     return "<a href=results.php?hostid=$host->id>$nresults</a>";
@@ -81,7 +80,6 @@ function cross_project_links($host) {
 // and the logged in user (so show some extra fields)
 //
 function show_host($host, $user, $ipprivate) {
-    global $config;
     start_table();
     row1(tra("Computer information"));
     $anonymous = false;
@@ -91,7 +89,7 @@ function show_host($host, $user, $ipprivate) {
             if ($host->last_ip_addr != $host->external_ip_addr) {
                 row2(tra("External IP address"), $host->external_ip_addr);
             }
-        } else { 
+        } else {
             row2(tra("IP address"), "<a href=show_host_detail.php?hostid=$host->id&ipprivate=1>".tra("Show IP address")."</a>");
         }
         row2(tra("Domain name"), $host->domain_name);
@@ -119,16 +117,13 @@ function show_host($host, $user, $ipprivate) {
         }
     }
     row2(tra("CPU type"), "$host->p_vendor <br> $host->p_model");
-    row2(tra("Number of processors"), $host->p_ncpus);
-    if ($host->serialnum) {
-        row2(tra("Coprocessors"), gpu_desc($host->serialnum));
-    }
-    row2(tra("Virtualization"), vbox_desc($host->serialnum));
+    row2(tra("Number of cores"), $host->p_ncpus);
+    $misc = json_decode($host->misc);
+    row2(tra("Coprocessors"), gpu_desc($misc));
+    row2(tra("Virtualization"), vbox_desc($misc));
+    row2(tra("Docker"), docker_desc($misc));
     row2(tra("Operating System"), "$host->os_name <br> $host->os_version");
-    $v = boinc_version($host->serialnum);
-    if ($v) {
-        row2(tra("BOINC version"), $v);
-    }
+    row2(tra("BOINC version"), boinc_version($misc));
     $x = $host->m_nbytes/GIGA;
     $y = round($x, 2);
     row2(tra("Memory"), tra("%1 GB", $y));
@@ -155,27 +150,32 @@ function show_host($host, $user, $ipprivate) {
     $x = $host->p_iops/1e9;
     $y = round($x, 2);
     row2(tra("Measured integer speed"), tra("%1 billion ops/sec", $y));
-    $x = $host->n_bwup/KILO;
+    $x = $host->n_bwup/MEGA;
     $y = round($x, 2);
     if ($y > 0) {
-        row2(tra("Average upload rate"), tra("%1 KB/sec", $y));
+        row2(tra("Average upload rate"), tra("%1 MB/sec", $y));
     } else {
         row2(tra("Average upload rate"), tra("Unknown"));
     }
-    $x = $host->n_bwdown/KILO;
+    $x = $host->n_bwdown/MEGA;
     $y = round($x, 2);
     if ($y > 0) {
-        row2(tra("Average download rate"), tra("%1 KB/sec", $y));
+        row2(tra("Average download rate"), tra("%1 MB/sec", $y));
     } else {
         row2(tra("Average download rate"), tra("Unknown"));
     }
-    $x = $host->avg_turnaround/86400;
+
+    // This code is used by Science United,
+    // which knows about hosts but doesn't compute
     if (!NO_COMPUTING) {
-        row2(tra("Average turnaround time"), tra("%1 days", round($x, 2)));
+        $x = $host->avg_turnaround;
+        if ($x) {
+            row2(tra("Average turnaround time"), time_diff($x));
+        }
         row2(tra("Application details"),
             "<a href=host_app_versions.php?hostid=$host->id>".tra("Show")."</a>"
         );
-        $show_results = parse_bool($config, "show_results");
+        $show_results = project_config_bool("show_results");
         if ($show_results) {
             $nresults = host_nresults($host);
             if ($nresults) {
@@ -184,6 +184,11 @@ function show_host($host, $user, $ipprivate) {
                 $results = "0";
             }
             row2(tra("Tasks"), $results);
+        }
+        if (defined('BATCH_ACCEL') && BATCH_ACCEL) {
+            row2('Low turnaround time?',
+                $host->error_rate?'yes':'no'
+            );
         }
     }
 
@@ -205,12 +210,19 @@ function show_host($host, $user, $ipprivate) {
             }
         }
         row2(tra("Location"), location_form($host));
+        row2(tra("Merge duplicate records of this computer"), "<a class=\"btn btn-primary btn-sm\" href=host_edit_form.php?hostid=$host->id>".tra("Merge")."</a>");
         if ($show_results && $nresults == 0) {
-            $x = " &middot; <a href=host_delete.php?hostid=$host->id".url_tokens($user->authenticator).">".tra("Delete this computer")."</a> ";
-        } else {
-            $x = "";
+            row2('',
+                button_text(
+                    sprintf(
+                        'host_delete.php?hostid=%d%s',
+                        $host->id,
+                        url_tokens($user->authenticator)
+                    ),
+                    tra("Delete this computer")
+                )
+            );
         }
-        row2(tra("Merge duplicate records of this computer"), "<a class=\"btn btn-primary btn-sm\" href=host_edit_form.php?hostid=$host->id>".tra("Merge")."</a> $x");
     } else {
         row2(tra("Number of times client has contacted server"), $host->rpc_seqno);
         row2(tra("Last contact"), date_str($host->rpc_time));
@@ -252,108 +264,96 @@ function host_nresults($host) {
     return BoincResult::count("hostid=$host->id");
 }
 
-
-// Parse the Virtualbox version information from inside the serialnum field.
-// Prior to BOINC commit 6121ce1, the DB entry looked like e.g. "[vbox|5.0.0]"
-// where 5.0.0 gave the Virtualbox version number. After 6121ce1, the entry was
-// "[vbox|5.0.0|1|1]", where now two additional flags give information about
-// hardware virtualization support. Older clients may have the old-style
-// serialnum in the DB despite the server being upgraded.
-function vbox_desc($x){
-    if (preg_match("/\[vbox\|(.*?)(\|([01])\|([01]))?\]/",$x,$matches)){
-        $desc = "Virtualbox (".$matches[1].") ".tra("installed");
-        if (sizeof($matches)>2){
-            if ($matches[3]=="1" and $matches[4]=="1") {
-                return $desc.tra(", CPU has hardware virtualization support and it is enabled");
-            } elseif ($matches[3]=="1" and $matches[4]=="0") {
-                return $desc.tra(", CPU has hardware virtualization support but it is disabled");
-            } elseif ($matches[3]=="0") {
-                return $desc.tra(", CPU does not have hardware virtualization support");
-            }
-        } else {
-            return $desc;
-        }
-    } else {
-        return tra("None");
+function vbox_desc($misc) {
+    if (!isset($misc->vbox)) return '---';
+    $v = $misc->vbox;
+    $x = sprintf('Virtualbox %s', htmlspecialchars($v->version));
+    if (isset($v->hw_accel)) {
+        $x .= sprintf('<br>HW acceleration: %s', $v->hw_accel?'yes':'no');
     }
+    if (isset($v->hw_accel_enabled)) {
+        $x .= sprintf('<br>Enabled: %s', $v->hw_accel_enabled?'yes':'no');
+    }
+    return $x;
 }
 
-// Given string of the form [BOINC|vers][type|model|count|RAM|driver-vers][vbox|vers],
-// return a human-readable version of the GPU info
-//
-function gpu_desc($x, $detail=true) {
-    $descs = explode("]", $x);
-    array_pop($descs);
-    $str = "";
-    foreach ($descs as $desc) {
-        $desc = trim($desc, "[");
-        $d = explode("|", $desc);
-        //print_r($d);
-        if ($d[0] == "BOINC") continue;
-        if ($d[0] == "vbox") continue;
-        if ($str) $str .= "<p>";
-        if ($d[2]!="" && $d[2]!="1") $str .= "[".$d[2]."] ";
-        if ($d[0] == "CUDA") {
-            $str .= "NVIDIA";
-        } else if ($d[0] == "CAL") {
-            $str .= "AMD";
-        } else if ($d[0] == "opencl_gpu") {
-            $str .= "OpenCL GPU";
+function docker_desc($misc) {
+    if (!isset($misc->docker)) return '---';
+    $d = $misc->docker;
+    $x = sprintf('%s version %s',
+        $d->type==1?"Docker":"Podman",
+        htmlspecialchars($d->version)
+    );
+    if (isset($d->wsl_distro)) {
+        if (empty($d->boinc_buda_runner_version)) {
+            $x .= sprintf(
+                '<br>WSL distro: %s',
+                htmlspecialchars($d->wsl_distro)
+            );
         } else {
-            $str .= $d[0];
-        }
-        $str .= " ".$d[1];
-        if ($detail) {
-            $str .= " (".$d[3].")";
-            if (array_key_exists(4, $d)) {
-                if ($d[4] != "" && $d[4] != 0) {
-                    // if version has no '.', assume it's in 100*maj+min form
-                    //
-                    if (strchr($d[4], '.')) {
-                        $str .= " driver: ".$d[4];
-                    } else {
-                        $i = (int)$d[4];
-                        $maj = (int)($i/100);
-                        $min = $i%100;
-                        $str .= sprintf(" driver: %d.%02d", $maj, $min);
-                    }
-                }
-            }
-            if (array_key_exists(5, $d)) {
-                if ($d[5] != "" && $d[5] != 0) {
-                    if (strchr($d[5], '.')) {
-                        $str .= " OpenCL: ".$d[5];
-                    } else {
-                        $i = (int)$d[5];
-                        $maj = (int)($i/100);
-                        $min = $i%100;
-                        $str .= sprintf(" OpenCL: %d.%d", $maj, $min);
-                    }
-                }
-            }
+            $x .= sprintf(
+                '<br>WSL distro: %s ver %d',
+                htmlspecialchars($d->wsl_distro),
+                $d->boinc_buda_runner_version
+            );
         }
     }
-    if (!$str) $str = "---";
-    return $str;
+    if (isset($misc->config)) {
+        $c = $misc->config;
+        if (!empty($c->dont_use_wsl)) {
+            $x .= "<br>Config: don't use WSL";
+        }
+        if (!empty($c->dont_use_docker)) {
+            $x .= "<br>Config: don't use Docker";
+        }
+    }
+    return $x;
+}
+
+// return a human-readable version of the GPU info
+//
+function gpu_desc($misc) {
+    if (empty($misc->gpus)) return '---';
+    $gpus = [];
+    foreach ($misc->gpus as $g) {
+        if (empty($g->count)) $g->count = 1;
+        $x = sprintf('%d %s', $g->count, $g->model);
+        if (!empty($g->ram_mb)) {
+            $x .= sprintf('; %s RAM', size_string($g->ram_mb*MEGA));
+        }
+        if (!empty($g->driver_version)) {
+            $x .= sprintf('; Driver: %s',
+                htmlspecialchars($g->driver_version)
+            );
+        }
+        if (!empty($g->opencl_version)) {
+            $x .= sprintf('; OpenCL: %d.%d',
+                $g->opencl_version/100,
+                $g->opencl_version%100
+            );
+        }
+        $gpus[] = $x;
+    }
+    return implode('<br>', $gpus);
 }
 
 // Given the same string as above, return the BOINC version
 //
-function boinc_version($x) {
-    $y = strstr($x, 'BOINC');
-    if (!$y) return '';
-    $z = explode("]", $y, 2);
-    $a = explode('|', $z[0]);
-    $v = $a[1];
-    if (array_key_exists(2, $a)) {
-        $brand = $a[2];
-        $v .= " ($brand)";
+function boinc_version($misc) {
+    if (!isset($misc->client_version)) {
+        return '---';
     }
-    return $v;
+    $x = htmlspecialchars($misc->client_version);
+    if (!empty($misc->client_brand)) {
+        $x .= sprintf(' (%s)',
+            htmlspecialchars($misc->client_brand)
+        );
+    }
+    return $x;
 }
 
 function cpu_desc($host) {
-    return "$host->p_vendor<br>$host->p_model<br>".tra("(%1 processors)", $host->p_ncpus)."\n";
+    return "$host->p_vendor<br>$host->p_model<br>".tra("(%1 cores)", $host->p_ncpus)."\n";
 }
 
 // If private is true, we're showing the host to its owner,
@@ -404,6 +404,7 @@ function show_host_row($host, $i, $private, $show_owner, $any_product_name) {
             }
         }
     }
+    $misc = json_decode($host->misc);
     if ($show_owner) {
         // This is used in the "top computers" display
         //
@@ -420,9 +421,9 @@ function show_host_row($host, $i, $private, $show_owner, $any_product_name) {
             <td>%s</td>
             <td>%s</td>
             <td>%s <br> %s</td>",
-            boinc_version($host->serialnum),
+            boinc_version($misc),
             cpu_desc($host),
-            gpu_desc($host->serialnum),
+            gpu_desc($misc),
             $host->os_name, $host->os_version
         );
     } else {
@@ -443,9 +444,9 @@ function show_host_row($host, $i, $private, $show_owner, $any_product_name) {
             <td>%s<br><small>%s</small></td>
             <td>%s</td>
             ",
-            boinc_version($host->serialnum),
+            boinc_version($misc),
             cpu_desc($host),
-            gpu_desc($host->serialnum),
+            gpu_desc($misc),
             $host->os_name, $host->os_version,
             sched_log_link($host->rpc_time)
         );
@@ -625,7 +626,7 @@ function host_update_credit($hostid) {
 function host_decay_credit($host) {
     $avg = $host->expavg_credit;
     $avg_time = $host->expavg_time;
-    $now = time(0);
+    $now = time();
     update_average($now, 0, 0, $avg, $avg_time);
     $host->update("expavg_credit=$avg, expavg_time=$now");
 }
@@ -769,13 +770,12 @@ function show_user_hosts($userid, $private, $show_all, $sort, $rev) {
     case "name": $sort_clause = "domain_name"; break;
     case "id": $sort_clause = "id"; break;
     case "cpu": $sort_clause = "p_vendor"; break;
-    case "gpu": $sort_clause = "serialnum"; break;
     case "os": $sort_clause = "os_name"; break;
     case "venue": $sort_clause = "venue"; break;
     default:
         // default value -- sort by RPC time
         $sort = "rpc_time";
-        $sort_clause = "rpc_time"; 
+        $sort_clause = "rpc_time";
         $desc = true;
     }
 
@@ -787,7 +787,7 @@ function show_user_hosts($userid, $private, $show_all, $sort, $rev) {
     $now = time();
     $old_hosts=0;
     $i = 1;
-    $hosts = BoincHost::enum("userid=$userid order by $sort_clause");
+    $hosts = BoincHost::enum("userid=$userid order by $sort_clause limit 100");
     $any_product_name = false;
     foreach ($hosts as $host) {
         if ($host->product_name) {
@@ -828,6 +828,5 @@ function anonymize_hosts($user) {
     }
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

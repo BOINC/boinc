@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -138,6 +138,7 @@
 #define ID_TASK_MESSAGES_COPYALL                9400
 #define ID_TASK_MESSAGES_COPYSELECTED           9401
 #define ID_TASK_MESSAGES_FILTERBYPROJECT        9402
+#define ID_TASK_MESSAGES_FILTERBYERROR          9403
 #define ID_TASK_STATISTICS_USERTOTAL            9500
 #define ID_TASK_STATISTICS_USERAVERAGE          9501
 #define ID_TASK_STATISTICS_HOSTTOTAL            9502
@@ -151,6 +152,9 @@
 #define ID_TASK_STATISTICS_MODEVIEWSUM          9613
 #define ID_TASK_NEWS_BOINC                      9700
 #define ID_TASK_NEWS_BOINCWEBSITE               9701
+
+// Shortcuts
+#define ID_SELECTALL                            9800
 
 //
 // Simple GUI

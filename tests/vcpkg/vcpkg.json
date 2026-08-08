@@ -1,0 +1,6 @@
+{
+    "name": "vcpkgtest",
+    "dependencies": [
+        "boinc"
+    ]
+}

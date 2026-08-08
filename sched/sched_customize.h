@@ -26,7 +26,7 @@
 //
 // ------ Shared Memory Parameters -----------
 // #define MAX_PLATFORMS        50
-// #define MAX_APPS             10 
+// #define MAX_APPS             10
 // #define MAX_APP_VERSIONS     50
 // #define MAX_ASSIGNMENTS      10
 // #define MAX_WU_RESULTS       100
@@ -38,6 +38,7 @@
 // #define CUDAFERMI_MIN_RAM            384*MEGA
 // #define OPENCL_NVIDIA_MIN_RAM        384*MEGA
 // #define OPENCL_INTEL_GPU_MIN_RAM     256*MEGA
+// #define OPENCL_APPLE_GPU_MIN_RAM     256*MEGA
 //
 // #define CUDA_MIN_DRIVER_VERSION              17700
 // #define CUDA23_MIN_CUDA_VERSION              2030
@@ -88,7 +89,9 @@ struct GPU_REQUIREMENTS {
 extern GPU_REQUIREMENTS gpu_requirements[NPROC_TYPES];
 
 extern bool wu_is_infeasible_custom(WORKUNIT&, APP&, BEST_APP_VERSION&);
-extern bool app_plan(SCHEDULER_REQUEST&, char* plan_class, HOST_USAGE&, const WORKUNIT* wu);
+extern bool app_plan(
+    SCHEDULER_REQUEST&, const char* plan_class, HOST_USAGE&, const WORKUNIT* wu
+);
 extern void handle_file_xfer_results();
 extern bool wu_restricted_plan_class;
 

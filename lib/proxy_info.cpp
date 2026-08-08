@@ -22,7 +22,8 @@
 #include "proxy_info.h"
 
 int PROXY_INFO::parse(XML_PARSER& xp) {
-    memset(this, 0, sizeof(PROXY_INFO));
+    static const PROXY_INFO x;
+    *this = x;
     while (!xp.get_tag()) {
         if (xp.match_tag("/proxy_info")) {
             present = false;

@@ -1,5 +1,9 @@
 
+#if defined __APPLE__ || __cplusplus >= 201703L
+#define REG
+#else
 #define REG register
+#endif
 
 typedef enum    {Ident_1, Ident_2, Ident_3, Ident_4, Ident_5} Enumeration;
 

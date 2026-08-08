@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -35,14 +35,17 @@
 //  [--max_granted_credit X]    limit maximum granted credit to X
 //  [--update_credited_job]     add userid/wuid pair to credited_job table
 //
-//  credit options.  The default is to grant credit using an
-//  adaptive scheme that provides devices neutrality
+// credit options.
+// The default is to grant credit using an adaptive scheme
+// that provides devices neutrality.
+// This only works if job sizes are fairly uniform.
 //
 //  [--no_credit]               don't grant credit
 //                              Use this, e.g., if using trickles for credit
 //  [--post_assigned_credit]    init_result() must set result.claimed_credit
 //  [--credit_from_wu]          get credit from workunit.canonical_credit
-//  [--credit_from_runtime]     grant credit based on runtime,
+//  [--credit_from_runtime]     grant credit based on runtime
+//                              use this if big variation between job sizes
 //  [--wu_id n]                 Validate WU n (debugging)
 //  [--check_punitive]          check for results with long-term failure,
 //                              punish host
@@ -51,6 +54,7 @@
 #include <unistd.h>
 #include <climits>
 #include <cmath>
+#include <ctime>
 #include <vector>
 #include <cstdlib>
 #include <string>
@@ -188,8 +192,8 @@ void scan_punitive(vector<VALIDATOR_ITEM>& items) {
     void* data=NULL;
     char buf[256];
 
-    for (unsigned int i=0; i<items.size(); i++) {
-        RESULT& result = items[i].res;
+    for (const VALIDATOR_ITEM& vi: items) {
+        const RESULT& result = vi.res;
         if (result.server_state != RESULT_SERVER_STATE_OVER) continue;
         if (result.outcome != RESULT_OUTCOME_CLIENT_ERROR) continue;
         if (init_result(result, data) == VAL_RESULT_LONG_TERM_FAIL) {
@@ -200,11 +204,15 @@ void scan_punitive(vector<VALIDATOR_ITEM>& items) {
             int retval = hav.lookup(buf);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "scan_punitive(): can't find HAV for results %ld",
+                    "scan_punitive(): can't find HAV for results %ld\n",
                     result.id
                 );
                 continue;
             }
+            log_messages.printf(MSG_NORMAL,
+                "punishing host %ld for app version %ld\n",
+                result.hostid, result.app_version_id
+            );
             hav2 = hav;
             hav2.max_jobs_per_day = 1;
             hav2.n_jobs_today = 1;
@@ -229,7 +237,6 @@ int handle_wu(
     int retval = 0, x;
     DB_ID_TYPE canonicalid = 0;
     double credit = 0;
-    unsigned int i;
 
     WORKUNIT& wu = items[0].wu;
     g_wup = &wu;
@@ -243,14 +250,13 @@ int handle_wu(
             "[WU#%lu %s] Already has canonical result %lu\n",
             wu.id, wu.name, wu.canonical_resultid
         );
-        ++log_messages;
 
         // Here if WU already has a canonical result.
         // Get unchecked results and see if they match the canonical result
         //
-        for (i=0; i<items.size(); i++) {
-            RESULT& result = items[i].res;
-
+        for (unsigned int i=0; i<items.size(); i++) {
+            VALIDATOR_ITEM& vi = items[i];
+            RESULT& result = vi.res;
             if (result.id == wu.canonical_resultid) {
                 canonical_result_index = i;
             }
@@ -267,8 +273,8 @@ int handle_wu(
 
         // scan this WU's results, and check the unchecked ones
         //
-        for (i=0; i<items.size(); i++) {
-            RESULT& result = items[i].res;
+        for (VALIDATOR_ITEM& vi: items) {
+            RESULT& result = vi.res;
 
             if (result.server_state != RESULT_SERVER_STATE_OVER) continue;
             if (result.outcome !=  RESULT_OUTCOME_SUCCESS) continue;
@@ -418,13 +424,12 @@ int handle_wu(
             "[WU#%lu %s] handle_wu(): No canonical result yet\n",
             wu.id, wu.name
         );
-        ++log_messages;
 
         // make a vector of the "viable" (i.e. possibly canonical) results,
         // and a parallel vector of host_app_versions
         //
-        for (i=0; i<items.size(); i++) {
-            RESULT& result = items[i].res;
+        for (VALIDATOR_ITEM& vi: items) {
+            RESULT& result = vi.res;
 
             if (result.server_state != RESULT_SERVER_STATE_OVER) continue;
             if (result.outcome != RESULT_OUTCOME_SUCCESS) continue;
@@ -466,20 +471,22 @@ int handle_wu(
             // if we found a canonical instance, decide on credit
             //
             if (canonicalid) {
-                // always do the credit calculation, to update statistics,
+                // do the credit calculation, to update statistics,
                 // even if we're granting credit a different way
                 //
-                retval = assign_credit_set(
-                    wu, viable_results, app, app_versions, host_app_versions,
-                    max_granted_credit, credit
-                );
-                if (retval) {
-                    log_messages.printf(MSG_CRITICAL,
-                        "[WU#%lu %s] assign_credit_set(): %s\n",
-                        wu.id, wu.name, boincerror(retval)
+                if (!credit_from_runtime) {
+                    retval = assign_credit_set(
+                        wu, viable_results, app, app_versions,
+                        host_app_versions, max_granted_credit, credit
                     );
-                    transition_time = DELAYED;
-                    goto leave;
+                    if (retval) {
+                        log_messages.printf(MSG_CRITICAL,
+                            "[WU#%lu %s] assign_credit_set(): %s\n",
+                            wu.id, wu.name, boincerror(retval)
+                        );
+                        transition_time = DELAYED;
+                        goto leave;
+                    }
                 }
 
                 if (credit_from_wu) {
@@ -495,10 +502,16 @@ int handle_wu(
                     // is within range
                     //
                     vector<double> cc;
-                    for (i=0; i<viable_results.size(); i++) {
-                        RESULT& result = viable_results[i];
+                    for (RESULT& result: viable_results) {
+                        if (result.flops_estimate == 1e9) {
+                            result.flops_estimate = AVG_CPU_FPOPS;
+                        }
                         double runtime = result.elapsed_time;
-                        double c = result.flops_estimate * runtime * COBBLESTONE_SCALE;
+                        double pfc = result.flops_estimate * runtime;
+                        if (pfc > wu.rsc_fpops_bound*2) {
+                            pfc = wu.rsc_fpops_bound;
+                        }
+                        double c = pfc * COBBLESTONE_SCALE;
                         if (c <=0 || c > max_granted_credit) {
                             log_messages.printf(MSG_CRITICAL,
                                 "[WU#%lu %s] credit out of range: %f\n",
@@ -508,7 +521,7 @@ int handle_wu(
                             cc.push_back(c);
                         }
 
-                        log_messages.printf(MSG_DEBUG,
+                        log_messages.printf(MSG_NORMAL,
                             "[WU#%lu][RESULT#%lu] credit_from_runtime %.2f = %.0fs * %.2fGFLOPS\n",
                             wu.id, result.id,
                             c, runtime, result.flops_estimate/1e9
@@ -529,8 +542,7 @@ int handle_wu(
                     }
                 } else if (post_assigned_credit) {
                     credit = 0;
-                    for (i=0; i<viable_results.size(); i++) {
-                        RESULT& result = viable_results[i];
+                    for (const RESULT& result: viable_results) {
                         if (result.id != canonicalid) {
                             continue;
                         }
@@ -558,7 +570,7 @@ int handle_wu(
             // or validate_state INVALID)
             //
             int n_viable_results = 0;
-            for (i=0; i<viable_results.size(); i++) {
+            for (unsigned i=0; i<viable_results.size(); i++) {
                 RESULT& result = viable_results[i];
                 DB_HOST_APP_VERSION& hav = host_app_versions[i];
                 DB_HOST_APP_VERSION& hav_orig = host_app_versions_orig[i];
@@ -688,8 +700,8 @@ int handle_wu(
 
                 // don't need to send any more results
                 //
-                for (i=0; i<items.size(); i++) {
-                    RESULT& result = items[i].res;
+                for (VALIDATOR_ITEM& vi: items) {
+                    RESULT& result = vi.res;
 
                     if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
                         continue;
@@ -733,7 +745,6 @@ int handle_wu(
     }
 
 leave:
-    --log_messages;
 
     switch (transition_time) {
     case IMMEDIATE:
@@ -751,7 +762,7 @@ leave:
     }
 
     wu.need_validate = 0;
-    
+
     if (dry_run) {
         log_messages.printf(MSG_NORMAL, "DB not updated (dry run)\n");
     } else {
@@ -847,7 +858,7 @@ void usage(char* name) {
     fprintf(stderr,
         "This program is a 'validator'; it handles completed tasks.\n"
         "Normally it is run as a daemon from config.xml.\n"
-        "See: https://boinc.berkeley.edu/trac/wiki/BackendPrograms\n\n"
+        "See: https://github.com/BOINC/boinc/wiki/BackendPrograms\n\n"
     );
 
     fprintf(stderr, "usage: %s [options]\n"
@@ -864,7 +875,7 @@ void usage(char* name) {
         "    [--credit_from_wu]         Credit is specified in WU XML\n"
         "    [--credit_from_runtime X]  Grant credit based on runtime (max X seconds)and estimated FLOPS\n"
         "    [--no_credit]              Don't grant credit\n"
-        "    [--check_punitive]         Check failed results and reduce the daily quota to one.\n"  
+        "    [--check_punitive]         Check failed results and reduce the daily quota to one.\n"
         "    [--sleep_interval n]       Set sleep-interval to n\n"
         "    [--wu_id n]                Process WU with given ID\n"
         "    [-d level|--debug_level n] Set log verbosity level\n"
@@ -948,7 +959,7 @@ int main(int argc, char** argv) {
             "must use '--app' to specify an application\n"
         );
         usage(argv[0]);
-        exit(1);      
+        exit(1);
     }
 
     retval = config.parse_file();
@@ -964,7 +975,7 @@ int main(int argc, char** argv) {
     );
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "boinc_db.open failed: %s\n", boincerror(retval)
+            "boinc_db.open failed: %s\n", boinc_db.error_string()
         );
         exit(1);
     }

@@ -16,6 +16,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once("../inc/forum_db.inc");
+require_once("../inc/text_transform.inc");
+
 function news_item($date, $title, $post) {
     echo "<p>";
     if ($title) {
@@ -47,13 +50,23 @@ function news_item($date, $title, $post) {
     ";
 }
 
+// a project can get in a state where it has forums named 'News'
+// that aren't linked to a category; ignore them
+//
 function news_forum() {
     if (defined("NEWS_FORUM_NAME")) {
         $forum_name = NEWS_FORUM_NAME;
     } else {
         $forum_name = "News";
     }
-    return BoincForum::lookup("parent_type=0 and title = '$forum_name'");
+    $forums = BoincForum::enum("parent_type=0 and title = '$forum_name'");
+    foreach ($forums as $forum) {
+        $cat = BoincCategory::lookup_id($forum->category);
+        if ($cat && $cat->is_helpdesk == 0) {
+            return $forum;
+        }
+    }
+    return null;
 }
 
 function is_news_forum($forum) {
@@ -73,13 +86,13 @@ function show_news($start, $count) {
         ";
         return;
     }
-    
+
     if (is_array($start)) {
         echo "You have not changed show_news() to use 0 instead of
             deprecated \$project_news as the first param.";
         return;
     }
-    
+
     $lim = "";
     if ($start) {
         if ($count) {
@@ -118,5 +131,4 @@ function show_news($start, $count) {
     ";
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

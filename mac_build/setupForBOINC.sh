@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/zsh
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2017 University of California
+# Copyright (C) 2025 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -20,7 +20,7 @@
 #
 # Master script to build Universal Binary libraries needed by BOINC:
 # curl-7.47.1 with c-ares-1.10.0, openssl-1.1.0, wxWidgets-3.0.0,
-# sqlite-3.11.0, FreeType-2.4.10 and FTGL-2.1.3
+# sqlite-3.11.0, FreeType-2.4.10, FTGL-2.1.3 and libzip-1.11.4
 #
 # by Charlie Fenton 7/21/06
 # Updated 10/18/11 for OS 10.7 lion and XCode 4.2
@@ -39,6 +39,8 @@
 # Updated 1/6/16 for curl 7.46.0, openssl 1.0.2e, sqlite 3.9.2, FreeType-2.6.2
 # Updated 3/2/16 for curl 7.47.1, openssl 1.0.2g, sqlite 3.11.0
 # Updated 9/10/16 for c-ares 1.11.0, curl 7.50.2, openssl 1.1.0
+# Updated 6/25/23 to download inflate libraries if needed
+# Updated 9/25/25 for libzip-1.11.4
 #
 # Download these seven packages and place them in a common parent directory
 # with the BOINC source tree.
@@ -64,15 +66,59 @@ caresOK="NO"
 curlOK="NO"
 opensslOK="NO"
 wxWidgetsOK="NO"
-sqlite3OK="NO"
 freetypeOK="NO"
 ftglOK="NO"
+zipOK="NO"
 finalResult=0
 
 SCRIPT_DIR=`pwd`
 
 # this will pull in the variables used below
 source "${SCRIPT_DIR}/dependencyNames.sh"
+
+# Dowload and expand libraries if needed
+for rootName in "openssl" "cares" "curl" "wxWidgets" "freetype" "ftgl" "zip"
+do
+    dirVar="${rootName}DirName"
+    fileVar="${rootName}FileName"
+    urlVar="${rootName}URL"
+    # Test whether shell is zsh or bash
+    if [ -z "${BASH_VERSINFO}" ]; then
+        # zsh commands
+        dirName="${(P)dirVar}"
+        fileName="${(P)fileVar}"
+        URLString="${(P)urlVar}"
+    else
+        # bash commands
+        dirName="${!dirVar}"
+        fileName="${!fileVar}"
+        URLString="${!urlVar}"
+    fi
+
+    cd ../../
+    echo
+    if [ -d "${dirName}" ]; then
+    echo `pwd`"/${dirName}"" already present"
+    else
+        if [ -e "${fileName}" ]; then
+            echo `pwd`"/""${fileName}"" already present"
+        else
+            echo "Downloading ""${fileName}"" to "`pwd`"/"
+            curl -L -O "${URLString}"
+            echo
+        fi
+            echo "Expanding ""${fileName}"" to ""${dirName}" in `pwd`"/"
+        tar -xf "${fileName}"
+        if [ $? -ne 0 ]; then
+            echo;echo "**************************************"
+            echo "ERROR: can't expand " "${dirName}"
+            echo "**************************************";echo
+            cd "${SCRIPT_DIR}"
+            return 1
+        fi
+    fi
+    cd "${SCRIPT_DIR}"
+done
 
 echo ""
 echo "----------------------------------"
@@ -140,22 +186,6 @@ cd "${SCRIPT_DIR}"
 
 echo ""
 echo "----------------------------------"
-echo "---------- BUILD sqlite ----------"
-echo "----------------------------------"
-echo ""
-
-cd "../../${sqliteDirName}"
-if [  $? -eq 0 ]; then
-    source "${SCRIPT_DIR}/buildsqlite3.sh" ${cleanit}
-    if [  $? -eq 0 ]; then
-        sqlite3OK="YES"
-    fi
-fi
-
-cd "${SCRIPT_DIR}"
-
-echo ""
-echo "----------------------------------"
 echo "--------- BUILD FreeType ---------"
 echo "----------------------------------"
 echo ""
@@ -185,6 +215,31 @@ if [  $? -eq 0 ]; then
 fi
 
 cd "${SCRIPT_DIR}"
+
+if [ -x /usr/local/bin/ccmake ]; then
+    echo ""
+    echo "----------------------------------"
+    echo "----------- BUILD ZIP -----------"
+    echo "----------------------------------"
+    echo ""
+
+    cd "../../${zipDirName}"
+    if [  $? -eq 0 ]; then
+        source "${SCRIPT_DIR}/buildlibzip.sh" ${cleanit}
+        if [  $? -eq 0 ]; then
+            zipOK="YES"
+        fi
+    fi
+
+    cd "${SCRIPT_DIR}"
+else
+    echo ""
+    echo "----------------------------------"
+    echo "--- TO BUILD ZIP PLEASE INSTALL --"
+    echo "----  CMAKE COMMAND-LINE TOOLS ----"
+    echo "----------------------------------"
+    echo ""
+fi
 
 if [ "${caresOK}" = "NO" ]; then
     echo ""
@@ -234,18 +289,6 @@ if [ "${wxWidgetsOK}" = "NO" ]; then
     finalResult=$[ finalResult | 8 ]
 fi
 
-if [ "${sqlite3OK}" = "NO" ]; then
-    echo ""
-    echo "----------------------------------"
-    echo "------------ WARNING -------------"
-    echo "------------         -------------"
-    echo "-- COULD NOT BUILD ${sqliteDirName} -"
-    echo "----------------------------------"
-    echo ""
-
-    finalResult=$[ finalResult | 16 ]
-fi
-
 if [ "${freetypeOK}" = "NO" ]; then
     echo ""
     echo "-----------------------------------"
@@ -268,6 +311,18 @@ if [ "${ftglOK}" = "NO" ]; then
     echo ""
 
     finalResult=$[ finalResult | 64 ]
+fi
+
+if [ "${zipOK}" = "NO" ]; then
+    echo ""
+    echo "-----------------------------------"
+    echo "------------ WARNING --------------"
+    echo "------------         --------------"
+    echo "- COULD NOT BUILD ${zipDirName} --"
+    echo "-----------------------------------"
+    echo ""
+
+    finalResult=$[ finalResult | 128 ]
 fi
 
 echo ""

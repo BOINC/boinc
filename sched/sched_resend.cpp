@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -28,10 +28,10 @@
 
 #include <cstdlib>
 #include <cstring>
+#include <ctime>
 #include <string>
 
 #include "error_numbers.h"
-
 #include "sched_check.h"
 #include "sched_config.h"
 #include "sched_customize.h"
@@ -43,13 +43,8 @@
 #include "sched_types.h"
 #include "sched_util.h"
 #include "sched_version.h"
-
 #include "sched_resend.h"
-
-
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
+#include "boinc_stdio.h"
 
 // Assign a new deadline for the result;
 // if it's not likely to complete by this time, return nonzero.
@@ -80,7 +75,7 @@ static int possibly_give_result_new_deadline(
         }
         return 1;
     }
-    
+
     // update result with new report time and sent time
     //
     if (config.debug_resend) {
@@ -104,7 +99,6 @@ static int possibly_give_result_new_deadline(
 bool resend_lost_work() {
     SCHED_DB_RESULT result;
     std::vector<DB_RESULT>results;
-    unsigned int i;
     char buf[256];
     char warning_msg[256];
     bool did_any = false;
@@ -124,8 +118,7 @@ bool resend_lost_work() {
         }
 
         bool found = false;
-        for (i=0; i<g_request->other_results.size(); i++) {
-            OTHER_RESULT& orp = g_request->other_results[i];
+        for (const OTHER_RESULT& orp: g_request->other_results) {
             if (!strcmp(orp.name, result.name)) {
                 found = true;
                 break;
@@ -254,7 +247,16 @@ bool resend_lost_work() {
             );
             g_reply->insert_message(warning_msg, "low");
         } else {
-            retval = add_result_to_reply(result, wu, bavp, false);
+            HOST_USAGE hu;
+            BUDA_VARIANT *bvp = NULL;
+            if (is_buda(wu)) {
+                if (!choose_buda_variant(wu, -1, &bvp, hu)) {
+                    continue;
+                }
+            } else {
+                hu = bavp->host_usage;
+            }
+            retval = add_result_to_reply(result, wu, bavp, hu, bvp, false);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
                     "[HOST#%lu] failed to send [RESULT#%lu]\n",
@@ -277,7 +279,7 @@ bool resend_lost_work() {
     if (num_eligible_to_resend && config.debug_resend) {
         log_messages.printf(MSG_NORMAL,
             "[resend] [HOST#%lu] %d lost results, resent %d\n",
-            g_reply->host.id, num_eligible_to_resend, num_resent 
+            g_reply->host.id, num_eligible_to_resend, num_resent
         );
     }
 

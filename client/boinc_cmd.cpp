@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2019 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,11 +20,8 @@
 //
 // usage: boinccmd [--host hostname] [--passwd passwd] command
 
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
-#include "boinc_win.h"
-#endif
-
 #ifdef _WIN32
+#include "boinc_win.h"
 #include "win_util.h"
 #else
 #include "config.h"
@@ -77,10 +74,19 @@ Commands:\n\
  --get_notices [ seqno ]            show notices > seqno\n\
  --get_project_config URL\n\
  --get_project_status               show status of all attached projects\n\
+ --get_project_urls                 show master URLs of all attached projects\n\
  --get_proxy_settings\n\
  --get_simple_gui_info              show status of projects and active tasks\n\
  --get_state                        show entire state\n\
- --get_tasks                        show tasks\n\
+ --get_tasks                        show tasks (detailed)\n\
+ --get_task_summary [pcedsrw]       show tasks (1 task per line)\n\
+    p: project name\n\
+    c: completion %%\n\
+    e: elapsed time\n\
+    d: deadline\n\
+    s: status\n\
+    r: resource usage\n\
+    w: WU name\n\
  --get_old_tasks                    show reported tasks from last 1 hour\n\
  --join_acct_mgr URL name passwd    same as --acct_mgr attach\n\
  --lookup_account URL email passwd\n\
@@ -92,7 +98,12 @@ Commands:\n\
  --quit_acct_mgr                    same as --acct_mgr detach\n\
  --read_cc_config\n\
  --read_global_prefs_override\n\
+ --reset_host_info                  have client get mem size, #CPUs etc. again\n\
  --run_benchmarks\n\
+ --run_graphics_app id op         (Macintosh only) run, test or stop graphics app\n\
+   op = run | runfullscreen | stop | test\n\
+   id = slot # for run or runfullscreen, process ID for stop or test\n\
+   id = -1 for default screensaver (boincscr)\n\
  --set_gpu_mode mode duration       set GPU run mode for given duration\n\
    mode = always | auto | never\n\
  --set_host_info product_name\n\
@@ -112,7 +123,6 @@ char* next_arg(int argc, char** argv, int& i) {
     if (i >= argc) {
         fprintf(stderr, "Missing command-line argument\n");
         usage();
-        exit(1);
     }
     return argv[i++];
 }
@@ -162,20 +172,204 @@ void acct_mgr_do_rpc(
     }
 }
 
+// Get messages from client, and show any that are USER_ALERT priority.
+// Intended use: show user that GUI RPCs are not password-protected.
+// For now, do this after attach to project or AM
+//
+void show_alerts(RPC_CLIENT &rpc) {
+    MESSAGES messages;
+    int retval = rpc.get_messages(0, messages);
+    if (retval) {
+        fprintf(stderr, "Can't get alerts from client: %s\n",
+            boincerror(retval)
+        );
+        return;
+    }
+    for (MESSAGE* md: messages.messages) {
+        if (md->priority != MSG_USER_ALERT) continue;
+        if (!md->project.empty()) continue;
+        strip_whitespace(md->body);
+        fprintf(stderr, "\nAlert from client: %s\n",
+            md->body.c_str()
+        );
+    }
+}
+
+////////////// --get_task_summary start ////////////////
+
+typedef vector<const char*> STR_LIST;
+
+// given: a list of lines, each consisting of n columns
+// for each column: find the longest entry.
+// Then display the lines so the columns line up.
+//
+void show_str_lists(vector<STR_LIST> &lines, size_t ncols) {
+    vector<int> lengths;
+    size_t i;
+    for (i=0; i<ncols; i++) {
+        size_t max = 0;
+        for (const STR_LIST& s: lines) {
+            max = std::max(max, strlen(s[i]));
+        }
+        lengths.push_back(static_cast<int>(max));
+    }
+    for (const STR_LIST &line : lines) {
+        for (i=0; i<ncols; i++) {
+            printf("%-*s  ", lengths[i], line[i]);
+        }
+        printf("\n");
+    }
+}
+
+// given
+// show list of tasks, 1 line per task,
+// similar to the Manager's Tasks pane
+// fields per task:
+// p: project name
+// c: completion %
+// e: elapsed time
+// d: deadline
+// s: status
+// r: resource usage
+// w: WU name
+//
+
+struct RESULT_INFO {
+    char project_name[256];
+    char pct_done[256];
+    char elapsed_time[256];
+    char deadline[256];
+    char status[256];
+    char resource_usage[256];
+    char wu_name[256];
+};
+#define NCOLS 7
+
+void check_task_options(string &options) {
+    for (char opt: options) {
+        switch (opt) {
+        case 'p':
+        case 'c':
+        case 'e':
+        case 'd':
+        case 's':
+        case 'r':
+        case 'w':
+            break;
+        default:
+            printf("Invalid options %s\n", options.c_str());
+            printf("Options:\n"
+                "   p: project name\n"
+                "   c: completion %%\n"
+                "   e: elapsed time\n"
+                "   d: deadline\n"
+                "   s: status\n"
+                "   r: processor usage\n"
+                "   w: workunit name\n"
+            );
+            exit(1);
+        }
+    }
+}
+
+int show_task_summary(RPC_CLIENT &rpc, const string &options) {
+    PROJECTS ps;    // need for project names
+    RESULTS results;
+    int retval = rpc.get_results(results);
+    if (retval) return retval;
+    vector<STR_LIST> lines;
+    STR_LIST title;
+
+    bool projects = false;
+    for (char opt: options) {
+        switch(opt) {
+        case 'p': title.push_back("Project"); projects = true; break;
+        case 'c': title.push_back("% Done"); break;
+        case 'e': title.push_back("Elapsed"); break;
+        case 'd': title.push_back("Deadline"); break;
+        case 's': title.push_back("Status"); break;
+        case 'r': title.push_back("Procs"); break;
+        case 'w': title.push_back("WU name"); break;
+        }
+    }
+    lines.push_back(title);
+    if (projects) {
+        retval = rpc.get_project_status(ps);
+        if (retval) return retval;
+    }
+    for (RESULT* r: results.results) {
+        RESULT_INFO* ri = new RESULT_INFO;
+        STR_LIST line;
+        for (char opt2: options) {
+            switch(opt2) {
+            case 'p':
+                strcpy(ri->project_name, r->project_url);
+                for (PROJECT* p: ps.projects) {
+                    if (!strcmp(p->master_url, r->project_url)) {
+                        strcpy(ri->project_name, p->project_name.c_str());
+                        break;
+                    }
+                }
+                line.push_back(ri->project_name);
+                break;
+            case 'c':
+                if (r->scheduler_state > CPU_SCHED_UNINITIALIZED) {
+                    sprintf(ri->pct_done, "%.2f%%", r->fraction_done*100);
+                } else {
+                    strcpy(ri->pct_done, "---");
+                }
+                line.push_back(ri->pct_done);
+                break;
+            case 'e':
+                if (r->scheduler_state > CPU_SCHED_UNINITIALIZED) {
+                    strcpy(ri->elapsed_time, timediff_format(r->elapsed_time).c_str());
+                } else {
+                    strcpy(ri->elapsed_time, "---");
+                }
+                line.push_back(ri->elapsed_time);
+                break;
+            case 'd':
+                strcpy(ri->deadline, time_to_string(r->report_deadline));
+                line.push_back(ri->deadline);
+                break;
+            case 's':
+                strcpy(ri->status, active_task_state_string(r->active_task_state));
+                downcase_string(ri->status);
+                line.push_back(ri->status);
+                break;
+            case 'r':
+                strcpy(ri->resource_usage, strlen(r->resources)?r->resources:"1 CPU");
+                line.push_back(ri->resource_usage);
+                break;
+            case 'w':
+                strcpy(ri->wu_name, r->wu_name);
+                line.push_back(ri->wu_name);
+                break;
+            }
+        }
+        lines.push_back(line);
+    }
+    show_str_lists(lines, options.length());
+    return 0;
+}
+
+////////////// --get_task_summary end ////////////////
+
 int main(int argc, char** argv) {
     RPC_CLIENT rpc;
     int i, retval, port=0;
     MESSAGES messages;
     NOTICES notices;
     char passwd_buf[256], hostname_buf[256], *hostname=0;
-    char* passwd = passwd_buf, *p, *q;
+    char* passwd=0, *p, *q;
     bool unix_domain = false;
+    string msg;
 
 #ifdef _WIN32
     chdir_to_data_dir();
+#elif defined(__APPLE__)
+    chdir("/Library/Application Support/BOINC Data");
 #endif
-    safe_strcpy(passwd_buf, "");
-    read_gui_rpc_password(passwd_buf);
 
 #if defined(_WIN32) && defined(USE_WINSOCK)
     WSADATA wsdata;
@@ -185,6 +379,11 @@ int main(int argc, char** argv) {
         exit(1);
     }
 #endif
+
+    // parse command line.
+    // TODO: do this the right way.
+    // shouldn't require args to be in a particular order.
+
     if (argc < 2) usage();
     i = 1;
     if (!strcmp(argv[i], "--help")) usage();
@@ -236,6 +435,16 @@ int main(int argc, char** argv) {
         i++;
     }
     if (i == argc) usage();
+
+    if (!passwd) {
+        passwd = passwd_buf;
+        safe_strcpy(passwd_buf, "");
+        retval = read_gui_rpc_password(passwd_buf, msg);
+        if (retval) {
+            fprintf(stderr, "Can't get RPC password: %s\n", msg.c_str());
+            fprintf(stderr, "Only operations not requiring authorization will be allowed.\n");
+        }
+    }
 
     // change the following to debug GUI RPC's asynchronous connection mechanism
     //
@@ -293,12 +502,20 @@ int main(int argc, char** argv) {
         RESULTS results;
         retval = rpc.get_results(results);
         if (!retval) results.print();
+    } else if (!strcmp(cmd, "--get_task_summary")) {
+        string options;
+        if (i<argc) {
+            options = string(argv[i]);
+            check_task_options(options);
+        } else {
+            options = string("pcedsrw");
+        }
+        retval = show_task_summary(rpc, options);
     } else if (!strcmp(cmd, "--get_old_tasks")) {
         vector<OLD_RESULT> ors;
         retval = rpc.get_old_results(ors);
         if (!retval) {
-            for (unsigned int j=0; j<ors.size(); j++) {
-                OLD_RESULT& o = ors[j];
+            for (const OLD_RESULT& o: ors) {
                 o.print();
             }
         }
@@ -373,7 +590,8 @@ int main(int argc, char** argv) {
         safe_strcpy(url, next_arg(argc, argv, i));
         canonicalize_master_url(url, sizeof(url));
         char* auth = next_arg(argc, argv, i);
-        retval = rpc.project_attach(url, auth, "");
+        retval = rpc.project_attach(url, auth, "", "");
+        show_alerts(rpc);
     } else if (!strcmp(cmd, "--file_transfer")) {
         FILE_TRANSFER ft;
 
@@ -423,7 +641,6 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(cmd, "--set_host_info")) {
         HOST_INFO h;
-        memset(&h, 0, sizeof(h));
         char* pn = next_arg(argc, argv, i);
         safe_strcpy(h.product_name, pn);
         retval = rpc.set_host_info(h);
@@ -478,16 +695,14 @@ int main(int argc, char** argv) {
         }
         retval = rpc.get_messages(seqno, messages);
         if (!retval) {
-            unsigned int j;
-            for (j=0; j<messages.messages.size(); j++) {
-                MESSAGE& md = *messages.messages[j];
-                strip_whitespace(md.body);
+            for (MESSAGE* md: messages.messages) {
+                strip_whitespace(md->body);
                 printf("%d: %s (%s) [%s] %s\n",
-                    md.seqno,
-                    time_to_string(md.timestamp),
-                    prio_name(md.priority),
-                    md.project.c_str(),
-                    md.body.c_str()
+                    md->seqno,
+                    time_to_string(md->timestamp),
+                    prio_name(md->priority),
+                    md->project.c_str(),
+                    md->body.c_str()
                 );
             }
         }
@@ -500,14 +715,12 @@ int main(int argc, char** argv) {
         }
         retval = rpc.get_notices(seqno, notices);
         if (!retval) {
-            unsigned int j;
-            for (j=0; j<notices.notices.size(); j++) {
-                NOTICE& n = *notices.notices[j];
-                strip_whitespace(n.description);
+            for (NOTICE *n: notices.notices) {
+                strip_whitespace(n->description);
                 printf("%d: (%s) %s\n",
-                    n.seqno,
-                    time_to_string(n.create_time),
-                    n.description.c_str()
+                    n->seqno,
+                    time_to_string(n->create_time),
+                    n->description.c_str()
                 );
             }
         }
@@ -522,6 +735,7 @@ int main(int argc, char** argv) {
             char* am_name = next_arg(argc, argv, i);
             char* am_passwd = next_arg(argc, argv, i);
             acct_mgr_do_rpc(rpc, am_url, am_name, am_passwd);
+            show_alerts(rpc);
         } else if (!strcmp(op, "info")) {
             ACCT_MGR_INFO ami;
             retval = rpc.acct_mgr_info(ami);
@@ -542,6 +756,14 @@ int main(int argc, char** argv) {
         retval = rpc.acct_mgr_rpc("", "", "");
     } else if (!strcmp(cmd, "--run_benchmarks")) {
         retval = rpc.run_benchmarks();
+#ifdef __APPLE__
+    } else if (!strcmp(cmd, "--run_graphics_app")) {
+        int operand = atoi(argv[2]);
+        retval = rpc.run_graphics_app(argv[3], operand, getlogin());
+        if (!strcmp(argv[3], "test") & !retval) {
+            printf("pid: %d\n", operand);
+        }
+#endif
     } else if (!strcmp(cmd, "--get_project_config")) {
         char* gpc_url = next_arg(argc, argv,i);
         retval = rpc.get_project_config(string(gpc_url));
@@ -619,6 +841,8 @@ int main(int argc, char** argv) {
     } else if (!strcmp(cmd, "--read_cc_config")) {
         retval = rpc.read_cc_config();
         printf("retval %d\n", retval);
+    } else if (!strcmp(cmd, "--reset_host_info")) {
+        retval = rpc.reset_host_info();
     } else if (!strcmp(cmd, "--network_available")) {
         retval = rpc.network_available();
     } else if (!strcmp(cmd, "--set_app_config")) {

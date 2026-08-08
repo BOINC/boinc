@@ -1,4 +1,4 @@
-#! /bin/csh 
+#! /bin/csh
 
 set SIZE = `du -sk $1 | awk '{print $1*1024}'`
 

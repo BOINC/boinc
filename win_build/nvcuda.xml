@@ -185,91 +185,67 @@
       Name="Arch1"
       HelpContext="0"
       DisplayName="GPU Architecture (1)"
-      Description="Select GPU architecture (1) to use on the command line (-arch sm_10, sm_11, sm_12, sm_13, sm_20)">
+      Description="Select GPU architecture (1) to use on the command line (-arch sm_80, sm_90, sm_100)">
       <EnumValue
         Name="0"
         DisplayName="0"
         Switch="" />
       <EnumValue
-        Name="10"
-        DisplayName="sm_10"
-        Switch="-gencode=arch=compute_10,code=\&quot;sm_10,compute_10\&quot;" />
+        Name="80"
+        DisplayName="sm_80"
+        Switch="-gencode=arch=compute_80,code=\&quot;sm_80,compute_80\&quot;" />
       <EnumValue
-        Name="11"
-        DisplayName="sm_11"
-        Switch="-gencode=arch=compute_11,code=\&quot;sm_11,compute_11\&quot;" />
+        Name="90"
+        DisplayName="sm_90"
+        Switch="-gencode=arch=compute_90,code=\&quot;sm_90,compute_90\&quot;" />
       <EnumValue
-        Name="12"
-        DisplayName="sm_12"
-        Switch="-gencode=arch=compute_12,code=\&quot;sm_12,compute_12\&quot;" />
-      <EnumValue
-        Name="13"
-        DisplayName="sm_13"
-        Switch="-gencode=arch=compute_13,code=\&quot;sm_13,compute_13\&quot;" />
-      <EnumValue
-        Name="20"
-        DisplayName="sm_20"
-        Switch="-gencode=arch=compute_20,code=\&quot;sm_20,compute_20\&quot;" />
+        Name="100"
+        DisplayName="sm_100"
+        Switch="-gencode=arch=compute_100,code=\&quot;sm_100,compute_100\&quot;" />
     </EnumProperty>
     <EnumProperty
       Name="Arch2"
       HelpContext="0"
       DisplayName="GPU Architecture (2)"
-      Description="Select GPU architecture (2) to use on the command line (-arch sm_10, sm_11, sm_12, sm_13, sm_20)">
+      Description="Select GPU architecture (2) to use on the command line (-arch sm_80, sm_90, sm_100)">
       <EnumValue
         Name="0"
         DisplayName="0"
         Switch="" />
       <EnumValue
-        Name="10"
-        DisplayName="sm_10"
-        Switch="-gencode=arch=compute_10,code=\&quot;sm_10,compute_10\&quot;" />
+        Name="80"
+        DisplayName="sm_80"
+        Switch="-gencode=arch=compute_80,code=\&quot;sm_80,compute_80\&quot;" />
       <EnumValue
-        Name="11"
-        DisplayName="sm_11"
-        Switch="-gencode=arch=compute_11,code=\&quot;sm_11,compute_11\&quot;" />
+        Name="90"
+        DisplayName="sm_90"
+        Switch="-gencode=arch=compute_90,code=\&quot;sm_90,compute_90\&quot;" />
       <EnumValue
-        Name="12"
-        DisplayName="sm_12"
-        Switch="-gencode=arch=compute_12,code=\&quot;sm_12,compute_12\&quot;" />
-      <EnumValue
-        Name="13"
-        DisplayName="sm_13"
-        Switch="-gencode=arch=compute_13,code=\&quot;sm_13,compute_13\&quot;" />
-      <EnumValue
-        Name="20"
-        DisplayName="sm_20"
-        Switch="-gencode=arch=compute_20,code=\&quot;sm_20,compute_20\&quot;" />
+        Name="100"
+        DisplayName="sm_100"
+        Switch="-gencode=arch=compute_100,code=\&quot;sm_100,compute_100\&quot;" />
     </EnumProperty>
     <EnumProperty
       Name="Arch3"
       HelpContext="0"
       DisplayName="GPU Architecture (3)"
-      Description="Select GPU architecture (3) to use on the command line (-arch sm_10, sm_11, sm_12, sm_13, sm_20)">
+      Description="Select GPU architecture (3) to use on the command line (-arch sm_80, sm_90, sm_100)">
       <EnumValue
         Name="0"
         DisplayName="0"
         Switch="" />
       <EnumValue
-        Name="10"
-        DisplayName="sm_10"
-        Switch="-gencode=arch=compute_10,code=\&quot;sm_10,compute_10\&quot;" />
+        Name="80"
+        DisplayName="sm_80"
+        Switch="-gencode=arch=compute_80,code=\&quot;sm_80,compute_80\&quot;" />
       <EnumValue
-        Name="11"
-        DisplayName="sm_11"
-        Switch="-gencode=arch=compute_11,code=\&quot;sm_11,compute_11\&quot;" />
+        Name="90"
+        DisplayName="sm_90"
+        Switch="-gencode=arch=compute_90,code=\&quot;sm_90,compute_90\&quot;" />
       <EnumValue
-        Name="12"
-        DisplayName="sm_12"
-        Switch="-gencode=arch=compute_12,code=\&quot;sm_12,compute_12\&quot;" />
-      <EnumValue
-        Name="13"
-        DisplayName="sm_13"
-        Switch="-gencode=arch=compute_13,code=\&quot;sm_13,compute_13\&quot;" />
-      <EnumValue
-        Name="20"
-        DisplayName="sm_20"
-        Switch="-gencode=arch=compute_20,code=\&quot;sm_20,compute_20\&quot;" />
+        Name="100"
+        DisplayName="sm_100"
+        Switch="-gencode=arch=compute_100,code=\&quot;sm_100,compute_100\&quot;" />
     </EnumProperty>
     <EnumProperty
       Name="CompilerPath"

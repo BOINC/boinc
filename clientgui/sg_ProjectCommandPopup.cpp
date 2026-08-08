@@ -38,9 +38,9 @@ END_EVENT_TABLE()
 
 CSimpleProjectCommandPopupButton::CSimpleProjectCommandPopupButton() {
 }
-        
-CSimpleProjectCommandPopupButton::CSimpleProjectCommandPopupButton(wxWindow* parent, wxWindowID id, 
-        const wxString& label, const wxPoint& pos, const wxSize& size, 
+
+CSimpleProjectCommandPopupButton::CSimpleProjectCommandPopupButton(wxWindow* parent, wxWindowID id,
+        const wxString& label, const wxPoint& pos, const wxSize& size,
         long style, const wxValidator& validator, const wxString& name) :
         CTransparentButton(parent, id, label, pos, size, style, validator, name)
     {
@@ -48,12 +48,12 @@ CSimpleProjectCommandPopupButton::CSimpleProjectCommandPopupButton(wxWindow* par
     m_ProjectCommandsPopUpMenu = new wxMenu();
     AddMenuItems();
     Connect(
-        id, 
+        id,
         wxEVT_BUTTON,
         (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction) &CSimpleProjectCommandPopupButton::OnProjectCommandsKeyboardNav
     );
 }
-        
+
 
 CSimpleProjectCommandPopupButton::~CSimpleProjectCommandPopupButton() {
     delete m_ProjectCommandsPopUpMenu;
@@ -62,13 +62,13 @@ CSimpleProjectCommandPopupButton::~CSimpleProjectCommandPopupButton() {
 
 void CSimpleProjectCommandPopupButton::AddMenuItems() {
     m_UpdateProjectMenuItem = m_ProjectCommandsPopUpMenu->Append(
-        ID_TASK_PROJECT_UPDATE, 
+        ID_TASK_PROJECT_UPDATE,
         _("Update"),
         _("Report all completed tasks, get latest credit, get latest preferences, and possibly get more tasks.")
     );
 
     m_SuspendResumeMenuItem = m_ProjectCommandsPopUpMenu->Append(
-        ID_TASK_PROJECT_SUSPEND, 
+        ID_TASK_PROJECT_SUSPEND,
         _("Suspend"),
         _("Suspend tasks for this project.")
     );
@@ -111,10 +111,10 @@ void CSimpleProjectCommandPopupButton::OnProjectCommandsKeyboardNav(wxCommandEve
 
 void CSimpleProjectCommandPopupButton::ShowProjectCommandsMenu(wxPoint pos) {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
-    
+
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    
+
     ProjectSelectionData*  selData = ((CSimpleProjectPanel*)GetParent())->GetProjectSelectionData();
     if (selData == NULL) return;
     char* ctrl_url = selData->project_url;
@@ -136,7 +136,7 @@ void CSimpleProjectCommandPopupButton::ShowProjectCommandsMenu(wxPoint pos) {
         m_NoNewTasksMenuItem->SetItemLabel(_("No new tasks"));
         m_NoNewTasksMenuItem->SetHelp(_("Don't fetch new tasks for this project."));
     }
-    
+
     m_RemoveProjectMenuItem->Enable(!project->attached_via_acct_mgr);
 
 #ifdef __WXMAC__
@@ -208,7 +208,7 @@ void CSimpleProjectCommandPopupButton::OnProjectNoNewWork(wxCommandEvent& WXUNUS
 
 void CSimpleProjectCommandPopupButton::OnResetProject(wxCommandEvent& WXUNUSED(event)) {
     int             projectIndex;
-    wxInt32         iAnswer        = 0; 
+    wxInt32         iAnswer        = 0;
     wxString        strMessage     = wxEmptyString;
     CMainDocument*  pDoc     = wxGetApp().GetDocument();
 
@@ -226,7 +226,7 @@ void CSimpleProjectCommandPopupButton::OnResetProject(wxCommandEvent& WXUNUSED(e
 
     wxString projname(project->project_name.c_str(), wxConvUTF8);
     strMessage.Printf(
-        _("Are you sure you want to reset project '%s'?"), 
+        _("Are you sure you want to reset project '%s'?"),
         projname.c_str()
     );
 
@@ -245,7 +245,7 @@ void CSimpleProjectCommandPopupButton::OnResetProject(wxCommandEvent& WXUNUSED(e
 
 void CSimpleProjectCommandPopupButton::OnProjectDetach(wxCommandEvent& WXUNUSED(event)) {
     int             projectIndex;
-    wxInt32         iAnswer        = 0; 
+    wxInt32         iAnswer        = 0;
     wxString        strMessage     = wxEmptyString;
     CMainDocument*  pDoc     = wxGetApp().GetDocument();
 
@@ -263,7 +263,7 @@ void CSimpleProjectCommandPopupButton::OnProjectDetach(wxCommandEvent& WXUNUSED(
 
     wxString projname(project->project_name.c_str(), wxConvUTF8);
     strMessage.Printf(
-        _("Are you sure you want to remove project '%s'?"), 
+        _("Are you sure you want to remove project '%s'?"),
         projname.c_str()
     );
 
@@ -291,7 +291,7 @@ void CSimpleProjectCommandPopupButton::OnProjectShowProperties(wxCommandEvent& W
     char* ctrl_url = selData->project_url;
     PROJECT* project = pDoc->state.lookup_project(ctrl_url);
     if (!project) return;
-    
+
     CDlgItemProperties dlg(this);
     dlg.renderInfos(project);
     dlg.ShowModal();

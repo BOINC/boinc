@@ -1,0 +1,3 @@
+您可以使用手機或平板電腦來研究疾病，預測全球暖化，或發現的脈衝星！BOINC會利用您的Android裝置上閒置的運算能力運行科學研究專案。您可以選擇許多來自各領域所主持的科學專案，包括Asteroids@home，Einstein@home，LHC@home，Moo!Wrapper，Rosetta@home，Universe@home，World Community Grid，Yoyo@home。
+
+BOINC會在您的裝置在與其他設備連接或充電時，才會啟動運算，所以不會使用到您的電池。並且它可以透過WiFi傳輸數據，亦不會使用您手機的行動網路。

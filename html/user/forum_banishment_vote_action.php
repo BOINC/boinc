@@ -48,6 +48,7 @@ if (!post_str('action', true)) {
 
 $userid = post_int('userid');
 $user=BoincUser::lookup_id($userid);
+if (!$user) error_page('No such user');
 
 if ($action!="start"){
     error_page("Unknown action");
@@ -71,5 +72,4 @@ if (post_str('reason', true)){
     start_vote($config,$logged_in_user,$user, $mod_category,"None given");
 }
 
-$cvs_version_tracker[]="\$Id: forum_moderate_post_action.php 13718 2007-09-30 11:17:11Z Rytis $";  //Generated automatically - do not edit
 ?>

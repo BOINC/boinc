@@ -1,0 +1,137 @@
+# BOINC setup localization template
+# Copyright (C) 2025 University of California
+# 
+# This file is distributed under the same license as BOINC.
+# 
+# Translators:
+# An Nguyễn Hoàng <annguyensieu@gmail.com>, 2020
+# e545429e7ca8f0c61aef02ac17a16244_515f1f4 <257f4989a1000ed4bc6dbdc56b0ae5b4_1008485>, 2021
+# Minh Phan, 2022
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2025-02-09 02:28 UTC\n"
+"PO-Revision-Date: 2015-02-08 15:29+0000\n"
+"Last-Translator: Minh Phan, 2022\n"
+"Language-Team: Vietnamese (http://app.transifex.com/boinc/boinc/language/vi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: mac_installer/Installer.cpp:93 mac_installer/PostInstall.cpp:213
+#: mac_installer/uninstall.cpp:116
+#, c-format
+msgid "Branding array has too few entries: %s"
+msgstr "Mảng ghi dấu có quá ít danh mục: %s"
+
+#: mac_installer/Installer.cpp:103 mac_installer/PostInstall.cpp:220
+msgid "Could not get user login name"
+msgstr "Không thể lấy tên đăng nhập"
+
+#. Remove everything we've installed
+#. "\pSorry, this version of GridRepublic requires system 10.6 or higher."
+#: mac_installer/Installer.cpp:222 mac_installer/PostInstall.cpp:282
+#, c-format
+msgid "Sorry, this version of %s requires system %s or higher."
+msgstr "Rất tiếc, phiên bản này của %s yêu cầu hệ thống %s hoặc cao hơn."
+
+#: mac_installer/PostInstall.cpp:153 mac_installer/PostInstall.cpp:1462
+#: mac_installer/uninstall.cpp:1673
+msgid "Yes"
+msgstr "Có"
+
+#: mac_installer/PostInstall.cpp:154 mac_installer/PostInstall.cpp:1463
+#: mac_installer/uninstall.cpp:1674
+msgid "No"
+msgstr "Không"
+
+#. Future feature
+#: mac_installer/PostInstall.cpp:156
+msgid "Should BOINC run even when no user is logged in?"
+msgstr "BOINC có nên chạy kể cả khi chẳng có người dùng nào đăng nhập cả không?"
+
+#: mac_installer/PostInstall.cpp:1664
+#, c-format
+msgid ""
+"Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
+"\n"
+"Do you also want non-administrative users to be able to run and control %s on this Mac?"
+msgstr "Người dùng được phép quản trị máy tính này sẽ tự động được phép chạy và điều khiển %s.\n\nBạn cũng có muốn những người không phải là quản trị viên chạy và điều khiển %s trên máy Mac này không?"
+
+#: mac_installer/PostInstall.cpp:1698
+#, c-format
+msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
+msgstr "Bạn có muốn đặt %scho trình bảo vệ màn hình cho tất cả %s người dùng trên máy Mac này không?"
+
+#: mac_installer/PostInstall.cpp:2340
+msgid ""
+"BOINC can run project applications written for intel Macs if Rosetta 2 is installed.\n"
+"\n"
+"Do you want to install Rosetta 2 now?"
+msgstr "BOINC có thể chạy các ứng dụng dự án được viết cho máy Mac intel nếu đã cài đặt Rosetta 2.\n\nBạn có muốn cài đặt Rosetta 2 ngay bây giờ không?"
+
+#: mac_installer/uninstall.cpp:90
+msgid "OK"
+msgstr "OK"
+
+#. Confirm that we are running as root
+#: mac_installer/uninstall.cpp:155
+msgid "Permission error after relaunch"
+msgstr "Lỗi quyền truy cập sau khi khởi chạy lại"
+
+#: mac_installer/uninstall.cpp:160
+msgid ""
+"Removal may take several minutes.\n"
+"Please be patient."
+msgstr "Việc gở bỏ có thể mất vài phút.\nXin hãy kiên nhẫn."
+
+#: mac_installer/uninstall.cpp:176
+msgid "Error saving user name"
+msgstr "Lỗi khi lưu tên đăng nhập"
+
+#: mac_installer/uninstall.cpp:187
+#, c-format
+msgid ""
+"Are you sure you want to completely remove %s from your computer?\n"
+"\n"
+"This will remove the executables but will not touch %s data files."
+msgstr "Bạn có chắc chắn bạn muốn hoàn toàn gỡ %s khỏi máy tính?\n\nĐiều này sẽ xóa các tệp thực thi nhưng sẽ không động tới các file dữ liệu %s."
+
+#: mac_installer/uninstall.cpp:202
+#, c-format
+msgid "Canceled: %s has not been touched."
+msgstr "Đã hủy: %skhông được xử lí."
+
+#: mac_installer/uninstall.cpp:265
+msgid "name  of user"
+msgstr "tên của người dùng"
+
+#: mac_installer/uninstall.cpp:318
+msgid ""
+"Do you also want to remove VirtualBox from your computer?\n"
+"(VirtualBox was installed along with BOINC.)"
+msgstr "Bạn cũng có muốn gỡ bỏ VirtualBox khỏi máy luôn không?\n(VirtualBox đã được cài đặt theo cùng với BOINC.)"
+
+#: mac_installer/uninstall.cpp:356
+#, c-format
+msgid ""
+"Removal completed.\n"
+"\n"
+" You may want to remove the following remaining items using the Finder: \n"
+"the directory \"%s\"\n"
+"\n"
+"for each user, the file\n"
+"\"%s\"."
+msgstr "Gỡ bỏ hoàn tất.\n\nBạn cũng có thể gỡ bỏ các mục còn lại sau đây bằng cách dùng Finder:\nThư mục \"%s\"\n\ncho mỗi người dùng, file\n\"%s\"."
+
+#: mac_installer/uninstall.cpp:1671
+msgid "Cancel"
+msgstr "Huỷ bỏ"
+
+#: mac_installer/uninstall.cpp:1672
+msgid "Continue..."
+msgstr "Tiếp tục..."

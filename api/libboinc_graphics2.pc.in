@@ -1,0 +1,15 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: boinc_graphics2
+Description: BOINC graphics API
+Version: @PACKAGE_VERSION@
+URL: https://github.com/BOINC/boinc/wiki/GraphicsApps
+
+Cflags: -I${includedir}/boinc
+Cflags.private: @GLUT_CFLAGS@
+Libs: -L${libdir} -lboinc_graphics2
+Libs.private: -lm
+Requires.private: libjpeg

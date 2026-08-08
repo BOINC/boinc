@@ -41,5 +41,5 @@ inline std::string md5_string(std::string const& data) {
     return md5_string((const unsigned char*) data.c_str(), (int)data.size());
 }
 
-extern int make_random_string(char*);
+extern int make_secure_random_string_os(char*);
 #endif

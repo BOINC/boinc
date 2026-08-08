@@ -54,8 +54,8 @@ void BringAppWithPidToFront(pid_t pid) {
 
 pid_t getActiveAppPid() {
     NSArray * runningApps = [[NSWorkspace sharedWorkspace] runningApplications];
-    unsigned int i;
-    unsigned int n = [ runningApps count ];
+    unsigned long i;
+    unsigned long n = [ runningApps count ];
     for (i=0; i<n; i++) {
         NSRunningApplication * theApp = (NSRunningApplication *)[ runningApps objectAtIndex:i ];
         if ([ theApp isActive ]) {
@@ -171,7 +171,7 @@ int compareOSVersionTo(int toMajor, int toMinor) {
         p1 = strchr(vers, '.');
         minor = atoi(p1+1);
     }
-    
+
     if (major < toMajor) return -1;
     if (major > toMajor) return 1;
     // if (major == toMajor) compare minor version numbers

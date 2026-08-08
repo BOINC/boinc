@@ -1,21 +1,29 @@
 # fixes to dark-backround themes to increase legibility
+# link color: EA9185
+# possible banner: 5E8A7B
+# panel backgd: 464938
+# overall backgd:  393917
 
-body, navbar-text, panel, a:btn {
+body, navbar-text, panel {
     color:white;
 }
 
+.panel-body .table {
+    background-color: #303030;
+}
+
 table a:not(.btn), .table a:not(.btn), a:not(.btn) {
-    color: sandybrown;
+    color: #EA9185;
     text-decoration: none;
 }
 
 table a:hover, .table a:hover, a:hover {
-    color: sandybrown;
+    color:  #EA9185;
     text-decoration: underline;
 }
 
 table a:visited:not(.btn), .table a:visited:not(.btn), a:visited:not(.btn) {
-    color: sandybrown;
+    color:  #EA9185;
     text-decoration: underline;
 }
 
@@ -47,4 +55,8 @@ blockquote {
 pre, code {
     color:white;
     background-color: #333;
+}
+
+.select2-container {
+    color: #000;
 }

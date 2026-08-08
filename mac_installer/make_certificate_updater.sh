@@ -23,7 +23,7 @@
 ##
 ## Created 4/28/18 by Charlie Fenton
 ##
-## NOTE: this script must be run on an OS 10.5 or OS 10.6 system which has 
+## NOTE: this script must be run on an OS 10.5 or OS 10.6 system which has
 ## Xcode 3 and PackageMaker 3 installed.
 ##
 ## Usage:

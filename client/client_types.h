@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,9 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Structures representing jobs, files, etc.
+//
 // If you change anything, make sure you also change:
-// client_types.C         (to write and parse it)
-// client_state.C  (to cross-link objects)
+// client_types.cpp (to write and parse it)
+// client_state.cpp (to cross-link objects)
 //
 
 #ifndef BOINC_CLIENT_TYPES_H
@@ -99,7 +101,7 @@ struct URL_LIST {
 };
 
 struct FILE_INFO {
-    char name[256];
+    char name[256];         // physical name
     char md5_cksum[MD5_LEN];
     double max_nbytes;
     double nbytes;
@@ -153,6 +155,7 @@ struct FILE_INFO {
     void failure_message(std::string&);
     int merge_info(FILE_INFO&);
     int verify_file(bool, bool, bool);
+    int check_size();
     bool verify_file_certs();
     int gzip();
         // gzip file and add .gz to name
@@ -174,7 +177,7 @@ struct FILE_INFO {
 //
 struct FILE_REF {
     char file_name[256];
-        // physical name
+        // physical name; should match file_info->name
     char open_name[256];
         // logical name
     bool main_program;
@@ -184,22 +187,38 @@ struct FILE_REF {
     bool optional;
         // for output files: app may not generate file;
         // don't treat as error if file is missing.
+    inline void clear() {
+        safe_strcpy(file_name, "");
+        safe_strcpy(open_name, "");
+        main_program = false;
+        file_info = NULL;
+        copy_file = false;
+        optional = false;
+    }
+    FILE_REF() {clear();}
     int parse(XML_PARSER&);
-    int write(MIOFILE&);
+    int write(MIOFILE&) const;
 };
 
-// file xfer backoff state for a project and direction (up/down)
-// if file_xfer_failures exceeds FILE_XFER_FAILURE_LIMIT,
+// File xfer backoff state for a project and direction (up/down).
+// If we get more than FILE_XFER_FAILURE_LIMIT (3) consecutive failures,
 // we switch from a per-file to a project-wide backoff policy
 // (separately for the up/down directions)
+// E.g. if we have 100 files to upload and the first 3 fail,
+// we don't try the other 97 immediately.
+//
 // NOTE: this refers to transient failures, not permanent.
 //
+
 #define FILE_XFER_FAILURE_LIMIT 3
+
 struct FILE_XFER_BACKOFF {
     int file_xfer_failures;
         // count of consecutive failures
     double next_xfer_time;
         // when to start trying again
+    bool is_upload;
+
     bool ok_to_transfer();
     void file_xfer_failed(PROJECT*);
     void file_xfer_succeeded();
@@ -226,8 +245,14 @@ struct DAILY_STATS {
     double host_expavg_credit;
     double day;
 
-    void clear();
-    DAILY_STATS() {clear();}
+    DAILY_STATS(DUMMY_TYPE){}
+    void clear() {
+        static const DAILY_STATS x(DUMMY);
+        *this = x;
+    }
+    DAILY_STATS() {
+        clear();
+    }
     int parse(FILE*);
 };
 bool operator < (const DAILY_STATS&, const DAILY_STATS&);
@@ -252,6 +277,7 @@ struct APP {
     char name[256];
     char user_friendly_name[256];
     bool non_cpu_intensive;
+    bool sporadic;
     bool fraction_done_exact;
     PROJECT* project;
     bool report_results_immediately;
@@ -273,53 +299,83 @@ struct APP {
     bool ignore;
 #endif
 
-    APP() {memset(this, 0, sizeof(APP));}
+    APP(DUMMY_TYPE){}
+    void clear() {
+        static const APP x(DUMMY);
+        *this = x;
+    }
+    APP(){
+        clear();
+    }
     int parse(XML_PARSER&);
     int write(MIOFILE&);
 };
 
-struct GPU_USAGE {
+// items returned by a plan class function
+//
+struct RESOURCE_USAGE {
+    double avg_ncpus;
     int rsc_type;   // index into COPROCS array
-    double usage;
+    double coproc_usage;
+    double gpu_ram;
+    double flops;
+    char cmdline[256];
+        // additional cmdline args
+
+    // an app version or WU may refer to a missing GPU
+    // e.g. the GPU board was plugged in before but was removed.
+    // We don't discard them, since the board may be plugged in later.
+    // Instead we flag it as missing, and don't run those jobs
+    bool missing_coproc;
+    char missing_coproc_name[256];
+
+    void clear();
+    void check_gpu_libs(char* plan_class);
+    void write(MIOFILE&);
+    bool present() {
+        return avg_ncpus>0 || coproc_usage>0;
+    }
 };
 
+// if you add anything, initialize it in init()
+//
 struct APP_VERSION {
     char app_name[256];
     int version_num;
     char platform[256];
     char plan_class[64];
     char api_version[16];
-    double avg_ncpus;
-    GPU_USAGE gpu_usage;    // can only use 1 GPU type
-    double gpu_ram;
-    double flops;
-    char cmdline[256];
-        // additional cmdline args
+    RESOURCE_USAGE resource_usage;
     char file_prefix[256];
         // prepend this to input/output file logical names
         // (e.g. "share" for VM apps)
     bool needs_network;
+    bool dont_throttle;
+        // jobs with this app version are exempt from CPU throttling
+        // Set for coprocessor apps and wrapper apps
 
     APP* app;
     PROJECT* project;
     std::vector<FILE_REF> app_files;
     int ref_cnt;
+
+    // graphics app, if any
+    // the strings are filled in after exec is downloaded and verified
+    //
+    FILE_INFO *graphics_exec_fip;
     char graphics_exec_path[MAXPATHLEN];
     char graphics_exec_file[256];
-    double max_working_set_size;
-        // max working set of tasks using this app version.
+
+    double max_rss;
+        // max RSS of tasks using this app version.
         // unstarted jobs using this app version are assumed
         // to use this much RAM,
         // so that we don't run a long sequence of jobs,
         // each of which turns out not to fit in available RAM
-    bool missing_coproc;
-    double missing_coproc_usage;
-    char missing_coproc_name[256];
-    bool dont_throttle;
-        // jobs of this app version are exempt from CPU throttling
-        // Set for coprocessor apps
-    bool is_vm_app;
-        // currently this set if plan class includes "vbox" (kludge)
+    bool is_vbox_app;
+        // set if plan class includes "vbox"
+    bool is_docker_app;
+        // set if plan class includes "docker"
     bool is_wrapper;
         // the main program is a wrapper; run it above idle priority
 
@@ -334,20 +390,23 @@ struct APP_VERSION {
     ~APP_VERSION(){}
     void init();
     int parse(XML_PARSER&);
+    bool disallowed_by_config(PROJECT*);
+    void fill_in_resource_usage();
     int write(MIOFILE&, bool write_file_info = true);
     bool had_download_failure(int& failnum);
     void get_file_errors(std::string&);
     void clear_errors();
     bool api_version_at_least(int major, int minor);
     inline bool uses_coproc(int rt) {
-        return (gpu_usage.rsc_type == rt);
+        return (resource_usage.rsc_type == rt);
     }
-    inline int rsc_type() {
-        return gpu_usage.rsc_type;
-    }
+    //inline int rsc_type() {
+    //    return resource_usage.rsc_type;
+    //}
     inline bool is_opencl() {
         return (strstr(plan_class, "opencl") != NULL);
     }
+    void check_graphics_exec();
 };
 
 struct WORKUNIT {
@@ -356,6 +415,14 @@ struct WORKUNIT {
     int version_num;
         // Deprecated, but need to keep around to let people revert
         // to versions before multi-platform support
+
+    // the following for BUDA jobs
+    char sub_appname[256];
+    char plan_class[256];
+        // the BUDA variant
+    bool has_resource_usage;
+    RESOURCE_USAGE resource_usage;
+
     std::string command_line;
     std::vector<FILE_REF> input_files;
     PROJECT* project;
@@ -368,10 +435,14 @@ struct WORKUNIT {
     JOB_KEYWORD_IDS job_keyword_ids;
 
     WORKUNIT(){
-        safe_strcpy(name, "");
-        safe_strcpy(app_name, "");
+        name[0] = 0;
+        app_name[0] = 0;
         version_num = 0;
-        command_line = "";
+        has_resource_usage = false;
+        sub_appname[0] = 0;
+        plan_class[0] = 0;
+        resource_usage.clear();
+        command_line.clear();
         input_files.clear();
         job_keyword_ids.clear();
         project = NULL;
@@ -411,6 +482,33 @@ struct RUN_MODE {
 struct PLATFORM {
     std::string name;
 };
+
+// the oldest CPID for a given email hash
+//
+struct USER_CPID {
+    char email_hash[MD5_LEN];
+    char cpid[MD5_LEN];
+    double time;
+    inline void clear() {
+        strcpy(email_hash, "");
+        strcpy(cpid, "");
+        time = 0;
+    }
+    int parse(XML_PARSER&);
+    int write(MIOFILE&);
+};
+
+// a list of the above
+//
+struct USER_CPIDS {
+    std::vector<USER_CPID> cpids;
+    int parse(XML_PARSER&);
+    int write(MIOFILE&);
+    USER_CPID *lookup(const char* email_hash);
+    void init_from_projects();
+};
+
+extern USER_CPIDS user_cpids;
 
 extern int parse_project_files(XML_PARSER&, std::vector<FILE_REF>&);
 

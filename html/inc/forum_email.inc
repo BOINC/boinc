@@ -52,6 +52,7 @@ function mail_report_list($forum, $subject, $body, $must_send=false) {
         $admins = BoincTeamAdmin::enum("teamid=$team->id");
         foreach ($admins as $admin) {
             $u = BoincUser::lookup_id($admin->userid);
+            if (!$u) continue;
             $success &= send_email($u, $subject, $body);
         }
         break;
@@ -62,9 +63,9 @@ function mail_report_list($forum, $subject, $body, $must_send=false) {
 //////////////////// post hidden/unhidden ///////////
 //
 function send_moderation_email($forum, $post, $thread, $explanation, $action) {
-    global $master_url;
+    $master_url = master_url();
 
-    $moderator=get_logged_in_user();
+    $moderator = get_logged_in_user();
     $body = "";
     $user = BoincUser::lookup_id($post->user);
 
@@ -101,7 +102,7 @@ $body
 function send_thread_moderation_email(
     $forum, $thread, $message, $action_name, $explanation
 ) {
-    global $master_url;
+    $master_url = master_url();
 
     $moderator = get_logged_in_user();
     $user = BoincUser::lookup_id($thread->owner);
@@ -122,15 +123,33 @@ For assistance with ".PROJECT." go to ".$master_url;
     return $success;
 }
 
-// If a user is subscribed to a thread that is replied to,
-// send them an email notifying them of the reply.
+// There's a new post in the thread, which the user is subscribed to.
+// send them an email notifying them.
 //
-function send_reply_notification_email($thread, $user){
-    $title = PROJECT . ": A user has posted to '". $thread->title ."'";
+function send_thread_notification_email($thread, $user){
+    $title = PROJECT . ": there is a new post in '". $thread->title ."'";
     $link = secure_url_base() . "forum_thread.php?id=" . $thread->id;
-    $body = "Another " . PROJECT . " user has posted to the thread
+    $body = "A " . PROJECT . " user has posted to the thread
 \"" . $thread->title . "\".\n"
            ."To view the updated thread, visit:\n$link
+
+--------------------------
+To change email preferences, visit:
+".secure_url_base()."edit_forum_preferences_form.php
+Do not reply to this message.
+";
+    return send_email($user, $title, $body);
+}
+
+// There's a new thread in the forum, which the user is subscribed to.
+// send them an email notifying them.
+//
+function send_forum_notification_email($forum, $user){
+    $title = PROJECT . ": there is a new thread in '". $forum->title ."'";
+    $link = secure_url_base() . "forum_forum.php?id=" . $forum->id;
+    $body = "A " . PROJECT . " user has added a thread to the forum
+\"" . $thread->title . "\".\n"
+           ."To view the updated forum, visit:\n$link
 
 --------------------------
 To change email preferences, visit:
@@ -143,7 +162,7 @@ Do not reply to this message.
 //////////////////// a user clicks the red "x" to report a post ///////////
 //
 function send_report_post_email($user, $forum, $thread,  $post, $message) {
-	global $master_url;
+	$master_url = master_url();
 
     $body = "";
     $owner = BoincUser::lookup_id($post->user);
@@ -156,7 +175,7 @@ A post in the ".PROJECT." forums was reported as offensive.
     Post:           $post->id by $owner->id ($owner->name)
     Reporting User: $user->id ($user->name)
     Link:           ".secure_url_base()."forum_thread.php?id=$thread->id#$post->id
-    
+
 Comments from reporting user:
 $message
 
@@ -199,7 +218,7 @@ because your postings have not followed our guidelines.
 //////////////////// a banishment vote has been started  ///////////
 //
 function send_banish_vote_email($user, $duration, $reason, $end_time) {
-	global $master_url;
+	$master_url = master_url();
     $now=time();
     $subject = PROJECT." banishment vote underway";
     $vote_url = $master_url."forum_banishment_vote.php";

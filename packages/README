@@ -6,6 +6,6 @@ packages/{OS name}/{Package Manager or OS Distribution or Web Site}
 Since these directories are maintained by the package maintainers, any
 instructions for creating the packages or Makefiles are created the package
 maintainers, and may, therefore vary in quality, and may require manual
-configuration change.  Because these files are not maintained by the BOINC 
+configuration change.  Because these files are not maintained by the BOINC
 developers, we don't guarantee they will work.  Any bug reports
 related to files in this tree will probably be given low priority.

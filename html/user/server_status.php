@@ -36,6 +36,7 @@ require_once("../inc/util.inc");
 require_once("../inc/xml.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/server_version.inc");
+require_once("../inc/common_defs.inc");
 
 if (!defined('STATUS_PAGE_TTL')) {
     define('STATUS_PAGE_TTL', 3600);
@@ -113,57 +114,57 @@ function show_status_html($x) {
     $daemons = $x->daemons;
     start_table();
     echo "<tr><td>\n";
-            echo "
-                 <h3>".tra("Server status")."</h3>
-            ";
-            start_table('table-striped');
-            table_header(tra("Program"), tra("Host"), tra("Status"));
-            foreach ($daemons->local_daemons as $d) {
-                daemon_html($d);
-            }
-            foreach ($daemons->remote_daemons as $d) {
-                daemon_html($d);
-            }
-            foreach ($daemons->disabled_daemons as $d) {
-                daemon_html($d);
-            }
-            end_table();
+    echo "
+         <h3>".tra("Server status")."</h3>
+    ";
+    start_table('table-striped');
+    table_header(tra("Program"), tra("Host"), tra("Status"));
+    foreach ($daemons->local_daemons as $d) {
+        daemon_html($d);
+    }
+    foreach ($daemons->remote_daemons as $d) {
+        daemon_html($d);
+    }
+    foreach ($daemons->disabled_daemons as $d) {
+        daemon_html($d);
+    }
+    end_table();
 
-            if ($daemons->cached_time) {
-                echo "<br>Remote daemon status as of ", time_str($daemons->cached_time);
-            }
-            if ($daemons->missing_remote_status) {
-                echo "<br>Status of remote daemons is missing\n";
-            }
-            if (function_exists('server_status_project_info')) {
-                echo "<br>";
-                server_status_project_info();
-            }
+    if ($daemons->cached_time) {
+        echo "<br>Remote daemon status as of ", time_str($daemons->cached_time);
+    }
+    if ($daemons->missing_remote_status) {
+        echo "<br>Status of remote daemons is missing\n";
+    }
+    if (function_exists('server_status_project_info')) {
+        echo "<br>";
+        server_status_project_info();
+    }
     echo "</td><td>\n";
-            echo "<h3>".tra("Computing status")."</h3>\n";
-            echo "<h4>".tra("Work")."</h4>\n";
-            start_table('table-striped');
-            item_html("Tasks ready to send", $j->results_ready_to_send);
-            item_html("Tasks in progress", $j->results_in_progress);
-            item_html("Workunits waiting for validation", $j->wus_need_validate);
-            item_html("Workunits waiting for assimilation", $j->wus_need_assimilate);
-            item_html("Workunits waiting for file deletion", $j->wus_need_file_delete);
-            item_html("Tasks waiting for file deletion", $j->results_need_file_delete);
-            item_html("Transitioner backlog (hours)", number_format($j->transitioner_backlog, 2));
-            end_table();
-            echo "<h4>".tra("Users")."</h4>\n";
-            start_table('table-striped');
-            item_html("With credit", $j->users_with_credit);
-            item_html("With recent credit", $j->users_with_recent_credit);
-            item_html("Registered in past 24 hours", $j->users_past_24_hours);
-            end_table();
-            echo "<h4>".tra("Computers")."</h4>\n";
-            start_table('table-striped');
-            item_html("With credit", $j->hosts_with_credit);
-            item_html("With recent credit", $j->hosts_with_recent_credit);
-            item_html("Registered in past 24 hours", $j->hosts_past_24_hours);
-            item_html("Current GigaFLOPS", round($j->flops, 2));
-            end_table();
+    echo "<h3>".tra("Computing status")."</h3>\n";
+    echo "<h4>".tra("Work")."</h4>\n";
+    start_table('table-striped');
+    item_html("Tasks ready to send", $j->results_ready_to_send);
+    item_html("Tasks in progress", $j->results_in_progress);
+    item_html("Workunits waiting for validation", $j->wus_need_validate);
+    item_html("Workunits waiting for assimilation", $j->wus_need_assimilate);
+    item_html("Workunits waiting for file deletion", $j->wus_need_file_delete);
+    item_html("Tasks waiting for file deletion", $j->results_need_file_delete);
+    item_html("Transitioner backlog (hours)", number_format($j->transitioner_backlog, 2));
+    end_table();
+    echo "<h4>".tra("Users")."</h4>\n";
+    start_table('table-striped');
+    item_html("With credit", $j->users_with_credit);
+    item_html("With recent credit", $j->users_with_recent_credit);
+    item_html("Registered in past 24 hours", $j->users_past_24_hours);
+    end_table();
+    echo "<h4>".tra("Computers")."</h4>\n";
+    start_table('table-striped');
+    item_html("With credit", $j->hosts_with_credit);
+    item_html("With recent credit", $j->hosts_with_recent_credit);
+    item_html("Registered in past 24 hours", $j->hosts_past_24_hours);
+    item_html("Current GigaFLOPS", round($j->flops, 2));
+    end_table();
     echo "</td></tr>\n";
     end_table();
     echo "<h3>".tra("Tasks by application")."</h3>\n";
@@ -172,15 +173,20 @@ function show_status_html($x) {
         tra("Application"),
         tra("Unsent"),
         tra("In progress"),
-        tra("Runtime of last 100 tasks in hours: average, min, max"),
+        tra("Runtime of recent tasks in hours: average, min, max"),
         tra("Users in last 24 hours")
     );
     foreach ($j->apps as $app) {
-        $avg = round($app->info->avg, 2);
-        $min = round($app->info->min, 2);
-        $max = round($app->info->max, 2);
-        $x = $max?"$avg ($min - $max)":"---";
-        $u = $app->info->users;
+        if ($app->info) {
+            $avg = round($app->info->avg, 2);
+            $min = round($app->info->min, 2);
+            $max = round($app->info->max, 2);
+            $x = $max?"$avg ($min - $max)":"---";
+            $u = $app->info->users;
+        } else {
+            $x = '---';
+            $u = '---';
+        }
         echo "<tr>
             <td>$app->user_friendly_name</td>
             <td>$app->unsent</td>
@@ -191,7 +197,7 @@ function show_status_html($x) {
         ";
     }
     end_table();
-    
+
     // show server software version.
     // If it's a release (minor# is even) link to github branch
     //
@@ -251,10 +257,12 @@ function show_status_xml($x) {
         item_xml("name", $app->name);
         item_xml("unsent", $app->unsent);
         item_xml("in_progress", $app->in_progress);
-        item_xml("avg_runtime", $app->info->avg);
-        item_xml("min_runtime", $app->info->min);
-        item_xml("max_runtime", $app->info->max);
-        item_xml("users", $app->info->users);
+        if ($app->info) {
+            item_xml("avg_runtime", $app->info->avg);
+            item_xml("min_runtime", $app->info->min);
+            item_xml("max_runtime", $app->info->max);
+            item_xml("users", $app->info->users);
+        }
         echo "</app>\n";
     }
     echo "</tasks_by_app>
@@ -349,17 +357,13 @@ function get_daemon_status() {
         $have_remote = true;
     }
 
-    // Scheduler is a daemon too
-    //
-    if ($sched_host == $main_host) {
-        $y = new StdClass;
-        $y->cmd = "Scheduler";
-        $y->host = $sched_host;
-        $y->status = !file_exists("../../stop_sched");;
-        $local_daemons[] = $y;
-    } else {
-        $have_remote = true;
-    }
+    // the scheduler is a CGI program, not a daemon;
+    // it doesn't have a PID.
+    $y = new StdClass;
+    $y->cmd = "Scheduler";
+    $y->host = $sched_host;
+    $y->status = !file_exists("../../stop_sched");;
+    $local_daemons[] = $y;
 
     foreach ($daemons->daemon as $d) {
         if ((int)$d->disabled != 0) {
@@ -402,6 +406,16 @@ function get_daemon_status() {
     return $x;
 }
 
+// get info for BUDA apps
+// enumerate BUDA batches; get list of app/variants names
+// for each app/variant
+//      join result/workunit/batch to get runtime stats, users
+//      join result/workunit/batch to get unsent, in_progress counts
+// return list of pseudo-apps
+//
+function get_buda_status() {
+}
+
 function get_job_status() {
     $s = unserialize(get_cached_data(STATUS_PAGE_TTL, "job_status"));
     if ($s) {
@@ -413,25 +427,52 @@ function get_job_status() {
     foreach ($apps as $app) {
         $info = BoincDB::get()->lookup_fields("result", "stdClass",
             "ceil(avg(elapsed_time)/3600*100)/100 as avg,
-            ceil(min(elapsed_time)/3600*100)/100 as min,
-            ceil(max(elapsed_time)/3600*100)/100 as max,
-            count(distinct userid) as users",
-            "appid = $app->id
-            AND validate_state=1
-            AND received_time > (unix_timestamp()-86400)
-            "
+                ceil(min(elapsed_time)/3600*100)/100 as min,
+                ceil(max(elapsed_time)/3600*100)/100 as max,
+                count(distinct userid) as users
+            ",
+            sprintf('appid=%d
+                AND validate_state=%d
+                AND received_time > (unix_timestamp()-86400)
+                ',
+                $app->id,
+                VALIDATE_STATE_VALID
+            )
         );
-        $app->info = $info;
-        $app->unsent = BoincResult::count("appid=$app->id and server_state=2");
-        $app->in_progress = BoincResult::count("appid=$app->id and server_state=4");
+        // $info fields will be null if app has no results
+        if ($info->avg) {
+            $app->info = $info;
+        } else {
+            $app->info = null;
+        }
+        $app->unsent = BoincResult::count(
+            sprintf('appid=%d and server_state=%d',
+                $app->id, RESULT_SERVER_STATE_UNSENT
+            )
+        );
+        $app->in_progress = BoincResult::count(
+            sprintf('appid=%d and server_state=%d',
+                $app->id, RESULT_SERVER_STATE_IN_PROGRESS
+            )
+        );
     }
     $s->apps = $apps;
-    $s->results_ready_to_send = BoincResult::count("server_state=2");
-    $s->results_in_progress = BoincResult::count("server_state=4");
-    $s->results_need_file_delete = BoincResult::count("file_delete_state=1");
+    $s->results_ready_to_send = BoincResult::count(
+        sprintf('server_state=%d', RESULT_SERVER_STATE_UNSENT)
+    );
+    $s->results_in_progress = BoincResult::count(
+        sprintf('server_state=%d', RESULT_SERVER_STATE_IN_PROGRESS)
+    );
+    $s->results_need_file_delete = BoincResult::count(
+        sprintf('file_delete_state=%d', FILE_DELETE_READY)
+    );
     $s->wus_need_validate = BoincWorkunit::count("need_validate=1");
-    $s->wus_need_assimilate = BoincWorkunit::count("assimilate_state=1");
-    $s->wus_need_file_delete = BoincWorkunit::count("file_delete_state=1");
+    $s->wus_need_assimilate = BoincWorkunit::count(
+        sprintf('assimilate_state=%d', ASSIMILATE_READY)
+    );
+    $s->wus_need_file_delete = BoincWorkunit::count(
+        sprintf('file_delete_state=%d', FILE_DELETE_READY)
+    );
     $x = BoincDB::get()->lookup_fields("workunit", "stdClass", "MIN(transition_time) as min", "TRUE");
     $gap = (time() - $x->min)/3600;
     if (($gap < 0) || ($x->min == 0)) {
@@ -460,12 +501,22 @@ function get_job_status() {
 function show_counts_xml() {
     xml_header();
     echo "<job_counts>\n";
-    item_xml('results_ready_to_send', BoincResult::count("server_state=2"));
-    item_xml('results_in_progress', BoincResult::count("server_state=4"));
-    item_xml('results_need_file_delete', BoincResult::count("file_delete_state=1"));
+    item_xml('results_ready_to_send', BoincResult::count(
+        sprintf('server_state=%d', RESULT_SERVER_STATE_UNSENT)
+    ));
+    item_xml('results_in_progress', BoincResult::count(
+        sprintf('server_state=%d', RESULT_SERVER_STATE_IN_PROGRESS)
+    ));
+    item_xml('results_need_file_delete', BoincResult::count(
+        sprintf('file_delete_state=%d', FILE_DELETE_READY)
+    ));
     item_xml('wus_need_validate', BoincWorkunit::count("need_validate=1"));
-    item_xml('wus_need_assimilate', BoincWorkunit::count("assimilate_state=1"));
-    item_xml('wus_need_file_delete', BoincWorkunit::count("file_delete_state=1"));
+    item_xml('wus_need_assimilate', BoincWorkunit::count(
+        sprintf('assimilate_state=%d', ASSIMILATE_READY)
+    ));
+    item_xml('wus_need_file_delete', BoincWorkunit::count(
+        sprintf('file_delete_state=%d', FILE_DELETE_READY)
+    ));
     echo "</job_counts>\n";
 }
 

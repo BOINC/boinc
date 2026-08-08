@@ -2,5 +2,10 @@
 
 include $(top_srcdir)/Makefile.incl
 
-dist_pkgdata_DATA = boincmgr.16x16.png boincmgr.32x32.png boincmgr.48x48.png
+icon64dir = $(datadir)/icons/hicolor/64x64/apps
+iconscdir = $(datadir)/icons/hicolor/scalable/apps
+desktopdir = $(datadir)/applications
 
+dist_icon64_DATA = boinc.png
+dist_iconsc_DATA = boinc.svg
+dist_desktop_DATA = boinc.desktop

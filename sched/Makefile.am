@@ -87,9 +87,9 @@ endif
 
 if ENABLE_SERVER
 
-schedcgidir = $(prefix)/lib/boinc-server-maker/sched
-schedsharedir = $(prefix)/lib/boinc-server-maker/sched
-schedbindir = $(prefix)/lib/boinc-server-maker/sched
+schedcgidir = $(libexecdir)/boinc-server-maker/sched
+schedsharedir = $(libexecdir)/boinc-server-maker/sched
+schedbindir = $(libexecdir)/boinc-server-maker/sched
 
 schedbin_PROGRAMS = \
     adjust_user_priority \
@@ -103,14 +103,15 @@ schedbin_PROGRAMS = \
 
 schedshare_PROGRAMS = \
     antique_file_deleter \
+    batch_collect_assimilator \
     census \
     credit_test \
     db_dump \
     db_purge \
     feeder \
+    feeder_user \
     file_deleter \
     message_handler \
-    sample_assimilator \
     sample_bitwise_validator \
     sample_dummy_assimilator \
     sample_substr_validator \
@@ -155,6 +156,7 @@ EXTRA_DIST = \
     start
 
 cgi_sources = \
+    buda.cpp \
 	credit.cpp \
     edf_sim.cpp \
     handle_request.cpp \
@@ -166,6 +168,7 @@ cgi_sources = \
     sched_check.cpp \
     sched_customize.cpp \
     sched_files.cpp \
+    sched_host.cpp \
     sched_hr.cpp \
     sched_keyword.cpp \
     sched_limit.cpp \
@@ -185,6 +188,10 @@ cgi_sources = \
 cgi_SOURCES = $(cgi_sources)
 cgi_LDADD = $(SERVERLIBS)
 
+batch_collect_assimilator_SOURCES = $(ASSIMILATOR_SOURCES) \
+	batch_collect_assimilator.cpp
+batch_collect_assimilator_LDADD = $(SERVERLIBS)
+
 census_SOURCES = \
     census.cpp \
     hr.cpp \
@@ -201,6 +208,11 @@ feeder_SOURCES = \
     hr_info.cpp \
     ../lib/synch.cpp
 feeder_LDADD = $(SERVERLIBS)
+
+feeder_user_SOURCES = \
+    feeder_user.cpp \
+    ../lib/synch.cpp
+feeder_user_LDADD = $(SERVERLIBS)
 
 wu_check_SOURCES = wu_check.cpp
 wu_check_LDADD = $(SERVERLIBS)
@@ -239,10 +251,6 @@ ASSIMILATOR_SOURCES = \
 sample_dummy_assimilator_SOURCES = $(ASSIMILATOR_SOURCES) \
 	sample_dummy_assimilator.cpp
 sample_dummy_assimilator_LDADD = $(SERVERLIBS)
-
-sample_assimilator_SOURCES = $(ASSIMILATOR_SOURCES) \
-	sample_assimilator.cpp
-sample_assimilator_LDADD = $(SERVERLIBS)
 
 single_job_assimilator_SOURCES = $(ASSIMILATOR_SOURCES) \
 	single_job_assimilator.cpp
@@ -315,11 +323,9 @@ fcgi_SOURCES = $(cgi_sources)
 fcgi_CPPFLAGS = -D_USING_FCGI_ $(AM_CPPFLAGS)
 fcgi_LDADD = $(SERVERLIBS_FCGI)
 
-fcgi_file_upload_handler_SOURCES = \
-    file_upload_handler.cpp \
-    sched_config.cpp
+fcgi_file_upload_handler_SOURCES = file_upload_handler.cpp sched_config.cpp sched_util_basic.cpp sched_limit.cpp
 fcgi_file_upload_handler_CPPFLAGS = -D_USING_FCGI_ $(AM_CPPFLAGS)
-fcgi_file_upload_handler_LDADD = $(SERVERLIBS_FCGI)
+fcgi_file_upload_handler_LDADD = $(FUHLIBS_FCGI)
 
 endif
 # end of "if ENABLE_FCGI"
@@ -334,4 +340,4 @@ PHONY-start:
 status stop: PHONY-start
 	@test -f $@ || @LN_S@ start $@ && test -f $@
 
-CLEANFILES = status stop *.gcno *.gcda *.gcov
+CLEANFILES = status stop *.gcno *.gcda *.gcov *.a

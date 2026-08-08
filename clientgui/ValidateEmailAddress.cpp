@@ -95,7 +95,7 @@ bool CValidateEmailAddress::Validate(wxWindow *parent) {
 bool CValidateEmailAddress::TransferToWindow(void) {
     if(!CheckValidator())
         return FALSE;
-    
+
     if (!m_stringValue)
         return TRUE;
 

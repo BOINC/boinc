@@ -34,10 +34,9 @@ require_once("../inc/text_transform.inc");
 require_once("../project/project.inc");
 require_once("../inc/bootstrap.inc");
 
-$config = get_config();
-$no_web_account_creation = parse_bool($config, "no_web_account_creation");
-$project_id = parse_config($config, "<project_id>");
-    
+$no_web_account_creation = project_config_bool("no_web_account_creation");
+$project_id = project_config_val("project_id");
+
 $stopped = web_stopped();
 $user = get_logged_in_user(false);
 
@@ -47,7 +46,7 @@ function panel_contents() {
 }
 
 function top() {
-    global $stopped, $master_url, $user;
+    global $stopped, $user;
     if ($stopped) {
         echo '
             <p class="lead text-center">'
@@ -59,11 +58,11 @@ function top() {
 }
 
 function left(){
-    global $user, $no_web_account_creation, $master_url, $project_id;
+    global $user, $no_web_account_creation, $project_id;
     panel(
         $user?tra("Welcome, %1", $user->name):tra("What is %1?", PROJECT),
         function() use($user) {
-            global $no_web_account_creation, $master_url, $project_id;
+            global $no_web_account_creation, $project_id;
             if ($user) {
                 $dt = time() - $user->create_time;
                 if ($dt < 86400) {
@@ -85,9 +84,13 @@ function left(){
                     }
                 }
                 echo "<p><p>";
-                echo sprintf('<center><a href=home.php class="btn btn-success">%s</a></center>
-                    ',
-                    tra('Continue to your home page')
+                echo sprintf('<center>%s</center>',
+                    button_text('home.php',
+                        tra('Continue to your home page'),
+                        '',
+                        '',
+                        button_style('green', 16)
+                    )
                 );
                 echo "<p><p>";
                 echo sprintf('%s
@@ -119,14 +122,17 @@ function left(){
                 }
                 echo "</p>\n";
                 if (NO_COMPUTING) {
-                    echo "
-                        <a href=\"create_account_form.php\">Create an account</a>
-                    ";
+                    if (!$no_web_account_creation) {
+                        echo "
+                            <a href=\"create_account_form.php\">Create an account</a>
+                        ";
+                    }
                 } else {
                     // use auto-attach if possible
                     //
-                    echo '<center><a href="signup.php" class="btn btn-success"><font size=+2>'.tra('Join %1', PROJECT).'</font></a></center>
-                    ';
+                    if (!$no_web_account_creation) {
+                        echo '<center><a href="signup.php" class="btn btn-success"><font size=+2>'.tra('Join %1', PROJECT).'</font></a></center>';
+                    }
                     echo "<p><p>".tra("Already joined? %1Log in%2.",
                         "<a href=login_form.php>", "</a>"
                     );

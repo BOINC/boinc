@@ -44,12 +44,12 @@ function fix_profiles() {
     echo _mysql_error();
     $i=0;
     while ($profile = _mysql_fetch_object($profiles)){
-        $i++; 
+        $i++;
         if ($i%100 == 0) {                      //For every 100 profiles
             echo $profile->userid.". "; flush();   // print out where we are
             //usleep(200000);
         }
-        
+
         if ($profile->userid > $start_id){
             fix_profile($profile);
         }

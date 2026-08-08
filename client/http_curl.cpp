@@ -19,11 +19,6 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#ifdef _MSC_VER
-#define unlink   _unlink
-#define chdir    _chdir
-#define snprintf _snprintf
-#endif
 #else
 #include "config.h"
 #include <cstring>
@@ -76,7 +71,7 @@ static void get_user_agent_string() {
         BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, BOINC_RELEASE
     );
     if (strlen(gstate.client_brand)) {
-        char buf[256];
+        char buf[1024];
         snprintf(buf, sizeof(buf), " (%s)", gstate.client_brand);
         safe_strcat(g_user_agent_string, buf);
     }
@@ -100,18 +95,8 @@ size_t libcurl_write(void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
 }
 
 size_t libcurl_read(void *ptr, size_t size, size_t nmemb, HTTP_OP* phop) {
-    // OK here's the deal -- phop points to the calling object,
-    // which has already pre-opened the file.  we'll want to
-    // use pByte as a pointer for fseek calls into the file, and
-    // write out size*nmemb # of bytes to ptr
-
-    // take the stream param as a FILE* and write to disk
-    // if (pByte) delete [] pByte;
-    // pByte = new unsigned char[content_length];
-    // memset(pByte, 0x00, content_length); // may as will initialize it!
-
-    // note that fileIn was opened earlier,
-    // go to lSeek from the top and read from there
+    // read data from inFile (or from header if present)
+    // and move to buffer for Curl to send it.
     //
     size_t stSend = size * nmemb;
     int stRead = 0;
@@ -191,7 +176,7 @@ void libcurl_logdebug(
     char hdr[256];
     char buf[2048], *p = buf;
 
-    sprintf(hdr, "[ID#%d] %s", phop->trace_id, desc);
+    snprintf(hdr, sizeof(hdr), "[ID#%u] %s", phop->trace_id, desc);
 
     strlcpy(buf, data, sizeof(buf));
 
@@ -257,7 +242,6 @@ void HTTP_OP::reset() {
 
 HTTP_OP::HTTP_OP() {
     safe_strcpy(m_url, "");
-    safe_strcpy(m_curl_ca_bundle_location, "");
     safe_strcpy(m_curl_user_credentials, "");
     content_length = 0;
     file_offset = 0;
@@ -270,7 +254,6 @@ HTTP_OP::HTTP_OP() {
     curlEasy = NULL;
     pcurlFormStart = NULL;
     pcurlFormEnd = NULL;
-    pByte = NULL;
     lSeek = 0;
     xfer_speed = 0;
     is_background = false;
@@ -279,7 +262,7 @@ HTTP_OP::HTTP_OP() {
 
 HTTP_OP::~HTTP_OP() {
     close_socket();
-    close_file();
+    close_files();
 }
 
 // Initialize HTTP GET operation;
@@ -412,11 +395,17 @@ static int set_cloexec(void*, curl_socket_t fd, curlsocktype purpose) {
 }
 #endif
 
-// the following will do an HTTP GET or POST using libcurl
+// Initiate an HTTP GET or POST using libcurl.
+// Open input/output files as needed.
+// If error, close these before returning.
+// On success, we'll call handle_messages() in response
+// to select() on the socket, and eventually close the files there.
 //
 int HTTP_OP::libcurl_exec(
     const char* url, const char* in, const char* out, double offset,
 #ifdef _WIN32
+    // expected size of file we're downloading.
+    // on Win, pre-allocate this file to reduce disk fragmentation
     double size,
 #else
     double,
@@ -489,52 +478,11 @@ int HTTP_OP::libcurl_exec(
     curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, 1L);
     //curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, FALSE);
 
+    // MSW now uses schannel and Mac now uses Secure Transport
+    // so neither uses ca-bundle.crt
+#if (!defined(_WIN32) && !defined(__APPLE__))
     // if the above is nonzero, you need the following:
     //
-#ifdef _WIN32
-    if (strlen(m_curl_ca_bundle_location) == 0) {
-        TCHAR szPath[MAX_PATH-1];
-        GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
-
-        TCHAR *pszProg = strrchr(szPath, '\\');
-        if (pszProg) {
-            szPath[pszProg - szPath + 1] = 0;
-
-            strlcat(
-                m_curl_ca_bundle_location,
-                szPath,
-                sizeof(m_curl_ca_bundle_location)
-            );
-            strlcat(
-                m_curl_ca_bundle_location,
-                CA_BUNDLE_FILENAME,
-                sizeof(m_curl_ca_bundle_location)
-            );
-
-            if (log_flags.http_debug) {
-                msg_printf(
-                    project,
-                    MSG_INFO,
-                    "[http] HTTP_OP::libcurl_exec(): ca-bundle '%s'",
-                    m_curl_ca_bundle_location
-                );
-            }
-        }
-    }
-    if (boinc_file_exists(m_curl_ca_bundle_location)) {
-        // call this only if a local copy of ca-bundle.crt exists;
-        // otherwise, let's hope that it exists in the default place
-        //
-        curl_easy_setopt(curlEasy, CURLOPT_CAINFO, m_curl_ca_bundle_location);
-        if (log_flags.http_debug) {
-            msg_printf(
-                project,
-                MSG_INFO,
-                "[http] HTTP_OP::libcurl_exec(): ca-bundle set"
-            );
-        }
-    }
-#else
     if (boinc_file_exists(CA_BUNDLE_FILENAME)) {
         // call this only if a local copy of ca-bundle.crt exists;
         // otherwise, let's hope that it exists in the default place
@@ -613,6 +561,12 @@ int HTTP_OP::libcurl_exec(
         pcurlList = curl_slist_append(pcurlList, buf);
     }
 
+    // if this is a post, set content type (always text/xml)
+    //
+    if (is_post) {
+        pcurlList = curl_slist_append(pcurlList, "Content-type: text/xml");
+    }
+
     // set up an output file for the reply
     //
     if (strlen(outfile)) {
@@ -649,12 +603,13 @@ int HTTP_OP::libcurl_exec(
     if (is_post) {
         want_upload = true;
         want_download = false;
-        if (infile && strlen(infile)>0) {
+        if (strlen(infile)>0) {
             fileIn = boinc_fopen(infile, "rb");
             if (!fileIn) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR, "No HTTP input file %s", infile);
                 http_op_retval = ERR_FOPEN;
                 http_op_state = HTTP_STATE_DONE;
+                close_files();
                 return ERR_FOPEN;
             }
         }
@@ -699,7 +654,6 @@ int HTTP_OP::libcurl_exec(
 
         curl_off_t fs = (curl_off_t) content_length;
 
-        pByte = NULL;
         lSeek = 0;    // initialize the vars we're going to use for byte transfers
 
         // we can make the libcurl_read "fancier" in the future,
@@ -734,9 +688,9 @@ int HTTP_OP::libcurl_exec(
     }
 
 #ifdef __APPLE__
-    // cURL 7.19.7 with c-ares 1.7.0 did not fall back to IPv4 when IPv6 
-    // DNS lookup failed on Macs with certain default settings if connected 
-    // to the Internet by an AT&T U-Verse 2-Wire Gateway.  This work-around 
+    // cURL 7.19.7 with c-ares 1.7.0 did not fall back to IPv4 when IPv6
+    // DNS lookup failed on Macs with certain default settings if connected
+    // to the Internet by an AT&T U-Verse 2-Wire Gateway.  This work-around
     // may not be needed any more for cURL 7.21.7, but keep it to be safe.
     curl_easy_setopt(curlEasy, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
 #endif
@@ -757,6 +711,7 @@ int HTTP_OP::libcurl_exec(
         msg_printf(0, MSG_INTERNAL_ERROR,
             "Couldn't add curlEasy handle to curlMulti"
         );
+        close_files();
         return ERR_HTTP_TRANSIENT;
         // returns 0 (CURLM_OK) on successful handle creation
     }
@@ -849,7 +804,7 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
             } else {
                 curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);
             }
-            snprintf(m_curl_user_credentials, sizeof(m_curl_user_credentials), 
+            snprintf(m_curl_user_credentials, sizeof(m_curl_user_credentials),
                 "%s:%s",
                 pi.http_user_name, pi.http_user_passwd
             );
@@ -864,13 +819,13 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
         curl_easy_setopt(curlEasy, CURLOPT_PROXYPORT, (long) pi.socks_server_port);
         curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.socks_server_name);
         // libcurl uses blocking sockets with socks proxy, so limit timeout.
-        // - imlemented with local patch to libcurl
+        // - implemented with local patch to libcurl
         curl_easy_setopt(curlEasy, CURLOPT_CONNECTTIMEOUT, 20L);
 
         if (
             strlen(pi.socks5_user_passwd) || strlen(pi.socks5_user_name)
         ) {
-            snprintf(m_curl_user_credentials, sizeof(m_curl_user_credentials), 
+            snprintf(m_curl_user_credentials, sizeof(m_curl_user_credentials),
                 "%s:%s",
                 pi.socks5_user_name, pi.socks5_user_passwd
             );
@@ -940,7 +895,9 @@ void HTTP_OP::close_socket() {
     }
 }
 
-void HTTP_OP::close_file() {
+// close input and output files
+//
+void HTTP_OP::close_files() {
     if (fileIn) {
         fclose(fileIn);
         fileIn = NULL;
@@ -948,10 +905,6 @@ void HTTP_OP::close_file() {
     if (fileOut) {
         fclose(fileOut);
         fileOut = NULL;
-    }
-    if (pByte) { //free any read memory used
-        delete [] pByte;
-        pByte = NULL;
     }
 }
 
@@ -1093,12 +1046,12 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
         }
     }
 
-    // close files and "sockets" (i.e. libcurl handles)
+    // close in/out files and "sockets" (i.e. libcurl handles)
     //
-    close_file();
+    close_files();
     close_socket();
 
-    // finally remove the tmpfile if not explicitly set
+    // remove the output file if it's a temp
     //
     if (bTempOutfile) {
         boinc_delete_file(outfile);

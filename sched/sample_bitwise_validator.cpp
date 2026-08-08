@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -73,7 +73,7 @@ bool files_match(FILE_CKSUM_LIST& f1, FILE_CKSUM_LIST& f2) {
     return true;
 }
 
-int init_result(RESULT& result, void*& data) {
+int init_result(const RESULT& result, void*& data) {
     int retval;
     FILE_CKSUM_LIST* fcl = new FILE_CKSUM_LIST;
     vector<OUTPUT_FILE_INFO> files;
@@ -90,8 +90,7 @@ int init_result(RESULT& result, void*& data) {
         return retval;
     }
 
-    for (unsigned int i=0; i<files.size(); i++) {
-        OUTPUT_FILE_INFO& fi = files[i];
+    for (const OUTPUT_FILE_INFO& fi: files) {
         if (fi.no_validate) continue;
         retval = md5_file(fi.path.c_str(), md5_buf, nbytes, is_gzip);
         if (retval) {

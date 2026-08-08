@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  This file is part of BOINC.
+  http://boinc.berkeley.edu
+  Copyright (C) 2020 University of California
+
+  BOINC is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License
+  as published by the Free Software Foundation,
+  either version 3 of the License, or (at your option) any later version.
+
+  BOINC is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string-array name="theme_entries" tools:ignore="InconsistentArrays">
+        <item>@string/prefs_theme_system</item>
+        <item>@string/prefs_theme_light</item>
+        <item>@string/prefs_theme_dark</item>
+    </string-array>
+
+    <string-array name="theme_values" translatable="false" tools:ignore="InconsistentArrays">
+        <item>system</item>
+        <item>light</item>
+        <item>dark</item>
+    </string-array>
+</resources>

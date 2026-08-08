@@ -68,7 +68,7 @@
  */
 
 class CDlgAbout: public wxDialog
-{    
+{
     DECLARE_DYNAMIC_CLASS( CDlgAbout )
     DECLARE_EVENT_TABLE()
 

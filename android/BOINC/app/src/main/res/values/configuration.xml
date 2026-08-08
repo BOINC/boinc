@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2022 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -18,9 +18,8 @@
 -->
 <resources>
     <!-- path and file configuration -->
-    <string name="client_path" translatable="false">/data/data/edu.berkeley.boinc/client/</string>
+    <string name="client_path" translatable="false">client/</string>
     <string name="client_name" translatable="false">boinc</string>
-    <string name="client_cli" translatable="false">boinccmd</string>
     <string name="client_cabundle" translatable="false">ca-bundle.crt</string>
     <string name="client_config" translatable="false">cc_config.xml</string>
     <string name="auth_file_name" translatable="false">gui_rpc_auth.cfg</string>
@@ -28,6 +27,7 @@
     <string name="nomedia" translatable="false">nomedia</string>
     <string name="global_prefs_override" translatable="false">global_prefs_override.xml</string>
     <string name="assets_dir_arm64" translatable="false">arm64-v8a/</string>
+    <string name="assets_dir_armv6" translatable="false">armeabi/</string>
     <string name="assets_dir_arm" translatable="false">armeabi-v7a/</string>
     <string name="assets_dir_x86_64" translatable="false">x86_64/</string>
     <string name="assets_dir_x86" translatable="false">x86/</string>
@@ -35,11 +35,13 @@
     <string name="client_socket_address" translatable="false">edu_berkeley_boinc_client_socket</string>
     <!-- BOINC platform -->
     <string name="boinc_platform_name_arm64" translatable="false">aarch64-android-linux-gnu</string>
+    <string name="boinc_platform_name_armv6" translatable="false">armv6-android-linux-gnu</string>
     <string name="boinc_platform_name_arm" translatable="false">arm-android-linux-gnu</string>
     <string name="boinc_platform_name_x86_64" translatable="false">x86_64-android-linux-gnu</string>
     <string name="boinc_platform_name_x86" translatable="false">x86-android-linux-gnu</string>
     <!-- Default preferences of Android app-->
     <bool name="prefs_default_autostart">true</bool>
+    <bool name="prefs_default_remote">false</bool>
     <bool name="prefs_default_notification_notices">true</bool>
     <bool name="prefs_default_notification_suspended">false</bool>
     <bool name="prefs_default_advanced">false</bool>
@@ -49,6 +51,7 @@
     <bool name="prefs_power_source_wireless">true</bool>
     <bool name="prefs_stationary_device_mode">false</bool>
     <bool name="prefs_suspend_when_screen_on">true</bool>
+    <bool name="prefs_default_expand_wu_data">false</bool>
     <!-- Monitor behavior -->
     <integer name="status_update_interval_ms">1000</integer>
     <integer name="device_status_update_screen_off_every_X_loop">10
@@ -81,5 +84,27 @@
         <item>gui_rpc_debug</item>
         <item>cpu_sched_debug</item>
         <item>work_fetch_debug</item>
+    </string-array>
+    <string-array name="prefs_gui_log_categories" translatable="false">
+        <item>CLIENT</item>
+        <item>DEVICE</item>
+        <item>GUI_ACTIVITY</item>
+        <item>GUI_VIEW</item>
+        <item>MONITOR</item>
+        <item>PROJECTS</item>
+        <item>PROJECT_SERVICE</item>
+        <item>RPC</item>
+        <item>SETTINGS</item>
+        <item>TASKS</item>
+        <item>USER_ACTION</item>
+        <item>XML</item>
+    </string-array>
+    <string-array name="prefs_gui_log_categories_default" translatable="false">
+        <item>CLIENT</item>
+        <item>DEVICE</item>
+        <item>MONITOR</item>
+        <item>PROJECTS</item>
+        <item>PROJECT_SERVICE</item>
+        <item>TASKS</item>
     </string-array>
 </resources>

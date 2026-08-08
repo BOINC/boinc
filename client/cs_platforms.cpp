@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2021 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -24,6 +24,9 @@
 #include "boinc_win.h"
 typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL);
 LPFN_ISWOW64PROCESS fnIsWow64Process;
+#ifndef SIM
+#include "hostinfo.h"
+#endif
 #else
 #include "config.h"
 #include <cstdio>
@@ -40,8 +43,9 @@ LPFN_ISWOW64PROCESS fnIsWow64Process;
 #endif
 #endif
 
-#if defined(__APPLE__) && (defined(__i386__) || defined(__x86_64__))
+#ifdef __APPLE__
 #include <sys/sysctl.h>
+extern int compareOSVersionTo(int toMajor, int toMinor);
 #endif
 
 #include "error_numbers.h"
@@ -52,6 +56,7 @@ LPFN_ISWOW64PROCESS fnIsWow64Process;
 
 #include "client_types.h"
 #include "client_state.h"
+#include "client_msgs.h"
 #include "log_flags.h"
 #include "project.h"
 
@@ -71,12 +76,123 @@ void CLIENT_STATE::add_platform(const char* platform) {
 }
 
 
+#if defined (__APPLE__) && defined (__arm64__)
+// detect a possibly emulated x86_64 CPU and its features on a Apple Silicon M1 Mac
+//
+int launch_child_process_to_detect_emulated_cpu() {
+    int pid;
+    char data_dir[MAXPATHLEN];
+    char execpath[MAXPATHLEN];
+    int retval = 0;
+
+    retval = boinc_delete_file(EMULATED_CPU_INFO_FILENAME);
+    if (retval) {
+        msg_printf(0, MSG_INFO,
+            "Failed to delete old %s. error code %d",
+            EMULATED_CPU_INFO_FILENAME, retval
+        );
+    } else {
+        for (;;) {
+            if (!boinc_file_exists(EMULATED_CPU_INFO_FILENAME)) break;
+            boinc_sleep(0.01);
+        }
+    }
+
+    // write the EMULATED_CPU_INFO into the BOINC data dir
+    boinc_getcwd(data_dir);
+
+    // the execuable should be in BOINC data dir
+    strncpy(execpath, data_dir, sizeof(execpath));
+    strncat(execpath, "/" EMULATED_CPU_INFO_EXECUTABLE, sizeof(execpath) - strlen(execpath) - 1);
+
+    if (log_flags.coproc_debug) {
+        msg_printf(0, MSG_INFO,
+            "[x86_64-M1] launching child process at %s",
+            execpath
+        );
+    }
+
+    int argc = 1;
+    char* const argv[2] = {
+         const_cast<char *>(execpath),
+         NULL
+    };
+
+    retval = run_program(
+        data_dir,
+        execpath,
+        argc,
+        argv,
+        pid
+    );
+
+    if (retval) {
+        if (log_flags.coproc_debug) {
+            msg_printf(0, MSG_INFO,
+                "[x86_64-M1] run_program of child process returned error %d",
+                retval
+            );
+        }
+        return retval;
+    }
+
+    int status;
+    retval = get_exit_status(pid, status, 10);
+    if (retval) {
+        msg_printf(0, MSG_INFO, "CPU emulation check process didn't exit");
+        kill_process(pid);
+        return retval;
+    }
+
+    if (status) {
+        char buf[200];
+        if (WIFEXITED(status)) {
+            int code = WEXITSTATUS(status);
+            snprintf(buf, sizeof(buf),
+                "process exited with status %d: %s", code, strerror(code)
+            );
+        } else if (WIFSIGNALED(status)) {
+            int sig = WTERMSIG(status);
+            snprintf(buf, sizeof(buf),
+                "process was terminated by signal %d", sig
+            );
+        } else {
+            snprintf(buf, sizeof(buf), "unknown status %d", status);
+        }
+        msg_printf(0, MSG_INFO,
+            "Emulated CPU detection failed: %s",
+            buf
+        );
+        return -1;
+    }
+
+    return 0;
+}
+#endif
+
 // determine the list of supported platforms.
 //
 void CLIENT_STATE::detect_platforms() {
 
 #if defined(_WIN32) && !defined(__CYGWIN32__)
-#if defined(_WIN64) && defined(_M_X64)
+#if defined(_ARM64_)
+    add_platform("windows_arm64");
+#ifndef SIM
+    // according to
+    // https://learn.microsoft.com/en-us/windows/arm/apps-on-arm-x86-emulation
+    // Windows 10 on ARM can run x86 applications,
+    // and Windows 11 on ARM can run x86_64 applications
+    // so we will add these platfroms as well
+    OSVERSIONINFOEX osvi;
+    BOOL bOsVersionInfoEx = get_OSVERSIONINFO(osvi);
+    if (osvi.dwMajorVersion >= 10) {
+        add_platform("windows_intelx86");
+        if (osvi.dwBuildNumber >= 22000) {
+            add_platform("windows_x86_64");
+        }
+    }
+#endif
+#elif defined(_WIN64) && defined(_M_X64)
     add_platform("windows_x86_64");
     add_platform("windows_intelx86");
 #else
@@ -100,7 +216,14 @@ void CLIENT_STATE::detect_platforms() {
 
 #ifdef __x86_64__
     add_platform("x86_64-apple-darwin");
-    add_platform("i686-apple-darwin");
+    if (compareOSVersionTo(10, 15) < 0) {
+        add_platform("i686-apple-darwin");
+    }
+#elif defined(__arm64__)
+    add_platform("arm64-apple-darwin");
+    if (!launch_child_process_to_detect_emulated_cpu()) {
+        add_platform("x86_64-apple-darwin");
+    }
 #else
 #error Mac client now requires a 64-bit system
 #endif
@@ -296,8 +419,8 @@ void CLIENT_STATE::detect_platforms() {
 
     // add platforms listed in cc_config.xml AFTER the above.
     //
-    for (unsigned int i=0; i<cc_config.alt_platforms.size(); i++) {
-        add_platform(cc_config.alt_platforms[i].c_str());
+    for (const string &s: cc_config.alt_platforms) {
+        add_platform(s.c_str());
     }
 }
 
@@ -324,8 +447,7 @@ void CLIENT_STATE::write_platforms(PROJECT* p, FILE *f) {
 }
 
 bool CLIENT_STATE::is_supported_platform(const char* p) {
-    for (unsigned int i=0; i<platforms.size(); i++) {
-        PLATFORM& platform = platforms[i];
+    for (const PLATFORM& platform: platforms) {
         if (!strcmp(p, platform.name.c_str())) {
             return true;
         }

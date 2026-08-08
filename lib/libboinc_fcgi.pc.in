@@ -1,0 +1,13 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: boinc_fcgi
+Description: BOINC FastCGI library
+Version: @PACKAGE_VERSION@
+
+Cflags: -D_USING_FCGI_ -I${includedir}/boinc
+Cflags.private: @PTHREAD_CFLAGS@
+Libs: -L${libdir} -lboinc_fcgi
+Libs.private: @PTHREAD_LIBS@

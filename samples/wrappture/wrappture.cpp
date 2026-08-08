@@ -33,6 +33,8 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/resource.h>
+#include <pthread.h>
 #include <unistd.h>
 #include "procinfo.h"
 #endif
@@ -49,6 +51,12 @@
 #include "wrappture.h"
 
 #define POLL_PERIOD 1.0
+
+#ifdef _WIN32
+extern int suspend_or_resume_threads(
+    std::vector<int> pids, DWORD threadid, bool resume, bool check_exempt
+);
+#endif
 
 using std::vector;
 using std::string;
@@ -242,7 +250,7 @@ int TASK::run(int argct, char** argvt) {
         &process_info
     )) {
         char error_msg[1024];
-        windows_error_string(error_msg, sizeof(error_msg));
+        windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
         fprintf(stderr, "can't run app: %s\n", error_msg);
         return ERR_EXEC;
     }
@@ -330,7 +338,7 @@ bool TASK::poll(int& status) {
 
 void TASK::kill() {
 #ifdef _WIN32
-    TerminateProcess(pid_handle, -1);
+    TerminateProcess(pid_handle, static_cast<UINT>(-1));
 #else
     ::kill(pid, SIGKILL);
 #endif
@@ -338,7 +346,9 @@ void TASK::kill() {
 
 void TASK::stop() {
 #ifdef _WIN32
-    suspend_or_resume_threads(pid, 0, false);
+    std::vector<int> pids;
+    pids.push_back(pid);
+    suspend_or_resume_threads(pids, 0, false, true);
 #else
     ::kill(pid, SIGSTOP);
 #endif
@@ -347,7 +357,9 @@ void TASK::stop() {
 
 void TASK::resume() {
 #ifdef _WIN32
-    suspend_or_resume_threads(pid, 0, true);
+    std::vector<int> pids;
+    pids.push_back(pid);
+    suspend_or_resume_threads(pids, 0, true, true);
 #else
     ::kill(pid, SIGCONT);
 #endif
@@ -396,12 +408,12 @@ double TASK::cpu_time() {
 }
 
 void send_status_message(
-    TASK& task, double frac_done, double checkpoint_cpu_time
+    TASK& task, double frac_done, double checkpoint_cpu_time_value
 ) {
     double current_cpu_time = task.starting_cpu + task.cpu_time();
     boinc_report_app_status(
         current_cpu_time,
-        checkpoint_cpu_time,
+        checkpoint_cpu_time_value,
         frac_done
     );
 }

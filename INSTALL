@@ -5,3 +5,14 @@ To build the BOINC client software:
 For more information, visit:
 http://boinc.berkeley.edu/trac/wiki/CompileClient
 http://boinc.berkeley.edu/trac/wiki/BuildSystem
+
+When building application that should run on BOINC, you no longer need to care about building BOINC libraries for every platform.
+you can build and install BOINC libraries using [vcpkg](https://github.com/Microsoft/vcpkg/) dependency manager:
+
+    git clone https://github.com/Microsoft/vcpkg.git
+    cd vcpkg
+    ./bootstrap-vcpkg.sh
+    ./vcpkg integrate install
+    ./vcpkg install boinc
+
+The BOINC port in vcpkg is kept up to date by Microsoft team members and community contributors. If the version is out of date, please [create an issue or pull request](https://github.com/Microsoft/vcpkg) on the vcpkg repository.

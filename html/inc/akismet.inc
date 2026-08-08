@@ -16,10 +16,15 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Akismet is an anti-spam system: https://akismet.com/
+// BOINC lets you use it to prevent spam in forums and profiles.
+// You need to create an Akismet account (there's a free option),
+// and put the key in config.xml:
+// https://github.com/BOINC/boinc/wiki/ProtectionFromSpam#akismet
+//
 function akismet_check($user, $post) {
-    global $master_url;
-    $config = get_config();
-    $key = parse_config($config, "<akismet_key>");
+    $master_url = master_url();
+    $key = project_config_val("akismet_key");
     if (!$key) {
         return true;
     }
@@ -70,6 +75,6 @@ function akismet_request($request, $host, $path, $port = 80) {
         $response = explode("\r\n\r\n", $response, 2);
     }
     return $response;
-}  
+}
 
 ?>

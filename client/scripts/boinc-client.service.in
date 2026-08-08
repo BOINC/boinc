@@ -1,15 +1,15 @@
 [Unit]
 Description=Berkeley Open Infrastructure Network Computing Client
 Documentation=man:boinc(1)
-After=network-online.target
+Wants=vboxdrv.service
+After=vboxdrv.service network-online.target
 
 [Service]
-Type=simple
+Type=exec
 ProtectHome=true
-PrivateTmp=true
 ProtectSystem=strict
 ProtectControlGroups=true
-ReadWritePaths=-/var/lib/boinc -/etc/boinc-client
+ReadWritePaths=-/var/lib/boinc -/etc/boinc-client -/tmp -/var/tmp
 Nice=10
 User=boinc
 WorkingDirectory=/var/lib/boinc
@@ -32,6 +32,7 @@ IOSchedulingClass=idle
 #PrivateUsers=true
 #CapabilityBoundingSet=
 #MemoryDenyWriteExecute=true
+#PrivateTmp=true  #Block X11 idle detection
 
 [Install]
 WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: boinc_api
+Description: BOINC API
+Version: @PACKAGE_VERSION@
+URL: https://github.com/BOINC/boinc/wiki/BasicApi
+
+Cflags: -I${includedir}/boinc
+Cflags.private: @GLUT_CFLAGS@
+Libs: -L${libdir} -lboinc_api

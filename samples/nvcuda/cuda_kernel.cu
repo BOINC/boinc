@@ -64,7 +64,7 @@ void invertge(REAL * AI_d, int lda, int n) {
     for (int i = 0; i < n; i++) {
         GEStep1A<<<(int)ceil((float)(1+(2*n-1)/32)),32>>>(AI_d,i,n*2, lda2);
         CUDACHECK;
-        cudaThreadSynchronize();
+        cudaDeviceSynchronize();
     }
 
     for (int i = n-1; i >= 0; i--) {
@@ -75,7 +75,7 @@ void invertge(REAL * AI_d, int lda, int n) {
 
         GEStep3<<<(int)ceil((float)(1+(n*2-1)/32)),32>>>(AI_d,i,n*2, lda2);
         CUDACHECK;
-        cudaThreadSynchronize();
+        cudaDeviceSynchronize();
         CUDACHECK;
     }
 }
@@ -104,7 +104,7 @@ extern void invert(REAL * A, int n) {
     gputime=clock()-gputime;fprintf(stderr, " %7.1f ms ",gputime/1.e3f);
     fprintf(stderr, " %7.2f Gflops", 1e-3*(3.0)*n*n*n/3.0/gputime);
 
-#ifdef VERIFY	
+#ifdef VERIFY
 	// let's verify that
     REAL error=0.0;
     // multiply inverse*xcopy, should be Identity matrix
@@ -122,7 +122,7 @@ extern void invert(REAL * A, int n) {
         }
     }
     fprintf(stderr, " %6.2f SSE", error);
-#endif	
+#endif
 
     for (int i = 0; i < n; i++) {
         memcpy(&A[n*i], &AI[lda*i*2+n], sizeof(REAL)*n);

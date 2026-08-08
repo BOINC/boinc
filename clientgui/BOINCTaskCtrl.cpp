@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -24,8 +24,8 @@
 #include "BOINCTaskCtrl.h"
 #include "MainDocument.h"
 
-#define TASKPANEWIDTH ADJUSTFORXDPI(200)
-#define TASKBUTTONWIDTH ADJUSTFORXDPI(TASKPANEWIDTH - 55)
+const int taskPaneWidth = 200;
+const int taskButtonWidth = taskPaneWidth - 55;
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCTaskCtrl, wxScrolledWindow)
 
@@ -40,12 +40,12 @@ CBOINCTaskCtrl::CBOINCTaskCtrl() {}
 
 
 CBOINCTaskCtrl::CBOINCTaskCtrl(CBOINCBaseView* pView, wxWindowID iTaskWindowID, wxInt32 iTaskWindowFlags) :
-    wxScrolledWindow(pView, iTaskWindowID, wxDefaultPosition, wxSize(TASKPANEWIDTH, -1), iTaskWindowFlags)
+    wxScrolledWindow(pView, iTaskWindowID, wxDefaultPosition, wxSize(taskPaneWidth, -1), iTaskWindowFlags)
 {
     m_pParent = pView;
     m_pSizer = NULL;
 
-    SetVirtualSize( TASKPANEWIDTH, 1000 );
+    SetVirtualSize( taskPaneWidth, 1000 );
     EnableScrolling(false, true);
     SetScrollRate( 0, 10 );
 }
@@ -135,7 +135,7 @@ wxInt32 CBOINCTaskCtrl::EnableTask( CTaskItem* pItem ) {
 
 wxInt32 CBOINCTaskCtrl::UpdateTask( CTaskItem* pItem, wxString strName, wxString strDescription ) {
     if (pItem->m_pButton) {
-        if (!pItem->m_strName.Cmp(strName) && 
+        if (!pItem->m_strName.Cmp(strName) &&
             !pItem->m_strDescription.Cmp(strDescription)) {
             return 0;
         }
@@ -196,9 +196,9 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
                 // they are children of the wxStaticBox, but on Mac the layout is wrong
                 // unless the buttons are children of the parent of the wxStaticBox.
                 // ToDo: merge these cases when these bugs are fixed in wxWidgets.
-                pItem->m_pButton->Create(pGroup->m_pStaticBox, pItem->m_iEventID, pItem->m_strNameEllipsed, wxDefaultPosition, wxSize(TASKBUTTONWIDTH, -1), 0);
+                pItem->m_pButton->Create(pGroup->m_pStaticBox, pItem->m_iEventID, pItem->m_strNameEllipsed, wxDefaultPosition, wxSize(taskButtonWidth, -1), 0);
 #else
-                pItem->m_pButton->Create(this, pItem->m_iEventID, pItem->m_strNameEllipsed, wxDefaultPosition, wxSize(TASKBUTTONWIDTH, -1), 0);
+                pItem->m_pButton->Create(this, pItem->m_iEventID, pItem->m_strNameEllipsed, wxDefaultPosition, wxSize(taskButtonWidth, -1), 0);
 #endif
                 pItem->m_pButton->SetHelpText(pItem->m_strDescription);
 #if wxUSE_TOOLTIPS
@@ -219,7 +219,7 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
     if (layoutChanged) {
         Fit ();
     }
-    
+
     return layoutChanged;
 }
 
@@ -274,7 +274,7 @@ bool CBOINCTaskCtrl::OnRestoreState(wxConfigBase* pConfig) {
 // scroll bars the Child Focus Event scrolls the task control
 // panel to make the wxStaticBox fully visible. To prevent this,
 // we intercept the Child Focus Event, scroll only enough to
-// make the button visible if it is not already visible, and 
+// make the button visible if it is not already visible, and
 // do not call event.Skip.
 void CBOINCTaskCtrl::OnChildFocus(wxChildFocusEvent&) {
     int stepx, stepy;
@@ -283,12 +283,12 @@ void CBOINCTaskCtrl::OnChildFocus(wxChildFocusEvent&) {
 
     wxWindow* theButton = wxWindow::FindFocus();
     if (!theButton) return;
-    
+
     // Get button position relative to Task Control's viewing area
     wxRect buttonRect(
 		ScreenToClient(theButton->GetScreenPosition()), theButton->GetSize()
 	);
-    
+
     const wxRect viewRect(GetClientRect());
     if (viewRect.Contains(buttonRect)){
         return; // Already fully visible
@@ -315,10 +315,10 @@ void CBOINCTaskCtrl::OnChildFocus(wxChildFocusEvent&) {
 
 void CBOINCTaskCtrl::EllipseStringIfNeeded(wxString& s) {
     int w, h;
-    int maxWidth = TASKBUTTONWIDTH - 10;
-    
+    const int maxWidth = taskButtonWidth - 10;
+
     GetTextExtent(s, &w, &h);
-    
+
     // Adapted from ellipis code in wxRendererGeneric::DrawHeaderButtonContents()
     if (w > maxWidth) {
         int ellipsisWidth;

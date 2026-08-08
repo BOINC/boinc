@@ -20,13 +20,10 @@
 // Don't run this unless you know what you're doing!
 
 $cli_only = true;
+
 require_once("../inc/util_ops.inc");
 
-$db = BoincDb::get_aux(false);
-if (!$db) {
-    echo "Can't open database\n";
-    exit;
-}
+BoincDb::get_cli();
 
 set_time_limit(0);
 
@@ -288,7 +285,7 @@ function update_4_20_2005(){
 
 function update_4_30_2005(){
     do_query("ALTER TABLE `forum_preferences` ADD `ignore_sticky_posts` TINYINT( 1 ) UNSIGNED NOT NULL");
-}    
+}
 
 function update_6_22_2005() {
     do_query("alter table host add cpu_efficiency double not null after active_frac, add duration_correction_factor double not null after cpu_efficiency");
@@ -381,7 +378,7 @@ function update_4_07_2007() {
 
 function update_4_24_2007() {
     do_query('alter table host add error_rate double not null default 0');
-    
+
 }
 
 function update_4_29_2007() {
@@ -628,7 +625,7 @@ function update_10_7_2008() {
 
 function update_6_16_2009() {
     do_query("create table state_counts (
-            appid               integer     not null, 
+            appid               integer     not null,
             last_update_time    integer     not null,
             result_server_state_2       integer not null,
             result_server_state_4       integer not null,
@@ -639,7 +636,7 @@ function update_6_16_2009() {
             workunit_assimilate_state_1 integer not null,
             workunit_file_delete_state_1        integer not null,
             workunit_file_delete_state_2        integer not null,
-            primary key (appid) 
+            primary key (appid)
             ) engine=MyISAM
     ");
 }
@@ -919,7 +916,7 @@ function update_3_6_2014() {
 
 function update_4_2_2014() {
     do_query(
-        "alter table result 
+        "alter table result
             add peak_working_set_size double not null,
             add peak_swap_size double not null,
             add peak_disk_usage double not null
@@ -971,7 +968,7 @@ function update_8_15_2014() {
         "
     );
 }
- 
+
 function update_10_8_2014() {
     do_query("alter table user_submit add primary key(user_id)");
     do_query("alter table user_submit_app add primary key(user_id, app_id)");
@@ -1079,7 +1076,7 @@ function update_3_8_2018() {
 
 function update_4_5_2018() {
     do_query("create table token (
-        token                   varchar(255)    not null,
+        token                   varchar(64)    not null,
         userid                  integer         not null,
         type                    char            not null,
         create_time             integer         not null,
@@ -1120,7 +1117,7 @@ function update_5_9_2018() {
             primary key (userid)
         ) engine=InnoDB;
     ");
-    
+
     $retval = $retval && do_query("create table host_deleted (
             hostid                  integer         not null,
             public_cross_project_id varchar(254)    not null,
@@ -1128,35 +1125,35 @@ function update_5_9_2018() {
             primary key (hostid)
         ) engine=InnoDB;
     ");
-    
+
     $retval = $retval && do_query("alter table user_deleted
         add index user_deleted_create(create_time)
     ");
-    
+
     $retval = $retval && do_query("alter table host_deleted
         add index host_deleted_create(create_time)
     ");
-    
+
     $retval = $retval && do_query("alter table team_delta
         add index team_delta_userid (userid)
     ");
-    
+
     $retval = $retval && do_query("alter table donation_paypal
         add index donation_paypal_userid(userid)
     ");
-    
+
     $retval = $retval && do_query("alter table banishment_vote
         add index banishment_vote_userid(userid)
     ");
-    
+
     $retval = $retval && do_query("alter table post_ratings
         add index post_ratings_user(user)
     ");
-    
+
     $retval = $retval && do_query("alter table msg_from_host
         add index message_hostid(hostid)
     ");
-    
+
     return $retval && do_query("alter table sent_email
         add index sent_email_userid(userid)
     ");
@@ -1245,13 +1242,69 @@ function update_6_18_2019() {
     ");
 }
 
+function update_2_15_2025() {
+    do_query('alter table result drop index res_wu_user');
+    do_query('alter table workunit add index wu_batch(batch)');
+    do_query('alter table result add index res_batch(batch)');
+}
+
+function update_11_23_2025() {
+    do_query("alter table host add column misc text not null");
+}
+
+function update_5_2_2026a() {
+    do_query("alter table platform modify name varchar(191) not null");
+    do_query("alter table app modify name varchar(191) not null");
+    do_query("alter table app_version modify plan_class varchar(128) not null default ''");
+    do_query("alter table user modify email_addr varchar(191) not null");
+    do_query("alter table user modify name varchar(191)");
+    do_query("alter table user modify authenticator varchar(191)");
+    do_query("alter table team modify name varchar(191) not null");
+    do_query("alter table workunit modify name varchar(191) not null");
+    do_query("alter table result modify name varchar(191) not null");
+    do_query("alter table job_file modify name varchar(191) not null");
+    do_query("alter table category modify name varchar(180) not null");
+    do_query("alter table forum modify title varchar(175) not null");
+    do_query("alter table token modify token varchar(64) not null");
+    do_query("alter table consent_type modify shortname varchar(191) not null");
+}
+
+function update_5_2_2026b() {
+    do_query("alter table platform CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table app CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table app_version CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table user CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table team CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table host CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table workunit CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table result CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table batch CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table job_file CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table msg_from_host CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table msg_to_host CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table profile CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table category CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table forum CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table thread CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table post CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table forum_preferences CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table private_messages CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table donation_items CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table donation_paypal CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table friend CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table badge CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table token CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table consent CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table consent_type CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
-// (Look at your DB structure using "explain" queries to see
-// which ones you need).
+// (Look at your DB using "explain" queries to see which ones you need).
+// Update 'db_revision' when done.
 
 //update_3_17_2010();
 
@@ -1306,6 +1359,12 @@ $db_updates = array (
     array(27027, "update_8_23_2018"),
     array(27028, "update_9_12_2018")
     array(27029, "update_6_18_2019")
+    array(27030, "update_9_12_2018"),
+    array(27031, "update_2_15_2025"),
+    array(27032, "update_11_23_2025"),
+    array(27033, "update_5_2_2026a"),
+    array(27034, "update_5_2_2026b"),
+>>>>>>> master
 );
 
 ?>

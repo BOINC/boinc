@@ -17,12 +17,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Update the 'activity' field of threads,
+// based on the number of recent posts.
+// This is needed for the 'sort by activity' option
+
 $cli_only = true;
 require_once("../inc/util_ops.inc");
 require_once("../inc/forum_db.inc");
 
-define('MAX_REWARD', 4096);
-define('SCALAR', 0.9);
 set_time_limit(0);
 
 echo date(DATE_RFC822), ": Starting\n";
@@ -41,20 +43,20 @@ foreach ($threads as $thread) {
     if ($is_helpdesk) {
         $diff = ($now - $thread->create_time)/86400;
         $activity = ($thread->sufferers+1)/$diff;
-        echo "thread $thread->id helpdesk $diff $activity\n";
+        //echo "thread $thread->id helpdesk $diff $activity\n";
     } else {
         $posts = BoincPost::enum("thread=$thread->id");
         $activity = 0;
-    
+
         foreach ($posts as $post) {
             $diff = $now - $post->timestamp;
             $diff /= 7*86400;
             $activity += pow(2, -$diff);
         }
-        echo "thread $thread->id forum $activity\n";
+        //echo "thread $thread->id forum $activity\n";
     }
     $thread->update("activity=$activity");
-    
+
 }
 
 echo date(DATE_RFC822), ": Finished\n";

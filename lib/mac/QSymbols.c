@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,13 +19,13 @@
  *  QSymbols.c
  *
  */
- 
-/* This is part of a backtrace generator for boinc project applications.  
+
+/* This is part of a backtrace generator for boinc project applications.
 *
 * Adapted from Apple Developer Technical Support Sample Code QCrashReport
 *
-* This code handles Mac OS X 10.3.x through 10.4.9.  It may require some 
-* adjustment for future OS versions; see the discussion of _sigtramp and 
+* This code handles Mac OS X 10.3.x through 10.4.9.  It may require some
+* adjustment for future OS versions; see the discussion of _sigtramp and
 * PowerPC Signal Stack Frames in file QBacktrace.c.
 *
 *  For useful tips on using backtrace information, see Apple Tech Note 2123:
@@ -33,10 +33,10 @@
 *
 *  To convert addresses to correct symbols, use the atos command-line tool:
 *  atos -o path/to/executable/with/symbols address
-*  Note: if address 1a23 is hex, use 0x1a23.  
+*  Note: if address 1a23 is hex, use 0x1a23.
 *
-*  To demangle mangled C++ symbols, use the c++filt command-line tool. 
-*  You may need to prefix C++ symbols with an additonal underscore before 
+*  To demangle mangled C++ symbols, use the c++filt command-line tool.
+*  You may need to prefix C++ symbols with an additional underscore before
 *  passing them to c++filt (so they begin with two underscore characters).
 *
 * A very useful shell script to add symbols to a crash dump can be found at:
@@ -78,7 +78,7 @@
                 patent rights that may be infringed by your derivative works or
                 by other works in which the Apple Software may be incorporated.
 
-                The Apple Software is provided by Apple on an "AS IS" basis. 
+                The Apple Software is provided by Apple on an "AS IS" basis.
                 APPLE MAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
                 WITHOUT LIMITATION THE IMPLIED WARRANTIES OF NON-INFRINGEMENT,
                 MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, REGARDING
@@ -98,10 +98,10 @@
     Change History (most recent first):
 
 $Log: QSymbols.c,v $
-Revision 1.2  2007/03/02 13:00:51         
+Revision 1.2  2007/03/02 13:00:51
 Fix an error handling bug in the creation code.
 
-Revision 1.1  2007/03/02 12:20:29         
+Revision 1.1  2007/03/02 12:20:29
 First checked in.
 
 
@@ -138,73 +138,73 @@ First checked in.
 #pragma mark ***** Performance Notes
 
 /*
-    I'm currently not happy with the performance characteristics of this module. 
-    There are /way/ too many linear searches for my liking.  However, there are a 
+    I'm currently not happy with the performance characteristics of this module.
+    There are /way/ too many linear searches for my liking.  However, there are a
     number of reasons I implemented it this way.  In no particular order, these are:
-    
-      o In general I believe in the principle of "make it work, then make it 
-        go fast".  To that end, I've specifically designed the module to allow 
+
+      o In general I believe in the principle of "make it work, then make it
+        go fast".  To that end, I've specifically designed the module to allow
         for future optimisation.
-        
-      o The current performance isn't too bad.  While there's lots of linear 
-        algorithms, the data structures that we're operating on are all cached 
+
+      o The current performance isn't too bad.  While there's lots of linear
+        algorithms, the data structures that we're operating on are all cached
         in client-side memory, so there's very little IPC cost.
-    
-      o If and when I write the optimised code, it will be nice to have the  
-        simple code around for testing.  That is, I'll be able to automatically 
+
+      o If and when I write the optimised code, it will be nice to have the
+        simple code around for testing.  That is, I'll be able to automatically
         test the new code by comparing its results to the old code.
-        
-      o This is sample code.  I've already spent way too much time on this, and 
+
+      o This is sample code.  I've already spent way too much time on this, and
         writing the optimised version of the code would consume even more time.
         optimising
-    
-      o The overall goal of this project is to provide infrastructure for crash 
+
+      o The overall goal of this project is to provide infrastructure for crash
         reporting; crash reporting is not, in general, time sensitive.
-        
+
     The way I'd make this go fast are as follows:
-    
-      o Don't do anything more on QSymbolsRef creation.  Rather, create the 
-        'go faster' data structures when the first address-to-symbol or 
-        symbol-to-address operation is done.  This is because the type of 
-        data structure you want is different for each operation, and you don't 
-        want to spend the time creating the data structures for both types 
+
+      o Don't do anything more on QSymbolsRef creation.  Rather, create the
+        'go faster' data structures when the first address-to-symbol or
+        symbol-to-address operation is done.  This is because the type of
+        data structure you want is different for each operation, and you don't
+        want to spend the time creating the data structures for both types
         if the client is only going to use one.
-        
-      o The address-to-symbol optimising data structure would consist of a 
-        sorted array of section starts.  This would be created lazily when the 
-        first address-to-symbol operation is done.  You could binary search 
-        this to find the section containing the address.  Then, for each section, 
-        you would (lazily) create an array of symbols sorted by their start 
+
+      o The address-to-symbol optimising data structure would consist of a
+        sorted array of section starts.  This would be created lazily when the
+        first address-to-symbol operation is done.  You could binary search
+        this to find the section containing the address.  Then, for each section,
+        you would (lazily) create an array of symbols sorted by their start
         address.  So you could binary search that to find the best symbol.
-        
-        This would make QSymGetSymbolForAddress O(log2 n) + O(log2 m), where 
-        n is the number of sections and m is the number of symbols within a 
+
+        This would make QSymGetSymbolForAddress O(log2 n) + O(log2 m), where
+        n is the number of sections and m is the number of symbols within a
         section.
-      
-      o The symbol-to-address optimising data structure would start with a 
-        hash table that maps library names to image objects.  For each image 
+
+      o The symbol-to-address optimising data structure would start with a
+        hash table that maps library names to image objects.  For each image
         object, there would be another hash table to map symbols to addresses.
 
-        This would make a QSymGetAddressForSymbol call to look up a symbol with 
-        a particular library O(1).  It would make a flat namespace lookup O(n), 
-        where n is the number of images.  You could further reduce that to O(1) 
+        This would make a QSymGetAddressForSymbol call to look up a symbol with
+        a particular library O(1).  It would make a flat namespace lookup O(n),
+        where n is the number of images.  You could further reduce that to O(1)
         by creating a global hash table for all symbols from all libraries.
-        
-      o These two data structures would also support an O(1) implementation of 
+
+      o These two data structures would also support an O(1) implementation of
         QSymGetNextSymbol.
 */
 
 /////////////////////////////////////////////////////////////////
 
-// In the QSymbols data structure, we record the index of the image for dyld 
-// and the main executable.  We initialise these indexes to kQSymBadImageIndex so 
+// In the QSymbols data structure, we record the index of the image for dyld
+// and the main executable.  We initialise these indexes to kQSymBadImageIndex so
 // we can tell whether we've found the corresponding image.
 
 enum {
     kQSymBadImageIndex = (size_t) -1
 };
 
-// QMOImage represents all of the symbols with a process.  It's the backing for 
+// QMOImage represents all of the symbols with a process.  It's the backing for
 // the exported QSymbolsRef type.
 
 struct QSymbols {
@@ -224,7 +224,7 @@ typedef struct QSymbols QSymbols;
     {
         bool        valid;
         size_t      imageIndex;
-        
+
         valid = (symRef != NULL)
              && (symRef->imageCount > 0)
              && (symRef->images != NULL)
@@ -237,7 +237,7 @@ typedef struct QSymbols QSymbols;
                 }
             }
         }
-        
+
         return valid;
     }
 
@@ -246,9 +246,9 @@ typedef struct QSymbols QSymbols;
 extern void QSymDestroy(QSymbolsRef symRef)
     // See comment in header.
 {
-    kern_return_t   krJunk;
+    kern_return_t   krJunk __attribute__((unused));
     size_t          imageIndex;
-    
+
     if (symRef != NULL) {
         if (symRef->images != NULL) {
             for (imageIndex = 0; imageIndex < symRef->imageCount; imageIndex++) {
@@ -276,15 +276,15 @@ extern int QSymCreateFromTask(
     kern_return_t   kr;
     QSymbolsRef     symRef;
     size_t          imageIndex;
-    
+
     assert(task != MACH_PORT_NULL);
     assert( symRefPtr != NULL);
     assert(*symRefPtr == NULL);
 
 	symRef = NULL;
-	
+
     // Basic initialisation.  This includes getting the image list from the task.
-    
+
     err = 0;
     if ( (task == mach_task_self()) && suspend ) {
         err = EINVAL;
@@ -299,11 +299,11 @@ extern int QSymCreateFromTask(
         symRef->task      = task;
         symRef->execIndex = kQSymBadImageIndex;
         symRef->dyldIndex = kQSymBadImageIndex;
-        
+
         if (suspend) {
             kr = task_suspend(symRef->task);
             err = QTMErrnoFromMachError(kr);
-            
+
             symRef->didSuspend = (err == 0);
         }
     }
@@ -319,13 +319,13 @@ extern int QSymCreateFromTask(
     if (err == 0) {
         err = QMOImageListFromTask(task, cputype, symRef->images, symRef->imageCount, &symRef->imageCount);
     }
-    
+
     // Search for dyld and the main executable.
-    
+
     if (err == 0) {
         for (imageIndex = 0; imageIndex < symRef->imageCount; imageIndex++) {
             int32_t fileType;
-            
+
             fileType = QMOImageGetFileType(symRef->images[imageIndex]);
             switch (fileType) {
                 case MH_EXECUTE:
@@ -343,7 +343,7 @@ extern int QSymCreateFromTask(
     }
 
     // Clean up.
-    
+
     if (err != 0) {
         QSymDestroy(symRef);
         symRef = NULL;
@@ -351,7 +351,7 @@ extern int QSymCreateFromTask(
     *symRefPtr = symRef;
 
     assert( (err == 0) == (*symRefPtr != NULL) );
-    
+
     return err;
 }
 
@@ -360,16 +360,16 @@ extern int QSymCreateFromSelf(
 )
     // See comment in header.
 {
-    // All of the infrastructure that QSymCreateFromTask uses (specifically, 
-    // QMOImageListFromTask and QMOImageCreateFromTask) has a short circuit 
-    // implementation when task is mach_task_self.  So we can just call that 
-    // routine with mach_task_self and be assured that we'll get the simple 
+    // All of the infrastructure that QSymCreateFromTask uses (specifically,
+    // QMOImageListFromTask and QMOImageCreateFromTask) has a short circuit
+    // implementation when task is mach_task_self.  So we can just call that
+    // routine with mach_task_self and be assured that we'll get the simple
     // implementation.
 
-    // We have to pass in the local CPU type (from QMOGetLocalCPUType), not 
-    // CPU_TYPE_ANY.  Otherwise, if we're being run using Rosetta, there's a chance 
-    // we might find the native dyld rather than the PowerPC one.  If that happens, 
-    // we end up looking at the wrong list of Mach-O images, and things go south 
+    // We have to pass in the local CPU type (from QMOGetLocalCPUType), not
+    // CPU_TYPE_ANY.  Otherwise, if we're being run using Rosetta, there's a chance
+    // we might find the native dyld rather than the PowerPC one.  If that happens,
+    // we end up looking at the wrong list of Mach-O images, and things go south
     // quickly.
 
     return QSymCreateFromTask(mach_task_self(), false, QMOGetLocalCPUType(), symRefPtr);
@@ -379,7 +379,7 @@ extern QMOImageRef QSymGetDyldImage(QSymbolsRef symRef)
     // See comment in header.
 {
     QMOImageRef result;
-    
+
     assert( QSymIsValid(symRef) );
 
     result = NULL;
@@ -393,7 +393,7 @@ extern QMOImageRef QSymGetExecutableImage(QSymbolsRef symRef)
     // See comment in header.
 {
     QMOImageRef result;
-    
+
     assert( QSymIsValid(symRef) );
 
     result = NULL;
@@ -404,8 +404,8 @@ extern QMOImageRef QSymGetExecutableImage(QSymbolsRef symRef)
 }
 
 extern void QSymGetImages(
-    QSymbolsRef     symRef, 
-    QMOImageRef **  imageArrayPtr, 
+    QSymbolsRef     symRef,
+    QMOImageRef **  imageArrayPtr,
     size_t *        imageCountPtr
 )
     // See comment in header.
@@ -413,13 +413,13 @@ extern void QSymGetImages(
     assert( QSymIsValid(symRef) );
     assert(imageArrayPtr != NULL);
     assert(imageCountPtr != NULL);
-    
+
     *imageArrayPtr = symRef->images;
     *imageCountPtr = symRef->imageCount;
 }
 
 static int SymbolToAddressCallback(
-	QMOImageRef		qmoImage, 
+	QMOImageRef		qmoImage,
 	const char *	name,
 	uint8_t			type,
 	uint8_t			sect,
@@ -431,15 +431,15 @@ static int SymbolToAddressCallback(
     // The QMOImageIterateSymbols callback for QSymGetAddressForSymbol.  See
     // See QMOSymbolIteratorProc for a description of the parameters.
     //
-    // iteratorRefCon is a pointer to a QSymSymbolInfo structure.  Initially, 
-    // only the symbolName field is valid.  If this routine finds a matching 
-    // symbol, it sets up the symbolType, symbolName, symbolImage, and symbolValue 
-    // fields. 
-    // 
-    // IMPORTANT: We set symbolInfo->symbolName to "name" because the initial 
-    // value of symbolName comes from the client, so the lifetime of the referenced 
-    // memory is undefined.  However, our "name" input parameter comes from the 
-    // QMOImageRef object, so it persists until that object is destroy, which 
+    // iteratorRefCon is a pointer to a QSymSymbolInfo structure.  Initially,
+    // only the symbolName field is valid.  If this routine finds a matching
+    // symbol, it sets up the symbolType, symbolName, symbolImage, and symbolValue
+    // fields.
+    //
+    // IMPORTANT: We set symbolInfo->symbolName to "name" because the initial
+    // value of symbolName comes from the client, so the lifetime of the referenced
+    // memory is undefined.  However, our "name" input parameter comes from the
+    // QMOImageRef object, so it persists until that object is destroy, which
     // only happens when the QSymbolsRef object is destroyed.
 {
     #pragma unused(sect, desc)
@@ -454,17 +454,17 @@ static int SymbolToAddressCallback(
 	err = 0;
 
     // Ignore debugger symbols.
-    
+
 	if ( ! (type & N_STAB) ) {
 		symbolInfo = (QSymSymbolInfo *) iteratorRefCon;
-	
+
         // Do the names match.
-        
+
 		if ( strcmp(name, symbolInfo->symbolName) == 0 ) {
-        
-            // If so, check that it's one of our supported types and, if so, 
+
+            // If so, check that it's one of our supported types and, if so,
             // set up the output structure.
-            
+
 			switch (type & N_TYPE) {
 				case N_ABS:
                     symbolInfo->symbolType   = (type & N_EXT) ? kQSymDyldPublicSymbol : kQSymDyldPrivateSymbol;
@@ -487,12 +487,12 @@ static int SymbolToAddressCallback(
 }
 
 extern char *   QSymCreateLibraryNameWithSuffix(const char *libraryName, const char *suffix);
-    // I need to export this for the benefit of the test program.  So it isn't 
+    // I need to export this for the benefit of the test program.  So it isn't
     // in a header, but it is "extern".
 
 extern char *   QSymCreateLibraryNameWithSuffix(const char *libraryName, const char *suffix)
-    // Add the suffix (for example, "_debug") to the library name (for example, 
-    // "/usr/lib/libSystem.B_debug.dylib").  Place the suffix before the extension 
+    // Add the suffix (for example, "_debug") to the library name (for example,
+    // "/usr/lib/libSystem.B_debug.dylib").  Place the suffix before the extension
     // if there is one.
 {
     const char *    nameStart;
@@ -500,10 +500,10 @@ extern char *   QSymCreateLibraryNameWithSuffix(const char *libraryName, const c
     size_t          libraryNameLen;
     const char *    extension;
     char *          result;
-    
+
     assert(libraryName != NULL);
     assert(suffix != NULL);
-    
+
     nameStart = strrchr(libraryName, '/');
     if (nameStart == NULL) {
         nameStart = libraryName;
@@ -511,20 +511,20 @@ extern char *   QSymCreateLibraryNameWithSuffix(const char *libraryName, const c
         nameStart += 1;
     }
     lastDot   = strrchr(nameStart, '.');
-    
+
     // Default to just concatenating the suffix.
-    
+
     libraryNameLen = strlen(libraryName);
     extension      = "";
-    
-    // If there's an extensiont, break the string at the dot and place the suffix 
+
+    // If there's an extensiont, break the string at the dot and place the suffix
     // between the two.
-    
+
     if (lastDot != NULL) {
         libraryNameLen = lastDot - libraryName;
         extension      = lastDot;
     }
-    
+
     result = NULL;
     asprintf(&result, "%.*s%s%s", (int) libraryNameLen, libraryName, suffix, extension);
     return result;
@@ -542,35 +542,35 @@ extern int QSymGetAddressForSymbol(
     size_t      imageIndex;
     size_t      imageIndexStart;
     size_t      imageIndexLimit;
-    
+
     assert( QSymIsValid(symRef) );
     // libraryName may be NULL
     assert(symbolName != NULL);
     assert(symbolInfo != NULL);
-    
-    // First find the library to search, if any.  We first try with no suffix, 
+
+    // First find the library to search, if any.  We first try with no suffix,
     // then with the _debug and _profile suffixes.
-    
+
     err = 0;
     imageIndexStart = 0;
     imageIndexLimit = symRef->imageCount;
     if (libraryName != NULL) {
         static const char * kSuffixes[] = { "", "_debug", "_profile", NULL };
         size_t suffixIndex;
-        
+
         suffixIndex = 0;
         do {
             char *      libraryNameWithSuffix;
-            
+
             libraryNameWithSuffix = QSymCreateLibraryNameWithSuffix(libraryName, kSuffixes[suffixIndex]);
             if (libraryNameWithSuffix == NULL) {
                 err = ENOMEM;
             }
-            
+
             if (err == 0) {
                 for (imageIndex = 0; imageIndex < symRef->imageCount; imageIndex++) {
                     const char *    thisImageName;
-                    
+
                     thisImageName = QMOImageGetLibraryID(symRef->images[imageIndex]);
                     if ( (thisImageName != NULL) && (strcmp(thisImageName, libraryNameWithSuffix) == 0) ) {
                         break;
@@ -583,16 +583,16 @@ extern int QSymGetAddressForSymbol(
                     imageIndexLimit = imageIndex + 1;
                 }
             }
-            
+
             free(libraryNameWithSuffix);
-            
+
             suffixIndex += 1;
         } while ( (err == ESRCH) && (kSuffixes[suffixIndex] != NULL) );
     }
 
-    // Within the range of libraries specified by imageIndexStart and imageIndexLimit, 
+    // Within the range of libraries specified by imageIndexStart and imageIndexLimit,
     // search for the symbol.
-    
+
     if (err == 0) {
         memset(symbolInfo, 0, sizeof(*symbolInfo));
         symbolInfo->symbolType  = kQSymNoSymbol;
@@ -608,21 +608,21 @@ extern int QSymGetAddressForSymbol(
             err = ESRCH;
         }
     }
-    
+
     // Clean up if there's any failure.
-    
+
     if (err != 0) {
         memset(symbolInfo, 0, sizeof(*symbolInfo));
         symbolInfo->symbolType  = kQSymNoSymbol;
     }
-    
+
     // Post-conditions
-    
+
     assert( (err == 0) == (symbolInfo->symbolType != kQSymNoSymbol) );
     assert( (symbolInfo->symbolType != kQSymNoSymbol) == (symbolInfo->symbolImage != NULL) );
     assert( (symbolInfo->symbolType != kQSymNoSymbol) == (symbolInfo->symbolName  != NULL) );
     assert(symbolInfo->symbolOffset == 0);      // for sym -> addr lookup, offset always zero
-    
+
     return err;
 }
 
@@ -637,7 +637,7 @@ extern int QSymGetAddressesForSymbols(
 {
     int         err;
     size_t      symbolIndex;
-    
+
     assert( QSymIsValid(symRef) );
     assert(count > 0);
     // libraryNames may be NULL
@@ -647,9 +647,9 @@ extern int QSymGetAddressesForSymbols(
     }
     assert(symbolInfos != NULL);
 
-    // The current implementation is very naive.  I could definitely make this 
+    // The current implementation is very naive.  I could definitely make this
     // faster, but see my "Performance Notes" comment at the top of this file.
-    
+
     err = 0;
     for (symbolIndex = 0; symbolIndex < count; symbolIndex++) {
         const char *    thisLib;
@@ -661,43 +661,43 @@ extern int QSymGetAddressesForSymbols(
         }
         (void) QSymGetAddressForSymbol(symRef, thisLib, symbolNames[symbolIndex], &symbolInfos[symbolIndex]);
     }
-    
+
     return err;
 }
 
 extern int QSymGetImageForAddress(
-	QSymbolsRef		symRef, 
+	QSymbolsRef		symRef,
 	QTMAddr			addr,
-	QMOImageRef *	qmoImagePtr, 
+	QMOImageRef *	qmoImagePtr,
 	uint32_t *		sectIndexPtr
 )
     // See comment in header.
 {
 	int					err;
-	int                 junk;
+	int                 junk __attribute__((unused));
 	size_t              imageIndex;
 	QTMAddr             slide;
 	uint32_t            sectCount;
 	uint32_t            sectIndex;
 	struct section_64	sect;
 	bool                found;
-	
+
 	assert( QSymIsValid(symRef) );
 	assert( qmoImagePtr != NULL );
 	// sectIndexPtr may be NULL
-    
+
 	// Iterate through the libraries looking for the section that contains the address.
 
     found = false;
     for (imageIndex = 0; imageIndex < symRef->imageCount; imageIndex++) {
         slide = QMOImageGetSlide(symRef->images[imageIndex]);
-        
+
         sectCount = QMOImageGetSectionCount(symRef->images[imageIndex]);
-        
+
         for (sectIndex = 0; sectIndex < sectCount; sectIndex++) {
             junk = QMOImageGetSectionByIndex(symRef->images[imageIndex], sectIndex, &sect);
             assert(junk == 0);
-            
+
             if ( (strcmp(sect.segname, "__TEXT") == 0) || (strcmp(sect.segname, "__DATA") == 0) ) {
                 found = (addr >= (sect.addr + slide)) && (addr < (sect.addr + slide + sect.size));
                 if ( found ) {
@@ -719,13 +719,13 @@ extern int QSymGetImageForAddress(
 	} else {
 		err = ESRCH;
 	}
-	
+
 	assert( (err != 0) || (*qmoImagePtr != NULL) );
-	
+
 	return err;
 }
 
-// AddressToSymbolContext is the parameter block passed to AddressToSymbolCallback 
+// AddressToSymbolContext is the parameter block passed to AddressToSymbolCallback
 // via its iteratorRefCon.
 
 struct AddressToSymbolContext {
@@ -739,7 +739,7 @@ struct AddressToSymbolContext {
 typedef struct AddressToSymbolContext AddressToSymbolContext;
 
 static int AddressToSymbolCallback(
-	QMOImageRef		qmoImage, 
+	QMOImageRef		qmoImage,
 	const char *	name,
 	uint8_t			type,
 	uint8_t			sect,
@@ -751,11 +751,11 @@ static int AddressToSymbolCallback(
     // The QMOImageIterateSymbols callback for QSymGetSymbolForAddress.  See
     // See QMOSymbolIteratorProc for a description of the parameters.
     //
-    // iteratorRefCon is a pointer to a AddressToSymbolContext structure.  Initially, 
-    // the requiredSect, requiredAddr, and currentOffset fields are valid.  As 
-    // this routine finds better matching symbols, it fills out currentSymbol, 
-    // currentSymbolType, and currentSymbolValue, and adjusts currentOffset.  
-    // In this way, currentOffset slowly decreases until, after all symbols 
+    // iteratorRefCon is a pointer to a AddressToSymbolContext structure.  Initially,
+    // the requiredSect, requiredAddr, and currentOffset fields are valid.  As
+    // this routine finds better matching symbols, it fills out currentSymbol,
+    // currentSymbolType, and currentSymbolValue, and adjusts currentOffset.
+    // In this way, currentOffset slowly decreases until, after all symbols
     // have been considered, AddressToSymbolContext contains the best match.
 {
     #pragma unused(desc)
@@ -775,19 +775,19 @@ static int AddressToSymbolCallback(
 
 	if ( ! (type & N_STAB) ) {
 		iterContext = (AddressToSymbolContext *) iteratorRefCon;
-		
+
         // Check that it's a section-based symbol within our section.
-        
+
         if ( ((type & N_TYPE) == N_SECT) && (sect == iterContext->requiredSect) ) {
-        
+
             // Check that it's a better match than our current symbol.
-            
+
             symValue  = value + QMOImageGetSlide(qmoImage);
             symOffset = (iterContext->requiredAddr - symValue);
             if ( (symValue <= iterContext->requiredAddr) && (symOffset < iterContext->currentOffset) ) {
-            
+
                 // If it is, record the name of the symbol and its offset.
-                
+
                 iterContext->currentSymbol      = name;
                 iterContext->currentSymbolType  = type;
                 iterContext->currentSymbolValue = symValue;
@@ -809,35 +809,35 @@ extern int QSymGetSymbolForAddress(
 	QMOImageRef			qmoImage;
     uint32_t            sectIndex;
     struct section_64   sect;
-    
+
     assert( QSymIsValid(symRef) );
     assert(symbolInfo != NULL);
-    
+
     memset(symbolInfo, 0, sizeof(*symbolInfo));
     symbolInfo->symbolType = kQSymNoSymbol;
 
 	// Find the section and then get its information.
-	
+
     err = QSymGetImageForAddress(symRef, addr, &qmoImage, &sectIndex);
 	if (err == 0) {
 		err = QMOImageGetSectionByIndex(qmoImage, sectIndex, &sect);
 	}
-	
-    // Within that image, iterate through the symbols that are relative to the 
+
+    // Within that image, iterate through the symbols that are relative to the
     // section we found and that closest match the address.
 
     if (err == 0) {
         AddressToSymbolContext  iterContext;
-        
+
         iterContext.requiredAddr  = addr;
         iterContext.requiredSect  = sectIndex + 1;  // sect is one-based in QMOImageIterateSymbols callback
         iterContext.currentSymbol      = NULL;
         iterContext.currentSymbolType  = 0;
         iterContext.currentSymbolValue = 0;
         iterContext.currentOffset      = sect.size;
-        
+
         err = QMOImageIterateSymbols(qmoImage, AddressToSymbolCallback, &iterContext);
-        
+
         if (err == 0) {
             if (iterContext.currentSymbol == NULL) {
                 err = ESRCH;
@@ -850,11 +850,11 @@ extern int QSymGetSymbolForAddress(
             }
         }
     }
-    
+
     assert( (err == 0) == (symbolInfo->symbolType != kQSymNoSymbol) );
     assert( (symbolInfo->symbolType != kQSymNoSymbol) == (symbolInfo->symbolImage != NULL) );
     assert( (symbolInfo->symbolType != kQSymNoSymbol) == (symbolInfo->symbolName  != NULL) );
-    
+
     return err;
 }
 
@@ -868,13 +868,13 @@ extern int QSymGetSymbolsForAddresses(
 {
     int     err;
     size_t  addrIndex;
-    
+
     assert( QSymIsValid(symRef) );
     assert(count > 0);
     assert(addrs != NULL);
     assert(symbolInfos != NULL);
-    
-    // The current implementation is very naive.  I could definitely make this 
+
+    // The current implementation is very naive.  I could definitely make this
     // faster, but see my "Performance Notes" comment at the top of this file.
 
     err = 0;
@@ -884,7 +884,7 @@ extern int QSymGetSymbolsForAddresses(
     return err;
 }
 
-// NextSymbolContext is the parameter block passed to NextSymbolCallback 
+// NextSymbolContext is the parameter block passed to NextSymbolCallback
 // via its iteratorRefCon.
 
 struct NextSymbolContext {
@@ -897,7 +897,7 @@ struct NextSymbolContext {
 typedef struct NextSymbolContext NextSymbolContext;
 
 static int NextSymbolCallback(
-	QMOImageRef		qmoImage, 
+	QMOImageRef		qmoImage,
 	const char *	name,
 	uint8_t			type,
 	uint8_t			sect,
@@ -909,12 +909,12 @@ static int NextSymbolCallback(
     // The QMOImageIterateSymbols callback for QSymGetSymbolForAddress.  See
     // See QMOSymbolIteratorProc for a description of the parameters.
     //
-    // iteratorRefCon is a pointer to a NextSymbolContext structure.  Initially, 
-    // the requiredAddr and currentOffset fields are valid.  As this routine 
-    // finds better matching symbols, it fills out currentSymbol, 
-    // currentSymbolType, and currentSymbolValue, and adjusts currentOffset.  
-    // In this way, currentOffset slowly decreases until, after all symbols 
-    // have been considered, NextSymbolContext contains the symbol immediately 
+    // iteratorRefCon is a pointer to a NextSymbolContext structure.  Initially,
+    // the requiredAddr and currentOffset fields are valid.  As this routine
+    // finds better matching symbols, it fills out currentSymbol,
+    // currentSymbolType, and currentSymbolValue, and adjusts currentOffset.
+    // In this way, currentOffset slowly decreases until, after all symbols
+    // have been considered, NextSymbolContext contains the symbol immediately
     // following the one at requiredAddr.
 {
     #pragma unused(sect, desc)
@@ -934,21 +934,21 @@ static int NextSymbolCallback(
 
 	if ( ! (type & N_STAB) ) {
 		iterContext = (NextSymbolContext *) iteratorRefCon;
-		
-        // Check that it's a section-based symbol.  Don't want to get confused by 
-        // undefined symbols (N_UNDF) or absolute symbols (N_ABS) or any other 
+
+        // Check that it's a section-based symbol.  Don't want to get confused by
+        // undefined symbols (N_UNDF) or absolute symbols (N_ABS) or any other
         // symbol type for that matter.
-        
+
         if (((type & N_TYPE) == N_SECT)) {
 
             // Check that it's a better match than our current symbol.
-            
+
             symValue  = value + QMOImageGetSlide(qmoImage);
             symOffset = (symValue - iterContext->requiredAddr);
             if ( (symValue > iterContext->requiredAddr) && (symOffset < iterContext->currentOffset) ) {
-            
+
                 // If it is, record the name of the symbol and its offset.
-                
+
                 iterContext->currentSymbol      = name;
                 iterContext->currentSymbolType  = type;
                 iterContext->currentSymbolValue = symValue;
@@ -974,11 +974,11 @@ extern int QSymGetNextSymbol(
     assert(symbol->symbolImage != NULL);
     assert(symbol->symbolName  != NULL);
     // I use symbol->symbolValue but I can't think of any meaningful validity checks.
-    
-    // Iterate all of the symbols in the image looking for the one that's closet 
-    // to symbol->symbolValue.  Set currentOffset to a very large number so that 
+
+    // Iterate all of the symbols in the image looking for the one that's closet
+    // to symbol->symbolValue.  Set currentOffset to a very large number so that
     // any symbol greater than symbol->symbolValue is considered closer.
-    
+
     iterContext.requiredAddr       = symbol->symbolValue;
     iterContext.currentSymbol      = NULL;
     iterContext.currentSymbolType  = 0;
@@ -997,8 +997,8 @@ extern int QSymGetNextSymbol(
             nextSymbol->symbolOffset = iterContext.currentOffset;
         }
     }
-    
+
     assert( (err == 0) == (nextSymbol->symbolType != kQSymNoSymbol) );
-    
+
     return err;
 }

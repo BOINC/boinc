@@ -121,6 +121,8 @@ fi
 if test x${enable_unit_tests} = xyes ; then
   BOINC_CHECK_CFLAG(--coverage)
   BOINC_CHECK_CXXFLAG(--coverage)
+  BOINC_CHECK_CFLAG(-fprofile-abs-path)
+  BOINC_CHECK_CXXFLAG(-fprofile-abs-path)
   LDFLAGS="$LDFLAGS --coverage"
 fi
 

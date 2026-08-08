@@ -27,7 +27,7 @@
  */
 
 class CErrAlreadyExistsPage: public wxWizardPageEx
-{    
+{
     DECLARE_DYNAMIC_CLASS( CErrAlreadyExistsPage )
     DECLARE_EVENT_TABLE()
 

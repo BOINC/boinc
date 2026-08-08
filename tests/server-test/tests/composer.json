@@ -1,0 +1,10 @@
+{
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "guzzlehttp/guzzle": "*"
+    },
+
+    "scripts": {
+    "test": "./vendor/bin/phpunit"
+  }
+}

@@ -87,7 +87,7 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
 	pItem = new CTaskItem(
         _("Copy all messages"),
         _("Copy all the messages to the clipboard."),
-        ID_TASK_MESSAGES_COPYALL 
+        ID_TASK_MESSAGES_COPYALL
     );
     pGroup->m_Tasks.push_back( pItem );
 
@@ -98,14 +98,14 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
 #else
         _("Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."),
 #endif
-        ID_TASK_MESSAGES_COPYSELECTED 
+        ID_TASK_MESSAGES_COPYSELECTED
     );
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
         _("Show only this project"),
         _("Show only the messages for the selected project."),
-        ID_TASK_MESSAGES_FILTERBYPROJECT 
+        ID_TASK_MESSAGES_FILTERBYPROJECT
     );
     pGroup->m_Tasks.push_back( pItem );
 
@@ -191,7 +191,7 @@ void CViewMessages::OnMessagesCopyAll( wxCommandEvent& WXUNUSED(event) ) {
     OpenClipboard( iRowCount * 1024 );
 
     for (iIndex = 0; iIndex < iRowCount; iIndex++) {
-        CopyToClipboard(iIndex);            
+        CopyToClipboard(iIndex);
     }
 
     CloseClipboard();
@@ -230,7 +230,7 @@ void CViewMessages::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
         );
         if (iIndex == -1) break;
 
-        iRowCount++;            
+        iRowCount++;
     }
 
     OpenClipboard( iRowCount * 1024 );
@@ -246,7 +246,7 @@ void CViewMessages::OnMessagesCopySelected( wxCommandEvent& WXUNUSED(event) ) {
         );
         if (iIndex == -1) break;
 
-        CopyToClipboard(iIndex);            
+        CopyToClipboard(iIndex);
     }
 
     CloseClipboard();
@@ -267,7 +267,7 @@ void CViewMessages::OnMessagesFilter( wxCommandEvent& WXUNUSED(event) ) {
     wxInt32 iIndex = -1;
     CAdvancedFrame* pFrame = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
     MESSAGE* message;
-    
+
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
     wxASSERT(m_pListPane);
@@ -297,7 +297,7 @@ void CViewMessages::OnMessagesFilter( wxCommandEvent& WXUNUSED(event) ) {
            }
         }
     }
-    
+
     // Force a complete update
     m_iPreviousRowCount = 0;
     m_pListPane->DeleteAllItems();
@@ -319,7 +319,7 @@ wxInt32 CViewMessages::GetFilteredMessageIndex( wxInt32 iRow) const {
 // Get the (possibly filtered) item count (i.e., the Row count)
 wxInt32 CViewMessages::GetDocCount() {
     int i;
-    
+
     m_iTotalDocCount = wxGetApp().GetDocument()->GetMessageCount();
     if (m_iTotalDocCount < m_iPreviousTotalDocCount) {
         // Usually due to a disconnect from client
@@ -328,7 +328,7 @@ wxInt32 CViewMessages::GetDocCount() {
         m_iFilteredIndexes.Clear();
         UpdateSelection();
     }
-    
+
     if (m_bIsFiltered) {
         for (i = m_iPreviousTotalDocCount; i < m_iTotalDocCount; i++) {
             MESSAGE*   message = wxGetApp().GetDocument()->message(i);
@@ -355,7 +355,7 @@ void CViewMessages::OnListRender (wxTimerEvent& event) {
     CMainDocument* pDoc     = wxGetApp().GetDocument();
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    
+
     if (!m_bProcessingListRenderEvent) {
         m_bProcessingListRenderEvent = true;
 
@@ -421,7 +421,7 @@ void CViewMessages::OnListRender (wxTimerEvent& event) {
 wxString CViewMessages::OnListGetItemText(long item, long column) const {
     wxString        strBuffer   = wxEmptyString;
     wxInt32         index       = GetFilteredMessageIndex(item);
-    
+
     switch(column) {
     case COLUMN_PROJECT:
         FormatProjectName(index, strBuffer);
@@ -463,11 +463,11 @@ bool CViewMessages::EnsureLastItemVisible() {
 
     // Auto-scroll only if already at bottom of list
     if ((m_iPreviousRowCount > numVisible)
-         && ((m_pListPane->GetTopItem() + numVisible) < (m_iPreviousRowCount-1)) 
+         && ((m_pListPane->GetTopItem() + numVisible) < (m_iPreviousRowCount-1))
     ) {
         return false;
     }
-    
+
     return true;
 }
 
@@ -487,18 +487,18 @@ void CViewMessages::UpdateSelection() {
     } else {
         m_pTaskPane->DisableTask(pGroup->m_Tasks[BTN_COPYSELECTED]);
     }
-    
+
     if (m_bIsFiltered) {
         m_pTaskPane->UpdateTask(
-            pGroup->m_Tasks[BTN_FILTERMSGS], 
-            _("Show all messages"), 
+            pGroup->m_Tasks[BTN_FILTERMSGS],
+            _("Show all messages"),
             _("Show messages for all projects.")
         );
         m_pTaskPane->EnableTask(pGroup->m_Tasks[BTN_FILTERMSGS]);
-          
+
     } else {
         m_pTaskPane->UpdateTask(
-            pGroup->m_Tasks[BTN_FILTERMSGS], 
+            pGroup->m_Tasks[BTN_FILTERMSGS],
             _("Show only this project"),
             _("Show only the messages for the selected project.")
         );
@@ -511,7 +511,7 @@ void CViewMessages::UpdateSelection() {
             }
         }
     }
-    
+
     CBOINCBaseView::PostUpdateSelection();
 }
 

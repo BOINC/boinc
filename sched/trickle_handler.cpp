@@ -146,7 +146,7 @@ int main(int argc, char** argv) {
             if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL,
                     "%s requires an argument\n\n", argv[--i]
-                    
+
                 );
                 usage(argv[0]);
                 exit(1);
@@ -178,7 +178,7 @@ int main(int argc, char** argv) {
     );
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "boinc_db.open failed: %s\n", boincerror(retval)
+            "boinc_db.open failed: %s\n", boinc_db.error_string()
         );
         exit(1);
     }

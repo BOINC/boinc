@@ -76,7 +76,7 @@ void select_proxy_info() {
         working_proxy_info = config_proxy_info;
         msg_printf(0, MSG_INFO, "Using proxy info from cc_config.xml");
         if (env_var_proxy_info.present) {
-            msg_printf(0, MSG_INFO, "Proxy info env vars overridden by GUI");
+            msg_printf(0, MSG_INFO, "Proxy info env vars overridden by cc_config.xml");
         }
     } else if (env_var_proxy_info.present) {
         working_proxy_info = env_var_proxy_info;

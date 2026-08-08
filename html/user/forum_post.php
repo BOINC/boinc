@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2021 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -32,17 +32,18 @@ $logged_in_user = get_logged_in_user();
 BoincForumPrefs::lookup($logged_in_user);
 
 check_banished($logged_in_user);
+if (VALIDATE_EMAIL_TO_POST) {
+    check_validated_email($logged_in_user);
+}
 
 $forumid = get_int("id");
 $forum = BoincForum::lookup_id($forumid);
+if (!$forum) error_page('No such forum');
 
 if (DISABLE_FORUMS && !is_admin($logged_in_user)) {
     error_page("Forums are disabled");
 }
 
-if (!user_can_create_thread($logged_in_user, $forum)) {
-    error_page(tra("Only project admins may create a thread here. However, you may reply to existing threads."));
-}
 check_post_access($logged_in_user, $forum);
 
 $title = post_str("title", true);
@@ -54,7 +55,7 @@ $preview = post_str("preview", true);
 $warning = null;
 
 if ($content && $title && (!$preview)){
-    if (post_str('add_signature', true) == "add_it"){
+    if (post_str('add_signature', true)) {
         $add_signature = true;    // set a flag and concatenate later
     }  else {
         $add_signature = false;
@@ -68,6 +69,9 @@ if ($content && $title && (!$preview)){
             $title, $content, $logged_in_user, $forum, $add_signature, $export
         );
         if ($thread) {
+            if (post_str('subscribe', true)) {
+                BoincSubscription::replace($logged_in_user->id, $thread->id);
+            }
             header('Location: forum_thread.php?id=' . $thread->id);
         } else {
             error_page("Can't create thread.  $forum_error");
@@ -85,10 +89,10 @@ if ($warning) {
 switch ($forum->parent_type) {
 case 0:
     $category = BoincCategory::lookup_id($forum->category);
-    show_forum_title($category, $forum, null);
+    echo forum_title($category, $forum, null);
     break;
 case 1:
-    show_team_forum_title($forum);
+    echo team_forum_title($forum);
     break;
 }
 
@@ -117,32 +121,71 @@ if ($content && !$title) {
 }
 
 if ($force_title && $title){
-    row2(tra("Title"), htmlspecialchars($title)."<input type=\"hidden\" name=\"title\" value=\"".htmlspecialchars($title)."\">");
+    row2(
+        tra("Title"),
+        sprintf(
+            '%s <input type="hidden" name="title" value="%s">',
+            htmlspecialchars($title),
+            htmlspecialchars($title)
+        ),
+        null, FORUM_LH_PCT
+    );
 } else {
-    row2(tra("Title").$submit_help,
-        '<input type="text" class="form-control" name="title" value="'.htmlspecialchars($title).'">'
+    row2(
+        tra("Title").$submit_help,
+        sprintf('<input type="text" class="form-control" name="title" value="%s">',
+            $title?htmlspecialchars($title):''
+        ),
+        null, FORUM_LH_PCT
     );
 }
 
-row2_init(tra("Message").bbcode_info().post_warning($forum).$body_help, "");
-start_table();
-echo $bbcode_html;
-end_table();
-echo '<textarea class="form-control" name="content" rows="12" cols="80">'.htmlspecialchars($content).'</textarea>';
-echo "</td></tr>";
+row2(
+    tra("Message").bbcode_info().post_warning($forum).$body_help,
+    sprintf(
+        '%s <textarea class="form-control" name="content" rows="12" cols="80">%s</textarea>',
+        $bbcode_html,
+        $content?htmlspecialchars($content):''
+    ),
+    null, FORUM_LH_PCT
+);
 
 if (!$logged_in_user->prefs->no_signature_by_default) {
-    $enable_signature="checked=\"true\"";
+    $enable_signature = 'checked="true"';
 } else {
-    $enable_signature="";
+    $enable_signature='';
 }
 
 if (is_news_forum($forum)) {
-    row2("", "<input name=export type=checkbox> ".tra("Show this item as a Notice in the BOINC Manager")."<br><p class=\"text-muted\">".tra("Do so only for items likely to be of interest to all volunteers.")."</p>");
+    row2("",
+        sprintf(
+            '<input name=export type=checkbox> %s
+            <br><p class="text-muted">%s</p>',
+            tra("Show this item as a Notice in the BOINC Manager"),
+            tra("Do so only for items likely to be of interest to all volunteers.")
+        ),
+        null, FORUM_LH_PCT
+    );
 }
-row2("", "<input name=\"add_signature\" value=\"add_it\" ".$enable_signature." type=\"checkbox\"> ".tra("Add my signature to this post"));
-row2("", "<input class=\"btn btn-primary\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"> <input class=\"btn btn-success\" type=\"submit\" value=\"".tra("OK")."\">");
 
+row2("",
+    sprintf(
+        '<input class="btn btn-primary" type="submit" name="preview" value="%s">
+        <input class="btn btn-success" type="submit" value="%s">
+        &nbsp;&nbsp;&nbsp;
+        <input name="add_signature" %s id="add_sig" type="checkbox">
+        <label for="add_sig">%s</label>
+        &nbsp;&nbsp;&nbsp;
+        <input name="subscribe" id="subscribe" type="checkbox">
+        <label for="subscribe">%s</label>',
+        tra("Preview"),
+        tra("OK"),
+        $enable_signature,
+        tra("Add my signature to this post"),
+        tra("Subscribe to the new thread")
+    ),
+    null, FORUM_LH_PCT
+);
 
 end_table();
 
@@ -150,5 +193,4 @@ echo "</form>\n";
 
 page_tail();
 
-$cvs_version_tracker[]="\$Id$";
 ?>

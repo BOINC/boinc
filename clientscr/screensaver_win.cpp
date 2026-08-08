@@ -14,7 +14,7 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-// 
+//
 // Contributor(s):
 //     DirectX 8.1 Screen Saver Framework from Microsoft.
 //     Microsoft Knowledge Base Article - 79212
@@ -87,7 +87,7 @@ INT WINAPI WinMain(
 
     // Run Screensaver
     retval = BOINCSS.Run();
-    
+
     // Cleanup any existing screensaver objects and handles
     BOINCTRACE("WinMain - Cleanup Screensaver Resources\n");
     BOINCSS.Cleanup();
@@ -106,7 +106,7 @@ CScreensaver::CScreensaver() {
     m_dwSaverMouseMoveCount = 0;
     m_hWnd = NULL;
     m_hWndParent = NULL;
-    
+
     m_bAllScreensSame = FALSE;
     m_bWindowed = FALSE;
     m_bWaitForInputIdle = FALSE;
@@ -130,7 +130,6 @@ CScreensaver::CScreensaver() {
     m_bResetCoreState = TRUE;
     m_bQuitDataManagementProc = FALSE;
     m_bDataManagementProcStopped = FALSE;
-    memset(&m_running_result, 0, sizeof(m_running_result));
 
     ZeroMemory(m_Monitors, sizeof(m_Monitors));
     m_dwNumMonitors = 0;
@@ -163,7 +162,7 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_MEMORYLEAKCHECKENABLED |
 #endif
-        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+        BOINC_DIAG_DUMPCALLSTACKENABLED |
         BOINC_DIAG_PERUSERLOGFILES |
         BOINC_DIAG_REDIRECTSTDERR |
         BOINC_DIAG_REDIRECTSTDOUT |
@@ -190,7 +189,7 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
     // Get project-defined default values for GFXDefaultPeriod, GFXSciencePeriod, GFXChangePeriod
     GetDefaultDisplayPeriods(periods);
     m_bShow_default_ss_first = periods.Show_default_ss_first;
-        
+
     // Get the last set of saved values, if not set
     // use the configuration file, if not set, use defaults.
     // Normalize on Seconds...
@@ -248,8 +247,8 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
     if (m_dwBlankTime > 0) {
         m_dwBlankTime = (DWORD)time(0) + m_dwBlankTime;
     }
-    
-    // Create the infrastructure mutexes so we can properly aquire them to report
+
+    // Create the infrastructure mutexes so we can properly acquire them to report
     //   errors
     if (!CreateInfrastructureMutexes()) {
         return E_FAIL;
@@ -258,7 +257,7 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
 	if (rpc == NULL) rpc = new RPC_CLIENT;
 
     // Create the screen saver window(s)
-    if (m_SaverMode == sm_preview || 
+    if (m_SaverMode == sm_preview ||
         m_SaverMode == sm_full
     ) {
         if (FAILED(hr = CreateSaverWindow())) {
@@ -267,7 +266,7 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
     }
 
     if (m_SaverMode == sm_preview) {
-        // In preview mode, "pause" (enter a limited message loop) briefly 
+        // In preview mode, "pause" (enter a limited message loop) briefly
         // before proceeding, so the display control panel knows to update itself.
         m_bWaitForInputIdle = TRUE;
 
@@ -393,7 +392,7 @@ SaverMode CScreensaver::ParseCommandLine(TCHAR* pstrCommandLine) {
 
 	BOINCTRACE("ParseCommandLine: '%s'\n", pstrCommandLine);
 
-    // Skip the first part of the command line, which is the full path 
+    // Skip the first part of the command line, which is the full path
     // to the exe.  If it contains spaces, it will be contained in quotes.
     if (*pstrCommandLine == _T('\"')) {
         pstrCommandLine++;
@@ -486,10 +485,10 @@ SaverMode CScreensaver::ParseCommandLine(TCHAR* pstrCommandLine) {
 
 
 
-// Determine HMONITOR, desktop rect, and other info for each monitor.  
-//       Note that EnumDisplayDevices enumerates monitors in the order 
-//       indicated on the Settings page of the Display control panel, which 
-//       is the order we want to list monitors in, as opposed to the order 
+// Determine HMONITOR, desktop rect, and other info for each monitor.
+//       Note that EnumDisplayDevices enumerates monitors in the order
+//       indicated on the Settings page of the Display control panel, which
+//       is the order we want to list monitors in, as opposed to the order
 //       used by D3D's GetAdapterInfo.
 //
 VOID CScreensaver::EnumMonitors(VOID) {
@@ -522,7 +521,7 @@ VOID CScreensaver::EnumMonitors(VOID) {
                 dispdev2.DeviceString,
                 sizeof(pMonitorInfoNew->strMonitorName) * sizeof(TCHAR)
             );
-            
+
             if (dispdev.StateFlags & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP) {
                 EnumDisplaySettings(dispdev.DeviceName, ENUM_CURRENT_SETTINGS, &devmode);
                 if (dispdev.StateFlags & DISPLAY_DEVICE_PRIMARY_DEVICE) {
@@ -559,7 +558,7 @@ BOOL CScreensaver::UtilGetRegKey(LPCTSTR name, DWORD& keyval) {
 
 	error = RegOpenKeyEx(
         HKEY_CURRENT_USER,
-        _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Screensaver"),  
+        _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Screensaver"),
 		0,
         KEY_ALL_ACCESS,
         &boinc_key
@@ -586,7 +585,7 @@ BOOL CScreensaver::UtilSetRegKey(LPCTSTR name, DWORD value) {
 
 	error = RegCreateKeyEx(
         HKEY_CURRENT_USER,
-        _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Screensaver"),  
+        _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Screensaver"),
 		0,
         NULL,
         REG_OPTION_NON_VOLATILE,
@@ -615,9 +614,9 @@ BOOL CScreensaver::UtilGetRegDirectoryStr(LPCTSTR szTargetName, std::string& str
 
     // change the current directory to the boinc data directory if it exists
 	lReturnValue = RegOpenKeyEx(
-        HKEY_LOCAL_MACHINE, 
+        HKEY_LOCAL_MACHINE,
         _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),
-		0, 
+		0,
         KEY_READ,
         &hkSetupHive
     );
@@ -637,7 +636,7 @@ BOOL CScreensaver::UtilGetRegDirectoryStr(LPCTSTR szTargetName, std::string& str
             (*lpszRegistryValue) = NULL;
 
             // Now get the data
-            lReturnValue = RegQueryValueEx( 
+            lReturnValue = RegQueryValueEx(
                 hkSetupHive,
                 szTargetName,
                 NULL,
@@ -691,7 +690,7 @@ BOOL CScreensaver::GetError(
     dwWaitResult = WaitForSingleObject(
         m_hErrorManagementMutex,   // handle to mutex
         5000L);                    // five-second time-out interval
- 
+
     switch (dwWaitResult) {
         // WAIT_OBJECT_0 - The thread got mutex ownership.
         case WAIT_OBJECT_0:
@@ -703,17 +702,17 @@ BOOL CScreensaver::GetError(
             }
 
             bRetVal = TRUE;
-            break; 
+            break;
 
         // WAIT_TIMEOUT - Cannot get mutex ownership due to time-out.
         // WAIT_ABANDONED - Got ownership of the abandoned mutex object.
-        case WAIT_TIMEOUT: 
-        case WAIT_ABANDONED: 
-            break; 
+        case WAIT_TIMEOUT:
+        case WAIT_ABANDONED:
+            break;
     }
     ReleaseMutex(m_hErrorManagementMutex);
 
-    return bRetVal; 
+    return bRetVal;
 }
 
 
@@ -732,7 +731,7 @@ BOOL CScreensaver::SetError(BOOL bErrorMode, HRESULT hrError) {
         m_hErrorManagementMutex,   // handle to mutex
         5000L                // five-second time-out interval
     );
- 
+
     switch (dwWaitResult) {
         // WAIT_OBJECT_0 - The thread got mutex ownership.
         case WAIT_OBJECT_0:
@@ -744,16 +743,16 @@ BOOL CScreensaver::SetError(BOOL bErrorMode, HRESULT hrError) {
             UpdateErrorBoxText();
 
             bRetVal = TRUE;
-            break; 
+            break;
 
         // WAIT_TIMEOUT - Cannot get mutex ownership due to time-out.
         // WAIT_ABANDONED - Got ownership of the abandoned mutex object.
-        case WAIT_TIMEOUT: 
-        case WAIT_ABANDONED: 
-            break; 
+        case WAIT_TIMEOUT:
+        case WAIT_ABANDONED:
+            break;
     }
     ReleaseMutex(m_hErrorManagementMutex);
-    return bRetVal; 
+    return bRetVal;
 }
 
 
@@ -770,7 +769,7 @@ VOID CScreensaver::UpdateErrorBoxText() {
 
 
 // Translate an HRESULT error code into a string that can be displayed
-//       to explain the error.  A class derived from CD3DScreensaver can 
+//       to explain the error.  A class derived from CD3DScreensaver can
 //       provide its own version of this function that provides app-specific
 //       error translation instead of or in addition to calling this function.
 //       This function returns TRUE if a specific error was translated, or
@@ -825,18 +824,18 @@ BOOL CScreensaver::CreateInputActivityThread() {
     BOINCTRACE(_T("CScreensaver::CreateInputActivityThread Start\n"));
 
     m_hInputActivityThread = CreateThread(
-        NULL,                        // default security attributes 
-        0,                           // use default stack size  
-        InputActivityProcStub,       // thread function 
-        NULL,                        // argument to thread function 
-        0,                           // use default creation flags 
-        &dwThreadID );               // returns the thread identifier 
- 
+        NULL,                        // default security attributes
+        0,                           // use default stack size
+        InputActivityProcStub,       // thread function
+        NULL,                        // argument to thread function
+        0,                           // use default creation flags
+        &dwThreadID );               // returns the thread identifier
+
    if (m_hInputActivityThread == NULL) {
     	BOINCTRACE(_T("CScreensaver::CreateInputActivityThread: Failed to create input activity thread '%d'\n"), GetLastError());
         return FALSE;
    }
-   
+
    m_tThreadCreateTime = time(0);
    return TRUE;
 }
@@ -928,13 +927,13 @@ BOOL CScreensaver::CreateGraphicsWindowPromotionThread() {
     DWORD dwThreadID = 0;
     BOINCTRACE(_T("CScreensaver::CreateGraphicsWindowPromotionThread Start\n"));
     m_hGraphicsWindowPromotionThread = CreateThread(
-        NULL,                        // default security attributes 
-        0,                           // use default stack size  
-        GraphicsWindowPromotionProcStub,       // thread function 
-        NULL,                        // argument to thread function 
-        0,                           // use default creation flags 
-        &dwThreadID );               // returns the thread identifier 
- 
+        NULL,                        // default security attributes
+        0,                           // use default stack size
+        GraphicsWindowPromotionProcStub,       // thread function
+        NULL,                        // argument to thread function
+        0,                           // use default creation flags
+        &dwThreadID );               // returns the thread identifier
+
    if (m_hGraphicsWindowPromotionThread == NULL) {
     	BOINCTRACE(_T("CScreensaver::CreateGraphicsWindowPromotionThread: Failed to create graphics window promotion thread '%d'\n"), GetLastError());
         return FALSE;
@@ -1005,7 +1004,7 @@ DWORD WINAPI CScreensaver::GraphicsWindowPromotionProc() {
                     //
                     DWORD dwComponents = BSM_APPLICATIONS;
                     BroadcastSystemMessage(
-                        BSF_ALLOWSFW, 
+                        BSF_ALLOWSFW,
                         &dwComponents,
                         WM_BOINCSFW,
                         NULL,
@@ -1050,13 +1049,13 @@ BOOL CScreensaver::CreateDataManagementThread() {
     BOINCTRACE(_T("CScreensaver::CreateDataManagementThread Start\n"));
 
     m_hDataManagementThread = CreateThread(
-        NULL,                        // default security attributes 
-        0,                           // use default stack size  
-        DataManagementProcStub,      // thread function 
-        NULL,                        // argument to thread function 
-        0,                           // use default creation flags 
-        &dwThreadID );               // returns the thread identifier 
- 
+        NULL,                        // default security attributes
+        0,                           // use default stack size
+        DataManagementProcStub,      // thread function
+        NULL,                        // argument to thread function
+        0,                           // use default creation flags
+        &dwThreadID );               // returns the thread identifier
+
    if (m_hDataManagementThread == NULL) {
     	BOINCTRACE(_T("CScreensaver::CreateDataManagementThread: Failed to create data management thread '%d'\n"), GetLastError());
         return FALSE;
@@ -1073,7 +1072,7 @@ BOOL CScreensaver::CreateDataManagementThread() {
 BOOL CScreensaver::DestroyDataManagementThread() {
     BOINCTRACE(_T("CScreensaver::DestoryDataManagementThread: Shutting down... \n"));
 
-    m_bQuitDataManagementProc = true;  
+    m_bQuitDataManagementProc = true;
     for (int i = 0; i < 50; i++) {
         if (m_bDataManagementProcStopped) {
             BOINCTRACE(_T("CScreensaver::DestoryDataManagementThread: Thread gracefully shutdown \n"));
@@ -1130,29 +1129,29 @@ HRESULT CScreensaver::CreateSaverWindow() {
     // Register an appropriate window class for the primary display
     WNDCLASS    cls;
     cls.hCursor        = LoadCursor(NULL, IDC_ARROW);
-    cls.hIcon          = LoadIcon(m_hInstance, MAKEINTRESOURCE(IDI_MAIN_ICON)); 
+    cls.hIcon          = LoadIcon(m_hInstance, MAKEINTRESOURCE(IDI_MAIN_ICON));
     cls.lpszMenuName   = NULL;
     cls.lpszClassName  = _T("BOINCPrimarySaverWndClass");
     cls.hbrBackground  = (HBRUSH) GetStockObject(BLACK_BRUSH);
-    cls.hInstance      = m_hInstance; 
+    cls.hInstance      = m_hInstance;
     cls.style          = CS_VREDRAW|CS_HREDRAW;
     cls.lpfnWndProc    = SaverProcStub;
-    cls.cbWndExtra     = 0; 
-    cls.cbClsExtra     = 0; 
+    cls.cbWndExtra     = 0;
+    cls.cbClsExtra     = 0;
     RegisterClass(&cls);
 
     // Register an appropriate window class for the secondary display(s)
     WNDCLASS    cls2;
     cls2.hCursor        = LoadCursor(NULL, IDC_ARROW);
-    cls2.hIcon          = LoadIcon(m_hInstance, MAKEINTRESOURCE(IDI_MAIN_ICON)); 
+    cls2.hIcon          = LoadIcon(m_hInstance, MAKEINTRESOURCE(IDI_MAIN_ICON));
     cls2.lpszMenuName   = NULL;
     cls2.lpszClassName  = _T("BOINCGenericSaverWndClass");
     cls2.hbrBackground  = (HBRUSH) GetStockObject(BLACK_BRUSH);
-    cls2.hInstance      = m_hInstance; 
+    cls2.hInstance      = m_hInstance;
     cls2.style          = CS_VREDRAW|CS_HREDRAW;
     cls2.lpfnWndProc    = GenericSaverProcStub;
-    cls2.cbWndExtra     = 0; 
-    cls2.cbClsExtra     = 0; 
+    cls2.cbWndExtra     = 0;
+    cls2.cbClsExtra     = 0;
     RegisterClass(&cls2);
 
     // Create the window
@@ -1199,18 +1198,18 @@ HRESULT CScreensaver::CreateSaverWindow() {
 						continue;
 					rc = pMonitorInfo->rcScreen;
 					if (0 == iMonitor) {
-						pMonitorInfo->hWnd = CreateWindowEx(NULL, _T("BOINCPrimarySaverWndClass"), 
-							m_strWindowTitle, dwStyle, rc.left, rc.top, rc.right - rc.left, 
+						pMonitorInfo->hWnd = CreateWindowEx(NULL, _T("BOINCPrimarySaverWndClass"),
+							m_strWindowTitle, dwStyle, rc.left, rc.top, rc.right - rc.left,
 							rc.bottom - rc.top, NULL, NULL, m_hInstance, this);
 					} else {
-						pMonitorInfo->hWnd = CreateWindowEx(NULL, _T("BOINCGenericSaverWndClass"), 
-							m_strWindowTitle, dwStyle, rc.left, rc.top, rc.right - rc.left, 
+						pMonitorInfo->hWnd = CreateWindowEx(NULL, _T("BOINCGenericSaverWndClass"),
+							m_strWindowTitle, dwStyle, rc.left, rc.top, rc.right - rc.left,
 							rc.bottom - rc.top, NULL, NULL, m_hInstance, this);
 					}
 					if (pMonitorInfo->hWnd == NULL) {
 						return E_FAIL;
                     }
-					
+
                     if (m_hWnd == NULL) {
 						m_hWnd = pMonitorInfo->hWnd;
                     }
@@ -1283,8 +1282,8 @@ LRESULT CScreensaver::SaverProc(
     switch (uMsg) {
         case WM_TIMER:
             BOINCTRACE(_T("CScreensaver::SaverProc Received WM_TIMER\n"));
-			switch (wParam) { 
-				case 1: 
+			switch (wParam) {
+				case 1:
 					// Initial idle time is done, proceed with initialization.
 					m_bWaitForInputIdle = FALSE;
 					KillTimer(hWnd, 1);
@@ -1309,8 +1308,8 @@ LRESULT CScreensaver::SaverProc(
                 PAINTSTRUCT ps;
                 BeginPaint(hWnd, &ps);
 
-                // In preview mode, just fill 
-                // the preview window with black, and the BOINC icon. 
+                // In preview mode, just fill
+                // the preview window with black, and the BOINC icon.
                 if (!bErrorMode && m_SaverMode == sm_preview) {
                     RECT rc;
                     GetClientRect(hWnd,&rc);
@@ -1372,7 +1371,7 @@ LRESULT CScreensaver::SaverProc(
             return 0;
             break;
 
-        case WM_SYSCOMMAND: 
+        case WM_SYSCOMMAND:
             BOINCTRACE(_T("CScreensaver::SaverProc Received WM_SYSCOMMAND\n"));
             if (m_SaverMode == sm_full) {
                 switch (wParam) {
@@ -1443,8 +1442,8 @@ LRESULT CScreensaver::GenericSaverProc(
     switch (uMsg) {
         case WM_TIMER:
             BOINCTRACE(_T("CScreensaver::GenericSaverProc Received WM_TIMER\n"));
-			switch (wParam) { 
-				case 1: 
+			switch (wParam) {
+				case 1:
 					// Initial idle time is done, proceed with initialization.
 					m_bWaitForInputIdle = FALSE;
 					KillTimer(hWnd, 1);
@@ -1469,8 +1468,8 @@ LRESULT CScreensaver::GenericSaverProc(
                 PAINTSTRUCT ps;
                 BeginPaint(hWnd, &ps);
 
-                // In preview mode, just fill 
-                // the preview window with black, and the BOINC icon. 
+                // In preview mode, just fill
+                // the preview window with black, and the BOINC icon.
                 if (!bErrorMode && m_SaverMode == sm_preview) {
                     RECT rc;
                     GetClientRect(hWnd,&rc);
@@ -1517,7 +1516,7 @@ LRESULT CScreensaver::GenericSaverProc(
             return 0;
             break;
 
-        case WM_SYSCOMMAND: 
+        case WM_SYSCOMMAND:
             BOINCTRACE(_T("CScreensaver::GenericSaverProc Received WM_SYSCOMMAND\n"));
             if (m_SaverMode == sm_full) {
                 switch (wParam) {
@@ -1747,7 +1746,7 @@ VOID CScreensaver::ShutdownSaver() {
     }
 
     // Kill the currently executing graphics application
-    terminate_screensaver(m_hGraphicsApplication, &m_running_result);
+    terminate_screensaver(m_hGraphicsApplication);
 
     BOINCTRACE(_T("CScreensaver::ShutdownSaver Function End\n"));
 }
@@ -1835,16 +1834,16 @@ VOID CScreensaver::UpdateErrorBox() {
                     (INT)(pMonitorInfo->yError + pMonitorInfo->heightError));
 
                 // Update rect velocity
-                if ((pMonitorInfo->xError + pMonitorInfo->xVelError * fTimeDelta + 
+                if ((pMonitorInfo->xError + pMonitorInfo->xVelError * fTimeDelta +
                     pMonitorInfo->widthError > rcBounds.right && pMonitorInfo->xVelError > 0.0f) ||
-                    (pMonitorInfo->xError + pMonitorInfo->xVelError * fTimeDelta < 
+                    (pMonitorInfo->xError + pMonitorInfo->xVelError * fTimeDelta <
                     rcBounds.left && pMonitorInfo->xVelError < 0.0f)
                 ) {
                     pMonitorInfo->xVelError = -pMonitorInfo->xVelError;
                 }
-                if ((pMonitorInfo->yError + pMonitorInfo->yVelError * fTimeDelta + 
+                if ((pMonitorInfo->yError + pMonitorInfo->yVelError * fTimeDelta +
                     pMonitorInfo->heightError > rcBounds.bottom && pMonitorInfo->yVelError > 0.0f) ||
-                    (pMonitorInfo->yError + pMonitorInfo->yVelError * fTimeDelta < 
+                    (pMonitorInfo->yError + pMonitorInfo->yVelError * fTimeDelta <
                     rcBounds.top && pMonitorInfo->yVelError < 0.0f)
                 ) {
                     pMonitorInfo->yVelError = -pMonitorInfo->yVelError;
@@ -1852,7 +1851,7 @@ VOID CScreensaver::UpdateErrorBox() {
                 // Update rect position
                 pMonitorInfo->xError += pMonitorInfo->xVelError * fTimeDelta;
                 pMonitorInfo->yError += pMonitorInfo->yVelError * fTimeDelta;
-            
+
                 SetRect(&rcNew, (INT)pMonitorInfo->xError, (INT)pMonitorInfo->yError,
                     (INT)(pMonitorInfo->xError + pMonitorInfo->widthError),
                     (INT)(pMonitorInfo->yError + pMonitorInfo->heightError));
@@ -1887,7 +1886,7 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps) {
         return;
     }
 
-    // Retrieve the latest piece of error information 
+    // Retrieve the latest piece of error information
     BOOL    bErrorMode;
     HRESULT hrError;
     TCHAR	szError[400];
@@ -1915,7 +1914,7 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps) {
         return;
     }
 
-    
+
     SetRect(&rc, (INT)pMonitorInfo->xError, (INT)pMonitorInfo->yError,
         (INT)(pMonitorInfo->xError + pMonitorInfo->widthError),
         (INT)(pMonitorInfo->yError + pMonitorInfo->heightError)
@@ -1927,7 +1926,7 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps) {
     rcOrginal = rc;
 
 
-    // Draw the bitmap rectangle and copy the bitmap into 
+    // Draw the bitmap rectangle and copy the bitmap into
     // it. the bitmap is centered in the rectangle by adding 2
 	// to the left and top coordinates of the bitmap rectangle,
 	// and subtracting 4 from the right and bottom coordinates.
@@ -1953,7 +1952,7 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps) {
 	// Draw text in the center of the frame
 	SetBkColor(hdc, RGB(0,0,0));           // Black
 	SetTextColor(hdc, RGB(255,255,255));   // White
-   
+
 	// Set font
 	HFONT hFont;
     hFont = CreateFont(
@@ -1972,7 +1971,7 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc, LPPAINTSTRUCT lpps) {
         DEFAULT_PITCH | FF_SWISS,
         "Arial Narrow"
     );
-	
+
     if(hFont) SelectObject(hdc, hFont);
 
     // Try using the "Arial Narrow" font, if that fails use whatever

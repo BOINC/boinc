@@ -60,7 +60,7 @@ while [ true ] ; do
 # now grep for all log entries from 3 minutes ago.  Use sed to hide any sensitive info
 # such as authenticator and IP address.  Must
     grep --no-filename "${currmin}" $filelist | \
-    sed 's/authenticator .*//g; s/\[auth [^]]*\]//g; s/from [0-9.]*//g; s/auth [0-9a-f]*\,//g; s/\[IP [0-9.]*\]//g; s/\[USER#[0-9]*\]//g; s/IP [0-9.]*\,//g' >> $filepath 
+    sed 's/authenticator .*//g; s/\[auth [^]]*\]//g; s/from [0-9.]*//g; s/auth [0-9a-f]*\,//g; s/\[IP [0-9.]*\]//g; s/\[USER#[0-9]*\]//g; s/IP [0-9.]*\,//g' >> $filepath
     export lastmin=$currmin
   else
 

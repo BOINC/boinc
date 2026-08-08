@@ -64,11 +64,11 @@ start_table();
 $first_row = true;
 while ($row = _mysql_fetch_object($query)) {
     $col1 = $row->title."<br><small>".$row->description."</small>";
-    
+
     $query_amount = _mysql_query("SELECT SUM(payment_amount-payment_fee) AS amount FROM donation_paypal WHERE processed = 1 AND item_number = '".$row->id."'");
     $acquired = _mysql_fetch_object($query_amount)->amount;
     $required = $row->required;
-    
+
     if ($acquired > $required) {
         $acquired = $acquired - $required;
         $progress = 100;
@@ -76,14 +76,14 @@ while ($row = _mysql_fetch_object($query)) {
         $progress = round($acquired / ($required) * 100);
         $progress2 = round($acquired / ($required) * 100,1);
     }
-    
+
     $col2 = "<input style=\"float: left\" type=\"radio\" name=\"item_id\" value=\"".$row->id."\"";
     if ($first_row) {
         $first_row = false;
         $col2 .= " checked=\"checked\"";
     }
     $col2 .= ">";
-    
+
     if ($progress == 0) {
         $col2 .= "<div style=\"float: left; width: 300px; height: 18px; background-color: red; border: 1px solid #000000\">";
     } elseif ($progress == 100) {
@@ -91,7 +91,7 @@ while ($row = _mysql_fetch_object($query)) {
     } else {
         $col2 .= "<div style=\"float: left; width: ".($progress*3 - 1)."px; height: 18px; background-color: green; border: 1px solid #000000;\" align=\"right\"><b>".$progress2."</b>%</div><div style=\"float: left; width: ".((100-$progress)*3 - 1)."px; height: 18px; background-color: red; border: 1px solid #000000;\">";
     }
-    
+
     row2($col1, $col2);
 }
 
@@ -252,10 +252,10 @@ $estimated .= "<option value=99>Myanmar Kyat</option>\n";
 $estimated .= "<option value=100>Namibia Dollar</option>\n";
 $estimated .= "<option value=101>Nepalese Rupee</option>\n";
 $estimated .= "<option value=102>New Zealand Dollar</option>\n";
-$estimated .= "<option value=103>Nicaraguan Cordoba Oro</option>\n"; 
-$estimated .= "<option value=104>Nigerian Naira</option>\n"; 
-$estimated .= "<option value=105>North Korean Won</option>\n"; 
-$estimated .= "<option value=106>Norwegian Kroner</option>\n"; 
+$estimated .= "<option value=103>Nicaraguan Cordoba Oro</option>\n";
+$estimated .= "<option value=104>Nigerian Naira</option>\n";
+$estimated .= "<option value=105>North Korean Won</option>\n";
+$estimated .= "<option value=106>Norwegian Kroner</option>\n";
 $estimated .= "<option value=107>Omani Rial</option>\n";
 $estimated .= "<option value=108>Pakistan Rupee</option>\n";
 $estimated .= "<option value=109>Panamanian Balboa</option>\n";
@@ -270,7 +270,7 @@ $estimated .= "<option value=117>Romanian Leu</option>\n";
 $estimated .= "<option value=118>Russian Ruble</option>\n";
 $estimated .= "<option value=119>Rwandan Franc</option>\n";
 $estimated .= "<option value=120>Saint Helena Pound</option>\n";
-$estimated .= "<option value=121>Sao Tome/Principe Dobra</option>\n"; 
+$estimated .= "<option value=121>Sao Tome/Principe Dobra</option>\n";
 $estimated .= "<option value=122>Saudi Riyal</option>\n";
 $estimated .= "<option value=123>Serbia Dinar</option>\n";
 $estimated .= "<option value=124>Seychelles Rupee</option>\n";
@@ -301,8 +301,8 @@ $estimated .= "<option value=148>Turkmenistan Manat</option>\n";
 $estimated .= "<option value=149>Uganda Shilling</option>\n";
 $estimated .= "<option value=150>Ukrainian Hryvnia</option>\n";
 $estimated .= "<option value=151>Uruguayan Peso</option>\n";
-$estimated .= "<option value=152>Utd. Arab Emir. Dirham</option>\n"; 
-$estimated .= "<option value=153>Uzbekistan Sum</option>\n"; 
+$estimated .= "<option value=152>Utd. Arab Emir. Dirham</option>\n";
+$estimated .= "<option value=153>Uzbekistan Sum</option>\n";
 $estimated .= "<option value=154>Vanuatu Vatu</option>\n";
 $estimated .= "<option value=155>Venezuelan Bolivar</option>\n";
 $estimated .= "<option value=156>Vietnamese Dong</option>\n";

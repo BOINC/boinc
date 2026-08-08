@@ -1,0 +1,21 @@
+{
+    "name": "boinc-client",
+    "dependencies":
+    [
+        {
+          "name": "curl",
+          "features": ["openssl"],
+          "default-features": false
+        },
+        {
+          "name": "openssl",
+          "features": ["ssl3", "weak-ssl-ciphers"],
+          "default-features": false
+        },
+        "freetype",
+        {
+          "name": "libzip",
+          "default-features": false
+        }
+    ]
+}

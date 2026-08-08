@@ -229,7 +229,7 @@ function mail_type($user, $type) {
         _mysql_query($query);
     }
     $globals->count--;
-    if ($globals->count == 0) { 
+    if ($globals->count == 0) {
         echo "reached limit set by --count - exiting...\n";
         exit();
     }

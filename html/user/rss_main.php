@@ -25,5 +25,6 @@ if (!$forum) {
     exit;
 }
 
-forum_rss($forum->id, 0, 1, 90);
+$ndays = get_int('ndays', true);
+forum_rss($forum->id, 0, 1, $ndays);
 ?>

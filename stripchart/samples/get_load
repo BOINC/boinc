@@ -1,4 +1,4 @@
-#! /bin/csh 
+#! /bin/csh
 
 set UPTIME = `/usr/bin/uptime | awk '{print $10}' | sed s/,//`
 if ($UPTIME == "average:") then

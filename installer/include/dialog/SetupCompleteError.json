@@ -1,0 +1,232 @@
+{
+    "Dialog": "SetupCompleteError",
+    "HCentering": 50,
+    "VCentering": 50,
+    "Width": 374,
+    "Height": 266,
+    "Attributes": 3,
+    "Title": "IDS_PRODUCTNAME",
+    "Control_First": "Finish",
+    "Control_Default": "Finish",
+    "Control_Cancel": "Finish",
+    "Controls": [
+        {
+            "Control": "Back",
+            "Type": "PushButton",
+            "X": 164,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 1,
+            "Text": "IDS_BACK",
+            "Control_Next": "Finish",
+            "Conditions": [
+                {
+                    "Action": "Default",
+                    "Condition": "UpdateStarted"
+                },
+                {
+                    "Action": "Disable",
+                    "Condition": "NOT UpdateStarted"
+                },
+                {
+                    "Action": "Enable",
+                    "Condition": "UpdateStarted"
+                }
+            ],
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "Return",
+                    "Condition": "1",
+                    "Ordering": 2
+                },
+                {
+                    "Event": "[Suspend]",
+                    "Argument": "{}",
+                    "Condition": "1",
+                    "Ordering": 1
+                }
+            ]
+        },
+        {
+            "Control": "Cancel",
+            "Type": "PushButton",
+            "X": 301,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 1,
+            "Text": "IDS_CANCEL",
+            "Control_Next": "Back",
+            "Conditions": [
+                {
+                    "Action": "Disable",
+                    "Condition": "NOT UpdateStarted"
+                },
+                {
+                    "Action": "Enable",
+                    "Condition": "UpdateStarted"
+                }
+            ],
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "Return",
+                    "Condition": "1",
+                    "Ordering": 2
+                },
+                {
+                    "Event": "[Suspend]",
+                    "Argument": "1",
+                    "Condition": "1",
+                    "Ordering": 1
+                }
+            ]
+        },
+        {
+            "Control": "DlgLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 234,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "Finish",
+            "Type": "PushButton",
+            "X": 230,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS__IsExitDialog_Finish",
+            "Control_Next": "Cancel",
+            "Conditions": [
+                {
+                    "Action": "Default",
+                    "Condition": "NOT UpdateStarted"
+                }
+            ],
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "Exit",
+                    "Condition": "1",
+                    "Ordering": 2
+                }
+            ]
+        },
+        {
+            "Control": "FinishText1",
+            "Type": "Text",
+            "X": 135,
+            "Y": 80,
+            "Width": 228,
+            "Height": 50,
+            "Attributes": 65539,
+            "Text": "IDS__IsFatalError_NotModified",
+            "Conditions": [
+                {
+                    "Action": "Hide",
+                    "Condition": "UpdateStarted"
+                },
+                {
+                    "Action": "Show",
+                    "Condition": "NOT UpdateStarted"
+                }
+            ]
+        },
+        {
+            "Control": "FinishText2",
+            "Type": "Text",
+            "X": 135,
+            "Y": 135,
+            "Width": 228,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS__IsUserExit_ClickFinish",
+            "Conditions": [
+                {
+                    "Action": "Hide",
+                    "Condition": "UpdateStarted"
+                },
+                {
+                    "Action": "Show",
+                    "Condition": "NOT UpdateStarted"
+                }
+            ]
+        },
+        {
+            "Control": "Image",
+            "Type": "Bitmap",
+            "X": 0,
+            "Y": 0,
+            "Width": 374,
+            "Height": 234,
+            "Attributes": 1,
+            "Binary_": "dialog.jpg"
+        },
+        {
+            "Control": "RestContText1",
+            "Type": "Text",
+            "X": 135,
+            "Y": 80,
+            "Width": 228,
+            "Height": 50,
+            "Attributes": 65539,
+            "Text": "IDS__IsUserExit_KeepOrRestore",
+            "Conditions": [
+                {
+                    "Action": "Hide",
+                    "Condition": "NOT UpdateStarted"
+                },
+                {
+                    "Action": "Show",
+                    "Condition": "UpdateStarted"
+                }
+            ]
+        },
+        {
+            "Control": "RestContText2",
+            "Type": "Text",
+            "X": 135,
+            "Y": 135,
+            "Width": 228,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS__IsUserExit_RestoreOrContinue",
+            "Conditions": [
+                {
+                    "Action": "Hide",
+                    "Condition": "NOT UpdateStarted"
+                },
+                {
+                    "Action": "Show",
+                    "Condition": "UpdateStarted"
+                }
+            ]
+        },
+        {
+            "Control": "TextLine1",
+            "Type": "Text",
+            "X": 135,
+            "Y": 8,
+            "Width": 225,
+            "Height": 45,
+            "Attributes": 65539,
+            "Text": "IDS__IsExitDialog_WizardCompleted"
+        },
+        {
+            "Control": "TextLine2",
+            "Type": "Text",
+            "X": 135,
+            "Y": 55,
+            "Width": 228,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS__IsUserExit_WizardInterrupted"
+        }
+    ]
+}

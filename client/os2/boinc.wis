@@ -17,9 +17,9 @@
 </PCK>
 
 <PCK INDEX=2
-     PACKAGEID="Berkeley University\Boinc 5.x client code for OS/2\Boinc developement kit\<$BOINC\Ver>"
+     PACKAGEID="Berkeley University\Boinc 5.x client code for OS/2\Boinc development kit\<$BOINC\Ver>"
      TARGET="$(WARPIN_DEFAULTAPPSPATH)\Boinc5" BASE
-     TITLE="Boinc Developement Kit"
+     TITLE="Boinc Development Kit"
      >Select to install BOINC for OS/2 sdk (headers and libraries for C/C++)
 </PCK>
 

@@ -32,7 +32,7 @@
       <application_help_name>BOINC</application_help_name>
       <organization_name>World Community Grid</organization_name>
       <organization_website>https://www.worldcommunitygrid.org</organization_website>
-      <organization_help_url>https://www.worldcommunitygrid.org/boinc.do</organization_help_url> 
+      <organization_help_url>https://www.worldcommunitygrid.org/boinc.do</organization_help_url>
       <application_logo>wcg_about.ico</application_logo>
       <application_icon>
         <image>
@@ -51,7 +51,7 @@
           <imagesrc>wcg_stop.png</imagesrc>
         </image>
       </application_disconnected_icon>
-      
+
       <application_snooze_icon>
         <image>
           <imagesrc>wcg_pause.png</imagesrc>

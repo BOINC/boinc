@@ -1,0 +1,125 @@
+{
+    "InstallUISequence": [
+        {
+            "Action": "AppSearch",
+            "Sequence": 400
+        },
+        {
+            "Action": "CARestoreExecutionState",
+            "Sequence": 1352
+        },
+        {
+            "Action": "CARestoreSetupState",
+            "Sequence": 6
+        },
+        {
+            "Action": "CCPSearch",
+            "Condition": "CCP_TEST",
+            "Sequence": 500
+        },
+        {
+            "Action": "CostFinalize",
+            "Sequence": 1000
+        },
+        {
+            "Action": "CostInitialize",
+            "Sequence": 800
+        },
+        {
+            "Action": "ExecuteAction",
+            "Sequence": 1300
+        },
+        {
+            "Action": "FileCost",
+            "Sequence": 900
+        },
+        {
+            "Action": "FindRelatedProducts",
+            "Sequence": 430
+        },
+        {
+            "Action": "ISPreventDowngrade",
+            "Condition": "ISFOUNDNEWERPRODUCTVERSION",
+            "Sequence": 450
+        },
+        {
+            "Action": "InstallWelcome",
+            "Condition": "Not Installed And (Not PATCH Or IS_MAJOR_UPGRADE)",
+            "Sequence": 1210
+        },
+        {
+            "Action": "IsolateComponents",
+            "Sequence": 950
+        },
+        {
+            "Action": "LaunchConditions",
+            "Condition": "Not Installed",
+            "Sequence": 410
+        },
+        {
+            "Action": "MaintenanceWelcome",
+            "Condition": "Installed And Not RESUME And Not Preselected And Not PATCH",
+            "Sequence": 1230
+        },
+        {
+            "Action": "MigrateFeatureStates",
+            "Sequence": 1200
+        },
+        {
+            "Action": "PatchWelcome",
+            "Condition": "PATCH And Not IS_MAJOR_UPGRADE",
+            "Sequence": 1205
+        },
+        {
+            "Action": "RMCCPSearch",
+            "Condition": "Not CCP_SUCCESS And CCP_TEST",
+            "Sequence": 600
+        },
+        {
+            "Action": "ResolveSource",
+            "Condition": "Not Installed And Not PATCH",
+            "Sequence": 990
+        },
+        {
+            "Action": "SetARPReadme",
+            "Sequence": 1002
+        },
+        {
+            "Action": "SetupCompleteError",
+            "Sequence": -3
+        },
+        {
+            "Action": "SetupCompleteSuccess",
+            "Sequence": -1
+        },
+        {
+            "Action": "SetupInitialization",
+            "Sequence": 420
+        },
+        {
+            "Action": "SetupInterrupted",
+            "Sequence": -2
+        },
+        {
+            "Action": "SetupProgress",
+            "Sequence": 1240
+        },
+        {
+            "Action": "SetupResume",
+            "Condition": "Installed And (RESUME Or Preselected) And Not PATCH",
+            "Sequence": 1220
+        },
+        {
+            "Action": "ValidateProductID",
+            "Sequence": 700
+        },
+        {
+            "Action": "setAllUsersProfile2K",
+            "Sequence": 980
+        },
+        {
+            "Action": "setUserProfileNT",
+            "Sequence": 960
+        }
+    ]
+}

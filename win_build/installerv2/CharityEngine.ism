@@ -6,12 +6,12 @@
    <!ATTLIST msi xmlns:dt   CDATA #IMPLIED
                  codepage   CDATA #IMPLIED
                  compression (MSZIP|LZX|none) "LZX">
-   
+
    <!ELEMENT summary       (codepage?,title?,subject?,author?,keywords?,comments?,
                             template,lastauthor?,revnumber,lastprinted?,
                             createdtm?,lastsavedtm?,pagecount,wordcount,
                             charcount?,appname?,security?)>
-                            
+
    <!ELEMENT codepage      (#PCDATA)>
    <!ELEMENT title         (#PCDATA)>
    <!ELEMENT subject       (#PCDATA)>
@@ -28,8 +28,8 @@
    <!ELEMENT wordcount     (#PCDATA)>
    <!ELEMENT charcount     (#PCDATA)>
    <!ELEMENT appname       (#PCDATA)>
-   <!ELEMENT security      (#PCDATA)>                            
-                                
+   <!ELEMENT security      (#PCDATA)>
+
    <!ELEMENT table         (col+,row*)>
    <!ATTLIST table
                 name        CDATA #REQUIRED>
@@ -38,9 +38,9 @@
    <!ATTLIST col
                  key       (yes|no) #IMPLIED
                  def       CDATA #IMPLIED>
-                 
+
    <!ELEMENT row            (td+)>
-   
+
    <!ELEMENT td             (#PCDATA)>
    <!ATTLIST td
                  href       CDATA #IMPLIED
@@ -48,7 +48,7 @@
                  md5        CDATA #IMPLIED>
 ]>
 <msi version="2.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" codepage="65001">
-	
+
 	<summary>
 		<codepage>1252</codepage>
 		<title>##COMPANY_PRODUCT##</title>
@@ -68,7 +68,7 @@
 		<appname>InstallShield</appname>
 		<security>1</security>
 	</summary>
-	
+
 	<table name="ActionText">
 		<col key="yes" def="s72">Action</col>
 		<col def="L64">Description</col>
@@ -1763,7 +1763,6 @@
 		<row><td>placeholder.txt</td><td>_BOINCData</td><td>PLACEH~1.TXT|placeholder.txt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\placeholder.txt</td><td>1</td><td/></row>
 		<row><td>placeholder.txt1</td><td>_BOINCDataProjects</td><td>PLACEH~1.TXT|placeholder.txt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\placeholder.txt</td><td>1</td><td/></row>
 		<row><td>placeholder.txt2</td><td>_BOINCDataSlots</td><td>PLACEH~1.TXT|placeholder.txt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\placeholder.txt</td><td>1</td><td/></row>
-		<row><td>sqlite3.dll</td><td>_BOINCManager</td><td>sqlite3.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\sqlite3.dll</td><td>1</td><td/></row>
 		<row><td>srcsrv.dll</td><td>_BOINCDepends</td><td>srcsrv.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\srcsrv.dll</td><td>1</td><td/></row>
 		<row><td>ssleay32.dll</td><td>_BOINCDepends</td><td>ssleay32.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\ssleay32.dll</td><td>1</td><td/></row>
 		<row><td>symsrv.dll</td><td>_BOINCDepends</td><td>symsrv.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\symsrv.dll</td><td>1</td><td/></row>
@@ -2442,7 +2441,7 @@
 		<col def="S255">DotNetBuildConfiguration</col>
 		<col def="S255">MsiCommandLine</col>
 		<col def="I4">ISSetupPrerequisiteLocation</col>
-		<row><td>Web</td><td>WEBx86</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>0</td><td>0</td><td>1</td><td>0</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://boinc.berkeley.edu/</td><td/><td>&lt;PATH_TO_BOINC_CODESIGN&gt;\boinc.pfx</td><td/><td>Copyright (C) 2019 University of California at Berkeley. All Rights Reserved.</td><td>579579279</td><td/><td/><td/><td>1</td></row>
+		<row><td>Web</td><td>WEBx86</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>0</td><td>0</td><td>1</td><td>0</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://boinc.berkeley.edu/</td><td/><td>&lt;PATH_TO_BOINC_CODESIGN&gt;\boinc.pfx</td><td/><td>Copyright (C) 2020 University of California at Berkeley. All Rights Reserved.</td><td>579579279</td><td/><td/><td/><td>1</td></row>
 	</table>
 
 	<table name="ISReleaseASPublishInfo">

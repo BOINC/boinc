@@ -31,6 +31,11 @@
 // represents an account manager account to which
 // we're attached or potentially attached.
 // Info stored in acct_mgr_url.xml and acct_mgr_login.xml
+//
+// If you add stuff here, add code to
+// - ACCT_MGR_INFO::clear()
+// - ACCT_MGR_OP::parse()
+// - ACCT_MGR_OP::handle_reply()
 
 struct ACCT_MGR_INFO : PROJ_AM {
     // the following used to be std::string but there
@@ -61,6 +66,8 @@ struct ACCT_MGR_INFO : PROJ_AM {
         // in AM RPCs (used for "farm management")
     bool no_project_notices;
         // if set, don't show notices from projects
+    bool send_tasks_all;
+    bool send_tasks_active;
 
     // TODO: get rid of the following here and in the manager
     bool cookie_required;
@@ -74,9 +81,13 @@ struct ACCT_MGR_INFO : PROJ_AM {
 
     bool password_error;
     bool dynamic;
-        // This AM dynamically decides what projects to assign.
-        // - send EC in AM RPCs
+        // This AM dynamically decides what projects to assign,
+        // and has a single user per project.
+        // Like Science United.
+        // - send EC in AM RPC requests
+        // - RPC replies will include user_avg_ec, user_total_ec per project
         // - send starvation info if idle resources
+        // - network preferences are those from AM
     USER_KEYWORDS user_keywords;
         // user's yes/no keywords.
         // These are conveyed to projects in scheduler requests
@@ -148,6 +159,16 @@ struct AM_ACCOUNT {
     OPTIONAL_DOUBLE resource_share;
     OPTIONAL_BOOL suspend;
     OPTIONAL_BOOL abort_not_started;
+    double user_avg_ec;
+    double user_total_ec;
+    // the following supplied by dynamic AM if client not already attached
+    // to the project
+    double cpu_ec;
+    double cpu_time;
+    double gpu_ec;
+    double gpu_time;
+    int njobs_success;
+    int njobs_error;
 
     void handle_no_rsc(const char*, bool);
     int parse(XML_PARSER&);
@@ -187,7 +208,7 @@ struct ACCT_MGR_OP: public GUI_HTTP_OP {
         via_gui = false;
         error_num = BOINC_SUCCESS;
         repeat_sec = 60.0;
-        global_prefs_xml = "";
+        global_prefs_xml.clear();
         safe_strcpy(host_venue, "");
         got_rss_feeds = false;
     }

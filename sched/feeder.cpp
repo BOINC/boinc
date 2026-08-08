@@ -20,14 +20,16 @@
 //
 // Usage: feeder [ options ]
 //  [ -d x ]                debug level x
+//  [ --batch_accel ]       use order designed for batch acceleration
 //  [ --allapps ]           interleave results from all applications uniformly
 //  [ --by_batch ]          interleave results from all batches uniformly
 //  [ --random_order ]      order by "random" field of result
 //  [ --random_order_db ]   randomize order with SQL rand(sysdate())
-//  [ --priority_order ]    order by decreasing "priority" field of result
-//  [ --priority_asc ]      order by increasing "priority" field of result
+//  [ --priority_order ]    order by decreasing result priority
+//  [ --priority_asc ]      order by increasing result priority
 //  [ --priority_order_create_time ]
-//                          order by priority, then by increasing WU create time
+//                          order by desc result priority,
+//                          then increasing WU create time
 //  [ --mod n i ]           handle only results with (id mod n) == i
 //  [ --wmod n i ]          handle only workunits with (id mod n) == i
 //                          recommended if using HR with multiple schedulers
@@ -234,7 +236,7 @@ void hr_count_slots() {
 // Enumerate jobs from DB until find one that is not already in the work array.
 // If find one, return true.
 // If reach end of enum for second time on this array scan, return false
-// 
+//
 static bool get_job_from_db(
     DB_WORK_ITEM& wi,    // enumerator to get job from
     int app_index,       // if using --allapps, the app index
@@ -244,7 +246,7 @@ static bool get_job_from_db(
     bool collision;
     int retval, j, enum_size;
     char select_clause[256];
-    
+
     if (all_apps) {
         sprintf(select_clause, "%s and r1.appid=%lu",
             mod_select_clause, ssp->apps[app_index].id
@@ -260,7 +262,9 @@ static bool get_job_from_db(
         if (hrt && config.hr_allocate_slots) {
             retval = wi.enumerate_all(enum_size, select_clause);
         } else {
-            retval = wi.enumerate(enum_size, select_clause, order_clause);
+            retval = wi.enumerate(
+                enum_size, select_clause, order_clause
+            );
         }
         if (retval) {
             if (retval != ERR_DB_NOT_FOUND) {
@@ -301,7 +305,7 @@ static bool get_job_from_db(
 #endif
                 continue;
             }
-            
+
             // if the WU had an error, mark result as DIDNT_NEED
             //
             if (wi.wu.error_mask) {
@@ -458,7 +462,7 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
     int enum_phase[napps];
     int app_index;
     int nadditions=0, ncollisions=0;
-    
+
     for (i=0; i<napps; i++) {
         if (work_items[i].cursor.active) {
             enum_phase[i] = ENUM_FIRST_PASS;
@@ -557,7 +561,7 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
 void feeder_loop() {
     vector<DB_WORK_ITEM> work_items;
     double next_av_update_time=0;
-    
+
     // may need one enumeration per app; create vector
     //
     work_items.resize(napps);
@@ -707,11 +711,12 @@ void usage(char *name) {
         "Options:\n"
         "  [ -d X | --debug_level X]        Set log verbosity to X (1..4)\n"
         "  [ --allapps ]                    Interleave results from all applications uniformly.\n"
+        "  [ --batch_accel ]                query order for batch acceleration\n"
         "  [ --random_order ]               order by \"random\" field of result\n"
         "  [ --random_order_db ]            randomize order with SQL rand(sysdate())\n"
         "  [ --priority_asc ]               order by increasing \"priority\" field of result\n"
         "  [ --priority_order ]             order by decreasing \"priority\" field of result\n"
-        "  [ --priority_order_create_time ] order by priority, then by increasing WU create time\n"
+        "  [ --priority_order_create_time ] order by desc priority, then increasing WU create time\n"
         "  [ --purge_stale x ]              remove work items from the shared memory segment after x secs\n"
         "                                   that have been there for longer then x minutes\n"
         "                                   but haven't been assigned\n"
@@ -730,6 +735,9 @@ int main(int argc, char** argv) {
     void* p;
     char path[MAXPATHLEN], order_buf[1024];
 
+    // this is a reasonable default.  Do retries before new jobs
+    order_clause = "order by r1.priority desc, r1.workunitid";
+
     for (i=1; i<argc; i++) {
         if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
             if (!argv[++i]) {
@@ -742,6 +750,8 @@ int main(int argc, char** argv) {
             if (dl == 4) g_print_queries = true;
         } else if (is_arg(argv[i], "random_order")) {
             order_clause = "order by r1.random ";
+        } else if (is_arg(argv[i], "batch_accel")) {
+            order_clause = "order by r1.priority desc, workunit.id";
         } else if (is_arg(argv[i], "random_order_db")) {
             order_clause = "order by rand(sysdate()) ";
         } else if (is_arg(argv[i], "allapps")) {
@@ -765,7 +775,7 @@ int main(int argc, char** argv) {
                 "ORDER BY rank LIMIT %d)#",
                 enum_limit
             );
-            order_clause = order_buf;      
+            order_clause = order_buf;
         } else if (is_arg(argv[i], "purge_stale")) {
             purge_stale_time = atoi(argv[++i])*60;
         } else if (is_arg(argv[i], "appids")) {

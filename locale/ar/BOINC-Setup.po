@@ -1,0 +1,127 @@
+# BOINC setup localization template
+# Copyright (C) 2019 University of California
+# 
+# This file is distributed under the same license as BOINC.
+# 
+# Translators:
+# b6fe78ecfee56a101b5ce6e94ab42340, 2018
+# شرف الدين <prof.rezgui@gmail.com>, 2020
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2019-09-23 13:33 UTC\n"
+"PO-Revision-Date: 2020-04-29 12:13+0000\n"
+"Last-Translator: شرف الدين <prof.rezgui@gmail.com>\n"
+"Language-Team: Arabic (http://www.transifex.com/boinc/boinc/language/ar/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: mac_installer/Installer.cpp:92 mac_installer/PostInstall.cpp:210
+#: mac_installer/uninstall.cpp:113
+#, c-format
+msgid "Branding array has too few entries: %s"
+msgstr "العلامة مجموعة لديها عدد قليل جدا من ادخالات :%s"
+
+#: mac_installer/Installer.cpp:102 mac_installer/PostInstall.cpp:217
+msgid "Could not get user login name"
+msgstr "لم يتم العثور على اسم دخول المستخدم"
+
+#: mac_installer/Installer.cpp:219
+#, c-format
+msgid "Sorry, this version of %s requires system 10.7 or higher."
+msgstr "عذرًا ، هذا الإصدار %s يتطلب نظام 10.7 أو أعلى"
+
+#: mac_installer/PostInstall.cpp:150 mac_installer/PostInstall.cpp:1446
+#: mac_installer/uninstall.cpp:1472
+msgid "Yes"
+msgstr "نعم"
+
+#: mac_installer/PostInstall.cpp:151 mac_installer/PostInstall.cpp:1447
+#: mac_installer/uninstall.cpp:1473
+msgid "No"
+msgstr "لا"
+
+#. Future feature
+#: mac_installer/PostInstall.cpp:153
+msgid "Should BOINC run even when no user is logged in?"
+msgstr "هل يعمل BOINC حتى فى عدم وجود مستخدم مسجل؟"
+
+#: mac_installer/PostInstall.cpp:1646
+#, c-format
+msgid ""
+"Users who are permitted to administer this computer will automatically be allowed to run and control %s.\n"
+"\n"
+"Do you also want non-administrative users to be able to run and control %s on this Mac?"
+msgstr "سيتم السماح تلقائيا للمستخدمين المسموح لهم باداره هذا الكمبيوتر بتشغيل والتحكم في%s. \nهل ترغب أيضا من ان يتمكن المستخدمون غير الإداريين من تشغيل والتحكم فى%s علي هذا Mac ؟"
+
+#: mac_installer/PostInstall.cpp:1674
+#, c-format
+msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
+msgstr "هل ترغب فى تحديد %sكشاشة توقف لجميع %s مستخدمي هذا الMac؟"
+
+#: mac_installer/uninstall.cpp:87
+msgid "OK"
+msgstr "موافق"
+
+#. Confirm that we are running as root
+#: mac_installer/uninstall.cpp:152
+msgid "Permission error after relaunch"
+msgstr "خطأ في الإذن بعد استئناف"
+
+#: mac_installer/uninstall.cpp:157
+msgid ""
+"Removal may take several minutes.\n"
+"Please be patient."
+msgstr "قد تستغرق الإزالة عدة دقائق.\nيرجى الانتظار"
+
+#: mac_installer/uninstall.cpp:173
+msgid "Error saving user name"
+msgstr "خطا في حفظ اسم المستخدم"
+
+#: mac_installer/uninstall.cpp:184
+#, c-format
+msgid ""
+"Are you sure you want to completely remove %s from your computer?\n"
+"\n"
+"This will remove the executables but will not touch %s data files."
+msgstr "هل أنت متأكد من رغبتك في ازالة%sكليا من على جهاز الكمبيوتر الخاص بك؟\nسيقوم ذلك بازالة الملفات التنفيذية ولكن لن يزيل ملفات البيانات الخاصة ب%s."
+
+#: mac_installer/uninstall.cpp:199
+#, c-format
+msgid "Canceled: %s has not been touched."
+msgstr "تم الإلغاء: لم يتم المساس ب%s"
+
+#: mac_installer/uninstall.cpp:262
+msgid "name  of user"
+msgstr "اسم المستخدم"
+
+#: mac_installer/uninstall.cpp:315
+msgid ""
+"Do you also want to remove VirtualBox from your computer?\n"
+"(VirtualBox was installed along with BOINC.)"
+msgstr "هل ترغب في ازالة VirtualBox من على الكمبيوتر الخاص بك؟\n(لقد تم تثبيت برنامج VirtualBox اثناء عملية تثبيت BOINC)"
+
+#: mac_installer/uninstall.cpp:353
+#, c-format
+msgid ""
+"Removal completed.\n"
+"\n"
+" You may want to remove the following remaining items using the Finder: \n"
+"the directory \"%s\"\n"
+"\n"
+"for each user, the file\n"
+"\"%s\"."
+msgstr "اكتملت الازالة.\n\n قد تحتاج إلى أزاله العناصر المتبقية التالية باستخدام Finder:\nالدليل \"%s\"\nلكل مستخدم، الملف \"%s\"."
+
+#: mac_installer/uninstall.cpp:1470
+msgid "Cancel"
+msgstr "إلغاء"
+
+#: mac_installer/uninstall.cpp:1471
+msgid "Continue..."
+msgstr "أستمر"

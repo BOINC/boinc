@@ -1,0 +1,15 @@
+{
+  "name": "pixbufloader-svg",
+  "version": "2.40.23",
+  "description": "A GdkPixbuf loader for SVG files using the librsvg library.",
+  "homepage": "https://gitlab.gnome.org/GNOME/librsvg",
+  "license": "LGPL-2.0-or-later",
+  "dependencies": [
+    "gdk-pixbuf",
+    "librsvg",
+    {
+      "name": "vcpkg-cmake",
+      "host": true
+    }
+  ]
+}

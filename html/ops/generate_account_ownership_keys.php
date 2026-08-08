@@ -20,10 +20,10 @@
 
 // usage: generate_account_ownership_keys.php [overwrite]
 //
-// This script generates the public and private keys for the proof of 
-// account ownership feature of the website that is described 
-// here: https://boinc.berkeley.edu/trac/wiki/ProofOfOwnership
-// 
+// This script generates the public and private keys for the proof of
+// account ownership feature of the website that is described
+// here: https://github.com/BOINC/boinc/wiki/ProofOfOwnership
+//
 // If the overwrite option is set, then the existing keys will be deleted and
 // new keys generated.  This will invalidate all existing account ownership
 // proofs so use with caution.
@@ -53,7 +53,7 @@ if (php_sapi_name() == "cli") {
             }
         }
     }
-    
+
     if ((!file_exists($account_ownership_private_key_file_path)) && (!file_exists($account_ownership_public_key_file_path))) {
         try {
             $generated_pkey = openssl_pkey_new(array(
@@ -61,12 +61,12 @@ if (php_sapi_name() == "cli") {
                 'private_key_bits' => 4096,
                 'private_key_type' => OPENSSL_KEYTYPE_RSA
             ));
-    
+
             $pubkey = openssl_pkey_get_details($generated_pkey); // Get the public key from the generated pkey pair
             file_put_contents($account_ownership_public_key, $pubkey['key']); // Save the public key to disk
             openssl_pkey_export_to_file($generated_pkey, $account_ownership_private_key); // Save the private key to disk
             openssl_pkey_free($generated_pkey); // Free key data securely from memory
-    
+
             if ((file_exists($account_ownership_private_key_file_path)) && (file_exists($account_ownership_public_key_file_path))) {
                 echo "Successfully generated a new account ownership keypair. \n";
             } else {

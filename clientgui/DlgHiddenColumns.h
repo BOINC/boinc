@@ -37,14 +37,14 @@ public:
 	void OnOK(wxCommandEvent& event);
 	void OnSetDefaults(wxCommandEvent& event);
     void OnCheckboxClick(wxCommandEvent& event);
-    
+
 private:
 	//generic layout methods
     bool SaveState();
     bool RestoreState();
-    
+
     void CreateCheckboxes();
-    
+
     wxButton*           m_btnOK;
     wxGridSizer*        m_headingSizer;
     std::vector <std::vector <wxCheckBox*>*> m_checkbox_list;

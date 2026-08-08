@@ -29,7 +29,7 @@ function show_credit_wap($user) {
 
 function show_user_wap($userid) {
     wap_begin();
-    
+
     $user = BoincUser::lookup_id($userid);
     if (!$user) {
         echo "<br/>".tra("User not found!")."<br/>";
@@ -40,7 +40,7 @@ function show_user_wap($userid) {
     if ($user->teamid) {
         $team = BoincTeam::lookup_id($user->teamid);
     }
-    
+
     $wapstr = PROJECT."<br/>".tra("Account Data<br/>for %1<br/>Time:", $user->name)." ".wap_timestamp();
     $wapstr .= show_credit_wap($user);
     if ($user->teamid && $team) {
@@ -50,13 +50,13 @@ function show_user_wap($userid) {
     } else {
         $wapstr .= "<br/>".tra("Team: None")."<br/>";
     }
-    
+
     // don't want to send more than 1KB (WAP limit)
     //
     if (strlen($wapstr) > 1024) {
         $wapstr = substr($wapstr, 0, 1024);
     }
-    
+
     echo $wapstr;
     wap_end();
 }

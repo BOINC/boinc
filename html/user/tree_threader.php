@@ -1,5 +1,7 @@
 <?php
 
+DEPRECATED
+
 // Handler for TreeThreader remote job submission.
 //
 // Assumptions:
@@ -15,9 +17,7 @@ require_once("../inc/dir_hier.inc");
 require_once("../inc/result.inc");
 require_once("../inc/submit_util.inc");
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
+display_errors();
 
 $app_name = "treeThreader";
 $log = fopen("/tmp/tt_job.log","a+");
@@ -34,10 +34,10 @@ function handle_submit($r, $user, $app) {
 	// read the list of template filenames
 	//
 	$files = file("../../tree_threader_template_files");
-	if ($files === false) { 
+	if ($files === false) {
         fwrite($log,"$timestamp\ttemplate file tree_threader_template_files\n");
         error("no templates file");
-        
+
     }
 	$njobs = sizeof($files);
 	$now = time();
@@ -157,7 +157,7 @@ if (!$r) {
 
 // authenticate the user
 //
-$auth = (string)$r->auth;
+$auth = BoincDb::escape_string((string)$r->auth);
 $user = BoincUser::lookup("authenticator='$auth'");
 if (!$user) error("invalid authenticator");
 $user_submit = BoincUserSubmit::lookup_userid($user->id);

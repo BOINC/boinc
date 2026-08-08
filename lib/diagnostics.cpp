@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,10 +18,8 @@
 // Stuff related to stderr/stdout direction and exception handling;
 // used by both core client and by apps
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #endif
 
 #ifdef __EMX__
@@ -38,12 +36,14 @@
 #include <time.h>
 #endif
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
+#include "boinc_stdio.h"
 
 #ifdef __APPLE__
 #include "mac_backtrace.h"
+#endif
+
+#if defined(ANDROID) && __ANDROID_API__ < 33
+#undef HAVE_EXECINFO_H
 #endif
 
 #ifdef HAVE_EXECINFO_H
@@ -61,6 +61,8 @@
 
 #include "diagnostics.h"
 
+bool main_exited;   // set at end of main()
+
 #ifdef ANDROID_VOODOO
 // for signal handler backtrace
 unwind_backtrace_signal_arch_t unwind_backtrace_signal_arch;
@@ -77,12 +79,11 @@ format_backtrace_line_t format_backtrace_line;
 
 #if defined(_WIN32) && defined(_MSC_VER)
 
-static _CrtMemState start_snapshot; 
-static _CrtMemState finish_snapshot; 
+static _CrtMemState start_snapshot;
+static _CrtMemState finish_snapshot;
 static _CrtMemState difference_snapshot;
 
 #endif
-
 
 static int         diagnostics_initialized = false;
 static int         flags;
@@ -118,29 +119,33 @@ static void*       libhandle;
 //   library this function will write whatever trace information it can and
 //   then throw a breakpoint exception to dump all the rest of the useful
 //   information.
-void boinc_catch_signal_invalid_parameter(
+static void boinc_catch_signal_invalid_parameter(
     const wchar_t* expression, const wchar_t* function, const wchar_t* file, unsigned int line, uintptr_t /* pReserved */
 ) {
-	fprintf(
-		stderr,
-        "ERROR: Invalid parameter detected in function %s. File: %s Line: %d\n",
-		function,
-		file,
-		line
-	);
-	fprintf(
-		stderr,
-		"ERROR: Expression: %s\n",
-		expression
-	);
+    if (function && file && expression) {
+        fprintf(
+            stderr,
+            "ERROR: Invalid parameter detected in function %S. File: %S Line: %d\n",
+            function,
+            file,
+            line
+        );
+        fprintf(
+            stderr,
+            "ERROR: Expression: %S\n",
+            expression
+        );
+    } else {
+        fputs("ERROR: Invalid parameter detected in CRT function\n", stderr);
+    }
 
-	// Cause a Debug Breakpoint.
-	DebugBreak();
+    // Cause a Debug Breakpoint.
+    DebugBreak();
 }
 
 // Override default terminate and abort functions, call DebugBreak instead.
 //
-void boinc_term_func() {
+static void boinc_term_func() {
 
     // Cause a Debug Breakpoint.
     DebugBreak();
@@ -151,9 +156,21 @@ void boinc_term_func() {
 
 // Trap ASSERTs and TRACEs from the CRT and spew them to stderr.
 //
+#if defined(wxUSE_GUI)
+int __cdecl boinc_message_reporting(int, char *, int *retVal){
+    // in wxWidgets, we don't know if main has returned
+    (*retVal) = 0;
+    return 0;
+}
+#else
 int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
     int n;
     (*retVal) = 0;
+
+    // can't call CRT functions after main returns
+    //
+    if (main_exited) return 0;
+
 
     switch(reportType){
 
@@ -180,9 +197,9 @@ int __cdecl boinc_message_reporting(int reportType, char *szMsg, int *retVal){
         break;
 
     }
-
     return(TRUE);
 }
+#endif
 
 #endif //  _DEBUG
 #endif // _WIN32
@@ -262,7 +279,7 @@ int diagnostics_init(
     safe_strcpy(boinc_proxy, "");
     safe_strcpy(symstore, "");
 
-    
+
     // Check for invalid parameter combinations
     //
     if ((flags & BOINC_DIAG_REDIRECTSTDERR) && (flags & BOINC_DIAG_REDIRECTSTDERROVERWRITE)) {
@@ -295,10 +312,10 @@ int diagnostics_init(
             boinc_mkdir(user_dir);
         }
 
-        snprintf(stdout_log, sizeof(stdout_log), "%s/%s.txt", user_dir, stdout_prefix);
-        snprintf(stdout_archive, sizeof(stdout_archive), "%s/%s.old", user_dir, stdout_prefix);
-        snprintf(stderr_log, sizeof(stderr_log), "%s/%s.txt", user_dir, stderr_prefix);
-        snprintf(stderr_archive, sizeof(stderr_archive), "%s/%s.old", user_dir, stderr_prefix);
+        snprintf(stdout_log, sizeof(stdout_log), "%.*s/%.*s.txt", DIR_LEN, user_dir, FILE_LEN, stdout_prefix);
+        snprintf(stdout_archive, sizeof(stdout_archive), "%.*s/%.*s.old", DIR_LEN, user_dir, FILE_LEN, stdout_prefix);
+        snprintf(stderr_log, sizeof(stderr_log), "%.*s/%.*s.txt", DIR_LEN, user_dir, FILE_LEN, stderr_prefix);
+        snprintf(stderr_archive, sizeof(stderr_archive), "%.*s/%.*s.old", DIR_LEN, user_dir, FILE_LEN, stderr_prefix);
 
     } else {
 
@@ -369,7 +386,9 @@ int diagnostics_init(
     //_set_abort_behavior(NULL, _WRITE_ABORT_MSG);
 #ifdef __MINGW32__
     std::set_terminate(boinc_term_func);
-    std::set_unexpected(boinc_term_func);
+    #ifndef __aarch64__
+      std::set_unexpected(boinc_term_func);
+    #endif
 #else
     set_terminate(boinc_term_func);
     set_unexpected(boinc_term_func);
@@ -393,7 +412,7 @@ int diagnostics_init(
 
     if (flags & BOINC_DIAG_BOINCAPPLICATION) {
         if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED) {
-            _CrtMemCheckpoint(&start_snapshot); 
+            _CrtMemCheckpoint(&start_snapshot);
         }
     }
 
@@ -433,11 +452,14 @@ int diagnostics_init(
     }
 #endif // ANDROID_VOODOO
 
+// Our PrintBactrace() won't work in MacOS screensaver so let
+// the MacOS handle signals and write backtrace to stderr.
+#if !(defined (__APPLE__) && defined(SCREENSAVER))
     // Install unhandled exception filters and signal traps.
     if (BOINC_SUCCESS != boinc_install_signal_handlers()) {
         return ERR_SIGNAL_OP;
     }
-
+#endif
 
     // Store various pieces of inforation for future use.
     if (flags & BOINC_DIAG_BOINCAPPLICATION) {
@@ -461,7 +483,7 @@ int diagnostics_init(
 #else
         p = FCGI::fopen(INIT_DATA_FILE, "r");
 #endif
- 
+
 		if (p) {
 			mf.init_file(p);
 			while(mf.fgets(buf, sizeof(buf))) {
@@ -480,7 +502,7 @@ int diagnostics_init(
 
         if (boinc_proxy_enabled) {
             int buffer_used = snprintf(boinc_proxy, sizeof(boinc_proxy), "%s:%d", proxy_address, proxy_port);
-            if ((sizeof(boinc_proxy) == buffer_used) || (-1 == buffer_used)) { 
+            if ((sizeof(boinc_proxy) == buffer_used) || (-1 == buffer_used)) {
                 boinc_proxy[sizeof(boinc_proxy)-1] = '\0';
             }
         }
@@ -489,9 +511,9 @@ int diagnostics_init(
         // Lookup the location of where BOINC was installed to and store
         //   that for future use.
         lReturnValue = RegOpenKeyEx(
-            HKEY_LOCAL_MACHINE, 
-            _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),  
-	        0, 
+            HKEY_LOCAL_MACHINE,
+            _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),
+	        0,
             KEY_READ,
             &hkSetupHive
         );
@@ -574,7 +596,7 @@ int diagnostics_finish() {
     }
 #endif
 
-    // Set initalization flag to false.
+    // Set initialization flag to false.
     diagnostics_initialized = false;
 
     return BOINC_SUCCESS;
@@ -617,13 +639,8 @@ char* diagnostics_get_symstore() {
 
 // store the location of the symbol store.
 //
-int diagnostics_set_symstore(char* project_symstore) {
-    if (!strlen(symstore)) {
-        int buffer_used = snprintf(symstore, sizeof(symstore), "%s", project_symstore);
-        if ((sizeof(symstore) == buffer_used) || (-1 == buffer_used)) { 
-            symstore[sizeof(symstore)-1] = '\0';
-        }
-    }
+int diagnostics_set_symstore(const char* project_symstore) {
+    safe_strcpy(symstore, project_symstore);
     return 0;
 }
 
@@ -697,7 +714,7 @@ extern "C" void boinc_set_signal_handler(int sig, handler_t handler) {
     struct sigaction temp;
     sigaction(sig, NULL, &temp);
     if (temp.sa_handler != SIG_IGN) {
-        temp.sa_handler = (void (*)(int))handler;
+        temp.sa_sigaction = handler;
         sigaction(sig, &temp, NULL);
     }
 #else
@@ -756,7 +773,7 @@ static char *xtoa(size_t x) {
 #ifdef ANDROID_VOODOO
 void boinc_catch_signal(int signal, struct siginfo *siginfo, void *sigcontext) {
 #else
-void boinc_catch_signal(int signal, struct siginfo *, void *) {
+void boinc_catch_signal(int signal, siginfo_t*, void *) {
 #endif  // ANDROID
 #else
 void boinc_catch_signal(int signal) {
@@ -784,20 +801,21 @@ void boinc_catch_signal(int signal) {
     size = backtrace (array, 64);
 //  Anything that calls malloc here (i.e *printf()) will probably fail
 //  so we'll do it the hard way.
-    (void) write(fileno(stderr),"Stack trace (",strlen("Stack trace ("));
+    ssize_t retval = write(fileno(stderr),"Stack trace (",strlen("Stack trace ("));
     char mbuf[10];
     char *p=mbuf+9;
-    int i=size;
+    int i=(int)size;
     *(p--)=0;
     while (i) {
-      *(p--)=i%10+'0';
+      *(p--)=(char)(i%10+'0');
       i/=10;
     }
-    (void) write(fileno(stderr),p+1,strlen(p+1));
-    (void) write(fileno(stderr)," frames):",strlen(" frames):"));
+    retval = write(fileno(stderr),p+1,strlen(p+1));
+    retval = write(fileno(stderr)," frames):",strlen(" frames):"));
     mbuf[0]=10;
-    (void) write(fileno(stderr),mbuf,1);
-    backtrace_symbols_fd(array, size, fileno(stderr));
+    retval = write(fileno(stderr),mbuf,1);
+    backtrace_symbols_fd(array, (int)size, fileno(stderr));
+    if (retval) {}
 #endif
 
 #ifdef __APPLE__
@@ -811,7 +829,7 @@ void boinc_catch_signal(int signal) {
     //
 #define DUMP_LINE_LEN 256
     static backtrace_frame_t backtrace[64];
-    static backtrace_symbol_t backtrace_symbols[64]; 
+    static backtrace_symbol_t backtrace_symbols[64];
     if (unwind_backtrace_signal_arch != NULL) {
         map_info_t *map_info = acquire_my_map_info_list();
         ssize_t size = unwind_backtrace_signal_arch(
@@ -906,7 +924,7 @@ void boinc_trace(const char *pszFormat, ...) {
 #else
         time_t t;
         char *theCR;
-    
+
         time(&t);
         safe_strcpy(szTime, asctime(localtime(&t)));
         theCR = strrchr(szTime, '\n');
@@ -923,11 +941,11 @@ void boinc_trace(const char *pszFormat, ...) {
         va_end(ptr);
 
 #if defined(_WIN32) && defined(_DEBUG)
-        n = _CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "[%s %s] TRACE [%d]: %s", szDate, szTime, GetCurrentThreadId(), szBuffer);
+        n = _CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "[%s %s] TRACE [%lu]: %s", szDate, szTime, GetCurrentThreadId(), szBuffer);
 #else
         if (flags & BOINC_DIAG_TRACETOSTDERR) {
 #ifdef _WIN32
-            n = fprintf(stderr, "[%s %s] TRACE [%d]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
+            n = fprintf(stderr, "[%s %s] TRACE [%lu]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
 #else
             n = fprintf(stderr, "[%s] TRACE: %s\n", szTime, szBuffer);
 #endif
@@ -936,7 +954,7 @@ void boinc_trace(const char *pszFormat, ...) {
 
         if (flags & BOINC_DIAG_TRACETOSTDOUT) {
 #ifdef _WIN32
-            n = fprintf(stdout, "[%s %s] TRACE [%d]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
+            n = fprintf(stdout, "[%s %s] TRACE [%lu]: %s\n", szDate, szTime, GetCurrentThreadId(), szBuffer);
 #else
             n = fprintf(stdout, "[%s] TRACE: %s\n", szTime, szBuffer);
 #endif
@@ -989,13 +1007,13 @@ void boinc_info(const char* pszFormat, ...){
 }
 #endif
 
-void diagnostics_set_max_file_sizes(int stdout_size, int stderr_size) {
+void diagnostics_set_max_file_sizes(double stdout_size, double stderr_size) {
     if (stdout_size) max_stdout_file_size = stdout_size;
     if (stderr_size) max_stderr_file_size = stderr_size;
 }
 
 // Dump string to whatever the platform debuggers
-// 
+//
 #ifndef _WIN32
 int diagnostics_trace_to_debugger(const char*) {
     return 0;

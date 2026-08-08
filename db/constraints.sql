@@ -12,7 +12,7 @@ alter table user
     add unique(email_addr),
     add unique(authenticator),
     add index ind_tid (teamid),
-    add index user_name(name),
+    add unique(name),
     add index user_tot (total_credit desc),
         -- db_dump.C
     add index user_avg (expavg_credit desc),
@@ -22,7 +22,6 @@ alter table user
 alter table team
     add unique(name),
     add fulltext index team_name_desc(name, description),
-    add fulltext index team_name(name),
     add index team_avg (expavg_credit desc),
         -- db_dump.C
     add index team_tot (total_credit desc),
@@ -38,8 +37,10 @@ alter table workunit
         -- transitioner
     add index wu_filedel (file_delete_state),
         -- file_deleter, db_purge
-    add index wu_assim (appid, assimilate_state);
+    add index wu_assim (appid, assimilate_state),
         -- assimilator
+    add index wu_batch(batch);
+        -- job submission web
 
 alter table result
     add unique(name),
@@ -67,8 +68,8 @@ alter table result
     add index res_hostid_id (hostid, id desc),
         -- html_user/results.php
 
-    add index res_wu_user (workunitid, userid);
-        -- scheduler (avoid sending mult results of same WU to one user)
+    add index res_batch (batch);
+        -- show batch status
 
 alter table msg_from_host
     add index message_handled (handled),
@@ -107,13 +108,13 @@ alter table forum
 
 alter table thread
     add fulltext index thread_title(title);
-        
+
 alter table post
     add index post_user (user),
     add index post_thread (thread),
     add fulltext index post_content(content);
 
-alter table credited_job 
+alter table credited_job
     add index credited_job_user (userid),
     add index credited_job_wu (workunitid),
     add unique credited_job_user_wu (userid, workunitid);
@@ -154,26 +155,26 @@ alter table credit_user
 alter table credit_team
     add index ct_total(appid, total),
     add index ct_avg(appid, expavg);
-    
+
 alter table token
     add index token_userid(userid);
 
 alter table user_deleted
     add index user_deleted_create(create_time);
         -- for delete account
-    
+
 alter table host_deleted
     add index host_deleted_create(create_time);
         -- for delete account
-    
+
 alter table donation_paypal
         -- for delete account
     add index donation_paypal_userid(userid);
-    
+
 alter table banishment_vote
-    add index banishment_vote_userid(userid);    
+    add index banishment_vote_userid(userid);
         -- for delete account
-    
+
 alter table post_ratings
     add index post_ratings_user(user);
         -- for delete account

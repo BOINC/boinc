@@ -1,0 +1,184 @@
+# BOINC client localization template
+# Copyright (C) 2025 University of California
+# 
+# This file is distributed under the same license as BOINC.
+# 
+# Translators:
+# Abdullah Alalousi <spiderman10203040@gmail.com>, 2018
+# b6fe78ecfee56a101b5ce6e94ab42340, 2018
+# b6fe78ecfee56a101b5ce6e94ab42340, 2018
+# aziz alahmadi <abdulazizalahmadi2@gmail.com>, 2018
+# ابو عبد لله حذيفة <prof.rezgui@gmail.com>, 2020
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC\n"
+"Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
+"POT-Creation-Date: 2025-02-09 02:28 UTC\n"
+"PO-Revision-Date: 2015-02-08 15:28+0000\n"
+"Last-Translator: ابو عبد لله حذيفة <prof.rezgui@gmail.com>, 2020\n"
+"Language-Team: Arabic (http://app.transifex.com/boinc/boinc/language/ar/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: client/acct_mgr.cpp:557 client/acct_mgr.cpp:564
+msgid "Message from account manager"
+msgstr "رسالة من مدير الحسابات"
+
+#: client/client_msgs.cpp:76
+msgid "Message from server"
+msgstr "رسالة من الخادم"
+
+#: client/client_state.cpp:364
+msgid ""
+"Some tasks need more memory than allowed by your preferences.  Please check "
+"the preferences."
+msgstr "بعض المهام تحتاج إلى ذاكرة كمبيوتر أكبر من المسموح بها في مفضلاتك. الرجاء تغير مفضلاتك."
+
+#: client/client_state.cpp:745
+msgid "Couldn't write state file; check directory permissions"
+msgstr "فشل كتابة ملف الحالة؛ الرجاء تغير إذن الكتابة في المجلد."
+
+#: client/cs_cmdline.cpp:295
+msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
+msgstr "إسم ال HTTP_PROXY غير صالح. يرجى تغيره من ال environment variable"
+
+#: client/cs_scheduler.cpp:595
+#, c-format
+msgid "Master URL changed from %s to %s"
+msgstr ""
+
+#: client/cs_statefile.cpp:884
+msgid "Syntax error in app_info.xml"
+msgstr "خطأ في الكود في app_info.xml"
+
+#: client/cs_statefile.cpp:928
+msgid "File referenced in app_info.xml does not exist: "
+msgstr "الملف المشار إليه في app_info.xml غير موجود."
+
+#: client/current_version.cpp:66
+msgid "Missing start tag in nvc_config.xml"
+msgstr "Missing start tag in nvc_config.xml"
+
+#: client/current_version.cpp:75
+msgid "Unexpected text in nvc_config.xml"
+msgstr "Unexpected text in nvc_config.xml"
+
+#: client/current_version.cpp:102
+msgid "Unrecognized tag in nvc_config.xml"
+msgstr "Unrecognized tag in nvc_config.xml"
+
+#: client/current_version.cpp:110
+msgid "Missing end tag in nvc_config.xml"
+msgstr "Missing end tag in nvc_config.xml"
+
+#: client/current_version.cpp:244
+msgid "A new version of BOINC is available"
+msgstr "إصدار جديد من برنامج BOINC متاح للتحميل."
+
+#: client/current_version.cpp:247 client/current_version.cpp:258
+msgid "Download"
+msgstr "تحميل"
+
+#: client/current_version.cpp:250
+#, c-format
+msgid "A new version of %s is available"
+msgstr "هناك إصدار جديد من %s متوفر حاليا."
+
+#: client/gpu_detect.cpp:308 client/gpu_detect.cpp:351
+msgid ""
+"cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
+msgstr "cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later"
+
+#: client/log_flags.cpp:344 client/log_flags.cpp:535
+msgid "Unexpected text in cc_config.xml"
+msgstr "Unexpected text in cc_config.xml"
+
+#: client/log_flags.cpp:509 client/log_flags.cpp:564
+msgid "Unrecognized tag in cc_config.xml"
+msgstr "Unrecognized tag in cc_config.xml"
+
+#: client/log_flags.cpp:526
+msgid "Missing start tag in cc_config.xml"
+msgstr "Missing start tag in cc_config.xml"
+
+#: client/log_flags.cpp:554
+msgid "Error in cc_config.xml options"
+msgstr "خطأ في خيارات cc_config.xml"
+
+#: client/log_flags.cpp:572
+msgid "Missing end tag in cc_config.xml"
+msgstr "Missing end tag in cc_config.xml"
+
+#: sched/handle_request.cpp:350
+msgid "Invalid or missing account key.  To fix, remove and add this project."
+msgstr "مفتاح حساب غير صالح أو مفقود. لإصلاحه، قم بإزالة وإضافة هذا المشروع."
+
+#: sched/handle_request.cpp:1002
+msgid ""
+"The project has changed its security key.  Please remove and add this "
+"project."
+msgstr "المشروع قد غيّر مفتاح الأمان. الرجاء احذف هذا المشروع، ثم قم بإضافته"
+
+#: sched/handle_request.cpp:1073
+msgid "This project doesn't support operating system"
+msgstr "هذا المشروع لا يدعم نظام التشغيل"
+
+#: sched/handle_request.cpp:1099
+msgid "This project doesn't support CPU type"
+msgstr "هذا المشروع لا يدعم نوع المعالج"
+
+#: sched/handle_request.cpp:1123
+msgid ""
+"Your BOINC client software is too old.  Please install the current version."
+msgstr "برنامج عميل BOINC الخاص بِك قديم جداً. الرجاء تثبيت النسخة الحالية."
+
+#: sched/handle_request.cpp:1399
+msgid "This project doesn't support computers of type"
+msgstr "هذا المشروع لا يدعم حواسيب نوع"
+
+#: sched/sched_send.cpp:1250
+msgid ""
+"Upgrade to the latest driver to process tasks using your computer's GPU"
+msgstr "قم بالترقية إلى أحدث برنامج تشغيل لمعالجة المهام باستخدام GPU للكمبيوتر الخاص بك"
+
+#: sched/sched_send.cpp:1257
+msgid ""
+"Upgrade to the latest driver to use all of this project's GPU applications"
+msgstr "قم بالترقية إلى أحدث برنامج تشغيل لاستخدام جميع تطبيقات GPU الخاصة بهذا المشروع"
+
+#: sched/sched_send.cpp:1276
+msgid ""
+"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
+" the current version"
+msgstr "إصدار أحدث من BOINC مطلوب لإستخدام كرت الشاشة NVIDIA GPU؛ الرجاء الترقية إلى الإصدار الحالي"
+
+#: sched/sched_send.cpp:1310
+#, c-format
+msgid "An %s GPU is required to run tasks for this project"
+msgstr "%s GPU مطلوب لتشغيل مهام هذا المشروع"
+
+#: sched/sched_send.cpp:1432
+msgid "No tasks are available for the applications you have selected."
+msgstr "لا يوجد مهام متاحة للتطبيقات المحددة."
+
+#: sched/sched_send.cpp:1458
+msgid "Your computer type is not supported by this project"
+msgstr "نوع الحاسب الخاص بِك غير مدعوم من قبل المشروع"
+
+#: sched/sched_send.cpp:1464
+msgid "Newer BOINC version required; please install current version"
+msgstr "يتطلب إصدار BOINC أجدد؛ الرجاء تثبيت الإصدار الحالي"
+
+#: sched/sched_send.cpp:1475
+#, c-format
+msgid ""
+"Tasks for %s are available, but your preferences are set to not accept them"
+msgstr "%s من المهام متاحة، لكن تفضيلاتك محددة لعدم قبولها."
+
+#: sched/sched_version.cpp:241
+msgid "Your app_info.xml file doesn't have a usable version of"
+msgstr "إصدار ملف app_info.xml الخاص بِك غير قابل للإستخدام."

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -40,7 +40,7 @@ typedef struct {
 ///////////////////////////////////////////////////////////////////////////
 /// Class CScrolledTextBox
 ///////////////////////////////////////////////////////////////////////////////
-class CScrolledTextBox : public wxScrolledWindow 
+class CScrolledTextBox : public wxScrolledWindow
 {
     DECLARE_DYNAMIC_CLASS( CScrolledTextBox )
     DECLARE_EVENT_TABLE()
@@ -48,10 +48,10 @@ class CScrolledTextBox : public wxScrolledWindow
         CScrolledTextBox();
 		CScrolledTextBox( wxWindow* parent);
         ~CScrolledTextBox();
-		
+
         void SetValue(const wxString& s);
         virtual void OnEraseBackground(wxEraseEvent& event);
-    
+
     private:
         int Wrap(const wxString& text, int widthMax, int *lineHeight);
         bool IsStartOfNewLine();
@@ -69,7 +69,7 @@ class CScrolledTextBox : public wxScrolledWindow
 /// Class CSlideShowPanel
 ///////////////////////////////////////////////////////////////////////////////
 
-class CSlideShowPanel : public wxPanel 
+class CSlideShowPanel : public wxPanel
 {
     DECLARE_DYNAMIC_CLASS( CSlideShowPanel )
     DECLARE_EVENT_TABLE()
@@ -84,7 +84,7 @@ class CSlideShowPanel : public wxPanel
         void AdvanceSlideShow(bool changeSlide, bool reload);
         void OnPaint(wxPaintEvent& WXUNUSED(event));
         void OnEraseBackground(wxEraseEvent& event);
-                
+
     private:
         CScrolledTextBox*           m_description;
         wxTimer*                    m_ChangeSlideTimer;
@@ -106,7 +106,7 @@ class CSlideShowPanel : public wxPanel
 #define CBOINCBitmapComboBox wxBitmapComboBox
 #endif
 
-class CSimpleTaskPanel : public CSimplePanelBase 
+class CSimpleTaskPanel : public CSimplePanelBase
 {
     DECLARE_DYNAMIC_CLASS( CSimpleTaskPanel )
     DECLARE_EVENT_TABLE()
@@ -118,12 +118,13 @@ class CSimpleTaskPanel : public CSimplePanelBase
 
         TaskSelectionData* GetTaskSelectionData();
         wxString GetSelectedTaskString() { return m_TaskSelectionCtrl->GetValue(); }
+        CBOINCBitmapComboBox* GetTaskSelectionCtrl() { return m_TaskSelectionCtrl; }
         void UpdatePanel(bool delayShow=false);
+        void OnTaskSelection(wxCommandEvent &event);
         wxRect* GetProgressRect();
         void ReskinInterface();
 
 	private:
-        void OnTaskSelection(wxCommandEvent &event);
         void GetApplicationAndProjectNames(RESULT* result, wxString* appName, wxString* projName);
         wxString GetElapsedTimeString(double f);
         wxString GetTimeRemainingString(double f);

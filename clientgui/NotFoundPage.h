@@ -27,7 +27,7 @@
  */
 
 class CErrNotFoundPage: public wxWizardPageEx
-{    
+{
     DECLARE_DYNAMIC_CLASS( CErrNotFoundPage )
     DECLARE_EVENT_TABLE()
 

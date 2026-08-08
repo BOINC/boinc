@@ -17,8 +17,10 @@
 	<key>CFBundleSignature</key>
 	<string>BNC!</string>
 	<key>CFBundleVersion</key>
-	<string>7.15.0</string>
-	<key>NSRequiresAquaSystemAppearance</key>
-	<true/>
+	<string>%VERSION%</string>
+	<key>CFBundleShortVersionString</key>
+	<string>%VERSION%</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
 </dict>
 </plist>

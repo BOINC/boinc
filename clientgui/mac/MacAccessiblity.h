@@ -17,8 +17,8 @@
 
 //  macAccessiblity.h
 
-#ifndef _MACACCESSIBILITY_H_ 
-#define _MACACCESSIBILITY_H_ 
+#ifndef _MACACCESSIBILITY_H_
+#define _MACACCESSIBILITY_H_
 
 #include "BOINCBaseView.h"
 #include "DlgEventLog.h"

@@ -30,25 +30,34 @@ $hostid = get_int("hostid");
 
 $host = BoincHost::lookup_id($hostid);
 if (!$host) {
-    error_page("No such host");
+    error_page("No such computer");
 }
 if ($host->userid != $user->id) {
-    error_page("Not your host");
+    error_page("Not your computer");
 }
 
 $retval = $host->update("venue='$venue'");
 if ($retval) {
-    page_head(tra("Host venue updated"));
+    page_head(tra("Computer venue updated"));
     if ($venue == '') {
         $venue = '('.tra("none").')';
     }
-    echo "
-        ".tra("The venue of this host has been set to %1.", "<b>$venue</b>")."
+    echo sprintf(
+        '%s
         <p>
-        ".tra("This change will take effect the next time the host communicates with this project.")."
+        %s
         <p>
-        <a href=show_host_detail.php?hostid=$hostid>".tra("Return to host page")."</a>.
-    ";
+        <a class="btn" %s href=%s>%s</a>
+        ',
+        tra(
+            'The venue of this computer has been set to %1.',
+            "<b>$venue</b>"
+        ),
+        tra('Preference changes will take effect when the computer communicates with this project.'),
+        button_style(),
+        HOME_PAGE,
+        tra('Continue to home page')
+    );
     page_tail();
 } else {
     db_error_page();

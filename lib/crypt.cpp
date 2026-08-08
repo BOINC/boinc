@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,10 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #else
 #include "config.h"
 #include <cctype>
@@ -30,25 +28,17 @@
 #include <fcntl.h>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf    _snprintf
-#define strdup      _strdup
-#endif
-
 #include <openssl/ssl.h>
 #include <openssl/md5.h>
 #include <openssl/bio.h>
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/conf.h>
-#include <openssl/engine.h>
 #include <openssl/err.h>
 #include <openssl/rsa.h>
+#include <openssl/bn.h>
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
-
+#include "boinc_stdio.h"
 #include "md5_file.h"
 #include "cert_sig.h"
 #include "filesys.h"
@@ -108,10 +98,10 @@ int print_raw_data(FILE* f, DATA_BLOCK& x) {
 int scan_raw_data(FILE *f, DATA_BLOCK& x) {
     int i=0,j;
     while(EOF!=(j=fgetc(f))) {
-        x.data[i]=j;
+        x.data[i]=(unsigned char)j;
         i++;
     }
-    x.len = i;    
+    x.len = i;
     return 0;
 }
 
@@ -142,7 +132,7 @@ int scan_hex_data(FILE* f, DATA_BLOCK& x) {
         int j;
         n = fscanf(f, "%2x", &j);
         if (n <= 0) break;
-        x.data[x.len] = j;
+        x.data[x.len] = (unsigned char)j;
         x.len++;
     }
 #endif
@@ -169,7 +159,7 @@ static int sscan_hex_data(const char* p, DATA_BLOCK& x) {
             );
             return ERR_BAD_HEX_FORMAT;
         }
-        x.data[x.len++] = m;
+        x.data[x.len++] = (unsigned char)m;
         nleft--;
         p += 2;
     }
@@ -183,7 +173,7 @@ int print_key_hex(FILE* f, KEY* key, int size) {
     DATA_BLOCK x;
 
     fprintf(f, "%d\n", key->bits);
-    len = size - sizeof(key->bits);
+    len = size - (int)sizeof(key->bits);
     x.data = key->data;
     x.len = len;
     return print_hex_data(f, x);
@@ -217,12 +207,14 @@ int scan_key_hex(FILE* f, KEY* key, int size) {
 #else
     int fs = fscanf(f, "%d", &num_bits);
     if (fs != 1) return ERR_NULL;
-    key->bits = num_bits;
-    len = size - sizeof(key->bits);
+    key->bits = (unsigned short)num_bits;
+    len = size - (int)sizeof(key->bits);
     for (i=0; i<len; i++) {
         // coverity[check_return]
-        fscanf(f, "%2x", &n);
-        key->data[i] = n;
+        if (fscanf(f, "%2x", &n) != 1) {
+            return ERR_NULL;
+        }
+        key->data[i] = (unsigned char)n;
     }
     fs = fscanf(f, ".");
     if (fs == EOF) return ERR_NULL;
@@ -238,7 +230,7 @@ int sscan_key_hex(const char* buf, KEY* key, int size) {
 
     //fprintf(stderr, "buf = %s\n", buf);
     n = sscanf(buf, "%d", &num_bits);
-    key->bits = num_bits; //key->bits is a short
+    key->bits = (unsigned short)num_bits; //key->bits is a short
     //fprintf(stderr, "key->bits = %d\n", key->bits);
 
     if (n != 1) return ERR_XML_PARSE;
@@ -246,7 +238,7 @@ int sscan_key_hex(const char* buf, KEY* key, int size) {
     if (!buf) return ERR_XML_PARSE;
     buf += 1;
     db.data = key->data;
-    db.len = size - sizeof(key->bits); //huh???
+    db.len = (unsigned)(size - sizeof(key->bits));
     retval = sscan_hex_data(buf, db);
     return retval;
 }
@@ -349,6 +341,7 @@ int check_file_signature(
     char clear_buf[MD5_LEN];
     int n, retval;
     DATA_BLOCK clear_signature;
+    clear_buf[0]=0;
 
     n = (int)strlen(md5_buf);
     clear_signature.data = (unsigned char*)clear_buf;
@@ -476,24 +469,34 @@ void openssl_to_keys(
     RSA_get0_factors(rp, &p, &q);
     RSA_get0_crt_params(rp, &dmp1, &dmq1, &iqmp);
 
-    bn_to_bin(n, pub.modulus, sizeof(pub.modulus));
-    bn_to_bin(e, pub.exponent, sizeof(pub.exponent));
+    if (n)
+        bn_to_bin(n, pub.modulus, sizeof(pub.modulus));
+    if (e)
+        bn_to_bin(e, pub.exponent, sizeof(pub.exponent));
 #else
     bn_to_bin(rp->n, pub.modulus, sizeof(pub.modulus));
     bn_to_bin(rp->e, pub.exponent, sizeof(pub.exponent));
 #endif
 
     memset(&priv, 0, sizeof(priv));
-    priv.bits = nbits;
+    priv.bits = (unsigned short)nbits;
 #ifdef HAVE_OPAQUE_RSA_DSA_DH
-    bn_to_bin(n, priv.modulus, sizeof(priv.modulus));
-    bn_to_bin(e, priv.publicExponent, sizeof(priv.publicExponent));
-    bn_to_bin(d, priv.exponent, sizeof(priv.exponent));
-    bn_to_bin(p, priv.prime[0], sizeof(priv.prime[0]));
-    bn_to_bin(q, priv.prime[1], sizeof(priv.prime[1]));
-    bn_to_bin(dmp1, priv.primeExponent[0], sizeof(priv.primeExponent[0]));
-    bn_to_bin(dmq1, priv.primeExponent[1], sizeof(priv.primeExponent[1]));
-    bn_to_bin(iqmp, priv.coefficient, sizeof(priv.coefficient));
+    if (n)
+        bn_to_bin(n, priv.modulus, sizeof(priv.modulus));
+    if (e)
+        bn_to_bin(e, priv.publicExponent, sizeof(priv.publicExponent));
+    if (d)
+        bn_to_bin(d, priv.exponent, sizeof(priv.exponent));
+    if (p)
+        bn_to_bin(p, priv.prime[0], sizeof(priv.prime[0]));
+    if (q)
+        bn_to_bin(q, priv.prime[1], sizeof(priv.prime[1]));
+    if (dmp1)
+        bn_to_bin(dmp1, priv.primeExponent[0], sizeof(priv.primeExponent[0]));
+    if (dmq1)
+        bn_to_bin(dmq1, priv.primeExponent[1], sizeof(priv.primeExponent[1]));
+    if (iqmp)
+        bn_to_bin(iqmp, priv.coefficient, sizeof(priv.coefficient));
 #else
     bn_to_bin(rp->n, priv.modulus, sizeof(priv.modulus));
     bn_to_bin(rp->e, priv.publicExponent, sizeof(priv.publicExponent));
@@ -580,7 +583,7 @@ int openssl_to_private(RSA *from, R_RSA_PRIVATE_KEY *to) {
     RSA_get0_factors(from, &p, &q);
     RSA_get0_crt_params(from, &dmp1, &dmq1, &iqmp);
 
-    to->bits = BN_num_bits(n);
+    to->bits = (unsigned short)BN_num_bits(n);
     if (!_bn2bin(n,to->modulus,MAX_RSA_MODULUS_LEN))
         return(0);
     if (!_bn2bin(e,to->publicExponent,MAX_RSA_MODULUS_LEN))
@@ -647,14 +650,14 @@ int check_validity_of_cert(
         X509_STORE_CTX_free(ctx);
     }
     X509_STORE_free(store);
-    
+
     if (retval != 1) {
         fprintf(stderr,
             "%s: ERROR: Cannot verify certificate ('%s')\n",
             time_to_string(dtime()), cFile
         );
         return 0;
-    }        
+    }
     pubKey = X509_get_pubkey(cert);
     if (!pubKey) {
         X509_free(cert);
@@ -675,7 +678,10 @@ int check_validity_of_cert(
         }
 #ifdef HAVE_OPAQUE_RSA_DSA_DH
         RSA *rsa;
-        rsa = EVP_PKEY_get0_RSA(pubKey);
+        // CAUTION: In OpenSSL 3.0.0, EVP_PKEY_get0_RSA() now returns a
+        // pointer of type "const struct rsa_st*" to an immutable value.
+        // Do not try to modify the contents of the returned struct.
+        rsa = (rsa_st*)EVP_PKEY_get0_RSA(pubKey);
         if (!RSA_blinding_on(rsa, c)) {
 #else
         if (!RSA_blinding_on(pubKey->pkey.rsa, c)) {
@@ -720,8 +726,11 @@ char *check_validity(
     int rbytes;
     unsigned char md5_md[MD5_DIGEST_LENGTH],  rbuf[2048];
 
+// OpenSSL 1.1 does initialization internally. This is default.
+#if OPENSSL_VERSION_NUMBER < 0x10100000L || defined(HAVE_LIBRESSL)
     SSL_load_error_strings();
     SSL_library_init();
+#endif
 
     if (!is_file(origFile)) {
         return NULL;
@@ -740,8 +749,8 @@ char *check_validity(
     char file[MAXPATHLEN];
     while (!dir_scan(file, dir, sizeof(file))) {
         char fpath[MAXPATHLEN];
-        snprintf(fpath, sizeof(fpath), "%s/%s", certPath, file);
-        // TODO : replace '128'  
+        snprintf(fpath, sizeof(fpath), "%.*s/%.*s", DIR_LEN, certPath, FILE_LEN, file);
+        // TODO : replace '128'
         if (check_validity_of_cert(fpath, md5_md, signature, 128, caPath)) {
             dir_close(dir);
             return strdup(fpath);
@@ -772,7 +781,10 @@ int cert_verify_file(
         fflush(stdout);
         return false;
     }
+// OpenSSL 1.1 does initialization internally. This is default.
+#if OPENSSL_VERSION_NUMBER < 0x10100000L || defined(HAVE_LIBRESSL)
     SSL_library_init();
+#endif
     if (!is_file(origFile)) return false;
     FILE* of = boinc_fopen(origFile, "r");
     if (!of) return false;
@@ -798,7 +810,7 @@ int cert_verify_file(
             FILE *f = fopen(fbuf, "r");
 #else
             FCGI_FILE *f = FCGI::fopen(fbuf, "r");
-#endif 
+#endif
             if (f==NULL)
                 break;
             fclose(f);
@@ -821,9 +833,9 @@ int cert_verify_file(
                 printf("Subject does not match ('%s' <-> '%s')\n", buf, signatures->signatures.at(i).subject);
                 file_counter++;
                 continue;
-            } 
+            }
             verified = check_validity_of_cert(fbuf, md5_md, sig_db.data, 128, trustLocation);
-            if (verified) 
+            if (verified)
                 break;
             file_counter++;
         }

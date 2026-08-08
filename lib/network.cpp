@@ -15,11 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
 #include <fcntl.h>
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #else
 #include "config.h"
 #if HAVE_UNISTD_H
@@ -37,9 +35,11 @@
 #include <errno.h>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
+#include <vector>
+#include <string>
+#include <cctype>
+using std::vector;
+using std::string;
 
 #include "error_numbers.h"
 #include "str_util.h"
@@ -173,7 +173,7 @@ int resolve_hostname(const char* hostname, sockaddr_storage &ip_addr) {
         if (retval == EAI_SYSTEM) {
             perror(buf);
         } else {
-            fprintf(stderr, "%s: %s", buf, gai_strerror(retval));
+            fprintf(stderr, "%s: %s\n", buf, gai_strerror(retval));
         }
         return ERR_GETADDRINFO;
     }
@@ -319,8 +319,10 @@ void reset_dns() {
 #endif
 }
 
-// Get an unused port number.
-// Used by vboxwrapper.
+// Get an unused port number by creating and binding a socket
+// note: there's a slight race condition here;
+// someone else might use the resulting port before you do.
+// Used by vboxwrapper and docker_wrapper.
 // I'm not sure if is_remote is relevant here - a port is a port, right?
 //
 int boinc_get_port(bool is_remote, int& port) {
@@ -354,4 +356,34 @@ int boinc_get_port(bool is_remote, int& port) {
 
     boinc_close_socket(sock);
     return 0;
+}
+
+// is a high-availability server reachable?
+// (we use berkeley.edu for this purpose)
+//
+// We used to do this directly, by gethostbyname() and connect().
+// But on Windows, gethostbyname() caches negative results,
+// so once a DNS resolution fails (due to network disconnection)
+// it keeps failing after reconnection!  WTF??
+//
+// So use ping instead.
+// The Win version is different from Unix, both the args and the output.
+// But both exit nonzero on failure.
+//
+bool network_connected() {
+    char cmd[256];
+    snprintf(cmd, sizeof(cmd), "ping %s berkeley.edu",
+#ifdef _WIN32
+        "-n 1"
+#else
+        "-c 1"
+#endif
+    );
+    vector<string> out;
+    int retval = run_command(cmd, out);
+    // ping exits nonzero on failure
+    if (retval) {
+        return false;
+    }
+    return true;
 }

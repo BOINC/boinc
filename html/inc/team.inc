@@ -41,7 +41,7 @@ function team_search_form($params) {
     row2(
         tra('Key words').'<br><small>'.tra('Find teams with these words in their names or descriptions').'</small>',
         '<input class="form-control" type="text" name="keywords" value="' . htmlspecialchars($params->keywords) . '">');
-    row2_init(tra('Country'), '');
+    row2_init(tra('Country'));
     echo '<select class="form-control" name="country"><option value="" selected>---</option>';
     $country = $params->country;
     if (!$country || $country == 'None') $country = "XXX";
@@ -86,7 +86,6 @@ function display_team_page($team, $user) {
     global $team_name_sites;
     page_head("$team->name");
 
-    echo sanitize_html($team->name_html);
     echo "<p>";
     start_table();
     row1(tra('Team info'));
@@ -188,13 +187,15 @@ function display_team_page($team, $user) {
     if (count($team->new_members)) {
         $first = true;
         $x = "";
-        foreach ($team->new_members as $a) {
+        foreach ($team->new_members as $id) {
+            $u = BoincUser::lookup_id($id);
+            if (!$u) continue;
             if ($first) {
                 $first = false;
             } else {
                 $x .= " &middot; ";
             }
-            $x .= user_links($a, BADGE_HEIGHT_MEDIUM);
+            $x .= user_links($u, BADGE_HEIGHT_MEDIUM);
         }
     }
     row2(tra('New members in last day'), $x);
@@ -212,10 +213,10 @@ function display_team_members($team, $offset, $sort_by) {
     $admins = BoincTeamAdmin::enum("teamid=$team->id");
 
     // there aren't indices to support sorting by credit.
-    // set the following variable to disable sorted output.
+    // set the following variable to 1 to disable sorted output.
     // (though since caching is generally used this shouldn't be needed)
     //
-    $nosort = false;
+    $nosort = 0;
 
     if ($sort_by == "total_credit") {
         $sort_clause = "total_credit desc";
@@ -251,9 +252,12 @@ function display_team_members($team, $offset, $sort_by) {
     $x[] = tra('Country');
     $a[] = "";
     row_heading_array($x, $a);
-    
-    $cache_args = "teamid=".$team->id."&mosort=".$nosort."&order=".$sort_clause."&limit=".$offset."_".$n;
-    $users = unserialize(get_cached_data(TEAM_PAGE_TTL, $cache_args));
+
+    $cache_args = "teamid=".$team->id."&nosort=".$nosort."&order=".$sort_clause."&limit=".$offset."_".$n;
+    $users = get_cached_data(TEAM_PAGE_TTL, $cache_args);
+    if ($users) {
+        $users = unserialize($users);
+    }
     if (!$users) {
         if ($nosort) {
             $users = BoincUser::enum("teamid=$team->id limit $offset,$n");
@@ -345,19 +349,19 @@ function require_admin($user, $team) {
     }
 }
 
+// return list of ID of user who joined team in last day
+//
 function new_member_list($teamid) {
     $new_members = array();
     $yesterday = time() - 86400;
-    $deltas = BoincTeamDelta::enum("teamid=$teamid and timestamp>$yesterday and joining=1 group by userid");
-    if (count($deltas)) {
-        foreach ($deltas as $delta) {
-            $u = BoincUser::lookup_id($delta->userid);
-            if ($u->teamid == $teamid) {
-                $new_members[] = $u;  // they might have later quit
-            }
+    $deltas = BoincTeamDelta::enum("teamid=$teamid and timestamp>$yesterday and joining=1");
+    foreach ($deltas as $delta) {
+        $u = BoincUser::lookup_id($delta->userid);
+        if ($u->teamid == $teamid) {
+            $new_members[] = $u->id;  // they might have later quit
         }
     }
-    return $new_members;
+    return array_unique($new_members);
 }
 
 function admin_list($teamid) {
@@ -365,6 +369,7 @@ function admin_list($teamid) {
     $admins = BoincTeamAdmin::enum("teamid=$teamid");
     foreach ($admins as $admin) {
         $user = BoincUser::lookup_id($admin->userid);
+        if (!$user) continue;
         $u[] = $user;
     }
     return $u;
@@ -458,7 +463,7 @@ function user_erase_team_delta($user) {
 }
 
 function team_edit_form($team, $label, $url) {
-    global $team_types, $recaptcha_public_key;
+    global $team_types;
     echo "<form method=post action=$url>\n";
     if ($team) {
         echo "<input type=hidden name=teamid value=$team->id>\n";
@@ -496,24 +501,27 @@ function team_edit_form($team, $label, $url) {
 
     row2(tra('Type of team').':', team_type_select($team?$team->type:null));
 
-    row2_init(tra('Country'),
-        '<select class="form-control" name="country">'
-    );
+    row2_init(tra('Country'));
+    echo '<select class="form-control" name="country">';
     echo country_select_options($team?$team->country:null);
-
     echo "</select></td></tr>\n";
+
     $x = (!$team || $team->joinable)?"checked":"";
     row2(tra("Accept new members?"), "<input type=checkbox name=joinable $x>");
     // Check if we're using reCaptcha to prevent spam accounts
     //
-    if (!$team && $recaptcha_public_key) {
+    if (!$team && recaptcha_public_key()) {
         row2(
             "",
-            boinc_recaptcha_get_html($recaptcha_public_key)
+            boinc_recaptcha_get_html(recaptcha_public_key())
         );
     }
     row2("",
-        "<input class=\"btn btn-success\" type=submit name=new value='$label'>"
+        sprintf(
+            '<input class="btn" %s type=submit name=new value="%s">',
+            button_style(),
+            $label
+        )
     );
     end_table();
     echo "</form>\n";
@@ -524,7 +532,7 @@ function team_edit_form($team, $label, $url) {
 function team_decay_credit($team) {
     $avg = $team->expavg_credit;
     $avg_time = $team->expavg_time;
-    $now = time(0);
+    $now = time();
     update_average($now, 0, 0, $avg, $avg_time);
     $team->update("expavg_credit=$avg, expavg_time=$now");
 
@@ -629,6 +637,5 @@ function make_team(
     }
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

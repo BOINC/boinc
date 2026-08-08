@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -35,11 +35,7 @@
 #include "sched_types.h"
 #include "sched_util.h"
 #include "sched_version.h"
-
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
-
+#include "boinc_stdio.h"
 #include "sched_array.h"
 
 // do fast checks on this job, i.e. ones that don't require DB access
@@ -327,7 +323,16 @@ recheck:
             //
             result.id = wu_result.resultid;
             if (result_still_sendable(result, wu)) {
-                add_result_to_reply(result, wu, bavp, false);
+                HOST_USAGE hu;
+                BUDA_VARIANT *bvp = NULL;
+                if (is_buda(wu)) {
+                    if (!choose_buda_variant(wu, -1, &bvp, hu)) {
+                        continue;
+                    }
+                } else {
+                    hu = bavp->host_usage;
+                }
+                add_result_to_reply(result, wu, bavp, hu, bvp, false);
 
                 // add_result_to_reply() fails only in pathological cases -
                 // e.g. we couldn't update the DB record or modify XML fields.

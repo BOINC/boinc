@@ -18,13 +18,13 @@
  *  QMachOImageList.h
  *
  */
- 
-/* This is part of a backtrace generator for boinc project applications.  
+
+/* This is part of a backtrace generator for boinc project applications.
 *
 * Adapted from Apple Developer Technical Support Sample Code QCrashReport
 *
-* This code handles Mac OS X 10.3.x through 10.4.9.  It may require some 
-* adjustment for future OS versions; see the discussion of _sigtramp and 
+* This code handles Mac OS X 10.3.x through 10.4.9.  It may require some
+* adjustment for future OS versions; see the discussion of _sigtramp and
 * PowerPC Signal Stack Frames in file QBacktrace.c.
 *
 *  For useful tips on using backtrace information, see Apple Tech Note 2123:
@@ -32,10 +32,10 @@
 *
 *  To convert addresses to correct symbols, use the atos command-line tool:
 *  atos -o path/to/executable/with/symbols address
-*  Note: if address 1a23 is hex, use 0x1a23.  
+*  Note: if address 1a23 is hex, use 0x1a23.
 *
-*  To demangle mangled C++ symbols, use the c++filt command-line tool. 
-*  You may need to prefix C++ symbols with an additonal underscore before 
+*  To demangle mangled C++ symbols, use the c++filt command-line tool.
+*  You may need to prefix C++ symbols with an additional underscore before
 *  passing them to c++filt (so they begin with two underscore characters).
 *
 * A very useful shell script to add symbols to a crash dump can be found at:
@@ -77,7 +77,7 @@
                 patent rights that may be infringed by your derivative works or
                 by other works in which the Apple Software may be incorporated.
 
-                The Apple Software is provided by Apple on an "AS IS" basis. 
+                The Apple Software is provided by Apple on an "AS IS" basis.
                 APPLE MAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
                 WITHOUT LIMITATION THE IMPLIED WARRANTIES OF NON-INFRINGEMENT,
                 MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, REGARDING
@@ -97,7 +97,7 @@
     Change History (most recent first):
 
 $Log: QMachOImageList.h,v $
-Revision 1.1  2007/03/02 12:20:25         
+Revision 1.1  2007/03/02 12:20:25
 First checked in.
 
 
@@ -118,137 +118,137 @@ First checked in.
 
 /*!
     @header         QMachOImageList.h
-    
+
     @abstract       Gets all Mach-O images within a process.
 
-    @discussion     This module provides routines to get all of the Mach-O images 
-                    from a process.  The intricacies of the implementation are covered 
-                    by the comments in the source.  The interface is, however, 
-                    quite clean.  There are two functions, one to get a list of 
-                    all of the images in the current process (QMOImageListFromSelf), 
+    @discussion     This module provides routines to get all of the Mach-O images
+                    from a process.  The intricacies of the implementation are covered
+                    by the comments in the source.  The interface is, however,
+                    quite clean.  There are two functions, one to get a list of
+                    all of the images in the current process (QMOImageListFromSelf),
                     and another to get a list of the images in an arbitrary process.
 
-                    This module assumes that the state of the process you're 
-                    investigating is stable.  That is, when you ask the module to 
-                    create the process's image list, you need to guarantee that 
-                    the dyld state of the process does not change while this module 
-                    is looking at it.  The best way to prevent this from happening 
-                    is to suspend the process while you're accessing it.  The Mach 
+                    This module assumes that the state of the process you're
+                    investigating is stable.  That is, when you ask the module to
+                    create the process's image list, you need to guarantee that
+                    the dyld state of the process does not change while this module
+                    is looking at it.  The best way to prevent this from happening
+                    is to suspend the process while you're accessing it.  The Mach
                     routine task_suspend is very useful in this situation.
 */
 
 /*!
     @function       QMOImageListFromSelf
-    
+
     @abstract       Returns a list of Mach-O images in the current process.
-    
-    @discussion     Just like QMOImageListForTask except that it returns the 
+
+    @discussion     Just like QMOImageListForTask except that it returns the
                     image list for the current task.
 
-                    The implementation of this routine is much less scary than 
+                    The implementation of this routine is much less scary than
                     that of QMOImageListForTask.
 
     @param imageArray
-                    May be NULL only if imageArrayCount is 0.  If not NULL, 
-                    it must point to an array of imageArrayCount elements. 
-                    On success, the array holds references to up to imageArrayCount 
-                    image objects.  On error, each element of the array will 
+                    May be NULL only if imageArrayCount is 0.  If not NULL,
+                    it must point to an array of imageArrayCount elements.
+                    On success, the array holds references to up to imageArrayCount
+                    image objects.  On error, each element of the array will
                     be NULL.
 
     @param imageArrayCount
-                    The size of the array pointed to by imageArray.  May be 
+                    The size of the array pointed to by imageArray.  May be
                     zero.
-                    
+
     @param imageArrayCountPtr
-                    Must not be NULL.  On entry, the value of *imageArrayCountPtr 
-                    is ignored.  On success, *imageArrayCountPtr is the number of 
-                    images in the target process.  On error, *imageArrayCountPtr is 
+                    Must not be NULL.  On entry, the value of *imageArrayCountPtr
+                    is ignored.  On success, *imageArrayCountPtr is the number of
+                    images in the target process.  On error, *imageArrayCountPtr is
                     undefined.
-                    
-                    IMPORTANT: The value returned in *imageArrayCountPtr may be 
-                    larger than imageArrayCount.  That means that the imageArray 
-                    was not big enough to hold all of the images in the target 
-                    process.  You can use the value in *imageArrayCountPtr to 
+
+                    IMPORTANT: The value returned in *imageArrayCountPtr may be
+                    larger than imageArrayCount.  That means that the imageArray
+                    was not big enough to hold all of the images in the target
+                    process.  You can use the value in *imageArrayCountPtr to
                     grow the array and thus get all of the images.
 
     @result         An errno-style error code per QTMErrnoFromMachError.
 */
 extern int QMOImageListFromSelf(
-    QMOImageRef *   imageArray, 
-    size_t          imageArrayCount, 
+    QMOImageRef *   imageArray,
+    size_t          imageArrayCount,
     size_t *        imageCountPtr
 );
 
 /*!
     @function       QMOImageListFromTask
-    
+
     @abstract       Returns a list of Mach-O images for an arbitrary process.
-    
+
     @discussion     Returns a list of Mach-O images for the specified process.
-        
-    @param task     Must be the name of a valid send right for the task control 
-                    port of the task whose images you want; mach_task_self is 
+
+    @param task     Must be the name of a valid send right for the task control
+                    port of the task whose images you want; mach_task_self is
                     just fine.
-                    
-                    If you do pass in mach_task_self, this routine acts like you'd 
-                    called QMOImageListFromSelf.  This automatically enables some 
+
+                    If you do pass in mach_task_self, this routine acts like you'd
+                    called QMOImageListFromSelf.  This automatically enables some
                     nice optimisations.
-                    
-    @param cputype  The CPU type of the dynamic linker from which you want to get 
-                    the image list.  Typically you would pass CPU_TYPE_ANY to use 
-                    the first dynamic linker that's discovered.  See 
-                    QMOImageCreateFromTaskDyld for a detailed discussion of this 
+
+    @param cputype  The CPU type of the dynamic linker from which you want to get
+                    the image list.  Typically you would pass CPU_TYPE_ANY to use
+                    the first dynamic linker that's discovered.  See
+                    QMOImageCreateFromTaskDyld for a detailed discussion of this
                     value.
 
     @param imageArray
-                    May be NULL only if imageArrayCount is 0.  If not NULL, 
-                    it must point to an array of imageArrayCount elements. 
-                    On success, the array holds references to up to imageArrayCount 
-                    image objects.  On error, each element of the array will 
+                    May be NULL only if imageArrayCount is 0.  If not NULL,
+                    it must point to an array of imageArrayCount elements.
+                    On success, the array holds references to up to imageArrayCount
+                    image objects.  On error, each element of the array will
                     be NULL.
 
     @param imageArrayCount
-                    The size of the array pointed to by imageArray.  May be 
+                    The size of the array pointed to by imageArray.  May be
                     zero.
-                    
+
     @param imageArrayCountPtr
-                    Must not be NULL.  On entry, the value of *imageArrayCountPtr 
-                    is ignored.  On success, *imageArrayCountPtr is the number of 
-                    images in the target process.  On error, *imageArrayCountPtr is 
+                    Must not be NULL.  On entry, the value of *imageArrayCountPtr
+                    is ignored.  On success, *imageArrayCountPtr is the number of
+                    images in the target process.  On error, *imageArrayCountPtr is
                     undefined.
-                    
-                    IMPORTANT: The value returned in *imageArrayCountPtr may be 
-                    larger than imageArrayCount.  That means that the imageArray 
-                    was not big enough to hold all of the images in the target 
-                    process.  You can use the value in *imageArrayCountPtr to 
+
+                    IMPORTANT: The value returned in *imageArrayCountPtr may be
+                    larger than imageArrayCount.  That means that the imageArray
+                    was not big enough to hold all of the images in the target
+                    process.  You can use the value in *imageArrayCountPtr to
                     grow the array and thus get all of the images.
 
     @result         An errno-style error code per QTMErrnoFromMachError.
 */
 extern int QMOImageListFromTask(
-    task_t          task, 
-    cpu_type_t      cputype, 
-    QMOImageRef *   imageArray, 
-    size_t          imageArrayCount, 
+    task_t          task,
+    cpu_type_t      cputype,
+    QMOImageRef *   imageArray,
+    size_t          imageArrayCount,
     size_t *        imageCountPtr
 );
 
 /*!
     @function       QMOImageListDestroy
-    
+
     @abstract       Destroys an array of image objects.
-    
-    @discussion     Destroys an array of image objects.  Calls QMOImageDestroy 
-                    for each element of the array.  Because QMOImageDestroy does 
-                    nothing if its parameter is NULL, it's safe for elements of 
+
+    @discussion     Destroys an array of image objects.  Calls QMOImageDestroy
+                    for each element of the array.  Because QMOImageDestroy does
+                    nothing if its parameter is NULL, it's safe for elements of
                     the array to be NULL.
 
     @param imageArray
-                    May be NULL only if imageArrayCount is 0.  If not NULL, it 
+                    May be NULL only if imageArrayCount is 0.  If not NULL, it
                     must point to an array of imageArrayCount elements.
 
     @param imageArrayCount
-                    The size of the array pointed to by imageArray.  May be 
+                    The size of the array pointed to by imageArray.  May be
                     zero.
 */
 extern void QMOImageListDestroy(QMOImageRef *imageArray, size_t imageArrayCount);

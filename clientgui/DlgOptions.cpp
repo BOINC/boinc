@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -82,10 +82,10 @@ CDlgOptions::~CDlgOptions() {
 
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
-    
+
     wxGetApp().SaveState();
     pFrame->SaveState();
-    
+
     wxConfigBase::Get(FALSE)->Flush();
 }
 
@@ -101,6 +101,10 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
     m_EnableBOINCManagerAutoStartCtrl = NULL;
     m_EnableRunDaemonCtrl = NULL;
     m_EnableBOINCManagerExitMessageCtrl = NULL;
+    m_EnableBOINCClientShutdownMessageCtrl = NULL;
+#if defined(__WXMAC__)
+    m_EnableBOINCMenuBarIconCtrl = NULL;
+#endif      // __WXMAC__
     m_DialupStaticBoxCtrl = NULL;
 #if defined(__WXMSW__)
     m_DialupConnectionsCtrl = NULL;
@@ -155,10 +159,10 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
  * Control creation for CDlgToolsOptions
  */
 
-// NOTE: On MS Windows with wxWidgets 3.0, controls inside a wxStaticBox 
+// NOTE: On MS Windows with wxWidgets 3.0, controls inside a wxStaticBox
 // don't refresh properly unless they are children of the wxStaticBox!
 //
-void CDlgOptions::CreateControls() {    
+void CDlgOptions::CreateControls() {
 ////@begin CDlgOptions content construction
     CDlgOptions* itemDialog1 = this;
 
@@ -179,9 +183,13 @@ void CDlgOptions::CreateControls() {
     itemStaticText7->Create( itemPanel4, wxID_STATIC, _("Language:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer6->Add(itemStaticText7, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxString* m_LanguageSelectionCtrlStrings = NULL;
+    const std::vector<GUI_SUPPORTED_LANG>& langs = wxGetApp().GetSupportedLanguages();
+    wxArrayString langLabels;
+    for (const GUI_SUPPORTED_LANG& lang : langs) {
+        langLabels.push_back(lang.Label);
+    }
     m_LanguageSelectionCtrl = new wxComboBox;
-    m_LanguageSelectionCtrl->Create( itemPanel4, ID_LANGUAGESELECTION, wxT(""), wxDefaultPosition, wxDefaultSize, 0, m_LanguageSelectionCtrlStrings, wxCB_READONLY );
+    m_LanguageSelectionCtrl->Create( itemPanel4, ID_LANGUAGESELECTION, wxT(""), wxDefaultPosition, wxDefaultSize, langLabels, wxCB_READONLY );
     if (ShowToolTips())
         m_LanguageSelectionCtrl->SetToolTip(_("What language should BOINC use?"));
     itemFlexGridSizer6->Add(m_LanguageSelectionCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -228,6 +236,28 @@ void CDlgOptions::CreateControls() {
     if (ShowToolTips())
         m_EnableBOINCManagerExitMessageCtrl->SetToolTip(_("Display the exit dialog when shutting down the Manager."));
     itemFlexGridSizer6->Add(m_EnableBOINCManagerExitMessageCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    wxStaticText* itemStaticText13 = new wxStaticText;
+    itemStaticText13->Create( itemPanel4, wxID_STATIC, _("Enable Client shutdown dialog?"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer6->Add(itemStaticText13, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    m_EnableBOINCClientShutdownMessageCtrl = new wxCheckBox;
+    m_EnableBOINCClientShutdownMessageCtrl->Create( itemPanel4, ID_ENABLESHUTDOWNMESSAGE, wxT(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    if (ShowToolTips())
+        m_EnableBOINCClientShutdownMessageCtrl->SetToolTip(_("Display confirmation dialog when shutting down the connected client."));
+    itemFlexGridSizer6->Add(m_EnableBOINCClientShutdownMessageCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+#ifdef __WXMAC__
+    wxStaticText* itemStaticText14 = new wxStaticText;
+    itemStaticText14->Create( itemPanel4, wxID_STATIC, _("Show status in menu bar?"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer6->Add(itemStaticText14, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    m_EnableBOINCMenuBarIconCtrl = new wxCheckBox;
+    m_EnableBOINCMenuBarIconCtrl->Create( itemPanel4, ID_ENABLEMENUBARICON, wxT(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    if (ShowToolTips())
+        m_EnableBOINCMenuBarIconCtrl->SetToolTip(_("Display a status icon in the system menu bar."));
+    itemFlexGridSizer6->Add(m_EnableBOINCMenuBarIconCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+#endif      // __WXMAC__
 
     itemNotebook3->AddPage(itemPanel4, _("General"));
 
@@ -406,14 +436,16 @@ void CDlgOptions::CreateControls() {
     wxBoxSizer* itemBoxSizer59 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer2->Add(itemBoxSizer59, 0, wxALIGN_RIGHT|wxALL, 5);
 
-    wxButton* itemButton60 = new wxButton;
-    itemButton60->Create( itemDialog1, wxID_OK, _("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer59->Add(itemButton60, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    wxButton* btnSave = new wxButton;
+    btnSave->Create( itemDialog1, wxID_OK, _("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
+    btnSave->SetToolTip( _("Save all values and close the dialog") );
+    itemBoxSizer59->Add(btnSave, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxButton* itemButton61 = new wxButton;
-    itemButton61->Create( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemButton61->SetDefault();
-    itemBoxSizer59->Add(itemButton61, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    wxButton* btnCancel = new wxButton;
+    btnCancel->Create( itemDialog1, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+    btnCancel->SetToolTip( _("Close the dialog without saving") );
+    btnCancel->SetDefault();
+    itemBoxSizer59->Add(btnCancel, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     // Set validators
 
@@ -570,7 +602,7 @@ wxIcon CDlgOptions::GetIconResource( const wxString& WXUNUSED(name) ) {
 #ifdef __WXMSW__
 
 wxString CDlgOptions::GetDefaultDialupConnection() const {
-    return m_DialupDefaultConnectionCtrl->GetLabel(); 
+    return m_DialupDefaultConnectionCtrl->GetLabel();
 }
 
 void CDlgOptions::SetDefaultDialupConnection(wxString value) {
@@ -584,18 +616,34 @@ bool CDlgOptions::ReadSettings() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
     wxString            strBuffer = wxEmptyString;
+#ifdef __WXMSW__
     wxArrayString       astrDialupConnections;
-
+#endif
 
     wxASSERT(pDoc);
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
-
     // General Tab
-    m_LanguageSelectionCtrl->Append(wxGetApp().GetSupportedLanguages());
-    m_LanguageSelectionCtrl->SetSelection(wxLocale::FindLanguageInfo(wxGetApp().GetISOLanguageCode())->Language);
+    if (wxGetApp().UseDefaultLocale()) {
+        // CBOINCGUIApp::InitSupportedLanguages() ensures "Auto" is the first item in the list
+        m_LanguageSelectionCtrl->SetSelection(0);
+    } else {
+        const wxLanguageInfo* pLI = wxLocale::FindLanguageInfo(wxGetApp().GetISOLanguageCode());
+        if (pLI) {
+            const std::vector<GUI_SUPPORTED_LANG>& langs = wxGetApp().GetSupportedLanguages();
+            for (std::vector<GUI_SUPPORTED_LANG>::const_iterator foundit = langs.begin();
+                 foundit != langs.end(); ++foundit) {
+                const GUI_SUPPORTED_LANG& item = *foundit;
+                if (item.Language == pLI->Language) {
+                    int selLangIdx = std::distance(langs.begin(), foundit);
+                    m_LanguageSelectionCtrl->SetSelection(selLangIdx);
+                    break;
+                }
+            }
+        }
+    }
 
     m_ReminderFrequencyCtrl->Append(_("always"));
     m_ReminderFrequencyCtrl->Append(_("1 hour"));
@@ -628,6 +676,10 @@ bool CDlgOptions::ReadSettings() {
     //m_ReminderFrequencyCtrl->SetValue(m_iReminderFrequency);
 
     m_EnableBOINCManagerExitMessageCtrl->SetValue(wxGetApp().GetBOINCMGRDisplayExitMessage() != 0);
+    m_EnableBOINCClientShutdownMessageCtrl->SetValue(wxGetApp().GetBOINCMGRDisplayShutdownConnectedClientMessage() != 0);
+#ifdef __WXMAC__
+    m_EnableBOINCMenuBarIconCtrl->SetValue(wxGetApp().GetBOINCMGRHideMenuBarIcon() == 0);
+#endif
 #ifdef __WXMSW__
     m_EnableBOINCManagerAutoStartCtrl->SetValue(!wxGetApp().GetBOINCMGRDisableAutoStart());
 
@@ -682,7 +734,7 @@ bool CDlgOptions::SaveSettings() {
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     long                lBuffer = 0;
     wxString            strBuffer = wxEmptyString;
-
+    const wxLanguageInfo *newLanguageInfo = NULL;
 
     wxASSERT(pDoc);
     wxASSERT(pFrame);
@@ -693,7 +745,25 @@ bool CDlgOptions::SaveSettings() {
 
 
     // General Tab
-    if (wxLocale::FindLanguageInfo(wxGetApp().GetISOLanguageCode())->Language != m_LanguageSelectionCtrl->GetSelection()) {
+    wxString oldLangCode = wxGetApp().GetISOLanguageCode();
+    wxString newLangCode = oldLangCode;
+    int selLangIdx = m_LanguageSelectionCtrl->GetSelection();
+    if (selLangIdx == 0) {
+        // CBOINCGUIApp::InitSupportedLanguages() ensures "Auto" is the first item in the list
+        newLanguageInfo = wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT);
+        // wxLocale::GetLanguageInfo(wxLANGUAGE_DEFAULT) may return NULL on Macintosh
+        newLangCode = wxEmptyString;
+    } else if (selLangIdx > 0) {
+        const std::vector<GUI_SUPPORTED_LANG>& langs = wxGetApp().GetSupportedLanguages();
+        if (selLangIdx < langs.size()) {
+            const GUI_SUPPORTED_LANG& selLang = langs[selLangIdx];
+            newLanguageInfo = wxLocale::GetLanguageInfo(selLang.Language);
+        }
+    }
+    if (newLanguageInfo) {
+        newLangCode = newLanguageInfo->CanonicalName;
+    }
+    if (newLangCode != oldLangCode) {
         wxString strDialogTitle;
         wxString strDialogMessage;
 
@@ -719,7 +789,8 @@ bool CDlgOptions::SaveSettings() {
         );
     }
 
-    wxGetApp().SetISOLanguageCode(wxLocale::GetLanguageInfo(m_LanguageSelectionCtrl->GetSelection())->CanonicalName);
+    wxGetApp().SetISOLanguageCode(newLangCode);
+    wxGetApp().SetUseDefaultLocale(selLangIdx == 0);
 
     switch(m_ReminderFrequencyCtrl->GetSelection()) {
         case 0:
@@ -743,6 +814,10 @@ bool CDlgOptions::SaveSettings() {
     }
 
     wxGetApp().SetBOINCMGRDisplayExitMessage(m_EnableBOINCManagerExitMessageCtrl->GetValue());
+    wxGetApp().SetBOINCMGRDisplayShutdownConnectedClientMessage(m_EnableBOINCClientShutdownMessageCtrl->GetValue());
+#ifdef __WXMAC__
+    wxGetApp().SetBOINCMGRHideMenuBarIcon(!m_EnableBOINCMenuBarIconCtrl->GetValue());
+#endif
 #ifdef __WXMSW__
     wxGetApp().SetBOINCMGRDisableAutoStart(!m_EnableBOINCManagerAutoStartCtrl->GetValue());
 

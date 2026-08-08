@@ -1,0 +1,300 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--app global-->
+  <string name="app_name">BOINC</string>
+  <!--generic. used by multiple Activities/tabs-->
+  <string name="generic_button_continue">Tiếp tục</string>
+  <string name="generic_button_finish">Hoàn thành</string>
+  <!--attach project-->
+  <!--selection list-->
+  <string name="attachproject_list_desc">Chọn những dự án khoa học bạn muốn đóng góp:</string>
+  <string name="attachproject_list_header">Chọn một dự án</string>
+  <string name="attachproject_list_manual_button">Thêm dự án bằng URL</string>
+  <string name="attachproject_list_manual_dialog_title">Nhập URL của dự án:</string>
+  <string name="attachproject_list_no_internet">Không có kết nối mạng</string>
+  <!--credential input-->
+  <string name="attachproject_credential_input_sing_desc">Nhập thông tin tài khoản</string>
+  <string name="attachproject_credential_input_desc">Nhập thông tin tài khoản cho các dự án bạn đã chọn:</string>
+  <string name="attachproject_credential_input_show_pwd">Hiện mật khẩu</string>
+  <string name="attachproject_individual_credential_input">Đính kèm từng dự án một</string>
+  <!--conflicts-->
+  <string name="attachproject_conflicts_desc">Đã xảy ra một vài vấn đề khi đính kèm các dự án:</string>
+  <string name="attachproject_conflict_undefined">Không thể kết nối</string>
+  <string name="attachproject_conflict_not_unique">Tài khoản tồn tại với mật khẩu khác</string>
+  <string name="attachproject_conflict_bad_password">Sai mật khẩu</string>
+  <string name="attachproject_conflict_unknown_user">Tài khoản không tồn tại</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Tài khoản không tồn tại, vui lòng truy cập trang web của dự án để đăng ký</string>
+  <!--working-->
+  <string name="attachproject_working_attaching">Đang đính kèm %1$s</string>
+  <!--e.g. Attaching Einstein@Home-->
+  <!--hints-->
+  <string name="attachproject_hints_header">Mẹo</string>
+  <!--e.g. Hint 1/2-->
+  <string name="attachproject_hint_contribtion_header">Cách đóng góp:</string>
+  <string name="attachproject_hint_contribtion_wifi">1. Kết nối với WiFi</string>
+  <string name="attachproject_hint_contribtion_charger">2. Cắm sạc</string>
+  <string name="attachproject_hint_contribtion_app">3. Chạy BOINC và giữ nó hoạt động</string>
+  <string name="attachproject_hint_contribtion_screen">4. Tắt màn hình</string>
+  <string name="attachproject_hint_projectwebsite_header">Truy cập trang web dự án để:</string>
+  <string name="attachproject_hint_projectwebsite_science">Tìm hiểu thêm về khoa học</string>
+  <string name="attachproject_hint_projectwebsite_stats">Xem thống kê đóng góp</string>
+  <string name="attachproject_hint_projectwebsite_community">Kết nối với các tình nguyện viên khác</string>
+  <string name="attachproject_hint_platforms_header">Bạn cũng có thể cài đặt BOINC trên máy tính hoặc laptop, truy cập boinc.berkeley.edu để tìm hiểu thêm.</string>
+  <!--project login-->
+  <string name="attachproject_login_loading">Đang kết nối server dự án...</string>
+  <string name="attachproject_login_header_general_area">Khu vực chung:</string>
+  <string name="attachproject_login_header_specific_area">Khu vực riêng:</string>
+  <string name="attachproject_login_header_description">Mô tả:</string>
+  <string name="attachproject_login_header_home">Trang chủ:</string>
+  <string name="attachproject_login_header_url">Trang web:</string>
+  <string name="attachproject_login_header_id_email">Địa chỉ email:</string>
+  <string name="attachproject_login_header_id_name">Tên:</string>
+  <string name="attachproject_login_header_pwd">Mật khẩu:</string>
+  <string name="attachproject_login_button_registration">Đăng ký</string>
+  <string name="attachproject_login_button_login">Đăng nhập</string>
+  <string name="attachproject_login_button_forgotpw">Quên mật khẩu</string>
+  <!--account manager-->
+  <string name="attachproject_acctmgr_list_desc">Sử dụng trình quản lí tài khoản để điều khiển thiết bị này</string>
+  <string name="attachproject_acctmgr_header">Sử dụng trình quản lí tài khoản</string>
+  <string name="attachproject_attach_projects_header">Thêm dự án</string>
+  <string name="attachproject_attach_projects_desc">Thêm dự án từ danh sách các dự án</string>
+  <string name="attachproject_acctmgr_header_url">Địa chỉ URL</string>
+  <string name="attachproject_acctmgr_header_name">Người dùng:</string>
+  <string name="attachproject_acctmgr_header_pwd">Mật khẩu:</string>
+  <!--error strings-->
+  <string name="attachproject_error_wrong_name">Không tìm thấy người dùng</string>
+  <string name="attachproject_error_short_pwd">Mật khẩu quá ngắn</string>
+  <string name="attachproject_error_no_internet">Kết nối thất bại</string>
+  <string name="attachproject_error_no_url">Vui lòng nhập địa chỉ URL</string>
+  <string name="attachproject_error_no_email">Vui lòng nhập địa chỉ Email</string>
+  <string name="attachproject_error_no_pwd">Vui lòng nhập mật khẩu</string>
+  <string name="attachproject_error_no_name">Vui lòng nhập tên người dùng</string>
+  <string name="attachproject_error_unknown">thất bại</string>
+  <string name="attachproject_error_bad_username">Tên tài khoản bị từ chối</string>
+  <string name="attachproject_error_email_in_use">Địa chỉ Email đã được sử dụng</string>
+  <string name="attachproject_error_project_down">Dự án đang ngoại tuyến</string>
+  <string name="attachproject_error_email_bad_syntax">Địa chỉ email bị từ chối</string>
+  <string name="attachproject_error_bad_pwd">Mật khẩu bị từ chối</string>
+  <string name="attachproject_error_creation_disabled">Tính năng tạo tài khoản đã bị tắt trên dự án này</string>
+  <string name="attachproject_error_invalid_url">Địa chỉ URL không hợp lệ</string>
+  <!--tab names-->
+  <string name="tab_status">Trạng thái</string>
+  <string name="tab_projects">Dự án</string>
+  <string name="tab_tasks">Công việc</string>
+  <string name="tab_transfers">Chuyển</string>
+  <string name="tab_preferences">Tùy chọn</string>
+  <string name="tab_notices">Thông báo</string>
+  <string name="tab_desc">Định hướng</string>
+  <!--status strings-->
+  <string name="status_running">Đang tính</string>
+  <string name="status_running_long">Cảm ơn bạn đã tham gia.</string>
+  <string name="status_paused">Tạm ngưng</string>
+  <string name="status_idle">Không có gì để làm</string>
+  <string name="status_idle_long">Đang chờ công việc...</string>
+  <string name="status_computing_disabled">Tạm ngưng</string>
+  <string name="status_computing_disabled_long">Nhấn chạy để khôi phục mạng và tiếp tục tính toán.</string>
+  <string name="status_launching">Đang bắt đầu...</string>
+  <string name="status_noproject">Chọn một dự án để tham gia.</string>
+  <string name="status_benchmarking">Đang kiểm tra...</string>
+  <string name="status_image_description">ảnh của dự án</string>
+  <!--preferences tab strings-->
+  <string name="prefs_category_general">Chung</string>
+  <string name="prefs_category_network">Mạng</string>
+  <string name="prefs_category_power">Nguồn điện</string>
+  <string name="prefs_category_cpu">CPU</string>
+  <string name="prefs_category_storage">Lưu trữ</string>
+  <string name="prefs_category_memory">Bộ nhớ</string>
+  <string name="prefs_category_other">Khác</string>
+  <string name="prefs_category_debug">Tìm lỗi</string>
+  <string name="prefs_category_remote">Điều khiển từ xa</string>
+  <string name="prefs_show_advanced_header">Hiện tùy chọn và điều khiển nâng cao</string>
+  <string name="prefs_suspend_when_screen_on">Tạm dừng tính toán khi màn hình đang bật</string>
+  <string name="prefs_general_device_name_header">Tên thiết bị</string>
+  <string name="prefs_theme_header">Chủ để</string>
+  <string name="prefs_stationary_device_mode_header">Chế độ thiết bị tĩnh</string>
+  <string name="prefs_stationary_device_mode_description">Cho phép tính toán bất kể tùy chọn Nguồn điện. Chỉ bật nếu thiết bị này không có pin.</string>
+  <string name="prefs_power_source_header">Nguồn điện để tính toán</string>
+  <string name="prefs_power_source_ac">Ổ cắm điện</string>
+  <string name="prefs_power_source_usb">Kết nối USB</string>
+  <string name="prefs_power_source_wireless">Sạc không dây</string>
+  <string name="prefs_power_source_battery">Pin</string>
+  <string name="battery_charge_min_pct_header">Mức pin tối thiểu (%)</string>
+  <string name="battery_temperature_max_header">Nhiệt độ pin tối đa (°C)</string>
+  <string name="prefs_disk_max_pct_header">Dung lượng sử dụng tối đa (%)</string>
+  <string name="prefs_disk_min_free_gb_header">Dung lượng trống tối thiểu (GB)</string>
+  <string name="prefs_disk_access_interval_header">Khoảng nghỉ truy cập (giây)</string>
+  <string name="prefs_network_daily_xfer_limit_mb_header">Giới hạn chuyển dữ liệu hàng ngày (MB)</string>
+  <string name="prefs_network_daily_xfer_limit_period_days_header">Giới hạn chuyển dữ liệu hàng ngày (Ngày)</string>
+  <string name="prefs_network_wifi_only_header">Chỉ nhận công việc qua WiFi</string>
+  <string name="prefs_autostart_header">Tự khởi động</string>
+  <string name="prefs_remote_header">Bật kết nối từ xa</string>
+  <string name="prefs_remote_summary">Khi thay đổi, máy khách BOINC sẽ được khởi động lại.</string>
+  <string name="prefs_show_notification_notices_header">Hiện thông báo cho các lời nhắc mới</string>
+  <string name="prefs_show_notification_suspended_header">Hiện thông báo khi dừng</string>
+  <string name="prefs_cpu_number_cpus_header">Số nhân CPU được sử dụng</string>
+  <string name="prefs_cpu_number_cpus_description">Giới hạn số nhân CPU mà BOINC sử dụng cho tính toán</string>
+  <string name="prefs_cpu_other_load_suspension_header">Tạm ngưng khi sử dụng CPU trên mức (%)</string>
+  <string name="prefs_cpu_other_load_suspension_description">Xác định khi nào BOINC tạm dừng tính toán khi sử dụng CPU cho các ứng dụng khác.</string>
+  <string name="prefs_cpu_time_max_header">Giới hạn sử dụng CPU (%)</string>
+  <string name="prefs_cpu_time_max_description">Giới hạn thời gian CPU mà BOINC sử dụng để tính toán.</string>
+  <string name="prefs_memory_max_idle_header">Giới hạn RAM (%)</string>
+  <string name="prefs_other_store_at_least_x_days_of_work_header">Bộ đệm đơn vị làm việc (ngày)</string>
+  <string name="prefs_other_store_up_to_an_additional_x_days_of_work_header">Bộ đệm đơn vị công việc bổ sung (ngày)</string>
+  <string name="prefs_remote_authentication_key">Chìa khóa xác thực GUI authentication</string>
+  <string name="prefs_remote_authentication_key_input_hint">Khóa xác thực</string>
+  <string name="prefs_remote_empty_password">Cập nhật mật khẩu thất bại: giá trị không thể để trống</string>
+  <string name="prefs_remote_boinc_relaunched">Máy khách BOINC sẽ được khởi động lại sau khi thay đổi mật khẩu.</string>
+  <string name="prefs_client_log_flags_header">Cờ đánh dấu nhật ký log máy khách BOINC</string>
+  <string name="prefs_gui_log_categories">Các danh mục nhật ký GUI log của BOINC</string>
+  <string name="prefs_gui_log_level_header">Mức độ ghi nhật ký GUI log</string>
+  <string name="prefs_gui_log_level_description">Chỉ định độ chi tiết của thông báo nhật ký GUI log</string>
+  <string name="prefs_theme_light">Sáng</string>
+  <string name="prefs_theme_dark">Tối</string>
+  <string name="prefs_theme_system">Mặc định hệ thống</string>
+  <!--projects tab strings-->
+  <string name="projects_add">Thêm dự án</string>
+  <string name="projects_icon">Biểu tượng dự án</string>
+  <string name="projects_credits">Nguồn:</string>
+  <string name="projects_credits_host_and_user">%1$,d (trên thiết bị này) %2$,d (tổng cộng)</string>
+  <string name="projects_disk_usage">Bộ nhớ đĩa sử dụng:</string>
+  <string name="projects_disk_usage_with_unit">%1$s MB</string>
+  <!--project status strings-->
+  <string name="projects_status_suspendedviagui">Tạm ngưng bởi người dùng</string>
+  <string name="projects_status_dontrequestmorework">Sẽ không nhận công việc mới</string>
+  <string name="projects_status_ended">Dự án kết thúc - được phép rời</string>
+  <string name="projects_status_detachwhendone">Sẽ rời khi công việc hoàn tất</string>
+  <string name="projects_status_schedrpcpending">Yêu cầu của lịch trình đang chờ xử lý</string>
+  <string name="projects_status_schedrpcinprogress">Đang tiến hành yêu cầu của lịch trình</string>
+  <string name="projects_status_trickleuppending">Tin nhắn ít một đang chờ gửi</string>
+  <string name="projects_status_backoff">Giao tiếp được lên lịch trình trong %1$s</string>
+  <!--project controls-->
+  <string name="projects_control_dialog_title">Lệnh cú pháp dự án:</string>
+  <string name="projects_control_visit_website">Truy cập website</string>
+  <string name="projects_control_update">Cập nhật</string>
+  <string name="projects_control_remove">Loại bỏ</string>
+  <string name="projects_control_suspend">Tạm ngưng</string>
+  <string name="projects_control_resume">Hồi phục</string>
+  <string name="projects_control_nonewtasks">Không có công việc mới </string>
+  <string name="projects_control_allownewtasks">Cho phép công việc mới </string>
+  <string name="projects_control_reset">Cài lại</string>
+  <string name="projects_control_dialog_title_acctmgr">Lệnh cú pháp quản lí tài khoản:</string>
+  <string name="projects_control_sync_acctmgr">Đồng bộ</string>
+  <string name="projects_control_remove_acctmgr">Vô hiệu hóa</string>
+  <!--project confirm dialog-->
+  <string name="projects_confirm_title">Dự án %1$s?</string>
+  <string name="projects_confirm_message">Bạn có chắc bạn muốn %1$s%2$s?</string>
+  <string name="projects_confirm_detach_message">từ BOINC</string>
+  <string name="projects_confirm_detach_confirm">Loại bỏ</string>
+  <string name="projects_confirm_reset_confirm">Cài lại</string>
+  <string name="projects_confirm_remove_acctmgr_title">Vô hiệu hóa quản lí tài khoản</string>
+  <string name="projects_confirm_remove_acctmgr_message">dừng sử dụng</string>
+  <string name="projects_confirm_remove_acctmgr_confirm">Vô hiệu hóa</string>
+  <!--tasks tab strings-->
+  <string name="tasks_header_name">Tên công việc:</string>
+  <string name="tasks_header_elapsed_time">Thời gian trôi qua:</string>
+  <string name="tasks_header_project_paused">(tạm ngưng)</string>
+  <string name="tasks_header_deadline">Hạn chót</string>
+  <string name="tasks_result_new">mới</string>
+  <string name="tasks_result_files_downloading">đang tải xuống</string>
+  <string name="tasks_result_files_downloaded">tải xuống hoàn tất</string>
+  <string name="tasks_result_compute_error">lỗi tính toán</string>
+  <string name="tasks_result_files_uploading">đang tải lên</string>
+  <string name="tasks_result_files_uploaded">tải lên hoàn tất</string>
+  <string name="tasks_result_aborted">hủy bỏ</string>
+  <string name="tasks_result_upload_failed">tải lên thất bại</string>
+  <string name="tasks_active_uninitialized">sẵn sàng</string>
+  <string name="tasks_active_executing">đang chạy</string>
+  <string name="tasks_active_suspended">tạm ngưng</string>
+  <string name="tasks_active_abort_pending">đang tạm ngưng</string>
+  <string name="tasks_active_quit_pending">đang tạm ngưng</string>
+  <string name="tasks_custom_suspended_via_gui">tạm ngưng</string>
+  <string name="tasks_custom_project_suspended_via_gui">dự án đã ngưng</string>
+  <string name="tasks_custom_ready_to_report">sẵn sàng báo cáo</string>
+  <!--confirmation dialog-->
+  <string name="confirm_abort_task_title">Huỷ bỏ công việc?</string>
+  <string name="confirm_abort_task_message">Huỷ bỏ công việc %1$s</string>
+  <string name="confirm_abort_task_confirm">Hủy bỏ</string>
+  <string name="confirm_cancel">Huỷ bỏ</string>
+  <string name="confirm_image_desc">Hộp thoại xác nhận</string>
+  <!--transfers tab strings-->
+  <string name="trans_upload">Tải lên</string>
+  <string name="trans_download">Tải xuống</string>
+  <string name="trans_retry_in">Thử lại trong %1$s</string>
+  <string name="trans_failed">thất bại</string>
+  <string name="trans_suspended">tạm ngưng</string>
+  <string name="trans_active">hoạt động</string>
+  <string name="trans_pending">đang chờ</string>
+  <string name="trans_control_retry">Chuyển lại</string>
+  <!--eventlog tab strings-->
+  <string name="eventlog_client_header">Tin nhắn người dùng</string>
+  <string name="eventlog_gui_header">Tin nhắn GUI</string>
+  <string name="eventlog_copy_toast">Nhật ký log đã được chép vào khay nhớ tạm.</string>
+  <string name="eventlog_email_subject">Nhật ký log sự kiện của BOINC trên Android:</string>
+  <!--suspend reasons-->
+  <string name="suspend_unknown">Việc tính toán tạm ngưng.</string>
+  <string name="suspend_batteries">Kết nối thiết bị của bạn với bộ sạc để tiếp tục tính toán.</string>
+  <string name="suspend_screen_on">Tắt màn hình để tiếp tục tính toán.</string>
+  <string name="suspend_useractive">Người dùng hoạt động</string>
+  <string name="suspend_tod">Ngoài khung thời gian tính toán.</string>
+  <string name="suspend_disksize">Hết dung lượng bộ nhớ đĩa</string>
+  <string name="suspend_cputhrottle">Điều chỉnh CPU theo lịch trình.</string>
+  <string name="suspend_noinput">Không có hoạt động người dùng gần đây.</string>
+  <string name="suspend_delay">Chậm trễ khởi tạo.</string>
+  <string name="suspend_exclusiveapp">Một ứng dụng độc chiếm đang chạy.</string>
+  <string name="suspend_cpu">Thiết bị này đang bận với các ứng dụng khác.</string>
+  <string name="suspend_network_quota">BOINC đã đạt giới hạn truyền mạng</string>
+  <string name="suspend_os">Đã bị dừng bởi Android.</string>
+  <string name="suspend_wifi">Không kết nối Wifi</string>
+  <string name="suspend_battery_charging">Chờ pin sạc lại</string>
+  <string name="suspend_battery_charging_long">Việc tính toán sẽ thực hiện khi mức pin tới %1$d%% (hiện tại đang %2$d%%) </string>
+  <string name="suspend_battery_overheating">Chờ pin nguội</string>
+  <string name="suspend_user_req">Khởi động lại tính toán</string>
+  <!--rpc reasons-->
+  <string name="rpcreason_userreq">Được yêu cầu bởi người dùng</string>
+  <string name="rpcreason_needwork">Tìm kiếm công việc </string>
+  <string name="rpcreason_resultsdue">Báo cáo công việc hoàn tất</string>
+  <string name="rpcreason_trickleup">Gửi tin nhắn ít một</string>
+  <string name="rpcreason_acctmgrreq">Được yêu cầu bởi người quản lý tài khoản</string>
+  <string name="rpcreason_init">Khởi tạo dự án</string>
+  <string name="rpcreason_projectreq">Được yêu cầu bởi dự án</string>
+  <string name="rpcreason_unknown">Lý do không xác định</string>
+  <!--menu-->
+  <string name="menu_refresh">Làm mới</string>
+  <string name="menu_emailto">Gửi qua email</string>
+  <string name="menu_copy">Sao chép vào khay nhớ tạm</string>
+  <string name="menu_eventlog">Nhật ký log sự kiện</string>
+  <string name="menu_run_mode_disable">Tạm ngưng</string>
+  <string name="menu_run_mode_enable">Hồi phục</string>
+  <string name="menu_about">Về</string>
+  <string name="menu_help">Trợ giúp</string>
+  <string name="menu_report_issue">Báo cáo vấn đề</string>
+  <!--about dialog-->
+  <string name="about_title">Về</string>
+  <string name="about_name">BOINC</string>
+  <string name="about_version">Phiên bản %1$s</string>
+  <string name="about_copyright">\u00A9 2003–2021 Đại học bang California, Berkeley.</string>
+  <string name="about_copyright_reserved">Mọi Quyền Được Bảo Lưu.</string>
+  <string name="about_credits">Cảm ơn nhờ sự hỗ trợ của Viện Nghiên Cứu Vật Lý Trọng Trường Max Planck, Công Ty IBM và Công Ty HTC.</string>
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="other">%2$,d báo cáo mới nè</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
+  <string name="nonexcl_dialog_header">Đã phát hiện ứng dụng tính toán tình nguyện</string>
+  <string name="nonexcl_dialog_text">Một ứng dụng tính toán tình nguyện khác đang chạy trên thiết bị này. Chỉ có một phiên bản có thể chạy tại một thời điểm.</string>
+  <string name="nonexcl_dialog_exit">Thoát</string>
+  <!--social integration-->
+  <string name="social_invite_button">Mời bạn bè</string>
+  <string name="social_invite_intent_title">Bạn muốn chia sẻ bằng cách nào?</string>
+  <string name="social_invite_content_title">Tôi đang làm khoa học bằng smartphone của tôi!</string>
+  <string name="social_invite_content_body">Tôi đang sử dụng %1$scủa tôi để tính toán cho khoa học. Bạn cũng có thể đấy! Hãy tải ứng dụng từ: %2$s</string>
+  <!--first parameter: device manufacturer, second: URL-->
+  <string name="social_invite_content_url_google">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
+  <string name="social_invite_content_url_amazon">http://www.amazon.com/gp/mas/dl/android?p=edu.berkeley.boinc</string>
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="main_notification_channel_description">Hiển thị thông báo không quan trọng</string>
+  <string name="notice_notification_channel_name">Thông báo</string>
+  <string name="notice_notification_channel_description">Hiển thị thông báo từ dự án của bạn</string>
+  <string name="prefs_expand_wu_data">Luôn mở rộng thông tin nhiệm vụ</string>
+</resources>

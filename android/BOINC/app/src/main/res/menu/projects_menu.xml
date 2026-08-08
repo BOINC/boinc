@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2020 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -23,11 +23,11 @@
             android:enabled="true"
             android:visible="true"
             android:title="@string/projects_add"
-            android:icon="@drawable/plusw"
-            yourapp:showAsAction="ifRoom|withText"></item>
+            android:icon="@drawable/ic_baseline_add_circle_white"
+            yourapp:showAsAction="ifRoom|withText" />
     <item
             android:id="@+id/projects_add_url"
             android:enabled="true"
             android:visible="true"
-            android:title="@string/attachproject_list_manual_button"></item>
+            android:title="@string/attachproject_list_manual_button" />
 </menu>

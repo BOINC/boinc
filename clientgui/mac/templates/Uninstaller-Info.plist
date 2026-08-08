@@ -19,6 +19,8 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>5.10.7</string>
+	<string>%VERSION%</string>
+	<key>CFBundleShortVersionString</key>
+	<string>%VERSION%</string>
 </dict>
 </plist>

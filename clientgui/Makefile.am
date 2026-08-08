@@ -1,7 +1,7 @@
 ## -*- mode: makefile; tab-width: 4 -*-
 ## $Id$
 
-## To build for Macintosh (Darwin), please read the instructions at 
+## To build for Macintosh (Darwin), please read the instructions at
 ## mac_build/HowToBuildBOINC_XCode.rtf
 
 include $(top_srcdir)/Makefile.incl
@@ -40,7 +40,6 @@ boincmgr_SOURCES = \
     BOINCListCtrl.cpp \
     BOINCTaskBar.cpp \
     BOINCTaskCtrl.cpp \
-    browser.cpp \
     common/wxPieCtrl.cpp \
     CompletionErrorPage.cpp \
     CompletionPage.cpp \
@@ -67,7 +66,7 @@ boincmgr_SOURCES = \
     ProjectInfoPage.cpp \
     ProjectProcessingPage.cpp \
     ProjectPropertiesPage.cpp \
-	ProjectWelcomePage.cpp \
+    ProjectWelcomePage.cpp \
     ProxyInfoPage.cpp \
     ProxyPage.cpp \
     sg_BoincSimpleFrame.cpp \
@@ -102,9 +101,9 @@ EXTRA_DIST = *.h \
     ../lib/error_numbers.h \
     locale
 
-boincmgr_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(SQLITE3_CPPFLAGS) $(LIBNOTIFY_CFLAGS) $(CLIENTGUIFLAGS) $(GTK_CFLAGS)
-boincmgr_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(SQLITE3_CPPFLAGS) $(LIBNOTIFY_CFLAGS) $(CLIENTGUIFLAGS) $(GTK_CFLAGS)
-boincmgr_LDADD = $(LIBBOINC) $(SQLITE3_LIBS) $(LIBNOTIFY_LIBS) $(CLIENTGUILIBS) $(BOINC_EXTRA_LIBS) $(CLIENTLIBS) $(GTK_LIBS)
+boincmgr_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(LIBNOTIFY_CFLAGS) $(CLIENTGUIFLAGS) $(GTK_CFLAGS)
+boincmgr_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(LIBNOTIFY_CFLAGS) $(CLIENTGUIFLAGS) $(GTK_CFLAGS)
+boincmgr_LDADD = $(LIBBOINC) $(LIBNOTIFY_LIBS) $(CLIENTGUILIBS) $(BOINC_EXTRA_LIBS) $(CLIENTLIBS) $(GTK_LIBS)
 
 win_config.h: $(top_srcdir)/config.h
 	grep '#define.*BOINC.*VERSION' $^ > $@

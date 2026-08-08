@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -13,8 +13,14 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 //
+
+// show a "welcome" dialog showing the user what project they're about to run,
+// in the case where a project_init.xml was present on startup
+//
+// AFAIK no one uses this mechanism, so this may not be needed
+
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "ProjectWelcomePage.h"
 #endif
@@ -42,39 +48,39 @@
 /*!
  * CProjectWelcomePage type definition
  */
- 
+
 IMPLEMENT_DYNAMIC_CLASS( CProjectWelcomePage, wxWizardPageEx )
- 
+
 /*!
  * CProjectWelcomePage event table definition
  */
- 
+
 BEGIN_EVENT_TABLE( CProjectWelcomePage, wxWizardPageEx )
- 
+
 ////@begin CProjectWelcomePage event table entries
     EVT_WIZARDEX_PAGE_CHANGED( -1, CProjectWelcomePage::OnPageChanged )
     EVT_WIZARDEX_CANCEL( -1, CProjectWelcomePage::OnCancel )
 ////@end CProjectWelcomePage event table entries
- 
+
 END_EVENT_TABLE()
 
 /*!
  * CProjectWelcomePage constructors
  */
- 
+
 CProjectWelcomePage::CProjectWelcomePage( )
 {
 }
- 
+
 CProjectWelcomePage::CProjectWelcomePage( CBOINCBaseWizard* parent )
 {
     Create( parent );
 }
- 
+
 /*!
  * WizardPage creator
  */
- 
+
 bool CProjectWelcomePage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CProjectWelcomePage member initialisation
@@ -82,7 +88,7 @@ bool CProjectWelcomePage::Create( CBOINCBaseWizard* parent )
 ////@end CProjectWelcomePage member initialisation
 
 	((CWizardAttach*)parent)->IsFirstPass = false;
- 
+
 ////@begin CProjectWelcomePage creation
     wxWizardPageEx::Create( parent, ID_PROJECTWELCOMEPAGE );
 
@@ -92,13 +98,13 @@ bool CProjectWelcomePage::Create( CBOINCBaseWizard* parent )
 
 	return TRUE;
 }
- 
+
 /*!
  * Control creation for WizardPage
  */
- 
+
 void CProjectWelcomePage::CreateControls()
-{    
+{
 ////@begin CWelcomePage content construction
     CProjectWelcomePage* itemWizardPage2 = this;
 
@@ -107,7 +113,7 @@ void CProjectWelcomePage::CreateControls()
 
     title_ctrl = new wxStaticText;
     title_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    title_ctrl->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    title_ctrl->SetFont(wxFont(12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, FALSE, _T("Verdana")));
     itemBoxSizer3->Add(title_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     intro_ctrl = new wxStaticText;
@@ -129,22 +135,6 @@ void CProjectWelcomePage::CreateControls()
     project_name2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     grid->Add(project_name2_ctrl, 0, wxALIGN_LEFT|wxALL|wxEXPAND, 5);
 
-    project_inst1_ctrl = new wxStaticText;
-    project_inst1_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    grid->Add(project_inst1_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
-
-    project_inst2_ctrl = new wxStaticText;
-    project_inst2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    grid->Add(project_inst2_ctrl, 0, wxALIGN_LEFT|wxALL|wxEXPAND, 5);
-
-    project_desc1_ctrl = new wxStaticText;
-    project_desc1_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    grid->Add(project_desc1_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
-
-    project_desc2_ctrl = new wxStaticText;
-    project_desc2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    grid->Add(project_desc2_ctrl, 0, wxALIGN_LEFT|wxALL|wxEXPAND, 5);
-
     project_url1_ctrl = new wxStaticText;
     project_url1_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     grid->Add(project_url1_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
@@ -152,18 +142,6 @@ void CProjectWelcomePage::CreateControls()
     project_url2_ctrl = new wxStaticText;
     project_url2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     grid->Add(project_url2_ctrl, 0, wxALIGN_LEFT|wxALL|wxEXPAND, 5);
-
-    user_name1_ctrl = new wxStaticText;
-    user_name1_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    grid->Add(user_name1_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
-
-    user_name2_ctrl = new wxStaticText;
-    user_name2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    grid->Add(user_name2_ctrl, 0, wxALIGN_LEFT|wxALL|wxEXPAND, 5);
-
-    warning_ctrl = new wxStaticText;
-    warning_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer3->Add(warning_ctrl, 0, wxALIGN_LEFT|wxALL|wxEXPAND, 5);
 
     continue_ctrl = new wxStaticText;
     continue_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
@@ -177,16 +155,16 @@ void CProjectWelcomePage::CreateControls()
 /*
  * Gets the previous page.
  */
- 
+
 wxWizardPageEx* CProjectWelcomePage::GetPrev() const
 {
     return NULL;
 }
- 
+
 /*!
  * Gets the next page.
  */
- 
+
 wxWizardPageEx* CProjectWelcomePage::GetNext() const
 {
     CWizardAttach* pWA  = ((CWizardAttach*)GetParent());
@@ -196,27 +174,26 @@ wxWizardPageEx* CProjectWelcomePage::GetNext() const
     if (CHECK_CLOSINGINPROGRESS()) {
         // Cancel Event Detected
         return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-    } else if (pWA->GetProjectAuthenticator().IsEmpty() && pWA->GetProjectSetupCookie().IsEmpty()) {
+    } else if (pWA->GetProjectAuthenticator().IsEmpty()) {
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
     } else {
         return PAGE_TRANSITION_NEXT(ID_PROJECTPROPERTIESPAGE);
     }
-    return NULL;
 }
- 
+
 /*!
  * Should we show tooltips?
  */
- 
+
 bool CProjectWelcomePage::ShowToolTips()
 {
     return TRUE;
 }
- 
+
 /*!
  * Get bitmap resources
  */
- 
+
 wxBitmap CProjectWelcomePage::GetBitmapResource( const wxString& WXUNUSED(name) )
 {
     // Bitmap retrieval
@@ -224,11 +201,11 @@ wxBitmap CProjectWelcomePage::GetBitmapResource( const wxString& WXUNUSED(name) 
     return wxNullBitmap;
 ////@end CWelcomePage bitmap retrieval
 }
- 
+
 /*!
  * Get icon resources
  */
- 
+
 wxIcon CProjectWelcomePage::GetIconResource( const wxString& WXUNUSED(name) )
 {
     // Icon retrieval
@@ -240,7 +217,7 @@ wxIcon CProjectWelcomePage::GetIconResource( const wxString& WXUNUSED(name) )
 /*!
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTWELCOMEPAGE
  */
- 
+
 void CProjectWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectWelcomePage::OnPageChanged - Function Begin"));
@@ -254,25 +231,9 @@ void CProjectWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
     intro_ctrl->SetLabel(_("You have volunteered to compute for this project:"));
     project_name1_ctrl->SetLabel(_("Name:"));
     project_name2_ctrl->SetLabel(pWA->GetProjectName());
-    if (!pWA->GetProjectInstitution().IsEmpty()) {
-        project_inst1_ctrl->SetLabel(_("Home:"));
-        project_inst2_ctrl->SetLabel(pWA->GetProjectInstitution());
-    }
-    if (!pWA->GetProjectDescription().IsEmpty()) {
-        project_desc1_ctrl->SetLabel(_("Description:"));
-        project_desc2_ctrl->SetLabel(pWA->GetProjectDescription());
-    }
     project_url1_ctrl->SetLabel(_("URL:"));
     project_url2_ctrl->SetLabel(pWA->GetProjectURL());
-    if (!pWA->GetProjectUserName().IsEmpty()) {
-        user_name1_ctrl->SetLabel(_("User:"));
-        user_name2_ctrl->SetLabel(pWA->GetProjectUserName());
-    }
 
-    if (!pWA->IsProjectKnown()) {
-        warning_ctrl->SetLabel(_("WARNING: This project is not registered with BOINC.  Make sure you trust it before continuing."));
-
-    }
     continue_ctrl->SetLabel(
         _("To continue, click Next.")
     );
@@ -285,7 +246,7 @@ void CProjectWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
 /*!
  * wxEVT_WIZARD_CANCEL event handler for ID_PROJECTWELCOMEPAGE
  */
- 
+
 void CProjectWelcomePage::OnCancel( wxWizardExEvent& event ) {
     PROCESS_CANCELEVENT(event);
 }

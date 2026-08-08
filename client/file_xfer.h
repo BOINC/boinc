@@ -21,7 +21,7 @@
 // A FILE_XFER object represents a file transfer "episode"
 // (see pers_file_xfer.h), i.e. an HTTP transaction with a
 // particular data server.
-// 
+//
 
 #include "client_types.h"
 #include "http_curl.h"
@@ -34,7 +34,7 @@ class FILE_XFER : public HTTP_OP {
 public:
     FILE_INFO* fip;
     char pathname[256];
-    char header[4096];
+    char header[8192];
     bool file_size_query;
     bool is_upload;
     double starting_size;
@@ -67,6 +67,8 @@ public:
     bool poll();
     void check_active(bool&, bool&);
     void set_bandwidth_limits(bool is_upload);
+    void enforce_bandwidth_limits(bool is_upload);
+    void clear_bandwidth_limits(bool is_upload);
 };
 
 #endif

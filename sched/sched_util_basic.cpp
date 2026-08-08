@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,6 +22,7 @@
 #include <csignal>
 #include <cerrno>
 #include <unistd.h>
+#include <sstream>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
@@ -31,14 +32,10 @@
 #include "md5_file.h"
 #include "util.h"
 #include "str_replace.h"
-
 #include "sched_config.h"
 #include "sched_msgs.h"
 #include "sched_util.h"
-
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
+#include "boinc_stdio.h"
 
 const char* STOP_DAEMONS_FILENAME = "stop_daemons";
     // NOTE: this must be same as in the "start" script
@@ -48,25 +45,21 @@ const int STOP_SIGNAL = SIGHUP;
     // NOTE: this must be same as in the "start" script
 
 void write_pid_file(const char* filename) {
-#ifndef _USING_FCGI_
-    FILE* fpid = fopen(filename, "w");
-#else
-    FCGI_FILE* fpid = FCGI::fopen(filename,"w");
-#endif
+    FILE* fpid = boinc::fopen(filename, "w");
 
     if (!fpid) {
         log_messages.printf(MSG_CRITICAL, "Couldn't write pid file\n");
         return;
     }
-    fprintf(fpid, "%d\n", (int)getpid());
-    fclose(fpid);
+    boinc::fprintf(fpid, "%d\n", (int)getpid());
+    boinc::fclose(fpid);
 }
 
 // caught_sig_int will be set to true if STOP_SIGNAL (normally SIGHUP)
 //  is caught.
 bool caught_stop_signal = false;
 static void stop_signal_handler(int) {
-    fprintf(stderr, "GOT STOP SIGNAL\n");
+    boinc::fprintf(stderr, "GOT STOP SIGNAL\n");
     caught_stop_signal = true;
 }
 
@@ -111,20 +104,12 @@ bool check_stop_sched() {
 //     (this is generally a recoverable error,
 //     like NFS mount failure, that may go away later)
 //
-#ifndef _USING_FCGI_
 int try_fopen(const char* path, FILE*& f, const char* mode) {
-#else
-int try_fopen(const char* path, FCGI_FILE*& f, const char *mode) {
-#endif
     const char* p;
     DIR* d;
     char dirpath[MAXPATHLEN];
 
-#ifndef _USING_FCGI_
-    f = fopen(path, mode);
-#else
-    f = FCGI::fopen(path, mode);
-#endif
+    f = boinc::fopen(path, mode);
 
     if (!f) {
         memset(dirpath, '\0', sizeof(dirpath));
@@ -169,6 +154,60 @@ static void filename_hash(const char* filename, int fanout, char* dir) {
     sprintf(dir, "%x", x % fanout);
 }
 
+// returns:
+// 0 if same file is already there and has correct .md5, we don't need to copy or create .md5
+// 1 if same file is already there and .md5 file is missing, need to create corresponding .md5 file
+// 2 if a file isn't there, need to copy and create .md5
+// -1 if a different file is there
+// -2 if a file operation failed
+//
+// file_path - source path to file, dl_hier_path - path to the same file in download hier
+//
+int check_download_file(const char* file_path, const char* dl_hier_path) {
+    bool md5_file_exists = false;
+    char md5_file_path[MAXPATHLEN];
+    char md5_hash_src[MD5_LEN], md5_hash_dst[MD5_LEN];
+    double nbytes;
+    std::string file_content, file_hash;
+    int file_size;
+
+    int retval = md5_file(file_path, md5_hash_src, nbytes);
+    if (retval) {
+        return -2;
+    }
+
+    snprintf(md5_file_path, MAXPATHLEN, "%s.md5", dl_hier_path);
+    if (boinc_file_exists(md5_file_path)) {
+        retval = read_file_string(md5_file_path, file_content);
+        if (retval) {
+            return -2;
+        }
+        std::stringstream stream(file_content);
+        stream >> file_hash >> file_size;
+        md5_file_exists = true;
+    }
+
+    if (!boinc_file_exists(dl_hier_path)) {
+        return 2;
+    }
+    // calculating md5 hash of existing file in dl hier
+    retval = md5_file(dl_hier_path, md5_hash_dst, nbytes);
+    if (retval) {
+        return -2;
+    }
+    int hashes_equal = !strncmp(md5_hash_src, md5_hash_dst, MD5_LEN);
+    if (md5_file_exists && hashes_equal) {
+        // the right file with correct .md5 is there
+        return 0;
+    } else if (hashes_equal) {
+        // files are the same, but need to create .md5
+        return 1;
+    }
+    // if the content of the file in dl hier differs from the source file's content
+    // then skip staging, consider to manually delete file in dl hier and retry
+    return -1;
+}
+
 // given a filename, compute its path in a directory hierarchy
 // If create is true, create the directory if needed
 //
@@ -190,7 +229,7 @@ int dir_hier_path(
     if (create) {
         retval = boinc_mkdir(dirpath);
         if (retval && (errno != EEXIST)) {
-            fprintf(stderr, "boinc_mkdir(%s): %s: errno %d\n",
+            boinc::fprintf(stderr, "boinc_mkdir(%s): %s: errno %d\n",
                 dirpath, boincerror(retval), errno
             );
             return ERR_MKDIR;
@@ -287,8 +326,8 @@ int plan_class_to_proc_type(const char* plan_class) {
     if (strstr(plan_class, "intel_gpu")) {
         return PROC_TYPE_INTEL_GPU;
     }
-    if (strstr(plan_class, "miner_asic")) {
-        return PROC_TYPE_MINER_ASIC;
+    if (strstr(plan_class, "apple_gpu")) {
+        return PROC_TYPE_APPLE_GPU;
     }
     return PROC_TYPE_CPU;
 }

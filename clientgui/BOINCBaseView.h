@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -39,7 +39,7 @@ public:
 		m_strName(strName), m_strDescription(strDescription), m_iEventID(iEventID),
         m_pButton(NULL), m_strWebSiteLink(wxT("")) {};
 	CTaskItem( wxString strName, wxString strDescription, wxString strWebSiteLink, wxInt32 iEventID ) :
-		m_strName(strName), m_strDescription(strDescription), m_iEventID(iEventID),  
+		m_strName(strName), m_strDescription(strDescription), m_iEventID(iEventID),
         m_pButton(NULL), m_strWebSiteLink(strWebSiteLink) {};
     ~CTaskItem() {};
 
@@ -107,7 +107,7 @@ public:
     bool                    FireOnRestoreState( wxConfigBase* pConfig );
 
     virtual int             GetListRowCount();
-    void                    FireOnListRender( wxTimerEvent& event );
+    void                    FireOnListRender();
     void                    FireOnListSelected( wxListEvent& event );
     void                    FireOnListDeselected( wxListEvent& event );
     wxString                FireOnListGetItemText( long item, long column ) const;
@@ -118,7 +118,7 @@ public:
     virtual double          GetProgressValue(long item);
     virtual wxString        GetProgressText( long item);
     virtual void            AppendColumn(int columnID);
-    
+
     void                    InitSort();
     void                    SetSortColumn(int newSortColIndex);
 	void                    SaveSelections();
@@ -126,13 +126,13 @@ public:
 	void                    ClearSavedSelections();
 	void                    ClearSelections();
     void                    RefreshTaskPane();
-    
+
     CBOINCListCtrl*         GetListCtrl() { return m_pListPane; }
-    
+
 #ifdef __WXMAC__
     void                    OnKeyPressed(wxKeyEvent &event);
-#endif    
- 
+#endif
+
     std::vector<CTaskItemGroup*> m_TaskGroups;
 
     int                     m_iSortColumnID;  // ColumnID of sort column
@@ -144,7 +144,7 @@ public:
     int*                    m_iDefaultShownColumns;
     int                     m_iNumDefaultShownColumns;
 
-    
+
 private:
 
 	wxArrayString           m_arrSelectedKeys1;     //array for remembering the current selected rows by primary key column value
@@ -155,7 +155,7 @@ protected:
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
 
-    virtual void            OnListRender( wxTimerEvent& event );
+    virtual void            OnListRender();
     virtual void            OnListSelected( wxListEvent& event );
     virtual void            OnListDeselected( wxListEvent& event );
     virtual void            OnCacheHint(wxListEvent& event);
@@ -165,7 +165,7 @@ protected:
     virtual int             OnListGetItemImage( long item ) const;
 
     void                    OnColClick(wxListEvent& event);
-    
+
     virtual int             GetDocCount();
     virtual wxString        OnDocGetItemImage( long item ) const;
     virtual wxString        OnDocGetItemAttr( long item ) const;
@@ -203,7 +203,7 @@ protected:
     bool                    m_bForceUpdateSelection;
     bool                    m_bIgnoreUIEvents;
     bool                    m_bNeedSort;
-    
+
     int                     m_iPreviousSelectionCount;
     long                    m_lPreviousFirstSelection;
     int                     m_iProgressColumn;

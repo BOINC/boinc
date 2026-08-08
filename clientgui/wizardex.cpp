@@ -286,7 +286,7 @@ void wxWizardEx::AddBitmapRow(wxBoxSizer *mainColumn)
     mainColumn->Add(
         m_sizerBmpAndPage,
         1, // Vertically stretchable
-        wxEXPAND // Horizonal stretching, no border
+        wxEXPAND // Horizontal stretching, no border
     );
     mainColumn->Add(0,5,
         0, // No vertical stretching
@@ -384,7 +384,7 @@ void wxWizardEx::AddButtonRow(wxBoxSizer *mainColumn)
 #endif
 
     m_btnNext = new wxButton(this, wxID_FORWARD, _("&Next >"));
-    m_btnCancel = new wxButton(this, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, buttonStyle);
+    m_btnCancel = new wxButton(this, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, buttonStyle);
 #ifndef __WXMAC__
     if (GetExtraStyle() & wxWIZARD_EX_HELPBUTTON)
         btnHelp = new wxButton(this, wxID_HELP, _("&Help"), wxDefaultPosition, wxDefaultSize, buttonStyle);
@@ -684,7 +684,7 @@ void wxWizardEx::OnBackOrNext(wxCommandEvent& event)
     wxCHECK_RET( m_page, _T("should have a valid current page") );
 
     // ask the current page first: notice that we do it before calling
-    // GetNext/Prev() because the data transfered from the controls of the page
+    // GetNext/Prev() because the data transferred from the controls of the page
     // may change the value returned by these methods
     if (event.GetEventObject() == m_btnNext)
     {

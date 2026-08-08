@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -65,7 +65,7 @@ public:
     int  GetVerticalAnchor() { return m_iAnchorVertical; }
 
     bool SetDefaults(
-        wxString strComponentName, 
+        wxString strComponentName,
         const char** ppDefaultImage
     );
 
@@ -115,7 +115,8 @@ public:
     bool SetDefaults(
         wxString strComponentName,
         const char** m_ppIcon,
-        const char** m_ppIcon32
+        const char** m_ppIcon32,
+        const char** m_ppIcon64 = NULL
     );
 
     bool Validate();
@@ -127,12 +128,11 @@ private:
     wxIconBundle m_icoDefaultIcon;
     wxString     m_strDesiredIcon32;
     wxString     m_strDesiredTransparencyMask32;
-    wxIconBundle m_icoDefaultIcon32;
     wxIconBundle m_icoIcon;
 };
 
 
-// Default opacity for Simple View white panels 
+// Default opacity for Simple View white panels
 // is 60% (153 on a scale of 0 - 255).
 #define MAX_OPACITY 255
 #define DEFAULT_OPACITY 153

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -28,15 +28,21 @@
 #include "procinfo.h"
 
 #include "client_types.h"
+#include "result.h"
 
-// values for preempt_type
+// values for preempt_type (see ACTIVE_TASK::preempt())
 //
-#define REMOVE_NEVER        0
-#define REMOVE_MAYBE_USER   1
-#define REMOVE_MAYBE_SCHED  2
-#define REMOVE_ALWAYS       3
+enum PREEMPT_TYPE {
+    REMOVE_NEVER        = 0,
+        // don't remove from memory
+    REMOVE_MAYBE_USER   = 1,
+        // remove from mem if GPU; don't remove if never checkpointed
+    REMOVE_MAYBE_SCHED  = 2,
+        // ditto
+    REMOVE_ALWAYS       = 3
+        // remove from memory
+};
 
-struct CLIENT_STATE;
 struct ASYNC_COPY;
 typedef int PROCESS_ID;
 
@@ -47,12 +53,14 @@ typedef int PROCESS_ID;
 
 // Represents a job in progress.
 
-// When an active task is created, it is assigned a "slot"
+// When a job is started, it is assigned a "slot"
 // which determines the directory it runs in.
-// This doesn't change over the life of the active task;
-// thus the task can use the slot directory for temp files
+// This doesn't change over the life of the job;
+// so it can use the slot directory for temp files
 // that BOINC doesn't know about.
 
+// If you add anything, initialize it in the constructor
+//
 struct ACTIVE_TASK {
 #ifdef _WIN32
     HANDLE process_handle, shm_handle;
@@ -75,9 +83,10 @@ struct ACTIVE_TASK {
         // in episodes before the current one)
     double checkpoint_elapsed_time;
         // elapsed time at last checkpoint
-    double peak_working_set_size;
-    double peak_swap_size;
+    double peak_rss;
+    double peak_swap_usage;
     double peak_disk_usage;
+        // based on real (not allocated/compressed) file sizes
 
     // START OF ITEMS ALSO SAVED IN CLIENT STATE FILE
 
@@ -93,8 +102,12 @@ struct ACTIVE_TASK {
         // most recent CPU time reported by app
     bool once_ran_edf;
 
-    // END OF ITEMS SAVED IN STATE FILE
+    // END OF ITEMS SAVED IN STATE FILES
 
+    double rss_from_app;
+        // work set size reported by the app
+        // (e.g. docker_wrapper does this).
+        // If nonzero, use this instead of procinfo data
     double fraction_done;
         // App's estimate of how much of the work unit is done.
         // Passed from the application via an API call;
@@ -105,22 +118,15 @@ struct ACTIVE_TASK {
         // first frac done reported during this run of task
     double first_fraction_done_elapsed_time;
         // elapsed time when the above was reported
-    int scheduler_state;
-    int next_scheduler_state; // temp
+    SCHEDULER_STATE scheduler_state;
+    SCHEDULER_STATE next_scheduler_state; // temp
     int signal;
     double run_interval_start_wall_time;
         // Wall time at the start of the current run interval
     double checkpoint_wall_time;
         // wall time at the last checkpoint
     double elapsed_time;
-        // current total elapsed (running) time
-    double bytes_sent_episode;
-        // bytes sent in current episode of job,
-        // as (optionally) reported by boinc_network_usage()
-    double bytes_received_episode;
-    double bytes_sent;
-        // bytes in all episodes
-    double bytes_received;
+        // current total running time, adjusted for CPU throttling
     char slot_dir[256];
         // directory where process runs (relative)
     char slot_path[MAXPATHLEN];
@@ -133,30 +139,40 @@ struct ACTIVE_TASK {
     double max_disk_usage;
         // abort if disk usage (in+out+temp) exceeds this
     double max_mem_usage;
-        // abort if memory usage exceeds this
+        // WU rsc_memory_bound
+        // the idea: abort if memory usage exceeds this
+        // but we don't do this because most projects
+        // don't give accurate rsc_memory_bound
     bool have_trickle_down;
     bool send_upload_file_status;
-    bool too_large;
-        // Working set too large to run now; waiting for RAM
+    bool rss_too_large;
+        // Resident set too large to run now; waiting for RAM
         // This is a slight misnomer.
         // It doesn't mean that this job itself is too large;
         // rather, it means that the last time we did CPU scheduling,
         // the set of jobs we tried to run was too big,
         // and this one came after we ran out of mem.
-    bool needs_shmem;               // waiting for a free shared memory segment
+    bool swap_too_large;
+    bool needs_shmem;
+        // waiting for a free shared memory segment
     int want_network;
-        // This task wants to do network comm (for F@h)
-        // this is passed via share-memory message (app_status channel)
+        // This task is waiting for the network
+        // (physical connection or no suspension)
+        // This is passed via share-memory message (app_status channel)
     double abort_time;
         // when we sent an abort message to this app
         // kill it 5 seconds later if it doesn't exit
     double quit_time;
-    int premature_exit_count;
         // when we sent a quit message; kill if still there after 10 sec
+    int premature_exit_count;
+        // how many times app has exited without finish file.
+        // abort job if 100 exits w/o checkpoint
     bool overdue_checkpoint;
         // running past end of time slice because not checkpointed;
         // when we do checkpoint, reschedule
     double last_deadline_miss_time;
+    double swap_kill_time;
+        // last time this task was killed to free swap space
 
     APP_CLIENT_SHM app_client_shm;
         // core/app shared mem segment
@@ -173,17 +189,28 @@ struct ACTIVE_TASK {
     double finish_file_time;
         // time when we saw finish file in slot dir.
         // Used to kill apps that hang after writing finished file
+    int graphics_pid;
+        // PID of running graphics app (Mac)
+    SPORADIC_CA_STATE sporadic_ca_state;
+    SPORADIC_AC_STATE sporadic_ac_state;
+    double sporadic_ignore_until;
 
     void set_task_state(int, const char*);
     inline int task_state() {
         return _task_state;
     }
-
-#if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))
-    // PowerPC apps emulated on i386 Macs crash if running graphics
-    int powerpc_emulated_on_i386;
-    int is_native_i386_app(char*);
-#endif
+    inline bool sporadic() {
+        return wup->app->sporadic;
+    }
+    inline bool non_cpu_intensive() {
+        return result->non_cpu_intensive();
+    }
+    inline bool always_run() {
+        return sporadic() || non_cpu_intensive();
+    }
+    inline bool dont_throttle() {
+        return result->dont_throttle();
+    }
     int request_reread_prefs();
     int request_reread_app_info();
     int link_user_files();
@@ -202,39 +229,52 @@ struct ACTIVE_TASK {
     void cleanup_task();
 
     int current_disk_usage(double&);
-        // disk used by output files and temp files of this task
+        // total sizes of output files and temp files of this task
+        // This is compared with project-specified limits
+        // to decide whether to abort job; no other use.
     int get_free_slot(RESULT*);
-    int start(bool test=false);         // start a process
+    int setup_slot_dir(char *buf, unsigned int size);
+    int start();
 
     // Termination stuff.
     // Terminology:
-    // "kill": forcibly kill the main process and all its descendants.
-    // "request exit": send a request-exit message, and enumerate descendants.
+    // "kill" means kill the main process and all its descendants,
+    //      with SIGKILL on Unix or TerminateProcess on Win
+    // "request_quit": send a quit message, and enumerate descendants.
     //      If after 15 secs any processes remain, kill them
+    //      Use this if the job will be restarted in the future.
     //      called from:
     //          task preemption
-    //          project detach or reset
+    //          client exit
     //      implementation:
     //          sends msg, sets quit_time, state QUIT_PENDING;
     //              get list of descendants
     //          normal exit handled in handle_premature_exit()
     //          timeout handled in ACTIVE_TASK_SET::poll()
-    // "abort_task": like request exit,
-    //      but the app is supposed to write a stack trace to stderr
-    //      called from: rsc exceeded; got ack of running task;
+    // "request_abort": like request quit,
+    //      but send an abort message rather than quit.
+    //      Use this if the job won't be restarted.
+    //      called from:
+    //          project detach or reset
+    //          rsc limit exceeded
+    //          abort request from server
     //          intermediate upload failure
     //          client exiting w/ abort_jobs_on_exit set
+    //      If it gets this, the BOINC API library
+    //      tries to write the call stack to stderr
+    //      so you can e.g. see where an infinite loop happened
     //
-    int request_exit();
+    int request_quit();
     int request_abort();
     int kill_running_task(bool will_restart);
-        // Kill process and subsidiary processes forcibly.
-        // Unix: send a SIGKILL signal, Windows: TerminateProcess()
+        // Kill process and subsidiary processes.
     int kill_subsidiary_processes();
         // kill subsidiary processes of a job
         // whose main process has already exited
     int abort_task(int exit_status, const char*);
         // can be called whether or not process exists
+        // if process exists, request_abort()
+        // else just mark task as aborted
 
     // is the GPU task running or suspended (due to CPU throttling)
     //
@@ -253,14 +293,13 @@ struct ACTIVE_TASK {
         // return true if this task has exited
 
     int suspend();
-        // tell a process to stop executing (but stay in mem)
-        // Done by sending it a <suspend> message
+        // sending process a <suspend> message;
+        // tells it to stop executing but stay in mem
     int unsuspend(int reason=0);
         // Undo a suspend: send a <resume> message
-    int preempt(int preempt_type, int reason=0);
+    int preempt(PREEMPT_TYPE preempt_type, int reason=0);
         // preempt (via suspend or quit) a running task
     int resume_or_start(bool);
-    void send_network_available();
 #ifdef _WIN32
     void handle_exited_app(unsigned long);
 #else
@@ -284,8 +323,8 @@ struct ACTIVE_TASK {
     int handle_upload_files();
     void upload_notify_app(const FILE_INFO*, const FILE_REF*);
     int copy_output_files();
-    int setup_file(FILE_INFO*, FILE_REF&, char*, bool, bool);
-    bool must_copy_file(FILE_REF&, bool);
+    int setup_file(FILE_INFO*, const FILE_REF&, char*, bool, bool);
+    bool must_copy_file(const FILE_REF&, bool);
     void write_task_state_file();
     void read_task_state_file();
 
@@ -302,20 +341,20 @@ public:
     active_tasks_v active_tasks;
     ACTIVE_TASK* lookup_pid(int);
     ACTIVE_TASK* lookup_result(RESULT*);
+    ACTIVE_TASK* lookup_slot(int);
     void init();
     bool poll();
     void suspend_all(int reason);
     void unsuspend_all(int reason=0);
     bool is_task_executing();
-    void request_tasks_exit(PROJECT* p=0);
-    int wait_for_exit(double, PROJECT* p=0);
-    int exit_tasks(PROJECT* p=0);
+    void request_tasks_exit(bool will_restart, PROJECT* p);
+    int wait_for_exit(double, PROJECT* p);
+    int exit_tasks(bool will_restart, PROJECT* p);
     void kill_tasks(PROJECT* p=0);
     int abort_project(PROJECT*);
     void get_msgs();
     bool check_app_exited();
     bool check_rsc_limits_exceeded();
-    bool check_quit_timeout_exceeded();
     bool is_slot_in_use(int);
     bool is_slot_dir_in_use(char*);
     void send_heartbeats();
@@ -323,8 +362,7 @@ public:
     void report_overdue();
     void handle_upload_files();
     void upload_notify_app(FILE_INFO*);
-    bool want_network();    // does any task want network?
-    void network_available();   // notify tasks that network is available
+    bool some_task_wants_network();
     void free_mem();
     bool slot_taken(int);
     void get_memory_usage();

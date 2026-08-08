@@ -28,7 +28,7 @@
  */
 
 class CProjectWelcomePage: public wxWizardPageEx
-{    
+{
     DECLARE_DYNAMIC_CLASS( CProjectWelcomePage )
     DECLARE_EVENT_TABLE()
 

@@ -116,7 +116,7 @@ function show_user_xml($user, $show_hosts) {
     if (USER_COUNTRY) {
         echo "     <country>$user->country</country>\n";
     }
-    if (USER_URL) {
+    if (USER_URL && $user->url) {
         $url = normalize_user_url($user->url);
         echo "    <url>".htmlspecialchars($url)."</url>\n";
     }
@@ -126,7 +126,6 @@ function show_user_xml($user, $show_hosts) {
 function show_team_member($user, $creditonly = false) {
     if ($creditonly && !$user->total_credit) { return; }
     $cpid = md5($user->cross_project_id.$user->email_addr);
-    $url = normalize_user_url($user->url);
     echo "<user>
     <id>$user->id</id>
     <cpid>$cpid</cpid>
@@ -141,7 +140,7 @@ function show_team_member($user, $creditonly = false) {
         if (USER_COUNTRY) {
             echo "     <country>$user->country</country>\n";
         }
-        if (USER_URL) {
+        if (USER_URL && $user->url) {
             $url = normalize_user_url($user->url);
             echo "    <url>".htmlspecialchars($url)."</url>\n";
         }

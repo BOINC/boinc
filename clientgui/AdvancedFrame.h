@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -66,6 +66,9 @@ public:
     void OnGPUSelection( wxCommandEvent& event );
     void OnNetworkSelection( wxCommandEvent& event );
 
+    void OnSelectAll( wxCommandEvent& event );
+    void OnDarkModeChanged( wxSysColourChangedEvent& event );
+
     void OnMenuOpening( wxMenuEvent &event);
     void OnOptions( wxCommandEvent& event );
 	void OnPreferences( wxCommandEvent& event );
@@ -110,7 +113,7 @@ public:
 protected:
     virtual int     _GetCurrentViewPage();
 
-    wxAcceleratorEntry  m_Shortcuts[1];     // For HELP keyboard shortcut
+    wxAcceleratorEntry  m_Shortcuts[2];     // For keyboard shortcut
     wxAcceleratorTable* m_pAccelTable;
 
 private:

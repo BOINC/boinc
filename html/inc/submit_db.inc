@@ -48,6 +48,10 @@ class BoincBatch {
         $db = BoincDb::get();
         return $db->update_aux('batch', $clause);
     }
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete($this, 'batch');
+    }
     function get_cpu_time() {
         $db = BoincDb::get();
         $x = $db->get_double(
@@ -81,7 +85,7 @@ class BoincUserSubmit {
         $db = BoincDb::get();
         return $db->update_aux('user_submit', $clause);
     }
-    
+
     static function delete_user($user_id) {
         $db = BoincDb::get();
         return $db->delete_aux('user_submit', "user_id = $user_id");

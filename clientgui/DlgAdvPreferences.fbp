@@ -1103,7 +1103,7 @@
                                                                         <property name="fg"></property>
                                                                         <property name="font"></property>
                                                                         <property name="hidden">0</property>
-                                                                        <property name="id">ID_TXTPOCUSECPUTIME</property>
+                                                                        <property name="id">ID_TXTPROCUSECPUTIME</property>
                                                                         <property name="maxlength"></property>
                                                                         <property name="minimum_size"></property>
                                                                         <property name="name">m_txtProcUseCPUTime</property>

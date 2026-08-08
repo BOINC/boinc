@@ -11,7 +11,7 @@ define("APP_NAME", "uppercase");
 define("LOCAL_DIR", "");
 
 function usage() {
-   global $argv; 
+   global $argv;
    echo "
 Usage:
 $argv[0] submit sequence_file    (submit 1 job, print batch ID)
@@ -175,5 +175,5 @@ case "abort": handle_abort(); break;
 case "retire": handle_retire(); break;
 default: usage();
 }
-   
+
 ?>

@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// web page showing stats per app version
+
 require_once("../inc/util_ops.inc");
 
 admin_page_head("Result summary per app version");
@@ -88,7 +90,7 @@ FROM   result LEFT JOIN (SELECT app_version.id AS id,
                          FROM app_version INNER JOIN platform
                                           ON platform.id = platformid
                         ) as platform_name
-              ON app_version_id = platform_name.id 
+              ON app_version_id = platform_name.id
 WHERE
        appid = '$query_appid' AND
        server_state = '5' AND outcome NOT IN (4,5)

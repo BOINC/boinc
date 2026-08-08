@@ -1,0 +1,2 @@
+- name: Stop docker containers and remove associated storage
+  command: docker compose down -v chdir="{{base_dir}}/boinc-server-docker"

@@ -1,0 +1,10 @@
+#This file extends the settings from https://github.com/marius311/boinc-server-docker so that
+#the mysql port is open.  This lets the tests query the database.  However, this is likely
+#insecure for any sort of standard usage.
+version: "3.4"
+
+services:
+  mysql:
+    ports:
+     - "3306:3306"
+

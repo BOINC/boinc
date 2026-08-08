@@ -1,0 +1,317 @@
+<!--
+  This file is part of BOINC.
+  http://boinc.berkeley.edu
+  Copyright (C) 2022 University of California
+
+  BOINC is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License
+  as published by the Free Software Foundation,
+  either version 3 of the License, or (at your option) any later version.
+
+  BOINC is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+            app:iconSpaceReserved="false"
+            app:title="@string/prefs_category_general">
+
+        <CheckBoxPreference
+                app:defaultValue="@bool/prefs_default_autostart"
+                app:iconSpaceReserved="false"
+                app:key="autostart"
+                app:title="@string/prefs_autostart_header" />
+
+        <CheckBoxPreference
+                app:defaultValue="@bool/prefs_default_notification_notices"
+                app:iconSpaceReserved="false"
+                app:key="showNotifications"
+                app:title="@string/prefs_show_notification_notices_header" />
+
+        <CheckBoxPreference
+                app:defaultValue="@bool/prefs_default_notification_suspended"
+                app:iconSpaceReserved="false"
+                app:key="showErrorNotifications"
+                app:title="@string/prefs_show_notification_suspended_header" />
+
+        <CheckBoxPreference
+                app:defaultValue="@bool/prefs_default_advanced"
+                app:iconSpaceReserved="false"
+                app:key="showAdvanced"
+                app:title="@string/prefs_show_advanced_header" />
+
+        <CheckBoxPreference
+                app:defaultValue="@bool/prefs_suspend_when_screen_on"
+                app:iconSpaceReserved="false"
+                app:isPreferenceVisible="true"
+                app:key="suspendWhenScreenOn"
+                app:title="@string/prefs_suspend_when_screen_on" />
+
+        <CheckBoxPreference
+                app:defaultValue="@bool/prefs_default_expand_wu_data"
+                app:iconSpaceReserved="false"
+                app:isPreferenceVisible="true"
+                app:key="expandWuData"
+                app:title="@string/prefs_expand_wu_data" />
+
+        <EditTextPreference
+                app:iconSpaceReserved="false"
+                app:key="deviceName"
+                app:title="@string/prefs_general_device_name_header"
+                app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+                app:defaultValue="light"
+                app:entries="@array/theme_entries"
+                app:entryValues="@array/theme_values"
+                app:iconSpaceReserved="false"
+                app:key="theme"
+                app:title="@string/prefs_theme_header"
+                app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            app:iconSpaceReserved="false"
+            app:title="@string/prefs_category_network">
+
+        <CheckBoxPreference
+                app:defaultValue="true"
+                app:iconSpaceReserved="false"
+                app:key="networkWiFiOnly"
+                app:title="@string/prefs_network_wifi_only_header" />
+
+        <EditTextPreference
+                android:inputType="number"
+                app:defaultValue="0"
+                app:iconSpaceReserved="false"
+                app:key="dailyTransferLimitMB"
+                app:title="@string/prefs_network_daily_xfer_limit_mb_header"
+                app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+                android:inputType="number"
+                app:defaultValue="0"
+                app:iconSpaceReserved="false"
+                app:key="dailyTransferPeriodDays"
+                app:title="@string/prefs_network_daily_xfer_limit_period_days_header"
+                app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            app:iconSpaceReserved="false"
+            app:title="@string/prefs_category_power">
+
+        <CheckBoxPreference
+                app:defaultValue="@bool/prefs_stationary_device_mode"
+                app:disableDependentsState="true"
+                app:iconSpaceReserved="false"
+                app:isPreferenceVisible="true"
+                app:key="stationaryDeviceMode"
+                app:summary="@string/prefs_stationary_device_mode_description"
+                app:title="@string/prefs_stationary_device_mode_header" />
+
+        <MultiSelectListPreference
+                app:defaultValue="@array/power_source_default"
+                app:entries="@array/power_source_entries"
+                app:entryValues="@array/power_source_values"
+                app:iconSpaceReserved="false"
+                app:key="powerSources"
+                app:title="@string/prefs_power_source_header" />
+
+        <SeekBarPreference
+                android:max="100"
+                app:defaultValue="90"
+                app:dependency="stationaryDeviceMode"
+                app:iconSpaceReserved="false"
+                app:key="minBatteryLevel"
+                app:min="10"
+                app:seekBarIncrement="10"
+                app:showSeekBarValue="true"
+                app:title="@string/battery_charge_min_pct_header" />
+
+        <EditTextPreference
+                android:inputType="number"
+                app:defaultValue="40"
+                app:dependency="stationaryDeviceMode"
+                app:iconSpaceReserved="false"
+                app:key="maxBatteryTemp"
+                app:title="@string/battery_temperature_max_header"
+                app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            app:iconSpaceReserved="false"
+            app:key="cpu"
+            app:title="@string/prefs_category_cpu">
+
+        <SeekBarPreference
+                app:iconSpaceReserved="false"
+                app:isPreferenceVisible="true"
+                app:key="usedCpuCores"
+                app:min="1"
+                app:seekBarIncrement="1"
+                app:showSeekBarValue="true"
+                app:summary="@string/prefs_cpu_number_cpus_description"
+                app:title="@string/prefs_cpu_number_cpus_header" />
+
+        <SeekBarPreference
+                android:max="100"
+                app:defaultValue="100"
+                app:iconSpaceReserved="false"
+                app:key="cpuUsageLimit"
+                app:min="0"
+                app:seekBarIncrement="10"
+                app:showSeekBarValue="true"
+                app:summary="@string/prefs_cpu_time_max_description"
+                app:title="@string/prefs_cpu_time_max_header" />
+
+        <SeekBarPreference
+                android:max="100"
+                app:defaultValue="50"
+                app:iconSpaceReserved="false"
+                app:key="suspendCpuUsage"
+                app:min="0"
+                app:seekBarIncrement="10"
+                app:showSeekBarValue="true"
+                app:summary="@string/prefs_cpu_other_load_suspension_description"
+                app:title="@string/prefs_cpu_other_load_suspension_header" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            app:iconSpaceReserved="false"
+            app:key="storage"
+            app:title="@string/prefs_category_storage">
+
+        <SeekBarPreference
+                android:max="100"
+                app:defaultValue="90"
+                app:iconSpaceReserved="false"
+                app:key="diskMaxUsedPct"
+                app:min="0"
+                app:seekBarIncrement="10"
+                app:showSeekBarValue="true"
+                app:title="@string/prefs_disk_max_pct_header" />
+
+        <EditTextPreference
+                android:inputType="number"
+                app:defaultValue="0.1"
+                app:iconSpaceReserved="false"
+                app:key="diskMinFreeGB"
+                app:title="@string/prefs_disk_min_free_gb_header"
+                app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+                android:inputType="number"
+                app:defaultValue="60"
+                app:iconSpaceReserved="false"
+                app:key="diskInterval"
+                app:title="@string/prefs_disk_access_interval_header"
+                app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            app:iconSpaceReserved="false"
+            app:key="memory"
+            app:title="@string/prefs_category_memory">
+
+        <SeekBarPreference
+                android:max="100"
+                app:defaultValue="50"
+                app:iconSpaceReserved="false"
+                app:key="maxRamUsedIdle"
+                app:min="0"
+                app:seekBarIncrement="10"
+                app:showSeekBarValue="true"
+                app:title="@string/prefs_memory_max_idle_header" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            app:iconSpaceReserved="false"
+            app:key="other"
+            app:title="@string/prefs_category_other">
+
+        <EditTextPreference
+                android:inputType="number"
+                app:defaultValue="0.1"
+                app:iconSpaceReserved="false"
+                app:key="workBufMinDays"
+                app:title="@string/prefs_other_store_at_least_x_days_of_work_header"
+                app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+                android:inputType="number"
+                app:defaultValue="0.5"
+                app:iconSpaceReserved="false"
+                app:key="workBufAdditionalDays"
+                app:title="@string/prefs_other_store_up_to_an_additional_x_days_of_work_header"
+                app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            app:iconSpaceReserved="false"
+            app:key="remote"
+            app:title="@string/prefs_category_remote">
+
+        <CheckBoxPreference
+                app:defaultValue="@bool/prefs_default_remote"
+                app:iconSpaceReserved="false"
+                app:key="remoteEnable"
+                app:summary="@string/prefs_remote_summary"
+                app:title="@string/prefs_remote_header" />
+
+        <Preference
+                app:iconSpaceReserved="false"
+                app:key="authenticationKey"
+                app:title="@string/prefs_remote_authentication_key"
+                app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            app:iconSpaceReserved="false"
+            app:key="debug"
+            app:title="@string/prefs_category_debug">
+
+        <MultiSelectListPreference
+                app:defaultValue="@array/empty_array"
+                app:entries="@array/prefs_client_log_flags"
+                app:entryValues="@array/prefs_client_log_flags"
+                app:iconSpaceReserved="false"
+                app:key="clientLogFlags"
+                app:title="@string/prefs_client_log_flags_header" />
+
+        <MultiSelectListPreference
+                app:defaultValue="@array/prefs_gui_log_categories_default"
+                app:entries="@array/prefs_gui_log_categories"
+                app:entryValues="@array/prefs_gui_log_categories"
+                app:iconSpaceReserved="false"
+                app:key="guiLogCategories"
+                app:title="@string/prefs_gui_log_categories" />
+
+        <SeekBarPreference
+                android:max="5"
+                app:defaultValue="2"
+                app:iconSpaceReserved="false"
+                app:key="logLevel"
+                app:min="0"
+                app:seekBarIncrement="1"
+                app:showSeekBarValue="true"
+                app:summary="@string/prefs_gui_log_level_description"
+                app:title="@string/prefs_gui_log_level_header" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

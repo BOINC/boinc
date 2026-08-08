@@ -1,0 +1,126 @@
+# make libraries for Linux client and boinccmd
+
+//CC = g++ -O4 -Wall -I ../
+CC = g++ -g -Wall -I ../ \
+-Wall -Wextra -pedantic -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-promo -Wstrict-null-sentinel -Wstrict-overflow=5 -Wundef -Wno-unused -Wno-variadic-macros -Wno-parentheses -fdiagnostics-show-option
+
+all: boinc.a boinc_cmd.a
+
+BOINC_OBJ = \
+    app_ipc.o \
+    base64.o \
+    cc_config.o \
+    cert_sig.o \
+    coproc.o \
+    crypt.o \
+    diagnostics.o \
+    filesys.o \
+    hostinfo.o \
+    keyword.o \
+    md5.o \
+    md5_file.o \
+    mem_usage.o \
+    mfile.o \
+    miofile.o \
+    msg_log.o \
+    msg_queue.o \
+    network.o \
+    notice.o \
+    opencl_boinc.o \
+    parse.o \
+    prefs.o \
+    proc_control.o \
+    procinfo.o \
+    procinfo_unix.o \
+    project_init.o \
+    proxy_info.o \
+    sched_msgs.o \
+    shmem.o \
+    str_util.o \
+    synch.o \
+    unix_util.o \
+    url.o \
+    util.o \
+    wslinfo.o
+
+# TODO: refactor code so the following list is shorter
+# e.g. shouldn't need synch, md5 stuff
+
+BOINC_CMD_OBJ = \
+    cc_config.o \
+    coproc.o \
+    filesys.o \
+    gui_rpc_client.o \
+    gui_rpc_client_ops.o \
+    gui_rpc_client_print.o \
+    hostinfo.o \
+    keyword.o \
+    md5.o \
+    md5_file.o \
+    mfile.o \
+    miofile.o \
+    network.o \
+    notice.o \
+    opencl_boinc.o \
+    parse.o \
+    prefs.o \
+    proxy_info.o \
+    str_util.o \
+    synch.o \
+    url.o \
+    util.o
+
+SRC = \
+    app_ipc.cpp \
+    base64.cpp \
+    cc_config.cpp \
+    cert_sig.cpp \
+    coproc.cpp \
+    crypt.cpp \
+    diagnostics.cpp \
+    filesys.cpp \
+    gui_rpc_client.cpp \
+    gui_rpc_client_ops.cpp \
+    gui_rpc_client_print.cpp \
+    hostinfo.cpp \
+    keyword.cpp \
+    md5.cpp \
+    md5_file.cpp \
+    mem_usage.cpp \
+    mfile.cpp \
+    miofile.cpp \
+    msg_log.cpp \
+    msg_queue.cpp \
+    network.cpp \
+    notice.cpp \
+    opencl_boinc.cpp \
+    parse.cpp \
+    prefs.cpp \
+    proc_control.cpp \
+    procinfo.cpp \
+    procinfo_unix.cpp \
+    project_init.cpp \
+    proxy_info.cpp \
+    shmem.cpp \
+    str_util.cpp \
+    synch.cpp \
+    unix_util.cpp \
+    url.cpp \
+    util.cpp
+
+clean:
+	rm -f $(BOINC_OBJ) $(BOINC_CMD_OBJ) dependencies
+
+.cpp.o:
+	$(CC) -c -o $*.o $<
+
+boinc.a: $(BOINC_OBJ)
+	ar rcs boinc.a $(BOINC_OBJ)
+
+boinc_cmd.a: $(BOINC_CMD_OBJ)
+	ar rcs boinc_cmd.a $(BOINC_CMD_OBJ)
+
+dependencies: $(SRC)
+	$(CC) -M $(SRC) > dependencies
+
+include dependencies

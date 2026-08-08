@@ -23,7 +23,7 @@
 #include <dlfcn.h>
 #import <Cocoa/Cocoa.h>
 
-// Weak linking of objective-C classes is not supported before 
+// Weak linking of objective-C classes is not supported before
 // OS 10.6.8 so to be compatible with OS 10.5 we must use the
 // objective-C equivalent of dlopen() and dlsym().
 static Class NSUserNotificationClass = nil;
@@ -70,16 +70,16 @@ static NSString **NSUserNotificationDefaultSoundNamePtr = nil;
 
 bool CTaskBarIcon::IsBalloonsSupported() {
     if ((NSUserNotificationClass != nil) && (NSUserNotificationCenterClass != nil)) return true;
-    
+
     NSBundle *bundle = [NSBundle bundleWithPath:@"/System/Library/Frameworks/Foundation.framework"];
     NSError *err = nil;
     bool loaded = [bundle loadAndReturnError:&err];
     if (!loaded) return false;
-    
+
 
     NSUserNotificationClass = NSClassFromString(@"NSUserNotification");
     if (NSUserNotificationClass == nil) return false;
-    
+
     NSUserNotificationCenterClass = NSClassFromString(@"NSUserNotificationCenter");
     return (NSUserNotificationCenterClass != nil);
 }
@@ -94,11 +94,11 @@ bool CTaskBarIcon::QueueBalloon(
     ) {
 
     if (!IsBalloonsSupported())return false;
-    
+
     if (MacNotificationClass == nil) {
         MacNotificationClass = [MacNotification alloc];
     }
-    
+
     if (MacNotificationClass) {
         char *utf8Title = (char *)(title.utf8_str().data());
         NSString *theTitle = [[NSString alloc] initWithUTF8String:utf8Title];
@@ -108,13 +108,13 @@ bool CTaskBarIcon::QueueBalloon(
 
         [MacNotificationClass showNewNoticesNotification:theTitle withMessage:theMessage];
     }
-    
+
     return false;
 }
 
 
 
-// wxTopLevel::RequestUserAttention() doesn't have an API to cancel 
+// wxTopLevel::RequestUserAttention() doesn't have an API to cancel
 // after a timeout, so we must call Notification Manager directly on Mac
 void CTaskBarIcon::MacRequestUserAttention() {
     m_pNotificationRequest = [NSApp requestUserAttention:NSInformationalRequest];
@@ -131,7 +131,7 @@ void CTaskBarIcon::MacCancelUserAttentionRequest() {
 int CTaskBarIcon::SetDockBadge(wxBitmap* bmp) {
     // Reset to standard Dock tile (no badge)
     [NSApp setApplicationIconImage:nil];
-    
+
     if (bmp == NULL) {
         return 0;
     }

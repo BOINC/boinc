@@ -1,0 +1,12 @@
+{
+    "Icon": [
+        {
+            "Name": "ARPPRODUCTICON.exe",
+            "Path": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\installer_icon.exe"
+        },
+        {
+            "Name": "BOINCManagerShortc_C26EE48317504401A066FAD831B8521A.exe",
+            "Path": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\installer_icon.exe"
+        }
+    ]
+}

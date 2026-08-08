@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 
-# $Id$
+# add_util.py - used in make_project
 
-# add_util.py - code shared between add and xadd
-
+from __future__ import print_function
 from Boinc import database, tools
 import time, pprint
 import MySQLdb

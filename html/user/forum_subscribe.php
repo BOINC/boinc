@@ -29,16 +29,17 @@ check_get_args(array("action", "thread", "tnow", "ttok"));
 $action = get_str('action');
 $threadid = get_int('thread');
 $thread = BoincThread::lookup_id($threadid);
+if (!$thread) error_page('No such thread');
 $forum = BoincForum::lookup_id($thread->forum);
 
 function show_title($forum, $thread) {
     switch ($forum->parent_type) {
     case 0:
         $category = BoincCategory::lookup_id($forum->category);
-        show_forum_title($category, $forum, $thread);
+        echo forum_title($category, $forum, $thread);
         break;
     case 1:
-        show_team_forum_title($forum, $thread);
+        echo team_forum_title($forum, $thread);
         break;
     }
 }

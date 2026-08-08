@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -26,10 +26,6 @@
 
 #ifdef __APPLE__
 #include "mac_spawn.h"
-#endif
-
-#ifdef _MSC_VER
-#define snprintf _snprintf
 #endif
 
 #include "error_numbers.h"
@@ -110,12 +106,6 @@ int CLIENT_STATE::parse_state_file() {
         fname = STATE_FILE_PREV;
     } else {
         msg_printf(0, MSG_INFO, "Creating new client state file");
-
-        // avoid warning messages about version
-        //
-        old_major_version = BOINC_MAJOR_VERSION;
-        old_minor_version = BOINC_MINOR_VERSION;
-        old_release = BOINC_RELEASE;
         return ERR_FOPEN;
     }
     return parse_state_file_aux(fname);
@@ -272,12 +262,16 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                 continue;
             }
             if (retval) {
-                msg_printf(NULL, MSG_INTERNAL_ERROR,
+                msg_printf(project, MSG_INTERNAL_ERROR,
                     "Can't parse application version in state file"
                 );
                 delete avp;
                 continue;
-            } 
+            }
+            if (avp->disallowed_by_config(project)) {
+                delete avp;
+                continue;
+            }
             if (strlen(avp->platform) == 0) {
                 safe_strcpy(avp->platform, get_primary_platform());
             } else {
@@ -296,11 +290,20 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                     safe_strcpy(avp->platform, get_primary_platform());
                 }
             }
-            if (avp->missing_coproc) {
-                msg_printf(project, MSG_INFO,
-                    "Application uses missing %s GPU",
-                    avp->missing_coproc_name
-                );
+            if (avp->resource_usage.missing_coproc) {
+                if (strstr(avp->resource_usage.missing_coproc_name, "Apple ")) {
+                    msg_printf(project, MSG_INFO,
+                        "App version uses deprecated GPU type '%s' - discarding",
+                        avp->resource_usage.missing_coproc_name
+                    );
+                    delete avp;
+                    continue;
+                } else {
+                    msg_printf(project, MSG_INFO,
+                        "App version uses missing GPU '%s'",
+                        avp->resource_usage.missing_coproc_name
+                    );
+                }
             }
             retval = link_app_version(project, avp);
             if (retval) {
@@ -388,12 +391,6 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                 );
                 delete rp;
                 continue;
-            }
-            if (rp->avp->missing_coproc) {
-                msg_printf(project, MSG_INFO,
-                    "Missing coprocessor for task %s", rp->name
-                );
-                rp->coproc_missing = true;
             }
             rp->wup->version_num = rp->version_num;
             results.push_back(rp);
@@ -512,7 +509,16 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         if (xp.parse_string("newer_version", newer_version)) {
             continue;
         }
+#ifdef _WIN32
+        if (xp.parse_int("latest_boinc_buda_runner_version", latest_boinc_buda_runner_version)) {
+            continue;
+        }
+#endif
         if (xp.parse_string("client_version_check_url", client_version_check_url)) {
+            continue;
+        }
+        if (xp.match_tag("user_cpids")) {
+            user_cpids.parse(xp);
             continue;
         }
 #ifdef ENABLE_AUTO_UPDATE
@@ -540,24 +546,30 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
     }
     sort_results();
     fclose(f);
-    
+
     // if total resource share is zero, set all shares to 1
     //
     if (projects.size()) {
-        unsigned int i;
         double x=0;
-        for (i=0; i<projects.size(); i++) {
-            x += projects[i]->resource_share;
+        for (PROJECT* p: projects) {
+            x += p->resource_share;
         }
         if (!x) {
             msg_printf(NULL, MSG_INFO,
                 "All projects have zero resource share; setting to 100"
             );
-            for (i=0; i<projects.size(); i++) {
-                projects[i]->resource_share = 100;
+            for (PROJECT* p: projects) {
+                p->resource_share = 100;
             }
         }
     }
+
+    // this should happen once, on client update
+    //
+    if (user_cpids.cpids.empty()) {
+        user_cpids.init_from_projects();
+    }
+
     return 0;
 }
 
@@ -568,9 +580,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
 // This determines the order in which results are run.
 //
 void CLIENT_STATE::sort_results() {
-    unsigned int i;
-    for (i=0; i<results.size(); i++) {
-        RESULT* rp = results[i];
+    for (RESULT *rp: results) {
         rp->name_md5 = md5_string(string(rp->name));
     }
     std::sort(
@@ -578,9 +588,9 @@ void CLIENT_STATE::sort_results() {
         results.end(),
         arrived_first
     );
-    for (i=0; i<results.size(); i++) {
-        RESULT* rp = results[i];
-        rp->index = i;
+    int i=0;
+    for (RESULT *rp: results) {
+        rp->index = i++;
     }
 }
 
@@ -609,7 +619,7 @@ int CLIENT_STATE::write_state_file() {
 
     for (attempt=1; attempt<=MAX_STATE_FILE_WRITE_ATTEMPTS; attempt++) {
         if (attempt > 1) boinc_sleep(1.0);
-            
+
         if (log_flags.statefile_debug) {
             msg_printf(0, MSG_INFO,
                 "[statefile] Writing state file"
@@ -670,7 +680,7 @@ int CLIENT_STATE::write_state_file() {
                     if (attempt < MAX_STATE_FILE_WRITE_ATTEMPTS) continue;
                 }
             }
-            
+
             retval = boinc_rename(STATE_FILE_NAME, STATE_FILE_PREV);
             if (retval) {
                 if ((attempt == MAX_STATE_FILE_WRITE_ATTEMPTS) || log_flags.statefile_debug) {
@@ -680,8 +690,8 @@ int CLIENT_STATE::write_state_file() {
                         windows_format_error_string(GetLastError(), win_error_msg, sizeof(win_error_msg))
                     );
 #else
-                    msg_printf(0, MSG_INFO, 
-                        "Can't rename current state file to previous state file: %s", 
+                    msg_printf(0, MSG_INFO,
+                        "Can't rename current state file to previous state file: %s",
                         strerror(errno)
                     );
 #endif
@@ -697,7 +707,7 @@ int CLIENT_STATE::write_state_file() {
             );
         }
         if (!retval) break;     // Success!
-        
+
         if ((attempt == MAX_STATE_FILE_WRITE_ATTEMPTS) || log_flags.statefile_debug) {
 #ifdef _WIN32
             msg_printf(0, MSG_INFO,
@@ -719,7 +729,7 @@ int CLIENT_STATE::write_state_file() {
 }
 
 int CLIENT_STATE::write_state(MIOFILE& f) {
-    unsigned int i, j;
+    unsigned int i;
     int retval;
 
 #ifdef SIM
@@ -733,35 +743,34 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     if (retval) return retval;
     retval = net_stats.write(f);
     if (retval) return retval;
-    for (j=0; j<projects.size(); j++) {
-        PROJECT* p = projects[j];
+    for (PROJECT* p: projects) {
+        if (p->app_test) continue;  // don't write app_test project
         retval = p->write_state(f);
         if (retval) return retval;
-        for (i=0; i<apps.size(); i++) {
-            if (apps[i]->project == p) {
-                retval = apps[i]->write(f);
+        for (APP *app: apps) {
+            if (app->project == p) {
+                retval = app->write(f);
                 if (retval) return retval;
             }
         }
-        for (i=0; i<file_infos.size(); i++) {
-            if (file_infos[i]->project != p) continue;
-            FILE_INFO* fip = file_infos[i];
+        for (FILE_INFO* fip: file_infos) {
+            if (fip->project != p) continue;
             // don't write file infos for anonymous platform app files
             //
             if (fip->anonymous_platform_file) continue;
             retval = fip->write(f, false);
             if (retval) return retval;
         }
-        for (i=0; i<app_versions.size(); i++) {
-            if (app_versions[i]->project == p) {
-                app_versions[i]->write(f);
+        for (APP_VERSION* avp: app_versions) {
+            if (avp->project == p) {
+                avp->write(f);
             }
         }
-        for (i=0; i<workunits.size(); i++) {
-            if (workunits[i]->project == p) workunits[i]->write(f, false);
+        for (WORKUNIT *wup: workunits) {
+            if (wup->project == p) wup->write(f, false);
         }
-        for (i=0; i<results.size(); i++) {
-            if (results[i]->project == p) results[i]->write(f, false);
+        for (RESULT *rp: results) {
+            if (rp->project == p) rp->write(f, false);
         }
         p->write_project_files(f);
 #ifdef ENABLE_AUTO_UPDATE
@@ -798,9 +807,15 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     if (strlen(language)) {
         f.printf("<language>%s</language>\n", language);
     }
-    if (newer_version.size()) {
+    if (!newer_version.empty()) {
         f.printf("<newer_version>%s</newer_version>\n", newer_version.c_str());
     }
+#ifdef _WIN32
+    f.printf(
+        "<latest_boinc_buda_runner_version>%d</latest_boinc_buda_runner_version>\n",
+        latest_boinc_buda_runner_version
+    );
+#endif
     if (client_version_check_url.size()) {
         f.printf("<client_version_check_url>%s</client_version_check_url>\n", client_version_check_url.c_str());
     }
@@ -813,6 +828,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     if (strlen(main_host_venue)) {
         f.printf("<host_venue>%s</host_venue>\n", main_host_venue);
     }
+    user_cpids.write(f);
     f.printf("</client_state>\n");
     return 0;
 }
@@ -834,16 +850,15 @@ int CLIENT_STATE::write_state_file_if_needed() {
 
 // look for app_versions.xml file in project dir.
 // If find, get app versions from there,
-// and use "anonymous platform" mechanism for this project
+// and mark project as "anonymous platform".
+// This is called before parsing client_state.xml
 //
 void CLIENT_STATE::check_anonymous() {
-    unsigned int i;
     char path[MAXPATHLEN];
     FILE* f;
     int retval;
 
-    for (i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
+    for (PROJECT* p: projects) {
         snprintf(path, sizeof(path), "%s/%s", p->project_dir(), APP_INFO_FILE_NAME);
         f = fopen(path, "r");
         if (!f) continue;
@@ -935,17 +950,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
                 delete avp;
                 continue;
             }
-            if (cc_config.dont_use_vbox && strstr(avp->plan_class, "vbox")) {
-                msg_printf(p, MSG_INFO,
-                    "skipping vbox app in app_info.xml; vbox disabled in cc_config.xml"
-                );
-                delete avp;
-                continue;
-            }
-            if (cc_config.dont_use_wsl && strstr(avp->plan_class, "wsl")) {
-                msg_printf(p, MSG_INFO,
-                    "skipping wsl app in app_info.xml; wsl disabled in cc_config.xml"
-                );
+            if (avp->disallowed_by_config(p)) {
                 delete avp;
                 continue;
             }
@@ -972,7 +977,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
 #ifndef SIM
 
 int CLIENT_STATE::write_state_gui(MIOFILE& f) {
-    unsigned int i, j;
+    unsigned int i;
     int retval;
 
     f.printf("<client_state>\n");
@@ -1001,24 +1006,23 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
     retval = time_stats.write(f, true);
     if (retval) return retval;
 
-    for (j=0; j<projects.size(); j++) {
-        PROJECT* p = projects[j];
+    for (PROJECT* p: projects) {
         retval = p->write_state(f, true);
         if (retval) return retval;
-        for (i=0; i<apps.size(); i++) {
-            if (apps[i]->project == p) {
-                retval = apps[i]->write(f);
+        for (APP *app: apps) {
+            if (app->project == p) {
+                retval = app->write(f);
                 if (retval) return retval;
             }
         }
-        for (i=0; i<app_versions.size(); i++) {
-            if (app_versions[i]->project == p) app_versions[i]->write(f);
+        for (APP_VERSION* avp: app_versions) {
+            if (avp->project == p) avp->write(f);
         }
-        for (i=0; i<workunits.size(); i++) {
-            if (workunits[i]->project == p) workunits[i]->write(f, true);
+        for (WORKUNIT *wup: workunits) {
+            if (wup->project == p) wup->write(f, true);
         }
-        for (i=0; i<results.size(); i++) {
-            if (results[i]->project == p) results[i]->write_gui(f);
+        for (RESULT *rp: results) {
+            if (rp->project == p) rp->write_gui(f);
         }
     }
     f.printf(
@@ -1051,29 +1055,27 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
     return 0;
 }
 
-int CLIENT_STATE::write_tasks_gui(MIOFILE& f, bool active_only) {
+int CLIENT_STATE::write_tasks_gui(MIOFILE& f, bool active_only, bool ac_updated) {
     unsigned int i;
 
     if (active_only) {
         for (i=0; i<active_tasks.active_tasks.size(); i++) {
             RESULT* rp = active_tasks.active_tasks[i]->result;
-            rp->write_gui(f);
+            if (rp) {
+                rp->write_gui(f, ac_updated);
+            }
         }
     } else {
-        for (i=0; i<results.size(); i++) {
-            RESULT* rp = results[i];
-            rp->write_gui(f);
+        for (RESULT *rp: results) {
+            rp->write_gui(f, ac_updated);
         }
     }
     return 0;
 }
 
 int CLIENT_STATE::write_file_transfers_gui(MIOFILE& f) {
-    unsigned int i;
-
     f.printf("<file_transfers>\n");
-    for (i=0; i<file_infos.size(); i++) {
-        FILE_INFO* fip = file_infos[i];
+    for (FILE_INFO* fip: file_infos) {
         if (fip->pers_file_xfer) {
             fip->write_gui(f);
         }

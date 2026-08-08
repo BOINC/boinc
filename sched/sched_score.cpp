@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -38,6 +38,7 @@
 #include "sched_shmem.h"
 #include "sched_types.h"
 #include "sched_version.h"
+#include "buda.h"
 
 #include "sched_score.h"
 
@@ -50,6 +51,10 @@ static int get_size_class(APP& app, double es) {
     return app.n_size_classes - 1;
 }
 
+JOB::JOB() {
+    memset(this, 0, sizeof(JOB));
+}
+
 // Assign a score to this job,
 // representing the value of sending the job to this host.
 // Also do some initial screening,
@@ -58,6 +63,32 @@ static int get_size_class(APP& app, double es) {
 bool JOB::get_score(int array_index) {
     WU_RESULT& wu_result = ssp->wu_results[array_index];
     score = 0;
+
+    if (config.batch_accel && app->accelerable()) {
+        // is the job high-priority?
+        //
+        if (wu_result.workunit.priority > 0) {
+            if (g_reply->host.low_turnaround()) {
+                // host is low-turnaround: boost score
+                //
+                if (config.debug_send_job) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[send_job] sending high-prio job to LTT host\n"
+                    );
+                }
+                score += 10;
+            } else {
+                // host is not low-turnaround: don't send
+                //
+                if (config.debug_send_job) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[send_job] not sending high-prio job to non-LTT host\n"
+                    );
+                }
+                return false;
+            }
+        }
+    }
 
     if (!app->beta && wu_result.need_reliable) {
         if (!bavp->reliable) {
@@ -112,7 +143,7 @@ bool JOB::get_score(int array_index) {
         }
     }
 
-    if (app->n_size_classes > 1) {
+    if (config.size_classes && app->n_size_classes > 1) {
         double effective_speed = bavp->host_usage.projected_flops * available_frac(*bavp);
         int target_size = get_size_class(*app, effective_speed);
         if (config.debug_send_job) {
@@ -149,13 +180,16 @@ bool JOB::get_score(int array_index) {
     return true;
 }
 
-bool job_compare(JOB j1, JOB j2) {
+bool job_compare(JOB &j1, JOB &j2) {
     return (j1.score > j2.score);
 }
 
 static double req_sec_save[NPROC_TYPES];
 static double req_inst_save[NPROC_TYPES];
 
+// clear requests for other resource types
+// (but save so we can restore them later)
+//
 static void clear_others(int rt) {
     for (int i=0; i<NPROC_TYPES; i++) {
         if (i == rt) continue;
@@ -194,6 +228,11 @@ void send_work_score_type(int rt) {
             "[send_scan] scanning %d slots starting at %d\n", nscan, rnd_off
         );
     }
+
+    // scan the list of available jobs.
+    // for each one that we can process using the given resource,
+    // make a JOB record (with a score).
+    //
     for (int j=0; j<nscan; j++) {
         int i = (j+rnd_off) % ssp->max_wu_results;
         WU_RESULT& wu_result = ssp->wu_results[i];
@@ -202,6 +241,7 @@ void send_work_score_type(int rt) {
         }
         WORKUNIT wu = wu_result.workunit;
         JOB job;
+
         job.app = ssp->lookup_app(wu.appid);
         if (job.app->non_cpu_intensive) {
             if (config.debug_send_job) {
@@ -212,7 +252,14 @@ void send_work_score_type(int rt) {
             }
             continue;
         }
-        job.bavp = get_app_version(wu, true, false);
+
+        // for BUDA jobs, use the CPU app version
+        // even if we're looking only for GPU work
+        //
+        bool job_is_buda = is_buda(wu);
+        bool check_rsc_request = !job_is_buda;
+
+        job.bavp = get_app_version(wu, check_rsc_request, false);
         if (!job.bavp) {
             if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
@@ -221,6 +268,19 @@ void send_work_score_type(int rt) {
                 );
             }
             continue;
+        }
+
+        // it it's a BUDA job, pick a variant using the requested resource
+        //
+        if (job_is_buda) {
+            if (!choose_buda_variant(
+                wu, rt, &(job.buda_variant), job.host_usage
+            )) {
+                continue;
+            }
+        } else {
+            job.host_usage = job.bavp->host_usage;
+            job.buda_variant = NULL;
         }
 
         job.index = i;
@@ -246,7 +306,7 @@ void send_work_score_type(int rt) {
     std::sort(jobs.begin(), jobs.end(), job_compare);
 
     bool sema_locked = false;
-    for (unsigned int i=0; i<jobs.size(); i++) {
+    for (JOB& job: jobs) {
 
         // check limit on total jobs
         //
@@ -259,7 +319,6 @@ void send_work_score_type(int rt) {
         if (!g_wreq->need_proc_type(rt)) {
             break;
         }
-        JOB& job = jobs[i];
 
         // check limits on jobs for this (app, processor type)
         //
@@ -350,7 +409,11 @@ void send_work_score_type(int rt) {
             SCHED_DB_RESULT result;
             result.id = wu_result.resultid;
             if (result_still_sendable(result, wu)) {
-                add_result_to_reply(result, wu, job.bavp, false);
+                add_result_to_reply(
+                    result, wu, job.bavp, job.host_usage,
+                    job.buda_variant,
+                    false   // locality scheduling
+                );
 
                 // add_result_to_reply() fails only in pathological cases -
                 // e.g. we couldn't update the DB record or modify XML fields.
@@ -371,6 +434,11 @@ void send_work_score_type(int rt) {
 }
 
 void send_work_score() {
+    if (config.keyword_sched) {
+        if (g_request->user_keywords.empty()) {
+            read_kw_prefs(g_request->user_id, g_request->user_keywords);
+        }
+    }
     for (int i=NPROC_TYPES-1; i>= 0; i--) {
         if (g_wreq->need_proc_type(i)) {
             send_work_score_type(i);

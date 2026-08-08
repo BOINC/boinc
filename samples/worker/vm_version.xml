@@ -1,0 +1,30 @@
+<version>
+    <file>
+        <physical_name>vboxwrapper_26207_windows_x86_64.exe</physical_name>
+        <main_program/>
+    </file>
+    <file>
+        <physical_name>worker_2_x86_64-pc-linux-gnu</physical_name>
+        <logical_name>worker</logical_name>
+    </file>
+    <file>
+        <physical_name>run_worker_1.sh</physical_name>
+        <logical_name>boinc_app</logical_name>
+        <copy_file/>
+    </file>
+    <file>
+        <physical_name>boinc_resolve_1</physical_name>
+        <logical_name>boinc_resolve</logical_name>
+        <copy_file/>
+    </file>
+    <file>
+        <physical_name>vbox_job_worker_1.xml</physical_name>
+        <logical_name>vbox_job.xml</logical_name>
+    </file>
+    <file>
+        <physical_name>vm_image_x64_1.vdi</physical_name>
+        <logical_name>vm_image.vdi</logical_name>
+    </file>
+    <dont_throttle/>
+    <is_wrapper/>
+</version>

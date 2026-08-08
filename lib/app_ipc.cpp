@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,10 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #else
 #include "config.h"
 #include <cstring>
@@ -29,8 +27,8 @@
 #include "filesys.h"
 #include "miofile.h"
 #include "parse.h"
-#include "str_replace.h"
 #include "str_util.h"
+#include "str_replace.h"
 #include "url.h"
 #include "util.h"
 
@@ -55,13 +53,14 @@ APP_INIT_DATA::APP_INIT_DATA(const APP_INIT_DATA& a) {
 
 APP_INIT_DATA &APP_INIT_DATA::operator=(const APP_INIT_DATA& a) {
     if (this != &a) {
-      copy(a);
+        copy(a);
     }
     return *this;
 }
 
 void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     safe_strcpy(app_name, a.app_name);
+    safe_strcpy(plan_class, a.plan_class);
     safe_strcpy(symstore, a.symstore);
     safe_strcpy(acct_mgr_url, a.acct_mgr_url);
     safe_strcpy(user_name, a.user_name);
@@ -73,10 +72,10 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     safe_strcpy(authenticator, a.authenticator);
     memcpy(&shmem_seg_name, &a.shmem_seg_name, sizeof(SHMEM_SEG_NAME));
     safe_strcpy(gpu_type, a.gpu_type);
-                
+
     // use assignment for the rest, especially the classes
     // (so that the overloaded operators are called!)
-    major_version               = a.major_version;               
+    major_version               = a.major_version;
     minor_version               = a.minor_version;
     release                     = a.release;
     app_version                 = a.app_version;
@@ -115,6 +114,9 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
         project_preferences = NULL;
     }
     vbox_window                 = a.vbox_window;
+    no_priority_change          = a.no_priority_change;
+    process_priority            = a.process_priority;
+    process_priority_special    = a.process_priority_special;
     app_files                   = a.app_files;
 }
 
@@ -137,8 +139,12 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.teamid,
         ai.hostid
     );
-    if (strlen(ai.app_name)) {
-        fprintf(f, "<app_name>%s</app_name>\n", ai.app_name);
+    // some strings are always present;
+    // for others, print only if present
+
+    fprintf(f, "<app_name>%s</app_name>\n", ai.app_name);
+    if (strlen(ai.plan_class)) {
+        fprintf(f, "<plan_class>%s</plan_class>\n", ai.plan_class);
     }
     if (strlen(ai.symstore)) {
         fprintf(f, "<symstore>%s</symstore>\n", ai.symstore);
@@ -157,21 +163,11 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         xml_escape(ai.user_name, buf, sizeof(buf));
         fprintf(f, "<user_name>%s</user_name>\n", buf);
     }
-    if (strlen(ai.project_dir)) {
-        fprintf(f, "<project_dir>%s</project_dir>\n", ai.project_dir);
-    }
-    if (strlen(ai.boinc_dir)) {
-        fprintf(f, "<boinc_dir>%s</boinc_dir>\n", ai.boinc_dir);
-    }
-    if (strlen(ai.authenticator)) {
-        fprintf(f, "<authenticator>%s</authenticator>\n", ai.authenticator);
-    }
-    if (strlen(ai.wu_name)) {
-        fprintf(f, "<wu_name>%s</wu_name>\n", ai.wu_name);
-    }
-    if (strlen(ai.result_name)) {
-        fprintf(f, "<result_name>%s</result_name>\n", ai.result_name);
-    }
+    fprintf(f, "<project_dir>%s</project_dir>\n", ai.project_dir);
+    fprintf(f, "<boinc_dir>%s</boinc_dir>\n", ai.boinc_dir);
+    fprintf(f, "<authenticator>%s</authenticator>\n", ai.authenticator);
+    fprintf(f, "<wu_name>%s</wu_name>\n", ai.wu_name);
+    fprintf(f, "<result_name>%s</result_name>\n", ai.result_name);
 #ifdef _WIN32
     if (strlen(ai.shmem_seg_name)) {
         fprintf(f, "<comm_obj_name>%s</comm_obj_name>\n", ai.shmem_seg_name);
@@ -204,7 +200,10 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<rsc_memory_bound>%f</rsc_memory_bound>\n"
         "<rsc_disk_bound>%f</rsc_disk_bound>\n"
         "<computation_deadline>%f</computation_deadline>\n"
-        "<vbox_window>%d</vbox_window>\n",
+        "<vbox_window>%d</vbox_window>\n"
+        "<no_priority_change>%d</no_priority_change>\n"
+        "<process_priority>%d</process_priority>\n"
+        "<process_priority_special>%d</process_priority_special>\n",
         ai.slot,
         ai.client_pid,
         ai.wu_cpu_time,
@@ -229,15 +228,20 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.rsc_memory_bound,
         ai.rsc_disk_bound,
         ai.computation_deadline,
-        ai.vbox_window
+        ai.vbox_window,
+        ai.no_priority_change?1:0,
+        ai.process_priority,
+        ai.process_priority_special
     );
     MIOFILE mf;
     mf.init_file(f);
     ai.host_info.write(mf, true, true);
-    ai.proxy_info.write(mf);
+    if (ai.proxy_info.using_proxy()) {
+        ai.proxy_info.write(mf);
+    }
     ai.global_prefs.write(mf);
-    for (unsigned int i=0; i<ai.app_files.size(); i++) {
-        fprintf(f, "<app_file>%s</app_file>\n", ai.app_files[i].c_str());
+    for (const string &s: ai.app_files) {
+        fprintf(f, "<app_file>%s</app_file>\n", s.c_str());
     }
     fprintf(f, "</app_init_data>\n");
     return 0;
@@ -248,20 +252,21 @@ void APP_INIT_DATA::clear() {
     minor_version = 0;
     release = 0;
     app_version = 0;
-    safe_strcpy(app_name, "");
-    safe_strcpy(symstore, "");
-    safe_strcpy(acct_mgr_url, "");
+    app_name[0] = 0;
+    plan_class[0] = 0;
+    symstore[0] = 0;
+    acct_mgr_url[0] = 0;
     project_preferences = NULL;
     userid = 0;
     teamid = 0;
     hostid = 0;
-    safe_strcpy(user_name, "");
-    safe_strcpy(team_name, "");
-    safe_strcpy(project_dir, "");
-    safe_strcpy(boinc_dir, "");
-    safe_strcpy(wu_name, "");
-    safe_strcpy(result_name, "");
-    safe_strcpy(authenticator, "");
+    user_name[0] = 0;
+    team_name[0] = 0;
+    project_dir[0] = 0;
+    boinc_dir[0] = 0;
+    wu_name[0] = 0;
+    result_name[0] = 0;
+    authenticator[0] = 0;
     slot = 0;
     client_pid = 0;
     user_total_credit = 0;
@@ -285,7 +290,7 @@ void APP_INIT_DATA::clear() {
     checkpoint_period = 0;
     // gpu_type is an empty string for client versions before 6.13.3 without this
     // field or (on newer clients) if BOINC did not assign an OpenCL GPU to task.
-    safe_strcpy(gpu_type, "");
+    gpu_type[0] = 0;
     // gpu_device_num < 0 for client versions before 6.13.3 without this field
     // or (on newer clients) if BOINC did not assign an OpenCL GPU to task.
     gpu_device_num = -1;
@@ -297,6 +302,9 @@ void APP_INIT_DATA::clear() {
     memset(&shmem_seg_name, 0, sizeof(shmem_seg_name));
     wu_cpu_time = 0;
     vbox_window = false;
+    no_priority_change = false;
+    process_priority = -1;
+    process_priority_special = -1;
 }
 
 int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
@@ -355,6 +363,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_int("release", ai.release)) continue;
         if (xp.parse_int("app_version", ai.app_version)) continue;
         if (xp.parse_str("app_name", ai.app_name, sizeof(ai.app_name))) continue;
+        if (xp.parse_str("plan_class", ai.plan_class, sizeof(ai.plan_class))) continue;
         if (xp.parse_str("symstore", ai.symstore, sizeof(ai.symstore))) continue;
         if (xp.parse_str("acct_mgr_url", ai.acct_mgr_url, sizeof(ai.acct_mgr_url))) continue;
         if (xp.parse_int("userid", ai.userid)) continue;
@@ -403,6 +412,9 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_double("fraction_done_start", ai.fraction_done_start)) continue;
         if (xp.parse_double("fraction_done_end", ai.fraction_done_end)) continue;
         if (xp.parse_bool("vbox_window", ai.vbox_window)) continue;
+        if (xp.parse_bool("no_priority_change", ai.no_priority_change)) continue;
+        if (xp.parse_int("process_priority", ai.process_priority)) continue;
+        if (xp.parse_int("process_priority_special", ai.process_priority_special)) continue;
         xp.skip_unexpected(false, "parse_init_data_file");
     }
     fprintf(stderr, "%s: parse_init_data_file: no end tag\n",
@@ -437,15 +449,15 @@ void APP_CLIENT_SHM::reset_msgs() {
     memset(shm, 0, sizeof(SHARED_MEM));
 }
 
-// Resolve virtual name (in slot dir) to physical path (in project dir).
-// Cases:
-// - Windows and pre-6.12 Unix:
-//   virtual name refers to a "soft link" (XML file acting as symbolic link)
-// - 6.12+ Unix:
-//   virtual name is a symbolic link
-// - Standalone: physical path is same as virtual name
+void url_to_project_dir(char* url, char* dir, int dirsize) {
+    char buf[256];
+    escape_project_url(url, buf);
+    snprintf(dir, dirsize, "%s/%s", PROJECT_DIR, buf);
+}
+
+// this is here because it's called (once) in the Manager
 //
-int boinc_resolve_filename(
+int resolve_soft_link(
     const char *virtual_name, char *physical_name, int len
 ) {
     FILE *fp;
@@ -474,61 +486,6 @@ int boinc_resolve_filename(
     // If it's the <soft_link> XML tag, return its value,
     // otherwise, return the original file name
     //
-    // coverity[check_return]
     if (p) parse_str(buf, "<soft_link>", physical_name, len);
     return 0;
 }
-
-
-// same, std::string version
-//
-int boinc_resolve_filename_s(const char *virtual_name, string& physical_name) {
-    char buf[512], *p;
-    if (!virtual_name) return ERR_NULL;
-    physical_name = virtual_name;
-#ifndef _WIN32
-    if (is_symlink(virtual_name)) {
-        return 0;
-    }
-#endif
-    FILE *fp = boinc_fopen(virtual_name, "r");
-    if (!fp) return 0;
-    buf[0] = 0;
-    p = fgets(buf, 512, fp);
-    fclose(fp);
-    // coverity[check_return]
-    if (p) parse_str(buf, "<soft_link>", physical_name);
-    return 0;
-}
-
-// if the given file is a soft link of the form ../../project_dir/x,
-// return x, else return empty string
-//
-string resolve_soft_link(const char* project_dir, const char* file) {
-    char buf[1024], physical_name[1024];
-    FILE* fp = boinc_fopen(file, "r");
-    if (!fp) {
-        return string("");
-    }
-    buf[0] = 0;
-    char* p = fgets(buf, sizeof(buf), fp);
-    fclose(fp);
-    if (!p) {
-        return string("");
-    }
-    if (!parse_str(buf, "<soft_link>", physical_name, sizeof(physical_name))) {
-        return string("");
-    }
-    snprintf(buf, sizeof(buf), "../../%s/", project_dir);
-    if (strstr(physical_name, buf) != physical_name) {
-        return string("");
-    }
-    return string(physical_name + strlen(buf));
-}
-
-void url_to_project_dir(char* url, char* dir, int dirsize) {
-    char buf[256];
-    escape_project_url(url, buf);
-    snprintf(dir, dirsize, "%s/%s", PROJECT_DIR, buf);
-}
-

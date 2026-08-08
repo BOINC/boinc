@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,12 +22,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-
-#include "config.h"
+#ifdef __APPLE__
+#include <xlocale.h>
+#endif
 
 #include "miofile.h"
 #include "error_numbers.h"
 #include "str_util.h"
+
+extern bool boinc_is_finite(double);
+    // avoid including util.h (kludge)
 
 // see parse_test.cpp for example usage of XML_PARSER
 
@@ -269,8 +273,6 @@ struct XML_PARSER {
     }
 };
 
-extern bool boinc_is_finite(double);
-
 /////////////// START DEPRECATED XML PARSER
 // Deprecated because it makes assumptions about
 // the format of the XML being parsed
@@ -287,29 +289,7 @@ inline bool match_tag(const std::string &s, const char* tag) {
     return match_tag(s.c_str(), tag);
 }
 
-#if defined(_WIN32) && !defined(__MINGW32__)
-#define boinc_strtoull _strtoui64
-#else
-#if defined(HAVE_STRTOULL) || defined(__MINGW32__)
-#define boinc_strtoull strtoull
-#else
-inline unsigned long long boinc_strtoull(const char *s, char **, int) {
-    char buf[64];
-    char *p;
-    unsigned long long y;
-    strncpy(buf, s, sizeof(buf)-1);
-    strip_whitespace(buf);
-    p = strstr(buf, "0x");
-    if (!p) p = strstr(buf, "0X");
-    if (p) {
-        sscanf(p, "%llx", &y);
-    } else {
-        sscanf(buf, "%llu", &y);
-    }
-    return y;
-}
-#endif
-#endif
+extern unsigned long long boinc_strtoull(const char *, char **, int);
 
 // parse an integer of the form <tag>1234</tag>
 // return true if it's there
@@ -319,9 +299,9 @@ inline bool parse_int(const char* buf, const char* tag, int& x) {
     const char* p = strstr(buf, tag);
     if (!p) return false;
     errno = 0;
-    int y = strtol(p+strlen(tag), 0, 0);        // this parses 0xabcd correctly
+    long y = strtol(p+strlen(tag), 0, 0);        // this parses 0xabcd correctly
     if (errno) return false;
-    x = y;
+    x = (int)y;
     return true;
 }
 
@@ -332,7 +312,12 @@ inline bool parse_double(const char* buf, const char* tag, double& x) {
     const char* p = strstr(buf, tag);
     if (!p) return false;
     errno = 0;
+#if (defined(__APPLE__) && defined(BUILDING_MANAGER))
+// MacOS 13.3.1 apparently broke per-thread locale uselocale()
+    y = strtod_l(p+strlen(tag), NULL, LC_C_LOCALE);
+#else
     y = strtod(p+strlen(tag), NULL);
+#endif
     if (errno) return false;
     if (!boinc_is_finite(y)) {
         return false;

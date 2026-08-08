@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,25 +20,19 @@
 // Try to keep this well-organized and not nested.
 
 #include "version.h"         // version numbers from autoconf
-
 #include "cpp.h"
 #include "config.h"
 
 #if !defined(_WIN32) || defined(__CYGWIN32__)
 
-// Access to binary files in /proc filesystem doesn't work in the 64bit
-// files environment on some systems.
-// None of the functions here need 64bit file functions,
-// so undefine _FILE_OFFSET_BITS and _LARGE_FILES.
-//
-#undef _FILE_OFFSET_BITS
-#undef _LARGE_FILES
-#undef _LARGEFILE_SOURCE
-#undef _LARGEFILE64_SOURCE
 #include <iostream>
 #include <vector>
 #include <string>
 #include <cstring>
+#endif
+
+#ifdef __GLIBC__
+#include <gnu/libc-version.h>
 #endif
 
 #if HAVE_XSS
@@ -46,16 +40,21 @@
 // prevents naming collision between X.h define of Always and boinc's
 // lib/prefs.h definition in an enum.
 #undef Always
-#include <dirent.h> //for opening /tmp/.X11-unix/
-  // (There is a DirScanner class in BOINC, but it doesn't do what we want)
 #include "log_flags.h" // idle_detection_debug flag for verbose output
+#endif
+
+#if LINUX_LIKE_SYSTEM
+#include <dirent.h> //for opening /tmp/.X11-unix/ and /run/user/
+  // (There is a DirScanner class in BOINC, but it doesn't do what we want)
 #endif
 
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
 #include <sys/param.h>
 
 #if HAVE_SYS_TYPES_H
@@ -70,8 +69,6 @@
 #if HAVE_SYS_VMMETER_H
 #include <sys/vmmeter.h>
 #endif
-
-#include <sys/stat.h>
 
 #if HAVE_SYS_SWAP_H
 #include <sys/swap.h>
@@ -105,9 +102,14 @@
 #include "win/opt_x86.h"
 #endif
 
+#ifdef ARMV6
+#include <sys/wait.h>
+#endif
+
 #include "error_numbers.h"
 #include "common_defs.h"
 #include "filesys.h"
+#include "shmem.h"
 #include "str_util.h"
 #include "str_replace.h"
 #include "util.h"
@@ -118,11 +120,21 @@
 #include "hostinfo.h"
 
 using std::string;
+using std::min;
 
 #ifdef __APPLE__
+#include "sandbox.h"
 #include <IOKit/IOKitLib.h>
 #include <Carbon/Carbon.h>
 #include <CoreFoundation/CoreFoundation.h>
+#include <sys/types.h>
+#include <sys/sysctl.h>
+#include <mach-o/loader.h>
+#include <mach-o/fat.h>
+#include <mach/machine.h>
+#include <libkern/OSByteOrder.h>
+
+extern int compareOSVersionTo(int toMajor, int toMinor);
 
 #ifdef __cplusplus
 extern "C" {
@@ -134,6 +146,7 @@ extern "C" {
 
 #include <dlfcn.h>
 #endif
+int podman_init_pid = 0;
 #endif  // __APPLE__
 
 #ifdef _HPUX_SOURCE
@@ -222,11 +235,11 @@ bool HOST_INFO::host_is_running_on_batteries() {
 
 #elif LINUX_LIKE_SYSTEM
     static enum {
-      Detect,
-      ProcAPM,
-      ProcACPI,
-      SysClass,
-      NoBattery
+        Detect,
+        ProcAPM,
+        ProcACPI,
+        SysClass,
+        NoBattery
     } method = Detect;
     static char path[64] = "";
 
@@ -281,8 +294,11 @@ bool HOST_INFO::host_is_running_on_batteries() {
             );
             fsys = fopen(path, "r");
             if (!fsys) continue;
-            (void) fgets(buf, sizeof(buf), fsys);
+            char *p = fgets(buf, sizeof(buf), fsys);
             fclose(fsys);
+            if (p == NULL) {
+                break;
+            }
             // AC adapters have type "Mains"
             if ((strstr(buf, "mains") != NULL) || (strstr(buf, "Mains") != NULL)) {
                 method = SysClass;
@@ -314,7 +330,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
             int     apm_ac_line_status=1;
 
             // supposedly we're on batteries if the 5th entry is zero.
-            (void) fscanf(fapm, "%10s %d.%d %x %x",
+            int n = fscanf(fapm, "%10s %d.%d %x %x",
                 apm_driver_version,
                 &apm_major_version,
                 &apm_minor_version,
@@ -323,6 +339,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
             );
 
             fclose(fapm);
+            if (n != 5) return false;
 
             return (apm_ac_line_status == 0);
         }
@@ -333,13 +350,15 @@ bool HOST_INFO::host_is_running_on_batteries() {
             if (!facpi) return false;
 
             char buf[128];
-            (void) fgets(buf, sizeof(buf), facpi);
+            char *p = fgets(buf, sizeof(buf), facpi);
 
             fclose(facpi);
+            if (p == NULL) return false;
 
-            if ((strstr(buf, "state:") != NULL) || (strstr(buf, "Status:") != NULL))
+            if ((strstr(buf, "state:") != NULL) || (strstr(buf, "Status:") != NULL)) {
                 // on batteries if ac adapter is "off-line" (or maybe "offline")
                 return (strstr(buf, "off") != NULL);
+            }
 
             return false;
         }
@@ -350,8 +369,9 @@ bool HOST_INFO::host_is_running_on_batteries() {
             if (!fsys) return false;
 
             int online;
-            (void) fscanf(fsys, "%d", &online);
+            int n = fscanf(fsys, "%d", &online);
             fclose(fsys);
+            if (n != 1) return false;
 
             // online is 1 if on AC power, 0 if on battery
             return (0 == online);
@@ -374,10 +394,12 @@ bool HOST_INFO::host_is_running_on_batteries() {
         for (devn = 0;; devn++) {
             mib[2] = devn;
             if (sysctl(mib, 3, &snsrdev, &sdlen, NULL, 0) == -1) {
-                if (errno == ENXIO)
+                if (errno == ENXIO) {
                     continue;
-                if (errno == ENOENT)
+                }
+                if (errno == ENOENT) {
                     break;
+                }
             }
             if (!strcmp("acpiac0", snsrdev.xname)) {
                 break;
@@ -388,11 +410,12 @@ bool HOST_INFO::host_is_running_on_batteries() {
     }
 
     if (sysctl(mib, 5, &s, &slen, NULL, 0) != -1) {
-        if (s.value)
+        if (s.value) {
             // AC present
             return false;
-        else
+        } else {
             return true;
+        }
     }
 
     return false;
@@ -401,11 +424,12 @@ bool HOST_INFO::host_is_running_on_batteries() {
     size_t len = sizeof(ac);
 
     if (sysctlbyname("hw.acpi.acline", &ac, &len, NULL, 0) != -1) {
-        if (ac)
+        if (ac) {
             // AC present
             return false;
-        else
+        } else {
             return true;
+        }
     }
 
     return false;
@@ -447,7 +471,7 @@ static void parse_meminfo_linux(HOST_INFO& host) {
 // See http://people.nl.linux.org/~hch/cpuinfo/ for some examples.
 //
 static void parse_cpuinfo_linux(HOST_INFO& host) {
-    char buf[1024], features[1024], model_buf[1024];
+    char buf[P_FEATURES_SIZE], features[P_FEATURES_SIZE], model_buf[1024];
     bool vendor_found=false, model_found=false;
     bool cache_found=false, features_found=false;
     bool model_hack=false, vendor_hack=false;
@@ -489,7 +513,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 
     host.m_cache=-1;
     safe_strcpy(features, "");
-    while (fgets(buf, 1024, f)) {
+    while (fgets(buf, sizeof(buf), f)) {
         strip_whitespace(buf);
         if (
                 /* there might be conflicts if we dont #ifdef */
@@ -521,12 +545,11 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 
 #if defined(__aarch64__) || defined(__arm__)
         if (
-            // Hardware is specifying the board this CPU is on, store it in product_name while we parse /proc/cpuinfo
+            // Hardware is specifying the board this CPU is on,
+            // store it in product_name while we parse /proc/cpuinfo
             strstr(buf, "Hardware\t: ")
         ) {
-            // this makes sure we only ever copy as much bytes as we can still store in host.product_name
-            int t = sizeof(host.product_name) - strlen(host.product_name) - 2;
-            strlcpy(buf2, strchr(buf, ':') + 2, ((t<sizeof(buf2))?t:sizeof(buf2)));
+            strlcpy(buf2, strchr(buf, ':') + 2, sizeof(buf2));
             strip_whitespace(buf2);
             if (strlen(host.product_name)) {
                 safe_strcat(host.product_name, " ");
@@ -665,15 +688,15 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
     if (family>=0 || model>=0 || stepping>0) {
         safe_strcat(model_buf, " [");
         if (family>=0) {
-            sprintf(buf, "Family %d ", family);
+            snprintf(buf, sizeof(buf), "Family %d ", family);
             safe_strcat(model_buf, buf);
         }
         if (model>=0) {
-            sprintf(buf, "Model %d ", model);
+            snprintf(buf, sizeof(buf), "Model %d ", model);
             safe_strcat(model_buf, buf);
         }
         if (stepping>=0) {
-            sprintf(buf, "Stepping %d", stepping);
+            snprintf(buf, sizeof(buf), "Stepping %d", stepping);
             safe_strcat(model_buf, buf);
         }
         safe_strcat(model_buf, "]");
@@ -682,23 +705,23 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
     if (model_info_found) {
         safe_strcat(model_buf, " [");
         if (strlen(implementer)>0) {
-            sprintf(buf, "Impl %s ", implementer);
+            snprintf(buf, sizeof(buf), "Impl %s ", implementer);
             safe_strcat(model_buf, buf);
         }
         if (strlen(architecture)>0) {
-            sprintf(buf, "Arch %s ", architecture);
+            snprintf(buf, sizeof(buf), "Arch %s ", architecture);
             safe_strcat(model_buf, buf);
         }
         if (strlen(variant)>0) {
-            sprintf(buf, "Variant %s ", variant);
+            snprintf(buf, sizeof(buf), "Variant %s ", variant);
             safe_strcat(model_buf, buf);
         }
         if (strlen(cpu_part)>0) {
-            sprintf(buf, "Part %s ", cpu_part);
+            snprintf(buf, sizeof(buf), "Part %s ", cpu_part);
             safe_strcat(model_buf, buf);
         }
         if (strlen(revision)>0) {
-            sprintf(buf, "Rev %s", revision);
+            snprintf(buf, sizeof(buf), "Rev %s", revision);
             safe_strcat(model_buf, buf);
         }
         safe_strcat(model_buf, "]");
@@ -717,11 +740,14 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 #include <sys/types.h>
 #include <sys/cdefs.h>
 #include <machine/cpufunc.h>
+#include <machine/specialreg.h>
 
 void use_cpuid(HOST_INFO& host) {
     u_int p[4];
+    u_int cpu_id;
+    char vendor[13];
     int hasMMX, hasSSE, hasSSE2, hasSSE3, has3DNow, has3DNowExt, hasAVX;
-    char capabilities[256];
+    char capabilities[P_FEATURES_SIZE];
 
     hasMMX = hasSSE = hasSSE2 = hasSSE3 = has3DNow = has3DNowExt = hasAVX = 0;
     do_cpuid(0x0, p);
@@ -730,6 +756,11 @@ void use_cpuid(HOST_INFO& host) {
 
         do_cpuid(0x1, p);
 
+        cpu_id = p[0];
+        memcpy(vendor, &p[1], 4);   // copy EBX
+        memcpy(vendor+4, &p[3], 4); // copy EDX
+        memcpy(vendor+8, &p[2], 4); // copy ECX
+        vendor[12] = '\0';
         hasMMX  = (p[3] & (1 << 23 )) >> 23; // 0x0800000
         hasSSE  = (p[3] & (1 << 25 )) >> 25; // 0x2000000
         hasSSE2 = (p[3] & (1 << 26 )) >> 26; // 0x4000000
@@ -755,10 +786,12 @@ void use_cpuid(HOST_INFO& host) {
     if (hasAVX) safe_strcat(capabilities, "avx ");
     strip_whitespace(capabilities);
     char buf[1024];
-    snprintf(buf, sizeof(buf), "%s [] [%s]",
-        host.p_model, capabilities
+    snprintf(buf, sizeof(buf), " [Family %u Model %u Stepping %u]",
+        CPUID_TO_FAMILY(cpu_id), CPUID_TO_MODEL(cpu_id), cpu_id & CPUID_STEPPING
     );
     strlcat(host.p_model, buf, sizeof(host.p_model));
+    safe_strcpy(host.p_features, capabilities);
+    safe_strcpy(host.p_vendor, vendor);
 }
 #endif
 #endif
@@ -767,30 +800,118 @@ void use_cpuid(HOST_INFO& host) {
 static void get_cpu_info_mac(HOST_INFO& host) {
     int p_model_size = sizeof(host.p_model);
     size_t len;
-#if defined(__i386__) || defined(__x86_64__)
     char brand_string[256];
-    char features[sizeof(host.p_features)];
+    char features[P_FEATURES_SIZE];
     char *p;
     char *sep=" ";
-    int family, stepping, model;
-
-    len = sizeof(host.p_vendor);
-    sysctlbyname("machdep.cpu.vendor", host.p_vendor, &len, NULL, 0);
 
     len = sizeof(brand_string);
     sysctlbyname("machdep.cpu.brand_string", brand_string, &len, NULL, 0);
 
-    len = sizeof(family);
-    sysctlbyname("machdep.cpu.family", &family, &len, NULL, 0);
+#if defined(__i386__) || defined(__x86_64__)
 
-    len = sizeof(model);
-    sysctlbyname("machdep.cpu.model", &model, &len, NULL, 0);
+    int family, stepping, model;
 
-    len = sizeof(stepping);
-    sysctlbyname("machdep.cpu.stepping", &stepping, &len, NULL, 0);
+    // on an Apple M1 chip the cpu.vendor is broken, family, model and stepping don't exist
+    if (!strncmp(brand_string, "Apple M", strlen("Apple M"))) {
+
+        strcpy(host.p_vendor, "Apple");
+        strncpy(host.p_model, brand_string, sizeof(host.p_model));
+
+    } else {
+
+        len = sizeof(host.p_vendor);
+        sysctlbyname("machdep.cpu.vendor", host.p_vendor, &len, NULL, 0);
+
+        len = sizeof(family);
+        sysctlbyname("machdep.cpu.family", &family, &len, NULL, 0);
+
+        len = sizeof(model);
+        sysctlbyname("machdep.cpu.model", &model, &len, NULL, 0);
+
+        len = sizeof(stepping);
+        sysctlbyname("machdep.cpu.stepping", &stepping, &len, NULL, 0);
+
+        snprintf(
+            host.p_model, sizeof(host.p_model),
+            "%s [x86 Family %d Model %d Stepping %d]",
+            brand_string, family, model, stepping
+        );
+    }
 
     len = sizeof(features);
     sysctlbyname("machdep.cpu.features", features, &len, NULL, 0);
+
+#else // defined(__i386__) || defined(__x86_64__)
+
+    int feature;
+    string feature_string;
+
+    strcpy(host.p_vendor, "Apple");
+    strncpy(host.p_model, brand_string, sizeof(host.p_model));
+
+    features[0] = '\0';
+    len = sizeof(feature);
+    feature_string="";
+
+    sysctlbyname("hw.optional.amx_version", &feature, &len, NULL, 0);
+    snprintf(features, sizeof(features), "amx_version_%d", feature);
+    feature_string += features;
+
+    sysctlbyname("hw.optional.arm64", &feature, &len, NULL, 0);
+    if (feature) feature_string += " arm64";
+
+    sysctlbyname("hw.optional.armv8_1_atomics", &feature, &len, NULL, 0);
+    if (feature) feature_string += " armv8_1_atomics";
+
+    sysctlbyname("hw.optional.armv8_2_fhm", &feature, &len, NULL, 0);
+    if (feature) feature_string += " armv8_2_fhm";
+
+    sysctlbyname("hw.optional.armv8_2_sha3", &feature, &len, NULL, 0);
+    if (feature) feature_string += " armv8_2_sha3";
+
+    sysctlbyname("hw.optional.armv8_2_sha512", &feature, &len, NULL, 0);
+    if (feature) feature_string += " armv8_2_sha512";
+
+    sysctlbyname("hw.optional.armv8_crc32", &feature, &len, NULL, 0);
+    if (feature) feature_string += " armv8_crc32";
+
+    sysctlbyname("hw.optional.floatingpoint", &feature, &len, NULL, 0);
+    if (feature) feature_string += " floatingpoint";
+
+    sysctlbyname("hw.optional.neon", &feature, &len, NULL, 0);
+    if (feature) feature_string += " neon";
+
+    sysctlbyname("hw.optional.neon_fp16", &feature, &len, NULL, 0);
+    if (feature) feature_string += " neon_fp16";
+
+    sysctlbyname("hw.optional.neon_hpfp", &feature, &len, NULL, 0);
+    if (feature) feature_string += " neon_hpfp";
+
+    sysctlbyname("hw.optional.ucnormal_mem", &feature, &len, NULL, 0);
+    if (feature) feature_string += " ucnormal_mem";
+
+    // read features of the emulated CPU if there is a file containing these
+    char fpath[MAXPATHLEN];
+    boinc_getcwd(fpath);
+    strcat(fpath,"/");
+    strcat(fpath,EMULATED_CPU_INFO_FILENAME);
+    if (boinc_file_exists(fpath)) {
+        FILE* fp = boinc_fopen(fpath, "r");
+        if (fp) {
+            fgets(features, sizeof(features), fp);
+	    feature_string += features;
+            fclose(fp);
+        } else if (log_flags.coproc_debug) {
+            msg_printf(0, MSG_INFO, "[x86_64-M1] couldn't open file %s", fpath);
+        }
+    } else if (log_flags.coproc_debug) {
+        msg_printf(0, MSG_INFO, "[x86_64-M1] didn't find file %s", fpath);
+    }
+
+    strncpy(features,feature_string.c_str(),sizeof(features));
+
+#endif // defined(__i386__) || defined(__x86_64__)
 
     // Convert Mac CPU features string to match that returned by Linux
     for(p=features; *p; p++) {
@@ -812,29 +933,6 @@ static void get_cpu_info_mac(HOST_INFO& host) {
             safe_strcat(host.p_features, p);
         }
     }
-
-    snprintf(
-        host.p_model, sizeof(host.p_model),
-        "%s [x86 Family %d Model %d Stepping %d]",
-        brand_string, family, model, stepping
-    );
-#else       // PowerPC
-    char model[256];
-    int response = 0;
-    int retval;
-    len = sizeof(response);
-    retval = sysctlbyname("hw.optional.altivec", &response, &len, NULL, 0);
-    if (response && (!retval)) {
-        safe_strcpy(host.p_features, "AltiVec");
-    }
-
-    len = sizeof(model);
-    sysctlbyname("hw.model", model, &len, NULL, 0);
-
-    safe_strcpy(host.p_vendor, "Power Macintosh");
-    snprintf(host.p_model, p_model_size, "%s [%s Model %s] [%s]", host.p_vendor, host.p_vendor, model, host.p_features);
-
-#endif
 
     host.p_model[p_model_size-1] = 0;
 
@@ -872,20 +970,24 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
     }
 
     snprintf(host.p_vendor, sizeof(host.p_vendor), "%.12s",
-        cpuInfo.eax_0.vendor_id);
+        cpuInfo.eax_0.vendor_id
+    );
 
     maxStandardFunction = cpuInfo.eax_0.max_eax;
-    if (maxStandardFunction >= 500)
-        maxStandardFunction = 0; /* old Pentium sample chips has
-                                    cpu signature here */
+    if (maxStandardFunction >= 500) {
+        // old Pentium sample chips has cpu signature here
+        maxStandardFunction = 0;
+    }
 
-    /* Extended cpuid */
+    // Extended cpuid
     get_cpuid(&cpuInfo, 0x80000000, cpu);
 
     // extended cpuid is only supported if max_eax is greater
     // than the service id
-    if (cpuInfo.eax_0.max_eax > 0x80000000)
+    //
+    if (cpuInfo.eax_0.max_eax > 0x80000000) {
         maxExtendedFunction = cpuInfo.eax_0.max_eax & 0xff;
+    }
 
     if (maxExtendedFunction >=4 ) {
         char buffer[49];
@@ -907,8 +1009,9 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
 
         // cut off leading spaces (names are right aligned)
         name = buffer;
-        while (name[0] == ' ')
+        while (name[0] == ' ') {
             name++;
+        }
 
         // the BIOS may not have set the processor name
         if (name[0]) {
@@ -916,7 +1019,8 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
         } else {
             // Intel CPUs don't seem to have the genuine vendor field
             snprintf(brand_string, sizeof(brand_string), "%.12s",
-                cpuInfo.eax_0.vendor_id);
+                cpuInfo.eax_0.vendor_id
+            );
         }
     }
 
@@ -940,7 +1044,8 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
 
     snprintf(host.p_model, sizeof(host.p_model),
         "%s [Family %u Model %u Stepping %u]", brand_string, family, model,
-        stepping);
+        stepping
+    );
 
     static const char *kFeatures[32] = {
         "fpu", "vme", "de", "pse",
@@ -955,12 +1060,13 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
 
     int32 found = 0;
     int32 i;
-    char buf[12];
+    char buf[256];
 
     for (i = 0; i < 32; i++) {
         if ((cpuInfo.eax_1.features & (1UL << i)) && kFeatures[i] != NULL) {
             snprintf(buf, sizeof(buf), "%s%s", found == 0 ? "" : " ",
-                kFeatures[i]);
+                kFeatures[i]
+            );
             strlcat(host.p_features, buf, sizeof(host.p_features));
             found++;
         }
@@ -979,7 +1085,8 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
             if ((cpuInfo.eax_1.extended_features & (1UL << i)) &&
                 kFeatures2[i] != NULL) {
                 snprintf(buf, sizeof(buf), "%s%s", found == 0 ? "" : " ",
-                    kFeatures2[i]);
+                    kFeatures2[i]
+                );
                 strlcat(host.p_features, buf, sizeof(host.p_features));
                 found++;
             }
@@ -1109,8 +1216,196 @@ int HOST_INFO::get_virtualbox_version() {
             pclose(fd);
         }
     }
-
     return 0;
+}
+
+#ifdef __APPLE__
+// called after podman init process finishes.
+// check if the VM is running
+//
+bool HOST_INFO::is_podman_VM_running() {
+    char cmd[1024], buf[256];
+
+    snprintf(cmd, sizeof(cmd), "%s machine list",
+        docker_cli_prog(PODMAN)
+    );
+    FILE* f = popen(cmd, "r");
+    if (!f) return false;
+    bool isrunning = false;
+    while (fgets(buf, sizeof(buf), f)) {
+        if (strcasestr(buf, "running")) {
+            isrunning = true;
+            break;
+        }
+    }
+    pclose(f);
+    return isrunning;
+}
+#endif
+
+// check if docker/podman is installed and functional on this host.
+// if so, populate docker_version and return true
+//
+bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
+    char cmd[1024], buf[256];
+
+#ifdef __APPLE__
+    if (docker_cli_prog(type)[0] == '\0') {
+        return false;
+    }
+#endif
+    snprintf(cmd, sizeof(cmd), "%s --version 2>/dev/null",
+        docker_cli_prog(type)
+    );
+    FILE* f = popen(cmd, "r");
+    if (!f) return false;
+    // normally the version is on the first line,
+    // but it's on the 2nd line if using podman-docker
+    //
+    bool found = false;
+    while (fgets(buf, sizeof(buf), f)) {
+        string version;
+        if (get_docker_version_string(type, buf, version)) {
+            safe_strcpy(docker_version, version.c_str());
+            found = true;
+            break;
+        }
+    }
+    pclose(f);
+    if (!found) return false;
+
+#ifdef __APPLE__
+    // download (if not there) and start QEMU VM
+    if (type == PODMAN) {
+        snprintf(cmd, sizeof(cmd),
+            "%s machine init -v /Library:/Library; %s machine start",
+            docker_cli_prog(type),
+            docker_cli_prog(type)
+        );
+        char * argv[4];
+        argv[0] = "sh";
+        argv[1] = "-c";
+        argv[2] = cmd;
+        argv[3] = NULL;
+        run_program(NULL, "/bin/sh", 0, argv, podman_init_pid);
+        podman_inited = false;
+
+#if 0   // For debugging
+        snprintf(cmd, sizeof(cmd),
+                 "%s machine list",
+            docker_cli_prog(type)
+        );
+        // fprintf(stderr, "\ncmd = %s\n\n", cmd);   // For debugging
+        f = popen(cmd, "r");
+        if (f) {
+            char buf[256];
+            while (fgets(buf, sizeof(buf), f)) {
+                fprintf(stderr, "podman machine list returned: %s\n", buf);
+            }
+        }
+        pclose(f);
+#endif
+    }
+#endif  // __APPLE__
+
+#ifdef __linux__
+    // if we're running as an unprivileged user, Docker/Podman may not work.
+    // Check by running the Hello World image.
+    //
+    // Since we do this every time on startup: delete the created container
+    // but don't delete the image.
+    //
+    snprintf(cmd, sizeof(cmd),
+        "%s run --rm hello-world 2>/dev/null",
+        docker_cli_prog(type)
+    );
+    found = false;
+    f = popen(cmd, "r");
+    if (f) {
+        while (fgets(buf, sizeof(buf), f)) {
+            if (strstr(buf, "Hello")) {
+                found = true;
+                break;
+            }
+        }
+        pclose(f);
+    }
+    if (!found) {
+        msg_printf(NULL, MSG_INFO,
+            "%s found but 'hello-world' test failed",
+            docker_type_str(type)
+        );
+        docker_version[0] = 0;
+        return false;
+    }
+#endif
+    return true;
+}
+
+bool HOST_INFO::get_docker_version(){
+    bool check_podman = true;
+#ifdef __linux__
+    // podman doesn't work on Linux with remote FS
+    bool remote;
+    int retval = is_filesystem_remote(".", remote);
+    if (!retval && remote) {
+        check_podman = false;
+        msg_printf(NULL, MSG_INFO, "Data dir is remote: not checking podman");
+    }
+#endif
+
+    if (check_podman) {
+        if (get_docker_version_aux(PODMAN)) {
+            docker_type = PODMAN;
+            return true;
+        }
+    }
+
+    if (get_docker_version_aux(DOCKER)) {
+        docker_type = DOCKER;
+        return true;
+    }
+    return false;
+}
+
+// check if docker compose is installed on this host
+// populate docker_compose_version on success
+//
+bool HOST_INFO::get_docker_compose_version_aux(DOCKER_TYPE type){
+    bool ret = false;
+    char cmd[1024];
+
+    snprintf(cmd, sizeof(cmd),
+        "%s compose version 2>/dev/null",
+        docker_cli_prog(type)
+    );
+    FILE* f = popen(cmd, "r");
+    if (f) {
+        char buf[256];
+        while (fgets(buf, sizeof(buf), f)) {
+            string version;
+            if (get_docker_compose_version_string(type, buf, version)) {
+                safe_strcpy(docker_compose_version, version.c_str());
+                docker_compose_type = type;
+                ret = true;
+                break;
+            }
+        }
+        pclose(f);
+    }
+    return ret;
+}
+
+bool HOST_INFO::get_docker_compose_version(){
+#if defined(__APPLE__) || defined(_WIN32)
+    if (get_docker_compose_version_aux(PODMAN)) {
+        return true;
+    }
+#endif
+    if (get_docker_compose_version_aux(DOCKER)) {
+        return true;
+    }
+    return false;
 }
 
 // get p_vendor, p_model, p_features
@@ -1208,6 +1503,12 @@ int HOST_INFO::get_cpu_count() {
     // return whatever number is greater
     if(cpus_sys_path > p_ncpus){
         p_ncpus = cpus_sys_path;
+    }
+#elif __GNU_LIBRARY__ /* glibc */
+    cpu_set_t set;
+
+    if (sched_getaffinity (0, sizeof (set), &set) == 0) {
+        p_ncpus = CPU_COUNT (&set);
     }
 #elif defined(_SC_NPROCESSORS_ONLN) && !defined(__EMX__) && !defined(__APPLE__)
     // sysconf not working on OS2
@@ -1374,6 +1675,12 @@ int HOST_INFO::get_memory_info() {
 // return BOINC_SUCCESS if at least version could be found (extra_info may remain empty)
 // return ERR_NOT_FOUND if ldd couldn't be opened or no version information was found
 //
+#ifdef __GLIBC__
+int get_libc_version(string& version, string&) {
+    version = string(gnu_get_libc_version());
+    return BOINC_SUCCESS;
+}
+#else
 int get_libc_version(string& version, string& extra_info) {
     char buf[1024] = "";
     string strbuf;
@@ -1408,6 +1715,7 @@ int get_libc_version(string& version, string& extra_info) {
     }
     return BOINC_SUCCESS;
 }
+#endif
 #endif
 
 // get os_name, os_version
@@ -1496,11 +1804,8 @@ int HOST_INFO::get_os_info() {
 
     string libc_version(""), libc_extra_info("");
     if (!get_libc_version(libc_version, libc_extra_info)) {
-        // This will be part of the normal startup messages to show to the user
-        msg_printf(NULL, MSG_INFO,
-                "[libc detection] gathered: %s, %s", libc_version.c_str(), libc_extra_info.c_str()
-            );
         // add info to os_version_extra
+        //
         if (!os_version_extra.empty()) {
             os_version_extra += "|";
         }
@@ -1539,9 +1844,14 @@ int HOST_INFO::get_host_info(bool init) {
     // a run of the client
     //
 
+#ifndef ANDROID
     if (!cc_config.dont_use_vbox) {
         get_virtualbox_version();
     }
+
+    get_docker_version();
+    get_docker_compose_version();
+#endif
 
     get_cpu_info();
     get_cpu_count();
@@ -1556,74 +1866,101 @@ int HOST_INFO::get_host_info(bool init) {
     return 0;
 }
 
-// returns true iff device was last accessed before t
-// or if an error occurred looking at the device.
-//
-inline bool device_idle(time_t t, const char *device) {
+inline long device_idle_time(const char *device) {
     struct stat sbuf;
-    return stat(device, &sbuf) || (sbuf.st_atime < t);
+    if (stat(device, &sbuf)) {
+        return USER_IDLE_TIME_INF;
+    }
+    return gstate.now - sbuf.st_atime;
 }
 
+// list of directories and prefixes of TTY devices
+//
 static const struct dir_tty_dev {
     const char *dir;
     const char *dev;
-} tty_patterns[] = {
-#ifdef unix
-    { "/dev","tty" },
-    { "/dev","pty" },
-    { "/dev/pts","" },
-#endif
-    // add other ifdefs here as necessary.
-    { NULL, NULL },
-};
+    const vector<string> ignore_list;
 
+    bool should_ignore(const string &devname) const {
+        for (const string &ignore : ignore_list) {
+            if (devname.rfind(ignore, 0) == 0) return true;
+        }
+        return false;
+    }
+} tty_patterns[] = {
+#if defined(LINUX_LIKE_SYSTEM) and !defined(ANDROID)
+    { "/dev", "tty",
+      {"ttyS", "ttyACM"},
+    },
+    { "/dev", "pty", {}},
+    { "/dev/pts", NULL, {}},
+#endif
+};
+#define N_TTY_PATTERNS sizeof(tty_patterns)/sizeof(dir_tty_dev)
+
+// Make a list of all TTY devices on the system.
+//
 vector<string> get_tty_list() {
-    // Create a list of all terminal devices on the system.
     char devname[1024];
     char fullname[1024];
-    int done,i=0;
     vector<string> tty_list;
 
-    do {
-        DIRREF dev=dir_open(tty_patterns[i].dir);
-        if (dev) {
-            do {
-                // get next file
-                done=dir_scan(devname,dev,1024);
-                // does it match our tty pattern? If so, add it to the tty list.
-                if (!done && (strstr(devname,tty_patterns[i].dev) == devname)) {
-                    // don't add anything starting with .
-                    if (devname[0] != '.') {
-                        sprintf(fullname,"%s/%s",tty_patterns[i].dir,devname);
-                        tty_list.push_back(fullname);
-                    }
+    for (unsigned int i=0; i<N_TTY_PATTERNS; i++) {
+        DIRREF dev = dir_open(tty_patterns[i].dir);
+        if (!dev) continue;
+        while (1) {
+            if (dir_scan(devname, dev, 1024)) break;
+            if (devname[0] == '.') continue;
+
+            // check name prefix
+            //
+            if (tty_patterns[i].dev) {
+                if ((strstr(devname, tty_patterns[i].dev) != devname)) continue;
+
+                // Ignore some devices. This could be, for example,
+                // ttyS* (serial port) or devACM* (serial USB) devices
+                // which may be used even without a user being active.
+                //
+                if (tty_patterns[i].should_ignore(devname)) continue;
+            }
+
+            snprintf(fullname, sizeof(fullname), "%s/%s", tty_patterns[i].dir, devname);
+
+            // check for ignored paths
+            //
+            bool ignore = false;
+            for (unsigned int j=0; j<cc_config.ignore_tty.size(); j++) {
+                if (strstr(fullname, cc_config.ignore_tty[j].c_str()) == fullname) {
+                    ignore = true;
+                    break;
                 }
-            } while (!done);
-            dir_close(dev);
+            }
+            if (ignore) continue;
+            tty_list.push_back(fullname);
         }
-        i++;
-    } while (tty_patterns[i].dir != NULL);
+        dir_close(dev);
+    }
     return tty_list;
 }
 
-// return true if all ttys inactive since time t
-//
-inline bool all_tty_idle(time_t t) {
+inline long all_tty_idle_time() {
     static vector<string> tty_list;
+    static bool first = true;
     struct stat sbuf;
-    unsigned int i;
+    long idle_time = USER_IDLE_TIME_INF;
 
-    if (tty_list.size()==0) tty_list=get_tty_list();
-    for (i=0; i<tty_list.size(); i++) {
+    if (first) {
+        first = false;
+        tty_list = get_tty_list();
+    }
+    for (unsigned int i=0; i<tty_list.size(); i++) {
         // ignore errors
         if (!stat(tty_list[i].c_str(), &sbuf)) {
             // printf("tty: %s %d %d\n",tty_list[i].c_str(), sbuf.st_atime, t);
-            if (sbuf.st_atime >= t) {
-                return false;
-            }
+            idle_time = min(idle_time, (long)(gstate.now-sbuf.st_atime));
         }
     }
-    return true;
+    return idle_time;
 }
 
 #ifdef __APPLE__
@@ -1631,6 +1968,7 @@ inline bool all_tty_idle(time_t t) {
 // We can't link the client with the AppKit framework because the client
 // must be setuid boinc_master. So the client uses this to get the system
 // up time instead of our getTimeSinceBoot() function in lib/mac_util.mm.
+//
 int get_system_uptime() {
     struct timeval tv;
     size_t len = sizeof(tv);
@@ -1679,9 +2017,7 @@ int get_system_uptime() {
 // Even with calling IORegistryEntryFromPath() each time, this code is much
 // faster than the previous method, which called IOHIDGetParameter().
 //
-bool HOST_INFO::users_idle(
-    bool check_all_logins, double idle_time_to_run, double *actual_idle_time
-) {
+long HOST_INFO::user_idle_time(bool /*check_all_logins*/) {
     static bool     error_posted = false;
     int64_t         idleNanoSeconds;
     double          idleTime = 0;
@@ -1690,7 +2026,7 @@ bool HOST_INFO::users_idle(
     CFTypeRef idleTimeProperty;
     io_registry_entry_t IOHIDSystemEntry;
 
-    if (error_posted) goto bail;
+    if (error_posted) return USER_IDLE_TIME_INF;
 
     IOHIDSystemEntry = IORegistryEntryFromPath(kIOMasterPortDefault, "IOService:/IOResources/IOHIDSystem");
     if (IOHIDSystemEntry != MACH_PORT_NULL) {
@@ -1702,34 +2038,31 @@ bool HOST_INFO::users_idle(
     } else {
         // When the system first starts up, allow time for HIDSystem to be available if needed
         if (get_system_uptime() > (120)) {   // If system has been up for more than 2 minutes
-             msg_printf(NULL, MSG_INFO,
+            msg_printf(NULL, MSG_INFO,
                 "Could not connect to HIDSystem: user idle detection is disabled."
             );
             error_posted = true;
-            goto bail;
+            return USER_IDLE_TIME_INF;
         }
     }
 
     if (!gstate.executing_as_daemon) {
-        idleTimeFromCG =  CGEventSourceSecondsSinceLastEventType
-                (kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
+        idleTimeFromCG =  CGEventSourceSecondsSinceLastEventType (
+            kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType
+        );
 
         if (idleTimeFromCG < idleTime) {
             idleTime = idleTimeFromCG;
         }
     }
 
-bail:
-    if (actual_idle_time) {
-        *actual_idle_time = idleTime;
-    }
-    return (idleTime > (60 * idle_time_to_run));
+    return (long)idleTime;
 }
 
 #else  // ! __APPLE__
 
 #if HAVE_UTMP_H
-inline bool user_idle(time_t t, struct utmp* u) {
+inline long user_idle_time(struct utmp* u) {
     char tty[5 + sizeof u->ut_line + 1] = "/dev/";
     unsigned int i;
 
@@ -1741,7 +2074,7 @@ inline bool user_idle(time_t t, struct utmp* u) {
             tty[i+5] = '\0';
         }
     }
-    return device_idle(t, tty);
+    return device_idle_time(tty);
 }
 
 #if !HAVE_SETUTENT || !HAVE_GETUTENT
@@ -1782,70 +2115,32 @@ inline bool user_idle(time_t t, struct utmp* u) {
 
   // scan list of logged-in users, and see if they're all idle
   //
-  inline bool all_logins_idle(time_t t) {
+  inline long all_logins_idle() {
       struct utmp* u;
       setutent();
+      long idle_time = USER_IDLE_TIME_INF;
 
       while ((u = getutent()) != NULL) {
-          if (!user_idle(t, u)) {
-              return false;
-          }
+          idle_time = min(idle_time, user_idle_time(u));
       }
-      return true;
+      return idle_time;
   }
 #endif  // HAVE_UTMP_H
 
 #if LINUX_LIKE_SYSTEM
-bool interrupts_idle(time_t t) {
-    // This method doesn't really work reliably on USB keyboards and mice.
-    static FILE *ifp = NULL;
-    static long irq_count[256];
-    static time_t last_irq = time(NULL);
-
-    char line[256];
-    int i = 0;
-    long ccount = 0;
-
-    if (ifp == NULL) {
-        if ((ifp = fopen("/proc/interrupts", "r")) == NULL) {
-            return true;
-        }
-    }
-    rewind(ifp);
-    while (fgets(line, sizeof(line), ifp)) {
-        // Check for mouse, keyboard and PS/2 devices.
-        if (strcasestr(line, "mouse") != NULL ||
-            strcasestr(line, "keyboard") != NULL ||
-            strcasestr(line, "i8042") != NULL) {
-            // If any IRQ count changed, update last_irq.
-            if (sscanf(line, "%d: %ld", &i, &ccount) == 2
-                && irq_count[i] != ccount
-            ) {
-                last_irq = time(NULL);
-                irq_count[i] = ccount;
-            }
-        }
-    }
-    return last_irq < t;
-}
 
 #if HAVE_XSS
 
-// Initializer for const vector<string> in xss_idle
+// return vector of X server names
 //
 const vector<string> X_display_values_initialize() {
     // According to "man Xserver", each local Xserver will have a socket file
     // at /tmp/.X11-unix/Xn, where "n" is the display number (0, 1, 2, etc).
     // We will parse this directory for currently open Xservers and attempt
-    // to ultimately query them for their idle time. If we can't open this
-    // directory, or the display_values vector is otherwise empty, then a
-    // static list of guesses for open display servers is utilized instead
-    // (DISPLAY values ":{0..6}") that will attempt connections to the first
-    // seven open Xservers.
+    // to ultimately query them for their idle time.
     //
-    // If we were unable to open _any_ Xserver, then we will log this and
-    // xss_idle returns true, effectively leaving idle detection up to other
-    // methods.
+    // If we are unable to open _any_ Xserver,
+    // idle detection is up to other methods.
     //
     static const string dir = "/tmp/.X11-unix/";
     vector<string> display_values;
@@ -1860,7 +2155,19 @@ const vector<string> X_display_values_initialize() {
             );
         }
     } else {
+        if (log_flags.idle_detection_debug ) {
+            msg_printf(NULL, MSG_INFO,
+                "[idle_detection] scanning %s",  dir.c_str()
+            );
+        }
         while ((dirp = readdir(dp)) != NULL) {
+            if (!strcmp(dirp->d_name, ".")) continue;
+            if (!strcmp(dirp->d_name, "..")) continue;
+            if (log_flags.idle_detection_debug ) {
+                msg_printf(NULL, MSG_INFO,
+                    "[idle_detection] found X server %s", dirp->d_name
+                );
+            }
             display_values.push_back(string(dirp->d_name));
         }
         closedir(dp);
@@ -1877,45 +2184,21 @@ const vector<string> X_display_values_initialize() {
         }
     }
 
-    // if the display_values vector is empty, assume something went wrong
-    // (couldn't open directory, no apparent Xn files). Test a static list of
-    // DISPLAY values instead that is likely to catch most common use cases.
-    // (I don't know of many environments where there will simultaneously be
-    // more than seven active, local Xservers. I'm sure they exist... somewhere.
-    // But seven was the magic number for me).
-    //
-    if ( display_values.size() == 0 ) {
-        if ( log_flags.idle_detection_debug ) {
-            msg_printf(NULL, MSG_INFO,
-                "[idle_detection] No DISPLAY values found in /tmp/.X11-unix/."
-            );
-            msg_printf(NULL, MSG_INFO,
-                "[idle_detection] Using static DISPLAY list, :{0..6}."
-            );
-        }
-        display_values.push_back(":0");
-        display_values.push_back(":1");
-        display_values.push_back(":2");
-        display_values.push_back(":3");
-        display_values.push_back(":4");
-        display_values.push_back(":5");
-        display_values.push_back(":6");
-        return display_values;
-    } else {
-        return display_values;
-    }
+    return display_values;
 }
 
-// Ask the X server for user idle time (using XScreenSaver API)
-// Return true if the idle time exceeds idle_threshold for all accessible
-// Xservers. However, if even one Xserver reports busy/non-idle, then
-// return false. This function assumes that the boinc user has been
-// granted access to the Xservers a la "xhost +SI:localuser:boinc". If
-// access isn't available for an Xserver, then that Xserver is skipped.
+// Ask X servers for user idle time (using XScreenSaver API)
+// Return min of idle times.
+// This function assumes that the boinc user has been
+// granted access to the Xservers a la "xhost +SI:localuser:boinc".
+// If access isn't available for an Xserver, that Xserver is skipped.
 // One may drop a file in /etc/X11/Xsession.d/ that runs the xhost command
 // for all Xservers on a machine when the Xservers start up.
 //
-bool xss_idle(long idle_threshold) {
+// TODO: call X_display_values_initialize() once, not once per second
+//
+long xss_idle() {
+    long idle_time = USER_IDLE_TIME_INF;
     const vector<string> display_values = X_display_values_initialize();
     vector<string>::const_iterator it;
 
@@ -1940,7 +2223,7 @@ bool xss_idle(long idle_threshold) {
     for (it = display_values.begin(); it != display_values.end() ; it++) {
 
         Display* disp = NULL;
-        long idle_time = 0;
+        long display_idle_time = 0;
 
         disp = XOpenDisplay(it->c_str());
         // XOpenDisplay may return NULL if there is no running X
@@ -1977,7 +2260,7 @@ bool xss_idle(long idle_threshold) {
         //
         no_available_x_display = false;
         XScreenSaverQueryInfo(disp, DefaultRootWindow(disp), xssInfo);
-        idle_time = xssInfo->idle;
+        display_idle_time = xssInfo->idle;
 
         // Close the connection to the XServer
         //
@@ -1985,94 +2268,366 @@ bool xss_idle(long idle_threshold) {
 
         // convert from milliseconds to seconds
         //
-        idle_time = idle_time / 1000;
+        display_idle_time /= 1000;
 
         if (log_flags.idle_detection_debug) {
             msg_printf(NULL, MSG_INFO,
-                "[idle_detection] XSS idle detection succeeded on DISPLAY '%s'.", it->c_str()
-            );
-            msg_printf(NULL, MSG_INFO,
-                "[idle_detection] idle threshold: %ld", idle_threshold
-            );
-            msg_printf(NULL, MSG_INFO,
-                "[idle_detection] idle_time: %ld", idle_time
+                "[idle_detection] XSS idle time on display '%s': %ld",
+                it->c_str(), display_idle_time
             );
         }
 
-        if ( idle_threshold < idle_time ) {
-            if (log_flags.idle_detection_debug) {
-                msg_printf(NULL, MSG_INFO,
-                    "[idle_detection] DISPLAY '%s' is idle.", it->c_str()
-                );
-            }
-        } else {
-            if (log_flags.idle_detection_debug) {
-                msg_printf(NULL, MSG_INFO,
-                    "[idle_detection] DISPLAY '%s' is active.", it->c_str()
-                );
-            }
-            return false;
-        }
+        idle_time = min(idle_time, display_idle_time);
     }
 
-    // We should only ever get here if all queryable Xservers were idle.
-    // If none of the Xservers were queryable, we should still end up here,
-    // and simply report true. In that case, the xss_idle function effectively
-    // provides no information on the idle state of the system,
-    // as no Xservers were accessible to interrogate.
+    // If none of the Xservers were queryable, report it
     //
     if (log_flags.idle_detection_debug && no_available_x_display) {
         msg_printf(NULL, MSG_INFO,
             "[idle_detection] Could not connect to any DISPLAYs. XSS idle determination impossible."
         );
     }
-    return true;
+    return idle_time;
 
 }
 #endif // HAVE_XSS
 
 #endif // LINUX_LIKE_SYSTEM
 
-bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
-    time_t idle_time = time(0) - (long) (60 * idle_time_to_run);
+#ifndef ANDROID     // Android doesn't have shm_open()
+// idle time detection.
+// old approach: do it ourselves by looking at devices
+//  and trying to get info from X11
+//  (big mess, permissions problems, doesn't generally work)
+// new approach: get last-input time from a separate daemon process,
+//  communicated via shmem
 
-#if HAVE_UTMP_H
-    if (check_all_logins) {
-        if (!all_logins_idle(idle_time)) {
+bool get_idle_time_from_daemon(long &idle_time) {
+    static int64_t* seg_ptr = NULL;
+    if (!seg_ptr) {
+        int fd = shm_open("/idle_detect_shmem",  O_RDONLY, 0);
+        if (fd < 0) {
             return false;
         }
+
+        struct stat st;
+        if (fstat(fd, &st)) {
+            close(fd);
+            return false;
+        }
+        if ((size_t)st.st_size < 2*sizeof(int64_t)) {
+            close(fd);
+            return false;
+        }
+
+        int64_t* mapped_ptr = (int64_t*)mmap(
+            NULL, 2*sizeof(int64_t), PROT_READ, MAP_SHARED, fd, 0
+        );
+        close(fd);
+        if (mapped_ptr == MAP_FAILED) {
+            return false;
+        }
+
+        seg_ptr = mapped_ptr;
+    }
+    if (!seg_ptr) return false;
+
+    // make sure the shmem is actually being updated
+    //
+    int64_t update_time = seg_ptr[0];
+    if (update_time > gstate.now+10) return false;
+    if (update_time < gstate.now-60) return false;
+
+    int64_t input_time = seg_ptr[1];
+    idle_time = gstate.now - input_time;
+    //printf("idle time: %ld\n", idle_time);
+    return true;
+}
+
+#if LINUX_LIKE_SYSTEM
+static bool is_wayland_socket(const string& path) {
+    struct stat st;
+    return stat(path.c_str(), &st) == 0 && S_ISSOCK(st.st_mode);
+}
+
+static bool detect_wayland_socket_in_dir(const string& dir) {
+    DIR* dp = opendir(dir.c_str());
+    if (!dp) {
+        return false;
+    }
+
+    struct dirent* dirp;
+    while ((dirp = readdir(dp)) != NULL) {
+        if (strncmp(dirp->d_name, "wayland-", 8) != 0) {
+            continue;
+        }
+        if (is_wayland_socket(dir + "/" + dirp->d_name)) {
+            closedir(dp);
+            return true;
+        }
+    }
+
+    closedir(dp);
+    return false;
+}
+
+static bool detect_wayland_socket() {
+    const char* xdg_runtime_dir = getenv("XDG_RUNTIME_DIR");
+    if (xdg_runtime_dir && strlen(xdg_runtime_dir)) {
+        if (detect_wayland_socket_in_dir(xdg_runtime_dir)) {
+            return true;
+        }
+    }
+
+    DIR* dp = opendir("/run/user");
+    if (!dp) {
+        return false;
+    }
+
+    struct dirent* dirp;
+    while ((dirp = readdir(dp)) != NULL) {
+        if (!strcmp(dirp->d_name, ".")) continue;
+        if (!strcmp(dirp->d_name, "..")) continue;
+        if (detect_wayland_socket_in_dir(string("/run/user/") + dirp->d_name)) {
+            closedir(dp);
+            return true;
+        }
+    }
+
+    closedir(dp);
+    return false;
+}
+
+static bool detect_xwayland_process() {
+    DIR* dp = opendir("/proc");
+    if (!dp) {
+        return false;
+    }
+
+    struct dirent* dirp;
+    while ((dirp = readdir(dp)) != NULL) {
+        if (dirp->d_name[0] < '0' || dirp->d_name[0] > '9') {
+            continue;
+        }
+
+        string comm_path = string("/proc/") + dirp->d_name + "/comm";
+        FILE* f = fopen(comm_path.c_str(), "r");
+        if (!f) {
+            continue;
+        }
+
+        char comm[32];
+        bool is_xwayland = fgets(comm, sizeof(comm), f)
+            && strncmp(comm, "Xwayland", 8) == 0;
+        fclose(f);
+
+        if (is_xwayland) {
+            closedir(dp);
+            return true;
+        }
+    }
+
+    closedir(dp);
+    return false;
+}
+#endif
+
+bool detect_wayland() {
+    const char* wayland_display = getenv("WAYLAND_DISPLAY");
+    if (wayland_display && strlen(wayland_display)) {
+        return true;
+    }
+    const char* xdg_session_type = getenv("XDG_SESSION_TYPE");
+    if (xdg_session_type && strcmp(xdg_session_type, "wayland") == 0) {
+        return true;
+    }
+    // boinc-client often runs as a daemon without the user's session
+    // environment.  Detect compositor sockets and Xwayland directly so we do
+    // not probe Xwayland displays with XOpenDisplay(), which can block
+    // indefinitely.
+#if LINUX_LIKE_SYSTEM
+    return detect_wayland_socket() || detect_xwayland_process();
+#else
+    return false;
+#endif
+}
+
+#endif      // !ANDROID
+
+// get idle time.  Try the new approach, if it fails use old
+//
+long HOST_INFO::user_idle_time(bool check_all_logins) {
+    long idle_time = USER_IDLE_TIME_INF;
+
+#ifndef ANDROID
+    static bool show_idle_time_legacy_warning = true;
+    if (get_idle_time_from_daemon(idle_time)) {
+        show_idle_time_legacy_warning = false;
+        return idle_time;
+    }
+
+    if (show_idle_time_legacy_warning) {
+        msg_printf(NULL, MSG_INFO,
+            "Currently BOINC uses legacy idle detection methods that might not \
+work properly on all systems. Please consider installing a modern idle detection \
+utility that works on Wayland and X11: \
+https://github.com/jamescowens/idle_detect");
+        show_idle_time_legacy_warning = false;
     }
 #endif
 
-    if (!all_tty_idle(idle_time)) {
-        return false;
+#if HAVE_UTMP_H
+    if (check_all_logins) {
+        idle_time = min(idle_time, all_logins_idle());
     }
+#endif
+
+    idle_time = min(idle_time, all_tty_idle_time());
 
 #if LINUX_LIKE_SYSTEM
-    // Check /proc/interrupts to detect keyboard or mouse activity.
-    // this ignores USB keyboards/mice.  They don't use the keyboard
-    // and mouse interrupts.
-    if (!interrupts_idle(idle_time)) {
-        return false;
-    }
 
 #if HAVE_XSS
-    if (!xss_idle((long)(idle_time_to_run * 60))) {
-        return false;
+#ifndef ANDROID
+    // Detect Wayland once. The display server type is not expected to
+    // change while this client process is running.
+    static bool wayland_detected = detect_wayland();
+    if (!wayland_detected) {
+        //printf("Using XScreenSaver API for idle detection\n");
+        idle_time = min(idle_time, xss_idle());
     }
+#endif // !ANDROID
 #endif // HAVE_XSS
 
 #else
     // We should find out which of the following are actually relevant
     // on which systems (if any)
     //
-    if (!device_idle(idle_time, "/dev/mouse")) return false;
+    idle_time = min(idle_time, (long)device_idle_time("/dev/mouse"));
         // solaris, linux
-    if (!device_idle(idle_time, "/dev/input/mice")) return false;
-    if (!device_idle(idle_time, "/dev/kbd")) return false;
+    idle_time = min(idle_time, (long)device_idle_time("/dev/input/mice"));
+    idle_time = min(idle_time, (long)device_idle_time("/dev/kbd"));
         // solaris
 #endif // LINUX_LIKE_SYSTEM
-    return true;
+    return idle_time;
 }
 
 #endif  // ! __APPLE__
+
+#ifdef __APPLE__
+
+union headeru {
+    fat_header fat;
+    mach_header mach;
+};
+
+// Get the architecture of this computer's CPU: x86_64 or arm64.
+// Read the executable file's mach-o headers to determine the
+// architecture(s) of its code.
+// Returns 1 if application can run natively on this computer,
+// else returns 0.
+//
+// TODO: determine whether x86_64 graphics apps emulated on arm64 Macs
+// properly run under Rosetta 2. Note: years ago, PowerPC apps emulated
+// by Rosetta on i386 Macs crashed when running graphics.
+//
+bool can_run_on_this_CPU(char* exec_path) {
+    FILE *f;
+    int retval = false;
+
+    headeru myHeader;
+    fat_arch fatHeader;
+
+    static bool x86_64_CPU = false;
+    static bool arm64_cpu = false;
+    static bool need_CPU_architecture = true;
+    uint32_t n, i, len;
+    uint32_t theMagic;
+    integer_t file_architecture;
+
+    if (need_CPU_architecture) {
+        // Determine the architecture of the CPU we are running on
+        // TODO: adjust this code accordingly.
+        uint32_t cputype = 0;
+        size_t size = sizeof (cputype);
+        int res = sysctlbyname ("hw.cputype", &cputype, &size, NULL, 0);
+        if (res) return false;  // Should never happen
+        // Since we require MacOS >= 10.7, the CPU must be x86_64 or arm64
+        x86_64_CPU = ((cputype &0xff) == CPU_TYPE_X86);
+        arm64_cpu = ((cputype &0xff) == CPU_TYPE_ARM);
+
+        need_CPU_architecture = false;
+    }
+
+    f = boinc_fopen(exec_path, "rb");
+    if (!f) {
+        return retval;          // Should never happen
+    }
+
+    myHeader.fat.magic = 0;
+    myHeader.fat.nfat_arch = 0;
+
+    fread(&myHeader, 1, sizeof(fat_header), f);
+    theMagic = myHeader.mach.magic;
+    switch (theMagic) {
+    case MH_CIGAM:
+    case MH_MAGIC:
+    case MH_MAGIC_64:
+    case MH_CIGAM_64:
+       file_architecture = myHeader.mach.cputype;
+        if ((theMagic == MH_CIGAM) || (theMagic == MH_CIGAM_64)) {
+            file_architecture = OSSwapInt32(file_architecture);
+        }
+        if (x86_64_CPU && (file_architecture == CPU_TYPE_I386)) {
+            // Single-architecture i386 file on x86_64 CPU
+            if (compareOSVersionTo(10, 15) < 0) {
+                // OS >= 10.15 are 64-bit only
+                retval = true;
+            }
+        } else if (x86_64_CPU && (file_architecture == CPU_TYPE_X86_64)) {
+            retval = true; // Single-architecture x86_64 file on x86_64 CPU
+        } else if (arm64_cpu && (file_architecture == CPU_TYPE_ARM64)) {
+            retval = true; // Single-architecture arm64 file on arm64 CPU
+        } else if (arm64_cpu && (file_architecture == CPU_TYPE_X86_64)) {
+            retval = true; // Single-architecture x86_64 file emulated on arm64 CPU
+            // TODO: determine whether emulated graphics apps work properly
+        }
+        break;
+    case FAT_MAGIC:
+    case FAT_CIGAM:
+        n = myHeader.fat.nfat_arch;
+        if (theMagic == FAT_CIGAM) {
+            n = OSSwapInt32(myHeader.fat.nfat_arch);
+        }
+
+        // Multiple architecture (fat) file
+        //
+        for (i=0; i<n; i++) {
+            len = fread(&fatHeader, 1, sizeof(fat_arch), f);
+            if (len < sizeof(fat_arch)) {
+                break;          // Should never happen
+            }
+            file_architecture = fatHeader.cputype;
+            if (theMagic == FAT_CIGAM) {
+                file_architecture = OSSwapInt32(file_architecture);
+            }
+
+            if (x86_64_CPU && (file_architecture == CPU_TYPE_X86_64)) {
+                retval = true; // file with x86_64 architecture on x86_64 CPU
+                break;
+            } else if (arm64_cpu && (file_architecture == CPU_TYPE_ARM64)) {
+                retval = true; // file with arm64 architecture on arm64 CPU
+                break;
+            } else if (arm64_cpu && (file_architecture == CPU_TYPE_X86_64)) {
+                retval = true; // file with x86_64 architecture emulated on arm64 CPU
+                // TODO: determine whether emulated graphics apps work properly
+            }
+        }
+        break;
+    default:
+        break;
+    }
+
+    fclose (f);
+    return retval;
+}
+#endif

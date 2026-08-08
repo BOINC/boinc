@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,11 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// flags determining what is written to standard out.
-// (errors go to stderr)
+// client configuration: cc_config.xml
 //
-// NOTE: all writes to stdout should have an if (log_flags.*) {} around them.
-//
+// This includes
+// 1) log flags: what messages are written
+//      These are editable via the GUI
+// 2) other config options
+//      These are mostly for debugging,
+//      or things that are too obscure to add them to the GUI
 
 #ifndef BOINC_CC_CONFIG_H
 #define BOINC_CC_CONFIG_H
@@ -82,6 +85,7 @@ struct LOG_FLAGS {
     bool file_xfer_debug;
         // show completion of FILE_XFER
     bool gui_rpc_debug;
+    bool gui_rpc_msg_debug;
     bool heartbeat_debug;
     bool http_debug;
     bool http_xfer_debug;
@@ -102,6 +106,7 @@ struct LOG_FLAGS {
     bool scrsave_debug;
     bool slot_debug;
         // allocation of slots
+    bool sporadic_debug;
     bool state_debug;
         // print textual summary of CLIENT_STATE initially
         // and after each scheduler RPC and garbage collect
@@ -119,10 +124,14 @@ struct LOG_FLAGS {
     bool unparsed_xml;
         // show unparsed XML lines
     bool work_fetch_debug;
-        // work fetch policy 
+        // work fetch policy
 
-    LOG_FLAGS();
-    void init();
+    LOG_FLAGS() {
+        task = true;
+        file_xfer = true;
+        sched_ops = true;
+    }
+    void init();    // sets defaults (only above flags set)
     int parse(XML_PARSER&);
     void show();
     int write(MIOFILE& out);
@@ -135,12 +144,18 @@ struct EXCLUDE_GPU {
     int device_num;         // -1 means all instances
 
     int parse(XML_PARSER&);
-    void write(MIOFILE&);
+    void write(MIOFILE&) const;
 };
 
 // if you add anything here, add it to
-// defaults(), parse_options(), parse_options_client(), write(),
-// and possibly show()
+// lib/cc_config.cpp:
+//      defaults()
+//      parse_options()
+//      write()
+// client/log_flags.cpp:
+//      parse_options_client()
+//      possibly show()
+// the web doc: https://github.com/BOINC/boinc/wiki/Client-configuration
 //
 struct CC_CONFIG {
     bool abort_jobs_on_exit;
@@ -149,12 +164,15 @@ struct CC_CONFIG {
     bool allow_remote_gui_rpc;
     std::vector<std::string> alt_platforms;
     COPROCS config_coprocs;
+    std::string device_name;
     bool disallow_attach;
     bool dont_check_file_sizes;
     bool dont_contact_ref_site;
     bool dont_suspend_nci;
     bool dont_use_vbox;
     bool dont_use_wsl;
+    std::vector<std::string> disallowed_wsls;
+    bool dont_use_docker;
     std::vector<EXCLUDE_GPU> exclude_gpus;
     std::vector<std::string> exclusive_apps;
     std::vector<std::string> exclusive_gpu_apps;
@@ -165,32 +183,37 @@ struct CC_CONFIG {
     bool fetch_on_update;
     std::string force_auth;
     bool http_1_0;
-    int http_transfer_timeout_bps;
     int http_transfer_timeout;
+    int http_transfer_timeout_bps;
     std::vector<int> ignore_gpu_instance[NPROC_TYPES];
+    std::vector<std::string> ignore_tty;
     bool lower_client_priority;
     int max_event_log_lines;
     int max_file_xfers;
     int max_file_xfers_per_project;
-    int max_stderr_file_size;
-    int max_stdout_file_size;
+    double max_overdue_days;
+    double max_stderr_file_size;
+    double max_stdout_file_size;
     int max_tasks_reported;
     int ncpus;
     bool no_alt_platform;
+    bool no_disk_usage;     // don't include disk usage in sched req
     bool no_gpus;
     bool no_info_fetch;
     bool no_opencl;
     bool no_priority_change;
+    bool no_rdp_check;
     bool os_random_only;
-    int process_priority;
+    bool prioritize_gpu;
+    int process_priority;       // values in common_defs.h
     int process_priority_special;
     PROXY_INFO proxy_info;
     double rec_half_life;
     bool report_results_immediately;
     bool run_apps_manually;
     int save_stats_days;
-    bool skip_cpu_benchmarks;
     bool simple_gui_only;
+    bool skip_cpu_benchmarks;
     double start_delay;
     bool stderr_head;
     bool suppress_net_info;
@@ -224,6 +247,7 @@ struct APP_CONFIG {
     bool fraction_done_exact;
     bool report_results_immediately;
 
+    APP_CONFIG(){}
     int parse(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
     int parse_gpu_versions(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
 };
@@ -235,6 +259,7 @@ struct APP_VERSION_CONFIG {
     double avg_ncpus;
     double ngpus;
 
+    APP_VERSION_CONFIG(){}
     int parse(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
 };
 
@@ -243,9 +268,10 @@ struct APP_CONFIGS {
     std::vector<APP_VERSION_CONFIG> app_version_configs;
     int project_max_concurrent;
     bool project_has_mc;
-        // have app- or project-level max concurrent restriction
+        // the project has app- or project-level restriction
+        // on # of concurrent jobs
     int project_min_mc;
-        // the min of these restrictions
+        // if true, the min of these restrictions
     bool report_results_immediately;
 
     int parse(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);

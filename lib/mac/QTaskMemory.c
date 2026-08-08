@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,13 +19,13 @@
  *  QTaskMemory.c
  *
  */
- 
-/* This is part of a backtrace generator for boinc project applications.  
+
+/* This is part of a backtrace generator for boinc project applications.
 *
 * Adapted from Apple Developer Technical Support Sample Code QCrashReport
 *
-* This code handles Mac OS X 10.3.x through 10.4.9.  It may require some 
-* adjustment for future OS versions; see the discussion of _sigtramp and 
+* This code handles Mac OS X 10.3.x through 10.4.9.  It may require some
+* adjustment for future OS versions; see the discussion of _sigtramp and
 * PowerPC Signal Stack Frames in file QBacktrace.c.
 *
 *  For useful tips on using backtrace information, see Apple Tech Note 2123:
@@ -33,10 +33,10 @@
 *
 *  To convert addresses to correct symbols, use the atos command-line tool:
 *  atos -o path/to/executable/with/symbols address
-*  Note: if address 1a23 is hex, use 0x1a23.  
+*  Note: if address 1a23 is hex, use 0x1a23.
 *
-*  To demangle mangled C++ symbols, use the c++filt command-line tool. 
-*  You may need to prefix C++ symbols with an additonal underscore before 
+*  To demangle mangled C++ symbols, use the c++filt command-line tool.
+*  You may need to prefix C++ symbols with an additional underscore before
 *  passing them to c++filt (so they begin with two underscore characters).
 *
 * A very useful shell script to add symbols to a crash dump can be found at:
@@ -78,7 +78,7 @@
                 patent rights that may be infringed by your derivative works or
                 by other works in which the Apple Software may be incorporated.
 
-                The Apple Software is provided by Apple on an "AS IS" basis. 
+                The Apple Software is provided by Apple on an "AS IS" basis.
                 APPLE MAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
                 WITHOUT LIMITATION THE IMPLIED WARRANTIES OF NON-INFRINGEMENT,
                 MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, REGARDING
@@ -98,10 +98,10 @@
     Change History (most recent first):
 
 $Log: QTaskMemory.c,v $
-Revision 1.2  2007/03/02 12:25:50         
+Revision 1.2  2007/03/02 12:25:50
 Fixed a problem where a routine that should be static was mistakenly extern.
 
-Revision 1.1  2007/03/02 12:20:37         
+Revision 1.1  2007/03/02 12:20:37
 First checked in.
 
 
@@ -129,7 +129,7 @@ First checked in.
 #undef __assert
 #define	assert(e)	((void)0)
 
-// Put Mach includes inside extern "C" guards for the C++ build 
+// Put Mach includes inside extern "C" guards for the C++ build
 // because the Mach header files don't always have them.
 
 #if defined(__cplusplus)
@@ -147,30 +147,30 @@ First checked in.
 /////////////////////////////////////////////////////////////////
 #pragma mark ***** Mach Compatibility
 
-// Prior to 10.3, Mac OS X did not support 64-bit address spaces.  Thus, key Mach 
-// data structures, like vm_address_t, were 32-bits in size, and can't be changed 
-// for binary compatibility.  So, all of these data types, and the functions that 
-// use them, are defined to scale with the address space: they are 32-bit for 
+// Prior to 10.3, Mac OS X did not support 64-bit address spaces.  Thus, key Mach
+// data structures, like vm_address_t, were 32-bits in size, and can't be changed
+// for binary compatibility.  So, all of these data types, and the functions that
+// use them, are defined to scale with the address space: they are 32-bit for
 // 32-bit clients and 64-bit for 64-bit clients.
 //
-// To make it possible to create 32-bit programs that operate on 64-bit address spaces, 
-// 10.4 introduces new Mach data structures and routines, all prefixed by mach_, that 
-// are fixed at 64-bits.  For example, vm_address_t is supplanted by mach_vm_address_t, 
+// To make it possible to create 32-bit programs that operate on 64-bit address spaces,
+// 10.4 introduces new Mach data structures and routines, all prefixed by mach_, that
+// are fixed at 64-bits.  For example, vm_address_t is supplanted by mach_vm_address_t,
 // and vm_read is supplanted by mach_vm_read.
 //
-// Unfortunately, the routines are only available on 10.4 and later.  So, we can't just 
-// call them directly if we want to run on 10.3.  The original QCrashReport code from 
-// Apple DTS used weak linking to solve this.  But weak linking may cause crashes if 
-// the code does not specifically test for the presence of weak-linked APIs on older 
-// versions of the OS.  For this reason, BOINC uses MacOSX10.3.9.sdk for PowerPC builds 
+// Unfortunately, the routines are only available on 10.4 and later.  So, we can't just
+// call them directly if we want to run on 10.3.  The original QCrashReport code from
+// Apple DTS used weak linking to solve this.  But weak linking may cause crashes if
+// the code does not specifically test for the presence of weak-linked APIs on older
+// versions of the OS.  For this reason, BOINC uses MacOSX10.3.9.sdk for PowerPC builds
 // to avoid weak linking.
 //
-// Finally, the old routines are not available to 64-bit clients on Intel.  
+// Finally, the old routines are not available to 64-bit clients on Intel.
 //
-// BOINC use this code only to analyze the process which called it, and this code 
-// supports 64-bit backtraces only for Intel processors, so we use the new routines 
-// for Intel builds and the old routines for PowerPC builds. 
-// 
+// BOINC use this code only to analyze the process which called it, and this code
+// supports 64-bit backtraces only for Intel processors, so we use the new routines
+// for Intel builds and the old routines for PowerPC builds.
+//
 
 /////////////////////////////////////////////////////////////////
 
@@ -179,7 +179,7 @@ extern int QTMErrnoFromMachError(kern_return_t kr)
     // See comment in header.
 {
     int     err;
-    
+
     switch (kr) {
         case KERN_SUCCESS:
             err = 0;
@@ -222,11 +222,11 @@ extern int QTMRead(task_t task, QTMAddr addrWithinTask, size_t size, void *addrL
 {
 	int				err;
 	kern_return_t   		kr;
-	
+
 	assert(task != MACH_PORT_NULL);
 	assert(size > 0);
 	assert(addrLocal != NULL);
-	
+
 #if TARGET_CPU_X86 || TARGET_CPU_X86_64
 	mach_vm_size_t                  bytesRead;
 
@@ -239,11 +239,11 @@ extern int QTMRead(task_t task, QTMAddr addrWithinTask, size_t size, void *addrL
 #endif
 
         err = QTMErrnoFromMachError(kr);
-	
-	// AFAIK mach_vm_read_overwrite will not return partial data; that is, you 
-	// get everything (no error) or you get nothing (error).  The following 
+
+	// AFAIK mach_vm_read_overwrite will not return partial data; that is, you
+	// get everything (no error) or you get nothing (error).  The following
 	// checks that assertion.
-	
+
 	assert( (err != 0) || (bytesRead == size) );
 
 	return err;
@@ -257,12 +257,12 @@ extern int QTMReadAllocated(task_t task, QTMAddr addrWithinTask, size_t size, co
 	vm_offset_t                                     addrLocal;
 	mach_msg_type_number_t                          bytesRead;
 
-	
+
 	assert(task != MACH_PORT_NULL);
 	assert(size > 0);
 	assert( bufPtr != NULL);
 	assert(*bufPtr == NULL);
-	
+
 #if TARGET_CPU_X86 || TARGET_CPU_X86_64
 
          kr = mach_vm_read(task, addrWithinTask, size, &addrLocal, &bytesRead);
@@ -274,8 +274,8 @@ extern int QTMReadAllocated(task_t task, QTMAddr addrWithinTask, size_t size, co
 
         err = QTMErrnoFromMachError(kr);
 
-	// AFAIK mach_vm_read will not return partial data; that is, you get 
-	// everything (no error) or you get nothing (error).  The following 
+	// AFAIK mach_vm_read will not return partial data; that is, you get
+	// everything (no error) or you get nothing (error).  The following
 	// checks that assertion.
 
 	assert( (err != 0) || (bytesRead == size) );
@@ -283,15 +283,15 @@ extern int QTMReadAllocated(task_t task, QTMAddr addrWithinTask, size_t size, co
 	if (err == 0) {
 		*bufPtr = (const void *) (uintptr_t) addrLocal;
 
-        // Pointer truncation should never occur (because addrLocal is a 
-        // vm_offset_t, which with the current address space) but, if it does, 
+        // Pointer truncation should never occur (because addrLocal is a
+        // vm_offset_t, which with the current address space) but, if it does,
         // the following should catch it.
-        
+
         assert( ((uintptr_t) *bufPtr) == addrLocal );
 	}
-	
+
 	assert( (err == 0) == (*bufPtr != NULL) );
-	
+
 	return err;
 }
 
@@ -307,7 +307,7 @@ extern int  QTMRemap(task_t task, QTMAddr addrWithinTask, size_t size, const voi
 	assert(size > 0);
 	assert( bufPtr != NULL);
 	assert(*bufPtr == NULL);
-    
+
 #if TARGET_CPU_X86 || TARGET_CPU_X86_64
         mach_vm_address_t   addrLocal;
 
@@ -351,19 +351,19 @@ extern int  QTMRemap(task_t task, QTMAddr addrWithinTask, size_t size, const voi
         if (err == 0) {
             *bufPtr = (const void *) (uintptr_t) addrLocal;
 
-            // Pointer truncation should never occur (because we're remapping into 
+            // Pointer truncation should never occur (because we're remapping into
             // the current task) but, if it does, the following should catch it.
-            
+
             assert( (uintptr_t) *bufPtr == addrLocal );
         }
-    
+
         return err;
 }
 
 extern void QTMFree(const void *buf, size_t size)
     // See comment in header.
 {
-    kern_return_t   junk;
+    kern_return_t   junk __attribute__((unused));
 
     if (buf == NULL) {
         assert(size > 0);
@@ -392,9 +392,9 @@ extern int QTMGetDarwinOSRelease(int *majorPtr, int *minorPtr, int *bugPtr)
     static int          sMajor;
     static int          sMinor;
     static int          sBug;
-		
+
     // If we haven't already got the OS release, get it now.
-    
+
     err = 0;
     if (sMajor == 0) {
         err = uname(&names);
@@ -402,18 +402,18 @@ extern int QTMGetDarwinOSRelease(int *majorPtr, int *minorPtr, int *bugPtr)
             err = errno;
         }
         if (err == 0) {
-            // Parse the three dot separated components of the release string. 
+            // Parse the three dot separated components of the release string.
             // If we don't get exactly three, we've confused and we error.
-            
+
             scanResult = sscanf(names.release, "%d.%d.%d", &sMajor, &sMinor, &sBug);
             if (scanResult != 3) {
                 err = EINVAL;
             }
         }
     }
-    
+
     // Return it to our caller.
-    
+
     if (err == 0) {
         if (majorPtr != NULL) {
             *majorPtr = sMajor;
@@ -425,7 +425,7 @@ extern int QTMGetDarwinOSRelease(int *majorPtr, int *minorPtr, int *bugPtr)
             *bugPtr = sBug;
         }
     }
-	
+
 	return err;
 }
 
@@ -434,10 +434,10 @@ extern int QTMGetDarwinOSRelease(int *majorPtr, int *minorPtr, int *bugPtr)
 extern bool QTMTaskIs64Bit(task_t task)
     // See comments in header.
     //
-    // This implementation uses sysctl to get the process information structure 
-    // and then checks the P_LP64 flag.  This is less than ideal because the 
-    // sysctl interface for getting process information is not exactly well-liked 
-    // by kernel engineering.  OTOH, the alternatives are, on average, less nice, 
+    // This implementation uses sysctl to get the process information structure
+    // and then checks the P_LP64 flag.  This is less than ideal because the
+    // sysctl interface for getting process information is not exactly well-liked
+    // by kernel engineering.  OTOH, the alternatives are, on average, less nice,
     // so I've gone with this.
 {
     kern_return_t       kr;
@@ -450,19 +450,19 @@ extern bool QTMTaskIs64Bit(task_t task)
     size_t              size;
 
     assert(task != MACH_PORT_NULL);
-    
+
     // We default to assuming that the process is 32-bit.
-    
+
     result = false;
-    
-    // The bit denoted by P_LP64 the flag was used for a different purpose 
-    // (P_INMEM) prior to 10.4.  So we only look at the bit on 10.4 and later. 
-    // Earlier systems didn't support 64-bit processes, so the default value 
+
+    // The bit denoted by P_LP64 the flag was used for a different purpose
+    // (P_INMEM) prior to 10.4.  So we only look at the bit on 10.4 and later.
+    // Earlier systems didn't support 64-bit processes, so the default value
     // of false is correct.
-    
+
     err = QTMGetDarwinOSRelease(&major, NULL, NULL);
     assert(err == 0);
-    
+
     if ( (err == 0) && (major >= kQTMDarwinOSMajorForMacOSX104) ) {
         kr = pid_for_task(task, &pid);
         assert(kr == KERN_SUCCESS);
@@ -489,25 +489,25 @@ extern bool QTMTaskIs64Bit(task_t task)
             }
         }
     }
-    
-    // We really shouldn't get any error from the above.  If we do, assert in 
-    // the debug build and just return the default value (32-bit) in the 
+
+    // We really shouldn't get any error from the above.  If we do, assert in
+    // the debug build and just return the default value (32-bit) in the
     // production build.
-    
+
     return result;
 }
 
 #endif
 
 static int sysctlbyname_with_pid(
-    const char *    name, 
-    pid_t           pid, 
-    void *          oldp, 
-    size_t *        oldlenp, 
-    void *          newp, 
+    const char *    name,
+    pid_t           pid,
+    void *          oldp,
+    size_t *        oldlenp,
+    void *          newp,
     size_t          newlen
 )
-    // Stolen directly from the "Universal Binaries Programming Guidelines" 
+    // Stolen directly from the "Universal Binaries Programming Guidelines"
     // document.
 {
     if (pid == 0) {
@@ -533,13 +533,13 @@ static int sysctlbyname_with_pid(
 }
 
 static int is_pid_native(pid_t pid)
-    // Stolen directly from the "Universal Binaries Programming Guidelines" 
+    // Stolen directly from the "Universal Binaries Programming Guidelines"
     // document.
 {
     int ret = 0;
     size_t sz = sizeof(ret);
- 
-    if (sysctlbyname_with_pid("sysctl.proc_native", pid, 
+
+    if (sysctlbyname_with_pid("sysctl.proc_native", pid,
                 &ret, &sz, NULL, 0) == -1) {
         if (errno == ENOENT) {
             return 1;
@@ -553,18 +553,18 @@ static int is_pid_native(pid_t pid)
 extern bool QTMTaskIsNative(task_t task)
     // See comments in header.
 {
-    kern_return_t   kr;
+    kern_return_t   kr __attribute__((unused));
     pid_t           pid;
-    
+
     assert(task != MACH_PORT_NULL);
 
     pid = -1;
     kr = pid_for_task(task, &pid);
     assert(kr == KERN_SUCCESS);
-    
-    // is_pid_native returns 1 (native), 0 (non-native), or -1 (error).  I want 
-    // to treat everything except 0 as native.  That is, an error is consider 
+
+    // is_pid_native returns 1 (native), 0 (non-native), or -1 (error).  I want
+    // to treat everything except 0 as native.  That is, an error is consider
     // to be native.  I do this because native to make native the default choice.
-    
+
     return (is_pid_native(pid) != 0);
 }

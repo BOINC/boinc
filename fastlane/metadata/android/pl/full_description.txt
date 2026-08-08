@@ -1,0 +1,4 @@
+Użyj swojego telefonu lub tabletu do prowadzenia badań nad chorobami, prognozowania globalnego ocieplenia czy odnajdywania pulsarów! BOINC wykorzystuje nieużywane zasoby twojego urządzenia z Androidem i wykonuje prace na rzecz projektów naukowych. Możesz wybierać spośród projektów z kilku dziedzin nauki prowadzonych przez wiodące ośrodki naukowe. BOINC prowadzi obliczenia jedynie, kiedy twoje urządzenie jest podłączone do prądu i naładowane, więc nie powoduje rozładowywania się baterii. Dane przesyłane są jedynie za pośrednictwem połączenia WiFi, więc nie będzie miało to wpływu na limity transmisji danych narzucane przez operatora.
+
+Supports:
+Asteroids@home, Einstein@home, LHC@home, Moo!Wrapper, Rosetta@home, Universe@home, World Community Grid, Yoyo@home.

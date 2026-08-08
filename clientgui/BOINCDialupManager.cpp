@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -94,9 +94,6 @@ void CBOINCDialUpManager::OnPoll() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CBOINCBaseFrame*    pFrame = wxGetApp().GetFrame();
     static bool         bAlreadyRunningLoop = false;
-    bool                bIsOnline = false;
-    bool                bWantConnection = false;
-    bool                bWantDisconnect = false;
     CC_STATUS           cc_status;
 
 
@@ -115,10 +112,6 @@ void CBOINCDialUpManager::OnPoll() {
         //   to the outside world.
         pDoc->GetCoreClientStatus(cc_status);
 
-        bIsOnline = (cc_status.network_status == NETWORK_STATUS_ONLINE);
-        bWantConnection = (cc_status.network_status == NETWORK_STATUS_WANT_CONNECTION);
-        bWantDisconnect = (cc_status.network_status == NETWORK_STATUS_WANT_DISCONNECT);
-
         // The timers are used to keep from spamming the user with the same
         //   messages over each iteration of the poll loop.  we only need to
         //   reset them during a connect event in case we randomly loose
@@ -134,7 +127,7 @@ void CBOINCDialUpManager::OnPoll() {
         // Log out the trace information for debugging purposes.
         /*
         wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - Dialup Flags"));
-        wxLogTrace(wxT("Function Status"), 
+        wxLogTrace(wxT("Function Status"),
             wxT("CBOINCDialUpManager::poll - -- bIsOnline = '%d', bIsDialing = '%d', m_bWasDialing = '%d', iNetworkStatus = '%d', bWantConnection = '%d'"),
             bIsOnline, bIsDialing, m_bWasDialing, iNetworkStatus, bWantConnection
         );
@@ -148,6 +141,10 @@ void CBOINCDialUpManager::OnPoll() {
         );
         */
 #ifdef __WXMSW__
+        bool bIsOnline = (cc_status.network_status == NETWORK_STATUS_ONLINE);
+        bool bWantConnection = (cc_status.network_status == NETWORK_STATUS_WANT_CONNECTION);
+        bool bWantDisconnect = (cc_status.network_status == NETWORK_STATUS_WANT_DISCONNECT);
+
         bool  bIsDialing = m_pDialupManager->IsDialing();
         if (!bIsOnline && !bIsDialing && !m_bWasDialing && bWantConnection) {
             wxLogTrace(wxT("Function Status"), wxT("CBOINCDialUpManager::poll - !bIsOnline && !bIsDialing && !m_bWasDialing && bWantConnection"));

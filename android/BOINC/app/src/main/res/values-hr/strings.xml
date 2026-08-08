@@ -1,4 +1,90 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
-    <string name="app_name">BOINC</string>
+  <!--app global-->
+  <string name="app_name">BOINC</string>
+  <!--generic. used by multiple Activities/tabs-->
+  <!--attach project-->
+  <!--selection list-->
+  <!--credential input-->
+  <!--conflicts-->
+  <!--working-->
+  <!--e.g. Attaching Einstein@Home-->
+  <!--hints-->
+  <!--e.g. Hint 1/2-->
+  <!--project login-->
+  <string name="attachproject_login_header_pwd">Lozinka:</string>
+  <!--account manager-->
+  <string name="attachproject_acctmgr_header_url">URL</string>
+  <string name="attachproject_acctmgr_header_name">Korisnik:</string>
+  <string name="attachproject_acctmgr_header_pwd">Lozinka:</string>
+  <!--error strings-->
+  <string name="attachproject_error_wrong_name">Korisnik nije pronađen</string>
+  <string name="attachproject_error_short_pwd">Lozinka je prekratka</string>
+  <string name="attachproject_error_no_url">Molimo unesite URL</string>
+  <string name="attachproject_error_no_pwd">Molimo unesite lozinku</string>
+  <string name="attachproject_error_no_name">Molimo unesite korisničko ime</string>
+  <string name="attachproject_error_bad_username">Korisničko ime odbijeno</string>
+  <string name="attachproject_error_email_in_use">eMail je već u upotrebi</string>
+  <string name="attachproject_error_project_down">Projekt je offline</string>
+  <string name="attachproject_error_bad_pwd">Lozinka odbijena</string>
+  <string name="attachproject_error_invalid_url">Neispravan URL</string>
+  <!--tab names-->
+  <string name="tab_status">Stanje</string>
+  <string name="tab_projects">Projekti</string>
+  <string name="tab_tasks">Zadaće</string>
+  <string name="tab_transfers">Prijenosi</string>
+  <string name="tab_preferences">Opcije</string>
+  <string name="tab_desc">Navigacija</string>
+  <!--status strings-->
+  <!--preferences tab strings-->
+  <string name="prefs_category_general">Općenito</string>
+  <string name="prefs_category_network">Mreža</string>
+  <string name="prefs_category_cpu">CPU</string>
+  <string name="prefs_category_memory">Memorija</string>
+  <string name="prefs_category_other">Ostalo</string>
+  <string name="prefs_general_device_name_header">Naziv uređaja</string>
+  <string name="prefs_power_source_ac">Zidna utičnica</string>
+  <string name="prefs_power_source_wireless">Bežični punjač</string>
+  <string name="prefs_power_source_battery">Baterija</string>
+  <string name="prefs_cpu_number_cpus_header">Korištene CPU jezgre</string>
+  <!--projects tab strings-->
+  <!--project status strings-->
+  <string name="projects_status_suspendedviagui">Zaustavljen od korisnika</string>
+  <string name="projects_status_schedrpcpending">Scheduler request pending</string>
+  <!--project controls-->
+  <string name="projects_control_update">Ažuriraj</string>
+  <string name="projects_control_remove">Ukloni</string>
+  <string name="projects_control_suspend">Zaustavi</string>
+  <string name="projects_control_resume">Nastavi</string>
+  <string name="projects_control_reset">Poništenje</string>
+  <string name="projects_control_remove_acctmgr">Onemogućiti</string>
+  <!--project confirm dialog-->
+  <string name="projects_confirm_detach_confirm">Ukloni</string>
+  <string name="projects_confirm_reset_confirm">Ponistenje</string>
+  <string name="projects_confirm_remove_acctmgr_confirm">Onemogućiti</string>
+  <!--tasks tab strings-->
+  <string name="tasks_result_files_downloaded">preuzimanje završeno</string>
+  <!--confirmation dialog-->
+  <string name="confirm_abort_task_confirm">Obriši</string>
+  <string name="confirm_cancel">Otkazati</string>
+  <!--transfers tab strings-->
+  <string name="trans_download">Preuzimanje</string>
+  <!--eventlog tab strings-->
+  <!--suspend reasons-->
+  <!--rpc reasons-->
+  <!--menu-->
+  <string name="menu_run_mode_disable">Zaustavi</string>
+  <string name="menu_run_mode_enable">Nastavi</string>
+  <string name="menu_help">Pomoć</string>
+  <!--about dialog-->
+  <string name="about_name">BOINC</string>
+  <string name="about_copyright_reserved">Sva prava pridržana.</string>
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <!--multi BOINC compatibility-->
+  <string name="nonexcl_dialog_exit">Izlaz</string>
+  <!--social integration-->
+  <string name="social_invite_button">Pozovi prijatelje</string>
+  <!--first parameter: device manufacturer, second: URL-->
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
 </resources>

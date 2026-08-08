@@ -45,7 +45,7 @@ struct MESSAGE_DESC {
 struct MESSAGE_DESCS {
     std::deque<MESSAGE_DESC*> msgs;
     void insert(PROJ_AM *p, int priority, int now, char* msg);
-    void write(int seqno, class MIOFILE&, bool translatable);
+    void write(int seqno, MIOFILE&, bool translatable);
     int highest_seqno();
     void cleanup();
 };

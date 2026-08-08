@@ -105,11 +105,11 @@ int handle_file(VDA_FILE_AUX& vf, DB_VDA_FILE& dvf) {
                     vf.dir, vf.file_name, vf.dir, vf.file_name
                 );
                 retval = system(buf);
-                if (retval) { 
-                    log_messages.printf(MSG_CRITICAL, 
-                        "Can't truncate %s: %d\n", vf.file_name, retval 
-                    ); 
-                } 
+                if (retval) {
+                    log_messages.printf(MSG_CRITICAL,
+                        "Can't truncate %s: %d\n", vf.file_name, retval
+                    );
+                }
                 dvf.retrieved = true;
                 dvf.update();
             }

@@ -25,11 +25,11 @@
 ## updated 4/16/10 by Charlie Fenton
 ## customized 6/8/10 for Campus Party (installs custom project_init.xml file)
 ##
-## NOTE: This script uses PackageMaker, which is installed as part of the 
-##   XCode developer tools.  So you must have installed XCode Developer 
+## NOTE: This script uses PackageMaker, which is installed as part of the
+##   XCode developer tools.  So you must have installed XCode Developer
 ##   Tools on the Mac before running this script.
 ##
-## NOTE: PackageMaker may write 3 lines to the terminal with "Setting to : 0 (null)" 
+## NOTE: PackageMaker may write 3 lines to the terminal with "Setting to : 0 (null)"
 ##   and "relocate: (null) 0".  This is normal and does not indicate a problem.
 ##
 
@@ -37,11 +37,11 @@
 ## cd to the root directory of the boinc tree, for example:
 ##     cd [path]/boinc
 ##
-## Invoke this script with the three parts of version number as arguments.  
+## Invoke this script with the three parts of version number as arguments.
 ## For example, if the version is 3.2.1:
 ##     source [path_to_this_script] 3 2 1
 ##
-## This will create a director "BOINC_Installer" in the parent directory of 
+## This will create a director "BOINC_Installer" in the parent directory of
 ## the current directory
 ##
 ## For testing only, you can use the development build by adding a fourth argument -dev
@@ -218,7 +218,7 @@ DarwinMajorVersion=`echo $DarwinVersion | sed 's/\([0-9]*\)[.].*/\1/' `;
 # Build the installer package inside the wrapper application's bundle
 if [ "$DarwinMajorVersion" = "8" ]; then
     # OS 10.4 packagemaker
-    /Developer/Tools/packagemaker -build -p ../BOINC_Installer/Campus_Party_$1_$2_$3/boinc_$1.$2.$3_macOSX_Campus_Party/BOINC\ Installer.app/Contents/Resources/BOINC.pkg -f ../BOINC_Installer/Pkg_Root -r ../BOINC_Installer/Installer\ Resources/ -i mac_build/Pkg-Info.plist -d mac_Installer/Description.plist -ds 
+    /Developer/Tools/packagemaker -build -p ../BOINC_Installer/Campus_Party_$1_$2_$3/boinc_$1.$2.$3_macOSX_Campus_Party/BOINC\ Installer.app/Contents/Resources/BOINC.pkg -f ../BOINC_Installer/Pkg_Root -r ../BOINC_Installer/Installer\ Resources/ -i mac_build/Pkg-Info.plist -d mac_Installer/Description.plist -ds
 else
     # OS 10.5 / OS 10.6 packagemaker
     /Developer/usr/bin/packagemaker -r ../BOINC_Installer/Pkg_Root -e ../BOINC_Installer/Installer\ Resources/ -s ../BOINC_Installer/Installer\ Scripts/ -f mac_build/Pkg-Info.plist -t "BOINC Manager" -n "$1.$2.$3" -b -o ../BOINC_Installer/Campus_Party_$1_$2_$3/boinc_$1.$2.$3_macOSX_Campus_Party/BOINC\ Installer.app/Contents/Resources/BOINC.pkg

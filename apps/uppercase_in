@@ -1,0 +1,9 @@
+<input_template>
+    <file_info>
+    </file_info>
+    <workunit>
+        <file_ref>
+            <open_name>in</open_name>
+        </file_ref>
+    </workunit>
+</input_template>

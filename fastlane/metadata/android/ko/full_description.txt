@@ -1,0 +1,4 @@
+여러분의 휴대전화 또는 태블릿을 질병 연구, 지구 온난화 예측, 펄서 발견 등에 사용해 보세요! BOINC는 여러분의 안드로이드 장치에서 사용하지 않는 연산 능력(computing power)을 활용하여서 과학 연구 프로젝트 작업들을 수행할 수 있습니다. 여러분은 연구 기관들에서 주도하고 있는, 여러 과학 분야의 프로젝트를 선택할 수 있습니다. BOINC는 여러분의 장치에 전원이 연결되어 충전 중일 때에만 연산을 수행합니다. 따라서 배터리를 소모할 걱정은 덜으셔도 됩니다. 또한 데이터 전송은 WiFi를 통해서 이루어지므로 요금제에 따른 데이터 제한량은 신경쓰지 않으셔도 됩니다.
+
+Supports:
+Asteroids@home, Einstein@home, LHC@home, Moo!Wrapper, Rosetta@home, Universe@home, World Community Grid, Yoyo@home.

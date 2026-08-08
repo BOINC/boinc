@@ -1,0 +1,219 @@
+{
+    "Dialog": "ReadyToInstall",
+    "HCentering": 50,
+    "VCentering": 50,
+    "Width": 374,
+    "Height": 266,
+    "Attributes": 35,
+    "Title": "IDS_PRODUCTNAME",
+    "Control_First": "InstallNow",
+    "Control_Default": "InstallNow",
+    "Control_Cancel": "Cancel",
+    "Controls": [
+        {
+            "Control": "Back",
+            "Type": "PushButton",
+            "X": 164,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_BACK",
+            "Control_Next": "InstallNow",
+            "Events": [
+                {
+                    "Event": "NewDialog",
+                    "Argument": "MaintenanceType",
+                    "Condition": "Installed AND _IsMaintenance = \"Reinstall\"",
+                    "Ordering": 2
+                },
+                {
+                    "Event": "NewDialog",
+                    "Argument": "SetupConfig",
+                    "Condition": "NOT Installed",
+                    "Ordering": 1
+                }
+            ]
+        },
+        {
+            "Control": "Banner",
+            "Type": "Bitmap",
+            "X": 0,
+            "Y": 0,
+            "Width": 374,
+            "Height": 44,
+            "Attributes": 1,
+            "Binary_": "banner.jpg"
+        },
+        {
+            "Control": "BannerLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 44,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "Cancel",
+            "Type": "PushButton",
+            "X": 301,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_CANCEL",
+            "Control_Next": "Back",
+            "Events": [
+                {
+                    "Event": "SpawnDialog",
+                    "Argument": "CancelSetup",
+                    "Condition": "1",
+                    "Ordering": 1
+                }
+            ]
+        },
+        {
+            "Control": "DlgDesc",
+            "Type": "Text",
+            "X": 21,
+            "Y": 23,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS__IsVerifyReadyDlg_WizardReady"
+        },
+        {
+            "Control": "DlgLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 234,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "DlgText",
+            "Type": "Text",
+            "X": 21,
+            "Y": 51,
+            "Width": 326,
+            "Height": 20,
+            "Attributes": 3,
+            "Text": "IDS__IsVerifyReadyDlg_ClickInstall"
+        },
+        {
+            "Control": "DlgText1",
+            "Type": "Text",
+            "X": 21,
+            "Y": 70,
+            "Width": 330,
+            "Height": 24,
+            "Attributes": 3,
+            "Text": "IDS__IsVerifyReadyDlg_BackOrCancel"
+        },
+        {
+            "Control": "DlgTitle",
+            "Type": "Text",
+            "X": 13,
+            "Y": 6,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65538,
+            "Text": "IDS__IsVerifyReadyDlg_ModifyReady",
+            "Conditions": [
+                {
+                    "Action": "Show",
+                    "Condition": "ProgressType0=\"Modify\""
+                }
+            ]
+        },
+        {
+            "Control": "DlgTitle2",
+            "Type": "Text",
+            "X": 13,
+            "Y": 6,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65538,
+            "Text": "IDS__IsVerifyReadyDlg_ReadyRepair",
+            "Conditions": [
+                {
+                    "Action": "Show",
+                    "Condition": "ProgressType0=\"Repair\""
+                }
+            ]
+        },
+        {
+            "Control": "DlgTitle3",
+            "Type": "Text",
+            "X": 13,
+            "Y": 6,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65538,
+            "Text": "IDS__IsVerifyReadyDlg_ReadyInstall",
+            "Conditions": [
+                {
+                    "Action": "Show",
+                    "Condition": "ProgressType0=\"install\""
+                }
+            ]
+        },
+        {
+            "Control": "InstallNow",
+            "Type": "PushButton",
+            "X": 230,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS__IsVerifyReadyDlg_Install",
+            "Control_Next": "Cancel",
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "Return",
+                    "Condition": "OutOfNoRbDiskSpace <> 1",
+                    "Ordering": 1
+                },
+                {
+                    "Event": "NewDialog",
+                    "Argument": "OutOfSpace",
+                    "Condition": "OutOfNoRbDiskSpace = 1",
+                    "Ordering": 2
+                },
+                {
+                    "Event": "[ALLUSERS]",
+                    "Argument": "1",
+                    "Condition": "ENABLEUSEBYALLUSERS = 1",
+                    "Ordering": 7
+                },
+                {
+                    "Event": "[ALLUSERS]",
+                    "Argument": "{}",
+                    "Condition": "1",
+                    "Ordering": 6
+                },
+                {
+                    "Event": "[ProgressType1]",
+                    "Argument": "Installing",
+                    "Condition": "1",
+                    "Ordering": 3
+                },
+                {
+                    "Event": "[ProgressType2]",
+                    "Argument": "installed",
+                    "Condition": "1",
+                    "Ordering": 4
+                },
+                {
+                    "Event": "[ProgressType3]",
+                    "Argument": "installs",
+                    "Condition": "1",
+                    "Ordering": 5
+                }
+            ]
+        }
+    ]
+}

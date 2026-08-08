@@ -27,7 +27,7 @@
  */
 
 class CAcctMgrListItem: public wxObject
-{    
+{
     DECLARE_DYNAMIC_CLASS( CAcctMgrListItem )
 public:
 
@@ -56,7 +56,7 @@ private:
  */
 
 class CAccountManagerInfoPage: public wxWizardPageEx
-{    
+{
     DECLARE_DYNAMIC_CLASS( CAccountManagerInfoPage )
     DECLARE_EVENT_TABLE()
 
@@ -85,7 +85,7 @@ public:
 
     /// wxEVT_TEXT event handler for ID_PROJECTURLCTRL
     void OnURLChanged( wxCommandEvent& event );
-    
+
     /// wxEVT_BUTTON event handler for ID_PROJECTWEBPAGECTRL
     void OnProjectItemDisplay( wxCommandEvent& event );
 

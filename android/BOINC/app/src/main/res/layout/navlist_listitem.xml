@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2020 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -17,18 +17,19 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/listitem"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/listitem"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:minHeight="60dp"
-                android:background="@drawable/navlist_selector">
+                style="@style/DrawerBackgroundDayNight">
 
     <ImageView
             android:id="@+id/icon"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/boinc"
+            app:srcCompat="@drawable/ic_boinc"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
@@ -40,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/icon"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black"
+            android:textColor="?android:attr/textColorPrimary"
             android:layout_centerVertical="true"
             android:paddingRight="40dp"/>
 
@@ -48,7 +49,7 @@
             android:id="@+id/counter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/navlist_counter_background"
+            android:background="@drawable/shape_dark_blue_background"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingLeft="3dp"

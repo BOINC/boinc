@@ -31,8 +31,8 @@
 #include "sched_util.h"
 #include "util.h"
 
-const char *usage = 
-"\nUsage: dir_hier_move <src_dir> <dst_dir> <fanout>\n"	
+const char *usage =
+"\nUsage: dir_hier_move <src_dir> <dst_dir> <fanout>\n"
 "Moves files from <src_dir> (flat) into <dst_dir> (hierarchical) with the given <fanout>\n\n";
 
 int main(int argc, char** argv) {
@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
     std::string filename;
     char dst_path[MAXPATHLEN], src_path[MAXPATHLEN];
     int retval;
-    
+
     if ( (argc == 1) || !strcmp(argv[1], "-h")  || !strcmp(argv[1],"--help") || (argc != 4) ) {
         fprintf(stderr, "%s", usage);
         exit(1);

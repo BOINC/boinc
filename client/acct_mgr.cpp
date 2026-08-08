@@ -55,15 +55,14 @@ static const char *run_mode_name[] = {"", "always", "auto", "never"};
 //
 int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
     int retval;
-    unsigned int i;
-    char buf[256];
+    char buf[1024];
 
     ami = _ami;
 
     error_num = ERR_IN_PROGRESS;
-    error_str = "";
+    error_str.clear();
     via_gui = _via_gui;
-    global_prefs_xml = "";
+    global_prefs_xml.clear();
 
     // if null URL, detach from current AMS
     //
@@ -73,8 +72,8 @@ int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
         boinc_delete_file(ACCT_MGR_URL_FILENAME);
         boinc_delete_file(ACCT_MGR_LOGIN_FILENAME);
         error_num = 0;
-        for (i=0; i<gstate.projects.size(); i++) {
-            gstate.projects[i]->detach_ams();
+        for (PROJECT *p: gstate.projects) {
+            p->detach_ams();
         }
         ::rss_feeds.update_feed_list();
         gstate.set_client_state_dirty("detach from AMS");
@@ -152,8 +151,7 @@ int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
             );
         }
     }
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         double not_started_dur, in_progress_dur;
         p->get_task_durs(not_started_dur, in_progress_dur);
         fprintf(f,
@@ -185,7 +183,7 @@ int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
             p->disk_usage,
             p->disk_share
         );
-        
+
         // send work and starvation-related info
         //
         if (ami.dynamic) {
@@ -251,6 +249,17 @@ int ACCT_MGR_OP::do_rpc(ACCT_MGR_INFO& _ami, bool _via_gui) {
     }
     gstate.time_stats.write(mf, true);
     gstate.net_stats.write(mf);
+
+#ifndef SIM
+    // send task descriptions if requested by AM
+    //
+    if (ami.send_tasks_all || ami.send_tasks_active) {
+        mf.printf("<results>\n");
+        gstate.write_tasks_gui(mf, !ami.send_tasks_all);
+        mf.printf("</results>\n");
+    }
+#endif
+
     fprintf(f, "</acct_mgr_request>\n");
     fclose(f);
     snprintf(buf, sizeof(buf), "%srpc.php", ami.master_url);
@@ -287,10 +296,18 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
     detach_when_done.init();
     suspend.init();
     abort_not_started.init();
-    url = "";
+    url.clear();
     safe_strcpy(url_signature, "");
-    authenticator = "";
+    authenticator.clear();
     resource_share.init();
+    user_avg_ec = 0;
+    user_total_ec = 0;
+    cpu_ec = 0;
+    cpu_time = 0;
+    gpu_ec = 0;
+    gpu_time = 0;
+    njobs_success = 0;
+    njobs_error = 0;
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
@@ -316,6 +333,14 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
         if (xp.parse_string("authenticator", authenticator)) continue;
         if (xp.parse_bool("detach", detach)) continue;
         if (xp.parse_bool("update", update)) continue;
+        if (xp.parse_double("user_avg_ec", user_avg_ec)) continue;
+        if (xp.parse_double("user_total_ec", user_total_ec)) continue;
+        if (xp.parse_double("cpu_ec", cpu_ec)) continue;
+        if (xp.parse_double("cpu_time", cpu_time)) continue;
+        if (xp.parse_double("gpu_ec", gpu_ec)) continue;
+        if (xp.parse_double("gpu_time", gpu_time)) continue;
+        if (xp.parse_int("njobs_success", njobs_success)) continue;
+        if (xp.parse_int("njobs_error", njobs_error)) continue;
         if (xp.parse_bool("no_cpu", btemp)) {
             handle_no_rsc("CPU", btemp);
             continue;
@@ -381,13 +406,15 @@ int ACCT_MGR_OP::parse(FILE* f) {
     XML_PARSER xp(&mf);
 
     accounts.clear();
-    error_str = "";
+    error_str.clear();
     error_num = 0;
     repeat_sec = 0;
     safe_strcpy(host_venue, "");
     safe_strcpy(ami.opaque, "");
     ami.no_project_notices = false;
     ami.dynamic = false;
+    ami.send_tasks_all = false;
+    ami.send_tasks_active = false;
     rss_feeds.clear();
     if (!xp.parse_start("acct_mgr_reply")) return ERR_XML_PARSE;
     while (!xp.get_tag()) {
@@ -416,6 +443,8 @@ int ACCT_MGR_OP::parse(FILE* f) {
         if (xp.parse_string("error_msg", error_str)) continue;
         if (xp.parse_double("repeat_sec", repeat_sec)) continue;
         if (xp.parse_bool("dynamic", ami.dynamic)) continue;
+        if (xp.parse_bool("send_tasks_active", ami.send_tasks_active)) continue;
+        if (xp.parse_bool("send_tasks_all", ami.send_tasks_all)) continue;
         if (xp.parse_string("message", message)) {
             msg_printf(NULL, MSG_INFO, "Account manager: %s", message.c_str());
             continue;
@@ -486,7 +515,7 @@ int ACCT_MGR_OP::parse(FILE* f) {
 }
 
 static inline bool is_weak_auth(const char* auth) {
-    return (strstr(auth, "_") != NULL);
+    return (strchr(auth, '_') != NULL);
 }
 
 #ifdef SIM
@@ -494,7 +523,6 @@ void ACCT_MGR_OP::handle_reply(int ) {
 }
 #else
 void ACCT_MGR_OP::handle_reply(int http_op_retval) {
-    unsigned int i;
     int retval;
     bool verified;
     PROJECT* pp;
@@ -567,18 +595,23 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
 
     // The RPC was successful
     //
-    // Detach projects that are
-    // - detach_when_done
-    // - done
-    // - attached via AM
+    // Detach projects that
+    // - are detach_when_done
+    // - have no jobs
+    // - are attached via AM
     //
     while (1) {
         bool found = false;
-        for (i=0; i<gstate.projects.size(); i++) {
-            PROJECT* p = gstate.projects[i];
+
+        // can't use range-based for here; detach_project can change list
+        //
+        for (unsigned int i=0; i<gstate.projects.size(); i++) {
+            PROJECT *p = gstate.projects[i];
             if (p->detach_when_done && !gstate.nresults_for_project(p) && p->attached_via_acct_mgr) {
+                msg_printf(p, MSG_INFO, "Detaching - no more tasks");
                 gstate.detach_project(p);
                 found = true;
+                break;
             }
         }
         if (!found) break;
@@ -627,13 +660,18 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         safe_strcpy(gstate.acct_mgr_info.authenticator, ami.authenticator);
         gstate.acct_mgr_info.no_project_notices = ami.no_project_notices;
         gstate.acct_mgr_info.dynamic = ami.dynamic;
+        gstate.acct_mgr_info.send_tasks_active = ami.send_tasks_active;
+        gstate.acct_mgr_info.send_tasks_all = ami.send_tasks_all;
 
         // process projects
         //
-        for (i=0; i<accounts.size(); i++) {
-            AM_ACCOUNT& acct = accounts[i];
+        for (const AM_ACCOUNT& acct: accounts) {
             pp = gstate.lookup_project(acct.url.c_str());
             if (pp) {
+                if (gstate.acct_mgr_info.dynamic) {
+                    pp->user_expavg_credit = acct.user_avg_ec;
+                    pp->user_total_credit = acct.user_total_ec;
+                }
                 if (acct.detach) {
                     if (pp->attached_via_acct_mgr) {
                         gstate.detach_project(pp);
@@ -655,12 +693,11 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                                     "Received new authenticator from account manager"
                                 );
                             } else {
-                                // otherwise skip this update
+                                // otherwise keep using the old one
                                 //
                                 msg_printf(pp, MSG_INFO,
                                     "Already attached to a different account"
                                 );
-                                continue;
                             }
                         }
                     }
@@ -724,6 +761,10 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
             } else {
                 // here we don't already have the project.
                 //
+                if (acct.detach || (acct.detach_when_done.present && acct.detach_when_done.value)) {
+                    continue;
+                }
+
                 retval = check_string_signature2(
                     acct.url.c_str(), acct.url_signature, ami.signing_key, verified
                 );
@@ -741,37 +782,52 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     continue;
                 }
 
-                // Attach to it, unless the acct mgr is telling us to detach
+                // Attach to it
                 //
-                if (!acct.detach && !(acct.detach_when_done.present && acct.detach_when_done.value)) {
-                    msg_printf(NULL, MSG_INFO,
-                        "Attaching to %s", acct.url.c_str()
-                    );
-                    gstate.add_project(
-                        acct.url.c_str(), acct.authenticator.c_str(), "", true
-                    );
-                    pp = gstate.lookup_project(acct.url.c_str());
-                    if (pp) {
-                        for (int j=0; j<MAX_RSC; j++) {
-                            pp->no_rsc_ams[j] = acct.no_rsc[j];
-                        }
-                        if (acct.dont_request_more_work.present) {
-                            pp->dont_request_more_work = acct.dont_request_more_work.value;
-                        }
-                        if (acct.suspend.present && acct.suspend.value) {
-                            pp->suspend();
-                        }
-                    } else {
-                        msg_printf(NULL, MSG_INTERNAL_ERROR,
-                            "Failed to add project: %s",
-                            acct.url.c_str()
-                        );
+                msg_printf(NULL, MSG_INFO,
+                    "Attaching to %s", acct.url.c_str()
+                );
+                gstate.add_project(
+                    acct.url.c_str(), acct.authenticator.c_str(), "", "", true
+                );
+                pp = gstate.lookup_project(acct.url.c_str());
+                if (pp) {
+                    for (int j=0; j<MAX_RSC; j++) {
+                        pp->no_rsc_ams[j] = acct.no_rsc[j];
                     }
+                    if (acct.dont_request_more_work.present) {
+                        pp->dont_request_more_work = acct.dont_request_more_work.value;
+                    }
+                    if (acct.suspend.present && acct.suspend.value) {
+                        pp->suspend();
+                    }
+
+                    // The AM supplies initial accounting info
+                    // (in case the client was previously attached,
+                    // then detached).
+                    //
+                    if (gstate.acct_mgr_info.dynamic) {
+                        pp->user_expavg_credit = acct.user_avg_ec;
+                        pp->user_total_credit = acct.user_total_ec;
+                        pp->cpu_ec = acct.cpu_ec;
+                        pp->cpu_time = acct.cpu_time;
+                        pp->gpu_ec = acct.gpu_ec;
+                        pp->gpu_time = acct.gpu_time;
+                        pp->njobs_success = acct.njobs_success;
+                        pp->njobs_error = acct.njobs_error;
+                    }
+                } else {
+                    msg_printf(NULL, MSG_INTERNAL_ERROR,
+                        "Failed to add project: %s",
+                        acct.url.c_str()
+                    );
                 }
             }
         }
 
 #ifdef USE_NET_PREFS
+        // Prefs stuff - not used on Android
+
         bool read_prefs = false;
         if (strlen(host_venue) && strcmp(host_venue, gstate.main_host_venue)) {
             safe_strcpy(gstate.main_host_venue, host_venue);
@@ -781,13 +837,26 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         // process prefs if any
         //
         if (!global_prefs_xml.empty()) {
-            retval = gstate.save_global_prefs(
-                global_prefs_xml.c_str(), ami.master_url, ami.master_url
-            );
-            if (retval) {
-                msg_printf(NULL, MSG_INTERNAL_ERROR, "Can't save global prefs");
+            bool use_am_prefs;
+            // if dynamic AM (like SU) its prefs are our net prefs
+            //
+            if (ami.dynamic) {
+                use_am_prefs = true;
+            } else {
+                double mod_time = GLOBAL_PREFS::parse_mod_time(
+                    global_prefs_xml.c_str()
+                );
+                use_am_prefs = mod_time > gstate.global_prefs.mod_time;
             }
-            read_prefs = true;
+            if (use_am_prefs) {
+                retval = gstate.save_global_prefs(
+                    global_prefs_xml.c_str(), ami.master_url, ami.master_url
+                );
+                if (retval) {
+                    msg_printf(NULL, MSG_INTERNAL_ERROR, "Can't save global prefs");
+                }
+                read_prefs = true;
+            }
         }
 
         // process prefs if prefs or venue changed
@@ -795,7 +864,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
         if (read_prefs) {
             gstate.read_global_prefs();
         }
-#endif
+#endif  // USE_NET_PREFS
 
         handle_sr_feeds(rss_feeds, &gstate.acct_mgr_info);
 
@@ -818,7 +887,7 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
     gstate.acct_mgr_info.write_info();
     gstate.set_client_state_dirty("account manager RPC");
 }
-#endif
+#endif  // not SIM
 
 // write AM info to files.
 // This is done after each AM RPC.
@@ -937,6 +1006,8 @@ void ACCT_MGR_INFO::clear() {
     starved_rpc_backoff = 0;
     starved_rpc_min_time = 0;
     dynamic = false;
+    send_tasks_active = false;
+    send_tasks_all = false;
 }
 
 ACCT_MGR_INFO::ACCT_MGR_INFO() {
@@ -1011,21 +1082,21 @@ int ACCT_MGR_INFO::parse_login_file(FILE* p) {
 //
 int ACCT_MGR_INFO::init() {
     MIOFILE mf;
-    FILE*   p;
+    FILE* f;
     int retval;
 
     clear();
-    p = fopen(ACCT_MGR_URL_FILENAME, "r");
-    if (!p) {
+    f = fopen(ACCT_MGR_URL_FILENAME, "r");
+    if (!f) {
         // if not using acct mgr, make sure projects not flagged,
         // otherwise won't be able to detach them.
         //
-        for (unsigned int i=0; i<gstate.projects.size(); i++) {
-            gstate.projects[i]->attached_via_acct_mgr = false;
+        for (PROJECT *p: gstate.projects) {
+            p->attached_via_acct_mgr = false;
         }
         return 0;
     }
-    mf.init_file(p);
+    mf.init_file(f);
     XML_PARSER xp(&mf);
     if (!xp.parse_start("acct_mgr")) {
         //
@@ -1058,12 +1129,12 @@ int ACCT_MGR_INFO::init() {
         }
         xp.skip_unexpected(log_flags.unparsed_xml, "ACCT_MGR_INFO::init");
     }
-    fclose(p);
+    fclose(f);
 
-    p = fopen(ACCT_MGR_LOGIN_FILENAME, "r");
-    if (p) {
-        parse_login_file(p);
-        fclose(p);
+    f = fopen(ACCT_MGR_LOGIN_FILENAME, "r");
+    if (f) {
+        parse_login_file(f);
+        fclose(f);
     }
     if (using_am()) {
         msg_printf(NULL, MSG_INFO, "Using account manager %s", project_name);
@@ -1077,6 +1148,7 @@ int ACCT_MGR_INFO::init() {
 #define STARVED_RPC_DELAY   600
     // do RPC after this much starvation
 
+// See if we need to contact the account manager.
 // called once a second
 //
 bool ACCT_MGR_INFO::poll() {
@@ -1085,9 +1157,10 @@ bool ACCT_MGR_INFO::poll() {
         return false;
     }
 
+    // see if time for a periodic RPC
+    //
     if (gstate.now > next_rpc_time) {
-
-        // default synch period is 1 day
+        // default synch period is 1 day; the AM can override this
         //
         next_rpc_time = gstate.now + 86400;
         gstate.acct_mgr_op.do_rpc(*this, false);
@@ -1095,13 +1168,17 @@ bool ACCT_MGR_INFO::poll() {
     }
 
     // if not dynamic AM, we're done
+    // ("dynamic" means the AM can change set of projects)
     //
     if (!dynamic) {
         return false;
     }
 
-    // See if some resource is starved with the current set of projects,
-    // and if so possibly do a "starved" RPC asking for different projects
+    // it's possible that the set of projects given us by the AM
+    // is starving a resources
+    // e.g. those projects don't currently have jobs, or are down.
+    // In that case contact the AM, asking for other projects.
+    // Do this with exponential backoff to avoid overloading the AM
 
     // do this check once a minute
     //
@@ -1110,14 +1187,35 @@ bool ACCT_MGR_INFO::poll() {
         return false;
     }
     idle_timer = 0;
-    get_nidle();
-    if (any_resource_idle()) {
+    if (n_idle_resources()>0) {
+        if (log_flags.work_fetch_debug) {
+            msg_printf(NULL, MSG_INFO,
+                "[work_fetch] Using dynamic AM and some device is idle"
+            );
+        }
+
+        // "first_starved" is the time when starvation began.
+        // Let 10 min pass before contacting the AM
+        // (e.g. in case a scheduler request fails for some reason)
+
         if (first_starved == 0) {
             first_starved = gstate.now;
             starved_rpc_backoff = STARVED_RPC_DELAY;
             starved_rpc_min_time = gstate.now + STARVED_RPC_DELAY;
+            if (log_flags.work_fetch_debug) {
+                msg_printf(NULL, MSG_INFO,
+                    "[work_fetch] First time - delaying RPC for %d sec",
+                    STARVED_RPC_DELAY
+                );
+            }
         } else {
             if (gstate.now < starved_rpc_min_time) {
+                if (log_flags.work_fetch_debug) {
+                    msg_printf(NULL, MSG_INFO,
+                        "[work_fetch] AM RPC backed off for %.0f sec",
+                        starved_rpc_min_time - gstate.now
+                    );
+                }
                 return false;
             }
             msg_printf(NULL, MSG_INFO,

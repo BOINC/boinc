@@ -63,19 +63,19 @@ AC_DEFUN([SAH_CHECK_NAMESPACES],[
     ], [sah_cv_have_namespaces="yes"], [sah_cv_have_namespaces="no"])
   ])
   if test "${sah_cv_have_namespaces}" = "yes" ; then
-    AC_DEFINE(HAVE_NAMESPACES,[1],[Define if your C++ compiler supports namespaces]) 
+    AC_DEFINE(HAVE_NAMESPACES,[1],[Define if your C++ compiler supports namespaces])
   fi
   AC_LANG_POP(C++)
 ])
 
 AC_DEFUN([SAH_FUNCS_IN_NAMESPACE],[
   AC_LANG_PUSH(C++)
-  for func_name in $1 
+  for func_name in $1
   do
     func_name=m4_quote($func_name)
     t_ns=m4_quote($2)
-    SAH_LC_TO_DEFN(ac_func_upper,[$func_name]) 
-    SAH_LC_TO_DEFN(ac_namespace_upper,[$t_ns]) 
+    SAH_LC_TO_DEFN(ac_func_upper,[$func_name])
+    SAH_LC_TO_DEFN(ac_namespace_upper,[$t_ns])
     ac_uc_defn=`echo HAVE_"$ac_namespace_upper"_$ac_func_upper`
     AC_CACHE_CHECK([for $func_name in namespace $t_ns],
       [sah_cv_func_$2_$ac_func_upper],[
@@ -96,7 +96,7 @@ AC_DEFUN([SAH_FUNCS_IN_NAMESPACE],[
       )
     ])
     if test "`eval echo '${'sah_cv_func_$2_$ac_func_upper'}'`" = "yes" ; then
-        AC_DEFINE_UNQUOTED([$ac_uc_defn], [1], 
+        AC_DEFINE_UNQUOTED([$ac_uc_defn], [1],
 	["Define to 1 if $func_name is in namespace $t_ns::"  ])
     fi
   done

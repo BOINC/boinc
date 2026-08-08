@@ -74,7 +74,7 @@ function handle_team($team, $f) {
         return;
     }
     $user_email_munged = str_rot13($user->email_addr);
-    fwrite($f, 
+    fwrite($f,
 "<team>
    <name>".escape($team->name)."</name>
    <url>".escape($team->url)."</url>

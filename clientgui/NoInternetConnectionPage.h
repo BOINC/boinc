@@ -27,7 +27,7 @@
  */
 
 class CErrNoInternetConnectionPage: public wxWizardPageEx
-{    
+{
     DECLARE_DYNAMIC_CLASS( CErrNoInternetConnectionPage )
     DECLARE_EVENT_TABLE()
 

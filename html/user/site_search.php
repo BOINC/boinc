@@ -19,7 +19,7 @@
 require_once("../inc/util.inc");
 
 function site_search_form($url) {
-    page_head("Site search");
+    page_head(tra("Site search"));
     echo '
         <form class="form-inline" method="get" action="https://google.com/search">
         <input type=hidden name=domains value="'.$url.'">
@@ -33,6 +33,6 @@ function site_search_form($url) {
     page_tail();
 }
 
-site_search_form($master_url);
+site_search_form(master_url());
 
 ?>

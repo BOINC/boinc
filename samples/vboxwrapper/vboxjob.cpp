@@ -109,16 +109,20 @@ void VBOX_JOB::clear() {
     heartbeat_filename.clear();
     completion_trigger_file.clear();
     temporary_exit_trigger_file.clear();
+    multiattach_vdi_file.clear();
     enable_cern_dataformat = false;
     enable_shared_directory = false;
     enable_scratch_directory = false;
+    share_slot_dir = false;
+    share_project_dir = false;
     enable_floppyio = false;
     enable_cache_disk = false;
     enable_isocontextualization = false;
+    vm_network_driver.clear();
     enable_network = false;
     network_bridged_mode = false;
+    enable_nat_dns_host_resolver = false;
     enable_remotedesktop = false;
-    enable_gbac = false;
     enable_screenshots_on_error = false;
     enable_graphics_support = false;
     enable_vm_savestate_usage = false;
@@ -131,8 +135,11 @@ void VBOX_JOB::clear() {
     copy_cmdline_to_shared = false;
 
     // Initialize default values
-    vm_disk_controller_type = "ide";
-    vm_disk_controller_model = "PIIX4";
+    vm_disk_controller_type = "sata";
+    vm_disk_controller_model = "IntelAHCI";
+    vm_graphics_controller_type = "VBoxVGA";
+    vram_size_mb = VBOX_VRAM_MIN;
+
 }
 
 int VBOX_JOB::parse() {
@@ -162,6 +169,15 @@ int VBOX_JOB::parse() {
         else if (xp.parse_string("vm_disk_controller_type", vm_disk_controller_type)) continue;
         else if (xp.parse_string("vm_disk_controller_model", vm_disk_controller_model)) continue;
         else if (xp.parse_string("os_name", os_name)) continue;
+        else if (xp.parse_double("vram_size_mb", vram_size_mb)) {
+            // keep it within the valid range
+            if (vram_size_mb < VBOX_VRAM_MIN) {
+                vram_size_mb = VBOX_VRAM_MIN;
+            } else if (vram_size_mb > VBOX_VRAM_MAX) {
+                vram_size_mb = VBOX_VRAM_MAX;
+            }
+            continue;
+        }
         else if (xp.parse_double("memory_size_mb", memory_size_mb)) continue;
         else if (xp.parse_double("job_duration", job_duration)) continue;
         else if (xp.parse_double("minimum_checkpoint_interval", minimum_checkpoint_interval)) continue;
@@ -170,16 +186,20 @@ int VBOX_JOB::parse() {
         else if (xp.parse_string("heartbeat_filename", heartbeat_filename)) continue;
         else if (xp.parse_string("completion_trigger_file", completion_trigger_file)) continue;
         else if (xp.parse_string("temporary_exit_trigger_file", temporary_exit_trigger_file)) continue;
+        else if (xp.parse_string("multiattach_vdi_file", multiattach_vdi_file)) continue;
         else if (xp.parse_bool("enable_cern_dataformat", enable_cern_dataformat)) continue;
+        else if (xp.parse_string("vm_network_driver", vm_network_driver)) continue;
         else if (xp.parse_bool("enable_network", enable_network)) continue;
         else if (xp.parse_bool("network_bridged_mode", network_bridged_mode)) continue;
+        else if (xp.parse_bool("enable_nat_dns_host_resolver", enable_nat_dns_host_resolver)) continue;
         else if (xp.parse_bool("enable_shared_directory", enable_shared_directory)) continue;
         else if (xp.parse_bool("enable_scratch_directory", enable_scratch_directory)) continue;
+        else if (xp.parse_bool("share_slot_dir", share_slot_dir)) continue;
+        else if (xp.parse_bool("share_project_dir", share_project_dir)) continue;
         else if (xp.parse_bool("enable_floppyio", enable_floppyio)) continue;
         else if (xp.parse_bool("enable_cache_disk", enable_cache_disk)) continue;
         else if (xp.parse_bool("enable_isocontextualization", enable_isocontextualization)) continue;
         else if (xp.parse_bool("enable_remotedesktop", enable_remotedesktop)) continue;
-        else if (xp.parse_bool("enable_gbac", enable_gbac)) continue;
         else if (xp.parse_bool("enable_screenshots_on_error", enable_screenshots_on_error)) continue;
         else if (xp.parse_bool("enable_graphics_support", enable_graphics_support)) continue;
         else if (xp.parse_bool("enable_vm_savestate_usage", enable_vm_savestate_usage)) continue;

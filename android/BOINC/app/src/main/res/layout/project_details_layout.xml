@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2012 University of California
+  Copyright (C) 2020 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -37,11 +37,12 @@
             <TextView
                     android:id="@+id/header_status"
                     android:layout_width="100dp"
-                    android:singleLine="true"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="@string/tab_status"/>
+                    android:singleLine="true"
+                    android:text="@string/tab_status"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
                     android:id="@+id/status_text"
@@ -60,11 +61,12 @@
             <TextView
                     android:id="@+id/header_general_area"
                     android:layout_width="100dp"
-                    android:singleLine="true"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="@string/attachproject_login_header_general_area"/>
+                    android:singleLine="true"
+                    android:text="@string/attachproject_login_header_general_area"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
                     android:id="@+id/general_area"
@@ -83,11 +85,12 @@
             <TextView
                     android:id="@+id/header_specific_area"
                     android:layout_width="100dp"
-                    android:singleLine="true"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="@string/attachproject_login_header_specific_area"/>
+                    android:singleLine="true"
+                    android:text="@string/attachproject_login_header_specific_area"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
                     android:id="@+id/specific_area"
@@ -106,11 +109,12 @@
             <TextView
                     android:id="@+id/header_description"
                     android:layout_width="100dp"
-                    android:singleLine="true"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="@string/attachproject_login_header_description"/>
+                    android:singleLine="true"
+                    android:text="@string/attachproject_login_header_description"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
                     android:id="@+id/description"
@@ -129,11 +133,12 @@
             <TextView
                     android:id="@+id/header_based_at"
                     android:layout_width="100dp"
-                    android:singleLine="true"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="@string/attachproject_login_header_home"/>
+                    android:singleLine="true"
+                    android:text="@string/attachproject_login_header_home"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
                     android:id="@+id/based_at"
@@ -151,11 +156,12 @@
             <TextView
                     android:id="@+id/header_url"
                     android:layout_width="100dp"
-                    android:singleLine="true"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="@string/attachproject_login_header_url"/>
+                    android:singleLine="true"
+                    android:text="@string/attachproject_login_header_url"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
                     android:id="@+id/project_url"
@@ -163,15 +169,14 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:clickable="true"
-                    android:focusable="true"
                     android:textColor="@color/dark_blue"/>
         </LinearLayout>
 
         <HorizontalScrollView
+                style="@style/BackgroundDayNight"
                 android:id="@+id/slideshow_wrapper"
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
-                android:background="@drawable/shape_light_blue_background"
                 android:layout_marginTop="20dp"
                 android:padding="10dp">
 
@@ -187,7 +192,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         style="?android:attr/progressBarStyleLarge"
-                        android:background="@android:color/transparent"
                         android:layout_margin="20dp"/>
             </LinearLayout>
         </HorizontalScrollView>

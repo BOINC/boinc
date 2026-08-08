@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Structs describing WSL (Windows Subsystem for Linux) distros.
+// Used in Win client and also in server code (for plan class logic)
+
 #ifndef BOINC_WSLINFO_H
 #define BOINC_WSLINFO_H
 
@@ -22,30 +25,90 @@
 
 #include "miofile.h"
 #include "parse.h"
+#include "common_defs.h"
 
-struct WSL {
-    std::string distro_name;
+#define BOINC_WSL_DISTRO_NAME "boinc-buda-runner"
+
+// A GPU type that is usable from a particular distro.
+// This info is obtained from the 'gpus.json' file,
+// typically created by the distro installer
+//
+struct WSL_GPU {
     std::string name;
-    std::string version;
-    bool is_default;
-
-    WSL();
-
-    void clear();
+        // CPU, NVIDIA, AMD, intel_gpu, apple_gpu
+        // or (for OpenCL) model name
+        // e.g. strings containing Mali, Adreno, etc.
+    bool has_opencl;
+    bool has_cuda;
 
     void write_xml(MIOFILE&);
     int parse(XML_PARSER&);
+    void clear() {
+        name.clear();
+        has_opencl = false;
+        has_cuda = false;
+    }
 };
 
-struct WSLS {
-    std::vector<WSL> wsls;
+// describes a WSL (Windows Subsystem for Linux) distro,
+// and its Docker features
+//
+struct WSL_DISTRO {
+    std::string distro_name;
+        // name (unique) of distro
+    std::string os_name;
+        // name of the operating system
+    std::string os_version;
+        // version of the operating system
+    std::string libc_version;
+        // version of libc, as reported by ldd --version
+    int wsl_version;
+        // version of WSL (currently 1 or 2)
+    bool is_default;
+        // this is the default distro
+    bool disallowed;
+        // disallowed in cc_config.xml
+    std::string docker_version;
+        // version of Docker (or podman)
+        // empty if not present
+    DOCKER_TYPE docker_type;
+    std::string docker_compose_version;
+        // version of Docker Compose; empty if none
+    DOCKER_TYPE docker_compose_type;
+    int boinc_buda_runner_version;
+        // if this distro is boinc_buda_runner, the version
+    std::string base_path;
+        // the dir where the disk image (.vhdx file) is stored
+    std::vector<WSL_GPU> wsl_gpus;
+        // info on the GPUs that are usable
+        // from containers running in the distro
 
-    WSLS();
-
+    WSL_DISTRO(){
+        clear();
+    };
     void clear();
-
     void write_xml(MIOFILE&);
-    int parse(XML_PARSER&);    
+    int parse(XML_PARSER&);
+    int libc_version_int();
+};
+
+// a set of WSL distros
+//
+struct WSL_DISTROS {
+    std::vector<WSL_DISTRO> distros;
+
+    WSL_DISTROS();
+    void clear();
+    void write_xml(MIOFILE&);
+    int parse(XML_PARSER&);
+    WSL_DISTRO *find_match(
+        const char *os_name_regexp, const char *os_version_regexp,
+        int min_libc_version
+    );
+    WSL_DISTRO *find_docker();
+        // find a distro containing Docker
+    int boinc_distro_version();
+        // version number of BOINC distro, if present, else 0
 };
 
 #endif

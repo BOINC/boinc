@@ -31,11 +31,11 @@
 ## cd to the root directory of the boinc tree, for example:
 ##     cd [path]/boinc
 ##
-## Invoke this script with the three parts of version number as arguments.  
+## Invoke this script with the three parts of version number as arguments.
 ## For example, if the version is 3.2.1:
 ##     source [path_to_this_script] 3 2 1
 ##
-## This will create a director "BOINC_Installer" in the parent directory of 
+## This will create a director "BOINC_Installer" in the parent directory of
 ## the current directory
 ##
 ## For testing only, you can use the development build by adding a fourth argument -dev
@@ -132,7 +132,7 @@ cp -fpR "$BUILDPATH/switcher" "${PR_PATH}/Library/Application Support/BOINC Data
 cp -fpR "$BUILDPATH/setprojectgrp" "${PR_PATH}/Library/Application Support/BOINC Data/switcher/"
 ## cp -fpR "$BUILDPATH/AppStats" "${PR_PATH}/Library/Application Support/BOINC Data/switcher/"
 
-## Put Branding file into BOINC Data folder to make it available to screensaver 
+## Put Branding file into BOINC Data folder to make it available to screensaver
 cp -fp "${BRANDING_FILE}" "${PR_PATH}/Library/Application Support/BOINC Data/Branding"
 cp -fp curl/ca-bundle.crt  "${PR_PATH}/Library/Application Support/BOINC Data/"
 
@@ -153,9 +153,9 @@ cp -fpR "$BUILDPATH/BOINCSaver.saver" "${PR_PATH}/Library/Screen Savers/"
 
 ## New way copies only *.mo files (adapted from boinc/sea/make-tar.sh)
 ##### We've decided not to customize BOINC Data directory name for branding
-#### find locale/client -name '*.mo' | cut -d '/' -f 3 | awk -v PRPATH=${PR_PATH} -v BRANDNAME=${BRAND_NAME} '{print "\"" PRPATH "/Library/Application Support/" BRANDNAME " Data/locale/"$0"\""}' | xargs mkdir -p 
+#### find locale/client -name '*.mo' | cut -d '/' -f 3 | awk -v PRPATH=${PR_PATH} -v BRANDNAME=${BRAND_NAME} '{print "\"" PRPATH "/Library/Application Support/" BRANDNAME " Data/locale/"$0"\""}' | xargs mkdir -p
 #### find locale/client -name '*.mo' | cut -d '/' -f 3,4 | awk -v PRPATH=${PR_PATH} -v BRANDNAME=${BRAND_NAME} '{print "cp \"locale/"$0"\" \"" PRPATH "/Library/Application Support/" BRANDNAME " Data/locale/"$0"\""}' | bash
-find locale/client -name '*.mo' | cut -d '/' -f 2 | awk -v PRPATH=${PR_PATH} '{print "\"" PRPATH "/Library/Application Support/BOINC Data/locale/"$0"\""}' | xargs mkdir -p 
+find locale/client -name '*.mo' | cut -d '/' -f 2 | awk -v PRPATH=${PR_PATH} '{print "\"" PRPATH "/Library/Application Support/BOINC Data/locale/"$0"\""}' | xargs mkdir -p
 find locale/client -name '*.mo' | cut -d '/' -f 2,3 | awk -v PRPATH=${PR_PATH} '{print "cp \"locale/"$0"\" \"" PRPATH "/Library/Application Support/BOINC Data/locale/"$0"\""}' | bash
 
 ## Modify for Grid Republic
@@ -299,7 +299,7 @@ if [ "$DarwinMajorVersion" = "9" ]; then
     defaults delete "$PWD/${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg/Contents/Info" IFPkgPathMappings
 else
     # OS 10.4 packagemaker
-    /Developer/Tools/packagemaker -build -p "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg" -f "${PR_PATH}" -r "${IR_PATH}" -i "${NEW_DIR_PATH}/Pkg-Info.plist" -d "${NEW_DIR_PATH}/Description.plist" -ds 
+    /Developer/Tools/packagemaker -build -p "${NEW_DIR_PATH}/${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal/${BRAND_NAME} Installer.app/Contents/Resources/${BRAND_NAME}.pkg" -f "${PR_PATH}" -r "${IR_PATH}" -i "${NEW_DIR_PATH}/Pkg-Info.plist" -d "${NEW_DIR_PATH}/Description.plist" -ds
 fi
 
 # Allow the installer wrapper application to modify the package's Info.plist file
@@ -317,7 +317,7 @@ zip -rqy ${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal.zip ${LC_BRAND_NAME}_$1.$2.$
 ##### We've decided not to create branded symbol table file; it is identical to standard one
 #### zip -rqy ${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables.zip ${LC_BRAND_NAME}_$1.$2.$3_macOSX_SymbolTables
 
-# Force Finder to recognize changed icons by deleting the uncompressed products and expanding the zip file 
+# Force Finder to recognize changed icons by deleting the uncompressed products and expanding the zip file
 sudo rm -dfR ${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal
 open ${LC_BRAND_NAME}_$1.$2.$3_macOSX_universal.zip
 

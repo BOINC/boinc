@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -27,10 +27,7 @@
 #include "sched_config.h"
 #include "str_replace.h"
 #include "crypt.h"
-
-#ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
-#endif
+#include "boinc_stdio.h"
 
 #define OUTFILE_MACRO   "<OUTFILE_"
 #define UPLOAD_URL_MACRO      "<UPLOAD_URL/>"
@@ -49,7 +46,7 @@ int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
         if (!q1) break;
         q2 = strstr(q1, "</file_info>");
         if (!q2) {
-            fprintf(stderr, "add_signatures: malformed XML: %s\n", xml);
+            boinc::fprintf(stderr, "add_signatures: malformed XML: %s\n", xml);
             return ERR_XML_PARSE;
         }
 
@@ -59,12 +56,12 @@ int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
         buf[len] = 0;
         char name[1024];
         if (!parse_str(buf, "<name>", name, sizeof(name))) {
-            fprintf(stderr, "add_signatures: missing name: %s", buf);
+            boinc::fprintf(stderr, "add_signatures: missing name: %s", buf);
             return ERR_XML_PARSE;
         }
         double max_nbytes;
         if (!parse_double(buf, "<max_nbytes>", max_nbytes)) {
-            fprintf(stderr, "add_signatures: missing max_nbytes: %s", buf);
+            boinc::fprintf(stderr, "add_signatures: missing max_nbytes: %s", buf);
             return ERR_XML_PARSE;
         }
         sprintf(signed_xml, "<name>%s</name><max_nbytes>%.0f</max_nbytes>",
@@ -95,7 +92,7 @@ int remove_signatures(char* xml) {
         if (!p) break;
         q = strstr(p, "</xml_signature>");
         if (!q) {
-            fprintf(stderr, "remove_signatures: invalid XML:\n%s", xml);
+            boinc::fprintf(stderr, "remove_signatures: invalid XML:\n%s", xml);
             return ERR_XML_PARSE;
         }
         q += strlen("</xml_signature>\n");

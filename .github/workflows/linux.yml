@@ -1,0 +1,535 @@
+# This file is part of BOINC.
+# https://boinc.berkeley.edu
+# Copyright (C) 2026 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+name: Linux
+on:
+  push:
+    tags: [ 'client_release/**' ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron:  '0 0 * * *'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
+  AWS_DEFAULT_REGION: us-west-2
+  CUDA_VERSION_MM: 13-3
+  CUDA_VERSION_MMP: 13.3.0
+  CUDA_VERSION_FULL: 13.3.0-610.43.02-1
+
+jobs:
+  build:
+    name: ${{ matrix.type }}-build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        type:
+            - apps
+            - apps-arm64
+            - apps-armhf
+            - apps-vcpkg
+            - apps-vcpkg-arm64
+            - apps-vcpkg-armhf
+            - client
+            - client-vcpkg
+            - client-vcpkg-arm64
+            - client-vcpkg-armhf
+            - coverity
+            - integration-test
+            - libs
+            - libs-arm64
+            - libs-armhf
+            - libs-cmake
+            - libs-vcpkg
+            - libs-vcpkg-arm64
+            - libs-vcpkg-armhf
+            - manager
+            - manager-with-webview
+            - manager-with-webview-vcpkg
+            - manager-with-webview-vcpkg-arm64
+            - manager-with-webview-vcpkg-armhf
+            - manager-without-webview
+            - server
+            - unit-test
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+
+      - name: Ignore mirrors when building arm64 or armhf
+        if: success() && (endsWith(matrix.type, 'arm64') || endsWith(matrix.type, 'armhf'))
+        run: |
+          sudo sed -i '/azure/d' /etc/apt/apt-mirrors.txt
+
+      - name: Install dependencies
+        if: matrix.type != 'coverity' || (github.ref == 'refs/heads/master' && github.event_name == 'schedule')
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y autopoint p7zip-full zip wget
+
+      - name: Install dependencies for x64
+        if: success() && (! endsWith(matrix.type, 'arm64') && ! endsWith(matrix.type, 'armhf') && (matrix.type != 'coverity' || (github.ref == 'refs/heads/master' && github.event_name == 'schedule')))
+        run: |
+          sudo apt-get install -y autoconf-archive libftgl-dev freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk-3-dev libsecret-1-dev libgcrypt20-dev libsystemd-dev libwebkit2gtk-4.1-dev libxxf86vm-dev ocl-icd-opencl-dev libltdl-dev libzip-dev nlohmann-json3-dev
+
+      - name: Install dependencies for manager
+        if: success() && (matrix.type == 'manager' || (matrix.type == 'coverity' && github.ref == 'refs/heads/master' && github.event_name == 'schedule'))
+        run: |
+          sudo apt-get install -y libwxgtk3.2-dev libwxgtk-webview3.2-dev
+
+      - name: Install dependencies for arm64
+        if: success() && endsWith(matrix.type, 'arm64')
+        run: |
+          sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu
+
+      - name: Install dependencies for armhf
+        if: success() && endsWith(matrix.type, 'armhf')
+        run: |
+          sudo apt-get install -y gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
+
+      - name: Fix sources for arm64
+        if: success() && endsWith(matrix.type, 'arm64') && matrix.type != 'client-vcpkg-arm64'
+        run: |
+          arch=arm64
+          sudo dpkg --add-architecture arm64
+          sudo sed -i '/^Types: deb$/a Architectures: amd64' /etc/apt/sources.list.d/ubuntu.sources
+          sudo sed -i '/^Types: deb$/a Architectures: amd64' /etc/apt/sources.list.d/azure-cli.sources
+          codename=$(lsb_release -cs)
+          cat <<EOT >> arm-cross-compile-sources.list
+          deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports $codename main restricted universe multiverse
+          deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports $codename-updates main restricted universe multiverse
+          deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports $codename-security main restricted universe multiverse
+          deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports $codename-backports main restricted universe multiverse
+          EOT
+          sudo mv arm-cross-compile-sources.list /etc/apt/sources.list.d/
+          sudo apt update
+
+      - name: Fix sources for armhf
+        if: success() && endsWith(matrix.type, 'armhf') && matrix.type != 'client-vcpkg-armhf'
+        run: |
+          arch=armhf
+          sudo dpkg --add-architecture armhf
+          sudo sed -i '/^Types: deb$/a Architectures: amd64' /etc/apt/sources.list.d/ubuntu.sources
+          sudo sed -i '/^Types: deb$/a Architectures: amd64' /etc/apt/sources.list.d/azure-cli.sources
+          codename=$(lsb_release -cs)
+          cat <<EOT >> armhf-cross-compile-sources.list
+          deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports $codename main restricted universe multiverse
+          deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports $codename-updates main restricted universe multiverse
+          deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports $codename-security main restricted universe multiverse
+          deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports $codename-backports main restricted universe multiverse
+          EOT
+          sudo mv armhf-cross-compile-sources.list /etc/apt/sources.list.d/
+          sudo apt update
+
+      - name: Install dependencies for arm64 non-vcpkg
+        if: success() && (matrix.type == 'libs-arm64' || matrix.type == 'apps-arm64')
+        run: |
+          sudo apt install -y \
+            libcurl4-openssl-dev:arm64 \
+            libssl-dev:arm64 \
+            libzip-dev:arm64
+
+      - name: Install dependencies for armhf non-vcpkg
+        if: success() && (matrix.type == 'libs-armhf' || matrix.type == 'apps-armhf')
+        run: |
+          sudo apt install -y \
+            libcurl4-openssl-dev:armhf \
+            libssl-dev:armhf \
+            libzip-dev:armhf
+
+      - name: Install dependencies for apps arm64 vcpkg
+        if: success() && matrix.type == 'apps-vcpkg-arm64'
+        run: |
+          sudo apt install -y \
+            libxi-dev:arm64 \
+            libxmu-dev:arm64 \
+            libgl1-mesa-dev:arm64 \
+            libglu1-mesa-dev:arm64 \
+            mesa-common-dev:arm64 \
+            libxrandr-dev:arm64 \
+            libxxf86vm-dev:arm64 \
+            libjpeg-dev:arm64 \
+            ocl-icd-opencl-dev:arm64 \
+            libcurl4-openssl-dev:arm64 \
+            libssl-dev:arm64 \
+            libzip-dev:arm64
+
+      - name: Install dependencies for apps armhf vcpkg
+        if: success() && matrix.type == 'apps-vcpkg-armhf'
+        run: |
+          sudo apt install -y \
+            libxi-dev:armhf \
+            libxmu-dev:armhf \
+            libgl1-mesa-dev:armhf \
+            libglu1-mesa-dev:armhf \
+            mesa-common-dev:armhf \
+            libxrandr-dev:armhf \
+            libxxf86vm-dev:armhf \
+            libjpeg-dev:armhf \
+            ocl-icd-opencl-dev:armhf \
+            libcurl4-openssl-dev:armhf \
+            libssl-dev:armhf \
+            libzip-dev:armhf
+
+      - name: Install dependencies for manager arm64 vcpkg
+        if: success() && matrix.type == 'manager-with-webview-vcpkg-arm64'
+        run: |
+          sudo apt install -y \
+            libltdl-dev:arm64 \
+            python3-jinja2 \
+            autoconf-archive
+
+      - name: Install dependencies for manager armhf vcpkg
+        if: success() && matrix.type == 'manager-with-webview-vcpkg-armhf'
+        run: |
+          sudo apt install -y \
+            libltdl-dev:armhf \
+            python3-jinja2 \
+            autoconf-archive
+
+      - name: Install dependencies for unit testing
+        if: success() && matrix.type == 'unit-test'
+        run: |
+          sudo apt-get install -y libgtest-dev
+
+      - name: Install dependencies for integration testing
+        if: success() && matrix.type == 'integration-test'
+        env:
+          BOINC_INTEGRATION_LOG_DIR: ${{ runner.temp }}/integration-test-logs
+        run: |
+          sudo apt-get install ansible
+          sudo service mysql stop
+          ./tests/integration_test/installTestSuite.sh
+
+      - name: Install CUDA for apps and apps-vcpkg
+        if: success() && (matrix.type == 'apps' || matrix.type == 'apps-vcpkg')
+        run: |
+          distro_name=ubuntu$(echo $(lsb_release -rs) | sed 's/\.//g')
+          wget https://developer.download.nvidia.com/compute/cuda/repos/$distro_name/x86_64/cuda-$distro_name.pin
+          sudo mv cuda-$distro_name.pin /etc/apt/preferences.d/cuda-repository-pin-600
+          wget https://developer.download.nvidia.com/compute/cuda/${{ env.CUDA_VERSION_MMP }}/local_installers/cuda-repo-$distro_name-${{ env.CUDA_VERSION_MM }}-local_${{ env.CUDA_VERSION_FULL }}_amd64.deb
+          sudo dpkg -i cuda-repo-$distro_name-${{ env.CUDA_VERSION_MM }}-local_${{ env.CUDA_VERSION_FULL}}_amd64.deb
+          sudo cp /var/cuda-repo-$distro_name-${{ env.CUDA_VERSION_MM }}-local/cuda-*-keyring.gpg /usr/share/keyrings/
+          sudo apt update
+          sudo apt -y install cuda-toolkit-${{ env.CUDA_VERSION_MM }}
+          /usr/local/cuda/bin/nvcc --version
+
+      - name: Cache dependencies
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: |
+            3rdParty/buildCache
+            !3rdParty/buildCache/linux/vcpkgcache/
+          key: linux-${{ matrix.type }}-${{ hashFiles('3rdParty/*Linux*.sh', 'linux/*.sh', '.github/workflows/linux.yml') }}
+
+      - name: Check if build is running from origin repo
+        if: ${{ success() && env.AWS_ACCESS_KEY_ID != 0 && env.AWS_SECRET_ACCESS_KEY != 0 }}
+        run: |
+          echo "VCPKG_BINARY_SOURCES=clear;x-aws,s3://vcpkg.cache.boinc/,readwrite" >> $GITHUB_ENV
+
+      - name: Check if build is running from fork
+        if: ${{ success() && (env.AWS_ACCESS_KEY_ID == 0 || env.AWS_SECRET_ACCESS_KEY == 0) }}
+        run: |
+          echo "VCPKG_BINARY_SOURCES=clear;x-aws-config,no-sign-request;x-aws,s3://vcpkg.cache.boinc/,read" >> $GITHUB_ENV
+
+      - name: Automake
+        if: success() && (matrix.type != 'coverity' || (github.ref == 'refs/heads/master' && github.event_name == 'schedule'))
+        run: ./_autosetup
+
+      - name: Build libs
+        if: success() && matrix.type == 'libs'
+        run: |
+          ./configure --disable-server --disable-client --disable-manager --enable-boinczip
+          make -j $(nproc --all)
+
+      - name: Build client
+        if: success() && matrix.type == 'client'
+        run: |
+          ./configure --disable-server --enable-client --disable-manager
+          make -j $(nproc --all)
+
+      - name: Build apps
+        if: success() && matrix.type == 'apps'
+        run: |
+          ./configure --enable-apps --enable-apps-vbox --enable-apps-gui --disable-server --disable-client --disable-manager
+          make -j $(nproc --all)
+
+      - name: Build manager
+        if: success() && matrix.type == 'manager'
+        run: |
+          ./configure --disable-server --disable-client --enable-manager
+          make -j $(nproc --all)
+
+      - name: Build libs with vcpkg
+        if: success() && matrix.type == 'libs-vcpkg'
+        run: |
+          . ./linux/ci_configure_libs.sh
+          make -j $(nproc --all)
+
+      - name: Build client with vcpkg
+        if: success() && matrix.type == 'client-vcpkg'
+        run: |
+          . ./linux/ci_configure_client.sh
+          make -j $(nproc --all)
+
+      - name: Build apps with vcpkg
+        if: success() && matrix.type == 'apps-vcpkg'
+        run: |
+          . ./linux/ci_configure_apps.sh
+          make -j $(nproc --all)
+
+      - name: Build libs with cmake vcpkg
+        if: success() && matrix.type == 'libs-cmake'
+        run: |
+          . ./linux/ci_configure_libs_cmake.sh
+          cmake --build build
+
+      - name: Build manager with webview and vcpkg
+        if: success() && matrix.type == 'manager-with-webview-vcpkg'
+        run: |
+          . ./linux/ci_configure_manager.sh
+          make -j $(nproc --all)
+
+      - name: Build server
+        if: success() && matrix.type == 'server'
+        run: |
+          ./configure --enable-server --disable-client --disable-manager
+          make
+
+      - name: Build manager with webview
+        if: success() && matrix.type == 'manager-with-webview'
+        run: |
+          ./3rdParty/buildLinuxDependencies.sh
+          ./configure --disable-server --disable-client --with-wx-prefix=${GITHUB_WORKSPACE}/3rdParty/buildCache/linux
+          make -j $(nproc --all)
+
+      - name: Build manager without webview
+        if: success() && matrix.type == 'manager-without-webview'
+        run: |
+          ./3rdParty/buildLinuxDependencies.sh --disable-webview
+          ./configure --disable-server --disable-client --with-wx-prefix=${GITHUB_WORKSPACE}/3rdParty/buildCache/linux
+          make -j $(nproc --all)
+
+      - name: Build server for unit testing
+        if: success() && matrix.type == 'unit-test'
+        run: |
+          ./configure --disable-client --disable-manager --enable-unit-tests CFLAGS="-g -O0" CXXFLAGS="-g -O0"
+          make
+
+      - name: Build libraries for arm64 with vcpkg
+        if: success() && matrix.type == 'libs-vcpkg-arm64'
+        run: |
+          . ./linux/arm64/ci_configure_libs.sh
+          make -j $(nproc --all)
+
+      - name: Build apps for arm64 with vcpkg
+        if: success() && matrix.type == 'apps-vcpkg-arm64'
+        run: |
+          . ./linux/arm64/ci_configure_apps.sh
+          make -j $(nproc --all)
+
+      - name: Build client for arm64 with vcpkg
+        if: success() && matrix.type == 'client-vcpkg-arm64'
+        run: |
+          . ./linux/arm64/ci_configure_client.sh
+          make -j $(nproc --all)
+
+      - name: Build manager with webview for arm64 with vcpkg
+        if: success() && matrix.type == 'manager-with-webview-vcpkg-arm64'
+        run: |
+          . ./linux/arm64/ci_configure_manager.sh
+          make -j $(nproc --all)
+
+      - name: Build libraries for armhf with vcpkg
+        if: success() && matrix.type == 'libs-vcpkg-armhf'
+        run: |
+          . ./linux/armhf/ci_configure_libs.sh
+          make -j $(nproc --all)
+
+      - name: Build apps for armhf with vcpkg
+        if: success() && matrix.type == 'apps-vcpkg-armhf'
+        run: |
+          . ./linux/armhf/ci_configure_apps.sh
+          make -j $(nproc --all)
+
+      - name: Build client for armhf with vcpkg
+        if: success() && matrix.type == 'client-vcpkg-armhf'
+        run: |
+          . ./linux/armhf/ci_configure_client.sh
+          make -j $(nproc --all)
+
+      - name: Build manager with webview for armhf with vcpkg
+        if: success() && matrix.type == 'manager-with-webview-vcpkg-armhf'
+        run: |
+          . ./linux/armhf/ci_configure_manager.sh
+          make -j $(nproc --all)
+
+      - name: Build libraries for arm64
+        if: success() && matrix.type == 'libs-arm64'
+        run: |
+          export CC=aarch64-linux-gnu-gcc
+          export CXX=aarch64-linux-gnu-g++
+          export LD=aarch64-linux-gnu-ld
+          export CFLAGS="-march=armv8-a -O3"
+          export CXXFLAGS="-march=armv8-a -O3 -std=c++11"
+          export LDFLAGS="-march=armv8-a -static-libstdc++ -s"
+          export RELEASE_ARCH=arm64
+          export PKG_CONFIG_LIBDIR=/usr/lib/aarch64-linux-gnu/pkgconfig:/usr/share/pkgconfig
+          ./configure --host=aarch64-linux --with-boinc-platform="aarch64-unknown-linux-gnu" --with-boinc-alt-platform="arm-unknown-linux-gnueabihf" --enable-boinczip --disable-server --disable-manager --disable-client --disable-shared --enable-static
+          make -j $(nproc --all)
+
+      - name: Build apps for arm64
+        if: success() && matrix.type == 'apps-arm64'
+        run: |
+          export CC=aarch64-linux-gnu-gcc
+          export CXX=aarch64-linux-gnu-g++
+          export LD=aarch64-linux-gnu-ld
+          export CFLAGS="-march=armv8-a -O3"
+          export CXXFLAGS="-march=armv8-a -O3 -std=c++11"
+          export LDFLAGS="-march=armv8-a -static-libstdc++ -s"
+          export RELEASE_ARCH=arm64
+          export PKG_CONFIG_LIBDIR=/usr/lib/aarch64-linux-gnu/pkgconfig:/usr/share/pkgconfig
+          ./configure --host=aarch64-linux --with-boinc-platform="aarch64-unknown-linux-gnu" --with-boinc-alt-platform="arm-unknown-linux-gnueabihf" --enable-apps --disable-server --disable-manager --disable-client --disable-shared --enable-static
+          make -j $(nproc --all)
+
+      - name: Build libraries for armhf
+        if: success() && matrix.type == 'libs-armhf'
+        run: |
+          export CC=arm-linux-gnueabihf-gcc
+          export CXX=arm-linux-gnueabihf-g++
+          export LD=arm-linux-gnueabihf-ld
+          export CFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3"
+          export CXXFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3 -std=c++11"
+          export LDFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -static-libstdc++ -s"
+          export RELEASE_ARCH=armhf
+          export PKG_CONFIG_LIBDIR=/usr/lib/arm-linux-gnueabihf/pkgconfig:/usr/share/pkgconfig
+          ./configure --host=arm-linux-gnueabihf --with-boinc-platform="arm-unknown-linux-gnueabihf" --with-boinc-alt-platform="aarch64-unknown-linux-gnu" --enable-boinczip --disable-server --disable-manager --disable-client --disable-shared --enable-static
+          make -j $(nproc --all)
+
+      - name: Build apps for armhf
+        if: success() && matrix.type == 'apps-armhf'
+        run: |
+          export CC=arm-linux-gnueabihf-gcc
+          export CXX=arm-linux-gnueabihf-g++
+          export LD=arm-linux-gnueabihf-ld
+          export CFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3"
+          export CXXFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -O3 -std=c++11"
+          export LDFLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -static-libstdc++ -s"
+          export RELEASE_ARCH=armhf
+          export PKG_CONFIG_LIBDIR=/usr/lib/arm-linux-gnueabihf/pkgconfig:/usr/share/pkgconfig
+          ./configure --host=arm-linux-gnueabihf --with-boinc-platform="arm-unknown-linux-gnueabihf" --with-boinc-alt-platform="aarch64-unknown-linux-gnu" --enable-apps --disable-server --disable-manager --disable-client --disable-shared --enable-static
+          make -j $(nproc --all)
+
+      - name: Prepare for coverity scan
+        if: success() && matrix.type == 'coverity' && github.ref == 'refs/heads/master' && github.event_name == 'schedule'
+        run: ./configure --enable-client --enable-manager --enable-apps --enable-apps-vbox --enable-apps-gui --enable-server --enable-boinczip
+
+      - name: Coverity Scan
+        if: ${{ success() && matrix.type == 'coverity' && github.ref == 'refs/heads/master' && github.event_name == 'schedule' }}
+        uses: vapier/coverity-scan-action@2068473c7bdf8c2fb984a6a40ae76ee7facd7a85
+        with:
+          project: 'BOINC/boinc'
+          token: ${{ secrets.COVERITY_SCAN_TOKEN }}
+          email: 'lestat.de.lionkur@gmail.com'
+
+      - name: Execute unit-test and report coverage
+        if: success() && matrix.type == 'unit-test'
+        run: ./tests/executeUnitTests.sh --report-coverage --report-xml
+
+      - name: Execute automation tests
+        if: success() && matrix.type == 'unit-test'
+        run: python ./tests/crypt_prog_tests.py ./lib/crypt_prog
+
+      - name: Execute integration-test
+        if: success() && matrix.type == 'integration-test'
+        env:
+          BOINC_INTEGRATION_LOG_DIR: ${{ runner.temp }}/integration-test-logs
+        run: ./tests/integration_test/executeTestSuite.sh
+
+      - name: Collect integration-test docker logs
+        if: ${{ always() && matrix.type == 'integration-test' }}
+        env:
+          BOINC_INTEGRATION_LOG_DIR: ${{ runner.temp }}/integration-test-logs
+        run: |
+          mkdir -p "$BOINC_INTEGRATION_LOG_DIR"
+
+          if [ -d /tmp/boinc-server-docker ]; then
+            cd /tmp/boinc-server-docker
+
+            if ! docker compose ps -a > "$BOINC_INTEGRATION_LOG_DIR/docker-compose-ps.txt" 2>&1; then
+              echo "docker compose ps -a failed while collecting integration-test diagnostics" >> "$BOINC_INTEGRATION_LOG_DIR/docker-compose-ps.txt"
+            fi
+
+            if ! docker compose logs --no-color > "$BOINC_INTEGRATION_LOG_DIR/docker-compose.log" 2>&1; then
+              echo "docker compose logs failed while collecting integration-test diagnostics" >> "$BOINC_INTEGRATION_LOG_DIR/docker-compose.log"
+            fi
+          else
+            echo "/tmp/boinc-server-docker was not created" > "$BOINC_INTEGRATION_LOG_DIR/docker-compose.log"
+          fi
+
+          if ! docker ps -a > "$BOINC_INTEGRATION_LOG_DIR/docker-ps.txt" 2>&1; then
+            echo "docker ps -a failed while collecting integration-test diagnostics" >> "$BOINC_INTEGRATION_LOG_DIR/docker-ps.txt"
+          fi
+
+      - name: Upload integration-test docker logs
+        if: ${{ always() && matrix.type == 'integration-test' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: linux_integration_test_docker_logs_${{ github.sha }}
+          path: ${{ runner.temp }}/integration-test-logs
+          if-no-files-found: warn
+
+      - name: Prepare logs on failure
+        if: ${{ failure() }}
+        run: python ./deploy/prepare_deployment.py logs
+
+      - name: Upload logs on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: linux_logs_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/logs.7z
+
+      - name: Prepare artifacts for deploy
+        if: success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') && matrix.type != 'coverity'
+        run: python ./deploy/prepare_deployment.py linux_${{ matrix.type }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: ${{ ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') && matrix.type != 'coverity' }}
+        with:
+          name: linux_${{ matrix.type }}_${{ github.event.pull_request.head.sha }}
+          path: deploy/linux_${{ matrix.type }}.7z
+
+      - name: Upload Google Tests Results
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always() && matrix.type == 'unit-test'    # run this step even if previous step failed
+        with:
+          name: Linux_tests_results
+          path: "tests/gtest/**/*_xml_report.xml"
+
+      - name: Upload coverage report
+        if: success() && matrix.type == 'unit-test'
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

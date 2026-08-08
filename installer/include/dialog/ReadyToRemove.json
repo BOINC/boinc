@@ -1,0 +1,178 @@
+{
+    "Dialog": "ReadyToRemove",
+    "HCentering": 50,
+    "VCentering": 50,
+    "Width": 374,
+    "Height": 266,
+    "Attributes": 3,
+    "Title": "IDS_PRODUCTNAME",
+    "Control_First": "RemoveNow",
+    "Control_Default": "RemoveNow",
+    "Control_Cancel": "Cancel",
+    "Controls": [
+        {
+            "Control": "Back",
+            "Type": "PushButton",
+            "X": 164,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_BACK",
+            "Control_Next": "RemoveNow",
+            "Events": [
+                {
+                    "Event": "NewDialog",
+                    "Argument": "MaintenanceType",
+                    "Condition": "1",
+                    "Ordering": 0
+                }
+            ]
+        },
+        {
+            "Control": "Banner",
+            "Type": "Bitmap",
+            "X": 0,
+            "Y": 0,
+            "Width": 374,
+            "Height": 44,
+            "Attributes": 1,
+            "Binary_": "banner.jpg"
+        },
+        {
+            "Control": "BannerLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 44,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "Cancel",
+            "Type": "PushButton",
+            "X": 301,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_CANCEL",
+            "Control_Next": "Back",
+            "Events": [
+                {
+                    "Event": "SpawnDialog",
+                    "Argument": "CancelSetup",
+                    "Condition": "1",
+                    "Ordering": 0
+                }
+            ]
+        },
+        {
+            "Control": "DlgDesc",
+            "Type": "Text",
+            "X": 21,
+            "Y": 23,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS__IsVerifyRemoveAllDlg_ChoseRemoveProgram"
+        },
+        {
+            "Control": "DlgLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 234,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "DlgText",
+            "Type": "Text",
+            "X": 21,
+            "Y": 51,
+            "Width": 326,
+            "Height": 24,
+            "Attributes": 3,
+            "Text": "IDS__IsVerifyRemoveAllDlg_ClickRemove"
+        },
+        {
+            "Control": "DlgText1",
+            "Type": "Text",
+            "X": 21,
+            "Y": 79,
+            "Width": 330,
+            "Height": 23,
+            "Attributes": 3,
+            "Text": "IDS__IsVerifyRemoveAllDlg_ClickBack"
+        },
+        {
+            "Control": "DlgText2",
+            "Type": "Text",
+            "X": 21,
+            "Y": 102,
+            "Width": 330,
+            "Height": 24,
+            "Attributes": 3
+        },
+        {
+            "Control": "DlgTitle",
+            "Type": "Text",
+            "X": 13,
+            "Y": 6,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS__IsVerifyRemoveAllDlg_RemoveProgram"
+        },
+        {
+            "Control": "RemoveNow",
+            "Type": "PushButton",
+            "X": 230,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS__IsVerifyRemoveAllDlg_Remove",
+            "Control_Next": "Cancel",
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "Return",
+                    "Condition": "OutOfNoRbDiskSpace <> 1",
+                    "Ordering": 2
+                },
+                {
+                    "Event": "NewDialog",
+                    "Argument": "OutOfSpace",
+                    "Condition": "OutOfNoRbDiskSpace = 1",
+                    "Ordering": 2
+                },
+                {
+                    "Event": "Remove",
+                    "Argument": "ALL",
+                    "Condition": "1",
+                    "Ordering": 1
+                },
+                {
+                    "Event": "[ProgressType1]",
+                    "Argument": "Uninstalling",
+                    "Condition": "1",
+                    "Ordering": 0
+                },
+                {
+                    "Event": "[ProgressType2]",
+                    "Argument": "uninstalled",
+                    "Condition": "1",
+                    "Ordering": 0
+                },
+                {
+                    "Event": "[ProgressType3]",
+                    "Argument": "uninstalls",
+                    "Condition": "1",
+                    "Ordering": 0
+                }
+            ]
+        }
+    ]
+}

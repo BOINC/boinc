@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -23,7 +23,6 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #endif
-#include "config.h"
 
 #if !defined(_WIN32) || defined (__CYGWIN__)
 #include <cstdio>
@@ -50,6 +49,7 @@
 #include "network.h"
 #include "notice.h"
 #include "prefs.h"
+#include "util.h"
 
 struct GUI_URL {
     std::string name;
@@ -57,7 +57,7 @@ struct GUI_URL {
     std::string url;
 
     int parse(XML_PARSER&);
-    void print();
+    void print() const;
 };
 
 // statistics at a specific day
@@ -72,46 +72,6 @@ struct DAILY_STATS {
     int parse(XML_PARSER&);
 };
 
-
-struct PROJECT_LIST_ENTRY {
-    std::string name;
-    std::string url;
-    std::string web_url;
-    std::string general_area;
-    std::string specific_area;
-    std::string description;
-    std::string home;       // sponsoring organization
-    std::string image;      // URL of logo
-    std::vector<std::string> platforms;
-        // platforms supported by project, or empty
-
-    PROJECT_LIST_ENTRY();
-
-    int parse(XML_PARSER&);
-    void clear();
-};
-
-struct AM_LIST_ENTRY {
-    std::string name;
-    std::string url;
-    std::string description;
-    std::string image;
-
-    AM_LIST_ENTRY();
-
-    int parse(XML_PARSER&);
-    void clear();
-};
-
-struct ALL_PROJECTS_LIST {
-    std::vector<PROJECT_LIST_ENTRY*> projects;
-    std::vector<AM_LIST_ENTRY*> account_managers;
-
-    ALL_PROJECTS_LIST();
-
-    void clear();
-    void alpha_sort();
-};
 
 struct RSC_DESC {
     double backoff_time;
@@ -149,6 +109,7 @@ struct PROJECT {
     RSC_DESC rsc_desc_nvidia;
     RSC_DESC rsc_desc_ati;
     RSC_DESC rsc_desc_intel_gpu;
+    RSC_DESC rsc_desc_apple_gpu;
 
     double sched_priority;
 
@@ -233,6 +194,7 @@ struct APP_VERSION {
 struct WORKUNIT {
     char name[256];
     char app_name[256];
+    char sub_appname[256];
     int version_num;    // backwards compat
     double rsc_fpops_est;
     double rsc_fpops_bound;
@@ -263,7 +225,7 @@ struct RESULT {
     double final_cpu_time;
     double final_elapsed_time;
     int state;
-    int scheduler_state;
+    SCHEDULER_STATE scheduler_state;
     int exit_status;
     int signal;
     //std::string stderr_out;
@@ -286,14 +248,17 @@ struct RESULT {
     double elapsed_time;
     double progress_rate;
         // avg increase in fraction done per second
-    double swap_size;
-    double working_set_size_smoothed;
+    double swap_usage;
+    double virtual_size;
+    double rss_smoothed;
     double estimated_cpu_time_remaining;
         // actually, estimated elapsed time remaining
     double bytes_sent;
     double bytes_received;
-    bool too_large;
+    bool wss_too_large;
+    bool swap_too_large;
     bool needs_shmem;
+    bool want_network;
     bool edf_scheduled;
     char graphics_exec_path[MAXPATHLEN];
     char web_graphics_url[256];
@@ -312,6 +277,13 @@ struct RESULT {
     int parse(XML_PARSER&);
     void print();
     void clear();
+
+    bool is_not_started() const {
+        if (state >= RESULT_COMPUTE_ERROR) return false;
+        if (ready_to_report) return false;
+        if (active_task) return false;
+        return true;
+    }
 };
 
 struct FILE_TRANSFER {
@@ -330,6 +302,7 @@ struct FILE_TRANSFER {
     double next_request_time;
     int status;
     double time_so_far;
+    double estimated_xfer_time_remaining;
     double bytes_xferred;
     double file_offset;
     double xfer_speed;
@@ -375,7 +348,7 @@ struct GR_PROXY_INFO {
     std::string socks5_user_passwd;
     bool socks5_remote_dns;
 
-	std::string noproxy_hosts;
+    std::string noproxy_hosts;
 
     GR_PROXY_INFO();
 
@@ -486,7 +459,6 @@ struct NOTICES {
 
     NOTICES();
 
-    void print();
     void clear();
 };
 
@@ -494,9 +466,7 @@ struct ACCT_MGR_INFO {
     std::string acct_mgr_name;
     std::string acct_mgr_url;
     bool have_credentials;
-    bool cookie_required;
-    std::string cookie_failure_url;
-    
+
     ACCT_MGR_INFO();
 
     int parse(XML_PARSER&);
@@ -528,7 +498,6 @@ struct PROJECT_INIT_STATUS {
     std::string url;
     std::string name;
     std::string team_name;
-    std::string setup_cookie;
     bool has_account_key;
     bool embedded;
 
@@ -554,7 +523,7 @@ struct PROJECT_CONFIG {
     bool sched_stopped;         // scheduler disabled
     bool web_stopped;           // DB-driven web functions disabled
     int min_client_version;
-	std::string error_msg;
+    std::string error_msg;
     bool terms_of_use_is_html;
     std::string terms_of_use;
         // if present, show this text in an "accept terms of use?" dialog
@@ -579,9 +548,7 @@ struct ACCOUNT_IN {
     std::string user_name;
     std::string passwd;
     std::string team_name;
-    std::string server_cookie;
     bool ldap_auth;
-    bool server_assigned_cookie;
     bool consented_to_terms;
 
     ACCOUNT_IN();
@@ -591,7 +558,7 @@ struct ACCOUNT_IN {
 
 struct ACCOUNT_OUT {
     int error_num;
-	std::string error_msg;
+    std::string error_msg;
     std::string authenticator;
 
     ACCOUNT_OUT();
@@ -605,18 +572,18 @@ struct CC_STATUS {
     int network_status;         // values: NETWORK_STATUS_*
     bool ams_password_error;
     bool manager_must_quit;
-    int task_suspend_reason;    // bitmap, see common_defs.h
+    int task_suspend_reason;    // see common_defs.h
     int task_mode;              // always/auto/never; see common_defs.h
-    int task_mode_perm;			// same, but permanent version
-	double task_mode_delay;		// time until perm becomes actual
+    int task_mode_perm;         // same, but permanent version
+    double task_mode_delay;     // time until perm becomes actual
     int gpu_suspend_reason;
     int gpu_mode;
     int gpu_mode_perm;
-	double gpu_mode_delay;
+    double gpu_mode_delay;
     int network_suspend_reason;
     int network_mode;
     int network_mode_perm;
-	double network_mode_delay;
+    double network_mode_delay;
     bool disallow_attach;
     bool simple_gui_only;
     int max_event_log_lines;
@@ -661,7 +628,7 @@ struct OLD_RESULT {
     double create_time;
 
     int parse(XML_PARSER&);
-    void print();
+    void print() const;
 };
 
 struct RPC_CLIENT {
@@ -711,6 +678,7 @@ struct RPC_CLIENT {
     int set_network_mode(int mode, double duration);
     int get_screensaver_tasks(int& suspend_reason, RESULTS&);
     int run_benchmarks();
+    int run_graphics_app(const char *operation, int& operand, const char *screensaverLoginUser);
     int set_proxy_settings(GR_PROXY_INFO&);
     int get_proxy_settings(GR_PROXY_INFO&);
     int get_messages(int seqno, MESSAGES&, bool translatable=false);
@@ -721,13 +689,13 @@ struct RPC_CLIENT {
     int result_op(RESULT&, const char*);
     int get_host_info(HOST_INFO&);
     int set_host_info(HOST_INFO&);
+    int reset_host_info();
     int quit();
     int acct_mgr_info(ACCT_MGR_INFO&);
     const char* mode_name(int mode);
     int get_statistics(PROJECTS&);
     int network_available();
     int get_project_init_status(PROJECT_INIT_STATUS& pis);
-    int report_device_status(DEVICE_STATUS&);
 
     // the following are asynch operations.
     // Make the first call to start the op,
@@ -741,7 +709,8 @@ struct RPC_CLIENT {
     int create_account(ACCOUNT_IN&);
     int create_account_poll(ACCOUNT_OUT&);
     int project_attach(
-        const char* url, const char* auth, const char* project_name
+        const char* url, const char* auth, const char* project_name,
+        const char* email_addr  // optional - pass empty string if unknown
     );
     int project_attach_from_file();
     int project_attach_poll(PROJECT_ATTACH_REPLY&);
@@ -767,7 +736,7 @@ struct RPC_CLIENT {
     int get_app_config(const char* url, APP_CONFIGS& conf);
     int set_app_config(const char* url, APP_CONFIGS& conf);
     int get_daily_xfer_history(DAILY_XFER_HISTORY&);
-	int set_language(const char*);
+    int set_language(const char*);
 };
 
 struct RPC {
@@ -803,6 +772,6 @@ struct SET_LOCALE {
 };
 #endif
 
-extern int read_gui_rpc_password(char*);
+extern int read_gui_rpc_password(char*, std::string&);
 
 #endif // BOINC_GUI_RPC_CLIENT_H

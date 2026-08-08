@@ -23,10 +23,6 @@
 #include "config.h"
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "error_numbers.h"
 #include "str_replace.h"
 #include "file_names.h"
@@ -116,7 +112,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
     }
     if (file_info.upload_offset < 0) {
         bytes_xferred = 0;
-        snprintf(header, sizeof(header), 
+        snprintf(header, sizeof(header),
             "<data_server_request>\n"
             "    <core_client_major_version>%d</core_client_major_version>\n"
             "    <core_client_minor_version>%d</core_client_minor_version>\n"
@@ -134,7 +130,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
         );
     } else {
         bytes_xferred = file_info.upload_offset;
-        snprintf(header, sizeof(header), 
+        snprintf(header, sizeof(header),
             "<data_server_request>\n"
             "    <core_client_major_version>%d</core_client_major_version>\n"
             "    <core_client_minor_version>%d</core_client_minor_version>\n"
@@ -219,7 +215,7 @@ FILE_XFER_SET::FILE_XFER_SET(HTTP_OP_SET* p) {
 int FILE_XFER_SET::insert(FILE_XFER* fxp) {
     http_ops->insert(fxp);
     file_xfers.push_back(fxp);
-    set_bandwidth_limits(fxp->is_upload);
+    enforce_bandwidth_limits(fxp->is_upload);
     return 0;
 }
 
@@ -234,7 +230,7 @@ int FILE_XFER_SET::remove(FILE_XFER* fxp) {
     while (iter != file_xfers.end()) {
         if (*iter == fxp) {
             iter = file_xfers.erase(iter);
-            set_bandwidth_limits(fxp->is_upload);
+            enforce_bandwidth_limits(fxp->is_upload);
             return 0;
         }
         ++iter;
@@ -249,8 +245,6 @@ int FILE_XFER_SET::remove(FILE_XFER* fxp) {
 // transfers are complete or had an error
 //
 bool FILE_XFER_SET::poll() {
-    unsigned int i;
-    FILE_XFER* fxp;
     bool action = false;
     static double last_time=0;
     char pathname[256];
@@ -259,8 +253,8 @@ bool FILE_XFER_SET::poll() {
     if (!gstate.clock_change && gstate.now - last_time < FILE_XFER_POLL_PERIOD) return false;
     last_time = gstate.now;
 
-    for (i=0; i<file_xfers.size(); i++) {
-        fxp = file_xfers[i];
+    for (unsigned int i=0; i<file_xfers.size(); i++) {
+        FILE_XFER* fxp = file_xfers[i];
         if (!fxp->http_op_done()) continue;
 
         action = true;
@@ -414,47 +408,35 @@ bool FILE_XFER_SET::poll() {
 // Similar for download.
 //
 void FILE_XFER_SET::check_active(bool& up, bool& down) {
-    unsigned int i;
-    FILE_XFER* fxp;
-
     up = up_active;
     down = down_active;
-    for (i=0; i<file_xfers.size(); i++) {
-        fxp = file_xfers[i];
+    for (FILE_XFER* fxp: file_xfers) {
         fxp->is_upload?up=true:down=true;
     }
     up_active = false;
     down_active = false;
 }
 
-// adjust bandwidth limits
+// if bandwidth limit exists, divide bandwidth equally among active xfers.
+// Called on prefs change if limit exists, and on xfer start/stop
 //
-void FILE_XFER_SET::set_bandwidth_limits(bool is_upload) {
-    double max_bytes_sec;
-    unsigned int i;
-    FILE_XFER* fxp;
-
-    if (is_upload) {
-        max_bytes_sec = gstate.global_prefs.max_bytes_sec_up;
-    } else {
-        max_bytes_sec = gstate.global_prefs.max_bytes_sec_down;
-    }
-    if (!max_bytes_sec) return;
-    int n = 0;
-    for (i=0; i<file_xfers.size(); i++) {
-        fxp = file_xfers[i];
+void FILE_XFER_SET::enforce_bandwidth_limits(bool is_upload) {
+    double max_bytes_sec = is_upload ? gstate.global_prefs.max_bytes_sec_up
+        : gstate.global_prefs.max_bytes_sec_down;
+    if (max_bytes_sec == 0) return;
+    int nxfers = 0;
+    for (FILE_XFER* fxp: file_xfers) {
         if (!fxp->is_active()) continue;
         if (is_upload) {
             if (!fxp->is_upload) continue;
         } else {
             if (fxp->is_upload) continue;
         }
-        n++;
+        nxfers++;
     }
-    if (!n) return;
-    max_bytes_sec /= n;
-    for (i=0; i<file_xfers.size(); i++) {
-        fxp = file_xfers[i];
+    if (nxfers == 0) return;
+    max_bytes_sec /= nxfers;
+    for (FILE_XFER* fxp: file_xfers) {
         if (!fxp->is_active()) continue;
         if (is_upload) {
             if (!fxp->is_upload) continue;
@@ -463,6 +445,35 @@ void FILE_XFER_SET::set_bandwidth_limits(bool is_upload) {
             if (fxp->is_upload) continue;
             fxp->set_speed_limit(false, max_bytes_sec);
         }
+    }
+}
+
+// clear bandwidth limit on active xfers.
+// called on prefs change if no limit
+//
+void FILE_XFER_SET::clear_bandwidth_limits(bool is_upload) {
+    for (FILE_XFER* fxp: file_xfers) {
+        if (!fxp->is_active()) continue;
+        if (is_upload) {
+            if (!fxp->is_upload) continue;
+            fxp->set_speed_limit(true, 0);
+        } else {
+            if (fxp->is_upload) continue;
+            fxp->set_speed_limit(false, 0);
+        }
+    }
+}
+
+// called on prefs change
+//
+void FILE_XFER_SET::set_bandwidth_limits(bool is_upload) {
+    double max_bytes_sec = is_upload ? gstate.global_prefs.max_bytes_sec_up
+        : gstate.global_prefs.max_bytes_sec_down;
+
+    if (max_bytes_sec == 0) {
+        clear_bandwidth_limits(is_upload);
+    } else {
+        enforce_bandwidth_limits(is_upload);
     }
 }
 

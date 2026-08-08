@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -92,6 +92,7 @@ bool CPanelMessages::Create()
 ////@begin CPanelMessages member initialisation
     m_bProcessingRefreshEvent = false;
 ////@end CPanelMessages member initialisation
+    m_closeButton = NULL;
 
     CreateControls();
 
@@ -118,43 +119,45 @@ void CPanelMessages::CreateControls()
     wxFlexGridSizer* itemFlexGridSizer2 = new wxFlexGridSizer(5, 1, 1, 0);
     itemFlexGridSizer2->AddGrowableRow(2);
     itemFlexGridSizer2->AddGrowableCol(0);
-    
+
     m_FetchingNoticesText = new wxStaticText(
-                                    this, wxID_ANY, 
-                                    _("Fetching notices; please wait..."), 
+                                    this, wxID_ANY,
+                                    _("Fetching notices; please wait..."),
                                     wxPoint(20, 20), wxDefaultSize, 0
                                     );
-    m_FetchingNoticesText->SetBackgroundColour(*wxWHITE);
-    itemFlexGridSizer2->Add(m_FetchingNoticesText, 0, wxEXPAND | wxLEFT | wxRIGHT, ADJUSTFORXDPI(5));
-    
+    m_FetchingNoticesText->SetBackgroundColour(wxGetApp().GetIsDarkMode() ? *wxBLACK :  *wxWHITE);
+    itemFlexGridSizer2->Add(m_FetchingNoticesText, 0, wxEXPAND | wxLEFT | wxRIGHT, 5);
+
     m_NoNoticesText = new wxStaticText(
-                                    this, wxID_ANY, 
-                                    _("There are no notices at this time."), 
+                                    this, wxID_ANY,
+                                    _("There are no notices at this time."),
                                     wxPoint(20, 20), wxDefaultSize, 0
                                     );
-    m_NoNoticesText->SetBackgroundColour(*wxWHITE);
-    itemFlexGridSizer2->Add(m_NoNoticesText, 0, wxEXPAND | wxLEFT | wxRIGHT, ADJUSTFORXDPI(5));
+    m_NoNoticesText->SetBackgroundColour(wxGetApp().GetIsDarkMode() ? *wxBLACK :  *wxWHITE);
+    itemFlexGridSizer2->Add(m_NoNoticesText, 0, wxEXPAND | wxLEFT | wxRIGHT, 5);
 
 
     m_pHtmlListPane = new CNoticeListCtrl(itemDialog1);
 	wxASSERT(m_pHtmlListPane);
 
-    itemFlexGridSizer2->Add(m_pHtmlListPane, 0, wxGROW|wxALL, ADJUSTFORXDPI(5));
+    itemFlexGridSizer2->Add(m_pHtmlListPane, 0, wxGROW|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
 
-    wxButton* itemButton44 = new wxButton(itemDialog1, wxID_OK, _("Close"),  wxDefaultPosition, wxDefaultSize);
+    if (!m_closeButton) {
+        m_closeButton = new wxButton(itemDialog1, wxID_OK, _("&Close"),  wxDefaultPosition, wxDefaultSize);
+    }
 
-    itemBoxSizer4->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
-    
+    itemBoxSizer4->Add(m_closeButton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
 #ifdef __WXMAC__            // Don't let Close button overlap window's grow icon
-    itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(12));
+    itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 12);
 #else
-    itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
+    itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #endif
 
     itemDialog1->SetSizer(itemFlexGridSizer2);
-    
+
     m_FetchingNoticesText->Hide();
     m_bFetchingNoticesTextWasDisplayed = false;
 
@@ -170,7 +173,7 @@ void CPanelMessages::CreateControls()
 
 void CPanelMessages::OnEraseBackground(wxEraseEvent& event){
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
-    
+
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
@@ -184,7 +187,11 @@ void CPanelMessages::OnEraseBackground(wxEraseEvent& event){
     wxSize sz = GetClientSize();
 
     // Create a buffered device context to reduce flicker
+#ifndef __WXGTK__
     wxBufferedDC dc(event.GetDC(), sz, wxBUFFER_CLIENT_AREA);
+#else
+    wxDC &dc = *event.GetDC();
+#endif
 
     // bitmap dimensions
     w = bmp.GetWidth();
@@ -205,6 +212,19 @@ void CPanelMessages::OnEraseBackground(wxEraseEvent& event){
     if ( (w < sz.x) || (h < sz.y) ) {
         // Check to see if they need to be rescaled to fit in the window
         wxImage img = bmp.ConvertToImage();
+
+        if (wxGetApp().GetIsDarkMode()) {
+            // Darken the image
+            unsigned char *bgImagePixels = img.GetData(); // RGBRGBRGB...
+            for (int i=0; i<w; ++i) {
+                for (int j=0; j<h; ++j) {
+                    for (int k=0; k<3; ++k) {
+                        *bgImagePixels /= 4;
+                        ++bgImagePixels;
+                    }
+                }
+            }
+        }
         img.Rescale((int) sz.x, (int) sz.y);
 
         // Draw our cool background (centered)
@@ -215,9 +235,27 @@ void CPanelMessages::OnEraseBackground(wxEraseEvent& event){
         x = wxMax(0, (w - sz.x)/2);
         y = wxMax(0, (h - sz.y)/2);
 
-        // Select the desired bitmap into the memory DC so we can take
-        //   the center chunk of it.
         memDC.SelectObject(bmp);
+        // Select the desired bitmap (or its darkened version) into
+        //   the memory DC so we can take the center chunk of it.
+        if (wxGetApp().GetIsDarkMode()) {
+            // Darken the bitmap
+            wxImage bgImage = bmp.ConvertToImage();
+            unsigned char *bgImagePixels;
+            bgImagePixels = bgImage.GetData(); // RGBRGBRGB...
+           for (int i=0; i<w; ++i) {
+                for (int j=0; j<h; ++j) {
+                    for (int k=0; k<3; ++k) {
+                        *bgImagePixels /= 4;
+                        ++bgImagePixels;
+                    }
+                }
+            }
+            wxBitmap darkened(bgImage);
+            memDC.SelectObject(darkened);
+        } else {
+            memDC.SelectObject(bmp);
+        }
 
         // Draw the center chunk on the window
         dc.Blit(0, 0, w, h, &memDC, x, y, wxCOPY);
@@ -240,7 +278,7 @@ void CPanelMessages::OnRefresh() {
         wxString strNewMachineName = wxEmptyString;
         CC_STATUS status;
         CMainDocument* pDoc = wxGetApp().GetDocument();
-        
+
         wxASSERT(pDoc);
         wxASSERT(m_pHtmlListPane);
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -264,7 +302,7 @@ void CPanelMessages::OnRefresh() {
 
         // Don't call Freeze() / Thaw() here because it causes an unnecessary redraw
         m_pHtmlListPane->UpdateUI();
-    
+
         if (m_bFetchingNoticesTextWasDisplayed != m_pHtmlListPane->m_bDisplayFetchingNotices) {
             m_bFetchingNoticesTextWasDisplayed = m_pHtmlListPane->m_bDisplayFetchingNotices;
             m_FetchingNoticesText->Show(m_bFetchingNoticesTextWasDisplayed);
@@ -329,6 +367,37 @@ bool CPanelMessages::OnRestoreState(wxConfigBase* /* pConfig */) {
 }
 
 
+void CPanelMessages::RedrawNoticesListCtrl() {
+    SetSizer(NULL);
+    m_pHtmlListPane->Destroy();
+    m_FetchingNoticesText->Destroy();
+    m_NoNoticesText->Destroy();
+    bool fetchingNoticesTextWasDisplayed = m_bFetchingNoticesTextWasDisplayed;
+    bool noNoticesTextWasDisplayed = m_bNoNoticesTextWasDisplayed;
+
+    m_closeButton->Destroy();
+    m_closeButton = NULL;
+
+    CreateControls();
+
+    m_bFetchingNoticesTextWasDisplayed = fetchingNoticesTextWasDisplayed;
+    if (fetchingNoticesTextWasDisplayed) {
+        m_bFetchingNoticesTextWasDisplayed = true;
+        m_FetchingNoticesText->Show();
+    }
+    if (noNoticesTextWasDisplayed) {
+        m_bNoNoticesTextWasDisplayed = true;
+        m_NoNoticesText->Show();
+    }
+
+    if (m_bFetchingNoticesTextWasDisplayed || m_bNoNoticesTextWasDisplayed) {
+        Layout();
+    }
+
+    m_pHtmlListPane->UpdateUI();
+}
+
+
 /*!
  * CDlgMessages type definition
  */
@@ -384,7 +453,7 @@ bool CDlgMessages::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-        
+
     SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
 
     wxDialog::Create( parent, id, caption, pos, size, style );
@@ -412,9 +481,9 @@ bool CDlgMessages::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
 
-    // To work properly on Mac, RestoreState() must be called _after_ 
+    // To work properly on Mac, RestoreState() must be called _after_
     //  calling GetSizer()->Fit(), GetSizer()->SetSizeHints() and Center()
-    RestoreState();   
+    RestoreState();
 
     Thaw();
 
@@ -518,7 +587,7 @@ bool CDlgMessages::SaveState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-    // Reterieve and store the latest window dimensions.
+    // Retrieve and store the latest window dimensions.
     SaveWindowDimensions();
 
     // Save the list ctrl state
@@ -546,7 +615,7 @@ void CDlgMessages::SaveWindowDimensions() {
         pConfig->Write(wxT("YPos"), GetPosition().y);
     }
 }
-    
+
 
 bool CDlgMessages::RestoreState() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::RestoreState - Function Begin"));
@@ -626,7 +695,7 @@ void CDlgMessages::RestoreWindowDimensions() {
 
 #else   // ! __WXMAC__
 
-    // If the user has changed the arrangement of multiple 
+    // If the user has changed the arrangement of multiple
     // displays, make sure the window title bar is still on-screen.
     if (!IsWindowOnScreen(iLeft, iTop, iWidth, iHeight)) {
         iTop = iLeft = 30;

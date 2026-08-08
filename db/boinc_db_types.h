@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,6 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// structures corresponding to various DB tables.
+// In some cases the structures have extra fields,
+// used by the server code but not stored in the DB
+
 #ifndef _BOINC_DB_TYPES_
 #define _BOINC_DB_TYPES_
 
@@ -24,6 +28,7 @@
 #include "opencl_boinc.h"
 #include "parse.h"
 #include "wslinfo.h"
+#include "hostinfo.h"
 
 // Sizes of text buffers in memory, corresponding to database BLOBs.
 // The following is for regular blobs, 64KB
@@ -88,6 +93,7 @@ struct APP {
         // type of locality scheduling used by this app (see above)
     int n_size_classes;
         // for multi-size apps, number of size classes
+        // if use batch acceleration: 'accelerable' flag
     bool fraction_done_exact;
         // fraction done reported by app is accurate
 
@@ -97,6 +103,9 @@ struct APP {
     // not in DB:
     bool have_job;
     double size_class_quantiles[MAX_SIZE_CLASSES];
+    inline bool accelerable() {
+        return n_size_classes > 0;
+    }
 };
 
 // A version of an application.
@@ -204,15 +213,14 @@ struct USER {
     int seti_last_result_time;      // time of last result (UNIX)
     double seti_total_cpu;          // number of CPU seconds
     char signature[256];
-        // deprecated as of 9/2004 - may be used as temp
-        // currently used to store a nonce ID while email address
-        // is being verified.
+        // stores invite code, if any, for users created via RPC
     bool has_profile;
     char cross_project_id[256];
         // the "internal" cross-project ID;
         // the "external CPID" that  gets exported to stats sites
         // is MD5(cpid, email)
     char passwd_hash[256];
+        // MD5(password, email_addr)
     bool email_validated;           // deprecated
     int donated;
     char login_token[32];
@@ -281,7 +289,7 @@ struct HOST {
 
     // all remaining items are assigned by the client
     int timezone;           // local STANDARD time at host - UTC time
-                            // (in seconds) 
+                            // (in seconds)
     char domain_name[256];
     char serialnum[256];    // textual description of coprocessors
     char last_ip_addr[256]; // internal IP address as of last RPC
@@ -344,7 +352,10 @@ struct HOST {
     char venue[256];        // home/work/school
     int nresults_today;     // results sent since midnight
     double avg_turnaround;  // recent average result turnaround time
-    char host_cpid[256];    // host cross-project ID
+    char host_cpid[256];    // external host cross-project ID
+        // the client generates an 'internal' host CPID;
+        // the server hashes this with email addr to avoid spoofing
+        // See https://github.com/BOINC/boinc/wiki/Host-identification
     char external_ip_addr[256]; // IP address seen by scheduler
     int _max_results_day;
         // MRD is dynamically adjusted to limit work sent to bad hosts.
@@ -359,23 +370,31 @@ struct HOST {
         // dynamic estimate of fraction of results
         // that fail validation
         // DEPRECATED
+        // if use batch acceleration: 'low turnaround time' flag
     char product_name[256];
     double gpu_active_frac;
     int p_ngpus;
     double p_gpu_fpops;
+    char misc[BLOB_SIZE];
+        // JSON description of GPUs, Docker etc.
 
     // the following items are passed in scheduler requests,
     // and used in the scheduler,
     // but not stored in the DB
     // TODO: move this stuff to a derived class HOST_SCHED
     //
-    char p_features[1024];
+    char p_features[P_FEATURES_SIZE];
     char virtualbox_version[256];
     bool p_vm_extensions_disabled;
     int num_opencl_cpu_platforms;
     OPENCL_CPU_PROP opencl_cpu_prop[MAX_OPENCL_CPU_PLATFORMS];
-    bool wsl_available;
-    WSLS wsls;
+    WSL_DISTROS wsl_distros;
+
+    // Docker info (non-Win only)
+    char docker_version[256];
+    int docker_type;
+    char docker_compose_version[256];
+    int docker_compose_type;
 
     // stuff from time_stats
     double cpu_and_network_available_frac;
@@ -391,6 +410,13 @@ struct HOST {
     void fix_nans();
     void clear();
     bool get_opencl_cpu_prop(const char* platform, OPENCL_CPU_PROP&);
+    inline bool low_turnaround() {
+        return _error_rate > 0;
+    }
+    // for scheduler: see if client is Win
+    inline bool is_windows() {
+        return strcasestr(os_name, "windows") != NULL;
+    }
 };
 
 struct HOST_DELETED {
@@ -400,17 +426,22 @@ struct HOST_DELETED {
     void clear();
 };
 
-// values for file_delete state
+// values for
+// WORKUNIT::file_delete_state
+// RESULT::file_delete_state
+// TRANSITIONER_ITEM::res_file_delete_state
 // see html/inc/common_defs.inc
+//
 #define FILE_DELETE_INIT        0
 #define FILE_DELETE_READY       1
-    // set to this value only when we believe all files are uploaded
+    // WU is assimilated and all results are OVER,
+    // so we don't need output files anymore
 #define FILE_DELETE_DONE        2
-    // means the files were successfully deleted
+    // files were successfully deleted
 #define FILE_DELETE_ERROR       3
-    // Any error was returned while attempting to delete the file
+    // error in file deletion
 
-// values for assimilate_state
+// values for WORKUNIT::assimilate_state
 #define ASSIMILATE_INIT         0
 #define ASSIMILATE_READY        1
 #define ASSIMILATE_DONE         2
@@ -429,7 +460,7 @@ struct HOST_DELETED {
 #define WU_ERROR_CANCELLED                      16
 #define WU_ERROR_NO_CANONICAL_RESULT            32
 
-// bit fields of transition_flags; used for assigned jobs
+// bit fields of WORKUNIT::transitioner_flags; used for assigned jobs
 //
 #define TRANSITION_NONE             1
     // don't transition; used for broadcast jobs
@@ -483,15 +514,21 @@ struct WORKUNIT {
     int target_nresults;
         // try to get this many "viable" results,
         // i.e. candidate for canonical result.
+        // should always be at least min_quorum.
         // may be > min_quorum to get consensus quicker or reflect loss rate
-    int max_error_results;      // WU error if < #error results
-    int max_total_results;      // WU error if < #total results
-        // (need this in case results are never returned)
-    int max_success_results;    // WU error if < #success results
-        // without consensus (i.e. WU is nondeterministic)
+    int max_error_results;
+        // transitioner: if # results without client compute error exceeds this,
+        // mark WU as WU_ERROR_TOO_MANY_ERROR_RESULTS
+    int max_total_results;
+        // transitioner: if we need more instances but it would exceed this,
+        // mark WU as WU_ERROR_TOO_MANY_TOTAL_RESULTS
+    int max_success_results;
+        // validator: if #success results exceeds this without consensus
+        // (i.e. WU seems nondeterministic)
+        // mark WU as WU_ERROR_TOO_MANY_SUCCESS_RESULTS
     char result_template_file[64];
     int priority;
-    char mod_time[16];
+    char mod_time[20];
     double rsc_bandwidth_bound;
         // send only to hosts with at least this much download bandwidth
     DB_ID_TYPE fileset_id;
@@ -584,7 +621,8 @@ struct CREDITED_JOB {
 #define ANON_PLATFORM_CPU     -2
 #define ANON_PLATFORM_NVIDIA  -3
 #define ANON_PLATFORM_ATI     -4
-#define ANON_PLATFORM_INTEL   -5
+#define ANON_PLATFORM_INTEL_GPU   -5
+#define ANON_PLATFORM_APPLE_GPU   -6
 
 struct RESULT {
     DB_ID_TYPE id;
@@ -620,7 +658,7 @@ struct RESULT {
     int exit_status;                // application exit status, if any
     DB_ID_TYPE teamid;
     int priority;
-    char mod_time[16];
+    char mod_time[20];
     double elapsed_time;
         // AKA runtime; returned by 6.10+ clients
     double flops_estimate;
@@ -744,11 +782,26 @@ struct HOST_APP_VERSION {
     AVERAGE runtime;
     AVERAGE cputime;
     int max_jobs_per_day;
-        // the actual limit is:
+        // send at most this # of jobs per day.
+        // does 0 mean no limit??
+        // if >1, it's scaled so the actual limit is:
         // for GPU versions:
         //   this times config.gpu_multiplier * #GPUs of this type
         // for CPU versions:
         //   this times #CPUs
+        // scheduler:
+        //      limit is enforced in sched_version.cpp:daily_quota_exceeded()
+        //      double if get success result (not necc. validated)
+        //          sched_result.cpp:got_good_result()
+        //      decrement (down to 1) if get failed result
+        //          sched_result.cpp:got_bad_result()
+        //      Used as a temp to enforce global limit?
+        // transitioner:
+        //      decrement if result times out
+        // validator:
+        //      increment if valid result
+        //      decrement if invalid result and > global limit (???)
+        //      set to 1 if init_result() returns LONG_TERM_FAIL
     int n_jobs_today;
     MEDIAN_VAR turnaround;
         // the stats of turnaround time (received - sent)

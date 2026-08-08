@@ -28,6 +28,7 @@
 #include "config.h"
 #include <unistd.h>
 #include <cstdlib>
+#include <ctime>
 #include <string>
 
 #include "boinc_db.h"
@@ -101,7 +102,7 @@ int main_loop(bool one_pass) {
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "boinc_db.open failed: %s\n", boincerror(retval)
+            "boinc_db.open failed: %s\n", boinc_db.error_string()
         );
         exit(1);
     }

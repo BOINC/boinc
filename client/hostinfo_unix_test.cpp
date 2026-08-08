@@ -51,6 +51,16 @@ using std::string;
 #define safe_strcat(x, y) strlcat(x, y, sizeof(x))
 #define LINUX_LIKE_SYSTEM (defined(__linux__) || defined(__GNU__) || defined(__GLIBC__)) && !defined(__HAIKU__)
 
+#if WASM
+    #include <emscripten.h>
+#endif
+
+#if WASM
+    EM_JS(FILE*, popen, (const char* command, const char* mode), {
+        //TODO: add javascript code
+    });
+#endif
+
 enum LINUX_OS_INFO_PARSER {
     lsbrelease,
     osrelease,
@@ -570,15 +580,15 @@ int main(void) {
     if (family>=0 || model>=0 || stepping>0) {
         safe_strcat(model_buf, " [");
         if (family>=0) {
-            sprintf(buf, "Family %d ", family);
+            snprintf(buf, sizeof(buf), "Family %d ", family);
             safe_strcat(model_buf, buf);
         }
         if (model>=0) {
-            sprintf(buf, "Model %d ", model);
+            snprintf(buf, sizeof(buf), "Model %d ", model);
             safe_strcat(model_buf, buf);
         }
         if (stepping>=0) {
-            sprintf(buf, "Stepping %d", stepping);
+            snprintf(buf, sizeof(buf), "Stepping %d", stepping);
             safe_strcat(model_buf, buf);
         }
         safe_strcat(model_buf, "]");
@@ -587,23 +597,23 @@ int main(void) {
     if (model_info_found) {
         safe_strcat(model_buf, " [");
         if (strlen(implementer)>0) {
-            sprintf(buf, "Impl %s ", implementer);
+            snprintf(buf, sizeof(buf), "Impl %s ", implementer);
             safe_strcat(model_buf, buf);
         }
         if (strlen(architecture)>0) {
-            sprintf(buf, "Arch %s ", architecture);
+            snprintf(buf, sizeof(buf), "Arch %s ", architecture);
             safe_strcat(model_buf, buf);
         }
         if (strlen(variant)>0) {
-            sprintf(buf, "Variant %s ", variant);
+            snprintf(buf, sizeof(buf), "Variant %s ", variant);
             safe_strcat(model_buf, buf);
         }
         if (strlen(cpu_part)>0) {
-            sprintf(buf, "Part %s ", cpu_part);
+            snprintf(buf, sizeof(buf), "Part %s ", cpu_part);
             safe_strcat(model_buf, buf);
         }
         if (strlen(revision)>0) {
-            sprintf(buf, "Rev %s", revision);
+            snprintf(buf, sizeof(buf), "Rev %s", revision);
             safe_strcat(model_buf, buf);
         }
         safe_strcat(model_buf, "]");

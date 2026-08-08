@@ -39,7 +39,7 @@ else
       GL_CFLAGS="-I${x_includes} -I${prefix}/include ${GL_CFLAGS}"
     fi
     if test -n "$x_libraries"; then
-      GL_LIBS="-L${x_libraries} -L${prefix}/lib -lX11 ${GL_LIBS}"
+      GL_LIBS="-L${x_libraries} -lX11 ${GL_LIBS}"
     fi
   fi
 
@@ -58,7 +58,7 @@ else
     else
       ax_try_lib="${ax_lib}"
     fi
-    LIBS="-L${prefix}/lib ${ax_try_lib} ${GL_LIBS} ${ax_save_LIBS}"
+    LIBS="${ax_try_lib} ${GL_LIBS} ${ax_save_LIBS}"
     AC_LINK_IFELSE(
     [AC_LANG_PROGRAM([[
 # if HAVE_WINDOWS_H && defined(_WIN32)
@@ -66,7 +66,7 @@ else
 # endif
 # include <GL/gl.h>]],
                      [[glBegin(0)]])],
-    [ax_cv_check_gl_libgl="-L${prefix}/lib ${ax_try_lib}"; break])
+    [ax_cv_check_gl_libgl="${ax_try_lib}"; break])
   done
   LIBS=${ax_save_LIBS}
   CPPFLAGS=${ax_save_CPPFLAGS}])

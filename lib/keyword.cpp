@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,6 +18,11 @@
 // utility functions for keywords
 
 #include <stdio.h>
+#include <iostream>
+#include <string>
+#include <sstream>
+
+using namespace std;
 
 #include "parse.h"
 #include "keyword.h"
@@ -91,25 +96,23 @@ void USER_KEYWORDS::write(FILE* f) {
     if (empty()) {
         return;
     }
-    unsigned int i;
-    fprintf(f, "<user_keywords>\n");
-    for (i=0; i<yes.size(); i++) {
-        fprintf(f, "   <yes>%d</yes>\n", yes[i]);
+    boinc::fprintf(f, "<user_keywords>\n");
+    for (int k: yes) {
+        boinc::fprintf(f, "   <yes>%d</yes>\n", k);
     }
-    for (i=0; i<no.size(); i++) {
-        fprintf(f, "   <no>%d</no>\n", no[i]);
+    for (int k: no) {
+        boinc::fprintf(f, "   <no>%d</no>\n", k);
     }
-    fprintf(f, "</user_keywords>\n");
+    boinc::fprintf(f, "</user_keywords>\n");
 }
 
-void JOB_KEYWORD_IDS::parse_str(char* buf) {
-    char* p = strtok(buf, " ");
-    if (!p) return;
-    ids.push_back(atoi(p));
-    while (true) {
-        p = strtok(NULL, " ");
-        if (!p) break;
-        ids.push_back(atoi(p));
+// parse space-separated string into vector
+//
+void JOB_KEYWORD_IDS::parse_str(char* p) {
+    stringstream ss(p);
+    string token;
+    while (getline(ss, token, ' ')) {
+        ids.push_back(atoi(token.c_str()));
     }
 }
 
@@ -119,8 +122,7 @@ void JOB_KEYWORD_IDS::parse_str(char* buf) {
 //
 void JOB_KEYWORD_IDS::write_xml_text(MIOFILE& mf, KEYWORDS& k) {
     mf.printf("<job_keywords>\n");
-    for (unsigned int i=0; i<ids.size(); i++) {
-        int id = ids[i];
+    for (int id: ids) {
         k.get(id).write_xml(mf);
     }
     mf.printf("</job_keywords>\n");
@@ -131,12 +133,12 @@ void JOB_KEYWORD_IDS::write_xml_text(MIOFILE& mf, KEYWORDS& k) {
 void JOB_KEYWORD_IDS::write_xml_num(MIOFILE& out) {
     bool first = true;
     out.printf("    <job_keyword_ids>");
-    for (unsigned int i=0; i<ids.size(); i++) {
+    for (int id: ids) {
         if (first) {
-            out.printf("%d", ids[i]);
+            out.printf("%d", id);
             first = false;
         } else {
-            out.printf(", %d", ids[i]);
+            out.printf(", %d", id);
         }
     }
     out.printf("</job_keyword_ids>\n");

@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-// See http://boinc.berkeley.edu/trac/wiki/GPUApp for any compiling issues
+// See https://github.com/BOINC/boinc/wiki/GPUApp
 // Contributor: Tuan Le (tuanle86@berkeley.edu)
 
 #ifndef CUDA_H_
@@ -39,7 +39,6 @@
 #include "filesys.h"
 #include "boinc_api.h"
 #include "mfile.h"
-#include "graphics2.h"
 #include "cuda_config.h"
 
 #define CHECKPOINT_FILE "matrix_inversion_state"
@@ -70,11 +69,11 @@ int do_checkpoint(MFILE& mf, int n, REAL *h_idata, int dimension);
 #ifdef APP_GRAPHICS
 void update_shmem() {
     if (!shmem) return;
-	
+
     // always do this; otherwise a graphics app will immediately
     // assume we're not alive
     shmem->update_time = dtime();
-	
+
     // Check whether a graphics app is running,
     // and don't bother updating shmem if so.
     // This doesn't matter here,

@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // logic for handling limits on numbers of jobs in progress per client.
-// See http://boinc.berkeley.edu/trac/wiki/ProjectOptions#Joblimits
+// See https://github.com/BOINC/boinc/wiki/ProjectOptions#job-limits
 
 #include "sched_main.h"
 

@@ -1,0 +1,18 @@
+[Desktop Entry]
+Type=Application
+Version=8.3.0
+Exec=boinc.manager
+Icon=${SNAP}/meta/gui/boinc.png
+Categories=System;Monitor;GTK;
+Keywords=computation;science;
+Name=BOINC Manager
+GenericName=BOINC monitor and control utility
+GenericName[cs]=Monitorovací a ovládací nástroj pro BOINC
+GenericName[de]=BOINC Überwachungs- und Kontrollprogramm
+GenericName[pt]=Monitorização BOINC e utilitário de controlo
+GenericName[pt_BR]=Utilitário de controle e monitoramento do BOINC
+Comment=Configure or monitor a BOINC core client
+Comment[cs]=Monitoruje a nastavuje klienta BOINC
+Comment[de]=BOINC Basis Client konfigurieren oder überwachen
+Comment[pt]=Configurar ou monitorizar o cliente básico do BOINC
+Comment[pt_BR]=Configure ou monitore o cliente básico do BOINC

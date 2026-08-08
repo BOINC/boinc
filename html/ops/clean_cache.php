@@ -17,25 +17,35 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// delete files from the web cache until free-space criteria are met
+
 $cli_only = true;
 require_once("../inc/cache.inc");
 require_once("../inc/util_ops.inc");
 
 set_time_limit(0);
 
-function cache_check_diskspace2(){
-   $too_old = 86400;
-   while (1) {
-       $f = disk_free_space("../cache");
-       $u = disk_usage("../cache");
-       echo "free: $f used: $u\n";
-       if ($f > MIN_FREE_SPACE && $u < MAX_CACHE_USAGE) {
-           break;
-       }
-       clean_cache($too_old, "../cache");
-       $too_old/=2;
-   }
+function main(){
+    echo "------- Starting at ".time_str(time())."-------\n";
+
+    echo sprintf("max cache usage: %s\n", size_string(MAX_CACHE_USAGE));
+    $too_old = 86400*7;
+    while (1) {
+        $u = disk_usage("../cache");
+        echo sprintf("cache usage: %s\n", size_string($u));
+        if ($u < MAX_CACHE_USAGE) {
+            echo "criteria met; quitting\n";
+            break;
+        }
+        echo sprintf("deleting files older than %s\n", time_diff($too_old));
+        clean_cache($too_old, "../cache");
+        $too_old /= 2;
+        if ($too_old < 60) {
+            break;
+        }
+    }
+    echo "------- Finished at ".time_str(time())."-------\n";
 }
 
-cache_check_diskspace2();
+main();
 ?>

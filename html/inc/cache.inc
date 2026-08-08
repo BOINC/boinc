@@ -32,17 +32,19 @@ function make_cache_dirs() {
         mkdir("../cache", 0770);
         chmod("../cache", 0770);
     }
-    for ($i=0;$i<256;$i++) {
+    for ($i=0; $i<256; $i++) {
         $j=sprintf("%02x",$i);
         if (!@filemtime("../cache/$j")) {
             mkdir("../cache/$j", 0770);
             chmod("../cache/$j", 0770);
-        } 
+        }
     }
 }
 
 function get_path($params, $phpfile=null) {
-    if (!@filemtime("../cache/00")) make_cache_dirs();
+    if (!@filemtime("../cache/00")) {
+        make_cache_dirs();
+    }
     if ($phpfile) {
         $z = $phpfile;
     } else {
@@ -51,7 +53,7 @@ function get_path($params, $phpfile=null) {
     }
 
     // add a layer of subdirectories for reducing file lookup time
-    $sz = substr(md5($z."_".urlencode($params)),1,2);
+    $sz = substr(md5($z."_".urlencode($params)), 1, 2);
     $path = "../cache/".$sz."/".$z;
     if ($params) {
         $path = $path."_".urlencode($params);
@@ -60,19 +62,21 @@ function get_path($params, $phpfile=null) {
 }
 
 function disk_usage($dir) {
+    $handle = @opendir($dir);
+    if (!$handle) {
+        return 0;
+    }
     $usage=0;
-    if ($handle=@opendir($dir)) {
-        while ($file=readdir($handle)) {
-            if (($file != ".") && ($file != "..")) {
-                if (@is_dir($dir."/".$file)) {
-                    $usage+=disk_usage($dir."/".$file);
-                } else {
-                    $usage+=@filesize($dir."/".$file);
-                }
+    while ($file = readdir($handle)) {
+        if (($file != ".") && ($file != "..")) {
+            if (@is_dir($dir."/".$file)) {
+                $usage += disk_usage($dir."/".$file);
+            } else {
+                $usage += @filesize($dir."/".$file);
             }
         }
-        @closedir($handle);
     }
+    @closedir($handle);
     return $usage;
 }
 
@@ -81,8 +85,9 @@ function clean_cache($max_age, $dir) {
     if (!chdir($dir)) {
         return;
     }
-    if ($handle=@opendir(".")) {
-        while ($file=readdir($handle)) {
+    $handle = @opendir(".");
+    if ($handle) {
+        while ($file = readdir($handle)) {
             if ($file == ".") continue;
             if ($file == "..") continue;
 
@@ -102,14 +107,18 @@ function clean_cache($max_age, $dir) {
        @closedir($handle);
     }
     chdir($start_dir);
-} 
+}
 
 
 // check cache size every once in a while, purge if too big
 //
 function cache_check_diskspace(){
-    if ((rand() % CACHE_SIZE_CHECK_FREQ)) return;
-    if (disk_usage("../cache") < MAX_CACHE_USAGE) return;
+    if ((rand() % CACHE_SIZE_CHECK_FREQ)) {
+        return;
+    }
+    if (disk_usage("../cache") < MAX_CACHE_USAGE) {
+        return;
+    }
     $x = max(TEAM_PAGE_TTL, USER_PAGE_TTL, USER_HOST_TTL,
         USER_PROFILE_TTL, TOP_PAGES_TTL, INDEX_PAGE_TTL
     );
@@ -138,17 +147,20 @@ function cache_need_to_regenerate($path, $max_age){
     return $regenerate;
 }
 
-// Returns cached data or false if nothing was found
+// Returns cached data or null if nothing was found
+//
 function get_cached_data($max_age, $params=""){
     global $no_cache;
 
-    if ($no_cache) return;
+    if ($no_cache) {
+        return null;
+    }
 
     $path = get_path($params);
     if ($max_age) {
         if (defined('MEMCACHE_SERVERS')) {
             $cache = BoincMemcache::get()->get($path);
-            if ($cache['content']) {
+            if (isset($cache['content'])) {
                 return $cache['content'];
             } else {
                 return $cache;
@@ -161,14 +173,16 @@ function get_cached_data($max_age, $params=""){
             }
         }
     }
-    return false; //No data was cached, just return
+    return null;
 }
 
 // DEPRECATED
 function start_cache($max_age, $params=""){
     global $no_cache, $caching, $memcache;
 
-    if ($no_cache) return;
+    if ($no_cache) {
+        return;
+    }
     $caching = true;
 
     if ($max_age) {
@@ -184,10 +198,12 @@ function start_cache($max_age, $params=""){
             }
         } else {
             $lastmodified = @filemtime($path);
-            cache_check_diskspace(); //Check free disk space once in a while
+            // Check free disk space once in a while
+            //
+            cache_check_diskspace();
             $regenerate = cache_need_to_regenerate($path, $max_age);
         }
-        //Is the stored version too old, do we need to regenerate it?
+        // Is the stored version too old, do we need to regenerate it?
         if ($regenerate){
             // If cached version is too old (or non-existent)
             // generate the page and write to cache
@@ -196,7 +212,7 @@ function start_cache($max_age, $params=""){
             ob_implicit_flush(0);
             Header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
             Header("Expires: " . gmdate("D, d M Y H:i:s",time()+$max_age) . " GMT");
-            Header("Cache-Control: public, max-age=" . $max_age); 
+            Header("Cache-Control: public, max-age=" . $max_age);
 
             // allow the calling page to see cache period
             //
@@ -230,7 +246,9 @@ function start_cache($max_age, $params=""){
 // DEPRECATED
 function end_cache($max_age,$params=""){
     global $no_cache;
-    if ($no_cache) return;
+    if ($no_cache) {
+        return;
+    }
 
     // for the benefit of hackers
     if (strstr($params, "..")) {
@@ -238,7 +256,7 @@ function end_cache($max_age,$params=""){
     }
     if ($max_age) {
         $path = get_path($params);
-        
+
         if (defined('MEMCACHE_SERVERS')) {
             $cache = array('content' => ob_get_contents(), 'timestamp' => time());
             ob_end_flush();
@@ -287,19 +305,20 @@ function clear_cache_entry($phpfile, $params) {
 // Memcached class
 class BoincMemcache {
     static $instance;
-    
+
     static function get() {
         self::$instance = new Memcached;
         if (defined('MEMCACHE_PREFIX')) {
             self::$instance->setOption(Memcached::OPT_PREFIX_KEY, MEMCACHE_PREFIX);
         }
+        $server_arr = array();
         $servers = explode('|', MEMCACHE_SERVERS);
         foreach($servers as &$server) {
-            list($ip, $port) = explode(':', $server);
+            list($ip, $port, $weight) = explode(':', $server);
             if (!$port) { $port = 11211; }
-            $server = array($ip, $port);
+            $server_arr[] = array($ip, $port, $weight);
         }
-        self::$instance->addServers($servers);
+        self::$instance->addServers($server_arr);
         return self::$instance;
     }
 }

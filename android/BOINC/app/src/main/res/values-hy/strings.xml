@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--app global-->
+  <!--generic. used by multiple Activities/tabs-->
+  <string name="generic_button_continue">Շարունակել</string>
+  <string name="generic_button_finish">Վերջ</string>
+  <!--attach project-->
+  <!--selection list-->
+  <string name="attachproject_list_desc">Նշել գիտական ծրագրերը որին կցանկանայիք աջակցել։</string>
+  <string name="attachproject_list_header">Ընտրել նախագիծը</string>
+  <string name="attachproject_list_manual_button">Ավելացնել նախագիծը ըստ URL-ի</string>
+  <string name="attachproject_list_manual_dialog_title">Մուտքագրել նախագծի URL հասցեն:</string>
+  <string name="attachproject_list_no_internet">Ներցանցային կապ չկա</string>
+  <!--credential input-->
+  <string name="attachproject_credential_input_sing_desc">Ներմուծել օգտագործողի տեղեկատվությունը </string>
+  <string name="attachproject_credential_input_desc">Ներմուծել տեղեկատվություն նշված նախագծերի համար</string>
+  <string name="attachproject_credential_input_show_pwd">Ցուցադրել գաղտնագիրը</string>
+  <string name="attachproject_individual_credential_input">Նախագիծը կցել առանձին</string>
+  <!--conflicts-->
+  <string name="attachproject_conflicts_desc">Գիտական նախագիծը կցելու ժամանակ առաջացել է խնդիրներ</string>
+  <string name="attachproject_conflict_undefined">Հնարավոր չէ կապին միանալ</string>
+  <string name="attachproject_conflict_not_unique">Օգտագործողը գոյություն ունի ուրիշ գաղտնագրով</string>
+  <string name="attachproject_conflict_bad_password">Գաղտնագիրը սխալ է</string>
+  <string name="attachproject_conflict_unknown_user">Օգտատերը գոյություն չունի</string>
+  <!--working-->
+  <!--e.g. Attaching Einstein@Home-->
+  <!--hints-->
+  <string name="attachproject_hints_header">Ակնարկ</string>
+  <!--e.g. Hint 1/2-->
+  <string name="attachproject_hint_contribtion_header">Ինչպես աջակցել</string>
+  <string name="attachproject_hint_contribtion_wifi">1. ՄԻանալ WIFI -ին</string>
+  <string name="attachproject_hint_contribtion_charger">2. Միացնել լիցքավորիչը</string>
+  <string name="attachproject_hint_contribtion_screen">4. Անջատել էկրանը</string>
+  <string name="attachproject_hint_projectwebsite_header">Այցելիր նախագծի կայք:</string>
+  <string name="attachproject_hint_projectwebsite_science">Տեղեկացվել ավելին գիտության մասին</string>
+  <string name="attachproject_hint_projectwebsite_stats">Ցուցադրել աջակցության վիճակարությունը</string>
+  <string name="attachproject_hint_projectwebsite_community">Կապվիր մյուս աջակցողների հետ</string>
+  <!--project login-->
+  <string name="attachproject_login_loading">Միանում է նախագծի սերվերին</string>
+  <string name="attachproject_login_header_general_area">Ընդհանուր վայր</string>
+  <string name="attachproject_login_header_specific_area">Հատուկ վայր</string>
+  <string name="attachproject_login_header_description">Նկարագրություն</string>
+  <string name="attachproject_login_header_home">Գլխավոր</string>
+  <string name="attachproject_login_header_url">Կայք</string>
+  <string name="attachproject_login_header_id_email">Էլ-փոստ</string>
+  <string name="attachproject_login_header_id_name">Անուն</string>
+  <string name="attachproject_login_header_pwd">Գաղտնագիր</string>
+  <string name="attachproject_login_button_registration">Գրանցվել</string>
+  <string name="attachproject_login_button_login">Մուտք</string>
+  <string name="attachproject_login_button_forgotpw">Մոռացել եք գաղտնագիրը</string>
+  <!--account manager-->
+  <string name="attachproject_acctmgr_header">Ավելացնել հաշվի կարգավորող</string>
+  <string name="attachproject_acctmgr_header_url">Վեբ-Հասցե</string>
+  <string name="attachproject_acctmgr_header_name">Օգտատեր</string>
+  <string name="attachproject_acctmgr_header_pwd">Գաղտնագիր</string>
+  <!--error strings-->
+  <string name="attachproject_error_wrong_name">Օգտատերը գոյություն չունի</string>
+  <string name="attachproject_error_short_pwd">Գաղտնագիրը կարճ է</string>
+  <string name="attachproject_error_no_internet">Կապի խափանում</string>
+  <string name="attachproject_error_no_url">Մուտքագրել Վեբ-հասցեն</string>
+  <string name="attachproject_error_no_email">Խնդրում ենք մուտքագրել էլ-հասցեն</string>
+  <string name="attachproject_error_no_pwd">Խնդրում ենք մուտքագրել գաղտնագիրը</string>
+  <string name="attachproject_error_no_name">Խնդրում ենք մուտքագրել օգտատիրոջ անուն</string>
+  <string name="attachproject_error_unknown">խափանում</string>
+  <string name="attachproject_error_bad_username">Օգտատիրոջ անունը մերժված է</string>
+  <string name="attachproject_error_email_in_use">Էլ-հասցեն արդեն օգտագործվում է</string>
+  <string name="attachproject_error_project_down">Նախագիծը գտնվում է կապից դուրս</string>
+  <string name="attachproject_error_email_bad_syntax">Էլ-հասցեն մերժված է</string>
+  <string name="attachproject_error_bad_pwd">Գաղտնագիրը մերժված է</string>
+  <string name="attachproject_error_creation_disabled">Այս նախագծի համար հաշվի ստեղծումը արգելափակված է</string>
+  <string name="attachproject_error_invalid_url">Անվավեր վեբ-հասցե</string>
+  <!--tab names-->
+  <string name="tab_status">Կարգավիճակ</string>
+  <string name="tab_projects">Նախագծեր</string>
+  <string name="tab_tasks">Առաջադրանքներ</string>
+  <string name="tab_transfers">Փոխանցումներ</string>
+  <string name="tab_preferences">Նախընտրություններ</string>
+  <string name="tab_notices">Ծանուցումներ</string>
+  <!--status strings-->
+  <string name="status_running">Հաշվարկում</string>
+  <string name="status_running_long">Շնորհակալություն մասնակցելու համար</string>
+  <string name="status_paused">Դադարեցված է</string>
+  <string name="status_idle">Անելու ոչինչ չկա</string>
+  <string name="status_idle_long">Սպասում առաջադրանքի համար</string>
+  <string name="status_computing_disabled">Դադարեցված է</string>
+  <string name="status_computing_disabled_long">Սեղմիր կապը և հաշվարկումը վերսկսելու համար</string>
+  <string name="status_launching">Գործարկվում է</string>
+  <string name="status_noproject">Մասնակցելու համար ընտրիր նախագիծ</string>
+  <string name="status_benchmarking">Համեմատական</string>
+  <string name="status_image_description">Նախագծի նկար</string>
+  <!--preferences tab strings-->
+  <string name="prefs_category_general">Ընդհանուր</string>
+  <string name="prefs_category_network">Ցանց</string>
+  <string name="prefs_category_power">Էներգիա</string>
+  <string name="prefs_category_cpu">CPU</string>
+  <string name="prefs_category_storage">Ծավալ</string>
+  <string name="prefs_category_memory">Հիշողություն</string>
+  <string name="prefs_category_debug">Debug</string>
+  <string name="prefs_suspend_when_screen_on">Երբ էկրանը միացված է, դադարեցնել հաշվարկումը</string>
+  <string name="prefs_stationary_device_mode_header">Հաստատուն ռեժիմ</string>
+  <string name="prefs_power_source_header">Էլկեկտրականության սնուցման աղբյուրներ</string>
+  <string name="prefs_power_source_ac">Պատի վարդակ</string>
+  <string name="prefs_power_source_usb">USB միացում</string>
+  <string name="prefs_power_source_wireless">Անլար լիցքավորիչ</string>
+  <string name="prefs_power_source_battery">Մարտկոց</string>
+  <!--projects tab strings-->
+  <string name="projects_add">Ավելացնել նախագիծ</string>
+  <!--project status strings-->
+  <!--project controls-->
+  <string name="projects_control_sync_acctmgr">Համընկացնել</string>
+  <!--project confirm dialog-->
+  <!--tasks tab strings-->
+  <!--confirmation dialog-->
+  <!--transfers tab strings-->
+  <string name="trans_failed">խափանում</string>
+  <!--eventlog tab strings-->
+  <!--suspend reasons-->
+  <!--rpc reasons-->
+  <!--menu-->
+  <!--about dialog-->
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <!--multi BOINC compatibility-->
+  <!--social integration-->
+  <!--first parameter: device manufacturer, second: URL-->
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="notice_notification_channel_name">Ծանուցումներ</string>
+</resources>

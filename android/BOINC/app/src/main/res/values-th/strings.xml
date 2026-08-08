@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--app global-->
+  <string name="app_name">BOINC</string>
+  <!--generic. used by multiple Activities/tabs-->
+  <string name="generic_button_continue">ต่อไป</string>
+  <string name="generic_button_finish">เสร็จสิ้น</string>
+  <!--attach project-->
+  <!--selection list-->
+  <string name="attachproject_list_desc">เลือกโปรเจกต์วิทยาศาสตร์ที่คุณต้องการที่จะสนับสนุน:</string>
+  <string name="attachproject_list_header">เลือกโปรเจกต์</string>
+  <string name="attachproject_list_manual_button">เพิ่มโปรเจกต์ด้วย URL</string>
+  <string name="attachproject_list_manual_dialog_title">ป้อน URL ของโปรเจกต์:</string>
+  <string name="attachproject_list_no_internet">ไม่มีการเชื่อมต่ออินเทอร์เน็ต</string>
+  <!--credential input-->
+  <string name="attachproject_credential_input_sing_desc">ป้อนข้อมูลบัญชี</string>
+  <string name="attachproject_credential_input_desc">ป้อนข้อมูลบัญชีสำหรับโปรเจกต์ที่เลือก:</string>
+  <string name="attachproject_credential_input_show_pwd">แสดงรหัสผ่าน</string>
+  <string name="attachproject_individual_credential_input">เพิ่มโปรเจกต์ทีละโปรเจกต์</string>
+  <!--conflicts-->
+  <string name="attachproject_conflicts_desc">มีปัญหาในการเพิ่มโปรเจกต์วิทยาศาสตร์</string>
+  <string name="attachproject_conflict_undefined">ไม่สามารถเชื่อมต่อได้</string>
+  <string name="attachproject_conflict_not_unique">มีบัญชีอยู่แล้วด้วยรหัสผ่านอื่น</string>
+  <string name="attachproject_conflict_bad_password">รหัสผ่านไม่ถูกต้อง</string>
+  <string name="attachproject_conflict_unknown_user">ไม่มีบัญชีนี้</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">ไม่มีบัญชีนี้ โปรดไปที่เว็บไซต์โปรเจกต์เพื่อสมัคร</string>
+  <!--working-->
+  <!--e.g. Attaching Einstein@Home-->
+  <!--hints-->
+  <string name="attachproject_hints_header">คำใบ้</string>
+  <!--e.g. Hint 1/2-->
+  <string name="attachproject_hint_contribtion_header">วิธีสนับสนุน</string>
+  <string name="attachproject_hint_contribtion_wifi">1. เชื่อมต่อกับ WiFi</string>
+  <string name="attachproject_hint_contribtion_charger">2. เสียบที่ชาร์จ</string>
+  <string name="attachproject_hint_contribtion_screen">4. ปิดหน้าจอ</string>
+  <string name="attachproject_hint_projectwebsite_header">เยี่ยมชมเว็บไซต์โปรเจกต์:</string>
+  <string name="attachproject_hint_projectwebsite_science">เรียนรู้เพิ่มเติมเกี่ยวกับวิทยาศาสตร์</string>
+  <string name="attachproject_hint_projectwebsite_stats">ดูสถิติผลงาน</string>
+  <string name="attachproject_hint_projectwebsite_community">รับการติดต่อจากอาสาสมัครคนอื่น ๆ</string>
+  <string name="attachproject_hint_platforms_header">BOINC มีอยู่บนคอมพิวเตอร์หรือแล็ปท็อปด้วย ไปที่ boinc.berkeley.edu เพื่อเรียนรู้เพิ่มเติม</string>
+  <!--project login-->
+  <string name="attachproject_login_loading">กำลังติดต่อกับเซิร์ฟเวอร์โปรเจกต์ ...</string>
+  <string name="attachproject_login_header_general_area">สาขาทั่วไป:</string>
+  <string name="attachproject_login_header_specific_area">พื้นที่เฉพาะ:</string>
+  <string name="attachproject_login_header_description">รายละเอียด:</string>
+  <string name="attachproject_login_header_home">หน้าแรก:</string>
+  <string name="attachproject_login_header_url">เว็บไซต์:</string>
+  <string name="attachproject_login_header_id_email">อีเมล์:</string>
+  <string name="attachproject_login_header_id_name">ชื่อ:</string>
+  <string name="attachproject_login_header_pwd">รหัสผ่าน:</string>
+  <string name="attachproject_login_button_registration">สมัครสมาชิก</string>
+  <string name="attachproject_login_button_login">ลงชื่อเข้าใช้</string>
+  <string name="attachproject_login_button_forgotpw">ลืมรหัสผ่าน</string>
+  <!--account manager-->
+  <string name="attachproject_acctmgr_list_desc">ใช้ตัวจัดการบัญชี BOINC เพื่อเพิ่มและบริหารจัดการหลายโปรเจกต์</string>
+  <string name="attachproject_acctmgr_header">เพิ่มตัวจัดการบัญชี</string>
+  <string name="attachproject_acctmgr_header_url">URL</string>
+  <string name="attachproject_acctmgr_header_name">ผู้ใช้:</string>
+  <string name="attachproject_acctmgr_header_pwd">รหัสผ่าน:</string>
+  <!--error strings-->
+  <string name="attachproject_error_wrong_name">ไม่พบผู้ใช้</string>
+  <string name="attachproject_error_short_pwd">รหัสผ่านสั้นเกินไป</string>
+  <string name="attachproject_error_no_internet">การเชื่อมต่อล้มเหลว</string>
+  <string name="attachproject_error_no_url">โปรดป้อน URL</string>
+  <string name="attachproject_error_no_email">โปรดป้อนที่อยู่อีเมล</string>
+  <string name="attachproject_error_no_pwd">โปรดป้อนรหัสผ่าน</string>
+  <string name="attachproject_error_no_name">โปรดป้อนชื่อผู้ใช้</string>
+  <string name="attachproject_error_unknown">ล้มเหลว</string>
+  <string name="attachproject_error_bad_username">ชื่อผู้ใช้ถูกปฏิเสธ</string>
+  <string name="attachproject_error_email_in_use">อีเมลมีการใช้งานแล้ว</string>
+  <string name="attachproject_error_project_down">โปรเจกต์ออฟไลน์อยู่</string>
+  <string name="attachproject_error_email_bad_syntax">อีเมลถูกปฏิเสธ</string>
+  <string name="attachproject_error_bad_pwd">รหัสผ่านถูกปฏิเสธ</string>
+  <string name="attachproject_error_creation_disabled">การสร้างบัญชีถูกปิดใช้งานสำหรับโปรเจกต์นี้</string>
+  <string name="attachproject_error_invalid_url">URL ไม่ถูกต้อง</string>
+  <!--tab names-->
+  <string name="tab_status">สถานะ</string>
+  <string name="tab_projects">โปรเจกต์</string>
+  <string name="tab_tasks">งาน</string>
+  <string name="tab_transfers">การรับ-ส่ง</string>
+  <string name="tab_preferences">การตั้งค่า</string>
+  <string name="tab_notices">การแจ้งเตือน</string>
+  <string name="tab_desc">การเลือกเส้นทาง</string>
+  <!--status strings-->
+  <string name="status_running">กำลังประมวลผล</string>
+  <string name="status_running_long">ขอขอบคุณสำหรับการมีส่วนร่วม</string>
+  <string name="status_paused">ถูกระงับ</string>
+  <string name="status_idle">ไม่มีอะไรให้ทำ</string>
+  <string name="status_idle_long">กำลังรองาน...</string>
+  <string name="status_computing_disabled">ถูกระงับ</string>
+  <string name="status_computing_disabled_long">กด play เพื่อดำเนินการเครือข่ายและการคำนวณต่อ</string>
+  <string name="status_launching">กำลังเริ่ม...</string>
+  <string name="status_noproject">เลือกโปรเจกต์ที่ต้องการมีส่วนร่วม</string>
+  <string name="status_benchmarking">กำลังทดสอบประสิทธิภาพ...</string>
+  <string name="status_image_description">ภาพโปรเจกต์</string>
+  <!--preferences tab strings-->
+  <string name="prefs_category_general">ทั่วไป</string>
+  <string name="prefs_category_network">เครือข่าย</string>
+  <string name="prefs_category_power">พลังงาน</string>
+  <string name="prefs_category_cpu">CPU</string>
+  <string name="prefs_category_storage">พื้นที่เก็บข้อมูล</string>
+  <string name="prefs_category_memory">หน่วยความจำ</string>
+  <string name="prefs_category_other">อื่นๆ</string>
+  <string name="prefs_category_debug">Debug</string>
+  <string name="prefs_suspend_when_screen_on">หยุดการคำนวณเมื่อหน้าจอเปิดอยู่</string>
+  <string name="prefs_general_device_name_header">ชื่ออุปกรณ์</string>
+  <string name="prefs_stationary_device_mode_header">โหมดอุปกรณ์ประจำที่</string>
+  <string name="prefs_power_source_header">แหล่งพลังงานในการคำนวณ</string>
+  <string name="prefs_power_source_usb">การเชื่อมต่อ USB</string>
+  <string name="prefs_power_source_wireless">ที่ชาร์จแบบไร้สาย</string>
+  <string name="prefs_power_source_battery">แบตเตอรี่</string>
+  <string name="prefs_network_wifi_only_header">ส่งงานบน WiFi เท่านั้น</string>
+  <string name="prefs_autostart_header">เริ่มต้นอัตโนมัติ</string>
+  <!--projects tab strings-->
+  <string name="projects_add">เพิ่มโครงการ</string>
+  <string name="projects_credits">เครดิต:</string>
+  <!--project status strings-->
+  <string name="projects_status_suspendedviagui">ถูกระงับโดยผู้ใช้</string>
+  <string name="projects_status_dontrequestmorework">จะไม่ได้รับงานใหม่</string>
+  <string name="projects_status_ended">โครงการสิ้นสุดแล้ว - OK เพื่อลบ</string>
+  <string name="projects_status_detachwhendone">จะลบเมื่องานเสร็จ</string>
+  <!--project controls-->
+  <string name="projects_control_dialog_title">คำสั่งโครงการ:</string>
+  <string name="projects_control_visit_website">เยี่ยมชมเว็บไซต์</string>
+  <string name="projects_control_update">อัพเดต</string>
+  <string name="projects_control_remove">ลบ</string>
+  <string name="projects_control_suspend">ระงับ</string>
+  <string name="projects_control_resume">ทำต่อ</string>
+  <string name="projects_control_reset">รีเซ็ต</string>
+  <string name="projects_control_dialog_title_acctmgr">คำสั่งผู้จัดการบัญชี:</string>
+  <string name="projects_control_sync_acctmgr">ซิงโครไนซ์</string>
+  <string name="projects_control_remove_acctmgr">ปิดการใช้งาน</string>
+  <!--project confirm dialog-->
+  <string name="projects_confirm_detach_confirm">ลบ</string>
+  <string name="projects_confirm_reset_confirm">รีเซ็ต</string>
+  <string name="projects_confirm_remove_acctmgr_confirm">ปิดการใช้งาน</string>
+  <!--tasks tab strings-->
+  <string name="tasks_header_project_paused">(ระงับ)</string>
+  <string name="tasks_header_deadline">เส้นตาย:</string>
+  <string name="tasks_result_files_downloaded">ดาวน์โหลดเสร็จสิ้น</string>
+  <string name="tasks_result_compute_error">ข้อผิดพลาดในการคำนวณ</string>
+  <string name="tasks_result_files_uploading">กำลังอัปโหลด</string>
+  <string name="tasks_result_files_uploaded">อัปโหลดเสร็จสมบูรณ์</string>
+  <string name="tasks_result_upload_failed">การอัพโหลดล้มเหลว</string>
+  <string name="tasks_active_uninitialized">พร้อมแล้ว</string>
+  <string name="tasks_active_suspended">ระงับแล้ว</string>
+  <string name="tasks_active_abort_pending">กำลังระงับ</string>
+  <string name="tasks_active_quit_pending">กำลังระงับ</string>
+  <string name="tasks_custom_suspended_via_gui">ระงับแล้ว</string>
+  <string name="tasks_custom_project_suspended_via_gui">โครงการที่ถูกระงับ</string>
+  <string name="tasks_custom_ready_to_report">พร้อมที่จะรายงาน</string>
+  <!--confirmation dialog-->
+  <string name="confirm_cancel">ยกเลิก</string>
+  <string name="confirm_image_desc">กล่องโต้ตอบการยืนยัน</string>
+  <!--transfers tab strings-->
+  <string name="trans_upload">อัปโหลด</string>
+  <string name="trans_download">ดาวน์โหลด</string>
+  <string name="trans_failed">ล้มเหลว</string>
+  <string name="trans_suspended">ระงับแล้ว</string>
+  <!--eventlog tab strings-->
+  <string name="eventlog_copy_toast">คัดลอก log ไปที่คลิปบอร์ดแล้ว</string>
+  <!--suspend reasons-->
+  <string name="suspend_unknown">การประมวลผลถูกระงับแล้ว</string>
+  <string name="suspend_batteries">เชื่อมต่ออุปกรณ์ของคุณกับที่ชาร์จเพื่อดำเนินการต่อ</string>
+  <string name="suspend_screen_on">เปิดปิดหน้าจอเพื่อดำเนินการต่อ</string>
+  <string name="suspend_cpu">อุปกรณ์ของคุณกำลังทำงานกับแอพอื่น ๆ</string>
+  <string name="suspend_os">หยุดโดยแอนดรอยด์</string>
+  <string name="suspend_wifi">ไม่ได้เชื่อมต่อกับ WiFi</string>
+  <string name="suspend_battery_charging">รอให้แบตเตอรี่ชาร์จ</string>
+  <!--rpc reasons-->
+  <!--menu-->
+  <string name="menu_refresh">รีเฟรช</string>
+  <string name="menu_emailto">ส่งเป็นอีเมล์</string>
+  <string name="menu_copy">คัดลอกไปยังคลิปบอร์ด</string>
+  <string name="menu_run_mode_disable">ระงับ</string>
+  <string name="menu_run_mode_enable">ทำต่อ</string>
+  <string name="menu_about">เกี่ยวกับ</string>
+  <string name="menu_help">ช่วยเหลือ</string>
+  <!--about dialog-->
+    <string name="about_title">เกี่ยวกับ</string>
+  <string name="about_name">BOINC</string>
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <plurals name="notice_notification">
+    <item quantity="other">มี %2$,d ประกาศใหม่</item>
+  </plurals>
+  <!--multi BOINC compatibility-->
+  <string name="nonexcl_dialog_header">ตรวจพบแอปอาสาสมัครคำนวณตัวอื่น</string>
+  <string name="nonexcl_dialog_exit">ออก</string>
+  <!--social integration-->
+  <string name="social_invite_button">เชิญเพื่อน ๆ</string>
+  <string name="social_invite_intent_title">จะทำอย่างไรถ้าต้องการที่จะเข้าร่วม</string>
+  <string name="social_invite_content_title">ฉันกำลังทำโครงการวิทยาศาสตร์บนสมาร์ทโฟนของฉัน!</string>
+  <!--first parameter: device manufacturer, second: URL-->
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+  <string name="notice_notification_channel_name">การแจ้งเตือน</string>
+</resources>

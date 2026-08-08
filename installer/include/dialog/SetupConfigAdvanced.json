@@ -1,0 +1,286 @@
+{
+    "Dialog": "SetupConfigAdvanced",
+    "HCentering": 50,
+    "VCentering": 50,
+    "Width": 374,
+    "Height": 266,
+    "Attributes": 3,
+    "Title": "IDS_PRODUCTNAME",
+    "Control_First": "Next",
+    "Control_Default": "CheckBox4",
+    "Control_Cancel": "Cancel",
+    "Controls": [
+        {
+            "Control": "Back",
+            "Type": "PushButton",
+            "X": 164,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_BACK",
+            "Control_Next": "ChangeInstall",
+            "Events": [
+                {
+                    "Event": "NewDialog",
+                    "Argument": "SetupConfig",
+                    "Condition": "1",
+                    "Ordering": 1
+                }
+            ]
+        },
+        {
+            "Control": "Banner",
+            "Type": "Bitmap",
+            "X": 0,
+            "Y": 0,
+            "Width": 374,
+            "Height": 44,
+            "Attributes": 1,
+            "Binary_": "banner.jpg"
+        },
+        {
+            "Control": "BannerLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 44,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "Cancel",
+            "Type": "PushButton",
+            "X": 301,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_CANCEL",
+            "Control_Next": "ChangeData",
+            "Events": [
+                {
+                    "Event": "SpawnDialog",
+                    "Argument": "CancelSetup",
+                    "Condition": "1",
+                    "Ordering": 1
+                }
+            ]
+        },
+        {
+            "Control": "ChangeData",
+            "Type": "PushButton",
+            "X": 301,
+            "Y": 100,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS__IsAdminInstallPoint_Change",
+            "Control_Next": "Back",
+            "Events": [
+                {
+                    "Event": "SpawnDialog",
+                    "Argument": "ChangeFolderData",
+                    "Condition": "1",
+                    "Ordering": 1
+                },
+                {
+                    "Event": "[_BrowseDataProperty]",
+                    "Argument": "DATADIR",
+                    "Condition": "1",
+                    "Ordering": 2
+                }
+            ]
+        },
+        {
+            "Control": "ChangeInstall",
+            "Type": "PushButton",
+            "X": 301,
+            "Y": 65,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS__IsAdminInstallPoint_Change",
+            "Control_Next": "CheckBox4",
+            "Events": [
+                {
+                    "Event": "SpawnDialog",
+                    "Argument": "ChangeFolderInstall",
+                    "Condition": "1",
+                    "Ordering": 1
+                },
+                {
+                    "Event": "[_BrowseInstallProperty]",
+                    "Argument": "INSTALLDIR",
+                    "Condition": "1",
+                    "Ordering": 2
+                }
+            ]
+        },
+        {
+            "Control": "CheckBox2",
+            "Type": "CheckBox",
+            "X": 21,
+            "Y": 127,
+            "Width": 331,
+            "Height": 13,
+            "Attributes": 3,
+            "Property": "ENABLESCREENSAVER",
+            "Text": "IDS_NEW_STRING12",
+            "Control_Next": "CheckBox3"
+        },
+        {
+            "Control": "CheckBox3",
+            "Type": "CheckBox",
+            "X": 21,
+            "Y": 143,
+            "Width": 331,
+            "Height": 13,
+            "Attributes": 3,
+            "Property": "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
+            "Text": "IDS_NEW_STRING13",
+            "Control_Next": "Next"
+        },
+        {
+            "Control": "CheckBox4",
+            "Type": "CheckBox",
+            "X": 21,
+            "Y": 210,
+            "Width": 331,
+            "Height": 13,
+            "Attributes": 3,
+            "Property": "ENABLEUSEBYALLUSERS",
+            "Text": "IDS_NEW_STRING15",
+            "Control_Next": "CheckBox2"
+        },
+        {
+            "Control": "DlgDesc",
+            "Type": "Text",
+            "X": 21,
+            "Y": 23,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS_STRING25"
+        },
+        {
+            "Control": "DlgLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 234,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "DlgTitle",
+            "Type": "Text",
+            "X": 13,
+            "Y": 6,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS_STRING24"
+        },
+        {
+            "Control": "Icon1",
+            "Type": "Icon",
+            "X": 21,
+            "Y": 52,
+            "Width": 24,
+            "Height": 24,
+            "Attributes": 6291457,
+            "Binary_": "folder.ico"
+        },
+        {
+            "Control": "Icon2",
+            "Type": "Icon",
+            "X": 21,
+            "Y": 87,
+            "Width": 24,
+            "Height": 24,
+            "Attributes": 6291457,
+            "Binary_": "folder.ico"
+        },
+        {
+            "Control": "Next",
+            "Type": "PushButton",
+            "X": 230,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_NEXT",
+            "Control_Next": "Cancel",
+            "Events": [
+                {
+                    "Event": "DoAction",
+                    "Argument": "CAVerifyInstallDirectories",
+                    "Condition": "1",
+                    "Ordering": 1
+                },
+                {
+                    "Event": "NewDialog",
+                    "Argument": "ReadyToInstall",
+                    "Condition": "RETURN_VERIFYINSTALLDIRECTORIES = \"1\"",
+                    "Ordering": 2
+                }
+            ]
+        },
+        {
+            "Control": "Text1",
+            "Type": "Text",
+            "X": 57,
+            "Y": 65,
+            "Width": 240,
+            "Height": 13,
+            "Attributes": 3,
+            "Property": "_BrowseInstallProperty",
+            "Text": "[INSTALLDIR]"
+        },
+        {
+            "Control": "Text2",
+            "Type": "Text",
+            "X": 57,
+            "Y": 52,
+            "Width": 290,
+            "Height": 11,
+            "Attributes": 3,
+            "Property": "NewProperty1",
+            "Text": "IDS_NEW_STRING7"
+        },
+        {
+            "Control": "Text3",
+            "Type": "Text",
+            "X": 57,
+            "Y": 100,
+            "Width": 240,
+            "Height": 13,
+            "Attributes": 3,
+            "Property": "_BrowseDataProperty",
+            "Text": "[DATADIR]"
+        },
+        {
+            "Control": "Text4",
+            "Type": "Text",
+            "X": 57,
+            "Y": 87,
+            "Width": 290,
+            "Height": 11,
+            "Attributes": 3,
+            "Property": "NewProperty2",
+            "Text": "IDS_NEW_STRING10"
+        },
+        {
+            "Control": "Text6",
+            "Type": "Text",
+            "X": 34,
+            "Y": 158,
+            "Width": 328,
+            "Height": 44,
+            "Attributes": 3,
+            "Property": "NewProperty1",
+            "Text": "IDS_NEW_STRING31"
+        }
+    ]
+}

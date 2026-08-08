@@ -54,10 +54,6 @@
 #include <ctime>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"
@@ -175,22 +171,25 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     double vax_mips, int_loops=0, int_time=0, fp_time;
 
     bdp->error_str[0] = '\0';
-    host_info.clear_host_info();
 
 #if defined(ANDROID) && defined(__arm__)
+#if defined(ARMV6)
+    retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
+#else
     // check for FP accelerator: VFP, Neon, or none;
     // run the appropriate version of Whetstone
     // (separated using namespaces)
     //
-    if (strstr(gstate.host_info.p_features, " neon ")) { 
+    if (strstr(gstate.host_info.p_features, " neon ")) {
         // have ARM neon FP capabilities
         retval = android_neon::whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
-    } else if (strstr(gstate.host_info.p_features, " vfp ")) { 
+    } else if (strstr(gstate.host_info.p_features, " vfp ")) {
         // have ARM vfp FP capabilities
         retval = android_vfp::whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
     } else { // just run normal test
         retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
     }
+#endif
 #else
     retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
 #endif
@@ -263,9 +262,9 @@ void CLIENT_STATE::start_cpu_benchmarks(bool force) {
     cpu_benchmarks_start = dtime();
 
     benchmark_descs.clear();
-    benchmark_descs.resize(ncpus);
+    benchmark_descs.resize(n_usable_cpus);
 
-    bm_ncpus = ncpus;
+    bm_ncpus = n_usable_cpus;
     benchmarks_running = true;
 
     for (i=0; i<bm_ncpus; i++) {
@@ -279,7 +278,7 @@ void CLIENT_STATE::start_cpu_benchmarks(bool force) {
         );
         int n = host_info.p_ncpus;
         int j = (i >= n/2)? 2*i+1-n : 2*i;
-        SetThreadAffinityMask(benchmark_descs[i].handle, 1<<j);
+        SetThreadAffinityMask(benchmark_descs[i].handle, 1ull<<j);
         SetThreadPriority(benchmark_descs[i].handle, THREAD_PRIORITY_IDLE);
 #else
         sprintf(benchmark_descs[i].filename, "%s_%d.xml", CPU_BENCHMARKS_FILE_NAME, i);
@@ -312,7 +311,13 @@ void CLIENT_STATE::check_if_need_benchmarks() {
     if (diff < 0) {
         run_cpu_benchmarks = true;
     } else if (diff > BENCHMARK_PERIOD) {
-        msg_printf(NULL, MSG_INFO, "Last benchmark was %s ago", timediff_format(diff).c_str());
+        if (host_info.p_calculated) {
+            msg_printf(NULL, MSG_INFO,
+                "Last CPU benchmark was %s ago", timediff_format(diff).c_str()
+            );
+        } else {
+            msg_printf(NULL, MSG_INFO, "No CPU benchmark yet");
+        }
         run_cpu_benchmarks = true;
     }
 }
@@ -321,11 +326,6 @@ void CLIENT_STATE::check_if_need_benchmarks() {
 //
 bool CLIENT_STATE::can_run_cpu_benchmarks() {
     if (tasks_suspended) return false;
-
-    // if no projects attached yet, don't run
-    //
-    if (projects.size()==0) return false;
-
     return true;
 }
 
@@ -585,4 +585,5 @@ void CLIENT_STATE::cpu_benchmarks_set_defaults() {
     if (!host_info.p_iops) host_info.p_iops = DEFAULT_IOPS;
     if (!host_info.p_membw) host_info.p_membw = DEFAULT_MEMBW;
     if (!host_info.m_cache) host_info.m_cache = DEFAULT_CACHE;
+    host_info.p_calculated = now;
 }

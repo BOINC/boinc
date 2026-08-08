@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,15 +15,15 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-// configurable app plan functions.
-// see https://boinc.berkeley.edu/trac/wiki/AppPlanConfig
+// Plan class specifications in XML
+// See https://github.com/BOINC/boinc/wiki/Plan-classes
 
 #include <string>
 #include <vector>
 #include <regex.h>
 
-// if you add anything here, initialize if in the constructor
+// Represents a plan class, as specified in XML
+// if you add anything here, initialize it in the constructor
 //
 struct PLAN_CLASS_SPEC {
     char name[256];
@@ -32,6 +32,8 @@ struct PLAN_CLASS_SPEC {
     bool cal;
     bool opencl;
     bool virtualbox;
+    bool wsl;
+    bool docker;
     bool is64bit;
     std::vector<std::string> cpu_features;
     double min_ncpus;
@@ -51,6 +53,8 @@ struct PLAN_CLASS_SPEC {
     double max_os_version;
     int min_android_version;
     int max_android_version;
+    int min_libc_version;
+        // if WSL: applies to WSL distro
     char project_prefs_tag[256];
     bool have_project_prefs_regex;
     regex_t project_prefs_regex;
@@ -59,8 +63,6 @@ struct PLAN_CLASS_SPEC {
     int min_core_client_version;
     int max_core_client_version;
         // for non-compute-intensive, or override for GPU apps
-    bool have_host_summary_regex;
-    regex_t host_summary_regex;
     int user_id;
     double infeasible_random;
     long min_wu_id;
@@ -82,6 +84,8 @@ struct PLAN_CLASS_SPEC {
         // the project prefs tag for user-supplied gpu_utilization factor
     double min_gpu_peak_flops;
     double max_gpu_peak_flops;
+    bool have_gpu_type_regex;
+    regex_t gpu_type_regex;
 
     // AMD/ATI apps
     //
@@ -110,6 +114,9 @@ struct PLAN_CLASS_SPEC {
     int max_opencl_driver_revision;
     bool double_precision_fp;
 
+    // Apple GPU
+    int min_metal_support;
+
     // VirtualBox apps
     //
     int min_vbox_version;
@@ -117,17 +124,20 @@ struct PLAN_CLASS_SPEC {
     vector<int> exclude_vbox_version;
     bool vm_accel_required;
 
+    PLAN_CLASS_SPEC();
     int parse(XML_PARSER&);
     bool opencl_check(OPENCL_DEVICE_PROP&);
     bool check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu, const WORKUNIT* wu);
-    PLAN_CLASS_SPEC();
+    bool check_wsl_gpu(SCHEDULER_REQUEST& sreq, std::string gpu_name);
 };
 
 struct PLAN_CLASS_SPECS {
     std::vector<PLAN_CLASS_SPEC> classes;
     int parse_file(const char*);
     int parse_specs(FILE*);
-    bool check(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu, const WORKUNIT* wu);
-    bool wu_is_infeasible(char* plan_class, const WORKUNIT* wu);
+    bool check(SCHEDULER_REQUEST& sreq, const char* plan_class,
+        HOST_USAGE& hu, const WORKUNIT* wu
+    );
+    bool wu_is_infeasible(const char* plan_class, const WORKUNIT* wu);
     PLAN_CLASS_SPECS(){};
 };

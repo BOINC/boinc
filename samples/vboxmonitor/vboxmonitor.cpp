@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // vboxmonitor [options]     BOINC VirtualBox monitor
-// see: http://boinc.berkeley.edu/trac/wiki/VboxApps
+// see: https://github.com/BOINC/boinc/wiki/VboxApps
 // Options:
 //
 // Duplicate everything sent to stdin to the console and the VM Guest Log.

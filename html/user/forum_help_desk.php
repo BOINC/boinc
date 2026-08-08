@@ -22,6 +22,10 @@ require_once('../inc/time.inc');
 
 if (DISABLE_FORUMS) error_page("Forums are disabled");
 
+if (REQUIRE_LOGIN_FORUM) {
+    get_logged_in_user();
+}
+
 check_get_args(array());
 
 $user = get_logged_in_user(false);
@@ -29,7 +33,7 @@ $user = get_logged_in_user(false);
 page_head(tra("Questions and answers"));
 
 echo "<p>".
-    tra("Talk live via Skype with a volunteer, in any of several languages. Go to %1 BOINC Online Help %2.", "<a href=\"https://boinc.berkeley.edu/help.php\">", "</a>").
+    tra("Email help volunteer, in any of several languages. Go to %1 BOINC Online Help %2.", "<a href=\"https://boinc.berkeley.edu/help.php\">", "</a>").
     "</p>";
 
 show_forum_header($user);
@@ -39,7 +43,7 @@ $first = true;
 foreach ($categories as $category) {
     if ($first) {
         $first = false;
-        show_forum_title($category, null, null);
+        echo forum_title($category, null, null);
         echo "<p>";
         show_mark_as_read_button($user);
         start_table('table-striped');
@@ -79,5 +83,4 @@ echo "
 
 page_tail();
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

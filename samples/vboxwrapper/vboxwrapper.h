@@ -16,10 +16,10 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-// Provide cross-platform interfaces for making changes to VirtualBox
-
 #ifndef BOINC_VBOXWRAPPER_H
 #define BOINC_VBOXWRAPPER_H
+
+#define MIN_MEMORY_SIZE_MB  512
 
 #define IMAGE_FILENAME_COMPLETE "vm_image.vdi"
 #define IMAGE_FILENAME "vm_image"
@@ -28,6 +28,14 @@
 #define FLOPPY_IMAGE_FILENAME_EXTENSION "img"
 #define CACHE_DISK_FILENAME "vm_cache.vdi"
 #define ISO_IMAGE_FILENAME "vm_isocontext.iso"
+
 #define POLL_PERIOD 1.0
+
+extern APP_INIT_DATA aid;
+extern string slot_dir_path;
+extern string project_dir_path;
+extern string shared_dir;
+    // 'shared' (if enable_shared_directory)
+    // '.' (if share_slot_dir)
 
 #endif

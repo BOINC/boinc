@@ -16,6 +16,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// RPC to return user's posts as XML
+
+// this is a bad idea; deprecating
+die('deprecated');
+
 require_once("../inc/forum_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/xml.inc");

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2020 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,10 +16,27 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Command-line program for creating jobs (workunits).
-// Used directly for local job submission;
+// Use directly for local job submission;
 // run from PHP script for remote job submission.
 //
-// see http://boinc.berkeley.edu/trac/wiki/JobSubmission
+// see https://github.com/BOINC/boinc/wiki/JobSubmission
+//
+// This program can be used in two ways:
+// - to create a single job, with everything passed on the cmdline
+// - to create multiple jobs, where per-job info is passed via stdin,
+//      one line per job
+//      available options here:
+//      --command_line X
+//      --wu_name X
+//      --wu_template F
+//      --result_template F
+//      --remote_file url nbytes md5
+//      --target_host ID
+//      --target_user ID
+//      --priority N
+//      phys_name1 ...
+//
+// The input files must already be staged (i.e. in the download hierarchy).
 
 #include "config.h"
 
@@ -42,6 +59,11 @@
 #include "util.h"
 
 #include "backend_lib.h"
+
+// the max length of a job description line;
+// also the max length of a job command line
+//
+#define CMD_SIZE    4096
 
 using std::string;
 using std::map;
@@ -79,6 +101,7 @@ void usage() {
         "   [ --rsc_memory_bound x ]\n"
         "   [ --size_class n ]\n"
         "   [ --stdin ]\n"
+        "   [ --sub_appname 'foo bar' ]\n"
         "   [ --target_host ID ]\n"
         "   [ --target_nresults n ]\n"
         "   [ --target_team ID ]\n"
@@ -87,16 +110,16 @@ void usage() {
         "   [ --wu_id ID ]   ID of existing workunit record (used by boinc_submit)\n"
         "   [ --wu_name name ]              default: generate a name based on app name\n"
         "   [ --wu_template filename ]      default: appname_in\n"
-        "\nSee http://boinc.berkeley.edu/trac/wiki/JobSubmission\n"
+        "\nSee https://github.com/BOINC/boinc/wiki/JobSubmission\n"
     );
     exit(1);
 }
 
 bool arg(char** argv, int i, const char* name) {
     char buf[256];
-    sprintf(buf, "-%s", name);
+    snprintf(buf, sizeof(buf), "-%s", name);
     if (!strcmp(argv[i], buf)) return true;
-    sprintf(buf, "--%s", name);
+    snprintf(buf, sizeof(buf), "--%s", name);
     if (!strcmp(argv[i], buf)) return true;
     return false;
 }
@@ -121,21 +144,23 @@ struct JOB_DESC {
     char result_template_file[256];
     char result_template_path[MAXPATHLEN];
     vector <INFILE_DESC> infiles;
-    char* command_line;
+    char command_line[CMD_SIZE];
     bool assign_flag;
     bool assign_multi;
     int assign_id;
     int assign_type;
+    char sub_appname[256];
 
     JOB_DESC() {
         wu.clear();
-        command_line = NULL;
+        command_line[0] = 0;
         assign_flag = false;
         assign_multi = false;
-        strcpy(wu_template_file, "");
-        strcpy(result_template_file, "");
+        wu_template_file[0] = 0;
+        result_template_file[0] = 0;
         assign_id = 0;
         assign_type = ASSIGN_NONE;
+        sub_appname[0] = 0;
 
         // defaults (in case they're not in WU template)
         //
@@ -155,15 +180,19 @@ struct JOB_DESC {
 
     }
     void create();
-    void parse_cmdline(int, char**);
+    void parse_stdin_line(int, char**);
 };
 
 // parse additional job-specific info when using --stdin
 //
-void JOB_DESC::parse_cmdline(int argc, char** argv) {
+void JOB_DESC::parse_stdin_line(int argc, char** argv) {
     for (int i=0; i<argc; i++) {
         if (arg(argv, i, (char*)"command_line")) {
-            command_line = argv[++i];
+            // concatenate per-job args to main args
+            if (strlen(command_line)) {
+                strcat(command_line, " ");
+            }
+            strcat(command_line, argv[++i]);
         } else if (arg(argv, i, (char*)"wu_name")) {
             safe_strcpy(wu.name, argv[++i]);
         } else if (arg(argv, i, (char*)"wu_template")) {
@@ -187,6 +216,8 @@ void JOB_DESC::parse_cmdline(int argc, char** argv) {
             assign_type = ASSIGN_USER;
             assign_id = atoi(argv[++i]);
             check_assign_id(assign_id);
+        } else if (arg(argv, i, (char*)"priority")) {
+            wu.priority = atoi(argv[++i]);
         } else {
             if (!strncmp("-", argv[i], 1)) {
                 fprintf(stderr, "create_work: bad stdin argument '%s'\n", argv[i]);
@@ -225,13 +256,22 @@ void get_wu_template(JOB_DESC& jd2) {
     strcpy(jd2.wu_template, wu_templates[s]);
 }
 
+// if a buffer is full after a fgets(), it was too small
+//
+void check_buffer(char *p, size_t len) {
+    if (strlen(p) == len-1) {
+        fprintf(stderr, "fgets() buffer was too small\n");
+        exit(1);
+    }
+}
+
 int main(int argc, char** argv) {
     DB_APP app;
     int retval;
     int i;
     char download_dir[256], db_name[256], db_passwd[256];
     char db_user[256],db_host[256];
-    char buf[4096];
+    char buf[CMD_SIZE];
     JOB_DESC jd;
     bool show_wu_name = true;
     bool use_stdin = false;
@@ -289,10 +329,8 @@ int main(int argc, char** argv) {
             jd.wu.max_total_results = atoi(argv[++i]);
         } else if (arg(argv, i, "max_success_results")) {
             jd.wu.max_success_results = atoi(argv[++i]);
-        } else if (arg(argv, i, "opaque")) {
-            jd.wu.opaque = atoi(argv[++i]);
         } else if (arg(argv, i, "command_line")) {
-            jd.command_line= argv[++i];
+            strcpy(jd.command_line, argv[++i]);
         } else if (arg(argv, i, "wu_id")) {
             jd.wu.id = atoi(argv[++i]);
         } else if (arg(argv, i, "broadcast")) {
@@ -344,6 +382,8 @@ int main(int argc, char** argv) {
             continue_on_error = true;
         } else if (arg(argv, i, "keywords")) {
             strcpy(jd.wu.keywords, argv[++i]);
+        } else if (arg(argv, i, "sub_appname")) {
+            strcpy(jd.sub_appname, argv[++i]);
         } else {
             if (!strncmp("-", argv[i], 1)) {
                 fprintf(stderr, "create_work: bad argument '%s'\n", argv[i]);
@@ -361,13 +401,13 @@ int main(int argc, char** argv) {
         usage();
     }
     if (!strlen(jd.wu.name)) {
-        sprintf(jd.wu.name, "%s_%d_%f", app.name, getpid(), dtime());
+        snprintf(jd.wu.name, sizeof(jd.wu.name), "%s_%d_%f", app.name, getpid(), dtime());
     }
     if (!strlen(jd.wu_template_file)) {
-        sprintf(jd.wu_template_file, "templates/%s_in", app.name);
+        snprintf(jd.wu_template_file, sizeof(jd.wu_template_file), "templates/%s_in", app.name);
     }
     if (!strlen(jd.result_template_file)) {
-        sprintf(jd.result_template_file, "templates/%s_out", app.name);
+        snprintf(jd.result_template_file, sizeof(jd.result_template_file), "templates/%s_out", app.name);
     }
 
     retval = config.parse_file(config_dir);
@@ -390,7 +430,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
     boinc_db.set_isolation_level(READ_UNCOMMITTED);
-    sprintf(buf, "where name='%s'", app.name);
+    snprintf(buf, sizeof(buf), "where name='%s'", app.name);
     retval = app.lookup(buf);
     if (retval) {
         fprintf(stderr, "create_work: app not found\n");
@@ -411,6 +451,14 @@ int main(int argc, char** argv) {
             );
             exit(1);
         }
+    } else {
+        if (!use_stdin) {
+            fprintf(stderr,
+                "create_work: input template file %s doesn't exist\n",
+                jd.wu_template_file
+            );
+            exit(1);
+        }
     }
 
     jd.wu.appid = app.id;
@@ -419,10 +467,6 @@ int main(int argc, char** argv) {
     strcat(jd.result_template_path, jd.result_template_file);
 
     if (use_stdin) {
-        // clear the WU template name so we'll recognize a job-level one
-        //
-        strcpy(jd.wu_template_file, "");
-
         if (jd.assign_flag) {
             // if we're doing assignment we can't use the bulk-query method;
             // create the jobs one at a time.
@@ -432,12 +476,15 @@ int main(int argc, char** argv) {
             for (int j=0; ; j++) {
                 char* p = fgets(buf, sizeof(buf), stdin);
                 if (p == NULL) break;
+                check_buffer(buf, sizeof(buf));
                 JOB_DESC jd2 = jd;
+                    // things default to what was passed on cmdline
                 strcpy(jd2.wu.name, "");
                 _argc = parse_command_line(buf, _argv);
-                jd2.parse_cmdline(_argc, _argv);
+                jd2.parse_stdin_line(_argc, _argv);
+                    // get info from stdin line
                 if (!strlen(jd2.wu.name)) {
-                    sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
+                    snprintf(jd2.wu.name, sizeof(jd2.wu.name), "%s_%d", jd.wu.name, j);
                 }
                 if (strlen(jd2.wu_template_file)) {
                     get_wu_template(jd2);
@@ -449,19 +496,36 @@ int main(int argc, char** argv) {
                 jd2.create();
             }
         } else {
+            // stdin mode, unassigned.
+            // for max efficiency, do them all in one big SQL query
+            //
             string values;
             DB_WORKUNIT wu;
             int _argc;
             char* _argv[100], value_buf[MAX_QUERY_LEN];
+
+            char additional_xml[256], sub_appname_esc[2048];
+            additional_xml[0] = 0;
+            if (strlen(jd.sub_appname)) {
+                xml_escape(
+                    jd.sub_appname, sub_appname_esc, sizeof(sub_appname_esc)
+                );
+                snprintf(additional_xml, sizeof(additional_xml),
+                    "   <sub_appname>%s</sub_appname>",
+                    sub_appname_esc
+                );
+            }
+
             for (int j=0; ; j++) {
                 char* p = fgets(buf, sizeof(buf), stdin);
                 if (p == NULL) break;
+                check_buffer(buf, sizeof(buf));
                 JOB_DESC jd2 = jd;
                 strcpy(jd2.wu.name, "");
                 _argc = parse_command_line(buf, _argv);
-                jd2.parse_cmdline(_argc, _argv);
+                jd2.parse_stdin_line(_argc, _argv);
                 if (!strlen(jd2.wu.name)) {
-                    sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
+                    snprintf(jd2.wu.name, sizeof(jd2.wu.name), "%s_%d", jd.wu.name, j);
                 }
                 // if the stdin line specified assignment,
                 // create the job individually
@@ -488,7 +552,7 @@ int main(int argc, char** argv) {
                     jd2.infiles,
                     config,
                     jd2.command_line,
-                    NULL,
+                    additional_xml,
                     value_buf
                 );
                 if (retval) {
@@ -545,9 +609,23 @@ int main(int argc, char** argv) {
     boinc_db.close();
 }
 
+// create a single job
+//
 void JOB_DESC::create() {
     if (assign_flag) {
         wu.transitioner_flags = assign_multi?TRANSITION_NONE:TRANSITION_NO_NEW_RESULTS;
+    }
+    char additional_xml[256];
+    additional_xml[0] = 0;
+    if (strlen(sub_appname)) {
+        char sub_appname_esc[2048];
+        xml_escape(
+            sub_appname, sub_appname_esc, sizeof(sub_appname_esc)
+        );
+        snprintf(additional_xml, sizeof(additional_xml),
+            "   <sub_appname>%s</sub_appname>",
+            sub_appname_esc
+        );
     }
     int retval = create_work2(
         wu,
@@ -556,7 +634,8 @@ void JOB_DESC::create() {
         result_template_path,
         infiles,
         config,
-        command_line
+        command_line,
+        additional_xml
     );
     if (retval) {
         fprintf(stderr, "create_work: %s\n", boincerror(retval));

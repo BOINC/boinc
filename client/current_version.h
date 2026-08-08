@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,6 +21,8 @@
 #include "gui_http.h"
 
 #define DEFAULT_VERSION_CHECK_URL "https://boinc.berkeley.edu/download.php?xml=1"
+#define DEFAULT_DOWNLOAD_URL "https://boinc.berkeley.edu/download.php"
+#define DEFAULT_NETWORK_TEST_URL "https://berkeley.edu/"
 
 struct GET_CURRENT_VERSION_OP: public GUI_HTTP_OP {
     int error_num;
@@ -36,9 +38,15 @@ struct GET_CURRENT_VERSION_OP: public GUI_HTTP_OP {
 
 extern void newer_version_startup_check();
 
+// where to get latest-version list from,
+// where to download new version from, etc.
+// Normally points to BOINC server but can override
+// using a file nvc_config.xml
+//
 struct NVC_CONFIG {
     std::string client_download_url;
     std::string client_new_version_name;
+        // if empty, we're using BOINC server and name is 'BOINC'
     std::string client_version_check_url;
     std::string network_test_url;
 
@@ -49,6 +57,6 @@ struct NVC_CONFIG {
 
 extern NVC_CONFIG nvc_config;
 
-extern int read_vc_config_file(void);
+extern int read_nvc_config_file(void);
 
 #endif

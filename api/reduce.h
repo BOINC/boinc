@@ -116,7 +116,7 @@ struct REDUCED_ARRAY_RENDER: REDUCED_ARRAY_DATA {
 	void draw_part(double frac);
     void draw_axes();
 	void draw_axis_labels();
-	void draw_labels();			
+	void draw_labels();
 };
 
 #endif

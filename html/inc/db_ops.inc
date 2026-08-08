@@ -18,11 +18,8 @@
 
 // functions to query various entities, and display them,
 // in admin web pages
-// TODO: most of this code shouldn't exist; use the standard code instead
-
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
+// TODO: most of this code shouldn't exist;
+// use the standard code for displaying WUs etc. instead
 
 require_once("../inc/util_basic.inc");
 require_once("../inc/util_ops.inc");
@@ -38,9 +35,10 @@ class BoincAssignment {
 
 define("NVALIDATE_STATES", 6);
 
-// Converts a mysql-Timestamp to a user readable format
-// @return String A user readable DateTime-String in UTC
-// @param Integer $x The mysql-Timestamp to convert
+// Converts a mysql timestamp to a user readable form
+// NOTE: the result will say UTC but it's actually local time.
+// Should fix at some point.
+//
 function mysqltime_str($x) {
     if(strpos($x,"-")==4) {
         // Syntax of supplied mysql-timestamp is YYYY-MM-DD HH:MM:SS
@@ -58,20 +56,18 @@ function mysqltime_str($x) {
         $hour = substr($x,8,2);
         $minute = substr($x,10,2);
         $second = substr($x,12,2);
-    
+
     }
-    //make a Unix-Timestamp
-    // echo "Time string is " . "$x";
-    $time = mktime($hour,$minute,$second,$month,$day,$year);
+    $time = mktime($hour, $minute, $second, $month, $day, $year);
     return time_str($time);
 }
 
-// translate type_id into humand readable text
+// translate type_id into human readable text
 // http://php.net/manual/de/mysqli-result.fetch-field-direct.php
 //
 function mysql_fieldtype_str($type_id) {
     static $types;
-    // maps php constants to well known mysql definitions
+    // maps php constants to mysql type names
     static $mysql_data_type_hash = array(
         MYSQLI_TYPE_TINY=>'tinyint',
         MYSQLI_TYPE_SHORT=>'smallint',
@@ -98,12 +94,14 @@ function mysql_fieldtype_str($type_id) {
     if (!isset($types)) {
         $types = array();
         $constants = get_defined_constants(true);
-        foreach ($constants['mysqli'] as $c => $n) if (preg_match('/^MYSQLI_TYPE_(.*)/', $c, $m)) $types[$n] = $m[1];
+        foreach ($constants['mysqli'] as $c => $n) {
+            if (preg_match('/^MYSQLI_TYPE_(.*)/', $c, $m)) $types[$n] = $m[1];
+        }
     }
     return array_key_exists($type_id, $types)? strtolower($types[$type_id]) : "unknown";
 }
 
-// Function prints a description of $table 
+// print a description of $table
 //
 function print_describe_table_onecol($table, $which, $columns) {
     $db = BoincDb::get(true);
@@ -247,7 +245,6 @@ class SqlQueryString {
         } else {
             $this->table = "";
         }
-        //$this->query = $_GET['query'];
         $this->query = "";
         $this->urlquery = "";
     }
@@ -285,8 +282,9 @@ class SqlQueryString {
             $value = "";
         }
         // On the selection menu, the ALL selection criteria sets (for example)
-        // outcome=='CHOOSE_ALL' rather than a numeric value.  This means that
-        // we enter no condition for this case.
+        // outcome=='CHOOSE_ALL' rather than a numeric value.
+        // This means that we enter no condition for this case.
+        //
         if (strlen($value) && strcmp("CHOOSE_ALL", $value)) {
             $this->add("$name = '$value'");
             $this->urlquery .= "&$name=".urlencode($value);
@@ -314,7 +312,7 @@ class SqlQueryString {
         } else {
              $order = null;
         }
-        if (strlen($value)) {
+        if ($value) {
             if ($order == 'asc') {
                 $this->query .= " order by $value asc";
                 $this->urlquery .= "&sort_by_order=".urlencode($order);
@@ -371,7 +369,7 @@ class SqlQueryString {
         $this->addeq_not_CHOOSE_ALL('client_state');
         $this->addeq_not_CHOOSE_ALL('validate_state');
         $clauses = get_str("clauses", true);
-        if (strstr($clauses, ";")) error_page("bad clause");
+        if ($clauses && strstr($clauses, ";")) error_page("bad clause");
         if ($clauses) {
             $this->addclause($clauses);
         }
@@ -386,17 +384,17 @@ function link_results($n, $mq, $query, $clauses) {
     } else {
         if(strlen($clauses)) {
             return "<a href=\"db_action.php?table=result&query=$mq&$query&clauses=".urlencode($clauses)."&sort_by=mod_time&detail=low\">$n</a>";
-        }
-        else {
+        } else {
             return "<a href=\"db_action.php?table=result&query=$mq&$query&sort_by=mod_time&detail=low\">$n</a>";
         }
-        
+
     }
 }
 
-// Determines if in stderr_out is an error reported and prints as human readable String
+// Determines if stderr_out is an error reported and prints as human readable String
 // @return String A human readable string if error otherwise FALSE
 // @param String $stderr_out the stderr_out value to parse
+//
 function stderr_error_string($stderr_out){
     $y = parse_element($stderr_out, "<error_code>");
     $x = 0;
@@ -443,7 +441,7 @@ function admin_show_result_summary() {
         $query_appid = $_GET['appid'];
     } else {
         $query_appid = "";
-    }     
+    }
     $query_mod_time = 0;
     if (isset($_GET['nsecs'])) {
         //$query_mod_time = time() - $_GET['nsecs'];
@@ -506,7 +504,7 @@ FROM result WHERE true
         // subtract X from mod time of  file-deleted results.
         // Otherwise we'll show lots of irrelevant results
         //
-        $delay = parse_config(get_config(), "<delete_delay_hours>");
+        $delay = project_config_val("delete_delay_hours");
         if ($delay) {
             $start2 = $start - $delay*3600;;
             $main_query .= " and ((file_delete_state>1 and mod_time>FROM_UNIXTIME($start2)) or (mod_time>FROM_UNIXTIME($start)))";
@@ -568,9 +566,9 @@ FROM result WHERE true
     start_table();
     echo "<tr valign=\"top\">";
     echo "<td><h2>" . link_results("$ntotal results", $urlquery, '', '') . "</h2></td>";
-    echo "<td><h2>" . link_results("'Over' results", $urlquery, "server_state=5", '') . "</h2></td>";
-    echo "<td><h2>" . link_results("'Success' results", $urlquery, "outcome=1", '') . "</h2></td>";
-    echo "<td><h2>" . link_results("'Client error' results", $urlquery, "outcome=3", '') . "</h2></td>";
+    echo "<td><h2>" . link_results("'Over' results", $urlquery, sprintf('server_state=%d', RESULT_SERVER_STATE_OVER), '') . "</h2></td>";
+    echo "<td><h2>" . link_results("'Success' results", $urlquery, sprintf('outcome=%d', RESULT_OUTCOME_SUCCESS), '') . "</h2></td>";
+    echo "<td><h2>" . link_results("'Client error' results", $urlquery, sprintf('outcome=%d', RESULT_OUTCOME_CLIENT_ERROR), '') . "</h2></td>";
     echo "</tr>";
     echo "<tr valign=\"top\">";
     echo "<td>";
@@ -580,7 +578,9 @@ FROM result WHERE true
         $res = new StdClass;
         $res->server_state = $ss;
         row2(result_server_state_string($res),
-             link_results("$server_state[$ss]",  $urlquery,"server_state=$ss", '')
+            link_results(
+                "$server_state[$ss]",  $urlquery, "server_state=$ss", ''
+            )
         );
     }
     end_table();
@@ -594,7 +594,9 @@ FROM result WHERE true
         $res = new StdClass;
         $res->outcome = $ro;
         $res->exit_status = 0;
-        c_row2($outcome[$ro]?outcome_color($ro):'', result_outcome_string($res),
+        c_row2(
+            $outcome[$ro]?outcome_color($ro):'',
+            result_outcome_string($res),
             link_results("$outcome[$ro]", $urlquery, "outcome=$ro", '')
         );
     }
@@ -608,19 +610,44 @@ FROM result WHERE true
         $res = new StdClass;
         $res->validate_state = $vs;
         $res->exit_status = 0;
-        c_row2($validate_state[$vs]?validate_color($vs):'', validate_state_str($res),
-        link_results("$validate_state[$vs]", $urlquery, "validate_state=$vs", "outcome=1"));
+        c_row2(
+            $validate_state[$vs]?validate_color($vs):'',
+            validate_state_str($res),
+            link_results(
+                "$validate_state[$vs]",
+                $urlquery,
+                "validate_state=$vs",
+                sprintf('outcome=%d', RESULT_OUTCOME_SUCCESS)
+            )
+        );
     }
     end_table();
     start_table('table-striped');
     echo "<tr><th>File Delete state</th><th># results</th></tr>\n";
-  
+
     for ($fds=0; $fds<4; $fds++) {
-        row2(file_delete_state_str($fds),
-        link_results("$file_delete[$fds]", $urlquery, "outcome=1", "file_delete_state=$fds"));
+        row2(
+            file_delete_state_str($fds),
+            link_results(
+                "$file_delete[$fds]",
+                $urlquery,
+                sprintf('outcome=%d', RESULT_OUTCOME_SUCCESS),
+                "file_delete_state=$fds"
+            )
+        );
     }
-    row2("Total files deleted",
-    link_results("$nfile_deleted", $urlquery, "outcome=1", "(file_delete_state=1 or file_delete_state=2 or file_delete_state=3)"));
+    row2(
+        "Total files deleted",
+        link_results(
+            "$nfile_deleted",
+            $urlquery,
+            sprintf('outcome=%d', RESULT_OUTCOME_SUCCESS),
+            sprintf(
+                '(file_delete_state=%d or file_delete_state=%d or file_delete_state=%d)',
+                FILE_DELETE_READY, FILE_DELETE_DONE, FILE_DELETE_ERROR
+            )
+        )
+    );
     end_table();
     echo "</td>";
 
@@ -632,13 +659,17 @@ FROM result WHERE true
         $res->client_state = $cs;
         $res->exit_status = 0;
         row2(result_client_state_string($res),
-            link_results("$client_state[$cs]", $urlquery, "client_state=$cs", "outcome=3")
+            link_results(
+                "$client_state[$cs]",
+                $urlquery,
+                "client_state=$cs",
+                sprintf('outcome=%d', RESULT_OUTCOME_CLIENT_ERROR)
+            )
         );
     }
     end_table();
     echo "</td>";
     end_table();
-
 }
 
 function server_state_select() {
@@ -773,7 +804,6 @@ function admin_show_app_version($app_version) {
     row("min_core_version", $app_version->min_core_version);
     row("max_core_version", $app_version->max_core_version);
     row("deprecated", $app_version->deprecated);
-    row("plan_class", $app_version->plan_class);
     end_table();
 }
 
@@ -894,7 +924,7 @@ function admin_show_host($host) {
     );
 
     row("Venue", $host->venue);
-    row("Info", $host->serialnum);
+    row("Info", $host->misc);
     row("Total credit", $host->total_credit);
     row("Average credit", $host->expavg_credit);
     row("Average update time", time_str($host->expavg_time));
@@ -954,7 +984,7 @@ function admin_show_workunit($wu) {
     start_table();
     row("Created", time_str($wu->create_time));
     row("Transition Time", time_str($wu->transition_time));
-    row("Last time modified",mysqltime_str($wu->mod_time));
+    row("Last time modified", mysqltime_str($wu->mod_time));
     row("Name", $wu->name);
     row("XML doc", "<pre>".htmlspecialchars($wu->xml_doc)."</pre>");
     row("Application", "<a href=\"db_action.php?table=app&id=$wu->appid\">" . app_name_by_id($wu->appid) . " [".$wu->appid."]</a>");
@@ -976,7 +1006,7 @@ function admin_show_workunit($wu) {
     row("Canonical credit", $wu->canonical_credit);
     //row("Timeout check time", time_str($wu->timeout_check_time));
     row("Delay bound", "$wu->delay_bound" . " =  " . time_diff($wu->delay_bound) );
-    row("Error mask", wu_error_mask_str($wu->error_mask));
+    row("Error mask", wu_error_mask_str($wu->error_mask, true));
     row("File delete state", file_delete_state_str($wu->file_delete_state)." [".$wu->file_delete_state."]");
     row("Assimilation state", assimilate_state_str($wu->assimilate_state)." [".$wu->assimilate_state."]");
     // row("","<a href=db_action.php?table=result&workunitid=$wu->id&detail=low>Show associated results</a>");
@@ -1028,7 +1058,7 @@ function admin_show_workunit_short($wu) {
         $wu->id,
         $wu->id
     );
-    $e = wu_error_mask_str($wu->error_mask);
+    $e = wu_error_mask_str($wu->error_mask, true);
     $f = file_delete_state_str($wu->file_delete_state);
     $a = assimilate_state_str($wu->assimilate_state);
     echo "
@@ -1064,10 +1094,10 @@ function validate_color($validate_state) {
 
 function outcome_color($outcome) {
     switch($outcome) {
-    case 0: return '9900cc'; // "Init", purple 
+    case 0: return '9900cc'; // "Init", purple
     case 1: return '33cc33'; // "Success", green
     case 3: return 'ff3333'; // "Client error", red
-    case 4: return 'ff6699'; // "No reply", pink 
+    case 4: return 'ff6699'; // "No reply", pink
     case 6: return 'ffff33'; // "Validate error", yellow
     }
     return '';
@@ -1090,7 +1120,7 @@ function admin_show_result($result) {
     row("Sent", time_str($result->sent_time));
     row("Report deadline", time_str($result->report_deadline));
     row("Received", time_str($result->received_time));
-    row("Last time modified",mysqltime_str($result->mod_time));
+    row("Last time modified", mysqltime_str($result->mod_time));
     row("Name", $result->name);
     row("Workunit", "<a href=\"db_action.php?table=workunit&id=$result->workunitid\">" . wu_name_by_id($result->workunitid) . "</a> [$result->workunitid]" );
     row("Server state", result_server_state_string($result)." [$result->server_state]");
@@ -1177,7 +1207,7 @@ function admin_show_result_short($result) {
         // in green if in the future or in red if in the past.
         $timenow=time();
         if ($result->report_deadline==0)  {
-            // not sent -- show create time in purple 
+            // not sent -- show create time in purple
             $received = "<font color=\"9900cc\">". time_str($result->create_time) . "</font>";
         } else if ($result->report_deadline>=$timenow) {
             // overdue -- show deadline in red
@@ -1292,7 +1322,7 @@ function admin_show_user_summary($maxuser) {
     echo "<td><table border=\"2\">\n";
     echo "<tr><th>Country</th><th># users</th></tr>\n";
     arsort($top_country);
-    
+
     foreach ($top_country as $key => $value) {
         row2_plain($key, $value);
     }

@@ -24,7 +24,7 @@
 // - use the <credit_by_app/> option in config.xml
 // - supply your own project themed badge images
 //  that have to follow a naming scheme (see below)
-// See: http://boinc.berkeley.edu/trac/wiki/PerAppCredit
+// See: https://github.com/BOINC/boinc/wiki/PerAppCredit
 
 require_once("../inc/util_ops.inc");
 

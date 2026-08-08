@@ -1,0 +1,16 @@
+- name: Delete existing source directory for boinc
+  file: path="{{base_dir}}/boinc-server-docker/images/makeproject/boinc" state=absent
+
+##### If checking out code from master or alt source
+- name: "Clone repo {{ boinc_repository }} branch {{boinc_branch}} to {{base_dir}}/boinc-server-docker/images/makeproject/boinc"
+  command: git clone --depth 1 {{ boinc_repository }} -b {{boinc_branch}} boinc chdir="{{base_dir}}/boinc-server-docker/images/makeproject"
+  when: boinc_dir is not defined
+
+###### If using code already present locally
+- name: "Create source directory for boinc at {{base_dir}}/boinc-server-docker/images/makeproject/boinc"
+  file: path="{{base_dir}}/boinc-server-docker/images/makeproject/boinc" state=directory
+  when: boinc_dir is defined
+
+- name: "Copy boinc source from {{boinc_dir}} to {{base_dir}}/boinc-server-docker/images/makeproject/boinc"
+  synchronize: src="{{boinc_dir}}/" dest="{{base_dir}}/boinc-server-docker/images/makeproject/boinc" rsync_opts="--exclude=.git"
+  when: boinc_dir is defined

@@ -35,8 +35,7 @@ void test_query_batches() {
         printf("Error: %d (%s)\n", retval, error_msg.c_str());
         return;
     }
-    for (unsigned int i=0; i<batches.size(); i++) {
-        BATCH_STATUS& bs = batches[i];
+    for (BATCH_STATUS &bs: batches) {
         bs.print();
     }
 }
@@ -53,8 +52,7 @@ void test_query_batch() {
         printf("Error: %d (%s)\n", retval, error_msg.c_str());
         return;
     }
-    for (unsigned int i=0; i<jobs.size(); i++) {
-        JOB_STATE& js = jobs[i];
+    for (JOB_STATE& js: jobs) {
         js.print();
     }
 }

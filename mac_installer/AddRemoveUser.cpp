@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -24,7 +24,6 @@
 
 #include <Carbon/Carbon.h>
 
-#include <unistd.h>	// getlogin
 #include <sys/types.h>	// getpwname, getpwuid, getuid
 #include <sys/time.h>
 #include <pwd.h>	// getpwname, getpwuid, getuid
@@ -50,7 +49,7 @@ static Boolean IsUserLoggedIn(const char *userName);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 static void SleepSeconds(double seconds);
 long GetBrandID(void);
-static int parse_posic_spawn_command_line(char* p, char** argv);
+static int parse_posix_spawn_command_line(char* p, char** argv);
 int callPosixSpawn(const char *cmd);
 
 
@@ -74,7 +73,7 @@ int main(int argc, char *argv[])
     char                *p;
     char                s[1024], buf[1024];
     OSStatus            err;
-    
+
     brandID = GetBrandID();
 
 #ifndef _DEBUG
@@ -90,7 +89,7 @@ int main(int argc, char *argv[])
         printUsage(brandID);
         return 0;
     }
-    
+
     if (strcmp(argv[1], "-a") == 0) {
         AddUsers = true;
     } else if (strcmp(argv[1], "-s") == 0) {
@@ -110,7 +109,7 @@ int main(int argc, char *argv[])
 
     loginName[0] = '\0';
     strncpy(loginName, getenv("USER"), sizeof(loginName)-1);
-    
+
     err = getgrnam_r("boinc_master", &grpBOINC_master, bmBuf, sizeof(bmBuf), &grpBOINC_masterPtr);
     if (err) {          // Should never happen unless buffer too small
         puts("getgrnam(\"boinc_master\") failed\n");
@@ -124,7 +123,7 @@ int main(int argc, char *argv[])
     }
 
     for (index=2; index<argc; index++) {
-        // getpwnam works with either the full / login name (pw->pw_gecos) 
+        // getpwnam works with either the full / login name (pw->pw_gecos)
         // or the short / Posix name (pw->pw_name)
         pw = getpwnam(argv[index]);
         if ((pw == NULL) || (pw->pw_uid < 501)) {
@@ -133,7 +132,7 @@ int main(int argc, char *argv[])
         }
 
         flag = 0;
-        sprintf(s, "dscl . -read \"/Users/%s\" NFSHomeDirectory", pw->pw_name);    
+        sprintf(s, "dscl . -read \"/Users/%s\" NFSHomeDirectory", pw->pw_name);
         f = popen(s, "r");
         if (!f) {
             flag = 1;
@@ -151,7 +150,7 @@ int main(int argc, char *argv[])
         }
 
         if (flag) {
-            sprintf(s, "dscl . -read \"/Users/%s\" UserShell", pw->pw_name);    
+            sprintf(s, "dscl . -read \"/Users/%s\" UserShell", pw->pw_name);
             f = popen(s, "r");
             if (!f) {
                 flag |= 2;
@@ -168,7 +167,7 @@ int main(int argc, char *argv[])
                 pclose(f);
             }
         }
-    
+
         if (flag == 3) { // if (Home Directory == "/var/empty") && (UserShell == "/usr/bin/false")
             printf("%s is not a valid user name.\n\n", argv[index]);
             continue;
@@ -202,12 +201,12 @@ int main(int argc, char *argv[])
             sprintf(s, "dscl . -merge /groups/boinc_master GroupMembership %s", pw->pw_name);
             callPosixSpawn(s);
         }
-        
+
         if ((!isBPGroupMember) && AddUsers) {
             sprintf(s, "dscl . -merge /groups/boinc_project GroupMembership %s", pw->pw_name);
             callPosixSpawn(s);
         }
-        
+
         if (isBMGroupMember && (!AddUsers)) {
             sprintf(s, "dscl . -delete /Groups/boinc_master GroupMembership %s", pw->pw_name);
             callPosixSpawn(s);
@@ -218,17 +217,11 @@ int main(int argc, char *argv[])
             callPosixSpawn(s);
         }
 
-        if (!AddUsers) {
-            // Delete per-user BOINC Manager and screensaver files
-            sprintf(s, "rm -fR \"/Users/%s/Library/Application Support/BOINC\"", pw->pw_name);
-            callPosixSpawn (s);
-        }
-    
         // Set or remove login item for this user
         bool useOSASript = false;
-        
+
         if ((compareOSVersionTo(10, 13) < 0)
-            || (strcmp(loginName, pw->pw_name) == 0) 
+            || (strcmp(loginName, pw->pw_name) == 0)
                 || (strcmp(loginName, pw->pw_gecos) == 0)) {
             useOSASript = true;
         }
@@ -238,6 +231,12 @@ int main(int argc, char *argv[])
         }
 #endif
        if (useOSASript) {
+            if (!AddUsers) {
+                // Delete per-user BOINC Manager and screensaver files
+                sprintf(s, "rm -fR \"/Users/%s/Library/Application Support/BOINC\"", pw->pw_name);
+                callPosixSpawn (s);
+            }
+
             snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist", pw->pw_name);
             boinc_delete_file(s);
             SetLoginItemOSAScript(brandID, !AddUsers, pw->pw_name);
@@ -255,7 +254,7 @@ int main(int argc, char *argv[])
                 saverIsSet = true;
             }
         }
-        
+
         if (SetSavers) {
             if (saverIsSet) {
                 printf("Screensaver already set to %s for user %s (/Users/%s)\n", saverName[brandID], pw->pw_gecos, pw->pw_name);
@@ -263,7 +262,7 @@ int main(int argc, char *argv[])
                 printf("Setting screensaver to %s for user %s (/Users/%s)\n", saverName[brandID], pw->pw_gecos, pw->pw_name);
             }
         }
-        
+
         if ((!saverIsSet) && SetSavers) {
             seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
             sprintf(s, "/Library/Screen Savers/%s.saver", saverName[brandID]);
@@ -276,7 +275,7 @@ int main(int argc, char *argv[])
             // sprintf(buf, "su -l \"%s\" -c 'defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName \"%s\" path \"%s\ type 0'", pw->pw_name, saverName[brandID], s);
             // callPosixSpawn(s);
         }
-        
+
         if (saverIsSet && (!AddUsers)) {
             printf("Setting screensaver to Flurry for user %s (/Users/%s)\n", pw->pw_gecos, pw->pw_name);
             seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
@@ -288,12 +287,12 @@ int main(int argc, char *argv[])
         }
 
         seteuid(saved_uid);                         // Set effective uid back to privileged user
-        
+
         printf("\n");
     }
 
     printf("WARNING: Changes may require a system restart to take effect.\n");
-    
+
     return 0;
 }
 
@@ -318,10 +317,10 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     char                    cmd[2048];
     char                    systemEventsPath[1024];
     pid_t                   systemEventsPID;
-    OSErr                   err = 0, err2 = 0;
+    OSErr                   err = 0, err2 __attribute__((unused)) = 0;
 #if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
     // NOTE: It may not be necessary to kill and relaunch the
-    // System Events application for each logged in user under High Sierra 
+    // System Events application for each logged in user under High Sierra
     Boolean                 isHighSierraOrLater = (compareOSVersionTo(10, 13) >= 0);
 #endif
 
@@ -376,7 +375,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
         }
         sleep(4);
     }
-    
+
     if (systemEventsPath[0] != '\0') {
 #if VERBOSE
         fprintf(stderr, "Launching SystemEvents for user %s\n", userName);
@@ -410,7 +409,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
         }
     }
     sleep(2);
-    
+
 #if VERBOSE
     fprintf(stderr, "Deleting any login items containing %s for user %s\n", appName[brandID], userName);
     fflush(stderr);
@@ -431,12 +430,12 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
         fflush(stderr);
     }
 #endif
-    
+
     if (deleteLogInItem) {
         err = noErr;
         goto cleanupSystemEvents;
     }
-    
+
 #if VERBOSE
     fprintf(stderr, "Making new login item %s for user %s\n", appName[brandID], userName);
     fflush(stderr);
@@ -487,23 +486,23 @@ cleanupSystemEvents:
         fflush(stderr);
     }
 #endif
-    
+
     sleep(4);
-        
+
     return (err == noErr);
 }
 
 
-// Under OS 10.13 High Sierra, telling System Events to modify Login Items for 
-// users who are not currently logged in no longer works, even when System Events 
-// is running as that user. 
-// So we create a LaunchAgent for that user. The next time that user logs in, the 
-// LaunchAgent will make the desired changes to that user's Login Items, launch 
+// Under OS 10.13 High Sierra, telling System Events to modify Login Items for
+// users who are not currently logged in no longer works, even when System Events
+// is running as that user.
+// So we create a LaunchAgent for that user. The next time that user logs in, the
+// LaunchAgent will make the desired changes to that user's Login Items, launch
 // BOINC Manager if appropriate, and delete itself.
 //
-// While we could just use a LaunchAgent to launch BOINC Manager on every login 
+// While we could just use a LaunchAgent to launch BOINC Manager on every login
 // instead of using it to create a Login Item, I prefer Login Items because:
-//  * they are more readily visible to a less technically aware user through 
+//  * they are more readily visible to a less technically aware user through
 //    System Preferences, and
 //  * they are more easily added or removed through System Preferences, and
 //  * continuing to use them is consistent with older versions of BOINC Manager.
@@ -512,9 +511,18 @@ Boolean SetLoginItemLaunchAgent(long brandID, Boolean deleteLogInItem, passwd *p
 {
     struct stat             sbuf;
     char                    s[2048];
+    int                     err;
 
     // Create a LaunchAgent for the specified user, replacing any LaunchAgent created
     // previously (such as by Ininstaller or by installing a differently branded BOINC.)
+
+    // Register BOINCFinish_Install.app, which may have been unregistered by our installer.
+    sprintf(s, "sudo -u #%d /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister \"//Library/Application Support/BOINC Data/%s_Finish_Install.app\"", pw->pw_uid, brandName[brandID]);
+    err = callPosixSpawn(s);
+    if (err) {
+        printf("*** user %s: lsregister call returned error %d for %s_Finish_Install.app\n", pw->pw_name, err, brandName[brandID]);
+        fflush(stdout);
+    }
 
     // Create LaunchAgents directory for this user if it does not yet exist
     snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents", pw->pw_name);
@@ -522,12 +530,41 @@ Boolean SetLoginItemLaunchAgent(long brandID, Boolean deleteLogInItem, passwd *p
         mkdir(s, 0755);
         chown(s, pw->pw_uid, pw->pw_gid);
     }
-    
-    snprintf(s, sizeof(s), "/Library/Application Support/BOINC Data/%s_Finish_Install", appName[brandID]);
+
+    snprintf(s, sizeof(s), "/Library/Application Support/BOINC Data/%s_Finish_Install.app", brandName[brandID]);
     if (stat(s, &sbuf) != 0) {
         return SetLoginItemLaunchAgentShellScript(brandID, deleteLogInItem, pw);
     } else {
-        return SetLoginItemLaunchAgentFinishInstallApp(brandID, deleteLogInItem, pw);    
+         snprintf(s, sizeof(s), "/Users/%s/Library/Application Support/BOINC", pw->pw_name);
+        if (stat(s, &sbuf) != 0) {
+            snprintf(s, sizeof(s), "sudo -u \"%s\" mkdir -p -m 0775 \"/Users/%s/Library/Application Support/BOINC\"",
+                    pw->pw_name, pw->pw_name);
+            err = callPosixSpawn(s);
+            if (err) {
+                fprintf(stderr, "Command: %s returned error %d\n", s, (int) err);
+                fflush(stderr);
+            }
+        }
+
+        snprintf(s, sizeof(s), "cp -fR \"/Library/Application Support/BOINC Data/%s_Finish_Install.app\" \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", brandName[brandID], pw->pw_name, brandName[brandID]);
+        err = callPosixSpawn(s);
+        if (err) {
+            fprintf(stderr, "Command: %s returned error %d\n", s, (int) err);
+            fflush(stderr);
+        }
+        snprintf(s, sizeof(s), "chown -R %d:%d \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", pw->pw_uid, pw->pw_gid, pw->pw_name, brandName[brandID]);
+        err = callPosixSpawn(s);
+        if (err) {
+            fprintf(stderr, "Command: %s returned error %d\n", s, (int) err);
+            fflush(stderr);
+        }
+        snprintf(s, sizeof(s), "chmod -R a+rw \"/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app\"", pw->pw_name, brandName[brandID]);
+        if (err) {
+            fprintf(stderr, "Command: %s returned error %d\n", s, (int) err);
+            fflush(stderr);
+        }
+
+        return SetLoginItemLaunchAgentFinishInstallApp(brandID, deleteLogInItem, pw);
     }
 }
 
@@ -551,7 +588,7 @@ Boolean SetLoginItemLaunchAgentShellScript(long brandID, Boolean deleteLogInItem
     fprintf(f, "\t\t<string>");
     fprintf(f, "osascript -e 'tell application \"System Events\" to delete login item \"%s\"';", appName[brandID]);
     if (deleteLogInItem) {
-        // If this user was previously authorized to run the Manager, there 
+        // If this user was previously authorized to run the Manager, there
         // may still be a Login Item for this user, and the Login Item may
         // launch the Manager before the LaunchAgent deletes the Login Item.
         // To guard against this, we have the LaunchAgent kill the Manager
@@ -579,7 +616,7 @@ Boolean SetLoginItemLaunchAgentShellScript(long brandID, Boolean deleteLogInItem
 
 Boolean SetLoginItemLaunchAgentFinishInstallApp(long brandID, Boolean deleteLogInItem, passwd *pw){
     char                    s[2048];
-    
+
     snprintf(s, sizeof(s), "/Users/%s/Library/LaunchAgents/edu.berkeley.boinc.plist", pw->pw_name);
     FILE* f = fopen(s, "w");
     if (!f) return false;
@@ -591,9 +628,9 @@ Boolean SetLoginItemLaunchAgentFinishInstallApp(long brandID, Boolean deleteLogI
     fprintf(f, "\t<string>edu.berkeley.fix_login_items</string>\n");
     fprintf(f, "\t<key>ProgramArguments</key>\n");
     fprintf(f, "\t<array>\n");
-    fprintf(f, "\t\t<string>/Library/Application Support/BOINC Data/%s_Finish_Install</string>\n", appName[brandID]);
-    if (deleteLogInItem) {
-        // If this user was previously authorized to run the Manager, there 
+    fprintf(f, "\t\t<string>/Users/%s/Library/Application Support/BOINC/%s_Finish_Install.app/Contents/MacOS/%s_Finish_Install</string>\n", pw->pw_name, brandName[brandID], brandName[brandID]);
+     if (deleteLogInItem) {
+        // If this user was previously authorized to run the Manager, there
         // may still be a Login Item for this user, and the Login Item may
         // launch the Manager before the LaunchAgent deletes the Login Item.
         // To guard against this, we have the LaunchAgent kill the Manager
@@ -607,6 +644,10 @@ Boolean SetLoginItemLaunchAgentFinishInstallApp(long brandID, Boolean deleteLogI
     }
     fprintf(f, "</string>\n");
     fprintf(f, "\t</array>\n");
+    if (compareOSVersionTo(13, 0) >= 0) {
+        fprintf(f, "\t<key>AssociatedBundleIdentifiers</key>\n");
+        fprintf(f, "\t<string>edu.berkeley.boinc.finish-install</string>\n");
+    }
     fprintf(f, "\t<key>RunAtLoad</key>\n");
     fprintf(f, "\t<true/>\n");
     fprintf(f, "</dict>\n");
@@ -628,7 +669,7 @@ pid_t FindProcessPID(char* name, pid_t thePID)
     char buf[1024];
     size_t n = 0;
     pid_t aPID;
-    
+
     if (name != NULL)     // Search ny name
         n = strlen(name);
 
@@ -636,7 +677,7 @@ pid_t FindProcessPID(char* name, pid_t thePID)
     if (f == NULL) {
         return 0;
     }
-    
+
     while (PersistentFGets(buf, sizeof(buf), f))
     {
         if (name != NULL) {     // Search by name
@@ -673,7 +714,7 @@ OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen
         fflush(stderr);
         return fnfErr;
     }
-    
+
     while (PersistentFGets(buf, sizeof(buf), f))
     {
         p = strstr(buf, "moduleName = ");
@@ -693,7 +734,7 @@ OSErr GetCurrentScreenSaverSelection(passwd *pw, char *moduleName, size_t maxLen
             return 0;
         }
     }
-    
+
     pclose(f);
     return fnfErr;
 }
@@ -709,13 +750,13 @@ OSErr SetScreenSaverSelection(passwd *pw, char *moduleName, char *modulePath, in
 
     CFStringRef nameKey = CFStringCreateWithCString(NULL, "moduleName", kCFStringEncodingASCII);
     CFStringRef nameValue = CFStringCreateWithCString(NULL, moduleName, kCFStringEncodingASCII);
-        
+
     CFStringRef pathKey = CFStringCreateWithCString(NULL, "path", kCFStringEncodingASCII);
     CFStringRef pathValue = CFStringCreateWithCString(NULL, modulePath, kCFStringEncodingASCII);
-    
+
     CFStringRef typeKey = CFStringCreateWithCString(NULL, "type", kCFStringEncodingASCII);
     CFNumberRef typeValue = CFNumberCreate(NULL, kCFNumberIntType, &type);
-    
+
     emptyData = CFDictionaryCreate(NULL, NULL, NULL, 0, NULL, NULL);
     if (emptyData == NULL) {
         fprintf(stderr, "Could not set screensaver for user %s\n", pw->pw_name);
@@ -745,9 +786,9 @@ OSErr SetScreenSaverSelection(passwd *pw, char *moduleName, char *modulePath, in
         return(-1);
     }
 
-    CFDictionaryAddValue(newData, nameKey, nameValue);     
-    CFDictionaryAddValue(newData, pathKey, pathValue);     
-    CFDictionaryAddValue(newData, typeKey, typeValue);     
+    CFDictionaryAddValue(newData, nameKey, nameValue);
+    CFDictionaryAddValue(newData, pathKey, pathValue);
+    CFDictionaryAddValue(newData, typeKey, typeValue);
 
     CFPreferencesSetValue(mainKeyName, newData, preferenceName, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
     success = CFPreferencesSynchronize(preferenceName, kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
@@ -757,7 +798,7 @@ OSErr SetScreenSaverSelection(passwd *pw, char *moduleName, char *modulePath, in
         fflush(stderr);
         err = -1;
     }
-    
+
     CFRelease(nameKey);
     CFRelease(nameValue);
     CFRelease(pathKey);
@@ -774,7 +815,7 @@ OSErr SetScreenSaverSelection(passwd *pw, char *moduleName, char *modulePath, in
 #if USE_OSASCRIPT_FOR_ALL_LOGGED_IN_USERS
 static Boolean IsUserLoggedIn(const char *userName){
     char s[1024];
-    
+
     sprintf(s, "w -h \"%s\"", userName);
     FILE *f = popen(s, "r");
     if (f) {
@@ -783,7 +824,7 @@ static Boolean IsUserLoggedIn(const char *userName){
             printf("User %s is currently logged in\n", userName);
             return true; // this user is logged in (perhaps via fast user switching)
         }
-        pclose (f);         
+        pclose (f);
     }
     return false;
 }
@@ -832,7 +873,7 @@ long GetBrandID()
     long iBrandId;
 
     iBrandId = 0;   // Default value
-    
+
     FILE *f = fopen("/Library/Application Support/BOINC Data/Branding", "r");
     if (f) {
         fscanf(f, "BrandId=%ld\n", &iBrandId);
@@ -850,7 +891,7 @@ long GetBrandID()
 #define IN_DOUBLE_QUOTED_TOKEN      2
 #define IN_UNQUOTED_TOKEN           3
 
-static int parse_posic_spawn_command_line(char* p, char** argv) {
+static int parse_posix_spawn_command_line(char* p, char** argv) {
     int state = NOT_IN_TOKEN;
     int argc=0;
 
@@ -908,16 +949,16 @@ int callPosixSpawn(const char *cmdline) {
     char progName[1024];
     char progPath[MAXPATHLEN];
     char* argv[100];
-    int argc = 0;
+    int argc __attribute__((unused)) = 0;
     char *p;
     pid_t thePid = 0;
     int result = 0;
     int status = 0;
     extern char **environ;
-    
-    // Make a copy of cmdline because parse_posic_spawn_command_line modifies it
+
+    // Make a copy of cmdline because parse_posix_spawn_command_line modifies it
     strlcpy(command, cmdline, sizeof(command));
-    argc = parse_posic_spawn_command_line(const_cast<char*>(command), argv);
+    argc = parse_posix_spawn_command_line(const_cast<char*>(command), argv);
     strlcpy(progPath, argv[0], sizeof(progPath));
     strlcpy(progName, argv[0], sizeof(progName));
     p = strrchr(progName, '/');
@@ -926,7 +967,7 @@ int callPosixSpawn(const char *cmdline) {
     } else {
         argv[0] = progName;
     }
-    
+
 #if VERBOSE_SPAWN
     fprintf(stderr, "***********");
     for (int i=0; i<argc; ++i) {
@@ -969,6 +1010,6 @@ int callPosixSpawn(const char *cmdline) {
 #endif
         }   // end if (WIFEXITED(status)) else
     }       // end if waitpid returned 0 sstaus else
-    
+
     return result;
 }

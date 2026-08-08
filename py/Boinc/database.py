@@ -17,7 +17,7 @@ p_c64 = database.Platforms.find(user_friendly_name="commodore 64")
 wu_dead = database.Workunits.find(name="dead.wu")[0]
 results_dead = database.Results.find(wu=wu_dead)
 for result in results_dead:
-    print "Removing from db:", result
+    print("Removing from db:", result)
     os.system("echo oeps | mail %s" % result.host.user.email_addr)
     result.remove()
 
@@ -28,6 +28,7 @@ for user in database.Users.find():
 
 '''
 
+from __future__ import print_function
 from Boinc import configxml
 from Boinc.util import *
 from Boinc.db_base import *
@@ -253,7 +254,7 @@ def connect(config = None, nodb = False):
         db = ''
     else:
         db = config.db_name
-    
+
     host=config.__dict__.get('db_host','')
     port=""
     if ':' in host:
@@ -285,7 +286,7 @@ def create_database(srcdir, config = None, drop_first = False):
     cursor = dbcon.cursor()
     if drop_first:
         cursor.execute("drop database if exists %s"%config.db_name)
-    cursor.execute("create database %s"%config.db_name)
+    cursor.execute("create database %s character set utf8mb4 collate utf8mb4_unicode_ci"%config.db_name)
     cursor.execute("use %s"%config.db_name)
     for file in ['schema.sql', 'constraints.sql', 'content.sql']:
         _execute_sql_script(cursor, os.path.join(srcdir, 'db', file))

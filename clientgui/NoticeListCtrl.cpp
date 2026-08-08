@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -28,7 +28,6 @@
 #include "error_numbers.h"
 #include "wizardex.h"
 #include "error_numbers.h"
-#include "browser.h"
 #include "Events.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
@@ -102,7 +101,23 @@ bool CNoticeListCtrl::Create( wxWindow* parent ) {
     SetSizer(topsizer);
 
     m_itemCount = 0;
-    m_noticesBody = wxT("<html><head></head><body></body></html>");
+
+    if (wxGetApp().GetIsDarkMode()){
+#if wxUSE_WEBVIEW
+        m_noticesBody = wxT("<html><style>body{background-color:#121212;color:#e0e0e0;a:link {color:#0080FF;}}</style><head></head><body></body></html>");
+#else
+        m_noticesBody = wxT("<html><head></head><body bgcolor=#121212></body></html>");
+#endif
+    } else {
+        m_noticesBody = wxT("<html><head></head><body></body></html>");
+    }
+
+    // In Dark Mode, paint the window black immediately
+#if wxUSE_WEBVIEW
+    m_browser->SetPage(m_noticesBody, wxEmptyString);
+#else
+    m_browser->SetPage(m_noticesBody);
+#endif
 
     // Display the fetching notices message until we have notices
     // to display or have determined that there are no notices.
@@ -140,7 +155,15 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     m_itemCount = newCount;
-    m_noticesBody =  wxT("<html><head></head><body><font face=helvetica>");
+    if (wxGetApp().GetIsDarkMode()){
+#if wxUSE_WEBVIEW
+        m_noticesBody =  wxT("<html><style>body{background-color:#121212;color:#e0e0e0;a:link {color:#0080FF;}}</style><head></head><body><font face=helvetica>");
+#else
+        m_noticesBody =  wxT("<html><head></head><body bgcolor=#121212><font face=helvetica color=#e0e0e0 bgcolor=#121212>");
+#endif
+    } else {
+        m_noticesBody =  wxT("<html><head></head><body><font face=helvetica>");
+    }
 
     for (i=0; i<newCount; ++i) {
         if (pDoc->IsConnected()) {
@@ -188,7 +211,7 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
             // Since the html comes from a web server via http, the scheme is
             // assumed to also be http.  But we have cached the html in a local
             // file, so it is no longer associated with the http protocol / scheme.
-            // Therefore all our URLs must explicity specify the http protocol.
+            // Therefore all our URLs must explicitly specify the http protocol.
             //
             // The second argument to wxWebView::SetPage is supposed to take care
             // of this automatically, but fails to do so under Windows, so we do
@@ -225,7 +248,7 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
 
             strBuffer += strDescription;
 
-            strBuffer += wxT("<br><font size=-2 color=#8f8f8f>");
+            strBuffer += wxT("<br><font size=-1 color=#8f8f8f>");
 
             strBuffer += strCreateTime;
 
@@ -233,7 +256,7 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
                 strTemp.Printf(
                     wxT(" &middot; <a href=%s>%s</a> "),
                     strURL.c_str(),
-                    _("more...")
+                    _("more info...")
                 );
                 strBuffer += strTemp;
             }
@@ -332,11 +355,10 @@ bool CNoticeListCtrl::UpdateUI() {
             ((int)GetItemCount() != noticeCount))
         ) {
             pDoc->notices.complete = false;
-            Freeze();
             SetItemCount(noticeCount);
             m_bDisplayFetchingNotices = false;
             m_bDisplayEmptyNotice = false;
-            Thaw();
+            Refresh();
         }
 
         bAlreadyRunning = false;

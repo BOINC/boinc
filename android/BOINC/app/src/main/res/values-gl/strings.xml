@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--app global-->
+  <!--generic. used by multiple Activities/tabs-->
+  <!--attach project-->
+  <!--selection list-->
+  <string name="attachproject_list_header">Escolla un proxecto</string>
+  <string name="attachproject_list_no_internet">Sen conexión á Internet</string>
+  <!--credential input-->
+  <!--conflicts-->
+  <!--working-->
+  <!--e.g. Attaching Einstein@Home-->
+  <!--hints-->
+  <!--e.g. Hint 1/2-->
+  <!--project login-->
+  <string name="attachproject_login_header_pwd">Contrasinal:</string>
+  <!--account manager-->
+  <string name="attachproject_acctmgr_header_pwd">Contrasinal:</string>
+  <!--error strings-->
+  <string name="attachproject_error_invalid_url">URL inválida</string>
+  <!--tab names-->
+  <string name="tab_status">Estado</string>
+  <string name="tab_projects">Proxectos</string>
+  <string name="tab_tasks">Tarefas</string>
+  <string name="tab_transfers">Transferencias</string>
+  <!--status strings-->
+  <!--preferences tab strings-->
+  <string name="prefs_category_general">Xeral</string>
+  <!--projects tab strings-->
+  <!--project status strings-->
+  <string name="projects_status_suspendedviagui">Suspendido polo usuario</string>
+  <string name="projects_status_dontrequestmorework">Sen novas tarefas</string>
+  <string name="projects_status_schedrpcpending">Solicitude do planificador pendente</string>
+  <string name="projects_status_schedrpcinprogress">Solicitude do planificador en curso</string>
+  <!--project controls-->
+  <string name="projects_control_update">Actualizar</string>
+  <string name="projects_control_suspend">Suspender</string>
+  <string name="projects_control_resume">Retomar</string>
+  <string name="projects_control_nonewtasks">Sen novas tarefas</string>
+  <string name="projects_control_allownewtasks">Aceptar traballo</string>
+  <!--project confirm dialog-->
+  <!--tasks tab strings-->
+  <!--confirmation dialog-->
+  <string name="confirm_abort_task_confirm">Abortar</string>
+  <string name="confirm_cancel">Cancelar</string>
+  <!--transfers tab strings-->
+  <!--eventlog tab strings-->
+  <!--suspend reasons-->
+  <!--rpc reasons-->
+  <!--menu-->
+  <string name="menu_run_mode_disable">Suspender</string>
+  <string name="menu_run_mode_enable">Retomar</string>
+  <string name="menu_help">Axuda</string>
+  <!--about dialog-->
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <!--multi BOINC compatibility-->
+  <!--social integration-->
+  <!--first parameter: device manufacturer, second: URL-->
+  <!--Notification channels-->
+</resources>

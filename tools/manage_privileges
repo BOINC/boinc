@@ -19,11 +19,11 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // script for controlling "manage" privileges.
-// See http://boinc.berkeley.edu/trac/wiki/MultiUser
+// See https://github.com/BOINC/boinc/wiki/MultiUser
 // Run this from the project directory.
 
 // usage:
-// 
+//
 // manage_privileges grant userid {appname|all}
 // manage_privileges revoke userid {appname|all}
 // manage_privileges list
@@ -123,7 +123,7 @@ if ($argv[3] === "all") {
         }
     } else {
         if ($grant) {
-            BoincUserSubmit::insert("set user_id=$user->id, manage_all=1");
+            BoincUserSubmit::insert("set user_id=$user->id, quota=0, logical_start_time=0, submit_all=0, manage_all=1, max_jobs_in_progress=0");
         } else {
             die("User $user->id does not have global manage access\n");
         }
@@ -150,7 +150,7 @@ if ($argv[3] === "all") {
         if ($grant) {
             $bus = BoincUserSubmit::lookup_userid($user->id);
             if (!$bus) {
-                BoincUserSubmit::insert("set user_id=$user->id");
+                BoincUserSubmit::insert("set user_id=$user->id, quota=0, logical_start_time=0, submit_all=0, manage_all=0, max_jobs_in_progress=0");
             }
             BoincUserSubmitApp::insert("set user_id=$user->id, app_id=$app->id,  manage=1");
         } else {

@@ -28,6 +28,12 @@ $format = get_str("format", true);
 $team_id = get_int("team_id", true);
 $team_ids = get_str("team_ids", true);
 
+if ($format != 'xml') {
+    if (REQUIRE_LOGIN) {
+        get_logged_in_user();
+    }
+}
+
 BoincDb::get(true);
 
 if ($team_id || $team_ids || ($format == 'xml')) {

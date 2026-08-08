@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,10 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #else
 #include "config.h"
 #include <cstdio>
@@ -27,24 +25,13 @@
 #include <time.h>
 #endif
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
-
+#include "boinc_stdio.h"
 #include "error_numbers.h"
 #include "str_replace.h"
 #include "parse.h"
 #include "util.h"
 
 #include "prefs.h"
-
-GLOBAL_PREFS_MASK::GLOBAL_PREFS_MASK() {
-    clear();
-}
-
-void GLOBAL_PREFS_MASK::clear() {
-    memset(this, 0, sizeof(GLOBAL_PREFS_MASK));
-}
 
 void GLOBAL_PREFS_MASK::set_all() {
     battery_charge_min_pct = true;
@@ -70,6 +57,9 @@ void GLOBAL_PREFS_MASK::set_all() {
     net_end_hour = true;
     net_start_hour = true;
     network_wifi_only = true;
+    niu_max_ncpus_pct = true;
+    niu_cpu_usage_limit = true;
+    niu_suspend_cpu_usage = true;
     ram_max_used_busy_frac = true;
     ram_max_used_idle_frac = true;
     run_gpu_if_user_active = true;
@@ -107,6 +97,9 @@ bool GLOBAL_PREFS_MASK::are_prefs_set() {
     if (net_start_hour) return true;
     if (network_wifi_only) return true;
     if (net_end_hour) return true;
+    if (niu_max_ncpus_pct) return true;
+    if (niu_cpu_usage_limit) return true;
+    if (niu_suspend_cpu_usage) return true;
     if (ram_max_used_busy_frac) return true;
     if (ram_max_used_idle_frac) return true;
     if (run_gpu_if_user_active) return true;
@@ -242,6 +235,9 @@ void GLOBAL_PREFS::defaults() {
 #else
     network_wifi_only = false;
 #endif
+    niu_max_ncpus_pct = 100;
+    niu_cpu_usage_limit = 100;
+    niu_suspend_cpu_usage = 50;
     ram_max_used_busy_frac = 0.5;
 #ifdef ANDROID
     ram_max_used_idle_frac = 0.5;
@@ -260,14 +256,14 @@ void GLOBAL_PREFS::defaults() {
     vm_max_used_frac = 0.75;
     work_buf_additional_days = 0.5;
     work_buf_min_days = 0.1;
-    
+    vm_max_used_frac = 1.;
+
     override_file_present = false;
 
     // don't initialize source_project, source_scheduler,
     // mod_time, host_specific here
     // since they are outside of <venue> elements,
     // and this is called when find the right venue.
-    // Also, don't memset to 0
 }
 
 // values for fields with an enabling checkbox in the GUI.
@@ -277,6 +273,7 @@ void GLOBAL_PREFS::defaults() {
 //
 void GLOBAL_PREFS::enabled_defaults() {
     defaults();
+    suspend_if_no_recent_input = 60;
     disk_max_used_gb = 100;
     disk_min_free_gb = 1.0;
     daily_xfer_limit_mb = 10000;
@@ -399,17 +396,41 @@ int GLOBAL_PREFS::parse_override(
             if (net_times.start_hour == net_times.end_hour) {
                 mask.net_start_hour = mask.net_end_hour = false;
             }
+            // if not-in-use prefs weren't specified, use in-use counterpart
+            //
+            if (!mask.niu_max_ncpus_pct) {
+                niu_max_ncpus_pct = max_ncpus_pct;
+            }
+            if (!mask.niu_cpu_usage_limit) {
+                niu_cpu_usage_limit = cpu_usage_limit;
+            }
+            if (!mask.niu_suspend_cpu_usage) {
+                niu_suspend_cpu_usage = suspend_cpu_usage;
+            }
             return 0;
+        }
+        // parse these first; they're independent of venue
+        //
+        if (xp.parse_str("source_project", source_project, sizeof(source_project))) {
+            continue;
+        }
+        if (xp.parse_str("source_scheduler", source_scheduler, sizeof(source_scheduler))) {
+            continue;
+        }
+        if (xp.parse_double("mod_time", mod_time)) {
+            double now = dtime();
+            if (mod_time > now) {
+                mod_time = now;
+            }
+            continue;
         }
         if (in_venue) {
             if (xp.match_tag("/venue")) {
-                if (in_correct_venue) {
-                    return 0;
-                } else {
-                    in_venue = false;
-                    continue;
-                }
+                in_venue = false;
+                continue;
             } else {
+                // we're in a venue but not the right one; skip tag
+                //
                 if (!in_correct_venue) continue;
             }
         } else {
@@ -427,17 +448,11 @@ int GLOBAL_PREFS::parse_override(
                 }
                 continue;
             }
-        }
-        if (xp.parse_str("source_project", source_project, sizeof(source_project))) continue;
-        if (xp.parse_str("source_scheduler", source_scheduler, sizeof(source_scheduler))) {
-            continue;
-        }
-        if (xp.parse_double("mod_time", mod_time)) {
-            double now = dtime();
-            if (mod_time > now) {
-                mod_time = now;
+            if (found_venue) {
+                // we already found and parsed the target venue;
+                // skip subsequent prefs tags not in a venue
+                continue;
             }
-            continue;
         }
         if (xp.parse_double("battery_charge_min_pct", battery_charge_min_pct)) {
             mask.battery_charge_min_pct = true;
@@ -469,6 +484,10 @@ int GLOBAL_PREFS::parse_override(
         }
         if (xp.parse_double("suspend_cpu_usage", suspend_cpu_usage)) {
             mask.suspend_cpu_usage = true;
+            continue;
+        }
+        if (xp.parse_double("niu_suspend_cpu_usage", niu_suspend_cpu_usage)) {
+            mask.niu_suspend_cpu_usage = true;
             continue;
         }
         if (xp.parse_double("start_hour", cpu_times.start_hour)) {
@@ -521,6 +540,12 @@ int GLOBAL_PREFS::parse_override(
             if (max_ncpus_pct < 0) max_ncpus_pct = 0;
             if (max_ncpus_pct > 100) max_ncpus_pct = 100;
             mask.max_ncpus_pct = true;
+            continue;
+        }
+        if (xp.parse_double("niu_max_ncpus_pct", niu_max_ncpus_pct)) {
+            if (niu_max_ncpus_pct <= 0) niu_max_ncpus_pct = 100;
+            if (niu_max_ncpus_pct > 100) niu_max_ncpus_pct = 100;
+            mask.niu_max_ncpus_pct = true;
             continue;
         }
         if (xp.parse_int("max_cpus", max_ncpus)) {
@@ -582,6 +607,13 @@ int GLOBAL_PREFS::parse_override(
                 cpu_usage_limit = dtemp;
                 mask.cpu_usage_limit = true;
             }
+            continue;
+        }
+        if (xp.parse_double("niu_cpu_usage_limit", dtemp)) {
+            if (dtemp <= 0) dtemp = 100;
+            if (dtemp > 100) dtemp = 100;
+            niu_cpu_usage_limit = dtemp;
+            mask.niu_cpu_usage_limit = true;
             continue;
         }
         if (xp.parse_double("daily_xfer_limit_mb", dtemp)) {
@@ -663,6 +695,9 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         "   <work_buf_min_days>%f</work_buf_min_days>\n"
         "   <work_buf_additional_days>%f</work_buf_additional_days>\n"
         "   <max_ncpus_pct>%f</max_ncpus_pct>\n"
+        "   <niu_max_ncpus_pct>%f</niu_max_ncpus_pct>\n"
+        "   <niu_cpu_usage_limit>%f</niu_cpu_usage_limit>\n"
+        "   <niu_suspend_cpu_usage>%f</niu_suspend_cpu_usage>\n"
         "   <cpu_scheduling_period_minutes>%f</cpu_scheduling_period_minutes>\n"
         "   <disk_interval>%f</disk_interval>\n"
         "   <disk_max_used_gb>%f</disk_max_used_gb>\n"
@@ -699,6 +734,9 @@ int GLOBAL_PREFS::write(MIOFILE& f) {
         work_buf_min_days,
         work_buf_additional_days,
         max_ncpus_pct,
+        niu_max_ncpus_pct,
+        niu_cpu_usage_limit,
+        niu_suspend_cpu_usage,
         cpu_scheduling_period_minutes,
         disk_interval,
         disk_max_used_gb,
@@ -733,8 +771,8 @@ void GLOBAL_PREFS::write_day_prefs(MIOFILE& f) {
         bool net_present = net_times.week.days[i].present;
         //write only when needed
         if (net_present || cpu_present) {
-            
-            f.printf("   <day_prefs>\n");                
+
+            f.printf("   <day_prefs>\n");
             f.printf("      <day_of_week>%d</day_of_week>\n", i);
             if (cpu_present) {
                 f.printf(
@@ -762,7 +800,7 @@ void GLOBAL_PREFS::write_day_prefs(MIOFILE& f) {
 //
 int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
     if (!mask.are_prefs_set()) return 0;
-    
+
     f.printf("<global_preferences>\n");
     if (mask.run_on_batteries) {
         f.printf("   <run_on_batteries>%d</run_on_batteries>\n",
@@ -789,7 +827,6 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
         );
     }
     if (mask.suspend_cpu_usage) {
-
         f.printf("   <suspend_cpu_usage>%f</suspend_cpu_usage>\n",
             suspend_cpu_usage
         );
@@ -845,6 +882,17 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
     if (mask.max_ncpus_pct) {
         f.printf("   <max_ncpus_pct>%f</max_ncpus_pct>\n", max_ncpus_pct);
     }
+    if (mask.niu_max_ncpus_pct) {
+        f.printf("   <niu_max_ncpus_pct>%f</niu_max_ncpus_pct>\n", niu_max_ncpus_pct);
+    }
+    if (mask.niu_cpu_usage_limit) {
+        f.printf("   <niu_cpu_usage_limit>%f</niu_cpu_usage_limit>\n", niu_cpu_usage_limit);
+    }
+    if (mask.niu_suspend_cpu_usage) {
+        f.printf("   <niu_suspend_cpu_usage>%f</niu_suspend_cpu_usage>\n",
+            niu_suspend_cpu_usage
+        );
+    }
     if (mask.max_ncpus) {
         f.printf("   <max_cpus>%d</max_cpus>\n", max_ncpus);
     }
@@ -896,3 +944,10 @@ int GLOBAL_PREFS::write_subset(MIOFILE& f, GLOBAL_PREFS_MASK& mask) {
     return 0;
 }
 
+// parse the <mod_time> element from a prefs XML string
+//
+double GLOBAL_PREFS::parse_mod_time(const char* p) {
+    const char *q = strstr(p, "<mod_time>");
+    if (!q) return 0;
+    return atof(q+strlen("<mod_time>"));
+}

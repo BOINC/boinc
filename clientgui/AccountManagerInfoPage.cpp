@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -13,7 +13,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 //
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "AccountManagerInfoPage.h"
@@ -111,14 +111,14 @@ bool CAccountManagerInfoPage::Create( CBOINCBaseWizard* parent )
  */
 
 void CAccountManagerInfoPage::CreateControls()
-{    
+{
 ////@begin CAccountManagerInfoPage content construction
 #ifdef __WXMAC__
-#define LISTBOXWIDTH 225
-#define DESCRIPTIONSWIDTH 350
+    const int listboxWidth = 225;
+    const int descriptionWidth = 350;
 #else
-#define LISTBOXWIDTH ADJUSTFORXDPI(150)
-#define DESCRIPTIONSWIDTH ADJUSTFORXDPI(310)
+    const int listboxWidth = 150;
+    const int descriptionWidth = 310;
 #endif
 
     CAccountManagerInfoPage* itemWizardPage23 = this;
@@ -128,7 +128,7 @@ void CAccountManagerInfoPage::CreateControls()
 
     m_pTitleStaticCtrl = new wxStaticText;
     m_pTitleStaticCtrl->Create( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    m_pTitleStaticCtrl->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, FALSE, _T("Verdana")));
     itemBoxSizer24->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     m_pDescriptionStaticCtrl = new wxStaticText;
@@ -142,7 +142,7 @@ void CAccountManagerInfoPage::CreateControls()
     itemBoxSizer24->Add(itemFlexGridSizer3, 1, wxGROW|wxALL, 5);
 
     wxArrayString m_pProjectsCtrlStrings;
-    m_pProjectListCtrl = new wxListBox( itemWizardPage23, ID_PROJECTS, wxDefaultPosition, wxSize(LISTBOXWIDTH, ADJUSTFORYDPI(175)), m_pProjectsCtrlStrings, wxLB_SINGLE|wxLB_SORT );
+    m_pProjectListCtrl = new wxListBox( itemWizardPage23, ID_PROJECTS, wxDefaultPosition, wxSize(listboxWidth, 175), m_pProjectsCtrlStrings, wxLB_SINGLE|wxLB_SORT );
     itemFlexGridSizer3->Add(m_pProjectListCtrl, 0, wxGROW|wxRIGHT, 10);
 
     wxFlexGridSizer* itemFlexGridSizer4 = new wxFlexGridSizer(3, 1, 0, 0);
@@ -152,11 +152,11 @@ void CAccountManagerInfoPage::CreateControls()
     m_pProjectDetailsStaticCtrl = new wxStaticText;
     m_pProjectDetailsStaticCtrl->Create( itemWizardPage23, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer4->Add(m_pProjectDetailsStaticCtrl, 0, wxBOTTOM, 5);
-    
-    m_pProjectDetailsDescriptionCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTDESCRIPTION, wxT(""), wxDefaultPosition, wxSize(DESCRIPTIONSWIDTH, ADJUSTFORYDPI(100)), wxTE_MULTILINE|wxTE_READONLY );
+
+    m_pProjectDetailsDescriptionCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTDESCRIPTION, wxT(""), wxDefaultPosition, wxSize(descriptionWidth, 100), wxTE_MULTILINE|wxTE_READONLY );
     itemFlexGridSizer4->Add(m_pProjectDetailsDescriptionCtrl, 0, wxGROW);
 
-	m_pOpenWebSiteButton = new wxButton( this, ID_PROJECTWEBPAGECTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_pOpenWebSiteButton = new wxButton( this, ID_PROJECTWEBPAGECTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer4->Add(m_pOpenWebSiteButton, 0, wxALIGN_CENTER|wxTOP|wxBOTTOM, 5);
 
     wxFlexGridSizer* itemFlexGridSizer11 = new wxFlexGridSizer(2, 1, 0, 0);
@@ -169,7 +169,7 @@ void CAccountManagerInfoPage::CreateControls()
 
     wxFlexGridSizer* itemFlexGridSizer14 = new wxFlexGridSizer(1, 2, 0, 0);
     itemFlexGridSizer14->AddGrowableCol(1);
-    itemBoxSizer24->Add(itemFlexGridSizer14, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT, 10);
+    itemBoxSizer24->Add(itemFlexGridSizer14, 0, wxGROW|wxRIGHT, 10);
 
     m_pProjectUrlStaticCtrl = new wxStaticText;
     m_pProjectUrlStaticCtrl->Create( itemWizardPage23, ID_PROJECTURLSTATICCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
@@ -205,7 +205,6 @@ wxWizardPageEx* CAccountManagerInfoPage::GetNext() const
     } else {
         return PAGE_TRANSITION_NEXT(ID_ACCOUNTMANAGERPROPERTIESPAGE);
     }
-    return NULL;
 }
 
 
@@ -307,7 +306,7 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             pItem->SetImage( wxString(pl.account_managers[i]->image.c_str(), wxConvUTF8) );
             pItem->SetDescription( wxString(pl.account_managers[i]->description.c_str(), wxConvUTF8) );
 
-            
+
             m_pProjectListCtrl->Append(
                 wxString(pl.account_managers[i]->name.c_str(), wxConvUTF8),
                 pItem
@@ -340,16 +339,19 @@ void CAccountManagerInfoPage::OnPageChanging( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
 
     CWizardAttach* pWA = ((CWizardAttach*)GetParent());
-	CAcctMgrListItem* pItem = (CAcctMgrListItem*)(m_pProjectListCtrl->GetClientData(m_pProjectListCtrl->GetSelection()));
-
-    // Update authoritative data in CWizardAttach
-	if (m_pProjectUrlCtrl->GetValue() == pItem->GetURL()) {
-		pWA->SetProjectURL(pItem->GetURL());
-		pWA->SetProjectName(pItem->GetName());
-	} else {
-		pWA->SetProjectURL(m_pProjectUrlCtrl->GetValue());
-		pWA->SetProjectName(m_pProjectUrlCtrl->GetValue());
-	}
+    wxString url = m_pProjectUrlCtrl->GetValue();
+    wxString name = url;
+    int sel = m_pProjectListCtrl->GetSelection();
+    if (sel != wxNOT_FOUND) {
+        CAcctMgrListItem* pItem = (CAcctMgrListItem*)(m_pProjectListCtrl->GetClientData(sel));
+        // Update authoritative data in CWizardAttach
+        if (m_pProjectUrlCtrl->GetValue() == pItem->GetURL()) {
+            url = pItem->GetURL();
+            name = pItem->GetName();
+        }
+    }
+    pWA->SetProjectURL(url);
+    pWA->SetProjectName(name);
 }
 
 /*!

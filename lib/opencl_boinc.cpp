@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,16 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #else
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
+#include "boinc_stdio.h"
 #include <cstring>
 #include <cstdlib>
 #include <cmath>
@@ -32,9 +26,6 @@
 
 #ifdef _WIN32
 #include "win_util.h"
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
 #endif
 #include "miofile.h"
 #include "parse.h"
@@ -124,8 +115,8 @@ int OPENCL_DEVICE_PROP::parse(XML_PARSER& xp, const char* end_tag) {
         if (xp.parse_str("name", name, sizeof(name))) continue;
         if (xp.parse_str("vendor", vendor, sizeof(vendor))) continue;
         if (xp.parse_ulonglong("vendor_id", ull)) {
-            vendor_id = ull;
-            continue; 
+            vendor_id = (unsigned)ull;
+            continue;
         }
         if (xp.parse_int("available", n)) {
             available = n;
@@ -133,15 +124,15 @@ int OPENCL_DEVICE_PROP::parse(XML_PARSER& xp, const char* end_tag) {
         }
         if (xp.parse_ulonglong("half_fp_config", ull)) {
                 half_fp_config = ull;
-                continue; 
+                continue;
         }
         if (xp.parse_ulonglong("single_fp_config", ull)) {
             single_fp_config = ull;
-            continue; 
+            continue;
         }
         if (xp.parse_ulonglong("double_fp_config", ull)) {
             double_fp_config = ull;
-            continue; 
+            continue;
         }
         if (xp.parse_int("endian_little", n)) {
             endian_little = n;
@@ -151,8 +142,8 @@ int OPENCL_DEVICE_PROP::parse(XML_PARSER& xp, const char* end_tag) {
             execution_capabilities = ull;
             continue;
         }
-        if (xp.parse_str("extensions", 
-            extensions, 
+        if (xp.parse_str("extensions",
+            extensions,
             sizeof(extensions)
         )) {
             continue;
@@ -193,25 +184,25 @@ int OPENCL_DEVICE_PROP::parse(XML_PARSER& xp, const char* end_tag) {
             amd_simd_instruction_width = n;
             continue;
         }
-        if (xp.parse_str("opencl_platform_version", 
-            opencl_platform_version, 
+        if (xp.parse_str("opencl_platform_version",
+            opencl_platform_version,
             sizeof(opencl_platform_version)
         )) {
             continue;
         }
-        if (xp.parse_str("opencl_device_version", 
-            opencl_device_version, 
+        if (xp.parse_str("opencl_device_version",
+            opencl_device_version,
             sizeof(opencl_device_version)
         )) {
             continue;
         }
-        if (xp.parse_str("opencl_driver_version", 
-            opencl_driver_version, 
+        if (xp.parse_str("opencl_driver_version",
+            opencl_driver_version,
             sizeof(opencl_driver_version)
         )) {
             continue;
         }
-        
+
         // The following are used only in the
         // COPROC_INFO_FILENAME temporary file
         if (xp.parse_int("device_num", n)) {
@@ -243,8 +234,8 @@ int OPENCL_DEVICE_PROP::get_device_version_int() {
 
 int OPENCL_DEVICE_PROP::get_opencl_driver_revision() {
     // gets the OpenCL runtime revision
-    // Thus far this is only necessary for ATI/AMD because there are bad 
-    // driver sets only distinguisable by the runtime library version.  
+    // Thus far this is only necessary for ATI/AMD because there are bad
+    // driver sets only distinguisable by the runtime library version.
     // Fortunately this info is in the opencl_device_version string.
     float rev=0;
     char *p=opencl_device_version+sizeof(opencl_device_version)-1;
@@ -254,28 +245,29 @@ int OPENCL_DEVICE_PROP::get_opencl_driver_revision() {
       int n=sscanf(
           p, "(%f", &rev
       );
-      // I don't care about errors because for non-ATI GPUs this should 
+      // I don't care about errors because for non-ATI GPUs this should
       // be zero.
       if (n!=1) {
         rev=0;
       }
     }
-    opencl_driver_revision=floor(rev*100+0.5);
+    opencl_driver_revision = (int)floor(rev*100+0.5);
     return 0;
 }
 
 void OPENCL_DEVICE_PROP::description(char* buf, int buflen, const char* type) {
-    char s1[256], s2[256];
+    char s1[256], s2[1024];
     int n;
     // openCL_device_version may have a trailing space
     strlcpy(s1, opencl_device_version, sizeof(s1));
     n = (int)strlen(s1) - 1;
     if ((n > 0) && (s1[n] == ' ')) s1[n] = '\0';
     snprintf(s2, sizeof(s2),
-        "%s (driver version %s, device version %s, %.0fMB, %.0fMB available, %.0f GFLOPS peak)",
+        "%.64s (driver version %.64s, device version %.64s, %.2fGB, %.2fGB available, %s peak)",
         name, opencl_driver_version,
-        s1, global_mem_size/MEGA,
-        opencl_available_ram/MEGA, peak_flops/1.e9
+        s1, (double)global_mem_size/GIGA,
+        opencl_available_ram/GIGA,
+        flops_to_string(peak_flops).c_str()
     );
 
     switch(is_used) {
@@ -304,7 +296,7 @@ void OPENCL_DEVICE_PROP::description(char* buf, int buflen, const char* type) {
 ////////////////// OPENCL CPU STARTS HERE /////////////////
 
 
-// CPU OpenCL does not really describe a coprocessor but 
+// CPU OpenCL does not really describe a coprocessor but
 // this is here to take advantage of the other OpenCL code.
 void OPENCL_CPU_PROP::clear() {
     platform_vendor[0] = 0;

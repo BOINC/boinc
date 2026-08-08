@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,9 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// The "policy" part of file transfer is here.
-// The "mechanism" part is in pers_file_xfer.C and file_xfer.C
-//
+// The policy part of file transfer.
+// The mechanism part is in pers_file_xfer.cpp and file_xfer.cpp
 
 #include "cpp.h"
 
@@ -28,10 +27,6 @@
 #include <cassert>
 #include <sys/stat.h>
 #include <sys/types.h>
-#endif
-
-#ifdef _MSC_VER
-#define snprintf _snprintf
 #endif
 
 #include "md5_file.h"
@@ -58,7 +53,6 @@ using std::vector;
 // for the given persistent file transfer
 //
 bool CLIENT_STATE::start_new_file_xfer(PERS_FILE_XFER& pfx) {
-    unsigned int i;
     int ntotal=0, nproj=0;
 
     if (network_suspended) return false;
@@ -68,8 +62,7 @@ bool CLIENT_STATE::start_new_file_xfer(PERS_FILE_XFER& pfx) {
     // limit the number of file transfers per project
     // (uploads and downloads are limited separately)
     //
-    for (i=0; i<file_xfers->file_xfers.size(); i++) {
-        FILE_XFER* fxp = file_xfers->file_xfers[i];
+    for (FILE_XFER* fxp: file_xfers->file_xfers) {
 
         // don't count user or project files
         //
@@ -91,15 +84,33 @@ bool CLIENT_STATE::start_new_file_xfer(PERS_FILE_XFER& pfx) {
     return true;
 }
 
-// Make a directory for each of the projects in the client state
+// Make a directory for each of the projects in the client state,
+// and delete other stuff in projects/
 //
 int CLIENT_STATE::make_project_dirs() {
-    unsigned int i;
     int retval;
-    for (i=0; i<projects.size(); i++) {
-        retval = make_project_dir(*projects[i]);
+    vector<string> pds;
+    for (PROJECT *p: projects) {
+        retval = make_project_dir(*p);
         if (retval) return retval;
+        pds.push_back(p->project_dir());
     }
+
+    string name;
+    char path[MAXPATHLEN];
+    DirScanner dir(PROJECTS_DIR);
+    while (dir.scan(name)) {
+        if (name == "app_test") continue;
+        if (!strcasecmp(name.c_str(), "virtualbox")) continue;
+        snprintf(path, sizeof(path), "projects/%s", name.c_str());
+        if (std::find(pds.begin(), pds.end(), path) != pds.end()) {
+            continue;
+        }
+        msg_printf(0, MSG_INFO,
+            "%s is not a project directory", path
+        );
+    }
+
     return 0;
 }
 
@@ -192,7 +203,7 @@ int FILE_INFO::verify_file(
     // see if we need to unzip it
     //
     if (download_gzipped && !boinc_file_exists(pathname)) {
-        char gzpath[MAXPATHLEN];
+        char gzpath[MAXPATHLEN+16];
         snprintf(gzpath, sizeof(gzpath), "%s.gz", pathname);
         if (boinc_file_exists(gzpath) ) {
             if (allow_async && nbytes > ASYNC_FILE_THRESHOLD) {
@@ -239,8 +250,8 @@ int FILE_INFO::verify_file(
                 name, nbytes, size
             );
         }
-        status = ERR_WRONG_SIZE;
-        return ERR_WRONG_SIZE;
+        status = ERR_FILE_WRONG_SIZE;
+        return ERR_FILE_WRONG_SIZE;
     }
 
     if (!verify_contents) return 0;
@@ -357,8 +368,6 @@ int FILE_INFO::verify_file(
 // scan PERS_FILE_XFERs and delete finished ones.
 //
 bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
-    unsigned int i;
-    FILE_INFO* fip;
     PERS_FILE_XFER *pfx;
     bool action = false;
     int retval;
@@ -370,8 +379,7 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
     // Look for FILE_INFOs for which we should start a transfer,
     // and make PERS_FILE_XFERs for them
     //
-    for (i=0; i<file_infos.size(); i++) {
-        fip = file_infos[i];
+    for (FILE_INFO* fip: file_infos) {
         pfx = fip->pers_file_xfer;
         if (pfx) continue;
         if (fip->downloadable() && fip->status == FILE_NOT_PRESENT) {
@@ -402,7 +410,7 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
         // from the set and delete it
         //
         if (pfx->pers_xfer_done) {
-            fip = pfx->fip;
+            FILE_INFO* fip = pfx->fip;
             if (pfx->is_upload) {
                 // file has been uploaded - delete if not sticky
                 //
@@ -417,7 +425,7 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
                 // If this was a compressed download, rename .gzt to .gz
                 //
                 if (fip->download_gzipped) {
-                    char path[MAXPATHLEN], from_path[MAXPATHLEN], to_path[MAXPATHLEN];
+                    char path[MAXPATHLEN], from_path[MAXPATHLEN+16], to_path[MAXPATHLEN+16];
                     get_pathname(fip, path, sizeof(path));
                     snprintf(from_path, sizeof(from_path), "%s.gzt", path);
                     snprintf(to_path, sizeof(to_path), "%s.gz", path);
@@ -470,16 +478,44 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
 }
 #endif
 
+// Check whether file exists and has the right size.
+// If the size on disk does not match the expected size, delete the file.
+//
+int FILE_INFO::check_size() {
+    char path[MAXPATHLEN];
+    get_pathname(this, path, sizeof(path));
+    double size;
+    int retval = file_size(path, size);
+    if (retval) {
+        delete_project_owned_file(path, true);
+        status = FILE_NOT_PRESENT;
+        msg_printf(project, MSG_INFO, "File %s not found", path);
+        return ERR_FILE_MISSING;
+    }
+    if (gstate.global_prefs.dont_verify_images && is_image_file(path)) {
+        return 0;
+    }
+    if (cc_config.dont_check_file_sizes) return 0;
+    if (nbytes && (size != nbytes)) {
+        delete_project_owned_file(path, true);
+        status = FILE_NOT_PRESENT;
+        msg_printf(project, MSG_INFO,
+            "File %s has wrong size: expected %.0f, got %.0f",
+            path, nbytes, size
+        );
+        return ERR_FILE_WRONG_SIZE;
+    }
+    return 0;
+}
+
 // for each FILE_INFO (i.e. each project file the client knows about)
 // check that the file exists and is of the right size.
 // Called at startup.
 //
 void CLIENT_STATE::check_file_existence() {
-    unsigned int i;
     char path[MAXPATHLEN];
 
-    for (i=0; i<file_infos.size(); i++) {
-        FILE_INFO* fip = file_infos[i];
+    for (FILE_INFO* fip: file_infos) {
         if (fip->status < 0 && fip->downloadable()) {
             // file had an error; reset it so that we download again
             get_pathname(fip, path, sizeof(path));
@@ -491,22 +527,8 @@ void CLIENT_STATE::check_file_existence() {
         }
         if (cc_config.dont_check_file_sizes) continue;
         if (fip->status == FILE_PRESENT) {
-            get_pathname(fip, path, sizeof(path));
-            double size;
-            int retval = file_size(path, size);
-            if (retval) {
-                delete_project_owned_file(path, true);
-                fip->status = FILE_NOT_PRESENT;
-                msg_printf(fip->project, MSG_INFO, "File %s not found", path);
-            } else if (fip->nbytes && (size != fip->nbytes)) {
-                if (gstate.global_prefs.dont_verify_images && is_image_file(path)) continue;
-                delete_project_owned_file(path, true);
-                fip->status = FILE_NOT_PRESENT;
-                msg_printf(fip->project, MSG_INFO,
-                    "File %s has wrong size: expected %.0f, got %.0f",
-                    path, fip->nbytes, size
-                );
-            }
+            fip->check_size();
+
             // If an output file disappears before it's uploaded,
             // flag the job as an error.
             //
@@ -525,9 +547,8 @@ void CLIENT_STATE::check_file_existence() {
 // return the result that *fip is an output file of, if any
 //
 RESULT* CLIENT_STATE::file_info_to_result(FILE_INFO* fip) {
-    unsigned int i, j;
-    for (i=0; i<results.size(); i++) {
-        RESULT* rp = results[i];
+    unsigned int j;
+    for (RESULT *rp: results) {
         if (rp->project != fip->project) continue;
         for (j=0; j<rp->output_files.size(); j++) {
             FILE_REF& fr = rp->output_files[j];

@@ -43,7 +43,9 @@ $receiver = 0;
 $receiver = post_int('receiver', true);
 $subject = post_str('subject', true);
 $body = post_str('body', true);
-$body = stripslashes($body);
+if ($body) {
+    $body = stripslashes($body);
+}
 
 admin_page_head("Send mass email");
 
@@ -56,7 +58,7 @@ if ($receiver > 0) {
         break;
     case 2:
         // unsuccessful users
-        $week_ago = time(0) - 7*86400;
+        $week_ago = time() - 7*86400;
         $query = "select user.id,user.name,user.email_addr from user left join result on user.id=result.userid where send_email>0 and total_credit=0 and user.create_time<$week_ago and isnull(result.id)";
         break;
     case 3:
@@ -107,7 +109,7 @@ start_table();
 echo "<tr><td align=right>Send email to: </td><td> ";
 echo "
     <input type=radio name=receiver value='1' > All users
-    <br><input type=radio name=receiver value='2' > Unsuccessful users: total_credit = 0, create time > 1 week ago, no jobs in DB 
+    <br><input type=radio name=receiver value='2' > Unsuccessful users: total_credit = 0, create time > 1 week ago, no jobs in DB
     <br><input type=radio name=receiver value='3' > Successful users: total_credit > 0
     <br><input type=radio name=receiver value='4' > Currently contributing users: total_credit > 0 and at least one job in DB
     <br><input type=radio name=receiver value='5' > Lapsed users: total_credit > 0 but no jobs in DB

@@ -19,7 +19,7 @@
 #define BOINC_PROXY_INFO_H
 
 struct XML_PARSER;
-class MIOFILE;
+struct MIOFILE;
 
 // info on whether HTTP requests need to go through a proxy
 //
@@ -74,12 +74,16 @@ struct PROXY_INFO {
         // whether above fields are defined
 
     PROXY_INFO() {
-      clear();
+        clear();
     }
     int parse(XML_PARSER&);
     int parse_config(XML_PARSER&);
     int write(MIOFILE&);
     void clear();
+    // are we using a proxy?
+    bool using_proxy() {
+        return socks_server_name[0] || http_server_name[0];
+    }
 };
 
 #endif

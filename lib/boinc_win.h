@@ -27,22 +27,24 @@
 
 #ifdef _MSC_VER
 #pragma warning(disable: 4996)  // deprecated function names
-#pragma warning(disable: 4127)  // constant conditional expression
+//#pragma warning(disable: 4127)  // constant conditional expression
 #pragma warning(disable: 4244)  // conversion from int to char
-#define getpid _getpid
+#define chdir       _chdir
+#define finite      _finite
+#define getpid      _getpid
 #define getcwd      _getcwd
 #define strdate     _strdate
-#define strdup _strdup
+#define strdup      _strdup
 #define stricmp     _stricmp
 #define strtime     _strtime
-#if _MSC_VER < 1900
-#define snprintf _snprintf
-#endif
+#define unlink      _unlink
 #endif
 
 #ifdef __MINGW32__
 #define strdate     _strdate
 #define strtime     _strtime
+#define getcwd    _getcwd
+#define finite   _finite
 #endif
 
 #ifndef HAVE_CONFIG_H
@@ -55,28 +57,28 @@
 
 #ifndef HAVE_STD_MAX
 #define HAVE_STD_MAX 1
-#endif 
+#endif
 
 #ifndef HAVE_STD_MIN
 #define HAVE_STD_MIN 1
-#endif 
+#endif
 
 #ifndef HAVE_STD_TRANSFORM
 #define HAVE_STD_TRANSFORM 1
-#endif 
+#endif
 
 #ifndef HAVE_ALLOCA
 #define HAVE_ALLOCA 1
-#endif 
+#endif
 
 #ifdef __MINGW32__
 #define HAVE_STRCASECMP 1
 #endif
 
-/* 
+/*
  * WINSOCK vs WINSOCK2 could be an issue in compiles because we include multiple
- * packages that have the same choice.  The wx currently packed with BOINC 
- * uses WINSOCK, so we have to not include WINSOCK2 by undefining 
+ * packages that have the same choice.  The wx currently packed with BOINC
+ * uses WINSOCK, so we have to not include WINSOCK2 by undefining
  * HAVE_WINSOCK2_H.  That limits what CURL in its header file as well.  We might
  * need something more complicated if CURL and wxWidgets decide to go in
  * opposite directions.
@@ -159,10 +161,11 @@
 #endif
 
 #ifndef HAVE_SOCKLEN_T
+#include <stddef.h> // for size_t
 typedef size_t socklen_t;
 #endif
 
-#else 
+#else
 
 /* Under cygwin, curl was probably compiled to use <sys/socket.h> */
 #include <unistd.h>
@@ -257,7 +260,7 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #include <crtdbg.h>
 #endif
 
-#if defined(HAVE_DELAYIMP_H) 
+#if defined(HAVE_DELAYIMP_H)
 #include <delayimp.h>
 #endif
 

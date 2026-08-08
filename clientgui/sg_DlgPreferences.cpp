@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -73,7 +73,7 @@ CPanelPreferences::CPanelPreferences( )
 }
 
 
-CPanelPreferences::CPanelPreferences( wxWindow* parent ) :  
+CPanelPreferences::CPanelPreferences( wxWindow* parent ) :
     wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNO_BORDER)
 {
     Create();
@@ -97,7 +97,8 @@ bool CPanelPreferences::Create()
 {
     m_backgroundBitmap = NULL;
     lastErrorCtrl = NULL;
-    stdTextBkgdColor = *wxWHITE;
+
+    stdTextBkgdColor = wxGetApp().GetIsDarkMode() ? *wxBLACK : *wxWHITE;
 
     CreateControls();
 
@@ -144,11 +145,11 @@ void CPanelPreferences::CreateControls()
 
         wxBoxSizer* topControlsSizer = new wxBoxSizer( wxHORIZONTAL );
         topSectionSizer->Add(topControlsSizer);
-        
-        wxBitmap warningBmp = GetScaledBitmapFromXPMData(warning_xpm);
+
+        wxBitmap warningBmp = wxBitmap(warning_xpm);
         CTransparentStaticBitmap* bmpWarning = new CTransparentStaticBitmap(
-                                    topSectionStaticBox, wxID_ANY, 
-                                    warningBmp, 
+                                    topSectionStaticBox, wxID_ANY,
+                                    warningBmp,
                                     wxDefaultPosition, wxDefaultSize, 0
                                     );
         bmpWarning->SetMinSize( warningBmp.GetSize() );
@@ -173,7 +174,7 @@ void CPanelPreferences::CreateControls()
                 0, wxALL, 1
             );
         }
-        
+
          legendSizer->Add(
             new CTransparentHyperlinkCtrl(
                 topSectionStaticBox, wxID_ANY, *web_prefs_url, *web_prefs_url,
@@ -182,7 +183,7 @@ void CPanelPreferences::CreateControls()
             ),
             0, wxLEFT, 5
         );
-        
+
         if (!m_bUsingLocalPrefs) {
             legendSizer->Add(
                 new CTransparentStaticText( topSectionStaticBox, wxID_ANY,
@@ -191,22 +192,22 @@ void CPanelPreferences::CreateControls()
                 0, wxALL, 1
             );
         }
-      
+
 #if 1
         topSectionSizer->AddSpacer( 10 );
 
-        CTransparentStaticLine* itemStaticLine8 = new CTransparentStaticLine( topSectionStaticBox, wxID_ANY, 
-                                                                            wxDefaultPosition, 
-                                                                            wxSize(ADJUSTFORXDPI(300), 1),
+        CTransparentStaticLine* itemStaticLine8 = new CTransparentStaticLine( topSectionStaticBox, wxID_ANY,
+                                                                            wxDefaultPosition,
+                                                                            wxSize(300, 1),
                                                                              wxLI_HORIZONTAL|wxNO_BORDER
                                                                              );
         itemStaticLine8->SetLineColor(pSkinSimple->GetStaticLineColor());
-        topSectionSizer->Add(itemStaticLine8, 0, wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT, ADJUSTFORXDPI(20));
+        topSectionSizer->Add(itemStaticLine8, 0, wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT, 20);
 
         topSectionSizer->AddSpacer( 10 );
 
         CTransparentStaticText* itemStaticText7 = new CTransparentStaticText( topSectionStaticBox, wxID_ANY, _("For additional settings, select Computing Preferences in the Advanced View."), wxDefaultPosition, wxDefaultSize, 0 );
-        
+
         topSectionSizer->Add(itemStaticText7, 0, wxALL, 0);
 
         topSectionSizer->AddSpacer( 10 );
@@ -219,7 +220,7 @@ void CPanelPreferences::CreateControls()
         if (!m_bUsingLocalPrefs) {
             m_btnClear->Hide();
         }
-        
+
         topControlsSizer->Add( m_btnClear, 0, wxALIGN_BOTTOM|wxALL, 4 );
 
 #ifdef __WXMAC__
@@ -230,29 +231,29 @@ void CPanelPreferences::CreateControls()
     }
 
     wxBoxSizer* itemBoxSizer11 = new wxBoxSizer(wxVERTICAL);
-    itemBoxSizer2->Add(itemBoxSizer11, 0, wxLEFT, ADJUSTFORXDPI(20));
+    itemBoxSizer2->Add(itemBoxSizer11, 0, wxLEFT, 20);
 
     wxString ProcOnBatteriesTT(_("Check this to suspend computing on portables when running on battery power."));
 
     m_chkProcOnBatteries = new CTransparentCheckBox(
         itemDialog1, ID_CHKPROCONBATTERIES,
-        _("Suspend when computer is on battery"), 
+        _("Suspend when computer is on battery"),
         wxDefaultPosition, wxDefaultSize, 0,
-        wxDefaultValidator,  wxCheckBoxNameStr, 
+        wxDefaultValidator,  wxCheckBoxNameStr,
         &m_backgroundBitmap
     );
 
     m_chkProcOnBatteries->SetToolTip(ProcOnBatteriesTT);
-    
+
     itemBoxSizer11->Add(m_chkProcOnBatteries, 0, wxALL, 5 );
 
     wxString ProcInUseTT(_("Check this to suspend computing and file transfers when you're using the computer."));
 
     m_chkProcInUse = new CTransparentCheckBox(
         itemDialog1, ID_CHKPROCINUSE,
-        _("Suspend when computer is in use"), 
+        _("Suspend when computer is in use"),
         wxDefaultPosition, wxDefaultSize, 0,
-        wxDefaultValidator,  wxCheckBoxNameStr, 
+        wxDefaultValidator,  wxCheckBoxNameStr,
         &m_backgroundBitmap
     );
 
@@ -285,7 +286,7 @@ void CPanelPreferences::CreateControls()
     CTransparentStaticText* staticText22 = new CTransparentStaticText(
         itemDialog1, wxID_ANY, _("Use at most"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    m_txtProcUseCPUTime = new wxTextCtrl( itemDialog1, ID_TXTPOCUSECPUTIME, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
+    m_txtProcUseCPUTime = new wxTextCtrl( itemDialog1, ID_TXTPROCUSECPUTIME, wxEmptyString, wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
 
     /*xgettext:no-c-format*/
     CTransparentStaticText* staticText23 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("% of CPU time"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -296,9 +297,9 @@ void CPanelPreferences::CreateControls()
     wxString ProcEveryDayTT(_("Compute only during a particular period each day."));
     m_chkProcEveryDay = new CTransparentCheckBox(
         itemDialog1, ID_CHKPROCEVERYDAY,
-        _("Compute only between"), 
+        _("Compute only between"),
         wxDefaultPosition, wxDefaultSize, 0,
-        wxDefaultValidator,  wxCheckBoxNameStr, 
+        wxDefaultValidator,  wxCheckBoxNameStr,
         &m_backgroundBitmap
     );
     m_txtProcEveryDayStart = new wxTextCtrl(
@@ -316,9 +317,9 @@ void CPanelPreferences::CreateControls()
 
     wxString NetEveryDayTT(_("Transfer files only during a particular period each day."));
     m_chkNetEveryDay = new CTransparentCheckBox(
-        itemDialog1, ID_CHKNETEVERYDAY, _("Transfer files only between"), 
+        itemDialog1, ID_CHKNETEVERYDAY, _("Transfer files only between"),
         wxDefaultPosition, wxDefaultSize, 0,
-        wxDefaultValidator,  wxCheckBoxNameStr, 
+        wxDefaultValidator,  wxCheckBoxNameStr,
         &m_backgroundBitmap
     );
 
@@ -335,9 +336,9 @@ void CPanelPreferences::CreateControls()
     DiskMaxSpaceTT.Printf(_("Limit the total amount of disk space used by %s."), pSkinAdvanced->GetApplicationShortName().c_str());
 
     m_chkDiskMaxSpace = new CTransparentCheckBox (
-        itemDialog1, ID_CHKDISKMAXSPACE, _("Use no more than"), 
+        itemDialog1, ID_CHKDISKMAXSPACE, _("Use no more than"),
         wxDefaultPosition, wxDefaultSize, 0,
-        wxDefaultValidator,  wxCheckBoxNameStr, 
+        wxDefaultValidator,  wxCheckBoxNameStr,
         &m_backgroundBitmap
     );
 
@@ -348,26 +349,26 @@ void CPanelPreferences::CreateControls()
     addNewRowToSizer(itemBoxSizer11, DiskMaxSpaceTT, m_chkDiskMaxSpace, m_txtDiskMaxSpace, staticText41);
 
     wxBoxSizer* itemBoxSizer44 = new wxBoxSizer(wxHORIZONTAL);
-    itemBoxSizer2->Add(itemBoxSizer44, 0, wxALIGN_RIGHT|wxALL, ADJUSTFORXDPI(5));
+    itemBoxSizer2->Add(itemBoxSizer44, 0, wxALIGN_RIGHT|wxALL, 5);
 
-    wxButton* itemButton44 = new wxButton( itemDialog1, wxID_OK, _("Save"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemButton44->SetToolTip( _("Save all values and close the dialog.") );
+    wxButton* itemButton44 = new wxButton( itemDialog1, wxID_OK, _("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemButton44->SetToolTip( _("Save all values and close the dialog") );
     if (m_bUsingLocalPrefs) {
         itemButton44->SetDefault();
     }
-    itemBoxSizer44->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
+    itemBoxSizer44->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxButton* itemButton45 = new wxButton( itemDialog1, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemButton45->SetToolTip( _("Close the dialog without saving.") );
+    itemButton45->SetToolTip( _("Close the dialog without saving") );
     if (!m_bUsingLocalPrefs) {
         itemButton45->SetDefault();
     }
-    itemBoxSizer44->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
-    
+    itemBoxSizer44->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
 
 #ifndef __WXMSW__
 #ifdef __WXMAC__
-    wxButton* itemButton46 = new wxButton( this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxButton* itemButton46 = new wxButton( this, ID_SIMPLE_HELP, _("&Help"), wxDefaultPosition, wxDefaultSize, 0 );
 #ifdef wxUSE_TOOLTIPS
     wxString helpTip;
     helpTip.Printf(_("Get help with %s"), pSkinAdvanced->GetApplicationShortName().c_str());
@@ -376,7 +377,7 @@ void CPanelPreferences::CreateControls()
 #else
     wxContextHelpButton* itemButton46 = new wxContextHelpButton(this);
 #endif
-    itemBoxSizer44->Add(itemButton46, 0, wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
+    itemBoxSizer44->Add(itemButton46, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 #endif
 
     // Set validators
@@ -384,12 +385,14 @@ void CPanelPreferences::CreateControls()
     m_vTimeValidator->SetCharIncludes(wxT("0123456789:"));
 
     m_txtProcIdleFor->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtProcIdleFor->SetMaxLength(16);
     m_txtProcEveryDayStart->SetValidator(*m_vTimeValidator);
     m_txtProcEveryDayStop->SetValidator(*m_vTimeValidator);
     m_txtProcUseCPUTime->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtNetEveryDayStart->SetValidator(*m_vTimeValidator);
     m_txtNetEveryDayStop->SetValidator(*m_vTimeValidator);
     m_txtDiskMaxSpace->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    m_txtDiskMaxSpace->SetMaxLength(16);
 ////@end CPanelPreferences content construction
 }
 
@@ -420,9 +423,14 @@ void CPanelPreferences::OnButtonHelp( wxCommandEvent& event ) {
 
 void CPanelPreferences::MakeBackgroundBitmap() {
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
-    
+
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
+
+    if (m_backgroundBitmap) {
+        delete m_backgroundBitmap;
+        m_backgroundBitmap = NULL;
+    }
 
     wxMemoryDC memDC;
     wxCoord w, h, x, y;
@@ -444,6 +452,19 @@ void CPanelPreferences::MakeBackgroundBitmap() {
     if ( (w < sz.x) || (h < sz.y) ) {
         // Check to see if they need to be rescaled to fit in the window
         wxImage img = bmp.ConvertToImage();
+
+        if (wxGetApp().GetIsDarkMode()) {
+            // Darken the image
+            unsigned char *bgImagePixels = img.GetData(); // RGBRGBRGB...
+            for (int i=0; i<w; ++i) {
+                for (int j=0; j<h; ++j) {
+                    for (int k=0; k<3; ++k) {
+                        *bgImagePixels /= 4;
+                        ++bgImagePixels;
+                    }
+                }
+            }
+        }
         img.Rescale((int) sz.x, (int) sz.y);
 
         // Draw our cool background (enlarged and centered)
@@ -475,9 +496,26 @@ void CPanelPreferences::MakeBackgroundBitmap() {
             break;
         }
 
-        // Select the desired bitmap into the memory DC so we can take
-        //   the desired chunk of it.
-        memDC.SelectObject(bmp);
+        // Select the desired bitmap (or its darkened version) into
+        //   the memory DC so we can take the desired chunk of it.
+        if (wxGetApp().GetIsDarkMode()) {
+            // Darken the bitmap
+            wxImage bgImage = bmp.ConvertToImage();
+            unsigned char *bgImagePixels;
+            bgImagePixels = bgImage.GetData(); // RGBRGBRGB...
+           for (int i=0; i<w; ++i) {
+                for (int j=0; j<h; ++j) {
+                    for (int k=0; k<3; ++k) {
+                        *bgImagePixels /= 4;
+                        ++bgImagePixels;
+                    }
+                }
+            }
+            wxBitmap darkened(bgImage);
+            memDC.SelectObject(darkened);
+        } else {
+            memDC.SelectObject(bmp);
+        }
 
         // Draw the desired chunk on the window
         dc.Blit(0, 0, sz.x, sz.y, &memDC, x, y, wxCOPY);
@@ -497,18 +535,22 @@ void CPanelPreferences::OnEraseBackground( wxEraseEvent& event ) {
         MakeBackgroundBitmap();
     }
     // Create a buffered device context to reduce flicker
-    wxSize sz = GetClientSize();
-    wxBufferedDC dc(event.GetDC(), sz, wxBUFFER_CLIENT_AREA);
+#ifndef __WXGTK__
+    wxBufferedDC dc(event.GetDC(), GetClientSize(), wxBUFFER_CLIENT_AREA);
+#else
+    wxDC &dc = *event.GetDC();
+#endif
 
 #if TEST_BACKGROUND_WITH_MAGENTA_FILL
     // Fill the dialog with a magenta color so people can detect when something
     //   is wrong
+    wxSize sz = GetClientSize();
     dc.SetBrush(wxBrush(wxColour(255,0,255)));
     dc.SetPen(wxPen(wxColour(255,0,255)));
     dc.DrawRectangle(0, 0, sz.GetWidth(), sz.GetHeight());
 #else
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
-    
+
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
 
@@ -558,7 +600,7 @@ bool CPanelPreferences::OnOK() {
 
 	pDoc->rpc.set_global_prefs_override_struct(global_preferences_working, global_preferences_override_mask);
 	pDoc->rpc.read_global_prefs_override();
-    
+
     return true;
 }
 
@@ -614,8 +656,9 @@ wxString CPanelPreferences::DoubleToTimeString(double dt) {
 // precision of saved values to .01.  This prevents unexpected
 // behavior when, for example, a zero value means no restriction
 // and the value is displayed as 0.00 but is actually 0.001.
+//
 double CPanelPreferences::RoundToHundredths(double td) {
-    int i = (int)((td + .005) * 100.);
+    int64_t i = (int64_t)((td + .005) * 100.);
     return ((double)(i) / 100.);
 }
 
@@ -624,7 +667,7 @@ void CPanelPreferences::DisplayValue(double value, wxTextCtrl* textCtrl, wxCheck
     wxString buffer;
 
     wxASSERT(textCtrl);
-    
+
     if (checkBox) {
         if (! checkBox->IsChecked()) {
             textCtrl->Clear();
@@ -632,7 +675,7 @@ void CPanelPreferences::DisplayValue(double value, wxTextCtrl* textCtrl, wxCheck
             return;
         }
     }
-    buffer.Printf(wxT("%g"), value);
+    buffer.Printf(wxT("%.2f"), value);
     textCtrl->ChangeValue(buffer);
     textCtrl->Enable();
 }
@@ -661,7 +704,7 @@ bool CPanelPreferences::ReadPreferenceSettings() {
         m_bOKToShow = false;
         return true;
     }
-    
+
     m_bOKToShow = true;
 
 #if 0   // We might use this to tell user whether local prefs exist
@@ -677,7 +720,7 @@ bool CPanelPreferences::ReadPreferenceSettings() {
 
     // in use
     m_chkProcInUse->SetValue(! global_preferences_working.run_if_user_active);
-    
+
     if (m_chkProcInUse->IsChecked()) {
         m_txtProcIdleFor->Enable();
         DisplayValue(global_preferences_working.idle_time_to_run, m_txtProcIdleFor);
@@ -694,10 +737,10 @@ bool CPanelPreferences::ReadPreferenceSettings() {
     }
 
     //cpu limit
-    // 0 means "no retriction" but we don't use a checkbox here
+    // 0 means "no restriction" but we don't use a checkbox here
     if (global_preferences_working.cpu_usage_limit == 0.0) global_preferences_working.cpu_usage_limit = 100.0;
     DisplayValue(global_preferences_working.cpu_usage_limit, m_txtProcUseCPUTime);
-    
+
     // use network between
     m_chkNetEveryDay->SetValue(global_preferences_working.net_times.start_hour != global_preferences_working.net_times.end_hour);
     if (m_chkNetEveryDay->IsChecked()) {
@@ -750,7 +793,7 @@ bool CPanelPreferences::SavePreferenceSettings() {
     m_txtProcUseCPUTime->GetValue().ToDouble(&td);
     global_preferences_working.cpu_usage_limit=RoundToHundredths(td);
     global_preferences_override_mask.cpu_usage_limit=true;
-    
+
     if (m_chkDiskMaxSpace->IsChecked()) {
         m_txtDiskMaxSpace->GetValue().ToDouble(&td);
         global_preferences_working.disk_max_used_gb=RoundToHundredths(td);
@@ -758,7 +801,7 @@ bool CPanelPreferences::SavePreferenceSettings() {
         global_preferences_working.disk_max_used_gb = 0.0;
     }
     global_preferences_override_mask.disk_max_used_gb=true;
-    
+
     // use network between
     if (m_chkNetEveryDay->IsChecked()) {
         global_preferences_working.net_times.start_hour = TimeStringToDouble(m_txtNetEveryDayStart->GetValue());
@@ -793,7 +836,7 @@ bool CPanelPreferences::ValidateInput() {
 
     if(m_txtProcIdleFor->IsEnabled()) {
         buffer = m_txtProcIdleFor->GetValue();
-        if(!IsValidFloatValue(buffer)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
             ShowErrorMessage(invMsgFloat,m_txtProcIdleFor);
             return false;
         }
@@ -817,7 +860,7 @@ bool CPanelPreferences::ValidateInput() {
             return false;
         }
     }
-    
+
     buffer = m_txtProcUseCPUTime->GetValue();
     if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
         ShowErrorMessage(invMsgLimit100, m_txtProcUseCPUTime);
@@ -842,15 +885,15 @@ bool CPanelPreferences::ValidateInput() {
             return false;
         }
     }
-    
+
     if (m_chkDiskMaxSpace->IsChecked()) {
         buffer = m_txtDiskMaxSpace->GetValue();
-        if(!IsValidFloatValue(buffer)) {
+        if(!IsValidFloatValueBetween(buffer, 0, 9999999999999.99)) {
             ShowErrorMessage(invMsgFloat, m_txtDiskMaxSpace);
             return false;
         }
     }
-    
+
     return true;
 }
 
@@ -972,7 +1015,7 @@ void CPanelPreferences::OnHandleCheckboxEvent(wxCommandEvent& ev) {
 
 
 
-    
+
     default:
         break;
     }
@@ -986,7 +1029,7 @@ void CPanelPreferences::addNewRowToSizer(
                 wxWindow* fourth, wxWindow* fifth)
 {
     wxBoxSizer* rowSizer = new wxBoxSizer( wxHORIZONTAL );
-    
+
 #ifdef __WXMSW__
     // MSW adds space to the right of checkbox label
     if (first->IsKindOf(CLASSINFO(CTransparentCheckBox))) {
@@ -994,9 +1037,9 @@ void CPanelPreferences::addNewRowToSizer(
     } else
 #endif
         rowSizer->Add(first, 0, wxALL, 5 );
-    
+
     first->SetToolTip(toolTipText);
-    
+
     rowSizer->Add(second, 0, wxALL, 2 );
     second->SetToolTip(toolTipText);
 
@@ -1007,12 +1050,12 @@ void CPanelPreferences::addNewRowToSizer(
         rowSizer->Add(fourth, 0, wxALL, 2 );
         fourth->SetToolTip(toolTipText);
     }
-    
+
     if (fifth) {
         rowSizer->Add(fifth, 0, wxALL, 5 );
         fifth->SetToolTip(toolTipText);
     }
-    
+
     toSizer->Add( rowSizer, 0, 0, 1 );
 }
 
@@ -1045,10 +1088,10 @@ bool CPanelPreferences::doesLocalPrefsFileExist() {
 
     retval = pDoc->rpc.get_global_prefs_override(s);
     local_prefs_found = (retval == BOINC_SUCCESS);
-    
+
     s.clear();
     web_prefs.init();
-    
+
     retval = pDoc->rpc.get_global_prefs_file(s);
     if (retval) {
         web_prefs_url = new wxString(wxEmptyString);
@@ -1058,7 +1101,7 @@ bool CPanelPreferences::doesLocalPrefsFileExist() {
         web_prefs.parse(xp, "", found_venue, mask);
         web_prefs_url = new wxString(web_prefs.source_project);
     }
-    
+
     return local_prefs_found;
 }
 
@@ -1134,11 +1177,11 @@ bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& c
     SetSizer(dialogSizer);
     m_pBackgroundPanel = new CPanelPreferences(this);
     dialogSizer->Add(m_pBackgroundPanel, 0, wxGROW, 0);
-    
+
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
     Centre();
-    
+
     SetEscapeId(wxID_CANCEL);
 
     Thaw();
@@ -1197,7 +1240,7 @@ bool CDlgPreferences::ConfirmClear() {
 	int res = wxGetApp().SafeMessageBox(_(
         "Discard all local preferences and use web-based preferences?"),
 		_("Confirmation"),wxCENTER | wxICON_QUESTION | wxYES_NO | wxNO_DEFAULT, this);
-	
+
 	return res==wxYES;
 }
 

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -29,6 +29,7 @@
 #include <spawn.h>
 
 #include "file_names.h"
+#include "util.h"
 #include "mac_util.h"
 #include "SetupSecurity.h"
 
@@ -40,14 +41,10 @@
 static OSStatus UpdateNestedDirectories(char * basepath);
 static OSStatus MakeXMLFilesPrivate(char * basepath);
 static OSStatus DoSudoPosixSpawn(const char *pathToTool, char *arg1, char *arg2, char *arg3, char *arg4, char *arg5, char *arg6);
-#ifndef __x86_64__
-static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEvent, short *theItemHit);
-#endif
 #ifdef _DEBUG
 static OSStatus SetFakeMasterNames(void);
 #endif
 static OSStatus CreateUserAndGroup(char * user_name, char * group_name);
-static double dtime(void);
 static void SleepSeconds(double seconds);
 
 #if VERBOSE_TEST
@@ -61,11 +58,11 @@ extern void print_to_log_file(const char *format, ...);
 #define REAL_BOINC_PROJECT_NAME "boinc_project"
 
 #ifdef _DEBUG
-// GDB can't attach to applications which are running as a diferent user or group so
+// GDB can't attach to applications which are running as a different user or group so
 // it ignores the S_ISUID and S_ISGID permission bits when launching an application.
 // To work around this, the _DEBUG version uses the current user and group.
 //
-// NOTE: The Manager and Client call these routines only "#ifdef _DEBUG" (i.e., 
+// NOTE: The Manager and Client call these routines only "#ifdef _DEBUG" (i.e.,
 // only from the DEVELOPMENT BUILD), never from the Deployment build.
 //
 // As of January, 2017: In the past, the client and BOINC Manager used to call
@@ -101,7 +98,7 @@ int CreateBOINCUsersAndGroups() {
     if (geteuid() != 0) {
         ShowSecurityError("CreateBOINCUsersAndGroups must be called as root");
     }
-    
+
     err = CreateUserAndGroup(REAL_BOINC_MASTER_NAME, REAL_BOINC_MASTER_NAME);
     if (err != noErr)
         return err;
@@ -109,11 +106,11 @@ int CreateBOINCUsersAndGroups() {
     err = CreateUserAndGroup(REAL_BOINC_PROJECT_NAME, REAL_BOINC_PROJECT_NAME);
     if (err != noErr)
         return err;
-        
+
     err = ResynchDSSystem();
     if (err != noErr)
         return err;
-    
+
     return noErr;
 }
 
@@ -127,7 +124,7 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
     struct stat             sbuf;
     Boolean                 isDirectory;
     OSStatus                err = noErr;
-    
+
     if (geteuid() != 0) {
         ShowSecurityError("SetBOINCAppOwnersGroupsAndPermissions must be called as root");
     }
@@ -148,7 +145,7 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
             ShowSecurityError("Couldn't get path to self.");
             return -1;
         }
-        
+
         // To allow for branding, assume name of executable inside bundle is same as name of bundle
         p = strrchr(dir_path, '/');         // Assume name of executable inside bundle is same as name of bundle
         if (p == NULL)
@@ -156,7 +153,7 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
         strlcpy(fullpath, p+1, sizeof(fullpath));
         p = strrchr(fullpath, '.');         // Strip off bundle extension (".app")
         if (p)
-            *p = '\0'; 
+            *p = '\0';
 
         strlcat(dir_path, "/Contents/MacOS/", sizeof(dir_path));
         strlcat(dir_path, fullpath, sizeof(dir_path));
@@ -168,7 +165,7 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
 
         strlcpy(dir_path, path, MAXPATHLEN);    // Path to BOINC Manager's bundle was passed as argument
     }
-    
+
     strlcpy(fullpath, dir_path, sizeof(fullpath));
 
 #ifdef _DEBUG
@@ -194,7 +191,7 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
     strlcat(fullpath, p+1, sizeof(fullpath));
     p = strrchr(fullpath, '.');         // Strip off  bundle extension (".app")
     if (p)
-        *p = '\0'; 
+        *p = '\0';
 
     sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
     // chown boinc_master:boinc_master path/BOINCManager.app/Contents/MacOS/BOINCManager
@@ -223,7 +220,7 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
         ShowSecurityError("SetBOINCAppOwnersGroupsAndPermissions: path to client is too long");
         return -1;
     }
-    
+
     sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
     // chown boinc_master:boinc_master path/BOINCManager.app/Contents/Resources/boinc
     err = DoSudoPosixSpawn(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
@@ -246,7 +243,7 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
 
     for (int i=0; i<NUMBRANDS; i++) {
         // Version 6 screensaver has its own embedded switcher application, but older versions don't.
-        // We don't allow unauthorized users to run the switcher application in the BOINC Data directory 
+        // We don't allow unauthorized users to run the switcher application in the BOINC Data directory
         // because they could use it to run as user & group boinc_project and damage project files.
         // The screensaver's switcher application runs as user and group "nobody" to avoid this risk.
 
@@ -284,7 +281,7 @@ int SetBOINCAppOwnersGroupsAndPermissions(char *path) {
 #endif
         }
     }
-    
+
     return noErr;
 }
 
@@ -307,19 +304,17 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     if (err)
         return err;
 #endif
-    
-    strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
 
     // Does BOINC Data directory exist?
-    result = stat(fullpath, &sbuf);
+    result = stat(BOINCDataDirPath, &sbuf);
     isDirectory = S_ISDIR(sbuf.st_mode);
     if ((result != noErr) || (! isDirectory))
         return dirNFErr;                    // BOINC Data Directory does not exist
 
     // Set owner and group of BOINC Data directory's contents
     sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_master_group_name);
-    // chown -R boinc_master:boinc_master "/Library/Application Support/BOINC Data"
-    err = DoSudoPosixSpawn(chownPath, "-R", buf1, BOINCDataDirPath, NULL, NULL, NULL);
+    // chown -RH boinc_master:boinc_master "/Library/Application Support/BOINC Data"
+    err = DoSudoPosixSpawn(chownPath, "-RH", buf1, BOINCDataDirPath, NULL, NULL, NULL);
     if (err)
         return err;
 
@@ -337,7 +332,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     //   all other *.xml are not world-readable to keep authenticators private
     //   gui_rpc_auth.cfg is not world-readable to keep RPC password private
     //   all other files are world-readable so default screensaver can read them
-    
+
     // First make all files world-readable (temporarily)
     // chmod -R u+rw,g+rw,o+r-w "/Library/Application Support/BOINC Data"
     // 0661 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
@@ -345,7 +340,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     err = DoSudoPosixSpawn(chmodPath, "-R", "u+rw,g+rw,o+r-w", BOINCDataDirPath, NULL, NULL, NULL);
     if (err)
         return err;
-    
+
     // Next make gui_rpc_auth.cfg not world-readable to keep RPC password private
     // Does gui_rpc_auth.cfg file exist?
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
@@ -406,12 +401,57 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 
     // Set permissions of BOINC Data directory itself
     // chmod u=rwx,g=rwx,o=x "/Library/Application Support/BOINC Data"
-    // 0771 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IXOTH
-    // Set read, write and execute permission for user & group; execute-only permission for others
-    err = DoSudoPosixSpawn(chmodPath, "u=rwx,g=rwx,o=x", BOINCDataDirPath, NULL, NULL, NULL, NULL);
+    // 0775 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH
+    // Set read, write and execute permission for user & group;  read and execute permission for others
+    err = DoSudoPosixSpawn(chmodPath, "u=rwx,g=rwx,o=rx", BOINCDataDirPath, NULL, NULL, NULL, NULL);
     if (err)
         return err;
 
+    strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
+    strlcat(fullpath, "/", MAXPATHLEN);
+    strlcat(fullpath, FIX_BOINC_USERS_FILENAME, MAXPATHLEN);
+
+    result = stat(fullpath, &sbuf);
+    isDirectory = S_ISDIR(sbuf.st_mode);
+    if ((result == noErr) && (! isDirectory)) {
+       // Set owner and group of Fix_BOINC_Users application
+        sprintf(buf1, "root:%s", boinc_master_group_name);
+        // chown root:boinc_master "/Library/Application Support/BOINC Data/Fix_BOINC_Users"
+        err = DoSudoPosixSpawn(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
+        if (err)
+            return err;
+
+        // Set permissions of Fix_BOINC_Users application
+        // chmod u=rsx,g=rx,o=rx "/Library/Application Support/BOINC Data/Fix_BOINC_Users"
+        // 04555 = S_ISUID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
+        // Set setuid-on-execution plus read and execute permission for user, group & others
+        err = DoSudoPosixSpawn(chmodPath, "u=rsx,g=rx,o=rx", fullpath, NULL, NULL, NULL, NULL);
+        if (err)
+            return err;
+    }
+
+    strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
+    strlcat(fullpath, "/", MAXPATHLEN);
+    strlcat(fullpath, RUN_PODMAN_FILENAME, MAXPATHLEN);
+
+    result = stat(fullpath, &sbuf);
+    isDirectory = S_ISDIR(sbuf.st_mode);
+    if ((result == noErr) && (! isDirectory)) {
+       // Set owner and group of Run_Podman application
+        sprintf(buf1, "root:%s", boinc_master_group_name);
+        // chown root:boinc_master "/Library/Application Support/BOINC Data/Run_Podman"
+        err = DoSudoPosixSpawn(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
+        if (err)
+            return err;
+
+        // Set permissions of Run_Podman application
+        // chmod u=rsx,g=rx,o=rx "/Library/Application Support/BOINC Data/Run_Podman"
+        // 04555 = S_ISUID | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH
+        // Set setuid-on-execution plus read and execute permission for user, group & others
+        err = DoSudoPosixSpawn(chmodPath, "u=rsx,g=rx,o=rx", fullpath, NULL, NULL, NULL, NULL);
+        if (err)
+            return err;
+    }
 
     // Does projects directory exist?
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
@@ -438,7 +478,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 #endif
 
         // Set permissions of project directories' contents
-        // Contents of project directories must be world-readable so BOINC Client can read 
+        // Contents of project directories must be world-readable so BOINC Client can read
         // files written by projects which have user boinc_project and group boinc_project
         // chmod -R u+rw,g+rw,o+r-w "/Library/Application Support/BOINC Data/projects"
         // 0664 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
@@ -460,7 +500,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         if (err)
             return err;
     }       // projects directory
-    
+
     // Does slots directory exist?
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
     strlcat(fullpath, "/", MAXPATHLEN);
@@ -486,7 +526,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 #endif
 
         // Set permissions of slot directories' contents
-        // Contents of slot directories must be world-readable so BOINC Client can read 
+        // Contents of slot directories must be world-readable so BOINC Client can read
         // files written by projects which have user boinc_project and group boinc_project
         // chmod -R u+rw,g+rw,o+r-w "/Library/Application Support/BOINC Data/slots"
         // 0664 = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
@@ -509,6 +549,55 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
             return err;
     }       // slots directory
 
+    // Does podman directory exist?
+#ifdef __APPLE__
+    // On the Mac, we can't put the Podman directory inside the BOINC Data
+    // directory because this routine would modify the permissions of
+    // Podman's files, which must be different for different files.
+    // So we put the "BOINC Podman" Directory in the directory
+    // "/Library/Application/Support/". But we can't get its path relative
+    // to BOINCDataDirPath because a user can move the "BOINC Data" dir as
+    // described in https://github.com/BOINC/boinc/wiki/Tools-for-MacOS
+    strlcpy(fullpath, "/Library/Application Support/", MAXPATHLEN);
+#else
+    strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
+    strlcat(fullpath, "/../", MAXPATHLEN);
+#endif
+    strlcat(fullpath, PODMAN_DIR, MAXPATHLEN);
+    result = stat(fullpath, &sbuf);
+    isDirectory = S_ISDIR(sbuf.st_mode);
+    if ((result == noErr) && (isDirectory)) {
+        // We always run Podman as use boinc_project (using our Run_Podman
+        // executable) which guarantees that all of Podman's data will
+        // have owner boinc_project and group. This is necessary for Podman
+        // to be able to access it files when running project applications.
+        //
+        // Set owner and group of BOINC podman directory's contents)
+        sprintf(buf1, "%s:%s", boinc_project_user_name, boinc_project_group_name);
+        // chown -R boinc_master:boinc_master "/Library/Application Support/BOINC Data"
+        err = DoSudoPosixSpawn(chownPath, "-RL", buf1, fullpath, NULL, NULL, NULL);
+        if (err)
+            return err;
+
+        // Set owner and group of BOINC podman directory itself
+        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
+        // chown boinc_master:boinc_project "/Library/Application Support/BOINC podman"
+        err = DoSudoPosixSpawn(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
+        if (err)
+            return err;
+
+        // We must not modify permissions of any of Podman's data, so we set
+        // them for the BOINC podman directory itself but not its contents.
+        //
+        // Set permissions for BOINC podman directory itself (not its contents)
+        // chmod u=rwx,g=rwx,o= "/Library/Application Support/BOINC podman"
+        // 0770 = S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP
+        // Set read, write and execute permission for user & group, no access for others
+        err = DoSudoPosixSpawn(chmodPath, "u=rwx,g=rwx,o=", fullpath, NULL, NULL, NULL, NULL);
+        if (err)
+            return err;
+    }       // podman directory
+
     // Does locale directory exist?
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
     strlcat(fullpath, "/locale", MAXPATHLEN);
@@ -526,7 +615,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
 #endif
 
         // chmod -R u+r-w,g+r-w,o+r-w "/Library/Application Support/BOINC Data/locale"
-        // 0550 = S_IRUSR | S_IXUSR | S_IRGRP | S_IXUSR | S_IROTH | S_IXOTH 
+        // 0550 = S_IRUSR | S_IXUSR | S_IRGRP | S_IXUSR | S_IROTH | S_IXOTH
         // Set execute permission for user, group, and others if it was set for any
         err = DoSudoPosixSpawn(chmodPath, "-R", "+X", fullpath, NULL, NULL, NULL);
         // Set read-only permission for user, group, and others (leaves execute bits unchanged)
@@ -534,7 +623,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         if (err)
             return err;
     }       // locale directory
-    
+
     // Does switcher directory exist?
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
     strlcat(fullpath, "/", MAXPATHLEN);
@@ -580,7 +669,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         if (err)
             return err;
     }       // switcher application
-    
+
     strlcpy(fullpath, BOINCDataDirPath, MAXPATHLEN);
     strlcat(fullpath, "/", MAXPATHLEN);
     strlcat(fullpath, SWITCHER_DIR, MAXPATHLEN);
@@ -590,8 +679,8 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
     isDirectory = S_ISDIR(sbuf.st_mode);
     if ((result == noErr) && (! isDirectory)) {
         // Set owner and group of setprojectgrp application
-        sprintf(buf1, "%s:%s", boinc_master_user_name, boinc_project_group_name);
-        // chown boinc_master:boinc_project "/Library/Application Support/BOINC Data/switcher/setprojectgrp"
+        sprintf(buf1, "root:%s", boinc_master_group_name);
+        // chown root:boinc_project "/Library/Application Support/BOINC Data/switcher/setprojectgrp"
         err = DoSudoPosixSpawn(chownPath, buf1, fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
@@ -600,7 +689,7 @@ int SetBOINCDataOwnersGroupsAndPermissions() {
         // chmod u=rx,g=s,o= "/Library/Application Support/BOINC Data/switcher/setprojectgrp"
         // 02500 = S_ISGID | S_IRUSR | S_IXUSR
         // Set setgid-on-execution plus read and execute permission for user only
-        err = DoSudoPosixSpawn(chmodPath, "u=rx,g=s,o=", fullpath, NULL, NULL, NULL, NULL);
+        err = DoSudoPosixSpawn(chmodPath, "u=s,g=rx,o=", fullpath, NULL, NULL, NULL, NULL);
         if (err)
             return err;
     }       // setprojectgrp application
@@ -648,19 +737,19 @@ static OSStatus MakeXMLFilesPrivate(char * basepath) {
     dirp = opendir(basepath);
     if (dirp == NULL)           // Should never happen
         return -1;
-        
+
     while (true) {
         dp = readdir(dirp);
         if (dp == NULL)
             break;                  // End of list
-        
+
         if (dp->d_name[0] == '.')
             continue;               // Ignore names beginning with '.'
-        
+
         len = strlen(dp->d_name);
         if (len < 5)
             continue;
-        
+
         if (strcmp(dp->d_name+len-4, ".xml"))
             continue;
 
@@ -675,13 +764,14 @@ static OSStatus MakeXMLFilesPrivate(char * basepath) {
         if (retval)
             break;
     }       // End while (true)
-    
+
     closedir(dirp);
 
     return retval;
 }
 
 
+//TODO: resolve symbolic links and update their ownership and permissions
 static OSStatus UpdateNestedDirectories(char * basepath) {
     Boolean         isDirectory;
     char            fullpath[MAXPATHLEN];
@@ -693,12 +783,12 @@ static OSStatus UpdateNestedDirectories(char * basepath) {
     dirp = opendir(basepath);
     if (dirp == NULL)           // Should never happen
         return -1;
-        
+
     while (true) {
         dp = readdir(dirp);
         if (dp == NULL)
             break;                  // End of list
-            
+
         if (dp->d_name[0] == '.')
             continue;               // Ignore names beginning with '.'
 
@@ -731,15 +821,15 @@ static OSStatus UpdateNestedDirectories(char * basepath) {
             if (retval)
                 break;
         } else {
-            // Since we are changing ownership from boinc_project to boinc_master, 
-            // make sure executable-by-group bit is set if executable-by-owner is set 
+            // Since we are changing ownership from boinc_project to boinc_master,
+            // make sure executable-by-group bit is set if executable-by-owner is set
             if ((sbuf.st_mode & 0110) == 0100) {    // If executable by owner but not by group
                 retval = DoSudoPosixSpawn(chmodPath, "g+x", fullpath, NULL, NULL, NULL, NULL);
             }
         }
-            
+
     }       // End while (true)
-    
+
     closedir(dirp);
 
     return retval;
@@ -761,7 +851,13 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
     char            buf2[80];
     char            buf3[80];
     char            buf4[80];
-   
+    char            buf5[80];
+    char            *args[5];
+    extern char     **environ;
+    pid_t           thePid = 0;
+    int             status = 0;
+    struct stat     sbuf;
+
     // OS 10.4 has problems with Accounts pane if we create uid or gid > 501
     pw = getpwnam(user_name);
     if (pw) {
@@ -774,12 +870,12 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
         groupid = grp->gr_gid;
         groupExists = true;
     }
-    
-    sprintf(buf1, "/groups/%s", group_name);
-    sprintf(buf2, "/users/%s", user_name);
+
+    sprintf(buf1, "/Groups/%s", group_name);
+    sprintf(buf2, "/Users/%s", user_name);
 
     if ( userExists && groupExists )
-        goto setRealName;       // User and group already exist
+        goto setGroupForUser;       // User and group already exist
 
     // If only user or only group exists, try to use the same ID for the one we create
     if (userExists) {      // User exists but group does not
@@ -801,8 +897,8 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
                 userid = groupid;
         }
     }
-    
-    // We need to find an available user ID, group ID, or both.  Find a value that is currently 
+
+    // We need to find an available user ID, group ID, or both.  Find a value that is currently
     // neither a user ID or a group ID.
     // If we need both a new user ID and a new group ID, finds a value that can be used for both.
     if ( (userid == 0) || (groupid == 0) ) {
@@ -812,24 +908,24 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
                 if (pw)
                     continue;               // Already exists as a user ID of a different user
             }
-            
+
             if ((gid_t)i != groupid) {
                 grp = getgrgid((gid_t)i);
                 if (grp)
                     continue;               // Already exists as a group ID of a different group
             }
-            
+
             if (! userExists)
                 userid = (uid_t)i;
             if (! groupExists)
                 groupid = (gid_t)i;
 
             start_id = i + 1;               // Start with next higher value next time
-                
+
             break;                          // Success!
         }
     }
-    
+
     sprintf(buf3, "%d", groupid);
     sprintf(buf4, "%d", userid);
 
@@ -838,13 +934,13 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
         err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf1, NULL, NULL, NULL);
         if (err)
             return err;
- 
+
         // Something like "dscl . -create /groups/boinc_master gid 33"
         err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf1, "gid", buf3, NULL);
         if (err)
             return err;
     }           // if (! groupExists)
-        
+
     if (! userExists) {             // If we need to create user
         // Something like "dscl . -create /users/boinc_master"
         err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, NULL, NULL, NULL);
@@ -855,18 +951,62 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
         err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "uid", buf4, NULL);
         if (err)
             return err;
-
-        // Prevent a security hole by not allowing a login from this user
-        // Something like "dscl . -create /users/boinc_master shell /usr/bin/false"
-        err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "shell", "/usr/bin/false", NULL);
-        if (err)
-            return err;
-
-        // Something like "dscl . -create /users/boinc_master home /var/empty"
-        err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "home", "/var/empty", NULL);
-        if (err)
-            return err;
     }           // if (! userExists)
+
+setGroupForUser:
+    // Some versions of BOINC set the shell to /usr/bin/false and some to /bin/zsh.
+    // Having the user shell as /bin/zsh wthout specitying the home directory caused
+    // MacOS system updates to drop into Recovery Mode (Issue #6970.)
+    // To fix the Recovery Mode issue we are reverting to a shell of /bin/zsh and
+    // changing the home directory from /var/empty to /Users/boinc_master or
+    // /Users/boinc_master.
+    // Since some versions set shell to /bin/zsh, do this even if the user exists.
+    // Something like "dscl . -create /users/boinc_master shell /usr/bin/false"
+    err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "shell", "/bin/zsh", NULL);
+    if (err)
+        return err;
+
+    err = stat(buf2, &sbuf);
+    if (err) {
+        DoSudoPosixSpawn("/bin/mkdir", "-m", "0755", buf2, NULL, NULL, NULL);
+    }
+
+    // Fix the directory's permissions if created by an earlier version of BOINC.
+    DoSudoPosixSpawn(chmodPath, "-f", "0755", buf2, NULL, NULL, NULL);
+
+    // Something like "dscl . -create /users/boinc_master home /Users/boinc_master"
+    // Since some versions set home dir to /var/empty, do this even if the user exists.
+    err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "home", buf2, NULL);
+    if (err)
+        return err;
+
+    // Hide the home directory and share point https://support.apple.com/en-mn/102099
+    // Something like "sudo chflags hidden /Users/boinc_master"
+    args[0] = "/usr/bin/sudo";
+    args[1] = "chflags";
+    args[2] = "hidden";
+    args[3] = buf2;
+    args[4] = NULL;
+    err = posix_spawnp(&thePid, "/usr/bin/sudo", NULL, NULL, args, environ);
+    waitpid(thePid, &status, WUNTRACED);
+    if (status != 0) {
+        err = status;
+    } else {
+        if (WIFEXITED(status)) {
+            err = WEXITSTATUS(status);
+            if (err == 1) {
+                err = errno;
+            }
+        }   // end if (WIFEXITED(status)) else
+    }       // end if waitpid returned 0 sstaus else
+    if (err)
+        return err;
+
+    // A MacOS update sometimes changes the PrimaryGroupID of users boinc_master
+    // and boincproject to staff (20).
+    // This sets the correct PrimaryGroupId whether or not we just created the user.
+    sprintf(buf2, "/users/%s", user_name);
+    sprintf(buf3, "%d", groupid);
 
     // Always set the user gid if we created either the user or the group or both
     // Something like "dscl . -create /users/boinc_master gid 33"
@@ -874,18 +1014,20 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
     if (err)
         return err;
 
-setRealName:
-    // Always set the RealName field to an empty string
-    // Note: create RealName with empty string fails under OS 10.7, but 
-    // creating it with non-empty string and changing to empty string does work.
-    //
-    // Something like "dscl . -create /users/boinc_master RealName tempName"
+    // Set the RealName field in case System Events Useers & Groups shows it for some reason
+    // Something like "dscl . -create /users/boinc_master RealName boinc_master"
     err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "RealName", user_name, NULL);
     if (err)
         return err;
 
-    // Something like 'dscl . -change /users/boinc_master RealName ""'
-    err = DoSudoPosixSpawn(dsclPath, ".", "-change", buf2, "RealName", user_name, "");
+    // Hide user from System Events and Login screen https://support.apple.com/en-mn/102099
+    // Something like "dscl . -create /users/boinc_master IsHidden 1"
+    err = DoSudoPosixSpawn(dsclPath, ".", "-create", buf2, "IsHidden", "1", NULL);
+    if (err)
+        return err;
+
+    sprintf(buf5, "%s:staff", user_name);
+    err = DoSudoPosixSpawn(chownPath, buf5, buf2, NULL, NULL, NULL, NULL);
     if (err)
         return err;
 
@@ -899,7 +1041,7 @@ setRealName:
 }
 
 
-int AddAdminUserToGroups(char *user_name, bool add_to_boinc_project) {        
+int AddAdminUserToGroups(char *user_name, bool add_to_boinc_project) {
 #ifndef _DEBUG
     char            buf1[80];
     OSStatus        err = noErr;
@@ -919,19 +1061,19 @@ int AddAdminUserToGroups(char *user_name, bool add_to_boinc_project) {
         if (err)
             return err;
     }
-    
+
     err = ResynchDSSystem();
     if (err != noErr)
         return err;
 
-#endif          // ! _DEBUG    
+#endif          // ! _DEBUG
     return noErr;
 }
 
 
 OSStatus ResynchDSSystem() {
-    OSStatus        err = noErr;
-   
+    OSStatus        err __attribute__((unused)) = noErr;
+
     err = DoSudoPosixSpawn("/usr/bin/dscacheutil", "-flushcache", NULL, NULL, NULL, NULL, NULL);
     err = DoSudoPosixSpawn("/usr/bin/dsmemberutil", "flushcache", NULL, NULL, NULL, NULL, NULL);
     return noErr;
@@ -939,8 +1081,8 @@ OSStatus ResynchDSSystem() {
 
 
 #ifdef _DEBUG
-// GDB can't attach to applications which are running as a diferent user or group so 
-//  it ignores the S_ISUID and S_ISGID permisison bits when launching an application.
+// GDB can't attach to applications which are running as a different user or group so
+//  it ignores the S_ISUID and S_ISGID permission bits when launching an application.
 // To work around this, the _DEBUG version uses the current user and group.
 static OSStatus SetFakeMasterNames() {
     passwd              *pw;
@@ -959,7 +1101,7 @@ static OSStatus SetFakeMasterNames() {
     if (grp == NULL)
         return -1;
     strlcpy(boinc_master_group_name, grp->gr_name, sizeof(boinc_master_group_name));
-    
+
 #ifndef DEBUG_WITH_FAKE_PROJECT_USER_AND_GROUP
     // For better debugging of SANDBOX permissions logic
     strlcpy(boinc_project_user_name, REAL_BOINC_PROJECT_NAME, sizeof(boinc_project_user_name));
@@ -969,7 +1111,7 @@ static OSStatus SetFakeMasterNames() {
     strlcpy(boinc_project_user_name, pw->pw_name, sizeof(boinc_project_user_name));
     strlcpy(boinc_project_group_name, grp->gr_name, sizeof(boinc_project_group_name));
 #endif
-     
+
     return noErr;
 }
 #endif
@@ -1004,7 +1146,7 @@ static OSStatus DoSudoPosixSpawn(const char *pathToTool, char *arg1, char *arg2,
         }
         print_to_log_file("***********\n");
 #endif
-        
+
         errno = 0;
 
         result = posix_spawnp(&thePid, "/usr/bin/sudo", NULL, NULL, args, environ);
@@ -1038,7 +1180,7 @@ static OSStatus DoSudoPosixSpawn(const char *pathToTool, char *arg1, char *arg2,
 #endif
             }   // end if (WIFEXITED(status)) else
         }       // end if waitpid returned 0 sstaus else
-        
+
 #if 0
     if (strcmp(arg2, "-R") == 0)
         SleepSeconds(DELAY_SECONDS_R);
@@ -1049,8 +1191,8 @@ static OSStatus DoSudoPosixSpawn(const char *pathToTool, char *arg1, char *arg2,
         break;
 }
     if (result != 0)
-        ShowSecurityError("\"%s %s %s %s %s %s\" returned error %d", pathToTool, 
-                            arg1 ? arg1 : "", arg2 ? arg2 : "", arg3 ? arg3 : "", 
+        ShowSecurityError("\"%s %s %s %s %s %s\" returned error %d", pathToTool,
+                            arg1 ? arg1 : "", arg2 ? arg2 : "", arg3 ? arg3 : "",
                             arg4 ? arg4 : "", arg5 ? arg5 : "", result);
 
    return result;
@@ -1061,57 +1203,15 @@ static OSStatus DoSudoPosixSpawn(const char *pathToTool, char *arg1, char *arg2,
 void ShowSecurityError(const char *format, ...) {
     va_list                 args;
 
-#ifdef __x86_64__
     va_start(args, format);
     vfprintf(stderr, format, args);
     va_end(args);
-#else
-    char                    s[1024];
-    short                   itemHit;
-    AlertStdAlertParamRec   alertParams;
-    ModalFilterUPP          ErrorDlgFilterProcUPP;
-    
-    va_start(args, format);
-    s[0] = vsprintf(s+1, format, args);
-    va_end(args);
-
-    ErrorDlgFilterProcUPP = NewModalFilterUPP(ErrorDlgFilterProc);
-
-    alertParams.movable = true;
-    alertParams.helpButton = false;
-    alertParams.filterProc = ErrorDlgFilterProcUPP;
-    alertParams.defaultText = "\pOK";
-    alertParams.cancelText = NULL;
-    alertParams.otherText = NULL;
-    alertParams.defaultButton = kAlertStdAlertOKButton;
-    alertParams.cancelButton = 0;
-    alertParams.position = kWindowDefaultPosition;
-
-    BringAppToFront();
-    
-    StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, &alertParams, &itemHit);
-
-    DisposeModalFilterUPP(ErrorDlgFilterProcUPP);
-#endif
 }
-
-
-#ifndef __x86_64__
-static pascal Boolean ErrorDlgFilterProc(DialogPtr theDialog, EventRecord *theEvent, short *theItemHit) {
-    // We need this because this is a command-line application so it does not get normal events
-    if (GetCurrentEventButtonState()) {
-        *theItemHit = kStdOkItemIndex;
-        return true;
-    }
-    
-    return StdFilterProc(theDialog, theEvent, theItemHit);
-}
-#endif
-
 
 // return time of day (seconds since 1970) as a double
+// ??? should use dtime() from lib/util.cpp
 //
-static double dtime(void) {
+static double dtime2(void) {
     struct timeval tv;
     gettimeofday(&tv, 0);
     return tv.tv_sec + (tv.tv_usec/1.e6);
@@ -1119,7 +1219,7 @@ static double dtime(void) {
 
 // Uses usleep to sleep for full duration even if a signal is received
 static void SleepSeconds(double seconds) {
-    double end_time = dtime() + seconds - 0.01;
+    double end_time = dtime2() + seconds - 0.01;
     // sleep() and usleep() can be interrupted by SIGALRM,
     // so we may need multiple calls
     //
@@ -1129,7 +1229,7 @@ static void SleepSeconds(double seconds) {
         } else {
             usleep((int)fmod(seconds*1000000, 1000000));
         }
-        seconds = end_time - dtime();
+        seconds = end_time - dtime2();
         if (seconds <= 0) break;
     }
 }

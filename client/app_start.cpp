@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,12 +22,6 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
-#define unlink   _unlink
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#define strdup   _strdup
-#define getcwd   _getcwd
-#endif
 #else
 #include "config.h"
 #if HAVE_SCHED_SETSCHEDULER && defined (__linux__)
@@ -53,13 +47,6 @@
 
 #ifdef __EMX__
 #include <process.h>
-#endif
-
-#if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))
-#include <mach-o/loader.h>
-#include <mach-o/fat.h>
-#include <mach/machine.h>
-#include <libkern/OSByteOrder.h>
 #endif
 
 #if(!defined (_WIN32) && !defined (__EMX__))
@@ -135,7 +122,7 @@ static void coproc_cmdline(
             );
             k = 0;
         }
-        sprintf(buf, " --device %d", coproc->device_nums[k]);
+        snprintf(buf, sizeof(buf), " --device %d", coproc->device_nums[k]);
         strlcat(cmdline, buf, cmdline_len);
     }
 }
@@ -150,7 +137,7 @@ int ACTIVE_TASK::get_shmem_seg_name() {
 
     bool try_global = (sandbox_account_service_token != NULL);
     for (i=0; i<1024; i++) {
-        sprintf(seg_name, "%sboinc_%d", SHM_PREFIX, i);
+        snprintf(seg_name, sizeof(seg_name), "%sboinc_%d", SHM_PREFIX, i);
         shm_handle = create_shmem(
             seg_name, sizeof(SHARED_MEM), (void**)&app_client_shm.shm,
             try_global
@@ -158,7 +145,7 @@ int ACTIVE_TASK::get_shmem_seg_name() {
         if (shm_handle) break;
     }
     if (!shm_handle) return ERR_SHMGET;
-    sprintf(shmem_seg_name, "boinc_%d", i);
+    snprintf(shmem_seg_name, sizeof(shmem_seg_name), "boinc_%d", i);
 #else
     char init_data_path[MAXPATHLEN];
 #ifndef __EMX__
@@ -168,7 +155,7 @@ int ACTIVE_TASK::get_shmem_seg_name() {
         return 0;
     }
 #endif
-    sprintf(init_data_path, "%s/%s", slot_dir, INIT_DATA_FILE);
+    snprintf(init_data_path, sizeof(init_data_path), "%s/%s", slot_dir, INIT_DATA_FILE);
 
     // ftok() only works if there's a file at the given location
     //
@@ -201,6 +188,12 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
     aid.release = BOINC_RELEASE;
     aid.app_version = app_version->version_num;
     safe_strcpy(aid.app_name, wup->app->name);
+    if (strlen(wup->plan_class)) {
+        // BUDA jobs
+        safe_strcpy(aid.plan_class, wup->plan_class);
+    } else {
+        safe_strcpy(aid.plan_class, app_version->plan_class);
+    }
     safe_strcpy(aid.symstore, project->symstore);
     safe_strcpy(aid.acct_mgr_url, gstate.acct_mgr_info.master_url);
     if (project->project_specific_prefs.length()) {
@@ -245,7 +238,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
     aid.rsc_memory_bound = wup->rsc_memory_bound;
     aid.rsc_disk_bound = wup->rsc_disk_bound;
     aid.computation_deadline = result->computation_deadline();
-    int rt = app_version->gpu_usage.rsc_type;
+    int rt = result->resource_usage.rsc_type;
     if (rt) {
         COPROC& cp = coprocs.coprocs[rt];
         if (coproc_type_name_to_num(cp.type) >= 0) {
@@ -264,14 +257,14 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
         }
         aid.gpu_device_num = cp.device_nums[k];
         aid.gpu_opencl_dev_index = cp.opencl_device_indexes[k];
-        aid.gpu_usage = app_version->gpu_usage.usage;
+        aid.gpu_usage = result->resource_usage.coproc_usage;
     } else {
         safe_strcpy(aid.gpu_type, "");
         aid.gpu_device_num = -1;
         aid.gpu_opencl_dev_index = -1;
         aid.gpu_usage = 0;
     }
-    aid.ncpus = app_version->avg_ncpus;
+    aid.ncpus = result->resource_usage.avg_ncpus;
     aid.vbox_window = cc_config.vbox_window;
     aid.checkpoint_period = gstate.global_prefs.disk_interval;
     aid.fraction_done_start = 0;
@@ -283,10 +276,12 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
 #endif
     aid.wu_cpu_time = checkpoint_cpu_time;
     APP_VERSION* avp = app_version;
-    for (unsigned int i=0; i<avp->app_files.size(); i++) {
-        FILE_REF& fref = avp->app_files[i];
+    for (const FILE_REF& fref: avp->app_files) {
         aid.app_files.push_back(string(fref.file_name));
     }
+    aid.no_priority_change = cc_config.no_priority_change;
+    aid.process_priority = cc_config.process_priority;
+    aid.process_priority_special = cc_config.process_priority_special;
 }
 
 // write the app init file.
@@ -303,7 +298,7 @@ int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
     );
 #endif
 
-    sprintf(init_data_path, "%s/%s", slot_dir, INIT_DATA_FILE);
+    snprintf(init_data_path, sizeof(init_data_path), "%s/%s", slot_dir, INIT_DATA_FILE);
 
     // delete the file using the switcher (Unix)
     // in case it's owned by another user and we don't have write access
@@ -337,7 +332,7 @@ static int create_dirs_for_logical_name(
     safe_strcpy(dir_path, slot_dir);
     char* p = buf;
     while (1) {
-        char* q = strstr(p, "/");
+        char* q = strchr(p, '/');
         if (!q) break;
         *q = 0;
         safe_strcat(dir_path, "/");
@@ -349,9 +344,9 @@ static int create_dirs_for_logical_name(
     return 0;
 }
 
-static void prepend_prefix(APP_VERSION* avp, char* in, char* out, int len) {
+static void prepend_prefix(APP_VERSION* avp, const char* in, char* out, int len) {
     if (strlen(avp->file_prefix)) {
-        snprintf(out, len, "%s/%s", avp->file_prefix, in);
+        snprintf(out, len, "%.16s/%.200s", avp->file_prefix, in);
     } else {
         strlcpy(out, in, len);
     }
@@ -361,7 +356,7 @@ static void prepend_prefix(APP_VERSION* avp, char* in, char* out, int len) {
 // - the FILE_REFERENCE says so or
 // - the APP_VERSION has a non-empty file_prefix
 //
-bool ACTIVE_TASK::must_copy_file(FILE_REF& fref, bool is_io_file) {
+bool ACTIVE_TASK::must_copy_file(const FILE_REF& fref, bool is_io_file) {
     if (fref.copy_file) return true;
     if (is_io_file && strlen(app_version->file_prefix)) return true;
     return false;
@@ -373,7 +368,7 @@ bool ACTIVE_TASK::must_copy_file(FILE_REF& fref, bool is_io_file) {
 // 2) else make a soft link
 //
 int ACTIVE_TASK::setup_file(
-    FILE_INFO* fip, FILE_REF& fref, char* file_path, bool input, bool is_io_file
+    FILE_INFO* fip, const FILE_REF& fref, char* file_path, bool input, bool is_io_file
 ) {
     char link_path[MAXPATHLEN], rel_file_path[MAXPATHLEN], open_name[256];
     int retval;
@@ -451,14 +446,10 @@ int ACTIVE_TASK::setup_file(
 
 int ACTIVE_TASK::link_user_files() {
     PROJECT* project = wup->project;
-    unsigned int i;
-    FILE_REF fref;
-    FILE_INFO* fip;
     char file_path[MAXPATHLEN];
 
-    for (i=0; i<project->user_files.size(); i++) {
-        fref = project->user_files[i];
-        fip = fref.file_info;
+    for (const FILE_REF &fref: project->user_files) {
+        FILE_INFO* fip = fref.file_info;
         if (fip->status != FILE_PRESENT) continue;
         get_pathname(fip, file_path, sizeof(file_path));
         setup_file(fip, fref, file_path, true, false);
@@ -467,16 +458,15 @@ int ACTIVE_TASK::link_user_files() {
 }
 
 int ACTIVE_TASK::copy_output_files() {
-    char slotfile[256], projfile[256], open_name[256];
-    unsigned int i;
-    for (i=0; i<result->output_files.size(); i++) {
-        FILE_REF& fref = result->output_files[i];
+    char slotfile[MAXPATHLEN], projfile[256], open_name[256];
+    for (const FILE_REF& fref: result->output_files) {
         if (!must_copy_file(fref, true)) continue;
         FILE_INFO* fip = fref.file_info;
         prepend_prefix(
             app_version, fref.open_name, open_name, sizeof(open_name)
         );
-        snprintf(slotfile, sizeof(slotfile), "%s/%s", slot_dir, open_name);
+        snprintf(slotfile, sizeof(slotfile), "%.*s/%.*s", DIR_LEN, slot_dir,
+            FILE_LEN, open_name);
         get_pathname(fip, projfile, sizeof(projfile));
         int retval = boinc_rename(slotfile, projfile);
         // the rename fails if the output file isn't there.
@@ -509,30 +499,116 @@ static int get_priority(bool is_high_priority) {
     int p = is_high_priority?cc_config.process_priority_special:cc_config.process_priority;
 #ifdef _WIN32
     switch (p) {
-    case 0: return IDLE_PRIORITY_CLASS;
-    case 1: return BELOW_NORMAL_PRIORITY_CLASS;
-    case 2: return NORMAL_PRIORITY_CLASS;
-    case 3: return ABOVE_NORMAL_PRIORITY_CLASS;
-    case 4: return HIGH_PRIORITY_CLASS;
-    case 5: return REALTIME_PRIORITY_CLASS;
+    case CONFIG_PRIORITY_LOWEST: return IDLE_PRIORITY_CLASS;
+    case CONFIG_PRIORITY_LOW: return BELOW_NORMAL_PRIORITY_CLASS;
+    case CONFIG_PRIORITY_NORMAL: return NORMAL_PRIORITY_CLASS;
+    case CONFIG_PRIORITY_HIGH: return ABOVE_NORMAL_PRIORITY_CLASS;
+    case CONFIG_PRIORITY_HIGHEST: return HIGH_PRIORITY_CLASS;
+    case CONFIG_PRIORITY_REALTIME: return REALTIME_PRIORITY_CLASS;
     }
     return is_high_priority ? BELOW_NORMAL_PRIORITY_CLASS : IDLE_PRIORITY_CLASS;
 #else
     switch (p) {
-    case 0: return PROCESS_IDLE_PRIORITY;
-    case 1: return PROCESS_MEDIUM_PRIORITY;
-    case 2: return PROCESS_NORMAL_PRIORITY;
-    case 3: return PROCESS_ABOVE_NORMAL_PRIORITY;
-    case 4: return PROCESS_HIGH_PRIORITY;
-    case 5: return PROCESS_REALTIME_PRIORITY;
+    case CONFIG_PRIORITY_LOWEST: return PROCESS_IDLE_PRIORITY;
+    case CONFIG_PRIORITY_LOW: return PROCESS_MEDIUM_PRIORITY;
+    case CONFIG_PRIORITY_NORMAL: return PROCESS_NORMAL_PRIORITY;
+    case CONFIG_PRIORITY_HIGH: return PROCESS_ABOVE_NORMAL_PRIORITY;
+    case CONFIG_PRIORITY_HIGHEST: return PROCESS_HIGH_PRIORITY;
+    case CONFIG_PRIORITY_REALTIME: return PROCESS_REALTIME_PRIORITY;
     }
     return is_high_priority ? PROCESS_MEDIUM_PRIORITY : PROCESS_IDLE_PRIORITY;
 #endif
 }
 
+// set up slot dir; copy or link app version and input files.
+// If copy a big file, setup_file() will start an async copy
+// and return ERR_IN_PROGRESS.
+//
+int ACTIVE_TASK::setup_slot_dir(char *buf, unsigned int buf_len) {
+    int retval;
+    FILE_INFO *fip;
+    char file_path[MAXPATHLEN];
+    char path[1024];
+
+    *buf = 0;
+
+    sprintf(path, "%s/boinc_setup_complete", slot_dir);
+    if (boinc_file_exists(path)) return 0;
+
+    // make sure the needed files exist
+    //
+    retval = gstate.task_files_present(result, true, &fip);
+    if (retval) {
+        snprintf(
+            buf, buf_len,
+            "Task file %s: %s",
+            fip->name, boincerror(retval)
+        );
+        return retval;
+    }
+
+    // set up app version files
+    //
+    for (const FILE_REF &fref: app_version->app_files) {
+        fip = fref.file_info;
+        get_pathname(fip, file_path, sizeof(file_path));
+        if (fref.main_program) {
+            if (is_image_file(fip->name)) {
+                snprintf(buf, buf_len,
+                    "Main program %s is an image file", fip->name
+                );
+                return ERR_NO_SIGNATURE;
+            }
+            if (!fip->executable && !wup->project->anonymous_platform) {
+                snprintf(buf, buf_len,
+                    "Main program %s is not executable", fip->name
+                );
+                return ERR_NO_SIGNATURE;
+            }
+        }
+        retval = setup_file(fip, fref, file_path, true, false);
+        if (retval == ERR_IN_PROGRESS) {
+            return retval;
+        } else if (retval) {
+            safe_strcpy(buf, "Can't link app version file");
+            return retval;
+        }
+    }
+
+    // set up input, output files
+    //
+    for (const FILE_REF &fref: wup->input_files) {
+        fip = fref.file_info;
+        get_pathname(fref.file_info, file_path, sizeof(file_path));
+        retval = setup_file(fip, fref, file_path, true, true);
+        if (retval == ERR_IN_PROGRESS) {
+            return retval;
+        } else if (retval) {
+            strcpy(buf, "Can't link input file");
+            return retval;
+        }
+    }
+    for (const FILE_REF &fref: result->output_files) {
+        if (must_copy_file(fref, true)) continue;
+        fip = fref.file_info;
+        get_pathname(fref.file_info, file_path, sizeof(file_path));
+        retval = setup_file(fip, fref, file_path, false, true);
+        if (retval) {
+            strcpy(buf, "Can't link output file");
+            return retval;
+        }
+    }
+
+    link_user_files();
+        // don't check retval here
+
+    FILE *f = fopen(path, "w");
+    fclose(f);
+    return 0;
+}
+
 // Start a task in a slot directory.
-// This includes setting up soft links,
-// passing preferences, and starting the process
+// set up the slot dir if needed
 //
 // Current dir is top-level BOINC dir
 //
@@ -543,21 +619,20 @@ static int get_priority(bool is_high_priority) {
 // else
 //   ACTIVE_TASK::task_state is PROCESS_EXECUTING
 //
-// If "test" is set, we're doing the API test; just run "test_app".
-//
-int ACTIVE_TASK::start(bool test) {
+int ACTIVE_TASK::start() {
     char exec_name[256], file_path[MAXPATHLEN], buf[MAXPATHLEN], exec_path[MAXPATHLEN];
     char cmdline[80000];    // 64KB plus some extra
-    unsigned int i;
-    FILE_REF fref;
-    FILE_INFO* fip;
+    FILE_INFO *fip;
     int retval;
     APP_INIT_DATA aid;
+    bool high_priority;
 #ifdef _WIN32
     bool success = false;
     LPVOID environment_block=NULL;
 #endif
 
+    // is an async copy in progress for this job?
+    //
     if (async_copy) {
         if (log_flags.task_debug) {
             msg_printf(wup->project, MSG_INFO,
@@ -567,41 +642,37 @@ int ACTIVE_TASK::start(bool test) {
         return 0;
     }
 
-    // run it at above idle priority if it
+    // use special slot for test app
+    //
+    if (wup->project->app_test) {
+        strcpy(slot_dir, "slots/app_test");
+    }
+
+    // set up the slot dir
+    //
+    retval = setup_slot_dir(buf, sizeof(buf));
+    if (retval == ERR_IN_PROGRESS) {
+        set_task_state(PROCESS_COPY_PENDING, "start");
+        return 0;
+    }
+    if (retval) goto error;
+
+    // run process at above idle priority if it
     // - uses coprocs
     // - uses less than one CPU
     // - is a wrapper
     //
-    bool high_priority = false;
-    if (app_version->rsc_type()) high_priority = true;
-    if (app_version->avg_ncpus < 1) high_priority = true;
+    high_priority = false;
+    if (result->resource_usage.rsc_type) high_priority = true;
+    if (result->resource_usage.avg_ncpus < 1) high_priority = true;
     if (app_version->is_wrapper) high_priority = true;
-
-    if (wup->project->verify_files_on_app_start) {
-        fip=0;
-        retval = gstate.input_files_available(result, true, &fip);
-        if (retval) {
-            if (fip) {
-                snprintf(
-                    buf, sizeof(buf),
-                    "Input file %s missing or invalid: %s",
-                    fip->name, boincerror(retval)
-                );
-            } else {
-                safe_strcpy(buf, "Input file missing or invalid");
-            }
-            goto error;
-        }
-    }
 
     current_cpu_time = checkpoint_cpu_time;
     elapsed_time = checkpoint_elapsed_time;
+    fraction_done = checkpoint_fraction_done;
 
     graphics_request_queue.init(result->name);        // reset message queues
     process_control_queue.init(result->name);
-
-    bytes_sent_episode = 0;
-    bytes_received_episode = 0;
 
     if (!app_client_shm.shm) {
         retval = get_shmem_seg_name();
@@ -620,43 +691,21 @@ int ACTIVE_TASK::start(bool test) {
     init_app_init_data(aid);
     retval = write_app_init_file(aid);
     if (retval) {
-        snprintf(buf, sizeof(buf), "Can't write init file: %s", boincerror(retval));
+        snprintf(buf, sizeof(buf),
+            "Can't write init file: %s", boincerror(retval)
+        );
         goto error;
     }
 
-    // set up applications files
+    // get main prog filename and path
     //
-    if (test) {
-        safe_strcpy(exec_name, "test_app");
-        safe_strcpy(exec_path, "test_app");
-    } else {
-        safe_strcpy(exec_name, "");
-    }
-    for (i=0; i<app_version->app_files.size(); i++) {
-        fref = app_version->app_files[i];
+    safe_strcpy(exec_name, "");
+    for (const FILE_REF &fref: app_version->app_files) {
         fip = fref.file_info;
-        get_pathname(fip, file_path, sizeof(file_path));
         if (fref.main_program) {
-            if (is_image_file(fip->name)) {
-                snprintf(buf, sizeof(buf), "Main program %s is an image file", fip->name);
-                retval = ERR_NO_SIGNATURE;
-                goto error;
-            }
-            if (!fip->executable && !wup->project->anonymous_platform) {
-                snprintf(buf, sizeof(buf), "Main program %s is not executable", fip->name);
-                retval = ERR_NO_SIGNATURE;
-                goto error;
-            }
+            get_pathname(fip, file_path, sizeof(file_path));
             safe_strcpy(exec_name, fip->name);
             safe_strcpy(exec_path, file_path);
-        }
-        retval = setup_file(fip, fref, file_path, true, false);
-        if (retval == ERR_IN_PROGRESS) {
-            set_task_state(PROCESS_COPY_PENDING, "start");
-            return 0;
-        } else if (retval) {
-            safe_strcpy(buf, "Can't link app version file");
-            goto error;
         }
     }
     if (!strlen(exec_name)) {
@@ -665,39 +714,11 @@ int ACTIVE_TASK::start(bool test) {
         goto error;
     }
 
-    // set up input, output files
-    //
-    for (i=0; i<wup->input_files.size(); i++) {
-        fref = wup->input_files[i];
-        fip = fref.file_info;
-        get_pathname(fref.file_info, file_path, sizeof(file_path));
-        retval = setup_file(fip, fref, file_path, true, true);
-        if (retval == ERR_IN_PROGRESS) {
-            set_task_state(PROCESS_COPY_PENDING, "start");
-            return 0;
-        } else if (retval) {
-            safe_strcpy(buf, "Can't link input file");
-            goto error;
-        }
-    }
-    for (i=0; i<result->output_files.size(); i++) {
-        fref = result->output_files[i];
-        if (must_copy_file(fref, true)) continue;
-        fip = fref.file_info;
-        get_pathname(fref.file_info, file_path, sizeof(file_path));
-        retval = setup_file(fip, fref, file_path, false, true);
-        if (retval) {
-            safe_strcpy(buf, "Can't link output file");
-            goto error;
-        }
-    }
-
-    link_user_files();
-        // don't check retval here
-
     // remove temporary exit file from last run
     //
-    snprintf(file_path, sizeof(file_path), "%s/%s", slot_dir, TEMPORARY_EXIT_FILE);
+    snprintf(file_path, sizeof(file_path), "%s/%s",
+        slot_dir, TEMPORARY_EXIT_FILE
+    );
     delete_project_owned_file(file_path, true);
 
     if (cc_config.exit_before_start) {
@@ -712,7 +733,7 @@ int ACTIVE_TASK::start(bool test) {
     char error_msg[1024];
     char error_msg2[1024];
     DWORD last_error = 0;
-    
+
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
     startup_info.cb = sizeof(startup_info);
@@ -734,12 +755,12 @@ int ACTIVE_TASK::start(bool test) {
 
     snprintf(cmdline, sizeof(cmdline),
         "%s %s %s",
-        exec_path, wup->command_line.c_str(), app_version->cmdline
+        exec_path, wup->command_line.c_str(), result->resource_usage.cmdline
     );
     if (!app_version->api_version_at_least(7, 5)) {
-        int rt = app_version->gpu_usage.rsc_type;
+        int rt = result->resource_usage.rsc_type;
         if (rt) {
-            coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline, sizeof(cmdline));
+            coproc_cmdline(rt, result, result->resource_usage.coproc_usage, cmdline, sizeof(cmdline));
         }
     }
 
@@ -751,7 +772,7 @@ int ACTIVE_TASK::start(bool test) {
         prio_mask = get_priority(high_priority);
     }
 
-    for (i=0; i<5; i++) {
+    for (int i=0; i<5; i++) {
         last_error = 0;
         if (sandbox_account_service_token != NULL) {
 
@@ -781,7 +802,7 @@ int ACTIVE_TASK::start(bool test) {
                 break;
             } else {
                 last_error = GetLastError();
-                windows_format_error_string(last_error, error_msg, sizeof(error_msg));
+                windows_format_error_string(last_error, error_msg, sizeof(error_msg), exec_path);
                 msg_printf(wup->project, MSG_INTERNAL_ERROR,
                     "Process creation failed: %s - error code %d (0x%x)",
                     error_msg, last_error, last_error
@@ -815,7 +836,7 @@ int ACTIVE_TASK::start(bool test) {
                 break;
             } else {
                 last_error = GetLastError();
-                windows_format_error_string(last_error, error_msg, sizeof(error_msg));
+                windows_format_error_string(last_error, error_msg, sizeof(error_msg), exec_path);
                 msg_printf(wup->project, MSG_INTERNAL_ERROR,
                     "Process creation failed: %s - error code %d (0x%x)",
                     error_msg, last_error, last_error
@@ -843,6 +864,18 @@ int ACTIVE_TASK::start(bool test) {
     pid = process_info.dwProcessId;
     process_handle = process_info.hProcess;
     CloseHandle(process_info.hThread);  // thread handle is not used
+
+#ifdef _WIN64
+    // if host has multiple processor groups (i.e. > 64 processors)
+    // see which one was used for this job, and show it
+    //
+    if (log_flags.task_debug && gstate.host_info.n_processor_groups > 0) {
+        msg_printf(wup->project, MSG_INFO,
+            "[task_debug] task is running in processor group %d",
+            get_processor_group(process_handle)
+        );
+    }
+#endif
 #elif defined(__EMX__)
 
     char* argv[100];
@@ -867,7 +900,7 @@ int ACTIVE_TASK::start(bool test) {
     //
     retval = chdir(slot_dir);
     if (retval) {
-        sprintf(buf, "Can't change directory to %s: %s", slot_dir, boincerror(retval));
+        snprintf(buf, sizeof(buf), "Can't change directory to %s: %s", slot_dir, boincerror(retval));
         goto error;
     }
 
@@ -899,7 +932,7 @@ int ACTIVE_TASK::start(bool test) {
 
     if (log_flags.task_debug) {
         msg_printf(wup->project, MSG_INFO,
-            "[task] ACTIVE_TASK::start(): forked process: pid %d\n", pid
+            "[task_debug] ACTIVE_TASK::start(): forked process: pid %d\n", pid
         );
     }
 
@@ -923,13 +956,13 @@ int ACTIVE_TASK::start(bool test) {
 
     snprintf(cmdline, sizeof(cmdline),
         "%s %s",
-        wup->command_line.c_str(), app_version->cmdline
+        wup->command_line.c_str(), result->resource_usage.cmdline
     );
 
     if (!app_version->api_version_at_least(7, 5)) {
-        int rt = app_version->gpu_usage.rsc_type;
+        int rt = result->resource_usage.rsc_type;
         if (rt) {
-            coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline, sizeof(cmdline));
+            coproc_cmdline(rt, result, result->resource_usage.coproc_usage, cmdline, sizeof(cmdline));
         }
     }
 
@@ -960,7 +993,7 @@ int ACTIVE_TASK::start(bool test) {
                     "ACTIVE_TASK::start(): can't create memory-mapped file: %s",
                     boincerror(retval)
                 );
-                return retval;
+                return ERR_MMAP;
             }
         } else {
             // Use shmget() shared memory
@@ -979,10 +1012,6 @@ int ACTIVE_TASK::start(bool test) {
     }
     app_client_shm.reset_msgs();
 
-#if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))
-    // PowerPC apps emulated on i386 Macs crash if running graphics
-    powerpc_emulated_on_i386 = ! is_native_i386_app(exec_path);
-#endif
     if (cc_config.run_apps_manually) {
         pid = getpid();     // use the client's PID
         set_task_state(PROCESS_EXECUTING, "start");
@@ -1067,7 +1096,9 @@ int ACTIVE_TASK::start(bool test) {
 
         // hook up stderr to a specially-named file
         //
-        (void) freopen(STDERR_FILE, "a", stderr);
+        if (freopen(STDERR_FILE, "a", stderr) == NULL) {
+            _exit(errno);
+        }
 
         // lower our priority if needed
         //
@@ -1078,24 +1109,12 @@ int ACTIVE_TASK::start(bool test) {
                 perror("setpriority");
             }
 #endif
-#ifdef ANDROID
-            // Android has its own notion of background scheduling
-            if (!high_priority) {
-                FILE* f = fopen("/dev/cpuctl/apps/bg_non_interactive/tasks", "w");
-                if (!f) {
-                    msg_printf(NULL, MSG_INFO, "Can't open /dev/cpuctl/apps/bg_non_interactive/tasks");
-                } else {
-                    fprintf(f, "%d", getpid());
-                    fclose(f);
-                }
-            }
-#endif
 #if HAVE_SCHED_SETSCHEDULER && defined(SCHED_IDLE) && defined (__linux__)
             if (!high_priority) {
                 struct sched_param sp;
                 sp.sched_priority = 0;
                 if (sched_setscheduler(0, SCHED_IDLE, &sp)) {
-                    perror("sched_setscheduler");
+                    perror("app_start sched_setscheduler(SCHED_IDLE)");
                 }
             }
 #endif
@@ -1105,14 +1124,10 @@ int ACTIVE_TASK::start(bool test) {
         // If using account-based sandboxing, use a helper app
         // to do this, to set the right user ID
         //
-        if (test) {
-            strcpy(buf, exec_path);
-        } else {
-            snprintf(buf, sizeof(buf), "../../%s", exec_path);
-        }
+        snprintf(buf, sizeof(buf), "../../%.1024s", exec_path);
         if (g_use_sandbox) {
             char switcher_path[MAXPATHLEN];
-            snprintf(switcher_path, sizeof(switcher_path), 
+            snprintf(switcher_path, sizeof(switcher_path),
                 "../../%s/%s",
                 SWITCHER_DIR, SWITCHER_FILE_NAME
             );
@@ -1147,7 +1162,7 @@ int ACTIVE_TASK::start(bool test) {
     //
     if (log_flags.task_debug) {
         msg_printf(wup->project, MSG_INFO,
-            "[task] ACTIVE_TASK::start(): forked process: pid %d\n", pid
+            "[task_debug] ACTIVE_TASK::start(): forked process: pid %d\n", pid
         );
     }
 
@@ -1155,30 +1170,34 @@ int ACTIVE_TASK::start(bool test) {
     set_task_state(PROCESS_EXECUTING, "start");
     return 0;
 
-    // go here on error; "buf" contains error message, "retval" is nonzero
-    //
 error:
-    if (test) {
-        return retval;
+    // here on error; "buf" contains error message, "retval" is nonzero
+    //
+
+    // if failed to run program, it's possible that the executable was munged.
+    // Verify the app version files to detect this
+    // and trigger another download if it's the case
+    //
+    if (retval == ERR_EXEC) {
+        gstate.verify_app_version_files(result);
     }
 
-    // if something failed, it's possible that the executable was munged.
-    // Verify it to trigger another download.
-    //
-    gstate.input_files_available(result, true);
-    char err_msg[4096];
-    snprintf(err_msg, sizeof(err_msg), "couldn't start app: %s", buf);
-    gstate.report_result_error(*result, err_msg);
     if (log_flags.task_debug) {
         msg_printf(wup->project, MSG_INFO,
-            "[task] couldn't start app: %s", buf
+            "[task_debug] couldn't start app: %s", buf
         );
     }
+
+    char err_msg[4096];
+    snprintf(err_msg, sizeof(err_msg), "couldn't start app: %.256s", buf);
+    gstate.report_result_error(*result, err_msg);
+
     set_task_state(PROCESS_COULDNT_START, "start");
     return retval;
 }
 
 // Resume the task if it was previously running; otherwise start it
+// "first_time" is set if the slot dir is empty
 // Postcondition: "state" is set correctly
 //
 int ACTIVE_TASK::resume_or_start(bool first_time) {
@@ -1189,9 +1208,6 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
     case PROCESS_UNINITIALIZED:
         str = (first_time)?"Starting":"Restarting";
         retval = start();
-        if ((retval == ERR_SHMGET) || (retval == ERR_SHMAT)) {
-            return retval;
-        }
         if (retval) {
             set_task_state(PROCESS_COULDNT_START, "resume_or_start1");
             return retval;
@@ -1236,161 +1252,4 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
         );
     }
     return 0;
-}
-
-#if (defined (__APPLE__) && (defined(__i386__) || defined(__x86_64__)))
-
-union headeru {
-    fat_header fat;
-    mach_header mach;
-};
-
-// Read the mach-o headers to determine the architectures
-// supported by executable file.
-// Returns 1 if application can run natively on i386 / x86_64 Macs,
-// else returns 0.
-//
-int ACTIVE_TASK::is_native_i386_app(char* exec_path) {
-    FILE *f;
-    int retval = 0;
-    
-    headeru myHeader;
-    fat_arch fatHeader;
-    
-    uint32_t n, i, len;
-    uint32_t theMagic;
-    integer_t theType;
-    
-    f = boinc_fopen(exec_path, "rb");
-    if (!f) {
-        return retval;          // Should never happen
-    }
-    
-    myHeader.fat.magic = 0;
-    myHeader.fat.nfat_arch = 0;
-    
-    fread(&myHeader, 1, sizeof(fat_header), f);
-    theMagic = myHeader.mach.magic;
-    switch (theMagic) {
-    case MH_CIGAM:
-    case MH_MAGIC:
-    case MH_MAGIC_64:
-    case MH_CIGAM_64:
-       theType = myHeader.mach.cputype;
-        if ((theMagic == MH_CIGAM) || (theMagic == MH_CIGAM_64)) {
-            theType = OSSwapInt32(theType);
-        }
-        if ((theType == CPU_TYPE_I386) || (theType == CPU_TYPE_X86_64)) {
-            retval = 1;        // Single-architecture i386or x86_64 file
-        }
-        break;
-    case FAT_MAGIC:
-    case FAT_CIGAM:
-        n = myHeader.fat.nfat_arch;
-        if (theMagic == FAT_CIGAM) {
-            n = OSSwapInt32(myHeader.fat.nfat_arch);
-        }
-           // Multiple architecture (fat) file
-        for (i=0; i<n; i++) {
-            len = fread(&fatHeader, 1, sizeof(fat_arch), f);
-            if (len < sizeof(fat_arch)) {
-                break;          // Should never happen
-            }
-            theType = fatHeader.cputype;
-            if (theMagic == FAT_CIGAM) {
-                theType = OSSwapInt32(theType);
-            }
-            if ((theType == CPU_TYPE_I386) || (theType == CPU_TYPE_X86_64)) {
-                retval = 1;
-                break;
-            }
-        }
-        break;
-    default:
-        break;
-    }
-
-    fclose (f);
-    return retval;
-}
-#endif
-
-// The following runs "test_app" and sends it various messages.
-// Used for testing the runtime system.
-//
-void run_test_app() {
-    WORKUNIT wu;
-    PROJECT project;
-    APP app;
-    APP_VERSION av;
-    ACTIVE_TASK at;
-    ACTIVE_TASK_SET ats;
-    RESULT result;
-    int retval;
-
-    char buf[256];
-    getcwd(buf, sizeof(buf));   // so we can see where we're running
-
-    gstate.run_test_app = true;
-
-    wu.project = &project;
-    wu.app = &app;
-    wu.command_line = string("--critical_section");
-
-    safe_strcpy(app.name, "test app");
-    av.init();
-    av.avg_ncpus = 1;
-
-    safe_strcpy(result.name, "test result");
-    result.avp = &av;
-    result.wup = &wu;
-    result.project = &project;
-    result.app = &app;
-
-    at.result = &result;
-    at.wup = &wu;
-    at.app_version = &av;
-    at.max_elapsed_time = 1e6;
-    at.max_disk_usage = 1e14;
-    at.max_mem_usage = 1e14;
-    safe_strcpy(at.slot_dir, ".");
-
-#if 1
-    // test file copy
-    //
-    ASYNC_COPY* ac = new ASYNC_COPY;
-    FILE_INFO fi;
-    retval = ac->init(&at, &fi, "big_file", "./big_file_copy");
-    if (retval) {
-        exit(1);
-    }
-    while (1) {
-        do_async_file_op();
-        if (at.async_copy == NULL) {
-            break;
-        }
-    }
-    fprintf(stderr, "done\n");
-    exit(0);
-#endif
-    ats.active_tasks.push_back(&at);
-
-    unlink("boinc_finish_called");
-    unlink("boinc_lockfile");
-    unlink("boinc_temporary_exit");
-    unlink("stderr.txt");
-    retval = at.start(true);
-    if (retval) {
-        fprintf(stderr, "start() failed: %s\n", boincerror(retval));
-    }
-    while (1) {
-        gstate.now = dtime();
-        at.preempt(REMOVE_NEVER);
-        ats.poll();
-        boinc_sleep(.1);
-        at.unsuspend();
-        ats.poll();
-        boinc_sleep(.2);
-        //at.request_reread_prefs();
-    }
 }

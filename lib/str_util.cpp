@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,10 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #endif
 #ifdef _WIN32
 #include "win_util.h"
@@ -35,10 +33,7 @@
 #include <ctype.h>
 #endif
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#endif
-
+#include "boinc_stdio.h"
 #include "error_numbers.h"
 #include "common_defs.h"
 #include "filesys.h"
@@ -139,41 +134,41 @@ int ndays_to_string (double x, int smallest_timescale, char *buf) {
     seconds = fmod(x*24*60*60, 60);
 
     if (smallest_timescale==4) {
-        sprintf( year_buf, "%.3f yr ", years );
+        snprintf( year_buf, sizeof(year_buf), "%.3f yr ", years );
     } else if (years > 1 && smallest_timescale < 4) {
-        sprintf( year_buf, "%d yr ", (int)years );
+        snprintf( year_buf, sizeof(year_buf), "%d yr ", (int)years );
     } else {
         safe_strcpy( year_buf, "" );
     }
 
     if (smallest_timescale==3) {
-        sprintf( day_buf, "%.2f day%s ", days, (days>1?"s":"") );
+        snprintf( day_buf, sizeof(day_buf), "%.2f day%s ", days, (days>1?"s":"") );
     } else if (days > 1 && smallest_timescale < 3) {
-        sprintf( day_buf, "%d day%s ", (int)days, (days>1?"s":"") );
+        snprintf( day_buf, sizeof(day_buf), "%d day%s ", (int)days, (days>1?"s":"") );
     } else {
         safe_strcpy( day_buf, "" );
     }
 
     if (smallest_timescale==2) {
-        sprintf( hour_buf, "%.2f hr ", hours );
+        snprintf( hour_buf, sizeof(hour_buf), "%.2f hr ", hours );
     } else if (hours > 1 && smallest_timescale < 2) {
-        sprintf( hour_buf, "%d hr ", (int)hours );
+        snprintf( hour_buf, sizeof(hour_buf), "%d hr ", (int)hours );
     } else {
         safe_strcpy( hour_buf, "" );
     }
 
     if (smallest_timescale==1) {
-        sprintf( min_buf, "%.2f min ", minutes );
+        snprintf( min_buf, sizeof(min_buf), "%.2f min ", minutes );
     } else if (minutes > 1 && smallest_timescale < 1) {
-        sprintf( min_buf, "%d min ", (int)minutes );
+        snprintf( min_buf, sizeof(min_buf), "%d min ", (int)minutes );
     } else {
         safe_strcpy( min_buf, "" );
     }
 
     if (smallest_timescale==0) {
-        sprintf( sec_buf, "%.2f sec ", seconds );
+        snprintf( sec_buf, sizeof(sec_buf), "%.2f sec ", seconds );
     } else if (seconds > 1 && smallest_timescale < 0) {
-        sprintf( sec_buf, "%d sec ", (int)seconds );
+        snprintf( sec_buf, sizeof(sec_buf), "%d sec ", (int)seconds );
     } else {
         safe_strcpy( sec_buf, "" );
     }
@@ -188,13 +183,27 @@ int ndays_to_string (double x, int smallest_timescale, char *buf) {
 // convert seconds into a string "0h00m00s00"
 //
 void secs_to_hmsf(double secs, char* buf) {
-    int s = secs;
-    int f = (secs - s) * 100.0;
+    int s = (int)secs;
+    int f = (int)((secs - s) * 100.0);
     int h = s / 3600;
     s -= h * 3600;
     int m = s / 60;
     s -= m * 60;
     sprintf(buf, "%uh%02um%02us%02u", h, m, s, f);
+}
+
+// return e.g. '12.23 GFLOPS'
+//
+string flops_to_string(double flops) {
+    char buf[256];
+    if (flops >= 1e12) {
+        snprintf(buf, 256, "%0.2f TFLOPS", flops/1e12);
+    } else if (flops >= 1e9) {
+        snprintf(buf, 256, "%0.2f GFLOPS", flops/1e9);
+    } else {
+        snprintf(buf, 256, "%0.2f MFLOPS", flops/1e6);
+    }
+    return string(buf);
 }
 
 // Convert nbytes into a string.  If total_bytes is non-zero,
@@ -209,27 +218,27 @@ void nbytes_to_string(double nbytes, double total_bytes, char* str, int len) {
 
     if (total_bytes != 0) {
         if (total_bytes >= xTera) {
-            sprintf(buf, "%0.2f/%0.2f TB", nbytes/xTera, total_bytes/xTera);
+            snprintf(buf, sizeof(buf), "%0.2f/%0.2f TB", nbytes/xTera, total_bytes/xTera);
         } else if (total_bytes >= xGiga) {
-            sprintf(buf, "%0.2f/%0.2f GB", nbytes/xGiga, total_bytes/xGiga);
+            snprintf(buf, sizeof(buf), "%0.2f/%0.2f GB", nbytes/xGiga, total_bytes/xGiga);
         } else if (total_bytes >= xMega) {
-            sprintf(buf, "%0.2f/%0.2f MB", nbytes/xMega, total_bytes/xMega);
+            snprintf(buf, sizeof(buf), "%0.2f/%0.2f MB", nbytes/xMega, total_bytes/xMega);
         } else if (total_bytes >= xKilo) {
-            sprintf(buf, "%0.2f/%0.2f KB", nbytes/xKilo, total_bytes/xKilo);
+            snprintf(buf, sizeof(buf), "%0.2f/%0.2f KB", nbytes/xKilo, total_bytes/xKilo);
         } else {
-            sprintf(buf, "%0.0f/%0.0f bytes", nbytes, total_bytes);
+            snprintf(buf, sizeof(buf), "%0.0f/%0.0f bytes", nbytes, total_bytes);
         }
     } else {
         if (nbytes >= xTera) {
-            sprintf(buf, "%0.2f TB", nbytes/xTera);
+            snprintf(buf, sizeof(buf), "%0.2f TB", nbytes/xTera);
         } else if (nbytes >= xGiga) {
-            sprintf(buf, "%0.2f GB", nbytes/xGiga);
+            snprintf(buf, sizeof(buf), "%0.2f GB", nbytes/xGiga);
         } else if (nbytes >= xMega) {
-            sprintf(buf, "%0.2f MB", nbytes/xMega);
+            snprintf(buf, sizeof(buf), "%0.2f MB", nbytes/xMega);
         } else if (nbytes >= xKilo) {
-            sprintf(buf, "%0.2f KB", nbytes/xKilo);
+            snprintf(buf, sizeof(buf), "%0.2f KB", nbytes/xKilo);
         } else {
-            sprintf(buf, "%0.0f bytes", nbytes);
+            snprintf(buf, sizeof(buf), "%0.0f bytes", nbytes);
         }
     }
 
@@ -240,6 +249,11 @@ void nbytes_to_string(double nbytes, double total_bytes, char* str, int len) {
 // return an array of pointers to the null-terminated words.
 // Modifies the string arg.
 // Returns argc
+//
+// WARNING: the argv[] pointers are into the original string.
+// If that goes away (stack) or is modified,
+// the pointers are invalidated.
+
 // TODO: use strtok here
 
 #define NOT_IN_TOKEN                0
@@ -404,34 +418,40 @@ void collapse_whitespace(char *str) {
     strcpy(str, s.c_str());
 }
 
-char* time_to_string(double t) {
+char* time_to_string(double t, bool utc) {
     static char buf[100];
     if (!t) {
         safe_strcpy(buf, "---");
     } else {
         time_t x = (time_t)t;
-        struct tm* tm = localtime(&x);
+        struct tm* tm = utc ? gmtime(&x) : localtime(&x);
         strftime(buf, sizeof(buf)-1, "%d-%b-%Y %H:%M:%S", tm);
+        if (utc) {
+            safe_strcat(buf, " UTC");
+        }
     }
     return buf;
 }
 
-char* precision_time_to_string(double t) {
+char* precision_time_to_string(double t, bool utc) {
     static char buf[100];
     char finer[16];
-    int hundreds_of_microseconds=(int)(10000*(t-(int)t));
+    int hundreds_of_microseconds = (int)(10000*(t - (int)t));
     if (hundreds_of_microseconds == 10000) {
         // paranoia -- this should never happen!
         //
-        hundreds_of_microseconds=0;
-        t+=1.0;
+        hundreds_of_microseconds = 0;
+        t += 1.0;
     }
     time_t x = (time_t)t;
-    struct tm* tm = localtime(&x);
+    struct tm* tm = utc ? gmtime(&x) : localtime(&x);
 
     strftime(buf, sizeof(buf)-1, "%Y-%m-%d %H:%M:%S", tm);
-    sprintf(finer, ".%04d", hundreds_of_microseconds);
+    snprintf(finer, sizeof(finer), ".%04d", hundreds_of_microseconds);
     safe_strcat(buf, finer);
+    if (utc) {
+        safe_strcat(buf, " UTC");
+    }
     return buf;
 }
 
@@ -442,25 +462,25 @@ string timediff_format(double diff) {
     int sex = tdiff % 60;
     tdiff /= 60;
     if (!tdiff) {
-        sprintf(buf, "00:00:%02d", sex);
+        snprintf(buf, sizeof(buf), "00:00:%02d", sex);
         return buf;
     }
 
     int min = tdiff % 60;
     tdiff /= 60;
     if (!tdiff) {
-        sprintf(buf, "00:%02d:%02d", min, sex);
+        snprintf(buf, sizeof(buf), "00:%02d:%02d", min, sex);
         return buf;
     }
 
     int hours = tdiff % 24;
     tdiff /= 24;
     if (!tdiff) {
-        sprintf(buf, "%02d:%02d:%02d", hours, min, sex);
+        snprintf(buf, sizeof(buf), "%02d:%02d:%02d", hours, min, sex);
         return buf;
     }
 
-    sprintf(buf, "%d days %02d:%02d:%02d", tdiff, hours, min, sex);
+    snprintf(buf, sizeof(buf), "%d days %02d:%02d:%02d", tdiff, hours, min, sex);
     return buf;
 
 }
@@ -520,7 +540,7 @@ const char* boincerror(int which_error) {
         case ERR_DB_NOT_FOUND: return "no database rows found in lookup/enumerate";
         case ERR_DB_NOT_UNIQUE: return "database lookup not unique";
         case ERR_DB_CANT_CONNECT: return "can't connect to database";
-        case ERR_GETS: return "gets()/fgets() failedj";
+        case ERR_GETS: return "gets()/fgets() failed";
         case ERR_SCANF: return "scanf()/fscanf() failed";
         case ERR_READDIR: return "readdir() failed";
         case ERR_SHMGET: return "shmget() failed";
@@ -577,7 +597,7 @@ const char* boincerror(int which_error) {
         case ERR_ABORTED_VIA_GUI: return "result aborted via GUI";
         case ERR_INSUFFICIENT_RESOURCE: return "insufficient resources";
         case ERR_RETRY: return "retry";
-        case ERR_WRONG_SIZE: return "wrong size";
+        case ERR_WRONG_SIZE: return "wrong buffer size";
         case ERR_USER_PERMISSION: return "user permission";
         case ERR_BAD_EMAIL_ADDR: return "bad email address";
         case ERR_BAD_PASSWD: return "bad password";
@@ -598,6 +618,7 @@ const char* boincerror(int which_error) {
         case ERR_TRUNCATE: return "truncate() failed";
         case ERR_WRONG_URL: return "wrong URL";
         case ERR_DUP_NAME: return "coprocs with duplicate names detected";
+        case ERR_FILE_WRONG_SIZE: return "file has the wrong size";
         case ERR_GETGRNAM: return "getgrnam() failed";
         case ERR_CHOWN: return "chown() failed";
         case ERR_HTTP_PERMANENT: return "permanent HTTP error";
@@ -617,6 +638,7 @@ const char* boincerror(int which_error) {
         case ERR_STAT : return "stat() failed";
         case ERR_FCLOSE : return "fclose() failed";
         case ERR_INVALID_STATE: return "invalid state";
+        case ERR_MMAP: return "mmap() failed";
         case HTTP_STATUS_NOT_FOUND: return "HTTP file not found";
         case HTTP_STATUS_PROXY_AUTH_REQ: return "HTTP proxy authentication failure";
         case HTTP_STATUS_RANGE_REQUEST_ERROR: return "HTTP range request error";
@@ -629,7 +651,7 @@ const char* boincerror(int which_error) {
         case ERR_ACCT_REQUIRE_CONSENT: return "This project requires to consent to its terms of use";
     }
     static char buf[128];
-    sprintf(buf, "Error %d", which_error);
+    snprintf(buf, sizeof(buf), "Error %d", which_error);
     return buf;
 }
 
@@ -674,6 +696,9 @@ const char* suspend_reason_string(int reason) {
     case SUSPEND_REASON_BATTERY_CHARGING: return "battery low";
     case SUSPEND_REASON_BATTERY_OVERHEATED: return "battery thermal protection";
     case SUSPEND_REASON_NO_GUI_KEEPALIVE: return "GUI not active";
+    case SUSPEND_REASON_PODMAN_INIT: return "Podman initializing";
+    case SUSPEND_REASON_BATTERY_CHARGE_WAIT: return "battery charge wait";
+    case SUSPEND_REASON_BATTERY_HEAT_WAIT: return "battery heat wait";
     }
     return "unknown reason";
 }
@@ -808,35 +833,14 @@ char* lf_terminate(char* p) {
     return p;
 }
 
-void parse_serialnum(char* in, char* boinc, char* vbox, char* coprocs) {
-    strcpy(boinc, "");
-    strcpy(vbox, "");
-    strcpy(coprocs, "");
-    while (*in) {
-        if (*in != '[') break;      // format error
-        char* p = strchr(in, ']');
-        if (!p) break;              // format error
-        p++;
-        char c = *p;
-        *p = 0;
-        if (strstr(in, "BOINC")) {
-            strcpy(boinc, in);
-        } else if (strstr(in, "vbox")) {
-            strcpy(vbox, in);
-        } else {
-            strcat(coprocs, in);
-        }
-        *p = c;
-        in = p;
-    }
-}
-
+// split a string with the given delimiter (e.g. \n).
+//
 vector<string> split(string s, char delim) {
     vector<string> result;
     stringstream ss(s);
     string item;
     while (getline(ss, item, delim)) {
-        result.push_back(item);
+        result.push_back(item+delim);
     }
     return result;
 }

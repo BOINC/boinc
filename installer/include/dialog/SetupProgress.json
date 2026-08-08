@@ -1,0 +1,293 @@
+{
+    "Dialog": "SetupProgress",
+    "HCentering": 50,
+    "VCentering": 50,
+    "Width": 374,
+    "Height": 266,
+    "Attributes": 5,
+    "Title": "IDS_PRODUCTNAME",
+    "Control_First": "Cancel",
+    "Control_Default": "Cancel",
+    "Control_Cancel": "Cancel",
+    "Controls": [
+        {
+            "Control": "ActionProgress95",
+            "Type": "ProgressBar",
+            "X": 59,
+            "Y": 113,
+            "Width": 275,
+            "Height": 12,
+            "Attributes": 65537,
+            "Text": "IDS__IsProgressDlg_ProgressDone",
+            "EventMappings": [
+                {
+                    "Event": "AdminInstallFinalize",
+                    "Attribute": "Progress"
+                },
+                {
+                    "Event": "InstallFiles",
+                    "Attribute": "Progress"
+                },
+                {
+                    "Event": "MoveFiles",
+                    "Attribute": "Progress"
+                },
+                {
+                    "Event": "RemoveFiles",
+                    "Attribute": "Progress"
+                },
+                {
+                    "Event": "RemoveRegistryValues",
+                    "Attribute": "Progress"
+                },
+                {
+                    "Event": "SetProgress",
+                    "Attribute": "Progress"
+                },
+                {
+                    "Event": "UnmoveFiles",
+                    "Attribute": "Progress"
+                },
+                {
+                    "Event": "WriteIniValues",
+                    "Attribute": "Progress"
+                },
+                {
+                    "Event": "WriteRegistryValues",
+                    "Attribute": "Progress"
+                }
+            ]
+        },
+        {
+            "Control": "ActionText",
+            "Type": "Text",
+            "X": 59,
+            "Y": 100,
+            "Width": 275,
+            "Height": 12,
+            "Attributes": 3,
+            "Text": "",
+            "EventMappings": [
+                {
+                    "Event": "ActionText",
+                    "Attribute": "Text"
+                }
+            ]
+        },
+        {
+            "Control": "Back",
+            "Type": "PushButton",
+            "X": 164,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 1,
+            "Text": "IDS_BACK",
+            "Control_Next": "Next"
+        },
+        {
+            "Control": "Banner",
+            "Type": "Bitmap",
+            "X": 0,
+            "Y": 0,
+            "Width": 374,
+            "Height": 44,
+            "Attributes": 1,
+            "Binary_": "banner.jpg"
+        },
+        {
+            "Control": "BannerLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 44,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "Cancel",
+            "Type": "PushButton",
+            "X": 301,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_CANCEL",
+            "Control_Next": "Back",
+            "Events": [
+                {
+                    "Event": "SpawnDialog",
+                    "Argument": "CancelSetup",
+                    "Condition": "1",
+                    "Ordering": 0
+                }
+            ]
+        },
+        {
+            "Control": "DlgDesc",
+            "Type": "Text",
+            "X": 21,
+            "Y": 23,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65538,
+            "Text": "IDS__IsProgressDlg_UninstallingFeatures2",
+            "Conditions": [
+                {
+                    "Action": "Show",
+                    "Condition": "ProgressType2=\"installed\""
+                }
+            ]
+        },
+        {
+            "Control": "DlgDesc2",
+            "Type": "Text",
+            "X": 21,
+            "Y": 23,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65538,
+            "Text": "IDS__IsProgressDlg_UninstallingFeatures",
+            "Conditions": [
+                {
+                    "Action": "Show",
+                    "Condition": "ProgressType2=\"uninstalled\""
+                }
+            ]
+        },
+        {
+            "Control": "DlgLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 234,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "DlgText",
+            "Type": "Text",
+            "X": 59,
+            "Y": 51,
+            "Width": 275,
+            "Height": 30,
+            "Attributes": 65538,
+            "Text": "IDS__IsProgressDlg_WaitUninstall2",
+            "Conditions": [
+                {
+                    "Action": "Show",
+                    "Condition": "ProgressType3=\"installs\""
+                }
+            ]
+        },
+        {
+            "Control": "DlgText2",
+            "Type": "Text",
+            "X": 59,
+            "Y": 51,
+            "Width": 275,
+            "Height": 30,
+            "Attributes": 65538,
+            "Text": "IDS__IsProgressDlg_WaitUninstall",
+            "Conditions": [
+                {
+                    "Action": "Show",
+                    "Condition": "ProgressType3=\"uninstalls\""
+                }
+            ]
+        },
+        {
+            "Control": "DlgTitle",
+            "Type": "Text",
+            "X": 13,
+            "Y": 6,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65538,
+            "Text": "IDS__IsProgressDlg_InstallingProductName",
+            "Conditions": [
+                {
+                    "Action": "Show",
+                    "Condition": "ProgressType1=\"Installing\""
+                }
+            ]
+        },
+        {
+            "Control": "DlgTitle2",
+            "Type": "Text",
+            "X": 13,
+            "Y": 6,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65538,
+            "Text": "IDS__IsProgressDlg_Uninstalling",
+            "Conditions": [
+                {
+                    "Action": "Show",
+                    "Condition": "ProgressType1=\"Uninstalling\""
+                }
+            ]
+        },
+        {
+            "Control": "LbSec",
+            "Type": "Text",
+            "X": 172,
+            "Y": 139,
+            "Width": 32,
+            "Height": 12,
+            "Attributes": 2,
+            "Text": "IDS__IsProgressDlg_SecHidden"
+        },
+        {
+            "Control": "LbStatus",
+            "Type": "Text",
+            "X": 59,
+            "Y": 85,
+            "Width": 70,
+            "Height": 12,
+            "Attributes": 3,
+            "Text": "IDS__IsProgressDlg_Status"
+        },
+        {
+            "Control": "Next",
+            "Type": "PushButton",
+            "X": 230,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 1,
+            "Text": "IDS_NEXT",
+            "Control_Next": "Cancel"
+        },
+        {
+            "Control": "SetupIcon",
+            "Type": "Icon",
+            "X": 21,
+            "Y": 51,
+            "Width": 24,
+            "Height": 24,
+            "Attributes": 5242881,
+            "Binary_": "setup.ico"
+        },
+        {
+            "Control": "ShowTime",
+            "Type": "Text",
+            "X": 155,
+            "Y": 139,
+            "Width": 17,
+            "Height": 12,
+            "Attributes": 2,
+            "Text": "IDS__IsProgressDlg_Hidden"
+        },
+        {
+            "Control": "TextTime",
+            "Type": "Text",
+            "X": 59,
+            "Y": 139,
+            "Width": 96,
+            "Height": 12,
+            "Attributes": 2,
+            "Text": "IDS__IsProgressDlg_HiddenTimeRemaining"
+        }
+    ]
+}

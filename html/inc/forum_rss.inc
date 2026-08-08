@@ -69,7 +69,11 @@ function forum_rss($forumid, $userid, $threads_only, $ndays) {
         $clause .= " and owner=$userid";
     }
 
-    $tlimit = time() - $ndays*86400;
+    if ($ndays) {
+        $tlimit = time() - $ndays*86400;
+    } else {
+        $tlimit = 0;
+    }
 
     if ($threads_only) {
         $q = "$clause and hidden=0 and create_time > $tlimit order by create_time desc";
@@ -88,10 +92,10 @@ function forum_rss($forumid, $userid, $threads_only, $ndays) {
     if (sizeof($threads)) {
         $t = $threads[0];
         $last_mod_time = $threads_only?$t->create_time:$t->timestamp;
-        $create_date  = gmdate('D, d M Y H:i:s', $last_mod_time) . ' GMT'; 
+        $create_date  = gmdate('D, d M Y H:i:s', $last_mod_time) . ' GMT';
         header ("Last-Modified: " . $create_date);
     } else {
-        $create_date  = gmdate('D, d M Y H:i:s') . ' GMT'; 
+        $create_date  = gmdate('D, d M Y H:i:s') . ' GMT';
     }
     header ("Content-Type: application/xml");
 

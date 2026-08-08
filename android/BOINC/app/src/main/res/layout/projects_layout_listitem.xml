@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   This file is part of BOINC.
   http://boinc.berkeley.edu
-  Copyright (C) 2016 University of California
+  Copyright (C) 2020 University of California
   
   BOINC is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License
@@ -21,15 +21,13 @@
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
-              android:clickable="true"
-              android:focusable="true">
+              android:clickable="true">
 
     <RelativeLayout
             android:id="@+id/icon_background"
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:minHeight="60dp"
-            android:background="@android:color/transparent">
+            android:minHeight="60dp">
 
         <ImageView
                 android:id="@+id/project_icon"
@@ -58,7 +56,7 @@
                 android:id="@+id/project_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/dark_grey"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_marginBottom="5dp"/>
 
@@ -78,14 +76,14 @@
                 android:id="@+id/project_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/dark_grey"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
 
         <TextView
                 android:id="@+id/project_transfers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/dark_grey"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:visibility="gone"/>
 
@@ -98,10 +96,11 @@
                     android:id="@+id/project_credits_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingEnd="5dp"
                     android:paddingRight="5dp"
                     android:text="@string/projects_credits"
-                    android:textColor="@color/dark_grey"
-                    android:textStyle="bold"/>
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textStyle="bold" />
 
             <TextView
                     android:id="@+id/project_credits"
@@ -110,7 +109,32 @@
                     android:singleLine="true"
                     android:text="@string/projects_credits_host_and_user"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/dark_grey"/>
+                    android:textColor="?android:attr/textColorPrimary"/>
+        </LinearLayout>
+
+        <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+            <TextView
+                    android:id="@+id/project_disk_usage_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="5dp"
+                    android:paddingRight="5dp"
+                    android:text="@string/projects_disk_usage"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textStyle="bold" />
+
+            <TextView
+                    android:id="@+id/project_disk_usage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="@string/projects_disk_usage_with_unit"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="?android:attr/textColorPrimary"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

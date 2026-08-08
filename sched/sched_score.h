@@ -17,13 +17,20 @@
 
 // job dispatch using a score-based approach.  See sched_score.cpp
 
+#include "buda.h"
+
 struct JOB {
     int index;          // index into shared-mem job array
     DB_ID_TYPE result_id;
     double score;
     APP* app;
     BEST_APP_VERSION* bavp;
+    BUDA_VARIANT* buda_variant;
+    HOST_USAGE host_usage;
+        // if is_buda, usage returned by plan class func for chosen variant
+        // else a copy of bavp->host_usage
 
+    JOB();
     bool get_score(int);
 };
 

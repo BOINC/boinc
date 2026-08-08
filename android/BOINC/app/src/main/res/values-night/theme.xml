@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  This file is part of BOINC.
+  http://boinc.berkeley.edu
+  Copyright (C) 2020 University of California
+  
+  BOINC is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License
+  as published by the Free Software Foundation,
+  either version 3 of the License, or (at your option) any later version.
+  
+  BOINC is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+  
+  You should have received a copy of the GNU Lesser General Public License
+  along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--Preference fragment sub header -->
+    <style name="SubHeader" parent="@style/BackgroundDayNight">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!--Control list view for projects and account manager -->
+    <style name="CustomListView" parent="@android:style/Widget.ListView">
+        <item name="android:cacheColorHint">@color/dark_blue</item>
+        <item name="android:divider">@color/dark_blue</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+
+</resources>

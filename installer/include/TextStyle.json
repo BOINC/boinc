@@ -1,0 +1,21 @@
+{
+    "TextStyle": [
+        {
+            "TextStyle": "Tahoma8",
+            "FaceName": "Tahoma",
+            "Size": 8
+        },
+        {
+            "TextStyle": "TahomaBold8",
+            "FaceName": "Tahoma",
+            "Size": 8,
+            "StyleBits": 1
+        },
+        {
+            "TextStyle": "TahomaBold10",
+            "FaceName": "Tahoma",
+            "Size": 10,
+            "StyleBits": 1
+        }
+    ]
+}

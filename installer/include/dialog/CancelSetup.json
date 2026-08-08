@@ -1,0 +1,72 @@
+{
+    "Dialog": "CancelSetup",
+    "HCentering": 50,
+    "VCentering": 50,
+    "Width": 260,
+    "Height": 85,
+    "Attributes": 3,
+    "Title": "IDS_PRODUCTNAME",
+    "Control_First": "No",
+    "Control_Default": "No",
+    "Control_Cancel": "No",
+    "Controls": [
+        {
+            "Control": "Icon",
+            "Type": "Icon",
+            "X": 15,
+            "Y": 15,
+            "Width": 24,
+            "Height": 24,
+            "Attributes": 5242881,
+            "Binary_": "warning.ico"
+        },
+        {
+            "Control": "No",
+            "Type": "PushButton",
+            "X": 135,
+            "Y": 57,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS__IsCancelDlg_No",
+            "Control_Next": "Yes",
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "Return",
+                    "Condition": "1",
+                    "Ordering": 0
+                }
+            ]
+        },
+        {
+            "Control": "Text",
+            "Type": "Text",
+            "X": 48,
+            "Y": 15,
+            "Width": 194,
+            "Height": 30,
+            "Attributes": 3,
+            "Text": "IDS__IsCancelDlg_ConfirmCancel"
+        },
+        {
+            "Control": "Yes",
+            "Type": "PushButton",
+            "X": 62,
+            "Y": 57,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS__IsCancelDlg_Yes",
+            "Control_Next": "No",
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "Exit",
+                    "Condition": "1",
+                    "Ordering": 2
+                }
+            ]
+        }
+    ]
+}

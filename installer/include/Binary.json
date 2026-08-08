@@ -1,0 +1,44 @@
+{
+    "Binary": [
+        {
+            "Name": "banner.jpg",
+            "Path": "res\\banner.jpg"
+        },
+        {
+            "Name": "folder.ico",
+            "Path": "res\\folder.ico"
+        },
+        {
+            "Name": "new.ico",
+            "Path": "res\\new.ico"
+        },
+        {
+            "Name": "up.ico",
+            "Path": "res\\up.ico"
+        },
+        {
+            "Name": "warning.ico",
+            "Path": "res\\warning.ico"
+        },
+        {
+            "Name": "dialog.jpg",
+            "Path": "res\\dialog.jpg"
+        },
+        {
+            "Name": "boinccas.dll",
+            "Path": "..\\win_build\\Build\\%%PLATFORM%%\\%%CONFIGURATION%%\\boinccas.dll"
+        },
+        {
+            "Name": "reinstall.ico",
+            "Path": "res\\reinstall.ico"
+        },
+        {
+            "Name": "remove.ico",
+            "Path": "res\\remove.ico"
+        },
+        {
+            "Name": "setup.ico",
+            "Path": "res\\setup.ico"
+        }
+    ]
+}

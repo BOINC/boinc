@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -62,6 +62,7 @@ BEGIN_EVENT_TABLE (CBOINCBaseFrame, wxFrame)
     EVT_CLOSE(CBOINCBaseFrame::OnClose)
     EVT_MENU(ID_CLOSEWINDOW, CBOINCBaseFrame::OnCloseWindow)
     EVT_MENU(wxID_EXIT, CBOINCBaseFrame::OnExit)
+    EVT_SYS_COLOUR_CHANGED(CBOINCBaseFrame::OnDarkModeChanged)
 END_EVENT_TABLE ()
 
 
@@ -73,7 +74,7 @@ CBOINCBaseFrame::CBOINCBaseFrame()
 
 
 CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, const long style) :
-    wxFrame(parent, id, title, pos, size, style) 
+    wxFrame(parent, id, title, pos, size, style)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::CBOINCBaseFrame - Function Begin"));
 
@@ -110,7 +111,7 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
     wxUpdateUIEvent::SetUpdateInterval(500);
 
     m_ptFramePos = wxPoint(0, 0);
-    
+
     // The second half of the initialization process picks up in the OnFrameRender()
     //   routine since the menus' and status bars' are drawn in the frameworks
     //   on idle routines, on idle events are sent in between the end of the
@@ -165,15 +166,15 @@ void CBOINCBaseFrame::OnPeriodicRPC(wxTimerEvent& WXUNUSED(event)) {
         first = false;
         wxGetApp().OnFinishInit();
     }
-    
-    wxGetApp().CheckPartialActivation();
+
+//    wxGetApp().CheckPartialActivation();
 #endif
 
     if (!bAlreadyRunningLoop && m_pPeriodicRPCTimer->IsRunning()) {
         bAlreadyRunningLoop = true;
 
         pDoc->RunPeriodicRPCs(m_iFrameRefreshRate);
-        
+
         bAlreadyRunningLoop = false;
     }
 }
@@ -186,11 +187,11 @@ void CBOINCBaseFrame::OnDocumentPoll(wxTimerEvent& WXUNUSED(event)) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    // Timer events are handled while the RPC Wait dialog is shown 
-    // which may cause unintended recursion and repeatedly posting 
+    // Timer events are handled while the RPC Wait dialog is shown
+    // which may cause unintended recursion and repeatedly posting
     // the same RPC requests from timer routines.
     if (pDoc->WaitingForRPC()) return;
- 
+
     if (!bAlreadyRunOnce && m_pDocumentPollTimer->IsRunning()) {
         // Complete any remaining initialization that has to happen after we are up
         //   and running
@@ -215,8 +216,8 @@ void CBOINCBaseFrame::OnAlertPoll(wxTimerEvent& WXUNUSED(event)) {
         // Check to see if there is anything that we need to do from the
         //   dial up user perspective.
         if (pDoc && m_pDialupManager) {
-            // Timer events are handled while the RPC Wait dialog is shown 
-            // which may cause unintended recursion and repeatedly posting 
+            // Timer events are handled while the RPC Wait dialog is shown
+            // which may cause unintended recursion and repeatedly posting
             // the same RPC requests from timer routines.
             if (pDoc->IsConnected() && !pDoc->WaitingForRPC()) {
                 m_pDialupManager->OnPoll();
@@ -227,7 +228,7 @@ void CBOINCBaseFrame::OnAlertPoll(wxTimerEvent& WXUNUSED(event)) {
             m_bShowConnectionFailedAlert = false;
             ShowConnectionFailedAlert();
         }
-        
+
         bAlreadyRunningLoop = false;
     }
 }
@@ -243,7 +244,11 @@ void CBOINCBaseFrame::OnRefreshView(CFrameEvent& ) {
 }
 
 
-void CBOINCBaseFrame::OnAlert(CFrameAlertEvent& event) {
+void CBOINCBaseFrame::OnAlert(CFrameAlertEvent&
+#ifndef __WXGTK__
+        event
+#endif
+        ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnAlert - Function Begin"));
     static bool       bAlreadyRunningLoop = false;
 
@@ -296,9 +301,9 @@ void CBOINCBaseFrame::OnAlert(CFrameAlertEvent& event) {
         // Currently, the only non-notification-only alert is Connection Failed,
         // which is now has logic to be displayed when Manager is maximized.
 
-        // Notification only events on platforms other than Windows are 
-        //   currently discarded.  Otherwise the application would be restored 
-        //   and input focus set on the notification which interrupts whatever 
+        // Notification only events on platforms other than Windows are
+        //   currently discarded.  Otherwise the application would be restored
+        //   and input focus set on the notification which interrupts whatever
         //   the user was doing.
         if (IsShown() && !event.m_notification_only) {
             int retval = 0;
@@ -327,16 +332,21 @@ void CBOINCBaseFrame::OnActivate(wxActivateEvent& event) {
 void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnClose - Function Begin"));
 
-    if (!event.CanVeto() || IsIconized()) {
+    if (
+#if defined(__WXMAC__)
+        IsIconized()
+#elif defined(__WXGTK__)
+        true
+#else
+        false
+#endif
+        || !event.CanVeto()) {
+        // Destroy the top-level window (which will cause the Manager to exit)
         wxGetApp().FrameClosed();
         Destroy();
     } else {
-#ifdef __WXGTK__
-        wxGetApp().FrameClosed();
-        Destroy();
-#else
+        // Hide the top-level window (and keep the Manager running)
         Hide();
-#endif
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnClose - Function End"));
@@ -371,6 +381,9 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExit - Function End"));
 }
 
+void CBOINCBaseFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) ) {
+}
+
 
 int CBOINCBaseFrame::GetCurrentViewPage() {
     return _GetCurrentViewPage();
@@ -388,7 +401,7 @@ void CBOINCBaseFrame::FireRefreshView() {
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    
+
     pDoc->RefreshRPCs();
     pDoc->RunPeriodicRPCs(0);
 }
@@ -419,7 +432,7 @@ bool CBOINCBaseFrame::SelectComputer(wxString& hostName, int& portNum, wxString&
     size_t              lIndex = 0;
     wxArrayString       aComputerNames;
     bool                bResult = false;
-    
+
     // Lets copy the template store in the system state
     aComputerNames = m_aSelectedComputerMRU;
 
@@ -438,13 +451,13 @@ bool CBOINCBaseFrame::SelectComputer(wxString& hostName, int& portNum, wxString&
             password = wxEmptyString;
         } else {
             // Parse the remote machine info
-            wxString sHost = dlg.m_ComputerNameCtrl->GetValue(); 
-            long lPort = GUI_RPC_PORT; 
-            int iPos = sHost.Find(wxT(":")); 
-            if (iPos != wxNOT_FOUND) { 
-                wxString sPort = sHost.substr(iPos + 1); 
-                if (!sPort.ToLong(&lPort)) lPort = GUI_RPC_PORT; 
-                sHost.erase(iPos); 
+            wxString sHost = dlg.m_ComputerNameCtrl->GetValue();
+            long lPort = GUI_RPC_PORT;
+            int iPos = sHost.Find(wxT(":"));
+            if (iPos != wxNOT_FOUND) {
+                wxString sPort = sHost.substr(iPos + 1);
+                if (!sPort.ToLong(&lPort)) lPort = GUI_RPC_PORT;
+                sHost.erase(iPos);
             }
             hostName = sHost;
             portNum = (int)lPort;
@@ -470,13 +483,15 @@ bool CBOINCBaseFrame::SelectComputer(wxString& hostName, int& portNum, wxString&
     } else {
         bResult = false;        // User cancelled
     }
-    
+
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::SelectComputer - Function End"));
     return bResult;
 }
 
 
-void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword, int iReadGUIRPCAuthFailure ) {
+void CBOINCBaseFrame::ShowConnectionBadPasswordAlert(
+    bool bUsedDefaultPassword, int /*iReadGUIRPCAuthFailure*/, std::string password_msg
+) {
     CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString            strDialogTitle = wxEmptyString;
 
@@ -495,34 +510,13 @@ void CBOINCBaseFrame::ShowConnectionBadPasswordAlert( bool bUsedDefaultPassword,
     );
 
     if ( bUsedDefaultPassword ) {
-#ifdef __WXMSW__
-        if ( EACCES == iReadGUIRPCAuthFailure || ENOENT == iReadGUIRPCAuthFailure ) {
-            ShowAlert(
-                strDialogTitle,
-                _("You currently are not authorized to manage the client.\nPlease contact your administrator to add you to the 'boinc_users' local user group."),
-                wxOK | wxICON_ERROR
-            );
-        } else 
-#endif
-        {
-            ShowAlert(
-                strDialogTitle,
-#ifndef __WXMAC__
-                _("Authorization failed connecting to running client.\nMake sure you start this program in the same directory as the client."),
-#else
-                _("Authorization failed connecting to running client."),
-#endif
-                wxOK | wxICON_ERROR
-            );
+        if (password_msg.empty()) {
+            password_msg = "Invalid client RPC password.  Try reinstalling BOINC.";
         }
     } else {
-        ShowAlert(
-            strDialogTitle,
-            _("The password you have provided is incorrect, please try again."),
-            wxOK | wxICON_ERROR
-        );
+        password_msg = "Invalid client RPC password.  Try reinstalling BOINC.";
     }
-
+    wxMessageBox(wxString(password_msg), strDialogTitle, wxOK | wxICON_ERROR);
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowConnectionBadPasswordAlert - Function End"));
 }
 
@@ -548,7 +542,7 @@ void CBOINCBaseFrame::ShowConnectionFailedAlert() {
         if (pDoc->m_pClientManager->AutoRestart()) {
             boinc_sleep(0.5);       // Allow time for Client to restart
             if (pDoc->m_pClientManager->IsBOINCCoreRunning()) {
-                pDoc->Reconnect();        
+                pDoc->Reconnect();
                 return;
             }
         } else {
@@ -590,7 +584,7 @@ void CBOINCBaseFrame::ShowConnectionFailedAlert() {
 
     // If we are minimized, set flag to show alert when maximized
     m_bShowConnectionFailedAlert = !IsShown();
-    
+
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowConnectionFailedAlert - Function End"));
 }
 
@@ -621,7 +615,7 @@ void CBOINCBaseFrame::ShowDaemonStartFailedAlert() {
     //    i.e. 'BOINC', 'GridRepublic'
 #ifdef __WXMSW__
     strDialogMessage.Printf(
-        _("%s is not able to start a %s client.\nPlease launch the Control Panel->Administative Tools->Services applet and start the BOINC service."),
+        _("%s is not able to start a %s client.\nPlease launch the Control Panel->Administrative Tools->Services applet and start the BOINC service."),
         pSkinAdvanced->GetApplicationName().c_str(),
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
@@ -633,12 +627,7 @@ void CBOINCBaseFrame::ShowDaemonStartFailedAlert() {
     );
 #endif
 
-    ShowAlert(
-        strDialogTitle,
-        strDialogMessage,
-        wxOK | wxICON_ERROR
-    );
-
+    wxMessageBox(strDialogMessage, strDialogTitle, wxOK | wxICON_ERROR);
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowDaemonStartFailedAlert - Function End"));
 }
 
@@ -664,7 +653,7 @@ void CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert() {
         if (pDoc->m_pClientManager->AutoRestart()) {
             boinc_sleep(0.5);       // Allow time for Client to restart
             if (pDoc->m_pClientManager->IsBOINCCoreRunning()) {
-                pDoc->Reconnect();        
+                pDoc->Reconnect();
                 return;
             }
         } else {
@@ -674,7 +663,7 @@ void CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert() {
             }
         }
     }
-    
+
     // %s is the application name
     //    i.e. 'BOINC Manager', 'GridRepublic Manager'
     strDialogTitle.Printf(
@@ -694,12 +683,7 @@ void CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert() {
         pSkinAdvanced->GetApplicationShortName().c_str(),
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
-    ShowAlert(
-        strDialogTitle,
-        strDialogMessage,
-        wxOK | wxICON_ERROR
-    );
-
+    wxMessageBox(strDialogMessage, strDialogTitle, wxOK | wxICON_ERROR);
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::ShowNotCurrentlyConnectedAlert - Function End"));
 }
 
@@ -748,8 +732,8 @@ bool CBOINCBaseFrame::SaveState() {
     wxString        strConfigLocation;
     wxString        strPreviousLocation;
     wxString        strBuffer;
-    int             iIndex;
-    int             iItemCount;
+    size_t          iIndex;
+    wxArrayString   existingComputers;
 
 
     // An odd case happens every once and awhile where wxWidgets looses
@@ -775,18 +759,43 @@ bool CBOINCBaseFrame::SaveState() {
 
     pConfig->SetPath(strConfigLocation);
 
-    iItemCount = (int)m_aSelectedComputerMRU.GetCount() - 1;
-    for (iIndex = 0; iIndex <= iItemCount; iIndex++) {
-        strBuffer.Printf(wxT("%d"), iIndex);
+
+    // Retrieve existing computers in the config because
+    // some computers may have been added by other BOINC manager windows.
+    iIndex = 0;
+    strBuffer.Printf(wxT("%zu"), iIndex);
+    while (pConfig->Exists(strBuffer)) {
+        wxString computer = pConfig->Read(strBuffer, wxEmptyString);
+        if (computer != wxEmptyString && existingComputers.Index(computer) == wxNOT_FOUND) {
+            existingComputers.Add(computer);
+        }
+        strBuffer.Printf(wxT("%zu"), ++iIndex);
+    }
+
+    for (iIndex = 0; iIndex < m_aSelectedComputerMRU.GetCount(); iIndex++) {
+        strBuffer.Printf(wxT("%zu"), iIndex);
         pConfig->Write(
             strBuffer,
             m_aSelectedComputerMRU.Item(iIndex)
         );
     }
 
+    // Write existing computers that are not in the MRU list into the config.
+    for (const wxString& computer : existingComputers) {
+        if (m_aSelectedComputerMRU.Index(computer) == wxNOT_FOUND) {
+            strBuffer.Printf(wxT("%zu"), iIndex++);
+            pConfig->Write(strBuffer, computer);
+        }
+    }
+
+    // Remove any remaining MRU computer entries in the config to avoid duplicates.
+    strBuffer.Printf(wxT("%zu"), iIndex);
+    while (pConfig->Exists(strBuffer)) {
+        pConfig->DeleteEntry(strBuffer);
+        strBuffer.Printf(wxT("%zu"), ++iIndex);
+    }
+
     pConfig->SetPath(strPreviousLocation);
-
-
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::SaveState - Function End"));
     return true;
 }
@@ -834,8 +843,10 @@ bool CBOINCBaseFrame::RestoreState() {
     bKeepEnumerating = pConfig->GetFirstEntry(strBuffer, iIndex);
     while (bKeepEnumerating) {
         pConfig->Read(strBuffer, &strValue);
+        if (m_aSelectedComputerMRU.Index(strValue) == wxNOT_FOUND) {
+            m_aSelectedComputerMRU.Add(strValue);
+        }
 
-        m_aSelectedComputerMRU.Add(strValue);
         bKeepEnumerating = pConfig->GetNextEntry(strBuffer, iIndex);
     }
 
@@ -861,7 +872,7 @@ bool CBOINCBaseFrame::Show(bool bShow) {
             }
         }
     }
-    
+
     CDlgEventLog* pEventLog = wxGetApp().GetEventLog();
     if (pEventLog) {
 #ifdef __WXMAC__
@@ -894,7 +905,7 @@ int CBOINCBaseFrame::_GetCurrentViewPage() {
 
 void CFrameAlertEvent::ProcessResponse(const int response) const {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
-   
+
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
@@ -925,7 +936,6 @@ void CBOINCBaseFrame::OnWizardAttachProject( wxCommandEvent& WXUNUSED(event) ) {
         CWizardAttach* pWizard = new CWizardAttach(this);
 
         pWizard->Run(
-            wxEmptyString,
             wxEmptyString,
             wxEmptyString,
             wxEmptyString,
@@ -992,7 +1002,7 @@ void CBOINCBaseFrame::OnWizardDetach(wxCommandEvent& WXUNUSED(event)) {
 
     CMainDocument* pDoc           = wxGetApp().GetDocument();
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
-    wxInt32        iAnswer        = 0; 
+    wxInt32        iAnswer        = 0;
     wxString       strTitle       = wxEmptyString;
     wxString       strMessage     = wxEmptyString;
     ACCT_MGR_INFO  ami;
@@ -1015,7 +1025,7 @@ void CBOINCBaseFrame::OnWizardDetach(wxCommandEvent& WXUNUSED(event)) {
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );
         strMessage.Printf(
-            _("If you stop using %s,\nyou'll keep all your current projects,\nbut you'll have to manage projects manually.\n\nDo you want to stop using %s?"), 
+            _("If you stop using %s,\nyou'll keep all your current projects,\nbut you'll have to manage projects manually.\n\nDo you want to stop using %s?"),
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str(),
             wxString(ami.acct_mgr_name.c_str(), wxConvUTF8).c_str()
         );

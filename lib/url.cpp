@@ -15,10 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #else
 #include "config.h"
 #include <string>
@@ -92,7 +90,7 @@ void parse_url(const char* url, PARSED_URL& purl) {
     //
     p = strchr(buf,':');
     if (p) {
-        purl.port = atol(p+1);
+        purl.port = (int)atol(p+1);
         *p = 0;
     } else {
         // CMC note:  if they didn't pass in a port #,
@@ -110,11 +108,19 @@ void parse_url(const char* url, PARSED_URL& purl) {
 // to be passed in a URL
 
 static char x2c(char *what) {
-    char digit;
-    digit = (what[0] >= 'A' ? ((what[0] & 0xdf) - 'A')+10 : (what[0] - '0'));
+    int digit;
+    if (what[0] >= 'A') {
+        digit = (what[0] & 0xdf) - 'A' + 10;
+    } else {
+        digit = what[0] - '0';
+    }
     digit *= 16;
-    digit += (what[1] >= 'A' ? ((what[1] & 0xdf) - 'A')+10 : (what[1] - '0'));
-    return digit;
+    if (what[1] >= 'A') {
+        digit += (what[1] & 0xdf) - 'A' + 10;
+    } else {
+        digit += what[1] - '0';
+    }
+    return (char)digit;
 }
 
 // size not really needed since unescaping can only shrink
@@ -144,8 +150,8 @@ static void c2x(unsigned char num, char* buf) {
     char d2 = num % 16;
     int abase1 = (d1 < 10) ? 48 : 55;
     int abase2 = (d2 < 10) ? 48 : 55;
-    buf[0] = d1 + abase1;
-    buf[1] = d2 + abase2;
+    buf[0] = d1 + (char)abase1;
+    buf[1] = d2 + (char)abase2;
     buf[2] = 0;
 }
 
@@ -176,8 +182,10 @@ void escape_url(string& url) {
     url = buf;
 }
 
-// Escape a URL for the project directory, cutting off the "http://",
+// Escape a project URL, cutting off the "http://",
 // converting everthing other than alphanumbers, ., - and _ to "_".
+// This is used as the project directory name.
+// Note: does not convert to lowercase.
 //
 void escape_url_readable(char *in, char* out) {
     int x, y;
@@ -201,10 +209,10 @@ void escape_url_readable(char *in, char* out) {
 
 
 // Canonicalize a master url.
-//   - Convert the first part of a URL (before the "://") to http://,
-// or prepend it
+//   - Prepend http:// if protocol missing
 //   - Remove double slashes in the rest
 //   - Add a trailing slash if necessary
+//   - Convert all alphabetic characters to lower case
 //
 void canonicalize_master_url(char* url, int len) {
     char buf[1024];
@@ -218,6 +226,7 @@ void canonicalize_master_url(char* url, int len) {
     } else {
         strlcpy(buf, url, sizeof(buf));
     }
+
     while (1) {
         p = strstr(buf, "//");
         if (!p) break;
@@ -226,6 +235,11 @@ void canonicalize_master_url(char* url, int len) {
     n = strlen(buf);
     if (buf[n-1] != '/' && (n<sizeof(buf)-2)) {
         safe_strcat(buf, "/");
+    }
+    for (size_t i=0; i<n-1; i++) {
+        // stop converting to lower-case, if we've reached the boundary of the domain name
+        if (buf[i] == '/') break;
+        buf[i] = (char)tolower(static_cast<unsigned char>(buf[i]));
     }
     snprintf(url, len, "http%s://%s", (bSSL ? "s" : ""), buf);
     url[len-1] = 0;
@@ -236,6 +250,25 @@ void canonicalize_master_url(string& url) {
     safe_strcpy(buf, url.c_str());
     canonicalize_master_url(buf, sizeof(buf));
     url = buf;
+}
+
+// return true if url1 and url2 are the same
+// except ur1 is http: and url2 is https:
+//
+bool is_https_transition(const char* url1, const char* url2) {
+    if (strstr(url1, "http://") != url1) return false;
+    if (strstr(url2, "https://") != url2) return false;
+    if (strcmp(url1+strlen("http://"), url2+strlen("https://"))) return false;
+    return true;
+}
+
+// return true if url1 and url2 are the same except protocol
+//
+bool urls_match(const char* url1, const char* url2) {
+    const char* p = strstr(url1, "//");
+    const char* q = strstr(url2, "//");
+    if (!p || !q) return false;
+    return strcmp(p, q) == 0;
 }
 
 // is the string a valid master URL, in canonical form?
@@ -256,11 +289,11 @@ bool valid_master_url(char* buf) {
         }
     }
     q = p+strlen(bSSL ? "https://" : "http://");
-    p = strstr(q, ".");
+    p = strchr(q, '.');
     if (!p) return false;
     if (p == q) return false;
     q = p+1;
-    p = strstr(q, "/");
+    p = strchr(q, '/');
     if (!p) return false;
     if (p == q) return false;
     n = strlen(buf);

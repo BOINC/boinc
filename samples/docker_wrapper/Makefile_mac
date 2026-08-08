@@ -1,0 +1,52 @@
+BOINC_DIR = ../..
+BOINC_API_DIR = $(BOINC_DIR)/api
+BOINC_LIB_DIR = $(BOINC_DIR)/lib
+BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
+BOINC_MAC_CONFIG_DIR =  $(BOINC_DIR)/clientgui/mac
+
+CXXFLAGS_ALL = -g \
+    -std=gnu++17 \
+    -stdlib=libc++ \
+	  -Wall \
+    -W \
+    -Wshadow \
+    -Wpointer-arith \
+    -Wcast-qual \
+    -Wcast-align \
+    -Wwrite-strings \
+    -fno-common \
+    -I$(BOINC_MAC_CONFIG_DIR) \
+    -I$(BOINC_DIR) \
+    -I$(BOINC_API_DIR) \
+    -I$(BOINC_LIB_DIR)
+
+CXXFLAGS_X86_64 = -arch x86_64 $(CXXFLAGS_ALL)
+CXXFLAGS_ARM64 = -arch arm64 $(CXXFLAGS_ALL)
+LDFLAGS_x86_64 = -Wl,-arch,x86_64
+LDFLAGS_arm64 = -Wl,-arch,arm64
+
+PROGS = docker_wrapper_x86_64 docker_wrapper_arm64
+
+all: $(PROGS)
+
+clean:
+	/bin/rm -f $(PROGS) *.o
+
+distclean:
+	/bin/rm -f $(PROGS) *.o
+
+install: all
+
+docker_wrapper_x86_64: docker_wrapper_x86_64.o
+	$(CXX) $(CXXFLAGS_X86_64) $(LDFLAGS_x86_64) -o docker_wrapper_x86_64 docker_wrapper_x86_64.o \
+	-lboinc_api -lboinc -L$(BOINC_BUILD_DIR)
+
+docker_wrapper_arm64: docker_wrapper_arm64.o
+	$(CXX) $(CXXFLAGS_ARM64) $(LDFLAGS_arm64) -o docker_wrapper_arm64 docker_wrapper_arm64.o \
+	-lboinc_api -lboinc -L$(BOINC_BUILD_DIR)
+
+docker_wrapper_x86_64.o: docker_wrapper.cpp
+	$(CXX) $(CXXFLAGS_X86_64) -c docker_wrapper.cpp -o docker_wrapper_x86_64.o
+
+docker_wrapper_arm64.o: docker_wrapper.cpp
+	$(CXX) $(CXXFLAGS_ARM64) -c docker_wrapper.cpp -o docker_wrapper_arm64.o

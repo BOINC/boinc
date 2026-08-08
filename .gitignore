@@ -5,6 +5,8 @@
 *.user
 *.ncb
 *.suo
+*.pdb
+*.aps
 
 # Visual Studio build directories
 /win_build/Build/
@@ -23,27 +25,20 @@
 /win_build/installerv2/WCG
 /win_build/installerv2/Progress
 
-# Visual Studio Build Directories for BOINCCAS
-/win_build/installerv2/redist/Windows/src/boinccas/Debug
-/win_build/installerv2/redist/Windows/src/boinccas/Debug95
-/win_build/installerv2/redist/Windows/src/boinccas/Release
-/win_build/installerv2/redist/Windows/src/boinccas/Release95
-/win_build/installerv2/redist/Windows/src/boinccas/x64
-
 # Netbeans project files
 /html/nbproject/
 *.project
+
+# CLion files
+.idea
 
 #
 *.pfx
 *.pvk
 *.spc
-/win_build/*.filters
 /win_build/boinc.sdf
 /win_build/boinc.opensdf
 /win_build/ipch
-/win_build/installerv2/redist/Windows/src/boinccas/*.filters
-/win_build/installerv2/redist/Windows/src/boinccas/boinccas.sdf
 
 # Android (Studio, build scripts, artefacts, redundancies)
 /android/**/*.iml
@@ -60,6 +55,8 @@
 /android/**/captures
 /android/**/.externalNativeBuild
 /android/**/.vagrant
+/android/**/.settings/
+/android/**/.classpath
 /stage
 /android/BOINC/app/src/main/assets/arm*
 /android/BOINC/app/src/main/assets/mips*
@@ -70,12 +67,14 @@
 ## files created by _autosetup (autoreconf):
 *.in
 *.in~
+!*.pc.in
 aclocal.m4
 autom4te.cache/
 compile
 config.guess
 config.sub
 configure
+configure~
 depcomp
 install-sh
 ltmain.sh
@@ -90,6 +89,7 @@ test-driver
 ## files created by configure:
 Makefile
 .deps/
+*.pc
 boinc_path_config.py
 pkginfo
 prototype
@@ -114,19 +114,16 @@ py/lib/Boinc
 ## Python bytecode
 *.pyc
 
-## Drupal
-# ignore files with private/sensitive content in a public repo
-drupal/sites/default/dbconfig.php
-# ignore symlink to project-specific content (tracked in separate/project repo)
-drupal/sites/default/project
-
 ## translation system
 locale/*/*.flag
 
 ## dependency builds and CI cache directories
+3rdParty/Windows/
 3rdParty/linux/
+3rdParty/linux-arm64/
 3rdParty/mac/
 3rdParty/buildCache/
+3rdParty/android/
 
 .libs/
 svn_version.h
@@ -139,7 +136,7 @@ svn_version.h
 # list of executables
 apps/1sec
 apps/concat
-apps/upper_case
+apps/uppercase
 client/boinc
 client/boinc_client
 client/boinccmd
@@ -154,15 +151,28 @@ lib/crypt_prog
 lib/parse_test
 py/lib.*/
 py/build/
-samples/condor/boinc_gahp
-samples/example_app/uc2
-samples/example_app/ucn
-samples/multi_thread/multi_thread
-samples/sleeper/sleeper
-samples/vboxmonitor/vboxmonitor
-samples/vboxwrapper/vboxwrapper
-samples/worker/worker
-samples/wrapper/wrapper
+samples/condor/*boinc_gahp
+samples/docker_wrapper/docker_wrapper*
+samples/example_app/*uc2
+samples/example_app/*ucn
+samples/example_app/uc2_graphics
+samples/example_app/slide_show
+samples/example_app/ttfont.cpp
+samples/multi_thread/*multi_thread*
+samples/sleeper/*sleeper
+samples/vboxmonitor/*vboxmonitor
+samples/vboxwrapper/*vboxwrapper
+samples/vboxwrapper/vboxwrapper_*-*
+samples/worker/*worker
+samples/worker/worker_*-*
+samples/wrapper/*wrapper
+samples/wrapper/wrapper_*-*
+samples/openclapp/*openclapp
+samples/wrappture/*wrappture_example
+samples/wrappture/*fermi
+samples/**/*.exe
+samples/sporadic/sporadic
+samples/nvcuda/example_app_nvcuda
 sched/adjust_user_priority
 sched/antique_file_deleter
 sched/census
@@ -174,13 +184,14 @@ sched/delete_file
 sched/fcgi
 sched/fcgi_file_upload_handler
 sched/feeder
+sched/feeder_user
 sched/file_deleter
 sched/file_upload_handler
 sched/get_file
 sched/make_work
 sched/message_handler
 sched/put_file
-sched/sample_assimilator
+sched/batch_collect_assimilator
 sched/sample_bitwise_validator
 sched/sample_dummy_assimilator
 sched/sample_substr_validator
@@ -207,6 +218,7 @@ tools/dir_hier_move
 tools/dir_hier_path
 tools/remote_submit_test
 tools/sign_executable
+tools/stage_file_native
 vda/ssim
 vda/vda
 vda/vdad
@@ -214,3 +226,18 @@ vda/vdad
 
 # OS-specific files
 .DS_Store
+
+# cmake build
+build/
+build-*/
+
+# snap
+parts/
+prime/
+stage/
+*.snap
+*.msi
+
+# vim temporary files
+*.swp
+

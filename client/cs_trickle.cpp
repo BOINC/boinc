@@ -27,10 +27,6 @@
 #include <cstring>
 #endif
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"
@@ -168,9 +164,8 @@ int CLIENT_STATE::handle_trickle_down(PROJECT* project, FILE* in) {
 /////////////// STUFF RELATED TO REPLICATED TRICKLES FOLLOWS //////////////
 
 bool trickle_up_poll() {
-    unsigned int i, j;
-    for (i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
+    unsigned int j;
+    for (PROJECT* p: gstate.projects) {
         for (j=0; j<p->trickle_up_ops.size(); j++) {
             TRICKLE_UP_OP *t = p->trickle_up_ops[j];
             t->gui_http->poll();

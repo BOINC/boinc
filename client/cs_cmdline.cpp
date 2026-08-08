@@ -21,9 +21,6 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#ifdef _MSC_VER
-#define chdir _chdir
-#endif
 #else
 #include "config.h"
 #include <cstdio>
@@ -154,6 +151,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
                     perror("chdir");
                     exit(1);
                 }
+                cmdline_dir = true;
             }
         } else if (ARG(exit_after_app_start)) {
             if (i == argc-1) show_options = true;
@@ -251,10 +249,10 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             printf(BOINC_VERSION_STRING " " HOSTTYPE "\n");
             exit(0);
 #ifdef __APPLE__
-        // workaround for bug in XCode 4.2: accept but ignore 
-        // argument -NSDocumentRevisionsDebugMode=YES 
+        // workaround for bug in XCode 4.2: accept but ignore
+        // argument -NSDocumentRevisionsDebugMode=YES
         } else if (ARG(NSDocumentRevisionsDebugMode)) {
-            ++i; 
+            ++i;
 #endif
         // detect_gpus is for internal use only - do not
         // add it to show_options() or doc/client.php
@@ -333,13 +331,11 @@ void CLIENT_STATE::parse_env_vars() {
 }
 
 void CLIENT_STATE::do_cmdline_actions() {
-    unsigned int i;
-
     if (show_projects) {
         printf("projects:\n");
-        for (i=0; i<projects.size(); i++) {
-            msg_printf(NULL, MSG_INFO, "URL: %s name: %s\n",
-                projects[i]->master_url, projects[i]->project_name
+        for (PROJECT* p: projects) {
+            msg_printf(NULL, MSG_INFO, "URL: %s name: %s",
+                p->master_url, p->project_name
             );
         }
         exit(0);
@@ -351,10 +347,10 @@ void CLIENT_STATE::do_cmdline_actions() {
         if (project) {
             // do this before detaching - it frees the project
             //
-            msg_printf(project, MSG_INFO, "detaching from %s\n", detach_project_url);
+            msg_printf(project, MSG_INFO, "detaching from %s", detach_project_url);
             detach_project(project);
         } else {
-            msg_printf(NULL, MSG_INFO, "project %s not found\n", detach_project_url);
+            msg_printf(NULL, MSG_INFO, "project %s not found", detach_project_url);
         }
         exit(0);
     }
@@ -366,7 +362,7 @@ void CLIENT_STATE::do_cmdline_actions() {
             reset_project(project, false);
             msg_printf(project, MSG_INFO, "Project %s has been reset", reset_project_url);
         } else {
-            msg_printf(NULL, MSG_INFO, "project %s not found\n", reset_project_url);
+            msg_printf(NULL, MSG_INFO, "project %s not found", reset_project_url);
         }
         exit(0);
     }
@@ -377,13 +373,13 @@ void CLIENT_STATE::do_cmdline_actions() {
         if (project) {
             project->sched_rpc_pending = RPC_REASON_USER_REQ;
         } else {
-            msg_printf(NULL, MSG_INFO, "project %s not found\n", update_prefs_url);
+            msg_printf(NULL, MSG_INFO, "project %s not found", update_prefs_url);
         }
     }
 
     if (strlen(attach_project_url)) {
         canonicalize_master_url(attach_project_url, sizeof(attach_project_url));
-        add_project(attach_project_url, attach_project_auth, "", false);
+        add_project(attach_project_url, attach_project_auth, "", "", false);
     }
 }
 

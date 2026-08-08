@@ -32,6 +32,7 @@ check_tokens($logged_in_user->authenticator);
 BoincForumPrefs::lookup($logged_in_user);
 $postid = get_int('id');
 $post = BoincPost::lookup_id($postid);
+if (!$post) error_page('No such post');
 $thread = BoincThread::lookup_id($post->thread);
 $forum = BoincForum::lookup_id($thread->forum);
 
@@ -40,7 +41,7 @@ if (!get_str('action')) {
 }
 if (!is_moderator($logged_in_user, $forum)) {
     error_page("You are not authorized to moderate this post.");
-}    
+}
 
 page_head(tra("Moderate post"));
 
@@ -70,14 +71,14 @@ if (get_str('action')=="hide") {
     row1(tra("Move post"));
     echo "<input type=hidden name=action value=move>";
     row2(tra("Destination thread ID:"), "<input name=\"threadid\">");
-    // TODO: display where to move the post as a dropdown instead of having to get ID    
+    // TODO: display where to move the post as a dropdown instead of having to get ID
 } elseif (get_str('action')=="banish_user") {
     $userid = get_int('userid');
     $user = BoincUser::lookup_id($userid);
-    BoincForumPrefs::lookup($user);
     if (!$user) {
         error_page("no user found");
     }
+    BoincForumPrefs::lookup($user);
     $x = $user->prefs->banished_until;
     if ($x>time()) {
         error_page(tra("User is already banished"));

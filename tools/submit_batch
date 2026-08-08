@@ -1,0 +1,73 @@
+#! /usr/bin/env python3
+
+# usage: submit_batch user_id app_name dir
+# submit a batch of jobs
+# assumptions:
+# - you have an app that takes 1 input file
+# - there's a directory of input files
+# - the app uses templates/*_in, _out
+
+import os, sys, time, subprocess
+
+def main(argv):
+    if len(argv) != 4:
+        print('Usage: demo_submit_batch user_id app_name dir')
+        sys.exit(1)
+
+    user_id = int(argv[1])
+    app_name = argv[2]
+    dir = argv[3]
+
+    # get list of input files
+
+    files = []
+    for entry in os.scandir(dir):
+        if not entry.is_file():
+            raise Exception('not file')
+        files.append(entry.name)
+
+    # make the batch record
+
+    cmd = [
+        'bin/create_batch',
+        '--app_name', app_name,
+        '--user_id', str(user_id),
+        '--njobs', str(len(files)),
+        '--name', '%s__%d'%(app_name, int(time.time()))
+    ]
+    ret = subprocess.run(cmd, capture_output=True, encoding='ascii')
+    if ret.returncode:
+        raise Exception('create_batch failed (%d): %s %s'%(ret.returncode, ret.stdout, ret.stderr))
+    batch_id = int(ret.stdout)
+
+    # stage the input files
+
+    cmd = ['bin/stage_file', '--copy', dir]
+    ret = subprocess.run(cmd, capture_output=True, encoding='ascii')
+    if ret.returncode:
+        raise Exception('stage_file failed (%d): %s %s'%(ret.returncode, ret.stdout, ret.stderr))
+
+    # create the jobs
+
+    fstr = '\n'.join(files)
+    cmd = [
+        'bin/create_work',
+        '--appname', app_name,
+        '--batch', str(batch_id),
+        '--stdin'
+    ]
+    ret = subprocess.run(cmd, input=fstr, capture_output=True, encoding='ascii')
+    if ret.returncode:
+        print(cmd)
+        raise Exception('create_work failed (%d): %s %s'%(ret.returncode, ret.stdout, ret.stderr))
+
+    # mark the batch as in progress
+
+    cmd = ['bin/create_batch', '--enable', str(batch_id)]
+    ret = subprocess.run(cmd, capture_output=True)
+    if ret.returncode:
+        raise Exception('enable batch failed (%d): %s'%(ret.returncode, ret.stdout))
+
+    print('%d jobs submitted.  Batch ID %d'%(len(files), batch_id))
+
+main(sys.argv)

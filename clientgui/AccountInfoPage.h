@@ -28,7 +28,7 @@
  */
 
 class CAccountInfoPage: public wxWizardPageEx
-{    
+{
     DECLARE_DYNAMIC_CLASS( CAccountInfoPage )
     DECLARE_EVENT_TABLE()
 
@@ -83,8 +83,6 @@ public:
 
 ////@begin CAccountInfoPage member variables
     wxStaticText* m_pTitleStaticCtrl;
-    wxStaticText* m_pCookieDetectionFailedStaticCtrl;
-    wxHyperlinkCtrl* m_pCookieDetectionFailedCtrl;
     wxStaticText* m_pAccountQuestionStaticCtrl;
     wxRadioButton* m_pAccountCreateCtrl;
     wxRadioButton* m_pAccountUseExistingCtrl;

@@ -16,14 +16,14 @@ graphics2_files = \
     gutil.cpp \
     gutil_text.cpp \
     reduce_lib.cpp \
-    graphics2.cpp 
+    graphics2.cpp
 
 if OS_WIN32
     graphics2_files += graphics2_win.cpp \
                        $(top_srcdir)/samples/image_libs/bmplib.cpp \
                        $(top_srcdir)/samples/image_libs/tgalib.cpp
 else
-    graphics2_files += graphics2_unix.cpp 
+    graphics2_files += graphics2_unix.cpp
 endif
 
 if OS_DARWIN
@@ -42,17 +42,20 @@ AM_CXXFLAGS += @GLUT_CFLAGS@
 endif
 
 lib_LTLIBRARIES = libboinc_api.la
+pkgconfig_DATA = libboinc_api.pc
 libboinc_api_la_SOURCES = $(api_files)
 libboinc_api_la_LDFLAGS = -version-number $(LIBBOINC_VERSION)
 
 if BUILD_GRAPHICS_API
 lib_LTLIBRARIES += libboinc_graphics2.la
+pkgconfig_DATA += libboinc_graphics2.pc
 libboinc_graphics2_la_SOURCES = $(graphics2_files)
 libboinc_graphics2_la_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/lib -I$(top_srcdir)/samples/image_libs
 libboinc_graphics2_la_LDFLAGS = -version-number $(LIBBOINC_VERSION) -ljpeg
 endif #BUILD_GRAPHICS_API
 
 lib_LTLIBRARIES += libboinc_opencl.la
+pkgconfig_DATA += libboinc_opencl.pc
 libboinc_opencl_la_SOURCES = $(opencl_files)
 libboinc_opencl_la_LDFLAGS = -version-number $(LIBBOINC_VERSION)
 
@@ -99,6 +102,9 @@ $(LIBBOINC_GRAPHICS2_STATIC): libboinc_graphics2.la
 $(LIBBOINC_OPENCL_STATIC): libboinc_opencl.la
 	rm -f $(LIBBOINC_OPENCL_STATIC)
 	$(LN) .libs/$(LIBBOINC_OPENCL_STATIC) .
+
+clean:
+	rm -f ${LIBBOINC_API_STATIC} ${LIBBOINC_GRAPHICS2_STATIC} ${LIBBOINC_OPENCL_STATIC} *.a *.o *.lo *.la
 
 endif ## ENABLE_LIBRARIES
 

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,7 +21,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#else 
+#else
 #include <signal.h>
 #ifdef __cplusplus
 #include <cassert>
@@ -32,6 +32,10 @@
 
 #ifdef HAVE_DLFCN_H
 #include <dlfcn.h>
+#endif
+
+#ifdef __cplusplus
+extern bool main_exited;
 #endif
 
 // some of the Android stuff below causes seg faults on some devices.
@@ -95,7 +99,7 @@ extern int diagnostics_is_flag_set(int flags);
 extern char* diagnostics_get_boinc_dir(void);
 extern char* diagnostics_get_boinc_install_dir(void);
 extern char* diagnostics_get_symstore(void);
-extern int diagnostics_set_symstore(char* symstore);
+extern int diagnostics_set_symstore(const char* symstore);
 extern int diagnostics_is_proxy_enabled(void);
 extern char* diagnostics_get_proxy(void);
 
@@ -104,7 +108,7 @@ extern int diagnostics_set_aborted_via_gui(void);
 
 // Log rotation
 extern int diagnostics_cycle_logs(void);
-extern void diagnostics_set_max_file_sizes(int stdout_size, int stderr_size);
+extern void diagnostics_set_max_file_sizes(double stdout_size, double stderr_size);
 
 // Thread Tracking
 extern int diagnostics_init_thread_list(void);
@@ -129,8 +133,8 @@ extern UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID lpParameter);
 extern LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
 #else
 #ifdef HAVE_SIGACTION
-typedef void (*handler_t)(int, struct siginfo *, void *);
-extern void boinc_catch_signal(int signal, struct siginfo *siginfo, void *sigcontext);
+typedef void (*handler_t)(int, siginfo_t*, void *);
+extern void boinc_catch_signal(int signal, siginfo_t *siginfo, void *sigcontext);
 #else
 typedef void (*handler_t)(int);
 extern void boinc_catch_signal(int signal);
@@ -186,8 +190,8 @@ typedef struct {
 
 
 typedef ssize_t (*unwind_backtrace_signal_arch_t)(
-        siginfo_t *, void *, const map_info_t *, backtrace_frame_t *, 
-        size_t , size_t 
+        siginfo_t *, void *, const map_info_t *, backtrace_frame_t *,
+        size_t , size_t
     );
 extern unwind_backtrace_signal_arch_t unwind_backtrace_signal_arch;
 
@@ -203,7 +207,7 @@ typedef void (*get_backtrace_symbols_t)(
 extern get_backtrace_symbols_t get_backtrace_symbols;
 
 typedef void (*free_backtrace_symbols_t)(backtrace_symbol_t* symbols,
-size_t frames);    
+size_t frames);
 extern free_backtrace_symbols_t free_backtrace_symbols;
 
 typedef symbol_table_t *(*load_symbol_table_t)(const char *);
@@ -264,6 +268,10 @@ extern format_backtrace_line_t format_backtrace_line;
 
 #endif // _DEBUG
 
+#elif defined(__APPLE__)
+
+#define BOINCTRACE(...)
+
 #else
 
 #ifdef _DEBUG
@@ -276,7 +284,7 @@ extern format_backtrace_line_t format_backtrace_line;
 
 #else  // _DEBUG
 
-#define BOINCASSERT(expr)         
+#define BOINCASSERT(expr)
 #ifndef IRIX
 #if defined(__MINGW32__) || defined(__CYGWIN32__)
 #define BOINCTRACE
@@ -300,7 +308,7 @@ extern format_backtrace_line_t format_backtrace_line;
 #endif
 
 #ifndef BOINCTRACE
-#define BOINCTRACE			
+#define BOINCTRACE
 #endif
 
 #ifndef BOINCINFO

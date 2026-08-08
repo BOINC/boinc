@@ -77,7 +77,7 @@ META_CHUNK::META_CHUNK(
     parent = par;
     coding = d->policy.codings[coding_level];
     if (parent) {
-        sprintf(name, "%s.%d", parent->name, index);
+        sprintf(name, "%.64s.%d", parent->name, index);
     } else {
         sprintf(name, "%d", index);
     }
@@ -339,7 +339,7 @@ int META_CHUNK::decide_reconstruct() {
             }
         }
     }
-    
+
     // if we need to stay present, so do a quorum of our present children
     //
     if (keep_present) {
@@ -501,7 +501,7 @@ bool CHUNK::download_in_progress() {
 
 int CHUNK::recovery_action(double now) {
     int retval;
-    char buf[256];
+    char buf[1024];
 
     VDA_FILE_AUX* fp = parent->dfile;
     if (data_now_present) {

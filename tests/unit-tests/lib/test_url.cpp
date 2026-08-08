@@ -1,45 +1,32 @@
-#include "gtest/gtest.h"
-#include "common_defs.h"
-#include "url.h"
+// This file is part of BOINC.
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+#ifndef _WIN32
 #include <string>
 #include <ios>
+#include "gtest/gtest.h"
+#endif
+#include "common_defs.h"
+#include "url.h"
 
 using namespace std;
 
 namespace test_url {
-
-    // The fixture for testing class Foo.
-
-    class test_url : public ::testing::Test {
-    protected:
-        // You can remove any or all of the following functions if its body
-        // is empty.
-
-        test_url() {
-            // You can do set-up work for each test here.
-        }
-
-        virtual ~test_url() {
-            // You can do clean-up work that doesn't throw exceptions here.
-        }
-
-        // If the constructor and destructor are not enough for setting up
-        // and cleaning up each test, you can define the following methods:
-
-        virtual void SetUp() {
-            // Code here will be called immediately after the constructor (right
-            // before each test).
-        }
-
-        virtual void TearDown() {
-            // Code here will be called immediately after each test (right
-            // before the destructor).
-        }
-
-        // Objects declared here can be used by all tests in the test case for Foo.
-    };
-
-    // Tests that Foo does Xyz.
+    class test_url : public ::testing::Test {};
 
     TEST_F(test_url, parse_url) {
         string url;
@@ -143,56 +130,82 @@ namespace test_url {
     }
 
     TEST_F(test_url, canonicalize_master_url) {
-        //Test to make sure a already good result comes back the same.
+        //Test to make sure an already good result comes back the same.
         string url = "http://secure.example.com/";
         canonicalize_master_url(url);
         EXPECT_STREQ(url.c_str(), "http://secure.example.com/");
 
-        //Test that https works, also adds trailing /
+        //Test to make sure an already good mixed-case result comes back lower-cased.
+        url = "http://SeCuRe.eXamPle.coM/";
+        canonicalize_master_url(url);
+        EXPECT_STREQ(url.c_str(), "http://secure.example.com/");
+
+        //Test that https works, also adds trailing /.
         url = "https://secure.example.com";
         canonicalize_master_url(url);
         EXPECT_STREQ(url.c_str(), "https://secure.example.com/");
 
-        //Test if someone forgot the leading http://
+        //Test that https works, in a mixed-case scenario, also adds trailing /.
+        url = "https://sEcUre.exaMple.cOm";
+        canonicalize_master_url(url);
+        EXPECT_STREQ(url.c_str(), "https://secure.example.com/");
+
+        //Test if someone forgot the leading http://.
         url = "www.example.com/";
         canonicalize_master_url(url);
         EXPECT_STREQ(url.c_str(), "http://www.example.com/");
 
-        //Test removing extra slashes.  And changing socks to https.
+        //Test omitted http:// and mixed case.
+        url = "wwW.exaMple.cOm/";
+        canonicalize_master_url(url);
+        EXPECT_STREQ(url.c_str(), "http://www.example.com/");
+
+        //Test removing extra slashes and changing socks to https.
         url = "socks://sock.example.com////////hello";
         canonicalize_master_url(url);
         EXPECT_STREQ(url.c_str(), "https://sock.example.com/hello/");
 
-        //Test if poorly written url
+        //Test removing extra slashes and changing socks to https, in a mixed-case scenario.
+        //Mixed-case characters after the domain name remain unaffected.
+        url = "sOcks://Sock.exaMPle.com////////hElLO";
+        canonicalize_master_url(url);
+        EXPECT_STREQ(url.c_str(), "https://sock.example.com/hElLO/");
+
+        //Test invalid protocol.
         url = "h://bad.example.com/";
+        canonicalize_master_url(url);
+        EXPECT_STREQ(url.c_str(), "http://bad.example.com/");
+
+        //Test invalid protocol and mixed case.
+        url = "H://baD.exampLE.Com/";
         canonicalize_master_url(url);
         EXPECT_STREQ(url.c_str(), "http://bad.example.com/");
     }
 
     TEST_F(test_url, valid_master_url) {
         char url[1024];
-        
-        //Check for a good unsecure url. 
+
+        //Check for a good unsecure url.
         strncpy(url, "http://www.example.com/", sizeof (url));
         EXPECT_EQ(valid_master_url(url), true);
-        
+
         //Check for a good secure url
         strncpy(url, "https://www.example.com/", sizeof (url));
         EXPECT_EQ(valid_master_url(url), true);
-        
+
         //Check for no http or https.
         strncpy(url, "hxxp://www.example.com/", sizeof (url));
         EXPECT_EQ(valid_master_url(url), false);
-        
+
         //Check if missing final slash.
         strncpy(url, "http://www.example.com", sizeof (url));
         EXPECT_EQ(valid_master_url(url), false);
-        
+
         //Check if it has no . in the name
         strncpy(url, "http://example/", sizeof (url));
         EXPECT_EQ(valid_master_url(url), false);
     }
-    
+
     TEST_F(test_url, escape_project_url) {
         char buf[1024];
         char url[1024];
@@ -201,11 +214,11 @@ namespace test_url {
         strncpy(url, "https://secure.example.com", sizeof (url));
         escape_project_url(url, buf);
         EXPECT_STREQ(buf, "secure.example.com");
-        
+
         //Testing url with bad character at the end removed.
         strncpy(url, "https://secure.example.com/Dollar$", sizeof (url));
         escape_project_url(url, buf);
         EXPECT_STREQ(buf, "secure.example.com_Dollar");
     }
 
-} // namespace
+}

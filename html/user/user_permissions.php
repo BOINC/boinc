@@ -25,91 +25,82 @@ function user_permissions_form() {
     page_head('Manage user privileges');
 
     start_table('table-striped');
-    row1("Current special users", 99);
 
-    echo "<tr><th>User</th>";
+    $x = ['User'];
     for ($i=0; $i<S_NFLAGS; $i++) {
-        echo "<th>" . $special_user_bitfield[$i] . "</th>\n";
+        $x[] = $special_user_bitfield[$i];
     }
-    echo "<th> </th></tr>";
+    $x[] = '';
+    row_heading_array($x);
 
-    $result = _mysql_query(
-        "SELECT prefs.userid, prefs.special_user, user.id, user.name 
-        FROM forum_preferences as prefs, user 
-        WHERE CONVERT(special_user, DECIMAL) > 0 and prefs.userid=user.id"
-    );
-    while ($foo = _mysql_fetch_object($result)) {
-        echo "<tr>
-            <td>$foo->name ($foo->id)</td>
-            <form action=\"user_permissions.php\" method=\"POST\">
-            <input type=\"hidden\" name=\"userid\" value=\"$foo->userid\">
-        ";
+    $prefs = BoincForumPrefs::enum('CONVERT(special_user, DECIMAL) > 0');
+    foreach ($prefs as $pref) {
+        $user = BoincUser::lookup_id($pref->userid);
+        echo '<form action="user_permissions.php" method="POST">';
+        echo sprintf(
+            '<input type="hidden" name="userid" value="%s">',
+            $pref->userid
+        );
+        $x = ["$user->name ($user->id)"];
         for ($j=0; $j<S_NFLAGS; $j++) {
-            $bit = substr($foo->special_user, $j, 1);
+            $bit = substr($pref->special_user, $j, 1);
             $c = ($bit == 1)?"checked":"";
-            echo "<td>
-                <input type=\"checkbox\" name=\"role".$j."\" value=\"1\" $c>
-                </td>
-            ";
+            $x[] = sprintf(
+                '<input type="checkbox" name="role%d" value="1" %s>',
+                $j, $c
+            );
         }
-        echo "<td><input class=\"btn btn-default\" type=\"submit\" value=\"Update\"></td>";
-        echo "</form></tr>\n";
+        $x[] = '<input class="btn btn-success" type="submit" value="Update">';
+        row_array($x);
+        echo "</form>\n";
     }
 
-    echo "
-        <tr>
-        <form action=\"user_permissions.php\" method=\"POST\">
-        <td>Add User ID:<input type=\"text\" name=\"userid\" size=\"6\"></td>
-    ";
-
+    echo '<form action="user_permissions.php" method="POST">';
+    $x = ['Add User ID: <input type="text" name="userid" size="6">'];
     for ($j=0; $j<S_NFLAGS; $j++) {
-        echo "<td>
-            <input type=\"checkbox\" name=\"role".$j."\" value=\"1\">
-            </td>
-        ";
+        $x[] = sprintf(
+            '<input type="checkbox" name="role%d" value="1">',
+            $j
+        );
     }
-    echo "<td>
-        <input class=\"btn btn-default\" type=\"submit\" value=\"Update\">
-        </td>
-        </form>
-        </tr>
-    ";
+    $x[] = "<input class=\"btn btn-success\" type=\"submit\" value=\"Update\">";
+    row_array($x);
+    echo "</form>\n";
 
     end_table();
-
     page_tail();
 }
 
-function user_permissions_action() {
+function user_permissions_action($user_id) {
     $bitset = '';
+    $user = BoincUser::lookup_id($user_id);
+    if (!$user) error_page('no user');
+    BoincForumPrefs::lookup($user);
 
     for ($i=0; $i<S_NFLAGS; $i++) {
-        if (post_int("role".$i, TRUE) == 1) {
+        if (post_int("role$i", true) == 1) {
             $bitset .= '1';
             echo "<br> setting $i";
         } else {
             $bitset .= '0';
         }
     }
-    $userid = post_int("userid");
 
-    $query = "UPDATE forum_preferences SET special_user='$bitset' WHERE userid=$userid";
-    _mysql_query($query);
-
+    $user->prefs->update("special_user='$bitset'");
     Header("Location: user_permissions.php");
 }
 
 $user = get_logged_in_user();
 BoincForumPrefs::lookup($user);
-if (!is_moderator($user, null)) {
+if (!is_admin($user)) {
     error_page("no access");
 }
 
-if (post_int("userid", true)) {
-    user_permissions_action();
+$user_id = post_int("userid", true);
+if ($user_id) {
+    user_permissions_action($user_id);
 } else {
     user_permissions_form();
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

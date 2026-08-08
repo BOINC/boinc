@@ -15,16 +15,18 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// multi_thread --nthreads N
+//
 // Example multi-thread BOINC application.
-// This app defines its own classes (THREAD, THREAD_SET) for managing threads.
-// You can also use libraries such as OpenMP.
-// Just make sure you call boinc_init_parallel().
-//
-// This app does 64 "units" of computation, where each units is about 1 GFLOP.
-// It divides this among N "worker" threads.
-// N is passed in the command line, and defaults to 1.
-//
+// Creates N threads;
+// each does 64 "units" of computation, where a unit is about 1 GFLOP.
 // Doesn't do checkpointing.
+//
+// This app defines its own classes (THREAD, THREAD_SET) for managing threads.
+// You could also use libraries such as OpenMP.
+// In any case, initialize with boinc_init_parallel().
+
+#define STANDALONE
 
 #include <stdio.h>
 #include <vector>
@@ -43,10 +45,8 @@
 
 using std::vector;
 
-#define DEFAULT_NTHREADS 4
-#define TOTAL_UNITS 16
-
-int units_per_thread;
+#define DEFAULT_NTHREADS    4
+#define UNITS_PER_THREAD    64
 
 #ifdef _WIN32
 typedef HANDLE THREAD_ID;
@@ -139,7 +139,7 @@ void* worker(void* p) {
 #endif
     char buf[256];
     THREAD* t = (THREAD*)p;
-    for (int i=0; i<units_per_thread; i++) {
+    for (int i=0; i<UNITS_PER_THREAD; i++) {
         double x = do_a_giga_flop(i);
         t->units_done++;
         fprintf(stderr, "%s thread %d finished %d: %f\n",
@@ -157,10 +157,12 @@ int main(int argc, char** argv) {
     double start_time = dtime();
     char buf[256];
 
+#ifndef STANDALONE
     BOINC_OPTIONS options;
     boinc_options_defaults(options);
     options.multi_thread = true;
     boinc_init_options(&options);
+#endif
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--nthreads")) {
@@ -172,15 +174,16 @@ int main(int argc, char** argv) {
         }
     }
 
-    units_per_thread = TOTAL_UNITS/nthreads;
-
     THREAD_SET thread_set;
     for (i=0; i<nthreads; i++) {
         thread_set.threads.push_back(new THREAD(worker, i));
     }
     while (1) {
-        double f = thread_set.units_done()/((double)TOTAL_UNITS);
+#ifndef STANDALONE
+        double f = thread_set.units_done()/((double)UNITS_PER_THREAD*nthreads);
+        fprintf(stderr, "fraction done: %f\n", f);
         boinc_fraction_done(f);
+#endif
         if (thread_set.all_done()) break;
         boinc_sleep(1.0);
     }
@@ -190,5 +193,9 @@ int main(int argc, char** argv) {
         "%s All done.  Used %d threads.  Elapsed time %f\n",
         boinc_msg_prefix(buf, sizeof(buf)), nthreads, elapsed_time
     );
+#ifdef STANDALONE
+    exit(0);
+#else
     boinc_finish(0);
+#endif
 }

@@ -1,0 +1,16 @@
+{
+    "name": "boinc-libs",
+    "dependencies":
+    [
+        "curl",
+        {
+          "name": "openssl",
+          "features": ["ssl3", "weak-ssl-ciphers"],
+          "default-features": false
+        },
+        {
+          "name": "libzip",
+          "default-features": false
+        }
+    ]
+}

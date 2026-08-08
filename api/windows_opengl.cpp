@@ -12,7 +12,7 @@
  * Visit My Site At nehe.gamedev.net
  * Adapted to BOINC by Eric Heien
  */
-#if defined(_WIN32) && !defined(__STDWX_H__) && !defined(_BOINC_WIN_) && !defined(_AFX_STDAFX_H_)
+#ifdef _WIN32
 #include "boinc_win.h"
 #else
 #include "config.h"
@@ -54,14 +54,14 @@ HANDLE graphics_threadh;
 
 void KillWindow() {
     window_ready=false;
-    wglMakeCurrent(NULL,NULL);  // release GL rendering context
+    wglMakeCurrent(NULL, NULL);  // release GL rendering context
     if (hRC) {
         wglDeleteContext(hRC);
         hRC=NULL;
     }
 
     if (hWnd && hDC) {
-        ReleaseDC(hWnd,hDC);
+        ReleaseDC(hWnd, hDC);
     }
     hDC = NULL;
 
@@ -115,7 +115,7 @@ void SetupPixelFormat(HDC hDC) {
 }
 
 static void make_new_window() {
-    RECT WindowRect = {0,0,0,0};
+    RECT WindowRect = {0, 0, 0, 0};
     int width, height;
     DWORD dwExStyle;
     DWORD dwStyle;
@@ -145,7 +145,7 @@ static void make_new_window() {
     get_window_title(aid, window_title, 256);
     hWnd = CreateWindowEx(dwExStyle, BOINC_WINDOW_CLASS_NAME, window_title,
         dwStyle|WS_CLIPSIBLINGS|WS_CLIPCHILDREN, WindowRect.left, WindowRect.top,
-        WindowRect.right-WindowRect.left,WindowRect.bottom-WindowRect.top,
+        WindowRect.right-WindowRect.left, WindowRect.bottom-WindowRect.top,
         NULL, NULL, hInstance, NULL
     );
 
@@ -181,7 +181,7 @@ static void make_new_window() {
     SetFocus(hWnd);
 
     app_graphics_init();
-    app_graphics_resize(width, height);     
+    app_graphics_resize(width, height);
     window_ready=true;
 }
 
@@ -215,15 +215,15 @@ static void set_mode(int mode) {
 
     if (!is_windows_9x) {
         GetUserObjectInformation(
-            GetProcessWindowStation(), 
-            UOI_NAME, 
+            GetProcessWindowStation(),
+            UOI_NAME,
             current_desktop.window_station,
             (sizeof(current_desktop.window_station) / sizeof(char)),
             NULL
         );
         GetUserObjectInformation(
-            GetThreadDesktop(GetCurrentThreadId()), 
-            UOI_NAME, 
+            GetThreadDesktop(GetCurrentThreadId()),
+            UOI_NAME,
             current_desktop.desktop,
             (sizeof(current_desktop.desktop) / sizeof(char)),
             NULL
@@ -231,7 +231,7 @@ static void set_mode(int mode) {
     }
 
     if (!is_windows_9x &&
-        !boinc_is_standalone() && 
+        !boinc_is_standalone() &&
         strlen(graphics_msg.window_station) > 0 &&
         strlen(graphics_msg.desktop) > 0 &&
         (strcmp(current_desktop.window_station, graphics_msg.window_station) ||
@@ -243,14 +243,14 @@ static void set_mode(int mode) {
         if (NULL == hOriginalWindowStation) {
             hOriginalWindowStation = GetProcessWindowStation();
             if (NULL == hOriginalWindowStation) {
-                BOINCINFO("Failed to retrieve the orginal window station\n");
+                BOINCINFO("Failed to retrieve the original window station\n");
             }
         }
 
         if (NULL == hOriginalDesktop) {
             hOriginalDesktop = GetThreadDesktop(GetCurrentThreadId());
             if (NULL == hOriginalDesktop) {
-                BOINCINFO("Failed to retrieve the orginal desktop\n");
+                BOINCINFO("Failed to retrieve the original desktop\n");
             }
         }
 
@@ -278,7 +278,7 @@ static void set_mode(int mode) {
             }
         }
     }
-   
+
     current_graphics_mode = new_mode;
     if (new_mode != MODE_HIDE_GRAPHICS && new_mode != MODE_UNSUPPORTED) {
         make_new_window();
@@ -309,19 +309,19 @@ LRESULT CALLBACK WndProc(
     case WM_ERASEBKGND:        // Check To See If Windows Is Trying To Erase The Background
             return 0;
     case WM_KEYDOWN:
-        if(!window_ready) return 0;    
+        if(!window_ready) return 0;
         if (current_graphics_mode == MODE_FULLSCREEN) {
                set_mode(MODE_HIDE_GRAPHICS);
-        } else {           
+        } else {
             boinc_app_key_press((int)wParam, (int)lParam);
         }
         return 0;
     case WM_KEYUP:
-        if(!window_ready) return 0;    
+        if(!window_ready) return 0;
         if (current_graphics_mode == MODE_FULLSCREEN) {
             set_mode(MODE_HIDE_GRAPHICS);
         } else {
-            boinc_app_key_release((int)wParam, (int)lParam);           
+            boinc_app_key_release((int)wParam, (int)lParam);
         }
         return 0;
     case WM_LBUTTONDOWN:
@@ -330,7 +330,7 @@ LRESULT CALLBACK WndProc(
     case WM_LBUTTONUP:
     case WM_MBUTTONUP:
     case WM_RBUTTONUP:
-        if(!window_ready) return 0;    
+        if(!window_ready) return 0;
 
         if (current_graphics_mode == MODE_FULLSCREEN) {
             set_mode(MODE_HIDE_GRAPHICS);
@@ -344,10 +344,10 @@ LRESULT CALLBACK WndProc(
         }
         return 0;
     case WM_MOUSEMOVE:
-        if(!window_ready) return 0;    
+        if(!window_ready) return 0;
         POINT cPos;
         GetCursorPos(&cPos);
-        if (current_graphics_mode == MODE_FULLSCREEN) { 
+        if (current_graphics_mode == MODE_FULLSCREEN) {
             if(cPos.x != mousePos.x || cPos.y != mousePos.y) {
                 set_mode(MODE_HIDE_GRAPHICS);
             }
@@ -374,7 +374,7 @@ LRESULT CALLBACK WndProc(
             set_mode(MODE_HIDE_GRAPHICS);
             suspend_activities();
             return TRUE;
-        } 
+        }
         if (PBT_APMQUERYSUSPENDFAILED == wParam || PBT_APMRESUMESUSPEND == wParam) {
             set_mode(acked_graphics_mode);
             restore_activities();
@@ -388,7 +388,7 @@ LRESULT CALLBACK WndProc(
         PAINTSTRUCT ps;
         RECT winRect;
         HDC pdc;
-        if (!graphics_threadh) graphics_threadh=(HANDLE)GetCurrentThreadId();  
+        if (!graphics_threadh) graphics_threadh=(HANDLE)GetCurrentThreadId();
         pdc = BeginPaint(hWnd, &ps);
         GetClientRect(hWnd, &winRect);
         FillRect(pdc, &winRect, (HBRUSH)GetStockObject(BLACK_BRUSH));
@@ -399,8 +399,8 @@ LRESULT CALLBACK WndProc(
             visible = FALSE;
         } else {
             visible = TRUE;
-        }          
-        if(!window_ready) return 0;    
+        }
+        if(!window_ready) return 0;
         app_graphics_resize(LOWORD(lParam), HIWORD(lParam));
         return 0;
     case WM_SHUTDOWNGFX:
@@ -413,7 +413,7 @@ LRESULT CALLBACK WndProc(
     }
 
     // Pass All Unhandled Messages To DefWindowProc
-    return DefWindowProc(hWnd,uMsg,wParam,lParam);
+    return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
 BOOL reg_win_class() {
@@ -434,7 +434,7 @@ BOOL reg_win_class() {
 
     // Attempt To Register The Window Class
     if (!RegisterClass(&wc)) {
-        MessageBox(NULL,"Failed To Register The Window Class.","ERROR",MB_OK|MB_ICONEXCLAMATION);
+        MessageBox(NULL, "Failed To Register The Window Class.", "ERROR", MB_OK|MB_ICONEXCLAMATION);
         return FALSE;                                            // Return FALSE
     }
 
@@ -442,8 +442,8 @@ BOOL reg_win_class() {
 }
 
 BOOL unreg_win_class() {
-    if (!UnregisterClass(BOINC_WINDOW_CLASS_NAME,hInstance)) {
-        MessageBox(NULL,"Could Not Unregister Class.","SHUTDOWN ERROR",MB_OK | MB_ICONINFORMATION);
+    if (!UnregisterClass(BOINC_WINDOW_CLASS_NAME, hInstance)) {
+        MessageBox(NULL, "Could Not Unregister Class.", "SHUTDOWN ERROR", MB_OK | MB_ICONINFORMATION);
         hInstance=NULL;                                    // Set hInstance To NULL
     }
 
@@ -510,7 +510,7 @@ void win_graphics_event_loop() {
 
     // Get platform information
     //
-    OSVERSIONINFO osvi; 
+    OSVERSIONINFO osvi;
     osvi.dwOSVersionInfoSize = sizeof(osvi);
     GetVersionEx(&osvi);
     is_windows_9x = (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS);
@@ -527,7 +527,7 @@ void win_graphics_event_loop() {
         set_mode(MODE_HIDE_GRAPHICS);
     }
     while (1) {
-        if (GetMessage(&msg,NULL,0,0)) {
+        if (GetMessage(&msg, NULL, 0, 0)) {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         } else {

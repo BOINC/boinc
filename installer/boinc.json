@@ -1,0 +1,26 @@
+{
+    "include": [
+        "include/ActionText.json",
+        "include/AdminExecuteSequence.json",
+        "include/AdminUISequence.json",
+        "include/AdvtExecuteSequence.json",
+        "include/Binary.json",
+        "include/Checkbox.json",
+        "include/CustomAction.json",
+        "include/Dialog.json",
+        "include/Directory.json",
+        "include/Error.json",
+        "include/Feature.json",
+        "include/Icon.json",
+        "include/InstallExecuteSequence.json",
+        "include/InstallUISequence.json",
+        "include/LaunchCondition.json",
+        "include/Listbox.json",
+        "include/Locale.json",
+        "include/Property.json",
+        "include/Summary.json",
+        "include/TextStyle.json",
+        "include/UIText.json",
+        "include/Upgrade.json"
+    ]
+}

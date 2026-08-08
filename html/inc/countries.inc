@@ -496,7 +496,7 @@ $country_to_iso3166_2 = array (
 function country_select_options($selected_country="None") {
     global $countries;
 
-    require_once("../inc/geoip.inc"); 
+    require_once("../inc/geoip.inc");
 
     // See if we can find the user's country and select it as default:
     //
@@ -515,7 +515,7 @@ function country_select_options($selected_country="None") {
         $x .= "<option value=\"$country\" $selected>$country</option>\n";
     }
     return $x;
-} 
+}
 
 function is_valid_country($country) {
     global $countries;

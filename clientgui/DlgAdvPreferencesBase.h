@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -35,12 +35,9 @@
 #endif
 
 #include <wx/button.h>
-#include <wx/notebook.h> 
+#include <wx/notebook.h>
 #include <wx/panel.h>
 #include <wx/statbmp.h>
-
-///////////////////////////////////////////////////////////////////////////
-
 
 #define PROC_DAY_OF_WEEK_TOOLTIP_TEXT _("On this day of the week, compute only during these hours.")
 #define NET_DAY_OF_WEEK_TOOLTIP_TEXT _("On this day of the week, transfer files only during these hours.")
@@ -81,6 +78,7 @@ enum {
     ID_CHKPROCEVERYDAY,
     ID_CHKPROCINUSE,
     ID_CHKMAXLOAD,
+    ID_CHKMAXLOADNOTINUSE,
     ID_CHKPROCONBATTERIES,
     ID_TABPAGE_SCHED,
     ID_TABPAGE_DISK,
@@ -112,12 +110,14 @@ enum {
     ID_TXTNETUPLOADRATE,
     ID_TXTNETWEDNESDAYSTART,
     ID_TXTNETWEDNESDAYSTOP,
-    ID_TXTPOCUSECPUTIME,
+    ID_TXTPROCUSECPUTIME,
+    ID_TXTPROCUSECPUTIMENOTINUSE,
     ID_TXTPROCEVERYDAYSTART,
     ID_TXTPROCEVERYDAYSTOP,
     ID_TXTPROCFRIDAYSTART,
     ID_TXTPROCFRIDAYSTOP,
     ID_TXTPROCIDLEFOR,
+    ID_TXTNORECENTINPUT,
     ID_TXTPROCMONDAYSTART,
     ID_TXTPROCMONDAYSTOP,
     ID_TXTPROCSATURDAYSTART,
@@ -130,35 +130,84 @@ enum {
     ID_TXTPROCTUESDAYSTART,
     ID_TXTPROCTUESDAYSTOP,
     ID_TXTPROCUSEPROCESSORS,
+    ID_TXTPROCUSEPROCESSORSNOTINUSE,
     ID_TXTPROCWEDNESDAYSTART,
     ID_TXTPROCWEDNESDAYSTOP,
     ID_CHKGPUPROCINUSE,
+    ID_CHKNORECENTINPUT,
     ID_TXTMAXLOAD,
+    ID_TXTMAXLOADNOTINUSE,
     ID_DAILY_XFER_LIMIT_MB,
     ID_DAILY_XFER_PERIOD_DAYS,
     ID_ADV_PREFS_LAST
 };
 
-
-/**
- * Class CDlgAdvPreferencesBase
- */
-class CDlgAdvPreferencesBase : public wxDialog 
-{
+class CDlgAdvPreferencesBase : public wxDialog {
 protected:
     wxStaticBitmap* m_bmpWarning;
     wxButton* m_btnClear;
     wxPanel* m_panelControls;
     wxNotebook* m_Notebook;
-    wxPanel* m_panelProcessor;
-    wxTextCtrl* m_txtProcUseProcessors;
-    wxTextCtrl* m_txtProcUseCPUTime;
-    wxCheckBox* m_chkProcOnBatteries;
+
+    // Computing panel
+    //
+    wxScrolledWindow* m_panelProcessor;
+    // In-use items
+    wxTextCtrl* m_txtProcIdleFor;
     wxCheckBox* m_chkProcInUse;
     wxCheckBox* m_chkGPUProcInUse;
-    wxTextCtrl* m_txtProcIdleFor;
+    wxTextCtrl* m_txtProcUseProcessors;
+    wxTextCtrl* m_txtProcUseCPUTime;
     wxCheckBox* m_chkMaxLoad;
     wxTextCtrl* m_txtMaxLoad;
+    wxTextCtrl* m_txtMemoryMaxInUse;
+    // Not in Use items
+    //
+    wxTextCtrl* m_txtProcUseProcessorsNotInUse;
+    wxTextCtrl* m_txtProcUseCPUTimeNotInUse;
+    wxCheckBox* m_chkMaxLoadNotInUse;
+    wxTextCtrl* m_txtMaxLoadNotInUse;
+    wxTextCtrl* m_txtMemoryMaxOnIdle;
+    wxCheckBox* m_chkNoRecentInput;
+    wxTextCtrl* m_txtNoRecentInput;
+    // General items
+    //
+    wxCheckBox* m_chkProcOnBatteries;
+    wxTextCtrl* m_txtProcSwitchEvery;
+    wxTextCtrl* m_txtDiskWriteToDisk;
+    wxCheckBox* m_chkMemoryWhileSuspended;
+    wxTextCtrl* m_txtNetConnectInterval;
+    wxTextCtrl* m_txtNetAdditionalDays;
+    wxTextCtrl* m_txtDiskMaxSwap;
+
+    // Network panel
+    //
+    wxPanel* m_panelNetwork;
+    wxCheckBox* m_chkNetDownloadRate;
+    wxTextCtrl* m_txtNetDownloadRate;
+    wxCheckBox* m_chkNetUploadRate;
+    wxTextCtrl* m_txtNetUploadRate;
+
+    wxCheckBox* m_chk_daily_xfer_limit;
+    wxTextCtrl* m_txt_daily_xfer_limit_mb;
+    wxTextCtrl* m_txt_daily_xfer_period_days;
+
+    wxCheckBox* m_chkNetSkipImageVerification;
+    wxCheckBox* m_chkNetConfirmBeforeConnect;
+    wxCheckBox* m_chkNetDisconnectWhenDone;
+
+    // Disk panel
+    //
+    wxPanel* m_panelDisk;
+    wxCheckBox* m_chkDiskMaxSpace;
+    wxTextCtrl* m_txtDiskMaxSpace;
+    wxCheckBox* m_chkDiskLeastFree;
+    wxTextCtrl* m_txtDiskLeastFree;
+    wxCheckBox* m_chkDiskMaxOfTotal;
+    wxTextCtrl* m_txtDiskMaxOfTotal;
+
+    // Daily schedules panel
+    wxPanel* m_panelDailySchedules;
     wxCheckBox* m_chkNetEveryDay;
     wxCheckBox* m_chkProcEveryDay;
     wxTextCtrl* m_txtProcEveryDayStart;
@@ -184,23 +233,7 @@ protected:
     wxCheckBox* m_chkProcSunday;
     wxTextCtrl* m_txtProcSundayStart;
     wxTextCtrl* m_txtProcSundayStop;
-    wxTextCtrl* m_txtProcSwitchEvery;
-    wxTextCtrl* m_txtDiskWriteToDisk;
-    wxPanel* m_panelNetwork;
-    wxCheckBox* m_chkNetDownloadRate;
-    wxTextCtrl* m_txtNetDownloadRate;
-    wxCheckBox* m_chkNetUploadRate;
-    wxTextCtrl* m_txtNetUploadRate;
 
-    wxCheckBox * m_chk_daily_xfer_limit;
-    wxTextCtrl* m_txt_daily_xfer_limit_mb;
-    wxTextCtrl* m_txt_daily_xfer_period_days;
-
-    wxTextCtrl* m_txtNetConnectInterval;
-    wxTextCtrl* m_txtNetAdditionalDays;
-    wxCheckBox* m_chkNetSkipImageVerification;
-    wxCheckBox* m_chkNetConfirmBeforeConnect;
-    wxCheckBox* m_chkNetDisconnectWhenDone;
     wxTextCtrl* m_txtNetEveryDayStart;
     wxTextCtrl* m_txtNetEveryDayStop;
     wxCheckBox* m_chkNetMonday;
@@ -224,37 +257,37 @@ protected:
     wxCheckBox* m_chkNetSunday;
     wxTextCtrl* m_txtNetSundayStart;
     wxTextCtrl* m_txtNetSundayStop;
-    wxPanel* m_panelDiskAndMemory;
-    wxCheckBox* m_chkDiskMaxSpace;
-    wxTextCtrl* m_txtDiskMaxSpace;
-    wxCheckBox* m_chkDiskLeastFree;
-    wxTextCtrl* m_txtDiskLeastFree;
-    wxCheckBox* m_chkDiskMaxOfTotal;
-    wxTextCtrl* m_txtDiskMaxOfTotal;
-    wxTextCtrl* m_txtDiskMaxSwap;
-    wxTextCtrl* m_txtMemoryMaxInUse;
-    wxTextCtrl* m_txtMemoryMaxOnIdle;
-    wxCheckBox* m_chkMemoryWhileSuspended;
-    wxPanel* m_panelDailySchedules;
-    
+
     wxPanel* m_panelButtons;
     wxButton* m_btnOK;
     wxButton* m_btnCancel;
     wxButton* m_btnHelp;
-    
+
     wxString *web_prefs_url;
     bool m_bUsingLocalPrefs;
 
 public:
-    CDlgAdvPreferencesBase( wxWindow* parent, int id = -1, wxString title = wxT(""), wxPoint pos = wxDefaultPosition, wxSize size = wxDefaultSize, int style = wxDEFAULT_DIALOG_STYLE );
+    CDlgAdvPreferencesBase(
+        wxWindow* parent, int id = -1, wxString title = wxT(""), wxPoint pos = wxDefaultPosition,
+        wxSize size = wxDefaultSize, int style = wxDEFAULT_DIALOG_STYLE
+    );
 
 private:
     void addNewRowToSizer(wxSizer* toSizer, wxString& toolTipText,
-                wxWindow* first, wxWindow* second, wxWindow* third,
-                wxWindow* fourth=NULL, wxWindow* fifth=NULL);
-    wxPanel* createProcessorTab(wxNotebook* notebook);
+        wxWindow* first, wxWindow* second, wxWindow* third,
+        wxWindow* fourth=NULL, wxWindow* fifth=NULL
+    );
+    // variant with separate tooltip per item
+    void add_row_to_sizer2(wxSizer* toSizer,
+        wxWindow* item1, wxString& tt1,
+        wxWindow* item2, wxString& tt2,
+        wxWindow* item3, wxString& tt3,
+        wxWindow* item4, wxString& tt4,
+        wxWindow* item5, wxString& tt5
+    );
+    wxScrolledWindow* createProcessorTab(wxNotebook* notebook, bool bScrollable);
     wxPanel* createNetworkTab(wxNotebook* notebook);
-    wxPanel* createDiskAndMemoryTab(wxNotebook* notebook);
+    wxPanel* createDiskTab(wxNotebook* notebook);
     wxPanel* createDailySchedulesTab(wxNotebook* notebook);
     wxSize getTextCtrlSize(wxString maxText);
     bool doesLocalPrefsFileExist();

@@ -3,12 +3,12 @@
 PATH=/bin:/usr/bin:/usr/ucb/bin:/opt/csw/bin
 export PATH
 
-if [ -x $PKG_INSTALL_ROOT/opt/csw/etc/csw.conf ] ; then 
-  . $PKG_INSTALL_ROOT/opt/csw/etc/csw.conf 
-fi 
-if [ -x $PKG_INSTALL_ROOT/etc/opt/csw/csw.conf ] ; then 
-  . $PKG_INSTALL_ROOT/etc/opt/csw/csw.conf 
-fi 
+if [ -x $PKG_INSTALL_ROOT/opt/csw/etc/csw.conf ] ; then
+  . $PKG_INSTALL_ROOT/opt/csw/etc/csw.conf
+fi
+if [ -x $PKG_INSTALL_ROOT/etc/opt/csw/csw.conf ] ; then
+  . $PKG_INSTALL_ROOT/etc/opt/csw/csw.conf
+fi
 
 BOINCUSER=boinc
 BOINCGROUP="`( groups ${BOINCUSER} 2>/dev/null || echo boinc ) | gawk '{print $1}'`"
@@ -30,7 +30,7 @@ GROUPENT=`getent group $BOINCGROUP`
 
 # if we need to create the boinc group, find the first unused group number
 # 2316 or highter
-if [ -z "${GROUPENT}" ] ; then 
+if [ -z "${GROUPENT}" ] ; then
   getent group | gawk -F: '{print $3}' > /tmp/$$.grp
   try=2316
   while [ ! -z "`grep \^$try /tmp/$$.grp`" ] ; do
@@ -41,7 +41,7 @@ if [ -z "${GROUPENT}" ] ; then
   cp $PKG_INSTALL_ROOT/etc/group $PKG_INSTALL_ROOT/etc/group.boinc_install.bak
   echo ${GROUPENT} >> $PKG_INSTALL_ROOT/etc/group
   /bin/rm /tmp/$$.grp
-else 
+else
   GROUPNUM=`echo $GROUPENT | gawk -F: '{print $3}'`
 fi
 
@@ -50,13 +50,13 @@ USERENT=`getent passwd $BOINCUSER`
 
 # if we need to create the boinc group, find the first unused user number
 # ${BOINCGROUP} or highter
-if [ -z "${USERENT}" ] ; then 
+if [ -z "${USERENT}" ] ; then
   getent passwd | gawk -F: '{print $3}' >/tmp/$$.user
   try="${GROUPNUM}"
   while [ ! -z "`grep \^$try /tmp/$$.user`" ] ; do
     try=`expr $try + 1`
   done
-  USERENT="${BOINCUSER}:x:${try}:${GROUPNUM}:BOINC client user:${BOINCDIR}:/bin/ksh" 
+  USERENT="${BOINCUSER}:x:${try}:${GROUPNUM}:BOINC client user:${BOINCDIR}:/bin/ksh"
   cp $PKG_INSTALL_ROOT/etc/passwd $PKG_INSTALL_ROOT/etc/passwd.boinc_install.bak
   echo $USERENT >> $PKG_INSTALL_ROOT/etc/passwd
   /bin/rm /tmp/$$.user
@@ -68,7 +68,7 @@ if [ -z "`echo $USERENT | grep $BOINCDIR`" ] ; then
   USERENT=`echo $USERENT | gawk -F: '{print $1":"$2":"$3":"$4":"$5":'$BOINCDIR':"$7}'`
   grep -v \^${BOINCUSER}: $PKG_INSTALL_ROOT/etc/passwd > /tmp/passwd.$$
   echo "$USERENT" >> /tmp/passwd.$$
-  if [ ! -f $PKG_INSTALL_ROOT/etc/passwd.boinc_install.bak ] ; then 
+  if [ ! -f $PKG_INSTALL_ROOT/etc/passwd.boinc_install.bak ] ; then
     cp $PKG_INSTALL_ROOT/etc/passwd $PKG_INSTALL_ROOT/etc/passwd.boinc_install.bak
   fi
   mv -f /tmp/passwd.$$ $PKG_INSTALL_ROOT/etc/passwd

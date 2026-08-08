@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,10 +19,6 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#ifdef _MSC_VER
-#define chdir    _chdir
-#define snprintf _snprintf
-#endif
 #else
 #include "config.h"
 #include <cstdio>
@@ -37,6 +33,7 @@
 #include "parse.h"
 #include "str_replace.h"
 #include "str_util.h"
+#include "url.h"
 
 #include "client_state.h"
 #include "client_msgs.h"
@@ -99,6 +96,7 @@ void LOG_FLAGS::show() {
     show_flag(buf, sizeof(buf), sched_op_debug, "sched_op_debug");
     show_flag(buf, sizeof(buf), scrsave_debug, "scrsave_debug");
     show_flag(buf, sizeof(buf), slot_debug, "slot_debug");
+    show_flag(buf, sizeof(buf), sporadic_debug, "sporadic_debug");
     show_flag(buf, sizeof(buf), state_debug, "state_debug");
     show_flag(buf, sizeof(buf), statefile_debug, "statefile_debug");
     show_flag(buf, sizeof(buf), task_debug, "task_debug");
@@ -197,8 +195,16 @@ void CC_CONFIG::show() {
     if (dont_use_vbox) {
         msg_printf(NULL, MSG_INFO, "Config: don't use VirtualBox");
     }
+    if (dont_use_docker) {
+        msg_printf(NULL, MSG_INFO, "Config: don't use Podman/Docker");
+    }
     if (dont_use_wsl) {
-        msg_printf(NULL, MSG_INFO, "Config: don't use the Windows Subsystem for Linux");
+        msg_printf(NULL, MSG_INFO, "Config: don't use Windows Subsystem for Linux");
+    }
+    for (string s: disallowed_wsls) {
+        msg_printf(NULL, MSG_INFO,
+            "Config: disallowed WSL distro: %s", s.c_str()
+        );
     }
     for (i=0; i<alt_platforms.size(); i++) {
         msg_printf(NULL, MSG_INFO,
@@ -253,6 +259,12 @@ void CC_CONFIG::show() {
             msg_printf(NULL, MSG_INFO, "Config: event log limit disabled");
         }
     }
+    if (max_overdue_days >= 0) {
+        msg_printf(NULL, MSG_INFO,
+            "Config: abort tasks overdue by > %.2f days",
+            max_overdue_days
+        );
+    }
     if (ncpus>0) {
         msg_printf(NULL, MSG_INFO, "Config: simulate %d CPUs", cc_config.ncpus);
     }
@@ -267,6 +279,9 @@ void CC_CONFIG::show() {
     }
     if (no_priority_change) {
         msg_printf(NULL, MSG_INFO, "Config: run apps at regular priority");
+    }
+    if (no_rdp_check) {
+        msg_printf(NULL, MSG_INFO, "Config: allow GPU apps when using remote desktop");
     }
     if (report_results_immediately) {
         msg_printf(NULL, MSG_INFO, "Config: report completed tasks immediately");
@@ -290,6 +305,14 @@ void CC_CONFIG::show() {
             );
         }
     }
+    for (i=0; i<ignore_tty.size(); i++) {
+        msg_printf(NULL, MSG_INFO,
+            "Config: ignore tty: %s", ignore_tty[i].c_str()
+        );
+    }
+    if (!device_name.empty()) {
+        msg_printf(NULL, MSG_INFO, "Config: device name is %s", device_name.c_str());
+    }
 }
 
 // This is used by the BOINC client.
@@ -311,6 +334,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
     for (int i=1; i<NPROC_TYPES; i++) {
         ignore_gpu_instance[i].clear();
     }
+    ignore_tty.clear();
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
@@ -357,6 +381,12 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool("dont_suspend_nci", dont_suspend_nci)) continue;
         if (xp.parse_bool("dont_use_vbox", dont_use_vbox)) continue;
         if (xp.parse_bool("dont_use_wsl", dont_use_wsl)) continue;
+        if (xp.parse_string("disallowed_wsl", s)) {
+            disallowed_wsls.push_back(s);
+            continue;
+        }
+        if (xp.parse_bool("dont_use_docker", dont_use_docker)) continue;
+        if (xp.parse_bool("dont_use_podman", dont_use_docker)) continue;
         if (xp.match_tag("exclude_gpu")) {
             EXCLUDE_GPU eg;
             retval = eg.parse(xp);
@@ -410,19 +440,27 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
             ignore_gpu_instance[PROC_TYPE_INTEL_GPU].push_back(n);
             continue;
         }
+        if (xp.parse_int("ignore_apple_dev", n)) {
+            ignore_gpu_instance[PROC_TYPE_APPLE_GPU].push_back(n);
+            continue;
+        }
         if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
         if (xp.parse_int("max_file_xfers", max_file_xfers)) continue;
         if (xp.parse_int("max_file_xfers_per_project", max_file_xfers_per_project)) continue;
-        if (xp.parse_int("max_stderr_file_size", max_stderr_file_size)) continue;
-        if (xp.parse_int("max_stdout_file_size", max_stdout_file_size)) continue;
+        if (xp.parse_double("max_overdue_days", max_overdue_days)) continue;
+        if (xp.parse_double("max_stderr_file_size", max_stderr_file_size)) continue;
+        if (xp.parse_double("max_stdout_file_size", max_stdout_file_size)) continue;
         if (xp.parse_int("max_tasks_reported", max_tasks_reported)) continue;
         if (xp.parse_int("ncpus", ncpus)) continue;
         if (xp.parse_bool("no_alt_platform", no_alt_platform)) continue;
+        if (xp.parse_bool("no_disk_usage", no_disk_usage)) continue;
         if (xp.parse_bool("no_gpus", no_gpus)) continue;
         if (xp.parse_bool("no_info_fetch", no_info_fetch)) continue;
         if (xp.parse_bool("no_opencl", no_opencl)) continue;
         if (xp.parse_bool("no_priority_change", no_priority_change)) continue;
+        if (xp.parse_bool("no_rdp_check", no_rdp_check)) continue;
         if (xp.parse_bool("os_random_only", os_random_only)) continue;
+        if (xp.parse_bool("prioritize_gpu", prioritize_gpu)) continue;
         if (xp.parse_int("process_priority", process_priority)) continue;
         if (xp.parse_int("process_priority_special", process_priority_special)) continue;
         if (xp.match_tag("proxy_info")) {
@@ -452,11 +490,17 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool("use_certs", use_certs)) continue;
         if (xp.parse_bool("use_certs_only", use_certs_only)) continue;
         if (xp.parse_bool("vbox_window", vbox_window)) continue;
+        if (xp.parse_string("ignore_tty", s)) {
+            ignore_tty.push_back(s);
+            continue;
+        }
+        if (xp.parse_string("device_name", device_name)) continue;
 
-        // The following 3 tags have been moved to nvc_config and
-        // NVC_CONFIG_FILE, but CC_CONFIG::write() in older clients 
-        // may have written their default values to CONFIG_FILE. 
+        // The following tags have been moved to nvc_config and NVC_CONFIG_FILE,
+        // but CC_CONFIG::write() in older clients
+        // may have written their default values to CONFIG_FILE.
         // Silently skip them if present.
+        //
         if (xp.parse_string("client_download_url", s)) continue;
         if (xp.parse_string("client_new_version_text", s)) continue;
         if (xp.parse_string("client_version_check_url", s)) continue;
@@ -580,20 +624,18 @@ int read_config_file(bool init, const char* fname) {
 //   (used in work fetch)
 // - set PROJECT::rsc_pwf[rsc_type].ncoprocs_excluded
 //   (used in RR sim and work fetch)
-// - set APP_VERSION::coproc_missing for app versions where
+// - set APP_VERSION::missing_coproc for app versions where
 //   all instances are excluded
-// - set RESULT::coproc_missing for results for which
-//   APP_VERSION::coproc_missing is set.
+// - set RESULT::missing_coproc for results of these app versions
 //
 void process_gpu_exclusions() {
-    unsigned int i, j, a;
-    PROJECT *p;
+    unsigned int i, j;
 
     // check the syntactic validity of the exclusions
     //
     for (i=0; i<cc_config.exclude_gpus.size(); i++) {
         EXCLUDE_GPU& eg = cc_config.exclude_gpus[i];
-        p = gstate.lookup_project(eg.url.c_str());
+        PROJECT *p = gstate.lookup_project(eg.url.c_str());
         if (!p) {
             msg_printf(0, MSG_USER_ALERT,
                 "cc_config.xml: bad URL in GPU exclusion: %s", eg.url.c_str()
@@ -643,8 +685,7 @@ void process_gpu_exclusions() {
         }
     }
 
-    for (i=0; i<gstate.apps.size(); i++) {
-        APP* app = gstate.apps[i];
+    for (APP* app: gstate.apps) {
         for (int k=1; k<coprocs.n_rsc; k++) {
             COPROC& cp = coprocs.coprocs[k];
             for (int h=0; h<cp.count; h++) {
@@ -653,8 +694,7 @@ void process_gpu_exclusions() {
         }
     }
 
-    for (i=0; i<gstate.projects.size(); i++) {
-        p = gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         for (int k=1; k<coprocs.n_rsc; k++) {
             COPROC& cp = coprocs.coprocs[k];
             COPROC_INSTANCE_BITMAP all_instances = 0;
@@ -666,7 +706,7 @@ void process_gpu_exclusions() {
             for (j=0; j<cc_config.exclude_gpus.size(); j++) {
                 EXCLUDE_GPU& eg = cc_config.exclude_gpus[j];
                 if (!eg.type.empty() && (eg.type != cp.type)) continue;
-                if (strcmp(eg.url.c_str(), p->master_url)) continue;
+                if (!urls_match(eg.url.c_str(), p->master_url)) continue;
                 COPROC_INSTANCE_BITMAP mask;
                 if (eg.device_num >= 0) {
                     int index = cp.device_num_index(eg.device_num);
@@ -680,8 +720,7 @@ void process_gpu_exclusions() {
                 if (eg.appname.empty()) {
                     // exclusion applies to all apps
                     //
-                    for (a=0; a<gstate.apps.size(); a++) {
-                        APP* app = gstate.apps[a];
+                    for (APP* app: gstate.apps) {
                         if (app->project != p) continue;
                         app->non_excluded_instances[k] &= ~mask;
                     }
@@ -696,8 +735,7 @@ void process_gpu_exclusions() {
 
             bool found = false;
             p->rsc_pwf[k].non_excluded_instances = 0;
-            for (a=0; a<gstate.apps.size(); a++) {
-                APP* app = gstate.apps[a];
+            for (APP* app: gstate.apps) {
                 if (app->project != p) continue;
                 found = true;
                 p->rsc_pwf[k].non_excluded_instances |= app->non_excluded_instances[k];
@@ -715,8 +753,7 @@ void process_gpu_exclusions() {
             p->rsc_pwf[k].ncoprocs_excluded = 0;
             for (int b=0; b<cp.count; b++) {
                 COPROC_INSTANCE_BITMAP mask = ((COPROC_INSTANCE_BITMAP)1)<<b;
-                for (a=0; a<gstate.apps.size(); a++) {
-                    APP* app = gstate.apps[a];
+                for (APP* app: gstate.apps) {
                     if (app->project != p) continue;
                     if (!(app->non_excluded_instances[k] & mask)) {
                         p->rsc_pwf[k].ncoprocs_excluded++;
@@ -727,10 +764,9 @@ void process_gpu_exclusions() {
         }
     }
 
-    for (i=0; i<gstate.app_versions.size(); i++) {
-        APP_VERSION* avp = gstate.app_versions[i];
-        if (avp->missing_coproc) continue;
-        int rt = avp->gpu_usage.rsc_type;
+    for (APP_VERSION* avp: gstate.app_versions) {
+        if (avp->resource_usage.missing_coproc) continue;
+        int rt = avp->resource_usage.rsc_type;
         if (!rt) continue;
         COPROC& cp = coprocs.coprocs[rt];
         bool found = false;
@@ -741,16 +777,16 @@ void process_gpu_exclusions() {
             }
         }
         if (found) continue;
-        avp->missing_coproc = true;
-        safe_strcpy(avp->missing_coproc_name, "");
-        for (j=0; j<gstate.results.size(); j++) {
-            RESULT* rp = gstate.results[j];
+        avp->resource_usage.missing_coproc = true;
+        avp->resource_usage.missing_coproc_name[0] = 0;
+        for (RESULT* rp: gstate.results) {
             if (rp->avp != avp) continue;
-            rp->coproc_missing = true;
             msg_printf(avp->project, MSG_INFO,
                 "marking %s as coproc missing",
                 rp->name
             );
+            rp->resource_usage.missing_coproc = true;
+            rp->resource_usage.missing_coproc_name[0] = 0;
         }
     }
 }
@@ -760,7 +796,7 @@ bool gpu_excluded(APP* app, COPROC& cp, int ind) {
     PROJECT* p = app->project;
     for (unsigned int i=0; i<cc_config.exclude_gpus.size(); i++) {
         EXCLUDE_GPU& eg = cc_config.exclude_gpus[i];
-        if (strcmp(eg.url.c_str(), p->master_url)) continue;
+        if (!urls_match(eg.url.c_str(), p->master_url)) continue;
         if (!eg.type.empty() && (eg.type != cp.type)) continue;
         if (!eg.appname.empty() && (eg.appname != app->name)) continue;
         if (eg.device_num >= 0 && eg.device_num != cp.device_nums[ind]) continue;
@@ -773,8 +809,7 @@ bool gpu_excluded(APP* app, COPROC& cp, int ind) {
 // for a project, set a flag to that effect
 //
 void set_no_rsc_config() {
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT& p = *gstate.projects[i];
+    for (PROJECT* p: gstate.projects) {
         for (int j=1; j<coprocs.n_rsc; j++) {
             bool allowed[MAX_COPROC_INSTANCES];
             memset(allowed, 0, sizeof(allowed));
@@ -784,7 +819,7 @@ void set_no_rsc_config() {
             }
             for (unsigned int k=0; k<cc_config.exclude_gpus.size(); k++) {
                 EXCLUDE_GPU& e = cc_config.exclude_gpus[k];
-                if (strcmp(e.url.c_str(), p.master_url)) continue;
+                if (strcmp(e.url.c_str(), p->master_url)) continue;
                 if (!e.type.empty() && strcmp(e.type.c_str(), c.type)) continue;
                 if (!e.appname.empty()) continue;
                 if (e.device_num < 0) {
@@ -793,10 +828,10 @@ void set_no_rsc_config() {
                 }
                 allowed[e.device_num] = false;
             }
-            p.no_rsc_config[j] = true;
+            p->no_rsc_config[j] = true;
             for (int k=0; k<c.count; k++) {
                 if (allowed[c.device_nums[k]]) {
-                    p.no_rsc_config[j] = false;
+                    p->no_rsc_config[j] = false;
                     break;
                 }
             }

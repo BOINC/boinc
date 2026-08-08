@@ -1,10 +1,10 @@
-#! /bin/sh 
+#! /bin/sh
 cd `dirname $0`
 
 MOD_EMAIL_ADDRESS=`grep POST_REPORT_EMAILS ../html/project/project.inc  | awk -F\" '{print $(NF-1);}'`
 
 
-while true ; do 
+while true ; do
 
 now=`date +%s`
 msgfile=`mktemp -p /tmp setimods.XXXXXX` || exit 1
@@ -47,7 +47,7 @@ if test $sec_from_hour -lt 300 ; then
          start_time=`$MYSQL --execute="select start_time from banishment_vote where id=$voteid"`
          $MYSQL --execute="update forum_preferences set banished_until=$start_time +1209600 where userid= $userid"
          $MYSQL --execute="update banishment_vote set end_time=start_time where id=$voteid"
-       else 
+       else
          $MYSQL --execute="select 'Ends in ',(end_time-$now)/3600,' hours' from banishment_vote where id=$voteid" >> $msgfile
        fi
        /bin/rm $msgfile2
@@ -82,7 +82,7 @@ if test -n "$voteids" ; then
          start_time=`$MYSQL --execute="select start_time from banishment_vote where id=$voteid"`
          $MYSQL --execute="update forum_preferences set banished_until=$start_time +1209600 where userid= $userid"
          $MYSQL --execute="update banishment_vote set end_time=start_time where id=$voteid"
-       else 
+       else
          echo Vote failed. >> $msgfile
          mail -s "Vote failed. You have not been banished"  $EMAIL < $msgfile2
          $MYSQL --execute="update forum_preferences set banished_until=0 where userid=$userid"

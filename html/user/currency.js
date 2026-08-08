@@ -30,14 +30,14 @@ function Cvalue()
   fromR = rate[parseInt(document.calcForm.from.value)];
   toR = rate[document.calcForm.to.selectedIndex];
   nVal = document.calcForm.inV.value;
-  
+
   if ( IsNumeric(nVal) == false ) {
     alert("amount to multiply is not a number\n\nyou can only use\n\n1234567890 and . (dot)");
   }
-  
+
   resultV = nVal * ( toR / fromR );
 
-  // 6 relevant digits only, or integer 
+  // 6 relevant digits only, or integer
   if ( (resultV == parseInt(resultV)) || (resultV > 99999) )
   {
     // mostly integer
@@ -55,7 +55,7 @@ function Cvalue()
     }
   }
 
- 
+
   document.calcForm.outV.value = "   " + comma(resultV) + " " + currency[document.calcForm.to.selectedIndex];
 }
 
@@ -64,12 +64,12 @@ function comma(num)
  var n = Math.floor(num);
  var myNum = num + "";
  var myDec = ""
- 
+
  if (myNum.indexOf('.',0) > -1){
   myDec = myNum.substring(myNum.indexOf('.',0),myNum.length);
  }
- var arr=new Array('0'), i=0; 
- while (n>0) 
+ var arr=new Array('0'), i=0;
+ while (n>0)
    {arr[i]=''+n%1000; n=Math.floor(n/1000); i++;}
  arr=arr.reverse();
  for (var i in arr) if (i>0) //padding zeros

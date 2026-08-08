@@ -21,10 +21,13 @@ require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 require_once("../inc/boinc_db.inc");
 
+if (REQUIRE_LOGIN) {
+    get_logged_in_user();
+}
+
 check_get_args(array("sort_by", "offset"));
 
-$config = get_config();
-$users_per_page = parse_config($config, "<users_per_page>");
+$users_per_page = project_config_val("users_per_page");
 if (!$users_per_page) {
     $users_per_page = 20;
 }
@@ -72,13 +75,11 @@ function show_user_row($user, $i) {
     ";
 }
 
-$sort_by = get_str("sort_by", true);
-switch ($sort_by) {
-case "total_credit":
-case "expavg_credit":
-    break;
-default:
-    $sort_by = "expavg_credit";
+$sort_by = get_str('sort_by', true);
+if ($sort_by) {
+    sanitize_sort_by($sort_by);
+} else {
+    $sort_by = 'expavg_credit';
 }
 
 $offset = get_int("offset", true);

@@ -18,8 +18,9 @@
 #ifndef BOINC_SCHED_KEYWORD_H
 #define BOINC_SCHED_KEYWORD_H
 
-// see sched_keywork.cpp
+#include "keyword.h"
 
+extern int read_kw_prefs(int user_id, USER_KEYWORDS&);
 extern double keyword_score(int);
 extern void keyword_sched_remove_job(int index);
 extern void keyword_sched_init();

@@ -33,3 +33,7 @@ all-local:
 
 install-exec-local:
 	python setup.py install --prefix=$(prefix) --root=$(DESTDIR)
+
+clean:
+	rm -rf $(top_builddir)/py/lib.*
+

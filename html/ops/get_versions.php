@@ -1,8 +1,8 @@
 #! /usr/bin/env php
 <?php
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2024 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,22 +19,31 @@
 
 // get XML client version list from BOINC server
 
+echo "\n".date(DATE_RFC2822)."\n";
+
 $x = file_put_contents(
-    "../user/versions.xml",
-    file_get_contents("https://boinc.berkeley.edu/download_all.php?xml=1&dev=1")
+    '../user/versions_temp.xml',
+    file_get_contents('https://boinc.berkeley.edu/download_all.php?xml=1&dev=1')
 );
 
 // The above may fail if PHP was not configured to use SSL.
 // Try wget instead.
 //
 if (!$x) {
-    echo "\nThat didn't work - using wget instead\n";
+    echo "\nfile_get_contents() didn't work - using wget instead\n";
 
-    $x = system("wget -O ../user/versions.xml https://boinc.berkeley.edu/download_all.php?xml=1&dev=1");
+    $x = system('wget -O ../user/versions_temp.xml https://boinc.berkeley.edu/download_all.php?xml=1&dev=1');
 
     if ($x === false) {
         echo "wget didn't work either\n";
+        exit;
     }
 }
+$x = rename('../user/versions_temp.xml', '../user/versions.xml');
+if ($x === false) {
+    echo "rename() failed\n";
+    exit;
+}
+echo "success\n";
 
 ?>

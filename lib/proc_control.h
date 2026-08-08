@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2011 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,10 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// functions for building the system-wide process tree,
+// and querying/controlling it
+
 #ifndef BOINC_PROC_CONTROL_H
 #define BOINC_PROC_CONTROL_H
 
 #include <vector>
+
 #ifdef _WIN32
 #include <windows.h>
 #endif
@@ -31,11 +35,13 @@ extern void kill_descendants();
 extern int suspend_or_resume_threads(
     std::vector<int> pids, DWORD threadid, bool resume, bool check_exempt
 );
-#else
-extern void kill_descendants(int child_pid=0);
-#endif
 extern void suspend_or_resume_descendants(bool resume);
 extern void suspend_or_resume_process(int pid, bool resume);
+#else
+extern void kill_descendants(int child_pid=0);
+extern void suspend_or_resume_descendants(bool resume, bool use_tstp=false);
+extern void suspend_or_resume_process(int pid, bool resume, bool use_tstp=false);
+#endif
 
 extern int process_priority_value(int);
 

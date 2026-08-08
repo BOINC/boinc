@@ -30,7 +30,7 @@ $last_pos = get_int("last_pos", true);
 $table = get_str("table", true);
 $detail = get_str("detail", true);
 $clauses = get_str("clauses", true);
-if (strstr($clauses, ";")) admin_error_page("bad clause");
+if ($clauses && strstr($clauses, ";")) admin_error_page("bad clause");
 
 $q = new SqlQueryString();
 $q->process_form_items();
@@ -67,7 +67,7 @@ $main_query = $q->get_select_query($entries_to_show, $start_at);
 $html_text=str_replace('<', '&lt;', str_replace('>', '&gt;', $main_query));
 
 echo "<p>Query: <b>$html_text</b><p>\n";
-    
+
 $start_1_offset = $start_at + 1;
 echo "
     <p>$count records match the query.
@@ -228,5 +228,4 @@ if ($result) {
 }
 
 admin_page_tail();
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

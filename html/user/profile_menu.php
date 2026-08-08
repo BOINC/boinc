@@ -21,7 +21,13 @@ require_once("../inc/util.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/uotd.inc");
 
-if (DISABLE_PROFILES) error_page("Profiles are disabled");
+if (DISABLE_PROFILES) {
+    error_page("Profiles are disabled");
+}
+
+if (REQUIRE_LOGIN) {
+    get_logged_in_user();
+}
 
 check_get_args(array("cmd", "pic"));
 
@@ -72,12 +78,16 @@ if (file_exists(PROFILE_PATH . "profile_alpha.html")) {
 echo "</ul></td></tr>";
 
 row1(tra("Search profile text"));
-rowify("
-    <form action=\"profile_search_action.php\" method=\"GET\">
-    <input type=\"text\" name=\"search_string\">
-    <input class=\"btn btn-success\" type=\"submit\" value=\"".tra("Search")."\">
-    </form>
-");
+rowify(
+    sprintf(
+        '<form action="profile_search_action.php" method="GET">
+        <input type="text" name="search_string">
+        <input class="btn btn-sm" %s type="submit" value="%s">
+        </form>',
+        button_style(),
+        tra("Search")
+    )
+);
 end_table();
 
 page_tail();
@@ -110,5 +120,4 @@ function select_profile($cmd) {
     }
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

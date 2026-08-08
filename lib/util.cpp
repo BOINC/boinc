@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,13 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifdef  _WIN32
-#ifndef __STDWX_H__
+#if defined(_WIN32)
 #include "boinc_win.h"
-#else
-#include "stdwx.h"
-#endif
-#include "str_replace.h"
+#include "str_util.h"
 #include "win_util.h"
 #endif
 
@@ -34,31 +30,24 @@
 #define M_LN2      0.693147180559945309417
 #endif
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#define perror FCGI::perror
-#endif
+#include "boinc_stdio.h"
 
 #ifndef _WIN32
 #include "config.h"
 #if defined(__APPLE__)
 #include <mach-o/dyld.h>
 #endif
-#if HAVE_UNISTD_H
 #include <unistd.h>
-#endif
-#if HAVE_SYS_SYSCTL_H
-#include <sys/sysctl.h>
-#endif
 #include <sys/types.h>
+#include <signal.h>
 #include <sys/time.h>
 #include <sys/wait.h>
-#include <signal.h>
 #include <sys/resource.h>
 #include <errno.h>
 #include <string>
 #include <cstring>
 #include <cmath>
+#include <algorithm>
 #if HAVE_IEEEFP_H
 #include <ieeefp.h>
 extern "C" {
@@ -67,14 +56,15 @@ extern "C" {
 #endif
 #endif
 
-#include "error_numbers.h"
-#include "common_defs.h"
-#include "filesys.h"
 #include "base64.h"
+#include "common_defs.h"
+#include "error_numbers.h"
+#include "filesys.h"
 #include "mfile.h"
 #include "miofile.h"
 #include "parse.h"
-
+#include "hostinfo.h"
+#include "str_replace.h"
 #include "util.h"
 
 using std::min;
@@ -108,7 +98,7 @@ double dtime() {
 #else
     struct timeval tv;
     gettimeofday(&tv, 0);
-    return tv.tv_sec + (tv.tv_usec/1.e6);
+    return (double)tv.tv_sec + ((double)tv.tv_usec/1.e6);
 #endif
 #endif
 }
@@ -148,91 +138,6 @@ void push_unique(string s, vector<string>& v) {
     }
     v.push_back(s);
 }
-
-#ifdef _WIN32
-
-int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu) {
-    FILETIME creationTime, exitTime, kernelTime, userTime;
-
-    if (GetThreadTimes(
-        thread_handle, &creationTime, &exitTime, &kernelTime, &userTime)
-    ) {
-        ULARGE_INTEGER tKernel, tUser;
-        LONGLONG totTime;
-
-        tKernel.LowPart  = kernelTime.dwLowDateTime;
-        tKernel.HighPart = kernelTime.dwHighDateTime;
-        tUser.LowPart    = userTime.dwLowDateTime;
-        tUser.HighPart   = userTime.dwHighDateTime;
-        totTime = tKernel.QuadPart + tUser.QuadPart;
-
-        // Runtimes in 100-nanosecond units
-        cpu = totTime / 1.e7;
-    } else {
-        return -1;
-    }
-    return 0;
-}
-
-int boinc_process_cpu_time(HANDLE process_handle, double& cpu) {
-    FILETIME creationTime, exitTime, kernelTime, userTime;
-
-    if (GetProcessTimes(
-        process_handle, &creationTime, &exitTime, &kernelTime, &userTime)
-    ) {
-        ULARGE_INTEGER tKernel, tUser;
-        LONGLONG totTime;
-
-        tKernel.LowPart  = kernelTime.dwLowDateTime;
-        tKernel.HighPart = kernelTime.dwHighDateTime;
-        tUser.LowPart    = userTime.dwLowDateTime;
-        tUser.HighPart   = userTime.dwHighDateTime;
-        totTime = tKernel.QuadPart + tUser.QuadPart;
-
-        // Runtimes in 100-nanosecond units
-        cpu = totTime / 1.e7;
-    } else {
-        return -1;
-    }
-    return 0;
-}
-
-static void get_elapsed_time(double& cpu) {
-    static double start_time;
-
-    double now = dtime();
-    if (start_time) {
-        cpu = now - start_time;
-    } else {
-        cpu = 0;
-    }
-    start_time = now;
-}
-
-int boinc_calling_thread_cpu_time(double& cpu) {
-    if (boinc_thread_cpu_time(GetCurrentThread(), cpu)) {
-        get_elapsed_time(cpu);
-    }
-    return 0;
-}
-
-#else
-
-// Unix: pthreads doesn't provide an API for getting per-thread CPU time,
-// so just get the process's CPU time
-//
-int boinc_calling_thread_cpu_time(double &cpu_t) {
-    struct rusage ru;
-
-    int retval = getrusage(RUSAGE_SELF, &ru);
-    if (retval) return ERR_GETRUSAGE;
-    cpu_t = (double)ru.ru_utime.tv_sec + ((double)ru.ru_utime.tv_usec) / 1e6;
-    cpu_t += (double)ru.ru_stime.tv_sec + ((double)ru.ru_stime.tv_usec) / 1e6;
-    return 0;
-}
-
-#endif
-
 
 // Update an estimate of "units per day" of something (credit or CPU time).
 // The estimate is exponentially averaged with a given half-life
@@ -295,27 +200,6 @@ void update_average(
     avg_time = now;
 }
 
-#ifndef _USING_FCGI_
-#ifndef _WIN32
-// (linux) return current CPU time of the given process
-//
-double linux_cpu_time(int pid) {
-    FILE *file;
-    char file_name[24];
-    unsigned long utime = 0, stime = 0;
-    int n;
-
-    snprintf(file_name, sizeof(file_name), "/proc/%d/stat", pid);
-    if ((file = fopen(file_name,"r")) != NULL) {
-        n = fscanf(file,"%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%lu%lu",&utime,&stime);
-        fclose(file);
-        if (n != 2) return 0;
-    }
-    return (double)(utime + stime)/100;
-}
-#endif
-#endif
-
 void boinc_crash() {
 #ifdef _WIN32
     DebugBreak();
@@ -324,104 +208,19 @@ void boinc_crash() {
 #endif
 }
 
-// read file (at most max_len chars, if nonzero) into malloc'd buf
-//
-#ifdef _USING_FCGI_
-int read_file_malloc(const char* path, char*& buf, size_t, bool) {
-#else
-int read_file_malloc(const char* path, char*& buf, size_t max_len, bool tail) {
-#endif
-    int retval;
-    double size;
-
-    // Win: if another process has this file open for writing,
-    // wait for up to 5 seconds.
-    // This is because when a job exits, the write to stderr.txt
-    // sometimes (inexplicably) doesn't appear immediately
-
-#ifdef _WIN32
-    for (int i=0; i<5; i++) {
-        HANDLE h = CreateFileA(
-            path,
-            GENERIC_WRITE,
-            0,
-            NULL,
-            OPEN_EXISTING,
-            FILE_ATTRIBUTE_NORMAL,
-            NULL
-        );
-        if (h != INVALID_HANDLE_VALUE) {
-            CloseHandle(h);
-            break;
-        }
-        boinc_sleep(1);
-    }
-#endif
-
-    retval = file_size(path, size);
-    if (retval) return retval;
-
-    // Note: the fseek() below won't work unless we use binary mode in fopen
-
-#ifndef _USING_FCGI_
-    FILE *f = fopen(path, "rb");
-#else
-    FCGI_FILE *f = FCGI::fopen(path, "rb");
-#endif
-    if (!f) return ERR_FOPEN;
-
-#ifndef _USING_FCGI_
-    if (max_len && size > max_len) {
-        if (tail) {
-            fseek(f, (long)size-(long)max_len, SEEK_SET);
-        }
-        size = max_len;
-    }
-#endif
-    size_t isize = (size_t)size;
-    buf = (char*)malloc(isize+1);
-    if (!buf) {
-        fclose(f);
-        return ERR_MALLOC;
-    }
-    size_t n = fread(buf, 1, isize, f);
-    buf[n] = 0;
-    fclose(f);
-    return 0;
-}
-
-// read file (at most max_len chars, if nonzero) into string
-//
-int read_file_string(
-    const char* path, string& result, size_t max_len, bool tail
-) {
-    result.erase();
-    int retval;
-    char* buf;
-
-    retval = read_file_malloc(path, buf, max_len, tail);
-    if (retval) return retval;
-    result = buf;
-    free(buf);
-    return 0;
-}
-
 // chdir into the given directory, and run a program there.
-// If nsecs is nonzero, make sure it's still running after that many seconds.
+// Don't wait for it to exit.
+// argv is Unix-style, i.e. argv[0] is the program name
 //
-// argv is set up Unix-style, i.e. argv[0] is the program name
-//
-
 #ifdef _WIN32
 int run_program(
-    const char* dir, const char* file, int argc, char *const argv[], double nsecs, HANDLE& id
+    const char* dir, const char* file, int argc, char *const argv[], HANDLE& id
 ) {
     int retval;
     PROCESS_INFORMATION process_info;
     STARTUPINFOA startup_info;
     char cmdline[1024];
     char error_msg[1024];
-    unsigned long status;
 
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
@@ -441,7 +240,7 @@ int run_program(
         cmdline,
         NULL,
         NULL,
-        FALSE,
+        FALSE,  // don't inherit handles
         0,
         NULL,
         dir,
@@ -457,21 +256,13 @@ int run_program(
         return -1; // CreateProcess returns 1 if successful, false if it failed.
     }
 
-    if (nsecs) {
-        boinc_sleep(nsecs);
-        if (GetExitCodeProcess(process_info.hProcess, &status)) {
-            if (status != STILL_ACTIVE) {
-                return -1;
-            }
-        }
-    }
     if (process_info.hThread) CloseHandle(process_info.hThread);
     id = process_info.hProcess;
     return 0;
 }
 #else
 int run_program(
-    const char* dir, const char* file, int , char *const argv[], double nsecs, int& id
+    const char* dir, const char* file, int , char *const argv[], int& id
 ) {
     int retval;
     int pid = fork();
@@ -481,28 +272,176 @@ int run_program(
             if (retval) return retval;
         }
         execvp(file, argv);
-#ifdef _USING_FCGI_
-        FCGI::perror("execvp");
-#else
-        perror("execvp");
-        fprintf(stderr, "couldn't exec %s: %d\n", file, errno);
-#endif
+        boinc::perror("execvp");
+        boinc::fprintf(stderr, "couldn't exec %s: %d\n", file, errno);
         exit(errno);
-    }
-
-    if (nsecs) {
-        boinc_sleep(nsecs);
-        if (waitpid(pid, 0, WNOHANG) == pid) {
-            return -1;
-        }
     }
     id = pid;
     return 0;
 }
 #endif
 
+// Run command, wait for exit.
+// If command exits nonzero, return value is -1.
+// Return its output as vector of lines (\n-terminated).
+// Win: output includes stdout and stderr
+// Unix: if you want stderr too, add 2>&1 to command
+// Return error if command failed
+//
+int run_command(const char *cmd, vector<string> &out) {
+    out.clear();
 #ifdef _WIN32
-int kill_program(int pid, int exit_code) {
+    HANDLE pipe_read, pipe_write;
+    SECURITY_ATTRIBUTES sa;
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+    char cmd2[1024];
+
+    // CreateProcess() can modify its cmd arg (WTF???)
+    // So copy it to a temp buffer
+    safe_strcpy(cmd2, cmd);
+
+    memset(&si, 0, sizeof(si));
+    memset(&pi, 0, sizeof(pi));
+    memset(&sa, 0, sizeof(sa));
+
+    sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+    sa.bInheritHandle = TRUE;
+    sa.lpSecurityDescriptor = NULL;
+
+    if (!CreatePipe(&pipe_read, &pipe_write, &sa, 0)) return -1;
+    SetHandleInformation(pipe_read, HANDLE_FLAG_INHERIT, 0);
+
+    si.cb = sizeof(STARTUPINFO);
+    si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+    si.wShowWindow = SW_HIDE;
+    si.hStdOutput = pipe_write;
+    si.hStdError = pipe_write;
+    si.hStdInput = NULL;
+
+    if (!CreateProcess(
+        NULL,
+        (LPTSTR)cmd2,
+        NULL,
+        NULL,
+        TRUE,   // inherit handles
+        CREATE_NO_WINDOW,
+        NULL,
+        NULL,
+        &si,
+        &pi
+    )) {
+        return -1;
+    }
+
+    // wait for command to finish
+    //
+    WaitForSingleObject(pi.hProcess, INFINITE);
+
+    unsigned long exit_code;
+    GetExitCodeProcess(pi.hProcess, &exit_code);
+
+    DWORD count, nread;
+    PeekNamedPipe(pipe_read, NULL, NULL, NULL, &count, NULL);
+    if (count == 0) {
+        return 0;
+    }
+    char* buf = (char*)malloc(count+1);
+    if (!ReadFile(pipe_read, buf, count, &nread, NULL)) {
+        free(buf);
+        return -1;
+    }
+    buf[nread] = 0;
+    char* p = buf;
+    while (*p) {
+        char* q = strchr(p, '\n');
+        if (!q) break;
+        out.push_back(string(p, q-p+1));    // include \n
+        p = q + 1;
+    }
+    free(buf);
+    if (exit_code) return -1;
+#else
+#ifndef _USING_FCGI_
+    char buf[256];
+    errno = 0;
+    FILE* fp = popen(cmd, "r");
+    if (!fp) {
+        fprintf(stderr, "popen() failed: %s\n", cmd);
+        return ERR_FOPEN;
+    }
+    string s;
+    while (fgets(buf, 256, fp)) {
+        s += buf;
+        if (strchr(buf, '\n')) {
+            out.push_back(s);
+            s.clear();
+        }
+    }
+    int exit_status = pclose(fp);
+    if (exit_status) {
+        return -1;
+    }
+#endif
+#endif
+    return 0;
+}
+
+#ifdef _WIN32
+
+// run the program, and return handles to write to and read from it
+//
+int run_program_pipe(
+    char *cmd, HANDLE &write_handle, HANDLE &read_handle, HANDLE &proc_handle
+) {
+    HANDLE in_read, in_write, out_read, out_write;
+
+    SECURITY_ATTRIBUTES sa;
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+
+    memset(&si, 0, sizeof(si));
+    memset(&pi, 0, sizeof(pi));
+    memset(&sa, 0, sizeof(sa));
+
+    sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+    sa.bInheritHandle = TRUE;
+    sa.lpSecurityDescriptor = NULL;
+
+    if (!CreatePipe(&out_read, &out_write, &sa, 0)) return -1;
+    if (!SetHandleInformation(out_read, HANDLE_FLAG_INHERIT, 0)) return -1;
+    if (!CreatePipe(&in_read, &in_write, &sa, 0)) return -1;
+    if (!SetHandleInformation(in_write, HANDLE_FLAG_INHERIT, 0)) return -1;
+
+    si.cb = sizeof(STARTUPINFO);
+    si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+    si.wShowWindow = SW_HIDE;
+    si.hStdOutput = out_write;
+    si.hStdError = out_write;
+    si.hStdInput = in_read;
+
+    if (!CreateProcess(
+        NULL,
+        (LPTSTR)cmd,
+        NULL,
+        NULL,
+        TRUE,   // inherit handles
+        CREATE_NO_WINDOW,
+        NULL,
+        NULL,
+        &si,
+        &pi
+    )) {
+        return -1;
+    }
+
+    write_handle = in_write;
+    read_handle = out_read;
+    proc_handle = pi.hProcess;
+    return 0;
+}
+
+int kill_process_with_status(int pid, int exit_code) {
     int retval;
 
     HANDLE h = OpenProcess(PROCESS_TERMINATE, false, pid);
@@ -518,13 +457,13 @@ int kill_program(int pid, int exit_code) {
     return retval;
 }
 
-int kill_program(HANDLE pid) {
+int kill_process(HANDLE pid) {
     if (TerminateProcess(pid, 0)) return 0;
     return ERR_KILL;
 }
 
 #else
-int kill_program(int pid) {
+int kill_process(int pid) {
     if (kill(pid, SIGKILL)) {
         if (errno == ESRCH) return 0;
         return ERR_KILL;
@@ -534,74 +473,38 @@ int kill_program(int pid) {
 #endif
 
 #ifdef _WIN32
-int get_exit_status(HANDLE pid_handle) {
-    unsigned long status=1;
-    WaitForSingleObject(pid_handle, INFINITE);
-    GetExitCodeProcess(pid_handle, &status);
-    return (int) status;
-}
-bool process_exists(HANDLE h) {
-    unsigned long status=1;
-    if (GetExitCodeProcess(h, &status)) {
-        if (status == STILL_ACTIVE) return true;
+int get_exit_status(HANDLE pid_handle, int &status, double dt) {
+    if (dt>=0) {
+        DWORD dt_msec = (DWORD)dt*1000;
+        DWORD ret = WaitForSingleObject(pid_handle, dt_msec);
+        if (ret == WAIT_TIMEOUT) {
+            return ERR_NOT_FOUND;
+        }
+    } else {
+        WaitForSingleObject(pid_handle, INFINITE);
     }
-    return false;
-}
-#else
-int get_exit_status(int pid) {
-    int status;
-    waitpid(pid, &status, 0);
-    return status;
-}
-bool process_exists(int pid) {
-    int retval = kill(pid, 0);
-    if (retval == -1 && errno == ESRCH) return false;
-    return true;
-}
-#endif
-
-#ifdef _WIN32
-static int get_client_mutex(const char*) {
-    char buf[MAX_PATH] = "";
-    
-    // Global mutex on Win2k and later
-    //
-    safe_strcpy(buf, "Global\\");
-    safe_strcat(buf, RUN_MUTEX);
-
-    HANDLE h = CreateMutexA(NULL, true, buf);
-    if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
-        return ERR_ALREADY_RUNNING;
-    }
-#else
-static int get_client_mutex(const char* dir) {
-    char path[MAXPATHLEN];
-    static FILE_LOCK file_lock;
-
-    snprintf(path, sizeof(path), "%s/%s", dir, LOCK_FILE_NAME);
-    path[sizeof(path)-1] = 0;
-
-    int retval = file_lock.lock(path);
-    if (retval == ERR_FCNTL) {
-        return ERR_ALREADY_RUNNING;
-    } else if (retval) {
-        return retval;
-    }
-#endif
+    unsigned long stat=1;
+    GetExitCodeProcess(pid_handle, &stat);
+    status = (int) stat;
     return 0;
 }
-
-int wait_client_mutex(const char* dir, double timeout) {
-    double start = dtime();
-    int retval = 0;
-    while (1) {
-        retval = get_client_mutex(dir);
-        if (!retval) return 0;
-        boinc_sleep(1);
-        if (dtime() - start > timeout) break;
+#else
+int get_exit_status(int pid, int &status, double dt) {
+    if (dt>=0) {
+        while (1) {
+            int ret = waitpid(pid, &status, WNOHANG);
+            if (ret > 0) return 0;
+            dt -= 1;
+            if (dt<0) break;
+            boinc_sleep(1);
+        }
+        return ERR_NOT_FOUND;
+    } else {
+        waitpid(pid, &status, 0);
     }
-    return retval;
+    return 0;
 }
+#endif
 
 bool boinc_is_finite(double x) {
 #if defined (HPUX_SOURCE)
@@ -634,8 +537,7 @@ double rand_normal() {
     return z*cos(PI2*u2);
 }
 
-// determines the real path and filename of the current process
-// not the current working directory
+// get the path of the calling process's executable
 //
 int get_real_executable_path(char* path, size_t max_len) {
 #if defined(__APPLE__)
@@ -668,11 +570,7 @@ int get_real_executable_path(char* path, size_t max_len) {
         ssize_t ret = readlink(links[i], path, max_len - 1);
         if (ret < 0) {
             if (errno != ENOENT) {
-#ifdef _USING_FCGI_
-                FCGI::perror("readlink");
-#else
-                perror("readlink");
-#endif
+                boinc::perror("readlink");
             }
             continue;
         } else if ((size_t)ret == max_len - 1) {
@@ -684,3 +582,458 @@ int get_real_executable_path(char* path, size_t max_len) {
     return ERR_NOT_IMPLEMENTED;
 #endif
 }
+
+#ifdef _WIN32
+
+int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu) {
+    FILETIME creationTime, exitTime, kernelTime, userTime;
+
+    if (GetThreadTimes(
+        thread_handle, &creationTime, &exitTime, &kernelTime, &userTime)
+        ) {
+        ULARGE_INTEGER tKernel, tUser;
+        LONGLONG totTime;
+
+        tKernel.LowPart = kernelTime.dwLowDateTime;
+        tKernel.HighPart = kernelTime.dwHighDateTime;
+        tUser.LowPart = userTime.dwLowDateTime;
+        tUser.HighPart = userTime.dwHighDateTime;
+        totTime = tKernel.QuadPart + tUser.QuadPart;
+
+        // Runtimes in 100-nanosecond units
+        cpu = totTime / 1.e7;
+    }
+    else {
+        return -1;
+    }
+    return 0;
+}
+
+static void get_elapsed_time(double& cpu) {
+    static double start_time;
+
+    double now = dtime();
+    if (start_time) {
+        cpu = now - start_time;
+    }
+    else {
+        cpu = 0;
+    }
+    start_time = now;
+}
+
+int boinc_calling_thread_cpu_time(double& cpu) {
+    if (boinc_thread_cpu_time(GetCurrentThread(), cpu)) {
+        get_elapsed_time(cpu);
+    }
+    return 0;
+}
+
+int boinc_process_cpu_time(HANDLE process_handle, double& cpu) {
+    FILETIME creationTime, exitTime, kernelTime, userTime;
+
+    if (GetProcessTimes(
+        process_handle, &creationTime, &exitTime, &kernelTime, &userTime)
+        ) {
+        ULARGE_INTEGER tKernel, tUser;
+        LONGLONG totTime;
+
+        tKernel.LowPart = kernelTime.dwLowDateTime;
+        tKernel.HighPart = kernelTime.dwHighDateTime;
+        tUser.LowPart = userTime.dwLowDateTime;
+        tUser.HighPart = userTime.dwHighDateTime;
+        totTime = tKernel.QuadPart + tUser.QuadPart;
+
+        // Runtimes in 100-nanosecond units
+        cpu = totTime / 1.e7;
+    }
+    else {
+        return -1;
+    }
+    return 0;
+}
+
+bool process_exists(HANDLE h) {
+    unsigned long status = 1;
+    if (GetExitCodeProcess(h, &status)) {
+        if (status == STILL_ACTIVE) return true;
+    }
+    return false;
+}
+
+#else   // _WIN32
+
+// Unix: pthreads doesn't provide an API for getting per-thread CPU time,
+// so just get the process's CPU time
+//
+int boinc_calling_thread_cpu_time(double &cpu_t) {
+    struct rusage ru;
+
+    int retval = getrusage(RUSAGE_SELF, &ru);
+    if (retval) return ERR_GETRUSAGE;
+    cpu_t = (double)ru.ru_utime.tv_sec + ((double)ru.ru_utime.tv_usec) / 1e6;
+    cpu_t += (double)ru.ru_stime.tv_sec + ((double)ru.ru_stime.tv_usec) / 1e6;
+    return 0;
+}
+
+#ifndef _USING_FCGI_
+// (linux) return current CPU time of the given process
+//
+double linux_cpu_time(int pid) {
+    FILE* file;
+    char file_name[24];
+    unsigned long utime = 0, stime = 0;
+    int n;
+
+    snprintf(file_name, sizeof(file_name), "/proc/%d/stat", pid);
+    if ((file = fopen(file_name, "r")) != NULL) {
+        n = fscanf(file, "%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%*s%lu%lu", &utime, &stime);
+        fclose(file);
+        if (n != 2) return 0;
+    }
+    return (double)(utime + stime) / 100;
+}
+#endif
+
+bool process_exists(int pid) {
+    int retval = kill(pid, 0);
+    if (retval == -1 && errno == ESRCH) return false;
+    return true;
+}
+
+#endif  // _WIN32
+
+#ifndef _USING_FCGI_
+
+string parse_ldd_libc(const char* input) {
+    char *q = (char*)strchr(input, '\n');
+    if (q) *q = 0;
+    const char *p = strrchr(input, ' ');
+    if (!p) return "";
+    int maj, min;
+    if (sscanf(p, "%d.%d", &maj, &min) != 2) return "";
+    string s = (string)p;
+    strip_whitespace(s);
+    return s;
+}
+
+// ------------ Docker stuff follows ------------
+
+// Set up to issue Docker commands.
+// On Win this requires connecting to a shell in the WSL distro
+//
+#ifdef _WIN32
+int DOCKER_CONN::init(WSL_DISTRO &wd) {
+    string err_msg;
+    type = wd.docker_type;
+    cli_prog = docker_cli_prog(wd.docker_type);
+    if (wd.docker_type == DOCKER) {
+        int retval = ctl_wc.setup(err_msg);
+        if (retval) return retval;
+        retval = ctl_wc.run_program_in_wsl(wd, "", true);
+        if (retval) return retval;
+    } else if (wd.docker_type == PODMAN) {
+        int retval = ctl_wc.setup_podman(wd);
+        if (retval) return retval;
+    } else {
+        fprintf(stderr,
+            "DOCKER_CONN::init(): bad docker type %d\n", wd.docker_type
+        );
+        return -1;
+    }
+    return 0;
+}
+#else
+int DOCKER_CONN::init(DOCKER_TYPE docker_type) {
+    type = docker_type;
+    cli_prog = docker_cli_prog(docker_type);
+    return 0;
+}
+#endif
+
+// issue a Docker command and return its output (stdout + stderr)
+// as a vector of lines (\n-terminated)
+//
+int DOCKER_CONN::command(
+    const char* cmd, vector<string> &out, bool verbose
+) {
+    char buf[1024];
+    int retval;
+    if (verbose) {
+        fprintf(stderr, "running docker command: %s\n", cmd);
+        fprintf(stderr, "program: %s\n", cli_prog);
+    }
+#ifdef _WIN32
+    string output;
+
+    // In the Win case we read the output from a pipe.
+    // Append 'EOM' to the output so we know when we've reached the end
+
+    snprintf(buf, sizeof(buf), "%s %s 2>&1; echo EOM\n", cli_prog, cmd);
+    write_to_pipe(ctl_wc.in_write, buf);
+    retval = read_from_pipe(
+        ctl_wc.out_read, ctl_wc.proc_handle, output, CMD_TIMEOUT, "EOM"
+    );
+    if (retval) {
+        fprintf(stderr, "read_from_pipe() error: %s\n", boincerror(retval));
+        return retval;
+    }
+    out = split(output, '\n');
+#else
+    snprintf(buf, sizeof(buf),
+        "%s %s 2>&1",
+        cli_prog, cmd
+    );
+    retval = run_command(buf, out);
+    if (retval) {
+        fprintf(stderr, "command failed: %s\n", boincerror(retval));
+        return retval;
+    }
+#endif  // _WIN32
+
+    if (verbose) {
+        fprintf(stderr, "command output:\n");
+        for (string line: out) {
+            fprintf(stderr, "%s", line.c_str());
+        }
+    }
+    return 0;
+}
+
+// like the above, but run a shell command (not a Docker command).
+// We only need this in Win, to run commands in our WSL shell
+//
+#ifdef _WIN32
+int DOCKER_CONN::shell_command(
+    const char* cmd, vector<string> &out, bool verbose
+) {
+    char buf[1024];
+    int retval;
+    if (verbose) {
+        fprintf(stderr, "running WSL shell command: %s\n", cmd);
+    }
+    string output;
+
+    snprintf(buf, sizeof(buf), "%s 2>&1; echo EOM\n", cmd);
+    write_to_pipe(ctl_wc.in_write, buf);
+    retval = read_from_pipe(
+        ctl_wc.out_read, ctl_wc.proc_handle, output, CMD_TIMEOUT, "EOM"
+    );
+    if (retval) {
+        fprintf(stderr, "read_from_pipe() error: %s\n", boincerror(retval));
+        return retval;
+    }
+    out = split(output, '\n');
+    return 0;
+}
+#endif
+
+// parse the output of 'docker images'
+// from the following, return 'boinc__app_test__test_wu'
+//
+// REPOSITORY                          TAG         IMAGE ID      CREATED       SIZE
+// localhost/boinc__app_test__test_wu  latest      cbc1498dfc49  43 hours ago  121 MB
+//
+int DOCKER_CONN::parse_image_name(string line, string &name) {
+    char buf[1024];
+    safe_strcpy(buf, line.c_str());
+    if (strstr(buf, "REPOSITORY")) return -1;
+    if (strstr(buf, "localhost/") != buf) return -1;
+    char *p = buf + strlen("localhost/");
+    char *q = strstr(p, " ");
+    if (!q) return -1;
+    *q = 0;
+    name = (string)p;
+    return 0;
+}
+
+// parse the output of 'docker ps -all'.
+// from the following, return boinc__app_test__test_result
+//
+// CONTAINER ID  IMAGE                                      COMMAND               CREATED        STATUS                   PORTS       NAMES
+// 6d4877e0d071  localhost/boinc__app_test__test_wu:latest  /bin/sh -c ./work...  43 hours ago   Exited (0) 21 hours ago              boinc__app_test__test_result
+//
+// if running, looks like
+// CONTAINER ID  IMAGE                       COMMAND       CREATED        STATUS        PORTS       NAMES
+// bf4ce6e19182  localhost/criu_test:latest  ./counter.sh  9 seconds ago  Up 9 seconds              competent_ishizaka
+
+int DOCKER_CONN::parse_container_name(string line, string &name) {
+    char buf[1024];
+    safe_strcpy(buf, line.c_str());
+    if (strstr(buf, "CONTAINER")) return -1;
+    char *p = strrchr(buf, ' ');
+    if (!p) return -1;
+    name = (string)(p+1);
+    strip_whitespace(name);
+    return 0;
+}
+
+// we name Docker images so that they're
+// - distinguishable from non-BOINC images (hence boinc__)
+// - unique per WU (hence projurl__wuname)
+// - lowercase (required by Docker)
+//
+string docker_image_name(const char* proj_url_esc, const char* wu_name) {
+    char buf[2048], url_buf[512], wu_buf[512];
+
+    safe_strcpy(url_buf, proj_url_esc);
+    downcase_string(url_buf);
+    safe_strcpy(wu_buf, wu_name);
+    downcase_string(wu_buf);
+
+    snprintf(buf, sizeof(buf), "boinc__%s__%s", url_buf, wu_buf);
+    return string(buf);
+}
+
+// similar for Docker container names,
+// but they're unique per result rather than per WU
+//
+string docker_container_name(
+    const char* proj_url_esc, const char* result_name
+){
+    char buf[2048], url_buf[512], result_buf[512];
+
+    safe_strcpy(url_buf, proj_url_esc);
+    downcase_string(url_buf);
+    safe_strcpy(result_buf, result_name);
+    downcase_string(result_buf);
+
+    snprintf(buf, sizeof(buf), "boinc__%s__%s", url_buf, result_buf);
+    return string(buf);
+}
+
+bool docker_is_boinc_name(const char* name) {
+    return strstr(name, "boinc__") == name;
+}
+
+// ------------ all_projects_list.xml stuff follows ---------
+
+PROJECT_LIST_ENTRY::PROJECT_LIST_ENTRY() {
+    clear();
+}
+
+int PROJECT_LIST_ENTRY::parse(XML_PARSER& xp) {
+    string platform;
+
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/project")) {
+            if (id == 0) return ERR_XML_PARSE;
+            if (url.empty()) return ERR_XML_PARSE;
+            if (name.empty()) return ERR_XML_PARSE;
+            return 0;
+        }
+        if (xp.match_tag("/account_manager")) return 0;
+        if (xp.parse_string("name", name)) continue;
+        if (xp.parse_int("id", id)) continue;
+        if (xp.parse_string("url", url)) {
+            continue;
+        }
+        if (xp.parse_string("web_url", web_url)) {
+            continue;
+        }
+        if (xp.parse_string("general_area", general_area)) continue;
+        if (xp.parse_string("specific_area", specific_area)) continue;
+        if (xp.parse_string("description", description)) {
+            continue;
+        }
+        if (xp.parse_string("home", home)) continue;
+        if (xp.parse_string("image", image)) continue;
+        if (xp.match_tag("platforms")) {
+            while (!xp.get_tag()) {
+                if (xp.match_tag("/platforms")) break;
+                if (xp.parse_string("name", platform)) {
+                    platforms.push_back(platform);
+                }
+            }
+        }
+        xp.skip_unexpected(false, "");
+    }
+    return ERR_XML_PARSE;
+}
+
+void PROJECT_LIST_ENTRY::clear() {
+    name.clear();
+    id = 0;
+    url.clear();
+    web_url.clear();
+    general_area.clear();
+    specific_area.clear();
+    description.clear();
+    platforms.clear();
+    home.clear();
+    image.clear();
+    is_account_manager = false;
+}
+
+bool compare_project_list_entry(
+    const PROJECT_LIST_ENTRY* a, const PROJECT_LIST_ENTRY* b
+) {
+#ifdef _WIN32
+    return _stricmp(a->name.c_str(), b->name.c_str()) < 0;
+#else
+    return strcasecmp(a->name.c_str(), b->name.c_str()) < 0;
+#endif
+}
+
+void ALL_PROJECTS_LIST::alpha_sort() {
+    sort(projects.begin(), projects.end(), compare_project_list_entry);
+    sort(account_managers.begin(), account_managers.end(), compare_project_list_entry);
+}
+
+void ALL_PROJECTS_LIST::clear() {
+    for (PROJECT_LIST_ENTRY *p: projects) {
+        delete p;
+    }
+    for (PROJECT_LIST_ENTRY *am: account_managers) {
+        delete am;
+    }
+    projects.clear();
+    account_managers.clear();
+}
+
+int ALL_PROJECTS_LIST::parse(XML_PARSER &xp) {
+    PROJECT_LIST_ENTRY* entry;
+    int retval;
+
+    clear();
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/projects")) {
+            return 0;
+        }
+        else if (xp.match_tag("project")) {
+            entry = new PROJECT_LIST_ENTRY();
+            retval = entry->parse(xp);
+            if (!retval) {
+                entry->is_account_manager = false;
+                projects.push_back(entry);
+            } else {
+                delete entry;
+            }
+            continue;
+        } else if (xp.match_tag("account_manager")) {
+            entry = new PROJECT_LIST_ENTRY();
+            retval = entry->parse(xp);
+            if (!retval) {
+                entry->is_account_manager = true;
+                account_managers.push_back(entry);
+            } else {
+                delete entry;
+            }
+            continue;
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
+int ALL_PROJECTS_LIST::read_file(const char* filename) {
+    FILE* f = fopen(filename, "r");
+    if (!f) return ERR_FOPEN;
+    MIOFILE mf;
+    mf.init_file(f);
+    XML_PARSER xp(&mf);
+    int retval = parse(xp);
+    fclose(f);
+    return retval;
+}
+
+#endif  // _USING_FCGI

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -85,10 +85,10 @@ typedef enum {
 typedef PCSTR PCTSTR;
 
 typedef struct _IMAGEHLP_CBA_EVENT {
-    DWORD severity;                                     
-    DWORD code;                                         
-    PCHAR desc;                                         
-    PVOID object;                                  
+    DWORD severity;
+    DWORD code;
+    PCHAR desc;
+    PVOID object;
 } IMAGEHLP_CBA_EVENT, *PIMAGEHLP_CBA_EVENT;
 
 typedef struct _ADDRESS64 {
@@ -230,7 +230,7 @@ typedef BOOL (__stdcall *tSEM)(
 );
 
 // SymFunctionTableAccess64()
-typedef PVOID (__stdcall *tSFTA)( 
+typedef PVOID (__stdcall *tSFTA)(
     IN HANDLE hProcess,
     IN DWORD64 AddrBase
 );
@@ -338,13 +338,13 @@ typedef BOOL (__stdcall *tSDD)(
 );
 
 
-// GetFileVersionInfoSize 
-typedef BOOL (__stdcall *tGFVIS)(
+// GetFileVersionInfoSize
+typedef DWORD (__stdcall *tGFVIS)(
     LPCSTR lptstrFilename,
     LPDWORD lpdwHandle
 );
 
-// GetFileVersionInfo 
+// GetFileVersionInfo
 typedef BOOL (__stdcall *tGFVI)(
     LPCSTR lptstrFilename,
     DWORD dwHandle,
@@ -352,7 +352,7 @@ typedef BOOL (__stdcall *tGFVI)(
     LPVOID lpData
 );
 
-// VerQueryValue 
+// VerQueryValue
 typedef BOOL (__stdcall *tVQV)(
     const LPVOID pBlock,
     LPCSTR lpSubBlock,

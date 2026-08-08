@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,9 +16,8 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // High-level logic for communicating with scheduling servers,
-// and for merging the result of a scheduler RPC into the client state
-
-// The scheduler RPC mechanism is in scheduler_op.C
+// and for merging the reply of a scheduler RPC into the client state
+// The scheduler RPC mechanism is in scheduler_op.cpp
 
 #include "cpp.h"
 
@@ -32,10 +31,6 @@
 #include <cstring>
 #include <map>
 #include <set>
-#endif
-
-#ifdef _MSC_VER
-#define snprintf _snprintf
 #endif
 
 #include "crypt.h"
@@ -82,8 +77,7 @@ using std::string;
 int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     char buf[1024];
     MIOFILE mf;
-    unsigned int i;
-    RESULT* rp;
+    int i;
 
     get_sched_request_filename(*p, buf, sizeof(buf));
     FILE* f = boinc_fopen(buf, "wb");
@@ -145,6 +139,9 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         g_use_sandbox?1:0,
         p->dont_request_more_work?1:0
     );
+    if (cc_config.dont_use_docker) {
+        fprintf(f, "    <dont_use_docker/>\n");
+    }
     work_fetch.write_request(f, p);
 
     // write client capabilities
@@ -165,44 +162,15 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     global_prefs.write(mf);
     fprintf(f, "</working_global_preferences>\n");
 
-    // send master global preferences if present and not host-specific
+    // send the oldest CPID with email hash
     //
-    if (!global_prefs.host_specific && boinc_file_exists(GLOBAL_PREFS_FILE_NAME)) {
-        FILE* fprefs = fopen(GLOBAL_PREFS_FILE_NAME, "r");
-        if (fprefs) {
-            copy_stream(fprefs, f);
-            fclose(fprefs);
-        }
-        PROJECT* pp = lookup_project(global_prefs.source_project);
-        if (pp && strlen(pp->email_hash)) {
-            fprintf(f,
-                "<global_prefs_source_email_hash>%s</global_prefs_source_email_hash>\n",
-                pp->email_hash
-            );
-        }
+    USER_CPID* ucp = user_cpids.lookup(p->email_hash);
+    if (ucp) {
+        fprintf(f,
+            "<cross_project_id>%s</cross_project_id>\n",
+            ucp->cpid
+        );
     }
-
-    // Of the projects with same email hash as this one,
-    // send the oldest cross-project ID.
-    // Use project URL as tie-breaker.
-    //
-    PROJECT* winner = p;
-    for (i=0; i<projects.size(); i++ ) {
-        PROJECT* project = projects[i];
-        if (project == p) continue;
-        if (strcmp(project->email_hash, p->email_hash)) continue;
-        if (project->cpid_time < winner->cpid_time) {
-            winner = project;
-        } else if (project->cpid_time == winner->cpid_time) {
-            if (strcmp(project->master_url, winner->master_url) < 0) {
-                winner = project;
-            }
-        }
-    }
-    fprintf(f,
-        "<cross_project_id>%s</cross_project_id>\n",
-        winner->cross_project_id
-    );
 
     time_stats.write(mf, true);
     net_stats.write(mf);
@@ -215,21 +183,37 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     // update hardware info, and write host info
     //
     host_info.get_host_info(false);
-    set_ncpus();
+    set_n_usable_cpus();
+
+#ifdef __APPLE__
+    // if Podman hasn't inited yet, don't include Podman info in sched req
+    char tmp[256];
+    safe_strcpy(tmp, host_info.docker_version);
+    if (host_info.docker_type == PODMAN && !host_info.podman_inited) {
+        host_info.docker_version[0] = 0;
+    }
+#endif
+
     host_info.write(mf, !cc_config.suppress_net_info, false);
+
+#ifdef __APPLE__
+    safe_strcpy(host_info.docker_version, tmp);
+#endif
 
     // get and write disk usage
     //
-    get_disk_usages();
-    get_disk_shares();
-    fprintf(f,
-        "    <disk_usage>\n"
-        "        <d_boinc_used_total>%f</d_boinc_used_total>\n"
-        "        <d_boinc_used_project>%f</d_boinc_used_project>\n"
-        "        <d_project_share>%f</d_project_share>\n"
-        "    </disk_usage>\n",
-        total_disk_usage, p->disk_usage, p->disk_share
-    );
+    if (!cc_config.no_disk_usage) {
+        get_disk_usages();
+        get_disk_shares();
+        fprintf(f,
+            "    <disk_usage>\n"
+            "        <d_boinc_used_total>%f</d_boinc_used_total>\n"
+            "        <d_boinc_used_project>%f</d_boinc_used_project>\n"
+            "        <d_project_share>%f</d_project_share>\n"
+            "    </disk_usage>\n",
+            total_disk_usage, p->disk_usage, p->disk_share
+        );
+    }
 
     if (coprocs.n_rsc > 1) {
         work_fetch.copy_requests();
@@ -238,10 +222,10 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 
     // report completed jobs
     //
-    unsigned int last_reported_index = 0;
+    int last_reported_index = 0;
     p->nresults_returned = 0;
-    for (i=0; i<results.size(); i++) {
-        rp = results[i];
+    i = 0;
+    for (RESULT *rp: results) {
         if (rp->project == p && rp->ready_to_report) {
             p->nresults_returned++;
             rp->write(mf, true);
@@ -252,14 +236,14 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
             last_reported_index = i;
             break;
         }
+        i++;
     }
 
     read_trickle_files(p, f);
 
     // report sticky files as needed
     //
-    for (i=0; i<file_infos.size(); i++) {
-        FILE_INFO* fip = file_infos[i];
+    for (FILE_INFO* fip: file_infos) {
         if (fip->project != p) continue;
         if (!fip->sticky) continue;
         fprintf(f,
@@ -288,8 +272,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     //
     fprintf(f, "<app_versions>\n");
     int j=0;
-    for (i=0; i<app_versions.size(); i++) {
-        APP_VERSION* avp = app_versions[i];
+    for (APP_VERSION* avp: app_versions) {
         if (avp->project != p) continue;
         avp->write(mf, false);
         avp->index = j++;
@@ -299,8 +282,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     // send descriptions of jobs in progress for this project
     //
     fprintf(f, "<other_results>\n");
-    for (i=0; i<results.size(); i++) {
-        rp = results[i];
+    i = 0;
+    for (RESULT *rp: results) {
         if (rp->project != p) continue;
         if ((last_reported_index && (i > last_reported_index)) || !rp->ready_to_report) {
             fprintf(f,
@@ -322,6 +305,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
                 "    </other_result>\n"
             );
         }
+        i++;
     }
     fprintf(f, "</other_results>\n");
 
@@ -330,27 +314,26 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     //
     if (p->send_full_workload) {
         fprintf(f, "<in_progress_results>\n");
-        for (i=0; i<results.size(); i++) {
-            rp = results[i];
+        for (RESULT *rp: results) {
             double x = rp->estimated_runtime_remaining();
             if (x == 0) continue;
             safe_strcpy(buf, "");
-            int rt = rp->avp->gpu_usage.rsc_type;
+            int rt = rp->resource_usage.rsc_type;
             if (rt) {
                 if (rt == rsc_index(GPU_TYPE_NVIDIA)) {
                     snprintf(buf, sizeof(buf),
                         "        <ncudas>%f</ncudas>\n",
-                        rp->avp->gpu_usage.usage
+                        rp->resource_usage.coproc_usage
                     );
                 } else if (rt == rsc_index(GPU_TYPE_ATI)) {
                     snprintf(buf, sizeof(buf),
                         "        <natis>%f</natis>\n",
-                        rp->avp->gpu_usage.usage
+                        rp->resource_usage.coproc_usage
                     );
                 } else if (rt == rsc_index(GPU_TYPE_INTEL)) {
                     snprintf(buf, sizeof(buf),
                         "        <nintel_gpus>%f</nintel_gpus>\n",
-                        rp->avp->gpu_usage.usage
+                        rp->resource_usage.coproc_usage
                     );
                 }
             }
@@ -365,7 +348,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
                 rp->name,
                 rp->report_deadline,
                 x,
-                rp->avp->avg_ncpus,
+                rp->resource_usage.avg_ncpus,
                 buf
             );
         }
@@ -465,7 +448,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     p = next_project_sched_rpc_pending();
     if (p) {
         if (log_flags.sched_op_debug) {
-            msg_printf(p, MSG_INFO, "sched RPC pending: %s",
+            msg_printf(p, MSG_INFO, "[sched_op] sched RPC pending: %s",
                 rpc_reason_string(p->sched_rpc_pending)
             );
         }
@@ -562,7 +545,6 @@ int CLIENT_STATE::handle_scheduler_reply(
     bool signature_valid, update_global_prefs=false, update_project_prefs=false;
     char buf[1024], filename[256];
     string old_gui_urls = project->gui_urls;
-    PROJECT* p2;
     vector<RESULT*>new_results;
 
     project->last_rpc_time = now;
@@ -596,27 +578,74 @@ int CLIENT_STATE::handle_scheduler_reply(
         }
     }
 
-    // check that master URL is correct
+    // compare our URL for this project with the one returned in the reply
+    // (which comes from the project's config.xml).
+    // - if http -> https transition, use the https: one from now on
+    // - if https -> http transition, keep using the https: one
+    // - otherwise switch to the new master URL:
+    //      rename and rewrite account file
+    //      rename project dir
     //
     if (strlen(sr.master_url)) {
         canonicalize_master_url(sr.master_url, sizeof(sr.master_url));
-        string url1 = sr.master_url;
-        string url2 = project->master_url;
-        downcase_string(url1);
-        downcase_string(url2);
-        if (url1 != url2) {
-            p2 = lookup_project(sr.master_url);
-            if (p2) {
-                msg_printf(project, MSG_USER_ALERT,
-                    "You are attached to this project twice.  Please remove projects named %s, then add %s",
-                    project->project_name,
-                    sr.master_url
+        string reply_url = sr.master_url;
+        string current_url = project->master_url;
+        downcase_string(reply_url);
+        downcase_string(current_url);
+        if (reply_url != current_url) {
+            if (is_https_transition(current_url.c_str(), reply_url.c_str())) {
+                strcpy(project->master_url, reply_url.c_str());
+                project->write_account_file();
+                msg_printf(project, MSG_INFO,
+                    "Project URL changed from http:// to https://"
                 );
+            } else if (is_https_transition(reply_url.c_str(), current_url.c_str())) {
+                // project is advertising http://, but https:// works.
+                // keep using https://
             } else {
                 msg_printf(project, MSG_USER_ALERT,
-                    _("This project is using an old URL.  When convenient, remove the project, then add %s"),
-                    sr.master_url
+                    _("Master URL changed from %s to %s"),
+                    current_url.c_str(), reply_url.c_str()
                 );
+                char path[MAXPATHLEN], path2[MAXPATHLEN], old_project_dir[MAXPATHLEN];
+
+                // rename statistics file
+                //
+                get_statistics_filename(
+                    (char*)current_url.c_str(), path, sizeof(path)
+                );
+                get_statistics_filename(
+                    (char*)reply_url.c_str(), path2, sizeof(path2)
+                );
+                boinc_rename(path, path2);
+
+                strcpy(old_project_dir, project->project_dir());
+
+                // delete account file and write new one
+                //
+                get_account_filename(project->master_url, path, sizeof(path));
+                boinc_delete_file(path);
+                strcpy(project->master_url, reply_url.c_str());
+                project->write_account_file();
+
+                // rename project dir
+                //
+                strcpy(project->_project_dir, "");
+                strcpy(path2, project->project_dir());
+                retval = boinc_rename(old_project_dir, path2);
+                if (retval) {
+                    msg_printf(project, MSG_USER_ALERT,
+                        "Can't rename project dir from %s to %s",
+                        old_project_dir, path2
+                    );
+                    return retval;
+                }
+
+                // reset the project (clear jobs etc.).
+                // If any jobs are running, their soft links
+                // point to the old project dir
+                //
+                reset_project(project, false);
             }
         }
     }
@@ -624,10 +653,9 @@ int CLIENT_STATE::handle_scheduler_reply(
     // make sure we don't already have a project of same name
     //
     bool dup_name = false;
-    for (i=0; i<projects.size(); i++) {
-        p2 = projects[i];
-        if (project == p2) continue;
-        if (!strcmp(p2->project_name, project->project_name)) {
+    for (PROJECT *p: projects) {
+        if (project == p) continue;
+        if (!strcmp(p->project_name, project->project_name)) {
             dup_name = true;
             break;
         }
@@ -640,6 +668,24 @@ int CLIENT_STATE::handle_scheduler_reply(
         msg_printf(project, MSG_INFO,
             "Consider detaching this project, then trying again"
         );
+    }
+
+    // update user CPID list
+    //
+    if (strlen(project->cross_project_id) && strlen(project->email_hash)) {
+        USER_CPID *ucp = user_cpids.lookup(project->email_hash);
+        if (ucp) {
+            if (project->cpid_time < ucp->time) {
+                strcpy(ucp->cpid, project->cross_project_id);
+                ucp->time = project->cpid_time;
+            }
+        } else {
+            USER_CPID uc;
+            strcpy(uc.email_hash, project->email_hash);
+            strcpy(uc.cpid, project->cross_project_id);
+            uc.time = project->cpid_time;
+            user_cpids.cpids.push_back(uc);
+        }
     }
 
     // show messages from server
@@ -662,7 +708,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         notices.remove_notices(project, REMOVE_SCHEDULER_MSG);
     }
 
-    if (log_flags.sched_op_debug && sr.request_delay) {
+    if (log_flags.sched_ops && sr.request_delay) {
         msg_printf(project, MSG_INFO,
             "Project requested delay of %.0f seconds", sr.request_delay
         );
@@ -682,7 +728,8 @@ int CLIENT_STATE::handle_scheduler_reply(
     // if the scheduler reply includes global preferences,
     // insert extra elements, write to disk, and parse
     //
-    if (sr.global_prefs_xml) {
+    double mod_time = sr.global_prefs_xml?GLOBAL_PREFS::parse_mod_time(sr.global_prefs_xml):0;
+    if (sr.global_prefs_xml && mod_time > gstate.global_prefs.mod_time) {
         // ignore prefs if we're using prefs from account mgr
         // BAM! currently has mixed http, https; trim off
         char* p = strchr(global_prefs.source_project, '/');
@@ -690,7 +737,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         if (gstate.acct_mgr_info.using_am() && p && q && !strcmp(p, q)) {
             if (log_flags.sched_op_debug) {
                 msg_printf(project, MSG_INFO,
-                    "ignoring prefs from project; using prefs from AM"
+                    "[sched_op] ignoring prefs from project; using prefs from AM"
                 );
             }
         } else if (!global_prefs.host_specific || sr.scheduler_version >= 507) {
@@ -707,7 +754,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         } else {
             if (log_flags.sched_op_debug) {
                 msg_printf(project, MSG_INFO,
-                    "ignoring prefs from old server; we have host-specific prefs"
+                    "[sched_op] ignoring prefs from old server; we have host-specific prefs"
                 );
             }
         }
@@ -801,16 +848,18 @@ int CLIENT_STATE::handle_scheduler_reply(
     // copy new entities to client state
     //
     for (i=0; i<sr.apps.size(); i++) {
-        APP* app = lookup_app(project, sr.apps[i].name);
+        APP& checked_app = sr.apps[i];
+        APP* app = lookup_app(project, checked_app.name);
         if (app) {
             // update app attributes; they may have changed on server
             //
-            safe_strcpy(app->user_friendly_name, sr.apps[i].user_friendly_name);
-            app->non_cpu_intensive = sr.apps[i].non_cpu_intensive;
-            app->fraction_done_exact = sr.apps[i].fraction_done_exact;
+            safe_strcpy(app->user_friendly_name, checked_app.user_friendly_name);
+            app->non_cpu_intensive = checked_app.non_cpu_intensive;
+            app->sporadic = checked_app.sporadic;
+            app->fraction_done_exact = checked_app.fraction_done_exact;
         } else {
             app = new APP;
-            *app = sr.apps[i];
+            *app = checked_app;
             retval = link_app(project, app);
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
@@ -874,10 +923,10 @@ int CLIENT_STATE::handle_scheduler_reply(
                 continue;
             }
         }
-        if (avpp.missing_coproc) {
+        if (avpp.resource_usage.missing_coproc) {
             msg_printf(project, MSG_INTERNAL_ERROR,
                 "App version uses non-existent %s GPU",
-                avpp.missing_coproc_name
+                avpp.resource_usage.missing_coproc_name
             );
         }
         APP* app = lookup_app(project, avpp.app_name);
@@ -891,15 +940,14 @@ int CLIENT_STATE::handle_scheduler_reply(
             app, avpp.platform, avpp.version_num, avpp.plan_class
         );
         if (avp) {
-            // update app version attributes in case they changed on server
+            // some projects dynamically change app version resource usage,
+            // e.g. via user prefs for #cpus.
+            // This is the only attribute that can be changed;
+            // anything else requires a new app version.
             //
-            avp->avg_ncpus = avpp.avg_ncpus;
-            avp->flops = avpp.flops;
-            safe_strcpy(avp->cmdline, avpp.cmdline);
-            avp->gpu_usage = avpp.gpu_usage;
-            strlcpy(avp->api_version, avpp.api_version, sizeof(avp->api_version));
-            avp->dont_throttle = avpp.dont_throttle;
-            avp->needs_network = avpp.needs_network;
+            // Note: this change will not affect running jobs.
+            //
+            avp->resource_usage = avpp.resource_usage;
 
             // if we had download failures, clear them
             //
@@ -938,22 +986,22 @@ int CLIENT_STATE::handle_scheduler_reply(
         est_rsc_runtime[j] = 0;
         got_work_for_rsc[j] = false;
     }
-    for (i=0; i<sr.results.size(); i++) {
-        RESULT* rp2 = lookup_result(project, sr.results[i].name);
+    for (const RESULT& checked_result: sr.results) {
+        RESULT* rp2 = lookup_result(project, checked_result.name);
         if (rp2) {
             // see if project wants to change the job's deadline
             //
-            if (sr.results[i].report_deadline != rp2->report_deadline) {
-                rp2->report_deadline = sr.results[i].report_deadline;
+            if (checked_result.report_deadline != rp2->report_deadline) {
+                rp2->report_deadline = checked_result.report_deadline;
             } else {
                 msg_printf(project, MSG_INTERNAL_ERROR,
-                    "Already have task %s\n", sr.results[i].name
+                    "Already have task %s\n", checked_result.name
                 );
             }
             continue;
         }
         RESULT* rp = new RESULT;
-        *rp = sr.results[i];
+        *rp = checked_result;
         retval = link_result(project, rp);
         if (retval) {
             msg_printf(project, MSG_INTERNAL_ERROR,
@@ -977,7 +1025,8 @@ int CLIENT_STATE::handle_scheduler_reply(
             delete rp;
             continue;
         }
-        if (rp->avp->missing_coproc) {
+        rp->init_resource_usage();
+        if (rp->resource_usage.missing_coproc) {
             msg_printf(project, MSG_INTERNAL_ERROR,
                 "Missing coprocessor for task %s; aborting", rp->name
             );
@@ -985,7 +1034,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         } else {
             rp->set_state(RESULT_NEW, "handle_scheduler_reply");
             got_work_for_rsc[0] = true;
-            int rt = rp->avp->gpu_usage.rsc_type;
+            int rt = rp->resource_usage.rsc_type;
             if (rt > 0) {
                 est_rsc_runtime[rt] += rp->estimated_runtime();
                 got_work_for_rsc[rt] = true;
@@ -1170,6 +1219,10 @@ int CLIENT_STATE::handle_scheduler_reply(
     //
     project->app_configs.config_app_versions(project, false);
 
+    // copy resource usages to non-running jobs in case app versions changed
+    //
+    gstate.init_result_resource_usage(project);
+
     // make sure we don't set no_rsc_apps[] for all processor types
     //
     if (!project->anonymous_platform) {
@@ -1182,12 +1235,10 @@ int CLIENT_STATE::handle_scheduler_reply(
 #endif // SIM
 
 void CLIENT_STATE::check_project_timeout() {
-    unsigned int i;
-    for (i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
+    for (PROJECT *p: projects) {
         if (p->possibly_backed_off && now > p->min_rpc_time) {
             p->possibly_backed_off = false;
-            char buf[256];
+            char buf[1024];
             snprintf(buf, sizeof(buf), "Backoff ended for %s", p->get_project_name());
             request_work_fetch(buf);
         }
@@ -1197,11 +1248,7 @@ void CLIENT_STATE::check_project_timeout() {
 // find a project that needs to have its master file fetched
 //
 PROJECT* CLIENT_STATE::next_project_master_pending() {
-    unsigned int i;
-    PROJECT* p;
-
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
+    for (PROJECT *p: projects) {
         if (p->waiting_until_min_rpc_time()) continue;
         if (p->suspended_via_gui) continue;
         if (p->master_url_fetch_pending) {
@@ -1218,11 +1265,7 @@ PROJECT* CLIENT_STATE::next_project_master_pending() {
 // - because the project was just attached (for verification)
 //
 PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
-    unsigned int i;
-    PROJECT* p;
-
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
+    for (PROJECT *p: projects) {
         bool honor_backoff = true;
         bool honor_suspend = true;
 
@@ -1269,11 +1312,7 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
 }
 
 PROJECT* CLIENT_STATE::next_project_trickle_up_pending() {
-    unsigned int i;
-    PROJECT* p;
-
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
+    for (PROJECT *p: projects) {
         if (p->waiting_until_min_rpc_time()) continue;
         if (p->suspended_via_gui) continue;
         if (p->trickle_up_pending) {
@@ -1298,11 +1337,7 @@ PROJECT* CLIENT_STATE::next_project_trickle_up_pending() {
 PROJECT* CLIENT_STATE::find_project_with_overdue_results(
     bool network_suspend_soon
 ) {
-    unsigned int i;
-    RESULT* r;
-
-    for (i=0; i<projects.size(); i++) {
-        PROJECT* p = projects[i];
+    for (PROJECT *p: projects) {
         p->n_ready = 0;
         p->dont_contact = false;
         if (p->waiting_until_min_rpc_time()) p->dont_contact = true;
@@ -1312,8 +1347,7 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results(
 #endif
     }
 
-    for (i=0; i<results.size(); i++) {
-        r = results[i];
+    for (RESULT *r: results) {
         if (!r->ready_to_report) continue;
 
         PROJECT* p = r->project;

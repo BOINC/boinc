@@ -2,14 +2,14 @@
 
 /* Assigns uncompleted (and unassigned) workunits of a batch to hosts
      registered under a DEDICATED_USER_ID. The constant DEDICATED_USER_ID
-     should be defined accordingly below. 
+     should be defined accordingly below.
 
      The constant MAX_TO_ASSIGN should be defined according to the size of
      the feeder's shmem array.
 
      The project dir must be defined in the projects config.xml file.
 
-     Input parameter of the form 'batch=[id]' can be passed via url or commmand line.
+     Input parameter of the form 'batch=[id]' can be passed via url or command line.
 
      Example usage from command line:
      ./target_batch batch=1
@@ -29,7 +29,7 @@
 
 PLAIN OLD SCHEDULING OF A BATCH
 
-Works as long as boinc client is up-to-date.    
+Works as long as boinc client is up-to-date.
 
 -----------------------
 
@@ -42,7 +42,7 @@ Create a batch of low-priority tasks:
 Target batch to dedicated workers:
 /bin/target_batch batch=0
 
-Start dedicated work with USER_ID corresonding to DEDICATED_USER_ID.
+Start dedicated work with USER_ID corresponding to DEDICATED_USER_ID.
 
 Check that these tasks are only assigned to dedicated workers.
 
@@ -55,7 +55,7 @@ Check that these tasks are only assigned to dedicated workers.
 
 OOO What cleans up the assignment table?
 
-*/ 
+*/
 
 
 #include "config.h"
@@ -82,14 +82,10 @@ using std::string;
 #include "str_util.h"
 #include "svn_version.h"
 
-
-
-
 #define DEDICATED_USER_ID 1
 #define MAX_TO_ASSIGN 100
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     //must have two lines after content header.    Else you will get "Internal
     //Server Error" when executing script
     printf ("Content-type: text/plain\n\n");
@@ -98,19 +94,20 @@ int main(int argc, char *argv[])
     int retval = config.parse_file();
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-                                                "Can't parse config.xml: %s\n", boincerror(retval)
-                                                );
-        exit(1);
-        }
-
-
-    
-    retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL, "can't open DB\n");
+            "Can't parse config.xml: %s\n", boincerror(retval)
+        );
         exit(1);
     }
 
+    retval = boinc_db.open(
+        config.db_name, config.db_host, config.db_user, config.db_passwd
+    );
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL, "can't open DB: %s\n",
+            boinc_db.error_string()
+        );
+        exit(1);
+    }
 
     char buf[256];
 
@@ -130,8 +127,8 @@ int main(int argc, char *argv[])
     }
 
     int batch;
-    if (sscanf(query_str, "batch=%d", &batch) == 1){
-            printf ("Targetting batch id: %d\n\n", batch);
+    if (sscanf(query_str, "batch=%d", &batch) == 1) {
+        printf ("Targetting batch id: %d\n\n", batch);
     } else {
         printf ("Bad argument format. Should be \"batch=[id]\"\n");
         exit(1);
@@ -155,7 +152,7 @@ LIMIT %d",
     // Tried moving "AND canonical_resultid = 0 AND batch = %d \" in line
     // where join appears, but the results of the query were wrong
 
-    
+
         retval = boinc_db.do_query(buf);
         if (retval) {
             printf ("Problem with db\n");
@@ -180,12 +177,12 @@ LIMIT %d",
         while ((row = mysql_fetch_row(rp))){
             workunit.db_parse(row);
             printf ("Assigning WU %d to user %ld\n", workunit.id, DEDICATED_USER_ID);
-        
+
             restrict_wu_to_user (workunit, DEDICATED_USER_ID);
 
             num_assigned++;
             printf ("End of this WU assignment\n\n");
-            
+
         }
 
         mysql_free_result(rp);

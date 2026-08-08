@@ -26,7 +26,7 @@
 #include "filesys.h"
 #include "wrappture.h"
 
-int main(int argc, char * argv[]) {
+int main(int, char**) {
     char buf[256];
 
     RpLibrary* lib    = NULL;
@@ -40,7 +40,6 @@ int main(int argc, char * argv[]) {
     double kT         = 0.0;
     double Emin       = 0.0;
     double Emax       = 0.0;
-    double f          = 0.0;
 
     int err           = 0;
 
@@ -119,7 +118,7 @@ int main(int argc, char * argv[]) {
 
 #ifdef _WIN32
 
-int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     LPSTR command_line;
     char* argv[100];
     int argc;

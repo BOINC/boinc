@@ -23,7 +23,7 @@ db_init();
 
 admin_page_head('Manage user privileges');
 
-start_table("align=\"center\"");
+start_table('', 'align="center"');
 row1("Current special users", '9');
 
 echo "<tr><td>User</td>";
@@ -33,8 +33,8 @@ for ($i=0; $i<S_NFLAGS; $i++) {
 echo "</tr>";
 
 $result = _mysql_query(
-    "SELECT prefs.userid, prefs.special_user, user.id, user.name 
-    FROM forum_preferences as prefs, user 
+    "SELECT prefs.userid, prefs.special_user, user.id, user.name
+    FROM forum_preferences as prefs, user
     WHERE CONVERT(special_user, DECIMAL) > 0 and prefs.userid=user.id"
 );
 for ($i=1; $i<=_mysql_num_rows($result); $i++){
@@ -69,5 +69,4 @@ end_table();
 
 admin_page_tail();
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

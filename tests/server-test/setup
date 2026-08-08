@@ -1,0 +1,6 @@
+#!/bin/sh
+
+composer require phpunit/phpunit
+composer require guzzlehttp/guzzle
+composer update
+composer test

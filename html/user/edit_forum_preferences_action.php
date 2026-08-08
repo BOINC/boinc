@@ -20,7 +20,7 @@ require_once("../inc/util.inc");
 require_once("../inc/forum.inc");
 require_once("../inc/image.inc"); // Avatar scaling
 
-if (post_str("account_key", true) != null) {
+if (post_str("account_key", true) !== null) {
     $user = BoincUser::lookup_auth(post_str("account_key"));
     $rpc = true;
 } else {
@@ -82,7 +82,7 @@ if ($avatar_type==0){
 } elseif ($avatar_type == 1) {
     $avatar_url = "//www.gravatar.com/avatar/".md5($user->email_addr)."?s=100&amp;d=identicon";
 } elseif ($avatar_type==2){
-    if (($rpc && (post_str("avatar_url", true) != null)) || ($_FILES['picture']['tmp_name']!="")) {
+    if (($rpc && (post_str("avatar_url", true) !== null)) || ($_FILES['picture']['tmp_name']!="")) {
         if ($_FILES['picture']['tmp_name']!="") {
             $file = $_FILES['picture']['tmp_name'];
         } else {
@@ -130,15 +130,27 @@ $user->prefs->update("images_as_links=$images_as_links, link_popup=$link_popup, 
 
 }   // DISABLE_FORUMS
 
-$add_user_to_filter = (isset($_POST["add_user_to_filter"]) && $_POST["add_user_to_filter"]!="");
-if ($add_user_to_filter){
-    $user_to_add = trim($_POST["forum_filter_user"]);
-    if ($user_to_add!="" and $user_to_add==strval(intval($user_to_add))){
-        $other_user = BoincUser::lookup_id($user_to_add);
-        if (!$other_user) {
-            echo tra("No such user:")." ".$user_to_add;
-        } else {
-            add_ignored_user($user, $other_user);
+if (UNIQUE_USER_NAME) {
+    $name = post_str('forum_filter_user', true);
+    if ($name) {
+        $other_user = BoincUser::lookup(
+            sprintf("name='%s'", BoincDb::escape_string($name))
+        );
+        if (!$other_user) error_page('No such user');
+        add_ignored_user($user, $other_user);
+    }
+} else {
+    // todo: clean up the following
+    $add_user_to_filter = (isset($_POST["add_user_to_filter"]) && $_POST["add_user_to_filter"]!="");
+    if ($add_user_to_filter){
+        $user_to_add = trim($_POST["forum_filter_user"]);
+        if ($user_to_add!="" and $user_to_add==strval(intval($user_to_add))){
+            $other_user = BoincUser::lookup_id($user_to_add);
+            if (!$other_user) {
+                echo tra("No such user:")." ".$user_to_add;
+            } else {
+                add_ignored_user($user, $other_user);
+            }
         }
     }
 }
@@ -146,6 +158,7 @@ if ($add_user_to_filter){
 // Or remove some from the ignore list
 //
 $ignored_users = get_ignored_list($user);
+// todo: use foreach
 for ($i=0;$i<sizeof($ignored_users);$i++){
     $remove = "remove".trim($ignored_users[$i]);
     if (isset($_POST[$remove]) && $_POST[$remove]!=""){

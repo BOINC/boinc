@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // C++ interfaces to remote job submission and file management RPCs
-// See http://boinc.berkeley.edu/trac/wiki/RemoteJobs#Cinterface
+// See https://github.com/BOINC/boinc/wiki/RemoteJobs#c-interface
 
 #ifndef BOINC_REMOTE_SUBMIT_H
 #define BOINC_REMOTE_SUBMIT_H
@@ -209,6 +209,7 @@ struct BATCH_STATUS {
     double credit_estimate;     // original estimate for credit
     double credit_canonical;    // if completed, granted credit
 
+    BATCH_STATUS(){}
     int parse(XML_PARSER&);
     void print();
 };
@@ -229,6 +230,7 @@ struct JOB_STATE {
                                     // the ID of the canonical instance
     int n_outfiles;                 // number of output files
 
+    JOB_STATE(){}
     int parse(XML_PARSER&);
     void print();
 };

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,12 +21,8 @@
 
 #include "hr_info.h"
 
-#ifndef _USING_FCGI_
-#include <cstdio>
-#else
-#include "boinc_fcgi.h"
-#endif
 #include <cmath>
+#include "boinc_stdio.h"
 
 #include "error_numbers.h"
 #include "sched_msgs.h"
@@ -34,52 +30,44 @@
 int HR_INFO::write_file() {
     int i, j;
 
-#ifndef _USING_FCGI_
-    FILE* f = fopen(HR_INFO_FILENAME, "w");
-#else 
-    FCGI_FILE* f = FCGI::fopen(HR_INFO_FILENAME, "w");
-#endif
+    FILE* f = boinc::fopen(HR_INFO_FILENAME, "w");
     if (!f) return ERR_FOPEN;
     for (i=1; i<HR_NTYPES; i++) {
-        fprintf(f, "--------- %s ----------\n", hr_names[i]);
+        boinc::fprintf(f, "--------- %s ----------\n", hr_names[i]);
         for (j=0; j<hr_nclasses[i]; j++) {
-            fprintf(f, "%d %f\n", j, rac_per_class[i][j]);
+            boinc::fprintf(f, "%d %f\n", j, rac_per_class[i][j]);
         }
     }
-    fclose(f);
+    boinc::fclose(f);
     return 0;
 }
 
 int HR_INFO::read_file() {
     char buf[256];
-#ifndef _USING_FCGI_
-    FILE* f = fopen(HR_INFO_FILENAME, "r");
-#else 
-    FCGI_FILE* f = FCGI::fopen(HR_INFO_FILENAME, "r");
-#endif
+    FILE* f = boinc::fopen(HR_INFO_FILENAME, "r");
     if (!f) return ERR_FOPEN;
     int i, j, jj;
     double x;
 
     for (i=1; i<HR_NTYPES; i++) {
-        if (!fgets(buf, sizeof(buf), f)) {
-            fprintf(stderr, "unexpected EOF in HR info\n");
+        if (!boinc::fgets(buf, sizeof(buf), f)) {
+            boinc::fprintf(stderr, "unexpected EOF in HR info\n");
             exit(1);
         }
         for (j=0; j<hr_nclasses[i]; j++) {
-            if (!fgets(buf, sizeof(buf), f)) {
-                fprintf(stderr, "unexpected EOF in HR info");
+            if (!boinc::fgets(buf, sizeof(buf), f)) {
+                boinc::fprintf(stderr, "unexpected EOF in HR info");
                 exit(1);
             }
             int n = sscanf(buf, "%d %lf", &jj, &x);
             if (n!=2 || j!=jj) {
-                fprintf(stderr, "bad line %s in HR info: %d; %d != %d\n", buf, n, j, jj);
+                boinc::fprintf(stderr, "bad line %s in HR info: %d; %d != %d\n", buf, n, j, jj);
                 exit(1);
             }
             rac_per_class[i][j] = x;
         }
     }
-    fclose(f);
+    boinc::fclose(f);
     return 0;
 }
 
@@ -119,7 +107,7 @@ void HR_INFO::scan_db() {
         }
     }
     if (retval != ERR_DB_NOT_FOUND) {
-        fprintf(stderr, "host enum: %d", retval);
+        boinc::fprintf(stderr, "host enum: %d", retval);
         exit(1);
     }
 }
@@ -192,12 +180,12 @@ bool HR_INFO::accept(int hrt, int hrc) {
 
 void HR_INFO::show(FILE* f) {
     for (int ht=1; ht<HR_NTYPES; ht++) {
-        fprintf(f, "HR type %s: weight %f nslots %d\n",
+        boinc::fprintf(f, "HR type %s: weight %f nslots %d\n",
             hr_names[ht], type_weights[ht], slots_per_type[ht]
         );
         for (int hc=0; hc<hr_nclasses[ht]; hc++) {
             if (hc && rac_per_class[ht][hc] == 0) continue;
-            fprintf(f,
+            boinc::fprintf(f,
                 "  class %d: rac %f max_slots %d cur_slots %d\n",
                 hc, rac_per_class[ht][hc], max_slots[ht][hc], cur_slots[ht][hc]
             );

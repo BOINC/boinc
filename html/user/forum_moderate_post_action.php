@@ -164,5 +164,4 @@ send_moderation_email($forum, $post, $thread, $explanation, $action_name);
 
 header('Location: forum_thread.php?id='.$thread->id);
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

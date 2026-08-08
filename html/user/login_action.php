@@ -66,6 +66,7 @@ function login_with_email($email_addr, $passwd, $next_url, $perm) {
     }
 
     // Intercept next_url if consent has not yet been given
+    //
     $next_url = intercept_login($user, $perm, $next_url);
     Header("Location: ".url_base()."$next_url");
 }
@@ -100,7 +101,8 @@ function login_via_link($id, $t, $h) {
     }
 
     // Intercept next_url if consent has not yet been given
-    $next_url = intercept_login($user, true, "home.php");
+    //
+    $next_url = intercept_login($user, true, HOME_PAGE);
     Header("Location: ".url_base()."$next_url");
 }
 
@@ -119,6 +121,7 @@ function login_with_auth($authenticator, $next_url, $perm) {
     } else {
 
         // Intercept next_url if consent has not yet been given
+        //
         $next_url = intercept_login($user, $perm, $next_url);
         Header("Location: ".url_base()."$next_url");
     }
@@ -142,6 +145,7 @@ function login_with_ldap($uid, $passwd, $next_url, $perm) {
         error_page("Couldn't create user");
     }
     // Intercept next_url if consent has not yet been given
+    //
     $next_url = intercept_login($user, $perm, $next_url);
     Header("Location: ".url_base()."$next_url");
     return;
@@ -156,10 +160,12 @@ if ($id && $t && $h) {
 }
 
 $next_url = post_str("next_url", true);
-$next_url = urldecode($next_url);
-$next_url = sanitize_local_url($next_url);
-if (strlen($next_url) == 0) {
-    $next_url = USER_HOME;
+if ($next_url) {
+    $next_url = urldecode($next_url);
+    $next_url = sanitize_local_url($next_url);
+}
+if (!$next_url) {
+    $next_url = HOME_PAGE;
 }
 
 $perm = false;
@@ -179,10 +185,13 @@ if ($authenticator) {
     exit;
 }
 
-$email_addr = strtolower(sanitize_tags(post_str("email_addr", true)));
+$email_addr = post_str("email_addr", true);
+if ($email_addr) {
+    $email_addr = strtolower(sanitize_tags($email_addr));
+}
 $passwd = post_str("passwd", true);
 if ($email_addr && $passwd) {
-    if (LDAP_HOST && !is_valid_email_addr($email_addr)) {
+    if (LDAP_HOST && !is_valid_email_syntax($email_addr)) {
         login_with_ldap($email_addr, $passwd, $next_url, $perm);
     } else {
         login_with_email($email_addr, $passwd, $next_url, $perm);

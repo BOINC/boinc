@@ -26,7 +26,7 @@
  * CBOINCBaseWizard class declaration
  */
 
-class CBOINCBaseWizard: public wxWizardEx {    
+class CBOINCBaseWizard: public wxWizardEx {
     DECLARE_DYNAMIC_CLASS( CBOINCBaseWizard )
 
 public:

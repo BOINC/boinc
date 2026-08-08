@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php">
+    <testsuites>
+        <testsuite name="REST API Test Suite">
+            <directory suffix=".php">./config-tests/</directory>
+            <directory suffix=".php">./user-tests/</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+      <const name="protocol" value="http"/>
+        <const name="host" value="127.0.0.1"/>
+        <const name="port" value="80"/>
+        <const name="base" value="boincserver"/>
+        <const name="num_platforms" value="3"/>
+    </php>
+</phpunit>

@@ -1,0 +1,133 @@
+#! /usr/bin/env php
+<?php
+
+// submit a job and show the WU name
+//
+
+function usage() {
+    return "
+usage: submit_job [options] appname [infile ...]
+options:
+     --templates in out     specify in/out template files
+     --verbose
+     --target_user ID
+     --command_line "X"     cmdline args to program
+";
+}
+
+// Note: to pass cmdline args to some apps you may need e.g.
+// bin/submit_job --command_line "--pass_thru \"--nsecs 17\"" worker infile
+// ... but this doesn't work with csh; use bash instead
+
+// This is basically create_work with nicer syntax, and it stages files.
+// Note: if the app uses a sample assimilator,
+// you can use query_job to query the job status and see output files.
+
+$appname = null;
+$input_template = null;
+$output_template = null;
+$infiles = [];
+$verbose = false;
+$target_user = null;
+$command_line = null;
+
+for ($i=1; $i<$argc; $i++) {
+    if ($argv[$i] == '--templates') {
+        $input_template = $argv[++$i];
+        $output_template = $argv[++$i];
+    } else if ($argv[$i] == '--verbose') {
+        $verbose = true;
+    } else if ($argv[$i] == '--target_user') {
+        $target_user = $argv[++$i];
+    } else if ($argv[$i] == '--command_line') {
+        $command_line = $argv[++$i];
+    } else if (!$appname) {
+        $appname = $argv[$i];
+    } else {
+        $infiles[] = $argv[$i];
+    }
+}
+
+if (!$appname) {
+    die(usage());
+}
+
+chdir("html/ops");
+require_once("../inc/boinc_db.inc");
+chdir("../..");
+
+$app = BoincApp::lookup("name='$appname'");
+
+if (!$app) {
+    die("no such application: $appname\n");
+}
+
+// load the input template for this app,
+// and make sure the right number of input files were specified
+//
+if ($input_template) {
+    $path = $input_template;
+} else {
+    $path = sprintf('templates/%s_in', $appname);
+}
+if (!is_file($path)) {
+    die("missing input template $path\n");
+}
+$intemp = simplexml_load_file($path);
+if (!$intemp) die("can't parse input template\n");
+$frefs = $intemp->workunit->file_ref;
+$nrefs = $frefs->count();
+
+if (count($infiles) != $nrefs) {
+    die("wrong number of input files; expected $nrefs\n");
+}
+
+// stage the input files
+//
+$fnames = [];
+foreach ($infiles as $path) {
+    if (!is_file("$path")) {
+        die("no such file: $path\n");
+    }
+    $fname = basename($path);
+    $fnames[] = $fname;
+    system("cp $path `bin/dir_hier_path $fname`", $ret);
+    if ($ret) {
+        die("Couldn't stage file $path\n");
+    }
+}
+
+// create the job
+//
+$wu_name = sprintf('%s_%d', $appname, time());
+$x = '';
+if ($input_template) {
+    $x .= " --wu_template $input_template";
+}
+if ($output_template) {
+    $x .= " --result_template $output_template";
+}
+if ($target_user) {
+    $x .= " --target_user $target_user";
+}
+if ($command_line) {
+    $command_line = str_replace('"', '\"', $command_line);
+    $x .= sprintf('--command_line "%s"', $command_line);
+}
+
+$cmd = sprintf('bin/create_work --appname %s --wu_name %s %s %s',
+    $appname, $wu_name, $x, implode(' ', $fnames)
+);
+if ($verbose) {
+    echo "submit_job: cmd: $cmd\n";
+}
+if (system($cmd, $ret) === false) {
+    die("system($cmd) failed\n");
+}
+if ($ret) {
+    die("Couldn't create job\n");
+}
+
+echo "Job name: $wu_name\n";
+
+?>

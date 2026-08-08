@@ -16,10 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Using this page you can edit a post.
-// First it displays a box to edit in, and when you submit the changes
-// it will call the methods on the post to make the changes.
-//
+// Edit a post.
+// The creator of the post can do this up to MAXIMUM_EDIT_TIME
 
 require_once('../inc/forum.inc');
 require_once('../inc/bbcode_html.inc');
@@ -49,7 +47,7 @@ if (($logged_in_user->id != $post_owner->id) || (can_reply($thread, $forum, $log
 
 $thread_owner = BoincUser::lookup_id($thread->owner);
 
-// If this post belongs to the creator of the thread and is at top-level 
+// If this post belongs to the creator of the thread and is at top-level
 // (ie. not a response to another post)
 // allow the user to modify the thread title
 //
@@ -67,7 +65,7 @@ if (post_str('submit',true) && (!$preview)) {
         error_page("Can't update post");
     }
     check_tokens($logged_in_user->authenticator);
-    
+
     $add_signature = (post_str('add_signature', true) == "1")?1:0;
     $content = substr($content, 0, 64000);
     $content = trim($content);
@@ -75,7 +73,7 @@ if (post_str('submit',true) && (!$preview)) {
         $content = BoincDb::escape_string($content);
         $now = time();
         $post->update("signature=$add_signature, content='$content', modified=$now");
-    
+
         if ($can_edit_title){
             $title = trim($title);
             $title = sanitize_tags($title);
@@ -91,14 +89,13 @@ if (post_str('submit',true) && (!$preview)) {
 
 page_head(tra("Edit post"),'','','', $bbcode_js);
 
-show_forum_header($logged_in_user);
 switch ($forum->parent_type) {
 case 0:
     $category = BoincCategory::lookup_id($forum->category);
-    show_forum_title($category, $forum, $thread);
+    echo forum_title($category, $forum, $thread);
     break;
 case 1:
-    show_team_forum_title($forum, $thread);
+    echo team_forum_title($forum, $thread);
     break;
 }
 
@@ -112,45 +109,59 @@ if ($preview == tra("Preview")) {
     );
 }
 
-echo "<form action=\"forum_edit.php?id=".$post->id."\" method=\"POST\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
+echo sprintf(
+    '<form action="forum_edit.php?id=%d" method="POST" name=post onsubmit="return checkForm(this)">',
+    $post->id
+);
 echo form_tokens($logged_in_user->authenticator);
 start_table();
 row1(tra("Edit your message"));
 if ($can_edit_title) {
-    //If this is the user can edit the thread title display a way of doing so
-    if ($preview) {
-        row2(
-            tra("Title").bbcode_info(),
-            "<input type=\"text\" name=\"title\" value=\"".htmlspecialchars($title)."\">"
-        );
-    } else {
-        row2(
-            tra("Title").bbcode_info(),
-            '<input type="text" name="title" value="'.htmlspecialchars($thread->title).'">'
-        );
-    }
-};
-
-if ($preview) {
     row2(
-        tra("Message").bbcode_info().post_warning(),
-        start_table_str().$bbcode_html.end_table_str()."<textarea name=\"content\" rows=\"12\" cols=\"80\">".htmlspecialchars($content)."</textarea>"
-    );
-} else {
-    row2(
-        tra("Message").bbcode_info().post_warning(),
-        start_table_str().$bbcode_html.end_table_str().'<textarea name="content" rows="12" cols="80">'.htmlspecialchars($post->content).'</textarea>'
+        tra("Title").bbcode_info(),
+        sprintf(
+            '<input type="text" size=%d name="title" value="%s">',
+            80,
+            htmlspecialchars($preview?$title:$thread->title)
+        ),
+        null, FORUM_LH_PCT
     );
 }
 
-if ($post->signature) {
-    $enable_signature="checked=\"true\"";
-} else {
-    $enable_signature="";
-}
-row2("", "<input id=\"add_signature\" name=\"add_signature\" value=\"1\" ".$enable_signature." type=\"checkbox\">
-    <label for=\"add_signature\">".tra("Add my signature to this post")."</label>");
-row2("", "<input class=\"btn btn-primary\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">&nbsp;<input class=\"btn btn-success\" type=\"submit\" name=\"submit\" value=\"OK\">"
+row2(
+    sprintf('%s %s %s',
+        tra("Message"),
+        bbcode_info(),
+        post_warning()
+    ),
+    sprintf(
+        '%s <textarea name="content" rows="%d" cols="%d">%s</textarea>',
+        $bbcode_html,
+        12,
+        80,
+        htmlspecialchars($preview?$content:$post->content)
+    ),
+    null, FORUM_LH_PCT
+);
+
+row2("",
+    sprintf(
+        '<input id="add_signature" name="add_signature" value="1" type="checkbox" %s>
+        <label for="add_signature">%s</label>
+        ',
+        $post->signature?'checked="true"':'',
+        tra("Add my signature to this post")
+    ),
+    null, FORUM_LH_PCT
+);
+row2("",
+    sprintf(
+        '<input class="btn btn-primary" type="submit" name="preview" value="%s">
+        &nbsp;
+        <input class="btn btn-success" type="submit" name="submit" value="OK">',
+        tra("Preview")
+    ),
+    null, FORUM_LH_PCT
 );
 
 end_table();
@@ -159,5 +170,4 @@ echo "</form>";
 
 page_tail();
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

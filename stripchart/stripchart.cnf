@@ -5,7 +5,7 @@ $majorversion = 2; $minorversion = 1;
 
 # Directory where gnuplot is
 $gnuplot = "/usr/local/bin"
- 
+
 # Temporary files
 $suffix = rand(10000);
 $gnudata = "/tmp/XYZzyx..indata" . $suffix;       # contains input data
@@ -39,19 +39,19 @@ $tzdiff = timegm($sec,$min,$hour,$mday,$mon,$year) - timelocal($sec,$min,$hour,$
 
 # Where is the stripchart executable located?
 $stripchartexe = "./stripchart"
- 
+
 # What is the default number of stripcharts?
 $defaultnumcharts = 1;
- 
+
 # Any default flags to send to stripchart?
 $defaultflags = "-s";
 
 # Where is the list of datafiles for stripchart.cgi?
-# Note: there is a sample copy in the samples directory: 
+# Note: there is a sample copy in the samples directory:
 $datafilelist = "datafiles";
- 
+
 # Where is the list of user-definied cgi queries?
-# Note: this file gets created by the cgi - must put it somewhere that the cgi user can write to 
+# Note: this file gets created by the cgi - must put it somewhere that the cgi user can write to
 $queryfilelist = "querylist";
 
 # What time is it right now?
@@ -60,7 +60,7 @@ $rightnow = time;
 $sec = "";
 $month++;
 $year += 1900;
- 
+
 # CGI plot width and plot height: set only if it will always be the same
 # $cgiplotwidth = 0; $cgiplotheight = 0; # if you don't know
 $cgiplotwidth = 600; $cgiplotheight = 192; # if you do know

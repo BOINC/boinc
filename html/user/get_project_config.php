@@ -50,15 +50,14 @@ function show_platforms() {
     echo $xmlFragment;
 }
 
-$config = get_config();
-global $master_url;
-$long_name = parse_config($config, "<long_name>");
+$master_url = master_url();
+$long_name = project_config_val("long_name");
 
-$min_passwd_length = parse_config($config, "<min_passwd_length>");
+$min_passwd_length = project_config_val("min_passwd_length");
 if (!$min_passwd_length) {
     $min_passwd_length = 6;
 }
-$disable_account_creation = parse_bool($config, "disable_account_creation");
+$disable_account_creation = project_config_bool("disable_account_creation");
 
 echo "<project_config>
     <name>$long_name</name>
@@ -68,7 +67,7 @@ echo "<project_config>
 
 echo "<server_version>$server_version_str</server_version>\n";
 
-if (parse_config($config, "<account_manager>")) {
+if (project_config_bool("account_manager")) {
     echo "    <account_manager/>\n";
 }
 
@@ -102,7 +101,7 @@ if (sched_stopped()) {
     echo "    <sched_stopped>0</sched_stopped>\n";
 }
 
-$min_core_client_version = parse_config($config, "<min_core_client_version>");
+$min_core_client_version = project_config_val("min_core_client_version");
 if ($min_core_client_version) {
     echo "<min_client_version>$min_core_client_version</min_client_version>\n";
 }
@@ -121,10 +120,7 @@ if (defined('TERMSOFUSE_FILE')) {
 if (file_exists($tou_file)) {
     $terms_of_use = trim(file_get_contents($tou_file));
 
-    // Also check consent type ENROLL is enabled.
-    //
-    list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
-    if ($terms_of_use and $checkct) {
+    if ($terms_of_use) {
         echo "    <terms_of_use>\n$terms_of_use\n</terms_of_use>\n";
     }
 }

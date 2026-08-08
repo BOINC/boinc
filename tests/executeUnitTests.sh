@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2019 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -26,6 +26,8 @@
 # if --clean is given the tests will be rebuild from scratch otherwise an existing
 # build directory is used
 
+set -e
+
 # check working directory because the script needs to be called like: ./tests/executeUnitTests.sh
 if [ ! -d "tests" ]; then
     echo "start this script in the source root directory"
@@ -33,14 +35,18 @@ if [ ! -d "tests" ]; then
 fi
 
 ROOTDIR=$(pwd)
-CI_RUN="${TRAVIS:-false}"
 report=""
 doclean=""
+xml=""
+
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
         --report-coverage)
         report="yes"
+        ;;
+        --report-xml)
+        xml="yes"
         ;;
         --clean)
         doclean="yes"
@@ -56,7 +62,6 @@ command -v cmake >/dev/null 2>&1 || { echo >&2 "cmake is needed but not installe
 
 if [ "${report}" = "yes" ]; then
     command -v gcov >/dev/null 2>&1 || { echo >&2 "gcov (lcov) is needed but not installed.  Aborting."; exit 1; }
-    command -v codecov >/dev/null 2>&1 || { echo >&2 "codecov (pip install codecov) is needed but not installed.  Aborting."; exit 1; }
 fi
 
 cd tests || exit 1
@@ -72,14 +77,15 @@ if [ $? -ne 0 ]; then cd ../..; exit 1; fi
 make
 if [ $? -ne 0 ]; then cd ../..; exit 1; fi
 
-for T in lib sched; do
-    [ -d "${T}" ] && ./${T}/test_${T};
-done
-
-cd ../..
-if [ "${report}" = "yes" ]; then
-    #for T in lib sched; do
-    #    [ -d "${T}" ] && gcov -lp *.o >/dev/null;
-    #done
-    codecov
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    MODULES="lib vboxwrapper"
+else
+    MODULES="client lib sched vboxwrapper"
 fi
+for T in ${MODULES}; do
+    XML_FLAGS=""
+    if [ "${xml}" = "yes" ]; then
+        XML_FLAGS="--gtest_output=xml:${T}_xml_report.xml"
+    fi
+    [ -d "${T}" ] && ./${T}/test_${T} ${XML_FLAGS};
+done

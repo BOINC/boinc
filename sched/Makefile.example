@@ -1,0 +1,38 @@
+# Example Makefile for building BOINC server programs
+# like validators and assimilators
+#
+# This can go wherever you want; it doesn't have to be in the BOINC tree.
+# Edit to change the program names and whatever else is needed.
+#
+# This assumes your BOINC tree is in ~/boinc,
+# and that you did configure/make there.
+
+all: sample_bitwise_validator sample_dummy_assimilator
+
+CFLAGS = -g -Wall
+
+BOINC = ~/boinc
+
+LIBS = $(BOINC)/sched/libsched.a $(BOINC)/lib/libboinc.a \
+    -lmariadb
+
+INC = -I $(BOINC) -I $(BOINC)/lib -I $(BOINC)/sched -I $(BOINC)/db \
+      -I /usr/include/mariadb
+
+CXX = g++ $(CFLAGS) $(INC)
+
+VALIDATOR_OBJS = $(BOINC)/sched/validator.o \
+    $(BOINC)/sched/validate_util.o \
+    $(BOINC)/sched/validate_util2.o
+
+ASSIMILATOR_OBJS = $(BOINC)/sched/assimilator.o \
+    $(BOINC)/sched/validate_util.o
+
+.cpp.o:
+	$(CXX) -c -o $*.o $<
+
+sample_bitwise_validator: sample_bitwise_validator.cpp
+	$(CXX) sample_bitwise_validator.cpp $(VALIDATOR_OBJS) $(LIBS) -o sample_bitwise_validator
+
+sample_dummy_assimilator: sample_dummy_assimilator.cpp
+	$(CXX) sample_dummy_assimilator.cpp $(ASSIMILATOR_OBJS) $(LIBS) -o sample_dummy_assimilator

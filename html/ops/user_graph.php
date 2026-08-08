@@ -16,6 +16,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// show credit graphs.
+// you need to install jpgraph in html/user/
+
 require_once("../inc/util_ops.inc");
 
 function draw_graph($xarr, $arr) {
@@ -26,7 +29,7 @@ function draw_graph($xarr, $arr) {
 
 
     // Create the graph. These two calls are always required
-    $graph = new Graph(350,250,"auto");    
+    $graph = new Graph(350,250,"auto");
     //$graph->SetScale("lin");
     //$graph->SetScale("textlin");
     $graph->SetScale("loglin");

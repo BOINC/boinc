@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -44,16 +44,12 @@ SCHED_MSG_LOG::~SCHED_MSG_LOG() {
 void SCHED_MSG_LOG::close() {
     if (output) {
         flush();
-        fclose(output);
+        boinc::fclose(output);
         output = NULL;
     }
 }
 
-#ifndef _USING_FCGI_
 void SCHED_MSG_LOG::redirect(FILE* f) {
-#else
-void SCHED_MSG_LOG::redirect(FCGI_FILE* f) {
-#endif
     close();
     output = f;
 }

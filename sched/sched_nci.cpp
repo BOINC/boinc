@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -73,6 +73,12 @@ static int send_job_for_app(APP& app) {
         WORKUNIT wu = wu_result.workunit;
 
         if (wu.appid != app.id) continue;
+        if (is_buda(wu)) {
+            log_messages.printf(MSG_CRITICAL,
+                "BUDA NCI jobs are not currently supported"
+            );
+            return -1;
+        }
 
         if (!can_send_nci(wu_result, wu, bavp, &app)) {
             // All jobs for a given NCI app are identical.
@@ -94,7 +100,7 @@ static int send_job_for_app(APP& app) {
                     "Sending non-CPU-intensive job: %s\n", wu.name
                 );
             }
-            add_result_to_reply(result, wu, bavp, false);
+            add_result_to_reply(result, wu, bavp, bavp->host_usage, NULL, false);
             return 0;
         }
         log_messages.printf(MSG_NORMAL,
@@ -133,17 +139,15 @@ int send_nci() {
     // scan through the list of in-progress jobs,
     // flagging the associated apps as having jobs
     //
-    for (unsigned int i=0; i<g_request->other_results.size(); i++) {
+    for (const OTHER_RESULT& ores: g_request->other_results) {
         DB_RESULT r;
-        OTHER_RESULT &ores = g_request->other_results[i];
         sprintf(buf, "where name='%s'", ores.name);
         retval = r.lookup(buf);
         if (retval) {
             log_messages.printf(MSG_NORMAL, "No such result: %s\n", ores.name);
             continue;
         }
-        for (unsigned int j=0; j<nci_apps.size(); j++) {
-            APP& app = nci_apps[j];
+        for (APP& app: nci_apps) {
             if (app.id == r.appid) {
                 app.have_job = true;
                 break;
@@ -153,8 +157,7 @@ int send_nci() {
 
     // For each NCI app w/o a job, try to send one
     //
-    for (unsigned int i=0; i<nci_apps.size(); i++) {
-        APP& app = nci_apps[i];
+    for (APP& app: nci_apps) {
         if (app.have_job) {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,10 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #else
 #include "config.h"
 #include <string>
@@ -64,7 +62,7 @@ void MIOFILE::init_buf_write(char* _buf, int _len) {
 
 bool MIOFILE::eof() {
     if (f) {
-        if (!feof(f)) {
+        if (!boinc::feof(f)) {
             return false;
         }
     }
@@ -83,7 +81,7 @@ int MIOFILE::printf(const char* format, ...) {
     } else
 #endif
     if (f) {
-        retval = vfprintf(f, format, ap);
+        retval = boinc::vfprintf(f, format, ap);
     } else {
         size_t cursize = strlen(wbuf);
         size_t remaining_len = len - cursize;
@@ -95,11 +93,7 @@ int MIOFILE::printf(const char* format, ...) {
 
 char* MIOFILE::fgets(char* dst, int dst_len) {
     if (f) {
-#ifndef _USING_FCGI_
-        return ::fgets(dst, dst_len, f);
-#else
-        return FCGI::fgets(dst, dst_len, f);
-#endif
+        return boinc::fgets(dst, dst_len, f);
     }
     const char* q = strchr(buf, '\n');
     if (!q) return 0;
@@ -116,11 +110,7 @@ char* MIOFILE::fgets(char* dst, int dst_len) {
 
 int MIOFILE::_ungetc(int c) {
     if (f) {
-#ifdef _USING_FCGI_
-        return FCGI_ungetc(c, f);
-#else
-        return ungetc(c, f);
-#endif
+        return boinc::ungetc(c, f);
     } else {
         buf--;
         // NOTE: we assume that the char being pushed
@@ -159,7 +149,7 @@ int copy_element_contents(MIOFILE& in, const char* end_tag, string& str) {
         }
         str += buf;
     }
-    fprintf(stderr, "copy_element_contents(): no end tag\n");
+    boinc::fprintf(stderr, "copy_element_contents(): no end tag\n");
     return ERR_XML_PARSE;
 }
 

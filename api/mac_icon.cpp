@@ -172,7 +172,7 @@ void getPathToThisApp(char* pathBuf, size_t bufSize) {
     // (or the soft-link to it.)  So all we need for the path to this
     // application is the file name.  We use the -c option so ps strips off
     // any command-line arguments for us.
-    sprintf(buf, "ps -wcp %d -o command=", myPID);
+    snprintf(buf, sizeof(buf), "ps -wcp %d -o command=", myPID);
     f = popen(buf,  "r");
     if (!f)
         return;

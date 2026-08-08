@@ -28,9 +28,12 @@
 //
 
 $cli_only = true;
+
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util_ops.inc");
 require_once("../project/project.inc");
+
+BoincDb::get_cli();
 
 // delete notifications older than 90 days
 //
@@ -59,7 +62,7 @@ Do not reply to this email.
 }
 
 function send_notify_emails() {
-    $db = BoincDb::get();
+    $db = BoincDb::get_cli();
 
     $t = time() - (86400 + 3600);  // 1-hour slop factor
     $query = "select notify.* from ".$db->db_name.".notify, ".$db->db_name.".forum_preferences where forum_preferences.pm_notification=2 and notify.userid = forum_preferences.userid and notify.create_time > $t";
@@ -87,8 +90,8 @@ function send_notify_emails() {
         case NOTIFY_PM:
             $x = pm_email_line($notify);
             break;
-        case NOTIFY_SUBSCRIBED_POST:
-            $x = subscribed_post_email_line($notify);
+        case NOTIFY_SUBSCRIBED_THREAD:
+            $x = subscribed_thread_email_line($notify);
             break;
         }
         if ($x) {

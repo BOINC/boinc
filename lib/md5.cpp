@@ -41,10 +41,6 @@
 #include "md5.h"
 #include <string.h>
 
-#ifdef _USING_FCGI_
-#include "fcgi_stdio.h"
-#endif
-
 /*
  * For reference, here is the program that computed the T values.
  */

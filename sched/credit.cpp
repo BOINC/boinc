@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -461,9 +461,9 @@ int hav_lookup(
 DB_APP_VERSION_VAL *av_lookup(
     DB_ID_TYPE id, vector<DB_APP_VERSION_VAL>& app_versions
 ) {
-    for (unsigned int i=0; i<app_versions.size(); i++) {
-        if (app_versions[i].id == id) {
-            return &app_versions[i];
+    for (DB_APP_VERSION_VAL &av: app_versions) {
+        if (av.id == id) {
+            return &av;
         }
     }
     DB_APP_VERSION_VAL av;
@@ -515,6 +515,9 @@ int get_pfc(
 
     mode = PFC_MODE_APPROX;
 
+    // the validator can set this flag if e.g. the job exited immediately
+    // and shouldn't be counted in averages
+    //
     if (r.runtime_outlier) {
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
@@ -522,37 +525,6 @@ int get_pfc(
                 r.id
             );
         }
-    }
-
-    // is result from old scheduler that didn't set r.app_version_id?
-    // if so, use WU estimate (this is a transient condition
-    // while projects upgrade server software)
-    //
-    if (r.app_version_id == 0) {
-        if (config.debug_credit) {
-            log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%lu] missing app_version_id (%ld): returning WU default %.2f\n",
-                r.id, r.app_version_id, wu_estimated_credit(wu, app)
-            );
-        }
-        mode = PFC_MODE_WU_EST;
-        pfc = wu_estimated_pfc(wu, app);
-        return 0;
-    }
-
-    // temporary kludge for SETI@home:
-    // if GPU initialization fails the app falls back to CPU.
-    //
-    if (strstr(r.stderr_out, "Device Emulation (CPU)")) {
-        if (config.debug_credit) {
-            log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%lu][AV#%ld] CUDA app fell back to CPU; returning WU default %.2f\n",
-                r.id, r.app_version_id, wu.rsc_fpops_est*COBBLESTONE_SCALE
-            );
-        }
-        mode = PFC_MODE_WU_EST;
-        pfc = wu_estimated_pfc(wu, app);
-        return 0;
     }
 
     // transition case: there's no host_app_version record
@@ -581,7 +553,6 @@ int get_pfc(
         }
     }
     // old clients report CPU time but not elapsed time.
-    // Use HOST_APP_VERSION.et to track statistics of CPU time.
     //
     if (r.elapsed_time < 1e-6) {
         // in case buggy client reports elapsed time like 1e-304
@@ -651,10 +622,23 @@ int get_pfc(
 
     // r.flops_estimate should be positive
     // but (because of scheduler bug) it may not be.
-    // At this point we don't have much to go on, so use 1e10.
     //
     if (r.flops_estimate <= 0) {
-        r.flops_estimate = 1e10;
+        r.flops_estimate = AVG_CPU_FPOPS;
+        r.runtime_outlier = true;       // skip stats update
+        log_messages.printf(MSG_WARNING,
+            "[RESULT#%lu] result has non-pos flops_estimate\n", r.id
+        );
+    }
+
+    // if benchmarks failed, client reports p_fops as 1e9
+    //
+    if (r.flops_estimate == 1e9) {
+        r.flops_estimate = AVG_CPU_FPOPS;
+        r.runtime_outlier = true;       // skip stats update
+        log_messages.printf(MSG_WARNING,
+            "[RESULT#%lu] result has 1e9 flops_estimate\n", r.id
+        );
     }
 
     double raw_pfc = (r.elapsed_time * r.flops_estimate);
@@ -709,9 +693,9 @@ int get_pfc(
             }
         }
         if (do_scale
-                && app.host_scale_check
-                && hav.consecutive_valid < CONS_VALID_HOST_SCALE
-           ) {
+            && app.host_scale_check
+            && hav.consecutive_valid < CONS_VALID_HOST_SCALE
+        ) {
             do_scale = false;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
@@ -763,8 +747,8 @@ int get_pfc(
         bool do_scale = true;
         double host_scale = 0;
         if (app.host_scale_check
-                && hav.consecutive_valid < CONS_VALID_HOST_SCALE
-           ) {
+            && hav.consecutive_valid < CONS_VALID_HOST_SCALE
+        ) {
             do_scale = false;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
@@ -902,18 +886,17 @@ int get_pfc(
 // (reduces the weight of large outliers)
 //
 double low_average(vector<double>& v) {
-    int i;
     int n = v.size();
     if (n == 1) {
         return v[0];
     }
     double sum=0;
-    for (i=0; i<n; i++) {
-        sum += v[i];
+    for (double x: v) {
+        sum += x;
     }
     double total=0;
-    for (i=0; i<n; i++) {
-        total += v[i]*(sum-v[i]);
+    for (double x: v) {
+        total += x*(sum-x);
     }
     return total/((n-1)*sum);
 }
@@ -921,35 +904,34 @@ double low_average(vector<double>& v) {
 // compute the average of number weighted by proximity
 // to another number
 double pegged_average(vector<double>& v, double anchor) {
-    int n=v.size();
-    double weights=0,sum=0,w;
-    int i;
+    int n = v.size();
+    double weights=0, sum=0, w;
     if (n==1) {
         return v[0];
     }
-    for (i=0; i<n; i++) {
-        w=(1.0/(0.1*anchor+fabs(anchor-v[i])));
-        weights+=w;
-        sum+=w*v[i];
+    for (double x: v) {
+        w = (1.0/(0.1*anchor+fabs(anchor-x)));
+        weights += w;
+        sum += w*x;
     }
     return sum/weights;
 }
 
 double vec_min(vector<double>& v) {
-    double x = v[0];
-    for (unsigned int i=1; i<v.size(); i++) {
-        if (v[i] < x) {
-            x = v[i];
+    double m = v[0];
+    for (double x: v) {
+        if (x < m) {
+            m = x;
         }
     }
-    return x;
+    return m;
 }
 
 // Called by validator when canonical result has been selected.
 // For each valid result in the list:
 // - calculate a peak FLOP count (PFC) and a "mode" that indicates
 //   our confidence in the PFC
-// - upate the statistics of PFC in host_app_version and app_version
+// - update the statistics of PFC in host_app_version and app_version
 // - Compute a credit value based on a weighted average of
 //   the PFCs of valid results
 //   (this value can be used or ignored by the caller)
@@ -963,15 +945,14 @@ int assign_credit_set(
     vector<DB_APP_VERSION_VAL>& app_versions,
     vector<DB_HOST_APP_VERSION>& host_app_versions,
     double max_granted_credit,
-    double &credit
+    double &credit      // out
 ) {
-    unsigned int i;
     int mode, retval;
     double pfc;
     vector<double> normal;
     vector<double> approx;
 
-    for (i=0; i<results.size(); i++) {
+    for (unsigned int i=0; i<results.size(); i++) {
         RESULT &r = results[i];
         if (r.validate_state != VALIDATE_STATE_VALID) {
             continue;
@@ -994,10 +975,12 @@ int assign_credit_set(
         if (pfc > wu.rsc_fpops_bound) {
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] PFC too high: %f\n", pfc*COBBLESTONE_SCALE
+                    "[credit] PFC too high: %f > %f\n",
+                    pfc*COBBLESTONE_SCALE,
+                    wu.rsc_fpops_bound*COBBLESTONE_SCALE
                 );
             }
-            pfc = wu_estimated_pfc(wu, app);
+            pfc = wu.rsc_fpops_bound;
         }
 
         // max_granted_credit trumps rsc_fpops_bound;
@@ -1061,12 +1044,10 @@ int assign_credit_set(
 // done at the end of every validator scan.
 //
 int write_modified_app_versions(vector<DB_APP_VERSION_VAL>& app_versions) {
-    unsigned int i, j;
     int retval = 0;
     double now = dtime();
 
-    for (i=0; i<app_versions.size(); i++) {
-        DB_APP_VERSION_VAL &av = app_versions[i];
+    for (DB_APP_VERSION_VAL &av: app_versions) {
         if (av.pfc_samples.empty() && av.credit_samples.empty()) {
             continue;
         }
@@ -1074,13 +1055,12 @@ int write_modified_app_versions(vector<DB_APP_VERSION_VAL>& app_versions) {
             double pfc_n_orig = av.pfc.n;
             double expavg_credit_orig = av.expavg_credit;
 
-            for (j=0; j<av.pfc_samples.size(); j++) {
+            for (double x: av.pfc_samples) {
                 av.pfc.update(
-                    av.pfc_samples[j],
-                    AV_AVG_THRESH, AV_AVG_WEIGHT, AV_AVG_LIMIT
+                    x, AV_AVG_THRESH, AV_AVG_WEIGHT, AV_AVG_LIMIT
                 );
             }
-            for (j=0; j<av.credit_samples.size(); j++) {
+            for (unsigned int j=0; j<av.credit_samples.size(); j++) {
                 update_average(
                     now,
                     av.credit_times[j], av.credit_samples[j], CREDIT_HALF_LIFE,

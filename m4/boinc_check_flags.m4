@@ -14,7 +14,7 @@ AC_DEFUN([BOINC_CHECK_CFLAG],[
       AC_MSG_RESULT(yes)
       $2
     ],
-    [ 
+    [
       AC_MSG_RESULT(no)
       CFLAGS="${sv_flags}"
       $3
@@ -38,7 +38,7 @@ AC_DEFUN([BOINC_CHECK_CXXFLAG],[
       AC_MSG_RESULT(yes)
       $2
     ],
-    [ 
+    [
       AC_MSG_RESULT(no)
       CXXFLAGS="${sv_flags}"
       $3
@@ -62,7 +62,7 @@ AC_DEFUN([BOINC_CHECK_LDFLAG],[
       AC_MSG_RESULT(yes)
       $2
     ],
-    [ 
+    [
       AC_MSG_RESULT(no)
       LDFLAGS="${sv_flags}"
       $3

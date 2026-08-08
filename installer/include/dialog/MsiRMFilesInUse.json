@@ -1,0 +1,158 @@
+{
+    "Dialog": "MsiRMFilesInUse",
+    "HCentering": 50,
+    "VCentering": 50,
+    "Width": 374,
+    "Height": 266,
+    "Attributes": 19,
+    "Title": "IDS_PRODUCTNAME",
+    "Control_First": "OK",
+    "Control_Default": "OK",
+    "Control_Cancel": "Cancel",
+    "Controls": [
+        {
+            "Control": "Banner",
+            "Type": "Bitmap",
+            "X": 0,
+            "Y": 0,
+            "Width": 374,
+            "Height": 44,
+            "Attributes": 1,
+            "Binary_": "banner.jpg"
+        },
+        {
+            "Control": "BannerLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 44,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "Cancel",
+            "Type": "PushButton",
+            "X": 301,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_CANCEL",
+            "Control_Next": "Restart",
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "Exit",
+                    "Condition": "1",
+                    "Ordering": 1
+                }
+            ]
+        },
+        {
+            "Control": "DlgDesc",
+            "Type": "Text",
+            "X": 21,
+            "Y": 23,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS__IsFilesInUse_FilesInUseMessage"
+        },
+        {
+            "Control": "DlgLine",
+            "Type": "Line",
+            "X": 0,
+            "Y": 234,
+            "Width": 374,
+            "Height": 0,
+            "Attributes": 1
+        },
+        {
+            "Control": "DlgText",
+            "Type": "Text",
+            "X": 21,
+            "Y": 51,
+            "Width": 348,
+            "Height": 14,
+            "Attributes": 3,
+            "Text": "IDS__IsMsiRMFilesInUse_ApplicationsUsingFiles"
+        },
+        {
+            "Control": "DlgTitle",
+            "Type": "Text",
+            "X": 13,
+            "Y": 6,
+            "Width": 292,
+            "Height": 25,
+            "Attributes": 65539,
+            "Text": "IDS__IsFilesInUse_FilesInUse"
+        },
+        {
+            "Control": "List",
+            "Type": "ListBox",
+            "X": 21,
+            "Y": 66,
+            "Width": 331,
+            "Height": 130,
+            "Attributes": 3,
+            "Property": "FileInUseProcess",
+            "Control_Next": "OK"
+        },
+        {
+            "Control": "OK",
+            "Type": "PushButton",
+            "X": 230,
+            "Y": 243,
+            "Width": 66,
+            "Height": 17,
+            "Attributes": 3,
+            "Text": "IDS_OK",
+            "Control_Next": "Cancel",
+            "Events": [
+                {
+                    "Event": "EndDialog",
+                    "Argument": "Return",
+                    "Condition": "1",
+                    "Ordering": 1
+                },
+                {
+                    "Event": "RMShutdownAndRestart",
+                    "Argument": "0",
+                    "Condition": "RestartManagerOption=\"CloseRestart\"",
+                    "Ordering": 2
+                }
+            ]
+        },
+        {
+            "Control": "Restart",
+            "Type": "RadioButtonGroup",
+            "X": 19,
+            "Y": 187,
+            "Width": 343,
+            "Height": 40,
+            "Attributes": 3,
+            "Property": "RestartManagerOption",
+            "Control_Next": "List",
+            "RadioButtons": [
+                {
+                    "Order": 1,
+                    "Value": "CloseRestart",
+                    "X": 6,
+                    "Y": 9,
+                    "Width": 331,
+                    "Height": 14,
+                    "Text": "IDS__IsMsiRMFilesInUse_CloseRestart"
+                },
+                {
+                    "Order": 2,
+                    "Value": "Reboot",
+                    "X": 6,
+                    "Y": 21,
+                    "Width": 331,
+                    "Height": 14,
+                    "Text": "IDS__IsMsiRMFilesInUse_RebootAfter"
+                }
+            ]
+        }
+    ]
+}

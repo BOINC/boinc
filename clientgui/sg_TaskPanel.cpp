@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -13,7 +13,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+// along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "stdwx.h"
 #include "miofile.h"
@@ -29,13 +29,13 @@
 
 
 #define SORTTASKLIST 1  /* TRUE to sort task selection control alphabetically */
-#define SLIDESHOWWIDTH ADJUSTFORXDPI(290)
-#define SLIDESHOWHEIGHT ADJUSTFORYDPI(126)
-#define SLIDESHOWBORDER 1
 #define HIDEDEFAULTSLIDE 1
 #define TESTALLDESCRIPTIONS 0
-#define SCROLLBARSPACER 8
 
+const int slideshowWidth = 290;
+const int slideshowHeight = 126;
+const int slideshowBorder = 1;
+const int scrollbarSpacer = 8;
 
 enum { suspendedIcon, waitingIcon, runningIcon };
 
@@ -53,7 +53,7 @@ CScrolledTextBox::CScrolledTextBox() {
 CScrolledTextBox::CScrolledTextBox( wxWindow* parent) :
     wxScrolledWindow( parent, ID_SGPROJECTDESCRIPTION, wxDefaultPosition, wxDefaultSize, wxVSCROLL)
 {
-    SetForegroundColour(*wxBLACK);
+    SetForegroundColour(wxGetApp().GetIsDarkMode() ? *wxWHITE : *wxBLACK);
 
     m_TextSizer = new wxBoxSizer( wxVERTICAL );
     m_hLine = GetCharHeight();
@@ -71,7 +71,8 @@ CScrolledTextBox::~CScrolledTextBox() {
 
 
 void CScrolledTextBox::SetValue(const wxString& s) {
-    int lineHeight, totalLines, totalWidth;
+    int lineHeight, totalWidth;
+    int totalLines __attribute__((unused));
     wxString t = s;
 
     // Delete sizer & its children (CTransparentStaticText objects)
@@ -92,12 +93,12 @@ void CScrolledTextBox::SetValue(const wxString& s) {
         int sbwidth = wxSystemSettings::GetMetric(wxSYS_VSCROLL_X);
         // It has a vertical scroll bar, so wrap again for reduced width
         m_TextSizer->Clear(true);
-        totalLines = Wrap(t, totalWidth - sbwidth - SCROLLBARSPACER, &lineHeight);
+        totalLines = Wrap(t, totalWidth - sbwidth - scrollbarSpacer, &lineHeight);
         m_TextSizer->FitInside(this);
     }
 }
 
-        
+
 void CScrolledTextBox::OnEraseBackground(wxEraseEvent& event) {
     wxDC *dc = event.GetDC();
     wxPoint p = GetParent()->GetPosition();
@@ -195,8 +196,7 @@ CSlideShowPanel::CSlideShowPanel() {
 
 CSlideShowPanel::CSlideShowPanel( wxWindow* parent ) :
     wxPanel( parent, wxID_ANY, wxDefaultPosition,
-            wxSize(SLIDESHOWWIDTH+(2*SLIDESHOWBORDER),
-            SLIDESHOWHEIGHT+(2*SLIDESHOWBORDER)), wxBORDER_NONE )
+            wxSize(slideshowWidth+(2*slideshowBorder), slideshowHeight+(2*slideshowBorder)), wxBORDER_NONE )
 {
     int w, h;
     wxBoxSizer* bSizer1;
@@ -287,7 +287,7 @@ numSlides = 0;
         // Force redraws if text unchanged; hide all if not in all-projects list
         m_description->Show(false);
         Enable( false );
-        
+
         if (!m_bGotAllProjectsList) {
             CMainDocument* pDoc = wxGetApp().GetDocument();
             wxASSERT(pDoc);
@@ -295,7 +295,7 @@ numSlides = 0;
             pDoc->rpc.get_all_projects_list(m_AllProjectsList);
             m_bGotAllProjectsList = true;
         }
-        
+
         SetDescriptionText();
 
         return;
@@ -303,7 +303,7 @@ numSlides = 0;
         SetBackgroundColour(*wxBLACK);
 
         if (m_bCurrentSlideIsDefault) return;
-        
+
         CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
         wxASSERT(pSkinSimple);
         wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
@@ -320,7 +320,7 @@ numSlides = 0;
 
 #endif  // HIDEDEFAULTSLIDE
         int newSlide = selData->lastSlideShown;
-        
+
         if (changeSlide) {
             if (++newSlide >= numSlides) {
                 newSlide = 0;
@@ -329,9 +329,9 @@ numSlides = 0;
         if (newSlide < 0) {
             newSlide = 0;
         }
-        
+
         if (selData->lastSlideShown != newSlide) {  // Don't update if only one slide
-        
+
             selData->lastSlideShown = newSlide;
 
             wxBitmap *bm = new wxBitmap();
@@ -346,18 +346,18 @@ numSlides = 0;
     if (m_SlideBitmap.Ok()) {
         // Check to see if they need to be rescaled to fit in the window
         ratio = 1.0;
-        xRatio = (double)SLIDESHOWWIDTH / (double)m_SlideBitmap.GetWidth();
-        yRatio = (double)SLIDESHOWHEIGHT / (double)m_SlideBitmap.GetHeight();
+        xRatio = (double)slideshowWidth / (double)m_SlideBitmap.GetWidth();
+        yRatio = (double)slideshowHeight / (double)m_SlideBitmap.GetHeight();
         ratio = xRatio;
         if ( yRatio < ratio ) {
             ratio = yRatio;
         }
         if ( (ratio < 0.95) || (ratio > 1.05) ) {
             wxImage img = m_SlideBitmap.ConvertToImage();
-            img.Rescale((int) (m_SlideBitmap.GetWidth()*ratio), 
-						(int) (m_SlideBitmap.GetHeight()*ratio), 
-						(ratio > 1.0) ? wxIMAGE_QUALITY_BILINEAR : wxIMAGE_QUALITY_BOX_AVERAGE
-					);
+            img.Rescale((int) (m_SlideBitmap.GetWidth()*ratio),
+                       (int) (m_SlideBitmap.GetHeight()*ratio),
+                       (ratio > 1.0) ? wxIMAGE_QUALITY_BILINEAR : wxIMAGE_QUALITY_BOX_AVERAGE
+            );
             wxBitmap *bm = new wxBitmap(img);
             m_SlideBitmap = *bm;
             delete bm;
@@ -369,7 +369,7 @@ numSlides = 0;
 
 
 void CSlideShowPanel::OnPaint(wxPaintEvent& WXUNUSED(event))
-{ 
+{
     wxPaintDC dc(this);
 #if HIDEDEFAULTSLIDE
     int numSlides = 0;
@@ -388,35 +388,35 @@ numSlides = 0;
         wxPen oldPen = dc.GetPen();
         wxBrush oldBrush = dc.GetBrush();
         int oldMode = dc.GetBackgroundMode();
-        wxPen bgPen(*wxBLACK, 2*SLIDESHOWBORDER+1);
-        dc.SetBackgroundMode(wxSOLID);
+        wxPen bgPen(*wxBLACK, 2*slideshowBorder+1);
+        dc.SetBackgroundMode(wxBRUSHSTYLE_SOLID);
         dc.SetPen(bgPen);
         dc.SetBrush(*wxBLACK_BRUSH);
-        
+
         GetSize(&w, &h);
-        x = (w - SLIDESHOWWIDTH) / 2;
-        dc.DrawRectangle(x, SLIDESHOWBORDER, SLIDESHOWWIDTH, SLIDESHOWHEIGHT);
-        // Restore Mode, Pen and Brush 
+        x = (w - slideshowWidth) / 2;
+        dc.DrawRectangle(x, slideshowBorder, slideshowWidth, slideshowHeight);
+        // Restore Mode, Pen and Brush
         dc.SetBackgroundMode(oldMode);
         dc.SetPen(oldPen);
         dc.SetBrush(oldBrush);
-        
-        if(m_SlideBitmap.Ok()) 
+
+        if(m_SlideBitmap.Ok())
         {
-		    dc.DrawBitmap(m_SlideBitmap,
+            dc.DrawBitmap(m_SlideBitmap,
                         (w - m_SlideBitmap.GetWidth())/2,
                         (h - m_SlideBitmap.GetHeight())/2
-                        ); 
+                        );
         }
     }
-    
+
     if (!m_bHasBeenDrawn) {
         m_bHasBeenDrawn = true;
         if (numSlides <= 0) {
             SetDescriptionText();
         }
     }
-} 
+}
 
 
 void CSlideShowPanel::OnEraseBackground(wxEraseEvent& event) {
@@ -425,7 +425,7 @@ void CSlideShowPanel::OnEraseBackground(wxEraseEvent& event) {
     wxBitmap backgroundBitmap = ((CSimpleTaskPanel*)GetParent())->GetBackgroundBmp().GetSubBitmap(r);
     dc->DrawBitmap(backgroundBitmap, 0, 0);
 }
-        
+
 
 
 
@@ -436,8 +436,8 @@ BEGIN_EVENT_TABLE(CSimpleTaskPanel, CSimplePanelBase)
     EVT_CHOICE(ID_SGTASKSELECTOR, CSimpleTaskPanel::OnTaskSelection)
 #else
     EVT_COMBOBOX(ID_SGTASKSELECTOR, CSimpleTaskPanel::OnTaskSelection)
-#if 0   // This is apparently no longer needed with wxCocoa 3.0 
-    EVT_ERASE_BACKGROUND(CSimpleTaskPanel::OnEraseBackground)    
+#if 0   // This is apparently no longer needed with wxCocoa 3.0
+    EVT_ERASE_BACKGROUND(CSimpleTaskPanel::OnEraseBackground)
 #endif
 #endif
 END_EVENT_TABLE()
@@ -449,7 +449,6 @@ CSimpleTaskPanel::CSimpleTaskPanel() {
 CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     CSimplePanelBase( parent )
 {
-    wxSize sz;
     int w, h;
     wxString str = wxEmptyString;
 
@@ -462,8 +461,11 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     m_sNotAvailableString = _("Not available");
     m_progressBarRect = NULL;
 
-    SetForegroundColour(*wxBLACK);
-    
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+    wxColour bgColor(*pSkinSimple->GetDialogBackgroundImage()->GetBackgroundColor());
+    SetBackgroundColour(bgColor);
+    SetForegroundColour(wxGetApp().GetIsDarkMode() ? *wxWHITE : *wxBLACK);
+
     wxBoxSizer* bSizer1;
     bSizer1 = new wxBoxSizer( wxVERTICAL );
 
@@ -472,100 +474,100 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
 
     m_myTasksLabel = new CTransparentStaticText( this, wxID_ANY, _("Tasks:"), wxDefaultPosition, wxDefaultSize, 0 );
     m_myTasksLabel->Wrap( -1 );
-    bSizer2->Add( m_myTasksLabel, 0, wxRIGHT, ADJUSTFORXDPI(5) );
-    
-    m_TaskSelectionCtrl = new CBOINCBitmapComboBox( this, ID_SGTASKSELECTOR, wxT(""), wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY ); 
+    bSizer2->Add( m_myTasksLabel, 0, wxRIGHT, 5 );
+
+    m_TaskSelectionCtrl = new CBOINCBitmapComboBox( this, ID_SGTASKSELECTOR, wxT(""), wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY );
     // TODO: Might want better wording for Task Selection Combo Box tooltip
     str = _("Select a task to access");
     m_TaskSelectionCtrl->SetToolTip(str);
-    bSizer2->Add( m_TaskSelectionCtrl, 1, wxRIGHT | wxEXPAND, SIDEMARGINS );
-    
-    bSizer1->Add( bSizer2, 0, wxEXPAND | wxTOP | wxLEFT, ADJUSTFORXDPI(10) );
-    
-    bSizer1->AddSpacer(ADJUSTFORYDPI(5));
-    
+    bSizer2->Add( m_TaskSelectionCtrl, 1, wxRIGHT | wxEXPAND, sideMargins);
+
+    bSizer1->Add( bSizer2, 0, wxEXPAND | wxTOP | wxLEFT, 10 );
+
+    bSizer1->AddSpacer(5);
+
     wxBoxSizer* bSizer3;
     bSizer3 = new wxBoxSizer( wxHORIZONTAL );
-    
+
     // what project the task is from, e.g. "From: SETI@home"
     m_TaskProjectLabel = new CTransparentStaticText( this, wxID_ANY, _("From:"), wxDefaultPosition, wxDefaultSize, 0 );
     m_TaskProjectLabel->Wrap( -1 );
-    bSizer3->Add( m_TaskProjectLabel, 0, wxRIGHT, ADJUSTFORXDPI(5) );
-    
+    bSizer3->Add( m_TaskProjectLabel, 0, wxRIGHT, 5 );
+
     m_TaskProjectName = new CTransparentStaticText( this, wxID_ANY, wxT("SETI@home"), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
     m_TaskProjectName->Wrap( -1 );
     wxFont theFont = m_TaskProjectName->GetFont();
     theFont.SetWeight(wxFONTWEIGHT_BOLD);
-    m_TaskProjectName->SetFont(theFont); 
+    m_TaskProjectName->SetFont(theFont);
     bSizer3->Add( m_TaskProjectName, 1, 0, 0 );
-    
-    bSizer1->Add( bSizer3, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
+
+    bSizer1->Add( bSizer3, 0, wxLEFT | wxRIGHT | wxEXPAND, sideMargins);
 
 #if SELECTBYRESULTNAME
     m_TaskApplicationName = new CTransparentStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
     m_TaskApplicationName->Wrap( -1 );
 
-    bSizer1->Add( m_TaskApplicationName, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
+    bSizer1->Add( m_TaskApplicationName, 0, wxLEFT | wxRIGHT | wxEXPAND, sideMargins);
 #endif  // SELECTBYRESULTNAME
 
-    bSizer1->AddSpacer(ADJUSTFORYDPI(10));
-    
-    m_SlideShowArea = new CSlideShowPanel(this);
-    m_SlideShowArea->SetMinSize(wxSize(SLIDESHOWWIDTH+(2*SLIDESHOWBORDER), SLIDESHOWHEIGHT+(2*SLIDESHOWBORDER)));
-    m_SlideShowArea->Enable( false );
-    
-    bSizer1->Add( m_SlideShowArea, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
+    bSizer1->AddSpacer(10);
 
-    bSizer1->AddSpacer(ADJUSTFORYDPI(10));
-    
+    m_SlideShowArea = new CSlideShowPanel(this);
+    m_SlideShowArea->SetMinSize(wxSize(slideshowWidth+(2*slideshowBorder), slideshowHeight+(2*slideshowBorder)));
+    m_SlideShowArea->Enable( false );
+
+    bSizer1->Add( m_SlideShowArea, 0, wxLEFT | wxRIGHT | wxEXPAND, sideMargins);
+
+    bSizer1->AddSpacer(10);
+
     m_ElapsedTimeValue = new CTransparentStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
     m_ElapsedTimeValue->Wrap( -1 );
-    bSizer1->Add( m_ElapsedTimeValue, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
-    
-    bSizer1->AddSpacer(ADJUSTFORYDPI(7));
-    
+    bSizer1->Add( m_ElapsedTimeValue, 0, wxLEFT | wxRIGHT | wxEXPAND, sideMargins);
+
+    bSizer1->AddSpacer(7);
+
     m_TimeRemainingValue = new CTransparentStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
     m_TimeRemainingValue->Wrap( -1 );
-    bSizer1->Add( m_TimeRemainingValue, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
-    
-    bSizer1->AddSpacer(ADJUSTFORYDPI(7));
-    
+    bSizer1->Add( m_TimeRemainingValue, 0, wxLEFT | wxRIGHT | wxEXPAND, sideMargins);
+
+    bSizer1->AddSpacer(7);
+
     wxBoxSizer* bSizer4;
     bSizer4 = new wxBoxSizer( wxHORIZONTAL );
-    
-    // TODO: Standard Mac progress indicator's animation uses lots of CPU 
-    // time, and also triggers unnecessary Erase events.  Should we use a 
-    // non-standard progress indicator on Mac?  See also optimizations in 
+
+    // TODO: Standard Mac progress indicator's animation uses lots of CPU
+    // time, and also triggers unnecessary Erase events.  Should we use a
+    // non-standard progress indicator on Mac?  See also optimizations in
     // CSimpleGUIPanel::OnEraseBackground and CSimpleTaskPanel::OnEraseBackground.
     m_ProgressBar = new wxGauge( this, wxID_ANY, 100, wxDefaultPosition, wxDefaultSize, wxGA_HORIZONTAL );
     m_ipctDoneX1000 = 100000;
     m_ProgressBar->SetValue( 100 );
     GetTextExtent(wxT("0"), &w, &h);
-    m_ProgressBar->SetMinSize(wxSize(ADJUSTFORXDPI(245), h));
+    m_ProgressBar->SetMinSize(wxSize(245, h));
     m_ProgressBar->SetToolTip(_("This task's progress"));
-    bSizer4->Add( m_ProgressBar, 0, wxRIGHT, ADJUSTFORXDPI(5) );
-    
+    bSizer4->Add( m_ProgressBar, 0, wxRIGHT, 5 );
+
     m_ProgressValueText = new CTransparentStaticText( this, wxID_ANY, wxT("100.000%"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT | wxST_NO_AUTORESIZE );
     m_ProgressValueText->Wrap( -1 );
-    bSizer4->Add( m_ProgressValueText, 0, wxALIGN_RIGHT, 0 );
-    
-    bSizer1->Add( bSizer4, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
-    
-    bSizer1->AddSpacer(ADJUSTFORYDPI(7));
-    
+    bSizer4->Add( m_ProgressValueText, 0, wxALIGN_LEFT, 0 );
+
+    bSizer1->Add( bSizer4, 0, wxLEFT | wxRIGHT | wxEXPAND, sideMargins);
+
+    bSizer1->AddSpacer(7);
+
     // TODO: Can we determine the longest status string and initialize with it?
     m_StatusValueText = new CTransparentStaticText( this, wxID_ANY, m_sNoProjectsString, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE );
     m_StatusValueText->Wrap( -1 );
-    bSizer1->Add( m_StatusValueText, 0, wxLEFT | wxRIGHT | wxEXPAND, SIDEMARGINS );
+    bSizer1->Add( m_StatusValueText, 0, wxLEFT | wxRIGHT | wxEXPAND, sideMargins);
 
-    bSizer1->AddSpacer(ADJUSTFORYDPI(7));
-    
+    bSizer1->AddSpacer(7);
+
     m_TaskCommandsButton = new CSimpleTaskPopupButton( this, ID_TASKSCOMMANDBUTTON, _("Task Commands"), wxDefaultPosition, wxDefaultSize, 0 );
     m_TaskCommandsButton->SetToolTip(_("Pop up a menu of commands to apply to this task"));
-    bSizer1->Add( m_TaskCommandsButton, 0, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER_HORIZONTAL, SIDEMARGINS );
-    
-    bSizer1->AddSpacer(ADJUSTFORYDPI(10));
-    
+    bSizer1->Add( m_TaskCommandsButton, 0, wxLEFT | wxRIGHT | wxEXPAND, sideMargins);
+
+    bSizer1->AddSpacer(10);
+
     this->SetSizer( bSizer1 );
     this->Layout();
 
@@ -589,7 +591,7 @@ CSimpleTaskPanel::~CSimpleTaskPanel()
         m_TaskSelectionCtrl->SetClientData(j, NULL);
     }
     m_TaskSelectionCtrl->Clear();
-        
+
     if (m_progressBarRect) {
         delete m_progressBarRect;
     }
@@ -621,7 +623,7 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
 #ifndef __WXMAC__
     Freeze();
 #endif
-    
+
     if ((workCount <= 0) || delayShow) {
         if ((workCount != m_oldWorkCount) || delayShow) {
             wasDelayed = true;
@@ -649,9 +651,9 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
             m_ProgressRect.Offset(0, -2);
 #endif
         }
-        
+
         DisplayIdleState();
-        
+
     } else {
         if ((m_oldWorkCount == 0) || wasDelayed) {
             wasDelayed = false;
@@ -669,7 +671,7 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
             m_ProgressValueText->Show();
             m_TaskCommandsButton->Show();
             this->Layout();
-    
+
 #ifdef __WXMAC__
             m_ProgressRect = m_ProgressBar->GetRect();
             m_ProgressRect.Inflate(0, -2);
@@ -678,7 +680,7 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
         }
 
         UpdateTaskSelectionList(false);
-        
+
         // We now have valid result pointers, so extract our data
         int count = m_TaskSelectionCtrl->GetCount();
         if (count <= 0) {
@@ -761,6 +763,10 @@ void CSimpleTaskPanel::ReskinInterface() {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleTaskPanel::ReskinInterface - Function Begin"));
     CSimplePanelBase::ReskinInterface();
     m_SlideShowArea->AdvanceSlideShow(false, false);
+#ifdef __WXMAC__
+    m_TaskSelectionCtrl->Show();
+    m_myTasksLabel->Show();
+#endif
     UpdateTaskSelectionList(true);
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleTaskPanel::ReskinInterface - Function Begin"));
 }
@@ -794,7 +800,7 @@ void CSimpleTaskPanel::GetApplicationAndProjectNames(RESULT* result, wxString* a
     }
 
     if (!state_result) return;
-    
+
     if (appName != NULL) {
         WORKUNIT* wup = state_result->wup;
         if (!wup) return;
@@ -808,7 +814,7 @@ void CSimpleTaskPanel::GetApplicationAndProjectNames(RESULT* result, wxString* a
         } else {
             strAppBuffer = wxString(state_result->avp->app_name, wxConvUTF8);
         }
-        
+
         if (avp->gpu_type) {
             strGPUBuffer.Printf(
                 wxT(" (%s)"),
@@ -823,7 +829,7 @@ void CSimpleTaskPanel::GetApplicationAndProjectNames(RESULT* result, wxString* a
             strGPUBuffer.c_str()
         );
     }
-    
+
     if (projName != NULL) {
         *projName = wxString(state_result->project->project_name.c_str(), wxConvUTF8 );
         if (projName->IsEmpty()) {
@@ -836,7 +842,7 @@ void CSimpleTaskPanel::GetApplicationAndProjectNames(RESULT* result, wxString* a
 wxString CSimpleTaskPanel::GetElapsedTimeString(double f) {
     wxString s = wxEmptyString;
     wxString str = wxEmptyString;
-    
+
     if (f < 0) {
         s = m_sNotAvailableString;
     } else {
@@ -850,7 +856,7 @@ wxString CSimpleTaskPanel::GetElapsedTimeString(double f) {
 wxString CSimpleTaskPanel::GetTimeRemainingString(double f) {
     wxString s = wxEmptyString;
     wxString str = wxEmptyString;
-    
+
     if (f < 0) {
         s = m_sNotAvailableString;
     } else {
@@ -864,13 +870,13 @@ wxString CSimpleTaskPanel::GetTimeRemainingString(double f) {
 wxString CSimpleTaskPanel::GetStatusString(RESULT* result) {
     wxString s = wxEmptyString;
     wxString str = wxEmptyString;
-    
+
     if (result == NULL) {
         s = m_sNotAvailableString;
     } else {
         s = result_description(result, false);
     }
-    
+
     str.Printf(_("Status: %s"), s.c_str());
     return str;
 }
@@ -878,12 +884,12 @@ wxString CSimpleTaskPanel::GetStatusString(RESULT* result) {
 void CSimpleTaskPanel::FindSlideShowFiles(TaskSelectionData *selData) {
     RESULT* state_result;
     char proj_dir[1024];
-    char fileName[1024];
+    char fileName[1536];
     char resolvedFileName[1024];
     int j;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
-    
+
 
     selData->slideShowFileNames.Clear();
     state_result = pDoc->state.lookup_result(selData->result->project_url, selData->result->name);
@@ -895,7 +901,7 @@ void CSimpleTaskPanel::FindSlideShowFiles(TaskSelectionData *selData) {
         url_to_project_dir(state_result->project->master_url, proj_dir, sizeof(proj_dir));
         for(j=0; j<99; ++j) {
             snprintf(fileName, sizeof(fileName), "%s/slideshow_%s_%02d", proj_dir, state_result->app->name, j);
-            if(boinc_resolve_filename(fileName, resolvedFileName, sizeof(resolvedFileName)) == 0) {
+            if(resolve_soft_link(fileName, resolvedFileName, sizeof(resolvedFileName)) == 0) {
                 if (boinc_file_exists(resolvedFileName)) {
                     selData->slideShowFileNames.Add(wxString(resolvedFileName,wxConvUTF8));
                 }
@@ -907,7 +913,7 @@ void CSimpleTaskPanel::FindSlideShowFiles(TaskSelectionData *selData) {
         if ( selData->slideShowFileNames.size() == 0 ) {
             for(j=0; j<99; ++j) {
                 snprintf(fileName, sizeof(fileName), "%s/slideshow_%02d", proj_dir, j);
-                if(boinc_resolve_filename(fileName, resolvedFileName, sizeof(resolvedFileName)) == 0) {
+                if(resolve_soft_link(fileName, resolvedFileName, sizeof(resolvedFileName)) == 0) {
                     if (boinc_file_exists(resolvedFileName)) {
                         selData->slideShowFileNames.Add(wxString(resolvedFileName,wxConvUTF8));
                     }
@@ -935,28 +941,28 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
     wxASSERT(pDoc);
-    
+
     static bool bAlreadyRunning = false;
 
     wxASSERT(pDoc);
     wxASSERT(pSkinSimple);
     wxASSERT(wxDynamicCast(pSkinSimple, CSkinSimple));
-    
+
     if (bAlreadyRunning) {
         return;
     }
     bAlreadyRunning = true;
-    
+
     count = m_TaskSelectionCtrl->GetCount();
     // Mark all inactive (this lets us loop only once)
     for (i=0; i<count; ++i) {
         is_alive.push_back(false);
     }
-    
+
     // First update existing entries and add new ones
     for(i = 0; i < (int) pDoc->results.results.size(); i++) {
         bool found = false;
-        
+
         result = pDoc->result(i);
         // only check tasks that are active
         if ( result == NULL || !result->active_task ) {
@@ -969,12 +975,12 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
 #else   // SELECTBYRESULTNAME
         GetApplicationAndProjectNames(result, &resname, NULL);
 #endif  // SELECTBYRESULTNAME
-        
+
         // loop through the items already in Task Selection Control to find this result
         count = m_TaskSelectionCtrl->GetCount();
         for(j = 0; j < count; ++j) {
             selData = (TaskSelectionData*)m_TaskSelectionCtrl->GetClientData(j);
-            if (!strcmp(result->name, selData->result_name) && 
+            if (!strcmp(result->name, selData->result_name) &&
                 !strcmp(result->project_url, selData->project_url)
             ) {
                 selData->result = result;
@@ -983,7 +989,7 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
                 break; // skip out of this loop
             }
         }
-        
+
         // if it isn't currently in the list then we have a new one!  lets add it
         if (!found) {
             int alphaOrder;
@@ -994,17 +1000,17 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
                     break;  // Insert the new item here (sorted by item label)
                 }
 #endif
-                // wxComboBox and wxBitmapComboBox have bugs on Windows when multiple 
-                // entries have identical text, so add enough spaces to make each 
+                // wxComboBox and wxBitmapComboBox have bugs on Windows when multiple
+                // entries have identical text, so add enough spaces to make each
                 // entry's text unique.
                 if (alphaOrder == 0) {
                     resname.Append((const wxChar *)wxT(" "));
 #if !SORTTASKLIST
-                    j = -1;  // If not sorted, check new name from start for duplicate 
+                    j = -1;  // If not sorted, check new name from start for duplicate
 #endif
                 }
             }
-            
+
             selData = new TaskSelectionData;
             selData->result = result;
             strlcpy(selData->result_name, result->name, sizeof(selData->result_name));
@@ -1027,7 +1033,7 @@ void CSimpleTaskPanel::UpdateTaskSelectionList(bool reskin) {
                     ++m_CurrentTaskSelection;
                     m_TaskSelectionCtrl->SetSelection(m_CurrentTaskSelection);
                 }
-            } else 
+            } else
 #endif
             {
                 m_TaskSelectionCtrl->Append(resname, wxNullBitmap, (void*)selData);
@@ -1142,14 +1148,13 @@ bool CSimpleTaskPanel::isRunning(RESULT* result) {
     wxASSERT(pDoc);
 
     pDoc->GetCoreClientStatus(status);
-    // Make sure that the core client isn't global suspended for some reason
-    if (status.task_suspend_reason == 0 || status.task_suspend_reason == SUSPEND_REASON_CPU_THROTTLE) {
-        return true;
+    if (status.task_suspend_reason) {
+        return false;
     }
-    if (result->active_task_state == PROCESS_EXECUTING) {
-        return true;
+    if (result->active_task_state != PROCESS_EXECUTING) {
+        return false;
     }
-    return false;
+    return true;
 }
 
 
@@ -1157,7 +1162,7 @@ bool CSimpleTaskPanel::DownloadingResults() {
     bool return_value = false;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
-            
+
     if ( pDoc->results.results.size() > 0 ) {
         RESULT* result;
         for(unsigned int i=0; !return_value && i < pDoc->results.results.size(); i++ ) {
@@ -1174,13 +1179,12 @@ bool CSimpleTaskPanel::Suspended() {
     CC_STATUS status;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
-    
-    bool result = false;
+
     pDoc->GetCoreClientStatus(status);
-    if ( pDoc->IsConnected() && status.task_suspend_reason > 0 && status.task_suspend_reason != SUSPEND_REASON_CPU_THROTTLE ) {
-        result = true;
+    if (pDoc->IsConnected() && status.task_suspend_reason) {
+        return true;
     }
-    return result;
+    return false;
 }
 
 // Check to see if a project update is scheduled or in progress
@@ -1188,7 +1192,7 @@ bool CSimpleTaskPanel::ProjectUpdateScheduled() {
     PROJECT* project;
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
-    
+
     int prjCount = pDoc->GetSimpleProjectCount();
     for(int i=0; i<prjCount; i++) {
         project = pDoc->state.projects[i];
@@ -1202,7 +1206,7 @@ bool CSimpleTaskPanel::ProjectUpdateScheduled() {
 void CSimpleTaskPanel::DisplayIdleState() {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
-            
+
     if ( pDoc->IsReconnecting() ) {
         error_time = 0;
         UpdateStaticText(&m_StatusValueText, _("Retrieving current status."));
@@ -1212,24 +1216,13 @@ void CSimpleTaskPanel::DisplayIdleState() {
     } else if ( DownloadingResults() ) {
         error_time = 0;
         UpdateStaticText(&m_StatusValueText, _("Downloading work from the server."));
-    } else if ( Suspended() ) {
+    } else if (Suspended()) {
         CC_STATUS status;
         pDoc->GetCoreClientStatus(status);
-        if ( status.task_suspend_reason & SUSPEND_REASON_BATTERIES ) {
-            UpdateStaticText(&m_StatusValueText, _("Processing Suspended:  Running On Batteries."));
-        } else if ( status.task_suspend_reason & SUSPEND_REASON_USER_ACTIVE ) {
-            UpdateStaticText(&m_StatusValueText, _("Processing Suspended:  User Active."));
-        } else if ( status.task_suspend_reason & SUSPEND_REASON_USER_REQ ) {
-            UpdateStaticText(&m_StatusValueText, _("Processing Suspended:  User paused processing."));
-        } else if ( status.task_suspend_reason & SUSPEND_REASON_TIME_OF_DAY ) {
-            UpdateStaticText(&m_StatusValueText, _("Processing Suspended:  Time of Day."));
-        } else if ( status.task_suspend_reason & SUSPEND_REASON_BENCHMARKS ) {
-            UpdateStaticText(&m_StatusValueText, _("Processing Suspended:  Benchmarks Running."));
-        } else if ( status.task_suspend_reason & SUSPEND_REASON_DISK_SIZE ) {
-            UpdateStaticText(&m_StatusValueText, _("Processing Suspended:  need disk space."));
-        } else {
-            UpdateStaticText(&m_StatusValueText, _("Processing Suspended."));
-        }
+        UpdateStaticText(
+            &m_StatusValueText,
+            _("Computing suspended: ") + suspend_reason_wxstring(status.task_suspend_reason)
+        );
     } else if ( ProjectUpdateScheduled() ) {
         error_time = 0;
         UpdateStaticText(&m_StatusValueText, _("Waiting to contact project servers."));
@@ -1256,7 +1249,7 @@ void CSimpleTaskPanel::DisplayIdleState() {
 void CSimpleTaskPanel::OnEraseBackground(wxEraseEvent& event) {
     wxRect clipRect;
     wxDC *dc = event.GetDC();
-    
+
     if (m_ProgressBar->IsShown()) {
 //        if (m_progressBarRect == NULL) {
             m_progressBarRect = new wxRect(m_ProgressBar->GetRect());
@@ -1267,7 +1260,7 @@ void CSimpleTaskPanel::OnEraseBackground(wxEraseEvent& event) {
             return;
         }
     }
-    
+
 //    CSimplePanelBase::OnEraseBackground(event);
     event.Skip();
 }

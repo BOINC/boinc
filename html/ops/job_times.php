@@ -169,7 +169,7 @@ function analyze($appid, $app_version_id, $nresults) {
     }
 
     ksort($hist);
-    show_stats($hist);
+    show_stats();
     echo "<hr>\n";
     show_as_table();
     echo "<hr>\n";

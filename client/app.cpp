@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -50,10 +50,6 @@
 #include <cstdio>
 #include <cmath>
 #include <cstdlib>
-#endif
-
-#ifdef _MSC_VER
-#define snprintf _snprintf
 #endif
 
 #include "error_numbers.h"
@@ -109,11 +105,12 @@ ACTIVE_TASK::ACTIVE_TASK() {
     checkpoint_fraction_done = 0;
     checkpoint_fraction_done_elapsed_time = 0;
     current_cpu_time = 0;
-    peak_working_set_size = 0;
-    peak_swap_size = 0;
+    peak_rss = 0;
+    peak_swap_usage = 0;
     peak_disk_usage = 0;
     once_ran_edf = false;
 
+    rss_from_app = 0;
     fraction_done = 0;
     fraction_done_elapsed_time = 0;
     first_fraction_done = 0;
@@ -124,10 +121,6 @@ ACTIVE_TASK::ACTIVE_TASK() {
     run_interval_start_wall_time = gstate.now;
     checkpoint_wall_time = 0;
     elapsed_time = 0;
-    bytes_sent_episode = 0;
-    bytes_received_episode = 0;
-    bytes_sent = 0;
-    bytes_received = 0;
     safe_strcpy(slot_dir, "");
     safe_strcpy(slot_path, "");
     max_elapsed_time = 0;
@@ -135,14 +128,15 @@ ACTIVE_TASK::ACTIVE_TASK() {
     max_mem_usage = 0;
     have_trickle_down = false;
     send_upload_file_status = false;
-    too_large = false;
+    rss_too_large = false;
+    swap_too_large = false;
     needs_shmem = false;
     want_network = 0;
     abort_time = 0;
     premature_exit_count = 0;
     quit_time = 0;
     procinfo.clear();
-    procinfo.working_set_size_smoothed = 0;
+    procinfo.rss_smoothed = 0;
 #ifdef _WIN32
     process_handle = NULL;
     shm_handle = NULL;
@@ -154,6 +148,10 @@ ACTIVE_TASK::ACTIVE_TASK() {
     safe_strcpy(remote_desktop_addr, "");
     async_copy = NULL;
     finish_file_time = 0;
+    sporadic_ca_state = CA_NONE;
+    sporadic_ac_state = AC_NONE;
+    sporadic_ignore_until = 0;
+    swap_kill_time = 0;
 }
 
 bool ACTIVE_TASK::process_exists() {
@@ -171,7 +169,7 @@ bool ACTIVE_TASK::process_exists() {
 // called from the CLIENT_STATE::enforce_schedule()
 // and ACTIVE_TASK_SET::suspend_all()
 //
-int ACTIVE_TASK::preempt(int preempt_type, int reason) {
+int ACTIVE_TASK::preempt(PREEMPT_TYPE preempt_type, int reason) {
     bool remove=false;
 
     switch (preempt_type) {
@@ -209,7 +207,7 @@ int ACTIVE_TASK::preempt(int preempt_type, int reason) {
                 result->name
             );
         }
-        return request_exit();
+        return request_quit();
     } else {
         if (show_msg) {
             msg_printf(result->project, MSG_INFO,
@@ -220,7 +218,7 @@ int ACTIVE_TASK::preempt(int preempt_type, int reason) {
         if (task_state() != PROCESS_EXECUTING) return 0;
         return suspend();
     }
-    return 0;
+    // not reached
 }
 
 #ifndef SIM
@@ -285,7 +283,7 @@ int ACTIVE_TASK::init(RESULT* rp) {
     result = rp;
     wup = rp->wup;
     app_version = rp->avp;
-    max_elapsed_time = rp->wup->rsc_fpops_bound/rp->avp->flops;
+    max_elapsed_time = rp->wup->rsc_fpops_bound/rp->resource_usage.flops;
     if (max_elapsed_time < MIN_TIME_BOUND) {
         msg_printf(wup->project, MSG_INFO,
             "Elapsed time limit %f < %f; setting to %f",
@@ -354,28 +352,29 @@ void procinfo_show(PROC_MAP& pm) {
 #endif
 
 // scan the set of all processes to
-// 1) get the working-set size of active tasks
+// 1) get the resource usage of each active task and BOINC total
 // 2) see if exclusive apps are running
 // 3) get CPU time of non-BOINC processes
 //
+// If total RSS exceeds limit, trigger reschedule
+//
 void ACTIVE_TASK_SET::get_memory_usage() {
     static double last_mem_time=0;
-    unsigned int i;
     int retval;
     static bool first = true;
-    static double last_cpu_time;
-    double diff=0;
+    double delta_t=0;
+    bool vbox_app_running = false;
 
     if (!first) {
-        diff = gstate.now - last_mem_time;
-        if (diff < 0 || diff > MEMORY_USAGE_PERIOD + 10) {
+        delta_t = gstate.now - last_mem_time;
+        if (delta_t < 0 || delta_t > MEMORY_USAGE_PERIOD + 10) {
             // user has changed system clock,
             // or there has been a long system sleep
             //
             last_mem_time = gstate.now;
             return;
         }
-        if (diff < MEMORY_USAGE_PERIOD) return;
+        if (delta_t < MEMORY_USAGE_PERIOD) return;
     }
 
     last_mem_time = gstate.now;
@@ -390,12 +389,10 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         return;
     }
     PROCINFO boinc_total;
-    if (log_flags.mem_usage_debug) {
-        boinc_total.clear();
-        boinc_total.working_set_size_smoothed = 0;
-    }
-    for (i=0; i<active_tasks.size(); i++) {
-        ACTIVE_TASK* atp = active_tasks[i];
+    boinc_total.clear();
+    boinc_total.rss_smoothed = 0;
+
+    for (ACTIVE_TASK* atp: active_tasks) {
         if (atp->task_state() == PROCESS_UNINITIALIZED) continue;
         if (atp->pid ==0) continue;
 
@@ -407,7 +404,6 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         //    and suspend everything).
 
         PROCINFO& pi = atp->procinfo;
-        unsigned long last_page_fault_count = pi.page_fault_count;
         pi.clear();
         pi.id = atp->pid;
         vector<int>* v = NULL;
@@ -415,114 +411,255 @@ void ACTIVE_TASK_SET::get_memory_usage() {
             v = &(atp->other_pids);
         }
         procinfo_app(pi, v, pm, atp->app_version->graphics_exec_file);
-        if (atp->app_version->is_vm_app) {
+        if (atp->app_version->is_vbox_app) {
+            vbox_app_running = true;
             // the memory of virtual machine apps is not reported correctly,
             // at least on Windows.  Use the VM size instead.
             //
-            pi.working_set_size_smoothed = atp->wup->rsc_memory_bound;
+            pi.rss_smoothed = atp->wup->rsc_memory_bound;
+        } else if (atp->rss_from_app > 0) {
+            pi.rss_smoothed = .5*(pi.rss_smoothed + atp->rss_from_app);
         } else {
-            pi.working_set_size_smoothed = .5*(pi.working_set_size_smoothed + pi.working_set_size);
+            pi.rss_smoothed = .5*(pi.rss_smoothed + pi.rss);
         }
 
-        if (pi.working_set_size > atp->peak_working_set_size) {
-            atp->peak_working_set_size = pi.working_set_size;
+        if (pi.rss > atp->peak_rss) {
+            atp->peak_rss = pi.rss;
         }
-        if (pi.swap_size > atp->peak_swap_size) {
-            atp->peak_swap_size = pi.swap_size;
+        if (pi.swap_usage > atp->peak_swap_usage) {
+            atp->peak_swap_usage = pi.swap_usage;
         }
+        boinc_total.rss += pi.rss;
+        boinc_total.rss_smoothed += pi.rss_smoothed;
+        boinc_total.swap_usage += pi.swap_usage;
 
         if (!first) {
-            int pf = pi.page_fault_count - last_page_fault_count;
-            pi.page_fault_rate = pf/diff;
             if (log_flags.mem_usage_debug) {
                 msg_printf(atp->result->project, MSG_INFO,
-                    "[mem_usage] %s%s: WS %.2fMB, smoothed %.2fMB, swap %.2fMB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
+                    "[mem_usage] %s%s: virtual size %.2f GB, RSS %.2f GB, swap usage %.2f GB, user CPU %.3f, kernel CPU %.3f",
                     atp->scheduler_state==CPU_SCHED_SCHEDULED?"":" (not running)",
                     atp->result->name,
-                    pi.working_set_size/MEGA,
-                    pi.working_set_size_smoothed/MEGA,
-                    pi.swap_size/MEGA,
-                    pi.page_fault_rate,
+                    pi.virtual_size/GIGA,
+                    pi.rss/GIGA,
+                    pi.swap_usage/GIGA,
                     pi.user_time,
                     pi.kernel_time
                 );
-                boinc_total.working_set_size += pi.working_set_size;
-                boinc_total.working_set_size_smoothed += pi.working_set_size_smoothed;
-                boinc_total.swap_size += pi.swap_size;
-                boinc_total.page_fault_rate += pi.page_fault_rate;
             }
         }
     }
 
-    if (!first) {
-        if (log_flags.mem_usage_debug) {
-            msg_printf(0, MSG_INFO,
-                "[mem_usage] BOINC totals: WS %.2fMB, smoothed %.2fMB, swap %.2fMB, %.2f page faults/sec",
-                boinc_total.working_set_size/MEGA,
-                boinc_total.working_set_size_smoothed/MEGA,
-                boinc_total.swap_size/MEGA,
-                boinc_total.page_fault_rate
-            );
+    // log BOINC totals if requested
+    //
+    if (!first && log_flags.mem_usage_debug) {
+        msg_printf(0, MSG_INFO,
+            "[mem_usage] BOINC totals: RSS %.2f GB, swap usage %.2f GB",
+            boinc_total.rss/GIGA,
+            boinc_total.swap_usage/GIGA
+        );
+#ifdef _WIN32
+        PROCINFO system_total;
+        system_total.clear();
+        system_total.rss_smoothed = 0;
+        for (const auto& [pid, pi]: pm) {
+            (void)pid;
+            system_total.rss += pi.rss;
+            system_total.swap_usage += pi.swap_usage;
+        }
+        msg_printf(0, MSG_INFO,
+            "[mem_usage] System totals: RSS %.2f GB, swap usage %.2f GB",
+            system_total.rss/GIGA,
+            system_total.swap_usage/GIGA
+        );
+#endif
+    }
+
+    // if memory limits exceeded, trigger reschedule
+    //
+    if (boinc_total.rss > gstate.available_ram()) {
+        gstate.request_schedule_cpus("RAM limit exceeded");
+    }
+    if (is_swap_defined()) {
+        if (boinc_total.swap_usage
+            > (gstate.global_prefs.vm_max_used_frac)*gstate.host_info.m_swap
+        ) {
+            gstate.request_schedule_cpus("Swap limit exceeded");
         }
     }
 
-    for (i=0; i<cc_config.exclusive_apps.size(); i++) {
-        if (app_running(pm, cc_config.exclusive_apps[i].c_str())) {
+    // check for exclusive apps
+    //
+    static string exclusive_app_name;
+        // name of currently running exclusive app, or blank if none
+    for (const string &eapp: cc_config.exclusive_apps) {
+        if (app_running(pm, eapp.c_str())) {
             if (log_flags.mem_usage_debug) {
                 msg_printf(NULL, MSG_INFO,
-                    "[mem_usage] exclusive app %s is running", cc_config.exclusive_apps[i].c_str()
+                    "[mem_usage] exclusive app %s is running", eapp.c_str()
                 );
             }
+            if (log_flags.task && eapp != exclusive_app_name) {
+                msg_printf(NULL, MSG_INFO,
+                    "Exclusive app %s is running",
+                    eapp.c_str()
+                );
+            }
+            exclusive_app_name = eapp;
             exclusive_app_running = gstate.now;
             break;
         }
     }
-    for (i=0; i<cc_config.exclusive_gpu_apps.size(); i++) {
-        if (app_running(pm, cc_config.exclusive_gpu_apps[i].c_str())) {
-            if (log_flags.mem_usage_debug) {
+    if (exclusive_app_running != gstate.now) {
+        if (!exclusive_app_name.empty()) {
+            if (log_flags.task) {
                 msg_printf(NULL, MSG_INFO,
-                    "[mem_usage] exclusive GPU app %s is running", cc_config.exclusive_gpu_apps[i].c_str()
+                    "Exclusive app %s is no longer running",
+                    exclusive_app_name.c_str()
                 );
             }
+            exclusive_app_name = "";
+        }
+    }
+
+    static string exclusive_gpu_app_name;
+    for (const string &eapp: cc_config.exclusive_gpu_apps) {
+        if (app_running(pm, eapp.c_str())) {
+            if (log_flags.mem_usage_debug) {
+                msg_printf(NULL, MSG_INFO,
+                    "[mem_usage] exclusive GPU app %s is running", eapp.c_str()
+                );
+            }
+            if (log_flags.task && eapp != exclusive_gpu_app_name) {
+                msg_printf(NULL, MSG_INFO,
+                    "Exclusive GPU app %s is running",
+                    eapp.c_str()
+                );
+            }
+            exclusive_gpu_app_name = eapp;
             exclusive_gpu_app_running = gstate.now;
             break;
         }
     }
-
-    // get info on non-BOINC processes.
-    // mem usage info is not useful because most OSs don't
-    // move idle processes out of RAM, so physical memory is always full.
-    // Also (at least on Win) page faults are used for various things,
-    // not all of them generate disk I/O,
-    // so they're not useful for detecting paging/thrashing.
-    //
-    PROCINFO pi;
-    procinfo_non_boinc(pi, pm);
-    if (log_flags.mem_usage_debug) {
-        //procinfo_show(pm);
-        msg_printf(NULL, MSG_INFO,
-            "[mem_usage] All others: WS %.2fMB, swap %.2fMB, user %.3fs, kernel %.3fs",
-            pi.working_set_size/MEGA, pi.swap_size/MEGA,
-            pi.user_time, pi.kernel_time
-        );
+    if (exclusive_gpu_app_running != gstate.now) {
+        if (!exclusive_gpu_app_name.empty()) {
+            if (log_flags.task) {
+                msg_printf(NULL, MSG_INFO,
+                    "Exclusive GPU app %s is no longer running",
+                    exclusive_gpu_app_name.c_str()
+                );
+            }
+            exclusive_gpu_app_name = "";
+        }
     }
-    double new_cpu_time = pi.user_time + pi.kernel_time;
+
+    // compute non_boinc_cpu_usage
+    non_boinc_cpu_usage = 0;
+
+#if defined(__linux__) || defined(_WIN32) || defined(__APPLE__)
+#ifndef ANDROID
+    // Improved version for systems where we can get total CPU
+    // (Win, Linux, Mac)
+    //
+    double total_cpu_time_now = total_cpu_time();
+
+    // total_cpu_time() returns 0 on error
+    //
+    if (total_cpu_time_now != 0) {
+        double brc;
+        bool reset;
+        boinc_related_cpu_time(pm, vbox_app_running, brc, reset);
+#ifdef __linux__
+        // on Win and Mac,
+        // boinc_related_cpu_time() includes CPU time of Docker jobs.
+        // On Linux we need to do it by looking at the
+        // reported CPU times of the jobs
+        // (which may be less reliable/accurate)
+        //
+        static double prev_docker_time = 0;
+        double docker_time = 0;
+        for (ACTIVE_TASK* atp: active_tasks) {
+            if (atp->app_version->is_docker_app) {
+                docker_time += atp->current_cpu_time;
+            }
+        }
+        brc += docker_time;
+        if (docker_time < prev_docker_time) {
+            reset = true;
+        }
+        prev_docker_time = docker_time;
+#endif
+        // At this point we have brc (BOINC-related CPU).
+        // If reset is true, it's incomparable with the previous value
+
+        static double prev_nbrc = 0;
+        double nbrc = total_cpu_time_now - brc;
+        if (!first) {
+            if (reset) {
+                if (log_flags.mem_usage_debug) {
+                    msg_printf(NULL, MSG_INFO,
+                        "[mem_usage] reset in BOINC-related CPU"
+                    );
+                }
+            } else {
+                double delta_nbrc = nbrc - prev_nbrc;
+                if (delta_nbrc < 0) delta_nbrc = 0;
+                non_boinc_cpu_usage = delta_nbrc/(delta_t*gstate.host_info.p_ncpus);
+                if (log_flags.mem_usage_debug) {
+                    msg_printf(NULL, MSG_INFO,
+                        "[mem_usage] total CPU time %.2f, brc %.2f, nbrc: %.2f, delta_nbrc %.2f, dt %.2f",
+                        total_cpu_time_now, brc, nbrc, delta_nbrc, delta_t
+                    );
+                }
+            }
+        }
+        prev_nbrc = nbrc;
+    } else
+#endif
+#endif
+    {
+        // compute non_boinc_cpu_usage the old way
+        //
+        // NOTE: this is flawed because it doesn't count short-lived processes
+        // correctly.  Linux and Win use a better approach (see above).
+        //
+        // mem usage info is not useful because most OSs don't
+        // move idle processes out of RAM, so physical memory is always full.
+        // Also (at least on Win) page faults are used for various things,
+        // not all of them generate disk I/O,
+        // so they're not useful for detecting paging/thrashing.
+        //
+        static double last_cpu_time;
+        PROCINFO pi;
+        procinfo_non_boinc(pi, pm);
+        if (log_flags.mem_usage_debug) {
+            //procinfo_show(pm);
+            msg_printf(NULL, MSG_INFO,
+                "[mem_usage] All others: RSS %.2f GB, swap usage %.2f GB, user %.3fs, kernel %.3fs",
+                pi.rss/GIGA, pi.swap_usage/GIGA,
+                pi.user_time, pi.kernel_time
+            );
+        }
+        double new_cpu_time = pi.user_time + pi.kernel_time;
+        if (!first) {
+            non_boinc_cpu_usage = (new_cpu_time - last_cpu_time)/(delta_t*gstate.host_info.p_ncpus);
+            // processes might have exited in the last 10 sec,
+            // causing this to be negative.
+            if (non_boinc_cpu_usage < 0) non_boinc_cpu_usage = 0;
+        }
+        last_cpu_time = new_cpu_time;
+    }
+
     if (!first) {
-        non_boinc_cpu_usage = (new_cpu_time - last_cpu_time)/(diff*gstate.host_info.p_ncpus);
-        // processes might have exited in the last 10 sec,
-        // causing this to be negative.
-        if (non_boinc_cpu_usage < 0) non_boinc_cpu_usage = 0;
         if (log_flags.mem_usage_debug) {
             msg_printf(NULL, MSG_INFO,
                 "[mem_usage] non-BOINC CPU usage: %.2f%%", non_boinc_cpu_usage*100
             );
         }
     }
-    last_cpu_time = new_cpu_time;
     first = false;
 }
 
-#endif
+#endif  // ! defined (SIM)
 
 // There's a new trickle file.
 // Move it from slot dir to project dir
@@ -554,15 +691,14 @@ int ACTIVE_TASK::move_trickle_file() {
 //
 int ACTIVE_TASK::current_disk_usage(double& size) {
     double x;
-    unsigned int i;
     int retval;
     FILE_INFO* fip;
     char path[MAXPATHLEN];
 
     retval = dir_size(slot_dir, size);
     if (retval) return retval;
-    for (i=0; i<result->output_files.size(); i++) {
-        fip = result->output_files[i].file_info;
+    for (const FILE_REF &fref: result->output_files) {
+        fip = fref.file_info;
         get_pathname(fip, path, sizeof(path));
         retval = file_size(path, x);
         if (!retval) size += x;
@@ -574,9 +710,8 @@ int ACTIVE_TASK::current_disk_usage(double& size) {
 }
 
 bool ACTIVE_TASK_SET::is_slot_in_use(int slot) {
-    unsigned int i;
-    for (i=0; i<active_tasks.size(); i++) {
-        if (active_tasks[i]->slot == slot) {
+    for (ACTIVE_TASK *atp: active_tasks) {
+        if (atp->slot == slot) {
             return true;
         }
     }
@@ -585,9 +720,8 @@ bool ACTIVE_TASK_SET::is_slot_in_use(int slot) {
 
 bool ACTIVE_TASK_SET::is_slot_dir_in_use(char* dir) {
     char path[MAXPATHLEN];
-    unsigned int i;
-    for (i=0; i<active_tasks.size(); i++) {
-        get_slot_dir(active_tasks[i]->slot, path, sizeof(path));
+    for (ACTIVE_TASK *atp: active_tasks) {
+        get_slot_dir(atp->slot, path, sizeof(path));
         if (!strcmp(path, dir)) return true;
     }
     return false;
@@ -637,9 +771,9 @@ int ACTIVE_TASK::get_free_slot(RESULT* rp) {
 
         // paranoia - don't allow unbounded slots
         //
-        if (j > gstate.ncpus*100) {
+        if (j > gstate.n_usable_cpus*100) {
             msg_printf(rp->project, MSG_INTERNAL_ERROR,
-                "exceeded limit of %d slot directories", gstate.ncpus*100
+                "exceeded limit of %d slot directories", gstate.n_usable_cpus*100
             );
             return ERR_NULL;
         }
@@ -655,9 +789,8 @@ int ACTIVE_TASK::get_free_slot(RESULT* rp) {
 #endif
 
 bool ACTIVE_TASK_SET::slot_taken(int slot) {
-    unsigned int i;
-    for (i=0; i<active_tasks.size(); i++) {
-        if (active_tasks[i]->slot == slot) return true;
+    for (ACTIVE_TASK *atp: active_tasks) {
+        if (atp->slot == slot) return true;
     }
     return false;
 }
@@ -679,12 +812,10 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <checkpoint_fraction_done_elapsed_time>%f</checkpoint_fraction_done_elapsed_time>\n"
         "    <current_cpu_time>%f</current_cpu_time>\n"
         "    <once_ran_edf>%d</once_ran_edf>\n"
-        "    <swap_size>%f</swap_size>\n"
-        "    <working_set_size>%f</working_set_size>\n"
-        "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
-        "    <page_fault_rate>%f</page_fault_rate>\n"
-        "    <bytes_sent>%f</bytes_sent>\n"
-        "    <bytes_received>%f</bytes_received>\n",
+        "    <virtual_size>%.0f</virtual_size>\n"
+        "    <swap_size>%.0f</swap_size>\n"
+        "    <working_set_size>%.0f</working_set_size>\n"
+        "    <working_set_size_smoothed>%.0f</working_set_size_smoothed>\n",
         result->project->master_url,
         result->name,
         task_state(),
@@ -696,12 +827,10 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         checkpoint_fraction_done_elapsed_time,
         current_cpu_time,
         once_ran_edf?1:0,
-        procinfo.swap_size,
-        procinfo.working_set_size,
-        procinfo.working_set_size_smoothed,
-        procinfo.page_fault_rate,
-        bytes_sent,
-        bytes_received
+        procinfo.virtual_size,
+        procinfo.swap_usage,
+        procinfo.rss,
+        procinfo.rss_smoothed
     );
     fout.printf("</active_task>\n");
     return 0;
@@ -716,7 +845,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
     //
     double fd = fraction_done;
     if (((fd<=0)||(fd>1)) && elapsed_time > 60) {
-        double est_time = wup->rsc_fpops_est/app_version->flops;
+        double est_time = wup->rsc_fpops_est/result->resource_usage.flops;
         double x = elapsed_time/est_time;
         fd = 1 - exp(-x);
     }
@@ -731,14 +860,11 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         "    <fraction_done>%f</fraction_done>\n"
         "    <current_cpu_time>%f</current_cpu_time>\n"
         "    <elapsed_time>%f</elapsed_time>\n"
-        "    <swap_size>%f</swap_size>\n"
-        "    <working_set_size>%f</working_set_size>\n"
-        "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
-        "    <page_fault_rate>%f</page_fault_rate>\n"
-        "    <bytes_sent>%f</bytes_sent>\n"
-        "    <bytes_received>%f</bytes_received>\n"
-        "%s"
-        "%s",
+        "    <swap_size>%.0f</swap_size>\n"
+        "    <virtual_size>%.0f</virtual_size>\n"
+        "    <working_set_size>%.0f</working_set_size>\n"
+        "    <working_set_size_smoothed>%.0f</working_set_size_smoothed>\n"
+        "%s%s%s%s",
         task_state(),
         app_version->version_num,
         slot,
@@ -748,14 +874,14 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         fd,
         current_cpu_time,
         elapsed_time,
-        procinfo.swap_size,
-        procinfo.working_set_size,
-        procinfo.working_set_size_smoothed,
-        procinfo.page_fault_rate,
-        bytes_sent,
-        bytes_received,
-        too_large?"   <too_large/>\n":"",
-        needs_shmem?"   <needs_shmem/>\n":""
+        procinfo.swap_usage,
+        procinfo.virtual_size,
+        procinfo.rss,
+        procinfo.rss_smoothed,
+        rss_too_large?"   <too_large/>\n":"",   // backward compatibility
+        swap_too_large?"   <swap_too_large/>\n":"",
+        needs_shmem?"   <needs_shmem/>\n":"",
+        want_network?"   <want_network/>\n":""
     );
     if (elapsed_time > first_fraction_done_elapsed_time) {
         fout.printf(
@@ -763,6 +889,10 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
             (fd - first_fraction_done)/(elapsed_time - first_fraction_done_elapsed_time)
         );
     }
+
+    // only report a graphics app if file exists and we can execute it
+    //
+    app_version->check_graphics_exec();
     if (strlen(app_version->graphics_exec_path)) {
         fout.printf(
             "   <graphics_exec_path>%s</graphics_exec_path>\n"
@@ -771,6 +901,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
             slot_path
         );
     }
+
     if (strlen(web_graphics_url)) {
         fout.printf(
             "   <web_graphics_url>%s</web_graphics_url>\n",
@@ -792,7 +923,6 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
 int ACTIVE_TASK::parse(XML_PARSER& xp) {
     char result_name[256], project_master_url[256];
     int n, dummy;
-    unsigned int i;
     PROJECT* project=0;
     double x;
 
@@ -845,8 +975,7 @@ int ACTIVE_TASK::parse(XML_PARSER& xp) {
 
             // make sure no two active tasks are in same slot
             //
-            for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
-                ACTIVE_TASK* atp = gstate.active_tasks.active_tasks[i];
+            for (ACTIVE_TASK* atp: gstate.active_tasks.active_tasks) {
                 if (atp->slot == slot) {
                     msg_printf(project, MSG_INTERNAL_ERROR,
                         "State file error: two tasks in slot %d\n", slot
@@ -887,13 +1016,10 @@ int ACTIVE_TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_double("fraction_done", fraction_done)) continue;
             // deprecated - for backwards compat
         else if (xp.parse_int("app_version_num", n)) continue;
-        else if (xp.parse_double("swap_size",  procinfo.swap_size)) continue;
-        else if (xp.parse_double("working_set_size", procinfo.working_set_size)) continue;
-        else if (xp.parse_double("working_set_size_smoothed", procinfo.working_set_size_smoothed)) continue;
-        else if (xp.parse_double("page_fault_rate", procinfo.page_fault_rate)) continue;
+        else if (xp.parse_double("swap_size",  procinfo.swap_usage)) continue;
+        else if (xp.parse_double("working_set_size", procinfo.rss)) continue;
+        else if (xp.parse_double("working_set_size_smoothed", procinfo.rss_smoothed)) continue;
         else if (xp.parse_double("current_cpu_time", x)) continue;
-        else if (xp.parse_double("bytes_sent", bytes_sent)) continue;
-        else if (xp.parse_double("bytes_received", bytes_received)) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(project, MSG_INFO,
@@ -907,12 +1033,9 @@ int ACTIVE_TASK::parse(XML_PARSER& xp) {
 }
 
 int ACTIVE_TASK_SET::write(MIOFILE& fout) {
-    unsigned int i;
-    int retval;
-
     fout.printf("<active_task_set>\n");
-    for (i=0; i<active_tasks.size(); i++) {
-        retval = active_tasks[i]->write(fout);
+    for (ACTIVE_TASK *atp: active_tasks) {
+        int retval = atp->write(fout);
         if (retval) return retval;
     }
     fout.printf("</active_task_set>\n");
@@ -996,10 +1119,10 @@ void MSG_QUEUE::msg_queue_poll(MSG_CHANNEL& channel) {
         msgs.erase(msgs.begin());
         last_block = 0;
     }
-    for (unsigned int i=0; i<msgs.size(); i++) {
-        if (log_flags.app_msg_send) {
+    if (log_flags.app_msg_send) {
+        for (const string &msg: msgs) {
             msg_printf(NULL, MSG_INFO,
-                "[app_msg_send] poll: deferred: %s", msgs[i].c_str()
+                "[app_msg_send] poll: deferred: %s", msg.c_str()
             );
         }
     }
@@ -1038,19 +1161,31 @@ bool MSG_QUEUE::timeout(double diff) {
 
 #endif
 
+// Report overdue jobs.
+// if CC_CONFIG.max_overdue_days is set, abort jobs overdue by more than that.
+// Called at startup and every day after that.
+//
 void ACTIVE_TASK_SET::report_overdue() {
-    unsigned int i;
-    ACTIVE_TASK* atp;
+#ifndef SIM
+    double mod = cc_config.max_overdue_days;
 
-    for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks) {
         double diff = (gstate.now - atp->result->report_deadline)/86400;
-        if (diff > 0) {
+        if (diff <= 0) continue;
+        if (mod>=0 && diff > mod) {
             msg_printf(atp->result->project, MSG_INFO,
-                "Task %s is %.2f days overdue; you may not get credit for it.  Consider aborting it.", atp->result->name, diff
+                "Task %s is %.2f days overdue; aborting it.",
+                atp->result->name, diff
+            );
+            atp->abort_task(EXIT_OVERDUE_EXCEEDED, "Overdue limit exceeded");
+        } else {
+            msg_printf(atp->result->project, MSG_INFO,
+                "Task %s is %.2f days overdue; you may not get credit for it.  Consider aborting it.",
+                atp->result->name, diff
             );
         }
     }
+#endif
 }
 
 // scan the slot directory, looking for files with names
@@ -1082,7 +1217,7 @@ int ACTIVE_TASK::handle_upload_files() {
                     "Can't find uploadable file %s", p
                 );
             }
-            snprintf(path, sizeof(path), "%s/%s", slot_dir, buf);
+            snprintf(path, sizeof(path), "%.*s/%.*s", DIR_LEN, slot_dir, FILE_LEN, buf);
             delete_project_owned_file(path, true);  // delete the link file
         }
     }
@@ -1090,34 +1225,21 @@ int ACTIVE_TASK::handle_upload_files() {
 }
 
 void ACTIVE_TASK_SET::handle_upload_files() {
-    for (unsigned int i=0; i<active_tasks.size(); i++) {
-        ACTIVE_TASK* atp = active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks) {
         atp->handle_upload_files();
     }
 }
 
-bool ACTIVE_TASK_SET::want_network() {
-    for (unsigned int i=0; i<active_tasks.size(); i++) {
-        ACTIVE_TASK* atp = active_tasks[i];
+bool ACTIVE_TASK_SET::some_task_wants_network() {
+    for (ACTIVE_TASK* atp: active_tasks) {
         if (atp->want_network) return true;
     }
     return false;
 }
 
-void ACTIVE_TASK_SET::network_available() {
-#ifndef SIM
-    for (unsigned int i=0; i<active_tasks.size(); i++) {
-        ACTIVE_TASK* atp = active_tasks[i];
-        if (atp->want_network) {
-            atp->send_network_available();
-        }
-    }
-#endif
-}
-
 void ACTIVE_TASK::upload_notify_app(const FILE_INFO* fip, const FILE_REF* frp) {
     char path[MAXPATHLEN];
-    snprintf(path, sizeof(path), 
+    snprintf(path, sizeof(path),
         "%s/%s%s",
         slot_dir, UPLOAD_FILE_STATUS_PREFIX, frp->open_name
     );
@@ -1132,8 +1254,7 @@ void ACTIVE_TASK::upload_notify_app(const FILE_INFO* fip, const FILE_REF* frp) {
 // If any running apps are waiting for it, notify them
 //
 void ACTIVE_TASK_SET::upload_notify_app(FILE_INFO* fip) {
-    for (unsigned int i=0; i<active_tasks.size(); i++) {
-        ACTIVE_TASK* atp = active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks) {
         RESULT* rp = atp->result;
         FILE_REF* frp = rp->lookup_file(fip);
         if (frp) {
@@ -1144,13 +1265,13 @@ void ACTIVE_TASK_SET::upload_notify_app(FILE_INFO* fip) {
 
 #ifndef SIM
 void ACTIVE_TASK_SET::init() {
-    for (unsigned int i=0; i<active_tasks.size(); i++) {
-        ACTIVE_TASK* atp = active_tasks[i];
+    for (ACTIVE_TASK* atp: active_tasks) {
         atp->init(atp->result);
         atp->scheduler_state = CPU_SCHED_PREEMPTED;
         atp->read_task_state_file();
         atp->current_cpu_time = atp->checkpoint_cpu_time;
         atp->elapsed_time = atp->checkpoint_elapsed_time;
+        atp->fraction_done = atp->checkpoint_fraction_done;
     }
 }
 
@@ -1167,59 +1288,70 @@ void ACTIVE_TASK::set_task_state(int val, const char* where) {
 }
 
 #ifndef SIM
-#ifdef NEW_CPU_THROTTLE
+#// CPU throttling is done by starting/stopping running jobs
+// with 1-sec resolution; we can't use finer resolution because the API
+// polls for start/stop messages every second.
+//
+// This is done in a separate thread so that it works smoothly
+// even if the main thread is doing something time-consuming.
+//
+// The throttling factor can change at any time;
+// we need to respond to these changes reasonably quickly.
+// We use the following algorithm:
+// Maintain a "level" X
+// every second, add usage limit (0..100) to X.
+// if it's over 100, don't throttle and subtract 100
+// if it's less than 100, throttle
+
 #ifdef _WIN32
 DWORD WINAPI throttler(LPVOID) {
 #else
 void* throttler(void*) {
 #endif
-
-    // Initialize diagnostics framework for this thread
-    //
+    static double x = 100;
     diagnostics_thread_init();
-
     while (1) {
-        client_mutex.lock();
-        if (gstate.tasks_suspended
-            || gstate.global_prefs.cpu_usage_limit > 99
-            || gstate.global_prefs.cpu_usage_limit < 0.005
-            ) {
-            client_mutex.unlock();
-//            ::Sleep((int)(1000*10));  // for Win debugging
-            boinc_sleep(10);
+        double limit = gstate.current_cpu_usage_limit();
+
+        // if limit is 100, make sure we're not throttled
+        //
+        if (limit >= 100) {
+            if (gstate.tasks_throttled && !gstate.tasks_suspended) {
+                gstate.active_tasks.unsuspend_all(SUSPEND_REASON_CPU_THROTTLE);
+                gstate.tasks_throttled = false;
+            }
+            boinc_sleep(1);
             continue;
         }
-        double on, off, on_frac = gstate.global_prefs.cpu_usage_limit / 100;
-#if 0
-// sub-second CPU throttling
-// DOESN'T WORK BECAUSE OF 1-SEC API POLL
-#define THROTTLE_PERIOD 1.
-        on = THROTTLE_PERIOD * on_frac;
-        off = THROTTLE_PERIOD - on;
-#else
-// throttling w/ at least 1 sec between suspend/resume
-        if (on_frac > .5) {
-            off = 1;
-            on = on_frac/(1.-on_frac);
-        } else {
-            on = 1;
-            off = (1.-on_frac)/on_frac;
-        }
-#endif
 
-        gstate.tasks_throttled = true;
-        gstate.active_tasks.suspend_all(SUSPEND_REASON_CPU_THROTTLE);
-        client_mutex.unlock();
-        boinc_sleep(off);
-        client_mutex.lock();
-        if (!gstate.tasks_suspended) {
-            gstate.active_tasks.unsuspend_all(SUSPEND_REASON_CPU_THROTTLE);
+        // if tasks are suspended for some other reason,
+        // we don't need to do anything
+        //
+        if (gstate.tasks_suspended) {
+            boinc_sleep(1);
+            continue;
         }
-        gstate.tasks_throttled = false;
-        client_mutex.unlock();
-        boinc_sleep(on);
+
+        client_thread_mutex.lock();
+        x += limit;
+        //msg_printf(NULL, MSG_INFO, "x %f tasks_throttled %d", x, gstate.tasks_throttled ? 1 : 0);
+        if (x >= 100) {
+            if (gstate.tasks_throttled) {
+                gstate.active_tasks.unsuspend_all(SUSPEND_REASON_CPU_THROTTLE);
+                gstate.tasks_throttled = false;
+                //msg_printf(NULL, MSG_INFO, "unthrottle");
+            }
+            x -= 100;
+        } else {
+            if (!gstate.tasks_throttled) {
+                gstate.active_tasks.suspend_all(SUSPEND_REASON_CPU_THROTTLE);
+                gstate.tasks_throttled = true;
+                //msg_printf(NULL, MSG_INFO, "throttle");
+            }
+        }
+        client_thread_mutex.unlock();
+        boinc_sleep(1);
     }
     return 0;
 }
-#endif
 #endif

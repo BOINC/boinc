@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,23 +22,10 @@
 #include "zlib.h"
 #else
 #include "config.h"
-// Somehow having config.h define _FILE_OFFSET_BITS or _LARGE_FILES is
-// causing open to be redefined to open64 which somehow, in some versions
-// of zlib.h causes gzopen to be redefined as gzopen64 which subsequently gets
-// reported as a linker error.  So for this file, we compile in small files
-// mode, regardless of these settings
-#undef _FILE_OFFSET_BITS
-#undef _LARGE_FILES
-#undef _LARGEFILE_SOURCE
-#undef _LARGEFILE64_SOURCE
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <zlib.h>
 #include <cstring>
-#endif
-
-#ifdef _MSC_VER
-#define snprintf _snprintf
 #endif
 
 #include "error_numbers.h"
@@ -74,24 +61,37 @@ bool FILE_XFER_BACKOFF::ok_to_transfer() {
     return (dt <= 0);
 }
 
+// A transfer has failed.
+// Back off transfers (project-wide) if needed.
+//
 void FILE_XFER_BACKOFF::file_xfer_failed(PROJECT* p) {
+    // If we're already backed off, ignore this failure.
+    // If we start several transfers at once
+    // (say, N output files of a job) and they all fail,
+    // we don't want to back off N times, which could be hours.
+    //
+    if (gstate.now < next_xfer_time) {
+        return;
+    }
+
     file_xfer_failures++;
     if (file_xfer_failures < FILE_XFER_FAILURE_LIMIT) {
         next_xfer_time = 0;
-    } else {
-        double backoff = calculate_exponential_backoff(
-            file_xfer_failures,
-            gstate.pers_retry_delay_min,
-            gstate.pers_retry_delay_max
-        );
-        if (log_flags.file_xfer_debug) {
-            msg_printf(p, MSG_INFO,
-                "[file_xfer] project-wide xfer delay for %f sec",
-                backoff
-            );
-        }
-        next_xfer_time = gstate.now + backoff;
+        return;
     }
+    double backoff = calculate_exponential_backoff(
+        file_xfer_failures,
+        gstate.pers_retry_delay_min,
+        gstate.pers_retry_delay_max
+    );
+    if (log_flags.file_xfer_debug) {
+        msg_printf(p, MSG_INFO,
+            "[file_xfer] project-wide %s delay for %f sec",
+            is_upload?"upload":"download",
+            backoff
+        );
+    }
+    next_xfer_time = gstate.now + backoff;
 }
 
 void FILE_XFER_BACKOFF::file_xfer_succeeded() {
@@ -133,6 +133,7 @@ int APP::parse(XML_PARSER& xp) {
     safe_strcpy(user_friendly_name, "");
     project = NULL;
     non_cpu_intensive = false;
+    sporadic = false;
     while (!xp.get_tag()) {
         if (xp.match_tag("/app")) {
             if (!strlen(user_friendly_name)) {
@@ -143,7 +144,12 @@ int APP::parse(XML_PARSER& xp) {
         if (xp.parse_str("name", name, sizeof(name))) continue;
         if (xp.parse_str("user_friendly_name", user_friendly_name, sizeof(user_friendly_name))) continue;
         if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) continue;
+        if (xp.parse_bool("sporadic", sporadic)) continue;
         if (xp.parse_bool("fraction_done_exact", fraction_done_exact)) continue;
+        if (xp.parse_bool("sporadic", sporadic)) {
+            if (sporadic) gstate.have_sporadic_app = true;
+            continue;
+        }
 #ifdef SIM
         if (xp.parse_double("latency_bound", latency_bound)) continue;
         if (xp.parse_double("fpops_est", fpops_est)) continue;
@@ -228,7 +234,7 @@ FILE_INFO::~FILE_INFO() {
 void FILE_INFO::reset() {
     status = FILE_NOT_PRESENT;
     delete_file();
-    error_msg = "";
+    error_msg.clear();
 }
 
 // Set file ownership if using account-based sandbox;
@@ -304,7 +310,7 @@ int FILE_INFO::parse(XML_PARSER& xp) {
         if (xp.match_tag("/file_info") || xp.match_tag("/file")) {
             if (!strlen(name)) return ERR_BAD_FILENAME;
             if (strstr(name, "..")) return ERR_BAD_FILENAME;
-            if (strstr(name, "%")) return ERR_BAD_FILENAME;
+            if (strchr(name, '%')) return ERR_BAD_FILENAME;
             if (gzipped_urls.size() > 0) {
                 download_urls.clear();
                 download_urls.urls = gzipped_urls;
@@ -393,13 +399,13 @@ int FILE_INFO::parse(XML_PARSER& xp) {
             retval = pfxp->parse(xp);
 #ifdef SIM
             delete pfxp;
-            continue;
-#endif
+#else
             if (!retval) {
                 pers_file_xfer = pfxp;
             } else {
                 delete pfxp;
             }
+#endif
             continue;
         }
         if (xp.match_tag("file_xfer")) {
@@ -432,7 +438,6 @@ int FILE_INFO::parse(XML_PARSER& xp) {
 }
 
 int FILE_INFO::write(MIOFILE& out, bool to_server) {
-    unsigned int i;
     int retval;
     char buf[1024];
 
@@ -472,12 +477,12 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
             sticky_expire_time
         );
     }
-    for (i=0; i<download_urls.urls.size(); i++) {
-        xml_escape(download_urls.urls[i].c_str(), buf, sizeof(buf));
+    for (const string &s: download_urls.urls) {
+        xml_escape(s.c_str(), buf, sizeof(buf));
         out.printf("    <download_url>%s</download_url>\n", buf);
     }
-    for (i=0; i<upload_urls.urls.size(); i++) {
-        xml_escape(upload_urls.urls[i].c_str(), buf, sizeof(buf));
+    for (const string &s: upload_urls.urls) {
+        xml_escape(s.c_str(), buf, sizeof(buf));
         out.printf("    <upload_url>%s</upload_url>\n", buf);
     }
     if (!to_server && pers_file_xfer) {
@@ -630,7 +635,11 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
     // This deals with cases where somehow a file didn't
     // get protected right when it was initially downloaded.
     //
-    if (status == FILE_PRESENT && new_info.executable) {
+    if (status == FILE_PRESENT && !executable && new_info.executable) {
+        msg_printf(project, MSG_INTERNAL_ERROR,
+            "%s has changed to executable", name
+        );
+        executable = true;
         int retval = set_permissions();
         if (retval) {
             msg_printf(project, MSG_INTERNAL_ERROR,
@@ -676,7 +685,7 @@ bool FILE_INFO::had_failure(int& failnum) {
 
 void FILE_INFO::failure_message(string& s) {
     char buf[1024];
-    snprintf(buf, sizeof(buf), 
+    snprintf(buf, sizeof(buf),
         "<file_xfer_error>\n"
         "  <file_name>%s</file_name>\n"
         "  <error_code>%d (%s)</error_code>\n",
@@ -767,31 +776,105 @@ int FILE_INFO::gunzip(char* md5_buf) {
 }
 #endif  // SIM
 
-void APP_VERSION::init() {
-    safe_strcpy(app_name, "");
-    version_num = 0;
-    safe_strcpy(platform, "");
-    safe_strcpy(plan_class, "");
-    safe_strcpy(api_version, "");
-    avg_ncpus = 1;
-    gpu_usage.rsc_type = 0;
-    gpu_usage.usage = 0;
+void RESOURCE_USAGE::clear() {
+    avg_ncpus = 0;
+    rsc_type = 0;
+    coproc_usage = 0;
     gpu_ram = 0;
-    flops = gstate.host_info.p_fpops;
-    safe_strcpy(cmdline, "");
-    safe_strcpy(file_prefix, "");
+    flops = 0;
+    cmdline[0] = 0;
+    missing_coproc = false;
+    missing_coproc_name[0] = 0;
+}
+
+// see if we have the GPU libraries (OpenCL/CUDA/CAL)
+// required by the plan class.
+// If not, set missing_coproc
+//
+void RESOURCE_USAGE::check_gpu_libs(char* plan_class) {
+    int rt = rsc_type;
+    if (!rt) return;
+    if (strstr(plan_class, "opencl")) {
+        if (!coprocs.coprocs[rt].have_opencl) {
+            msg_printf(0, MSG_INFO,
+                "App version needs OpenCL but GPU doesn't support it"
+            );
+            missing_coproc = true;
+            safe_strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
+        }
+    } else if (strstr(plan_class, "cuda")) {
+        if (!coprocs.coprocs[rt].have_cuda) {
+            msg_printf(0, MSG_INFO,
+                "App version needs CUDA but GPU doesn't support it"
+            );
+            missing_coproc = true;
+            safe_strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
+        }
+    } else if (strstr(plan_class, "ati")) {
+        if (!coprocs.coprocs[rt].have_cal) {
+            msg_printf(0, MSG_INFO,
+                "App version needs CAL but GPU doesn't support it"
+            );
+            missing_coproc = true;
+            safe_strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
+        }
+    }
+}
+
+void RESOURCE_USAGE::write(MIOFILE& out) {
+    out.printf(
+        "    <avg_ncpus>%f</avg_ncpus>\n"
+        "    <flops>%f</flops>\n",
+        avg_ncpus,
+        flops
+    );
+    if (rsc_type) {
+        out.printf(
+            "    <coproc>\n"
+            "        <type>%s</type>\n"
+            "        <count>%f</count>\n"
+            "    </coproc>\n",
+            rsc_name(rsc_type),
+            coproc_usage
+        );
+    }
+    if (missing_coproc && strlen(missing_coproc_name)) {
+        out.printf(
+            "    <coproc>\n"
+            "        <type>%s</type>\n"
+            "        <count>%f</count>\n"
+            "    </coproc>\n",
+            missing_coproc_name,
+            coproc_usage
+        );
+    }
+    if (gpu_ram) {
+        out.printf(
+            "    <gpu_ram>%f</gpu_ram>\n",
+            gpu_ram
+        );
+    }
+}
+
+void APP_VERSION::init() {
+    app_name[0] = 0;
+    version_num = 0;
+    platform[0] = 0;
+    plan_class[0] = 0;
+    api_version[0] = 0;
+    resource_usage.clear();
+    file_prefix[0] = 0;
     needs_network = false;
+    dont_throttle = false;
     app = NULL;
     project = NULL;
     ref_cnt = 0;
-    safe_strcpy(graphics_exec_path,"");
-    safe_strcpy(graphics_exec_file, "");
-    max_working_set_size = 0;
-    missing_coproc = false;
-    missing_coproc_usage = 0.0;
-    safe_strcpy(missing_coproc_name, "");
-    dont_throttle = false;
-    is_vm_app = false;
+    graphics_exec_fip = NULL;
+    graphics_exec_path[0] = 0;
+    graphics_exec_file[0] = 0;
+    max_rss = 0;
+    is_vbox_app = false;
+    is_docker_app = false;
     is_wrapper = false;
     index = 0;
 #ifdef SIM
@@ -799,48 +882,86 @@ void APP_VERSION::init() {
 #endif
 }
 
+// see if app version is disallowed by config
+//
+bool APP_VERSION::disallowed_by_config(PROJECT *p) {
+    if (cc_config.dont_use_vbox && strstr(plan_class, "vbox")) {
+        msg_printf(p, MSG_INFO,
+            "Skipping VirtualBox app version: disabled in cc_config.xml"
+        );
+        return true;
+    }
+    if (cc_config.dont_use_wsl && strstr(plan_class, "wsl")) {
+        msg_printf(p, MSG_INFO,
+            "skipping WSL app version: disabled in cc_config.xml"
+        );
+        return true;
+    }
+    if (cc_config.dont_use_docker && strstr(plan_class, "docker")) {
+        msg_printf(p, MSG_INFO,
+            "skipping Podman app: disabled in cc_config.xml"
+        );
+        return true;
+    }
+    return false;
+}
+
+// fill in resource usage if not already present
+//
+void APP_VERSION::fill_in_resource_usage() {
+    if (resource_usage.avg_ncpus == 0) {
+        resource_usage.avg_ncpus = 1;
+    }
+    if (resource_usage.flops == 0) {
+        resource_usage.flops = resource_usage.avg_ncpus * gstate.host_info.p_fpops;
+
+        // for GPU apps, use conservative estimate:
+        // assume GPU runs at 10X peak CPU speed
+        //
+        if (resource_usage.rsc_type) {
+            resource_usage.flops += resource_usage.coproc_usage * 10 * gstate.host_info.p_fpops;
+        }
+    }
+}
+
+// Parse an <app_version> element; called from
+// 1) parse scheduler reply: scheduler_op.cpp
+// 2) parse client state file: cs_statefile.cpp
+// 3) parse app_info.xml for anonymous platform: cs_statefile.cpp
+//
+// After this you need to:
+// - check if disallowed by config
+//      do this right away; config.xml has already been parsed
+// - fill in resource usage if not specified
+//      In cases 2 and 3 we don't have CPU FLOPS yet,
+//      so we have to do this a bit later.
+//      In case 1 we do it right away.
+//
 int APP_VERSION::parse(XML_PARSER& xp) {
     FILE_REF file_ref;
     double dtemp;
-    int rt;
 
     init();
     while (!xp.get_tag()) {
         if (xp.match_tag("/app_version")) {
-            rt = gpu_usage.rsc_type;
-            if (rt) {
-                dont_throttle = true;        // don't throttle GPU apps
-                if (strstr(plan_class, "opencl")) {
-                    if (!coprocs.coprocs[rt].have_opencl) {
-                        msg_printf(0, MSG_INFO,
-                            "App version needs OpenCL but GPU doesn't support it"
-                        );
-                        missing_coproc = true;
-                        missing_coproc_usage = gpu_usage.usage;
-                        safe_strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
-                    }
-                } else if (strstr(plan_class, "cuda")) {
-                    if (!coprocs.coprocs[rt].have_cuda) {
-                        msg_printf(0, MSG_INFO,
-                            "App version needs CUDA but GPU doesn't support it"
-                        );
-                        missing_coproc = true;
-                        missing_coproc_usage = gpu_usage.usage;
-                        safe_strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
-                    }
-                } else if (strstr(plan_class, "ati")) {
-                    if (!coprocs.coprocs[rt].have_cal) {
-                        msg_printf(0, MSG_INFO,
-                            "App version needs CAL but GPU doesn't support it"
-                        );
-                        missing_coproc = true;
-                        missing_coproc_usage = gpu_usage.usage;
-                        safe_strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
-                    }
-                }
+            dont_throttle = false;
+            resource_usage.check_gpu_libs(plan_class);
+            if (is_wrapper) {
+                // fix problem where wrappers were never throttled
+                // can remove this in 8.5 or later
+                dont_throttle = false;
+            }
+            if (resource_usage.rsc_type) {
+                // never throttle GPU apps, even if wrapped
+                dont_throttle = true;
             }
             if (strstr(plan_class, "vbox")) {
-                is_vm_app = true;
+                // VBox does its own throttling
+                is_vbox_app = true;
+                dont_throttle = true;
+            }
+            if (strstr(plan_class, "docker")) {
+                is_docker_app = true;
             }
             return 0;
         }
@@ -853,9 +974,6 @@ int APP_VERSION::parse(XML_PARSER& xp) {
                 );
                 return retval;
             }
-            if (strstr(file_ref.file_name, "vboxwrapper")) {
-                is_vm_app = true;
-            }
             app_files.push_back(file_ref);
             continue;
         }
@@ -863,7 +981,7 @@ int APP_VERSION::parse(XML_PARSER& xp) {
         if (xp.parse_str("api_version", api_version, sizeof(api_version))) continue;
         if (xp.parse_str("platform", platform, sizeof(platform))) continue;
         if (xp.parse_str("plan_class", plan_class, sizeof(plan_class))) continue;
-        if (xp.parse_double("avg_ncpus", avg_ncpus)) continue;
+        if (xp.parse_double("avg_ncpus", resource_usage.avg_ncpus)) continue;
         if (xp.parse_double("max_ncpus", dtemp)) continue;
         if (xp.parse_double("flops", dtemp)) {
             if (dtemp <= 0) {
@@ -871,29 +989,29 @@ int APP_VERSION::parse(XML_PARSER& xp) {
                     "non-positive FLOPS in app version"
                 );
             } else {
-                flops = dtemp;
+                resource_usage.flops = dtemp;
             }
             continue;
         }
-        if (xp.parse_str("cmdline", cmdline, sizeof(cmdline))) continue;
+        if (xp.parse_str("cmdline", resource_usage.cmdline, sizeof(resource_usage.cmdline))) continue;
         if (xp.parse_str("file_prefix", file_prefix, sizeof(file_prefix))) continue;
-        if (xp.parse_double("gpu_ram", gpu_ram)) continue;
+        if (xp.parse_double("resource_usage.gpu_ram", resource_usage.gpu_ram)) continue;
         if (xp.match_tag("coproc")) {
             COPROC_REQ cp;
             int retval = cp.parse(xp);
             if (!retval) {
-                rt = rsc_index(cp.type);
+                int rt = rsc_index(cp.type);
                 if (rt <= 0) {
                     msg_printf(0, MSG_INFO,
                         "app version refers to missing GPU type %s", cp.type
                     );
-                    missing_coproc = true;
-                    missing_coproc_usage = cp.count;
-                    safe_strcpy(missing_coproc_name, cp.type);
+                    resource_usage.missing_coproc = true;
+                    resource_usage.coproc_usage = cp.count;
+                    safe_strcpy(resource_usage.missing_coproc_name, cp.type);
                     continue;
                 }
-                gpu_usage.rsc_type = rt;
-                gpu_usage.usage = cp.count;
+                resource_usage.rsc_type = rt;
+                resource_usage.coproc_usage = cp.count;
             } else {
                 msg_printf(0, MSG_INTERNAL_ERROR, "Error parsing <coproc>");
             }
@@ -914,21 +1032,16 @@ int APP_VERSION::parse(XML_PARSER& xp) {
 }
 
 int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
-    unsigned int i;
     int retval;
 
     out.printf(
         "<app_version>\n"
         "    <app_name>%s</app_name>\n"
         "    <version_num>%d</version_num>\n"
-        "    <platform>%s</platform>\n"
-        "    <avg_ncpus>%f</avg_ncpus>\n"
-        "    <flops>%f</flops>\n",
+        "    <platform>%s</platform>\n",
         app_name,
         version_num,
-        platform,
-        avg_ncpus,
-        flops
+        platform
     );
     if (strlen(plan_class)) {
         out.printf("    <plan_class>%s</plan_class>\n", plan_class);
@@ -936,44 +1049,19 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
     if (strlen(api_version)) {
         out.printf("    <api_version>%s</api_version>\n", api_version);
     }
-    if (strlen(cmdline)) {
-        out.printf("    <cmdline>%s</cmdline>\n", cmdline);
+    if (strlen(resource_usage.cmdline)) {
+        out.printf("    <cmdline>%s</cmdline>\n", resource_usage.cmdline);
     }
     if (strlen(file_prefix)) {
         out.printf("    <file_prefix>%s</file_prefix>\n", file_prefix);
     }
     if (write_file_info) {
-        for (i=0; i<app_files.size(); i++) {
-            retval = app_files[i].write(out);
+        for (const FILE_REF& fref: app_files) {
+            retval = fref.write(out);
             if (retval) return retval;
         }
     }
-    if (gpu_usage.rsc_type) {
-        out.printf(
-            "    <coproc>\n"
-            "        <type>%s</type>\n"
-            "        <count>%f</count>\n"
-            "    </coproc>\n",
-            rsc_name(gpu_usage.rsc_type),
-            gpu_usage.usage
-        );
-    }
-    if (missing_coproc && strlen(missing_coproc_name)) {
-        out.printf(
-            "    <coproc>\n"
-            "        <type>%s</type>\n"
-            "        <count>%f</count>\n"
-            "    </coproc>\n",
-            missing_coproc_name,
-            missing_coproc_usage
-        );
-    }
-    if (gpu_ram) {
-        out.printf(
-            "    <gpu_ram>%f</gpu_ram>\n",
-            gpu_ram
-        );
-    }
+    resource_usage.write(out);
     if (dont_throttle) {
         out.printf(
             "    <dont_throttle/>\n"
@@ -997,10 +1085,8 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
 }
 
 bool APP_VERSION::had_download_failure(int& failnum) {
-    unsigned int i;
-
-    for (i=0; i<app_files.size();i++) {
-        if (app_files[i].file_info->had_failure(failnum)) {
+    for (const FILE_REF& fref: app_files) {
+        if (fref.file_info->had_failure(failnum)) {
             return true;
         }
     }
@@ -1009,13 +1095,11 @@ bool APP_VERSION::had_download_failure(int& failnum) {
 
 void APP_VERSION::get_file_errors(string& str) {
     int errnum;
-    unsigned int i;
-    FILE_INFO* fip;
     string msg;
 
     str = "couldn't get input files:\n";
-    for (i=0; i<app_files.size();i++) {
-        fip = app_files[i].file_info;
+    for (const FILE_REF& fref: app_files) {
+        FILE_INFO* fip = fref.file_info;
         if (fip->had_failure(errnum)) {
             fip->failure_message(msg);
             str = str + msg;
@@ -1025,9 +1109,8 @@ void APP_VERSION::get_file_errors(string& str) {
 
 void APP_VERSION::clear_errors() {
     int x;
-    unsigned int i;
-    for (i=0; i<app_files.size();i++) {
-        FILE_INFO* fip = app_files[i].file_info;
+    for (const FILE_REF& fref: app_files) {
+        FILE_INFO* fip = fref.file_info;
         if (fip->had_failure(x)) {
             fip->reset();
         }
@@ -1043,18 +1126,45 @@ bool APP_VERSION::api_version_at_least(int major, int minor) {
     return min >= minor;
 }
 
+// If app version has a graphics program,
+// see whether the exec is present and can be run.
+// If so fill in the file name and path.
+// Called from GUI RPC handler.
+//
+void APP_VERSION::check_graphics_exec() {
+    if (!graphics_exec_fip) return;
+    if (strlen(graphics_exec_path)) return;
+    if (graphics_exec_fip->status < 0) {
+        // download or verify of graphics exec failed; don't check again
+        //
+        graphics_exec_fip = NULL;
+        return;
+    }
+    if (graphics_exec_fip->status != FILE_PRESENT) return;
+
+    char relpath[MAXPATHLEN], path[MAXPATHLEN];
+    get_pathname(graphics_exec_fip, relpath, sizeof(relpath));
+    relative_to_absolute(relpath, path);
+#ifdef __APPLE__
+    if (!can_run_on_this_CPU(path)) {
+        // if can't run this exec, don't check again
+        //
+        graphics_exec_fip = NULL;
+        return;
+    }
+#endif
+    safe_strcpy(graphics_exec_path, path);
+    safe_strcpy(graphics_exec_file, graphics_exec_fip->name);
+}
+
 int FILE_REF::parse(XML_PARSER& xp) {
     bool temp;
 
-    safe_strcpy(file_name, "");
-    safe_strcpy(open_name, "");
-    main_program = false;
-    copy_file = false;
-    optional = false;
+    clear();
     while (!xp.get_tag()) {
         if (xp.match_tag("/file_ref")) {
             if (strstr(open_name, "..")) return ERR_BAD_FILENAME;
-            if (strstr(open_name, "%")) return ERR_BAD_FILENAME;
+            if (strchr(open_name, '%')) return ERR_BAD_FILENAME;
             return 0;
         }
         if (xp.parse_str("file_name", file_name, sizeof(file_name))) continue;
@@ -1074,7 +1184,7 @@ int FILE_REF::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-int FILE_REF::write(MIOFILE& out) {
+int FILE_REF::write(MIOFILE& out) const {
 
     out.printf(
         "    <file_ref>\n"
@@ -1106,10 +1216,10 @@ int WORKUNIT::parse(XML_PARSER& xp) {
     safe_strcpy(name, "");
     safe_strcpy(app_name, "");
     version_num = 0;
-    command_line = "";
-    //strcpy(env_vars, "");
+    command_line.clear();
     app = NULL;
     project = NULL;
+    has_resource_usage = false;
     // Default these to very large values (1 week on a 1 cobblestone machine)
     // so we don't keep asking the server for more work
     rsc_fpops_est = 1e9*SECONDS_PER_DAY*7;
@@ -1117,7 +1227,15 @@ int WORKUNIT::parse(XML_PARSER& xp) {
     rsc_memory_bound = 1e8;
     rsc_disk_bound = 1e9;
     while (!xp.get_tag()) {
-        if (xp.match_tag("/workunit")) return 0;
+        if (xp.match_tag("/workunit")) {
+            has_resource_usage = resource_usage.avg_ncpus>0
+                || resource_usage.rsc_type!=0
+                || resource_usage.missing_coproc;
+            if (has_resource_usage) {
+                resource_usage.check_gpu_libs(plan_class);
+            }
+            return 0;
+        }
         if (xp.parse_str("name", name, sizeof(name))) continue;
         if (xp.parse_str("app_name", app_name, sizeof(app_name))) continue;
         if (xp.parse_int("version_num", version_num)) continue;
@@ -1144,6 +1262,41 @@ int WORKUNIT::parse(XML_PARSER& xp) {
 #endif
             continue;
         }
+        if (xp.parse_str("plan_class", plan_class, sizeof(plan_class))) continue;
+        if (xp.parse_str("sub_appname", sub_appname, sizeof(sub_appname))) continue;
+        if (xp.parse_double("avg_ncpus", resource_usage.avg_ncpus)) continue;
+        if (xp.parse_double("flops", dtemp)) {
+            if (dtemp <= 0) {
+                msg_printf(0, MSG_INTERNAL_ERROR, "non-positive FLOPS in WU");
+            } else {
+                resource_usage.flops = dtemp;
+            }
+            continue;
+        }
+        if (xp.parse_str("cmdline", resource_usage.cmdline, sizeof(resource_usage.cmdline))) continue;
+        if (xp.parse_double("resource_usage.gpu_ram", resource_usage.gpu_ram)) continue;
+        if (xp.match_tag("coproc")) {
+            COPROC_REQ cp;
+            retval = cp.parse(xp);
+            if (!retval) {
+                int rt = rsc_index(cp.type);
+                if (rt <= 0) {
+                    msg_printf(0, MSG_INFO,
+                        "WU refers to missing GPU type %s", cp.type
+                    );
+                    resource_usage.missing_coproc = true;
+                    resource_usage.coproc_usage = cp.count;
+                    safe_strcpy(resource_usage.missing_coproc_name, cp.type);
+                    continue;
+                }
+                resource_usage.rsc_type = rt;
+                resource_usage.coproc_usage = cp.count;
+            } else {
+                msg_printf(0, MSG_INTERNAL_ERROR, "Error parsing <coproc>");
+            }
+            continue;
+        }
+
         if (xp.parse_str("job_keyword_ids", buf, sizeof(buf))) {
             job_keyword_ids.parse_str(buf );
             continue;
@@ -1162,8 +1315,6 @@ int WORKUNIT::parse(XML_PARSER& xp) {
 }
 
 int WORKUNIT::write(MIOFILE& out, bool gui) {
-    unsigned int i;
-
     out.printf(
         "<workunit>\n"
         "    <name>%s</name>\n"
@@ -1191,8 +1342,17 @@ int WORKUNIT::write(MIOFILE& out, bool gui) {
             command_line.c_str()
         );
     }
-    for (i=0; i<input_files.size(); i++) {
-        input_files[i].write(out);
+    for (const FILE_REF &fref: input_files) {
+        fref.write(out);
+    }
+    if (strlen(sub_appname)) {
+        out.printf(
+            "    <sub_appname>%s</sub_appname>\n",
+            sub_appname
+        );
+    }
+    if (resource_usage.present()) {
+        resource_usage.write(out);
     }
 
     if (!job_keyword_ids.empty()) {
@@ -1209,10 +1369,8 @@ int WORKUNIT::write(MIOFILE& out, bool gui) {
 }
 
 bool WORKUNIT::had_download_failure(int& failnum) {
-    unsigned int i;
-
-    for (i=0;i<input_files.size();i++) {
-        if (input_files[i].file_info->had_failure(failnum)) {
+    for (const FILE_REF &fref: input_files) {
+        if (fref.file_info->had_failure(failnum)) {
             return true;
         }
     }
@@ -1221,13 +1379,11 @@ bool WORKUNIT::had_download_failure(int& failnum) {
 
 void WORKUNIT::get_file_errors(string& str) {
     int x;
-    unsigned int i;
-    FILE_INFO* fip;
     string msg;
 
     str = "couldn't get input files:\n";
-    for (i=0;i<input_files.size();i++) {
-        fip = input_files[i].file_info;
+    for (const FILE_REF &fref: input_files) {
+        FILE_INFO* fip = fref.file_info;
         if (fip->had_failure(x)) {
             fip->failure_message(msg);
             str = str + msg;
@@ -1240,9 +1396,8 @@ void WORKUNIT::get_file_errors(string& str) {
 //
 void WORKUNIT::clear_errors() {
     int x;
-    unsigned int i;
-    for (i=0; i<input_files.size();i++) {
-        FILE_INFO* fip = input_files[i].file_info;
+    for (const FILE_REF &fref: input_files) {
+        FILE_INFO* fip = fref.file_info;
         if (fip->had_failure(x)) {
             fip->reset();
         }
@@ -1308,3 +1463,92 @@ double RUN_MODE::delay() {
         return 0;
     }
 }
+
+int USER_CPID::parse(XML_PARSER& xp) {
+    clear();
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/user_cpid")) {
+            if (!strlen(email_hash) || !strlen(cpid) || !time) {
+                msg_printf(0, MSG_INTERNAL_ERROR, "USER_CPID::parse() failed");
+                return ERR_XML_PARSE;
+            }
+            break;
+        }
+        if (xp.parse_str("email_hash", email_hash, sizeof(email_hash))) continue;
+        if (xp.parse_str("cpid", cpid, sizeof(cpid))) continue;
+        if (xp.parse_double("time", time)) continue;
+    }
+    return 0;
+}
+
+int USER_CPID::write(MIOFILE& out) {
+    out.printf(
+        "   <user_cpid>\n"
+        "      <email_hash>%s</email_hash>\n"
+        "      <cpid>%s</cpid>\n"
+        "      <time>%f</time>\n"
+        "   </user_cpid>\n",
+        email_hash, cpid, time
+    );
+    return 0;
+}
+
+int USER_CPIDS::parse(XML_PARSER& xp) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/user_cpids")) {
+            break;
+        }
+        if (xp.match_tag("user_cpid")) {
+            USER_CPID uc;
+            int retval = uc.parse(xp);
+            if (retval) continue;
+            cpids.push_back(uc);
+        }
+    }
+    return 0;
+}
+
+int USER_CPIDS::write(MIOFILE& out) {
+    out.printf("<user_cpids>\n");
+    for (USER_CPID &cpid: cpids) {
+        cpid.write(out);
+    }
+    out.printf("</user_cpids>\n");
+    return 0;
+}
+
+USER_CPID* USER_CPIDS::lookup(const char* email_hash) {
+    for (USER_CPID &cpid: cpids) {
+        if (!strcmp(cpid.email_hash, email_hash)) {
+            return &cpid;
+        }
+    }
+    return NULL;
+}
+
+// if empty, initialize from projects
+// (should get done once, when updating to this client version)
+//
+void USER_CPIDS::init_from_projects() {
+    for (PROJECT *p: gstate.projects) {
+        if (!strlen(p->email_hash) || !strlen(p->cross_project_id) || !p->user_create_time) {
+            continue;
+        }
+        USER_CPID* ucp = lookup(p->email_hash);
+        if (ucp) {
+            if (p->user_create_time < ucp->time) {
+                strcpy(ucp->cpid, p->cross_project_id);
+                ucp->time = p->user_create_time;
+            }
+        } else {
+            USER_CPID uc;
+            strcpy(uc.email_hash, p->email_hash);
+            strcpy(uc.cpid, p->cross_project_id);
+            uc.time = p->user_create_time;
+            cpids.push_back(uc);
+
+        }
+    }
+}
+
+USER_CPIDS user_cpids;

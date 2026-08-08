@@ -28,7 +28,7 @@
  */
 
 class CErrProxyPage: public wxWizardPageEx
-{    
+{
     DECLARE_DYNAMIC_CLASS( CErrProxyPage )
     DECLARE_EVENT_TABLE()
 
@@ -101,7 +101,7 @@ public:
 
 ////@begin CErrProxyPage member variables
     wxStaticText* m_pTitleStaticCtrl;
-    wxStaticBox* m_pProxyHTTPDescriptionCtrl; 
+    wxStaticBox* m_pProxyHTTPDescriptionCtrl;
     wxStaticText* m_pProxyHTTPServerStaticCtrl;
     wxTextCtrl* m_pProxyHTTPServerCtrl;
     wxStaticText* m_pProxyHTTPPortStaticCtrl;
@@ -113,7 +113,7 @@ public:
 #if 0
     wxButton* m_pProxyHTTPAutodetectCtrl;
 #endif
-    wxStaticBox* m_pProxySOCKSDescriptionCtrl; 
+    wxStaticBox* m_pProxySOCKSDescriptionCtrl;
     wxStaticText* m_pProxySOCKSServerStaticCtrl;
     wxTextCtrl* m_pProxySOCKSServerCtrl;
     wxStaticText* m_pProxySOCKSPortStaticCtrl;

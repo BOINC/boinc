@@ -42,7 +42,9 @@
 extern DB_CONN boinc_db;
 
 struct TRANSITIONER_ITEM {
-    DB_ID_TYPE id; // WARNING: this is the WU ID
+    // the following read from workunit table
+
+    DB_ID_TYPE id; // This is the WU ID
     char name[256];
     DB_ID_TYPE appid;
     int min_quorum;
@@ -63,6 +65,9 @@ struct TRANSITIONER_ITEM {
     DB_ID_TYPE app_version_id;
     int transitioner_flags;
     int size_class;
+
+    // the following read from result table
+
     DB_ID_TYPE res_id; // This is the RESULT ID
     char res_name[256];
     int res_report_deadline;
@@ -95,16 +100,16 @@ struct DB_USER_SUBMIT : public DB_BASE, public USER_SUBMIT {
 };
 
 struct STATE_COUNTS {
-    DB_ID_TYPE appid; 
-    int last_update_time;   
-    int result_server_state_2;       
-    int result_server_state_4;       
-    int result_file_delete_state_1;  
-    int result_file_delete_state_2;  
-    int result_server_state_5_and_file_delete_state_0;   
-    int workunit_need_validate_1;    
-    int workunit_assimilate_state_1; 
-    int workunit_file_delete_state_1; 
+    DB_ID_TYPE appid;
+    int last_update_time;
+    int result_server_state_2;
+    int result_server_state_4;
+    int result_file_delete_state_1;
+    int result_file_delete_state_2;
+    int result_server_state_5_and_file_delete_state_0;
+    int workunit_need_validate_1;
+    int workunit_assimilate_state_1;
+    int workunit_file_delete_state_1;
     int workunit_file_delete_state_2;
 
     void clear();
@@ -120,7 +125,7 @@ struct DB_STATE_COUNTS : public DB_BASE, public STATE_COUNTS {
 struct VALIDATOR_ITEM {
     WORKUNIT wu;
     RESULT res;
- 
+
     void clear();
     void parse(MYSQL_ROW&);
 };
@@ -323,20 +328,25 @@ class DB_WORK_ITEM : public WORK_ITEM, public DB_BASE_SPECIAL {
         // when enumerate_all is used, keeps track of which ID to start from
 public:
     DB_WORK_ITEM(DB_CONN* p=0);
+    // used by feeder:
     int enumerate(
         int limit, const char* select_clause, const char* order_clause
     );
-        // used by feeder
-    int enumerate_all(
-        int limit, const char* select_clause
-    );
+    int enumerate_all(int limit, const char* select_clause);
         // used by feeder when HR is used.
         // Successive calls cycle through all results.
+
+    // used by feeder_user:
+    int user_query(int limit, DB_ID_TYPE user_id);
+        // get jobs submitted by user
+    int user_num_rows();
+    int user_fetch_row();
+
+    // used by scheduler:
     int read_result();
-        // used by scheduler to read result server state
+        // read result server state
     int update();
-        // used by scheduler to update WU transition time
-        // and various result fields
+        // update WU transition time and various result fields
 };
 
 // Used by the scheduler to send <result_abort> or <result_abort_if_not_started>
@@ -363,6 +373,13 @@ public:
 
 struct SCHED_RESULT_ITEM {
     char queried_name[256];     // name as reported by client
+
+    // the following items are read from the DB.
+    // They are used to sanity-check the reported result
+    // (e.g. it may have been reported already)
+    // or to write to the job log
+    // TODO: do we need all of them?
+
     DB_ID_TYPE id;
     char name[256];
     DB_ID_TYPE workunitid;
@@ -373,17 +390,20 @@ struct SCHED_RESULT_ITEM {
     int outcome;
     DB_ID_TYPE hostid;
     DB_ID_TYPE userid;
-    DB_ID_TYPE teamid;
     int sent_time;
     int received_time;
+    int file_delete_state;
+    DB_ID_TYPE app_version_id;
+
+    // the following are populated, then written to the DB
+
+    DB_ID_TYPE teamid;
     double cpu_time;
     char xml_doc_out[BLOB_SIZE];
     char stderr_out[BLOB_SIZE];
     int app_version_num;
     int exit_status;
-    int file_delete_state;
     double elapsed_time;
-    DB_ID_TYPE app_version_id;
     double peak_working_set_size;
     double peak_swap_size;
     double peak_disk_usage;
@@ -397,14 +417,14 @@ public:
     DB_SCHED_RESULT_ITEM_SET(DB_CONN* p=0);
     std::vector<SCHED_RESULT_ITEM> results;
 
-    int add_result(char* result_name);
+    int add_result(const char* result_name);
 
     int enumerate();
         // using a single SQL query, look up all the reported results,
         // (based on queried_name)
         // and fill in the rest of the entries in the results vector
 
-    int lookup_result(char* result_name, SCHED_RESULT_ITEM** result);
+    int lookup_result(const char* result_name, SCHED_RESULT_ITEM** result);
 
     int update_result(SCHED_RESULT_ITEM& result);
     int update_workunits();
@@ -512,7 +532,7 @@ public:
 class DB_FILESET_SCHED_TRIGGER_ITEM_SET : public DB_BASE_SPECIAL {
 public:
     DB_FILESET_SCHED_TRIGGER_ITEM_SET(DB_CONN* p=0);
-    
+
     // select available triggers based on name and/or state
     // -> name filter optional (set string, default NULL)
     // -> pattern search optional (set use_regexp to true, default false))

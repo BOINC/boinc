@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// An interface to bootstrap navbars and grids.
+// An interface to bootstrap navbars, grids, and forms.
 
 $fixed_navbar = false;
 
@@ -81,7 +81,7 @@ function navbar_right($user) {
         if ($user) {
             echo sprintf('
                 <li><a href=%s%s>%s</a></li>
-                ', url_base(), USER_HOME, $user->name
+                ', url_base(), HOME_PAGE, $user->name
             );
             $url_tokens = url_tokens($user->authenticator);
             echo sprintf('<li><a href="%slogout.php?%s">Log out</a></li>',
@@ -89,9 +89,12 @@ function navbar_right($user) {
             );
         } else {
             echo sprintf('
-                <li><a href="%ssignup.php">Join</a></li>
-                <li><a href="%slogin_form.php">Login</a></li>
-                ', url_base(), url_base()
+                <li><a href="%ssignup.php">%s</a></li>
+                <li><a href="%slogin_form.php">%s</a></li>
+                ', url_base(),
+                tra("Join"),
+                url_base(),
+                tra("Login")
             );
         }
     }
@@ -146,19 +149,19 @@ function sample_navbar(
     $inverse=false
         // white on black?
 ) {
-    global $master_url;
+    $master_url = master_url();
 
     $brand = "<a class=\"navbar-brand\" href=$master_url>".PROJECT."</a>";
     navbar_start($brand, $fixed, $inverse);
 
     $x = array();
     if ($user) {
-        $x[] = array(tra("Account"), $url_prefix.USER_HOME);
+        $x[] = array(tra("Account"), $url_prefix.HOME_PAGE);
         $x[] = array(tra("Join"), $url_prefix."join.php");
         $x[] = array(tra("Preferences"), $url_prefix."prefs.php?subset=project");
     }
     $x[] = array(tra("About %1", PROJECT), $url_prefix."about.php");
-    $x[] = array(tra("Help"), $url_prefix."help.php");
+    $x[] = array(tra("Help"), $url_prefix."welcome.php");
     navbar_menu(tra("Project"), $x);
 
     if (NO_COMPUTING) {
@@ -179,12 +182,44 @@ function sample_navbar(
             array(tra("CPU models"), $url_prefix."cpu_list.php"),
             array(tra("Computer types"), $url_prefix."host_stats.php"),
         );
+        navbar_menu(tra("Computing"), $x);
+
         if (defined('REMOTE_JOB_SUBMISSION') && REMOTE_JOB_SUBMISSION) {
-            if ($user && BoincUserSubmit::lookup_userid($user->id)) {
-                $x[] = array("Job submission", $url_prefix."submit.php");
+            $user_submit = null;
+            if ($user) {
+                $user_submit = BoincUserSubmit::lookup_userid($user->id);
+            }
+            if ($user_submit) {
+                $x = [];
+                $x[] = ["File sandbox", "sandbox.php"];
+                $x[] = ["Submit jobs", $url_prefix."submit.php"];
+                $x[] = ["Job status", $url_prefix."submit.php?action=show_user_batches"];
+                if ($user_submit->manage_all) {
+                    $x[] = ["Manage batches and apps", $url_prefix."submit.php?action=admin"];
+                    $x[] = ["Manage permissions", $url_prefix."manage_project.php"];
+                } else {
+                    // if user has manage permissions for apps, show links
+                    $usas = BoincUserSubmitApp::enum("user_id=$user->id");
+                    foreach ($usas as $usa) {
+                        if ($usa->manage) {
+                            $app = BoincApp::lookup_id($usa->app_id);
+                            if ($app->name == 'buda') {
+                                $x[] = [
+                                    'Manage BUDA apps',
+                                    'buda.php'
+                                ];
+                            } else {
+                                $x[] = [
+                                    "Manage $app->name",
+                                    "manage_project.php"
+                                ];
+                            }
+                        }
+                    }
+                }
+                navbar_menu(tra("Job submission"), $x);
             }
         }
-        navbar_menu(tra("Computing"), $x);
     }
 
     navbar_menu(tra("Community"), array(
@@ -211,7 +246,7 @@ function sample_navbar(
 // output a panel.
 // $content_func is a function that generates the panel contents
 //
-function panel($title, $content_func, $class="panel-primary") {
+function panel($title, $content_func, $class="panel-primary", $body_class="") {
     echo sprintf('<div class="panel %s">
         ', $class
     );
@@ -222,9 +257,9 @@ function panel($title, $content_func, $class="panel-primary") {
             </div>
         ';
     }
-    echo '
-        <div class="panel-body">
-    ';
+    echo sprintf('<div class="panel-body %s">
+        ', $body_class
+    );
     $content_func();
     echo '
         </div>
@@ -232,12 +267,13 @@ function panel($title, $content_func, $class="panel-primary") {
     ';
 }
 
-// grid layout with a full-width row followed by two equal columns
+// grid layout with a full-width row followed by two columns.
 // $top_func, $left_func, and $right_func
-// are functions that generate the top, left, and right content
+// are functions that generate the top, left, and right content.
 // $left_width is the width of left column in 1/12 units.
+// $arg is passed to the functions.
 //
-function grid($top_func, $left_func, $right_func, $left_width=6) {
+function grid($top_func, $left_func, $right_func, $left_width=6, $arg=null) {
     echo '
         <div class="container-fluid">
     ';
@@ -246,7 +282,7 @@ function grid($top_func, $left_func, $right_func, $left_width=6) {
             <div class="row">
             <div class="col-sm-12">
         ';
-        $top_func();
+        $top_func($arg);
         echo '
             </div>
             </div>
@@ -257,12 +293,12 @@ function grid($top_func, $left_func, $right_func, $left_width=6) {
         <div class="row">
         <div class="col-sm-'.$left_width.'">
     ';
-    $left_func();
+    $left_func($arg);
     echo '
         </div>
         <div class="col-sm-'.$right_width.'">
     ';
-    $right_func();
+    $right_func($arg);
     echo '
         </div>
         </div>
@@ -270,18 +306,31 @@ function grid($top_func, $left_func, $right_func, $left_width=6) {
     ';
 }
 
-function form_start($action, $method='get') {
+// to upload files:
+//  use method = POST and extra=ENCTYPE="multipart/form-data"
+// to have initial focus on input field foo:
+//      use extra = "name=x"
+//      call forum_focus(x, foo) after defining the field
+//
+function form_start($action, $method='get', $extra='') {
     echo sprintf(
-        '<div class="container">
-        <form class="form-horizontal" method="%s" action="%s">'
+        '<div class="container-fluid">
+        <form class="form-horizontal" method="%s" action="%s" %s>'
         ,
-        $method, $action
+        $method, $action, $extra
     );
 }
 
 function form_input_hidden($name, $value) {
-    echo '<input type="hidden" name="'.$name.'" value="'.$value.'">
-    ';
+    echo sprintf(
+        '<input type="hidden" name="%s" value="%s">',
+        $name, $value
+    );
+}
+
+function form_focus($form_name, $field_name) {
+    echo "<script>document.$form_name.$field_name.focus()</script>\n";
+
 }
 
 function form_end() {
@@ -290,21 +339,36 @@ function form_end() {
     ';
 }
 
-define('FORM_LEFT_CLASS', 'col-sm-4');
-define('FORM_LEFT_OFFSET', 'col-sm-offset-4');
-define('FORM_RIGHT_CLASS', 'col-sm-8');
+define('FORM_LEFT_CLASS', 'col-sm-3');
+define('FORM_LEFT_OFFSET', 'col-sm-offset-3');
+define('FORM_RIGHT_CLASS', 'col-sm-9');
 
-function form_input_text($label, $name, $value='', $type='text', $attrs='', $extra='') {
+// just the input field
+//
+function form_input_text_field(
+    $name, $value='', $type='text', $attrs='', $extra=''
+) {
+    return sprintf(
+        '<input %s type="%s" class="form-control" name="%s" value="%s">%s',
+        $attrs, $type, $name, $value, $extra
+    );
+}
+
+// the whole row
+//
+function form_input_text(
+    $label, $name, $value='', $type='text', $attrs='', $extra=''
+) {
     echo sprintf('
         <div class="form-group">
-            <label class="control-label %s">%s</label>
+            <label align=right class="%s">%s</label>
             <div class="%s">
-                <input %s type="%s" class="form-control" name="%s" value="%s">%s
+                %s
             </div>
         </div>
         ',
         FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS,
-        $attrs, $type, $name, $value, $extra
+        form_input_text_field($name, $value, $type, $attrs, $extra)
     );
 }
 
@@ -321,25 +385,27 @@ function form_attr($name, $value) {
     );
 }
 
-function form_input_textarea($label, $name, $value='') {
+function form_input_textarea($label, $name, $value='', $nrows=4) {
     echo sprintf('
         <div class="form-group">
-            <label class="control-label %s" for="%s">%s</label>
+            <label align=right class="%s" for="%s">%s</label>
             <div class="%s">
-                <textarea rows="6" class="form-control" id="%s" name="%s">%s</textarea>
+                <textarea rows="%d" class="form-control" id="%s" name="%s">%s</textarea>
             </div>
         </div>
         ',
-        FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS, $name, $name, $value
+        FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS,
+        $nrows, $name, $name, $value
     );
 }
 
-// $items is either a string of <option> elements, or an array
+// $items is either a string of <option> elements,
+// or an array of [value, name] pairs
 //
-function form_select($label, $name, $items) {
+function form_select($label, $name, $items, $selected=null) {
     echo sprintf('
         <div class="form-group">
-            <label class="control-label %s" for="%s">%s</label>
+            <label align=right class="%s" for="%s">%s</label>
             <div class="%s">
                 <select class="form-control" id="%s" name="%s">
         ',
@@ -347,8 +413,11 @@ function form_select($label, $name, $items) {
     );
     if (is_array($items)) {
         foreach ($items as $i) {
-            echo '<option value="'.$i[0].'">'.$i[1].'</option>
-            ';
+            echo sprintf(
+                '<option %s value="%s">%s</option>',
+                ($i[0]==$selected)?'selected':'',
+                $i[0], $i[1]
+            );
         }
     } else {
         echo $items;
@@ -357,25 +426,38 @@ function form_select($label, $name, $items) {
 }
 
 // same, for multiple select.
-// flags, if non-null, says which ones are selected
+// $selected, if non-null, is a list of selected values
 //
-function form_select_multiple($label, $name, $items, $flags) {
+function form_select_multiple($label, $name, $items, $selected=null, $size=0) {
     echo sprintf('
         <div class="form-group">
-            <label class="control-label %s" for="%s">%s</label>
+            <label align=right class="%s" for="%s">%s</label>
             <div class="%s">
-                <select multiple class="form-control" id="%s" name="%s[]">
+                <select multiple class="form-control" id="%s" name="%s[]" size=%d>
         ',
-        FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS, $name, $name
+        FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS, $name, $name, $size
     );
-    $n = 0;
     foreach ($items as $i) {
-        $s = ($flags && $flags[$n])?'selected':'';
-        echo '<option '.$s.' value="'.$i[0].'">'.$i[1].'</option>
-        ';
-        $n++;
+        echo sprintf(
+            '<option %s value="%s">%s</option>',
+            ($selected && in_array($i[0], $selected))?'selected':'',
+            $i[0], $i[1]
+        );
     }
     echo "</select></div></div>\n";
+}
+
+// return a list of strings for checkbox items
+//
+function checkbox_item_strings($items, $attrs='') {
+    $x = [];
+    foreach ($items as $i) {
+        $x[] = sprintf('<input %s type="checkbox" name="%s" %s> %s
+            ',
+            $attrs, $i[0], $i[2]?"checked":"", $i[1]
+        );
+    }
+    return $x;
 }
 
 // $items is list of (name, label, checked)
@@ -383,43 +465,41 @@ function form_select_multiple($label, $name, $items, $flags) {
 function form_checkboxes($label, $items, $attrs='') {
     echo sprintf('
         <div class="form-group">
-            <label class="control-label %s">%s</label>
+            <label align=right class="%s">%s</label>
             <div class="%s">
         ',
         FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
     );
-    $first = true;
-    foreach ($items as $i) {
-        if ($first) {
-            $first = false;
-        } else {
-            echo "<br>\n";
-        }
-        echo sprintf('<input %s type="checkbox" name="%s" %s> %s
-            ',
-            $attrs, $i[0], $i[2]?"checked":"", $i[1]
-        );
-    }
+    $x = checkbox_item_strings($items, $attrs);
+    echo implode('<br>', $x);
     echo '</div>
         </div>
     ';
 }
 
-// $items is list of (value, label)
+// $items is list of [value, label]
 //
-function form_radio_buttons($label, $name, $items, $selected) {
+function form_radio_buttons(
+    $label, $name, $items, $selected,
+    $assign_ids=false       // assign IDs to buttons based on names
+) {
     echo sprintf('
         <div class="form-group">
-            <label class="control-label %s">%s</label>
+            <label align=right class="%s">%s</label>
             <div class="%s">
         ',
         FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
     );
     foreach ($items as $i) {
         $checked = ($selected == $i[0])?"checked":"";
-        echo sprintf('<input type="radio" name="%s" value="%s" %s> %s <br>
+        if ($assign_ids) {
+            $id = sprintf('id="%s_%s"', $name, $i[0]);
+        } else {
+            $id = '';
+        }
+        echo sprintf('<input type="radio" name="%s" value="%s" %s %s> %s <br>
             ',
-            $name, $i[0], $checked, $i[1]
+            $name, $i[0], $checked, $id, $i[1]
         );
     }
     echo '</div>
@@ -433,7 +513,7 @@ function form_general($label, $item) {
     ';
     if (strlen($label)) {
         echo sprintf(
-'           <label class="control-label %s">%s</label>
+'           <label align=right class="%s">%s</label>
             <div class="%s">%s</div>
         ',
             FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS, $item
@@ -452,8 +532,9 @@ function form_general($label, $item) {
 function form_submit($text, $attrs='') {
     form_general(
         "",
-        sprintf('<button %s type="submit" class="btn btn-success">%s</button>',
-            $attrs, $text
+        sprintf(
+            '<button %s type="submit" class="btn" %s>%s</button>',
+            $attrs, button_style(), $text
         )
     );
 }
@@ -461,8 +542,60 @@ function form_submit($text, $attrs='') {
 function form_checkbox($label, $name, $checked=false) {
     echo sprintf('
         <div class="form-group">
-            <input type="checkbox" name="%s" %s> &nbsp; <span class="lead">%s</span>
+            <label align=right class="%s">%s</label>
+            <div class="%s">
+        ',
+        FORM_LEFT_CLASS, $label, FORM_RIGHT_CLASS
+    );
+    echo sprintf('
+              <input type="checkbox" name="%s" %s>
+           </div>
         </div>
-        ', $name, $checked?"checked":"", $label
+        ', $name, $checked?"checked":""
     );
 }
+
+// 'select2' is replacement for multiple select with a nicer UI:
+// https://github.com/select2/select2
+//
+// To use it you must use this version of page_head():
+
+function page_head_select2($title) {
+    $head_extra = '
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    ';
+    page_head($title, null, false, '', $head_extra);
+    echo "<script>
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2({placeholder: 'click to select'});
+        });
+        </script>
+    ";
+}
+
+// show a multi-select using select2.
+// $items is a list of [value, name] pairs;
+// $selected is the list of selected values.
+// $extra is e.g. id=foo
+//
+function form_select2_multi($label, $name, $items, $selected=null, $extra='') {
+    echo sprintf('
+        <div class="form-group">
+            <label align=right class="%s" for="%s">%s</label>
+            <div class="%s">
+                <select class="js-example-basic-multiple" name="%s[]" multiple="multiple" style="width: 100%%" %s>
+        ',
+        FORM_LEFT_CLASS, $name, $label, FORM_RIGHT_CLASS, $name, $extra
+    );
+    foreach ($items as $i) {
+        echo sprintf(
+            '<option %s value="%s">%s</option>',
+            ($selected && in_array($i[0], $selected))?'selected':'',
+            $i[0], $i[1]
+        );
+    }
+    echo "</select></div></div>\n";
+}
+
+?>

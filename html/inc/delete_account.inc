@@ -16,6 +16,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 
+// functions to remove accounts
+// wipe_account(): delete account and all related DB records
+// obfuscate_account(): change name and email of account; delete forum items
+// delete_account(): call one of these (or project-supplied func)
+//  based on config setting
+//
+// NOTE: this is way too complex.  Just use the wipe option.
+
 require_once("../inc/common_defs.inc");
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
@@ -27,8 +35,7 @@ require_once("../inc/submit_util.inc");
 require_once("../project/project.inc");
 
 // Constants for different methods of deleting accounts
-// These correspond to the value used in the config.xml 
-// field of <enable_delete_account/>
+// Selected in the <enable_delete_account/> element in config.xml
 //
 define("DELETE_ACCOUNT_METHOD_OBFUSCATE", 1);
 define("DELETE_ACCOUNT_METHOD_WIPE", 2);
@@ -37,7 +44,7 @@ define("DELETE_ACCOUNT_METHOD_PROJECT_DEFINED", 3);
 // Constant for how long to sleep after invalidating authenticator
 // before proceeding with rest of delete
 // This is done on the chance that there is an active scheduler request
-// in progress  
+// in progress
 //
 if (!defined("DELETE_DELAY")) define("DELETE_DELAY", 2);
 
@@ -52,7 +59,7 @@ function is_delete_account_token_valid($userid, $token) {
 // Save the minimal information from the user and their hosts
 // so that db_dump can provide the information necessary
 // to export the deleted_user and deleted_host files.
-// These records are deleted after 60 days by the 
+// These records are deleted after 60 days by the
 // daily ops task "delete_expired_users_and_hosts.php"
 //
 function insert_deleted_records($user) {
@@ -65,15 +72,14 @@ function insert_deleted_records($user) {
 // and make that a third mechanism if they have a need to
 //
 function delete_account($user) {
-    $config = get_config();
-    $enable_delete_account = parse_config($config, "<enable_delete_account>");
+    $enable_delete_account = project_config_val("enable_delete_account");
     if ($enable_delete_account == DELETE_ACCOUNT_METHOD_OBFUSCATE) {
         return obfuscate_account($user);
     } else if ($enable_delete_account == DELETE_ACCOUNT_METHOD_WIPE) {
         return wipe_account($user);
     } else if ($enable_delete_account == DELETE_ACCOUNT_METHOD_PROJECT_DEFINED) {
         return project_delete_account($user);
-    } 
+    }
     return ERR_NO_OPTION;
 }
 
@@ -121,14 +127,14 @@ function is_in_progress($res) {
     return ($res->server_state == RESULT_SERVER_STATE_IN_PROGRESS);
 }
 
-// returns true if the result finished successfully but is either 
+// returns true if the result finished successfully but is either
 // pending validation or inconclusive
 //
 function is_over_but_not_validated($res) {
     if ($res->server_state == RESULT_SERVER_STATE_OVER && $res->outcome == RESULT_OUTCOME_SUCCESS &&
             ($res->validate_state == VALIDATE_STATE_INIT || $res->validate_state == VALIDATE_STATE_INCONCLUSIVE) ) {
         return true;
-    }    
+    }
     return false;
 }
 
@@ -138,8 +144,8 @@ function transition_workunit($res) {
 }
 
 // This method handles dissassociating the user from their results.
-// It will cancel all in progress or returned, but not yet validated 
-// results for a user.  For other results, it will set the userid and 
+// It will cancel all in progress or returned, but not yet validated
+// results for a user.  For other results, it will set the userid and
 // hostid fields to 0
 //
 function cancel_results_for_user($user) {
@@ -169,13 +175,13 @@ function wipe_account($user) {
     // delete remote submit user
     //
     delete_remote_submit_user($user);  // from submit_util.inc
-    
+
     // remove user's team records
     //
     user_erase_team_owner($user);      // from team.inc
     user_quit_team($user);        // from team.inc
     user_erase_team_delta($user); // from team.inc
-    
+
     // Items that do not have logic elsewhere
     // and do not have objects in boinc_db.inc
     //
@@ -189,14 +195,15 @@ function wipe_account($user) {
     $db->do_query("delete from msg_from_host where hostid in (select id from host where userid = $user->id )");
     $db->do_query("delete from msg_to_host where hostid in (select id from host where userid = $user->id )");
     $db->do_query("delete from sent_email where userid = $user->id");
-    
+
     //It is much faster to update results with single query
     //
     cancel_results_for_user($user);
-    
+
     BoincHostAppVersion::delete_for_user($user->id);
     BoincHost::delete_for_user($user->id);
     BoincConsent::delete_for_user($user->id);
+    BoincTeamAdmin::delete("userid=$user->id");
 
     // final action
     delete_user($user);  //from user_util.inc

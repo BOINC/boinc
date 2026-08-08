@@ -58,7 +58,7 @@ if (!$retval) {
 // if so, skip team-finder
 //
 if ($user->teamid) {
-    Header("Location: ".USER_HOME);
+    Header("Location: ".HOME_PAGE);
 } else {
     Header("Location: team_search.php");
 }

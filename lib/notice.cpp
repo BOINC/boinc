@@ -15,10 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #endif
 
 #include "error_numbers.h"
@@ -73,7 +71,7 @@ void NOTICE::write(MIOFILE& f, bool for_gui) {
         "   <is_private>%d</is_private>\n"
         "   <project_name>%s</project_name>\n"
         "   <category>%s</category>\n"
-        "   <link>%s</link>\n",
+        "   <link><![CDATA[%s]]></link>\n",
         title,
         description.c_str(),
         create_time,

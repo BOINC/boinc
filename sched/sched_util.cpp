@@ -18,6 +18,7 @@
 // utility functions for BOINC server programs
 
 #include "config.h"
+#include <ctime>
 
 #include "boinc_db.h"
 #include "sched_util.h"

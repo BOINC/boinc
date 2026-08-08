@@ -2,17 +2,17 @@
  * This file is part of BOINC.
  * http://boinc.berkeley.edu
  * Copyright (C) 2012 University of California
- * 
+ *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
  * as published by the Free Software Foundation,
  * either version 3 of the License, or (at your option) any later version.
- * 
+ *
  * BOINC is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
@@ -45,9 +45,9 @@ import android.util.Log;
 public class BoincInteractionService extends Service {
 
 	private final String TAG = "BoincInteractionService";
-	
+
 	public Integer boincStatus = BoincStatus.INITIALIZING; //TODO could be replaced by sticky broadcasts??!
-	
+
 	//IClientRemoteService attributes
 	private IClientRemoteService mIClientRemoteService;
 	private Boolean mClientRemoteServiceIsBound = false;
@@ -80,16 +80,16 @@ public class BoincInteractionService extends Service {
             return BoincInteractionService.this;
         }
     }
-	
+
 	// service lifecycle methods
 	@Override
     public void onCreate() {
 		Log.d(TAG,"onCreate()");
-    	
+
     	//start of setup routine
 		checkBoincClientAvailable();
     }
-	
+
     @Override
 	public void onDestroy() {
     	Log.d(TAG, "onDestroy");
@@ -103,14 +103,14 @@ public class BoincInteractionService extends Service {
 	public IBinder onBind(Intent intent) {
 		return mBinder;
 	}
-	
+
 	private void bindClientRemoteService () {
 		publishAndDispatch(BoincStatus.BINDING_BOINC_CLIENT_REMOTE_SERVICE);
 		Intent i = new Intent();
-		i.setClassName(getResources().getString(R.string.client_android_package_name), getResources().getString(R.string.client_remote_service_name)); 
+		i.setClassName(getResources().getString(R.string.client_android_package_name), getResources().getString(R.string.client_remote_service_name));
 		bindService(i, mClientRemoteServiceConnection, BIND_AUTO_CREATE);
 	}
-	
+
 	private void unbindClientRemoteService() {
 		if(mClientRemoteServiceIsBound) {
 			unbindService(mClientRemoteServiceConnection);
@@ -118,21 +118,21 @@ public class BoincInteractionService extends Service {
 			mIClientRemoteService = null;
 		}
 	}
-	
+
     private void checkBoincClientAvailable() {
-    	(new CheckBoincClientAvailable()).execute(); //asynchronous call. 
+    	(new CheckBoincClientAvailable()).execute(); //asynchronous call.
     }
-    
+
     public void downloadAndInstallClient() {
-    	(new DownloadAndInstallClientApp()).execute(); //asynchronous call. 
+    	(new DownloadAndInstallClientApp()).execute(); //asynchronous call.
     }
-    
+
     private void tryClientRemoteServiceInterface() {
 		publishAndDispatch(BoincStatus.TRYING_CRS_INTERFACE);
     	//busy waiting until interface returns true
     	Boolean ready = false;
 		Integer counter = 0;
-		Integer sleepDuration = 500; //in mili seconds
+		Integer sleepDuration = 500; //in milliseconds
 		Integer maxLoops = getResources().getInteger(R.integer.busy_waiting_timeout_ms) / sleepDuration;
 		while(!ready && (counter < maxLoops)) {
 			try {
@@ -150,7 +150,7 @@ public class BoincInteractionService extends Service {
 			publishAndDispatch(BoincStatus.CRS_INTERFACE_TIMEOUT);
 		}
     }
-    
+
     private void checkProjectAttached() {
     	//TODO
     	publishAndDispatch(BoincStatus.PROJECT_ATTACHED);
@@ -166,7 +166,7 @@ public class BoincInteractionService extends Service {
     		publishAndDispatch(BoincStatus.PROJECT_NOT_ATTACHED);
     	}*/
     }
-    
+
     private void openBoincApp() {
     	Intent i = new Intent();
     	i.setClassName(getResources().getString(R.string.client_android_package_name),getResources().getString(R.string.client_main_activity_name));
@@ -175,7 +175,7 @@ public class BoincInteractionService extends Service {
     	i.putExtra("project_name", getResources().getString(R.string.project_name));
     	startActivity(i);
     }
-    
+
     private final class CheckBoincClientAvailable extends AsyncTask<Void,Void,Boolean> {
 
 		private final String TAG = "CheckBoincClientAvailable";
@@ -184,11 +184,11 @@ public class BoincInteractionService extends Service {
 		protected void onPreExecute() {
 			publishAndDispatch(BoincStatus.CHECKING_BOINC_AVAILABLILITY);
 		}
-		
+
 		@Override
 		protected Boolean doInBackground(Void... params) {
 	    	Log.d(TAG+"-doInBackground", "checking...");
-	    	Boolean found = false; 
+	    	Boolean found = false;
 	    	try {
 				Log.d(TAG,"checkBoincAvailable() checking for presence of package: " + getResources().getString(R.string.client_android_package_name));
 				PackageInfo clientInfo = getPackageManager().getPackageInfo(getResources().getString(R.string.client_android_package_name), 0);
@@ -199,7 +199,7 @@ public class BoincInteractionService extends Service {
 			//client not installed.
 	    	return found;
 		}
-		
+
 		@Override
 		protected void onPostExecute(Boolean success) {
 			if(success) {
@@ -211,35 +211,35 @@ public class BoincInteractionService extends Service {
 				//stop execution and wait for user input
 				publishAndDispatch(BoincStatus.BOINC_NOT_AVAILABLE);
 			}
-			
+
 		}
 	}
-    
+
 	private final class DownloadAndInstallClientApp extends AsyncTask<Void,Void,Boolean> {
 
     	//TODO download official Client app from PlayStore
     	//TODO remove write external storage permission if not needed anymore
 
 		private final String TAG = "DownloadAndInstallClientApp";
-		
+
 		@Override
 		protected void onPreExecute() {
 			publishAndDispatch(BoincStatus.INSTALLING_BOINC);
 		}
-		
+
 		@Override
 		protected Boolean doInBackground(Void... params) {
 	    	Log.d(TAG+"-doInBackground", "installing Client...");
 	    	try{
 		    	if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) { //checking whether SD card is present
-		    		
+
 		    		//downloading apk
 		    		URL url = new URL(getResources().getString(R.string.client_download_url));
 		            HttpURLConnection c = (HttpURLConnection) url.openConnection();
 		            c.setRequestMethod("GET");
 		            c.setDoOutput(true);
 		            c.connect();
-		    		File tmpDir = new File(Environment.getExternalStorageDirectory(),"/boinc_download/"); 
+		    		File tmpDir = new File(Environment.getExternalStorageDirectory(),"/boinc_download/");
 		    		tmpDir.mkdirs();
 		    		File app = new File(tmpDir,"boinc_client.apk");
 		    		FileOutputStream fos = new FileOutputStream(app);
@@ -251,18 +251,18 @@ public class BoincInteractionService extends Service {
 		            }
 		            fos.close();
 		            is.close();
-		            
+
 		            //register receiver for successful install
 		            IntentFilter mIntentFilter = new IntentFilter();
 		            mIntentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
 		            mIntentFilter.addDataScheme("package");
 		            registerReceiver(clientInstalledReceiver, mIntentFilter);
-		            
+
 		            //installation in new activity
 		            Intent intent = new Intent(Intent.ACTION_VIEW);
 		            intent.setDataAndType(Uri.fromFile(app), "application/vnd.android.package-archive");
 		            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		            startActivity(intent);  
+		            startActivity(intent);
 		    	} else{
 		    		Log.d(TAG, "getExternalStorageState() does not return MEDIA_MOUNTED");
 		    		return false;
@@ -273,9 +273,9 @@ public class BoincInteractionService extends Service {
 	}
 
 	BroadcastReceiver clientInstalledReceiver = new BroadcastReceiver() {
-		
+
 		private final String TAG = "clientInstalledReceiver";
-		
+
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Log.d(TAG,"onReceive");
@@ -288,20 +288,20 @@ public class BoincInteractionService extends Service {
 		        	publishAndDispatch(BoincStatus.BOINC_INSTALLED);
 		        }
             }
-        }          
+        }
 	};
-	
+
 	private void publishAndDispatch(Integer status) {
 		Log.d(TAG,"publishAndDispatch with status: " + status);
-		
+
 		//write in variable, to allow status pulling
 		boincStatus = status;
-		
+
 		//send broadcast for activities to update layout
 		Intent i = new Intent(getResources().getString(R.string.bis_broadcast_name));
 		i.putExtra("status", status);
 		sendBroadcast(i);
-		
+
 		//dispatch next task:
 		switch(status) {
 		case BoincStatus.CHECKING_BOINC_AVAILABLILITY:

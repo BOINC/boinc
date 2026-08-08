@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,11 +18,7 @@
 // scheduler component for data archival.
 // Called on each scheduler request.
 
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
+#include "boinc_stdio.h"
 
 #include <map>
 #include <string>
@@ -112,14 +108,10 @@ static void get_chunk_url(DB_VDA_FILE& vf, const char* chunk_name, char* url) {
 static int get_chunk_md5(char* chunk_dir, char* md5_buf) {
     char md5_path[1024];
     sprintf(md5_path, "%s/md5.txt", chunk_dir);
-#ifndef _USING_FCGI_
-    FILE* f = fopen(md5_path, "r");
-#else
-    FCGI_FILE* f = FCGI::fopen(md5_path, "r");
-#endif
+    FILE* f = boinc::fopen(md5_path, "r");
     if (!f) return ERR_FOPEN;
-    char* p = fgets(md5_buf, 64, f);
-    fclose(f);
+    char* p = boinc::fgets(md5_buf, 64, f);
+    boinc::fclose(f);
     if (p == NULL) return ERR_GETS;
     strip_whitespace(md5_buf);
     return 0;

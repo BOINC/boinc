@@ -18,12 +18,16 @@
 
 // search for posts or a thread.
 // Takes input from forum_search.php
- 
+
 require_once('../inc/time.inc');
 require_once('../inc/text_transform.inc');
 require_once('../inc/forum.inc');
 
 if (DISABLE_FORUMS) error_page("Forums are disabled");
+
+if (REQUIRE_LOGIN_FORUM) {
+    get_logged_in_user();
+}
 
 check_get_args(array());
 
@@ -37,7 +41,7 @@ function search_thread_titles(
     $search_string="%";
     foreach ($keyword_list as $key => $word) {
         $search_string .= BoincDb::escape_string($word)."%";
-    }        
+    }
     $query = "title like '".$search_string."'";
     if ($forum && $forum != "all") {
         $query .= " and forum = $forum->id";
@@ -90,7 +94,7 @@ function search_post_content(
     $search_string="%";
     foreach ($keyword_list as $key => $word){
         $search_string .= BoincDb::escape_string($word)."%";
-    } 
+    }
     $optional_join = "";
     // if looking in a single forum, need to join w/ thread table
     // because that's where the link to forum is
@@ -169,16 +173,24 @@ if ($search_author) {
 
 // First search thread titles; if we get a hit there it's probably relevant
 //
-$threads = search_thread_titles($search_list, $forum, $user, $min_timestamp, round($limit/7), $search_sort, $show_hidden_posts);
+$threads = search_thread_titles(
+    $search_list, $forum, $user, $min_timestamp, $limit,
+    $search_sort, $show_hidden_posts
+);
 
-// Display the threads while we search for posts
+// Display the threads
 //
 if (count($threads)){
     echo "<h3>" . tra("Thread titles matching your query:") . "</h3>";
-    show_thread_and_context_header();
+    start_table('table-striped');
+    thread_list_header();
     foreach ($threads as $thread){
-        if ($thread->hidden) continue;
-        show_thread_and_context($thread, $logged_in_user);
+        if (!$show_hidden_posts) {
+            $u = BoincUser::lookup_id($thread->owner);
+            if ($u && is_banished($u)) continue;
+            if ($thread->hidden) continue;
+        }
+        thread_list_item($thread, $logged_in_user);
     }
     end_table();
     echo "<br /><br />";
@@ -194,11 +206,16 @@ $posts = search_post_content(
 
 if (count($posts)){
     echo "<h3>" . tra("Messages matching your query:") . "</h3>";
-    start_table();
+    start_table('table-striped');
+    row_heading_array(['Info', 'Post'], ['', 'width=70%']);
     $n = 1;
     $options = get_output_options($logged_in_user);
     $options->setHighlightTerms($search_list);
     foreach ($posts as $post) {
+        if (!$show_hidden_posts) {
+            $u = BoincUser::lookup_id($post->user);
+            if (is_banished($u)) continue;
+        }
         $thread = BoincThread::lookup_id($post->thread);
         if (!$thread) continue;
         $forum = BoincForum::lookup_id($thread->forum);
@@ -226,5 +243,4 @@ if (!count($threads) && !count($posts)){
 echo "<p><a href=\"forum_search.php\">".tra("Perform another search")."</a></p>";
 page_tail();
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

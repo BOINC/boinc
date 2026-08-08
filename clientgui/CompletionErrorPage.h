@@ -27,7 +27,7 @@
  */
 
 class CCompletionErrorPage: public wxWizardPageEx
-{    
+{
     DECLARE_DYNAMIC_CLASS( CCompletionErrorPage )
     DECLARE_EVENT_TABLE()
 

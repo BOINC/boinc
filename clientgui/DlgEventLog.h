@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -102,9 +102,6 @@ public:
     /// Sets text for m_pFilterButton
     void SetFilterButtonText();
 
-    /// Text color selection
-    void SetTextColor();
-
 ////@begin CDlgEventLog event handler declarations
     /// wxEVT_HELP event handler for ID_DLGEVENTLOG
     void OnHelp( wxHelpEvent& event );
@@ -123,6 +120,9 @@ public:
 
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_COPYSELECTED
     void OnMessagesCopySelected( wxCommandEvent& event );
+
+    // wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_TASK_MESSAGES_FILTERBYERROR
+    void OnErrorFilter(wxCommandEvent& event);
 
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_TASK_MESSAGES_FILTERBYPROJECT
     void OnMessagesFilter( wxCommandEvent& event );
@@ -147,21 +147,15 @@ public:
     virtual wxInt32         GetDocCount();
 
     virtual wxString        OnListGetItemText( long item, long column ) const;
-    virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
-
-    bool                    OnSaveState(wxConfigBase* pConfig);
-    bool                    OnRestoreState(wxConfigBase* pConfig);
 
     void                    UpdateButtons();
 
 private:
 ////@begin CDlgEventLog member variables
 ////@end CDlgEventLog member variables
-    wxTimer*                m_pRefreshTimer;
-
-    wxInt32                 m_iPreviousDocCount;
-
     CDlgEventLogListCtrl*   m_pList;
+    wxColour                m_normalTextColor;
+    bool                    m_isConnected;
     wxArrayInt              m_iFilteredIndexes;
     wxInt32                 m_iTotalDocCount;
     wxInt32                 m_iFilteredDocCount;
@@ -173,11 +167,7 @@ private:
     wxInt32                 m_iPreviousRowCount;
     wxButton*               m_pFilterButton;
     wxButton*               m_pCopySelectedButton;
-
-    wxListItemAttr*         m_pMessageInfoAttr;
-    wxListItemAttr*         m_pMessageErrorAttr;
-    wxListItemAttr*         m_pMessageInfoGrayAttr;
-    wxListItemAttr*         m_pMessageErrorGrayAttr;
+    wxButton*               m_pErrorFilterButton;
 
     bool                    m_bProcessingRefreshEvent;
     bool                    m_bWasConnected;
@@ -194,9 +184,10 @@ private:
     void                    OnSize(wxSizeEvent& event);
     void                    OnMove(wxMoveEvent& event);
 
-    void                    OnMouseUp(wxMouseEvent& event);
-
     void                    ResetMessageFiltering();
+
+    void                    FindErrorMessages(bool isFiltered);
+    void                    FindProjectMessages(bool isFiltered);
 
     bool                    EnsureLastItemVisible();
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;

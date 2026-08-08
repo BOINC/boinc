@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--app global-->
+  <string name="app_name">BOINC</string>
+  <!--generic. used by multiple Activities/tabs-->
+  <string name="generic_button_continue">Lanjutkan</string>
+  <string name="generic_button_finish">Selesai</string>
+  <!--attach project-->
+  <!--selection list-->
+  <string name="attachproject_list_desc">Pilih proyek scientific yang ingin diikuti</string>
+  <string name="attachproject_list_header">Pilih proyek</string>
+  <string name="attachproject_list_manual_button">Tambah proyek menurut URL</string>
+  <string name="attachproject_list_manual_dialog_title">Masukkan URL proyek</string>
+  <string name="attachproject_list_no_internet">Tidak ada koneksi internet</string>
+  <!--credential input-->
+  <string name="attachproject_credential_input_sing_desc">Masukkan informasi akun</string>
+  <string name="attachproject_credential_input_desc">Masukkan informasi akun untuk proyek terpilih</string>
+  <string name="attachproject_credential_input_show_pwd">Tunjukkan password</string>
+  <string name="attachproject_individual_credential_input">Lampirkan proyek secara individual</string>
+  <!--conflicts-->
+  <string name="attachproject_conflicts_desc">Pelampiran proyek scientific bermasalah</string>
+  <string name="attachproject_conflict_undefined">Tidak terhubung</string>
+  <string name="attachproject_conflict_not_unique">Akun ada, beda password</string>
+  <string name="attachproject_conflict_bad_password">Password salah</string>
+  <string name="attachproject_conflict_unknown_user">Akun tidak ada</string>
+  <string name="attachproject_conflict_unknown_user_creation_disabled">Akun tidak ada, kunjungi website proyek untuk mendaftar</string>
+  <!--working-->
+  <!--e.g. Attaching Einstein@Home-->
+  <!--hints-->
+  <string name="attachproject_hints_header">Petunjuk</string>
+  <!--e.g. Hint 1/2-->
+  <string name="attachproject_hint_contribtion_header">Cara berkontribusi :</string>
+  <string name="attachproject_hint_contribtion_wifi">1. Hubungkan ke WiFi</string>
+  <string name="attachproject_hint_contribtion_charger">2. Hubungkan charger</string>
+  <string name="attachproject_hint_contribtion_screen">3. Matikan layar</string>
+  <string name="attachproject_hint_projectwebsite_header">Kunjungi website di :</string>
+  <string name="attachproject_hint_projectwebsite_science">Pelajari lebih lanjut ilmu ini</string>
+  <string name="attachproject_hint_projectwebsite_stats">Lihat statistik kontribusi</string>
+  <string name="attachproject_hint_projectwebsite_community">Berhubungan dengan sukarelawan yang lain</string>
+  <string name="attachproject_hint_platforms_header">BOINC tersedia untuk komputer dan laptop Anda, kunjungi boinc.berkeley.edu untuk mempelajari lebih lanjut</string>
+  <!--project login-->
+  <string name="attachproject_login_loading">Menghubungi server proyek</string>
+  <string name="attachproject_login_header_general_area">Area Umum :</string>
+  <string name="attachproject_login_header_specific_area">Area Spesifik :</string>
+  <string name="attachproject_login_header_description">Deskripsi:</string>
+  <string name="attachproject_login_header_home">Beranda:</string>
+  <string name="attachproject_login_header_url">Website:</string>
+  <string name="attachproject_login_header_id_email">eMail:</string>
+  <string name="attachproject_login_header_id_name">Nama:</string>
+  <string name="attachproject_login_header_pwd">Kata Sandi:</string>
+  <!--account manager-->
+  <string name="attachproject_acctmgr_header">Tambah manager akun</string>
+  <string name="attachproject_acctmgr_header_url">URL</string>
+  <string name="attachproject_acctmgr_header_pwd">Kata Sandi:</string>
+  <!--error strings-->
+  <!--tab names-->
+  <string name="tab_status">Status</string>
+  <string name="tab_projects">Proyek</string>
+  <string name="tab_preferences">Preferensi</string>
+  <!--status strings-->
+  <!--preferences tab strings-->
+  <string name="prefs_category_cpu">CPU</string>
+  <string name="prefs_category_memory">Memori</string>
+  <!--projects tab strings-->
+  <string name="projects_add">Tambahkan proyek</string>
+  <!--project status strings-->
+  <!--project controls-->
+  <string name="projects_control_update">Pembaruan</string>
+  <string name="projects_control_remove">Hapus</string>
+  <!--project confirm dialog-->
+  <string name="projects_confirm_detach_confirm">Hapus</string>
+  <!--tasks tab strings-->
+  <!--confirmation dialog-->
+  <string name="confirm_cancel">Batal</string>
+  <!--transfers tab strings-->
+  <string name="trans_download">Unduh</string>
+  <!--eventlog tab strings-->
+  <!--suspend reasons-->
+  <!--rpc reasons-->
+  <!--menu-->
+  <string name="menu_help">Bantuan</string>
+  <!--about dialog-->
+  <string name="about_name">BOINC</string>
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <!--multi BOINC compatibility-->
+  <!--social integration-->
+  <!--first parameter: device manufacturer, second: URL-->
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+</resources>

@@ -32,7 +32,7 @@ assert_options(ASSERT_CALLBACK, 'my_assert_handler');
 
 $errors = 0;
 
-// get an enviroment variable, and abort script if missing
+// get an environment variable, and abort script if missing
 //
 function get_env_var($name, $defvalue = -1) {
     $x = getenv($name);

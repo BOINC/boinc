@@ -1,7 +1,7 @@
 AC_DEFUN([BOINC_CHECK_CYGWIN],[
   AC_MSG_CHECKING([whether we are compiling for cygwin])
-  case "$target" in 
-    *cygwin*)  
+  case "$target" in
+    *cygwin*)
         with_cygwin=yes
 	;;
     *)  with_cygwin=no
@@ -26,7 +26,7 @@ AC_DEFUN([BOINC_CHECK_CYGWIN],[
       ac_cv_header_windows_h=yes
       AC_DEFINE(XMD_H,[1],[Define to prevent redefinition of INT32 in jconfig.h])
       AC_DEFINE(CYGWIN_USE_WIN32,[1],[Define to 1 if CYGWIN should use the WIN32 GUI])
-      LIBS="-L/usr/lib/w32api ${LIBS}" 
+      LIBS="-L/usr/lib/w32api ${LIBS}"
       CFLAGS="-I/usr/include/w32api -D_WIN32 -DWIN32 ${CFLAGS}"
       CXXFLAGS="-I/usr/include/w32api  -D_WIN32 -DWIN32 ${CXXFLAGS}"
       CPPFLAGS="-I/usr/include/w32api  -D_WIN32 -DWIN32 ${CPPFLAGS}"

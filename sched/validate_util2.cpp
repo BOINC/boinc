@@ -17,7 +17,7 @@
 
 // Simple validator framework:
 // Lets you create a custom validator by supplying three functions.
-// See http://boinc.berkeley.edu/trac/wiki/ValidationSimple
+// See https://github.com/BOINC/boinc/wiki/ValidationSimple
 //
 
 #include "config.h"
@@ -59,13 +59,15 @@ using std::vector;
 //    (i.e. there was a broken NFS mount).
 //    Should call this again after a while.
 //
+// always return zero
+//
 int check_set(
     vector<RESULT>& results, WORKUNIT& wu,
     DB_ID_TYPE& canonicalid, double&, bool& retry
 ) {
     vector<void*> data;
     vector<bool> had_error;
-    int i, j, neq = 0, n, retval;
+    int i, j, neq = 0, n, retval=0;
     int min_valid = wu.min_quorum/2+1;
 
     retry = false;
@@ -74,6 +76,9 @@ int check_set(
     had_error.resize(n);
 
     // Initialize results
+    // For each one we potentially allocate data,
+    // so always exit via goto cleanup:
+    // to free this mem
 
     for (i=0; i<n; i++) {
         data[i] = NULL;
@@ -83,20 +88,27 @@ int check_set(
     int suspicious_results = 0;
     for (i=0; i<n; i++) {
         retval = init_result(results[i], data[i]);
-        if (retval == ERR_OPENDIR) {
+        switch (retval) {
+        case 0:
+            good_results++;
+            break;
+        case ERR_OPENDIR:
+        case VAL_RESULT_TRANSIENT_ERROR:
             log_messages.printf(MSG_CRITICAL,
                 "check_set: init_result([RESULT#%lu %s]) transient failure\n",
                 results[i].id, results[i].name
             );
             retry = true;
             had_error[i] = true;
-        } else if (retval == VAL_RESULT_SUSPICIOUS) {
+            break;
+        case VAL_RESULT_SUSPICIOUS:
             log_messages.printf(MSG_NORMAL,
                 "[RESULT#%lu %s] considered to be suspicious\n",
                 results[i].id, results[i].name
             );
             suspicious_results++;
-        } else if (retval) {
+            break;
+        default:
             log_messages.printf(MSG_CRITICAL,
                 "check_set: init_result([RESULT#%lu %s]) failed: %s\n",
                 results[i].id, results[i].name, boincerror(retval)
@@ -104,8 +116,7 @@ int check_set(
             results[i].outcome = RESULT_OUTCOME_VALIDATE_ERROR;
             results[i].validate_state = VALIDATE_STATE_INVALID;
             had_error[i] = true;
-        } else  {
-            good_results++;
+            break;
         }
     }
 
@@ -128,27 +139,41 @@ int check_set(
 
     if (good_results < wu.min_quorum) goto cleanup;
 
-    // Compare results
+    // for each result, count how many it matches (including itself)
+    // If this is at least min_valid, it's the canonical result
 
     for (i=0; i<n; i++) {
         if (had_error[i]) continue;
         vector<bool> matches;
         matches.resize(n);
         neq = 0;
-        for (j=0; j!=n; j++) {
+        for (j=0; j<n; j++) {
             if (had_error[j]) continue;
-            bool match = false;
             if (i == j) {
                 ++neq;
                 matches[j] = true;
-            } else if (compare_results(results[i], data[i], results[j], data[j], match)) {
+                continue;
+            }
+            bool match = false;
+            retval = compare_results(
+                results[i], data[i], results[j], data[j], match
+            );
+            switch (retval) {
+            case ERR_OPENDIR:
+            case VAL_RESULT_TRANSIENT_ERROR:
+                retry = true;
+                goto cleanup;
+            case 0:
+                if (match) {
+                    ++neq;
+                    matches[j] = true;
+                }
+                break;
+            default:
                 log_messages.printf(MSG_CRITICAL,
-                    "generic_check_set: check_pair_with_data([RESULT#%lu %s], [RESULT#%lu %s]) failed\n",
+                    "check_set(): compare_results([RESULT#%lu %s], [RESULT#%lu %s]) failed\n",
                     results[i].id, results[i].name, results[j].id, results[j].name
                 );
-            } else if (match) {
-                ++neq;
-                matches[j] = true;
             }
         }
         if (neq >= min_valid) {
@@ -165,13 +190,13 @@ int check_set(
     }
 
 cleanup:
-
     for (i=0; i<n; i++) {
         cleanup_result(results[i], data[i]);
     }
     return 0;
 }
 
+// a straggler instance has arrived after the WU is already validated.
 // r1 is the new result; r2 is canonical result
 //
 void check_pair(RESULT& r1, RESULT& r2, bool& retry) {
@@ -182,14 +207,18 @@ void check_pair(RESULT& r1, RESULT& r2, bool& retry) {
 
     retry = false;
     retval = init_result(r1, data1);
-    if (retval == ERR_OPENDIR) {
+    switch (retval) {
+    case ERR_OPENDIR:
+    case VAL_RESULT_TRANSIENT_ERROR:
         log_messages.printf(MSG_CRITICAL,
             "check_pair: init_result([RESULT#%lu %s]) transient failure 1\n",
             r1.id, r1.name
         );
         retry = true;
         return;
-    } else if (retval) {
+    case 0:
+        break;
+    default:
         log_messages.printf(MSG_CRITICAL,
             "check_pair: init_result([RESULT#%lu %s]) perm failure 1\n",
             r1.id, r1.name
@@ -200,7 +229,9 @@ void check_pair(RESULT& r1, RESULT& r2, bool& retry) {
     }
 
     retval = init_result(r2, data2);
-    if (retval == ERR_OPENDIR) {
+    switch (retval) {
+    case ERR_OPENDIR:
+    case VAL_RESULT_TRANSIENT_ERROR:
         log_messages.printf(MSG_CRITICAL,
             "check_pair: init_result([RESULT#%lu %s]) transient failure 2\n",
             r2.id, r2.name
@@ -208,7 +239,9 @@ void check_pair(RESULT& r1, RESULT& r2, bool& retry) {
         cleanup_result(r1, data1);
         retry = true;
         return;
-    } else if (retval) {
+    case 0:
+        break;
+    default:
         log_messages.printf(MSG_CRITICAL,
             "check_pair: init_result([RESULT#%lu %s]) perm failure2\n",
             r2.id, r2.name
@@ -220,7 +253,22 @@ void check_pair(RESULT& r1, RESULT& r2, bool& retry) {
     }
 
     retval = compare_results(r1, data1, r2, data2, match);
-    r1.validate_state = match?VALIDATE_STATE_VALID:VALIDATE_STATE_INVALID;
+    switch (retval) {
+    case ERR_OPENDIR:
+    case VAL_RESULT_TRANSIENT_ERROR:
+        retry = true;
+        break;
+    case 0:
+        r1.validate_state = match?VALIDATE_STATE_VALID:VALIDATE_STATE_INVALID;
+        break;
+    default:
+        log_messages.printf(MSG_CRITICAL,
+            "check_pair: compare_results([RESULT#%lu RESULT#%lu]) perm failure\n",
+            r1.id, r2.id
+        );
+        r1.validate_state = VALIDATE_STATE_INVALID;
+        break;
+    }
     cleanup_result(r1, data1);
     cleanup_result(r2, data2);
 }

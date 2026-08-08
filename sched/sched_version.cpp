@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2016 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -36,6 +36,7 @@
 #include "sched_types.h"
 #include "sched_util.h"
 #include "credit.h"
+#include "buda.h"
 
 #include "sched_version.h"
 
@@ -73,8 +74,7 @@ static bool need_this_resource(
 }
 
 static DB_HOST_APP_VERSION* lookup_host_app_version(DB_ID_TYPE gavid) {
-    for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
-        DB_HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
+    for (DB_HOST_APP_VERSION& hav: g_wreq->host_app_versions) {
         if (hav.app_version_id == gavid) return &hav;
     }
     return NULL;
@@ -145,13 +145,20 @@ inline bool daily_quota_exceeded(DB_ID_TYPE gavid, HOST_USAGE& hu) {
             );
         }
         havp->daily_quota_exceeded = true;
+        char message[1024];
+        snprintf(message, sizeof(message),
+            "Daily job limit (%d) has been reached", q
+        );
+        add_no_work_message(message);
         return true;
     }
     return false;
 }
 
 bool daily_quota_exceeded(BEST_APP_VERSION* bavp) {
-    return daily_quota_exceeded(bavp->avp->id, bavp->host_usage);
+    DB_HOST_APP_VERSION* havp = bavp->host_app_version();
+    if (!havp) return false;
+    return daily_quota_exceeded(havp->app_version_id, bavp->host_usage);
 }
 
 // scan through client's anonymous apps and pick the best one
@@ -159,7 +166,6 @@ bool daily_quota_exceeded(BEST_APP_VERSION* bavp) {
 CLIENT_APP_VERSION* get_app_version_anonymous(
     APP& app, bool need_64b, bool reliable_only
 ) {
-    unsigned int i;
     CLIENT_APP_VERSION* best = NULL;
     bool found = false;
     char message[256];
@@ -170,8 +176,7 @@ CLIENT_APP_VERSION* get_app_version_anonymous(
             app.name, reliable_only?" (reliable only)":""
         );
     }
-    for (i=0; i<g_request->client_app_versions.size(); i++) {
-        CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
+    for (CLIENT_APP_VERSION& cav: g_request->client_app_versions) {
         if (!cav.app) continue;
         if (cav.app->id != app.id) {
             continue;
@@ -275,9 +280,7 @@ CLIENT_APP_VERSION* get_app_version_anonymous(
 // called at start of send_work().
 //
 void estimate_flops_anon_platform() {
-    unsigned int i;
-    for (i=0; i<g_request->client_app_versions.size(); i++) {
-        CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
+    for (CLIENT_APP_VERSION& cav: g_request->client_app_versions) {
         if (!cav.app) continue;
 
         cav.rsc_fpops_scale = 1;
@@ -349,7 +352,7 @@ void estimate_flops_anon_platform() {
 // compute HOST_USAGE::projected_flops, which is used to estimate job runtime:
 //   est. runtime = wu.rsc_fpops_est / projected_flops
 // so project_flops must reflect systematic errors in rsc_fpops_est
-// 
+//
 // 1) if we have statistics for (host, app version) and
 //    <estimate_flops_from_hav_pfc> is not set use elapsed time,
 //    otherwise use pfc_avg.
@@ -387,7 +390,7 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
         double new_flops;
         if (config.estimate_flops_from_hav_pfc) {
             new_flops = hu.peak_flops / (havp->pfc.get_avg()+1e-18);
-        } else { 
+        } else {
             new_flops = 1./havp->et.get_avg();
         }
         // cap this at ET_RATIO_LIMIT*projected,
@@ -503,8 +506,7 @@ static BEST_APP_VERSION* check_homogeneous_app_version(
         // SCHEDULER_REPLY::old_app_versions
         //
         found = false;
-        for (unsigned int i=0; i<g_reply->old_app_versions.size(); i++) {
-            APP_VERSION& av = g_reply->old_app_versions[i];
+        for (APP_VERSION& av: g_reply->old_app_versions) {
             if (av.id == wu.app_version_id) {
                 avp = &av;
                 found = true;
@@ -523,8 +525,7 @@ static BEST_APP_VERSION* check_homogeneous_app_version(
     // see if this host supports the version's platform
     //
     found = false;
-    for (unsigned int i=0; i<g_request->platforms.list.size(); i++) {
-        PLATFORM* p = g_request->platforms.list[i];
+    for (PLATFORM* p: g_request->platforms.list) {
         if (p->id == avp->platformid) {
             found = true;
             bav.avp = avp;
@@ -577,7 +578,6 @@ static BEST_APP_VERSION* check_homogeneous_app_version(
 BEST_APP_VERSION* get_app_version(
     const WORKUNIT& wu, bool check_req, bool reliable_only
 ) {
-    unsigned int i;
     int j;
     BEST_APP_VERSION* bavp;
     char buf[256];
@@ -727,13 +727,12 @@ BEST_APP_VERSION* get_app_version(
     // Pick the one with highest expected FLOPS
     //
     // if config.prefer_primary_platform is set:
-    // stop scanning platforms once we find a feasible version 
+    // stop scanning platforms once we find a feasible version
 
     bavp->host_usage.projected_flops = 0;
     bavp->avp = NULL;
-    for (i=0; i<g_request->platforms.list.size(); i++) {
+    for (PLATFORM* p: g_request->platforms.list) {
         bool found_feasible_version = false;
-        PLATFORM* p = g_request->platforms.list[i];
         if (job_needs_64b && !is_64b_platform(p->name)) {
             continue;
         }
@@ -759,12 +758,14 @@ BEST_APP_VERSION* get_app_version(
                 }
             }
 
+            // if app version has plan class, make sure host can handle it
+            //
             if (strlen(av.plan_class)) {
                 if (!app_plan(*g_request, av.plan_class, host_usage, &wu)) {
                     if (config.debug_version_select) {
                         log_messages.printf(MSG_NORMAL,
-                            "[version] [AV#%lu] app_plan() returned false\n",
-                            av.id
+                            "[version] [AV#%lu] app_plan(%s) returned false\n",
+                            av.id, av.plan_class
                         );
                     }
                     continue;
@@ -946,6 +947,13 @@ BEST_APP_VERSION* get_app_version(
         if (config.prefer_primary_platform && found_feasible_version) {
             break;
         }
+
+        // use only primary platform for BUDA jobs
+        // (e.g. don't send Intel docker_wrapper to Mac/ARM)
+        //
+        if (is_buda(wu)) {
+            break;
+        }
     }   // loop over client platforms
 
     if (bavp->avp) {
@@ -965,8 +973,7 @@ BEST_APP_VERSION* get_app_version(
             log_messages.printf(MSG_NORMAL,
                 "[version] returning NULL; platforms:\n"
             );
-            for (i=0; i<g_request->platforms.list.size(); i++) {
-                PLATFORM* p = g_request->platforms.list[i];
+            for (PLATFORM* p: g_request->platforms.list) {
                 log_messages.printf(MSG_NORMAL,
                     "[version] %s\n",
                     p->name
@@ -978,4 +985,3 @@ BEST_APP_VERSION* get_app_version(
     }
     return bavp;
 }
-

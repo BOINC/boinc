@@ -8,7 +8,7 @@ AC_DEFUN([SAH_CHECK_LIB],[
      if test -z "`echo x${alib} | sed ${tmp_pattern}`"
      then
        SAH_STATIC_LIB_REQUIRED(${alib},[$2],[
-         lib_is_static="yes" 
+         lib_is_static="yes"
          sah_lib_last="${sah_static_lib_last}"
 	 $3
        ],[$4],[$5])
@@ -35,7 +35,7 @@ AC_DEFUN([SAH_CHECK_LDFLAG],[
          int foo() {return 1;}
       ]],
       [ return foo(); ])],
-      [ 
+      [
         AC_MSG_RESULT(yes)
 	$2
       ],
@@ -50,7 +50,7 @@ AC_DEFUN([SAH_CHECK_LDFLAG],[
 AC_DEFUN([SAH_LINKAGE_FLAGS],[
   if test "${disable_static_linkage}" = "yes"
   then
-    ld_static_option=""  
+    ld_static_option=""
     ld_dynamic_option=""
     LD_EXPORT_DYNAMIC=""
   else
@@ -86,14 +86,14 @@ AC_DEFUN([SAH_LINKAGE_FLAGS],[
 	    then
 	      dummy_ld_variable_gfdsahjf="been there done that"
               AC_MSG_CHECKING([${CC} flags for static linkage ...])
-	      AC_MSG_RESULT(unknown) 
+	      AC_MSG_RESULT(unknown)
               AC_MSG_CHECKING([${CC} flags for dynamic linkage ...])
-	      AC_MSG_RESULT(unknown) 
+	      AC_MSG_RESULT(unknown)
             fi
 	    ;;
         esac
         AC_MSG_CHECKING([${CC} flags for exporting dynamic symbols from an executable ...])
-        case $target in  
+        case $target in
           *cygwin*)
 	     LD_EXPORT_DYNAMIC="-Wl,--export-all-symbols"
 	     AC_MSG_RESULT(${LD_EXPORT_DYNAMIC})
@@ -129,7 +129,7 @@ AC_DEFUN([SAH_LINKAGE_FLAGS],[
 #    3) linking with the static flags "$STATIC_FLAGS -l{name}"
 AC_DEFUN([SAH_STATIC_LIB_REQUIRED],[
 SAH_LINKAGE_FLAGS
-# upercase the library name for our definition
+# uppercase the library name for our definition
 ac_uc_defn=HAVE_LIB`echo $1 | sed -e 's/[^a-zA-Z0-9_]/_/g' \
     -e 'y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/'`
 # Build our cache variable names
@@ -147,7 +147,7 @@ AC_CACHE_CHECK([$tmp_msg],
   tmp_res="no"
 #
 # check if we want to actually do all this.
-  if test "${disable_static_linkage}" = "yes" 
+  if test "${disable_static_linkage}" = "yes"
   then
     sah_static_checklibs="-l$1"
   else
@@ -178,14 +178,14 @@ dnl    if test -z "`echo $tmp_lib_name | grep \\.la$`"  ; then
 	    #endif
           ]],
           [ $2 (); ])],
-          [ 
+          [
             tmp_res="${tmp_lib_name}"
           ]
         )
       fi
 dnl    else
 dnl      tmp_res="-l$1"
-dnl    fi  
+dnl    fi
     if test "${tmp_res}" != "no"
     then
       break
@@ -205,7 +205,7 @@ sah_static_lib_last="`eval echo '${'$varname'}'`"
 if test "${sah_static_lib_last}" != "no"
 then
   LIBS="${sah_static_lib_last} ${LIBS}"
-  AC_DEFINE_UNQUOTED([$ac_uc_defn], [1], 
+  AC_DEFINE_UNQUOTED([$ac_uc_defn], [1],
     [Define to 1 if the $1 library has the function $2]
   )
   $3
@@ -239,7 +239,7 @@ AC_CACHE_CHECK([$tmp_msg],
   tmp_res="no"
 #
 # check if we want to actually do all this.
-  if test "${disable_static_linkage}" = "yes" 
+  if test "${disable_static_linkage}" = "yes"
   then
     sah_dynamic_checklibs="-l$1 -l$1.${DLLEXT}"
   else
@@ -268,7 +268,7 @@ AC_CACHE_CHECK([$tmp_msg],
       ]],
       [ $2 (); ])
     ],
-    [ 
+    [
       tmp_res="${ld_dynamic_option} ${tmp_lib_name}"
     ])
     if test "${tmp_res}" = "no"
@@ -288,7 +288,7 @@ AC_CACHE_CHECK([$tmp_msg],
         ]],
         [ $2 (); ])
       ],
-      [ 
+      [
         tmp_res="${tmp_lib_name}"
       ])
     fi
@@ -307,7 +307,7 @@ sah_dynamic_lib_last="`eval echo '${'$varname'}'`"
 if test "${sah_dynamic_lib_last}" != "no"
 then
   LIBS="${sah_dynamic_lib_last} ${LIBS}"
-  AC_DEFINE_UNQUOTED([$ac_uc_defn], [1], 
+  AC_DEFINE_UNQUOTED([$ac_uc_defn], [1],
     [Define to 1 if the $1 library has the function $2]
   )
   $3
@@ -350,9 +350,9 @@ AC_DEFUN([SAH_DYNAMIC_LIB],[
 ])
 
 #The SAH_FIND_STATIC_LIB macro searches the LD_LIBRARY_PATH or equivalent
-#in order to find a static version of the library being loaded.  
+#in order to find a static version of the library being loaded.
 AC_DEFUN([SAH_FIND_STATIC_LIB],[
-# libtool sets up the variable shlibpath_var which holds the name of the 
+# libtool sets up the variable shlibpath_var which holds the name of the
 # LIB_PATH variable.  We also want to strip the sparcv9 and 64s from the
 # path, because we'll add them again later
 strip_pattern="s/sparcv9//g; s/lib64/lib/g; s/lib\/64/lib/g"
@@ -360,11 +360,11 @@ tmp_libpath=`eval echo '${'$shlibpath_var'}' | sed "${strip_pattern}"`
 
 # in cygwin, the DLLs are in the path, but the static libraries are elsewhere.
 # Here's an educated guess.
-if test "${shlibpath_var}" = "PATH" 
+if test "${shlibpath_var}" = "PATH"
 then
   tmp_libpath=`echo ${PATH} | sed 's/\/bin/\/lib/g'`
   tmp_libpath="${tmp_libpath}:${PATH}"
-fi  
+fi
 
 
 
@@ -429,7 +429,7 @@ case $target in
 	  tmp_pattern_b="s/${COMPILER_MODEL_BITS}${COMPILER_MODEL_BITS}/${COMPILER_MODEL_BITS}/g"
   	  abcd_q=`echo ${tmp_libpath} | sed ${tmp_pattern} | sed ${tmp_pattern_b} `
 	  case ${COMPILER_MODEL_BITS} in
-	    32) 
+	    32)
 	       gcc_host_dirs=`echo ${gcc_prefix}/lib/gcc*/i[3456]86*linux*/${gcc_version}`
 	       ;;
 	    64)
@@ -450,10 +450,10 @@ case $target in
 	  tmp_pattern_b="s/${COMPILER_MODEL_BITS}\/${COMPILER_MODEL_BITS}/${COMPILER_MODEL_BITS}/g"
   	  abcd_q=`echo ${tmp_libpath} | sed ${tmp_pattern} | sed ${tmp_pattern_b}`
 	  case ${COMPILER_MODEL_BITS} in
-	    64) 
+	    64)
 	        tmp_arch="sparcv9"
 	        ;;
-	    32) 
+	    32)
 	        tmp_arch=
 		;;
           esac
@@ -462,7 +462,7 @@ case $target in
 	  do
 	    abcd_r="${abcd_r}:${tmp_dir}/${tmp_arch}"
 	  done
-	  tmp_libpath="${abcd_r}:${abcd_q}:${tmp_libpath}" 
+	  tmp_libpath="${abcd_r}:${abcd_q}:${tmp_libpath}"
         fi
 	;;
   *)
@@ -471,13 +471,13 @@ case $target in
 esac
 
 
-if test -n "`echo x$1 | grep x-l`" 
+if test -n "`echo x$1 | grep x-l`"
 then
-  # in the -l case, don't search, just use the ld_static_option (usually 
+  # in the -l case, don't search, just use the ld_static_option (usually
   # -Wl,-B static
   tmp_lib_name="${ld_static_option} $1"
 else
-  # we also want to check the system config files for library dirs. 
+  # we also want to check the system config files for library dirs.
   tmp_dir_list=
   if test -e /etc/ld.so.conf
   then
@@ -488,12 +488,12 @@ else
       tmp_dir_list=`cat /var/ld/ld.config`
     fi
   fi
-  
+
   ## add library-paths from LDFLAGS to beginning of lib-path
   ldflags_path=`echo $LDFLAGS | sed 's/-l[[^ ]]*//g' | sed 's/-L\([[^ ]]*\)/:\1/g' | sed 's/[[ ]]*//g'`
 
   tmp_dir_list=`echo ${ldflags_path}:${tmp_libpath}:/lib:/usr/lib:/usr/ucb/lib:/usr/local/lib:/opt/misc/lib:${tmp_dir_list} | $AWK -F: '{for (i=1;i<(NF+1);i++) { print $[]i; }}'`
- 
+
   tmp_lib_name=
   # now that we know where we are looking, find our library
   for tmp_dir in $tmp_dir_list

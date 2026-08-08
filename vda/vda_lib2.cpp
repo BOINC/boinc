@@ -92,7 +92,7 @@ int get_chunk_numbers(VDA_CHUNK_HOST& vch, vector<int>& chunk_numbers) {
 ///////////////// DATA_UNIT ///////////////////////
 
 int DATA_UNIT::delete_file() {
-    char path[1024], buf[1024];
+    char path[2048], buf[1024];
     sprintf(path, "%s/data.vda", dir);
     ssize_t n = readlink(path, buf, sizeof(buf)-1);
     if (n < 0) {
@@ -115,7 +115,7 @@ META_CHUNK::META_CHUNK(VDA_FILE_AUX* d, META_CHUNK* p, int index) {
     parent = p;
     if (parent) {
         if (strlen(parent->name)) {
-            sprintf(name, "%s.%d", parent->name, index);
+            sprintf(name, "%.64s.%d", parent->name, index);
         } else {
             sprintf(name, "%d", index);
         }
@@ -129,7 +129,7 @@ META_CHUNK::META_CHUNK(VDA_FILE_AUX* d, META_CHUNK* p, int index) {
 //
 int META_CHUNK::init(const char* _dir, POLICY& p, int coding_level) {
     double size;
-    char child_dir[1024];
+    char child_dir[2048];
 
     safe_strcpy(dir, _dir);
     coding = p.codings[coding_level];
@@ -153,7 +153,7 @@ int META_CHUNK::init(const char* _dir, POLICY& p, int coding_level) {
 
             // write the chunk's MD5 to a file
             //
-            char file_path[1024], md5_file_path[1024];
+            char file_path[2048], md5_file_path[2048];
             sprintf(file_path, "%s/%d/%s", dir, i, DATA_FILENAME);
             sprintf(md5_file_path, "%s/%d/md5.txt", dir, i);
             char md5[64];
@@ -174,7 +174,7 @@ int META_CHUNK::get_state(const char* _dir, POLICY& p, int coding_level) {
     coding = p.codings[coding_level];
     if (coding_level < p.coding_levels - 1) {
         for (int i=0; i<coding.m; i++) {
-            char child_dir[1024];
+            char child_dir[2048];
             sprintf(child_dir, "%s/%d", dir, i);
             META_CHUNK* mc = new META_CHUNK(dfile, this, i);
             retval = mc->get_state(child_dir, p, coding_level+1);
@@ -365,12 +365,12 @@ CHUNK::CHUNK(META_CHUNK* mc, double s, int index) {
     parent = mc;
     size = s;
     if (strlen(parent->name)) {
-        sprintf(name, "%s.%d", parent->name, index);
+        sprintf(name, "%.64s.%d", parent->name, index);
     } else {
         sprintf(name, "%d", index);
     }
-    sprintf(dir, "%s/%d", mc->dir, index);
-    char path[256];
+    sprintf(dir, "%.256s/%d", mc->dir, index);
+    char path[2048];
     double fsize;
     sprintf(path, "%s/data.vda", dir);
     int retval = file_size(path, fsize);
@@ -512,7 +512,7 @@ int VDA_FILE_AUX::init() {
 // and put them in the appropriate lists
 //
 int VDA_FILE_AUX::get_state() {
-    char buf[256];
+    char buf[2048];
 
     sprintf(buf, "%s/chunk_sizes.txt", dir);
     FILE* f = fopen(buf, "r");

@@ -17,7 +17,7 @@
 
 // Main program for an assimilator.
 // Link this with an application-specific function assimilate_handler()
-// See https://boinc.berkeley.edu/trac/wiki/AssimilateIntro
+// See https://github.com/BOINC/boinc/wiki/AssimilateIntro
 
 #include "config.h"
 #include <cstring>
@@ -54,7 +54,7 @@ void usage(char* name) {
     fprintf(stderr,
         "This program is an 'assimilator'; it handles completed jobs.\n"
         "Normally it is run as a daemon from config.xml.\n"
-        "See: https://boinc.berkeley.edu/trac/wiki/BackendPrograms\n\n"
+        "See: https://github.com/BOINC/boinc/wiki/BackendPrograms\n\n"
     );
 
     fprintf(stderr, "usage: %s [options]\n"
@@ -160,7 +160,8 @@ bool do_pass(APP& app) {
         retval = assimilate_handler(wu, results, canonical_result);
         if (retval && retval != DEFER_ASSIMILATION) {
             log_messages.printf(MSG_CRITICAL,
-                "[%s] handler error: %s; exiting\n", wu.name, boincerror(retval)
+                "assimilator.cpp [%s] handler error %d: %s; exiting\n",
+                wu.name, retval, boincerror(retval)
             );
             exit(retval);
         }
@@ -301,7 +302,9 @@ int main(int argc, char** argv) {
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(MSG_CRITICAL, "boinc_db.open failed: %s\n", boincerror(retval));
+        log_messages.printf(MSG_CRITICAL, "boinc_db.open failed: %s\n",
+            boinc_db.error_string()
+        );
         exit(1);
     }
     sprintf(buf, "where name='%s'", app.name);

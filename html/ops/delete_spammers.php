@@ -2,8 +2,8 @@
 
 <?php
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -26,10 +26,34 @@
 //
 // USE WITH CARE.  You don't want to delete legit accounts.
 // Run with --test and examine the results first.
+
+// In this context, 'spam' is text that advertises something
+// (e.g. viagra, porn sites etc.) and contains hyperlinks.
+// Spammers can put such text in
+// - profiles
+// - team URLs or descriptions
+// - account URLs
+// - forum posts
 //
-// TODO: change commands so that instead of a command for each
-// combinations of properties, we have one option per property.
+// All the above can legitimately contain links,
+// so to decide what's spam we look at attributes of the user:
+// - whether they've attached a client to the project
+//      Most spammers haven't, so they have no hosts.
+//      Note: legit users might create an account just to participate
+//      in the project forums (e.g. Science United users).
+//      So we generally need to check for forum activity.
+// - whether they've been granted any credit
+//      This is more stringent.
+//      But we need to take into account that it may take a month or two
+//      to get credit because of validation
 //
+// When we identify spam, we delete everything associated with that user:
+// - profile
+// - forum stuff: post, thread, subscriptions etc.
+// - private messages
+// - friend links
+// - badges
+
 // options:
 // --min_days N
 //    Only delete accounts created at least N days ago
@@ -45,7 +69,6 @@
 //   - have a profile containing a link.
 //   - have no hosts
 //   - have no message-board posts
-//   Use this for spammers who create accounts and profiles with commercial links.
 //
 // --user_url
 //   delete accounts that
@@ -65,9 +88,12 @@
 // --forums
 //   delete accounts that
 //   - have no hosts
-//   - have message-board posts
-//   - don't belong to a team (to avoid deleting BOINC-wide team owners)
-//   Use this for spammers who create accounts and post spam
+//   - have message-board posts containing links or URLs
+//   - don't belong to a team (avoid deleting BOINC-wide team owners)
+//   Use this for spammers who create accounts and post spam.
+//   Don't use this for non-computing projects (like BOINC message boards).
+//   In fact, don't use this in general:
+//   it will delete users who join to participate in forums.
 //
 // --profiles_strict
 //  delete accounts that have a profile and no message-board posts.
@@ -78,6 +104,8 @@
 //
 // --id_range N M
 //   delete users with ID N to M inclusive
+// --id N
+//   delete user N
 //
 // --teams
 //   delete teams (and their owners and members) where the team
@@ -87,17 +115,26 @@
 //   and the owner and members
 //   - have no posts
 //   - have no hosts
+//
+// --all (recommended for BOINC projects)
+//   Does: --teams --user_url --profiles
+//   Doesn't do --forums (see comments above).
+//   Can use moderators for that.
 
 error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 ini_set('memory_limit', '4G');
 
+$cli_only = true;
+
 require_once("../inc/db.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/forum.inc");
 require_once("../inc/user_util.inc");
-db_init();
+require_once("../inc/util_ops.inc");
+
+BoincDb::get_cli();
 
 $min_days = 0;
 $max_days = 0;
@@ -105,10 +142,10 @@ $test = false;
 
 // delete a spammer account, and everything associated with it
 //
-function do_delete_user($user) {
+function do_delete_user($user, $reason) {
     global $test;
     $age = (time() - $user->create_time) / 86400;
-    echo "deleting user\n";
+    echo "deleting user: $reason\n";
     echo "   ID: $user->id\n";
     echo "   email: $user->email_addr\n";
     echo "   name: $user->name\n";
@@ -133,7 +170,7 @@ function delete_list($fname) {
         if (!is_numeric($s)) die("bad ID $s\n");
         $user = BoincUser::lookup_id((int)$s);
         if ($user) {
-            do_delete_user($user);
+            do_delete_user($user, 'list');
         } else {
             echo "no user ID $s\n";
         }
@@ -141,6 +178,7 @@ function delete_list($fname) {
 }
 
 function has_link($x) {
+    if (strstr($x, "<a ")) return true;
     if (strstr($x, "[url")) return true;
     if (strstr($x, "http://")) return true;
     if (strstr($x, "https://")) return true;
@@ -148,10 +186,19 @@ function has_link($x) {
     return false;
 }
 
+// delete users with
+// - no hosts
+// - no team
+// - posts contain links and/or URLs
+//
 function delete_forums() {
     global $min_days, $max_days;
+
+    // if they've posted, they'll have forum prefs.
+    // This is faster than enumerating all users
+    //
     $prefs = BoincForumPrefs::enum("posts>0");
-    $n = 0;
+    $count = 0;
     foreach ($prefs as $p) {
         $user = BoincUser::lookup_id($p->userid);
         if (!$user) {
@@ -169,10 +216,14 @@ function delete_forums() {
         }
         $h = BoincHost::count("userid=$p->userid");
         if ($h) continue;
-        do_delete_user($user);
-        $n++;
+
+        // posts with at least 2 URLs
+        $n = BoincPost::count("user=$user->id and (content like '%http%http%')");
+        if (!$n) continue;
+        do_delete_user($user, 'forums');
+        $count++;
     }
-    echo "deleted $n users\n";
+    echo "delete_forums(): deleted $count users\n";
 }
 
 function delete_profiles() {
@@ -199,14 +250,14 @@ function delete_profiles() {
             $m = BoincPost::count("user=$p->userid");
             if ($m) continue;
 
-            do_delete_user($user);
+            do_delete_user($user, 'profiles');
             if ($test) {
                 echo "\n$p->userid\n$p->response1\n$p->response2\n";
             }
             $n++;
         }
     }
-    echo "deleted $n users\n";
+    echo "delete_profiles(): deleted $n users\n";
 }
 
 function delete_profiles_strict() {
@@ -220,7 +271,7 @@ function delete_profiles_strict() {
         }
         $n = BoincPost::count("user=$p->userid");
         if ($n) continue;
-        do_delete_user($user);
+        do_delete_user($user, 'profiles_strict');
         if ($test) {
             echo "\n$p->userid\n$p->response1\n$p->response2\n";
         }
@@ -229,7 +280,7 @@ function delete_profiles_strict() {
 
 function delete_users($no_hosts, $no_posts, $no_teams, $have_url) {
     global $test, $min_days, $max_days;
-    $db = BoincDb::get();
+    $db = BoincDb::get_cli();
     $query = "select a.* from user a ";
     if ($no_hosts) {
         $query .= " left join host c on c.userid=a.id ";
@@ -269,7 +320,7 @@ function delete_users($no_hosts, $no_posts, $no_teams, $have_url) {
         if ($have_url) {
             if (!strlen($user->url)) continue;
         }
-        do_delete_user($user);
+        do_delete_user($user, 'users');
         $n++;
     }
     echo "deleted $n users\n";
@@ -283,7 +334,7 @@ function delete_banished() {
         if (!$user) continue;
         if ($user->create_time > time() - $min_days*86400) continue;
         if ($user->create_time < time() - $max_days*86400) continue;
-        do_delete_user($user);
+        do_delete_user($user, 'banished');
     }
 }
 
@@ -301,6 +352,18 @@ function delete_teams() {
     $teams = BoincTeam::enum($query);
     $count = 0;
     foreach ($teams as $team) {
+        $founder = null;
+        if ($team->userid) {
+            $founder = BoincUser::lookup_id($team->userid);
+        }
+
+        // delete teams with no founder
+        if (!$founder) {
+            delete_team($team, []);
+            $count++;
+            continue;
+        }
+
         $n = team_count_members($team->id);
         if ($n > 1) continue;
         if (!has_link($team->description) && !$team->url) continue;
@@ -311,14 +374,11 @@ function delete_teams() {
 
         // add team founder if not member
         //
-        if ($team->userid) {
-            $user = BoincUser::lookup_id($team->userid);
-            if ($user && $user->teamid != $team->id) {
-                $users[] = $user;
-            }
+        if ($founder->teamid != $team->id) {
+            $users[] = $founder;
         }
 
-        // if any of these has signs of life, skip team
+        // if any of these users has signs of life, skip team
         //
         $life = false;
         foreach ($users as $user) {
@@ -343,32 +403,36 @@ function delete_teams() {
         }
 
         $count++;
-
-        if ($test) {
-            echo "would delete team:\n";
-            echo "   ID: $team->id\n";
-            echo "   name: $team->name\n";
-            echo "   description: $team->description\n";
-            echo "   URL: $team->url\n";
-            foreach ($users as $user) {
-                echo "would delete user $user->id: $user->email_addr:\n";
-            }
-        } else {
-            $team->delete();
-            echo "deleted team ID $team->id name $team->name\n";
-            foreach ($users as $user) {
-                do_delete_user($user);
-            }
-        }
+        delete_team($team, $users);
     }
     echo "deleted $count teams\n";
+}
+
+function delete_team($team, $users) {
+    global $test;
+    if ($test) {
+        echo "would delete team:\n";
+        echo "   ID: $team->id\n";
+        echo "   name: $team->name\n";
+        echo "   description: $team->description\n";
+        echo "   URL: $team->url\n";
+        foreach ($users as $user) {
+            echo "would delete user $user->id: $user->email_addr:\n";
+        }
+    } else {
+        $team->delete();
+        echo "deleted team ID $team->id name $team->name\n";
+        foreach ($users as $user) {
+            do_delete_user($user, 'team');
+        }
+    }
 }
 
 function delete_user_id($id) {
     $user = BoincUser::lookup_id($id);
     if ($user) {
         echo "deleting user $id\n";
-        do_delete_user($user);
+        do_delete_user($user, 'id');
     } else {
         echo "no such user\n";
     }
@@ -379,7 +443,7 @@ function delete_user_id_range($id1, $id2) {
         $user = BoincUser::lookup_id($i);
         if ($user) {
             echo "deleting user $i\n";
-            do_delete_user($user);
+            do_delete_user($user, 'id range');
         }
     }
 }
@@ -398,7 +462,7 @@ function delete_team_id_range($id1, $id2) {
     }
 }
 
-echo "Starting: ".strftime('%Y-%m-%d %H:%M %Z')."\n";
+echo "Starting: ".date(DATE_RFC2822)."\n";
 
 // get settings first
 //
@@ -459,8 +523,12 @@ for ($i=1; $i<$argc; $i++) {
         delete_users(true, true, false, true);
     } else if ($argv[$i] == "--user_null") {
         delete_users(true, true, true, false);
+    } else if ($argv[$i] == "--all") {
+        delete_profiles();
+        delete_teams();
+        delete_users(true, true, false, true);
     }
 }
-echo "Finished: ".strftime('%Y-%m-%d %H:%M %Z')."\n";
+echo "Finished: ".date(DATE_RFC2822)."\n";
 
 ?>

@@ -31,7 +31,7 @@ extern int boinc_init_graphics(WORKER_FUNC_PTR);
 extern void app_graphics_render(int xs, int ys, double time_of_day);
 extern void app_graphics_init(void);
     // called each time a window is opened;
-    // called in the graphics thread 
+    // called in the graphics thread
 extern void app_graphics_reread_prefs(void);
     // called when get REREAD_PREFS message from core client.
     // called in the graphics thread
@@ -43,7 +43,7 @@ extern void boinc_app_key_release(int, int);
 extern void boinc_suspend_graphics_thread(void);
 extern void boinc_resume_graphics_thread(void);
 
-// C++ API follows here 
+// C++ API follows here
 #ifdef __cplusplus
 } // end extern "C"
 

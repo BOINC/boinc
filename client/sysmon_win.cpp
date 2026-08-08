@@ -17,10 +17,6 @@
 
 #include "boinc_win.h"
 
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
-
 #include "diagnostics.h"
 #include "error_numbers.h"
 #include "filesys.h"
@@ -301,7 +297,7 @@ static void windows_detect_autoproxy_settings() {
         WINHTTP_AUTO_DETECT_TYPE_DHCP | WINHTTP_AUTO_DETECT_TYPE_DNS_A;
     autoproxy_options.fAutoLogonIfChallenged = TRUE;
 
-    network_test_url = boinc_ascii_to_wide(nvc_config.network_test_url).c_str();
+    network_test_url = boinc_ascii_to_wide(nvc_config.network_test_url);
 
     hWinHttp = WinHttpOpen(
         L"BOINC client",
@@ -438,7 +434,6 @@ int initialize_system_monitor(int /*argc*/, char** /*argv*/) {
     );
 
     if (!g_hWindowsMonitorSystemPowerThread) {
-        g_hWindowsMonitorSystemPowerThread = NULL;
         g_hWndWindowsMonitorSystemPower = NULL;
     }
 
@@ -453,10 +448,6 @@ int initialize_system_monitor(int /*argc*/, char** /*argv*/) {
             0,
             NULL
         );
-
-        if (!g_hWindowsMonitorSystemProxyThread) {
-            g_hWindowsMonitorSystemProxyThread = NULL;
-        }
     }
 
     return 0;
@@ -703,7 +694,7 @@ VOID LogEventErrorMessage(LPTSTR lpszMsg) {
     //
     hEventSource = RegisterEventSource(NULL, TEXT(SZSERVICENAME));
 
-    _stprintf_s(szMsg, TEXT("%s error: %d"), TEXT(SZSERVICENAME), dwErr);
+    _stprintf_s(szMsg, TEXT("%s error: %lu"), TEXT(SZSERVICENAME), dwErr);
     lpszStrings[0] = szMsg;
     lpszStrings[1] = lpszMsg;
 

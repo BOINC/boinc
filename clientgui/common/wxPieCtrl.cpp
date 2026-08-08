@@ -8,8 +8,28 @@
 // Copyright:   (c) Volodymir (T-Rex) Tryapichko
 // Licence:     wxWidgets license
 /////////////////////////////////////////////////////////////////////////////
+
+// This file is part of BOINC and has been modified for BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
 #include <vector>
 #include <algorithm>
+#include "stdwx.h"
+#include "BOINCGUIApp.h"
 #include "wxPieCtrl.h"
 #include <wx/arrimpl.cpp>
 
@@ -48,16 +68,13 @@ wxPieCtrl::wxPieCtrl(wxWindow * parent, wxWindowID id, wxPoint pos,
 		wxSize sz, long style, wxString name)
 		:wxWindow(parent, id, pos, sz, style, name)
 {
+    ApplyTheme(wxGetApp().GetIsDarkMode());
+
 	m_ShowEdges=true;
 	m_CanRepaint=true;
-	m_BackColour=*wxWHITE;
 	m_padding=10;
-
-	m_TitleColour = wxColour(0,0,0);
-	m_LabelColour = *wxBLACK;
-	m_LegendBackColour = wxColour(255,255,0);
 	m_TitleFont = *wxSWISS_FONT;
-	m_TitleFont.SetWeight(wxBOLD);
+	m_TitleFont.SetWeight(wxFONTWEIGHT_BOLD);
 	m_LabelFont = *wxSWISS_FONT;
 	m_legendHorBorder = 10;
  	m_LegendVerBorder = 10;
@@ -88,6 +105,14 @@ wxPieCtrl::~wxPieCtrl() {
     m_fauxResourcesView = NULL;
     RemoveMacAccessibilitySupport();
 #endif
+}
+
+void wxPieCtrl::ApplyTheme(bool isDarkMode) {
+    m_BackColour = isDarkMode ? *wxBLACK : *wxWHITE;
+    SetBackgroundColour(m_BackColour);
+    m_TitleColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0, 0, 0);
+    m_LabelColour = isDarkMode ? *wxWHITE : *wxBLACK;
+    m_LegendBackColour = isDarkMode ? wxColour(0, 0, 255) : wxColour(255, 255, 0);
 }
 
 /* getter and setter */
@@ -122,14 +147,14 @@ wxColour wxPieCtrl::GetBackColour() {
 }
 
 /* event handlers */
-/* handles mouse motion events to show tooltips 
+/* handles mouse motion events to show tooltips
    for some (unkown) reason under X no tooltips are displayed
 */
 void wxPieCtrl::OnMouseMove(wxMouseEvent& ev) {
 	//get the pie part, over which the mouse pointer is
 	int piepart = GetCoveredPiePart(ev.GetX(),ev.GetY());
 	//part identified
-	if(piepart >=0) {		
+	if(piepart >=0) {
 		//prevent tooltip flicker
 		if(piepart != m_lastCoveredPart) {
 			wxString tooltip = this->m_Series[piepart].GetLabel();
@@ -140,8 +165,8 @@ void wxPieCtrl::OnMouseMove(wxMouseEvent& ev) {
 	else {
 		this->SetToolTip(wxEmptyString);
 		m_lastCoveredPart=-1;
-	}	
-	ev.Skip();	
+	}
+	ev.Skip();
 }
 
 void wxPieCtrl::OnSize(wxSizeEvent & /*event*/)
@@ -213,7 +238,7 @@ void wxPieCtrl::GetPartAngles(wxArrayDouble & angles)
 	{
 		current += m_Series[i].GetValue();
 		angles.Add(360 * (double)current / (double)total);
-	}	
+	}
 }
 
 #define MINANGLE 2
@@ -227,9 +252,9 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
 	if(m_ShowEdges) {
 		m_CanvasDC.SetPen(*wxBLACK_PEN);
 	}
-        
+
         intAngles.clear();
-        
+
 	if(m_Series.Count() == 1)
 	{
 		m_CanvasDC.SetBrush(wxBrush(m_Series[0].GetColour()));
@@ -241,7 +266,7 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
 	}
 	else {
 		GetPartAngles(angles);
-                
+
                  if (angles.Count() > 1) {
                     // Try to adjust angles so each segment is visible
                     for(i = 0; i < angles.Count(); i++) {
@@ -254,7 +279,7 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
                             }
                         }
                     }
-                    
+
                     // If we expanded last segment past 360, go back and fix it
                     if (intAngles[angles.Count()-1] > 360) {
                         intAngles[angles.Count()-1] = 360;
@@ -268,7 +293,7 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
                         }
                     }
                 }
-                
+
 		for(i = 0; i < angles.Count(); i++)
 		{
 			if(i > 0)
@@ -288,7 +313,7 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
 #else
 				t1 = intAngles[i-1];
 				t2 = intAngles[i];
-#endif 
+#endif
 				if(t1 != t2) {
 					m_CanvasDC.DrawEllipticArc(pieRect.GetLeft(),
 											   pieRect.GetTop(),
@@ -308,7 +333,7 @@ void wxPieCtrl::DrawLegend(int left, int top)
 	int dy(m_LegendVerBorder),tw,th=0,titlew,titleh;
     int totalNumLabels = (int)m_Series.Count();
     int vertSpaceForLabels,maxVisibleLabels,lastLabelToDraw,numSteps;
-    
+
 	// First determine the size of the legend box
 	m_CanvasDC.SetFont(m_TitleFont);
 	m_CanvasDC.GetTextExtent(m_szTitle,&titlew,&titleh);
@@ -352,11 +377,11 @@ void wxPieCtrl::DrawLegend(int left, int top)
             lastLabelToDraw = totalNumLabels - 1;
             m_firstlabelToDraw = totalNumLabels - maxVisibleLabels;
         }
-        
+
         m_scrollBar->SetScrollbar(m_firstlabelToDraw, 1, numSteps, 1);
         m_scrollBar->Show((maxVisibleLabels > 0));
     }
-    
+
 	// Now draw the legend title
 	dy = m_LegendVerBorder+titleh+5;
 	m_CanvasDC.SetFont(m_TitleFont);
@@ -365,7 +390,7 @@ void wxPieCtrl::DrawLegend(int left, int top)
     dy += 5;
  	// Draw the legend items
 	m_CanvasDC.SetFont(m_LabelFont);
-    
+
 	m_CanvasDC.SetTextForeground(m_LabelColour);
 	for(i = m_firstlabelToDraw; i <= lastLabelToDraw; i++)
 	{

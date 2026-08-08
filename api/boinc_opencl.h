@@ -17,7 +17,7 @@
 
 // BOINC API for OpenCL apps
 
-// Get the cl_device_id and cl_platform_id for the OpenCL GPU 
+// Get the cl_device_id and cl_platform_id for the OpenCL GPU
 // assigned to your job.
 //
 // NOTE: Compile and link this function with your application;

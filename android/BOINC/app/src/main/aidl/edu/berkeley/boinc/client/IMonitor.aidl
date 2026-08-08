@@ -1,7 +1,7 @@
 /*******************************************************************************
  * This file is part of BOINC.
- * http://boinc.berkeley.edu
- * Copyright (C) 2012 University of California
+ * https://boinc.berkeley.edu
+ * Copyright (C) 2025 University of California
  *
  * BOINC is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License
@@ -33,6 +33,7 @@ import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.ImageWrapper;
+import edu.berkeley.boinc.utils.ErrorCodeDescription;
 
 interface IMonitor {
 /////// client interface //////////////////////////////////////////
@@ -46,7 +47,7 @@ boolean resultOp(in int op, in String url, in String name);      // implement: c
 AccountOut createAccountPolling(in AccountIn information);  // implement: call clientInterface.createAccountPolling(information);
 String readAuthToken(in String path);               // implement: call clientInterface.readAuthToken(String);
 ProjectConfig getProjectConfigPolling(in String url);    // implement: call clientInterface.getProjectConfigPolling(url);
-int addAcctMgrErrorNum(in String url, in String userName, in String pwd);  // implement: return clientInterface.addAcctMgr(url, userName, pwd).error_num; check return null!=clientInterface.addAcctMgr(url, userName, pwd)
+ErrorCodeDescription addAcctMgrErrorNum(in String url, in String userName, in String pwd);  // implement: return clientInterface.addAcctMgr(url, userName, pwd).error_num; check return null!=clientInterface.addAcctMgr(url, userName, pwd)
 AcctMgrInfo getAcctMgrInfo();               // implement: call clientInterface.getAcctMgrInfo();
 boolean synchronizeAcctMgr(in String url);         // implement: call clientInterface.synchronizeAcctMgr(String);
 boolean setRunMode(in int mode);                // implement: call clientInterface.setRunMode(Integer);
@@ -65,14 +66,14 @@ ProjectInfo getProjectInfo(String url);  // clientInterface.getProjectInfo(Strin
 boolean setDomainName(in String deviceName);            // clientInterface.setDomainName(String deviceName);
 
 /////// general //////////////////////////////////////////
-boolean boincMutexAcquired();				// implment: call Monitor.boincMutexAcquired();
+boolean boincMutexAcquired();				// implement: call Monitor.boincMutexAcquired();
 void forceRefresh();                        // implement: call Monitor.forceRefresh();
 boolean isStationaryDeviceSuspected();               // implement: call Monitor.getDeviceStatus().isStationaryDevice();
 int getBatteryChargeStatus();           // implement: return getDeviceStatus().getStatus().battery_charge_pct;
 String getAuthFilePath();               // implement: return Monitor.getAuthFilePath();
 int getBoincPlatform();                        // should be not necessary to be implemented as monitor interface
 void cancelNoticeNotification();
-
+boolean quitClient();
 /////// client status //////////////////////////////////////////
 boolean getAcctMgrInfoPresent();  // clientStatus.getAcctMgrInfo().present;
 int getSetupStatus();         // clientStatus.setupStatus;
@@ -86,7 +87,8 @@ GlobalPreferences getPrefs();        // clientStatus.getPrefs()
 List<Project> getProjects();    // clientStatus.getProjects();
 AcctMgrInfo getClientAcctMgrInfo();   // clientStatus.getAcctMgrInfo();
 List<Transfer> getTransfers();   // clientStatus.getTransfers();
-List<Result> getTasks();          // clientStatus.getTasks();
+List<Result> getTasks(in int start, in int count, in boolean isActive);          // clientStatus.getTasks(int, int, boolean);
+int getTasksCount(); // clientStatus.getTasksCount();
 Bitmap getProjectIconByName(in String name);  // clientStatus.getProjectIconByName(entries.get(position).project_name);
 Bitmap getProjectIcon(in String id);        // clientStatus.getProjectIcon(entries.get(position).id);
 String getProjectStatus(in String url);   // clientStatus.getProjectStatus(url);
@@ -98,11 +100,14 @@ void setAutostart(in boolean isAutoStart);          // Monitor.getAppPrefs().set
 void setShowNotificationForNotices(in boolean isShow);   // Monitor.getAppPrefs().setShowNotificationForNotices(boolean);
 void setShowNotificationDuringSuspend(in boolean isShow);   // Monitor.getAppPrefs().setShowNotificationDuringSuspend(boolean);
 boolean getShowAdvanced();           // Monitor.getAppPrefs().getShowAdvanced();
+boolean getIsRemote();              // Monitor.getAppPrefs().getIsRemote();
 boolean getAutostart();              // Monitor.getAppPrefs().getAutostart();
 boolean getShowNotificationForNotices();       // Monitor.getAppPrefs().getShowNotificationForNotices();
 boolean getShowNotificationDuringSuspend();       // Monitor.getAppPrefs().getShowNotificationDuringSuspend();
 int getLogLevel();                   // Monitor.getAppPrefs().getLogLevel();
 void setLogLevel(in int level);               // Monitor.getAppPrefs().setLogLevel(int);
+List<String> getLogCategories();
+void setLogCategories(in List<String> categories);
 void setPowerSourceAc(in boolean src);      // Monitor.getAppPrefs().setPowerSourceAc(boolean);
 void setPowerSourceUsb(in boolean src);     // Monitor.getAppPrefs().setPowerSourceUsb(boolean);
 void setPowerSourceWireless(in boolean src); // Monitor.getAppPrefs().setPowerSourceWireless(boolean);
@@ -111,6 +116,7 @@ boolean getPowerSourceAc();
 boolean getPowerSourceUsb();
 boolean getPowerSourceWireless();
 void setShowAdvanced(in boolean isShow);
+void setIsRemote(in boolean isRemote);
 void setStationaryDeviceMode(in boolean mode);
 boolean getSuspendWhenScreenOn();
 void setSuspendWhenScreenOn(in boolean swso);

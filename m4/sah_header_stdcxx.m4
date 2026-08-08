@@ -19,23 +19,23 @@
 #
 
 AC_PREREQ([2.54])
-	
+
 AC_DEFUN([SAH_HEADER_STDCXX],[
   save_inc="$ac_includes_default"
   ac_includes_default="
 #define CONFIG_TEST
 #include \"${ac_aux_dir}/lib/std_fixes.h\"
-$ac_includes_default 
+$ac_includes_default
 "
 
   sah_stdcxx_headers="algorithm bitset cassert cctype cerrno cfloat climits clocale cmath complex csetjmp csignal cstdarg cstddef cstdio cstdlib cstring ctime deque fstream functional iomanip ios iosfwd iostream istream iterator limits list locale map memory numeric ostream queue set sstream stack stdexcept streambuf string utility valarray vector"
-  AC_LANG_PUSH(C++) 
+  AC_LANG_PUSH(C++)
   dnl First we'll check to see if they are all here in order to save time.
   AC_MSG_CHECKING([standard C++ headers])
   tmp_includes=
   for header in $sah_stdcxx_headers
   do
-    tmp_includes="$tmp_includes 
+    tmp_includes="$tmp_includes
 #include <$header>
 "
   done
@@ -65,12 +65,12 @@ ${tmp_includes}
     ac_includes_default="$save_inc"
     AC_MSG_RESULT(no)
     AC_CHECK_HEADERS([$sah_stdcxx_headers])
-    for header in $sah_stdcxx_headers 
+    for header in $sah_stdcxx_headers
     do
       eval tmp_var=\$ac_cv_header_${header}
       if test "$tmp_var" = "yes"
-      then 
-        sah_cxx_includes="$sah_cxx_includes 
+      then
+        sah_cxx_includes="$sah_cxx_includes
 #include <$header>
 "
       fi

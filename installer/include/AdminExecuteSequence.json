@@ -1,0 +1,49 @@
+{
+    "AdminExecuteSequence": [
+        {
+            "Action": "CASetBOINCDataProjects",
+            "Sequence": 1300
+        },
+        {
+            "Action": "CASetBOINCDataSlots",
+            "Sequence": 1200
+        },
+        {
+            "Action": "CostFinalize",
+            "Sequence": 1000
+        },
+        {
+            "Action": "CostInitialize",
+            "Sequence": 800
+        },
+        {
+            "Action": "FileCost",
+            "Sequence": 900
+        },
+        {
+            "Action": "InstallAdminPackage",
+            "Sequence": 3900
+        },
+        {
+            "Action": "InstallFiles",
+            "Sequence": 4000
+        },
+        {
+            "Action": "InstallFinalize",
+            "Sequence": 6600
+        },
+        {
+            "Action": "InstallInitialize",
+            "Sequence": 1500
+        },
+        {
+            "Action": "InstallValidate",
+            "Sequence": 1400
+        },
+        {
+            "Action": "ScheduleReboot",
+            "Condition": "ISSCHEDULEREBOOT",
+            "Sequence": 4010
+        }
+    ]
+}

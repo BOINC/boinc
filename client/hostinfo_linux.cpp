@@ -15,6 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Functions for getting the OS name and version of a Linux system.
+// This is included in the Windows build because the Win client
+// needs to get info on WSL distros.
+
 #if   defined(_WIN32) && !defined(__STDWX_H__)
 #include "boinc_win.h"
 #elif defined(_WIN32) && defined(__STDWX_H__)
@@ -29,12 +33,24 @@
 #endif
 
 #include "str_replace.h"
+#include "str_util.h"
+#include "util.h"
 
 #include "hostinfo.h"
 
-bool HOST_INFO::parse_linux_os_info(FILE* file, const LINUX_OS_INFO_PARSER parser,
-    char* os_name, const int os_name_size, char* os_version, const int os_version_size) {
+using std::vector;
+using std::string;
 
+// functions for getting Linux OS and version from various sources
+// (lsb_release -a, /etc/os-release, /etc/redhat-release)
+//
+// in all cases: return true if we get either os_name or os_version
+//
+bool HOST_INFO::parse_linux_os_info(
+    FILE* file, LINUX_OS_INFO_PARSER parser,
+    char* os_name, const int os_name_size,
+    char* os_version, const int os_version_size
+) {
     if (!file) {
         return false;
     }
@@ -46,27 +62,43 @@ bool HOST_INFO::parse_linux_os_info(FILE* file, const LINUX_OS_INFO_PARSER parse
         lines.push_back(buf);
     }
 
-    return parse_linux_os_info(lines, parser, os_name, os_name_size, os_version, os_version_size);
+    return parse_linux_os_info(
+        lines, parser, os_name, os_name_size, os_version, os_version_size
+    );
 }
 
-bool HOST_INFO::parse_linux_os_info(const std::string& line, const LINUX_OS_INFO_PARSER parser,
-    char* os_name, const int os_name_size, char* os_version, const int os_version_size) {
+// input is a string (possibly multiple lines)
+//
+bool HOST_INFO::parse_linux_os_info(
+    const std::string& line, LINUX_OS_INFO_PARSER parser,
+    char* os_name, const int os_name_size,
+    char* os_version, const int os_version_size
+) {
     if (line.empty()) {
         return false;
     }
 
     const char delim = '\n';
 
-    return parse_linux_os_info(split(line, delim), parser, os_name, os_name_size, os_version, os_version_size);
+    return parse_linux_os_info(
+        split(line, delim), parser, os_name, os_name_size,
+        os_version, os_version_size
+    );
 }
 
-bool HOST_INFO::parse_linux_os_info(const std::vector<std::string>& lines, const LINUX_OS_INFO_PARSER parser,
-    char* os_name, const int os_name_size, char* os_version, const int os_version_size) {
+// input is a list of lines
+//
+bool HOST_INFO::parse_linux_os_info(
+    const std::vector<std::string>& lines, LINUX_OS_INFO_PARSER parser,
+    char* os_name, const int os_name_size,
+    char* os_version, const int os_version_size
+) {
     if (lines.empty()) {
         return false;
     }
 
     bool found_something = false;
+    unsigned int i;
     char buf[256], buf2[256];
     char dist_pretty[256], dist_name[256], dist_version[256], dist_codename[256];
     //string os_version_extra("");
@@ -76,8 +108,8 @@ bool HOST_INFO::parse_linux_os_info(const std::vector<std::string>& lines, const
     strcpy(dist_codename, "");
 
     switch (parser) {
-    case lsbrelease: {
-        for (unsigned int i = 0; i < lines.size(); ++i) {
+    case lsbrelease:
+        for (i = 0; i < lines.size(); ++i) {
             safe_strcpy(buf, lines[i].c_str());
             strip_whitespace(buf);
             if (strstr(buf, "Description:")) {
@@ -102,9 +134,8 @@ bool HOST_INFO::parse_linux_os_info(const std::vector<std::string>& lines, const
             }
         }
         break;
-    }
-    case osrelease: {
-        for (unsigned int i = 0; i < lines.size(); ++i) {
+    case osrelease:
+        for (i = 0; i < lines.size(); ++i) {
             safe_strcpy(buf, lines[i].c_str());
             strip_whitespace(buf);
             // check if substr is at the beginning of the line
@@ -143,46 +174,57 @@ bool HOST_INFO::parse_linux_os_info(const std::vector<std::string>& lines, const
             }
         }
         break;
-    }
-    case redhatrelease: {
+    case redhatrelease:
         safe_strcpy(buf, lines.front().c_str());
         found_something = true;
         strip_whitespace(buf);
         safe_strcpy(dist_pretty, buf);
         break;
-    }
-    default: {
+    default:
         return false;
     }
-    }
 
-    if (found_something) {
-        strcpy(buf2, "");
-        if (strlen(dist_pretty)) {
-            safe_strcat(buf2, dist_pretty);
-        }
-        else {
-            if (strlen(dist_name)) {
-                safe_strcat(buf2, dist_name);
-                strcat(buf2, " ");
-            }
-            if (strlen(dist_version)) {
-                safe_strcat(buf2, dist_version);
-                strcat(buf2, " ");
-            }
-            if (strlen(dist_codename)) {
-                safe_strcat(buf2, dist_codename);
-                strcat(buf2, " ");
-            }
-            strip_whitespace(buf2);
-        }
-        strlcpy(os_version, buf2, os_version_size);
+    if (!found_something) {
+        return false;
+    }
+    strcpy(buf2, "");
+    if (strlen(dist_pretty)) {
+        safe_strcat(buf2, dist_pretty);
+    } else {
         if (strlen(dist_name)) {
-            strlcpy(os_name, dist_name, os_name_size);
+            safe_strcat(buf2, dist_name);
+            strcat(buf2, " ");
         }
-
-        return true;
+        if (strlen(dist_version)) {
+            safe_strcat(buf2, dist_version);
+            strcat(buf2, " ");
+        }
+        if (strlen(dist_codename)) {
+            safe_strcat(buf2, dist_codename);
+            strcat(buf2, " ");
+        }
+        strip_whitespace(buf2);
     }
+    strlcpy(os_version, buf2, os_version_size);
+    strcpy(os_name, "");
+    if (strlen(dist_name)) {
+        strlcpy(os_name, dist_name, os_name_size);
+    }
+    return true;
+}
 
-    return false;
+int is_filesystem_remote(const char* path, bool &result) {
+    char cmd[256], buf[256];
+    vector<string> out;
+    result = false;
+    sprintf(cmd, "stat --file-system --format=%%T %s", path);
+    int retval = run_command(cmd, out);
+    if (retval) return retval;
+    if (out.empty()) return -1;
+    strcpy(buf, out[0].c_str());
+    strip_whitespace(buf);
+    if (!strcmp(buf, "nfs")) result = true;
+    else if (!strcmp(buf, "nfs4")) result = true;
+    else if (!strcmp(buf, "smb")) result = true;
+    return 0;
 }

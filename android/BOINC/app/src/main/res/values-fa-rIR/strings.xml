@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--app global-->
+  <string name="app_name">BOINC</string>
+  <!--generic. used by multiple Activities/tabs-->
+  <string name="generic_button_continue">ادامه</string>
+  <string name="generic_button_finish">خلاص</string>
+  <!--attach project-->
+  <!--selection list-->
+  <string name="attachproject_list_desc">پروژهء علمی که میخواهید در آن شرکت کنید را انتخاب کنید:</string>
+  <string name="attachproject_list_header">یک پروژه را انتخاب کنید:</string>
+  <string name="attachproject_list_manual_button">افزودن پروژه از طریق URL </string>
+  <string name="attachproject_list_manual_dialog_title">آدرس URL پروژه را وارد کنید:</string>
+  <string name="attachproject_list_no_internet">اتصال به اینترنت نیست!</string>
+  <!--credential input-->
+  <string name="attachproject_credential_input_sing_desc">ورود اطلاعات حساب</string>
+  <string name="attachproject_credential_input_desc">اطلاعات حساب را برای پروژه های انتخاب شده وارد نمایید:</string>
+  <string name="attachproject_credential_input_show_pwd">نمایش گذرواژه</string>
+  <string name="attachproject_individual_credential_input">پروژه ها را جدا جدا متصل نمایید</string>
+  <!--conflicts-->
+  <string name="attachproject_conflicts_desc">اتصال به پروژه با مشکل مواجه شد:</string>
+  <string name="attachproject_conflict_undefined">وصل شدن ممکن نمی شود</string>
+  <string name="attachproject_conflict_not_unique">این حساب با گذرواژهء متفاوتی وجود دارد.</string>
+  <string name="attachproject_conflict_bad_password">گذرواژه درست نیست.</string>
+  <string name="attachproject_conflict_unknown_user">حساب وجود خارجی ندارد</string>
+  <!--working-->
+  <!--e.g. Attaching Einstein@Home-->
+  <!--hints-->
+  <string name="attachproject_hints_header">پیشنهاد</string>
+  <!--e.g. Hint 1/2-->
+  <string name="attachproject_hint_contribtion_header">روش مشارکت:</string>
+  <string name="attachproject_hint_contribtion_wifi">1. به وای فای وصل شوید</string>
+  <string name="attachproject_hint_contribtion_charger">2. شارژر را وصل کنید</string>
+  <string name="attachproject_hint_contribtion_screen">3. صفحه را خاموش کنید.</string>
+  <string name="attachproject_hint_projectwebsite_header">صحفهء وبسایت پروژه را باز کنید تا:</string>
+  <string name="attachproject_hint_projectwebsite_science">در موضوعات علمی اطلاعات بیشتری کسب کنید</string>
+  <string name="attachproject_hint_projectwebsite_stats">آمار مشارکت را مشاهده کنید</string>
+  <string name="attachproject_hint_projectwebsite_community">با داوطلبان دیگر در تماس باشید</string>
+  <!--project login-->
+  <string name="attachproject_login_loading">در حال تماس با سرور پروژه ...</string>
+  <string name="attachproject_login_header_general_area">ناحیهء عمومی:</string>
+  <string name="attachproject_login_header_specific_area">ناحیهء خاص:</string>
+  <string name="attachproject_login_header_description">شرح :</string>
+  <string name="attachproject_login_header_home">خانه :</string>
+  <string name="attachproject_login_header_url">وب سایت :</string>
+  <string name="attachproject_login_header_id_email">ایمیل :</string>
+  <string name="attachproject_login_header_id_name">نام :</string>
+  <string name="attachproject_login_header_pwd">گذرواژه :</string>
+  <string name="attachproject_login_button_registration">ثبت نام</string>
+  <string name="attachproject_login_button_login">ورود</string>
+  <string name="attachproject_login_button_forgotpw">فراموشی رمزعبور</string>
+  <!--account manager-->
+  <string name="attachproject_attach_projects_header">اضافه کردن پروژه</string>
+  <string name="attachproject_acctmgr_header_name">کاربر:</string>
+  <string name="attachproject_acctmgr_header">افزودن مدیر حساب</string>
+  <string name="attachproject_acctmgr_header_pwd">گذرواژه :</string>
+  <!--error strings-->
+  <!--tab names-->
+  <string name="tab_projects">پروژه‌ها</string>
+  <string name="tab_tasks">کارها</string>
+  <string name="tab_preferences">تنظیمات</string>
+  <!--status strings-->
+  <string name="status_launching">در حال شروع شدن...</string>
+  <string name="status_image_description">تصویر پروژه</string>
+  <!--preferences tab strings-->
+  <string name="prefs_category_general">عمومی</string>
+  <string name="prefs_category_network">شبکه</string>
+  <string name="prefs_category_power">انرژی</string>
+  <string name="prefs_category_cpu">پردازنده</string>
+  <string name="prefs_category_storage">ذخیره سازی</string>
+  <string name="prefs_category_memory">حافظه</string>
+  <string name="prefs_category_debug">اشکال زدایی</string>
+  <string name="prefs_category_remote">کنترل از راه دور</string>
+  <string name="prefs_general_device_name_header">نام دستگاه</string>
+  <string name="prefs_theme_header">قالب</string>
+  <string name="prefs_power_source_battery">باتری</string>
+  <!--projects tab strings-->
+  <string name="projects_add">افزودن پروژه</string>
+  <!--project status strings-->
+  <!--project controls-->
+  <!--project confirm dialog-->
+  <!--tasks tab strings-->
+  <!--confirmation dialog-->
+  <string name="confirm_cancel">توقف</string>
+  <!--transfers tab strings-->
+  <string name="trans_download">بارگذاری</string>
+  <!--eventlog tab strings-->
+  <!--suspend reasons-->
+  <!--rpc reasons-->
+  <!--menu-->
+  <string name="menu_help">راهنما</string>
+  <!--about dialog-->
+  <string name="about_name">BOINC</string>
+  <!--notice notification e.g. New notice from SETI@HOME OR 3 new notices-->
+  <!--multi BOINC compatibility-->
+  <!--social integration-->
+  <!--first parameter: device manufacturer, second: URL-->
+  <!--Notification channels-->
+  <string name="main_notification_channel_name">BOINC</string>
+</resources>

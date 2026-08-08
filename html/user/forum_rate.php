@@ -23,17 +23,16 @@ require_once('../inc/util.inc');
 
 if (DISABLE_FORUMS) error_page("Forums are disabled");
 
-$config = get_config();
-if (parse_bool($config, "no_forum_rating")) {
+if (project_config_bool("no_forum_rating")) {
     error_page("disabled");
 }
 
 if (!empty($_GET['post'])) {
-    $postId = get_int('post');
+    $post_id = get_int('post');
     $choice = post_str('submit', true);
     $rating = post_int('rating', true);
     if (!$choice) $choice = get_str('choice', true);
-    
+
     if ($choice == SOLUTION or $choice=="p") {
         $rating = 1;
     } else {
@@ -46,7 +45,8 @@ if (!empty($_GET['post'])) {
         show_result_page(false, NULL, NULL, $choice);
     }
 
-    $post = BoincPost::lookup_id($postId);
+    $post = BoincPost::lookup_id($post_id);
+    if (!$post) error_page('No such post');
     $thread = BoincThread::lookup_id($post->thread);
     $forum = BoincForum::lookup_id($thread->forum);
 
@@ -56,7 +56,7 @@ if (!empty($_GET['post'])) {
     if ($user->total_credit<$forum->rate_min_total_credit || $user->expavg_credit<$forum->rate_min_expavg_credit) {
         error_page(tra("You need more average or total credit to rate a post."));
     }
-    
+
     if (BoincPostRating::lookup($user->id, $post->id)) {
         error_page(tra("You have already rated this post.")."<br /><br /><a href=\"forum_thread.php?nowrap=true&id=$thread->id&postid=$post->id\">".tra("Return to thread")."</a>");
     } else {
@@ -76,7 +76,7 @@ function show_result_page($success, $post, $thread, $choice) {
         }
         echo "<p><a href=\"forum_thread.php?nowrap=true&id=$thread->id&postid=$post->id\">".tra("Return to thread")."</a>";
     } else {
-        page_head(tra("Vote Submission Problem"));    
+        page_head(tra("Vote Submission Problem"));
         if ($post) {
             echo "There was a problem recording your vote in our database. Please try again later.";
             echo "<a href=\"forum_thread.php?id=$thread->id&postid=$post->id\">".tra("Return to thread")."</a>";
@@ -88,5 +88,4 @@ function show_result_page($success, $post, $thread, $choice) {
     exit;
 }
 
-$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 ?>

@@ -8,6 +8,24 @@
 // Copyright:   (c) Volodymir (T-Rex) Tryapichko
 // Licence:     wxWidgets license
 /////////////////////////////////////////////////////////////////////////////
+
+// This file is part of BOINC and has been modified for BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
 #ifndef _WX_PIE_CTRL
 #define _WX_PIE_CTRL
 
@@ -87,9 +105,9 @@ protected:
     wxScrollBar* m_scrollBar;
     int m_Scrollbar_width;
     int m_firstlabelToDraw;
-    
+
 	//internal methods
-	void GetPartAngles(wxArrayDouble & angles);	
+	void GetPartAngles(wxArrayDouble & angles);
 	void RecreateCanvas();
 	int GetCoveredPiePart(int x,int y);
 	void DrawParts(wxRect& pieRect);
@@ -103,7 +121,7 @@ public:
 		wxSize sz = wxDefaultSize, long style = 0, wxString name = wxT("wxPieCtrl"));
 
         ~wxPieCtrl();
-        
+
 	wxColour GetBackColour();
 	void SetBackColour(wxColour colour);
 
@@ -139,8 +157,10 @@ public:
 	/// Sets the colour used for displaying legend box background
 	void SetLegendBackColour(wxColour colour);
 
+    void ApplyTheme(bool isDarkMode);
+
 	void SetLabel(const wxString& label);
-	
+
 
 	DECLARE_EVENT_TABLE()
 	void OnPaint(wxPaintEvent & event);
@@ -148,13 +168,13 @@ public:
 	void OnMouseMove(wxMouseEvent& ev);
 	void OnEraseBackground(wxEraseEvent & /*event*/);
 	void OnLegendScroll(wxScrollEvent& event);
-    
+
 #ifdef __WXMAC__
 private:
     void                    SetupMacAccessibilitySupport();
     void                    ResizeMacAccessibilitySupport();
     void                    RemoveMacAccessibilitySupport();
-    
+
     void*                   m_fauxResourcesView;
 #endif
 

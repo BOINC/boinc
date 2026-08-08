@@ -167,7 +167,7 @@ CPU benchmarking
     what to do when tests show hardware problem?
     How should we weight factors for credit?
     run CPU tests unobtrusively, periodically
-    check that on/conn/active fracs are maintainted correctly
+    check that on/conn/active fracs are maintained correctly
     check that bandwidth is measured correctly
     measure disk/mem size on all platforms
     get timezone to work

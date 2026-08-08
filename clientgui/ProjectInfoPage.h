@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -31,7 +31,7 @@ class CProjectInfo;
  */
 
 class CProjectInfoPage: public wxWizardPageEx
-{    
+{
     DECLARE_DYNAMIC_CLASS( CProjectInfoPage )
     DECLARE_EVENT_TABLE()
 
@@ -55,8 +55,8 @@ public:
     /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_PROJECTCATEGORY
     void OnProjectCategorySelected( wxCommandEvent& event );
 
-    /// wxEVT_COMMAND_LISTBOX_SELECTED event handler for ID_PROJECTS
-    void OnProjectSelected( wxCommandEvent& event );
+    /// wxEVT_LIST_ITEM_SELECTED event handler for ID_PROJECTS
+    void OnProjectSelected( wxListEvent& event );
 
     /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTINFOPAGE
     void OnPageChanged( wxWizardExEvent& event );
@@ -91,13 +91,15 @@ public:
 
     void RefreshPage();
 
+    void TrimURL(std::string& purl);
+
 ////@begin CProjectInfoPage member variables
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDescriptionStaticCtrl;
     wxStaticText* m_pProjectCategoriesStaticCtrl;
     wxComboBox* m_pProjectCategoriesCtrl;
     wxStaticText* m_pProjectsStaticCtrl;
-    wxListBox* m_pProjectsCtrl;
+    wxListCtrl* m_pProjectsCtrl;
     wxStaticBox* m_pProjectDetailsStaticCtrl;
     wxTextCtrl* m_pProjectDetailsDescriptionCtrl;
     wxStaticText* m_pProjectDetailsResearchAreaStaticCtrl;
@@ -117,6 +119,9 @@ public:
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformNvidiaCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformIntelGPUCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformVirtualBoxCtrl;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformRaspberryPiCtrl;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformDockerCtrl;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformMetalCtrl;
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformBlankCtrl;
     wxStaticText* m_pProjectURLStaticCtrl;
     wxTextCtrl* m_pProjectURLCtrl;
@@ -127,6 +132,8 @@ private:
     std::vector<CProjectInfo*> m_Projects;
     bool m_bProjectSupported;
     bool m_bProjectListPopulated;
+    std::vector<std::string> m_pTrimmedURL;
+    std::vector<std::string> m_pTrimmedURL_attached;
 };
 
 #endif

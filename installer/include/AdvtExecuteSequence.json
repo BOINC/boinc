@@ -1,0 +1,69 @@
+{
+    "AdvtExecuteSequence": [
+        {
+            "Action": "CostFinalize",
+            "Sequence": 1000
+        },
+        {
+            "Action": "CostInitialize",
+            "Sequence": 800
+        },
+        {
+            "Action": "CreateShortcuts",
+            "Sequence": 4500
+        },
+        {
+            "Action": "InstallFinalize",
+            "Sequence": 6600
+        },
+        {
+            "Action": "InstallInitialize",
+            "Sequence": 1500
+        },
+        {
+            "Action": "InstallValidate",
+            "Sequence": 1400
+        },
+        {
+            "Action": "MsiPublishAssemblies",
+            "Sequence": 6250
+        },
+        {
+            "Action": "PublishComponents",
+            "Sequence": 6200
+        },
+        {
+            "Action": "PublishFeatures",
+            "Sequence": 6300
+        },
+        {
+            "Action": "PublishProduct",
+            "Sequence": 6400
+        },
+        {
+            "Action": "RegisterClassInfo",
+            "Sequence": 4600
+        },
+        {
+            "Action": "RegisterExtensionInfo",
+            "Sequence": 4700
+        },
+        {
+            "Action": "RegisterMIMEInfo",
+            "Sequence": 4900
+        },
+        {
+            "Action": "RegisterProgIdInfo",
+            "Sequence": 4800
+        },
+        {
+            "Action": "RegisterTypeLibraries",
+            "Sequence": 4910
+        },
+        {
+            "Action": "ScheduleReboot",
+            "Condition": "ISSCHEDULEREBOOT",
+            "Sequence": 6410
+        }
+    ]
+}

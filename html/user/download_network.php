@@ -31,10 +31,10 @@ echo "
     tra("These applications are not endorsed by %1 and you use them at your own risk.", PROJECT) ."
     <li>" .
     tra("We do not provide instructions for installing these applications.
-However, the author may have provided some help on installing or uninstalling the application. 
+However, the author may have provided some help on installing or uninstalling the application.
 If this is not enough you should contact the author.").
     tra("Instructions for installing and running BOINC are %1 here %2.", "<a href=https://boinc.berkeley.edu/download.php>", "</a>")
-    . "<li>" . 
+    . "<li>" .
     tra("This list is managed centrally at %1 the BOINC website %2.", "<a href=\"https://boinc.berkeley.edu/addons.php\">", "</a>") ."
     </ul>
 ";

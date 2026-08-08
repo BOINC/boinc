@@ -17,9 +17,9 @@
 // For sample code to get preferred system language, see
 // wxLocale::GetSystemLanguage() in wxWidgets src/common/intl.cpp
 //
-// Those portions of this code which are taken from wxWidgets are 
-// Copyright:   (c) 1998 Vadim Zeitlin 
-// and are covered by the wxWidgets license which can be found here: 
+// Those portions of this code which are taken from wxWidgets are
+// Copyright:   (c) 1998 Vadim Zeitlin
+// and are covered by the wxWidgets license which can be found here:
 // <http://www.wxwidgets.org/about/licence3.txt>
 //
 // This code assumes all catalogs are encoded UTF-8
@@ -28,7 +28,7 @@
 // We recommended that you first call BOINCTranslationAddCatalog()
 // for the user's preferred language, then for the user's second
 // preferred language and (optionally) then for the user's third
-// preferred language.  This will make it more likley that a
+// preferred language.  This will make it more likely that a
 // translation will be found in some language useful to the user.
 //
 
@@ -60,7 +60,7 @@ bool BOINCTranslationAddCatalog(const char * catalogsDir,
 
 // Searches through the catalogs in the order they were added
 // until it finds a translation for the src string, and
-// returns a ponter to the UTF-8 encoded localized string.
+// returns a pointer to the UTF-8 encoded localized string.
 // Returns a pointer to the original string if no translation
 // was found.
 //

@@ -8,6 +8,10 @@
         <user_friendly_name>Microsoft Windows running on an AMD x86_64 or Intel EM64T CPU</user_friendly_name>
     </platform>
     <platform>
+        <name>windows_arm64</name>
+        <user_friendly_name>Microsoft Windows running on ARM 64-bit</user_friendly_name>
+    </platform>
+    <platform>
         <name>i686-pc-linux-gnu</name>
         <user_friendly_name>Linux running on an Intel x86-compatible CPU</user_friendly_name>
     </platform>
@@ -28,6 +32,10 @@
         <user_friendly_name>Intel 64-bit Mac OS 10.5 or later</user_friendly_name>
     </platform>
     <platform>
+        <name>arm64-apple-darwin</name>
+        <user_friendly_name>Mac OS running on ARM</user_friendly_name>
+    </platform>
+    <platform>
         <name>sparc-sun-solaris2.7</name>
         <user_friendly_name>Solaris 2.7 running on a SPARC-compatible CPU</user_friendly_name>
     </platform>
@@ -45,7 +53,27 @@
     </platform>
     <platform>
         <name>arm-android-linux-gnu</name>
-        <user_friendly_name>Android running on ARM</user_friendly_name>
+        <user_friendly_name>Android running on ARM armeabi-v7a</user_friendly_name>
+    </platform>
+    <platform>
+        <name>aarch64-android-linux-gnu</name>
+        <user_friendly_name>Android running on ARM 64-bit arm64-v8a</user_friendly_name>
+    </platform>
+    <platform>
+        <name>x86_64-android-linux-gnu</name>
+        <user_friendly_name>Android running on Intel x64 compatible</user_friendly_name>
+    </platform>
+    <platform>
+        <name>x86-android-linux-gnu</name>
+        <user_friendly_name>Android running on Intel x86 compatible</user_friendly_name>
+    </platform>
+    <platform>
+        <name>arm-unknown-linux-gnueabihf</name>
+        <user_friendly_name>Linux running on ARM, hardware FP</user_friendly_name>
+    </platform>
+    <platform>
+        <name>aarch64-unknown-linux-gnu</name>
+        <user_friendly_name>Linux running on ARM64</user_friendly_name>
     </platform>
     <platform>
         <name>anonymous</name>

@@ -31,7 +31,7 @@ function make_login_token($user) {
         $user->update("login_token_time=$now");
         return $user->login_token;
     }
-    $token = substr(random_string(), 0, 8);
+    $token = substr(random_string(), 0, 16);
     $user->update("login_token='$token', login_token_time=$now");
     return $token;
 }
@@ -51,13 +51,13 @@ function toggle_passwd() {
     }
 }
 </script>
-<input type="checkbox" id="passwd_visible" onclick="toggle_passwd()"> <label for="passwd_visible"><small>Show password</small></label>
-        ', $name
+<input type="checkbox" id="passwd_visible" onclick="toggle_passwd()"> <label for="passwd_visible"><small>%s</small></label>
+        ', $name,
+        tra("Show password")
     );
 }
 
 function create_account_form($teamid, $next_url) {
-    global $recaptcha_public_key;
     form_input_hidden('next_url', $next_url);
 
     if ($teamid) {
@@ -90,7 +90,7 @@ function create_account_form($teamid, $next_url) {
         ),
         "new_email_addr"
     );
-    $min_passwd_length = parse_element(get_config(), "<min_passwd_length>");
+    $min_passwd_length = project_config_val('min_passwd_length');
     if (!$min_passwd_length) {
         $min_passwd_length = 6;
     }
@@ -155,10 +155,10 @@ function login_form($next_url) {
         passwd_visible_checkbox("passwd")
     );
     form_checkboxes(tra("Stay logged in"),
-        array(array("stay_logged_in", "", true)), 
+        array(array("stay_logged_in", "", true)),
         'tabindex="3"'
     );
-    form_submit("Log in", 'tabindex="4"');
+    form_submit(tra("Log in"), 'tabindex="4"');
     form_end();
 }
 

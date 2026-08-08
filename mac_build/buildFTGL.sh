@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2019 University of California
+# Copyright (C) 2023 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -27,6 +27,10 @@
 # Updated 2/7/14 for OS 10.9
 # Updated 2/8/18 to fix linker warning for Xcode 9.2 under OS 10.13
 # Updated 1/23/19 use libc++ instead of libstdc++ for Xcode 10 compatibility
+# Updated 8/22/20 to build Apple Silicon / arm64 and x86_64 Universal binary
+# Updated 5/18/21 for compatibility with zsh
+# Updated 10/18/21 for building with freetype 2.11.0
+# Updated 2/6/23 changed MAC_OS_X_VERSION_MAX_ALLOWED to 101300 and MAC_OS_X_VERSION_MIN_REQUIRED to 101300 and MACOSX_DEPLOYMENT_TARGET to 10.13
 #
 ## This script requires OS 10.8 or later
 #
@@ -68,7 +72,7 @@ while [[ $# -gt 0 ]]; do
     shift # past argument or value
 done
 
-# needed for ftgl 2.1.3-rc5 to find our freetype 2.9 build not the system one
+# needed for ftgl to find our freetype build not the system one
 export PKG_CONFIG_PATH=${libftpath}/lib/pkgconfig:${PKG_CONFIG_PATH}
 
 SRCDIR=$PWD
@@ -86,6 +90,34 @@ GCCPATH=`xcrun -find gcc`
 if [ $? -ne 0 ]; then
     echo "ERROR: can't find gcc compiler"
     return 1
+fi
+
+GCC_can_build_x86_64="no"
+GCC_can_build_arm64="no"
+GCC_archs=`lipo -info "${GCCPATH}"`
+if [[ "${GCC_archs}" = *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
+if [[ "${GCC_archs}" = *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
+
+if [ "${doclean}" != "yes" ]; then
+    if [ -f "${libPath}/libftgl.a" ]; then
+        alreadyBuilt=1
+        if [ $GCC_can_build_x86_64 = "yes" ]; then
+            lipo "${libPath}/libftgl.a" -verify_arch x86_64
+            if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
+        fi
+
+        if [ $alreadyBuilt -eq 1 ] && [ $GCC_can_build_arm64 = "yes" ]; then
+            lipo "${libPath}/libftgl.a" -verify_arch arm64
+            if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
+        fi
+
+        if [ $alreadyBuilt -eq 1 ]; then
+            cwd=$(pwd)
+            dirname=${cwd##*/}
+            echo "${dirname} already built"
+            return 0
+        fi
+    fi
 fi
 
 GPPPATH=`xcrun -find g++`
@@ -115,13 +147,20 @@ export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":$PATH
 SDKPATH=`xcodebuild -version -sdk macosx Path`
 
 # Build for x86_64 architecture
+
+## The "-Werror=unguarded-availability" compiler flag generates an error if
+## there is an unguarded API not available in our Deployment Target. This
+## helps ensure FTGL won't try to use unavailable APIs on older Mac
+## systems supported by BOINC.
+## It also causes configure to reject any such APIs for which it tests.
+##
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export CPPFLAGS=""
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
-export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1070 -DMAC_OS_X_VERSION_MIN_REQUIRED=1070"
+export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
+export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.10 -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.7
+export MACOSX_DEPLOYMENT_TARGET=10.13
 
 if [ "x${lprefix}" != "x" ]; then
     ./configure --prefix="${lprefix}" --enable-shared=NO --disable-freetypetest --with-ft-prefix="${libftpath}" --host=x86_64
@@ -134,23 +173,85 @@ if [ "${doclean}" = "yes" ]; then
     make clean 1>$stdout_target
 fi
 
-cd src || return 1
+cd src
+if [ $? -ne 0 ]; then
+    cd "${SRCDIR}"
+    return 1
+fi
+
 make 1>$stdout_target
 if [ $? -ne 0 ]; then
-    cd "${SRCDIR}" || return 1
+    cd "${SRCDIR}"
     return 1;
+fi
+
+cd "${SRCDIR}" || return 1
+
+# Now see if we can build for arm64
+# Note: Some versions of Xcode 12 don't support building for arm64
+if [ $GCC_can_build_arm64 = "yes" ]; then
+
+    export CC="${GCCPATH}";export CXX="${GPPPATH}"
+    export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
+    export CPPFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=10.10 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101000"
+    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=10.10 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101000"
+    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=10.10 -target arm64-apple-macos -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101000"
+    export SDKROOT="${SDKPATH}"
+    export MACOSX_DEPLOYMENT_TARGET=10.13
+
+    if [ "x${lprefix}" != "x" ]; then
+        ./configure --prefix="${lprefix}" --enable-shared=NO --disable-freetypetest --with-ft-prefix="${libftpath}" --host=arm
+    else
+        ./configure --enable-shared=NO --disable-freetypetest --with-ft-prefix="${libftpath}" --host=arm
+    fi
+    if [ $? -ne 0 ]; then
+        echo "              ******"
+        echo "FTGL: x86_64 build succeeded but could not build for arm64."
+        echo "              ******"
+    else
+
+        # save x86_64 lib for later use
+        cd src || return 1
+        mv -f .libs/libftgl.a libftgl_x86_64.a
+        cd "${SRCDIR}" || return 1
+
+        make clean 1>$stdout_target
+
+        cd src || return 1
+        make 1>$stdout_target
+        if [ $? -ne 0 ]; then
+            rm -f libftgl_x86_64.a
+            cd "${SRCDIR}"
+            return 1
+        fi
+
+        mv -f .libs/libftgl.a .libs/libftgl_arm64.a
+        # combine x86_64 and arm libraries
+        lipo -create libftgl_x86_64.a .libs/libftgl_arm64.a -output .libs/libftgl.a
+        if [ $? -ne 0 ]; then
+            rm -f libftgl_x86_64.a libs/libftgl_arm64.a
+            cd "${SRCDIR}"
+            return 1
+        fi
+
+        rm -f libftgl_x86_64.a
+        rm -f .libs/libftgl_arm64.a
+
+        cd "${SRCDIR}" || return 1
+    fi
 fi
 
 if [ "x${lprefix}" != "x" ]; then
     # this installs the modified library
+    cd src || return 1
     make install 1>$stdout_target
     if [ $? -ne 0 ]; then
-        cd "${SRCDIR}" || return 1
-        return 1;
+        cd "${SRCDIR}"
+        return 1
     fi
 fi
 
-cd "${SRCDIR}" || return 1
+cd "${SRCDIR}"
 
 lprefix=""
 export CC="";export CXX=""

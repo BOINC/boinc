@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// Copyright (C) 2021 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,8 +16,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Post a reply to a thread.
-// Both input (form) and action take place here.
+// Post to a thread (possibly replying to an existing post).
+// Both form and action are here.
+//
+// Note: the filename is confusing:
+// we "reply" to a post, not a thread
 
 require_once('../inc/util.inc');
 require_once('../inc/forum_email.inc');
@@ -27,11 +30,15 @@ require_once('../inc/akismet.inc');
 
 if (DISABLE_FORUMS) error_page("Forums are disabled");
 
-$logged_in_user = get_logged_in_user(true);
+$logged_in_user = get_logged_in_user();
 BoincForumPrefs::lookup($logged_in_user);
 check_banished($logged_in_user);
+if (VALIDATE_EMAIL_TO_POST) {
+    check_validated_email($logged_in_user);
+}
 
 $thread = BoincThread::lookup_id(get_int('thread'));
+if (!$thread) error_page('No such thread');
 $forum = BoincForum::lookup_id($thread->forum);
 
 $sort_style = get_str('sort', true);
@@ -66,21 +73,20 @@ if (!$sort_style) {
 
 $warning = null;
 if ($content && (!$preview)){
-    if (post_str('add_signature',true)=="add_it"){
-        $add_signature=true;    // set a flag and concatenate later
-    }  else {
-        $add_signature=false;
-    }
     check_tokens($logged_in_user->authenticator);
     if (!akismet_check($logged_in_user, $content)) {
         $warning = tra("Your post has been flagged as spam by the Akismet anti-spam system. Please modify your text and try again.");
         $preview = tra("Preview");
     } else {
+        $add_signature = post_str('add_signature', true);
         $post_id = create_post(
             $content, $parent_post_id, $logged_in_user, $forum,
             $thread, $add_signature
         );
         if ($post_id) {
+            if (post_str('subscribe', true)) {
+                BoincSubscription::replace($logged_in_user->id, $thread->id);
+            }
             header("Location: forum_thread.php?id=$thread->id&postid=$post_id");
         } else {
             error_page("Can't create post.  $forum_error");
@@ -88,9 +94,15 @@ if ($content && (!$preview)){
     }
 }
 
-page_head(tra("Post to thread"),'','','', $bbcode_js);
+page_head(tra("Post to thread")." '$thread->title'",'','','', $bbcode_js);
 
-show_forum_header($logged_in_user);
+if ($parent_post) {
+    echo sprintf(
+        '<h4>Replying to <a href=#%d>message %d</a></h4>',
+        $parent_post->id,
+        $parent_post->id
+    );
+}
 
 if ($warning) {
     echo "<p class=\"text-danger\">$warning</p>";
@@ -99,10 +111,10 @@ if ($warning) {
 switch ($forum->parent_type) {
 case 0:
     $category = BoincCategory::lookup_id($forum->category);
-    show_forum_title($category, $forum, $thread);
+    echo forum_title($category, $forum, $thread);
     break;
 case 1:
-    show_team_forum_title($forum, $thread);
+    echo team_forum_title($forum, $thread);
     break;
 }
 echo "<p>";
@@ -141,9 +153,6 @@ function show_message_row($thread, $parent_post) {
 
     $x1 = tra("Message:").bbcode_info().post_warning();
     $x2 = "";
-    if ($parent_post) {
-        $x2 .=" ".tra("reply to %1 Message ID %2:", "<a href=#".$parent_post->id.">", " ".$parent_post->id."</a>");
-    }
     $x2 .= "<form action=forum_reply.php?thread=".$thread->id;
 
     if ($parent_post) {
@@ -152,36 +161,50 @@ function show_message_row($thread, $parent_post) {
 
     $x2 .= " method=\"post\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
     $x2 .= form_tokens($logged_in_user->authenticator);
-    $x2 .= start_table_str().$bbcode_html.end_table_str()."<textarea class=\"form-control\" name=\"content\" rows=\"18\">";
+    $x2 .= $bbcode_html."<textarea class=\"form-control\" name=\"content\" rows=\"18\">";
     $no_quote = get_int("no_quote", true)==1;
     if ($preview) {
         $x2 .= htmlspecialchars($content);
     } else if (!$no_quote) {
         if ($parent_post) {
-            $x2 .= quote_text(htmlspecialchars($parent_post->content))."\n";
+            $x2 .= quote_text($parent_post)."\n";
         }
     }
     if (!$logged_in_user->prefs->no_signature_by_default) {
-        $enable_signature="checked=\"true\"";
+        $enable_signature='checked="true"';
     } else {
         $enable_signature="";
     }
-    $x2 .= "</textarea><p> </p>
-        <input class=\"btn btn-primary btn-sm \" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">
-        <input class=\"btn btn-success btn-sm \" type=\"submit\" value=\"".tra("Post reply")."\">
+    $x2 .= sprintf('</textarea><p> </p>
+        <input class="btn btn-sm" %s type="submit" name="preview" value="%s">
+        <input class="btn btn-sm" %s type="submit" value="%s">
         &nbsp;&nbsp;&nbsp;
-        <input type=\"checkbox\" name=\"add_signature\" id=\"add_signature\" value=\"add_it\" ".$enable_signature.">
-        <label for=\"add_signature\">".tra("Add my signature to this reply")."</label>
-
-        </form>
-    ";
-    row2($x1, $x2, false, "20%");
+        <input type="checkbox" name="add_signature" id="add_signature" %s>
+        <label for="add_signature">%s</label>
+        &nbsp;&nbsp;&nbsp;
+        <input type="checkbox" name="subscribe" id="subscribe">
+        <label for="subscribe">%s</label>
+        </form>',
+        button_style('blue'),
+        tra("Preview"),
+        button_style(),
+        tra("Post"),
+        $enable_signature,
+        tra("Add my signature to this post"),
+        tra("Subscribe to this thread")
+    );
+    row2($x1, $x2, false, FORUM_LH_PCT);
 }
 
-function quote_text($text) {
-    $text = "[quote]" . $text . "[/quote]";
-    return $text;
+function quote_text($post) {
+    $user = BoincUser::lookup_id($post->user);
+    return sprintf(
+        'In reply to %s\'s message of %s:
+        [quote]%s[/quote]',
+        $user?$user->name:'unknown user',
+        date_str($post->timestamp),
+        htmlspecialchars($post->content)
+    );
 }
 
-$cvs_version_tracker[]="\$Id$";
 ?>

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,23 +22,18 @@
 #pragma interface "BOINCListCtrl.cpp"
 #endif
 
-#ifdef __WXMSW__
-#define USE_NATIVE_LISTCONTROL 1
-#else
-#define USE_NATIVE_LISTCONTROL 0
-#endif
-
+#include "BOINCGUIApp.h"
 
 // Virtual wxListCtrl does not reliably generate selection and
 // deselection events, so we must check for these differently.
-// We get more events than we need using EVT_LIST_CACHE_HINT, 
+// We get more events than we need using EVT_LIST_CACHE_HINT,
 // so testing on mouse events is more efficient, but it doesn't
 // work on Windows.
 #ifdef __WXMSW__
-// On Windows, check for selection / deselection on EVT_LIST_CACHE_HINT. 
+// On Windows, check for selection / deselection on EVT_LIST_CACHE_HINT.
 #define USE_LIST_CACHE_HINT 1
 #else
-// On Mac & Linux, check for selection / deselection on EVT_LEFT_DOWN. 
+// On Mac & Linux, check for selection / deselection on EVT_LEFT_DOWN.
 #define USE_LIST_CACHE_HINT 0
 #endif
 
@@ -74,12 +69,11 @@ public:
     virtual bool            OnSaveState(wxConfigBase* pConfig);
     virtual bool            OnRestoreState(wxConfigBase* pConfig);
 
-    void                    TokenizedStringToArray(wxString tokenized, char * delimiters, wxArrayString* array);
+    void                    TokenizedStringToArray(wxString tokenized, const char * delimiters, wxArrayString* array);
     void                    SetListColumnOrder(wxArrayString& orderArray);
     void                    SetStandardColumnOrder();
     bool                    IsColumnOrderStandard();
     void                    SetDefaultColumnDisplay();
-    void                    InsertShownColumns(wxString tokenized, char * delimiters);
 
     long                    GetFocusedItem() { return GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_FOCUSED); }
     long                    GetFirstSelected() { return GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); }
@@ -87,7 +81,7 @@ public:
     void                    SelectRow(int row, bool setSelected);
     void                    AddPendingProgressBar(int row);
     void                    RefreshCell(int row, int col);
-    
+
 private:
     virtual wxString        OnGetItemText(long item, long column) const;
     virtual int             OnGetItemImage(long item) const;
@@ -105,10 +99,20 @@ private:
 #if USE_NATIVE_LISTCONTROL
 public:
    void                     PostDrawProgressBarEvent();
+#ifdef __WXMSW__
+   // Windows notification handler override (delegates to HandleDarkModeCustomDraw in dark mode)
+   bool                     MSWOnNotify(int idCtrl, WXLPARAM lParam, WXLPARAM *result) override;
+#endif
 private:
+#ifdef __WXMSW__
+   // Windows dark mode: draw progress bars inside NM_CUSTOMDRAW back buffer
+   // instead of post-WM_PAINT wxClientDC (see BOINCListCtrl.cpp).
+    bool                    HandleDarkModeCustomDraw(int idCtrl, WXLPARAM lParam, WXLPARAM *result);
+    void                    DrawItemProgressBar(HDC hdc, int item, int progressColumn);
+#endif
     void                    OnDrawProgressBar(CDrawProgressBarEvent& event);
     void                    DrawProgressBars(void);
-    
+
     bool                    m_bProgressBarEventPending;
 #else
  public:
@@ -176,7 +180,7 @@ public:
 
 private:
     CBOINCListCtrl *        m_listCtrl;
-    
+
 #if !USE_NATIVE_LISTCONTROL
 #ifdef __WXGTK__
     int                     m_view_startX;

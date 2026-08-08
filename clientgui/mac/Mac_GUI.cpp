@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2011 University of California
+// Copyright (C) 2025 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -32,22 +32,25 @@ using std::max;
 
 /* Begin items to include "BOINC Manager" Mac menu items in localization templates */
 void ThisDummyRoutineIsNeverCalled() {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-value"
     wxString (_("Services"));
     wxString (_("Hide %s"));
     wxString (_("Hide Others"));
     wxString (_("Show All"));
     wxString (_("Quit %s"));
+#pragma clang diagnostic pop
 }
 /* End items to include "BOINC Manager" Mac menu items in localization templates */
 
 
-// Determine if the currently logged-in user is auhorized to 
-// perform operations which have potential security risks.  
+// Determine if the currently logged-in user is authorized to
+// perform operations which have potential security risks.
 // An example is "Attach to Project", where a dishonest user might
-// attach to a rogue project which could then read private files 
-// belonging to the user who owns the BOINC application.  This 
-// would be possible because the BOINC Manager runs with the 
-// effectve user ID of its owner on the Mac.
+// attach to a rogue project which could then read private files
+// belonging to the user who owns the BOINC application.  This
+// would be possible because the BOINC Manager runs with the
+// effective user ID of its owner on the Mac.
 
 Boolean Mac_Authorize()
 {
@@ -57,10 +60,10 @@ Boolean Mac_Authorize()
     AuthorizationFlags	ourAuthFlags;
     AuthorizationItem	ourAuthItem[1];
     OSStatus		err = noErr;
-    
+
     if (sIsAuthorized)
         return true;
-        
+
     // User is not the owner, so require admin authentication
     ourAuthItem[0].name = kAuthorizationRightExecute;
     ourAuthItem[0].value = NULL;
@@ -69,17 +72,17 @@ Boolean Mac_Authorize()
 
     ourAuthRights.count = 1;
     ourAuthRights.items = ourAuthItem;
-    
+
     ourAuthFlags = kAuthorizationFlagInteractionAllowed | kAuthorizationFlagExtendRights;
 
     err = AuthorizationCreate (&ourAuthRights, kAuthorizationEmptyEnvironment, ourAuthFlags, &ourAuthRef);
 
     if (err == noErr) {
         sIsAuthorized = true;
-        // We have authenticated user's credentials; we won't actually use the 
+        // We have authenticated user's credentials; we won't actually use the
         // privileges / rights so destroy / discard them.
         err = AuthorizationFree(ourAuthRef, kAuthorizationFlagDestroyRights);
     }
-        
+
     return sIsAuthorized;
 }

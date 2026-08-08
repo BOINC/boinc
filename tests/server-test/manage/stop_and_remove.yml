@@ -1,0 +1,5 @@
+- hosts: localhost
+  vars_files:
+    - vars/common.yml
+  roles:
+    - stop-and-remove-containers

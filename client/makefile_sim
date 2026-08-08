@@ -1,5 +1,8 @@
 # makefile for client simulator
 # Do "make_clean" in client/, lib/, and sched/ first
+#
+# this doesn't have .h dependencies; if you change something,
+# do make clean and make
 
 CXXFLAGS = -g -DSIM -Wall \
     -I ../lib \
@@ -23,6 +26,7 @@ OBJS = \
     cs_prefs.o \
     cs_proxy.o \
     cs_scheduler.o \
+    cs_sporadic.o \
     cs_statefile.o \
     cs_trickle.o \
 	current_version.o \

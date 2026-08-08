@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,15 +21,19 @@
 // cmdline args to this program:
 // --init_script "scriptname arg1 ... argn"
 // --compare_script "scriptname arg1 ... argn"
+// where
+// scriptname is the name of a script (in bin/)
+// argi are keywords (see below) representing
+//    args to be passed to the script.
+// You must specify at least one script.
 //
 // The init script checks the validity of a result,
 // e.g. that the output files have the proper format.
-// It returns zero if the files are valid
+// It exits zero if the files are valid
 //
 // The compare script compares two results.
-// If returns zero if the output files are equivalent.
+// If exits zero if the output files are equivalent.
 //
-// arg1 ... argn represent cmdline args to be passed to the scripts.
 // The options for init_script are:
 //
 // files        list of paths of output files of the result
@@ -37,6 +41,7 @@
 // runtime      task runtime
 //
 // Additional options for compare_script, for the second result:
+//
 // files2       list of paths of output files
 // result_id2   result ID
 // runtime2     task runtime
@@ -48,6 +53,7 @@
 
 #include "validate_util2.h"
 #include "error_numbers.h"
+#include "str_replace.h"
 #include "boinc_db.h"
 #include "sched_util.h"
 #include "validate_util.h"
@@ -76,9 +82,9 @@ int validate_handler_init(int argc, char** argv) {
         }
     }
 
-    if (!init_script.size() || !compare_script.size()) {
+    if (init_script.empty() && compare_script.empty()) {
         log_messages.printf(MSG_CRITICAL,
-            "init_script and/or compare_script names are missing from command line\n"
+            "command line must specify init_script or compare_script\n"
         );
         return 1;
     }
@@ -99,53 +105,73 @@ void validate_handler_usage() {
     );
 }
 
-int init_result(RESULT& result, void*&) {
-    unsigned int i, j;
-    char buf[256];
+// run script to check a result
+// if script exits with VAL_RESULT_TRANSIENT_ERROR, return that;
+// the WU will be validated again after a delay.
+//
+// any other nonzero return means the result is not valid
+//
+int init_result(const RESULT& result, void*&) {
+    if (init_script.empty()) {
+        return 0;
+    }
 
+    char buf[256];
     vector<string> paths;
     int retval;
+
     retval = get_output_file_paths(result, paths);
     if (retval) {
         fprintf(stderr, "get_output_file_paths() returned %d\n", retval);
         return retval;
     }
 
-    if (init_script.size() == 0) {
-        fprintf(stderr, "init_result() failed: init_script parameter was not specified\n");
-        return 1;
-    }
-
     char cmd[4096];
     sprintf(cmd, "../bin/%s", init_script[0].c_str());
-    for (i=1; i<init_script.size(); i++) {
+    for (unsigned i=1; i<init_script.size(); i++) {
         string& s = init_script[i];
         if (s == "files") {
-            for (j=0; j<paths.size(); j++) {
-                strcat(cmd, " ");
-                strcat(cmd, paths[j].c_str());
+            for (unsigned j=0; j<paths.size(); j++) {
+                safe_strcat(cmd, " ");
+                safe_strcat(cmd, paths[j].c_str());
             }
         } else if (s == "runtime") {
             sprintf(buf, " %f", result.elapsed_time);
-            strcat(cmd, buf);
+            safe_strcat(cmd, buf);
         } else if (s == "result_id") {
             sprintf(buf, " %lu", result.id);
-            strcat(cmd, buf);
+            safe_strcat(cmd, buf);
         }
     }
     retval = system(cmd);
-    if (retval) {
-        return retval;
+    if (WIFEXITED(retval)) {
+        int s = WEXITSTATUS(retval);
+        if (!s) return 0;
+        if (s == VAL_RESULT_TRANSIENT_ERROR) {
+            log_messages.printf(MSG_NORMAL,
+                "init script return transient error"
+            );
+            return VAL_RESULT_TRANSIENT_ERROR;
+        }
+        log_messages.printf(MSG_NORMAL,
+            "init script %s returned: %d\n", cmd, s
+        );
+        return -1;
     }
-    return 0;
+    log_messages.printf(MSG_CRITICAL, "init script %s didn't exit\n", cmd);
+    return -1;
 }
 
 int compare_results(RESULT& r1, void*, RESULT const& r2, void*, bool& match) {
-    unsigned int i, j;
-    char buf[256];
+    if (compare_script.empty()) {
+        match = true;
+        return 0;
+    }
 
+    char buf[4096];
     vector<string> paths1, paths2;
     int retval;
+
     retval = get_output_file_paths(r1, paths1);
     if (retval) {
         fprintf(stderr, "get_output_file_paths() returned %d\n", retval);
@@ -157,49 +183,51 @@ int compare_results(RESULT& r1, void*, RESULT const& r2, void*, bool& match) {
         return retval;
     }
 
-    if (compare_script.size() == 0) {
-        fprintf(stderr, "compare_results() failed: compare_script parameter was not specified\n");
-        return 1;
-    }
-
     char cmd[4096];
     sprintf(cmd, "../bin/%s", compare_script[0].c_str());
-    for (i=1; i<compare_script.size(); i++) {
+    for (unsigned i=1; i<compare_script.size(); i++) {
         string& s = compare_script[i];
         if (s == "files") {
-            for (j=0; j<paths1.size(); j++) {
-                strcat(cmd, " ");
-                strcat(cmd, paths1[j].c_str());
+            for (unsigned j=0; j<paths1.size(); j++) {
+                safe_strcat(cmd, " ");
+                safe_strcat(cmd, paths1[j].c_str());
             }
         } else if (s == "files2") {
-            for (j=0; j<paths2.size(); j++) {
-                strcat(cmd, " ");
-                strcat(cmd, paths2[j].c_str());
+            for (unsigned j=0; j<paths2.size(); j++) {
+                safe_strcat(cmd, " ");
+                safe_strcat(cmd, paths2[j].c_str());
             }
         } else if (s == "runtime") {
             sprintf(buf, " %f", r1.elapsed_time);
-            strcat(cmd, buf);
+            safe_strcat(cmd, buf);
         } else if (s == "result_id") {
             sprintf(buf, " %lu", r1.id);
-            strcat(cmd, buf);
+            safe_strcat(cmd, buf);
         } else if (s == "runtime2") {
             sprintf(buf, " %f", r2.elapsed_time);
-            strcat(cmd, buf);
+            safe_strcat(cmd, buf);
         } else if (s == "result_id2") {
             sprintf(buf, " %lu", r2.id);
-            strcat(cmd, buf);
+            safe_strcat(cmd, buf);
         }
     }
     retval = system(cmd);
-    if (retval) {
+    if (WIFEXITED(retval)) {
+        int s = WEXITSTATUS(retval);
+        if (s == 0) {
+            match = true;
+            return 0;
+        }
+        if (s == VAL_RESULT_TRANSIENT_ERROR) {
+            return VAL_RESULT_TRANSIENT_ERROR;
+        }
         match = false;
-    } else {
-        match = true;
+        return 0;
     }
-    return 0;
+    log_messages.printf(MSG_CRITICAL, "compare script %s didn't exit\n", cmd);
+    return -1;
 }
 
 int cleanup_result(RESULT const&, void*) {
     return 0;
 }
-

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2023 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,10 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if   defined(_WIN32) && !defined(__STDWX_H__)
+#if defined(_WIN32)
 #include "boinc_win.h"
-#elif defined(_WIN32) && defined(__STDWX_H__)
-#include "stdwx.h"
 #define MAXPATHLEN 4096
 #endif
 
@@ -26,18 +24,8 @@
 #include <fcntl.h>
 #endif
 
-#if  defined(_MSC_VER) || defined(__MINGW32__)
-#define getcwd    _getcwd
-#define snprintf  _snprintf
-#endif
-
 #if !defined(_WIN32) || defined(__CYGWIN32__)
 #include "config.h"
-#ifdef _USING_FCGI_
-#include "boinc_fcgi.h"
-#else
-#include <cstdio>
-#endif
 #include <fcntl.h>
 #include <cerrno>
 #include <sys/stat.h>
@@ -58,6 +46,10 @@
 #include <sys/mount.h>
 #endif
 
+#if defined(ANDROID) && __ANDROID_API__ < 19
+    #undef HAVE_SYS_STATVFS_H
+#endif
+
 #if HAVE_SYS_STATVFS_H
 #include <sys/statvfs.h>
 #define STATFS statvfs
@@ -69,12 +61,11 @@
 #endif
 #endif
 
-#include "util.h"
-#include "str_util.h"
-#include "str_replace.h"
 #include "error_numbers.h"
-
 #include "filesys.h"
+#include "str_replace.h"
+#include "str_util.h"
+#include "util.h"
 
 #ifdef __APPLE__
 #include "mac_spawn.h"
@@ -255,7 +246,8 @@ DirScanner::DirScanner(string const& path) {
 #endif
 }
 
-// Scan through a directory and return the next file name in it
+// Scan through a directory and return the next item (file or dir) in it
+// Skip items starting with .
 //
 bool DirScanner::scan(string& s) {
 #ifdef _WIN32
@@ -370,6 +362,35 @@ int file_size(const char* path, double& size) {
 #endif
 }
 
+// get file allocation size, i.e. how much disk space does it use.
+// This can be less than the file size on compressed filesystems,
+// or if the file has holes.
+// It can also be slightly more.
+//
+int file_size_alloc(const char* path, double& size) {
+#if defined(_WIN32) && !defined(__CYGWIN32__) && !defined(__MINGW32__)
+    DWORD hi;
+    DWORD lo = GetCompressedFileSizeA(path, &hi);
+    if (lo != INVALID_FILE_SIZE) {
+        ULONGLONG x = (((ULONGLONG)hi) << 32) + lo;
+        size = (double) x;
+        return 0;
+    }
+    return ERR_STAT;
+#else
+    int retval;
+    struct stat sbuf;
+    retval = stat(path, &sbuf);
+    if (retval) return ERR_NOT_FOUND;
+#ifdef _WIN32 // cygwin, mingw
+    size = (double)sbuf.st_size;
+#else
+    size = ((double)sbuf.st_blocks)*512.;
+#endif
+    return 0;
+#endif
+}
+
 int boinc_truncate(const char* path, double size) {
     int retval;
 #if defined(_WIN32) && !defined(__CYGWIN32__)
@@ -403,7 +424,7 @@ int clean_out_dir(const char* dirpath) {
         retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) break;
 
-        snprintf(path, sizeof(path), "%s/%s", dirpath,  filename);
+        snprintf(path, sizeof(path), "%.*s/%.*s", DIR_LEN, dirpath, FILE_LEN, filename);
         path[sizeof(path)-1] = 0;
 
         clean_out_dir(path);
@@ -443,7 +464,7 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
 
             dsize = 0.0;
 
-            snprintf(buf, sizeof(buf), "%s/%s", dirpath, findData.cFileName);
+            snprintf(buf, sizeof(buf), "%.*s/%.*s", DIR_LEN, dirpath, FILE_LEN, findData.cFileName);
             buf[sizeof(buf)-1] = 0;
 
             dir_size(buf, dsize, true);
@@ -467,7 +488,7 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
         retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) break;
 
-        snprintf(subdir, sizeof(subdir), "%s/%s", dirpath, filename);
+        snprintf(subdir, sizeof(subdir), "%.*s/%.*s", DIR_LEN, dirpath, FILE_LEN, filename);
         subdir[sizeof(subdir)-1] = 0;
 
         if (is_dir(subdir)) {
@@ -487,6 +508,76 @@ int dir_size(const char* dirpath, double& size, bool recurse) {
     return 0;
 }
 
+// return total allocated size of files in directory and optionally its subdirectories
+// Win: use special version because stat() is slow, can be avoided
+// Unix: follow symbolic links
+//
+int dir_size_alloc(const char* dirpath, double& size, bool recurse) {
+#ifdef WIN32
+    char buf[_MAX_PATH];
+    char path2[_MAX_PATH];
+    double dsize = 0.0;
+    WIN32_FIND_DATAA findData;
+
+    size = 0.0;
+    snprintf(path2, sizeof(path2), "%s/*", dirpath);
+    path2[sizeof(path2)-1] = 0;
+
+    HANDLE hFind = ::FindFirstFileA(path2, &findData);
+    if (INVALID_HANDLE_VALUE == hFind) return ERR_OPENDIR;
+    do {
+        snprintf(buf, sizeof(buf), "%.*s/%.*s", DIR_LEN, dirpath, FILE_LEN, findData.cFileName);
+        buf[sizeof(buf)-1] = 0;
+        if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+            if (!recurse) continue;
+            if (!strcmp(findData.cFileName, ".")) continue;
+            if (!strcmp(findData.cFileName, "..")) continue;
+
+            dsize = 0.0;
+            dir_size_alloc(buf, dsize, true);
+            size += dsize;
+        } else {
+            double s;
+            if (file_size_alloc(buf, s) == 0) {
+                size += s;
+            }
+        }
+    } while (FindNextFileA(hFind, &findData));
+
+    ::FindClose(hFind);
+#else
+    char filename[MAXPATHLEN], subdir[MAXPATHLEN];
+    int retval=0;
+    DIRREF dirp;
+    double x;
+
+    size = 0.0;
+    dirp = dir_open(dirpath);
+    if (!dirp) return ERR_OPENDIR;
+    while (1) {
+        retval = dir_scan(filename, dirp, sizeof(filename));
+        if (retval) break;
+
+        snprintf(subdir, sizeof(subdir), "%.*s/%.*s", DIR_LEN, dirpath, FILE_LEN, filename);
+        subdir[sizeof(subdir)-1] = 0;
+
+        if (is_dir(subdir)) {
+            if (recurse) {
+                retval = dir_size_alloc(subdir, x);
+                if (retval) continue;
+                size += x;
+            }
+        } else if (is_file(subdir)) {
+            retval = file_size_alloc(subdir, x);
+            if (retval) continue;
+            size += x;
+        }
+    }
+    dir_close(dirp);
+#endif
+    return 0;
+}
+
 FILE* boinc_fopen(const char* path, const char* mode) {
     // if opening for read, and file isn't there,
     // leave now (avoid 5-second delay!!)
@@ -496,11 +587,7 @@ FILE* boinc_fopen(const char* path, const char* mode) {
             return 0;
         }
     }
-#ifndef _USING_FCGI_
-    FILE *f = fopen(path, mode);
-#else
-    FCGI_FILE *f = FCGI::fopen(path,mode);
-#endif
+    FILE *f = boinc::fopen(path, mode);
 
 #ifdef _WIN32
     // on Windows: if fopen fails, try again for 5 seconds
@@ -522,17 +609,13 @@ FILE* boinc_fopen(const char* path, const char* mode) {
         for (int i=0; i<5; i++) {
             boinc_sleep(drand());
             if (errno != EINTR) break;
-#ifndef _USING_FCGI_
-            f = fopen(path, mode);
-#else
-            f = FCGI::fopen(path, mode);
-#endif
+            f = boinc::fopen(path, mode);
             if (f) break;
         }
     }
     if (f) {
-        if (-1 == fcntl(fileno(f), F_SETFD, FD_CLOEXEC)) {
-            fclose(f);
+        if (-1 == fcntl(boinc::fileno(f), F_SETFD, FD_CLOEXEC)) {
+            boinc::fclose(f);
             return 0;
         }
     }
@@ -579,13 +662,9 @@ int boinc_touch_file(const char *path) {
     if (boinc_file_exists(path)) {
         return 0;
     }
-#ifndef _USING_FCGI_
-    FILE *fp = fopen(path, "w");
-#else
-    FCGI_FILE *fp = FCGI::fopen(path, "w");
-#endif
+    FILE *fp = boinc::fopen(path, "w");
     if (fp) {
-        fclose(fp);
+        boinc::fclose(fp);
         return 0;
     }
     return -1;
@@ -598,52 +677,51 @@ int boinc_copy(const char* orig, const char* newf) {
     }
     return 0;
 #elif defined(__EMX__)
-    char cmd[2*MAXPATHLEN];
+    char cmd[2*MAXPATHLEN+4+2+4+1]; // 2 blanks, 4 '"'s, 1 terminating 0
     snprintf(cmd, sizeof(cmd), "copy \"%s\" \"%s\"", orig, newf);
-    cmd[sizeof(cmd)-1] = 0;
     return system(cmd);
 #else
-    // POSIX requires that shells run from an application will use the 
-    // real UID and GID if different from the effective UID and GID.  
-    // Mac OS 10.4 did not enforce this, but OS 10.5 does.  Since 
-    // system() invokes a shell, it may not properly copy the file's 
-    // ownership or permissions when called from the BOINC Client 
+    // POSIX requires that shells run from an application will use the
+    // real UID and GID if different from the effective UID and GID.
+    // Mac OS 10.4 did not enforce this, but OS 10.5 does.  Since
+    // system() invokes a shell, it may not properly copy the file's
+    // ownership or permissions when called from the BOINC Client
     // under sandbox security, so we copy the file directly.
     //
     FILE *src, *dst;
-    int m, n;
+    size_t m, n;
     int retval = 0;
     unsigned char buf[65536];
     src = boinc_fopen(orig, "r");
     if (!src) return ERR_FOPEN;
     dst = boinc_fopen(newf, "w");
     if (!dst) {
-        fclose(src);
+        boinc::fclose(src);
         return ERR_FOPEN;
     }
     while (1) {
-        n = fread(buf, 1, sizeof(buf), src);
-        if (n <= 0) {
+        n = boinc::fread(buf, 1, sizeof(buf), src);
+        if (n == 0) {
             // could be either EOF or an error.
             // Check for error case.
             //
-            if (!feof(src)) {
+            if (!boinc::feof(src)) {
                 retval = ERR_FREAD;
             }
             break;
         }
-        m = fwrite(buf, 1, n, dst);
+        m = boinc::fwrite(buf, 1, n, dst);
         if (m != n) {
             retval = ERR_FWRITE;
             break;
         }
     }
-    if (fclose(src)){
-       fclose(dst);
+    if (boinc::fclose(src)){
+       boinc::fclose(dst);
        return ERR_FCLOSE;
     }
 
-    if (fclose(dst)){
+    if (boinc::fclose(dst)){
        return ERR_FCLOSE;
     }
     return retval;
@@ -683,7 +761,7 @@ static int boinc_rename_aux(const char* old, const char* newf) {
     int retval = rename(old, newf);
     if (retval) {
         char buf[MAXPATHLEN+MAXPATHLEN];
-        sprintf(buf, "mv \"%s\" \"%s\"", old, newf);
+        snprintf(buf, sizeof(buf), "mv \"%s\" \"%s\"", old, newf);
 #ifdef __APPLE__
         // system() is deprecated in Mac OS 10.10.
         // Apple says to call posix_spawn instead.
@@ -773,7 +851,7 @@ int boinc_make_dirs(const char* dirpath, const char* filepath) {
         p = strchr(q, '/');
         if (!p) break;
         *p = 0;
-        snprintf(newpath, sizeof(newpath), "%s/%s", oldpath, q);
+        snprintf(newpath, sizeof(newpath), "%.*s/%.*s", DIR_LEN, oldpath, FILE_LEN, q);
         newpath[sizeof(newpath)-1] = 0;
         retval = boinc_mkdir(newpath);
         if (retval) return retval;
@@ -850,7 +928,7 @@ void boinc_getcwd(char* path) {
 #ifdef _WIN32
     getcwd(path, MAXPATHLEN);
 #else
-    char* p 
+    char* p
 #ifdef __GNUC__
       __attribute__ ((unused))
 #endif
@@ -912,7 +990,7 @@ FILE* boinc_temp_file(const char* dir, const char* prefix, char* temp_path) {
     if (fd < 0) {
         return 0;
     }
-    return fdopen(fd, "wb");
+    return boinc::fdopen(fd, "wb");
 }
 
 #endif
@@ -957,11 +1035,7 @@ int get_filesystem_info(double &total_space, double &free_space, char* path) {
 
     int retval = STATFS(path, &fs_info);
     if (retval) {
-#ifndef _USING_FCGI_
-        perror("statvfs");
-#else
-        FCGI::perror("statvfs");
-#endif
+        boinc::perror("statvfs");
         return ERR_STATFS;
     }
 #if HAVE_SYS_STATVFS_H
@@ -993,4 +1067,82 @@ bool is_path_absolute(const std::string path) {
 #else
     return path.length() >= 1 && path[0] == '/';
 #endif
+}
+
+// read file (at most max_len chars, if nonzero) into malloc'd buf
+//
+#ifdef _USING_FCGI_
+int read_file_malloc(const char* path, char*& buf, size_t, bool) {
+#else
+int read_file_malloc(const char* path, char*& buf, size_t max_len, bool tail) {
+#endif
+    int retval;
+    double size;
+
+    // Win: if another process has this file open for writing,
+    // wait for up to 5 seconds.
+    // This is because when a job exits, the write to stderr.txt
+    // sometimes (inexplicably) doesn't appear immediately
+
+#ifdef _WIN32
+    for (int i=0; i<5; i++) {
+        HANDLE h = CreateFileA(
+            path,
+            GENERIC_WRITE,
+            0,
+            NULL,
+            OPEN_EXISTING,
+            FILE_ATTRIBUTE_NORMAL,
+            NULL
+        );
+        if (h != INVALID_HANDLE_VALUE) {
+            CloseHandle(h);
+            break;
+        }
+        boinc_sleep(1);
+    }
+#endif
+
+    retval = file_size(path, size);
+    if (retval) return retval;
+
+    // Note: the fseek() below won't work unless we use binary mode in fopen
+
+    FILE *f = boinc::fopen(path, "rb");
+    if (!f) return ERR_FOPEN;
+
+#ifndef _USING_FCGI_
+    if (max_len && size > (double)max_len) {
+        if (tail) {
+            fseek(f, (long)size-(long)max_len, SEEK_SET);
+        }
+        size = (double)max_len;
+    }
+#endif
+    size_t isize = (size_t)size;
+    buf = (char*)malloc(isize+1);
+    if (!buf) {
+        boinc::fclose(f);
+        return ERR_MALLOC;
+    }
+    size_t n = boinc::fread(buf, 1, isize, f);
+    buf[n] = 0;
+    boinc::fclose(f);
+    return 0;
+}
+
+// read file (at most max_len chars, if nonzero) into string
+//
+int read_file_string(
+    const char* path, string& result, size_t max_len, bool tail
+) {
+    result.erase();
+    int retval;
+    char* buf;
+
+    retval = read_file_malloc(path, buf, max_len, tail);
+    if (retval) return retval;
+    result = buf;
+    free(buf);
+    return 0;
 }

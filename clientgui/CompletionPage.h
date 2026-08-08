@@ -27,7 +27,7 @@
  */
 
 class CCompletionPage: public wxWizardPageEx
-{    
+{
     DECLARE_DYNAMIC_CLASS( CCompletionPage )
     DECLARE_EVENT_TABLE()
 

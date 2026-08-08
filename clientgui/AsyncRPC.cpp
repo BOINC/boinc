@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
+// Copyright (C) 2022 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -99,7 +99,7 @@ AsyncRPC::AsyncRPC(CMainDocument *pDoc) {
 AsyncRPC::~AsyncRPC() {}
 
 
-int AsyncRPC::RPC_Wait(RPC_SELECTOR which_rpc, void *arg1, void *arg2, 
+int AsyncRPC::RPC_Wait(RPC_SELECTOR which_rpc, void *arg1, void *arg2,
     void *arg3, void *arg4, bool hasPriority
 ) {
     ASYNC_RPC_REQUEST request;
@@ -121,10 +121,10 @@ int AsyncRPC::RPC_Wait(RPC_SELECTOR which_rpc, void *arg1, void *arg2,
 }
 
 
-RPCThread::RPCThread(CMainDocument *pDoc, 
-                        BOINC_Mutex* pRPC_Thread_Mutex, 
-                        BOINC_Condition* pRPC_Thread_Condition, 
-                        BOINC_Mutex* pRPC_Request_Mutex, 
+RPCThread::RPCThread(CMainDocument *pDoc,
+                        BOINC_Mutex* pRPC_Thread_Mutex,
+                        BOINC_Condition* pRPC_Thread_Condition,
+                        BOINC_Mutex* pRPC_Request_Mutex,
                         BOINC_Condition* pRPC_Request_Condition)
                         : wxThread() {
     m_pDoc = pDoc;
@@ -139,8 +139,10 @@ void *RPCThread::Entry() {
     CRPCFinishedEvent RPC_done_event( wxEVT_RPC_FINISHED );
     ASYNC_RPC_REQUEST *current_request;
     double startTime = 0;
+#if wxDEBUG_LEVEL
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
     wxCondError condErr = wxCOND_NO_ERROR;
+#endif
 
 #ifdef HAVE__CONFIGTHREADLOCALE
     _configthreadlocale(_ENABLE_PER_THREAD_LOCALE);
@@ -149,7 +151,7 @@ void *RPCThread::Entry() {
     locale_t RPC_Thread_Locale = newlocale(LC_ALL_MASK, "C", (locale_t) 0);
     uselocale(RPC_Thread_Locale);
 #endif
-   
+
 
 
     m_pRPC_Thread_Mutex->Lock();
@@ -159,25 +161,28 @@ void *RPCThread::Entry() {
         // This does the following:
         // (1) Unlocks the Mutex and puts the RPC thread to sleep as an atomic operation.
         // (2) On Signal from main thread: locks Mutex again and wakes the RPC thread.
-        condErr = m_pRPC_Thread_Condition->Wait();
+#if wxDEBUG_LEVEL
+        condErr =
+#endif
+        m_pRPC_Thread_Condition->Wait();
         wxASSERT(condErr == wxCOND_NO_ERROR);
-        
+
         if (m_pDoc->m_bShutDownRPCThread) {
 #ifdef HAVE_USELOCALE
             uselocale(LC_GLOBAL_LOCALE);
             freelocale(RPC_Thread_Locale);
 #endif
             m_pRPC_Thread_Mutex->Unlock();  // Just for safety - not really needed
-            // Tell CMainDocument that thread has gracefully ended 
+            // Tell CMainDocument that thread has gracefully ended
             // We do this here because OnExit() is not called on Windows
             m_pDoc->m_RPCThread = NULL;
             return 0;
         }
-        
+
         current_request = m_pDoc->GetCurrentRPCRequest();
 
         if (!current_request->isActive)  continue;       // Should never happen
-        
+
         if (current_request->RPCExecutionTime) {
             startTime = dtime();
         }
@@ -185,20 +190,25 @@ void *RPCThread::Entry() {
         if (current_request->RPCExecutionTime) {
             *(current_request->RPCExecutionTime) = dtime() - startTime;
         }
-        
+
         current_request->retval = retval;
 
-        mutexErr = m_pRPC_Request_Mutex->Lock();
+#if wxDEBUG_LEVEL
+        mutexErr =
+#endif
+        m_pRPC_Request_Mutex->Lock();
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
-
         current_request->isActive = false;
         wxPostEvent( wxTheApp, RPC_done_event );
 
-        // Signal() is ignored / discarded unless the main thread is 
+        // Signal() is ignored / discarded unless the main thread is
         // currently blocked by m_pRPC_Request_Condition->Wait[Timeout]()
         m_pRPC_Request_Condition->Signal();
-        
-        mutexErr = m_pRPC_Request_Mutex->Unlock();
+
+#if wxDEBUG_LEVEL
+        mutexErr =
+#endif
+        m_pRPC_Request_Mutex->Unlock();
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
     }
 
@@ -209,7 +219,7 @@ void *RPCThread::Entry() {
 int RPCThread::ProcessRPCRequest() {
     int                     retval = 0;
     ASYNC_RPC_REQUEST       *current_request = m_pDoc->GetCurrentRPCRequest();
-    
+
     switch (current_request->which_rpc) {
     // RPC_SELECTORS with no arguments
     case RPC_RUN_BENCHMARKS:
@@ -247,7 +257,7 @@ int RPCThread::ProcessRPCRequest() {
         retval = (m_pDoc->rpcClient).get_simple_gui_info(*(SIMPLE_GUI_INFO*)(current_request->arg1));
         break;
     case RPC_GET_SIMPLE_GUI_INFO2:
-        // RPC_GET_SIMPLE_GUI_INFO2 is equivalent to doing both 
+        // RPC_GET_SIMPLE_GUI_INFO2 is equivalent to doing both
         // RPC_GET_PROJECT_STATUS1 and RPC_GET_RESULTS
         retval = (m_pDoc->rpcClient).get_results(*(RESULTS*)(current_request->arg3), *(bool*)(current_request->arg4));
         if (!retval) {
@@ -268,19 +278,19 @@ int RPCThread::ProcessRPCRequest() {
         break;
     case RPC_PROJECT_OP:
         retval = (m_pDoc->rpcClient).project_op(
-            *(PROJECT*)(current_request->arg1), 
+            *(PROJECT*)(current_request->arg1),
             (const char*)(current_request->arg2)
         );
         break;
     case RPC_SET_RUN_MODE:
         retval = (m_pDoc->rpcClient).set_run_mode(
-            *(int*)(current_request->arg1), 
+            *(int*)(current_request->arg1),
             *(double*)(current_request->arg2)
         );
         break;
     case RPC_SET_GPU_MODE:
         retval = (m_pDoc->rpcClient).set_gpu_mode(
-            *(int*)(current_request->arg1), 
+            *(int*)(current_request->arg1),
             *(double*)(current_request->arg2)
         );
         break;
@@ -307,20 +317,20 @@ int RPCThread::ProcessRPCRequest() {
         break;
     case RPC_GET_NOTICES:
         retval = (m_pDoc->rpcClient).get_notices(
-            *(int*)(current_request->arg1), 
+            *(int*)(current_request->arg1),
             *(NOTICES*)(current_request->arg2)
         );
         break;
     case RPC_GET_MESSAGES:
         retval = (m_pDoc->rpcClient).get_messages(
-            *(int*)(current_request->arg1), 
+            *(int*)(current_request->arg1),
             *(MESSAGES*)(current_request->arg2),
             *(bool*)(current_request->arg3)
         );
         break;
     case RPC_FILE_TRANSFER_OP:
         retval = (m_pDoc->rpcClient).file_transfer_op(
-            *(FILE_TRANSFER*)(current_request->arg1), 
+            *(FILE_TRANSFER*)(current_request->arg1),
             (const char*)(current_request->arg2)
         );
         break;
@@ -368,9 +378,10 @@ int RPCThread::ProcessRPCRequest() {
         break;
     case RPC_PROJECT_ATTACH:
         retval = (m_pDoc->rpcClient).project_attach(
-            (const char*)(current_request->arg1), 
-            (const char*)(current_request->arg2), 
-            (const char*)(current_request->arg3)
+            (const char*)(current_request->arg1),
+            (const char*)(current_request->arg2),
+            (const char*)(current_request->arg3),
+            (const char*)(current_request->arg4)
         );
         break;
     case RPC_PROJECT_ATTACH_FROM_FILE:
@@ -381,8 +392,8 @@ int RPCThread::ProcessRPCRequest() {
         break;
     case RPC_ACCT_MGR_RPC:
         retval = (m_pDoc->rpcClient).acct_mgr_rpc(
-            (const char*)(current_request->arg1), 
-            (const char*)(current_request->arg2), 
+            (const char*)(current_request->arg1),
+            (const char*)(current_request->arg2),
             (const char*)(current_request->arg3),
             (bool)(current_request->arg4 != NULL)
         );
@@ -413,7 +424,7 @@ int RPCThread::ProcessRPCRequest() {
         break;
     case RPC_GET_GLOBAL_PREFS_WORKING_STRUCT:
         retval = (m_pDoc->rpcClient).get_global_prefs_working_struct(
-            *(GLOBAL_PREFS*)(current_request->arg1), 
+            *(GLOBAL_PREFS*)(current_request->arg1),
             *(GLOBAL_PREFS_MASK*)(current_request->arg2)
         );
         break;
@@ -425,13 +436,13 @@ int RPCThread::ProcessRPCRequest() {
         break;
     case RPC_GET_GLOBAL_PREFS_OVERRIDE_STRUCT:
         retval = (m_pDoc->rpcClient).get_global_prefs_override_struct(
-            *(GLOBAL_PREFS*)(current_request->arg1), 
+            *(GLOBAL_PREFS*)(current_request->arg1),
             *(GLOBAL_PREFS_MASK*)(current_request->arg2)
         );
         break;
     case RPC_SET_GLOBAL_PREFS_OVERRIDE_STRUCT:
         retval = (m_pDoc->rpcClient).set_global_prefs_override_struct(
-            *(GLOBAL_PREFS*)(current_request->arg1), 
+            *(GLOBAL_PREFS*)(current_request->arg1),
             *(GLOBAL_PREFS_MASK*)(current_request->arg2)
         );
         break;
@@ -466,18 +477,20 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     std::vector<ASYNC_RPC_REQUEST>::iterator iter;
     int retval = 0;
     int response = wxID_OK;
+#if wxDEBUG_LEVEL
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
+#endif
     long timeToDelay, delayTimeRemaining, timeToSleep;
     bool shown = false;
-    
+
     if (!m_RPCThread) return -1;
 
-    if ( (request.rpcType < RPC_TYPE_WAIT_FOR_COMPLETION) || 
+    if ( (request.rpcType < RPC_TYPE_WAIT_FOR_COMPLETION) ||
             (request.rpcType >= NUM_RPC_TYPES) ) {
         wxASSERT(false);
         return -1;
     }
-    
+
     // If we are quitting, cancel any pending RPCs
     if (request.which_rpc == RPC_QUIT) {
         if (current_rpc_request.isActive) {
@@ -487,7 +500,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
             RPC_requests.clear();
         }
     }
-    
+
     // Check if a duplicate request is already on the queue
     for (iter=RPC_requests.begin(); iter!=RPC_requests.end(); ++iter) {
         if (iter->isSameAs(request)) {
@@ -498,20 +511,23 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     if ((request.rpcType == RPC_TYPE_WAIT_FOR_COMPLETION) && (request.resultPtr == NULL)) {
         request.resultPtr = &retval;
     }
-    
+
     if (hasPriority) {
-        // We may want to set hasPriority for some user-initiated events. 
+        // We may want to set hasPriority for some user-initiated events.
         // Since the user is waiting, insert this at head of request queue.
         // As of 8/14/08, hasPriority is never set true, so hasn't been tested.
         iter = RPC_requests.insert(RPC_requests.begin(), request);
     } else {
            RPC_requests.push_back(request);
     }
-    
+
     // Start this RPC if no other RPC is already in progress.
     if (RPC_requests.size() == 1) {
         // Wait for thread to unlock mutex with m_pRPC_Thread_Condition->Wait()
-        mutexErr = m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
+#if wxDEBUG_LEVEL
+        mutexErr =
+#endif
+        m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
 
         // Make sure activation is an atomic operation
@@ -521,13 +537,16 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
 
         m_pRPC_Thread_Condition->Signal();  // Unblock the thread
 
-        // m_pRPC_Thread_Condition->Wait() will Lock() the mutex upon receiving Signal(), 
+        // m_pRPC_Thread_Condition->Wait() will Lock() the mutex upon receiving Signal(),
         // causing it to block again if we still have our lock on the mutex.
-        mutexErr = m_pRPC_Thread_Mutex->Unlock();
+#if wxDEBUG_LEVEL
+        mutexErr =
+#endif
+        m_pRPC_Thread_Mutex->Unlock();
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
     }
 
-    // If this is a user-initiated event wait for completion but show 
+    // If this is a user-initiated event wait for completion but show
     // a dialog allowing the user to cancel.
     if (request.rpcType == RPC_TYPE_WAIT_FOR_COMPLETION) {
     // TODO: proper handling if a second user request is received while first is pending ??
@@ -539,7 +558,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         // Don't show dialog if RPC completes before RPC_WAIT_DLG_DELAY
         // or while BOINC is minimized or during auto-attach to project
         CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-        wxStopWatch Dlgdelay = wxStopWatch();        
+        wxStopWatch Dlgdelay = wxStopWatch();
         m_RPCWaitDlg = new AsyncRPCDlg();
         m_bWaitingForRPC = true;
         if (m_bAutoAttaching) {
@@ -547,63 +566,69 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
             // so don't keep checking once it is false
             m_bAutoAttaching = autoattach_in_progress();
         }
-        
-        // Allow RPC_WAIT_DLG_DELAY seconds for Demand RPC to complete before 
+
+        // Allow RPC_WAIT_DLG_DELAY seconds for Demand RPC to complete before
         // displaying "Please Wait" dialog, but keep checking for completion.
         if (m_bAutoAttaching) {
             timeToDelay = RPC_WAIT_DLG_DELAY_DURING_AUTOATTACH;
         } else {
             timeToDelay = RPC_WAIT_DLG_DELAY;
         }
-        
+
         delayTimeRemaining = timeToDelay;
         while (true) {
             if (delayTimeRemaining >= 0) {  // Prevent overflow if minimized for a very long time
                 delayTimeRemaining = timeToDelay - Dlgdelay.Time();
             }
-            
+
             if (pFrame) {
                 shown = pFrame->IsShown();
             } else {
                 shown = false;
             }
-            
+
             if (shown) {
                 if (delayTimeRemaining <= 0) break; // Display the Please Wait dialog
                 timeToSleep = delayTimeRemaining;
             } else {
-                // Don't show dialog while Manager is minimized, but do 
-                // process events so user can maximize the manager. 
+                // Don't show dialog while Manager is minimized, but do
+                // process events so user can maximize the manager.
                 //
-                // NOTE: CBOINCGUIApp::FilterEvent() discards those events 
-                // which might cause posting of more RPC requests while 
+                // NOTE: CBOINCGUIApp::FilterEvent() discards those events
+                // which might cause posting of more RPC requests while
                 // we are in this loop, to prevent undesirable recursion.
-                // Since the manager is minimized, we don't have to worry about 
-                // discarding crucial drawing or command events. 
-                // The filter does allow the the Open Manager menu item from 
-                // the system tray icon and wxEVT_RPC_FINISHED event. 
+                // Since the manager is minimized, we don't have to worry about
+                // discarding crucial drawing or command events.
+                // The filter does allow the the Open Manager menu item from
+                // the system tray icon and wxEVT_RPC_FINISHED event.
                 //
                 timeToSleep = DELAY_WHEN_MINIMIZED; // Allow user to maximize Manager
                 wxSafeYield(NULL, true);
             }
-            
+
             // OnRPCComplete() clears m_bWaitingForRPC and deletes m_RPCWaitDlg if RPC completed
             if (! m_bWaitingForRPC) {
                 return retval;
             }
-            
-            mutexErr = m_pRPC_Request_Mutex->Lock();
+
+#if wxDEBUG_LEVEL
+            mutexErr =
+#endif
+            m_pRPC_Request_Mutex->Lock();
             wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
 
-            // Simulate handling of CRPCFinishedEvent but don't allow any other 
+            // Simulate handling of CRPCFinishedEvent but don't allow any other
             // events (so no user activity) to prevent undesirable recursion.
-            // Since we don't need to filter and discard events, they remain on 
+            // Since we don't need to filter and discard events, they remain on
             // the queue until it is safe to process them.
             // Allow RPC thread to run while we wait for it.
             if (!current_rpc_request.isActive) {
-                mutexErr = m_pRPC_Request_Mutex->Unlock();
+#if wxDEBUG_LEVEL
+                mutexErr =
+#endif
+                m_pRPC_Request_Mutex->Unlock();
                 wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
-                
+
                 HandleCompletedRPC();
                 continue;
             }
@@ -614,18 +639,21 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
             // (2) On Signal from RPC thread: locks Mutex again and wakes the main thread.
             m_pRPC_Request_Condition->WaitTimeout(timeToSleep);
 
-            mutexErr = m_pRPC_Request_Mutex->Unlock();
+#if wxDEBUG_LEVEL
+            mutexErr =
+#endif
+            m_pRPC_Request_Mutex->Unlock();
             wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
         }
-        
-        // Demand RPC has taken longer than RPC_WAIT_DLG_DELAY seconds and 
-        // Manager is not minimized, so display the "Please Wait" dialog 
-        // with a Cancel button.  If the RPC does complete while the dialog 
+
+        // Demand RPC has taken longer than RPC_WAIT_DLG_DELAY seconds and
+        // Manager is not minimized, so display the "Please Wait" dialog
+        // with a Cancel button.  If the RPC does complete while the dialog
         // is up, HandleCompletedRPC() will call EndModal with wxID_OK.
         //
-        // NOTE: the Modal dialog permits processing of all events, but 
-        // CBOINCGUIApp::FilterEvent() blocks those events which might cause 
-        // posting of more RPC requests while in this dialog, to prevent 
+        // NOTE: the Modal dialog permits processing of all events, but
+        // CBOINCGUIApp::FilterEvent() blocks those events which might cause
+        // posting of more RPC requests while in this dialog, to prevent
         // undesirable recursion.
         //
         if (m_RPCWaitDlg) {
@@ -633,17 +661,17 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
             // Remember time the dialog was closed for use by RunPeriodicRPCs()
             m_dtLasAsyncRPCDlgTime = wxDateTime::Now();
             if (response != wxID_OK) {
-                // TODO: If user presses Cancel in Please Wait dialog but request 
-                // has not yet been started, should we just remove it from queue? 
-                // If we make that change, should we also add a separate menu item  
+                // TODO: If user presses Cancel in Please Wait dialog but request
+                // has not yet been started, should we just remove it from queue?
+                // If we make that change, should we also add a separate menu item
                 // to reset the RPC connection (or does one already exist)?
 
                 retval = -1;
-                // If the RPC continues to get data after we return to 
+                // If the RPC continues to get data after we return to
                 // our caller, it may try to write into a buffer or struct
-                // which the caller has already deleted.  To prevent this, 
+                // which the caller has already deleted.  To prevent this,
                 // we close the socket (disconnect) and kill the RPC thread.
-                // This is ugly but necessary.  We must then reconnect and 
+                // This is ugly but necessary.  We must then reconnect and
                 // start a new RPC thread.
                 if (current_rpc_request.isActive) {
                     current_rpc_request.isActive = false;
@@ -653,7 +681,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                     m_bNeedRefresh = false;
                     m_bNeedTaskBarRefresh = false;
 
-                    // We will be reconnected to the same client (if possible) by 
+                    // We will be reconnected to the same client (if possible) by
                     // CBOINCDialUpManager::OnPoll() and CNetworkConnection::Poll().
                     m_pNetworkConnection->SetStateDisconnected();
                 }
@@ -676,7 +704,9 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
 
 
 void CMainDocument::KillRPCThread() {
+#if wxDEBUG_LEVEL
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
+#endif
     int i;
 
     if (!m_RPCThread) {
@@ -685,18 +715,24 @@ void CMainDocument::KillRPCThread() {
 
     m_bNeedRefresh = false;
     m_bNeedTaskBarRefresh = false;
-    
+
     rpcClient.close();  // Abort any async RPC in progress (in case hung)
-   
+
     // On some platforms, Delete() takes effect only when thread calls TestDestroy()
     // Wait for thread to unlock mutex with m_pRPC_Thread_Condition->Wait()
-    mutexErr = m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
+#if wxDEBUG_LEVEL
+    mutexErr =
+#endif
+    m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
     wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
 
     m_bShutDownRPCThread = true;
     m_pRPC_Thread_Condition->Signal();  // Unblock the thread
 
-    mutexErr = m_pRPC_Thread_Mutex->Unlock(); // Release the mutex so thread can lock it
+#if wxDEBUG_LEVEL
+    mutexErr =
+#endif
+    m_pRPC_Thread_Mutex->Unlock(); // Release the mutex so thread can lock it
     wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
 
     RPC_requests.clear();
@@ -716,22 +752,24 @@ void CMainDocument::KillRPCThread() {
 
 void CMainDocument::OnRPCComplete(CRPCFinishedEvent&) {
     HandleCompletedRPC();
-}   
+}
 
 
 void CMainDocument::HandleCompletedRPC() {
     int retval = 0;
+#if wxDEBUG_LEVEL
     wxMutexError mutexErr = wxMUTEX_NO_ERROR;
+#endif
     int i, n, requestIndex = -1;
     bool stillWaitingForPendingRequests = false;
-    
+
     if (!m_RPCThread) return;
-   
+
     if (current_rpc_request.isActive) return;
-    
-    // We can get here either via a CRPCFinishedEvent event posted 
-    // by the RPC thread or by a call from RequestRPC.  If we were 
-    // called from RequestRPC, the CRPCFinishedEvent will still be 
+
+    // We can get here either via a CRPCFinishedEvent event posted
+    // by the RPC thread or by a call from RequestRPC.  If we were
+    // called from RequestRPC, the CRPCFinishedEvent will still be
     // on the event queue, so we get called twice.  Check for this here.
     if (current_rpc_request.which_rpc == 0) return; // already handled by a call from RequestRPC
 
@@ -746,7 +784,7 @@ void CMainDocument::HandleCompletedRPC() {
             }
         }
     }
-    
+
     if (! stillWaitingForPendingRequests) {
         if (m_RPCWaitDlg) {
             if (m_RPCWaitDlg->IsShown()) {
@@ -762,18 +800,18 @@ void CMainDocument::HandleCompletedRPC() {
         // Remove completed request from the queue
         RPC_requests.erase(RPC_requests.begin()+requestIndex);
     }
-    
+
     retval = current_rpc_request.retval;
 
-    
+
     if (current_rpc_request.completionTime) {
         *(current_rpc_request.completionTime) = wxDateTime::Now();
     }
-    
+
     if (current_rpc_request.resultPtr) {
         *(current_rpc_request.resultPtr) = retval;
     }
-    
+
     // Post-processing
     if (! retval) {
          if (current_rpc_request.rpcType == RPC_TYPE_ASYNC_WITH_REFRESH_AFTER) {
@@ -781,13 +819,13 @@ void CMainDocument::HandleCompletedRPC() {
                 m_bNeedRefresh = true;
             }
         }
-    
+
          if (current_rpc_request.rpcType == RPC_TYPE_ASYNC_WITH_UPDATE_TASKBAR_ICON_AFTER) {
             if (!retval) {
                 m_bNeedTaskBarRefresh = true;
             }
         }
-    
+
        switch (current_rpc_request.which_rpc) {
         case RPC_GET_STATE:
             if (current_rpc_request.exchangeBuf && !retval) {
@@ -889,7 +927,7 @@ void CMainDocument::HandleCompletedRPC() {
                 arg1->projects.swap(exchangeBuf->projects);
             }
             break;
-            
+
         case RPC_GET_CC_STATUS:
             if (current_rpc_request.exchangeBuf && !retval) {
                 CC_STATUS* arg1 = (CC_STATUS*)current_rpc_request.arg1;
@@ -905,35 +943,35 @@ void CMainDocument::HandleCompletedRPC() {
            }
             break;
         default:
-            // We don't support double buffering for other RPC calls 
+            // We don't support double buffering for other RPC calls
             wxASSERT(current_rpc_request.exchangeBuf == NULL);
             break;
         }
     }
-    
+
     if (current_rpc_request.resultPtr) {
         // In case post-processing changed retval
         *(current_rpc_request.resultPtr) = retval;
     }
 
-    // We must call ProcessEvent() rather than AddPendingEvent() here to 
-    // guarantee integrity of data when other events are handled (such as 
-    // Abort, Suspend/Resume, Show Graphics, Update, Detach, Reset, No 
-    // New Work, etc.)  Otherwise, if one of those events is pending it 
-    // might be processed first, and the data in the selected rows may not 
-    // match the data which the user selected if any rows were added or 
-    // deleted due to the RPC.  
-    // The refresh event called here adjusts the selections to fix any 
-    // such mismatch before other pending events are processed.  
+    // We must call ProcessEvent() rather than AddPendingEvent() here to
+    // guarantee integrity of data when other events are handled (such as
+    // Abort, Suspend/Resume, Show Graphics, Update, Detach, Reset, No
+    // New Work, etc.)  Otherwise, if one of those events is pending it
+    // might be processed first, and the data in the selected rows may not
+    // match the data which the user selected if any rows were added or
+    // deleted due to the RPC.
+    // The refresh event called here adjusts the selections to fix any
+    // such mismatch before other pending events are processed.
     //
-    // However, the refresh code may itself request a Demand RPC, which 
-    // would cause undesirable recursion if we are already waiting for 
-    // another Demand RPC to complete.  In that case, we defer the refresh 
+    // However, the refresh code may itself request a Demand RPC, which
+    // would cause undesirable recursion if we are already waiting for
+    // another Demand RPC to complete.  In that case, we defer the refresh
     // until all pending Demand RPCs have been done.
     //
     if (m_bNeedRefresh && !m_bWaitingForRPC) {
         m_bNeedRefresh = false;
-        // We must get the frame immediately before using it, 
+        // We must get the frame immediately before using it,
         // since it may have been changed by SetActiveGUI().
         CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
         if (pFrame) {
@@ -959,15 +997,18 @@ void CMainDocument::HandleCompletedRPC() {
             eventLog->OnRefresh();
         }
     }
-    
+
     current_rpc_request.clear();
 
-    // Start the next RPC request.  
-    // We can't start this until finished processing the previous RPC's 
+    // Start the next RPC request.
+    // We can't start this until finished processing the previous RPC's
     // event because the two requests may write into the same buffer.
     if (RPC_requests.size() > 0) {
         // Wait for thread to unlock mutex with m_pRPC_Thread_Condition->Wait()
-        mutexErr = m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
+#if wxDEBUG_LEVEL
+        mutexErr =
+#endif
+        m_pRPC_Thread_Mutex->Lock();  // Blocks until thread unlocks the mutex
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
 
         // Make sure activation is an atomic operation
@@ -977,9 +1018,12 @@ void CMainDocument::HandleCompletedRPC() {
 
         m_pRPC_Thread_Condition->Signal();  // Unblock the thread
 
-        // m_pRPC_Thread_Condition->Wait() will Lock() the mutex upon receiving Signal(), 
+        // m_pRPC_Thread_Condition->Wait() will Lock() the mutex upon receiving Signal(),
         // causing it to block again if we still have our lock on the mutex.
-        mutexErr = m_pRPC_Thread_Mutex->Unlock();
+#if wxDEBUG_LEVEL
+        mutexErr =
+#endif
+        m_pRPC_Thread_Mutex->Unlock();
         wxASSERT(mutexErr == wxMUTEX_NO_ERROR);
     }
 }
@@ -999,7 +1043,7 @@ int CMainDocument::CopyProjectsToStateBuffer(PROJECTS& p, CC_STATE& ccstate) {
     for (i=0; i<p.projects.size(); i++) {
         state_project = ccstate.lookup_project(p.projects[i]->master_url);
         if (state_project && (!strcmp(p.projects[i]->master_url, state_project->master_url))) {
-            // Because the CC_STATE contains several pointers to each element of the 
+            // Because the CC_STATE contains several pointers to each element of the
             // CC_STATE::projects vector, we must update these elements in place.
             *state_project = *(p.projects[i]);
             state_project->flag_for_delete = false;
@@ -1018,7 +1062,7 @@ int CMainDocument::CopyProjectsToStateBuffer(PROJECTS& p, CC_STATE& ccstate) {
             }
         }
     }
-    
+
     return retval;
 }
 
@@ -1035,7 +1079,7 @@ AsyncRPCDlg::AsyncRPCDlg() : wxDialog( NULL, wxID_ANY, wxT(""), wxDefaultPositio
     wxASSERT(pSkinAdvanced);
 
     wxString message = wxString(_("Communicating with BOINC client.  Please wait ..."));
-    
+
 #ifdef __WXMAC__
     exit_label.Printf(_("&Quit %s"), pSkinAdvanced->GetApplicationName().c_str());
 #else
@@ -1051,9 +1095,9 @@ AsyncRPCDlg::AsyncRPCDlg() : wxDialog( NULL, wxID_ANY, wxT(""), wxDefaultPositio
 
     icon_text->Add( CreateTextSizer( message ), 0, wxALIGN_CENTER | wxLEFT, 10 );
     topsizer->Add( icon_text, 1, wxCENTER | wxLEFT|wxRIGHT|wxTOP, 10 );
-    
+
     wxStdDialogButtonSizer *sizerBtn = CreateStdDialogButtonSizer(0);
-    
+
     wxButton* exitbutton = new wxButton;
     exitbutton->Create( this, wxID_EXIT, exit_label, wxDefaultPosition, wxDefaultSize, 0 );
     sizerBtn->Add(exitbutton, 0, wxLEFT|wxRIGHT|wxALL, 5);
@@ -1061,7 +1105,7 @@ AsyncRPCDlg::AsyncRPCDlg() : wxDialog( NULL, wxID_ANY, wxT(""), wxDefaultPositio
     wxButton* cancelbutton = new wxButton;
     cancelbutton->Create( this, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     sizerBtn->Add(cancelbutton, 0, wxLEFT|wxRIGHT|wxALL, 5);
-    
+
     if ( sizerBtn )
         topsizer->Add(sizerBtn, 0, wxEXPAND | wxALL, 10 );
 
@@ -1108,7 +1152,7 @@ void CMainDocument::TestAsyncRPC() {
 //    request.result = NULL;
     request.resultPtr = &rpc_result;        // For testing async RPCs
     request.isActive = false;
-    
+
 //retval = rpcClient.get_all_projects_list(pl);
 
     req_retval = RequestRPC(request, true);

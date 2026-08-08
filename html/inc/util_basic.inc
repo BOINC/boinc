@@ -16,13 +16,32 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// minimal set of utility functions, usable outside a BOINC project.
-// Doesn't pull in translation.inc etc.
+// PHP utility functions for cmdline tools and RPC handlers
+// as well as web pages.
+// Doesn't contain web-specific stuff like translation.inc
 
 require_once("../inc/random_compat/random.inc");
+    // for random_bytes()
 
+// show PHP errors in output (e.g. web pages).
+// Call this from your project.inc if you want.
+// Not recommended for production projects;
+// check the Apache error log instead.
+//
+function display_errors() {
+    error_reporting(E_ALL);
+    ini_set('display_errors', true);
+    ini_set('display_startup_errors', true);
+}
+
+// always log errors
+ini_set('log_errors', true);
+
+// set to true in RPC handlers.
+// Suppresses output that would invalidate the XML
 $generating_xml = false;
 
+// get project dir, assuming we're running in html/user or html/ops
 function project_dir() {
     $d = dirname(__FILE__);
     return "$d/../..";
@@ -38,15 +57,7 @@ function sched_stopped() {
     return file_exists("$d/stop_sched");
 }
 
-function show_page($x, $y) {
-    echo "
-        <title>$x</title>
-        <h1>$x</h1>
-        $y
-    ";
-}
-
-function xml_error($num, $msg=null, $file=null, $line=null) {
+function xml_error($num=-1, $msg=null, $file=null, $line=null) {
     global $xml_outer_tag;
     if (!$msg) {
         switch($num) {
@@ -81,18 +92,47 @@ function xml_error($num, $msg=null, $file=null, $line=null) {
     exit();
 }
 
-$g_config = null;
-function get_config() {
-    global $g_config;
-    if ($g_config == null) {
+// return the <config> element of config.xml as a simplexml object
+//
+function project_config_object() {
+    static $config;
+    if ($config == null) {
         $d = project_dir();
-        $g_config = file_get_contents("$d/config.xml");
+        $x = simplexml_load_file("$d/config.xml");
+        if (!$x || !isset($x->config)) {
+            error_page("Can't parse project config file.");
+        }
+        $config = $x->config;
     }
-    return $g_config;
+    return $config;
 }
 
-// Look for an element in a line of XML text
-// If it's a single-tag element, and it's present, just return the tag
+// return element from simplexml object, or null
+//
+function project_config_val($tag) {
+    $doc = project_config_object();
+    if (isset($doc->$tag)) {
+        return trim((string)$doc->$tag);
+    }
+    return null;
+}
+
+// get bool value from simplexml object; false if missing
+//
+function project_config_bool($tag) {
+    $doc = project_config_object();
+    if (!isset($doc->$tag)) {
+        return false;
+    }
+    if (trim((string)$doc->$tag) == '0') {
+        return false;
+    }
+    return true;
+}
+
+// ad-hoc XML parsing functions.
+// currently used in job RPC handling and project-specific prefs.
+// TODO: changes these to use simplexml, and get rid of these
 //
 function parse_element($xml, $tag) {
     $closetag = "</" . substr($tag,1);
@@ -123,6 +163,7 @@ function parse_next_element($xml, $tag, &$cursor) {
         }
         $cursor = (strlen($xml) - strlen($x)) + strlen($tag) + strlen($closetag) + strlen($element);
     }
+    if (!$element) return null;
     return trim($element);
 }
 
@@ -137,24 +178,20 @@ function parse_bool($xml, $tag) {
     return false;
 }
 
-// look for a particular element in the config file
+// uniform 0..1
 //
-function parse_config($config, $tag) {
-    $element = parse_element($config, $tag);
-    return $element;
-}
-
 function drand() {
     return ((double)rand())/getrandmax();
 }
 
-// kludge
+// does the plan class use a GPU?
 //
 function is_gpu($plan_class) {
     if (strstr($plan_class, "ati")) return true;
     if (strstr($plan_class, "cuda")) return true;
     if (strstr($plan_class, "nvidia")) return true;
     if (strstr($plan_class, "intel_gpu")) return true;
+    if (strstr($plan_class, "apple_gpu")) return true;
     return false;
 }
 
@@ -171,7 +208,6 @@ function url_get_contents($url) {
     return $content;
 }
 
-
 // return hard-to-guess string of 32 random hex chars
 //
 function random_string() {
@@ -182,6 +218,111 @@ function random_string() {
 //
 function dtime() {
     return microtime(true);
+}
+
+function date_str($x) {
+    if ($x == 0) return "---";
+    return gmdate('j M Y', (int)$x);
+}
+
+function time_str($x) {
+    if ($x == 0) return "---";
+    return gmdate('j M Y, G:i:s', (int)$x) . " UTC";
+}
+
+function local_time_str($x) {
+    if ($x == 0) return "---";
+    return date('j M Y, H:i T', (int)$x);
+}
+
+function pretty_time_str($x) {
+    return time_str($x);
+}
+
+// convert time interval in seconds to a string of the form
+// 'D days h hours m min s sec'.
+
+function time_diff($x, $res=3) {
+    $x = (int)$x;
+    $days    = (int)($x/86400);
+    $hours   = (int)(($x-$days*86400)/3600);
+    $minutes = (int)(($x-$days*86400-$hours*3600)/60);
+    $seconds = $x % 60;
+
+    $s = "";
+    if ($days) {
+        $s .= "$days ".tra("days")." ";
+    }
+    if ($res>0 && ($hours || strlen($s))) {
+        $s .= "$hours ".tra("hours")." ";
+    }
+    if ($res>1 && ($minutes || strlen($s))) {
+        $s .= "$minutes ".tra("min")." ";
+    }
+    if ($res>2) {
+        $s .= "$seconds ".tra("sec")." ";
+    }
+    return $s;
+}
+
+// is the arg either null, '', or whitespace?
+// Note: if ($x) will be false if $x is '0'.
+// We don't want to treat '0' as blank.
+//
+function is_blank($x) {
+    return $x === null || trim($x) === '';
+}
+
+// security vulnerabilities and user-supplied strings:
+// sources:
+// GET and POST arguments
+//      including XML documents passed as args to RPC handlers
+// cookies
+//
+// when used as SQL query args:
+//      use BoincDb::escape_string() to prevent SQL injection
+// when shown as HTML output
+//      (e.g. 'not found' error pages, user names, forum posts)
+//      use htmlspecialchars() to prevent XSS
+// when used as file or dir name
+//      use is_valid_filename()
+
+// is $x a valid file (or dir) name?
+// we want to avoid
+//      FS traversal, e.g. "../../foo" or "/usr/lib/..."
+//      shell command injection, e.g. "foo; rm*"
+//      XSS stuff
+// let's be conservative and allow only 'POSIX fully portable filenames',
+// which can have only A-Z a-z 0-9 . - _
+// In some cases filenames are used on volunteer hosts,
+// whose OSs may have such restrictions.
+// ALSO: allow spaces.
+//
+function is_valid_filename($x) {
+    if (strlen($x)>255) return false;
+    // \w means A-Za-z0-9_
+    return preg_match('/^[\w\-. ]+$/', $x);
+}
+
+function filename_rules() {
+    return 'Names can contain only A-Z a-z 0-9 . - _ space';
+}
+
+define('KILO', 1024);
+define('MEGA', 1024*KILO);
+define('GIGA', 1024*MEGA);
+define('TERA', 1024*GIGA);
+
+// disallow 'external entities'
+//
+function safe_simplexml_load_file($name) {
+    @libxml_disable_entity_loader(true);
+        // deprecated in PHP 8; hide warning
+    return simplexml_load_file($name, 'SimpleXMLElement', LIBXML_NONET);
+}
+function safe_simplexml_load_string($str) {
+    @libxml_disable_entity_loader(true);
+    return simplexml_load_string($str, 'SimpleXMLElement', LIBXML_NONET);
 }
 
 ?>

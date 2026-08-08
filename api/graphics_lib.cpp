@@ -32,7 +32,7 @@
 #include <cstring>
 #include <dlfcn.h>
 
-#include "boinc_api.h"  
+#include "boinc_api.h"
 #include "graphics_api.h"
 #include "graphics_impl.h"
 #include "graphics_lib.h"
@@ -84,7 +84,7 @@ int boinc_init_options_graphics_lib(
     }
     strlcpy(graphics_lib, ptr, sizeof(graphics_lib));
     strlcat(graphics_lib, ".so", sizeof(graphics_lib));
-  
+
     // boinc-resolve library name: it could be a XML symlink
     //
     if (boinc_resolve_filename(graphics_lib, resolved_name, MAXPATHLEN)) {
@@ -98,9 +98,9 @@ int boinc_init_options_graphics_lib(
     // if it's not a symlink, put "./" in front of it
     //
     if (!strcmp(graphics_lib, resolved_name)) {
-        sprintf(resolved_name, "./%s", graphics_lib);
+        snprintf(resolved_name, sizeof(resolved_name), "./%s", graphics_lib);
     }
-  
+
     // get handle for shared library.
     // This handle is a global variable, so it can be declared 'extern'
     // in worker() and thus worker() has access to functions
@@ -114,7 +114,7 @@ int boinc_init_options_graphics_lib(
         );
         goto no_graphics;
     }
-    
+
     // use handle from shared library to resolve the 'initialize
     // graphics' routine from shared library
     //
@@ -137,18 +137,18 @@ int boinc_init_options_graphics_lib(
     retval = boinc_init_options_graphics_impl_hook(
         opt, worker, &boinc_main_state
     );
-    
+
     if (retval) {
         fprintf(stderr,
             "boinc_init_options_graphics_impl() returned %d: unable to create worker thread\n",
             retval
         );
     }
-    
+
     boinc_finish(retval);
     // never get here...
     return 1;
-    
+
 no_graphics:
     // unable to resolve the shared object file, or unable to resolve
     // library dependencies on machine (eg, no X11, no GL libraries,
@@ -156,7 +156,7 @@ no_graphics:
     //
     boinc_init_options(&opt);
     worker();
-    
+
     // worker() should call boinc_finish so we should NEVER get here!
     //
     boinc_finish(1);

@@ -65,7 +65,7 @@ END_DECLARE_EVENT_TYPES()
  */
 
 class CProjectPropertiesPage: public wxWizardPageEx
-{    
+{
     DECLARE_DYNAMIC_CLASS( CProjectPropertiesPage )
     DECLARE_EVENT_TABLE()
 

@@ -657,7 +657,7 @@ class LightOpenID
             # wants to verify. stripslashes() should solve that problem, but we can't
             # use it when magic_quotes is off.
             $value = $this->data['openid_' . str_replace('.','_',$item)];
-            $params['openid.' . $item] = get_magic_quotes_gpc() ? stripslashes($value) : $value;
+            $params['openid.' . $item] = (version_compare(PHP_VERSION, '5.4.0') < 0 && get_magic_quotes_gpc()) ? stripslashes($value) : $value;
 
         }
 
