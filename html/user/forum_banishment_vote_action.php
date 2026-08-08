@@ -25,7 +25,7 @@ if (DISABLE_FORUMS) error_page("Forums are disabled");
 
 check_get_args(array("action", "userid", "tnow", "ttok"));
 
-$config = get_config();
+$config = project_config_object();
 
 $logged_in_user = get_logged_in_user();
 BoincForumPrefs::lookup($logged_in_user);
