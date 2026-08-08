@@ -34,6 +34,7 @@
 #include <openssl/rsa.h>
 #include <openssl/core_names.h>
 
+#include "cert_sig.h"
 #include "crypt.h"
 
 namespace test_lib {
@@ -2266,6 +2267,153 @@ namespace test_lib {
             const_cast<char*>(ca_dir.string().c_str()));
         ASSERT_NE(result, nullptr);
         free(result);
+    }
+
+    TEST_F(test_crypt, test_cert_verify_file_success) {
+        auto ca_key = unique_EVP_PKEY(generate_rsa_key());
+        auto leaf_key = unique_EVP_PKEY(generate_rsa_key());
+        ASSERT_NE(ca_key, nullptr);
+        ASSERT_NE(leaf_key, nullptr);
+
+        std::filesystem::path trust_dir = test_data_dir / "trust";
+        std::filesystem::create_directories(trust_dir);
+
+        X509* ca_cert = X509_new();
+        ASSERT_NE(ca_cert, nullptr);
+        std::unique_ptr<X509, decltype(&X509_free)> ca_cert_guard(ca_cert, X509_free);
+        X509_set_version(ca_cert, 2);
+        ASN1_INTEGER_set(X509_get_serialNumber(ca_cert), 1);
+        X509_NAME* ca_name = X509_get_subject_name(ca_cert);
+        ASSERT_NE(ca_name, nullptr);
+        X509_NAME_add_entry_by_txt(ca_name, "CN", MBSTRING_ASC,
+            reinterpret_cast<const unsigned char*>("Test CA"), -1, -1, 0);
+        ASSERT_EQ(X509_set_issuer_name(ca_cert, ca_name), 1);
+        ASSERT_EQ(X509_set_pubkey(ca_cert, ca_key.get()), 1);
+        X509_gmtime_adj(X509_get_notBefore(ca_cert), 0);
+        X509_gmtime_adj(X509_get_notAfter(ca_cert), 365 * 24 * 60 * 60);
+        X509_EXTENSION* ca_bc = X509V3_EXT_conf_nid(nullptr, nullptr,
+            NID_basic_constraints, "critical,CA:TRUE");
+        ASSERT_NE(ca_bc, nullptr);
+        ASSERT_EQ(X509_add_ext(ca_cert, ca_bc, -1), 1);
+        X509_EXTENSION_free(ca_bc);
+        X509_EXTENSION* ca_ku = X509V3_EXT_conf_nid(nullptr, nullptr,
+            NID_key_usage, "critical,keyCertSign,cRLSign");
+        ASSERT_NE(ca_ku, nullptr);
+        ASSERT_EQ(X509_add_ext(ca_cert, ca_ku, -1), 1);
+        X509_EXTENSION_free(ca_ku);
+        ASSERT_GE(X509_sign(ca_cert, ca_key.get(), EVP_sha256()), 1);
+
+        std::filesystem::path ca_cert_path = trust_dir / "ca_cert.pem";
+        {
+            FILE* f = fopen(ca_cert_path.string().c_str(), "wb");
+            ASSERT_NE(f, nullptr);
+            unique_FILE guard(f);
+            ASSERT_EQ(PEM_write_X509(f, ca_cert), 1);
+        }
+        X509* loaded_ca = nullptr;
+        {
+            FILE* f = fopen(ca_cert_path.string().c_str(), "rb");
+            ASSERT_NE(f, nullptr);
+            unique_FILE guard(f);
+            loaded_ca = PEM_read_X509(f, nullptr, nullptr, nullptr);
+        }
+        ASSERT_NE(loaded_ca, nullptr);
+        unsigned long ca_hash = X509_subject_name_hash(loaded_ca);
+        X509_free(loaded_ca);
+        char ca_hash_name[16];
+        snprintf(ca_hash_name, sizeof(ca_hash_name), "%08lx", ca_hash);
+        std::filesystem::create_symlink(ca_cert_path,
+            trust_dir / (std::string(ca_hash_name) + ".0"));
+
+        X509* leaf_cert = X509_new();
+        ASSERT_NE(leaf_cert, nullptr);
+        std::unique_ptr<X509, decltype(&X509_free)> leaf_cert_guard(leaf_cert, X509_free);
+        X509_set_version(leaf_cert, 2);
+        ASN1_INTEGER_set(X509_get_serialNumber(leaf_cert), 2);
+        X509_NAME* leaf_name = X509_get_subject_name(leaf_cert);
+        ASSERT_NE(leaf_name, nullptr);
+        X509_NAME_add_entry_by_txt(leaf_name, "CN", MBSTRING_ASC,
+            reinterpret_cast<const unsigned char*>("Test Leaf"), -1, -1, 0);
+        ASSERT_EQ(X509_set_issuer_name(leaf_cert, ca_name), 1);
+        ASSERT_EQ(X509_set_pubkey(leaf_cert, leaf_key.get()), 1);
+        X509_gmtime_adj(X509_get_notBefore(leaf_cert), 0);
+        X509_gmtime_adj(X509_get_notAfter(leaf_cert), 365 * 24 * 60 * 60);
+        X509_EXTENSION* leaf_bc = X509V3_EXT_conf_nid(nullptr, nullptr,
+            NID_basic_constraints, "critical,CA:FALSE");
+        ASSERT_NE(leaf_bc, nullptr);
+        ASSERT_EQ(X509_add_ext(leaf_cert, leaf_bc, -1), 1);
+        X509_EXTENSION_free(leaf_bc);
+        X509_EXTENSION* leaf_ku = X509V3_EXT_conf_nid(nullptr, nullptr,
+            NID_key_usage, "critical,digitalSignature,keyEncipherment");
+        ASSERT_NE(leaf_ku, nullptr);
+        ASSERT_EQ(X509_add_ext(leaf_cert, leaf_ku, -1), 1);
+        X509_EXTENSION_free(leaf_ku);
+        ASSERT_GE(X509_sign(leaf_cert, ca_key.get(), EVP_sha256()), 1);
+
+        std::filesystem::path leaf_cert_path = trust_dir / "leaf_cert.pem";
+        {
+            FILE* f = fopen(leaf_cert_path.string().c_str(), "wb");
+            ASSERT_NE(f, nullptr);
+            unique_FILE guard(f);
+            ASSERT_EQ(PEM_write_X509(f, leaf_cert), 1);
+        }
+        X509* loaded_leaf = nullptr;
+        {
+            FILE* f = fopen(leaf_cert_path.string().c_str(), "rb");
+            ASSERT_NE(f, nullptr);
+            unique_FILE guard(f);
+            loaded_leaf = PEM_read_X509(f, nullptr, nullptr, nullptr);
+        }
+        ASSERT_NE(loaded_leaf, nullptr);
+        unsigned long leaf_hash = X509_subject_name_hash(loaded_leaf);
+        char leaf_hash_name[16];
+        snprintf(leaf_hash_name, sizeof(leaf_hash_name), "%08lx", leaf_hash);
+        char leaf_subject[256];
+        X509_NAME_oneline(X509_get_subject_name(loaded_leaf), leaf_subject,
+            sizeof(leaf_subject));
+        std::filesystem::create_symlink(leaf_cert_path,
+            trust_dir / (std::string(leaf_hash_name) + ".0"));
+
+        R_RSA_PRIVATE_KEY leaf_private_key;
+        R_RSA_PUBLIC_KEY leaf_public_key;
+        ASSERT_TRUE(fill_keys_from_evp(leaf_key.get(), leaf_private_key,
+            leaf_public_key));
+
+        std::filesystem::path orig_file = test_data_dir / "orig_cert_verify.txt";
+        {
+            std::ofstream out(orig_file);
+            out << "test message";
+        }
+
+        std::vector<uint8_t> signature = sign_file(orig_file.string(),
+            leaf_private_key);
+        ASSERT_FALSE(signature.empty());
+        std::string signature_hex = sprint_hex_data(signature);
+
+        CERT_SIGS cert_sigs;
+        CERT_SIG sig;
+        sig.clear();
+        strncpy(sig.signature, signature_hex.c_str(), sizeof(sig.signature) - 1);
+        sig.signature[sizeof(sig.signature) - 1] = '\0';
+        snprintf(sig.hash, sizeof(sig.hash), "%08lx", leaf_hash);
+        strncpy(sig.subject, leaf_subject, sizeof(sig.subject) - 1);
+        sig.subject[sizeof(sig.subject) - 1] = '\0';
+        sig.type = MD5_HASH;
+        cert_sigs.signatures.push_back(sig);
+
+        ASSERT_TRUE(cert_verify_file(&cert_sigs, orig_file.string().c_str(),
+            trust_dir.string().c_str()));
+    }
+
+    TEST_F(test_crypt, test_cert_verify_file_rejects_empty_signature_list) {
+        CERT_SIGS cert_sigs;
+        std::filesystem::path orig_file = test_data_dir / "orig_empty.txt";
+        {
+            std::ofstream out(orig_file);
+            out << "test message";
+        }
+        ASSERT_FALSE(cert_verify_file(&cert_sigs, orig_file.string().c_str(),
+            test_data_dir.string().c_str()));
     }
 
 }
