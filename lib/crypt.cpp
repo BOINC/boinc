@@ -15,34 +15,20 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <memory>
-#include <utility>
 #if defined(_WIN32)
 #include "boinc_win.h"
 #else
 #include "config.h"
-#include <cctype>
-#include <cstdlib>
-#include <cstring>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 #endif
 
-#include <openssl/ssl.h>
 #include <openssl/md5.h>
-#include <openssl/bio.h>
 #include <openssl/pem.h>
-#include <openssl/conf.h>
-#include <openssl/err.h>
-#include <openssl/bn.h>
 #include <openssl/core_names.h>
 #include <openssl/param_build.h>
 
 #include "boinc_stdio.h"
 #include "md5_file.h"
 #include "filesys.h"
-#include "error_numbers.h"
 #include "util.h"
 
 #include "crypt.h"

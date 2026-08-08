@@ -18,14 +18,9 @@
 #ifndef BOINC_CRYPT_H
 #define BOINC_CRYPT_H
 
-#include <cstdint>
 #include <vector>
 #include <string>
 #include <memory>
-
-// We're set up to use OpenSSL crypto library.
-// We use our own data structures (R_RSA_PUBLIC_KEY and R_RSA_PRIVATE_KEY)
-// to store keys.
 
 #include <openssl/rsa.h>
 #include <openssl/evp.h>
@@ -51,6 +46,10 @@ using unique_PKEY_CTX =
 #define MAX_RSA_MODULUS_LEN ((MAX_RSA_MODULUS_BITS + 7) / 8)
 #define MAX_RSA_PRIME_BITS ((MAX_RSA_MODULUS_BITS + 1) / 2)
 #define MAX_RSA_PRIME_LEN ((MAX_RSA_PRIME_BITS + 7) / 8)
+
+// We're set up to use OpenSSL crypto library.
+// We use our own data structures (R_RSA_PUBLIC_KEY and R_RSA_PRIVATE_KEY)
+// to store keys.
 
 typedef struct {
   unsigned short int bits;                     /* length in bits of modulus */

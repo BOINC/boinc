@@ -17,10 +17,6 @@
 
 // syntax: sign_executable data_file private_key_file
 
-#include <string>
-#include <vector>
-#include <stdio.h>
-
 #include "config.h"
 #include "crypt.h"
 
