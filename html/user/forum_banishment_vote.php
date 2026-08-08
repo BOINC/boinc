@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once('../inc/util_basic.inc');
 require_once('../inc/util.inc');
 require_once('../inc/forum_db.inc');
 require_once('../inc/forum_banishment_vote.inc');
@@ -24,7 +25,7 @@ if (DISABLE_FORUMS) error_page("Forums are disabled");
 
 check_get_args(array("action", "userid"));
 
-$config = get_config();
+$config = project_config_object();
 
 $logged_in_user = get_logged_in_user();
 BoincForumPrefs::lookup($logged_in_user);
