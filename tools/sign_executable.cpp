@@ -20,16 +20,16 @@
 #include "config.h"
 #include "crypt.h"
 
-int sign_executable(char* path, char* code_sign_keyfile, std::string& signature_text) {
+std::pair<bool, std::string> sign_executable(char* path, char* code_sign_keyfile) {
     int retval = 0;
     R_RSA_PRIVATE_KEY code_sign_key;
     std::tie(retval, code_sign_key) = read_key_file(code_sign_keyfile);
     if (retval) {
         fprintf(stderr, "add: can't read key\n");
-        return 1;
+        return std::make_pair(false, std::string());
     }
-    signature_text = sprint_hex_data(sign_file(path, code_sign_key));
-    return 0;
+    std::string signature_text = sprint_hex_data(sign_file(path, code_sign_key));
+    return std::make_pair(true, signature_text);
 }
 
 int main(int argc, char** argv) {
@@ -41,8 +41,10 @@ int main(int argc, char** argv) {
         return 1;
     }
 
+    bool result = false;
     std::string signature_text;
-    if (sign_executable(argv[1], argv[2], signature_text)) {
+    std::tie(result, signature_text) = sign_executable(argv[1], argv[2]);
+    if(!result) {
         return 1;
     }
     printf("%s", signature_text.c_str());
