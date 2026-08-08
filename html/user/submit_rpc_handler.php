@@ -207,7 +207,7 @@ function stage_file($file, $user) {
         }
         return $name;
     }
-    log_write(-1, "unsupported file mode: $file->mode");
+    log_write("unsupported file mode: $file->mode");
     xml_error(-1, "unsupported file mode: $file->mode");
 }
 

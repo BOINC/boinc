@@ -54,6 +54,9 @@ if ($format=="xml"){
 
     show_user_xml($user, $show_hosts);
 } else {
+    if (REQUIRE_LOGIN) {
+        get_logged_in_user();
+    }
     // The page may be presented in many different languages,
     // so here we cache the data instead
     //
@@ -86,6 +89,8 @@ if ($format=="xml"){
         error_page("No such user");
     }
 
+    // display data differently if user is looking at themselves
+    //
     $logged_in_user = get_logged_in_user(false);
     $myself = $logged_in_user && ($logged_in_user->id == $user->id);
 

@@ -40,9 +40,12 @@
 // prevents naming collision between X.h define of Always and boinc's
 // lib/prefs.h definition in an enum.
 #undef Always
-#include <dirent.h> //for opening /tmp/.X11-unix/
-  // (There is a DirScanner class in BOINC, but it doesn't do what we want)
 #include "log_flags.h" // idle_detection_debug flag for verbose output
+#endif
+
+#if LINUX_LIKE_SYSTEM
+#include <dirent.h> //for opening /tmp/.X11-unix/ and /run/user/
+  // (There is a DirScanner class in BOINC, but it doesn't do what we want)
 #endif
 
 #include <cstdio>
@@ -1306,7 +1309,7 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
 #endif  // __APPLE__
 
 #ifdef __linux__
-    // if we're running as an unprivileged user, Docker/podman may not work.
+    // if we're running as an unprivileged user, Docker/Podman may not work.
     // Check by running the Hello World image.
     //
     // Since we do this every time on startup: delete the created container
@@ -2312,7 +2315,7 @@ bool get_idle_time_from_daemon(long &idle_time) {
             close(fd);
             return false;
         }
-        if (st.st_size < 2*sizeof(int64_t)) {
+        if ((size_t)st.st_size < 2*sizeof(int64_t)) {
             close(fd);
             return false;
         }
@@ -2341,6 +2344,94 @@ bool get_idle_time_from_daemon(long &idle_time) {
     return true;
 }
 
+#if LINUX_LIKE_SYSTEM
+static bool is_wayland_socket(const string& path) {
+    struct stat st;
+    return stat(path.c_str(), &st) == 0 && S_ISSOCK(st.st_mode);
+}
+
+static bool detect_wayland_socket_in_dir(const string& dir) {
+    DIR* dp = opendir(dir.c_str());
+    if (!dp) {
+        return false;
+    }
+
+    struct dirent* dirp;
+    while ((dirp = readdir(dp)) != NULL) {
+        if (strncmp(dirp->d_name, "wayland-", 8) != 0) {
+            continue;
+        }
+        if (is_wayland_socket(dir + "/" + dirp->d_name)) {
+            closedir(dp);
+            return true;
+        }
+    }
+
+    closedir(dp);
+    return false;
+}
+
+static bool detect_wayland_socket() {
+    const char* xdg_runtime_dir = getenv("XDG_RUNTIME_DIR");
+    if (xdg_runtime_dir && strlen(xdg_runtime_dir)) {
+        if (detect_wayland_socket_in_dir(xdg_runtime_dir)) {
+            return true;
+        }
+    }
+
+    DIR* dp = opendir("/run/user");
+    if (!dp) {
+        return false;
+    }
+
+    struct dirent* dirp;
+    while ((dirp = readdir(dp)) != NULL) {
+        if (!strcmp(dirp->d_name, ".")) continue;
+        if (!strcmp(dirp->d_name, "..")) continue;
+        if (detect_wayland_socket_in_dir(string("/run/user/") + dirp->d_name)) {
+            closedir(dp);
+            return true;
+        }
+    }
+
+    closedir(dp);
+    return false;
+}
+
+static bool detect_xwayland_process() {
+    DIR* dp = opendir("/proc");
+    if (!dp) {
+        return false;
+    }
+
+    struct dirent* dirp;
+    while ((dirp = readdir(dp)) != NULL) {
+        if (dirp->d_name[0] < '0' || dirp->d_name[0] > '9') {
+            continue;
+        }
+
+        string comm_path = string("/proc/") + dirp->d_name + "/comm";
+        FILE* f = fopen(comm_path.c_str(), "r");
+        if (!f) {
+            continue;
+        }
+
+        char comm[32];
+        bool is_xwayland = fgets(comm, sizeof(comm), f)
+            && strncmp(comm, "Xwayland", 8) == 0;
+        fclose(f);
+
+        if (is_xwayland) {
+            closedir(dp);
+            return true;
+        }
+    }
+
+    closedir(dp);
+    return false;
+}
+#endif
+
 bool detect_wayland() {
     const char* wayland_display = getenv("WAYLAND_DISPLAY");
     if (wayland_display && strlen(wayland_display)) {
@@ -2350,7 +2441,15 @@ bool detect_wayland() {
     if (xdg_session_type && strcmp(xdg_session_type, "wayland") == 0) {
         return true;
     }
+    // boinc-client often runs as a daemon without the user's session
+    // environment.  Detect compositor sockets and Xwayland directly so we do
+    // not probe Xwayland displays with XOpenDisplay(), which can block
+    // indefinitely.
+#if LINUX_LIKE_SYSTEM
+    return detect_wayland_socket() || detect_xwayland_process();
+#else
     return false;
+#endif
 }
 
 #endif      // !ANDROID
@@ -2389,6 +2488,8 @@ https://github.com/jamescowens/idle_detect");
 
 #if HAVE_XSS
 #ifndef ANDROID
+    // Detect Wayland once. The display server type is not expected to
+    // change while this client process is running.
     static bool wayland_detected = detect_wayland();
     if (!wayland_detected) {
         //printf("Using XScreenSaver API for idle detection\n");

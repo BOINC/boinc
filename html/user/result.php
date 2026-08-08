@@ -21,6 +21,10 @@
 require_once("../inc/util.inc");
 require_once("../inc/result.inc");
 
+if (REQUIRE_LOGIN) {
+    get_logged_in_user();
+}
+
 $x = get_int("resultid", true);
 if ($x) {
     $result = BoincResult::lookup_id($x);

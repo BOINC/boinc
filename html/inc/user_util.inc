@@ -133,7 +133,8 @@ function make_user(
         return null;
     }
     $user = BoincUser::lookup_id($uid);
-    if (defined('RECORD_USER_IP')) {
+    // not sure why this is here
+    if (defined('RECORD_USER_IP') && !empty($_SERVER['REMOTE_ADDR'])) {
         $ip = $_SERVER['REMOTE_ADDR'];
         $ip = BoincDb::escape_string($ip);
         $user->update("venue='$ip'");

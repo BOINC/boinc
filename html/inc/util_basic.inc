@@ -130,10 +130,11 @@ function project_config_bool($tag) {
     return true;
 }
 
-// parse an element from an XML string that may have errors
-// (e.g. job submission RPC replies)
+// ad-hoc XML parsing functions.
+// currently used in job RPC handling and project-specific prefs.
+// TODO: changes these to use simplexml, and get rid of these
 //
-function parse_element_text($xml, $tag) {
+function parse_element($xml, $tag) {
     $closetag = "</" . substr($tag,1);
     $x = strstr($xml, $tag);
     if ($x) {
@@ -146,6 +147,35 @@ function parse_element_text($xml, $tag) {
         }
     }
     return null;
+}
+
+function parse_next_element($xml, $tag, &$cursor) {
+    $element = null;
+    $closetag = "</" . substr($tag,1);
+    $pos = substr($xml,$cursor);
+    $x = strstr($pos, $tag);
+    if ($x) {
+        if (strstr($tag, "/>")) return $tag;
+        $y = substr($x, strlen($tag));
+        $n = strpos($y, $closetag);
+        if ($n) {
+            $element = substr($y, 0, $n);
+        }
+        $cursor = (strlen($xml) - strlen($x)) + strlen($tag) + strlen($closetag) + strlen($element);
+    }
+    if (!$element) return null;
+    return trim($element);
+}
+
+// return true if XML contains either <tag/> or <tag>1</tag>
+//
+function parse_bool($xml, $tag) {
+    $x = "<$tag/>";
+    if (strstr($xml, $x)) return true;
+    $x = "<$tag>";
+    $y = (int)parse_element($xml, $x);
+    if ($y != 0) return true;
+    return false;
 }
 
 // uniform 0..1

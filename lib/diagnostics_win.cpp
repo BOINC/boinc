@@ -1614,7 +1614,7 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
                 // Dump some basic stuff about runtime debugger version and date
                 diagnostics_unhandled_exception_dump_banner();
 
-#if !defined(__CYGWIN__) && !defined(_M_ARM) && !defined(_M_ARM64)
+#if !defined(__CYGWIN__) && !defined(_M_ARM) && !defined(_M_ARM64) && !defined(__aarch64__)
                 // Kickstart the debugger extensions, look for the debugger files
                 //   in the install directory if it is defined, otherwise look
                 //   in the data directory.
@@ -1655,7 +1655,7 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
                         }
 
                         if (diagnostics_is_flag_set(BOINC_DIAG_DUMPCALLSTACKENABLED)) {
-#if !defined(__CYGWIN__) && !defined(_M_ARM) && !defined(_M_ARM64)
+#if !defined(__CYGWIN__) && !defined(_M_ARM) && !defined(_M_ARM64) && !defined(__aarch64__)
                             if (bDebuggerInitialized) {
                                 if (pThreadEntry->crash_exception_record ) {
                                     StackwalkFilter(
@@ -1679,7 +1679,7 @@ UINT WINAPI diagnostics_unhandled_exception_monitor(LPVOID /* lpParameter */) {
                                 }
                             }
 #else
-                            fprintf(stderr, "Warning: Callstack dumps are not supported on CYGWIN\n");
+                            fprintf(stderr, "Warning: Callstack dumps are not supported\n");
 #endif
                         }
                         fprintf(stderr, "\n");

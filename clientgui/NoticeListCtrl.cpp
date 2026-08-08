@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -101,16 +101,12 @@ bool CNoticeListCtrl::Create( wxWindow* parent ) {
     SetSizer(topsizer);
 
     m_itemCount = 0;
-    bool isWindowsDarkMode = false;
-#ifdef __WXMSW__
-    const wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
-    isWindowsDarkMode = appearance.IsSystemDark();
-#endif
-    if (wxGetApp().GetIsDarkMode() || isWindowsDarkMode){
+
+    if (wxGetApp().GetIsDarkMode()){
 #if wxUSE_WEBVIEW
-        m_noticesBody = wxT("<html><style>body{background-color:black;color:white;}</style><head></head><body></body></html>");
+        m_noticesBody = wxT("<html><style>body{background-color:#121212;color:#e0e0e0;a:link {color:#0080FF;}}</style><head></head><body></body></html>");
 #else
-        m_noticesBody = wxT("<html><head></head><body bgcolor=black></body></html>");
+        m_noticesBody = wxT("<html><head></head><body bgcolor=#121212></body></html>");
 #endif
     } else {
         m_noticesBody = wxT("<html><head></head><body></body></html>");
@@ -159,16 +155,11 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     m_itemCount = newCount;
-    bool isWindowsDarkMode = false;
-#ifdef __WXMSW__
-    const wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
-    isWindowsDarkMode = appearance.IsSystemDark();
-#endif
-    if (wxGetApp().GetIsDarkMode() || isWindowsDarkMode){
+    if (wxGetApp().GetIsDarkMode()){
 #if wxUSE_WEBVIEW
-        m_noticesBody =  wxT("<html><style>body{background-color:black;color:white;}</style><head></head><body><font face=helvetica>");
+        m_noticesBody =  wxT("<html><style>body{background-color:#121212;color:#e0e0e0;a:link {color:#0080FF;}}</style><head></head><body><font face=helvetica>");
 #else
-        m_noticesBody =  wxT("<html><head></head><body bgcolor=black><font face=helvetica color=white bgcolor=black>");
+        m_noticesBody =  wxT("<html><head></head><body bgcolor=#121212><font face=helvetica color=#e0e0e0 bgcolor=#121212>");
 #endif
     } else {
         m_noticesBody =  wxT("<html><head></head><body><font face=helvetica>");

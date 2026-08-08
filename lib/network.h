@@ -27,6 +27,7 @@
 #else
 #include <sys/select.h>
 #include <sys/socket.h>
+#include <netinet/in.h>
 #include <unistd.h>
 #endif
 
@@ -57,6 +58,20 @@ extern int get_socket_error(int fd);
 extern const char* socket_error_str();
 extern void reset_dns();
 extern int boinc_get_port(bool is_remote, int& port);
+extern bool network_connected();
+
+#ifdef _WIN32
+inline int addr_len(sockaddr_storage&) {
+    return (int) sizeof(sockaddr_in);
+}
+#else
+inline int addr_len(sockaddr_storage& s) {
+    if (s.ss_family == AF_INET6) {
+        return (int) sizeof(sockaddr_in6);
+    }
+    return (int) sizeof(sockaddr_in);
+}
+#endif
 
 #if defined(_WIN32) && !defined(__CYGWIN32__)
 typedef int BOINC_SOCKLEN_T;

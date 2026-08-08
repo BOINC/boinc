@@ -196,7 +196,7 @@ void CC_CONFIG::show() {
         msg_printf(NULL, MSG_INFO, "Config: don't use VirtualBox");
     }
     if (dont_use_docker) {
-        msg_printf(NULL, MSG_INFO, "Config: don't use Docker");
+        msg_printf(NULL, MSG_INFO, "Config: don't use Podman/Docker");
     }
     if (dont_use_wsl) {
         msg_printf(NULL, MSG_INFO, "Config: don't use Windows Subsystem for Linux");
@@ -386,6 +386,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool("dont_use_docker", dont_use_docker)) continue;
+        if (xp.parse_bool("dont_use_podman", dont_use_docker)) continue;
         if (xp.match_tag("exclude_gpu")) {
             EXCLUDE_GPU eg;
             retval = eg.parse(xp);

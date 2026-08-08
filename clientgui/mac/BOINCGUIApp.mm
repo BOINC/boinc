@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -25,28 +25,6 @@
 #ifndef NSEventTypeApplicationDefined
 #define NSEventTypeApplicationDefined NSApplicationDefined
 #endif
-
-// Cocoa routines which are part of CBOINCGUIApp
-// Override standard wxCocoa wxApp::CallOnInit() to allow Manager
-// to run properly when launched hidden on login via Login Item.
-bool CBOINCGUIApp::CallOnInit() {
-        NSAutoreleasePool *mypool = [[NSAutoreleasePool alloc] init];
-
-        NSEvent *event = [NSEvent otherEventWithType:NSEventTypeApplicationDefined
-                                        location:NSMakePoint(0.0, 0.0)
-                                   modifierFlags:0
-                                       timestamp:0
-                                    windowNumber:0
-                                         context:nil
-                                         subtype:0 data1:0 data2:0];
-        [NSApp postEvent:event atStart:FALSE];
-
-   bool retVal = wxApp::CallOnInit();
-
-    [mypool release];
-    return retVal;
-}
-
 
 // Our application can get into a strange state
 // if our login item launched it hidden and the
@@ -236,8 +214,8 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
                 // treat this as an autostart and launch hidden.
                     wxGetApp().SetBOINCMGRWasShutDownBySystemWhileHidden(1);
                 }
-                // The following may no longer be needed under wxCocoa-3.0.0
-                wxGetApp().ExitMainLoop();  // Prevents wxMac from issuing events to closed frames
+                // The following causes a crash when logging out under wxWidgets 3.3.2
+//                wxGetApp().ExitMainLoop();  // Prevents wxMac from issuing events to closed frames
             }
         }
     }

@@ -10,10 +10,9 @@
         <description><![CDATA[Study drugs to fight SARS-CoV-2]]></description>
         <home>The COVID.SI project and the Karelian Research Center of the Russian Academy of Sciences</home>
     <platforms>
-        <name>arm-unknown-linux-gnueabihf</name>
         <name>windows_x86_64</name>
-        <name>x86_64-openwrt-linux-musl</name>
         <name>x86_64-pc-linux-gnu</name>
+        <name>arm-unknown-linux-gnueabihf</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/sidock.png</image>
       <summary>Study drugs to fight SARS-CoV-2</summary>
@@ -181,6 +180,8 @@
         <name>windows_x86_64[mt]</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[mt]</name>
+        <name>aarch64-unknown-linux-gnu</name>
+        <name>aarch64-unknown-linux-gnu[mt]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/mw.png</image>
       <summary>Study the structure of the Milky Way galaxy</summary>
@@ -220,50 +221,38 @@
         <name>windows_x86_64[BRP7-cuda55]</name>
         <name>windows_x86_64[BRP7-opencl-ati]</name>
         <name>windows_x86_64[BRP7-opencl-intel_gpu]</name>
-        <name>windows_x86_64[FGRPopencl-ati]</name>
-        <name>windows_x86_64[FGRPopencl-intel_gpu]</name>
-        <name>windows_x86_64[FGRPopencl-nvidia]</name>
-        <name>windows_x86_64[FGRPopencl1K-ati]</name>
-        <name>windows_x86_64[FGRPopencl1K-nvidia]</name>
-        <name>windows_x86_64[FGRPopencl2-ati]</name>
-        <name>windows_x86_64[FGRPopencl2Pup-nvidia]</name>
-        <name>windows_x86_64[FGRPopenclTV-nvidia]</name>
-        <name>windows_x86_64[GW-cuda]</name>
-        <name>windows_x86_64[GW-cuda-Beta]</name>
+        <name>windows_x86_64[BRP7-opencl-nvidia]</name>
+        <name>windows_x86_64[GW-cuda-2G]</name>
+        <name>windows_x86_64[GW-opencl-ati]</name>
         <name>windows_x86_64[GW-opencl-ati-2G]</name>
+        <name>windows_x86_64[GW-opencl-intel_gpu]</name>
         <name>windows_x86_64[GW-opencl-intel_gpu-2G]</name>
+        <name>windows_x86_64[GW-opencl-nvidia]</name>
         <name>windows_x86_64[GW-opencl-nvidia-2G]</name>
         <name>windows_x86_64[opencl-intel_gpu-new]</name>
         <name>windows_x86_64[opencl-intel_gpu-newer]</name>
         <name>x86_64-apple-darwin</name>
-        <name>x86_64-apple-darwin[Apple_M-opencl]</name>
         <name>x86_64-apple-darwin[BRP7-mac-opencl-ati]</name>
-        <name>x86_64-apple-darwin[BRP7-mac-opencl-nvidia]</name>
-        <name>x86_64-apple-darwin[FGRPopencl-ati-mav]</name>
-        <name>x86_64-apple-darwin[FGRPopencl-nvidia-mav]</name>
-        <name>x86_64-apple-darwin[FGRPopencl2Pup-nvidia]</name>
-        <name>x86_64-apple-darwin[FGRPopenclTV-nvidia]</name>
         <name>x86_64-apple-darwin[FGRPSSE]</name>
+        <name>x86_64-apple-darwin[GW-opencl-ati]</name>
         <name>x86_64-apple-darwin[GW-opencl-ati-2G]</name>
+        <name>x86_64-apple-darwin[GW-opencl-nvidia]</name>
         <name>x86_64-apple-darwin[GW-opencl-nvidia-2G]</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[BRP4X64]</name>
         <name>x86_64-pc-linux-gnu[BRP7-cuda102]</name>
         <name>x86_64-pc-linux-gnu[BRP7-opencl-ati]</name>
         <name>x86_64-pc-linux-gnu[BRP7-opencl-nvidia]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopencl-ati]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopencl-nvidia]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopencl1K-ati]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopencl1K-nvidia]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopencl2-ati]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopencl2Pup-nvidia]</name>
-        <name>x86_64-pc-linux-gnu[FGRPopenclTV-nvidia]</name>
         <name>x86_64-pc-linux-gnu[FGRPSSE]</name>
-        <name>x86_64-pc-linux-gnu[GW-cuda-2G]</name>
+        <name>x86_64-pc-linux-gnu[GW-cuda]</name>
         <name>x86_64-pc-linux-gnu[GW-cuda-580-2G]</name>
-        <name>x86_64-pc-linux-gnu[GW-cuda-580-2G-B]</name>
+        <name>x86_64-pc-linux-gnu[GW-cuda-580-Beta]</name>
+        <name>x86_64-pc-linux-gnu[GW-cuda-lin-2G]</name>
+        <name>x86_64-pc-linux-gnu[GW-opencl-ati]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-ati-2G]</name>
+        <name>x86_64-pc-linux-gnu[GW-opencl-intel_gpu]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-intel_gpu-2G]</name>
+        <name>x86_64-pc-linux-gnu[GW-opencl-nvidia]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-nvidia-570-2G]</name>
         <name>x86_64-pc-linux-gnu[opencl-intel_gpu]</name>
     </platforms>
@@ -538,6 +527,18 @@
         <name>i686-pc-linux-gnu[openclatiGFN22]</name>
         <name>i686-pc-linux-gnu[openclatiGFNEXTREME]</name>
         <name>i686-pc-linux-gnu[openclatiPPSsieve]</name>
+        <name>windows_arm64[cpuGFN16_mt]</name>
+        <name>windows_arm64[cpuGFN17MEGA_mt]</name>
+        <name>windows_arm64[cpuGFN18_mt]</name>
+        <name>windows_arm64[cpuGFN19_mt]</name>
+        <name>windows_arm64[cpuGFN20_mt]</name>
+        <name>windows_arm64[cpuGFN21_mt]</name>
+        <name>windows_arm64[opencl_Apple_M_GFN16]</name>
+        <name>windows_arm64[opencl_Apple_M_GFN17MEGA]</name>
+        <name>windows_arm64[opencl_Apple_M_GFN18]</name>
+        <name>windows_arm64[opencl_Apple_M_GFN19]</name>
+        <name>windows_arm64[opencl_Apple_M_GFN20]</name>
+        <name>windows_arm64[opencl_Apple_M_GFN21]</name>
         <name>windows_intelx86</name>
         <name>windows_intelx86[cpuGFN15_mt]</name>
         <name>windows_intelx86[cpuGFN16_mt]</name>
@@ -753,14 +754,18 @@
         <name>windows_x86_64</name>
         <name>windows_x86_64[cuda128]</name>
         <name>windows_x86_64[opencl_ati_101]</name>
+        <name>windows_x86_64[opencl_ati_200]</name>
         <name>windows_x86_64[opencl_intel_gpu_intelarc]</name>
+        <name>windows_x86_64[opencl_nvidia_200]</name>
         <name>x86_64-apple-darwin</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[cuda110]</name>
         <name>x86_64-pc-linux-gnu[cuda120]</name>
         <name>x86_64-pc-linux-gnu[cuda128]</name>
         <name>x86_64-pc-linux-gnu[opencl_ati_101]</name>
+        <name>x86_64-pc-linux-gnu[opencl_ati_200]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_intelarc]</name>
+        <name>x86_64-pc-linux-gnu[opencl_nvidia_200]</name>
     </platforms>
         <keywords>15 32</keywords>
     </project>
@@ -865,6 +870,7 @@
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[mt_oifs]</name>
         <name>x86_64-pc-linux-gnu[mt_oifs_bigmem]</name>
+        <name>x86_64-pc-linux-gnu[mt_wrf_longrun]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/cpn_logo_world_1.jpg</image>
       <summary>Study long-term climate change</summary>

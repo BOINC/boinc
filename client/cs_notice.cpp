@@ -538,7 +538,10 @@ void NOTICES::remove_notices(PROJECT* p, int which) {
         bool remove = false;
         switch (which) {
         case REMOVE_NETWORK_MSG:
-            remove = !strcmp(n.description.c_str(), NEED_NETWORK_MSG);
+            remove = !strcmp(n.description.c_str(), NEED_NETWORK_MSG)
+                || !strcmp(n.description.c_str(), APP_NEED_NETWORK_MSG)
+                || !strcmp(n.description.c_str(), APP_NETWORK_SUSPENDED_MSG)
+            ;
             break;
         case REMOVE_SCHEDULER_MSG:
             remove = !strcmp(n.category, "scheduler");
@@ -574,11 +577,9 @@ void NOTICES::write(int seqno, GUI_RPC_CONN& grc, bool public_only) {
     size_t i;
     MIOFILE mf;
 
-    if (!net_status.need_physical_connection) {
-        remove_notices(NULL, REMOVE_NETWORK_MSG);
-    }
     if (log_flags.notice_debug) {
-        msg_printf(0, MSG_INFO, "NOTICES::write: seqno %d, refresh %s, %d notices",
+        msg_printf(0, MSG_INFO,
+            "NOTICES::write: seqno %d, refresh %s, %d notices",
             seqno, grc.get_notice_refresh()?"true":"false", (int)notices.size()
         );
     }

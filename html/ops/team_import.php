@@ -51,43 +51,21 @@ function decode($x) {
     return html_entity_decode($x, ENT_COMPAT, 'UTF-8');
 }
 
-function parse_team($f) {
+function parse_team($team) {
     $t = new stdClass();
-    while ($s = fgets($f)) {
-        if (strstr($s, '</team>')) {
-            $t->name = decode($t->name);
-            $t->url = decode($t->url);
-            $t->name_html = decode($t->name_html);
-            $t->description = decode($t->description);
-            $t->user_name = decode($t->user_name);
-            $t->user_country = decode($t->user_country);
-            $t->user_postal_code = decode($t->user_postal_code);
-            $t->user_url = decode($t->user_url);
-            return $t;
-        }
-        else if (strstr($s, '<name>')) $t->name = parse_element($s, '<name>');
-        else if (strstr($s, '<url>')) $t->url = parse_element($s, '<url>');
-        else if (strstr($s, '<type>')) $t->type = parse_element($s, '<type>');
-        else if (strstr($s, '<name_html>')) $t->name_html = parse_element($s, '<name_html>');
-        else if (strstr($s, '<description>')) {
-            $t->description = '';
-            while ($s = fgets($f)) {
-                if (strstr($s, '</description>')) break;
-                $t->description .= $s;
-            }
-        }
-        else if (strstr($s, '<country>')) $t->country = parse_element($s, '<country>');
-        else if (strstr($s, '<id>')) $t->id = parse_element($s, '<id>');
-        else if (strstr($s, '<user_email_munged>')) {
-            $user_email_munged = parse_element($s, '<user_email_munged>');
-            $t->user_email = str_rot13($user_email_munged);
-        }
-        else if (strstr($s, '<user_name>')) $t->user_name = parse_element($s, '<user_name>');
-        else if (strstr($s, '<user_country>')) $t->user_country = parse_element($s, '<user_country>');
-        else if (strstr($s, '<user_postal_code>')) $t->user_postal_code = parse_element($s, '<user_postal_code>');
-        else if (strstr($s, '<user_url>')) $t->user_url = parse_element($s, '<user_url>');
-    }
-    return null;
+    $t->name = decode((string)$team->name);
+    $t->url = decode((string)$team->url);
+    $t->country = decode((string)$team->country);
+    $t->type = (int)$team->type;
+    $t->name_html = decode((string)$team->name_html);
+    $t->description = decode((string)$team->description);
+    $t->user_name = decode((string)$team->user_name);
+    $t->user_country = decode((string)$team->user_country);
+    $t->user_postal_code = decode((string)$team->user_postal_code);
+    $t->user_url = decode((string)$team->user_url);
+    $t->id = (int)$team->id;
+    $t->user_email = str_rot13((string)$team->user_email_munged);
+    return $t;
 }
 
 function valid_team($t) {
@@ -98,7 +76,7 @@ function valid_team($t) {
     return true;
 }
 
-function update_team($t, $team, $user) {
+function update_team($t, $team) {
     global $dry_run;
     if (
         trim($t->url) == $team->url
@@ -229,22 +207,21 @@ function handle_team($f) {
         return;
     }
 
-    echo "Processing $t->name $t->user_email\n";
+    echo "Processing $t->name $t->user_email $t->id\n";
     $user = BoincUser::lookup_email_addr($t->user_email);
     $team = BoincTeam::lookup_name($t->name);
     if ($team) {
         if (!$user) {
-            echo "   team exists but user $t->user_email doesn't\n";
+            echo "   team exists (and has an owner) but user $t->user_email doesn't\n";
             return;
-        }
-        if ($user->id != $team->userid) {
+        } else if ($user->id != $team->userid) {
             echo "   team exists but is owned by a different user\n";
             return;
         }
         if ($team->seti_id) {
             if ($team->seti_id == $t->id) {
                 echo "   case 1\n";
-                update_team($t, $team, $user);      // update1 case
+                update_team($t, $team);      // update1 case
             } else {
                 echo "   team exists but has wrong seti_id\n";
             }
@@ -253,18 +230,18 @@ function handle_team($f) {
             if ($team2) {
                 // update1 case
                 echo "   case 2\n";
-                update_team($t, $team2, $user);
+                update_team($t, $team2);
             } else {
                 // update2 case
                 echo "   case 3\n";
-                update_team($t, $team, $user);
+                update_team($t, $team);
             }
         }
     } else {
         $team = lookup_team_seti_id($t->id);
         if ($team) {
             echo "   A team with same ID but different name exists;\n";
-            echo "   Please report this to $t->user_email;\n";
+            echo "   Please report this to $t->user_email\n";
         } else {
             echo "   Adding team\n";
             insert_case($t, $user);
@@ -274,15 +251,13 @@ function handle_team($f) {
 
 function main() {
     echo "------------ Starting at ".time_str(time())."-------\n";
-    $f = fopen("http://boinc.berkeley.edu/boinc_teams.xml", "r");
-    if (!$f) {
-        echo "Can't get times file\n";
+    $x = simplexml_load_file('http://boinc.berkeley.edu/boinc_teams.xml');
+    if (!$x) {
+        echo "Can't get teams file\n";
         exit;
     }
-    while ($s = fgets($f)) {
-        if (strstr($s, '<team>')) {
-            handle_team($f);
-        }
+    foreach($x->team as $team) {
+        handle_team($team);
     }
     echo "------------ Finished at ".time_str(time())."-------\n";
 }

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -49,6 +49,9 @@
 #include "res/nvidiaicon2.xpm"
 #include "res/intelgpuicon2.xpm"
 #include "res/virtualboxicon.xpm"
+#include "res/rpiicon.xpm"
+#include "res/docker.xpm"
+#include "res/metal.xpm"
 #include "res/blankicon.xpm"
 
 
@@ -67,10 +70,13 @@ class CProjectInfo : public wxObject
         m_bProjectSupportsAndroid = false;
         m_bProjectSupportsFreeBSD = false;
         m_bProjectSupportsLinuxARM = false;
+        m_bProjectSupportsRaspberryPi = false;
+        m_bProjectSupportsDocker = false;
         m_bProjectSupportsCUDA = false;
         m_bProjectSupportsCAL = false;
         m_bProjectSupportsIntelGPU  = false;
         m_bProjectSupportsVirtualBox = false;
+        m_bProjectSupportsMetal = false;
     }
 
 public:
@@ -88,10 +94,13 @@ public:
     bool m_bProjectSupportsAndroid;
     bool m_bProjectSupportsFreeBSD;
     bool m_bProjectSupportsLinuxARM;
+    bool m_bProjectSupportsRaspberryPi;
+    bool m_bProjectSupportsDocker;
     bool m_bProjectSupportsCUDA;
     bool m_bProjectSupportsCAL;
     bool m_bProjectSupportsIntelGPU;
     bool m_bProjectSupportsVirtualBox;
+    bool m_bProjectSupportsMetal;
 };
 
 IMPLEMENT_DYNAMIC_CLASS( CProjectInfo, wxObject )
@@ -179,10 +188,13 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
     m_pProjectDetailsSupportedPlatformAndroidCtrl = NULL;
     m_pProjectDetailsSupportedPlatformFreeBSDCtrl = NULL;
     m_pProjectDetailsSupportedPlatformLinuxArmCtrl = NULL;
+    m_pProjectDetailsSupportedPlatformRaspberryPiCtrl = NULL;
+    m_pProjectDetailsSupportedPlatformDockerCtrl = NULL;
     m_pProjectDetailsSupportedPlatformATICtrl = NULL;
     m_pProjectDetailsSupportedPlatformNvidiaCtrl = NULL;
     m_pProjectDetailsSupportedPlatformIntelGPUCtrl = NULL;
     m_pProjectDetailsSupportedPlatformVirtualBoxCtrl = NULL;
+    m_pProjectDetailsSupportedPlatformMetalCtrl = NULL;
     m_pProjectDetailsSupportedPlatformBlankCtrl = NULL;
     m_pProjectURLStaticCtrl = NULL;
     m_pProjectURLCtrl = NULL;
@@ -375,8 +387,12 @@ void CProjectInfoPage::CreateControls()
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformFreeBSDCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
     m_pProjectDetailsSupportedPlatformLinuxArmCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("linuxarmicon2.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
-    m_pProjectDetailsSupportedPlatformLinuxArmCtrl->SetToolTip(_("Supports Linux on ARM (e.g. Raspberry Pi)"));
+    m_pProjectDetailsSupportedPlatformLinuxArmCtrl->SetToolTip(_("Supports Linux on ARM"));
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformLinuxArmCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
+
+    m_pProjectDetailsSupportedPlatformRaspberryPiCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("rpiicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    m_pProjectDetailsSupportedPlatformRaspberryPiCtrl->SetToolTip(_("Supports Raspberry Pi"));
+    itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformRaspberryPiCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
     m_pProjectDetailsSupportedPlatformNvidiaCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("nvidiaicon2.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
     m_pProjectDetailsSupportedPlatformNvidiaCtrl->SetToolTip(_("Supports NVIDIA GPUs"));
@@ -393,6 +409,14 @@ void CProjectInfoPage::CreateControls()
     m_pProjectDetailsSupportedPlatformVirtualBoxCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("virtualboxicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
     m_pProjectDetailsSupportedPlatformVirtualBoxCtrl->SetToolTip(_("Supports VirtualBox"));
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformVirtualBoxCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
+
+    m_pProjectDetailsSupportedPlatformDockerCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("docker.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    m_pProjectDetailsSupportedPlatformDockerCtrl->SetToolTip(_("Supports Podman/Docker"));
+    itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformDockerCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
+
+    m_pProjectDetailsSupportedPlatformMetalCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("metal.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    m_pProjectDetailsSupportedPlatformMetalCtrl->SetToolTip(_("Supports Apple GPUs"));
+    itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformMetalCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
     m_pProjectDetailsSupportedPlatformBlankCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("blankicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformBlankCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
@@ -489,6 +513,11 @@ wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
         wxBitmap bitmap(linuxarmicon2_xpm);
         return bitmap;
     }
+    else if (name == wxT("rpiicon.xpm"))
+    {
+        wxBitmap bitmap(rpi_xpm);
+        return bitmap;
+    }
     else if (name == wxT("amdicon2.xpm"))
     {
         wxBitmap bitmap(amdicon2_xpm);
@@ -507,6 +536,16 @@ wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
     else if (name == wxT("virtualboxicon.xpm"))
     {
         wxBitmap bitmap(virtualboxicon_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("docker.xpm"))
+    {
+        wxBitmap bitmap(docker_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("metal.xpm"))
+    {
+        wxBitmap bitmap(metal_xpm);
         return bitmap;
     }
     else if (name == wxT("blankicon.xpm"))
@@ -616,20 +655,26 @@ void CProjectInfoPage::OnProjectSelected( wxListEvent& event ) {
             m_pProjectDetailsSupportedPlatformAndroidCtrl->Hide();
             m_pProjectDetailsSupportedPlatformFreeBSDCtrl->Hide();
             m_pProjectDetailsSupportedPlatformLinuxArmCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformRaspberryPiCtrl->Hide();
             m_pProjectDetailsSupportedPlatformNvidiaCtrl->Hide();
             m_pProjectDetailsSupportedPlatformATICtrl->Hide();
             m_pProjectDetailsSupportedPlatformIntelGPUCtrl->Hide();
             m_pProjectDetailsSupportedPlatformVirtualBoxCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformDockerCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformMetalCtrl->Hide();
             if (pProjectInfo->m_bProjectSupportsWindows) m_pProjectDetailsSupportedPlatformWindowsCtrl->Show();
             if (pProjectInfo->m_bProjectSupportsMac) m_pProjectDetailsSupportedPlatformMacCtrl->Show();
             if (pProjectInfo->m_bProjectSupportsLinux) m_pProjectDetailsSupportedPlatformLinuxCtrl->Show();
             if (pProjectInfo->m_bProjectSupportsAndroid) m_pProjectDetailsSupportedPlatformAndroidCtrl->Show();
             if (pProjectInfo->m_bProjectSupportsFreeBSD) m_pProjectDetailsSupportedPlatformFreeBSDCtrl->Show();
             if (pProjectInfo->m_bProjectSupportsLinuxARM) m_pProjectDetailsSupportedPlatformLinuxArmCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsRaspberryPi) m_pProjectDetailsSupportedPlatformRaspberryPiCtrl->Show();
             if (pProjectInfo->m_bProjectSupportsCAL) m_pProjectDetailsSupportedPlatformATICtrl->Show();
             if (pProjectInfo->m_bProjectSupportsCUDA) m_pProjectDetailsSupportedPlatformNvidiaCtrl->Show();
             if (pProjectInfo->m_bProjectSupportsIntelGPU) m_pProjectDetailsSupportedPlatformIntelGPUCtrl->Show();
             if (pProjectInfo->m_bProjectSupportsVirtualBox) m_pProjectDetailsSupportedPlatformVirtualBoxCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsDocker) m_pProjectDetailsSupportedPlatformDockerCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsMetal) m_pProjectDetailsSupportedPlatformMetalCtrl->Show();
 
             // Populate non-control data for use in other places of the wizard
             m_strProjectURL = pProjectInfo->m_strURL;
@@ -747,10 +792,16 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
                     if (strProjectPlatform.Find(_T("arm-unknown-linux-gnu")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsLinuxARM = true;
+                        pProjectInfo->m_bProjectSupportsRaspberryPi = true;
                     }
 
                     if (strProjectPlatform.Find(_T("arm-unknown-linux-gnueabihf")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsLinuxARM = true;
+                        pProjectInfo->m_bProjectSupportsRaspberryPi = true;
+                    }
+                    if (strProjectPlatform.Find(_T("aarch64-unknown-linux-gnu")) != wxNOT_FOUND) {
+                        pProjectInfo->m_bProjectSupportsLinuxARM = true;
+                        pProjectInfo->m_bProjectSupportsRaspberryPi = true;
                     }
 
                     if (strProjectPlanClass.Find(_T("cuda")) != wxNOT_FOUND) {
@@ -778,8 +829,16 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                         if (!pDoc->state.host_info.coprocs.have_intel_gpu()) continue;
                     }
 
+                    if (strProjectPlanClass.Find(_T("apple_gpu")) != wxNOT_FOUND) {
+                        pProjectInfo->m_bProjectSupportsMetal = true;
+                    }
+
                     if (strProjectPlanClass.Find(_T("vbox")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsVirtualBox = true;
+                    }
+
+                    if (strProjectPlanClass.Find(_T("docker")) != wxNOT_FOUND) {
+                        pProjectInfo->m_bProjectSupportsDocker = true;
                     }
 
                     if (strClientPlatform == strRootProjectPlatform) {

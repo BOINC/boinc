@@ -16,17 +16,25 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// web interface for showing error WUs
+
 require_once("../inc/common_defs.inc");
 require_once("../inc/util_ops.inc");
 require_once("../inc/cache.inc");
 
-// User - configuarble variables
+// User - configurable variables
+
 // seconds to cache this page
-// this page runs a scan of the two largest tables, so this shouldn't be done more often than necessary
+// this page runs a scan of the two largest tables,
+// so this shouldn't be done more often than necessary
 $cache_sec = 1800;
-// Number that determines how many client errors are necessary for a WU to show up in this list.
-// This number is added to min_quorum of the WU, so a value of 1 means that there must be more than
+
+// Number that determines how many client errors are necessary
+// for a WU to show up in this list.
+// This number is added to min_quorum of the WU,
+// so a value of 1 means that there must be more than
 // (min_quorum + 1) errors for a WU to show up in this list.
+
 $notification_level = get_int("level", true);
 if (!$notification_level) {
     $notification_level = 1;
@@ -105,7 +113,8 @@ function get_error_wus() {
     global $notification_level;
     global $appid_filter;
 
-    // this query is obviously expensive for big projects but if there is a replica this does not impact the project
+    // this query is obviously expensive for big projects
+    // but if there is a replica this does not impact the project
     $db = BoincDb::get(true);
     $dbresult = $db->do_query("
         SELECT id, name, appid, unsent, in_progress, successes, compute_errors,

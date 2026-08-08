@@ -33,7 +33,30 @@ static void show_warning(PROJECT* p, const char* name) {
     );
 }
 
+static void modify_usage_avc(
+    const APP_VERSION_CONFIG &avc, RESOURCE_USAGE &ru
+) {
+    if (strlen(avc.cmdline)) {
+        safe_strcpy(ru.cmdline, avc.cmdline);
+    }
+    if (avc.avg_ncpus) {
+        ru.avg_ncpus = avc.avg_ncpus;
+    }
+    if (avc.ngpus) {
+        ru.coproc_usage = avc.ngpus;
+    }
+}
+
+static void modify_usage_ac(const APP_CONFIG &ac, RESOURCE_USAGE &ru) {
+    if (!ru.rsc_type) return;
+    ru.coproc_usage = ac.gpu_gpu_usage;
+    ru.avg_ncpus = ac.gpu_cpu_usage;
+}
+
 // having parsed a project's app_config.xml, put the config into effect
+// called:
+// on startup and reread config (from check_app_config() below)
+// after scheduler RPC to that project (in case got new app versions)
 //
 int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
     bool showed_notice = false;
@@ -53,9 +76,16 @@ int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
         if (!ac.gpu_gpu_usage || !ac.gpu_cpu_usage) continue;
         for (APP_VERSION* avp: gstate.app_versions) {
             if (avp->app != app) continue;
-            if (!avp->resource_usage.rsc_type) continue;
-            avp->resource_usage.coproc_usage = ac.gpu_gpu_usage;
-            avp->resource_usage.avg_ncpus = ac.gpu_cpu_usage;
+            modify_usage_ac(ac, avp->resource_usage);
+        }
+
+        // BUDA
+        //
+        for (WORKUNIT *wup: gstate.workunits) {
+            if (!wup->has_resource_usage) continue;
+            if (wup->project != p) continue;
+            if (wup->app != app) continue;
+            modify_usage_ac(ac, wup->resource_usage);
         }
     }
     for (const APP_VERSION_CONFIG& avc: app_version_configs) {
@@ -68,20 +98,36 @@ int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
             continue;
         }
         bool found = false;
-        const size_t cmdline_len = strlen(avc.cmdline);
         for (APP_VERSION* avp: gstate.app_versions) {
             if (avp->app != app) continue;
             if (strcmp(avp->plan_class, avc.plan_class)) continue;
             found = true;
-            if (cmdline_len) {
-                safe_strcpy(avp->resource_usage.cmdline, avc.cmdline);
+
+            // modify the app version's resource usage
+            //
+            modify_usage_avc(avc, avp->resource_usage);
+
+            // for BUDA, modify the resource usage
+            // of WUs that use this app version
+            //
+            // WU doesn't directly link to app version;
+            // see if there's a result that links to both
+            //
+            for (WORKUNIT *wup: gstate.workunits) {
+                wup->ref_cnt = 0;
             }
-            if (avc.avg_ncpus) {
-                avp->resource_usage.avg_ncpus = avc.avg_ncpus;
+            for (RESULT *rp: gstate.results) {
+                if (rp->avp == avp) {
+                    rp->wup->ref_cnt = 1;
+                }
             }
-            if (avc.ngpus) {
-                avp->resource_usage.coproc_usage = avc.ngpus;
+            for (WORKUNIT *wup: gstate.workunits) {
+                if (!wup->has_resource_usage) continue;
+                if (wup->ref_cnt == 0) continue;
+                modify_usage_avc(avc, wup->resource_usage);
             }
+            // don't break here; it's possible that multiple app versions
+            // have the same app and plan class
         }
         if (!found) {
             msg_printf(p, MSG_USER_ALERT,

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -159,8 +159,8 @@ int main(int argc, char *argv[])
 
     // Write a temp file to tell our PostInstall.app the previous branding, if any
     oldBrandID = GetOldBrandID();
-    snprintf(temp, sizeof(temp), "/tmp/%s/OldBranding", tempDirName);
-    f = fopen(temp, "w");
+    snprintf(temp2, sizeof(temp2), "/tmp/%s/OldBranding", tempDirName);
+    f = fopen(temp2, "w");
     if (!f) {
         REPORT_ERROR(true);
     } else {

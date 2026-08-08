@@ -134,7 +134,6 @@ function list_files($user, $notice=null) {
                 'sandbox.php?',
                 $sort_field, $sort_rev
             ),
-            "MD5",
             "Delete",
             "Download"
         );
@@ -144,7 +143,6 @@ function list_files($user, $notice=null) {
                 "<a href=sandbox.php?action=view_file&name=$f->name>$f->name</a>",
                 $ct,
                 $f->size,
-                $f->md5,
                 button_text_small(
                     "sandbox.php?action=delete_file&name=$f->name",
                     "Delete"
@@ -284,7 +282,7 @@ case 'get_file': get_file($user); break;
 case 'delete_file': delete_file($user); break;
 case 'download_file': download_file($user); break;
 case 'view_file': view_file($user); break;
-case 'add_form': add_form($user); break;
+case 'add_form': add_form(); break;
 default: error_page("no such action: ".htmlspecialchars($action));
 }
 

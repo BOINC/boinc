@@ -23,6 +23,10 @@ require_once('../inc/user.inc');
 
 if (DISABLE_FORUMS) error_page("Forums are disabled");
 
+if (REQUIRE_LOGIN_FORUM) {
+    get_logged_in_user();
+}
+
 check_get_args(array("userid", "offset"));
 
 $userid = get_int("userid");

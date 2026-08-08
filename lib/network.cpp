@@ -35,6 +35,12 @@
 #include <errno.h>
 #endif
 
+#include <vector>
+#include <string>
+#include <cctype>
+using std::vector;
+using std::string;
+
 #include "error_numbers.h"
 #include "str_util.h"
 #include "util.h"
@@ -350,4 +356,34 @@ int boinc_get_port(bool is_remote, int& port) {
 
     boinc_close_socket(sock);
     return 0;
+}
+
+// is a high-availability server reachable?
+// (we use berkeley.edu for this purpose)
+//
+// We used to do this directly, by gethostbyname() and connect().
+// But on Windows, gethostbyname() caches negative results,
+// so once a DNS resolution fails (due to network disconnection)
+// it keeps failing after reconnection!  WTF??
+//
+// So use ping instead.
+// The Win version is different from Unix, both the args and the output.
+// But both exit nonzero on failure.
+//
+bool network_connected() {
+    char cmd[256];
+    snprintf(cmd, sizeof(cmd), "ping %s berkeley.edu",
+#ifdef _WIN32
+        "-n 1"
+#else
+        "-c 1"
+#endif
+    );
+    vector<string> out;
+    int retval = run_command(cmd, out);
+    // ping exits nonzero on failure
+    if (retval) {
+        return false;
+    }
+    return true;
 }

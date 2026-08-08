@@ -52,7 +52,7 @@ update_nested_dirs() {
     done
 }
 
-if [ -x /bin/systemctl ] ; then
+if command -v systemctl >/dev/null 2>&1 && [ -d /run/systemd/system ]; then
     if systemctl is-active --quiet boinc-client.service; then
         systemctl stop boinc-client.service
     fi
@@ -210,6 +210,6 @@ if [ -e /etc/boinc-client/remote_hosts.cfg ] ; then
     set_perm /etc/boinc-client/remote_hosts.cfg ${BOINCUSER} ${BOINCGROUP} 0660
 fi
 
-if [ -x /bin/systemctl ] ; then
+if command -v systemctl >/dev/null 2>&1 && [ -d /run/systemd/system ]; then
     systemctl enable --now boinc-client.service
 fi

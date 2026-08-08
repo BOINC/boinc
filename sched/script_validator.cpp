@@ -53,6 +53,7 @@
 
 #include "validate_util2.h"
 #include "error_numbers.h"
+#include "str_replace.h"
 #include "boinc_db.h"
 #include "sched_util.h"
 #include "validate_util.h"
@@ -131,15 +132,15 @@ int init_result(const RESULT& result, void*&) {
         string& s = init_script[i];
         if (s == "files") {
             for (unsigned j=0; j<paths.size(); j++) {
-                strcat(cmd, " ");
-                strcat(cmd, paths[j].c_str());
+                safe_strcat(cmd, " ");
+                safe_strcat(cmd, paths[j].c_str());
             }
         } else if (s == "runtime") {
             sprintf(buf, " %f", result.elapsed_time);
-            strcat(cmd, buf);
+            safe_strcat(cmd, buf);
         } else if (s == "result_id") {
             sprintf(buf, " %lu", result.id);
-            strcat(cmd, buf);
+            safe_strcat(cmd, buf);
         }
     }
     retval = system(cmd);
@@ -167,7 +168,7 @@ int compare_results(RESULT& r1, void*, RESULT const& r2, void*, bool& match) {
         return 0;
     }
 
-    char buf[256];
+    char buf[4096];
     vector<string> paths1, paths2;
     int retval;
 
@@ -188,26 +189,26 @@ int compare_results(RESULT& r1, void*, RESULT const& r2, void*, bool& match) {
         string& s = compare_script[i];
         if (s == "files") {
             for (unsigned j=0; j<paths1.size(); j++) {
-                strcat(cmd, " ");
-                strcat(cmd, paths1[j].c_str());
+                safe_strcat(cmd, " ");
+                safe_strcat(cmd, paths1[j].c_str());
             }
         } else if (s == "files2") {
             for (unsigned j=0; j<paths2.size(); j++) {
-                strcat(cmd, " ");
-                strcat(cmd, paths2[j].c_str());
+                safe_strcat(cmd, " ");
+                safe_strcat(cmd, paths2[j].c_str());
             }
         } else if (s == "runtime") {
             sprintf(buf, " %f", r1.elapsed_time);
-            strcat(cmd, buf);
+            safe_strcat(cmd, buf);
         } else if (s == "result_id") {
             sprintf(buf, " %lu", r1.id);
-            strcat(cmd, buf);
+            safe_strcat(cmd, buf);
         } else if (s == "runtime2") {
             sprintf(buf, " %f", r2.elapsed_time);
-            strcat(cmd, buf);
+            safe_strcat(cmd, buf);
         } else if (s == "result_id2") {
             sprintf(buf, " %lu", r2.id);
-            strcat(cmd, buf);
+            safe_strcat(cmd, buf);
         }
     }
     retval = system(cmd);

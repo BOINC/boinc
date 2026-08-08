@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="boinccas">
+      <UniqueIdentifier>{0283FF88-AC86-446F-9FD1-94A0AD6C761A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="boinccas\helper">
+      <UniqueIdentifier>{EC1F2392-36EE-47D8-81D8-A6781E824C67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib">
+      <UniqueIdentifier>{C668F567-A695-4F12-9FF3-8AEC92DE5902}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vboxwrapper">
+      <UniqueIdentifier>{C021015F-B9B5-4C62-95C7-3C42A303F9A8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vboxwrapper\external">
+      <UniqueIdentifier>{DFDBECF4-C9AF-4F57-90C2-636AC0BE20F8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="../tests/unit-tests/boinccas/boinccas_helper.h">
+      <Filter>boinccas\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/boinccas_helper.cpp">
+      <Filter>boinccas\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/msi_helper.h">
+      <Filter>boinccas\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/msi_helper.cpp">
+      <Filter>boinccas\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/registry_helper.h">
+      <Filter>boinccas\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/registry_helper.cpp">
+      <Filter>boinccas\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/user_group_helper.h">
+      <Filter>boinccas\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/user_group_helper.cpp">
+      <Filter>boinccas\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CAAnnounceUpgrade.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CACheckWSLSupport.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CACleanupOldBinaries.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CACreateAcctMgrLoginFile.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CACreateBOINCAccounts.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CACreateBOINCGroups.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CACreateClientAuthFile.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CACreateProjectInitFile.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CADeleteBOINCAccounts.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CADeleteBOINCGroups.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CAGrantBOINCAdminsRights.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CAGrantBOINCAdminsVirtualBoxRights.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CAGrantBOINCMasterRights.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CAGrantBOINCProjectRights.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CAGrantBOINCProjectsRights.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CAGrantBOINCProjectsVirtualBoxRights.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CAGrantBOINCUsersRights.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CALaunchBOINCManager.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CALaunchBOINCTray.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CALaunchBOINCWSLInstaller.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CARestoreExecutionState.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CARestorePermissionBOINCData.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CARestoreSetupState.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CARevokeBOINCAdminsRights.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CARevokeBOINCMasterRights.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CARevokeBOINCProjectRights.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CARevokeBOINCProjectsRights.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CARevokeBOINCUsersRights.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CASaveExecutionState.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CASaveSetupState.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CASetPermissionBOINC.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CASetPermissionBOINCData.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CASetPermissionBOINCDataProjects.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CASetPermissionBOINCDataSlots.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CAShutdownBOINC.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CAShutdownBOINCManager.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CAShutdownBOINCScreensaver.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CAValidateInstall.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CAValidateRebootRequest.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CAValidateSetupType.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CAVerifyInstallDirectories.cpp">
+      <Filter>boinccas</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="../tests/unit-tests/lib/test_base64.cpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/lib/test_md5_file.cpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/lib/test_parse.cpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/lib/test_shmem.cpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/lib/test_str_util.cpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/lib/test_synch.cpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/lib/test_url.cpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/lib/test_util.cpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="../tests/unit-tests/lib/test_zip.cpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="../tests/unit-tests/vboxwrapper/test_vbox_common.cpp">
+      <Filter>vboxwrapper</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\samples\vboxwrapper\floppyio.cpp">
+      <Filter>vboxwrapper\external</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samples\vboxwrapper\vbox_common.cpp">
+      <Filter>vboxwrapper\external</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samples\vboxwrapper\vbox_vboxmanage.cpp">
+      <Filter>vboxwrapper\external</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samples\vboxwrapper\vboxjob.cpp">
+      <Filter>vboxwrapper\external</Filter>
+    </ClInclude>
+    <ClInclude Include="..\samples\vboxwrapper\vboxlogging.cpp">
+      <Filter>vboxwrapper\external</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

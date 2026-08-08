@@ -1,0 +1,37 @@
+// ************** Checkpoint/restart ***************
+//
+// This would limit lost work if the host is rebooted
+// while a BUDA job is running.
+// In other cases (e.g. the user exits the client)
+// we pause the container and no work is lost.
+//
+// Podman and Docker have different interfaces:
+// podman: https://podman.io/docs/checkpoint
+//      podman container checkpoint <name>
+//      podman container restore <name>
+// docker: https://docs.docker.com/reference/cli/docker/checkpoint/
+//      docker checkpoint create <cont_name> <checkpoint_name>
+//      docker checkpoint ls   (lists checkpoints)
+//      docker checkpoint rm   (delete checkpoint)
+//      docker start --checkpoint <checkpoint_name> <cont_name>
+//      (use <cont_name>_checkpoint as the checkpoint name)
+//      need --security-opt=seccomp:unconfined in initial run command?
+//
+// In both cases the CRIU library is required.
+//
+// Note: I spent several days trying to get it to work on Podman
+// with all sorts of variants like --pre-checkpoint, --keep etc.
+// Whenever I did
+// - create a checkpoint
+// - compute some more
+// - stop or kill the container
+// - restore
+// I always get
+// Error: OCI runtime error: runc: criu failed: type RESTORE errno 0
+//
+// So I gave up; checkpoint/restart is only relevant to the reboot scenario,
+// this is rare.
+//
+// I took out the checkpoint-related code 1/30/2026.
+// If you want to see it, look at an older version
+

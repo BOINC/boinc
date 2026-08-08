@@ -9,7 +9,7 @@
 # 4) do the same in this dir
 
 //CC = g++ -O4 -Wall -I ../ -I ../lib/
-CC = g++ -g -Wall -I ../ -I ../lib/
+CC = g++ -std=gnu++1z -g -Wall -I ../ -I ../lib/
 
 PROGS = boinc boinccmd
 
@@ -142,7 +142,7 @@ clean:
 LIBS = ../lib/boinc.a \
     -L /usr/local/lib/ \
     -lpthread \
-    -lX11 \
+    -lX11 -lXss \
     -lcurl -lssl -lcrypto \
     -lz -ldl -lrt
 
@@ -152,7 +152,7 @@ LIBS = ../lib/boinc.a \
 boinc: $(BOINC_OBJ)
 	$(CC) $(BOINC_OBJ) $(LIBS) -o boinc
 
-boinccmd: boinc_cmd.o
+boinccmd: boinc_cmd.o ../lib/boinc_cmd.a
 	$(CC) boinc_cmd.o ../lib/boinc_cmd.a -o boinccmd
 
 dependencies: $(SRC)

@@ -20,6 +20,10 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
 
+if (REQUIRE_LOGIN) {
+    get_logged_in_user();
+}
+
 function show_user($user) {
     $x = [];
     $y = [];

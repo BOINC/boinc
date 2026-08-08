@@ -2,6 +2,7 @@
 ## $Id$
 
 CXXFLAGS := $(filter-out -mfpu=vfpv3-d16,$(CXXFLAGS))
+CXXFLAGS += -std=gnu++1z
 
 include $(top_srcdir)/Makefile.incl
 
@@ -83,7 +84,6 @@ boinc_client_SOURCES = \
     net_stats.cpp \
     pers_file_xfer.cpp \
     project.cpp \
-    project_list.cpp \
     result.cpp \
     rr_sim.cpp \
     sandbox.cpp \

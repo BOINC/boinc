@@ -43,5 +43,7 @@ int main(int argc, char *argv[])
         callPosixSpawn (cmd);
     }
 
+    callPosixSpawn("/usr/bin/dscacheutil -flushcache");
+
     return 0;
 }

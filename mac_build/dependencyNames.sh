@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -47,16 +47,15 @@ caresBaseName="c-ares"
 caresFileName="c-ares-1.28.1.tar.gz"
 caresURL="https://github.com/c-ares/c-ares/releases/download/cares-1_28_1/c-ares-1.28.1.tar.gz"
 
-curlDirName="curl-8.16.0"
+curlDirName="curl-8.20.0"
 curlBaseName="curl"
-curlFileName="curl-8.16.0.tar.gz"
-curlURL="https://curl.se/download/curl-8.16.0.tar.gz"
+curlFileName="curl-8.20.0.tar.gz"
+curlURL="https://curl.se/download/curl-8.20.0.tar.gz"
 
-wxWidgetsDirName="wxWidgets-3.3.1"
+wxWidgetsDirName="wxWidgets-3.3.2"
 wxWidgetsBaseName="wxWidgets"
-wxWidgetsFileName="wxWidgets-3.3.1.tar.bz2"
-wxWidgetsURL="https://github.com/wxWidgets/wxWidgets/releases/download/v3.3.1/wxWidgets-3.3.1.tar.bz2"
-
+wxWidgetsFileName="wxWidgets-3.3.2.tar.bz2"
+wxWidgetsURL="https://github.com/wxWidgets/wxWidgets/releases/download/v3.3.2/wxWidgets-3.3.2.tar.bz2"
 freetypeDirName="freetype-2.11.0"
 freetypeBaseName="freetype"
 freetypeFileName="freetype-2.11.0.tar.gz"

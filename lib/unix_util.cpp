@@ -56,7 +56,7 @@ static std::vector<char *> envstrings;
 int setenv(const char *name, const char *value, int overwrite) {
     char *buf;
     int rv;
-    // Name can't contant an equal sign.
+    // Name can't contain an equal sign.
     if (strchr(name,'=')) {
         errno=EINVAL;
         return -1;

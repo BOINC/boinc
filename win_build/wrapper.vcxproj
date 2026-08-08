@@ -24,8 +24,8 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>ole32.lib;psapi.lib;oldnames.lib;zip.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">libcmtd.lib;libcpmtd.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Configuration)'=='Release'">libcmt.lib;libcpmt.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">libcmtd.lib;libcpmtd.lib;zsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)'=='Release'">libcmt.lib;libcpmt.lib;zs.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(TargetDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>

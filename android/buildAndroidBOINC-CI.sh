@@ -260,6 +260,11 @@ vcpkgDir()
     echo $vcpkg_dir
 }
 
+# Temporary fix for the issue of the missing zlib dependency in the libcurl pkg config
+libcurl_pc_file=$(vcpkgDir $arch)/lib/pkgconfig/libcurl.pc
+grep -q '^Requires:.*\bzlib\b' $libcurl_pc_file || sed -i '/^Requires:/ s/openssl/openssl,zlib/' $libcurl_pc_file
+# End of the temporary fix
+
 list_apps_name="boinc_gahp uc2 ucn multi_thread sleeper sporadic worker wrapper wrappture_example fermi"
 
 NeonTest()

@@ -74,6 +74,7 @@ Commands:\n\
  --get_notices [ seqno ]            show notices > seqno\n\
  --get_project_config URL\n\
  --get_project_status               show status of all attached projects\n\
+ --get_project_urls                 show master URLs of all attached projects\n\
  --get_proxy_settings\n\
  --get_simple_gui_info              show status of projects and active tasks\n\
  --get_state                        show entire state\n\

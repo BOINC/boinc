@@ -396,7 +396,7 @@ function link_results($n, $mq, $query, $clauses) {
 // @param String $stderr_out the stderr_out value to parse
 //
 function stderr_error_string($stderr_out){
-    $y = parse_element_text($stderr_out, "<error_code>");
+    $y = parse_element($stderr_out, "<error_code>");
     $x = 0;
     if ($y) {
         $x = (int)$y;

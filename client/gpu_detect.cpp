@@ -104,6 +104,7 @@
 #include "file_names.h"
 #include "util.h"
 #include "str_replace.h"
+#include "str_util.h"
 
 #include "client_msgs.h"
 #include "client_state.h"
@@ -199,12 +200,6 @@ void COPROCS::detect_gpus(vector<string> &warnings) {
         gpu_warning(warnings, "Caught SIGSEGV in ATI GPU detection");
     }
     try {
-        intel_gpu.get(warnings);
-    }
-    catch (...) {
-        gpu_warning(warnings, "Caught SIGSEGV in INTEL GPU detection");
-    }
-    try {
         // OpenCL detection must come last
         get_opencl(warnings);
     }
@@ -230,11 +225,6 @@ void COPROCS::detect_gpus(vector<string> &warnings) {
 #else
     apple_gpu.get(warnings);
 #endif
-    if (setjmp(resume)) {
-        gpu_warning(warnings, "Caught SIGSEGV in INTEL GPU detection");
-    } else {
-        intel_gpu.get(warnings);
-    }
     if (setjmp(resume)) {
         gpu_warning(warnings, "Caught SIGSEGV in OpenCL detection");
     } else {
@@ -264,7 +254,6 @@ void COPROCS::correlate_gpus(
     nvidia.correlate(use_all, ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU]);
 #endif
     ati.correlate(use_all, ignore_gpu_instance[PROC_TYPE_AMD_GPU]);
-    intel_gpu.correlate(use_all, ignore_gpu_instance[PROC_TYPE_INTEL_GPU]);
 #ifdef __APPLE__
     apple_gpu.correlate(use_all, ignore_gpu_instance[PROC_TYPE_APPLE_GPU]);
 #endif
@@ -301,10 +290,11 @@ void COPROCS::correlate_gpus(
 
 #ifdef __APPLE__
             if ((nvidia_gpus[i].cuda_version >= 6050) &&
-                            nvidia_gpus[i].prop.major < 2) {
+                nvidia_gpus[i].cuda_prop.major < 2
+            ) {
                 // This will be called only if CUDA recognized and reported the GPU
                 msg_printf(NULL, MSG_USER_ALERT, "NVIDIA GPU %d: %s %s",
-                    nvidia_gpus[i].device_num, nvidia_gpus[i].prop.name,
+                    nvidia_gpus[i].device_num, nvidia_gpus[i].cuda_prop.name,
                     _("cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later")
                 );
             }

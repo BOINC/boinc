@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -1991,7 +1991,6 @@ void CAdvancedFrame::OnSelectAll(wxCommandEvent& WXUNUSED(event)) {
 // to properly transition between dark mode and regular mode
 //
 void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) ) {
-#if SUPPORTDARKMODE
     CBOINCBaseView* theView = NULL;;
     CBOINCListCtrl* theListCtrl = NULL;
     long bottomItem = 0;
@@ -2032,7 +2031,13 @@ void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event)
     // TODO: figure out how to preserve notices tab (currentPage == VW_NOTIF) scrolled position
 
     StartTimers();
-#endif  // #if SUPPORTDARKMODE
+
+    CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
+    if (eventLog) {
+        wxGetApp().OnEventLogClose();
+        delete eventLog;    // eventLog->Destroy() creates a race condition if used here.
+        wxGetApp().DisplayEventLog();
+    }
 }
 
 

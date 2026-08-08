@@ -65,19 +65,6 @@ RPC_CLIENT::~RPC_CLIENT() {
     close();
 }
 
-#ifdef _WIN32
-static int addr_len(sockaddr_storage&) {
-    return (int) sizeof(sockaddr_in);
-}
-#else
-static int addr_len(sockaddr_storage& s) {
-    if (s.ss_family == AF_INET6) {
-        return (int) sizeof(sockaddr_in6);
-    }
-    return (int) sizeof(sockaddr_in);
-}
-#endif
-
 // if any RPC returns ERR_READ or ERR_WRITE,
 // call this and then call init() again.
 //

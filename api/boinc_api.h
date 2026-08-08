@@ -63,7 +63,7 @@ typedef struct BOINC_OPTIONS {
         // set this if application creates subprocesses.
 } BOINC_OPTIONS;
 
-// info passed from client to app in heartbeat message
+// info passed from client to app in heartbeat and process control messages
 //
 typedef struct BOINC_STATUS {
     int no_heartbeat;
@@ -100,10 +100,6 @@ extern int boinc_report_app_status(
 extern int boinc_time_to_checkpoint(void);
 extern void boinc_begin_critical_section(void);
 extern void boinc_end_critical_section(void);
-extern void boinc_need_network(void);
-extern int boinc_network_poll(void);
-extern void boinc_network_done(void);
-extern void boinc_network_usage(double sent, double received);
 extern int boinc_is_standalone(void);
 extern void boinc_ops_per_cpu_sec(double fp, double integer);
 extern void boinc_ops_cumulative(double fp, double integer);
@@ -132,6 +128,7 @@ extern int setMacIcon(char *filename, char *iconData, long iconSize);
 #include <string>
 #include "app_ipc.h"
 
+extern void boinc_waiting_for_network(bool);
 extern int boinc_resolve_filename_s(const char*, std::string&);
 extern int boinc_get_init_data(APP_INIT_DATA&);
 extern int boinc_wu_cpu_time(double&);
@@ -166,6 +163,7 @@ extern HANDLE worker_thread_handle;
 extern int boinc_init_options_general(BOINC_OPTIONS& opt);
 extern int start_timer_thread(void);
 extern bool boinc_disable_timer_thread;
+extern volatile bool got_heartbeat_message;
 
 inline void boinc_options_defaults(BOINC_OPTIONS& b) {
     b.main_program = 1;
@@ -177,7 +175,6 @@ inline void boinc_options_defaults(BOINC_OPTIONS& b) {
     b.multi_thread = 0;
     b.multi_process = 0;
 }
-
 
 /////////// IMPLEMENTATION STUFF ENDS HERE
 

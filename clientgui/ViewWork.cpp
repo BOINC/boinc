@@ -331,7 +331,7 @@ void CViewWork::AppendColumn(int columnID){
             break;
         case COLUMN_PROGRESS:
             m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_PROGRESS],
-                wxLIST_FORMAT_RIGHT, m_iStdColWidthOrder[COLUMN_PROGRESS]);
+                wxLIST_FORMAT_CENTRE, m_iStdColWidthOrder[COLUMN_PROGRESS]);
             break;
         case COLUMN_STATUS:
             m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_STATUS],

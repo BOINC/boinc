@@ -427,8 +427,9 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
         }
         addProperty(_("Estimated time remaining"), FormatTime(result->estimated_cpu_time_remaining));
         addProperty(_("Fraction done"), wxString::Format(wxT("%.3f%%"), result->fraction_done*100));
-        addProperty(_("Virtual memory size"), FormatDiskSpace(result->swap_size));
-        addProperty(_("Working set size"), FormatDiskSpace(result->working_set_size_smoothed));
+        addProperty(_("Virtual memory size"), FormatDiskSpace(result->virtual_size));
+        addProperty(_("Swap usage"), FormatDiskSpace(result->swap_usage));
+        addProperty(_("Resident set size"), FormatDiskSpace(result->rss_smoothed));
         if (result->slot >= 0) {
             addProperty(_("Directory"), wxString::Format(wxT("slots/%d"), result->slot));
         }

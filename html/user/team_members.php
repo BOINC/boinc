@@ -22,6 +22,10 @@ require_once("../inc/cache.inc");
 
 if (DISABLE_TEAMS) error_page("Teams are disabled");
 
+if (REQUIRE_LOGIN) {
+    get_logged_in_user();
+}
+
 check_get_args(array("sort_by", "offset", "teamid"));
 
 $sort_by = get_str("sort_by", true);

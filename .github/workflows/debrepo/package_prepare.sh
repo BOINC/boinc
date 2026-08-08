@@ -101,16 +101,6 @@ ROOT=$(pwd)
 FULLPKG="$1" # full name of the package
 BASEPKG="$2" # name of the artifact type
 
-# validity check
-case "$BASEPKG" in
-  "linux_client" | "linux_manager")
-     ;;
-
-*)  echo "ERROR: Unknown package preparation requested"
-    exit_usage
-	;;
-esac
-
 # setup of the archive
 stat "$ROOT/$FULLPKG"
 exit_on_fail

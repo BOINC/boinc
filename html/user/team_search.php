@@ -24,6 +24,10 @@ include_once("../inc/xml.inc");
 
 if (DISABLE_TEAMS) error_page("Teams are disabled");
 
+if (REQUIRE_LOGIN) {
+    get_logged_in_user();
+}
+
 check_get_args(array("keywords", "active", "country", "type", "submit", "xml"));
 
 // Merge list1 into list2.

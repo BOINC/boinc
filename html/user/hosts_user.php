@@ -23,6 +23,10 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/host.inc");
 
+if (REQUIRE_LOGIN) {
+    get_logged_in_user();
+}
+
 check_get_args(array("show_all", "rev", "sort", "userid"));
 
 $show_all = get_int("show_all", true);

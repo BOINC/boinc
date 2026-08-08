@@ -504,12 +504,15 @@ int main(int argc, char** argv) {
             int _argc;
             char* _argv[100], value_buf[MAX_QUERY_LEN];
 
-            char additional_xml[256];
+            char additional_xml[256], sub_appname_esc[2048];
             additional_xml[0] = 0;
             if (strlen(jd.sub_appname)) {
+                xml_escape(
+                    jd.sub_appname, sub_appname_esc, sizeof(sub_appname_esc)
+                );
                 snprintf(additional_xml, sizeof(additional_xml),
                     "   <sub_appname>%s</sub_appname>",
-                    jd.sub_appname
+                    sub_appname_esc
                 );
             }
 
@@ -615,9 +618,13 @@ void JOB_DESC::create() {
     char additional_xml[256];
     additional_xml[0] = 0;
     if (strlen(sub_appname)) {
+        char sub_appname_esc[2048];
+        xml_escape(
+            sub_appname, sub_appname_esc, sizeof(sub_appname_esc)
+        );
         snprintf(additional_xml, sizeof(additional_xml),
             "   <sub_appname>%s</sub_appname>",
-            sub_appname
+            sub_appname_esc
         );
     }
     int retval = create_work2(

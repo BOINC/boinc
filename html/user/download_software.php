@@ -169,7 +169,7 @@ function direct_to_boinc() {
                 to connect BOINC to your %1 account.
                 See <a href=%2>detailed instructions</a>.",
                 PROJECT,
-                'https://boinc.berkeley.edu/wiki/Account_managers'
+                'https://github.com/BOINC/boinc/wiki/Account_managers'
             )
         );
     } else {

@@ -64,7 +64,7 @@ void invertge(REAL * AI_d, int lda, int n) {
     for (int i = 0; i < n; i++) {
         GEStep1A<<<(int)ceil((float)(1+(2*n-1)/32)),32>>>(AI_d,i,n*2, lda2);
         CUDACHECK;
-        cudaThreadSynchronize();
+        cudaDeviceSynchronize();
     }
 
     for (int i = n-1; i >= 0; i--) {
@@ -75,7 +75,7 @@ void invertge(REAL * AI_d, int lda, int n) {
 
         GEStep3<<<(int)ceil((float)(1+(n*2-1)/32)),32>>>(AI_d,i,n*2, lda2);
         CUDACHECK;
-        cudaThreadSynchronize();
+        cudaDeviceSynchronize();
         CUDACHECK;
     }
 }

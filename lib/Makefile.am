@@ -80,10 +80,13 @@ win_sources = \
     idlemon_win.cpp \
     procinfo_win.cpp \
     run_app_windows.cpp \
-    stackwalker_win.cpp \
     win_util.cpp \
     wslinfo.cpp
-win_headers= \
+if !OS_WINARM64
+win_sources += \
+    stackwalker_win.cpp
+endif
+win_headers = \
     boinc_win.h \
     diagnostics_win.h \
     run_app_windows.h \

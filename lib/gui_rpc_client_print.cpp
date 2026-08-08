@@ -126,7 +126,7 @@ void APP_VERSION::print() {
         printf("   coprocessor type: %s\n", proc_type_name(gpu_type));
         printf("   coprocessor usage: %.3f\n", gpu_usage);
     }
-    printf("   estimated GFLOPS: %.2f\n", flops/1e9);
+    printf("   estimated speed: %s\n", flops_to_string(flops).c_str());
     printf("   filename: %s\n", exec_filename);
 }
 
@@ -150,9 +150,8 @@ void RESULT::print() {
     printf("   WU name: %s\n", wu_name);
     if (project) {
         printf("   project: %s\n", project->project_name.c_str());
-    } else {
-        printf("   project URL: %s\n", project_url);
     }
+    printf("   project URL: %s\n", project_url);
     time_t foo = (time_t)received_time;
     printf("   received: %s", ctime(&foo));
     foo = (time_t)report_deadline;
@@ -183,8 +182,9 @@ void RESULT::print() {
         printf("   CPU time at last checkpoint: %f\n", checkpoint_cpu_time);
         printf("   current CPU time: %f\n", current_cpu_time);
         printf("   fraction done: %f\n", fraction_done);
-        printf("   swap size: %.0f MB\n", swap_size/MEGA);
-        printf("   working set size: %.0f MB\n", working_set_size_smoothed/MEGA);
+        printf("   swap usage: %.0f MB\n", swap_usage/MEGA);
+        printf("   virtual size: %.0f MB\n", virtual_size/MEGA);
+        printf("   resident set size: %.0f MB\n", rss_smoothed/MEGA);
         if (bytes_sent || bytes_received) {
             printf("   bytes sent: %.0f received: %.0f\n",
                 bytes_sent, bytes_received

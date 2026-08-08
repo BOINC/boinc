@@ -23,6 +23,10 @@ require_once('../inc/forum.inc');
 require_once('../inc/pm.inc');
 require_once('../inc/time.inc');
 
+if (REQUIRE_LOGIN_FORUM) {
+    get_logged_in_user();
+}
+
 function show_forum_summary($forum) {
     switch ($forum->parent_type) {
     case 0:

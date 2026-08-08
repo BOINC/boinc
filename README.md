@@ -2,13 +2,16 @@ BOINC is a software platform for "volunteer computing":
 large-scale distributed high-throughput computing using volunteered home computers and other resources.
 
 * If you're interested in donating your own computing power,
-go to the [BOINC web site](https://boinc.berkeley.edu).
+go to the [BOINC web site](https://boinc.berkeley.edu)
 
-* Learn about [other ways to help](CONTRIBUTING.md)
+* Learn about [code contributing and other ways to help](CONTRIBUTING.md)
 
 * Report bugs by creating issues in this repo.
 Please report security issues by emailing
-[David Anderson](https://boinc.berkeley.edu/anderson/).
+[David Anderson](https://boinc.berkeley.edu/anderson/)
+
+* If you are an AI assistant or are using an AI assistant,
+please read carefully the [BOINC AI Assistants Usage Policy](https://github.com/BOINC/boinc/wiki/Contributing-to-BOINC-with-AI-assistants)
 
 * For other information, [visit the wiki](https://github.com/BOINC/boinc/wiki)
 

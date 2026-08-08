@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -28,6 +28,12 @@
 #pragma interface "BOINCGUIApp.cpp"
 #endif
 
+#ifdef __WXMSW__
+#define USE_NATIVE_LISTCONTROL 1
+#else
+#define USE_NATIVE_LISTCONTROL 0
+#endif
+
 ///
 /// Which view is on display
 ///
@@ -41,12 +47,6 @@
 // BOINC to adjust standard UI items for Dark Mode, be sure to guard
 // those changes so they do not affect the Mac implementation.
 //
-#if (defined(__WXMAC__) || defined(__WXGTK__))
-#define SUPPORTDARKMODE true
-#else
-#define SUPPORTDARKMODE false
-#endif
-
 
 class wxLogBOINC;
 class CBOINCBaseFrame;
@@ -266,13 +266,8 @@ public:
     void                SetAboutDialogIsOpen(bool set) { m_bAboutDialogIsOpen = set; }
     bool                GetAboutDialogIsOpen() { return m_bAboutDialogIsOpen; }
 
-#if SUPPORTDARKMODE
     void                SetIsDarkMode (bool isDarkMode) { m_isDarkMode = isDarkMode; }
     bool                GetIsDarkMode() { return m_isDarkMode; }
-#else
-    void                SetIsDarkMode (bool WXUNUSED(isDarkMode)) {}
-    bool                GetIsDarkMode() { return false; }
-#endif
 #ifdef __WXMAC__
     // The following Cocoa routines are in CBOINCGUIApp.mm
     //
@@ -282,10 +277,6 @@ public:
     void                SetActivationPolicyAccessory(bool hideDock);
     void                CheckPartialActivation();
     long                GetBrandID();
-
-    // Override standard wxCocoa wxApp::CallOnInit() to allow Manager
-    // to run properly when launched hidden on login via Login Item.
-    bool                CallOnInit();
 #endif
 
 DECLARE_EVENT_TABLE()

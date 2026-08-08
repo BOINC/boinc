@@ -53,8 +53,7 @@ $in_use_prefs = [
         tra("'In use' means mouse/keyboard input in last"),
         tra("This determines when the computer is considered 'in use'."),
         "idle_time_to_run",
-        new NUM_SPEC(tra("minutes"), 1, 9999, 3),
-        true
+        new NUM_SPEC(tra("minutes"), 1, 9999, 3)
     ),
     new PREF_BOOL(
         tra("Suspend all computing"),

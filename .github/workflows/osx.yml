@@ -18,7 +18,6 @@
 name: OSX
 on:
   push:
-    branches: [ master, 'client_release/**' ]
     tags: [ 'client_release/**', 'vboxwrapper/**', 'wrapper/**', 'dockerwrapper/**', 'worker/**' ]
   pull_request:
     branches: [ master ]
@@ -41,10 +40,10 @@ jobs:
         with:
           xcode-version: ${{ env.XCODE_VERSION }}
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - name: Cache dependencies
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: 3rdParty/buildCache
           key: osx-${{ hashFiles('.github/workflows/osx.yml', '3rdParty/buildMacDependencies.sh', 'mac_build/dependencyNames.sh', 'mac_build/buildc-ares.sh', 'mac_build/buildcurl.sh', 'mac_build/buildfreetype.sh', 'mac_build/buildFTGL.sh', 'mac_build/buildopenssl.sh', 'mac_build/buildWxMac.sh') }}
@@ -65,10 +64,10 @@ jobs:
         with:
           xcode-version: ${{ env.XCODE_VERSION }}
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - name: Cache dependencies
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: 3rdParty/buildCache
           key: osx-${{ hashFiles('.github/workflows/osx.yml', '3rdParty/buildMacDependencies.sh', 'mac_build/dependencyNames.sh', 'mac_build/buildc-ares.sh', 'mac_build/buildcurl.sh', 'mac_build/buildfreetype.sh', 'mac_build/buildFTGL.sh', 'mac_build/buildopenssl.sh', 'mac_build/buildWxMac.sh') }}

@@ -38,7 +38,7 @@ AC_SUBST([VBOXWRAPPER_RELEASE])
 WORKER_RELEASE=6
 AC_SUBST([WORKER_RELEASE])
 
-DOCKERWRAPPER_RELEASE=18
+DOCKERWRAPPER_RELEASE=22
 AC_SUBST([DOCKERWRAPPER_RELEASE])
 
 MULTITHREAD_RELEASE=2
@@ -85,7 +85,7 @@ dnl Verify C++11 support
 AC_MSG_CHECKING([whether $CXX supports C++11])
 AC_LANG_PUSH([C++])
 save_CXXFLAGS="$CXXFLAGS"
-for flag in "-std=c++11" "-std=c++0x"; do
+for flag in "-std=gnu++1z" "-std=c++11" "-std=c++0x"; do
   CXXFLAGS="$save_CXXFLAGS $flag"
   AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
     #include <memory>
@@ -777,6 +777,9 @@ if test "$enable_xss" = yes; then
     fi
 fi
 
+AX_CUDA
+AM_CONDITIONAL([HAVE_CUDA], [test "x$cuda_found" = "xyes"])
+
 dnl --------------------------------------------------------------------------------
 dnl put double-inclusion protection into config.h
 AH_TOP([
@@ -1215,6 +1218,7 @@ AM_CONDITIONAL(OS_LINUX, [echo $host_os | grep '^linux' > /dev/null])
 AM_CONDITIONAL(OS_FREEBSD, [echo $host_os | grep '^freebsd' > /dev/null])
 dnl In case anyone wants to try building the windows code using mingw!
 AM_CONDITIONAL(OS_WIN32, [echo $host_os | grep -E '^mingw|^winnt' > /dev/null])
+AM_CONDITIONAL(OS_WINARM64, [echo $host_os | grep -E '^mingw|^winnt' > /dev/null && echo $host_cpu | grep -E '^aarch64' > /dev/null])
 AM_CONDITIONAL(OS_WIN32_MINGW, [echo $host_os | grep '^mingw' > /dev/null])
 dnl or OS2
 AM_CONDITIONAL(OS_OS2, [echo $host_os | grep '^os2' > /dev/null])
@@ -1241,9 +1245,7 @@ AM_CONDITIONAL(ENABLE_APPS, [test "${enable_apps}" = yes])
 AM_CONDITIONAL(ENABLE_UNIT_TESTS, [test "${enable_unit_tests}" = yes])
 AM_CONDITIONAL(ENABLE_BOINCCRYPT, [test "x${enable_server}" = xyes  || test "x${enable_client}" = xyes ])
 AM_CONDITIONAL(INSTALL_HEADERS, [test "${enable_install_headers}" = yes])
-AM_CONDITIONAL(HAVE_CUDA_LIB, [test "${enable_client}" = yes -a -f ./coprocs/CUDA/posix/${boinc_platform}/libcudart.so])
 AM_CONDITIONAL(BUILD_WITH_OPENCL, [test "x$with_opencl" = "xyes"])
-
 dnl ======================================================================
 dnl some more vodoo required for building portable client-binary (client, clientgui)
 dnl ======================================================================

@@ -16,9 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Some posts may contain material that is not suited for public
-// viewing. This file allows people to report such posts
-// For this file to work the project must have defined who
+// Let people report posts that violate rules.
+// The project must define who
 // should receive such reports (in the configuration file)
 
 require_once('../inc/util.inc');

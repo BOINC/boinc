@@ -37,6 +37,11 @@ if BUILD_WITH_OPENCL
     SUBDIRS += openclapp
 endif
 
+## Make nvcuda if you havee CUDA installed on your device.
+if HAVE_CUDA
+    SUBDIRS += nvcuda
+endif
+
 if ! ANDROID
     SUBDIRS += docker_wrapper
 endif

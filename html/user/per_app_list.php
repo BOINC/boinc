@@ -26,6 +26,10 @@
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
+if (REQUIRE_LOGIN) {
+    get_logged_in_user();
+}
+
 check_get_args(array(
     "is_team",
     "appid",

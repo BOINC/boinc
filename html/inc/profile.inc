@@ -222,7 +222,7 @@ function show_profile($user, $logged_in_user, $screen_mode = false) {
 
     // If screening is enabled, only show picture in certain situations
     //
-    $show_picture = $profile->has_picture;
+    $show_picture = file_exists(profile_image_path($user->id));
     if (profile_screening()) {
         if (!$screen_mode && !$can_edit && $profile->verification!=1) {
             $show_picture = false;
