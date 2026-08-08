@@ -653,7 +653,7 @@ std::tuple<int, R_RSA_PRIVATE_KEY, R_RSA_PUBLIC_KEY> openssl_to_keys(const uniqu
 using unique_BIO = std::unique_ptr<BIO, OpenSSLDeleter<BIO, BIO_vfree>>;
 using unique_X509 = std::unique_ptr<X509, OpenSSLDeleter<X509, X509_free>>;
 
-bool check_validity_of_cert(const string &cFile, const vector<uint8_t> &md5_md,
+static bool check_validity_of_cert(const string &cFile, const vector<uint8_t> &md5_md,
     const vector<uint8_t> &sfileMsg, const string &caPath) {
     unique_BIO bio(BIO_new(BIO_s_file()));
     BIO_read_filename(bio.get(), cFile.data());

@@ -165,12 +165,6 @@ extern std::vector<uint8_t> scan_raw_data(FILE *f);
 extern std::pair<int, R_RSA_PRIVATE_KEY> read_key_file(const std::string& keyfile);
 extern std::string generate_signature(const std::string& text_to_sign, const R_RSA_PRIVATE_KEY& key);
 
-//   Check if sfileMsg (of length sfsize) has been created from md5_md using the
-//   private key belonging to the public key file cFile
-extern bool check_validity_of_cert(
-    const std::string &cFile, const std::vector<uint8_t> &md5_md,
-    const std::vector<uint8_t> &sfileMsg, const std::string &caPath);
-
 // return a pair of values:
 // first 'bool' value indicates if the signature is valid
 // second 'string' value return a path to the certificate that was used for signing
