@@ -17,6 +17,8 @@
 
 // GUI RPC server side (the actual RPCs)
 
+//#define PRINT_TIME      // write RPC times to stdout
+
 #include "cpp.h"
 
 #ifdef __APPLE__
@@ -1897,7 +1899,14 @@ static int handle_rpc_aux(GUI_RPC_CONN& grc) {
         if (gr.enable_network)  {
             gstate.gui_rpcs.time_of_last_rpc_needing_network = gstate.now;
         }
+#ifdef PRINT_TIME
+        double start = dtime();
+#endif
         (*gr.handler)(grc);
+#ifdef PRINT_TIME
+        int diff = (dtime()-start)*1000000;
+        printf("%s : %d microseconds \n", gr.req_tag, diff);
+#endif
         return 0;
     }
     grc.mfout.printf("<error>unrecognized op: %s</error>\n", grc.xp.parsed_tag);
