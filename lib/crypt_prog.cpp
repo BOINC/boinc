@@ -102,7 +102,8 @@ int genkey(int n, const std::string& private_keyfile,
     std::cout << "creating keys in " << private_keyfile << " and "
         << public_keyfile << std::endl;
 
-    unique_PKEY_CTX ctx = unique_PKEY_CTX(EVP_PKEY_CTX_new_from_name(nullptr, "RSA", nullptr));
+    unique_PKEY_CTX ctx = unique_PKEY_CTX(EVP_PKEY_CTX_new_from_name(
+        nullptr, "RSA", nullptr));
     EVP_PKEY_keygen_init(ctx.get());
     EVP_PKEY_CTX_set_rsa_keygen_bits(ctx.get(), n);
     EVP_PKEY_CTX_set1_rsa_keygen_pubexp(ctx.get(), BN_new());
@@ -306,7 +307,9 @@ int test_crypt(const std::string& private_keyfile,
         print_error("decrypt_public");
         return 2;
     }
-    std::cout << "out: " << reinterpret_cast<const char*>(out.data()) << std::endl;
+    std::cout << "out: " <<
+        reinterpret_cast<const char*>(out.data()) <<
+        std::endl;
     return 0;
 }
 
@@ -364,8 +367,10 @@ int convsig(const std::string& conversion, const std::string& input,
     return 2;
 }
 
-using unique_OSSL_ENCODER_CTX = std::unique_ptr<OSSL_ENCODER_CTX, OpenSSLDeleter<OSSL_ENCODER_CTX, OSSL_ENCODER_CTX_free>>;
-using unique_BIO = std::unique_ptr<BIO, OpenSSLDeleter<BIO, BIO_vfree>>;
+using unique_OSSL_ENCODER_CTX = std::unique_ptr<OSSL_ENCODER_CTX,
+    OpenSSLDeleter<OSSL_ENCODER_CTX, OSSL_ENCODER_CTX_free>>;
+using unique_BIO = std::unique_ptr<BIO,
+    OpenSSLDeleter<BIO, BIO_vfree>>;
 
 int convkey_private_b2o(const std::string& input, const std::string& output) {
     OpenSSL_add_all_algorithms();
@@ -399,7 +404,9 @@ int convkey_private_b2o(const std::string& input, const std::string& output) {
         return 2;
     }
 
-    unique_OSSL_ENCODER_CTX encoder_ctx(OSSL_ENCODER_CTX_new_for_pkey(rsa_key.get(), OSSL_KEYMGMT_SELECT_PRIVATE_KEY, "PEM", nullptr, nullptr));
+    unique_OSSL_ENCODER_CTX encoder_ctx(OSSL_ENCODER_CTX_new_for_pkey(
+        rsa_key.get(), OSSL_KEYMGMT_SELECT_PRIVATE_KEY, "PEM", nullptr, nullptr)
+    );
     if (!encoder_ctx) {
         print_error("OSSL_ENCODER_CTX_new_for_pkey");
         return 2;
@@ -426,7 +433,8 @@ int convkey_private_o2b(const std::string& input, const std::string& output) {
         return 2;
     }
 
-    unique_EVP_PKEY rsa_key = unique_EVP_PKEY(PEM_read_bio_PrivateKey(bio.get(), nullptr, nullptr, nullptr));
+    unique_EVP_PKEY rsa_key = unique_EVP_PKEY(
+        PEM_read_bio_PrivateKey(bio.get(), nullptr, nullptr, nullptr));
     fclose(fpriv);
 
     if (!rsa_key) {
@@ -512,7 +520,8 @@ int convkey_public_o2b(const std::string& input, const std::string& output) {
         return 2;
     }
 
-    unique_EVP_PKEY rsa_key = unique_EVP_PKEY(PEM_read_bio_PUBKEY(bio.get(), nullptr, nullptr, nullptr));
+    unique_EVP_PKEY rsa_key = unique_EVP_PKEY(PEM_read_bio_PUBKEY(
+        bio.get(), nullptr, nullptr, nullptr));
     fclose(fpub);
 
     if (!rsa_key) {

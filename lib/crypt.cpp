@@ -220,21 +220,42 @@ std::pair<bool, R_RSA_PRIVATE_KEY> scan_private_key_hex(FILE *f) {
     return scan_key_hex<R_RSA_PRIVATE_KEY>(f);
 }
 
-using unique_PKEY_CTX = std::unique_ptr<EVP_PKEY_CTX, OpenSSLDeleter<EVP_PKEY_CTX, EVP_PKEY_CTX_free>>;
-using unique_BLD = std::unique_ptr<OSSL_PARAM_BLD, OpenSSLDeleter<OSSL_PARAM_BLD, OSSL_PARAM_BLD_free>>;
-using unique_BN = std::unique_ptr<BIGNUM, OpenSSLDeleter<BIGNUM, BN_free>>;
-using unique_BN_CTX = std::unique_ptr<BN_CTX, OpenSSLDeleter<BN_CTX, BN_CTX_free>>;
-using unique_PARAMS = std::unique_ptr<OSSL_PARAM, OpenSSLDeleter<OSSL_PARAM, OSSL_PARAM_free>>;
+using unique_PKEY_CTX = std::unique_ptr<EVP_PKEY_CTX,
+    OpenSSLDeleter<EVP_PKEY_CTX, EVP_PKEY_CTX_free>>;
+using unique_BLD = std::unique_ptr<OSSL_PARAM_BLD,
+    OpenSSLDeleter<OSSL_PARAM_BLD, OSSL_PARAM_BLD_free>>;
+using unique_BN = std::unique_ptr<BIGNUM,
+    OpenSSLDeleter<BIGNUM, BN_free>>;
+using unique_BN_CTX = std::unique_ptr<BN_CTX,
+    OpenSSLDeleter<BN_CTX, BN_CTX_free>>;
+using unique_PARAMS = std::unique_ptr<OSSL_PARAM,
+    OpenSSLDeleter<OSSL_PARAM, OSSL_PARAM_free>>;
 
 unique_EVP_PKEY private_to_openssl(const R_RSA_PRIVATE_KEY& priv) {
-    unique_BN n(BN_bin2bn(priv.modulus, sizeof(priv.modulus), nullptr));
-    unique_BN e(BN_bin2bn(priv.publicExponent, sizeof(priv.publicExponent), nullptr));
-    unique_BN d(BN_bin2bn(priv.exponent, sizeof(priv.exponent), nullptr));
-    unique_BN p(BN_bin2bn(priv.prime[0], sizeof(priv.prime[0]), nullptr));
-    unique_BN q(BN_bin2bn(priv.prime[1], sizeof(priv.prime[1]), nullptr));
-    unique_BN dmp1(BN_bin2bn(priv.primeExponent[0], sizeof(priv.primeExponent[0]), nullptr));
-    unique_BN dmq1(BN_bin2bn(priv.primeExponent[1], sizeof(priv.primeExponent[1]), nullptr));
-    unique_BN iqmp(BN_bin2bn(priv.coefficient, sizeof(priv.coefficient), nullptr));
+    unique_BN n(
+        BN_bin2bn(priv.modulus, sizeof(priv.modulus), nullptr)
+    );
+    unique_BN e(
+        BN_bin2bn(priv.publicExponent, sizeof(priv.publicExponent), nullptr)
+    );
+    unique_BN d(
+        BN_bin2bn(priv.exponent, sizeof(priv.exponent), nullptr)
+    );
+    unique_BN p(
+        BN_bin2bn(priv.prime[0], sizeof(priv.prime[0]), nullptr)
+    );
+    unique_BN q(
+        BN_bin2bn(priv.prime[1], sizeof(priv.prime[1]), nullptr)
+    );
+    unique_BN dmp1(
+        BN_bin2bn(priv.primeExponent[0], sizeof(priv.primeExponent[0]), nullptr)
+    );
+    unique_BN dmq1(
+        BN_bin2bn(priv.primeExponent[1], sizeof(priv.primeExponent[1]), nullptr)
+    );
+    unique_BN iqmp(
+        BN_bin2bn(priv.coefficient, sizeof(priv.coefficient), nullptr)
+    );
 
     if (!n || !e || !d || !p || !q || !dmp1 || !dmq1 || !iqmp) {
         return nullptr;
@@ -245,14 +266,30 @@ unique_EVP_PKEY private_to_openssl(const R_RSA_PRIVATE_KEY& priv) {
         return nullptr;
     }
 
-    if (!OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_N, n.get()) ||
-        !OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_E, e.get()) ||
-        !OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_D, d.get()) ||
-        !OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_FACTOR1, p.get()) ||
-        !OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_FACTOR2, q.get()) ||
-        !OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_EXPONENT1, dmp1.get()) ||
-        !OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_EXPONENT2, dmq1.get()) ||
-        !OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_COEFFICIENT1, iqmp.get())) {
+    if (!OSSL_PARAM_BLD_push_BN(
+            bld.get(), OSSL_PKEY_PARAM_RSA_N, n.get()
+        ) ||
+        !OSSL_PARAM_BLD_push_BN(
+            bld.get(), OSSL_PKEY_PARAM_RSA_E, e.get()
+        ) ||
+        !OSSL_PARAM_BLD_push_BN(
+            bld.get(), OSSL_PKEY_PARAM_RSA_D, d.get()
+        ) ||
+        !OSSL_PARAM_BLD_push_BN(
+            bld.get(), OSSL_PKEY_PARAM_RSA_FACTOR1, p.get()
+        ) ||
+        !OSSL_PARAM_BLD_push_BN(
+            bld.get(), OSSL_PKEY_PARAM_RSA_FACTOR2, q.get()
+        ) ||
+        !OSSL_PARAM_BLD_push_BN(
+            bld.get(), OSSL_PKEY_PARAM_RSA_EXPONENT1, dmp1.get()
+        ) ||
+        !OSSL_PARAM_BLD_push_BN(
+            bld.get(), OSSL_PKEY_PARAM_RSA_EXPONENT2, dmq1.get()
+        ) ||
+        !OSSL_PARAM_BLD_push_BN(
+            bld.get(), OSSL_PKEY_PARAM_RSA_COEFFICIENT1, iqmp.get())
+        ) {
         return nullptr;
     }
 
@@ -271,7 +308,8 @@ unique_EVP_PKEY private_to_openssl(const R_RSA_PRIVATE_KEY& priv) {
     }
 
     EVP_PKEY* pkey_raw = nullptr;
-    if (EVP_PKEY_fromdata(ctx.get(), &pkey_raw, EVP_PKEY_KEYPAIR, params.get()) <= 0) {
+    if (EVP_PKEY_fromdata(
+            ctx.get(), &pkey_raw, EVP_PKEY_KEYPAIR, params.get()) <= 0) {
         return nullptr;
     }
 
@@ -312,7 +350,8 @@ unique_EVP_PKEY public_to_openssl(const R_RSA_PUBLIC_KEY& pub) {
     }
 
     EVP_PKEY* pkey_raw = nullptr;
-    if (EVP_PKEY_fromdata(ctx.get(), &pkey_raw, EVP_PKEY_PUBLIC_KEY, params.get()) <= 0) {
+    if (EVP_PKEY_fromdata(
+            ctx.get(), &pkey_raw, EVP_PKEY_PUBLIC_KEY, params.get()) <= 0) {
         return nullptr;
     }
     unique_EVP_PKEY pkey(pkey_raw);
@@ -324,7 +363,9 @@ unique_EVP_PKEY public_to_openssl(const R_RSA_PUBLIC_KEY& pub) {
 // The amount encrypted may be less than what's supplied.
 // The output block must be decrypted in its entirety.
 //
-vector<uint8_t> encrypt_private(const R_RSA_PRIVATE_KEY& key, const vector<uint8_t>& in) {
+vector<uint8_t> encrypt_private(
+    const R_RSA_PRIVATE_KEY& key, const vector<uint8_t>& in
+    ) {
     const size_t max_len = ((key.bits + 7) / 8) - 11;
     const size_t n = in.size() < max_len ? in.size() : max_len;
 
@@ -363,7 +404,9 @@ vector<uint8_t> encrypt_private(const R_RSA_PRIVATE_KEY& key, const vector<uint8
     return out;
 }
 
-vector<uint8_t> decrypt_public(const R_RSA_PUBLIC_KEY& key, const vector<uint8_t>& in) {
+vector<uint8_t> decrypt_public(
+    const R_RSA_PUBLIC_KEY& key, const vector<uint8_t>& in
+    ) {
     vector<uint8_t> out;
     unique_EVP_PKEY pkey = public_to_openssl(key);
 
@@ -385,13 +428,15 @@ vector<uint8_t> decrypt_public(const R_RSA_PUBLIC_KEY& key, const vector<uint8_t
     }
 
     size_t outlen = 0;
-    if (EVP_PKEY_verify_recover(ctx.get(), nullptr, &outlen, in.data(), in.size()) <= 0) {
+    if (EVP_PKEY_verify_recover(
+        ctx.get(), nullptr, &outlen, in.data(), in.size()) <= 0) {
         return out;
     }
 
     out.resize(outlen);
 
-    if (EVP_PKEY_verify_recover(ctx.get(), out.data(), &outlen, in.data(), in.size()) <= 0) {
+    if (EVP_PKEY_verify_recover(
+        ctx.get(), out.data(), &outlen, in.data(), in.size()) <= 0) {
         out.clear();
         return out;
     }
@@ -415,7 +460,9 @@ vector<uint8_t> sign_file(const string& path, const R_RSA_PRIVATE_KEY& key) {
 }
 
 //TODO: md5 requires further refactoring
-vector<uint8_t> sign_block(const vector<uint8_t>& data_block, const R_RSA_PRIVATE_KEY& key) {
+vector<uint8_t> sign_block(
+    const vector<uint8_t>& data_block, const R_RSA_PRIVATE_KEY& key
+    ) {
     char md5_buf[MD5_LEN];
 
     const int retval = md5_block(data_block.data(), data_block.size(), md5_buf);
@@ -429,7 +476,9 @@ vector<uint8_t> sign_block(const vector<uint8_t>& data_block, const R_RSA_PRIVAT
 
 // compute an XML signature element for some text
 //
-string generate_signature(const string& text_to_sign, const R_RSA_PRIVATE_KEY& key) {
+string generate_signature(
+    const string& text_to_sign, const R_RSA_PRIVATE_KEY& key
+    ) {
     vector<uint8_t> data_to_sign(text_to_sign.begin(), text_to_sign.end());
     vector<uint8_t> signature = sign_block(data_to_sign, key);
     if (signature.empty()) {
@@ -440,7 +489,11 @@ string generate_signature(const string& text_to_sign, const R_RSA_PRIVATE_KEY& k
 
 // check a file signature
 //
-std::pair<int, bool> check_file_signature(const string& md5_buf, const R_RSA_PUBLIC_KEY& key, const vector<uint8_t>& signature) {
+std::pair<int, bool> check_file_signature(
+    const string& md5_buf,
+    const R_RSA_PUBLIC_KEY& key,
+    const vector<uint8_t>& signature
+    ) {
     vector<uint8_t> decrypted = decrypt_public(key, signature);
     if (decrypted.empty()) {
         fprintf(stderr,
@@ -455,7 +508,9 @@ std::pair<int, bool> check_file_signature(const string& md5_buf, const R_RSA_PUB
 
 // same, signature given as string
 //
-std::pair<int, bool> check_file_signature(const string& md5, const string& signature_text, const string& key_text) {
+std::pair<int, bool> check_file_signature(
+    const string& md5, const string& signature_text, const string& key_text
+    ) {
     std::vector<uint8_t> key_data = sscan_key_hex(key_text.data());
     if (key_data.empty()) {
         return std::make_pair(ERR_BAD_HEX_FORMAT, false);
@@ -464,21 +519,28 @@ std::pair<int, bool> check_file_signature(const string& md5, const string& signa
     R_RSA_PUBLIC_KEY key;
     memcpy(&key, key_data.data(), sizeof(key));
 
-    vector<uint8_t> signature  = sscan_hex_data(vector<uint8_t>(signature_text.begin(), signature_text.end()));
+    vector<uint8_t> signature  = sscan_hex_data(
+        vector<uint8_t>(signature_text.begin(), signature_text.end()));
     return check_file_signature(md5, key, signature);
 }
 
 //TODO: this requires further refactoring after MD5 is refactored
 // same, both text and signature are char strings
 //
-std::pair<int, bool> check_string_signature(const string& text, const string& signature_text, const R_RSA_PUBLIC_KEY& key) {
+std::pair<int, bool> check_string_signature(
+    const string& text,
+    const string& signature_text,
+    const R_RSA_PUBLIC_KEY& key
+    ) {
     char md5_buf[MD5_LEN];
 
-    int retval = md5_block(reinterpret_cast<const unsigned char*>(text.data()), text.size(), md5_buf);
+    int retval = md5_block(reinterpret_cast<const unsigned char*>(
+        text.data()), text.size(), md5_buf);
     if (retval) {
         return std::make_pair(retval, false);
     }
-    vector<uint8_t> signature  = sscan_hex_data(vector<uint8_t>(signature_text.begin(), signature_text.end()));
+    vector<uint8_t> signature  = sscan_hex_data(vector<uint8_t>(
+        signature_text.begin(), signature_text.end()));
     vector<uint8_t> decrypted = decrypt_public(key, signature);
     if (decrypted.empty()) {
         fprintf(stderr,
@@ -493,7 +555,11 @@ std::pair<int, bool> check_string_signature(const string& text, const string& si
 
 // Same, where public key is also encoded as text
 //
-std::pair<int, bool> check_string_signature(const string& text, const string& signature_text, const string& key_text) {
+std::pair<int, bool> check_string_signature(
+    const string& text,
+    const string& signature_text,
+    const string& key_text
+    ) {
     R_RSA_PUBLIC_KEY key;
 
     std::vector<uint8_t> key_data = sscan_key_hex(key_text.data());
@@ -538,7 +604,9 @@ static bool bn2bin(const BIGNUM *from, unsigned char *to, size_t max) {
     return true;
 }
 
-std::pair<int, R_RSA_PUBLIC_KEY> openssl_to_public(const unique_EVP_PKEY& pkey) {
+std::pair<int, R_RSA_PUBLIC_KEY> openssl_to_public(
+    const unique_EVP_PKEY& pkey
+    ) {
     R_RSA_PUBLIC_KEY pub;
     memset(&pub, 0, sizeof(pub));
 
@@ -557,7 +625,9 @@ std::pair<int, R_RSA_PUBLIC_KEY> openssl_to_public(const unique_EVP_PKEY& pkey) 
     return std::make_pair(0, pub);
 }
 
-std::pair<int, R_RSA_PRIVATE_KEY> openssl_to_private(const unique_EVP_PKEY& pkey) {
+std::pair<int, R_RSA_PRIVATE_KEY> openssl_to_private(
+    const unique_EVP_PKEY& pkey
+    ) {
     R_RSA_PRIVATE_KEY priv;
     memset(&priv, 0, sizeof(priv));
 
@@ -584,27 +654,33 @@ std::pair<int, R_RSA_PRIVATE_KEY> openssl_to_private(const unique_EVP_PKEY& pkey
             memset(&priv, 0, sizeof(priv));
             return std::make_pair(ERR_CRYPTO, priv);
     }
-    if (d && !bn2bin(d, priv.exponent, sizeof(priv.exponent))) {
+    if (d &&
+        !bn2bin(d, priv.exponent, sizeof(priv.exponent))) {
         memset(&priv, 0, sizeof(priv));
         return std::make_pair(ERR_CRYPTO, priv);
     }
-    if (p && !bn2bin(p, priv.prime[0], sizeof(priv.prime[0]))) {
+    if (p &&
+        !bn2bin(p, priv.prime[0], sizeof(priv.prime[0]))) {
         memset(&priv, 0, sizeof(priv));
         return std::make_pair(ERR_CRYPTO, priv);
     }
-    if (q && !bn2bin(q, priv.prime[1], sizeof(priv.prime[1]))) {
+    if (q &&
+        !bn2bin(q, priv.prime[1], sizeof(priv.prime[1]))) {
         memset(&priv, 0, sizeof(priv));
         return std::make_pair(ERR_CRYPTO, priv);
     }
-    if (dmp1 && !bn2bin(dmp1, priv.primeExponent[0], sizeof(priv.primeExponent[0]))) {
+    if (dmp1 &&
+        !bn2bin(dmp1, priv.primeExponent[0], sizeof(priv.primeExponent[0]))) {
         memset(&priv, 0, sizeof(priv));
         return std::make_pair(ERR_CRYPTO, priv);
     }
-    if (dmq1 && !bn2bin(dmq1, priv.primeExponent[1], sizeof(priv.primeExponent[1]))) {
+    if (dmq1 &&
+        !bn2bin(dmq1, priv.primeExponent[1], sizeof(priv.primeExponent[1]))) {
         memset(&priv, 0, sizeof(priv));
         return std::make_pair(ERR_CRYPTO, priv);
     }
-    if (iqmp && !bn2bin(iqmp, priv.coefficient, sizeof(priv.coefficient))) {
+    if (iqmp &&
+        !bn2bin(iqmp, priv.coefficient, sizeof(priv.coefficient))) {
         memset(&priv, 0, sizeof(priv));
         return std::make_pair(ERR_CRYPTO, priv);
     }
@@ -612,7 +688,9 @@ std::pair<int, R_RSA_PRIVATE_KEY> openssl_to_private(const unique_EVP_PKEY& pkey
     return std::make_pair(0, priv);
 }
 
-std::tuple<int, R_RSA_PRIVATE_KEY, R_RSA_PUBLIC_KEY> openssl_to_keys(const unique_EVP_PKEY& pkey) {
+std::tuple<int, R_RSA_PRIVATE_KEY, R_RSA_PUBLIC_KEY> openssl_to_keys(
+    const unique_EVP_PKEY& pkey
+    ) {
     int ret = 0;
     R_RSA_PRIVATE_KEY priv;
     R_RSA_PUBLIC_KEY pub;
@@ -632,8 +710,12 @@ std::tuple<int, R_RSA_PRIVATE_KEY, R_RSA_PUBLIC_KEY> openssl_to_keys(const uniqu
 using unique_BIO = std::unique_ptr<BIO, OpenSSLDeleter<BIO, BIO_vfree>>;
 using unique_X509 = std::unique_ptr<X509, OpenSSLDeleter<X509, X509_free>>;
 
-static bool check_validity_of_cert(const string &cFile, const vector<uint8_t> &md5_md,
-    const vector<uint8_t> &sfileMsg, const string &caPath) {
+static bool check_validity_of_cert(
+    const string &cFile,
+    const vector<uint8_t> &md5_md,
+    const vector<uint8_t> &sfileMsg,
+    const string &caPath
+    ) {
     unique_BIO bio(BIO_new(BIO_s_file()));
     BIO_read_filename(bio.get(), cFile.data());
     unique_X509 cert(PEM_read_bio_X509(bio.get(), nullptr, 0, nullptr));
@@ -685,13 +767,15 @@ static bool check_validity_of_cert(const string &cFile, const vector<uint8_t> &m
 
     size_t recovered_len = 0;
     if (EVP_PKEY_verify_recover(
-            pkey_ctx.get(), nullptr, &recovered_len, sfileMsg.data(), sfileMsg.size()
+            pkey_ctx.get(), nullptr, &recovered_len, sfileMsg.data(),
+            sfileMsg.size()
         ) <= 0) {
         return false;
     }
     vector<uint8_t> recovered(recovered_len);
     if (EVP_PKEY_verify_recover(
-            pkey_ctx.get(), recovered.data(), &recovered_len, sfileMsg.data(), sfileMsg.size()
+            pkey_ctx.get(), recovered.data(), &recovered_len, sfileMsg.data(),
+            sfileMsg.size()
         ) <= 0) {
         return false;
     }
@@ -739,8 +823,12 @@ static std::pair<bool, vector<uint8_t>> get_md5(const string &file) {
     return std::make_pair(true, md_value);
 }
 
-std::pair<bool, string> check_validity(const string &certPath, const string &origFile,
-    const vector<uint8_t> &signature, const string &caPath) {
+std::pair<bool, string> check_validity(
+    const string &certPath,
+    const string &origFile,
+    const vector<uint8_t> &signature,
+    const string &caPath
+    ) {
     if (!is_file(origFile.data())) {
         return std::make_pair(false, std::string());
     }
@@ -757,7 +845,8 @@ std::pair<bool, string> check_validity(const string &certPath, const string &ori
     char file[MAXPATHLEN];
     while (!dir_scan(file, dir, sizeof(file))) {
         char fpath[MAXPATHLEN];
-        snprintf(fpath, sizeof(fpath), "%.*s/%.*s", DIR_LEN, certPath.data(), FILE_LEN, file);
+        snprintf(fpath, sizeof(fpath), "%.*s/%.*s", DIR_LEN, certPath.data(),
+            FILE_LEN, file);
         if (check_validity_of_cert(
                 fpath, md5_md, signature, caPath
             )) {
@@ -794,16 +883,20 @@ bool cert_verify_file(CERT_SIGS* signatures, const string &origFile,
     }
 
     for(const CERT_SIG &cert_sig : signatures->signatures) {
-        vector<uint8_t> sig_vector = sscan_hex_data(vector<uint8_t>(cert_sig.signature, cert_sig.signature + strlen(cert_sig.signature)));
+        vector<uint8_t> sig_vector = sscan_hex_data(vector<uint8_t>(
+            cert_sig.signature,
+            cert_sig.signature + strlen(cert_sig.signature))
+        );
         if (sig_vector.size() != 128) {
-            printf("Signature size mismatch: expected 128, got %zu\n", sig_vector.size());
+            printf("Signature size mismatch: expected 128, got %zu\n",
+            sig_vector.size());
             return false;
         }
         size_t file_counter = 0;
         while (1) {
             char fbuf[MAXPATHLEN];
-            snprintf(fbuf, MAXPATHLEN, "%s/%s.%zu", trustLocation.data(), cert_sig.hash,
-                file_counter);
+            snprintf(fbuf, MAXPATHLEN, "%s/%s.%zu", trustLocation.data(),
+            cert_sig.hash, file_counter);
             unique_FILE f(boinc::fopen(fbuf, "r"));
             if (!f) {
                 break;
@@ -822,11 +915,13 @@ bool cert_verify_file(CERT_SIGS* signatures, const string &origFile,
             char buf[256];
             X509_NAME_oneline(subj, buf, 256);
             if (strcmp(buf, cert_sig.subject)) {
-                printf("Subject does not match ('%s' <-> '%s')\n", buf, cert_sig.subject);
+                printf("Subject does not match ('%s' <-> '%s')\n", buf,
+                    cert_sig.subject);
                 ++file_counter;
                 continue;
             }
-            if (check_validity_of_cert(fbuf, md5_md, sig_vector, trustLocation)) {
+            if (check_validity_of_cert(
+                fbuf, md5_md, sig_vector, trustLocation)) {
                 return true;
             }
             ++file_counter;

@@ -230,8 +230,8 @@ void ASYNC_VERIFY::finish() {
     md5_buf[32] = 0;
     if (fip->signature_required) {
         bool verified = false;
-        std::tie(retval, verified) = check_file_signature(md5_buf, fip->file_signature,
-            fip->project->code_sign_key);
+        std::tie(retval, verified) = check_file_signature(md5_buf,
+            fip->file_signature, fip->project->code_sign_key);
         if (retval) {
             error(retval);
             return;

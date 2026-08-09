@@ -615,7 +615,8 @@ int get_key(R_RSA_PUBLIC_KEY& key) {
 #endif
     boinc::fclose(f);
     if (!result) {
-        log_messages.printf(MSG_CRITICAL, "get_key(): failed to read key from %s\n", buf);
+        log_messages.printf(MSG_CRITICAL,
+            "get_key(): failed to read key from %s\n", buf);
         return -1;
     }
     return 0;

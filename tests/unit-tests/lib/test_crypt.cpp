@@ -24,6 +24,7 @@
 #include <filesystem>
 #include <fstream>
 #include <chrono>
+#include <thread>
 #include "gtest/gtest.h"
 #endif
 #include <openssl/evp.h>
@@ -45,7 +46,9 @@ namespace test_lib {
                 std::filesystem::create_directories(test_data_dir);
             }
 
-            struct file_closer { void operator()(FILE* f) const { if (f) fclose(f); } };
+            struct file_closer {
+                void operator()(FILE* f) const { if (f) fclose(f); }
+            };
             using unique_FILE = std::unique_ptr<FILE, file_closer>;
 
             void TearDown() override {
@@ -57,14 +60,21 @@ namespace test_lib {
                             break;
                         }
                         catch (const std::filesystem::filesystem_error& e) {
-                            std::cerr << "Attempt " << (retry_count + 1) << " to remove test data directory failed: " << e.what() << std::endl;
+                            std::cerr << "Attempt " << (retry_count + 1) <<
+                                " to remove test data directory failed: " <<
+                                e.what() << std::endl;
                             ++retry_count;
-                            std::this_thread::sleep_for(std::chrono::seconds(1));
+                            std::this_thread::sleep_for(
+                                std::chrono::seconds(1));
                         }
                     }
                     if (retry_count == 5) {
-                        std::cerr << "Failed to remove test data directory after 5 attempts." << std::endl;
-                        throw std::runtime_error("Failed to remove test data directory after 5 attempts.");
+                        std::cerr <<
+                            "Failed to remove test data directory "
+                            "after 5 attempts." << std::endl;
+                        throw std::runtime_error(
+                            "Failed to remove test data directory "
+                            "after 5 attempts.");
                     }
                 }
             }
@@ -91,7 +101,8 @@ namespace test_lib {
                 return pkey;
             }
 
-            FILE* open_file(const std::string& filename, const std::string& filemode) {
+            FILE* open_file(const std::string& filename,
+                const std::string& filemode) {
 #ifdef _WIN32
                 FILE* f = nullptr;
                 if (fopen_s(&f, filename.c_str(), filemode.c_str()) != 0) {
@@ -717,7 +728,8 @@ namespace test_lib {
         std::vector<uint8_t> encrypted_data = encrypt(data, private_key);
         ASSERT_FALSE(encrypted_data.empty()) << "Encryption failed";
 
-        std::vector<uint8_t> encrypted_data_for_testing = encrypt_private(private_key_struct, data);
+        std::vector<uint8_t> encrypted_data_for_testing =
+            encrypt_private(private_key_struct, data);
 
         // compare encrypted_data with encrypted_data_for_testing
         ASSERT_EQ(encrypted_data.size(), encrypted_data_for_testing.size())
@@ -732,7 +744,8 @@ namespace test_lib {
         ASSERT_EQ(decrypted_data, data)
             << "Decrypted data does not match original";
 
-        std::vector<uint8_t> decrypt_result = decrypt_public(public_key_struct, encrypted_data_for_testing);
+        std::vector<uint8_t> decrypt_result =
+            decrypt_public(public_key_struct, encrypted_data_for_testing);
         ASSERT_FALSE(decrypt_result.empty()) << "Decryption failed";
         ASSERT_EQ(decrypt_result, data)
             << "Decrypted data from method under test does not match original";
@@ -782,15 +795,19 @@ namespace test_lib {
         ASSERT_NE(converted_private_key.get(), nullptr)
             << "private_to_openssl failed";
 
-        // test that the converted private key can be used to encrypt and decrypt data
+        // test that the converted private key can be used
+        // to encrypt and decrypt data
         const char* sample_data = "Hello, World!";
         std::vector<uint8_t> data(sample_data,
             sample_data + strlen(sample_data));
 
-        std::vector<uint8_t> encrypted_data = encrypt(data, converted_private_key.get());
+        std::vector<uint8_t> encrypted_data =
+            encrypt(data, converted_private_key.get());
         ASSERT_FALSE(encrypted_data.empty()) << "Encryption failed";
-        std::vector<uint8_t> decrypted_data = decrypt(encrypted_data, private_key);
-        ASSERT_EQ(decrypted_data, data) << "Decrypted data does not match original";
+        std::vector<uint8_t> decrypted_data =
+            decrypt(encrypted_data, private_key);
+        ASSERT_EQ(decrypted_data, data) <<
+            "Decrypted data does not match original";
     }
 
     TEST_F(test_crypt, test_public_to_openssl) {
@@ -810,15 +827,18 @@ namespace test_lib {
         ASSERT_NE(converted_public_key.get(), nullptr)
             << "public_to_openssl failed";
 
-        // test that the converted public key can be used to encrypt and decrypt data
+        // test that the converted public key can be used
+        // to encrypt and decrypt data
         const char* sample_data = "Hello, World!";
         std::vector<uint8_t> data(sample_data,
             sample_data + strlen(sample_data));
 
         std::vector<uint8_t> encrypted_data = encrypt(data, private_key);
         ASSERT_FALSE(encrypted_data.empty()) << "Encryption failed";
-        std::vector<uint8_t> decrypted_data = decrypt(encrypted_data, converted_public_key.get());
-        ASSERT_EQ(decrypted_data, data) << "Decrypted data does not match original";
+        std::vector<uint8_t> decrypted_data =
+            decrypt(encrypted_data, converted_public_key.get());
+        ASSERT_EQ(decrypted_data, data) <<
+            "Decrypted data does not match original";
     }
 
     TEST_F(test_crypt, test_sign_file) {
@@ -841,7 +861,8 @@ namespace test_lib {
             private_key, private_key_struct, public_key_struct))
             << "Failed to fill keys from EVP_PKEY";
 
-        std::vector<uint8_t> signature_data = sign_file(temp_file.string(), private_key_struct);
+        std::vector<uint8_t> signature_data =
+            sign_file(temp_file.string(), private_key_struct);
         ASSERT_FALSE(signature_data.empty()) << "Signing failed";
 
         // calculate the MD5 hash of the file and compare with signature
@@ -849,12 +870,15 @@ namespace test_lib {
         // convert file_hash to vector<uint8_t>
         std::vector<uint8_t> file_hash_vec(file_hash.begin(), file_hash.end());
         auto encrypted = encrypt(file_hash_vec, private_key);
-        ASSERT_EQ(encrypted.size(), signature_data.size()) << "Signature length does not match file hash length";
-        ASSERT_EQ(encrypted, signature_data) << "Signature does not match file hash";
+        ASSERT_EQ(encrypted.size(), signature_data.size()) <<
+            "Signature length does not match file hash length";
+        ASSERT_EQ(encrypted, signature_data) <<
+            "Signature does not match file hash";
     }
 
     TEST_F(test_crypt, test_sign_file_invalid_file) {
-        std::filesystem::path temp_file = test_data_dir / "non_existent_file.txt";
+        std::filesystem::path temp_file =
+            test_data_dir / "non_existent_file.txt";
 
         EVP_PKEY* private_key = generate_rsa_key();
         ASSERT_NE(private_key, nullptr) << "Failed to generate RSA key";
@@ -867,12 +891,15 @@ namespace test_lib {
             private_key, private_key_struct, public_key_struct))
             << "Failed to fill keys from EVP_PKEY";
 
-        std::vector<uint8_t> signature_data = sign_file(temp_file.string(), private_key_struct);
-        ASSERT_TRUE(signature_data.empty()) << "sign_file should fail for non-existent file";
+        std::vector<uint8_t> signature_data =
+            sign_file(temp_file.string(), private_key_struct);
+        ASSERT_TRUE(signature_data.empty()) <<
+            "sign_file should fail for non-existent file";
     }
 
     TEST_F(test_crypt, test_sign_file_invalid_key) {
-        std::filesystem::path temp_file = test_data_dir / "temp_sign_file_invalid_key.txt";
+        std::filesystem::path temp_file =
+            test_data_dir / "temp_sign_file_invalid_key.txt";
         FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
 
@@ -882,12 +909,15 @@ namespace test_lib {
 
         R_RSA_PRIVATE_KEY private_key_struct; // Uninitialized key
 
-        std::vector<uint8_t> signature_data = sign_file(temp_file.string(), private_key_struct);
-        ASSERT_TRUE(signature_data.empty()) << "sign_file should fail for invalid key";
+        std::vector<uint8_t> signature_data =
+            sign_file(temp_file.string(), private_key_struct);
+        ASSERT_TRUE(signature_data.empty()) <<
+            "sign_file should fail for invalid key";
     }
 
     TEST_F(test_crypt, test_sign_file_empty_file) {
-        std::filesystem::path temp_file = test_data_dir / "temp_sign_file_empty.txt";
+        std::filesystem::path temp_file =
+            test_data_dir / "temp_sign_file_empty.txt";
         FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
         fclose(f);
@@ -903,7 +933,8 @@ namespace test_lib {
             private_key, private_key_struct, public_key_struct))
             << "Failed to fill keys from EVP_PKEY";
 
-        std::vector<uint8_t> signature_data = sign_file(temp_file.string(), private_key_struct);
+        std::vector<uint8_t> signature_data =
+            sign_file(temp_file.string(), private_key_struct);
         ASSERT_FALSE(signature_data.empty()) << "Signing failed for empty file";
     }
 
@@ -923,7 +954,8 @@ namespace test_lib {
             private_key, private_key_struct, public_key_struct))
             << "Failed to fill keys from EVP_PKEY";
 
-        std::vector<uint8_t> signature_data = sign_block(data, private_key_struct);
+        std::vector<uint8_t> signature_data =
+            sign_block(data, private_key_struct);
         ASSERT_FALSE(signature_data.empty()) << "Signing failed for block";
     }
 
@@ -934,8 +966,10 @@ namespace test_lib {
 
         R_RSA_PRIVATE_KEY private_key_struct; // Uninitialized key
 
-        std::vector<uint8_t> signature_data = sign_block(data, private_key_struct);
-        ASSERT_TRUE(signature_data.empty()) << "sign_block should fail for invalid key";
+        std::vector<uint8_t> signature_data =
+            sign_block(data, private_key_struct);
+        ASSERT_TRUE(signature_data.empty()) <<
+            "sign_block should fail for invalid key";
     }
 
     TEST_F(test_crypt, test_sign_block_empty_data) {
@@ -952,8 +986,10 @@ namespace test_lib {
             private_key, private_key_struct, public_key_struct))
             << "Failed to fill keys from EVP_PKEY";
 
-        std::vector<uint8_t> signature_data = sign_block(data, private_key_struct);
-        ASSERT_FALSE(signature_data.empty()) << "Signing failed for empty data";
+        std::vector<uint8_t> signature_data =
+            sign_block(data, private_key_struct);
+        ASSERT_FALSE(signature_data.empty()) <<
+            "Signing failed for empty data";
     }
 
     TEST_F(test_crypt, test_generate_signature) {
@@ -972,14 +1008,16 @@ namespace test_lib {
             private_key, private_key_struct, public_key_struct))
             << "Failed to fill keys from EVP_PKEY";
 
-        std::string signature_hex = generate_signature(sample_data, private_key_struct);
+        std::string signature_hex =
+            generate_signature(sample_data, private_key_struct);
         ASSERT_FALSE(signature_hex.empty()) << "Generating signature failed";
 
         std::string md5_hash = get_md5(sample_data);
         std::vector<uint8_t> md5_hash_vec(md5_hash.begin(), md5_hash.end());
         auto encrypted = encrypt(md5_hash_vec, private_key);
         std::string expected_signature_hex = sprint_hex_data(encrypted);
-        ASSERT_EQ(signature_hex, expected_signature_hex) << "Signature hex does not match expected value";
+        ASSERT_EQ(signature_hex, expected_signature_hex) <<
+            "Signature hex does not match expected value";
     }
 
     TEST_F(test_crypt, test_generate_signature_invalid_key) {
@@ -989,8 +1027,10 @@ namespace test_lib {
 
         R_RSA_PRIVATE_KEY private_key_struct; // Uninitialized key
 
-        std::string signature_hex = generate_signature(sample_data, private_key_struct);
-        ASSERT_TRUE(signature_hex.empty()) << "generate_signature should fail for invalid key";
+        std::string signature_hex =
+            generate_signature(sample_data, private_key_struct);
+        ASSERT_TRUE(signature_hex.empty()) <<
+            "generate_signature should fail for invalid key";
     }
 
     TEST_F(test_crypt, test_generate_signature_empty_data) {
@@ -1009,14 +1049,17 @@ namespace test_lib {
             private_key, private_key_struct, public_key_struct))
             << "Failed to fill keys from EVP_PKEY";
 
-        std::string signature_hex = generate_signature(sample_data, private_key_struct);
-        ASSERT_FALSE(signature_hex.empty()) << "Generating signature failed for empty data";
+        std::string signature_hex =
+            generate_signature(sample_data, private_key_struct);
+        ASSERT_FALSE(signature_hex.empty()) <<
+            "Generating signature failed for empty data";
 
         std::string md5_hash = get_md5(sample_data);
         std::vector<uint8_t> md5_hash_vec(md5_hash.begin(), md5_hash.end());
         auto encrypted = encrypt(md5_hash_vec, private_key);
         std::string expected_signature_hex = sprint_hex_data(encrypted);
-        ASSERT_EQ(signature_hex, expected_signature_hex) << "Signature hex does not match expected value for empty data";
+        ASSERT_EQ(signature_hex, expected_signature_hex) <<
+            "Signature hex does not match expected value for empty data";
     }
 
     TEST_F(test_crypt, test_check_file_signature) {
@@ -1038,9 +1081,11 @@ namespace test_lib {
         // convert file_hash to vector<uint8_t>
         std::vector<uint8_t> hash_vec(hash.begin(), hash.end());
         auto encrypted = encrypt(hash_vec, private_key);
-        ASSERT_FALSE(encrypted.empty()) << "Encryption failed for signature generation";
+        ASSERT_FALSE(encrypted.empty()) <<
+            "Encryption failed for signature generation";
 
-        auto [result, is_valid] = check_file_signature(hash, public_key_struct, encrypted);
+        auto [result, is_valid] =
+            check_file_signature(hash, public_key_struct, encrypted);
         ASSERT_EQ(result, 0) << "check_file_signature failed";
         ASSERT_TRUE(is_valid) << "Signature verification failed";
     }
@@ -1062,9 +1107,11 @@ namespace test_lib {
         // Create an invalid signature (random data)
         std::vector<uint8_t> invalid_signature(32, 0xFF); // 32 bytes of 0xFF
 
-        auto [result, is_valid] = check_file_signature(sample_data, public_key_struct, invalid_signature);
+        auto [result, is_valid] = check_file_signature(
+                sample_data, public_key_struct, invalid_signature);
         ASSERT_NE(result, 0) << "check_file_signature failed";
-        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid signature";
+        ASSERT_FALSE(is_valid) <<
+            "Signature verification should fail for invalid signature";
     }
 
     TEST_F(test_crypt, test_check_file_signature_invalid_key) {
@@ -1075,8 +1122,10 @@ namespace test_lib {
         // Create a dummy signature (random data)
         std::vector<uint8_t> dummy_signature(32, 0xAA); // 32 bytes of 0xAA
 
-        auto [result, is_valid] = check_file_signature(sample_data, public_key_struct, dummy_signature);
-        ASSERT_NE(result, 0) << "check_file_signature should fail for invalid key";
+        auto [result, is_valid] = check_file_signature(
+            sample_data, public_key_struct, dummy_signature);
+        ASSERT_NE(result, 0) <<
+            "check_file_signature should fail for invalid key";
     }
 
     TEST_F(test_crypt, test_check_file_signature_empty_signature) {
@@ -1096,9 +1145,11 @@ namespace test_lib {
         // Create an empty signature
         std::vector<uint8_t> empty_signature;
 
-        auto [result, is_valid] = check_file_signature(sample_data, public_key_struct, empty_signature);
+        auto [result, is_valid] = check_file_signature(
+            sample_data, public_key_struct, empty_signature);
         ASSERT_NE(result, 0) << "check_file_signature failed";
-        ASSERT_FALSE(is_valid) << "Signature verification should fail for empty signature";
+        ASSERT_FALSE(is_valid) <<
+            "Signature verification should fail for empty signature";
     }
 
     TEST_F(test_crypt, test_check_file_signature_empty_data) {
@@ -1120,11 +1171,14 @@ namespace test_lib {
         // convert file_hash to vector<uint8_t>
         std::vector<uint8_t> hash_vec(hash.begin(), hash.end());
         auto encrypted = encrypt(hash_vec, private_key);
-        ASSERT_FALSE(encrypted.empty()) << "Encryption failed for signature generation";
+        ASSERT_FALSE(encrypted.empty()) <<
+            "Encryption failed for signature generation";
 
-        auto [result, is_valid] = check_file_signature(sample_data, public_key_struct, encrypted);
+        auto [result, is_valid] = check_file_signature(
+            sample_data, public_key_struct, encrypted);
         ASSERT_EQ(result, 0) << "check_file_signature failed";
-        ASSERT_FALSE(is_valid) << "Signature verification failed for empty data";
+        ASSERT_FALSE(is_valid) <<
+            "Signature verification failed for empty data";
     }
 
     TEST_F(test_crypt, test_check_file_signature_invalid_data) {
@@ -1146,13 +1200,16 @@ namespace test_lib {
         // convert file_hash to vector<uint8_t>
         std::vector<uint8_t> hash_vec(hash.begin(), hash.end());
         auto encrypted = encrypt(hash_vec, private_key);
-        ASSERT_FALSE(encrypted.empty()) << "Encryption failed for signature generation";
+        ASSERT_FALSE(encrypted.empty()) <<
+            "Encryption failed for signature generation";
 
         // Modify the sample data to be invalid
         const char* invalid_sample_data = "Hello, Universe!";
-        auto [result, is_valid] = check_file_signature(invalid_sample_data, public_key_struct, encrypted);
+        auto [result, is_valid] = check_file_signature(
+            invalid_sample_data, public_key_struct, encrypted);
         ASSERT_EQ(result, 0) << "check_file_signature failed";
-        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid data";
+        ASSERT_FALSE(is_valid) <<
+            "Signature verification should fail for invalid data";
     }
 
     TEST_F(test_crypt, test_check_file_signature2) {
@@ -1174,17 +1231,21 @@ namespace test_lib {
         std::vector<uint8_t> hash_vec(hash.begin(), hash.end());
         auto encrypted = encrypt(hash_vec, private_key);
 
-        std::vector<uint8_t> decrypted_data = decrypt_public(public_key_struct, encrypted);
+        std::vector<uint8_t> decrypted_data =
+            decrypt_public(public_key_struct, encrypted);
         ASSERT_FALSE(decrypted_data.empty()) << "decrypt_public failed";
-        ASSERT_FALSE(encrypted.empty()) << "Encryption failed for signature generation";
+        ASSERT_FALSE(encrypted.empty()) <<
+            "Encryption failed for signature generation";
 
         // convert encrypted to hex string
         std::string signature_hex = sprint_hex_data(encrypted);
         // convert public key to hex string
         FILE* f = open_tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        ASSERT_NE(f, nullptr) <<
+            "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
-        ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
+        ASSERT_TRUE(print_result) <<
+            "print_public_key_hex failed for public key";
         fseek(f, 0, SEEK_SET);
         std::string public_key_hex;
         char buffer[256];
@@ -1193,7 +1254,8 @@ namespace test_lib {
         }
         fclose(f);
 
-        auto [result, is_valid] = check_file_signature(hash, signature_hex, public_key_hex);
+        auto [result, is_valid] =
+            check_file_signature(hash, signature_hex, public_key_hex);
         ASSERT_EQ(result, 0) << "check_file_signature2 failed";
         ASSERT_TRUE(is_valid) << "Signature verification failed";
     }
@@ -1213,13 +1275,17 @@ namespace test_lib {
             << "Failed to fill keys from EVP_PKEY";
 
         // Create an invalid signature (random data)
-        std::string invalid_signature_hex = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"; // 64 hex characters of 'F'
+        // 64 hex characters of 'F'
+        std::string invalid_signature_hex =
+            "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF";
 
         // convert public key to hex string
         FILE* f = open_tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        ASSERT_NE(f, nullptr) <<
+            "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
-        ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
+        ASSERT_TRUE(print_result) <<
+            "print_public_key_hex failed for public key";
         fseek(f, 0, SEEK_SET);
         std::string public_key_hex;
         char buffer[256];
@@ -1228,9 +1294,12 @@ namespace test_lib {
         }
         fclose(f);
 
-        auto [result, is_valid] = check_file_signature(sample_data, invalid_signature_hex, public_key_hex);
-        ASSERT_NE(result, 0) << "check_file_signature2 should fail for invalid signature";
-        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid signature";
+        auto [result, is_valid] = check_file_signature(
+            sample_data, invalid_signature_hex, public_key_hex);
+        ASSERT_NE(result, 0) <<
+            "check_file_signature2 should fail for invalid signature";
+        ASSERT_FALSE(is_valid) <<
+            "Signature verification should fail for invalid signature";
     }
 
     TEST_F(test_crypt, test_check_file_signature2_invalid_key) {
@@ -1257,11 +1326,16 @@ namespace test_lib {
         std::string signature_hex = sprint_hex_data(encrypted);
 
         // Create an invalid public key hex string (random data)
-        std::string invalid_public_key_hex = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"; // 64 hex characters of 'F'
+        // 64 hex characters of 'F'
+        std::string invalid_public_key_hex =
+            "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF";
 
-        auto [result, is_valid] = check_file_signature(sample_data, signature_hex, invalid_public_key_hex);
-        ASSERT_NE(result, 0) << "check_file_signature2 should fail for invalid public key";
-        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid public key";
+        auto [result, is_valid] = check_file_signature(
+            sample_data, signature_hex, invalid_public_key_hex);
+        ASSERT_NE(result, 0) <<
+            "check_file_signature2 should fail for invalid public key";
+        ASSERT_FALSE(is_valid) <<
+            "Signature verification should fail for invalid public key";
     }
 
     TEST_F(test_crypt, test_check_file_signature2_empty_signature) {
@@ -1280,9 +1354,11 @@ namespace test_lib {
 
         // convert public key to hex string
         FILE* f = open_tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        ASSERT_NE(f, nullptr) <<
+            "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
-        ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
+        ASSERT_TRUE(print_result) <<
+            "print_public_key_hex failed for public key";
         fseek(f, 0, SEEK_SET);
         std::string public_key_hex;
         char buffer[256];
@@ -1294,9 +1370,12 @@ namespace test_lib {
         // Create an empty signature hex string
         std::string empty_signature_hex;
 
-        auto [result, is_valid] = check_file_signature(sample_data, empty_signature_hex, public_key_hex);
-        ASSERT_NE(result, 0) << "check_file_signature2 should fail for empty signature";
-        ASSERT_FALSE(is_valid) << "Signature verification should fail for empty signature";
+        auto [result, is_valid] = check_file_signature(
+            sample_data, empty_signature_hex, public_key_hex);
+        ASSERT_NE(result, 0) <<
+            "check_file_signature2 should fail for empty signature";
+        ASSERT_FALSE(is_valid) <<
+            "Signature verification should fail for empty signature";
     }
 
     TEST_F(test_crypt, test_check_file_signature2_empty_data) {
@@ -1324,9 +1403,11 @@ namespace test_lib {
 
         // convert public key to hex string
         FILE* f = open_tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        ASSERT_NE(f, nullptr) <<
+            "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
-        ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
+        ASSERT_TRUE(print_result) <<
+            "print_public_key_hex failed for public key";
         fseek(f, 0, SEEK_SET);
         std::string public_key_hex;
         char buffer[256];
@@ -1335,9 +1416,11 @@ namespace test_lib {
         }
         fclose(f);
 
-        auto [result, is_valid] = check_file_signature(sample_data, signature_hex, public_key_hex);
+        auto [result, is_valid] = check_file_signature(
+            sample_data, signature_hex, public_key_hex);
         ASSERT_EQ(result, 0) << "check_file_signature2 failed";
-        ASSERT_FALSE(is_valid) << "Signature verification failed for empty data";
+        ASSERT_FALSE(is_valid) <<
+            "Signature verification failed for empty data";
     }
 
     TEST_F(test_crypt, test_check_file_signature2_invalid_data) {
@@ -1365,9 +1448,11 @@ namespace test_lib {
 
         // convert public key to hex string
         FILE* f = open_tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        ASSERT_NE(f, nullptr) <<
+            "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
-        ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
+        ASSERT_TRUE(print_result) <<
+            "print_public_key_hex failed for public key";
         fseek(f, 0, SEEK_SET);
         std::string public_key_hex;
         char buffer[256];
@@ -1378,9 +1463,11 @@ namespace test_lib {
 
         // Modify the sample data to be invalid
         const char* invalid_sample_data = "Hello, Universe!";
-        auto [result, is_valid] = check_file_signature(invalid_sample_data, signature_hex, public_key_hex);
+        auto [result, is_valid] = check_file_signature(
+            invalid_sample_data, signature_hex, public_key_hex);
         ASSERT_EQ(result, 0) << "check_file_signature2 failed";
-        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid data";
+        ASSERT_FALSE(is_valid) <<
+            "Signature verification should fail for invalid data";
     }
 
     TEST_F(test_crypt, test_check_string_signature) {
@@ -1406,7 +1493,8 @@ namespace test_lib {
         // convert encrypted to hex string
         std::string signature_hex = sprint_hex_data(encrypted);
 
-        auto [result, is_valid] = check_string_signature(sample_data, signature_hex, public_key_struct);
+        auto [result, is_valid] = check_string_signature(
+            sample_data, signature_hex, public_key_struct);
         ASSERT_EQ(result, 0) << "check_string_signature failed";
         ASSERT_TRUE(is_valid) << "Signature verification failed";
     }
@@ -1426,11 +1514,16 @@ namespace test_lib {
             << "Failed to fill keys from EVP_PKEY";
 
         // Create an invalid signature (random data)
-        std::string invalid_signature_hex = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"; // 64 hex characters of 'F'
+         // 64 hex characters of 'F'
+        std::string invalid_signature_hex =
+            "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF";
 
-        auto [result, is_valid] = check_string_signature(sample_data, invalid_signature_hex, public_key_struct);
-        ASSERT_NE(result, 0) << "check_string_signature should fail for invalid signature";
-        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid signature";
+        auto [result, is_valid] = check_string_signature(
+            sample_data, invalid_signature_hex, public_key_struct);
+        ASSERT_NE(result, 0) <<
+            "check_string_signature should fail for invalid signature";
+        ASSERT_FALSE(is_valid) <<
+            "Signature verification should fail for invalid signature";
     }
 
     TEST_F(test_crypt, test_check_string_signature_invalid_key) {
@@ -1458,9 +1551,12 @@ namespace test_lib {
 
         R_RSA_PUBLIC_KEY invalid_public_key_struct; // Uninitialized key
 
-        auto [result, is_valid] = check_string_signature(sample_data, signature_hex, invalid_public_key_struct);
-        ASSERT_NE(result, 0) << "check_string_signature should fail for invalid key";
-        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid key";
+        auto [result, is_valid] = check_string_signature(
+            sample_data, signature_hex, invalid_public_key_struct);
+        ASSERT_NE(result, 0) <<
+            "check_string_signature should fail for invalid key";
+        ASSERT_FALSE(is_valid) <<
+            "Signature verification should fail for invalid key";
     }
 
     TEST_F(test_crypt, test_check_string_signature_empty_data) {
@@ -1486,7 +1582,8 @@ namespace test_lib {
         // convert encrypted to hex string
         std::string signature_hex = sprint_hex_data(encrypted);
 
-        auto [result, is_valid] = check_string_signature(sample_data, signature_hex, public_key_struct);
+        auto [result, is_valid] = check_string_signature(
+            sample_data, signature_hex, public_key_struct);
         ASSERT_EQ(result, 0) << "check_string_signature failed";
         ASSERT_TRUE(is_valid) << "Signature verification failed for empty data";
     }
@@ -1516,9 +1613,11 @@ namespace test_lib {
 
         // Modify the sample data to be invalid
         const char* invalid_sample_data = "Hello, Universe!";
-        auto [result, is_valid] = check_string_signature(invalid_sample_data, signature_hex, public_key_struct);
+        auto [result, is_valid] = check_string_signature(
+            invalid_sample_data, signature_hex, public_key_struct);
         ASSERT_EQ(result, 0) << "check_string_signature failed";
-        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid data";
+        ASSERT_FALSE(is_valid) <<
+            "Signature verification should fail for invalid data";
     }
 
     TEST_F(test_crypt, test_check_string_signature2) {
@@ -1546,9 +1645,11 @@ namespace test_lib {
 
         // convert public key to hex string
         FILE* f = open_tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        ASSERT_NE(f, nullptr) <<
+            "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
-        ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
+        ASSERT_TRUE(print_result) <<
+            "print_public_key_hex failed for public key";
         fseek(f, 0, SEEK_SET);
         std::string public_key_hex;
         char buffer[256];
@@ -1557,7 +1658,8 @@ namespace test_lib {
         }
         fclose(f);
 
-        auto [result, is_valid] = check_string_signature(sample_data, signature_hex, public_key_hex);
+        auto [result, is_valid] = check_string_signature(
+            sample_data, signature_hex, public_key_hex);
         ASSERT_EQ(result, 0) << "check_string_signature2 failed";
         ASSERT_TRUE(is_valid) << "Signature verification failed";
     }
@@ -1577,13 +1679,17 @@ namespace test_lib {
             << "Failed to fill keys from EVP_PKEY";
 
         // Create an invalid signature (random data)
-        std::string invalid_signature_hex = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"; // 64 hex characters of 'F'
+        // 64 hex characters of 'F'
+        std::string invalid_signature_hex =
+            "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF";
 
         // convert public key to hex string
         FILE* f = open_tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        ASSERT_NE(f, nullptr) <<
+            "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
-        ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
+        ASSERT_TRUE(print_result) <<
+            "print_public_key_hex failed for public key";
         fseek(f, 0, SEEK_SET);
         std::string public_key_hex;
         char buffer[256];
@@ -1592,9 +1698,12 @@ namespace test_lib {
         }
         fclose(f);
 
-        auto [result, is_valid] = check_string_signature(sample_data, invalid_signature_hex, public_key_hex);
-        ASSERT_NE(result, 0) << "check_string_signature2 should fail for invalid signature";
-        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid signature";
+        auto [result, is_valid] = check_string_signature(
+            sample_data, invalid_signature_hex, public_key_hex);
+        ASSERT_NE(result, 0) <<
+            "check_string_signature2 should fail for invalid signature";
+        ASSERT_FALSE(is_valid) <<
+            "Signature verification should fail for invalid signature";
     }
 
     TEST_F(test_crypt, test_check_string_signature2_invalid_key) {
@@ -1621,11 +1730,16 @@ namespace test_lib {
         std::string signature_hex = sprint_hex_data(encrypted);
 
         // Create an invalid public key hex string (random data)
-        std::string invalid_public_key_hex = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"; // 64 hex characters of 'F'
+        // 64 hex characters of 'F'
+        std::string invalid_public_key_hex =
+            "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF";
 
-        auto [result, is_valid] = check_string_signature(sample_data, signature_hex, invalid_public_key_hex);
-        ASSERT_NE(result, 0) << "check_string_signature2 should fail for invalid public key";
-        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid public key";
+        auto [result, is_valid] = check_string_signature(
+            sample_data, signature_hex, invalid_public_key_hex);
+        ASSERT_NE(result, 0) <<
+            "check_string_signature2 should fail for invalid public key";
+        ASSERT_FALSE(is_valid) <<
+            "Signature verification should fail for invalid public key";
     }
 
     TEST_F(test_crypt, test_check_string_signature2_empty_data) {
@@ -1653,9 +1767,11 @@ namespace test_lib {
 
         // convert public key to hex string
         FILE* f = open_tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        ASSERT_NE(f, nullptr) <<
+            "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
-        ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
+        ASSERT_TRUE(print_result) <<
+            "print_public_key_hex failed for public key";
         fseek(f, 0, SEEK_SET);
         std::string public_key_hex;
         char buffer[256];
@@ -1664,7 +1780,8 @@ namespace test_lib {
         }
         fclose(f);
 
-        auto [result, is_valid] = check_string_signature(sample_data, signature_hex, public_key_hex);
+        auto [result, is_valid] = check_string_signature(
+            sample_data, signature_hex, public_key_hex);
         ASSERT_EQ(result, 0) << "check_string_signature2 failed";
         ASSERT_TRUE(is_valid) << "Signature verification failed for empty data";
     }
@@ -1693,9 +1810,11 @@ namespace test_lib {
 
         // convert public key to hex string
         FILE* f = open_tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        ASSERT_NE(f, nullptr) <<
+            "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
-        ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
+        ASSERT_TRUE(print_result) <<
+            "print_public_key_hex failed for public key";
         fseek(f, 0, SEEK_SET);
         std::string public_key_hex;
         char buffer[256];
@@ -1706,9 +1825,11 @@ namespace test_lib {
 
         // Modify the sample data to be invalid
         const char* invalid_sample_data = "Hello, Universe!";
-        auto [result, is_valid] = check_string_signature(invalid_sample_data, signature_hex, public_key_hex);
+        auto [result, is_valid] = check_string_signature(
+            invalid_sample_data, signature_hex, public_key_hex);
         ASSERT_EQ(result, 0) << "check_string_signature2 failed";
-        ASSERT_FALSE(is_valid) << "Signature verification should fail for invalid data";
+        ASSERT_FALSE(is_valid) <<
+            "Signature verification should fail for invalid data";
     }
 
     TEST_F(test_crypt, test_read_key_file) {
@@ -1735,13 +1856,16 @@ namespace test_lib {
         auto[result, scanned_key_struct] = read_key_file(temp_file.string());
         ASSERT_EQ(result, 0) << "read_key_file failed";
 
-        ASSERT_EQ(memcmp(&private_key_struct, &scanned_key_struct, sizeof(private_key_struct)), 0) <<
+        ASSERT_EQ(memcmp(&private_key_struct, &scanned_key_struct,
+            sizeof(private_key_struct)), 0) <<
             "Key data mismatch";
     }
 
     TEST_F(test_crypt, test_read_key_file_invalid_path) {
-        auto [result, scanned_key_struct] = read_key_file("non_existent_file.txt");
-        ASSERT_NE(result, 0) << "read_key_file should fail for non-existent file";
+        auto [result, scanned_key_struct] =
+            read_key_file("non_existent_file.txt");
+        ASSERT_NE(result, 0) <<
+            "read_key_file should fail for non-existent file";
     }
 
     TEST_F(test_crypt, test_read_key_file_invalid_content) {
@@ -1768,16 +1892,19 @@ namespace test_lib {
             private_key.get(), private_key_struct, public_key_struct))
             << "Failed to fill keys from EVP_PKEY";
 
-        auto [result, converted_public_key_struct] = openssl_to_public(private_key);
+        auto [result, converted_public_key_struct] =
+            openssl_to_public(private_key);
         ASSERT_EQ(result, 0) << "openssl_to_public failed";
-        ASSERT_EQ(memcmp(&converted_public_key_struct, &public_key_struct, sizeof(public_key_struct)), 0) <<
+        ASSERT_EQ(memcmp(&converted_public_key_struct, &public_key_struct,
+            sizeof(public_key_struct)), 0) <<
             "Public key data mismatch";
     }
 
     TEST_F(test_crypt, test_openssl_to_public_invalid_key) {
         EVP_PKEY* invalid_key = nullptr; // Invalid key
 
-        auto [result, converted_public_key_struct] = openssl_to_public(unique_EVP_PKEY(invalid_key));
+        auto [result, converted_public_key_struct] =
+            openssl_to_public(unique_EVP_PKEY(invalid_key));
         ASSERT_NE(result, 0) << "openssl_to_public should fail for invalid key";
     }
 
@@ -1791,17 +1918,21 @@ namespace test_lib {
             private_key.get(), private_key_struct, public_key_struct))
             << "Failed to fill keys from EVP_PKEY";
 
-        auto [result, converted_private_key_struct] = openssl_to_private(private_key);
+        auto [result, converted_private_key_struct] =
+            openssl_to_private(private_key);
         ASSERT_EQ(result, 0) << "openssl_to_private failed";
-        ASSERT_EQ(memcmp(&converted_private_key_struct, &private_key_struct, sizeof(private_key_struct)), 0) <<
+        ASSERT_EQ(memcmp(&converted_private_key_struct, &private_key_struct,
+            sizeof(private_key_struct)), 0) <<
             "Private key data mismatch";
     }
 
     TEST_F(test_crypt, test_openssl_to_private_invalid_key) {
         EVP_PKEY* invalid_key = nullptr; // Invalid key
 
-        auto [result, converted_private_key_struct] = openssl_to_private(unique_EVP_PKEY(invalid_key));
-        ASSERT_NE(result, 0) << "openssl_to_private should fail for invalid key";
+        auto [result, converted_private_key_struct] =
+            openssl_to_private(unique_EVP_PKEY(invalid_key));
+        ASSERT_NE(result, 0) <<
+            "openssl_to_private should fail for invalid key";
     }
 
     TEST_F(test_crypt, test_openssl_to_keys) {
@@ -1814,18 +1945,27 @@ namespace test_lib {
             private_key.get(), private_key_struct, public_key_struct))
             << "Failed to fill keys from EVP_PKEY";
 
-        auto [result, converted_private_key_struct, converted_public_key_struct] = openssl_to_keys(private_key);
+        auto [
+            result,
+            converted_private_key_struct,
+            converted_public_key_struct
+        ] = openssl_to_keys(private_key);
         ASSERT_EQ(result, 0) << "openssl_to_keys failed";
-        ASSERT_EQ(memcmp(&converted_private_key_struct, &private_key_struct, sizeof(private_key_struct)), 0) <<
+        ASSERT_EQ(memcmp(&converted_private_key_struct, &private_key_struct,
+            sizeof(private_key_struct)), 0) <<
             "Private key data mismatch";
-        ASSERT_EQ(memcmp(&converted_public_key_struct, &public_key_struct, sizeof(public_key_struct)), 0) <<
+        ASSERT_EQ(memcmp(&converted_public_key_struct, &public_key_struct,
+            sizeof(public_key_struct)), 0) <<
             "Public key data mismatch";
     }
 
     TEST_F(test_crypt, test_openssl_to_keys_invalid_key) {
         EVP_PKEY* invalid_key = nullptr; // Invalid key
 
-        auto [result, converted_private_key_struct, converted_public_key_struct] = openssl_to_keys(unique_EVP_PKEY(invalid_key));
+        auto [result,
+            converted_private_key_struct,
+            converted_public_key_struct
+        ] = openssl_to_keys(unique_EVP_PKEY(invalid_key));
         ASSERT_NE(result, 0) << "openssl_to_keys should fail for invalid key";
     }
 
@@ -1841,22 +1981,26 @@ namespace test_lib {
 
         // convert public key to hex string
         FILE* f = open_tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        ASSERT_NE(f, nullptr) <<
+            "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
-        ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
+        ASSERT_TRUE(print_result) <<
+            "print_public_key_hex failed for public key";
 
         fseek(f, 0, SEEK_SET);
         auto [result, scanned_public_key_struct] = scan_public_key_hex(f);
         fclose(f);
 
         ASSERT_TRUE(result) << "scan_public_key_hex failed";
-        ASSERT_EQ(memcmp(&scanned_public_key_struct, &public_key_struct, sizeof(public_key_struct)), 0) <<
+        ASSERT_EQ(memcmp(&scanned_public_key_struct, &public_key_struct,
+            sizeof(public_key_struct)), 0) <<
             "Scanned public key data mismatch";
     }
 
     TEST_F(test_crypt, test_scan_public_key_hex_invalid_file) {
         FILE* f = open_tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        ASSERT_NE(f, nullptr) <<
+            "Failed to create temporary file for public key";
 
         // Write invalid content to the file
         fprintf(f, "Invalid key content\n");
@@ -1865,12 +2009,14 @@ namespace test_lib {
         auto [result, scanned_public_key_struct] = scan_public_key_hex(f);
         fclose(f);
 
-        ASSERT_FALSE(result) << "scan_public_key_hex should fail for invalid content";
+        ASSERT_FALSE(result) <<
+            "scan_public_key_hex should fail for invalid content";
     }
 
     TEST_F(test_crypt, test_scan_public_key_hex_empty_file) {
         FILE* f = open_tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        ASSERT_NE(f, nullptr) <<
+            "Failed to create temporary file for public key";
 
         // Do not write anything to the file (empty file)
         fseek(f, 0, SEEK_SET);
@@ -1878,12 +2024,14 @@ namespace test_lib {
         auto [result, scanned_public_key_struct] = scan_public_key_hex(f);
         fclose(f);
 
-        ASSERT_FALSE(result) << "scan_public_key_hex should fail for empty file";
+        ASSERT_FALSE(result) <<
+            "scan_public_key_hex should fail for empty file";
     }
 
     TEST_F(test_crypt, test_scan_public_key_hex_invalid_content) {
         FILE* f = open_tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        ASSERT_NE(f, nullptr) <<
+            "Failed to create temporary file for public key";
 
         // Write invalid content to the file
         fprintf(f, "Invalid key content\n");
@@ -1892,7 +2040,8 @@ namespace test_lib {
         auto [result, scanned_public_key_struct] = scan_public_key_hex(f);
         fclose(f);
 
-        ASSERT_FALSE(result) << "scan_public_key_hex should fail for invalid content";
+        ASSERT_FALSE(result) <<
+            "scan_public_key_hex should fail for invalid content";
     }
 
     TEST_F(test_crypt, test_scan_private_key_hex) {
@@ -1907,21 +2056,25 @@ namespace test_lib {
 
         // convert private key to hex string
         FILE* f = open_tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for private key";
+        ASSERT_NE(f, nullptr) <<
+            "Failed to create temporary file for private key";
         bool print_result = print_private_key_hex(f, private_key_struct);
-        ASSERT_TRUE(print_result) << "print_private_key_hex failed for private key";
+        ASSERT_TRUE(print_result) <<
+            "print_private_key_hex failed for private key";
         fseek(f, 0, SEEK_SET);
 
         auto [result, scanned_private_key_struct] = scan_private_key_hex(f);
         fclose(f);
         ASSERT_TRUE(result) << "scan_private_key_hex failed";
-        ASSERT_EQ(memcmp(&scanned_private_key_struct, &private_key_struct, sizeof(private_key_struct)), 0) <<
+        ASSERT_EQ(memcmp(&scanned_private_key_struct, &private_key_struct,
+            sizeof(private_key_struct)), 0) <<
             "Scanned private key data mismatch";
     }
 
     TEST_F(test_crypt, test_scan_private_key_hex_invalid_file) {
         FILE* f = open_tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for private key";
+        ASSERT_NE(f, nullptr) <<
+            "Failed to create temporary file for private key";
 
         // Write invalid content to the file
         fprintf(f, "Invalid key content\n");
@@ -1930,12 +2083,14 @@ namespace test_lib {
         auto [result, scanned_private_key_struct] = scan_private_key_hex(f);
         fclose(f);
 
-        ASSERT_FALSE(result) << "scan_private_key_hex should fail for invalid content";
+        ASSERT_FALSE(result) <<
+            "scan_private_key_hex should fail for invalid content";
     }
 
     TEST_F(test_crypt, test_scan_private_key_hex_empty_file) {
         FILE* f = open_tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for private key";
+        ASSERT_NE(f, nullptr) <<
+            "Failed to create temporary file for private key";
 
         // Do not write anything to the file (empty file)
         fseek(f, 0, SEEK_SET);
@@ -1943,12 +2098,14 @@ namespace test_lib {
         auto [result, scanned_private_key_struct] = scan_private_key_hex(f);
         fclose(f);
 
-        ASSERT_FALSE(result) << "scan_private_key_hex should fail for empty file";
+        ASSERT_FALSE(result) <<
+            "scan_private_key_hex should fail for empty file";
     }
 
     TEST_F(test_crypt, test_scan_private_key_hex_invalid_content) {
         FILE* f = open_tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for private key";
+        ASSERT_NE(f, nullptr) <<
+            "Failed to create temporary file for private key";
 
         // Write invalid content to the file
         fprintf(f, "Invalid key content\n");
@@ -1957,7 +2114,8 @@ namespace test_lib {
         auto [result, scanned_private_key_struct] = scan_private_key_hex(f);
         fclose(f);
 
-        ASSERT_FALSE(result) << "scan_private_key_hex should fail for invalid content";
+        ASSERT_FALSE(result) <<
+            "scan_private_key_hex should fail for invalid content";
     }
 
     TEST_F(test_crypt, test_print_public_key_hex) {
@@ -1971,7 +2129,8 @@ namespace test_lib {
             << "Failed to fill keys from EVP_PKEY";
 
         FILE* f = open_tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
+        ASSERT_NE(f, nullptr) <<
+            "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
         ASSERT_TRUE(print_result) << "print_public_key_hex failed";
         fseek(f, 0, SEEK_SET);
@@ -1981,7 +2140,8 @@ namespace test_lib {
         auto [result, scanned_public_key_struct] = scan_public_key_hex(f);
         fclose(f);
         ASSERT_TRUE(result) << "scan_public_key_hex failed";
-        ASSERT_EQ(memcmp(&scanned_public_key_struct, &public_key_struct, sizeof(public_key_struct)), 0) <<
+        ASSERT_EQ(memcmp(&scanned_public_key_struct, &public_key_struct,
+            sizeof(public_key_struct)), 0) <<
             "Scanned public key data mismatch";
     }
 
@@ -1995,7 +2155,8 @@ namespace test_lib {
             private_key.get(), private_key_struct, public_key_struct))
             << "Failed to fill keys from EVP_PKEY";
         bool print_result = print_public_key_hex(nullptr, public_key_struct);
-        ASSERT_FALSE(print_result) << "print_public_key_hex should fail for null file pointer";
+        ASSERT_FALSE(print_result) <<
+            "print_public_key_hex should fail for null file pointer";
     }
 
     TEST_F(test_crypt, test_print_private_key_hex) {
@@ -2009,7 +2170,8 @@ namespace test_lib {
             << "Failed to fill keys from EVP_PKEY";
 
         FILE* f = open_tmpfile();
-        ASSERT_NE(f, nullptr) << "Failed to create temporary file for private key";
+        ASSERT_NE(f, nullptr) <<
+            "Failed to create temporary file for private key";
         bool print_result = print_private_key_hex(f, private_key_struct);
         ASSERT_TRUE(print_result) << "print_private_key_hex failed";
         fseek(f, 0, SEEK_SET);
@@ -2019,7 +2181,8 @@ namespace test_lib {
         auto [result, scanned_private_key_struct] = scan_private_key_hex(f);
         fclose(f);
         ASSERT_TRUE(result) << "scan_private_key_hex failed";
-        ASSERT_EQ(memcmp(&scanned_private_key_struct, &private_key_struct, sizeof(private_key_struct)), 0) <<
+        ASSERT_EQ(memcmp(&scanned_private_key_struct, &private_key_struct,
+            sizeof(private_key_struct)), 0) <<
             "Scanned private key data mismatch";
     }
 
@@ -2033,7 +2196,8 @@ namespace test_lib {
             private_key.get(), private_key_struct, public_key_struct))
             << "Failed to fill keys from EVP_PKEY";
         bool print_result = print_private_key_hex(nullptr, private_key_struct);
-        ASSERT_FALSE(print_result) << "print_private_key_hex should fail for null file pointer";
+        ASSERT_FALSE(print_result) <<
+            "print_private_key_hex should fail for null file pointer";
     }
 
     TEST_F(test_crypt, test_check_validity_success) {
@@ -2047,7 +2211,8 @@ namespace test_lib {
 
         X509* ca_cert = X509_new();
         ASSERT_NE(ca_cert, nullptr);
-        std::unique_ptr<X509, decltype(&X509_free)> ca_cert_guard(ca_cert, X509_free);
+        std::unique_ptr<X509, decltype(&X509_free)>
+            ca_cert_guard(ca_cert, X509_free);
         X509_set_version(ca_cert, 2);
         ASN1_INTEGER_set(X509_get_serialNumber(ca_cert), 1);
         X509_NAME* ca_name = X509_get_subject_name(ca_cert);
@@ -2094,7 +2259,8 @@ namespace test_lib {
 
         X509* leaf_cert = X509_new();
         ASSERT_NE(leaf_cert, nullptr);
-        std::unique_ptr<X509, decltype(&X509_free)> leaf_cert_guard(leaf_cert, X509_free);
+        std::unique_ptr<X509, decltype(&X509_free)>
+            leaf_cert_guard(leaf_cert, X509_free);
         X509_set_version(leaf_cert, 2);
         ASN1_INTEGER_set(X509_get_serialNumber(leaf_cert), 2);
         X509_NAME* leaf_name = X509_get_subject_name(leaf_cert);
@@ -2160,7 +2326,8 @@ namespace test_lib {
 
         X509* ca_cert = X509_new();
         ASSERT_NE(ca_cert, nullptr);
-        std::unique_ptr<X509, decltype(&X509_free)> ca_cert_guard(ca_cert, X509_free);
+        std::unique_ptr<X509, decltype(&X509_free)>
+            ca_cert_guard(ca_cert, X509_free);
         X509_set_version(ca_cert, 2);
         ASN1_INTEGER_set(X509_get_serialNumber(ca_cert), 1);
         X509_NAME* ca_name = X509_get_subject_name(ca_cert);
@@ -2207,7 +2374,8 @@ namespace test_lib {
 
         X509* leaf_cert = X509_new();
         ASSERT_NE(leaf_cert, nullptr);
-        std::unique_ptr<X509, decltype(&X509_free)> leaf_cert_guard(leaf_cert, X509_free);
+        std::unique_ptr<X509, decltype(&X509_free)>
+            leaf_cert_guard(leaf_cert, X509_free);
         X509_set_version(leaf_cert, 2);
         ASN1_INTEGER_set(X509_get_serialNumber(leaf_cert), 2);
         X509_NAME* leaf_name = X509_get_subject_name(leaf_cert);
@@ -2265,7 +2433,8 @@ namespace test_lib {
 
         X509* ca_cert = X509_new();
         ASSERT_NE(ca_cert, nullptr);
-        std::unique_ptr<X509, decltype(&X509_free)> ca_cert_guard(ca_cert, X509_free);
+        std::unique_ptr<X509, decltype(&X509_free)>
+            ca_cert_guard(ca_cert, X509_free);
         X509_set_version(ca_cert, 2);
         ASN1_INTEGER_set(X509_get_serialNumber(ca_cert), 1);
         X509_NAME* ca_name = X509_get_subject_name(ca_cert);
@@ -2290,7 +2459,8 @@ namespace test_lib {
 
         X509* leaf_cert = X509_new();
         ASSERT_NE(leaf_cert, nullptr);
-        std::unique_ptr<X509, decltype(&X509_free)> leaf_cert_guard(leaf_cert, X509_free);
+        std::unique_ptr<X509, decltype(&X509_free)>
+            leaf_cert_guard(leaf_cert, X509_free);
         X509_set_version(leaf_cert, 2);
         ASN1_INTEGER_set(X509_get_serialNumber(leaf_cert), 2);
         X509_NAME* leaf_name = X509_get_subject_name(leaf_cert);
@@ -2356,7 +2526,8 @@ namespace test_lib {
 
         X509* ca_cert = X509_new();
         ASSERT_NE(ca_cert, nullptr);
-        std::unique_ptr<X509, decltype(&X509_free)> ca_cert_guard(ca_cert, X509_free);
+        std::unique_ptr<X509, decltype(&X509_free)>
+            ca_cert_guard(ca_cert, X509_free);
         X509_set_version(ca_cert, 2);
         ASN1_INTEGER_set(X509_get_serialNumber(ca_cert), 1);
         X509_NAME* ca_name = X509_get_subject_name(ca_cert);
@@ -2403,7 +2574,8 @@ namespace test_lib {
 
         X509* leaf_cert = X509_new();
         ASSERT_NE(leaf_cert, nullptr);
-        std::unique_ptr<X509, decltype(&X509_free)> leaf_cert_guard(leaf_cert, X509_free);
+        std::unique_ptr<X509, decltype(&X509_free)>
+            leaf_cert_guard(leaf_cert, X509_free);
         X509_set_version(leaf_cert, 2);
         ASN1_INTEGER_set(X509_get_serialNumber(leaf_cert), 2);
         X509_NAME* leaf_name = X509_get_subject_name(leaf_cert);
@@ -2476,7 +2648,8 @@ namespace test_lib {
 
         X509* ca_cert = X509_new();
         ASSERT_NE(ca_cert, nullptr);
-        std::unique_ptr<X509, decltype(&X509_free)> ca_cert_guard(ca_cert, X509_free);
+        std::unique_ptr<X509, decltype(&X509_free)>
+            ca_cert_guard(ca_cert, X509_free);
         X509_set_version(ca_cert, 2);
         ASN1_INTEGER_set(X509_get_serialNumber(ca_cert), 1);
         X509_NAME* ca_name = X509_get_subject_name(ca_cert);
@@ -2523,7 +2696,8 @@ namespace test_lib {
 
         X509* leaf_cert = X509_new();
         ASSERT_NE(leaf_cert, nullptr);
-        std::unique_ptr<X509, decltype(&X509_free)> leaf_cert_guard(leaf_cert, X509_free);
+        std::unique_ptr<X509, decltype(&X509_free)>
+            leaf_cert_guard(leaf_cert, X509_free);
         X509_set_version(leaf_cert, 2);
         ASN1_INTEGER_set(X509_get_serialNumber(leaf_cert), 2);
         X509_NAME* leaf_name = X509_get_subject_name(leaf_cert);
@@ -2575,7 +2749,8 @@ namespace test_lib {
         ASSERT_TRUE(fill_keys_from_evp(leaf_key.get(), leaf_private_key,
             leaf_public_key));
 
-        std::filesystem::path orig_file = test_data_dir / "orig_cert_verify.txt";
+        std::filesystem::path orig_file =
+            test_data_dir / "orig_cert_verify.txt";
         {
             std::ofstream out(orig_file);
             out << "test message";
