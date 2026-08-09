@@ -495,12 +495,6 @@ int convkey_public_b2o(const std::string& input, const std::string& output) {
         return 2;
     }
 
-    fpub = open_file(output, "w+");
-    if (!fpub) {
-        print_error("fopen");
-        return 2;
-    }
-
     unique_EVP_PKEY rsa_key;
     std::tie(result, rsa_key) = public_to_openssl(public_key);
     if (!result || !rsa_key) {
@@ -508,11 +502,15 @@ int convkey_public_b2o(const std::string& input, const std::string& output) {
         return 2;
     }
 
-    const int retval = PEM_write_PUBKEY(fpub, rsa_key.get());
-    fclose(fpub);
-    if (retval == 0) {
-        ERR_print_errors(bio_err.get());
-        print_error("could not write key file.");
+    unique_OSSL_ENCODER_CTX encoder_ctx(OSSL_ENCODER_CTX_new_for_pkey(
+        rsa_key.get(), OSSL_KEYMGMT_SELECT_PUBLIC_KEY, "PEM", nullptr, nullptr)
+    );
+    if (!encoder_ctx) {
+        print_error("OSSL_ENCODER_CTX_new_for_pkey");
+        return 2;
+    }
+    if (OSSL_ENCODER_to_bio(encoder_ctx.get(), bio_out.get()) <= 0) {
+        print_error("OSSL_ENCODER_to_bio");
         return 2;
     }
 

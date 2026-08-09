@@ -21,7 +21,6 @@
 #include "config.h"
 #endif
 
-#include <openssl/md5.h>
 #include <openssl/pem.h>
 #include <openssl/core_names.h>
 #include <openssl/param_build.h>
@@ -35,6 +34,8 @@
 
 using std::string;
 using std::vector;
+
+#define MD5_DIGEST_LENGTH 16
 
 // write some data in hex notation.
 // NOTE: since length may not be known to the reader,
@@ -755,7 +756,7 @@ using unique_X509 = std::unique_ptr<X509, OpenSSLDeleter<X509, X509_free>>;
 
 static bool check_validity_of_cert(
     const string &cFile,
-    const vector<uint8_t> &md5_md,
+    const string &md5_md,
     const vector<uint8_t> &sfileMsg,
     const string &caPath
     ) {
@@ -823,47 +824,10 @@ static bool check_validity_of_cert(
         return false;
     }
     recovered.resize(recovered_len);
-    char md5_hex[MD5_DIGEST_LENGTH * 2 + 1];
-    for (size_t i = 0; i < MD5_DIGEST_LENGTH; ++i) {
-        snprintf(md5_hex + (i * 2), 3, "%02x", md5_md[i]);
-    }
-    md5_hex[MD5_DIGEST_LENGTH * 2] = '\0';
     return (
         recovered_len == (MD5_DIGEST_LENGTH * 2) &&
-        !memcmp(recovered.data(), md5_hex, recovered_len)
+        !memcmp(recovered.data(), md5_md.data(), recovered_len)
     );
-}
-
-using unique_EVP_MD_CTX =
-    std::unique_ptr<EVP_MD_CTX, OpenSSLDeleter<EVP_MD_CTX, EVP_MD_CTX_free>>;
-
-static std::pair<bool, vector<uint8_t>> get_md5(const string &file) {
-    unique_FILE f(boinc_fopen(file.data(), "r"));
-    if (!f) {
-        return std::make_pair(false, std::vector<uint8_t>());
-    }
-
-    unique_EVP_MD_CTX mdctx(EVP_MD_CTX_new());
-    if (!mdctx) {
-        return std::make_pair(false, std::vector<uint8_t>());
-    }
-    if (EVP_DigestInit_ex2(mdctx.get(), EVP_md5(), nullptr) <= 0) {
-        return std::make_pair(false, std::vector<uint8_t>());
-    }
-    unsigned char rbuf[2048];
-    size_t rbytes;
-    while (0 != (rbytes = fread(rbuf, 1, sizeof(rbuf), f.get()))) {
-        if (EVP_DigestUpdate(mdctx.get(), rbuf, rbytes) <= 0) {
-            return std::make_pair(false, std::vector<uint8_t>());
-        }
-    }
-    std::vector<uint8_t> md_value(EVP_MAX_MD_SIZE, 0);
-    unsigned int md_len = 0;
-    if (EVP_DigestFinal_ex(mdctx.get(), md_value.data(), &md_len) <= 0) {
-        return std::make_pair(false, std::vector<uint8_t>());
-    }
-    md_value.resize(md_len);
-    return std::make_pair(true, md_value);
 }
 
 std::pair<bool, string> check_validity(
@@ -876,10 +840,9 @@ std::pair<bool, string> check_validity(
         return std::make_pair(false, std::string());
     }
 
-    bool result = false;
-    vector<uint8_t> md5_md;
-    std::tie(result, md5_md) = get_md5(origFile);
-    if (!result) {
+    char md5_md[MD5_DIGEST_LENGTH * 2 + 1];
+    double bytes = 0;
+    if (md5_file(origFile.data(), md5_md, bytes, false) != 0) {
         return std::make_pair(false, std::string());
     }
 
@@ -918,14 +881,14 @@ bool cert_verify_file(CERT_SIGS* signatures, const string &origFile,
         return false;
     }
 
-    bool result = false;
-    vector<uint8_t> md5_md;
-    std::tie(result, md5_md) = get_md5(origFile);
-    if (!result) {
+    char md5_md[MD5_DIGEST_LENGTH * 2 + 1];
+    double bytes = 0;
+    if (md5_file(origFile.data(), md5_md, bytes, false) != 0) {
         return false;
     }
 
     for(const CERT_SIG &cert_sig : signatures->signatures) {
+        bool result = false;
         vector<uint8_t> sig_vector;
         std::tie(result, sig_vector) = sscan_hex_data(vector<uint8_t>(
             cert_sig.signature,
