@@ -24,8 +24,6 @@ if (DISABLE_FORUMS) error_page("Forums are disabled");
 
 check_get_args(array("action", "userid"));
 
-$config = get_config();
-
 $logged_in_user = get_logged_in_user();
 BoincForumPrefs::lookup($logged_in_user);
 
@@ -60,7 +58,7 @@ if (get_str('action')=="start") {
     //display input that selects reason
     echo "<input type=hidden name=action value=start>";
     echo "<input type=\"hidden\" name=\"userid\" value=\"".$userid."\">\n";
-    row1(tra("Are you sure you want to banish %1 ?<br/>This will prevent %1 from posting for chosen time period.<br/>It should be done only if %1 has consistently exhibited trollish behavior.", $user->name));
+    row1(tra("Are you sure you want to banish %1 ?<br/>This will prevent %1 from posting for chosen time period.<br/>It should be done only if %1 has repeatedly violated forum rules.", $user->name));
     row2("",
     tra("Select the reason category, optionally write a longer description of why the user should be banished."));
     row2(tra("Category"),
@@ -79,9 +77,9 @@ row2(
     "<input class=\"btn btn-default\" type=\"submit\" name=\"submit\" value=\"".tra("Proceed with vote")."\">"
 );
 } elseif (get_str('action')=="yes") {
-    vote_yes($config,$logged_in_user,$user);
+    vote_yes($logged_in_user, $user);
 } elseif (get_str('action')=="no") {
-    vote_no($config,$logged_in_user,$user);
+    vote_no($logged_in_user, $user);
 } else {
     error_page("Unknown action");
 }
