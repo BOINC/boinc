@@ -150,8 +150,9 @@ int sign(const std::string& file, const std::string& private_keyfile) {
         print_error("scan_private_key_hex");
         return 2;
     }
-    const std::vector<uint8_t> signature = sign_file(file, private_key);
-    if (signature.empty()) {
+    std::vector<uint8_t> signature;
+    std::tie(result, signature) = sign_file(file, private_key);
+    if (!result || signature.empty()) {
         print_error("sign_file");
         return 2;
     }
@@ -172,8 +173,9 @@ int sign_string(const std::string& str, const std::string& private_keyfile) {
         print_error("scan_private_key_hex");
         return 2;
     }
-    const std::string signature = generate_signature(str, private_key);
-    if (signature.empty()) {
+    std::string signature;
+    std::tie(result, signature) = generate_signature(str, private_key);
+    if (!result || signature.empty()) {
         print_error("generate_signature");
         return 2;
     }
@@ -200,8 +202,9 @@ int verify(const std::string& file, const std::string& signature_file,
         print_error("fopen");
         return 2;
     }
-    std::vector<uint8_t> signature = scan_hex_data(f);
-    if (signature.empty()) {
+    std::vector<uint8_t> signature;
+    std::tie(result, signature) = scan_hex_data(f);
+    if (!result || signature.empty()) {
         print_error("scan_hex_data");
         return 2;
     }
@@ -297,13 +300,15 @@ int test_crypt(const std::string& private_keyfile,
     }
     const std::string test_string("encryption test successful");
     std::vector<uint8_t> in_data(test_string.begin(), test_string.end());
-    std::vector<uint8_t> encrypted = encrypt_private(private_key, in_data);
-    if (encrypted.empty()) {
+    std::vector<uint8_t> encrypted;
+    std::tie(result, encrypted) = encrypt_private(private_key, in_data);
+    if (!result || encrypted.empty()) {
         print_error("encrypt_private");
         return 2;
     }
-    const std::vector<uint8_t> out = decrypt_public(public_key, encrypted);
-    if (out.empty()) {
+    std::vector<uint8_t> out;
+    std::tie(result, out) = decrypt_public(public_key, encrypted);
+    if (!result || out.empty()) {
         print_error("decrypt_public");
         return 2;
     }
@@ -319,9 +324,11 @@ int convsig_b2o(const std::string& input, const std::string& output) {
         print_error("fopen");
         return 2;
     }
-    std::vector<uint8_t> signature = scan_hex_data(f);
+    bool result = false;
+    std::vector<uint8_t> signature;
+    std::tie(result, signature) = scan_hex_data(f);
     fclose(f);
-    if (signature.empty()) {
+    if (!result || signature.empty()) {
         print_error("scan_hex_data");
         return 2;
     }
@@ -342,8 +349,14 @@ int convsig_o2b(const std::string& input, const std::string& output) {
         print_error("fopen");
         return 2;
     }
-    std::vector<uint8_t> signature = scan_raw_data(f);
+    bool result = false;
+    std::vector<uint8_t> signature;
+    std::tie(result, signature) = scan_raw_data(f);
     fclose(f);
+    if (!result || signature.empty()) {
+        print_error("scan_raw_data");
+        return 2;
+    }
 
     f = open_file(output, "w");
     if (!f) {
@@ -398,8 +411,9 @@ int convkey_private_b2o(const std::string& input, const std::string& output) {
         print_error("scan_private_key_hex");
         return 2;
     }
-    unique_EVP_PKEY rsa_key = private_to_openssl(private_key);
-    if(!rsa_key) {
+    unique_EVP_PKEY rsa_key;
+    std::tie(result, rsa_key) = private_to_openssl(private_key);
+    if(!result || !rsa_key) {
         print_error("private_to_openssl");
         return 2;
     }
@@ -487,13 +501,14 @@ int convkey_public_b2o(const std::string& input, const std::string& output) {
         return 2;
     }
 
-    unique_EVP_PKEY rsa_key = public_to_openssl(public_key);
-    if (!rsa_key) {
+    unique_EVP_PKEY rsa_key;
+    std::tie(result, rsa_key) = public_to_openssl(public_key);
+    if (!result || !rsa_key) {
         print_error("public_to_openssl");
         return 2;
     }
 
-    int retval = PEM_write_PUBKEY(fpub, rsa_key.get());
+    const int retval = PEM_write_PUBKEY(fpub, rsa_key.get());
     fclose(fpub);
     if (retval == 0) {
         ERR_print_errors(bio_err.get());
@@ -578,13 +593,14 @@ int cert_verify(const std::string& file, const std::string& signature_file,
         print_error("fopen");
         return 2;
     }
-    std::vector<uint8_t> signature = scan_hex_data(f);
+    bool result = false;
+    std::vector<uint8_t> signature;
+    std::tie(result, signature) = scan_hex_data(f);
     fclose(f);
-    if (signature.empty()) {
+    if (!result || signature.empty()) {
         print_error("cannot scan_hex_data");
         return 2;
     }
-    bool result = false;
     std::string certpath;
     std::tie(result, certpath) = check_validity(certificate_dir, file,
         signature, ca_dir);

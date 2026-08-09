@@ -30,9 +30,14 @@ std::pair<bool, std::string> sign_executable(
         fprintf(stderr, "add: can't read key\n");
         return std::make_pair(false, std::string());
     }
-    std::string signature_text =
-        sprint_hex_data(sign_file(path, code_sign_key));
-    return std::make_pair(true, signature_text);
+    bool result = false;
+    std::vector<uint8_t> data;
+    std::tie(result, data) = sign_file(path, code_sign_key);
+    if (!result || data.empty()) {
+        fprintf(stderr, "add: can't sign file\n");
+        return std::make_pair(false, std::string());
+    }
+    return sprint_hex_data(data);
 }
 
 int main(int argc, char** argv) {
@@ -47,7 +52,7 @@ int main(int argc, char** argv) {
     bool result = false;
     std::string signature_text;
     std::tie(result, signature_text) = sign_executable(argv[1], argv[2]);
-    if(!result) {
+    if(!result || signature_text.empty()) {
         return 1;
     }
     printf("%s", signature_text.c_str());

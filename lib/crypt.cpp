@@ -36,10 +36,6 @@
 using std::string;
 using std::vector;
 
-// NOTE: the fast CGI I/O library doesn't have fscanf(),
-// so some of the following have been modified to use
-// fgets() and sscanf() instead
-
 // write some data in hex notation.
 // NOTE: since length may not be known to the reader,
 // we follow the data with a non-hex character '.'
@@ -49,15 +45,21 @@ bool print_hex_data(FILE *f, const vector<uint8_t> &x) {
         return false;
     }
 
-    string hex_data = sprint_hex_data(x);
+    bool result = false;
+    string hex_data;
+    std::tie(result, hex_data) = sprint_hex_data(x);
+    if (!result || hex_data.empty()) {
+        return false;
+    }
     return fputs(hex_data.c_str(), f) >= 0;
-
-    return true;
 }
 
 // same, but write to buffer
 //
-string sprint_hex_data(const vector<uint8_t> &x) {
+std::pair<bool, string> sprint_hex_data(const vector<uint8_t> &x) {
+    if (x.empty()) {
+        return std::make_pair(false, string());
+    }
     const char hex[] = "0123456789abcdef";
     string result;
 
@@ -73,7 +75,7 @@ string sprint_hex_data(const vector<uint8_t> &x) {
     }
     result += ".\n";
 
-    return result;
+    return std::make_pair(true, result);
 }
 
 bool print_raw_data(FILE *f, const vector<uint8_t> &x) {
@@ -86,27 +88,28 @@ bool print_raw_data(FILE *f, const vector<uint8_t> &x) {
     return true;
 }
 
-vector<uint8_t> scan_raw_data(FILE *f) {
+std::pair<bool, vector<uint8_t>> scan_raw_data(FILE *f) {
     vector<uint8_t> data;
     if (!f) {
-        return data;
+        return std::make_pair(false, vector<uint8_t>());
     }
     int j;
     while(EOF != (j = fgetc(f))) {
         data.emplace_back(static_cast<uint8_t>(j));
     }
-    return data;
+    return std::make_pair(true, data);
 }
 
 // scan data in hex notation.
 // stop when you reach a non-parsed character.
 //
-static vector<uint8_t> sscan_hex_data(const std::vector<uint8_t>& buffer) {
-    vector<uint8_t> data;
+static std::pair<bool, vector<uint8_t>> sscan_hex_data(
+    const std::vector<uint8_t>& buffer) {
     if (buffer.empty()) {
-        return data;
+        return std::make_pair(false, vector<uint8_t>());
     }
     const char hex[] = "0123456789abcdef";
+    vector<uint8_t> data;
     for(size_t i = 0; i < buffer.size(); ) {
         const int c1 = buffer[i++];
         if (c1 == '\n') {
@@ -127,13 +130,19 @@ static vector<uint8_t> sscan_hex_data(const std::vector<uint8_t>& buffer) {
             (strchr(hex, tolower(c2)) - hex);
         data.emplace_back(static_cast<uint8_t>(value));
     }
-    return data;
+    return std::make_pair(true, data);
 }
 
 // same, but read from file
 //
-vector<uint8_t> scan_hex_data(FILE* f) {
-    return sscan_hex_data(scan_raw_data(f));
+std::pair<bool, vector<uint8_t>> scan_hex_data(FILE* f) {
+    bool result = false;
+    vector<uint8_t> data;
+    std::tie(result, data) = scan_raw_data(f);
+    if (!result || data.empty()) {
+        return std::make_pair(false, vector<uint8_t>());
+    }
+    return sscan_hex_data(data);
 }
 
 // print a key in ASCII form
@@ -159,23 +168,23 @@ bool print_public_key_hex(FILE* f, const R_RSA_PUBLIC_KEY& key) {
 
 // parse a text-encoded key from a memory buffer
 //
-static std::vector<uint8_t> sscan_key_hex(const char* buf) {
-    std::vector<uint8_t> result;
+static std::pair<bool, std::vector<uint8_t>> sscan_key_hex(const char* buf) {
     if (!buf) {
-        return result;
+        return std::make_pair(false, std::vector<uint8_t>());
     }
 
+    std::vector<uint8_t> result;
     unsigned short int num_bits = 0;
     while(true) {
         if (!buf) {
-            return result;
+            return std::make_pair(false, std::vector<uint8_t>());
         }
         const int c = *buf++;
         if (c == '\n') {
             break;
         }
         if (c == EOF || !isdigit(c)) {
-            return result;
+            return std::make_pair(false, std::vector<uint8_t>());
         }
         if (num_bits > 0) {
             num_bits = num_bits * 10 + (c - '0');
@@ -184,31 +193,41 @@ static std::vector<uint8_t> sscan_key_hex(const char* buf) {
         }
     }
     if (num_bits <= 0) {
-        return result;
+        return std::make_pair(false, std::vector<uint8_t>());
     }
 
-    vector<uint8_t> data =
+    bool error_flag = false;
+    vector<uint8_t> data;
+    std::tie(error_flag, data) =
         sscan_hex_data(vector<uint8_t>(buf, buf + strlen(buf)));
-    if (data.empty()) {
-        return result;
+    if (!error_flag || data.empty()) {
+        return std::make_pair(false, std::vector<uint8_t>());
     }
     result.resize(sizeof(num_bits));
     *reinterpret_cast<short int*>(result.data()) = num_bits;
     result.reserve(result.size() + data.size());
     result.insert(result.end(), data.begin(), data.end());
-    return result;
+    return std::make_pair(true, result);
 }
 
 template<typename T>
 static inline std::pair<bool, T> scan_key_hex(FILE* f) {
     T key;
     memset(&key, 0, sizeof(key));
-    vector<uint8_t> result =
-        sscan_key_hex(reinterpret_cast<char*>(scan_raw_data(f).data()));
-    if (result.empty() || result.size() != sizeof(key)) {
+    bool result = false;
+    vector<uint8_t> data;
+    std::tie(result, data) = scan_raw_data(f);
+    if (!result || data.empty()) {
         return std::make_pair(false, key);
     }
-    memcpy(&key, result.data(), sizeof(key));
+    data.push_back('\0'); // null-terminate for sscan_key_hex
+    vector<uint8_t> result_data;
+    std::tie(result, result_data) =
+        sscan_key_hex(reinterpret_cast<const char*>(data.data()));
+    if (!result || result_data.empty() || result_data.size() != sizeof(key)) {
+        return std::make_pair(false, key);
+    }
+    memcpy(&key, result_data.data(), sizeof(key));
     return std::make_pair(true, key);
 }
 
@@ -231,7 +250,8 @@ using unique_BN_CTX = std::unique_ptr<BN_CTX,
 using unique_PARAMS = std::unique_ptr<OSSL_PARAM,
     OpenSSLDeleter<OSSL_PARAM, OSSL_PARAM_free>>;
 
-unique_EVP_PKEY private_to_openssl(const R_RSA_PRIVATE_KEY& priv) {
+std::pair<bool, unique_EVP_PKEY> private_to_openssl(
+    const R_RSA_PRIVATE_KEY& priv) {
     unique_BN n(
         BN_bin2bn(priv.modulus, sizeof(priv.modulus), nullptr)
     );
@@ -258,12 +278,12 @@ unique_EVP_PKEY private_to_openssl(const R_RSA_PRIVATE_KEY& priv) {
     );
 
     if (!n || !e || !d || !p || !q || !dmp1 || !dmq1 || !iqmp) {
-        return nullptr;
+        return std::make_pair(false, nullptr);
     }
 
     unique_BLD bld(OSSL_PARAM_BLD_new());
     if (!bld) {
-        return nullptr;
+        return std::make_pair(false, nullptr);
     }
 
     if (!OSSL_PARAM_BLD_push_BN(
@@ -290,169 +310,174 @@ unique_EVP_PKEY private_to_openssl(const R_RSA_PRIVATE_KEY& priv) {
         !OSSL_PARAM_BLD_push_BN(
             bld.get(), OSSL_PKEY_PARAM_RSA_COEFFICIENT1, iqmp.get())
         ) {
-        return nullptr;
+        return std::make_pair(false, nullptr);
     }
 
     unique_PARAMS params(OSSL_PARAM_BLD_to_param(bld.get()));
     if (!params) {
-        return nullptr;
+        return std::make_pair(false, nullptr);
     }
 
     unique_PKEY_CTX ctx(EVP_PKEY_CTX_new_from_name(nullptr, "RSA", nullptr));
     if (!ctx) {
-        return nullptr;
+        return std::make_pair(false, nullptr);
     }
 
     if (EVP_PKEY_fromdata_init(ctx.get()) <= 0) {
-        return nullptr;
+        return std::make_pair(false, nullptr);
     }
 
     EVP_PKEY* pkey_raw = nullptr;
     if (EVP_PKEY_fromdata(
             ctx.get(), &pkey_raw, EVP_PKEY_KEYPAIR, params.get()) <= 0) {
-        return nullptr;
+        return std::make_pair(false, nullptr);
     }
 
     unique_EVP_PKEY pkey(pkey_raw);
-    return pkey;
+    return std::make_pair(true, std::move(pkey));
 }
 
-unique_EVP_PKEY public_to_openssl(const R_RSA_PUBLIC_KEY& pub) {
+std::pair<bool, unique_EVP_PKEY> public_to_openssl(
+    const R_RSA_PUBLIC_KEY& pub) {
     unique_BN n(BN_bin2bn(pub.modulus, sizeof(pub.modulus), nullptr));
     unique_BN e(BN_bin2bn(pub.exponent, sizeof(pub.exponent), nullptr));
 
     if (!n || !e) {
-        return nullptr;
+        return std::make_pair(false, nullptr);
     }
 
     unique_BLD bld(OSSL_PARAM_BLD_new());
     if (!bld) {
-        return nullptr;
+        return std::make_pair(false, nullptr);
     }
 
     if (!OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_N, n.get()) ||
         !OSSL_PARAM_BLD_push_BN(bld.get(), OSSL_PKEY_PARAM_RSA_E, e.get())) {
-        return nullptr;
+        return std::make_pair(false, nullptr);
     }
 
     unique_PARAMS params(OSSL_PARAM_BLD_to_param(bld.get()));
     if (!params) {
-        return nullptr;
+        return std::make_pair(false, nullptr);
     }
 
     unique_PKEY_CTX ctx(EVP_PKEY_CTX_new_from_name(nullptr, "RSA", nullptr));
     if (!ctx) {
-        return nullptr;
+        return std::make_pair(false, nullptr);
     }
 
     if (EVP_PKEY_fromdata_init(ctx.get()) <= 0) {
-        return nullptr;
+        return std::make_pair(false, nullptr);
     }
 
     EVP_PKEY* pkey_raw = nullptr;
     if (EVP_PKEY_fromdata(
             ctx.get(), &pkey_raw, EVP_PKEY_PUBLIC_KEY, params.get()) <= 0) {
-        return nullptr;
+        return std::make_pair(false, nullptr);
     }
     unique_EVP_PKEY pkey(pkey_raw);
 
-    return pkey;
+    return std::make_pair(true, std::move(pkey));
 }
 
 // encrypt some data.
 // The amount encrypted may be less than what's supplied.
 // The output block must be decrypted in its entirety.
 //
-vector<uint8_t> encrypt_private(
+std::pair<bool, vector<uint8_t>> encrypt_private(
     const R_RSA_PRIVATE_KEY& key, const vector<uint8_t>& in
     ) {
     const size_t max_len = ((key.bits + 7) / 8) - 11;
     const size_t n = in.size() < max_len ? in.size() : max_len;
 
-    vector<uint8_t> out;
-
-    unique_EVP_PKEY pkey = private_to_openssl(key);
-    if (!pkey) {
-        return out;
+    bool result = false;
+    unique_EVP_PKEY pkey;
+    std::tie(result, pkey) = private_to_openssl(key);
+    if (!result || !pkey) {
+        return std::make_pair(false, vector<uint8_t>());
     }
 
     unique_PKEY_CTX ctx(EVP_PKEY_CTX_new(pkey.get(), nullptr));
     if (!ctx) {
-        return out;
+        return std::make_pair(false, vector<uint8_t>());
     }
 
     if (EVP_PKEY_sign_init(ctx.get()) <= 0) {
-        return out;
+        return std::make_pair(false, vector<uint8_t>());
     }
 
     if (EVP_PKEY_CTX_set_rsa_padding(ctx.get(), RSA_PKCS1_PADDING) <= 0) {
-        return out;
+        return std::make_pair(false, vector<uint8_t>());
     }
 
     size_t outlen = 0;
     if (EVP_PKEY_sign(ctx.get(), nullptr, &outlen, in.data(), n) <= 0) {
-        return out;
+        return std::make_pair(false, vector<uint8_t>());
     }
 
+    vector<uint8_t> out;
     out.resize(outlen);
 
     if (EVP_PKEY_sign(ctx.get(), out.data(), &outlen, in.data(), n) <= 0) {
         out.clear();
-        return out;
+        return std::make_pair(false, vector<uint8_t>());
     }
 
-    return out;
+    return std::make_pair(true, out);
 }
 
-vector<uint8_t> decrypt_public(
+std::pair<bool, vector<uint8_t>> decrypt_public(
     const R_RSA_PUBLIC_KEY& key, const vector<uint8_t>& in
     ) {
-    vector<uint8_t> out;
-    unique_EVP_PKEY pkey = public_to_openssl(key);
+    bool result = false;
+    unique_EVP_PKEY pkey;
+    std::tie(result, pkey) = public_to_openssl(key);
 
-    if (!pkey) {
-        return out;
+    if (!result || !pkey) {
+        return std::make_pair(false, vector<uint8_t>());
     }
 
     unique_PKEY_CTX ctx(EVP_PKEY_CTX_new(pkey.get(), nullptr));
     if (!ctx) {
-        return out;
+        return std::make_pair(false, vector<uint8_t>());
     }
 
     if (EVP_PKEY_verify_recover_init(ctx.get()) <= 0) {
-        return out;
+        return std::make_pair(false, vector<uint8_t>());
     }
 
     if (EVP_PKEY_CTX_set_rsa_padding(ctx.get(), RSA_PKCS1_PADDING) <= 0) {
-        return out;
+        return std::make_pair(false, vector<uint8_t>());
     }
 
     size_t outlen = 0;
     if (EVP_PKEY_verify_recover(
         ctx.get(), nullptr, &outlen, in.data(), in.size()) <= 0) {
-        return out;
+        return std::make_pair(false, vector<uint8_t>());
     }
 
+    vector<uint8_t> out;
     out.resize(outlen);
 
     if (EVP_PKEY_verify_recover(
         ctx.get(), out.data(), &outlen, in.data(), in.size()) <= 0) {
         out.clear();
-        return out;
+        return std::make_pair(false, vector<uint8_t>());
     }
 
     out.resize(outlen);
-    return out;
+    return std::make_pair(true, out);
 }
 
 //TODO: md5 requires further refactoring
-vector<uint8_t> sign_file(const string& path, const R_RSA_PRIVATE_KEY& key) {
+std::pair<bool, vector<uint8_t>> sign_file(
+    const string& path, const R_RSA_PRIVATE_KEY& key) {
     char md5_buf[MD5_LEN];
     double file_length;
 
     const int retval = md5_file(path.data(), md5_buf, file_length);
     if (retval) {
-        return vector<uint8_t>();
+        return std::make_pair(false, vector<uint8_t>());
     }
 
     vector<uint8_t> md5_vector(md5_buf, md5_buf + strlen(md5_buf));
@@ -460,14 +485,14 @@ vector<uint8_t> sign_file(const string& path, const R_RSA_PRIVATE_KEY& key) {
 }
 
 //TODO: md5 requires further refactoring
-vector<uint8_t> sign_block(
+std::pair<bool, vector<uint8_t>> sign_block(
     const vector<uint8_t>& data_block, const R_RSA_PRIVATE_KEY& key
     ) {
     char md5_buf[MD5_LEN];
 
     const int retval = md5_block(data_block.data(), data_block.size(), md5_buf);
     if (retval) {
-        return vector<uint8_t>();
+        return std::make_pair(false, vector<uint8_t>());
     }
 
     vector<uint8_t> md5_vector(md5_buf, md5_buf + strlen(md5_buf));
@@ -476,13 +501,15 @@ vector<uint8_t> sign_block(
 
 // compute an XML signature element for some text
 //
-string generate_signature(
+std::pair<bool, string> generate_signature(
     const string& text_to_sign, const R_RSA_PRIVATE_KEY& key
     ) {
     vector<uint8_t> data_to_sign(text_to_sign.begin(), text_to_sign.end());
-    vector<uint8_t> signature = sign_block(data_to_sign, key);
-    if (signature.empty()) {
-        return string();
+    bool result = false;
+    vector<uint8_t> signature;
+    std::tie(result, signature) = sign_block(data_to_sign, key);
+    if (!result || signature.empty()) {
+        return std::make_pair(false, string());
     }
     return sprint_hex_data(signature);
 }
@@ -494,8 +521,10 @@ std::pair<int, bool> check_file_signature(
     const R_RSA_PUBLIC_KEY& key,
     const vector<uint8_t>& signature
     ) {
-    vector<uint8_t> decrypted = decrypt_public(key, signature);
-    if (decrypted.empty()) {
+    bool result = false;
+    vector<uint8_t> decrypted;
+    std::tie(result, decrypted) = decrypt_public(key, signature);
+    if (!result || decrypted.empty()) {
         fprintf(stderr,
             "%s: check_file_signature: decrypt_public error\n",
             time_to_string(dtime()));
@@ -511,16 +540,22 @@ std::pair<int, bool> check_file_signature(
 std::pair<int, bool> check_file_signature(
     const string& md5, const string& signature_text, const string& key_text
     ) {
-    std::vector<uint8_t> key_data = sscan_key_hex(key_text.data());
-    if (key_data.empty()) {
+    bool result = false;
+    std::vector<uint8_t> key_data;
+    std::tie(result, key_data) = sscan_key_hex(key_text.data());
+    if (!result || key_data.empty()) {
         return std::make_pair(ERR_BAD_HEX_FORMAT, false);
     }
 
     R_RSA_PUBLIC_KEY key;
     memcpy(&key, key_data.data(), sizeof(key));
 
-    vector<uint8_t> signature  = sscan_hex_data(
+    vector<uint8_t> signature;
+    std::tie(result, signature) = sscan_hex_data(
         vector<uint8_t>(signature_text.begin(), signature_text.end()));
+    if (!result || signature.empty()) {
+        return std::make_pair(ERR_BAD_HEX_FORMAT, false);
+    }
     return check_file_signature(md5, key, signature);
 }
 
@@ -539,10 +574,16 @@ std::pair<int, bool> check_string_signature(
     if (retval) {
         return std::make_pair(retval, false);
     }
-    vector<uint8_t> signature  = sscan_hex_data(vector<uint8_t>(
+    bool result = false;
+    vector<uint8_t> signature;
+    std::tie(result, signature) = sscan_hex_data(vector<uint8_t>(
         signature_text.begin(), signature_text.end()));
-    vector<uint8_t> decrypted = decrypt_public(key, signature);
-    if (decrypted.empty()) {
+    if (!result || signature.empty()) {
+        return std::make_pair(ERR_BAD_HEX_FORMAT, false);
+    }
+    vector<uint8_t> decrypted;
+    std::tie(result, decrypted) = decrypt_public(key, signature);
+    if (!result || decrypted.empty()) {
         fprintf(stderr,
             "%s: check_string_signature: decrypt_public error\n",
             time_to_string(dtime()));
@@ -562,8 +603,10 @@ std::pair<int, bool> check_string_signature(
     ) {
     R_RSA_PUBLIC_KEY key;
 
-    std::vector<uint8_t> key_data = sscan_key_hex(key_text.data());
-    if (key_data.empty()) {
+    bool result = false;
+    std::vector<uint8_t> key_data;
+    std::tie(result, key_data) = sscan_key_hex(key_text.data());
+    if (!result || key_data.empty()) {
         return std::make_pair(ERR_BAD_HEX_FORMAT, false);
     }
     memcpy(&key, key_data.data(), sizeof(key));
@@ -851,7 +894,7 @@ std::pair<bool, string> check_validity(
                 fpath, md5_md, signature, caPath
             )) {
             dir_close(dir);
-            return std::make_pair(true, strdup(fpath));
+            return std::make_pair(true, string(fpath));
         }
     }
 
@@ -883,11 +926,12 @@ bool cert_verify_file(CERT_SIGS* signatures, const string &origFile,
     }
 
     for(const CERT_SIG &cert_sig : signatures->signatures) {
-        vector<uint8_t> sig_vector = sscan_hex_data(vector<uint8_t>(
+        vector<uint8_t> sig_vector;
+        std::tie(result, sig_vector) = sscan_hex_data(vector<uint8_t>(
             cert_sig.signature,
             cert_sig.signature + strlen(cert_sig.signature))
         );
-        if (sig_vector.size() != 128) {
+        if (!result || sig_vector.size() != 128) {
             printf("Signature size mismatch: expected 128, got %zu\n",
             sig_vector.size());
             return false;

@@ -29,6 +29,8 @@ class IntegrationTests:
         self.crypt_prog = crypt_prog
         self.result = True
         self.result &= self.test_sign_executable()
+        self.result &= self.test_sign_executable_with_invalid_key()
+        self.result &= self.test_sign_executable_with_invalid_file()
 
     def _clean_up(self, files):
         for file in files:
