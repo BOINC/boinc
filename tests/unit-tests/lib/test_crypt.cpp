@@ -34,6 +34,7 @@
 #include <openssl/rsa.h>
 #include <openssl/core_names.h>
 
+#include "str_replace.h"
 #include "cert_sig.h"
 #include "crypt.h"
 
@@ -49,7 +50,22 @@ namespace test_lib {
 
             void TearDown() override {
                 if (std::filesystem::exists(test_data_dir)) {
-                    std::filesystem::remove_all(test_data_dir);
+                    size_t retry_count = 0;
+                    while (retry_count < 5) {
+                        try {
+                            std::filesystem::remove_all(test_data_dir);
+                            break;
+                        }
+                        catch (const std::filesystem::filesystem_error& e) {
+                            std::cerr << "Attempt " << (retry_count + 1) << " to remove test data directory failed: " << e.what() << std::endl;
+                            ++retry_count;
+                            std::this_thread::sleep_for(std::chrono::seconds(1));
+                        }
+                    }
+                    if (retry_count == 5) {
+                        std::cerr << "Failed to remove test data directory after 5 attempts." << std::endl;
+                        throw std::runtime_error("Failed to remove test data directory after 5 attempts.");
+                    }
                 }
             }
 
@@ -73,6 +89,30 @@ namespace test_lib {
                 }
 
                 return pkey;
+            }
+
+            FILE* open_file(const std::string& filename, const std::string& filemode) {
+#ifdef _WIN32
+                FILE* f = nullptr;
+                if (fopen_s(&f, filename.c_str(), filemode.c_str()) != 0) {
+                    return nullptr;
+                }
+                return f;
+#else
+                return fopen(filename.c_str(), filemode.c_str());
+#endif
+            }
+
+            FILE* open_tmpfile() {
+#ifdef _WIN32
+                FILE* f = nullptr;
+                if (tmpfile_s(&f) != 0) {
+                    return nullptr;
+                }
+                return f;
+#else
+                return tmpfile();
+#endif
             }
 
             bool fill_keys_from_evp(EVP_PKEY* pkey,
@@ -249,7 +289,7 @@ namespace test_lib {
 
     TEST_F(test_crypt, test_print_hex_data_less_than_32_bytes) {
         std::filesystem::path temp_file = test_data_dir / "temp_hex_data.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
+        FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
 
         const char* sample_data = "Hello, World!";
@@ -273,7 +313,7 @@ namespace test_lib {
     TEST_F(test_crypt, test_print_hex_data_more_than_32_bytes) {
         std::filesystem::path temp_file =
         test_data_dir / "temp_hex_data_large.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
+        FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
 
         const char* sample_data =
@@ -301,7 +341,7 @@ namespace test_lib {
     TEST_F(test_crypt, test_print_hex_data_empty) {
         std::filesystem::path temp_file =
             test_data_dir / "temp_hex_data_empty.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
+        FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
 
         std::vector<uint8_t> x; // Empty vector
@@ -324,7 +364,7 @@ namespace test_lib {
     TEST_F(test_crypt, test_print_hex_data_exactly_32_bytes) {
         std::filesystem::path temp_file =
             test_data_dir / "temp_hex_data_32.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
+        FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
 
         // 32 bytes
@@ -412,7 +452,7 @@ namespace test_lib {
 
     TEST_F(test_crypt, test_print_raw_data) {
         std::filesystem::path temp_file = test_data_dir / "temp_raw_data.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
+        FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
 
         const char* sample_data = "Hello, World!";
@@ -436,7 +476,7 @@ namespace test_lib {
     TEST_F(test_crypt, test_print_raw_data_empty) {
         std::filesystem::path temp_file =
             test_data_dir / "temp_raw_data_empty.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
+        FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
 
         std::vector<uint8_t> x; // Empty vector
@@ -472,14 +512,14 @@ namespace test_lib {
     TEST_F(test_crypt, test_scan_raw_data) {
         std::filesystem::path temp_file =
             test_data_dir / "temp_scan_raw_data.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
+        FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
 
         const char* sample_data = "Hello, World!";
         fwrite(sample_data, sizeof(char), strlen(sample_data), f);
         fclose(f);
 
-        f = fopen(temp_file.string().c_str(), "r");
+        f = open_file(temp_file.string(), "r");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
 
         std::vector<uint8_t> result = scan_raw_data(f);
@@ -494,11 +534,11 @@ namespace test_lib {
     TEST_F(test_crypt, test_scan_raw_data_empty) {
         std::filesystem::path temp_file =
             test_data_dir / "temp_scan_raw_data_empty.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
+        FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
         fclose(f);
 
-        f = fopen(temp_file.string().c_str(), "r");
+        f = open_file(temp_file.string(), "r");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
 
         std::vector<uint8_t> result = scan_raw_data(f);
@@ -511,7 +551,7 @@ namespace test_lib {
         std::filesystem::path temp_file =
             test_data_dir / "non_existent_file.txt";
 
-        FILE* f = fopen(temp_file.string().c_str(), "r");
+        FILE* f = open_file(temp_file.string(), "r");
         ASSERT_EQ(f, nullptr) << "File should not exist";
 
         std::vector<uint8_t> result = scan_raw_data(f);
@@ -523,7 +563,7 @@ namespace test_lib {
     TEST_F(test_crypt, test_scan_hex_data) {
         std::filesystem::path temp_file =
             test_data_dir / "temp_scan_hex_data.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
+        FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
 
         // "Hello, World!"
@@ -531,7 +571,7 @@ namespace test_lib {
         fputs(sample_hex_data, f);
         fclose(f);
 
-        f = fopen(temp_file.string().c_str(), "r");
+        f = open_file(temp_file.string(), "r");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
 
         std::vector<uint8_t> result = scan_hex_data(f);
@@ -544,11 +584,11 @@ namespace test_lib {
     TEST_F(test_crypt, test_scan_hex_data_empty) {
         std::filesystem::path temp_file =
             test_data_dir / "temp_scan_hex_data_empty.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
+        FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
         fclose(f);
 
-        f = fopen(temp_file.string().c_str(), "r");
+        f = open_file(temp_file.string(), "r");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
 
         std::vector<uint8_t> result = scan_hex_data(f);
@@ -561,7 +601,7 @@ namespace test_lib {
         std::filesystem::path temp_file =
             test_data_dir / "non_existent_hex_file.txt";
 
-        FILE* f = fopen(temp_file.string().c_str(), "r");
+        FILE* f = open_file(temp_file.string(), "r");
         ASSERT_EQ(f, nullptr) << "File should not exist";
 
         std::vector<uint8_t> result = scan_hex_data(f);
@@ -573,14 +613,14 @@ namespace test_lib {
     TEST_F(test_crypt, test_scan_hex_data_invalid_format) {
         std::filesystem::path temp_file =
             test_data_dir / "temp_scan_hex_data_invalid.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
+        FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
 
         const char* invalid_hex_data = "ZZZZZZ\n.\n"; // Invalid hex characters
         fputs(invalid_hex_data, f);
         fclose(f);
 
-        f = fopen(temp_file.string().c_str(), "r");
+        f = open_file(temp_file.string(), "r");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
 
         std::vector<uint8_t> result = scan_hex_data(f);
@@ -593,7 +633,7 @@ namespace test_lib {
     TEST_F(test_crypt, test_scan_hex_data_upper_case) {
         std::filesystem::path temp_file =
             test_data_dir / "temp_scan_hex_data_uppercase.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
+        FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
 
         // "Hello, World!" in uppercase
@@ -601,7 +641,7 @@ namespace test_lib {
         fputs(uppercase_hex_data, f);
         fclose(f);
 
-        f = fopen(temp_file.string().c_str(), "r");
+        f = open_file(temp_file.string(), "r");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
 
         std::vector<uint8_t> result = scan_hex_data(f);
@@ -615,7 +655,7 @@ namespace test_lib {
     TEST_F(test_crypt, test_scan_hex_data_mixed_case) {
         std::filesystem::path temp_file =
             test_data_dir / "temp_scan_hex_data_mixedcase.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
+        FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
 
         // "Hello, World!" in mixed case
@@ -623,7 +663,7 @@ namespace test_lib {
         fputs(mixed_case_hex_data, f);
         fclose(f);
 
-        f = fopen(temp_file.string().c_str(), "r");
+        f = open_file(temp_file.string(), "r");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
 
         std::vector<uint8_t> result = scan_hex_data(f);
@@ -637,7 +677,7 @@ namespace test_lib {
     TEST_F(test_crypt, test_scan_hex_data_multiline) {
         std::filesystem::path temp_file =
             test_data_dir / "temp_scan_hex_data_multiline.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
+        FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
 
         const char* multiline_hex_data =
@@ -647,7 +687,7 @@ namespace test_lib {
         fputs(multiline_hex_data, f);
         fclose(f);
 
-        f = fopen(temp_file.string().c_str(), "r");
+        f = open_file(temp_file.string(), "r");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for reading";
 
         std::vector<uint8_t> result = scan_hex_data(f);
@@ -783,7 +823,7 @@ namespace test_lib {
 
     TEST_F(test_crypt, test_sign_file) {
         std::filesystem::path temp_file = test_data_dir / "temp_sign_file.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
+        FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
 
         const char* sample_data = "Hello, World!";
@@ -833,7 +873,7 @@ namespace test_lib {
 
     TEST_F(test_crypt, test_sign_file_invalid_key) {
         std::filesystem::path temp_file = test_data_dir / "temp_sign_file_invalid_key.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
+        FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
 
         const char* sample_data = "Hello, World!";
@@ -848,7 +888,7 @@ namespace test_lib {
 
     TEST_F(test_crypt, test_sign_file_empty_file) {
         std::filesystem::path temp_file = test_data_dir / "temp_sign_file_empty.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
+        FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
         fclose(f);
 
@@ -1141,7 +1181,7 @@ namespace test_lib {
         // convert encrypted to hex string
         std::string signature_hex = sprint_hex_data(encrypted);
         // convert public key to hex string
-        FILE* f = tmpfile();
+        FILE* f = open_tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
         ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
@@ -1176,7 +1216,7 @@ namespace test_lib {
         std::string invalid_signature_hex = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"; // 64 hex characters of 'F'
 
         // convert public key to hex string
-        FILE* f = tmpfile();
+        FILE* f = open_tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
         ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
@@ -1239,7 +1279,7 @@ namespace test_lib {
             << "Failed to fill keys from EVP_PKEY";
 
         // convert public key to hex string
-        FILE* f = tmpfile();
+        FILE* f = open_tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
         ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
@@ -1283,7 +1323,7 @@ namespace test_lib {
         std::string signature_hex = sprint_hex_data(encrypted);
 
         // convert public key to hex string
-        FILE* f = tmpfile();
+        FILE* f = open_tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
         ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
@@ -1324,7 +1364,7 @@ namespace test_lib {
         std::string signature_hex = sprint_hex_data(encrypted);
 
         // convert public key to hex string
-        FILE* f = tmpfile();
+        FILE* f = open_tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
         ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
@@ -1505,7 +1545,7 @@ namespace test_lib {
         std::string signature_hex = sprint_hex_data(encrypted);
 
         // convert public key to hex string
-        FILE* f = tmpfile();
+        FILE* f = open_tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
         ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
@@ -1540,7 +1580,7 @@ namespace test_lib {
         std::string invalid_signature_hex = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"; // 64 hex characters of 'F'
 
         // convert public key to hex string
-        FILE* f = tmpfile();
+        FILE* f = open_tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
         ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
@@ -1612,7 +1652,7 @@ namespace test_lib {
         std::string signature_hex = sprint_hex_data(encrypted);
 
         // convert public key to hex string
-        FILE* f = tmpfile();
+        FILE* f = open_tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
         ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
@@ -1652,7 +1692,7 @@ namespace test_lib {
         std::string signature_hex = sprint_hex_data(encrypted);
 
         // convert public key to hex string
-        FILE* f = tmpfile();
+        FILE* f = open_tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
         ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
@@ -1674,7 +1714,7 @@ namespace test_lib {
     TEST_F(test_crypt, test_read_key_file) {
         std::filesystem::path temp_file =
             test_data_dir / "temp_read_key_file.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
+        FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
 
         EVP_PKEY* private_key = generate_rsa_key();
@@ -1707,7 +1747,7 @@ namespace test_lib {
     TEST_F(test_crypt, test_read_key_file_invalid_content) {
         std::filesystem::path temp_file =
             test_data_dir / "temp_invalid_key_file.txt";
-        FILE* f = fopen(temp_file.string().c_str(), "w");
+        FILE* f = open_file(temp_file.string(), "w");
         ASSERT_NE(f, nullptr) << "Failed to open temporary file for writing";
 
         // Write invalid content to the file
@@ -1800,7 +1840,7 @@ namespace test_lib {
             << "Failed to fill keys from EVP_PKEY";
 
         // convert public key to hex string
-        FILE* f = tmpfile();
+        FILE* f = open_tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
         ASSERT_TRUE(print_result) << "print_public_key_hex failed for public key";
@@ -1815,7 +1855,7 @@ namespace test_lib {
     }
 
     TEST_F(test_crypt, test_scan_public_key_hex_invalid_file) {
-        FILE* f = tmpfile();
+        FILE* f = open_tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
 
         // Write invalid content to the file
@@ -1829,7 +1869,7 @@ namespace test_lib {
     }
 
     TEST_F(test_crypt, test_scan_public_key_hex_empty_file) {
-        FILE* f = tmpfile();
+        FILE* f = open_tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
 
         // Do not write anything to the file (empty file)
@@ -1842,7 +1882,7 @@ namespace test_lib {
     }
 
     TEST_F(test_crypt, test_scan_public_key_hex_invalid_content) {
-        FILE* f = tmpfile();
+        FILE* f = open_tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
 
         // Write invalid content to the file
@@ -1866,7 +1906,7 @@ namespace test_lib {
             << "Failed to fill keys from EVP_PKEY";
 
         // convert private key to hex string
-        FILE* f = tmpfile();
+        FILE* f = open_tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for private key";
         bool print_result = print_private_key_hex(f, private_key_struct);
         ASSERT_TRUE(print_result) << "print_private_key_hex failed for private key";
@@ -1880,7 +1920,7 @@ namespace test_lib {
     }
 
     TEST_F(test_crypt, test_scan_private_key_hex_invalid_file) {
-        FILE* f = tmpfile();
+        FILE* f = open_tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for private key";
 
         // Write invalid content to the file
@@ -1894,7 +1934,7 @@ namespace test_lib {
     }
 
     TEST_F(test_crypt, test_scan_private_key_hex_empty_file) {
-        FILE* f = tmpfile();
+        FILE* f = open_tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for private key";
 
         // Do not write anything to the file (empty file)
@@ -1907,7 +1947,7 @@ namespace test_lib {
     }
 
     TEST_F(test_crypt, test_scan_private_key_hex_invalid_content) {
-        FILE* f = tmpfile();
+        FILE* f = open_tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for private key";
 
         // Write invalid content to the file
@@ -1930,7 +1970,7 @@ namespace test_lib {
             private_key.get(), private_key_struct, public_key_struct))
             << "Failed to fill keys from EVP_PKEY";
 
-        FILE* f = tmpfile();
+        FILE* f = open_tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for public key";
         bool print_result = print_public_key_hex(f, public_key_struct);
         ASSERT_TRUE(print_result) << "print_public_key_hex failed";
@@ -1968,7 +2008,7 @@ namespace test_lib {
             private_key.get(), private_key_struct, public_key_struct))
             << "Failed to fill keys from EVP_PKEY";
 
-        FILE* f = tmpfile();
+        FILE* f = open_tmpfile();
         ASSERT_NE(f, nullptr) << "Failed to create temporary file for private key";
         bool print_result = print_private_key_hex(f, private_key_struct);
         ASSERT_TRUE(print_result) << "print_private_key_hex failed";
@@ -2032,14 +2072,14 @@ namespace test_lib {
 
         std::filesystem::path ca_cert_path = ca_dir / "ca_cert.pem";
         {
-            FILE* f = fopen(ca_cert_path.string().c_str(), "wb");
+            FILE* f = open_file(ca_cert_path.string(), "wb");
             ASSERT_NE(f, nullptr);
             unique_FILE guard(f);
             ASSERT_EQ(PEM_write_X509(f, ca_cert), 1);
         }
         X509* loaded_ca = nullptr;
         {
-            FILE* f = fopen(ca_cert_path.string().c_str(), "rb");
+            FILE* f = open_file(ca_cert_path.string(), "rb");
             ASSERT_NE(f, nullptr);
             unique_FILE guard(f);
             loaded_ca = PEM_read_X509(f, nullptr, nullptr, nullptr);
@@ -2079,7 +2119,7 @@ namespace test_lib {
 
         std::filesystem::path leaf_cert_path = test_data_dir / "leaf_valid.pem";
         {
-            FILE* f = fopen(leaf_cert_path.string().c_str(), "wb");
+            FILE* f = open_file(leaf_cert_path.string(), "wb");
             ASSERT_NE(f, nullptr);
             unique_FILE guard(f);
             ASSERT_EQ(PEM_write_X509(f, leaf_cert), 1);
@@ -2094,6 +2134,7 @@ namespace test_lib {
         {
             std::ofstream out(orig_file);
             out << "test message";
+            out.close();
         }
 
         std::vector<uint8_t> signature = sign_file(orig_file.string(),
@@ -2144,14 +2185,14 @@ namespace test_lib {
 
         std::filesystem::path ca_cert_path = ca_dir / "ca_cert.pem";
         {
-            FILE* f = fopen(ca_cert_path.string().c_str(), "wb");
+            FILE* f = open_file(ca_cert_path.string(), "wb");
             ASSERT_NE(f, nullptr);
             unique_FILE guard(f);
             ASSERT_EQ(PEM_write_X509(f, ca_cert), 1);
         }
         X509* loaded_ca = nullptr;
         {
-            FILE* f = fopen(ca_cert_path.string().c_str(), "rb");
+            FILE* f = open_file(ca_cert_path.string(), "rb");
             ASSERT_NE(f, nullptr);
             unique_FILE guard(f);
             loaded_ca = PEM_read_X509(f, nullptr, nullptr, nullptr);
@@ -2198,6 +2239,7 @@ namespace test_lib {
         {
             std::ofstream out(orig_file);
             out << "test message";
+            out.close();
         }
 
         std::vector<uint8_t> signature = sign_file(orig_file.string(),
@@ -2273,7 +2315,7 @@ namespace test_lib {
 
         std::filesystem::path leaf_cert_path = test_data_dir / "leaf_valid.pem";
         {
-            FILE* f = fopen(leaf_cert_path.string().c_str(), "wb");
+            FILE* f = open_file(leaf_cert_path.string(), "wb");
             ASSERT_NE(f, nullptr);
             unique_FILE guard(f);
             ASSERT_EQ(PEM_write_X509(f, leaf_cert), 1);
@@ -2288,6 +2330,7 @@ namespace test_lib {
         {
             std::ofstream out(orig_file);
             out << "test message";
+            out.close();
         }
 
         std::vector<uint8_t> signature = sign_file(orig_file.string(),
@@ -2338,14 +2381,14 @@ namespace test_lib {
 
         std::filesystem::path ca_cert_path = ca_dir / "ca_cert.pem";
         {
-            FILE* f = fopen(ca_cert_path.string().c_str(), "wb");
+            FILE* f = open_file(ca_cert_path.string(), "wb");
             ASSERT_NE(f, nullptr);
             unique_FILE guard(f);
             ASSERT_EQ(PEM_write_X509(f, ca_cert), 1);
         }
         X509* loaded_ca = nullptr;
         {
-            FILE* f = fopen(ca_cert_path.string().c_str(), "rb");
+            FILE* f = open_file(ca_cert_path.string(), "rb");
             ASSERT_NE(f, nullptr);
             unique_FILE guard(f);
             loaded_ca = PEM_read_X509(f, nullptr, nullptr, nullptr);
@@ -2385,7 +2428,7 @@ namespace test_lib {
 
         std::filesystem::path leaf_cert_path = test_data_dir / "leaf_valid.pem";
         {
-            FILE* f = fopen(leaf_cert_path.string().c_str(), "wb");
+            FILE* f = open_file(leaf_cert_path.string(), "wb");
             ASSERT_NE(f, nullptr);
             unique_FILE guard(f);
             ASSERT_EQ(PEM_write_X509(f, leaf_cert), 1);
@@ -2400,12 +2443,14 @@ namespace test_lib {
         {
             std::ofstream out(orig_file);
             out << "test message";
+            out.close();
         }
 
         std::filesystem::path wrong_file = test_data_dir / "wrong_file.txt";
         {
             std::ofstream out(wrong_file);
             out << "invalid message";
+            out.close();
         }
 
         std::vector<uint8_t> signature = sign_file(wrong_file.string(),
@@ -2456,14 +2501,14 @@ namespace test_lib {
 
         std::filesystem::path ca_cert_path = trust_dir / "ca_cert.pem";
         {
-            FILE* f = fopen(ca_cert_path.string().c_str(), "wb");
+            FILE* f = open_file(ca_cert_path.string(), "wb");
             ASSERT_NE(f, nullptr);
             unique_FILE guard(f);
             ASSERT_EQ(PEM_write_X509(f, ca_cert), 1);
         }
         X509* loaded_ca = nullptr;
         {
-            FILE* f = fopen(ca_cert_path.string().c_str(), "rb");
+            FILE* f = open_file(ca_cert_path.string(), "rb");
             ASSERT_NE(f, nullptr);
             unique_FILE guard(f);
             loaded_ca = PEM_read_X509(f, nullptr, nullptr, nullptr);
@@ -2503,14 +2548,14 @@ namespace test_lib {
 
         std::filesystem::path leaf_cert_path = trust_dir / "leaf_cert.pem";
         {
-            FILE* f = fopen(leaf_cert_path.string().c_str(), "wb");
+            FILE* f = open_file(leaf_cert_path.string(), "wb");
             ASSERT_NE(f, nullptr);
             unique_FILE guard(f);
             ASSERT_EQ(PEM_write_X509(f, leaf_cert), 1);
         }
         X509* loaded_leaf = nullptr;
         {
-            FILE* f = fopen(leaf_cert_path.string().c_str(), "rb");
+            FILE* f = open_file(leaf_cert_path.string(), "rb");
             ASSERT_NE(f, nullptr);
             unique_FILE guard(f);
             loaded_leaf = PEM_read_X509(f, nullptr, nullptr, nullptr);
@@ -2534,6 +2579,7 @@ namespace test_lib {
         {
             std::ofstream out(orig_file);
             out << "test message";
+            out.close();
         }
 
         std::vector<uint8_t> signature = sign_file(orig_file.string(),
@@ -2544,11 +2590,9 @@ namespace test_lib {
         CERT_SIGS cert_sigs;
         CERT_SIG sig;
         sig.clear();
-        strncpy(sig.signature, signature_hex.c_str(), sizeof(sig.signature) - 1);
-        sig.signature[sizeof(sig.signature) - 1] = '\0';
+        safe_strcpy(sig.signature, signature_hex.c_str());
         snprintf(sig.hash, sizeof(sig.hash), "%08lx", leaf_hash);
-        strncpy(sig.subject, leaf_subject, sizeof(sig.subject) - 1);
-        sig.subject[sizeof(sig.subject) - 1] = '\0';
+        safe_strcpy(sig.subject, leaf_subject);
         sig.type = MD5_HASH;
         cert_sigs.signatures.push_back(sig);
 
@@ -2562,8 +2606,9 @@ namespace test_lib {
         {
             std::ofstream out(orig_file);
             out << "test message";
+            out.close();
         }
-        ASSERT_FALSE(cert_verify_file(&cert_sigs, orig_file.string().c_str(),
-            test_data_dir.string().c_str()));
+        ASSERT_FALSE(cert_verify_file(&cert_sigs, orig_file.string(),
+            test_data_dir.string()));
     }
 }

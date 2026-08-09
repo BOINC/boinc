@@ -108,7 +108,7 @@ static vector<uint8_t> sscan_hex_data(const std::vector<uint8_t>& buffer) {
     }
     const char hex[] = "0123456789abcdef";
     for(size_t i = 0; i < buffer.size(); ) {
-        int c1 = buffer[i++];
+        const int c1 = buffer[i++];
         if (c1 == '\n') {
             continue; // skip newlines
         }
@@ -118,7 +118,7 @@ static vector<uint8_t> sscan_hex_data(const std::vector<uint8_t>& buffer) {
         if (i >= buffer.size()) {
             break; // no second character
         }
-        int c2 = buffer[i++];
+        const int c2 = buffer[i++];
         if (!isxdigit(c2)) {
             break;
         }
@@ -170,7 +170,7 @@ static std::vector<uint8_t> sscan_key_hex(const char* buf) {
         if (!buf) {
             return result;
         }
-        int c = *buf++;
+        const int c = *buf++;
         if (c == '\n') {
             break;
         }
@@ -405,7 +405,7 @@ vector<uint8_t> sign_file(const string& path, const R_RSA_PRIVATE_KEY& key) {
     char md5_buf[MD5_LEN];
     double file_length;
 
-    int retval = md5_file(path.data(), md5_buf, file_length);
+    const int retval = md5_file(path.data(), md5_buf, file_length);
     if (retval) {
         return vector<uint8_t>();
     }
@@ -418,7 +418,7 @@ vector<uint8_t> sign_file(const string& path, const R_RSA_PRIVATE_KEY& key) {
 vector<uint8_t> sign_block(const vector<uint8_t>& data_block, const R_RSA_PRIVATE_KEY& key) {
     char md5_buf[MD5_LEN];
 
-    int retval = md5_block(data_block.data(), data_block.size(), md5_buf);
+    const int retval = md5_block(data_block.data(), data_block.size(), md5_buf);
     if (retval) {
         return vector<uint8_t>();
     }
@@ -504,10 +504,13 @@ std::pair<int, bool> check_string_signature(const string& text, const string& si
     return check_string_signature(text, signature_text, key);
 }
 
+struct file_closer { void operator()(FILE* f) const { if (f) fclose(f); } };
+using unique_FILE = std::unique_ptr<FILE, file_closer>;
+
 std::pair<int, R_RSA_PRIVATE_KEY> read_key_file(const string& keyfile) {
     R_RSA_PRIVATE_KEY key;
     memset(&key, 0, sizeof(key));
-    FILE* fkey = boinc::fopen(keyfile.data(), "r");
+    unique_FILE fkey(boinc::fopen(keyfile.data(), "r"));
     if (!fkey) {
         fprintf(stderr,
             "%s: can't open key file (%s)\n",
@@ -516,8 +519,7 @@ std::pair<int, R_RSA_PRIVATE_KEY> read_key_file(const string& keyfile) {
         return std::make_pair(ERR_FOPEN, key);
     }
     bool result = false;
-    std::tie(result, key) = scan_private_key_hex(fkey);
-    boinc::fclose(fkey);
+    std::tie(result, key) = scan_private_key_hex(fkey.get());
     if (!result) {
         fprintf(stderr, "%s: can't parse key\n", time_to_string(dtime()));
         return std::make_pair(ERR_FREAD, key);
@@ -709,7 +711,7 @@ using unique_EVP_MD_CTX =
     std::unique_ptr<EVP_MD_CTX, OpenSSLDeleter<EVP_MD_CTX, EVP_MD_CTX_free>>;
 
 static std::pair<bool, vector<uint8_t>> get_md5(const string &file) {
-    FILE *f = boinc_fopen(file.data(), "r");
+    unique_FILE f(boinc_fopen(file.data(), "r"));
     if (!f) {
         return std::make_pair(false, std::vector<uint8_t>());
     }
@@ -723,7 +725,7 @@ static std::pair<bool, vector<uint8_t>> get_md5(const string &file) {
     }
     unsigned char rbuf[2048];
     size_t rbytes;
-    while (0 != (rbytes = fread(rbuf, 1, sizeof(rbuf), f))) {
+    while (0 != (rbytes = fread(rbuf, 1, sizeof(rbuf), f.get()))) {
         if (EVP_DigestUpdate(mdctx.get(), rbuf, rbytes) <= 0) {
             return std::make_pair(false, std::vector<uint8_t>());
         }
@@ -800,13 +802,12 @@ bool cert_verify_file(CERT_SIGS* signatures, const string &origFile,
         size_t file_counter = 0;
         while (1) {
             char fbuf[MAXPATHLEN];
-            snprintf(fbuf, MAXPATHLEN, "%s/%s.%ld", trustLocation.data(), cert_sig.hash,
+            snprintf(fbuf, MAXPATHLEN, "%s/%s.%zu", trustLocation.data(), cert_sig.hash,
                 file_counter);
-            FILE *f = boinc::fopen(fbuf, "r");
-            if (f  ==  NULL) {
+            unique_FILE f(boinc::fopen(fbuf, "r"));
+            if (!f) {
                 break;
             }
-            boinc::fclose(f);
             unique_BIO bio(BIO_new(BIO_s_file()));
             BIO_read_filename(bio.get(), fbuf);
             unique_X509 cert(PEM_read_bio_X509(bio.get(), nullptr, 0, nullptr));

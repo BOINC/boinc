@@ -80,6 +80,18 @@ void usage() {
         "    verify a signature using a directory of certificates\n";
 }
 
+FILE* open_file(const std::string& filename, const std::string& filemode) {
+#ifdef _WIN32
+    FILE* f = nullptr;
+    if (fopen_s(&f, filename.c_str(), filemode.c_str()) != 0) {
+        return nullptr;
+    }
+    return f;
+#else
+    return fopen(filename.c_str(), filemode.c_str());
+#endif
+}
+
 int genkey(int n, const std::string& private_keyfile,
     const std::string& public_keyfile) {
     if (n != 1024) {
@@ -106,12 +118,12 @@ int genkey(int n, const std::string& private_keyfile,
     R_RSA_PRIVATE_KEY private_key;
     int retval = 0;
     std::tie(retval, private_key, public_key) = openssl_to_keys(rsa_key);
-    FILE *fpriv = fopen(private_keyfile.c_str(), "w");
+    FILE *fpriv = open_file(private_keyfile, "w");
     if (!fpriv) {
         print_error("fopen");
         return 2;
     }
-    FILE* fpub = fopen(public_keyfile.c_str(), "w");
+    FILE* fpub = open_file(public_keyfile, "w");
     if (!fpub) {
         print_error("fopen");
         return 2;
@@ -125,7 +137,7 @@ int genkey(int n, const std::string& private_keyfile,
 }
 
 int sign(const std::string& file, const std::string& private_keyfile) {
-    FILE* fpriv = fopen(private_keyfile.c_str(), "r");
+    FILE* fpriv = open_file(private_keyfile, "r");
     if (!fpriv) {
         print_error("fopen");
         return 2;
@@ -147,7 +159,7 @@ int sign(const std::string& file, const std::string& private_keyfile) {
 }
 
 int sign_string(const std::string& str, const std::string& private_keyfile) {
-    FILE* fpriv = fopen(private_keyfile.c_str(), "r");
+    FILE* fpriv = open_file(private_keyfile, "r");
     if (!fpriv) {
         print_error("fopen");
         return 2;
@@ -170,7 +182,7 @@ int sign_string(const std::string& str, const std::string& private_keyfile) {
 
 int verify(const std::string& file, const std::string& signature_file,
     const std::string& public_keyfile) {
-    FILE* fpub = fopen(public_keyfile.c_str(), "r");
+    FILE* fpub = open_file(public_keyfile, "r");
     if (!fpub) {
         print_error("fopen");
         return 2;
@@ -182,7 +194,7 @@ int verify(const std::string& file, const std::string& signature_file,
         print_error("read_public_key");
         return 2;
     }
-    FILE* f = fopen(signature_file.c_str(), "r");
+    FILE* f = open_file(signature_file, "r");
     if (!f) {
         print_error("fopen");
         return 2;
@@ -218,7 +230,7 @@ int verify(const std::string& file, const std::string& signature_file,
 
 int verify_string(const std::string& str, const std::string& signature_file,
     const std::string& public_keyfile) {
-    FILE* fpub = fopen(public_keyfile.c_str(), "r");
+    FILE* fpub = open_file(public_keyfile, "r");
     if (!fpub) {
         print_error("fopen");
         return 2;
@@ -230,7 +242,7 @@ int verify_string(const std::string& str, const std::string& signature_file,
         print_error("read_public_key");
         return 2;
     }
-    FILE* f = fopen(signature_file.c_str(), "r");
+    FILE* f = open_file(signature_file, "r");
     if (!f) {
         print_error("fopen");
         return 2;
@@ -258,7 +270,7 @@ int verify_string(const std::string& str, const std::string& signature_file,
 
 int test_crypt(const std::string& private_keyfile,
     const std::string& public_keyfile) {
-    FILE* fpriv = fopen(private_keyfile.c_str(), "r");
+    FILE* fpriv = open_file(private_keyfile, "r");
     if (!fpriv) {
         print_error("fopen");
         return 2;
@@ -270,7 +282,7 @@ int test_crypt(const std::string& private_keyfile,
         print_error("scan_private_key_hex\n");
         return 2;
     }
-    FILE* fpub = fopen(public_keyfile.c_str(), "r");
+    FILE* fpub = open_file(public_keyfile, "r");
     if (!fpub) {
         print_error("fopen");
         return 2;
@@ -299,7 +311,7 @@ int test_crypt(const std::string& private_keyfile,
 }
 
 int convsig_b2o(const std::string& input, const std::string& output) {
-    FILE* f = fopen(input.c_str(), "r");
+    FILE* f = open_file(input, "r");
     if (!f) {
         print_error("fopen");
         return 2;
@@ -311,7 +323,7 @@ int convsig_b2o(const std::string& input, const std::string& output) {
         return 2;
     }
 
-    f = fopen(output.c_str(), "wb");
+    f = open_file(output, "wb");
     if (!f) {
         print_error("fopen");
         return 2;
@@ -322,7 +334,7 @@ int convsig_b2o(const std::string& input, const std::string& output) {
 }
 
 int convsig_o2b(const std::string& input, const std::string& output) {
-    FILE* f = fopen(input.c_str(), "rb");
+    FILE* f = open_file(input, "rb");
     if (!f) {
         print_error("fopen");
         return 2;
@@ -330,7 +342,7 @@ int convsig_o2b(const std::string& input, const std::string& output) {
     std::vector<uint8_t> signature = scan_raw_data(f);
     fclose(f);
 
-    f = fopen(output.c_str(), "w");
+    f = open_file(output, "w");
     if (!f) {
         print_error("fopen");
         return 2;
@@ -367,7 +379,7 @@ int convkey_private_b2o(const std::string& input, const std::string& output) {
         return 2;
     }
 
-    FILE* fpriv = fopen(input.c_str(), "r");
+    FILE* fpriv = open_file(input, "r");
     if (!fpriv) {
         print_error("fopen");
         return 2;
@@ -402,7 +414,7 @@ int convkey_private_b2o(const std::string& input, const std::string& output) {
 int convkey_private_o2b(const std::string& input, const std::string& output) {
     unique_BIO bio_err(BIO_new_fp(stdout, BIO_NOCLOSE));
 
-    FILE* fpriv = fopen(input.c_str(), "r");
+    FILE* fpriv = open_file(input, "r");
     if (!fpriv) {
         print_error("fopen");
         return 2;
@@ -426,7 +438,7 @@ int convkey_private_o2b(const std::string& input, const std::string& output) {
     R_RSA_PRIVATE_KEY private_key;
     int retval = 0;
     std::tie(retval, private_key) = openssl_to_private(rsa_key);
-    fpriv = fopen(output.c_str(), "w");
+    fpriv = open_file(output, "w");
     if (!fpriv) {
         print_error("fopen");
         return 2;
@@ -446,7 +458,7 @@ int convkey_public_b2o(const std::string& input, const std::string& output) {
         return 2;
     }
 
-    FILE* fpub = fopen(input.c_str(), "r");
+    FILE* fpub = open_file(input, "r");
     if (!fpub) {
         print_error("fopen");
         return 2;
@@ -461,7 +473,7 @@ int convkey_public_b2o(const std::string& input, const std::string& output) {
         return 2;
     }
 
-    fpub = fopen(output.c_str(), "w+");
+    fpub = open_file(output, "w+");
     if (!fpub) {
         print_error("fopen");
         return 2;
@@ -487,7 +499,7 @@ int convkey_public_b2o(const std::string& input, const std::string& output) {
 int convkey_public_o2b(const std::string& input, const std::string& output) {
     unique_BIO bio_err(BIO_new_fp(stdout, BIO_NOCLOSE));
 
-    FILE* fpub = fopen(input.c_str(), "r");
+    FILE* fpub = open_file(input, "r");
     if (!fpub) {
         print_error("fopen");
         return 2;
@@ -516,7 +528,7 @@ int convkey_public_o2b(const std::string& input, const std::string& output) {
         print_error("openssl_to_keys");
         return 2;
     }
-    fpub = fopen(output.c_str(), "w");
+    fpub = open_file(output, "w");
     if (!fpub) {
         print_error("fopen");
         return 2;
@@ -552,7 +564,7 @@ int convkey(const std::string& conversion, const std::string& key_type,
 
 int cert_verify(const std::string& file, const std::string& signature_file,
     const std::string& certificate_dir, const std::string& ca_dir) {
-    FILE* f = fopen(signature_file.c_str(), "r");
+    FILE* f = open_file(signature_file, "r");
     if (!f) {
         print_error("fopen");
         return 2;
