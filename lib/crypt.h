@@ -82,14 +82,14 @@ extern std::tuple<int, R_RSA_PRIVATE_KEY, R_RSA_PUBLIC_KEY> openssl_to_keys(
     const unique_EVP_PKEY& pkey
 );
 // function returns a pair of values:
-// first 'bool' vaue indicates if the data was converted successfully
+// first 'bool' value indicates if the data was converted successfully
 // second 'unique_EVP_PKEY' is the private key
 // if the first value is false, the second value is either nullptr or invalid
 extern std::pair<bool, unique_EVP_PKEY> private_to_openssl(
     const R_RSA_PRIVATE_KEY& priv
 );
 // function returns a pair of values:
-// first 'bool' vaue indicates if the data was converted successfully
+// first 'bool' value indicates if the data was converted successfully
 // second 'unique_EVP_PKEY' is the public key
 // if the first value is false, the second value is either nullptr or invalid
 extern std::pair<bool, unique_EVP_PKEY> public_to_openssl(
