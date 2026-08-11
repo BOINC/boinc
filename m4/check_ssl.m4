@@ -4,6 +4,8 @@ SSLDIR=
 SSL_LIBS=
 SSL_CFLAGS=
 SSL_CXXFLAGS=
+SSL_VERSION=
+SSL_VERSION_MAJOR=
 AC_ARG_WITH(pkg-config,
     AC_HELP_STRING([--with-pkg-config],
        [Use pkg-config specified]),
@@ -83,6 +85,26 @@ if test x_$found_ssl != x_yes; then
 ----------------------------------------------------------------------
 ])
 else
+        AC_MSG_CHECKING([for OpenSSL version >= 3.0])
+        AS_IF([test "x${PKGCONFIG}" != "x"],
+          [SSL_VERSION="`${PKGCONFIG} openssl --modversion 2>/dev/null`"])
+        AS_IF([test "x${SSL_VERSION}" = "x"],
+          [SSL_VERSION=`$CPP -dM ${SSL_CFLAGS} /dev/null 2>/dev/null | sed -n 's/^#define OPENSSL_VERSION_MAJOR[[:space:]]\([0-9][0-9]*\)$/\1/p' | head -n 1`
+           AS_IF([test "x${SSL_VERSION}" != "x"], [SSL_VERSION="${SSL_VERSION}.0"])])
+        SSL_VERSION_MAJOR=`echo "${SSL_VERSION}" | sed 's/\..*//'`
+        AS_IF([test "x${SSL_VERSION_MAJOR}" = "x"], [SSL_VERSION_MAJOR=0])
+        AS_IF([test "${SSL_VERSION_MAJOR}" -ge 3],
+          [AC_MSG_RESULT([yes (${SSL_VERSION})])],
+          [AC_MSG_RESULT([no (${SSL_VERSION})])
+           AC_MSG_ERROR([
+----------------------------------------------------------------------
+  OpenSSL version 3.0 or newer is required.
+
+  Found version: ${SSL_VERSION}
+  Please install OpenSSL >= 3.0 and/or point configure to it with:
+    --with-ssl=(dir)
+----------------------------------------------------------------------
+])])
         printf "OpenSSL found in $SSLDIR\n";
 	AC_DEFINE_UNQUOTED([USE_OPENSSL],[1],
 	  ["Define to 1 if you want to use the openssl crypto library"])
