@@ -209,7 +209,7 @@ else
     triplets_setup="default"
 fi
 manifest_dir=$THIRD_PARTY/vcpkg_ports/configs/$component
-if [ "$component" = "apps" ] || [ "$component" = "libs" ]; then
+if [ "$component" = "apps" ] || [ "$component" = "libs" ] || [ "$component" = "libs-cmake" ]; then
     manifest_dir=$manifest_dir/android
 fi
 manifests="--x-manifest-root=$manifest_dir --x-install-root=$VCPKG_ROOT/installed/"
