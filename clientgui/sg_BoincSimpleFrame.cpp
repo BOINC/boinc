@@ -581,8 +581,8 @@ void CSimpleFrame::OnSelectDefaultSkin( wxCommandEvent& WXUNUSED(event) ) {
     wxASSERT(pSkinManager);
     wxASSERT(wxDynamicCast(pSkinManager, CSkinManager));
 
-    // The "Default" skin menu item is localized, but
-    // the name of the default skin is not localized
+    pSkinManager->SetSelectedSkin(pSkinManager->GetDefaultSkinName());
+
     pSkinManager->ReloadSkin(pSkinManager->GetDefaultSkinName());
 
     wxGetApp().SaveState();
