@@ -196,6 +196,7 @@ static void init_core_client(int argc, char** argv) {
     gstate.parse_cmdline(argc, argv);
     
 #else
+    gstate.now = dtime();
     read_config_file(true);
     gstate.parse_cmdline(argc, argv);
 #endif
