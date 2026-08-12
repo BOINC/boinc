@@ -67,8 +67,6 @@ IMPLEMENT_DYNAMIC_CLASS( CProjectProcessingPage, wxWizardPageEx )
 
 /*!
  * CProjectProcessingPage event table definition
- * NOTE: The EVT_PROJECTPROCESSING_STATECHANGE entry has been removed
- * and replaced with a Bind() call in Create() to avoid unsafe pointer casts.
  */
 BEGIN_EVENT_TABLE( CProjectProcessingPage, wxWizardPageEx )
 
@@ -119,8 +117,6 @@ bool CProjectProcessingPage::Create( CBOINCBaseWizard* parent )
 ////@end CProjectProcessingPage creation
 
     // Bind the custom state-change event to its handler.
-    // This is type-safe and avoids the compiler warning about cast between
-    // incompatible member function pointer types.
     Bind(wxEVT_PROJECTPROCESSING_STATECHANGE,
          &CProjectProcessingPage::OnStateChange, this);
 
