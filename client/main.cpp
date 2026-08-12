@@ -281,8 +281,8 @@ static void do_gpu_detection(int argc, char** argv) {
     vector<string> warnings;
 
     boinc_install_signal_handlers();
-    gstate.parse_cmdline(argc, argv);
     read_config_file(true);
+    gstate.parse_cmdline(argc, argv);
     gstate.now = dtime();
 
     int flags =
