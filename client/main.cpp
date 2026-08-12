@@ -179,17 +179,25 @@ static void signal_handler(int signum, siginfo_t*, void*) {
 static void init_core_client(int argc, char** argv) {
     setbuf(stdout, 0);
     setbuf(stderr, 0);
-
+    
     cc_config.defaults();
     nvc_config.defaults();
-    read_config_file(true);
-    gstate.parse_cmdline(argc, argv);
-    gstate.now = dtime();
 
 #ifdef _WIN32
+    gstate.parse_cmdline(argc, argv);
+    gstate.now = dtime();
+    
     if (!cc_config.allow_multiple_clients && !gstate.cmdline_dir) {
         chdir_to_data_dir();
     }
+
+    read_config_file(true);
+
+    gstate.parse_cmdline(argc, argv);
+    
+#else
+    read_config_file(true);
+    gstate.parse_cmdline(argc, argv);
 #endif
 
 #ifndef _WIN32
@@ -273,8 +281,8 @@ static void do_gpu_detection(int argc, char** argv) {
     vector<string> warnings;
 
     boinc_install_signal_handlers();
-    read_config_file(true);
     gstate.parse_cmdline(argc, argv);
+    read_config_file(true);
     gstate.now = dtime();
 
     int flags =
