@@ -182,6 +182,7 @@ static void init_core_client(int argc, char** argv) {
 
     cc_config.defaults();
     nvc_config.defaults();
+    read_config_file(true);
     gstate.parse_cmdline(argc, argv);
     gstate.now = dtime();
 
@@ -237,7 +238,6 @@ static void init_core_client(int argc, char** argv) {
     //_CrtSetBreakAlloc(654);
 #endif
 
-    read_config_file(true);
 
     // NOTE: this must be called BEFORE newer_version_startup_check()
     // Only branded builds of BOINC should have an nvc_config.xml file
@@ -273,6 +273,7 @@ static void do_gpu_detection(int argc, char** argv) {
     vector<string> warnings;
 
     boinc_install_signal_handlers();
+    read_config_file(true);
     gstate.parse_cmdline(argc, argv);
     gstate.now = dtime();
 
@@ -284,8 +285,6 @@ static void do_gpu_detection(int argc, char** argv) {
         BOINC_DIAG_REDIRECTSTDOUT;
 
     diagnostics_init(flags, "stdoutgpudetect", "stderrgpudetect");
-
-    read_config_file(true);
 
     coprocs.detect_gpus(warnings);
     coprocs.write_coproc_info_file(warnings);
