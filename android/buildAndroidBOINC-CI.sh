@@ -3,7 +3,7 @@ set -e
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -209,7 +209,7 @@ else
     triplets_setup="default"
 fi
 manifest_dir=$THIRD_PARTY/vcpkg_ports/configs/$component
-if [ $component = "apps" ]; then
+if [ "$component" = "apps" ] || [ "$component" = "libs" ]; then
     manifest_dir=$manifest_dir/android
 fi
 manifests="--x-manifest-root=$manifest_dir --x-install-root=$VCPKG_ROOT/installed/"
