@@ -627,7 +627,10 @@ void CSimpleFrame::OnSelectSkin( wxCommandEvent& event ){
     pSkinManager->ReloadSkin(newSkinName);
 
     wxGetApp().SaveState();
-    wxConfigBase::Get(FALSE)->Flush();
+    wxConfigBase* pConfig = wxConfigBase::Get(FALSE);
+    if (pConfig) {
+        pConfig->Flush();
+    }
 }
 
 
