@@ -203,7 +203,7 @@ static void init_core_client(int argc, char** argv) {
     cc_config.defaults();
     nvc_config.defaults();
 
-    // First pass: parse command line (without --dir)
+    // Parse command line without --dir command
     gstate.parse_cmdline(argc, argv);
     gstate.now = dtime();
 
@@ -217,7 +217,7 @@ static void init_core_client(int argc, char** argv) {
     // Read config file from current working directory
     read_config_file(true);
 
-    // Second pass: parse command line again to override config file settings
+    // Parse command line again to override config file settings
     gstate.parse_cmdline(argc, argv);
 
 #ifndef _WIN32
