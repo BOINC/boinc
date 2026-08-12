@@ -1,0 +1,17 @@
+{
+  "name": "libsm",
+  "version": "1.2.6",
+  "port-version": 1,
+  "description": "X Session Management Library",
+  "homepage": "https://gitlab.freedesktop.org/xorg/lib/libsm",
+  "license": null,
+  "dependencies": [
+    "libice",
+    "libxtrans",
+    {
+      "name": "vcpkg-make",
+      "host": true
+    },
+    "xorg-macros"
+  ]
+}

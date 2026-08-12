@@ -1,0 +1,7 @@
+* -text
+ports/** -linguist-detectable
+
+# Stored patch files may legitimately contain whitespace that represents the
+# patched content rather than the patch file itself.
+*.diff -whitespace
+*.patch -whitespace
