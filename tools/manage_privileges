@@ -18,7 +18,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// script for controlling "manage" privileges.
+// script for assigning "manage" privileges for apps.
+// this lets you submit jobs, create new versions,
+// and give other users submit access.
 // See https://github.com/BOINC/boinc/wiki/MultiUser
 // Run this from the project directory.
 
@@ -28,7 +30,7 @@
 // manage_privileges revoke userid {appname|all}
 // manage_privileges list
 //
-// grant/revoke the "manage" privileges for the given app (or all apps),
+// grant/revoke the "manage" privilege for the given app (or all apps),
 // or list all privileges
 
 error_reporting(E_ALL);

@@ -203,11 +203,17 @@ function create_batch($user, $njobs, $app) {
     return BoincBatch::lookup_id($batch_id);
 }
 
+// stage the batch's input files:
+// first shared files, then per-job files
+//
 function stage_input_files($batch_dir, $batch_desc, $batch_id) {
     $n = count($batch_desc->shared_files);
     $batch_desc->shared_files_phys_names = [];
     for ($i=0; $i<$n; $i++) {
-        $path = sprintf('%s/%s', $batch_dir, $batch_desc->shared_files[$i]);
+        $path = sprintf(
+            '%s/shared_input_files/%s',
+            $batch_dir, $batch_desc->shared_files[$i]
+        );
         [$md5, $size] = $batch_desc->shared_file_infos[$i];
         $phys_name = sprintf('batch_%d_%s', $batch_id, $md5);
         stage_file_aux($path, $md5, $size, $phys_name);
