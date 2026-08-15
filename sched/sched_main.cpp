@@ -503,8 +503,6 @@ int main(int argc, char** argv) {
     }
     strip_whitespace(code_sign_key);
 
-    buda_init();
-
     g_pid = getpid();
 #ifdef _USING_FCGI_
     //while(FCGI_Accept() >= 0 && counter < MAX_FCGI_COUNT) {
@@ -531,6 +529,9 @@ int main(int argc, char** argv) {
         send_message("Server error: can't attach shared memory", config.maintenance_delay);
         goto done;
     }
+
+    buda_init();    // must follow attaching to shmem
+
     if (config.keyword_sched) {
         keyword_sched_init();
     }
