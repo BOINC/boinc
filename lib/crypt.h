@@ -71,7 +71,7 @@ typedef struct {
 // and our binary format
 
 // function returns a tuple of values:
-// first 'int' value indicates and error code
+// first 'int' value indicates an error code
 // (0 - success, everything else - error)
 // second 'R_RSA_PRIVATE_KEY' value is the private key
 // converted from OpenSSL's EVP_PKEY
@@ -96,7 +96,7 @@ extern std::pair<bool, unique_EVP_PKEY> public_to_openssl(
     const R_RSA_PUBLIC_KEY& pub
 );
 // function returns a pair of values:
-// first 'int' value indicates and error code
+// first 'int' value indicates an error code
 // (0 - success, everything else - error)
 // second 'R_RSA_PUBLIC_KEY' value is the public key
 // converted from OpenSSL's EVP_PKEY
@@ -105,7 +105,7 @@ extern std::pair<int, R_RSA_PUBLIC_KEY> openssl_to_public(
     const unique_EVP_PKEY& pkey
 );
 // function returns a pair of values:
-// first 'int' value indicates and error code
+// first 'int' value indicates an error code
 // (0 - success, everything else - error)
 // second 'R_RSA_PRIVATE_KEY' value is the private key
 // converted from OpenSSL's EVP_PKEY
@@ -189,7 +189,7 @@ extern std::pair<bool, std::vector<uint8_t>> sign_block(
     const std::vector<uint8_t>& data, const R_RSA_PRIVATE_KEY& key
 );
 // return a pair of values:
-// first 'int' value indicates and error code
+// first 'int' value indicates an error code
 // (0 - success, everything else - error)
 // second 'bool' value indicates if the signature is valid
 // (true - valid, false - invalid)
@@ -199,7 +199,7 @@ extern std::pair<int, bool> check_file_signature(
     const std::vector<uint8_t>& signature
 );
 // return a pair of values:
-// first 'int' value indicates and error code
+// first 'int' value indicates an error code
 // (0 - success, everything else - error)
 // second 'bool' value indicates if the signature is valid
 // (true - valid, false - invalid)
@@ -209,7 +209,7 @@ extern std::pair<int, bool> check_file_signature(
     const std::string& key
 );
 // return a pair of values:
-// first 'int' value indicates and error code
+// first 'int' value indicates an error code
 // (0 - success, everything else - error)
 // second 'bool' value indicates if the signature is valid
 // (true - valid, false - invalid)
@@ -219,7 +219,7 @@ extern std::pair<int, bool> check_string_signature(
     const R_RSA_PUBLIC_KEY& key
 );
 // return a pair of values:
-// first 'int' value indicates and error code
+// first 'int' value indicates an error code
 // (0 - success, everything else - error)
 // second 'bool' value indicates if the signature is valid
 // (true - valid, false - invalid)
@@ -236,7 +236,7 @@ extern bool print_raw_data(FILE *f, const std::vector<uint8_t> &x);
 // if the first value is false, the second value is invalid
 extern std::pair<bool, std::vector<uint8_t>> scan_raw_data(FILE *f);
 // return a pair of values:
-// first 'int' value indicates and error code
+// first 'int' value indicates an error code
 // (0 - success, everything else - error)
 // second 'R_RSA_PRIVATE_KEY' value is the private key read from the file
 // if the first value is not 0, the second value is invalid
