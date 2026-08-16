@@ -1016,7 +1016,12 @@ int ACTIVE_TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_double("fraction_done", fraction_done)) continue;
             // deprecated - for backwards compat
         else if (xp.parse_int("app_version_num", n)) continue;
-        else if (xp.parse_double("swap_size",  procinfo.swap_usage)) continue;
+
+        // older clients measured swap usage incorrectly,
+        // so ignore value on state file.
+        // We'll learn the right value when we run it.
+        //
+        //else if (xp.parse_double("swap_size",  procinfo.swap_usage)) continue;
         else if (xp.parse_double("working_set_size", procinfo.rss)) continue;
         else if (xp.parse_double("working_set_size_smoothed", procinfo.rss_smoothed)) continue;
         else if (xp.parse_double("current_cpu_time", x)) continue;
