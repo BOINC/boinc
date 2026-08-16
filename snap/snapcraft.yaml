@@ -126,7 +126,7 @@ parts:
     - --enable-client
     - --enable-manager
     - --disable-server
-    - GTK_LIBS="`pkg-config --libs gtk+-3.0`"
+    - GTK_LIBS="`pkg-config --libs gtk+-3.0 librsvg-2.0 pixbufloader-svg` -lnanosvg -lnanosvgrast"
     override-build: |
       echo ARCH=$CRAFT_ARCH_BUILD_FOR
 

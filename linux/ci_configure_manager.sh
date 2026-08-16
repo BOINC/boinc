@@ -53,4 +53,4 @@ export LDFLAGS="-O3 -flto -static-libstdc++ -s"
 export _libcurl_pc="$VCPKG_DIR/lib/pkgconfig/libcurl.pc"
 export PKG_CONFIG_PATH=$VCPKG_DIR/lib/pkgconfig/
 
-./configure --disable-server --disable-client --with-wx-config=$VCPKG_DIR/tools/wxwidgets/wx-config CPPFLAGS="-DwxDEBUG_LEVEL=0 -DBUILD_WITH_VCPKG=1" GTK_LIBS="$(pkg-config --libs gtk+-3.0 librsvg-2.0 pixbufloader-svg)" $exec_prefix
+./configure --disable-server --disable-client --with-wx-config=$VCPKG_DIR/tools/wxwidgets/wx-config CPPFLAGS="-DwxDEBUG_LEVEL=0 -DBUILD_WITH_VCPKG=1" GTK_LIBS="$(pkg-config --libs gtk+-3.0 librsvg-2.0 pixbufloader-svg) -lnanosvg -lnanosvgrast" $exec_prefix
