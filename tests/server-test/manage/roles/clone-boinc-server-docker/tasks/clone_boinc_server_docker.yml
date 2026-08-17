@@ -5,8 +5,8 @@
   command: git clone https://github.com/BOINC/boinc-server-docker.git chdir="{{base_dir}}"
 
 - name: Init some submodules
-  command: git submodule init images/makeproject/boinc2docker images/makeproject/html/inc/phpmailer chdir="{{base_dir}}/boinc-server-docker"
+  command: git submodule init images/makeproject/html/inc/phpmailer chdir="{{base_dir}}/boinc-server-docker"
 
 - name: "Fetch some submodules for boinc-server-docker in {{base_dir}}"
-  command: git submodule update images/makeproject/boinc2docker images/makeproject/html/inc/phpmailer chdir="{{base_dir}}/boinc-server-docker"
+  command: git submodule update images/makeproject/html/inc/phpmailer chdir="{{base_dir}}/boinc-server-docker"
 
