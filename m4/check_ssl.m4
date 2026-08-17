@@ -86,10 +86,10 @@ if test x_$found_ssl != x_yes; then
 ])
 else
         AC_MSG_CHECKING([for OpenSSL version >= 3.0])
-        AS_IF([test "x${PKGCONFIG}" != "x"],
+        AS_IF([test "x${PKGCONFIG}" != "x" -a "x${check_ssl_dir}" = "x"],
           [SSL_VERSION="`${PKGCONFIG} openssl --modversion 2>/dev/null`"])
         AS_IF([test "x${SSL_VERSION}" = "x"],
-          [SSL_VERSION=`$CPP -dM ${SSL_CFLAGS} /dev/null 2>/dev/null | sed -n 's/^#define OPENSSL_VERSION_MAJOR[[:space:]]\([0-9][0-9]*\)$/\1/p' | head -n 1`
+          [SSL_VERSION=`printf '%s\n' '#include <openssl/opensslv.h>' | $CPP -dM ${SSL_CFLAGS} - 2>/dev/null | sed -n 's/^#define OPENSSL_VERSION_MAJOR[[:space:]]\([0-9][0-9]*\)$/\1/p' | head -n 1`
            AS_IF([test "x${SSL_VERSION}" != "x"], [SSL_VERSION="${SSL_VERSION}.0"])])
         SSL_VERSION_MAJOR=`echo "${SSL_VERSION}" | sed 's/\..*//'`
         AS_IF([test "x${SSL_VERSION_MAJOR}" = "x"], [SSL_VERSION_MAJOR=0])

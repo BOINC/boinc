@@ -119,6 +119,10 @@ int genkey(int n, const std::string& private_keyfile,
     R_RSA_PRIVATE_KEY private_key;
     int retval = 0;
     std::tie(retval, private_key, public_key) = openssl_to_keys(rsa_key);
+    if (retval) {
+        print_error("openssl_to_keys");
+        return 2;
+    }
     FILE *fpriv = open_file(private_keyfile, "w");
     if (!fpriv) {
         print_error("fopen");
@@ -312,9 +316,8 @@ int test_crypt(const std::string& private_keyfile,
         print_error("decrypt_public");
         return 2;
     }
-    std::cout << "out: " <<
-        reinterpret_cast<const char*>(out.data()) <<
-        std::endl;
+    std::string out_str(out.begin(), out.end());
+    std::cout << "out: " << out_str << std::endl;
     return 0;
 }
 
@@ -460,6 +463,10 @@ int convkey_private_o2b(const std::string& input, const std::string& output) {
     R_RSA_PRIVATE_KEY private_key;
     int retval = 0;
     std::tie(retval, private_key) = openssl_to_private(rsa_key);
+    if (retval) {
+        print_error("openssl_to_private");
+        return 2;
+    }
     fpriv = open_file(output, "w");
     if (!fpriv) {
         print_error("fopen");

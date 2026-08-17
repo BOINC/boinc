@@ -70,7 +70,7 @@ int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
         std::string signature_hex;
         std::tie(result, signature_hex) = generate_signature(signed_xml, key);
         if (!result || signature_hex.empty()) {
-            return ERR_XML_PARSE;
+            return ERR_CRYPTO;
         }
         sprintf(signature_xml,
             "<xml_signature>\n%s</xml_signature>\n", signature_hex.c_str()

@@ -32,7 +32,7 @@ else()
     find_package(Threads REQUIRED)
     find_package(GTest REQUIRED)
     find_package(PkgConfig REQUIRED)
-    find_package(OpenSSL REQUIRED)
+    find_package(OpenSSL 3.0 REQUIRED)
     pkg_check_modules(LIBZIP REQUIRED IMPORTED_TARGET libzip)
 endif()
 
