@@ -655,8 +655,11 @@ std::pair<int, R_RSA_PUBLIC_KEY> openssl_to_public(
     memset(&pub, 0, sizeof(pub));
 
     BIGNUM *n = nullptr, *e = nullptr;
-    if (!EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_N, &n) ||
-        !EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_E, &e)) {
+    EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_N, &n);
+    unique_BN n_unique(n);
+    EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_E, &e);
+    unique_BN e_unique(e);
+    if (!n || !e) {
         return std::make_pair(ERR_CRYPTO, pub);
     }
 
@@ -679,16 +682,25 @@ std::pair<int, R_RSA_PRIVATE_KEY> openssl_to_private(
     BIGNUM *p = nullptr, *q = nullptr;
     BIGNUM *dmp1 = nullptr, *dmq1 = nullptr, *iqmp = nullptr;
 
-    if (!EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_N, &n) ||
-        !EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_E, &e)) {
+    EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_N, &n);
+    unique_BN n_unique(n);
+    EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_E, &e);
+    unique_BN e_unique(e);
+    if (!n || !e) {
         return std::make_pair(ERR_CRYPTO, priv);
     }
     EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_D, &d);
+    unique_BN d_unique(d);
     EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_FACTOR1, &p);
+    unique_BN p_unique(p);
     EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_FACTOR2, &q);
+    unique_BN q_unique(q);
     EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_EXPONENT1, &dmp1);
+    unique_BN dmp1_unique(dmp1);
     EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_EXPONENT2, &dmq1);
+    unique_BN dmq1_unique(dmq1);
     EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_COEFFICIENT1, &iqmp);
+    unique_BN iqmp_unique(iqmp);
 
     if (!n || !e) {
         return std::make_pair(ERR_CRYPTO, priv);
