@@ -221,7 +221,7 @@ jobs:
           - platform: x64
             runner: windows-latest
           - platform: arm64
-            runner: windows-11-arm
+            runner: windows-11-vs2026-arm
           - installation_type: normal
             argument_list_alpha: "/quiet /qn /l*v alpha.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0"
             argument_list_release: "/quiet /qn /l*v release.log OVERRIDE_LAUNCHWSLIMAGEINSTALLER=0"
