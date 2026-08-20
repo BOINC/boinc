@@ -34,6 +34,8 @@ struct PLAN_CLASS_SPEC {
     bool virtualbox;
     bool wsl;
     bool docker;
+    int min_boinc_wsl_distro_version;
+        // if client is Win, min version of the BOINC WSL distro
     bool is64bit;
     std::vector<std::string> cpu_features;
     double min_ncpus;

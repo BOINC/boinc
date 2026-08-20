@@ -128,4 +128,9 @@
         <name>                  docker      </name>
         <docker/>
     </plan_class>
+    <plan_class>
+        <name>                  docker_nvidia_cuda      </name>
+        <docker/>
+        <min_boinc_wsl_distro_version>  6   </min_boinc_wsl_distro_version>
+    </plan_class>
 </plan_classes>
