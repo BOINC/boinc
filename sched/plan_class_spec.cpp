@@ -598,16 +598,24 @@ bool PLAN_CLASS_SPEC::check(
                 add_no_work_message("Client config does not allow using WSL");
                 return false;
             }
-            bool found = false;
-            for (WSL_DISTRO &wd: sreq.host.wsl_distros.distros) {
-                if (wd.disallowed) continue;
-                if (wd.docker_version.empty()) continue;
-                found = true;
-                break;
-            }
-            if (!found) {
-                add_no_work_message("No usable WSL distros found");
-                return false;
+            if (min_boinc_wsl_distro_version) {
+                int v = sreq.host.wsl_distros.boinc_distro_version();
+                if (v < min_boinc_wsl_distro_version) {
+                    add_no_work_message("Current BOINC WSL distro needed");
+                    return false;
+                }
+            } else {
+                bool found = false;
+                for (WSL_DISTRO &wd: sreq.host.wsl_distros.distros) {
+                    if (wd.disallowed) continue;
+                    if (wd.docker_version.empty()) continue;
+                    found = true;
+                    break;
+                }
+                if (!found) {
+                    add_no_work_message("No usable WSL distros found");
+                    return false;
+                }
             }
         } else {
             if (strlen(sreq.host.docker_version) == 0) {
@@ -1391,6 +1399,7 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     virtualbox = false;
     wsl = false;
     docker = false;
+    min_boinc_wsl_distro_version = 0;
     is64bit = false;
     min_ncpus = 0;
     max_threads = 1;
