@@ -1245,6 +1245,7 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_bool("virtualbox", virtualbox)) continue;
         if (xp.parse_bool("wsl", wsl)) continue;
         if (xp.parse_bool("docker", docker)) continue;
+        if (xp.parse_int("min_boinc_wsl_distro_version", min_boinc_wsl_distro_version)) continue;
         if (xp.parse_bool("is64bit", is64bit)) continue;
         if (xp.parse_str("cpu_feature", buf, sizeof(buf))) {
             cpu_features.push_back(" " + (string)buf + " ");
