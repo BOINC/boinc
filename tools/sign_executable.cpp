@@ -20,27 +20,37 @@
 #include "config.h"
 #include "crypt.h"
 
-std::pair<bool, std::string> sign_executable(
-    const std::string& path, const std::string& code_sign_keyfile
+using std::make_pair;
+using std::pair;
+using std::string;
+using std::tie;
+using std::vector;
+
+pair<int, string> sign_executable(
+    const string& path,
+    const string& code_sign_keyfile
     ) {
     int retval = 0;
     R_RSA_PRIVATE_KEY code_sign_key;
-    std::tie(retval, code_sign_key) = read_key_file(code_sign_keyfile);
+    tie(retval, code_sign_key) = read_key_file(code_sign_keyfile);
     if (retval) {
         fprintf(stderr, "add: can't read key\n");
-        return std::make_pair(false, std::string());
+        return make_pair(1, string());
     }
-    bool result = false;
-    std::vector<uint8_t> data;
-    std::tie(result, data) = sign_file(path, code_sign_key);
-    if (!result || data.empty()) {
+    int result = 0;
+    vector<uint8_t> data;
+    tie(result, data) = sign_file(path, code_sign_key);
+    if (result || data.empty()) {
         fprintf(stderr, "add: can't sign file\n");
-        return std::make_pair(false, std::string());
+        return make_pair(1, string());
     }
     return sprint_hex_data(data);
 }
 
-int main(int argc, char** argv) {
+int main(
+    int argc,
+    char** argv
+    ) {
     if (argc != 3) {
         fprintf(stderr, "syntax: sign_executable data_file private_key_file\n"
             "\n"
@@ -49,10 +59,10 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    bool result = false;
-    std::string signature_text;
-    std::tie(result, signature_text) = sign_executable(argv[1], argv[2]);
-    if(!result || signature_text.empty()) {
+    int result = 0;
+    string signature_text;
+    tie(result, signature_text) = sign_executable(argv[1], argv[2]);
+    if(result || signature_text.empty()) {
         return 1;
     }
     printf("%s", signature_text.c_str());

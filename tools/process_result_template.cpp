@@ -32,6 +32,9 @@
 #define OUTFILE_MACRO   "<OUTFILE_"
 #define UPLOAD_URL_MACRO      "<UPLOAD_URL/>"
 
+using std::string;
+using std::tie;
+
 // Add a signature at the end of every <file_info> element,
 //
 int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
@@ -66,10 +69,10 @@ int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
         sprintf(signed_xml, "<name>%s</name><max_nbytes>%.0f</max_nbytes>",
             name, max_nbytes
         );
-        bool result = false;
-        std::string signature_hex;
-        std::tie(result, signature_hex) = generate_signature(signed_xml, key);
-        if (!result || signature_hex.empty()) {
+        int result = false;
+        string signature_hex;
+        tie(result, signature_hex) = generate_signature(signed_xml, key);
+        if (result || signature_hex.empty()) {
             return ERR_CRYPTO;
         }
         sprintf(signature_xml,

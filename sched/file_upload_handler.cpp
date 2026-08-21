@@ -47,6 +47,7 @@
 #include "sched_util.h"
 
 using std::string;
+using std::tie;
 
 #define LOCK_FILES
     // comment this out to not lock files
@@ -368,7 +369,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             "<name>%s</name><max_nbytes>%.0f</max_nbytes>",
             name, max_nbytes
         );
-        std::tie(retval, is_valid) = check_string_signature(
+        tie(retval, is_valid) = check_string_signature(
             signed_xml, xml_signature, key
         );
         if (retval || !is_valid) {
@@ -607,14 +608,14 @@ int get_key(R_RSA_PUBLIC_KEY& key) {
     sprintf(buf, "%s/upload_public", config.key_dir);
     FILE *f = boinc::fopen(buf, "r");
     if (!f) return -1;
-    bool result = false;
+    int result = 0;
 #ifdef _USING_FCGI_
-    std::tie(result, key) = scan_public_key_hex(FCGI_ToFILE(f));
+    tie(result, key) = scan_public_key_hex(FCGI_ToFILE(f));
 #else
-    std::tie(result, key) = scan_public_key_hex(f);
+    tie(result, key) = scan_public_key_hex(f);
 #endif
     boinc::fclose(f);
-    if (!result) {
+    if (result) {
         log_messages.printf(MSG_CRITICAL,
             "get_key(): failed to read key from %s\n", buf);
         return -1;

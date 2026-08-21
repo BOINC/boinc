@@ -50,7 +50,7 @@ using unique_PKEY_CTX =
 // We're set up to use OpenSSL crypto library.
 // We use our own data structures (R_RSA_PUBLIC_KEY and R_RSA_PRIVATE_KEY)
 // to store keys.
-
+//
 typedef struct {
     unsigned short int bits;
     unsigned char modulus[MAX_RSA_MODULUS_LEN];
@@ -78,38 +78,47 @@ typedef struct {
 // third 'R_RSA_PUBLIC_KEY' value is the public key
 // converted from OpenSSL's EVP_PKEY
 // if the first value is not 0, the second and third values are invalid
+//
 extern std::tuple<int, R_RSA_PRIVATE_KEY, R_RSA_PUBLIC_KEY> openssl_to_keys(
     const unique_EVP_PKEY& pkey
 );
+
 // function returns a pair of values:
-// first 'bool' value indicates if the data was converted successfully
-// second 'unique_EVP_PKEY' is the private key
+// first 'int' value indicates an error code
+// (0 - success, everything else - error)
 // if the first value is false, the second value is either nullptr or invalid
-extern std::pair<bool, unique_EVP_PKEY> private_to_openssl(
+//
+extern std::pair<int, unique_EVP_PKEY> private_to_openssl(
     const R_RSA_PRIVATE_KEY& priv
 );
+
 // function returns a pair of values:
-// first 'bool' value indicates if the data was converted successfully
-// second 'unique_EVP_PKEY' is the public key
+// first 'int' value indicates an error code
+// (0 - success, everything else - error)
 // if the first value is false, the second value is either nullptr or invalid
-extern std::pair<bool, unique_EVP_PKEY> public_to_openssl(
+//
+extern std::pair<int, unique_EVP_PKEY> public_to_openssl(
     const R_RSA_PUBLIC_KEY& pub
 );
+
 // function returns a pair of values:
 // first 'int' value indicates an error code
 // (0 - success, everything else - error)
 // second 'R_RSA_PUBLIC_KEY' value is the public key
 // converted from OpenSSL's EVP_PKEY
 // if the first value is not 0, the second value is invalid
+//
 extern std::pair<int, R_RSA_PUBLIC_KEY> openssl_to_public(
     const unique_EVP_PKEY& pkey
 );
+
 // function returns a pair of values:
 // first 'int' value indicates an error code
 // (0 - success, everything else - error)
 // second 'R_RSA_PRIVATE_KEY' value is the private key
 // converted from OpenSSL's EVP_PKEY
 // if the first value is not 0, the second value is invalid
+//
 extern std::pair<int, R_RSA_PRIVATE_KEY> openssl_to_private(
     const unique_EVP_PKEY& pkey
 );
@@ -120,151 +129,203 @@ struct KEY {
 };
 
 // return a pair of values:
-// first 'bool' value indicates if the data was converted successfully
-// (true - success, false - failure)
+// first 'int' value indicates an error code
+// (0 - success, everything else - error)
 // second 'string' value is the hex representation of the data
 // if the first value is false, the second value is invalid
-extern std::pair<bool, std::string> sprint_hex_data(
+//
+extern std::pair<int, std::string> sprint_hex_data(
     const std::vector<uint8_t> &data
 );
+
 #ifdef _USING_FCGI_
 #undef FILE
 #endif
-extern bool print_hex_data(FILE *f, const std::vector<uint8_t> &data);
+
+// return 'int' value that indicates an error code
+// (0 - success, everything else - error)
+//
+extern int print_hex_data(FILE *f, const std::vector<uint8_t> &data);
+
 // return a pair of values:
-// first 'bool' value indicates if the data was read successfully
-// (true - success, false - failure)
-// second 'vector<uint8_t>' value is the data read from the file
+// first 'int' value indicates an error code
+// (0 - success, everything else - error)
+// second 'std::vector<uint8_t>' value is the data read from the file
 // if the first value is false, the second value is invalid
-extern std::pair<bool, std::vector<uint8_t>> scan_hex_data(FILE *f);
-extern bool print_private_key_hex(FILE *f, const R_RSA_PRIVATE_KEY& key);
-extern bool print_public_key_hex(FILE *f, const R_RSA_PUBLIC_KEY& key);
+//
+extern std::pair<int, std::vector<uint8_t>> scan_hex_data(FILE *f);
+
+// return 'int' value that indicates an error code
+// (0 - success, everything else - error)
+//
+extern int print_private_key_hex(FILE *f, const R_RSA_PRIVATE_KEY& key);
+
+// return 'int' value that indicates an error code
+// (0 - success, everything else - error)
+//
+extern int print_public_key_hex(FILE *f, const R_RSA_PUBLIC_KEY& key);
+
 // return a pair of values:
-// first 'bool' value indicates if the key was read successfully
-// (true - success, false - failure)
+// first 'int' value indicates an error code
+// (0 - success, everything else - error)
 // second 'R_RSA_PUBLIC_KEY' value is the public key read from the file
 // if the first value is false, the second value is invalid
-extern std::pair<bool, R_RSA_PUBLIC_KEY> scan_public_key_hex(FILE *f);
+//
+extern std::pair<int, R_RSA_PUBLIC_KEY> scan_public_key_hex(FILE *f);
+
 // return a pair of values:
-// first 'bool' value indicates if the key was read successfully
-// (true - success, false - failure)
+// first 'int' value indicates an error code
+// (0 - success, everything else - error)
 // second 'R_RSA_PRIVATE_KEY' value is the private key read from the file
 // if the first value is false, the second value is invalid
-extern std::pair<bool, R_RSA_PRIVATE_KEY> scan_private_key_hex(FILE *f);
+//
+extern std::pair<int, R_RSA_PRIVATE_KEY> scan_private_key_hex(FILE *f);
+
 #ifdef _USING_FCGI_
 #define FILE FCGI_FILE
 #endif
+
 // return a pair of values:
-// first 'bool' value indicates if the data was encrypted successfully
-// (true - success, false - failure)
+// first 'int' value indicates an error code
+// (0 - success, everything else - error)
 // second 'std::vector<uint8_t>' value is encrypted data
 // if the first value is false, the second value is invalid
-extern std::pair<bool, std::vector<uint8_t>> encrypt_private(
+//
+extern std::pair<int, std::vector<uint8_t>> encrypt_private(
     const R_RSA_PRIVATE_KEY& key,
     const std::vector<uint8_t>& in
 );
+
 // return a pair of values:
-// first 'bool' value indicates if the data was decrypted successfully
-// (true - success, false - failure)
+// first 'int' value indicates an error code
+// (0 - success, everything else - error)
 // second 'std::vector<uint8_t>' value is decrypted data
 // if the first value is false, the second value is invalid
-extern std::pair<bool, std::vector<uint8_t>> decrypt_public(
+//
+extern std::pair<int, std::vector<uint8_t>> decrypt_public(
     const R_RSA_PUBLIC_KEY& key,
     const std::vector<uint8_t>& in
 );
+
 // return a pair of values:
-// first 'bool' value indicates if the file was signed successfully
-// (true - success, false - failure)
+// first 'int' value indicates an error code
+// (0 - success, everything else - error)
 // second 'std::vector<uint8_t>' value is the file signature
 // if the first value is false, the second value is invalid
-extern std::pair<bool, std::vector<uint8_t>> sign_file(
+//
+extern std::pair<int, std::vector<uint8_t>> sign_file(
     const std::string& path, const R_RSA_PRIVATE_KEY& key
 );
+
 // return a pair of values:
-// first 'bool' value indicates if the block was signed successfully
-// (true - success, false - failure)
+// first 'int' value indicates an error code
+// (0 - success, everything else - error)
 // second 'std::vector<uint8_t>' value is the block signature
 // if the first value is false, the second value is invalid
-extern std::pair<bool, std::vector<uint8_t>> sign_block(
+//
+extern std::pair<int, std::vector<uint8_t>> sign_block(
     const std::vector<uint8_t>& data, const R_RSA_PRIVATE_KEY& key
 );
+
 // return a pair of values:
 // first 'int' value indicates an error code
 // (0 - success, everything else - error)
 // second 'bool' value indicates if the signature is valid
 // (true - valid, false - invalid)
+//
 extern std::pair<int, bool> check_file_signature(
     const std::string& md5,
     const R_RSA_PUBLIC_KEY& key,
     const std::vector<uint8_t>& signature
 );
+
 // return a pair of values:
 // first 'int' value indicates an error code
 // (0 - success, everything else - error)
 // second 'bool' value indicates if the signature is valid
 // (true - valid, false - invalid)
+//
 extern std::pair<int, bool> check_file_signature(
     const std::string& md5,
     const std::string& signature,
     const std::string& key
 );
+
 // return a pair of values:
 // first 'int' value indicates an error code
 // (0 - success, everything else - error)
 // second 'bool' value indicates if the signature is valid
 // (true - valid, false - invalid)
+//
 extern std::pair<int, bool> check_string_signature(
     const std::string& text,
     const std::string& signature,
     const R_RSA_PUBLIC_KEY& key
 );
+
 // return a pair of values:
 // first 'int' value indicates an error code
 // (0 - success, everything else - error)
 // second 'bool' value indicates if the signature is valid
 // (true - valid, false - invalid)
+//
 extern std::pair<int, bool> check_string_signature(
     const std::string& text,
     const std::string& signature,
     const std::string& key
 );
-extern bool print_raw_data(FILE *f, const std::vector<uint8_t> &x);
+
+// return 'int' value that indicates an error code
+// (0 - success, everything else - error)
+//
+extern int print_raw_data(FILE *f, const std::vector<uint8_t> &x);
+
 // return a pair of values:
-// first 'bool' value indicates if the data was read successfully
-// (true - success, false - failure)
-// second 'vector<uint8_t>' value is the data read from the file
+// first 'int' value indicates an error code
+// (0 - success, everything else - error)
+// second 'std::vector<uint8_t>' value is the data read from the file
 // if the first value is false, the second value is invalid
-extern std::pair<bool, std::vector<uint8_t>> scan_raw_data(FILE *f);
+//
+extern std::pair<int, std::vector<uint8_t>> scan_raw_data(FILE *f);
+
 // return a pair of values:
 // first 'int' value indicates an error code
 // (0 - success, everything else - error)
 // second 'R_RSA_PRIVATE_KEY' value is the private key read from the file
 // if the first value is not 0, the second value is invalid
+//
 extern std::pair<int, R_RSA_PRIVATE_KEY> read_key_file(
     const std::string& keyfile
 );
+
 // return a pair of values:
-// first 'bool' value indicates if the signature was generated successfully
-// (true - success, false - failure)
+// first 'int' value indicates an error code
+// (0 - success, everything else - error)
 // second 'string' value is the generated signature
 // if the first value is false, the second value is invalid
-extern std::pair<bool, std::string> generate_signature(
+//
+extern std::pair<int, std::string> generate_signature(
     const std::string& text_to_sign,
     const R_RSA_PRIVATE_KEY& key
 );
 
 // return a pair of values:
-// first 'bool' value indicates if the signature is valid
+// first 'int' value indicates an error code
+// (0 - success, everything else - error)
 // second 'string' value return a path to the certificate
 // that was used for signing
 // if the first value is false, the second value is invalid
-extern std::pair<bool, std::string> check_validity(
+//
+extern std::pair<int, std::string> check_validity(
     const std::string &certPath,
     const std::string &origFile,
     const std::vector<uint8_t> &signature,
     const std::string &caPath
 );
 
-bool cert_verify_file(CERT_SIGS *signatures, const std::string &origFile,
+// return 'int' value that indicates an error code
+// (0 - success, everything else - error)
+//
+int cert_verify_file(CERT_SIGS *signatures, const std::string &origFile,
     const std::string &trustLocation);
 #endif
