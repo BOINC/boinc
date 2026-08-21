@@ -68,15 +68,11 @@ IMPLEMENT_DYNAMIC_CLASS( CProjectProcessingPage, wxWizardPageEx )
 /*!
  * CProjectProcessingPage event table definition
  */
-
 BEGIN_EVENT_TABLE( CProjectProcessingPage, wxWizardPageEx )
-
-    EVT_PROJECTPROCESSING_STATECHANGE( CProjectProcessingPage::OnStateChange )
 
 ////@begin CProjectProcessingPage event table entries
     EVT_WIZARDEX_PAGE_CHANGED( -1, CProjectProcessingPage::OnPageChanged )
     EVT_WIZARDEX_CANCEL( -1, CProjectProcessingPage::OnCancel )
-
 ////@end CProjectProcessingPage event table entries
 
 END_EVENT_TABLE()
@@ -119,6 +115,10 @@ bool CProjectProcessingPage::Create( CBOINCBaseWizard* parent )
     CreateControls();
     GetSizer()->Fit(this);
 ////@end CProjectProcessingPage creation
+
+    // Bind the custom state-change event to its handler.
+    Bind(wxEVT_PROJECTPROCESSING_STATECHANGE,
+         &CProjectProcessingPage::OnStateChange, this);
 
     return TRUE;
 }
@@ -625,4 +625,3 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
         AddPendingEvent(TransitionEvent);
     }
 }
-
