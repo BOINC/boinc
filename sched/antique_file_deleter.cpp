@@ -108,7 +108,6 @@ int delete_antiques_from_dir(char*dirpath, time_t mtime, uid_t uid) {
     DIR*dir;
     struct dirent *entry;
     struct stat fstat;
-    int ret;
     char path[MAXPATHLEN];
 
     // open directory
@@ -138,7 +137,10 @@ int delete_antiques_from_dir(char*dirpath, time_t mtime, uid_t uid) {
                     "delete_antiques_from_dir(): Couldn't read dir '%s': %s (%d)\n",
                     dirpath, strerror(errno), errno
                 );
+                closedir(dir);
+                return -1;
             }
+            closedir(dir);
             break;
         }
 
@@ -218,15 +220,6 @@ int delete_antiques_from_dir(char*dirpath, time_t mtime, uid_t uid) {
 
     } // while (readdir())
 
-    ret = closedir(dir);
-    if (ret) {
-        log_messages.printf(MSG_CRITICAL,
-            "delete_antiques_from_dir(): "
-            "Couldn't close dir '%s': %s (%d)\n",
-            dirpath, strerror(errno), errno
-        );
-        return -1;
-    }
     return 0;
 }
 
