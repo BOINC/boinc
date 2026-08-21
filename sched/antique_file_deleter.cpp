@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -98,17 +98,12 @@ int get_file_path(
 // return ctime() w/o \n
 //
 static inline char* actime(time_t t) {
-    char*p=ctime(&t);
-    char*c=strchr(p,'\n');
-    if(c) *c='\0';
+    char *p = ctime(&t);
+    char *c = strchr(p,'\n');
+    if (c) *c = '\0';
     return p;
 }
 
-//  returns:
-//  0 if all went ok;
-//  1 on a transient error affecting only a single file;
-// -1 on a serious error that should switch off antique file deletion
-//
 int delete_antiques_from_dir(char*dirpath, time_t mtime, uid_t uid) {
     DIR*dir;
     struct dirent *entry;
@@ -117,7 +112,6 @@ int delete_antiques_from_dir(char*dirpath, time_t mtime, uid_t uid) {
     char path[MAXPATHLEN];
 
     // open directory
-    errno = 0;
     dir = opendir(dirpath);
     if (!dir) {
         log_messages.printf(MSG_CRITICAL,
@@ -129,17 +123,31 @@ int delete_antiques_from_dir(char*dirpath, time_t mtime, uid_t uid) {
     }
 
     // scan directory
-    errno = 0;
-    while ((entry = readdir(dir))) {
-
-        // might be woken by a signal
+    //
+    while (1) {
         check_stop_daemons();
+
+        // if end of dir is reached,
+        // readdir() returns NULL and doesn't change errno
+        //
+        errno = 0;
+        entry = readdir(dir);
+        if (!entry) {
+            if (errno) {
+                log_messages.printf(MSG_CRITICAL,
+                    "delete_antiques_from_dir(): Couldn't read dir '%s': %s (%d)\n",
+                    dirpath, strerror(errno), errno
+                );
+            }
+            break;
+        }
 
         if (entry->d_name[0] == '.') {
             continue;
         }
 
         // construct absolute path of this entry
+        //
         safe_strcpy(path, dirpath);
         strcat(path, "/");
         strcat(path, entry->d_name);
@@ -149,8 +157,6 @@ int delete_antiques_from_dir(char*dirpath, time_t mtime, uid_t uid) {
             path
         );
 
-        // stat
-        errno = 0;
         if (lstat(path, &fstat)) {
             log_messages.printf(MSG_NORMAL,
                 "couldn't stat '%s: %s (%d)'\n",
@@ -166,7 +172,8 @@ int delete_antiques_from_dir(char*dirpath, time_t mtime, uid_t uid) {
             continue;
         }
 
-        // modification time
+        // check mod time
+        //
         if (fstat.st_mtime > mtime) {
             log_messages.printf(MSG_DEBUG,
                 "too young: %s\n", actime(fstat.st_mtime)
@@ -174,13 +181,15 @@ int delete_antiques_from_dir(char*dirpath, time_t mtime, uid_t uid) {
             continue;
         }
 
-        // check owner (must be apache)
+        // check owner (must be web server user)
+        //
         if (fstat.st_uid != uid) {
             log_messages.printf(MSG_DEBUG,"wrong owner: id %d\n", fstat.st_uid);
             continue;
         }
 
         // skip if dry_run
+        //
         if (antiques_deletion_dry_run) {
             log_messages.printf(MSG_NORMAL,
                 "Would delete '%s/%s' (%s)\n",
@@ -189,41 +198,26 @@ int delete_antiques_from_dir(char*dirpath, time_t mtime, uid_t uid) {
             continue;
         }
 
-        // found no reason to skip, actually delete this file
+        // found no reason to skip; delete the file
+        //
         log_messages.printf(MSG_NORMAL, "Deleting file '%s' (%s)\n",
             path, actime(fstat.st_mtime)
         );
-        errno = 0;
         if (unlink(path)) {
             log_messages.printf(MSG_CRITICAL,
-                "delete_antiques_from_dir(): "
-                "Couldn't unlink '%s: %s (%d)'\n",
+                "delete_antiques_from_dir(): Couldn't unlink '%s: %s (%d)'\n",
                 path, strerror(errno), errno
             );
-            closedir(dir);
-            return 1;
         }
 
-        // throttle I/O if told to
+        // throttle I/O if needed
+        //
         if (antique_usleep) {
             usleep(antique_usleep);
         }
 
     } // while (readdir())
 
-    // if the loop terminated because of an error
-    if (errno) {
-        log_messages.printf(MSG_CRITICAL,
-            "delete_antiques_from_dir(): "
-            "Couldn't read dir '%s': %s (%d)\n",
-            dirpath, strerror(errno), errno
-        );
-        closedir(dir);
-        return 1;
-    }
-
-    // close dir
-    errno = 0;
     ret = closedir(dir);
     if (ret) {
         log_messages.printf(MSG_CRITICAL,
@@ -231,8 +225,9 @@ int delete_antiques_from_dir(char*dirpath, time_t mtime, uid_t uid) {
             "Couldn't close dir '%s': %s (%d)\n",
             dirpath, strerror(errno), errno
         );
+        return -1;
     }
-    return ret;
+    return 0;
 }
 
 
@@ -276,9 +271,10 @@ static int delete_antiques() {
     );
 
     // if fanout is configured, scan every fanout directory,
-    // else just the plain upload directory
+    // else just the upload directory
+    //
     if (config.uldl_dir_fanout) {
-        for (int d = 0; d < config.uldl_dir_fanout; d++) {
+        for (int d=0; d<config.uldl_dir_fanout; d++) {
             char buf[270];
             snprintf(buf, sizeof(buf), "%s/%x", config.upload_dir, d);
             log_messages.printf(MSG_DEBUG,
@@ -288,7 +284,7 @@ static int delete_antiques() {
             ret = delete_antiques_from_dir(
                 buf, max_mod_time, apache_info->pw_uid
             );
-            if (ret < 0) return ret;
+            if (ret) return ret;
         }
     } else {
         log_messages.printf(MSG_DEBUG,
@@ -298,10 +294,10 @@ static int delete_antiques() {
         ret = delete_antiques_from_dir(
             config.upload_dir, max_mod_time, apache_info->pw_uid
         );
+        if (ret) return ret;
     }
-    return ret;
+    return 0;
 }
-
 
 int main(int argc, char** argv) {
     int retval;
