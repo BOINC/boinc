@@ -170,6 +170,9 @@
     <ClInclude Include="../tests/unit-tests/lib/test_base64.cpp">
       <Filter>lib</Filter>
     </ClInclude>
+    <ClInclude Include="../tests/unit-tests/lib/test_crypt.cpp">
+      <Filter>lib</Filter>
+    </ClInclude>
     <ClInclude Include="../tests/unit-tests/lib/test_md5_file.cpp">
       <Filter>lib</Filter>
     </ClInclude>

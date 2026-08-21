@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -129,7 +129,7 @@ int main(int argc, char** argv) {
     if (generate_upload_certificate) {
         char keypath[MAXPATHLEN];
         sprintf(keypath, "%s/upload_private", config.key_dir);
-        retval = read_key_file(keypath, key);
+        std::tie(retval, key) = read_key_file(keypath);
         if (retval) {
             fprintf(stderr, "can't read key\n");
             exit(1);

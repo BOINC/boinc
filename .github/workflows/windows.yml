@@ -133,6 +133,8 @@ jobs:
         if: success() && matrix.platform == 'x64' && matrix.configuration == 'Release'
         working-directory: win_build\Build\${{matrix.platform}}\${{matrix.configuration}}
         run: |
+          python -m pip install pyopenssl
+          python -m pip install cryptography
           ${{github.workspace}}\temp\OpenCppCoverage\OpenCppCoverage.exe --cover_children --optimized_build --modules ${{github.workspace}} --sources ${{github.workspace}} --input_coverage=gtest.cov --export_type=cobertura:cobertura.xml -- python ${{github.workspace}}\tests\crypt_prog_tests.py ${{github.workspace}}\win_build\Build\x64\${{matrix.configuration}}\crypt_prog.exe
 
       - name: Verify MSI file

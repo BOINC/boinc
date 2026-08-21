@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -765,8 +765,8 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
                     continue;
                 }
 
-                retval = check_string_signature2(
-                    acct.url.c_str(), acct.url_signature, ami.signing_key, verified
+                std::tie(retval, verified) = check_string_signature(
+                    acct.url, acct.url_signature, ami.signing_key
                 );
                 if (retval || !verified) {
                     msg_printf(NULL, MSG_INTERNAL_ERROR,

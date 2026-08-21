@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -32,14 +32,16 @@
 #define OUTFILE_MACRO   "<OUTFILE_"
 #define UPLOAD_URL_MACRO      "<UPLOAD_URL/>"
 
+using std::string;
+using std::tie;
+
 // Add a signature at the end of every <file_info> element,
 //
 int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
     char* p = xml, *q1, *q2, buf[BLOB_SIZE], buf2[BLOB_SIZE];
-    char signature_hex[BLOB_SIZE];
     char signature_xml[BLOB_SIZE];
     char signed_xml[1024];
-    int retval, len;
+    int len;
 
     while (1) {
         q1 = strstr(p, "<file_info>\n");
@@ -67,11 +69,15 @@ int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
         sprintf(signed_xml, "<name>%s</name><max_nbytes>%.0f</max_nbytes>",
             name, max_nbytes
         );
-        retval = generate_signature(signed_xml, signature_hex, key);
+        int result = false;
+        string signature_hex;
+        tie(result, signature_hex) = generate_signature(signed_xml, key);
+        if (result || signature_hex.empty()) {
+            return ERR_CRYPTO;
+        }
         sprintf(signature_xml,
-            "<xml_signature>\n%s</xml_signature>\n", signature_hex
+            "<xml_signature>\n%s</xml_signature>\n", signature_hex.c_str()
         );
-        if (retval) return retval;
         safe_strcpy(buf2, q2);
         strcpy(q1, buf);
         strcat(q1, signature_xml);
