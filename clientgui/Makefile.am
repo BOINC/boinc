@@ -56,7 +56,6 @@ boincmgr_SOURCES = \
     DlgItemProperties.cpp \
     DlgOptions.cpp \
     DlgSelectComputer.cpp \
-    gtk/taskbarex.cpp \
     LogBOINC.cpp \
     MainDocument.cpp \
     NoInternetConnectionPage.cpp \

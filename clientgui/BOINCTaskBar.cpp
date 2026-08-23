@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -35,6 +35,10 @@
 #include "DlgEventLog.h"
 #include "Events.h"
 
+#ifdef __WXGTK__
+#include <wx/notifmsg.h>
+#endif
+
 #ifdef __WXMAC__
 #include "res/macsnoozebadge.xpm"
 #include "res/macdisconnectbadge.xpm"
@@ -55,8 +59,10 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_TASKBAR_REFRESH(CTaskBarIcon::OnRefresh)
     EVT_TASKBAR_RELOADSKIN(CTaskBarIcon::OnReloadSkin)
     EVT_TASKBAR_LEFT_DCLICK(CTaskBarIcon::OnLButtonDClick)
-#ifndef __WXMAC__
+#ifdef __WXGTK__
     EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
+#endif
+#ifdef __WXMSW__
     EVT_TASKBAR_RIGHT_UP(CTaskBarIcon::OnRButtonUp)
     EVT_TASKBAR_CONTEXT_USERCLICK(CTaskBarIcon::OnNotificationClick)
     EVT_TASKBAR_BALLOON_USERTIMEOUT(CTaskBarIcon::OnNotificationTimeout)
@@ -83,6 +89,8 @@ CTaskBarIcon::CTaskBarIcon(wxIconBundle* icon, wxIconBundle* iconDisconnected, w
 ) :
 #ifdef __WXMAC__
     wxTaskBarIcon(iconType)
+#elif defined(__WXGTK__)
+    wxTaskBarIcon()
 #else
     wxTaskBarIconEx(wxT("BOINCManagerSystray"), 1)
 #endif
@@ -116,8 +124,6 @@ CTaskBarIcon::CTaskBarIcon(wxIconBundle* icon, wxIconBundle* iconDisconnected, w
     m_SnoozeGPUMenuItem = NULL;
 
     m_bTaskbarInitiatedShutdown = false;
-
-    m_bMouseButtonPressed = false;
 
     m_dtLastNotificationAlertExecuted = wxDateTime((time_t)0);
     m_iLastNotificationUnreadMessageCount = 0;
@@ -319,19 +325,17 @@ void CTaskBarIcon::OnExit(wxCommandEvent& event) {
 }
 
 
-#ifndef __WXMAC__
+#ifdef __WXGTK__
 void CTaskBarIcon::OnRButtonDown(wxTaskBarIconEvent& WXUNUSED(event)) {
-    m_bMouseButtonPressed = true;
+    DisplayContextMenu();
 }
+#endif
 
-
+#ifdef __WXMSW__
 void CTaskBarIcon::OnRButtonUp(wxTaskBarIconEvent& WXUNUSED(event)) {
-    if (m_bMouseButtonPressed) {
-        DisplayContextMenu();
-        m_bMouseButtonPressed = false;
-    }
+    DisplayContextMenu();
 }
-#endif  // #ifndef __WXMAC__
+#endif
 
 
 #ifdef __WXMSW__
@@ -782,6 +786,16 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::UpdateTaskbarStatus - Function End"));
 }
 
+#ifdef __WXGTK__
+bool CTaskBarIcon::IsBalloonsSupported() {
+    return true;
+}
+
+bool CTaskBarIcon::QueueBalloon(const wxIcon& WXUNUSED(icon), const wxString title, const wxString message, unsigned int type) {
+    wxNotificationMessage notification = wxNotificationMessage(title, message, wxGetApp().GetFrame()->GetParent(), type);
+    return notification.Show();
+}
+#endif
 
 void CTaskBarIcon::UpdateNoticeStatus() {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::UpdateNoticeStatus - Function Begin"));

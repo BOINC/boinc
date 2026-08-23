@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -28,8 +28,6 @@
 
 #if   defined(__WXMSW__)
 #include "msw/taskbarex.h"
-#elif defined(__WXGTK__)
-#include "gtk/taskbarex.h"
 #else
 #define wxTaskBarIconEx         wxTaskBarIcon
 #define wxTaskBarIconExEvent    wxTaskBarIconEvent
@@ -63,8 +61,12 @@ public:
     void OnAppRestore(wxTaskBarIconExEvent& event);
     void OnShutdown(wxTaskBarIconExEvent& event);
     void OnLButtonDClick(wxTaskBarIconEvent& event);
+#ifdef __WXGTK__
     void OnRButtonDown(wxTaskBarIconEvent& event);
+#endif
+#ifdef __WXMSW__
     void OnRButtonUp(wxTaskBarIconEvent& event);
+#endif
 
     void FireReloadSkin();
 
@@ -89,7 +91,9 @@ public:
 #else
     bool SetIcon(const wxIcon& icon, const wxString& message = wxEmptyString);
 #endif
+#endif  // __WXMAC__
 
+#ifndef __WXMSW__
 #define BALLOONTYPE_INFO 0
     bool IsBalloonsSupported();
 
@@ -99,7 +103,7 @@ public:
         const wxString message = wxEmptyString,
         unsigned int iconballoon = BALLOONTYPE_INFO
     );
-#endif  // __WXMAC__
+#endif  // __WXMSW__
 
     wxIcon          m_iconTaskBarNormal;
     wxIcon          m_iconTaskBarDisconnected;
@@ -110,7 +114,6 @@ public:
     bool            m_bTaskbarInitiatedShutdown;
 
 private:
-    bool            m_bMouseButtonPressed;
     wxMenuItem*     m_SnoozeMenuItem;
     wxMenuItem*     m_SnoozeGPUMenuItem;
 
