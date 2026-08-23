@@ -456,6 +456,12 @@
         <name>windows_x86_64[docker]</name>
         <name>x86_64-pc-linux-gnu[docker]</name>
         <name>x86_64-apple-darwin[docker]</name>
+        <name>windows_x86_64[cuda_80]</name>
+        <name>x86_64-pc-linux-gnu[cuda_80]</name>
+        <name>windows_x86_64[cuda_8030]</name>
+        <name>x86_64-pc-linux-gnu[cuda_8030]</name>
+        <name>windows_x86_64[cuda_8031]</name>
+        <name>x86_64-pc-linux-gnu[cuda_8031]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/NFS_Logo.jpg</image>
       <summary>Study the factorization of large integers</summary>
