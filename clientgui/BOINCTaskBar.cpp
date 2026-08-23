@@ -51,8 +51,16 @@
 
 DEFINE_EVENT_TYPE(wxEVT_TASKBAR_RELOADSKIN)
 DEFINE_EVENT_TYPE(wxEVT_TASKBAR_REFRESH)
+#ifndef __WXMAC__
+DEFINE_EVENT_TYPE(wxEVT_TASKBAR_BALLOON_USERCLICK)
+DEFINE_EVENT_TYPE(wxEVT_TASKBAR_BALLOON_USERTIMEOUT)
+#ifdef __WXMSW__
+DEFINE_EVENT_TYPE(wxEVT_TASKBAR_SHUTDOWN)
+DEFINE_EVENT_TYPE(wxEVT_TASKBAR_APPRESTORE)
+#endif // __WXMSW__
+#endif // __WXMAC__
 
-BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
+BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIcon)
 
     EVT_IDLE(CTaskBarIcon::OnIdle)
     EVT_CLOSE(CTaskBarIcon::OnClose)
@@ -62,7 +70,7 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
 #ifdef __WXGTK__
     EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
 #endif
-#ifdef __WXMSW__
+#ifndef __WXMAC__
     EVT_TASKBAR_RIGHT_UP(CTaskBarIcon::OnRButtonUp)
     EVT_TASKBAR_CONTEXT_USERCLICK(CTaskBarIcon::OnNotificationClick)
     EVT_TASKBAR_BALLOON_USERTIMEOUT(CTaskBarIcon::OnNotificationTimeout)
@@ -89,10 +97,8 @@ CTaskBarIcon::CTaskBarIcon(wxIconBundle* icon, wxIconBundle* iconDisconnected, w
 ) :
 #ifdef __WXMAC__
     wxTaskBarIcon(iconType)
-#elif defined(__WXGTK__)
-    wxTaskBarIcon()
 #else
-    wxTaskBarIconEx(wxT("BOINCManagerSystray"), 1)
+    wxTaskBarIcon()
 #endif
 {
 #ifdef __WXMAC__
@@ -123,8 +129,6 @@ CTaskBarIcon::CTaskBarIcon(wxIconBundle* icon, wxIconBundle* iconDisconnected, w
     }
     m_SnoozeGPUMenuItem = NULL;
 
-    m_bTaskbarInitiatedShutdown = false;
-
     m_dtLastNotificationAlertExecuted = wxDateTime((time_t)0);
     m_iLastNotificationUnreadMessageCount = 0;
 }
@@ -141,11 +145,10 @@ void CTaskBarIcon::OnIdle(wxIdleEvent& event) {
 }
 
 
-void CTaskBarIcon::OnClose(wxCloseEvent& ) {
+void CTaskBarIcon::OnClose(wxCloseEvent&) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnClose - Function Begin"));
 
     RemoveIcon();
-    m_bTaskbarInitiatedShutdown = true;
 
     CDlgEventLog* pEventLog = wxGetApp().GetEventLog();
     if (pEventLog) {
@@ -158,6 +161,10 @@ void CTaskBarIcon::OnClose(wxCloseEvent& ) {
         wxLogTrace(wxT("Function Status"), wxT("CTaskBarIcon::OnClose - Closing Current Frame"));
         pFrame->Close(true);
     }
+
+#ifdef __WXMSW__
+    Destroy();
+#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnClose - Function End"));
 }
@@ -183,8 +190,8 @@ void CTaskBarIcon::OnLButtonDClick(wxTaskBarIconEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnLButtonDClick - Function End"));
 }
 
-
-void CTaskBarIcon::OnNotificationClick(wxTaskBarIconExEvent& WXUNUSED(event)) {
+#ifndef __WXMAC__
+void CTaskBarIcon::OnNotificationClick(wxTaskBarIconEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnNotificationClick - Function Begin"));
 
     ResetTaskBar();
@@ -194,14 +201,14 @@ void CTaskBarIcon::OnNotificationClick(wxTaskBarIconExEvent& WXUNUSED(event)) {
 }
 
 
-void CTaskBarIcon::OnNotificationTimeout(wxTaskBarIconExEvent& WXUNUSED(event)) {
+void CTaskBarIcon::OnNotificationTimeout(wxTaskBarIconEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnNotificationTimeout - Function Begin"));
 
     ResetTaskBar();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnNotificationTimeout - Function End"));
 }
-
+#endif
 
 void CTaskBarIcon::OnOpen(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnOpen - Function Begin"));
@@ -335,12 +342,8 @@ void CTaskBarIcon::OnRButtonDown(wxTaskBarIconEvent& WXUNUSED(event)) {
 void CTaskBarIcon::OnRButtonUp(wxTaskBarIconEvent& WXUNUSED(event)) {
     DisplayContextMenu();
 }
-#endif
 
-
-#ifdef __WXMSW__
-
-void CTaskBarIcon::OnShutdown(wxTaskBarIconExEvent& event) {
+void CTaskBarIcon::OnShutdown(wxTaskBarIconEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function Begin"));
 
     wxCloseEvent eventClose;
@@ -350,7 +353,7 @@ void CTaskBarIcon::OnShutdown(wxTaskBarIconExEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function End"));
 }
 
-void CTaskBarIcon::OnAppRestore(wxTaskBarIconExEvent&) {
+void CTaskBarIcon::OnAppRestore(wxTaskBarIconEvent&) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnAppRestore - Function Begin"));
 
     ResetTaskBar();
@@ -383,6 +386,18 @@ void CTaskBarIcon::OnReloadSkin(CTaskbarEvent& WXUNUSED(event)) {
     m_iconTaskBarSnooze = pSkinAdvanced->GetApplicationSnoozeIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
 #endif
 }
+
+#ifdef __WXMSW__
+void CTaskBarIcon::FireAppRestore() {
+    CTaskbarEvent event(wxEVT_TASKBAR_APPRESTORE, this);
+    AddPendingEvent(event);
+}
+
+void CTaskBarIcon::FireShutdown() {
+    CTaskbarEvent event(wxEVT_TASKBAR_SHUTDOWN, this);
+    AddPendingEvent(event);
+}
+#endif
 
 
 void CTaskBarIcon::FireReloadSkin() {
@@ -786,14 +801,24 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::UpdateTaskbarStatus - Function End"));
 }
 
-#ifdef __WXGTK__
+#ifndef __WXMAC__
 bool CTaskBarIcon::IsBalloonsSupported() {
     return true;
 }
 
-bool CTaskBarIcon::QueueBalloon(const wxIcon& WXUNUSED(icon), const wxString title, const wxString message, unsigned int type) {
+bool CTaskBarIcon::QueueBalloon(const wxIcon&
+#ifdef __WXGTK__
+                                WXUNUSED(icon),
+#else
+                                icon,
+#endif
+                                const wxString title, const wxString message, unsigned int type) {
+#ifdef __WXGTK__
     wxNotificationMessage notification = wxNotificationMessage(title, message, wxGetApp().GetFrame()->GetParent(), type);
     return notification.Show();
+#else
+    return ShowBalloon(title, message, 0, type, icon);
+#endif
 }
 #endif
 

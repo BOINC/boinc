@@ -269,25 +269,10 @@ void CBOINCBaseFrame::OnAlert(CFrameAlertEvent& event) {
                 }
             }
         } else {
-#ifdef __WXMSW__
             // If the main window is hidden or minimzed use the system tray ballon
             //   to notify the user instead.  This keeps dialogs from interfering
             //   with people typing email messages or any other activity where they
             //   do not want keyboard focus changed to another window while typing.
-            unsigned int  icon_type;
-
-            if (wxICON_ERROR & event.m_style) {
-                icon_type = NIIF_ERROR;
-            } else if (wxICON_WARNING & event.m_style) {
-                icon_type = NIIF_WARNING;
-            } else if (wxICON_INFORMATION & event.m_style) {
-                icon_type = NIIF_INFO;
-            } else {
-                icon_type = NIIF_NONE;
-            }
-
-            pTaskbar->SetBalloon(
-#else
             unsigned int icon_type = wxICON_INFORMATION;
             if (wxICON_ERROR & event.m_style) {
                 icon_type = wxICON_ERROR;
@@ -297,7 +282,6 @@ void CBOINCBaseFrame::OnAlert(CFrameAlertEvent& event) {
                 icon_type = wxICON_INFORMATION;
             }
             pTaskbar->QueueBalloon(
-#endif
                 pTaskbar->m_iconTaskBarNormal,
                 event.m_title,
                 event.m_message,
@@ -382,6 +366,13 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
         if (eventLog) {
             eventLog->Destroy();
         }
+
+#ifdef __WXMSW__
+        CTaskBarIcon* taskbar = wxGetApp().GetTaskBarIcon();
+        if (taskbar) {
+            taskbar->FireShutdown();
+        }
+#endif
 
         Close(true);
     }

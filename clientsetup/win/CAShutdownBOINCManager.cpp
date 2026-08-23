@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <TlHelp32.h>
+
 #include "boinccas.h"
 
 class CAShutdownBOINCManager : public BOINCCABase {
@@ -25,45 +27,36 @@ public:
             _T("Shutting down running instances of BOINC Manager")) {
     }
 private:
-    UINT OnExecution() override final {
-        const auto WM_TASKBARSHUTDOWN =
-            ::RegisterWindowMessage(_T("TaskbarShutdown"));
+    DWORD findProcessByName(const std::wstring& processName) {
+        const auto snapshot =
+            CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+        if (snapshot == INVALID_HANDLE_VALUE) {
+            return 0;
+        }
+        wil::unique_handle snapshotHandle(snapshot);
 
+        PROCESSENTRY32 processEntry;
+        processEntry.dwSize = sizeof(PROCESSENTRY32);
+        if (!Process32First(snapshot, &processEntry)) {
+            return 0;
+        }
+        do {
+            if (processName == processEntry.szExeFile) {
+                return processEntry.th32ProcessID;
+            }
+        } while (Process32Next(snapshot, &processEntry));
+        return 0;
+    }
+
+    UINT OnExecution() override final {
         TerminateProcessEx(_T("boincmgr.exe"), false);
         auto terminateResult = false;
         for (auto attempt = 0u; attempt <= 5u; ++attempt) {
-            auto hWndBOINCManagerSystray =
-                FindWindow(_T("wxTaskBarExWindowClass"),
-                    _T("BOINCManagerSystray"));
-
-            if (hWndBOINCManagerSystray == nullptr) {
+            if (findProcessByName(_T("boincmgr.exe")) == 0) {
                 terminateResult = true;
                 break;
             }
-
-            if (hWndBOINCManagerSystray != nullptr) {
-                constexpr auto szWindowTitleSize = 256;
-                TCHAR szWindowTitle[szWindowTitleSize];
-
-                if (GetWindowText(hWndBOINCManagerSystray, szWindowTitle,
-                    szWindowTitleSize) == 0) {
-                    LogMessage(INSTALLMESSAGE_INFO, 0, 0, GetLastError(),
-                        _T("Setup was unable to get the window title of the "
-                            "BOINC Manager Systray window."));
-                    break;
-                }
-                LogProgress(szWindowTitle);
-
-                const auto result = SendMessage(hWndBOINCManagerSystray,
-                    WM_TASKBARSHUTDOWN, NULL, NULL);
-                if (result != 0) {
-                    LogMessage(INSTALLMESSAGE_INFO, 0, 0,
-                        static_cast<int>(result), _T("Setup was unable to "
-                            "shutdown the BOINC Manager Systray window."));
-                    return ERROR_INSTALL_FAILURE;
-                }
-                Sleep(1000);
-            }
+            Sleep(1000);
         }
 
         if (!terminateResult) {

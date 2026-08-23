@@ -648,7 +648,7 @@ int CBOINCGUIApp::OnExit() {
     }
     m_pMacDockIcon = NULL;
 #endif
-#ifndef __WXGTK__
+#ifdef __WXMAC__
     if (m_pTaskBarIcon) {
         delete m_pTaskBarIcon;
     }
@@ -868,7 +868,10 @@ bool CBOINCGUIApp::DetectDuplicateInstance() {
     if (m_pInstanceChecker->IsAnotherRunning()) {
         if (m_bMultipleInstancesOK) return false;
 #ifdef __WXMSW__
-        CTaskBarIcon::FireAppRestore();
+        CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
+        if (pTaskbar) {
+            pTaskbar->FireAppRestore();
+        }
 #endif
         return true;
     }
