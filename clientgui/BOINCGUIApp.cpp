@@ -567,7 +567,6 @@ bool CBOINCGUIApp::OnInit() {
         }
     }
 
-#ifndef __WXGTK__
     // Initialize the task bar icon
 	m_pTaskBarIcon = new CTaskBarIcon(
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
@@ -578,7 +577,6 @@ bool CBOINCGUIApp::OnInit() {
 #endif
     );
     wxASSERT(m_pTaskBarIcon);
-#endif // __WXGTK__
 #ifdef __WXMAC__
     m_pMacDockIcon = new CTaskBarIcon(
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),

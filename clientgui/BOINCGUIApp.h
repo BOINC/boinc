@@ -1,5 +1,5 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
+// https://boinc.berkeley.edu
 // Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
@@ -51,9 +51,7 @@
 class wxLogBOINC;
 class CBOINCBaseFrame;
 class CMainDocument;
-#ifndef __WXGTK__
 class CTaskBarIcon;
-#endif
 class CSkinManager;
 class CDlgEventLog;
 class CRPCFinishedEvent;
@@ -98,9 +96,7 @@ protected:
     CSkinManager*       m_pSkinManager;
     CBOINCBaseFrame*    m_pFrame;
     CMainDocument*      m_pDocument;
-#ifndef __WXGTK__
     CTaskBarIcon*       m_pTaskBarIcon;
-#endif
     CDlgEventLog*       m_pEventLog;
     bool                m_bEventLogWasActive;
     bool                m_bProcessingActivateAppEvent;
@@ -162,9 +158,7 @@ public:
     wxString            GetArguments()              { return m_strBOINCArguments; }
     int                 GetClientRPCPortArg()       { return m_iRPCPortArg; }
     CDlgEventLog*       GetEventLog()               { return m_pEventLog; }
-#ifndef __WXGTK__
     CTaskBarIcon*       GetTaskBarIcon()            { return m_pTaskBarIcon; }
-#endif
 
     bool                IsAnotherInstanceRunning()  { return m_pInstanceChecker->IsAnotherRunning(); }
     bool                IsMgrMultipleInstance()     { return m_bMultipleInstancesOK; }
