@@ -319,8 +319,13 @@ bool app_running(PROC_MAP& pm, const char* p) {
     PROC_MAP::iterator i;
     for (i=pm.begin(); i!=pm.end(); ++i) {
         PROCINFO& pi = i->second;
-        //msg_printf(0, MSG_INFO, "running: [%s]", pi.command);
+#ifdef __linux__
+        // on linux we get command from /proc/PID/stat,
+        // which stores only 15 chars
+        if (!strncmp(pi.command, p, 15)) {
+#else
         if (!strcasecmp(pi.command, p)) {
+#endif
             return true;
         }
     }
