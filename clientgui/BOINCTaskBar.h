@@ -63,7 +63,6 @@ public:
 #endif
 #ifdef __WXMSW__
     void OnRButtonUp(wxTaskBarIconEvent& event);
-    void FireAppRestore();
     void FireShutdown();
 #endif
 
@@ -150,25 +149,15 @@ public:
 BEGIN_DECLARE_EVENT_TYPES()
 DECLARE_EVENT_TYPE(wxEVT_TASKBAR_RELOADSKIN, 10100)
 DECLARE_EVENT_TYPE(wxEVT_TASKBAR_REFRESH, 10101)
-#ifndef __WXMAC__
-DECLARE_EVENT_TYPE(wxEVT_TASKBAR_BALLOON_USERCLICK, 10102)
-DECLARE_EVENT_TYPE(wxEVT_TASKBAR_BALLOON_USERTIMEOUT, 10103)
 #ifdef __WXMSW__
 DECLARE_EVENT_TYPE(wxEVT_TASKBAR_SHUTDOWN, 10104)
-DECLARE_EVENT_TYPE(wxEVT_TASKBAR_APPRESTORE, 10105)
 #endif // __WXMSW__
-#endif // __WXMAC__
 END_DECLARE_EVENT_TYPES()
 
 #define EVT_TASKBAR_RELOADSKIN(fn) DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_RELOADSKIN, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 #define EVT_TASKBAR_REFRESH(fn)  DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_REFRESH, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#ifndef __WXMAC__
-#define EVT_TASKBAR_CONTEXT_USERCLICK(fn) DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_BALLOON_USERCLICK, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_TASKBAR_BALLOON_USERTIMEOUT(fn) DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_BALLOON_USERTIMEOUT, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 #ifdef __WXMSW__
 #define EVT_TASKBAR_SHUTDOWN(fn) DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_SHUTDOWN, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_TASKBAR_APPRESTORE(fn) DECLARE_EVENT_TABLE_ENTRY(wxEVT_TASKBAR_APPRESTORE, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 #endif // __WXMSW__
-#endif //__WXMAC__
 
 #endif

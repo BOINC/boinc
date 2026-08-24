@@ -866,14 +866,7 @@ bool CBOINCGUIApp::DetectDuplicateInstance() {
     m_pInstanceChecker = new wxSingleInstanceChecker();
 #endif
     if (m_pInstanceChecker->IsAnotherRunning()) {
-        if (m_bMultipleInstancesOK) return false;
-#ifdef __WXMSW__
-        CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
-        if (pTaskbar) {
-            pTaskbar->FireAppRestore();
-        }
-#endif
-        return true;
+        return !m_bMultipleInstancesOK;
     }
     return false;
 }

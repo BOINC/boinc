@@ -51,14 +51,9 @@
 
 DEFINE_EVENT_TYPE(wxEVT_TASKBAR_RELOADSKIN)
 DEFINE_EVENT_TYPE(wxEVT_TASKBAR_REFRESH)
-#ifndef __WXMAC__
-DEFINE_EVENT_TYPE(wxEVT_TASKBAR_BALLOON_USERCLICK)
-DEFINE_EVENT_TYPE(wxEVT_TASKBAR_BALLOON_USERTIMEOUT)
 #ifdef __WXMSW__
 DEFINE_EVENT_TYPE(wxEVT_TASKBAR_SHUTDOWN)
-DEFINE_EVENT_TYPE(wxEVT_TASKBAR_APPRESTORE)
 #endif // __WXMSW__
-#endif // __WXMAC__
 
 BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIcon)
 
@@ -74,8 +69,8 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIcon)
     EVT_TASKBAR_RIGHT_UP(CTaskBarIcon::OnRButtonUp)
 #endif
 #ifndef __WXMAC__
-    EVT_TASKBAR_CONTEXT_USERCLICK(CTaskBarIcon::OnNotificationClick)
-    EVT_TASKBAR_BALLOON_USERTIMEOUT(CTaskBarIcon::OnNotificationTimeout)
+    EVT_TASKBAR_BALLOON_CLICK(CTaskBarIcon::OnNotificationClick)
+    EVT_TASKBAR_BALLOON_TIMEOUT(CTaskBarIcon::OnNotificationTimeout)
 #endif
     EVT_MENU(ID_OPENBOINCMANAGER, CTaskBarIcon::OnOpen)
     EVT_MENU(ID_OPENWEBSITE, CTaskBarIcon::OnOpenWebsite)
@@ -86,7 +81,6 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIcon)
 
 #ifdef __WXMSW__
     EVT_TASKBAR_SHUTDOWN(CTaskBarIcon::OnShutdown)
-    EVT_TASKBAR_APPRESTORE(CTaskBarIcon::OnAppRestore)
 #endif
 
 END_EVENT_TABLE()
@@ -355,15 +349,6 @@ void CTaskBarIcon::OnShutdown(wxTaskBarIconEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function End"));
 }
 
-void CTaskBarIcon::OnAppRestore(wxTaskBarIconEvent&) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnAppRestore - Function Begin"));
-
-    ResetTaskBar();
-    wxGetApp().ShowInterface();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnAppRestore - Function End"));
-}
-
 #endif
 
 
@@ -390,11 +375,6 @@ void CTaskBarIcon::OnReloadSkin(CTaskbarEvent& WXUNUSED(event)) {
 }
 
 #ifdef __WXMSW__
-void CTaskBarIcon::FireAppRestore() {
-    CTaskbarEvent event(wxEVT_TASKBAR_APPRESTORE, this);
-    AddPendingEvent(event);
-}
-
 void CTaskBarIcon::FireShutdown() {
     CTaskbarEvent event(wxEVT_TASKBAR_SHUTDOWN, this);
     AddPendingEvent(event);
