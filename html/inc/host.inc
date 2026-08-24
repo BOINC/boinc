@@ -328,8 +328,8 @@ function gpu_desc($misc) {
         }
         if (!empty($g->opencl_version)) {
             $x .= sprintf('; OpenCL: %d.%d',
-                $g->opencl_version/100,
-                $g->opencl_version%100
+                intval($g->opencl_version)/100,
+                intval($g->opencl_version)%100
             );
         }
         $gpus[] = $x;
