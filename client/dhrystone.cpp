@@ -155,10 +155,10 @@ int dhrystone(
             Proc_2 (dd, &Int_1_Loc);
         }
         bigloops++;
-    }
+    } while (!benchmark_time_to_stop(BM_TYPE_INT));
+
     free(Next_Ptr_Glob);
     free(Ptr_Glob);
-    while (!benchmark_time_to_stop(BM_TYPE_INT));
 
     Loops *= bigloops;
 
