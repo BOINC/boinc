@@ -133,7 +133,6 @@
     <ClCompile Include="..\clientgui\NoticeListCtrl.cpp" />
     <ClCompile Include="..\clientgui\common\wxPieCtrl.cpp" />
     <ClCompile Include="..\clientgui\BOINCTaskBar.cpp" />
-    <ClCompile Include="..\clientgui\msw\taskbarex.cpp" />
     <ClCompile Include="..\clientgui\MainDocument.cpp" />
     <ClCompile Include="..\clientgui\AsyncRPC.cpp" />
     <ClCompile Include="..\lib\gui_rpc_client.cpp" />
@@ -238,7 +237,6 @@
     <ClInclude Include="..\clientgui\NoticeListCtrl.h" />
     <ClInclude Include="..\clientgui\common\wxPieCtrl.h" />
     <ClInclude Include="..\clientgui\BOINCTaskBar.h" />
-    <ClInclude Include="..\clientgui\msw\taskbarex.h" />
     <ClInclude Include="..\clientgui\MainDocument.h" />
     <ClInclude Include="..\clientgui\AsyncRPC.h" />
     <ClInclude Include="..\lib\gui_rpc_client.h" />
