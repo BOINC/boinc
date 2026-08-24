@@ -16,7 +16,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 name: boinc
-base: core24
+base: core26
 version: "8.3.0"
 type: app
 title: BOINC Manager
@@ -103,6 +103,8 @@ parts:
     - software-properties-common
     - cmake
     - dbus
+    - python3
+    - python3-pip
     - python3-venv
     - flex
     source: .
