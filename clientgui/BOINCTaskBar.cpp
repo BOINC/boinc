@@ -619,28 +619,6 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
         }
     }
 
-#ifdef __WXMSW__
-    // Weird things happen with menus and wxWidgets on Windows when you try
-    //   to change the font and use the system default as the baseline, so
-    //   instead of fighting the system get the original font and tweak it
-    //   a bit. It shouldn't hurt other platforms.
-    for (loc = 0; loc < pMenu->GetMenuItemCount(); loc++) {
-        pMenuItem = pMenu->FindItemByPosition(loc);
-        pMenu->Remove(pMenuItem);
-
-        font = pMenuItem->GetFont();
-        font.SetPointSize(8);
-        if (pMenuItem->GetId() != ID_OPENBOINCMANAGER) {
-            font.SetWeight(wxFONTWEIGHT_NORMAL);
-        } else {
-            font.SetWeight(wxFONTWEIGHT_BOLD);
-        }
-        pMenuItem->SetFont(font);
-
-        pMenu->Insert(loc, pMenuItem);
-    }
-#endif
-
     // Prevent recursive entry of CMainDocument::RequestRPC()
     if (pDoc->WaitingForRPC()) return;
 

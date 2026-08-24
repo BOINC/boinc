@@ -176,6 +176,9 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
         pGroup = m_pParent->m_TaskGroups[i];
         if (!pGroup->m_pStaticBoxSizer) {
             pGroup->m_pStaticBox = new wxStaticBox(this, wxID_ANY, pGroup->m_strName);
+#ifdef __WXMSW__
+            pGroup->m_pStaticBox->SetForegroundColour(m_pParent->GetForegroundColour());
+#endif
             pGroup->m_pStaticBoxSizer = new wxStaticBoxSizer(pGroup->m_pStaticBox, wxVERTICAL);
             m_pSizer->Add(pGroup->m_pStaticBoxSizer, 0, wxEXPAND|wxALL, 5);
             layoutChanged = 1;
