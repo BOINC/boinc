@@ -70,8 +70,10 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIcon)
 #ifdef __WXGTK__
     EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
 #endif
-#ifndef __WXMAC__
+#ifdef __WXMSW__
     EVT_TASKBAR_RIGHT_UP(CTaskBarIcon::OnRButtonUp)
+#endif
+#ifndef __WXMAC__
     EVT_TASKBAR_CONTEXT_USERCLICK(CTaskBarIcon::OnNotificationClick)
     EVT_TASKBAR_BALLOON_USERTIMEOUT(CTaskBarIcon::OnNotificationTimeout)
 #endif
