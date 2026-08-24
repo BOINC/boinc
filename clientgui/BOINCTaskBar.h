@@ -54,7 +54,6 @@ public:
     void OnNotificationTimeout(wxTaskBarIconEvent& event);
 #endif
 #ifdef __WXMSW__
-    void OnAppRestore(wxTaskBarIconEvent& event);
     void OnShutdown(wxTaskBarIconEvent& event);
 #endif
     void OnLButtonDClick(wxTaskBarIconEvent& event);
