@@ -140,8 +140,9 @@ parts:
       aws --version
 
       export PATH=$HOME/.local/bin:$PATH
-      pip install -U --user pip
-      pip install --user jinja2
+      python3 -m venv "$CRAFT_PART_BUILD/.venv"
+      export PATH="$CRAFT_PART_BUILD/.venv/bin:$PATH"
+      python -m pip install -U pip jinja2
 
       # first parameter is the target triplet
       # second parameter is the host triplet
