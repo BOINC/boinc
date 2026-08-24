@@ -1328,8 +1328,7 @@ function update_8_23_2026() {
         alter column product_name set default '',
         alter column gpu_active_frac set default 0,
         alter column p_ngpus set default 0,
-        alter column p_gpu_fpops set default 0,
-        alter column misc set default ''
+        alter column p_gpu_fpops set default 0
     ");
 }
 

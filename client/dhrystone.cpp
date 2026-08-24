@@ -156,6 +156,8 @@ int dhrystone(
         }
         bigloops++;
     }
+    free(Next_Ptr_Glob);
+    free(Ptr_Glob);
     while (!benchmark_time_to_stop(BM_TYPE_INT));
 
     Loops *= bigloops;
@@ -176,8 +178,6 @@ int dhrystone(
     printf ("VAX  MIPS rating =                          ");
     printf ("%12.2lf \n",Vax_Mips);
 #endif
-    free(Next_Ptr_Glob);
-    free(Ptr_Glob);
     return 0;
 }
 
