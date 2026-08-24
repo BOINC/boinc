@@ -35,7 +35,6 @@
 
 using std::make_pair;
 using std::make_tuple;
-using std::move;
 using std::string;
 using std::pair;
 using std::tie;
@@ -355,7 +354,7 @@ pair<int, unique_EVP_PKEY> private_to_openssl(
     }
 
     unique_EVP_PKEY pkey(pkey_raw);
-    return make_pair(0, move(pkey));
+    return make_pair(0, std::move(pkey));
 }
 
 pair<int, unique_EVP_PKEY> public_to_openssl(const R_RSA_PUBLIC_KEY& pub) {
@@ -397,7 +396,7 @@ pair<int, unique_EVP_PKEY> public_to_openssl(const R_RSA_PUBLIC_KEY& pub) {
     }
     unique_EVP_PKEY pkey(pkey_raw);
 
-    return make_pair(0, move(pkey));
+    return make_pair(0, std::move(pkey));
 }
 
 // encrypt some data.
