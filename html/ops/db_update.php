@@ -1283,6 +1283,56 @@ function update_5_2_2026b() {
     do_query("alter table consent_type CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
 }
 
+function update_8_23_2026() {
+    do_query("alter table host
+        alter column rpc_seqno set default 0,
+        alter column rpc_time set default 0,
+        alter column total_credit set default 0,
+        alter column expavg_credit set default 0,
+        alter column expavg_time set default 0,
+        alter column timezone set default 0,
+        alter column domain_name set default '',
+        alter column serialnum set default '',
+        alter column last_ip_addr set default '',
+        alter column nsame_ip_addr set default 0,
+        alter column on_frac set default 0,
+        alter column connected_frac set default 0,
+        alter column active_frac set default 0,
+        alter column cpu_efficiency set default 0,
+        alter column duration_correction_factor set default 0,
+        alter column p_ncpus set default 0,
+        alter column p_vendor set default '',
+        alter column p_model set default '',
+        alter column p_fpops set default 0,
+        alter column p_iops set default 0,
+        alter column p_membw set default 0,
+        alter column os_name set default '',
+        alter column os_version set default '',
+        alter column m_nbytes set default 0,
+        alter column m_cache set default 0,
+        alter column m_swap set default 0,
+        alter column d_total set default 0,
+        alter column d_free set default 0,
+        alter column d_boinc_used_total set default 0,
+        alter column d_boinc_used_project set default 0,
+        alter column d_boinc_max set default 0,
+        alter column n_bwup set default 0,
+        alter column n_bwdown set default 0,
+        alter column credit_per_cpu_sec set default 0,
+        alter column venue set default '',
+        alter column nresults_today set default 0,
+        alter column avg_turnaround set default 0,
+        alter column host_cpid set default '',
+        alter column external_ip_addr set default '',
+        alter column max_results_day set default 0,
+        alter column product_name set default '',
+        alter column gpu_active_frac set default 0,
+        alter column p_ngpus set default 0,
+        alter column p_gpu_fpops set default 0,
+        alter column misc set default ''
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -1291,7 +1341,7 @@ function update_5_2_2026b() {
 // (Look at your DB using "explain" queries to see which ones you need).
 // Update 'db_revision' when done.
 
-//update_3_17_2010();
+//update_8_23_2026();
 
 // in the following, the first element is a version number.
 // This used to be the Subversion version#,
@@ -1347,6 +1397,7 @@ $db_updates = array (
     array(27030, "update_11_23_2025"),
     array(27031, "update_5_2_2026a"),
     array(27032, "update_5_2_2026b"),
+    array(27033, "update_8_23_2026"),
 );
 
 ?>
