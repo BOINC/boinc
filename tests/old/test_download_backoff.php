@@ -1,7 +1,7 @@
 #! /usr/local/bin/php
 <?php
 // Tests the exponential backoff mechanism on the client for failed downloads
-// This test is not automated. It has to be run, and then client.out (in the host directory) must be looked at to examine wether everything is working correctly.    
+// This test is not automated. It has to be run, and then client.out (in the host directory) must be looked at to examine whether everything is working correctly.    
     include_once("test.inc");
 
     $project = new Project;

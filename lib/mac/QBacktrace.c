@@ -569,7 +569,7 @@ static void AddFrame(QBTContext *context, QTMAddr pc, QTMAddr fp, QBTFlags flags
 	// On entry, context will be a valid context (as determined by QBTContextIsValid).
 {
 	// Only actually output the frame if the client supplied an array
-	// and we we haven't filled it up yet.
+	// and we haven't filled it up yet.
 
 	assert(QBTContextIsValid(context));
 

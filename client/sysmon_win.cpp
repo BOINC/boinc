@@ -331,14 +331,14 @@ static void windows_detect_autoproxy_settings() {
                 // proxy list is defined as:
                 //   ([<scheme>=][<scheme>"://"]<server>[":"<port>])
 
-                // Find and erase first delimeter type.
+                // Find and erase first delimiter type.
                 pos = proxy.find(';');
                 if (pos != -1 ) {
                     new_proxy = proxy.erase(pos);
                     proxy = new_proxy;
                 }
 
-                // Find and erase second delimeter type.
+                // Find and erase second delimiter type.
                 pos = proxy.find(' ');
                 if (pos != -1 ) {
                     new_proxy = proxy.erase(pos);

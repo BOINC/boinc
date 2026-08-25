@@ -113,7 +113,7 @@ function show_submit() {
 }
 
 // Returns an array containing:
-// [0]: The original image refered to by $fileName if its dimensions are
+// [0]: The original image referred to by $fileName if its dimensions are
 //    less than MAX_IMG_WIDTH x MAX_IMG_HEIGHT, or a version scaled to
 //    those dimensions if it was too large.
 // [1]: A scaled version of the above.

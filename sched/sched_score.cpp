@@ -270,7 +270,7 @@ void send_work_score_type(int rt) {
             continue;
         }
 
-        // it it's a BUDA job, pick a variant using the requested resource
+        // If it's a BUDA job, pick a variant using the requested resource
         //
         if (job_is_buda) {
             if (!choose_buda_variant(

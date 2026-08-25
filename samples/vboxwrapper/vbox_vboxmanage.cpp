@@ -1205,7 +1205,7 @@ int VBOX_VM::poll(bool log_state) {
     vmstate = read_vm_log();
     if (vmstate != "Error in parsing the log file") {
 
-        // VirtualBox Documentation suggests that that a VM is running when its
+        // VirtualBox Documentation suggests that a VM is running when its
         // machine state is between MachineState_FirstOnline and MachineState_LastOnline
         // which as of this writing is 5 and 17.
         //
@@ -1337,7 +1337,7 @@ int VBOX_VM::poll2(bool log_state) {
             vmstate_end = output.find("\"", vmstate_start);
             vmstate = output.substr(vmstate_start, vmstate_end - vmstate_start);
 
-            // VirtualBox Documentation suggests that that a VM is running when its
+            // VirtualBox Documentation suggests that a VM is running when its
             // machine state is between MachineState_FirstOnline and MachineState_LastOnline
             // which as of this writing is 5 and 17.
             //

@@ -599,7 +599,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                 // we are in this loop, to prevent undesirable recursion.
                 // Since the manager is minimized, we don't have to worry about
                 // discarding crucial drawing or command events.
-                // The filter does allow the the Open Manager menu item from
+                // The filter does allow the Open Manager menu item from
                 // the system tray icon and wxEVT_RPC_FINISHED event.
                 //
                 timeToSleep = DELAY_WHEN_MINIMIZED; // Allow user to maximize Manager

@@ -42,7 +42,7 @@ function account_ownership_action($user) {
   }
 
   // Input is passed in from the openssl_sign_form
-  $user_data = htmlentities(post_str("user_data", true), ENT_QUOTES, "UTF-8"); // Convert special characters to html equivelant
+  $user_data = htmlentities(post_str("user_data", true), ENT_QUOTES, "UTF-8"); // Convert special characters to html equivalent
 
   if ((strlen($user_data) > 0) && (strlen($user_data) <= 4096)) {
       require_once("../inc/account_ownership.inc");

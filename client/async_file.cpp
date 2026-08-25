@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // logic for "asynchronous" file copy and unzip/verify operations.
-// "asynchronous" means that the the operations are done in 64KB chunks
+// "asynchronous" means that the operations are done in 64KB chunks
 // in the client's polling loop,
 // so that the client continues to respond to GUI RPCs
 // and the manager won't freeze.

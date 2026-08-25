@@ -1159,7 +1159,7 @@ void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
     {
 #ifdef __WXMAC__
         // When our LaunchAgent / login item launches us at login, it activates
-        // this app, but we want it hidden. So we immediatly hide it upon the
+        // this app, but we want it hidden. So we immediately hide it upon the
         // first activation when run as a login item.
         static bool first = true;
 

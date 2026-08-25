@@ -95,7 +95,7 @@ bool CValidateURL::Validate(wxWindow *parent) {
 
             if ((wxURL_NOPROTO == url.GetError()) || wxURL_SNTXERR == url.GetError()) {
                 // Special case: we want to allow the user to specify the URL without
-                //   specifing the protocol.
+                //   specifying the protocol.
                 wxURL urlNoProtoSpecified(wxT("http://") + strURL);
                 if (wxURL_NOERR == urlNoProtoSpecified.GetError()) {
                     ok = TRUE;
