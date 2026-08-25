@@ -286,7 +286,7 @@ function docker_desc($misc) {
     );
     if (isset($d->wsl_distro)) {
         // Science United at point had a bug; work around it
-        $d2 = is_object($d->wsl_distro) ? $d->wsl_distro->wsl_distro : $d;
+        $d2 = is_object($d->wsl_distro) ? $d->wsl_distro : $d;
         if (empty($d2->boinc_buda_runner_version)) {
             $x .= sprintf(
                 '<br>WSL distro: %s',
