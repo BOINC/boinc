@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,11 +17,6 @@
 
 #ifndef BOINC_BOINCBASEVIEW_H
 #define BOINC_BOINCBASEVIEW_H
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "BOINCBaseView.cpp"
-#endif
-
 
 #define DEFAULT_TASK_FLAGS             wxTAB_TRAVERSAL | wxFULL_REPAINT_ON_RESIZE
 #define DEFAULT_LIST_FLAGS             wxLC_REPORT | wxLC_VIRTUAL | wxLC_HRULES

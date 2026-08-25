@@ -24,10 +24,6 @@
 #ifndef BOINC_BOINCGUIAPP_H
 #define BOINC_BOINCGUIAPP_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "BOINCGUIApp.cpp"
-#endif
-
 #ifdef __WXMSW__
 #define USE_NATIVE_LISTCONTROL 1
 #else

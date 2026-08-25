@@ -15,9 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "AsyncRPC.h"
-#endif
+#include "stdwx.h"
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -28,7 +26,6 @@
 #include <xlocale.h>
 #endif
 
-#include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
 #include "AsyncRPC.h"

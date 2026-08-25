@@ -1,5 +1,5 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
+// https://boinc.berkeley.edu
 // Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
@@ -17,11 +17,6 @@
 
 #ifndef BOINC_VIEWSTATISTICS_H
 #define BOINC_VIEWSTATISTICS_H
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "ViewStatistics.cpp"
-#endif
-
 
 #include "BOINCBaseView.h"
 

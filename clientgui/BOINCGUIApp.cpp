@@ -15,9 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "BOINCGUIApp.h"
-#endif
+#include "stdwx.h"
 
 #ifdef __WXMAC__
 #include <Carbon/Carbon.h>
@@ -29,7 +27,6 @@
 #include "mac_branding.h"
 #endif
 
-#include "stdwx.h"
 #include "diagnostics.h"
 #include "network.h"
 #include "util.h"

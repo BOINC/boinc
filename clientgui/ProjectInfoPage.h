@@ -18,11 +18,6 @@
 #ifndef BOINC_PROJECTINFOPAGE_H
 #define BOINC_PROJECTINFOPAGE_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "ProjectInfoPage.cpp"
-#endif
-
-
 class CProjectInfo;
 
 

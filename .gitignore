@@ -109,6 +109,7 @@ test/version.inc
 *.lo
 *.a
 *.la
+*.gch
 py/lib/Boinc
 
 ## Python bytecode
