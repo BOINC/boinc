@@ -1022,7 +1022,7 @@ int CSkinManager::Parse(MIOFILE& in, wxString strDesiredLocale) {
     strLocaleEndTag.Printf(wxT("</%s>"), strDesiredLocale.c_str());
 
     // TODO: Eliminate the <en> tags: localization is no longer in skin files.
-    // Look for the begining of the desired locale.
+    // Look for the beginning of the desired locale.
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, (const char*)strLocaleStartTag.mb_str(wxConvUTF8))) {
             bLocaleFound = true;

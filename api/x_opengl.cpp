@@ -115,7 +115,7 @@ static int glut_version = 0;
 
 
 // State variables for freeglut windows.  Since freeglut has
-// problems wiht glutDestroyWindow, keep it open and just
+// problems with glutDestroyWindow, keep it open and just
 // hide/show it as necessary.
 //
 static int fg_window_state;   // values same as mode

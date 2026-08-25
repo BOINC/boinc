@@ -33,7 +33,7 @@
 # Updated 1/23/19 use libc++ instead of libstdc++ for Xcode 10 compatibility
 # Updated 8/22/20 to build Apple Silicon / arm64 and x86_64 Universal binary
 # Updated 5/18/21 for compatibility with zsh
-# Updated 10/18/21 for for building freetype 2.11.0
+# Updated 10/18/21 for building freetype 2.11.0
 # Updated 7/13/22 specify to build freetype without brotli support
 # Updated 2/6/23 changed MAC_OS_X_VERSION_MAX_ALLOWED to 101300 and MAC_OS_X_VERSION_MIN_REQUIRED to 101300 and MACOSX_DEPLOYMENT_TARGET to 10.13
 #

@@ -1501,7 +1501,7 @@ kern_return_t _MGSDisplayFrame(mach_port_t server_port, int32_t frame_index, mac
 	return YES;
 }
 
-// Render a quad with the the IOSurface backed texture
+// Render a quad with the IOSurface backed texture
 - (void)renderTextureFromIOSurfaceWithWidth:(GLsizei)logoWidth height:(GLsizei)logoHeight
 {
     GLfloat quad[] = {

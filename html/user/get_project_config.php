@@ -108,7 +108,7 @@ if ($min_core_client_version) {
 
 show_platforms();
 
-// Conditional added to allow for backwards-compatability. If a
+// Conditional added to allow for backwards-compatibility. If a
 // project has not defined the constant TERMSOFUSE_FILE, then look for
 // the terms_of_use.txt file in the project base directory.
 //

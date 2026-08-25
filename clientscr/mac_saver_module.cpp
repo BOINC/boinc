@@ -408,7 +408,7 @@ int CScreensaver::Create() {
     }
 
     // Calculate the estimated blank time by adding the starting
-    //  time and and the user-specified time which is in minutes
+    //  time and the user-specified time which is in minutes
     // On dual-GPU Macbook Pros, the CScreensaver class will be
     // constructed and destructed each time we switch between
     // battery and AC power, so we need to get the starting time
