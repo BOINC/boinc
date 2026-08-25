@@ -18,10 +18,6 @@
 #ifndef BOINC_BOINCTASKBAR_H
 #define BOINC_BOINCTASKBAR_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "BOINCTaskBar.cpp"
-#endif
-
 #ifdef __APPLE__
 #define NSInteger int
 #endif

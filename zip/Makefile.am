@@ -1,8 +1,6 @@
-## -*- mode: makefile; tab-width: 4 -*-
-
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -52,4 +50,4 @@ $(LIBBOINC_ZIP_STATIC): libboinc_zip.la
 	$(LN) .libs/$(LIBBOINC_ZIP_STATIC) .
 
 clean:
-	rm -f $(LIBBOINC_ZIP_STATIC) *.a *.o *.lo *.la
+	rm -f $(LIBBOINC_ZIP_STATIC) *.a *.o *.lo *.la *.gcno

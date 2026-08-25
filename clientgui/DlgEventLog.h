@@ -1,5 +1,5 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
+// https://boinc.berkeley.edu
 // Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
@@ -18,10 +18,6 @@
 
 #ifndef BOINC_DLGEVENTLOG_H
 #define BOINC_DLGEVENTLOG_H
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "DlgEventLog.cpp"
-#endif
 
 #define EVENT_LOG_STRIPES 1
 #define EVENT_LOG_RULES 1

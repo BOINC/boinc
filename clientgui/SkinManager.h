@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,10 +17,6 @@
 
 #ifndef BOINC_SKINMANAGER_H
 #define BOINC_SKINMANAGER_H
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "SkinManager.cpp"
-#endif
 
 #include "miofile.h"
 

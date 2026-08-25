@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,10 +20,6 @@
 // in the case where a project_init.xml was present on startup
 //
 // AFAIK no one uses this mechanism, so this may not be needed
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "ProjectWelcomePage.h"
-#endif
 
 #include "stdwx.h"
 #include "diagnostics.h"
