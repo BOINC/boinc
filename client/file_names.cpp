@@ -76,7 +76,7 @@ void get_pathname(FILE_INFO* fip, char* path, int len) {
         if (fip->is_auto_update_file) {
             boinc_version_dir(*p, gstate.auto_update.version, buf);
         } else {
-            strcpy(buf, p->project_dir());
+            safe_strcpy(buf, p->project_dir());
         }
 #else
         safe_strcpy(buf, p->project_dir());
@@ -88,28 +88,28 @@ void get_pathname(FILE_INFO* fip, char* path, int len) {
 }
 
 void get_sched_request_filename(PROJECT& project, char* buf, int len) {
-    char url[1024];
+    char url[MAXPATHLEN];
 
     escape_project_url(project.master_url, url);
     snprintf(buf, len, "%s%s.xml", SCHED_OP_REQUEST_BASE, url);
 }
 
 void get_sched_reply_filename(PROJECT& project, char* buf, int len) {
-    char url[1024];
+    char url[MAXPATHLEN];
 
     escape_project_url(project.master_url, url);
     snprintf(buf, len, "%s%s.xml", SCHED_OP_REPLY_BASE, url);
 }
 
 void get_master_filename(PROJECT& project, char* buf, int len) {
-    char url[1024];
+    char url[MAXPATHLEN];
 
     escape_project_url(project.master_url, url);
     snprintf(buf, len, "%s%s.xml", MASTER_BASE, url);
 }
 
 void job_log_filename(PROJECT& project, char* buf, int len) {
-    char url[1024];
+    char url[MAXPATHLEN];
 
     escape_project_url(project.master_url, url);
     snprintf(buf, len, "%s%s.txt", JOB_LOG_BASE, url);
@@ -217,7 +217,7 @@ int make_slot_dir(int slot) {
 // delete unused stuff in the slots/ directory
 //
 void delete_old_slot_dirs() {
-    char filename[1024], path[MAXPATHLEN];
+    char filename[MAXPATHLEN], path[MAXPATHLEN];
     DIRREF dirp;
     int retval;
 
