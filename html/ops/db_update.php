@@ -1332,6 +1332,15 @@ function update_8_23_2026() {
     ");
 }
 
+function update_8_26_2026() {
+    do_query("alter table host
+        modify column p_vendor   varchar(511) not null,
+        modify column p_model    varchar(511) not null,
+        modify column os_name    varchar(511) not null,
+        modify column os_version varchar(511) not null
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -1397,6 +1406,7 @@ $db_updates = array (
     array(27031, "update_5_2_2026a"),
     array(27032, "update_5_2_2026b"),
     array(27033, "update_8_23_2026"),
+    array(27034, "update_8_26_2026"),
 );
 
 ?>

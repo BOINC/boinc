@@ -300,15 +300,15 @@ struct HOST {
     double duration_correction_factor;
 
     int p_ncpus;            // Number of CPUs on host
-    char p_vendor[256];     // Vendor name of CPU
-    char p_model[256];      // Model of CPU
+    char p_vendor[512];     // Vendor name of CPU
+    char p_model[512];      // Model of CPU
     double p_fpops;         // measured floating point ops/sec of CPU
     double p_iops;          // measured integer ops/sec of CPU
     double p_membw;         // measured memory bandwidth (bytes/sec) of CPU
                             // The above are per CPU, not total
 
-    char os_name[256];      // Name of operating system
-    char os_version[256];   // Version of operating system
+    char os_name[512];      // Name of operating system
+    char os_version[512];   // Version of operating system
 
     double m_nbytes;        // Size of memory in bytes
     double m_cache;         // Size of CPU cache in bytes (L1 or L2?)

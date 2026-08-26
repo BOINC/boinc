@@ -1067,7 +1067,7 @@ void check_missing_fields() {
 }
 
 bool unacceptable_os() {
-    char buf[1024];
+    char buf[2048];
 
     for (const regex_t& re: *config.ban_os) {
         safe_strcpy(buf, g_request->host.os_name);
@@ -1091,7 +1091,7 @@ bool unacceptable_os() {
 }
 
 bool unacceptable_cpu() {
-    char buf[1024];
+    char buf[2048];
 
     for (const regex_t& re: *config.ban_cpu) {
         safe_strcpy(buf, g_request->host.p_vendor);

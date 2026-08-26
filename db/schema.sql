@@ -182,14 +182,14 @@ create table host (
     cpu_efficiency          double          not null default 0,
     duration_correction_factor double       not null default 0,
     p_ncpus                 integer         not null default 0,
-    p_vendor                varchar(254)    not null default '',
-    p_model                 varchar(254)    not null default '',
+    p_vendor                varchar(511)    not null default '',
+    p_model                 varchar(511)    not null default '',
     p_fpops                 double          not null default 0,
     p_iops                  double          not null default 0,
     p_membw                 double          not null default 0,
 
-    os_name                 varchar(254)    not null default '',
-    os_version              varchar(254)    not null default '',
+    os_name                 varchar(511)    not null default '',
+    os_version              varchar(511)    not null default '',
 
     m_nbytes                double          not null default 0,
     m_cache                 double          not null default 0,

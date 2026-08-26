@@ -53,9 +53,9 @@
 using std::vector;
 
 struct HOST_DESC{
-    char os_name[256];
-    char p_vendor[256];
-    char p_model[256];
+    char os_name[512];
+    char p_vendor[512];
+    char p_model[512];
 };
 
 vector<HOST_DESC> host_descs;
@@ -63,7 +63,7 @@ double min_time = 1;
 double max_time = 1;
 
 void read_hosts() {
-    char buf[256], buf2[256];
+    char buf[512], buf2[512];
     host_descs.clear();
     FILE* f = fopen("host_descs.txt", "r");
     if (!f) {

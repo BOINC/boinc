@@ -482,7 +482,7 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
     char implementer[32] = {0}, architecture[32] = {0}, variant[32] = {0}, cpu_part[32] = {0}, revision[32] = {0};
     bool model_info_found=false;
 #endif
-    char buf2[256];
+    char buf2[512];
 
     FILE* f = fopen("/proc/cpuinfo", "r");
     if (!f) {
@@ -1760,7 +1760,7 @@ int HOST_INFO::get_os_info() {
 
 #if LINUX_LIKE_SYSTEM
     bool found_something = false;
-    char dist_name[256], dist_version[256];
+    char dist_name[512], dist_version[512];
     string os_version_extra("");
     safe_strcpy(dist_name, "");
     safe_strcpy(dist_version, "");

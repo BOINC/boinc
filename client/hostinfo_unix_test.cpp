@@ -338,10 +338,10 @@ bool parse_linux_os_info(FILE* file, const LINUX_OS_INFO_PARSER parser,
         return false;
     }
 
-    char buf[256];
+    char buf[512];
     std::vector<std::string> lines;
 
-    while (fgets(buf, 256, file)) {
+    while (fgets(buf, 512, file)) {
         lines.push_back(buf);
     }
 
@@ -372,10 +372,10 @@ int main(void) {
     char implementer[32] = {0}, architecture[32] = {0}, variant[32] = {0}, cpu_part[32] = {0}, revision[32] = {0};
     bool model_info_found=false;
 #endif
-    char  p_vendor[256], p_model[256], product_name[256];
-    char  os_name[256], os_version[256];
+    char  p_vendor[512], p_model[512], product_name[256];
+    char  os_name[512], os_version[512];
     string os_version_extra("");
-    char buf2[256];
+    char buf2[512];
     int m_cache=-1;
 
     // parse /proc/cpuinfo as in parse_cpuinfo_linux() from hostinfo_unix.cpp

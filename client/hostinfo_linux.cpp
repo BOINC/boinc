@@ -55,10 +55,10 @@ bool HOST_INFO::parse_linux_os_info(
         return false;
     }
 
-    char buf[256];
+    char buf[512];
     std::vector<std::string> lines;
 
-    while (fgets(buf, 256, file)) {
+    while (fgets(buf, 512, file)) {
         lines.push_back(buf);
     }
 
@@ -99,8 +99,8 @@ bool HOST_INFO::parse_linux_os_info(
 
     bool found_something = false;
     unsigned int i;
-    char buf[256], buf2[256];
-    char dist_pretty[256], dist_name[256], dist_version[256], dist_codename[256];
+    char buf[512], buf2[512];
+    char dist_pretty[512], dist_name[512], dist_version[512], dist_codename[512];
     //string os_version_extra("");
     strcpy(dist_pretty, "");
     strcpy(dist_name, "");

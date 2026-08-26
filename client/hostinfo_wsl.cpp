@@ -252,8 +252,8 @@ int get_wsl_information(WSL_DISTROS &distros) {
             continue;
         }
 
-        char os_name[256];
-        char os_version[256];
+        char os_name[512];
+        char os_version[512];
         strcpy(os_name, "");
         strcpy(os_version, "");
 

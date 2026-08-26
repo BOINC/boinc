@@ -65,8 +65,8 @@ public:
     char host_cpid[64];
 
     int p_ncpus;
-    char p_vendor[256];
-    char p_model[256];
+    char p_vendor[512];
+    char p_model[512];
     char p_features[P_FEATURES_SIZE];
     double p_fpops;
     double p_iops;
@@ -81,8 +81,8 @@ public:
     double d_total;               // Total amount of disk in bytes
     double d_free;                // Total amount of free disk in bytes
 
-    char os_name[256];
-    char os_version[256];
+    char os_name[512];
+    char os_version[512];
 
 #ifdef _WIN32
     // on Windows, Docker info is per WSL_DISTRO, not global

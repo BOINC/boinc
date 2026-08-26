@@ -33,7 +33,7 @@ namespace test_hostinfo_linux {
         FILE* lsb_release = fopen(fixture_path.string().c_str(), "r");
         ASSERT_NE(nullptr, lsb_release);
 
-        char os_name[256] = "", os_version[256] = "";
+        char os_name[512] = "", os_version[512] = "";
         EXPECT_TRUE(HOST_INFO::parse_linux_os_info(lsb_release, lsbrelease, os_name, sizeof(os_name), os_version, sizeof(os_version)));
         fclose(lsb_release);
 
@@ -49,7 +49,7 @@ namespace test_hostinfo_linux {
         FILE* os_release = fopen(fixture_path.string().c_str(), "r");
         ASSERT_NE(nullptr, os_release);
 
-        char os_name[256] = "", os_version[256] = "";
+        char os_name[512] = "", os_version[512] = "";
         EXPECT_TRUE(HOST_INFO::parse_linux_os_info(os_release, osrelease, os_name, sizeof(os_name), os_version, sizeof(os_version)));
         fclose(os_release);
 
@@ -65,7 +65,7 @@ namespace test_hostinfo_linux {
         FILE* os_release = fopen(fixture_path.string().c_str(), "r");
         ASSERT_NE(nullptr, os_release);
 
-        char os_name[256] = "", os_version[256] = "";
+        char os_name[512] = "", os_version[512] = "";
         EXPECT_TRUE(HOST_INFO::parse_linux_os_info(os_release, osrelease, os_name, sizeof(os_name), os_version, sizeof(os_version)));
         fclose(os_release);
 
