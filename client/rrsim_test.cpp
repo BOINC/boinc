@@ -184,7 +184,6 @@ bool CLIENT_STATE::rr_simulation() {
     vector<RESULT*> active;
     unsigned int i;
     double x;
-    vector<RESULT*>::iterator it;
     bool rval = false;
 
     if (log_flags.rr_simulation) {
@@ -284,30 +283,34 @@ bool CLIENT_STATE::rr_simulation() {
         int last_active_size = active.size();
         int last_proj_active_size = pbest->active.size();
 
-        // remove *rpbest from active set,
-        // and adjust CPU time left for other results
-        //
-        it = active.begin();
-        while (it != active.end()) {
-            rp = *it;
-            if (rp == rpbest) {
-                it = active.erase(it);
-            } else {
-                x = rp->project->rrsim_proc_rate*rpbest->rrsim_finish_delay;
-                rp->rrsim_cpu_left -= x;
-                ++it;
+        {
+            // remove *rpbest from active set,
+            // and adjust CPU time left for other results
+            //
+            vector<RESULT*>::iterator it = active.begin();
+            while (it != active.end()) {
+                rp = *it;
+                if (rp == rpbest) {
+                    it = active.erase(it);
+                } else {
+                    x = rp->project->rrsim_proc_rate*rpbest->rrsim_finish_delay;
+                    rp->rrsim_cpu_left -= x;
+                    ++it;
+                }
             }
         }
 
-        // remove *rpbest from its project's active set
-        //
-        it = pbest->active.begin();
-        while (it != pbest->active.end()) {
-            rp = *it;
-            if (rp == rpbest) {
-                it = pbest->active.erase(it);
-            } else {
-                ++it;
+        {
+            // remove *rpbest from its project's active set
+            //
+            vector<RESULT*>::iterator it = pbest->active.begin();
+            while (it != pbest->active.end()) {
+                rp = *it;
+                if (rp == rpbest) {
+                    it = pbest->active.erase(it);
+                } else {
+                    ++it;
+                }
             }
         }
 
