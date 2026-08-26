@@ -146,6 +146,7 @@ int genkey(
     FILE* fpub = open_file(public_keyfile, "w");
     if (!fpub) {
         print_error("fopen");
+        fclose(fpriv);
         return 2;
     }
     print_private_key_hex(fpriv, private_key);
@@ -170,15 +171,18 @@ int sign(
     tie(result, private_key) = scan_private_key_hex(fpriv);
     if (result) {
         print_error("scan_private_key_hex");
+        fclose(fpriv);
         return 2;
     }
     vector<uint8_t> signature;
     tie(result, signature) = sign_file(file, private_key);
     if (result || signature.empty()) {
         print_error("sign_file");
+        fclose(fpriv);
         return 2;
     }
     print_hex_data(stdout, signature);
+    fclose(fpriv);
     return 0;
 }
 
@@ -196,15 +200,18 @@ int sign_string(
     tie(result, private_key) = scan_private_key_hex(fpriv);
     if (result) {
         print_error("scan_private_key_hex");
+        fclose(fpriv);
         return 2;
     }
     string signature;
     tie(result, signature) = generate_signature(str, private_key);
     if (result || signature.empty()) {
         print_error("generate_signature");
+        fclose(fpriv);
         return 2;
     }
     cout << signature.c_str();
+    fclose(fpriv);
     return 0;
 }
 
@@ -223,17 +230,21 @@ int verify(
     tie(result, public_key) = scan_public_key_hex(fpub);
     if (result) {
         print_error("read_public_key");
+        fclose(fpub);
         return 2;
     }
     FILE* f = open_file(signature_file, "r");
     if (!f) {
         print_error("fopen");
+        fclose(fpub);
         return 2;
     }
     vector<uint8_t> signature;
     tie(result, signature) = scan_hex_data(f);
     if (result || signature.empty()) {
         print_error("scan_hex_data");
+        fclose(fpub);
+        fclose(f);
         return 2;
     }
 
@@ -242,6 +253,8 @@ int verify(
     result = md5_file(file.c_str(), md5_buf, size);
     if (result) {
         print_error("md5_file");
+        fclose(fpub);
+        fclose(f);
         return 2;
     }
     bool is_valid = false;
@@ -249,14 +262,20 @@ int verify(
         md5_buf, public_key, signature);
     if (result) {
         print_error("check_file_signature");
+        fclose(fpub);
+        fclose(f);
         return 2;
     }
 
     if (!is_valid) {
         cout << "signature is invalid" << endl;
+        fclose(fpub);
+        fclose(f);
         return 1;
     }
     cout << "signature is valid" << endl;
+    fclose(fpub);
+    fclose(f);
     return 0;
 }
 
@@ -275,11 +294,13 @@ int verify_string(
     tie(result, public_key) = scan_public_key_hex(fpub);
     if (result) {
         print_error("read_public_key");
+        fclose(fpub);
         return 2;
     }
     FILE* f = open_file(signature_file, "r");
     if (!f) {
         print_error("fopen");
+        fclose(fpub);
         return 2;
     }
     const int signature_len = 512;
@@ -292,13 +313,19 @@ int verify_string(
     tie(result, is_valid) = check_string_signature(str, cbuf, public_key);
     if (result) {
         print_error("check_string_signature");
+        fclose(fpub);
+        fclose(f);
         return 2;
     }
     if (!is_valid) {
         cout << "signature is invalid" << endl;
+        fclose(fpub);
+        fclose(f);
         return 1;
     }
     cout << "signature is valid" << endl;
+    fclose(fpub);
+    fclose(f);
     return 0;
 }
 
@@ -316,11 +343,13 @@ int test_crypt(
     tie(result, private_key) = scan_private_key_hex(fpriv);
     if (result) {
         print_error("scan_private_key_hex\n");
+        fclose(fpriv);
         return 2;
     }
     FILE* fpub = open_file(public_keyfile, "r");
     if (!fpub) {
         print_error("fopen");
+        fclose(fpriv);
         return 2;
     }
 
@@ -328,6 +357,8 @@ int test_crypt(
     tie(result, public_key) = scan_public_key_hex(fpub);
     if (result) {
         print_error("read_public_key");
+        fclose(fpriv);
+        fclose(fpub);
         return 2;
     }
     const string test_string("encryption test successful");
@@ -336,16 +367,22 @@ int test_crypt(
     tie(result, encrypted) = encrypt_private(private_key, in_data);
     if (result || encrypted.empty()) {
         print_error("encrypt_private");
+        fclose(fpriv);
+        fclose(fpub);
         return 2;
     }
     vector<uint8_t> out;
     tie(result, out) = decrypt_public(public_key, encrypted);
     if (result || out.empty()) {
         print_error("decrypt_public");
+        fclose(fpriv);
+        fclose(fpub);
         return 2;
     }
     string out_str(out.begin(), out.end());
     cout << "out: " << out_str << endl;
+    fclose(fpriv);
+    fclose(fpub);
     return 0;
 }
 
@@ -515,7 +552,9 @@ int convkey_private_o2b(
         print_error("fopen");
         return 2;
     }
-    return print_private_key_hex(fpriv, private_key);
+    int ret = print_private_key_hex(fpriv, private_key);
+    fclose(fpriv);
+    return ret;
 }
 
 int convkey_public_b2o(
@@ -611,7 +650,9 @@ int convkey_public_o2b(
         print_error("fopen");
         return 2;
     }
-    return print_public_key_hex(fpub, public_key);
+    int ret = print_public_key_hex(fpub, public_key);
+    fclose(fpub);
+    return ret;
 }
 
 int convkey(
