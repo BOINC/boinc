@@ -540,9 +540,11 @@ def stop_daemons():
     if verbose: print("Stopping all daemons")
     write_stop_daemons()
     pid_files = glob.glob(os.path.join(pid_dir, '*.pid'))
+    pids = [safe_read_int(pid_file) for pid_file in pid_files]
+    for pid_file in pid_files:
+        safe_unlink(pid_file)
+
     count = 0
-    pids = map(safe_read_int, pid_files)
-    map(safe_unlink, pid_files)
     for pid in pids:
         count += stop_daemon(pid)
     for pid in pids:
