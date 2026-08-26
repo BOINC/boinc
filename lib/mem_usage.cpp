@@ -21,7 +21,7 @@
 #include "config.h"
 #if HAVE_PROCFS_H
 // Can't use large file calls with solaris procfs.
-#if defined(_FILE_OFFSET_BITS) && ( _FILE_OFFSET_BITS == 64 )
+#if defined(_FILE_OFFSET_BITS) && ( _FILE_OFFSET_BITS == 64 ) && defined(__sun)
 #undef _FILE_OFFSET_BITS
 #undef _LARGE_FILES
 #undef _LARGEFILE_SOURCE
