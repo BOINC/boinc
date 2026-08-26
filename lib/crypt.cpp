@@ -954,7 +954,7 @@ int cert_verify_file(CERT_SIGS* signatures, const string &origFile,
                 continue;
             }
             fflush(stdout);
-            X509_NAME *subj = X509_get_subject_name(cert.get());
+            const X509_NAME *subj = X509_get_subject_name(cert.get());
 
             char buf[256];
             X509_NAME_oneline(subj, buf, 256);
