@@ -1,4 +1,5 @@
-#! /usr/bin/env python
+#!/usr/bin/env python3
+from __future__ import print_function
 #
 # Written by Gabor Gombas <gombasg@sztaki.hu>
 # Licensed under the same terms as the rest of BOINC.
@@ -44,7 +45,7 @@ def remove_app_directory(appver, config):
     """Remove files for an app version under <projectroot>/apps"""
 
     appdir = os.path.join(config.app_dir, appver.app.name)
-    for path in map(lambda file: os.path.join(appdir, file), os.listdir(appdir)):
+    for path in [os.path.join(appdir, file) for file in os.listdir(appdir)]:
         match = re.match('^[^.]+_([0-9]+)[.]([0-9]+)_([^.]+?(?:[0-9][0-9.]*[0-9])?)(?:__([^.])+)?(?:[.][a-zA-Z0-9\_\-]*)?$', os.path.basename(path))
         if not match:
             continue
@@ -96,7 +97,7 @@ def do_delete_app_version(appver):
 
     tmp = str(appver)
     appver.remove()
-    print "Removed " + tmp
+    print("Removed " + tmp)
 
 def add_platform(args):
     usage = """%prog add_platform <name> <user-friendly name>
@@ -113,7 +114,7 @@ Add a new platform definition to the database."""
                                  user_friendly_name = extra_args[1],
                                  deprecated = 0)
     platform.commit()
-    print "Added " + str(platform)
+    print("Added " + str(platform))
 
 def del_platform(args):
     usage = """%prog delete_platform <name>
@@ -149,7 +150,7 @@ application version available for this platform, the command will fail."""
     # The id is gone after .remove(), so we have to save the stringified form
     tmp = str(platform)
     platform.remove()
-    print "Deleted " + tmp
+    print("Deleted " + tmp)
 
 def update_platform(args):
     usage = """%prog update_platform <name> [options]
@@ -183,7 +184,7 @@ Update platform data."""
     if options.user_friendly_name:
         platform.user_friendly_name = options.user_friendly_name
     platform.commit()
-    print "Updated " + str(platform)
+    print("Updated " + str(platform))
 
 def list_platform(args):
     usage = """%prog list_platform
@@ -202,12 +203,12 @@ List all defined platforms."""
     database.Platforms.select_args = 'ORDER BY name'
     for platform in database.Platforms.find():
         if options.short:
-            print platform.name
+            print(platform.name)
         else:
             desc = platform.name + ": " + platform.user_friendly_name
             if platform.deprecated:
                 desc += " (Deprecated)"
-            print desc
+            print(desc)
 
 def add_standard_platforms(args):
     usage = """%prog add_standard_platforms
@@ -220,7 +221,7 @@ already exist they will not be modified."""
     if extra_args:
         parser.error("Extra arguments on the command line")
 
-    for name in standard_platforms.keys():
+    for name in list(standard_platforms.keys()):
         if database.Platforms.find(name = name):
             continue
         platform = database.Platform(create_time = time.time(),
@@ -228,7 +229,7 @@ already exist they will not be modified."""
                                      user_friendly_name = standard_platforms[name],
                                      deprecated = 0)
         platform.commit()
-        print "Added " + str(platform)
+        print("Added " + str(platform))
 
 def add_app(args):
     usage = """%prog add <name> <user-friendly name> [options]
@@ -239,7 +240,7 @@ Register a new application in the database."""
 
     parser = OptionParser(usage = usage)
     parser.add_option("--hr",
-                      choices = hr_types.keys(),
+                      choices = list(hr_types.keys()),
                       default = "no",
                       metavar = "(no|fine|coarse)",
                       help = "set the homogeneous redundancy type")
@@ -275,11 +276,11 @@ Register a new application in the database."""
                        target_nresults = options.target_nresults)
     try:
         app.commit()
-    except Exception, e:
-        print "Failed to add application"
+    except Exception as e:
+        print("Failed to add application")
         return
 
-    print "Added " + str(app)
+    print("Added " + str(app))
 
 def del_app(args):
     usage = """%prog delete <name> [options]
@@ -330,7 +331,7 @@ are deleted and the application is removed from the 'app' table as well."""
     if not options.version and not options.platform and not options.plan_class:
         tmp = str(app)
         app.remove()
-        print "Removed " + tmp
+        print("Removed " + tmp)
 
 def update_app(args):
     usage = """%prog update <name> [options]
@@ -341,7 +342,7 @@ Update the properties of the given application."""
 
     parser = OptionParser(usage = usage)
     parser.add_option("--hr",
-                      choices = hr_types.keys(),
+                      choices = list(hr_types.keys()),
                       default = "no",
                       metavar = "(no|fine|coarse)",
                       help = "set the homogeneous redundancy type")
@@ -405,7 +406,7 @@ Update the properties of the given application."""
         app.deprecated = options.deprecated
 
     app.commit()
-    print "Updated " + str(app)
+    print("Updated " + str(app))
 
 def list_app(args):
     usage = """%prog list
@@ -430,8 +431,8 @@ List all applications and application versions."""
 
     for app in database.Apps.find():
         title = app.name + ": " + app.user_friendly_name
-        print title
-        print "-" * len(title)
+        print(title)
+        print("-" * len(title))
 
         props = []
         if app.deprecated:
@@ -445,13 +446,13 @@ List all applications and application versions."""
         props.append("Weight %g." % app.weight)
         if app.target_nresults:
             props.append(str(app.target_nresults) + " adaptive replicas.")
-        print string.join(props, ' ')
+        print(' '.join(props))
 
         if options.no_versions:
-            print
+            print()
             continue
 
-        print "Versions:\n"
+        print("Versions:\n")
         for appver in database.AppVersions.find(app = app):
             desc = "\t%5.2f" % (float(appver.version_num) / 100)
             desc += " " + appver.platform.name
@@ -467,9 +468,9 @@ List all applications and application versions."""
                 props.append("Max. core version: %g." % \
                              (float(appver.max_core_version) / 100))
             if props:
-                desc += " (" + string.join(props, ' ') + ')'
-            print desc
-        print
+                desc += " (" + ' '.join(props) + ')'
+            print(desc)
+        print()
 
 def update_appver(args):
     usage = """%prog update_appver <name> [options]
@@ -534,7 +535,7 @@ then all versions for the given application are updated."""
         if options.max_core_version is not None:
             appver.max_core_version = int(options.max_core_version * 100)
         appver.commit()
-        print "Updated " + str(appver)
+        print("Updated " + str(appver))
 
 command_table = {
     'add': add_app,
@@ -555,7 +556,7 @@ Available commands:
 %s
 
 Use "%%prog <command> --help" to get a description of the command.""" % \
-    string.join(map(lambda x: "\t" + x, sorted(command_table.keys())), "\n")
+    "\n".join(["\t" + x for x in sorted(command_table.keys())])
 
 parser = OptionParser(usage=usage)
 parser.disable_interspersed_args()
