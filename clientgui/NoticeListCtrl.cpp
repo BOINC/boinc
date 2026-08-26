@@ -23,7 +23,6 @@
 #include "miofile.h"
 #include "parse.h"
 #include "error_numbers.h"
-#include "wizardex.h"
 #include "error_numbers.h"
 #include "Events.h"
 #include "BOINCGUIApp.h"

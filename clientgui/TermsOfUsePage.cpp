@@ -23,85 +23,58 @@
 #include "miofile.h"
 #include "parse.h"
 #include "error_numbers.h"
-#include "wizardex.h"
 #include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
+#include "CompletionErrorPage.h"
+#include "AccountInfoPage.h"
+#include "AccountManagerProcessingPage.h"
+#include "ProjectProcessingPage.h"
 #include "TermsOfUsePage.h"
 
+IMPLEMENT_DYNAMIC_CLASS(CTermsOfUsePage, CBOINCWizardPage)
 
-/*!
- * CTermsOfUsePage type definition
- */
+BEGIN_EVENT_TABLE(CTermsOfUsePage, CBOINCWizardPage)
 
-IMPLEMENT_DYNAMIC_CLASS( CTermsOfUsePage, wxWizardPageEx )
-
-/*!
- * CTermsOfUsePage event table definition
- */
-
-BEGIN_EVENT_TABLE( CTermsOfUsePage, wxWizardPageEx )
-
-////@begin CTermsOfUsePage event table entries
-    EVT_WIZARDEX_PAGE_CHANGED( -1, CTermsOfUsePage::OnPageChanged )
-    EVT_WIZARDEX_PAGE_CHANGING( -1, CTermsOfUsePage::OnPageChanging )
-    EVT_WIZARDEX_CANCEL( -1, CTermsOfUsePage::OnCancel )
-    EVT_RADIOBUTTON( ID_TERMSOFUSEAGREECTRL, CTermsOfUsePage::OnTermsOfUseStatusChange )
-    EVT_RADIOBUTTON( ID_TERMSOFUSEDISAGREECTRL, CTermsOfUsePage::OnTermsOfUseStatusChange )
-    EVT_HTML_LINK_CLICKED(ID_TERMSOFUSECTRL, CTermsOfUsePage::OnLinkClicked)
-////@end CTermsOfUsePage event table entries
+EVT_WIZARD_PAGE_CHANGED(wxID_ANY, CTermsOfUsePage::OnPageChanged)
+EVT_WIZARD_PAGE_CHANGING(wxID_ANY, CTermsOfUsePage::OnPageChanging)
+EVT_WIZARD_CANCEL(wxID_ANY, CTermsOfUsePage::OnCancel)
+EVT_RADIOBUTTON(ID_TERMSOFUSEAGREECTRL, CTermsOfUsePage::OnTermsOfUseStatusChange)
+EVT_RADIOBUTTON(ID_TERMSOFUSEDISAGREECTRL, CTermsOfUsePage::OnTermsOfUseStatusChange)
+EVT_HTML_LINK_CLICKED(ID_TERMSOFUSECTRL, CTermsOfUsePage::OnLinkClicked)
 
 END_EVENT_TABLE()
 
-/*!
- * CTermsOfUsePage constructors
- */
-
-CTermsOfUsePage::CTermsOfUsePage( )
-{
+CTermsOfUsePage::CTermsOfUsePage() {
 }
 
-CTermsOfUsePage::CTermsOfUsePage( CBOINCBaseWizard* parent )
-{
-    Create( parent );
+CTermsOfUsePage::CTermsOfUsePage(CWizardAttach* parent) {
+    Create(parent);
 }
 
-/*!
- * CTermsOfUsePage creator
- */
-
-bool CTermsOfUsePage::Create( CBOINCBaseWizard* parent )
-{
-////@begin CTermsOfUsePage member initialisation
-    m_pTitleStaticCtrl = NULL;
-    m_pDirectionsStaticCtrl = NULL;
-    m_pTermsOfUseCtrl = NULL;
-    m_pAgreeCtrl = NULL;
-    m_pDisagreeCtrl = NULL;
-////@end CTermsOfUsePage member initialisation
+bool CTermsOfUsePage::Create(CWizardAttach* parent) {
+    m_pParent = parent;
+    m_pPrev = nullptr;
+    m_pTitleStaticCtrl = nullptr;
+    m_pDirectionsStaticCtrl = nullptr;
+    m_pTermsOfUseCtrl = nullptr;
+    m_pAgreeCtrl = nullptr;
+    m_pDisagreeCtrl = nullptr;
     m_bUserAgrees = false;
     m_bCredentialsAlreadyAvailable = false;
 
-////@begin CTermsOfUsePage creation
-    wxWizardPageEx::Create( parent, ID_TERMSOFUSEPAGE );
+    wxWizardPage::Create(parent);
 
     CreateControls();
     GetSizer()->Fit(this);
-////@end CTermsOfUsePage creation
 
-    return TRUE;
+    return true;
 }
 
-/*!
- * Control creation for CTermsOfUsePage
- */
-
-void CTermsOfUsePage::CreateControls()
-{
-////@begin CTermsOfUsePage content construction
+void CTermsOfUsePage::CreateControls() {
     CTermsOfUsePage* itemWizardPage96 = this;
 
     wxBoxSizer* itemBoxSizer97 = new wxBoxSizer(wxVERTICAL);
@@ -131,12 +104,9 @@ void CTermsOfUsePage::CreateControls()
     m_pDisagreeCtrl->Create( itemWizardPage96, ID_TERMSOFUSEDISAGREECTRL, _("I do not agree to the terms of use."), wxDefaultPosition, wxDefaultSize, 0 );
     m_pDisagreeCtrl->SetValue(true);
     itemBoxSizer97->Add(m_pDisagreeCtrl, 0, wxALIGN_LEFT|wxALL, 5);
-
-////@end CTermsOfUsePage content construction
 }
 
-
-void CTermsOfUsePage::OnLinkClicked( wxHtmlLinkEvent& event ) {
+void CTermsOfUsePage::OnLinkClicked(wxHtmlLinkEvent& event) {
     wxString url = event.GetLinkInfo().GetHref();
     if (url.StartsWith(wxT("http://")) || url.StartsWith(wxT("https://"))) {
         // wxHtmlLinkEvent doesn't have Veto(), but only loads the page if you
@@ -147,78 +117,41 @@ void CTermsOfUsePage::OnLinkClicked( wxHtmlLinkEvent& event ) {
     }
  }
 
-/*!
- * Gets the previous page.
- */
-
-wxWizardPageEx* CTermsOfUsePage::GetPrev() const
-{
-    return PAGE_TRANSITION_BACK;
+wxWizardPage* CTermsOfUsePage::GetPrev() const {
+    return m_pPrev;
 }
 
-/*!
- * Gets the next page.
- */
-
-wxWizardPageEx* CTermsOfUsePage::GetNext() const
-{
-    if (CHECK_CLOSINGINPROGRESS()) {
+wxWizardPage* CTermsOfUsePage::GetNext() const {
+    if (m_pParent->IsCancelInProgress()) {
         // Cancel Event Detected
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-    } else if (IS_ATTACHTOPROJECTWIZARD() && GetUserAgrees() && GetCredentialsAlreadyAvailable()) {
-        return PAGE_TRANSITION_NEXT(ID_PROJECTPROCESSINGPAGE);
-    } else if (IS_ACCOUNTMANAGERWIZARD() && GetUserAgrees() && GetCredentialsAlreadyAvailable()) {
-        return PAGE_TRANSITION_NEXT(ID_ACCOUNTMANAGERPROCESSINGPAGE);
+        return m_pParent->GetCompletionErrorPage();
+    } else if (m_pParent->GetIsAttachToProjectWizard() && GetUserAgrees() && GetCredentialsAlreadyAvailable()) {
+        return m_pParent->GetProjectProcessingPage();
+    } else if (m_pParent->GetIsAccountManagerWizard() && GetUserAgrees() && GetCredentialsAlreadyAvailable()) {
+        return m_pParent->GetAccountManagerProcessingPage();
     } else if (GetUserAgrees()) {
-        return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
+        return m_pParent->GetAccountInfoPage();
     } else {
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+        return m_pParent->GetCompletionErrorPage();
     }
 }
 
-/*!
- * Should we show tooltips?
- */
-
-bool CTermsOfUsePage::ShowToolTips()
-{
-    return TRUE;
+void CTermsOfUsePage::SetPrev(CBOINCWizardPage *prev) {
+    m_pPrev = prev;
 }
 
-/*!
- * Get bitmap resources
- */
-
-wxBitmap CTermsOfUsePage::GetBitmapResource( const wxString& WXUNUSED(name) )
-{
-    // Bitmap retrieval
-
-////@begin CTermsOfUsePage bitmap retrieval
-    return wxNullBitmap;
-////@end CTermsOfUsePage bitmap retrieval
+bool CTermsOfUsePage::HasNextPage() const {
+    return true;
 }
 
-/*!
- * Get icon resources
- */
-
-wxIcon CTermsOfUsePage::GetIconResource( const wxString& WXUNUSED(name) )
-{
-    // Icon retrieval
-
-////@begin CTermsOfUsePage icon retrieval
-    return wxNullIcon;
-////@end CTermsOfUsePage icon retrieval
+bool CTermsOfUsePage::HasPrevPage() const {
+    return m_pPrev != nullptr;
 }
 
-/*!
- * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_TERMSOFUSEPAGE
- */
-
-void CTermsOfUsePage::OnPageChanged( wxWizardExEvent& event ) {
+void CTermsOfUsePage::OnPageChanged(wxWizardEvent& event) {
     if (event.GetDirection() == false) return;
 
-    PROJECT_CONFIG& pc = ((CWizardAttach*)GetParent())->project_config;
+    PROJECT_CONFIG& pc = m_pParent->GetProjectConfig();
 
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pDirectionsStaticCtrl);
@@ -246,70 +179,60 @@ void CTermsOfUsePage::OnPageChanged( wxWizardExEvent& event ) {
     m_pDisagreeCtrl->SetValue(true);
 
     SetUserAgrees(false);
-    ((CWizardAttach*)GetParent())->DisableNextButton();
+    m_pParent->DisableNextButton();
 
     Fit();
 }
 
-/*!
- * wxEVT_WIZARD_PAGE_CHANGING event handler for ID_TERMSOFUSEPAGE
- */
-
-void CTermsOfUsePage::OnPageChanging( wxWizardExEvent& event ) {
-    CWizardAttach*  pWA = ((CWizardAttach*)GetParent());
-
-    wxASSERT(pWA);
-    wxASSERT(wxDynamicCast(pWA, CWizardAttach));
+void CTermsOfUsePage::OnPageChanging(wxWizardEvent& event) {
+    wxASSERT(m_pParent);
+    wxASSERT(wxDynamicCast(m_pParent, CWizardAttach));
 
     // If the user has left the terms of use disagree radio button
     // selected, then the next button is disabled and needs to be
     // re-enabled if the back button is pressed.
-    pWA->EnableNextButton();
+    m_pParent->EnableNextButton();
 
     if (event.GetDirection() == false) {
-        pWA->SetConsentedToTerms(false);
+        m_pParent->SetConsentedToTerms(false);
         return;
     }
 
-    if (!CHECK_CLOSINGINPROGRESS()) {
+    if (!m_pParent->IsCancelInProgress()) {
         // We are leaving this page.
-
         // Determine if the account settings are already pre-populated.
         //   If so, advance to the Account Manager Processing page or the
         //   Project Processing page.
-        if ( pWA->IsCredentialsCached() || pWA->IsCredentialsDetected()) {
+        if ( m_pParent->IsCredentialsCached() || m_pParent->IsCredentialsDetected()) {
             SetCredentialsAlreadyAvailable(true);
         } else {
             SetCredentialsAlreadyAvailable(false);
         }
-        pWA->SetConsentedToTerms(GetUserAgrees());
-    }
+        m_pParent->SetConsentedToTerms(GetUserAgrees());
+
+        CBOINCWizardPage *pageNext = dynamic_cast<CBOINCWizardPage*>(GetNext());
+        if (pageNext != nullptr) {
+            pageNext->SetPrev(const_cast<CTermsOfUsePage*>(this));
+        }
+
+   }
 }
 
-/*!
- * wxEVT_WIZARD_CANCEL event handler for ID_TERMSOFUSEPAGE
- */
-
-void CTermsOfUsePage::OnCancel( wxWizardExEvent& event ) {
-    PROCESS_CANCELEVENT(event);
+void CTermsOfUsePage::OnCancel(wxWizardEvent& event) {
+    m_pParent->ProcessCancelEvent(event);
 }
 
-/*!
- * wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_TERMSOFUSEAGREECTRL
- *   or ID_TERMSOFUSEDISAGREECTRL
- */
-
-void CTermsOfUsePage::OnTermsOfUseStatusChange( wxCommandEvent& event ) {
+void CTermsOfUsePage::OnTermsOfUseStatusChange(wxCommandEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CTermsOfUsePage::OnTermsOfUseStatusChange - Function Begin"));
 
     if ((ID_TERMSOFUSEAGREECTRL == event.GetId()) && event.IsChecked()){
         wxLogTrace(wxT("Function Status"), wxT("CTermsOfUsePage::OnTermsOfUseStatusChange - SetUserAgrees(true)"));
         SetUserAgrees(true);
-        ((CWizardAttach*)GetParent())->EnableNextButton();
+        m_pParent->EnableNextButton();
     } else {
         wxLogTrace(wxT("Function Status"), wxT("CTermsOfUsePage::OnTermsOfUseStatusChange - SetUserAgrees(false)"));
         SetUserAgrees(false);
-        ((CWizardAttach*)GetParent())->DisableNextButton();
+        m_pParent->DisableNextButton();
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTermsOfUsePage::OnTermsOfUseStatusChange - Function End"));

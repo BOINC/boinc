@@ -27,7 +27,6 @@
 #include "MainDocument.h"
 #include "Events.h"
 #include "BOINCBaseFrame.h"
-#include "wizardex.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
 #include "error_numbers.h"

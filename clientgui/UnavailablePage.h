@@ -18,59 +18,34 @@
 #ifndef BOINC_UNAVAILABLEPAGE_H
 #define BOINC_UNAVAILABLEPAGE_H
 
-/*!
- * CErrUnavailablePage class declaration
- */
-
-class CErrUnavailablePage: public wxWizardPageEx
-{
-    DECLARE_DYNAMIC_CLASS( CErrUnavailablePage )
+class CErrUnavailablePage: public CBOINCWizardPage {
+    DECLARE_DYNAMIC_CLASS(CErrUnavailablePage)
     DECLARE_EVENT_TABLE()
 
 public:
-    /// Constructors
-    CErrUnavailablePage( );
+    CErrUnavailablePage();
+    CErrUnavailablePage(CWizardAttach* parent);
+    bool Create(CWizardAttach* parent);
 
-    CErrUnavailablePage( CBOINCBaseWizard* parent );
-
-    /// Creation
-    bool Create( CBOINCBaseWizard* parent );
-
-    /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CErrUnavailablePage event handler declarations
+    void OnPageChanged(wxWizardEvent& event);
+    void OnCancel(wxWizardEvent& event);
 
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROJECTUNAVAILABLEPAGE
-    void OnPageChanged( wxWizardExEvent& event );
+    wxWizardPage* GetPrev() const;
+    wxWizardPage* GetNext() const;
 
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROJECTUNAVAILABLEPAGE
-    void OnCancel( wxWizardExEvent& event );
+    void SetPrev(CBOINCWizardPage *prev);
 
-////@end CErrUnavailablePage event handler declarations
+    bool HasNextPage() const;
+    bool HasPrevPage() const;
 
-////@begin CErrUnavailablePage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPageEx* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPageEx* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CErrUnavailablePage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CErrUnavailablePage member variables
+private:
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDirectionsStaticCtrl;
-////@end CErrUnavailablePage member variables
+
+    CWizardAttach *m_pParent;
+    CBOINCWizardPage *m_pPrev;
 };
 
 #endif

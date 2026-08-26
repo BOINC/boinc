@@ -25,7 +25,6 @@
 #include "url.h"
 #include "error_numbers.h"
 
-#include "wizardex.h"
 #include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
@@ -33,6 +32,8 @@
 #include "ValidateURL.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
+#include "CompletionErrorPage.h"
+#include "ProjectPropertiesPage.h"
 #include "ProjectInfoPage.h"
 
 
@@ -52,12 +53,7 @@
 #include "res/blankicon.xpm"
 
 
-/*!
- * CProject type
- */
-
-class CProjectInfo : public wxObject
-{
+class CProjectInfo : public wxObject {
     DECLARE_DYNAMIC_CLASS( CProjectInfo )
     CProjectInfo() {
         m_bSupportedPlatformFound = false;
@@ -100,52 +96,29 @@ public:
     bool m_bProjectSupportsMetal;
 };
 
-IMPLEMENT_DYNAMIC_CLASS( CProjectInfo, wxObject )
+IMPLEMENT_DYNAMIC_CLASS(CProjectInfo, wxObject)
 
 
-/*!
- * CProjectInfoPage type definition
- */
+IMPLEMENT_DYNAMIC_CLASS(CProjectInfoPage, CBOINCWizardPage)
 
-IMPLEMENT_DYNAMIC_CLASS( CProjectInfoPage, wxWizardPageEx )
+BEGIN_EVENT_TABLE(CProjectInfoPage, CBOINCWizardPage)
 
-/*!
- * CProjectInfoPage event table definition
- */
-
-BEGIN_EVENT_TABLE( CProjectInfoPage, wxWizardPageEx )
-
-////@begin CProjectInfoPage event table entries
-    EVT_COMBOBOX( ID_CATEGORIES, CProjectInfoPage::OnProjectCategorySelected )
-    EVT_LIST_ITEM_SELECTED( ID_PROJECTS, CProjectInfoPage::OnProjectSelected )
-    EVT_WIZARDEX_PAGE_CHANGED( wxID_ANY, CProjectInfoPage::OnPageChanged )
-    EVT_WIZARDEX_PAGE_CHANGING( wxID_ANY, CProjectInfoPage::OnPageChanging )
-    EVT_WIZARDEX_CANCEL( wxID_ANY, CProjectInfoPage::OnCancel )
-////@end CProjectInfoPage event table entries
+EVT_COMBOBOX(ID_CATEGORIES, CProjectInfoPage::OnProjectCategorySelected)
+EVT_LIST_ITEM_SELECTED(ID_PROJECTS, CProjectInfoPage::OnProjectSelected)
+EVT_WIZARD_PAGE_CHANGED(wxID_ANY, CProjectInfoPage::OnPageChanged)
+EVT_WIZARD_PAGE_CHANGING(wxID_ANY, CProjectInfoPage::OnPageChanging)
+EVT_WIZARD_CANCEL(wxID_ANY, CProjectInfoPage::OnCancel)
 
 END_EVENT_TABLE()
 
-
-/*!
- * CProjectInfoPage constructors
- */
-
-CProjectInfoPage::CProjectInfoPage( )
-{
+CProjectInfoPage::CProjectInfoPage() {
 }
 
-CProjectInfoPage::CProjectInfoPage( CBOINCBaseWizard* parent )
-{
-    Create( parent );
+CProjectInfoPage::CProjectInfoPage(CWizardAttach* parent) {
+    Create(parent);
 }
 
-
-/*!
- * CProjectInfoPage destructor
- */
-
-CProjectInfoPage::~CProjectInfoPage( )
-{
+CProjectInfoPage::~CProjectInfoPage() {
     for (std::vector<CProjectInfo*>::iterator iter = m_Projects.begin(); iter != m_Projects.end(); ++iter)
     {
         CProjectInfo* pEntry = (CProjectInfo*)*iter;
@@ -156,69 +129,54 @@ CProjectInfoPage::~CProjectInfoPage( )
     delete m_apl;
 }
 
-
-/*!
- * CProjectInfoPage creator
- */
-
-bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
-{
-////@begin CProjectInfoPage member initialisation
-    m_pTitleStaticCtrl = NULL;
-    m_pDescriptionStaticCtrl = NULL;
-    m_pProjectCategoriesStaticCtrl = NULL;
-    m_pProjectCategoriesCtrl = NULL;
-    m_pProjectsStaticCtrl = NULL;
-    m_pProjectsCtrl = NULL;
-    m_pProjectDetailsStaticCtrl = NULL;
-    m_pProjectDetailsDescriptionCtrl = NULL;
-    m_pProjectDetailsResearchAreaStaticCtrl = NULL;
-    m_pProjectDetailsResearchAreaCtrl = NULL;
-    m_pProjectDetailsOrganizationStaticCtrl = NULL;
-    m_pProjectDetailsOrganizationCtrl = NULL;
-    m_pProjectDetailsURLStaticCtrl = NULL;
-    m_pProjectDetailsURLCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformsStaticCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformWindowsCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformMacCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformLinuxCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformAndroidCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformFreeBSDCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformLinuxArmCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformRaspberryPiCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformDockerCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformATICtrl = NULL;
-    m_pProjectDetailsSupportedPlatformNvidiaCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformIntelGPUCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformVirtualBoxCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformMetalCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformBlankCtrl = NULL;
-    m_pProjectURLStaticCtrl = NULL;
-    m_pProjectURLCtrl = NULL;
-////@end CProjectInfoPage member initialisation
+bool CProjectInfoPage::Create(CWizardAttach* parent) {
+    m_pParent = parent;
+    m_pPrev = nullptr;
+    m_pTitleStaticCtrl = nullptr;
+    m_pDescriptionStaticCtrl = nullptr;
+    m_pProjectCategoriesStaticCtrl = nullptr;
+    m_pProjectCategoriesCtrl = nullptr;
+    m_pProjectsStaticCtrl = nullptr;
+    m_pProjectsCtrl = nullptr;
+    m_pProjectDetailsStaticCtrl = nullptr;
+    m_pProjectDetailsDescriptionCtrl = nullptr;
+    m_pProjectDetailsResearchAreaStaticCtrl = nullptr;
+    m_pProjectDetailsResearchAreaCtrl = nullptr;
+    m_pProjectDetailsOrganizationStaticCtrl = nullptr;
+    m_pProjectDetailsOrganizationCtrl = nullptr;
+    m_pProjectDetailsURLStaticCtrl = nullptr;
+    m_pProjectDetailsURLCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformsStaticCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformWindowsCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformMacCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformLinuxCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformAndroidCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformFreeBSDCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformLinuxArmCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformRaspberryPiCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformDockerCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformATICtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformNvidiaCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformIntelGPUCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformVirtualBoxCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformMetalCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformBlankCtrl = nullptr;
+    m_pProjectURLStaticCtrl = nullptr;
+    m_pProjectURLCtrl = nullptr;
 
     m_Projects.clear();
     m_bProjectSupported = false;
     m_bProjectListPopulated = false;
 
-////@begin CProjectInfoPage creation
-    wxWizardPageEx::Create( parent, ID_PROJECTINFOPAGE );
+    wxWizardPage::Create(parent);
 
     CreateControls();
 
     GetSizer()->Fit(this);
-////@end CProjectInfoPage creation
-    return TRUE;
+    return true;
 }
 
-
-/*!
- * Control creation for WizardPage
- */
-
-void CProjectInfoPage::CreateControls()
-{
-    ////@begin CProjectInfoPage content construction
+void CProjectInfoPage::CreateControls() {
 #ifdef __WXMAC__
     const int descriptionWidth = 350;
 #else
@@ -432,53 +390,33 @@ void CProjectInfoPage::CreateControls()
 
     // Set validators
     m_pProjectURLCtrl->SetValidator(CValidateURL(&m_strProjectURL));
-
-    ////@end CProjectInfoPage content construction
 }
 
-
-/*!
- * Gets the previous page.
- */
-wxWizardPageEx* CProjectInfoPage::GetPrev() const
-{
-    return PAGE_TRANSITION_BACK;
+wxWizardPage* CProjectInfoPage::GetPrev() const {
+    return m_pPrev;
 }
 
-
-/*!
- * Gets the next page.
- */
-
-wxWizardPageEx* CProjectInfoPage::GetNext() const
-{
-    if (CHECK_CLOSINGINPROGRESS()) {
+wxWizardPage* CProjectInfoPage::GetNext() const {
+    if (m_pParent->IsCancelInProgress()) {
         // Cancel Event Detected
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-    } else {
-        return PAGE_TRANSITION_NEXT(ID_PROJECTPROPERTIESPAGE);
+        return m_pParent->GetCompletionErrorPage();
     }
+    return m_pParent->GetProjectPropertiesPage();
 }
 
-
-/*!
- * Should we show tooltips?
- */
-
-bool CProjectInfoPage::ShowToolTips()
-{
-    return TRUE;
+void CProjectInfoPage::SetPrev(CBOINCWizardPage *prev) {
+    m_pPrev = prev;
 }
 
+bool CProjectInfoPage::HasNextPage() const {
+    return true;
+}
 
-/*!
- * Get bitmap resources
- */
+bool CProjectInfoPage::HasPrevPage() const {
+    return m_pPrev != nullptr;
+}
 
-wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
-{
-    // Bitmap retrieval
-////@begin CProjectInfoPage bitmap retrieval
+wxBitmap CProjectInfoPage::GetBitmapResource(const wxString& name) {
     wxUnusedVar(name);
     if (name == wxT("windowsicon.xpm"))
     {
@@ -551,28 +489,9 @@ wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
         return bitmap;
     }
     return wxNullBitmap;
-////@end CProjectInfoPage bitmap retrieval
 }
 
-
-/*!
- * Get icon resources
- */
-
-wxIcon CProjectInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
-{
-    // Icon retrieval
-////@begin CProjectInfoPage icon retrieval
-    return wxNullIcon;
-////@end CProjectInfoPage icon retrieval
-}
-
-
-/*
- * wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_CATEGORIES
- */
-
-void CProjectInfoPage::OnProjectCategorySelected( wxCommandEvent& WXUNUSED(event) ) {
+void CProjectInfoPage::OnProjectCategorySelected(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectCategorySelected - Function Begin"));
 
     m_pProjectsCtrl->DeleteAllItems();
@@ -615,12 +534,7 @@ void CProjectInfoPage::OnProjectCategorySelected( wxCommandEvent& WXUNUSED(event
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectCategorySelected - Function End"));
 }
 
-
-/*
- * wxEVT_LIST_ITEM_SELECTED event handler for ID_PROJECTS
- */
-
-void CProjectInfoPage::OnProjectSelected( wxListEvent& event ) {
+void CProjectInfoPage::OnProjectSelected(wxListEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectSelected - Function Begin"));
 
     if (m_pProjectsCtrl->GetSelectedItemCount() == 1) {
@@ -695,12 +609,7 @@ void CProjectInfoPage::OnProjectSelected( wxListEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectSelected - Function End"));
 }
 
-
-/*!
- * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTINFOPAGE
- */
-
-void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
+void CProjectInfoPage::OnPageChanged(wxWizardEvent& event) {
     if (event.GetDirection() == false) return;
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnPageChanged - Function Begin"));
 
@@ -710,7 +619,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxArrayString               aProjectPlatforms;
     wxArrayString               aCategories;
     bool                        bCategoryFound = false;
-    CProjectInfo*               pProjectInfo = NULL;
+    CProjectInfo*               pProjectInfo = nullptr;
 
 
     // Populate the ProjectInfo data structure with the list of projects we want to show and
@@ -874,15 +783,9 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnPageChanged - Function End"));
 }
 
-
-/*!
- * wxEVT_WIZARD_PAGE_CHANGING event handler for ID_PROJECTINFOPAGE
- */
-
-void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
+void CProjectInfoPage::OnPageChanging(wxWizardEvent& event) {
     if (event.GetDirection() == false) return;
 
-    CWizardAttach* pWA = ((CWizardAttach*)GetParent());
     CMainDocument* pDoc = wxGetApp().GetDocument();
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString       strTitle;
@@ -894,6 +797,10 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
+    CBOINCWizardPage *pageNext = dynamic_cast<CBOINCWizardPage*>(GetNext());
+    if (pageNext != nullptr) {
+        pageNext->SetPrev(const_cast<CProjectInfoPage*>(this));
+    }
 
     strTitle.Printf(
         wxT("%s"),
@@ -951,20 +858,14 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
     } else {
 
         // Update authoritative data in CWizardAttach
-        pWA->SetProjectURL(m_strProjectURL);
+        m_pParent->SetProjectURL(m_strProjectURL);
 
     }
 }
 
-
-/*!
- * wxEVT_WIZARD_CANCEL event handler for ID_PROJECTINFOPAGE
- */
-
-void CProjectInfoPage::OnCancel( wxWizardExEvent& event ) {
-    PROCESS_CANCELEVENT(event);
+void CProjectInfoPage::OnCancel(wxWizardEvent& event) {
+    m_pParent->ProcessCancelEvent(event);
 }
-
 
 void CProjectInfoPage::EllipseStringIfNeeded(wxString& s, wxWindow *win) {
     int x, y;
@@ -977,7 +878,7 @@ void CProjectInfoPage::EllipseStringIfNeeded(wxString& s, wxWindow *win) {
     // Adapted from ellipis code in wxRendererGeneric::DrawHeaderButtonContents()
     if (w > maxWidth) {
         int ellipsisWidth;
-        win->GetTextExtent( wxT("..."), &ellipsisWidth, NULL);
+        win->GetTextExtent( wxT("..."), &ellipsisWidth, nullptr);
         if (ellipsisWidth > maxWidth) {
             s.Clear();
             w = 0;
@@ -997,7 +898,6 @@ void CProjectInfoPage::RefreshPage() {
     wxCommandEvent evtEvent(wxEVT_COMMAND_COMBOBOX_SELECTED, ID_CATEGORIES);
     ProcessEvent(evtEvent);
 }
-
 
 // Function to "trim" the URL of the http(s) prefix and the last slash.
 // Prior to running this function, the string should be canonicalized using

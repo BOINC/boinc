@@ -89,7 +89,6 @@
     <ClCompile Include="..\clientgui\AlreadyExistsPage.cpp" />
     <ClCompile Include="..\clientgui\CompletionErrorPage.cpp" />
     <ClCompile Include="..\clientgui\CompletionPage.cpp" />
-    <ClCompile Include="..\clientgui\NoInternetConnectionPage.cpp" />
     <ClCompile Include="..\clientgui\NotDetectedPage.cpp" />
     <ClCompile Include="..\clientgui\NotFoundPage.cpp" />
     <ClCompile Include="..\clientgui\ProjectInfoPage.cpp" />
@@ -101,7 +100,6 @@
     <ClCompile Include="..\clientgui\UnavailablePage.cpp" />
     <ClCompile Include="..\clientgui\WizardAttach.cpp" />
     <ClCompile Include="..\clientgui\BOINCBaseWizard.cpp" />
-    <ClCompile Include="..\clientgui\wizardex.cpp" />
     <ClCompile Include="..\clientgui\BOINCBaseFrame.cpp" />
     <ClCompile Include="..\clientgui\BOINCClientManager.cpp" />
     <ClCompile Include="..\clientgui\BOINCDialupManager.cpp" />
@@ -193,7 +191,6 @@
     <ClInclude Include="..\clientgui\AlreadyExistsPage.h" />
     <ClInclude Include="..\clientgui\CompletionErrorPage.h" />
     <ClInclude Include="..\clientgui\CompletionPage.h" />
-    <ClInclude Include="..\clientgui\NoInternetConnectionPage.h" />
     <ClInclude Include="..\clientgui\NotDetectedPage.h" />
     <ClInclude Include="..\clientgui\NotFoundPage.h" />
     <ClInclude Include="..\clientgui\ProjectInfoPage.h" />
@@ -205,7 +202,6 @@
     <ClInclude Include="..\clientgui\UnavailablePage.h" />
     <ClInclude Include="..\clientgui\WizardAttach.h" />
     <ClInclude Include="..\clientgui\BOINCBaseWizard.h" />
-    <ClInclude Include="..\clientgui\wizardex.h" />
     <ClInclude Include="..\clientgui\BOINCBaseFrame.h" />
     <ClInclude Include="..\clientgui\BOINCClientManager.h" />
     <ClInclude Include="..\clientgui\BOINCDialupManager.h" />

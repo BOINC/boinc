@@ -23,19 +23,19 @@
 #include "miofile.h"
 #include "parse.h"
 #include "error_numbers.h"
-#include "wizardex.h"
 #include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
-#include "AccountManagerProcessingPage.h"
 #include "AccountManagerInfoPage.h"
 #include "AccountInfoPage.h"
+#include "CompletionPage.h"
 #include "CompletionErrorPage.h"
+#include "NotFoundPage.h"
+#include "AccountManagerProcessingPage.h"
 
-////@begin XPM images
 #include "res/wizprogress01.xpm"
 #include "res/wizprogress02.xpm"
 #include "res/wizprogress03.xpm"
@@ -48,60 +48,33 @@
 #include "res/wizprogress10.xpm"
 #include "res/wizprogress11.xpm"
 #include "res/wizprogress12.xpm"
-////@end XPM images
-
-/*!
- * CAccountManagerProcessingPage custom event definition
- */
 
 DEFINE_EVENT_TYPE(wxEVT_ACCOUNTMANAGERPROCESSING_STATECHANGE)
 
-/*!
- * CAccountManagerProcessingPage type definition
- */
+IMPLEMENT_DYNAMIC_CLASS(CAccountManagerProcessingPage, CBOINCWizardPage)
 
-IMPLEMENT_DYNAMIC_CLASS( CAccountManagerProcessingPage, wxWizardPageEx )
+BEGIN_EVENT_TABLE(CAccountManagerProcessingPage, CBOINCWizardPage)
 
-/*!
- * CAccountManagerProcessingPage event table definition
- */
-
-BEGIN_EVENT_TABLE( CAccountManagerProcessingPage, wxWizardPageEx )
-
-    EVT_ACCOUNTMANAGERPROCESSING_STATECHANGE( CAccountManagerProcessingPage::OnStateChange )
-
-////@begin CAccountManagerProcessingPage event table entries
-    EVT_WIZARDEX_PAGE_CHANGED( -1, CAccountManagerProcessingPage::OnPageChanged )
-    EVT_WIZARDEX_CANCEL( -1, CAccountManagerProcessingPage::OnCancel )
-
-////@end CAccountManagerProcessingPage event table entries
+EVT_ACCOUNTMANAGERPROCESSING_STATECHANGE(CAccountManagerProcessingPage::OnStateChange)
+EVT_WIZARD_PAGE_CHANGED(wxID_ANY, CAccountManagerProcessingPage::OnPageChanged)
+EVT_WIZARD_PAGE_CHANGING(wxID_ANY, CAccountManagerProcessingPage::OnPageChanging)
+EVT_WIZARD_CANCEL(wxID_ANY, CAccountManagerProcessingPage::OnCancel)
 
 END_EVENT_TABLE()
 
-/*!
- * CAccountManagerProcessingPage constructors
- */
-
-CAccountManagerProcessingPage::CAccountManagerProcessingPage( )
-{
+CAccountManagerProcessingPage::CAccountManagerProcessingPage() {
 }
 
-CAccountManagerProcessingPage::CAccountManagerProcessingPage( CBOINCBaseWizard* parent )
-{
-    Create( parent );
+CAccountManagerProcessingPage::CAccountManagerProcessingPage(CWizardAttach* parent) {
+    Create(parent);
 }
 
-/*!
- * CAttachProjectPage creator
- */
-
-bool CAccountManagerProcessingPage::Create( CBOINCBaseWizard* parent )
-{
-////@begin CAccountManagerProcessingPage member initialisation
-    m_pTitleStaticCtrl = NULL;
-    m_pPleaseWaitStaticCtrl = NULL;
-    m_pProgressIndicator = NULL;
-////@end CAccountManagerProcessingPage member initialisation
+bool CAccountManagerProcessingPage::Create(CWizardAttach* parent) {
+    m_pParent = parent;
+    m_pPrev = nullptr;
+    m_pTitleStaticCtrl = nullptr;
+    m_pPleaseWaitStaticCtrl = nullptr;
+    m_pProgressIndicator = nullptr;
 
     m_bProjectCommunicationsSucceeded = false;
     m_bProjectUnavailable = false;
@@ -110,22 +83,14 @@ bool CAccountManagerProcessingPage::Create( CBOINCBaseWizard* parent )
     m_iBitmapIndex = 0;
     m_iCurrentState = ATTACHACCTMGR_INIT;
 
-////@begin CAccountManagerProcessingPage creation
-    wxWizardPageEx::Create( parent, ID_ACCOUNTMANAGERPROCESSINGPAGE );
+    wxWizardPage::Create(parent);
 
     CreateControls();
     GetSizer()->Fit(this);
-////@end CAccountManagerProcessingPage creation
-    return TRUE;
+    return true;
 }
 
-/*!
- * Control creation for CAttachProjectPage
- */
-
-void CAccountManagerProcessingPage::CreateControls()
-{
-////@begin CAccountManagerProcessingPage content construction
+void CAccountManagerProcessingPage::CreateControls() {
     CAccountManagerProcessingPage* itemWizardPage36 = this;
 
     wxBoxSizer* itemBoxSizer37 = new wxBoxSizer(wxVERTICAL);
@@ -157,30 +122,22 @@ void CAccountManagerProcessingPage::CreateControls()
     itemFlexGridSizer40->Add(m_pProgressIndicator, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxALL, 5);
-////@end CAccountManagerProcessingPage content construction
 }
 
-/*!
- * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ATTACHPROJECTPAGE
- */
-
-void CAccountManagerProcessingPage::OnPageChanged( wxWizardExEvent& event )
-{
+void CAccountManagerProcessingPage::OnPageChanged(wxWizardEvent& event) {
     if (event.GetDirection() == false) return;
-
-    CWizardAttach* pWA = ((CWizardAttach*)GetParent());
 
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pPleaseWaitStaticCtrl);
     wxASSERT(m_pProgressIndicator);
-    wxASSERT(pWA);
+    wxASSERT(m_pParent);
 
-    if (!pWA->GetProjectName().IsEmpty()) {
+    if (!m_pParent->GetProjectName().IsEmpty()) {
         wxString str;
 
         // %s is the project name
         //    i.e. 'BOINC', 'GridRepublic'
-        str.Printf(_("Communicating with %s."), pWA->GetProjectName().c_str());
+        str.Printf(_("Communicating with %s."), m_pParent->GetProjectName().c_str());
 
         m_pTitleStaticCtrl->SetLabel(
             str
@@ -206,22 +163,12 @@ void CAccountManagerProcessingPage::OnPageChanged( wxWizardExEvent& event )
     Fit();
 }
 
-/*!
- * wxEVT_WIZARD_CANCEL event handler for ID_ATTACHPROJECTPAGE
- */
-
-void CAccountManagerProcessingPage::OnCancel( wxWizardExEvent& event ) {
-    PROCESS_CANCELEVENT(event);
+void CAccountManagerProcessingPage::OnCancel(wxWizardEvent& event) {
+    m_pParent->ProcessCancelEvent(event);
 }
 
-/*!
- * wxEVT_ACCOUNTCREATION_STATECHANGE event handler for ID_ACCOUNTCREATIONPAGE
- */
-
-void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPageEvent& WXUNUSED(event) )
-{
+void CAccountManagerProcessingPage::OnStateChange(CAccountManagerProcessingPageEvent& WXUNUSED(event)) {
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    CWizardAttach* pWA = ((CWizardAttach*)GetParent());
     wxDateTime dtStartExecutionTime;
     wxDateTime dtCurrentExecutionTime;
     wxTimeSpan tsExecutionTime;
@@ -239,8 +186,8 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
 
     switch(GetCurrentState()) {
         case ATTACHACCTMGR_INIT:
-            pWA->DisableNextButton();
-            pWA->DisableBackButton();
+            m_pParent->DisableNextButton();
+            m_pParent->DisableBackButton();
             StartProgress(m_pProgressIndicator);
             SetNextState(ATTACHACCTMGR_ATTACHACCTMGR_BEGIN);
             break;
@@ -253,18 +200,18 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
             // Newer versions of the server-side software contain the correct
             //   master url in the get_project_config response.  If it is available
             //   use it instead of what the user typed in.
-            if (!pWA->project_config.master_url.empty()) {
-                url = pWA->project_config.master_url;
+            if (!m_pParent->GetProjectConfig().master_url.empty()) {
+                url = m_pParent->GetProjectConfig().master_url;
             } else {
-                url = (const char*)pWA->GetProjectURL().mb_str();
+                url = (const char*)m_pParent->GetProjectURL().mb_str();
             }
 
-            if (pWA->project_config.uses_username) {
-                username = (const char*)pWA->GetAccountUsername().utf8_str();
+            if (m_pParent->GetProjectConfig().uses_username) {
+                username = (const char*)m_pParent->GetAccountUsername().utf8_str();
             } else {
-                username = (const char*)pWA->GetAccountEmailAddress().mb_str();
+                username = (const char*)m_pParent->GetAccountEmailAddress().mb_str();
             }
-            password = (const char*)pWA->GetAccountPassword().mb_str();
+            password = (const char*)m_pParent->GetAccountPassword().mb_str();
 
             // Wait until we are done processing the request.
             dtStartExecutionTime = wxDateTime::Now();
@@ -276,14 +223,14 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                 !iReturnValue &&
                 ((ERR_IN_PROGRESS == reply.error_num) || (ERR_RETRY == reply.error_num)) &&
                 (tsExecutionTime.GetSeconds() <= 60) &&
-                !CHECK_CLOSINGINPROGRESS()
+                !m_pParent->IsCancelInProgress()
             ) {
                 if (ERR_RETRY == reply.error_num) {
                     pDoc->rpc.acct_mgr_rpc(
                         url.c_str(),
                         username.c_str(),
                         password.c_str(),
-                        pWA->IsCredentialsCached()
+                        m_pParent->IsCredentialsCached()
                     );
                 }
 
@@ -299,7 +246,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
 
             if (!iReturnValue && (!reply.error_num && reply.messages.size() == 0)) {
                 SetProjectAttachSucceeded(true);
-                pWA->SetAttachedToProjectSuccessfully(true);
+                m_pParent->SetAttachedToProjectSuccessfully(true);
             } else {
                 SetProjectAttachSucceeded(false);
 
@@ -310,13 +257,13 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                 ) {
                     // For any logon error, make sure we do not attempt to use cached credentials
                     //   on any follow-ups.
-                    pWA->SetCredentialsCached(false);
+                    m_pParent->SetCredentialsCached(false);
                     SetProjectAccountNotFound(true);
                 } else {
                     SetProjectAccountNotFound(false);
                 }
 
-                strBuffer = pWA->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                strBuffer = m_pParent->GetCompletionErrorPage()->GetServerMessagesCtrlLabel();
                 if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == reply.error_num)) {
                     strBuffer +=
                         _("An internal server error has occurred.\n");
@@ -325,7 +272,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                         strBuffer += wxString(reply.messages[i].c_str(), wxConvUTF8) + wxString(wxT("\n"));
                     }
                 }
-                pWA->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                m_pParent->GetCompletionErrorPage()->SetServerMessagesCtrlLabel(strBuffer);
             }
             SetNextState(ATTACHACCTMGR_CLEANUP);
             break;
@@ -336,58 +283,52 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
         default:
             // Allow a glimpse of what the result was before advancing to the next page.
             wxSleep(1);
-            pWA->EnableNextButton();
-            pWA->EnableBackButton();
-            pWA->SimulateNextButton();
+
+            m_pParent->EnableNextButton();
+            m_pParent->EnableBackButton();
+            m_pParent->SimulateNextButton();
             bPostNewEvent = false;
             break;
     }
 
     Update();
 
-    if (bPostNewEvent && !CHECK_CLOSINGINPROGRESS()) {
+    if (bPostNewEvent && !m_pParent->IsCancelInProgress()) {
         CAccountManagerProcessingPageEvent TransitionEvent(wxEVT_ACCOUNTMANAGERPROCESSING_STATECHANGE, this);
         AddPendingEvent(TransitionEvent);
     }
 }
 
-/*!
- * Gets the previous page.
- */
-
-wxWizardPageEx* CAccountManagerProcessingPage::GetPrev() const
-{
-    return PAGE_TRANSITION_BACK;
+wxWizardPage* CAccountManagerProcessingPage::GetPrev() const {
+    return m_pPrev;
 }
 
-/*!
- * Gets the next page.
- */
-
-wxWizardPageEx* CAccountManagerProcessingPage::GetNext() const
-{
-    if (CHECK_CLOSINGINPROGRESS()) {
+wxWizardPage* CAccountManagerProcessingPage::GetNext() const {
+    if (m_pParent->IsCancelInProgress()) {
         // Cancel Event Detected
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+        return m_pParent->GetCompletionErrorPage();
     } else if (GetProjectAttachSucceeded()) {
         // We were successful in creating or retrieving an account
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONPAGE);
+        return m_pParent->GetCompletionPage();
     } else if (!GetProjectCommunicationsSucceeded() && GetProjectAccountNotFound()) {
         // The requested account does not exist or the password is bad
-        return PAGE_TRANSITION_NEXT(ID_ERRNOTFOUNDPAGE);
+        return m_pParent->GetErrNotFoundPage();
     } else {
         // The project much be down for maintenance
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+        return m_pParent->GetCompletionErrorPage();
     }
 }
 
-/*!
- * Should we show tooltips?
- */
+void CAccountManagerProcessingPage::SetPrev(CBOINCWizardPage *prev) {
+    m_pPrev = prev;
+}
 
-bool CAccountManagerProcessingPage::ShowToolTips()
-{
-    return TRUE;
+bool CAccountManagerProcessingPage::HasNextPage() const {
+    return true;
+}
+
+bool CAccountManagerProcessingPage::HasPrevPage() const {
+    return m_pPrev != nullptr;
 }
 
 void CAccountManagerProcessingPage::StartProgress(wxStaticBitmap* pBitmap) {
@@ -411,12 +352,7 @@ void CAccountManagerProcessingPage::FinishProgress(wxStaticBitmap* pBitmap) {
     pBitmap->SetBitmap(GetBitmapResource(wxT("res/wizprogress12.xpm")));
 }
 
-/*!
- * Get bitmap resources
- */
-
-wxBitmap CAccountManagerProcessingPage::GetBitmapResource( const wxString& name )
-{
+wxBitmap CAccountManagerProcessingPage::GetBitmapResource(const wxString& name) {
 // TODO: Choose from multiple size images if provided, else resize the closest one
     // Bitmap retrieval
     if (name == wxT("res/wizprogress01.xpm"))
@@ -482,15 +418,12 @@ wxBitmap CAccountManagerProcessingPage::GetBitmapResource( const wxString& name 
     return wxNullBitmap;
 }
 
-/*!
- * Get icon resources
- */
+void CAccountManagerProcessingPage::OnPageChanging(wxWizardEvent& event) {
+    if (event.GetDirection() == false) return;
 
-wxIcon CAccountManagerProcessingPage::GetIconResource( const wxString& WXUNUSED(name) )
-{
-    // Icon retrieval
-////@begin CAccountManagerProcessingPage icon retrieval
-    return wxNullIcon;
-////@end CAccountManagerProcessingPage icon retrieval
+    CBOINCWizardPage *pageNext = dynamic_cast<CBOINCWizardPage*>(GetNext());
+    if (pageNext != nullptr) {
+        // we don't need to return to this page, so get back to the page before
+        pageNext->SetPrev(m_pPrev);
+    }
 }
-

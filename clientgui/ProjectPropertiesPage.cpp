@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -24,19 +24,22 @@
 #include "miofile.h"
 #include "parse.h"
 #include "error_numbers.h"
-#include "wizardex.h"
 #include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
-#include "ProjectPropertiesPage.h"
 #include "ProjectInfoPage.h"
 #include "CompletionErrorPage.h"
 #include "TermsOfUsePage.h"
+#include "ProjectProcessingPage.h"
+#include "AccountInfoPage.h"
+#include "ProxyInfoPage.h"
+#include "UnavailablePage.h"
+#include "NotDetectedPage.h"
+#include "ProjectPropertiesPage.h"
 
-////@begin XPM images
 #include "res/wizprogress01.xpm"
 #include "res/wizprogress02.xpm"
 #include "res/wizprogress03.xpm"
@@ -49,59 +52,32 @@
 #include "res/wizprogress10.xpm"
 #include "res/wizprogress11.xpm"
 #include "res/wizprogress12.xpm"
-////@end XPM images
-
-/*!
- * CProjectPropertiesPage custom event definition
- */
 
 DEFINE_EVENT_TYPE(wxEVT_PROJECTPROPERTIES_STATECHANGE)
 
-/*!
- * CProjectPropertiesPage type definition
- */
+IMPLEMENT_DYNAMIC_CLASS(CProjectPropertiesPage, CBOINCWizardPage)
 
-IMPLEMENT_DYNAMIC_CLASS( CProjectPropertiesPage, wxWizardPageEx )
+BEGIN_EVENT_TABLE(CProjectPropertiesPage, CBOINCWizardPage)
 
-/*!
- * CProjectPropertiesPage event table definition
- */
-
-BEGIN_EVENT_TABLE( CProjectPropertiesPage, wxWizardPageEx )
-
-    EVT_PROJECTPROPERTIES_STATECHANGE( CProjectPropertiesPage::OnStateChange )
-
-////@begin CProjectPropertiesPage event table entries
-    EVT_WIZARDEX_PAGE_CHANGED( -1, CProjectPropertiesPage::OnPageChanged )
-    EVT_WIZARDEX_CANCEL( -1, CProjectPropertiesPage::OnCancel )
-
-////@end CProjectPropertiesPage event table entries
+EVT_PROJECTPROPERTIES_STATECHANGE(CProjectPropertiesPage::OnStateChange)
+EVT_WIZARD_PAGE_CHANGED(wxID_ANY, CProjectPropertiesPage::OnPageChanged)
+EVT_WIZARD_PAGE_CHANGING(wxID_ANY, CProjectPropertiesPage::OnPageChanging)
+EVT_WIZARD_CANCEL(wxID_ANY, CProjectPropertiesPage::OnCancel)
 
 END_EVENT_TABLE()
 
-/*!
- * CProjectPropertiesPage constructors
- */
-
-CProjectPropertiesPage::CProjectPropertiesPage( )
-{
+CProjectPropertiesPage::CProjectPropertiesPage() {
 }
 
-CProjectPropertiesPage::CProjectPropertiesPage( CBOINCBaseWizard* parent )
-{
-    Create( parent );
+CProjectPropertiesPage::CProjectPropertiesPage(CWizardAttach* parent) {
+    Create(parent);
 }
 
-/*!
- * WizardPage creator
- */
-
-bool CProjectPropertiesPage::Create( CBOINCBaseWizard* parent )
-{
-////@begin CProjectPropertiesPage member initialisation
-    m_pTitleStaticCtrl = NULL;
-    m_pProgressIndicator = NULL;
-////@end CProjectPropertiesPage member initialisation
+bool CProjectPropertiesPage::Create(CWizardAttach* parent) {
+    m_pParent = parent;
+    m_pPrev = nullptr;
+    m_pTitleStaticCtrl = nullptr;
+    m_pProgressIndicator = nullptr;
 
     m_bProjectPropertiesSucceeded = false;
     m_bProjectPropertiesURLFailure = false;
@@ -114,23 +90,15 @@ bool CProjectPropertiesPage::Create( CBOINCBaseWizard* parent )
     m_iBitmapIndex = 0;
     m_iCurrentState = PROJPROP_INIT;
 
-////@begin CProjectPropertiesPage creation
-    wxWizardPageEx::Create( parent, ID_PROJECTPROPERTIESPAGE );
+    wxWizardPage::Create(parent);
 
     CreateControls();
     GetSizer()->Fit(this);
-////@end CProjectPropertiesPage creation
 
-    return TRUE;
+    return true;
 }
 
-/*!
- * Control creation for WizardPage
- */
-
-void CProjectPropertiesPage::CreateControls()
-{
-////@begin CProjectPropertiesPage content construction
+void CProjectPropertiesPage::CreateControls() {
     CProjectPropertiesPage* itemWizardPage36 = this;
 
     wxBoxSizer* itemBoxSizer37 = new wxBoxSizer(wxVERTICAL);
@@ -158,58 +126,50 @@ void CProjectPropertiesPage::CreateControls()
     itemFlexGridSizer40->Add(m_pProgressIndicator, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxALL, 5);
-////@end CProjectPropertiesPage content construction
 }
 
-/*!
- * Gets the previous page.
- */
-
-wxWizardPageEx* CProjectPropertiesPage::GetPrev() const
-{
-    return PAGE_TRANSITION_BACK;
+wxWizardPage* CProjectPropertiesPage::GetPrev() const {
+    return m_pPrev;
 }
 
-/*!
- * Gets the next page.
- */
-
-wxWizardPageEx* CProjectPropertiesPage::GetNext() const
-{
-    if (CHECK_CLOSINGINPROGRESS()) {
+wxWizardPage* CProjectPropertiesPage::GetNext() const {
+    if (m_pParent->IsCancelInProgress()) {
         // Cancel Event Detected
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+        return m_pParent->GetCompletionErrorPage();
     } else if (GetProjectPropertiesSucceeded() && GetTermsOfUseRequired()) {
         // Terms of Use are required before requesting account information
-        return PAGE_TRANSITION_NEXT(ID_TERMSOFUSEPAGE);
+        return m_pParent->GetTermsOfUsePage();
     } else if (GetProjectPropertiesSucceeded() && GetCredentialsAlreadyAvailable()) {
         // Credentials are already available, do whatever we need to do.
-        return PAGE_TRANSITION_NEXT(ID_PROJECTPROCESSINGPAGE);
+        return m_pParent->GetProjectProcessingPage();
     } else if (GetProjectPropertiesSucceeded()) {
         // We were successful in retrieving the project properties
-        return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
+        return m_pParent->GetAccountInfoPage();
     } else if (GetProjectPropertiesCommunicationFailure() && GetNetworkConnectionNotDetected()) {
         // No Internet Connection
-        return PAGE_TRANSITION_NEXT(ID_ERRPROXYINFOPAGE);
+        return m_pParent->GetErrProxyInfoPage();
     } else if (GetProjectPropertiesURLFailure()) {
         // Not a BOINC based project
-        return PAGE_TRANSITION_NEXT(ID_ERRNOTDETECTEDPAGE);
+        return m_pParent->GetErrNotDetectedPage();
     } else if (GetServerReportedError()) {
         // Server reported an error, display the error
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+        return m_pParent->GetCompletionErrorPage();
     } else {
         // The project must be down for maintenance
-        return PAGE_TRANSITION_NEXT(ID_ERRUNAVAILABLEPAGE);
+        return m_pParent->GetErrUnavailablePage();
     }
 }
 
-/*!
- * Should we show tooltips?
- */
+void CProjectPropertiesPage::SetPrev(CBOINCWizardPage *prev) {
+    m_pPrev = prev;
+}
 
-bool CProjectPropertiesPage::ShowToolTips()
-{
-    return TRUE;
+bool CProjectPropertiesPage::HasNextPage() const {
+    return true;
+}
+
+bool CProjectPropertiesPage::HasPrevPage() const {
+    return m_pPrev != nullptr;
 }
 
 void CProjectPropertiesPage::StartProgress(wxStaticBitmap* pBitmap) {
@@ -233,12 +193,7 @@ void CProjectPropertiesPage::FinishProgress(wxStaticBitmap* pBitmap) {
     pBitmap->SetBitmap(GetBitmapResource(wxT("res/wizprogress12.xpm")));
 }
 
-/*!
- * Get bitmap resources
- */
-
-wxBitmap CProjectPropertiesPage::GetBitmapResource( const wxString& name )
-{
+wxBitmap CProjectPropertiesPage::GetBitmapResource(const wxString& name) {
 // TODO: Choose from multiple size images if provided, else resize the closest one
     // Bitmap retrieval
     if (name == wxT("res/wizprogress01.xpm"))
@@ -304,23 +259,7 @@ wxBitmap CProjectPropertiesPage::GetBitmapResource( const wxString& name )
     return wxNullBitmap;
 }
 
-/*!
- * Get icon resources
- */
-
-wxIcon CProjectPropertiesPage::GetIconResource( const wxString& WXUNUSED(name) )
-{
-    // Icon retrieval
-////@begin CProjectPropertiesPage icon retrieval
-    return wxNullIcon;
-////@end CProjectPropertiesPage icon retrieval
-}
-
-/*!
- * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTPROPERTIESPAGE
- */
-
-void CProjectPropertiesPage::OnPageChanged( wxWizardExEvent& event ) {
+void CProjectPropertiesPage::OnPageChanged(wxWizardEvent& event) {
     if (event.GetDirection() == false) return;
 
     wxASSERT(m_pTitleStaticCtrl);
@@ -344,23 +283,13 @@ void CProjectPropertiesPage::OnPageChanged( wxWizardExEvent& event ) {
     Fit();
 }
 
-/*!
- * wxEVT_WIZARD_CANCEL event handler for ID_PROJECTPROPERTIESPAGE
- */
-
-void CProjectPropertiesPage::OnCancel( wxWizardExEvent& event ) {
-    PROCESS_CANCELEVENT(event);
+void CProjectPropertiesPage::OnCancel(wxWizardEvent& event) {
+    m_pParent->ProcessCancelEvent(event);
 }
 
-/*!
- * wxEVT_PROJECTPROPERTIES_STATECHANGE event handler for ID_PROJECTPROPERTIESPAGE
- */
-
-void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSED(event) )
-{
+void CProjectPropertiesPage::OnStateChange(CProjectPropertiesPageEvent& WXUNUSED(event)) {
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    CWizardAttach* pWAP = ((CWizardAttach*)GetParent());
-    PROJECT_CONFIG* pc  = &pWAP->project_config;
+    PROJECT_CONFIG* pc  = &m_pParent->GetProjectConfig();
     CC_STATUS status;
     wxDateTime dtStartExecutionTime;
     wxDateTime dtCurrentExecutionTime;
@@ -374,8 +303,8 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
 
     switch(GetCurrentState()) {
         case PROJPROP_INIT:
-            pWAP->DisableNextButton();
-            pWAP->DisableBackButton();
+            m_pParent->DisableNextButton();
+            m_pParent->DisableBackButton();
             StartProgress(m_pProgressIndicator);
             SetNextState(PROJPROP_RETRPROJECTPROPERTIES_BEGIN);
             break;
@@ -396,11 +325,11 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                 !iReturnValue &&
                 ((ERR_IN_PROGRESS == pc->error_num) || (ERR_RETRY == pc->error_num)) &&
                 tsExecutionTime.GetSeconds() <= 60 &&
-                !CHECK_CLOSINGINPROGRESS()
+                !m_pParent->IsCancelInProgress()
             ) {
                 if (ERR_RETRY == pc->error_num) {
                     pDoc->rpc.get_project_config(
-                        (const char*)pWAP->GetProjectURL().mb_str()
+                        (const char*)m_pParent->GetProjectURL().mb_str()
                     );
                 }
 
@@ -422,10 +351,10 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                     //
                     SetProjectPropertiesSucceeded(false);
                     SetServerReportedError(true);
-                    strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                    strBuffer = m_pParent->GetCompletionErrorPage()->GetServerMessagesCtrlLabel();
                     strBuffer += wxString(pc->name);
                     strBuffer += wxString(wxT(" is an account manager, not a project.\nSelect Tools / Use account manager.\n"));
-                    pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                    m_pParent->GetCompletionErrorPage()->SetServerMessagesCtrlLabel(strBuffer);
                 } else {
                     // We either successfully retrieved the project's
                     // account creation policies or we were able to talk
@@ -462,11 +391,11 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                 SetServerReportedError(server_reported_error);
 
                 if (server_reported_error) {
-                    strBuffer = pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                    strBuffer = m_pParent->GetCompletionErrorPage()->GetServerMessagesCtrlLabel();
                     if (pc->error_msg.size()) {
                         strBuffer += wxString(pc->error_msg.c_str(), wxConvUTF8) + wxString(wxT("\n"));
                     }
-                    pWAP->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                    m_pParent->GetCompletionErrorPage()->SetServerMessagesCtrlLabel(strBuffer);
                 }
             }
 
@@ -486,7 +415,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
             status.network_status = NETWORK_STATUS_LOOKUP_PENDING;
             while ((!iReturnValue && (NETWORK_STATUS_LOOKUP_PENDING == status.network_status)) &&
                    tsExecutionTime.GetSeconds() <= 60 &&
-                   !CHECK_CLOSINGINPROGRESS()
+                   !m_pParent->IsCancelInProgress()
                   )
             {
                 dtCurrentExecutionTime = wxDateTime::Now();
@@ -508,7 +437,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
         case PROJPROP_DETERMINEACCOUNTINFOSTATUS_EXECUTE:
             // Determine if the account settings are already pre-populated.
             //   If so, advance to the Project Processing page.
-            SetCredentialsAlreadyAvailable(pWAP->IsCredentialsCached() || pWAP->IsCredentialsDetected());
+            SetCredentialsAlreadyAvailable(m_pParent->IsCredentialsCached() || m_pParent->IsCredentialsDetected());
 
             SetNextState(PROJPROP_CLEANUP);
             break;
@@ -519,18 +448,28 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
         default:
             // Allow a glimpse of what the result was before advancing to the next page.
             wxSleep(1);
-            pWAP->EnableNextButton();
-            pWAP->EnableBackButton();
-            pWAP->SimulateNextButton();
+
+            m_pParent->EnableNextButton();
+            m_pParent->EnableBackButton();
+            m_pParent->SimulateNextButton();
             bPostNewEvent = false;
             break;
     }
 
     Update();
 
-    if (bPostNewEvent && !CHECK_CLOSINGINPROGRESS()) {
+    if (bPostNewEvent && !m_pParent->IsCancelInProgress()) {
         CProjectPropertiesPageEvent TransitionEvent(wxEVT_PROJECTPROPERTIES_STATECHANGE, this);
         AddPendingEvent(TransitionEvent);
     }
 }
 
+void CProjectPropertiesPage::OnPageChanging(wxWizardEvent& event) {
+    if (event.GetDirection() == false) return;
+    CBOINCWizardPage *pageNext = dynamic_cast<CBOINCWizardPage*>(GetNext());
+    if (pageNext != nullptr) {
+        // we don't need to return to this page, so return the one before
+        pageNext->SetPrev(m_pPrev);
+    }
+
+}

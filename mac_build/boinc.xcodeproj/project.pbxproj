@@ -149,7 +149,6 @@
 		DD3E15010A774397007E0084 /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD207C5B1150043025C /* mfile.cpp */; };
 		DD3E15020A774397007E0084 /* miofile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD507C5B1150043025C /* miofile.cpp */; };
 		DD3E15050A774397007E0084 /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.cpp */; };
-		DD3E15060A774397007E0084 /* NoInternetConnectionPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C44608F334B500C1DF66 /* NoInternetConnectionPage.cpp */; };
 		DD3E15070A774397007E0084 /* NotDetectedPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C44808F334B500C1DF66 /* NotDetectedPage.cpp */; };
 		DD3E15080A774397007E0084 /* NotFoundPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C44A08F334B500C1DF66 /* NotFoundPage.cpp */; };
 		DD3E15090A774397007E0084 /* parse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B901602AC0A2201FB7237 /* parse.cpp */; };
@@ -166,7 +165,6 @@
 		DD3E15140A774397007E0084 /* ValidateURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42607C5D1D70098A04D /* ValidateURL.cpp */; };
 		DD3E151A0A774397007E0084 /* ViewStatistics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDEF388E0802B73500E87552 /* ViewStatistics.cpp */; };
 		DD3E151B0A774397007E0084 /* UnavailablePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C46108F334EA00C1DF66 /* UnavailablePage.cpp */; };
-		DD3E151F0A774397007E0084 /* wizardex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C46908F334EA00C1DF66 /* wizardex.cpp */; };
 		DD3E15200A774397007E0084 /* BOINCDialupManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD8DD4A509D9432F0043019E /* BOINCDialupManager.cpp */; };
 		DD3E15210A774397007E0084 /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
 		DD3E15230A774397007E0084 /* AdvancedFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9C94A00A5A3A4100AB0D10 /* AdvancedFrame.cpp */; };
@@ -1091,8 +1089,6 @@
 		DD58C43808F3347D00C1DF66 /* CompletionErrorPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CompletionErrorPage.h; path = ../clientgui/CompletionErrorPage.h; sourceTree = SOURCE_ROOT; };
 		DD58C43908F3347D00C1DF66 /* CompletionPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = CompletionPage.cpp; path = ../clientgui/CompletionPage.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C43A08F3347D00C1DF66 /* CompletionPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CompletionPage.h; path = ../clientgui/CompletionPage.h; sourceTree = SOURCE_ROOT; };
-		DD58C44608F334B500C1DF66 /* NoInternetConnectionPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NoInternetConnectionPage.cpp; path = ../clientgui/NoInternetConnectionPage.cpp; sourceTree = SOURCE_ROOT; };
-		DD58C44708F334B500C1DF66 /* NoInternetConnectionPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NoInternetConnectionPage.h; path = ../clientgui/NoInternetConnectionPage.h; sourceTree = SOURCE_ROOT; };
 		DD58C44808F334B500C1DF66 /* NotDetectedPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NotDetectedPage.cpp; path = ../clientgui/NotDetectedPage.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C44908F334B500C1DF66 /* NotDetectedPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NotDetectedPage.h; path = ../clientgui/NotDetectedPage.h; sourceTree = SOURCE_ROOT; };
 		DD58C44A08F334B500C1DF66 /* NotFoundPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NotFoundPage.cpp; path = ../clientgui/NotFoundPage.cpp; sourceTree = SOURCE_ROOT; };
@@ -1108,8 +1104,6 @@
 		DD58C46008F334EA00C1DF66 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = resource.h; path = ../clientgui/resource.h; sourceTree = SOURCE_ROOT; };
 		DD58C46108F334EA00C1DF66 /* UnavailablePage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = UnavailablePage.cpp; path = ../clientgui/UnavailablePage.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C46208F334EA00C1DF66 /* UnavailablePage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = UnavailablePage.h; path = ../clientgui/UnavailablePage.h; sourceTree = SOURCE_ROOT; };
-		DD58C46908F334EA00C1DF66 /* wizardex.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wizardex.cpp; path = ../clientgui/wizardex.cpp; sourceTree = SOURCE_ROOT; };
-		DD58C46A08F334EA00C1DF66 /* wizardex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wizardex.h; path = ../clientgui/wizardex.h; sourceTree = SOURCE_ROOT; };
 		DD5EF07007C5B329007CCE8D /* whetstone.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = whetstone.cpp; sourceTree = "<group>"; };
 		DD5EF08807C5B7C7007CCE8D /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../version.h; sourceTree = SOURCE_ROOT; };
 		DD5F654123605B41009ED2A2 /* gfx_cleanup */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = gfx_cleanup; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1857,8 +1851,6 @@
 				F5C5403402BFC5C701BEDAB8 /* mac */,
 				DD81C41607C5D13E0098A04D /* MainDocument.cpp */,
 				DD81C44F07C5D2470098A04D /* MainDocument.h */,
-				DD58C44608F334B500C1DF66 /* NoInternetConnectionPage.cpp */,
-				DD58C44708F334B500C1DF66 /* NoInternetConnectionPage.h */,
 				DD58C44808F334B500C1DF66 /* NotDetectedPage.cpp */,
 				DD58C44908F334B500C1DF66 /* NotDetectedPage.h */,
 				DD58C44A08F334B500C1DF66 /* NotFoundPage.cpp */,
@@ -1926,8 +1918,6 @@
 				DDD52DC90C03CAE6009B5FC0 /* ViewWork.h */,
 				DDA850A21207EED900B473A6 /* WizardAttach.cpp */,
 				DDA850A31207EED900B473A6 /* WizardAttach.h */,
-				DD58C46908F334EA00C1DF66 /* wizardex.cpp */,
-				DD58C46A08F334EA00C1DF66 /* wizardex.h */,
 			);
 			name = clientgui;
 			path = ../clientgui;
@@ -3784,7 +3774,6 @@
 				DD3E15010A774397007E0084 /* mfile.cpp in Sources */,
 				DD3E15020A774397007E0084 /* miofile.cpp in Sources */,
 				DD3E15050A774397007E0084 /* network.cpp in Sources */,
-				DD3E15060A774397007E0084 /* NoInternetConnectionPage.cpp in Sources */,
 				DD3E15070A774397007E0084 /* NotDetectedPage.cpp in Sources */,
 				DD3E15080A774397007E0084 /* NotFoundPage.cpp in Sources */,
 				DD3E15090A774397007E0084 /* parse.cpp in Sources */,
@@ -3801,7 +3790,6 @@
 				DD3E15140A774397007E0084 /* ValidateURL.cpp in Sources */,
 				DD3E151A0A774397007E0084 /* ViewStatistics.cpp in Sources */,
 				DD3E151B0A774397007E0084 /* UnavailablePage.cpp in Sources */,
-				DD3E151F0A774397007E0084 /* wizardex.cpp in Sources */,
 				DD3E15200A774397007E0084 /* BOINCDialupManager.cpp in Sources */,
 				DD3E15210A774397007E0084 /* check_security.cpp in Sources */,
 				DD3E15230A774397007E0084 /* AdvancedFrame.cpp in Sources */,

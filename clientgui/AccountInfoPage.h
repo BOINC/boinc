@@ -18,65 +18,37 @@
 #ifndef BOINC_ACCOUNTINFOPAGE_H
 #define BOINC_ACCOUNTINFOPAGE_H
 
-/*!
- * CAccountInfoPage class declaration
- */
-
-class CAccountInfoPage: public wxWizardPageEx
-{
-    DECLARE_DYNAMIC_CLASS( CAccountInfoPage )
+#include "WizardAttach.h"
+class CAccountInfoPage: public CBOINCWizardPage {
+    DECLARE_DYNAMIC_CLASS(CAccountInfoPage)
     DECLARE_EVENT_TABLE()
 
 public:
-    /// Constructors
-    CAccountInfoPage( );
+    CAccountInfoPage();
+    CAccountInfoPage(CWizardAttach* parent);
+    bool Create(CWizardAttach* parent);
 
-    CAccountInfoPage( CBOINCBaseWizard* parent );
-
-    /// Creation
-    bool Create( CBOINCBaseWizard* parent );
-
-    /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CAccountInfoPage event handler declarations
+    void OnPageChanged(wxWizardEvent& event);
+    void OnPageChanging(wxWizardEvent& event);
+    void OnCancel(wxWizardEvent& event);
+    void OnAccountCreateCtrlSelected(wxCommandEvent& event);
+    void OnAccountUseExistingCtrlSelected(wxCommandEvent& event);
 
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ACCOUNTINFOPAGE
-    void OnPageChanged( wxWizardExEvent& event );
+    wxWizardPage* GetPrev() const;
+    wxWizardPage* GetNext() const;
 
-    /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ACCOUNTINFOPAGE
-    void OnPageChanging( wxWizardExEvent& event );
+    void SetPrev(CBOINCWizardPage *prev);
 
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ACCOUNTINFOPAGE
-    void OnCancel( wxWizardExEvent& event );
+    bool HasNextPage() const;
+    bool HasPrevPage() const;
 
-    /// wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_ACCOUNTCREATECTRL
-    void OnAccountCreateCtrlSelected( wxCommandEvent& event );
+    bool GetAccountCreateCtrlValue() const { return m_pAccountCreateCtrl->GetValue(); }
 
-    /// wxEVT_COMMAND_RADIOBUTTON_SELECTED event handler for ID_ACCOUNTUSEEXISTINGCTRL
-    void OnAccountUseExistingCtrlSelected( wxCommandEvent& event );
+    bool Validate();
 
-////@end CAccountInfoPage event handler declarations
-
-////@begin CAccountInfoPage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPageEx* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPageEx* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CAccountInfoPage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CAccountInfoPage member variables
+private:
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pAccountQuestionStaticCtrl;
     wxRadioButton* m_pAccountCreateCtrl;
@@ -93,9 +65,11 @@ public:
     wxStaticText* m_pAccountPasswordRequirmentsStaticCtrl;
     wxStaticText* m_pAccountManagerLinkLabelStaticCtrl;
     wxHyperlinkCtrl* m_pAccountForgotPasswordCtrl;
-////@end CAccountInfoPage member variables
     wxString m_strAccountEmailAddress;
     wxString m_strAccountUsername;
+
+    CWizardAttach *m_pParent;
+    CBOINCWizardPage *m_pPrev;
 };
 
 #endif

@@ -19,47 +19,28 @@
 #ifndef BOINC_PROXYPAGE_H
 #define BOINC_PROXYPAGE_H
 
-/*!
- * CErrProxyPage class declaration
- */
-
-class CErrProxyPage: public wxWizardPageEx
-{
-    DECLARE_DYNAMIC_CLASS( CErrProxyPage )
+class CErrProxyPage: public CBOINCWizardPage {
+    DECLARE_DYNAMIC_CLASS(CErrProxyPage)
     DECLARE_EVENT_TABLE()
 
 public:
-    /// Constructors
-    CErrProxyPage( );
+    CErrProxyPage();
+    CErrProxyPage(CWizardAttach* parent);
+    bool Create(CWizardAttach* parent);
 
-    CErrProxyPage( CBOINCBaseWizard* parent );
-
-    /// Creation
-    bool Create( CBOINCBaseWizard* parent );
-
-    /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CErrProxyPage event handler declarations
+    void OnPageChanged(wxWizardEvent& event);
+    void OnPageChanging(wxWizardEvent& event);
+    void OnCancel(wxWizardEvent& event);
 
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYPAGE
-    void OnPageChanged( wxWizardExEvent& event );
+    wxWizardPage* GetPrev() const;
+    wxWizardPage* GetNext() const;
 
-    /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ERRPROXYPAGE
-    void OnPageChanging( wxWizardExEvent& event );
+    void SetPrev(CBOINCWizardPage *prev);
 
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYPAGE
-    void OnCancel( wxWizardExEvent& event );
-
-////@end CErrProxyPage event handler declarations
-
-////@begin CErrProxyPage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPageEx* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPageEx* GetNext() const;
+    bool HasNextPage() const;
+    bool HasPrevPage() const;
 
     wxString GetProxyHTTPServer() const { return m_strProxyHTTPServer ; }
     void SetProxyHTTPServer(wxString value) { m_strProxyHTTPServer = value ; }
@@ -85,17 +66,7 @@ public:
     wxString GetProxySOCKSPassword() const { return m_strProxySOCKSPassword ; }
     void SetProxySOCKSPassword(wxString value) { m_strProxySOCKSPassword = value ; }
 
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CErrProxyPage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CErrProxyPage member variables
+private:
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticBox* m_pProxyHTTPDescriptionCtrl;
     wxStaticText* m_pProxyHTTPServerStaticCtrl;
@@ -106,9 +77,6 @@ public:
     wxTextCtrl* m_pProxyHTTPUsernameCtrl;
     wxStaticText* m_pProxyHTTPPasswordStaticCtrl;
     wxTextCtrl* m_pProxyHTTPPasswordCtrl;
-#if 0
-    wxButton* m_pProxyHTTPAutodetectCtrl;
-#endif
     wxStaticBox* m_pProxySOCKSDescriptionCtrl;
     wxStaticText* m_pProxySOCKSServerStaticCtrl;
     wxTextCtrl* m_pProxySOCKSServerCtrl;
@@ -126,7 +94,9 @@ public:
     wxString m_strProxySOCKSPort;
     wxString m_strProxySOCKSUsername;
     wxString m_strProxySOCKSPassword;
-////@end CErrProxyPage member variables
+
+    CWizardAttach *m_pParent;
+    CBOINCWizardPage *m_pPrev;
 };
 
 #endif

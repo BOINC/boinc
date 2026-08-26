@@ -23,7 +23,6 @@
 #include "miofile.h"
 #include "parse.h"
 #include "error_numbers.h"
-#include "wizardex.h"
 #include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
@@ -44,83 +43,52 @@
 #include "CompletionErrorPage.h"
 #include "NotDetectedPage.h"
 #include "UnavailablePage.h"
-#include "NoInternetConnectionPage.h"
 #include "NotFoundPage.h"
 #include "AlreadyExistsPage.h"
 #include "ProxyInfoPage.h"
 #include "ProxyPage.h"
 
+IMPLEMENT_DYNAMIC_CLASS(CWizardAttach, CBOINCBaseWizard)
 
-/*!
- * CWizardAttach type definition
- */
-
-IMPLEMENT_DYNAMIC_CLASS( CWizardAttach, CBOINCBaseWizard )
-
-/*!
- * CWizardAttach event table definition
- */
-
-BEGIN_EVENT_TABLE( CWizardAttach, CBOINCBaseWizard )
-////@begin CWizardAttach event table entries
-    EVT_WIZARDEX_FINISHED( ID_ATTACHWIZARD, CWizardAttach::OnFinished )
-////@end CWizardAttach event table entries
+BEGIN_EVENT_TABLE(CWizardAttach, CBOINCBaseWizard)
+EVT_WIZARD_FINISHED(ID_ATTACHWIZARD, CWizardAttach::OnFinished)
+EVT_BUTTON(wxID_BACKWARD, CWizardAttach::OnWizardBack)
+EVT_BUTTON(wxID_FORWARD, CWizardAttach::OnWizardNext)
 END_EVENT_TABLE()
 
-/*!
- * CWizardAttach constructors
- */
-
-CWizardAttach::CWizardAttach()
-{
+CWizardAttach::CWizardAttach() {
 }
 
-CWizardAttach::CWizardAttach( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, long style )
-{
+CWizardAttach::CWizardAttach(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, long style) {
     Create(parent, id, title, pos, style);
 }
 
-/*!
- * CWizardAttach creator
- */
+bool CWizardAttach::Create(wxWindow* parent, wxWindowID id, const wxString&, const wxPoint& pos, long style) {
+    m_ProjectInfoPage = nullptr;
+    m_ProjectPropertiesPage = nullptr;
+    m_ProjectProcessingPage = nullptr;
+    m_ProjectWelcomePage = nullptr;
+    m_AccountManagerInfoPage = nullptr;
+    m_AccountManagerPropertiesPage = nullptr;
+    m_AccountManagerProcessingPage = nullptr;
+    m_TermsOfUsePage = nullptr;
+    m_AccountInfoPage = nullptr;
+    m_CompletionPage = nullptr;
+    m_CompletionErrorPage = nullptr;
+    m_ErrNotDetectedPage = nullptr;
+    m_ErrUnavailablePage = nullptr;
+    m_ErrNotFoundPage = nullptr;
+    m_ErrAlreadyExistsPage = nullptr;
+    m_ErrProxyInfoPage = nullptr;
+    m_ErrProxyPage = nullptr;
+    m_ErrUserDisagreesPage = nullptr;
 
-bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* title */, const wxPoint& pos, long style )
-{
-
-////@begin CWizardAttach member initialisation
-    m_ProjectInfoPage = NULL;
-    m_ProjectPropertiesPage = NULL;
-    m_ProjectProcessingPage = NULL;
-    m_ProjectWelcomePage = NULL;
-    m_AccountManagerInfoPage = NULL;
-    m_AccountManagerPropertiesPage = NULL;
-    m_AccountManagerProcessingPage = NULL;
-    m_TermsOfUsePage = NULL;
-    m_AccountInfoPage = NULL;
-    m_CompletionPage = NULL;
-    m_CompletionErrorPage = NULL;
-    m_ErrNotDetectedPage = NULL;
-    m_ErrUnavailablePage = NULL;
-    m_ErrNoInternetConnectionPage = NULL;
-    m_ErrNotFoundPage = NULL;
-    m_ErrAlreadyExistsPage = NULL;
-    m_ErrProxyInfoPage = NULL;
-    m_ErrProxyPage = NULL;
-    m_ErrUserDisagreesPage = NULL;
-////@end CWizardAttach member initialisation
-
-    // Cancel Checking
     m_bCancelInProgress = false;
 
-    // Wizard Detection
-
     IsAttachToProjectWizard = true;
-    IsChangeWCGApps = false;
-    IsFirstPass = false;
     IsAccountManagerWizard = false;
     IsAccountManagerUpdateWizard = false;
 
-    // Global wizard status
     project_config.clear();
     account_in.clear();
     account_out.clear();
@@ -135,6 +103,7 @@ bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* 
     m_bCredentialsDetected = false;
     m_bConsentedToTerms = false;
 
+    m_direction = 0;
 
     CSkinAdvanced*  pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     CSkinWizardATP* pSkinWizardATP = wxGetApp().GetSkinManager()->GetWizards()->GetWizardATP();
@@ -144,7 +113,6 @@ bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* 
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
     wxASSERT(wxDynamicCast(pSkinWizardATP, CSkinWizardATP));
 
-
     wxString strTitle;
     if (!pSkinWizardATP->GetWizardTitle().IsEmpty()) {
         strTitle = pSkinWizardATP->GetWizardTitle();
@@ -152,24 +120,16 @@ bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* 
         strTitle = pSkinAdvanced->GetApplicationName();
     }
 
-////@begin CWizardAttach creation
-    CBOINCBaseWizard::Create( parent, id, strTitle, pos, style );
+    CBOINCBaseWizard::Create( parent, id, strTitle, wxBitmapBundle(), pos, style );
 
     CreateControls();
-////@end CWizardAttach creation
 
-    return TRUE;
+    return true;
 }
 
-/*!
- * Control creation for CWizardAttach
- */
-
-void CWizardAttach::CreateControls()
-{
+void CWizardAttach::CreateControls() {
     wxLogTrace(wxT("Function Start/End"), wxT("CWizardAttach::CreateControls - Function Begin"));
 
-////@begin CWizardAttach content construction
     CWizardAttach* itemWizard1 = this;
 
     m_AccountManagerInfoPage = new CAccountManagerInfoPage;
@@ -224,10 +184,6 @@ void CWizardAttach::CreateControls()
     m_ErrUnavailablePage->Create( itemWizard1 );
     GetPageAreaSizer()->Add(m_ErrUnavailablePage);
 
-    m_ErrNoInternetConnectionPage = new CErrNoInternetConnectionPage;
-    m_ErrNoInternetConnectionPage->Create( itemWizard1 );
-    GetPageAreaSizer()->Add(m_ErrNoInternetConnectionPage);
-
     m_ErrNotFoundPage = new CErrNotFoundPage;
     m_ErrNotFoundPage->Create( itemWizard1 );
     GetPageAreaSizer()->Add(m_ErrNotFoundPage);
@@ -244,14 +200,9 @@ void CWizardAttach::CreateControls()
     m_ErrProxyPage->Create( itemWizard1 );
     GetPageAreaSizer()->Add(m_ErrProxyPage);
 
-////@end CWizardAttach content construction
-
     wxLogTrace(wxT("Function Start/End"), wxT("CWizardAttach::CreateControls - Function End"));
 }
 
-/*!
- * Runs the wizard.
- */
 bool CWizardAttach::Run(
         wxString strProjectName,
         wxString strProjectURL,
@@ -261,7 +212,7 @@ bool CWizardAttach::Run(
         wxString strProjectKnown,
         bool     bAccountKeyDetected,
         bool     /* bEmbedded */
-){
+) {
     SetProjectName(strProjectName);
     if (strProjectURL.size()) {
         SetProjectURL(strProjectURL);
@@ -291,9 +242,8 @@ bool CWizardAttach::Run(
         }
     }
 
-    return FALSE;
+    return false;
 }
-
 
 bool CWizardAttach::SyncToAccountManager() {
     ACCT_MGR_INFO ami;
@@ -302,7 +252,7 @@ bool CWizardAttach::SyncToAccountManager() {
     CSkinAdvanced*  pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     CSkinWizardATAM* pSkinWizardATAM = wxGetApp().GetSkinManager()->GetWizards()->GetWizardATAM();
 
-   wxASSERT(pDoc);
+    wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(pSkinAdvanced);
     wxASSERT(pSkinWizardATAM);
@@ -310,7 +260,7 @@ bool CWizardAttach::SyncToAccountManager() {
     wxASSERT(wxDynamicCast(pSkinWizardATAM, CSkinWizardATAM));
 
 
-     if (!pSkinWizardATAM->GetWizardTitle().IsEmpty()) {
+    if (!pSkinWizardATAM->GetWizardTitle().IsEmpty()) {
         SetTitle(pSkinWizardATAM->GetWizardTitle());
     } else {
         SetTitle(pSkinAdvanced->GetApplicationName());
@@ -342,226 +292,37 @@ bool CWizardAttach::SyncToAccountManager() {
         }
     }
 
-    return FALSE;
+    return false;
 }
 
-/*!
- * Should we show tooltips?
- */
-
-bool CWizardAttach::ShowToolTips()
-{
-    return TRUE;
+bool CWizardAttach::ShowToolTips() {
+    return true;
 }
 
-/*!
- * Get bitmap resources
- */
-
-wxBitmap CWizardAttach::GetBitmapResource( const wxString& WXUNUSED(name) )
-{
-    // Bitmap retrieval
-////@begin CWizardAttach bitmap retrieval
+wxBitmap CWizardAttach::GetBitmapResource(const wxString& WXUNUSED(name)) {
     return wxNullBitmap;
-////@end CWizardAttach bitmap retrieval
 }
 
-/*!
- * Get icon resources
- */
-
-wxIcon CWizardAttach::GetIconResource( const wxString& WXUNUSED(name) )
-{
-    // Icon retrieval
-////@begin CWizardAttach icon retrieval
+wxIcon CWizardAttach::GetIconResource(const wxString& WXUNUSED(name)) {
     return wxNullIcon;
-////@end CWizardAttach icon retrieval
 }
 
-/*!
- * Determine if the wizard page has a next page
- */
-
-bool CWizardAttach::HasNextPage( wxWizardPageEx* page )
-{
-    bool bNoNextPageDetected = false;
-
-    bNoNextPageDetected |= (page == m_CompletionPage);
-    bNoNextPageDetected |= (page == m_CompletionErrorPage);
-    bNoNextPageDetected |= (page == m_ErrNotDetectedPage);
-    bNoNextPageDetected |= (page == m_ErrUnavailablePage);
-    bNoNextPageDetected |= (page == m_ErrNoInternetConnectionPage);
-    bNoNextPageDetected |= (page == m_ErrAlreadyExistsPage);
-
-    if (bNoNextPageDetected)
+bool CWizardAttach::HasNextPage(wxWizardPage* page) {
+    if (!page) {
         return false;
-    return true;
+    }
+    return dynamic_cast<CBOINCWizardPage*>(page)->HasNextPage();
 }
 
-/*!
- * Determine if the wizard page has a previous page
- */
-
-bool CWizardAttach::HasPrevPage( wxWizardPageEx* page )
-{
-    bool bNoPrevPageDetected = false;
-
-    bNoPrevPageDetected |= (page == m_ProjectWelcomePage);
-    bNoPrevPageDetected |= (page == m_ProjectInfoPage);
-    bNoPrevPageDetected |= (page == m_AccountManagerInfoPage);
-    bNoPrevPageDetected |= (page == m_CompletionPage);
-    bNoPrevPageDetected |= (page == m_CompletionErrorPage);
-
-    if (bNoPrevPageDetected)
+bool CWizardAttach::HasPrevPage(wxWizardPage* page) {
+    if (!page) {
         return false;
-    return true;
-}
-
-/*!
- * Translate a Page ID into the wxWizardPageEx instance pointer.
- */
-
-wxWizardPageEx* CWizardAttach::TranslatePage(unsigned long ulPageID) {
-    wxWizardPageEx* pPage = NULL;
-
-    if (ID_PROJECTINFOPAGE == ulPageID)
-        pPage = m_ProjectInfoPage;
-
-    if (ID_PROJECTPROPERTIESPAGE == ulPageID)
-        pPage = m_ProjectPropertiesPage;
-
-    if (ID_PROJECTPROCESSINGPAGE == ulPageID)
-        pPage = m_ProjectProcessingPage;
-
-    if (ID_PROJECTWELCOMEPAGE == ulPageID)
-        pPage = m_ProjectWelcomePage;
-
-    if (ID_ACCOUNTMANAGERINFOPAGE == ulPageID)
-        pPage = m_AccountManagerInfoPage;
-
-    if (ID_ACCOUNTMANAGERPROPERTIESPAGE == ulPageID)
-        pPage = m_AccountManagerPropertiesPage;
-
-    if (ID_ACCOUNTMANAGERPROCESSINGPAGE == ulPageID)
-        pPage = m_AccountManagerProcessingPage;
-
-    if (ID_TERMSOFUSEPAGE == ulPageID)
-        pPage = m_TermsOfUsePage;
-
-    if (ID_ACCOUNTINFOPAGE == ulPageID)
-        pPage = m_AccountInfoPage;
-
-    if (ID_COMPLETIONPAGE == ulPageID)
-        pPage = m_CompletionPage;
-
-    if (ID_COMPLETIONERRORPAGE == ulPageID)
-        pPage = m_CompletionErrorPage;
-
-    if (ID_ERRNOTDETECTEDPAGE == ulPageID)
-        pPage = m_ErrNotDetectedPage;
-
-    if (ID_ERRUNAVAILABLEPAGE == ulPageID)
-        pPage = m_ErrUnavailablePage;
-
-    if (ID_ERRNOINTERNETCONNECTIONPAGE == ulPageID)
-        pPage = m_ErrNoInternetConnectionPage;
-
-    if (ID_ERRNOTFOUNDPAGE == ulPageID)
-        pPage = m_ErrNotFoundPage;
-
-    if (ID_ERRALREADYEXISTSPAGE == ulPageID)
-        pPage = m_ErrAlreadyExistsPage;
-
-    if (ID_ERRPROXYINFOPAGE == ulPageID)
-        pPage = m_ErrProxyInfoPage;
-
-    if (ID_ERRPROXYPAGE == ulPageID)
-        pPage = m_ErrProxyPage;
-
-    return pPage;
-}
-
-/*!
- * Remove the page transition from the stack.
- */
-wxWizardPageEx* CWizardAttach::PopPageTransition() {
-    wxWizardPageEx* pPage = NULL;
-    if (GetCurrentPage()) {
-        if (!m_PageTransition.empty()) {
-            pPage = m_PageTransition.top();
-
-            wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::PopPageTransition - Popping Page: '%p'"), pPage);
-            m_PageTransition.pop();
-
-            // TODO: Figure out the best way to handle the situation where the wizard has been launched with a
-            //   project init file and the volunteer hits the back button on the m_ProjectPropertiesPage/
-            //   m_AccountManagerPropertiesPage page.  Ideally they go back to the m_ProjectInfoPage/
-            //   m_AccountManagerInfoPage page, but since the wizard launched in automatic attach mode
-            //   that page isn't on the stack and the manager crashes.
-            //
-            //   It is probably enough to just push the correct InfoPage on the stack before launching the
-            //   wizard in automatic mode.  I need to think about it some more.
-            //
-            if ((pPage == m_ProjectPropertiesPage) || (pPage == m_ProjectProcessingPage) ||
-                (pPage == m_AccountManagerPropertiesPage) || (pPage == m_AccountManagerProcessingPage))
-            {
-                // We want to go back to the page before we attempted to communicate
-                //   with any server.
-                pPage = m_PageTransition.top();
-
-                wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::PopPageTransition - Popping Page: '%p'"), pPage);
-                m_PageTransition.pop();
-
-            }
-            wxASSERT(pPage);
-            return pPage;
-        }
     }
-    return NULL;
+    return dynamic_cast<CBOINCWizardPage*>(page)->HasPrevPage();
 }
 
-
-/*!
- * Push a page onto the stack.
- */
-
-wxWizardPageEx* CWizardAttach::PushPage( unsigned long ulPageID ) {
-    if (GetCurrentPage()) {
-        wxWizardPageEx* pPage = TranslatePage(ulPageID);
-        if (pPage) {
-            wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::PushPage - Pushing Page: '%p'"), pPage);
-            m_PageTransition.push(pPage);
-            return pPage;
-        }
-    }
-    return NULL;
-}
-
-
-/*!
- * Add the page transition to the stack.
- */
-wxWizardPageEx* CWizardAttach::PushPageTransition( wxWizardPageEx* pCurrentPage, unsigned long ulPageID ) {
-    if (GetCurrentPage()) {
-        wxWizardPageEx* pPage = TranslatePage(ulPageID);
-        if (pPage) {
-            if (m_PageTransition.empty()) {
-                wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::PushPageTransition - Pushing Page: '%p'"), pPage);
-                m_PageTransition.push(NULL);
-            }
-            if (m_PageTransition.top() != pCurrentPage) {
-                wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::PushPageTransition - Pushing Page: '%p'"), pPage);
-                m_PageTransition.push(pCurrentPage);
-            }
-            return pPage;
-        }
-    }
-    return NULL;
-}
-
-void CWizardAttach::_ProcessCancelEvent( wxWizardExEvent& event ) {
-
-    wxWizardPageEx* page = GetCurrentPage();
+void CWizardAttach::_ProcessCancelEvent(wxWizardEvent& event) {
+    wxWizardPage* page = GetCurrentPage();
 
     m_bCancelInProgress = true;
 
@@ -584,12 +345,7 @@ void CWizardAttach::_ProcessCancelEvent( wxWizardExEvent& event ) {
     }
 }
 
-/*!
- * wxEVT_WIZARD_FINISHED event handler for ID_ATTACHPROJECTWIZARD
- */
-
-void CWizardAttach::OnFinished( wxWizardExEvent& event ) {
-
+void CWizardAttach::OnFinished(wxWizardEvent& event) {
     if (IsAccountManagerWizard) {
         // Attached to an account manager
         if (!GetReturnURL().empty() && GetAttachedToProjectSuccessfully()) {
@@ -603,6 +359,16 @@ void CWizardAttach::OnFinished( wxWizardExEvent& event ) {
     }
 
     // Let the framework clean things up.
+    event.Skip();
+}
+
+void CWizardAttach::OnWizardBack(wxCommandEvent& event) {
+    m_direction = -1;
+    event.Skip();
+}
+
+void CWizardAttach::OnWizardNext(wxCommandEvent& event) {
+    m_direction = 1;
     event.Skip();
 }
 
