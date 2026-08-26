@@ -89,7 +89,18 @@ void usage() {
         "    verify a signature using a directory of certificates\n";
 }
 
-FILE* open_file(
+template <typename T, int (*FreeFunc)(T*)>
+struct FILEDeleter {
+    void operator()(T* ptr) const noexcept{
+        if (ptr) {
+            FreeFunc(ptr);
+        }
+    }
+};
+
+using unique_FILE = unique_ptr<FILE, FILEDeleter<FILE, fclose>>;
+
+unique_FILE open_file(
     const string& filename,
     const string& filemode
     ) {
@@ -98,9 +109,9 @@ FILE* open_file(
     if (fopen_s(&f, filename.c_str(), filemode.c_str()) != 0) {
         return nullptr;
     }
-    return f;
+    return unique_FILE(f);
 #else
-    return fopen(filename.c_str(), filemode.c_str());
+    return unique_FILE(fopen(filename.c_str(), filemode.c_str()));
 #endif
 }
 
@@ -138,20 +149,18 @@ int genkey(
         print_error("openssl_to_keys");
         return 2;
     }
-    FILE *fpriv = open_file(private_keyfile, "w");
+    unique_FILE fpriv = open_file(private_keyfile, "w");
     if (!fpriv) {
         print_error("fopen");
         return 2;
     }
-    FILE* fpub = open_file(public_keyfile, "w");
+    unique_FILE fpub = open_file(public_keyfile, "w");
     if (!fpub) {
         print_error("fopen");
         return 2;
     }
-    print_private_key_hex(fpriv, private_key);
-    print_public_key_hex(fpub, public_key);
-    fclose(fpriv);
-    fclose(fpub);
+    print_private_key_hex(fpriv.get(), private_key);
+    print_public_key_hex(fpub.get(), public_key);
 
     return 0;
 }
@@ -160,14 +169,14 @@ int sign(
     const string& file,
     const string& private_keyfile
     ) {
-    FILE* fpriv = open_file(private_keyfile, "r");
+    unique_FILE fpriv = open_file(private_keyfile, "r");
     if (!fpriv) {
         print_error("fopen");
         return 2;
     }
     int result = 0;
     R_RSA_PRIVATE_KEY private_key;
-    tie(result, private_key) = scan_private_key_hex(fpriv);
+    tie(result, private_key) = scan_private_key_hex(fpriv.get());
     if (result) {
         print_error("scan_private_key_hex");
         return 2;
@@ -186,14 +195,14 @@ int sign_string(
     const string& str,
     const string& private_keyfile
     ) {
-    FILE* fpriv = open_file(private_keyfile, "r");
+    unique_FILE fpriv = open_file(private_keyfile, "r");
     if (!fpriv) {
         print_error("fopen");
         return 2;
     }
     int result = 0;
     R_RSA_PRIVATE_KEY private_key;
-    tie(result, private_key) = scan_private_key_hex(fpriv);
+    tie(result, private_key) = scan_private_key_hex(fpriv.get());
     if (result) {
         print_error("scan_private_key_hex");
         return 2;
@@ -213,25 +222,25 @@ int verify(
     const string& signature_file,
     const string& public_keyfile
     ) {
-    FILE* fpub = open_file(public_keyfile, "r");
+    unique_FILE fpub = open_file(public_keyfile, "r");
     if (!fpub) {
         print_error("fopen");
         return 2;
     }
     int result = 0;
     R_RSA_PUBLIC_KEY public_key;
-    tie(result, public_key) = scan_public_key_hex(fpub);
+    tie(result, public_key) = scan_public_key_hex(fpub.get());
     if (result) {
         print_error("read_public_key");
         return 2;
     }
-    FILE* f = open_file(signature_file, "r");
+    unique_FILE f = open_file(signature_file, "r");
     if (!f) {
         print_error("fopen");
         return 2;
     }
     vector<uint8_t> signature;
-    tie(result, signature) = scan_hex_data(f);
+    tie(result, signature) = scan_hex_data(f.get());
     if (result || signature.empty()) {
         print_error("scan_hex_data");
         return 2;
@@ -265,26 +274,26 @@ int verify_string(
     const string& signature_file,
     const string& public_keyfile
     ) {
-    FILE* fpub = open_file(public_keyfile, "r");
+    unique_FILE fpub = open_file(public_keyfile, "r");
     if (!fpub) {
         print_error("fopen");
         return 2;
     }
     int result = 0;
     R_RSA_PUBLIC_KEY public_key;
-    tie(result, public_key) = scan_public_key_hex(fpub);
+    tie(result, public_key) = scan_public_key_hex(fpub.get());
     if (result) {
         print_error("read_public_key");
         return 2;
     }
-    FILE* f = open_file(signature_file, "r");
+    unique_FILE f = open_file(signature_file, "r");
     if (!f) {
         print_error("fopen");
         return 2;
     }
     const int signature_len = 512;
     char cbuf[signature_len];
-    size_t k = fread(cbuf, 1, signature_len, f);
+    size_t k = fread(cbuf, 1, signature_len, f.get());
     k = (k < signature_len) ? k : signature_len - 1;
     cbuf[k] = 0;
 
@@ -306,26 +315,26 @@ int test_crypt(
     const string& private_keyfile,
     const string& public_keyfile
     ) {
-    FILE* fpriv = open_file(private_keyfile, "r");
+    unique_FILE fpriv = open_file(private_keyfile, "r");
     if (!fpriv) {
         print_error("fopen");
         return 2;
     }
     int result = 0;
     R_RSA_PRIVATE_KEY private_key;
-    tie(result, private_key) = scan_private_key_hex(fpriv);
+    tie(result, private_key) = scan_private_key_hex(fpriv.get());
     if (result) {
         print_error("scan_private_key_hex\n");
         return 2;
     }
-    FILE* fpub = open_file(public_keyfile, "r");
+    unique_FILE fpub = open_file(public_keyfile, "r");
     if (!fpub) {
         print_error("fopen");
         return 2;
     }
 
     R_RSA_PUBLIC_KEY public_key;
-    tie(result, public_key) = scan_public_key_hex(fpub);
+    tie(result, public_key) = scan_public_key_hex(fpub.get());
     if (result) {
         print_error("read_public_key");
         return 2;
@@ -353,27 +362,25 @@ int convsig_b2o(
     const string& input,
     const string& output
     ) {
-    FILE* f = open_file(input, "r");
+    unique_FILE f = open_file(input, "r");
     if (!f) {
         print_error("fopen");
         return 2;
     }
     int result = 0;
     vector<uint8_t> signature;
-    tie(result, signature) = scan_hex_data(f);
-    fclose(f);
+    tie(result, signature) = scan_hex_data(f.get());
     if (result || signature.empty()) {
         print_error("scan_hex_data");
         return 2;
     }
 
-    f = open_file(output, "wb");
-    if (!f) {
+    unique_FILE f1 = open_file(output, "wb");
+    if (!f1) {
         print_error("fopen");
         return 2;
     }
-    print_raw_data(f, signature);
-    fclose(f);
+    print_raw_data(f1.get(), signature);
     return 0;
 }
 
@@ -381,27 +388,25 @@ int convsig_o2b(
     const string& input,
     const string& output
     ) {
-    FILE* f = open_file(input, "rb");
+    unique_FILE f = open_file(input, "rb");
     if (!f) {
         print_error("fopen");
         return 2;
     }
     int result = 0;
     vector<uint8_t> signature;
-    tie(result, signature) = scan_raw_data(f);
-    fclose(f);
+    tie(result, signature) = scan_raw_data(f.get());
     if (result || signature.empty()) {
         print_error("scan_raw_data");
         return 2;
     }
 
-    f = open_file(output, "w");
-    if (!f) {
+    unique_FILE f1 = open_file(output, "w");
+    if (!f1) {
         print_error("fopen");
         return 2;
     }
-    print_hex_data(f, signature);
-    fclose(f);
+    print_hex_data(f1.get(), signature);
     return 0;
 }
 
@@ -440,7 +445,7 @@ int convkey_private_b2o(
         return 2;
     }
 
-    FILE* fpriv = open_file(input, "r");
+    unique_FILE fpriv = open_file(input, "r");
     if (!fpriv) {
         print_error("fopen");
         return 2;
@@ -448,8 +453,7 @@ int convkey_private_b2o(
 
     int result = 0;
     R_RSA_PRIVATE_KEY private_key;
-    tie(result, private_key) = scan_private_key_hex(fpriv);
-    fclose(fpriv);
+    tie(result, private_key) = scan_private_key_hex(fpriv.get());
     if (result) {
         print_error("scan_private_key_hex");
         return 2;
@@ -481,21 +485,19 @@ int convkey_private_o2b(
     ) {
     unique_BIO bio_err(BIO_new_fp(stdout, BIO_NOCLOSE));
 
-    FILE* fpriv = open_file(input, "r");
+    unique_FILE fpriv = open_file(input, "r");
     if (!fpriv) {
         print_error("fopen");
         return 2;
     }
-    unique_BIO bio(BIO_new_fp(fpriv, BIO_NOCLOSE));
+    unique_BIO bio(BIO_new_fp(fpriv.get(), BIO_NOCLOSE));
     if (!bio) {
         print_error("BIO_new_fp");
-        fclose(fpriv);
         return 2;
     }
 
     unique_EVP_PKEY rsa_key = unique_EVP_PKEY(
         PEM_read_bio_PrivateKey(bio.get(), nullptr, nullptr, nullptr));
-    fclose(fpriv);
 
     if (!rsa_key) {
         ERR_print_errors(bio_err.get());
@@ -510,12 +512,12 @@ int convkey_private_o2b(
         print_error("openssl_to_private");
         return 2;
     }
-    fpriv = open_file(output, "w");
-    if (!fpriv) {
+    unique_FILE fpriv1 = open_file(output, "w");
+    if (!fpriv1) {
         print_error("fopen");
         return 2;
     }
-    return print_private_key_hex(fpriv, private_key);
+    return print_private_key_hex(fpriv1.get(), private_key);
 }
 
 int convkey_public_b2o(
@@ -533,7 +535,7 @@ int convkey_public_b2o(
         return 2;
     }
 
-    FILE* fpub = open_file(input, "r");
+    unique_FILE fpub = open_file(input, "r");
     if (!fpub) {
         print_error("fopen");
         return 2;
@@ -541,8 +543,7 @@ int convkey_public_b2o(
 
     int result = 0;
     R_RSA_PUBLIC_KEY public_key;
-    tie(result, public_key) = scan_public_key_hex(fpub);
-    fclose(fpub);
+    tie(result, public_key) = scan_public_key_hex(fpub.get());
     if (result) {
         print_error("scan_public_key_hex");
         return 2;
@@ -576,22 +577,20 @@ int convkey_public_o2b(
     ) {
     unique_BIO bio_err(BIO_new_fp(stdout, BIO_NOCLOSE));
 
-    FILE* fpub = open_file(input, "r");
+    unique_FILE fpub = open_file(input, "r");
     if (!fpub) {
         print_error("fopen");
         return 2;
     }
 
-    unique_BIO bio(BIO_new_fp(fpub, BIO_NOCLOSE));
+    unique_BIO bio(BIO_new_fp(fpub.get(), BIO_NOCLOSE));
     if (!bio) {
         print_error("BIO_new_fp");
-        fclose(fpub);
         return 2;
     }
 
     unique_EVP_PKEY rsa_key = unique_EVP_PKEY(PEM_read_bio_PUBKEY(
         bio.get(), nullptr, nullptr, nullptr));
-    fclose(fpub);
 
     if (!rsa_key) {
         ERR_print_errors(bio_err.get());
@@ -606,12 +605,12 @@ int convkey_public_o2b(
         print_error("openssl_to_keys");
         return 2;
     }
-    fpub = open_file(output, "w");
-    if (!fpub) {
+    unique_FILE fpub1 = open_file(output, "w");
+    if (!fpub1) {
         print_error("fopen");
         return 2;
     }
-    return print_public_key_hex(fpub, public_key);
+    return print_public_key_hex(fpub1.get(), public_key);
 }
 
 int convkey(
@@ -650,15 +649,14 @@ int cert_verify(
     const string& certificate_dir,
     const string& ca_dir
     ) {
-    FILE* f = open_file(signature_file, "r");
+    unique_FILE f = open_file(signature_file, "r");
     if (!f) {
         print_error("fopen");
         return 2;
     }
     int result = 0;
     vector<uint8_t> signature;
-    tie(result, signature) = scan_hex_data(f);
-    fclose(f);
+    tie(result, signature) = scan_hex_data(f.get());
     if (result || signature.empty()) {
         print_error("cannot scan_hex_data");
         return 2;
