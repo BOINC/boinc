@@ -132,6 +132,12 @@ AM_PROG_CC_C_O
 PKG_PROG_PKG_CONFIG
 PKG_INSTALLDIR
 
+dnl ------
+dnl  essential for LTO and static applications in apps and samples
+AC_PROG_RANLIB
+AM_PROG_AR
+dnl ------
+
 m4_divert_once([HELP_ENABLE],
   AS_HELP_STRING([BOINC Default enable values], [--enable-server --enable-client --enable-libraries --enable-manager: builds server, client, and libraries]))
 

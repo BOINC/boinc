@@ -31,7 +31,7 @@ distclean:
 	rm -f $(PROGS) $(addsuffix .exe, $(PROGS)) *.o
 
 worker$(WORKER_RELEASE_SUFFIX): worker.cpp
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o worker$(WORKER_RELEASE_SUFFIX) worker.cpp
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -static -o worker$(WORKER_RELEASE_SUFFIX) worker.cpp
 
 install: all
 

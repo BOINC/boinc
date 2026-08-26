@@ -187,7 +187,11 @@ pkgconfig_DATA = libboinc.pc
 libboinc_la_SOURCES = $(generic_sources) $(mac_sources) $(win_sources)
 libboinc_la_CFLAGS = $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
 libboinc_la_CXXFLAGS = $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
-libboinc_la_LDFLAGS = -static -version-number $(LIBBOINC_VERSION)
+libboinc_la_AR = gcc-ar
+libboinc_la_RANLIB = gcc-ranlib
+libboinc_a_AR = gcc-ar
+libboinc_a_RANLIB = gcc-ranlib
+libboinc_la_LDFLAGS = -version-number $(LIBBOINC_VERSION)
 if OS_FREEBSD
 libboinc_la_LDFLAGS += -lexecinfo
 endif
@@ -199,8 +203,12 @@ pkgconfig_DATA += libboinc_crypt.pc
 libboinc_crypt_la_SOURCES = crypt.cpp
 libboinc_crypt_la_CFLAGS = $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) $(SSL_CFLAGS)
 libboinc_crypt_la_CXXFLAGS = $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) $(SSL_CXXFLAGS)
-libboinc_crypt_la_LDFLAGS = -static -version-number $(LIBBOINC_VERSION)
-libboinc_crypt_la_LIBADD =
+libboinc_crypt_la_AR = gcc-ar
+libboinc_crypt_la_RANLIB = gcc-ranlib
+libboinc_crypt_a_AR = gcc-ar
+libboinc_crypt_a_RANLIB = gcc-ranlib
+libboinc_crypt_la_LDFLAGS = -version-number $(LIBBOINC_VERSION) $(SSL_LIBS) $(RSA_LIBS)
+libboinc_crypt_la_LIBADD = $(LIBBOINC)
 endif
 
 if ENABLE_FCGI
@@ -209,6 +217,10 @@ pkgconfig_DATA += libboinc_fcgi.pc
 libboinc_fcgi_la_SOURCES = $(libfcgi_sources) $(mac_sources) $(win_sources)
 libboinc_fcgi_la_CFLAGS = -D_USING_FCGI_ $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
 libboinc_fcgi_la_CXXFLAGS = -D_USING_FCGI_ $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS)
+libboinc_fcgi_la_AR = gcc-ar
+libboinc_fcgi_la_RANLIB = gcc-ranlib
+libboinc_fcgi_a_AR = gcc-ar
+libboinc_fcgi_a_RANLIB = gcc-ranlib
 libboinc_fcgi_la_LDFLAGS = -version-number $(LIBBOINC_VERSION)
 libboinc_fcgi_la_LIBADD =
 endif
@@ -272,7 +284,7 @@ msg_test_CXXFLAGS = $(PTHREAD_CFLAGS)
 msg_test_LDADD = $(LIBBOINC)
 crypt_prog_SOURCES = crypt_prog.cpp
 crypt_prog_CXXFLAGS = $(PTHREAD_CFLAGS) $(SSL_CXXFLAGS)
-crypt_prog_LDADD = $(LIBBOINC_CRYPT_STATIC) $(LIBBOINC) $(SSL_LIBS)
+crypt_prog_LDADD = $(LIBBOINC_CRYPT) $(LIBBOINC) $(SSL_LIBS)
 parse_test_SOURCES = parse_test.cpp
 parse_test_CXXFLAGS = $(PTHREAD_CFLAGS)
 parse_test_LDADD = $(LIBBOINC)

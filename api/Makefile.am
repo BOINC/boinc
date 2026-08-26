@@ -59,7 +59,12 @@ endif
 lib_LTLIBRARIES = libboinc_api.la
 pkgconfig_DATA = libboinc_api.pc
 libboinc_api_la_SOURCES = $(api_files)
-libboinc_api_la_LDFLAGS = -version-number $(LIBBOINC_VERSION)
+libboinc_api_la_LDFLAGS = -version-number $(LIBBOINC_VERSION) -lpthread
+libboinc_api_la_LIBADD = -L../lib/.libs $(LIBBOINC)
+libboinc_api_la_AR = gcc-ar
+libboinc_api_la_RANLIB = gcc-ranlib
+libboinc_api_a_AR = gcc-ar
+libboinc_api_a_RANLIB = gcc-ranlib
 
 if BUILD_GRAPHICS_API
 lib_LTLIBRARIES += libboinc_graphics2.la
@@ -67,12 +72,18 @@ pkgconfig_DATA += libboinc_graphics2.pc
 libboinc_graphics2_la_SOURCES = $(graphics2_files)
 libboinc_graphics2_la_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/lib -I$(top_srcdir)/samples/image_libs
 libboinc_graphics2_la_LDFLAGS = -version-number $(LIBBOINC_VERSION) -ljpeg
+libboinc_graphics2_la_LIBADD = -L../lib/.libs $(APPLIBS)
+libboinc_graphics2_la_AR = gcc-ar
+libboinc_graphics2_la_RANLIB = gcc-ranlib
+libboinc_graphics2_a_AR = gcc-ar
+libboinc_graphics2_a_RANLIB = gcc-ranlib
 endif #BUILD_GRAPHICS_API
 
 lib_LTLIBRARIES += libboinc_opencl.la
 pkgconfig_DATA += libboinc_opencl.pc
 libboinc_opencl_la_SOURCES = $(opencl_files)
 libboinc_opencl_la_LDFLAGS = -version-number $(LIBBOINC_VERSION)
+libboinc_opencl_la_LIBADD = -L../lib/.libs $(APPLIBS)
 
 if INSTALL_HEADERS
 ## install only headers that are meant for exporting the API !!

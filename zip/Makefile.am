@@ -30,7 +30,11 @@ libboinc_zip_la_SOURCES = boinc_zip.cpp
 libboinc_zip_la_CFLAGS = $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) $(LIBZIP_CFLAGS)
 libboinc_zip_la_CXXFLAGS = $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) $(LIBZIP_CFLAGS)
 libboinc_zip_la_LDFLAGS = -version-number $(LIBBOINC_VERSION) $(LIBZIP_LIBS)
-libboinc_zip_la_LIBADD =
+libboinc_zip_la_LIBADD = $(LIBBOINC)
+libboinc_zip_la_AR = gcc-ar
+libboinc_zip_la_RANLIB = gcc-ranlib
+libboinc_zip_a_AR = gcc-ar
+libboinc_zip_a_RANLIB = gcc-ranlib
 
 # Some OSs may not prefix libraries with lib.
 # For example OS2

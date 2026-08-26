@@ -66,6 +66,8 @@ CXXFLAGS += \
     -L$(BOINC_LIB_DIR) \
     -L.
 
+LDFLAGS := -static $(LDFLAGS)
+
 PROGS = vboxwrapper$(VBOXWRAPPER_RELEASE_SUFFIX)
 
 HEADERS = vbox_common.h vboxjob.h vbox_vboxmanage.h vboxwrapper.h

@@ -55,8 +55,8 @@ else
   BOINC_LIB_DIR = $(BOINC_SOURCE_LIB_DIR)
   BOINC_ZIP_DIR = $(BOINC_SOURCE_ZIP_DIR)
 
-  MAKEFILE_LDFLAGS = libstdc++.a -lpthread
-  MAKEFILE_STDLIB  = libstdc++.a
+  MAKEFILE_LDFLAGS = -pthread
+  MAKEFILE_STDLIB  =
 endif
 
 CXXFLAGS += \
@@ -77,6 +77,8 @@ ifdef BUILD_APPS_WITH_VCPKG
     -I$(VCPKG_DIR)/include \
     -L$(VCPKG_DIR)/lib
 endif
+
+LDFLAGS := -static $(LDFLAGS)
 
 PROGS = wrapper$(WRAPPER_RELEASE_SUFFIX)
 

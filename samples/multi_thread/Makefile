@@ -64,6 +64,8 @@ CXXFLAGS += \
     -L$(BOINC_LIB_DIR) \
     -L.
 
+LDFLAGS := -static $(LDFLAGS)
+
 PROG = multi_thread$(MULTITHREAD_RELEASE_SUFFIX)
 
 all: $(PROG)

@@ -72,11 +72,11 @@ distclean:
 install: all
 
 openclapp: openclapp.o boinc_opencl.o libstdc++.a
-	$(CXX) $(CXXFLAGS) -o openclapp openclapp.o boinc_opencl.o \
-        libstdc++.a -lOpenCL -lboinc_api -lboinc -lpthread
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o openclapp openclapp.o boinc_opencl.o \
+        libstdc++.a -lOpenCL $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a -lpthread
 
 openclapp.o: openclapp.cpp openclapp.hpp
-	$(CXX) $(CXXFLAGS) -c openclapp.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c openclapp.cpp
 
 boinc_opencl.o: $(BOINC_API_DIR)/boinc_opencl.cpp $(BOINC_API_DIR)/boinc_opencl.h
-	$(CXX) $(CXXFLAGS) -c $(BOINC_API_DIR)/boinc_opencl.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(BOINC_API_DIR)/boinc_opencl.cpp

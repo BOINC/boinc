@@ -68,6 +68,8 @@ ifdef BUILD_WITH_MINGW
   CURL_EXTRA_LDFLAGS += -liphlpapi
 endif
 
+LDFLAGS := -static $(LDFLAGS)
+
 PROGS = boinc_gahp
 
 all: $(PROGS)

@@ -63,6 +63,8 @@ CXXFLAGS += \
     -L/usr/X11R6/lib \
     -L.
 
+LDFLAGS := -static $(LDFLAGS)
+
 # to get the graphics app to compile you may need to install some packages
 # e.g. ftgl-devel.x86_64
 #
@@ -146,7 +148,7 @@ uc2_graphics: uc2_graphics.o ttfont.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboi
     $(LIBFTGL) $(LIBGL) $(LIBUI) -lm
 
 slide_show: slide_show.o $(MAKEFILE_STDLIB) $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_graphics2.a
-	$(CXX) $(CXXFLAGS) -o slide_show slide_show.o $(MAKEFILE_LDFLAGS) \
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o slide_show slide_show.o $(MAKEFILE_LDFLAGS) \
 	$(BOINC_API_DIR)/libboinc_graphics2.a \
 	$(BOINC_API_DIR)/libboinc_api.a \
 	$(BOINC_LIB_DIR)/libboinc.a \

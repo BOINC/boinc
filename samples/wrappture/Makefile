@@ -60,6 +60,8 @@ CXXFLAGS += \
     -L$(VCPKG_DIR)/lib \
     -L.
 
+LDFLAGS := -static $(LDFLAGS)
+
 PROGS = wrappture_example fermi
 
 all: $(PROGS)

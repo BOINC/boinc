@@ -56,6 +56,8 @@ CXXFLAGS += \
     -L$(BOINC_LIB_DIR) \
     -L.
 
+LDFLAGS := -static $(LDFLAGS)
+
 PROGS = vboxmonitor
 
 all: $(PROGS)
