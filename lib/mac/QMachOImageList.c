@@ -234,7 +234,7 @@ static int ImageListForTaskNew(
                 if (infoIndex < imageArraySize) {
                     QTMAddr     machHeader;
                     QTMAddr     filePathAddr;
-                    char        filePath[PATH_MAX];
+                    char        filePath[MAXPATHLEN];
 
                     if (is64Bit) {
                         machHeader   = QMOImageToLocalUInt64(dyldImage, ((uint64_t *) infoArrayLocal)[infoIndex * 3] );
@@ -390,7 +390,7 @@ static int ImageListForTaskOldWithNames(
 						if ( (imageArray != NULL) && (*imageCountPtr < imageArraySize) ) {
                             QTMAddr     machHeader;
                             QTMAddr     filePathAddr;
-                            char        filePath[PATH_MAX];
+                            char        filePath[MAXPATHLEN];
 
 							machHeader   = QMOImageToLocalUInt32(dyldImage, *(uint32_t *) (listChunk + elemIndex * elemSize + kMHOffset          ));
                             filePathAddr = QMOImageToLocalUInt32(dyldImage, *(uint32_t *) (listChunk + elemIndex * elemSize + kPhysicalNameOffset));
