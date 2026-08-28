@@ -43,11 +43,7 @@
 #include <sys/stat.h>
 #endif
 
-#ifndef PATH_MAX
-#define PATH_MAX 4096
-#endif
-
-char path[PATH_MAX];
+char path[MAXPATHLEN];
 
 int main(int argc, char*argv[]) {
   char* c = argv[1];
