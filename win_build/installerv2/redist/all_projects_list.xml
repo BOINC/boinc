@@ -488,7 +488,6 @@
         <name>arm64-apple-darwin[cpuGFN19_mt]</name>
         <name>arm64-apple-darwin[cpuGFN20_mt]</name>
         <name>arm64-apple-darwin[cpuGFN21_mt]</name>
-        <name>arm64-apple-darwin[cpuGFN22_mt]</name>
         <name>arm64-apple-darwin[opencl_Apple_M_GFN15]</name>
         <name>arm64-apple-darwin[opencl_Apple_M_GFN16]</name>
         <name>arm64-apple-darwin[opencl_Apple_M_GFN17MEGA]</name>
@@ -507,7 +506,6 @@
         <name>i686-pc-linux-gnu[cpuGFN19_mt]</name>
         <name>i686-pc-linux-gnu[cpuGFN20_mt]</name>
         <name>i686-pc-linux-gnu[cpuGFN21_mt]</name>
-        <name>i686-pc-linux-gnu[cpuGFN22_mt]</name>
         <name>i686-pc-linux-gnu[cudaPPSsieve]</name>
         <name>i686-pc-linux-gnu[mt]</name>
         <name>i686-pc-linux-gnu[OCLcudaGFN]</name>
@@ -552,7 +550,6 @@
         <name>windows_intelx86[cpuGFN19_mt]</name>
         <name>windows_intelx86[cpuGFN20_mt]</name>
         <name>windows_intelx86[cpuGFN21_mt]</name>
-        <name>windows_intelx86[cpuGFN22_mt]</name>
         <name>windows_intelx86[cudaPPSsieve]</name>
         <name>windows_intelx86[mt]</name>
         <name>windows_intelx86[OCLcudaGFN]</name>
@@ -636,7 +633,6 @@
         <name>x86_64-apple-darwin[cpuGFN19_mt]</name>
         <name>x86_64-apple-darwin[cpuGFN20_mt]</name>
         <name>x86_64-apple-darwin[cpuGFN21_mt]</name>
-        <name>x86_64-apple-darwin[cpuGFN22_mt]</name>
         <name>x86_64-apple-darwin[cpu_AP27mt]</name>
         <name>x86_64-apple-darwin[cpu_WW_mt]</name>
         <name>x86_64-apple-darwin[cudaPPSsieve]</name>
