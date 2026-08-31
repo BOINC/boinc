@@ -53,6 +53,8 @@ using std::vector;
 
 //#define SHOW_MSGS
 
+int saved_errno;
+
 RPC_CLIENT::RPC_CLIENT() {
     sock = -1;
     start_time = 0;
@@ -338,16 +340,27 @@ RPC::~RPC() {
 //
 int RPC::do_rpc(const char* req) {
     int retval;
+saved_errno = 0;
 
     //fprintf(stderr, "RPC::do_rpc rpc_client->sock = '%d'", rpc_client->sock);
-    if (rpc_client->sock == -1) return ERR_CONNECT;
+//    if (rpc_client->sock == -1) return ERR_CONNECT;
+    if (rpc_client->sock == -1) {
+        saved_errno = errno;
+        return ERR_CONNECT;
+     }
 #ifdef SHOW_MSGS
     puts(req);
 #endif
     retval = rpc_client->send_request(req);
-    if (retval) return retval;
+    if (retval) {
+saved_errno = errno;
+        return retval;
+    }
     retval = rpc_client->get_reply(mbuf);
-    if (retval) return retval;
+    if (retval) {
+saved_errno = errno;
+        return retval;
+    }
     fin.init_buf_read(mbuf);
 #ifdef SHOW_MSGS
     puts(mbuf);
