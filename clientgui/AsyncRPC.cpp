@@ -20,7 +20,8 @@
 #endif
 
 #define PRINT_DEBUG_INFO 1
-#define PRINT_ONLY_DEMAND_RPC_INFO 0
+#define PRINT_ONLY_DEMAND_RPC_INFO 1
+extern int saved_errno;
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -905,7 +906,12 @@ void CMainDocument::HandleCompletedRPC() {
     }
 
     retval = current_rpc_request.retval;
-
+    if (retval) {
+        print_with_time_stamp("RPC %s returned error %d with errno=%d %s",
+                            RPC_DEBUG_NAMES[(int)current_rpc_request.which_rpc],
+                            retval, saved_errno,
+                            (saved_errno == 0) ? "" : strerror(errno));
+    }
 
     if (current_rpc_request.completionTime) {
         *(current_rpc_request.completionTime) = wxDateTime::Now();
