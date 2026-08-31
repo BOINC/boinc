@@ -1484,7 +1484,7 @@ int CBOINCGUIApp::ConfirmExit() {
     }
 
 #ifdef __WXMSW__
-    if (m_iShutdownCoreClient) {
+    if (m_iShutdownCoreClient && dlg.m_DialogShutdownCoreClient) {
         dlg.m_DialogShutdownCoreClient->SetValue(TRUE);
     }
 #endif
@@ -1500,7 +1500,9 @@ int CBOINCGUIApp::ConfirmExit() {
 #ifdef __WXMAC__
         s_bSkipExitConfirmation = true;     // Don't ask twice (only affects Mac)
 #else
-        m_iShutdownCoreClient = dlg.m_DialogShutdownCoreClient->GetValue();
+        if (dlg.m_DialogShutdownCoreClient) {
+            m_iShutdownCoreClient = dlg.m_DialogShutdownCoreClient->GetValue();
+        }
 #endif
         m_iDisplayExitDialog = !dlg.m_DialogDisplay->GetValue();
         retval = true;
