@@ -23,7 +23,6 @@
 #include "miofile.h"
 #include "parse.h"
 #include "error_numbers.h"
-#include "wizardex.h"
 #include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
@@ -35,20 +34,20 @@
  * CBOINCBaseWizard type definition
  */
 
-IMPLEMENT_DYNAMIC_CLASS( CBOINCBaseWizard, wxWizardEx )
+IMPLEMENT_DYNAMIC_CLASS( CBOINCBaseWizard, wxWizard )
 
 /*!
  * CBOINCBaseWizard constructors
  */
 
 CBOINCBaseWizard::CBOINCBaseWizard() :
-    wxWizardEx()
+    wxWizard()
 {
   m_bCancelInProgress = false;
 }
 
 CBOINCBaseWizard::CBOINCBaseWizard(wxWindow *parent, int id, const wxString& title, const wxPoint& pos, long style) :
-    wxWizardEx(parent, id, title, pos, style)
+    wxWizard(parent, id, title, wxBitmapBundle(), pos, style)
 {
   m_bCancelInProgress = false;
 }
@@ -61,12 +60,12 @@ bool CBOINCBaseWizard::IsCancelInProgress() const
     return m_bCancelInProgress;
 }
 
-void CBOINCBaseWizard::ProcessCancelEvent( wxWizardExEvent& event )
+void CBOINCBaseWizard::ProcessCancelEvent( wxWizardEvent& event )
 {
     _ProcessCancelEvent( event );
 }
 
-void CBOINCBaseWizard::_ProcessCancelEvent( wxWizardExEvent& WXUNUSED(event) )
+void CBOINCBaseWizard::_ProcessCancelEvent( wxWizardEvent& WXUNUSED(event) )
 {
     m_bCancelInProgress = true;
 }
@@ -110,22 +109,3 @@ void CBOINCBaseWizard::EnableBackButton() {
 void CBOINCBaseWizard::DisableBackButton() {
     m_btnPrev->Disable();
 }
-
-wxButton* CBOINCBaseWizard::GetCancelButton() const {
-    return m_btnCancel;
-}
-
-void CBOINCBaseWizard::SimulateCancelButton() {
-    wxCommandEvent event(wxEVT_COMMAND_BUTTON_CLICKED, m_btnCancel->GetId());
-    event.SetEventObject(GetCancelButton());
-    AddPendingEvent(event);
-}
-
-void CBOINCBaseWizard::EnableCancelButton() {
-    m_btnCancel->Enable();
-}
-
-void CBOINCBaseWizard::DisableCancelButton() {
-    m_btnCancel->Disable();
-}
-

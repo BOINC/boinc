@@ -18,60 +18,35 @@
 #ifndef BOINC_NOTFOUNDPAGE_H
 #define BOINC_NOTFOUNDPAGE_H
 
-/*!
- * CErrNotFoundPage class declaration
- */
-
-class CErrNotFoundPage: public wxWizardPageEx
-{
-    DECLARE_DYNAMIC_CLASS( CErrNotFoundPage )
+class CErrNotFoundPage: public CBOINCWizardPage {
+    DECLARE_DYNAMIC_CLASS(CErrNotFoundPage)
     DECLARE_EVENT_TABLE()
 
 public:
-    /// Constructors
-    CErrNotFoundPage( );
+    CErrNotFoundPage();
+    CErrNotFoundPage(CWizardAttach* parent);
+    bool Create(CWizardAttach* parent);
 
-    CErrNotFoundPage( CBOINCBaseWizard* parent );
-
-    /// Creation
-    bool Create( CBOINCBaseWizard* parent );
-
-    /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CErrNotFoundPage event handler declarations
+    void OnPageChanged(wxWizardEvent& event);
+    void OnPageChanging(wxWizardEvent& event);
+    void OnCancel(wxWizardEvent& event);
 
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRACCOUNTNOTFOUNDPAGE
-    void OnPageChanged( wxWizardExEvent& event );
+    wxWizardPage* GetPrev() const;
+    wxWizardPage* GetNext() const;
 
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRACCOUNTNOTFOUNDPAGE
-    void OnCancel( wxWizardExEvent& event );
+    void SetPrev(CBOINCWizardPage *prev);
 
-////@end CErrNotFoundPage event handler declarations
+    bool HasNextPage() const;
+    bool HasPrevPage() const;
 
-////@begin CErrNotFoundPage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPageEx* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPageEx* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CErrNotFoundPage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CErrNotFoundPage member variables
+private:
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDirectionsStaticCtrl;
-////@end CErrNotFoundPage member variables
-};
 
+    CWizardAttach *m_pParent;
+    CBOINCWizardPage *m_pPrev;
+};
 
 #endif

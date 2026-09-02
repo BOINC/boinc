@@ -18,61 +18,30 @@
 #ifndef BOINC_TERMSOFUSEPAGE_H
 #define BOINC_TERMSOFUSEPAGE_H
 
-/*!
- * CTermsOfUsePage class declaration
- */
-
-class CTermsOfUsePage: public wxWizardPageEx
-{
-    DECLARE_DYNAMIC_CLASS( CTermsOfUsePage )
+class CTermsOfUsePage: public CBOINCWizardPage {
+    DECLARE_DYNAMIC_CLASS(CTermsOfUsePage)
     DECLARE_EVENT_TABLE()
 
 public:
-    /// Constructors
-    CTermsOfUsePage( );
+    CTermsOfUsePage();
+    CTermsOfUsePage(CWizardAttach* parent);
+    bool Create(CWizardAttach* parent);
 
-    CTermsOfUsePage( CBOINCBaseWizard* parent );
-
-    /// Creation
-    bool Create( CBOINCBaseWizard* parent );
-
-    /// Creates the controls and sizers
     void CreateControls();
 
-    /// Handles clicks on links
-    void OnLinkClicked( wxHtmlLinkEvent & event );
+    void OnLinkClicked(wxHtmlLinkEvent & event);
+    void OnPageChanged(wxWizardEvent& event);
+    void OnPageChanging(wxWizardEvent& event);
+    void OnCancel(wxWizardEvent& event);
+    void OnTermsOfUseStatusChange(wxCommandEvent& event);
 
-////@begin CTermsOfUsePage event handler declarations
+    wxWizardPage* GetPrev() const;
+    wxWizardPage* GetNext() const;
 
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_TERMSOFUSEPAGE
-    void OnPageChanged( wxWizardExEvent& event );
+    void SetPrev(CBOINCWizardPage *prev);
 
-    /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_TERMSOFUSEPAGE
-    void OnPageChanging( wxWizardExEvent& event );
-
-    /// wxEVT_WIZARD_CANCEL event handler for ID_TERMSOFUSEPAGE
-    void OnCancel( wxWizardExEvent& event );
-
-    /// wxEVT_COMMAND_RADIOBUTTON_SELECTED  event handler for ID_TERMSOFUSEAGREECTRL
-    ///   or ID_TERMSOFUSEDISAGREECTRL
-    void OnTermsOfUseStatusChange( wxCommandEvent& event );
-
-////@end CTermsOfUsePage event handler declarations
-
-////@begin CTermsOfUsePage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPageEx* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPageEx* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CTermsOfUsePage member function declarations
+    bool HasNextPage() const;
+    bool HasPrevPage() const;
 
     bool GetUserAgrees() const { return m_bUserAgrees ; }
     void SetUserAgrees(bool value) { m_bUserAgrees = value ; }
@@ -80,18 +49,17 @@ public:
     bool GetCredentialsAlreadyAvailable() const { return m_bCredentialsAlreadyAvailable ; }
     void SetCredentialsAlreadyAvailable(bool value) { m_bCredentialsAlreadyAvailable = value ; }
 
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CTermsOfUsePage member variables
+private:
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDirectionsStaticCtrl;
     wxHtmlWindow* m_pTermsOfUseCtrl;
     wxRadioButton* m_pAgreeCtrl;
     wxRadioButton* m_pDisagreeCtrl;
-////@end CTermsOfUsePage member variables
     bool m_bUserAgrees;
     bool m_bCredentialsAlreadyAvailable;
+
+    CWizardAttach *m_pParent;
+    CBOINCWizardPage *m_pPrev;
 };
 
 #endif

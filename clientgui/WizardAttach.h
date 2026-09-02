@@ -23,51 +23,11 @@
 #define ID_ATTACHWIZARD 10000
 #define SYMBOL_CWIZARDATTACH_IDNAME ID_ATTACHWIZARD
 
-
-// Page Identifiers
-//
-
-// Generic Pages
-#define ID_ACCOUNTINFOPAGE 10102
-#define ID_COMPLETIONPAGE 10103
-#define ID_COMPLETIONERRORPAGE 10104
-#define ID_ERRNOTDETECTEDPAGE 10105
-#define ID_ERRUNAVAILABLEPAGE 10106
-#define ID_ERRNOINTERNETCONNECTIONPAGE 10108
-#define ID_ERRNOTFOUNDPAGE 10109
-#define ID_ERRALREADYEXISTSPAGE 10110
-#define ID_ERRPROXYINFOPAGE 10111
-#define ID_ERRPROXYPAGE 10112
-#define ID_TERMSOFUSEPAGE 10113
-
-// Attach to Project Wizard Pages
-#define ID_PROJECTINFOPAGE 10200
-#define ID_PROJECTPROPERTIESPAGE 10201
-#define ID_PROJECTPROCESSINGPAGE 10202
-#define ID_PROJECTWELCOMEPAGE 10203
-
-// Account Manager Wizard Pages
-#define ID_ACCOUNTMANAGERINFOPAGE 10300
-#define ID_ACCOUNTMANAGERPROPERTIESPAGE 10301
-#define ID_ACCOUNTMANAGERPROCESSINGPAGE 10302
-
-
 // Control Identifiers
 //
 
 // Bitmap Progress Control
 #define ID_PROGRESSCTRL 11000
-
-// BOINC Hyperlink Control
-#define ID_BOINCHYPERLINK 11001
-
-// Completion Error Page Multiline Text Control
-#define ID_TEXTCTRL 11002
-
-// Welcome Page Controls
-#define ID_WELCOMESELECTWIZARDPROJECT 11100
-#define ID_WELCOMESELECTWIZARDACCOUNTMGR 11101
-#define ID_WELCOMECHANGEAPPS 11102
 
 // Project Info/Account Manager Info Controls
 #define ID_CATEGORIES 11200
@@ -125,8 +85,6 @@
 #define ID_ACCTMANAGERREMOVECTRL 11603
 
 
-// Forward declare the generic page classes
-//
 class CAccountInfoPage;
 class CTermsOfUsePage;
 class CCompletionPage;
@@ -134,7 +92,6 @@ class CCompletionErrorPage;
 class CErrNotDetectedPage;
 class CErrUnavailablePage;
 class CErrAlreadyAttachedPage;
-class CErrNoInternetConnectionPage;
 class CErrNotFoundPage;
 class CErrAlreadyExistsPage;
 class CErrProxyInfoPage;
@@ -148,75 +105,37 @@ class CAccountManagerInfoPage;
 class CAccountManagerPropertiesPage;
 class CAccountManagerProcessingPage;
 
-// Forward declare PROJECT_INIT_STATUS
 struct PROJECT_INIT_STATUS;
 
+class CBOINCWizardPage: public wxWizardPage {
+public:
+    virtual void SetPrev(CBOINCWizardPage *prev) = 0;
+    virtual bool HasNextPage() const = 0;
+    virtual bool HasPrevPage() const = 0;
 
-// Wizard Detection
-//
-#define IS_ATTACHTOPROJECTWIZARD() \
-    ((CWizardAttach*)GetParent())->IsAttachToProjectWizard
+    virtual wxBitmap GetBitmapResource(const wxString&) {
+        return wxNullBitmap;
+    }
+    virtual wxIcon GetIconResource(const wxString&) {
+        return wxNullIcon;
+    }
+};
 
-#define IS_ACCOUNTMANAGERWIZARD() \
-    ((CWizardAttach*)GetParent())->IsAccountManagerWizard
-
-#define IS_ACCOUNTMANAGERUPDATEWIZARD() \
-    ((CWizardAttach*)GetParent())->IsAccountManagerUpdateWizard
-
-#define IS_CHANGEWCGAPPS() \
-	((CWizardAttach*)GetParent())->IsChangeWCGApps
-
-
-// Commonly defined macros
-//
-#define PAGE_TRANSITION_NEXT(id) \
-    ((CWizardAttach*)GetParent())->PushPageTransition((wxWizardPageEx*)this, id)
-
-#define PAGE_TRANSITION_BACK \
-    ((CWizardAttach*)GetParent())->PopPageTransition()
-
-#define PROCESS_CANCELEVENT(event) \
-    ((CWizardAttach*)GetParent())->ProcessCancelEvent(event)
-
-#define CHECK_CLOSINGINPROGRESS() \
-    ((CWizardAttach*)GetParent())->IsCancelInProgress()
-
-
-/*!
- * CWizardAttach class declaration
- */
-
-class CWizardAttach: public CBOINCBaseWizard
-{
-    DECLARE_DYNAMIC_CLASS( CWizardAttach )
+class CWizardAttach: public CBOINCBaseWizard {
+    DECLARE_DYNAMIC_CLASS(CWizardAttach)
     DECLARE_EVENT_TABLE()
 
 public:
-    /// Constructors
-    CWizardAttach( );
-    CWizardAttach( wxWindow* parent, wxWindowID id = SYMBOL_CWIZARDATTACH_IDNAME, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, long style = wxDEFAULT_DIALOG_STYLE );
+    CWizardAttach();
+    CWizardAttach(wxWindow* parent, wxWindowID id = SYMBOL_CWIZARDATTACH_IDNAME, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, long style = wxDEFAULT_DIALOG_STYLE);
+    bool Create(wxWindow* parent, wxWindowID id = SYMBOL_CWIZARDATTACH_IDNAME, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, long style = wxDEFAULT_DIALOG_STYLE);
 
-    /// Creation
-    bool Create( wxWindow* parent, wxWindowID id = SYMBOL_CWIZARDATTACH_IDNAME, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, long style = wxDEFAULT_DIALOG_STYLE );
-
-    /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CWizardAttachProject event handler declarations
+    void OnFinished(wxWizardEvent& event);
+    void OnWizardBack(wxCommandEvent& event);
+    void OnWizardNext(wxCommandEvent& event);
 
-    /// wxEVT_WIZARD_FINISHED event handler for ID_ATTACHWIZARD
-    void OnFinished( wxWizardExEvent& event );
-
-////@end CWizardAttachProject event handler declarations
-
-    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_BACKWARD
-    void OnWizardBack( wxCommandEvent& event );
-    /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_FORWARD
-    void OnWizardNext( wxCommandEvent& event );
-
-////@begin CWizardAttachProject member function declarations
-
-    /// Runs the wizard.
     bool Run(
         wxString strProjectName,
         wxString strProjectURL,
@@ -228,31 +147,16 @@ public:
         bool     bEmbedded
     );
 
-    /// Synchronize to Account Manager
     bool SyncToAccountManager();
 
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
+    wxBitmap GetBitmapResource(const wxString& name);
+    wxIcon GetIconResource(const wxString& name);
 
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
+    virtual bool HasNextPage(wxWizardPage* page);
+    virtual bool HasPrevPage(wxWizardPage* page);
 
-    ////@end CWizardAttachProject member function declarations
+    void _ProcessCancelEvent(wxWizardEvent& event);
 
-    /// Overrides
-    virtual bool HasNextPage( wxWizardPageEx* page );
-    virtual bool HasPrevPage( wxWizardPageEx* page );
-
-    /// Track page transitions
-    wxWizardPageEx* TranslatePage(unsigned long ulPageID);
-    wxWizardPageEx* PopPageTransition();
-    wxWizardPageEx* PushPage( unsigned long ulPageID );
-    wxWizardPageEx* PushPageTransition( wxWizardPageEx* pCurrentPage, unsigned long ulPageID );
-
-    /// Cancel Event Infrastructure
-    void _ProcessCancelEvent( wxWizardExEvent& event );
-
-    /// Finish Button Environment
     bool GetAccountCreatedSuccessfully() const { return account_created_successfully ; }
     void SetAccountCreatedSuccessfully(bool value) { account_created_successfully = value ; }
 
@@ -307,10 +211,38 @@ public:
     bool IsCloseWhenCompleted() const { return m_bCloseWhenCompleted ; }
     void SetCloseWhenCompleted(bool value) { m_bCloseWhenCompleted = value ; }
 
-    /// Should we show tooltips?
     static bool ShowToolTips();
 
-////@begin CWizardAttachProject member variables
+    PROJECT_CONFIG& GetProjectConfig() { return project_config; }
+    ACCOUNT_IN& GetAccountIn() { return account_in; }
+    ACCOUNT_OUT& GetAccountOut() { return account_out; }
+
+    CProjectInfoPage* GetProjectInfoPage() const { return m_ProjectInfoPage; }
+    CProjectPropertiesPage* GetProjectPropertiesPage() const { return m_ProjectPropertiesPage; }
+    CProjectProcessingPage* GetProjectProcessingPage() const { return m_ProjectProcessingPage; }
+    CProjectWelcomePage* GetProjectWelcomePage() const { return m_ProjectWelcomePage; }
+    CAccountManagerInfoPage* GetAccountManagerInfoPage() const { return m_AccountManagerInfoPage; }
+    CAccountManagerPropertiesPage* GetAccountManagerPropertiesPage() const { return m_AccountManagerPropertiesPage; }
+    CAccountManagerProcessingPage* GetAccountManagerProcessingPage() const { return m_AccountManagerProcessingPage; }
+    CTermsOfUsePage* GetTermsOfUsePage() const { return m_TermsOfUsePage; }
+    CAccountInfoPage* GetAccountInfoPage() const { return m_AccountInfoPage; }
+    CCompletionPage* GetCompletionPage() const { return m_CompletionPage; }
+    CCompletionErrorPage* GetCompletionErrorPage() const { return m_CompletionErrorPage; }
+    CErrNotDetectedPage* GetErrNotDetectedPage() const { return m_ErrNotDetectedPage; }
+    CErrUnavailablePage* GetErrUnavailablePage() const { return m_ErrUnavailablePage; }
+    CErrNotFoundPage* GetErrNotFoundPage() const { return m_ErrNotFoundPage; }
+    CErrAlreadyExistsPage* GetErrAlreadyExistsPage() const { return m_ErrAlreadyExistsPage; }
+    CErrProxyInfoPage* GetErrProxyInfoPage() const { return m_ErrProxyInfoPage; }
+    CErrProxyPage* GetErrProxyPage() const { return m_ErrProxyPage; }
+    CErrUserDisagreesPage* GetErrUserDisagreesPage() const { return m_ErrUserDisagreesPage; }
+
+    bool GetIsAttachToProjectWizard() const { return IsAttachToProjectWizard; }
+    bool GetIsAccountManagerWizard() const { return IsAccountManagerWizard; }
+    bool GetIsAccountManagerUpdateWizard() const { return IsAccountManagerUpdateWizard; }
+
+    int GetDirection() const { return m_direction; }
+
+private:
     CProjectInfoPage* m_ProjectInfoPage;
     CProjectPropertiesPage* m_ProjectPropertiesPage;
     CProjectProcessingPage* m_ProjectProcessingPage;
@@ -324,44 +256,42 @@ public:
     CCompletionErrorPage* m_CompletionErrorPage;
     CErrNotDetectedPage* m_ErrNotDetectedPage;
     CErrUnavailablePage* m_ErrUnavailablePage;
-    CErrNoInternetConnectionPage* m_ErrNoInternetConnectionPage;
     CErrNotFoundPage* m_ErrNotFoundPage;
     CErrAlreadyExistsPage* m_ErrAlreadyExistsPage;
     CErrProxyInfoPage* m_ErrProxyInfoPage;
     CErrProxyPage* m_ErrProxyPage;
     CErrUserDisagreesPage* m_ErrUserDisagreesPage;
-////@end CWizardAttachProject member variables
 
-    /// Wizard Detection
-    bool                IsAttachToProjectWizard;
-    bool                IsAccountManagerWizard;
-    bool                IsAccountManagerUpdateWizard;
-	bool				IsChangeWCGApps;
-	/// For WCG, need to not launch project page when first opened
-	bool				IsFirstPass;
+    bool IsAttachToProjectWizard;
+    bool IsAccountManagerWizard;
+    bool IsAccountManagerUpdateWizard;
 
-    /// Global Wizard Status
-    PROJECT_CONFIG      project_config;
-    ACCOUNT_IN          account_in;
-    ACCOUNT_OUT         account_out;
-    bool                account_created_successfully;
-    bool                attached_to_project_successfully;
-    bool                m_bCloseWhenCompleted;
-    bool                m_bCredentialsCached;
-    bool                m_bCredentialsDetected;
-    wxString            m_strProjectName;
-    wxString            m_strProjectUrl;
-    wxString            m_strProjectAuthenticator;
-    wxString            m_strProjectInstitution;
-    wxString            m_strProjectDescription;
-    wxString            m_strProjectUserName;
-    bool                m_bProjectKnown;
-    wxString            m_strAccountEmailAddress;
-    wxString            m_strAccountUsername;
-    wxString            m_strAccountPassword;
-    wxString            m_strAccountConfirmPassword;
-    bool                m_bConsentedToTerms;
-    wxString            m_strReturnURL;
+    PROJECT_CONFIG project_config;
+    ACCOUNT_IN account_in;
+    ACCOUNT_OUT account_out;
+    bool account_created_successfully;
+    bool attached_to_project_successfully;
+    bool m_bCloseWhenCompleted;
+    bool m_bCredentialsCached;
+    bool m_bCredentialsDetected;
+    bool m_bProjectKnown;
+    bool m_bConsentedToTerms;
+    wxString m_strProjectName;
+    wxString m_strProjectUrl;
+    wxString m_strProjectAuthenticator;
+    wxString m_strProjectInstitution;
+    wxString m_strProjectDescription;
+    wxString m_strProjectUserName;
+    wxString m_strAccountEmailAddress;
+    wxString m_strAccountUsername;
+    wxString m_strAccountPassword;
+    wxString m_strAccountConfirmPassword;
+    wxString m_strReturnURL;
+
+    // <0 -> going backward
+    //  0 -> current page or unknown yet
+    // >0 -> going forward
+    int m_direction;
 };
 
 #endif

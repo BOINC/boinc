@@ -75,7 +75,6 @@ boincmgr_SOURCES = \
     DlgSelectComputer.cpp \
     LogBOINC.cpp \
     MainDocument.cpp \
-    NoInternetConnectionPage.cpp \
     NotDetectedPage.cpp \
     NotFoundPage.cpp \
     NoticeListCtrl.cpp \
@@ -107,8 +106,7 @@ boincmgr_SOURCES = \
     ViewStatistics.cpp \
     ViewTransfers.cpp \
     ViewWork.cpp \
-    WizardAttach.cpp \
-    wizardex.cpp
+    WizardAttach.cpp
 
 EXTRA_DIST = *.h \
     res \

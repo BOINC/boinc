@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -23,19 +23,20 @@
 #include "miofile.h"
 #include "parse.h"
 #include "error_numbers.h"
-#include "wizardex.h"
 #include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
-#include "ProjectProcessingPage.h"
 #include "ProjectInfoPage.h"
 #include "AccountInfoPage.h"
 #include "CompletionErrorPage.h"
+#include "CompletionPage.h"
+#include "NotFoundPage.h"
+#include "AlreadyExistsPage.h"
+#include "ProjectProcessingPage.h"
 
-////@begin XPM images
 #include "res/wizprogress01.xpm"
 #include "res/wizprogress02.xpm"
 #include "res/wizprogress03.xpm"
@@ -48,60 +49,32 @@
 #include "res/wizprogress10.xpm"
 #include "res/wizprogress11.xpm"
 #include "res/wizprogress12.xpm"
-////@end XPM images
-
-/*!
- * CProjectPropertiesPage custom event definition
- */
 
 DEFINE_EVENT_TYPE(wxEVT_PROJECTPROCESSING_STATECHANGE)
 
-/*!
- * CProjectProcessingPage type definition
- */
+IMPLEMENT_DYNAMIC_CLASS(CProjectProcessingPage, CBOINCWizardPage)
 
-IMPLEMENT_DYNAMIC_CLASS( CProjectProcessingPage, wxWizardPageEx )
+BEGIN_EVENT_TABLE(CProjectProcessingPage, CBOINCWizardPage)
 
-/*!
- * CProjectProcessingPage event table definition
- */
-
-BEGIN_EVENT_TABLE( CProjectProcessingPage, wxWizardPageEx )
-
-    EVT_PROJECTPROCESSING_STATECHANGE( CProjectProcessingPage::OnStateChange )
-
-////@begin CProjectProcessingPage event table entries
-    EVT_WIZARDEX_PAGE_CHANGED( -1, CProjectProcessingPage::OnPageChanged )
-    EVT_WIZARDEX_CANCEL( -1, CProjectProcessingPage::OnCancel )
-
-////@end CProjectProcessingPage event table entries
+EVT_PROJECTPROCESSING_STATECHANGE(CProjectProcessingPage::OnStateChange)
+EVT_WIZARD_PAGE_CHANGED(wxID_ANY, CProjectProcessingPage::OnPageChanged )
+EVT_WIZARD_PAGE_CHANGING(wxID_ANY, CProjectProcessingPage::OnPageChanging)
+EVT_WIZARD_CANCEL(wxID_ANY, CProjectProcessingPage::OnCancel)
 
 END_EVENT_TABLE()
 
-/*!
- * CProjectProcessingPage constructors
- */
-
-CProjectProcessingPage::CProjectProcessingPage( )
-{
+CProjectProcessingPage::CProjectProcessingPage() {
 }
 
-CProjectProcessingPage::CProjectProcessingPage( CBOINCBaseWizard* parent )
-{
-    Create( parent );
+CProjectProcessingPage::CProjectProcessingPage(CWizardAttach* parent) {
+    Create(parent);
 }
 
-/*!
- * CProjectPropertiesPage creator
- */
-
-bool CProjectProcessingPage::Create( CBOINCBaseWizard* parent )
-{
-
-////@begin CProjectProcessingPage member initialisation
-    m_pTitleStaticCtrl = NULL;
-    m_pProgressIndicator = NULL;
-////@end CProjectProcessingPage member initialisation
+bool CProjectProcessingPage::Create(CWizardAttach* parent) {
+    m_pParent = parent;
+    m_pPrev = nullptr;
+    m_pTitleStaticCtrl = nullptr;
+    m_pProgressIndicator = nullptr;
 
     m_bProjectCommunicationsSucceeded = false;
     m_bProjectUnavailable = false;
@@ -110,23 +83,15 @@ bool CProjectProcessingPage::Create( CBOINCBaseWizard* parent )
     m_iBitmapIndex = 0;
     m_iCurrentState = ATTACHPROJECT_INIT;
 
-////@begin CProjectProcessingPage creation
-    wxWizardPageEx::Create( parent, ID_PROJECTPROCESSINGPAGE );
+    wxWizardPage::Create(parent);
 
     CreateControls();
     GetSizer()->Fit(this);
-////@end CProjectProcessingPage creation
 
-    return TRUE;
+    return true;
 }
 
-/*!
- * Control creation for CProjectPropertiesPage
- */
-
-void CProjectProcessingPage::CreateControls()
-{
-////@begin CProjectProcessingPage content construction
+void CProjectProcessingPage::CreateControls() {
     CProjectProcessingPage* itemWizardPage36 = this;
 
     wxBoxSizer* itemBoxSizer37 = new wxBoxSizer(wxVERTICAL);
@@ -154,49 +119,41 @@ void CProjectProcessingPage::CreateControls()
     itemFlexGridSizer40->Add(m_pProgressIndicator, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxALL, 5);
-////@end CProjectProcessingPage content construction
 }
 
-/*!
- * Gets the previous page.
- */
-
-wxWizardPageEx* CProjectProcessingPage::GetPrev() const
-{
-    return PAGE_TRANSITION_BACK;
+wxWizardPage* CProjectProcessingPage::GetPrev() const {
+    return m_pPrev;
 }
 
-/*!
- * Gets the next page.
- */
-
-wxWizardPageEx* CProjectProcessingPage::GetNext() const
-{
-    if (CHECK_CLOSINGINPROGRESS()) {
+wxWizardPage* CProjectProcessingPage::GetNext() const {
+    if (m_pParent->IsCancelInProgress()) {
         // Cancel Event Detected
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+        return m_pParent->GetCompletionErrorPage();
     } else if (GetProjectAttachSucceeded()) {
         // We were successful in creating or retrieving an account
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONPAGE);
+        return m_pParent->GetCompletionPage();
     } else if (!GetProjectCommunicationsSucceeded() && GetProjectAccountAlreadyExists()) {
         // The requested account already exists
-        return PAGE_TRANSITION_NEXT(ID_ERRALREADYEXISTSPAGE);
+        return m_pParent->GetErrAlreadyExistsPage();
     } else if (!GetProjectCommunicationsSucceeded() && GetProjectAccountNotFound()) {
         // The requested account does not exist or the password is bad
-        return PAGE_TRANSITION_NEXT(ID_ERRNOTFOUNDPAGE);
+        return m_pParent->GetErrNotFoundPage();
     } else {
         // An error must have occurred
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+        return m_pParent->GetCompletionErrorPage();
     }
 }
 
-/*!
- * Should we show tooltips?
- */
+void CProjectProcessingPage::SetPrev(CBOINCWizardPage *prev) {
+    m_pPrev = prev;
+}
 
-bool CProjectProcessingPage::ShowToolTips()
-{
-    return TRUE;
+bool CProjectProcessingPage::HasNextPage() const {
+    return true;
+}
+
+bool CProjectProcessingPage::HasPrevPage() const {
+    return m_pPrev != nullptr;
 }
 
 void CProjectProcessingPage::StartProgress(wxStaticBitmap* pBitmap) {
@@ -220,12 +177,7 @@ void CProjectProcessingPage::FinishProgress(wxStaticBitmap* pBitmap) {
     pBitmap->SetBitmap(GetBitmapResource(wxT("res/wizprogress12.xpm")));
 }
 
-/*!
- * Get bitmap resources
- */
-
-wxBitmap CProjectProcessingPage::GetBitmapResource( const wxString& name )
-{
+wxBitmap CProjectProcessingPage::GetBitmapResource(const wxString& name) {
 // TODO: Choose from multiple size images if provided, else resize the closest one
     // Bitmap retrieval
     if (name == wxT("res/wizprogress01.xpm"))
@@ -291,23 +243,7 @@ wxBitmap CProjectProcessingPage::GetBitmapResource( const wxString& name )
     return wxNullBitmap;
 }
 
-/*!
- * Get icon resources
- */
-
-wxIcon CProjectProcessingPage::GetIconResource( const wxString& WXUNUSED(name) )
-{
-    // Icon retrieval
-////@begin CProjectProcessingPage icon retrieval
-    return wxNullIcon;
-////@end CProjectProcessingPage icon retrieval
-}
-
-/*!
- * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ATTACHPROJECTPAGE
- */
-
-void CProjectProcessingPage::OnPageChanged( wxWizardExEvent& event ) {
+void CProjectProcessingPage::OnPageChanged(wxWizardEvent& event) {
     if (event.GetDirection() == false) return;
 
     wxASSERT(m_pTitleStaticCtrl);
@@ -328,24 +264,14 @@ void CProjectProcessingPage::OnPageChanged( wxWizardExEvent& event ) {
     Fit();
 }
 
-/*!
- * wxEVT_WIZARD_CANCEL event handler for ID_ACCOUNTCREATIONPAGE
- */
-
-void CProjectProcessingPage::OnCancel( wxWizardExEvent& event ) {
-    PROCESS_CANCELEVENT(event);
+void CProjectProcessingPage::OnCancel(wxWizardEvent& event) {
+    m_pParent->ProcessCancelEvent(event);
 }
 
-/*!
- * wxEVT_ACCOUNTCREATION_STATECHANGE event handler for ID_ACCOUNTCREATIONPAGE
- */
-
-void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSED(event) )
-{
+void CProjectProcessingPage::OnStateChange(CProjectProcessingPageEvent& WXUNUSED(event)) {
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    CWizardAttach* pWA  = ((CWizardAttach*)GetParent());
-    ACCOUNT_IN* ai      = &pWA->account_in;
-    ACCOUNT_OUT* ao     = &pWA->account_out;
+    ACCOUNT_IN& ai      = m_pParent->GetAccountIn();
+    ACCOUNT_OUT& ao     = m_pParent->GetAccountOut();
     unsigned int i;
     PROJECT_ATTACH_REPLY reply;
     wxString strBuffer = wxEmptyString;
@@ -361,8 +287,8 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
 
     switch(GetCurrentState()) {
         case ATTACHPROJECT_INIT:
-            pWA->DisableNextButton();
-            pWA->DisableBackButton();
+            m_pParent->DisableNextButton();
+            m_pParent->DisableBackButton();
 
             StartProgress(m_pProgressIndicator);
             SetNextState(ATTACHPROJECT_ACCOUNTQUERY_BEGIN);
@@ -372,71 +298,71 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
             break;
         case ATTACHPROJECT_ACCOUNTQUERY_EXECUTE:
             // Attempt to create the account or retrieve the authenticator.
-            ai->clear();
-            ao->clear();
+            ai.clear();
+            ao.clear();
 
             // use the web RPC URL in the get_project_config response
             // if present, otherwise use what the user typed
             //
-            if (!pWA->project_config.web_rpc_url_base.empty()) {
-                ai->url = pWA->project_config.web_rpc_url_base;
-            } else if (!pWA->project_config.master_url.empty()) {
-                ai->url = pWA->project_config.master_url;
+            if (!m_pParent->GetProjectConfig().web_rpc_url_base.empty()) {
+                ai.url = m_pParent->GetProjectConfig().web_rpc_url_base;
+            } else if (!m_pParent->GetProjectConfig().master_url.empty()) {
+                ai.url = m_pParent->GetProjectConfig().master_url;
             } else {
-                ai->url = (const char*)pWA->GetProjectURL().mb_str();
+                ai.url = (const char*)m_pParent->GetProjectURL().mb_str();
             }
 
-            if (!pWA->GetProjectAuthenticator().IsEmpty() ||
-                pWA->IsCredentialsCached() || pWA->IsCredentialsDetected()
+            if (!m_pParent->GetProjectAuthenticator().IsEmpty() ||
+                m_pParent->IsCredentialsCached() || m_pParent->IsCredentialsDetected()
             ) {
-                if (!pWA->IsCredentialsCached() || pWA->IsCredentialsDetected()) {
-                    ao->authenticator = (const char*)pWA->GetProjectAuthenticator().mb_str();
+                if (!m_pParent->IsCredentialsCached() || m_pParent->IsCredentialsDetected()) {
+                    ao.authenticator = (const char*)m_pParent->GetProjectAuthenticator().mb_str();
                 }
                 SetProjectCommunicationsSucceeded(true);
             } else {
                 // Setup initial values for both the create and lookup API
 
-                if (pWA->project_config.uses_username) {
-                    ai->email_addr = (const char*)pWA->GetAccountUsername().utf8_str();
+                if (m_pParent->GetProjectConfig().uses_username) {
+                    ai.email_addr = (const char*)m_pParent->GetAccountUsername().utf8_str();
                 } else {
-                    ai->email_addr = (const char*)pWA->GetAccountEmailAddress().mb_str();
+                    ai.email_addr = (const char*)m_pParent->GetAccountEmailAddress().mb_str();
                 }
-                ai->passwd = (const char*)pWA->GetAccountPassword().mb_str();
-                ai->user_name = (const char*)::wxGetUserName().utf8_str();
-                if (ai->user_name.empty()) {
-                    ai->user_name = (const char*)::wxGetUserId().mb_str();
+                ai.passwd = (const char*)m_pParent->GetAccountPassword().mb_str();
+                ai.user_name = (const char*)::wxGetUserName().utf8_str();
+                if (ai.user_name.empty()) {
+                    ai.user_name = (const char*)::wxGetUserId().mb_str();
                 }
 
                 // Configure for LDAP use
                 //
-                ai->ldap_auth = pWA->project_config.ldap_auth;
+                ai.ldap_auth = m_pParent->GetProjectConfig().ldap_auth;
 
                 // Configure for project assigned hash lookup
 
-                if (pWA->m_AccountInfoPage->m_pAccountCreateCtrl->GetValue()) {
+                if (m_pParent->GetAccountInfoPage()->GetAccountCreateCtrlValue()) {
                     creating_account = true;
-                    ai->consented_to_terms = pWA->GetConsentedToTerms();
+                    ai.consented_to_terms = m_pParent->GetConsentedToTerms();
 
                     // Wait until we are done processing the request.
                     dtStartExecutionTime = wxDateTime::Now();
                     dtCurrentExecutionTime = wxDateTime::Now();
                     tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                     retval = 0;
-                    ao->error_num = ERR_RETRY;
+                    ao.error_num = ERR_RETRY;
                     while (
                         !retval &&
-                        ((ERR_IN_PROGRESS == ao->error_num) || (ERR_RETRY == ao->error_num)) &&
+                        ((ERR_IN_PROGRESS == ao.error_num) || (ERR_RETRY == ao.error_num)) &&
                         tsExecutionTime.GetSeconds() <= 60 &&
-                        !CHECK_CLOSINGINPROGRESS()
+                        !m_pParent->IsCancelInProgress()
                     ) {
-                        if (ERR_RETRY == ao->error_num) {
-                            retval = pDoc->rpc.create_account(*ai);
+                        if (ERR_RETRY == ao.error_num) {
+                            retval = pDoc->rpc.create_account(ai);
                             if (retval) break;
                         }
 
                         dtCurrentExecutionTime = wxDateTime::Now();
                         tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-                        retval = pDoc->rpc.create_account_poll(*ao);
+                        retval = pDoc->rpc.create_account_poll(ao);
 
                         IncrementProgress(m_pProgressIndicator);
 
@@ -444,8 +370,8 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                         wxEventLoopBase::GetActive()->YieldFor(wxEVT_CATEGORY_USER_INPUT);
                     }
 
-                    if ((!retval) && !ao->error_num) {
-                        pWA->SetAccountCreatedSuccessfully(true);
+                    if ((!retval) && !ao.error_num) {
+                        m_pParent->SetAccountCreatedSuccessfully(true);
                     }
                 } else {
                     creating_account = false;
@@ -455,20 +381,20 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                     dtCurrentExecutionTime = wxDateTime::Now();
                     tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
                     retval = 0;
-                    ao->error_num = ERR_RETRY;
+                    ao.error_num = ERR_RETRY;
                     while (
                         !retval &&
-                        ((ERR_IN_PROGRESS == ao->error_num) || (ERR_RETRY == ao->error_num)) &&
+                        ((ERR_IN_PROGRESS == ao.error_num) || (ERR_RETRY == ao.error_num)) &&
                         tsExecutionTime.GetSeconds() <= 60 &&
-                        !CHECK_CLOSINGINPROGRESS()
+                        !m_pParent->IsCancelInProgress()
                     ) {
-                        if (ERR_RETRY == ao->error_num) {
-                            pDoc->rpc.lookup_account(*ai);
+                        if (ERR_RETRY == ao.error_num) {
+                            pDoc->rpc.lookup_account(ai);
                         }
 
                         dtCurrentExecutionTime = wxDateTime::Now();
                         tsExecutionTime = dtCurrentExecutionTime - dtStartExecutionTime;
-                        retval = pDoc->rpc.lookup_account_poll(*ao);
+                        retval = pDoc->rpc.lookup_account_poll(ao);
 
                         IncrementProgress(m_pProgressIndicator);
 
@@ -478,49 +404,53 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                 }
 
 
-                if ((!retval) && !ao->error_num) {
+                if ((!retval) && !ao.error_num) {
                     SetProjectCommunicationsSucceeded(true);
                 } else {
                     SetProjectCommunicationsSucceeded(false);
 
-                    if ((ao->error_num == ERR_DB_NOT_UNIQUE)
-                        || (ao->error_num == ERR_NONUNIQUE_EMAIL)
-                        || (ao->error_num == ERR_BAD_PASSWD && creating_account)
+                    if ((ao.error_num == ERR_DB_NOT_UNIQUE)
+                        || (ao.error_num == ERR_NONUNIQUE_EMAIL)
+                        || (ao.error_num == ERR_BAD_PASSWD && creating_account)
                     ) {
                         SetProjectAccountAlreadyExists(true);
                     } else {
                         SetProjectAccountAlreadyExists(false);
                     }
 
-                    if ((ERR_NOT_FOUND == ao->error_num) ||
-                        (ao->error_num == ERR_DB_NOT_FOUND) ||
-                        (ERR_BAD_EMAIL_ADDR == ao->error_num) ||
-                        (ERR_BAD_PASSWD == ao->error_num)
+                    if ((ERR_NOT_FOUND == ao.error_num) ||
+                        (ao.error_num == ERR_DB_NOT_FOUND) ||
+                        (ERR_BAD_EMAIL_ADDR == ao.error_num) ||
+                        (ERR_BAD_PASSWD == ao.error_num)
                     ) {
-                        if (!pWA->GetProjectAuthenticator().IsEmpty()) {
-                            if (!pWA->GetProjectAuthenticator().IsEmpty()) {
-                                pWA->SetProjectAuthenticator(wxEmptyString);
+                        if (!m_pParent->GetProjectAuthenticator().IsEmpty()) {
+                            if (!m_pParent->GetProjectAuthenticator().IsEmpty()) {
+                                m_pParent->SetProjectAuthenticator(wxEmptyString);
                             }
-                            pWA->PushPage(ID_ACCOUNTINFOPAGE);
+                            CBOINCWizardPage *old = dynamic_cast<CBOINCWizardPage*>(m_pPrev);
+                            m_pPrev = m_pParent->GetAccountInfoPage();
+                            if (m_pPrev != nullptr) {
+                                dynamic_cast<CBOINCWizardPage*>(m_pPrev)->SetPrev(old);
+                            }
                         }
                         SetProjectAccountNotFound(true);
                     } else {
                         SetProjectAccountNotFound(false);
                     }
 
-                    strBuffer = pWA->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
-                    if ((HTTP_STATUS_NOT_FOUND == ao->error_num)) {
+                    strBuffer = m_pParent->GetCompletionErrorPage()->GetServerMessagesCtrlLabel();
+                    if ((HTTP_STATUS_NOT_FOUND == ao.error_num)) {
                         strBuffer +=
                             _("Required files not found on the server.");
-                    } else if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == ao->error_num)) {
+                    } else if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == ao.error_num)) {
                         strBuffer +=
                             _("An internal server error has occurred.");
                     } else {
-                        if (ao->error_msg.size()) {
-                            strBuffer += wxString(ao->error_msg.c_str(), wxConvUTF8) + wxString(wxT("\n"));
+                        if (ao.error_msg.size()) {
+                            strBuffer += wxString(ao.error_msg.c_str(), wxConvUTF8) + wxString(wxT("\n"));
                         }
                     }
-                    pWA->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                    m_pParent->GetCompletionErrorPage()->SetServerMessagesCtrlLabel(strBuffer);
                 }
             }
             SetNextState(ATTACHPROJECT_ATTACHPROJECT_BEGIN);
@@ -541,23 +471,23 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                     !retval &&
                     ((ERR_IN_PROGRESS == reply.error_num) || (ERR_RETRY == reply.error_num)) &&
                     tsExecutionTime.GetSeconds() <= 60 &&
-                    !CHECK_CLOSINGINPROGRESS()
+                    !m_pParent->IsCancelInProgress()
                 ) {
                     if (ERR_RETRY == reply.error_num) {
-                        if (pWA->IsCredentialsCached()) {
+                        if (m_pParent->IsCredentialsCached()) {
                             pDoc->rpc.project_attach_from_file();
                         } else {
                             std::string master_url;
-                            if (!pWA->project_config.master_url.empty()) {
-                                master_url = pWA->project_config.master_url;
+                            if (!m_pParent->GetProjectConfig().master_url.empty()) {
+                                master_url = m_pParent->GetProjectConfig().master_url;
                             } else {
-                                master_url = (const char*)pWA->GetProjectURL().mb_str();
+                                master_url = (const char*)m_pParent->GetProjectURL().mb_str();
                             }
                             pDoc->rpc.project_attach(
                                 master_url.c_str(),
-                                ao->authenticator.c_str(),
-                                pWA->project_config.name.c_str(),
-                                ai->email_addr.c_str()
+                                ao.authenticator.c_str(),
+                                m_pParent->GetProjectConfig().name.c_str(),
+                                ai.email_addr.c_str()
                             );
                         }
                     }
@@ -579,13 +509,13 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
 
                 if (!retval && !reply.error_num) {
                     SetProjectAttachSucceeded(true);
-                    pWA->SetAttachedToProjectSuccessfully(true);
-                    pWA->SetProjectURL(wxString(ai->url.c_str(), wxConvUTF8));
-                    pWA->SetProjectAuthenticator(wxString(ao->authenticator.c_str(), wxConvUTF8));
+                    m_pParent->SetAttachedToProjectSuccessfully(true);
+                    m_pParent->SetProjectURL(wxString(ai.url.c_str(), wxConvUTF8));
+                    m_pParent->SetProjectAuthenticator(wxString(ao.authenticator.c_str(), wxConvUTF8));
                 } else {
                     SetProjectAttachSucceeded(false);
 
-                    strBuffer = pWA->m_CompletionErrorPage->m_pServerMessagesCtrl->GetLabel();
+                    strBuffer = m_pParent->GetCompletionErrorPage()->GetServerMessagesCtrlLabel();
                     if ((HTTP_STATUS_INTERNAL_SERVER_ERROR == reply.error_num)) {
                         strBuffer +=
                             _("An internal server error has occurred.");
@@ -594,7 +524,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                             strBuffer += wxString(reply.messages[i].c_str(), wxConvUTF8) + wxString(wxT("\n"));
                         }
                     }
-                    pWA->m_CompletionErrorPage->m_pServerMessagesCtrl->SetLabel(strBuffer);
+                    m_pParent->GetCompletionErrorPage()->SetServerMessagesCtrlLabel(strBuffer);
                 }
             } else {
                 SetProjectAttachSucceeded(false);
@@ -608,18 +538,27 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
         default:
             // Allow a glimpse of what the result was before advancing to the next page.
             wxSleep(1);
-            pWA->EnableNextButton();
-            pWA->EnableBackButton();
-            pWA->SimulateNextButton();
+
+            m_pParent->EnableNextButton();
+            m_pParent->EnableBackButton();
+            m_pParent->SimulateNextButton();
             bPostNewEvent = false;
             break;
     }
 
     Update();
 
-    if (bPostNewEvent && !CHECK_CLOSINGINPROGRESS()) {
+    if (bPostNewEvent && !m_pParent->IsCancelInProgress()) {
         CProjectProcessingPageEvent TransitionEvent(wxEVT_PROJECTPROCESSING_STATECHANGE, this);
         AddPendingEvent(TransitionEvent);
     }
 }
 
+void CProjectProcessingPage::OnPageChanging(wxWizardEvent& event) {
+    if (event.GetDirection() == false) return;
+
+    CBOINCWizardPage *pageNext = dynamic_cast<CBOINCWizardPage*>(GetNext());
+    if (pageNext != nullptr) {
+        pageNext->SetPrev(m_pPrev);
+    }
+}

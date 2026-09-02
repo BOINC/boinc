@@ -18,13 +18,8 @@
 #ifndef BOINC_ACCOUNTMANAGERINFOPAGE_H
 #define BOINC_ACCOUNTMANAGERINFOPAGE_H
 
-/*!
- * CProjectListItem class declaration
- */
-
-class CAcctMgrListItem: public wxObject
-{
-    DECLARE_DYNAMIC_CLASS( CAcctMgrListItem )
+class CAcctMgrListItem: public wxObject {
+    DECLARE_DYNAMIC_CLASS(CAcctMgrListItem)
 public:
 
     wxString GetURL() const { return m_strURL ; }
@@ -46,69 +41,33 @@ private:
     wxString m_strDescription;
 };
 
-
-/*!
- * CAccountManagerInfoPage class declaration
- */
-
-class CAccountManagerInfoPage: public wxWizardPageEx
-{
-    DECLARE_DYNAMIC_CLASS( CAccountManagerInfoPage )
+class CAccountManagerInfoPage: public CBOINCWizardPage {
+    DECLARE_DYNAMIC_CLASS(CAccountManagerInfoPage)
     DECLARE_EVENT_TABLE()
 
 public:
-    /// Constructors
-    CAccountManagerInfoPage( );
+    CAccountManagerInfoPage();
+    CAccountManagerInfoPage(CWizardAttach* parent);
+    bool Create( CWizardAttach* parent );
 
-    CAccountManagerInfoPage( CBOINCBaseWizard* parent );
-
-    /// Creation
-    bool Create( CBOINCBaseWizard* parent );
-
-    /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CAccountManagerInfoPage event handler declarations
-
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ACCOUNTMANAGERINFOPAGE
-    void OnPageChanged( wxWizardExEvent& event );
-
-    /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ACCOUNTMANAGERINFOPAGE
-    void OnPageChanging( wxWizardExEvent& event );
-
-    /// wxEVT_LISTBOX event handler for ID_PROJECTS
+    void OnPageChanged( wxWizardEvent& event );
+    void OnPageChanging( wxWizardEvent& event );
     void OnProjectSelected( wxCommandEvent& event );
-
-    /// wxEVT_TEXT event handler for ID_PROJECTURLCTRL
     void OnURLChanged( wxCommandEvent& event );
-
-    /// wxEVT_BUTTON event handler for ID_PROJECTWEBPAGECTRL
     void OnProjectItemDisplay( wxCommandEvent& event );
+    void OnCancel( wxWizardEvent& event );
 
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ACCOUNTMANAGERINFOPAGE
-    void OnCancel( wxWizardExEvent& event );
+    wxWizardPage* GetPrev() const;
+    wxWizardPage* GetNext() const;
 
-////@end CAccountManagerInfoPage event handler declarations
+    void SetPrev(CBOINCWizardPage *prev);
 
-////@begin CAccountManagerInfoPage member function declarations
+    bool HasNextPage() const;
+    bool HasPrevPage() const;
 
-    /// Gets the previous page.
-    virtual wxWizardPageEx* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPageEx* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CAccountManagerInfoPage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CAccountManagerInfoPage member variables
+private:
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDescriptionStaticCtrl;
     wxListBox* m_pProjectListCtrl;
@@ -117,8 +76,10 @@ public:
     wxButton* m_pOpenWebSiteButton;
     wxStaticText* m_pProjectUrlStaticCtrl;
     wxTextCtrl* m_pProjectUrlCtrl;
-////@end CAccountManagerInfoPage member variables
     bool m_bAccountManagerListPopulated;
+
+    CWizardAttach *m_pParent;
+    CBOINCWizardPage *m_pPrev;
 };
 
 #endif

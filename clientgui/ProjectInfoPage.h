@@ -20,67 +20,33 @@
 
 class CProjectInfo;
 
-
-/*!
- * CProjectInfoPage class declaration
- */
-
-class CProjectInfoPage: public wxWizardPageEx
-{
-    DECLARE_DYNAMIC_CLASS( CProjectInfoPage )
+class CProjectInfoPage: public CBOINCWizardPage {
+    DECLARE_DYNAMIC_CLASS(CProjectInfoPage)
     DECLARE_EVENT_TABLE()
 
 public:
-    /// Constructors
-    CProjectInfoPage( );
+    CProjectInfoPage();
+    CProjectInfoPage(CWizardAttach* parent);
+    ~CProjectInfoPage();
+    bool Create(CWizardAttach* parent);
 
-    CProjectInfoPage( CBOINCBaseWizard* parent );
-
-    /// Destructor
-    ~CProjectInfoPage( );
-
-    /// Creation
-    bool Create( CBOINCBaseWizard* parent );
-
-    /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CProjectInfoPage event handler declarations
+    void OnProjectCategorySelected(wxCommandEvent& event);
+    void OnProjectSelected(wxListEvent& event);
+    void OnPageChanged(wxWizardEvent& event);
+    void OnPageChanging(wxWizardEvent& event);
+    void OnCancel(wxWizardEvent& event);
 
-    /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_PROJECTCATEGORY
-    void OnProjectCategorySelected( wxCommandEvent& event );
+    wxWizardPage* GetPrev() const;
+    wxWizardPage* GetNext() const;
 
-    /// wxEVT_LIST_ITEM_SELECTED event handler for ID_PROJECTS
-    void OnProjectSelected( wxListEvent& event );
+    void SetPrev(CBOINCWizardPage *prev);
 
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTINFOPAGE
-    void OnPageChanged( wxWizardExEvent& event );
+    bool HasNextPage() const;
+    bool HasPrevPage() const;
 
-    /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_PROJECTINFOPAGE
-    void OnPageChanging( wxWizardExEvent& event );
-
-    /// wxEVT_WIZARD_CANCEL event handler for ID_PROJECTINFOPAGE
-    void OnCancel( wxWizardExEvent& event );
-
-////@end CProjectInfoPage event handler declarations
-
-////@begin CProjectInfoPage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPageEx* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPageEx* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CProjectInfoPage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
+    wxBitmap GetBitmapResource(const wxString& name);
 
     void EllipseStringIfNeeded(wxString& s, wxWindow *win);
 
@@ -88,7 +54,7 @@ public:
 
     void TrimURL(std::string& purl);
 
-////@begin CProjectInfoPage member variables
+private:
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDescriptionStaticCtrl;
     wxStaticText* m_pProjectCategoriesStaticCtrl;
@@ -120,8 +86,6 @@ public:
     wxStaticBitmap* m_pProjectDetailsSupportedPlatformBlankCtrl;
     wxStaticText* m_pProjectURLStaticCtrl;
     wxTextCtrl* m_pProjectURLCtrl;
-////@end CProjectInfoPage member variables
-private:
     ALL_PROJECTS_LIST* m_apl;
     wxString m_strProjectURL;
     std::vector<CProjectInfo*> m_Projects;
@@ -129,6 +93,8 @@ private:
     bool m_bProjectListPopulated;
     std::vector<std::string> m_pTrimmedURL;
     std::vector<std::string> m_pTrimmedURL_attached;
+    CWizardAttach *m_pParent;
+    CBOINCWizardPage *m_pPrev;
 };
 
 #endif

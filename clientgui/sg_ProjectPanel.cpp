@@ -28,7 +28,6 @@
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
 #include "SkinManager.h"
-#include "wizardex.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
 #include "sg_ProjectPanel.h"

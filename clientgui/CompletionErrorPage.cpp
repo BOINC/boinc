@@ -23,7 +23,6 @@
 #include "miofile.h"
 #include "parse.h"
 #include "error_numbers.h"
-#include "wizardex.h"
 #include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
@@ -33,70 +32,39 @@
 #include "CompletionErrorPage.h"
 
 
-/*!
- * CCompletionErrorPage type definition
- */
+IMPLEMENT_DYNAMIC_CLASS(CCompletionErrorPage, CBOINCWizardPage)
 
-IMPLEMENT_DYNAMIC_CLASS( CCompletionErrorPage, wxWizardPageEx )
+BEGIN_EVENT_TABLE(CCompletionErrorPage, CBOINCWizardPage)
 
-/*!
- * CCompletionErrorPage event table definition
- */
-
-BEGIN_EVENT_TABLE( CCompletionErrorPage, wxWizardPageEx )
-
-////@begin CCompletionErrorPage event table entries
-    EVT_WIZARDEX_PAGE_CHANGED( -1, CCompletionErrorPage::OnPageChanged )
-    EVT_WIZARDEX_CANCEL( -1, CCompletionErrorPage::OnCancel )
-
-////@end CCompletionErrorPage event table entries
+EVT_WIZARD_PAGE_CHANGED(wxID_ANY, CCompletionErrorPage::OnPageChanged)
+EVT_WIZARD_CANCEL(wxID_ANY, CCompletionErrorPage::OnCancel)
 
 END_EVENT_TABLE()
 
-/*!
- * CCompletionErrorPage constructors
- */
-
-CCompletionErrorPage::CCompletionErrorPage( )
-{
+CCompletionErrorPage::CCompletionErrorPage() {
 }
 
-CCompletionErrorPage::CCompletionErrorPage( CBOINCBaseWizard* parent )
-{
-    Create( parent );
+CCompletionErrorPage::CCompletionErrorPage(CWizardAttach* parent) {
+    Create(parent);
 }
 
-/*!
- * CAccountResultPage creator
- */
+bool CCompletionErrorPage::Create(CWizardAttach* parent) {
+    m_pParent = parent;
+    m_pTitleStaticCtrl = nullptr;
+    m_pDirectionsStaticCtrl = nullptr;
+    m_pServerMessagesDescriptionCtrl = nullptr;
+    m_pServerMessagesStaticBoxSizerCtrl = nullptr;
+    m_pServerMessagesCtrl = nullptr;
 
-bool CCompletionErrorPage::Create( CBOINCBaseWizard* parent )
-{
-////@begin CCompletionErrorPage member initialisation
-    m_pTitleStaticCtrl = NULL;
-    m_pDirectionsStaticCtrl = NULL;
-    m_pServerMessagesDescriptionCtrl = NULL;
-    m_pServerMessagesStaticBoxSizerCtrl = NULL;
-    m_pServerMessagesCtrl = NULL;
-////@end CCompletionErrorPage member initialisation
-
-////@begin CCompletionErrorPage creation
-    wxWizardPageEx::Create( parent, ID_COMPLETIONERRORPAGE );
+    wxWizardPage::Create(parent);
 
     CreateControls();
     GetSizer()->Fit(this);
-////@end CCompletionErrorPage creation
 
-    return TRUE;
+    return true;
 }
 
-/*!
- * Control creation for CAccountResultPage
- */
-
-void CCompletionErrorPage::CreateControls()
-{
-////@begin CCompletionErrorPage content construction
+void CCompletionErrorPage::CreateControls() {
     CCompletionErrorPage* itemWizardPage85 = this;
 
     wxBoxSizer* itemBoxSizer86 = new wxBoxSizer(wxVERTICAL);
@@ -122,67 +90,30 @@ void CCompletionErrorPage::CreateControls()
     m_pServerMessagesCtrl = new wxStaticText;
     m_pServerMessagesCtrl->Create( itemWizardPage85, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     m_pServerMessagesStaticBoxSizerCtrl->Add(m_pServerMessagesCtrl, 0, wxGROW|wxALL, 5);
-////@end CCompletionErrorPage content construction
 }
 
-/*!
- * Gets the previous page.
- */
-
-wxWizardPageEx* CCompletionErrorPage::GetPrev() const
-{
-    return NULL;
+wxWizardPage* CCompletionErrorPage::GetPrev() const {
+    return nullptr;
 }
 
-/*!
- * Gets the next page.
- */
-
-wxWizardPageEx* CCompletionErrorPage::GetNext() const
-{
-    return NULL;
+wxWizardPage* CCompletionErrorPage::GetNext() const {
+    return nullptr;
 }
 
-/*!
- * Should we show tooltips?
- */
-
-bool CCompletionErrorPage::ShowToolTips()
-{
-    return TRUE;
+bool CCompletionErrorPage::HasNextPage() const {
+    return false;
 }
 
-/*!
- * Get bitmap resources
- */
-
-wxBitmap CCompletionErrorPage::GetBitmapResource( const wxString& WXUNUSED(name) )
-{
-    // Bitmap retrieval
-
-////@begin CCompletionErrorPage bitmap retrieval
-    return wxNullBitmap;
-////@end CCompletionErrorPage bitmap retrieval
+bool CCompletionErrorPage::HasPrevPage() const {
+    return false;
 }
 
-/*!
- * Get icon resources
- */
-
-wxIcon CCompletionErrorPage::GetIconResource( const wxString& WXUNUSED(name) )
-{
-    // Icon retrieval
-
-////@begin CCompletionErrorPage icon retrieval
-    return wxNullIcon;
-////@end CCompletionErrorPage icon retrieval
+void CCompletionErrorPage::SetPrev(CBOINCWizardPage*) {
+    // no prev page expected
+    return;
 }
 
-/*!
- * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_COMPLETIONERRORPAGE
- */
-
-void CCompletionErrorPage::OnPageChanged( wxWizardExEvent& event ) {
+void CCompletionErrorPage::OnPageChanged(wxWizardEvent& event) {
     if (event.GetDirection() == false) return;
 
     wxASSERT(m_pTitleStaticCtrl);
@@ -191,18 +122,14 @@ void CCompletionErrorPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pServerMessagesStaticBoxSizerCtrl);
     wxASSERT(m_pServerMessagesCtrl);
 
-    if (IS_ATTACHTOPROJECTWIZARD()) {
+    if (m_pParent->GetIsAttachToProjectWizard()) {
         m_pTitleStaticCtrl->SetLabel(
             _("Failed to add project")
         );
-    } else if (IS_ACCOUNTMANAGERWIZARD()) {
-        if (IS_ACCOUNTMANAGERUPDATEWIZARD()) {
+    } else if (m_pParent->GetIsAccountManagerWizard()) {
+        if (m_pParent->GetIsAccountManagerUpdateWizard()) {
             m_pTitleStaticCtrl->SetLabel(
                 _("Failed to update account manager")
-            );
-        } else if (IS_ACCOUNTMANAGERUPDATEWIZARD()) {
-            m_pTitleStaticCtrl->SetLabel(
-                _("Failed to remove account manager")
             );
         } else {
             m_pTitleStaticCtrl->SetLabel(
@@ -223,7 +150,7 @@ void CCompletionErrorPage::OnPageChanged( wxWizardExEvent& event ) {
         );
     }
 
-    if (CHECK_CLOSINGINPROGRESS() || m_pServerMessagesCtrl->GetLabel().IsEmpty()) {
+    if (m_pParent->IsCancelInProgress() || m_pServerMessagesCtrl->GetLabel().IsEmpty()) {
         m_pServerMessagesDescriptionCtrl->Hide();
         m_pServerMessagesCtrl->Hide();
     } else {
@@ -238,13 +165,10 @@ void CCompletionErrorPage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     Fit();
+
+    m_pParent->DisableBackButton();
 }
 
-/*!
- * wxEVT_WIZARD_CANCEL event handler for ID_COMPLETIONERRORPAGE
- */
-
-void CCompletionErrorPage::OnCancel( wxWizardExEvent& event ) {
-    PROCESS_CANCELEVENT(event);
+void CCompletionErrorPage::OnCancel(wxWizardEvent& event) {
+    m_pParent->ProcessCancelEvent(event);
 }
-

@@ -18,59 +18,34 @@
 #ifndef BOINC_NOTDETECTEDPAGE_H
 #define BOINC_NOTDETECTEDPAGE_H
 
-/*!
- * CErrNotDetectedPage class declaration
- */
-
-class CErrNotDetectedPage: public wxWizardPageEx
-{
-    DECLARE_DYNAMIC_CLASS( CErrNotDetectedPage )
+class CErrNotDetectedPage: public CBOINCWizardPage {
+    DECLARE_DYNAMIC_CLASS(CErrNotDetectedPage)
     DECLARE_EVENT_TABLE()
 
 public:
-    /// Constructors
-    CErrNotDetectedPage( );
+    CErrNotDetectedPage();
+    CErrNotDetectedPage(CWizardAttach* parent);
+    bool Create(CWizardAttach* parent);
 
-    CErrNotDetectedPage( CBOINCBaseWizard* parent );
-
-    /// Creation
-    bool Create( CBOINCBaseWizard* parent );
-
-    /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CErrNotDetectedPage event handler declarations
+    void OnPageChanged(wxWizardEvent& event);
+    void OnCancel(wxWizardEvent& event);
 
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROJECTNOTDETECTEDPAGE
-    void OnPageChanged( wxWizardExEvent& event );
+    wxWizardPage* GetPrev() const;
+    wxWizardPage* GetNext() const;
 
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROJECTNOTDETECTEDPAGE
-    void OnCancel( wxWizardExEvent& event );
+    void SetPrev(CBOINCWizardPage *prev);
 
-////@end CErrNotDetectedPage event handler declarations
+    bool HasNextPage() const;
+    bool HasPrevPage() const;
 
-////@begin CErrNotDetectedPage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPageEx* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPageEx* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CErrNotDetectedPage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CErrNotDetectedPage member variables
+private:
     wxStaticText* m_pTitleStaticCtrl;
     wxStaticText* m_pDirectionsStaticCtrl;
-////@end CErrNotDetectedPage member variables
+
+    CWizardAttach *m_pParent;
+    CBOINCWizardPage *m_pPrev;
 };
 
 #endif
