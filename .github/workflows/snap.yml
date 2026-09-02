@@ -52,7 +52,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y p7zip-full
+        sudo apt-get install -y p7zip-full libnotify-dev
         sudo snap install snapcraft --classic
 
     - name: Running from origin repo
@@ -78,6 +78,13 @@ jobs:
     - name: Build boinc snap
       if: success()
       run: |
+          # snapcraft 9.0.1 marks build-packages from python-apt before its own
+          # apt-get update. Job 100404554912 failed with
+          # "Cannot find package listed in 'build-packages': libnotify-dev"
+          # even though libnotify-dev is still resolute/main 0.8.8-1. Refresh
+          # indexes and preinstall so craft-parts sees it as already installed.
+          sudo apt-get update
+          sudo apt-get install -y libnotify-dev
           sudo --preserve-env=VCPKG_BINARY_SOURCES,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_DEFAULT_REGION snap run snapcraft --verbosity verbose pack --destructive-mode --output boinc_${{ matrix.arch }}.snap --build-for=${{ matrix.arch }}
           sudo chown $USER boinc_${{ matrix.arch }}.snap
 
