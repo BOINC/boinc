@@ -59,8 +59,17 @@ apps:
     plugs:
     - network
     - network-bind
-    extensions:
-    - gnome
+    # snapcraft 9.0.1's gnome extension only lists core22/core24
+    # (canonical/snapcraft#6185 / #6278 still open for core26). Pack failed
+    # immediately with: Extension 'gnome' does not support base: 'core26'
+    # (run 32738147499). Keep core26; use the desktop plugs the extension
+    # would have injected until that ships.
+    - desktop
+    - desktop-legacy
+    - gsettings
+    - opengl
+    - wayland
+    - x11
     slots:
     - dbus-daemon
     common-id: boinc.manager
