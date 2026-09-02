@@ -42,9 +42,9 @@ jobs:
       matrix:
         include:
           - arch: amd64
-            runner: ubuntu-latest
+            runner: ubuntu-26.04
           - arch: arm64
-            runner: ubuntu-24.04-arm
+            runner: ubuntu-26.04-arm
 
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -91,7 +91,9 @@ jobs:
     - name: Prepare logs on failure
       if: ${{ failure() }}
       run: |
-        sudo chown -R $USER parts/boinc/build/3rdParty/linux/vcpkg/buildtrees/
+        if [ -d parts/ ]; then
+          sudo chown -R $USER parts/ || true
+        fi
         python ./deploy/prepare_deployment.py logs
 
     - name: Upload logs on failure
