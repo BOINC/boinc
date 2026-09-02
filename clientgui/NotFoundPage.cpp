@@ -18,12 +18,6 @@
 
 #include "stdwx.h"
 #include "diagnostics.h"
-#include "util.h"
-#include "mfile.h"
-#include "miofile.h"
-#include "parse.h"
-#include "error_numbers.h"
-#include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
@@ -123,7 +117,7 @@ void CErrNotFoundPage::OnPageChanged(wxWizardEvent& event) {
     m_pParent->DisableNextButton();
     m_pParent->GetBackButton()->SetDefault();
 
-    Fit();
+    Layout();
 }
 
 void CErrNotFoundPage::OnCancel(wxWizardEvent& event) {

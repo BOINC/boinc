@@ -18,12 +18,6 @@
 
 #include "stdwx.h"
 #include "diagnostics.h"
-#include "util.h"
-#include "mfile.h"
-#include "miofile.h"
-#include "parse.h"
-#include "error_numbers.h"
-#include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
@@ -160,7 +154,7 @@ void CAccountManagerProcessingPage::OnPageChanged(wxWizardEvent& event) {
     CAccountManagerProcessingPageEvent TransitionEvent(wxEVT_ACCOUNTMANAGERPROCESSING_STATECHANGE, this);
     AddPendingEvent(TransitionEvent);
 
-    Fit();
+    Layout();
 }
 
 void CAccountManagerProcessingPage::OnCancel(wxWizardEvent& event) {

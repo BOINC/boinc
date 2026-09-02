@@ -18,12 +18,6 @@
 
 #include "stdwx.h"
 #include "diagnostics.h"
-#include "util.h"
-#include "mfile.h"
-#include "miofile.h"
-#include "parse.h"
-#include "error_numbers.h"
-#include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
@@ -181,7 +175,7 @@ void CTermsOfUsePage::OnPageChanged(wxWizardEvent& event) {
     SetUserAgrees(false);
     m_pParent->DisableNextButton();
 
-    Fit();
+    Layout();
 }
 
 void CTermsOfUsePage::OnPageChanging(wxWizardEvent& event) {

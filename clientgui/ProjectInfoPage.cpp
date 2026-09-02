@@ -18,14 +18,7 @@
 
 #include "stdwx.h"
 #include "diagnostics.h"
-#include "util.h"
-#include "mfile.h"
-#include "miofile.h"
-#include "parse.h"
 #include "url.h"
-#include "error_numbers.h"
-
-#include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
@@ -35,7 +28,6 @@
 #include "CompletionErrorPage.h"
 #include "ProjectPropertiesPage.h"
 #include "ProjectInfoPage.h"
-
 
 #include "res/windowsicon.xpm"
 #include "res/macosicon.xpm"
