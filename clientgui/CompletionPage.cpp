@@ -18,12 +18,6 @@
 
 #include "stdwx.h"
 #include "diagnostics.h"
-#include "util.h"
-#include "mfile.h"
-#include "miofile.h"
-#include "parse.h"
-#include "error_numbers.h"
-#include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
@@ -195,13 +189,13 @@ void CCompletionPage::OnPageChanged(wxWizardEvent& event) {
         }
     }
 
-    Fit();
+    Layout();
     int x, y, x1, y1, w, h;
     GetPosition(&x, &y);
     m_pCompletionBrandedMessage->GetPosition(&x1, &y1);
     m_pParent->GetSize(&w, &h);
     m_pCompletionBrandedMessage->Wrap(w - x - x1 - 5);
-    Fit();
+    Layout();
 
     m_pParent->DisableBackButton();
 

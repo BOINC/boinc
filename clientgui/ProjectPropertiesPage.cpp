@@ -17,14 +17,7 @@
 //
 
 #include "stdwx.h"
-#include "network.h"
 #include "diagnostics.h"
-#include "util.h"
-#include "mfile.h"
-#include "miofile.h"
-#include "parse.h"
-#include "error_numbers.h"
-#include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
@@ -280,7 +273,7 @@ void CProjectPropertiesPage::OnPageChanged(wxWizardEvent& event) {
     CProjectPropertiesPageEvent TransitionEvent(wxEVT_PROJECTPROPERTIES_STATECHANGE, this);
     AddPendingEvent(TransitionEvent);
 
-    Fit();
+    Layout();
 }
 
 void CProjectPropertiesPage::OnCancel(wxWizardEvent& event) {

@@ -17,14 +17,6 @@
 //
 
 #include "stdwx.h"
-#include "network.h"
-#include "diagnostics.h"
-#include "util.h"
-#include "mfile.h"
-#include "miofile.h"
-#include "parse.h"
-#include "error_numbers.h"
-#include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
@@ -173,7 +165,7 @@ void CAccountManagerPropertiesPage::OnPageChanged(wxWizardEvent&) {
     CAccountManagerPropertiesPageEvent TransitionEvent(wxEVT_ACCOUNTMANAGERPROPERTIES_STATECHANGE, this);
     AddPendingEvent(TransitionEvent);
 
-    Fit();
+    Layout();
 }
 
 void CAccountManagerPropertiesPage::OnCancel(wxWizardEvent& event) {

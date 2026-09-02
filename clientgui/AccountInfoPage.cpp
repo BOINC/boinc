@@ -17,17 +17,9 @@
 
 #include "stdwx.h"
 #include "diagnostics.h"
-#include "util.h"
-#include "mfile.h"
-#include "miofile.h"
-#include "parse.h"
-#include "error_numbers.h"
-#include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
-#include "wx/valgen.h"
-#include "wx/valtext.h"
 #include "ValidateEmailAddress.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
@@ -408,7 +400,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardEvent& /* event */ ) {
         m_pAccountEmailAddressCtrl->SetFocus();
     }
 
-    Fit();
+    Layout();
 }
 
 void CAccountInfoPage::OnPageChanging(wxWizardEvent& event) {
@@ -515,7 +507,7 @@ void CAccountInfoPage::OnAccountUseExistingCtrlSelected(wxCommandEvent& WXUNUSED
         m_pAccountEmailAddressCtrl->SetFocus();
     }
 
-    Fit();
+    Layout();
 }
 
 void CAccountInfoPage::OnAccountCreateCtrlSelected(wxCommandEvent& WXUNUSED(event)) {
@@ -534,7 +526,7 @@ void CAccountInfoPage::OnAccountCreateCtrlSelected(wxCommandEvent& WXUNUSED(even
         m_pAccountEmailAddressCtrl->SetFocus();
     }
 
-    Fit();
+    Layout();
 }
 
 bool CAccountInfoPage::Validate() {

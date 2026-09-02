@@ -18,12 +18,6 @@
 
 #include "stdwx.h"
 #include "diagnostics.h"
-#include "util.h"
-#include "mfile.h"
-#include "miofile.h"
-#include "parse.h"
-#include "error_numbers.h"
-#include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
@@ -305,7 +299,7 @@ void CErrProxyPage::OnPageChanged(wxWizardEvent& WXUNUSED(event)) {
     strBuffer.Printf(wxT("%d"), pDoc->proxy_info.socks_server_port);
     m_pProxySOCKSPortCtrl->SetValue(strBuffer);
 
-    Fit();
+    Layout();
     m_pProxyHTTPServerCtrl->SetFocus();
 }
 
