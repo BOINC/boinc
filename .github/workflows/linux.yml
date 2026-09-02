@@ -113,7 +113,9 @@ jobs:
           arch=arm64
           sudo dpkg --add-architecture arm64
           sudo sed -i '/^Types: deb$/a Architectures: amd64' /etc/apt/sources.list.d/ubuntu.sources
-          sudo sed -i '/^Types: deb$/a Architectures: amd64' /etc/apt/sources.list.d/azure-cli.sources
+          if [ -f /etc/apt/sources.list.d/azure-cli.sources ]; then
+            sudo sed -i '/^Types: deb$/a Architectures: amd64' /etc/apt/sources.list.d/azure-cli.sources
+          fi
           codename=$(lsb_release -cs)
           cat <<EOT >> arm-cross-compile-sources.list
           deb [arch=arm64] http://ports.ubuntu.com/ubuntu-ports $codename main restricted universe multiverse
@@ -130,7 +132,9 @@ jobs:
           arch=armhf
           sudo dpkg --add-architecture armhf
           sudo sed -i '/^Types: deb$/a Architectures: amd64' /etc/apt/sources.list.d/ubuntu.sources
-          sudo sed -i '/^Types: deb$/a Architectures: amd64' /etc/apt/sources.list.d/azure-cli.sources
+          if [ -f /etc/apt/sources.list.d/azure-cli.sources ]; then
+            sudo sed -i '/^Types: deb$/a Architectures: amd64' /etc/apt/sources.list.d/azure-cli.sources
+          fi
           codename=$(lsb_release -cs)
           cat <<EOT >> armhf-cross-compile-sources.list
           deb [arch=armhf] http://ports.ubuntu.com/ubuntu-ports $codename main restricted universe multiverse

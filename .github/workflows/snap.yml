@@ -52,7 +52,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y p7zip-full libnotify-dev
+        sudo apt-get install -y p7zip-full libnotify-dev autopoint gettext
         sudo snap install snapcraft --classic
 
     - name: Running from origin repo
@@ -84,7 +84,7 @@ jobs:
           # even though libnotify-dev is still resolute/main 0.8.8-1. Refresh
           # indexes and preinstall so craft-parts sees it as already installed.
           sudo apt-get update
-          sudo apt-get install -y libnotify-dev
+          sudo apt-get install -y libnotify-dev autopoint gettext
           sudo --preserve-env=VCPKG_BINARY_SOURCES,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_DEFAULT_REGION snap run snapcraft --verbosity verbose pack --destructive-mode --output boinc_${{ matrix.arch }}.snap --build-for=${{ matrix.arch }}
           sudo chown $USER boinc_${{ matrix.arch }}.snap
 
