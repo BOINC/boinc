@@ -42,9 +42,9 @@ jobs:
       matrix:
         include:
           - arch: amd64
-            runner: ubuntu-latest
+            runner: ubuntu-26.04
           - arch: arm64
-            runner: ubuntu-24.04-arm
+            runner: ubuntu-26.04-arm
 
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -52,7 +52,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y p7zip-full
+        sudo apt-get install -y p7zip-full libnotify-dev autopoint gettext libxrender-dev
         sudo snap install snapcraft --classic
 
     - name: Running from origin repo
@@ -78,6 +78,13 @@ jobs:
     - name: Build boinc snap
       if: success()
       run: |
+          # snapcraft 9.0.1 marks build-packages from python-apt before its own
+          # apt-get update. Job 100404554912 failed with
+          # "Cannot find package listed in 'build-packages': libnotify-dev then libxrender-dev"
+          # even though libnotify-dev is still resolute/main 0.8.8-1. Refresh
+          # indexes and preinstall so craft-parts sees it as already installed.
+          sudo apt-get update
+          sudo apt-get install -y libnotify-dev autopoint gettext libxrender-dev
           sudo --preserve-env=VCPKG_BINARY_SOURCES,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_DEFAULT_REGION snap run snapcraft --verbosity verbose pack --destructive-mode --output boinc_${{ matrix.arch }}.snap --build-for=${{ matrix.arch }}
           sudo chown $USER boinc_${{ matrix.arch }}.snap
 
@@ -91,7 +98,9 @@ jobs:
     - name: Prepare logs on failure
       if: ${{ failure() }}
       run: |
-        sudo chown -R $USER parts/boinc/build/3rdParty/linux/vcpkg/buildtrees/
+        if [ -d parts/ ]; then
+          sudo chown -R $USER parts/ || true
+        fi
         python ./deploy/prepare_deployment.py logs
 
     - name: Upload logs on failure
