@@ -44,7 +44,7 @@ if (!NO_COMPUTING) {
         .tra(
             "If you already have an account and want to run %1 on this computer, %2 go here %3.",
             PROJECT,
-            '<a href=join.php>',
+            '<a href=download_software.php>',
             '</a>'
         )
         ."</p>
