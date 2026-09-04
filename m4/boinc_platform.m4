@@ -65,6 +65,9 @@ AC_DEFUN([BOINC_PLATFORM],[
       i686*linux-android*)
         boinc_platform="x86-android-linux-gnu"
         ;;
+      aarch64*linux-gnu)
+        boinc_alt_platform="arm-unknown-linux-gnueabihf"
+        ;;
     esac
     case "${target}" in
       i386-pc-os2)
