@@ -47,12 +47,14 @@ apps:
     plugs:
     - network
     - network-bind
+    - opengl
 
   client:
     command: usr/bin/boinc --dir $HOME
     plugs:
     - network
     - network-bind
+    - opengl
 
   manager:
     command: usr/bin/boincmgr --datadir $HOME
