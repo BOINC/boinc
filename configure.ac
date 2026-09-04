@@ -1,6 +1,6 @@
 dnl This file is part of BOINC.
 dnl https://boinc.berkeley.edu
-dnl Copyright (C) 2025 University of California
+dnl Copyright (C) 2026 University of California
 dnl
 dnl BOINC is free software; you can redistribute it and/or modify it
 dnl under the terms of the GNU Lesser General Public License
@@ -1189,7 +1189,7 @@ AM_CONDITIONAL(BUILD_X11_SCREENSAVER, [ test "$have_Xcb" = yes -a "$have_Xcbatom
 dnl -----------------------------------------------------------------------
 
 if test "${enable_boinczip}" = yes; then
-dnl ---------- libzip (required for libboinc_zip) ----------------------------
+dnl ---------- libzip (required for libboinc_zip) -------------------------
 PKG_CHECK_MODULES([LIBZIP], [libzip], [have_libzip=yes], [have_libzip=no])
 AS_IF([test "x${have_libzip}" != "xyes"], [
   AC_MSG_ERROR([
@@ -1205,6 +1205,41 @@ AC_SUBST([LIBZIP_CFLAGS])
 AC_SUBST([LIBZIP_LIBS])
 dnl -----------------------------------------------------------------------
 fi
+
+dnl --------- fmt ------------------------------------------------------
+PKG_CHECK_MODULES([FMT], [fmt], [have_fmt=yes], [have_fmt=no])
+AS_IF([test "x${have_fmt}" = "xyes"], [
+  AC_SUBST([FMT_CFLAGS])
+  AC_SUBST([FMT_LIBS])
+])
+AS_IF([test "x${have_fmt}" != "xyes"], [
+  AC_LANG_PUSH([C++])
+  AC_CHECK_HEADER([fmt/core.h], [], [
+    AC_MSG_ERROR([
+================================================================================
+ERROR: fmt development files not found. They are required for the BOINC library.
+
+    Install fmt (e.g., libfmt-dev on Debian/Ubuntu, libfmt-devel on Fedora,
+    or via vcpkg/homebrew on Windows/macOS) and re-run configure.
+================================================================================
+    ])
+  ])
+  save_LIBS="$LIBS"
+  LIBS="$LIBS -lfmt"
+  AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <fmt/core.h>]], [[fmt::print("test");]])], [], [
+    AC_MSG_ERROR([
+================================================================================
+ERROR: fmt development files not found. They are required for the BOINC library.
+
+    Install fmt (e.g., libfmt-dev on Debian/Ubuntu, libfmt-devel on Fedora,
+    or via vcpkg/homebrew on Windows/macOS) and re-run configure.
+================================================================================
+    ])
+  ])
+  LIBS="$save_LIBS"
+  AC_LANG_POP([C++])
+])
+dnl -----------------------------------------------------------------------
 
 dnl Heres another way to set up host-specific stuff
 AM_CONDITIONAL(OS_DARWIN, [echo $host_os | grep '^darwin' > /dev/null])

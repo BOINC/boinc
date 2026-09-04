@@ -3,6 +3,7 @@ project(boinc)
 
 find_package(OpenSSL REQUIRED)
 find_package(libzip REQUIRED)
+find_package(fmt REQUIRED)
 
 set(LIBBOINC_HEADERS_WIN
     lib/boinc_win.h
@@ -265,14 +266,17 @@ target_include_directories(boinc_zip PUBLIC
 target_link_libraries(boinc PRIVATE
                         OpenSSL::SSL
                         OpenSSL::Crypto
+                        fmt::fmt
 )
 
 target_link_libraries(boincapi PRIVATE
                         boinc
+                        fmt::fmt
 )
 
 target_link_libraries(boinc_zip PRIVATE
                         libzip::zip
+                        fmt::fmt
 )
 
 install(TARGETS boinc boincapi boinc_zip EXPORT boinc-config
