@@ -354,7 +354,7 @@ void CWizardAttach::OnFinished(wxWizardEvent& event) {
     } else {
         // Attached to a project
         if (GetAccountCreatedSuccessfully() && GetAttachedToProjectSuccessfully()) {
-            wxLaunchDefaultBrowser(GetProjectURL() + wxT("account_finish.php?auth=") + GetProjectAuthenticator());
+            wxLaunchDefaultBrowser(GetProjectURL() + wxT("account_finish.php"));
         }
     }
 
