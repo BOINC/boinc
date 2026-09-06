@@ -116,7 +116,7 @@ $explanation
 
 For assistance with ".PROJECT." go to ".$master_url;
 
-    $subject = "THREAD $action REPORT: $thread->title";
+    $subject = "THREAD $action_name REPORT: $thread->title";
     $success = mail_report_list($forum, $subject, $body);
     $success &= send_email($user, $subject, $body);
     pm_send_msg($user, $user, $subject, $body, false);
