@@ -110,7 +110,7 @@ function add_admin($team) {
         error_page(tra("%1 is already an admin of %2", $email_addr, $team->name));
     }
     $now = time();
-    $ret = BoincTeamAdmin::insert("(teamid, userid, create_time) values ($team->id, $user->id, $now)");
+    $ret = BoincTeamAdmin::insert("(teamid, userid, create_time, rights) values ($team->id, $user->id, $now, 0)");
     if (!$ret) error_page(tra("Couldn't add admin"));
 }
 

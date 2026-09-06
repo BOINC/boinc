@@ -49,7 +49,7 @@ function create_forum($user, $team) {
     if ($f) {
         error_page(tra("Team already has a message board"));
     }
-    $id = BoincForum::insert("(category, parent_type) values ($team->id, 1)");
+    $id = BoincForum::insert("(category, orderID, title, description, parent_type) values ($team->id, 0, '', '', 1)");
     $forum = BoincForum::lookup_id($id);
     if (!$forum) {
         error_page("couldn't create message board");
