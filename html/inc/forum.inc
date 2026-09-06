@@ -826,7 +826,7 @@ function is_banished($user) {
 function check_banished($user) {
     if (is_banished($user)) {
         error_page(
-            tra("You may not post or rate messages until %1", gmdate('M j, Y', $user->prefs->banished_until))
+            tra("You may not post or rate messages until %1", time_str($user->prefs->banished_until))
         );
     }
 }
@@ -1116,7 +1116,7 @@ function unhide_thread($thread, $forum) {
 
 function move_thread($thread, $old_forum, $new_forum) {
     $now = time();
-    $old_forum->update("threads=if(threads>0, threads-1, 0), posts=posts-$thread->replies-1");
+    $old_forum->update("threads=if(threads>0, threads-1, 0), posts=if(posts>=$thread->replies+1, posts-$thread->replies-1, 0)");
     $new_forum->update("threads=threads+1, posts=posts+$thread->replies+1, timestamp=$now");
     return $thread->update("forum=$new_forum->id");
 }
