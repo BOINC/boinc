@@ -117,15 +117,12 @@ if (!$result) {
 }
 
 $reason = post_str('reason', true);
-$email_success = true;
-$email_output = '';
-if (is_string($reason) && trim($reason) !== '') {
-    ob_start();
-    $email_success = send_thread_moderation_email(
-        $forum, $thread, $reason, $action_name, $explanation
-    );
-    $email_output = ob_get_clean();
-}
+if (!$reason) $reason = "None given";
+ob_start();
+$email_success = send_thread_moderation_email(
+    $forum, $thread, $reason, $action_name, $explanation
+);
+$email_output = ob_get_clean();
 if ($email_success) {
     header('Location: forum_thread.php?id='.$thread->id);
 } else {
