@@ -25,16 +25,20 @@ function send_validate_email() {
     $master_url = master_url();
     $user = get_logged_in_user();
     $x2 = make_login_token($user);
-    send_email(
+    page_head(tra("Validate email address"));
+    $success = send_email(
         $user,
         tra("Validate BOINC email address"),
         tra("Please visit the following link to validate the email address of your %1 account:", PROJECT)
         ."\n".$master_url."validate_email_addr.php?validate=1&u=$user->id&x=$x2"
     );
-    page_head(tra("Validate email sent"));
-    echo tra("An email has been sent to %1. Visit the link it contains to validate your email address.", $user->email_addr);
-    echo "<p>";
-    echo tra("If you don't receive this email, check your spam folder.");
+    if ($success) {
+        echo tra("An email has been sent to %1. Visit the link it contains to validate your email address.", $user->email_addr);
+        echo "<p>";
+        echo tra("If you don't receive this email, check your spam folder.");
+    } else {
+        echo tra("Can't send email to %1.", $user->email_addr);
+    }
     page_tail();
 }
 
