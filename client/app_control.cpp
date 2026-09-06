@@ -146,6 +146,39 @@ bool ACTIVE_TASK_SET::poll() {
             }
         }
     }
+
+    // check if a job is "stuck" (did not make progress in the last hour)
+    // notify the user about the issue
+    // abort after some time
+    static double last_stuck_check_time = 0;
+    if (gstate.now - last_stuck_check_time > STUCK_CHECK_POLL_PERIOD) {
+        last_stuck_check_time = gstate.now;
+        for (i=0; i<active_tasks.size(); i++){
+            ACTIVE_TASK* atp = active_tasks[i];
+            if (atp->non_cpu_intensive()) continue;
+            if (atp->sporadic()) continue;
+            if (atp->stuck_check_elapsed_time == 0) {
+                // first pass
+                atp->stuck_check_elapsed_time = atp->elapsed_time;
+                atp->stuck_check_fraction_done = atp->fraction_done;
+                atp->stuck_check_cpu_time = atp->current_cpu_time;
+                continue;
+            }
+            if (atp->elapsed_time < atp->stuck_check_elapsed_time + STUCK_CHECK_POLL_PERIOD) continue;
+            if (atp->stuck_check_fraction_done == atp->fraction_done &&
+                    (atp->current_cpu_time - atp->stuck_check_cpu_time) < 10) {
+                // if fraction done does not change and cpu time is <10, message the user
+                msg_printf(atp->result->project, MSG_USER_ALERT,
+                    "[task] has not made progress in last hour, consider aborting task %s",
+                    atp->result->name
+                );
+            }
+            atp->stuck_check_elapsed_time = atp->elapsed_time;
+            atp->stuck_check_fraction_done = atp->fraction_done;
+            atp->stuck_check_cpu_time = atp->current_cpu_time;
+        }
+    }
+
     if (action) {
         gstate.set_client_state_dirty("ACTIVE_TASK_SET::poll");
     }
