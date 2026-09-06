@@ -166,10 +166,11 @@ $email_output = ob_get_clean();
 
 if ($email_success) {
     header('Location: forum_thread.php?id='.$thread->id);
+    exit;
 } else {
     page_head(tra("Moderation notice"));
-    echo htmlspecialchars($email_output, ENT_QUOTES, 'UTF-8');
-    echo "<p>".tra("The post was successfully %1, but the notification email failed to send.", $action_name)."</p>";
+    echo htmlspecialchars($email_output, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    echo "<p>".tra("The post was successfully %1, but the notification email failed to send.", htmlspecialchars($action_name, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'))."</p>";
     echo "<a href='forum_thread.php?id=$thread->id'>".tra("Return to thread")."</a>";
     page_tail();
 }
