@@ -64,7 +64,7 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
             $mail->Body = $body;
         }
         if (!$mail->Send()) {
-            echo $mail->ErrorInfo;
+            echo htmlspecialchars($mail->ErrorInfo, ENT_QUOTES, 'UTF-8');
             return false;
         } else {
             return true;
