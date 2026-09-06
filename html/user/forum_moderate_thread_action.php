@@ -119,7 +119,7 @@ if (!$result) {
 $reason = post_str('reason', true);
 $email_success = true;
 $email_output = '';
-if ($reason !== null && trim($reason) !== '') {
+if (is_string($reason) && trim($reason) !== '') {
     ob_start();
     $email_success = send_thread_moderation_email(
         $forum, $thread, $reason, $action_name, $explanation
