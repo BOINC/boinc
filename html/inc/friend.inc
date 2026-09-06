@@ -59,7 +59,7 @@ function send_friend_request_email($src_user, $dest_user, $msg) {
     $message  = "
 $src_user->name has added you as a friend at ".PROJECT.".
 ";
-    if ($msg) {
+    if ($msg !== null && $msg !== '') {
         $message .= "
 $src_user->name says: $msg
 ";
@@ -81,7 +81,7 @@ function send_friend_accept_email($dest_user, $src_user, $msg) {
     $message  = "
 $dest_user->name has confirmed you as a friend at ".PROJECT.".
 ";
-    if ($msg) {
+    if ($msg !== null && $msg !== '') {
         $message .= "
 $dest_user->name says: $msg
 ";
