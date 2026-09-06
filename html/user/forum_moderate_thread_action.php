@@ -119,7 +119,7 @@ if (!$result) {
 $reason = post_str('reason', true);
 $email_success = true;
 $email_output = '';
-if ($reason) {
+if ($reason !== null && trim($reason) !== '') {
     ob_start();
     $email_success = send_thread_moderation_email(
         $forum, $thread, $reason, $action_name, $explanation
@@ -130,8 +130,8 @@ if ($email_success) {
     header('Location: forum_thread.php?id='.$thread->id);
 } else {
     page_head(tra("Moderation notice"));
-    echo $email_output;
-    echo "<p>".tra("The thread was successfully %1, but the notification email to the thread owner and/or forum moderators failed to send.", $action_name)."</p>";
+    echo htmlspecialchars($email_output, ENT_QUOTES, 'UTF-8');
+    echo "<p>".tra("The thread was successfully %1, but the notification email to the thread owner and/or forum moderators failed to send.", htmlspecialchars($action_name, ENT_QUOTES, 'UTF-8'))."</p>";
     echo "<a href='forum_thread.php?id=$thread->id'>".tra("Return to thread")."</a>";
     page_tail();
 }
