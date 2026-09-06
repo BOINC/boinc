@@ -19,6 +19,7 @@
         {
           "name": "libzip",
           "default-features": false
-        }
+        },
+        "fmt"
     ]
 }

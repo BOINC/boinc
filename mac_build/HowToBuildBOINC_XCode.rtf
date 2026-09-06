@@ -1,4 +1,4 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2865
+{\rtf1\ansi\ansicpg1252\cocoartf2870
 \cocoascreenfonts1\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica;\f2\fmodern\fcharset0 Courier;
 \f3\fswiss\fcharset0 Arial-BoldMT;\f4\fmodern\fcharset0 Courier-Oblique;\f5\fswiss\fcharset0 Helvetica-Oblique;
 \f6\fnil\fcharset0 LucidaGrande;}
@@ -17,7 +17,7 @@
 \f1\b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc\partightenfactor0
 \cf0 Written by Charlie Fenton\
-Last updated 10/12/2025\
+Last updated 7/15/2026\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 \cf0 \
 This document applies to BOINC version 8.2.6 and later. It has instructions for building the BOINC Client, Manager, installer and associated software for the Macintosh. Information for building science project applications to run under BOINC on Macintosh can be found {\field{\*\fldinst{HYPERLINK "https://github.com/BOINC/boinc/wiki/BuildMacApp"}}{\fldrslt \cf2 here}} and {\field{\*\fldinst{HYPERLINK "https://github.com/BOINC/boinc/wiki/ProjectMain"}}{\fldrslt here}}.\
@@ -67,7 +67,7 @@ Contents of this document:\
 You need to take certain steps to ensure that you use only APIs that are available in all the OS versions BOINC supports for each architecture. The best way to accomplish this is to use a single development system running versions of MacOS and Xcode which are / were current at the time your target version of BOINC was released, and cross-compile for the various architectures. The remainder of this document describes that process.\
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
-\f0\b \cf0 The above requirements apply not only to BOINC itself, but also to the wxWidgets, c-ares, cURL, openSSL,  freetype and ftgl libraries, as well as all project applications
+\f0\b \cf0 The above requirements apply not only to BOINC itself, but also to the wxWidgets, c-ares, cURL, openSSL,  fmt, freetype and ftgl libraries, as well as all project applications
 \f1\b0 .  \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
@@ -100,13 +100,13 @@ Source files are now archived using git. For details, see:\
 \pard\tx960\tx1920\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600\tx10560\tx11520\tx12480\tx13440\tx14400\tx15360\tx16320\tx17280\tx18240\tx19200\tx20160\tx21120\tx22080\tx23040\tx24000\tx24960\tx25920\tx26880\tx27840\tx28800\tx29760\tx30720\tx31680\tx32640\tx33600\tx34560\tx35520\tx36480\tx37440\tx38400\tx39360\tx40320\tx41280\tx42240\tx43200\tx44160\tx45120\tx46080\tx47040\tx48000\tx48960\tx49920\tx50880\tx51840\tx52800\tx53760\tx54720\tx55680\tx56640\tx57600\tx58560\tx59520\tx60480\tx61440\tx62400\tx63360\tx64320\tx65280\tx66240\tx67200\tx68160\tx69120\tx70080\tx71040\tx72000\tx72960\tx73920\tx74880\tx75840\tx76800\tx77760\tx78720\tx79680\tx80640\tx81600\tx82560\tx83520\tx84480\tx85440\tx86400\tx87360\tx88320\tx89280\tx90240\tx91200\tx92160\tx93120\tx94080\tx95040\tx96000\pardirnatural\partightenfactor0
 \cf0 \CocoaLigature0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-\cf0 \CocoaLigature1 BOINC depends on six third-party libraries: wxWidgets, c-ares, curl, openssl, freetype and ftgl. Different versions of BOINC require different versions of these libraries; any one version of BOINC will build with only one specific version of each library. For BOINC versions prior to 8.2.6, see 
+\cf0 \CocoaLigature1 BOINC depends on seven third-party libraries: wxWidgets, c-ares, curl, openssl, fmt, freetype and ftgl. Different versions of BOINC require different versions of these libraries; any one version of BOINC will build with only one specific version of each library. For BOINC versions prior to 8.2.6, see 
 \f2\fs26 mac_build/HowToBuildBOINC.rtf
 \f1\fs24  in the source tree for that version of BOINC for the library versions needed and how to download them. \
 \
 Starting with BOINC 7.24.0, the 
 \f2\fs26 SetupForBOINC.sh
-\f1\fs24  script (described below) in the source tree for any version of BOINC automatically downloads and builds the appropriate six third-party libraries for that version of BOINC.\
+\f1\fs24  script (described below) in the source tree for any version of BOINC automatically downloads and builds the appropriate seven third-party libraries for that version of BOINC.\
 \
 More information about each third-party library can be found on its home page:\
 wxWidgets- (needed  only if you are building the BOINC Manager): {\field{\*\fldinst{HYPERLINK "https://wxwidgets.org"}}{\fldrslt 
@@ -120,9 +120,10 @@ curl:
 
 \f1\fs24 openssl: {\field{\*\fldinst{HYPERLINK "http://www.openssl.org/"}}{\fldrslt 
 \f2\fs26 \cf2 http://www.openssl.org/}}
-\f2\fs26 \
+\f2\fs26 \cf2 \
 
-\f1\fs24 freetype (needed  only if you are building the BOINC default screensaver or a project screensaver): {\field{\*\fldinst{HYPERLINK "http://www.freetype.org/"}}{\fldrslt 
+\f1\fs24 \cf0 fmt: {\field{\*\fldinst{HYPERLINK "https://github.com/fmtlib/fmt"}}{\fldrslt https://github.com/fmtlib/fmt}}\
+freetype (needed  only if you are building the BOINC default screensaver or a project screensaver): {\field{\*\fldinst{HYPERLINK "http://www.freetype.org/"}}{\fldrslt 
 \f2\fs22 \cf2 \CocoaLigature0 http://www.freetype.org/}}\
 ftgl (needed  only if you are building the BOINC default screensaver or a project screensaver): {\field{\*\fldinst{HYPERLINK "http://sourceforge.net/projects/ftgl"}}{\fldrslt 
 \f2\fs22 \cf2 \CocoaLigature0 http://sourceforge.net/projects/ftgl}}
@@ -134,7 +135,7 @@ ftgl (needed  only if you are building the BOINC default screensaver or a projec
 \f0\b \cf0 IMPORTANT
 \f1\b0 : The 
 \f2\fs26 t
-\f1\fs24 hird-party libraries may not work properly with BOINC if you build them directly with either the Xcode projects which come with wxWidgets or the AutoMake scripts supplied with all six, so be sure to use our special scripts to build these packages.\
+\f1\fs24 hird-party libraries may not work properly with BOINC if you build them directly with either the Xcode projects which come with wxWidgets or the AutoMake scripts supplied with all seven, so be sure to use our special scripts to build these packages.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 
 \f0\b \cf0 [1]
@@ -175,7 +176,7 @@ ftgl (needed  only if you are building the BOINC default screensaver or a projec
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
 
 \f0\b \cf0 [4]
-\f1\b0  Run the script to download and build the c-ares, curl, openssl, wxWidgets, freetype and ftgl libraries as follows:\
+\f1\b0  Run the script to download and build the c-ares, curl, openssl, wxWidgets, fmt, freetype and ftgl libraries as follows:\
 \
 \pard\pardeftab720\partightenfactor0
 
@@ -198,7 +199,7 @@ The above commands will download these libraries to the BOINC_dev folder (if the
 \f1\fs24  command to run them.\
 
 \f0\b Note 2:
-\f1\b0  This script tries to build all six third-party libraries: wxWidgets, c-ares, curl, openssl,  freetype and ftgl.  When the script finishes, it will display a warning about any libraries it was unable to build. To make it easier to find the error messages, clear the Terminal display and run the script again without 
+\f1\b0  This script tries to build all seven third-party libraries: wxWidgets, c-ares, curl, openssl, fmt, freetype and ftgl.  When the script finishes, it will display a warning about any libraries it was unable to build. To make it easier to find the error messages, clear the Terminal display and run the script again without 
 \f2 -clean
 \f1 .\
 
