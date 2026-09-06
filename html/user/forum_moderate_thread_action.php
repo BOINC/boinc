@@ -117,10 +117,23 @@ if (!$result) {
 }
 
 $reason = post_str('reason', true);
-if (!$reason) $reason = "None given";
-send_thread_moderation_email(
-    $forum, $thread, $reason, $action_name, $explanation
-);
-header('Location: forum_thread.php?id='.$thread->id);
+$email_success = true;
+$email_output = '';
+if ($reason) {
+    ob_start();
+    $email_success = send_thread_moderation_email(
+        $forum, $thread, $reason, $action_name, $explanation
+    );
+    $email_output = ob_get_clean();
+}
+if ($email_success) {
+    header('Location: forum_thread.php?id='.$thread->id);
+} else {
+    page_head(tra("Moderation notice"));
+    echo $email_output;
+    echo "<p>".tra("The thread was successfully %1, but the notification email to the thread owner and/or forum moderators failed to send.", $action_name)."</p>";
+    echo "<a href='forum_thread.php?id=$thread->id'>".tra("Return to thread")."</a>";
+    page_tail();
+}
 
 ?>

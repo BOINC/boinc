@@ -160,8 +160,18 @@ if (!$result) {
     error_page("Action failed: possible database problem");
 }
 
-send_moderation_email($forum, $post, $thread, $explanation, $action_name);
+ob_start();
+$email_success = send_moderation_email($forum, $post, $thread, $explanation, $action_name);
+$email_output = ob_get_clean();
 
-header('Location: forum_thread.php?id='.$thread->id);
+if ($email_success) {
+    header('Location: forum_thread.php?id='.$thread->id);
+} else {
+    page_head(tra("Moderation notice"));
+    echo $email_output;
+    echo "<p>".tra("The post was successfully %1, but the notification email failed to send.", $action_name)."</p>";
+    echo "<a href='forum_thread.php?id=$thread->id'>".tra("Return to thread")."</a>";
+    page_tail();
+}
 
 ?>
