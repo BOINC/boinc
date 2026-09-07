@@ -30,12 +30,18 @@ require_once("../inc/util_ops.inc");
 function create_category($orderID, $name, $is_helpdesk) {
     $q = "(orderID, lang, name, is_helpdesk) values ($orderID, 1, '$name', $is_helpdesk)";
     $db = BoincDB::get();
-    $result = $db->insert("category", $q);
+    $result = false;
+    $insert_error = "";
+    try {
+        $result = $db->insert("category", $q);
+    } catch (\mysqli_sql_exception $e) {
+        $insert_error = $e->getMessage();
+    }
     if (!$result) {
         $cat = BoincCategory::lookup("name='$name' and is_helpdesk=$is_helpdesk");
         if ($cat) return $cat->id;
         echo "can't create category\n";
-        echo $db->base_error();
+        echo $insert_error ?: $db->base_error();
         exit();
     }
     return $db->insert_id();
@@ -44,12 +50,18 @@ function create_category($orderID, $name, $is_helpdesk) {
 function create_forum($category, $orderID, $title, $description, $is_dev_blog=0) {
     $q = "(category, orderID, title, description, is_dev_blog) values ($category, $orderID, '$title', '$description', $is_dev_blog)";
     $db = BoincDB::get();
-    $result = $db->insert("forum",$q);
+    $result = false;
+    $insert_error = "";
+    try {
+        $result = $db->insert("forum", $q);
+    } catch (\mysqli_sql_exception $e) {
+        $insert_error = $e->getMessage();
+    }
     if (!$result) {
         $forum = BoincForum::lookup("category=$category and title='$title'");
         if ($forum) return $forum->id;
         echo "can't create forum\n";
-        echo $db->base_error();
+        echo $insert_error ?: $db->base_error();
         exit();
     }
     return $db->insert_id();
