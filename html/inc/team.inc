@@ -357,7 +357,7 @@ function new_member_list($teamid) {
     $deltas = BoincTeamDelta::enum("teamid=$teamid and timestamp>$yesterday and joining=1");
     foreach ($deltas as $delta) {
         $u = BoincUser::lookup_id($delta->userid);
-        if ($u->teamid == $teamid) {
+        if ($u && $u->teamid == $teamid) {
             $new_members[] = $u->id;  // they might have later quit
         }
     }
