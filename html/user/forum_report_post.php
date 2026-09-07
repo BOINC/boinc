@@ -66,7 +66,7 @@ if (get_str("submit",true)){
     if ($sent){
         $success_page=1;
     } else {
-        $email_output .= "send email failed";
+        $email_output .= " send email failed";
         $success_page=-1;
     }
 }
