@@ -256,14 +256,20 @@ function main() {
         echo "Can't get teams file\n";
         exit;
     }
+    $failures = 0;
     foreach($x->team as $team) {
         try {
             handle_team($team);
         } catch (Throwable $e) {
             echo "   ERROR processing this team, skipping: ".$e->getMessage()."\n";
+            $failures++;
         }
     }
     echo "------------ Finished at ".time_str(time())."-------\n";
+    if ($failures) {
+        echo "$failures team(s) failed to import; see ERROR lines above.\n";
+        exit(1);
+    }
 }
 
 db_init();
