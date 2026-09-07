@@ -257,7 +257,11 @@ function main() {
         exit;
     }
     foreach($x->team as $team) {
-        handle_team($team);
+        try {
+            handle_team($team);
+        } catch (Throwable $e) {
+            echo "   ERROR processing this team, skipping: ".$e->getMessage()."\n";
+        }
     }
     echo "------------ Finished at ".time_str(time())."-------\n";
 }
