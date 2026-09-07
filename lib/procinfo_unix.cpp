@@ -117,6 +117,7 @@ int PROC_STAT::parse_stat(char* buf) {
     return 0;
 }
 
+#ifdef __linux__
 // parse /proc/pid/status fields like
 // VmRSS:    279424 kB
 //
@@ -142,6 +143,7 @@ void PROCINFO::get_mem_info() {
     swap_usage = get_field(buf, "VmSwap:")*1024.;
     fclose(f);
 }
+#endif
 
 // build a map pid=>descriptor of all processes in system.
 // set descriptor.is_boinc_app if the proc is the calling proc
