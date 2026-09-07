@@ -45,7 +45,8 @@ if ($offset > 1000) {
 $teamid = get_int("teamid");
 
 $cache_args = "teamid=$teamid";
-$team = unserialize(get_cached_data(TEAM_PAGE_TTL, $cache_args));
+$cached = get_cached_data(TEAM_PAGE_TTL, $cache_args);
+$team = $cached ? unserialize($cached) : false;
 if (!$team) {
     $team = BoincTeam::lookup_id($teamid);
     if (!$team) error_page("no such team");
