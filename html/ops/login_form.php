@@ -8,7 +8,7 @@ admin_page_head("Log in");
 
 $next_url = sanitize_local_url(get_str('next_url', true));
 
-if (!$next_url) $next_url = "index.php";
+if ($next_url === null || $next_url === '') $next_url = "index.php";
 
 print_login_form_ops($next_url);
 admin_page_tail();
