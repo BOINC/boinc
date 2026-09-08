@@ -101,8 +101,7 @@ function update_team($t, $team) {
     }
     $retval = $team->update($query);
     if (!$retval) {
-        echo "   update failed: $query\n";
-        exit;
+        throw new Exception("update failed: $query");
     }
 }
 
@@ -141,10 +140,7 @@ function insert_case($t, $user) {
         $t->description, $t->country
     );
     if (!$team) {
-        echo "   Can't make team $t->id\n";
-        echo BoincDb::error();
-        echo "\n";
-        exit;
+        throw new Exception("Can't make team $t->id: ".BoincDb::error());
     }
     $team->update("seti_id=$t->id");
     if ($user) {
