@@ -35,6 +35,7 @@ function create_category($orderID, $name, $is_helpdesk) {
     try {
         $result = $db->insert("category", $q);
     } catch (\mysqli_sql_exception $e) {
+        if ($e->getCode() != 1062) throw $e;
         $insert_error = $e->getMessage();
     }
     if (!$result) {
@@ -55,6 +56,7 @@ function create_forum($category, $orderID, $title, $description, $is_dev_blog=0)
     try {
         $result = $db->insert("forum", $q);
     } catch (\mysqli_sql_exception $e) {
+        if ($e->getCode() != 1062) throw $e;
         $insert_error = $e->getMessage();
     }
     if (!$result) {
