@@ -335,14 +335,14 @@ function page_head(
     document.documentElement.style.display = 'none';
     document.head.insertAdjacentHTML(
         'beforeend',
-        '<link rel="stylesheet" href="sample_bootstrap.min.css" onload="document.documentElement.style.display = \'\'"><link rel="stylesheet" href="custom.css">'
+        '<link rel="stylesheet" href="{$url_base}sample_bootstrap.min.css" onload="document.documentElement.style.display = \'\'"><link rel="stylesheet" href="{$url_base}custom.css">'
     );
   }
 </script>
-<link rel="stylesheet" href="bootstrap_darkly.min.css" media="(prefers-color-scheme: dark)">
-<link rel="stylesheet" href="custom_dark.css" media="(prefers-color-scheme: dark)">
-<link rel="stylesheet" href="sample_bootstrap.min.css" media="(prefers-color-scheme: no-preference), (prefers-color-scheme: light)">
-<link rel="stylesheet" href="custom.css" media="(prefers-color-scheme: no-preference), (prefers-color-scheme: light)">
+<link rel="stylesheet" href="{$url_base}bootstrap_darkly.min.css" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="{$url_base}custom_dark.css" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="{$url_base}sample_bootstrap.min.css" media="(prefers-color-scheme: no-preference), (prefers-color-scheme: light)">
+<link rel="stylesheet" href="{$url_base}custom.css" media="(prefers-color-scheme: no-preference), (prefers-color-scheme: light)">
 EOT;
     } else {
         echo '
@@ -363,7 +363,7 @@ EOT;
     }
 
     if (defined("SHORTCUT_ICON")) {
-        echo '<link rel="icon" type="image/x-icon" href="'.SHORTCUT_ICON.'"/>
+        echo '<link rel="icon" href="'.$url_base.SHORTCUT_ICON.'"/>
 ';
     }
 
