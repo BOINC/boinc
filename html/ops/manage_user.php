@@ -26,6 +26,7 @@
 
 require_once("../inc/util.inc");
 require_once("../inc/user.inc");
+require_once("../inc/user_util.inc");
 require_once("../inc/team.inc");
 require_once("../inc/forum.inc");
 require_once("../inc/util_ops.inc");
@@ -123,7 +124,9 @@ have been restored by ".$g_logged_in_user->name."\n";
 
             $emails = explode(",", POST_REPORT_EMAILS);
             foreach ($emails as $email) {
+                $admin = new stdClass();
                 $admin->email_addr = $email;
+                $admin->name = '';
                 send_email($admin, $subject, $body);
             }
         }
