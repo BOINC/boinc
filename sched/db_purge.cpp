@@ -570,13 +570,18 @@ int archive_wu_gz (DB_WORKUNIT& wu) {
     return 0;
 }
 
-// Delete the records with the given IDs using batched
-// "delete from <table> where id in (id1,id2,...)" queries
-// instead of one query per ID.
-// The IN() list is split into chunks: 1000 20-digit IDs plus separators
-// is ~21 KB, well within delete_from_db_multi()'s MAX_QUERY_LEN buffer.
+// Delete the given result IDs using batched
+// "delete from result where id in (id1,id2,...)" queries
+// instead of one query per result, and log each result as it's purged.
+// The IN() list is split into chunks (1000 20-digit IDs plus separators
+// is ~21 KB, well within delete_from_db_multi()'s MAX_QUERY_LEN buffer);
+// the per-result log is emitted after each chunk commits, so a failure
+// on a later chunk doesn't hide the results that were already deleted.
 //
-int delete_ids_from_db(DB_BASE& table, const vector<DB_ID_TYPE>& ids) {
+int delete_results_batched(
+    DB_WORKUNIT& wu, const vector<DB_ID_TYPE>& ids, const vector<int>& batches
+) {
+    DB_RESULT result;
     const size_t max_ids_per_query = 1000;
     char idbuf[32];
     for (size_t i=0; i<ids.size(); i+=max_ids_per_query) {
@@ -589,8 +594,19 @@ int delete_ids_from_db(DB_BASE& table, const vector<DB_ID_TYPE>& ids) {
             clause += idbuf;
         }
         clause += ")";
-        int retval = table.delete_from_db_multi(clause.c_str());
-        if (retval) return retval;
+        int retval = result.delete_from_db_multi(clause.c_str());
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "Couldn't delete results for workunit [%lu] from database: %d\n",
+                wu.id, retval
+            );
+            return retval;
+        }
+        for (size_t j=i; j<end; j++) {
+            log_messages.printf(MSG_NORMAL,
+                "Purged result [%lu] batch %d\n", ids[j], batches[j]
+            );
+        }
     }
     return 0;
 }
@@ -632,19 +648,8 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
     // rather than one query per result
     //
     if (!result_ids.empty()) {
-        retval = delete_ids_from_db(result, result_ids);
-        if (retval) {
-            log_messages.printf(MSG_CRITICAL,
-                "Couldn't delete results for workunit [%lu] from database: %d\n",
-                wu.id, retval
-            );
-            return retval;
-        }
-        for (size_t i=0; i<result_ids.size(); i++) {
-            log_messages.printf(MSG_NORMAL,
-                "Purged result [%lu] batch %d\n", result_ids[i], result_batches[i]
-            );
-        }
+        retval = delete_results_batched(wu, result_ids, result_batches);
+        if (retval) return retval;
     }
     return 0;
 }
