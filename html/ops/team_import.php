@@ -101,8 +101,7 @@ function update_team($t, $team) {
     }
     $retval = $team->update($query);
     if (!$retval) {
-        echo "   update failed: $query\n";
-        exit;
+        throw new Exception("update failed: $query");
     }
 }
 
@@ -141,10 +140,7 @@ function insert_case($t, $user) {
         $t->description, $t->country
     );
     if (!$team) {
-        echo "   Can't make team $t->id\n";
-        echo BoincDb::error();
-        echo "\n";
-        exit;
+        throw new Exception("Can't make team $t->id: ".BoincDb::error());
     }
     $team->update("seti_id=$t->id");
     if ($user) {
@@ -256,10 +252,20 @@ function main() {
         echo "Can't get teams file\n";
         exit;
     }
+    $failures = 0;
     foreach($x->team as $team) {
-        handle_team($team);
+        try {
+            handle_team($team);
+        } catch (Throwable $e) {
+            echo "   ERROR processing this team, skipping: ".$e->getMessage()."\n";
+            $failures++;
+        }
     }
     echo "------------ Finished at ".time_str(time())."-------\n";
+    if ($failures) {
+        echo "$failures team(s) failed to import; see ERROR lines above.\n";
+        exit(1);
+    }
 }
 
 db_init();
