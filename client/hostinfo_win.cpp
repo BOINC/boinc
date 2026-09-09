@@ -1325,11 +1325,11 @@ int get_processor_features(char* vendor, char* features, int features_size) {
 	FEATURE_TEST(std_supported, (std_ecx & (1 << 13)), "cx16 ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 19)), "sse4_1 ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 20)), "sse4_2 ");
-    FEATURE_TEST(std_supported, (std_ecx & (1 << 22)), "movebe ");
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 22)), "movbe ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 23)), "popcnt ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 25)), "aes ");
 	FEATURE_TEST(std_supported, (std_ecx & (1 << 29)), "f16c ");
-	FEATURE_TEST(std_supported, (std_ecx & (1 << 30)), "rdrand");
+	FEATURE_TEST(std_supported, (std_ecx & (1 << 30)), "rdrand ");
 
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 11)), "syscall ");
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 20)), "nx ");
@@ -1385,9 +1385,9 @@ int get_processor_features(char* vendor, char* features, int features_size) {
 		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 17)), "tce ");
 		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 18)), "cvt16 ");
 		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 21)), "tbm ");
-		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 22)), "topx ");
+		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 22)), "topoext ");
 
-        FEATURE_TEST(ext_supported, (ext_edx & (1 << 26)), "page1gb ");
+        FEATURE_TEST(ext_supported, (ext_edx & (1 << 26)), "pdpe1gb ");
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 27)), "rdtscp ");
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 30)), "3dnowext ");
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 31)), "3dnow ");
