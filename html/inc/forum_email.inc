@@ -148,7 +148,7 @@ function send_forum_notification_email($forum, $user){
     $title = PROJECT . ": there is a new thread in '". $forum->title ."'";
     $link = secure_url_base() . "forum_forum.php?id=" . $forum->id;
     $body = "A " . PROJECT . " user has added a thread to the forum
-\"" . $thread->title . "\".\n"
+\"" . $forum->title . "\".\n"
            ."To view the updated forum, visit:\n$link
 
 --------------------------
