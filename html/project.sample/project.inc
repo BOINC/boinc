@@ -19,6 +19,7 @@ define("COPYRIGHT_HOLDER", "REPLACE WITH COPYRIGHT HOLDER");
 
 $master_url = project_config_val("master_url");
 define("URL_BASE", $master_url);
+$master_domain = parse_url($master_url, PHP_URL_HOST) ?: $master_url;
 define("IMAGE_PATH", "../user_profile/images/");
 define("IMAGE_URL", "user_profile/images/");
 define("PROFILE_PATH", "../user_profile/");
@@ -26,11 +27,13 @@ define("PROFILE_URL", "user_profile/");
 define("LANGUAGE_FILE", "languages.txt");
 
 //-------------- contact info
+// These are just guesses at real mailboxes on your domain -- REPLACE WITH
+// addresses that actually exist and are checked.
 
-define("SYS_ADMIN_EMAIL", "admin@$master_url");
-define("UOTD_ADMIN_EMAIL", "admin@$master_url");
+define("SYS_ADMIN_EMAIL", "admin@$master_domain");
+define("UOTD_ADMIN_EMAIL", "admin@$master_domain");
     // who gets emails about user of the day pool running low?
-define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
+define("POST_REPORT_EMAILS", "moderator1@$master_domain|moderator2@$master_domain");
     // Email addresses separated by pipe ( | ) that will receive user reports
     // of offensive forum posts.
 
