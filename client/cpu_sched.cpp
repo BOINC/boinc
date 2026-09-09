@@ -51,7 +51,7 @@
 #include "sysmon_win.h"
 #else
 #include "config.h"
-#if HAVE_SCHED_SETSCHEDULER && defined (__linux__)
+#if defined(HAVE_SCHED_SETSCHEDULER) && HAVE_SCHED_SETSCHEDULER && defined (__linux__)
 #include <sched.h>
 #endif
 #include <string>
