@@ -251,7 +251,7 @@ function prefs_parse_project($prefs_xml) {
     xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, 0);
     xml_set_element_handler($xml_parser, "element_start_project", "element_end_project");
     xml_set_character_data_handler($xml_parser, "char_handler");
-    xml_parse($xml_parser, $prefs_xml, 1);
+    xml_parse($xml_parser, $prefs_xml ?? "", 1);
     return $parse_result;
 }
 
