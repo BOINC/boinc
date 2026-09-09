@@ -303,7 +303,11 @@ void OPENCL_CPU_PROP::clear() {
     opencl_prop.clear();
 }
 
-void OPENCL_CPU_PROP::write_xml(MIOFILE& f) {
+void OPENCL_CPU_PROP::write_xml(MIOFILE&
+#ifndef _USING_FCGI_
+    f
+#endif
+) {
 #ifndef _USING_FCGI_
     f.printf(
         "<opencl_cpu_prop>\n"
