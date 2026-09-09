@@ -43,7 +43,8 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
         pclose($pipe);
         return true;
     } else if (function_exists("make_php_mailer")) {
-        if (file_exists("../inc/PHPMailer/src/PHPMailer.php") && file_exists("../inc/PHPMailer/src/SMTP.php")) {
+        if (file_exists("../inc/PHPMailer/src/PHPMailer.php") && file_exists("../inc/PHPMailer/src/SMTP.php") && file_exists("../inc/PHPMailer/src/Exception.php")) {
+            require_once("../inc/PHPMailer/src/Exception.php");
             require_once("../inc/PHPMailer/src/PHPMailer.php");
             require_once("../inc/PHPMailer/src/SMTP.php");
         } else if (file_exists("../inc/phpmailer/class.phpmailer.php")) {
@@ -63,7 +64,7 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
             $mail->Body = $body;
         }
         if (!$mail->Send()) {
-            echo $mail->ErrorInfo;
+            error_log("send_email() failed: ".$mail->ErrorInfo);
             return false;
         } else {
             return true;
