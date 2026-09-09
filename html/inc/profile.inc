@@ -127,8 +127,8 @@ function scale_image(
     ($origWidth > $origHeight)? $scalar = ($origWidth / $targetWidth) : $scalar = ($origHeight / $targetHeight);
 
     if ($scalar != 0) {
-        $destWidth = $origWidth / $scalar;
-        $destHeight = $origHeight / $scalar;
+        $destWidth = (int)($origWidth / $scalar);
+        $destHeight = (int)($origHeight / $scalar);
     } else {
         $destWidth = $origWidth;
         $destHeight = $origHeight;
