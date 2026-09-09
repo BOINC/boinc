@@ -44,12 +44,14 @@
 #include <cstdlib>
 #include <ctime>
 #include <string>
+#include <vector>
 #include <time.h>
 #include <errno.h>
 #include <string.h>
 #include "zlib.h"
 
 using std::string;
+using std::vector;
 
 #include "boinc_db.h"
 #include "filesys.h"
@@ -568,10 +570,37 @@ int archive_wu_gz (DB_WORKUNIT& wu) {
     return 0;
 }
 
+// Delete the records with the given IDs using batched
+// "delete from <table> where id in (id1,id2,...)" queries
+// instead of one query per ID.
+// The IN() list is split into chunks: 1000 20-digit IDs plus separators
+// is ~21 KB, well within delete_from_db_multi()'s MAX_QUERY_LEN buffer.
+//
+int delete_ids_from_db(DB_BASE& table, const vector<DB_ID_TYPE>& ids) {
+    const size_t max_ids_per_query = 1000;
+    char idbuf[32];
+    for (size_t i=0; i<ids.size(); i+=max_ids_per_query) {
+        size_t end = i + max_ids_per_query;
+        if (end > ids.size()) end = ids.size();
+        string clause = "id in (";
+        for (size_t j=i; j<end; j++) {
+            if (j > i) clause += ",";
+            snprintf(idbuf, sizeof(idbuf), "%lu", (unsigned long)ids[j]);
+            clause += idbuf;
+        }
+        clause += ")";
+        int retval = table.delete_from_db_multi(clause.c_str());
+        if (retval) return retval;
+    }
+    return 0;
+}
+
 int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
     int retval= 0;
     DB_RESULT result;
     char buf[256];
+    vector<DB_ID_TYPE> result_ids;
+    vector<int> result_batches;
 
     number_results=0;
 
@@ -593,18 +622,29 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
                 "Didn't purge result [%lu] from database (-dont_delete)\n", result.id
             );
         } else {
-            retval = result.delete_from_db();
-            if (retval) {
-                log_messages.printf(MSG_CRITICAL,
-                    "Couldn't delete result [%lu] from database\n", result.id
-                );
-                return retval;
-            }
-            log_messages.printf(MSG_NORMAL,
-                "Purged result [%lu] batch %d\n", result.id, result.batch
-            );
+            result_ids.push_back(result.id);
+            result_batches.push_back(result.batch);
         }
         number_results++;
+    }
+
+    // delete this workunit's results with one (or a few) batched queries
+    // rather than one query per result
+    //
+    if (!result_ids.empty()) {
+        retval = delete_ids_from_db(result, result_ids);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "Couldn't delete results for workunit [%lu] from database: %d\n",
+                wu.id, retval
+            );
+            return retval;
+        }
+        for (size_t i=0; i<result_ids.size(); i++) {
+            log_messages.printf(MSG_NORMAL,
+                "Purged result [%lu] batch %d\n", result_ids[i], result_batches[i]
+            );
+        }
     }
     return 0;
 }
