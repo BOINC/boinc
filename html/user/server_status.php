@@ -417,7 +417,8 @@ function get_buda_status() {
 }
 
 function get_job_status() {
-    $s = unserialize(get_cached_data(STATUS_PAGE_TTL, "job_status"));
+    $cached = get_cached_data(STATUS_PAGE_TTL, "job_status");
+    $s = $cached ? unserialize($cached) : false;
     if ($s) {
         return $s;
     }
