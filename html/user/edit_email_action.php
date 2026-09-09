@@ -77,7 +77,10 @@ if (!is_valid_email_syntax($email_addr)) {
                 if (defined("SHOW_NONVALIDATED_EMAIL_ADDR")) {
                     echo "<p>".tra("Please %1 validate this email address %2.", "<a href=validate_email_addr.php>", "</a>")."\n";
                 }
-                send_changed_email($user);
+                $email_success = send_changed_email($user);
+                if (!$email_success) {
+                    echo "<p>".tra("Your email address was changed, but we were unable to send the confirmation email to %1 or %2. Please note this change yourself.", $user->email_addr, $user->previous_email_addr)."</p>";
+                }
             } else {
                 echo tra("We can't update your email address due to a database problem.  Please try again later.");
             }

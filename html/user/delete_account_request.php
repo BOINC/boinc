@@ -57,10 +57,14 @@ function delete_account_request_form($user) {
 function delete_account_request_action($user) {
     $passwd = post_str("passwd");
     check_passwd_ui($user, $passwd);
-    send_confirm_delete_email($user);
+    page_head(tra("Delete account request"));
+    $success = send_confirm_delete_email($user);
 
-    page_head(tra("Confirmation Email Sent"));
-    echo "<p>".tra("The email to confirm your request to delete your account has been sent.")."</p>";
+    if ($success) {
+        echo "<p>".tra("The email to confirm your request to delete your account has been sent.")."</p>";
+    } else {
+        echo "<p>".tra("Can't send confirmation email to %1. Please try again later.", $user->email_addr)."</p>";
+    }
     page_tail();
 }
 
