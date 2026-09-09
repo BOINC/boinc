@@ -268,7 +268,7 @@ function project_specific_prefs_show($prefs, $columns=false) {
 function project_specific_prefs_parse($prefs_xml) {
     $prefs_xml = "<foo>$prefs_xml</foo>";
     $p = simplexml_load_string($prefs_xml);
-    if (!$p) {
+    if ($p === false) {
         error_page("Can't parse prefs:\n$prefs_xml\n");
     }
     $prefs = new StdClass;
