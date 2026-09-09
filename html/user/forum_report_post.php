@@ -77,7 +77,7 @@ $no_forum_rating = project_config_bool("no_forum_rating");
 //
 if ($success_page==1) {
     page_head(tra("Report Registered"));
-    echo htmlspecialchars($email_output, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    echo nl2br(htmlspecialchars($email_output, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
     echo tra("Your report has been recorded. Thanks for your input.")."<p>"
         .tra("A moderator will now look at your report and decide what will happen - this may take a little while, so please be patient");
 
@@ -112,7 +112,7 @@ if ($success_page==1) {
     echo "</form>";
 } elseif ($success_page==-1) {
     page_head(tra("Report not registered"));
-    echo htmlspecialchars($email_output, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    echo nl2br(htmlspecialchars($email_output, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
     echo "<p>".tra("Your report could not be recorded. Please wait a while and try again.")."</p>
         <p>".tra("If this is not a temporary error, please report it to the project developers.")."</p>
     ";
