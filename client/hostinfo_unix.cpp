@@ -777,7 +777,7 @@ void use_cpuid(HOST_INFO& host) {
 
     capabilities[0] = '\0';
     vendor[0] = '\0';
- 
+
     // Leaf 0: highest standard leaf + vendor string. Copy the vendor
     // bytes out of EBX/EDX/ECX immediately -- p[] gets overwritten by
     // the very next do_cpuid() call, so extracting "vendor" after
