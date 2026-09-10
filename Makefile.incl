@@ -1,5 +1,20 @@
-## -*-Makefile -*-
-## $Id$
+# This file is part of BOINC.
+# https://boinc.berkeley.edu
+# Copyright (C) 2026 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+#
 
 # For debugging purposes
 #AM_DEFAULT_VERBOSITY=1
@@ -42,28 +57,14 @@ AM_LDFLAGS =
 # programs linking to them:
 
 LIBSCHED = $(top_builddir)/sched/libsched.la
-$(LIBSCHED):
-	cd $(top_builddir)/sched; ${MAKE} libsched.la
 LIBSCHED_FCGI = $(top_builddir)/sched/libsched_fcgi.la
-$(LIBSCHED_FCGI):
-	cd $(top_builddir)/sched; ${MAKE} libsched_fcgi.la
 LIBBOINC = $(top_builddir)/lib/libboinc.la
-$(LIBBOINC):
-	cd $(top_builddir)/lib; ${MAKE} libboinc.la
 LIBBOINC_CRYPT = $(top_builddir)/lib/libboinc_crypt.la
-$(LIBBOINC_CRYPT):
-	cd $(top_builddir)/lib; ${MAKE} libboinc_crypt.la
 LIBBOINC_FCGI = $(top_builddir)/lib/libboinc_fcgi.la
-$(LIBBOINC_FCGI):
-	cd $(top_builddir)/lib; ${MAKE} libboinc_fcgi.la
 LIBAPI = $(top_builddir)/api/libboinc_api.la
-$(LIBAPI):
-	cd $(top_builddir)/api; ${MAKE} libboinc_api.la
 
 SERVERLIBS = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC) $(MYSQL_LIBS) $(PTHREAD_LIBS) $(RSA_LIBS) $(SSL_LIBS)
 SERVERLIBS_MIN = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC) $(PTHREAD_LIBS) $(RSA_LIBS) $(SSL_LIBS)
-SERVERLIBS_FCGI = $(LIBSCHED_FCGI) $(LIBBOINC_CRYPT) $(LIBBOINC_FCGI) -lfcgi $(MYSQL_LIBS) $(PTHREAD_LIBS) $(RSA_LIBS) $(SSL_LIBS)
 APPLIBS = $(LIBAPI) $(LIBBOINC)
 FUHLIBS = $(LIBBOINC_CRYPT) $(LIBBOINC) $(RSA_LIBS) $(SSL_LIBS)
 FUHLIBS_FCGI = $(LIBBOINC_CRYPT) $(LIBBOINC_FCGI) -lfcgi $(RSA_LIBS) $(SSL_LIBS)
-
