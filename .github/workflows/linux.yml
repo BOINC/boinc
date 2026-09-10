@@ -318,7 +318,7 @@ jobs:
         if: success() && matrix.type == 'server'
         run: |
           ./configure --enable-server --disable-client --disable-manager
-          make
+          make -j $(nproc --all)
 
       - name: Build manager with webview
         if: success() && matrix.type == 'manager-with-webview'
@@ -338,7 +338,7 @@ jobs:
         if: success() && matrix.type == 'unit-test'
         run: |
           ./configure --disable-client --disable-manager --enable-unit-tests CFLAGS="-g -O0" CXXFLAGS="-g -O0"
-          make
+          make -j $(nproc --all)
 
       - name: Build libraries for arm64 with vcpkg
         if: success() && matrix.type == 'libs-vcpkg-arm64'

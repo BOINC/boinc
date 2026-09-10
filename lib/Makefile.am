@@ -1,5 +1,20 @@
-## -*- mode: makefile; tab-width: 4 -*-
-## $Id$
+# This file is part of BOINC.
+# https://boinc.berkeley.edu
+# Copyright (C) 2026 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+#
 
 include $(top_srcdir)/Makefile.incl
 
@@ -263,16 +278,16 @@ EXTRA_DIST = *.h *.cpp
 
 md5_test_SOURCES = md5_test.cpp
 md5_test_CXXFLAGS = $(PTHREAD_CFLAGS)
-md5_test_LDADD = $(LIBBOINC)
+md5_test_LDADD = libboinc.la
 shmem_test_SOURCES = shmem_test.cpp
 shmem_test_CXXFLAGS = $(PTHREAD_CFLAGS)
-shmem_test_LDADD = $(LIBBOINC)
+shmem_test_LDADD = libboinc.la
 msg_test_SOURCES = msg_test.cpp
 msg_test_CXXFLAGS = $(PTHREAD_CFLAGS)
-msg_test_LDADD = $(LIBBOINC)
+msg_test_LDADD = libboinc.la
 crypt_prog_SOURCES = crypt_prog.cpp
 crypt_prog_CXXFLAGS = $(PTHREAD_CFLAGS) $(SSL_CXXFLAGS)
-crypt_prog_LDADD = $(LIBBOINC_CRYPT_STATIC) $(LIBBOINC) $(SSL_LIBS)
+crypt_prog_LDADD = libboinc_crypt.la libboinc.la $(SSL_LIBS)
 parse_test_SOURCES = parse_test.cpp
 parse_test_CXXFLAGS = $(PTHREAD_CFLAGS)
-parse_test_LDADD = $(LIBBOINC)
+parse_test_LDADD = libboinc.la

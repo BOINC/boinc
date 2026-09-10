@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -49,4 +49,4 @@ fi
 export CXXFLAGS="-I$VCPKG_DIR/include -L$VCPKG_DIR/lib"
 export CFLAGS="$CXXFLAGS"
 
-make
+make -j $(nproc --all)
