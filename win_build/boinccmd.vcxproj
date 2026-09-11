@@ -23,13 +23,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\client\boinc_cmd.cpp" />
-    <ClCompile Include="..\lib\gui_rpc_client.cpp" />
-    <ClCompile Include="..\lib\gui_rpc_client_ops.cpp" />
-    <ClCompile Include="..\lib\gui_rpc_client_print.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\client\win\boinc_cmd.h" />
-    <ClInclude Include="..\lib\gui_rpc_client.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\client\win\boinc_cmd.rc" />

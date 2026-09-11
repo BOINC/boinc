@@ -23,21 +23,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\client\boinc_log.cpp" />
-    <ClCompile Include="..\lib\gui_rpc_client.cpp" />
-    <ClCompile Include="..\lib\gui_rpc_client_ops.cpp" />
-    <ClCompile Include="..\lib\gui_rpc_client_print.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\client\win\boinc_log.h" />
-    <ClInclude Include="..\lib\gui_rpc_client.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\client\win\boinc_log.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="boinc_cli.vcxproj">
-      <Project>{c04f0fcc-bb5d-4627-8656-6173b28bd69e}</Project>
-    </ProjectReference>
     <ProjectReference Include="libboinc.vcxproj">
       <Project>{e8f6bd7e-461a-4733-b7d8-37b09a099ed8}</Project>
     </ProjectReference>

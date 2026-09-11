@@ -67,7 +67,9 @@
   <Project Path="libboinczip.vcxproj" Id="753e897d-9ece-42b1-9f0d-cd566775c77e">
     <BuildDependency Project="vcpkg_3rdparty_dependencies.vcxproj" />
   </Project>
-  <Project Path="libgraphics2.vcxproj" Id="814ebfd3-3ce6-4933-a580-c1fe3147acb4" />
+  <Project Path="libgraphics2.vcxproj" Id="814ebfd3-3ce6-4933-a580-c1fe3147acb4">
+    <BuildDependency Project="vcpkg_3rdparty_dependencies.vcxproj" />
+  </Project>
   <Project Path="sim.vcxproj" Id="b950e31b-c075-4f6d-8a2b-25eae9d46c93">
     <BuildDependency Project="vcpkg_3rdparty_dependencies.vcxproj" />
   </Project>

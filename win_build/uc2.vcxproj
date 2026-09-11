@@ -23,9 +23,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\api\graphics2_util.cpp">
-      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\samples\example_app\uc2.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -40,6 +37,9 @@
     </ProjectReference>
     <ProjectReference Include="uc2_dll.vcxproj">
       <Project>{b275c525-5ef4-40ba-a70a-4e01a76a0cdd}</Project>
+    </ProjectReference>
+    <ProjectReference Include="libgraphics2.vcxproj">
+      <Project>{814ebfd3-3ce6-4933-a580-c1fe3147acb4}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

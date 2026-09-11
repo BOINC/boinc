@@ -23,11 +23,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\api\ttfont.cpp" />
     <ClCompile Include="..\samples\example_app\uc2_graphics.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\api\ttfont.h" />
     <ClInclude Include="..\samples\example_app\uc2.h" />
   </ItemGroup>
   <ItemGroup>

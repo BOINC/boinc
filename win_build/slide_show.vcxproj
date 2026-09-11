@@ -24,7 +24,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\samples\example_app\slide_show.cpp" />
-    <ClCompile Include="..\api\ttfont.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="glut.vcxproj">

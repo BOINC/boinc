@@ -58,41 +58,16 @@
     <ClCompile Include="..\client\sandbox.cpp" />
     <ClCompile Include="..\client\scheduler_op.cpp" />
     <ClCompile Include="..\client\client_msgs.cpp" />
-    <ClCompile Include="..\lib\cc_config.cpp" />
     <ClCompile Include="..\client\cpu_sched.cpp" />
     <ClCompile Include="..\client\cs_apps.cpp" />
     <ClCompile Include="..\client\cs_scheduler.cpp" />
-    <ClCompile Include="..\lib\cert_sig.cpp" />
-    <ClCompile Include="..\lib\coproc.cpp" />
-    <ClCompile Include="..\lib\crypt.cpp" />
-    <ClCompile Include="..\lib\filesys.cpp" />
-    <ClCompile Include="..\lib\hostinfo.cpp" />
-    <ClCompile Include="..\lib\keyword.cpp" />
-    <ClCompile Include="..\lib\md5.cpp" />
-    <ClCompile Include="..\lib\md5_file.cpp" />
-    <ClCompile Include="..\lib\msg_log.cpp" />
-    <ClCompile Include="..\lib\network.cpp" />
-    <ClCompile Include="..\lib\notice.cpp" />
-    <ClCompile Include="..\lib\opencl_boinc.cpp" />
-    <ClCompile Include="..\lib\project_init.cpp" />
-    <ClCompile Include="..\lib\proxy_info.cpp" />
-    <ClCompile Include="..\lib\shmem.cpp" />
-    <ClCompile Include="..\lib\url.cpp" />
-    <ClCompile Include="..\lib\util.cpp" />
-    <ClCompile Include="..\lib\win_util.cpp" />
     <ClCompile Include="..\sched\edf_sim.cpp" />
     <ClCompile Include="..\client\log_flags.cpp" />
-    <ClCompile Include="..\lib\mfile.cpp" />
-    <ClCompile Include="..\lib\miofile.cpp" />
-    <ClCompile Include="..\lib\parse.cpp" />
-    <ClCompile Include="..\lib\prefs.cpp" />
     <ClCompile Include="..\client\rr_sim.cpp" />
     <ClCompile Include="..\client\sim.cpp" />
     <ClCompile Include="..\client\sim_util.cpp" />
-    <ClCompile Include="..\lib\str_util.cpp" />
     <ClCompile Include="..\client\time_stats.cpp" />
     <ClCompile Include="..\client\work_fetch.cpp" />
-    <ClCompile Include="..\lib\wslinfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\client\app.h" />
@@ -100,6 +75,11 @@
     <ClInclude Include="..\client\rr_sim.h" />
     <ClInclude Include="..\client\sim.h" />
     <ClInclude Include="..\client\time_stats.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="libboinc.vcxproj">
+      <Project>{e8f6bd7e-461a-4733-b7d8-37b09a099ed8}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

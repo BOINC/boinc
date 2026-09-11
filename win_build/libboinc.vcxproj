@@ -32,6 +32,7 @@
     <ClInclude Include="..\lib\diagnostics_win.h" />
     <ClInclude Include="..\lib\error_numbers.h" />
     <ClInclude Include="..\lib\filesys.h" />
+    <ClInclude Include="..\lib\gui_rpc_client.h" />
     <ClInclude Include="..\lib\hostinfo.h" />
     <ClInclude Include="..\lib\idlemon.h" />
     <ClInclude Include="..\lib\keyword.h" />
@@ -40,6 +41,7 @@
     <ClInclude Include="..\lib\mem_usage.h" />
     <ClInclude Include="..\lib\mfile.h" />
     <ClInclude Include="..\lib\miofile.h" />
+    <ClCompile Include="..\lib\msg_log.cpp" />
     <ClInclude Include="..\lib\network.h" />
     <ClInclude Include="..\lib\notice.h" />
     <ClInclude Include="..\lib\opencl_boinc.h" />
@@ -50,6 +52,7 @@
     <ClInclude Include="..\lib\project_init.h" />
     <ClInclude Include="..\lib\proxy_info.h" />
     <ClInclude Include="..\lib\result_state.h" />
+    <ClCompile Include="..\lib\run_app_windows.cpp" />
     <ClInclude Include="..\lib\stackwalker_imports.h" />
     <ClInclude Include="..\lib\stackwalker_win.h" />
     <ClInclude Include="..\lib\std_fixes.h" />
@@ -71,6 +74,9 @@
     <ClCompile Include="..\lib\diagnostics.cpp" />
     <ClCompile Include="..\lib\diagnostics_win.cpp" />
     <ClCompile Include="..\lib\filesys.cpp" />
+    <ClCompile Include="..\lib\gui_rpc_client.cpp" />
+    <ClCompile Include="..\lib\gui_rpc_client_ops.cpp" />
+    <ClCompile Include="..\lib\gui_rpc_client_print.cpp" />
     <ClCompile Include="..\lib\hostinfo.cpp" />
     <ClCompile Include="..\lib\idlemon_win.cpp" />
     <ClCompile Include="..\lib\keyword.cpp" />
@@ -79,6 +85,7 @@
     <ClCompile Include="..\lib\mem_usage.cpp" />
     <ClCompile Include="..\lib\mfile.cpp" />
     <ClCompile Include="..\lib\miofile.cpp" />
+    <ClInclude Include="..\lib\msg_log.h" />
     <ClCompile Include="..\lib\network.cpp" />
     <ClCompile Include="..\lib\notice.cpp" />
     <ClCompile Include="..\lib\opencl_boinc.cpp" />
@@ -89,6 +96,7 @@
     <ClCompile Include="..\lib\procinfo_win.cpp" />
     <ClCompile Include="..\lib\project_init.cpp" />
     <ClCompile Include="..\lib\proxy_info.cpp" />
+    <ClInclude Include="..\lib\run_app_windows.h" />
     <ClCompile Include="..\lib\shmem.cpp" />
     <ClCompile Include="..\lib\stackwalker_win.cpp">
       <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>

@@ -18,7 +18,6 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\api\boinc_api.cpp" />
     <ClCompile Include="..\api\graphics2.cpp" />
     <ClCompile Include="..\api\graphics2_util.cpp" />
     <ClCompile Include="..\api\graphics2_win.cpp" />
@@ -26,15 +25,21 @@
     <ClCompile Include="..\api\gutil_text.cpp" />
     <ClCompile Include="..\api\reduce_lib.cpp" />
     <ClCompile Include="..\api\reduce_main.cpp" />
+    <ClCompile Include="..\api\ttfont.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\api\boinc_api.h" />
     <ClInclude Include="..\api\boinc_gl.h" />
     <ClInclude Include="..\api\graphics2.h" />
     <ClInclude Include="..\api\graphics_api.h" />
     <ClInclude Include="..\api\graphics_data.h" />
     <ClInclude Include="..\api\graphics_impl.h" />
     <ClInclude Include="..\api\gutil.h" />
+    <ClInclude Include="..\api\ttfont.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="libboincapi.vcxproj">
+      <Project>{07bda8f7-4aaf-4a3b-b96e-ea72a143c5ae}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
