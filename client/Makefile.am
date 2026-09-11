@@ -1,8 +1,22 @@
-## -*- mode: makefile; tab-width: 4 -*-
-## $Id$
+# This file is part of BOINC.
+# https://boinc.berkeley.edu
+# Copyright (C) 2026 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+#
 
 CXXFLAGS := $(filter-out -mfpu=vfpv3-d16,$(CXXFLAGS))
-CXXFLAGS += -std=gnu++1z
 
 include $(top_srcdir)/Makefile.incl
 
@@ -93,7 +107,7 @@ boinc_client_SOURCES = \
     whetstone.cpp \
     work_fetch.cpp
 
-boinc_client_DEPENDENCIES = $(LIBBOINC)
+boinc_client_DEPENDENCIES = $(LIBBOINC) $(LIBBOINC_CRYPT)
 boinc_client_CPPFLAGS = $(AM_CPPFLAGS)
 boinc_client_CXXFLAGS = $(AM_CXXFLAGS) $(SSL_CXXFLAGS)
 boinc_client_LDFLAGS = $(AM_LDFLAGS) $(SSL_LDFLAGS) -L$(top_srcdir)/lib
@@ -132,6 +146,7 @@ endif
 switcher_SOURCES = switcher.cpp
 switcher_LDFLAGS = $(AM_LDFLAGS) -L../lib
 switcher_LDADD = $(LIBBOINC)
+switcher_DEPENDENCIES = $(LIBBOINC)
 
 ## since we are using libtool we need some magic to get boinc and boinc_client
 ## to both be installed properly.  The next two rules do that...

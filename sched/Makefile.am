@@ -204,20 +204,24 @@ cgi_sources = \
 
 cgi_SOURCES = $(cgi_sources)
 cgi_LDADD = $(SCHED_DEPS)
+cgi_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 batch_collect_assimilator_SOURCES = $(ASSIMILATOR_SOURCES) \
 	batch_collect_assimilator.cpp
 batch_collect_assimilator_LDADD = $(SCHED_DEPS)
+batch_collect_assimilator_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 census_SOURCES = \
     census.cpp \
     hr.cpp \
     hr_info.cpp
 census_LDADD = $(SCHED_DEPS)
+census_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 credit_test_SOURCES = \
 	credit_test.cpp
 credit_test_LDADD = $(SCHED_DEPS)
+credit_test_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 feeder_SOURCES = \
     feeder.cpp \
@@ -225,23 +229,29 @@ feeder_SOURCES = \
     hr_info.cpp \
     ../lib/synch.cpp
 feeder_LDADD = $(SCHED_DEPS)
+feeder_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 feeder_user_SOURCES = \
     feeder_user.cpp \
     ../lib/synch.cpp
 feeder_user_LDADD = $(SCHED_DEPS)
+feeder_user_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 wu_check_SOURCES = wu_check.cpp
 wu_check_LDADD = $(SCHED_DEPS)
+wu_check_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 show_shmem_SOURCES = show_shmem.cpp
 show_shmem_LDADD = $(SCHED_DEPS)
+show_shmem_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 file_deleter_SOURCES = file_deleter.cpp
 file_deleter_LDADD = $(SCHED_DEPS)
+file_deleter_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 antique_file_deleter_SOURCES = antique_file_deleter.cpp
 antique_file_deleter_LDADD = $(SCHED_DEPS)
+antique_file_deleter_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 VALIDATOR_SOURCES = \
 	credit.cpp \
@@ -252,14 +262,17 @@ VALIDATOR_SOURCES = \
 sample_bitwise_validator_SOURCES = $(VALIDATOR_SOURCES) \
 	sample_bitwise_validator.cpp
 sample_bitwise_validator_LDADD = $(SCHED_DEPS)
+sample_bitwise_validator_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 sample_substr_validator_SOURCES = $(VALIDATOR_SOURCES) \
 	sample_substr_validator.cpp
 sample_substr_validator_LDADD = $(SCHED_DEPS)
+sample_substr_validator_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 sample_trivial_validator_SOURCES = $(VALIDATOR_SOURCES) \
 	sample_trivial_validator.cpp
 sample_trivial_validator_LDADD = $(SCHED_DEPS)
+sample_trivial_validator_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 ASSIMILATOR_SOURCES = \
 	assimilator.cpp \
@@ -268,69 +281,90 @@ ASSIMILATOR_SOURCES = \
 sample_dummy_assimilator_SOURCES = $(ASSIMILATOR_SOURCES) \
 	sample_dummy_assimilator.cpp
 sample_dummy_assimilator_LDADD = $(SCHED_DEPS)
+sample_dummy_assimilator_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 single_job_assimilator_SOURCES = $(ASSIMILATOR_SOURCES) \
 	single_job_assimilator.cpp
 single_job_assimilator_LDADD = $(SCHED_DEPS)
+single_job_assimilator_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 sample_work_generator_SOURCES = sample_work_generator.cpp
 sample_work_generator_LDADD = $(SCHED_DEPS)
+sample_work_generator_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 script_assimilator_SOURCES = $(ASSIMILATOR_SOURCES) \
 	script_assimilator.cpp
 script_assimilator_LDADD = $(SCHED_DEPS)
+script_assimilator_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 script_validator_SOURCES = $(VALIDATOR_SOURCES) \
 	script_validator.cpp
 script_validator_LDADD = $(SCHED_DEPS)
+script_validator_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 db_dump_SOURCES = db_dump.cpp
 db_dump_LDADD = $(SCHED_DEPS) -lz
+db_dump_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 db_purge_SOURCES = db_purge.cpp
 db_purge_LDADD = $(SCHED_DEPS) -lz
+db_purge_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 trickle_credit_SOURCES = trickle_credit.cpp trickle_handler.cpp
 trickle_credit_LDADD = $(SCHED_DEPS)
+trickle_credit_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 trickle_deadline_SOURCES = trickle_deadline.cpp trickle_handler.cpp
 trickle_deadline_LDADD = $(SCHED_DEPS)
+trickle_deadline_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 trickle_echo_SOURCES = trickle_echo.cpp trickle_handler.cpp
 trickle_echo_LDADD = $(SCHED_DEPS)
+trickle_echo_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 update_stats_SOURCES = update_stats.cpp
 update_stats_LDADD = $(SCHED_DEPS)
+update_stats_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 file_upload_handler_SOURCES = file_upload_handler.cpp sched_config.cpp sched_util_basic.cpp sched_limit.cpp
 file_upload_handler_LDADD = $(FUHLIBS)
+file_upload_handler_DEPENDENCIES = $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 make_work_SOURCES = make_work.cpp
 make_work_LDADD = $(SCHED_DEPS)
+make_work_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 transitioner_SOURCES = transitioner.cpp
 transitioner_LDADD = $(SCHED_DEPS)
+transitioner_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 size_regulator_SOURCES = size_regulator.cpp
 size_regulator_LDADD = $(SCHED_DEPS)
+size_regulator_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 message_handler_SOURCES = message_handler.cpp
 message_handler_LDADD = $(SCHED_DEPS)
+message_handler_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 get_file_SOURCES = get_file.cpp
 get_file_LDADD = $(SCHED_DEPS)
+get_file_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 put_file_SOURCES = put_file.cpp
 put_file_LDADD = $(SCHED_DEPS)
+put_file_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 delete_file_SOURCES = delete_file.cpp
 delete_file_LDADD = $(SCHED_DEPS)
+delete_file_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 adjust_user_priority_SOURCES = adjust_user_priority.cpp
 adjust_user_priority_LDADD = $(SCHED_DEPS)
+adjust_user_priority_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 sched_driver_SOURCES = sched_driver.cpp
 sched_driver_LDADD = $(SCHED_DEPS)
+sched_driver_DEPENDENCIES = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 if ENABLE_FCGI
 
@@ -339,10 +373,12 @@ schedcgi_PROGRAMS += fcgi fcgi_file_upload_handler
 fcgi_SOURCES = $(cgi_sources)
 fcgi_CPPFLAGS = -D_USING_FCGI_ $(AM_CPPFLAGS)
 fcgi_LDADD = libsched_fcgi.la $(LIBBOINC_CRYPT) $(LIBBOINC_FCGI) -lfcgi $(MYSQL_LIBS) $(PTHREAD_LIBS) $(RSA_LIBS) $(SSL_LIBS)
+fcgi_DEPENDENCIES = libsched_fcgi.la $(LIBBOINC_CRYPT) $(LIBBOINC_FCGI)
 
 fcgi_file_upload_handler_SOURCES = file_upload_handler.cpp sched_config.cpp sched_util_basic.cpp sched_limit.cpp
 fcgi_file_upload_handler_CPPFLAGS = -D_USING_FCGI_ $(AM_CPPFLAGS)
 fcgi_file_upload_handler_LDADD = $(FUHLIBS_FCGI)
+fcgi_file_upload_handler_DEPENDENCIES = $(LIBBOINC_CRYPT) $(LIBBOINC_FCGI)
 
 endif
 # end of "if ENABLE_FCGI"
