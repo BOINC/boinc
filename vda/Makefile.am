@@ -26,12 +26,15 @@ AM_LDFLAGS += -static
 
 vda_SOURCES = vda.cpp vda_lib.cpp vda_lib2.cpp vda_policy.cpp stats.cpp
 vda_LDADD = $(SERVERLIBS)
+vda_DEPENDENCIES = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 vdad_SOURCES = vdad.cpp vda_lib.cpp vda_lib2.cpp vda_policy.cpp stats.cpp
 vdad_LDADD = $(SERVERLIBS)
+vdad_DEPENDENCIES = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 ssim_SOURCES = ssim.cpp vda_lib.cpp vda_policy.cpp stats.cpp des.h
 ssim_LDADD = $(SERVERLIBS)
+ssim_DEPENDENCIES = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 clean: clean-am
 	rm -f *.gcno

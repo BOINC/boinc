@@ -25,16 +25,19 @@ uppercase_SOURCES = uppercase.cpp
 uppercase_CXXFLAGS = $(PTHREAD_CFLAGS)
 uppercase_LDFLAGS = -static-libtool-libs $(PTHREAD_CFLAGS)
 uppercase_LDADD = $(APPLIBS)
+uppercase_DEPENDENCIES = $(APPLIBS)
 
 concat_SOURCES = concat.cpp
 concat_CXXFLAGS = $(PTHREAD_CFLAGS)
 concat_LDFLAGS = -static-libtool-libs $(PTHREAD_CFLAGS)
 concat_LDADD = $(APPLIBS)
+concat_DEPENDENCIES = $(APPLIBS)
 
 1sec_SOURCES = 1sec.cpp
 1sec_CXXFLAGS = $(PTHREAD_CFLAGS)
 1sec_LDFLAGS = -static-libtool-libs $(PTHREAD_CFLAGS)
 1sec_LDADD = $(APPLIBS)
+1sec_DEPENDENCIES = $(APPLIBS)
 
 clean: clean-am
 	rm -f *.gcno
