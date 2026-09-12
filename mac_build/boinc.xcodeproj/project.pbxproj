@@ -326,7 +326,6 @@
 		DD81C81D144D900B000BE61A /* rdcolmap.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7DB144D900B000BE61A /* rdcolmap.c */; };
 		DD81C81E144D900B000BE61A /* rdgif.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7DC144D900B000BE61A /* rdgif.c */; };
 		DD81C81F144D900B000BE61A /* rdppm.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7DD144D900B000BE61A /* rdppm.c */; };
-		DD81C820144D900B000BE61A /* rdrle.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7DE144D900B000BE61A /* rdrle.c */; };
 		DD81C821144D900B000BE61A /* rdswitch.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7DF144D900B000BE61A /* rdswitch.c */; };
 		DD81C822144D900B000BE61A /* rdtarga.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7E0144D900B000BE61A /* rdtarga.c */; };
 		DD82D83C1F831E0500EEC6AD /* keyword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD82D83A1F831E0500EEC6AD /* keyword.cpp */; };
@@ -4032,7 +4031,6 @@
 				DD81C81D144D900B000BE61A /* rdcolmap.c in Sources */,
 				DD81C81E144D900B000BE61A /* rdgif.c in Sources */,
 				DD81C81F144D900B000BE61A /* rdppm.c in Sources */,
-				DD81C820144D900B000BE61A /* rdrle.c in Sources */,
 				DD81C821144D900B000BE61A /* rdswitch.c in Sources */,
 				DD81C822144D900B000BE61A /* rdtarga.c in Sources */,
 			);
