@@ -301,7 +301,7 @@ bool CBOINCGUIApp::OnInit() {
     }
 
 #ifdef SANDBOX
-    if (!success) iErrorCode = -1016;
+    if (!success) iErrorCode = -1021;
 #endif
 
     // Initialize the BOINC Diagnostics Framework
