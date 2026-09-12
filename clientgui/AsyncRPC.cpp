@@ -102,6 +102,7 @@ int AsyncRPC::RPC_Wait(RPC_SELECTOR which_rpc, void *arg1, void *arg2,
     ASYNC_RPC_REQUEST request;
     int retval = 0;
 
+    // Note: ASYNC_RPC_REQUEST constructor set request.resultPtr to NULL
     request.which_rpc = which_rpc;
     request.arg1 = arg1;
     request.arg2 = arg2;
@@ -148,8 +149,6 @@ void *RPCThread::Entry() {
     locale_t RPC_Thread_Locale = newlocale(LC_ALL_MASK, "C", (locale_t) 0);
     uselocale(RPC_Thread_Locale);
 #endif
-
-
 
     m_pRPC_Thread_Mutex->Lock();
     m_pDoc->m_bRPCThreadIsReady = true;
@@ -505,10 +504,6 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         }
     }
 
-    if ((request.rpcType == RPC_TYPE_WAIT_FOR_COMPLETION) && (request.resultPtr == NULL)) {
-        request.resultPtr = &retval;
-    }
-
     if (hasPriority) {
         // We may want to set hasPriority for some user-initiated events.
         // Since the user is waiting, insert this at head of request queue.
@@ -605,7 +600,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
 
             // OnRPCComplete() clears m_bWaitingForRPC and deletes m_RPCWaitDlg if RPC completed
             if (! m_bWaitingForRPC) {
-                return retval;
+                return current_rpc_request.retval;
             }
 
 #if wxDEBUG_LEVEL
