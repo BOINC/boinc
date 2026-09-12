@@ -600,7 +600,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
 
             // OnRPCComplete() clears m_bWaitingForRPC and deletes m_RPCWaitDlg if RPC completed
             if (! m_bWaitingForRPC) {
-                return request.retval;
+                return current_rpc_request.retval;
             }
 
 #if wxDEBUG_LEVEL
