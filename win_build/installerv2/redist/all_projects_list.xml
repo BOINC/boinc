@@ -222,6 +222,7 @@
         <name>windows_x86_64[BRP7-opencl-ati]</name>
         <name>windows_x86_64[BRP7-opencl-intel_gpu]</name>
         <name>windows_x86_64[BRP7-opencl-nvidia]</name>
+        <name>windows_x86_64[GW-cuda-2G]</name>
         <name>windows_x86_64[GW-opencl-ati]</name>
         <name>windows_x86_64[GW-opencl-ati-2G]</name>
         <name>windows_x86_64[GW-opencl-intel_gpu]</name>
@@ -249,6 +250,7 @@
         <name>x86_64-pc-linux-gnu[GW-opencl-ati-2G]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-intel_gpu]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-nvidia]</name>
+        <name>x86_64-pc-linux-gnu[GW-opencl-nvidia-570-2G]</name>
         <name>x86_64-pc-linux-gnu[opencl-intel_gpu]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/einstein.jpg</image>
@@ -456,12 +458,15 @@
         <name>windows_x86_64[docker]</name>
         <name>x86_64-pc-linux-gnu[docker]</name>
         <name>x86_64-apple-darwin[docker]</name>
-        <name>windows_x86_64[cuda_80]</name>
-        <name>x86_64-pc-linux-gnu[cuda_80]</name>
-        <name>windows_x86_64[cuda_8030]</name>
-        <name>x86_64-pc-linux-gnu[cuda_8030]</name>
-        <name>windows_x86_64[cuda_8031]</name>
-        <name>x86_64-pc-linux-gnu[cuda_8031]</name>
+        <name>windows_x86_64[amd_hip]</name>
+        <name>windows_x86_64[cuda_50]</name>
+        <name>x86_64-pc-linux-gnu[cuda_50]</name>
+        <name>windows_x86_64[amd_hip30]</name>
+        <name>windows_x86_64[cuda_5030]</name>
+        <name>x86_64-pc-linux-gnu[cuda_5030]</name>
+        <name>windows_x86_64[amd_hip31]</name>
+        <name>windows_x86_64[cuda_5031]</name>
+        <name>x86_64-pc-linux-gnu[cuda_5031]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/NFS_Logo.jpg</image>
       <summary>Study the factorization of large integers</summary>
