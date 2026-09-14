@@ -180,16 +180,45 @@ static void init_core_client(int argc, char** argv) {
     setbuf(stdout, 0);
     setbuf(stderr, 0);
 
+    // Manually extract --dir argument and change directory before config read
+    bool dir_specified = false;
+    for (int i = 1; i < argc; i++) {
+        if (!strcmp(argv[i], "-dir") || !strcmp(argv[i], "--dir")) {
+            if (i + 1 < argc) {
+                char* dir_path = argv[i+1];
+                // Remove the two arguments
+                for (int j = i; j < argc - 2; j++) {
+                    argv[j] = argv[j+2];
+                }
+                argc -= 2;
+                if (boinc_chdir(dir_path)) {
+                    log_message_error("Failed to chdir to specified directory");
+                }
+                dir_specified = true;
+                break;
+            }
+        }
+    }
+
     cc_config.defaults();
     nvc_config.defaults();
+
+    // Parse command line without --dir command
     gstate.parse_cmdline(argc, argv);
     gstate.now = dtime();
 
 #ifdef _WIN32
-    if (!cc_config.allow_multiple_clients && !gstate.cmdline_dir) {
+    // On Windows, switch to default data directory if no --dir and not allowing multiple clients
+    if (!dir_specified && !cc_config.allow_multiple_clients && !gstate.cmdline_dir) {
         chdir_to_data_dir();
     }
 #endif
+
+    // Read config file from current working directory
+    read_config_file(true);
+
+    // Parse command line again to override config file settings
+    gstate.parse_cmdline(argc, argv);
 
 #ifndef _WIN32
     if (g_use_sandbox) {
@@ -237,8 +266,6 @@ static void init_core_client(int argc, char** argv) {
     //_CrtSetBreakAlloc(654);
 #endif
 
-    read_config_file(true);
-
     // NOTE: this must be called BEFORE newer_version_startup_check()
     // Only branded builds of BOINC should have an nvc_config.xml file
     // in the BOINC Data directory. See comments in current_version.cpp.
@@ -273,6 +300,7 @@ static void do_gpu_detection(int argc, char** argv) {
     vector<string> warnings;
 
     boinc_install_signal_handlers();
+    read_config_file(true);
     gstate.parse_cmdline(argc, argv);
     gstate.now = dtime();
 
@@ -284,8 +312,6 @@ static void do_gpu_detection(int argc, char** argv) {
         BOINC_DIAG_REDIRECTSTDOUT;
 
     diagnostics_init(flags, "stdoutgpudetect", "stderrgpudetect");
-
-    read_config_file(true);
 
     coprocs.detect_gpus(warnings);
     coprocs.write_coproc_info_file(warnings);
@@ -353,7 +379,6 @@ static int initialize() {
             return ERR_EXEC;
         }
     }
-
 
     // Initialize WinSock
 #if defined(_WIN32) && defined(USE_WINSOCK)
