@@ -528,6 +528,9 @@ function app_form($desc=null) {
         form_input_hidden('edit_name', $desc->name);
         form_input_hidden('user_id', $desc->user_id);
         form_input_hidden('create_time', $desc->create_time);
+        if (empty($desc->submitters)) {
+            $desc->submitters = [];
+        }
     } else {
         $desc = new StdClass;
         $desc->long_name = null;
@@ -727,13 +730,13 @@ function app_details($user) {
             $user2->name
         )
     );
-    if ($desc->submitters) {
+    if (!empty($desc->submitters)) {
         $y = [];
         foreach ($desc->submitters as $id) {
             $u = BoincUser::lookup_id($id);
             if ($u) {
                 $y[] = sprintf('<a href=show_user.php?userid=%d>%s</a>',
-                    $u->id, $u->name
+                    $u->id, htmlspecialchars($u->name)
                 );
             } else {
                 $y[] = sprintf('unknown: %d', $id);

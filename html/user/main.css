@@ -449,7 +449,7 @@ div.pm_preview {
     white-space: normal;
 }
 
-// this ignores additional bootstrap classes
+/* this ignores additional bootstrap classes */
 div.input-group, div.btn-group, ul.pager, div.pagination {
     display: inline;
 }
