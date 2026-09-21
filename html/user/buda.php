@@ -97,7 +97,7 @@ function show_app($app_dir) {
         return;
     }
     echo '<hr>';
-    echo sprintf('<h3>%s</h3><p>', $desc->long_name);
+    echo sprintf('<h3>%s</h3><p>', htmlspecialchars($desc->long_name));
     show_button_small(
         sprintf('buda.php?action=app_details&name=%s', $desc->name),
         'App details'
@@ -720,14 +720,14 @@ function app_details($user) {
     $name = get_str('name');
     $desc = get_buda_app_desc($name);
     if (!$desc) error_page("no desc file $path");
-    page_head("BUDA app: $desc->long_name");
+    page_head(sprintf('BUDA app: %s', htmlspecialchars($desc->long_name));
     start_table('table-striped');
-    row2('Internal name', $desc->name);
+    row2('Internal name', htmlspecialchars($desc->name));
     $user2 = BoincUser::lookup_id($desc->user_id);
     row2('Creator',
         sprintf('<a href=show_user.php?userid=%d>%s</a>',
             $user2->id,
-            $user2->name
+            htmlspecialchars($user2->name)
         )
     );
     if (!empty($desc->submitters)) {
