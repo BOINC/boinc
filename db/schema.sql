@@ -274,7 +274,7 @@ create table workunit (
     max_error_results       integer         not null,
     max_total_results       integer         not null,
     max_success_results     integer         not null,
-    result_template_file    varchar(63)     not null,
+    result_template_file    varchar(254)    not null,
     priority                integer         not null,
     mod_time                timestamp default current_timestamp on update current_timestamp,
     rsc_bandwidth_bound     double          not null,

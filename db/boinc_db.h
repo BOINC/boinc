@@ -58,7 +58,7 @@ struct TRANSITIONER_ITEM {
     int file_delete_state;
     int assimilate_state;
     int target_nresults;
-    char result_template_file[64];
+    char result_template_file[256];
     int priority;
     int hr_class;
     int batch;

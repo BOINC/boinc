@@ -522,7 +522,8 @@ struct WORKUNIT {
         // validator: if #success results exceeds this without consensus
         // (i.e. WU seems nondeterministic)
         // mark WU as WU_ERROR_TOO_MANY_SUCCESS_RESULTS
-    char result_template_file[64];
+    char result_template_file[256];
+        // path, relative to the project dir, of the job's output template
     int priority;
     char mod_time[20];
     double rsc_bandwidth_bound;
