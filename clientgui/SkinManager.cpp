@@ -20,7 +20,6 @@
 #include "parse.h"
 #include "util.h"
 #include "error_numbers.h"
-#include "miofile.h"
 #include "filesys.h"
 #include "BOINCGUIApp.h"
 #include "BOINCBaseFrame.h"
