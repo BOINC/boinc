@@ -720,7 +720,11 @@ function app_details($user) {
     $name = get_str('name');
     $desc = get_buda_app_desc($name);
     if (!$desc) error_page("no desc file $path");
-    page_head(sprintf('BUDA app: %s', htmlspecialchars($desc->long_name));
+    page_head(
+        sprintf('BUDA app: %s',
+            htmlspecialchars($desc->long_name)
+        )
+    );
     start_table('table-striped');
     row2('Internal name', htmlspecialchars($desc->name));
     $user2 = BoincUser::lookup_id($desc->user_id);
