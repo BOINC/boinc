@@ -84,7 +84,7 @@ function handle_list() {
     table_header(
         "User<br><small>Click to change permissions or quota</small>",
         "Can submit jobs to",
-        "Can administer apps for",
+        "Can administer",
         'Keywords',
         "Quota",
         "Max jobs in progress<br><small>0 means no limit</small>",

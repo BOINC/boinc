@@ -727,6 +727,23 @@ function app_details($user) {
             $user2->name
         )
     );
+    if ($desc->submitters) {
+        $y = [];
+        foreach ($desc->submitters as $id) {
+            $u = BoincUser::lookup_id($id);
+            if ($u) {
+                $y[] = sprintf('<a href=show_user.php?userid=%d>%s</a>',
+                    $u->id, $u->name
+                );
+            } else {
+                $y[] = sprintf('unknown: %d', $id);
+            }
+        }
+        $x = implode('<br>', $y);
+    } else {
+        $x = '&mdash;';
+    }
+    row2('Additional submitters', $x);
     row2('Created', date_str($desc->create_time));
     row2('Description', $desc->description);
     row2('Science keywords', kw_array_to_str($desc->sci_kw));
