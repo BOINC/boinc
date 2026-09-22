@@ -393,7 +393,7 @@ int SCHED_CONFIG::download_path(const char* filename, char* path) {
     return dir_hier_path(filename, download_dir, uldl_dir_fanout, path, true);
 }
 
-// if the given dir a plausible project directory?  It must
+// Is the given dir a plausible project directory?  It must
 // - have a config file
 // - have a subdir cgi-bin/
 //
@@ -417,7 +417,7 @@ static bool is_project_dir(const char* dir) {
 //      b) current dir, if config.xml exists there
 //      c) parent dir, if config.xml exists there
 //
-// NOTE: this is krufty.
+// NOTE: this is crufty.
 // At the very least, the printf expansion should be done by the caller.
 //
 const char *SCHED_CONFIG::project_path(const char *fmt, ...) {

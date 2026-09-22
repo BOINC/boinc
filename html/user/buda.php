@@ -718,8 +718,13 @@ function handle_app_edit() {
 function app_details($user) {
     global $buda_root;
     $name = get_str('name');
+    if (!is_valid_filename($name)) {
+        error_page("bad app name ".htmlspecialchars($name));
+    }
     $desc = get_buda_app_desc($name);
-    if (!$desc) error_page("no desc file $path");
+    if (!$desc) {
+        error_page("no desc file for ".htmlspecialchars($name));
+    }
     page_head(
         sprintf('BUDA app: %s',
             htmlspecialchars($desc->long_name)
@@ -752,7 +757,7 @@ function app_details($user) {
     }
     row2('Additional submitters', $x);
     row2('Created', date_str($desc->create_time));
-    row2('Description', $desc->description);
+    row2('Description', htmlspecialchars($desc->description));
     row2('Science keywords', kw_array_to_str($desc->sci_kw));
     row2(
         'Input filenames:',
