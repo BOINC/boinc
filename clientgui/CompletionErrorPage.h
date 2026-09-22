@@ -18,7 +18,6 @@
 #ifndef BOINC_COMPLETIONERRORPAGE_H
 #define BOINC_COMPLETIONERRORPAGE_H
 
-#include "WizardAttach.h"
 class CCompletionErrorPage: public CBOINCWizardPage {
     DECLARE_DYNAMIC_CLASS(CCompletionErrorPage)
 

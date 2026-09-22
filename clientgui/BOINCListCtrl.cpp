@@ -16,8 +16,6 @@
 // along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "stdwx.h"
-#include "BOINCGUIApp.h"
-#include "BOINCBaseView.h"
 #include "BOINCListCtrl.h"
 #include "Events.h"
 
