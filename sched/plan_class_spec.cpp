@@ -295,7 +295,7 @@ bool PLAN_CLASS_SPEC::check(
     //
     if (!cpu_features.empty()) {
         char buf[P_FEATURES_SIZE], buf2[512];
-        sprintf(buf, " %s ", sreq.host.p_features);
+        snprintf(buf, sizeof(buf), " %s ", sreq.host.p_features);
         char* p = strrchr(sreq.host.p_model, '[');
         if (p) {
             sprintf(buf2, " %s", p+1);
@@ -638,8 +638,10 @@ bool PLAN_CLASS_SPEC::check(
     if (have_project_prefs_regex && strlen(project_prefs_tag)) {
         char tag[256], value[256];
         char buf[65536];
-        extract_venue(g_reply->user.project_prefs, g_reply->host.venue, buf, sizeof(buf));
-        sprintf(tag,"<%s>",project_prefs_tag);
+        extract_venue(
+            g_reply->user.project_prefs, g_reply->host.venue, buf, sizeof(buf)
+        );
+        snprintf(tag, sizeof(tag), "<%s>", project_prefs_tag);
         bool p = parse_str(buf, tag, value, sizeof(value));
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
@@ -663,13 +665,16 @@ bool PLAN_CLASS_SPEC::check(
     double gpu_utilization = 1.0;
 
     // user defined gpu_utilization
+    // Kludge - should do in a more straightforward way
     //
     if (strlen(gpu_utilization_tag)) {
         char tag[256];
         char buf[65536];
         double v = 0;
-        extract_venue(g_reply->user.project_prefs, g_reply->host.venue, buf, sizeof(buf));
-        sprintf(tag,"<%s>",gpu_utilization_tag);
+        extract_venue(
+            g_reply->user.project_prefs, g_reply->host.venue, buf, sizeof(buf)
+        );
+        snprintf(tag, sizeof(tag), "<%s>", gpu_utilization_tag);
         bool p = parse_double(buf, tag, v);
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
@@ -732,6 +737,18 @@ bool PLAN_CLASS_SPEC::check(
                 }
                 return false;
             }
+        }
+
+        if (min_amd_simd_width
+            && (int)cp.opencl_prop.amd_simd_width < min_amd_simd_width
+        ) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: AMD SIMD width less than minimum (%u < %d)\n",
+                    cp.opencl_prop.amd_simd_width, min_amd_simd_width
+                );
+            }
+            return false;
         }
 
         if (min_cal_target && cp.attribs.target < min_cal_target) {
@@ -1321,6 +1338,7 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
 
         if (xp.parse_bool("need_ati_libs", need_ati_libs)) continue;
         if (xp.parse_bool("need_amd_libs", need_amd_libs)) continue;
+        if (xp.parse_int("min_amd_simd_width", min_amd_simd_width)) continue;
         if (xp.parse_bool("without_opencl", without_opencl)) continue;
         if (xp.parse_int("min_cal_target", min_cal_target)) continue;
         if (xp.parse_int("max_cal_target", max_cal_target)) continue;
@@ -1443,6 +1461,7 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
 
     need_ati_libs = false;
     need_amd_libs = false;
+    min_amd_simd_width = 0;
     min_cal_target = 0;
     max_cal_target = 0;
     without_opencl = false;

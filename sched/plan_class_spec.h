@@ -23,7 +23,10 @@
 #include <regex.h>
 
 // Represents a plan class, as specified in XML
-// if you add anything here, initialize it in the constructor
+// if you add anything here:
+// - initialize it in the constructor
+// - parse it in PLAN_CLASS_SPEC::parse()
+// - enforce it in PLAN_CLASS_SPEC::check()
 //
 struct PLAN_CLASS_SPEC {
     char name[256];
@@ -94,6 +97,9 @@ struct PLAN_CLASS_SPEC {
     bool need_ati_libs;
     bool need_amd_libs;
         // need DLLs w/ ATI or AMD name (default: neither)
+    int min_amd_simd_width;
+        // SIMD width for old GCN GPUs is 16; for new RDNA GPUs it's 32
+        // so you can distinguish them this way
     int min_cal_target;
     int max_cal_target;
     bool without_opencl; // restrict to CAL only GPUs
