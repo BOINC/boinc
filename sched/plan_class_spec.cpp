@@ -303,8 +303,8 @@ bool PLAN_CLASS_SPEC::check(
             if (p) {
                 *p = 0;
             }
-            strcat(buf2, " ");
-            strcat(buf, buf2);
+            safe_strcat(buf2, " ");
+            safe_strcat(buf, buf2);
         }
         downcase_string(buf);
 
