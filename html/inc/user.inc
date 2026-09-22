@@ -355,7 +355,7 @@ function friend_links($user) {
         'vertical-align:top',
         $user->name
     );
-    if ($user->has_profile) {
+    if (!DISABLE_PROFILES && $user->has_profile) {
         $profile = BoincProfile::lookup_fields("has_picture", "userid=$user->id");
         if ($profile && $profile->has_picture) {
             $img_url = profile_thumb_url($user->id);
@@ -389,7 +389,7 @@ function user_links($user, $badge_height=0, $name_limit=0) {
     }
     BoincForumPrefs::lookup($user);
     $x = "";
-    if ($user->has_profile) {
+    if (!DISABLE_PROFILES && $user->has_profile) {
         $img_url = url_base()."img/head_20.png";
         $x .= sprintf(
             ' <a href="%s%s?userid=%d"><img title="View the profile of %s" src="%s" alt="Profile"></a>',
