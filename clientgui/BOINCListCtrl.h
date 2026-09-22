@@ -49,8 +49,6 @@
 
 #include "BOINCBaseView.h"
 
-
-class CBOINCBaseView;
 class CDrawProgressBarEvent;
 
 class CBOINCListCtrl : public LISTCTRL_BASE {

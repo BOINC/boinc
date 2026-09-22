@@ -26,7 +26,6 @@
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "AdvancedFrame.h"
-#include "BOINCBaseView.h"
 #include "BOINCListCtrl.h"
 
 const int dlgHiddenColumnsInitialWidth = 480;

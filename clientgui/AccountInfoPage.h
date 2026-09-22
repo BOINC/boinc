@@ -18,7 +18,6 @@
 #ifndef BOINC_ACCOUNTINFOPAGE_H
 #define BOINC_ACCOUNTINFOPAGE_H
 
-#include "WizardAttach.h"
 class CAccountInfoPage: public CBOINCWizardPage {
     DECLARE_DYNAMIC_CLASS(CAccountInfoPage)
 
