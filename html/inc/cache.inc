@@ -307,6 +307,9 @@ class BoincMemcache {
     static $instance;
 
     static function get() {
+        if (self::$instance) {
+            return self::$instance;
+        }
         self::$instance = new Memcached;
         if (defined('MEMCACHE_PREFIX')) {
             self::$instance->setOption(Memcached::OPT_PREFIX_KEY, MEMCACHE_PREFIX);
@@ -315,7 +318,9 @@ class BoincMemcache {
         $servers = explode('|', MEMCACHE_SERVERS);
         foreach($servers as &$server) {
             list($ip, $port, $weight) = explode(':', $server);
-            if (!$port) { $port = 11211; }
+            if (!$port) {
+                $port = 11211;
+            }
             $server_arr[] = array($ip, $port, $weight);
         }
         self::$instance->addServers($server_arr);
