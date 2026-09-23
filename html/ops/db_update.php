@@ -1283,6 +1283,9 @@ function update_5_2_2026b() {
     do_query("alter table consent_type CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
 }
 
+// this lets you create a host record (from PHP)
+// without specifying all the files, in MySQL 8.3
+//
 function update_8_23_2026() {
     do_query("alter table host
         alter column rpc_seqno set default 0,
@@ -1330,6 +1333,12 @@ function update_8_23_2026() {
         alter column p_ngpus set default 0,
         alter column p_gpu_fpops set default 0
     ");
+}
+
+function update_9_21_2026() {
+    do_query(
+        "alter table workunit modify result_template_file varchar(254) not null"
+    );
 }
 
 // Updates are done automatically if you use "upgrade".
@@ -1397,6 +1406,7 @@ $db_updates = array (
     array(27031, "update_5_2_2026a"),
     array(27032, "update_5_2_2026b"),
     array(27033, "update_8_23_2026"),
+    array(27034, "update_9_21_2026"),
 );
 
 ?>
