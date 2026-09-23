@@ -97,7 +97,7 @@ function show_app($app_dir) {
         return;
     }
     echo '<hr>';
-    echo sprintf('<h3>%s</h3><p>', $desc->long_name);
+    echo sprintf('<h3>%s</h3><p>', htmlspecialchars($desc->long_name));
     show_button_small(
         sprintf('buda.php?action=app_details&name=%s', $desc->name),
         'App details'
@@ -528,6 +528,9 @@ function app_form($desc=null) {
         form_input_hidden('edit_name', $desc->name);
         form_input_hidden('user_id', $desc->user_id);
         form_input_hidden('create_time', $desc->create_time);
+        if (empty($desc->submitters)) {
+            $desc->submitters = [];
+        }
     } else {
         $desc = new StdClass;
         $desc->long_name = null;
@@ -715,20 +718,46 @@ function handle_app_edit() {
 function app_details($user) {
     global $buda_root;
     $name = get_str('name');
+    if (!is_valid_filename($name)) {
+        error_page("bad app name ".htmlspecialchars($name));
+    }
     $desc = get_buda_app_desc($name);
-    if (!$desc) error_page("no desc file $path");
-    page_head("BUDA app: $desc->long_name");
+    if (!$desc) {
+        error_page("no desc file for ".htmlspecialchars($name));
+    }
+    page_head(
+        sprintf('BUDA app: %s',
+            htmlspecialchars($desc->long_name)
+        )
+    );
     start_table('table-striped');
-    row2('Internal name', $desc->name);
+    row2('Internal name', htmlspecialchars($desc->name));
     $user2 = BoincUser::lookup_id($desc->user_id);
     row2('Creator',
         sprintf('<a href=show_user.php?userid=%d>%s</a>',
             $user2->id,
-            $user2->name
+            htmlspecialchars($user2->name)
         )
     );
+    if (!empty($desc->submitters)) {
+        $y = [];
+        foreach ($desc->submitters as $id) {
+            $u = BoincUser::lookup_id($id);
+            if ($u) {
+                $y[] = sprintf('<a href=show_user.php?userid=%d>%s</a>',
+                    $u->id, htmlspecialchars($u->name)
+                );
+            } else {
+                $y[] = sprintf('unknown: %d', $id);
+            }
+        }
+        $x = implode('<br>', $y);
+    } else {
+        $x = '&mdash;';
+    }
+    row2('Additional submitters', $x);
     row2('Created', date_str($desc->create_time));
-    row2('Description', $desc->description);
+    row2('Description', htmlspecialchars($desc->description));
     row2('Science keywords', kw_array_to_str($desc->sci_kw));
     row2(
         'Input filenames:',

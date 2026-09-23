@@ -393,22 +393,32 @@ int SCHED_CONFIG::download_path(const char* filename, char* path) {
     return dir_hier_path(filename, download_dir, uldl_dir_fanout, path, true);
 }
 
+// Is the given dir a plausible project directory?  It must
+// - have a config file
+// - have a subdir cgi-bin/
+//
 static bool is_project_dir(const char* dir) {
     char buf[1024];
     snprintf(buf, sizeof(buf), "%s/%s", dir, CONFIG_FILE);
-    if (!is_file_follow_symlinks(buf)) return false;
+    if (!is_file_follow_symlinks(buf)) {
+        return false;
+    }
     snprintf(buf, sizeof(buf), "%s/cgi-bin", dir);
-    if (!is_dir_follow_symlinks(buf)) return false;
+    if (!is_dir_follow_symlinks(buf)) {
+        return false;
+    }
     return true;
 }
 
-// Does 2 things:
-// - locate project directory.  This is either
+// input: a path relative to the project dir, specified printf-style
+// output: a path to the same place but relative to the current dir
+// The project directory must be either
 //      a) env var BOINC_PROJECT_DIR, if defined
 //      b) current dir, if config.xml exists there
 //      c) parent dir, if config.xml exists there
-// - returns a path relative to the project dir,
-//      specified by a format string + args
+//
+// NOTE: this is crufty.
+// At the very least, the printf expansion should be done by the caller.
 //
 const char *SCHED_CONFIG::project_path(const char *fmt, ...) {
     static char path[MAXPATHLEN];
@@ -418,7 +428,9 @@ const char *SCHED_CONFIG::project_path(const char *fmt, ...) {
         char *p = getenv("BOINC_PROJECT_DIR");
         if (p) {
             if (!is_project_dir(p)) {
-                boinc::fprintf(stderr, "BOINC_PROJECT_DIR env var exists but is not a project dir\n");
+                boinc::fprintf(stderr,
+                    "BOINC_PROJECT_DIR exists but is not a project dir\n"
+                );
                 exit(1);
             }
             strlcpy(project_dir, p, sizeof(project_dir));
@@ -427,7 +439,9 @@ const char *SCHED_CONFIG::project_path(const char *fmt, ...) {
         } else if (is_project_dir("..")) {
             strcpy(project_dir, "..");
         } else {
-            boinc::fprintf(stderr, "Not in a project directory or subdirectory\n");
+            boinc::fprintf(stderr,
+                "Not in a project directory or subdirectory\n"
+            );
             exit(1);
         }
     }
