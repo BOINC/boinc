@@ -31,6 +31,8 @@
 struct PLAN_CLASS_SPEC {
     char name[256];
     char gpu_type[256];
+        // nvidia, amd, intel, or apple_gpu
+        // or model name, e.g. 'QUALCOMM Adreno (TM)'
     bool cuda;
     bool cal;
     bool opencl;
