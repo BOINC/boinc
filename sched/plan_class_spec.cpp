@@ -922,6 +922,8 @@ bool PLAN_CLASS_SPEC::check(
         COPROC& cp = sreq.coprocs.apple_gpu;
         cpp = &cp;
 
+        gpu_ram = cp.available_ram;
+
         if (!cp.count) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
