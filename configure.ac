@@ -85,7 +85,7 @@ dnl Verify C++11 support
 AC_MSG_CHECKING([whether $CXX supports C++11])
 AC_LANG_PUSH([C++])
 save_CXXFLAGS="$CXXFLAGS"
-for flag in "-std=gnu++1z" "-std=c++11" "-std=c++0x"; do
+for flag in "-std=gnu++11" "-std=gnu++0x" "-std=c++11" "-std=c++0x"; do
   CXXFLAGS="$save_CXXFLAGS $flag"
   AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
     #include <memory>
@@ -102,7 +102,8 @@ for flag in "-std=gnu++1z" "-std=c++11" "-std=c++0x"; do
     [have_cxx11=no])
   if test "x$have_cxx11" = "xyes"; then
     AC_MSG_RESULT([yes, with $flag])
-    CXXFLAGS="$save_CXXFLAGS $flag"
+    CXXFLAGS="$save_CXXFLAGS"
+    cxx11_flag="$flag"
     break
   fi
 done
@@ -117,6 +118,84 @@ Please use a newer compiler version (e.g., GCC 4.8+, Clang 3.3+).
   ])
 fi
 AC_LANG_POP([C++])
+
+dnl Verify C++14 support
+AC_MSG_CHECKING([whether $CXX supports C++14])
+AC_LANG_PUSH([C++])
+save_CXXFLAGS="$CXXFLAGS"
+for flag in "-std=gnu++14" "-std=gnu++1y" "-std=c++14" "-std=c++1y"; do
+  CXXFLAGS="$save_CXXFLAGS $flag"
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+    #include <memory>
+    #include <array>
+    #include <functional>
+    ]],
+    [[
+    auto ptr = std::make_shared<int>(42);
+    std::array<int, 5> arr = {{1, 2, 3, 4, 5}};
+    auto lambda = [](auto x) { return x * 2; };
+    return lambda(*ptr) + arr[0];
+    ]])],
+    [have_cxx14=yes],
+    [have_cxx14=no])
+  if test "x$have_cxx14" = "xyes"; then
+    AC_MSG_RESULT([yes, with $flag])
+    CXXFLAGS="$save_CXXFLAGS"
+    cxx14_flag="$flag"
+    break
+  fi
+done
+if test "x$have_cxx14" != "xyes"; then
+  CXXFLAGS="$save_CXXFLAGS"
+  AC_MSG_RESULT([no])
+fi
+AC_LANG_POP([C++])
+
+dnl Verify C++17 support
+AC_MSG_CHECKING([whether $CXX supports C++17])
+AC_LANG_PUSH([C++])
+save_CXXFLAGS="$CXXFLAGS"
+for flag in "-std=gnu++17" "-std=gnu++1z" "-std=c++17" "-std=c++1z"; do
+  CXXFLAGS="$save_CXXFLAGS $flag"
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+    #include <memory>
+    #include <array>
+    #include <functional>
+    ]],
+    [[
+    if constexpr (true) {
+    auto ptr = std::make_shared<int>(42);
+    std::array<int, 5> arr = {{1, 2, 3, 4, 5}};
+    auto lambda = [](auto x) { return x * 2; };
+    return lambda(*ptr) + arr[0];
+    }
+    ]])],
+    [have_cxx17=yes],
+    [have_cxx17=no])
+  if test "x$have_cxx17" = "xyes"; then
+    AC_MSG_RESULT([yes, with $flag])
+    CXXFLAGS="$save_CXXFLAGS"
+    cxx17_flag="$flag"
+    break
+  fi
+done
+if test "x$have_cxx17" != "xyes"; then
+  CXXFLAGS="$save_CXXFLAGS"
+  AC_MSG_RESULT([no])
+fi
+AC_LANG_POP([C++])
+
+if test "x$have_cxx17" = "xyes"; then
+  CXXFLAGS="$save_CXXFLAGS $cxx17_flag"
+else
+    if test "x$have_cxx14" = "xyes"; then
+      CXXFLAGS="$save_CXXFLAGS $cxx14_flag"
+    else
+        if test "x$have_cxx11" = "xyes"; then
+          CXXFLAGS="$save_CXXFLAGS $cxx11_flag"
+        fi
+    fi
+fi
 
 dnl ------
 dnl Workaround for autoconf >= 2.65 backwards incompatibility
