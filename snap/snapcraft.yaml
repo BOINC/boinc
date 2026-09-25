@@ -16,7 +16,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 name: boinc
-base: core24
+base: core26
 version: "8.3.0"
 type: app
 title: BOINC Manager
@@ -59,8 +59,17 @@ apps:
     plugs:
     - network
     - network-bind
-    extensions:
-    - gnome
+    # snapcraft 9.0.1's gnome extension only lists core22/core24
+    # (canonical/snapcraft#6185 / #6278 still open for core26). Pack failed
+    # immediately with: Extension 'gnome' does not support base: 'core26'
+    # (run 32738147499). Keep core26; use the desktop plugs the extension
+    # would have injected until that ships.
+    - desktop
+    - desktop-legacy
+    - gsettings
+    - opengl
+    - wayland
+    - x11
     slots:
     - dbus-daemon
     common-id: boinc.manager
@@ -103,6 +112,8 @@ parts:
     - software-properties-common
     - cmake
     - dbus
+    - python3
+    - python3-pip
     - python3-venv
     - flex
     source: .
@@ -138,8 +149,9 @@ parts:
       aws --version
 
       export PATH=$HOME/.local/bin:$PATH
-      pip install -U --user pip
-      pip install --user jinja2
+      python3 -m venv "$CRAFT_PART_BUILD/.venv"
+      export PATH="$CRAFT_PART_BUILD/.venv/bin:$PATH"
+      python -m pip install -U pip jinja2
 
       # first parameter is the target triplet
       # second parameter is the host triplet
