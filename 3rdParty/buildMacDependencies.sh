@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -130,7 +130,7 @@ download_and_build() {
     fi
     if [ ! -d ${DIRNAME} ]; then
         if [ ! -e ${FILENAME} ]; then
-            wget ${DLURL}
+            wget -O ${FILENAME} ${DLURL}
         fi
         tar -xf ${FILENAME}
     fi
@@ -162,6 +162,7 @@ download_and_build "${wxWidgetsDirName}" "${wxWidgetsFileName}" "${wxWidgetsURL}
 download_and_build "${freetypeDirName}" "${freetypeFileName}" "${freetypeURL}" "${ROOTDIR}/mac_build/buildfreetype.sh" "libfreetype.a" "x86_64 arm64"
 download_and_build "${ftglDirName}" "${ftglFileName}" "${ftglURL}" "${ROOTDIR}/mac_build/buildFTGL.sh" "libftgl.a" "x86_64 arm64"
 download_and_build "${zipDirName}" "${zipFileName}" "${zipURL}" "${ROOTDIR}/mac_build/buildlibzip.sh" "libzip.a" "x86_64 arm64"
+download_and_build "${fmtDirName}" "${fmtFileName}" "${fmtURL}" "${ROOTDIR}/mac_build/buildfmt.sh" "libfmt.a" "x86_64 arm64"
 
 # change back to root directory
 cd ${ROOTDIR} || exit 1
