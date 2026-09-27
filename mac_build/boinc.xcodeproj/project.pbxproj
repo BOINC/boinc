@@ -1270,6 +1270,7 @@
 		DD9C94A20A5A3A4100AB0D10 /* BOINCBaseFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCBaseFrame.cpp; path = ../clientgui/BOINCBaseFrame.cpp; sourceTree = SOURCE_ROOT; };
 		DD9C94A30A5A3A4100AB0D10 /* BOINCBaseFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCBaseFrame.h; path = ../clientgui/BOINCBaseFrame.h; sourceTree = SOURCE_ROOT; };
 		DD9E560E182D0D40002AF0F8 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
+		DDA008903067DF5400C3B4FE /* BOINC.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = BOINC.xcconfig; sourceTree = "<group>"; };
 		DDA12A910A369AB500FBDD12 /* SetupSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetupSecurity.h; path = ../clientgui/mac/SetupSecurity.h; sourceTree = SOURCE_ROOT; };
 		DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SecurityUtility.cpp; path = ../clientgui/mac/SecurityUtility.cpp; sourceTree = SOURCE_ROOT; };
 		DDA1F1EC126D105B005EFFEB /* current_version.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = current_version.cpp; path = ../client/current_version.cpp; sourceTree = SOURCE_ROOT; };
@@ -1717,6 +1718,7 @@
 				DDB219A610B3BB6200417AEF /* WaitPermissions-Info.plist */,
 				DD213C9B2568099200A535C1 /* BoincCmd-Info.plist */,
 				DDEED39A29ADFDFA00DC3E5D /* Frameworks */,
+				DDA008903067DF5400C3B4FE /* BOINC.xcconfig */,
 			);
 			name = "¬´PROJECTNAME¬ª";
 			sourceTree = "<group>";
@@ -4596,6 +4598,7 @@
 		};
 		DD1AFEB90A512D8700EE5B82 /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = "Installer-Info.plist";
@@ -4620,7 +4623,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Development;
@@ -4629,7 +4631,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Deployment;
@@ -4638,7 +4639,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Development;
@@ -4647,7 +4647,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Deployment;
@@ -4679,7 +4678,6 @@
 					"-D__WXMAC__",
 					"-D_DEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				"OTHER_CFLAGS[arch=arm64]" = (
@@ -4692,7 +4690,6 @@
 					"-D__WXMAC__",
 					"-D_DEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				"OTHER_CFLAGS[arch=x86_64]" = (
@@ -4705,12 +4702,10 @@
 					"-D__WXMAC__",
 					"-D_DEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"-bind_at_load",
 					"-D_THREAD_SAFE",
 					"-lwx_osx_cocoa_static",
 					"-lz",
@@ -4760,7 +4755,6 @@
 					"-DSANDBOX",
 					"-D_NDEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				"OTHER_CFLAGS[arch=arm64]" = (
@@ -4774,7 +4768,6 @@
 					"-DSANDBOX",
 					"-D_NDEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				"OTHER_CFLAGS[arch=x86_64]" = (
@@ -4788,12 +4781,10 @@
 					"-DSANDBOX",
 					"-D_NDEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"-bind_at_load",
 					"-D_THREAD_SAFE",
 					"-lwx_osx_cocoa_static",
 					"-lz",
@@ -4852,7 +4843,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Development;
@@ -4865,7 +4855,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Deployment;
@@ -4874,7 +4863,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Development;
@@ -4883,7 +4871,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Deployment;
@@ -5123,6 +5110,7 @@
 		};
 		DD9843E109920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
@@ -5175,6 +5163,7 @@
 		};
 		DD9843E509920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
@@ -5191,7 +5180,6 @@
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
 				HEADER_SEARCH_PATHS = "../lib/**";
 				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -5199,7 +5187,6 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				PREBINDING = NO;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
@@ -5382,6 +5369,7 @@
 		};
 		DD9E2382091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
@@ -5398,7 +5386,6 @@
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
 				HEADER_SEARCH_PATHS = "../lib/**";
 				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-D_DEBUG",
@@ -5406,7 +5393,6 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				PREBINDING = NO;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
@@ -5481,6 +5467,7 @@
 		};
 		DDEED39529ADFD7100DC3E5D /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;

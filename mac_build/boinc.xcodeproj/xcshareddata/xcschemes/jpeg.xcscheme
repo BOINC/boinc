@@ -5,6 +5,24 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
+      <PreActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Run Script"
+               scriptText = "targetOSVers=`plutil -extract SupportedTargets.macosx.MinimumDeploymentTarget raw -n &quot;${SDK_DIR}/SDKSettings.plist&quot;`&#10;echo &quot;MACOSX_DEPLOYMENT_TARGET = $targetOSVers&quot; &gt; &quot;${SRCROOT}/BOINC.xcconfig&quot;&#10;">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "DD81C799144D8DA9000BE61A"
+                     BuildableName = "libjpeg.a"
+                     BlueprintName = "jpeg"
+                     ReferencedContainer = "container:boinc.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+      </PreActions>
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
