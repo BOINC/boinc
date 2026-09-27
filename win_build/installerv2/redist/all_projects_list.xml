@@ -342,6 +342,7 @@
         <description><![CDATA[NumberFields@home searches for fields with special properties. The primary application of this research is in the realm of algebraic number theory. Number theorists can mine the data for interesting patterns to help them formulate conjectures about number fields. Ultimately, this research will lead to a deeper understanding of the profound properties of numbers, the basic building blocks of all mathematics.]]></description>
         <home>Arizona State University, school of Mathematics</home>
     <platforms>
+        <name>aarch64-unknown-linux-gnu[default]</name>
         <name>i686-pc-linux-gnu[default]</name>
         <name>windows_intelx86[default]</name>
         <name>windows_x86_64[default]</name>
