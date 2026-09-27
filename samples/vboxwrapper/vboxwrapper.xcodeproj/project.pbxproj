@@ -45,6 +45,7 @@
 		DD52C39414A2D73900FC2A32 /* floppyio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = floppyio.cpp; sourceTree = "<group>"; };
 		DD52C39514A2D73900FC2A32 /* floppyio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = floppyio.h; sourceTree = "<group>"; };
 		DD90CEA0140CAB3D0074CF46 /* vboxwrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vboxwrapper.cpp; sourceTree = SOURCE_ROOT; };
+		DDC7609E30692FB600D2A32A /* vboxwrapper.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = vboxwrapper.xcconfig; sourceTree = "<group>"; };
 		DDC81AED1A688808000D8CEA /* vbox_common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vbox_common.cpp; sourceTree = "<group>"; };
 		DDC81AEE1A688808000D8CEA /* vbox_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vbox_common.h; sourceTree = "<group>"; };
 		DDC81AF11A68884B000D8CEA /* vboxjob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vboxjob.cpp; sourceTree = "<group>"; };
@@ -72,6 +73,7 @@
 		08FB7794FE84155DC02AAC07 /* vboxwrapper */ = {
 			isa = PBXGroup;
 			children = (
+				DDC7609E30692FB600D2A32A /* vboxwrapper.xcconfig */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
 			);
@@ -200,6 +202,7 @@
 /* Begin XCBuildConfiguration section */
 		1DEB928A08733DD80010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDC7609E30692FB600D2A32A /* vboxwrapper.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
@@ -219,7 +222,7 @@
 					../..,
 				);
 				LIBRARY_SEARCH_PATHS = "../../mac_build/build/Development/**";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DMAC_OS_X_VERSION_MIN_REQUIRED=101300",
@@ -237,6 +240,7 @@
 		};
 		1DEB928B08733DD80010E9CD /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDC7609E30692FB600D2A32A /* vboxwrapper.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
@@ -256,7 +260,7 @@
 					../..,
 				);
 				LIBRARY_SEARCH_PATHS = "../../mac_build/build/Deployment/**";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_CFLAGS = (
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DMAC_OS_X_VERSION_MIN_REQUIRED=101300",
@@ -275,6 +279,7 @@
 		};
 		DD3B6780140CF9470088683F /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDC7609E30692FB600D2A32A /* vboxwrapper.xcconfig */;
 			buildSettings = {
 				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.vboxwrapper;
 				PRODUCT_NAME = vboxwrapper;
@@ -285,6 +290,7 @@
 		};
 		DD3B6781140CF9470088683F /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDC7609E30692FB600D2A32A /* vboxwrapper.xcconfig */;
 			buildSettings = {
 				PRODUCT_BUNDLE_IDENTIFIER = edu.berkeley.vboxwrapper;
 				PRODUCT_NAME = vboxwrapper;
@@ -295,6 +301,7 @@
 		};
 		DDF95AF515AD8A54004AD167 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDC7609E30692FB600D2A32A /* vboxwrapper.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -302,6 +309,7 @@
 		};
 		DDF95AF615AD8A54004AD167 /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDC7609E30692FB600D2A32A /* vboxwrapper.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

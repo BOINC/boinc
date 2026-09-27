@@ -40,6 +40,7 @@
 # Updated 3/12/23 Don't unnecessary rebuild libraries for uc2, zip apps or vboxwrapper
 # Updated 3/29/25 Build docker_wrapper
 # Updated 2.8.26 Build RemovePodman
+# Updated 9.7.26 for Xcode26 support
 #
 ## This script requires OS 10.8 or later
 #
@@ -211,23 +212,35 @@ for f in "${settings[@]}"; do
     theSettings+=" "
 done
 
+## Apparently xcodebuild ignores build pre-actions, so we do this explicitly
+targetOSVers=`plutil -extract SupportedTargets.macosx.MinimumDeploymentTarget raw -n "${SDKPATH}/SDKSettings.plist"`
+result=$?
+if [ $result -ne 0 ]; then
+    echo "Failed to set deployment target MacOS version number"
+    return $result
+fi
+
 ## For unknown reasons, this xcodebuild call generates syntax errors under zsh
 ## unless we enclose the command in quotes and invoke it with eval.
 ## That is why all the other xcodebuild calls are invoked this way.
 
 if [ "${buildall}" = "1" ] || [ "${buildlibs}" = "1" ] || [ "${buildclient}" = "1" ] || [ "x${targets}" != "x" ]; then
 
-    echo ""
-    ## Apparently xcodebuild ignores build pre-actions, so we do this explicitly
-    source "./Update_Info_Plists.sh"
+    ## Finish performing the build pre-actions
+    echo "MACOSX_DEPLOYMENT_TARGET = $targetOSVers" > "BOINC.xcconfig"
     result=$?
-    echo ""
-
+    if [ $result -eq 0 ]; then
+        ## Update_Info_Plists.sh calls xcodebuild, so it
+        ## must come after setting MACOSX_DEPLOYMENT_TARGET
+        source "./Update_Info_Plists.sh"
+        result=$?
+        echo ""
+    fi
     if [ $result -eq 0 ]; then
         # build all or specified targets from the boinc.xcodeproj project for -all, -libs, -client, or -target
         eval "xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build ${uselibcplusplus} ${theSettings}"
         result=$?
-    fi
+     fi
 fi
 
 if [ $result -eq 0 ]; then
@@ -237,6 +250,8 @@ if [ $result -eq 0 ]; then
     fi
 
     if [ "${buildzip}" = "1" ]; then
+        echo "MACOSX_DEPLOYMENT_TARGET = $targetOSVers" > "../zip/boinc_zip.xcconfig"
+
         eval "xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
         result=$?
     fi
@@ -245,6 +260,8 @@ fi
 if [ $result -eq 0 ]; then
     # build UC2 sample apps for -uc2
     if [ "${builduc2}" = "1" ]; then
+        echo "MACOSX_DEPLOYMENT_TARGET = $targetOSVers" > "../samples/mac_build/UpperCase2.xcconfig"
+
         eval "xcodebuild -project ../samples/mac_build/UpperCase2.xcodeproj -target Build_All -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
         result=$?
     fi
@@ -253,6 +270,8 @@ fi
 if [ $result -eq 0 ]; then
     # build vboxwrapper app for -vboxwrapper
     if [ "${buildvboxwrapper}" = "1" ]; then
+        echo "MACOSX_DEPLOYMENT_TARGET = $targetOSVers" > "../samples/vboxwrapper/vboxwrapper.xcconfig"
+
         eval "xcodebuild -project ../samples/vboxwrapper/vboxwrapper.xcodeproj -target Build_All -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
         result=$?
     fi
@@ -261,6 +280,8 @@ fi
 if [ $result -eq 0 ]; then
     # build docker_wrapper app for -docker_wrapper
     if [ "${builddocker_wrapper}" = "1" ]; then
+        echo "MACOSX_DEPLOYMENT_TARGET = $targetOSVers" > "../samples/docker_wrapper/docker_wrapper.xcconfig"
+
         eval "xcodebuild -project ../samples/docker_wrapper/docker_wrapper.xcodeproj -target docker_wrapper -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
         result=$?
     fi
@@ -274,6 +295,8 @@ if [ $result -eq 0 ]; then
         else
             newStyle="Debug"
         fi
+        echo "MACOSX_DEPLOYMENT_TARGET = $targetOSVers" > "../mac_RemovePodman/RemovePodman.xcconfig"
+
         eval "xcodebuild -project ../mac_RemovePodman/RemovePodman.xcodeproj -target RemovePodman -configuration ${newStyle} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
         result=$?
     fi
