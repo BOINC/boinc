@@ -241,7 +241,7 @@ else
 
     ## Set deployment target to oldest MacOS version supported by this Xcode version
     retval=0
-    if [ "${SDKPATH}" = "" ]
+    if [ "${SDKPATH}" = "" ]; then
         SDKPATH=`xcodebuild -version -sdk macosx Path`
         retval=$?
     fi
