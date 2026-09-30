@@ -162,14 +162,13 @@ if [ "${style}" = "Development" ]; then
     echo "Development (debug) build"
 else
     style="Deployment"
-    echo "Deployment (release) build for architecture: x86_64"
+    echo "Deployment (release) build"
 fi
 
 echo ""
 
 if [ "${builduc2}" = "1" ]; then
     if [ ! -e "./build/${style}/libboinc.a" ]; then buildlibs=1; fi
-    if [ ! -e "./build/${style}/libboinc_api.a" ]; then buildlibs=1; fi
     if [ ! -e "./build/${style}/libboinc_api.a" ]; then buildlibs=1; fi
     if [ ! -e "./build/${style}/libjpeg.a" ]; then buildlibs=1; fi
     if [ ! -e "./build/${style}/libboinc_zip.a" ]; then buildzip=1; fi

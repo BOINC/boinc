@@ -389,7 +389,7 @@
 					../../../libzip/lib,
 				);
 				LIBRARY_SEARCH_PATHS = (
-					../../mac_build/build/Deployment/,
+					../../mac_build/build/Development/,
 					../../../libzip/lib,
 				);
 				OTHER_LDFLAGS = (
