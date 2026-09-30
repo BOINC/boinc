@@ -36,6 +36,7 @@
 # Updated 10/18/21 for building freetype 2.11.0
 # Updated 7/13/22 specify to build freetype without brotli support
 # Updated 2/6/23 changed MAC_OS_X_VERSION_MAX_ALLOWED to 101300 and MAC_OS_X_VERSION_MIN_REQUIRED to 101300 and MACOSX_DEPLOYMENT_TARGET to 10.13
+# Updated 9/30/26 for Xcode27 support
 #
 ## This script requires OS 10.8 or later
 #
@@ -104,6 +105,8 @@ GCC_archs=`lipo -info "${GCCPATH}"`
 if [[ "${GCC_archs}" = *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
 if [[ "${GCC_archs}" = *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
 
+GCC_can_build_x86_64="yes" ### TEMPORARY WORKAROUND FOR Xcode 27
+
 if [ "${doclean}" != "yes" ]; then
     if [ -f "${libPath}/libfreetype.a" ]; then
         alreadyBuilt=1
@@ -152,6 +155,29 @@ TOOLSPATH2=${ARPATH%/ar}
 export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":$PATH
 
 SDKPATH=`xcodebuild -version -sdk macosx Path`
+result=$?
+
+## Set deployment target to oldest MacOS version supported by this Xcode version
+if [ $result -eq 0 ]; then
+    targetOSVers=`plutil -extract SupportedTargets.macosx.MinimumDeploymentTarget raw -n "${SDKPATH}/SDKSettings.plist"`
+    result=$?
+fi
+if [ $result -ne 0 ]; then
+    echo "Failed to set deployment target MacOS version number"
+    return $result
+fi
+
+IFS='.' read -r MAJOR MINOR PATCH <<< "$targetOSVers"
+MINOR=${MINOR:-0}
+PATCH=${patch:-0}
+if [ "$MAJOR" -eq 10 ]; then
+    # Legacy macOS 10.x format: 10xx00
+    # Uses printf to pad the minor version to 2 digits
+    printf -v MAC_OS_VERSION "10%02d00" "$MINOR"
+else
+    # macOS 11.0+ format: xx0000
+    printf -v MAC_OS_VERSION "%02d0000" "$MAJOR"
+fi
 
 # this directory is only used when no --prefix argument was given
 rm -fR "../freetype_install/"
@@ -166,11 +192,11 @@ rm -fR "../freetype_install/"
 ##
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export CPPFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
-export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.10 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
-export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.10 -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
+export CPPFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
+export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
+export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=${targetOSVers} -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.13
+export MACOSX_DEPLOYMENT_TARGET=${targetOSVers}
 
 ./configure --enable-shared=NO --prefix=${lprefix} --enable-freetype-config --without-png --without-brotli --without-harfbuzz --host=x86_64
 if [ $? -ne 0 ]; then return 1; fi
@@ -188,11 +214,11 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
 
     export CC="${GCCPATH}";export CXX="${GPPPATH}"
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-    export CPPFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=10.10 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
-    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=10.10 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
-    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=10.10 -target arm64-apple-macos -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
+    export CPPFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
+    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
+    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=${targetOSVers} -target arm64-apple-macos -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
     export SDKROOT="${SDKPATH}"
-    export MACOSX_DEPLOYMENT_TARGET=10.13
+    export MACOSX_DEPLOYMENT_TARGET="${targetOSVers}"
 
     ./configure --enable-shared=NO --prefix=${lprefix} --enable-freetype-config --without-png --without-brotli --without-harfbuzz --host=arm
     if [ $? -ne 0 ]; then

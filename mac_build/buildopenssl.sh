@@ -40,6 +40,7 @@
 # Updated 10/18/21 for building OpenSSL 3.0.0
 # Updated 2/6/23 changed MAC_OS_X_VERSION_MAX_ALLOWED to 101300 and MAC_OS_X_VERSION_MIN_REQUIRED to 101300 and MACOSX_DEPLOYMENT_TARGET to 10.13
 # Updated 4/5/23 for args now accepted by patch utility; set mmacosx-version-min=10.13
+# Updated 9/30/26 for Xcode27 support
 #
 ## Building OpenSSL 3.0 requires Xcode 10.2 or later
 #
@@ -94,6 +95,8 @@ GCC_archs=`lipo -info "${GCCPATH}"`
 if [[ "${GCC_archs}" = *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
 if [[ "${GCC_archs}" = *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
 
+GCC_can_build_x86_64="yes" ### TEMPORARY WORKAROUND FOR Xcode 27
+
 if [ "${doclean}" != "yes" ]; then
     if [ -f ${libPath}/libssl.a ] && [ -f ${libPath}/libcrypto.a ]; then
         alreadyBuilt=1
@@ -144,9 +147,32 @@ fi
 
 TOOLSPATH2=${ARPATH%/ar}
 
-SDKPATH=`xcodebuild -version -sdk macosx Path`
-
 export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
+
+SDKPATH=`xcodebuild -version -sdk macosx Path`
+result=$?
+
+## Set deployment target to oldest MacOS version supported by this Xcode version
+if [ $result -eq 0 ]; then
+    targetOSVers=`plutil -extract SupportedTargets.macosx.MinimumDeploymentTarget raw -n "${SDKPATH}/SDKSettings.plist"`
+    result=$?
+fi
+if [ $result -ne 0 ]; then
+    echo "Failed to set deployment target MacOS version number"
+    return $result
+fi
+
+IFS='.' read -r MAJOR MINOR PATCH <<< "$targetOSVers"
+MINOR=${MINOR:-0}
+PATCH=${patch:-0}
+if [ "$MAJOR" -eq 10 ]; then
+    # Legacy macOS 10.x format: 10xx00
+    # Uses printf to pad the minor version to 2 digits
+    printf -v MAC_OS_VERSION "10%02d00" "$MINOR"
+else
+    # macOS 11.0+ format: xx0000
+    printf -v MAC_OS_VERSION "%02d0000" "$MAJOR"
+fi
 
 if [ -d "${libPath}" ]; then
     rm -f ${libPath}/libssl.a
@@ -157,50 +183,6 @@ echo ""
 
 # Build for x86_64 architecture
 
-## avx-512 cpu extensions are first supported in Xcode 10.2, but there is a bug in
-## crypto/bn/asm/rsaz-avx512.pl which causes OpenSSL to try to build with avx-512
-## instructions on earlier versions of Xcode, causing many build errors. In those
-## cases, we patch rsaz-avx512.pl to prevent that.
-##
-## This code works for versions of both forms major.minor and major.minor.revision
-## Get Xcode version and remove "Xcode " from resulting string
-fullversion=`xcodebuild -version | cut -d' ' -f2`
-## Remove all after the actual version number x.y or x.y.z under bash
-fullversion=`echo $fullversion | cut -d' ' -f1`
-## The next line is needed under zsh to finish removing all after x.y or x.y.z
-fullversion=`echo $fullversion | sed '/version/d'`
-major=`echo $fullversion | cut -d. -f1`
-minor=`echo $fullversion | cut -d. -f2`
-## $revision will be empty string if no revision number (only x.y not x.y.z)
-##revision=`echo $fullversion | cut -d. -f3` # We don't need the revision number
-if [[ $major -lt 10  || ($major -eq 10 && $minor -lt 2 ) ]]; then
-# Disable avx-512 support because not available in this Xcode verson
-    rm -f crypto/bn/asm/rsaz-avx512.pl.orig
-    rm -f /tmp/rsaz-avx512_pl_diff
-    # We must escape all the $ as \$ in the diff for the shell to treat them as literals
-    cat >> /tmp/rsaz-avx512_pl_diff << ENDOFFILE
---- /Volumes/Dev/BOINC_GIT/openssl-3.0.0-patched/crypto/bn/asm/rsaz-avx512-orig.pl    2021-09-07 04:46:32.000000000 -0700
-+++ /Volumes/Dev/BOINC_GIT/openssl-3.0.0-patched/crypto/bn/asm/rsaz-avx512.pl    2021-10-14 01:16:23.000000000 -0700
-@@ -52,6 +52,9 @@
-     \$avx512ifma = (\$2>=7.0);
- }
-
-+# Disable avx-512 support because not available in this Xcode verson
-+\$avx512ifma = 0;
-+
- open OUT,"| \"\$^X\" \"\$xlate\" \$flavour \"\$output\""
-     or die "can't call \$xlate: \$!";
- *STDOUT=*OUT;
-ENDOFFILE
-
-    patch -b -f -i /tmp/rsaz-avx512_pl_diff crypto/bn/asm/rsaz-avx512.pl
-    rm -f /tmp/rsaz-avx512_pl_diff
-    rm -f crypto/bn/asm/rsaz-avx512.pl.rej
-else
-    echo "crypto/bn/asm/rsaz-avx512.pl is OK for this Xcode version\n"
-fi
-echo ""
-
 ## The "-Werror=unguarded-availability" compiler flag generates an error if
 ## there is an unguarded API not available in our Deployment Target. This
 ## helps ensure openssl won't try to use unavailable APIs on older Mac
@@ -209,10 +191,10 @@ echo ""
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export CPPFLAGS=""
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.13 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
-export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.13 -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
+export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
+export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=${targetOSVers} -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.13
+export MACOSX_DEPLOYMENT_TARGET=${targetOSVers}
 export LIBRARY_PATH="${SDKPATH}/usr/lib"
 
 if [ "x${lprefix}" != "x" ]; then
@@ -236,11 +218,11 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
 
     export CC="${GCCPATH}";export CXX="${GPPPATH}"
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-    export CPPFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=10.13 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
-    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=10.13 -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
-    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=10.13 -target arm64-apple-macos -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300"
+    export CPPFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
+    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
+    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=${targetOSVers} -target arm64-apple-macos -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
     export SDKROOT="${SDKPATH}"
-    export MACOSX_DEPLOYMENT_TARGET=10.13
+    export MACOSX_DEPLOYMENT_TARGET=${targetOSVers}
     export LIBRARY_PATH="${SDKPATH}/usr/lib"
 
     if [ "x${lprefix}" != "x" ]; then

@@ -40,7 +40,7 @@
 # Updated 3/12/23 Don't unnecessary rebuild libraries for uc2, zip apps or vboxwrapper
 # Updated 3/29/25 Build docker_wrapper
 # Updated 2.8.26 Build RemovePodman
-# Updated 9.7.26 for Xcode26 support
+# Updated 9.30.26 for Xcode27 support
 #
 ## This script requires OS 10.8 or later
 #

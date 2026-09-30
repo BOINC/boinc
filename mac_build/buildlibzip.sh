@@ -48,6 +48,8 @@
 ##       sudo "/Applications/CMake.app/Contents/bin/cmake-gui" --install
 ##   Emter your password when prompted
 ##
+# Updated 9/30/26 for Xcode27 support
+##
 
 doclean=""
 stdout_target="/dev/stdout"
@@ -81,6 +83,8 @@ GCC_can_build_arm64="no"
 GCC_archs=`lipo -info "${GCCPATH}"`
 if [[ "${GCC_archs}" = *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
 if [[ "${GCC_archs}" = *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
+
+GCC_can_build_x86_64="yes" ### TEMPORARY WORKAROUND FOR Xcode 27
 
 if [ "${doclean}" != "yes" ]; then
     if [ -f "${libPath}/libzip.a" ]; then
@@ -138,6 +142,29 @@ TOOLSPATH3=${CMAKEPATH%/cmake}
 export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":"${TOOLSPATH3}":/usr/local/bin:$PATH
 
 SDKPATH=`xcodebuild -version -sdk macosx Path`
+result=$?
+
+## Set deployment target to oldest MacOS version supported by this Xcode version
+if [ $result -eq 0 ]; then
+    targetOSVers=`plutil -extract SupportedTargets.macosx.MinimumDeploymentTarget raw -n "${SDKPATH}/SDKSettings.plist"`
+    result=$?
+fi
+if [ $result -ne 0 ]; then
+    echo "Failed to set deployment target MacOS version number"
+    return $result
+fi
+
+IFS='.' read -r MAJOR MINOR PATCH <<< "$targetOSVers"
+MINOR=${MINOR:-0}
+PATCH=${patch:-0}
+if [ "$MAJOR" -eq 10 ]; then
+    # Legacy macOS 10.x format: 10xx00
+    # Uses printf to pad the minor version to 2 digits
+    printf -v MAC_OS_VERSION "10%02d00" "$MINOR"
+else
+    # macOS 11.0+ format: xx0000
+    printf -v MAC_OS_VERSION "%02d0000" "$MAJOR"
+fi
 
 if [ -d "${libPath}" ]; then
     rm -f "${libPath}/libzip.a"
@@ -155,12 +182,12 @@ fi
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export CPPFLAGS=""
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=10.13 -stdlib=libc++"
-export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=10.13 -arch x86_64"
+export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=${targetOSVers} -stdlib=libc++"
+export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=${targetOSVers} -arch x86_64"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.13
-export MAC_OS_X_VERSION_MAX_ALLOWED=101300
-export MAC_OS_X_VERSION_MIN_REQUIRED=101300
+export MACOSX_DEPLOYMENT_TARGET=${targetOSVers}
+export MAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION
+export MAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION
 
 cmake --fresh -B . -S . -DCMAKE_INSTALL_PREFIX=${lprefix} -DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DENABLE_COMMONCRYPTO=OFF -DENABLE_GNUTLS=OFF -DENABLE_MBEDTLS=OFF -DENABLE_OPENSSL=OFF -DENABLE_WINDOWS_CRYPTO=OFF -DENABLE_BZIP2=OFF -DENABLE_LZMA=OFF -DENABLE_ZSTD=OFF -DENABLE_FDOPEN=OFF -DBUILD_TOOLS=OFF -DBUILD_REGRESS=OFF -DBUILD_OSSFUZZ=OFF -DBUILD_EXAMPLES=OFF -DBUILD_DOC=OFF
 if [ $? -ne 0 ]; then return 1; fi
@@ -181,12 +208,12 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
     export CC="${GCCPATH}";export CXX="${GPPPATH}"
     export CPPFLAGS=""
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos10.13 -mmacosx-version-min=10.13 -stdlib=libc++"
-    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=10.13 -target arm64-apple-macos10.13"
+    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos${targetOSVers} -mmacosx-version-min=${targetOSVers} -stdlib=libc++"
+    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=${targetOSVers} -target arm64-apple-macos${targetOSVers}"
     export SDKROOT="${SDKPATH}"
-    export MACOSX_DEPLOYMENT_TARGET=10.13
-    export MAC_OS_X_VERSION_MAX_ALLOWED=101300
-    export MAC_OS_X_VERSION_MIN_REQUIRED=101300
+    export MACOSX_DEPLOYMENT_TARGET=${targetOSVers}
+    export MAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION
+    export MAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION
 
     cmake --fresh -B . -S . -DCMAKE_INSTALL_PREFIX=${lprefix} -DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DENABLE_COMMONCRYPTO=OFF -DENABLE_GNUTLS=OFF -DENABLE_MBEDTLS=OFF -DENABLE_OPENSSL=OFF -DENABLE_WINDOWS_CRYPTO=OFF -DENABLE_BZIP2=OFF -DENABLE_LZMA=OFF -DENABLE_ZSTD=OFF -DENABLE_FDOPEN=OFF -DBUILD_TOOLS=OFF -DBUILD_REGRESS=OFF -DBUILD_OSSFUZZ=OFF -DBUILD_EXAMPLES=OFF -DBUILD_DOC=OFF
     if [ $? -ne 0 ]; then
