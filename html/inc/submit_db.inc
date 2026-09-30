@@ -20,6 +20,7 @@
 
 require_once("../inc/common_defs.inc");
 
+#[AllowDynamicProperties]
 class BoincBatch {
     static function lookup_id($id) {
         $db = BoincDb::get();
@@ -62,6 +63,7 @@ class BoincBatch {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincUserSubmit {
     static function enum($clause) {
         $db = BoincDb::get();
@@ -93,6 +95,7 @@ class BoincUserSubmit {
 
 }
 
+#[AllowDynamicProperties]
 class BoincUserSubmitApp {
     static function enum($clause) {
         $db = BoincDb::get();
@@ -118,6 +121,7 @@ class BoincUserSubmitApp {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincJobFile {
     static function insert($clause) {
         $db = BoincDb::get();
@@ -139,6 +143,7 @@ class BoincJobFile {
     }
 }
 
+#[AllowDynamicProperties]
 class BoincBatchFileAssoc {
     static function insert($clause) {
         $db = BoincDb::get();
