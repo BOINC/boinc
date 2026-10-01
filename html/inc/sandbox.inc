@@ -145,7 +145,7 @@ $g_field = null;
 function field_compare($a, $b) {
     global $g_field;
     if ($a->$g_field == $b->$g_field) return 0;
-    return $a->$g_field > $b->$g_field;
+    return ($a->$g_field > $b->$g_field)?1:-1;
 }
 
 function column_sort(&$items, $field, $rev) {
