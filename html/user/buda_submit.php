@@ -36,6 +36,15 @@ function submit_form($user) {
         error_page('no permission');
     }
 
+    if (empty(get_buda_variants($app))) {
+        error_page(sprintf(
+            'You must create an app variant before submitting jobs.
+            <p>You can do this <a href=buda.php?action=variant_form&app=%s>here</a>.
+            ',
+            $app
+        ));
+    }
+
     $sbitems_zip = sandbox_select_items($user, '/.zip$/');
     if (!$sbitems_zip) {
         error_page("No .zip files in your sandbox.");
