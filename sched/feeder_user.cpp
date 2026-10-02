@@ -99,6 +99,9 @@ int sleep_interval = SLEEP_INTERVAL;
 int num_work_items = MAX_WU_RESULTS;
 int enum_limit = MAX_WU_RESULTS*2;
 int purge_stale_time = 0;
+    // if nonzero: remove entries from job array if they've been there
+    // at least this amount of time;
+    // they may be unsendable for some reason.
 double max_usage;
 
 void cleanup_shmem() {
@@ -352,7 +355,6 @@ void usage() {
     fprintf(stderr,
         "Usage: feeder_user options\n\n"
         "Options:\n"
-        "  --user ID                    job submitter (can have multiple)\n"
         "  --purge_stale nsec           purge results not sent for this\n"
         "  -d X | --debug_level X       Set log verbosity to X (1..4)\n"
         "  -h | --help                  Shows this help text.\n"
@@ -398,6 +400,17 @@ void need_arg(int argc, char** argv, int i, int count) {
     }
 }
 
+// create a JOB_STREAM for each user with submit permissions
+//
+void get_job_streams() {
+    DB_USER_SUBMIT us;
+    while (!us.enumerate()) {
+        if (us.quota == 0) continue;
+        JOB_STREAM js(us.user_id);
+        job_streams.push_back(js);
+    }
+}
+
 void parse_cmdline(int argc, char** argv) {
     for (int i=1; i<argc; i++) {
         if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
@@ -407,15 +420,6 @@ void parse_cmdline(int argc, char** argv) {
             if (dl == 4) {
                 g_print_queries = true;
             }
-        } else if (is_arg(argv[i], "user")) {
-            need_arg(argc, argv, i, 1);
-            int user_id = atoi(argv[++i]);
-            if (user_id <= 0) {
-                log_messages.printf(MSG_CRITICAL, "bad user ID %d\n", user_id);
-                exit(1);
-            }
-            JOB_STREAM js(user_id);
-            job_streams.push_back(js);
         } else if (is_arg(argv[i], "purge_stale")) {
             need_arg(argc, argv, i, 1);
             purge_stale_time = atoi(argv[++i]);
@@ -459,14 +463,7 @@ void show_init_state() {
 }
 
 void feeder_init() {
-    int retval = config.parse_file();
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "Can't parse config.xml: %s\n", boincerror(retval)
-        );
-        exit(1);
-    }
-
+    int retval;
     unlink(config.project_path(REREAD_DB_FILENAME));
 
     if (config.shmem_work_items) {
@@ -501,21 +498,6 @@ void feeder_init() {
 
     atexit(cleanup_shmem);
 
-    retval = boinc_db.open(
-        config.db_name, config.db_host, config.db_user, config.db_passwd
-    );
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "boinc_db.open: %d; %s\n", retval, boinc_db.error_string()
-        );
-        exit(1);
-    }
-    retval = boinc_db.set_isolation_level(READ_UNCOMMITTED);
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "boinc_db.set_isolation_level: %d; %s\n", retval, boinc_db.error_string()
-        );
-    }
     ssp->scan_tables();
 
     retval = ssp->perf_info.get_from_db();
@@ -532,8 +514,36 @@ void feeder_init() {
     show_init_state();
 }
 
+void open_db() {
+    int retval = config.parse_file();
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "Can't parse config.xml: %s\n", boincerror(retval)
+        );
+        exit(1);
+    }
+
+    retval = boinc_db.open(
+        config.db_name, config.db_host, config.db_user, config.db_passwd
+    );
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "boinc_db.open: %d; %s\n", retval, boinc_db.error_string()
+        );
+        exit(1);
+    }
+    retval = boinc_db.set_isolation_level(READ_UNCOMMITTED);
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "boinc_db.set_isolation_level: %d; %s\n", retval, boinc_db.error_string()
+        );
+    }
+}
+
 int main(int argc, char** argv) {
+    open_db();
     parse_cmdline(argc, argv);
+    get_job_streams();
     if (job_streams.empty()) {
         log_messages.printf(MSG_CRITICAL, "No users specified\n");
         exit(1);
