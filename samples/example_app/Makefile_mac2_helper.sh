@@ -33,7 +33,7 @@ if [ $result -eq 0 ]; then
     result=$?
 fi
 if [ $result -ne 0 ]; then
-    echo "Failed to set deployment target MacOS version number"
+    echo "-1 Failed to set deployment target MacOS version number"
     exit $result
 fi
 ## Convert MacOS version number to form used by Availability Macros

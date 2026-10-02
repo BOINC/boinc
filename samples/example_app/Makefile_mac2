@@ -59,6 +59,10 @@ SCRIPT_OUT := $(shell ./Makefile_mac2_helper.sh)
 My_Target_OS_Vers := $(word 1, $(SCRIPT_OUT))
 MY_MAC_OS_VERSION := $(word 2, $(SCRIPT_OUT))
 
+ifeq ($(shell test $(My_Target_OS_Vers) -lt 0; echo $$?),0)
+  $(error Failed to get minimum supported OS version)
+endif
+
 CXXFLAGS_ALL = \
     $(ISYSROOT) \
     -g \
