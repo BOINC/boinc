@@ -30,7 +30,10 @@
 #endif
 #endif
 
+#include <sys/types.h>
+
 #ifdef __FreeBSD__
+#include <cstddef>
 #include <errno.h>
 #include <sys/sysctl.h>
 #include <sys/time.h>       // struct clockinfo
@@ -44,7 +47,6 @@
 #include <string.h>
 #include <sys/param.h>
 #include <ctype.h>
-#include <sys/types.h>
 #include <sys/wait.h>
 #include <dirent.h>
 #include <signal.h>
