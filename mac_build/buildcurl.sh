@@ -46,7 +46,7 @@
 # Updated 4/5/23 for args now accepted by patch utility; set mmacosx-version-min=10.13
 # Updated 10/19/25 for curl 8.16.0. Secure Transport is deprecated so use OpenSSl again
 # Updated 6/10/26 to build curl 8.20.0 with Apple SecTrust
-# Updated 9/30/26 for Xcode27 support
+# Updated 10/2/26 for Xcode27 support
 #
 ## Curl's configure and make set the "-Werror=partial-availability" compiler flag,
 ## which generates an error if there is an API not available in our Deployment
@@ -181,7 +181,7 @@ if [ "$MAJOR" -eq 10 ]; then
     printf -v MAC_OS_VERSION "10%02d00" "$MINOR"
 else
     # macOS 11.0+ format: xx0000
-    printf -v MAC_OS_VERSION "%02d0000" "$MAJOR"
+    printf -v MAC_OS_VERSION "%02d%02d00" "$MAJOR" "$MINOR"
 fi
 
 if [ -d "${libPath}" ]; then

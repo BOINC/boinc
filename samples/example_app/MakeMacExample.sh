@@ -28,7 +28,7 @@
 # Updated 4/14/15 to fix build instructions
 # Updated 4/30/20 for Xcode 11
 # Updated 2/6/23 to build Universal M1 / x86_64 binary
-# Updated 10/1/26 for Xcode27 support
+# Updated 10/2/26 for Xcode27 support
 #
 ## This script requires OS 10.7 or later
 #
@@ -140,7 +140,7 @@ if [ "$MAJOR" -eq 10 ]; then
     printf -v MAC_OS_VERSION "10%02d00" "$MINOR"
 else
     # macOS 11.0+ format: xx0000
-    printf -v MAC_OS_VERSION "%02d0000" "$MAJOR"
+    printf -v MAC_OS_VERSION "%02d%02d00" "$MAJOR" "$MINOR"
 fi
 
 rm -fR x86_64
@@ -196,8 +196,16 @@ mv uc2_graphics arm64/
 mv slide_show arm64/
 
 lipo -create x86_64/uc2 arm64/uc2 -output uc2
-lipo -create x86_64/uc2_graphics arm64/uc2_graphics -output uc2_graphics
-lipo -create x86_64/slide_show arm64/slide_show -output slide_show
+result=$?
+
+if [ $result -eq 0 ]; then
+    lipo -create x86_64/uc2_graphics arm64/uc2_graphics -output uc2_graphics
+    result=$?
+fi
+
+if [ $result -eq 0 ]; then
+    lipo -create x86_64/slide_show arm64/slide_show -output slide_show
+fi
 
 rm -Rf arm64
 rm -Rf x86_64
@@ -219,4 +227,4 @@ export CXXFLAGS=""
 export CFLAGS=""
 export SDKROOT=""
 
-return 0
+return $result

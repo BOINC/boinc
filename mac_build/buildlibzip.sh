@@ -48,7 +48,7 @@
 ##       sudo "/Applications/CMake.app/Contents/bin/cmake-gui" --install
 ##   Emter your password when prompted
 ##
-# Updated 9/30/26 for Xcode27 support
+# Updated 10/2/26 for Xcode27 support
 ##
 
 doclean=""
@@ -163,7 +163,7 @@ if [ "$MAJOR" -eq 10 ]; then
     printf -v MAC_OS_VERSION "10%02d00" "$MINOR"
 else
     # macOS 11.0+ format: xx0000
-    printf -v MAC_OS_VERSION "%02d0000" "$MAJOR"
+    printf -v MAC_OS_VERSION "%02d%02d00" "$MAJOR" "$MINOR"
 fi
 
 if [ -d "${libPath}" ]; then

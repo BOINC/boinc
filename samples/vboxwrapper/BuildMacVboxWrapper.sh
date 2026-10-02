@@ -26,7 +26,7 @@
 # Updated 4/14/15 for compatibility with Xcode 6
 # Updated 6/9/22 for Xcode 13 compatibility (no 32-bit build); add code signing
 # Updated 2/6/23 to build Universal M1 / x86_64 binary
-# Updated 10/1/26 for Xcode27 support
+# Updated 10/2/26 for Xcode27 support
 #
 ## This script requires OS 10.15 or later
 #
@@ -138,7 +138,7 @@ if [ "$MAJOR" -eq 10 ]; then
     printf -v MAC_OS_VERSION "10%02d00" "$MINOR"
 else
     # macOS 11.0+ format: xx0000
-    printf -v MAC_OS_VERSION "%02d0000" "$MAJOR"
+    printf -v MAC_OS_VERSION "%02d%02d00" "$MAJOR" "$MINOR"
 fi
 
 rm -fR i386 x86_64

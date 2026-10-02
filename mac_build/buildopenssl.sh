@@ -40,7 +40,7 @@
 # Updated 10/18/21 for building OpenSSL 3.0.0
 # Updated 2/6/23 changed MAC_OS_X_VERSION_MAX_ALLOWED to 101300 and MAC_OS_X_VERSION_MIN_REQUIRED to 101300 and MACOSX_DEPLOYMENT_TARGET to 10.13
 # Updated 4/5/23 for args now accepted by patch utility; set mmacosx-version-min=10.13
-# Updated 9/30/26 for Xcode27 support
+# Updated 10/2/26 for Xcode27 support
 #
 ## Building OpenSSL 3.0 requires Xcode 10.2 or later
 #
@@ -171,7 +171,7 @@ if [ "$MAJOR" -eq 10 ]; then
     printf -v MAC_OS_VERSION "10%02d00" "$MINOR"
 else
     # macOS 11.0+ format: xx0000
-    printf -v MAC_OS_VERSION "%02d0000" "$MAJOR"
+    printf -v MAC_OS_VERSION "%02d%02d00" "$MAJOR" "$MINOR"
 fi
 
 if [ -d "${libPath}" ]; then
@@ -191,7 +191,7 @@ echo ""
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export CPPFLAGS=""
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
+export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
 export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=${targetOSVers} -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=${targetOSVers}

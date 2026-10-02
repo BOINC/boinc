@@ -39,8 +39,8 @@
 # Updated 2/14/23 refactoring made to build zip apps (-zipapps), uc2 samples (-uc2) and vboxwrapper (-vboxwrapper)
 # Updated 3/12/23 Don't unnecessary rebuild libraries for uc2, zip apps or vboxwrapper
 # Updated 3/29/25 Build docker_wrapper
-# Updated 2.8.26 Build RemovePodman
-# Updated 9.30.26 for Xcode27 support
+# Updated 2/8/26 Build RemovePodman
+# Updated 10/2/26 for Xcode27 support
 #
 ## This script requires OS 10.8 or later
 #
@@ -55,9 +55,6 @@
 ##
 ## then invoke this script as follows:
 ##      source BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-all] [-lib] [-client] [-uc2] [-vboxwrapper] [-docker_wrapper] [-RemovePodman] [-target targetName] [-setting name value] [-help]
-## or
-##      chmod +x BuildMacBOINC.sh
-##      ./BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-all] [-lib] [-client] [-uc2] [-vboxwrapper] [-docker_wrapper] [-RemovePodman] [-target targetName] [-setting name value] [-help]
 ##
 ## optional arguments
 ## -dev         build the development (debug) version.
@@ -250,9 +247,11 @@ if [ $result -eq 0 ]; then
 
     if [ "${buildzip}" = "1" ]; then
         echo "MACOSX_DEPLOYMENT_TARGET = $targetOSVers" > "../zip/boinc_zip.xcconfig"
-
-        eval "xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
         result=$?
+        if [ $result -eq 0 ]; then
+            eval "xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
+            result=$?
+        fi
     fi
 fi
 
@@ -260,9 +259,11 @@ if [ $result -eq 0 ]; then
     # build UC2 sample apps for -uc2
     if [ "${builduc2}" = "1" ]; then
         echo "MACOSX_DEPLOYMENT_TARGET = $targetOSVers" > "../samples/mac_build/UpperCase2.xcconfig"
-
-        eval "xcodebuild -project ../samples/mac_build/UpperCase2.xcodeproj -target Build_All -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
         result=$?
+        if [ $result -eq 0 ]; then
+            eval "xcodebuild -project ../samples/mac_build/UpperCase2.xcodeproj -target Build_All -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
+            result=$?
+        fi
     fi
 fi
 
@@ -270,9 +271,11 @@ if [ $result -eq 0 ]; then
     # build vboxwrapper app for -vboxwrapper
     if [ "${buildvboxwrapper}" = "1" ]; then
         echo "MACOSX_DEPLOYMENT_TARGET = $targetOSVers" > "../samples/vboxwrapper/vboxwrapper.xcconfig"
-
-        eval "xcodebuild -project ../samples/vboxwrapper/vboxwrapper.xcodeproj -target Build_All -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
         result=$?
+        if [ $result -eq 0 ]; then
+            eval "xcodebuild -project ../samples/vboxwrapper/vboxwrapper.xcodeproj -target Build_All -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
+            result=$?
+        fi
     fi
 fi
 
@@ -280,9 +283,11 @@ if [ $result -eq 0 ]; then
     # build docker_wrapper app for -docker_wrapper
     if [ "${builddocker_wrapper}" = "1" ]; then
         echo "MACOSX_DEPLOYMENT_TARGET = $targetOSVers" > "../samples/docker_wrapper/docker_wrapper.xcconfig"
-
-        eval "xcodebuild -project ../samples/docker_wrapper/docker_wrapper.xcodeproj -target docker_wrapper -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
         result=$?
+        if [ $result -eq 0 ]; then
+            eval "xcodebuild -project ../samples/docker_wrapper/docker_wrapper.xcodeproj -target docker_wrapper -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
+            result=$?
+        fi
     fi
 fi
 
@@ -295,9 +300,11 @@ if [ $result -eq 0 ]; then
             newStyle="Debug"
         fi
         echo "MACOSX_DEPLOYMENT_TARGET = $targetOSVers" > "../mac_RemovePodman/RemovePodman.xcconfig"
-
-        eval "xcodebuild -project ../mac_RemovePodman/RemovePodman.xcodeproj -target RemovePodman -configuration ${newStyle} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
         result=$?
+        if [ $result -eq 0 ]; then
+            eval "xcodebuild -project ../mac_RemovePodman/RemovePodman.xcodeproj -target RemovePodman -configuration ${newStyle} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
+            result=$?
+        fi
     fi
 fi
 

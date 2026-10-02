@@ -36,7 +36,7 @@
 # Updated 10/18/21 for building freetype 2.11.0
 # Updated 7/13/22 specify to build freetype without brotli support
 # Updated 2/6/23 changed MAC_OS_X_VERSION_MAX_ALLOWED to 101300 and MAC_OS_X_VERSION_MIN_REQUIRED to 101300 and MACOSX_DEPLOYMENT_TARGET to 10.13
-# Updated 9/30/26 for Xcode27 support
+# Updated 10/2/26 for Xcode27 support
 #
 ## This script requires OS 10.8 or later
 #
@@ -176,7 +176,7 @@ if [ "$MAJOR" -eq 10 ]; then
     printf -v MAC_OS_VERSION "10%02d00" "$MINOR"
 else
     # macOS 11.0+ format: xx0000
-    printf -v MAC_OS_VERSION "%02d0000" "$MAJOR"
+    printf -v MAC_OS_VERSION "%02d%02d00" "$MAJOR" "$MINOR"
 fi
 
 # this directory is only used when no --prefix argument was given

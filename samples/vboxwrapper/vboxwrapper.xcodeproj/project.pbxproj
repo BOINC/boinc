@@ -223,10 +223,6 @@
 				);
 				LIBRARY_SEARCH_PATHS = "../../mac_build/build/Development/**";
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
-					"-DMAC_OS_X_VERSION_MIN_REQUIRED=101300",
-				);
 				OTHER_LDFLAGS = (
 					"-lboinc_api",
 					"-lboinc",
@@ -261,10 +257,6 @@
 				);
 				LIBRARY_SEARCH_PATHS = "../../mac_build/build/Deployment/**";
 				MACOSX_DEPLOYMENT_TARGET = "";
-				OTHER_CFLAGS = (
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
-					"-DMAC_OS_X_VERSION_MIN_REQUIRED=101300",
-				);
 				OTHER_LDFLAGS = (
 					"-lboinc_api",
 					"-lboinc",

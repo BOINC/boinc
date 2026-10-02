@@ -20,6 +20,7 @@
 ##
 # Notarization Script for Macintosh BOINC Manager 5/17/23 by Charlie Fenton
 
+# Updated 10/2/26 for Xcode27 support
 ##
 ## This script will notarize and staple the release created by the script
 ##    mac_installer/release_boinc.sh
@@ -63,6 +64,7 @@ lipo "BOINCManager.app/Contents/MacOS/BOINCManager" -verify_arch arm64
 if [ $? -eq 0 ]; then Products_Have_arm64="yes"; fi
 if [ $Products_Have_x86_64 = "no" ] && [ $Products_Have_arm64 = "no" ]; then
     echo "ERROR: could not determine architecture of BOINC Manager"
+    return 1
 fi
 if [ $Products_Have_arm64 = "yes" ]; then
     if [ $Products_Have_x86_64 = "yes" ]; then
