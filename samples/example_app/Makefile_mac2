@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -24,6 +24,7 @@
 # Updated 4/30/20 for compatibility with Xcode 11 and OS 10.13
 # Updated 2/6/23 added arm64 support
 # Updated 9/28/25 to replace boinc_zip with the libzip library dependency
+# Updated 10/2/26 for Xcode27 support
 #
 ## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh
 ## This file assumes the locations of the needed libraries are those
@@ -35,7 +36,7 @@
 ##     make -f Makefile_mac2
 ##
 ## NOTE: this requires the libzip library which can be installed by the
-## scipt mac_build/buildlibzip.sh, which uses CMake via the command line.
+## script mac_build/buildlibzip.sh, which uses CMake via the command line.
 #
 
 BOINC_DIR = ../..
@@ -49,13 +50,22 @@ FTGL_DIR = $(BOINC_DIR)/../ftgl-2.1.3~rc5
 LIBZIP_DIR = $(BOINC_DIR)/../libzip
 FRAMEWORKS_DIR = /System/Library/Frameworks
 
+# Run our helper script and parse its stdout as Makefile assignments
+# My_Target_OS_Vers and MY_MAC_OS_VERSION
+
+SCRIPT_OUT := $(shell ./Makefile_mac2_helper.sh)
+
+# Extract individual words from the output string
+My_Target_OS_Vers := $(word 1, $(SCRIPT_OUT))
+MY_MAC_OS_VERSION := $(word 2, $(SCRIPT_OUT))
+
 CXXFLAGS_ALL = \
     $(ISYSROOT) \
     -g \
     -stdlib=libc++ \
     -DAPP_GRAPHICS \
-    -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 \
-    -DMAC_OS_X_VERSION_MIN_REQUIRED=101300 \
+    -DMAC_OS_X_VERSION_MAX_ALLOWED=$(MY_MAC_OS_VERSION) \
+    -DMAC_OS_X_VERSION_MIN_REQUIRED=$(MY_MAC_OS_VERSION) \
     -fvisibility=hidden \
     -fvisibility-inlines-hidden \
     -I$(BOINC_CONFIG_DIR) \
@@ -104,14 +114,14 @@ all: $(PROGS)
 clean:
 	/bin/rm -f $(PROGS) $(OBJ)
 
-uc2_x86_64: export MACOSX_DEPLOYMENT_TARGET=10.13
-uc2_graphics_x86_64: export MACOSX_DEPLOYMENT_TARGET=10.13
-slide_show_x86_64: export MACOSX_DEPLOYMENT_TARGET=10.13
-uc2_arm64: export MACOSX_DEPLOYMENT_TARGET=10.13
-uc2_graphics_arm64: export MACOSX_DEPLOYMENT_TARGET=10.13
-slide_show_arm64: export MACOSX_DEPLOYMENT_TARGET=10.13
+uc2_x86_64: export MACOSX_DEPLOYMENT_TARGET=$(My_Target_OS_Vers)
+uc2_graphics_x86_64: export MACOSX_DEPLOYMENT_TARGET=$(My_Target_OS_Vers)
+slide_show_x86_64: export MACOSX_DEPLOYMENT_TARGET=$(My_Target_OS_Vers)
+uc2_arm64: export MACOSX_DEPLOYMENT_TARGET=$(My_Target_OS_Vers)
+uc2_graphics_arm64: export MACOSX_DEPLOYMENT_TARGET=$(My_Target_OS_Vers)
+slide_show_arm64: export MACOSX_DEPLOYMENT_TARGET=$(My_Target_OS_Vers)
 
-# target uc2_x86_64: MACOSX_DEPLOYMENT_TARGET=10.13
+# target uc2_x86_64: MACOSX_DEPLOYMENT_TARGET=$(My_Target_OS_Vers)
 uc2_x86_64.o: uc2.cpp
 	$(CXX) $(CXXFLAGS_x86_64) -c uc2.cpp -o uc2_x86_64.o
 uc2_arm64.o: uc2.cpp
