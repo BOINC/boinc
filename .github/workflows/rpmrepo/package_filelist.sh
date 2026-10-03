@@ -20,7 +20,6 @@
 case "$2" in
 "linux_client")
     echo """/etc/default/*
-/etc/init.d/*
 /etc/bash_completion.d/*
 /etc/X11/Xsession.d/*
 /var/lib/*

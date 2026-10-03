@@ -125,7 +125,8 @@ class IntegrationTests:
         ts.expect_equal("/usr/local/bin/boincmgr", self._get_test_executable_file_path("boincmgr"), "Test 'boincmgr' file location")
         ts.expect_true(os.path.exists("/usr/lib/systemd/system/boinc-client.service"), "Test 'boinc-client.service' file exists in '/usr/lib/systemd/system/'")
         ts.expect_true(os.path.exists("/etc/default/boinc-client"), "Test 'boinc-client' file exists in '/etc/default/'")
-        ts.expect_true(os.path.exists("/etc/init.d/boinc-client"), "Test 'boinc-client' file exists in '/etc/init.d/'")
+        # No package ships the SysV init script any more (#7272).
+        ts.expect_false(os.path.exists("/etc/init.d/boinc-client"), "Test 'boinc-client' file does not exist in '/etc/init.d/'")
         ts.expect_true(os.path.exists("/etc/bash_completion.d/boinc.bash"), "Test 'boinc.bash' file exists in '/etc/bash_completion.d/'")
         ts.expect_true(os.path.exists("/etc/X11/Xsession.d/36x11-common_xhost-boinc"), "Test '36x11-common_xhost-boinc' file exists in '/etc/X11/Xsession.d/'")
         ts.expect_true(os.path.exists("/usr/local/share/applications/boinc.desktop"), "Test 'boinc.desktop' file exists in '/usr/local/share/applications/'")
@@ -221,7 +222,6 @@ class IntegrationTests:
         ts.expect_equal("root:root", self._get_file_owner("/usr/local/bin/boincmgr"), "Test '/usr/local/bin/boincmgr' file owner")
         ts.expect_equal("root:root", self._get_file_owner("/usr/lib/systemd/system/boinc-client.service"), "Test '/usr/lib/systemd/system/boinc-client.service' file owner")
         ts.expect_equal("root:root", self._get_file_owner("/etc/default/boinc-client"), "Test '/etc/default/boinc-client' file owner")
-        ts.expect_equal("root:root", self._get_file_owner("/etc/init.d/boinc-client"), "Test '/etc/init.d/boinc-client' file owner")
         ts.expect_equal("root:root", self._get_file_owner("/etc/bash_completion.d/boinc.bash"), "Test '/etc/bash_completion.d/boinc.bash' file owner")
         ts.expect_equal("root:root", self._get_file_owner("/etc/X11/Xsession.d/36x11-common_xhost-boinc"), "Test '/etc/X11/Xsession.d/36x11-common_xhost-boinc' file owner")
         ts.expect_equal("root:root", self._get_file_owner("/usr/local/share/applications/boinc.desktop"), "Test '/usr/local/share/applications/boinc.desktop' file owner")

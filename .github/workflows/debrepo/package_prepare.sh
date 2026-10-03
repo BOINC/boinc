@@ -35,7 +35,7 @@ function prepare_client() {
     # prepare dir structure
     mkdir -p usr/local/bin
     exit_on_fail
-    mkdir -p etc/boinc-client etc/default etc/init.d
+    mkdir -p etc/boinc-client etc/default
     exit_on_fail
     mkdir -p usr/lib/systemd/system
     exit_on_fail
@@ -57,7 +57,7 @@ function prepare_client() {
     exit_on_fail
     mv boinc-client.conf etc/default/boinc-client
     exit_on_fail
-    mv boinc-client etc/init.d/
+    rm boinc-client
     exit_on_fail
     mv boinc.bash etc/bash_completion.d/
     exit_on_fail

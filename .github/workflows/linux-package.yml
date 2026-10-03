@@ -558,6 +558,10 @@ jobs:
             if [ -e /etc/boinc-client/remote_hosts.cfg ] ; then
                 set_perm /etc/boinc-client/remote_hosts.cfg ${BOINCUSER} ${BOINCGROUP} 0660
             fi
+
+            %posttrans
+            # Runs after an upgrade has removed the old package files, so a SysV script left
+            # by an older package no longer makes systemctl enable fail (#7272).
             if command -v systemctl >/dev/null 2>&1 && [ -d /run/systemd/system ]; then
                 systemctl enable --now boinc-client.service
             fi
