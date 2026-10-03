@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -47,6 +47,7 @@
 # Updated 4/6/23 for wxCocoa 3.1.6 and for args now accepted by patch utility
 # Updated 5/6/23 for wxCocoa 3.2.2.1
 # Updated 10/11/25 for wxCocoa 3.3.1
+# Updated 9/30/26 for Xcode27 support
 #
 ## This script requires OS 10.6 or later
 ##
@@ -113,6 +114,8 @@ fi
 
 retval=0
 alreadyBuilt=0
+SDKPATH=""
+targetOSVers=""
 
 # First run wxWidget's built-in script to copy setup.h into place
 cd build/osx || return 1
@@ -133,6 +136,9 @@ if [ "${doclean}" != "clean" ] && [ -f "${libPathRel}/libwx_osx_cocoa_static.a" 
     GCC_archs=`lipo -archs "${GCCPATH}"`
     if [[ "${GCC_archs}" = *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
     if [[ "${GCC_archs}" = *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
+
+GCC_can_build_x86_64="yes" ### TEMPORARY WORKAROUND FOR Xcode 27
+
     if [ $GCC_can_build_x86_64 = "yes" ]; then
         lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch x86_64
         if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="clean"; fi
@@ -163,8 +169,20 @@ else
     ## helps ensure wxWidgets won't try to use unavailable APIs on older Mac
     ## systems supported by BOINC.
 
+    ## Set deployment target to oldest MacOS version supported by this Xcode version
+    SDKPATH=`xcodebuild -version -sdk macosx Path`
+    retval=$?
+    if [ $retval -eq 0 ]; then
+        targetOSVers=`plutil -extract SupportedTargets.macosx.MinimumDeploymentTarget raw -n "${SDKPATH}/SDKSettings.plist"`
+        retval=$?
+    fi
+    if [ $retval -ne 0 ]; then
+        echo "Failed to get deployment target MacOS version number"
+        return $retval
+    fi
+
     set -o pipefail
-     xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Release $doclean build ARCHS="\$(ARCHS_STANDARD)" ONLY_ACTIVE_ARCH="NO" MACOSX_DEPLOYMENT_TARGET="10.13" GCC_C_LANGUAGE_STANDARD="c11" CLANG_CXX_LANGUAGE_STANDARD="c++11" CLANG_CXX_LIBRARY="libc++" OTHER_CFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -D__STDC_WANT_LIB_EXT1__=1 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DPNG_ARM_NEON_OPT=0 -DNDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -D__STDC_WANT_LIB_EXT1__=1 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DPNG_ARM_NEON_OPT=0 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="\$(GCC_PREPROCESSOR_DEFINITIONS) wxUSE_UNICODE_UTF8=1  wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=$?
+     xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Release $doclean build ARCHS="\$(ARCHS_STANDARD)" ONLY_ACTIVE_ARCH="NO" MACOSX_DEPLOYMENT_TARGET="${targetOSVers}" GCC_C_LANGUAGE_STANDARD="c11" CLANG_CXX_LANGUAGE_STANDARD="c++11" CLANG_CXX_LIBRARY="libc++" OTHER_CFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -D__STDC_WANT_LIB_EXT1__=1 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DPNG_ARM_NEON_OPT=0 -DNDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -D__STDC_WANT_LIB_EXT1__=1 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DPNG_ARM_NEON_OPT=0 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="\$(GCC_PREPROCESSOR_DEFINITIONS) wxUSE_UNICODE_UTF8=1  wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=$?
     if [ ${retval} -ne 0 ]; then return 1; fi
     if [ "x${lprefix}" != "x" ]; then
         # copy library and headers to $lprefix
@@ -220,7 +238,23 @@ else
     ## $(ARCHS_STANDARD) builds Universal Binary (x86_64 & arm64) library under
     ## Xcode versions that can, otherwise it builds only the X86_64 library.
     set -o pipefail
-   xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Debug build ARCHS="\$(ARCHS_STANDARD)" ONLY_ACTIVE_ARCH="NO" MACOSX_DEPLOYMENT_TARGET="10.13" GCC_C_LANGUAGE_STANDARD="c11" CLANG_CXX_LANGUAGE_STANDARD="c++11" CLANG_CXX_LIBRARY="libc++" OTHER_CFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -D__STDC_WANT_LIB_EXT1__=1 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1  -DPNG_ARM_NEON_OPT=0 -DDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -D__STDC_WANT_LIB_EXT1__=1 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DPNG_ARM_NEON_OPT=0 -DDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="\$(GCC_PREPROCESSOR_DEFINITIONS) wxUSE_UNICODE_UTF8=1  wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=$?
+
+    ## Set deployment target to oldest MacOS version supported by this Xcode version
+    retval=0
+    if [ "${SDKPATH}" = "" ]; then
+        SDKPATH=`xcodebuild -version -sdk macosx Path`
+        retval=$?
+    fi
+    if [ $retval -eq 0 ] && [ "${targetOSVers}" = "" ]; then
+        targetOSVers=`plutil -extract SupportedTargets.macosx.MinimumDeploymentTarget raw -n "${SDKPATH}/SDKSettings.plist"`
+        retval=$?
+    fi
+    if [ $retval -ne 0 ]; then
+        echo "Failed to get deployment target MacOS version number"
+        return $retval
+    fi
+
+   xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Debug build ARCHS="\$(ARCHS_STANDARD)" ONLY_ACTIVE_ARCH="NO" MACOSX_DEPLOYMENT_TARGET="${targetOSVers}" GCC_C_LANGUAGE_STANDARD="c11" CLANG_CXX_LANGUAGE_STANDARD="c++11" CLANG_CXX_LIBRARY="libc++" OTHER_CFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -D__STDC_WANT_LIB_EXT1__=1 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1  -DPNG_ARM_NEON_OPT=0 -DDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -D__STDC_WANT_LIB_EXT1__=1 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DPNG_ARM_NEON_OPT=0 -DDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="\$(GCC_PREPROCESSOR_DEFINITIONS) wxUSE_UNICODE_UTF8=1  wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=$?
     if [ ${retval} -ne 0 ]; then return 1; fi
     if [ "x${lprefix}" != "x" ]; then
         # copy debug library to $PREFIX

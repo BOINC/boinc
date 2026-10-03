@@ -26,6 +26,7 @@
 		81483B902D94E90E00592A5B /* docker_wrapper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = docker_wrapper; sourceTree = BUILT_PRODUCTS_DIR; };
 		81483B9A2D94EBC600592A5B /* docker_wrapper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = docker_wrapper.cpp; sourceTree = "<group>"; };
 		81483B9C2D94EBDE00592A5B /* toml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = toml.h; sourceTree = "<group>"; };
+		DDC7609C30692C7500D2A32A /* docker_wrapper.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = docker_wrapper.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +43,7 @@
 		81483B872D94E90E00592A5B = {
 			isa = PBXGroup;
 			children = (
+				DDC7609C30692C7500D2A32A /* docker_wrapper.xcconfig */,
 				81483B9A2D94EBC600592A5B /* docker_wrapper.cpp */,
 				81483B9C2D94EBDE00592A5B /* toml.h */,
 				81483B912D94E90E00592A5B /* Products */,
@@ -125,6 +127,7 @@
 /* Begin XCBuildConfiguration section */
 		81483B952D94E90E00592A5B /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDC7609C30692C7500D2A32A /* docker_wrapper.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -176,7 +179,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -185,6 +188,7 @@
 		};
 		81483B962D94E90E00592A5B /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDC7609C30692C7500D2A32A /* docker_wrapper.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -230,7 +234,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -239,6 +243,7 @@
 		};
 		81483B982D94E90E00592A5B /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDC7609C30692C7500D2A32A /* docker_wrapper.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
@@ -262,6 +267,7 @@
 		};
 		81483B992D94E90E00592A5B /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDC7609C30692C7500D2A32A /* docker_wrapper.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";

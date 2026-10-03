@@ -227,6 +227,7 @@ vda/vdad
 
 # OS-specific files
 .DS_Store
+*.xcconfig
 
 # cmake build
 build/

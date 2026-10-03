@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -16,6 +16,8 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+#
+## Updated 10/3/26 for Xcode27 support
 
 ##
 # Script to create a branded installer such as World Community Grid
@@ -521,7 +523,7 @@ fi
 
 cd "../BOINC_Installer/Installer templates"
 
-pkgbuild --quiet --scripts "../Installer Scripts" --ownership recommended --identifier edu.berkeley.boinc --root "../Pkg_Root" --component-plist "./complist.plist" "./BOINC.pkg"
+pkgbuild --quiet --scripts "../Installer Scripts" --ownership preserve --identifier edu.berkeley.boinc --root "../Pkg_Root" --component-plist "./complist.plist" "./BOINC.pkg"
 
 if [ -n "${INSTALLERSIGNINGIDENTITY}" ]; then
     productbuild --sign "${INSTALLERSIGNINGIDENTITY}" --quiet --resources "../Installer Resources/" --version "${MANAGERAPPNAME} $1.$2.$3" --distribution "./myDistribution" "../New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}.pkg"
@@ -612,7 +614,7 @@ ditto -ck --sequesterRsrc --keepParent ${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch $
 ditto -ck --sequesterRsrc --keepParent ${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin ${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin.zip
 ditto -ck --sequesterRsrc --keepParent ${SHORTBRANDNAME}_$1.$2.$3_macOSX_SymbolTables ${SHORTBRANDNAME}_$1.$2.$3_macOSX_SymbolTables.zip
 
-sudo hdiutil create -srcfolder ${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin -ov -format UDZO ${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin.dmg
+sudo diskutil image create from --format UDZO ${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin ${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin.dmg
 
 #popd
 cd "${BOINCPath}"

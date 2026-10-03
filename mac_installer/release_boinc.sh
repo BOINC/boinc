@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -67,6 +67,7 @@
 ## Updated 7/31/25 to add "Run_Podman" utility
 ## Updated 8/7/25 to add "gfx_ss_bridge" utility
 ## Updated 10/23/25 to put BOINCManager.app in "/Library/Application Support/"
+## Updated 10/3/26 for Xcode27 support
 ##
 ## NOTE: This script requires Mac OS 10.7 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac
@@ -146,11 +147,10 @@ BOINCPath=$PWD
 
 if [ "$4" = "-dev" ]; then
     exec 7<"mac_build/Build_Development_Dir"
-    read -u 7 BUILDPATH
 else
     exec 7<"mac_build/Build_Deployment_Dir"
-    read -u 7 BUILDPATH
 fi
+read -u 7 BUILDPATH
 
 ##DarwinVersion=`uname -r`;
 ##DarwinMajorVersion=`echo $DarwinVersion | sed 's/\([0-9]*\)[.].*/\1/' `;
@@ -491,7 +491,8 @@ fi
 
 cd "../BOINC_Installer/Installer templates"
 
-pkgbuild --quiet --scripts "../Installer Scripts" --ownership recommended --identifier edu.berkeley.boinc --root "../Pkg_Root" --component-plist "./complist.plist" "./BOINC.pkg"
+pkgbuild --quiet --scripts "../Installer Scripts" --ownership preserve --identifier edu.berkeley.boinc --root "../Pkg_Root" --component-plist "./complist.plist" "./BOINC.pkg"
+
 
 if [ -n "${INSTALLERSIGNINGIDENTITY}" ]; then
     productbuild --sign "${INSTALLERSIGNINGIDENTITY}" --quiet --resources "../Installer Resources/" --version "BOINC Manager $1.$2.$3" --distribution "./myDistribution" "../New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC.pkg"
@@ -604,14 +605,14 @@ ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_macOSX_SymbolTables boinc_
 if [ -d boinc_$1.$2.$3_macOSX_${arch}_vbox ]; then
     ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_macOSX_${arch}_vbox boinc_$1.$2.$3_macOSX_${arch}_vbox.zip
 fi
-sudo hdiutil create -srcfolder boinc_$1.$2.$3_$arch-apple-darwin -ov -format UDZO boinc_$1.$2.$3_$arch-apple-darwin.dmg
+sudo diskutil image create from --format UDZO boinc_$1.$2.$3_$arch-apple-darwin boinc_$1.$2.$3_$arch-apple-darwin.dmg
 
 ## Command line tools such as AddRemoveuser cannot be notarized and so cannot be
 ## launched directly from the Finder (e.g. by double-clicking them), even if
 ## contained in a notarized dmg or zip file. But gatekeeper won't block them if
 ## they are run from within Terminal. For more information about this, see
 ## <https://developer.apple.com/forums/thread/127403>.
-sudo hdiutil create -srcfolder boinc_$1.$2.$3_$arch-AddRemoveUser -ov -format UDZO boinc_$1.$2.$3_$arch-AddRemoveUser.dmg
+sudo diskutil image create from --format UDZO boinc_$1.$2.$3_$arch-AddRemoveUser boinc_$1.$2.$3_$arch-AddRemoveUser.dmg
 
 #popd
 cd "${BOINCPath}"

@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2023 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -26,6 +26,7 @@
 # Updated 8/28/20 for compatibility with Xcode 10
 # Updated 8/19/22 to build Universal M1 / x86_64 binary
 # Updated 2/6/23 to sign binaries
+# Updated 10/3/26 for Xcode27 support
 #
 ## This script requires OS 10.6 or later
 #
@@ -113,6 +114,34 @@ TOOLSPATH2=${ARPATH%/ar}
 export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
 
 SDKPATH=`xcodebuild -version -sdk macosx Path`
+result=$?
+
+## Set deployment target to oldest MacOS version supported by this Xcode version
+if [ $result -eq 0 ]; then
+    targetOSVers=`plutil -extract SupportedTargets.macosx.MinimumDeploymentTarget raw -n "${SDKPATH}/SDKSettings.plist"`
+    result=$?
+fi
+if [ $result -ne 0 ]; then
+    echo "Failed to set deployment target MacOS version number"
+    return $result
+fi
+## Convert MacOS version number to form used by Availability Macros
+IFS='.' read -r MAJOR MINOR PATCH <<< "$targetOSVers"
+MINOR=${MINOR:-0}
+PATCH=${PATCH:-0}
+if [ "$MAJOR" -eq 10 ]; then
+    if [ "$MINOR" -lt 10 ]; then
+        # Legacy macOS 10.x < 10.10 format: 10x0
+        printf -v MAC_OS_VERSION "10%1d0" "$MINOR"
+    else
+        # Legacy macOS 10.x format: 10xx00
+        # Uses printf to pad the minor version to 2 digits
+        printf -v MAC_OS_VERSION "10%02d%02d" "$MINOR" "$PATCH"
+    fi
+else
+    # macOS 11.0+ format: xx0000
+    printf -v MAC_OS_VERSION "%02d%02d%02d" "$MAJOR" "$MINOR" "$PATCH"
+fi
 
 rm -fR x86_64
 
@@ -124,9 +153,9 @@ echo
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export VARIANTFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300 -fvisibility=hidden -fvisibility-inlines-hidden"
+export VARIANTFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -fvisibility=hidden -fvisibility-inlines-hidden"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.13
+export MACOSX_DEPLOYMENT_TARGET=${targetOSVers}
 export PREFIX="${PREFIX}"
 
 make -f Makefile_mac clean
@@ -145,9 +174,9 @@ echo
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-export VARIANTFLAGS="-isysroot ${SDKPATH} -arch arm64 -DMAC_OS_X_VERSION_MAX_ALLOWED=101300 -DMAC_OS_X_VERSION_MIN_REQUIRED=101300 -fvisibility=hidden -fvisibility-inlines-hidden"
+export VARIANTFLAGS="-isysroot ${SDKPATH} -arch arm64 -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -fvisibility=hidden -fvisibility-inlines-hidden"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.13
+export MACOSX_DEPLOYMENT_TARGET=${targetOSVers}
 export PREFIX="${PREFIX}"
 
 make -f Makefile_mac clean
