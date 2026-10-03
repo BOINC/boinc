@@ -38,7 +38,7 @@
 ## Called from pre-actions as:
 ##    source "$WORKSPACE_PATH/../../Update_Info_Plists.sh"
 ##
-## Alternatively, called crom BuildMacBOINC.sh.
+## Alternatively, called from BuildMacBOINC.sh.
 ## Usage when called from pre-BuildMacBOINC.sh:
 ##    cd {path}/mac_build/
 ##    source "./Update_Info_Plists.sh"
@@ -70,6 +70,7 @@ if [ ! -e "$directory/build/Development/SetVersion" ] || [ "$directory/../client
     fi
     if [ $result -ne 0 ]; then
         echo "Failed to set deployment target MacOS version number"
+        cd "${originalDir}"
         return $result
     fi
 

@@ -31,7 +31,7 @@
 # Updated 5/18/21 for compatibility with zsh
 # Updated 10/18/21 for building with freetype 2.11.0
 # Updated 2/6/23 changed MAC_OS_X_VERSION_MAX_ALLOWED to 101300 and MAC_OS_X_VERSION_MIN_REQUIRED to 101300 and MACOSX_DEPLOYMENT_TARGET to 10.13
-# Updated 10/2/26 for Xcode27 support
+# Updated 10/3/26 for Xcode27 support
 #
 ## This script requires OS 10.8 or later
 #
@@ -162,14 +162,19 @@ fi
 ## Convert MacOS version number to form used by Availability Macros
 IFS='.' read -r MAJOR MINOR PATCH <<< "$targetOSVers"
 MINOR=${MINOR:-0}
-PATCH=${patch:-0}
+PATCH=${PATCH:-0}
 if [ "$MAJOR" -eq 10 ]; then
-    # Legacy macOS 10.x format: 10xx00
-    # Uses printf to pad the minor version to 2 digits
-    printf -v MAC_OS_VERSION "10%02d00" "$MINOR"
+    if [ "$MINOR" -lt 10 ]; then
+        # Legacy macOS 10.x < 10.10 format: 10x0
+        printf -v MAC_OS_VERSION "10%1d0" "$MINOR"
+    else
+        # Legacy macOS 10.x format: 10xx00
+        # Uses printf to pad the minor version to 2 digits
+        printf -v MAC_OS_VERSION "10%02d02d" "$MINOR" "$PATCH"
+    fi
 else
     # macOS 11.0+ format: xx0000
-    printf -v MAC_OS_VERSION "%02d%02d00" "$MAJOR" "$MINOR"
+    printf -v MAC_OS_VERSION "%02d%02d%02d" "$MAJOR" "$MINOR" "$PATCH"
 fi
 
 # Build for x86_64 architecture
@@ -219,9 +224,9 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
 
     export CC="${GCCPATH}";export CXX="${GPPPATH}"
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-    export CPPFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=101000"
-    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=101000"
-    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=${targetOSVers} -target arm64-apple-macos -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=101000"
+    export CPPFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
+    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
+    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=${targetOSVers} -target arm64-apple-macos -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
     export SDKROOT="${SDKPATH}"
     export MACOSX_DEPLOYMENT_TARGET=${targetOSVers}
 

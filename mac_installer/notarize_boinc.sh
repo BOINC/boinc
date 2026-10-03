@@ -1,4 +1,4 @@
-#!/bin/csh
+#!/bin/sh
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
@@ -20,7 +20,7 @@
 ##
 # Notarization Script for Macintosh BOINC Manager 5/17/23 by Charlie Fenton
 
-# Updated 10/2/26 for Xcode27 support
+# Updated 10/3/26 for Xcode27 support
 ##
 ## This script will notarize and staple the release created by the script
 ##    mac_installer/release_boinc.sh
@@ -34,6 +34,10 @@
 ## Invoke this script with the three parts of the version number as arguments.
 ## For example, if the version is 3.2.1:
 ##     source [path_to_this_script] 3 2 1
+##
+## For testing only, you can use the development build by adding a fourth argument -dev
+## For example, if the version is 3.2.1:
+##     source [path_to_this_script] 3 2 1 -dev
 ##
 ## You must have done the following before running this script:
 ##  * Created an app-specific password by following the instructions on
@@ -50,7 +54,11 @@
 
 BOINCPath=$PWD
 
-exec 7<"mac_build/Build_Deployment_Dir"
+if [ "$4" = "-dev" ]; then
+    exec 7<"mac_build/Build_Development_Dir"
+else
+    exec 7<"mac_build/Build_Deployment_Dir"
+fi
 read -u 7 BUILDPATH
 
 arch="x86_64"
