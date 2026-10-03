@@ -164,7 +164,7 @@ if [ "$MAJOR" -eq 10 ]; then
     else
         # Legacy macOS 10.x format: 10xx00
         # Uses printf to pad the minor version to 2 digits
-        printf -v MAC_OS_VERSION "10%02d02d" "$MINOR" "$PATCH"
+        printf -v MAC_OS_VERSION "10%02d%02d" "$MINOR" "$PATCH"
     fi
 else
     # macOS 11.0+ format: xx0000
