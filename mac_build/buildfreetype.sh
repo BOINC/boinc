@@ -171,7 +171,7 @@ IFS='.' read -r MAJOR MINOR PATCH <<< "$targetOSVers"
 MINOR=${MINOR:-0}
 PATCH=${PATCH:-0}
 if [ "$MAJOR" -eq 10 ]; then
-    if [ "$MINOR" -lt 10 ];
+    if [ "$MINOR" -lt 10 ]; then
         # Legacy macOS 10.x < 10.10 format: 10x0
         printf -v MAC_OS_VERSION "10%1d0" "$MINOR"
     else
