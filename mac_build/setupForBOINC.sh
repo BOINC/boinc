@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -41,6 +41,7 @@
 # Updated 9/10/16 for c-ares 1.11.0, curl 7.50.2, openssl 1.1.0
 # Updated 6/25/23 to download inflate libraries if needed
 # Updated 9/25/25 for libzip-1.11.4
+# Updated 7/15/26 for libfmt-12.2.0
 #
 # Download these seven packages and place them in a common parent directory
 # with the BOINC source tree.
@@ -69,6 +70,7 @@ wxWidgetsOK="NO"
 freetypeOK="NO"
 ftglOK="NO"
 zipOK="NO"
+fmtOK="NO"
 finalResult=0
 
 SCRIPT_DIR=`pwd`
@@ -241,6 +243,33 @@ else
     echo ""
 fi
 
+cd "${SCRIPT_DIR}"
+
+if [ -x /usr/local/bin/ccmake ]; then
+    echo ""
+    echo "----------------------------------"
+    echo "----------- BUILD FMT -----------"
+    echo "----------------------------------"
+    echo ""
+
+    cd "../../${fmtDirName}"
+    if [  $? -eq 0 ]; then
+        source "${SCRIPT_DIR}/buildfmt.sh" ${cleanit}
+        if [  $? -eq 0 ]; then
+            fmtOK="YES"
+        fi
+    fi
+
+    cd "${SCRIPT_DIR}"
+else
+    echo ""
+    echo "----------------------------------"
+    echo "--- TO BUILD FMT PLEASE INSTALL --"
+    echo "----  CMAKE COMMAND-LINE TOOLS ----"
+    echo "----------------------------------"
+    echo ""
+fi
+
 if [ "${caresOK}" = "NO" ]; then
     echo ""
     echo "-----------------------------------"
@@ -298,7 +327,7 @@ if [ "${freetypeOK}" = "NO" ]; then
     echo "-----------------------------------"
     echo ""
 
-    finalResult=$[ finalResult | 32 ]
+    finalResult=$[ finalResult | 16 ]
 fi
 
 if [ "${ftglOK}" = "NO" ]; then
@@ -310,7 +339,7 @@ if [ "${ftglOK}" = "NO" ]; then
     echo "-----------------------------------"
     echo ""
 
-    finalResult=$[ finalResult | 64 ]
+    finalResult=$[ finalResult | 32 ]
 fi
 
 if [ "${zipOK}" = "NO" ]; then
@@ -319,6 +348,18 @@ if [ "${zipOK}" = "NO" ]; then
     echo "------------ WARNING --------------"
     echo "------------         --------------"
     echo "- COULD NOT BUILD ${zipDirName} --"
+    echo "-----------------------------------"
+    echo ""
+
+    finalResult=$[ finalResult | 64 ]
+fi
+
+if [ "${fmtOK}" = "NO" ]; then
+    echo ""
+    echo "-----------------------------------"
+    echo "------------ WARNING --------------"
+    echo "------------         --------------"
+    echo "- COULD NOT BUILD ${fmtDirName} --"
     echo "-----------------------------------"
     echo ""
 
