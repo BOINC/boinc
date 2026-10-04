@@ -45,7 +45,7 @@
 ##    cd {path}/mac_build/
 ##    source "./Update_Info_Plists.sh"
 ##
-## For detailed build instructions, see macbuild/HowToBuildBOINC_XCode.rtf
+## For detailed build instructions, see mac_build/HowToBuildBOINC_XCode.rtf
 ##
 
 originalDir=`pwd`

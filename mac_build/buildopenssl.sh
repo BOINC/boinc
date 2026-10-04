@@ -40,7 +40,7 @@
 # Updated 10/18/21 for building OpenSSL 3.0.0
 # Updated 2/6/23 changed MAC_OS_X_VERSION_MAX_ALLOWED to 101300 and MAC_OS_X_VERSION_MIN_REQUIRED to 101300 and MACOSX_DEPLOYMENT_TARGET to 10.13
 # Updated 4/5/23 for args now accepted by patch utility; set mmacosx-version-min=10.13
-# Updated 10/3/26 for Xcode27 support
+# Updated 10/4/26 for Xcode27 support
 #
 ## This script requires Xcode 15 or later
 #
