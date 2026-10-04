@@ -50,17 +50,19 @@ FTGL_DIR = $(BOINC_DIR)/../ftgl-2.1.3~rc5
 LIBZIP_DIR = $(BOINC_DIR)/../libzip
 FRAMEWORKS_DIR = /System/Library/Frameworks
 
-# Run our helper script and parse its stdout as Makefile assignments
-# My_Target_OS_Vers and MY_MAC_OS_VERSION
+ifneq ($(filter clean,$(MAKECMDGOALS)),clean)
+    # Run our helper script and parse its stdout as Makefile assignments
+    # My_Target_OS_Vers and MY_MAC_OS_VERSION
 
-SCRIPT_OUT := $(shell ./Makefile_mac2_helper.sh)
+    SCRIPT_OUT := $(shell ./Makefile_mac2_helper.sh)
 
-# Extract individual words from the output string
-My_Target_OS_Vers = $(word 1, $(SCRIPT_OUT))
-MY_MAC_OS_VERSION = $(word 2, $(SCRIPT_OUT))
+    # Extract individual words from the output string
+    My_Target_OS_Vers = $(word 1, $(SCRIPT_OUT))
+    MY_MAC_OS_VERSION = $(word 2, $(SCRIPT_OUT))
 
-ifeq ($(shell [ $(MY_MAC_OS_VERSION) -lt 0 ] && echo 1), 1)
-  $(error Failed to get minimum supported OS version)
+    ifeq ($(shell [ $(MY_MAC_OS_VERSION) -lt 0 ] && echo 1), 1)
+      $(error Failed to get minimum supported OS version)
+    endif
 endif
 
 CXXFLAGS_ALL = \
