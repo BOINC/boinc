@@ -958,13 +958,13 @@
         <name>windows_intelx86</name>
         <name>windows_x86_64</name>
         <name>windows_x86_64[docker]</name>
-        <name>x86-android-linux-gnu</name>
         <name>x86_64-android-linux-gnu</name>
         <name>x86_64-apple-darwin</name>
         <name>x86_64-apple-darwin[docker]</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[docker]</name>
         <name>x86_64-pc-linux-gnu[libc_228]</name>
+        <name>x86-android-linux-gnu</name>
     </platforms>
       <summary>Support scientists from multiple institutions</summary>
         <keywords>23 24 9</keywords>
