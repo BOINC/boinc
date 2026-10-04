@@ -136,7 +136,7 @@ GCC_can_build_arm64="yes" ### TEMPORARY WORKAROUND FOR Xcode 27
 alreadyBuilt=1
 
 if [ "${doclean}" != "yes" ]; then
-    lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch x86_64
+    if [ -f "${libPath}/libwx_osx_cocoa_static.a" ]; then
         alreadyBuilt=1
 
         if [ $GCC_can_build_x86_64 = "yes" ]; then
@@ -145,7 +145,7 @@ if [ "${doclean}" != "yes" ]; then
         fi
 
         if [ $alreadyBuilt -eq 1 ] && [ $GCC_can_build_arm64 = "yes" ]; then
-    lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch arm64
+            lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch arm64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
         fi
 
