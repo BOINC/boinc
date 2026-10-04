@@ -22,6 +22,7 @@ require_once("../inc/util.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/result.inc");
 require_once("../inc/keywords.inc");
+require_once("../inc/buda.inc");
 
 if (REQUIRE_LOGIN) {
     get_logged_in_user();
@@ -50,7 +51,18 @@ function show_wu($wu) {
 
     start_table();
     row2(tra("name"), $wu->name);
-    row2(tra("application"), "<a href=apps.php?app_id=$app->id>$app->user_friendly_name</a>");
+    if ($app->name == 'buda') {
+        $batch = BoincBatch::lookup_id($wu->batch);
+        row2(
+            'Application',
+            get_buda_app_name($batch->description).' (BUDA)'
+        );
+    } else {
+        row2(
+            tra("application"),
+            "<a href=apps.php?app_id=$app->id>$app->user_friendly_name</a>"
+        );
+    }
     if ($wu->batch) {
         row2('batch',
             "<a href=submit.php?action=query_batch&batch_id=$wu->batch>$wu->batch</a>"

@@ -64,6 +64,7 @@ require_once("../inc/submit_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/result.inc");
 require_once("../inc/submit_util.inc");
+require_once("../inc/buda.inc");
 require_once("../project/project.inc");
 require_once('../project/remote_apps.inc');
 
@@ -683,16 +684,24 @@ function handle_query_batch($user) {
     text_start(800);
     start_table();
     row2("Batch name", $batch->name);
-    if ($batch->description) {
-        row2('Description', $batch->description);
-    }
+
     if ($owner) {
         row2('Submitter',
             "<a href=show_user.php?userid=$owner->id>$owner->name</a>"
         );
     }
+
+    // If app is BUDA, show the science app name
+    //
+    if ($app && $app->name == 'buda') {
+        row2('Application', get_buda_app_name($batch->description).' (BUDA)');
+    } else {
+        if ($batch->description) {
+            row2('Description', $batch->description);
+        }
+        row2("Application", $app?$app->name:'---');
+    }
     row2("Submitted", time_str($batch->create_time));
-    row2("Application", $app?$app->name:'---');
     row2("State", batch_state_string($batch->state));
     //row2("# jobs", $batch->njobs);
     //row2("# error jobs", $batch->nerror_jobs);

@@ -490,13 +490,13 @@ function app_delete() {
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
     $confirmed = get_str('confirmed', true);
+    $vars = get_buda_variants($app);
+    if ($vars) {
+        error_page("To delete a BUDA app, you must first delete all its variants.");
+    }
     if ($confirmed) {
         $dir = "$buda_root/$app";
         if (!file_exists($dir)) error_page('no such app');
-        $vars = get_buda_variants($app);
-        if ($vars) {
-            error_page("You must delete all variants first.");
-        }
         system(
             sprintf(
                 'rm -r %s',
@@ -757,7 +757,7 @@ function app_details($user) {
     }
     row2('Additional submitters', $x);
     row2('Created', date_str($desc->create_time));
-    row2('Description', htmlspecialchars($desc->description));
+    row2('Description', $desc->description);
     row2('Science keywords', kw_array_to_str($desc->sci_kw));
     row2(
         'Input filenames:',
@@ -814,6 +814,8 @@ function app_details($user) {
                 'Add variant'
             )
         );
+    }
+    if (user_can_manage($user, $desc)) {
         row2('',
             button_text(
                 "buda.php?action=app_delete&app=$name",
