@@ -56,10 +56,10 @@ FRAMEWORKS_DIR = /System/Library/Frameworks
 SCRIPT_OUT := $(shell ./Makefile_mac2_helper.sh)
 
 # Extract individual words from the output string
-My_Target_OS_Vers := $(word 1, $(SCRIPT_OUT))
-MY_MAC_OS_VERSION := $(word 2, $(SCRIPT_OUT))
+My_Target_OS_Vers = $(word 1, $(SCRIPT_OUT))
+MY_MAC_OS_VERSION = $(word 2, $(SCRIPT_OUT))
 
-ifeq ($(shell test $(My_Target_OS_Vers) -lt 0; echo $$?),0)
+ifeq ($(shell [ $(MY_MAC_OS_VERSION) -lt 0 ] && echo 1), 1)
   $(error Failed to get minimum supported OS version)
 endif
 
