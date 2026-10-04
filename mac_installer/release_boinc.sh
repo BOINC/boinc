@@ -405,9 +405,6 @@ cp -fpR "${BUILDPATH}/BOINC_Finish_Install.app" "../BOINC_Installer/Pkg_Root/Lib
 
 echo "BrandId=0" > "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/PostInstall.app/Contents/Resources/Branding"
 
-sudo chown -R root:wheel "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app"
-sudo chmod -R u+r-w,g+r-w,o+r-w "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app"
-
 ## If you wish to code sign the client, manager, installer and uninstaller,
 ## create a file ~/BOINCCodeSignIdentities.txt whose first line is the
 ## application code signing identity and whose second line is the installer
@@ -507,6 +504,10 @@ else
 fi
 
 cd "${BOINCPath}"
+
+sudo chown -R root:wheel "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app"
+sudo chmod -R u+r-w,g+r-w,o+r-w "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app"
+
 
 # Build the BOINC+VirtualBox installer if VirtualBox.pkg exists
 if [ -f "../VirtualBox Installer/${VirtualBoxPackageName}" ]; then
