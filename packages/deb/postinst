@@ -180,7 +180,7 @@ if [ -e ${BOINCDIR}/gui_rpc_auth.cfg ] ; then
     set_perm ${BOINCDIR}/gui_rpc_auth.cfg ${BOINCUSER} ${BOINCGROUP} 0660
 fi
 
-if [ -e ${BOINC_DIR}/remote_hosts.cfg ] ; then
+if [ -e ${BOINCDIR}/remote_hosts.cfg ] ; then
     set_perm ${BOINCDIR}/remote_hosts.cfg ${BOINCUSER} ${BOINCGROUP} 0660
 fi
 
