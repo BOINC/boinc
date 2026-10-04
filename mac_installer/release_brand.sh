@@ -411,6 +411,8 @@ echo ${BRANDING_INFO} > "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_
 # Replace MacInstaller.icns with ${INSTALLERICON}.icns, but renamed MacInstaller.icns
 cp -fpRL ./clientgui/res/${INSTALLERICON}.icns "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/MacInstaller.icns"
 
+sudo chown -R root:wheel "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app"
+sudo chmod -R u+r-w,g+r-w,o+r-w "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}"
 
 ## If you wish to code sign the client, manager, installer and uninstaller,
 ## create a file ~/BOINCCodeSignIdentities.txt whose first line is the
