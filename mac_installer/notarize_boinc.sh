@@ -52,45 +52,47 @@
 ##  $ man stapler
 ##
 
-BOINCPath=$PWD
+Notarize_BOINCPath=$PWD
 
 if [ "$4" = "-dev" ]; then
     exec 7<"mac_build/Build_Development_Dir"
 else
     exec 7<"mac_build/Build_Deployment_Dir"
 fi
-read -u 7 BUILDPATH
+read -u 7 Notarize_BUILDPATH
 
-arch="x86_64"
+exec 7<&-   # Close fd 7
 
-Products_Have_x86_64="no"
-Products_Have_arm64="no"
-cd "${BUILDPATH}"
+arch_to_notarize="x86_64"
+
+Notarize_Products_Have_x86_64="no"
+Notarize_Products_Have_arm64="no"
+cd "${Notarize_BUILDPATH}"
 lipo "BOINCManager.app/Contents/MacOS/BOINCManager" -verify_arch x86_64
-if [ $? -eq 0 ]; then Products_Have_x86_64="yes"; fi
+if [ $? -eq 0 ]; then Notarize_Products_Have_x86_64="yes"; fi
 lipo "BOINCManager.app/Contents/MacOS/BOINCManager" -verify_arch arm64
-if [ $? -eq 0 ]; then Products_Have_arm64="yes"; fi
-if [ $Products_Have_x86_64 = "no" ] && [ $Products_Have_arm64 = "no" ]; then
+if [ $? -eq 0 ]; then Notarize_Products_Have_arm64="yes"; fi
+if [ $Notarize_Products_Have_x86_64 = "no" ] && [ $Notarize_Products_Have_arm64 = "no" ]; then
     echo "ERROR: could not determine architecture of BOINC Manager"
     return 1
 fi
-if [ $Products_Have_arm64 = "yes" ]; then
-    if [ $Products_Have_x86_64 = "yes" ]; then
-        arch="universal"
+if [ $Notarize_Products_Have_arm64 = "yes" ]; then
+    if [ $Notarize_Products_Have_x86_64 = "yes" ]; then
+        arch_to_notarize="universal"
     else
-        arch="arm64"
+        arch_to_notarize="arm64"
     fi
 fi
 
-cd "${BOINCPath}"
+cd "${Notarize_BOINCPath}"
 
-basepath="../BOINC_Installer/New_Release_$1_$2_$3"
+notarize_basepath="../BOINC_Installer/New_Release_$1_$2_$3"
 
 echo
 echo "***** Notarizing Installer and Uninstaller *****"
 echo
 
-xcrun notarytool submit "$basepath/boinc_$1.$2.$3_macOSX_$arch.zip" --keychain-profile "notarycredentials" --wait
+xcrun notarytool submit "$notarize_basepath/boinc_$1.$2.$3_macOSX_$arch_to_notarize.zip" --keychain-profile "notarycredentials" --wait
 
 if [ $? -ne 0 ]; then return 1; fi
 
@@ -101,15 +103,15 @@ if [ $? -ne 0 ]; then return 1; fi
 ##   FOR SAFETY, I FIRST RENAME THE ORIGINAL DIRECTORY TREE AND ZIP FILE RATHER THAN
 ##   TRASHING THEM ***
 
-mv "$basepath/boinc_$1.$2.$3_macOSX_$arch" "$basepath/boinc_$1.$2.$3_macOSX_$arch-orig"
+mv "$notarize_basepath/boinc_$1.$2.$3_macOSX_$arch_to_notarize" "$notarize_basepath/boinc_$1.$2.$3_macOSX_$arch_to_notarize-orig"
 
-open -W "$basepath/boinc_$1.$2.$3_macOSX_$arch.zip"
+open -W "$notarize_basepath/boinc_$1.$2.$3_macOSX_$arch_to_notarize.zip"
 
 echo
 echo "***** Stapling Installer *****"
 echo
 
-xcrun stapler staple "$basepath/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app"
+xcrun stapler staple "$notarize_basepath/boinc_$1.$2.$3_macOSX_$arch_to_notarize/BOINC Installer.app"
 
 if [ $? -ne 0 ]; then return 1; fi
 
@@ -117,7 +119,7 @@ echo
 echo "***** Stapling Uninstaller *****"
 echo
 
-xcrun stapler staple "$basepath/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app"
+xcrun stapler staple "$notarize_basepath/boinc_$1.$2.$3_macOSX_$arch_to_notarize/extras/Uninstall BOINC.app"
 
 if [ $? -ne 0 ]; then return 1; fi
 
@@ -125,16 +127,16 @@ echo
 echo "***** Zipping Installer and Uninstaller *****"
 echo
 
-mv "$basepath/boinc_$1.$2.$3_macOSX_$arch.zip" "$basepath/boinc_$1.$2.$3_macOSX_$arch-raw.zip"
+mv "$notarize_basepath/boinc_$1.$2.$3_macOSX_$arch_to_notarize.zip" "$notarize_basepath/boinc_$1.$2.$3_macOSX_$arch_to_notarize-raw.zip"
 
-ditto -ck --sequesterRsrc --keepParent "$basepath/boinc_$1.$2.$3_macOSX_$arch" "$basepath/boinc_$1.$2.$3_macOSX_$arch.zip"
+ditto -ck --sequesterRsrc --keepParent "$notarize_basepath/boinc_$1.$2.$3_macOSX_$arch_to_notarize" "$notarize_basepath/boinc_$1.$2.$3_macOSX_$arch_to_notarize.zip"
 
 ##    *** Now notarize the command-line version ***
 echo
 echo "***** Notarizing command-line version *****"
 echo
 
-xcrun notarytool submit "$basepath/boinc_$1.$2.$3_$arch-apple-darwin.dmg" --keychain-profile "notarycredentials" --wait
+xcrun notarytool submit "$notarize_basepath/boinc_$1.$2.$3_$arch_to_notarize-apple-darwin.dmg" --keychain-profile "notarycredentials" --wait
 
 if [ $? -ne 0 ]; then return 1; fi
 
@@ -144,15 +146,15 @@ if [ $? -ne 0 ]; then return 1; fi
 ##       * MAKE A COPY WITH THE ORIGINAL NAME
 ##       * STAPLE THE NEW COPY (WITH THE ORIGINAL NAME) ***
 
-mv "$basepath/boinc_$1.$2.$3_$arch-apple-darwin.dmg" "$basepath/boinc_$1.$2.$3_$arch-apple-darwin-raw.dmg"
+mv "$notarize_basepath/boinc_$1.$2.$3_$arch_to_notarize-apple-darwin.dmg" "$notarize_basepath/boinc_$1.$2.$3_$arch_to_notarize-apple-darwin-raw.dmg"
 
-cp "$basepath/boinc_$1.$2.$3_$arch-apple-darwin-raw.dmg" "$basepath/boinc_$1.$2.$3_$arch-apple-darwin.dmg"
+cp "$notarize_basepath/boinc_$1.$2.$3_$arch_to_notarize-apple-darwin-raw.dmg" "$notarize_basepath/boinc_$1.$2.$3_$arch_to_notarize-apple-darwin.dmg"
 
 echo
 echo "***** Stapling command-line version *****"
 echo
 
-stapler staple "$basepath/boinc_$1.$2.$3_$arch-apple-darwin.dmg"
+stapler staple "$notarize_basepath/boinc_$1.$2.$3_$arch_to_notarize-apple-darwin.dmg"
 
 if [ $? -ne 0 ]; then return 1; fi
 
@@ -168,7 +170,7 @@ echo
 ## For more information about this, see
 ## <https://developer.apple.com/forums/thread/127403>.
 
-xcrun notarytool submit "$basepath/boinc_$1.$2.$3_$arch-AddRemoveUser.dmg" --keychain-profile "notarycredentials" --wait
+xcrun notarytool submit "$notarize_basepath/boinc_$1.$2.$3_$arch_to_notarize-AddRemoveUser.dmg" --keychain-profile "notarycredentials" --wait
 
 if [ $? -ne 0 ]; then return 1; fi
 
@@ -178,15 +180,15 @@ if [ $? -ne 0 ]; then return 1; fi
 ##       * MAKE A COPY WITH THE ORIGINAL NAME
 ##       * STAPLE THE NEW COPY (WITH THE ORIGINAL NAME) ***
 
-mv "$basepath/boinc_$1.$2.$3_$arch-AddRemoveUser.dmg" "$basepath/boinc_$1.$2.$3_$arch-AddRemoveUser-raw.dmg"
+mv "$notarize_basepath/boinc_$1.$2.$3_$arch_to_notarize-AddRemoveUser.dmg" "$notarize_basepath/boinc_$1.$2.$3_$arch_to_notarize-AddRemoveUser-raw.dmg"
 
-cp "$basepath/boinc_$1.$2.$3_$arch-AddRemoveUser-raw.dmg" "$basepath/boinc_$1.$2.$3_$arch-AddRemoveUser.dmg"
+cp "$notarize_basepath/boinc_$1.$2.$3_$arch_to_notarize-AddRemoveUser-raw.dmg" "$notarize_basepath/boinc_$1.$2.$3_$arch_to_notarize-AddRemoveUser.dmg"
 
 echo
 echo "***** Stapling AddRemoveUser *****"
 echo
 
-stapler staple "$basepath/boinc_$1.$2.$3_$arch-AddRemoveUser.dmg"
+stapler staple "$notarize_basepath/boinc_$1.$2.$3_$arch_to_notarize-AddRemoveUser.dmg"
 
 if [ $? -ne 0 ]; then return 1; fi
 

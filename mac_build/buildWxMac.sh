@@ -47,9 +47,9 @@
 # Updated 4/6/23 for wxCocoa 3.1.6 and for args now accepted by patch utility
 # Updated 5/6/23 for wxCocoa 3.2.2.1
 # Updated 10/11/25 for wxCocoa 3.3.1
-# Updated 9/30/26 for Xcode27 support
+# Updated 10/4/26 for Xcode27 support
 #
-## This script requires OS 10.6 or later
+## This script requires Xcode 15 or later
 ##
 ## In Terminal, CD to the wxWidgets-3.3.1 directory.
 ##    cd [path]/wxWidgets-3.3.1/
@@ -61,6 +61,8 @@
 ## if --prefix is given as absolute path the library is installed into there
 ## use -q or --quiet to redirect build output to /dev/null instead of /dev/stdout
 #
+## For detailed build instructions, see mac_build/HowToBuildBOINC_XCode.rtf
+##
 
 SRCDIR=$PWD
 echo "${SRCDIR}" | grep " " > /dev/null 2>&1
@@ -122,77 +124,77 @@ cd build/osx || return 1
 ../../distrib/mac/pbsetup-sh ../../src ../../build/osx/setup/cocoa
 cd ../.. || return 1
 
-if [ "${doclean}" != "clean" ] && [ -f "${libPathRel}/libwx_osx_cocoa_static.a" ]; then
-    GCCPATH=`xcrun -find gcc`
-    if [ $? -ne 0 ]; then
-        echo "ERROR: can't find gcc compiler"
-        return 1
-    fi
-
-    alreadyBuilt=1
-    GCC_can_build_x86_64="no"
-    GCC_can_build_arm64="no"
-
-    GCC_archs=`lipo -archs "${GCCPATH}"`
-    if [[ "${GCC_archs}" = *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
-    if [[ "${GCC_archs}" = *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
-
-GCC_can_build_x86_64="yes" ### TEMPORARY WORKAROUND FOR Xcode 27
-
-    if [ $GCC_can_build_x86_64 = "yes" ]; then
-        lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch x86_64
-        if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="clean"; fi
-    fi
-
-    if [ $alreadyBuilt -eq 1 ] && [ $GCC_can_build_arm64 = "yes" ]; then
-        lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch arm64
-        if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="clean"; fi
-    fi
+GCCPATH=`xcrun -find gcc`
+if [ $? -ne 0 ]; then
+    echo "ERROR: can't find gcc compiler"
+    return 1
 fi
 
-if [ $alreadyBuilt -eq 1 ]; then
-    cwd=$(pwd)
-    dirname=${cwd##*/}
-    echo "${dirname} Release libwx_osx_cocoa_static.a already built"
-    echo ""
-else
-    ## We must override some of the build settings in wxWindows.xcodeproj
-    ## For wxWidgets 3.0.0 through 3.1.0 (at least) we must use legacy WebKit APIs
-    ## for x86_64, so we must define WK_API_ENABLED=0
+GCC_can_build_x86_64="yes" ### TEMPORARY WORKAROUND FOR Xcode 27
+GCC_can_build_arm64="yes" ### TEMPORARY WORKAROUND FOR Xcode 27
 
-    ## "-include unistd.h" is a workaround for a problem under Xcode 12 Beta
-    ## $(ARCHS_STANDARD) builds Universal Binary (x86_64 & arm64) library under
-    ## Xcode versions that can, otherwise it builds only the X86_64 library.
+alreadyBuilt=1
 
-    ## The "-Werror=unguarded-availability" compiler flag generates an error if
-    ## there is an unguarded API not available in our Deployment Target. This
-    ## helps ensure wxWidgets won't try to use unavailable APIs on older Mac
-    ## systems supported by BOINC.
+if [ "${doclean}" != "yes" ]; then
+    lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch x86_64
+        alreadyBuilt=1
 
-    ## Set deployment target to oldest MacOS version supported by this Xcode version
-    SDKPATH=`xcodebuild -version -sdk macosx Path`
+        if [ $GCC_can_build_x86_64 = "yes" ]; then
+            lipo "${libPath}/libftgl.a" -verify_arch x86_64
+            if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
+        fi
+
+        if [ $alreadyBuilt -eq 1 ] && [ $GCC_can_build_arm64 = "yes" ]; then
+    lipo "${libPathRel}/libwx_osx_cocoa_static.a" -verify_arch arm64
+            if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
+        fi
+
+        if [ $alreadyBuilt -eq 1 ]; then
+            cwd=$(pwd)
+            dirname=${cwd##*/}
+            echo "${dirname} already built"
+            return 0
+        fi
+    fi
+fi
+echo ""
+
+## We must override some of the build settings in wxWindows.xcodeproj
+## For wxWidgets 3.0.0 through 3.1.0 (at least) we must use legacy WebKit APIs
+## for x86_64, so we must define WK_API_ENABLED=0
+
+## "-include unistd.h" is a workaround for a problem under Xcode 12 Beta
+## $(ARCHS_STANDARD) builds Universal Binary (x86_64 & arm64) library under
+## Xcode versions that can, otherwise it builds only the X86_64 library.
+
+## The "-Werror=unguarded-availability" compiler flag generates an error if
+## there is an unguarded API not available in our Deployment Target. This
+## helps ensure wxWidgets won't try to use unavailable APIs on older Mac
+## systems supported by BOINC.
+
+## Set deployment target to oldest MacOS version supported by this Xcode version
+SDKPATH=`xcodebuild -version -sdk macosx Path`
+retval=$?
+if [ $retval -eq 0 ]; then
+    targetOSVers=`plutil -extract SupportedTargets.macosx.MinimumDeploymentTarget raw -n "${SDKPATH}/SDKSettings.plist"`
     retval=$?
-    if [ $retval -eq 0 ]; then
-        targetOSVers=`plutil -extract SupportedTargets.macosx.MinimumDeploymentTarget raw -n "${SDKPATH}/SDKSettings.plist"`
-        retval=$?
-    fi
-    if [ $retval -ne 0 ]; then
-        echo "Failed to get deployment target MacOS version number"
-        return $retval
-    fi
+fi
+if [ $retval -ne 0 ]; then
+    echo "Failed to get deployment target MacOS version number"
+    return $retval
+fi
 
-    set -o pipefail
-     xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Release $doclean build ARCHS="\$(ARCHS_STANDARD)" ONLY_ACTIVE_ARCH="NO" MACOSX_DEPLOYMENT_TARGET="${targetOSVers}" GCC_C_LANGUAGE_STANDARD="c11" CLANG_CXX_LANGUAGE_STANDARD="c++11" CLANG_CXX_LIBRARY="libc++" OTHER_CFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -D__STDC_WANT_LIB_EXT1__=1 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DPNG_ARM_NEON_OPT=0 -DNDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -D__STDC_WANT_LIB_EXT1__=1 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DPNG_ARM_NEON_OPT=0 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="\$(GCC_PREPROCESSOR_DEFINITIONS) wxUSE_UNICODE_UTF8=1  wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=$?
-    if [ ${retval} -ne 0 ]; then return 1; fi
-    if [ "x${lprefix}" != "x" ]; then
-        # copy library and headers to $lprefix
-        mkdir -p "${libPathRel}"
-        mkdir -p "${lprefix}/include"
-        cp build/osx/build/Release/libwx_osx_cocoa_static.a "${libPathRel}"
-        strip -x "${libPathRel}/libwx_osx_cocoa_static.a"
-        cp -R include/wx "${lprefix}/include"
-        cp build/osx/setup/cocoa/include/wx/setup.h "${lprefix}/include/wx"
-    fi
+set -o pipefail
+ xcodebuild -project build/osx/wxcocoa.xcodeproj -target static -configuration Release $doclean build ARCHS="\$(ARCHS_STANDARD)" ONLY_ACTIVE_ARCH="NO" MACOSX_DEPLOYMENT_TARGET="${targetOSVers}" GCC_C_LANGUAGE_STANDARD="c11" CLANG_CXX_LANGUAGE_STANDARD="c++11" CLANG_CXX_LIBRARY="libc++" OTHER_CFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -D__STDC_WANT_LIB_EXT1__=1 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DPNG_ARM_NEON_OPT=0 -DNDEBUG -fvisibility=hidden" OTHER_CPLUSPLUSFLAGS="-Wall -Wundef -Werror=unguarded-availability -fno-strict-aliasing -fno-common -D__STDC_WANT_LIB_EXT1__=1 -DHAVE_LOCALTIME_R=1 -DHAVE_GMTIME_R=1 -DwxUSE_UNICODE=1 -DwxDEBUG_LEVEL=0 -DPNG_ARM_NEON_OPT=0 -DNDEBUG -fvisibility=hidden -fvisibility-inlines-hidden" GCC_PREPROCESSOR_DEFINITIONS="\$(GCC_PREPROCESSOR_DEFINITIONS) wxUSE_UNICODE_UTF8=1  wxUSE_UNICODE_WCHAR=0 __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES=1" | $beautifier; retval=$?
+if [ ${retval} -ne 0 ]; then return 1; fi
+if [ "x${lprefix}" != "x" ]; then
+    # copy library and headers to $lprefix
+    mkdir -p "${libPathRel}"
+    mkdir -p "${lprefix}/include"
+    cp build/osx/build/Release/libwx_osx_cocoa_static.a "${libPathRel}"
+    strip -x "${libPathRel}/libwx_osx_cocoa_static.a"
+    cp -R include/wx "${lprefix}/include"
+    cp build/osx/setup/cocoa/include/wx/setup.h "${lprefix}/include/wx"
 fi
 
 if [ "${nodebug}" = "yes" ]; then

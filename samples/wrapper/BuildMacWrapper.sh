@@ -26,9 +26,9 @@
 # Updated 8/28/20 for compatibility with Xcode 10
 # Updated 8/19/22 to build Universal M1 / x86_64 binary
 # Updated 2/6/23 to sign binaries
-# Updated 10/3/26 for Xcode27 support
+# Updated 10/4/26 for Xcode27 support
 #
-## This script requires OS 10.6 or later
+## This script requires Xcode 15 or later
 #
 ## If you drag-install Xcode 4.3 or later, you must have opened Xcode
 ## and clicked the Install button on the dialog which appears to
@@ -153,7 +153,7 @@ echo
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export VARIANTFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -fvisibility=hidden -fvisibility-inlines-hidden"
+export VARIANTFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers} -fvisibility=hidden -fvisibility-inlines-hidden"
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=${targetOSVers}
 export PREFIX="${PREFIX}"
@@ -174,7 +174,7 @@ echo
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-export VARIANTFLAGS="-isysroot ${SDKPATH} -arch arm64 -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -fvisibility=hidden -fvisibility-inlines-hidden"
+export VARIANTFLAGS="-isysroot ${SDKPATH} -arch arm64 -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers} -fvisibility=hidden -fvisibility-inlines-hidden"
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=${targetOSVers}
 export PREFIX="${PREFIX}"

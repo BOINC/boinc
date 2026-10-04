@@ -40,9 +40,9 @@
 # Updated 3/12/23 Don't unnecessary rebuild libraries for uc2, zip apps or vboxwrapper
 # Updated 3/29/25 Build docker_wrapper
 # Updated 2/8/26 Build RemovePodman
-# Updated 10/2/26 for Xcode27 support
+# Updated 10/4/26 for Xcode27 support
 #
-## This script requires OS 10.8 or later
+## This script requires Xcode 15 or later
 #
 ## If you drag-install Xcode 4.3 or later, you must have opened Xcode
 ## and clicked the Install button on the dialog which appears to
@@ -95,6 +95,8 @@
 ##
 ## -setting name value override setting 'name' to have the value 'value'
 ## Usually used along with -target, You can pass multipe -setting arguments.
+##
+## For detailed build instructions, see mac_build/HowToBuildBOINC_XCode.rtf
 ##
 
 targets=""

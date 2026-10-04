@@ -20,6 +20,8 @@
 #
 # Script to build Macintosh example_app using Makefile
 #
+## This script requires Xcode 15 or later
+#
 # by Charlie Fenton 10/3/26
 
 # Called from Makefile_mac2

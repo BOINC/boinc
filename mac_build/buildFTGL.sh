@@ -31,9 +31,9 @@
 # Updated 5/18/21 for compatibility with zsh
 # Updated 10/18/21 for building with freetype 2.11.0
 # Updated 2/6/23 changed MAC_OS_X_VERSION_MAX_ALLOWED to 101300 and MAC_OS_X_VERSION_MIN_REQUIRED to 101300 and MACOSX_DEPLOYMENT_TARGET to 10.13
-# Updated 10/3/26 for Xcode27 support
+# Updated 10/4/26 for Xcode27 support
 #
-## This script requires OS 10.8 or later
+## This script requires Xcode 15 or later
 #
 ## After first installing Xcode, you must have opened Xcode and
 ## clicked the Install button on the dialog which appears to
@@ -47,6 +47,8 @@
 ## the -clean argument will force a full rebuild.
 ## if --prefix is given as absolute path the library is installed into there
 ## use -q or --quiet to redirect build output to /dev/null instead of /dev/stdout
+##
+## For detailed build instructions, see mac_build/HowToBuildBOINC_XCode.rtf
 ##
 
 doclean=""
@@ -78,32 +80,19 @@ export PKG_CONFIG_PATH=${libftpath}/lib/pkgconfig:${PKG_CONFIG_PATH}
 
 SRCDIR=$PWD
 
-if [ "${doclean}" != "yes" ]; then
-    if [ -f "${libPath}/libftgl.a" ]; then
-        cwd=$(pwd)
-        dirname=${cwd##*/}
-        echo "${dirname} already built"
-        return 0
-    fi
-fi
-
 GCCPATH=`xcrun -find gcc`
 if [ $? -ne 0 ]; then
     echo "ERROR: can't find gcc compiler"
     return 1
 fi
 
-GCC_can_build_x86_64="no"
-GCC_can_build_arm64="no"
-GCC_archs=`lipo -info "${GCCPATH}"`
-if [[ "${GCC_archs}" = *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
-if [[ "${GCC_archs}" = *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
-
 GCC_can_build_x86_64="yes" ### TEMPORARY WORKAROUND FOR Xcode 27
+GCC_can_build_arm64="yes" ### TEMPORARY WORKAROUND FOR Xcode 27
 
 if [ "${doclean}" != "yes" ]; then
     if [ -f "${libPath}/libftgl.a" ]; then
         alreadyBuilt=1
+
         if [ $GCC_can_build_x86_64 = "yes" ]; then
             lipo "${libPath}/libftgl.a" -verify_arch x86_64
             if [ $? -ne 0 ]; then alreadyBuilt=0; doclean="yes"; fi
@@ -122,6 +111,7 @@ if [ "${doclean}" != "yes" ]; then
         fi
     fi
 fi
+echo ""
 
 GPPPATH=`xcrun -find g++`
 if [ $? -ne 0 ]; then
@@ -188,8 +178,8 @@ fi
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export CPPFLAGS=""
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
-export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=${targetOSVers} -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
+export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
+export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=${targetOSVers} -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=${targetOSVers}
 
@@ -224,9 +214,9 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
 
     export CC="${GCCPATH}";export CXX="${GPPPATH}"
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-    export CPPFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
-    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
-    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=${targetOSVers} -target arm64-apple-macos -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
+    export CPPFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
+    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
+    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=${targetOSVers} -target arm64-apple-macos -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
     export SDKROOT="${SDKPATH}"
     export MACOSX_DEPLOYMENT_TARGET=${targetOSVers}
 

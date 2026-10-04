@@ -24,7 +24,7 @@
 # Updated 4/30/20 for compatibility with Xcode 11 and OS 10.13
 # Updated 2/6/23 added arm64 support
 # Updated 9/28/25 to replace boinc_zip with the libzip library dependency
-# Updated 10/2/26 for Xcode27 support
+# Updated 10/4/26 for Xcode27 support
 #
 ## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh
 ## This file assumes the locations of the needed libraries are those
@@ -70,6 +70,7 @@ CXXFLAGS_ALL = \
     -DAPP_GRAPHICS \
     -DMAC_OS_X_VERSION_MAX_ALLOWED=$(MY_MAC_OS_VERSION) \
     -DMAC_OS_X_VERSION_MIN_REQUIRED=$(MY_MAC_OS_VERSION) \
+    -DMACOSX_DEPLOYMENT_TARGET=$(My_Target_OS_Vers) \
     -fvisibility=hidden \
     -fvisibility-inlines-hidden \
     -I$(BOINC_CONFIG_DIR) \

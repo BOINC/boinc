@@ -67,18 +67,17 @@
 ## Updated 7/31/25 to add "Run_Podman" utility
 ## Updated 8/7/25 to add "gfx_ss_bridge" utility
 ## Updated 10/23/25 to put BOINCManager.app in "/Library/Application Support/"
-## Updated 10/3/26 for Xcode27 support
+## Updated 10/4/26 for Xcode27 support
 ##
-## NOTE: This script requires Mac OS 10.7 or later, and uses XCode developer
+## NOTE: This script requires Xcode 15 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac
 ##   before running this script. You must code sign using OS 10.9 or later
 ##   for compatibility with Gatekeeper on OS 10.10 or later.
 ##
 ##
 
-## NOTE: To build the executables under Lion and XCode 4, select from XCode's
-## menu: "Product/Buildfor/Build for Archiving", NOT "Product/Archive"
-## Under Mavericks and Xcode 5, select "Product/Build For/Profiling"
+## NOTE: To build the executables select from XCode's  menu:
+## "Product/Build For/Profiling"
 
 ## To have this script build the combined BOINC+VirtualBox installer:
 ## * Create a directory named "VirtualBox Installer" in the same
@@ -133,6 +132,8 @@
 ## To notarize the installer and uninstaller after successfully running this script,
 ## follow the instructions in the comments at the start of the script
 ##    mac_installer/notarize_boinc.sh.
+##
+## For detailed build instructions, see mac_build/HowToBuildBOINC_XCode.rtf
 ##
 
 if [ $# -lt 3 ]; then
@@ -308,15 +309,17 @@ find locale -name '*.mo' | cut -d '/' -f 2 | awk '{print "\"../BOINC_Installer/P
 find locale -name '*.mo' | cut -d '/' -f 2,3 | awk '{print "cp \"locale/"$0"\" \"../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/locale/"$0"\""}' | bash
 
 ## Fix up ownership and permissions
-sudo chown -R root:admin ../BOINC_Installer/Pkg_Root/*
+sudo chown -R root:wheel ../BOINC_Installer/Pkg_Root/*
 sudo chmod -R u+rw,g+rw,o+r-w ../BOINC_Installer/Pkg_Root/*
 sudo chmod 1775 ../BOINC_Installer/Pkg_Root/Library
 
 sudo chown -R 501:admin ../BOINC_Installer/Pkg_Root/Library/Application\ Support/*
 sudo chmod -R u+rw,g+r-w,o+r-w ../BOINC_Installer/Pkg_Root/Library/Application\ Support/*
 
-sudo chown -R root:admin ../BOINC_Installer/Installer\ Resources/*
-sudo chown -R root:admin ../BOINC_Installer/Installer\ Scripts/*
+sudo chown -R root:wheel "../BOINC_Installer/Pkg_Root/Library/Application Support/BOINCManager.app"
+
+sudo chown -R root:wheel ../BOINC_Installer/Installer\ Resources/*
+sudo chown -R root:wheel ../BOINC_Installer/Installer\ Scripts/*
 sudo chmod -R u+rw,g+r-w,o+r-w ../BOINC_Installer/Installer\ Resources/*
 sudo chmod -R u+rw,g+r-w,o+r-w ../BOINC_Installer/Installer\ Scripts/*
 
@@ -385,7 +388,7 @@ sudo rm -dfR "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arc
 
 sudo cp -fpRL "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/MacUninstaller.icns" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app/Contents/Resources/BOINC_Finish_Uninstall.app/Contents/Resources"
 
-sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall\ BOINC.app
+sudo chown -R root:wheel ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall\ BOINC.app
 sudo chmod -R u+r-w,g+r-w,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall\ BOINC.app
 
 # Copy the installer wrapper application "BOINC Installer.app"
@@ -477,13 +480,13 @@ if [ -f "../VirtualBox Installer/${VirtualBoxPackageName}" ]; then
     # Copy the VirtualBox uninstall tool into the extras directory
     sudo cp -fpRL "../VirtualBox Installer/VirtualBox_Uninstall.tool" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/extras/"
 
-    sudo chown -R root:admin "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/extras/VirtualBox_Uninstall.tool"
+    sudo chown -R root:wheel "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/extras/VirtualBox_Uninstall.tool"
     sudo chmod -R u+r-w,g+r-w,o+r-w "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/extras/VirtualBox_Uninstall.tool"
 
     # Copy the VirtualBox uninstall tool into the BOINC uninstaller
     sudo cp -fpRL "../VirtualBox Installer/VirtualBox_Uninstall.tool" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/extras/Uninstall BOINC.app/Contents/Resources"
 
-    sudo chown -R root:admin "../VirtualBox Installer/VirtualBox_Uninstall.tool" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/extras/Uninstall BOINC.app/Contents/Resources/VirtualBox_Uninstall.tool"
+    sudo chown -R root:wheel "../VirtualBox Installer/VirtualBox_Uninstall.tool" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/extras/Uninstall BOINC.app/Contents/Resources/VirtualBox_Uninstall.tool"
     sudo chmod -R u+r-w,g+r-w,o+r-w "../VirtualBox Installer/VirtualBox_Uninstall.tool" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/extras/Uninstall BOINC.app/Contents/Resources/VirtualBox_Uninstall.tool"
 fi
 
@@ -559,7 +562,7 @@ mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darw
 cp -fpRL "${BUILDPATH}/switcher" ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher/
 cp -fpRL "${BUILDPATH}/setprojectgrp" ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher/
 
-sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
+sudo chown -R root:wheel ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
 sudo chmod -R u+rw-s,g+r-ws,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
 
 cp -fpRL "${BUILDPATH}/boinc.dSYM" ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables/

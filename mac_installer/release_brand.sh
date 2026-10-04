@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
-## Updated 10/3/26 for Xcode27 support
+## Updated 10/4/26 for Xcode27 support
 
 ##
 # Script to create a branded installer such as World Community Grid
@@ -49,7 +49,7 @@
 ##  This script expects the nvc_config.xml file (if any) to be at
 ##  "./win_build/installerv2/redist/${NEWVERSIONCHECKDIR}/nvc_config.xml"
 ##
-## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
+## NOTE: This script requires xCode 15 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac
 ##   before running this script.
 ##
@@ -81,52 +81,9 @@
 ## Gatekeeper will require Developer ID–signed software to be notarized by
 ## Apple."
 ##
-## To notarize the installer and uninstaller:
-## NOTE: Do not use your normal Apple ID password. You must create an
-## app-specific password at https://appleid.apple.com/account/manage.
-##
-## NOTE: in the following instructions, subsitute:
-##   * the 3 part version numberfor x.y.z
-##   * the ${SHORTBRANDNAME} for $SBN (for example, wcgrid for World Community Grid)
-##   * the architecture (usually "universal" for $arch)
-##   so substitute the quoted full path for ".../$SBN_x.y.z_macOSX_$arch"
-## - Use the command line tools in Xcode 13 or later
-## - Provide valid application & installer code signing identities as above
-## - In the instructions below, substitute the appropriate architcture for $arch
-##     (either x86_64, arm64 or universal)
-## - In Terminal:
-##  $ xcrun notarytool submit ".../$SBN_x.y.z_macOSX_$arch.zip" --apple-id {your_Apple_ID} --password {password} --team-id {your_team_ID) --wait
-##
-## - If the notarytool submit request was approved, attach tickets to top level applications as follows:
-## NOTE: Stapling the original files never works. We must rename the original
-##       directory and recreate it from the zip file we just submitted
-##  $ mv ".../$SBN.y.z_macOSX_$arch" ".../$SBN.y.z_macOSX_$arch-orig"
-##  $ open ".../$SBN.y.z_macOSX_$arch.zip"
-##  $ xcrun stapler staple ".../$SBN.y.z_macOSX_$arch/${INSTALLERAPPNAME}.app"
-##  $ xcrun stapler staple {path to ".../$SBN.y.z_macOSX_$arch.zip/extras/${UNINSTALLERAPPNAME}.app"
-## - delete or rename the original ".../$SBN.y.z_macOSX_$arch.zip" file
-## - Run this ditto command again to create a new zip archive containing
-##   the updated (notarized) Installer app and Uninstaller app:
-##  $ ditto -ck --sequesterRsrc --keepParent ".../$SBN.y.z_macOSX_$arch" ".../$SBN.y.z_macOSX_$arch.zip"
-##
-## Then notarize the bare-core (apple-darwin) release as follows:
-##  $ xcrun notarytool submit ".../$SBN.y.z_$arch-apple-darwin.dmg" --apple-id {your_Apple_ID} --password {password} --team-id {your_team_ID) --wait
-##  $ xcrun altool --notarization-info {UUID from last step} -u {userID} -p {password}
-##
-## - If the notarize-app request was approved, attach a ticket to the disk image:
-## NOTE: Stapling the original files never works. We must rename the original
-##       disk image we just submitted and make a copy of it
-##  $ mv ".../$SBN.y.z_$arch-apple-darwin.dmg" ".../$SBN.y.z_$arch-apple-darwin-orig.dmg"
-##  $ cp ".../$SBN.y.z_$arch-apple-darwin-orig.dmg" ".../$SBN.y.z_$arch-apple-darwin.dmg"
-##  $ xcrun stapler staple ".../$SBN.y.z_$arch-apple-darwin.dmg"
-##
-## - for more information:
-##  $ xcrun notarytool --help
-##  $ man stapler
-##
-## TODO: Add code to optionally automate notarization either in this script or
-## TODO: in a separate script. Perhaps adapt notarization and stapler code from
-## TODO: <https://github.com/smittytone/scripts/blob/master/packcli.zsh>
+## To notarize the installer and uninstaller after successfully running this script,
+## follow the instructions in the comments at the start of the script
+##    mac_installer/notarize_boinc.sh.
 ##
 
 if [ $# -lt 4 ]; then
@@ -329,15 +286,17 @@ find locale -name '*.mo' | cut -d '/' -f 2 | awk '{print "\"../BOINC_Installer/P
 find locale -name '*.mo' | cut -d '/' -f 2,3 | awk '{print "cp \"locale/"$0"\" \"../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/locale/"$0"\""}' | bash
 
 ## Fix up ownership and permissions
-sudo chown -R root:admin ../BOINC_Installer/Pkg_Root/*
+sudo chown -R root:wheel ../BOINC_Installer/Pkg_Root/*
 sudo chmod -R u+rw,g+rw,o+r-w ../BOINC_Installer/Pkg_Root/*
 sudo chmod 1775 ../BOINC_Installer/Pkg_Root/Library
 
 sudo chown -R 501:admin ../BOINC_Installer/Pkg_Root/Library/Application\ Support/*
 sudo chmod -R u+rw,g+r-w,o+r-w ../BOINC_Installer/Pkg_Root/Library/Application\ Support/*
 
-sudo chown -R root:admin ../BOINC_Installer/Installer\ Resources/*
-sudo chown -R root:admin ../BOINC_Installer/Installer\ Scripts/*
+sudo chown -R root:wheel "../BOINC_Installer/Pkg_Root/Library/Application Support/${MANAGERAPPNAME}.app/"
+
+sudo chown -R root:wheel ../BOINC_Installer/Installer\ Resources/*
+sudo chown -R root:wheel ../BOINC_Installer/Installer\ Scripts/*
 sudo chmod -R u+rw,g+r-w,o+r-w ../BOINC_Installer/Installer\ Resources/*
 sudo chmod -R u+rw,g+r-w,o+r-w ../BOINC_Installer/Installer\ Scripts/*
 
@@ -382,7 +341,7 @@ rm -rf "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNA
 
 echo ${BRANDING_INFO} > "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/Branding"
 
-sudo chown -R root:admin "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app"
+sudo chown -R root:wheel "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app"
 sudo chmod -R u+r-w,g+r-w,o+r-w "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app"
 
 # Copy the installer wrapper application "BOINC Installer.app"
@@ -551,7 +510,7 @@ mkdir -p ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDN
 cp -fpRL "${BUILDPATH}/switcher" ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher/
 cp -fpRL "${BUILDPATH}/setprojectgrp" ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher/
 
-sudo chown -R root:admin ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
+sudo chown -R root:wheel ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
 sudo chmod -R u+rw-s,g+r-ws,o+r-w ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
 
 cp -fpRL "${BUILDPATH}/boinc.dSYM" ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_SymbolTables/

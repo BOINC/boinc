@@ -42,7 +42,7 @@
 # Updated 4/5/23 for args now accepted by patch utility; set mmacosx-version-min=10.13
 # Updated 10/3/26 for Xcode27 support
 #
-## Building OpenSSL 3.0 requires Xcode 10.2 or later
+## This script requires Xcode 15 or later
 #
 ## After first installing Xcode, you must have opened Xcode and
 ## clicked the Install button on the dialog which appears to
@@ -58,6 +58,8 @@
 ## if --prefix is given as absolute path the library is installed into there
 ## use -q or --quiet to redirect build output to /dev/null instead of /dev/stdout
 ##
+## For detailed build instructions, see mac_build/HowToBuildBOINC_XCode.rtf
+####
 
 doclean=""
 stdout_target="/dev/stdout"
@@ -89,13 +91,8 @@ if [ $? -ne 0 ]; then
     return 1
 fi
 
-GCC_can_build_x86_64="no"
-GCC_can_build_arm64="no"
-GCC_archs=`lipo -info "${GCCPATH}"`
-if [[ "${GCC_archs}" = *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
-if [[ "${GCC_archs}" = *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
-
 GCC_can_build_x86_64="yes" ### TEMPORARY WORKAROUND FOR Xcode 27
+GCC_can_build_arm64="yes" ### TEMPORARY WORKAROUND FOR Xcode 27
 
 if [ "${doclean}" != "yes" ]; then
     if [ -f ${libPath}/libssl.a ] && [ -f ${libPath}/libcrypto.a ]; then
@@ -196,8 +193,8 @@ echo ""
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export CPPFLAGS=""
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
-export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=${targetOSVers} -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
+export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
+export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=${targetOSVers} -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=${targetOSVers}
 export LIBRARY_PATH="${SDKPATH}/usr/lib"
@@ -223,9 +220,9 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
 
     export CC="${GCCPATH}";export CXX="${GPPPATH}"
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-    export CPPFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
-    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
-    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=${targetOSVers} -target arm64-apple-macos -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION"
+    export CPPFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
+    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
+    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=${targetOSVers} -target arm64-apple-macos -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
     export SDKROOT="${SDKPATH}"
     export MACOSX_DEPLOYMENT_TARGET=${targetOSVers}
     export LIBRARY_PATH="${SDKPATH}/usr/lib"

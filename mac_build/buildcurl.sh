@@ -46,7 +46,7 @@
 # Updated 4/5/23 for args now accepted by patch utility; set mmacosx-version-min=10.13
 # Updated 10/19/25 for curl 8.16.0. Secure Transport is deprecated so use OpenSSl again
 # Updated 6/10/26 to build curl 8.20.0 with Apple SecTrust
-# Updated 10/3/26 for Xcode27 support
+# Updated 10/4/26 for Xcode27 support
 #
 ## Curl's configure and make set the "-Werror=partial-availability" compiler flag,
 ## which generates an error if there is an API not available in our Deployment
@@ -56,6 +56,8 @@
 ## After first installing Xcode, you must have opened Xcode and
 ## clicked the Install button on the dialog which appears to
 ## complete the Xcode installation before running this script.
+#
+## This script requires Xcode 15 or later
 #
 ## Where x.xx.x is the curl version number:
 ## In Terminal, CD to the curl-x.xx.x directory.
@@ -69,6 +71,8 @@
 #
 ## NOTE: cURL depends on c-ares, so it must be built before cURL.
 #
+## For detailed build instructions, see mac_build/HowToBuildBOINC_XCode.rtf
+##
 
 CURL_DIR=`pwd`
 
@@ -104,13 +108,8 @@ if [ $? -ne 0 ]; then
     return 1
 fi
 
-GCC_can_build_x86_64="no"
-GCC_can_build_arm64="no"
-GCC_archs=`lipo -info "${GCCPATH}"`
-if [[ "${GCC_archs}" = *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
-if [[ "${GCC_archs}" = *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
-
 GCC_can_build_x86_64="yes" ### TEMPORARY WORKAROUND FOR Xcode 27
+GCC_can_build_arm64="yes" ### TEMPORARY WORKAROUND FOR Xcode 27
 
 if [ "${doclean}" != "yes" ]; then
     if [ -f "${libPath}/libcurl.a" ]; then
@@ -209,9 +208,9 @@ export MAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION
 export MAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION
 
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${CURL_DIR}/../${opensslDirName} "
-export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
-export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
-export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=${targetOSVers} -arch x86_64"
+export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
+export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
+export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=${targetOSVers} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
 
 if [ "x${lprefix}" != "x" ]; then
     PKG_CONFIG_PATH="${lprefix}/lib/pkgconfig" ./configure --prefix=${lprefix} --enable-ares --disable-shared --with-openssl --with-apple-sectrust --without-apple-idn --without-libidn2 --without-libpsl --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=x86_64-apple-darwin
@@ -239,9 +238,9 @@ else
 
 ## Set flags again in case c-ares make install modified them
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64 -L${CURL_DIR}/../${opensslDirName} "
-export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
-export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
-export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=${targetOSVers} -arch x86_64"
+export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
+export CXXFLAGS="-isysroot ${SDKPATH} -arch x86_64 -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
+export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=${targetOSVers} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
     ./configure --disable-shared --enable-ares="${libcares}" --with-openssl --with-apple-sectrust --without-apple-idn  --without-libidn2 --without-libpsl --without-nghttp2 --without-ngtcp2 --without-nghttp3 --without-quiche --host=x86_64-apple-darwin
     if [ $? -ne 0 ]; then return 1; fi
     echo ""
@@ -264,9 +263,9 @@ fi
 if [ $GCC_can_build_arm64 = "yes" ]; then
 
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64 -L${CURL_DIR}/../${opensslDirName} "
-export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
-export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include"
-export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=${targetOSVers} -target arm64-apple-macos"
+export CPPFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
+export CXXFLAGS="-isysroot ${SDKPATH} -target arm64-apple-macos -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -I${CURL_DIR}/../${opensslDirName}/include -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
+export CFLAGS="-isysroot ${SDKPATH} -mmacosx-version-min=${targetOSVers} -target arm64-apple-macos -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
 
 # c-ares configure creates a different ares_build.h file for each architecture
 # for a sanity check on size of long and socklen_t. But these are  identical for

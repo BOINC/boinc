@@ -21,8 +21,10 @@
 # Script to build Macintosh 64-bit Intel library of libzip for
 # use in building BOINC.
 #
+# Updated 10/4/26 for Xcode27 support
 #
-## This script requires OS 10.8 or later
+#
+## This script requires Xcode 15 or later
 #
 ## After first installing Xcode, you must have opened Xcode and
 ## clicked the Install button on the dialog which appears to
@@ -48,7 +50,7 @@
 ##       sudo "/Applications/CMake.app/Contents/bin/cmake-gui" --install
 ##   Emter your password when prompted
 ##
-# Updated 10/3/26 for Xcode27 support
+## For detailed build instructions, see mac_build/HowToBuildBOINC_XCode.rtf
 ##
 
 doclean=""
@@ -78,13 +80,9 @@ if [ $? -ne 0 ]; then
     echo "ERROR: can't find gcc compiler"
     return 1
 fi
-GCC_can_build_x86_64="no"
-GCC_can_build_arm64="no"
-GCC_archs=`lipo -info "${GCCPATH}"`
-if [[ "${GCC_archs}" = *"x86_64"* ]]; then GCC_can_build_x86_64="yes"; fi
-if [[ "${GCC_archs}" = *"arm64"* ]]; then GCC_can_build_arm64="yes"; fi
 
 GCC_can_build_x86_64="yes" ### TEMPORARY WORKAROUND FOR Xcode 27
+GCC_can_build_arm64="yes" ### TEMPORARY WORKAROUND FOR Xcode 27
 
 if [ "${doclean}" != "yes" ]; then
     if [ -f "${libPath}/libzip.a" ]; then
@@ -187,8 +185,8 @@ fi
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
 export CPPFLAGS=""
 export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
-export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=${targetOSVers} -stdlib=libc++"
-export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=${targetOSVers} -arch x86_64"
+export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -arch x86_64 -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
+export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=${targetOSVers} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=${targetOSVers}
 export MAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION
@@ -213,8 +211,8 @@ if [ $GCC_can_build_arm64 = "yes" ]; then
     export CC="${GCCPATH}";export CXX="${GPPPATH}"
     export CPPFLAGS=""
     export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,arm64"
-    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos${targetOSVers} -mmacosx-version-min=${targetOSVers} -stdlib=libc++"
-    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=${targetOSVers} -target arm64-apple-macos${targetOSVers}"
+    export CXXFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -target arm64-apple-macos${targetOSVers} -mmacosx-version-min=${targetOSVers} -stdlib=libc++ -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
+    export CFLAGS="-isysroot ${SDKPATH} -Werror=unguarded-availability -mmacosx-version-min=${targetOSVers} -target arm64-apple-macos${targetOSVers} -DMAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION -DMAC_OS_X_VERSION_MIN_REQUIRED=$MAC_OS_VERSION -DMACOSX_DEPLOYMENT_TARGET=${targetOSVers}"
     export SDKROOT="${SDKPATH}"
     export MACOSX_DEPLOYMENT_TARGET=${targetOSVers}
     export MAC_OS_X_VERSION_MAX_ALLOWED=$MAC_OS_VERSION
