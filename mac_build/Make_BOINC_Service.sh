@@ -20,7 +20,7 @@
 #
 #
 ##
-# Script to set up Macintosh to run BOINC client as a ffdaemon / service
+# Script to set up Macintosh to run BOINC client as a daemon / service
 # by Charlie Fenton 7/26/06
 # revised 1/6/08 to use launchd
 ##
