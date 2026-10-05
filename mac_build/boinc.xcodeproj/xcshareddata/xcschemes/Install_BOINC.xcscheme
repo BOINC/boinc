@@ -10,7 +10,16 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "source &quot;$WORKSPACE_PATH/../../Update_Info_Plists.sh&quot;&#10;exit $?&#10;">
+               scriptText = "targetOSVers=`plutil -extract SupportedTargets.macosx.MinimumDeploymentTarget raw -n &quot;${SDK_DIR}/SDKSettings.plist&quot;`&#10;result=$?&#10;if [ $result -eq 0 ]; then&#10;    echo &quot;MACOSX_DEPLOYMENT_TARGET = $targetOSVers&quot; &gt; &quot;${SRCROOT}/BOINC.xcconfig&quot;&#10;    result=$?&#10;fi&#10;if [ $result -eq 0 ]; then&#10;    source &quot;$WORKSPACE_PATH/../../Update_Info_Plists.sh&quot;&#10;    result=$?&#10;fi&#10;exit $result&#10;">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "DD1AFEA40A512D8700EE5B82"
+                     BuildableName = "BOINC Installer.app"
+                     BlueprintName = "Install_BOINC"
+                     ReferencedContainer = "container:boinc.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
             </ActionContent>
          </ExecutionAction>
       </PreActions>

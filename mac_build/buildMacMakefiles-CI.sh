@@ -134,54 +134,30 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd ../..; exit 1;
 fi
-echo "Verifying architecture (x86_64) of uc2..."
-lipo ./x86_64/uc2 -verify_arch x86_64 | $beautifier; retval=${PIPESTATUS[0]}
+echo "Verifying architecture (x86_64 arm64) of uc2..."
+lipo ./uc2 -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
-    echo "Verifying architecture (x86_64) of uc2...failed"
+    echo "Verifying architecture (x86_64 arm64) of uc2...failed"
     echo "Building ${target}...failed"
     cd ../..; exit 1;
 fi
-echo "Verifying architecture (x86_64) of uc2...done"
-echo "Verifying architecture (arm64) of uc2..."
-lipo ./arm64/uc2 -verify_arch arm64 | $beautifier; retval=${PIPESTATUS[0]}
+echo "Verifying architecture (x86_64 arm64) of uc2...done"
+echo "Verifying architecture (x86_64 arm64) of uc2_graphics..."
+lipo ./uc2_graphics -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
-    echo "Verifying architecture (arm64) of uc2...failed"
+    echo "Verifying architecture (x86_64 arm64) of uc2_graphics...failed"
     echo "Building ${target}...failed"
     cd ../..; exit 1;
 fi
-echo "Verifying architecture (arm64) of uc2...done"
-echo "Verifying architecture (x86_64) of uc2_graphics..."
-lipo ./x86_64/uc2_graphics -verify_arch x86_64 | $beautifier; retval=${PIPESTATUS[0]}
+echo "Verifying architecture (x86_64 arm64) of uc2_graphics...done"
+echo "Verifying architecture (x86_64 arm64) of slide_show..."
+lipo ./slide_show -verify_arch x86_64 arm64 | $beautifier; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
-    echo "Verifying architecture (x86_64) of uc2_graphics...failed"
+    echo "Verifying architecture (x86_64 arm64) of slide_show...failed"
     echo "Building ${target}...failed"
     cd ../..; exit 1;
 fi
-echo "Verifying architecture (x86_64) of uc2_graphics...done"
-echo "Verifying architecture (arm64) of uc2_graphics..."
-lipo ./arm64/uc2_graphics -verify_arch arm64 | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    echo "Verifying architecture (arm64) of uc2_graphics...failed"
-    echo "Building ${target}...failed"
-    cd ../..; exit 1;
-fi
-echo "Verifying architecture (arm64) of uc2_graphics...done"
-echo "Verifying architecture (x86_64) of slide_show..."
-lipo ./x86_64/slide_show -verify_arch x86_64 | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    echo "Verifying architecture (x86_64) of slide_show...failed"
-    echo "Building ${target}...failed"
-    cd ../..; exit 1;
-fi
-echo "Verifying architecture (x86_64) of slide_show...done"
-echo "Verifying architecture (arm64) of slide_show..."
-lipo ./arm64/slide_show -verify_arch arm64 | $beautifier; retval=${PIPESTATUS[0]}
-if [ ${retval} -ne 0 ]; then
-    echo "Verifying architecture (arm64) of slide_show...failed"
-    echo "Building ${target}...failed"
-    cd ../..; exit 1;
-fi
-echo "Verifying architecture (arm64) of slide_show...done"
+echo "Verifying architecture (x86_64 arm64) of slide_show...done"
 cd ../../mac_build/
 echo "Building ${target}...done"
 

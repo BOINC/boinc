@@ -39,9 +39,10 @@
 # Updated 2/14/23 refactoring made to build zip apps (-zipapps), uc2 samples (-uc2) and vboxwrapper (-vboxwrapper)
 # Updated 3/12/23 Don't unnecessary rebuild libraries for uc2, zip apps or vboxwrapper
 # Updated 3/29/25 Build docker_wrapper
-# Updated 2.8.26 Build RemovePodman
+# Updated 2/8/26 Build RemovePodman
+# Updated 10/4/26 for Xcode27 support
 #
-## This script requires OS 10.8 or later
+## This script requires Xcode 15 or later
 #
 ## If you drag-install Xcode 4.3 or later, you must have opened Xcode
 ## and clicked the Install button on the dialog which appears to
@@ -54,9 +55,6 @@
 ##
 ## then invoke this script as follows:
 ##      source BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-all] [-lib] [-client] [-uc2] [-vboxwrapper] [-docker_wrapper] [-RemovePodman] [-target targetName] [-setting name value] [-help]
-## or
-##      chmod +x BuildMacBOINC.sh
-##      ./BuildMacBOINC.sh [-dev] [-noclean] [-libstdc++] [-all] [-lib] [-client] [-uc2] [-vboxwrapper] [-docker_wrapper] [-RemovePodman] [-target targetName] [-setting name value] [-help]
 ##
 ## optional arguments
 ## -dev         build the development (debug) version.
@@ -97,6 +95,8 @@
 ##
 ## -setting name value override setting 'name' to have the value 'value'
 ## Usually used along with -target, You can pass multipe -setting arguments.
+##
+## For detailed build instructions, see mac_build/HowToBuildBOINC_XCode.rtf
 ##
 
 targets=""
@@ -161,14 +161,13 @@ if [ "${style}" = "Development" ]; then
     echo "Development (debug) build"
 else
     style="Deployment"
-    echo "Deployment (release) build for architecture: x86_64"
+    echo "Deployment (release) build"
 fi
 
 echo ""
 
 if [ "${builduc2}" = "1" ]; then
     if [ ! -e "./build/${style}/libboinc.a" ]; then buildlibs=1; fi
-    if [ ! -e "./build/${style}/libboinc_api.a" ]; then buildlibs=1; fi
     if [ ! -e "./build/${style}/libboinc_api.a" ]; then buildlibs=1; fi
     if [ ! -e "./build/${style}/libjpeg.a" ]; then buildlibs=1; fi
     if [ ! -e "./build/${style}/libboinc_zip.a" ]; then buildzip=1; fi
@@ -211,23 +210,35 @@ for f in "${settings[@]}"; do
     theSettings+=" "
 done
 
+## Apparently xcodebuild ignores build pre-actions, so we do this explicitly
+targetOSVers=`plutil -extract SupportedTargets.macosx.MinimumDeploymentTarget raw -n "${SDKPATH}/SDKSettings.plist"`
+result=$?
+if [ $result -ne 0 ]; then
+    echo "Failed to set deployment target MacOS version number"
+    return $result
+fi
+
 ## For unknown reasons, this xcodebuild call generates syntax errors under zsh
 ## unless we enclose the command in quotes and invoke it with eval.
 ## That is why all the other xcodebuild calls are invoked this way.
 
 if [ "${buildall}" = "1" ] || [ "${buildlibs}" = "1" ] || [ "${buildclient}" = "1" ] || [ "x${targets}" != "x" ]; then
 
-    echo ""
-    ## Apparently xcodebuild ignores build pre-actions, so we do this explicitly
-    source "./Update_Info_Plists.sh"
+    ## Finish performing the build pre-actions
+    echo "MACOSX_DEPLOYMENT_TARGET = $targetOSVers" > "BOINC.xcconfig"
     result=$?
-    echo ""
-
+    if [ $result -eq 0 ]; then
+        ## Update_Info_Plists.sh calls xcodebuild, so it
+        ## must come after setting MACOSX_DEPLOYMENT_TARGET
+        source "./Update_Info_Plists.sh"
+        result=$?
+        echo ""
+    fi
     if [ $result -eq 0 ]; then
         # build all or specified targets from the boinc.xcodeproj project for -all, -libs, -client, or -target
         eval "xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build ${uselibcplusplus} ${theSettings}"
         result=$?
-    fi
+     fi
 fi
 
 if [ $result -eq 0 ]; then
@@ -237,32 +248,48 @@ if [ $result -eq 0 ]; then
     fi
 
     if [ "${buildzip}" = "1" ]; then
-        eval "xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
+        echo "MACOSX_DEPLOYMENT_TARGET = $targetOSVers" > "../zip/boinc_zip.xcconfig"
         result=$?
+        if [ $result -eq 0 ]; then
+            eval "xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
+            result=$?
+        fi
     fi
 fi
 
 if [ $result -eq 0 ]; then
     # build UC2 sample apps for -uc2
     if [ "${builduc2}" = "1" ]; then
-        eval "xcodebuild -project ../samples/mac_build/UpperCase2.xcodeproj -target Build_All -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
+        echo "MACOSX_DEPLOYMENT_TARGET = $targetOSVers" > "../samples/mac_build/UpperCase2.xcconfig"
         result=$?
+        if [ $result -eq 0 ]; then
+            eval "xcodebuild -project ../samples/mac_build/UpperCase2.xcodeproj -target Build_All -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
+            result=$?
+        fi
     fi
 fi
 
 if [ $result -eq 0 ]; then
     # build vboxwrapper app for -vboxwrapper
     if [ "${buildvboxwrapper}" = "1" ]; then
-        eval "xcodebuild -project ../samples/vboxwrapper/vboxwrapper.xcodeproj -target Build_All -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
+        echo "MACOSX_DEPLOYMENT_TARGET = $targetOSVers" > "../samples/vboxwrapper/vboxwrapper.xcconfig"
         result=$?
+        if [ $result -eq 0 ]; then
+            eval "xcodebuild -project ../samples/vboxwrapper/vboxwrapper.xcodeproj -target Build_All -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
+            result=$?
+        fi
     fi
 fi
 
 if [ $result -eq 0 ]; then
     # build docker_wrapper app for -docker_wrapper
     if [ "${builddocker_wrapper}" = "1" ]; then
-        eval "xcodebuild -project ../samples/docker_wrapper/docker_wrapper.xcodeproj -target docker_wrapper -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
+        echo "MACOSX_DEPLOYMENT_TARGET = $targetOSVers" > "../samples/docker_wrapper/docker_wrapper.xcconfig"
         result=$?
+        if [ $result -eq 0 ]; then
+            eval "xcodebuild -project ../samples/docker_wrapper/docker_wrapper.xcodeproj -target docker_wrapper -configuration ${style} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
+            result=$?
+        fi
     fi
 fi
 
@@ -274,8 +301,12 @@ if [ $result -eq 0 ]; then
         else
             newStyle="Debug"
         fi
-        eval "xcodebuild -project ../mac_RemovePodman/RemovePodman.xcodeproj -target RemovePodman -configuration ${newStyle} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
+        echo "MACOSX_DEPLOYMENT_TARGET = $targetOSVers" > "../mac_RemovePodman/RemovePodman.xcconfig"
         result=$?
+        if [ $result -eq 0 ]; then
+            eval "xcodebuild -project ../mac_RemovePodman/RemovePodman.xcodeproj -target RemovePodman -configuration ${newStyle} -sdk \"${SDKPATH}\" ${doclean} build  ${uselibcplusplus} ${theSettings}"
+            result=$?
+        fi
     fi
 fi
 
