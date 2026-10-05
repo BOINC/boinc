@@ -313,7 +313,7 @@ function handle_get_info() {
         xml_error(-1, "no project ID");
     }
     $user_agent = get_str('user_agent');
-    $vs = get_version($user_agent, false);
+    $vs = get_versions($user_agent, false);
     if (!$vs) {
         xml_error(-1, "no version for platform");
     }
