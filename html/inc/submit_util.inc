@@ -581,7 +581,7 @@ function file_ref_out($i, $fname) {
 // expect zip files that contain files.
 // But some people are used to creating zip files
 // that contain a (single) directory that contains files.
-
+//
 // if the given directory contains a single item, and it's a directory,
 // return its name.
 // Else return false.

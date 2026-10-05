@@ -125,16 +125,22 @@ function do_batch($batch, $wus) {
             }
         }
     } else {
-        // not accelerable; reset job priorities
-        echo "batch is not accelerable; resetting job priorities\n";
-        BoincWorkunit::update_aux(
-            'priority=0',
-            sprintf('batch=%d', $batch->id)
-        );
-        BoincResult::update_aux(
-            'priority=0',
-            sprintf('batch=%d', $batch->id)
-        );
+        // clearing priority field of thousands of WUs and results
+        // takes a long time, and I don't think it's needed
+        //
+        if (1) {
+            echo "batch is not accelerable\n";
+        } else {
+            echo "batch is not accelerable; resetting job priorities\n";
+            BoincWorkunit::update_aux(
+                'priority=0',
+                sprintf('batch=%d and priority>0', $batch->id)
+            );
+            BoincResult::update_aux(
+                'priority=0',
+                sprintf('batch=%d and priority>0', $batch->id)
+            );
+        }
     }
 }
 

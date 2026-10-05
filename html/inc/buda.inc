@@ -36,6 +36,11 @@ function get_buda_app_desc($app) {
     return json_decode(file_get_contents($path));
 }
 
+function get_buda_app_name($app) {
+    $desc = get_buda_app_desc($app);
+    return $desc->long_name;
+}
+
 function get_buda_var_desc($app, $var) {
     global $buda_root;
     $path = "$buda_root/$app/$var/variant.json";

@@ -156,9 +156,13 @@ function update_db() {
                 }
             }
             echo "app $app->name $n hosts, $nfast are LTT\n";
-            if ($nfast > $n*.25) {
+            // we need a certain number of LTT hosts,
+            // else high-pri jobs could get stuck waiting for an LTT host
+            if ($nfast > $n*.1) {
                 echo "marking $app->name as accelerable\n";
                 $accel = true;
+            } else {
+                echo "marking $app->name as not accelerable\n";
             }
         } else {
             echo "app $app->name not enough hosts: $n\n";
