@@ -284,8 +284,7 @@ int run_program(
 // Run command, wait for exit.
 // If command exits nonzero, return value is -1.
 // Return its output as vector of lines (\n-terminated).
-// Win: output includes stdout and stderr
-// Unix: if you want stderr too, add 2>&1 to command
+// If you want stderr too, add 2>&1 to command
 // Return error if command failed
 //
 int run_command(const char*
@@ -294,77 +293,32 @@ cmd
 #endif
 , vector<string> &out) {
     out.clear();
+
 #ifdef _WIN32
-    HANDLE pipe_read, pipe_write;
-    SECURITY_ATTRIBUTES sa;
-    STARTUPINFO si;
-    PROCESS_INFORMATION pi;
-    char cmd2[1024];
-
-    // CreateProcess() can modify its cmd arg (WTF???)
-    // So copy it to a temp buffer
-    safe_strcpy(cmd2, cmd);
-
-    memset(&si, 0, sizeof(si));
-    memset(&pi, 0, sizeof(pi));
-    memset(&sa, 0, sizeof(sa));
-
-    sa.nLength = sizeof(SECURITY_ATTRIBUTES);
-    sa.bInheritHandle = TRUE;
-    sa.lpSecurityDescriptor = NULL;
-
-    if (!CreatePipe(&pipe_read, &pipe_write, &sa, 0)) return -1;
-    SetHandleInformation(pipe_read, HANDLE_FLAG_INHERIT, 0);
-
-    si.cb = sizeof(STARTUPINFO);
-    si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
-    si.wShowWindow = SW_HIDE;
-    si.hStdOutput = pipe_write;
-    si.hStdError = pipe_write;
-    si.hStdInput = NULL;
-
-    if (!CreateProcess(
-        NULL,
-        (LPTSTR)cmd2,
-        NULL,
-        NULL,
-        TRUE,   // inherit handles
-        CREATE_NO_WINDOW,
-        NULL,
-        NULL,
-        &si,
-        &pi
-    )) {
-        return -1;
+    FILE* pipe = _popen(cmd, "r");
+    if (!pipe) return -1;
+    char buffer[4096];
+    fread((void*)buffer, 1, 4096, pipe);
+    if (1) {
+    //while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+        // assume the program outputs wide (2-byte) chars.
+        // convert to ASCII
+        char buf2[2048];
+        int j = 0;
+        for (int i=0;; i++) {
+            char c = buffer[i * 2];
+            if (c == 0) break;
+            if (c == '\r') continue;
+            buf2[j++] = c;
+            if (c == '\n') {
+                buf2[j] = 0;
+                out.push_back(buf2);
+                j = 0;
+            }
+        }
     }
-
-    // wait for command to finish
-    //
-    WaitForSingleObject(pi.hProcess, INFINITE);
-
-    unsigned long exit_code;
-    GetExitCodeProcess(pi.hProcess, &exit_code);
-
-    DWORD count, nread;
-    PeekNamedPipe(pipe_read, NULL, NULL, NULL, &count, NULL);
-    if (count == 0) {
-        return 0;
-    }
-    char* buf = (char*)malloc(count+1);
-    if (!ReadFile(pipe_read, buf, count, &nread, NULL)) {
-        free(buf);
-        return -1;
-    }
-    buf[nread] = 0;
-    char* p = buf;
-    while (*p) {
-        char* q = strchr(p, '\n');
-        if (!q) break;
-        out.push_back(string(p, q-p+1));    // include \n
-        p = q + 1;
-    }
-    free(buf);
-    if (exit_code) return -1;
+    _pclose(pipe);
+    return 0;
 #else
 #ifndef _USING_FCGI_
     char buf[256];

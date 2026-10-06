@@ -150,7 +150,7 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
             this->wsl_distros.parse(xp);
             continue;
         }
-        if (xp.parse_str("wsl_version", wsl_version)) continue;
+        if (xp.parse_str("wsl_version", wsl_version, sizeof(wsl_version))) continue;
         if (xp.parse_bool("use_wslc", use_wslc)) continue;
 #else
         int i;
@@ -258,7 +258,7 @@ int HOST_INFO::write(
             "    <wsl_version>%s</wsl_version>\n",
             wsl_version
         );
-        if (use_wslc) 
+        if (use_wslc) {
             out.printf(
                 "    <use_wslc/>\n"
             );
