@@ -85,11 +85,23 @@ public:
     char os_version[256];
 
 #ifdef _WIN32
-    // on Windows, Docker info is per WSL_DISTRO, not global
-    WSL_DISTROS wsl_distros;
     int get_os_information();
+        // get os_name and os_version
     int major_version;
+        // Windows version, e.g. 10
     int build_number;
+        // Windows build #
+
+    char wsl_version[256];
+    // for WSL version 2 and earlier,
+    // we need a WSL distro in which Podman or Docker is installed;
+    // Docker info is per WSL_DISTRO, not global
+    //
+    // for WSL version > 2, we don't use distros;
+    // we use WSL's build-in container system, wslc.exe
+    //
+    bool use_wslc;
+    WSL_DISTROS wsl_distros;
 #else
     char docker_version[256]; // null if not present
     DOCKER_TYPE docker_type;
@@ -176,6 +188,7 @@ public:
     );
 #ifdef _WIN32
     void win_get_processor_info();
+    int get_wsl_information();
 #endif
 };
 
@@ -188,7 +201,6 @@ extern BOOL get_OSVERSIONINFO(OSVERSIONINFOEX& osvi);
 #endif
 
 #ifdef _WIN32
-extern int get_wsl_information(WSL_DISTROS &distros);
 extern int get_processor_group(HANDLE);
 #endif
 

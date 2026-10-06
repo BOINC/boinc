@@ -76,6 +76,8 @@ void HOST_INFO::clear_host_info() {
 
 #ifdef _WIN32
     wsl_distros.clear();
+    use_wslc = false;
+    wsl_version[0] = 0;
 #else
     safe_strcpy(docker_version, "");
     docker_type = NONE;
@@ -148,6 +150,8 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
             this->wsl_distros.parse(xp);
             continue;
         }
+        if (xp.parse_str("wsl_version", wsl_version)) continue;
+        if (xp.parse_bool("use_wslc", use_wslc)) continue;
 #else
         int i;
         if (xp.parse_str("docker_version", docker_version, sizeof(docker_version))) continue;
@@ -249,7 +253,20 @@ int HOST_INFO::write(
         coprocs.ndevs()
     );
 #ifdef _WIN32
-    wsl_distros.write_xml(out);
+    if (strlen(wsl_version)) {
+        out.printf(
+            "    <wsl_version>%s</wsl_version>\n",
+            wsl_version
+        );
+        if (use_wslc) 
+            out.printf(
+                "    <use_wslc/>\n"
+            );
+        }
+    }
+    if (!use_wslc) {
+        wsl_distros.write_xml(out);
+    }
 #else
     if (strlen(docker_version)) {
         out.printf(
