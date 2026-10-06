@@ -22,7 +22,7 @@ class CAccountInfoPage: public CBOINCWizardPage {
     DECLARE_DYNAMIC_CLASS(CAccountInfoPage)
 
 public:
-    CAccountInfoPage();
+    CAccountInfoPage() = default;
     CAccountInfoPage(CWizardAttach* parent);
     bool Create(CWizardAttach* parent);
 
@@ -47,27 +47,27 @@ public:
     bool Validate();
 
 private:
-    wxStaticText* m_pTitleStaticCtrl;
-    wxStaticText* m_pAccountQuestionStaticCtrl;
-    wxRadioButton* m_pAccountCreateCtrl;
-    wxRadioButton* m_pAccountUseExistingCtrl;
-    wxStaticText* m_pAccountInformationStaticCtrl;
-    wxStaticText* m_pAccountEmailAddressStaticCtrl;
-    wxTextCtrl* m_pAccountEmailAddressCtrl;
-    wxStaticText* m_pAccountUsernameStaticCtrl;
-    wxTextCtrl* m_pAccountUsernameCtrl;
-    wxStaticText* m_pAccountPasswordStaticCtrl;
-    wxTextCtrl* m_pAccountPasswordCtrl;
-    wxStaticText* m_pAccountConfirmPasswordStaticCtrl;
-    wxTextCtrl* m_pAccountConfirmPasswordCtrl;
-    wxStaticText* m_pAccountPasswordRequirmentsStaticCtrl;
-    wxStaticText* m_pAccountManagerLinkLabelStaticCtrl;
-    wxHyperlinkCtrl* m_pAccountForgotPasswordCtrl;
+    wxStaticText* m_pTitleStaticCtrl = nullptr;
+    wxStaticText* m_pAccountQuestionStaticCtrl = nullptr;
+    wxRadioButton* m_pAccountCreateCtrl = nullptr;
+    wxRadioButton* m_pAccountUseExistingCtrl = nullptr;
+    wxStaticText* m_pAccountInformationStaticCtrl = nullptr;
+    wxStaticText* m_pAccountEmailAddressStaticCtrl = nullptr;
+    wxTextCtrl* m_pAccountEmailAddressCtrl = nullptr;
+    wxStaticText* m_pAccountUsernameStaticCtrl = nullptr;
+    wxTextCtrl* m_pAccountUsernameCtrl = nullptr;
+    wxStaticText* m_pAccountPasswordStaticCtrl = nullptr;
+    wxTextCtrl* m_pAccountPasswordCtrl = nullptr;
+    wxStaticText* m_pAccountConfirmPasswordStaticCtrl = nullptr;
+    wxTextCtrl* m_pAccountConfirmPasswordCtrl = nullptr;
+    wxStaticText* m_pAccountPasswordRequirmentsStaticCtrl = nullptr;
+    wxStaticText* m_pAccountManagerLinkLabelStaticCtrl = nullptr;
+    wxHyperlinkCtrl* m_pAccountForgotPasswordCtrl = nullptr;
     wxString m_strAccountEmailAddress;
     wxString m_strAccountUsername;
 
-    CWizardAttach *m_pParent;
-    CBOINCWizardPage *m_pPrev;
+    CWizardAttach *m_pParent = nullptr;
+    CBOINCWizardPage *m_pPrev = nullptr;
 };
 
 #endif

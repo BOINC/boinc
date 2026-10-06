@@ -25,7 +25,7 @@ class CSimpleProjectCommandPopupButton : public CTransparentButton
     DECLARE_DYNAMIC_CLASS( CSimpleProjectCommandPopupButton )
 
     public:
-        CSimpleProjectCommandPopupButton();
+        CSimpleProjectCommandPopupButton() = default;
 
 		CSimpleProjectCommandPopupButton(wxWindow* parent, wxWindowID id,
         const wxString& label = wxEmptyString,
@@ -51,13 +51,13 @@ class CSimpleProjectCommandPopupButton : public CTransparentButton
         PROJECT* FindProjectIndexFromURL(char *project_url, int *index);
 
 	protected:
-        wxMenu*                     m_ProjectCommandsPopUpMenu;
-        wxMenuItem*                 m_UpdateProjectMenuItem;
-        wxMenuItem*                 m_SuspendResumeMenuItem;
-        wxMenuItem*                 m_NoNewTasksMenuItem;
-        wxMenuItem*                 m_ResetProjectMenuItem;
-        wxMenuItem*                 m_RemoveProjectMenuItem;
-        wxMenuItem*                 m_ShowPropertiesMenuItem;
+        wxMenu*                     m_ProjectCommandsPopUpMenu = nullptr;
+        wxMenuItem*                 m_UpdateProjectMenuItem = nullptr;
+        wxMenuItem*                 m_SuspendResumeMenuItem = nullptr;
+        wxMenuItem*                 m_NoNewTasksMenuItem = nullptr;
+        wxMenuItem*                 m_ResetProjectMenuItem = nullptr;
+        wxMenuItem*                 m_RemoveProjectMenuItem = nullptr;
+        wxMenuItem*                 m_ShowPropertiesMenuItem = nullptr;
 };
 
 #endif

@@ -29,9 +29,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CErrProxyInfoPage, CBOINCWizardPage)
 
-CErrProxyInfoPage::CErrProxyInfoPage() {
-}
-
 CErrProxyInfoPage::CErrProxyInfoPage(CWizardAttach* parent) {
     Create(parent);
 }

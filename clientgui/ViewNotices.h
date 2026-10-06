@@ -28,7 +28,7 @@ class CViewNotices : public CBOINCBaseView {
     DECLARE_DYNAMIC_CLASS( CViewNotices )
 
 public:
-    CViewNotices();
+    CViewNotices() = default;
     CViewNotices(wxNotebook* pNotebook);
 
     ~CViewNotices();
@@ -40,11 +40,11 @@ public:
     virtual int             GetViewCurrentViewPage();
 
 protected:
-	CNoticeListCtrl*        m_pHtmlListPane;
-    wxStaticText*           m_FetchingNoticesText;
-    wxStaticText*           m_NoNoticesText;
-    bool                    m_bFetchingNoticesTextWasDisplayed;
-    bool                    m_bNoNoticesTextWasDisplayed;
+	CNoticeListCtrl*        m_pHtmlListPane = nullptr;
+    wxStaticText*           m_FetchingNoticesText = nullptr;
+    wxStaticText*           m_NoNoticesText = nullptr;
+    bool                    m_bFetchingNoticesTextWasDisplayed = false;
+    bool                    m_bNoNoticesTextWasDisplayed = false;
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );

@@ -92,8 +92,8 @@ public:
 
     bool QueueBalloon(
         const wxIcon& icon,
-        const wxString title = wxEmptyString,
-        const wxString message = wxEmptyString,
+        const wxString& title = wxEmptyString,
+        const wxString& message = wxEmptyString,
         unsigned int iconballoon = BALLOONTYPE_INFO
     );
 
@@ -104,11 +104,11 @@ public:
     wxIcon          m_iconCurrentIcon;
 
 private:
-    wxMenuItem*     m_SnoozeMenuItem;
-    wxMenuItem*     m_SnoozeGPUMenuItem;
+    wxMenuItem*     m_SnoozeMenuItem = nullptr;
+    wxMenuItem*     m_SnoozeGPUMenuItem = nullptr;
 
     wxDateTime      m_dtLastNotificationAlertExecuted;
-    int             m_iLastNotificationUnreadMessageCount;
+    int             m_iLastNotificationUnreadMessageCount = 0;
 
     void            ResetTaskBar();
     void            DisplayContextMenu();

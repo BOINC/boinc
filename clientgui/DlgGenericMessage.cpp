@@ -24,10 +24,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS( CDlgGenericMessage, wxDialog )
 
-CDlgGenericMessage::CDlgGenericMessage( )
-{
-}
-
 CDlgGenericMessage::CDlgGenericMessage( wxWindow* parent, CDlgGenericMessageParameters* parameters )
 {
     m_DialogParent = parent;

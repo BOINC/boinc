@@ -686,13 +686,13 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     // clear special net times settings
     //
     prefs.net_times.week.clear();
-    for(int i=0; i< 7;i++) {
+    for(int i = 0; i < 7; ++i) {
         if(netDayChks[i]->GetValue()) {
             wxString startStr = netDayStartTxts[i]->GetValue();
             wxString endStr = netDayStopTxts[i]->GetValue();
             prefs.net_times.week.set(i,
-                TimeStringToDouble(startStr),
-                TimeStringToDouble(endStr)
+                TimeStringToDouble(std::move(startStr)),
+                TimeStringToDouble(std::move(endStr))
                 );
         }
     }

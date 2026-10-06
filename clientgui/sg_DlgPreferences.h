@@ -89,7 +89,7 @@ class CPanelPreferences: public wxPanel
 
 public:
     /// Constructors
-    CPanelPreferences( );
+    CPanelPreferences() = default;
     CPanelPreferences( wxWindow* parent );
 
     ~CPanelPreferences( );
@@ -145,29 +145,29 @@ public:
 
 private:
 ////@begin CPanelPreferences member variables
-    wxCheckBox* m_chkProcOnBatteries;
-    wxCheckBox* m_chkProcInUse;
-    wxTextCtrl* m_txtProcIdleFor;
-    wxCheckBox* m_chkProcEveryDay;
-    wxTextCtrl* m_txtProcEveryDayStart;
-    wxTextCtrl* m_txtProcEveryDayStop;
-    wxTextCtrl* m_txtProcUseCPUTime;
-    wxCheckBox* m_chkNetEveryDay;
-    wxTextCtrl* m_txtNetEveryDayStart;
-    wxTextCtrl* m_txtNetEveryDayStop;
-    wxCheckBox* m_chkDiskMaxSpace;
-    wxTextCtrl* m_txtDiskMaxSpace;
+    wxCheckBox* m_chkProcOnBatteries = nullptr;
+    wxCheckBox* m_chkProcInUse = nullptr;
+    wxTextCtrl* m_txtProcIdleFor = nullptr;
+    wxCheckBox* m_chkProcEveryDay = nullptr;
+    wxTextCtrl* m_txtProcEveryDayStart = nullptr;
+    wxTextCtrl* m_txtProcEveryDayStop = nullptr;
+    wxTextCtrl* m_txtProcUseCPUTime = nullptr;
+    wxCheckBox* m_chkNetEveryDay = nullptr;
+    wxTextCtrl* m_txtNetEveryDayStart = nullptr;
+    wxTextCtrl* m_txtNetEveryDayStop = nullptr;
+    wxCheckBox* m_chkDiskMaxSpace = nullptr;
+    wxTextCtrl* m_txtDiskMaxSpace = nullptr;
 
-    wxTextValidator* m_vTimeValidator;
-    wxButton* m_btnClear;
-    wxString *web_prefs_url;
+    wxTextValidator* m_vTimeValidator = nullptr;
+    wxButton* m_btnClear = nullptr;
+    wxString *web_prefs_url = nullptr;
 
-    wxBitmap* m_backgroundBitmap;
+    wxBitmap* m_backgroundBitmap = nullptr;
 
-    bool m_bOKToShow;
+    bool m_bOKToShow = false;
 
     wxColour stdTextBkgdColor;
-    wxTextCtrl* lastErrorCtrl;
+    wxTextCtrl* lastErrorCtrl = nullptr;
 
 ////@end CPanelPreferences member variables
     GLOBAL_PREFS      global_preferences_working;
@@ -188,7 +188,7 @@ class CDlgPreferences: public wxDialog
 
 public:
     /// Constructors
-    CDlgPreferences( );
+    CDlgPreferences() = default;
     CDlgPreferences( wxWindow* parent, wxWindowID id = SYMBOL_CDLGPREFERENCES_IDNAME, const wxString& caption = SYMBOL_CDLGPREFERENCES_TITLE, const wxPoint& pos = SYMBOL_CDLGPREFERENCES_POSITION, const wxSize& size = SYMBOL_CDLGPREFERENCES_SIZE, long style = SYMBOL_CDLGPREFERENCES_STYLE );
 
     /// Creation
@@ -212,7 +212,7 @@ public:
 private:
 ////@begin CDlgPreferences member variables
 
-    CPanelPreferences* m_pBackgroundPanel;
+    CPanelPreferences* m_pBackgroundPanel = nullptr;
 };
 
 #endif

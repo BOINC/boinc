@@ -32,10 +32,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CSimpleProjectPanel, CSimplePanelBase)
 
-CSimpleProjectPanel::CSimpleProjectPanel() {
-}
-
-
 CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
     CSimplePanelBase( parent )
 {
@@ -224,7 +220,7 @@ void CSimpleProjectPanel::UpdateInterface() {
         }
 
         PROJECT* project = pDoc->state.lookup_project(ctrl_url);
-        if ( project != NULL && project->last_rpc_time > m_Project_last_rpc_time ) {
+        if ( project != nullptr && project->last_rpc_time > m_Project_last_rpc_time ) {
             b_needMenuRebuild = true;
             m_Project_last_rpc_time = project->last_rpc_time;
         }
@@ -236,7 +232,7 @@ void CSimpleProjectPanel::UpdateInterface() {
         m_ProjectWebSitesButton->Enable();
         m_ProjectCommandsButton->Enable();
 
-        if (m_fDisplayedCredit != project->user_total_credit) {
+        if (project != nullptr && m_fDisplayedCredit != project->user_total_credit) {
             str.Printf(wxT("%s: %s"),
                 m_sTotalWorkDoneString.c_str(),
                 format_number(project->user_total_credit, 0)
@@ -335,10 +331,10 @@ void CSimpleProjectPanel::OnWizardUpdate() {
 
     CWizardAttach* pWizard = new CWizardAttach(this);
 
-    pWizard->SyncToAccountManager();
-
-    if (pWizard)
+    if (pWizard) {
+        pWizard->SyncToAccountManager();
         pWizard->Destroy();
+    }
 
 //    btnSynchronize->Refresh();
 

@@ -55,7 +55,7 @@ class CBOINCListCtrl : public LISTCTRL_BASE {
     DECLARE_DYNAMIC_CLASS(CBOINCListCtrl)
 
 public:
-    CBOINCListCtrl();
+    CBOINCListCtrl() = default;
     CBOINCListCtrl(CBOINCBaseView* pView, wxWindowID iListWindowID, int iListWindowFlags);
 
     ~CBOINCListCtrl();
@@ -83,7 +83,7 @@ private:
     virtual wxListItemAttr* OnGetItemAttr(long item) const;
 #endif
 
-    CBOINCBaseView*         m_pParentView;
+    CBOINCBaseView*         m_pParentView = nullptr;
     wxArrayInt              m_iRowsNeedingProgressBars;
 
 #if ! USE_LIST_CACHE_HINT
@@ -107,20 +107,20 @@ private:
     void                    OnDrawProgressBar(CDrawProgressBarEvent& event);
     void                    DrawProgressBars(void);
 
-    bool                    m_bProgressBarEventPending;
+    bool                    m_bProgressBarEventPending = false;
 #else
  public:
     void                    DrawProgressBars(void);
     wxScrolledWindow*       GetMainWin(void) { return (wxScrolledWindow*) m_mainWin; }
     wxCoord                 GetHeaderHeight(void) { return ((wxWindow *)m_headerWin)->GetSize().y; }
-    wxEvtHandler*           savedHandler;
+    wxEvtHandler*           savedHandler = nullptr;
 #ifdef __WXMAC__
     void                    SetupMacAccessibilitySupport();
     void                    RemoveMacAccessibilitySupport();
     void                    OnSize( wxSizeEvent &event );
 
-    void*                   m_fauxHeaderView;
-    void*                   m_fauxBodyView;
+    void*                   m_fauxHeaderView = nullptr;
+    void*                   m_fauxBodyView = nullptr;
 #endif
 #endif
 };
@@ -158,16 +158,16 @@ class MyEvtHandler : public wxEvtHandler
     DECLARE_DYNAMIC_CLASS(MyEvtHandler)
 
 public:
-    MyEvtHandler();
+    MyEvtHandler() = default;
     MyEvtHandler(CBOINCListCtrl *theListControl);
     void                    OnPaint(wxPaintEvent & event);
 
 private:
-    CBOINCListCtrl *        m_listCtrl;
+    CBOINCListCtrl *        m_listCtrl = nullptr;
 
 #if !USE_NATIVE_LISTCONTROL
 #ifdef __WXGTK__
-    int                     m_view_startX;
+    int                     m_view_startX = 0;
 #endif
 #endif
 };

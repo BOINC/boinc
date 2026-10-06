@@ -865,22 +865,22 @@ bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex
             GetDocProjectName(m_iSortedIndexes[iRowIndex], strDocumentText);
             GetDocProjectURL(m_iSortedIndexes[iRowIndex], strDocumentText2);
             if (!strDocumentText.IsSameAs(project->m_strProjectName) || !strDocumentText2.IsSameAs(project->m_strProjectURL)) {
-                project->m_strProjectName = strDocumentText;
-                project->m_strProjectURL = strDocumentText2;
+                project->m_strProjectName = std::move(strDocumentText);
+                project->m_strProjectURL = std::move(strDocumentText2);
                 return true;
             }
             break;
         case COLUMN_ACCOUNTNAME:
             GetDocAccountName(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(project->m_strAccountName)) {
-                project->m_strAccountName = strDocumentText;
+                project->m_strAccountName = std::move(strDocumentText);
                 return true;
             }
            break;
         case COLUMN_TEAMNAME:
             GetDocTeamName(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(project->m_strTeamName)) {
-                project->m_strTeamName = strDocumentText;
+                project->m_strTeamName = std::move(strDocumentText);
                 return true;
             }
             break;
@@ -919,7 +919,7 @@ bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex
         case COLUMN_STATUS:
             GetDocStatus(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(project->m_strStatus)) {
-                project->m_strStatus = strDocumentText;
+                project->m_strStatus = std::move(strDocumentText);
                 return true;
             }
             break;
@@ -1253,11 +1253,14 @@ wxInt32 CViewProjects::ConvertLinkToWebsiteIndex(const wxString& strLink, wxInt3
     strTemplate.Replace(wxT("web:"), wxEmptyString);
 
     strBuffer = strTemplate;
-    strBuffer.Remove(strBuffer.Find(wxT(":")));
+    const int colonPos = strBuffer.Find(wxT(":"));
+    if (colonPos != wxNOT_FOUND) {
+        strBuffer.Remove(colonPos);
+    }
     strBuffer.ToLong((long*) &lProjectIndex);
     iProjectIndex = lProjectIndex;
 
-    strBuffer = strTemplate;
+    strBuffer = std::move(strTemplate);
     strBuffer = strBuffer.Mid(strBuffer.Find(wxT(":")) + 1);
     strBuffer.ToLong((long*) &lWebsiteIndex);
     iWebsiteIndex = lWebsiteIndex;

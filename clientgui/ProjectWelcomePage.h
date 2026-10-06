@@ -23,7 +23,7 @@ class CProjectWelcomePage: public CBOINCWizardPage {
     DECLARE_DYNAMIC_CLASS(CProjectWelcomePage)
 
 public:
-    CProjectWelcomePage();
+    CProjectWelcomePage() = default;
     CProjectWelcomePage(CWizardAttach* parent);
     bool Create(CWizardAttach* parent);
 
@@ -42,17 +42,17 @@ public:
     bool HasPrevPage() const;
 
 private:
-    wxStaticText* title_ctrl;
-    wxStaticText* intro_ctrl;
-    wxStaticText* project_name1_ctrl;
-    wxStaticText* project_name2_ctrl;
-    wxStaticText* project_url1_ctrl;
-    wxStaticText* project_url2_ctrl;
+    wxStaticText* title_ctrl = nullptr;
+    wxStaticText* intro_ctrl = nullptr;
+    wxStaticText* project_name1_ctrl = nullptr;
+    wxStaticText* project_name2_ctrl = nullptr;
+    wxStaticText* project_url1_ctrl = nullptr;
+    wxStaticText* project_url2_ctrl = nullptr;
 
-    wxStaticText* continue_ctrl;
+    wxStaticText* continue_ctrl = nullptr;
 
-    CWizardAttach *m_pParent;
-    CBOINCWizardPage *m_pPrev;
+    CWizardAttach *m_pParent = nullptr;
+    CBOINCWizardPage *m_pPrev = nullptr;
 };
 
 #endif

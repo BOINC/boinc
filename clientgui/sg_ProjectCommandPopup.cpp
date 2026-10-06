@@ -26,9 +26,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CSimpleProjectCommandPopupButton, CTransparentButton)
 
-CSimpleProjectCommandPopupButton::CSimpleProjectCommandPopupButton() {
-}
-
 CSimpleProjectCommandPopupButton::CSimpleProjectCommandPopupButton(wxWindow* parent, wxWindowID id,
         const wxString& label, const wxPoint& pos, const wxSize& size,
         long style, const wxValidator& validator, const wxString& name) :
@@ -301,12 +298,16 @@ PROJECT* CSimpleProjectCommandPopupButton::FindProjectIndexFromURL(char *project
 	int prjCount = pDoc->GetSimpleProjectCount();
 	for(int i = 0; i < prjCount; i++){
 		PROJECT* project = pDoc->project(i);
+        if(!project) {
+            *index = -1;
+            return nullptr;
+        }
 		if(!strcmp(project->master_url, project_url)){
 			*index = i;
 			return project;
 		}
 	}
     *index = -1;
-    return NULL;
+    return nullptr;
 }
 

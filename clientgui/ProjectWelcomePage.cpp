@@ -35,9 +35,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CProjectWelcomePage, CBOINCWizardPage)
 
-CProjectWelcomePage::CProjectWelcomePage() {
-}
-
 CProjectWelcomePage::CProjectWelcomePage(CWizardAttach* parent) {
     Create(parent);
 }

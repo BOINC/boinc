@@ -28,11 +28,7 @@
 #include "AccountManagerPropertiesPage.h"
 #include "ProxyPage.h"
 
-
 IMPLEMENT_DYNAMIC_CLASS(CErrProxyPage, CBOINCWizardPage)
-
-CErrProxyPage::CErrProxyPage() {
-}
 
 CErrProxyPage::CErrProxyPage(CWizardAttach* parent) {
     Create(parent);

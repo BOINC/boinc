@@ -47,23 +47,7 @@
 
 class CProjectInfo : public wxObject {
     DECLARE_DYNAMIC_CLASS( CProjectInfo )
-    CProjectInfo() {
-        m_bSupportedPlatformFound = false;
-        m_bProjectSupportsWindows = false;
-        m_bProjectSupportsMac = false;
-        m_bProjectSupportsLinux = false;
-        m_bProjectSupportsAndroid = false;
-        m_bProjectSupportsFreeBSD = false;
-        m_bProjectSupportsLinuxARM = false;
-        m_bProjectSupportsRaspberryPi = false;
-        m_bProjectSupportsDocker = false;
-        m_bProjectSupportsCUDA = false;
-        m_bProjectSupportsCAL = false;
-        m_bProjectSupportsIntelGPU  = false;
-        m_bProjectSupportsVirtualBox = false;
-        m_bProjectSupportsMetal = false;
-    }
-
+    CProjectInfo() = default;
 public:
     wxString m_strURL;
     wxString m_strWebURL;
@@ -72,29 +56,26 @@ public:
     wxString m_strGeneralArea;
     wxString m_strSpecificArea;
     wxString m_strOrganization;
-    bool m_bSupportedPlatformFound;
-    bool m_bProjectSupportsWindows;
-    bool m_bProjectSupportsMac;
-    bool m_bProjectSupportsLinux;
-    bool m_bProjectSupportsAndroid;
-    bool m_bProjectSupportsFreeBSD;
-    bool m_bProjectSupportsLinuxARM;
-    bool m_bProjectSupportsRaspberryPi;
-    bool m_bProjectSupportsDocker;
-    bool m_bProjectSupportsCUDA;
-    bool m_bProjectSupportsCAL;
-    bool m_bProjectSupportsIntelGPU;
-    bool m_bProjectSupportsVirtualBox;
-    bool m_bProjectSupportsMetal;
+    bool m_bSupportedPlatformFound = false;
+    bool m_bProjectSupportsWindows = false;
+    bool m_bProjectSupportsMac = false;
+    bool m_bProjectSupportsLinux = false;
+    bool m_bProjectSupportsAndroid = false;
+    bool m_bProjectSupportsFreeBSD = false;
+    bool m_bProjectSupportsLinuxARM = false;
+    bool m_bProjectSupportsRaspberryPi = false;
+    bool m_bProjectSupportsDocker = false;
+    bool m_bProjectSupportsCUDA = false;
+    bool m_bProjectSupportsCAL = false;
+    bool m_bProjectSupportsIntelGPU = false;
+    bool m_bProjectSupportsVirtualBox = false;
+    bool m_bProjectSupportsMetal = false;
 };
 
 IMPLEMENT_DYNAMIC_CLASS(CProjectInfo, wxObject)
 
 
 IMPLEMENT_DYNAMIC_CLASS(CProjectInfoPage, CBOINCWizardPage)
-
-CProjectInfoPage::CProjectInfoPage() {
-}
 
 CProjectInfoPage::CProjectInfoPage(CWizardAttach* parent) {
     Create(parent);

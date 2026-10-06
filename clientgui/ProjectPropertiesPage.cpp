@@ -50,10 +50,6 @@ wxDEFINE_EVENT(wxEVT_PROJECTPROPERTIES_STATECHANGE, CProjectPropertiesPageEvent)
 
 IMPLEMENT_DYNAMIC_CLASS(CProjectPropertiesPage, CBOINCWizardPage)
 
-
-CProjectPropertiesPage::CProjectPropertiesPage() {
-}
-
 CProjectPropertiesPage::CProjectPropertiesPage(CWizardAttach* parent) {
     Create(parent);
 }

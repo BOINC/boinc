@@ -204,7 +204,7 @@ class CViewStatistics : public CBOINCBaseView
     DECLARE_DYNAMIC_CLASS( CViewStatistics )
 
 public:
-    CViewStatistics();
+    CViewStatistics() = default;
     CViewStatistics(wxNotebook* pNotebook);
 
     ~CViewStatistics();
@@ -229,7 +229,7 @@ public:
 
 protected:
 
-    CPaintStatistics*       m_PaintStatistics;
+    CPaintStatistics*       m_PaintStatistics = nullptr;
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );

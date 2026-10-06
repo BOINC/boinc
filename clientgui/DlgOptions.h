@@ -72,7 +72,7 @@ class CDlgOptions: public wxDialog
 
 public:
     /// Constructors
-    CDlgOptions( );
+    CDlgOptions() = default;
     CDlgOptions( wxWindow* parent, wxWindowID id = SYMBOL_CDLGOPTIONS_IDNAME, const wxString& caption = SYMBOL_CDLGOPTIONS_TITLE, const wxPoint& pos = SYMBOL_CDLGOPTIONS_POSITION, const wxSize& size = SYMBOL_CDLGOPTIONS_SIZE, long style = SYMBOL_CDLGOPTIONS_STYLE );
 
     /// Destructor
@@ -129,33 +129,33 @@ public:
 
 private:
 ////@begin CDlgOptions member variables
-    wxComboBox* m_LanguageSelectionCtrl;
-    wxComboBox* m_ReminderFrequencyCtrl;
-    wxCheckBox* m_EnableBOINCManagerAutoStartCtrl;
-    wxCheckBox* m_EnableBOINCManagerExitMessageCtrl;
-    wxCheckBox* m_EnableBOINCClientShutdownMessageCtrl;
-    wxCheckBox* m_EnableBOINCMenuBarIconCtrl;
-    wxCheckBox* m_EnableRunDaemonCtrl;
-    wxStaticBoxSizer* m_DialupStaticBoxCtrl;
-    wxListBox* m_DialupConnectionsCtrl;
-    wxButton* m_DialupSetDefaultCtrl;
-    wxButton* m_DialupClearDefaultCtrl;
-    wxStaticText* m_DialupDefaultConnectionTextCtrl;
-    wxStaticText* m_DialupDefaultConnectionCtrl;
-    wxCheckBox* m_EnableHTTPProxyCtrl;
-    wxTextCtrl* m_HTTPAddressCtrl;
-    wxTextCtrl* m_HTTPPortCtrl;
-    wxTextCtrl* m_HTTPUsernameCtrl;
-    wxTextCtrl* m_HTTPPasswordCtrl;
-    wxCheckBox* m_EnableSOCKSProxyCtrl;
-    wxTextCtrl* m_SOCKSAddressCtrl;
-    wxTextCtrl* m_SOCKSPortCtrl;
-    wxTextCtrl* m_SOCKSUsernameCtrl;
-    wxTextCtrl* m_SOCKSPasswordCtrl;
-    wxTextCtrl* m_HTTPNoProxiesCtrl;
-    wxTextCtrl* m_SOCKSNoProxiesCtrl;
+    wxComboBox* m_LanguageSelectionCtrl = nullptr;
+    wxComboBox* m_ReminderFrequencyCtrl = nullptr;
+    wxCheckBox* m_EnableBOINCManagerAutoStartCtrl = nullptr;
+    wxCheckBox* m_EnableBOINCManagerExitMessageCtrl = nullptr;
+    wxCheckBox* m_EnableBOINCClientShutdownMessageCtrl = nullptr;
+    wxCheckBox* m_EnableBOINCMenuBarIconCtrl = nullptr;
+    wxCheckBox* m_EnableRunDaemonCtrl = nullptr;
+    wxStaticBoxSizer* m_DialupStaticBoxCtrl = nullptr;
+    wxListBox* m_DialupConnectionsCtrl = nullptr;
+    wxButton* m_DialupSetDefaultCtrl = nullptr;
+    wxButton* m_DialupClearDefaultCtrl = nullptr;
+    wxStaticText* m_DialupDefaultConnectionTextCtrl = nullptr;
+    wxStaticText* m_DialupDefaultConnectionCtrl = nullptr;
+    wxCheckBox* m_EnableHTTPProxyCtrl = nullptr;
+    wxTextCtrl* m_HTTPAddressCtrl = nullptr;
+    wxTextCtrl* m_HTTPPortCtrl = nullptr;
+    wxTextCtrl* m_HTTPUsernameCtrl = nullptr;
+    wxTextCtrl* m_HTTPPasswordCtrl = nullptr;
+    wxCheckBox* m_EnableSOCKSProxyCtrl = nullptr;
+    wxTextCtrl* m_SOCKSAddressCtrl = nullptr;
+    wxTextCtrl* m_SOCKSPortCtrl = nullptr;
+    wxTextCtrl* m_SOCKSUsernameCtrl = nullptr;
+    wxTextCtrl* m_SOCKSPasswordCtrl = nullptr;
+    wxTextCtrl* m_HTTPNoProxiesCtrl = nullptr;
+    wxTextCtrl* m_SOCKSNoProxiesCtrl = nullptr;
 ////@end CDlgOptions member variables
-    bool m_bRetrievedProxyConfiguration;
+    bool m_bRetrievedProxyConfiguration = false;
 };
 
 #endif

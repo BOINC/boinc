@@ -40,11 +40,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS( CPanelMessages, wxPanel )
 
-CPanelMessages::CPanelMessages( )
-{
-}
-
-
 CPanelMessages::CPanelMessages( wxWindow* parent ) :
     wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNO_BORDER)
 {
@@ -259,7 +254,7 @@ void CPanelMessages::OnRefresh() {
         if (pDoc->IsConnected()) {
             pDoc->GetConnectedComputerName(strNewMachineName);
             if (strLastMachineName != strNewMachineName) {
-                strLastMachineName = strNewMachineName;
+                strLastMachineName = std::move(strNewMachineName);
                 m_FetchingNoticesText->Show();
                 m_NoNoticesText->Hide();
                 m_pHtmlListPane->Clear();
@@ -372,11 +367,6 @@ void CPanelMessages::RedrawNoticesListCtrl() {
 
 
 IMPLEMENT_DYNAMIC_CLASS( CDlgMessages, wxDialog )
-
-CDlgMessages::CDlgMessages( )
-{
-}
-
 
 CDlgMessages::CDlgMessages( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {

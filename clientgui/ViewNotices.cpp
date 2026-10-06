@@ -32,11 +32,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CViewNotices, CBOINCBaseView)
 
-
-CViewNotices::CViewNotices()
-{}
-
-
 CViewNotices::CViewNotices(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook)
 {
@@ -140,7 +135,7 @@ void CViewNotices::OnListRender() {
     if (pDoc->IsConnected()) {
         pDoc->GetConnectedComputerName(strNewMachineName);
         if (strLastMachineName != strNewMachineName) {
-            strLastMachineName = strNewMachineName;
+            strLastMachineName = std::move(strNewMachineName);
             m_FetchingNoticesText->Show();
             m_NoNoticesText->Hide();
             m_pHtmlListPane->Clear();

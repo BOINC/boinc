@@ -35,10 +35,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS( CDlgExitMessage, wxDialog )
 
-CDlgExitMessage::CDlgExitMessage( )
-{
-}
-
 CDlgExitMessage::CDlgExitMessage( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
     Create(parent, id, caption, pos, size, style);

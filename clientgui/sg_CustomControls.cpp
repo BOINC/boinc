@@ -111,8 +111,6 @@ void CTransparentButton::OnEraseBackground(wxEraseEvent& WXUNUSED(event))
 
 IMPLEMENT_DYNAMIC_CLASS (CTransparentHyperlinkCtrl, wxHyperlinkCtrl)
 
-CTransparentHyperlinkCtrl::CTransparentHyperlinkCtrl() {}
-
 CTransparentHyperlinkCtrl::CTransparentHyperlinkCtrl(wxWindow *parent,
                     wxWindowID id,
                     const wxString& label, const wxString& url,
@@ -179,9 +177,6 @@ void CTransparentHyperlinkCtrl::OnEraseBackground(wxEraseEvent& event)
 
 
 IMPLEMENT_DYNAMIC_CLASS (CTransparentStaticTextAssociate, wxPanel)
-
-
-CTransparentStaticTextAssociate::CTransparentStaticTextAssociate() {}
 
 CTransparentStaticTextAssociate::CTransparentStaticTextAssociate(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) {
     Create(parent, id, label, pos, size, style, name);
@@ -303,8 +298,6 @@ void CTransparentStaticBitmap::OnPaint(wxPaintEvent& /*event*/) {
 
 
 IMPLEMENT_DYNAMIC_CLASS (CTransparentCheckBox, wxCheckBox)
-
-CTransparentCheckBox::CTransparentCheckBox() {}
 
 CTransparentCheckBox::CTransparentCheckBox(wxWindow *parent, wxWindowID id, const wxString& label,
             const wxPoint& pos,

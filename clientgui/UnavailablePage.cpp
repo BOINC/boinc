@@ -27,9 +27,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CErrUnavailablePage, CBOINCWizardPage)
 
-CErrUnavailablePage::CErrUnavailablePage() {
-}
-
 CErrUnavailablePage::CErrUnavailablePage(CWizardAttach* parent) {
     Create(parent);
 }

@@ -22,7 +22,7 @@ class CCompletionErrorPage: public CBOINCWizardPage {
     DECLARE_DYNAMIC_CLASS(CCompletionErrorPage)
 
 public:
-    CCompletionErrorPage();
+    CCompletionErrorPage() = default;
     CCompletionErrorPage(CWizardAttach* parent);
     bool Create(CWizardAttach* parent);
 
@@ -43,13 +43,13 @@ public:
     void SetServerMessagesCtrlLabel(const wxString& label) { m_pServerMessagesCtrl->SetLabel(label); }
 
 private:
-    wxStaticText* m_pTitleStaticCtrl;
-    wxStaticText* m_pDirectionsStaticCtrl;
-    wxStaticBox* m_pServerMessagesDescriptionCtrl;
-    wxStaticBoxSizer* m_pServerMessagesStaticBoxSizerCtrl;
-    wxStaticText* m_pServerMessagesCtrl;
+    wxStaticText* m_pTitleStaticCtrl = nullptr;
+    wxStaticText* m_pDirectionsStaticCtrl = nullptr;
+    wxStaticBox* m_pServerMessagesDescriptionCtrl = nullptr;
+    wxStaticBoxSizer* m_pServerMessagesStaticBoxSizerCtrl = nullptr;
+    wxStaticText* m_pServerMessagesCtrl = nullptr;
 
-    CWizardAttach *m_pParent;
+    CWizardAttach *m_pParent = nullptr;
 };
 
 #endif

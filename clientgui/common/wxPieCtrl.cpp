@@ -44,7 +44,7 @@ wxPiePart::wxPiePart()
 }
 
 wxPiePart::wxPiePart(double value, wxColour colour, wxString label)
-: m_Value(value), m_Colour(colour), m_Label(label)
+: m_Value(value), m_Colour(colour), m_Label(std::move(label))
 {
 }
 

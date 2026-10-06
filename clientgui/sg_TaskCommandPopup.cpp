@@ -26,9 +26,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CSimpleTaskPopupButton, CTransparentButton)
 
-CSimpleTaskPopupButton::CSimpleTaskPopupButton() {
-}
-
 CSimpleTaskPopupButton::CSimpleTaskPopupButton(wxWindow* parent, wxWindowID id,
         const wxString& label, const wxPoint& pos, const wxSize& size,
         long style, const wxValidator& validator, const wxString& name) :

@@ -1106,22 +1106,22 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
             GetDocProjectName(m_iSortedIndexes[iRowIndex], strDocumentText);
             GetDocProjectURL(m_iSortedIndexes[iRowIndex], strDocumentText2);
             if (!strDocumentText.IsSameAs(work->m_strProjectName) || !strDocumentText2.IsSameAs(work->m_strProjectURL)) {
-                work->m_strProjectName = strDocumentText;
-                work->m_strProjectURL = strDocumentText2;
+                work->m_strProjectName = std::move(strDocumentText);
+                work->m_strProjectURL = std::move(strDocumentText2);
                 return true;
             }
             break;
         case COLUMN_APPLICATION:
             GetDocApplicationName(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(work->m_strApplicationName)) {
-                work->m_strApplicationName = strDocumentText;
+                work->m_strApplicationName = std::move(strDocumentText);
                 return true;
             }
             break;
         case COLUMN_NAME:
             GetDocName(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(work->m_strName)) {
-                work->m_strName = strDocumentText;
+                work->m_strName = std::move(strDocumentText);
                 return true;
             }
             break;
@@ -1194,7 +1194,7 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
             RESULT* result = wxGetApp().GetDocument()->result(i);
             strDocumentText = result_description(result);
             if (!strDocumentText.IsSameAs(work->m_strStatus)) {
-                work->m_strStatus = strDocumentText;
+                work->m_strStatus = std::move(strDocumentText);
                 return true;
             }
             break;

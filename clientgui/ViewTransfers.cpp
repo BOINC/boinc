@@ -613,15 +613,15 @@ bool CViewTransfers::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnInde
             GetDocProjectName(m_iSortedIndexes[iRowIndex], strDocumentText);
             GetDocProjectURL(m_iSortedIndexes[iRowIndex], strDocumentText2);
             if (!strDocumentText.IsSameAs(transfer->m_strProjectName) || !strDocumentText2.IsSameAs(transfer->m_strProjectURL)) {
-                transfer->m_strProjectName = strDocumentText;
-                transfer->m_strProjectURL = strDocumentText2;
+                transfer->m_strProjectName = std::move(strDocumentText);
+                transfer->m_strProjectURL = std::move(strDocumentText2);
                 bNeedRefresh =  true;
             }
             break;
         case COLUMN_FILE:
             GetDocFileName(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(transfer->m_strFileName)) {
-                transfer->m_strFileName = strDocumentText;
+                transfer->m_strFileName = std::move(strDocumentText);
                 bNeedRefresh =  true;
             }
             break;
@@ -672,7 +672,7 @@ bool CViewTransfers::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnInde
         case COLUMN_STATUS:
             GetDocStatus(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(transfer->m_strStatus)) {
-                transfer->m_strStatus = strDocumentText;
+                transfer->m_strStatus = std::move(strDocumentText);
                 return true;
             }
             break;
@@ -968,7 +968,9 @@ wxString CViewTransfers::GetProgressText( long item) {
     CTransfer* transfer;
     wxString   strBuffer  = wxEmptyString;
 
-    GetTransferCacheAtIndex(transfer, m_iSortedIndexes[item]);
+    if(GetTransferCacheAtIndex(transfer, m_iSortedIndexes[item])) {
+        return wxEmptyString;
+    }
     if (transfer) {
         strBuffer = transfer->m_strProgress;
     }

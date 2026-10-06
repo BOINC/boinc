@@ -71,12 +71,6 @@ enum STATUSBARFIELDS {
 IMPLEMENT_DYNAMIC_CLASS(CStatusBar, wxStatusBar)
 
 
-CStatusBar::CStatusBar() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CStatusBar::CStatusBar - Default Constructor Function Begin"));
-    wxLogTrace(wxT("Function Start/End"), wxT("CStatusBar::CStatusBar - Default Constructor Function End"));
-}
-
-
 CStatusBar::CStatusBar(wxWindow *parent) :
     wxStatusBar(parent, ID_STATUSBAR, wxST_SIZEGRIP, _T("statusBar"))
 {
@@ -156,12 +150,6 @@ void CStatusBar::OnSize(wxSizeEvent& event) {
 IMPLEMENT_DYNAMIC_CLASS(CAdvancedFrame, CBOINCBaseFrame)
 
 
-CAdvancedFrame::CAdvancedFrame() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CAdvancedFrame - Default Constructor Function Begin"));
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CAdvancedFrame - Default Constructor Function End"));
-}
-
-
 CAdvancedFrame::CAdvancedFrame(wxString title, wxIconBundle* icons, wxPoint position, wxSize size) :
     CBOINCBaseFrame((wxFrame *)NULL, ID_ADVANCEDFRAME, title, position, size, wxDEFAULT_FRAME_STYLE)
 {
@@ -172,7 +160,7 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIconBundle* icons, wxPoint posi
     m_pStatusbar = NULL;
 
     // Working Variables
-    m_strBaseTitle = title;
+    m_strBaseTitle = std::move(title);
 
     // Initialize Application
     SetIcons(*icons);
@@ -1358,8 +1346,8 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
         );
 
         CDlgGenericMessageParameters dlgParams;
-        dlgParams.caption = strDialogTitle;
-        dlgParams.message = strDialogMessage;
+        dlgParams.caption = std::move(strDialogTitle);
+        dlgParams.message = std::move(strDialogMessage);
         CDlgGenericMessage dlg(this, &dlgParams);
 
         if (wxID_OK == dlg.ShowModal()) {
@@ -1570,6 +1558,9 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
 
         // Force update the notice tab text
         pView = wxDynamicCast(m_pNotebook->GetPage(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE), CBOINCBaseView);
+        if (!pView) {
+            return;
+        }
         iCount = pDoc->GetUnreadNoticeCount();
         if (iLastCount != iCount) {
             iLastCount = iCount;
@@ -1758,8 +1749,8 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             );
 
             ShowAlert(
-                strDialogTitle,
-                strDialogDescription,
+                std::move(strDialogTitle),
+                std::move(strDialogDescription),
                 wxOK | wxICON_INFORMATION,
                 true
             );
@@ -1967,6 +1958,9 @@ void CAdvancedFrame::OnNotebookSelectionChanged(wxNotebookEvent& event) {
 
 void CAdvancedFrame::OnSelectAll(wxCommandEvent& WXUNUSED(event)) {
   CBOINCBaseView* pView = wxDynamicCast(m_pNotebook->GetPage(m_pNotebook->GetSelection()), CBOINCBaseView);
+  if (!pView) {
+      return;
+  }
   CBOINCListCtrl* lCtrl = pView->GetListCtrl();
 
   if (lCtrl == NULL) return;

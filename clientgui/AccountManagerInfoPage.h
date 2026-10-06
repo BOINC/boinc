@@ -45,7 +45,7 @@ class CAccountManagerInfoPage: public CBOINCWizardPage {
     DECLARE_DYNAMIC_CLASS(CAccountManagerInfoPage)
 
 public:
-    CAccountManagerInfoPage();
+    CAccountManagerInfoPage() = default;
     CAccountManagerInfoPage(CWizardAttach* parent);
     bool Create( CWizardAttach* parent );
 
@@ -67,18 +67,18 @@ public:
     bool HasPrevPage() const;
 
 private:
-    wxStaticText* m_pTitleStaticCtrl;
-    wxStaticText* m_pDescriptionStaticCtrl;
-    wxListBox* m_pProjectListCtrl;
-    wxStaticText* m_pProjectDetailsStaticCtrl;
-    wxTextCtrl* m_pProjectDetailsDescriptionCtrl;
-    wxButton* m_pOpenWebSiteButton;
-    wxStaticText* m_pProjectUrlStaticCtrl;
-    wxTextCtrl* m_pProjectUrlCtrl;
-    bool m_bAccountManagerListPopulated;
+    wxStaticText* m_pTitleStaticCtrl = nullptr;
+    wxStaticText* m_pDescriptionStaticCtrl = nullptr;
+    wxListBox* m_pProjectListCtrl = nullptr;
+    wxStaticText* m_pProjectDetailsStaticCtrl = nullptr;
+    wxTextCtrl* m_pProjectDetailsDescriptionCtrl = nullptr;
+    wxButton* m_pOpenWebSiteButton = nullptr;
+    wxStaticText* m_pProjectUrlStaticCtrl = nullptr;
+    wxTextCtrl* m_pProjectUrlCtrl = nullptr;
+    bool m_bAccountManagerListPopulated = false;
 
-    CWizardAttach *m_pParent;
-    CBOINCWizardPage *m_pPrev;
+    CWizardAttach *m_pParent = nullptr;
+    CBOINCWizardPage *m_pPrev = nullptr;
 };
 
 #endif

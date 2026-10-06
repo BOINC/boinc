@@ -44,9 +44,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CWizardAttach, CBOINCBaseWizard)
 
-CWizardAttach::CWizardAttach() {
-}
-
 CWizardAttach::CWizardAttach(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, long style) {
     Create(parent, id, title, pos, style);
 }
@@ -210,8 +207,8 @@ bool CWizardAttach::Run(
         SetProjectURL(strProjectURL);
         SetCredentialsCached(bAccountKeyDetected);
     }
-    SetProjectInstitution(strProjectInstitution);
-    SetProjectDescription(strProjectDescription);
+    SetProjectInstitution(std::move(strProjectInstitution));
+    SetProjectDescription(std::move(strProjectDescription));
     if (strProjectAuthenticator.size()) {
         SetProjectAuthenticator(strProjectAuthenticator);
     }
@@ -303,14 +300,22 @@ bool CWizardAttach::HasNextPage(wxWizardPage* page) {
     if (!page) {
         return false;
     }
-    return dynamic_cast<CBOINCWizardPage*>(page)->HasNextPage();
+    CBOINCWizardPage* pPage = dynamic_cast<CBOINCWizardPage*>(page);
+    if (!pPage) {
+        return false;
+    }
+    return pPage->HasNextPage();
 }
 
 bool CWizardAttach::HasPrevPage(wxWizardPage* page) {
     if (!page) {
         return false;
     }
-    return dynamic_cast<CBOINCWizardPage*>(page)->HasPrevPage();
+    CBOINCWizardPage* pPage = dynamic_cast<CBOINCWizardPage*>(page);
+    if (!pPage) {
+        return false;
+    }
+    return pPage->HasPrevPage();
 }
 
 void CWizardAttach::_ProcessCancelEvent(wxWizardEvent& event) {

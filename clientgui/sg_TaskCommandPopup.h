@@ -26,7 +26,7 @@ class CSimpleTaskPopupButton : public CTransparentButton
     DECLARE_DYNAMIC_CLASS( CSimpleTaskPopupButton )
 
     public:
-        CSimpleTaskPopupButton();
+        CSimpleTaskPopupButton() = default;
 
 		CSimpleTaskPopupButton(wxWindow* parent, wxWindowID id,
         const wxString& label = wxEmptyString,
@@ -50,12 +50,12 @@ class CSimpleTaskPopupButton : public CTransparentButton
         RESULT* lookup_result(char* url, char* name);
 
 	protected:
-        wxMenu*                     m_TaskCommandPopUpMenu;
-        wxMenuItem*                 m_ShowGraphicsMenuItem;
-        wxMenuItem*                 m_SuspendResumeMenuItem;
-        wxMenuItem*                 m_AbortMenuItem;
-        wxMenuItem*                 m_ShowPropertiesMenuItem;
-        bool                        m_TaskSuspendedViaGUI;
+        wxMenu*                     m_TaskCommandPopUpMenu = nullptr;
+        wxMenuItem*                 m_ShowGraphicsMenuItem = nullptr;
+        wxMenuItem*                 m_SuspendResumeMenuItem = nullptr;
+        wxMenuItem*                 m_AbortMenuItem = nullptr;
+        wxMenuItem*                 m_ShowPropertiesMenuItem = nullptr;
+        bool                        m_TaskSuspendedViaGUI = false;
 };
 
 #endif

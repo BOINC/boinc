@@ -49,9 +49,6 @@ wxDEFINE_EVENT(wxEVT_ACCOUNTMANAGERPROPERTIES_STATECHANGE, CAccountManagerProper
 
 IMPLEMENT_DYNAMIC_CLASS(CAccountManagerPropertiesPage, CBOINCWizardPage)
 
-CAccountManagerPropertiesPage::CAccountManagerPropertiesPage() {
-}
-
 CAccountManagerPropertiesPage::CAccountManagerPropertiesPage(CWizardAttach* parent) {
     Create(parent);
 }

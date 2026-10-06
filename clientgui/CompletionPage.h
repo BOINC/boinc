@@ -22,7 +22,7 @@ class CCompletionPage: public CBOINCWizardPage {
     DECLARE_DYNAMIC_CLASS(CCompletionPage)
 
 public:
-    CCompletionPage();
+    CCompletionPage() = default;
     CCompletionPage(CWizardAttach* parent);
     bool Create(CWizardAttach* parent);
 
@@ -41,12 +41,12 @@ public:
     bool HasPrevPage() const;
 
 private:
-    wxStaticText* m_pCompletionTitle;
-    wxStaticText* m_pCompletionWelcome;
-    wxStaticText* m_pCompletionBrandedMessage;
-    wxStaticText* m_pCompletionMessage;
+    wxStaticText* m_pCompletionTitle = nullptr;
+    wxStaticText* m_pCompletionWelcome = nullptr;
+    wxStaticText* m_pCompletionBrandedMessage = nullptr;
+    wxStaticText* m_pCompletionMessage = nullptr;
 
-    CWizardAttach *m_pParent;
+    CWizardAttach *m_pParent = nullptr;
 };
 
 #endif

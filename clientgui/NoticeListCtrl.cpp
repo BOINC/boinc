@@ -32,9 +32,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS( CNoticeListCtrl, wxWindow )
 
-CNoticeListCtrl::CNoticeListCtrl( ) {
-}
-
 CNoticeListCtrl::CNoticeListCtrl( wxWindow* parent ) {
     Create( parent );
 }

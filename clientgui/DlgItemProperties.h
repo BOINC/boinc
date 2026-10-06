@@ -52,12 +52,12 @@ private:
     void copyTextToClipboard(const wxString& text);
     void OnMouseButtonEvent(wxMouseEvent& event);
 protected:
-        wxBoxSizer* m_bSizer1;
-        wxButton* m_btnClose;
-        wxButton* m_pCopySelectedButton;
-        wxButton* m_pCopyAllButton;
+        wxBoxSizer* m_bSizer1 = nullptr;
+        wxButton* m_btnClose = nullptr;
+        wxButton* m_pCopySelectedButton = nullptr;
+        wxButton* m_pCopyAllButton = nullptr;
         wxString m_strBaseConfigLocation;
-        wxHtmlWindow* m_txtInformation;
+        wxHtmlWindow* m_txtInformation = nullptr;
 };
 
 #endif

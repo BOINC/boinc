@@ -23,7 +23,7 @@ class CErrProxyInfoPage: public CBOINCWizardPage {
     DECLARE_DYNAMIC_CLASS(CErrProxyInfoPage)
 
 public:
-    CErrProxyInfoPage();
+    CErrProxyInfoPage() = default;
     CErrProxyInfoPage(CWizardAttach* parent);
     bool Create(CWizardAttach* parent);
 
@@ -42,12 +42,12 @@ public:
     bool HasPrevPage() const;
 
 private:
-    wxStaticText* m_pTitleStaticCtrl;
-    wxStaticText* m_pDescriptionStaticCtrl;
-    wxStaticText* m_pDirectionsStaticCtrl;
+    wxStaticText* m_pTitleStaticCtrl = nullptr;
+    wxStaticText* m_pDescriptionStaticCtrl = nullptr;
+    wxStaticText* m_pDirectionsStaticCtrl = nullptr;
 
-    CWizardAttach *m_pParent;
-    CBOINCWizardPage *m_pPrev;
+    CWizardAttach *m_pParent = nullptr;
+    CBOINCWizardPage *m_pPrev = nullptr;
 };
 
 #endif

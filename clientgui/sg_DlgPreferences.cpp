@@ -41,11 +41,6 @@ using std::string;
 
 IMPLEMENT_DYNAMIC_CLASS( CPanelPreferences, wxPanel )
 
-CPanelPreferences::CPanelPreferences( )
-{
-}
-
-
 CPanelPreferences::CPanelPreferences( wxWindow* parent ) :
     wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxNO_BORDER)
 {
@@ -1083,11 +1078,6 @@ bool CPanelPreferences::doesLocalPrefsFileExist() {
 
 
 IMPLEMENT_DYNAMIC_CLASS( CDlgPreferences, wxDialog )
-
-CDlgPreferences::CDlgPreferences( )
-{
-}
-
 
 CDlgPreferences::CDlgPreferences( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {

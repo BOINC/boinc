@@ -32,9 +32,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CAccountInfoPage, CBOINCWizardPage)
 
-CAccountInfoPage::CAccountInfoPage() {
-}
-
 CAccountInfoPage::CAccountInfoPage(CWizardAttach* parent) {
     Create(parent);
 }

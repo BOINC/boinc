@@ -127,7 +127,7 @@ class CTransparentHyperlinkCtrl : public wxHyperlinkCtrl
     DECLARE_DYNAMIC_CLASS (CTransparentHyperlinkCtrl)
 
 public:
-    CTransparentHyperlinkCtrl();
+    CTransparentHyperlinkCtrl() = default;
     CTransparentHyperlinkCtrl(wxWindow *parent,
                     wxWindowID id,
                     const wxString& label, const wxString& url,
@@ -150,7 +150,7 @@ public:
                 );
 
 private:
-    wxBitmap** m_pParentsBgBmp;
+    wxBitmap** m_pParentsBgBmp = nullptr;
 
 #ifndef __WXMAC__
     public:
@@ -164,7 +164,7 @@ class CTransparentStaticTextAssociate : public wxPanel
     DECLARE_DYNAMIC_CLASS (CTransparentStaticTextAssociate)
 
 public:
-    CTransparentStaticTextAssociate();
+    CTransparentStaticTextAssociate() = default;
     CTransparentStaticTextAssociate(
         wxWindow* parent,
         wxWindowID id,
@@ -195,7 +195,7 @@ public:
     virtual void OnMouse(wxMouseEvent& event);
 
 private:
-    wxWindow*   m_pWnd;
+    wxWindow*   m_pWnd = nullptr;
 };
 
 
@@ -244,7 +244,7 @@ class CTransparentCheckBox : public wxCheckBox
     DECLARE_DYNAMIC_CLASS (CTransparentCheckBox)
 
 public:
-    CTransparentCheckBox();
+    CTransparentCheckBox() = default;
     CTransparentCheckBox(wxWindow *parent, wxWindowID id, const wxString& label,
             const wxPoint& pos = wxDefaultPosition,
             const wxSize& size = wxDefaultSize, long style = 0,
@@ -262,7 +262,7 @@ public:
             );
 
 private:
-    wxBitmap** m_pParentsBgBmp;
+    wxBitmap** m_pParentsBgBmp = nullptr;
 
 #ifndef __WXMAC__
 public:

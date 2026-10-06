@@ -62,12 +62,6 @@
 IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
 
 
-CSimpleFrame::CSimpleFrame() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Default Constructor Function Begin"));
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Default Constructor Function End"));
-}
-
-
 CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position, wxSize size) :
     CBOINCBaseFrame((wxFrame *)NULL, ID_SIMPLEFRAME, title, position, size,
         wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN
@@ -610,7 +604,7 @@ void CSimpleFrame::OnSelectSkin( wxCommandEvent& event ){
     }
 
     selectedItem->Check(true);
-    pSkinManager->ReloadSkin(newSkinName);
+    pSkinManager->ReloadSkin(std::move(newSkinName));
 
     wxGetApp().SaveState();
     wxConfigBase::Get(FALSE)->Flush();
@@ -974,12 +968,6 @@ void CSimpleFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) )
 IMPLEMENT_DYNAMIC_CLASS(CSimpleGUIPanel, wxPanel)
 
 
-CSimpleGUIPanel::CSimpleGUIPanel() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::CSimpleGUIPanel - Default Constructor Function Begin"));
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::CSimpleGUIPanel - Default Constructor Function End"));
-}
-
-
 CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     wxPanel(parent, -1, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN | wxBORDER_NONE)
 {
@@ -1080,8 +1068,10 @@ CSimpleGUIPanel::~CSimpleGUIPanel()
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::CSimpleGUIPanel - Destructor Function Begin"));
 
-    checkForNewNoticesTimer->Stop();
-    delete checkForNewNoticesTimer;
+    if (checkForNewNoticesTimer) {
+        checkForNewNoticesTimer->Stop();
+        delete checkForNewNoticesTimer;
+    }
     m_bmpBg = wxNullBitmap; // Deletes old bitmap via reference counting
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::CSimpleGUIPanel - Destructor Function End"));
