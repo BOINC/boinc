@@ -429,6 +429,9 @@ const char* docker_cli_prog(DOCKER_TYPE type) {
 #else
     case PODMAN: return "podman";
 #endif
+#ifdef _WIN64
+    case WSLC: return "wslc.exe";
+#endif
     default: break;
     }
     return "unknown";
