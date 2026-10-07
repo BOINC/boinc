@@ -28,9 +28,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CCompletionErrorPage, CBOINCWizardPage)
 
-CCompletionErrorPage::CCompletionErrorPage() {
-}
-
 CCompletionErrorPage::CCompletionErrorPage(CWizardAttach* parent) {
     Create(parent);
 }

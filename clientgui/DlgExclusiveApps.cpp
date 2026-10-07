@@ -217,14 +217,14 @@ bool CDlgExclusiveApps::SavePreferencesSettings() {
         config.exclusive_apps.clear();
         for (unsigned int i=0; i<appNames.size(); ++i) {
             std::string s = (const char*)appNames[i].mb_str();
-            config.exclusive_apps.push_back(s);
+            config.exclusive_apps.push_back(std::move(s));
         }
 
        wxArrayString gpuAppNames = m_exclusiveGPUApsListBox->GetStrings();
         config.exclusive_gpu_apps.clear();
         for (unsigned int i=0; i<gpuAppNames.size(); ++i) {
             std::string s = (const char*)gpuAppNames[i].mb_str();
-            config.exclusive_gpu_apps.push_back(s);
+            config.exclusive_gpu_apps.push_back(std::move(s));
         }
         int retval = pDoc->rpc.set_cc_config(config, log_flags);
         if (!retval) {

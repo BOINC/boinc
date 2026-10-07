@@ -44,7 +44,7 @@ class CAccountManagerPropertiesPage: public CBOINCWizardPage {
     DECLARE_DYNAMIC_CLASS(CAccountManagerPropertiesPage)
 
 public:
-    CAccountManagerPropertiesPage();
+    CAccountManagerPropertiesPage() = default;
     CAccountManagerPropertiesPage(CWizardAttach* parent);
     bool Create(CWizardAttach* parent);
 
@@ -100,23 +100,23 @@ public:
     void FinishProgress(wxStaticBitmap* pBitmap);
 
 private:
-    wxStaticText* m_pTitleStaticCtrl;
-    wxStaticText* m_pPleaseWaitStaticCtrl;
-    wxStaticBitmap* m_pProgressIndicator;
-    bool m_bProjectPropertiesSucceeded;
-    bool m_bProjectPropertiesURLFailure;
-    bool m_bProjectPropertiesCommunicationFailure;
-    bool m_bProjectAccountCreationDisabled;
-    bool m_bProjectClientAccountCreationDisabled;
-    bool m_bNetworkConnectionNotDetected;
-    bool m_bServerReportedError;
-    bool m_bTermsOfUseRequired;
-    bool m_bCredentialsAlreadyAvailable;
-    int m_iBitmapIndex;
-    int m_iCurrentState;
+    wxStaticText* m_pTitleStaticCtrl = nullptr;
+    wxStaticText* m_pPleaseWaitStaticCtrl = nullptr;
+    wxStaticBitmap* m_pProgressIndicator = nullptr;
+    bool m_bProjectPropertiesSucceeded = false;
+    bool m_bProjectPropertiesURLFailure = false;
+    bool m_bProjectPropertiesCommunicationFailure = false;
+    bool m_bProjectAccountCreationDisabled = false;
+    bool m_bProjectClientAccountCreationDisabled = false;
+    bool m_bNetworkConnectionNotDetected = false;
+    bool m_bServerReportedError = false;
+    bool m_bTermsOfUseRequired = false;
+    bool m_bCredentialsAlreadyAvailable = false;
+    int m_iBitmapIndex = 0;
+    int m_iCurrentState = 0;
 
-    CWizardAttach *m_pParent;
-    CBOINCWizardPage *m_pPrev;
+    CWizardAttach *m_pParent = nullptr;
+    CBOINCWizardPage *m_pPrev = nullptr;
 };
 
 #endif

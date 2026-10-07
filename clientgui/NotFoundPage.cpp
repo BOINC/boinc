@@ -28,9 +28,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CErrNotFoundPage, CBOINCWizardPage)
 
-CErrNotFoundPage::CErrNotFoundPage() {
-}
-
 CErrNotFoundPage::CErrNotFoundPage(CWizardAttach* parent) {
     Create(parent);
 }

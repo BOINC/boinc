@@ -28,9 +28,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CCompletionPage, CBOINCWizardPage)
 
-CCompletionPage::CCompletionPage() {
-}
-
 CCompletionPage::CCompletionPage(CWizardAttach* parent) {
     Create(parent);
 }

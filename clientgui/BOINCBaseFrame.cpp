@@ -46,13 +46,6 @@ wxDEFINE_EVENT(wxEVT_FRAME_NOTIFICATION, CFrameEvent);
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseFrame, wxFrame)
 
 
-CBOINCBaseFrame::CBOINCBaseFrame()
-{
-    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::CBOINCBaseFrame - Default Constructor Function Begin"));
-    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::CBOINCBaseFrame - Default Constructor Function End"));
-}
-
-
 CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, const long style) :
     wxFrame(parent, id, title, pos, size, style)
 {
@@ -450,7 +443,7 @@ bool CBOINCBaseFrame::SelectComputer(wxString& hostName, int& portNum, wxString&
                 if (!sPort.ToLong(&lPort)) lPort = GUI_RPC_PORT;
                 sHost.erase(iPos);
             }
-            hostName = sHost;
+            hostName = std::move(sHost);
             portNum = (int)lPort;
             password = dlg.m_ComputerPasswordCtrl->GetValue();
         }
@@ -566,8 +559,8 @@ void CBOINCBaseFrame::ShowConnectionFailedAlert() {
     );
 
     ShowAlert(
-        strDialogTitle,
-        strDialogMessage,
+        std::move(strDialogTitle),
+        std::move(strDialogMessage),
         wxYES_NO | wxICON_QUESTION,
         false,
         AlertProcessResponse

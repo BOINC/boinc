@@ -44,7 +44,7 @@ class CDlgExitMessage: public wxDialog
 
 public:
     /// Constructors
-    CDlgExitMessage( );
+    CDlgExitMessage() = default;
     CDlgExitMessage( wxWindow* parent, wxWindowID id = SYMBOL_CDLGEXITMESSAGE_IDNAME, const wxString& caption = SYMBOL_CDLGEXITMESSAGE_TITLE, const wxPoint& pos = SYMBOL_CDLGEXITMESSAGE_POSITION, const wxSize& size = SYMBOL_CDLGEXITMESSAGE_SIZE, long style = SYMBOL_CDLGEXITMESSAGE_STYLE );
 
     /// Creation
@@ -70,9 +70,9 @@ public:
     static bool ShowToolTips();
 
 ////@begin CDlgExitMessage member variables
-    wxStaticText* m_DialogExitMessage;
-    wxCheckBox*   m_DialogShutdownCoreClient;
-    wxCheckBox*   m_DialogDisplay;
+    wxStaticText* m_DialogExitMessage = nullptr;
+    wxCheckBox*   m_DialogShutdownCoreClient = nullptr;
+    wxCheckBox*   m_DialogDisplay = nullptr;
 ////@end CDlgExitMessage member variables
 };
 

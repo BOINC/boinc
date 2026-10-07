@@ -24,7 +24,7 @@ class CProjectInfoPage: public CBOINCWizardPage {
     DECLARE_DYNAMIC_CLASS(CProjectInfoPage)
 
 public:
-    CProjectInfoPage();
+    CProjectInfoPage() = default;
     CProjectInfoPage(CWizardAttach* parent);
     ~CProjectInfoPage();
     bool Create(CWizardAttach* parent);
@@ -54,46 +54,46 @@ public:
     void TrimURL(std::string& purl);
 
 private:
-    wxStaticText* m_pTitleStaticCtrl;
-    wxStaticText* m_pDescriptionStaticCtrl;
-    wxStaticText* m_pProjectCategoriesStaticCtrl;
-    wxComboBox* m_pProjectCategoriesCtrl;
-    wxStaticText* m_pProjectsStaticCtrl;
-    wxListCtrl* m_pProjectsCtrl;
-    wxStaticBox* m_pProjectDetailsStaticCtrl;
-    wxTextCtrl* m_pProjectDetailsDescriptionCtrl;
-    wxStaticText* m_pProjectDetailsResearchAreaStaticCtrl;
-    wxStaticText* m_pProjectDetailsResearchAreaCtrl;
-    wxStaticText* m_pProjectDetailsOrganizationStaticCtrl;
-    wxStaticText* m_pProjectDetailsOrganizationCtrl;
-    wxStaticText* m_pProjectDetailsURLStaticCtrl;
-    wxHyperlinkCtrl* m_pProjectDetailsURLCtrl;
-    wxStaticText* m_pProjectDetailsSupportedPlatformsStaticCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformWindowsCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformMacCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformLinuxCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformAndroidCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformFreeBSDCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformLinuxArmCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformATICtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformNvidiaCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformIntelGPUCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformVirtualBoxCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformRaspberryPiCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformDockerCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformMetalCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformBlankCtrl;
-    wxStaticText* m_pProjectURLStaticCtrl;
-    wxTextCtrl* m_pProjectURLCtrl;
-    ALL_PROJECTS_LIST* m_apl;
+    wxStaticText* m_pTitleStaticCtrl = nullptr;
+    wxStaticText* m_pDescriptionStaticCtrl = nullptr;
+    wxStaticText* m_pProjectCategoriesStaticCtrl = nullptr;
+    wxComboBox* m_pProjectCategoriesCtrl = nullptr;
+    wxStaticText* m_pProjectsStaticCtrl = nullptr;
+    wxListCtrl* m_pProjectsCtrl = nullptr;
+    wxStaticBox* m_pProjectDetailsStaticCtrl = nullptr;
+    wxTextCtrl* m_pProjectDetailsDescriptionCtrl = nullptr;
+    wxStaticText* m_pProjectDetailsResearchAreaStaticCtrl = nullptr;
+    wxStaticText* m_pProjectDetailsResearchAreaCtrl = nullptr;
+    wxStaticText* m_pProjectDetailsOrganizationStaticCtrl = nullptr;
+    wxStaticText* m_pProjectDetailsOrganizationCtrl = nullptr;
+    wxStaticText* m_pProjectDetailsURLStaticCtrl = nullptr;
+    wxHyperlinkCtrl* m_pProjectDetailsURLCtrl = nullptr;
+    wxStaticText* m_pProjectDetailsSupportedPlatformsStaticCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformWindowsCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformMacCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformLinuxCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformAndroidCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformFreeBSDCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformLinuxArmCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformATICtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformNvidiaCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformIntelGPUCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformVirtualBoxCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformRaspberryPiCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformDockerCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformMetalCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformBlankCtrl = nullptr;
+    wxStaticText* m_pProjectURLStaticCtrl = nullptr;
+    wxTextCtrl* m_pProjectURLCtrl = nullptr;
+    ALL_PROJECTS_LIST* m_apl = nullptr;
     wxString m_strProjectURL;
     std::vector<CProjectInfo*> m_Projects;
-    bool m_bProjectSupported;
-    bool m_bProjectListPopulated;
+    bool m_bProjectSupported = false;
+    bool m_bProjectListPopulated = false;
     std::vector<std::string> m_pTrimmedURL;
     std::vector<std::string> m_pTrimmedURL_attached;
-    CWizardAttach *m_pParent;
-    CBOINCWizardPage *m_pPrev;
+    CWizardAttach *m_pParent = nullptr;
+    CBOINCWizardPage *m_pPrev = nullptr;
 };
 
 #endif

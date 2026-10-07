@@ -42,10 +42,6 @@ enum { suspendedIcon, waitingIcon, runningIcon };
 
 IMPLEMENT_DYNAMIC_CLASS(CScrolledTextBox, wxScrolledWindow)
 
-CScrolledTextBox::CScrolledTextBox() {
-}
-
-
 CScrolledTextBox::CScrolledTextBox( wxWindow* parent) :
     wxScrolledWindow( parent, ID_SGPROJECTDESCRIPTION, wxDefaultPosition, wxDefaultSize, wxVSCROLL)
 {
@@ -181,10 +177,6 @@ int CScrolledTextBox::Wrap(const wxString& text, int widthMax, int *lineHeight) 
 
 
 IMPLEMENT_DYNAMIC_CLASS(CSlideShowPanel, wxPanel)
-
-CSlideShowPanel::CSlideShowPanel() {
-}
-
 
 CSlideShowPanel::CSlideShowPanel( wxWindow* parent ) :
     wxPanel( parent, wxID_ANY, wxDefaultPosition,
@@ -426,10 +418,6 @@ void CSlideShowPanel::OnEraseBackground(wxEraseEvent& event) {
 
 
 IMPLEMENT_DYNAMIC_CLASS(CSimpleTaskPanel, CSimplePanelBase)
-
-CSimpleTaskPanel::CSimpleTaskPanel() {
-}
-
 
 CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     CSimplePanelBase( parent )
@@ -695,7 +683,7 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
 #else   // SELECTBYRESULTNAME
                     GetApplicationAndProjectNames(result, NULL, &projName);
 #endif  // SELECTBYRESULTNAME
-                    UpdateStaticText(&m_TaskProjectName, projName);
+                    UpdateStaticText(&m_TaskProjectName, std::move(projName));
                     m_SlideShowArea->AdvanceSlideShow(false, true);
                     m_bStableTaskInfoChanged = false;
                 }
@@ -714,7 +702,7 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
                     }
                     s.Printf(_("%.3f%%"), result->fraction_done*100);
                     m_ipctDoneX1000 = pctDoneX1000;
-                    UpdateStaticText(&m_ProgressValueText, s);
+                    UpdateStaticText(&m_ProgressValueText, std::move(s));
                 }
                 UpdateStaticText(&m_StatusValueText, GetStatusString(result));
             } else {

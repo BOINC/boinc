@@ -22,7 +22,7 @@ class CTermsOfUsePage: public CBOINCWizardPage {
     DECLARE_DYNAMIC_CLASS(CTermsOfUsePage)
 
 public:
-    CTermsOfUsePage();
+    CTermsOfUsePage() = default;
     CTermsOfUsePage(CWizardAttach* parent);
     bool Create(CWizardAttach* parent);
 
@@ -49,16 +49,16 @@ public:
     void SetCredentialsAlreadyAvailable(bool value) { m_bCredentialsAlreadyAvailable = value ; }
 
 private:
-    wxStaticText* m_pTitleStaticCtrl;
-    wxStaticText* m_pDirectionsStaticCtrl;
-    wxHtmlWindow* m_pTermsOfUseCtrl;
-    wxRadioButton* m_pAgreeCtrl;
-    wxRadioButton* m_pDisagreeCtrl;
-    bool m_bUserAgrees;
-    bool m_bCredentialsAlreadyAvailable;
+    wxStaticText* m_pTitleStaticCtrl = nullptr;
+    wxStaticText* m_pDirectionsStaticCtrl = nullptr;
+    wxHtmlWindow* m_pTermsOfUseCtrl = nullptr;
+    wxRadioButton* m_pAgreeCtrl = nullptr;
+    wxRadioButton* m_pDisagreeCtrl = nullptr;
+    bool m_bUserAgrees = false;
+    bool m_bCredentialsAlreadyAvailable = false;
 
-    CWizardAttach *m_pParent;
-    CBOINCWizardPage *m_pPrev;
+    CWizardAttach *m_pParent = nullptr;
+    CBOINCWizardPage *m_pPrev = nullptr;
 };
 
 #endif

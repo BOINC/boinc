@@ -763,7 +763,7 @@ bool CTaskBarIcon::QueueBalloon(const wxIcon&
 #else
                                 icon,
 #endif
-                                const wxString title, const wxString message, unsigned int type) {
+                                const wxString& title, const wxString& message, unsigned int type) {
 #ifdef __WXGTK__
     wxNotificationMessage notification = wxNotificationMessage(title, message, wxGetApp().GetFrame()->GetParent(), type);
     return notification.Show();

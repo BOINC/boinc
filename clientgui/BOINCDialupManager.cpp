@@ -40,14 +40,6 @@ CBOINCDialUpManager::CBOINCDialUpManager() {
     wxASSERT(m_pDialupManager->IsOk());
 #endif
     ResetReminderTimers();
-    m_bSetConnectionTimer = false;
-    m_bNotifyConnectionAvailable = false;
-    m_bConnectedSuccessfully = false;
-    m_bResetTimers = false;
-    m_bWasDialing = false;
-    m_iNetworkStatus = 0;
-    m_iConnectAttemptRetVal = 0;
-
 
     // Construct the default dialog title for dial-up messages
     //
@@ -248,7 +240,7 @@ int CBOINCDialUpManager::Connect() {
                 );
                 pFrame->ShowAlert(
                     m_strDialogTitle,
-                    strDialogMessage,
+                    std::move(strDialogMessage),
                     wxOK | wxICON_INFORMATION,
                     true
                 );
@@ -297,7 +289,7 @@ int CBOINCDialUpManager::ConnectionSucceeded() {
     );
     pFrame->ShowAlert(
         m_strDialogTitle,
-        strDialogMessage,
+        std::move(strDialogMessage),
         wxOK | wxICON_INFORMATION,
         true
     );
@@ -325,7 +317,7 @@ int CBOINCDialUpManager::ConnectionFailed() {
     );
     pFrame->ShowAlert(
         m_strDialogTitle,
-        strDialogMessage,
+        std::move(strDialogMessage),
         wxOK | wxICON_ERROR,
         true
     );
@@ -367,7 +359,7 @@ int CBOINCDialUpManager::NetworkAvailable() {
 
     pFrame->ShowAlert(
         m_strDialogTitle,
-        strDialogMessage,
+        std::move(strDialogMessage),
         wxOK | wxICON_INFORMATION,
         true
     );
@@ -411,7 +403,7 @@ int CBOINCDialUpManager::Disconnect() {
             );
             pFrame->ShowAlert(
                 m_strDialogTitle,
-                strDialogMessage,
+                std::move(strDialogMessage),
                 wxOK | wxICON_INFORMATION,
                 true
             );
@@ -427,7 +419,7 @@ int CBOINCDialUpManager::Disconnect() {
             );
             pFrame->ShowAlert(
                 m_strDialogTitle,
-                strDialogMessage,
+                std::move(strDialogMessage),
                 wxOK | wxICON_ERROR
             );
         }

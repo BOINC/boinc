@@ -28,9 +28,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CErrAlreadyExistsPage, CBOINCWizardPage)
 
-CErrAlreadyExistsPage::CErrAlreadyExistsPage() {
-}
-
 CErrAlreadyExistsPage::CErrAlreadyExistsPage(CWizardAttach* parent) {
     Create(parent);
 }

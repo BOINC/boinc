@@ -612,7 +612,7 @@ void CDlgEventLog::OnRefresh() {
             if (m_isConnected) {
                 pDoc->GetConnectedComputerName(strNewMachineName);
                 if (strLastMachineName != strNewMachineName) {
-                    strLastMachineName = strNewMachineName;
+                    strLastMachineName = std::move(strNewMachineName);
                     m_bWasConnected = false;
                     ResetMessageFiltering();
                     m_iPreviousFirstMsgSeqNum = pDoc->GetFirstMsgSeqNum();

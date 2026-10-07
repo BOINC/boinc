@@ -30,10 +30,6 @@
 #ifdef __WXGTK__
 IMPLEMENT_DYNAMIC_CLASS(MyEvtLogEvtHandler, wxEvtHandler)
 
-MyEvtLogEvtHandler::MyEvtLogEvtHandler() {
-    m_view_startX = 0;
-}
-
 MyEvtLogEvtHandler::MyEvtLogEvtHandler(wxGenericListCtrl *theListControl) {
     m_listCtrl = theListControl;
     m_view_startX = 0;
@@ -64,8 +60,6 @@ void MyEvtLogEvtHandler::OnPaint(wxPaintEvent & event)
 
 
 IMPLEMENT_DYNAMIC_CLASS(CDlgEventLogListCtrl, DLG_LISTCTRL_BASE)
-
-CDlgEventLogListCtrl::CDlgEventLogListCtrl() {}
 
 CDlgEventLogListCtrl::CDlgEventLogListCtrl(CDlgEventLog* pView, wxWindowID iListWindowID, wxInt32 iListWindowFlags)
     : DLG_LISTCTRL_BASE(pView, iListWindowID, wxDefaultPosition, wxDefaultSize, iListWindowFlags)

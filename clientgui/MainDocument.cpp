@@ -394,61 +394,7 @@ CMainDocument::CMainDocument() : rpc(this) {
         wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CMainDocument - Winsock Initialization Failure '%d'"), retval);
     }
 #endif
-
     safe_strcpy(m_szLanguage, "");
-
-    m_bClientStartCheckCompleted = false;
-
-    m_ActiveTasksOnly = false;
-
-    m_fProjectTotalResourceShare = 0.0;
-
-    m_iLastMessageSequenceNumber = 0;
-    m_iFirstMessageSequenceNumber = -1;
-
-    m_iNoticeSequenceNumber = 0;
-    m_iLastReadNoticeSequenceNumber = -1;
-    m_dLastReadNoticeArrivalTime = 0.0;
-    m_bWaitingForGetNoticesRPC = false;
-
-    m_dtCachedStateTimestamp = wxDateTime((time_t)0);
-    m_iGet_state_rpc_result = 0;
-
-    m_dtCachedCCStatusTimestamp = wxDateTime((time_t)0);
-    m_iGet_status_rpc_result = 0;
-
-    m_dtNoticesTimeStamp = wxDateTime((time_t)0);;
-    m_iGet_notices_rpc_result = -1;
-
-    m_dtProjectsStatusTimestamp = wxDateTime((time_t)0);
-    m_iGet_project_status1_rpc_result = -1;
-
-    m_dtResultsTimestamp = wxDateTime((time_t)0);
-    m_iGet_results_rpc_result = -1;
-
-    m_fResultsRPCExecutionTime = 0;
-
-    m_dtKillInactiveGfxTimestamp = wxDateTime((time_t)0);
-    m_dtFileTransfersTimestamp = wxDateTime((time_t)0);
-    m_iGet_file_transfers_rpc_result = 0;
-
-    m_iGet_messages_rpc_result = -1;
-
-    m_dtDiskUsageTimestamp = wxDateTime((time_t)0);
-    m_iGet_dsk_usage_rpc_result = -1;
-
-    m_dtStatisticsStatusTimestamp = wxDateTime((time_t)0);
-    m_iGet_statistics_rpc_result = -1;
-
-    m_dtCachedSimpleGUITimestamp = wxDateTime((time_t)0);
-    m_iGet_simple_gui2_rpc_result = -1;
-
-    m_dtCachedAcctMgrInfoTimestamp = wxDateTime((time_t)0);
-    m_iAcct_mgr_info_rpc_result = -1;
-
-    m_dtLasAsyncRPCDlgTime = wxDateTime((time_t)0);
-    m_dtLastFrameViewRefreshRPCTime = wxDateTime((time_t)0);
-
     status.max_event_log_lines = 0;
 }
 
@@ -739,10 +685,9 @@ int CMainDocument::GetCoreClientStatus(CC_STATUS& ccs, bool bForce) {
             m_dtCachedCCStatusTimestamp = wxDateTime::Now();
 
             m_iGet_status_rpc_result = rpc.get_cc_status(ccs);
-            if (0 == iRetVal) {
+            iRetVal = m_iGet_status_rpc_result;
+            if (!iRetVal) {
                 status = ccs;
-            } else {
-                iRetVal = m_iGet_status_rpc_result;
             }
         } else {
             ccs = status;
@@ -1295,20 +1240,20 @@ void CMainDocument::CheckForVersionUpdate(bool showMessage) {
             return;
 
         if (!version.empty() && !url.empty()) {
-            message.Printf(_("A new version of %s is available.\nYou can download it here: %s"), applicationName, url);
+            message.Printf(_("A new version of %s is available.\nYou can download it here: %s"), std::move(applicationName), url);
             newVersionAvailable = true;
         }
         else {
-            message.Printf(_("There is no new version of %s available for download."), applicationName);
+            message.Printf(_("There is no new version of %s available for download."), std::move(applicationName));
         }
     }
     else {
-        message.Printf(_("%s is not connected to the client"), applicationName);
+        message.Printf(_("%s is not connected to the client"), std::move(applicationName));
     }
     if (showMessage) {
         CDlgGenericMessageParameters params;
-        params.caption = title;
-        params.message = message;
+        params.caption = std::move(title);
+        params.message = std::move(message);
         params.showDisableMessage = false;
         params.button1 = CDlgGenericMessageButton(newVersionAvailable, wxID_OK, _("Go to download page"));
         params.button2 = CDlgGenericMessageButton(true, wxID_CANCEL, _("Close"));
@@ -1929,7 +1874,7 @@ int CMainDocument::WorkShowGraphics(RESULT* rp) {
             gfx_app.project_url = rp->project_url;
             gfx_app.name = rp->name;
             gfx_app.pid = id;
-            m_running_gfx_apps.push_back(gfx_app);
+            m_running_gfx_apps.push_back(std::move(gfx_app));
         }
     }
     return iRetVal;

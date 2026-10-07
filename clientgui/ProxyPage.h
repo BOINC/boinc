@@ -23,7 +23,7 @@ class CErrProxyPage: public CBOINCWizardPage {
     DECLARE_DYNAMIC_CLASS(CErrProxyPage)
 
 public:
-    CErrProxyPage();
+    CErrProxyPage() = default;
     CErrProxyPage(CWizardAttach* parent);
     bool Create(CWizardAttach* parent);
 
@@ -66,25 +66,25 @@ public:
     void SetProxySOCKSPassword(wxString value) { m_strProxySOCKSPassword = value ; }
 
 private:
-    wxStaticText* m_pTitleStaticCtrl;
-    wxStaticBox* m_pProxyHTTPDescriptionCtrl;
-    wxStaticText* m_pProxyHTTPServerStaticCtrl;
-    wxTextCtrl* m_pProxyHTTPServerCtrl;
-    wxStaticText* m_pProxyHTTPPortStaticCtrl;
-    wxTextCtrl* m_pProxyHTTPPortCtrl;
-    wxStaticText* m_pProxyHTTPUsernameStaticCtrl;
-    wxTextCtrl* m_pProxyHTTPUsernameCtrl;
-    wxStaticText* m_pProxyHTTPPasswordStaticCtrl;
-    wxTextCtrl* m_pProxyHTTPPasswordCtrl;
-    wxStaticBox* m_pProxySOCKSDescriptionCtrl;
-    wxStaticText* m_pProxySOCKSServerStaticCtrl;
-    wxTextCtrl* m_pProxySOCKSServerCtrl;
-    wxStaticText* m_pProxySOCKSPortStaticCtrl;
-    wxTextCtrl* m_pProxySOCKSPortCtrl;
-    wxStaticText* m_pProxySOCKSUsernameStaticCtrl;
-    wxTextCtrl* m_pProxySOCKSUsernameCtrl;
-    wxStaticText* m_pProxySOCKSPasswordStaticCtrl;
-    wxTextCtrl* m_pProxySOCKSPasswordCtrl;
+    wxStaticText* m_pTitleStaticCtrl = nullptr;
+    wxStaticBox* m_pProxyHTTPDescriptionCtrl = nullptr;
+    wxStaticText* m_pProxyHTTPServerStaticCtrl = nullptr;
+    wxTextCtrl* m_pProxyHTTPServerCtrl = nullptr;
+    wxStaticText* m_pProxyHTTPPortStaticCtrl = nullptr;
+    wxTextCtrl* m_pProxyHTTPPortCtrl = nullptr;
+    wxStaticText* m_pProxyHTTPUsernameStaticCtrl = nullptr;
+    wxTextCtrl* m_pProxyHTTPUsernameCtrl = nullptr;
+    wxStaticText* m_pProxyHTTPPasswordStaticCtrl = nullptr;
+    wxTextCtrl* m_pProxyHTTPPasswordCtrl = nullptr;
+    wxStaticBox* m_pProxySOCKSDescriptionCtrl = nullptr;
+    wxStaticText* m_pProxySOCKSServerStaticCtrl = nullptr;
+    wxTextCtrl* m_pProxySOCKSServerCtrl = nullptr;
+    wxStaticText* m_pProxySOCKSPortStaticCtrl = nullptr;
+    wxTextCtrl* m_pProxySOCKSPortCtrl = nullptr;
+    wxStaticText* m_pProxySOCKSUsernameStaticCtrl = nullptr;
+    wxTextCtrl* m_pProxySOCKSUsernameCtrl = nullptr;
+    wxStaticText* m_pProxySOCKSPasswordStaticCtrl = nullptr;
+    wxTextCtrl* m_pProxySOCKSPasswordCtrl = nullptr;
     wxString m_strProxyHTTPServer;
     wxString m_strProxyHTTPPort;
     wxString m_strProxyHTTPUsername;
@@ -94,8 +94,8 @@ private:
     wxString m_strProxySOCKSUsername;
     wxString m_strProxySOCKSPassword;
 
-    CWizardAttach *m_pParent;
-    CBOINCWizardPage *m_pPrev;
+    CWizardAttach *m_pParent = nullptr;
+    CBOINCWizardPage *m_pPrev = nullptr;
 };
 
 #endif

@@ -32,9 +32,6 @@ IMPLEMENT_DYNAMIC_CLASS(CAcctMgrListItem, wxObject)
 
 IMPLEMENT_DYNAMIC_CLASS(CAccountManagerInfoPage, CBOINCWizardPage)
 
-CAccountManagerInfoPage::CAccountManagerInfoPage() {
-}
-
 CAccountManagerInfoPage::CAccountManagerInfoPage(CWizardAttach* parent) {
     Create(parent);
 }
@@ -259,8 +256,8 @@ void CAccountManagerInfoPage::OnPageChanging(wxWizardEvent& event) {
             name = pItem->GetName();
         }
     }
-    m_pParent->SetProjectURL(url);
-    m_pParent->SetProjectName(name);
+    m_pParent->SetProjectURL(std::move(url));
+    m_pParent->SetProjectName(std::move(name));
 }
 
 void CAccountManagerInfoPage::OnProjectSelected(wxCommandEvent&) {

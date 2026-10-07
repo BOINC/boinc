@@ -47,9 +47,6 @@ wxDEFINE_EVENT(wxEVT_ACCOUNTMANAGERPROCESSING_STATECHANGE, CAccountManagerProces
 
 IMPLEMENT_DYNAMIC_CLASS(CAccountManagerProcessingPage, CBOINCWizardPage)
 
-CAccountManagerProcessingPage::CAccountManagerProcessingPage() {
-}
-
 CAccountManagerProcessingPage::CAccountManagerProcessingPage(CWizardAttach* parent) {
     Create(parent);
 }

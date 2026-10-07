@@ -38,8 +38,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CDlgAbout, wxDialog)
 
-CDlgAbout::CDlgAbout() {}
-
 CDlgAbout::CDlgAbout(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style) {
     Create(parent, id, caption, pos, size, style);
 }

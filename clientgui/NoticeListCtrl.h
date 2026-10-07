@@ -28,7 +28,7 @@ class CNoticeListCtrl: public wxWindow
 
 public:
     /// Constructors
-    CNoticeListCtrl( );
+    CNoticeListCtrl() = default;
     CNoticeListCtrl( wxWindow* parent );
     ~CNoticeListCtrl();
 
@@ -51,16 +51,16 @@ public:
     void    Clear();
     bool    UpdateUI();
 
-    bool        m_bDisplayFetchingNotices;
-    bool        m_bDisplayEmptyNotice;
+    bool        m_bDisplayFetchingNotices = false;
+    bool        m_bDisplayEmptyNotice = false;
 private:
 #if wxUSE_WEBVIEW
-    wxWebView*  m_browser;
+    wxWebView*  m_browser = nullptr;
 #else
-    wxHtmlWindow* m_browser;
+    wxHtmlWindow* m_browser = nullptr;
 #endif
-    bool        m_bNeedsReloading;
-    int         m_itemCount;
+    bool        m_bNeedsReloading = false;
+    int         m_itemCount = 0;
     wxString    m_noticesBody;
 };
 

@@ -26,10 +26,6 @@
 IMPLEMENT_DYNAMIC_CLASS(CSimplePanelBase, wxPanel)
 
 
-CSimplePanelBase::CSimplePanelBase() {
-}
-
-
 CSimplePanelBase::CSimplePanelBase( wxWindow* parent ) :
     wxPanel( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN | wxBORDER_NONE )
 {

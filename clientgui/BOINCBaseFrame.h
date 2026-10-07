@@ -36,7 +36,7 @@ class CBOINCBaseFrame : public wxFrame {
 
 public:
 
-    CBOINCBaseFrame();
+    CBOINCBaseFrame() = default;
     CBOINCBaseFrame(
         wxWindow *parent,
         const wxWindowID id,
@@ -108,20 +108,20 @@ public:
 
 protected:
 
-    CBOINCDialUpManager* m_pDialupManager;
+    CBOINCDialUpManager* m_pDialupManager = nullptr;
 
-    wxTimer*            m_pDocumentPollTimer;
-    wxTimer*            m_pAlertPollTimer;
-    wxTimer*            m_pPeriodicRPCTimer;
+    wxTimer*            m_pDocumentPollTimer = nullptr;
+    wxTimer*            m_pAlertPollTimer = nullptr;
+    wxTimer*            m_pPeriodicRPCTimer = nullptr;
 
-    int                 m_iReminderFrequency;
-    int                 m_iFrameRefreshRate;
+    int                 m_iReminderFrequency = 0;
+    int                 m_iFrameRefreshRate = 0;
 
     wxString            m_strNetworkDialupConnectionName;
 
     wxArrayString       m_aSelectedComputerMRU;
 
-    bool                m_bShowConnectionFailedAlert;
+    bool                m_bShowConnectionFailedAlert = false;
 
     virtual int         _GetCurrentViewPage();
 
@@ -154,7 +154,7 @@ class CFrameAlertEvent : public wxEvent
 {
 public:
     CFrameAlertEvent(wxEventType evtType, CBOINCBaseFrame *frame, wxString title, wxString message, int style, bool notification_only, FrameAlertEventType alert_event_type)
-        : wxEvent(-1, evtType), m_title(title), m_message(message), m_style(style), m_notification_only(notification_only), m_alert_event_type(alert_event_type)
+        : wxEvent(-1, evtType), m_title(std::move(title)), m_message(std::move(message)), m_style(style), m_notification_only(notification_only), m_alert_event_type(alert_event_type)
         {
             SetEventObject(frame);
         }

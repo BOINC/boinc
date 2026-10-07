@@ -121,9 +121,8 @@ public:
     //
 private:
     char                        m_szLanguage[256];
-    wxDateTime                  m_dtCachedCCStatusTimestamp;
-    bool                        m_bClientStartCheckCompleted;
-
+    wxDateTime                  m_dtCachedCCStatusTimestamp = wxDateTime((time_t)0);
+    bool                        m_bClientStartCheckCompleted = false;
 
 public:
     int                         OnInit();
@@ -168,20 +167,20 @@ public:
 
     void                        CheckForVersionUpdate(bool showMessage = false);
 
-    CNetworkConnection*         m_pNetworkConnection;
-    CBOINCClientManager*        m_pClientManager;
+    CNetworkConnection*         m_pNetworkConnection = nullptr;
+    CBOINCClientManager*        m_pClientManager = nullptr;
     AsyncRPC                    rpc;
     RPC_CLIENT                  rpcClient;
     PROJECTS                    async_projects_update_buf;
 
     CC_STATE                    state;
     CC_STATE                    async_state_buf;
-    int                         m_iGet_state_rpc_result;
+    int                         m_iGet_state_rpc_result = 0;
 
     CC_STATUS                   status;
     CC_STATUS                   async_status_buf;
-    int                         m_iGet_status_rpc_result;
-    wxDateTime                  m_dtCachedStateTimestamp;
+    int                         m_iGet_status_rpc_result = 0;
+    wxDateTime                  m_dtCachedStateTimestamp = wxDateTime((time_t)0);
 
     //
     // Async RPC support
@@ -193,40 +192,40 @@ public:
     bool                        WaitingForRPC() { return m_bWaitingForRPC; }
     wxDialog*                   GetRPCWaitDialog() { return m_RPCWaitDlg; }
 //    void                      TestAsyncRPC();      // For testing Async RPCs
-    RPCThread*                  m_RPCThread;
-    bool                        m_bRPCThreadIsReady;
-    bool                        m_bShutDownRPCThread;
+    RPCThread*                  m_RPCThread = nullptr;
+    bool                        m_bRPCThreadIsReady = false;
+    bool                        m_bShutDownRPCThread = false;
 
 private:
     void                        HandleCompletedRPC();
     void                        KillRPCThread();
     int                         CopyProjectsToStateBuffer(PROJECTS& p, CC_STATE& state);
     ASYNC_RPC_REQUEST           current_rpc_request;
-    AsyncRPCDlg*                m_RPCWaitDlg;
+    AsyncRPCDlg*                m_RPCWaitDlg = nullptr;
     std::vector<ASYNC_RPC_REQUEST> RPC_requests;
-    bool                        m_bWaitingForRPC;
-    bool                        m_bNeedRefresh;
-    bool                        m_bNeedTaskBarRefresh;
-    BOINC_Mutex*                m_pRPC_Thread_Mutex;
-    BOINC_Condition*            m_pRPC_Thread_Condition;
-    BOINC_Mutex*                m_pRPC_Request_Mutex;
-    BOINC_Condition*            m_pRPC_Request_Condition;
-    wxDateTime                  m_dtLasAsyncRPCDlgTime;
-    wxDateTime                  m_dtLastFrameViewRefreshRPCTime;
-    bool                        m_bAutoAttaching;
+    bool                        m_bWaitingForRPC = false;
+    bool                        m_bNeedRefresh = false;
+    bool                        m_bNeedTaskBarRefresh = false;
+    BOINC_Mutex*                m_pRPC_Thread_Mutex = nullptr;
+    BOINC_Condition*            m_pRPC_Thread_Condition = nullptr;
+    BOINC_Mutex*                m_pRPC_Request_Mutex = nullptr;
+    BOINC_Condition*            m_pRPC_Request_Condition = nullptr;
+    wxDateTime                  m_dtLasAsyncRPCDlgTime = wxDateTime((time_t)0);
+    wxDateTime                  m_dtLastFrameViewRefreshRPCTime = wxDateTime((time_t)0);
+    bool                        m_bAutoAttaching = false;
 
     //
     // Projects Tab
     //
 private:
-    int                         m_iGet_project_status1_rpc_result;
-    wxDateTime                  m_dtProjectsStatusTimestamp;
+    int                         m_iGet_project_status1_rpc_result = -1;
+    wxDateTime                  m_dtProjectsStatusTimestamp = wxDateTime((time_t)0);
 
 public:
     int                         CachedProjectStatusUpdate(bool bForce = false);
     PROJECT*                    project(unsigned int);
 	PROJECT*                    project(char* url);
-    double                       m_fProjectTotalResourceShare;
+    double                      m_fProjectTotalResourceShare = .0f;
 
     int                         GetProjectCount();
 
@@ -253,9 +252,9 @@ public:
     //
 private:
     int                         CachedResultsStatusUpdate();
-    wxDateTime                  m_dtResultsTimestamp;
-    double                      m_fResultsRPCExecutionTime;
-    wxDateTime                  m_dtKillInactiveGfxTimestamp;
+    wxDateTime                  m_dtResultsTimestamp = wxDateTime((time_t)0);
+    double                      m_fResultsRPCExecutionTime = .0f;
+    wxDateTime                  m_dtKillInactiveGfxTimestamp = wxDateTime((time_t)0);
     std::vector<RUNNING_GFX_APP> m_running_gfx_apps;
     void                        KillAllRunningGraphicsApps();
     void                        KillInactiveGraphicsApps();
@@ -263,8 +262,8 @@ private:
 public:
     RESULTS                     results;
     RESULTS                     async_results_buf;
-    int                         m_iGet_results_rpc_result;
-    bool                        m_ActiveTasksOnly;
+    int                         m_iGet_results_rpc_result = -1;
+    bool                        m_ActiveTasksOnly = false;
 
     RESULT*                     result(unsigned int);
     RESULT*                     result(const wxString& name, const wxString& project_url);
@@ -283,16 +282,16 @@ public:
     // Notices Tab
     //
 private:
-    wxDateTime                  m_dtNoticesTimeStamp;
+    wxDateTime                  m_dtNoticesTimeStamp = wxDateTime((time_t)0);
 
-    int                         m_iNoticeSequenceNumber;
-    int                         m_iLastReadNoticeSequenceNumber;
-    double                      m_dLastReadNoticeArrivalTime;
-    bool                        m_bWaitingForGetNoticesRPC;
+    int                         m_iNoticeSequenceNumber = 0;
+    int                         m_iLastReadNoticeSequenceNumber = -1;
+    double                      m_dLastReadNoticeArrivalTime = .0f;
+    bool                        m_bWaitingForGetNoticesRPC = false;
 
 public:
     NOTICES                     notices;
-    int                         m_iGet_notices_rpc_result;
+    int                         m_iGet_notices_rpc_result = -1;
 
     NOTICE*                     notice(unsigned int);
     int                         CachedNoticeUpdate();
@@ -315,7 +314,7 @@ private:
 
 public:
     MESSAGES                    messages;
-    int                         m_iGet_messages_rpc_result;
+    int                         m_iGet_messages_rpc_result = -1;
 
     MESSAGE*                    message(unsigned int);
     int                         CachedMessageUpdate();
@@ -324,8 +323,8 @@ public:
 
     int                         ResetMessageState();
 
-    int                         m_iFirstMessageSequenceNumber;
-    int                         m_iLastMessageSequenceNumber;
+    int                         m_iFirstMessageSequenceNumber = -1;
+    int                         m_iLastMessageSequenceNumber = 0;
 
     int                         GetFirstMsgSeqNum() { return m_iFirstMessageSequenceNumber; }
     int                         GetLastMsgSeqNum() { return m_iLastMessageSequenceNumber; }
@@ -335,12 +334,12 @@ public:
     //
 private:
     int                         CachedFileTransfersUpdate();
-    wxDateTime                  m_dtFileTransfersTimestamp;
+    wxDateTime                  m_dtFileTransfersTimestamp = wxDateTime((time_t)0);
 
 public:
     FILE_TRANSFERS              ft;
     FILE_TRANSFERS              async_ft_buf;
-    int                         m_iGet_file_transfers_rpc_result;
+    int                         m_iGet_file_transfers_rpc_result = 0;
 
     FILE_TRANSFER*              file_transfer(unsigned int);
     FILE_TRANSFER*              file_transfer(const wxString& fileName, const wxString& project_url);
@@ -357,12 +356,12 @@ public:
     // Disk Tab
     //
 private:
-    wxDateTime                  m_dtDiskUsageTimestamp;
+    wxDateTime                  m_dtDiskUsageTimestamp = wxDateTime((time_t)0);
 
 public:
     DISK_USAGE                  disk_usage;
     DISK_USAGE                  async_disk_usage_buf;
-    int                         m_iGet_dsk_usage_rpc_result;
+    int                         m_iGet_dsk_usage_rpc_result = -1;
 
     PROJECT*                    DiskUsageProject(unsigned int);
     int                         CachedDiskUsageUpdate();
@@ -372,13 +371,13 @@ public:
 	//
 private:
     int                         CachedStatisticsStatusUpdate();
-    wxDateTime                  m_dtStatisticsStatusTimestamp;
+    wxDateTime                  m_dtStatisticsStatusTimestamp = wxDateTime((time_t)0);
 
 public:
     PROJECTS                    statistics_status;
     PROJECTS                    async_statistics_status_buf;
     PROJECT*                    statistic(unsigned int);
-    int                         m_iGet_statistics_rpc_result;
+    int                         m_iGet_statistics_rpc_result = -1;
 
     int                         GetStatisticsCount();
 
@@ -397,12 +396,12 @@ public:
     //
     // Simple GUI Updates
     //
-    int                         m_iGet_simple_gui2_rpc_result;
-    int                         m_iAcct_mgr_info_rpc_result;
+    int                         m_iGet_simple_gui2_rpc_result = -1;
+    int                         m_iAcct_mgr_info_rpc_result = -1;
     int                         CachedSimpleGUIUpdate(bool bForce = false);
 private:
-    wxDateTime                  m_dtCachedSimpleGUITimestamp;
-    wxDateTime                  m_dtCachedAcctMgrInfoTimestamp;
+    wxDateTime                  m_dtCachedSimpleGUITimestamp = wxDateTime((time_t)0);
+    wxDateTime                  m_dtCachedAcctMgrInfoTimestamp = wxDateTime((time_t)0);
 
 public:
     ACCT_MGR_INFO               ami;

@@ -31,9 +31,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CTermsOfUsePage, CBOINCWizardPage)
 
-CTermsOfUsePage::CTermsOfUsePage() {
-}
-
 CTermsOfUsePage::CTermsOfUsePage(CWizardAttach* parent) {
     Create(parent);
 }

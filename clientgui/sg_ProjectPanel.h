@@ -39,7 +39,7 @@ class CSimpleProjectPanel : public CSimplePanelBase
     DECLARE_DYNAMIC_CLASS( CSimpleProjectPanel )
 
 	public:
-        CSimpleProjectPanel();
+        CSimpleProjectPanel() = default;
 		CSimpleProjectPanel( wxWindow* parent);
 		~CSimpleProjectPanel();
 
@@ -59,21 +59,21 @@ class CSimpleProjectPanel : public CSimplePanelBase
         wxBitmap* GetProjectSpecificBitmap(char* project_url);
 
 	protected:
-		CTransparentStaticText*             m_myProjectsLabel;
-		CBOINCBitmapComboBox*               m_ProjectSelectionCtrl;
-		CTransparentButton*                 m_TaskAddProjectButton;
-        CTransparentStaticText*             m_TotalCreditValue;
-		CSimpleProjectWebSitesPopupButton*  m_ProjectWebSitesButton;
-		CSimpleProjectCommandPopupButton*   m_ProjectCommandsButton;
+		CTransparentStaticText*             m_myProjectsLabel = nullptr;
+		CBOINCBitmapComboBox*               m_ProjectSelectionCtrl = nullptr;
+		CTransparentButton*                 m_TaskAddProjectButton = nullptr;
+        CTransparentStaticText*             m_TotalCreditValue = nullptr;
+		CSimpleProjectWebSitesPopupButton*  m_ProjectWebSitesButton = nullptr;
+		CSimpleProjectCommandPopupButton*   m_ProjectCommandsButton = nullptr;
         wxString                            m_sAddProjectString;
         wxString                            m_sSynchronizeString;
         wxString                            m_sTotalWorkDoneString;
-        int                                 m_UsingAccountManager;
+        int                                 m_UsingAccountManager = 0;
         char                                m_CurrentSelectedProjectURL[256];
-        double                              m_Project_last_rpc_time;
+        double                              m_Project_last_rpc_time = 0;
         wxString                            m_sAddProjectToolTip;
         wxString                            m_sSynchronizeToolTip;
-        double                              m_fDisplayedCredit;
+        double                              m_fDisplayedCredit = 0;
 };
 
 #endif

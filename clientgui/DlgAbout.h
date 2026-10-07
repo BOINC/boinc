@@ -42,7 +42,7 @@ class CDlgAbout: public wxDialog
 
 public:
     /// Constructors
-    CDlgAbout( );
+    CDlgAbout() = default;
     CDlgAbout( wxWindow* parent, wxWindowID id = SYMBOL_CDLGABOUT_IDNAME, const wxString& caption = SYMBOL_CDLGABOUT_TITLE, const wxPoint& pos = SYMBOL_CDLGABOUT_POSITION, const wxSize& size = SYMBOL_CDLGABOUT_SIZE, long style = SYMBOL_CDLGABOUT_STYLE );
 
     /// Creation
@@ -71,9 +71,9 @@ public:
     static bool ShowToolTips();
 
 ////@begin CDlgAbout member variables
-    wxStaticText* m_AboutBOINCTitleCtrl;
-    wxStaticBitmap* m_AboutBOINCLogoCtrl;
-    wxHyperlinkCtrl* m_AboutBOINCURLCtrl;
+    wxStaticText* m_AboutBOINCTitleCtrl = nullptr;
+    wxStaticBitmap* m_AboutBOINCLogoCtrl = nullptr;
+    wxHyperlinkCtrl* m_AboutBOINCURLCtrl = nullptr;
     wxString m_strVersion;
     wxString m_strWidgetsVersion;
 ////@end CDlgAbout member variables

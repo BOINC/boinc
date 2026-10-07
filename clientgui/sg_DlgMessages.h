@@ -72,7 +72,7 @@ class CPanelMessages : public wxPanel
 
 public:
     /// Constructors
-    CPanelMessages( );
+    CPanelMessages() = default;
     CPanelMessages( wxWindow* parent );
 
     /// Destructors
@@ -107,15 +107,15 @@ public:
     bool                    OnRestoreState(wxConfigBase* pConfig);
 
 private:
-    bool                    m_bProcessingRefreshEvent;
-	CNoticeListCtrl*        m_pHtmlListPane;
+    bool                    m_bProcessingRefreshEvent = false;
+	CNoticeListCtrl*        m_pHtmlListPane = nullptr;
 
 protected:
-    wxStaticText*           m_FetchingNoticesText;
-    wxStaticText*           m_NoNoticesText;
-    bool                    m_bFetchingNoticesTextWasDisplayed;
-    bool                    m_bNoNoticesTextWasDisplayed;
-    wxButton*               m_closeButton;
+    wxStaticText*           m_FetchingNoticesText = nullptr;
+    wxStaticText*           m_NoNoticesText = nullptr;
+    bool                    m_bFetchingNoticesTextWasDisplayed = false;
+    bool                    m_bNoNoticesTextWasDisplayed = false;
+    wxButton*               m_closeButton = nullptr;
 };
 
 
@@ -125,7 +125,7 @@ class CDlgMessages : public wxDialog
 
 public:
     /// Constructors
-    CDlgMessages( );
+    CDlgMessages() = default;
     CDlgMessages( wxWindow* parent, wxWindowID id = SYMBOL_CDLGMESSAGES_IDNAME, const wxString& caption = SYMBOL_CDLGMESSAGES_TITLE, const wxPoint& pos = SYMBOL_CDLGMESSAGES_POSITION, const wxSize& size = SYMBOL_CDLGMESSAGES_SIZE, long style = SYMBOL_CDLGMESSAGES_STYLE );
 
     ~CDlgMessages();
@@ -158,7 +158,7 @@ private:
     void OnMove(wxMoveEvent& event);
 
 ////@begin CDlgMessages member variables
-    CPanelMessages* m_pBackgroundPanel;
+    CPanelMessages* m_pBackgroundPanel = nullptr;
 ////@end CDlgMessages member variables
 };
 

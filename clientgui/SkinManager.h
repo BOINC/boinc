@@ -79,13 +79,13 @@ private:
     wxString     m_strComponentName;
     wxString     m_strDesiredBitmap;
     wxString     m_strDesiredBackgroundColor;
-    const char** m_ppDefaultBitmap;
+    const char** m_ppDefaultBitmap = nullptr;
     wxString     m_strDefaultBackgroundColor;
     wxBitmap     m_bmpBitmap;
     wxColour     m_colBackgroundColor;
     // Anchors are used only by m_BackgroundImage and m_DialogBackgroundImage
-    int          m_iAnchorHorizontal;
-    int          m_iAnchorVertical;
+    int          m_iAnchorHorizontal = -1;
+    int          m_iAnchorVertical = -1;
 };
 
 

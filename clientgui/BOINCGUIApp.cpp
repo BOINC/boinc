@@ -384,7 +384,7 @@ bool CBOINCGUIApp::OnInit() {
 
     // Load desired manager skin
     m_pConfig->Read(wxT("Skin"), &strDesiredSkinName, m_pSkinManager->GetDefaultSkinName());
-    m_pSkinManager->ReloadSkin(strDesiredSkinName);
+    m_pSkinManager->ReloadSkin(std::move(strDesiredSkinName));
 
 #ifdef SANDBOX
     // Make sure owners, groups and permissions are correct for the current setting of g_use_sandbox
@@ -537,8 +537,8 @@ bool CBOINCGUIApp::OnInit() {
             wxString message;
             message.Printf(_("Another instance of %s is already running."), appName);
             CDlgGenericMessageParameters params;
-            params.caption = appName;
-            params.message = message;
+            params.caption = std::move(appName);
+            params.message = std::move(message);
             params.button2 = CDlgGenericMessageButton(false);
             CDlgGenericMessage dlg(NULL, &params);
             ShowApplication(true);
@@ -1084,7 +1084,7 @@ void CBOINCGUIApp::InitSupportedLanguages() {
         wxString lang_region = pLI->CanonicalName.BeforeFirst('@');
         wxString lang = lang_region.BeforeFirst('_');
         wxString script = pLI->CanonicalName.AfterFirst('@');
-        wxString lang_script = lang;
+        wxString lang_script = std::move(lang);
         if (!script.empty()) {
             lang_script += wxT("@") + script;
         }

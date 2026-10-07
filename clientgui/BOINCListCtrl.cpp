@@ -27,8 +27,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(MyEvtHandler, wxEvtHandler)
 
-MyEvtHandler::MyEvtHandler() {}
-
 MyEvtHandler::MyEvtHandler(CBOINCListCtrl *theListControl) {
     m_listCtrl = theListControl;
 #ifdef __WXGTK__
@@ -42,10 +40,6 @@ wxDEFINE_EVENT(wxEVT_CHECK_SELECTION_CHANGED, CCheckSelectionChangedEvent);
 
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCListCtrl, LISTCTRL_BASE)
-
-
-CBOINCListCtrl::CBOINCListCtrl() {}
-
 
 CBOINCListCtrl::CBOINCListCtrl(
     CBOINCBaseView* pView, wxWindowID iListWindowID, wxInt32 iListWindowFlags
@@ -216,7 +210,7 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
 
     if (pConfig->Read(wxT("ColumnOrder"), &strColumnOrder)) {
         wxArrayString orderArray;
-        TokenizedStringToArray(strColumnOrder, ";", &orderArray);
+        TokenizedStringToArray(std::move(strColumnOrder), ";", &orderArray);
         SetListColumnOrder(orderArray);
 
         // If the user installed a new version of BOINC, new columns may have
@@ -232,7 +226,7 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
         if (pConfig->Read(wxT("HiddenColumns"), &strHiddenColumns)) {
             wxArrayString hiddenArray;
             wxArrayString defaultArray;
-            TokenizedStringToArray(strHiddenColumns, ";", &hiddenArray);
+            TokenizedStringToArray(std::move(strHiddenColumns), ";", &hiddenArray);
             int shownCount = orderArray.size();
             int hiddenCount = hiddenArray.size();
             int totalCount = pView->m_aStdColNameOrder->size();

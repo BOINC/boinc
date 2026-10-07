@@ -32,9 +32,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CDlgOptions, wxDialog)
 
-CDlgOptions::CDlgOptions() {
-}
-
 CDlgOptions::CDlgOptions(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style) {
     Create(parent, id, caption, pos, size, style);
 }
@@ -756,13 +753,13 @@ bool CDlgOptions::SaveSettings() {
         );
 
         pFrame->ShowAlert(
-            strDialogTitle,
-            strDialogMessage,
+            std::move(strDialogTitle),
+            std::move(strDialogMessage),
             wxOK | wxICON_INFORMATION
         );
     }
 
-    wxGetApp().SetISOLanguageCode(newLangCode);
+    wxGetApp().SetISOLanguageCode(std::move(newLangCode));
     wxGetApp().SetUseDefaultLocale(selLangIdx == 0);
 
     switch(m_ReminderFrequencyCtrl->GetSelection()) {

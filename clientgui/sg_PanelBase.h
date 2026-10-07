@@ -53,7 +53,7 @@ class CSimplePanelBase : public wxPanel
     DECLARE_DYNAMIC_CLASS( CSimplePanelBase )
 
 	public:
-        CSimplePanelBase();
+        CSimplePanelBase() = default;
 		CSimplePanelBase( wxWindow* parent);
 		~CSimplePanelBase();
 
@@ -70,7 +70,7 @@ class CSimplePanelBase : public wxPanel
         void EraseBackground(wxDC *dc);
 
         wxBitmap                    m_TaskPanelBGBitMap;
-        bool                        m_GotBGBitMap;
+        bool                        m_GotBGBitMap = false;
 };
 
 #endif

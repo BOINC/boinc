@@ -95,7 +95,6 @@ void CSkinImage::Clear() {
     m_colBackgroundColor = wxNullColour;
     m_iAnchorHorizontal = -1;
     m_iAnchorVertical = -1;
-
 }
 
 
@@ -877,7 +876,7 @@ bool CSkinManager::ReloadSkin(wxString strSkin) {
     Clear();
 
     // Set the default skin back to Default
-    m_strSelectedSkin = strSkin;
+    m_strSelectedSkin = std::move(strSkin);
 
     // TODO: Eliminate the <en> tags: localization is no longer in skin files.
     p = fopen((const char*)ConstructSkinFileName().mb_str(wxConvUTF8), "r");
@@ -901,10 +900,8 @@ bool CSkinManager::ReloadSkin(wxString strSkin) {
 }
 
 wxArrayString& CSkinManager::GetCurrentSkins() {
-    unsigned int i;
     wxString     strSkinLocation = wxString(GetSkinsLocation() + wxFileName::GetPathSeparator());
     wxString     strSkinFileName = wxString(wxFileName::GetPathSeparator() + GetSkinFileName());
-    wxString     strBuffer;
 
     // Initialize array
     m_astrSkins.Clear();
@@ -913,19 +910,22 @@ wxArrayString& CSkinManager::GetCurrentSkins() {
     wxDir::GetAllFiles(strSkinLocation, &m_astrSkins, wxString(wxT("*") + GetSkinFileName()));
 
     // Trim out the path information for all the entries
-    for (i = 0; i < m_astrSkins.GetCount(); i++) {
-        strBuffer = m_astrSkins[i];
+    for (unsigned int i = 0; i < m_astrSkins.GetCount();) {
+        wxString strBuffer = m_astrSkins[i];
 
         strBuffer = strBuffer.Remove(0, strSkinLocation.Length());
-        strBuffer = strBuffer.Remove(strBuffer.Find(strSkinFileName.c_str()), strSkinFileName.Length());
+        const int pos = strBuffer.Find(strSkinFileName.c_str());
+        if (pos != wxNOT_FOUND) {
+            strBuffer = strBuffer.Remove(pos, strSkinFileName.Length());
+        }
 
         // Special case: 'Default' to mean the embedded default skin.
         //   remove any duplicate entries
         if (GetDefaultSkinName() != strBuffer) {
             m_astrSkins[i] = strBuffer;
+            ++i;
         } else {
             m_astrSkins.RemoveAt(i);
-            i--;
         }
     }
 
@@ -983,7 +983,7 @@ wxString CSkinManager::GetSkinsLocation() {
     struct stat info;
     // check if folder exist
     if (stat( strLinuxSkinLocation.mb_str(), &info ) == 0 && info.st_mode & S_IFDIR) {
-        strSkinLocation = strLinuxSkinLocation;
+        strSkinLocation = std::move(strLinuxSkinLocation);
     }
     else {
         strSkinLocation += wxT("/skins");

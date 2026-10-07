@@ -25,7 +25,7 @@ class CSimpleProjectWebSitesPopupButton : public CTransparentButton
     DECLARE_DYNAMIC_CLASS( CSimpleProjectWebSitesPopupButton )
 
     public:
-        CSimpleProjectWebSitesPopupButton();
+        CSimpleProjectWebSitesPopupButton() = default;
 
 		CSimpleProjectWebSitesPopupButton(wxWindow* parent, wxWindowID id,
         const wxString& label = wxEmptyString,
@@ -47,7 +47,7 @@ class CSimpleProjectWebSitesPopupButton : public CTransparentButton
         void OnMenuLinkClicked(wxCommandEvent& event);
 
 	protected:
-        wxMenu*                     m_ProjectWebSitesPopUpMenu;
+        wxMenu*                     m_ProjectWebSitesPopUpMenu = nullptr;
 };
 
 #endif

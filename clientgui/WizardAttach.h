@@ -125,7 +125,7 @@ class CWizardAttach: public CBOINCBaseWizard {
     DECLARE_DYNAMIC_CLASS(CWizardAttach)
 
 public:
-    CWizardAttach();
+    CWizardAttach() = default;
     CWizardAttach(wxWindow* parent, wxWindowID id = SYMBOL_CWIZARDATTACH_IDNAME, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, long style = wxDEFAULT_DIALOG_STYLE);
     bool Create(wxWindow* parent, wxWindowID id = SYMBOL_CWIZARDATTACH_IDNAME, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, long style = wxDEFAULT_DIALOG_STYLE);
 
@@ -242,39 +242,39 @@ public:
     int GetDirection() const { return m_direction; }
 
 private:
-    CProjectInfoPage* m_ProjectInfoPage;
-    CProjectPropertiesPage* m_ProjectPropertiesPage;
-    CProjectProcessingPage* m_ProjectProcessingPage;
-    CProjectWelcomePage* m_ProjectWelcomePage;
-    CAccountManagerInfoPage* m_AccountManagerInfoPage;
-    CAccountManagerPropertiesPage* m_AccountManagerPropertiesPage;
-    CAccountManagerProcessingPage* m_AccountManagerProcessingPage;
-    CTermsOfUsePage* m_TermsOfUsePage;
-    CAccountInfoPage* m_AccountInfoPage;
-    CCompletionPage* m_CompletionPage;
-    CCompletionErrorPage* m_CompletionErrorPage;
-    CErrNotDetectedPage* m_ErrNotDetectedPage;
-    CErrUnavailablePage* m_ErrUnavailablePage;
-    CErrNotFoundPage* m_ErrNotFoundPage;
-    CErrAlreadyExistsPage* m_ErrAlreadyExistsPage;
-    CErrProxyInfoPage* m_ErrProxyInfoPage;
-    CErrProxyPage* m_ErrProxyPage;
-    CErrUserDisagreesPage* m_ErrUserDisagreesPage;
+    CProjectInfoPage* m_ProjectInfoPage = nullptr;
+    CProjectPropertiesPage* m_ProjectPropertiesPage = nullptr;
+    CProjectProcessingPage* m_ProjectProcessingPage = nullptr;
+    CProjectWelcomePage* m_ProjectWelcomePage = nullptr;
+    CAccountManagerInfoPage* m_AccountManagerInfoPage = nullptr;
+    CAccountManagerPropertiesPage* m_AccountManagerPropertiesPage = nullptr;
+    CAccountManagerProcessingPage* m_AccountManagerProcessingPage = nullptr;
+    CTermsOfUsePage* m_TermsOfUsePage = nullptr;
+    CAccountInfoPage* m_AccountInfoPage = nullptr;
+    CCompletionPage* m_CompletionPage = nullptr;
+    CCompletionErrorPage* m_CompletionErrorPage = nullptr;
+    CErrNotDetectedPage* m_ErrNotDetectedPage = nullptr;
+    CErrUnavailablePage* m_ErrUnavailablePage = nullptr;
+    CErrNotFoundPage* m_ErrNotFoundPage = nullptr;
+    CErrAlreadyExistsPage* m_ErrAlreadyExistsPage = nullptr;
+    CErrProxyInfoPage* m_ErrProxyInfoPage = nullptr;
+    CErrProxyPage* m_ErrProxyPage = nullptr;
+    CErrUserDisagreesPage* m_ErrUserDisagreesPage = nullptr;
 
-    bool IsAttachToProjectWizard;
-    bool IsAccountManagerWizard;
-    bool IsAccountManagerUpdateWizard;
+    bool IsAttachToProjectWizard = false;
+    bool IsAccountManagerWizard = false;
+    bool IsAccountManagerUpdateWizard = false;
 
     PROJECT_CONFIG project_config;
     ACCOUNT_IN account_in;
     ACCOUNT_OUT account_out;
-    bool account_created_successfully;
-    bool attached_to_project_successfully;
-    bool m_bCloseWhenCompleted;
-    bool m_bCredentialsCached;
-    bool m_bCredentialsDetected;
-    bool m_bProjectKnown;
-    bool m_bConsentedToTerms;
+    bool account_created_successfully = false;
+    bool attached_to_project_successfully = false;
+    bool m_bCloseWhenCompleted = false;
+    bool m_bCredentialsCached = false;
+    bool m_bCredentialsDetected = false;
+    bool m_bProjectKnown = false;
+    bool m_bConsentedToTerms = false;
     wxString m_strProjectName;
     wxString m_strProjectUrl;
     wxString m_strProjectAuthenticator;
@@ -290,7 +290,7 @@ private:
     // <0 -> going backward
     //  0 -> current page or unknown yet
     // >0 -> going forward
-    int m_direction;
+    int m_direction = 0;
 };
 
 #endif

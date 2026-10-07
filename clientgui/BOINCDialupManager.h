@@ -40,16 +40,16 @@ public:
     void ResetReminderTimers();
 
 protected:
-    wxDialUpManager* m_pDialupManager;
+    wxDialUpManager* m_pDialupManager = nullptr;
     wxDateTime       m_dtLastDialupRequest;
     wxDateTime       m_dtDialupConnectionTimeout;
-    bool             m_bSetConnectionTimer;
-    bool             m_bNotifyConnectionAvailable;
-    bool             m_bConnectedSuccessfully;
-    bool             m_bResetTimers;
-    bool             m_bWasDialing;
-    int              m_iNetworkStatus;
-    int              m_iConnectAttemptRetVal;
+    bool             m_bSetConnectionTimer = false;
+    bool             m_bNotifyConnectionAvailable = false;
+    bool             m_bConnectedSuccessfully = false;
+    bool             m_bResetTimers = false;
+    bool             m_bWasDialing = false;
+    int              m_iNetworkStatus = 0;
+    int              m_iConnectAttemptRetVal = 0;
 
     wxString         m_strDialogTitle;
 };

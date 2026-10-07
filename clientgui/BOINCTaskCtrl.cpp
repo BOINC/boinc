@@ -25,10 +25,6 @@ const int taskButtonWidth = taskPaneWidth - 55;
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCTaskCtrl, wxScrolledWindow)
 
-
-CBOINCTaskCtrl::CBOINCTaskCtrl() {}
-
-
 CBOINCTaskCtrl::CBOINCTaskCtrl(CBOINCBaseView* pView, wxWindowID iTaskWindowID, wxInt32 iTaskWindowFlags) :
     wxScrolledWindow(pView, iTaskWindowID, wxDefaultPosition, wxSize(taskPaneWidth, -1), iTaskWindowFlags)
 {

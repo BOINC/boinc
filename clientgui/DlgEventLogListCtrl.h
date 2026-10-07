@@ -33,13 +33,13 @@ class CDlgEventLogListCtrl : public DLG_LISTCTRL_BASE
     DECLARE_DYNAMIC_CLASS(CDlgEventLogListCtrl)
 
 public:
-    CDlgEventLogListCtrl();
+    CDlgEventLogListCtrl() = default;
     CDlgEventLogListCtrl(CDlgEventLog* pView, wxWindowID iListWindowID, int iListWindowFlags);
 
     ~CDlgEventLogListCtrl();
 
 #ifdef __WXGTK__
-    wxEvtHandler*           savedHandler;
+    wxEvtHandler*           savedHandler = nullptr;
     wxScrolledWindow*       GetMainWin(void) { return (wxScrolledWindow*) m_mainWin; }
 #endif
 
@@ -51,17 +51,17 @@ private:
 
     void                    OnShow( wxShowEvent& event );
 
-    bool                    m_bIsSingleSelection;
+    bool                    m_bIsSingleSelection = false;
 
-    CDlgEventLog*           m_pParentView;
+    CDlgEventLog*           m_pParentView = nullptr;
 
 #ifdef __WXMAC__
     void                    SetupMacAccessibilitySupport();
     void                    RemoveMacAccessibilitySupport();
     void                    OnSize( wxSizeEvent &event );
 
-    void*                   m_fauxHeaderView;
-    void*                   m_fauxBodyView;
+    void*                   m_fauxHeaderView = nullptr;
+    void*                   m_fauxBodyView = nullptr;
 #endif
 };
 
@@ -72,13 +72,13 @@ class MyEvtLogEvtHandler : public wxEvtHandler
     DECLARE_DYNAMIC_CLASS(MyEvtLogEvtHandler)
 
 public:
-    MyEvtLogEvtHandler();
+    MyEvtLogEvtHandler() = default;
     MyEvtLogEvtHandler(wxGenericListCtrl *theListControl);
     void                    OnPaint(wxPaintEvent & event);
 
 private:
-    wxGenericListCtrl *     m_listCtrl;
-    int                     m_view_startX;
+    wxGenericListCtrl *     m_listCtrl = nullptr;
+    int                     m_view_startX = 0;
 };
 #endif
 

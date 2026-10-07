@@ -1093,8 +1093,7 @@ AsyncRPCDlg::AsyncRPCDlg() : wxDialog( NULL, wxID_ANY, wxT(""), wxDefaultPositio
     cancelbutton->Create( this, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     sizerBtn->Add(cancelbutton, 0, wxLEFT|wxRIGHT|wxALL, 5);
 
-    if ( sizerBtn )
-        topsizer->Add(sizerBtn, 0, wxEXPAND | wxALL, 10 );
+    topsizer->Add(sizerBtn, 0, wxEXPAND | wxALL, 10 );
 
     SetAutoLayout( true );
     SetSizer( topsizer );

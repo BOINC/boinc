@@ -31,10 +31,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS( CDlgSelectComputer, wxDialog )
 
-CDlgSelectComputer::CDlgSelectComputer( )
-{
-}
-
 CDlgSelectComputer::CDlgSelectComputer( wxWindow* parent, bool required, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
     Create(parent, required, id, caption, pos, size, style);

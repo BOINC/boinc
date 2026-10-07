@@ -69,7 +69,7 @@ class CDlgSelectComputer: public wxDialog
 
 public:
     /// Constructors
-    CDlgSelectComputer( );
+    CDlgSelectComputer() = default;
     CDlgSelectComputer( wxWindow* parent, bool required = false, wxWindowID id = SYMBOL_CDLGSELECTCOMPUTER_IDNAME, const wxString& caption = SYMBOL_CDLGSELECTCOMPUTER_TITLE, const wxPoint& pos = SYMBOL_CDLGSELECTCOMPUTER_POSITION, const wxSize& size = SYMBOL_CDLGSELECTCOMPUTER_SIZE, long style = SYMBOL_CDLGSELECTCOMPUTER_STYLE );
 
     /// Creation
@@ -104,8 +104,8 @@ public:
     static bool ShowToolTips();
 
 ////@begin CDlgSelectComputer member variables
-    wxComboBox* m_ComputerNameCtrl;
-    wxTextCtrl* m_ComputerPasswordCtrl;
+    wxComboBox* m_ComputerNameCtrl = nullptr;
+    wxTextCtrl* m_ComputerPasswordCtrl = nullptr;
     wxString m_strComputerName;
     wxString m_strComputerPassword;
 ////@end CDlgSelectComputer member variables
@@ -113,7 +113,7 @@ public:
 #ifdef __WXMAC__
 protected:
     wxAcceleratorEntry  m_Shortcuts[3];     // For Copy, Cut & Paste keyboard shortcuts
-    wxAcceleratorTable* m_pAccelTable;
+    wxAcceleratorTable* m_pAccelTable = nullptr;
 #endif
 };
 

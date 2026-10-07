@@ -48,9 +48,6 @@ wxDEFINE_EVENT(wxEVT_PROJECTPROCESSING_STATECHANGE, CProjectProcessingPageEvent)
 
 IMPLEMENT_DYNAMIC_CLASS(CProjectProcessingPage, CBOINCWizardPage)
 
-CProjectProcessingPage::CProjectProcessingPage() {
-}
-
 CProjectProcessingPage::CProjectProcessingPage(CWizardAttach* parent) {
     Create(parent);
 }
