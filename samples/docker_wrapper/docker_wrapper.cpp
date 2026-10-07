@@ -37,7 +37,8 @@
 // executable files (link or physical)
 //
 // Win:
-//      There must be a WSL image containing Docker or Podman
+//      If WSL 3+, we use WSL Containers (wslc.exe).
+//      Otherwise there must be a WSL image containing Docker or Podman.
 //      The wrapper runs a pipe-connected shell in WSL
 //      (running in the current dir)
 //      and sends commands (e.g. docker commands) via the pipe.
@@ -179,7 +180,10 @@ struct CONFIG {
             fprintf(stderr, "   workdir: %s\n", workdir.c_str());
         }
         if (!project_dir_mount.empty()) {
-            fprintf(stderr, "   project dir mounted at: %s\n", project_dir_mount.c_str());
+            fprintf(stderr,
+                "   project dir mounted at: %s\n",
+                project_dir_mount.c_str()
+            );
         }
         fprintf(stderr, "   use GPU: %s\n", use_gpu?"yes":"no");
         if (web_graphics_guest_port) {
@@ -374,7 +378,7 @@ void get_app_args(char* buf) {
 
 //////////  IMAGE  ////////////
 
-// used during build sleeps
+// called periodically while builds are in progress
 //
 void check_exit_request() {
     BOINC_STATUS status;
@@ -954,7 +958,8 @@ double get_fraction_done() {
 //////////  INITIALIZATION  ////////////
 
 #ifdef _WIN32
-// find a WSL distro with Docker and set up a command link to it
+// If we have WSL 3+, use the WSL container system.
+// Otherwise find a WSL distro with Docker and set up a command link to it
 //
 int wsl_init() {
     if (aid.host_info.use_wslc) {
