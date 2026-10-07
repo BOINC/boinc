@@ -2519,6 +2519,11 @@ void show_docker_messages() {
     if (cc_config.dont_use_wsl) {
         return;
     }
+
+    if (gstate.host_info.use_wslc) {
+        return;
+    }
+
     // don't show message if OS is too old for WSL
     //
     if (gstate.host_info.major_version < 10

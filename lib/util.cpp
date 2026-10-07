@@ -318,7 +318,6 @@ cmd
         }
     }
     _pclose(pipe);
-    return 0;
 #else
 #ifndef _USING_FCGI_
     char buf[256];
