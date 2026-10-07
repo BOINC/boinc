@@ -257,7 +257,7 @@ int HOST_INFO::get_wsl_information() {
         return 0;
     }
 
-    // Skip WSL detection when running as a service since HKEY_CURRENT_USER
+    // Skip distro detection when running as a service since HKEY_CURRENT_USER
     // registry is not available in service mode,
     // and we need it to enumerate distros
     //

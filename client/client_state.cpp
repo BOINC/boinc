@@ -197,6 +197,7 @@ CLIENT_STATE::CLIENT_STATE()
 // show WSL info.
 //
 static void show_wsl_info(HOST_INFO &host_info) {
+    char buf[256];
     if (strlen(host_info.wsl_version)) {
         msg_printf(NULL, MSG_INFO, "WSL version %s", host_info.wsl_version);
     }
@@ -207,7 +208,7 @@ static void show_wsl_info(HOST_INFO &host_info) {
     }
     if (host_info.wsl_distros.distros.empty()) {
         // Don't print this message when running as a service (WSL detection is skipped)
-        if (!executing_as_daemon) {
+        if (!gstate.executing_as_daemon) {
             msg_printf(NULL, MSG_INFO, "WSL: no usable distros found");
         }
     } else {
