@@ -157,6 +157,7 @@ struct DOCKER_CONN {
 #ifdef _WIN32
     WSL_CMD ctl_wc;
     int init(WSL_DISTRO&);
+    int init_wslc();
 #else
     int init(DOCKER_TYPE);
 #endif

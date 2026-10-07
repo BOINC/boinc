@@ -701,7 +701,13 @@ int DOCKER_CONN::init(WSL_DISTRO &wd) {
     }
     return 0;
 }
+int DOCKER_CONN::init_wslc() {
+    type = WSLC;
+    cli_prog = docker_cli_prog(WSLC);
+}
+
 #else
+
 int DOCKER_CONN::init(DOCKER_TYPE docker_type) {
     type = docker_type;
     cli_prog = docker_cli_prog(docker_type);
@@ -722,26 +728,31 @@ int DOCKER_CONN::command(
         fprintf(stderr, "program: %s\n", cli_prog);
     }
 #ifdef _WIN32
-    string output;
-
-    // In the Win case we read the output from a pipe.
-    // Append 'EOM' to the output so we know when we've reached the end
-
-    snprintf(buf, sizeof(buf), "%s %s 2>&1; echo EOM\n", cli_prog, cmd);
-    write_to_pipe(ctl_wc.in_write, buf);
-    retval = read_from_pipe(
-        ctl_wc.out_read, ctl_wc.proc_handle, output, CMD_TIMEOUT, "EOM"
-    );
-    if (retval) {
-        fprintf(stderr, "read_from_pipe() error: %s\n", boincerror(retval));
-        return retval;
+    if (docker_type == WSLC) {
+        snprintf(buf, sizeof(buf), "%s %s 2>&1", cli_prog, cmd);
+        retval = run_command(buf, out);
+        if (retval) {
+            fprintf(stderr, "command failed: %s\n", boincerror(retval));
+            return retval;
+        }
+    } else {
+        // In the Win WSL 1/2 case we read the output from a pipe.
+        // Append 'EOM' to the output so we know when we've reached the end
+        //
+        snprintf(buf, sizeof(buf), "%s %s 2>&1; echo EOM\n", cli_prog, cmd);
+        write_to_pipe(ctl_wc.in_write, buf);
+        string output;
+        retval = read_from_pipe(
+            ctl_wc.out_read, ctl_wc.proc_handle, output, CMD_TIMEOUT, "EOM"
+        );
+        if (retval) {
+            fprintf(stderr, "read_from_pipe() error: %s\n", boincerror(retval));
+            return retval;
+        }
+        out = split(output, '\n');
     }
-    out = split(output, '\n');
 #else
-    snprintf(buf, sizeof(buf),
-        "%s %s 2>&1",
-        cli_prog, cmd
-    );
+    snprintf(buf, sizeof(buf), "%s %s 2>&1", cli_prog, cmd);
     retval = run_command(buf, out);
     if (retval) {
         fprintf(stderr, "command failed: %s\n", boincerror(retval));
