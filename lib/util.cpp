@@ -704,6 +704,7 @@ int DOCKER_CONN::init(WSL_DISTRO &wd) {
 int DOCKER_CONN::init_wslc() {
     type = WSLC;
     cli_prog = docker_cli_prog(WSLC);
+    return 0;
 }
 
 #else
@@ -728,7 +729,7 @@ int DOCKER_CONN::command(
         fprintf(stderr, "program: %s\n", cli_prog);
     }
 #ifdef _WIN32
-    if (docker_type == WSLC) {
+    if (type == WSLC) {
         snprintf(buf, sizeof(buf), "%s %s 2>&1", cli_prog, cmd);
         retval = run_command(buf, out);
         if (retval) {
