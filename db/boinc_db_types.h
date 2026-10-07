@@ -376,7 +376,7 @@ struct HOST {
 
     // the following items are passed in scheduler requests,
     // and used in the scheduler,
-    // but not stored in the DB
+    // but are NOT stored in the DB
     // TODO: move this stuff to a derived class HOST_SCHED
     //
     char p_features[P_FEATURES_SIZE];
@@ -384,6 +384,8 @@ struct HOST {
     bool p_vm_extensions_disabled;
     int num_opencl_cpu_platforms;
     OPENCL_CPU_PROP opencl_cpu_prop[MAX_OPENCL_CPU_PLATFORMS];
+    char wsl_version[256];
+    bool use_wslc;
     WSL_DISTROS wsl_distros;
 
     // Docker info (non-Win only)
@@ -396,7 +398,6 @@ struct HOST {
     double cpu_and_network_available_frac;
     double client_start_time;
     double previous_uptime;
-
 
     int parse(XML_PARSER&);
     int parse_time_stats(XML_PARSER&);

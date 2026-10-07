@@ -236,8 +236,11 @@ int HOST_INFO::get_wsl_information() {
     // Direct3D version: 1.611.1-81528511
     // DXCore version: 10.0.26100.1-240331-1435.ge-release
     // Windows version: 10.0.19045.6466
+    //
+    // but the text can be in other languages,
+    // so just look for ': ' in the first line
 
-    static const char *q = "WSL version: ";
+    static const char *q = ": ";
     for (string line: out) {
         char buf[256];
         safe_strcpy(buf, line.c_str());
@@ -252,6 +255,7 @@ int HOST_INFO::get_wsl_information() {
             }
             break;
         }
+        break;
     }
     if (use_wslc) {
         return 0;

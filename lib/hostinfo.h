@@ -243,6 +243,8 @@ inline const char* docker_type_str(DOCKER_TYPE t) {
         return "Docker";
     case PODMAN:
         return "Podman";
+    case WSLC:
+        return "WSL containers";
     case NONE:
         break;
     }
