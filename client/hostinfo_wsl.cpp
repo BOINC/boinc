@@ -225,7 +225,10 @@ int HOST_INFO::get_wsl_information() {
     // see if we have WSL 3+; if so we don't need to worry about distros
     //
     vector<string> out;
-    int retval = run_command("wsl.exe --version", out);
+
+    // the output of wsl.exe is wide chars - WTF??
+    //
+    int retval = run_command("wsl.exe --version", out, true);
     if (retval) return -1;
 
     // output is like:

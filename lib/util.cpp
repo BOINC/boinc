@@ -287,34 +287,37 @@ int run_program(
 // If you want stderr too, add 2>&1 to command
 // Return error if command failed
 //
-int run_command(const char*
-#if defined(_WIN32) || !defined (_USING_FCGI_)
-cmd
-#endif
-, vector<string> &out) {
+int run_command(
+    const char* cmd, vector<string> &out, [[maybe_unused]] bool wide
+) {
     out.clear();
 
 #ifdef _WIN32
+    char buffer[4096];
     FILE* pipe = _popen(cmd, "r");
     if (!pipe) return -1;
-    char buffer[4096];
-    fread((void*)buffer, 1, 4096, pipe);
-    if (1) {
-    //while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-        // assume the program outputs wide (2-byte) chars.
-        // convert to ASCII
-        char buf2[2048];
-        int j = 0;
-        for (int i=0;; i++) {
-            char c = buffer[i * 2];
-            if (c == 0) break;
-            if (c == '\r') continue;
-            buf2[j++] = c;
-            if (c == '\n') {
-                buf2[j] = 0;
-                out.push_back(buf2);
-                j = 0;
+    if (wide) {
+        fread((void*)buffer, 1, 4096, pipe);
+        if (1) {
+            // assume the program outputs wide (2-byte) chars.
+            // convert to ASCII
+            char buf2[2048];
+            int j = 0;
+            for (int i=0;; i++) {
+                char c = buffer[i * 2];
+                if (c == 0) break;
+                if (c == '\r') continue;
+                buf2[j++] = c;
+                if (c == '\n') {
+                    buf2[j] = 0;
+                    out.push_back(buf2);
+                    j = 0;
+                }
             }
+        }
+    } else {
+        while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+            out.push_back(buffer);
         }
     }
     _pclose(pipe);
