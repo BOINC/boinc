@@ -326,8 +326,8 @@ bool HOST_INFO::host_is_running_on_batteries() {
             char    apm_driver_version[11];
             int     apm_major_version;
             int     apm_minor_version;
-            int     apm_flags;
-            int     apm_ac_line_status=1;
+            unsigned int     apm_flags;
+            unsigned int     apm_ac_line_status=1;
 
             // supposedly we're on batteries if the 5th entry is zero.
             int n = fscanf(fapm, "%10s %d.%d %x %x",
@@ -2065,7 +2065,7 @@ static const struct dir_tty_dev {
 //
 vector<string> get_tty_list() {
     char devname[1024];
-    char fullname[1024];
+    char fullname[2048];
     vector<string> tty_list;
 
     for (unsigned int i=0; i<N_TTY_PATTERNS; i++) {
