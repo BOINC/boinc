@@ -1095,6 +1095,7 @@ int main(int argc, char** argv) {
     bool sporadic = false;
     RSC_USAGE ru;
 
+    config.verbose = VERBOSE_STD;
     for (int j=1; j<argc; j++) {
         if (!strcmp(argv[j], "--sporadic")) {
             sporadic = true;
@@ -1149,7 +1150,6 @@ int main(int argc, char** argv) {
     if (config.verbose) {
         config.print();
     }
-    config.verbose = VERBOSE_STD;
 
     if (sporadic) {
         retval = boinc_sporadic_dir(".");
