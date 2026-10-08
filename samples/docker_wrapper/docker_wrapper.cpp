@@ -1146,6 +1146,7 @@ int main(int argc, char** argv) {
         get_container_name();
         cpu_time = aid.wu_cpu_time;
     }
+    config.verbose = VERBOSE_ALL;
 
     if (config.verbose) {
         config.print();
