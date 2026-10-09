@@ -873,6 +873,8 @@ JOB_STATUS poll_app() {
     vector<string> out;
     int retval;
 
+    fprintf(stderr, "docker type %d\n", docker_type);
+
     // WSL containers doesn't support {} formats; use JSON
     //
     if (docker_type == WSLC) {
