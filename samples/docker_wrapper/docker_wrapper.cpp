@@ -569,6 +569,8 @@ int get_container_state(int &state) {
     int retval;
     vector<string> out;
 
+    state = CONTAINER_ABSENT;
+
     // WSL containers doesn't support {} formats; use JSON
     //
     if (docker_type == WSLC) {
@@ -577,10 +579,12 @@ int get_container_state(int &state) {
             container_name
         );
         retval = docker_conn.command(cmd, out, verbose_all());
-        if (retval) return retval;
-        if (out.empty()) {
+        if (retval) {
             fprintf(stderr, "ps command failed\n");
-            return CONTAINER_ABSENT;
+            return retval;
+        }
+        if (out.empty()) {
+            return 0;
         }
         fprintf(stderr, "output: %s\n", out[0].c_str());
         json d;
@@ -590,16 +594,16 @@ int get_container_state(int &state) {
             fprintf(stderr, "failed to parse ps output %s: %s\n",
                 out[0].c_str(), e.what()
             );
-            return CONTAINER_ABSENT;
+            return -1;
         }
         if (d.find("State") == d.end()) {
             fprintf(stderr, "No State in %s\n", out[0].c_str());
-            return CONTAINER_ABSENT;
+            return -1;
         }
         string s = d["State"].get<string>();
-        int x = get_state(s.c_str());
-        fprintf(stderr, "State: %s %d\n", s.c_str(), x);
-        return x;
+        state = get_state(s.c_str());
+        fprintf(stderr, "State: %s %d\n", s.c_str(), state);
+        return 0;
     }
 
     snprintf(cmd, sizeof(cmd),
@@ -616,11 +620,10 @@ int get_container_state(int &state) {
             if (!p) break;
             p++;
             fprintf(stderr, "container state: %s\n", p);
-
+            state = get_state(p);
             return 0;
         }
     }
-    state = CONTAINER_ABSENT;
     return 0;
 }
 
