@@ -423,6 +423,9 @@ int build_image() {
     char cmd[1024];
     vector<string> out;
     int retval;
+#ifdef _WIN32
+    HANDLE mutex = create_mutex("boinc_wsl_build");
+#endif
 
     snprintf(cmd, sizeof(cmd),
         "build \"%s\" %s -t %s -f %s %s",
@@ -467,7 +470,16 @@ int build_image() {
                 continue;
             }
         }
+#ifdef _WIN32
+        if (wait_mutex(mutex, 3600)) {
+            fprintf(stderr, "couldn't acquire build mutex\n");
+            return -1;
+        }
+#endif
         retval = docker_conn.command(cmd, out, verbose_std());
+#ifdef _WIN32
+        release_mutex(mutex);
+#endif
         if (
             output_has_str(out, "unable to copy")   // podman
             || output_has_str(out, "unreachable")   // docker?

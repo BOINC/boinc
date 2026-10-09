@@ -331,3 +331,25 @@ int write_to_pipe(HANDLE pipe, const char* buf) {
     if (ret) return 0;
     return -1;
 }
+
+// mutex stuff
+
+HANDLE create_mutex(const char* name) {
+    buf buf[256];
+    sprintf(buf, "Global\\%s", name);
+    HANDLE h = CreateMutexA(
+        NULL,       // not inherited
+        false,      // don't acquire
+        buf
+    );
+    return h;
+}
+
+int wait_mutex(HANDLE h, int nsec) {
+    DWORD w = nsec?nsec*1000:INFINITE;
+    return WaitForSingleObject(h, w);       // 0 means success
+}
+
+void release_mutex(HANDLE h) {
+    ReleaseMutex(h);
+}
