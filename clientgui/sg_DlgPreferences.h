@@ -125,7 +125,7 @@ public:
     bool ReadPreferenceSettings();
     bool SavePreferenceSettings();
     bool ValidateInput();
-    bool m_bUsingLocalPrefs;
+    bool m_bUsingLocalPrefs = false;
     void ShowErrorMessage(wxString& msg,wxTextCtrl* errorCtrl);
     bool IsValidFloatChar(const wxChar& ch);
     bool IsValidFloatValue(const wxString& value, bool allowNegative=false);

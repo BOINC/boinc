@@ -669,8 +669,8 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
             wxString startStr = procDayStartTxts[i]->GetValue();
             wxString endStr = procDayStopTxts[i]->GetValue();
             prefs.cpu_times.week.set(i,
-                TimeStringToDouble(startStr),
-                TimeStringToDouble(endStr)
+                TimeStringToDouble(std::move(startStr)),
+                TimeStringToDouble(std::move(endStr))
                 );
         }
     }

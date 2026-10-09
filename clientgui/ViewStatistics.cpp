@@ -1384,7 +1384,7 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
                     head_name = wxString(state_project->project_name.c_str(), wxConvUTF8);
                 }
             //Draw heading
-                DrawMainHead(dc, head_name);
+                DrawMainHead(dc, std::move(head_name));
             //Draw axis
                 DrawAxis(dc, max_val_y, min_val_y,max_val_x, min_val_x, m_pen_AxisColour, max_val_y_all, min_val_y_all);
             //Draw graph
