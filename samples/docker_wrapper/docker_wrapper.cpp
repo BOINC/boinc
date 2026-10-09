@@ -309,7 +309,7 @@ int parse_config_file() {
     return 0;
 }
 
-// If command output includes "Error", show the output and return true
+// check if any line of the output has the given string (e.g. 'Error')
 //
 bool output_has_str(vector<string> &out, const char* s) {
     for (string line: out) {
@@ -321,7 +321,7 @@ bool output_has_str(vector<string> &out, const char* s) {
 }
 
 void show_output(vector<string> &out, const char* cmd_name) {
-    fprintf(stderr, "Error output from '%s' command:\n", cmd_name);
+    fprintf(stderr, "Output from '%s' command:\n", cmd_name);
     for (const string &line: out) {
         fprintf(stderr, "   %s", line.c_str());
     }
@@ -423,8 +423,14 @@ int build_image() {
     char cmd[1024];
     vector<string> out;
     int retval;
+
+    // In WSL Containers, if you try to do concurrent builds one of them fails
+    //
 #ifdef _WIN32
-    HANDLE mutex = create_mutex("boinc_wsl_build");
+    HANDLE mutex;
+    if (docker_type == WSLC) {
+        handle = create_mutex("boinc_wsl_build");
+    }
 #endif
 
     snprintf(cmd, sizeof(cmd),
@@ -471,18 +477,23 @@ int build_image() {
             }
         }
 #ifdef _WIN32
-        if (wait_mutex(mutex, 3600)) {
-            fprintf(stderr, "couldn't acquire build mutex\n");
-            return -1;
+        if (docker_type == WSLC) {
+            if (wait_mutex(mutex, 3600)) {
+                fprintf(stderr, "couldn't acquire build mutex\n");
+                return -1;
+            }
         }
 #endif
         retval = docker_conn.command(cmd, out, verbose_std());
 #ifdef _WIN32
-        release_mutex(mutex);
+        if (docker_type == WSLC) {
+            release_mutex(mutex);
+        }
 #endif
         if (
             output_has_str(out, "unable to copy")   // podman
             || output_has_str(out, "unreachable")   // docker?
+            || output_has_str(out, "misbehaving")   // wslc
         ) {
             if (verbose_std()) {
                 fprintf(stderr, "build cmd output indicates disconnection\n");
@@ -534,7 +545,7 @@ int get_image() {
     retval = image_exists(exists);
     if (retval) {
         fprintf(stderr, "image_exists() failed: %d\n", retval);
-        exit(1);
+        boinc_finish(1);
     }
     if (!exists) {
         if (config.verbose) {
@@ -543,7 +554,7 @@ int get_image() {
         retval = build_image();
         if (retval) {
             fprintf(stderr, "build_image() failed: %d\n", retval);
-            exit(1);
+            boinc_finish(1);
         }
     }
     return 0;
@@ -598,7 +609,6 @@ int get_container_state(int &state) {
         if (out.empty()) {
             return 0;
         }
-        fprintf(stderr, "output: %s\n", out[0].c_str());
         json d;
         try {
             d = json::parse(out[0]);
@@ -614,7 +624,6 @@ int get_container_state(int &state) {
         }
         string s = d["State"].get<string>();
         state = get_state(s.c_str());
-        fprintf(stderr, "State: %s %d\n", s.c_str(), state);
         return 0;
     }
 
@@ -885,8 +894,6 @@ JOB_STATUS poll_app() {
     vector<string> out;
     int retval;
 
-    fprintf(stderr, "docker type %d\n", docker_type);
-
     // WSL containers doesn't support {} formats; use JSON
     //
     if (docker_type == WSLC) {
@@ -1060,7 +1067,7 @@ int get_stats(RSC_USAGE &ru) {
     }
     if (ru.cpu_frac > aid.ncpus) {
         print_once(string("stats command returned excessive CPU usage\n"));
-        return -1;
+        ru.cpu_frac = aid.ncpus;
     }
     return 0;
 }
@@ -1270,10 +1277,10 @@ int main(int argc, char** argv) {
         get_container_name();
         cpu_time = aid.wu_cpu_time;
     }
-    config.verbose = VERBOSE_ALL;
 
     if (config.verbose) {
         config.print();
+        fprintf(stderr, "docker type %d\n", docker_type);
     }
 
     if (sporadic) {
