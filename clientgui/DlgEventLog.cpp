@@ -1047,7 +1047,7 @@ void CDlgEventLog::UpdateButtons() {
         if ((n == 1) && (! s_bIsFiltered)) {
             n = m_pList->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
             MESSAGE* message = wxGetApp().GetDocument()->message(GetFilteredMessageIndex(n));
-            if ((message->project).size() > 0) {
+            if (message && (message->project).size() > 0) {
                 enableFilterButton = true;
             }
         }

@@ -922,7 +922,7 @@ wxArrayString& CSkinManager::GetCurrentSkins() {
         // Special case: 'Default' to mean the embedded default skin.
         //   remove any duplicate entries
         if (GetDefaultSkinName() != strBuffer) {
-            m_astrSkins[i] = strBuffer;
+            m_astrSkins[i] = std::move(strBuffer);
             ++i;
         } else {
             m_astrSkins.RemoveAt(i);
