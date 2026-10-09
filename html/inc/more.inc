@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -24,7 +24,7 @@
 // $text can't contain HTML tags (else would have to do lots of parsing)
 //
 function show_text_more($text, $nchars) {
-    echo show_text_more_aux($test, $nchars);
+    echo show_text_more_aux($text, $nchars);
 }
 
 // same, but returns text rather than outputting it
