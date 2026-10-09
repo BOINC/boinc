@@ -99,6 +99,8 @@
 
 #include "toml.h"
     // from https://github.com/mayah/tinytoml
+#include <nlohmann/json.hpp>
+using nlohmann::json;
 
 #include "util.h"
 #include "str_replace.h"
@@ -549,14 +551,53 @@ void get_container_name() {
 #define CONTAINER_EXITED    5
 #define CONTAINER_OTHER     6
 
+int get_state(const char* p) {
+    if (strcasestr(p, "created")) {
+        return CONTAINER_CREATED;
+    } else if (strcasestr(p, "running")) {
+        return  CONTAINER_RUNNING;
+    } else if (strcasestr(p, "paused")) {
+        return  CONTAINER_PAUSED;
+    } else if (strcasestr(p, "exited")) {
+        return  CONTAINER_EXITED;
+    }
+    return CONTAINER_OTHER;
+}
+
 int get_container_state(int &state) {
     char cmd[1024];
     int retval;
     vector<string> out;
 
+    // WSL containers doesn't support {} formats; use JSON
+    //
+    if (docker_type == WSLC) {
+        snprintf(cmd, sizeof(cmd),
+            "ps --all --filter \"name=^%s$\" --format json",
+            container_name
+        );
+        retval = docker_conn.command(cmd, out, verbose_all());
+        if (retval) return retval;
+        if (out.empty()) return CONTAINER_ABSENT;
+        json d;
+        try {
+            d = json::parse(out[0]);
+        } catch (const std::exception& e) {
+            fprintf(stderr, "failed to parse ps output %s: %s\n",
+                out[0].c_str(), e.what()
+            );
+            return CONTAINER_ABSENT;
+        }
+        if (d.find("State") == d.end()) {
+            fprintf(stderr, "No State in %s\n", out[0].c_str());
+            return CONTAINER_ABSENT;
+        }
+        string s = d["State"].get<string>();
+        return get_state(s.c_str());
+    }
+
     snprintf(cmd, sizeof(cmd),
         "ps --all --filter \"name=^%s$\" --format \"{{.Names}}|{{.Status}}\"",
-
         container_name
     );
     retval = docker_conn.command(cmd, out, verbose_all());
@@ -569,17 +610,7 @@ int get_container_state(int &state) {
             if (!p) break;
             p++;
             fprintf(stderr, "container state: %s\n", p);
-            if (strcasestr(p, "created")) {
-                state = CONTAINER_CREATED;
-            } else if (strcasestr(p, "running")) {
-                state = CONTAINER_RUNNING;
-            } else if (strcasestr(p, "paused")) {
-                state = CONTAINER_PAUSED;
-            } else if (strcasestr(p, "exited")) {
-                state = CONTAINER_EXITED;
-            } else {
-                state = CONTAINER_OTHER;
-            }
+
             return 0;
         }
     }
@@ -850,6 +881,7 @@ JOB_STATUS poll_app() {
             return JOB_IN_PROGRESS;
         }
     }
+    fprintf(stderr, "Container name not found in ps output; quitting\n");
     return JOB_FAIL;
 }
 
@@ -871,59 +903,89 @@ int get_stats(RSC_USAGE &ru) {
     vector<string> out;
     int retval;
     size_t n;
-
-#ifdef __APPLE__
-    snprintf(cmd, sizeof(cmd),
-        "stats --no-stream  --format \"{{.CPUPerc}}\\ {{.MemUsage}}\" %s",
-        container_name
-    );
-#else
-    snprintf(cmd, sizeof(cmd),
-        "stats --no-stream  --format \"{{.CPUPerc}} {{.MemUsage}}\" %s",
-        container_name
-    );
-#endif
-    retval = docker_conn.command(cmd, out, verbose_all());
-    if (retval) {
-        print_once(string("stats command failed\n"));
-        return -1;
-    }
-    if (out.empty()) {
-        print_once(string("stats command returned nothing\n"));
-        return -1;
-    }
-
-    // output is like
-    // 97.12% 420KiB / 503.8GiB
-    // (cpu% mem-used / mem-max)
-    // but this can be preceded by lines with warning messages
-    //
-    bool found = false;
     double cpu_pct=0, mem=0;
     char mem_unit=0;
-    for (const string& line: out) {
-        n = sscanf(line.c_str(), "%lf%% %lf%c", &cpu_pct, &mem, &mem_unit);
-        if (n == 3) {
-            found = true;
-            break;
+
+    if (docker_type == WSLC) {
+        snprintf(cmd, sizeof(cmd),
+            "stats --format json %s", container_name
+        );
+        retval = docker_conn.command(cmd, out, verbose_all());
+        if (retval) {
+            print_once(string("stats command failed\n"));
+            return -1;
+        }
+        if (out.empty()) {
+            print_once(string("stats command returned nothing\n"));
+            return -1;
+        }
+        json d;
+        try {
+            d = json::parse(out[0]);
+        } catch (const std::exception& e) {
+            fprintf(stderr, "stats: failed to parse %s: %s\n",
+                out[0].c_str(), e.what()
+            );
+            return -1;
+        }
+        if (d.find("CPUPerc") == d.end()) {
+            fprintf(stderr, "status: missing CPU in %s\n", out[0].c_str());
+        }
+        if (d.find("MemUsage") == d.end()) {
+            fprintf(stderr, "status: missing mem in %s\n", out[0].c_str());
+        }
+        string s = d["CPUPerc"].get<string>();
+        sscanf(s.c_str(), "%lf", &cpu_pct);
+        s = d["MemUsage"].get<string>();
+        sscanf(s.c_str(), "%lf%c", &mem, &mem_unit);
+    } else {
+#ifdef __APPLE__
+        snprintf(cmd, sizeof(cmd),
+            "stats --no-stream  --format \"{{.CPUPerc}}\\ {{.MemUsage}}\" %s",
+            container_name
+        );
+#else
+        snprintf(cmd, sizeof(cmd),
+            "stats --no-stream  --format \"{{.CPUPerc}} {{.MemUsage}}\" %s",
+            container_name
+        );
+#endif
+        retval = docker_conn.command(cmd, out, verbose_all());
+        if (retval) {
+            print_once(string("stats command failed\n"));
+            return -1;
+        }
+        if (out.empty()) {
+            print_once(string("stats command returned nothing\n"));
+            return -1;
+        }
+
+        // output is like
+        // 97.12% 420KiB / 503.8GiB
+        // (cpu% mem-used / mem-max)
+        // but this can be preceded by lines with warning messages
+        //
+        bool found = false;
+        for (const string& line: out) {
+            n = sscanf(line.c_str(), "%lf%% %lf%c", &cpu_pct, &mem, &mem_unit);
+            if (n == 3) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            print_once(string("stats command parse failed\n"));
+            return -1;
         }
     }
-    if (!found) {
-        print_once(string("stats command parse failed\n"));
-        return -1;
-    }
     switch (mem_unit) {
-    case 'G':
-    case 'g':
+    case 'G': case 'g':
         mem *= GIGA; break;
-    case 'M':
-    case 'm':
+    case 'M': case 'm':
         mem *= MEGA; break;
-    case 'K':
-    case 'k':
+    case 'K': case 'k':
         mem *= KILO; break;
-    case 'B':
-    case 'b':
+    case 'B': case 'b':
         break;
     default: return -1;
     }
