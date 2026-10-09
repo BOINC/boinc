@@ -578,7 +578,11 @@ int get_container_state(int &state) {
         );
         retval = docker_conn.command(cmd, out, verbose_all());
         if (retval) return retval;
-        if (out.empty()) return CONTAINER_ABSENT;
+        if (out.empty()) {
+            fprintf(stderr, "ps command failed\n");
+            return CONTAINER_ABSENT;
+        }
+        fprintf(stderr, "output: %s\n", out[0].c_str());
         json d;
         try {
             d = json::parse(out[0]);
@@ -593,7 +597,9 @@ int get_container_state(int &state) {
             return CONTAINER_ABSENT;
         }
         string s = d["State"].get<string>();
-        return get_state(s.c_str());
+        int x = get_state(s.c_str());
+        fprintf(stderr, "State: %s %d\n", s.c_str(), x);
+        return x;
     }
 
     snprintf(cmd, sizeof(cmd),
