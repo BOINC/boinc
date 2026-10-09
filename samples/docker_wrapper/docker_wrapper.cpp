@@ -606,6 +606,8 @@ int get_container_state(int &state) {
         return 0;
     }
 
+    // non-WSL case follows
+
     snprintf(cmd, sizeof(cmd),
         "ps --all --filter \"name=^%s$\" --format \"{{.Names}}|{{.Status}}\"",
         container_name
@@ -870,6 +872,43 @@ JOB_STATUS poll_app() {
     char cmd[1024];
     vector<string> out;
     int retval;
+
+    // WSL containers doesn't support {} formats; use JSON
+    //
+    if (docker_type == WSLC) {
+        snprintf(cmd, sizeof(cmd),
+            "ps --all --filter \"name=%s\" --format json",
+            container_name
+        );
+        retval = docker_conn.command(cmd, out, verbose_all());
+        if (retval) {
+            fprintf(stderr, "poll: ps command failed\n");
+            return JOB_FAIL;
+        }
+        if (out.empty()) {
+            return JOB_FAIL;
+        }
+        fprintf(stderr, "output: %s\n", out[0].c_str());
+        json d;
+        try {
+            d = json::parse(out[0]);
+        } catch (const std::exception& e) {
+            fprintf(stderr, "poll: failed to parse ps output %s: %s\n",
+                out[0].c_str(), e.what()
+            );
+            return JOB_FAIL;
+        }
+        if (d.find("State") == d.end()) {
+            fprintf(stderr, "No State in %s\n", out[0].c_str());
+            return JOB_FAIL;
+        }
+        string s = d["State"].get<string>();
+        fprintf(stderr, "State: %s\n", s.c_str());
+        if (sscanf(s.c_str(), "Exited (%d)", &container_exit_code) == 1) {
+            return JOB_SUCCESS;
+        }
+        return JOB_IN_PROGRESS;
+    }
 
     snprintf(cmd, sizeof(cmd), "ps --all -f \"name=%s\"", container_name);
     retval = docker_conn.command(cmd, out, verbose_all());
