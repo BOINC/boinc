@@ -375,7 +375,7 @@ bool boinc_filelist(
             string strFullPath = strUserDir + strFile;
             // only add if the file really exists (i.e. not a directory)
             if (is_file(strFullPath.c_str())) {
-                pList->push_back(strFullPath);
+                pList->push_back(std::move(strFullPath));
             }
         }
     }
@@ -395,8 +395,12 @@ bool boinc_filelist(
                             return true;
                         } else if (ucSort & SORT_TIME) {
                             struct stat st[2];
-                            stat(first.c_str(), &st[0]);
-                            stat(second.c_str(), &st[1]);
+                            if (stat(first.c_str(), &st[0]) == -1) {
+                                return false;
+                            }
+                            if (stat(second.c_str(), &st[1]) == -1) {
+                                return false;
+                            }
                             if (ucSort & SORT_ASCENDING) {
                                 return st[0].st_mtime < st[1].st_mtime;
                             } else {
@@ -451,7 +455,7 @@ int boinc_UnzipToMemory (char *zip_path, char *file, string &retstr) {
     zip_fclose(zf);
     zip_close(za);
 
-    retstr = out;
+    retstr = std::move(out);
     return 1; // success expected by tests
 }
 
