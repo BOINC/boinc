@@ -573,7 +573,7 @@ int get_container_state(int &state) {
     //
     if (docker_type == WSLC) {
         snprintf(cmd, sizeof(cmd),
-            "ps --all --filter \"name=^%s$\" --format json",
+            "ps --all --filter \"name=%s\" --format json",
             container_name
         );
         retval = docker_conn.command(cmd, out, verbose_all());
