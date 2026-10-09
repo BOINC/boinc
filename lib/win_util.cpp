@@ -335,7 +335,7 @@ int write_to_pipe(HANDLE pipe, const char* buf) {
 // mutex stuff
 
 HANDLE create_mutex(const char* name) {
-    buf buf[256];
+    char buf[256];
     sprintf(buf, "Global\\%s", name);
     HANDLE h = CreateMutexA(
         NULL,       // not inherited
