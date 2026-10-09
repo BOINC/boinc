@@ -427,9 +427,9 @@ int build_image() {
     // In WSL Containers, if you try to do concurrent builds one of them fails
     //
 #ifdef _WIN32
-    HANDLE mutex;
+    HANDLE mutex=0;
     if (docker_type == WSLC) {
-        handle = create_mutex("boinc_wsl_build");
+        mutex = create_mutex("boinc_wsl_build");
     }
 #endif
 
