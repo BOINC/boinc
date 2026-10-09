@@ -900,12 +900,12 @@ JOB_STATUS poll_app() {
             );
             return JOB_FAIL;
         }
-        if (d.find("State") == d.end()) {
-            fprintf(stderr, "No State in %s\n", out[0].c_str());
+        if (d.find("Status") == d.end()) {
+            fprintf(stderr, "No Status in %s\n", out[0].c_str());
             return JOB_FAIL;
         }
-        string s = d["State"].get<string>();
-        fprintf(stderr, "State: %s\n", s.c_str());
+        string s = d["Status"].get<string>();
+        fprintf(stderr, "Status: %s\n", s.c_str());
         if (sscanf(s.c_str(), "Exited (%d)", &container_exit_code) == 1) {
             return JOB_SUCCESS;
         }
