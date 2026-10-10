@@ -151,7 +151,8 @@ jobs:
           sudo apt install -y \
             libcurl4-openssl-dev:arm64 \
             libssl-dev:arm64 \
-            libzip-dev:arm64
+            libzip-dev:arm64 \
+            nlohmann-json3-dev
 
       - name: Install dependencies for armhf non-vcpkg
         if: success() && (matrix.type == 'libs-armhf' || matrix.type == 'apps-armhf')
@@ -159,7 +160,8 @@ jobs:
           sudo apt install -y \
             libcurl4-openssl-dev:armhf \
             libssl-dev:armhf \
-            libzip-dev:armhf
+            libzip-dev:armhf \
+            nlohmann-json3-dev
 
       - name: Install dependencies for apps arm64 vcpkg
         if: success() && matrix.type == 'apps-vcpkg-arm64'
