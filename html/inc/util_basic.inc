@@ -271,13 +271,13 @@ function time_diff($nsec, $res=3) {
 //
 function time_diff2($nsec) {
     if ($nsec >= 86400) {
-        return sprintf('%.2f days', $nsec/86400);
+        return sprintf('%.2f %s', $nsec/86400, tra('days'));
     } else if ($nsec >= 3600) {
-        return sprintf('%.2f hrs', $nsec/3600);
+        return sprintf('%.2f %s', $nsec/3600, tra('hours'));
     } else if ($nsec >= 60) {
-        return sprintf('%.2f min', $nsec/60);
+        return sprintf('%.2f %s', $nsec/60, tra('min'));
     } else {
-        return sprintf('%.2f sec', $nsec);
+        return sprintf('%.2f %s', $nsec, tra('sec'));
     }
 }
 

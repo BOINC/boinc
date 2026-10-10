@@ -98,6 +98,9 @@ function app_version_string($result) {
 }
 
 function result_granted_credit_string($result, $string_to_show) {
+    if (defined('NO_VALIDATE')) {
+        return $string_to_show;
+    }
     if ($result->server_state == RESULT_SERVER_STATE_IN_PROGRESS && $result->granted_credit > 0) {
         return $string_to_show;
     }
@@ -743,7 +746,9 @@ function show_result($result, $show_outfile_links=false) {
     }
     if ($result->outcome == RESULT_OUTCOME_SUCCESS) {
         row2(tra("Credit"), number_format($result->granted_credit, 2));
-        row2(tra("Validate state"), validate_state_str($result));
+        if (!defined('NO_VALIDATE')) {
+            row2(tra("Validate state"), validate_state_str($result));
+        }
     }
     row2('Priority', $result->priority);
     row2(tra("Device peak FLOPS"), number_format($result->flops_estimate/1e9, 2)." GFLOPS");
