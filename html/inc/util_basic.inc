@@ -242,8 +242,8 @@ function pretty_time_str($x) {
 // convert time interval in seconds to a string of the form
 // 'D days h hours m min s sec'.
 
-function time_diff($x, $res=3) {
-    $x = (int)$x;
+function time_diff($nsec, $res=3) {
+    $x = (int)$nsec;
     $days    = (int)($x/86400);
     $hours   = (int)(($x-$days*86400)/3600);
     $minutes = (int)(($x-$days*86400-$hours*3600)/60);
@@ -260,9 +260,25 @@ function time_diff($x, $res=3) {
         $s .= "$minutes ".tra("min")." ";
     }
     if ($res>2) {
-        $s .= "$seconds ".tra("sec")." ";
+        $frac = $nsec - $x;
+        $y = number_format($seconds+$frac, 2);
+        $s .= "$y ".tra("sec")." ";
     }
     return $s;
+}
+
+// similar, but shows 'x.xx days' (or hrs, or min, or sec)
+//
+function time_diff2($nsec) {
+    if ($nsec >= 86400) {
+        return sprintf('%.2f days', $nsec/86400);
+    } else if ($nsec >= 3600) {
+        return sprintf('%.2f hrs', $nsec/3600);
+    } else if ($nsec >= 60) {
+        return sprintf('%.2f min', $nsec/60);
+    } else {
+        return sprintf('%.2f sec', $nsec);
+    }
 }
 
 // is the arg either null, '', or whitespace?

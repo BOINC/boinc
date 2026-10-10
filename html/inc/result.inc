@@ -219,6 +219,9 @@ function state_string($result) {
     case RESULT_SERVER_STATE_OVER:
         switch ($result->outcome) {
         case RESULT_OUTCOME_SUCCESS:
+            if (defined('NO_VALIDATE')) {
+                return tra('Completed');
+            }
             switch ($result->validate_state) {
             case VALIDATE_STATE_INIT: return tra("Completed, waiting for validation");
             case VALIDATE_STATE_VALID: return tra("Completed and validated");
@@ -388,8 +391,9 @@ function result_page_url($info) {
 
 function result_table_start($show_wu_link, $show_host_link, $info) {
     start_table('table-striped');
-    $x = array();
-    $a = array(null);
+    // lists of column titles and corresponding <th> attributes
+    $x = [];
+    $a = [];
 
     if ($info) {
         if ($info->show_names) {
@@ -397,14 +401,17 @@ function result_table_start($show_wu_link, $show_host_link, $info) {
             $i2->show_names = 0;
             $url = result_page_url($i2);
             $x[] = tra("Task name")."<br><small>".tra("click for details")."<br><a href=$url>".tra("Show IDs")."</a></small>";
+            $a[] = null;
         } else {
             $i2 = clone $info;
             $i2->show_names = 1;
             $url = result_page_url($i2);
             $x[] = "Task<br><small>".tra("click for details")."<br><a href=$url>".tra("Show names")."</a></small>";
+            $a[] = null;
         }
     } else {
         $x[] = tra("Task")."<br><small>".tra("click for details")."</small>";
+        $a[] = null;
     }
     if ($show_wu_link) {
         $x[] = tra("Work unit")."<br><small>".tra("click for details")."</small>";
@@ -422,17 +429,17 @@ function result_table_start($show_wu_link, $show_host_link, $info) {
         $a[] = null;
     }
     $x[] = tra("Sent");
+    $a[] = null;
     $x[] = tra("Time reported<br />or deadline")."
         <br><small><a href=\"explain_state.php?field=result_time\">".tra("explain")."</a></small>";
+    $a[] = null;
     $x[] = tra("Status");
     $a[] = null;
-    $a[] = null;
-    $a[] = null;
-    $x[] = tra("Run time<br />(sec)");
-    $x[] = tra("CPU time<br />(sec)");
+    $x[] = tra("Run time");
+    $a[] = ALIGN_RIGHT;
+    $x[] = tra("CPU time");
+    $a[] = ALIGN_RIGHT;
     $x[] = tra("Credit");
-    $a[] = ALIGN_RIGHT;
-    $a[] = ALIGN_RIGHT;
     $a[] = ALIGN_RIGHT;
     $x[] = tra("Application");
     $a[] = null;
@@ -490,8 +497,8 @@ function show_result_row($result, $show_wu_link, $show_host_link, $show_name) {
         $cpu_time = "---";
         $elapsed_time = "---";
     } else {
-        $cpu_time = number_format($result->cpu_time, 2);
-        $elapsed_time = number_format($result->elapsed_time, 2);
+        $cpu_time = time_diff2($result->cpu_time);
+        $elapsed_time = time_diff2($result->elapsed_time);
     }
     $v = app_version_string($result);
     echo "
@@ -731,10 +738,10 @@ function show_result($result, $show_outfile_links=false) {
     row2(tra("Computer ID"), host_link($result->hostid));
     if ($result->server_state == RESULT_SERVER_STATE_OVER) {
         row2(tra("Exit status"), exit_status_string($result->exit_status));
-    }
-    if ($result->outcome == RESULT_OUTCOME_SUCCESS) {
         row2(tra("Run time"), time_diff($result->elapsed_time));
         row2(tra("CPU time"), time_diff($result->cpu_time));
+    }
+    if ($result->outcome == RESULT_OUTCOME_SUCCESS) {
         row2(tra("Credit"), number_format($result->granted_credit, 2));
         row2(tra("Validate state"), validate_state_str($result));
     }
@@ -779,6 +786,9 @@ function show_result($result, $show_outfile_links=false) {
             )
             ."</pre>"
         ;
+    }
+    if (function_exists('project_result_end')) {
+        project_result_end($result);
     }
 }
 
