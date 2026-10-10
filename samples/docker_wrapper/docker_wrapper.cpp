@@ -1004,7 +1004,7 @@ int get_stats(RSC_USAGE &ru) {
         if (d.find("MemUsage") == d.end()) {
             fprintf(stderr, "status: missing mem in %s\n", out[0].c_str());
         } else {
-            s = d["MemUsage"].get<string>();
+            string s = d["MemUsage"].get<string>();
             sscanf(s.c_str(), "%lf%c", &mem, &mem_unit);
         }
     } else {

@@ -588,7 +588,9 @@ If you do not want to build the server you should use --disable-server.
 ================================================================================
     ])
   fi
+fi
 
+if test "${enable_server}" = yes -o "${enable_apps}" = yes -o "${enable_apps_vcpkg}" = yes; then
    dnl Check for nlohmann::json (header-only library)
    AC_ARG_WITH([nlohmann_json],
      [AS_HELP_STRING([--with-nlohmann_json=DIR], [Specify prefix for nlohmann::json (header-only) library])],
@@ -614,7 +616,6 @@ or specify its location with --with-nlohmann_json=DIR.
      ])])
    AC_LANG_POP([C++])
 fi
-
 
 
 dnl Checks for libraries.

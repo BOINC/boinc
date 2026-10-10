@@ -101,7 +101,7 @@ void host_info_json(string &out) {
 
     DOCKER_INFO di;
     di.get_docker_info();
-    
+
     if (!di.wsl_version.empty()) {
         sprintf(buf,
             ",\n"\

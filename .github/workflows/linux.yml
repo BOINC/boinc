@@ -151,7 +151,8 @@ jobs:
           sudo apt install -y \
             libcurl4-openssl-dev:arm64 \
             libssl-dev:arm64 \
-            libzip-dev:arm64
+            libzip-dev:arm64 \
+            nlohmann-json3-dev:arm64
 
       - name: Install dependencies for armhf non-vcpkg
         if: success() && (matrix.type == 'libs-armhf' || matrix.type == 'apps-armhf')
@@ -159,7 +160,8 @@ jobs:
           sudo apt install -y \
             libcurl4-openssl-dev:armhf \
             libssl-dev:armhf \
-            libzip-dev:armhf
+            libzip-dev:armhf \
+            nlohmann-json3-dev:armhf
 
       - name: Install dependencies for apps arm64 vcpkg
         if: success() && matrix.type == 'apps-vcpkg-arm64'
@@ -173,10 +175,7 @@ jobs:
             libxrandr-dev:arm64 \
             libxxf86vm-dev:arm64 \
             libjpeg-dev:arm64 \
-            ocl-icd-opencl-dev:arm64 \
-            libcurl4-openssl-dev:arm64 \
-            libssl-dev:arm64 \
-            libzip-dev:arm64
+            ocl-icd-opencl-dev:arm64
 
       - name: Install dependencies for apps armhf vcpkg
         if: success() && matrix.type == 'apps-vcpkg-armhf'
@@ -190,10 +189,7 @@ jobs:
             libxrandr-dev:armhf \
             libxxf86vm-dev:armhf \
             libjpeg-dev:armhf \
-            ocl-icd-opencl-dev:armhf \
-            libcurl4-openssl-dev:armhf \
-            libssl-dev:armhf \
-            libzip-dev:armhf
+            ocl-icd-opencl-dev:armhf
 
       - name: Install dependencies for manager arm64 vcpkg
         if: success() && matrix.type == 'manager-with-webview-vcpkg-arm64'
