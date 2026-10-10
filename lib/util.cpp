@@ -288,7 +288,10 @@ int run_program(
 // Return error if command failed
 //
 int run_command(
-    const char* cmd, vector<string> &out, [[maybe_unused]] bool wide
+    const char* cmd, vector<string> &out, bool
+#ifdef _WIN32
+    wide
+#endif
 ) {
     out.clear();
 
