@@ -297,14 +297,14 @@ int run_command(
     FILE* pipe = _popen(cmd, "r");
     if (!pipe) return -1;
     if (wide) {
-        fread((void*)buffer, 1, 4096, pipe);
+        size_t nread = fread((void*)buffer, 1, 4096, pipe);
         if (1) {
             // assume the program outputs wide (2-byte) chars.
             // convert to ASCII
             char buf2[2048];
             int j = 0;
-            for (int i=0;; i++) {
-                char c = buffer[i * 2];
+            for (int i=0; i<nread; i+=2) {
+                char c = buffer[i];
                 if (c == 0) break;
                 if (c == '\r') continue;
                 buf2[j++] = c;
@@ -320,7 +320,8 @@ int run_command(
             out.push_back(buffer);
         }
     }
-    _pclose(pipe);
+    int exit_code = _pclose(pipe);
+    if (exit_code) return -1;
 #else
 #ifndef _USING_FCGI_
     char buf[256];

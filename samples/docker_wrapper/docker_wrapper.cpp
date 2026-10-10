@@ -909,7 +909,6 @@ JOB_STATUS poll_app() {
         if (out.empty()) {
             return JOB_FAIL;
         }
-        fprintf(stderr, "output: %s\n", out[0].c_str());
         json d;
         try {
             d = json::parse(out[0]);
@@ -924,7 +923,6 @@ JOB_STATUS poll_app() {
             return JOB_FAIL;
         }
         string s = d["Status"].get<string>();
-        fprintf(stderr, "Status: %s\n", s.c_str());
         if (sscanf(s.c_str(), "Exited (%d)", &container_exit_code) == 1) {
             return JOB_SUCCESS;
         }
@@ -999,14 +997,16 @@ int get_stats(RSC_USAGE &ru) {
         }
         if (d.find("CPUPerc") == d.end()) {
             fprintf(stderr, "status: missing CPU in %s\n", out[0].c_str());
+        } else {
+            string s = d["CPUPerc"].get<string>();
+            sscanf(s.c_str(), "%lf", &cpu_pct);
         }
         if (d.find("MemUsage") == d.end()) {
             fprintf(stderr, "status: missing mem in %s\n", out[0].c_str());
+        } else {
+            s = d["MemUsage"].get<string>();
+            sscanf(s.c_str(), "%lf%c", &mem, &mem_unit);
         }
-        string s = d["CPUPerc"].get<string>();
-        sscanf(s.c_str(), "%lf", &cpu_pct);
-        s = d["MemUsage"].get<string>();
-        sscanf(s.c_str(), "%lf%c", &mem, &mem_unit);
     } else {
 #ifdef __APPLE__
         snprintf(cmd, sizeof(cmd),
@@ -1280,7 +1280,6 @@ int main(int argc, char** argv) {
 
     if (config.verbose) {
         config.print();
-        fprintf(stderr, "docker type %d\n", docker_type);
     }
 
     if (sporadic) {

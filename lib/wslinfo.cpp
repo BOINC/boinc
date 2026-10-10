@@ -211,6 +211,7 @@ WSL_DISTRO* WSL_DISTROS::find_docker() {
     // if not found, use any distro that has Podman or Docker
     //
     for (WSL_DISTRO &wd: distros) {
+        if (wd.disallowed) continue;
         if (!wd.docker_version.empty()) {
             return &wd;
         }

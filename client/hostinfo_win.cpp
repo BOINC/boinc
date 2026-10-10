@@ -1632,7 +1632,10 @@ int HOST_INFO::get_host_info(bool init) {
     }
     get_local_network_info();
 
+    // everthing after here needs to be done only once
+    //
     if (!init) return 0;
+
     ::get_memory_info(m_nbytes, m_swap);
     get_os_information();
 

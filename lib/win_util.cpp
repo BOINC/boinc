@@ -347,7 +347,9 @@ HANDLE create_mutex(const char* name) {
 
 int wait_mutex(HANDLE h, int nsec) {
     DWORD w = nsec?nsec*1000:INFINITE;
-    return WaitForSingleObject(h, w);       // 0 means success
+    DWORD retval = WaitForSingleObject(h, w);
+    if (retval == 0 || retval == WAIT_ABANDONED) return 0;
+    return -1;
 }
 
 void release_mutex(HANDLE h) {
