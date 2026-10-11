@@ -60,10 +60,6 @@ function prepare_client() {
     exit_on_fail
     mv boinc-client.conf $RPM_BUILDROOT/etc/default/boinc-client
     exit_on_fail
-    # RPM targets are systemd-only and ship boinc-client.service. The SysV script makes
-    # `systemctl enable` call systemd-sysv-install, which openSUSE 16 no longer has (#7272).
-    rm boinc-client
-    exit_on_fail
     mv boinc.bash $RPM_BUILDROOT/etc/bash_completion.d/
     exit_on_fail
     mv 36x11-common_xhost-boinc $RPM_BUILDROOT/etc/X11/Xsession.d/

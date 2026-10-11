@@ -125,7 +125,6 @@ class IntegrationTests:
         ts.expect_equal("/usr/local/bin/boincmgr", self._get_test_executable_file_path("boincmgr"), "Test 'boincmgr' file location")
         ts.expect_true(os.path.exists("/usr/lib/systemd/system/boinc-client.service"), "Test 'boinc-client.service' file exists in '/usr/lib/systemd/system/'")
         ts.expect_true(os.path.exists("/etc/default/boinc-client"), "Test 'boinc-client' file exists in '/etc/default/'")
-        # No package ships the SysV init script any more (#7272).
         ts.expect_false(os.path.exists("/etc/init.d/boinc-client"), "Test 'boinc-client' file does not exist in '/etc/init.d/'")
         ts.expect_true(os.path.exists("/etc/bash_completion.d/boinc.bash"), "Test 'boinc.bash' file exists in '/etc/bash_completion.d/'")
         ts.expect_true(os.path.exists("/etc/X11/Xsession.d/36x11-common_xhost-boinc"), "Test '36x11-common_xhost-boinc' file exists in '/etc/X11/Xsession.d/'")

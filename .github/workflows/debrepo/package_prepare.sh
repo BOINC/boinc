@@ -57,8 +57,6 @@ function prepare_client() {
     exit_on_fail
     mv boinc-client.conf etc/default/boinc-client
     exit_on_fail
-    rm boinc-client
-    exit_on_fail
     mv boinc.bash etc/bash_completion.d/
     exit_on_fail
     mv 36x11-common_xhost-boinc etc/X11/Xsession.d/
