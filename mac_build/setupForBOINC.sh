@@ -308,6 +308,18 @@ if [ "${wxWidgetsOK}" = "NO" ]; then
     finalResult=$[ finalResult | 8 ]
 fi
 
+if [ "${nlohmannJsonOK}" = "NO" ]; then
+    echo ""
+    echo "-----------------------------------"
+    echo "------------ WARNING --------------"
+    echo "------------         --------------"
+    echo "- COULD NOT BUILD ${nlohmannJsonDirName} --"
+    echo "-----------------------------------"
+    echo ""
+
+    finalResult=$[ finalResult | 16 ]
+fi
+
 if [ "${freetypeOK}" = "NO" ]; then
     echo ""
     echo "-----------------------------------"
@@ -338,18 +350,6 @@ if [ "${zipOK}" = "NO" ]; then
     echo "------------ WARNING --------------"
     echo "------------         --------------"
     echo "- COULD NOT BUILD ${zipDirName} --"
-    echo "-----------------------------------"
-    echo ""
-
-    finalResult=$[ finalResult | 128 ]
-fi
-
-if [ "${nlohmannJsonOK}" = "NO" ]; then
-    echo ""
-    echo "-----------------------------------"
-    echo "------------ WARNING --------------"
-    echo "------------         --------------"
-    echo "- COULD NOT BUILD ${nlohmannJsonDirName} --"
     echo "-----------------------------------"
     echo ""
 
