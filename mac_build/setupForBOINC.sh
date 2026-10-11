@@ -1,8 +1,8 @@
 #!/bin/zsh
 
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -41,6 +41,7 @@
 # Updated 9/10/16 for c-ares 1.11.0, curl 7.50.2, openssl 1.1.0
 # Updated 6/25/23 to download inflate libraries if needed
 # Updated 9/25/25 for libzip-1.11.4
+# Updated 10/11/26 for nlohmann-json 3.12.0
 #
 # Download these seven packages and place them in a common parent directory
 # with the BOINC source tree.
@@ -69,6 +70,7 @@ wxWidgetsOK="NO"
 freetypeOK="NO"
 ftglOK="NO"
 zipOK="NO"
+nlohmannJsonOK="NO"
 finalResult=0
 
 SCRIPT_DIR=`pwd`
@@ -77,7 +79,7 @@ SCRIPT_DIR=`pwd`
 source "${SCRIPT_DIR}/dependencyNames.sh"
 
 # Dowload and expand libraries if needed
-for rootName in "openssl" "cares" "curl" "wxWidgets" "freetype" "ftgl" "zip"
+for rootName in "openssl" "cares" "curl" "wxWidgets" "freetype" "ftgl" "zip" "nlohmannJson"
 do
     dirVar="${rootName}DirName"
     fileVar="${rootName}FileName"
@@ -232,11 +234,28 @@ if [ -x /usr/local/bin/ccmake ]; then
     fi
 
     cd "${SCRIPT_DIR}"
+
+    echo ""
+    echo "----------------------------------"
+    echo "------ BUILD NLOHMANN-JSON -------"
+    echo "----------------------------------"
+    echo ""
+
+    cd "../../${nlohmannJsonDirName}"
+    if [  $? -eq 0 ]; then
+        source "${SCRIPT_DIR}/buildnlohmann-json.sh" ${cleanit}
+        if [  $? -eq 0 ]; then
+            nlohmannJsonOK="YES"
+        fi
+    fi
+
+    cd "${SCRIPT_DIR}"
 else
     echo ""
     echo "----------------------------------"
-    echo "--- TO BUILD ZIP PLEASE INSTALL --"
-    echo "----  CMAKE COMMAND-LINE TOOLS ----"
+    echo "- TO BUILD ZIP AND NLOHMANN-JSON -"
+    echo "--------- PLEASE INSTALL ---------"
+    echo "---- CMAKE COMMAND-LINE TOOLS ----"
     echo "----------------------------------"
     echo ""
 fi
@@ -319,6 +338,18 @@ if [ "${zipOK}" = "NO" ]; then
     echo "------------ WARNING --------------"
     echo "------------         --------------"
     echo "- COULD NOT BUILD ${zipDirName} --"
+    echo "-----------------------------------"
+    echo ""
+
+    finalResult=$[ finalResult | 128 ]
+fi
+
+if [ "${nlohmannJsonOK}" = "NO" ]; then
+    echo ""
+    echo "-----------------------------------"
+    echo "------------ WARNING --------------"
+    echo "------------         --------------"
+    echo "- COULD NOT BUILD ${nlohmannJsonDirName} --"
     echo "-----------------------------------"
     echo ""
 

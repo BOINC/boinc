@@ -141,13 +141,8 @@ download_and_build() {
         tar -xf ${FILENAME}
     fi
     cd ${DIRNAME} || exit 1
-    # skip build if no build script is provided (e.g. for header-only libraries like nlohmann-json)
-    if [ "x${BUILDSCRIPT}" = "x" ]; then
-        echo "no build script for ${DIRNAME} - skipping"
-    else
-        source ${BUILDSCRIPT} --prefix "${PREFIX}" ${extra_options} ${doClean}
-        if [ $? -ne 0 ]; then exit 1; fi
-    fi
+    source ${BUILDSCRIPT} --prefix "${PREFIX}" ${extra_options} ${doClean}
+    if [ $? -ne 0 ]; then exit 1; fi
     cd ../.. || exit 1
     touch ${FLAGFILE}
 }
@@ -173,8 +168,8 @@ download_and_build "${wxWidgetsDirName}" "${wxWidgetsFileName}" "${wxWidgetsURL}
 download_and_build "${freetypeDirName}" "${freetypeFileName}" "${freetypeURL}" "${ROOTDIR}/mac_build/buildfreetype.sh" "libfreetype.a" "x86_64 arm64"
 download_and_build "${ftglDirName}" "${ftglFileName}" "${ftglURL}" "${ROOTDIR}/mac_build/buildFTGL.sh" "libftgl.a" "x86_64 arm64"
 download_and_build "${zipDirName}" "${zipFileName}" "${zipURL}" "${ROOTDIR}/mac_build/buildlibzip.sh" "libzip.a" "x86_64 arm64"
-# header only libraries, skip build script, product name and archs
-download_and_build "${nlohmannJsonDirName}" "${nlohmannJsonFileName}" "${nlohmannJsonURL}" "" "" ""
+# header only libraries, skip product name and archs
+download_and_build "${nlohmannJsonDirName}" "${nlohmannJsonFileName}" "${nlohmannJsonURL}" "${ROOTDIR}/mac_build/buildnlohmann-json.sh" "" ""
 
 # change back to root directory
 cd ${ROOTDIR} || exit 1
