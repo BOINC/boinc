@@ -218,18 +218,63 @@ static bool got_both(WSL_DISTRO &wd) {
 //      see if Docker/Podman and compose are present, get versions
 // Return nonzero on error
 //
-int get_wsl_information(WSL_DISTROS &distros) {
-    // Skip WSL detection when running as a service since HKEY_CURRENT_USER
-    // registry is not available in service mode
+int HOST_INFO::get_wsl_information() {
+    wsl_distros.distros.clear();
+    use_wslc = false;
+
+    // see if we have WSL 3+; if so we don't need to worry about distros
+    //
+    vector<string> out;
+
+    // the output of wsl.exe is wide chars - WTF??
+    //
+    int retval = run_command("wsl.exe --version", out, true);
+    if (retval) return -1;
+
+    // output is like:
+    // WSL version: 2.7.10.0
+    // Kernel version: 6.18.33.2-2
+    // WSLg version: 1.0.73.2
+    // MSRDC version: 1.2.6676
+    // Direct3D version: 1.611.1-81528511
+    // DXCore version: 10.0.26100.1-240331-1435.ge-release
+    // Windows version: 10.0.19045.6466
+    //
+    // but the text can be in other languages,
+    // so just look for ': ' in the first line
+
+    static const char *q = ": ";
+    for (string line: out) {
+        char buf[256];
+        safe_strcpy(buf, line.c_str());
+        char *p = strstr(buf, q);
+        if (p) {
+            p += strlen(q);
+            safe_strcpy(wsl_version, p);
+            strip_whitespace(wsl_version);
+            int maj = atoi(wsl_version);
+            if (maj > 2) {
+                use_wslc = true;
+            }
+            break;
+        }
+        break;
+    }
+    if (use_wslc) {
+        return 0;
+    }
+
+    // Skip distro detection when running as a service since HKEY_CURRENT_USER
+    // registry is not available in service mode,
+    // and we need it to enumerate distros
+    //
     if (gstate.executing_as_daemon) {
-        distros.distros.clear();
         msg_printf(0, MSG_INFO, "WSL detection skipped: running as service");
         return 0;
     }
 
     WSL_DISTROS all_distros;
-    distros.distros.clear();
-    int retval = get_all_distros(all_distros);
+    retval = get_all_distros(all_distros);
     if (retval) return retval;
     if (all_distros.distros.empty()) {
         return 0;
@@ -252,10 +297,10 @@ int get_wsl_information(WSL_DISTROS &distros) {
             continue;
         }
 
-        char os_name[256];
-        char os_version[256];
-        strcpy(os_name, "");
-        strcpy(os_version, "");
+        char distro_os_name[256];
+        char distro_os_version[256];
+        distro_os_name[0] = 0;
+        distro_os_version[0] = 0;
 
         // Try to get the name and version of the OS in the WSL distro.
         // There are several ways of doing this
@@ -266,11 +311,11 @@ int get_wsl_information(WSL_DISTROS &distros) {
             read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
             HOST_INFO::parse_linux_os_info(
                 reply, lsbrelease,
-                os_name, sizeof(os_name),
-                os_version, sizeof(os_version)
+                distro_os_name, sizeof(distro_os_name),
+                distro_os_version, sizeof(distro_os_version)
             );
             CloseHandle(rs.proc_handle);
-            update_os(wd, os_name, os_version);
+            update_os(wd, distro_os_name, distro_os_version);
         } else {
             // if failure, skip this distro, but try others;
             // might be a problem with this distro
@@ -285,11 +330,11 @@ int get_wsl_information(WSL_DISTROS &distros) {
                 read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
                 HOST_INFO::parse_linux_os_info(
                     reply, osrelease,
-                    os_name, sizeof(os_name),
-                    os_version, sizeof(os_version)
+                    distro_os_name, sizeof(distro_os_name),
+                    distro_os_version, sizeof(distro_os_version)
                 );
                 CloseHandle(rs.proc_handle);
-                update_os(wd, os_name, os_version);
+                update_os(wd, distro_os_name, distro_os_version);
             } else {
                 continue;
             }
@@ -303,18 +348,18 @@ int get_wsl_information(WSL_DISTROS &distros) {
                 read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
                 HOST_INFO::parse_linux_os_info(
                     reply, redhatrelease,
-                    os_name, sizeof(os_name),
-                    os_version, sizeof(os_version)
+                    distro_os_name, sizeof(distro_os_name),
+                    distro_os_version, sizeof(distro_os_version)
                 );
                 CloseHandle(rs.proc_handle);
-                update_os(wd, os_name, os_version);
+                update_os(wd, distro_os_name, distro_os_version);
             } else {
                 continue;
             }
         }
 
-        std::string os_name_str = "";
-        std::string os_version_str = "";
+        std::string distro_os_name_str = "";
+        std::string distro_os_version_str = "";
 
         // try running 'sysctl -a'
         //
@@ -324,10 +369,10 @@ int get_wsl_information(WSL_DISTROS &distros) {
                 read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
                 parse_sysctl_output(
                     split(reply, '\n'),
-                    os_name_str, os_version_str
+                    distro_os_name_str, distro_os_version_str
                 );
                 CloseHandle(rs.proc_handle);
-                update_os(wd, os_name_str.c_str(), os_version_str.c_str());
+                update_os(wd, distro_os_name_str.c_str(), distro_os_version_str.c_str());
             } else {
                 continue;
             }
@@ -338,10 +383,10 @@ int get_wsl_information(WSL_DISTROS &distros) {
         if (!got_both(wd)) {
             const std::string command_uname_s = "uname -s";
             if (!rs.run_program_in_wsl(wd, command_uname_s)) {
-                read_from_pipe(rs.out_read, rs.proc_handle, os_name_str, CMD_TIMEOUT);
-                strip_whitespace(os_name_str);
+                read_from_pipe(rs.out_read, rs.proc_handle, distro_os_name_str, CMD_TIMEOUT);
+                strip_whitespace(distro_os_name_str);
                 CloseHandle(rs.proc_handle);
-                update_os(wd, os_name_str.c_str(), "");
+                update_os(wd, distro_os_name_str.c_str(), "");
             } else {
                 continue;
             }
@@ -352,10 +397,10 @@ int get_wsl_information(WSL_DISTROS &distros) {
         if (!got_both(wd)) {
             const std::string command_uname_r = "uname -r";
             if (!rs.run_program_in_wsl(wd, command_uname_r)) {
-                read_from_pipe(rs.out_read, rs.proc_handle, os_version_str, CMD_TIMEOUT);
-                strip_whitespace(os_version_str);
+                read_from_pipe(rs.out_read, rs.proc_handle, distro_os_version_str, CMD_TIMEOUT);
+                strip_whitespace(distro_os_version_str);
                 CloseHandle(rs.proc_handle);
-                update_os(wd, "", os_version_str.c_str());
+                update_os(wd, "", distro_os_version_str.c_str());
             } else {
                 continue;
             }
@@ -446,7 +491,7 @@ int get_wsl_information(WSL_DISTROS &distros) {
             break;
         }
 
-        distros.distros.push_back(wd);
+        wsl_distros.distros.push_back(wd);
     }
 
     return 0;

@@ -39,25 +39,43 @@ using std::string;
 
 #include "sched_host.h"
 
-static void get_docker_info(
-    string &version, int &type, string &wsl_distro, int &bbr_version
-) {
-    wsl_distro = "";
-    bbr_version = 0;
-    if (strstr(g_request->host.os_name, "Windows")) {
-        for (WSL_DISTRO &wd: g_request->host.wsl_distros.distros) {
-            if (wd.disallowed) continue;
-            if (wd.docker_version.empty()) continue;
-            version = wd.docker_version;
-            type = wd.docker_type;
-            wsl_distro = wd.distro_name;
-            bbr_version = wd.boinc_buda_runner_version;
+struct DOCKER_INFO {
+    // the following if non-Win
+    string docker_version;
+    int docker_type;
+
+    // the following if Win
+    string wsl_version;
+    bool use_wslc;  // have WSL 3+
+    // the following if Win and WSL < 3
+    string wsl_distro;
+    int bbr_version;
+
+    void get_docker_info() {
+        docker_version = "";
+        docker_type = 0;
+        wsl_version = "";
+        use_wslc = false;
+        wsl_distro = "";
+        bbr_version = 0;
+        if (strstr(g_request->host.os_name, "Windows")) {
+            wsl_version = g_request->host.wsl_version;
+            use_wslc = g_request->host.use_wslc;
+            if (!g_request->host.use_wslc) {
+                WSL_DISTRO *wdp = g_request->host.wsl_distros.find_docker();
+                if (wdp) {
+                    docker_version = wdp->docker_version;
+                    docker_type = wdp->docker_type;
+                    wsl_distro = wdp->distro_name;
+                    bbr_version = wdp->boinc_buda_runner_version;
+                }
+            }
+        } else {
+            docker_version = g_request->host.docker_version;
+            docker_type = g_request->host.docker_type;
         }
-    } else {
-        version = g_request->host.docker_version;
-        type = g_request->host.docker_type;
     }
-}
+};
 
 // return misc host info as JSON
 //
@@ -81,32 +99,42 @@ void host_info_json(string &out) {
         out += "\n    ]";
     }
 
-    string docker_version;
-    int docker_type;
-    string wsl_distro;
-    int bbr_version;
-    get_docker_info(docker_version, docker_type, wsl_distro, bbr_version);
-    if (!docker_version.empty()) {
+    DOCKER_INFO di;
+    di.get_docker_info();
+
+    if (!di.wsl_version.empty()) {
+        sprintf(buf,
+            ",\n"\
+"    \"wsl\": {\n"\
+"        \"version\": \"%s\",\n"\
+"        \"use_wslc\": %s\n"\
+"    }",
+            di.wsl_version.c_str(),
+            di.use_wslc?"true":"false"
+        );
+        out += buf;
+    }
+    if (!di.docker_version.empty()) {
         sprintf(buf,
             ",\n"\
 "    \"docker\": {\n"\
 "        \"version\": \"%s\",\n"\
 "        \"type\": %d",
-            docker_version.c_str(),
-            docker_type
+            di.docker_version.c_str(),
+            di.docker_type
         );
         out += buf;
-        if (!wsl_distro.empty()) {
+        if (!di.wsl_distro.empty()) {
             sprintf(buf,
                 ",\n        \"wsl_distro\": \"%s\"",
-                wsl_distro.c_str()
+                di.wsl_distro.c_str()
             );
             out += buf;
         }
-        if (bbr_version) {
+        if (di.bbr_version) {
             sprintf(buf,
                 ",\n        \"boinc_buda_runner_version\": %d",
-                bbr_version
+                di.bbr_version
             );
             out += buf;
         }

@@ -37,7 +37,8 @@
 // executable files (link or physical)
 //
 // Win:
-//      There must be a WSL image containing Docker or Podman
+//      If WSL 3+, we use WSL Containers (wslc.exe).
+//      Otherwise there must be a WSL image containing Docker or Podman.
 //      The wrapper runs a pipe-connected shell in WSL
 //      (running in the current dir)
 //      and sends commands (e.g. docker commands) via the pipe.
@@ -98,6 +99,8 @@
 
 #include "toml.h"
     // from https://github.com/mayah/tinytoml
+#include <nlohmann/json.hpp>
+using nlohmann::json;
 
 #include "util.h"
 #include "str_replace.h"
@@ -179,7 +182,10 @@ struct CONFIG {
             fprintf(stderr, "   workdir: %s\n", workdir.c_str());
         }
         if (!project_dir_mount.empty()) {
-            fprintf(stderr, "   project dir mounted at: %s\n", project_dir_mount.c_str());
+            fprintf(stderr,
+                "   project dir mounted at: %s\n",
+                project_dir_mount.c_str()
+            );
         }
         fprintf(stderr, "   use GPU: %s\n", use_gpu?"yes":"no");
         if (web_graphics_guest_port) {
@@ -303,7 +309,7 @@ int parse_config_file() {
     return 0;
 }
 
-// If command output includes "Error", show the output and return true
+// check if any line of the output has the given string (e.g. 'Error')
 //
 bool output_has_str(vector<string> &out, const char* s) {
     for (string line: out) {
@@ -315,7 +321,7 @@ bool output_has_str(vector<string> &out, const char* s) {
 }
 
 void show_output(vector<string> &out, const char* cmd_name) {
-    fprintf(stderr, "Error output from '%s' command:\n", cmd_name);
+    fprintf(stderr, "Output from '%s' command:\n", cmd_name);
     for (const string &line: out) {
         fprintf(stderr, "   %s", line.c_str());
     }
@@ -374,7 +380,7 @@ void get_app_args(char* buf) {
 
 //////////  IMAGE  ////////////
 
-// used during build sleeps
+// called periodically while builds are in progress
 //
 void check_exit_request() {
     BOINC_STATUS status;
@@ -417,6 +423,15 @@ int build_image() {
     char cmd[1024];
     vector<string> out;
     int retval;
+
+    // In WSL Containers, if you try to do concurrent builds one of them fails
+    //
+#ifdef _WIN32
+    HANDLE mutex=0;
+    if (docker_type == WSLC) {
+        mutex = create_mutex("boinc_wsl_build");
+    }
+#endif
 
     snprintf(cmd, sizeof(cmd),
         "build \"%s\" %s -t %s -f %s %s",
@@ -461,10 +476,24 @@ int build_image() {
                 continue;
             }
         }
+#ifdef _WIN32
+        if (docker_type == WSLC) {
+            if (wait_mutex(mutex, 3600)) {
+                fprintf(stderr, "couldn't acquire build mutex\n");
+                return -1;
+            }
+        }
+#endif
         retval = docker_conn.command(cmd, out, verbose_std());
+#ifdef _WIN32
+        if (docker_type == WSLC) {
+            release_mutex(mutex);
+        }
+#endif
         if (
             output_has_str(out, "unable to copy")   // podman
             || output_has_str(out, "unreachable")   // docker?
+            || output_has_str(out, "misbehaving")   // wslc
         ) {
             if (verbose_std()) {
                 fprintf(stderr, "build cmd output indicates disconnection\n");
@@ -516,7 +545,7 @@ int get_image() {
     retval = image_exists(exists);
     if (retval) {
         fprintf(stderr, "image_exists() failed: %d\n", retval);
-        exit(1);
+        boinc_finish(1);
     }
     if (!exists) {
         if (config.verbose) {
@@ -525,7 +554,7 @@ int get_image() {
         retval = build_image();
         if (retval) {
             fprintf(stderr, "build_image() failed: %d\n", retval);
-            exit(1);
+            boinc_finish(1);
         }
     }
     return 0;
@@ -545,14 +574,63 @@ void get_container_name() {
 #define CONTAINER_EXITED    5
 #define CONTAINER_OTHER     6
 
+int get_state(const char* p) {
+    if (strcasestr(p, "created")) {
+        return CONTAINER_CREATED;
+    } else if (strcasestr(p, "running")) {
+        return  CONTAINER_RUNNING;
+    } else if (strcasestr(p, "paused")) {
+        return  CONTAINER_PAUSED;
+    } else if (strcasestr(p, "exited")) {
+        return  CONTAINER_EXITED;
+    }
+    return CONTAINER_OTHER;
+}
+
 int get_container_state(int &state) {
     char cmd[1024];
     int retval;
     vector<string> out;
 
+    state = CONTAINER_ABSENT;
+
+    // WSL containers doesn't support {} formats; use JSON
+    //
+    if (docker_type == WSLC) {
+        snprintf(cmd, sizeof(cmd),
+            "ps --all --filter \"name=%s\" --format json",
+            container_name
+        );
+        retval = docker_conn.command(cmd, out, verbose_all());
+        if (retval) {
+            fprintf(stderr, "ps command failed\n");
+            return retval;
+        }
+        if (out.empty()) {
+            return 0;
+        }
+        json d;
+        try {
+            d = json::parse(out[0]);
+        } catch (const std::exception& e) {
+            fprintf(stderr, "failed to parse ps output %s: %s\n",
+                out[0].c_str(), e.what()
+            );
+            return -1;
+        }
+        if (d.find("State") == d.end()) {
+            fprintf(stderr, "No State in %s\n", out[0].c_str());
+            return -1;
+        }
+        string s = d["State"].get<string>();
+        state = get_state(s.c_str());
+        return 0;
+    }
+
+    // non-WSL case follows
+
     snprintf(cmd, sizeof(cmd),
         "ps --all --filter \"name=^%s$\" --format \"{{.Names}}|{{.Status}}\"",
-
         container_name
     );
     retval = docker_conn.command(cmd, out, verbose_all());
@@ -565,21 +643,10 @@ int get_container_state(int &state) {
             if (!p) break;
             p++;
             fprintf(stderr, "container state: %s\n", p);
-            if (strcasestr(p, "created")) {
-                state = CONTAINER_CREATED;
-            } else if (strcasestr(p, "running")) {
-                state = CONTAINER_RUNNING;
-            } else if (strcasestr(p, "paused")) {
-                state = CONTAINER_PAUSED;
-            } else if (strcasestr(p, "exited")) {
-                state = CONTAINER_EXITED;
-            } else {
-                state = CONTAINER_OTHER;
-            }
+            state = get_state(p);
             return 0;
         }
     }
-    state = CONTAINER_ABSENT;
     return 0;
 }
 
@@ -827,6 +894,41 @@ JOB_STATUS poll_app() {
     vector<string> out;
     int retval;
 
+    // WSL containers doesn't support {} formats; use JSON
+    //
+    if (docker_type == WSLC) {
+        snprintf(cmd, sizeof(cmd),
+            "ps --all --filter \"name=%s\" --format json",
+            container_name
+        );
+        retval = docker_conn.command(cmd, out, verbose_all());
+        if (retval) {
+            fprintf(stderr, "poll: ps command failed\n");
+            return JOB_FAIL;
+        }
+        if (out.empty()) {
+            return JOB_FAIL;
+        }
+        json d;
+        try {
+            d = json::parse(out[0]);
+        } catch (const std::exception& e) {
+            fprintf(stderr, "poll: failed to parse ps output %s: %s\n",
+                out[0].c_str(), e.what()
+            );
+            return JOB_FAIL;
+        }
+        if (d.find("Status") == d.end()) {
+            fprintf(stderr, "No Status in %s\n", out[0].c_str());
+            return JOB_FAIL;
+        }
+        string s = d["Status"].get<string>();
+        if (sscanf(s.c_str(), "Exited (%d)", &container_exit_code) == 1) {
+            return JOB_SUCCESS;
+        }
+        return JOB_IN_PROGRESS;
+    }
+
     snprintf(cmd, sizeof(cmd), "ps --all -f \"name=%s\"", container_name);
     retval = docker_conn.command(cmd, out, verbose_all());
     if (retval) return JOB_FAIL;
@@ -846,6 +948,7 @@ JOB_STATUS poll_app() {
             return JOB_IN_PROGRESS;
         }
     }
+    fprintf(stderr, "Container name not found in ps output; quitting\n");
     return JOB_FAIL;
 }
 
@@ -867,59 +970,91 @@ int get_stats(RSC_USAGE &ru) {
     vector<string> out;
     int retval;
     size_t n;
-
-#ifdef __APPLE__
-    snprintf(cmd, sizeof(cmd),
-        "stats --no-stream  --format \"{{.CPUPerc}}\\ {{.MemUsage}}\" %s",
-        container_name
-    );
-#else
-    snprintf(cmd, sizeof(cmd),
-        "stats --no-stream  --format \"{{.CPUPerc}} {{.MemUsage}}\" %s",
-        container_name
-    );
-#endif
-    retval = docker_conn.command(cmd, out, verbose_all());
-    if (retval) {
-        print_once(string("stats command failed\n"));
-        return -1;
-    }
-    if (out.empty()) {
-        print_once(string("stats command returned nothing\n"));
-        return -1;
-    }
-
-    // output is like
-    // 97.12% 420KiB / 503.8GiB
-    // (cpu% mem-used / mem-max)
-    // but this can be preceded by lines with warning messages
-    //
-    bool found = false;
     double cpu_pct=0, mem=0;
     char mem_unit=0;
-    for (const string& line: out) {
-        n = sscanf(line.c_str(), "%lf%% %lf%c", &cpu_pct, &mem, &mem_unit);
-        if (n == 3) {
-            found = true;
-            break;
+
+    if (docker_type == WSLC) {
+        snprintf(cmd, sizeof(cmd),
+            "stats --format json %s", container_name
+        );
+        retval = docker_conn.command(cmd, out, verbose_all());
+        if (retval) {
+            print_once(string("stats command failed\n"));
+            return -1;
+        }
+        if (out.empty()) {
+            print_once(string("stats command returned nothing\n"));
+            return -1;
+        }
+        json d;
+        try {
+            d = json::parse(out[0]);
+        } catch (const std::exception& e) {
+            fprintf(stderr, "stats: failed to parse %s: %s\n",
+                out[0].c_str(), e.what()
+            );
+            return -1;
+        }
+        if (d.find("CPUPerc") == d.end()) {
+            fprintf(stderr, "status: missing CPU in %s\n", out[0].c_str());
+        } else {
+            string s = d["CPUPerc"].get<string>();
+            sscanf(s.c_str(), "%lf", &cpu_pct);
+        }
+        if (d.find("MemUsage") == d.end()) {
+            fprintf(stderr, "status: missing mem in %s\n", out[0].c_str());
+        } else {
+            string s = d["MemUsage"].get<string>();
+            sscanf(s.c_str(), "%lf%c", &mem, &mem_unit);
+        }
+    } else {
+#ifdef __APPLE__
+        snprintf(cmd, sizeof(cmd),
+            "stats --no-stream  --format \"{{.CPUPerc}}\\ {{.MemUsage}}\" %s",
+            container_name
+        );
+#else
+        snprintf(cmd, sizeof(cmd),
+            "stats --no-stream  --format \"{{.CPUPerc}} {{.MemUsage}}\" %s",
+            container_name
+        );
+#endif
+        retval = docker_conn.command(cmd, out, verbose_all());
+        if (retval) {
+            print_once(string("stats command failed\n"));
+            return -1;
+        }
+        if (out.empty()) {
+            print_once(string("stats command returned nothing\n"));
+            return -1;
+        }
+
+        // output is like
+        // 97.12% 420KiB / 503.8GiB
+        // (cpu% mem-used / mem-max)
+        // but this can be preceded by lines with warning messages
+        //
+        bool found = false;
+        for (const string& line: out) {
+            n = sscanf(line.c_str(), "%lf%% %lf%c", &cpu_pct, &mem, &mem_unit);
+            if (n == 3) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            print_once(string("stats command parse failed\n"));
+            return -1;
         }
     }
-    if (!found) {
-        print_once(string("stats command parse failed\n"));
-        return -1;
-    }
     switch (mem_unit) {
-    case 'G':
-    case 'g':
+    case 'G': case 'g':
         mem *= GIGA; break;
-    case 'M':
-    case 'm':
+    case 'M': case 'm':
         mem *= MEGA; break;
-    case 'K':
-    case 'k':
+    case 'K': case 'k':
         mem *= KILO; break;
-    case 'B':
-    case 'b':
+    case 'B': case 'b':
         break;
     default: return -1;
     }
@@ -932,7 +1067,7 @@ int get_stats(RSC_USAGE &ru) {
     }
     if (ru.cpu_frac > aid.ncpus) {
         print_once(string("stats command returned excessive CPU usage\n"));
-        return -1;
+        ru.cpu_frac = aid.ncpus;
     }
     return 0;
 }
@@ -954,26 +1089,32 @@ double get_fraction_done() {
 //////////  INITIALIZATION  ////////////
 
 #ifdef _WIN32
-// find a WSL distro with Docker and set up a command link to it
+// If we have WSL 3+, use the WSL container system.
+// Otherwise find a WSL distro with Docker and set up a command link to it
 //
 int wsl_init() {
-    WSL_DISTRO distro, *dp;
-    if (boinc_is_standalone()) {
-        distro.distro_name = BOINC_WSL_DISTRO_NAME;
-        distro.docker_type = PODMAN;
-        distro.boinc_buda_runner_version = 4;
-        dp = &distro;
+    if (aid.host_info.use_wslc) {
+        docker_type = WSLC;
+        return docker_conn.init_wslc();
     } else {
-        dp = aid.host_info.wsl_distros.find_docker();
-        if (!dp) {
-            fprintf(stderr, "wsl_init(): no usable WSL distro\n");
-            return -1;
+        WSL_DISTRO distro, *dp;
+        if (boinc_is_standalone()) {
+            distro.distro_name = BOINC_WSL_DISTRO_NAME;
+            distro.docker_type = PODMAN;
+            distro.boinc_buda_runner_version = 4;
+            dp = &distro;
+        } else {
+            dp = aid.host_info.wsl_distros.find_docker();
+            if (!dp) {
+                fprintf(stderr, "wsl_init(): no usable WSL distro\n");
+                return -1;
+            }
         }
+        fprintf(stderr, "Using WSL distro %s\n", dp->distro_name.c_str());
+        wsl_distro_name = dp->distro_name;
+        docker_type = dp->docker_type;
+        return docker_conn.init(*dp);
     }
-    fprintf(stderr, "Using WSL distro %s\n", dp->distro_name.c_str());
-    wsl_distro_name = dp->distro_name;
-    docker_type = dp->docker_type;
-    return docker_conn.init(*dp);
 }
 #endif
 
@@ -1085,6 +1226,7 @@ int main(int argc, char** argv) {
     bool sporadic = false;
     RSC_USAGE ru;
 
+    config.verbose = VERBOSE_STD;
     for (int j=1; j<argc; j++) {
         if (!strcmp(argv[j], "--sporadic")) {
             sporadic = true;
@@ -1139,7 +1281,6 @@ int main(int argc, char** argv) {
     if (config.verbose) {
         config.print();
     }
-    config.verbose = VERBOSE_STD;
 
     if (sporadic) {
         retval = boinc_sporadic_dir(".");

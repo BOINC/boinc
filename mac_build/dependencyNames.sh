@@ -71,9 +71,14 @@ zipBaseName="libzip"
 zipFileName="libzip-1.11.4.tar.gz"
 zipURL="https://libzip.org/download/libzip-1.11.4.tar.gz"
 
-# The baseNames and dirNames arrays are used by the checkDpendentVesions.sh script
-baseNames=(${opensslBaseName} ${caresBaseName} ${curlBaseName} ${wxWidgetsBaseName} ${freetypeBaseName} ${ftglBaseName} ${zipBaseName})
+nlohmannJsonDirName="nlohmann-json-3.12.0"
+nlohmannJsonBaseName="nlohmann-json"
+nlohmannJsonFileName="nlohmann-json-3.12.0.tar.gz"
+nlohmannJsonURL="https://github.com/nlohmann/json/archive/refs/tags/v3.12.0.tar.gz"
 
-dirNames=(${opensslDirName} ${caresDirName} ${curlDirName} ${wxWidgetsDirName} ${freetypeDirName} ${ftglDirName} ${zipDirName})
+# The baseNames and dirNames arrays are used by the checkDpendentVesions.sh script
+baseNames=(${opensslBaseName} ${caresBaseName} ${curlBaseName} ${wxWidgetsBaseName} ${freetypeBaseName} ${ftglBaseName} ${zipBaseName} ${nlohmannJsonBaseName})
+
+dirNames=(${opensslDirName} ${caresDirName} ${curlDirName} ${wxWidgetsDirName} ${freetypeDirName} ${ftglDirName} ${zipDirName} ${nlohmannJsonDirName})
 
 return 0

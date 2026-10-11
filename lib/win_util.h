@@ -89,4 +89,8 @@ extern int read_from_pipe(
 
 extern int write_to_pipe(HANDLE pipe, const char* buf);
 
+extern HANDLE create_mutex(const char* name);
+extern int wait_mutex(HANDLE, int nsec);
+extern void release_mutex(HANDLE);
+
 #endif
