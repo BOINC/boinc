@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -111,13 +111,16 @@ download_and_build() {
     FLAGFILE="${PREFIX}/${DIRNAME}_done"
     doClean=""
     if [ -e "${FLAGFILE}" ]; then
-        lipo "${PREFIX}/lib/${PRODUCTNAME}" -verify_arch ${ARCHS}
-        if [ $? -eq 0 ]; then
-            echo "${DIRNAME} seems already to be present in ${PREFIX}"
-            return 0
-        else
-            # already built but not for correct architectures so force rebuild
-            doClean="-clean"
+        # skip binary check for header-only libraries (e.g. nlohmann-json) which don't have a PRODUCTNAME
+        if [ "x${PRODUCTNAME}" != "x" ]; then
+            lipo "${PREFIX}/lib/${PRODUCTNAME}" -verify_arch ${ARCHS}
+            if [ $? -eq 0 ]; then
+                echo "${DIRNAME} seems already to be present in ${PREFIX}"
+                return 0
+            else
+                # already built but not for correct architectures so force rebuild
+                doClean="-clean"
+            fi
         fi
     else
         # tell subsequent scripts to build everything from scratch
@@ -125,8 +128,11 @@ download_and_build() {
         # delete any FILEFLAGS for other versions of this library built previously
         BASENAME="${DIRNAME%-*}"
         rm -f "${PREFIX}/${BASENAME}"*
-        # delete any previous build of this library (may be redundant with -clean)
-        rm -f "${PREFIX}/lib/${PRODUCTNAME}"
+        # skip removal of binaries for header-only libraries (e.g. nlohmann-json) which don't have a PRODUCTNAME
+        if [ "x${PRODUCTNAME}" != "x" ]; then
+            # delete any previous build of this library (may be redundant with -clean)
+            rm -f "${PREFIX}/lib/${PRODUCTNAME}"
+        fi
     fi
     if [ ! -d ${DIRNAME} ]; then
         if [ ! -e ${FILENAME} ]; then
@@ -135,8 +141,13 @@ download_and_build() {
         tar -xf ${FILENAME}
     fi
     cd ${DIRNAME} || exit 1
-    source ${BUILDSCRIPT} --prefix "${PREFIX}" ${extra_options} ${doClean}
-    if [ $? -ne 0 ]; then exit 1; fi
+    # skip build if no build script is provided (e.g. for header-only libraries like nlohmann-json)
+    if [ "x${BUILDSCRIPT}" = "x" ]; then
+        echo "no build script for ${DIRNAME} - skipping"
+    else
+        source ${BUILDSCRIPT} --prefix "${PREFIX}" ${extra_options} ${doClean}
+        if [ $? -ne 0 ]; then exit 1; fi
+    fi
     cd ../.. || exit 1
     touch ${FLAGFILE}
 }
@@ -162,6 +173,8 @@ download_and_build "${wxWidgetsDirName}" "${wxWidgetsFileName}" "${wxWidgetsURL}
 download_and_build "${freetypeDirName}" "${freetypeFileName}" "${freetypeURL}" "${ROOTDIR}/mac_build/buildfreetype.sh" "libfreetype.a" "x86_64 arm64"
 download_and_build "${ftglDirName}" "${ftglFileName}" "${ftglURL}" "${ROOTDIR}/mac_build/buildFTGL.sh" "libftgl.a" "x86_64 arm64"
 download_and_build "${zipDirName}" "${zipFileName}" "${zipURL}" "${ROOTDIR}/mac_build/buildlibzip.sh" "libzip.a" "x86_64 arm64"
+# header only libraries, skip build script, product name and archs
+download_and_build "${nlohmannJsonDirName}" "${nlohmannJsonFileName}" "${nlohmannJsonURL}" "" "" ""
 
 # change back to root directory
 cd ${ROOTDIR} || exit 1
