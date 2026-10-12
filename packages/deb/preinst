@@ -19,11 +19,11 @@
 
 set -e
 
-# BOINC is systemd-only and no longer ships /etc/init.d/boinc-client. A
-# previous package (e.g. the distribution's own boinc-client) shipped it as a
-# conffile, and dpkg does not remove obsolete conffiles automatically. Left in
-# place, systemd's sysv generator turns it into a second, conflicting
-# boinc-client.service. Remove it on upgrade. See #7272.
+# BOINC is systemd-only and ships boinc-client.service, so the SysV init
+# script /etc/init.d/boinc-client is obsolete. A previous package (e.g. the
+# distribution's own boinc-client) shipped it as a conffile, and dpkg does not
+# remove obsolete conffiles automatically, so it would otherwise be left on
+# disk after the upgrade. Remove it. See #7272.
 if command -v dpkg-maintscript-helper >/dev/null 2>&1 \
     && dpkg-maintscript-helper supports rm_conffile; then
     dpkg-maintscript-helper rm_conffile /etc/init.d/boinc-client -- "$@"
