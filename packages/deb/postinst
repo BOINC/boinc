@@ -31,6 +31,15 @@ if command -v dpkg-maintscript-helper >/dev/null 2>&1 \
     dpkg-maintscript-helper rm_conffile /etc/init.d/boinc-client -- "$@"
 fi
 
+# rm_conffile only acts on this package's own conffile. In a cross-architecture
+# replacement (an arch-A package replaced by the arch-B build, which the CI
+# upgrade matrix exercises), the conffile is owned by the other instance, so
+# rm_conffile leaves it behind. The script is obsolete either way, so make sure
+# it is gone regardless. rm_conffile above still handles the normal same-arch
+# upgrade properly, preserving a locally modified copy as .dpkg-bak before this
+# runs.
+rm -f /etc/init.d/boinc-client
+
 set_perm() {
     chown $2:$3 "$1"
     chmod $4 "$1"
