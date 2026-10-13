@@ -29,10 +29,10 @@
 
 ## This script should do what mac_build/setupForBOINC.sh does but install to 3rdParty/buildCache/mac
 ##
-## CI builds require running the buildnlohmann-json.sh script to populate the cache, but
+## CI builds require running the buildnlohmann-json-CI.sh script to populate the cache, but
 ## local Mac builds don't need to run that script because they use the headers directly
-## from the buildnlohmann-json source tree. So this script runs buildnlohmann-json.sh but
-## setupForBOINC.sh does not.
+## from the buildnlohmann-json source tree. So this script runs buildnlohmann-json-CI.sh
+## but setupForBOINC.sh does not.
 
 ## Usage:
 ##     ./3rdParty/buildMacDependencies.sh [--clean] [--cache_dir PATH] [--debug]
@@ -174,7 +174,7 @@ download_and_build "${freetypeDirName}" "${freetypeFileName}" "${freetypeURL}" "
 download_and_build "${ftglDirName}" "${ftglFileName}" "${ftglURL}" "${ROOTDIR}/mac_build/buildFTGL.sh" "libftgl.a" "x86_64 arm64"
 download_and_build "${zipDirName}" "${zipFileName}" "${zipURL}" "${ROOTDIR}/mac_build/buildlibzip.sh" "libzip.a" "x86_64 arm64"
 # header only libraries, skip product name and archs
-download_and_build "${nlohmannJsonDirName}" "${nlohmannJsonFileName}" "${nlohmannJsonURL}" "${ROOTDIR}/mac_build/buildnlohmann-json.sh" "" ""
+download_and_build "${nlohmannJsonDirName}" "${nlohmannJsonFileName}" "${nlohmannJsonURL}" "${ROOTDIR}/mac_build/buildnlohmann-json.sh-CI" "" ""
 
 # change back to root directory
 cd ${ROOTDIR} || exit 1
