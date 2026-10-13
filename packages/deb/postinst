@@ -23,6 +23,18 @@ BOINCUSER=boinc
 BOINCGROUP=boinc
 BOINCDIR=/var/lib/boinc
 
+# Finish removing the obsolete /etc/init.d/boinc-client conffile left by a
+# previous package. rm_conffile must run in preinst, postinst and postrm.
+# See #7272.
+if command -v dpkg-maintscript-helper >/dev/null 2>&1 \
+    && dpkg-maintscript-helper supports rm_conffile; then
+    dpkg-maintscript-helper rm_conffile /etc/init.d/boinc-client -- "$@"
+fi
+
+# rm_conffile only covers this package's own conffile; also remove any
+# leftover copy of the obsolete script.
+rm -f /etc/init.d/boinc-client
+
 set_perm() {
     chown $2:$3 "$1"
     chmod $4 "$1"
