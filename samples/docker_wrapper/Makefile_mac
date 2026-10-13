@@ -22,6 +22,11 @@ BOINC_LIB_DIR = $(BOINC_DIR)/lib
 BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
 BOINC_MAC_CONFIG_DIR =  $(BOINC_DIR)/clientgui/mac
 
+ifeq (x$(PREFIX),x)
+    # For local Mac builds
+    PREFIX = ../../../json
+endif
+
 CXXFLAGS_ALL = -g \
     -std=gnu++17 \
     -stdlib=libc++ \

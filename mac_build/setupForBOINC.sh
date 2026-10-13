@@ -41,8 +41,8 @@
 # Updated 9/10/16 for c-ares 1.11.0, curl 7.50.2, openssl 1.1.0
 # Updated 6/25/23 to download inflate libraries if needed
 # Updated 9/25/25 for libzip-1.11.4
-# Updated 10/11/26 for nlohmann-json 3.12.0
-#
+## Updated 10/11/26 for nlohmann-json 3.12.0
+
 # Download these seven packages and place them in a common parent directory
 # with the BOINC source tree.
 #
@@ -70,7 +70,6 @@ wxWidgetsOK="NO"
 freetypeOK="NO"
 ftglOK="NO"
 zipOK="NO"
-nlohmannJsonOK="NO"
 finalResult=0
 
 SCRIPT_DIR=`pwd`
@@ -234,28 +233,11 @@ if [ -x /usr/local/bin/ccmake ]; then
     fi
 
     cd "${SCRIPT_DIR}"
-
-    echo ""
-    echo "----------------------------------"
-    echo "------ BUILD NLOHMANN-JSON -------"
-    echo "----------------------------------"
-    echo ""
-
-    cd "../../${nlohmannJsonDirName}"
-    if [  $? -eq 0 ]; then
-        source "${SCRIPT_DIR}/buildnlohmann-json.sh" ${cleanit}
-        if [  $? -eq 0 ]; then
-            nlohmannJsonOK="YES"
-        fi
-    fi
-
-    cd "${SCRIPT_DIR}"
 else
     echo ""
     echo "----------------------------------"
-    echo "- TO BUILD ZIP AND NLOHMANN-JSON -"
-    echo "--------- PLEASE INSTALL ---------"
-    echo "---- CMAKE COMMAND-LINE TOOLS ----"
+    echo "--- TO BUILD ZIP PLEASE INSTALL --"
+    echo "----  CMAKE COMMAND-LINE TOOLS ----"
     echo "----------------------------------"
     echo ""
 fi
@@ -306,18 +288,6 @@ if [ "${wxWidgetsOK}" = "NO" ]; then
     echo ""
 
     finalResult=$[ finalResult | 8 ]
-fi
-
-if [ "${nlohmannJsonOK}" = "NO" ]; then
-    echo ""
-    echo "-----------------------------------"
-    echo "------------ WARNING --------------"
-    echo "------------         --------------"
-    echo "- COULD NOT BUILD ${nlohmannJsonDirName} --"
-    echo "-----------------------------------"
-    echo ""
-
-    finalResult=$[ finalResult | 16 ]
 fi
 
 if [ "${freetypeOK}" = "NO" ]; then
