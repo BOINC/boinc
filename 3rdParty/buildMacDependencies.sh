@@ -29,8 +29,10 @@
 
 ## This script should do what mac_build/setupForBOINC.sh does but install to 3rdParty/buildCache/mac
 ##
-## CI builds require running the buildnlohmann-json.sh script but local Mac builds don't,
-## so this script runs mac_build/setupForBOINC.sh but setupForBOINC.sh does not.
+## CI builds require running the buildnlohmann-json.sh script to populate the cache, but
+## local Mac builds don't need to run that script because they use the headers directly
+## from the buildnlohmann-json source tree. So this script runs buildnlohmann-json.sh but
+## setupForBOINC.sh does not.
 
 ## Usage:
 ##     ./3rdParty/buildMacDependencies.sh [--clean] [--cache_dir PATH] [--debug]
