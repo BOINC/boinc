@@ -174,7 +174,7 @@ download_and_build "${freetypeDirName}" "${freetypeFileName}" "${freetypeURL}" "
 download_and_build "${ftglDirName}" "${ftglFileName}" "${ftglURL}" "${ROOTDIR}/mac_build/buildFTGL.sh" "libftgl.a" "x86_64 arm64"
 download_and_build "${zipDirName}" "${zipFileName}" "${zipURL}" "${ROOTDIR}/mac_build/buildlibzip.sh" "libzip.a" "x86_64 arm64"
 # header only libraries, skip product name and archs
-download_and_build "${nlohmannJsonDirName}" "${nlohmannJsonFileName}" "${nlohmannJsonURL}" "${ROOTDIR}/mac_build/buildnlohmann-json.sh-CI" "" ""
+download_and_build "${nlohmannJsonDirName}" "${nlohmannJsonFileName}" "${nlohmannJsonURL}" "${ROOTDIR}/mac_build/buildnlohmann-json-CI.sh" "" ""
 
 # change back to root directory
 cd ${ROOTDIR} || exit 1
