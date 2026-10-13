@@ -63,33 +63,6 @@ export PATH="${TOOLSPATH1}":"${TOOLSPATH2}":/usr/local/bin:$PATH
 SDKPATH=`xcodebuild -version -sdk macosx Path`
 result=$?
 
-## Set deployment target to oldest MacOS version supported by this Xcode version
-if [ $result -eq 0 ]; then
-    targetOSVers=`plutil -extract SupportedTargets.macosx.MinimumDeploymentTarget raw -n "${SDKPATH}/SDKSettings.plist"`
-    result=$?
-fi
-if [ $result -ne 0 ]; then
-    echo "Failed to set deployment target MacOS version number"
-    return $result
-fi
-
-IFS='.' read -r MAJOR MINOR PATCH <<< "$targetOSVers"
-MINOR=${MINOR:-0}
-PATCH=${PATCH:-0}
-if [ "$MAJOR" -eq 10 ]; then
-    if [ "$MINOR" -lt 10 ]; then
-        # Legacy macOS 10.x < 10.10 format: 10x0
-        printf -v MAC_OS_VERSION "10%1d0" "$MINOR"
-    else
-        # Legacy macOS 10.x format: 10xx00
-        # Uses printf to pad the minor version to 2 digits
-        printf -v MAC_OS_VERSION "10%02d%02d" "$MINOR" "$PATCH"
-    fi
-else
-    # macOS 11.0+ format: xx0000
-    printf -v MAC_OS_VERSION "%02d%02d%02d" "$MAJOR" "$MINOR" "$PATCH"
-fi
-
 cmake --fresh -B . -S . -DCMAKE_INSTALL_PREFIX=${lprefix} -DJSON_BuildTests=OFF
 if [ $? -ne 0 ]; then return 1; fi
 
