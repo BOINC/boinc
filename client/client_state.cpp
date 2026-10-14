@@ -2540,18 +2540,20 @@ void show_docker_messages() {
 #endif
     if (gstate.host_info.have_docker()) {
 #ifdef _WIN32
-        int bdv = gstate.host_info.wsl_distros.boinc_distro_version();
-        if (bdv) {
-            if (bdv < gstate.latest_boinc_buda_runner_version) {
-                msg_printf_notice(0, true,
-                    "https://github.com/BOINC/boinc/wiki/Updating-the-BOINC-WSL-distro",
-                    "A new version of the BOINC WSL distro is available; we recommend that you install it."
+        if (gstate.host_info.docker_type != WSLC) {
+            int bdv = gstate.host_info.wsl_distros.boinc_distro_version();
+            if (bdv) {
+                if (bdv < gstate.latest_boinc_buda_runner_version) {
+                    msg_printf_notice(0, true,
+                        "https://github.com/BOINC/boinc/wiki/Updating-the-BOINC-WSL-distro",
+                        "A new version of the BOINC WSL distro is available; we recommend that you install it."
+                    );
+                }
+            } else {
+                msg_printf_notice(0, true, url,
+                    "Docker or Podman is present but not using the BOINC WSL distro.  Some project apps may not function properly. We recommend that you install the BOINC WSL distro."
                 );
             }
-        } else {
-            msg_printf_notice(0, true, url,
-                "Docker or Podman is present but not using the BOINC WSL distro.  Some project apps may not function properly. We recommend that you install the BOINC WSL distro."
-            );
         }
 #endif
         return;
