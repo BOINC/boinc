@@ -255,6 +255,7 @@
 					../../lib,
 					../../api,
 					../../clientgui/mac,
+					../../../json/include/,
 				);
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment;
 				OTHER_LDFLAGS = (
@@ -279,6 +280,7 @@
 					../../lib,
 					../../api,
 					../../clientgui/mac,
+					../../../json/include/,
 				);
 				LIBRARY_SEARCH_PATHS = ../../mac_build/build/Deployment;
 				OTHER_LDFLAGS = (

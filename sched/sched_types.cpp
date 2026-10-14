@@ -282,6 +282,7 @@ void SCHEDULER_REQUEST::clear() {
     user_id = 0;
 }
 
+// parse a scheduler request.
 // return an error message or NULL
 //
 const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
@@ -1367,6 +1368,8 @@ int SCHED_DB_RESULT::parse_from_client(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
+// parse the <host_info> part of a scheduler request
+//
 int HOST::parse(XML_PARSER& xp) {
     p_ncpus = 1;
     double dtemp;
@@ -1406,6 +1409,9 @@ int HOST::parse(XML_PARSER& xp) {
             if (!retval) num_opencl_cpu_platforms++;
             continue;
         }
+
+        if (xp.parse_str("wsl_version", wsl_version, sizeof(wsl_version))) continue;
+        if (xp.parse_bool("use_wslc", use_wslc)) continue;
         if (xp.match_tag("wsl")) {
             wsl_distros.parse(xp);
             continue;

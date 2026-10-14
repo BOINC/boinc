@@ -56,6 +56,7 @@ wxWidgetsDirName="wxWidgets-3.3.3"
 wxWidgetsBaseName="wxWidgets"
 wxWidgetsFileName="wxWidgets-3.3.3.tar.bz2"
 wxWidgetsURL="https://github.com/wxWidgets/wxWidgets/releases/download/v3.3.3/wxWidgets-3.3.3.tar.bz2"
+
 freetypeDirName="freetype-2.11.0"
 freetypeBaseName="freetype"
 freetypeFileName="freetype-2.11.0.tar.gz"
@@ -71,9 +72,14 @@ zipBaseName="libzip"
 zipFileName="libzip-1.11.4.tar.gz"
 zipURL="https://libzip.org/download/libzip-1.11.4.tar.gz"
 
-# The baseNames and dirNames arrays are used by the checkDpendentVesions.sh script
-baseNames=(${opensslBaseName} ${caresBaseName} ${curlBaseName} ${wxWidgetsBaseName} ${freetypeBaseName} ${ftglBaseName} ${zipBaseName})
+nlohmannJsonDirName="json"
+nlohmannJsonBaseName="nlohmann-json"
+nlohmannJsonFileName="json.tar.xz"
+nlohmannJsonURL="https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz"
 
-dirNames=(${opensslDirName} ${caresDirName} ${curlDirName} ${wxWidgetsDirName} ${freetypeDirName} ${ftglDirName} ${zipDirName})
+# The baseNames and dirNames arrays are used by the checkDpendentVesions.sh script
+baseNames=(${opensslBaseName} ${caresBaseName} ${curlBaseName} ${wxWidgetsBaseName} ${freetypeBaseName} ${ftglBaseName} ${zipBaseName} ${nlohmannJsonBaseName})
+
+dirNames=(${opensslDirName} ${caresDirName} ${curlDirName} ${wxWidgetsDirName} ${freetypeDirName} ${ftglDirName} ${zipDirName} ${nlohmannJsonDirName})
 
 return 0

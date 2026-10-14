@@ -193,60 +193,22 @@ CLIENT_STATE::CLIENT_STATE()
     have_sporadic_app = false;
 }
 
-void CLIENT_STATE::show_host_info() {
-    char buf[256], buf2[256];
-
-    msg_printf(NULL, MSG_INFO,
-        "Computer name: %s",
-        host_info.domain_name
-    );
-    nbytes_to_string(host_info.m_cache, 0, buf, sizeof(buf));
-    msg_printf(NULL, MSG_INFO,
-        "Processor: %d %s %s",
-        host_info.p_ncpus, host_info.p_vendor, host_info.p_model
-    );
-    if (n_usable_cpus != host_info.p_ncpus) {
-        msg_printf(NULL, MSG_INFO, "Using %d CPUs", n_usable_cpus);
-    }
-    msg_printf(NULL, MSG_INFO,
-        "Processor features: %s", host_info.p_features
-    );
-#ifdef __APPLE__
-    buf[0] = '\0';
-    FILE *f = popen("sw_vers -productVersion", "r");
-    fgets(buf, sizeof(buf), f);
-    strip_whitespace(buf);
-    pclose(f);
-    msg_printf(NULL, MSG_INFO,
-        "OS: MacOS %s (%s %s)", buf,
-        host_info.os_name, host_info.os_version
-    );
-#else
-    msg_printf(NULL, MSG_INFO,
-        "OS: %s: %s", host_info.os_name, host_info.os_version
-    );
-#endif
-
-    nbytes_to_string(host_info.m_nbytes, 0, buf, sizeof(buf));
-    if (is_swap_defined()) {
-        nbytes_to_string(host_info.m_swap, 0, buf2, sizeof(buf2));
-        msg_printf(NULL, MSG_INFO, "Memory: %s RAM, %s swap space", buf, buf2);
-    } else {
-        msg_printf(NULL, MSG_INFO, "Memory: %s RAM", buf);
-    }
-
-    nbytes_to_string(host_info.d_total, 0, buf, sizeof(buf));
-    nbytes_to_string(host_info.d_free, 0, buf2, sizeof(buf2));
-    msg_printf(NULL, MSG_INFO, "Disk: %s total, %s free", buf, buf2);
-    int tz = host_info.timezone/3600;
-    msg_printf(0, MSG_INFO, "Local time is UTC %s%d hours",
-        tz<0?"":"+", tz
-    );
-
 #ifdef _WIN64
+// show WSL info.
+//
+static void show_wsl_info(HOST_INFO &host_info) {
+    char buf[256];
+    if (strlen(host_info.wsl_version)) {
+        msg_printf(NULL, MSG_INFO, "WSL version %s", host_info.wsl_version);
+    }
+    // with WSL 3 we don't use distros.
+    //
+    if (host_info.use_wslc) {
+        return;
+    }
     if (host_info.wsl_distros.distros.empty()) {
         // Don't print this message when running as a service (WSL detection is skipped)
-        if (!executing_as_daemon) {
+        if (!gstate.executing_as_daemon) {
             msg_printf(NULL, MSG_INFO, "WSL: no usable distros found");
         }
     } else {
@@ -302,6 +264,61 @@ void CLIENT_STATE::show_host_info() {
             }
         }
     }
+}
+#endif
+
+void CLIENT_STATE::show_host_info() {
+    char buf[256], buf2[256];
+
+    msg_printf(NULL, MSG_INFO,
+        "Computer name: %s",
+        host_info.domain_name
+    );
+    nbytes_to_string(host_info.m_cache, 0, buf, sizeof(buf));
+    msg_printf(NULL, MSG_INFO,
+        "Processor: %d %s %s",
+        host_info.p_ncpus, host_info.p_vendor, host_info.p_model
+    );
+    if (n_usable_cpus != host_info.p_ncpus) {
+        msg_printf(NULL, MSG_INFO, "Using %d CPUs", n_usable_cpus);
+    }
+    msg_printf(NULL, MSG_INFO,
+        "Processor features: %s", host_info.p_features
+    );
+#ifdef __APPLE__
+    buf[0] = '\0';
+    FILE *f = popen("sw_vers -productVersion", "r");
+    fgets(buf, sizeof(buf), f);
+    strip_whitespace(buf);
+    pclose(f);
+    msg_printf(NULL, MSG_INFO,
+        "OS: MacOS %s (%s %s)", buf,
+        host_info.os_name, host_info.os_version
+    );
+#else
+    msg_printf(NULL, MSG_INFO,
+        "OS: %s: %s", host_info.os_name, host_info.os_version
+    );
+#endif
+
+    nbytes_to_string(host_info.m_nbytes, 0, buf, sizeof(buf));
+    if (is_swap_defined()) {
+        nbytes_to_string(host_info.m_swap, 0, buf2, sizeof(buf2));
+        msg_printf(NULL, MSG_INFO, "Memory: %s RAM, %s swap space", buf, buf2);
+    } else {
+        msg_printf(NULL, MSG_INFO, "Memory: %s RAM", buf);
+    }
+
+    nbytes_to_string(host_info.d_total, 0, buf, sizeof(buf));
+    nbytes_to_string(host_info.d_free, 0, buf2, sizeof(buf2));
+    msg_printf(NULL, MSG_INFO, "Disk: %s total, %s free", buf, buf2);
+    int tz = host_info.timezone/3600;
+    msg_printf(0, MSG_INFO, "Local time is UTC %s%d hours",
+        tz<0?"":"+", tz
+    );
+
+#ifdef _WIN64
+    show_wsl_info(host_info);
 #endif
 
     // show Docker-related messages
@@ -2502,6 +2519,11 @@ void show_docker_messages() {
     if (cc_config.dont_use_wsl) {
         return;
     }
+
+    if (gstate.host_info.use_wslc) {
+        return;
+    }
+
     // don't show message if OS is too old for WSL
     //
     if (gstate.host_info.major_version < 10

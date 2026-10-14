@@ -1632,7 +1632,10 @@ int HOST_INFO::get_host_info(bool init) {
     }
     get_local_network_info();
 
+    // everthing after here needs to be done only once
+    //
     if (!init) return 0;
+
     ::get_memory_info(m_nbytes, m_swap);
     get_os_information();
 
@@ -1644,7 +1647,7 @@ int HOST_INFO::get_host_info(bool init) {
     if (!cc_config.dont_use_wsl) {
         OSVERSIONINFOEX osvi;
         if (get_OSVERSIONINFO(osvi) && osvi.dwMajorVersion >= 10) {
-            retval = get_wsl_information(wsl_distros);
+            retval = get_wsl_information();
             if (retval) {
                 msg_printf(0, MSG_INTERNAL_ERROR,
                     "get_wsl_information(): %s", boincerror(retval)
