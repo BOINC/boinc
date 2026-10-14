@@ -288,7 +288,11 @@ int run_program(
 // Return error if command failed
 //
 int run_command(
-    const char* cmd, vector<string> &out, bool
+    const char*
+#if defined(_WIN32) || !defined(_USING_FCGI_)
+    cmd
+#endif
+    , vector<string> &out, bool
 #ifdef _WIN32
     wide
 #endif
