@@ -304,12 +304,6 @@ void CLIENT_STATE::show_host_info() {
     }
 #endif
 
-    // show Docker-related messages
-    //
-#ifndef ANDROID
-    show_docker_messages();
-#endif
-
     if (strlen(host_info.virtualbox_version)) {
         msg_printf(NULL, MSG_INFO,
             "VirtualBox version: %s",
@@ -338,6 +332,12 @@ void CLIENT_STATE::show_host_info() {
             host_info.docker_compose_version
         );
     }
+#endif
+
+    // show Docker-related messages
+    //
+#ifndef ANDROID
+    show_docker_messages();
 #endif
 }
 
@@ -2516,12 +2516,8 @@ void show_docker_messages() {
 #else
     const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Podman-on-Linux";
 #endif
-    if (!gstate.host_info.have_docker()) {
-        msg_printf_notice(0, true, url,
-            "Some projects require Podman; we recommend that you install it."
-        );
+    if (gstate.host_info.have_docker()) {
 #ifdef _WIN32
-    } else {
         int bdv = gstate.host_info.wsl_distros.boinc_distro_version();
         if (bdv) {
             if (bdv < gstate.latest_boinc_buda_runner_version) {
