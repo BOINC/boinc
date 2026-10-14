@@ -310,6 +310,7 @@ target="docker_wrapper"
 echo "Building ${target}..."
 cd ../samples/docker_wrapper
 export CXX="${GPPPATH}"
+export PREFIX=${cache_dir}
 make -f Makefile_mac clean; retval=${PIPESTATUS[0]}
 if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
@@ -320,6 +321,7 @@ if [ ${retval} -ne 0 ]; then
     echo "Building ${target}...failed"
     cd ../..; exit 1;
 fi
+export PREFIX=""
 export CXX=""
 echo "Verifying architecture (x86_64) of docker_wrapper_x86_64..."
 lipo ./docker_wrapper_x86_64 -verify_arch x86_64 | $beautifier; retval=${PIPESTATUS[0]}

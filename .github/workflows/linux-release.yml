@@ -49,7 +49,7 @@ jobs:
       - name: Install dependencies
         run: |
           apt-get update
-          apt-get install -y make build-essential m4 pkg-config autoconf libtool git p7zip-full python3
+          apt-get install -y make build-essential m4 pkg-config autoconf libtool git p7zip-full python3 nlohmann-json3-dev
 
       - name: Install dependencies for x86
         if: success() && matrix.type == 'apps-x86'

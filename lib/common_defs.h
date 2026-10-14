@@ -436,7 +436,7 @@ struct DEVICE_STATUS {
 #endif
 
 // impementations of Docker
-enum DOCKER_TYPE {NONE, DOCKER, PODMAN};
+enum DOCKER_TYPE {NONE, DOCKER, PODMAN, WSLC};
 
 #endif
 #endif
