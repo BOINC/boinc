@@ -2540,7 +2540,7 @@ void show_docker_messages() {
 #endif
     if (gstate.host_info.have_docker()) {
 #ifdef _WIN32
-        if (gstate.host_info.docker_type != WSLC) {
+        if (!gstate.host_info.use_wslc) {
             int bdv = gstate.host_info.wsl_distros.boinc_distro_version();
             if (bdv) {
                 if (bdv < gstate.latest_boinc_buda_runner_version) {
