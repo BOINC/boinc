@@ -321,12 +321,6 @@ void CLIENT_STATE::show_host_info() {
     show_wsl_info(host_info);
 #endif
 
-    // show Docker-related messages
-    //
-#ifndef ANDROID
-    show_docker_messages();
-#endif
-
     if (strlen(host_info.virtualbox_version)) {
         msg_printf(NULL, MSG_INFO,
             "VirtualBox version: %s",
@@ -355,6 +349,12 @@ void CLIENT_STATE::show_host_info() {
             host_info.docker_compose_version
         );
     }
+#endif
+
+    // show Docker-related messages
+    //
+#ifndef ANDROID
+    show_docker_messages();
 #endif
 }
 
@@ -2538,24 +2538,22 @@ void show_docker_messages() {
 #else
     const char* url = "https://github.com/BOINC/boinc/wiki/Installing-Podman-on-Linux";
 #endif
-    if (!gstate.host_info.have_docker()) {
-        msg_printf_notice(0, true, url,
-            "Some projects require Podman; we recommend that you install it."
-        );
+    if (gstate.host_info.have_docker()) {
 #ifdef _WIN32
-    } else {
-        int bdv = gstate.host_info.wsl_distros.boinc_distro_version();
-        if (bdv) {
-            if (bdv < gstate.latest_boinc_buda_runner_version) {
-                msg_printf_notice(0, true,
-                    "https://github.com/BOINC/boinc/wiki/Updating-the-BOINC-WSL-distro",
-                    "A new version of the BOINC WSL distro is available; we recommend that you install it."
+        if (!gstate.host_info.use_wslc) {
+            int bdv = gstate.host_info.wsl_distros.boinc_distro_version();
+            if (bdv) {
+                if (bdv < gstate.latest_boinc_buda_runner_version) {
+                    msg_printf_notice(0, true,
+                        "https://github.com/BOINC/boinc/wiki/Updating-the-BOINC-WSL-distro",
+                        "A new version of the BOINC WSL distro is available; we recommend that you install it."
+                    );
+                }
+            } else {
+                msg_printf_notice(0, true, url,
+                    "Docker or Podman is present but not using the BOINC WSL distro.  Some project apps may not function properly. We recommend that you install the BOINC WSL distro."
                 );
             }
-        } else {
-            msg_printf_notice(0, true, url,
-                "Docker or Podman is present but not using the BOINC WSL distro.  Some project apps may not function properly. We recommend that you install the BOINC WSL distro."
-            );
         }
 #endif
         return;
