@@ -712,6 +712,9 @@ int CLIENT_STATE::init() {
     host_info.p_vm_extensions_disabled = false;
 
     set_n_usable_cpus();
+
+    acct_mgr_info.init();
+        // must precede show_host_info() to know if have dynamic AM
     show_host_info();
 
     // this follows parse_state_file() because that's where we read project names
@@ -845,7 +848,7 @@ int CLIENT_STATE::init() {
     // check for initialization files
     //
     process_autologin(true);
-    acct_mgr_info.init();
+    acct_mgr_info.show();
     project_init.init();
 
     // if project_init.xml specifies an account, attach
@@ -2506,6 +2509,33 @@ void CLIENT_STATE::init_result_resource_usage(PROJECT *p) {
     }
 }
 
+// We potentially could use Docker if
+// - we're attached to a project that has a Docker app
+// - we're using Science United
+//
+static bool could_use_docker() {
+    if (gstate.acct_mgr_info.using_am() && gstate.acct_mgr_info.dynamic) {
+        return true;
+    }
+    ALL_PROJECTS_LIST apl;
+    int retval = apl.read_file(ALL_PROJECTS_LIST_FILENAME);
+    if (retval) {
+        return false;
+    }
+    for (PROJECT *p: gstate.projects) {
+        for (PROJECT_LIST_ENTRY *ple: apl.projects) {
+            if (!strcmp(p->master_url, ple->url.c_str())) {
+                for (string plat: ple->platforms) {
+                    if (strstr(plat.c_str(), "docker")) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
 // shows messages (as notices) related to Docker and WSL:
 // Called on startup, and after doing a get-version RPC
 // to get boinc-buda-runner version
@@ -2560,39 +2590,8 @@ void show_docker_messages() {
     }
 
     // here Docker is not present.
-    // Tell the user to install it if either
-    // - we're using Science United, or
-    // - we're attached to a project that has a Docker app
     //
-    bool show = false;
-    if (gstate.acct_mgr_info.using_am() && gstate.acct_mgr_info.dynamic) {
-        show = true;
-    } else {
-        ALL_PROJECTS_LIST apl;
-        int retval = apl.read_file(ALL_PROJECTS_LIST_FILENAME);
-        if (retval) {
-            return;
-        }
-        for (PROJECT *p: gstate.projects) {
-            for (PROJECT_LIST_ENTRY *ple: apl.projects) {
-                if (!strcmp(p->master_url, ple->url.c_str())) {
-                    for (string plat: ple->platforms) {
-                        if (strstr(plat.c_str(), "docker")) {
-                            show = true;
-                            break;
-                        }
-                    }
-                }
-                if (show) {
-                    break;
-                }
-            }
-            if (show) {
-                break;
-            }
-        }
-    }
-    if (show) {
+    if (could_use_docker()) {
         msg_printf_notice(0, true, url,
             "Some projects require Podman; we recommend that you install it."
         );

@@ -125,6 +125,7 @@ struct ACCT_MGR_INFO : PROJ_AM {
     int init();
     void clear();
     bool poll();
+    void show();
 };
 
 // stuff after here related to RPCs to account managers
