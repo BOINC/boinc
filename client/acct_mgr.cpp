@@ -1136,13 +1136,16 @@ int ACCT_MGR_INFO::init() {
         parse_login_file(f);
         fclose(f);
     }
+    return 0;
+}
+
+void ACCT_MGR_INFO::show() {
     if (using_am()) {
         msg_printf(NULL, MSG_INFO, "Using account manager %s", project_name);
         if (strlen(user_name)) {
             msg_printf(NULL, MSG_INFO, "Account manager login: %s", user_name);
         }
     }
-    return 0;
 }
 
 #define STARVED_RPC_DELAY   600
