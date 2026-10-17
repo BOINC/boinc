@@ -107,7 +107,7 @@ function project_config_object() {
     return $config;
 }
 
-// return element from simplexml object, or null
+// return string element from simplexml object, or null
 //
 function project_config_val($tag) {
     $doc = project_config_object();

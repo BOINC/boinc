@@ -173,15 +173,15 @@ function show_status_html($x) {
         tra("Application"),
         tra("Unsent"),
         tra("In progress"),
-        tra("Runtime of recent tasks in hours: average, min, max"),
+        tra("Runtime of recent tasks: average, min, max"),
         tra("Users in last 24 hours")
     );
     foreach ($j->apps as $app) {
         if ($app->info) {
-            $avg = round($app->info->avg, 2);
-            $min = round($app->info->min, 2);
-            $max = round($app->info->max, 2);
-            $x = $max?"$avg ($min - $max)":"---";
+            $avg = time_diff2($app->info->avg*3600);
+            $min = time_diff2($app->info->min*3600);
+            $max = time_diff2($app->info->max*3600);
+            $x = $app->info->max?"$avg ($min - $max)":"---";
             $u = $app->info->users;
         } else {
             $x = '---';
@@ -217,7 +217,42 @@ function show_status_html($x) {
         echo tra("Database schema version: "), $j->db_revision;
     }
     echo "<p>Task data as of ".time_str($j->cached_time);
+    show_start_button();
     page_tail();
+}
+
+function is_user_admin() {
+    $user = get_logged_in_user(false);
+    if (!$user) return false;
+    $ids = project_config_val('admin_userids');
+    if (!$ids) return false;
+    $ids = explode(' ', $ids);
+    $ids = array_map('intval', $ids);
+    return in_array($user->id, $ids);
+}
+
+function show_start_button() {
+    if (!is_user_admin()) return;
+    $host = project_config_val('host');
+    $d = project_dir();
+    $x = simplexml_load_file("$d/run_state_$host.xml");
+    if (!$x) return;
+    echo '<p>';
+    if ($x->enabled=='1') {
+        show_button("server_status.php?action=stop", 'Stop project');
+    } else {
+        show_button("server_status.php?action=start", 'Start project');
+    }
+}
+
+function do_admin_action($start) {
+    if (!is_user_admin()) error_page('no access');
+    if ($start) {
+        system('../../bin/start');
+    } else {
+        system('../../bin/stop');
+    }
+    Header('Location: server_status.php');
 }
 
 function show_status_xml($x) {
@@ -302,9 +337,10 @@ function local_daemon_running($cmd, $pidname, $host) {
 //   cmd, host
 //
 function get_daemon_status() {
-    $c = simplexml_load_file("../../config.xml");
+    $d = project_dir();
+    $c = simplexml_load_file("$d/config.xml");
     if (!$c) {
-        die("can't parse config file\n");
+        error_page("can't parse config file");
     }
     $daemons = $c->daemons;
     $config = $c->config;
@@ -522,6 +558,15 @@ function show_counts_xml() {
 }
 
 function main() {
+    $action = get_str('action', true);
+    if ($action == 'start') {
+        do_admin_action(true);
+        return;
+    }
+    if ($action == 'stop') {
+        do_admin_action(false);
+        return;
+    }
     if (get_int('counts', true)) {
         show_counts_xml();
     } else {

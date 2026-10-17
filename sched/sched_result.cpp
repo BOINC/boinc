@@ -72,7 +72,8 @@ static inline void got_bad_result(SCHED_RESULT_ITEM& sri) {
     if (!havp) {
         if (config.debug_handle_results) {
             log_messages.printf(MSG_NORMAL,
-                "[handle] No HOST_APP_VERSION version for app version %ld\n", gavid
+                "[handle] No HOST_APP_VERSION version for app version %ld\n",
+                gavid
             );
         }
         return;
