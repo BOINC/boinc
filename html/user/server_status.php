@@ -222,7 +222,7 @@ function show_status_html($x) {
 }
 
 function is_user_admin() {
-    $user = get_logged_in_user();
+    $user = get_logged_in_user(false);
     if (!$user) return false;
     $ids = project_config_val('admin_userids');
     if (!$ids) return false;
@@ -339,6 +339,9 @@ function local_daemon_running($cmd, $pidname, $host) {
 function get_daemon_status() {
     $d = project_dir();
     $c = simplexml_load_file("$d/config.xml");
+    if (!$c) {
+        error_page("can't parse config file");
+    }
     $daemons = $c->daemons;
     $config = $c->config;
     $main_host = trim((string)$config->host);
