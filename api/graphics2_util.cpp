@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -75,7 +75,14 @@ void* boinc_graphics_make_shmem(const char* prog_name, int size) {
     int retval = create_shmem_mmap(shmem_name, size, &p);
     // make sure user/group RW permissions are set, but not other.
     //
-    if (retval == 0) chmod(shmem_name, 0660);
+    if (retval == 0) {
+        if (chmod(shmem_name, 0660) == 0) {
+            return p;
+        } else {
+            detach_shmem_mmap(p, size);
+            return 0;
+        }
+    }
 #endif
     if (retval) return 0;
     return p;
@@ -120,6 +127,9 @@ int boinc_write_graphics_status(
 ){
     MIOFILE mf;
     FILE* f = boinc_fopen(GRAPHICS_STATUS_FILENAME, "w");
+    if (!f) {
+        return ERR_FOPEN;
+    }
     mf.init_file(f);
     mf.printf(
         "<graphics_status>\n"
