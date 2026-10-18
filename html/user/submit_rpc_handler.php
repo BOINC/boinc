@@ -685,6 +685,9 @@ function show_job_details($wu) {
         }
         if ($r->id == $wu->canonical_resultid) {
             echo "            <cpu_time>$r->cpu_time</cpu_time>\n";
+            echo "            <elapsed_time>$r->elapsed_time</elapsed_time>\n";
+            echo "            <sent_time>$r->sent_time</sent_time>\n";
+            echo "            <received_time>$r->received_time</received_time>\n";
         }
     }
     if ($wu->error_mask) {
@@ -887,7 +890,8 @@ function query_completed_job($r) {
         $result = BoincResult::lookup_id($wu->canonical_resultid);
         echo "   <canonical_resultid>$wu->canonical_resultid</canonical_resultid>\n";
     } else {
-        $results = BoincResult::enum("workunitid=$job_id");
+        $result = null;
+        $results = BoincResult::enum("workunitid=$wu->id");
         foreach ($results as $r) {
             switch($r->outcome) {
             case 1:
