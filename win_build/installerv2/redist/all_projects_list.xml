@@ -306,33 +306,6 @@
         <keywords>15</keywords>
     </project>
     <project>
-        <name>Amicable Numbers</name>
-        <id>23</id>
-        <url>https://sech.me/boinc/Amicable/</url>
-        <web_url>https://sech.me/boinc/Amicable/</web_url>
-        <general_area>Mathematics, computing, and games</general_area>
-        <specific_area>Mathematics</specific_area>
-        <description><![CDATA['Amicable numbers' are pairs where the sum of the proper divisors of each is equal to the other number. The goal of this project is to collect all amicable numbers up to a very large limit.]]></description>
-        <home>Independent</home>
-    <platforms>
-        <name>aarch64-unknown-linux-gnu[mt]</name>
-        <name>windows_x86_64[mt]</name>
-        <name>windows_x86_64[opencl_amd]</name>
-        <name>windows_x86_64[opencl_intel_gpu]</name>
-        <name>windows_x86_64[opencl_nvidia]</name>
-        <name>x86_64-apple-darwin[mt]</name>
-        <name>x86_64-apple-darwin[opencl_amd]</name>
-        <name>x86_64-apple-darwin[opencl_intel_gpu]</name>
-        <name>x86_64-apple-darwin[opencl_nvidia]</name>
-        <name>x86_64-pc-linux-gnu[mt]</name>
-        <name>x86_64-pc-linux-gnu[opencl_amd]</name>
-        <name>x86_64-pc-linux-gnu[opencl_intel_gpu]</name>
-        <name>x86_64-pc-linux-gnu[opencl_nvidia]</name>
-    </platforms>
-      <summary>Do research in number theory</summary>
-        <keywords>15 32 20</keywords>
-    </project>
-    <project>
         <name>NumberFields@home</name>
         <id>24</id>
         <url>https://numberfields.asu.edu/NumberFields/</url>
@@ -351,6 +324,7 @@
         <name>windows_x86_64[opencl_nvidia]</name>
         <name>x86_64-apple-darwin[default]</name>
         <name>x86_64-pc-linux-gnu[cuda30]</name>
+        <name>x86_64-pc-linux-gnu[cuda50]</name>
         <name>x86_64-pc-linux-gnu[default]</name>
         <name>x86_64-pc-linux-gnu[opencl_amd]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu]</name>
