@@ -1,0 +1,13 @@
+diff --git a/libnotify/meson.build b/libnotify/meson.build
+index b50d9cc..118c34c 100644
+--- a/libnotify/meson.build
++++ b/libnotify/meson.build
+@@ -55,7 +55,7 @@ notify_dep = declare_dependency(
+   sources: headers + [enum_types[1]],
+ )
+ 
+-libnotify_lib = shared_library(LIBNAME,
++libnotify_lib = library(LIBNAME,
+   dependencies: notify_dep,
+   sources: [
+     sources,
