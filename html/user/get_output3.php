@@ -27,17 +27,38 @@
 // get_file:
 //      path: relative to project root dir
 //      download: if set, download file; else show it in browser
-// get_batch:
+// get_batch_zip, get_batch_tar:
 //      batch_id
-//      downloads zip of batch's output files
+//      downloads zip or tar of batch's output files
+// any action:
+//      auth_str (optional): md5(authenticator.batch_id), instead of login
 
 require_once("../inc/util.inc");
 require_once("../inc/submit_util.inc");
 
 // user is allowed to download output files from batch only if
-// they own batch or have manage-all permissions
+// they own batch or have manage-all permissions.
+//
+// Scripts that have no login cookie can instead pass
+// auth_str = md5(authenticator.batch_id),
+// as for get_output.php (see boinc_get_output_files_url()).
 //
 function check_auth($batch_id) {
+    $auth_str = get_str('auth_str', true);
+    if ($auth_str !== null) {
+        $batch = BoincBatch::lookup_id($batch_id);
+        if (!$batch) {
+            error_page('no batch');
+        }
+        $owner = BoincUser::lookup_id($batch->user_id);
+        if (!$owner
+            || !is_string($auth_str)
+            || !hash_equals(md5($owner->authenticator.$batch->id), $auth_str)
+        ) {
+            error_page('bad auth_str');
+        }
+        return;
+    }
     $user = get_logged_in_user();
     if (has_manage_access($user, 0)) {
         return;
