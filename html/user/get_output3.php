@@ -45,7 +45,7 @@ require_once("../inc/submit_util.inc");
 //
 function check_auth($batch_id) {
     $auth_str = get_str('auth_str', true);
-    if ($auth_str) {
+    if ($auth_str !== null) {
         $batch = BoincBatch::lookup_id($batch_id);
         if (!$batch) {
             error_page('no batch');
