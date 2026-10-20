@@ -42,7 +42,9 @@ echo " <p><b>".tra("Please note:")."</b>
 echo form_tokens($user->authenticator);
 echo "
     <input type=\"hidden\" name=\"teamid\" value=\"$teamid\">
-    <input class=\"btn btn-success\" type=\"submit\" value=\"".tra("Join team")."\">
+";
+show_submit_button(tra("Join team"));
+echo "
     </form>
 ";
 page_tail();

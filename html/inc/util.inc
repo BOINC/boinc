@@ -958,6 +958,20 @@ function show_button_small($url, $text, $desc=null) {
     echo button_text_small($url, $text, $desc);
 }
 
+function submit_button_text($text, $tooltip=null) {
+    if (!$tooltip) $tooltip = $text;
+    return sprintf(
+        '<input class="btn btn-sm" %s title="%s" type="submit" value="%s"><br>',
+        button_style(),
+        $tooltip,
+        $text
+    );
+}
+
+function show_submit_button($text, $tooltip=null) {
+    echo submit_button_text($text, $tooltip);
+}
+
 // used for showing icons
 //
 function show_image($src, $title, $alt, $height=null) {

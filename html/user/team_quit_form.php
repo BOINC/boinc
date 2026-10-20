@@ -39,7 +39,9 @@ echo tra("<strong>Please note before quitting a team:</strong>
     ."<form method=\"post\" action=\"team_quit_action.php\">";
 echo form_tokens($user->authenticator);
 echo "<input type=\"hidden\" name=\"id\" value=\"$team->id\">
-    <input class=\"btn btn-success\" type=\"submit\" value=\"".tra("Quit Team")."\">
+";
+show_submit_button(tra("Quit Team"));
+echo "
     </form>
 ";
 page_tail();

@@ -120,13 +120,13 @@ function forum_page($forum, $user, $msg=null) {
                 NOTIFY_SUBSCRIBED_FORUM,
                 $forum->id
             ));
-            show_button_small(
+            show_button(
                 "forum_forum.php?id=$forum->id&action=unsubscribe",
                 'Unsubscribe',
                 'Unsubscribe from this forum'
             );
         } else {
-            show_button_small(
+            show_button(
                 "forum_forum.php?id=$forum->id&action=subscribe",
                 'Subscribe',
                 'Click to get notified when there are new threads in this forum'
@@ -139,8 +139,11 @@ function forum_page($forum, $user, $msg=null) {
         <div class="form-group">
     ';
     echo select_from_array("sort", $forum_sort_styles, $sort_style);
+    show_submit_button(
+        tra('Sort'),
+        tra('Sort threads')
+    );
     echo sprintf('
-        <input class="btn btn-sm" %s type="submit" value="Sort">
         </div>
         </td>
         </tr>

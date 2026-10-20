@@ -81,10 +81,7 @@ function show_admins($user, $teamid) {
     row1(tra("Add Team Admin"));
     row2(tra("Email address of team member:"), '<input class="form-control" name="email_addr">');
     row2("",
-        sprintf('<input class="btn" %s type=submit action value="%s">',
-            button_style(),
-            tra("Add")
-        )
+        submit_button_text(tra("Add"))
     );
     end_table();
     echo "</form>";

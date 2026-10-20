@@ -153,11 +153,9 @@ function show_forum_header($user) {
         <input type="hidden" name="search_sort" value="'.CREATE_TIME_NEW.'">
         <input type="text" class="" name="search_keywords">
     ';
-    echo sprintf(
-        '<input class="btn" %s title="%s" type="submit" value="%s"><br>',
-        button_style(),
-        tra("Search for words in forum messages"),
-        tra("Search forums")
+    show_submit_button(
+        tra("Search forums"),
+        tra("Search for words in forum messages")
     );
     echo '
         <small><a href="forum_search.php">'.tra("Advanced search").'</a></small>

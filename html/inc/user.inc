@@ -387,7 +387,6 @@ function user_links($user, $badge_height=0, $name_limit=0) {
         error_log("user_links(): null arg\n");
         return;
     }
-    BoincForumPrefs::lookup($user);
     $x = "";
     if (!DISABLE_PROFILES && $user->has_profile) {
         $img_url = url_base()."img/head_20.png";
