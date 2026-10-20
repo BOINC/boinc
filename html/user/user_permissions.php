@@ -50,7 +50,7 @@ function user_permissions_form() {
                 $j, $c
             );
         }
-        $x[] = '<input class="btn btn-success" type="submit" value="Update">';
+        $x[] = submit_button_text(tra("Update"));
         row_array($x);
         echo "</form>\n";
     }
@@ -63,7 +63,7 @@ function user_permissions_form() {
             $j
         );
     }
-    $x[] = "<input class=\"btn btn-success\" type=\"submit\" value=\"Update\">";
+    $x[] = submit_button_text(tra("Update"));
     row_array($x);
     echo "</form>\n";
 

@@ -49,7 +49,9 @@ if ($user->id == $team->ping_user) {
         echo tra("60 days have elapsed since your request, and the founder has not responded. You may now assume foundership by clicking here:")
             ."<form method=\"post\" action=\"team_founder_transfer_action.php\">
             <input type=\"hidden\" name=\"action\" value=\"finalize_transfer\">
-            <input class=\"btn btn-default\" type=\"submit\" value=\"".tra("Assume foundership")."\">
+        ";
+        show_submit_button(tra("Assume foundership"));
+        echo "
             </form>
         ";
     } else {
@@ -64,7 +66,9 @@ if ($user->id == $team->ping_user) {
         ."</p>";
 
         echo "<input type=\"hidden\" name=\"action\" value=\"initiate_transfer\">
-            <input class=\"btn btn-default\" type=\"submit\" value=\"".tra("Request foundership")."\">
+        ";
+        show_submit_button(tra("Request foundership"));
+        echo "
             </form>
         ";
     } else {
