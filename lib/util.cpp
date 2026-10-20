@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -176,26 +176,37 @@ void update_average(
         // notice that diff cancels out, leaving
         // avg += [ln(2)/half_life] * work*SECONDS_PER_DAY
 
-        double diff, diff_days, weight;
+        double diff = now - avg_time;
+        if (diff < .0) {
+            diff = .0;
+        }
 
-        diff = now - avg_time;
-        if (diff<0) diff=0;
+        double diff_days = diff / SECONDS_PER_DAY;
+        if (diff_days == .0) {
+            diff_days = 1.0;
+        }
 
-        diff_days = diff/SECONDS_PER_DAY;
-        weight = exp(-diff*M_LN2/half_life);
+        if (half_life == .0) {
+            half_life = 1.0;
+        }
+        double weight = exp(-diff * M_LN2 / half_life);
 
         avg *= weight;
 
-        if ((1.0-weight) > 1.e-6) {
-            avg += (1-weight)*(work/diff_days);
+        if ((1.0 - weight) > 1.e-6) {
+            if (diff_days > 0)
+            avg += (1 - weight) * (work / diff_days);
         } else {
-            avg += M_LN2*work*SECONDS_PER_DAY/half_life;
+            avg += M_LN2 * work * SECONDS_PER_DAY / half_life;
         }
     } else if (work) {
         // If first time, average is just work/duration
         //
-        double dd = (now - work_start_time)/SECONDS_PER_DAY;
-        avg = work/dd;
+        double dd = (now - work_start_time) / SECONDS_PER_DAY;
+        if (dd == .0) {
+            dd = 1.0;
+        }
+        avg = work / dd;
     }
     avg_time = now;
 }

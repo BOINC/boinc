@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -98,7 +98,7 @@ int PROXY_INFO::write(MIOFILE& out) {
     if (strlen(autodetect_server_name)) {
         out.printf(
             "    <autodetect_protocol>%d</autodetect_protocol>\n"
-            "    <autodetect_server_name>%d</autodetect_server_name>\n"
+            "    <autodetect_server_name>%s</autodetect_server_name>\n"
             "    <autodetect_port>%d</autodetect_port>\n",
             autodetect_protocol,
             autodetect_server_name,

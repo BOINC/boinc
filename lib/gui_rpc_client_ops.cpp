@@ -336,7 +336,7 @@ int PROJECT::parse(XML_PARSER& xp) {
                     GUI_URL gu;
                     retval = gu.parse(xp);
                     if (retval) break;
-                    gui_urls.push_back(gu);
+                    gui_urls.push_back(std::move(gu));
                     continue;
                 }
             }
@@ -385,6 +385,7 @@ void PROJECT::clear() {
     rsc_desc_nvidia.clear();
     rsc_desc_ati.clear();
     rsc_desc_intel_gpu.clear();
+    rsc_desc_apple_gpu.clear();
     sched_priority = 0;
     duration_correction_factor = 0;
     anonymous_platform = false;

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -328,7 +328,10 @@ int create_shmem_mmap(const char *path, size_t size, void** pp) {
         // The following 2 lines extend the file and clear its new
         // area to all zeros because they write beyond the old EOF.
         // See the lseek man page for details.
-        lseek(fd, size-1, SEEK_SET);
+        if (lseek(fd, size-1, SEEK_SET) == -1) {
+            close(fd);
+            return ERR_WRITE;
+        }
         if (1 != write(fd, "\0", 1)) {
             close(fd);
             return ERR_WRITE;

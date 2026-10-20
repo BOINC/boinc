@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -160,27 +160,27 @@ struct COPROC {
         // for the 'big 4' types: NVIDIA, ATI, intel_gpu, apple_gpu
         // for other OpenCL: the opencl model name
         // why not vendor name?  A chip could have both GPU and NPU
-    int count;          // how many are present
-    bool non_gpu;       // coproc is not a GPU
-    double peak_flops;
-    double used;        // how many are in use (used by client)
-    bool have_cuda;     // this GPU supports CUDA
-    bool have_cal;      // this GPU supports CAL
-    bool have_opencl;   // this GPU supports openCL
-    bool have_metal;
-    double available_ram;
-    bool specified_in_config;
+    int count = 0;          // how many are present
+    bool non_gpu = false;       // coproc is not a GPU
+    double peak_flops = .0;
+    double used = .0;        // how many are in use (used by client)
+    bool have_cuda = false;     // this GPU supports CUDA
+    bool have_cal = false;      // this GPU supports CAL
+    bool have_opencl = false;   // this GPU supports openCL
+    bool have_metal = false;
+    double available_ram = .0;
+    bool specified_in_config = false;
         // If true, this coproc was listed in cc_config.xml
         // rather than being detected by the client.
-    COPROC_USAGE is_used;               // temp used in scan process
+    COPROC_USAGE is_used = COPROC_IGNORED;               // temp used in scan process
 
     // the following are used in both client and server for work-fetch info
     //
-    double req_secs;
+    double req_secs = .0;
         // how many instance-seconds of work requested
-    double req_instances;
+    double req_instances = .0;
         // client is requesting enough jobs to use this many instances
-    double estimated_delay;
+    double estimated_delay = .0;
         // resource will be saturated for this long
 
     // temps used in client (enforce_schedule())
@@ -195,10 +195,10 @@ struct COPROC {
     // These are not sequential if we omit instances (see above)
     //
     int device_nums[MAX_COPROC_INSTANCES];
-    int device_num;     // temp used in scan process
+    int device_num = 0;     // temp used in scan process
     bool instance_has_opencl[MAX_COPROC_INSTANCES];
     cl_device_id opencl_device_ids[MAX_COPROC_INSTANCES];
-    int opencl_device_count;
+    int opencl_device_count = 0;
     int opencl_device_indexes[MAX_COPROC_INSTANCES];
     PCI_INFO pci_info;
     PCI_INFO pci_infos[MAX_COPROC_INSTANCES];
@@ -206,7 +206,7 @@ struct COPROC {
     bool running_graphics_app[MAX_COPROC_INSTANCES];
         // is this GPU running a graphics app (NVIDIA only)
 
-    double last_print_time;
+    double last_print_time = .0;
 
     OPENCL_DEVICE_PROP opencl_prop;
 
@@ -273,21 +273,21 @@ struct COPROC {
 //
 struct CUDA_DEVICE_PROP {
     char  name[256];
-    double totalGlobalMem;
-    double   sharedMemPerBlock;
-    int   regsPerBlock;
-    int   warpSize;
-    double   memPitch;
-    int   maxThreadsPerBlock;
-    int   maxThreadsDim[3];
-    int   maxGridSize[3];
-    int   clockRate;
-    double   totalConstMem;
-    int   major;     // compute capability
-    int   minor;
-    double   textureAlignment;
-    int   deviceOverlap;
-    int   multiProcessorCount;
+    double totalGlobalMem = .0;
+    double   sharedMemPerBlock = .0;
+    int   regsPerBlock = 0;
+    int   warpSize = 0;
+    double   memPitch = .0;
+    int   maxThreadsPerBlock = 0;
+    int   maxThreadsDim[3] = {0, 0, 0};
+    int   maxGridSize[3] = {0, 0, 0};
+    int   clockRate = 0;
+    double   totalConstMem = .0;
+    int   major = 0;     // compute capability
+    int   minor = 0;
+    double   textureAlignment = .0;
+    int   deviceOverlap = 0;
+    int   multiProcessorCount = 0;
 
     CUDA_DEVICE_PROP(DUMMY_TYPE){}
     void clear() {
@@ -302,8 +302,8 @@ struct CUDA_DEVICE_PROP {
 typedef int CUdevice;
 
 struct COPROC_NVIDIA : public COPROC {
-    int cuda_version;  // CUDA runtime version
-    int display_driver_version;
+    int cuda_version = 0;  // CUDA runtime version
+    int display_driver_version = 0;
     CUDA_DEVICE_PROP cuda_prop;
 
 #ifndef _USING_FCGI_
@@ -334,12 +334,12 @@ inline int ati_version_int(int major, int minor, int release) {
 struct COPROC_ATI : public COPROC {
     char name[256];
     char version[50];
-    int version_num;
+    int version_num = 0;
         // CAL version (not driver version) encoded as an int
-    bool atirt_detected;
-    bool amdrt_detected;
-    CALdeviceattribs attribs;
-    CALdeviceinfo info;
+    bool atirt_detected = false;
+    bool amdrt_detected = false;
+    CALdeviceattribs attribs = {};
+    CALdeviceinfo info = {};
 
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&, bool scheduler_rpc);
@@ -374,8 +374,8 @@ struct COPROC_APPLE : public COPROC {
     char model[256];    // from metal, else OpenCL
 
     // Metal info:
-    int ncores;
-    int metal_support;
+    int ncores = 0;
+    int metal_support = 0;
 
 #ifndef _USING_FCGI_
     void write_xml(MIOFILE&, bool scheduler_rpc);
