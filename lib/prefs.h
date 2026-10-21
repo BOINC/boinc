@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -37,43 +37,43 @@
 // to indicate which prefs are (or should be) specified in the override file
 //
 struct GLOBAL_PREFS_MASK {
-    bool battery_charge_min_pct;
-    bool battery_max_temperature;
-    bool confirm_before_connecting;
-    bool cpu_scheduling_period_minutes;
-    bool cpu_usage_limit;
-    bool daily_xfer_limit_mb;
-    bool daily_xfer_period_days;
-    bool disk_interval;
-    bool disk_max_used_gb;
-    bool disk_max_used_pct;
-    bool disk_min_free_gb;
-    bool dont_verify_images;
-    bool end_hour;
-    bool hangup_if_dialed;
-    bool idle_time_to_run;
-    bool leave_apps_in_memory;
-    bool max_bytes_sec_down;
-    bool max_bytes_sec_up;
-    bool max_ncpus;
-    bool max_ncpus_pct;
-    bool net_end_hour;
-    bool net_start_hour;
-    bool network_wifi_only;
-    bool niu_cpu_usage_limit;
-    bool niu_max_ncpus_pct;
-    bool niu_suspend_cpu_usage;
-    bool ram_max_used_busy_frac;
-    bool ram_max_used_idle_frac;
-    bool run_if_user_active;
-    bool run_gpu_if_user_active;
-    bool run_on_batteries;
-    bool start_hour;
-    bool suspend_cpu_usage;
-    bool suspend_if_no_recent_input;
-    bool vm_max_used_frac;
-    bool work_buf_additional_days;
-    bool work_buf_min_days;
+    bool battery_charge_min_pct = false;
+    bool battery_max_temperature = false;
+    bool confirm_before_connecting = false;
+    bool cpu_scheduling_period_minutes = false;
+    bool cpu_usage_limit = false;
+    bool daily_xfer_limit_mb = false;
+    bool daily_xfer_period_days = false;
+    bool disk_interval = false;
+    bool disk_max_used_gb = false;
+    bool disk_max_used_pct = false;
+    bool disk_min_free_gb = false;
+    bool dont_verify_images = false;
+    bool end_hour = false;
+    bool hangup_if_dialed = false;
+    bool idle_time_to_run = false;
+    bool leave_apps_in_memory = false;
+    bool max_bytes_sec_down = false;
+    bool max_bytes_sec_up = false;
+    bool max_ncpus = false;
+    bool max_ncpus_pct = false;
+    bool net_end_hour = false;
+    bool net_start_hour = false;
+    bool network_wifi_only = false;
+    bool niu_cpu_usage_limit = false;
+    bool niu_max_ncpus_pct = false;
+    bool niu_suspend_cpu_usage = false;
+    bool ram_max_used_busy_frac = false;
+    bool ram_max_used_idle_frac = false;
+    bool run_if_user_active = false;
+    bool run_gpu_if_user_active = false;
+    bool run_on_batteries = false;
+    bool start_hour = false;
+    bool suspend_cpu_usage = false;
+    bool suspend_if_no_recent_input = false;
+    bool vm_max_used_frac = false;
+    bool work_buf_additional_days = false;
+    bool work_buf_min_days = false;
 
     GLOBAL_PREFS_MASK(DUMMY_TYPE){}
     void clear() {
