@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -327,15 +327,25 @@ void MOVING_TEXT_PANEL::draw() {
 }
 
 void MOVING_TEXT_PANEL::set_text(int lineno, const char* str) {
+    if (!str) {
+        return;
+    }
 	char buf[8192];
 	strlcpy(buf, str, sizeof(buf));
 	char* p = buf;
     char* q = strchr(p, '\n');
     while (p) {
-        if (q) *q = 0;
+        if (q) {
+            *q = 0;
+        }
         strlcpy(text[lineno++], p, 256);
-        if (!q) break;
+        if (!q) {
+            break;
+        }
         p = q+1;
+        if (!p) {
+            break;
+        }
         q = strchr(p, '\n');
     }
 }
