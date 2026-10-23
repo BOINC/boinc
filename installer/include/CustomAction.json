@@ -7,12 +7,6 @@
             "Target": "AnnounceUpgrade"
         },
         {
-            "Action": "CACheckWSLSupport",
-            "Type": 1,
-            "Source": "boinccas.dll",
-            "Target": "CheckWSLSupport"
-        },
-        {
             "Action": "CACleanupOldBinaries",
             "Type": 1,
             "Source": "boinccas.dll",

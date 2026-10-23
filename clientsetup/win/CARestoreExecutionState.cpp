@@ -56,12 +56,6 @@ private:
         SetProperty(_T("BOINC_PROJECT_USERNAME"),
             strBOINCProjectAccountUsername);
 
-        tstring strLaunchBOINCWslImageInstaller;
-        GetRegistryValue(_T("LAUNCHWSLIMAGEINSTALLER"),
-            strLaunchBOINCWslImageInstaller);
-        SetProperty(_T("LAUNCHWSLIMAGEINSTALLER"),
-            strLaunchBOINCWslImageInstaller);
-
         return ERROR_SUCCESS;
     }
 };

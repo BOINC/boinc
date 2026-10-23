@@ -16,7 +16,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <BoincWslInstaller>$(OutDir)boinc-buda-runner-wsl-installer.exe</BoincWslInstaller>
-    <BoincWslInstallerVersion>2.3.2</BoincWslInstallerVersion>
+    <BoincWslInstallerVersion>3.0.3</BoincWslInstallerVersion>
     <BoincWslInstallerGuardFile>$(BoincWslInstaller)_$(BoincWslInstallerVersion).lock</BoincWslInstallerGuardFile>
     <BoincWslInstallerDownloadUrl>https://github.com/BOINC/boinc-buda-runner-wsl-installer/releases/download/v$(BoincWslInstallerVersion)/boinc-buda-runner-wsl-installer.exe</BoincWslInstallerDownloadUrl>
   </PropertyGroup>
