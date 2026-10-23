@@ -106,7 +106,7 @@
         {
             "Action": "CARestoreSetupState",
             "Condition": "REMOVE = \"ALL\"",
-            "Sequence": 1002
+            "Sequence": 980
         },
         {
             "Action": "CARevokeBOINCAdminsRights",

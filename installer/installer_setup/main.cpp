@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,6 +18,7 @@
 #include <windows.h>
 
 #include <string>
+#include <string_view>
 #include <filesystem>
 #include <sstream>
 #include <fstream>
@@ -28,7 +29,11 @@
 #include <openssl/md5.h>
 
 #include "installer_setup.h"
+#include "launcher.h"
 #include "version.h"
+
+constexpr std::string_view boinc_buda_runner_wsl_installer_checksum =
+    "e0bdb081c40dde520e877dcf5b457706490da2ddcff60950ccb72f52254cc607";
 
 class Logger {
 public:
@@ -37,7 +42,7 @@ public:
         return instance;
     }
 
-    void Log(const std::string& message) {
+    void Log(std::string_view message) {
         if (!ofs.is_open()) {
             return;
         }
@@ -57,7 +62,8 @@ private:
         const auto len = GetTempPath(MAX_PATH, tempPath);
         if (len != 0 && len <= MAX_PATH) {
             logPath = tempPath;
-        } else {
+        }
+        else {
             logPath = std::filesystem::current_path();
         }
         logPath /= "boinc_installer.log";
@@ -74,7 +80,7 @@ private:
     std::ofstream ofs;
 };
 
-void Log(const std::string& message) {
+static void Log(const std::string& message) {
     Logger::Instance().Log(message);
 }
 
@@ -94,7 +100,7 @@ static std::string WideToUtf8(const wchar_t* w) {
 
 HBITMAP hBitmap = NULL;
 
-void LoadSplashImage(HDC hdc, HWND hwnd) {
+static void LoadSplashImage(HDC hdc, HWND hwnd) {
     auto hdcMem = CreateCompatibleDC(hdc);
     SelectObject(hdcMem, hBitmap);
 
@@ -110,7 +116,7 @@ void LoadSplashImage(HDC hdc, HWND hwnd) {
     DeleteDC(hdcMem);
 }
 
-LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     switch (msg) {
     case WM_PAINT: {
         PAINTSTRUCT ps;
@@ -129,7 +135,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     return 0;
 }
 
-std::string computeMD5(const void* buffer, size_t size) {
+static std::string computeMD5(const void* buffer, size_t size) {
     Log("Computing MD5 hash...");
 
     unsigned char md5Digest[MD5_DIGEST_LENGTH];
@@ -170,10 +176,98 @@ std::string computeMD5(const void* buffer, size_t size) {
     return oss.str();
 }
 
+static std::string computeSHA256(const std::filesystem::path& filePath) {
+    Log("Computing SHA256 hash for file: " + filePath.string());
+    std::ifstream file(filePath, std::ios::binary);
+    if (!file) {
+        Log("Failed to open file for SHA256 computation.");
+        return {};
+    }
+    unsigned char sha256Digest[EVP_MAX_MD_SIZE];
+    unsigned int digestLength = 0;
+    auto* mdContext = EVP_MD_CTX_new();
+    if (mdContext == nullptr) {
+        Log("Failed to create SHA256 context.");
+        return {};
+    }
+    if (EVP_DigestInit_ex(mdContext, EVP_sha256(), nullptr) != 1) {
+        EVP_MD_CTX_free(mdContext);
+        Log("Failed to initialize SHA256 context.");
+        return {};
+    }
+    constexpr size_t bufferSize = 8192;
+    char buffer[bufferSize];
+    while (file.read(buffer, bufferSize)) {
+        if (EVP_DigestUpdate(mdContext, buffer, file.gcount()) != 1) {
+            EVP_MD_CTX_free(mdContext);
+            Log("Failed to update SHA256 context.");
+            return {};
+        }
+    }
+    // Handle any remaining bytes
+    if (file.gcount() > 0) {
+        if (EVP_DigestUpdate(mdContext, buffer, file.gcount()) != 1) {
+            EVP_MD_CTX_free(mdContext);
+            Log("Failed to update SHA256 context with remaining bytes.");
+            return {};
+        }
+    }
+    if (EVP_DigestFinal_ex(mdContext, sha256Digest, &digestLength) != 1) {
+        EVP_MD_CTX_free(mdContext);
+        Log("Failed to finalize SHA256 digest.");
+        return {};
+    }
+    EVP_MD_CTX_free(mdContext);
+    std::ostringstream oss;
+    for (unsigned int i = 0; i < digestLength; ++i) {
+        oss << std::hex << std::setw(2) << std::setfill('0') <<
+            std::nouppercase << static_cast<int>(sha256Digest[i]);
+    }
+    Log("SHA256 hash computed successfully: " + oss.str());
+    return oss.str();
+}
 
-bool ExtractResourceAndExecute(UINT ResourceID, std::string OutputFileName,
-    std::string CmdParameters)
-{
+static std::string getRegistryValue(const std::string& strName) {
+    Log("Attempting to read registry value: " + strName);
+    HKEY hkSetupHive;
+    auto lReturnValue = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+        "SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup",
+        0, KEY_READ, &hkSetupHive);
+    if (lReturnValue != ERROR_SUCCESS) {
+        Log("Failed to open registry key for reading: " + strName);
+        return {};
+    }
+    wil::unique_hkey hKeyDeleter(hkSetupHive);
+
+    DWORD dwSize = 0;
+    lReturnValue = RegQueryValueEx(hkSetupHive, strName.data(), nullptr,
+        nullptr, nullptr, &dwSize);
+    if (lReturnValue != ERROR_SUCCESS) {
+        Log("Failed to query registry key for reading: " + strName);
+        return {};
+    }
+
+    std::string strValue;
+    strValue.resize(dwSize / sizeof(char));
+    lReturnValue = RegQueryValueEx(hkSetupHive, strName.data(), nullptr,
+        nullptr, reinterpret_cast<LPBYTE>(strValue.data()), &dwSize);
+
+    if (lReturnValue != ERROR_SUCCESS) {
+        Log("Failed to read registry value: " + strName);
+        return {};
+    }
+
+    if (!strValue.empty() && strValue.back() == '\0') {
+        strValue.pop_back();
+    }
+
+    Log("Successfully read from the registry key '" + strName +
+        "' with a value of '" + strValue + "'");
+    return strValue;
+}
+
+static bool ExtractResourceAndExecute(UINT ResourceID, std::string OutputFileName,
+    std::string CmdParameters) {
     Log("Extracting resource and executing installer...");
     try {
         auto hResource = FindResource(nullptr, MAKEINTRESOURCE(ResourceID),
@@ -250,15 +344,26 @@ bool ExtractResourceAndExecute(UINT ResourceID, std::string OutputFileName,
             CmdParameters += " SETUPEXENAME=\"" +
                 std::filesystem::path(self).filename().string() + "\"";
         }
-        auto hInstance = ShellExecute(nullptr, "open",
-            (outputDir / OutputFileName).string().c_str(),
-            CmdParameters.c_str(), nullptr, bMode);
-        if (reinterpret_cast<INT_PTR>(hInstance) <= 32) {
+
+        const auto filePath = (outputDir / OutputFileName).string();
+        SHELLEXECUTEINFO sei = {};
+        sei.cbSize = sizeof(SHELLEXECUTEINFO);
+        sei.fMask = SEE_MASK_NOCLOSEPROCESS;
+        sei.hwnd = nullptr;
+        sei.lpVerb = "open";
+        sei.lpFile = filePath.c_str();
+        sei.lpParameters = CmdParameters.c_str();
+        sei.lpDirectory = nullptr;
+        sei.nShow = bMode;
+        sei.hInstApp = nullptr;
+        if (!ShellExecuteEx(&sei)) {
             Log("Failed to execute installer");
             MessageBox(NULL, "Failed to execute the installer!", "Error",
                 MB_ICONERROR);
             return false;
         }
+        WaitForSingleObject(sei.hProcess, INFINITE);
+        CloseHandle(sei.hProcess);
 
         Log("Installer executed successfully: " +
             (outputDir / OutputFileName).string());
@@ -274,7 +379,7 @@ bool ExtractResourceAndExecute(UINT ResourceID, std::string OutputFileName,
     return false;
 }
 
-void ShowWindow(HINSTANCE hInstance, int nCmdShow) {
+static void ShowWindow(HINSTANCE hInstance, int nCmdShow) {
     hBitmap = LoadBitmap(hInstance, MAKEINTRESOURCE(IDB_SPLASH));
     if (hBitmap) {
         const auto CLASS_NAME = "SplashScreen";
@@ -311,12 +416,89 @@ void ShowWindow(HINSTANCE hInstance, int nCmdShow) {
     }
 }
 
+static bool InstallWSL(int mode) {
+    const auto runWslInstaller = getRegistryValue("LAUNCHWSLIMAGEINSTALLER");
+    if (runWslInstaller != "1") {
+        Log("'LAUNCHWSLIMAGEINSTALLER' is [" + runWslInstaller +
+            "], skipping installation");
+        return false;
+    }
+
+    constexpr std::string_view wslInstallerName =
+        "boinc-buda-runner-wsl-installer.exe";
+
+    const auto installDir = getRegistryValue("INSTALLDIR");
+    if (installDir.empty()) {
+        Log("'INSTALLDIR' value is empty, skipping installation");
+        return false;
+    }
+
+    const auto installPath = std::filesystem::path(installDir);
+    const auto wslInstallerPath = installPath / wslInstallerName;
+    if (!std::filesystem::exists(wslInstallerPath)) {
+        Log("File '" + wslInstallerPath.string() +
+            "' is missing, skipping installation");
+        return false;
+    }
+
+    const auto hash = computeSHA256(wslInstallerPath);
+    if (hash.empty()) {
+        Log("Failed to get a hash for the file '" + wslInstallerPath.string() +
+            "', skipping installation");
+        return false;
+    }
+    if (hash != boinc_buda_runner_wsl_installer_checksum) {
+        Log("A hash for the file '" + wslInstallerPath.string() +
+            "' is wrong, skipping installation");
+        return false;
+    }
+
+    const auto wslInstallerPathStr = wslInstallerPath.string();
+    SHELLEXECUTEINFO sei = {};
+    sei.cbSize = sizeof(SHELLEXECUTEINFO);
+    sei.fMask = SEE_MASK_NOCLOSEPROCESS;
+    sei.hwnd = nullptr;
+    sei.lpVerb = nullptr;
+    sei.lpFile = wslInstallerPathStr.c_str();
+    sei.lpParameters = mode == SW_SHOWNORMAL ? "-nu" : "-q";
+    sei.lpDirectory = nullptr;
+    sei.nShow = mode;
+    sei.hInstApp = nullptr;
+    if (!ShellExecuteEx(&sei)) {
+        Log("Failed to execute installer");
+        return false;
+    }
+    WaitForSingleObject(sei.hProcess, INFINITE);
+    CloseHandle(sei.hProcess);
+
+    const auto runBOINC = getRegistryValue("LAUNCHPROGRAM");
+    if (runWslInstaller != "1") {
+        Log("'LAUNCHPROGRAM' is [" + runWslInstaller +
+            "], not launching BOINC");
+        return false;
+    }
+
+    const auto manager = std::string("\"") +
+        (installPath / "boincmgr.exe").string() + std::string("\"");
+    if (Launcher::CreateProcessWithExplorerIL(manager) != S_OK) {
+        Log("Failed to run '" + manager + "', exiting");
+        return false;
+    }
+    const auto tray = std::string("\"") +
+        (installPath / "boinctray.exe").string() + std::string("\"");
+    if (Launcher::CreateProcessWithExplorerIL(tray) != S_OK) {
+        Log("Failed to run '" + tray + "', exiting");
+        return false;
+    }
+
+    return true;
+}
+
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
     SetDefaultDllDirectories(LOAD_LIBRARY_SEARCH_SYSTEM32);
 
-    LPWSTR* szArglist;
     int nArgs;
-    szArglist = CommandLineToArgvW(GetCommandLineW(), &nArgs);
+    auto* szArglist = CommandLineToArgvW(GetCommandLineW(), &nArgs);
     if (szArglist == NULL) {
         return 0;
     }
@@ -329,9 +511,18 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
     }
     LocalFree(szArglist);
 
-    if (args == "") {
+    if (args.empty()) {
         ShowWindow(hInstance, nCmdShow);
     }
-    ExtractResourceAndExecute(IDB_MSI, "BOINC.msi", args);
+    // install BOINC
+    if (!ExtractResourceAndExecute(IDB_MSI, "BOINC.msi", args)) {
+        return -1;
+    }
+
+    // install WSL
+    if (!InstallWSL(args.empty() ? SW_SHOWNORMAL : SW_HIDE)) {
+        return -2;
+    }
+
     return 0;
 }

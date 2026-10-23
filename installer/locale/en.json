@@ -2889,7 +2889,7 @@
     },
     {
         "Id": "IDS_PRODUCTNAME",
-        "Value": "[ProductName] - BOINC Installer Wizard"
+        "Value": "[ProductName] Installer"
     },
     {
         "Id": "IDS_README_LOCATION",
@@ -2897,7 +2897,7 @@
     },
     {
         "Id": "IDS_SUMMARY_DESCRIPTION",
-        "Value": "Berkeley Open Infrastructure for Network Computing (BOINC)"
+        "Value": "BOINC"
     },
     {
         "Id": "IDS_UITEXT_Available",
@@ -3101,7 +3101,7 @@
     },
     {
         "Id": "IDS__IsAdminInstallPointWelcome_ServerImage",
-        "Value": "The BOINC Installer Wizard will create a server image of [ProductName] at a specified network location. To continue, click Next."
+        "Value": "The [ProductName] Installer will create a server image of [ProductName] at a specified network location. To continue, click Next."
     },
     {
         "Id": "IDS__IsAdminInstallPoint_Change",
@@ -3109,7 +3109,7 @@
     },
     {
         "Id": "IDS__IsAdminInstallPoint_EnterNetworkLocation",
-        "Value": "Enter the network location or click Change to browse to a location.  Click Install to create a server image of [ProductName] at the specified network location or click Cancel to exit the wizard."
+        "Value": "Enter the network location or click Change to browse to a location.  Click Install to create a server image of [ProductName] at the specified network location or click Cancel to exit."
     },
     {
         "Id": "IDS__IsAdminInstallPoint_NetworkLocation",
@@ -3201,11 +3201,11 @@
     },
     {
         "Id": "IDS__IsExitDialog_InstallSuccess",
-        "Value": "The BOINC Installer Wizard has successfully installed [ProductName]. Click Finish to exit the wizard."
+        "Value": "The [ProductName] Installer has successfully installed [ProductName]. Click Finish to exit."
     },
     {
         "Id": "IDS__IsExitDialog_UninstallSuccess",
-        "Value": "The BOINC Installer Wizard has successfully uninstalled [ProductName]. Click Finish to exit the wizard."
+        "Value": "The [ProductName] Installer has successfully uninstalled [ProductName]. Click Finish to exit."
     },
     {
         "Id": "IDS__IsExitDialog_Update_SetupFinished",
@@ -3213,7 +3213,7 @@
     },
     {
         "Id": "IDS__IsExitDialog_WizardCompleted",
-        "Value": "{&TahomaBold10}BOINC Installer Wizard Completed"
+        "Value": "{&TahomaBold10}[ProductName] Installer Completed"
     },
     {
         "Id": "IDS__IsFatalError_NotModified",
@@ -3245,7 +3245,7 @@
     },
     {
         "Id": "IDS__IsInitDlg_PreparingWizard",
-        "Value": "[ProductName] Setup is preparing the BOINC Installer Wizard which will guide you through the program setup process.  Please wait."
+        "Value": "Setup is preparing the [ProductName] Installer which will guide you through the program setup process.  Please wait."
     },
     {
         "Id": "IDS__IsLicenseDlg_LicenseAgreement",
@@ -3281,7 +3281,7 @@
     },
     {
         "Id": "IDS__IsMaintenanceWelcome_MaintenanceOptionsDescription",
-        "Value": "The BOINC Installer Wizard will allow you to modify, repair, or remove [ProductName]. To continue, click Next."
+        "Value": "The [ProductName] Installer will allow you to modify, repair, or remove [ProductName]. To continue, click Next."
     },
     {
         "Id": "IDS__IsMsiRMFilesInUse_ApplicationsUsingFiles",
@@ -3297,11 +3297,11 @@
     },
     {
         "Id": "IDS__IsPatchDlg_PatchClickUpdate",
-        "Value": "The BOINC Installer Wizard will install the Patch for [ProductName] on your computer.  To continue, click Update."
+        "Value": "The [ProductName] Installer will install the Patch for [ProductName] on your computer.  To continue, click Update."
     },
     {
         "Id": "IDS__IsPatchDlg_PatchWizard",
-        "Value": "[ProductName] Patch - BOINC Installer Wizard"
+        "Value": "[ProductName] Patch - [ProductName] Installer"
     },
     {
         "Id": "IDS__IsPatchDlg_Update",
@@ -3349,15 +3349,15 @@
     },
     {
         "Id": "IDS__IsProgressDlg_WaitUninstall",
-        "Value": "Please wait while the BOINC Installer Wizard uninstalls [ProductName]. This may take several minutes."
+        "Value": "Please wait while the [ProductName] Installer uninstalls [ProductName]. This may take several minutes."
     },
     {
         "Id": "IDS__IsProgressDlg_WaitUninstall2",
-        "Value": "Please wait while the BOINC Installer Wizard installs [ProductName]. This may take several minutes."
+        "Value": "Please wait while the [ProductName] Installer installs [ProductName]. This may take several minutes."
     },
     {
         "Id": "IDS__IsResumeDlg_ResumeSuspended",
-        "Value": "The BOINC Installer Wizard will complete the installation of [ProductName] on your computer. To continue, click Next."
+        "Value": "The [ProductName] Installer will complete the installation of [ProductName] on your computer. To continue, click Next."
     },
     {
         "Id": "IDS__IsResumeDlg_Resuming",
@@ -3365,11 +3365,11 @@
     },
     {
         "Id": "IDS__IsResumeDlg_WizardResume",
-        "Value": "The BOINC Installer Wizard will complete the upgrade of [ProductName] on your computer. To continue, click Next."
+        "Value": "The [ProductName] Installer will complete the upgrade of [ProductName] on your computer. To continue, click Next."
     },
     {
         "Id": "IDS__IsUserExit_ClickFinish",
-        "Value": "Click Finish to exit the wizard."
+        "Value": "Click Finish to exit."
     },
     {
         "Id": "IDS__IsUserExit_KeepOrRestore",
@@ -3381,15 +3381,15 @@
     },
     {
         "Id": "IDS__IsUserExit_RestoreOrContinue",
-        "Value": "Click Restore or Continue Later to exit the wizard."
+        "Value": "Click Restore or Continue Later to exit."
     },
     {
         "Id": "IDS__IsUserExit_WizardInterrupted",
-        "Value": "The wizard was interrupted before [ProductName] could be completely installed."
+        "Value": "The installation was interrupted before [ProductName] could be completely installed."
     },
     {
         "Id": "IDS__IsVerifyReadyDlg_BackOrCancel",
-        "Value": "If you want to review or change any of your installation settings, click Back. Click Cancel to exit the wizard."
+        "Value": "If you want to review or change any of your installation settings, click Back. Click Cancel to exit."
     },
     {
         "Id": "IDS__IsVerifyReadyDlg_ClickInstall",
@@ -3413,7 +3413,7 @@
     },
     {
         "Id": "IDS__IsVerifyReadyDlg_WizardReady",
-        "Value": "The wizard is ready to begin installation."
+        "Value": "The installer is ready to begin installation."
     },
     {
         "Id": "IDS__IsVerifyRemoveAllDlg_ChoseRemoveProgram",
@@ -3437,7 +3437,7 @@
     },
     {
         "Id": "IDS__IsWelcomeDlg_InstallProductName",
-        "Value": "The BOINC Installer Wizard will install [ProductName] on your computer. To continue, click Next."
+        "Value": "The [ProductName] Installer will install [ProductName] on your computer. To continue, click Next."
     },
     {
         "Id": "IDS__IsWelcomeDlg_WarningCopyright",
@@ -3445,7 +3445,7 @@
     },
     {
         "Id": "IDS__IsWelcomeDlg_WelcomeProductName",
-        "Value": "{&TahomaBold10}Welcome to the BOINC Installer Wizard for [ProductName]"
+        "Value": "{&TahomaBold10}Welcome to the [ProductName] Installer"
     },
     {
         "Id": "IDS_STRING16",
@@ -3505,7 +3505,7 @@
     },
     {
         "Id": "IDS_NEW_STRING3",
-        "Value": "Launch the installation of the BOINC WSL Distro"
+        "Value": "Support Linux applications"
     },
     {
         "Id": "IDS_NEW_STRING27",
@@ -3520,15 +3520,15 @@
         "Value": "A BOINC component didn't get updated properly. Please run the repair tool from the \"Control Panel - Add/Remove Programs\" tool (\"Control Panel - Program Features\" tool on newer version of Windows)."
     },
     {
-        "Id": "IDS_NEW_STRING30",
-        "Value": "This option is now disabled by default.\nA reboot may be required."
-    },
-    {
         "Id": "IDS_NEW_STRING31",
-        "Value": "Run project applications under an unprivileged account. This provides increased protection from faulty applications, and on Windows, it will prevent the use of applications that use graphics chips (GPUs)\n(A reboot may be required.)"
+        "Value": "Run project applications under an unprivileged account. This provides increased protection from faulty applications, and on Windows, it will prevent the use of applications that use graphics chips (GPUs)."
     },
     {
         "Id": "IDS_NEW_STRING7",
         "Value": "Program directory:"
+    },
+    {
+        "Id": "IDS_NEW_STRING4",
+        "Value": "OS version is too old or virtualization is not enabled."
     }
 ]

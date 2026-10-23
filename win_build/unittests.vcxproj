@@ -56,7 +56,6 @@
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CAGrantBOINCUsersRights.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CALaunchBOINCManager.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CALaunchBOINCTray.cpp" />
-    <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CALaunchBOINCWSLInstaller.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CARestoreExecutionState.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CARestorePermissionBOINCData.cpp" />
     <ClCompile Include="..\tests\unit-tests\boinccas\test_boinccas_CARestoreSetupState.cpp" />

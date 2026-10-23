@@ -41,10 +41,6 @@
             "Value": "1"
         },
         {
-            "Property": "ENABLESCREENSAVER",
-            "Value": "1"
-        },
-        {
             "Property": "ENABLESTARTMENUITEMS",
             "Value": "1"
         },
@@ -175,10 +171,6 @@
         {
             "Property": "_IsMaintenance",
             "Value": "Reinstall"
-        },
-        {
-            "Property": "boinc_buda_runner_wsl_installer_checksum",
-            "Value": "sha256:ca7497a4695c91de15d952642950ce8f8d15d45cf2167702ed061217125dd066"
         }
     ]
 }

@@ -99,9 +99,6 @@
     <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CALaunchBOINCTray.cpp">
       <Filter>boinccas</Filter>
     </ClInclude>
-    <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CALaunchBOINCWSLInstaller.cpp">
-      <Filter>boinccas</Filter>
-    </ClInclude>
     <ClInclude Include="../tests/unit-tests/boinccas/test_boinccas_CARestoreExecutionState.cpp">
       <Filter>boinccas</Filter>
     </ClInclude>
