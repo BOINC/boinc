@@ -107,7 +107,7 @@
             "Attributes": 1,
             "Property": "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
             "Text": "IDS_NEW_STRING13",
-            "Control_Next": "Advanced"
+            "Control_Next": "CheckBox5"
         },
         {
             "Control": "CheckBox4",
@@ -256,14 +256,16 @@
             "Text": "IDS_NEW_STRING10"
         },
         {
-            "Control": "Text6",
-            "Type": "Text",
-            "X": 34,
+            "Control": "CheckBox5",
+            "Type": "CheckBox",
+            "X": 21,
             "Y": 159,
-            "Width": 328,
-            "Height": 25,
+            "Width": 331,
+            "Height": 13,
             "Attributes": 1,
-            "Text": "IDS_NEW_STRING30"
+            "Property": "INSTALLWSLIMAGEINSTALLER",
+            "Text": "IDS_NEW_STRING3",
+            "Control_Next": "Advanced"
         }
     ]
 }

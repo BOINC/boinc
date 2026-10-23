@@ -32,7 +32,6 @@
   <ItemGroup>
     <ClCompile Include="..\clientsetup\win\boinccas.cpp" />
     <ClCompile Include="..\clientsetup\win\CAAnnounceUpgrade.cpp" />
-    <ClCompile Include="..\clientsetup\win\CACheckWSLSupport.cpp" />
     <ClCompile Include="..\clientsetup\win\CACleanupOldBinaries.cpp" />
     <ClCompile Include="..\clientsetup\win\CACreateAcctMgrLoginFile.cpp" />
     <ClCompile Include="..\clientsetup\win\CACreateBOINCAccounts.cpp" />
@@ -50,7 +49,6 @@
     <ClCompile Include="..\clientsetup\win\CAGrantBOINCUsersRights.cpp" />
     <ClCompile Include="..\clientsetup\win\CALaunchBOINCManager.cpp" />
     <ClCompile Include="..\clientsetup\win\CALaunchBOINCTray.cpp" />
-    <ClCompile Include="..\clientsetup\win\CALaunchBOINCWSLInstaller.cpp" />
     <ClCompile Include="..\clientsetup\win\CARestoreExecutionState.cpp" />
     <ClCompile Include="..\clientsetup\win\CARestorePermissionBOINCData.cpp" />
     <ClCompile Include="..\clientsetup\win\CARestoreSetupState.cpp" />

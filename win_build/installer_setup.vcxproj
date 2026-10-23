@@ -11,7 +11,7 @@
   <Import Project="boinc.props" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>.;..;../api;../lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..;../api;../lib;../clientsetup/win;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -26,15 +26,22 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\clientsetup\win\launcher.cpp" />
     <ClCompile Include="..\installer\installer_setup\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\installer\installer_setup\installer_setup.h" />
+    <ClInclude Include="..\clientsetup\win\launcher.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\installer\installer_setup\installer_setup.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="libboinc.vcxproj">
+      <Project>{e8f6bd7e-461a-4733-b7d8-37b09a099ed8}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets"/>
+  <ImportGroup Label="ExtensionTargets" />
   <Import Project="boinc_signing.targets" />
 </Project>

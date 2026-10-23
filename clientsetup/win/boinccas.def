@@ -1,3 +1,19 @@
+; This file is part of BOINC.
+; https://boinc.berkeley.edu
+; Copyright (C) 2026 University of California
+;
+; BOINC is free software; you can redistribute it and/or modify it
+; under the terms of the GNU Lesser General Public License
+; as published by the Free Software Foundation,
+; either version 3 of the License, or (at your option) any later version.
+;
+; BOINC is distributed in the hope that it will be useful,
+; but WITHOUT ANY WARRANTY; without even the implied warranty of
+; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+; See the GNU Lesser General Public License for more details.
+;
+; You should have received a copy of the GNU Lesser General Public License
+; along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 ;
 ; Module definition file for the boinccas.dll
 ;
@@ -5,46 +21,44 @@
 LIBRARY    boinccas
 
 EXPORTS
-	DllMain
+	AnnounceUpgrade
+	CleanupOldBinaries
+	CreateAcctMgrLoginFile
 	CreateBOINCAccounts
 	CreateBOINCGroups
 	CreateClientAuthFile
-	GrantBOINCMasterRights
-	GrantBOINCProjectRights
-	ShutdownBOINC
-	ShutdownBOINCManager
-	ShutdownBOINCScreensaver
+	CreateProjectInitFile
+	DeleteBOINCAccounts
+	DeleteBOINCGroups
+	DllMain
 	GrantBOINCAdminsRights
 	GrantBOINCAdminsVirtualBoxRights
-	GrantBOINCUsersRights
+	GrantBOINCMasterRights
+	GrantBOINCProjectRights
 	GrantBOINCProjectsRights
 	GrantBOINCProjectsVirtualBoxRights
-	SetPermissionBOINC
-	SetPermissionBOINCData
-	SetPermissionBOINCDataProjects
-	SetPermissionBOINCDataSlots
+	GrantBOINCUsersRights
 	LaunchBOINCManager
 	LaunchBOINCTray
-	ValidateSetupType
-	RestoreSetupState
-	SaveSetupState
-	ShutdownBOINCManager
-	CleanupOldBinaries
-	VerifyInstallDirectories
-	ValidateInstall
-	ValidateRebootRequest
-	SaveExecutionState
 	RestoreExecutionState
-	CreateProjectInitFile
-	CreateAcctMgrLoginFile
 	RestorePermissionBOINCData
+	RestoreSetupState
 	RevokeBOINCAdminsRights
 	RevokeBOINCMasterRights
 	RevokeBOINCProjectRights
 	RevokeBOINCProjectsRights
 	RevokeBOINCUsersRights
-	DeleteBOINCGroups
-	DeleteBOINCAccounts
-	AnnounceUpgrade
-	LaunchBOINCWSLInstaller
-	CheckWSLSupport
+	SaveExecutionState
+	SaveSetupState
+	SetPermissionBOINC
+	SetPermissionBOINCData
+	SetPermissionBOINCDataProjects
+	SetPermissionBOINCDataSlots
+	ShutdownBOINC
+	ShutdownBOINCManager
+	ShutdownBOINCManager
+	ShutdownBOINCScreensaver
+	ValidateInstall
+	ValidateRebootRequest
+	ValidateSetupType
+	VerifyInstallDirectories
