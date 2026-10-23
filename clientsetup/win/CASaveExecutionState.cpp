@@ -61,12 +61,6 @@ private:
             SetRegistryValue(_T("LAUNCHPROGRAM"), _T(""));
         }
 
-        tstring strLaunchBOINCWslImageInstaller;
-        GetProperty(_T("LAUNCHWSLIMAGEINSTALLER"),
-            strLaunchBOINCWslImageInstaller);
-        SetRegistryValue(_T("LAUNCHWSLIMAGEINSTALLER"),
-            strLaunchBOINCWslImageInstaller);
-
         return ERROR_SUCCESS;
     }
 };

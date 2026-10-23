@@ -17,7 +17,7 @@
             "Value": "1"
         },
         {
-            "Property": "LAUNCHWSLIMAGEINSTALLER",
+            "Property": "INSTALLWSLIMAGEINSTALLER",
             "Value": "1"
         }
     ]
