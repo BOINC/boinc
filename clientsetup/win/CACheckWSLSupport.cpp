@@ -43,7 +43,7 @@ private:
 
         DWORD major, minor, build;
         rtlGetVersionNumbers(&major, &minor, &build);
-        DWORD buildNumber = build & 0xFFFF;
+        const DWORD buildNumber = build & 0xFFFF;
 
         // WSL is supported on Windows 10 version 2004 (build 19041) and later
         // or version 1903 (build 18362) and later.
@@ -52,6 +52,26 @@ private:
         auto isWSLSupported = false;
         if (major > 10 || (major == 10 && buildNumber >= 18362)) {
             isWSLSupported = true;
+        }
+        else {
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
+                _T("WSL is not supported on this version of Windows."));
+        }
+
+        // WSL requires virtualization to be supported by the CPU
+        // and enabled in BIOS.
+        // Check it here to not fail the installation of the WSL later.
+
+        if (isWSLSupported) {
+            const auto isVirtualizationEnabled =
+                IsProcessorFeaturePresent(PF_VIRT_FIRMWARE_ENABLED) == TRUE;
+            if (isVirtualizationEnabled) {
+                isWSLSupported = true;
+            }
+            else {
+                LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
+                    _T("Virtualization is not enabled in BIOS."));
+            }
         }
 
         if (isWSLSupported) {

@@ -107,7 +107,7 @@
             "Attributes": 1,
             "Property": "ENABLEPROTECTEDAPPLICATIONEXECUTION3",
             "Text": "IDS_NEW_STRING13",
-            "Control_Next": "Advanced"
+            "Control_Next": "CheckBox5"
         },
         {
             "Control": "CheckBox4",
@@ -256,14 +256,33 @@
             "Text": "IDS_NEW_STRING10"
         },
         {
+            "Control": "CheckBox5",
+            "Type": "CheckBox",
+            "X": 21,
+            "Y": 159,
+            "Width": 331,
+            "Height": 13,
+            "Attributes": 1,
+            "Property": "LAUNCHWSLIMAGEINSTALLER",
+            "Text": "IDS_NEW_STRING3",
+            "Control_Next": "Advanced"
+        },
+        {
             "Control": "Text6",
             "Type": "Text",
             "X": 34,
-            "Y": 159,
-            "Width": 328,
-            "Height": 25,
-            "Attributes": 1,
-            "Text": "IDS_NEW_STRING30"
+            "Y": 172,
+            "Width": 290,
+            "Height": 11,
+            "Attributes": 0,
+            "Property": "NewProperty22",
+            "Text": "IDS_NEW_STRING4",
+            "Conditions": [
+                {
+                    "Action": "Show",
+                    "Condition": "INSTALLWSLIMAGEINSTALLER <> \"1\""
+                }
+            ]
         }
     ]
 }

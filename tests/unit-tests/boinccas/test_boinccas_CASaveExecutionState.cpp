@@ -39,7 +39,6 @@ namespace test_boinccas {
         EXPECT_EQ(0u, executeAction());
 
         EXPECT_TRUE(getRegistryValue("LAUNCHPROGRAM").empty());
-        EXPECT_TRUE(getRegistryValue("LAUNCHWSLIMAGEINSTALLER").empty());
         EXPECT_TRUE(getRegistryValue("RETURN_REBOOTREQUESTED").empty());
         EXPECT_TRUE(getRegistryValue("RETURN_VALIDATEINSTALL").empty());
         EXPECT_TRUE(getRegistryValue("RETURN_BOINC_MASTER_USERNAME").empty());
@@ -53,11 +52,6 @@ namespace test_boinccas {
 
         setMsiProperty("LAUNCHPROGRAM", "1");
         auto [errorcode, value] = getMsiProperty("LAUNCHPROGRAM");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ("1", value);
-
-        setMsiProperty("LAUNCHWSLIMAGEINSTALLER", "1");
-        std::tie(errorcode, value) = getMsiProperty("LAUNCHWSLIMAGEINSTALLER");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1", value);
 
@@ -84,7 +78,6 @@ namespace test_boinccas {
         EXPECT_EQ(0u, executeAction());
 
         EXPECT_EQ("1", getRegistryValue("LAUNCHPROGRAM"));
-        EXPECT_EQ("1", getRegistryValue("LAUNCHWSLIMAGEINSTALLER"));
         EXPECT_EQ("0", getRegistryValue("RETURN_REBOOTREQUESTED"));
         EXPECT_EQ("1", getRegistryValue("RETURN_VALIDATEINSTALL"));
         EXPECT_EQ("master_test",
@@ -100,11 +93,6 @@ namespace test_boinccas {
 
         setMsiProperty("LAUNCHPROGRAM", "1");
         auto [errorcode, value] = getMsiProperty("LAUNCHPROGRAM");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ("1", value);
-
-        setMsiProperty("LAUNCHWSLIMAGEINSTALLER", "1");
-        std::tie(errorcode, value) = getMsiProperty("LAUNCHWSLIMAGEINSTALLER");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1", value);
 
@@ -131,7 +119,6 @@ namespace test_boinccas {
         EXPECT_EQ(0u, executeAction());
 
         EXPECT_TRUE(getRegistryValue("LAUNCHPROGRAM").empty());
-        EXPECT_EQ("1", getRegistryValue("LAUNCHWSLIMAGEINSTALLER"));
         EXPECT_EQ("1", getRegistryValue("RETURN_REBOOTREQUESTED"));
         EXPECT_EQ("1", getRegistryValue("RETURN_VALIDATEINSTALL"));
         EXPECT_EQ("master_test",
@@ -147,11 +134,6 @@ namespace test_boinccas {
 
         setMsiProperty("LAUNCHPROGRAM", "1");
         auto [errorcode, value] = getMsiProperty("LAUNCHPROGRAM");
-        EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
-        ASSERT_EQ("1", value);
-
-        setMsiProperty("LAUNCHWSLIMAGEINSTALLER", "1");
-        std::tie(errorcode, value) = getMsiProperty("LAUNCHWSLIMAGEINSTALLER");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1", value);
 
@@ -178,7 +160,6 @@ namespace test_boinccas {
         EXPECT_EQ(0u, executeAction());
 
         EXPECT_TRUE(getRegistryValue("LAUNCHPROGRAM").empty());
-        EXPECT_EQ("1", getRegistryValue("LAUNCHWSLIMAGEINSTALLER"));
         EXPECT_EQ("0", getRegistryValue("RETURN_REBOOTREQUESTED"));
         EXPECT_EQ("0", getRegistryValue("RETURN_VALIDATEINSTALL"));
         EXPECT_EQ("master_test",

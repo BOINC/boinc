@@ -17,7 +17,7 @@
 
 #include "launcher.h"
 
-static HRESULT SetPrivilege(HANDLE hToken, std::wstring_view lpszPrivilege,
+static HRESULT SetPrivilege(HANDLE hToken, tstring_view lpszPrivilege,
     DWORD dwAttributes = SE_PRIVILEGE_ENABLED) {
     LUID luid;
 
@@ -108,7 +108,7 @@ static HRESULT GetProcessIL(DWORD dwProcessId, LPDWORD pdwProcessIL) {
     return S_OK;
 }
 
-static HRESULT CreateProcessWithIL(std::wstring_view szCmdLine) {
+static HRESULT CreateProcessWithIL(tstring_view szCmdLine) {
     HANDLE hNewToken;
     DWORD dwEnableVirtualization = 0;
 
@@ -181,12 +181,17 @@ static HRESULT CreateProcessWithIL(std::wstring_view szCmdLine) {
     }
 
     PROCESS_INFORMATION ProcInfo = { 0 };
-    STARTUPINFO StartupInfo = { 0 };
+    STARTUPINFOW StartupInfo = { 0 };
+#ifdef _UNICODE
+    const auto cmdW = szCmdLine;
+#else
+    const auto cmdW = boinc_ascii_to_wide(std::string(szCmdLine));
+#endif
     if (!CreateProcessWithTokenW(hNewToken, 0, nullptr,
-        const_cast<wchar_t*>(szCmdLine.data()), 0, nullptr, nullptr,
+        const_cast<wchar_t*>(cmdW.data()), 0, nullptr, nullptr,
         &StartupInfo, &ProcInfo)) {
-        if (!CreateProcessAsUser(hNewToken, nullptr,
-            const_cast<wchar_t*>(szCmdLine.data()), nullptr, nullptr, FALSE,
+        if (!CreateProcessAsUserW(hNewToken, nullptr,
+            const_cast<wchar_t*>(cmdW.data()), nullptr, nullptr, FALSE,
             NORMAL_PRIORITY_CLASS, nullptr, nullptr, &StartupInfo, &ProcInfo
         )) {
             return HRESULT_FROM_WIN32(GetLastError());
@@ -199,16 +204,20 @@ static HRESULT CreateProcessWithIL(std::wstring_view szCmdLine) {
     return S_OK;
 }
 
-HRESULT Launcher::CreateProcessWithExplorerIL(std::wstring_view szCmdLine) {
+HRESULT Launcher::CreateProcessWithExplorerIL(tstring_view szCmdLine) {
     if (CreateProcessWithIL(szCmdLine) == S_OK) {
         return S_OK;
     }
 
     PROCESS_INFORMATION ProcInfo = { 0 };
     STARTUPINFO StartupInfo = { 0 };
-    if (!CreateProcess(nullptr, const_cast<wchar_t*>(szCmdLine.data()),
-        nullptr, nullptr, FALSE, 0, nullptr, nullptr, &StartupInfo,
-        &ProcInfo)) {
+#ifdef _UNICODE
+    auto *cmd = const_cast<wchar_t*>(szCmdLine.data());
+#else
+    auto *cmd = const_cast<char*>(szCmdLine.data());
+#endif
+    if (!CreateProcess(nullptr, cmd, nullptr, nullptr, FALSE, 0, nullptr,
+        nullptr, &StartupInfo, &ProcInfo)) {
         return HRESULT_FROM_WIN32(GetLastError());
     }
 
