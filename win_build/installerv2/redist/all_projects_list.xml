@@ -738,6 +738,7 @@
         <name>windows_x86_64[opencl_ati_101]</name>
         <name>windows_x86_64[opencl_ati_200]</name>
         <name>windows_x86_64[opencl_intel_gpu_intelarc]</name>
+        <name>windows_x86_64[opencl_intel_gpu_intelarc_200]</name>
         <name>windows_x86_64[opencl_nvidia_200]</name>
         <name>x86_64-apple-darwin</name>
         <name>x86_64-pc-linux-gnu</name>
@@ -747,6 +748,7 @@
         <name>x86_64-pc-linux-gnu[opencl_ati_101]</name>
         <name>x86_64-pc-linux-gnu[opencl_ati_200]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu_intelarc]</name>
+        <name>x86_64-pc-linux-gnu[opencl_intel_gpu_intelarc_200]</name>
         <name>x86_64-pc-linux-gnu[opencl_nvidia_200]</name>
     </platforms>
         <keywords>15 32</keywords>
