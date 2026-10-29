@@ -170,6 +170,47 @@ int launch_child_process_to_detect_emulated_cpu() {
 }
 #endif
 
+#if defined(_WIN32) && !defined(__CYGWIN32__) && defined(_ARM64_) && !defined(SIM)
+#ifndef IMAGE_FILE_MACHINE_I386
+#define IMAGE_FILE_MACHINE_I386 0x014c
+#endif
+#ifndef IMAGE_FILE_MACHINE_AMD64
+#define IMAGE_FILE_MACHINE_AMD64 0x8664
+#endif
+// MACHINE_ATTRIBUTES::UserEnabled flag;
+// defined locally since older SDKs don't have MACHINE_ATTRIBUTES enum
+#define BOINC_MACHINE_ATTRIBUTES_USER_ENABLED 0x00000001
+
+// GetMachineTypeAttributes() is available only starting from Windows 11,
+// so it's loaded dynamically to keep the client running on Windows 10
+typedef HRESULT (WINAPI *LPFN_GETMACHINETYPEATTRIBUTES) (USHORT, int*);
+
+// check whether user mode code of the given machine type
+// (IMAGE_FILE_MACHINE_*) can be run on this system,
+// i.e. whether x86/x64 emulation is enabled.
+// Returns 1 if enabled, 0 if disabled,
+// and -1 if it can't be determined (API is not available or failed)
+//
+static int is_machine_type_user_enabled(USHORT machine) {
+    HMODULE hKernel32 = GetModuleHandle(TEXT("kernel32"));
+    if (!hKernel32) {
+        return -1;
+    }
+    LPFN_GETMACHINETYPEATTRIBUTES fnGetMachineTypeAttributes =
+        (LPFN_GETMACHINETYPEATTRIBUTES)GetProcAddress(
+            hKernel32, "GetMachineTypeAttributes"
+        );
+    if (!fnGetMachineTypeAttributes) {
+        return -1;
+    }
+    int attributes = 0;
+    if (FAILED(fnGetMachineTypeAttributes(machine, &attributes))) {
+        return -1;
+    }
+    return (attributes & BOINC_MACHINE_ATTRIBUTES_USER_ENABLED) ? 1 : 0;
+}
+#endif
+
 // determine the list of supported platforms.
 //
 void CLIENT_STATE::detect_platforms() {
@@ -183,12 +224,26 @@ void CLIENT_STATE::detect_platforms() {
     // Windows 10 on ARM can run x86 applications,
     // and Windows 11 on ARM can run x86_64 applications
     // so we will add these platfroms as well
-    OSVERSIONINFOEX osvi;
-    BOOL bOsVersionInfoEx = get_OSVERSIONINFO(osvi);
-    if (osvi.dwMajorVersion >= 10) {
-        add_platform("windows_intelx86");
-        if (osvi.dwBuildNumber >= 22000) {
+    // Use GetMachineTypeAttributes() (Windows 11+) to check
+    // whether the emulation is actually enabled,
+    // and fall back to the OS version check if it's not available
+    const int x86_enabled = is_machine_type_user_enabled(IMAGE_FILE_MACHINE_I386);
+    const int x64_enabled = is_machine_type_user_enabled(IMAGE_FILE_MACHINE_AMD64);
+    if (x86_enabled >= 0 && x64_enabled >= 0) {
+        if (x86_enabled) {
+            add_platform("windows_intelx86");
+        }
+        if (x64_enabled) {
             add_platform("windows_x86_64");
+        }
+    } else {
+        OSVERSIONINFOEX osvi;
+        BOOL bOsVersionInfoEx = get_OSVERSIONINFO(osvi);
+        if (osvi.dwMajorVersion >= 10) {
+            add_platform("windows_intelx86");
+            if (osvi.dwBuildNumber >= 22000) {
+                add_platform("windows_x86_64");
+            }
         }
     }
 #endif
