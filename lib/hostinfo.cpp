@@ -488,6 +488,58 @@ bool HOST_INFO::get_docker_compose_version_string(
     return false;
 }
 
+bool HOST_INFO::parse_podman_info_subids(
+    const char* raw, bool& subids_ok
+) {
+    bool parsed = false;
+    bool in_id_mappings = false;
+    bool in_gidmap = false;
+    bool in_uidmap = false;
+    bool is_rootful = false;
+    bool has_gidmap = false;
+    bool has_uidmap = false;
+    MIOFILE mf;
+    char buf[256];
+    mf.init_buf_read(raw);
+    while (mf.fgets(buf, sizeof(buf))) {
+        // Rootful Podman normally has empty ID mappings. Only an
+        // explicit rootless:false bypasses the sub-ID requirement.
+        char rootless[16];
+        if (sscanf(buf, " rootless: %15s", rootless) == 1) {
+            parsed = true;
+            is_rootful = !strcmp(rootless, "false");
+            continue;
+        }
+        if (!in_id_mappings) {
+            if (strstr(buf, "idMappings:")) {
+                parsed = true;
+                in_id_mappings = true;
+            }
+            continue;
+        }
+        if (strstr(buf, "gidmap:")) {
+            in_gidmap = true;
+            in_uidmap = false;
+        } else if (strstr(buf, "uidmap:")) {
+            in_uidmap = true;
+            in_gidmap = false;
+        } else if (strstr(buf, "size:")) {
+            const char* p = strstr(buf, "size:") + strlen("size:");
+            if (atol(p) >= 65536) {
+                if (in_gidmap) has_gidmap = true;
+                if (in_uidmap) has_uidmap = true;
+            }
+        } else if (strncmp(buf, "    ", 4) != 0 && buf[0] != '\n' && buf[0] != '\r') {
+            // Keep reading: security.rootless follows idMappings.
+            in_id_mappings = false;
+            in_gidmap = false;
+            in_uidmap = false;
+        }
+    }
+    subids_ok = is_rootful || (has_gidmap && has_uidmap);
+    return parsed;
+}
+
 bool HOST_INFO::have_docker() {
 #ifdef _WIN32
     if (use_wslc) return true;
