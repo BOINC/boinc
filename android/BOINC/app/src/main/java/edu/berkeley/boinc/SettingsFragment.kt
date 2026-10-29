@@ -18,10 +18,8 @@
  */
 package edu.berkeley.boinc
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -149,13 +147,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                         .setAllowedAuthenticators(DEVICE_CREDENTIAL or BIOMETRIC_WEAK or BIOMETRIC_STRONG)
                         .build()
                     biometricPrompt.authenticate(promptInfo)
-                }
-                BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
-                    val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
-                        putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
-                            BIOMETRIC_WEAK or DEVICE_CREDENTIAL)
-                    }
-                    startActivityForResult(enrollIntent, 0)
                 }
                 else -> authenticationPopup(sharedPreferences)
             }
