@@ -16,7 +16,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-CXXFLAGS := $(filter-out -mfpu=vfpv3-d16,$(CXXFLAGS))
+CXXFLAGS := $(filter-out -mfpu=vfpv3-d16,@CXXFLAGS@)
 
 include $(top_srcdir)/Makefile.incl
 
