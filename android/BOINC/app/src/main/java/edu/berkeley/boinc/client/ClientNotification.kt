@@ -74,6 +74,7 @@ class ClientNotification @Inject constructor(private val context: Context) {
      * @param active        indicator whether BOINC should stay in foreground (during computing and
      * idle, i.e. not suspended)
      */
+    @Synchronized
     fun update(updatedStatus: ClientStatus?, service: Monitor?, active: Boolean) {
         // nop if data is not present
         if (service == null || updatedStatus == null) {
@@ -151,6 +152,39 @@ class ClientNotification @Inject constructor(private val context: Context) {
         // notification instance exists now, but might be out-dated (if screen is off)
         if (active && !foreground) {
             setForegroundState(service)
+        }
+    }
+
+    /**
+     * Sets service to foreground right away, using the latest notification (or a new one built
+     * from the given status, if none exists yet).
+     * A service started with Context.startForegroundService() has to call
+     * Service.startForeground() within a few seconds, otherwise Android kills the app with
+     * ForegroundServiceDidNotStartInTimeException. update() can not guarantee this, as it is
+     * called asynchronously after the client setup and only sets the service to foreground
+     * while computing is active. If BOINC should not stay in foreground, the next update()
+     * call stops foreground again.
+     *
+     * @param service reference to service, sets to foreground
+     * @param status  client status data, used to build the notification if none exists yet
+     */
+    @Synchronized
+    fun startForegroundImmediately(service: Monitor, status: ClientStatus) {
+        if (n == null || !notificationShown) {
+            buildNotification(status, true, mOldActiveTasks)
+        }
+        setForegroundState(service)
+    }
+
+    /**
+     * Stops service foreground, if it is currently in foreground.
+     *
+     * @param service reference to service
+     */
+    @Synchronized
+    fun stopForeground(service: Monitor) {
+        if (foreground) {
+            setForegroundState(service, false)
         }
     }
 

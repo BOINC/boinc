@@ -255,6 +255,14 @@ class Monitor : LifecycleService() {
         //this gets called after startService(intent) (either by BootReceiver or SplashActivity, depending on the user's autostart configuration)
         Logging.logDebug(Logging.Category.MONITOR, "Monitor onStartCommand()")
 
+        // the service might have been started with startForegroundService() (e.g. by
+        // BootReceiver or PowerConnectedReceiver), which requires startForeground() to be called
+        // promptly. Do it right away, clientNotification.update() stops foreground again, if
+        // BOINC is not supposed to stay in foreground.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            clientNotification.startForegroundImmediately(this, clientStatus)
+        }
+
         // try to acquire BOINC mutex
         // run here in order to recover, if mutex holding app gets closed.
         if (!updateBroadcastEnabled && mutex.acquire()) {
@@ -264,10 +272,14 @@ class Monitor : LifecycleService() {
             // when previous executions are delayed (e.g. during clientSetup() )
             updateTimer.schedule(statusUpdateTask, 0, clientStatusInterval.toLong())
         }
-        if (!mutex.isAcquired) Logging.logError(
-            Logging.Category.MONITOR,
-            "Monitor.onStartCommand: mutex acquisition failed, do not start BOINC."
-        )
+        if (!mutex.isAcquired) {
+            Logging.logError(
+                Logging.Category.MONITOR,
+                "Monitor.onStartCommand: mutex acquisition failed, do not start BOINC."
+            )
+            // client is not started, so there are no status updates to stop foreground later
+            clientNotification.stopForeground(this)
+        }
 
         // execute action if one is explicitly requested (e.g. from notification)
         if (intent != null) {
@@ -334,10 +346,14 @@ class Monitor : LifecycleService() {
      */
     private fun updateStatus() {
         // check whether RPC client connection is alive
-        if (!clientInterface.connectionAlive() && clientSetup()) { // start setup routine
-            // interact with client only if connection established successfully
-            reportDeviceStatus()
-            readClientStatus(true) // read initial data
+        if (!clientInterface.connectionAlive()) {
+            if (clientSetup()) { // start setup routine
+                // interact with client only if connection established successfully
+                reportDeviceStatus()
+                readClientStatus(true) // read initial data
+            } else {
+                clientNotification.stopForeground(this)
+            }
         }
         if (!screenOn && screenOffStatusOmitCounter < deviceStatusIntervalScreenOff)
             screenOffStatusOmitCounter++ // omit status reporting according to configuration
