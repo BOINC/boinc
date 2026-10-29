@@ -21,10 +21,11 @@
 // - the delete time is in the past, and
 // - any batch/file associations are to retired batches
 
+require_once("../inc/boinc_db.inc");
 require_once("../inc/submit_db.inc");
 require_once("../inc/dir_hier.inc");
 
-$fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+$fanout = project_config_val("uldl_dir_fanout");
 
 $t = local_time_str(time());
 echo "$t: delete_job_files: starting\n";
@@ -37,18 +38,30 @@ while (1) {
     if (empty($files)) break;
     foreach ($files as $file) {
         $id = $file->id;
-        $comp = BATCH_STATE_COMPLETE;
+        $retired = BATCH_STATE_RETIRED;
         $db = BoincDb::get();
-        $query = "select * from ".$db->db_name.".batch_file_assoc as bfa join ".$db->db_name.".batch where bfa.job_file_id=$file->id and bfa.batch_id=batch.id and batch.state<$comp";
+        $query = "select * from ".$db->db_name.".batch_file_assoc as bfa join ".$db->db_name.".batch where bfa.job_file_id=$file->id and bfa.batch_id=batch.id and batch.state<$retired";
         $result = $db->do_query($query);
         if (!$result) {
             die("query failed: $query\n");
         }
         $b = _mysql_fetch_object($result);
-        if (!$b) continue;
+        if ($b) continue;
 
         $path = dir_hier_path($file->name, "../../download", $fanout);
-        unlink($path);
+        $dirpath = dirname($path);
+        if (!is_dir($dirpath) || !is_readable($dirpath) || !is_executable($dirpath)) {
+            echo "failed to access $dirpath\n";
+            continue;
+        }
+        if ((file_exists($path) || is_link($path)) && !unlink($path)) {
+            echo "failed to delete $path\n";
+            continue;
+        }
+        if ((file_exists("$path.md5") || is_link("$path.md5")) && !unlink("$path.md5")) {
+            echo "failed to delete $path.md5\n";
+            continue;
+        }
         echo "deleted $path\n";
         BoincBatchFileAssoc::delete_aux("job_file_id=$file->id");
         $file->delete();

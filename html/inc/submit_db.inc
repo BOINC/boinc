@@ -133,6 +133,10 @@ class BoincJobFile {
         $db = BoincDb::get();
         return $db->lookup('job_file', 'BoincJobFile', "name='$name'");
     }
+    static function enum($clause) {
+        $db = BoincDb::get();
+        return $db->enum('job_file', 'BoincJobFile', $clause);
+    }
     function delete() {
         $db = BoincDb::get();
         return $db->delete($this, 'job_file');
@@ -166,6 +170,10 @@ class BoincBatchFileAssoc {
         return $db->delete_aux('batch_file_assoc',
             "batch_id=$batch_id"
         );
+    }
+    static function delete_aux($clause) {
+        $db = BoincDb::get();
+        return $db->delete_aux('batch_file_assoc', $clause);
     }
 }
 
