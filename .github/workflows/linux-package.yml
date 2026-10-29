@@ -662,8 +662,9 @@ jobs:
   test-debian-deb-package:
     name: Test Debian DEB Package
     runs-on: ${{ matrix.runner }}
-    container:
-      image: debian:${{ matrix.os }}
+    defaults:
+      run:
+        shell: docker exec --env GITHUB_ENV --env GITHUB_OUTPUT boinc-package-test bash --noprofile --norc -e -o pipefail {0}
     needs: build-deb-package
     strategy:
       matrix:
@@ -682,6 +683,14 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 2
+
+      - name: Test service health checker
+        shell: bash
+        run: python3 tests/linux_package_service_tests.py
+
+      - name: Start systemd test container
+        shell: bash
+        run: bash tests/start_linux_package_test_container.sh "debian:${{ matrix.os }}"
 
       - name: Enable armhf architecture
         if: success() && matrix.arch == 'armhf'
@@ -742,11 +751,25 @@ jobs:
         run: |
           python3 ./tests/linux_package_integration_tests.py
 
+      - name: Collect service diagnostics
+        if: failure()
+        shell: bash
+        run: |
+          docker logs boinc-package-test || true
+          docker exec boinc-package-test systemctl status boinc-client.service --no-pager || true
+          docker exec boinc-package-test journalctl -u boinc-client.service --no-pager || true
+
+      - name: Stop systemd test container
+        if: always()
+        shell: bash
+        run: docker rm --force boinc-package-test || true
+
   test-ubuntu-deb-package:
     name: Test Ubuntu DEB Package
     runs-on: ${{ matrix.runner }}
-    container:
-      image: ubuntu:${{ matrix.os }}
+    defaults:
+      run:
+        shell: docker exec --env GITHUB_ENV --env GITHUB_OUTPUT boinc-package-test bash --noprofile --norc -e -o pipefail {0}
     needs: build-deb-package
     strategy:
       matrix:
@@ -765,6 +788,14 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 2
+
+      - name: Test service health checker
+        shell: bash
+        run: python3 tests/linux_package_service_tests.py
+
+      - name: Start systemd test container
+        shell: bash
+        run: bash tests/start_linux_package_test_container.sh "ubuntu:${{ matrix.os }}"
 
       - name: Enable armhf architecture
         if: success() && matrix.arch == 'armhf'
@@ -852,11 +883,25 @@ jobs:
         run: |
           python3 ./tests/linux_package_integration_tests.py
 
+      - name: Collect service diagnostics
+        if: failure()
+        shell: bash
+        run: |
+          docker logs boinc-package-test || true
+          docker exec boinc-package-test systemctl status boinc-client.service --no-pager || true
+          docker exec boinc-package-test journalctl -u boinc-client.service --no-pager || true
+
+      - name: Stop systemd test container
+        if: always()
+        shell: bash
+        run: docker rm --force boinc-package-test || true
+
   test-fedora-rpm-package:
     name: Test Fedora RPM Package
     runs-on: ${{ matrix.runner }}
-    container:
-      image: fedora:${{ matrix.os }}
+    defaults:
+      run:
+        shell: docker exec --env GITHUB_ENV --env GITHUB_OUTPUT boinc-package-test bash --noprofile --norc -e -o pipefail {0}
     needs: build-rpm-package
     strategy:
       matrix:
@@ -873,6 +918,14 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 2
+
+      - name: Test service health checker
+        shell: bash
+        run: python3 tests/linux_package_service_tests.py
+
+      - name: Start systemd test container
+        shell: bash
+        run: bash tests/start_linux_package_test_container.sh "fedora:${{ matrix.os }}"
 
       - name: Install dependencies
         if: success()
@@ -929,11 +982,25 @@ jobs:
         run: |
           python3 ./tests/linux_package_integration_tests.py
 
+      - name: Collect service diagnostics
+        if: failure()
+        shell: bash
+        run: |
+          docker logs boinc-package-test || true
+          docker exec boinc-package-test systemctl status boinc-client.service --no-pager || true
+          docker exec boinc-package-test journalctl -u boinc-client.service --no-pager || true
+
+      - name: Stop systemd test container
+        if: always()
+        shell: bash
+        run: docker rm --force boinc-package-test || true
+
   test-opensuse-rpm-package:
     name: Test openSUSE RPM Package
     runs-on: ${{ matrix.runner }}
-    container:
-      image: "opensuse/leap:${{ matrix.os }}"
+    defaults:
+      run:
+        shell: docker exec --env GITHUB_ENV --env GITHUB_OUTPUT boinc-package-test bash --noprofile --norc -e -o pipefail {0}
     needs: build-rpm-package
     strategy:
       matrix:
@@ -947,14 +1014,22 @@ jobs:
             runner: ubuntu-24.04-arm
       fail-fast: false
     steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 2
+
+      - name: Test service health checker
+        shell: bash
+        run: python3 tests/linux_package_service_tests.py
+
+      - name: Start systemd test container
+        shell: bash
+        run: bash tests/start_linux_package_test_container.sh "opensuse/leap:${{ matrix.os }}"
+
       - name: Install dependencies
         if: success()
         run: |
           zypper install -y python3 tar gzip findutils
-
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          fetch-depth: 2
 
       - name: Get OS name
         if: success()
@@ -1003,6 +1078,19 @@ jobs:
         if: success()
         run: |
           python3 ./tests/linux_package_integration_tests.py
+
+      - name: Collect service diagnostics
+        if: failure()
+        shell: bash
+        run: |
+          docker logs boinc-package-test || true
+          docker exec boinc-package-test systemctl status boinc-client.service --no-pager || true
+          docker exec boinc-package-test journalctl -u boinc-client.service --no-pager || true
+
+      - name: Stop systemd test container
+        if: always()
+        shell: bash
+        run: docker rm --force boinc-package-test || true
 
   publish-deb-package:
     name: Publish DEB Package
