@@ -20,15 +20,12 @@
       <AdditionalDependencies>opencl.lib;cfgmgr32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
-    <PostBuildEvent>
-      <Command>copy ..\samples\openclapp\*.cl "$(OUTDIR)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\samples\openclapp\openclapp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\samples\openclapp\openclapp_kernels.cl" />
+    <CopyFileToFolders Include="..\samples\openclapp\openclapp_kernels.cl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samples\openclapp\openclapp.hpp" />
