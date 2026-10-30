@@ -271,6 +271,9 @@ class Monitor : LifecycleService() {
             // using .scheduleAtFixedRate() can cause a series of bunched-up runs
             // when previous executions are delayed (e.g. during clientSetup() )
             updateTimer.schedule(statusUpdateTask, 0, clientStatusInterval.toLong())
+        } else if (mutex.isAcquired) {
+            screenOffStatusOmitCounter = deviceStatusIntervalScreenOff
+            forceRefresh()
         }
         if (!mutex.isAcquired) {
             Logging.logError(

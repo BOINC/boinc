@@ -867,6 +867,31 @@ class ClientNotificationTest {
     }
 
     @Test
+    fun `When startForegroundImmediately is called then expect foreground to be true`() {
+        val monitor = mockkClass(Monitor::class)
+        justRun { monitor.startForeground(any(), any()) }
+        val clientStatus = ClientStatus(context, appPreferences, deviceStatus)
+        clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_NEVER
+
+        clientNotification.startForegroundImmediately(monitor, clientStatus)
+
+        Assert.assertTrue(clientNotification.foreground)
+    }
+
+    @Config(minSdk = Build.VERSION_CODES.N, maxSdk = Build.VERSION_CODES.P)
+    @Test
+    fun `When stopForeground is called and foreground is true then expect foreground to be false`() {
+        val monitor = mockkClass(Monitor::class)
+        val anyInteger: (Int) -> Int = { value -> value }
+        justRun { monitor.stopForeground(anyInteger(any())) }
+
+        clientNotification.foreground = true
+        clientNotification.stopForeground(monitor)
+
+        Assert.assertFalse(clientNotification.foreground)
+    }
+
+    @Test
     fun `Check equality of Intent constants`() {
         Assert.assertEquals(Intent.FLAG_ACTIVITY_CLEAR_TOP, PendingIntent.FLAG_IMMUTABLE)
         Assert.assertEquals(Intent.FLAG_ACTIVITY_NEW_TASK, PendingIntent.FLAG_CANCEL_CURRENT)
