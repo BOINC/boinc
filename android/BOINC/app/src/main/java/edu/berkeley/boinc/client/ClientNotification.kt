@@ -22,6 +22,7 @@ import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.Service.STOP_FOREGROUND_DETACH
 import android.app.Service.STOP_FOREGROUND_REMOVE
 import android.content.Context
 import android.content.Intent
@@ -83,7 +84,7 @@ class ClientNotification @Inject constructor(private val context: Context) {
 
         // stop service foreground, if not active anymore
         if(!active && foreground) {
-            setForegroundState(service, false);
+            setForegroundState(service, false, !service.appPreferences.showNotificationDuringSuspend);
         }
 
         // if not active, check preference whether to show notification during suspension
@@ -190,7 +191,11 @@ class ClientNotification @Inject constructor(private val context: Context) {
 
     // Notification must be built, before setting service to foreground!
     @VisibleForTesting
-    internal fun setForegroundState(service: Monitor, foregroundState: Boolean = true) {
+    internal fun setForegroundState(
+        service: Monitor,
+        foregroundState: Boolean = true,
+        removeNotification: Boolean = true
+    ) {
         if(foregroundState) {
             service.startForeground(notificationId, n);
             Logging.logInfo(Logging.Category.CLIENT, "ClientNotification.setForeground() start service as foreground.");
@@ -199,13 +204,17 @@ class ClientNotification @Inject constructor(private val context: Context) {
         else {
             foreground = false;
             if (VERSION.SDK_INT >= VERSION_CODES.N) {
-                service.stopForeground(STOP_FOREGROUND_REMOVE);
+                service.stopForeground(
+                    if (removeNotification) STOP_FOREGROUND_REMOVE else STOP_FOREGROUND_DETACH
+                );
             }
             else {
                 @Suppress("DEPRECATION")
-                service.stopForeground(true);
+                service.stopForeground(removeNotification);
             }
-            notificationShown = false;
+            if (removeNotification) {
+                notificationShown = false;
+            }
             Logging.logInfo(Logging.Category.CLIENT, "ClientNotification.setForeground() stop service as foreground.");
         }
     }
