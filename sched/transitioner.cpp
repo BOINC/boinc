@@ -681,6 +681,35 @@ int handle_wu(
         );
         return retval;
     }
+
+    // if WU is in a batch and it errored out, update batch counter and state
+    //
+    if (wu_item.batch>0
+        && wu_item.error_mask
+        && !wu_item_original.error_mask
+    ) {
+        DB_BATCH batch;
+        batch.id = wu_item.batch;
+        retval = batch.update_field(
+            "nerror_jobs=nerror_jobs+1"
+        );
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "[WU%ld][BATCH%d] batch update failed: %d\n",
+                wu_item.id, wu_item.batch, retval
+            );
+        }
+        char buf[256];
+        sprintf(buf,
+            "state=%d, completion_time=%d",
+            BATCH_STATE_COMPLETE,
+            (int)dtime()
+        );
+        batch.update_field(
+            buf,
+            "nerror_jobs+n_success=njobs"
+        );
+    }
     return 0;
 }
 

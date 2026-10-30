@@ -157,48 +157,17 @@ function delete_remote_submit_user($user) {
     BoincUserSubmitApp::delete_user($user->id);
 }
 
-// compute parameters of the batch:
-//   credit_canonical: credit granted to canonical instances
-//   fraction_done: frac of jobs that are done (success or failed)
-//   state: whether complete (all jobs done)
-//   completion_time: if newly complete
-//   nerror_jobs: # of failed jobs
-// Update the above in DB.
-// Also compute (not in DB):
-//   njobs_success: # of jobs with canonical instance
-//   njobs_in_prog: # of jobs not success or fail,
-//      and at least one result in progress
-// return the batch object, with these values
-//
-// You need to pass in a list of the batch's WUs.
+// add 'status' field (WU_UNSENT, WU_IN_PROGRESS, WU_SUCCESS, WU_ERROR) to WUs
+// Pass in a list of the batch's WUs.
 // These need to have the following fields:
 //
 // id
-// rsc_fpops_est
 // canonical_resultid
-// canonical_credit
 // error_mask
-//
-// add 'status' field (UNSENT, IN_PROGRESS, SUCCESS) to WUs
 //
 // TODO: update est_completion_time
 //
 function get_batch_params($batch, $wus) {
-    $batch->njobs_success = 0;
-    $batch->njobs_in_prog = 0;
-    if ($batch->state == BATCH_STATE_INIT) {
-        // a batch in INIT state has no jobs
-        //
-        return $batch;
-    }
-    if (!$wus) {
-        if ($batch->njobs) {
-            $batch->update('njobs=0');
-            $batch->njobs = 0;
-        }
-        return $batch;
-    }
-
     // make list of WU IDs with an in-progress result
     $res_in_prog = BoincResult::enum_fields(
         'workunitid',
@@ -211,65 +180,54 @@ function get_batch_params($batch, $wus) {
     foreach ($res_in_prog as $res) {
         $wus_in_prog[$res->workunitid] = true;
     }
-    unset($res_in_progress);    // does this do anything?
 
-    $fp_total = 0;
-    $fp_done = 0;
-    $completed = true;
-    $batch->nerror_jobs = 0;
-    $batch->credit_canonical = 0;
-    $njobs_success = 0;
-    $njobs_in_prog = 0;
+    $n_success = 0;
+    $nerror_jobs = 0;
+    $n_in_progress = 0;
     foreach ($wus as $wu) {
-        $fp_total += $wu->rsc_fpops_est;
         if ($wu->canonical_resultid) {
-            $fp_done += $wu->rsc_fpops_est;
-            $njobs_success++;
-            $batch->credit_canonical += $wu->canonical_credit;
             $wu->status = WU_SUCCESS;
+            $n_success++;
         } else if ($wu->error_mask) {
-            $batch->nerror_jobs++;
             $wu->status = WU_ERROR;
+            $nerror_jobs++;
         } else {
-            $completed = false;
             if (array_key_exists($wu->id, $wus_in_prog)) {
-                $njobs_in_prog++;
                 $wu->status = WU_IN_PROGRESS;
+                $n_in_progress++;
             } else {
                 $wu->status = WU_UNSENT;
             }
         }
     }
-    $njobs = count($wus);
-    $batch->njobs = $njobs;
-    $batch->fraction_done = ($njobs_success + $batch->nerror_jobs)/$batch->njobs;
-    if ($completed && $batch->state == BATCH_STATE_IN_PROGRESS) {
-        $batch->state = BATCH_STATE_COMPLETE;
-        $batch->completion_time = time();
+
+    // make sure batch has the right counts and state
+    // (e.g. during code transition)
+    //
+    if ($n_success != $batch->n_success
+        || $nerror_jobs != $batch->nerror_jobs
+        || $n_in_progress != $batch->n_in_progress
+    ) {
+        $batch->update(
+            sprintf('n_success=%d, nerror_jobs=%d, n_in_progress=%d',
+                $n_success, $nerror_jobs, $n_in_progress
+            )
+        );
+        $batch->n_success = $n_success;
+        $batch->n_in_progress = $n_in_progress;
+        $batch->nerror_jobs = $nerror_jobs;
     }
-    $batch->update("fraction_done = $batch->fraction_done, nerror_jobs = $batch->nerror_jobs, state=$batch->state, completion_time = $batch->completion_time, credit_canonical = $batch->credit_canonical, njobs=$njobs");
-
-    $batch->njobs_success = $njobs_success;
-    $batch->njobs_in_prog = $njobs_in_prog;
-    return $batch;
-}
-
-// get params of in-progress batches; they might not be in progress anymore.
-//
-function get_batches_params($batches) {
-    $b = [];
-    foreach ($batches as $batch) {
-        if ($batch->state == BATCH_STATE_IN_PROGRESS) {
-            $wus = BoincWorkunit::enum_fields(
-                'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
-                "batch = $batch->id"
+    if ($n_success + $nerror_jobs == $batch->njobs) {
+        if ($batch->state != BATCH_STATE_COMPLETE) {
+            $batch->update(
+                sprintf('state=%d, completion_time=%d',
+                    BATCH_STATE_COMPLETE, time()
+                )
             );
-            $b[] = get_batch_params($batch, $wus);
-        } else {
-            $b[] = $batch;
+            $batch->state = BATCH_STATE_COMPLETE;
         }
     }
-    return $b;
+    return $batch;
 }
 
 // get the physical names of a result's output files.

@@ -212,7 +212,8 @@ function show_in_progress($all_batches, $order, $limit, $user, $app) {
             ];
             row_heading_array($x);
         }
-        $pct_done = (int)($batch->fraction_done*100);
+        $frac_done = ($batch->nerror_jobs + $batch->n_success)/$batch->njobs;
+        $pct_done = (int)($frac_done*100);
         $x = [
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
@@ -350,7 +351,6 @@ function fill_in_app_and_user_names(&$batches) {
 //
 function show_batches($batches, $order, $limit, $user, $app) {
     fill_in_app_and_user_names($batches);
-    $batches = get_batches_params($batches);
     show_in_progress($batches, $order, $limit, $user, $app);
     show_complete($batches, $order, $limit, $user, $app);
     show_aborted($batches, $order, $limit, $user, $app);
@@ -603,9 +603,9 @@ define('COLOR_UNSENT', 'gray');
 // return HTML for a color-coded batch progress bar
 //
 function progress_bar($batch, $wus, $width) {
-    $nsuccess = $batch->njobs_success;
+    $nsuccess = $batch->n_success;
     $nerror = $batch->nerror_jobs;
-    $nin_prog = $batch->njobs_in_prog;
+    $nin_prog = $batch->n_in_progress;
     $nunsent = $batch->njobs - $nsuccess - $nerror - $nin_prog;
     $w_success = $width*$nsuccess/$batch->njobs;
     $w_fail = $width*$nerror/$batch->njobs;
@@ -655,7 +655,7 @@ function is_batch_gzipped($wus) {
     return false;
 }
 
-// show the details of an existing batch.
+// show the details of an existing batch, include a list of its jobs
 // $user has access to abort/retire the batch
 // and to get its output files
 //
@@ -1120,7 +1120,6 @@ function handle_show_all_batches($user) {
         if ($userid != $user->id) error_page("wrong user");
         $batches = BoincBatch::enum("user_id=$user->id and state=$state");
         fill_in_app_and_user_names($batches);
-        $batches = get_batches_params($batches);
         show_batches_in_state($batches, $state, $url_args, $order);
     } else {
         // admin looking at batches
@@ -1136,7 +1135,6 @@ function handle_show_all_batches($user) {
             $batches = BoincBatch::enum("state=$state");
         }
         fill_in_app_and_user_names($batches);
-        $batches = get_batches_params($batches);
         show_batches_in_state($batches, $state, $url_args, $order);
     }
 }

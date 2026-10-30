@@ -721,13 +721,15 @@ static int insert_deadline_tag(RESULT& result) {
 // - transition time
 // - app_version_id, if app uses homogeneous app version
 // - hr_class, if we're using HR
+// - n_sent
 //
-// In the latter two cases, the update is conditional on the field
+// In the HR and HAV cases, the update is conditional on the field
 // fields either being zero or the desired value.
 // Some other scheduler instance might have updated it since we read the WU,
 // and the transitioner might have set it to zero.
-//
-int update_wu_on_send(WORKUNIT wu, time_t x, APP& app, BEST_APP_VERSION& bav) {
+// In that case we return an error, and the result won't get sent.
+// 
+int update_wu_on_send(WORKUNIT& wu, time_t x, APP& app, BEST_APP_VERSION& bav) {
     DB_WORKUNIT dbwu;
     char buf[256], buf2[256], where_clause[256];
     int retval;
@@ -737,7 +739,7 @@ int update_wu_on_send(WORKUNIT wu, time_t x, APP& app, BEST_APP_VERSION& bav) {
     // SQL note: can't use min() here
     //
     sprintf(buf,
-        "transition_time=if(transition_time<%d, transition_time, %d)",
+        "transition_time=if(transition_time<%d, transition_time, %d), n_sent=n_sent+1",
         (int)x, (int)x
     );
     strcpy(where_clause, "");
@@ -759,9 +761,24 @@ int update_wu_on_send(WORKUNIT wu, time_t x, APP& app, BEST_APP_VERSION& bav) {
         strcat(where_clause, buf2);
     }
     retval = dbwu.update_field(buf, strlen(where_clause)?where_clause:NULL);
-    if (retval) return retval;
+    if (retval) {
+        log_messages.printf(MSG_NORMAL,
+            "[WU%ld] update failed update_wu_on_send(): %d\n",
+            wu.id, retval
+        );
+        return retval;
+    }
     if (boinc_db.affected_rows() != 1) {
         return ERR_DB_NOT_FOUND;
+    }
+
+    // If the WU is part of a batch, update batch.n_in_progress
+    //
+    if (wu.batch > 0 && wu.n_sent == 0) {
+        DB_BATCH batch;
+        batch.id = wu.batch;
+        sprintf(buf, "n_in_progress=n_in_progress+1");
+        batch.update_field(buf);
     }
     return 0;
 }

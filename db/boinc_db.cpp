@@ -973,7 +973,8 @@ void DB_WORKUNIT::db_print(char* buf){
         "transitioner_flags=%d, "
         "size_class=%d, "
         "keywords='%s', "
-        "app_version_num=%d ",
+        "app_version_num=%d "
+        "n_sent=%d ",
         create_time, appid,
         name, xml_doc, batch,
         rsc_fpops_est, rsc_fpops_bound, rsc_memory_bound, rsc_disk_bound,
@@ -995,7 +996,8 @@ void DB_WORKUNIT::db_print(char* buf){
         transitioner_flags,
         size_class,
         keywords,
-        app_version_num
+        app_version_num,
+        n_sent
     );
 }
 
@@ -1020,6 +1022,7 @@ void DB_WORKUNIT::db_print_values(char* buf) {
         "%d, "
         "%d, "
         "'%s', "
+        "%d, "
         "%d )",
         create_time, appid,
         name, xml_doc, batch,
@@ -1043,7 +1046,8 @@ void DB_WORKUNIT::db_print_values(char* buf) {
         transitioner_flags,
         size_class,
         keywords,
-        app_version_num
+        app_version_num,
+        n_sent
     );
 }
 
@@ -1085,6 +1089,7 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
     size_class = atoi(r[i++]);
     strcpy2(keywords, r[i++]);
     app_version_num = atoi(r[i++]);
+    n_sent = atoi(r[i++]);
 }
 
 void DB_CREDITED_JOB::db_print(char* buf){
