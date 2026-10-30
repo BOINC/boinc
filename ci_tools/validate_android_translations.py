@@ -86,23 +86,23 @@ def main() -> None:
     main_strings_usage = {k: False for k in main_strings_map}
 
     for source in res_files:
-        if is_string_xml(source) or is_string_xml_in_values_folder(source):
+        if source.suffix != ".xml" or is_string_xml(source) or is_string_xml_in_values_folder(source):
             continue
-        for line in source.read_text(encoding="utf-8", errors="replace").splitlines():
-            for key, used in main_strings_usage.items():
-                if not used and key in line:
-                    main_strings_usage[key] = True
+        content = source.read_text(encoding="utf-8")
+        for key, used in main_strings_usage.items():
+            if not used and key in content:
+                main_strings_usage[key] = True
 
     for source in sorted(java_dir.rglob("*.kt")):
-        for line in source.read_text(encoding="utf-8").splitlines():
-            for key, used in main_strings_usage.items():
-                if not used and f"R.string.{key}" in line:
-                    main_strings_usage[key] = True
-
-    for line in manifest_file.read_text(encoding="utf-8").splitlines():
+        content = source.read_text(encoding="utf-8")
         for key, used in main_strings_usage.items():
-            if not used and key in line:
+            if not used and f"R.string.{key}" in content:
                 main_strings_usage[key] = True
+
+    manifest_content = manifest_file.read_text(encoding="utf-8")
+    for key, used in main_strings_usage.items():
+        if not used and key in manifest_content:
+            main_strings_usage[key] = True
 
     unused_keys = [k for k, used in main_strings_usage.items() if not used]
     for k in unused_keys:
@@ -110,9 +110,11 @@ def main() -> None:
     if unused_keys:
         sys.exit("Redundant keys found in main strings file")
 
+    parsed_translations = {file: parse_string_resources(file) for file in translation_strings_files}
+
     translation_files_contain_redundant_keys = False
-    for file in translation_strings_files:
-        redundant_keys = [k for k in parse_string_resources(file) if k not in main_strings_usage]
+    for file, strings_map in parsed_translations.items():
+        redundant_keys = [k for k in strings_map if k not in main_strings_usage]
         if redundant_keys:
             print(f"{file.resolve()}: the following keys are not present in the main strings file: {redundant_keys}")
             translation_files_contain_redundant_keys = True
@@ -122,42 +124,34 @@ def main() -> None:
     en_file = next((p for p in translation_strings_files if is_string_xml_in_values_folder(p, "en")), None)
     if en_file is None:
         sys.exit("No strings.xml file found in values-en folder")
-    if not compare_two_strings_translations_maps(main_strings_map, parse_string_resources(en_file)):
+    if not compare_two_strings_translations_maps(main_strings_map, parsed_translations[en_file]):
         sys.exit("The main strings and en translations are not equal")
 
-    he_file = next((p for p in translation_strings_files if is_string_xml_in_values_folder(p, "he")), None)
-    if he_file is None:
-        sys.exit("No strings.xml file found in values-he folder")
-    iw_file = next((p for p in translation_strings_files if is_string_xml_in_values_folder(p, "iw")), None)
-    if iw_file is None:
-        sys.exit("No strings.xml file found in values-iw folder")
-    if not compare_two_strings_translations_maps(parse_string_resources(he_file), parse_string_resources(iw_file)):
-        sys.exit("The Hebrew strings (he and iw) are not equal")
-    if not do_binary_validation(he_file, iw_file):
-        sys.exit("The Hebrew strings (he and iw) contain equal data but files are different")
-
-    in_file = next((p for p in translation_strings_files if is_string_xml_in_values_folder(p, "in")), None)
-    if in_file is None:
-        sys.exit("No strings.xml file found in values-in folder")
-    id_file = next((p for p in translation_strings_files if is_string_xml_in_values_folder(p, "id")), None)
-    if id_file is None:
-        sys.exit("No strings.xml file found in values-id folder")
-    if not compare_two_strings_translations_maps(parse_string_resources(in_file), parse_string_resources(id_file)):
-        sys.exit("The Indonesian strings (in and id) are not equal")
-    if not do_binary_validation(in_file, id_file):
-        sys.exit("The Indonesian strings (in and id) contain equal data but files are different")
-
-    yi_file = next((p for p in translation_strings_files if is_string_xml_in_values_folder(p, "yi")), None)
-    ji_file = next((p for p in translation_strings_files if is_string_xml_in_values_folder(p, "ji")), None)
-    if yi_file is not None or ji_file is not None:
-        if yi_file is None:
-            sys.exit("No strings.xml file found in values-yi folder")
-        if ji_file is None:
-            sys.exit("No strings.xml file found in values-ji folder")
-        if not compare_two_strings_translations_maps(parse_string_resources(yi_file), parse_string_resources(ji_file)):
-            sys.exit("The Yiddish strings (yi and ji) are not equal")
-        if not do_binary_validation(yi_file, ji_file):
-            sys.exit("The Yiddish strings (yi and ji) contain equal data but files are different")
+    for language_name, main_code, alias_code, required in [
+        ("Hebrew", "he", "iw", True),
+        ("Indonesian", "in", "id", True),
+        ("Yiddish", "yi", "ji", False),
+    ]:
+        main_lang_file = next(
+            (p for p in translation_strings_files if is_string_xml_in_values_folder(p, main_code)), None
+        )
+        alias_lang_file = next(
+            (p for p in translation_strings_files if is_string_xml_in_values_folder(p, alias_code)), None
+        )
+        if not required and main_lang_file is None and alias_lang_file is None:
+            continue
+        if main_lang_file is None:
+            sys.exit(f"No strings.xml file found in values-{main_code} folder")
+        if alias_lang_file is None:
+            sys.exit(f"No strings.xml file found in values-{alias_code} folder")
+        if not compare_two_strings_translations_maps(
+            parsed_translations[main_lang_file], parsed_translations[alias_lang_file]
+        ):
+            sys.exit(f"The {language_name} strings ({main_code} and {alias_code}) are not equal")
+        if not do_binary_validation(main_lang_file, alias_lang_file):
+            sys.exit(
+                f"The {language_name} strings ({main_code} and {alias_code}) contain equal data but files are different"
+            )
 
 
 if __name__ == "__main__":
