@@ -517,15 +517,15 @@ bool HOST_INFO::parse_podman_info_subids(
             }
             continue;
         }
+        long size = 0;
         if (strstr(buf, "gidmap:")) {
             in_gidmap = true;
             in_uidmap = false;
         } else if (strstr(buf, "uidmap:")) {
             in_uidmap = true;
             in_gidmap = false;
-        } else if (strstr(buf, "size:")) {
-            const char* p = strstr(buf, "size:") + strlen("size:");
-            if (atol(p) >= 65536) {
+        } else if (sscanf(buf, " size: %ld", &size) == 1) {
+            if (size >= 65536) {
                 if (in_gidmap) has_gidmap = true;
                 if (in_uidmap) has_uidmap = true;
             }
