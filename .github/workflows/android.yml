@@ -109,7 +109,7 @@ jobs:
           fetch-depth: 2
 
       - name: Validate string.xml and language files
-        if: ${{ success() }}
+        if: ${{ success() && matrix.task == 'assembleRelease' }}
         run: python ./ci_tools/validate_android_translations.py
 
       - name: Download armv6 client

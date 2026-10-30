@@ -67,6 +67,8 @@ def do_binary_validation(main_file: pathlib.Path, dependent_file: pathlib.Path) 
 
 def main() -> None:
     app_dir = pathlib.Path("android/BOINC/app")
+    if not app_dir.is_dir():
+        app_dir = pathlib.Path(__file__).resolve().parent.parent / "android/BOINC/app"
     res_dir = app_dir / "src/main/res"
     java_dir = app_dir / "src/main/java"
     manifest_file = app_dir / "src/main/AndroidManifest.xml"
