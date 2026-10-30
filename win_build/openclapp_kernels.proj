@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="CopyOpenCLAppKernels" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- MSBuild shares the result of this target between both example projects
+       with the same global properties, including OutDir. Do not move the Copy
+       task back into each caller: they can finish linking at the same time. -->
+  <Target Name="CopyOpenCLAppKernels">
+    <Error Condition="'$(OutDir)' == ''" Text="OutDir must be set to copy the OpenCL sample kernel." />
+    <!-- Always refresh this small file. Naming it explicitly also makes a
+         missing source an error, even if an old output file still exists. -->
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)..\samples\openclapp\openclapp_kernels.cl"
+          DestinationFolder="$(OutDir)" Retries="0" />
+  </Target>
+</Project>
