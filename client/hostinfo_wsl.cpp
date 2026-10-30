@@ -539,22 +539,12 @@ static bool get_docker_version_aux(
         reply.clear();
         bool cmd_ok = false;
         if (!rs.run_program_in_wsl(wd, cmd.c_str())) {
-            if (!read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT)) {
-                cmd_ok = true;
-            }
+            int read_ret = read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
+            cmd_ok = (read_ret == 0 || read_ret == ERR_CONNECT);
             CloseHandle(rs.proc_handle);
         }
         bool subids_ok = false;
-        if (!cmd_ok || !HOST_INFO::parse_podman_info_subids(reply.c_str(), subids_ok)) {
-            msg_printf(0, MSG_INFO,
-                "Podman found in WSL distro %s, but '%s' failed",
-                wd.distro_name.c_str(), cmd.c_str()
-            );
-            wd.docker_version.clear();
-            wd.docker_type = NONE;
-            return false;
-        }
-        if (!subids_ok) {
+        if (cmd_ok && HOST_INFO::parse_podman_info_subids(reply.c_str(), subids_ok) && !subids_ok) {
             msg_printf(0, MSG_INFO,
                 "Podman found in WSL distro %s, but user/group sub-IDs are not configured",
                 wd.distro_name.c_str()
