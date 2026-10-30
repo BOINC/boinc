@@ -38,14 +38,15 @@ while (1) {
     if (empty($files)) break;
     foreach ($files as $file) {
         $id = $file->id;
-        $retired = BATCH_STATE_RETIRED;
+        $comp = BATCH_STATE_COMPLETE;
         $db = BoincDb::get();
-        $query = "select * from ".$db->db_name.".batch_file_assoc as bfa join ".$db->db_name.".batch where bfa.job_file_id=$file->id and bfa.batch_id=batch.id and batch.state<$retired";
+        $query = "select * from ".$db->db_name.".batch_file_assoc as bfa join ".$db->db_name.".batch where bfa.job_file_id=$file->id and bfa.batch_id=batch.id and batch.state<$comp";
         $result = $db->do_query($query);
         if (!$result) {
             die("query failed: $query\n");
         }
         $b = _mysql_fetch_object($result);
+        _mysql_free_result($result);
         if ($b) continue;
 
         $path = dir_hier_path($file->name, "../../download", $fanout);
