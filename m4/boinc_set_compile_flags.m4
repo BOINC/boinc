@@ -26,16 +26,6 @@ if test x${ac_cv_c_compiler_gnu} = xyes ; then
     BOINC_CHECK_CXXFLAG(-Wall)
 fi
 
-dnl enable debug mode on all components using standard debug flags
-
-if test x${enable_debug} = xyes ; then
-  BOINC_CHECK_CFLAG(-g)
-  BOINC_CHECK_CXXFLAG(-g)
-  BOINC_CHECK_LDFLAG(-g)
-  CXXFLAGS="$CXXFLAGS -DDEBUG -D_DEBUG"
-  CFLAGS="$CFLAGS -DDEBUG -D_DEBUG"
-fi
-
 if test x${enable_optimize} = xyes ; then
   if test x${ac_cv_c_compiler_gnu} = xyes ; then
     BOINC_CHECK_CFLAG(-ffast-math)
@@ -49,6 +39,18 @@ if test x${enable_optimize} = xyes ; then
     BOINC_CHECK_CXXFLAG(-fast)
   fi
   BOINC_CHECK_CXXFLAG(-O3)
+fi
+
+dnl enable debug mode on all components using standard debug flags
+
+if test x${enable_debug} = xyes ; then
+  BOINC_CHECK_CFLAG(-g)
+  BOINC_CHECK_CXXFLAG(-g)
+  BOINC_CHECK_CFLAG(-O0)
+  BOINC_CHECK_CXXFLAG(-O0)
+  BOINC_CHECK_LDFLAG(-g)
+  CXXFLAGS="$CXXFLAGS -DDEBUG -D_DEBUG"
+  CFLAGS="$CFLAGS -DDEBUG -D_DEBUG"
 fi
 
 if test x${enable_generic_processor} = xyes ; then
