@@ -19,7 +19,7 @@
 
 // delete job files for which
 // - the delete time is in the past, and
-// - any batch/file associations are to retired batches
+// - there are no associations to active batches
 
 require_once("../inc/boinc_db.inc");
 require_once("../inc/submit_db.inc");
@@ -30,6 +30,8 @@ $fanout = project_config_val("uldl_dir_fanout");
 $t = local_time_str(time());
 echo "$t: delete_job_files: starting\n";
 $id = 0;
+$comp = BATCH_STATE_COMPLETE;
+$db = BoincDb::get();
 while (1) {
     $now = time();
     $files = BoincJobFile::enum(
@@ -38,9 +40,7 @@ while (1) {
     if (empty($files)) break;
     foreach ($files as $file) {
         $id = $file->id;
-        $comp = BATCH_STATE_COMPLETE;
-        $db = BoincDb::get();
-        $query = "select * from ".$db->db_name.".batch_file_assoc as bfa join ".$db->db_name.".batch where bfa.job_file_id=$file->id and bfa.batch_id=batch.id and batch.state<$comp";
+        $query = "select 1 from ".$db->db_name.".batch_file_assoc as bfa join ".$db->db_name.".batch where bfa.job_file_id=$file->id and bfa.batch_id=batch.id and batch.state<$comp limit 1";
         $result = $db->do_query($query);
         if (!$result) {
             die("query failed: $query\n");
