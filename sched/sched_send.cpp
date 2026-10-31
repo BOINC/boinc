@@ -728,7 +728,7 @@ static int insert_deadline_tag(RESULT& result) {
 // Some other scheduler instance might have updated it since we read the WU,
 // and the transitioner might have set it to zero.
 // In that case we return an error, and the result won't get sent.
-// 
+//
 int update_wu_on_send(WORKUNIT& wu, time_t x, APP& app, BEST_APP_VERSION& bav) {
     DB_WORKUNIT dbwu;
     char buf[256], buf2[256], where_clause[256];
