@@ -600,13 +600,14 @@ function create_batch($r) {
 function print_batch_params($batch, $get_cpu_time) {
     $app = BoincApp::lookup_id($batch->app_id);
     if (!$app) $app->name = "none";
+    $fraction_done = ($batch->nerror_jobs+$batch->n_success)/$batch->njobs;
     echo "
         <id>$batch->id</id>
         <create_time>$batch->create_time</create_time>
         <expire_time>$batch->expire_time</expire_time>
         <est_completion_time>$batch->est_completion_time</est_completion_time>
         <njobs>$batch->njobs</njobs>
-        <fraction_done>$batch->fraction_done</fraction_done>
+        <fraction_done>$fraction_done</fraction_done>
         <nerror_jobs>$batch->nerror_jobs</nerror_jobs>
         <state>$batch->state</state>
         <completion_time>$batch->completion_time</completion_time>
@@ -627,13 +628,6 @@ function query_batches($r) {
     $get_cpu_time = (int)($r->get_cpu_time);
     foreach ($batches as $batch) {
         if ($batch->state == BATCH_STATE_RETIRED) continue;
-        if ($batch->state < BATCH_STATE_COMPLETE) {
-            $wus = BoincWorkunit::enum_fields(
-                'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
-                "batch = $batch->id"
-            );
-            $batch = get_batch_params($batch, $wus);
-        }
         echo "    <batch>\n";
         print_batch_params($batch, $get_cpu_time);
         echo "   </batch>\n";
@@ -741,7 +735,6 @@ function query_batch($r) {
         'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
         "batch = $batch->id", 'order by id'
     );
-    $batch = get_batch_params($batch, $wus);
     $get_cpu_time = (int)($r->get_cpu_time);
     $get_job_details = (int)($r->get_job_details);
     print_batch_params($batch, $get_cpu_time);

@@ -973,7 +973,7 @@ void DB_WORKUNIT::db_print(char* buf){
         "transitioner_flags=%d, "
         "size_class=%d, "
         "keywords='%s', "
-        "app_version_num=%d "
+        "app_version_num=%d, "
         "n_sent=%d ",
         create_time, appid,
         name, xml_doc, batch,

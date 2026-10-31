@@ -351,7 +351,7 @@ create table batch (
     description             varchar(255)    not null,
     expire_time             double          not null,
     n_success               integer         not null default 0,
-    n_in_progress           integer         not null default 0,
+    n_in_progress           integer         not null default 0
 ) engine = InnoDB;
 
 -- permissions for job submission

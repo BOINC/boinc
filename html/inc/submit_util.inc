@@ -164,23 +164,11 @@ function delete_remote_submit_user($user) {
 // id
 // canonical_resultid
 // error_mask
+// n_sent
 //
 // TODO: update est_completion_time
 //
 function get_batch_params($batch, $wus) {
-    // make list of WU IDs with an in-progress result
-    $res_in_prog = BoincResult::enum_fields(
-        'workunitid',
-        sprintf('batch=%d and server_state in (%d, %d)',
-            $batch->id,
-            RESULT_SERVER_STATE_IN_PROGRESS, RESULT_SERVER_STATE_OVER
-        )
-    );
-    $wus_in_prog = [];
-    foreach ($res_in_prog as $res) {
-        $wus_in_prog[$res->workunitid] = true;
-    }
-
     $n_success = 0;
     $nerror_jobs = 0;
     $n_in_progress = 0;
@@ -192,7 +180,7 @@ function get_batch_params($batch, $wus) {
             $wu->status = WU_ERROR;
             $nerror_jobs++;
         } else {
-            if (array_key_exists($wu->id, $wus_in_prog)) {
+            if ($wu->n_sent > 0) {
                 $wu->status = WU_IN_PROGRESS;
                 $n_in_progress++;
             } else {
@@ -218,7 +206,7 @@ function get_batch_params($batch, $wus) {
         $batch->nerror_jobs = $nerror_jobs;
     }
     if ($n_success + $nerror_jobs == $batch->njobs) {
-        if ($batch->state != BATCH_STATE_COMPLETE) {
+        if ($batch->state == BATCH_STATE_IN_PROGRESS) {
             $batch->update(
                 sprintf('state=%d, completion_time=%d',
                     BATCH_STATE_COMPLETE, time()

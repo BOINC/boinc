@@ -682,7 +682,7 @@ int handle_wu(
         return retval;
     }
 
-    // if WU is in a batch and it errored out, update batch counter and state
+    // if WU is in a batch and it errored out, update batch counters and state
     //
     if (wu_item.batch>0
         && wu_item.error_mask
@@ -691,7 +691,7 @@ int handle_wu(
         DB_BATCH batch;
         batch.id = wu_item.batch;
         retval = batch.update_field(
-            "nerror_jobs=nerror_jobs+1"
+            "nerror_jobs=nerror_jobs+1, n_in_progress=n_in_progress-1"
         );
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
@@ -705,10 +705,16 @@ int handle_wu(
             BATCH_STATE_COMPLETE,
             (int)dtime()
         );
-        batch.update_field(
+        retval = batch.update_field(
             buf,
             "nerror_jobs+n_success=njobs"
         );
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "[WU%ld][BATCH%d] batch complete update failed: %d\n",
+                wu_item.id, wu_item.batch, retval
+            );
+        }
     }
     return 0;
 }

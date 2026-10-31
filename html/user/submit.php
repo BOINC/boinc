@@ -212,7 +212,10 @@ function show_in_progress($all_batches, $order, $limit, $user, $app) {
             ];
             row_heading_array($x);
         }
-        $frac_done = ($batch->nerror_jobs + $batch->n_success)/$batch->njobs;
+        $frac_done = $batch->njobs
+            ? ($batch->nerror_jobs + $batch->n_success)/$batch->njobs
+            : 1
+        ;
         $pct_done = (int)($frac_done*100);
         $x = [
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
@@ -668,7 +671,7 @@ function handle_query_batch($user) {
     }
     $app = BoincApp::lookup_id($batch->app_id);
     $wus = BoincWorkunit::enum_fields(
-        'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask, priority',
+        'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask, priority, n_sent',
         "batch = $batch->id"
     );
     $batch = get_batch_params($batch, $wus);

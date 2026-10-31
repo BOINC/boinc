@@ -772,14 +772,6 @@ int update_wu_on_send(WORKUNIT& wu, time_t x, APP& app, BEST_APP_VERSION& bav) {
         return ERR_DB_NOT_FOUND;
     }
 
-    // If the WU is part of a batch, update batch.n_in_progress
-    //
-    if (wu.batch > 0 && wu.n_sent == 0) {
-        DB_BATCH batch;
-        batch.id = wu.batch;
-        sprintf(buf, "n_in_progress=n_in_progress+1");
-        batch.update_field(buf);
-    }
     return 0;
 }
 
@@ -995,6 +987,23 @@ int add_result_to_reply(
             retval
         );
         return retval;
+    }
+
+    // If the WU is part of a batch, update batch.n_in_progress
+    //
+    if (wu.batch > 0 && wu.n_sent == 0) {
+        char buf[256];
+        DB_BATCH batch;
+        batch.id = wu.batch;
+        sprintf(buf, "n_in_progress=n_in_progress+1");
+        retval = batch.update_field(buf);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "[BATCH%d] add_result_to_reply(): batch update failed: %d\n",
+                wu.batch, retval
+            );
+            return retval;
+        }
     }
 
     // update result DB record.
