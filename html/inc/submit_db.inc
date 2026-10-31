@@ -128,6 +128,9 @@ class BoincJobFile {
     // fit MySQL's 64-character limit. The connection also releases them on exit.
     private static function lock_name($name) {
         $db = BoincDb::get();
+        // Valid filenames are ASCII. Case and trailing-space variants compare
+        // equal in the default name collation and must take the same lock.
+        $name = strtolower(rtrim($name, ' '));
         return hash('sha256', "job_file:$db->db_name\0$name");
     }
     static function lock($name, $timeout=30) {
@@ -166,8 +169,12 @@ class BoincJobFile {
     }
     static function lookup_name($name) {
         $db = BoincDb::get();
-        $name = BoincDb::escape_string($name);
-        return $db->lookup('job_file', 'BoincJobFile', "binary name='$name'");
+        $name = $db->base_escape_string($name);
+        $file = $db->lookup('job_file', 'BoincJobFile', "name='$name'");
+        if ($db->base_errno()) {
+            throw new RuntimeException("could not look up job file");
+        }
+        return $file;
     }
     static function enum($clause) {
         $db = BoincDb::get();

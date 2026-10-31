@@ -118,11 +118,14 @@ function query_files($r) {
             xml_error(-1, "job file is busy; retry the request");
         }
         try {
+            $job_file = BoincJobFile::lookup_name($fname);
+            if ($job_file && $job_file->name !== $fname) {
+                throw new RuntimeException("filename conflicts with existing job file $job_file->name");
+            }
             $path = dir_hier_path($fname, project_dir()."/download", $fanout);
             clearstatcache(true, $path);
 
             // The file lock protects renewal and association creation from cleanup.
-            $job_file = BoincJobFile::lookup_name($fname);
             if ($job_file && $job_file->delete_time < $delete_time) {
                 $retval = $job_file->update("delete_time=$delete_time");
                 if (!$retval) {
@@ -231,6 +234,10 @@ function upload_files($r) {
             xml_error(-1, "job file is busy; retry the request");
         }
         try {
+            $job_file = BoincJobFile::lookup_name($fname);
+            if ($job_file && $job_file->name !== $fname) {
+                throw new RuntimeException("filename conflicts with existing job file $job_file->name");
+            }
             $path = dir_hier_path($fname, project_dir()."/download", $fanout);
             clearstatcache(true, $path);
             clearstatcache(true, "$path.md5");
@@ -258,13 +265,22 @@ function upload_files($r) {
                 xml_error(-1, "file operation failed; check permissions in download/*");
             }
 
-            $jf_id = BoincJobFile::insert(
-                "(name, create_time, delete_time) values ('$fname', $now, $delete_time)"
-            );
-            if (!$jf_id) {
-                xml_error(-1, "BoincJobFile::insert($fname) failed: ".BoincDb::error());
+            if ($job_file) {
+                $jf_id = $job_file->id;
+                if ($job_file->delete_time < $delete_time
+                    && !$job_file->update("delete_time=$delete_time")
+                ) {
+                    xml_error(-1, "job_file->update() failed: ".BoincDb::error());
+                }
+            } else {
+                $jf_id = BoincJobFile::insert(
+                    "(name, create_time, delete_time) values ('$fname', $now, $delete_time)"
+                );
+                if (!$jf_id) {
+                    xml_error(-1, "BoincJobFile::insert($fname) failed: ".BoincDb::error());
+                }
             }
-            if ($batch_id) {
+            if ($batch_id && !BoincBatchFileAssoc::lookup("batch_id=$batch_id and job_file_id=$jf_id")) {
                 if (!BoincBatchFileAssoc::insert(
                     "(batch_id, job_file_id) values ($batch_id, $jf_id)"
                 )) {
@@ -312,15 +328,19 @@ if (!$r) {
     xml_error(-1, "can't parse request message: ".htmlspecialchars($req), __FILE__, __LINE__);
 }
 
-switch ($r->getName()) {
-case 'query_files':
-    query_files($r);
-    break;
-case 'upload_files':
-    upload_files($r);
-    break;
-default:
-    xml_error(-1, "no such action");
+try {
+    switch ($r->getName()) {
+    case 'query_files':
+        query_files($r);
+        break;
+    case 'upload_files':
+        upload_files($r);
+        break;
+    default:
+        xml_error(-1, "no such action");
+    }
+} catch (Exception $e) {
+    xml_error(-1, htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8'));
 }
 
 ?>
