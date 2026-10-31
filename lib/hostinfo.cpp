@@ -30,6 +30,10 @@
 #endif
 #endif
 
+#include <algorithm>
+#include <utility>
+#include <vector>
+
 #include "error_numbers.h"
 #include "md5_file.h"
 #include "parse.h"
@@ -496,8 +500,8 @@ bool HOST_INFO::parse_podman_info_subids(
     bool in_gidmap = false;
     bool in_uidmap = false;
     bool is_rootful = false;
-    bool has_gidmap = false;
-    bool has_uidmap = false;
+    std::vector<std::pair<long long, long long>> uid_ranges, gid_ranges;
+    long long container_id = -1;
     MIOFILE mf;
     char buf[256];
     mf.init_buf_read(raw);
@@ -517,18 +521,27 @@ bool HOST_INFO::parse_podman_info_subids(
             }
             continue;
         }
-        long size = 0;
+        long long size = 0;
         if (strstr(buf, "gidmap:")) {
             in_gidmap = true;
             in_uidmap = false;
+            container_id = -1;
         } else if (strstr(buf, "uidmap:")) {
             in_uidmap = true;
             in_gidmap = false;
-        } else if (sscanf(buf, " size: %ld", &size) == 1) {
-            if (size >= 65536) {
-                if (in_gidmap) has_gidmap = true;
-                if (in_uidmap) has_uidmap = true;
+            container_id = -1;
+        } else if (sscanf(buf, " - container_id: %lld", &container_id) == 1) {
+            continue;
+        } else if (sscanf(buf, " size: %lld", &size) == 1) {
+            // Podman places the user's own ID at 0, then maps subordinate
+            // ranges consecutively. Host ranges need not be contiguous.
+            // Only retain the part needed to cover container IDs 1..65536.
+            if (container_id >= 0 && container_id <= 65536 && size > 0) {
+                long long end = container_id + std::min(size, 65537 - container_id);
+                if (in_gidmap) gid_ranges.emplace_back(container_id, end);
+                if (in_uidmap) uid_ranges.emplace_back(container_id, end);
             }
+            container_id = -1;
         } else if (strncmp(buf, "    ", 4) != 0 && buf[0] != '\n' && buf[0] != '\r') {
             // Keep reading: security.rootless follows idMappings.
             in_id_mappings = false;
@@ -536,7 +549,16 @@ bool HOST_INFO::parse_podman_info_subids(
             in_uidmap = false;
         }
     }
-    subids_ok = is_rootful || (has_gidmap && has_uidmap);
+    auto covers_subids = [](std::vector<std::pair<long long, long long>>& ranges) {
+        std::sort(ranges.begin(), ranges.end());
+        long long next_id = 1;
+        for (const auto& range: ranges) {
+            if (range.first > next_id) break;
+            next_id = std::max(next_id, range.second);
+        }
+        return next_id >= 65537;
+    };
+    subids_ok = is_rootful || (covers_subids(uid_ranges) && covers_subids(gid_ranges));
     return parsed;
 }
 

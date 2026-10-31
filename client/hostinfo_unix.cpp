@@ -1475,7 +1475,7 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
     if (type == PODMAN) {
         // For rootless Podman to work with BOINC on Linux, user and group sub-IDs
         // must be configured (e.g. via usermod).
-        // Check 'podman info' for idMappings gidmap and uidmap with size >= 65536.
+        // Check 'podman info' for coverage of subordinate container IDs 1..65536.
         //
         snprintf(cmd, sizeof(cmd),
             "%s info 2>/dev/null",
@@ -1493,10 +1493,10 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
         bool subids_ok = false;
         if (cmd_ok && parse_podman_info_subids(reply.c_str(), subids_ok) && !subids_ok) {
             msg_printf(NULL, MSG_INFO,
-                "Podman found, but user/group sub-IDs are not configured; see https://github.com/BOINC/boinc/wiki/Installing-Podman-on-Linux"
+                "Podman found, but user/group sub-ID mappings do not cover IDs 1..65536; see https://github.com/BOINC/boinc/wiki/Installing-Podman-on-Linux"
             );
             msg_printf(NULL, MSG_INFO,
-                "Run 'sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 <username>' to configure Podman for BOINC"
+                "Ask your administrator to check /etc/subuid and /etc/subgid and allocate non-overlapping ranges for the BOINC user, then run 'podman system migrate' as that user"
             );
             docker_version[0] = 0;
             return false;

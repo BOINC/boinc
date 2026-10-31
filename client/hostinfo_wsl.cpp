@@ -536,24 +536,27 @@ static bool get_docker_version_aux(
         // rootless configuration is irrelevant to BOINC's Podman tasks.
         // For rootless Podman to work with BOINC in WSL, user and group sub-IDs
         // must be configured (e.g. via usermod).
-        // Check 'podman info' for idMappings gidmap and uidmap with size >= 65536.
+        // Check 'podman info' for coverage of subordinate container IDs 1..65536.
         //
         cmd = string(docker_cli_prog(type)) + " info";
         reply.clear();
         bool cmd_ok = false;
         if (!rs.run_program_in_wsl(wd, cmd.c_str())) {
             int read_ret = read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
-            cmd_ok = (read_ret == 0 || read_ret == ERR_CONNECT);
+            DWORD exit_code = STILL_ACTIVE;
+            cmd_ok = (read_ret == 0 || read_ret == ERR_CONNECT)
+                && GetExitCodeProcess(rs.proc_handle, &exit_code)
+                && exit_code == 0;
             CloseHandle(rs.proc_handle);
         }
         bool subids_ok = false;
         if (cmd_ok && HOST_INFO::parse_podman_info_subids(reply.c_str(), subids_ok) && !subids_ok) {
             msg_printf(0, MSG_INFO,
-                "Podman found in WSL distro %s, but user/group sub-IDs are not configured",
+                "Podman found in WSL distro %s, but user/group sub-ID mappings do not cover IDs 1..65536",
                 wd.distro_name.c_str()
             );
             msg_printf(0, MSG_INFO,
-                "In WSL (%s), run 'sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 $USER && podman system migrate' to configure Podman for BOINC",
+                "In WSL (%s), ask your administrator to check /etc/subuid and /etc/subgid and allocate non-overlapping ranges for the BOINC user, then run 'podman system migrate' as that user",
                 wd.distro_name.c_str()
             );
             wd.docker_version.clear();
