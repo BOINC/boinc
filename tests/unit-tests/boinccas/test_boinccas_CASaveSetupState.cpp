@@ -41,7 +41,7 @@ namespace test_boinccas {
         EXPECT_TRUE(getRegistryValue("INSTALLDIR").empty());
         EXPECT_TRUE(getRegistryValue("DATADIR").empty());
         EXPECT_EQ("0", getRegistryValue("LAUNCHPROGRAM"));
-        EXPECT_EQ("0", getRegistryValue("LAUNCHWSLIMAGEINSTALLER"));
+        EXPECT_EQ("0", getRegistryValue("INSTALLWSLIMAGEINSTALLER"));
         EXPECT_TRUE(getRegistryValue("BOINC_MASTER_USERNAME").empty());
         EXPECT_TRUE(getRegistryValue("BOINC_PROJECT_USERNAME").empty());
         EXPECT_EQ("0", getRegistryValue("ENABLELAUNCHATLOGON"));
@@ -72,8 +72,8 @@ namespace test_boinccas {
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1", value);
 
-        setMsiProperty("LAUNCHWSLIMAGEINSTALLER", "1");
-        std::tie(errorcode, value) = getMsiProperty("LAUNCHWSLIMAGEINSTALLER");
+        setMsiProperty("INSTALLWSLIMAGEINSTALLER", "1");
+        std::tie(errorcode, value) = getMsiProperty("INSTALLWSLIMAGEINSTALLER");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("1", value);
 
@@ -113,7 +113,7 @@ namespace test_boinccas {
         EXPECT_EQ("test", getRegistryValue("INSTALLDIR"));
         EXPECT_EQ("test_data", getRegistryValue("DATADIR"));
         EXPECT_EQ("1", getRegistryValue("LAUNCHPROGRAM"));
-        EXPECT_EQ("1", getRegistryValue("LAUNCHWSLIMAGEINSTALLER"));
+        EXPECT_EQ("1", getRegistryValue("INSTALLWSLIMAGEINSTALLER"));
         EXPECT_EQ("master_test", getRegistryValue("BOINC_MASTER_USERNAME"));
         EXPECT_EQ("project_test", getRegistryValue("BOINC_PROJECT_USERNAME"));
         EXPECT_EQ("1", getRegistryValue("ENABLELAUNCHATLOGON"));
@@ -134,8 +134,8 @@ namespace test_boinccas {
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("2", value);
 
-        setMsiProperty("LAUNCHWSLIMAGEINSTALLER", "7");
-        std::tie(errorcode, value) = getMsiProperty("LAUNCHWSLIMAGEINSTALLER");
+        setMsiProperty("INSTALLWSLIMAGEINSTALLER", "7");
+        std::tie(errorcode, value) = getMsiProperty("INSTALLWSLIMAGEINSTALLER");
         EXPECT_EQ(static_cast<unsigned int>(ERROR_SUCCESS), errorcode);
         ASSERT_EQ("7", value);
 
@@ -165,7 +165,7 @@ namespace test_boinccas {
         EXPECT_TRUE(getRegistryValue("INSTALLDIR").empty());
         EXPECT_TRUE(getRegistryValue("DATADIR").empty());
         EXPECT_EQ("0", getRegistryValue("LAUNCHPROGRAM"));
-        EXPECT_EQ("0", getRegistryValue("LAUNCHWSLIMAGEINSTALLER"));
+        EXPECT_EQ("0", getRegistryValue("INSTALLWSLIMAGEINSTALLER"));
         EXPECT_TRUE(getRegistryValue("BOINC_MASTER_USERNAME").empty());
         EXPECT_TRUE(getRegistryValue("BOINC_PROJECT_USERNAME").empty());
         EXPECT_EQ("0", getRegistryValue("ENABLELAUNCHATLOGON"));
