@@ -79,6 +79,7 @@ public:
     int rollback_transaction();
     int commit_transaction();
     int get_double(const char* query, double&);
+    int get_long(const char* query, long&);
 
     MYSQL* mysql;
 };
@@ -106,7 +107,6 @@ public:
     int count(long&, const char* clause="");
     int max_id(DB_ID_TYPE&, const char* clause="");
     int sum(double&, const char* field, const char* clause="");
-    int get_long(const char* query, long&);
     int affected_rows();
 
     DB_CONN* db;
