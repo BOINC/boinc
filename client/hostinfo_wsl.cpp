@@ -425,11 +425,6 @@ int HOST_INFO::get_wsl_information() {
             wd.libc_version = parse_ldd_libc(buf.c_str());
         }
 
-        // see if Podman/Docker is installed in the distro
-        //
-        get_docker_version(rs, wd);
-        get_docker_compose_version(rs, wd);
-
         // see if distro is disallowed
         //
         vector<string> &dw = cc_config.disallowed_wsls;
@@ -437,7 +432,8 @@ int HOST_INFO::get_wsl_information() {
             wd.disallowed = true;
         }
 
-        // if it's boinc-buda-runner, look for version file
+        // Read the distro version before Podman detection: it selects the user
+        // used by setup_podman(), and hence whether sub-IDs are needed.
         //
         if (wd.distro_name == BOINC_WSL_DISTRO_NAME) {
             wd.boinc_buda_runner_version = 1;
@@ -452,6 +448,11 @@ int HOST_INFO::get_wsl_information() {
                 }
             }
         }
+
+        // see if Podman/Docker is installed in the distro
+        //
+        get_docker_version(rs, wd);
+        get_docker_compose_version(rs, wd);
 
         // parse gpus.json if present.
         //
@@ -530,7 +531,9 @@ static bool get_docker_version_aux(
         );
         msg_printf(0, MSG_INFO, "-   cmd failed: %s", cmd.c_str());
     }
-    if (ret && type == PODMAN) {
+    if (ret && type == PODMAN && wd.podman_uses_default_user()) {
+        // setup_podman() uses root for other distros, so their default user's
+        // rootless configuration is irrelevant to BOINC's Podman tasks.
         // For rootless Podman to work with BOINC in WSL, user and group sub-IDs
         // must be configured (e.g. via usermod).
         // Check 'podman info' for idMappings gidmap and uidmap with size >= 65536.
