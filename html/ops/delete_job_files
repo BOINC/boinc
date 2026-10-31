@@ -32,6 +32,7 @@ echo "$t: delete_job_files: starting\n";
 $id = 0;
 $comp = BATCH_STATE_COMPLETE;
 $db = BoincDb::get();
+$failed = false;
 while (1) {
     $now = time();
     $files = BoincJobFile::enum(
@@ -40,34 +41,81 @@ while (1) {
     if (empty($files)) break;
     foreach ($files as $file) {
         $id = $file->id;
-        $query = "select 1 from ".$db->db_name.".batch_file_assoc as bfa join ".$db->db_name.".batch where bfa.job_file_id=$file->id and bfa.batch_id=batch.id and batch.state<$comp limit 1";
-        $result = $db->do_query($query);
-        if (!$result) {
-            die("query failed: $query\n");
-        }
-        $b = _mysql_fetch_object($result);
-        _mysql_free_result($result);
-        if ($b) continue;
+        $locked = false;
+        $transaction = false;
+        try {
+            // A busy file can be retried on the next pass. Uploads and queries
+            // take the same lock before checking the file or changing its TTL.
+            if (!BoincJobFile::lock($file->name, 0)) continue;
+            $locked = true;
 
-        $path = dir_hier_path($file->name, "../../download", $fanout);
-        $dirpath = dirname($path);
-        if (!is_dir($dirpath) || !is_readable($dirpath) || !is_executable($dirpath)) {
-            echo "failed to access $dirpath\n";
-            continue;
+            // Recheck after locking: the enumeration may predate a renewal.
+            // Repeated uploads can create multiple rows for one physical file;
+            // every row's TTL and batch associations must permit deletion.
+            $name = BoincDb::escape_string($file->name);
+            $result = $db->do_query("select id, delete_time from ".$db->db_name.".job_file where binary name='$name'");
+            if (!$result) {
+                throw new RuntimeException("could not recheck job file");
+            }
+            $ids = [];
+            $expired = true;
+            $now = time();
+            while ($row = _mysql_fetch_object($result)) {
+                $ids[] = (int)$row->id;
+                if ($row->delete_time >= $now) $expired = false;
+            }
+            _mysql_free_result($result);
+            if (!$ids || !$expired) continue;
+            $ids = implode(',', $ids);
+
+            $query = "select 1 from ".$db->db_name.".batch_file_assoc as bfa join ".$db->db_name.".batch where bfa.job_file_id in ($ids) and bfa.batch_id=batch.id and batch.state<$comp limit 1";
+            $result = $db->do_query($query);
+            if (!$result) {
+                throw new RuntimeException("could not check batch associations");
+            }
+            $b = _mysql_fetch_object($result);
+            _mysql_free_result($result);
+            if ($b) continue;
+
+            $path = dir_hier_path($file->name, "../../download", $fanout);
+            clearstatcache(true, $path);
+            clearstatcache(true, "$path.md5");
+            $dirpath = dirname($path);
+            if (!is_dir($dirpath) || !is_readable($dirpath) || !is_executable($dirpath)) {
+                throw new RuntimeException("failed to access $dirpath");
+            }
+            if (!$db->do_query("start transaction")) {
+                throw new RuntimeException("could not start cleanup transaction");
+            }
+            $transaction = true;
+            if ((file_exists($path) || is_link($path)) && !unlink($path)) {
+                throw new RuntimeException("failed to delete $path");
+            }
+            if ((file_exists("$path.md5") || is_link("$path.md5")) && !unlink("$path.md5")) {
+                throw new RuntimeException("failed to delete $path.md5");
+            }
+            if (!BoincBatchFileAssoc::delete_aux("job_file_id in ($ids)")
+                || !$db->delete_aux('job_file', "id in ($ids)")
+            ) {
+                throw new RuntimeException("could not delete job-file records");
+            }
+            if (!$db->do_query("commit")) {
+                throw new RuntimeException("could not commit job-file cleanup");
+            }
+            $transaction = false;
+            echo "deleted $path\n";
+        } catch (Exception $e) {
+            $failed = true;
+            echo "failed to clean up $file->name: ".$e->getMessage()."\n";
+        } finally {
+            if ($transaction && !$db->do_query("rollback")) {
+                throw new RuntimeException("could not roll back job-file cleanup");
+            }
+            if ($locked) BoincJobFile::unlock($file->name);
         }
-        if ((file_exists($path) || is_link($path)) && !unlink($path)) {
-            echo "failed to delete $path\n";
-            continue;
-        }
-        if ((file_exists("$path.md5") || is_link("$path.md5")) && !unlink("$path.md5")) {
-            echo "failed to delete $path.md5\n";
-            continue;
-        }
-        echo "deleted $path\n";
-        BoincBatchFileAssoc::delete_aux("job_file_id=$file->id");
-        $file->delete();
     }
 }
 $t = local_time_str(time());
 echo "$t: delete_job_files: done\n";
+exit($failed ? 1 : 0);
 ?>
