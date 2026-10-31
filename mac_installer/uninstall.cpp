@@ -459,6 +459,7 @@ fprintf(stdout, "Starting privileged tool (stdout)\n");
     // Allow time for client to abort tasks.
     double time_to_kill = dtime() + 65.; // ABORT_TIMEOUT in client_state.h is 60
     while (true) {
+        sleep(1);
         coreClientPID = FindProcessPID("boinc", 0);
         if (! coreClientPID) break;
         if (dtime() > time_to_kill) {
