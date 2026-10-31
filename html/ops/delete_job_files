@@ -43,6 +43,7 @@ while (1) {
         $id = $file->id;
         $locked = false;
         $transaction = false;
+        $connection_failed = false;
         try {
             // A busy file can be retried on the next pass. Uploads and queries
             // take the same lock before checking the file or changing its TTL.
@@ -67,21 +68,26 @@ while (1) {
             _mysql_free_result($result);
             if ($b) continue;
 
-            $path = dir_hier_path($current->name, "../../download", $fanout);
+            // Do not use dir_hier_path(): cleanup must not create directories
+            // on an empty mount point when download storage is unavailable.
+            $path = "../../download/".filename_hash($current->name, $fanout)
+                ."/".$current->name;
             clearstatcache(true, $path);
             clearstatcache(true, "$path.md5");
             $dirpath = dirname($path);
             if (!is_dir($dirpath) || !is_readable($dirpath) || !is_executable($dirpath)) {
                 throw new RuntimeException("failed to access $dirpath");
             }
+            $have_file = file_exists($path) || is_link($path);
+            $have_md5 = file_exists("$path.md5") || is_link("$path.md5");
             if (!$db->do_query("start transaction")) {
                 throw new RuntimeException("could not start cleanup transaction");
             }
             $transaction = true;
-            if ((file_exists($path) || is_link($path)) && !unlink($path)) {
+            if ($have_file && !unlink($path)) {
                 throw new RuntimeException("failed to delete $path");
             }
-            if ((file_exists("$path.md5") || is_link("$path.md5")) && !unlink("$path.md5")) {
+            if ($have_md5 && !unlink("$path.md5")) {
                 throw new RuntimeException("failed to delete $path.md5");
             }
             if (!BoincBatchFileAssoc::delete_aux("job_file_id=$current->id")
@@ -98,10 +104,30 @@ while (1) {
             $failed = true;
             echo "failed to clean up $file->name: ".$e->getMessage()."\n";
         } finally {
-            if ($transaction && !$db->do_query("rollback")) {
-                throw new RuntimeException("could not roll back job-file cleanup");
+            if ($transaction) {
+                try {
+                    if (!$db->do_query("rollback")) {
+                        throw new RuntimeException("could not roll back job-file cleanup");
+                    }
+                } catch (Exception $e) {
+                    $connection_failed = true;
+                    echo "rollback failed for $file->name: ".$e->getMessage()."\n";
+                }
             }
-            if ($locked) BoincJobFile::unlock($file->name);
+            if ($locked) {
+                try {
+                    BoincJobFile::unlock($file->name);
+                } catch (Exception $e) {
+                    $connection_failed = true;
+                    echo "unlock failed for $file->name: ".$e->getMessage()."\n";
+                }
+            }
+            if ($connection_failed) {
+                // Exit closes the connection and releases outstanding locks.
+                // Do not reuse a connection whose transaction state is unknown.
+                echo "stopping cleanup after database recovery failure\n";
+                exit(1);
+            }
         }
     }
 }
