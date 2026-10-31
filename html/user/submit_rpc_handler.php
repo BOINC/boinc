@@ -600,7 +600,10 @@ function create_batch($r) {
 function print_batch_params($batch, $get_cpu_time) {
     $app = BoincApp::lookup_id($batch->app_id);
     if (!$app) $app->name = "none";
-    $fraction_done = ($batch->nerror_jobs+$batch->n_success)/$batch->njobs;
+    $fraction_done = $batch->njobs
+        ? ($batch->nerror_jobs+$batch->n_success)/$batch->njobs
+        : 1
+    ;
     echo "
         <id>$batch->id</id>
         <create_time>$batch->create_time</create_time>

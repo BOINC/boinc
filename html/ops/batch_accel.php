@@ -158,17 +158,17 @@ function main() {
         sprintf('state=%d', BATCH_STATE_IN_PROGRESS)
     );
     foreach ($batches as $batch) {
-        $wus = BoincWorkunit::enum_fields(
-            'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask, max_total_results, target_nresults, priority, n_sent',
-            "batch = $batch->id"
-        );
         $n_done = $batch->n_success + $batch->nerror_jobs;
         $n_not_done = $batch->njobs - $n_done;
-        $fraction_done = $ndone/$batch->njobs;
+        $fraction_done = $n_done/$batch->njobs;
         if ($fraction_done > BATCH_ACCEL_MIN_FRAC_DONE
             || $n_not_done < BATCH_ACCEL_MAX_NOT_DONE
         ) {
             echo "doing batch $batch->id\n";
+            $wus = BoincWorkunit::enum_fields(
+                'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask, max_total_results, target_nresults, priority, n_sent',
+                "batch = $batch->id"
+            );
             do_batch($batch, $wus);
         } else {
             echo "not doing batch $batch->id: $fraction_done done\n";

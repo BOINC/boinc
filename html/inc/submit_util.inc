@@ -354,7 +354,7 @@ function retire_batch($batch) {
     // we need to call get_batch_params() to set WU.status
     //
     $wus = BoincWorkunit::enum_fields(
-        'id, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
+        'id, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask, n_sent',
         "batch = $batch->id"
     );
     get_batch_params($batch, $wus);
