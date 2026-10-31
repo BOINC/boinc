@@ -233,6 +233,14 @@ else
     if [ ! -f "${libcares}/libcares.a" ]; then
         cd ../"${caresDirName}" || return 1
         make install
+        if [ $? -ne 0 ]; then
+            echo "*******************************"
+            echo "**** Please rebuild c-ares ****"
+            echo "*******************************"
+            cd "${CURL_DIR}"
+            return 1
+        fi
+
         cd "${CURL_DIR}" || return 1
     fi
 

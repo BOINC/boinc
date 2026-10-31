@@ -251,17 +251,6 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    for (i=0; i< NUMBRANDS; i++) {
-        snprintf(s, sizeof(s), "killall \"%s\"", appName[i]);
-        callPosixSpawn (s);
-    }
-    sleep(2);
-
-    // Core Client may still be running if it was started without Manager
-    coreClientPID = FindProcessPID("boinc", 0, false);
-    if (coreClientPID)
-        kill(coreClientPID, SIGTERM);   // boinc catches SIGTERM & exits gracefully
-
     // Create the new BOINC Podman directory if it does not yet exist
     snprintf(s, sizeof(s), "/Library/Application Support/" PODMAN_DIR);
     if (stat(s, &sbuf) != 0) {
@@ -488,6 +477,34 @@ int main(int argc, char *argv[])
     REPORT_ERROR(err);
 
 #endif   // ! defined(SANDBOX)
+
+    // The installer overwrites switcher before calling the PostInstal app,
+    // changing switcher's ownership and permissions.
+    // To ensure that the client can kill running tasks using switcher, we
+    // must not shut down the client until after we have set switcher's
+    // ownership and permissions via SetBOINCDataOwnersGroupsAndPermissions()
+    for (i=0; i< NUMBRANDS; i++) {
+        snprintf(s, sizeof(s), "killall \"%s\"", appName[i]);
+        callPosixSpawn (s);
+    }
+    sleep(2);
+
+    // Core Client may still be running if it was started without Manager
+    coreClientPID = FindProcessPID("boinc", 0, false);
+    if (coreClientPID)
+        kill(coreClientPID, SIGTERM);   // boinc catches SIGTERM & exits gracefully
+
+    // Allow time for client to abort tasks.
+    double time_to_kill_client = dtime() + 65.; // ABORT_TIMEOUT in client_state.h is 60
+    while (true) {
+        sleep(1);
+        coreClientPID = FindProcessPID("boinc", 0, false);
+        if (! coreClientPID) break;
+        if (dtime() > time_to_kill_client) {
+            kill(coreClientPID, SIGKILL);
+            break;
+        }
+    }
 
     // Remove any branded versions of BOINC other than ours (i.e., old versions)
     for (i=0; i< NUMBRANDS; i++) {
