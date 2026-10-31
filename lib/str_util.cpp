@@ -834,6 +834,7 @@ char* lf_terminate(char* p) {
 }
 
 // split a string with the given delimiter (e.g. \n).
+// If add_delim is true, append the delimiter to each piece
 //
 vector<string> split(string s, char delim, bool add_delim) {
     vector<string> result;
