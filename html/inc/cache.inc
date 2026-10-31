@@ -119,7 +119,7 @@ function cache_check_diskspace(){
     if (disk_usage("../cache") < MAX_CACHE_USAGE) {
         return;
     }
-    $x = max(TEAM_PAGE_TTL, USER_PAGE_TTL, USER_HOST_TTL,
+    $x = max(TEAM_PAGE_TTL, USER_PAGE_TTL,
         USER_PROFILE_TTL, TOP_PAGES_TTL, INDEX_PAGE_TTL
     );
     clean_cache($x, "../cache");
