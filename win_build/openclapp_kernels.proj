@@ -5,9 +5,9 @@
        task back into each caller: they can finish linking at the same time. -->
   <Target Name="CopyOpenCLAppKernels">
     <Error Condition="'$(OutDir)' == ''" Text="OutDir must be set to copy the OpenCL sample kernel." />
-    <!-- Naming the source file explicitly makes a missing source an error,
-         even if an old output file still exists. -->
+    <!-- Always refresh this small file. Naming it explicitly also makes a
+         missing source an error, even if an old output file still exists. -->
     <Copy SourceFiles="$(MSBuildThisFileDirectory)..\samples\openclapp\openclapp_kernels.cl"
-          DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" Retries="0" />
+          DestinationFolder="$(OutDir)" Retries="0" />
   </Target>
 </Project>
