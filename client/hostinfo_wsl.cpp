@@ -538,16 +538,31 @@ static bool get_docker_version_aux(
         // must be configured (e.g. via usermod).
         // Check 'podman info' for coverage of subordinate container IDs 1..65536.
         //
+        // Keep a failed or slow info probe isolated from later WSL commands.
+        WSL_CMD info_cmd;
+        string err_msg;
         cmd = string(docker_cli_prog(type)) + " info";
         reply.clear();
         bool cmd_ok = false;
-        if (!rs.run_program_in_wsl(wd, cmd.c_str())) {
-            int read_ret = read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
+        if (!info_cmd.setup(err_msg) && !info_cmd.run_program_in_wsl(wd, cmd.c_str())) {
+            int read_ret = read_from_pipe(info_cmd.out_read, info_cmd.proc_handle, reply, CMD_TIMEOUT);
             DWORD exit_code = STILL_ACTIVE;
+            bool exited = GetExitCodeProcess(info_cmd.proc_handle, &exit_code)
+                && exit_code != STILL_ACTIVE;
             cmd_ok = (read_ret == 0 || read_ret == ERR_CONNECT)
-                && GetExitCodeProcess(rs.proc_handle, &exit_code)
-                && exit_code == 0;
-            CloseHandle(rs.proc_handle);
+                && exited && exit_code == 0;
+            if (!exited) {
+                TerminateProcess(info_cmd.proc_handle, 1);
+                // Termination is asynchronous. Bound the wait; the private
+                // pipes prevent late output from reaching subsequent probes.
+                if (WaitForSingleObject(info_cmd.proc_handle, 1000) != WAIT_OBJECT_0) {
+                    msg_printf(0, MSG_INFO,
+                        "Could not stop Podman info probe in WSL distro %s",
+                        wd.distro_name.c_str()
+                    );
+                }
+            }
+            CloseHandle(info_cmd.proc_handle);
         }
         bool subids_ok = false;
         if (cmd_ok && HOST_INFO::parse_podman_info_subids(reply.c_str(), subids_ok) && !subids_ok) {
