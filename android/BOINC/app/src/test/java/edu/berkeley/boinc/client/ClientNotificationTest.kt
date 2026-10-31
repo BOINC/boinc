@@ -19,7 +19,10 @@
 package edu.berkeley.boinc.client
 
 import android.app.Notification
+import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.Service.STOP_FOREGROUND_DETACH
+import android.app.Service.STOP_FOREGROUND_REMOVE
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -32,12 +35,14 @@ import edu.berkeley.boinc.utils.PROCESS_SUSPENDED
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockkClass
+import io.mockk.verify
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
@@ -267,6 +272,71 @@ class ClientNotificationTest {
         clientNotification.update(clientStatus, monitor, false)
 
         Assert.assertFalse(clientNotification.foreground)
+    }
+
+    @Config(sdk = [Build.VERSION_CODES.M, Build.VERSION_CODES.N, Build.VERSION_CODES.P])
+    @Suppress("DEPRECATION")
+    @Test
+    fun `When active changes without a status update then refresh the retained notification priority`() {
+        val monitor = mockkClass(Monitor::class)
+        justRun { monitor.startForeground(any(), any()) }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            justRun { monitor.stopForeground(STOP_FOREGROUND_DETACH) }
+        } else {
+            justRun { monitor.stopForeground(false) }
+        }
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns true
+        val clientStatus = ClientStatus(context, appPreferences, deviceStatus)
+        clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_IDLE
+        val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val id = context.resources.getInteger(R.integer.autostart_notification_id)
+
+        clientNotification.update(clientStatus, monitor, true)
+        Assert.assertEquals(Notification.PRIORITY_HIGH, shadowOf(nm).getNotification(id).priority)
+
+        // Screen-off updates can change active without changing ClientStatus.
+        clientNotification.update(clientStatus, monitor, false)
+        Assert.assertEquals(Notification.PRIORITY_LOW, shadowOf(nm).getNotification(id).priority)
+        Assert.assertTrue(clientNotification.notificationShown)
+        Assert.assertFalse(clientNotification.foreground)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            verify(exactly = 1) { monitor.stopForeground(STOP_FOREGROUND_DETACH) }
+        } else {
+            verify(exactly = 1) { monitor.stopForeground(false) }
+        }
+
+        clientNotification.update(clientStatus, monitor, true)
+        Assert.assertEquals(Notification.PRIORITY_HIGH, shadowOf(nm).getNotification(id).priority)
+        Assert.assertTrue(clientNotification.foreground)
+    }
+
+    @Config(sdk = [Build.VERSION_CODES.M, Build.VERSION_CODES.N, Build.VERSION_CODES.P])
+    @Suppress("DEPRECATION")
+    @Test
+    fun `When suspension notification is disabled then remove the foreground notification`() {
+        val monitor = mockkClass(Monitor::class)
+        justRun { monitor.startForeground(any(), any()) }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            justRun { monitor.stopForeground(STOP_FOREGROUND_REMOVE) }
+        } else {
+            justRun { monitor.stopForeground(true) }
+        }
+        every { monitor.appPreferences } returns appPreferences
+        every { appPreferences.showNotificationDuringSuspend } returns false
+        val clientStatus = ClientStatus(context, appPreferences, deviceStatus)
+        clientStatus.computingStatus = ClientStatus.COMPUTING_STATUS_IDLE
+
+        clientNotification.update(clientStatus, monitor, true)
+        clientNotification.update(clientStatus, monitor, false)
+
+        Assert.assertFalse(clientNotification.foreground)
+        Assert.assertFalse(clientNotification.notificationShown)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            verify(exactly = 1) { monitor.stopForeground(STOP_FOREGROUND_REMOVE) }
+        } else {
+            verify(exactly = 1) { monitor.stopForeground(true) }
+        }
     }
 
     @Config(minSdk = Build.VERSION_CODES.JELLY_BEAN, maxSdk = Build.VERSION_CODES.M)
@@ -866,6 +936,7 @@ class ClientNotificationTest {
         Assert.assertFalse(clientNotification.foreground)
     }
 
+    @Suppress("DEPRECATION")
     @Test
     fun `When startForegroundImmediately is called then expect foreground to be true`() {
         val monitor = mockkClass(Monitor::class)
@@ -876,6 +947,12 @@ class ClientNotificationTest {
         clientNotification.startForegroundImmediately(monitor, clientStatus)
 
         Assert.assertTrue(clientNotification.foreground)
+        verify(exactly = 1) {
+            monitor.startForeground(
+                context.resources.getInteger(R.integer.autostart_notification_id),
+                match { it.priority == Notification.PRIORITY_HIGH }
+            )
+        }
     }
 
     @Config(minSdk = Build.VERSION_CODES.N, maxSdk = Build.VERSION_CODES.P)
@@ -889,6 +966,7 @@ class ClientNotificationTest {
         clientNotification.stopForeground(monitor)
 
         Assert.assertFalse(clientNotification.foreground)
+        verify(exactly = 1) { monitor.stopForeground(STOP_FOREGROUND_REMOVE) }
     }
 
     @Test

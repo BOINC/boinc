@@ -48,6 +48,7 @@ class ClientNotification @Inject constructor(private val context: Context) {
     private val notificationId: Int = context.resources.getInteger(R.integer.autostart_notification_id)
     private val contentIntent: PendingIntent
     private var n: Notification? = null
+    private var notificationActive = false
 
     @VisibleForTesting
     internal var mOldComputingStatus = -1
@@ -135,6 +136,7 @@ class ClientNotification @Inject constructor(private val context: Context) {
         )
         if (mOldComputingStatus == -1 || activeTasksChanged
             || !notificationShown
+            || active != notificationActive
             || updatedStatus.computingStatus != mOldComputingStatus || (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED
                     && updatedStatus.computingSuspendReason != mOldSuspendReason)
         ) {
@@ -285,6 +287,7 @@ class ClientNotification @Inject constructor(private val context: Context) {
             nb.setContentText(statusDesc)
         }
         n = nb.build()
+        notificationActive = active
         return n!!
     }
 
