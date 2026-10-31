@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -1114,7 +1114,15 @@ int read_file_malloc(const char* path, char*& buf, size_t max_len, bool tail) {
 #ifndef _USING_FCGI_
     if (max_len && size > (double)max_len) {
         if (tail) {
-            fseek(f, (long)size-(long)max_len, SEEK_SET);
+            retval = fseek(
+                    f,
+                    (long)size - (long)max_len,
+                    SEEK_SET
+                    );
+            if (retval != 0) {
+                boinc::fclose(f);
+                return retval;
+            }
         }
         size = (double)max_len;
     }

@@ -726,9 +726,6 @@ pair<int, R_RSA_PRIVATE_KEY> openssl_to_private(
     EVP_PKEY_get_bn_param(pkey.get(), OSSL_PKEY_PARAM_RSA_COEFFICIENT1, &iqmp);
     unique_BN iqmp_unique(iqmp);
 
-    if (!n || !e) {
-        return make_pair(ERR_CRYPTO, priv);
-    }
     if (bn2bin(n, priv.modulus, sizeof(priv.modulus)) ||
         bn2bin(e, priv.publicExponent, sizeof(priv.publicExponent))) {
             memset(&priv, 0, sizeof(priv));
