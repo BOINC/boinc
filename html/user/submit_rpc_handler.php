@@ -602,7 +602,7 @@ function print_batch_params($batch, $get_cpu_time) {
     if (!$app) $app->name = "none";
     $fraction_done = $batch->njobs
         ? ($batch->nerror_jobs+$batch->n_success)/$batch->njobs
-        : 1
+        : 0
     ;
     echo "
         <id>$batch->id</id>

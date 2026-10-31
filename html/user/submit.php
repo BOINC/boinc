@@ -214,7 +214,7 @@ function show_in_progress($all_batches, $order, $limit, $user, $app) {
         }
         $frac_done = $batch->njobs
             ? ($batch->nerror_jobs + $batch->n_success)/$batch->njobs
-            : 1
+            : 0
         ;
         $pct_done = (int)($frac_done*100);
         $x = [
