@@ -262,6 +262,17 @@ int main(int argc, char *argv[])
     if (coreClientPID)
         kill(coreClientPID, SIGTERM);   // boinc catches SIGTERM & exits gracefully
 
+    // Allow time for client to abort tasks.
+    double time_to_kill = dtime() + 65.; // ABORT_TIMEOUT in client_state.h is 60
+    while (true) {
+        coreClientPID = FindProcessPID("boinc", 0, false);
+        if (! coreClientPID) break;
+        if (dtime() > time_to_kill) {
+            kill(coreClientPID, SIGKILL);
+            break;
+        }
+    }
+
     // Create the new BOINC Podman directory if it does not yet exist
     snprintf(s, sizeof(s), "/Library/Application Support/" PODMAN_DIR);
     if (stat(s, &sbuf) != 0) {
