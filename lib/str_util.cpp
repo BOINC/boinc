@@ -835,12 +835,12 @@ char* lf_terminate(char* p) {
 
 // split a string with the given delimiter (e.g. \n).
 //
-vector<string> split(string s, char delim) {
+vector<string> split(string s, char delim, bool add_delim) {
     vector<string> result;
     stringstream ss(s);
     string item;
     while (getline(ss, item, delim)) {
-        result.push_back(item+delim);
+        result.push_back(add_delim?item+delim:item);
     }
     return result;
 }
