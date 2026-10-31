@@ -425,11 +425,6 @@ int HOST_INFO::get_wsl_information() {
             wd.libc_version = parse_ldd_libc(buf.c_str());
         }
 
-        // see if Podman/Docker is installed in the distro
-        //
-        get_docker_version(rs, wd);
-        get_docker_compose_version(rs, wd);
-
         // see if distro is disallowed
         //
         vector<string> &dw = cc_config.disallowed_wsls;
@@ -437,7 +432,8 @@ int HOST_INFO::get_wsl_information() {
             wd.disallowed = true;
         }
 
-        // if it's boinc-buda-runner, look for version file
+        // Read the distro version before Podman detection: it selects the user
+        // used by setup_podman(), and hence whether sub-IDs are needed.
         //
         if (wd.distro_name == BOINC_WSL_DISTRO_NAME) {
             wd.boinc_buda_runner_version = 1;
@@ -452,6 +448,11 @@ int HOST_INFO::get_wsl_information() {
                 }
             }
         }
+
+        // see if Podman/Docker is installed in the distro
+        //
+        get_docker_version(rs, wd);
+        get_docker_compose_version(rs, wd);
 
         // parse gpus.json if present.
         //
@@ -529,6 +530,70 @@ static bool get_docker_version_aux(
             docker_type_str(type), wd.distro_name.c_str()
         );
         msg_printf(0, MSG_INFO, "-   cmd failed: %s", cmd.c_str());
+    }
+    if (ret && type == PODMAN && wd.podman_uses_default_user()) {
+        // setup_podman() uses root for other distros, so their default user's
+        // rootless configuration is irrelevant to BOINC's Podman tasks.
+        // For rootless Podman to work with BOINC in WSL, user and group sub-IDs
+        // must be configured (e.g. via usermod).
+        // Check 'podman info' for coverage of subordinate container IDs 1..65536.
+        //
+        // Keep a failed or slow info probe isolated from later WSL commands.
+        WSL_CMD info_cmd;
+        string err_msg;
+        cmd = string(docker_cli_prog(type)) + " info";
+        reply.clear();
+        bool cmd_ok = false;
+        if (info_cmd.setup(err_msg)) {
+            msg_printf(0, MSG_INFO,
+                "Could not verify Podman sub-ID mappings in WSL distro %s: %s",
+                wd.distro_name.c_str(), err_msg.c_str()
+            );
+        } else if (info_cmd.run_program_in_wsl(wd, cmd.c_str())) {
+            msg_printf(0, MSG_INFO,
+                "Could not verify Podman sub-ID mappings in WSL distro %s: could not start podman info",
+                wd.distro_name.c_str()
+            );
+        } else {
+            int read_ret = read_from_pipe(info_cmd.out_read, info_cmd.proc_handle, reply, CMD_TIMEOUT);
+            DWORD exit_code = STILL_ACTIVE;
+            bool exited = GetExitCodeProcess(info_cmd.proc_handle, &exit_code)
+                && exit_code != STILL_ACTIVE;
+            cmd_ok = (read_ret == 0 || read_ret == ERR_CONNECT)
+                && exited && exit_code == 0;
+            if (!cmd_ok) {
+                msg_printf(0, MSG_INFO,
+                    "Could not verify Podman sub-ID mappings in WSL distro %s: podman info %s",
+                    wd.distro_name.c_str(), read_ret == ERR_TIMEOUT ? "timed out" : "failed"
+                );
+            }
+            if (!exited) {
+                TerminateProcess(info_cmd.proc_handle, 1);
+                // Termination is asynchronous. Bound the wait; the private
+                // pipes prevent late output from reaching subsequent probes.
+                if (WaitForSingleObject(info_cmd.proc_handle, 1000) != WAIT_OBJECT_0) {
+                    msg_printf(0, MSG_INFO,
+                        "Could not stop Podman info probe in WSL distro %s",
+                        wd.distro_name.c_str()
+                    );
+                }
+            }
+            CloseHandle(info_cmd.proc_handle);
+        }
+        bool subids_ok = false;
+        if (cmd_ok && HOST_INFO::parse_podman_info_subids(reply.c_str(), subids_ok) && !subids_ok) {
+            msg_printf(0, MSG_INFO,
+                "Podman found in WSL distro %s, but user/group sub-ID mappings do not cover IDs 1..65536",
+                wd.distro_name.c_str()
+            );
+            msg_printf(0, MSG_INFO,
+                "In WSL (%s), check /etc/subuid and /etc/subgid and allocate non-overlapping ranges for the BOINC user, then run 'podman system migrate' as that user",
+                wd.distro_name.c_str()
+            );
+            wd.docker_version.clear();
+            wd.docker_type = NONE;
+            return false;
+        }
     }
     return ret;
 }

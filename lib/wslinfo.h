@@ -90,6 +90,12 @@ struct WSL_DISTRO {
     void write_xml(MIOFILE&);
     int parse(XML_PARSER&);
     int libc_version_int();
+
+    // Older BOINC distros run Podman as the default user; all others use root.
+    bool podman_uses_default_user() const {
+        return distro_name == BOINC_WSL_DISTRO_NAME
+            && boinc_buda_runner_version < 4;
+    }
 };
 
 // a set of WSL distros
