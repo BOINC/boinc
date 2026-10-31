@@ -20,7 +20,7 @@
 // You can also run it:
 // - manually for debugging, with a single request
 // - for simulation or performance testing, with a stream of requests
-//   (using --batch)
+//   (using --stdin_reqs)
 
 // TODO: what does the following mean?
 // Also, You can call debug_sched() for whatever situation is of
@@ -80,7 +80,7 @@ key_t sema_key;
 int g_pid;
 static bool db_opened=false;
 SCHED_SHMEM* ssp = 0;
-bool batch = false;
+bool stdin_reqs = false;
 bool mark_jobs_done = false;
 bool all_apps_use_hr;
 
@@ -88,7 +88,7 @@ static void usage(char* p) {
     boinc::fprintf(stderr,
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
-        "  --batch            stdin contains a sequence of request messages.\n"
+        "  --stdin_reqs       stdin contains a sequence of request messages.\n"
         "                     Do them all, and ignore rpc_seqno.\n"
         "  --mark_jobs_done   When send a job, also mark it as done.\n"
         "                     (for performance testing)\n"
@@ -375,8 +375,8 @@ int main(int argc, char** argv) {
     bool debug_log = false;
 
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "--batch")) {
-            batch = true;
+        if (!strcmp(argv[i], "--stdin_reqs")) {
+            stdin_reqs = true;
             continue;
         } else if (!strcmp(argv[i], "--mark_jobs_done")) {
             mark_jobs_done = true;
@@ -623,7 +623,7 @@ int main(int argc, char** argv) {
         */
 
 #ifndef _USING_FCGI_
-    } else if (batch) {
+    } else if (stdin_reqs) {
         while (!feof(stdin)) {
             handle_request(stdin, stdout, code_sign_key);
             fflush(stdout);

@@ -98,6 +98,10 @@ int assimilate_handler(
     int retval;
     char cmd[4096], buf[256];
 
+    log_messages.printf(MSG_DEBUG,
+        "assimilate handler: WU ID %d canonical result %d\n",
+        wu.id, wu.canonical_resultid
+    );
     if (wu.canonical_resultid) {
         sprintf(cmd, "../bin/%s", script_args[0].c_str());
         vector<OUTPUT_FILE_INFO> fis;
@@ -132,6 +136,10 @@ int assimilate_handler(
             } else if (s == "batch_id") {
                 sprintf(buf, " %d", wu.batch);
                 strcat(cmd, buf);
+            } else {
+                log_messages.printf(MSG_CRITICAL,
+                    "Unrecognized script arg '%s'\n", s.c_str()
+                );
             }
         }
     } else {

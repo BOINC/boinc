@@ -59,6 +59,10 @@ enum ISOLATION_LEVEL {
     SERIALIZABLE
 };
 
+// long is 8 bytes on Linux, 64-bit CPU
+// The ID fields of result and workunit are by default 4 bytes,
+// but can be changed to 8 bytes by running a function in db_updates.php
+//
 typedef long DB_ID_TYPE;
 
 // represents a connection to a database

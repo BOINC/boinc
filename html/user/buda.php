@@ -202,7 +202,7 @@ function variant_form($user) {
         page_head_select2("Create a variant of BUDA app $app");
     }
     echo "
-        Details are <a href=https://github.com/BOINC/boinc/wiki/BUDA-job-submission#adding-a-variant>here</a>.
+        Details are <a href=https://github.com/BOINC/boinc/wiki/BUDA-apps>here</a>.
     ";
     $sb = '<br><small>From your <a href=sandbox.php>file sandbox</a></small>';
     $pc = '<br><small>Specify

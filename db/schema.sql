@@ -247,6 +247,7 @@ create table host_app_version (
  * is broken out into separate fields.
  * Other info, i.e. that needed by the client (files, etc.)
  * is stored in the XML doc
+ * Don't need defaults because C++ API fills in everything.
  */
 create table workunit (
     id                      integer         not null auto_increment,
@@ -284,6 +285,7 @@ create table workunit (
     size_class              smallint        not null default -1,
     keywords                varchar(254)    not null,
     app_version_num         integer         not null,
+    n_sent                  integer         not null,
     primary key (id)
 ) engine=InnoDB;
 
@@ -347,7 +349,9 @@ create table batch (
     app_id                  integer         not null,
     project_state           integer         not null,
     description             varchar(255)    not null,
-    expire_time             double          not null
+    expire_time             double          not null,
+    n_success               integer         not null default 0,
+    n_in_progress           integer         not null default 0
 ) engine = InnoDB;
 
 -- permissions for job submission

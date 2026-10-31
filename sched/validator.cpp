@@ -226,6 +226,49 @@ void scan_punitive(vector<VALIDATOR_ITEM>& items) {
     }
 }
 
+// If a WU w/ new canonical result belongs to a batch, updates its counters
+//
+void update_batch(WORKUNIT &wu, double credit) {
+    char buf[256];
+    int retval;
+
+    // don't double-count this WU (this shouldn't happen)
+    //
+    if (wu.error_mask) {
+        return;
+    }
+
+    DB_BATCH batch;
+    batch.id = wu.batch;
+    sprintf(buf,
+        "n_in_progress=n_in_progress-1, n_success=n_success+1, credit_canonical=credit_canonical+%f",
+        credit
+    );
+    retval = batch.update_field(buf);
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "[BATCH%ld] batch update failed: %d\n",
+            batch.id, retval
+        );
+    }
+    // see if batch is complete
+    sprintf(buf,
+        "state=%d, completion_time=%d",
+        BATCH_STATE_COMPLETE,
+        (int)dtime()
+    );
+    retval = batch.update_field(
+        buf,
+        "nerror_jobs+n_success=njobs"
+    );
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "[BATCH%ld] batch update 2 failed: %d\n",
+            batch.id, retval
+        );
+    }
+}
+
 // handle a workunit which has new results
 //
 int handle_wu(
@@ -773,6 +816,9 @@ leave:
                 wu.id, wu.name, boincerror(retval)
             );
             return retval;
+        }
+        if (canonicalid && wu.batch > 0) {
+            update_batch(wu, credit);
         }
     }
     return 0;

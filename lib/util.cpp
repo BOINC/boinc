@@ -760,7 +760,7 @@ int DOCKER_CONN::command(
             fprintf(stderr, "read_from_pipe() error: %s\n", boincerror(retval));
             return retval;
         }
-        out = split(output, '\n');
+        out = split(output, '\n', true);
     }
 #else
     snprintf(buf, sizeof(buf), "%s %s 2>&1", cli_prog, cmd);
@@ -803,7 +803,7 @@ int DOCKER_CONN::shell_command(
         fprintf(stderr, "read_from_pipe() error: %s\n", boincerror(retval));
         return retval;
     }
-    out = split(output, '\n');
+    out = split(output, '\n', true);
     return 0;
 }
 #endif

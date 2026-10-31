@@ -18,7 +18,7 @@
 
 // This program generates a stream of scheduler requests;
 // it acts as a "driver" for the scheduler when used as:
-// sched_driver | cgi --batch --mark_jobs_done
+// sched_driver | cgi --stdin_reqs --mark_jobs_done
 //
 // This was written to test the homogeneous redundancy features
 // of the feeder and scheduler,
@@ -128,7 +128,7 @@ void usage(char *name) {
     fprintf(stderr,
         "This program generates a stream of scheduler requests;\n"
         "it acts as a \"driver\" for the scheduler when used as:\n"
-        "%s | cgi --batch --mark_jobs_done\n\n"
+        "%s | cgi --stdin_reqs --mark_jobs_done\n\n"
         "This was written to test the homogeneous redundancy features\n"
         "of the feeder and scheduler, and to measure server performance,\n"
         "but it could be used for other purposes.\n"
