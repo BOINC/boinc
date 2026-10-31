@@ -173,9 +173,9 @@
     <ClInclude Include="../tests/unit-tests/lib/test_crypt.cpp">
       <Filter>lib</Filter>
     </ClInclude>
-    <ClCompile Include="../tests/unit-tests/lib/test_hostinfo.cpp">
+    <ClInclude Include="../tests/unit-tests/lib/test_hostinfo.cpp">
       <Filter>lib</Filter>
-    </ClCompile>
+    </ClInclude>
     <ClInclude Include="../tests/unit-tests/lib/test_md5_file.cpp">
       <Filter>lib</Filter>
     </ClInclude>
