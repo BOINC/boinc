@@ -20,9 +20,6 @@
       <AdditionalDependencies>opencl.lib;cfgmgr32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
-    <PostBuildEvent>
-      <Command>copy ..\samples\openclapp\*.cl "$(OUTDIR)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\samples\openclapp\openclapp.cpp" />
@@ -48,4 +45,10 @@
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <Import Project="boinc_signing.targets" />
+  <!-- Both OpenCL examples share this child project so MSBuild copies the
+       kernel only once per configuration and output directory in a build. -->
+  <Target Name="CopyOpenCLAppKernels" AfterTargets="Build">
+    <MSBuild Projects="$(MSBuildThisFileDirectory)openclapp_kernels.proj"
+             Targets="CopyOpenCLAppKernels" Properties="OutDir=$(OutDir)" />
+  </Target>
 </Project>
