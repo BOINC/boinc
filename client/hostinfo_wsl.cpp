@@ -544,13 +544,29 @@ static bool get_docker_version_aux(
         cmd = string(docker_cli_prog(type)) + " info";
         reply.clear();
         bool cmd_ok = false;
-        if (!info_cmd.setup(err_msg) && !info_cmd.run_program_in_wsl(wd, cmd.c_str())) {
+        if (info_cmd.setup(err_msg)) {
+            msg_printf(0, MSG_INFO,
+                "Could not verify Podman sub-ID mappings in WSL distro %s: %s",
+                wd.distro_name.c_str(), err_msg.c_str()
+            );
+        } else if (info_cmd.run_program_in_wsl(wd, cmd.c_str())) {
+            msg_printf(0, MSG_INFO,
+                "Could not verify Podman sub-ID mappings in WSL distro %s: could not start podman info",
+                wd.distro_name.c_str()
+            );
+        } else {
             int read_ret = read_from_pipe(info_cmd.out_read, info_cmd.proc_handle, reply, CMD_TIMEOUT);
             DWORD exit_code = STILL_ACTIVE;
             bool exited = GetExitCodeProcess(info_cmd.proc_handle, &exit_code)
                 && exit_code != STILL_ACTIVE;
             cmd_ok = (read_ret == 0 || read_ret == ERR_CONNECT)
                 && exited && exit_code == 0;
+            if (!cmd_ok) {
+                msg_printf(0, MSG_INFO,
+                    "Could not verify Podman sub-ID mappings in WSL distro %s: podman info %s",
+                    wd.distro_name.c_str(), read_ret == ERR_TIMEOUT ? "timed out" : "failed"
+                );
+            }
             if (!exited) {
                 TerminateProcess(info_cmd.proc_handle, 1);
                 // Termination is asynchronous. Bound the wait; the private
@@ -571,7 +587,7 @@ static bool get_docker_version_aux(
                 wd.distro_name.c_str()
             );
             msg_printf(0, MSG_INFO,
-                "In WSL (%s), ask your administrator to check /etc/subuid and /etc/subgid and allocate non-overlapping ranges for the BOINC user, then run 'podman system migrate' as that user",
+                "In WSL (%s), check /etc/subuid and /etc/subgid and allocate non-overlapping ranges for the BOINC user, then run 'podman system migrate' as that user",
                 wd.distro_name.c_str()
             );
             wd.docker_version.clear();

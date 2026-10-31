@@ -1496,7 +1496,7 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
                 "Podman found, but user/group sub-ID mappings do not cover IDs 1..65536; see https://github.com/BOINC/boinc/wiki/Installing-Podman-on-Linux"
             );
             msg_printf(NULL, MSG_INFO,
-                "Ask your administrator to check /etc/subuid and /etc/subgid and allocate non-overlapping ranges for the BOINC user, then run 'podman system migrate' as that user"
+                "Check /etc/subuid and /etc/subgid and allocate non-overlapping ranges for the BOINC user, then run 'podman system migrate' as that user"
             );
             docker_version[0] = 0;
             return false;
