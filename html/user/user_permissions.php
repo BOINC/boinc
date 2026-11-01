@@ -37,6 +37,7 @@ function user_permissions_form() {
     foreach ($prefs as $pref) {
         $user = BoincUser::lookup_id($pref->userid);
         echo '<form action="user_permissions.php" method="POST">';
+        echo form_tokens();
         echo sprintf(
             '<input type="hidden" name="userid" value="%s">',
             $pref->userid
@@ -56,6 +57,7 @@ function user_permissions_form() {
     }
 
     echo '<form action="user_permissions.php" method="POST">';
+    echo form_tokens();
     $x = ['Add User ID: <input type="text" name="userid" size="6">'];
     for ($j=0; $j<S_NFLAGS; $j++) {
         $x[] = sprintf(
@@ -72,6 +74,7 @@ function user_permissions_form() {
 }
 
 function user_permissions_action($user_id) {
+    check_tokens();
     $bitset = '';
     $user = BoincUser::lookup_id($user_id);
     if (!$user) error_page('no user');

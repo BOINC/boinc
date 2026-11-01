@@ -24,7 +24,7 @@ check_get_args(array("tnow", "ttok"));
 $user = get_logged_in_user();
 
 if ($user) {
-    check_tokens($user->authenticator);
+    check_tokens();
     clear_cookie('auth');
     $g_logged_in_user = null;
     header(sprintf('Location: %s', master_url()));

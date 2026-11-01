@@ -737,8 +737,7 @@ function row_field($value, $type) {
 // row_links - Display Edit/Add/Remove links for all venues in 1 row
 //
 function row_links($subset, $prefs) {
-    global $g_logged_in_user;
-    $tokens = url_tokens($g_logged_in_user->authenticator);
+    $tokens = url_tokens();
     $pre_add  = "<a href=add_venue.php?venue=";
     $pre_edit  = "<a href=prefs_edit.php?venue=";
     $pre_remove = "<a href=prefs_remove.php?venue=";

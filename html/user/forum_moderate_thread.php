@@ -42,7 +42,7 @@ if (!is_moderator($logged_in_user, $forum)) {
 page_head(tra("Moderate thread '%1'", $thread->title));
 
 echo "<form action=forum_moderate_thread_action.php?thread=$thread->id method=POST>\n";
-echo form_tokens($logged_in_user->authenticator);
+echo form_tokens();
 start_table();
 
 $action = get_str('action');

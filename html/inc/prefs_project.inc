@@ -331,7 +331,7 @@ function print_prefs_display_project($user, $columns=false) {
         prefs_show_consent($user, false);
         venue_show($user);
         prefs_show_project_specific($project_prefs, false);
-        $tokens = url_tokens($user->authenticator);
+        $tokens = url_tokens();
         row2("", "<a href=prefs_edit.php?subset=project$tokens>".tra("Edit preferences")."</a>");
         end_table();
 

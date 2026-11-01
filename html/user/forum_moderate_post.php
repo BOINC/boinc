@@ -28,7 +28,7 @@ if (DISABLE_FORUMS) error_page("Forums are disabled");
 check_get_args(array("id", "action", "userid", "tnow", "ttok"));
 
 $logged_in_user = get_logged_in_user();
-check_tokens($logged_in_user->authenticator);
+check_tokens();
 BoincForumPrefs::lookup($logged_in_user);
 $postid = get_int('id');
 $post = BoincPost::lookup_id($postid);
@@ -46,7 +46,7 @@ if (!is_moderator($logged_in_user, $forum)) {
 page_head(tra("Moderate post"));
 
 echo "<form action=\"forum_moderate_post_action.php?id=".$post->id."\" method=\"POST\">\n";
-echo form_tokens($logged_in_user->authenticator);
+echo form_tokens();
 start_table();
 
 $get_reason = true;

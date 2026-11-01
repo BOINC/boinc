@@ -23,7 +23,7 @@ require_once("../inc/host.inc");
 check_get_args(array("hostid", "ttok", "tnow"));
 
 $user = get_logged_in_user();
-check_tokens($user->authenticator);
+check_tokens();
 
 $hostid = get_int("hostid");
 $host = BoincHost::lookup_id($hostid);

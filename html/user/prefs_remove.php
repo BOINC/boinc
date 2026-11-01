@@ -23,7 +23,7 @@ include_once("../inc/prefs_project.inc");
 check_get_args(array("subset", "venue", "confirmed", "cols", "tnow", "ttok"));
 
 $user = get_logged_in_user();
-check_tokens($user->authenticator);
+check_tokens();
 
 $subset = get_str("subset");
 $venue = get_str("venue");
@@ -44,7 +44,7 @@ if ($confirmed) {
     Header("Location: prefs.php?subset=$subset$c");
 } else {
     page_head(tra("Confirm delete preferences"));
-    $tokens = url_tokens($user->authenticator);
+    $tokens = url_tokens();
     echo "<p>".
         tra("Are you sure you want to delete your separate %1 preferences for %2?", subset_name($subset), $venue).
         "</p><br><br>\n";

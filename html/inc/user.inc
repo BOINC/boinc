@@ -277,7 +277,7 @@ function show_user_info_private($user) {
         row2(tra("Postal code"), $user->postal_code);
     }
     row2(tra("%1 member since", PROJECT), date_str($user->create_time));
-    $url_tokens = url_tokens($user->authenticator);
+    $url_tokens = url_tokens();
     if (LDAP_HOST && is_ldap_email($user->email_addr)) {
         // LDAP accounts can't change email or password
         //

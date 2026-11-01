@@ -105,7 +105,7 @@ function do_inbox($logged_in_user) {
         echo "<form name=msg_list action=pm.php method=post>
             <input type=hidden name=action value=delete_selected>
         ";
-        echo form_tokens($logged_in_user->authenticator);
+        echo form_tokens();
         start_table('table-striped');
         row_heading_array(
             array(tra("Subject"), tra("Sender and date"), tra("Message")),
@@ -137,7 +137,7 @@ function do_inbox($logged_in_user) {
             show_block_link($msg->senderid);
             echo "<br>".time_str($msg->date)."</td>\n";
             echo "<td valign=top>".output_transform($msg->content, $options)."<p>";
-            $tokens = url_tokens($logged_in_user->authenticator);
+            $tokens = url_tokens();
             show_button("pm.php?action=new&amp;replyto=$msg->id", tra("Reply"), tra("Reply to this message"));
             show_button("pm.php?action=delete&amp;id=$msg->id&amp;$tokens", tra("Delete"), tra("Delete this message"));
             echo "</ul></td></tr>\n";
@@ -174,13 +174,13 @@ function do_delete($logged_in_user) {
     if ($id == null) {
         $id = post_int("id");
     }
-    check_tokens($logged_in_user->authenticator);
+    check_tokens();
     BoincPrivateMessage::delete_aux("userid=".$logged_in_user->id." AND id=$id");
     header("Location: pm.php");
 }
 
 function do_send_team($logged_in_user) {
-    check_tokens($logged_in_user->authenticator);
+    check_tokens();
     $subject = post_str("subject", true);
     $content = post_str("content", true);
     $teamid = post_int("teamid");
@@ -225,7 +225,7 @@ function do_send($logged_in_user) {
     if (VALIDATE_EMAIL_TO_POST) {
         check_validated_email($logged_in_user);
     }
-    check_tokens($logged_in_user->authenticator);
+    check_tokens();
 
     $to = sanitize_tags(post_str("to", true));
     $subject = post_str("subject", true);
@@ -328,7 +328,7 @@ function do_block($logged_in_user) {
     echo "<div>".tra("Once the user has been blocked you can unblock it using forum preferences page.")."</div>\n";
 
     echo "<form action=\"pm.php\" method=\"POST\">\n";
-    echo form_tokens($logged_in_user->authenticator);
+    echo form_tokens();
     echo "<input type=\"hidden\" name=\"action\" value=\"confirmedblock\">\n";
     echo "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
     echo "<input class=\"btn btn-default\" type=\"submit\" value=\"".tra("Add user to filter")."\">\n";
@@ -338,7 +338,7 @@ function do_block($logged_in_user) {
 }
 
 function do_confirmedblock($logged_in_user) {
-    check_tokens($logged_in_user->authenticator);
+    check_tokens();
     $id = post_int("id");
     $blocked_user = BoincUser::lookup_id($id);
     if (!$blocked_user) error_page(tra("no such user"));
@@ -359,7 +359,7 @@ function do_confirmedblock($logged_in_user) {
 }
 
 function do_delete_selected($logged_in_user) {
-    check_tokens($logged_in_user->authenticator);
+    check_tokens();
 
     $msgs = BoincPrivateMessage::enum(
         "userid=$logged_in_user->id"

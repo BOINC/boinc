@@ -46,7 +46,7 @@ function show_admin_page($user, $team) {
     // founder-only stuff follows
     //
     if ($team->userid == $user->id) {
-        $tokens = url_tokens($user->authenticator);
+        $tokens = url_tokens();
         if ($team->ping_user > 0) {
             $user2 = BoincUser::lookup_id($team->ping_user);
             $deadline = date_str(transfer_ok_time($team));
@@ -90,7 +90,7 @@ if ($action == 'delete') {
     if (team_count_members($team->id) > 0) {
         error_page(tra("Can't delete non-empty team"));
     }
-    check_tokens($user->authenticator);
+    check_tokens();
     $team->delete();
     page_head(tra("Team %1 deleted", $team->name));
     page_tail();

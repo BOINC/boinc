@@ -23,7 +23,7 @@ require_once("../inc/forum_email.inc");
 check_get_args(array("action", "thread", "tnow", "ttok"));
 
 $logged_in_user = get_logged_in_user();
-check_tokens($logged_in_user->authenticator);
+check_tokens();
 BoincForumPrefs::lookup($logged_in_user);
 if (DISABLE_FORUMS && !is_admin($logged_in_user)) {
     error_page("Forums are disabled");

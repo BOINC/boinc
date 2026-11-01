@@ -514,8 +514,7 @@ function subset_name($subset) {
 }
 
 function prefs_display_venue($prefs, $venue, $subset) {
-    global $g_logged_in_user;
-    $tokens = url_tokens($g_logged_in_user->authenticator);
+    $tokens = url_tokens();
     $x = false;
     if (isset($prefs->$venue)) $x = $prefs->$venue;
 
@@ -567,7 +566,7 @@ function print_prefs_display_global($user, $columns=false) {
         }
         start_table();
         prefs_show_global($global_prefs);
-        $tokens = url_tokens($user->authenticator);
+        $tokens = url_tokens();
         row2("<br>",
             button_text("prefs_edit.php?subset=global$tokens",
                 tra("Edit preferences")
@@ -603,7 +602,7 @@ function print_prefs_form(
         $submit_value = tra("Update preferences");
     }
     echo "<form class=\"form-inline\" action=$script><input type=hidden name=subset value=$subset>
-        ".form_tokens($user->authenticator);
+        ".form_tokens();
     if ($venue) {
         echo "<input type=hidden name=venue value=$venue>\n";
     }

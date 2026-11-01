@@ -32,7 +32,7 @@ if (!$team) {
     error_page(tra("no such team"));
 }
 require_founder_login($user, $team);
-check_tokens($user->authenticator);
+check_tokens();
 
 $userid = post_int("userid");
 $new_founder = BoincUser::lookup_id($userid);
