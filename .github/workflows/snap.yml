@@ -42,7 +42,7 @@ jobs:
       matrix:
         include:
           - arch: amd64
-            runner: ubuntu-26.04
+            runner: ubuntu-latest
           - arch: arm64
             runner: ubuntu-26.04-arm
 

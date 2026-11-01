@@ -87,9 +87,8 @@ jobs:
       - name: Install Powershell for vcpkg
         if: success() && matrix.type == 'apps-mingw-vcpkg'
         run: |
-          sudo apt install -y wget apt-transport-https software-properties-common doxygen
-          wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -r -s)/packages-microsoft-prod.deb
-          sudo DEBIAN_FRONTEND=noninteractive apt install -y ./packages-microsoft-prod.deb powershell
+          sudo apt install -y doxygen
+          sudo snap install powershell --classic
 
       - name: Automake vcpkg and cmake
         if: success() && (matrix.type == 'apps-mingw-vcpkg' || matrix.type == 'libs-mingw-cmake')
