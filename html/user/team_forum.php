@@ -105,7 +105,7 @@ function remove_confirm($user, $team) {
     page_head(tra("Really remove message board?"));
     echo tra("Are you sure you want to remove your team's message board? All threads and posts will be permanently removed. (You may, however, create a new message board later).")
         ."<br /><br />
-        <a href=team_forum.php?teamid=$team->id&cmd=remove>".tra("Yes - remove message board")."</a>
+        <a href=team_forum.php?teamid=$team->id&cmd=remove$tokens>".tra("Yes - remove message board")."</a>
     ";
     page_tail();
 }
@@ -201,6 +201,7 @@ if ($cmd == 'manage') {
     require_founder_login($user, $team);
     remove_confirm($user, $team);
 } else if ($cmd == "remove") {
+    check_tokens();
     $user = get_logged_in_user();
     require_founder_login($user, $team);
     remove($team);
