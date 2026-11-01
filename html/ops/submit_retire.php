@@ -91,8 +91,6 @@ function send_retire_emails() {
         $user = BoincUser::lookup_id($us->user_id);
         if (!$user) continue;
         $batches = BoincBatch::enum("user_id=$user->id");
-        // transition in-progress to completed
-        $batches = get_batches_params($batches);
 
         $ncomp = 0;
         $nabort = 0;
@@ -120,7 +118,6 @@ function send_retire_emails() {
 
 function retire_batches() {
     $batches = BoincBatch::enum('');
-    $batches = get_batches_params($batches);
     $users = [];
     $min_comp = time() - COMP_LIFE*86400;
     $min_abort = time() - ABORT_LIFE*86400;

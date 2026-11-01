@@ -105,7 +105,9 @@ extern const char* batch_state_string(int state);
 
 extern void strip_translation(char* p);
 
-extern std::vector<std::string> split(std::string, char delim);
+extern std::vector<std::string> split(
+    std::string, char delim, bool add_delim=false
+);
 
 extern bool is_valid_filename(const char*);
 

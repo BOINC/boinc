@@ -542,6 +542,8 @@ struct WORKUNIT {
         // keywords, as space-separated integers
     int app_version_num;
         // if nonzero, use only this version num
+    int n_sent;
+        // number of results for this WU that have been sent to a client
 
     void clear();
     WORKUNIT(){clear();}
@@ -693,7 +695,7 @@ struct BATCH {
     int njobs;
         // # of workunits
     double fraction_done;
-        // based on workunits completed
+        // deprecated
     int nerror_jobs;
         // # of workunits with error
     int state;
@@ -716,6 +718,12 @@ struct BATCH {
     double expire_time;
         // if nonzero, retire the batch after this time
         // Condor calls this the batch's "lease".
+    int n_success;
+        // number of WUs with a canonical result
+    int n_in_progress;
+        // number of WUs not completed (success or error)
+        // and with at least one result sent.
+        // This is not exactly 'in progress' but close enough
 };
 
 // info for users who can submit jobs

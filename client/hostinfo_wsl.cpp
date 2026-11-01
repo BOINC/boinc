@@ -368,7 +368,7 @@ int HOST_INFO::get_wsl_information() {
             if (!rs.run_program_in_wsl(wd, command_sysctl)) {
                 read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
                 parse_sysctl_output(
-                    split(reply, '\n'),
+                    split(reply, '\n', true),
                     distro_os_name_str, distro_os_version_str
                 );
                 CloseHandle(rs.proc_handle);

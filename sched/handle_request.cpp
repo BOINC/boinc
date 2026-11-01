@@ -394,7 +394,7 @@ int authenticate_user() {
         // the user must have copied the state file to a different host.
         // Make a new host record.
         //
-        if (!batch && g_request->rpc_seqno < g_reply->host.rpc_seqno) {
+        if (!stdin_reqs && g_request->rpc_seqno < g_reply->host.rpc_seqno) {
             g_request->hostid = 0;
             log_messages.printf(MSG_NORMAL,
                 "[HOST#%lu] [USER#%lu] RPC seqno %d less than expected %d; creating new host\n",
