@@ -566,7 +566,7 @@ function print_prefs_display_global($user, $columns=false) {
         }
         start_table();
         prefs_show_global($global_prefs);
-        $tokens = url_tokens($user->authenticator);
+        $tokens = url_tokens();
         row2("<br>",
             button_text("prefs_edit.php?subset=global$tokens",
                 tra("Edit preferences")
