@@ -602,7 +602,7 @@ function print_prefs_form(
         $submit_value = tra("Update preferences");
     }
     echo "<form class=\"form-inline\" action=$script><input type=hidden name=subset value=$subset>
-        ".form_tokens($user->authenticator);
+        ".form_tokens();
     if ($venue) {
         echo "<input type=hidden name=venue value=$venue>\n";
     }

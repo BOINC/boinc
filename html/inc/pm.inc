@@ -79,7 +79,7 @@ function pm_team_form($user, $teamid, $error=null) {
     echo "<form action=\"pm.php\" method=\"post\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
     echo "<input type=\"hidden\" name=\"action\" value=\"send\">\n";
     echo "<input type=\"hidden\" name=\"teamid\" value=\"$teamid\">\n";
-    echo form_tokens($user->authenticator);
+    echo form_tokens();
     start_table();
     row2(
         tra("Subject"),
@@ -172,7 +172,7 @@ function pm_form_page($replyto, $userid, $error = null) {
 
     echo "<form action=\"pm.php\" method=\"post\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
     echo "<input type=\"hidden\" name=\"action\" value=\"send\">\n";
-    echo form_tokens($g_logged_in_user->authenticator);
+    echo form_tokens();
     start_table();
     row2(
         sprintf('%s <br><small>%s</small>',
