@@ -99,7 +99,7 @@ int assimilate_handler(
     char cmd[4096], buf[256];
 
     log_messages.printf(MSG_DEBUG,
-        "assimilate handler: WU ID %d canonical result %d\n",
+        "assimilate handler: WU ID %ld canonical result %ld\n",
         wu.id, wu.canonical_resultid
     );
     if (wu.canonical_resultid) {
@@ -140,6 +140,7 @@ int assimilate_handler(
                 log_messages.printf(MSG_CRITICAL,
                     "Unrecognized script arg '%s'\n", s.c_str()
                 );
+                return -1;
             }
         }
     } else {
