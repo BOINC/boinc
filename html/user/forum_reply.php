@@ -73,7 +73,7 @@ if (!$sort_style) {
 
 $warning = null;
 if ($content && (!$preview)){
-    check_tokens($logged_in_user->authenticator);
+    check_tokens();
     if (!akismet_check($logged_in_user, $content)) {
         $warning = tra("Your post has been flagged as spam by the Akismet anti-spam system. Please modify your text and try again.");
         $preview = tra("Preview");
@@ -160,7 +160,7 @@ function show_message_row($thread, $parent_post) {
     }
 
     $x2 .= " method=\"post\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
-    $x2 .= form_tokens($logged_in_user->authenticator);
+    $x2 .= form_tokens();
     $x2 .= $bbcode_html."<textarea class=\"form-control\" name=\"content\" rows=\"18\">";
     $no_quote = get_int("no_quote", true)==1;
     if ($preview) {

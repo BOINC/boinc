@@ -201,7 +201,7 @@ if (DISABLE_FORUMS && !is_admin($user)) {
 //
 if ((get_int("read", true) == 1)) {
     if ($user) {
-        check_tokens($user->authenticator);
+        check_tokens();
         $now = time();
         $user->prefs->update("mark_as_read_timestamp=$now");
         Header("Location: ".get_str("return", true));

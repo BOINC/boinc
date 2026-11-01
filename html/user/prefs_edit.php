@@ -30,7 +30,7 @@ $columns = get_int("cols", true);
 $c = $columns?"&cols=$columns":"";
 check_subset($subset);
 if ($action) {
-    check_tokens($user->authenticator);
+    check_tokens();
     if ($subset == "global") {
         $main_prefs = prefs_parse_global($user->global_prefs);
         if ($venue) $prefs = $main_prefs->$venue;

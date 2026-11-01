@@ -49,7 +49,7 @@ function hide_explanation() {
 }
 
 $user = get_logged_in_user();
-check_tokens($user->authenticator);
+check_tokens();
 BoincForumPrefs::lookup($user);
 $post = BoincPost::lookup_id(get_int('id'));
 if (!$post) error_page("no such post");

@@ -39,7 +39,7 @@ echo " <p><b>".tra("Please note:")."</b>
     </ul>
     <hr>
     <form method=\"post\" action=\"team_join_action.php\">";
-echo form_tokens($user->authenticator);
+echo form_tokens();
 echo "
     <input type=\"hidden\" name=\"teamid\" value=\"$teamid\">
 ";

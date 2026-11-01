@@ -34,7 +34,7 @@ if ($user) {
     page_head(tra("Already logged in"));
     row2(tra("You are logged in as %1.", $user->name),
         sprintf(' <a href="logout.php?%s">%s</a>',
-            url_tokens($user->authenticator),
+            url_tokens(),
             tra("Log out")
         )
     );

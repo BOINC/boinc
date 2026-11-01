@@ -58,7 +58,7 @@ if ($user->total_credit<$forum->rate_min_total_credit || $user->expavg_credit<$f
 $success_page=0;
 $email_output = '';
 if (get_str("submit",true)){
-    check_tokens($user->authenticator);
+    check_tokens();
     $reason = get_str("reason");
     ob_start();
     $sent = send_report_post_email($user, $forum, $thread, $post, $reason);
@@ -89,7 +89,7 @@ if ($success_page==1) {
         ";
     }
     echo "<form action=\"forum_report_post.php\" method=\"get\">\n";
-    echo form_tokens($user->authenticator);
+    echo form_tokens();
     echo "<input type=\"hidden\" name=\"post\" value=\"".$post->id."\">";
 
     start_table('table-striped');

@@ -21,7 +21,7 @@ require_once("../inc/prefs.inc");
 require_once("../inc/prefs_project.inc");
 
 $user = get_logged_in_user();
-check_tokens($user->authenticator);
+check_tokens();
 
 $action = sanitize_tags(get_str("action", true));
 $subset = sanitize_tags(get_str("subset"));

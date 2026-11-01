@@ -217,7 +217,7 @@ function show_host($host, $user, $ipprivate) {
                     sprintf(
                         'host_delete.php?hostid=%d%s',
                         $host->id,
-                        url_tokens($user->authenticator)
+                        url_tokens()
                     ),
                     tra("Delete this computer")
                 )

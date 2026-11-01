@@ -74,7 +74,7 @@ echo tra("To assign foundership of this team to another member, check the box ne
     ."<form method=post action=team_change_founder_action.php>
     <input type=hidden name=teamid value=$team->id>
 ";
-echo form_tokens($user->authenticator);
+echo form_tokens();
 echo "<p></p>";
 
 start_table();

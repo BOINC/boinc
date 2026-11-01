@@ -42,7 +42,7 @@ if (!$user) error_page('No such user');
 page_head(tra("Banishment Vote"));
 
 echo "<form action=\"forum_banishment_vote_action.php?userid=".$userid."\" method=\"POST\">\n";
-echo form_tokens($logged_in_user->authenticator);
+echo form_tokens();
 start_table();
 row1(tra("Banishment Vote"));
 

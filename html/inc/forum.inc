@@ -558,7 +558,7 @@ function show_post(
     //
     $ignore_poster = false;
     if ($logged_in_user){
-        $tokens = url_tokens($logged_in_user->authenticator);
+        $tokens = url_tokens();
         if (is_ignoring($logged_in_user, $user)){
             $ignore_poster = true;
         }
@@ -1501,7 +1501,7 @@ function subscribed_forum_rss($notify) {
 function show_mark_as_read_button($user) {
     if ($user) {
         $return = urlencode(current_url());
-        $tokens = url_tokens($user->authenticator);
+        $tokens = url_tokens();
         $url = "forum_index.php?read=1$tokens&amp;return=$return";
         show_button($url,
             tra("Mark all threads as read"),

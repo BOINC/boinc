@@ -231,7 +231,7 @@ function get_logged_in_user($must_be_logged_in=true) {
 function show_login_info($prefix="") {
     $user = get_logged_in_user(false);
     if ($user) {
-        $url_tokens = url_tokens($user->authenticator);
+        $url_tokens = url_tokens();
         echo "<nobr>$user->name &middot; <a href=".$prefix."logout.php?$url_tokens>".tra("log out")."</a></nobr>";
     } else {
         echo "<a href=".$prefix."login_form.php>".tra("log in")."</a>";
@@ -589,43 +589,62 @@ jQuery(document).ready(function() {
 );
 }
 
-function url_tokens($auth) {
+// Cross-site request forgery (CSRF) prevention.
+// how CSRF works:
+// - Hackers make a page with a link (or invisible image URL)
+//  to a state-changing script on a BOINC project.
+// - A user of that project visits the hacker page
+// - The resulting request to the BOINC project includes a cookie
+//  with the user's auth, and the request is carried out
+//
+// The defense: for state-changing scripts, include (in GET or POST args)
+// "tokens" generated from the logged-in user's auth.
+//
+function url_tokens() {
+    $user = get_logged_in_user(false);
+    if (!$user) error_page('must be logged in');
     $now = time();
-    $ttok = md5((string)$now.$auth);
+    $ttok = md5((string)$now.$user->authenticator);
     return "&amp;tnow=$now&amp;ttok=$ttok";
 }
 
-function form_tokens($auth) {
+function form_tokens() {
+    $user = get_logged_in_user(false);
+    if (!$user) error_page('must be logged in');
     $now = time();
-    $ttok = md5((string)$now.$auth);
+    $ttok = md5((string)$now.$user->authenticator);
     return "<input type=\"hidden\" name=\"tnow\" value=\"$now\">
         <input type=\"hidden\" name=\"ttok\" value=\"$ttok\">
     ";
 }
 
-function valid_tokens($auth) {
+function valid_tokens() {
+    $user = get_logged_in_user(false);
+    if (!$user) error_page('must be logged in');
     $tnow = get_str('tnow', true);
-    $ttok = get_str('ttok', true);
     if (!$tnow) {
-      if (isset($_POST['tnow'])) {
-          $tnow = $_POST['tnow'];
-      }
-    }
-    if (!$ttok) {
-      if (isset($_POST['ttok'])) {
-          $ttok = $_POST['ttok'];
-      }
+        if (isset($_POST['tnow'])) {
+            $tnow = $_POST['tnow'];
+        }
     }
     if (!$tnow) return false;
+
+    $ttok = get_str('ttok', true);
+    if (!$ttok) {
+        if (isset($_POST['ttok'])) {
+            $ttok = $_POST['ttok'];
+        }
+    }
     if (!$ttok) return false;
-    $t = md5((string)$tnow.$auth);
+
+    $t = md5((string)$tnow.$user->authenticator);
     if ($t != $ttok) return false;
     if (time() > $tnow + 86400) return false;
     return true;
 }
 
-function check_tokens($auth) {
-    if (valid_tokens($auth)) return;
+function check_tokens() {
+    if (valid_tokens()) return;
     error_page(
         tra("Link has timed out. Please click Back, refresh the page, and try again.")
     );

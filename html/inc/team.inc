@@ -144,7 +144,7 @@ function display_team_page($team, $user) {
     if ($user) {
         if ($user->teamid != $team->id) {
             if ($team->joinable) {
-                $tokens = url_tokens($user->authenticator);
+                $tokens = url_tokens();
                 row2("",
                     '<a class="btn btn-success" href="team_join.php?'.$tokens.'&amp;teamid='.$team->id.'">'.tra('Join this team').'</a>
                     <br><p class=\"text-muted\">'.tra('Note: if \'OK to email\' is set in your project preferences, joining a team gives its founder access to your email address.').'</p>'

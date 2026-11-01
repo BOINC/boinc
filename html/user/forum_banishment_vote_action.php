@@ -27,7 +27,7 @@ check_get_args(array("action", "userid", "tnow", "ttok"));
 
 $logged_in_user = get_logged_in_user();
 BoincForumPrefs::lookup($logged_in_user);
-check_tokens($logged_in_user->authenticator);
+check_tokens();
 
 if (!$logged_in_user->prefs->privilege(S_MODERATOR)) {
     error_page(tra("You are not authorized to banish users."));

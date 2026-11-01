@@ -45,7 +45,7 @@ $logged_in_user = get_logged_in_user(false);
 $tokens = "";
 if ($logged_in_user) {
     BoincForumPrefs::lookup($logged_in_user);
-    $tokens = url_tokens($logged_in_user->authenticator);
+    $tokens = url_tokens();
 }
 
 if (DISABLE_FORUMS && !is_admin($logged_in_user)) {

@@ -60,7 +60,7 @@ if ($content && $title && (!$preview)){
     }  else {
         $add_signature = false;
     }
-    check_tokens($logged_in_user->authenticator);
+    check_tokens();
     if (!akismet_check($logged_in_user, $content)) {
         $warning = tra("Your message was flagged as spam by the Akismet anti-spam system. Please modify your text and try again.");
         $preview = tra("Preview");
@@ -108,7 +108,7 @@ if ($preview == tra("Preview")) {
 }
 
 echo "<form action=\"forum_post.php?id=".$forum->id."\" method=\"POST\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
-echo form_tokens($logged_in_user->authenticator);
+echo form_tokens();
 
 start_table();
 

@@ -64,7 +64,7 @@ if (post_str('submit',true) && (!$preview)) {
     ) {
         error_page("Can't update post");
     }
-    check_tokens($logged_in_user->authenticator);
+    check_tokens();
 
     $add_signature = (post_str('add_signature', true) == "1")?1:0;
     $content = substr($content, 0, 64000);
@@ -113,7 +113,7 @@ echo sprintf(
     '<form action="forum_edit.php?id=%d" method="POST" name=post onsubmit="return checkForm(this)">',
     $post->id
 );
-echo form_tokens($logged_in_user->authenticator);
+echo form_tokens();
 start_table();
 row1(tra("Edit your message"));
 if ($can_edit_title) {

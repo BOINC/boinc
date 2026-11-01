@@ -514,8 +514,7 @@ function subset_name($subset) {
 }
 
 function prefs_display_venue($prefs, $venue, $subset) {
-    global $g_logged_in_user;
-    $tokens = url_tokens($g_logged_in_user->authenticator);
+    $tokens = url_tokens();
     $x = false;
     if (isset($prefs->$venue)) $x = $prefs->$venue;
 
