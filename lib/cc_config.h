@@ -48,89 +48,85 @@ struct LOG_FLAGS {
 
     // on by default; intended for all users
     //
-    bool file_xfer;
+    bool file_xfer = true;
         // file transfer start and finish
-    bool sched_ops;
+    bool sched_ops = true;
         // interactions with schedulers
-    bool task;
+    bool task = true;
         // task start and finish, and suspend/resume
 
     // off by default; intended for developers and testers
     //
-    bool android_debug;
+    bool android_debug = false;
         // show Android-specific info (battery etc.)
-    bool app_msg_receive;
+    bool app_msg_receive = false;
         // show shared-mem message from apps
-    bool app_msg_send;
+    bool app_msg_send = false;
         // show shared-mem message to apps
-    bool async_file_debug;
+    bool async_file_debug = false;
         // show asynchronous file operations (copy, MD5, decompress)
-    bool benchmark_debug;
+    bool benchmark_debug = false;
         // debug CPU benchmarks
-    bool checkpoint_debug;
-    bool coproc_debug;
+    bool checkpoint_debug = false;
+    bool coproc_debug = false;
         // show coproc reserve/free and startup msgs
-    bool cpu_sched;
+    bool cpu_sched = false;
         // preemption and resumption
-    bool cpu_sched_debug;
+    bool cpu_sched_debug = false;
         // explain scheduler decisions
-    bool cpu_sched_status;
+    bool cpu_sched_status = false;
         // show what's running
-    bool dcf_debug;
+    bool dcf_debug = false;
         // show changes to duration correction factors
-    bool disk_usage_debug;
+    bool disk_usage_debug = false;
         // disk usage and project share info
-    bool priority_debug;
+    bool priority_debug = false;
         // info related to REC and scheduling priority
-    bool file_xfer_debug;
+    bool file_xfer_debug = false;
         // show completion of FILE_XFER
-    bool gui_rpc_debug;
-    bool gui_rpc_msg_debug;
-    bool heartbeat_debug;
-    bool http_debug;
-    bool http_xfer_debug;
-    bool idle_detection_debug;
+    bool gui_rpc_debug = false;
+    bool gui_rpc_msg_debug = false;
+    bool heartbeat_debug = false;
+    bool http_debug = false;
+    bool http_xfer_debug = false;
+    bool idle_detection_debug = false;
         // show details leading to idle/not-idle determinations.
-    bool mem_usage_debug;
+    bool mem_usage_debug = false;
         // memory usage
-    bool network_status_debug;
-    bool notice_debug;
-    bool poll_debug;
+    bool network_status_debug = false;
+    bool notice_debug = false;
+    bool poll_debug = false;
         // show what polls are responding
-    bool proxy_debug;
-    bool rr_simulation;
+    bool proxy_debug = false;
+    bool rr_simulation = false;
         // results of RR sim
-    bool rrsim_detail;
+    bool rrsim_detail = false;
         // details of RR sim
-    bool sched_op_debug;
-    bool scrsave_debug;
-    bool slot_debug;
+    bool sched_op_debug = false;
+    bool scrsave_debug = false;
+    bool slot_debug = false;
         // allocation of slots
-    bool sporadic_debug;
-    bool state_debug;
+    bool sporadic_debug = false;
+    bool state_debug = false;
         // print textual summary of CLIENT_STATE initially
         // and after each scheduler RPC and garbage collect
         // also show actions of garbage collector
-    bool statefile_debug;
+    bool statefile_debug = false;
         // show when and why state file is written
-    bool suspend_debug;
+    bool suspend_debug = false;
         // details of processing and network suspend/resume
-    bool task_debug;
+    bool task_debug = false;
         // task start and control details, and when apps checkpoint
-    bool time_debug;
+    bool time_debug = false;
         // changes in on_frac, active_frac, connected_frac
-    bool trickle_debug;
+    bool trickle_debug = false;
         // show trickle messages
-    bool unparsed_xml;
+    bool unparsed_xml = false;
         // show unparsed XML lines
-    bool work_fetch_debug;
+    bool work_fetch_debug = false;
         // work fetch policy
 
-    LOG_FLAGS() {
-        task = true;
-        file_xfer = true;
-        sched_ops = true;
-    }
+    LOG_FLAGS(){};
     void init();    // sets defaults (only above flags set)
     int parse(XML_PARSER&);
     void show();
@@ -241,11 +237,11 @@ typedef std::vector<std::string> MSG_VEC;
 
 struct APP_CONFIG {
     char name[256];
-    int max_concurrent;
-    double gpu_gpu_usage;
-    double gpu_cpu_usage;
-    bool fraction_done_exact;
-    bool report_results_immediately;
+    int max_concurrent = 0;
+    double gpu_gpu_usage = .0;
+    double gpu_cpu_usage = .0;
+    bool fraction_done_exact = false;
+    bool report_results_immediately = false;
 
     APP_CONFIG(){}
     int parse(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
@@ -256,8 +252,8 @@ struct APP_VERSION_CONFIG {
     char app_name[256];
     char plan_class[256];
     char cmdline[256];
-    double avg_ncpus;
-    double ngpus;
+    double avg_ncpus = .0;
+    double ngpus = .0;
 
     APP_VERSION_CONFIG(){}
     int parse(XML_PARSER&, MSG_VEC&, LOG_FLAGS&);
