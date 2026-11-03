@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -442,7 +442,7 @@ static bool update_app_progress(double cpu_t, double cp_cpu_t) {
     if (fout) {
         fputs(msg_buf, fout);
     }
-    return 0;
+    return true;
 #else
     return app_client_shm->shm->app_status.send_msg(msg_buf);
 #endif
@@ -551,7 +551,10 @@ static void sporadic_files() {
         if (t != last_ac_mod_time) {
             lseek(ac_fd, 0, SEEK_SET);
             int nc = read(ac_fd, buf, sizeof(buf));
-            if (nc>0) {
+            if (nc >= static_cast<int>(sizeof(buf))) {
+                nc = sizeof(buf) - 1;
+            }
+            if (nc > 0) {
                 int val;
                 buf[nc] = 0;
                 int n = sscanf(buf, "%d", &val);
@@ -1053,6 +1056,13 @@ int boinc_parse_init_data_file() {
         return ERR_FOPEN;
     }
     f = boinc_fopen(INIT_DATA_FILE, "r");
+    if (!f) {
+        fprintf(stderr,
+            "%s Can't open init data file - running in standalone mode\n",
+            boinc_msg_prefix(buf, sizeof(buf))
+        );
+        return ERR_FOPEN;
+    }
     retval = parse_init_data_file(f, aid);
     fclose(f);
     if (retval) {
@@ -1231,7 +1241,7 @@ static void handle_upload_file_status() {
             UPLOAD_FILE_STATUS uf;
             uf.name = std::string(log_name);
             uf.status = status;
-            upload_file_status.push_back(uf);
+            upload_file_status.push_back(std::move(uf));
         } else {
             fprintf(stderr, "%s handle_upload_file_status: can't parse %s\n",
                 boinc_msg_prefix(log_buf, sizeof(log_buf)), buf
@@ -1455,21 +1465,25 @@ static void timer_handler() {
 
     // send graphics-related messages
     //
-    if (send_web_graphics_url && !app_client_shm->shm->graphics_reply.has_msg()) {
-        snprintf(buf, sizeof(buf),
-            "<web_graphics_url>%s</web_graphics_url>",
-            web_graphics_url
-        );
-        app_client_shm->shm->graphics_reply.send_msg(buf);
-        send_web_graphics_url = false;
-    }
-    if (send_remote_desktop_addr && !app_client_shm->shm->graphics_reply.has_msg()) {
-        snprintf(buf, sizeof(buf),
-            "<remote_desktop_addr>%s</remote_desktop_addr>",
-            remote_desktop_addr
-        );
-        app_client_shm->shm->graphics_reply.send_msg(buf);
-        send_remote_desktop_addr = false;
+    if (app_client_shm) {
+        if (send_web_graphics_url &&
+            !app_client_shm->shm->graphics_reply.has_msg()) {
+            snprintf(buf, sizeof(buf),
+                "<web_graphics_url>%s</web_graphics_url>",
+                web_graphics_url
+            );
+            app_client_shm->shm->graphics_reply.send_msg(buf);
+            send_web_graphics_url = false;
+        }
+        if (send_remote_desktop_addr &&
+            !app_client_shm->shm->graphics_reply.has_msg()) {
+            snprintf(buf, sizeof(buf),
+                "<remote_desktop_addr>%s</remote_desktop_addr>",
+                remote_desktop_addr
+            );
+            app_client_shm->shm->graphics_reply.send_msg(buf);
+            send_remote_desktop_addr = false;
+        }
     }
 
     if (do_sporadic_files) {
