@@ -248,10 +248,13 @@ function show_complete($all_batches, $order, $limit, $user, $app) {
         if ($first) {
             $first = false;
             if ($limit) {
-                show_all_batches_link($batches, BATCH_STATE_COMPLETE, $limit, $user, $app);
+                show_all_batches_link(
+                    $batches, BATCH_STATE_COMPLETE, $limit, $user, $app
+                );
             }
             form_start('submit.php', 'get');
             form_input_hidden('action', 'retire_multi');
+            echo form_tokens();
             start_table('table-striped');
             table_header(
                 "Name", "ID", "User", "App", "# Jobs", "Submitted", "Completed", "Select"
@@ -395,6 +398,7 @@ function show_submit_links($user) {
     }
 
     form_start('submit.php');
+    echo form_tokens();
     form_input_hidden('action', 'update_only_own');
     form_radio_buttons(
         'Jobs you submit can run', 'only_own',
@@ -746,14 +750,20 @@ function handle_query_batch($user) {
     case BATCH_STATE_IN_PROGRESS:
     case BATCH_STATE_INIT:
         show_button(
-            "submit.php?action=abort_batch&batch_id=$batch_id",
+            sprintf(
+                'submit.php?action=abort_batch&batch_id=%d%s',
+                $batch_id, url_tokens()
+            ),
             "Abort batch"
         );
         break;
     case BATCH_STATE_COMPLETE:
     case BATCH_STATE_ABORTED:
         show_button(
-            "submit.php?action=retire_batch&batch_id=$batch_id",
+            sprintf(
+                'submit.php?action=retire_batch&batch_id=%d%s',
+                $batch_id, url_tokens()
+            ),
             "Retire batch"
         );
         break;
@@ -1163,15 +1173,27 @@ case 'query_batch': handle_query_batch($user); break;
 case 'query_job': handle_query_job($user); break;
 
 // operations on batches
-case 'retire_batch': handle_retire_batch($user); break;
-case 'retire_multi': handle_retire_multi($user); break;
-case 'abort_batch': handle_abort_batch($user); break;
+case 'retire_batch':
+    check_tokens();
+    handle_retire_batch($user);
+    break;
+case 'retire_multi':
+    check_tokens();
+    handle_retire_multi($user);
+    break;
+case 'abort_batch':
+    check_tokens();
+    handle_abort_batch($user);
+    break;
 
 // access control
 case 'admin': handle_admin($user); break;
 
 // 'run jobs only on my computers' flag (stored in user.seti_id)
-case 'update_only_own': handle_update_only_own($user); break;
+case 'update_only_own':
+    check_tokens();
+    handle_update_only_own($user);
+    break;
 
 default:
     error_page("no such action $action");

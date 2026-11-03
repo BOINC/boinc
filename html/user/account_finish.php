@@ -20,6 +20,8 @@
 // They've already entered an email address and password.
 // Now get a name, country, and zip code
 
+// DEPRECATED - NOT USED
+
 require_once('../inc/boinc_db.inc');
 require_once('../inc/util.inc');
 require_once('../inc/countries.inc');

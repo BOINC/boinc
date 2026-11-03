@@ -47,6 +47,7 @@ function add_form() {
     ";
     form_start('sandbox.php', 'post', 'ENCTYPE="multipart/form-data"');
     form_input_hidden('action', 'upload_file');
+    echo form_tokens();
     form_general('',
         '<input size=80 type=file name="new_file[]" multiple="multiple">'
     );
@@ -67,6 +68,7 @@ if (0) {
     ";
     form_start('sandbox.php', 'post');
     form_input_hidden('action', 'add_file');
+    echo form_tokens();
     form_input_text('Name', 'name');
     form_input_textarea('Contents', 'contents');
     form_submit('OK');
@@ -140,15 +142,24 @@ function list_files($user, $notice=null) {
         foreach ($files as $f) {
             $ct = time_str($f->date);
             table_row(
-                "<a href=sandbox.php?action=view_file&name=$f->name>$f->name</a>",
+                sprintf(
+                    '<a href=sandbox.php?action=view_file&name=%s%s>%s</a>',
+                    $f->name, url_tokens(), $f->name
+                ),
                 $ct,
                 $f->size,
                 button_text_small(
-                    "sandbox.php?action=delete_file&name=$f->name",
+                    sprintf(
+                        'sandbox.php?action=delete_file&name=%s%s',
+                        $f->name, url_tokens()
+                    ),
                     "Delete"
                 ),
                 button_text_small(
-                    "sandbox.php?action=download_file&name=$f->name",
+                    sprintf(
+                        'sandbox.php?action=download_file&name=%s%s',
+                        $f->name, url_tokens()
+                    ),
                     "Download"
                 )
             );
@@ -276,14 +287,32 @@ if (!$action) $action = post_str('action', true);
 
 switch ($action) {
 case '': list_files($user); break;
-case 'upload_file': upload_file($user); break;
-case 'add_file': add_file($user); break;
-case 'get_file': get_file($user); break;
-case 'delete_file': delete_file($user); break;
-case 'download_file': download_file($user); break;
-case 'view_file': view_file($user); break;
-case 'add_form': add_form(); break;
-default: error_page("no such action: ".htmlspecialchars($action));
+case 'upload_file':
+    check_tokens();
+    upload_file($user);
+    break;
+case 'add_file':
+    check_tokens();
+    add_file($user);
+    break;
+case 'get_file':
+    get_file($user);
+    break;
+case 'delete_file':
+    check_tokens();
+    delete_file($user);
+    break;
+case 'download_file':
+    download_file($user);
+    break;
+case 'view_file':
+    view_file($user);
+    break;
+case 'add_form':
+    add_form();
+    break;
+default:
+    error_page("no such action: ".htmlspecialchars($action));
 }
 
 ?>
