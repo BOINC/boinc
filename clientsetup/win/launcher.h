@@ -17,6 +17,19 @@
 
 #pragma once
 
+#ifdef _UNICODE
+#define tstring_view std::wstring_view
+#else
+// we use this when building installer_setup project only
+// a little bit ugly but omits code duplication
+#include <windows.h>
+#include <string_view>
+#include <wil/resource.h>
+#include "win_util.h"
+#define tstring_view std::string_view
+#define _T(x) x
+#endif
+
 class Launcher {
 public:
     Launcher() = delete;
@@ -24,5 +37,5 @@ public:
     Launcher operator=(const Launcher&) = delete;
     Launcher(const Launcher&) = delete;
 
-    static HRESULT CreateProcessWithExplorerIL(std::wstring_view szCmdLine);
+    static HRESULT CreateProcessWithExplorerIL(tstring_view szCmdLine);
 };
