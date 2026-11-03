@@ -717,7 +717,7 @@ function app_action($user) {
     header("Location: buda.php");
 }
 
-function view_file() {
+function view_buda_file() {
     global $buda_root;
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
@@ -889,7 +889,7 @@ case 'variant_delete':
     variant_delete($user);
     break;
 case 'view_file':
-    view_file(); break;
+    view_buda_file(); break;
 case null:
     app_list(); break;
 default:
