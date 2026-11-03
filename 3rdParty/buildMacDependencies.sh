@@ -22,7 +22,7 @@
 ## building BOINC on a Macintosh computer! Use mac_build/setupForBOINC.sh instead.
 
 ## support script to build BOINC dependencies on Macintosh
-## This script checks if cached versions are available and builts them if not.
+## This script checks if cached versions are available and builds them if not.
 ## The build is done in 3rdParty/mac and usable files are installed to 3rdParty/buildCache/mac
 ## in order to keep the cache as small as possible
 ## The 3rdParty/buildCache directory can be cached by CI systems for all subsequent builds
