@@ -443,10 +443,16 @@ function variant_action($user) {
     app_list("Variant $variant added for app $app.");
 }
 
-function variant_delete() {
+function variant_delete($user) {
     global $buda_root;
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
+
+    $app_desc = get_buda_app_desc($app);
+    if (!user_can_manage($user, $app_desc)) {
+        error_page('no access');
+    }
+
     $variant = get_str('variant');
     if (!is_valid_filename($variant)) die('bad arg');
     $confirmed = get_str('confirmed', true);
@@ -490,10 +496,16 @@ function variant_delete() {
     }
 }
 
-function app_delete() {
+function app_delete($user) {
     global $buda_root;
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
+
+    $app_desc = get_buda_app_desc($app);
+    if (!user_can_manage($user, $app_desc)) {
+        error_page('no access');
+    }
+
     $confirmed = get_str('confirmed', true);
     $vars = get_buda_variants($app);
     if ($vars) {
@@ -864,7 +876,7 @@ case 'app_action':
 case 'app_details':
     app_details($user); break;
 case 'app_delete':
-    app_delete(); break;
+    app_delete($user); break;
 case 'variant_view':
     variant_view($user); break;
 case 'variant_form':
@@ -874,7 +886,7 @@ case 'variant_action':
     variant_action($user);
     break;
 case 'variant_delete':
-    variant_delete();
+    variant_delete($user);
     break;
 case 'view_file':
     view_file(); break;

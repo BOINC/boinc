@@ -79,6 +79,7 @@ if (0) {
     ";
     form_start('sandbox.php', 'post');
     form_input_hidden('action', 'get_file');
+    echo form_tokens();
     form_input_text('URL', 'url');
     form_submit('OK');
     form_end();
@@ -296,6 +297,7 @@ case 'add_file':
     add_file($user);
     break;
 case 'get_file':
+    check_tokens();
     get_file($user);
     break;
 case 'delete_file':

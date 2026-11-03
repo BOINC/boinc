@@ -297,6 +297,7 @@ function show_aborted($all_batches, $order, $limit, $user, $app) {
             }
             form_start('submit.php', 'get');
             form_input_hidden('action', 'retire_multi');
+            echo form_tokens();
             start_table();
             table_header("Name", "ID", "User", "App", "# Jobs", "Submitted", "Aborted", 'Select');
         }

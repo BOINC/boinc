@@ -229,7 +229,7 @@ function handle_add_form() {
         <input type=hidden name=action value=add_action>
         User ID: <input name=user_id>
         <br>
-        <input class=\"btn btn-success\" type=submit value=OK>
+        <input class="btn btn-success" type=submit value=OK>
         </form>
         ', form_tokens()
     );
