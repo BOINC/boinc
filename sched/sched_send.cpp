@@ -59,13 +59,13 @@
 
 // if host sends us an impossible RAM size, use this instead
 //
-const double DEFAULT_RAM_SIZE = 64000000;
+const double DEFAULT_RAM_SIZE = 4*GIGA;
 
 int selected_app_message_index=0;
 
 static inline bool file_present_on_host(const char* name) {
     for (const FILE_INFO& fi: g_request->file_infos) {
-        if (!strstr(name, fi.name)) {
+        if (!strcmp(name, fi.name)) {
             return true;
         }
     }

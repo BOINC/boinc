@@ -283,8 +283,11 @@ void set_have_apps_flags() {
 }
 
 void buda_init() {
+    static bool buda_inited = false;
+    if (buda_inited) return;
     buda_apps.read_json();
     set_have_apps_flags();
+    buda_inited = true;
 }
 
 #ifdef BUDA_TEST
