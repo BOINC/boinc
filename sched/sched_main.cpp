@@ -508,7 +508,7 @@ int main(int argc, char** argv) {
 
     g_pid = getpid();
 #ifdef _USING_FCGI_
-    while(FCGI_Accept() >= 0 && counter < MAX_FCGI_COUNT) {
+    while(counter < MAX_FCGI_COUNT && FCGI_Accept() >= 0) {
         counter++;
         log_messages.set_indent_level(0);
 #endif
