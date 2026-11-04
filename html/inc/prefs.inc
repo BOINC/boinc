@@ -719,7 +719,9 @@ function venue_form($user) {
 }
 
 function venue_parse_form(&$user) {
-    $user->venue = $_GET['default_venue'];
+    $v = get_str('default_venue');
+    check_venue($v);
+    $user->venue = $v;
 }
 
 ////////////////////////////////////////////

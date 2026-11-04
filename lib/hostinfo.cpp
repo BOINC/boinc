@@ -175,8 +175,14 @@ int HOST_INFO::parse(XML_PARSER& xp, bool static_items_only) {
         // for each of multiple OpenCL platforms
         //
         if (xp.match_tag("opencl_cpu_prop")) {
-            int retval = opencl_cpu_prop[num_opencl_cpu_platforms].parse(xp);
-            if (!retval) num_opencl_cpu_platforms++;
+            OPENCL_CPU_PROP ocp;
+            int retval = ocp.parse(xp);
+            if (retval == 0
+                && num_opencl_cpu_platforms<MAX_OPENCL_CPU_PLATFORMS
+            ) {
+                opencl_cpu_prop[num_opencl_cpu_platforms++] = ocp;
+            }
+            continue;
         }
     }
     return ERR_XML_PARSE;

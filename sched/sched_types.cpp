@@ -1405,8 +1405,13 @@ int HOST::parse(XML_PARSER& xp) {
         if (xp.parse_str("virtualbox_version", virtualbox_version, sizeof(virtualbox_version))) continue;
         if (xp.parse_bool("p_vm_extensions_disabled", p_vm_extensions_disabled)) continue;
         if (xp.match_tag("opencl_cpu_prop")) {
-            int retval = opencl_cpu_prop[num_opencl_cpu_platforms].parse(xp);
-            if (!retval) num_opencl_cpu_platforms++;
+            OPENCL_CPU_PROP ocp;
+            int retval = ocp.parse(xp);
+            if (retval == 0
+                && num_opencl_cpu_platforms<MAX_OPENCL_CPU_PLATFORMS
+            ) {
+                opencl_cpu_prop[num_opencl_cpu_platforms++] = ocp;
+            }
             continue;
         }
 

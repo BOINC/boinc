@@ -101,9 +101,13 @@ function display_team_page($team, $user) {
         if (strstr($team->url, "http://")) {
             $x = $team->url;
         } else {
-            $x = "http://$team->url";
+            $x = "https://$team->url";
         }
-        row2(tra('Web site'), "<a href=$x>$x</a>");
+        $x = htmlspecialchars($x, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        row2(
+            tra('Web site'),
+            sprintf('<a href="%s">%s</a>', $x, $x)
+        );
     }
 
     if (!NO_STATS) {

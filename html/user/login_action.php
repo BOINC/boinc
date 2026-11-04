@@ -53,7 +53,7 @@ function login_with_email($email_addr, $passwd, $next_url, $perm) {
 
     // allow authenticator as password
     //
-    if ($passwd != $user->authenticator) {
+    if (!hash_equal($user->authenticator, $passwd)) {
         $passwd_hash = md5($passwd.$email_addr);
 
         if (!check_passwd_hash($user, $passwd_hash)) {
@@ -85,14 +85,15 @@ function login_via_link($id, $t, $h) {
     $x = $id.$user->authenticator.$t;
     $x = md5($x);
     $x = substr($x, 0, 16);
-    if ($x != $h) {
+    if (!hash_equals($x, $h)) {
         sleep(LOGIN_FAIL_SLEEP_SEC);
         error_page("Invalid authenticator.
             Please make sure you visited the complete URL;
             it may have been split across lines by your email reader."
         );
     }
-    if (time() - $t > 86400) {
+    $now = time();
+    if ($now > $t+86400 || $t > $now) {
         sleep(LOGIN_FAIL_SLEEP_SEC);
         error_page("Link has expired;
             go <a href=get_passwd.php>here</a> to

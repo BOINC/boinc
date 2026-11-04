@@ -65,8 +65,10 @@ function forum_page($forum, $user, $msg=null) {
     } else {
         // set the sort style
         if ($user){
-            $user->prefs->forum_sorting = $sort_style;
-            $user->prefs->update("forum_sorting=$sort_style");
+            if ($user->prefs->forum_sorting != $sort_style) {
+                $user->prefs->forum_sorting = $sort_style;
+                $user->prefs->update("forum_sorting=$sort_style");
+            }
         } else {
             list($old_style, $thread_style) = parse_forum_cookie();
             send_cookie(

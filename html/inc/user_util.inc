@@ -45,7 +45,7 @@ function check_passwd_hash($user, $passwd_hash) {
         if (password_needs_rehash($user->passwd_hash, PASSWORD_DEFAULT)) {
             do_passwd_rehash($user, $passwd_hash);
         }
-    } else if ($passwd_hash == $user->passwd_hash) {
+    } else if (hash_equal($user->passwd_hash, $passwd_hash)) {
         // user record has old format.  Change to new.
         //
         do_passwd_rehash($user, $passwd_hash);

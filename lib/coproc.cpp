@@ -250,6 +250,17 @@ void COPROCS::summary_string_json(string &out) {
     }
 }
 
+static void check_count(COPROC &cp, const char* type) {
+    if (cp.count < 1) {
+        boinc::fprintf(stderr, "%s count %d too small\n", type, cp.count);
+        cp.count = 1;
+    }
+    if (cp.count > MAX_COPROC_INSTANCES) {
+        boinc::fprintf(stderr, "%s count %d too large\n", type, cp.count);
+        cp.count = MAX_COPROC_INSTANCES;
+    }
+}
+
 int COPROCS::parse(XML_PARSER& xp) {
     int retval;
 
@@ -260,11 +271,16 @@ int COPROCS::parse(XML_PARSER& xp) {
         if (xp.match_tag("/coprocs")) {
             return 0;
         }
+        if (n_rsc == MAX_RSC) {
+            boinc::fprintf(stderr, "too many coproc entries\n");
+            return 0;
+        }
         if (xp.match_tag("coproc_cuda")) {
             retval = nvidia.parse(xp);
             if (retval) {
                 nvidia.clear();
             } else {
+                check_count(nvidia, "NVIDIA");
                 coprocs[n_rsc++] = nvidia;
             }
             continue;
@@ -274,6 +290,7 @@ int COPROCS::parse(XML_PARSER& xp) {
             if (retval) {
                 ati.clear();
             } else {
+                check_count(ati, "ATI");
                 coprocs[n_rsc++] = ati;
             }
             continue;
@@ -283,6 +300,7 @@ int COPROCS::parse(XML_PARSER& xp) {
             if (retval) {
                 intel_gpu.clear();
             } else {
+                check_count(intel_gpu, "Intel");
                 coprocs[n_rsc++] = intel_gpu;
             }
             continue;
@@ -292,6 +310,7 @@ int COPROCS::parse(XML_PARSER& xp) {
             if (retval) {
                 apple_gpu.clear();
             } else {
+                check_count(apple_gpu, "Apple");
                 coprocs[n_rsc++] = apple_gpu;
             }
             continue;
@@ -299,10 +318,11 @@ int COPROCS::parse(XML_PARSER& xp) {
         if (xp.match_tag("coproc")) {
             COPROC cp;
             retval = cp.parse(xp);
-            if (!retval) {
-                coprocs[n_rsc++] = cp;
-            } else {
+            if (retval) {
                 boinc::fprintf(stderr, "failed to parse <coproc>: %d\n", retval);
+            } else {
+                check_count(cp, "generic");
+                coprocs[n_rsc++] = cp;
             }
         }
     }

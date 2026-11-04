@@ -41,7 +41,10 @@ $thread = BoincThread::lookup_id(get_int('thread'));
 if (!$thread) error_page('No such thread');
 $forum = BoincForum::lookup_id($thread->forum);
 
-$sort_style = get_str('sort', true);
+$sort_style = get_int('sort', true);
+if ($sort_style >= NSORT_STYLES) {
+    $sort_style = MODIFIED_NEW;
+}
 $filter = get_str('filter', true);
 $content = post_str('content', true);
 $preview = post_str("preview", true);
@@ -65,10 +68,12 @@ if ($filter != "false"){
 
 check_reply_access($logged_in_user, $forum, $thread);
 
-if (!$sort_style) {
-    $sort_style = $logged_in_user->prefs->thread_sorting;
+if ($sort_style) {
+    if ($logged_in_user->prefs->thread_sorting != $sort_style) {
+        $logged_in_user->prefs->update("thread_sorting=$sort_style");
+    }
 } else {
-    $logged_in_user->prefs->update("thread_sorting=$sort_style");
+    $sort_style = $logged_in_user->prefs->thread_sorting;
 }
 
 $warning = null;

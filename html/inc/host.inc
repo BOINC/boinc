@@ -116,13 +116,23 @@ function show_host($host, $user, $ipprivate) {
             row2(tra("Cross project credit"), cross_project_links($host));
         }
     }
-    row2(tra("CPU type"), "$host->p_vendor <br> $host->p_model");
+    row2(tra("CPU type"),
+        sprintf('%s<br>%s',
+            htmlspecialchars($host->p_vendor),
+            htmlspecialchars($host->p_model)
+        )
+    );
     row2(tra("Number of cores"), $host->p_ncpus);
     $misc = json_decode($host->misc);
     row2(tra("Coprocessors"), gpu_desc($misc));
     row2(tra("Virtualization"), vbox_desc($misc));
     row2(tra("Docker"), docker_desc($misc));
-    row2(tra("Operating System"), "$host->os_name <br> $host->os_version");
+    row2(tra("Operating System"),
+        sprintf('%s<br>%s',
+            htmlspecialchars($host->os_name),
+            htmlspecialchars($host->os_version)
+        )
+    );
     row2(tra("BOINC version"), boinc_version($misc));
     $x = $host->m_nbytes/GIGA;
     $y = round($x, 2);
@@ -355,7 +365,12 @@ function boinc_version($misc) {
 }
 
 function cpu_desc($host) {
-    return "$host->p_vendor<br>$host->p_model<br>".tra("(%1 cores)", $host->p_ncpus)."\n";
+    return sprintf(
+        '%s<br>%s<br>%s',
+        htmlspecialchars($host->p_vendor),
+        htmlspecialchars($host->p_model),
+        .tra("(%1 cores)", $host->p_ncpus)
+    );
 }
 
 // If private is true, we're showing the host to its owner,
