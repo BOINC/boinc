@@ -2286,7 +2286,7 @@ int DB_IN_PROGRESS_RESULT::enumerate(DB_ID_TYPE hostid, const char* result_names
     int retval;
     MYSQL_ROW row;
     if (!cursor.active) {
-        sprintf(query,
+        snprintf(query, sizeof(query),
             "select high_priority result.name, workunit.error_mask, workunit.assimilate_state, result.server_state, result.outcome "
             " from result, workunit "
             " where result.hostid = %lu and workunit.id = result.workunitid "

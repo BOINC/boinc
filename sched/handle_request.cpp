@@ -105,7 +105,7 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
         safe_strcpy(pm, req_host.p_model);
         escape_string(pm, sizeof(pm));
 
-        sprintf(buf,
+        snprintf(buf, sizeof(buf),
             "where userid=%lu and id>%lu and domain_name='%s' and last_ip_addr = '%s' and os_name = '%s' and p_model = '%s'"
                " and m_nbytes = %lf order by id desc", user.id, req_host.id, dn, ip, os, pm, req_host.m_nbytes
         );
@@ -1388,7 +1388,8 @@ void process_request(char* code_sign_key) {
         }
     }
     if (g_request->platforms.list.empty()) {
-        sprintf(buf, "%s %s",
+        snprintf(buf, sizeof(buf),
+            "%s %s",
             _("This project doesn't support computers of type"),
             g_request->platform.name
         );
@@ -1563,7 +1564,7 @@ void handle_request(FILE* fin, FILE* fout, char* code_sign_key) {
             send_file_deletes();
         }
     } else {
-        sprintf(buf, "Error in request message: %s", p);
+        snprintf(buf, sizeof(buf), "Error in request message: %s", p);
         log_incomplete_request();
         sreply.insert_message(buf, "low");
     }

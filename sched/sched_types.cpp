@@ -330,7 +330,9 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
             return "xp.get_tag() failed";
         }
     }
-    if (!xp.match_tag("scheduler_request")) return "no start tag";
+    if (!xp.match_tag("scheduler_request")) {
+        return "no start tag";
+    }
     while (!xp.get_tag()) {
         if (xp.match_tag("/scheduler_request")) {
             core_client_version = 10000*core_client_major_version + 100*core_client_minor_version + core_client_release;

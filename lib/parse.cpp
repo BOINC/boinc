@@ -311,17 +311,19 @@ void extract_venue(const char* in, const char* venue_name, char* out, int len) {
         //
         q = in;
         strcpy(out, "");
-           while (1) {
-               p = strstr(q, "<venue");
-               if (!p) {
-                   strlcat(out, q, len);
-                   break;
-               }
-               strncat(out, q, p-q);
-               q = strstr(p, "</venue>");
-               if (!q) break;
-               q += venue_close_tag_len;
-           }
+        while (1) {
+            p = strstr(q, "<venue");
+            if (!p) {
+                strlcat(out, q, len);
+                break;
+            }
+            *p = 0;
+            strlcat(out, q, len);
+            *p = '<';
+            q = strstr(p, "</venue>");
+            if (!q) break;
+            q += venue_close_tag_len;
+        }
     }
 }
 
