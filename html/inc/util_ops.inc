@@ -142,7 +142,9 @@ function get_logged_in_user_ops() {
     return $g_logged_in_user;
 }
 
-get_logged_in_user_ops();
+if (php_sapi_name() !== 'cli' && PHP_SAPI !== 'cli') {
+    get_logged_in_user_ops();
+}
 
 ////////// functions for access control of admin web pages /////////////
 

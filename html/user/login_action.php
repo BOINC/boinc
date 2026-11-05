@@ -53,7 +53,7 @@ function login_with_email($email_addr, $passwd, $next_url, $perm) {
 
     // allow authenticator as password
     //
-    if (!hash_equal($user->authenticator, $passwd)) {
+    if (!hash_equals($user->authenticator, $passwd)) {
         $passwd_hash = md5($passwd.$email_addr);
 
         if (!check_passwd_hash($user, $passwd_hash)) {
