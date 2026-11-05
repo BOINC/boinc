@@ -78,6 +78,7 @@
     <string name="attachproject_attach_projects_desc">Add projects from the list of projects</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">User:</string>
+    <string name="attachproject_acctmgr_header_username">User name:</string>
     <string name="attachproject_acctmgr_header_pwd">Password:</string>
     <!-- error strings -->
     <string name="attachproject_error_wrong_name">User not found</string>
