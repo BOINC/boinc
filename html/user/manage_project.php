@@ -17,9 +17,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Interface for project-wide functions:
-//   - control user quotas and permissions to submit jobs
-//   - create apps (not implemented yet)
+// Interface to control user quotas and permissions to submit jobs
 
 require_once("../inc/submit_db.inc");
 require_once("../inc/util.inc");
@@ -225,17 +223,16 @@ function handle_edit_action() {
 
 function handle_add_form() {
     page_head("Add user");
-    echo "
+    echo sprintf('
         <form action=manage_project.php>
-    ";
-    echo form_tokens();
-    echo "
+        %s
         <input type=hidden name=action value=add_action>
         User ID: <input name=user_id>
         <br>
-        <input class=\"btn btn-success\" type=submit value=OK>
+        <input class="btn btn-success" type=submit value=OK>
         </form>
-    ";
+        ', form_tokens()
+    );
     page_tail();
 }
 

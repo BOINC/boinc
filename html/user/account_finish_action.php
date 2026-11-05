@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// account_finish.php is opened by the Manager after creating an account
+
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/email.inc");
@@ -54,14 +56,8 @@ if (!$retval) {
     error_page("database error");
 }
 
-// team may have already been joined in create_account RPC.
-// if so, skip team-finder
-//
-if ($user->teamid) {
-    Header("Location: ".HOME_PAGE);
-} else {
-    Header("Location: team_search.php");
-}
+Header("Location: ".HOME_PAGE);
+
 send_cookie('auth', $auth, true);
 send_cookie('init', "1", true);
 ?>
