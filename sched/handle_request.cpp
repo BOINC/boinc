@@ -63,6 +63,11 @@ using std::string;
 #include "sched_util.h"
 #include "time_stats_log.h"
 
+// max number of zombie host links to follow in authenticate_user().
+// Guards against cycles and excessively long chains.
+//
+#define MAX_ZOMBIE_HOST_LINKS   16
+
 // are the 2 hosts obviously different computers?
 //
 static bool obviously_different(HOST& h1, HOST& h2) {
@@ -295,12 +300,39 @@ int authenticate_user() {
     DB_TEAM team;
 
     if (g_request->hostid) {
+        DB_ID_TYPE visited[MAX_ZOMBIE_HOST_LINKS];
+        int nlinks = 0;
         retval = host.lookup_id(g_request->hostid);
         while (!retval && host.userid==0) {
             // if host record is zombie, follow link to new host
-            // TODO: check for infinite loop
             //
-            retval = host.lookup_id(host.rpc_seqno);
+            if (host.rpc_seqno <= 0) {
+                log_messages.printf(MSG_CRITICAL,
+                    "[HOST#%lu] invalid target %d in zombie host chain (at host %lu)\n",
+                    g_request->hostid, host.rpc_seqno, host.id
+                );
+                retval = ERR_DB_NOT_FOUND;
+                break;
+            }
+            DB_ID_TYPE next_id = host.rpc_seqno;
+            bool cycle = (next_id == host.id);
+            for (int i = 0; i < nlinks && !cycle; i++) {
+                if (visited[i] == next_id) {
+                    cycle = true;
+                }
+            }
+            if (cycle || nlinks >= MAX_ZOMBIE_HOST_LINKS) {
+                log_messages.printf(MSG_CRITICAL,
+                    "[HOST#%lu] %s zombie host chain (at host %lu -> %lu)\n",
+                    g_request->hostid,
+                    cycle ? "cycle in" : "too many links in",
+                    host.id, next_id
+                );
+                retval = ERR_DB_NOT_FOUND;
+                break;
+            }
+            visited[nlinks++] = host.id;
+            retval = host.lookup_id(next_id);
             if (!retval) {
                 g_reply->hostid = host.id;
                 log_messages.printf(MSG_NORMAL,
@@ -319,6 +351,7 @@ int authenticate_user() {
                 g_request->hostid
             );
             g_request->hostid = 0;
+            g_reply->hostid = 0;
             goto lookup_user_and_make_new_host;
         }
 
