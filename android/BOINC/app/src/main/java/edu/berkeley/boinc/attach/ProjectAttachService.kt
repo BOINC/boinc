@@ -84,6 +84,17 @@ class ProjectAttachService : LifecycleService() {
     val numberOfSelectedProjects: Int
         get() = selectedProjects.size
 
+    /**
+     * Credential inputs needed for the selected projects.
+     * All inputs are needed as long as the project configurations are being retrieved.
+     */
+    val credentialInputs: CredentialInputs
+        get() = if (projectConfigRetrievalFinished) {
+            CredentialInputs.forProjects(selectedProjects.mapNotNull { it.config })
+        } else {
+            CredentialInputs.ALL
+        }
+
     internal inner class LocalBinder : Binder() {
         val service: ProjectAttachService
             get() = this@ProjectAttachService
@@ -141,8 +152,12 @@ class ProjectAttachService : LifecycleService() {
         this.email = email
         this.user = user
         this.pwd = pwd
-        store.lastEmailAddress = email
-        store.lastUserName = user
+        if (email.isNotEmpty()) {
+            store.lastEmailAddress = email
+        }
+        if (user.isNotEmpty()) {
+            store.lastUserName = user
+        }
     }
 
     /**
@@ -207,17 +222,12 @@ class ProjectAttachService : LifecycleService() {
      * @param email email address of user
      * @param user  user name
      * @param pwd   password
+     * @param inputs credential inputs that need to be filled in
      * @return true if input verified
      */
-    fun verifyInput(email: String, user: String, pwd: String): Boolean {
+    fun verifyInput(email: String, user: String, pwd: String, inputs: CredentialInputs): Boolean {
         // check input
-        val stringResource = when {
-            email.isEmpty() -> R.string.attachproject_error_no_email
-            user.isEmpty() -> R.string.attachproject_error_no_name
-            pwd.isEmpty() -> R.string.attachproject_error_no_pwd
-            pwd.length < 6 -> R.string.attachproject_error_short_pwd
-            else -> 0
-        }
+        val stringResource = inputs.findError(email, user, pwd)
         return if (stringResource != 0) {
             val toast = Toast.makeText(applicationContext, stringResource, Toast.LENGTH_LONG)
             toast.show()
@@ -368,7 +378,8 @@ class ProjectAttachService : LifecycleService() {
                 retry = false
                 // get credentials
                 // check if project allows registration
-                statusCredentials = if (isForceLookup || config!!.clientAccountCreationDisabled) {
+                statusCredentials = if (isForceLookup || config!!.clientAccountCreationDisabled ||
+                        (config!!.usesName && email.isBlank())) {
                     // registration disabled, e.g. WCG
                     Logging.logDebug(Logging.Category.PROJECT_SERVICE,
                             "AttachProjectAsyncTask: account creation disabled, try login. for: " + config!!.name)
@@ -549,7 +560,8 @@ class ProjectAttachService : LifecycleService() {
         }
 
         private fun getAccountIn(email: String, user: String, pwd: String): AccountIn {
-            return AccountIn(config!!.secureUrlIfAvailable, email, user, pwd, "",
+            val resolvedUser = if (user.isNotBlank() || config!!.usesName) user else email.substringBefore('@')
+            return AccountIn(config!!.secureUrlIfAvailable, email, resolvedUser, pwd, "",
                     config!!.usesName)
         }
     }
