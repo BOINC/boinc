@@ -72,7 +72,10 @@
 #define DUMP_CORE_ON_SEGV 0
 
 #define DEBUG_LEVEL  999
-#define MAX_FCGI_COUNT  20
+
+// If we're using Fast CGI, how many requests each process handles before exit.
+// This guards against possible memory or descriptor leaks.
+#define MAX_FCGI_COUNT  100
 
 GUI_URLS gui_urls;
 PROJECT_FILES project_files;
@@ -505,8 +508,7 @@ int main(int argc, char** argv) {
 
     g_pid = getpid();
 #ifdef _USING_FCGI_
-    //while(FCGI_Accept() >= 0 && counter < MAX_FCGI_COUNT) {
-    while(FCGI_Accept() >= 0) {
+    while(counter < MAX_FCGI_COUNT && FCGI_Accept() >= 0) {
         counter++;
         log_messages.set_indent_level(0);
 #endif

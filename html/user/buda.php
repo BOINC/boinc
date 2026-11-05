@@ -208,6 +208,7 @@ function variant_form($user) {
     $pc = '<br><small>Specify
     <a href=https://github.com/BOINC/boinc/wiki/Plan-classes>GPU and other host requirements</a>.<br>Leave blank if none.</small>';
     form_start('buda.php');
+    echo form_tokens();
     form_input_hidden('app', $app);
     form_input_hidden('action', 'variant_action');
     if ($variant) {
@@ -442,14 +443,21 @@ function variant_action($user) {
     app_list("Variant $variant added for app $app.");
 }
 
-function variant_delete() {
+function variant_delete($user) {
     global $buda_root;
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
+
+    $app_desc = get_buda_app_desc($app);
+    if (!user_can_manage($user, $app_desc)) {
+        error_page('no access');
+    }
+
     $variant = get_str('variant');
     if (!is_valid_filename($variant)) die('bad arg');
     $confirmed = get_str('confirmed', true);
     if ($confirmed) {
+        check_tokens();
         $dir = "$buda_root/$app/$variant";
         if (!file_exists($dir)) error_page('no such variant');
         // delete staged files
@@ -478,23 +486,33 @@ function variant_delete() {
         page_head("Confirm");
         echo "<p>Are you sure you want to delete variant $variant of BUDA app $app?  <p>";
         show_button(
-            "buda.php?action=variant_delete&app=$app&variant=$variant&confirmed=yes",
+            sprintf(
+                'buda.php?action=variant_delete&app=%s&variant=%s&confirmed=yes%s',
+                $app, $variant, url_tokens()
+            ),
             "Yes"
         );
         page_tail();
     }
 }
 
-function app_delete() {
+function app_delete($user) {
     global $buda_root;
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
+
+    $app_desc = get_buda_app_desc($app);
+    if (!user_can_manage($user, $app_desc)) {
+        error_page('no access');
+    }
+
     $confirmed = get_str('confirmed', true);
     $vars = get_buda_variants($app);
     if ($vars) {
         error_page("To delete a BUDA app, you must first delete all its variants.");
     }
     if ($confirmed) {
+        check_tokens();
         $dir = "$buda_root/$app";
         if (!file_exists($dir)) error_page('no such app');
         system(
@@ -513,7 +531,10 @@ function app_delete() {
         page_head('Confirm');
         echo "<p>Are you sure you want to delete BUDA science app $app?  <p>";
         show_button(
-            "buda.php?action=app_delete&app=$app&confirmed=yes",
+            sprintf(
+                'buda.php?action=app_delete&app=%s&confirmed=yes%s',
+                $app, url_tokens()
+            ),
             "Yes"
         );
         page_tail();
@@ -523,6 +544,7 @@ function app_delete() {
 function app_form($desc=null) {
     page_head_select2($desc?"Edit BUDA app $desc->name":'Create BUDA app');
     form_start('buda.php');
+    echo form_tokens();
     form_input_hidden('action', 'app_action');
     if ($desc) {
         form_input_hidden('edit_name', $desc->name);
@@ -695,7 +717,7 @@ function app_action($user) {
     header("Location: buda.php");
 }
 
-function view_file() {
+function view_buda_file() {
     global $buda_root;
     $app = get_str('app');
     if (!is_valid_filename($app)) die('bad arg');
@@ -849,23 +871,25 @@ case 'app_edit':
 case 'app_form':
     app_form(); break;
 case 'app_action':
+    check_tokens();
     app_action($user); break;
 case 'app_details':
     app_details($user); break;
 case 'app_delete':
-    app_delete(); break;
+    app_delete($user); break;
 case 'variant_view':
     variant_view($user); break;
 case 'variant_form':
     variant_form($user); break;
 case 'variant_action':
+    check_tokens();
     variant_action($user);
     break;
 case 'variant_delete':
-    variant_delete();
+    variant_delete($user);
     break;
 case 'view_file':
-    view_file(); break;
+    view_buda_file(); break;
 case null:
     app_list(); break;
 default:

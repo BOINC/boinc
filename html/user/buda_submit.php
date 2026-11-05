@@ -73,6 +73,7 @@ function submit_form($user) {
         );
     }
     form_start('buda_submit.php');
+    echo form_tokens();
     form_input_hidden('action', 'submit');
     form_input_hidden('app', $app);
     form_select("Batch zip file $desc", 'batch_file', $sbitems_zip);
@@ -449,6 +450,7 @@ if (!has_submit_access($user, $buda_boinc_app->id)) {
 }
 $action = get_str('action', true);
 if ($action == 'submit') {
+    check_tokens();
     handle_submit($user);
 } else if ($action == 'form') {
     submit_form($user);
