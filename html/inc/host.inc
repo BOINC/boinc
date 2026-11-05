@@ -369,7 +369,7 @@ function cpu_desc($host) {
         '%s<br>%s<br>%s',
         htmlspecialchars($host->p_vendor),
         htmlspecialchars($host->p_model),
-        .tra("(%1 cores)", $host->p_ncpus)
+        tra("(%1 cores)", $host->p_ncpus)
     );
 }
 

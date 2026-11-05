@@ -18,6 +18,8 @@
 
 require_once("../inc/util_ops.inc");
 
+check_tokens();
+
 $cancel = post_int('cancel', true);
 $hide_canceled = post_str('hide_canceled', true);
 $hide_dlerr = post_str('hide_dlerr', true);

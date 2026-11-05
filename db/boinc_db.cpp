@@ -2372,9 +2372,9 @@ int DB_SCHED_RESULT_ITEM_SET::enumerate() {
     for (i=0; i<results.size(); i++) {
         if (i>0) query += ",";
         query += "'";
-        escape_string(results[i].queried_name);
+        escape_string(results[i].queried_name, sizeof(ri.queried_name));
         query += results[i].queried_name;
-        unescape_string(results[i].queried_name);
+        unescape_string(results[i].queried_name, sizeof(ri.queried_name));
         query += "'";
     }
     query += ")";

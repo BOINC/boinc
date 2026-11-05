@@ -179,6 +179,7 @@ echo "</form>\n";
 echo "Page last updated ".time_str($last_update);
 if (!in_rops()) {
     echo "<form action=\"cancel_workunits_action.php\" method=\"post\">\n";
+    echo form_tokens();
     echo "<input type=\"hidden\" name=\"back\" value=\"errorwus\"/>";
 }
 echo "<br/><table border=\"1\">\n";

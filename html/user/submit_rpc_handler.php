@@ -546,8 +546,14 @@ function submit_batch($r) {
         // could add quorum-related stuff
 
     $input_template_filename = (string) $r->batch->input_template_filename;
+    if (!is_valid_filename($input_template_filename, false)) {
+        xml_error(-1, 'invalid input template filename');
+    }
     $output_template_filename = (string) $r->batch->output_template_filename;
         // possibly empty
+    if (!is_valid_filename($output_template_filename, false)) {
+        xml_error(-1, 'invalid output template filename');
+    }
 
     submit_jobs(
         $jobs, $job_params, $app, $batch_id, $priority, $app_version_num,

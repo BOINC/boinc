@@ -117,6 +117,7 @@ function do_wu($wu_id, $auth) {
     if (!$workunit) die("no workunit for $result_id");
     $batch = BoincBatch::lookup_id($workunit->batch);
     if (!$batch) die("no batch for $result_id");
+    check_auth($auth, $batch);
     $result = BoincResult::lookup_id($workunit->canonical_resultid);
     do_result_aux($result, $batch);
 }
@@ -129,6 +130,7 @@ function do_wu($wu_id, $auth) {
 function do_batch($batch_id, $auth) {
     $batch = BoincBatch::lookup_id($batch_id);
     if (!$batch) die("no batch $batch_id");
+    check_auth($auth, $batch);
     $dir_path = sprintf('submit/%d/batch_%d', $batch_id, $batch_id);
     system("rm -r $dir_path");
     mkdir($dir_path);

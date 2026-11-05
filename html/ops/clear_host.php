@@ -18,6 +18,7 @@
 
 require_once("../inc/util_ops.inc");
 
+check_tokens();
 $hostid = get_int("hostid");
 
 $host = BoincHost::lookup_id($hostid);

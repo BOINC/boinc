@@ -19,6 +19,8 @@
 require_once("../inc/db_ops.inc");
 require_once("../inc/util_ops.inc");
 
+check_tokens();
+
 db_init();
 
 admin_page_head("Manage special users action");

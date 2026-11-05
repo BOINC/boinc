@@ -27,9 +27,11 @@ require_once("../inc/email.inc");
 require_once("../inc/user_util.inc");
 require_once("../inc/password_compat/password.inc");
 
-check_get_args(array());
+check_get_args([]);
 
 $user = get_logged_in_user();
+
+check_tokens();
 
 $email_addr = strtolower(post_str("email_addr"));
 $passwd = post_str("passwd", true);

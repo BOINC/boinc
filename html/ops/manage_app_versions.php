@@ -77,6 +77,7 @@ function show_form($all) {
         "$clause order by appid, platformid, plan_class, version_num"
     );
     $i = 0;
+    $tokens = form_tokens();
     foreach ($avs as $av) {
         // grey out deprecated versions
         //
@@ -93,6 +94,7 @@ function show_form($all) {
             continue;
         }
         echo "<tr class=row$i><form action=manage_app_versions.php?all=$all_value#av_$av->id method=POST>\n";
+        echo $tokens;
         $i = 1-$i;
         echo "<input type=hidden name=id value=$av->id>";
         echo "  <TD>$f1 <a id='av_$av->id' href=db_action.php?table=app_version&id=$av->id>$av->id</a> $f2</TD>\n";
@@ -136,6 +138,7 @@ function show_form($all) {
 admin_page_head("Manage application versions");
 
 if (post_str("submit", true)) {
+    check_tokens();
     update();
 }
 $all = get_str("all", true);

@@ -682,7 +682,8 @@ static int add_wu_to_reply(
     if (bvp) {
         retval = add_usage_to_wu(wu2, hu);
         if (retval) return retval;
-        add_app_files(wu2, *bvp);
+        retval = add_app_files(wu2, *bvp);
+        if (retval) return retval;
     }
     wu3 = wu2;
     if (strlen(config.replace_download_url_by_timezone)) {

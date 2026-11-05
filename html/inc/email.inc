@@ -32,11 +32,19 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
     }
     if (defined('EMAIL_USE_CMD')) {
         if ($body_html) {
-            $cmd = "mail  -a \"Content-type: text/html\" -s \"$subject\" $email_addr";
+            $cmd = sprintf(
+                'mail  -a "Content-type: text/html" -s %s %s',
+                escapeshellarg($subject),
+                escapeshellarg($email_addr)
+            );
             $pipe = popen($cmd, "w");
             fwrite($pipe, $body_html);
         } else {
-            $cmd = "mail  -s \"$subject\" $email_addr";
+            $cmd = sprintf(
+                'mail -s %s %s',
+                escapeshellarg($subject),
+                escapeshellarg($email_addr)
+            );
             $pipe = popen($cmd, "w");
             fwrite($pipe, $body);
         }
@@ -70,17 +78,15 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
             return true;
         }
     } else {
-        $headers ="";
+        $headers = [];
         if (defined('EMAIL_FROM') && defined('EMAIL_FROM_NAME')) {
-            $headers = "From: ".EMAIL_FROM_NAME." <".EMAIL_FROM.">";
+            $headers[] = "From: ".EMAIL_FROM_NAME." <".EMAIL_FROM.">";
         } else if (defined('EMAIL_FROM')) {
-            $headers = "From: ". EMAIL_FROM;
+            $headers[] = "From: ". EMAIL_FROM;
         }
         if ($body_html) {
-            $body = "<html><body>\n";
-            $body .= $body_html;
-            $body .= "\n</body></html>\n";
-            $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
+            $body = "<html><body>\n$body_html\n</body></html>\n";
+            $headers[] = 'Content-type: text/html; charset=UTF-8';
         }
         return mail($email_addr, $subject, $body, $headers);
     }

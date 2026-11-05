@@ -123,6 +123,7 @@ function show_form($all) {
             $f2 = "</font>";
         }
         echo "<tr><form action=$action_url method=POST>";
+        echo form_tokens();
         echo "<input type=hidden name=id value=$app->id>";
         echo "  <TD align='center'>$f1 $app->id $f2</TD>\n";
 
@@ -204,6 +205,7 @@ function show_form($all) {
         <p>
         <form action=$action_url method=POST>
     ";
+    echo form_tokens();
 
     start_table('', 'align="center"');
 
@@ -225,8 +227,10 @@ admin_page_head("Manage applications");
 $all = get_int('all', true);
 
 if (post_str('add_app', true)) {
+    check_tokens();
     add_app();
 } else if (post_str('submit', true)) {
+    check_tokens();
     do_updates();
 }
 show_form($all);

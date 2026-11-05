@@ -139,9 +139,11 @@ int send_nci() {
     // scan through the list of in-progress jobs,
     // flagging the associated apps as having jobs
     //
-    for (const OTHER_RESULT& ores: g_request->other_results) {
+    for (OTHER_RESULT& ores: g_request->other_results) {
         DB_RESULT r;
+        escape_string(ores.name, sizeof(ores.name));
         sprintf(buf, "where name='%s'", ores.name);
+        unescape_string(ores.name, sizeof(ores.name));
         retval = r.lookup(buf);
         if (retval) {
             log_messages.printf(MSG_NORMAL, "No such result: %s\n", ores.name);

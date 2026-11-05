@@ -23,6 +23,12 @@ require_once("../project/project.inc");
 
 $stripchart_cgi_url = project_config_val("stripchart_cgi_url");
 
+$user = get_logged_in_user_ops();
+if (!$user) {
+    print_login_form_ops();
+    exit;
+}
+
 db_init();
 
 $title = "Project Management";
@@ -121,6 +127,9 @@ echo "
         <li><a href=\"show_log.php\">Show/Grep logs</a>
         <li>
             <form method=\"get\" action=\"clear_host.php\">
+";
+echo form_tokens();
+echo "
             <input class=\"btn btn-default\" type=\"submit\" value=\"Clear RPC seqno\">
             host ID:
             <input type=\"text\" size=\"5\" name=\"hostid\">

@@ -214,8 +214,8 @@ function add_file($user) {
 function get_file($user) {
     $dir = sandbox_dir($user);
     $url = post_str('url');
-    if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
-        error_page('Not a valid URL');
+    if (!is_valid_https_url($url)) {
+        error_page('Invalid URL');
     }
     $fname = basename($url);
     if (!is_valid_filename($fname)) {

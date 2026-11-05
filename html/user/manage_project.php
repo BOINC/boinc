@@ -126,6 +126,7 @@ function handle_edit_form() {
     $usub = BoincUserSubmit::lookup_userid($user_id);
     page_head_select2("Job submission permissions for $user->name");
     form_start('manage_project.php');
+    echo form_tokens();
     form_input_hidden('action', 'edit_action');
     form_input_hidden('user_id', $user->id);
     [$apps, $submit, $manage] = get_app_lists($user_id);
@@ -226,6 +227,9 @@ function handle_add_form() {
     page_head("Add user");
     echo "
         <form action=manage_project.php>
+    ";
+    echo form_tokens();
+    echo "
         <input type=hidden name=action value=add_action>
         User ID: <input name=user_id>
         <br>
@@ -250,7 +254,7 @@ function handle_add_action() {
 
 $user = get_logged_in_user();
 $bus = BoincUserSubmit::lookup_userid($user->id);
-if (!$bus) {
+if (!$bus || !$bus->manage_all) {
     error_page("no access");
 }
 
@@ -262,10 +266,12 @@ case '':
 case 'add_form':
     handle_add_form(); break;
 case 'add_action':
+    check_tokens();
     handle_add_action(); break;
 case 'edit_form':
     handle_edit_form(); break;
 case 'edit_action':
+    check_tokens();
     handle_edit_action(); break;
 default:
     error_page("unknown action");

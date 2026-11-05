@@ -304,7 +304,7 @@ function show_user_info_private($user) {
         row2(
             tra("Account keys"),
             sprintf(
-                '<a href="weak_auth.php?%s">%s</a>'
+                '<a href="weak_auth.php?%s">%s</a>',
                 url_tokens(),
                 tra("View")
             )

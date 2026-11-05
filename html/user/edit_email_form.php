@@ -40,6 +40,7 @@ if ($user->email_addr_change_time + 604800 > time()) {
     echo tra("Email address was changed within the past 7 days. Please look for an email to $user->previous_email_addr if you need to revert this change.");
 } else {
     form_start(secure_url_base()."edit_email_action.php", "post");
+    echo form_tokens();
     form_input_text(
         tra("New email address").
         "<br><p class=\"text-muted\">".tra("Must be a valid address of the form 'name@domain'")."</p>",
