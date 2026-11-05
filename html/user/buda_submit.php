@@ -279,8 +279,8 @@ function create_jobs(
         }
         $job_cmds .= "$job_cmd\n";
     }
-    $wrapper_cmdline = sprintf('"%s %s"',
-        $wrapper_verbose?'--verbose':'',
+    $wrapper_cmdline = sprintf('%s%s',
+        $wrapper_verbose?'--verbose ':'',
         $cmdline
     );
     $cmd = sprintf(
