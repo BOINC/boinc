@@ -26,6 +26,7 @@ check_get_args(array());
 // show the home page of logged-in user
 
 $user = get_logged_in_user();
+
 BoincForumPrefs::lookup($user);
 $user = get_other_projects($user);
 

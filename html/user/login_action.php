@@ -101,8 +101,6 @@ function login_via_link($id, $t, $h) {
         );
     }
 
-    // Intercept next_url if consent has not yet been given
-    //
     $next_url = intercept_login($user, true, HOME_PAGE);
     Header("Location: ".url_base()."$next_url");
 }

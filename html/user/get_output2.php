@@ -61,7 +61,7 @@ require_once("../inc/submit_util.inc");
 function check_auth($auth, $batch) {
     $user = BoincUser::lookup_id($batch->user_id);
     if (!$user) die("no batch owner for $batch->id");
-    if ($user->authenticator != $auth) die('bad auth');
+    if (!hash_equals($user->authenticator,  $auth)) die('bad auth');
 }
 
 function do_result_aux($result, $batch, $file_num=null) {

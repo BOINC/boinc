@@ -76,10 +76,21 @@ if ($avatar_type == 0){
 } elseif ($avatar_type == 1) {
     $avatar_url = "//www.gravatar.com/avatar/".md5($user->email_addr)."?s=100&amp;d=identicon";
 } elseif ($avatar_type == 2){
+    if (!empty($_FILES['picture']['tmp_name'])) {
+        $file = $_FILES['picture']['tmp_name'];
+        $size = getImageSize($file);
+        if ($size[2]!=2 and $size[2]!=3){
+            error_page(tra("Only PNG and JPEG are supported."));
+        }
+        $width = $size[0];
+        $height = $size[1];
+        $image2 = intelligently_scale_image($file, 100, 100);
+        ImageJPEG($image2, $newfile);
+    }
     if (file_exists($newfile)){
-        $avatar_url=IMAGE_URL.$user->id."_avatar.jpg"; //$newfile;
+        $avatar_url=IMAGE_URL.$user->id."_avatar.jpg";
     } else {
-        //User didn't upload a compatible file or it went lost on the server
+        // User didn't upload a compatible file or it went lost on the server
         $avatar_url="";
     }
 }

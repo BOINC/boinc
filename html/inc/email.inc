@@ -78,15 +78,19 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
             return true;
         }
     } else {
-        $headers = [];
+        $headers = '';
         if (defined('EMAIL_FROM') && defined('EMAIL_FROM_NAME')) {
-            $headers[] = "From: ".EMAIL_FROM_NAME." <".EMAIL_FROM.">";
+            $headers .= sprintf(
+                "From: %s <%s>\r\n", EMAIL_FROM_NAME, EMAIL_FROM
+            );
         } else if (defined('EMAIL_FROM')) {
-            $headers[] = "From: ". EMAIL_FROM;
+            $headers .= sprintf(
+                "From: %s\r\n", EMAIL_FROM
+            );
         }
         if ($body_html) {
             $body = "<html><body>\n$body_html\n</body></html>\n";
-            $headers[] = 'Content-type: text/html; charset=UTF-8';
+            $headers .= "Content-type: text/html; charset=UTF-8\r\n";
         }
         return mail($email_addr, $subject, $body, $headers);
     }

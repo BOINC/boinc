@@ -141,9 +141,10 @@ int send_nci() {
     //
     for (OTHER_RESULT& ores: g_request->other_results) {
         DB_RESULT r;
-        escape_string(ores.name, sizeof(ores.name));
-        sprintf(buf, "where name='%s'", ores.name);
-        unescape_string(ores.name, sizeof(ores.name));
+        char buf2[1024];
+        safe_strcpy(buf2, ores.name);
+        escape_string(buf2, sizeof(buf2));
+        sprintf(buf, "where name='%s'", buf2);
         retval = r.lookup(buf);
         if (retval) {
             log_messages.printf(MSG_NORMAL, "No such result: %s\n", ores.name);

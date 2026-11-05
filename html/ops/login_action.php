@@ -32,7 +32,7 @@ $passwd = stripslashes(post_str("passwd", true));
 if ($email_addr && $passwd) {
     $user = BoincUser::lookup_email_addr($email_addr);
     if (!$user) {
-        die("No account found with email address $email_addr");
+        die("No account found with that email address");
     }
     $passwd_hash = md5($passwd.$email_addr);
     if (!check_passwd_hash($user, $passwd_hash)) {

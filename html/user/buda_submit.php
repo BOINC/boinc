@@ -173,7 +173,7 @@ function parse_batch_dir($batch_dir, $app_desc) {
             if ($f2[0] == '.') continue;
             if ($f2 == 'cmdline') {
                 $cmdline = trim(file_get_contents("$batch_dir/$fname/cmdline"));
-                if (!is_valid_cmdline($cmdline)) {
+                if (!is_valid_filename($cmdline)) {
                     error_page("Invalid cmdline: '$cmdline'");
                 }
                 continue;
@@ -288,7 +288,7 @@ function create_jobs(
         $buda_boinc_app->name,
         escapeshellarg($app_desc->long_name),
         $batch_id,
-        $wrapper_cmdline,
+        escapeshellarg($wrapper_cmdline),
         escapeshellarg("buda_apps/$app/template_in"),
         escapeshellarg("buda_apps/$app/template_out"),
         $max_fpops, $exp_fpops

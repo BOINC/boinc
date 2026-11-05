@@ -115,6 +115,8 @@ void usage() {
     exit(1);
 }
 
+// is argv[i] either -name or --name?
+//
 bool arg(char** argv, int i, const char* name) {
     char buf[256];
     snprintf(buf, sizeof(buf), "-%s", name);

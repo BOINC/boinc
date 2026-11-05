@@ -42,7 +42,7 @@ if (!$thread) error_page('No such thread');
 $forum = BoincForum::lookup_id($thread->forum);
 
 $sort_style = get_int('sort', true);
-if ($sort_style >= NSORT_STYLES) {
+if ($sort_style >= NSORT_STYLES || $sort_style <= 0) {
     $sort_style = MODIFIED_NEW;
 }
 $filter = get_str('filter', true);

@@ -317,9 +317,9 @@ function is_valid_filename($x, $allow_spaces=true) {
     if (strlen($x)>255) return false;
     // \w means A-Za-z0-9_
     if ($allow_spaces) {
-        return preg_match('/^[\w\-. ]+$/', $x);
+        return preg_match('/^[\w\-. ]+\z/', $x);
     } else {
-        return preg_match('/^[\w\-.]+$/', $x);
+        return preg_match('/^[\w\-.]+\z/', $x);
     }
 }
 
