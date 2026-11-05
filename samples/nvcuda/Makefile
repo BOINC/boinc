@@ -41,16 +41,36 @@ MAKEFILE_LDFLAGS = -lpthread libstdc++.a
 MAKEFILE_STDLIB  = libstdc++.a
 
 CUDA_INSTALL_PATH ?= /usr/local/cuda
+
+ifneq (,$(filter aarch64 arm64,$(RELEASE_ARCH) $(TARGET_ARCH))$(findstring aarch64,$(CXX)))
+  ifneq (,$(wildcard $(CUDA_INSTALL_PATH)/targets/sbsa-linux))
+    CUDA_TARGET_PATH ?= $(CUDA_INSTALL_PATH)/targets/sbsa-linux
+  else ifneq (,$(wildcard $(CUDA_INSTALL_PATH)/targets/aarch64-linux))
+    CUDA_TARGET_PATH ?= $(CUDA_INSTALL_PATH)/targets/aarch64-linux
+  else
+    CUDA_TARGET_PATH ?= $(CUDA_INSTALL_PATH)
+  endif
+else
+  CUDA_TARGET_PATH ?= $(CUDA_INSTALL_PATH)
+endif
+
+CUDA_INCLUDE_PATH ?= $(CUDA_TARGET_PATH)/include
+ifneq (,$(wildcard $(CUDA_TARGET_PATH)/lib64))
+  CUDA_LIB_PATH ?= $(CUDA_TARGET_PATH)/lib64
+else
+  CUDA_LIB_PATH ?= $(CUDA_TARGET_PATH)/lib
+endif
+
 CXXFLAGS += \
 	-Wall -W -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings -fno-common \
     -I$(BOINC_DIR) \
     -I$(BOINC_SOURCE_API_DIR) \
     -I$(BOINC_SOURCE_LIB_DIR) \
     -I$(BOINC_SOURCE_ZIP_DIR) \
-    -I$(CUDA_INSTALL_PATH)/include \
+    -I$(CUDA_INCLUDE_PATH) \
     -L$(BOINC_API_DIR) \
     -L$(BOINC_LIB_DIR) \
-    -L$(CUDA_INSTALL_PATH)/lib64 \
+    -L$(CUDA_LIB_PATH) \
     -L/usr/X11R6/lib \
     -L.
 
@@ -73,9 +93,13 @@ GENCODE_SM90 := -gencode=arch=compute_90,code=\"sm_90,compute_90\"
 GENCODE_SM100 := -gencode=arch=compute_100,code=\"sm_100,compute_100\"
 
 CUDA_NVCC ?= $(CUDA_INSTALL_PATH)/bin/nvcc
+CUDA_CCBIN ?= $(CXX)
+
+cuda.o: cuda.cpp
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c cuda.cpp -o cuda.o
 
 cuda_kernel.o: cuda_kernel.cu
-	$(CUDA_NVCC) $(GENCODE_SM80) $(GENCODE_SM90) $(GENCODE_SM100) -I$(BOINC_SOURCE_API_DIR) -I$(BOINC_SOURCE_LIB_DIR) -I$(BOINC_SOURCE_ZIP_DIR) -L$(BOINC_API_DIR) -L$(BOINC_LIB_DIR) -L/usr/X11R6/lib -L. -c cuda_kernel.cu -o cuda_kernel.o
+	$(CUDA_NVCC) -ccbin "$(CUDA_CCBIN)" $(GENCODE_SM80) $(GENCODE_SM90) $(GENCODE_SM100) -I$(BOINC_SOURCE_API_DIR) -I$(BOINC_SOURCE_LIB_DIR) -I$(BOINC_SOURCE_ZIP_DIR) -I$(CUDA_INCLUDE_PATH) -L$(BOINC_API_DIR) -L$(BOINC_LIB_DIR) -L$(CUDA_LIB_PATH) -L/usr/X11R6/lib -L. -c cuda_kernel.cu -o cuda_kernel.o
 
 $(EXECUTABLE): cuda.o cuda_kernel.o $(MAKEFILE_STDLIB) $(BOINC_API_DIR)/libboinc_api.a $(BOINC_LIB_DIR)/libboinc.a
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o $(EXECUTABLE) cuda.o cuda_kernel.o \
