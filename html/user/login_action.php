@@ -39,12 +39,7 @@ function login_with_email($email_addr, $passwd, $next_url, $perm) {
     $user = BoincUser::lookup_email_addr($email_addr);
     if (!$user) {
         sleep(LOGIN_FAIL_SLEEP_SEC);
-        page_head("No such account");
-        echo "No account with email address <b>$email_addr</b> exists.
-            Please go back and try again.
-        ";
-        page_tail();
-        exit;
+        error_page("Login failed.");
     }
     if (substr($user->authenticator, 0, 1) == 'x'){
         sleep(LOGIN_FAIL_SLEEP_SEC);
@@ -55,13 +50,9 @@ function login_with_email($email_addr, $passwd, $next_url, $perm) {
     //
     if (!hash_equals($user->authenticator, $passwd)) {
         $passwd_hash = md5($passwd.$email_addr);
-
         if (!check_passwd_hash($user, $passwd_hash)) {
             sleep(LOGIN_FAIL_SLEEP_SEC);
-            page_head("Password incorrect");
-            echo "The password you entered is incorrect. Please go back and try again.\n";
-            page_tail();
-            exit;
+            error_page("Login failed.");
         }
     }
 

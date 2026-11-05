@@ -98,8 +98,8 @@ function display_team_page($team, $user) {
         row2("Founder email validated", $founder->email_validated?"Yes":"No (team will not be exported)");
     }
     if (strlen($team->url)) {;
-        if (str_starts_with($team->url, "https://")
-            || str_starts_with($team->url, "http://")
+        if (strncasecmp($team->url, "https://", 8) === 0
+            || strncasecmp($team->url, "http://", 7) === 0
         ) {
             $x = $team->url;
         } else {
