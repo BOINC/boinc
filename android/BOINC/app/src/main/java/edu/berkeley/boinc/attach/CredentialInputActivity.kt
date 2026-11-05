@@ -28,6 +28,8 @@ import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.attach.BatchProcessingActivity
 import edu.berkeley.boinc.attach.ProjectAttachService
 import edu.berkeley.boinc.attach.ProjectAttachService.LocalBinder
@@ -37,12 +39,16 @@ import edu.berkeley.boinc.utils.Logging.Category.USER_ACTION
 import edu.berkeley.boinc.utils.Logging.logError
 import edu.berkeley.boinc.utils.Logging.logVerbose
 import edu.berkeley.boinc.utils.Logging.logWarning
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class CredentialInputActivity : AppCompatActivity() {
     private var binding: AttachProjectCredentialInputLayoutBinding? = null
 
     private var attachService: ProjectAttachService? = null
     private var asIsBound = false
+
+    private var credentialInputs = CredentialInputs.ALL
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +60,7 @@ class CredentialInputActivity : AppCompatActivity() {
             layoutInflater
         )
         setContentView(binding!!.root)
+        binding!!.continueButton.isEnabled = false
 
         binding!!.showPwdCb.setOnClickListener { view: View ->
             if ((view as CheckBox).isChecked) {
@@ -78,11 +85,14 @@ class CredentialInputActivity : AppCompatActivity() {
 
         // set credentials in service
         if (asIsBound) {
+            if (!attachService!!.projectConfigRetrievalFinished) {
+                return
+            }
             // verify input and set credentials if valid.
-            val email = binding!!.emailInput.text.toString()
-            val name = binding!!.nameInput.text.toString()
+            val email = if (binding!!.emailInput.isVisible) binding!!.emailInput.text.toString() else ""
+            val name = if (binding!!.nameInput.isVisible) binding!!.nameInput.text.toString() else ""
             val password = binding!!.pwdInput.text.toString()
-            if (attachService!!.verifyInput(email, name, password)) {
+            if (attachService!!.verifyInput(email, name, password, credentialInputs)) {
                 attachService!!.setCredentials(email, name, password)
             } else {
                 logWarning(
@@ -112,8 +122,8 @@ class CredentialInputActivity : AppCompatActivity() {
 
         // set credentials in service, in case user typed before deciding btwn batch and individual attach
         if (asIsBound) {
-            val email = binding!!.emailInput.text.toString()
-            val name = binding!!.nameInput.text.toString()
+            val email = if (binding!!.emailInput.isVisible) binding!!.emailInput.text.toString() else ""
+            val name = if (binding!!.nameInput.isVisible) binding!!.nameInput.text.toString() else ""
             val password = binding!!.pwdInput.text.toString()
             attachService!!.setCredentials(email, name, password)
         }
@@ -133,6 +143,15 @@ class CredentialInputActivity : AppCompatActivity() {
             val values = attachService!!.userDefaultValues
             binding!!.emailInput.setText(values[0])
             binding!!.nameInput.setText(values[1])
+
+            // ask only for the credentials needed by the selected projects
+            val attached = attachService!!
+            lifecycleScope.launch {
+                while (!attached.projectConfigRetrievalFinished) {
+                    delay(1000)
+                }
+                showCredentialInputs(attached.credentialInputs)
+            }
         }
 
         override fun onServiceDisconnected(className: ComponentName) {
@@ -140,6 +159,13 @@ class CredentialInputActivity : AppCompatActivity() {
             attachService = null
             asIsBound = false
         }
+    }
+
+    private fun showCredentialInputs(inputs: CredentialInputs) {
+        credentialInputs = inputs
+        binding!!.emailInput.isVisible = inputs.emailAddress
+        binding!!.nameInput.isVisible = inputs.userName
+        binding!!.continueButton.isEnabled = true
     }
 
     private fun doBindService() {
