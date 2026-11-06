@@ -20,13 +20,7 @@ require_once("../inc/util.inc");
 require_once("../inc/forum.inc");
 require_once("../inc/image.inc"); // Avatar scaling
 
-if (post_str("account_key", true) !== null) {
-    $user = BoincUser::lookup_auth(post_str("account_key"));
-    $rpc = true;
-} else {
-    $user = get_logged_in_user();
-    $rpc = false;
-}
+$user = get_logged_in_user();
 BoincForumPrefs::lookup($user);
 
 if (post_str("action", true)=="reset_confirm"){
@@ -71,7 +65,7 @@ $newfile=IMAGE_PATH.$user->id."_avatar.jpg";
 
 // Update the user avatar
 if ($avatar_type<0 or $avatar_type>3) $avatar_type=0;
-if ($avatar_type==0){
+if ($avatar_type == 0){
     if (file_exists($newfile)){
         // Delete the file on the server if the user
         // decides not to use an avatar
@@ -81,18 +75,12 @@ if ($avatar_type==0){
     $avatar_url="";
 } elseif ($avatar_type == 1) {
     $avatar_url = "//www.gravatar.com/avatar/".md5($user->email_addr)."?s=100&amp;d=identicon";
-} elseif ($avatar_type==2){
-    if (($rpc && (post_str("avatar_url", true) !== null)) || ($_FILES['picture']['tmp_name']!="")) {
-        if ($_FILES['picture']['tmp_name']!="") {
-            $file = $_FILES['picture']['tmp_name'];
-        } else {
-            // Remote image. Download and store locally
-            $file = post_str("avatar_url");
-        }
+} elseif ($avatar_type == 2){
+    if (!empty($_FILES['picture']['tmp_name'])) {
+        $file = $_FILES['picture']['tmp_name'];
         $size = getImageSize($file);
         if ($size[2]!=2 and $size[2]!=3){
-            //Not the right kind of file
-            error_page(tra("Error: Not the right kind of file, only PNG and JPEG are supported."));
+            error_page(tra("Only PNG and JPEG are supported."));
         }
         $width = $size[0];
         $height = $size[1];
@@ -100,9 +88,9 @@ if ($avatar_type==0){
         ImageJPEG($image2, $newfile);
     }
     if (file_exists($newfile)){
-        $avatar_url=IMAGE_URL.$user->id."_avatar.jpg"; //$newfile;
+        $avatar_url=IMAGE_URL.$user->id."_avatar.jpg";
     } else {
-        //User didn't upload a compatible file or it went lost on the server
+        // User didn't upload a compatible file or it went lost on the server
         $avatar_url="";
     }
 }
@@ -172,15 +160,9 @@ for ($i=0;$i<sizeof($ignored_users);$i++){
 }
 
 
-if ($rpc == false) {
-    // If we get down here everything went ok
-    // redirect the user to the setup page again
-    //
-    Header("Location: edit_forum_preferences_form.php");
-} else {
-    echo "<status>\n";
-    echo "    <success>1</success>\n";
-    echo "</status>\n";
-}
+// If we get down here everything went ok
+// redirect the user to the setup page again
+//
+Header("Location: edit_forum_preferences_form.php");
 
 ?>

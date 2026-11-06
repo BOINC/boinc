@@ -1039,7 +1039,10 @@ function handle_abort_batch($user) {
             <p>
         ";
         show_button(
-            "submit.php?action=abort_batch&batch_id=$batch_id&confirmed=1",
+            sprintf(
+                'submit.php?action=abort_batch&batch_id=%d&confirmed=1%s',
+                $batch_id, url_tokens()
+            ),
             "Yes - abort batch"
         );
         return_link();
@@ -1069,7 +1072,10 @@ function handle_retire_batch($user) {
             <p>
         ";
         show_button(
-            "submit.php?action=retire_batch&batch_id=$batch_id&confirmed=1",
+            sprintf(
+                'submit.php?action=retire_batch&batch_id=%d&confirmed=1%s',
+                $batch_id, url_tokens()
+            ),
             "Yes - retire batch"
         );
         return_link();

@@ -138,7 +138,11 @@ int stage_file(
         std::stringstream file_buf;
         file_buf << file.rdbuf();
 
-        snprintf(gz_path, MAXPATHLEN, "%s.gz", dl_hier_path);
+        retval = snprintf(gz_path, MAXPATHLEN, "%s.gz", dl_hier_path);
+        if (retval >= MAXPATHLEN) {
+            fprintf(stderr, "buffer overflow\n");
+            return ERR_BUFFER_OVERFLOW;
+        }
         gzFile gz = gzopen(gz_path, "w");
         if (!gz) {
             fprintf(stderr, "failed to open gz: %s\n", strerror(errno));

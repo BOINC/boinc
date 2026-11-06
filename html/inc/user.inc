@@ -303,7 +303,11 @@ function show_user_info_private($user) {
     if (!NO_COMPUTING) {
         row2(
             tra("Account keys"),
-            "<a href=\"weak_auth.php\">".tra("View")."</a>"
+            sprintf(
+                '<a href="weak_auth.php?%s">%s</a>',
+                url_tokens(),
+                tra("View")
+            )
         );
 
         require_once("../inc/account_ownership.inc");

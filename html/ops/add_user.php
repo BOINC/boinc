@@ -10,6 +10,7 @@ $email = get_str('email', true);
 $name  = get_str('name', true);
 
 if ($email && $name) {
+    check_tokens();
     $user = make_user_ldap(urldecode($email), urldecode($name));
     if ($user) {
         echo "User created with ID ";
@@ -20,6 +21,7 @@ if ($email && $name) {
 } else {
     $page = $_SERVER["REQUEST_URI"];
     echo "<form action=\"$page\" method=\"get\" enctype=\"application/x-www-form-urlencoded\">\n";
+    echo form_tokens();
     echo '<p>User name: ';
     echo '<input name="name" type="text" size="100" maxlength="200">';
     echo '</p><p>Email address:: ';

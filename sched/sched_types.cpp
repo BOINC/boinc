@@ -330,7 +330,9 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
             return "xp.get_tag() failed";
         }
     }
-    if (!xp.match_tag("scheduler_request")) return "no start tag";
+    if (!xp.match_tag("scheduler_request")) {
+        return "no start tag";
+    }
     while (!xp.get_tag()) {
         if (xp.match_tag("/scheduler_request")) {
             core_client_version = 10000*core_client_major_version + 100*core_client_minor_version + core_client_release;
@@ -1405,8 +1407,13 @@ int HOST::parse(XML_PARSER& xp) {
         if (xp.parse_str("virtualbox_version", virtualbox_version, sizeof(virtualbox_version))) continue;
         if (xp.parse_bool("p_vm_extensions_disabled", p_vm_extensions_disabled)) continue;
         if (xp.match_tag("opencl_cpu_prop")) {
-            int retval = opencl_cpu_prop[num_opencl_cpu_platforms].parse(xp);
-            if (!retval) num_opencl_cpu_platforms++;
+            OPENCL_CPU_PROP ocp;
+            int retval = ocp.parse(xp);
+            if (retval == 0
+                && num_opencl_cpu_platforms<MAX_OPENCL_CPU_PLATFORMS
+            ) {
+                opencl_cpu_prop[num_opencl_cpu_platforms++] = ocp;
+            }
             continue;
         }
 

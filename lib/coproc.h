@@ -224,9 +224,10 @@ struct COPROC {
     void write_request(MIOFILE&);
 #endif
     int parse(XML_PARSER&);
+    void check_count(const char*);
 
     inline void clear_usage() {
-        for (int i=0; i<count; i++) {
+        for (int i=0; i<MAX_COPROC_INSTANCES; i++) {
             usage[i] = 0;
             pending_usage[i] = 0;
         }

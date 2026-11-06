@@ -84,7 +84,8 @@ if ($action) {
 
             if (!$venue) {
                 venue_parse_form($user);
-                $user->update("venue='$user->venue'");
+                $v = BoincDB::escape_string($user->venue);
+                $user->update("venue='$v'");
             }
             Header("Location: prefs.php?subset=$subset&updated=1$c");
         }

@@ -238,14 +238,16 @@ function show_start_button() {
     $x = simplexml_load_file("$d/run_state_$host.xml");
     if (!$x) return;
     echo '<p>';
+    $tokens = url_tokens();
     if ($x->enabled=='1') {
-        show_button("server_status.php?action=stop", 'Stop project');
+        show_button("server_status.php?action=stop$tokens", 'Stop project');
     } else {
-        show_button("server_status.php?action=start", 'Start project');
+        show_button("server_status.php?action=start$tokens", 'Start project');
     }
 }
 
 function do_admin_action($start) {
+    check_tokens();
     if (!is_user_admin()) error_page('no access');
     if ($start) {
         system('../../bin/start');

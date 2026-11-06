@@ -21,6 +21,8 @@ require_once("../inc/user.inc");
 
 $user = get_logged_in_user();
 
+check_tokens();
+
 $weak_auth = weak_auth($user);
 
 // figure out the name of this project's account file.

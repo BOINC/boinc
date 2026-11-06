@@ -293,12 +293,15 @@ bool str_replace(char* str, const char* substr, const char* replacement) {
 // Otherwise strip out all <venue> elements
 //
 void extract_venue(const char* in, const char* venue_name, char* out, int len) {
-    const char* p, *q;
+    char* p, *q;
     char* wp;
     char buf[256];
+    char in_copy[ELEMENT_BUF_LEN];
+    strlcpy(in_copy, in, sizeof(in_copy));
+
     const size_t venue_close_tag_len = strlen("</venue>");
     snprintf(buf, sizeof(buf), "<venue name=\"%s\">", venue_name);
-    p = strstr(in, buf);
+    p = strstr(in_copy, buf);
     if (p) {
         // prefs contain the specified venue
         //
@@ -309,19 +312,21 @@ void extract_venue(const char* in, const char* venue_name, char* out, int len) {
     } else {
         // prefs don't contain the specified venue
         //
-        q = in;
+        q = in_copy;
         strcpy(out, "");
-           while (1) {
-               p = strstr(q, "<venue");
-               if (!p) {
-                   strlcat(out, q, len);
-                   break;
-               }
-               strncat(out, q, p-q);
-               q = strstr(p, "</venue>");
-               if (!q) break;
-               q += venue_close_tag_len;
-           }
+        while (1) {
+            p = strstr(q, "<venue");
+            if (!p) {
+                strlcat(out, q, len);
+                break;
+            }
+            *p = 0;
+            strlcat(out, q, len);
+            *p = '<';
+            q = strstr(p, "</venue>");
+            if (!q) break;
+            q += venue_close_tag_len;
+        }
     }
 }
 

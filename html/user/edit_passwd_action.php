@@ -26,7 +26,7 @@ check_get_args(array());
 $user = get_logged_in_user();
 
 $token = post_str("token");
-if ($token != $user->login_token) {
+if (!hash_equals($user->login_token, $token)) {
     error_page("bad token");
 }
 if (time() - $user->login_token_time > 86400) {

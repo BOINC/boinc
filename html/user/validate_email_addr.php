@@ -51,7 +51,7 @@ function validate() {
     }
 
     $x2 = $user->login_token;
-    if ($x2 != $x) {
+    if (!hash_equals($x2, $x)) {
         error_page(tra("Error in URL data - can't validate email address"));
     }
 

@@ -2286,7 +2286,7 @@ int DB_IN_PROGRESS_RESULT::enumerate(DB_ID_TYPE hostid, const char* result_names
     int retval;
     MYSQL_ROW row;
     if (!cursor.active) {
-        sprintf(query,
+        retval = snprintf(query, sizeof(query),
             "select high_priority result.name, workunit.error_mask, workunit.assimilate_state, result.server_state, result.outcome "
             " from result, workunit "
             " where result.hostid = %lu and workunit.id = result.workunitid "
@@ -2298,6 +2298,9 @@ int DB_IN_PROGRESS_RESULT::enumerate(DB_ID_TYPE hostid, const char* result_names
             RESULT_OUTCOME_NO_REPLY,
             result_names
         );
+        if (retval >= sizeof(query)) {
+            return ERR_BUFFER_OVERFLOW;
+        }
         retval = db->do_query(query);
         if (retval) return mysql_errno(db->mysql);
         cursor.rp = mysql_store_result(db->mysql);
@@ -2372,7 +2375,10 @@ int DB_SCHED_RESULT_ITEM_SET::enumerate() {
     for (i=0; i<results.size(); i++) {
         if (i>0) query += ",";
         query += "'";
-        query += results[i].queried_name;
+        char buf[512];
+        strlcpy(buf, results[i].queried_name, sizeof(buf));
+        escape_string(buf, sizeof(buf));
+        query += buf;
         query += "'";
     }
     query += ")";

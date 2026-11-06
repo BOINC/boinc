@@ -135,7 +135,15 @@ function get_logged_in_user_ops() {
     if ($authenticator) {
         $g_logged_in_user = BoincUser::lookup("authenticator='$authenticator'");
     }
+    if (!$g_logged_in_user) {
+        print_login_form_ops();
+        exit;
+    }
     return $g_logged_in_user;
+}
+
+if (php_sapi_name() !== 'cli' && PHP_SAPI !== 'cli') {
+    get_logged_in_user_ops();
 }
 
 ////////// functions for access control of admin web pages /////////////

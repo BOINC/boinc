@@ -103,7 +103,7 @@ function main() {
     } else {
         show_button("signup.php", "Register to submit jobs");
     }
-    show_submitters();
+    //show_submitters();
     page_tail();
 }
 

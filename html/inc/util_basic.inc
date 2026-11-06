@@ -312,16 +312,30 @@ function is_blank($x) {
 // which can have only A-Z a-z 0-9 . - _
 // In some cases filenames are used on volunteer hosts,
 // whose OSs may have such restrictions.
-// ALSO: allow spaces.
 //
-function is_valid_filename($x) {
+function is_valid_filename($x, $allow_spaces=true) {
     if (strlen($x)>255) return false;
     // \w means A-Za-z0-9_
-    return preg_match('/^[\w\-. ]+$/', $x);
+    if ($allow_spaces) {
+        return preg_match('/^[\w\-. ]+\z/', $x);
+    } else {
+        return preg_match('/^[\w\-.]+\z/', $x);
+    }
 }
 
 function filename_rules() {
     return 'Names can contain only A-Z a-z 0-9 . - _ space';
+}
+
+function is_valid_https_url($url) {
+    if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+        return false;
+    }
+    $parsed = parse_url($url);
+    if (!isset($parsed['scheme'], $parsed['host'])) {
+        return false;
+    }
+    return strtolower($parsed['scheme']) === 'https';
 }
 
 define('KILO', 1024);

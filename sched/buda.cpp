@@ -238,23 +238,27 @@ bool choose_buda_variant(
 //
 // This modifies wu.xml_doc; only use it on a copy
 //
-void add_app_files(WORKUNIT &wu, BUDA_VARIANT &bv) {
+int add_app_files(WORKUNIT &wu, BUDA_VARIANT &bv) {
     char *p1 = strstr(wu.xml_doc, "<workunit>");
     char *p2 = strstr(wu.xml_doc, "</workunit>");
     if (!p1 || !p2) {
         log_messages.printf(MSG_CRITICAL, "add_app_file(): bad xml_doc\n");
-        return;
+        return ERR_XML_PARSE;
     }
     *p1 = 0;
     *p2 = 0;
-    char buf[BLOB_SIZE];
-    strcpy(buf, wu.xml_doc);
-    strcat(buf, bv.file_infos.c_str());
-    strcat(buf, "<workunit>\n");
-    strcat(buf, p1+strlen("<workunit>"));
-    strcat(buf, bv.file_refs.c_str());
-    strcat(buf, "</workunit>\n");
-    strcpy(wu.xml_doc, buf);
+    string buf;
+    buf = wu.xml_doc;
+    buf += bv.file_infos;
+    buf += "<workunit>\n";
+    buf += p1+strlen("<workunit>");
+    buf += bv.file_refs;
+    buf += "</workunit>\n";
+    if (buf.size() >= sizeof(wu.xml_doc)) {
+        return ERR_BUFFER_OVERFLOW;
+    }
+    strcpy(wu.xml_doc, buf.c_str());
+    return 0;
 }
 
 // wu is a BUDA job; get the BUDA app name from its xml_doc

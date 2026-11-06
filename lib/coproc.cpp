@@ -136,6 +136,7 @@ int COPROC::parse(XML_PARSER& xp) {
         if (!xp.is_tag) continue;
         if (xp.match_tag("/coproc")) {
             if (!strlen(type)) return ERR_XML_PARSE;
+            check_count("generic");
             clear_usage();
             return 0;
         }
@@ -250,6 +251,17 @@ void COPROCS::summary_string_json(string &out) {
     }
 }
 
+void COPROC::check_count(const char* ctype) {
+    if (count < 1) {
+        boinc::fprintf(stderr, "%s count %d too small\n", ctype, count);
+        count = 1;
+    }
+    if (count > MAX_COPROC_INSTANCES) {
+        boinc::fprintf(stderr, "%s count %d too large\n", ctype, count);
+        count = MAX_COPROC_INSTANCES;
+    }
+}
+
 int COPROCS::parse(XML_PARSER& xp) {
     int retval;
 
@@ -258,6 +270,9 @@ int COPROCS::parse(XML_PARSER& xp) {
     safe_strcpy(coprocs[0].type, "CPU");
     while (!xp.get_tag()) {
         if (xp.match_tag("/coprocs")) {
+            if (n_rsc == MAX_RSC) {
+                boinc::fprintf(stderr, "too many coproc entries\n");
+            }
             return 0;
         }
         if (xp.match_tag("coproc_cuda")) {
@@ -265,7 +280,9 @@ int COPROCS::parse(XML_PARSER& xp) {
             if (retval) {
                 nvidia.clear();
             } else {
-                coprocs[n_rsc++] = nvidia;
+                if (n_rsc < MAX_RSC) {
+                    coprocs[n_rsc++] = nvidia;
+                }
             }
             continue;
         }
@@ -274,7 +291,9 @@ int COPROCS::parse(XML_PARSER& xp) {
             if (retval) {
                 ati.clear();
             } else {
-                coprocs[n_rsc++] = ati;
+                if (n_rsc < MAX_RSC) {
+                    coprocs[n_rsc++] = ati;
+                }
             }
             continue;
         }
@@ -283,7 +302,9 @@ int COPROCS::parse(XML_PARSER& xp) {
             if (retval) {
                 intel_gpu.clear();
             } else {
-                coprocs[n_rsc++] = intel_gpu;
+                if (n_rsc < MAX_RSC) {
+                    coprocs[n_rsc++] = intel_gpu;
+                }
             }
             continue;
         }
@@ -292,17 +313,21 @@ int COPROCS::parse(XML_PARSER& xp) {
             if (retval) {
                 apple_gpu.clear();
             } else {
-                coprocs[n_rsc++] = apple_gpu;
+                if (n_rsc < MAX_RSC) {
+                    coprocs[n_rsc++] = apple_gpu;
+                }
             }
             continue;
         }
         if (xp.match_tag("coproc")) {
             COPROC cp;
             retval = cp.parse(xp);
-            if (!retval) {
-                coprocs[n_rsc++] = cp;
-            } else {
+            if (retval) {
                 boinc::fprintf(stderr, "failed to parse <coproc>: %d\n", retval);
+            } else {
+                if (n_rsc < MAX_RSC) {
+                    coprocs[n_rsc++] = cp;
+                }
             }
         }
     }
@@ -485,6 +510,7 @@ int COPROC_NVIDIA::parse(XML_PARSER& xp) {
             if (!available_ram) {
                 available_ram = cuda_prop.totalGlobalMem;
             }
+            check_count("NVIDIA");
             return 0;
         }
         if (xp.parse_int("count", count)) continue;
@@ -802,6 +828,7 @@ int COPROC_ATI::parse(XML_PARSER& xp) {
             if (!available_ram) {
                 available_ram = attribs.localRAM*MEGA;
             }
+            check_count("ATI");
             return 0;
         }
         if (xp.parse_int("count", count)) continue;
@@ -994,6 +1021,7 @@ int COPROC_INTEL::parse(XML_PARSER& xp) {
             if (!available_ram) {
                 available_ram = (double)opencl_prop.global_mem_size;
             }
+            check_count("Intel");
             return 0;
         }
         if (xp.parse_int("count", count)) continue;
@@ -1098,6 +1126,7 @@ int COPROC_APPLE::parse(XML_PARSER& xp) {
             if (!available_ram) {
                 available_ram = (double)opencl_prop.global_mem_size;
             }
+            check_count("Apple");
             return 0;
         }
         if (xp.parse_int("count", count)) continue;

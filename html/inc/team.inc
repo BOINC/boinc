@@ -98,12 +98,18 @@ function display_team_page($team, $user) {
         row2("Founder email validated", $founder->email_validated?"Yes":"No (team will not be exported)");
     }
     if (strlen($team->url)) {;
-        if (strstr($team->url, "http://")) {
+        if (strncasecmp($team->url, "https://", 8) === 0
+            || strncasecmp($team->url, "http://", 7) === 0
+        ) {
             $x = $team->url;
         } else {
-            $x = "http://$team->url";
+            $x = "https://$team->url";
         }
-        row2(tra('Web site'), "<a href=$x>$x</a>");
+        $x = htmlspecialchars($x, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        row2(
+            tra('Web site'),
+            sprintf('<a href="%s">%s</a>', $x, $x)
+        );
     }
 
     if (!NO_STATS) {

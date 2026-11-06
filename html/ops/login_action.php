@@ -19,7 +19,6 @@
 $skip_auth_ops = true;
 
 require_once("../inc/boinc_db.inc");
-require_once("../inc/util_ops.inc");
 require_once("../inc/email.inc");
 require_once("../inc/user.inc");
 require_once("../inc/user_util.inc");
@@ -33,11 +32,11 @@ $passwd = stripslashes(post_str("passwd", true));
 if ($email_addr && $passwd) {
     $user = BoincUser::lookup_email_addr($email_addr);
     if (!$user) {
-        admin_error_page("No account found with email address $email_addr");
+        die("No account found with that email address");
     }
     $passwd_hash = md5($passwd.$email_addr);
     if (!check_passwd_hash($user, $passwd_hash)) {
-        admin_error_page("Login failed");
+        die("Login failed");
     }
     $authenticator = $user->authenticator;
     $next_url = $_POST["next_url"];

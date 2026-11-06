@@ -251,7 +251,7 @@ function handle_add_action() {
 
 $user = get_logged_in_user();
 $bus = BoincUserSubmit::lookup_userid($user->id);
-if (!$bus) {
+if (!$bus || !$bus->manage_all) {
     error_page("no access");
 }
 

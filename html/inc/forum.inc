@@ -39,6 +39,7 @@ define('REPLIES_MOST', 4);
 define('CREATE_TIME_NEW', 5);
 define('CREATE_TIME_OLD', 6);
 define('POST_SCORE', 7);
+define('NSORT_STYLES', 8);
 
 // names for the above
 //

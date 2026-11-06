@@ -30,7 +30,9 @@ display_errors();
 
 function submit_form($user) {
     $app = get_str('app');
-    if (!is_valid_filename($app)) die('bad arg');
+    if (!is_valid_filename($app)) {
+        error_page('bad app name');
+    }
     $app_desc = get_buda_app_desc($app);
     if (!user_can_submit($user, $app_desc)) {
         error_page('no permission');
@@ -122,7 +124,12 @@ function unzip_batch_file($user, $batch_file) {
     if (!file_exists("$sb_dir/$batch_file")) {
         error_page("no batch file $batch_file");
     }
-    system("cd $batch_dir; unzip $sb_dir/$batch_file > /dev/null", $ret);
+    $cmd = sprintf(
+        'cd %s; unzip %s > /dev/null',
+        $batch_dir,
+        escapeshellarg("$sb_dir/$batch_file")
+    );
+    system($cmd, $ret);
     if ($ret) {
         error_page("unzip error: $ret");
     }
@@ -166,6 +173,9 @@ function parse_batch_dir($batch_dir, $app_desc) {
             if ($f2[0] == '.') continue;
             if ($f2 == 'cmdline') {
                 $cmdline = trim(file_get_contents("$batch_dir/$fname/cmdline"));
+                if (!is_valid_filename($cmdline)) {
+                    error_page("Invalid cmdline: '$cmdline'");
+                }
                 continue;
             }
             if (!in_array($f2, $unshared_files)) {
@@ -176,10 +186,6 @@ function parse_batch_dir($batch_dir, $app_desc) {
         if (array_values($job_files) != array_values($unshared_files)) {
             error_page("$fname doesn't have all input files");
         }
-
-        //if (!$cmdline && !$job_files) {
-        //    error_page("job $fname has no cmdline and no input files");
-        //}
 
         $file_infos = [];
         foreach ($unshared_files as $f2) {
@@ -260,7 +266,10 @@ function create_jobs(
     foreach ($batch_desc->jobs as $job) {
         $job_cmd = sprintf('--wu_name batch_%d__job_%s', $batch_id, $job->dir);
         if ($job->cmdline) {
-            $job_cmd .= sprintf(' --command_line "%s"', $job->cmdline);
+            $job_cmd .= sprintf(
+                ' --command_line %s',
+                escapeshellarg($job->cmdline)
+            );
         }
         foreach ($batch_desc->shared_files_phys_names as $x) {
             $job_cmd .= " $x";
@@ -270,18 +279,18 @@ function create_jobs(
         }
         $job_cmds .= "$job_cmd\n";
     }
-    $wrapper_cmdline = sprintf('"%s %s"',
-        $wrapper_verbose?'--verbose':'',
+    $wrapper_cmdline = sprintf('%s%s',
+        $wrapper_verbose?'--verbose ':'',
         $cmdline
     );
     $cmd = sprintf(
-        'cd ../..; bin/create_work --appname %s --sub_appname "%s" --batch %d --stdin --command_line %s --wu_template %s --result_template %s --rsc_fpops_bound %f --rsc_fpops_est %f',
+        'cd ../..; bin/create_work --appname %s --sub_appname %s --batch %d --stdin --command_line %s --wu_template %s --result_template %s --rsc_fpops_bound %f --rsc_fpops_est %f',
         $buda_boinc_app->name,
-        $app_desc->long_name,
+        escapeshellarg($app_desc->long_name),
         $batch_id,
-        $wrapper_cmdline,
-        "buda_apps/$app/template_in",
-        "buda_apps/$app/template_out",
+        escapeshellarg($wrapper_cmdline),
+        escapeshellarg("buda_apps/$app/template_in"),
+        escapeshellarg("buda_apps/$app/template_out"),
         $max_fpops, $exp_fpops
     );
     if ($keywords) {
@@ -310,14 +319,18 @@ function handle_submit($user) {
     global $buda_root;
 
     $app = get_str('app');
-    if (!is_valid_filename($app)) die('bad arg');
+    if (!is_valid_filename($app)) {
+        error_page('bad app name');
+    }
     $app_desc = get_buda_app_desc($app);
     if (!user_can_submit($user, $app_desc)) {
         error_page('no permission');
     }
 
     $batch_file = get_str('batch_file');
-    if (!is_valid_filename($batch_file)) die('bad arg');
+    if (!is_valid_filename($batch_file)) {
+        error_page('bad batch file name');
+    }
     $wrapper_verbose = get_str('wrapper_verbose', true);
     $cmdline = get_str('cmdline');
 

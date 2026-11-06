@@ -573,7 +573,7 @@ static int send_results_for_file(
     bool /*in_working_set*/
 ) {
     SCHED_DB_RESULT result, prev_result;
-    char buf[256], query[1024];
+    char buf[1024], query[1024];
     int i, retval_max, retval_lookup, sleep_made_no_work=0;
     DB_ID_TYPE maxid;
 
@@ -604,11 +604,11 @@ static int send_results_for_file(
     char pattern[256], escaped_pattern[256];
     sprintf(pattern, "%s__", filename);
     escape_mysql_like_pattern(pattern, escaped_pattern);
-    sprintf(buf, "where userid=%lu and name like binary '%s%%'",
+    snprintf(buf, sizeof(buf), "where userid=%lu and name like binary '%s%%'",
         g_reply->user.id, escaped_pattern
     );
 #else
-    sprintf(buf, "where userid=%lu and name>binary '%s__' and name<binary '%s__~'",
+    snprintf(buf, sizeof(buf), "where userid=%lu and name>binary '%s__' and name<binary '%s__~'",
         g_reply->user.id, filename, filename
     );
 #endif
@@ -639,24 +639,24 @@ static int send_results_for_file(
             // if one result per user per WU, insist on different WUID too
             //
 #ifdef USE_REGEXP
-            sprintf(query,
+            snprintf(query, sizeof(query),
                 "INNER JOIN (SELECT id FROM result WHERE name like binary '%s%%' and id>%d and workunitid<>%d and server_state=%d order by id limit 1) AS single USING (id) ",
                 escaped_pattern, prev_result.id, prev_result.workunitid, RESULT_SERVER_STATE_UNSENT
             );
 #else
-            sprintf(query,
+            snprintf(query, sizeof(query),
                 "INNER JOIN (SELECT id FROM result WHERE name>binary '%s__' and name<binary '%s__~' and id>%lu and workunitid<>%lu and server_state=%d order by id limit 1) AS single USING (id) ",
                 filename, filename, prev_result.id, prev_result.workunitid, RESULT_SERVER_STATE_UNSENT
             );
 #endif
         } else {
 #ifdef USE_REGEXP
-            sprintf(query,
+            snprintf(query, sizeof(query),
                 "INNER JOIN (SELECT id FROM result WHERE name like binary '%s%%' and id>%d and server_state=%d order by id limit 1) AS single USING (id) ",
                 escaped_pattern, prev_result.id, RESULT_SERVER_STATE_UNSENT
             );
 #else
-            sprintf(query,
+            snprintf(query, sizeof(query),
                 "INNER JOIN (SELECT id FROM result WHERE name>binary '%s__' and name<binary '%s__~' and id>%lu and server_state=%d order by id limit 1) AS single USING (id) ",
                 filename, filename, prev_result.id, RESULT_SERVER_STATE_UNSENT
             );
@@ -694,12 +694,12 @@ static int send_results_for_file(
 
                     // do an EXPENSIVE db query
 #ifdef USE_REGEXP
-                    sprintf(query,
+                    snprintf(query, sizeof(query),
                         "INNER JOIN (SELECT id FROM result WHERE server_state=%d and name like binary '%s%%' limit 1) AS single USING (id)",
                         RESULT_SERVER_STATE_UNSENT, escaped_pattern
                     );
 #else
-                    sprintf(query,
+                    snprintf(query, sizeof(query),
                         "INNER JOIN (SELECT id FROM result WHERE server_state=%d and name>binary '%s__' and name<binary '%s__~' limit 1) AS single USING (id)",
                         RESULT_SERVER_STATE_UNSENT, filename, filename
                     );
@@ -824,21 +824,12 @@ static int send_new_file_work_deterministic_seeded(
 
     safe_strcpy(min_resultname, start_f);
     while (1) {
-
         // are we done with the search yet?
-        if (end_f && strcmp(min_resultname, end_f)>=0)
-          break;
+        if (end_f && strcmp(min_resultname, end_f)>=0) {
+            break;
+        }
 
-#if 0
-        // an alternative here is to add ANOTHER index on name, server_state
-        // to the result table.
-        sprintf(query,
-            "INNER JOIN (SELECT id FROM result WHERE server_state=%d and name>'%s' order by name limit 1) AS single USING (id)",
-            RESULT_SERVER_STATE_UNSENT, min_resultname
-        );
-#endif
-
-        sprintf(query,
+        snprintf(query, sizeof(query),
             "INNER JOIN (SELECT id FROM result WHERE name>'%s' order by name limit 1) AS single USING (id)",
             min_resultname
         );
@@ -1036,7 +1027,7 @@ static int send_old_work(int t_min, int t_max, bool locality_work_only) {
     // are a lot slower.
     //
     if (t_min != INT_MIN) {
-        sprintf(buf,
+        snprintf(buf, sizeof(buf),
 #ifdef EINSTEIN_AT_HOME
             "INNER JOIN (SELECT id FROM result USE INDEX (res_create_server_state) WHERE server_state=%d and %d<create_time and create_time<%d %s limit 1) AS single USING (id)",
             RESULT_SERVER_STATE_UNSENT, t_min, t_max, locality_work_only?"and name>binary '%s__' and name<binary '%s__~'":""
@@ -1045,9 +1036,8 @@ static int send_old_work(int t_min, int t_max, bool locality_work_only) {
             RESULT_SERVER_STATE_UNSENT, t_min, t_max
 #endif
         );
-    }
-    else {
-        sprintf(buf,
+    } else {
+        snprintf(buf, sizeof(buf),
 #ifdef EINSTEIN_AT_HOME
             "INNER JOIN (SELECT id FROM result USE INDEX (res_create_server_state) WHERE server_state=%d and create_time<%d %s limit 1) AS single USING (id)",
             RESULT_SERVER_STATE_UNSENT, t_max, locality_work_only?"and name>binary '%s__' and name<binary '%s__~'":""

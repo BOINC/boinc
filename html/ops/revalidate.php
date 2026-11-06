@@ -34,6 +34,9 @@ function show_form() {
         (e.g. to grant credit to instances previously marked as invalid).
         <p>
         <form method=get action=revalidate.php>
+    ";
+    echo form_tokens();
+    echo "
         <p>
         Enter a SQL 'where' clause indicating which workunits
         you want to revalidate
@@ -76,6 +79,7 @@ function revalidate($clause) {
 
 $clause = get_str("clause", true);
 if ($clause) {
+    check_tokens();
     admin_page_head("Jobs marked for revalidation");
     revalidate($clause);
     admin_page_tail();

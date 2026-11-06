@@ -111,6 +111,7 @@ if ($qclause == "") {
     } else {
 
         echo "<form action=\"cancel_workunits_action.php\" method=\"post\">\n";
+        echo form_tokens();
         echo "<input type=\"hidden\" name=\"back\" value=\"cancelwus\"/>";
 
         echo "<br><table border=\"1\">\n";

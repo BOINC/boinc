@@ -171,11 +171,14 @@ function send_cookie($name, $value, $permanent, $ops=false) {
         $path .= "_ops/";
     }
     $expire = $permanent?time()+3600*24*365:0;
-    setcookie($name, $value, $expire, $path,
-        '',
-        is_https(),     // if this page is secure, make cookie secure
-        true            // use cookie for HTTP only; no JS access
-    );
+    setcookie($name, $value, [
+        'expires' => $expire,
+        'path' => $path,
+        'domain' => '',
+        'secure' => is_https(),    // if this page is secure, make cookie secure
+        'httponly' => true,            // use cookie for HTTP only; no JS access
+        'SameSite' => 'Lax'
+    ]);
 }
 
 function clear_cookie($name, $ops=false) {
@@ -205,7 +208,9 @@ function get_logged_in_user($must_be_logged_in=true) {
     if (web_stopped()) return null;
 
     $authenticator = null;
-    if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
+    if (isset($_COOKIE['auth'])) {
+        $authenticator = $_COOKIE['auth'];
+    }
 
     if ($authenticator) {
         $authenticator = BoincDb::escape_string($authenticator);
