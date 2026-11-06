@@ -39,6 +39,7 @@ endif
 
 ## Make nvcuda if you havee CUDA installed on your device.
 if HAVE_CUDA
+    export CUDA_CCBIN
     SUBDIRS += nvcuda
 endif
 

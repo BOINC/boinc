@@ -238,7 +238,7 @@ jobs:
           ./tests/integration_test/installTestSuite.sh
 
       - name: Install CUDA for apps and apps-vcpkg
-        if: success() && (matrix.type == 'apps' || matrix.type == 'apps-vcpkg')
+        if: success() && (matrix.type == 'apps' || matrix.type == 'apps-vcpkg' || matrix.type == 'apps-arm64' || matrix.type == 'apps-vcpkg-arm64')
         run: |
           distro_name=ubuntu$(echo $(lsb_release -rs) | sed 's/\.//g')
           wget https://developer.download.nvidia.com/compute/cuda/repos/$distro_name/x86_64/cuda-$distro_name.pin
@@ -247,8 +247,18 @@ jobs:
           sudo dpkg -i cuda-repo-$distro_name-${{ env.CUDA_VERSION_MM }}-local_${{ env.CUDA_VERSION_FULL}}_amd64.deb
           sudo cp /var/cuda-repo-$distro_name-${{ env.CUDA_VERSION_MM }}-local/cuda-*-keyring.gpg /usr/share/keyrings/
           sudo apt update
-          sudo apt -y install cuda-toolkit-${{ env.CUDA_VERSION_MM }}
+          sudo apt -y --allow-downgrades install cuda-toolkit-${{ env.CUDA_VERSION_MM }}
           /usr/local/cuda/bin/nvcc --version
+
+      - name: Install CUDA for apps-arm64 and apps-vcpkg-arm64
+        if: success() && (matrix.type == 'apps-arm64' || matrix.type == 'apps-vcpkg-arm64')
+        run: |
+          distro_name=ubuntu$(echo $(lsb_release -rs) | sed 's/\.//g')
+          wget https://developer.download.nvidia.com/compute/cuda/${{ env.CUDA_VERSION_MMP }}/local_installers/cuda-repo-cross-sbsa-$distro_name-${{ env.CUDA_VERSION_MM }}-local_${{ env.CUDA_VERSION_MMP }}-1_all.deb
+          sudo dpkg -i cuda-repo-cross-sbsa-$distro_name-${{ env.CUDA_VERSION_MM }}-local_${{ env.CUDA_VERSION_MMP }}-1_all.deb
+          sudo cp /var/cuda-repo-cross-sbsa-$distro_name-${{ env.CUDA_VERSION_MM }}-local/cuda-*-keyring.gpg /usr/share/keyrings/
+          sudo apt update
+          sudo apt -y --allow-downgrades install cuda-cross-sbsa-${{ env.CUDA_VERSION_MM }}
 
       - name: Cache dependencies
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
