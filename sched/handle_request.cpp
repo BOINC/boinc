@@ -295,11 +295,15 @@ int authenticate_user() {
     DB_TEAM team;
 
     if (g_request->hostid) {
+        int n = 0;
         retval = host.lookup_id(g_request->hostid);
         while (!retval && host.userid==0) {
             // if host record is zombie, follow link to new host
-            // TODO: check for infinite loop
             //
+            if (++n > 10) {
+                retval = ERR_DB_NOT_FOUND;
+                break;
+            }
             retval = host.lookup_id(host.rpc_seqno);
             if (!retval) {
                 g_reply->hostid = host.id;
@@ -319,6 +323,7 @@ int authenticate_user() {
                 g_request->hostid
             );
             g_request->hostid = 0;
+            g_reply->hostid = 0;
             goto lookup_user_and_make_new_host;
         }
 
