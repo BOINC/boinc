@@ -123,6 +123,44 @@ class BoincUserSubmitApp {
 
 #[AllowDynamicProperties]
 class BoincJobFile {
+    // Coordinate filesystem changes with uploads and queries, including when
+    // the job_file row does not exist yet. Lock names are database-specific and
+    // fit MySQL's 64-character limit. The connection also releases them on exit.
+    private static function lock_name($name) {
+        $db = BoincDb::get();
+        // Valid filenames are ASCII. Case and trailing-space variants compare
+        // equal in the default name collation and must take the same lock.
+        $name = strtolower(rtrim($name, ' '));
+        return hash('sha256', "job_file:$db->db_name\0$name");
+    }
+    static function lock($name, $timeout=30) {
+        $db = BoincDb::get();
+        $key = self::lock_name($name);
+        $timeout = (int)$timeout;
+        $result = $db->do_query("select get_lock('$key', $timeout)");
+        if (!$result) {
+            throw new RuntimeException("could not lock job file $name");
+        }
+        $row = $result->fetch_row();
+        $result->free();
+        if (!$row || $row[0] === null) {
+            throw new RuntimeException("could not lock job file $name");
+        }
+        return $row[0] == 1;
+    }
+    static function unlock($name) {
+        $db = BoincDb::get();
+        $key = self::lock_name($name);
+        $result = $db->do_query("select release_lock('$key')");
+        if (!$result) {
+            throw new RuntimeException("could not unlock job file $name");
+        }
+        $row = $result->fetch_row();
+        $result->free();
+        if (!$row || $row[0] != 1) {
+            throw new RuntimeException("could not unlock job file $name");
+        }
+    }
     static function insert($clause) {
         $db = BoincDb::get();
         $ret = $db->insert('job_file', $clause);
@@ -131,7 +169,20 @@ class BoincJobFile {
     }
     static function lookup_name($name) {
         $db = BoincDb::get();
-        return $db->lookup('job_file', 'BoincJobFile', "name='$name'");
+        $name = $db->base_escape_string($name);
+        $file = $db->lookup('job_file', 'BoincJobFile', "name='$name'");
+        if ($db->base_errno()) {
+            throw new RuntimeException("could not look up job file");
+        }
+        return $file;
+    }
+    static function enum($clause) {
+        $db = BoincDb::get();
+        $files = $db->enum('job_file', 'BoincJobFile', $clause);
+        if ($db->db_conn->errno) {
+            throw new RuntimeException("could not enumerate job files");
+        }
+        return $files;
     }
     function delete() {
         $db = BoincDb::get();
@@ -166,6 +217,10 @@ class BoincBatchFileAssoc {
         return $db->delete_aux('batch_file_assoc',
             "batch_id=$batch_id"
         );
+    }
+    static function delete_aux($clause) {
+        $db = BoincDb::get();
+        return $db->delete_aux('batch_file_assoc', $clause);
     }
 }
 

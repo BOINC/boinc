@@ -114,50 +114,52 @@ function query_files($r) {
         if (!is_valid_filename($fname)) {
             xml_error(-1, 'bad filename');
         }
-        $path = dir_hier_path($fname, project_dir()."/download", $fanout);
-
-        // if the job_file record is there,
-        // update the delete time first to avoid race condition
-        // with job file deleter
-        //
-        $job_file = BoincJobFile::lookup_name($fname);
-        if ($job_file && $job_file->delete_time < $delete_time) {
-            $retval = $job_file->update("delete_time=$delete_time");
-            if ($retval) {
-                xml_error(-1, "job_file->update() failed: ".BoincDb::error());
-            }
+        if (!BoincJobFile::lock($fname)) {
+            xml_error(-1, "job file is busy; retry the request");
         }
-        if (file_exists($path)) {
-            // create the DB record if needed
-            //
-            if ($job_file) {
-                $jf_id = $job_file->id;
-            } else {
-                $jf_id = BoincJobFile::insert(
-                    "(name, create_time, delete_time) values ('$fname', $now, $delete_time)"
-                );
-                if (!$jf_id) {
-                    xml_error(-1, "query_files(): BoincJobFile::insert($fname) failed: ".BoincDb::error());
+        try {
+            $job_file = BoincJobFile::lookup_name($fname);
+            if ($job_file && $job_file->name !== $fname) {
+                throw new RuntimeException("filename conflicts with existing job file $job_file->name");
+            }
+            $path = dir_hier_path($fname, project_dir()."/download", $fanout);
+            clearstatcache(true, $path);
+
+            // The file lock protects renewal and association creation from cleanup.
+            if ($job_file && $job_file->delete_time < $delete_time) {
+                $retval = $job_file->update("delete_time=$delete_time");
+                if (!$retval) {
+                    xml_error(-1, "job_file->update() failed: ".BoincDb::error());
                 }
             }
-            // create batch association if needed
-            //
-            if ($batch_id) {
-                BoincBatchFileAssoc::insert(
-                    "(batch_id, job_file_id) values ($batch_id, $jf_id)"
-                );
-                // this return error if assoc already exists; ignore
-            }
-        } else {
-            if ($job_file) {
-                $ret = $job_file->delete();
-                if (!$ret) {
-                    xml_error(-1,
-                        "BoincJobFile::delete() failed: ".BoincDb::error()
+            if (file_exists($path)) {
+                // create the DB record if needed
+                //
+                if ($job_file) {
+                    $jf_id = $job_file->id;
+                } else {
+                    $jf_id = BoincJobFile::insert(
+                        "(name, create_time, delete_time) values ('$fname', $now, $delete_time)"
                     );
+                    if (!$jf_id) {
+                        xml_error(-1, "query_files(): BoincJobFile::insert($fname) failed: ".BoincDb::error());
+                    }
                 }
+                // create batch association if needed
+                //
+                if ($batch_id && !BoincBatchFileAssoc::lookup("batch_id=$batch_id and job_file_id=$jf_id")) {
+                    if (!BoincBatchFileAssoc::insert(
+                        "(batch_id, job_file_id) values ($batch_id, $jf_id)"
+                    )) {
+                        xml_error(-1, "could not associate job file with batch");
+                    }
+                }
+            } else {
+                // Leave metadata for cleanup retries, including a remaining .md5.
+                $absent_files[] = $i;
             }
-            $absent_files[] = $i;
+        } finally {
+            BoincJobFile::unlock($fname);
         }
         $i++;
     }
@@ -228,41 +230,65 @@ function upload_files($r) {
     foreach ($_FILES as $f) {
         $tmp_name = $f['tmp_name'];
         $fname = $phys_names[$i];
-        $path = dir_hier_path($fname, project_dir()."/download", $fanout);
-
-        // see if file is in download hierarchy
-        //
-        switch (check_download_file($tmp_name, $path)) {
-        case 0:
-            // file is already there
-            // note: check_download_file() generates .md5 in cases 1 and 2
-            break;
-        case 1:
-            // file is not there; move
-            //
-            if (!move_uploaded_file($tmp_name, $path)) {
-                xml_error(-1, "could not move $tmp_name to $path");
+        if (!BoincJobFile::lock($fname)) {
+            xml_error(-1, "job file is busy; retry the request");
+        }
+        try {
+            $job_file = BoincJobFile::lookup_name($fname);
+            if ($job_file && $job_file->name !== $fname) {
+                throw new RuntimeException("filename conflicts with existing job file $job_file->name");
             }
-            touch("$path.md5");
-            break;
-        case -1:
-            // file is there but different contents
-            //
-            xml_error(-1, "file immutability violation for $fname");
-        case -2:
-            xml_error(-1, "file operation failed; check permissions in download/*");
-        }
+            $path = dir_hier_path($fname, project_dir()."/download", $fanout);
+            clearstatcache(true, $path);
+            clearstatcache(true, "$path.md5");
 
-        $jf_id = BoincJobFile::insert(
-            "(name, create_time, delete_time) values ('$fname', $now, $delete_time)"
-        );
-        if (!$jf_id) {
-            xml_error(-1, "BoincJobFile::insert($fname) failed: ".BoincDb::error());
-        }
-        if ($batch_id) {
-            BoincBatchFileAssoc::insert(
-                "(batch_id, job_file_id) values ($batch_id, $jf_id)"
-            );
+            // see if file is in download hierarchy
+            //
+            switch (check_download_file($tmp_name, $path)) {
+            case 0:
+                // file is already there
+                // note: check_download_file() generates .md5 in cases 1 and 2
+                break;
+            case 1:
+                // file is not there; move
+                //
+                if (!move_uploaded_file($tmp_name, $path)) {
+                    xml_error(-1, "could not move $tmp_name to $path");
+                }
+                touch("$path.md5");
+                break;
+            case -1:
+                // file is there but different contents
+                //
+                xml_error(-1, "file immutability violation for $fname");
+            case -2:
+                xml_error(-1, "file operation failed; check permissions in download/*");
+            }
+
+            if ($job_file) {
+                $jf_id = $job_file->id;
+                if ($job_file->delete_time < $delete_time
+                    && !$job_file->update("delete_time=$delete_time")
+                ) {
+                    xml_error(-1, "job_file->update() failed: ".BoincDb::error());
+                }
+            } else {
+                $jf_id = BoincJobFile::insert(
+                    "(name, create_time, delete_time) values ('$fname', $now, $delete_time)"
+                );
+                if (!$jf_id) {
+                    xml_error(-1, "BoincJobFile::insert($fname) failed: ".BoincDb::error());
+                }
+            }
+            if ($batch_id && !BoincBatchFileAssoc::lookup("batch_id=$batch_id and job_file_id=$jf_id")) {
+                if (!BoincBatchFileAssoc::insert(
+                    "(batch_id, job_file_id) values ($batch_id, $jf_id)"
+                )) {
+                    xml_error(-1, "could not associate job file with batch");
+                }
+            }
+        } finally {
+            BoincJobFile::unlock($fname);
         }
         $i++;
     }
@@ -302,15 +328,19 @@ if (!$r) {
     xml_error(-1, "can't parse request message: ".htmlspecialchars($req), __FILE__, __LINE__);
 }
 
-switch ($r->getName()) {
-case 'query_files':
-    query_files($r);
-    break;
-case 'upload_files':
-    upload_files($r);
-    break;
-default:
-    xml_error(-1, "no such action");
+try {
+    switch ($r->getName()) {
+    case 'query_files':
+        query_files($r);
+        break;
+    case 'upload_files':
+        upload_files($r);
+        break;
+    default:
+        xml_error(-1, "no such action");
+    }
+} catch (Exception $e) {
+    xml_error(-1, htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8'));
 }
 
 ?>
