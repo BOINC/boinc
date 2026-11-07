@@ -1472,6 +1472,37 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
 #endif  // __APPLE__
 
 #ifdef __linux__
+    if (type == PODMAN) {
+        // For rootless Podman to work with BOINC on Linux, user and group sub-IDs
+        // must be configured (e.g. via usermod).
+        // Check 'podman info' for coverage of subordinate container IDs 1..65536.
+        //
+        snprintf(cmd, sizeof(cmd),
+            "%s info 2>/dev/null",
+            docker_cli_prog(type)
+        );
+        string reply;
+        bool cmd_ok = false;
+        f = popen(cmd, "r");
+        if (f) {
+            while (fgets(buf, sizeof(buf), f)) {
+                reply += buf;
+            }
+            cmd_ok = (pclose(f) == 0);
+        }
+        bool subids_ok = false;
+        if (cmd_ok && parse_podman_info_subids(reply.c_str(), subids_ok) && !subids_ok) {
+            msg_printf(NULL, MSG_INFO,
+                "Podman found, but user/group sub-ID mappings do not cover IDs 1..65536; see https://github.com/BOINC/boinc/wiki/Installing-Podman-on-Linux"
+            );
+            msg_printf(NULL, MSG_INFO,
+                "Check /etc/subuid and /etc/subgid and allocate non-overlapping ranges for the BOINC user, then run 'podman system migrate' as that user"
+            );
+            docker_version[0] = 0;
+            return false;
+        }
+    }
+
     // if we're running as an unprivileged user, Docker/Podman may not work.
     // Check by running the Hello World image.
     //
