@@ -30,6 +30,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.CheckBox
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper
 import edu.berkeley.boinc.databinding.AttachProjectCredentialInputDialogBinding
@@ -53,7 +54,7 @@ class IndividualCredentialInputFragment : DialogFragment() {
             email: String,
             name: String,
             pwd: String
-        )
+        ): Boolean
 
         val defaultInput: List<String?>
     }
@@ -75,16 +76,23 @@ class IndividualCredentialInputFragment : DialogFragment() {
         binding!!.emailInput.setText(defaultValues[0])
         binding!!.nameInput.setText(defaultValues[1])
 
+        // ask only for the credentials needed by this project
+        val config = project?.config
+        val inputs = if (config != null) CredentialInputs.forProjects(listOf(config)) else CredentialInputs.ALL
+        binding!!.emailInput.isVisible = inputs.emailAddress
+        binding!!.nameInput.isVisible = inputs.userName
+
         binding!!.loginButton.setOnClickListener { _: View? ->
             logVerbose(
                 USER_ACTION,
                 "IndividualCredentialInputFragment: login clicked"
             )
-            val email = binding!!.emailInput.text.toString()
-            val name = binding!!.nameInput.text.toString()
+            val email = if (inputs.emailAddress) binding!!.emailInput.text.toString() else ""
+            val name = if (inputs.userName) binding!!.nameInput.text.toString() else ""
             val password = binding!!.pwdInput.text.toString()
-            mListener!!.onFinish(project!!, true, email, name, password)
-            dismiss()
+            if (mListener!!.onFinish(project!!, true, email, name, password)) {
+                dismiss()
+            }
         }
 
         binding!!.registerButton.setOnClickListener { _: View? ->
@@ -99,11 +107,17 @@ class IndividualCredentialInputFragment : DialogFragment() {
                 i.setData(project!!.config!!.masterUrl.toUri())
                 startActivity(i)
             } else {
+                if (!binding!!.emailInput.isVisible) {
+                    binding!!.emailInput.isVisible = true
+                    binding!!.emailInput.requestFocus()
+                    return@setOnClickListener
+                }
                 val email = binding!!.emailInput.text.toString()
-                val name = binding!!.nameInput.text.toString()
+                val name = if (binding!!.nameInput.isVisible) binding!!.nameInput.text.toString() else ""
                 val password = binding!!.pwdInput.text.toString()
-                mListener!!.onFinish(project!!, false, email, name, password)
-                dismiss()
+                if (mListener!!.onFinish(project!!, false, email, name, password)) {
+                    dismiss()
+                }
             }
         }
 
