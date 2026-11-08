@@ -315,17 +315,16 @@
         <description><![CDATA[NumberFields@home searches for fields with special properties. The primary application of this research is in the realm of algebraic number theory. Number theorists can mine the data for interesting patterns to help them formulate conjectures about number fields. Ultimately, this research will lead to a deeper understanding of the profound properties of numbers, the basic building blocks of all mathematics.]]></description>
         <home>Arizona State University, school of Mathematics</home>
     <platforms>
-        <name>aarch64-unknown-linux-gnu[default]</name>
-        <name>i686-pc-linux-gnu[default]</name>
-        <name>windows_intelx86[default]</name>
-        <name>windows_x86_64[default]</name>
+        <name>aarch64-unknown-linux-gnu</name>
+        <name>i686-pc-linux-gnu</name>
+        <name>windows_intelx86</name>
+        <name>windows_x86_64</name>
         <name>windows_x86_64[opencl_amd]</name>
         <name>windows_x86_64[opencl_intel_gpu]</name>
         <name>windows_x86_64[opencl_nvidia]</name>
-        <name>x86_64-apple-darwin[default]</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[cuda30]</name>
-        <name>x86_64-pc-linux-gnu[cuda50]</name>
-        <name>x86_64-pc-linux-gnu[default]</name>
         <name>x86_64-pc-linux-gnu[opencl_amd]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu]</name>
     </platforms>
@@ -420,15 +419,10 @@
         <description><![CDATA[NFS@Home is a research project that uses Internet-connected computers to do the lattice sieving step in the Number Field Sieve factorization of large integers. As a young school student, you gained your first experience at breaking an integer into prime factors, such as 15 = 3 * 5 or 35 = 5 * 7. NFS@Home is a continuation of that experience, only with integers that are hundreds of digits long.]]></description>
         <home>California State University Fullerton</home>
     <platforms>
-        <name>windows_intelx86</name>
-        <name>windows_x86_64[notphenomiix6]</name>
-        <name>i686-pc-linux-gnu</name>
-        <name>x86_64-pc-linux-gnu</name>
-        <name>x86_64-pc-linux-gnu[avx512]</name>
-        <name>i686-apple-darwin</name>
-        <name>x86_64-apple-darwin</name>
-        <name>x86_64-pc-freebsd</name>
         <name>windows_x86_64</name>
+        <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-apple-darwin</name>
+        <name>arm64-apple-darwin</name>
         <name>windows_x86_64[docker]</name>
         <name>x86_64-pc-linux-gnu[docker]</name>
         <name>x86_64-apple-darwin[docker]</name>
