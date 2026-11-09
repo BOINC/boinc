@@ -29,8 +29,6 @@ require_once("../inc/translation.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/bootstrap.inc");
 
-define('JQUERY_URL', 'https://code.jquery.com/jquery-3.7.1.slim.min.js');
-
 function master_url() {
     return project_config_val("master_url");
 }
@@ -55,6 +53,13 @@ if (defined('TIMEZONE')) {
     date_default_timezone_set(TIMEZONE);
 } else {
     date_default_timezone_set('UTC');
+}
+if (!defined('JQUERY_REF')) {
+    define('JQUERY_REF',
+'src="https://code.jquery.com/jquery-4.0.0.slim.js"
+integrity="sha256-M+GjhMBfXikM1izMplICCTscIj5hzPCp6uDzaypxtgg="
+crossorigin="anonymous"'
+    );
 }
 if (!defined('DISABLE_PROFILES')) {
     define('DISABLE_PROFILES', false);
@@ -310,7 +315,7 @@ function page_head(
         <html lang="en">
         <head>
     ';
-    echo sprintf('<script src="%s"></script>', JQUERY_URL);
+    echo sprintf('<script %s></script>', JQUERY_REF);
 
     if (defined('GLOBAL_HEAD_EXTRA')) {
         echo GLOBAL_HEAD_EXTRA;
