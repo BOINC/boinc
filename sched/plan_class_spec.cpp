@@ -920,7 +920,7 @@ bool PLAN_CLASS_SPEC::check(
 
     // Apple GPU
 
-    } else if (!strcmp(gpu_type, "apple")) {
+    } else if (strstr(gpu_type, "apple") == gpu_type) {
         COPROC& cp = sreq.coprocs.apple_gpu;
         cpp = &cp;
 
@@ -1136,7 +1136,7 @@ bool PLAN_CLASS_SPEC::check(
         } else if (strstr(gpu_type, "intel") == gpu_type) {
             hu.proc_type = PROC_TYPE_INTEL_GPU;
             hu.gpu_usage = gpu_usage;
-        } else if (strstr(gpu_type, "apple_gpu") == gpu_type) {
+        } else if (strstr(gpu_type, "apple") == gpu_type) {
             hu.proc_type = PROC_TYPE_APPLE_GPU;
             hu.gpu_usage = gpu_usage;
         } else {
