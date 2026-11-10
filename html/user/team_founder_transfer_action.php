@@ -105,9 +105,15 @@ case "initiate_transfer":
         // whose founder email is invalid
         //
         $team->update("ping_user=$user->id, ping_time=$now");
-        echo "<p>".tra("The current founder has been notified of your request by email and private message.<br /><br />
-                       If the founder does not respond within 60 days you will be allowed to become the founder.")
-        ."</p>\n";
+        if ($success) {
+            echo "<p>".tra("The current founder has been notified of your request by email and private message.<br /><br />
+                           If the founder does not respond within 60 days you will be allowed to become the founder.")
+            ."</p>\n";
+        } else {
+            echo "<p>".tra("The current founder has been notified of your request by private message (the notification email failed to send).<br /><br />
+                           If the founder does not respond within 60 days you will be allowed to become the founder.")
+            ."</p>\n";
+        }
     } else {
         error_page(tra("Foundership request not allowed now"));
     }
@@ -137,9 +143,14 @@ case "decline":
         $ping_user = BoincUser::lookup_id($team->ping_user);
 
         $team->update("ping_user=0");
-        send_founder_transfer_decline_email($team, $ping_user);
-        echo "<p>".tra("The foundership request from %1 has been declined.", user_links($ping_user))
-        ."</p>";
+        $email_success = send_founder_transfer_decline_email($team, $ping_user);
+        if ($email_success) {
+            echo "<p>".tra("The foundership request from %1 has been declined.", user_links($ping_user))
+            ."</p>";
+        } else {
+            echo "<p>".tra("The foundership request from %1 has been declined, but the notification email to them failed to send.", user_links($ping_user))
+            ."</p>";
+        }
     } else {
         echo "<p>".tra("There were no foundership requests.")."</p>";
     }

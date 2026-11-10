@@ -71,20 +71,23 @@ function to_struct($p) {
             }
             break;
         case 'CUDA':
-            $g = make_gpu('nvidia', $x);
-            if ($g) $gpus[] = $g;
+            $gpus[] = make_gpu('nvidia', $x);
             break;
         case 'CAL':
-            $g = make_gpu('amd', $x);
-            if ($g) $gpus[] = $g;
+            $gpus[] = make_gpu('amd', $x);
             break;
         case 'INTEL':
-            $g = make_gpu('intel', $x);
-            if ($g) $gpus[] = $g;
+            $gpus[] = make_gpu('intel', $x);
+            break;
+        case 'ARM':
+            $gpus[] = make_gpu('arm', $x);
+            break;
+        case 'Microsoft':
             break;
         case 'apple_gpu':
+        case 'Apple':
             $g = make_gpu('apple', $x);
-            if ($g) $gpus[] = $g;
+            $gpus[] = $g;
             break;
         case 'opencl_gpu':
             if (stristr($x[1], 'apple')) {

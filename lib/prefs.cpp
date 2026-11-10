@@ -256,6 +256,7 @@ void GLOBAL_PREFS::defaults() {
     vm_max_used_frac = 0.75;
     work_buf_additional_days = 0.5;
     work_buf_min_days = 0.1;
+    vm_max_used_frac = 1.;
 
     override_file_present = false;
 

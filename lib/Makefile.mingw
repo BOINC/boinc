@@ -32,6 +32,10 @@ ifdef MINGW
     RANLIB = $(MINGW)-ranlib
 endif
 
+ifeq ($(findstring aarch64,$(shell $(CXX) -dumpmachine)),aarch64)
+    AARCH64_BUILD = 1
+endif
+
 # headers to install
 HEADERS = $(BOINC_SRC)/version.h \
 	$(BOINC_SRC)/svn_version.h \
@@ -96,11 +100,14 @@ LIB_OBJ = app_ipc.o \
 	proxy_info.o \
 	str_util.o \
 	shmem.o \
-	stackwalker_win.o \
 	url.o \
 	util.o \
 	win_util.o \
 	wslinfo.o
+
+ifndef AARCH64_BUILD
+	LIB_OBJ += stackwalker_win.o
+endif
 
 ZIP_OBJ = zip/boinc_zip.o
 
@@ -130,9 +137,9 @@ OPTFLAGS = -O3
 # various cpp & gcc flags (for both C and C++ mode)
 # set NOCYGWIN=-mno-cygwin to build non-Cygwin Windows libs under Cygwin
 # -D_WIN32_WINDOWS=0x0410 sets to use Win98 API
-WINVERFLAGS = -D_WINDOWS -D_WIN32 -DWIN32 -DWINVER=0x0500 -D_WIN32_WINNT=0x0500 -D_MT
 HAVEFLAGS = -DHAVE_STRCASECMP
-CCXXFLAGS = $(INCS) $(DEBUG) --include $(BOINC_SRC)/version.h -DEINSTEINATHOME_CROSS_BUILD -DMINGW_WIN32 \
+WINVERFLAGS = -D_WINDOWS -D_MT -D_WIN32 -DWIN32 -DWINVER=0x0500 -D_WIN32_WINNT=0x0500
+CCXXFLAGS = $(INCS) $(DEBUG) --include $(BOINC_SRC)/version.h \
 	$(HAVEFLAGS) $(WINVERFLAGS) -DBOINC \
 	-DNODB -D_CONSOLE -fexceptions $(OPTFLAGS) $(NOCYGWIN)
 

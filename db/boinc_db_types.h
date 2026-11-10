@@ -348,7 +348,10 @@ struct HOST {
     char venue[256];        // home/work/school
     int nresults_today;     // results sent since midnight
     double avg_turnaround;  // recent average result turnaround time
-    char host_cpid[256];    // host cross-project ID
+    char host_cpid[256];    // external host cross-project ID
+        // the client generates an 'internal' host CPID;
+        // the server hashes this with email addr to avoid spoofing
+        // See https://github.com/BOINC/boinc/wiki/Host-identification
     char external_ip_addr[256]; // IP address seen by scheduler
     int _max_results_day;
         // MRD is dynamically adjusted to limit work sent to bad hosts.
@@ -373,7 +376,7 @@ struct HOST {
 
     // the following items are passed in scheduler requests,
     // and used in the scheduler,
-    // but not stored in the DB
+    // but are NOT stored in the DB
     // TODO: move this stuff to a derived class HOST_SCHED
     //
     char p_features[P_FEATURES_SIZE];
@@ -381,6 +384,8 @@ struct HOST {
     bool p_vm_extensions_disabled;
     int num_opencl_cpu_platforms;
     OPENCL_CPU_PROP opencl_cpu_prop[MAX_OPENCL_CPU_PLATFORMS];
+    char wsl_version[256];
+    bool use_wslc;
     WSL_DISTROS wsl_distros;
 
     // Docker info (non-Win only)
@@ -394,7 +399,6 @@ struct HOST {
     double client_start_time;
     double previous_uptime;
 
-
     int parse(XML_PARSER&);
     int parse_time_stats(XML_PARSER&);
     int parse_net_stats(XML_PARSER&);
@@ -405,6 +409,10 @@ struct HOST {
     bool get_opencl_cpu_prop(const char* platform, OPENCL_CPU_PROP&);
     inline bool low_turnaround() {
         return _error_rate > 0;
+    }
+    // for scheduler: see if client is Win
+    inline bool is_windows() {
+        return strcasestr(os_name, "windows") != NULL;
     }
 };
 
@@ -503,13 +511,20 @@ struct WORKUNIT {
     int target_nresults;
         // try to get this many "viable" results,
         // i.e. candidate for canonical result.
+        // should always be at least min_quorum.
         // may be > min_quorum to get consensus quicker or reflect loss rate
-    int max_error_results;      // WU error if < #error results
-    int max_total_results;      // WU error if < #total results
-        // (need this in case results are never returned)
-    int max_success_results;    // WU error if < #success results
-        // without consensus (i.e. WU is nondeterministic)
-    char result_template_file[64];
+    int max_error_results;
+        // transitioner: if # results without client compute error exceeds this,
+        // mark WU as WU_ERROR_TOO_MANY_ERROR_RESULTS
+    int max_total_results;
+        // transitioner: if we need more instances but it would exceed this,
+        // mark WU as WU_ERROR_TOO_MANY_TOTAL_RESULTS
+    int max_success_results;
+        // validator: if #success results exceeds this without consensus
+        // (i.e. WU seems nondeterministic)
+        // mark WU as WU_ERROR_TOO_MANY_SUCCESS_RESULTS
+    char result_template_file[255];
+        // path, relative to the project dir, of the job's output template
     int priority;
     char mod_time[20];
     double rsc_bandwidth_bound;
@@ -527,6 +542,8 @@ struct WORKUNIT {
         // keywords, as space-separated integers
     int app_version_num;
         // if nonzero, use only this version num
+    int n_sent;
+        // number of results for this WU that have been sent to a client
 
     void clear();
     WORKUNIT(){clear();}
@@ -678,7 +695,7 @@ struct BATCH {
     int njobs;
         // # of workunits
     double fraction_done;
-        // based on workunits completed
+        // deprecated
     int nerror_jobs;
         // # of workunits with error
     int state;
@@ -701,6 +718,12 @@ struct BATCH {
     double expire_time;
         // if nonzero, retire the batch after this time
         // Condor calls this the batch's "lease".
+    int n_success;
+        // number of WUs with a canonical result
+    int n_in_progress;
+        // number of WUs not completed (success or error)
+        // and with at least one result sent.
+        // This is not exactly 'in progress' but close enough
 };
 
 // info for users who can submit jobs

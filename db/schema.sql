@@ -163,61 +163,62 @@ create table host (
     id                      integer         not null auto_increment,
     create_time             integer         not null,
     userid                  integer         not null,
-    rpc_seqno               integer         not null,
-    rpc_time                integer         not null,
-    total_credit            double          not null,
-    expavg_credit           double          not null,
-    expavg_time             double          not null,
+    rpc_seqno               integer         not null default 0,
+    rpc_time                integer         not null default 0,
+    total_credit            double          not null default 0,
+    expavg_credit           double          not null default 0,
+    expavg_time             double          not null default 0,
 
-    timezone                integer         not null,
-    domain_name             varchar(254),
-    serialnum               varchar(254),
+    timezone                integer         not null default 0,
+    domain_name             varchar(254)    not null default '',
+    serialnum               varchar(254)    not null default '',
         /* summary of GPUs and VBox (deprecated) */
-    last_ip_addr            varchar(254),
-    nsame_ip_addr           integer         not null,
+    last_ip_addr            varchar(254)    not null default '',
+    nsame_ip_addr           integer         not null default 0,
 
-    on_frac                 double          not null,
-    connected_frac          double          not null,
-    active_frac             double          not null,
-    cpu_efficiency          double          not null,
-    duration_correction_factor double       not null,
-    p_ncpus                 integer         not null,
-    p_vendor                varchar(254),
-    p_model                 varchar(254),
-    p_fpops                 double          not null,
-    p_iops                  double          not null,
-    p_membw                 double          not null,
+    on_frac                 double          not null default 0,
+    connected_frac          double          not null default 0,
+    active_frac             double          not null default 0,
+    cpu_efficiency          double          not null default 0,
+    duration_correction_factor double       not null default 0,
+    p_ncpus                 integer         not null default 0,
+    p_vendor                varchar(254)    not null default '',
+    p_model                 varchar(254)    not null default '',
+    p_fpops                 double          not null default 0,
+    p_iops                  double          not null default 0,
+    p_membw                 double          not null default 0,
 
-    os_name                 varchar(254),
-    os_version              varchar(254),
+    os_name                 varchar(254)    not null default '',
+    os_version              varchar(254)    not null default '',
 
-    m_nbytes                double          not null,
-    m_cache                 double          not null,
-    m_swap                  double          not null,
+    m_nbytes                double          not null default 0,
+    m_cache                 double          not null default 0,
+    m_swap                  double          not null default 0,
 
-    d_total                 double          not null,
-    d_free                  double          not null,
-    d_boinc_used_total      double          not null,
-    d_boinc_used_project    double          not null,
-    d_boinc_max             double          not null,
+    d_total                 double          not null default 0,
+    d_free                  double          not null default 0,
+    d_boinc_used_total      double          not null default 0,
+    d_boinc_used_project    double          not null default 0,
+    d_boinc_max             double          not null default 0,
 
-    n_bwup                  double          not null,
-    n_bwdown                double          not null,
+    n_bwup                  double          not null default 0,
+    n_bwdown                double          not null default 0,
 
-    credit_per_cpu_sec      double          not null,
-    venue                   varchar(254)    not null,
-    nresults_today          integer         not null,
-    avg_turnaround          double          not null,
-    host_cpid               varchar(254),
-    external_ip_addr        varchar(254),
-    max_results_day         integer         not null,
+    credit_per_cpu_sec      double          not null default 0,
+    venue                   varchar(254)    not null default '',
+    nresults_today          integer         not null default 0,
+    avg_turnaround          double          not null default 0,
+    host_cpid               varchar(254)    not null default '',
+    external_ip_addr        varchar(254)    not null default '',
+    max_results_day         integer         not null default 0,
     error_rate              double          not null default 0,
-    product_name            varchar(254)    not null,
-    gpu_active_frac         double          not null,
-    p_ngpus                 integer         not null,
-    p_gpu_fpops             double          not null,
-    misc                    text            not null default '',
+    product_name            varchar(254)    not null default '',
+    gpu_active_frac         double          not null default 0,
+    p_ngpus                 integer         not null default 0,
+    p_gpu_fpops             double          not null default 0,
+    misc                    text            not null,
         -- JSON description of GPUs, Docker etc.
+        -- Can't specify default on MySQL
 
     primary key (id)
 ) engine=InnoDB;
@@ -246,6 +247,7 @@ create table host_app_version (
  * is broken out into separate fields.
  * Other info, i.e. that needed by the client (files, etc.)
  * is stored in the XML doc
+ * Don't need defaults because C++ API fills in everything.
  */
 create table workunit (
     id                      integer         not null auto_increment,
@@ -273,7 +275,7 @@ create table workunit (
     max_error_results       integer         not null,
     max_total_results       integer         not null,
     max_success_results     integer         not null,
-    result_template_file    varchar(63)     not null,
+    result_template_file    varchar(254)    not null,
     priority                integer         not null,
     mod_time                timestamp default current_timestamp on update current_timestamp,
     rsc_bandwidth_bound     double          not null,
@@ -283,6 +285,7 @@ create table workunit (
     size_class              smallint        not null default -1,
     keywords                varchar(254)    not null,
     app_version_num         integer         not null,
+    n_sent                  integer         not null,
     primary key (id)
 ) engine=InnoDB;
 
@@ -346,7 +349,9 @@ create table batch (
     app_id                  integer         not null,
     project_state           integer         not null,
     description             varchar(255)    not null,
-    expire_time             double          not null
+    expire_time             double          not null,
+    n_success               integer         not null default 0,
+    n_in_progress           integer         not null default 0
 ) engine = InnoDB;
 
 -- permissions for job submission

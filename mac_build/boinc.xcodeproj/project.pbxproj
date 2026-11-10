@@ -149,7 +149,6 @@
 		DD3E15010A774397007E0084 /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD207C5B1150043025C /* mfile.cpp */; };
 		DD3E15020A774397007E0084 /* miofile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD507C5B1150043025C /* miofile.cpp */; };
 		DD3E15050A774397007E0084 /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.cpp */; };
-		DD3E15060A774397007E0084 /* NoInternetConnectionPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C44608F334B500C1DF66 /* NoInternetConnectionPage.cpp */; };
 		DD3E15070A774397007E0084 /* NotDetectedPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C44808F334B500C1DF66 /* NotDetectedPage.cpp */; };
 		DD3E15080A774397007E0084 /* NotFoundPage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C44A08F334B500C1DF66 /* NotFoundPage.cpp */; };
 		DD3E15090A774397007E0084 /* parse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54B901602AC0A2201FB7237 /* parse.cpp */; };
@@ -166,7 +165,6 @@
 		DD3E15140A774397007E0084 /* ValidateURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C42607C5D1D70098A04D /* ValidateURL.cpp */; };
 		DD3E151A0A774397007E0084 /* ViewStatistics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDEF388E0802B73500E87552 /* ViewStatistics.cpp */; };
 		DD3E151B0A774397007E0084 /* UnavailablePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C46108F334EA00C1DF66 /* UnavailablePage.cpp */; };
-		DD3E151F0A774397007E0084 /* wizardex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD58C46908F334EA00C1DF66 /* wizardex.cpp */; };
 		DD3E15200A774397007E0084 /* BOINCDialupManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD8DD4A509D9432F0043019E /* BOINCDialupManager.cpp */; };
 		DD3E15210A774397007E0084 /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
 		DD3E15230A774397007E0084 /* AdvancedFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9C94A00A5A3A4100AB0D10 /* AdvancedFrame.cpp */; };
@@ -328,7 +326,6 @@
 		DD81C81D144D900B000BE61A /* rdcolmap.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7DB144D900B000BE61A /* rdcolmap.c */; };
 		DD81C81E144D900B000BE61A /* rdgif.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7DC144D900B000BE61A /* rdgif.c */; };
 		DD81C81F144D900B000BE61A /* rdppm.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7DD144D900B000BE61A /* rdppm.c */; };
-		DD81C820144D900B000BE61A /* rdrle.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7DE144D900B000BE61A /* rdrle.c */; };
 		DD81C821144D900B000BE61A /* rdswitch.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7DF144D900B000BE61A /* rdswitch.c */; };
 		DD81C822144D900B000BE61A /* rdtarga.c in Sources */ = {isa = PBXBuildFile; fileRef = DD81C7E0144D900B000BE61A /* rdtarga.c */; };
 		DD82D83C1F831E0500EEC6AD /* keyword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD82D83A1F831E0500EEC6AD /* keyword.cpp */; };
@@ -1091,8 +1088,6 @@
 		DD58C43808F3347D00C1DF66 /* CompletionErrorPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CompletionErrorPage.h; path = ../clientgui/CompletionErrorPage.h; sourceTree = SOURCE_ROOT; };
 		DD58C43908F3347D00C1DF66 /* CompletionPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = CompletionPage.cpp; path = ../clientgui/CompletionPage.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C43A08F3347D00C1DF66 /* CompletionPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CompletionPage.h; path = ../clientgui/CompletionPage.h; sourceTree = SOURCE_ROOT; };
-		DD58C44608F334B500C1DF66 /* NoInternetConnectionPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NoInternetConnectionPage.cpp; path = ../clientgui/NoInternetConnectionPage.cpp; sourceTree = SOURCE_ROOT; };
-		DD58C44708F334B500C1DF66 /* NoInternetConnectionPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NoInternetConnectionPage.h; path = ../clientgui/NoInternetConnectionPage.h; sourceTree = SOURCE_ROOT; };
 		DD58C44808F334B500C1DF66 /* NotDetectedPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NotDetectedPage.cpp; path = ../clientgui/NotDetectedPage.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C44908F334B500C1DF66 /* NotDetectedPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NotDetectedPage.h; path = ../clientgui/NotDetectedPage.h; sourceTree = SOURCE_ROOT; };
 		DD58C44A08F334B500C1DF66 /* NotFoundPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NotFoundPage.cpp; path = ../clientgui/NotFoundPage.cpp; sourceTree = SOURCE_ROOT; };
@@ -1108,8 +1103,6 @@
 		DD58C46008F334EA00C1DF66 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = resource.h; path = ../clientgui/resource.h; sourceTree = SOURCE_ROOT; };
 		DD58C46108F334EA00C1DF66 /* UnavailablePage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = UnavailablePage.cpp; path = ../clientgui/UnavailablePage.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C46208F334EA00C1DF66 /* UnavailablePage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = UnavailablePage.h; path = ../clientgui/UnavailablePage.h; sourceTree = SOURCE_ROOT; };
-		DD58C46908F334EA00C1DF66 /* wizardex.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wizardex.cpp; path = ../clientgui/wizardex.cpp; sourceTree = SOURCE_ROOT; };
-		DD58C46A08F334EA00C1DF66 /* wizardex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wizardex.h; path = ../clientgui/wizardex.h; sourceTree = SOURCE_ROOT; };
 		DD5EF07007C5B329007CCE8D /* whetstone.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = whetstone.cpp; sourceTree = "<group>"; };
 		DD5EF08807C5B7C7007CCE8D /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../version.h; sourceTree = SOURCE_ROOT; };
 		DD5F654123605B41009ED2A2 /* gfx_cleanup */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = gfx_cleanup; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1277,6 +1270,7 @@
 		DD9C94A20A5A3A4100AB0D10 /* BOINCBaseFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCBaseFrame.cpp; path = ../clientgui/BOINCBaseFrame.cpp; sourceTree = SOURCE_ROOT; };
 		DD9C94A30A5A3A4100AB0D10 /* BOINCBaseFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCBaseFrame.h; path = ../clientgui/BOINCBaseFrame.h; sourceTree = SOURCE_ROOT; };
 		DD9E560E182D0D40002AF0F8 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
+		DDA008903067DF5400C3B4FE /* BOINC.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = BOINC.xcconfig; sourceTree = "<group>"; };
 		DDA12A910A369AB500FBDD12 /* SetupSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetupSecurity.h; path = ../clientgui/mac/SetupSecurity.h; sourceTree = SOURCE_ROOT; };
 		DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SecurityUtility.cpp; path = ../clientgui/mac/SecurityUtility.cpp; sourceTree = SOURCE_ROOT; };
 		DDA1F1EC126D105B005EFFEB /* current_version.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = current_version.cpp; path = ../client/current_version.cpp; sourceTree = SOURCE_ROOT; };
@@ -1724,6 +1718,7 @@
 				DDB219A610B3BB6200417AEF /* WaitPermissions-Info.plist */,
 				DD213C9B2568099200A535C1 /* BoincCmd-Info.plist */,
 				DDEED39A29ADFDFA00DC3E5D /* Frameworks */,
+				DDA008903067DF5400C3B4FE /* BOINC.xcconfig */,
 			);
 			name = "¬´PROJECTNAME¬ª";
 			sourceTree = "<group>";
@@ -1857,8 +1852,6 @@
 				F5C5403402BFC5C701BEDAB8 /* mac */,
 				DD81C41607C5D13E0098A04D /* MainDocument.cpp */,
 				DD81C44F07C5D2470098A04D /* MainDocument.h */,
-				DD58C44608F334B500C1DF66 /* NoInternetConnectionPage.cpp */,
-				DD58C44708F334B500C1DF66 /* NoInternetConnectionPage.h */,
 				DD58C44808F334B500C1DF66 /* NotDetectedPage.cpp */,
 				DD58C44908F334B500C1DF66 /* NotDetectedPage.h */,
 				DD58C44A08F334B500C1DF66 /* NotFoundPage.cpp */,
@@ -1926,8 +1919,6 @@
 				DDD52DC90C03CAE6009B5FC0 /* ViewWork.h */,
 				DDA850A21207EED900B473A6 /* WizardAttach.cpp */,
 				DDA850A31207EED900B473A6 /* WizardAttach.h */,
-				DD58C46908F334EA00C1DF66 /* wizardex.cpp */,
-				DD58C46A08F334EA00C1DF66 /* wizardex.h */,
 			);
 			name = clientgui;
 			path = ../clientgui;
@@ -3784,7 +3775,6 @@
 				DD3E15010A774397007E0084 /* mfile.cpp in Sources */,
 				DD3E15020A774397007E0084 /* miofile.cpp in Sources */,
 				DD3E15050A774397007E0084 /* network.cpp in Sources */,
-				DD3E15060A774397007E0084 /* NoInternetConnectionPage.cpp in Sources */,
 				DD3E15070A774397007E0084 /* NotDetectedPage.cpp in Sources */,
 				DD3E15080A774397007E0084 /* NotFoundPage.cpp in Sources */,
 				DD3E15090A774397007E0084 /* parse.cpp in Sources */,
@@ -3801,7 +3791,6 @@
 				DD3E15140A774397007E0084 /* ValidateURL.cpp in Sources */,
 				DD3E151A0A774397007E0084 /* ViewStatistics.cpp in Sources */,
 				DD3E151B0A774397007E0084 /* UnavailablePage.cpp in Sources */,
-				DD3E151F0A774397007E0084 /* wizardex.cpp in Sources */,
 				DD3E15200A774397007E0084 /* BOINCDialupManager.cpp in Sources */,
 				DD3E15210A774397007E0084 /* check_security.cpp in Sources */,
 				DD3E15230A774397007E0084 /* AdvancedFrame.cpp in Sources */,
@@ -4044,7 +4033,6 @@
 				DD81C81D144D900B000BE61A /* rdcolmap.c in Sources */,
 				DD81C81E144D900B000BE61A /* rdgif.c in Sources */,
 				DD81C81F144D900B000BE61A /* rdppm.c in Sources */,
-				DD81C820144D900B000BE61A /* rdrle.c in Sources */,
 				DD81C821144D900B000BE61A /* rdswitch.c in Sources */,
 				DD81C822144D900B000BE61A /* rdtarga.c in Sources */,
 			);
@@ -4571,6 +4559,7 @@
 /* Begin XCBuildConfiguration section */
 		B13E2D14265564D100D5C977 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				ARCHS = x86_64;
 				OTHER_LDFLAGS = "-lboinc";
@@ -4580,6 +4569,7 @@
 		};
 		B13E2D15265564D100D5C977 /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				ARCHS = x86_64;
 				OTHER_LDFLAGS = "-lboinc";
@@ -4589,6 +4579,7 @@
 		};
 		DD1AFEB60A512D8700EE5B82 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = "Installer-Info.plist";
 				OTHER_CFLAGS = (
@@ -4610,6 +4601,7 @@
 		};
 		DD1AFEB90A512D8700EE5B82 /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = "Installer-Info.plist";
@@ -4632,42 +4624,43 @@
 		};
 		DD2521432E449816002726E2 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Development;
 		};
 		DD2521442E449816002726E2 /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Deployment;
 		};
 		DD3719422E3B50BD00E75DF3 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Development;
 		};
 		DD3719432E3B50BD00E75DF3 /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Deployment;
 		};
 		DD3E153E0A774397007E0084 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -4693,7 +4686,6 @@
 					"-D__WXMAC__",
 					"-D_DEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				"OTHER_CFLAGS[arch=arm64]" = (
@@ -4706,7 +4698,6 @@
 					"-D__WXMAC__",
 					"-D_DEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				"OTHER_CFLAGS[arch=x86_64]" = (
@@ -4719,12 +4710,10 @@
 					"-D__WXMAC__",
 					"-D_DEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"-bind_at_load",
 					"-D_THREAD_SAFE",
 					"-lwx_osx_cocoa_static",
 					"-lz",
@@ -4748,6 +4737,7 @@
 		};
 		DD3E15410A774397007E0084 /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -4774,7 +4764,6 @@
 					"-DSANDBOX",
 					"-D_NDEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				"OTHER_CFLAGS[arch=arm64]" = (
@@ -4788,7 +4777,6 @@
 					"-DSANDBOX",
 					"-D_NDEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				"OTHER_CFLAGS[arch=x86_64]" = (
@@ -4802,12 +4790,10 @@
 					"-DSANDBOX",
 					"-D_NDEBUG",
 					"-DBUILDING_MANAGER",
-					"-DMAC_OS_X_VERSION_MAX_ALLOWED=101300",
 					"-DwxADJUST_MINSIZE=0",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
-					"-bind_at_load",
 					"-D_THREAD_SAFE",
 					"-lwx_osx_cocoa_static",
 					"-lz",
@@ -4831,6 +4817,7 @@
 		};
 		DD4688450C165F3C0089F500 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = "Uninstaller-Info.plist";
 				OTHER_LDFLAGS = (
@@ -4845,6 +4832,7 @@
 		};
 		DD4688490C165F3C0089F500 /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = "Uninstaller-Info.plist";
@@ -4860,50 +4848,51 @@
 		};
 		DD5F654523605B41009ED2A2 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Development;
 		};
 		DD5F654623605B41009ED2A2 /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Deployment;
 		};
 		DD67F19A2D5A24FD00A78699 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Development;
 		};
 		DD67F19B2D5A24FD00A78699 /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Deployment;
 		};
 		DD7748A60A356CAE0025D05E /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -4915,6 +4904,7 @@
 		};
 		DD7748A90A356CAE0025D05E /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -4926,6 +4916,7 @@
 		};
 		DD81C79C144D8DA9000BE61A /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = jpeg;
@@ -4942,6 +4933,7 @@
 		};
 		DD81C79D144D8DA9000BE61A /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = jpeg;
@@ -4958,6 +4950,7 @@
 		};
 		DD8916210F3B17E900DE5B1C /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
 					../api/,
@@ -4993,6 +4986,7 @@
 		};
 		DD8916250F3B17E900DE5B1C /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
 					../api/,
@@ -5028,6 +5022,7 @@
 		};
 		DD9843D909920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
@@ -5043,6 +5038,7 @@
 		};
 		DD9843DB09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = ../lib;
 				LIBRARY_SEARCH_PATHS = ../lib;
@@ -5052,6 +5048,7 @@
 		};
 		DD9843DC09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = SetVersion;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
@@ -5060,6 +5057,7 @@
 		};
 		DD9843DD09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
@@ -5098,6 +5096,7 @@
 		};
 		DD9843DE09920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
 					../../curl/include,
@@ -5137,6 +5136,7 @@
 		};
 		DD9843E109920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = "PostInstall-Info.plist";
@@ -5160,8 +5160,8 @@
 		};
 		DD9843E209920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				INFOPLIST_FILE = "BoincCmd-Info.plist";
 				OTHER_LDFLAGS = "-lboinc";
@@ -5172,6 +5172,7 @@
 		};
 		DD9843E409920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				DEPLOYMENT_POSTPROCESSING = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -5190,9 +5191,10 @@
 		};
 		DD9843E509920F220090855B /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
@@ -5206,7 +5208,6 @@
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
 				HEADER_SEARCH_PATHS = "../lib/**";
 				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-DNDEBUG",
@@ -5214,7 +5215,6 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				PREBINDING = NO;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
@@ -5230,6 +5230,7 @@
 		};
 		DD9E2352091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = boinc;
@@ -5245,6 +5246,7 @@
 		};
 		DD9E235A091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = ../lib;
 				LIBRARY_SEARCH_PATHS = ../lib;
@@ -5254,6 +5256,7 @@
 		};
 		DD9E235E091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = SetVersion;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
@@ -5262,6 +5265,7 @@
 		};
 		DD9E2362091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -5299,6 +5303,7 @@
 		};
 		DD9E2366091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
 					../../curl/include,
@@ -5344,6 +5349,7 @@
 		};
 		DD9E2372091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = "PostInstall-Info.plist";
 				OTHER_CFLAGS = (
@@ -5366,8 +5372,8 @@
 		};
 		DD9E2376091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				INFOPLIST_FILE = "BoincCmd-Info.plist";
 				OTHER_LDFLAGS = "-lboinc";
@@ -5378,6 +5384,7 @@
 		};
 		DD9E237E091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -5398,9 +5405,10 @@
 		};
 		DD9E2382091CBDAE0048316E /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
@@ -5414,7 +5422,6 @@
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
 				HEADER_SEARCH_PATHS = "../lib/**";
 				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CFLAGS = (
 					"-D_THREAD_SAFE",
 					"-D_DEBUG",
@@ -5422,7 +5429,6 @@
 					"-include",
 					../clientgui/mac/config.h,
 				);
-				PREBINDING = NO;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
@@ -5438,6 +5444,7 @@
 		};
 		DDB873FD0C850BC800E0DE1F /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = ../samples/jpeglib;
 				PRODUCT_NAME = boinc_graphics2;
@@ -5446,6 +5453,7 @@
 		};
 		DDB874010C850BC800E0DE1F /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = ../samples/jpeglib;
 				PRODUCT_NAME = boinc_graphics2;
@@ -5454,6 +5462,7 @@
 		};
 		DDD095420A3EDD4300C95BA4 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = ../lib/mac;
 				PRODUCT_NAME = switcher;
@@ -5462,6 +5471,7 @@
 		};
 		DDD095450A3EDD4300C95BA4 /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = ../lib/mac;
 				PRODUCT_NAME = switcher;
@@ -5470,6 +5480,7 @@
 		};
 		DDD336FB1062235D00867C7D /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = AddRemoveUser;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
@@ -5478,6 +5489,7 @@
 		};
 		DDD336FF1062235D00867C7D /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = AddRemoveUser;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-16";
@@ -5486,6 +5498,7 @@
 		};
 		DDEED39429ADFD7100DC3E5D /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -5497,6 +5510,7 @@
 		};
 		DDEED39529ADFD7100DC3E5D /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -5509,6 +5523,7 @@
 		};
 		DDF9EC04144EB14B005D6144 /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -5517,6 +5532,7 @@
 		};
 		DDF9EC05144EB14B005D6144 /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -5525,6 +5541,7 @@
 		};
 		DDFA60CE0CB337D40037B88C /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5544,6 +5561,7 @@
 		};
 		DDFA60D20CB337D40037B88C /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5563,6 +5581,7 @@
 		};
 		DDFF2ACF0A53D4AE002BC19D /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = setprojectgrp;
 			};
@@ -5570,6 +5589,7 @@
 		};
 		DDFF2AD20A53D4AE002BC19D /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA008903067DF5400C3B4FE /* BOINC.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = setprojectgrp;
 			};

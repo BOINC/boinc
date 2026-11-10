@@ -62,7 +62,7 @@ extern PROJECT_FILES project_files;
 extern key_t sema_key;
 extern int g_pid;
 extern SCHED_SHMEM* ssp;
-extern bool batch;
+extern bool stdin_reqs;
     // read sequences of requests from stdin (for testing)
 extern bool mark_jobs_done;
     // mark jobs as successfully done immediately after send

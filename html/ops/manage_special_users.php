@@ -23,7 +23,7 @@ db_init();
 
 admin_page_head('Manage user privileges');
 
-start_table("align=\"center\"");
+start_table('', 'align="center"');
 row1("Current special users", '9');
 
 echo "<tr><td>User</td>";
@@ -40,6 +40,7 @@ $result = _mysql_query(
 for ($i=1; $i<=_mysql_num_rows($result); $i++){
 	$foo = _mysql_fetch_object($result);
     echo "<form action=\"manage_special_users_action.php\" method=\"POST\">\n";
+    echo form_tokens();
     echo "<input type=\"hidden\" name=\"userid\" value=\"$foo->userid\"
         <tr><td>$foo->name ($foo->id)</td>
     ";
@@ -56,6 +57,7 @@ for ($i=1; $i<=_mysql_num_rows($result); $i++){
 }
 
 echo "<tr><form action=\"manage_special_users_action.php\" method=\"POST\">\n";
+    echo form_tokens();
 echo "<td>Add UserID:<input type=\"text\" name=\"userid\" size=\"6\"></td>";
 
 for ($j=0; $j<S_NFLAGS; $j++) {

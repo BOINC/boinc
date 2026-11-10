@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -26,19 +26,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CSimpleProjectCommandPopupButton, CTransparentButton)
 
-BEGIN_EVENT_TABLE(CSimpleProjectCommandPopupButton, CTransparentButton)
-    EVT_LEFT_DOWN(CSimpleProjectCommandPopupButton::OnProjectCommandsMouseDown)
-    EVT_MENU(ID_TASK_PROJECT_UPDATE, CSimpleProjectCommandPopupButton::OnProjectUpdate)
-    EVT_MENU(ID_TASK_PROJECT_SUSPEND, CSimpleProjectCommandPopupButton::OnProjectSuspendResume)
-    EVT_MENU(ID_TASK_PROJECT_NONEWWORK, CSimpleProjectCommandPopupButton::OnProjectNoNewWork)
-    EVT_MENU(ID_TASK_PROJECT_RESET, CSimpleProjectCommandPopupButton::OnResetProject)
-    EVT_MENU(ID_TASK_PROJECT_DETACH, CSimpleProjectCommandPopupButton::OnProjectDetach)
-    EVT_MENU(ID_TASK_PROJECT_SHOW_PROPERTIES, CSimpleProjectCommandPopupButton::OnProjectShowProperties)
-END_EVENT_TABLE()
-
-CSimpleProjectCommandPopupButton::CSimpleProjectCommandPopupButton() {
-}
-
 CSimpleProjectCommandPopupButton::CSimpleProjectCommandPopupButton(wxWindow* parent, wxWindowID id,
         const wxString& label, const wxPoint& pos, const wxSize& size,
         long style, const wxValidator& validator, const wxString& name) :
@@ -47,11 +34,15 @@ CSimpleProjectCommandPopupButton::CSimpleProjectCommandPopupButton(wxWindow* par
 
     m_ProjectCommandsPopUpMenu = new wxMenu();
     AddMenuItems();
-    Connect(
-        id,
-        wxEVT_BUTTON,
-        (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction) &CSimpleProjectCommandPopupButton::OnProjectCommandsKeyboardNav
-    );
+
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnProjectCommandsKeyboardNav(event); }, id);
+    Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent& event){ OnProjectCommandsMouseDown(event); });
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnProjectUpdate(event); }, ID_TASK_PROJECT_UPDATE);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnProjectSuspendResume(event); }, ID_TASK_PROJECT_SUSPEND);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnProjectNoNewWork(event); }, ID_TASK_PROJECT_NONEWWORK);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnResetProject(event); }, ID_TASK_PROJECT_RESET);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnProjectDetach(event); }, ID_TASK_PROJECT_DETACH);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnProjectShowProperties(event); }, ID_TASK_PROJECT_SHOW_PROPERTIES);
 }
 
 
@@ -307,12 +298,16 @@ PROJECT* CSimpleProjectCommandPopupButton::FindProjectIndexFromURL(char *project
 	int prjCount = pDoc->GetSimpleProjectCount();
 	for(int i = 0; i < prjCount; i++){
 		PROJECT* project = pDoc->project(i);
+        if(!project) {
+            *index = -1;
+            return nullptr;
+        }
 		if(!strcmp(project->master_url, project_url)){
 			*index = i;
 			return project;
 		}
 	}
     *index = -1;
-    return NULL;
+    return nullptr;
 }
 

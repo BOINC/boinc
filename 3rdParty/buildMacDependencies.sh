@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -28,6 +28,11 @@
 ## The 3rdParty/buildCache directory can be cached by CI systems for all subsequent builds
 
 ## This script should do what mac_build/setupForBOINC.sh does but install to 3rdParty/buildCache/mac
+##
+## CI builds require running the buildnlohmann-json-CI.sh script to populate the cache, but
+## local Mac builds don't need to run that script because they use the headers directly
+## from the buildnlohmann-json source tree. So this script runs buildnlohmann-json-CI.sh
+## but setupForBOINC.sh does not.
 
 ## Usage:
 ##     ./3rdParty/buildMacDependencies.sh [--clean] [--cache_dir PATH] [--debug]
@@ -111,13 +116,16 @@ download_and_build() {
     FLAGFILE="${PREFIX}/${DIRNAME}_done"
     doClean=""
     if [ -e "${FLAGFILE}" ]; then
-        lipo "${PREFIX}/lib/${PRODUCTNAME}" -verify_arch ${ARCHS}
-        if [ $? -eq 0 ]; then
-            echo "${DIRNAME} seems already to be present in ${PREFIX}"
-            return 0
-        else
-            # already built but not for correct architectures so force rebuild
-            doClean="-clean"
+        # skip binary check for header-only libraries (e.g. nlohmann-json) which don't have a PRODUCTNAME
+        if [ "x${PRODUCTNAME}" != "x" ]; then
+            lipo "${PREFIX}/lib/${PRODUCTNAME}" -verify_arch ${ARCHS}
+            if [ $? -eq 0 ]; then
+                echo "${DIRNAME} seems already to be present in ${PREFIX}"
+                return 0
+            else
+                # already built but not for correct architectures so force rebuild
+                doClean="-clean"
+            fi
         fi
     else
         # tell subsequent scripts to build everything from scratch
@@ -125,8 +133,11 @@ download_and_build() {
         # delete any FILEFLAGS for other versions of this library built previously
         BASENAME="${DIRNAME%-*}"
         rm -f "${PREFIX}/${BASENAME}"*
-        # delete any previous build of this library (may be redundant with -clean)
-        rm -f "${PREFIX}/lib/${PRODUCTNAME}"
+        # skip removal of binaries for header-only libraries (e.g. nlohmann-json) which don't have a PRODUCTNAME
+        if [ "x${PRODUCTNAME}" != "x" ]; then
+            # delete any previous build of this library (may be redundant with -clean)
+            rm -f "${PREFIX}/lib/${PRODUCTNAME}"
+        fi
     fi
     if [ ! -d ${DIRNAME} ]; then
         if [ ! -e ${FILENAME} ]; then
@@ -162,6 +173,8 @@ download_and_build "${wxWidgetsDirName}" "${wxWidgetsFileName}" "${wxWidgetsURL}
 download_and_build "${freetypeDirName}" "${freetypeFileName}" "${freetypeURL}" "${ROOTDIR}/mac_build/buildfreetype.sh" "libfreetype.a" "x86_64 arm64"
 download_and_build "${ftglDirName}" "${ftglFileName}" "${ftglURL}" "${ROOTDIR}/mac_build/buildFTGL.sh" "libftgl.a" "x86_64 arm64"
 download_and_build "${zipDirName}" "${zipFileName}" "${zipURL}" "${ROOTDIR}/mac_build/buildlibzip.sh" "libzip.a" "x86_64 arm64"
+# header only libraries, skip product name and archs
+download_and_build "${nlohmannJsonDirName}" "${nlohmannJsonFileName}" "${nlohmannJsonURL}" "${ROOTDIR}/mac_build/buildnlohmann-json-CI.sh" "" ""
 
 # change back to root directory
 cd ${ROOTDIR} || exit 1

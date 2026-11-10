@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,10 +17,6 @@
 
 #ifndef BOINC_BOINCCLIENTMANAGER_H
 #define BOINC_BOINCCLIENTMANAGER_H
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "BOINCClientManager.cpp"
-#endif
 
 class CBOINCClientManager : public wxObject {
 public:
@@ -54,7 +50,6 @@ protected:
 
 class ClientCrashDlg : public wxDialog {
     DECLARE_DYNAMIC_CLASS( ClientCrashDlg )
-    DECLARE_EVENT_TABLE()
 
 public:
     ClientCrashDlg(double timeDiff);

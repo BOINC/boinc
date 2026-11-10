@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,21 +18,14 @@
 #ifndef BOINC_VIEWRESOURCES_H
 #define BOINC_VIEWRESOURCES_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "ViewResources.cpp"
-#endif
-
-
 #include "BOINCBaseView.h"
 #include "common/wxPieCtrl.h"
-#include <wx/dynarray.h>
 
 WX_DECLARE_OBJARRAY(wxColour, wxArrayColour);
 
 class CViewResources : public CBOINCBaseView
 {
     DECLARE_DYNAMIC_CLASS( CViewResources )
-	DECLARE_EVENT_TABLE()
 
 public:
     CViewResources();
@@ -48,10 +41,11 @@ public:
 
 protected:
 
-	wxPieCtrl*				m_pieCtrlBOINC;
-	wxPieCtrl*				m_pieCtrlTotal;
+	wxPieCtrl*				m_pieCtrlBOINC = nullptr;
+	wxPieCtrl*				m_pieCtrlTotal = nullptr;
 
-	bool					m_BOINCwasEmpty;
+	bool					m_BOINCwasEmpty = false;
+    bool                    m_isDarkTheme = false;
 
     virtual void            UpdateSelection();
 

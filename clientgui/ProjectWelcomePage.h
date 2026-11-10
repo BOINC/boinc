@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,78 +19,40 @@
 #ifndef BOINC_PROJECTWELCOMEPAGE_H
 #define BOINC_PROJECTWELCOMEPAGE_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "ProjectWelcomePage.cpp"
-#endif
-
-/*!
- * CWelcomePage class declaration
- */
-
-class CProjectWelcomePage: public wxWizardPageEx
-{
-    DECLARE_DYNAMIC_CLASS( CProjectWelcomePage )
-    DECLARE_EVENT_TABLE()
+class CProjectWelcomePage: public CBOINCWizardPage {
+    DECLARE_DYNAMIC_CLASS(CProjectWelcomePage)
 
 public:
-    /// Constructors
-    CProjectWelcomePage( );
+    CProjectWelcomePage() = default;
+    CProjectWelcomePage(CWizardAttach* parent);
+    bool Create(CWizardAttach* parent);
 
-    CProjectWelcomePage( CBOINCBaseWizard* parent );
-
-    /// Creation
-    bool Create( CBOINCBaseWizard* parent );
-
-    /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CProjectWelcomePage event handler declarations
+    void OnPageChanged(wxWizardEvent& event);
+    void OnPageChanging(wxWizardEvent& event);
+    void OnCancel(wxWizardEvent& event);
 
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTWELCOMEPAGE
-    void OnPageChanged( wxWizardExEvent& event );
+    wxWizardPage* GetPrev() const;
+    wxWizardPage* GetNext() const;
 
-    /// wxEVT_WIZARD_CANCEL event handler for ID_PROJECTWELCOMEPAGE
-    void OnCancel( wxWizardExEvent& event );
+    void SetPrev(CBOINCWizardPage *prev);
 
-////@end CProjectWelcomePage event handler declarations
+    bool HasNextPage() const;
+    bool HasPrevPage() const;
 
-////@begin CProjectWelcomePage member function declarations
+private:
+    wxStaticText* title_ctrl = nullptr;
+    wxStaticText* intro_ctrl = nullptr;
+    wxStaticText* project_name1_ctrl = nullptr;
+    wxStaticText* project_name2_ctrl = nullptr;
+    wxStaticText* project_url1_ctrl = nullptr;
+    wxStaticText* project_url2_ctrl = nullptr;
 
-    /// Gets the previous page.
-    virtual wxWizardPageEx* GetPrev() const;
+    wxStaticText* continue_ctrl = nullptr;
 
-    /// Gets the next page.
-    virtual wxWizardPageEx* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-
-////@end CProjectWelcomePage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CProjectWelcomePage member variables
-    wxStaticText* title_ctrl;
-    wxStaticText* intro_ctrl;
-    wxStaticText* project_name1_ctrl;
-    wxStaticText* project_name2_ctrl;
-    wxStaticText* project_inst1_ctrl;
-    wxStaticText* project_inst2_ctrl;
-    wxStaticText* project_desc1_ctrl;
-    wxStaticText* project_desc2_ctrl;
-    wxStaticText* project_url1_ctrl;
-    wxStaticText* project_url2_ctrl;
-    wxStaticText* user_name1_ctrl;
-    wxStaticText* user_name2_ctrl;
-
-    wxStaticText* warning_ctrl;
-    wxStaticText* continue_ctrl;
-
-////@end CProjectWelcomePage member variables
+    CWizardAttach *m_pParent = nullptr;
+    CBOINCWizardPage *m_pPrev = nullptr;
 };
 
 #endif

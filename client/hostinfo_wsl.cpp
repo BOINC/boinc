@@ -18,6 +18,8 @@
 // enumerate the WSL distros on this host.
 // For each one, see if it contains Podman or Docker, and get the version
 
+#include <nlohmann/json.hpp>
+
 #include "boinc_win.h"
 #include "win_util.h"
 
@@ -30,6 +32,7 @@
 
 using std::vector;
 using std::string;
+using nlohmann::json;
 
 // timeout for commands run in WSL container
 // If something goes wrong we don't want client to hang
@@ -38,6 +41,8 @@ using std::string;
 
 static void get_docker_version(WSL_CMD&, WSL_DISTRO&);
 static void get_docker_compose_version(WSL_CMD&, WSL_DISTRO&);
+
+static int get_json_gpu(const nlohmann::json&, WSL_GPU&);
 
 // scan the registry to get the list of all WSL distros on this host.
 // See https://patrickwu.space/2020/07/19/wsl-related-registry/
@@ -127,6 +132,20 @@ int get_all_distros(WSL_DISTROS& distros) {
             if (!strcmp(wsl_guid, default_wsl_guid)) {
                 distro.is_default = true;
             }
+
+            // if BOINC distro, get its data dir so we can find disk usage
+            //
+            char path[256];
+            DWORD path_len = sizeof(path);
+            if (distro.distro_name == BOINC_WSL_DISTRO_NAME) {
+                ret = RegQueryValueEx(hSubKey, "BasePath", NULL, NULL,
+                    (LPBYTE)path, &path_len
+                );
+                if (ret == ERROR_SUCCESS) {
+                    distro.base_path = path;
+                }
+            }
+
             distros.distros.push_back(distro);
         }
         RegCloseKey(hSubKey);
@@ -196,21 +215,66 @@ static bool got_both(WSL_DISTRO &wd) {
 // Get list of WSL distros usable by BOINC
 // For each of them:
 //      try to find the OS name and version
-//      see if Docker and docker compose are present, get versions
+//      see if Docker/Podman and compose are present, get versions
 // Return nonzero on error
 //
-int get_wsl_information(WSL_DISTROS &distros) {
-    // Skip WSL detection when running as a service since HKEY_CURRENT_USER
-    // registry is not available in service mode
+int HOST_INFO::get_wsl_information() {
+    wsl_distros.distros.clear();
+    use_wslc = false;
+
+    // see if we have WSL 3+; if so we don't need to worry about distros
+    //
+    vector<string> out;
+
+    // the output of wsl.exe is wide chars - WTF??
+    //
+    int retval = run_command("wsl.exe --version", out, true);
+    if (retval) return -1;
+
+    // output is like:
+    // WSL version: 2.7.10.0
+    // Kernel version: 6.18.33.2-2
+    // WSLg version: 1.0.73.2
+    // MSRDC version: 1.2.6676
+    // Direct3D version: 1.611.1-81528511
+    // DXCore version: 10.0.26100.1-240331-1435.ge-release
+    // Windows version: 10.0.19045.6466
+    //
+    // but the text can be in other languages,
+    // so just look for ': ' in the first line
+
+    static const char *q = ": ";
+    for (string line: out) {
+        char buf[256];
+        safe_strcpy(buf, line.c_str());
+        char *p = strstr(buf, q);
+        if (p) {
+            p += strlen(q);
+            safe_strcpy(wsl_version, p);
+            strip_whitespace(wsl_version);
+            int maj = atoi(wsl_version);
+            if (maj > 2) {
+                use_wslc = true;
+            }
+            break;
+        }
+        break;
+    }
+    if (use_wslc) {
+        return 0;
+    }
+
+    // Skip distro detection when running as a service since HKEY_CURRENT_USER
+    // registry is not available in service mode,
+    // and we need it to enumerate distros
+    //
     if (gstate.executing_as_daemon) {
-        distros.distros.clear();
         msg_printf(0, MSG_INFO, "WSL detection skipped: running as service");
         return 0;
     }
 
     WSL_DISTROS all_distros;
-    distros.distros.clear();
-    int retval = get_all_distros(all_distros);
+    retval = get_all_distros(all_distros);
     if (retval) return retval;
     if (all_distros.distros.empty()) {
         return 0;
@@ -233,10 +297,10 @@ int get_wsl_information(WSL_DISTROS &distros) {
             continue;
         }
 
-        char os_name[256];
-        char os_version[256];
-        strcpy(os_name, "");
-        strcpy(os_version, "");
+        char distro_os_name[256];
+        char distro_os_version[256];
+        distro_os_name[0] = 0;
+        distro_os_version[0] = 0;
 
         // Try to get the name and version of the OS in the WSL distro.
         // There are several ways of doing this
@@ -247,11 +311,11 @@ int get_wsl_information(WSL_DISTROS &distros) {
             read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
             HOST_INFO::parse_linux_os_info(
                 reply, lsbrelease,
-                os_name, sizeof(os_name),
-                os_version, sizeof(os_version)
+                distro_os_name, sizeof(distro_os_name),
+                distro_os_version, sizeof(distro_os_version)
             );
             CloseHandle(rs.proc_handle);
-            update_os(wd, os_name, os_version);
+            update_os(wd, distro_os_name, distro_os_version);
         } else {
             // if failure, skip this distro, but try others;
             // might be a problem with this distro
@@ -266,11 +330,11 @@ int get_wsl_information(WSL_DISTROS &distros) {
                 read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
                 HOST_INFO::parse_linux_os_info(
                     reply, osrelease,
-                    os_name, sizeof(os_name),
-                    os_version, sizeof(os_version)
+                    distro_os_name, sizeof(distro_os_name),
+                    distro_os_version, sizeof(distro_os_version)
                 );
                 CloseHandle(rs.proc_handle);
-                update_os(wd, os_name, os_version);
+                update_os(wd, distro_os_name, distro_os_version);
             } else {
                 continue;
             }
@@ -284,18 +348,18 @@ int get_wsl_information(WSL_DISTROS &distros) {
                 read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
                 HOST_INFO::parse_linux_os_info(
                     reply, redhatrelease,
-                    os_name, sizeof(os_name),
-                    os_version, sizeof(os_version)
+                    distro_os_name, sizeof(distro_os_name),
+                    distro_os_version, sizeof(distro_os_version)
                 );
                 CloseHandle(rs.proc_handle);
-                update_os(wd, os_name, os_version);
+                update_os(wd, distro_os_name, distro_os_version);
             } else {
                 continue;
             }
         }
 
-        std::string os_name_str = "";
-        std::string os_version_str = "";
+        std::string distro_os_name_str = "";
+        std::string distro_os_version_str = "";
 
         // try running 'sysctl -a'
         //
@@ -304,11 +368,11 @@ int get_wsl_information(WSL_DISTROS &distros) {
             if (!rs.run_program_in_wsl(wd, command_sysctl)) {
                 read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
                 parse_sysctl_output(
-                    split(reply, '\n'),
-                    os_name_str, os_version_str
+                    split(reply, '\n', true),
+                    distro_os_name_str, distro_os_version_str
                 );
                 CloseHandle(rs.proc_handle);
-                update_os(wd, os_name_str.c_str(), os_version_str.c_str());
+                update_os(wd, distro_os_name_str.c_str(), distro_os_version_str.c_str());
             } else {
                 continue;
             }
@@ -319,10 +383,10 @@ int get_wsl_information(WSL_DISTROS &distros) {
         if (!got_both(wd)) {
             const std::string command_uname_s = "uname -s";
             if (!rs.run_program_in_wsl(wd, command_uname_s)) {
-                read_from_pipe(rs.out_read, rs.proc_handle, os_name_str, CMD_TIMEOUT);
-                strip_whitespace(os_name_str);
+                read_from_pipe(rs.out_read, rs.proc_handle, distro_os_name_str, CMD_TIMEOUT);
+                strip_whitespace(distro_os_name_str);
                 CloseHandle(rs.proc_handle);
-                update_os(wd, os_name_str.c_str(), "");
+                update_os(wd, distro_os_name_str.c_str(), "");
             } else {
                 continue;
             }
@@ -333,10 +397,10 @@ int get_wsl_information(WSL_DISTROS &distros) {
         if (!got_both(wd)) {
             const std::string command_uname_r = "uname -r";
             if (!rs.run_program_in_wsl(wd, command_uname_r)) {
-                read_from_pipe(rs.out_read, rs.proc_handle, os_version_str, CMD_TIMEOUT);
-                strip_whitespace(os_version_str);
+                read_from_pipe(rs.out_read, rs.proc_handle, distro_os_version_str, CMD_TIMEOUT);
+                strip_whitespace(distro_os_version_str);
                 CloseHandle(rs.proc_handle);
-                update_os(wd, "", os_version_str.c_str());
+                update_os(wd, "", distro_os_version_str.c_str());
             } else {
                 continue;
             }
@@ -361,7 +425,7 @@ int get_wsl_information(WSL_DISTROS &distros) {
             wd.libc_version = parse_ldd_libc(buf.c_str());
         }
 
-        // see if Docker is installed in the distro
+        // see if Podman/Docker is installed in the distro
         //
         get_docker_version(rs, wd);
         get_docker_compose_version(rs, wd);
@@ -389,7 +453,45 @@ int get_wsl_information(WSL_DISTROS &distros) {
             }
         }
 
-        distros.distros.push_back(wd);
+        // parse gpus.json if present.
+        //
+        while (1) {
+            if (rs.run_program_in_wsl(
+                wd, "cat /home/boinc/gpus.json; echo EOM")
+            ) {
+                break;
+            }
+            string buf;
+            read_from_pipe(rs.out_read, rs.proc_handle, buf, CMD_TIMEOUT, "EOM");
+            size_t x = buf.find("EOM");
+            if (x == string::npos) {
+                break;
+            }
+            buf.erase(x);
+            json d;
+            try {
+                d = json::parse(buf);
+            } catch (...) {
+                msg_printf(0, MSG_INFO,
+                    "Can't parse gpus.json in WSL distro %s", wd.distro_name.c_str()
+                );
+                break;
+            }
+
+            for (auto &el: d) {
+                WSL_GPU wg;
+                if (get_json_gpu(el, wg)) {
+                    msg_printf(0, MSG_INFO,
+                        "Can't parse GPU element in gpus.json"
+                    );
+                    continue;
+                }
+                wd.wsl_gpus.push_back(wg);
+            }
+            break;
+        }
+
+        wsl_distros.distros.push_back(wd);
     }
 
     return 0;
@@ -410,20 +512,21 @@ static bool get_docker_version_aux(
             ret = true;
             if (version.empty()) {
                 msg_printf(0, MSG_INFO,
-                    "Docker version parse failed: %s", reply.c_str()
+                    "%s version parse failed: %s",
+                    docker_type_str(type), reply.c_str()
                 );
             }
         } else {
-            msg_printf(0, MSG_INFO, "Docker detection in %s:",
-                wd.distro_name.c_str()
+            msg_printf(0, MSG_INFO, "%s detection in %s:",
+                docker_type_str(type), wd.distro_name.c_str()
             );
             msg_printf(0, MSG_INFO, "-   cmd: %s", cmd.c_str());
             msg_printf(0, MSG_INFO, "-   output: %s", reply.c_str());
         }
         CloseHandle(rs.proc_handle);
     } else {
-        msg_printf(0, MSG_INFO, "Docker detection in %s:",
-            wd.distro_name.c_str()
+        msg_printf(0, MSG_INFO, "%s detection in %s:",
+            docker_type_str(type), wd.distro_name.c_str()
         );
         msg_printf(0, MSG_INFO, "-   cmd failed: %s", cmd.c_str());
     }
@@ -459,4 +562,18 @@ static bool get_docker_compose_version_aux(
 static void get_docker_compose_version(WSL_CMD& rs, WSL_DISTRO &wd) {
     if (get_docker_compose_version_aux(rs, wd, PODMAN)) return;
     get_docker_compose_version_aux(rs, wd, DOCKER);
+}
+
+// populate the WSL_GPU with data from the JSON object
+//
+int get_json_gpu(const nlohmann::json& el, WSL_GPU& wg) {
+    try {
+        wg.name = el["name"].get<string>();
+        wg.has_cuda = el.value("has_cuda", false);
+        wg.has_opencl = el.value("has_opencl", false);
+    }
+    catch (...) {
+        return -1;
+    }
+    return 0;
 }

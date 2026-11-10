@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,10 +21,6 @@
 #ifndef BOINC_BOINCBASEFRAME_H
 #define BOINC_BOINCBASEFRAME_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "BOINCBaseFrame.cpp"
-#endif
-
 class CFrameEvent;
 class CFrameAlertEvent;
 class CBOINCDialUpManager;
@@ -40,7 +36,7 @@ class CBOINCBaseFrame : public wxFrame {
 
 public:
 
-    CBOINCBaseFrame();
+    CBOINCBaseFrame() = default;
     CBOINCBaseFrame(
         wxWindow *parent,
         const wxWindowID id,
@@ -112,27 +108,24 @@ public:
 
 protected:
 
-    CBOINCDialUpManager* m_pDialupManager;
+    CBOINCDialUpManager* m_pDialupManager = nullptr;
 
-    wxTimer*            m_pDocumentPollTimer;
-    wxTimer*            m_pAlertPollTimer;
-    wxTimer*            m_pPeriodicRPCTimer;
+    wxTimer*            m_pDocumentPollTimer = nullptr;
+    wxTimer*            m_pAlertPollTimer = nullptr;
+    wxTimer*            m_pPeriodicRPCTimer = nullptr;
 
-    int                 m_iReminderFrequency;
-    int                 m_iFrameRefreshRate;
+    int                 m_iReminderFrequency = 0;
+    int                 m_iFrameRefreshRate = 0;
 
     wxString            m_strNetworkDialupConnectionName;
 
     wxArrayString       m_aSelectedComputerMRU;
 
-    bool                m_bShowConnectionFailedAlert;
+    bool                m_bShowConnectionFailedAlert = false;
 
     virtual int         _GetCurrentViewPage();
 
     wxPoint             m_ptFramePos;
-
-
-    DECLARE_EVENT_TABLE()
 };
 
 
@@ -161,7 +154,7 @@ class CFrameAlertEvent : public wxEvent
 {
 public:
     CFrameAlertEvent(wxEventType evtType, CBOINCBaseFrame *frame, wxString title, wxString message, int style, bool notification_only, FrameAlertEventType alert_event_type)
-        : wxEvent(-1, evtType), m_title(title), m_message(message), m_style(style), m_notification_only(notification_only), m_alert_event_type(alert_event_type)
+        : wxEvent(-1, evtType), m_title(std::move(title)), m_message(std::move(message)), m_style(style), m_notification_only(notification_only), m_alert_event_type(alert_event_type)
         {
             SetEventObject(frame);
         }
@@ -194,22 +187,12 @@ public:
 };
 
 
-BEGIN_DECLARE_EVENT_TYPES()
-DECLARE_EVENT_TYPE( wxEVT_FRAME_ALERT, 10000 )
-DECLARE_EVENT_TYPE( wxEVT_FRAME_CONNECT, 10001 )
-DECLARE_EVENT_TYPE( wxEVT_FRAME_INITIALIZED, 10004 )
-DECLARE_EVENT_TYPE( wxEVT_FRAME_REFRESHVIEW, 10005 )
-DECLARE_EVENT_TYPE( wxEVT_FRAME_UPDATESTATUS, 10006 )
-DECLARE_EVENT_TYPE( wxEVT_FRAME_RELOADSKIN, 10007 )
-DECLARE_EVENT_TYPE( wxEVT_FRAME_NOTIFICATION, 10007 )
-END_DECLARE_EVENT_TYPES()
-
-#define EVT_FRAME_ALERT(fn)              DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_ALERT, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_FRAME_CONNECT(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_CONNECT, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_FRAME_INITIALIZED(fn)        DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_INITIALIZED, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_FRAME_REFRESH(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_REFRESHVIEW, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_FRAME_UPDATESTATUS(fn)       DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_UPDATESTATUS, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_FRAME_RELOADSKIN(fn)         DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_RELOADSKIN, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-#define EVT_FRAME_NOTIFICATION(fn)       DECLARE_EVENT_TABLE_ENTRY(wxEVT_FRAME_NOTIFICATION, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
+wxDECLARE_EVENT(wxEVT_FRAME_ALERT, CFrameAlertEvent);
+wxDECLARE_EVENT(wxEVT_FRAME_INITIALIZED, CFrameEvent);
+wxDECLARE_EVENT(wxEVT_FRAME_REFRESHVIEW, CFrameEvent);
+wxDECLARE_EVENT(wxEVT_FRAME_UPDATESTATUS, CFrameEvent);
+wxDECLARE_EVENT(wxEVT_FRAME_CONNECT, CFrameEvent);
+wxDECLARE_EVENT(wxEVT_FRAME_RELOADSKIN, CFrameEvent);
+wxDECLARE_EVENT(wxEVT_FRAME_NOTIFICATION, CFrameEvent);
 
 #endif

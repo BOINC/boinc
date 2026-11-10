@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,11 +18,6 @@
 #ifndef BOINC_BOINCBASEVIEW_H
 #define BOINC_BOINCBASEVIEW_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "BOINCBaseView.cpp"
-#endif
-
-
 #define DEFAULT_TASK_FLAGS             wxTAB_TRAVERSAL | wxFULL_REPAINT_ON_RESIZE
 #define DEFAULT_LIST_FLAGS             wxLC_REPORT | wxLC_VIRTUAL | wxLC_HRULES
 
@@ -36,11 +31,11 @@ class CTaskItem : wxObject {
 public:
 	CTaskItem();
 	CTaskItem( wxString strName, wxString strDescription, wxInt32 iEventID ) :
-		m_strName(strName), m_strDescription(strDescription), m_iEventID(iEventID),
+		m_strName(std::move(strName)), m_strDescription(std::move(strDescription)), m_iEventID(iEventID),
         m_pButton(NULL), m_strWebSiteLink(wxT("")) {};
 	CTaskItem( wxString strName, wxString strDescription, wxString strWebSiteLink, wxInt32 iEventID ) :
-		m_strName(strName), m_strDescription(strDescription), m_iEventID(iEventID),
-        m_pButton(NULL), m_strWebSiteLink(strWebSiteLink) {};
+		m_strName(std::move(strName)), m_strDescription(std::move(strDescription)), m_iEventID(iEventID),
+        m_pButton(NULL), m_strWebSiteLink(std::move(strWebSiteLink)) {};
     ~CTaskItem() {};
 
     wxString                m_strName;
@@ -57,7 +52,7 @@ class CTaskItemGroup : wxObject {
 public:
 	CTaskItemGroup();
 	CTaskItemGroup( wxString strName ) :
-            m_strName(strName), m_pStaticBox(NULL), m_pStaticBoxSizer(NULL) {
+            m_strName(std::move(strName)), m_pStaticBox(NULL), m_pStaticBoxSizer(NULL) {
             m_Tasks.clear();
         };
     ~CTaskItemGroup() {};
@@ -79,7 +74,7 @@ class CBOINCBaseView : public wxPanel {
 
 public:
 
-    CBOINCBaseView();
+    CBOINCBaseView() = default;
     CBOINCBaseView(
         wxNotebook* pNotebook
     );
@@ -135,14 +130,14 @@ public:
 
     std::vector<CTaskItemGroup*> m_TaskGroups;
 
-    int                     m_iSortColumnID;  // ColumnID of sort column
-    bool                    m_bReverseSort;
-    wxArrayString*          m_aStdColNameOrder;
+    int                     m_iSortColumnID = -1;  // ColumnID of sort column
+    bool                    m_bReverseSort = false;
+    wxArrayString*          m_aStdColNameOrder = nullptr;
     wxArrayInt              m_iStdColWidthOrder;
     wxArrayInt              m_iColumnIndexToColumnID;
     wxArrayInt              m_iColumnIDToColumnIndex;
-    int*                    m_iDefaultShownColumns;
-    int                     m_iNumDefaultShownColumns;
+    int*                    m_iDefaultShownColumns = nullptr;
+    int                     m_iNumDefaultShownColumns = 0;
 
 
 private:
@@ -197,23 +192,23 @@ protected:
     static  wxString        HtmlEntityEncode(wxString strRaw);
     static  wxString        HtmlEntityDecode(wxString strRaw);
 
-    bool                    m_bProcessingTaskRenderEvent;
-    bool                    m_bProcessingListRenderEvent;
+    bool                    m_bProcessingTaskRenderEvent = false;
+    bool                    m_bProcessingListRenderEvent = false;
 
-    bool                    m_bForceUpdateSelection;
-    bool                    m_bIgnoreUIEvents;
-    bool                    m_bNeedSort;
+    bool                    m_bForceUpdateSelection = false;
+    bool                    m_bIgnoreUIEvents = false;
+    bool                    m_bNeedSort = false;
 
-    int                     m_iPreviousSelectionCount;
-    long                    m_lPreviousFirstSelection;
-    int                     m_iProgressColumn;
+    int                     m_iPreviousSelectionCount = 0;
+    long                    m_lPreviousFirstSelection = 0;
+    int                     m_iProgressColumn = 0;
 
-    wxImageList *           m_SortArrows;
-    ListSortCompareFunc     m_funcSortCompare;
+    wxImageList *           m_SortArrows = nullptr;
+    ListSortCompareFunc     m_funcSortCompare = nullptr;
     wxArrayInt              m_iSortedIndexes;
 
-    CBOINCTaskCtrl*         m_pTaskPane;
-    CBOINCListCtrl*         m_pListPane;
+    CBOINCTaskCtrl*         m_pTaskPane = nullptr;
+    CBOINCListCtrl*         m_pListPane = nullptr;
 };
 
 #endif

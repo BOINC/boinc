@@ -54,13 +54,12 @@ class BoincDb {
     static function get_aux($dbnum) {
         $instance = new DbConn();
         self::$instance = null;
-        $config = get_config();
         if ($dbnum) {
             $r = $dbnum==1?'':strval($dbnum);
-            $host = parse_config($config, sprintf('<replica%s_db_host>', $r));
-            $name = parse_config($config, sprintf('<replica%s_db_name>', $r));
-            $user = parse_config($config, sprintf('<replica%s_db_user>', $r));
-            $passwd = parse_config($config, sprintf('<replica%s_db_passwd>', $r));
+            $host = project_config_val(sprintf('replica%s_db_host', $r));
+            $name = project_config_val(sprintf('replica%s_db_name', $r));
+            $user = project_config_val(sprintf('replica%s_db_user', $r));
+            $passwd = project_config_val(sprintf('replica%s_db_passwd', $r));
             if ($host && $name && $user && $passwd) {
                 $retval = $instance->init_conn($user, $passwd, $host, $name);
                 if ($retval) {
@@ -72,13 +71,13 @@ class BoincDb {
             }
             // if can't connect to replica, fall through and try DB 0
         }
-        $host = parse_config($config, '<db_host>');
+        $host = project_config_val('db_host');
         if (!$host) $host = 'localhost';
-        $user = parse_config($config, '<db_user>');
-        $name = parse_config($config, '<db_name>');
-        $passwd = parse_config($config, '<db_passwd>');
-        if (!$name || !$user || !$passwd) {
-            error_log("BoincDb::get_aux(): must specify DB name, user, passwd");
+        $user = project_config_val('db_user');
+        $name = project_config_val('db_name');
+        $passwd = project_config_val('db_passwd');
+        if (!$name || !$user) {
+            error_log("BoincDb::get_aux(): must specify DB name and user");
             return;
         }
         $retval = $instance->init_conn($user, $passwd, $host, $name);
@@ -126,6 +125,19 @@ class BoincDb {
         } else {
             error_page("Can't connect to database");
         }
+    }
+
+    // connect to DB from a CLI script, e.g. ops/db_update.php
+    //
+    static function get_cli() {
+        if (isset(self::$instance)) {
+            return self::$instance;
+        }
+        self::get_aux(0);
+        if (self::$instance) {
+            return self::$instance;
+        }
+        die("can't connect to DB");
     }
 
     static function close() {
@@ -486,6 +498,10 @@ class BoincAppVersion {
     function update($clause) {
         $db = BoincDb::get();
         return $db->update($this, 'app_version', $clause);
+    }
+    static function sum($field, $clause) {
+        $db = BoincDb::get();
+        return $db->sum('app_version', $field, $clause);
     }
 }
 

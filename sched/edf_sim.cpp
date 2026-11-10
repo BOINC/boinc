@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -107,9 +107,7 @@ void mark_edf_misses (int ncpus, vector<IP_RESULT>& ip_results){
 
     // simulate edf execution of all queued results
     //
-    for (unsigned int i=0; i<ip_results.size(); i++) {
-        IP_RESULT& r = ip_results[i];
-
+    for (IP_RESULT& r: ip_results) {
         // find the CPU that will be free first
         //
         double lowest_booked_time = booked_to[0];
@@ -150,14 +148,11 @@ void init_ip_results(
     int ncpus,
     vector<IP_RESULT>& ip_results
 ){
-    unsigned int i;
-
     log_msg(DETAIL,
         "[edf_detail] init_ip_results; work_buf_min %.2f ncpus %d:\n",
         work_buf_min/TIME_SCALE, ncpus
     );
-    for (i=0; i<ip_results.size(); i++) {
-        IP_RESULT& r = ip_results[i];
+    for (IP_RESULT& r: ip_results) {
         r.computation_deadline = r.report_deadline - work_buf_min;
         log_msg(DETAIL, "[edf_detail]     %s: deadline %.2f cpu %.2f\n",
             r.name, r.computation_deadline/TIME_SCALE, r.cpu_time_remaining/TIME_SCALE
@@ -248,9 +243,7 @@ bool check_candidate (
 
     // simulate execution of all queued results and test result
     //
-    for (unsigned int i=0; i<ip_results.size(); i++) {
-        IP_RESULT& r = ip_results[i];
-
+    for (const IP_RESULT& r: ip_results) {
         // find the CPU that will be free first
         //
         double lowest_booked_time = booked_to[0];

@@ -56,7 +56,7 @@ static std::vector<char *> envstrings;
 int setenv(const char *name, const char *value, int overwrite) {
     char *buf;
     int rv;
-    // Name can't contant an equal sign.
+    // Name can't contain an equal sign.
     if (strchr(name,'=')) {
         errno=EINVAL;
         return -1;
@@ -80,7 +80,13 @@ int setenv(const char *name, const char *value, int overwrite) {
             }
             if (i!=envstrings.end()) {
                 // we allocated this string.  Reallocate it.
+                char *b=buf;
                 buf=(char *)realloc(buf,strlen(name)+strlen(value)+2);
+                if (!buf) {
+                   free(b);
+                   errno=ENOMEM;
+                   return -1;
+                }
                 *i=buf;
             } else {
                 // someone else allocated the string.  Allocate new memory.

@@ -81,7 +81,7 @@ bool HOST_INFO::parse_linux_os_info(
     const char delim = '\n';
 
     return parse_linux_os_info(
-        split(line, delim), parser, os_name, os_name_size,
+        split(line, delim, true), parser, os_name, os_name_size,
         os_version, os_version_size
     );
 }

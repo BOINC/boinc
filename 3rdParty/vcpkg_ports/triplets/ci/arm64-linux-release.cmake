@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -19,6 +19,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/../../vcpkg_root_find.cmake)
 include(${VCPKG_ROOT}/triplets/community/arm64-linux-release.cmake)
 
 set(X_VCPKG_FORCE_VCPKG_X_LIBRARIES ON)
+set(X_VCPKG_FORCE_VCPKG_WAYLAND_LIBRARIES ON)
 
 if(PORT STREQUAL "dbus")
     if(NOT $ENV{TMPDIR} STREQUAL "")

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -124,7 +124,7 @@ bool wu_is_infeasible_custom(
     // Don't send if #procs is less than this.
     //
     if (!strcmp(app.name, "foobar") && bav.host_usage.proc_type == PROC_TYPE_NVIDIA_GPU) {
-        int n = g_request->coprocs.nvidia.prop.multiProcessorCount;
+        int n = g_request->coprocs.nvidia.cuda_prop.multiProcessorCount;
         if (n < wu.batch) {
            return true;
         }
@@ -416,13 +416,13 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
     double cpu_frac,    // fraction of FLOPS performed by CPU
     double flops_scale
 ) {
-    int cc = c.prop.major*100 + c.prop.minor;
+    int cc = c.cuda_prop.major*100 + c.cuda_prop.minor;
     if (min_cc && (cc < min_cc)) {
         if (config.debug_version_select) {
             log_messages.printf(MSG_NORMAL,
                 "[version] App requires compute capability > %d.%d (has %d.%d).\n",
                 min_cc/100,min_cc%100,
-                c.prop.major,c.prop.minor
+                c.cuda_prop.major,c.cuda_prop.minor
             );
         }
         return false;
@@ -433,7 +433,7 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
             log_messages.printf(MSG_NORMAL,
                 "[version] App requires compute capability <= %d.%d (has %d.%d).\n",
                 max_cc/100,max_cc%100,
-                c.prop.major,c.prop.minor
+                c.cuda_prop.major,c.cuda_prop.minor
             );
         }
         return false;
@@ -891,6 +891,11 @@ static inline bool app_plan_vbox(
         add_no_work_message("VirtualBox is not installed");
         return false;
     }
+    if (strstr(sreq.host.virtualbox_version, "unusable")) {
+        add_no_work_message("VirtualBox is not usable");
+        return false;
+    }
+
     int n, maj, min, rel;
     n = sscanf(sreq.host.virtualbox_version, "%d.%d.%d", &maj, &min, &rel);
     if ((n != 3) || (maj < 3) || (maj == 3 and min < 2)) {
@@ -1044,11 +1049,8 @@ bool app_plan(
 }
 
 void handle_file_xfer_results() {
-    for (unsigned int i=0; i<g_request->file_xfer_results.size(); i++) {
-        RESULT& r = g_request->file_xfer_results[i];
-        log_messages.printf(MSG_NORMAL,
-            "completed file xfer %s\n", r.name
-        );
+    for (const RESULT& r: g_request->file_xfer_results) {
+        log_messages.printf(MSG_NORMAL, "completed file xfer %s\n", r.name);
         g_reply->result_acks.push_back(string(r.name));
     }
 }

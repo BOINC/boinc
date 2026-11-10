@@ -52,7 +52,6 @@ const char file_osrelease[] = "/etc/os-release";
 const char file_redhatrelease[] = "/etc/redhat-release";
 
 extern const char* docker_cli_prog(DOCKER_TYPE type);
-extern const char* docker_type_str(DOCKER_TYPE type);
 
 // if you add fields, update clear_host_info()
 
@@ -86,7 +85,22 @@ public:
     char os_version[256];
 
 #ifdef _WIN32
-    // on Windows, Docker info is per WSL_DISTRO, not global
+    int get_os_information();
+        // get os_name and os_version
+    int major_version;
+        // Windows version, e.g. 10
+    int build_number;
+        // Windows build #
+
+    char wsl_version[256];
+    // for WSL version 2 and earlier,
+    // we need a WSL distro in which Podman or Docker is installed;
+    // Docker info is per WSL_DISTRO, not global
+    //
+    // for WSL version > 2, we don't use distros;
+    // we use WSL's build-in container system, wslc.exe
+    //
+    bool use_wslc;
     WSL_DISTROS wsl_distros;
 #else
     char docker_version[256]; // null if not present
@@ -126,7 +140,8 @@ public:
 
     bool host_is_running_on_batteries();
     long user_idle_time(bool check_all_logins);
-        // seconds since last user interaction
+        // seconds since last user interaction,
+        // or a large number (USER_IDLE_TIME_INF) if we have no info
     int get_host_info(bool init);
     int get_cpu_info();
     int get_cpu_count();
@@ -173,6 +188,7 @@ public:
     );
 #ifdef _WIN32
     void win_get_processor_info();
+    int get_wsl_information();
 #endif
 };
 
@@ -185,7 +201,6 @@ extern BOOL get_OSVERSIONINFO(OSVERSIONINFOEX& osvi);
 #endif
 
 #ifdef _WIN32
-extern int get_wsl_information(WSL_DISTROS &distros);
 extern int get_processor_group(HANDLE);
 #endif
 
@@ -219,5 +234,21 @@ extern NXEventHandle gEventHandle;
 // is the filesystem remote? (Linux only)
 //
 extern int is_filesystem_remote(const char* path, bool&);
+
+// user-visible name
+//
+inline const char* docker_type_str(DOCKER_TYPE t) {
+    switch (t) {
+    case DOCKER:
+        return "Docker";
+    case PODMAN:
+        return "Podman";
+    case WSLC:
+        return "WSL containers";
+    case NONE:
+        break;
+    }
+    return "Unknown";
+}
 
 #endif

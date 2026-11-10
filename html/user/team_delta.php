@@ -31,19 +31,22 @@ function show_delta($delta) {
     $user = BoincUser::lookup_id($delta->userid);
     $when = time_str($delta->timestamp);
     $what = $delta->joining?"joined":"quit";
+    $user_id = $user ? $user->id : $delta->userid;
+    $user_name = $user ? $user->name : "(deleted user)";
     if ($xml) {
         echo "    <action>
-        <id>$user->id</id>
-        <name>$user->name</name>
+        <id>$user_id</id>
+        <name>$user_name</name>
         <action>$what</action>
         <total_credit>$delta->total_credit</total_credit>
         <when>$when</when>
     </action>
 ";
     } else {
+        $user_display = $user ? user_links($user, BADGE_HEIGHT_MEDIUM) : $user_name;
         echo "<tr>
            <td>$when</td>
-           <td>",user_links($user, BADGE_HEIGHT_MEDIUM)," (ID $user->id)</td>
+           <td>$user_display (ID $user_id)</td>
            <td>$what</td>
            <td>$delta->total_credit</td>
            </tr>

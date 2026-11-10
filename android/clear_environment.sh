@@ -7,7 +7,7 @@ cache_dir="3rdParty/buildCache/android"
 # Script to clear environment BOINC for Android
 
 if [ ! -d android ]] ; then
-    echo You run this script from diffrent folder: $PWD
+    echo You run this script from different folder: $PWD
     echo Please run it from boinc
     echo Type: \'android/clear_environment.sh\'
     exit 1

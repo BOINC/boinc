@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -37,25 +37,25 @@
 ## build settings (except in the checkDpendentVesions.sh script.)
 ##
 
-opensslDirName="openssl-3.0.0"
+opensslDirName="openssl-4.0.2"
 opensslBaseName="openssl"
-opensslFileName="openssl-3.0.0.tar.gz"
-opensslURL="https://www.openssl.org/source/openssl-3.0.0.tar.gz"
+opensslFileName="openssl-4.0.2.tar.gz"
+opensslURL="https://www.openssl.org/source/openssl-4.0.2.tar.gz"
 
-caresDirName="c-ares-1.28.1"
+caresDirName="c-ares-1.34.8"
 caresBaseName="c-ares"
-caresFileName="c-ares-1.28.1.tar.gz"
-caresURL="https://github.com/c-ares/c-ares/releases/download/cares-1_28_1/c-ares-1.28.1.tar.gz"
+caresFileName="c-ares-1.34.8.tar.gz"
+caresURL="https://github.com/c-ares/c-ares/releases/download/v1.34.8/c-ares-1.34.8.tar.gz"
 
-curlDirName="curl-8.16.0"
+curlDirName="curl-8.21.0"
 curlBaseName="curl"
-curlFileName="curl-8.16.0.tar.gz"
-curlURL="https://curl.se/download/curl-8.16.0.tar.gz"
+curlFileName="curl-8.21.0.tar.gz"
+curlURL="https://curl.se/download/curl-8.21.0.tar.gz"
 
-wxWidgetsDirName="wxWidgets-3.3.1"
+wxWidgetsDirName="wxWidgets-3.3.3"
 wxWidgetsBaseName="wxWidgets"
-wxWidgetsFileName="wxWidgets-3.3.1.tar.bz2"
-wxWidgetsURL="https://github.com/wxWidgets/wxWidgets/releases/download/v3.3.1/wxWidgets-3.3.1.tar.bz2"
+wxWidgetsFileName="wxWidgets-3.3.3.tar.bz2"
+wxWidgetsURL="https://github.com/wxWidgets/wxWidgets/releases/download/v3.3.3/wxWidgets-3.3.3.tar.bz2"
 
 freetypeDirName="freetype-2.11.0"
 freetypeBaseName="freetype"
@@ -72,9 +72,14 @@ zipBaseName="libzip"
 zipFileName="libzip-1.11.4.tar.gz"
 zipURL="https://libzip.org/download/libzip-1.11.4.tar.gz"
 
-# The baseNames and dirNames arrays are used by the checkDpendentVesions.sh script
-baseNames=(${opensslBaseName} ${caresBaseName} ${curlBaseName} ${wxWidgetsBaseName} ${freetypeBaseName} ${ftglBaseName} ${zipBaseName})
+nlohmannJsonDirName="json"
+nlohmannJsonBaseName="nlohmann-json"
+nlohmannJsonFileName="json.tar.xz"
+nlohmannJsonURL="https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz"
 
-dirNames=(${opensslDirName} ${caresDirName} ${curlDirName} ${wxWidgetsDirName} ${freetypeDirName} ${ftglDirName} ${zipDirName})
+# The baseNames and dirNames arrays are used by the checkDpendentVesions.sh script
+baseNames=(${opensslBaseName} ${caresBaseName} ${curlBaseName} ${wxWidgetsBaseName} ${freetypeBaseName} ${ftglBaseName} ${zipBaseName} ${nlohmannJsonBaseName})
+
+dirNames=(${opensslDirName} ${caresDirName} ${curlDirName} ${wxWidgetsDirName} ${freetypeDirName} ${ftglDirName} ${zipDirName} ${nlohmannJsonDirName})
 
 return 0

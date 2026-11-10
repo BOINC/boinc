@@ -272,7 +272,7 @@ function handle_create_action() {
 
     $get_estimate = get_str('get_estimate', true);
     if ($get_estimate) {
-        $req = form_to_request($project, $auth);
+        $req = form_to_request();
         list($e, $errmsg) = boinc_estimate_batch($req);
         if ($errmsg) error_page(htmlentities($errmsg));
         page_head("Batch estimate");
@@ -280,7 +280,7 @@ function handle_create_action() {
         echo "<p><a href=submit_example.php>Return to job control page</a>\n";
         page_tail();
     } else {
-        $req = form_to_request($project, $auth);
+        $req = form_to_request();
         list($id, $errmsg) = boinc_submit_batch($req);
         if ($errmsg) error_page(htmlentities($errmsg));
         page_head("Batch submitted");

@@ -1,8 +1,8 @@
 #!/bin/zsh
 
 # This file is part of BOINC.
-# http://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# https://boinc.berkeley.edu
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -41,7 +41,8 @@
 # Updated 9/10/16 for c-ares 1.11.0, curl 7.50.2, openssl 1.1.0
 # Updated 6/25/23 to download inflate libraries if needed
 # Updated 9/25/25 for libzip-1.11.4
-#
+## Updated 10/11/26 for nlohmann-json 3.12.0
+
 # Download these seven packages and place them in a common parent directory
 # with the BOINC source tree.
 #
@@ -77,7 +78,7 @@ SCRIPT_DIR=`pwd`
 source "${SCRIPT_DIR}/dependencyNames.sh"
 
 # Dowload and expand libraries if needed
-for rootName in "openssl" "cares" "curl" "wxWidgets" "freetype" "ftgl" "zip"
+for rootName in "openssl" "cares" "curl" "wxWidgets" "freetype" "ftgl" "zip" "nlohmannJson"
 do
     dirVar="${rootName}DirName"
     fileVar="${rootName}FileName"

@@ -70,7 +70,7 @@ void WSL_DISTRO::write_xml(MIOFILE& f) {
     }
     if (!libc_version.empty()) {
         f.printf(
-            "           <libc_version>%s</libc_version>\n",
+            "            <libc_version>%s</libc_version>\n",
             libc_version.c_str()
         );
     }
@@ -89,6 +89,9 @@ void WSL_DISTRO::write_xml(MIOFILE& f) {
             docker_compose_version.c_str(),
             docker_compose_type
         );
+    }
+    for (WSL_GPU &wg: wsl_gpus) {
+        wg.write_xml(f);
     }
     f.printf(
         "        </distro>\n"
@@ -119,6 +122,12 @@ int WSL_DISTRO::parse(XML_PARSER& xp) {
         if (xp.parse_int("docker_compose_type", i)) {
             docker_compose_type = (DOCKER_TYPE) i;
             continue;
+        }
+        if (xp.match_tag("wsl_gpu")) {
+            WSL_GPU wg;
+            if (wg.parse(xp) == 0) {
+                wsl_gpus.push_back(wg);
+            }
         }
     }
     return ERR_XML_PARSE;
@@ -183,8 +192,6 @@ WSL_DISTRO* WSL_DISTROS::find_match(
     return NULL;
 }
 
-#ifndef _USING_FCGI_
-
 // find a WSL distro that has Docker or Podman,
 // using the BOINC distro if present.
 //
@@ -192,16 +199,14 @@ WSL_DISTRO* WSL_DISTROS::find_docker() {
     // look for the BOINC distro first
     //
     for (WSL_DISTRO &wd: distros) {
-        if (wd.distro_name != BOINC_WSL_DISTRO_NAME) continue;
-        if (wd.docker_version.empty()) {
-            fprintf(stderr, "%s is missing Podman\n", BOINC_WSL_DISTRO_NAME);
-        } else {
+        if (wd.distro_name == BOINC_WSL_DISTRO_NAME) {
             return &wd;
         }
     }
-    // if not found, use any old distro
+    // if not found, use any distro that has Podman or Docker
     //
     for (WSL_DISTRO &wd: distros) {
+        if (wd.disallowed) continue;
         if (!wd.docker_version.empty()) {
             return &wd;
         }
@@ -218,4 +223,35 @@ int WSL_DISTROS::boinc_distro_version() {
     return 0;
 }
 
-#endif  // _USING_FCGI_
+void WSL_GPU::write_xml(MIOFILE& f) {
+    char buf[256];
+    xml_escape(name.c_str(), buf, sizeof(buf));
+    f.printf(
+"            <wsl_gpu>\n"
+"                <name>%s</name>\n",
+        buf
+    );
+    if (has_cuda) {
+        f.printf("                <has_cuda/>\n");
+    }
+    if (has_opencl) {
+        f.printf("                <has_opencl/>\n");
+    }
+    f.printf(
+"            </wsl_gpu>\n"
+    );
+}
+
+int WSL_GPU::parse(XML_PARSER &xp) {
+    clear();
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/wsl_gpu")) {
+            if (name.empty()) return -1;
+            break;
+        }
+        if (xp.parse_string("name", name)) continue;
+        if (xp.parse_bool("has_cuda", has_cuda)) continue;
+        if (xp.parse_bool("has_opencl", has_opencl)) continue;
+    }
+    return 0;
+}

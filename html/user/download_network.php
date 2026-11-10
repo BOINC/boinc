@@ -39,7 +39,8 @@ If this is not enough you should contact the author.").
     </ul>
 ";
 
-$httpFile = unserialize(get_cached_data(3600));
+$cached = get_cached_data(3600);
+$httpFile = $cached ? unserialize($cached) : false;
 if (!$httpFile) {
     $httpFile = @file_get_contents("https://boinc.berkeley.edu/addons.php?strip_header=true");
     if ($httpFile) {

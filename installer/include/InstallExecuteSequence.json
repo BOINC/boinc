@@ -29,6 +29,11 @@
             "Sequence": 6605
         },
         {
+            "Action": "CACheckWSLSupport",
+            "Condition": "REMOVE <> \"ALL\"",
+            "Sequence": 990
+        },
+        {
             "Action": "CACreateBOINCAccounts",
             "Condition": "REMOVE <> \"ALL\" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
             "Sequence": 1546
@@ -57,16 +62,6 @@
             "Action": "CADeleteBOINCGroups",
             "Condition": "REMOVE = \"ALL\" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1",
             "Sequence": 1561
-        },
-        {
-            "Action": "CAGetAdministratorsGroupName",
-            "Condition": "REMOVE <> \"ALL\"",
-            "Sequence": 1537
-        },
-        {
-            "Action": "CAGetUsersGroupName",
-            "Condition": "REMOVE <> \"ALL\"",
-            "Sequence": 1543
         },
         {
             "Action": "CAGrantBOINCAdminsRights",

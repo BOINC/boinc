@@ -2,8 +2,8 @@
 
 <?php
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -126,11 +126,15 @@ ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 ini_set('memory_limit', '4G');
 
+$cli_only = true;
+
 require_once("../inc/db.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/forum.inc");
 require_once("../inc/user_util.inc");
-db_init();
+require_once("../inc/util_ops.inc");
+
+BoincDb::get_cli();
 
 $min_days = 0;
 $max_days = 0;
@@ -138,10 +142,10 @@ $test = false;
 
 // delete a spammer account, and everything associated with it
 //
-function do_delete_user($user) {
+function do_delete_user($user, $reason) {
     global $test;
     $age = (time() - $user->create_time) / 86400;
-    echo "deleting user\n";
+    echo "deleting user: $reason\n";
     echo "   ID: $user->id\n";
     echo "   email: $user->email_addr\n";
     echo "   name: $user->name\n";
@@ -166,7 +170,7 @@ function delete_list($fname) {
         if (!is_numeric($s)) die("bad ID $s\n");
         $user = BoincUser::lookup_id((int)$s);
         if ($user) {
-            do_delete_user($user);
+            do_delete_user($user, 'list');
         } else {
             echo "no user ID $s\n";
         }
@@ -216,7 +220,7 @@ function delete_forums() {
         // posts with at least 2 URLs
         $n = BoincPost::count("user=$user->id and (content like '%http%http%')");
         if (!$n) continue;
-        do_delete_user($user);
+        do_delete_user($user, 'forums');
         $count++;
     }
     echo "delete_forums(): deleted $count users\n";
@@ -246,7 +250,7 @@ function delete_profiles() {
             $m = BoincPost::count("user=$p->userid");
             if ($m) continue;
 
-            do_delete_user($user);
+            do_delete_user($user, 'profiles');
             if ($test) {
                 echo "\n$p->userid\n$p->response1\n$p->response2\n";
             }
@@ -267,7 +271,7 @@ function delete_profiles_strict() {
         }
         $n = BoincPost::count("user=$p->userid");
         if ($n) continue;
-        do_delete_user($user);
+        do_delete_user($user, 'profiles_strict');
         if ($test) {
             echo "\n$p->userid\n$p->response1\n$p->response2\n";
         }
@@ -276,7 +280,7 @@ function delete_profiles_strict() {
 
 function delete_users($no_hosts, $no_posts, $no_teams, $have_url) {
     global $test, $min_days, $max_days;
-    $db = BoincDb::get();
+    $db = BoincDb::get_cli();
     $query = "select a.* from user a ";
     if ($no_hosts) {
         $query .= " left join host c on c.userid=a.id ";
@@ -316,7 +320,7 @@ function delete_users($no_hosts, $no_posts, $no_teams, $have_url) {
         if ($have_url) {
             if (!strlen($user->url)) continue;
         }
-        do_delete_user($user);
+        do_delete_user($user, 'users');
         $n++;
     }
     echo "deleted $n users\n";
@@ -330,7 +334,7 @@ function delete_banished() {
         if (!$user) continue;
         if ($user->create_time > time() - $min_days*86400) continue;
         if ($user->create_time < time() - $max_days*86400) continue;
-        do_delete_user($user);
+        do_delete_user($user, 'banished');
     }
 }
 
@@ -419,7 +423,7 @@ function delete_team($team, $users) {
         $team->delete();
         echo "deleted team ID $team->id name $team->name\n";
         foreach ($users as $user) {
-            do_delete_user($user);
+            do_delete_user($user, 'team');
         }
     }
 }
@@ -428,7 +432,7 @@ function delete_user_id($id) {
     $user = BoincUser::lookup_id($id);
     if ($user) {
         echo "deleting user $id\n";
-        do_delete_user($user);
+        do_delete_user($user, 'id');
     } else {
         echo "no such user\n";
     }
@@ -439,7 +443,7 @@ function delete_user_id_range($id1, $id2) {
         $user = BoincUser::lookup_id($i);
         if ($user) {
             echo "deleting user $i\n";
-            do_delete_user($user);
+            do_delete_user($user, 'id range');
         }
     }
 }

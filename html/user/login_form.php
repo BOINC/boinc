@@ -34,7 +34,7 @@ if ($user) {
     page_head(tra("Already logged in"));
     row2(tra("You are logged in as %1.", $user->name),
         sprintf(' <a href="logout.php?%s">%s</a>',
-            url_tokens($user->authenticator),
+            url_tokens(),
             tra("Log out")
         )
     );
@@ -54,9 +54,8 @@ echo '
 
 login_form($next_url);
 
-$config = get_config();
-if (!parse_bool($config, "disable_account_creation")
-    && !parse_bool($config, "no_web_account_creation")
+if (!project_config_bool("disable_account_creation")
+    && !project_config_bool("no_web_account_creation")
 ) {
     show_button(
         "create_account_form.php?next_url=$next_url",

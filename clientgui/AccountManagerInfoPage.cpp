@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,104 +15,53 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 //
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "AccountManagerInfoPage.h"
-#endif
 
 #include "stdwx.h"
 #include "diagnostics.h"
-#include "util.h"
-#include "mfile.h"
-#include "miofile.h"
-#include "parse.h"
-#include "str_util.h"
-#include "error_numbers.h"
-#include "wizardex.h"
-#include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "ValidateURL.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
+#include "CompletionErrorPage.h"
+#include "AccountManagerPropertiesPage.h"
 #include "AccountManagerInfoPage.h"
 
-/*!
- * CAcctMgrListItem type definition
- */
-IMPLEMENT_DYNAMIC_CLASS( CAcctMgrListItem, wxObject )
+IMPLEMENT_DYNAMIC_CLASS(CAcctMgrListItem, wxObject)
 
+IMPLEMENT_DYNAMIC_CLASS(CAccountManagerInfoPage, CBOINCWizardPage)
 
-/*!
- * CAccountManagerInfoPage type definition
- */
-
-IMPLEMENT_DYNAMIC_CLASS( CAccountManagerInfoPage, wxWizardPageEx )
-
-/*!
- * CAccountManagerInfoPage event table definition
- */
-
-BEGIN_EVENT_TABLE( CAccountManagerInfoPage, wxWizardPageEx )
-
-////@begin CAccountManagerInfoPage event table entries
-    EVT_WIZARDEX_PAGE_CHANGED( -1, CAccountManagerInfoPage::OnPageChanged )
-    EVT_WIZARDEX_PAGE_CHANGING( -1, CAccountManagerInfoPage::OnPageChanging )
-    EVT_LISTBOX( ID_PROJECTS, CAccountManagerInfoPage::OnProjectSelected )
-	EVT_BUTTON( ID_PROJECTWEBPAGECTRL, CAccountManagerInfoPage::OnProjectItemDisplay )
-    EVT_TEXT( ID_PROJECTURLCTRL, CAccountManagerInfoPage::OnURLChanged )
-    EVT_WIZARDEX_CANCEL( -1, CAccountManagerInfoPage::OnCancel )
-////@end CAccountManagerInfoPage event table entries
-
-END_EVENT_TABLE()
-
-
-/*!
- * CAccountManagerInfoPage constructors
- */
-
-CAccountManagerInfoPage::CAccountManagerInfoPage( )
-{
+CAccountManagerInfoPage::CAccountManagerInfoPage(CWizardAttach* parent) {
+    Create(parent);
 }
 
-CAccountManagerInfoPage::CAccountManagerInfoPage( CBOINCBaseWizard* parent )
-{
-    Create( parent );
-}
-
-
-/*!
- * CAccountManagerInfoPage creator
- */
-
-bool CAccountManagerInfoPage::Create( CBOINCBaseWizard* parent )
-{
-////@begin CAccountManagerInfoPage member initialisation
-    m_pTitleStaticCtrl = NULL;
-    m_pDescriptionStaticCtrl = NULL;
-    m_pProjectListCtrl = NULL;
-    m_pProjectUrlStaticCtrl = NULL;
-    m_pProjectUrlCtrl = NULL;
-////@end CAccountManagerInfoPage member initialisation
+bool CAccountManagerInfoPage::Create(CWizardAttach* parent) {
+    m_pParent = parent;
+    m_pPrev = nullptr;
+    m_pTitleStaticCtrl = nullptr;
+    m_pDescriptionStaticCtrl = nullptr;
+    m_pProjectListCtrl = nullptr;
+    m_pProjectUrlStaticCtrl = nullptr;
+    m_pProjectUrlCtrl = nullptr;
     m_bAccountManagerListPopulated = false;
 
-////@begin CAccountManagerInfoPage creation
-    wxWizardPageEx::Create( parent, ID_ACCOUNTMANAGERINFOPAGE );
+    wxWizardPage::Create(parent);
 
     CreateControls();
     GetSizer()->Fit(this);
-////@end CAccountManagerInfoPage creation
-    return TRUE;
+
+    Bind(wxEVT_WIZARD_PAGE_CHANGED, [this](wxWizardEvent& event){ OnPageChanged(event); });
+    Bind(wxEVT_WIZARD_PAGE_CHANGING, [this](wxWizardEvent& event){ OnPageChanging(event); });
+    Bind(wxEVT_WIZARD_CANCEL, [this](wxWizardEvent& event){ OnCancel(event); });
+    Bind(wxEVT_LISTBOX, [this](wxCommandEvent& event){ OnProjectSelected(event); }, ID_PROJECTS);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnProjectItemDisplay(event); }, ID_PROJECTWEBPAGECTRL);
+    Bind(wxEVT_TEXT, [this](wxCommandEvent& event){ OnURLChanged(event); }, ID_PROJECTURLCTRL);
+
+    return true;
 }
 
-
-/*!
- * Control creation for CAccountManagerInfoPage
- */
-
-void CAccountManagerInfoPage::CreateControls()
-{
-////@begin CAccountManagerInfoPage content construction
+void CAccountManagerInfoPage::CreateControls() {
 #ifdef __WXMAC__
     const int listboxWidth = 225;
     const int descriptionWidth = 350;
@@ -178,77 +127,34 @@ void CAccountManagerInfoPage::CreateControls()
     m_pProjectUrlCtrl = new wxTextCtrl;
     m_pProjectUrlCtrl->Create( itemWizardPage23, ID_PROJECTURLCTRL, wxEmptyString, wxDefaultPosition, wxSize(200, -1), 0 );
     itemFlexGridSizer14->Add(m_pProjectUrlCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
-
-    ////@end CAccountManagerInfoPage content construction
 }
 
-
-/*!
- * Gets the previous page.
- */
-
-wxWizardPageEx* CAccountManagerInfoPage::GetPrev() const
-{
-    return PAGE_TRANSITION_BACK;
+wxWizardPage* CAccountManagerInfoPage::GetPrev() const {
+    return m_pPrev;
 }
 
-
-/*!
- * Gets the next page.
- */
-
-wxWizardPageEx* CAccountManagerInfoPage::GetNext() const
-{
-    if (CHECK_CLOSINGINPROGRESS()) {
+wxWizardPage* CAccountManagerInfoPage::GetNext() const {
+    if (m_pParent->IsCancelInProgress()) {
         // Cancel Event Detected
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
+        return m_pParent->GetCompletionErrorPage();
     } else {
-        return PAGE_TRANSITION_NEXT(ID_ACCOUNTMANAGERPROPERTIESPAGE);
+        return m_pParent->GetAccountManagerPropertiesPage();
     }
 }
 
-
-/*!
- * Should we show tooltips?
- */
-
-bool CAccountManagerInfoPage::ShowToolTips()
-{
-    return TRUE;
+void CAccountManagerInfoPage::SetPrev(CBOINCWizardPage *prev) {
+    m_pPrev = prev;
 }
 
-
-/*!
- * Get bitmap resources
- */
-
-wxBitmap CAccountManagerInfoPage::GetBitmapResource( const wxString& WXUNUSED(name) )
-{
-    // Bitmap retrieval
-////@begin CAccountManagerInfoPage bitmap retrieval
-    return wxNullBitmap;
-////@end CAccountManagerInfoPage bitmap retrieval
+bool CAccountManagerInfoPage::HasNextPage() const {
+    return true;
 }
 
-
-/*!
- * Get icon resources
- */
-
-wxIcon CAccountManagerInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
-{
-    // Icon retrieval
-////@begin CAccountManagerInfoPage icon retrieval
-    return wxNullIcon;
-////@end CAccountManagerInfoPage icon retrieval
+bool CAccountManagerInfoPage::HasPrevPage() const {
+    return m_pPrev != nullptr;
 }
 
-
-/*!
- * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTINFOPAGE
- */
-
-void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
+void CAccountManagerInfoPage::OnPageChanged(wxWizardEvent& event) {
     if (event.GetDirection() == false) return;
     wxLogTrace(wxT("Function Start/End"), wxT("CAccountManagerInfoPage::OnPageChanged - Function Begin"));
 
@@ -331,14 +237,14 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAccountManagerInfoPage::OnPageChanged - Function End"));
 }
 
-/*!
- * wxEVT_WIZARD_PAGE_CHANGING event handler for ID_PROJECTINFOPAGE
- */
-
-void CAccountManagerInfoPage::OnPageChanging( wxWizardExEvent& event ) {
+void CAccountManagerInfoPage::OnPageChanging(wxWizardEvent& event) {
     if (event.GetDirection() == false) return;
 
-    CWizardAttach* pWA = ((CWizardAttach*)GetParent());
+    CBOINCWizardPage *pageNext = dynamic_cast<CBOINCWizardPage*>(GetNext());
+    if (pageNext != nullptr) {
+        pageNext->SetPrev(const_cast<CAccountManagerInfoPage*>(this));
+    }
+
     wxString url = m_pProjectUrlCtrl->GetValue();
     wxString name = url;
     int sel = m_pProjectListCtrl->GetSelection();
@@ -350,15 +256,11 @@ void CAccountManagerInfoPage::OnPageChanging( wxWizardExEvent& event ) {
             name = pItem->GetName();
         }
     }
-    pWA->SetProjectURL(url);
-    pWA->SetProjectName(name);
+    m_pParent->SetProjectURL(std::move(url));
+    m_pParent->SetProjectName(std::move(name));
 }
 
-/*!
- * wxEVT_LISTBOX event handler for ID_PROJECTS
- */
-
-void CAccountManagerInfoPage::OnProjectSelected( wxCommandEvent& /*event*/ ) {
+void CAccountManagerInfoPage::OnProjectSelected(wxCommandEvent&) {
     int sel = m_pProjectListCtrl->GetSelection();
     if (sel == wxNOT_FOUND) {
         m_pProjectUrlCtrl->SetValue(wxEmptyString);
@@ -370,29 +272,17 @@ void CAccountManagerInfoPage::OnProjectSelected( wxCommandEvent& /*event*/ ) {
     }
 }
 
-/*!
- * wxEVT_TEXT event handler for ID_PROJECTURLCTRL
- */
-
-void CAccountManagerInfoPage::OnURLChanged( wxCommandEvent& /*event*/ ) {
+void CAccountManagerInfoPage::OnURLChanged(wxCommandEvent&) {
     m_pOpenWebSiteButton->Enable(!m_pProjectUrlCtrl->GetValue().IsEmpty());
 }
 
-/*!
- * wxEVT_BUTTON event handler for ID_PROJECTWEBPAGECTRL
- */
-
-void CAccountManagerInfoPage::OnProjectItemDisplay( wxCommandEvent& /*event*/ ) {
+void CAccountManagerInfoPage::OnProjectItemDisplay(wxCommandEvent&) {
     wxString url = m_pProjectUrlCtrl->GetValue();
     if (!url.IsEmpty()) {
         wxLaunchDefaultBrowser(url);
     }
 }
 
-/*!
- * wxEVT_WIZARD_CANCEL event handler for ID_PROJECTINFOPAGE
- */
-
-void CAccountManagerInfoPage::OnCancel( wxWizardExEvent& event ) {
-    PROCESS_CANCELEVENT(event);
+void CAccountManagerInfoPage::OnCancel(wxWizardEvent& event) {
+    m_pParent->ProcessCancelEvent(event);
 }

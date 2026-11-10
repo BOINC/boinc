@@ -214,9 +214,11 @@
 #define ERR_NEED_HTTPS      -238
 #define ERR_CHMOD           -239
 #define ERR_STAT            -240
+    // or fstat()
 #define ERR_FCLOSE          -241
 #define ERR_ACCT_REQUIRE_CONSENT -242
 #define ERR_INVALID_STATE   -243
+#define ERR_MMAP            -244
 
 // PLEASE: add a text description of your error to
 // the text description function boincerror() in str_util.cpp.

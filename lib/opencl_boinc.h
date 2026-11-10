@@ -37,8 +37,10 @@ enum COPROC_USAGE {
 //
 struct OPENCL_DEVICE_PROP {
     cl_device_id device_id;
-    char name[256];                     // Device name
-    char vendor[256];                   // Device vendor (NVIDIA, ATI, AMD, etc.)
+    char name[256];                     // model name
+        // e.g. Intel(R) UHD Graphics 630
+    char vendor[256];                   // vendor
+        // e.g. Intel(R) Corporation
     cl_uint vendor_id;                  // Vendor's unique ID for this device on this host
     cl_bool available;                  // Is this device available?
     cl_device_fp_config half_fp_config; // Half precision capabilities

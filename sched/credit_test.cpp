@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2016 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -76,18 +76,14 @@ void read_db() {
 }
 
 PLATFORM* lookup_platform(int id) {
-    unsigned int i;
-    for (i=0; i<platforms.size(); i++) {
-        PLATFORM& p = platforms[i];
+    for (PLATFORM& p: platforms) {
         if (p.id == id) return &p;
     }
     return NULL;
 }
 
 APP_VERSION* lookup_av(int id) {
-    unsigned int i;
-    for (i=0; i<app_versions.size(); i++) {
-        APP_VERSION& av = app_versions[i];
+    for (APP_VERSION& av: app_versions) {
         if (av.id == id) return &av;
     }
     printf(" missing app version %d\n", id);
@@ -95,9 +91,7 @@ APP_VERSION* lookup_av(int id) {
 }
 
 APP& lookup_app(int id) {
-    unsigned int i;
-    for (i=0; i<apps.size(); i++) {
-        APP& app = apps[i];
+    for (APP& app: apps) {
         if (app.id == id) return app;
     }
     printf("missing app: %d\n", id);
@@ -106,9 +100,7 @@ APP& lookup_app(int id) {
 }
 
 HOST_APP_VERSION& lookup_host_app_version(int hostid, int avid) {
-    unsigned int i;
-    for (i=0; i<host_app_versions.size(); i++) {
-        HOST_APP_VERSION& hav = host_app_versions[i];
+    for (HOST_APP_VERSION& hav: host_app_versions) {
         if (hav.host_id != hostid) continue;
         if (hav.app_version_id != avid) continue;
         return hav;
@@ -120,16 +112,13 @@ HOST_APP_VERSION& lookup_host_app_version(int hostid, int avid) {
     return host_app_versions.back();
 }
 
-void print_average(AVERAGE& a) {
-    printf("n %f avg %f\n", a.n, a.get_avg()
-    );
+void print_average(const AVERAGE& a) {
+    printf("n %f avg %f\n", a.n, a.get_avg());
 }
 
 void print_avs() {
-    unsigned int i;
     printf("----- scales --------\n");
-    for (i=0; i<app_versions.size(); i++) {
-        APP_VERSION& av = app_versions[i];
+    for (const APP_VERSION& av: app_versions) {
         if (!av.pfc.n) continue;
         PLATFORM* p = lookup_platform(av.platformid);
         printf("app %lu vers %lu (%s %s)\n scale %f ",
@@ -163,7 +152,7 @@ struct RSC_INFO {
         nvers_thresh = 0;
         nvers_total = 0;
     }
-    void update(APP_VERSION& av) {
+    void update(const APP_VERSION& av) {
         nvers_total++;
         if (av.pfc.n > MIN_VERSION_SAMPLES) {
             nvers_thresh++;
@@ -177,12 +166,11 @@ struct RSC_INFO {
 };
 
 void scale_versions(APP& app, double avg) {
-    for (unsigned int j=0; j<app_versions.size(); j++) {
-        APP_VERSION& av = app_versions[j];
+    for (APP_VERSION& av: app_versions) {
         if (av.appid != app.id) continue;
         if (av.pfc.n < MIN_VERSION_SAMPLES) continue;
 
-        av.pfc_scale= avg/av.pfc.get_avg();
+        av.pfc_scale = avg/av.pfc.get_avg();
         PLATFORM* p = lookup_platform(av.platformid);
         printf("updating scale factor for (%s %s)\n",
              p->name, av.plan_class
@@ -198,17 +186,14 @@ void scale_versions(APP& app, double avg) {
 // and find the min average PFC for each app
 //
 void update_av_scales() {
-    unsigned int i, j;
     printf("----- updating scales --------\n");
-    for (i=0; i<apps.size(); i++) {
-        APP& app = apps[i];
+    for (APP& app: apps) {
         printf("app %lu\n", app.id);
         RSC_INFO cpu_info, gpu_info;
 
         // find the average PFC of CPU and GPU versions
 
-        for (j=0; j<app_versions.size(); j++) {
-            APP_VERSION& av = app_versions[j];
+        for (const APP_VERSION& av: app_versions) {
             if (av.appid != app.id) continue;
             if (strstr(av.plan_class, "cuda") || strstr(av.plan_class, "ati")) {
                 printf("gpu update: %lu %s %f\n", av.id, av.plan_class, av.pfc.get_avg());
@@ -247,8 +232,6 @@ void update_av_scales() {
                 accumulate_stats = true;
             }
         }
-
-
     }
     printf("-------------\n");
 }

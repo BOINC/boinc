@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,37 +18,17 @@
 #ifndef BOINC_ACCOUNTMANAGERPROCESSINGPAGE_H
 #define BOINC_ACCOUNTMANAGERPROCESSINGPAGE_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "AccountManagerProcessingPage.cpp"
-#endif
-
-/*!
- * CAccountManagerProcessingPage custom events
- */
-
-class CAccountManagerProcessingPageEvent : public wxEvent
-{
+class CAccountManagerProcessingPageEvent : public wxEvent {
 public:
-    CAccountManagerProcessingPageEvent(wxEventType evtType, wxWizardPageEx *parent)
-        : wxEvent(-1, evtType)
-        {
+    CAccountManagerProcessingPageEvent(wxEventType evtType, wxWizardPage *parent)
+        : wxEvent(-1, evtType) {
             SetEventObject(parent);
         }
 
     virtual wxEvent *Clone() const { return new CAccountManagerProcessingPageEvent(*this); }
 };
 
-
-BEGIN_DECLARE_EVENT_TYPES()
-DECLARE_EVENT_TYPE( wxEVT_ACCOUNTMANAGERPROCESSING_STATECHANGE, 11100 )
-END_DECLARE_EVENT_TYPES()
-
-#define EVT_ACCOUNTMANAGERPROCESSING_STATECHANGE(fn) \
-    DECLARE_EVENT_TABLE_ENTRY(wxEVT_ACCOUNTMANAGERPROCESSING_STATECHANGE, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-
-/*!
- * CAccountManagerProcessingPage states
- */
+wxDECLARE_EVENT(wxEVT_ACCOUNTMANAGERPROCESSING_STATECHANGE, CAccountManagerProcessingPageEvent);
 
 #define ATTACHACCTMGR_INIT                              0
 #define ATTACHACCTMGR_ATTACHACCTMGR_BEGIN               1
@@ -56,53 +36,30 @@ END_DECLARE_EVENT_TYPES()
 #define ATTACHACCTMGR_CLEANUP                           3
 #define ATTACHACCTMGR_END                               4
 
-/*!
- * CAccountManagerProcessingPage class declaration
- */
-
-class CAccountManagerProcessingPage: public wxWizardPageEx
-{
+class CAccountManagerProcessingPage: public CBOINCWizardPage {
     DECLARE_DYNAMIC_CLASS( CAccountManagerProcessingPage )
-    DECLARE_EVENT_TABLE()
 
 public:
-    /// Constructors
-    CAccountManagerProcessingPage( );
+    CAccountManagerProcessingPage() = default;
+    CAccountManagerProcessingPage(CWizardAttach* parent);
+    bool Create(CWizardAttach* parent);
 
-    CAccountManagerProcessingPage( CBOINCBaseWizard* parent );
-
-    /// Creation
-    bool Create( CBOINCBaseWizard* parent );
-
-    /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CAccountManagerProcessingPage event handler declarations
+    void OnPageChanged(wxWizardEvent& event);
+    void OnPageChanging(wxWizardEvent& event);
+    void OnCancel(wxWizardEvent& event);
+    void OnStateChange(CAccountManagerProcessingPageEvent& event);
 
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ATTACHACCOUNTMANAGERPAGE
-    void OnPageChanged( wxWizardExEvent& event );
+    wxWizardPage* GetPrev() const;
+    wxWizardPage* GetNext() const;
 
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ATTACHACCOUNTMANAGERPAGE
-    void OnCancel( wxWizardExEvent& event );
+    void SetPrev(CBOINCWizardPage *prev);
 
-////@end CAccountManagerProcessingPage event handler declarations
+    bool HasNextPage() const;
+    bool HasPrevPage() const;
 
-    void OnStateChange( CAccountManagerProcessingPageEvent& event );
-
-////@begin CAccountManagerProcessingPage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPageEx* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPageEx* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CAccountManagerProcessingPage member function declarations
+    wxBitmap GetBitmapResource(const wxString& name);
 
     bool GetProjectCommunicationsSucceeded() const { return m_bProjectCommunicationsSucceeded ; }
     void SetProjectCommunicationsSucceeded(bool value) { m_bProjectCommunicationsSucceeded = value ; }
@@ -122,26 +79,24 @@ public:
     wxInt32 GetCurrentState() const { return m_iCurrentState ; }
     void SetNextState(wxInt32 value) { m_iCurrentState = value ; }
 
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-    /// Progress Image Support
     void StartProgress(wxStaticBitmap* pBitmap);
     void IncrementProgress(wxStaticBitmap* pBitmap);
     void FinishProgress(wxStaticBitmap* pBitmap);
 
-////@begin CAccountManagerProcessingPage member variables
-    wxStaticText* m_pTitleStaticCtrl;
-    wxStaticText* m_pPleaseWaitStaticCtrl;
-    wxStaticBitmap* m_pProgressIndicator;
-////@end CAccountManagerProcessingPage member variables
-    bool m_bProjectCommunicationsSucceeded;
-    bool m_bProjectUnavailable;
-    bool m_bProjectAccountNotFound;
-    bool m_bProjectAccountAlreadyExists;
-    bool m_bProjectAttachSucceeded;
-    int m_iBitmapIndex;
-    int m_iCurrentState;
+private:
+    wxStaticText* m_pTitleStaticCtrl = nullptr;
+    wxStaticText* m_pPleaseWaitStaticCtrl = nullptr;
+    wxStaticBitmap* m_pProgressIndicator = nullptr;
+    bool m_bProjectCommunicationsSucceeded = false;
+    bool m_bProjectUnavailable = false;
+    bool m_bProjectAccountNotFound = false;
+    bool m_bProjectAccountAlreadyExists = false;
+    bool m_bProjectAttachSucceeded = false;
+    int m_iBitmapIndex = 0;
+    int m_iCurrentState = 0;
+
+    CWizardAttach *m_pParent = nullptr;
+    CBOINCWizardPage *m_pPrev = nullptr;
 };
 
 #endif

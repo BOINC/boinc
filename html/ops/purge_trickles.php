@@ -27,8 +27,8 @@
 //    same, trickle down
 
 require_once("../inc/boinc_db.inc");
-$db = BoincDb::get();
-if (!$db) die("no DB connection");
+
+$db = BoincDb::get_cli();
 
 if ($argc == 1) {
     $db->do_query("delete from msg_from_host where handled <> 0");

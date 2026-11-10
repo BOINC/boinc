@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -192,8 +192,8 @@ void scan_punitive(vector<VALIDATOR_ITEM>& items) {
     void* data=NULL;
     char buf[256];
 
-    for (unsigned int i=0; i<items.size(); i++) {
-        RESULT& result = items[i].res;
+    for (const VALIDATOR_ITEM& vi: items) {
+        const RESULT& result = vi.res;
         if (result.server_state != RESULT_SERVER_STATE_OVER) continue;
         if (result.outcome != RESULT_OUTCOME_CLIENT_ERROR) continue;
         if (init_result(result, data) == VAL_RESULT_LONG_TERM_FAIL) {
@@ -226,6 +226,49 @@ void scan_punitive(vector<VALIDATOR_ITEM>& items) {
     }
 }
 
+// If a WU w/ new canonical result belongs to a batch, updates its counters
+//
+void update_batch(WORKUNIT &wu, double credit) {
+    char buf[256];
+    int retval;
+
+    // don't double-count this WU (this shouldn't happen)
+    //
+    if (wu.error_mask) {
+        return;
+    }
+
+    DB_BATCH batch;
+    batch.id = wu.batch;
+    sprintf(buf,
+        "n_in_progress=n_in_progress-1, n_success=n_success+1, credit_canonical=credit_canonical+%f",
+        credit
+    );
+    retval = batch.update_field(buf);
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "[BATCH%ld] batch update failed: %d\n",
+            batch.id, retval
+        );
+    }
+    // see if batch is complete
+    sprintf(buf,
+        "state=%d, completion_time=%d",
+        BATCH_STATE_COMPLETE,
+        (int)dtime()
+    );
+    retval = batch.update_field(
+        buf,
+        "nerror_jobs+n_success=njobs"
+    );
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "[BATCH%ld] batch update 2 failed: %d\n",
+            batch.id, retval
+        );
+    }
+}
+
 // handle a workunit which has new results
 //
 int handle_wu(
@@ -237,7 +280,6 @@ int handle_wu(
     int retval = 0, x;
     DB_ID_TYPE canonicalid = 0;
     double credit = 0;
-    unsigned int i;
 
     WORKUNIT& wu = items[0].wu;
     g_wup = &wu;
@@ -255,9 +297,9 @@ int handle_wu(
         // Here if WU already has a canonical result.
         // Get unchecked results and see if they match the canonical result
         //
-        for (i=0; i<items.size(); i++) {
-            RESULT& result = items[i].res;
-
+        for (unsigned int i=0; i<items.size(); i++) {
+            VALIDATOR_ITEM& vi = items[i];
+            RESULT& result = vi.res;
             if (result.id == wu.canonical_resultid) {
                 canonical_result_index = i;
             }
@@ -274,8 +316,8 @@ int handle_wu(
 
         // scan this WU's results, and check the unchecked ones
         //
-        for (i=0; i<items.size(); i++) {
-            RESULT& result = items[i].res;
+        for (VALIDATOR_ITEM& vi: items) {
+            RESULT& result = vi.res;
 
             if (result.server_state != RESULT_SERVER_STATE_OVER) continue;
             if (result.outcome !=  RESULT_OUTCOME_SUCCESS) continue;
@@ -429,8 +471,8 @@ int handle_wu(
         // make a vector of the "viable" (i.e. possibly canonical) results,
         // and a parallel vector of host_app_versions
         //
-        for (i=0; i<items.size(); i++) {
-            RESULT& result = items[i].res;
+        for (VALIDATOR_ITEM& vi: items) {
+            RESULT& result = vi.res;
 
             if (result.server_state != RESULT_SERVER_STATE_OVER) continue;
             if (result.outcome != RESULT_OUTCOME_SUCCESS) continue;
@@ -503,8 +545,7 @@ int handle_wu(
                     // is within range
                     //
                     vector<double> cc;
-                    for (i=0; i<viable_results.size(); i++) {
-                        RESULT& result = viable_results[i];
+                    for (RESULT& result: viable_results) {
                         if (result.flops_estimate == 1e9) {
                             result.flops_estimate = AVG_CPU_FPOPS;
                         }
@@ -544,8 +585,7 @@ int handle_wu(
                     }
                 } else if (post_assigned_credit) {
                     credit = 0;
-                    for (i=0; i<viable_results.size(); i++) {
-                        RESULT& result = viable_results[i];
+                    for (const RESULT& result: viable_results) {
                         if (result.id != canonicalid) {
                             continue;
                         }
@@ -573,7 +613,7 @@ int handle_wu(
             // or validate_state INVALID)
             //
             int n_viable_results = 0;
-            for (i=0; i<viable_results.size(); i++) {
+            for (unsigned i=0; i<viable_results.size(); i++) {
                 RESULT& result = viable_results[i];
                 DB_HOST_APP_VERSION& hav = host_app_versions[i];
                 DB_HOST_APP_VERSION& hav_orig = host_app_versions_orig[i];
@@ -703,8 +743,8 @@ int handle_wu(
 
                 // don't need to send any more results
                 //
-                for (i=0; i<items.size(); i++) {
-                    RESULT& result = items[i].res;
+                for (VALIDATOR_ITEM& vi: items) {
+                    RESULT& result = vi.res;
 
                     if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
                         continue;
@@ -776,6 +816,9 @@ leave:
                 wu.id, wu.name, boincerror(retval)
             );
             return retval;
+        }
+        if (canonicalid && wu.batch > 0) {
+            update_batch(wu, credit);
         }
     }
     return 0;

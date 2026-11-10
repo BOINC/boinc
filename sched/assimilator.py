@@ -1,6 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 '''
 Generic Assimilator framework
+
+NOT SUPPORTED.  Use script_assimilator instead
 '''
 
 import os, re, signal, sys, time, hashlib

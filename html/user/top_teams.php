@@ -29,8 +29,7 @@ if (REQUIRE_LOGIN) {
 
 check_get_args(array("sort_by", "type", "offset"));
 
-$config = get_config();
-$teams_per_page = parse_config($config, "<teams_per_page>");
+$teams_per_page = project_config_val("teams_per_page");
 if (!$teams_per_page) {
         $teams_per_page = 20;
 }

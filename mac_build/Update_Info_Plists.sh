@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -20,6 +20,7 @@
 #
 # Update_Info_Plists.sh
 # by Charlie Fenton 7/11/25
+# Updated 10/4/26 for Xcode27 support
 #
 
 ## Called from pre-actions in BOINC Xcode project when compiling BOINC.
@@ -31,21 +32,53 @@
 ## modification dates to that of version.h, we just run this script for
 ## every build operation.
 ##
-## Usage:
+## This script requires Xcode 15 or later
+##
+## Usage when called from pre-actions:
 ##    export WORKSPACE_PATH=
 ##    source {path}/mac_build/Update_Info_Plists.sh
 ## Called from pre-actions as:
 ##    source "$WORKSPACE_PATH/../../Update_Info_Plists.sh"
 ##
+## Alternatively, called from BuildMacBOINC.sh.
+## Usage when called from BuildMacBOINC.sh:
+##    cd {path}/mac_build/
+##    source "./Update_Info_Plists.sh"
 ##
+## For detailed build instructions, see mac_build/HowToBuildBOINC_XCode.rtf
+##
+
 originalDir=`pwd`
 directory=$(dirname "$WORKSPACE_PATH")
 directory=$(dirname "$directory")
 echo "Directory is " "$directory"
 cd "$directory"
+
+## Set deployment target to oldest MacOS version supported by this Xcode version
+## Apparently xcodebuild ignores build pre-actions, so we do this explicitly
+## This script is usually called either from the Xcode GUI or BuildMacBOINC.sh in
+## which cases doing this here is redundant. But we do it here for completeness
+## in case it is called directly.
+SDKPATH=`xcodebuild -version -sdk macosx Path`
+result=$?
+if [ $result -eq 0 ]; then
+    targetOSVers=`plutil -extract SupportedTargets.macosx.MinimumDeploymentTarget raw -n "${SDKPATH}/SDKSettings.plist"`
+    result=$?
+fi
+if [ $result -eq 0 ]; then
+    echo "MACOSX_DEPLOYMENT_TARGET = $targetOSVers" > "BOINC.xcconfig"
+    result=$?
+fi
+if [ $result -ne 0 ]; then
+    echo "Failed to set deployment target MacOS version number"
+    cd "${originalDir}"
+    return $result
+fi
+
 echo "About to check for " "$directory/build/Development/SetVersion"
 echo "compared to " "$directory/../clientgui/mac/Setversion.cpp"
 if [ ! -e "$directory/build/Development/SetVersion" ] || [ "$directory/../clientgui/mac/Setversion.cpp" -nt "$directory/build/Development/SetVersion" ]; then
+
     echo "About to run xcodebuild"
     xcodebuild -project boinc.xcodeproj -target SetVersion -configuration Development
     if [ $? -ne 0 ]; then

@@ -32,13 +32,13 @@ AC_SUBST([LIBBOINC_VERSION])
 WRAPPER_RELEASE=26019
 AC_SUBST([WRAPPER_RELEASE])
 
-VBOXWRAPPER_RELEASE=26211
+VBOXWRAPPER_RELEASE=26212
 AC_SUBST([VBOXWRAPPER_RELEASE])
 
 WORKER_RELEASE=6
 AC_SUBST([WORKER_RELEASE])
 
-DOCKERWRAPPER_RELEASE=17
+DOCKERWRAPPER_RELEASE=22
 AC_SUBST([DOCKERWRAPPER_RELEASE])
 
 MULTITHREAD_RELEASE=2
@@ -85,7 +85,7 @@ dnl Verify C++11 support
 AC_MSG_CHECKING([whether $CXX supports C++11])
 AC_LANG_PUSH([C++])
 save_CXXFLAGS="$CXXFLAGS"
-for flag in "-std=c++11" "-std=c++0x"; do
+for flag in "-std=gnu++11" "-std=gnu++0x" "-std=c++11" "-std=c++0x"; do
   CXXFLAGS="$save_CXXFLAGS $flag"
   AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
     #include <memory>
@@ -102,7 +102,8 @@ for flag in "-std=c++11" "-std=c++0x"; do
     [have_cxx11=no])
   if test "x$have_cxx11" = "xyes"; then
     AC_MSG_RESULT([yes, with $flag])
-    CXXFLAGS="$save_CXXFLAGS $flag"
+    CXXFLAGS="$save_CXXFLAGS"
+    cxx11_flag="$flag"
     break
   fi
 done
@@ -117,6 +118,84 @@ Please use a newer compiler version (e.g., GCC 4.8+, Clang 3.3+).
   ])
 fi
 AC_LANG_POP([C++])
+
+dnl Verify C++14 support
+AC_MSG_CHECKING([whether $CXX supports C++14])
+AC_LANG_PUSH([C++])
+save_CXXFLAGS="$CXXFLAGS"
+for flag in "-std=gnu++14" "-std=gnu++1y" "-std=c++14" "-std=c++1y"; do
+  CXXFLAGS="$save_CXXFLAGS $flag"
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+    #include <memory>
+    #include <array>
+    #include <functional>
+    ]],
+    [[
+    auto ptr = std::make_shared<int>(42);
+    std::array<int, 5> arr = {{1, 2, 3, 4, 5}};
+    auto lambda = [](auto x) { return x * 2; };
+    return lambda(*ptr) + arr[0];
+    ]])],
+    [have_cxx14=yes],
+    [have_cxx14=no])
+  if test "x$have_cxx14" = "xyes"; then
+    AC_MSG_RESULT([yes, with $flag])
+    CXXFLAGS="$save_CXXFLAGS"
+    cxx14_flag="$flag"
+    break
+  fi
+done
+if test "x$have_cxx14" != "xyes"; then
+  CXXFLAGS="$save_CXXFLAGS"
+  AC_MSG_RESULT([no])
+fi
+AC_LANG_POP([C++])
+
+dnl Verify C++17 support
+AC_MSG_CHECKING([whether $CXX supports C++17])
+AC_LANG_PUSH([C++])
+save_CXXFLAGS="$CXXFLAGS"
+for flag in "-std=gnu++17" "-std=gnu++1z" "-std=c++17" "-std=c++1z"; do
+  CXXFLAGS="$save_CXXFLAGS $flag"
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+    #include <memory>
+    #include <array>
+    #include <functional>
+    ]],
+    [[
+    if constexpr (true) {
+    auto ptr = std::make_shared<int>(42);
+    std::array<int, 5> arr = {{1, 2, 3, 4, 5}};
+    auto lambda = [](auto x) { return x * 2; };
+    return lambda(*ptr) + arr[0];
+    }
+    ]])],
+    [have_cxx17=yes],
+    [have_cxx17=no])
+  if test "x$have_cxx17" = "xyes"; then
+    AC_MSG_RESULT([yes, with $flag])
+    CXXFLAGS="$save_CXXFLAGS"
+    cxx17_flag="$flag"
+    break
+  fi
+done
+if test "x$have_cxx17" != "xyes"; then
+  CXXFLAGS="$save_CXXFLAGS"
+  AC_MSG_RESULT([no])
+fi
+AC_LANG_POP([C++])
+
+if test "x$have_cxx17" = "xyes"; then
+  CXXFLAGS="$save_CXXFLAGS $cxx17_flag"
+else
+    if test "x$have_cxx14" = "xyes"; then
+      CXXFLAGS="$save_CXXFLAGS $cxx14_flag"
+    else
+        if test "x$have_cxx11" = "xyes"; then
+          CXXFLAGS="$save_CXXFLAGS $cxx11_flag"
+        fi
+    fi
+fi
 
 dnl ------
 dnl Workaround for autoconf >= 2.65 backwards incompatibility
@@ -509,33 +588,37 @@ If you do not want to build the server you should use --disable-server.
 ================================================================================
     ])
   fi
+fi
 
-   dnl Check for nlohmann::json (header-only library)
-   AC_ARG_WITH([nlohmann_json],
-     [AS_HELP_STRING([--with-nlohmann_json=DIR], [Specify prefix for nlohmann::json (header-only) library])],
-     [nlohmann_json_dir="$withval"],
-     [nlohmann_json_dir=""])
+if test "${enable_server}" = yes -o "${enable_apps}" = yes -o "${enable_apps_vcpkg}" = yes; then
+    dnl skip for Android builds
+    if test "${ANDROID}" != yes; then
+        dnl Check for nlohmann::json (header-only library)
+        AC_ARG_WITH([nlohmann_json],
+          [AS_HELP_STRING([--with-nlohmann_json=DIR], [Specify prefix for nlohmann::json (header-only) library])],
+          [nlohmann_json_dir="$withval"],
+          [nlohmann_json_dir=""])
 
-   if test "x$nlohmann_json_dir" != "x"; then
-     CPPFLAGS="$CPPFLAGS -I$nlohmann_json_dir/include"
-   fi
+        if test "x$nlohmann_json_dir" != "x"; then
+            CPPFLAGS="$CPPFLAGS -I$nlohmann_json_dir/include"
+        fi
 
-   dnl Ensure we use C++ and require C++11 for the header check
-   AC_LANG_PUSH([C++])
-   m4_ifdef([AX_CXX_COMPILE_STDCXX], [AX_CXX_COMPILE_STDCXX(11)])
-   AC_CHECK_HEADER([nlohmann/json.hpp],
-     [AC_MSG_RESULT([Found nlohmann::json])],
-     [AC_MSG_ERROR([
+        dnl Ensure we use C++ and require C++11 for the header check
+        AC_LANG_PUSH([C++])
+        m4_ifdef([AX_CXX_COMPILE_STDCXX], [AX_CXX_COMPILE_STDCXX(11)])
+        AC_CHECK_HEADER([nlohmann/json.hpp],
+          [AC_MSG_RESULT([Found nlohmann::json])],
+          [AC_MSG_ERROR([
 ================================================================================
 ERROR: nlohmann::json (nlohmann/json.hpp) is required to build the server but was not found.
 
 Please install it (e.g., via your package manager or from https://github.com/nlohmann/json),
 or specify its location with --with-nlohmann_json=DIR.
 ================================================================================
-     ])])
-   AC_LANG_POP([C++])
+          ])])
+        AC_LANG_POP([C++])
+    fi
 fi
-
 
 
 dnl Checks for libraries.
@@ -556,7 +639,7 @@ dnl Special rules for specific targets go here:  It's easier to add static libs
 dnl than subtract them.  If you need to remove something from the list above,
 dnl please add it to the lists below...
 case ${target} in
-	*-linux*|*-k*bsd*-gnu)	STATIC_LIB_LIST="${STATIC_LIB_LIST} nsl"
+	*-linux*|*-k*bsd*-gnu)	STATIC_LIB_LIST="${STATIC_LIB_LIST} nsl rt"
 	;;
 	*-solaris*)	STATIC_LIB_LIST="${STATIC_LIB_LIST} X* ssl crypto"
 	;;
@@ -594,7 +677,7 @@ ERROR: could not find (recent enough) development-libs for libcurl.
       ],
       [
         ## add libcurl et al. to the list of statically linked libs
-        STATIC_LIB_LIST="${STATIC_LIB_LIST} curl idn ssh2 crypto ssl krb5 k5crypto gssapi_krb5 com_err resolv lber ldap socket nsl z rt gcrypt gpg-error"
+        STATIC_LIB_LIST="${STATIC_LIB_LIST} curl idn ssh2 ssl crypto krb5 k5crypto gssapi_krb5 com_err resolv lber ldap socket nsl z rt gcrypt gpg-error"
         CPPFLAGS="${CPPFLAGS} ${LIBCURL_CPPFLAGS}"
         CURL_LIB_PATHS=`echo $LIBCURL | sed 's/[^[a-zA-Z]]*-l[^ ]*//g'`
 
@@ -627,6 +710,8 @@ SAH_CHECK_LIB([nsl], [gethostbyname],
 SAH_CHECK_LIB([freetype], [fopen],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([socket], [bind],
+    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+SAH_CHECK_LIB([rt], [shm_open],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([z], [gzopen], [
       zlib_found=yes
@@ -682,7 +767,7 @@ AC_DEFINE_UNQUOTED(BOINC_PREFIX,"`eval echo ${prefix}`",[Directory tree where BO
 AC_DEFINE_UNQUOTED(BOINC_EXECPREFIX,"`eval echo ${bindir}`",[Directory where BOINC executables will be installed])
 AC_DEFINE_UNQUOTED(BOINC_LIBDIR,"`eval echo ${libdir}`",[Directory where BOINC libraries will be installed])
 
-dnl ---------- decide wether to build the graphical boinc-api libs or not
+dnl ---------- decide whether to build the graphical boinc-api libs or not
 dnl check for X11
 AC_PATH_X
 AC_PATH_XTRA
@@ -738,7 +823,7 @@ else
    echo "DEBUG: GLUT_CFLAGS = $GLUT_CFLAGS" >&5
    echo "DEBUG: GLUT_LIBS = $GLUT_LIBS" >&5
 
-   AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h libnotify/notify.h gtk/gtk.h])
+   AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h])
 
    AC_CHECK_LIB([jpeg], [jpeg_start_compress],[have_jpeg=1],[have_jpeg=0])
    AC_CHECK_HEADER([jpeglib.h],[have_jpeg=1],[have_jpeg=0])
@@ -774,6 +859,9 @@ if test "$enable_xss" = yes; then
         fi
     fi
 fi
+
+AX_CUDA
+AM_CONDITIONAL([HAVE_CUDA], [test "x$cuda_found" = "xyes"])
 
 dnl --------------------------------------------------------------------------------
 dnl put double-inclusion protection into config.h
@@ -1213,6 +1301,7 @@ AM_CONDITIONAL(OS_LINUX, [echo $host_os | grep '^linux' > /dev/null])
 AM_CONDITIONAL(OS_FREEBSD, [echo $host_os | grep '^freebsd' > /dev/null])
 dnl In case anyone wants to try building the windows code using mingw!
 AM_CONDITIONAL(OS_WIN32, [echo $host_os | grep -E '^mingw|^winnt' > /dev/null])
+AM_CONDITIONAL(OS_WINARM64, [echo $host_os | grep -E '^mingw|^winnt' > /dev/null && echo $host_cpu | grep -E '^aarch64' > /dev/null])
 AM_CONDITIONAL(OS_WIN32_MINGW, [echo $host_os | grep '^mingw' > /dev/null])
 dnl or OS2
 AM_CONDITIONAL(OS_OS2, [echo $host_os | grep '^os2' > /dev/null])
@@ -1239,9 +1328,7 @@ AM_CONDITIONAL(ENABLE_APPS, [test "${enable_apps}" = yes])
 AM_CONDITIONAL(ENABLE_UNIT_TESTS, [test "${enable_unit_tests}" = yes])
 AM_CONDITIONAL(ENABLE_BOINCCRYPT, [test "x${enable_server}" = xyes  || test "x${enable_client}" = xyes ])
 AM_CONDITIONAL(INSTALL_HEADERS, [test "${enable_install_headers}" = yes])
-AM_CONDITIONAL(HAVE_CUDA_LIB, [test "${enable_client}" = yes -a -f ./coprocs/CUDA/posix/${boinc_platform}/libcudart.so])
 AM_CONDITIONAL(BUILD_WITH_OPENCL, [test "x$with_opencl" = "xyes"])
-
 dnl ======================================================================
 dnl some more vodoo required for building portable client-binary (client, clientgui)
 dnl ======================================================================

@@ -98,12 +98,18 @@ function display_team_page($team, $user) {
         row2("Founder email validated", $founder->email_validated?"Yes":"No (team will not be exported)");
     }
     if (strlen($team->url)) {;
-        if (strstr($team->url, "http://")) {
+        if (strncasecmp($team->url, "https://", 8) === 0
+            || strncasecmp($team->url, "http://", 7) === 0
+        ) {
             $x = $team->url;
         } else {
-            $x = "http://$team->url";
+            $x = "https://$team->url";
         }
-        row2(tra('Web site'), "<a href=$x>$x</a>");
+        $x = htmlspecialchars($x, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        row2(
+            tra('Web site'),
+            sprintf('<a href="%s">%s</a>', $x, $x)
+        );
     }
 
     if (!NO_STATS) {
@@ -144,7 +150,7 @@ function display_team_page($team, $user) {
     if ($user) {
         if ($user->teamid != $team->id) {
             if ($team->joinable) {
-                $tokens = url_tokens($user->authenticator);
+                $tokens = url_tokens();
                 row2("",
                     '<a class="btn btn-success" href="team_join.php?'.$tokens.'&amp;teamid='.$team->id.'">'.tra('Join this team').'</a>
                     <br><p class=\"text-muted\">'.tra('Note: if \'OK to email\' is set in your project preferences, joining a team gives its founder access to your email address.').'</p>'
@@ -213,10 +219,10 @@ function display_team_members($team, $offset, $sort_by) {
     $admins = BoincTeamAdmin::enum("teamid=$team->id");
 
     // there aren't indices to support sorting by credit.
-    // set the following variable to disable sorted output.
+    // set the following variable to 1 to disable sorted output.
     // (though since caching is generally used this shouldn't be needed)
     //
-    $nosort = false;
+    $nosort = 0;
 
     if ($sort_by == "total_credit") {
         $sort_clause = "total_credit desc";
@@ -253,8 +259,11 @@ function display_team_members($team, $offset, $sort_by) {
     $a[] = "";
     row_heading_array($x, $a);
 
-    $cache_args = "teamid=".$team->id."&mosort=".$nosort."&order=".$sort_clause."&limit=".$offset."_".$n;
-    $users = unserialize(get_cached_data(TEAM_PAGE_TTL, $cache_args));
+    $cache_args = "teamid=".$team->id."&nosort=".$nosort."&order=".$sort_clause."&limit=".$offset."_".$n;
+    $users = get_cached_data(TEAM_PAGE_TTL, $cache_args);
+    if ($users) {
+        $users = unserialize($users);
+    }
     if (!$users) {
         if ($nosort) {
             $users = BoincUser::enum("teamid=$team->id limit $offset,$n");
@@ -354,7 +363,7 @@ function new_member_list($teamid) {
     $deltas = BoincTeamDelta::enum("teamid=$teamid and timestamp>$yesterday and joining=1");
     foreach ($deltas as $delta) {
         $u = BoincUser::lookup_id($delta->userid);
-        if ($u->teamid == $teamid) {
+        if ($u && $u->teamid == $teamid) {
             $new_members[] = $u->id;  // they might have later quit
         }
     }

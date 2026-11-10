@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,9 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "DlgDiagnosticLogFlags.h"
-#endif
 
 #include "stdwx.h"
 #include "util.h"
@@ -36,15 +33,6 @@ const int dlgDiagnosticsMinHeight = 400;
 
 IMPLEMENT_DYNAMIC_CLASS(CDlgDiagnosticLogFlags, wxDialog)
 
-BEGIN_EVENT_TABLE(CDlgDiagnosticLogFlags, wxDialog)
-    EVT_SIZE(CDlgDiagnosticLogFlags::OnSize)
-    EVT_BUTTON(wxID_OK,CDlgDiagnosticLogFlags::OnOK)
-    EVT_BUTTON(ID_DEFAULTSBTN,CDlgDiagnosticLogFlags::OnSetDefaults)
-    EVT_BUTTON(wxID_APPLY,CDlgDiagnosticLogFlags::OnApply)
-    EVT_CHECKBOX(wxID_ANY,CDlgDiagnosticLogFlags::OnCheckBox)
-
-END_EVENT_TABLE()
-
 /* Constructor */
 CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
     wxDialog( parent, ID_ANYDIALOG, wxEmptyString, wxDefaultPosition,
@@ -52,7 +40,7 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
                 wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER
             ) {
 
-    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
@@ -63,7 +51,7 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
 
     wxString title;
     title.Printf(
-        _("%s Diagnostic Log Flags"),
+        _("%s event log options"),
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
 
@@ -81,7 +69,7 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
     m_headingSizer = new wxFlexGridSizer( 1 );
 
     m_headingText.Printf(
-        _("These flags enable various types of diagnostic messages in the Event Log.")
+        _("These flags enable various types of messages in the Event Log.")
     );
 
     m_heading = new wxStaticText(this, wxID_ANY, m_headingText);
@@ -146,6 +134,12 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
 #if defined(__WXMSW__) || defined(__WXGTK__)
     SetDoubleBuffered(true);
 #endif
+
+    Bind(wxEVT_SIZE, [this](wxSizeEvent& event){ OnSize(event); });
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnOK(event); }, wxID_OK);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnSetDefaults(event); }, ID_DEFAULTSBTN);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnApply(event); }, wxID_APPLY);
+    Bind(wxEVT_CHECKBOX, [this](wxCommandEvent& event){ OnCheckBox(event); });
 }
 
 // destructor

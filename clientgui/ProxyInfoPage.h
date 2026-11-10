@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,65 +19,35 @@
 #ifndef BOINC_PROXYINFOPAGE_H
 #define BOINC_PROXYINFOPAGE_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "ProxyInfoPage.cpp"
-#endif
-
-/*!
- * CErrProxyInfoPage class declaration
- */
-
-class CErrProxyInfoPage: public wxWizardPageEx
-{
-    DECLARE_DYNAMIC_CLASS( CErrProxyInfoPage )
-    DECLARE_EVENT_TABLE()
+class CErrProxyInfoPage: public CBOINCWizardPage {
+    DECLARE_DYNAMIC_CLASS(CErrProxyInfoPage)
 
 public:
-    /// Constructors
-    CErrProxyInfoPage( );
+    CErrProxyInfoPage() = default;
+    CErrProxyInfoPage(CWizardAttach* parent);
+    bool Create(CWizardAttach* parent);
 
-    CErrProxyInfoPage( CBOINCBaseWizard* parent );
-
-    /// Creation
-    bool Create( CBOINCBaseWizard* parent );
-
-    /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CErrProxyInfoPage event handler declarations
+    void OnPageChanged(wxWizardEvent& event);
+    void OnPageChanging(wxWizardEvent& event);
+    void OnCancel(wxWizardEvent& event);
 
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYINFOPAGE
-    void OnPageChanged( wxWizardExEvent& event );
+    wxWizardPage* GetPrev() const;
+    wxWizardPage* GetNext() const;
 
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYINFOPAGE
-    void OnCancel( wxWizardExEvent& event );
+    void SetPrev(CBOINCWizardPage *prev);
 
-////@end CErrProxyInfoPage event handler declarations
+    bool HasNextPage() const;
+    bool HasPrevPage() const;
 
-////@begin CErrProxyInfoPage member function declarations
+private:
+    wxStaticText* m_pTitleStaticCtrl = nullptr;
+    wxStaticText* m_pDescriptionStaticCtrl = nullptr;
+    wxStaticText* m_pDirectionsStaticCtrl = nullptr;
 
-    /// Gets the previous page.
-    virtual wxWizardPageEx* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPageEx* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CErrProxyInfoPage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CErrProxyInfoPage member variables
-    wxStaticText* m_pTitleStaticCtrl;
-    wxStaticText* m_pDescriptionStaticCtrl;
-    wxStaticText* m_pDirectionsStaticCtrl;
-////@end CErrProxyInfoPage member variables
+    CWizardAttach *m_pParent = nullptr;
+    CBOINCWizardPage *m_pPrev = nullptr;
 };
-
 
 #endif

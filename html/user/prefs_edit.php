@@ -30,7 +30,7 @@ $columns = get_int("cols", true);
 $c = $columns?"&cols=$columns":"";
 check_subset($subset);
 if ($action) {
-    check_tokens($user->authenticator);
+    check_tokens();
     if ($subset == "global") {
         $main_prefs = prefs_parse_global($user->global_prefs);
         if ($venue) $prefs = $main_prefs->$venue;
@@ -84,7 +84,8 @@ if ($action) {
 
             if (!$venue) {
                 venue_parse_form($user);
-                $user->update("venue='$user->venue'");
+                $v = BoincDB::escape_string($user->venue);
+                $user->update("venue='$v'");
             }
             Header("Location: prefs.php?subset=$subset&updated=1$c");
         }

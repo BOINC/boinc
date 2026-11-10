@@ -111,8 +111,8 @@ struct CLIENT_STATE gstate;
 
 double CLIENT_STATE::nearly_runnable_resource_share() {
     double x=0;
-    for (unsigned int i=0; i<projects.size(); i++) {
-        x += projects[i]->resource_share;
+    for (PROJECT *p: projects) {
+        x += p->resource_share;
     }
     return x;
 }
@@ -179,12 +179,11 @@ void PROJECT::set_rrsim_proc_rate(double rrs) {
 bool CLIENT_STATE::rr_simulation() {
     double rrs = nearly_runnable_resource_share();
     double trs = total_resource_share();
-    PROJECT* p, *pbest;
-    RESULT* rp, *rpbest;
+    PROJECT *pbest;
+    RESULT *rpbest;
     vector<RESULT*> active;
     unsigned int i;
     double x;
-    vector<RESULT*>::iterator it;
     bool rval = false;
 
     if (log_flags.rr_simulation) {
@@ -198,20 +197,18 @@ bool CLIENT_STATE::rr_simulation() {
     // "active" is what's currently running (in the simulation)
     // "pending" is what's queued
     //
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
+    for (PROJECT *p: projects) {
         p->active.clear();
         p->pending.clear();
         p->rr_sim_deadlines_missed = 0;
         p->cpu_shortfall = 0;
     }
 
-    for (i=0; i<results.size(); i++) {
-        rp = results[i];
+    for (RESULT* rp: results) {
         if (!rp->nearly_runnable()) continue;
         if (rp->project->non_cpu_intensive) continue;
         rp->rrsim_cpu_left = rp->estimated_cpu_time_remaining();
-        p = rp->project;
+        PROJECT *p = rp->project;
         if (p->active.size() < (unsigned int)ncpus) {
             active.push_back(rp);
             p->active.push_back(rp);
@@ -222,8 +219,7 @@ bool CLIENT_STATE::rr_simulation() {
         rp->rr_sim_misses_deadline = false;
     }
 
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
+    for (PROJECT *p: projects) {
         p->set_rrsim_proc_rate(rrs);
         // if there are no results for a project,
         // the shortfall is its entire share.
@@ -287,30 +283,34 @@ bool CLIENT_STATE::rr_simulation() {
         int last_active_size = active.size();
         int last_proj_active_size = pbest->active.size();
 
-        // remove *rpbest from active set,
-        // and adjust CPU time left for other results
-        //
-        it = active.begin();
-        while (it != active.end()) {
-            rp = *it;
-            if (rp == rpbest) {
-                it = active.erase(it);
-            } else {
-                x = rp->project->rrsim_proc_rate*rpbest->rrsim_finish_delay;
-                rp->rrsim_cpu_left -= x;
-                ++it;
+        {
+            // remove *rpbest from active set,
+            // and adjust CPU time left for other results
+            //
+            vector<RESULT*>::iterator it = active.begin();
+            while (it != active.end()) {
+                rp = *it;
+                if (rp == rpbest) {
+                    it = active.erase(it);
+                } else {
+                    x = rp->project->rrsim_proc_rate*rpbest->rrsim_finish_delay;
+                    rp->rrsim_cpu_left -= x;
+                    ++it;
+                }
             }
         }
 
-        // remove *rpbest from its project's active set
-        //
-        it = pbest->active.begin();
-        while (it != pbest->active.end()) {
-            rp = *it;
-            if (rp == rpbest) {
-                it = pbest->active.erase(it);
-            } else {
-                ++it;
+        {
+            // remove *rpbest from its project's active set
+            //
+            vector<RESULT*>::iterator it = pbest->active.begin();
+            while (it != pbest->active.end()) {
+                rp = *it;
+                if (rp == rpbest) {
+                    it = pbest->active.erase(it);
+                } else {
+                    ++it;
+                }
             }
         }
 
@@ -334,8 +334,7 @@ bool CLIENT_STATE::rr_simulation() {
                     pbest->resource_share, rrs
                 );
             }
-            for (i=0; i<projects.size(); i++) {
-                p = projects[i];
+            for (PROJECT *p: projects) {
                 p->set_rrsim_proc_rate(rrs);
             }
         }
@@ -397,8 +396,7 @@ bool CLIENT_STATE::rr_simulation() {
     }
 
     if (log_flags.rr_simulation) {
-        for (i=0; i<projects.size(); i++) {
-            p = projects[i];
+        for (PROJECT *p: projects) {
             if (p->cpu_shortfall) {
                 msg_printf(p, MSG_INFO,
                     "rr_sim: shortfall %f\n", p->cpu_shortfall

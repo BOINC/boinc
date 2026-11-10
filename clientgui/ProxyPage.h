@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,51 +19,27 @@
 #ifndef BOINC_PROXYPAGE_H
 #define BOINC_PROXYPAGE_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "ProxyPage.cpp"
-#endif
-
-/*!
- * CErrProxyPage class declaration
- */
-
-class CErrProxyPage: public wxWizardPageEx
-{
-    DECLARE_DYNAMIC_CLASS( CErrProxyPage )
-    DECLARE_EVENT_TABLE()
+class CErrProxyPage: public CBOINCWizardPage {
+    DECLARE_DYNAMIC_CLASS(CErrProxyPage)
 
 public:
-    /// Constructors
-    CErrProxyPage( );
+    CErrProxyPage() = default;
+    CErrProxyPage(CWizardAttach* parent);
+    bool Create(CWizardAttach* parent);
 
-    CErrProxyPage( CBOINCBaseWizard* parent );
-
-    /// Creation
-    bool Create( CBOINCBaseWizard* parent );
-
-    /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CErrProxyPage event handler declarations
+    void OnPageChanged(wxWizardEvent& event);
+    void OnPageChanging(wxWizardEvent& event);
+    void OnCancel(wxWizardEvent& event);
 
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYPAGE
-    void OnPageChanged( wxWizardExEvent& event );
+    wxWizardPage* GetPrev() const;
+    wxWizardPage* GetNext() const;
 
-    /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ERRPROXYPAGE
-    void OnPageChanging( wxWizardExEvent& event );
+    void SetPrev(CBOINCWizardPage *prev);
 
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYPAGE
-    void OnCancel( wxWizardExEvent& event );
-
-////@end CErrProxyPage event handler declarations
-
-////@begin CErrProxyPage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPageEx* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPageEx* GetNext() const;
+    bool HasNextPage() const;
+    bool HasPrevPage() const;
 
     wxString GetProxyHTTPServer() const { return m_strProxyHTTPServer ; }
     void SetProxyHTTPServer(wxString value) { m_strProxyHTTPServer = value ; }
@@ -89,39 +65,26 @@ public:
     wxString GetProxySOCKSPassword() const { return m_strProxySOCKSPassword ; }
     void SetProxySOCKSPassword(wxString value) { m_strProxySOCKSPassword = value ; }
 
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CErrProxyPage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CErrProxyPage member variables
-    wxStaticText* m_pTitleStaticCtrl;
-    wxStaticBox* m_pProxyHTTPDescriptionCtrl;
-    wxStaticText* m_pProxyHTTPServerStaticCtrl;
-    wxTextCtrl* m_pProxyHTTPServerCtrl;
-    wxStaticText* m_pProxyHTTPPortStaticCtrl;
-    wxTextCtrl* m_pProxyHTTPPortCtrl;
-    wxStaticText* m_pProxyHTTPUsernameStaticCtrl;
-    wxTextCtrl* m_pProxyHTTPUsernameCtrl;
-    wxStaticText* m_pProxyHTTPPasswordStaticCtrl;
-    wxTextCtrl* m_pProxyHTTPPasswordCtrl;
-#if 0
-    wxButton* m_pProxyHTTPAutodetectCtrl;
-#endif
-    wxStaticBox* m_pProxySOCKSDescriptionCtrl;
-    wxStaticText* m_pProxySOCKSServerStaticCtrl;
-    wxTextCtrl* m_pProxySOCKSServerCtrl;
-    wxStaticText* m_pProxySOCKSPortStaticCtrl;
-    wxTextCtrl* m_pProxySOCKSPortCtrl;
-    wxStaticText* m_pProxySOCKSUsernameStaticCtrl;
-    wxTextCtrl* m_pProxySOCKSUsernameCtrl;
-    wxStaticText* m_pProxySOCKSPasswordStaticCtrl;
-    wxTextCtrl* m_pProxySOCKSPasswordCtrl;
+private:
+    wxStaticText* m_pTitleStaticCtrl = nullptr;
+    wxStaticBox* m_pProxyHTTPDescriptionCtrl = nullptr;
+    wxStaticText* m_pProxyHTTPServerStaticCtrl = nullptr;
+    wxTextCtrl* m_pProxyHTTPServerCtrl = nullptr;
+    wxStaticText* m_pProxyHTTPPortStaticCtrl = nullptr;
+    wxTextCtrl* m_pProxyHTTPPortCtrl = nullptr;
+    wxStaticText* m_pProxyHTTPUsernameStaticCtrl = nullptr;
+    wxTextCtrl* m_pProxyHTTPUsernameCtrl = nullptr;
+    wxStaticText* m_pProxyHTTPPasswordStaticCtrl = nullptr;
+    wxTextCtrl* m_pProxyHTTPPasswordCtrl = nullptr;
+    wxStaticBox* m_pProxySOCKSDescriptionCtrl = nullptr;
+    wxStaticText* m_pProxySOCKSServerStaticCtrl = nullptr;
+    wxTextCtrl* m_pProxySOCKSServerCtrl = nullptr;
+    wxStaticText* m_pProxySOCKSPortStaticCtrl = nullptr;
+    wxTextCtrl* m_pProxySOCKSPortCtrl = nullptr;
+    wxStaticText* m_pProxySOCKSUsernameStaticCtrl = nullptr;
+    wxTextCtrl* m_pProxySOCKSUsernameCtrl = nullptr;
+    wxStaticText* m_pProxySOCKSPasswordStaticCtrl = nullptr;
+    wxTextCtrl* m_pProxySOCKSPasswordCtrl = nullptr;
     wxString m_strProxyHTTPServer;
     wxString m_strProxyHTTPPort;
     wxString m_strProxyHTTPUsername;
@@ -130,7 +93,9 @@ public:
     wxString m_strProxySOCKSPort;
     wxString m_strProxySOCKSUsername;
     wxString m_strProxySOCKSPassword;
-////@end CErrProxyPage member variables
+
+    CWizardAttach *m_pParent = nullptr;
+    CBOINCWizardPage *m_pPrev = nullptr;
 };
 
 #endif

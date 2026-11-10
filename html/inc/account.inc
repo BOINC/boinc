@@ -90,7 +90,7 @@ function create_account_form($teamid, $next_url) {
         ),
         "new_email_addr"
     );
-    $min_passwd_length = parse_element(get_config(), "<min_passwd_length>");
+    $min_passwd_length = project_config_val('min_passwd_length');
     if (!$min_passwd_length) {
         $min_passwd_length = 6;
     }

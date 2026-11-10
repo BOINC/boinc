@@ -65,8 +65,10 @@ function forum_page($forum, $user, $msg=null) {
     } else {
         // set the sort style
         if ($user){
-            $user->prefs->forum_sorting = $sort_style;
-            $user->prefs->update("forum_sorting=$sort_style");
+            if ($user->prefs->forum_sorting != $sort_style) {
+                $user->prefs->forum_sorting = $sort_style;
+                $user->prefs->update("forum_sorting=$sort_style");
+            }
         } else {
             list($old_style, $thread_style) = parse_forum_cookie();
             send_cookie(
@@ -101,16 +103,15 @@ function forum_page($forum, $user, $msg=null) {
         <td colspan=2>
     ';
 
-    switch (user_can_create_thread($user, $forum)) {
-    case 'yes':
-        show_button(
-            "forum_post.php?id=$forum->id", tra("New thread"),
-            tra("Add a new thread to this forum")
-        );
-        break;
-    case 'login':
+    if ($user) {
+        if (show_post_button($user, $forum)) {
+            show_button(
+                "forum_post.php?id=$forum->id", tra("New thread"),
+                tra("Add a new thread to this forum")
+            );
+        }
+    } else {
         echo "To add a thread, you must <a href=login_form.php>log in</a>.";
-        break;
     }
 
     if ($user) {
@@ -121,13 +122,13 @@ function forum_page($forum, $user, $msg=null) {
                 NOTIFY_SUBSCRIBED_FORUM,
                 $forum->id
             ));
-            show_button_small(
+            show_button(
                 "forum_forum.php?id=$forum->id&action=unsubscribe",
                 'Unsubscribe',
                 'Unsubscribe from this forum'
             );
         } else {
-            show_button_small(
+            show_button(
                 "forum_forum.php?id=$forum->id&action=subscribe",
                 'Subscribe',
                 'Click to get notified when there are new threads in this forum'
@@ -140,8 +141,11 @@ function forum_page($forum, $user, $msg=null) {
         <div class="form-group">
     ';
     echo select_from_array("sort", $forum_sort_styles, $sort_style);
+    show_submit_button(
+        tra('Sort'),
+        tra('Sort threads')
+    );
     echo sprintf('
-        <input class="btn btn-sm" %s type="submit" value="Sort">
         </div>
         </td>
         </tr>

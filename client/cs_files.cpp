@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -53,7 +53,6 @@ using std::vector;
 // for the given persistent file transfer
 //
 bool CLIENT_STATE::start_new_file_xfer(PERS_FILE_XFER& pfx) {
-    unsigned int i;
     int ntotal=0, nproj=0;
 
     if (network_suspended) return false;
@@ -63,8 +62,7 @@ bool CLIENT_STATE::start_new_file_xfer(PERS_FILE_XFER& pfx) {
     // limit the number of file transfers per project
     // (uploads and downloads are limited separately)
     //
-    for (i=0; i<file_xfers->file_xfers.size(); i++) {
-        FILE_XFER* fxp = file_xfers->file_xfers[i];
+    for (FILE_XFER* fxp: file_xfers->file_xfers) {
 
         // don't count user or project files
         //
@@ -90,11 +88,9 @@ bool CLIENT_STATE::start_new_file_xfer(PERS_FILE_XFER& pfx) {
 // and delete other stuff in projects/
 //
 int CLIENT_STATE::make_project_dirs() {
-    unsigned int i;
     int retval;
     vector<string> pds;
-    for (i=0; i<projects.size(); i++) {
-        PROJECT *p = projects[i];
+    for (PROJECT *p: projects) {
         retval = make_project_dir(*p);
         if (retval) return retval;
         pds.push_back(p->project_dir());
@@ -127,7 +123,7 @@ bool FILE_INFO::verify_file_certs() {
     if (!is_dir(CERTIFICATE_DIRECTORY)) return false;
     DIRREF dir = dir_open(CERTIFICATE_DIRECTORY);
     while (!dir_scan(file, dir, sizeof(file))) {
-        if (cert_verify_file(cert_sigs, file, CERTIFICATE_DIRECTORY)) {
+        if (!cert_verify_file(cert_sigs, file, CERTIFICATE_DIRECTORY)) {
             msg_printf(project, MSG_INFO,
                 "Signature verified using certificate %s", file
             );
@@ -306,9 +302,8 @@ int FILE_INFO::verify_file(
                 return retval;
             }
         }
-        retval = check_file_signature2(
-            cksum, file_signature, project->code_sign_key, verified
-        );
+        std::tie(retval, verified) = check_file_signature(
+            cksum, file_signature, project->code_sign_key);
         if (retval) {
             msg_printf(project, MSG_INTERNAL_ERROR,
                 "Signature verification error for %s",
@@ -372,8 +367,6 @@ int FILE_INFO::verify_file(
 // scan PERS_FILE_XFERs and delete finished ones.
 //
 bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
-    unsigned int i;
-    FILE_INFO* fip;
     PERS_FILE_XFER *pfx;
     bool action = false;
     int retval;
@@ -385,8 +378,7 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
     // Look for FILE_INFOs for which we should start a transfer,
     // and make PERS_FILE_XFERs for them
     //
-    for (i=0; i<file_infos.size(); i++) {
-        fip = file_infos[i];
+    for (FILE_INFO* fip: file_infos) {
         pfx = fip->pers_file_xfer;
         if (pfx) continue;
         if (fip->downloadable() && fip->status == FILE_NOT_PRESENT) {
@@ -417,7 +409,7 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
         // from the set and delete it
         //
         if (pfx->pers_xfer_done) {
-            fip = pfx->fip;
+            FILE_INFO* fip = pfx->fip;
             if (pfx->is_upload) {
                 // file has been uploaded - delete if not sticky
                 //
@@ -520,11 +512,9 @@ int FILE_INFO::check_size() {
 // Called at startup.
 //
 void CLIENT_STATE::check_file_existence() {
-    unsigned int i;
     char path[MAXPATHLEN];
 
-    for (i=0; i<file_infos.size(); i++) {
-        FILE_INFO* fip = file_infos[i];
+    for (FILE_INFO* fip: file_infos) {
         if (fip->status < 0 && fip->downloadable()) {
             // file had an error; reset it so that we download again
             get_pathname(fip, path, sizeof(path));
@@ -556,9 +546,8 @@ void CLIENT_STATE::check_file_existence() {
 // return the result that *fip is an output file of, if any
 //
 RESULT* CLIENT_STATE::file_info_to_result(FILE_INFO* fip) {
-    unsigned int i, j;
-    for (i=0; i<results.size(); i++) {
-        RESULT* rp = results[i];
+    unsigned int j;
+    for (RESULT *rp: results) {
         if (rp->project != fip->project) continue;
         for (j=0; j<rp->output_files.size(); j++) {
             FILE_REF& fr = rp->output_files[j];

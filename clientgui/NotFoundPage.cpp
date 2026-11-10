@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,88 +15,41 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 //
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "NotFoundPage.h"
-#endif
 
 #include "stdwx.h"
 #include "diagnostics.h"
-#include "util.h"
-#include "mfile.h"
-#include "miofile.h"
-#include "parse.h"
-#include "error_numbers.h"
-#include "wizardex.h"
-#include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
+#include "AccountInfoPage.h"
 #include "NotFoundPage.h"
 
+IMPLEMENT_DYNAMIC_CLASS(CErrNotFoundPage, CBOINCWizardPage)
 
-/*!
- * CErrNotFoundPage type definition
- */
-
-IMPLEMENT_DYNAMIC_CLASS( CErrNotFoundPage, wxWizardPageEx )
-
-/*!
- * CErrNotFoundPage event table definition
- */
-
-BEGIN_EVENT_TABLE( CErrNotFoundPage, wxWizardPageEx )
-
-////@begin CErrNotFoundPage event table entries
-    EVT_WIZARDEX_PAGE_CHANGED( -1, CErrNotFoundPage::OnPageChanged )
-    EVT_WIZARDEX_CANCEL( -1, CErrNotFoundPage::OnCancel )
-
-////@end CErrNotFoundPage event table entries
-
-END_EVENT_TABLE()
-
-/*!
- * CErrNotFoundPage constructors
- */
-
-CErrNotFoundPage::CErrNotFoundPage( )
-{
+CErrNotFoundPage::CErrNotFoundPage(CWizardAttach* parent) {
+    Create(parent);
 }
 
-CErrNotFoundPage::CErrNotFoundPage( CBOINCBaseWizard* parent )
-{
-    Create( parent );
-}
+bool CErrNotFoundPage::Create(CWizardAttach* parent) {
+    m_pParent = parent;
+    m_pPrev = nullptr;
+    m_pTitleStaticCtrl = nullptr;
+    m_pDirectionsStaticCtrl = nullptr;
 
-/*!
- * CErrNoInternetConnection creator
- */
-
-bool CErrNotFoundPage::Create( CBOINCBaseWizard* parent )
-{
-////@begin CErrNotFoundPage member initialisation
-    m_pTitleStaticCtrl = NULL;
-    m_pDirectionsStaticCtrl = NULL;
-////@end CErrNotFoundPage member initialisation
-
-////@begin CErrNotFoundPage creation
-    wxWizardPageEx::Create( parent, ID_ERRNOTFOUNDPAGE );
+    wxWizardPage::Create(parent);
 
     CreateControls();
     GetSizer()->Fit(this);
-////@end CErrNotFoundPage creation
 
-    return TRUE;
+    Bind(wxEVT_WIZARD_PAGE_CHANGED, [this](wxWizardEvent& event){ OnPageChanged(event); });
+    Bind(wxEVT_WIZARD_PAGE_CHANGING, [this](wxWizardEvent& event){ OnPageChanging(event); });
+    Bind(wxEVT_WIZARD_CANCEL, [this](wxWizardEvent& event){ OnCancel(event); });
+    return true;
 }
 
-/*!
- * Control creation for CErrNoInternetConnection
- */
-
-void CErrNotFoundPage::CreateControls()
-{
-////@begin CErrNotFoundPage content construction
+void CErrNotFoundPage::CreateControls() {
     CErrNotFoundPage* itemWizardPage96 = this;
 
     wxBoxSizer* itemBoxSizer97 = new wxBoxSizer(wxVERTICAL);
@@ -112,67 +65,30 @@ void CErrNotFoundPage::CreateControls()
     m_pDirectionsStaticCtrl = new wxStaticText;
     m_pDirectionsStaticCtrl->Create( itemWizardPage96, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer97->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
-////@end CErrNotFoundPage content construction
 }
 
-/*!
- * Gets the previous page.
- */
-
-wxWizardPageEx* CErrNotFoundPage::GetPrev() const
-{
-    return PAGE_TRANSITION_BACK;
+wxWizardPage* CErrNotFoundPage::GetPrev() const {
+    return m_pPrev;
 }
 
-/*!
- * Gets the next page.
- */
-
-wxWizardPageEx* CErrNotFoundPage::GetNext() const
-{
-    return PAGE_TRANSITION_NEXT(ID_ACCOUNTINFOPAGE);
+wxWizardPage* CErrNotFoundPage::GetNext() const {
+    return m_pParent->GetAccountInfoPage();
 }
 
-/*!
- * Should we show tooltips?
- */
-
-bool CErrNotFoundPage::ShowToolTips()
-{
-    return TRUE;
+void CErrNotFoundPage::SetPrev(CBOINCWizardPage *prev) {
+    m_pPrev = prev;
 }
 
-/*!
- * Get bitmap resources
- */
-
-wxBitmap CErrNotFoundPage::GetBitmapResource( const wxString& WXUNUSED(name) )
-{
-    // Bitmap retrieval
-////@begin CErrNotFoundPage bitmap retrieval
-    return wxNullBitmap;
-////@end CErrNotFoundPage bitmap retrieval
+bool CErrNotFoundPage::HasNextPage() const {
+    return true;
 }
 
-/*!
- * Get icon resources
- */
-
-wxIcon CErrNotFoundPage::GetIconResource( const wxString& WXUNUSED(name) )
-{
-    // Icon retrieval
-////@begin CErrNotFoundPage icon retrieval
-    return wxNullIcon;
-////@end CErrNotFoundPage icon retrieval
+bool CErrNotFoundPage::HasPrevPage() const {
+    return m_pPrev != nullptr;
 }
 
-/*!
- * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRNACCOUNTDOESNOTEXISTPAGE
- */
-
-void CErrNotFoundPage::OnPageChanged( wxWizardExEvent& event ) {
+void CErrNotFoundPage::OnPageChanged(wxWizardEvent& event) {
     if (event.GetDirection() == false) return;
-
 
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pDirectionsStaticCtrl);
@@ -180,7 +96,7 @@ void CErrNotFoundPage::OnPageChanged( wxWizardExEvent& event ) {
     m_pTitleStaticCtrl->SetLabel(
         _("Login Failed.")
     );
-    if (((CWizardAttach*)GetParent())->project_config.uses_username) {
+    if (m_pParent->GetProjectConfig().uses_username) {
         m_pDirectionsStaticCtrl->SetLabel(
             _("Check the username and password, and try again.")
         );
@@ -190,18 +106,21 @@ void CErrNotFoundPage::OnPageChanged( wxWizardExEvent& event ) {
         );
     }
 
-    CWizardAttach* pWA = ((CWizardAttach*)GetParent());
-    pWA->DisableNextButton();
-    pWA->GetBackButton()->SetDefault();
+    m_pParent->DisableNextButton();
+    m_pParent->GetBackButton()->SetDefault();
 
-    Fit();
+    Layout();
 }
 
-/*!
- * wxEVT_WIZARD_CANCEL event handler for ID_ERRNACCOUNTDOESNOTEXISTPAGE
- */
-
-void CErrNotFoundPage::OnCancel( wxWizardExEvent& event ) {
-    PROCESS_CANCELEVENT(event);
+void CErrNotFoundPage::OnCancel(wxWizardEvent& event) {
+    m_pParent->ProcessCancelEvent(event);
 }
 
+void CErrNotFoundPage::OnPageChanging(wxWizardEvent& event) {
+    if (event.GetDirection() == false) return;
+
+    CBOINCWizardPage *pageNext = dynamic_cast<CBOINCWizardPage*>(GetNext());
+    if (pageNext != nullptr) {
+        pageNext->SetPrev(const_cast<CErrNotFoundPage*>(this));
+    }
+}

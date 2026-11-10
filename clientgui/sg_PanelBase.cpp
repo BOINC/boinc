@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -25,18 +25,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CSimplePanelBase, wxPanel)
 
-BEGIN_EVENT_TABLE(CSimplePanelBase, wxPanel)
-#ifdef __WXMSW__
-    EVT_ERASE_BACKGROUND(CSimplePanelBase::OnEraseBackground)
-#else
-    EVT_PAINT(CSimplePanelBase::OnPaint)
-#endif
-END_EVENT_TABLE()
-
-
-CSimplePanelBase::CSimplePanelBase() {
-}
-
 
 CSimplePanelBase::CSimplePanelBase( wxWindow* parent ) :
     wxPanel( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN | wxBORDER_NONE )
@@ -44,6 +32,13 @@ CSimplePanelBase::CSimplePanelBase( wxWindow* parent ) :
 #ifdef __WXMSW__
     SetDoubleBuffered(true);
 #endif
+
+#ifdef __WXMSW__
+    Bind(wxEVT_ERASE_BACKGROUND, [this](wxEraseEvent& event){ OnEraseBackground(event); });
+#else
+    Bind(wxEVT_PAINT, [this](wxPaintEvent& event){ OnPaint(event); });
+#endif
+
 }
 
 

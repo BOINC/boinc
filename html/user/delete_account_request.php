@@ -22,8 +22,7 @@ require_once("../inc/delete_account.inc");
 require_once("../inc/user_util.inc");
 require_once("../inc/email.inc");
 
-$config = get_config();
-if (!parse_bool($config, "enable_delete_account")) {
+if (!project_config_bool("enable_delete_account")) {
     error_page(
         tra("This feature is disabled.  Please contact the project administrator.")
     );
@@ -58,10 +57,14 @@ function delete_account_request_form($user) {
 function delete_account_request_action($user) {
     $passwd = post_str("passwd");
     check_passwd_ui($user, $passwd);
-    send_confirm_delete_email($user);
+    page_head(tra("Delete account request"));
+    $success = send_confirm_delete_email($user);
 
-    page_head(tra("Confirmation Email Sent"));
-    echo "<p>".tra("The email to confirm your request to delete your account has been sent.")."</p>";
+    if ($success) {
+        echo "<p>".tra("The email to confirm your request to delete your account has been sent.")."</p>";
+    } else {
+        echo "<p>".tra("Can't send confirmation email to %1. Please try again later.", $user->email_addr)."</p>";
+    }
     page_tail();
 }
 

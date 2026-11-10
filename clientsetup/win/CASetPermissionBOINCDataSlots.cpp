@@ -1,295 +1,233 @@
-// Berkeley Open Infrastructure for Network Computing
-// http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// This file is part of BOINC.
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
-// This is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation;
-// either version 2.1 of the License, or (at your option) any later version.
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
 //
-// This software is distributed in the hope that it will be useful,
+// BOINC is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // See the GNU Lesser General Public License for more details.
 //
-// To view the GNU Lesser General Public License visit
-// http://www.gnu.org/copyleft/lesser.html
-// or write to the Free Software Foundation, Inc.,
-// 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
 #include "boinccas.h"
-#include "CASetPermissionBOINCDataSlots.h"
-#include "dirops.h"
 
-#define CUSTOMACTION_NAME               _T("CASetPermissionBOINCDataSlots")
-#define CUSTOMACTION_PROGRESSTITLE      _T("Setting permissions on the BOINC Slots directory.")
+class CASetPermissionBOINCDataSlots : public BOINCCABase {
+public:
+    virtual ~CASetPermissionBOINCDataSlots() = default;
+    explicit CASetPermissionBOINCDataSlots(MSIHANDLE hMSIHandle) :
+        BOINCCABase(hMSIHandle, _T("CASetPermissionBOINCDataSlots"),
+            _T("Setting permissions on the BOINC Slots directory.")) {
+    }
+private:
+    UINT OnExecution() override final {
+        tstring strEnableProtectedApplicationExecution;
+        auto uiReturnValue =
+            GetProperty(_T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"),
+                strEnableProtectedApplicationExecution);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
+        if (_T("1") != strEnableProtectedApplicationExecution) {
+            return ERROR_SUCCESS;
+        }
 
+        tstring strBOINCDataDirectory;
+        uiReturnValue = GetProperty(_T("DATADIR"), strBOINCDataDirectory);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
+        if (!std::filesystem::exists(strBOINCDataDirectory)) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
+                _T("The data directory doesn't exist."));
+            return ERROR_INSTALL_FAILURE;
+        }
 
-/////////////////////////////////////////////////////////////////////
-//
-// Function:
-//
-// Description:
-//
-/////////////////////////////////////////////////////////////////////
-CASetPermissionBOINCDataSlots::CASetPermissionBOINCDataSlots(MSIHANDLE hMSIHandle) :
-    BOINCCABase(hMSIHandle, CUSTOMACTION_NAME, CUSTOMACTION_PROGRESSTITLE)
-{}
+        auto strBOINCDataSlotsDirectory =
+            strBOINCDataDirectory + _T("\\slots");
+        if (!std::filesystem::exists(strBOINCDataSlotsDirectory)) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
+                _T("The slots directory doesn't exist."));
+            return ERROR_INSTALL_FAILURE;
+        }
 
+        tstring strEnableUseByAllUsers;
+        uiReturnValue = GetProperty(_T("ENABLEUSEBYALLUSERS"),
+            strEnableUseByAllUsers);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
+        const auto enableUseByAllUsers = strEnableUseByAllUsers == _T("1");
 
-/////////////////////////////////////////////////////////////////////
-//
-// Function:
-//
-// Description:
-//
-/////////////////////////////////////////////////////////////////////
-CASetPermissionBOINCDataSlots::~CASetPermissionBOINCDataSlots()
-{
-    BOINCCABase::~BOINCCABase();
-}
+        tstring strBOINCAdminsGroupAlias;
+        uiReturnValue = GetProperty(_T("BOINC_ADMINS_GROUPNAME"),
+            strBOINCAdminsGroupAlias);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
+        if (strBOINCAdminsGroupAlias.empty()) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
+                _T("The BOINC Admins group alias is empty."));
+            return ERROR_INSTALL_FAILURE;
+        }
+        if (!localGroupExists(strBOINCAdminsGroupAlias)) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
+                _T("The BOINC Admins group doesn't exist."));
+            return ERROR_INSTALL_FAILURE;
+        }
 
+        tstring strBOINCUsersGroupAlias;
+        uiReturnValue = GetProperty(_T("BOINC_USERS_GROUPNAME"),
+            strBOINCUsersGroupAlias);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
+        if (strBOINCUsersGroupAlias.empty()) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
+                _T("The BOINC Users group alias is empty."));
+            return ERROR_INSTALL_FAILURE;
+        }
+        if (!localGroupExists(strBOINCUsersGroupAlias)) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
+                _T("The BOINC Users group doesn't exist."));
+            return ERROR_INSTALL_FAILURE;
+        }
 
-/////////////////////////////////////////////////////////////////////
-//
-// Function:
-//
-// Description:
-//
-/////////////////////////////////////////////////////////////////////
-UINT CASetPermissionBOINCDataSlots::OnExecution()
-{
-    DWORD               dwRes = 0;
-    PACL                pACL = NULL;
-    ULONGLONG           rgSidSY[(SECURITY_MAX_SID_SIZE+sizeof(ULONGLONG)-1)/sizeof(ULONGLONG)]={0};
-    ULONGLONG           rgSidBA[(SECURITY_MAX_SID_SIZE+sizeof(ULONGLONG)-1)/sizeof(ULONGLONG)]={0};
-    ULONGLONG           rgSidBU[(SECURITY_MAX_SID_SIZE+sizeof(ULONGLONG)-1)/sizeof(ULONGLONG)]={0};
-    DWORD               dwSidSize;
-    EXPLICIT_ACCESS     ea[6];
-    ULONG               ulEntries = 0;
-    tstring             strBOINCAdminsGroupAlias;
-    tstring             strBOINCUsersGroupAlias;
-    tstring             strBOINCProjectsGroupAlias;
-    tstring             strBOINCDataDirectory;
-    tstring             strBOINCDataSlotsDirectory;
-    tstring             strEnableProtectedApplicationExecution;
-    tstring             strEnableUseByAllUsers;
-    UINT                uiReturnValue;
+        tstring strBOINCProjectsGroupAlias;
+        uiReturnValue = GetProperty(_T("BOINC_PROJECTS_GROUPNAME"),
+            strBOINCProjectsGroupAlias);
+        if (uiReturnValue != ERROR_SUCCESS) {
+            return uiReturnValue;
+        }
+        if (strBOINCProjectsGroupAlias.empty()) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
+                _T("The BOINC Projects group alias is empty."));
+            return ERROR_INSTALL_FAILURE;
+        }
+        if (!localGroupExists(strBOINCProjectsGroupAlias)) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
+                _T("The BOINC Projects group doesn't exist."));
+            return ERROR_INSTALL_FAILURE;
+        }
 
-    uiReturnValue = GetProperty( _T("BOINC_ADMINS_GROUPNAME"), strBOINCAdminsGroupAlias );
-    if ( uiReturnValue ) return uiReturnValue;
+        DWORD sizeSystem = SECURITY_MAX_SID_SIZE;
+        std::array<BYTE, SECURITY_MAX_SID_SIZE> bufferSystem;
+        if (!CreateWellKnownSid(WinLocalSystemSid, nullptr, &bufferSystem,
+            &sizeSystem)) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
+                _T("CreateWellKnownSid Error for SYSTEM"));
+            return ERROR_INSTALL_FAILURE;
+        }
 
-    uiReturnValue = GetProperty( _T("BOINC_USERS_GROUPNAME"), strBOINCUsersGroupAlias );
-    if ( uiReturnValue ) return uiReturnValue;
+        DWORD sizeAdmins = SECURITY_MAX_SID_SIZE;
+        std::array<BYTE, SECURITY_MAX_SID_SIZE> bufferAdmins;
+        if (!CreateWellKnownSid(WinBuiltinAdministratorsSid, nullptr,
+            &bufferAdmins, &sizeAdmins)) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
+                _T("CreateWellKnownSid Error for BUILTIN\\Administrators"));
+            return ERROR_INSTALL_FAILURE;
+        }
 
-    uiReturnValue = GetProperty( _T("BOINC_PROJECTS_GROUPNAME"), strBOINCProjectsGroupAlias );
-    if ( uiReturnValue ) return uiReturnValue;
+        DWORD sizeUsers = SECURITY_MAX_SID_SIZE;
+        std::array<BYTE, SECURITY_MAX_SID_SIZE> bufferUsers;
+        if (enableUseByAllUsers) {
+            if (!CreateWellKnownSid(WinBuiltinUsersSid, nullptr, &bufferUsers,
+                &sizeUsers)) {
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
+                    _T("CreateWellKnownSid Error for BUILTIN\\Users"));
+                return ERROR_INSTALL_FAILURE;
+            }
+        }
 
-    uiReturnValue = GetProperty( _T("DATADIR"), strBOINCDataDirectory );
-    if ( uiReturnValue ) return uiReturnValue;
+        std::vector<EXPLICIT_ACCESS> ea;
+        ULONG ulEntries = enableUseByAllUsers ? 6 : 5;
+        ea.resize(ulEntries);
 
-    uiReturnValue = GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strEnableProtectedApplicationExecution );
-    if ( uiReturnValue ) return uiReturnValue;
+        // SYSTEM
+        ea[0].grfAccessPermissions = GENERIC_ALL;
+        ea[0].grfAccessMode = SET_ACCESS;
+        ea[0].grfInheritance = SUB_CONTAINERS_AND_OBJECTS_INHERIT;
+        ea[0].Trustee.TrusteeForm = TRUSTEE_IS_SID;
+        ea[0].Trustee.TrusteeType = TRUSTEE_IS_WELL_KNOWN_GROUP;
+        ea[0].Trustee.ptstrName = reinterpret_cast<LPTSTR>(&bufferSystem);
 
-    uiReturnValue = GetProperty( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
-    if ( uiReturnValue ) return uiReturnValue;
+        // Administrators
+        ea[1].grfAccessPermissions = GENERIC_ALL;
+        ea[1].grfAccessMode = SET_ACCESS;
+        ea[1].grfInheritance = SUB_CONTAINERS_AND_OBJECTS_INHERIT;
+        ea[1].Trustee.TrusteeForm = TRUSTEE_IS_SID;
+        ea[1].Trustee.TrusteeType = TRUSTEE_IS_WELL_KNOWN_GROUP;
+        ea[1].Trustee.ptstrName = reinterpret_cast<LPTSTR>(&bufferAdmins);
 
+        // boinc_admins
+        ea[2].grfAccessPermissions = GENERIC_ALL;
+        ea[2].grfAccessMode = SET_ACCESS;
+        ea[2].grfInheritance = SUB_CONTAINERS_AND_OBJECTS_INHERIT;
+        ea[2].Trustee.TrusteeForm = TRUSTEE_IS_NAME;
+        ea[2].Trustee.TrusteeType = TRUSTEE_IS_GROUP;
+        ea[2].Trustee.ptstrName = strBOINCAdminsGroupAlias.data();
 
-    // If we are not installing as a service, we do not need to modify the
-    // slots directory permissions
-    if (_T("1") != strEnableProtectedApplicationExecution) {
+        // boinc_users
+        ea[3].grfAccessPermissions = GENERIC_READ | GENERIC_EXECUTE;
+        ea[3].grfAccessMode = SET_ACCESS;
+        ea[3].grfInheritance = SUB_CONTAINERS_AND_OBJECTS_INHERIT;
+        ea[3].Trustee.TrusteeForm = TRUSTEE_IS_NAME;
+        ea[3].Trustee.TrusteeType = TRUSTEE_IS_GROUP;
+        ea[3].Trustee.ptstrName = strBOINCUsersGroupAlias.data();
+
+        // boinc_projects
+        ea[4].grfAccessPermissions = GENERIC_ALL;
+        ea[4].grfAccessMode = SET_ACCESS;
+        ea[4].grfInheritance = SUB_CONTAINERS_AND_OBJECTS_INHERIT;
+        ea[4].Trustee.TrusteeForm = TRUSTEE_IS_NAME;
+        ea[4].Trustee.TrusteeType = TRUSTEE_IS_GROUP;
+        ea[4].Trustee.ptstrName = strBOINCProjectsGroupAlias.data();
+
+        // Users
+        if (enableUseByAllUsers) {
+            ea[5].grfAccessPermissions = GENERIC_READ | GENERIC_EXECUTE;
+            ea[5].grfAccessMode = SET_ACCESS;
+            ea[5].grfInheritance = SUB_CONTAINERS_AND_OBJECTS_INHERIT;
+            ea[5].Trustee.TrusteeForm = TRUSTEE_IS_SID;
+            ea[5].Trustee.TrusteeType = TRUSTEE_IS_WELL_KNOWN_GROUP;
+            ea[5].Trustee.ptstrName = reinterpret_cast<LPTSTR>(&bufferUsers);
+        }
+
+        PACL pACL = nullptr;
+        auto dwRes = SetEntriesInAcl(ulEntries, ea.data(), nullptr, &pACL);
+        wil::unique_any<PACL, decltype(&::LocalFree), ::LocalFree>
+            pACLGuard(pACL);
+        if (dwRes != ERROR_SUCCESS) {
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, GetLastError(),
+                _T("SetEntriesInAcl Error"));
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
+                _T("SetEntriesInAcl Error"));
+            return ERROR_INSTALL_FAILURE;
+        }
+
+        dwRes = SetNamedSecurityInfo(strBOINCDataSlotsDirectory.data(),
+            SE_FILE_OBJECT,
+            DACL_SECURITY_INFORMATION | PROTECTED_DACL_SECURITY_INFORMATION,
+            NULL, NULL, pACL, NULL);
+        if (dwRes != ERROR_SUCCESS) {
+            LogMessage(INSTALLMESSAGE_INFO, 0, 0, GetLastError(),
+                _T("SetNamedSecurityInfo Error"));
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
+                _T("SetNamedSecurityInfo Error"));
+            return ERROR_INSTALL_FAILURE;
+        }
+
+        RecursiveSetPermissions(strBOINCDataSlotsDirectory, pACL);
+
         return ERROR_SUCCESS;
     }
+};
 
-
-    strBOINCDataSlotsDirectory = strBOINCDataDirectory + _T("\\slots");
-
-
-    // Initialize an EXPLICIT_ACCESS structure for all ACEs.
-    ZeroMemory(&ea, 6 * sizeof(EXPLICIT_ACCESS));
-
-    // Create a SID for the SYSTEM.
-    dwSidSize = sizeof( rgSidSY );
-    if(!CreateWellKnownSid(WinLocalSystemSid, NULL, rgSidSY, &dwSidSize))
-    {
-        LogMessage(
-            INSTALLMESSAGE_ERROR,
-            NULL,
-            NULL,
-            NULL,
-            GetLastError(),
-            _T("CreateWellKnownSid Error for SYSTEM")
-        );
-        return ERROR_INSTALL_FAILURE;
-    }
-
-    // Create a SID for the Administrators group.
-    dwSidSize = sizeof( rgSidBA );
-    if(!CreateWellKnownSid(WinBuiltinAdministratorsSid, NULL, rgSidBA, &dwSidSize))
-    {
-        LogMessage(
-            INSTALLMESSAGE_ERROR,
-            NULL,
-            NULL,
-            NULL,
-            GetLastError(),
-            _T("CreateWellKnownSid Error for BUILTIN\\Administrators")
-        );
-        return ERROR_INSTALL_FAILURE;
-    }
-
-    // Create a SID for the Users group.
-    dwSidSize = sizeof( rgSidBU );
-    if(!CreateWellKnownSid(WinBuiltinUsersSid, NULL, rgSidBU, &dwSidSize))
-    {
-        LogMessage(
-            INSTALLMESSAGE_ERROR,
-            NULL,
-            NULL,
-            NULL,
-            GetLastError(),
-            _T("CreateWellKnownSid Error for BUILTIN\\Users")
-        );
-        return ERROR_INSTALL_FAILURE;
-    }
-
-    ulEntries = 5;
-
-    // SYSTEM
-    ea[0].grfAccessPermissions = GENERIC_ALL;
-    ea[0].grfAccessMode = SET_ACCESS;
-    ea[0].grfInheritance= SUB_CONTAINERS_AND_OBJECTS_INHERIT;
-    ea[0].Trustee.TrusteeForm = TRUSTEE_IS_SID;
-    ea[0].Trustee.TrusteeType = TRUSTEE_IS_WELL_KNOWN_GROUP;
-    ea[0].Trustee.ptstrName  = (LPTSTR)rgSidSY;
-
-    // Administrators
-    ea[1].grfAccessPermissions = GENERIC_ALL;
-    ea[1].grfAccessMode = SET_ACCESS;
-    ea[1].grfInheritance= SUB_CONTAINERS_AND_OBJECTS_INHERIT;
-    ea[1].Trustee.TrusteeForm = TRUSTEE_IS_SID;
-    ea[1].Trustee.TrusteeType = TRUSTEE_IS_WELL_KNOWN_GROUP;
-    ea[1].Trustee.ptstrName  = (LPTSTR)rgSidBA;
-
-    // boinc_admins
-    ea[2].grfAccessPermissions = GENERIC_ALL;
-    ea[2].grfAccessMode = SET_ACCESS;
-    ea[2].grfInheritance= SUB_CONTAINERS_AND_OBJECTS_INHERIT;
-    ea[2].Trustee.TrusteeForm = TRUSTEE_IS_NAME;
-    ea[2].Trustee.TrusteeType = TRUSTEE_IS_GROUP;
-    ea[2].Trustee.ptstrName  = (LPTSTR)strBOINCAdminsGroupAlias.c_str();
-
-    // boinc_users
-    ea[3].grfAccessPermissions = GENERIC_READ|GENERIC_EXECUTE;
-    ea[3].grfAccessMode = SET_ACCESS;
-    ea[3].grfInheritance= SUB_CONTAINERS_AND_OBJECTS_INHERIT;
-    ea[3].Trustee.TrusteeForm = TRUSTEE_IS_NAME;
-    ea[3].Trustee.TrusteeType = TRUSTEE_IS_GROUP;
-    ea[3].Trustee.ptstrName  = (LPTSTR)strBOINCUsersGroupAlias.c_str();
-
-    // boinc_projects
-    ea[4].grfAccessPermissions = GENERIC_ALL;
-    ea[4].grfAccessMode = SET_ACCESS;
-    ea[4].grfInheritance= SUB_CONTAINERS_AND_OBJECTS_INHERIT;
-    ea[4].Trustee.TrusteeForm = TRUSTEE_IS_NAME;
-    ea[4].Trustee.TrusteeType = TRUSTEE_IS_GROUP;
-    ea[4].Trustee.ptstrName  = (LPTSTR)strBOINCProjectsGroupAlias.c_str();
-
-    // Users
-    if (_T("1") == strEnableUseByAllUsers) {
-        ulEntries = 6;
-
-        ea[5].grfAccessPermissions = GENERIC_READ|GENERIC_EXECUTE;
-        ea[5].grfAccessMode = SET_ACCESS;
-        ea[5].grfInheritance= SUB_CONTAINERS_AND_OBJECTS_INHERIT;
-        ea[5].Trustee.TrusteeForm = TRUSTEE_IS_SID;
-        ea[5].Trustee.TrusteeType = TRUSTEE_IS_WELL_KNOWN_GROUP;
-        ea[5].Trustee.ptstrName  = (LPTSTR)rgSidBU;
-    }
-
-
-    // Create a new ACL that contains the new ACEs.
-    dwRes = SetEntriesInAcl(ulEntries, &ea[0], NULL, &pACL);
-    if (ERROR_SUCCESS != dwRes)
-    {
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL,
-            NULL,
-            NULL,
-            GetLastError(),
-            _T("SetEntriesInAcl Error")
-        );
-        LogMessage(
-            INSTALLMESSAGE_ERROR,
-            NULL,
-            NULL,
-            NULL,
-            GetLastError(),
-            _T("SetEntriesInAcl Error")
-        );
-        return ERROR_INSTALL_FAILURE;
-    }
-
-    // Set the ACL on the Data Directory itself.
-    dwRes = SetNamedSecurityInfo(
-        (LPWSTR)strBOINCDataSlotsDirectory.c_str(),
-        SE_FILE_OBJECT,
-        DACL_SECURITY_INFORMATION | PROTECTED_DACL_SECURITY_INFORMATION,
-        NULL,
-        NULL,
-        pACL,
-        NULL
-    );
-    if (ERROR_SUCCESS != dwRes)
-    {
-        LogMessage(
-            INSTALLMESSAGE_INFO,
-            NULL,
-            NULL,
-            NULL,
-            GetLastError(),
-            _T("SetNamedSecurityInfo Error")
-        );
-        LogMessage(
-            INSTALLMESSAGE_ERROR,
-            NULL,
-            NULL,
-            NULL,
-            GetLastError(),
-            _T("SetNamedSecurityInfo Error")
-        );
-        return ERROR_INSTALL_FAILURE;
-    }
-
-    // Set ACLs on all files and sub folders.
-    RecursiveSetPermissions(strBOINCDataSlotsDirectory, pACL);
-
-
-    if (pACL)
-        LocalFree(pACL);
-
-    return ERROR_SUCCESS;
+UINT __stdcall SetPermissionBOINCDataSlots(MSIHANDLE hInstall) {
+    return CASetPermissionBOINCDataSlots(hInstall).Execute();
 }
-
-
-/////////////////////////////////////////////////////////////////////
-//
-// Function:    SetPermissionBOINCDataSlots
-//
-// Description:
-//
-/////////////////////////////////////////////////////////////////////
-UINT __stdcall SetPermissionBOINCDataSlots(MSIHANDLE hInstall)
-{
-    UINT uiReturnValue = 0;
-
-    CASetPermissionBOINCDataSlots* pCA = new CASetPermissionBOINCDataSlots(hInstall);
-    uiReturnValue = pCA->Execute();
-    delete pCA;
-
-    return uiReturnValue;
-}
-

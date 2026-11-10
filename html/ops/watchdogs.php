@@ -39,7 +39,7 @@ function sound_alarm($x) {
 
 function check_log_file($file, $last_time) {
     $t = filemtime($file);
-    if ($t == false) {
+    if ($t === false) {
         sound_alarm("log file ".$file." missing");
     } else if ($t > $last_time) {
         $lines = file($file);

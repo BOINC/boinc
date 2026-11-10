@@ -1,8 +1,10 @@
-# fixes to dark-backround themes to increase legibility
-# link color: EA9185
-# possible banner: 5E8A7B
-# panel backgd: 464938
-# overall backgd:  393917
+/*
+ fixes to dark-backround themes to increase legibility
+ link color: EA9185
+ possible banner: 5E8A7B
+ panel backgd: 464938
+ overall backgd:  393917
+*/
 
 body, navbar-text, panel {
     color:white;

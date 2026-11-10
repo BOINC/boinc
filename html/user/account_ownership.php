@@ -22,10 +22,12 @@ require_once("../inc/util.inc");
 require_once("../inc/countries.inc");
 require_once('../inc/recaptchalib.inc');
 
+die('DEPRECATED; see https://github.com/BOINC/boinc/wiki/ProofOfOwnership');
+
 check_get_args(array("tnow", "ttok"));
 
 $user = get_logged_in_user();
-check_tokens($user->authenticator);
+check_tokens();
 
 function account_ownership_action($user) {
   // POST request - the user has submitted the form.
@@ -42,7 +44,7 @@ function account_ownership_action($user) {
   }
 
   // Input is passed in from the openssl_sign_form
-  $user_data = htmlentities(post_str("user_data", true), ENT_QUOTES, "UTF-8"); // Convert special characters to html equivelant
+  $user_data = htmlentities(post_str("user_data", true), ENT_QUOTES, "UTF-8"); // Convert special characters to html equivalent
 
   if ((strlen($user_data) > 0) && (strlen($user_data) <= 4096)) {
       require_once("../inc/account_ownership.inc");
@@ -85,7 +87,7 @@ function account_ownership_action($user) {
 
       // Check if signature was successfully validated
       if ($sig_verification == 1) {
-          $url_tokens = url_tokens($user->authenticator);
+          $url_tokens = url_tokens();
           // The generated signature has been successfully verified using the public key.
           $master_url = master_url();
           echo "<p>Do not share this information with anyone other than the external system which has requested this proof of account ownership.</p>";
@@ -144,7 +146,7 @@ function account_ownership_form($user) {
       echo "<p>A textbox will then appear which contains your proof of account ownership.";
       echo "<form method=post action=account_ownership.php>";
 
-      echo form_tokens($user->authenticator);
+      echo form_tokens();
       echo "<textarea rows='4' cols='50' name=user_data type=text size=20 placeholder='Enter text'></textarea><br/><br/>";
 
       if (recaptcha_public_key()) {

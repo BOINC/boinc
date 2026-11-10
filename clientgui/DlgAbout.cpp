@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,9 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 //
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "DlgAbout.h"
-#endif
 
 #include "stdwx.h"
 #include "diagnostics.h"
@@ -29,9 +26,6 @@
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 
-////@begin includes
-////@end includes
-
 #include "DlgAbout.h"
 
 #ifdef __WXMSW__
@@ -40,33 +34,9 @@
 #include "config.h"
 #endif
 
-////@begin XPM images
 #include "res/boinc_logo.xpm"
-////@end XPM images
-
-
-/*!
- * CDlgAbout type definition
- */
 
 IMPLEMENT_DYNAMIC_CLASS(CDlgAbout, wxDialog)
-
-/*!
- * CDlgAbout event table definition
- */
-
-BEGIN_EVENT_TABLE(CDlgAbout, wxDialog)
-
-////@begin CDlgAbout event table entries
-////@end CDlgAbout event table entries
-
-END_EVENT_TABLE()
-
-/*!
- * CDlgAbout constructors
- */
-
-CDlgAbout::CDlgAbout() {}
 
 CDlgAbout::CDlgAbout(wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style) {
     Create(parent, id, caption, pos, size, style);

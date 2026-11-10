@@ -50,7 +50,7 @@ struct SPORADIC_RESOURCES {
 
     // are there enough free resources to run the task?
     bool enough(ACTIVE_TASK *atp) {
-        if (mem_used + atp->procinfo.working_set_size_smoothed > mem_max) {
+        if (mem_used + atp->procinfo.rss_smoothed > mem_max) {
             return false;
         }
         RESULT *rp = atp->result;
@@ -77,7 +77,7 @@ struct SPORADIC_RESOURCES {
     // reserve resources for the task
     void reserve(ACTIVE_TASK *atp) {
         RESULT *rp = atp->result;
-        mem_used += atp->procinfo.working_set_size_smoothed;
+        mem_used += atp->procinfo.rss_smoothed;
         ncpus_used+= rp->resource_usage.avg_ncpus;
         int rt = rp->resource_usage.rsc_type;
         if (rt) {

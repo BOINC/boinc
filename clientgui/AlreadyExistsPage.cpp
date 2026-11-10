@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,19 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 //
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "AlreadyExistsPage.h"
-#endif
 
 #include "stdwx.h"
 #include "diagnostics.h"
-#include "util.h"
-#include "mfile.h"
-#include "miofile.h"
-#include "parse.h"
-#include "error_numbers.h"
-#include "wizardex.h"
-#include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
@@ -36,67 +26,29 @@
 #include "AlreadyExistsPage.h"
 
 
-/*!
- * CErrAlreadyExistsPage type definition
- */
+IMPLEMENT_DYNAMIC_CLASS(CErrAlreadyExistsPage, CBOINCWizardPage)
 
-IMPLEMENT_DYNAMIC_CLASS( CErrAlreadyExistsPage, wxWizardPageEx )
-
-/*!
- * CErrAlreadyExistsPage event table definition
- */
-
-BEGIN_EVENT_TABLE( CErrAlreadyExistsPage, wxWizardPageEx )
-
-////@begin CErrAlreadyExistsPage event table entries
-    EVT_WIZARDEX_PAGE_CHANGED( -1, CErrAlreadyExistsPage::OnPageChanged )
-    EVT_WIZARDEX_CANCEL( -1, CErrAlreadyExistsPage::OnCancel )
-
-////@end CErrAlreadyExistsPage event table entries
-
-END_EVENT_TABLE()
-
-/*!
- * CErrAlreadyExistsPage constructors
- */
-
-CErrAlreadyExistsPage::CErrAlreadyExistsPage( )
-{
+CErrAlreadyExistsPage::CErrAlreadyExistsPage(CWizardAttach* parent) {
+    Create(parent);
 }
 
-CErrAlreadyExistsPage::CErrAlreadyExistsPage( CBOINCBaseWizard* parent )
-{
-    Create( parent );
-}
+bool CErrAlreadyExistsPage::Create(CWizardAttach* parent) {
+    m_pParent = parent;
+    m_pPrev = nullptr;
+    m_pTitleStaticCtrl = nullptr;
+    m_pDirectionsStaticCtrl = nullptr;
 
-/*!
- * CErrAccountAlreadyExists creator
- */
-
-bool CErrAlreadyExistsPage::Create( CBOINCBaseWizard* parent )
-{
-////@begin CErrAlreadyExistsPage member initialisation
-    m_pTitleStaticCtrl = NULL;
-    m_pDirectionsStaticCtrl = NULL;
-////@end CErrAlreadyExistsPage member initialisation
-
-////@begin CErrAlreadyExistsPage creation
-    wxWizardPageEx::Create( parent, ID_ERRALREADYEXISTSPAGE );
+    wxWizardPage::Create(parent);
 
     CreateControls();
     GetSizer()->Fit(this);
-////@end CErrAlreadyExistsPage creation
 
-    return TRUE;
+    Bind(wxEVT_WIZARD_PAGE_CHANGED, [this](wxWizardEvent& event){ OnPageChanged(event); });
+    Bind(wxEVT_WIZARD_CANCEL, [this](wxWizardEvent& event){ OnCancel(event); });
+    return true;
 }
 
-/*!
- * Control creation for CErrAccountAlreadyExists
- */
-
-void CErrAlreadyExistsPage::CreateControls()
-{
-////@begin CErrAlreadyExistsPage content construction
+void CErrAlreadyExistsPage::CreateControls() {
     CErrAlreadyExistsPage* itemWizardPage96 = this;
 
     wxBoxSizer* itemBoxSizer97 = new wxBoxSizer(wxVERTICAL);
@@ -112,74 +64,36 @@ void CErrAlreadyExistsPage::CreateControls()
     m_pDirectionsStaticCtrl = new wxStaticText;
     m_pDirectionsStaticCtrl->Create( itemWizardPage96, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer97->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
-////@end CErrAlreadyExistsPage content construction
 }
 
-/*!
- * Gets the previous page.
- */
-
-wxWizardPageEx* CErrAlreadyExistsPage::GetPrev() const
-{
-    return PAGE_TRANSITION_BACK;
+wxWizardPage* CErrAlreadyExistsPage::GetPrev() const {
+    return m_pPrev;
 }
 
-/*!
- * Gets the next page.
- */
-
-wxWizardPageEx* CErrAlreadyExistsPage::GetNext() const
-{
-    return NULL;
+wxWizardPage* CErrAlreadyExistsPage::GetNext() const {
+    return nullptr;
 }
 
-/*!
- * Should we show tooltips?
- */
-
-bool CErrAlreadyExistsPage::ShowToolTips()
-{
-    return TRUE;
+void CErrAlreadyExistsPage::SetPrev(CBOINCWizardPage *prev) {
+    m_pPrev = prev;
 }
 
-/*!
- * Get bitmap resources
- */
-
-wxBitmap CErrAlreadyExistsPage::GetBitmapResource( const wxString& WXUNUSED(name) )
-{
-    // Bitmap retrieval
-////@begin CErrAlreadyExistsPage bitmap retrieval
-    return wxNullBitmap;
-////@end CErrAlreadyExistsPage bitmap retrieval
+bool CErrAlreadyExistsPage::HasNextPage() const {
+    return false;
 }
 
-/*!
- * Get icon resources
- */
-
-wxIcon CErrAlreadyExistsPage::GetIconResource( const wxString& WXUNUSED(name) )
-{
-    // Icon retrieval
-
-////@begin CErrAlreadyExistsPage icon retrieval
-    return wxNullIcon;
-////@end CErrAlreadyExistsPage icon retrieval
+bool CErrAlreadyExistsPage::HasPrevPage() const {
+    return m_pPrev != nullptr;
 }
 
-/*!
- * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRACCOUNTALREADYEXISTSPAGE
- */
-
-void CErrAlreadyExistsPage::OnPageChanged( wxWizardExEvent& event ) {
+void CErrAlreadyExistsPage::OnPageChanged(wxWizardEvent& event) {
     if (event.GetDirection() == false) return;
 
-    CWizardAttach* pWA = ((CWizardAttach*)GetParent());
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pDirectionsStaticCtrl);
-    wxASSERT(pWA);
+    wxASSERT(m_pParent);
 
-    if (pWA->project_config.uses_username) {
+    if (m_pParent->GetProjectConfig().uses_username) {
         m_pTitleStaticCtrl->SetLabel(
             _("Username already in use")
         );
@@ -195,14 +109,9 @@ void CErrAlreadyExistsPage::OnPageChanged( wxWizardExEvent& event ) {
         );
     }
 
-    Fit();
+    Layout();
 }
 
-/*!
- * wxEVT_WIZARD_CANCEL event handler for ID_ERRACCOUNTALREADYEXISTSPAGE
- */
-
-void CErrAlreadyExistsPage::OnCancel( wxWizardExEvent& event ) {
-    PROCESS_CANCELEVENT(event);
+void CErrAlreadyExistsPage::OnCancel(wxWizardEvent& event) {
+    m_pParent->ProcessCancelEvent(event);
 }
-

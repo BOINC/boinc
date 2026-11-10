@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -17,26 +17,34 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+import datetime
 import filecmp
 import os
 import subprocess
 import sys
 import testset
 
+from cryptography import x509
+from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives import hashes
+from OpenSSL import crypto
+
 class IntegrationTests:
     def __init__(self, crypt_prog):
         self.crypt_prog = crypt_prog
+        self.unsupported_bits = ["512", "2048"]
+        self.bits = ["1024"]
         self.result = True
         self.result &= self.test_genkey()
+        self.result &= self.test_cert_store()
 
     def test_genkey(self):
         ts = testset.TestSet("Test genkey")
-        unsupported_bits = ["512", "2048"]
-        bits = ["1024"]
-        for bit in unsupported_bits:
+        for bit in self.unsupported_bits:
             ts.expect_false(self._genkey(bit, "private.key", "public.key"), "Test genkey with " + bit + " bits")
 
-        for bit in bits:
+        for bit in self.bits:
             ts.expect_true(self._genkey(bit, "private.key", "public.key"), "Test genkey with " + bit + " bits")
             ts.expect_true(self._genkey(bit, "private1.key", "public1.key"), "Test genkey with " + bit + " bits")
             ts.expect_false(filecmp.cmp("private.key", "private1.key"), "Test two private keys are different")
@@ -99,6 +107,105 @@ class IntegrationTests:
 
             self._clean_up(["private.key", "public.key", "private1.key", "public1.key", "private_o.key", "public_o.key", "private_b.key", "public_b.key",
                             "signature", "signature1", "signature_o", "signature_b", "signature1_o", "signature1_b"])
+        return ts.result()
+
+    def test_cert_store(self):
+        ts = testset.TestSet("Test cert store")
+        cwd = os.getcwd()
+        ca_dir = os.path.join(cwd, "ca")
+        for bit in self.bits:
+            if os.path.exists(ca_dir):
+                for file in os.listdir(ca_dir):
+                    os.remove(os.path.join(ca_dir, file))
+                os.rmdir(ca_dir)
+            os.makedirs(ca_dir)
+
+            ts.expect_true(self._genkey(bit, "b_ca_private.key", "b_ca_public.key"), "Test genkey with " + bit + " bits")
+            ts.expect_true(self._convkey("b2o", "priv", "b_ca_private.key", "ca_private.key"), "Test convert private key")
+            ts.expect_true(self._convkey("b2o", "pub", "b_ca_public.key", "ca_public.key"), "Test convert public key")
+            ca_subject = x509.Name([x509.NameAttribute(x509.NameOID.COMMON_NAME, u"Test CA")])
+            ca_cert = (
+                x509.CertificateBuilder()
+                .subject_name(ca_subject)
+                .issuer_name(ca_subject)
+                .public_key(serialization.load_pem_public_key(open("ca_public.key", "rb").read()))
+                .serial_number(x509.random_serial_number())
+                .not_valid_before(datetime.datetime.now(datetime.UTC))
+                .not_valid_after(datetime.datetime.now(datetime.UTC) + datetime.timedelta(days=365))
+                .add_extension(
+                    x509.BasicConstraints(ca=True, path_length=None), critical=True,
+                )
+                .add_extension(
+                    x509.KeyUsage(
+                        digital_signature=False,
+                        key_encipherment=False,
+                        content_commitment=False,
+                        data_encipherment=False,
+                        key_agreement=False,
+                        key_cert_sign=True,
+                        crl_sign=True,
+                        encipher_only=False,
+                        decipher_only=False),
+                    critical=True,
+                )
+                .sign(serialization.load_pem_private_key(open("ca_private.key", "rb").read(), password=None), hashes.SHA256())
+            )
+            ca_cert_path = os.path.join(ca_dir, "ca_cert.pem")
+            ca_cert_bytes = ca_cert.public_bytes(serialization.Encoding.PEM)
+            with open(ca_cert_path, "wb") as f:
+                f.write(ca_cert_bytes)
+            ca_x509_cert = crypto.load_certificate(crypto.FILETYPE_PEM, ca_cert_bytes)
+            ca_hash = f"{ca_x509_cert.subject_name_hash():08x}"
+            os.symlink(ca_cert_path, os.path.join(ca_dir, f"{ca_hash}.0"))
+
+            ts.expect_true(self._genkey(bit, "b_leaf_private.key", "b_leaf_public.key"), "Test genkey with " + bit + " bits")
+            ts.expect_true(self._convkey("b2o", "priv", "b_leaf_private.key", "leaf_private.key"), "Test convert private key")
+            ts.expect_true(self._convkey("b2o", "pub", "b_leaf_public.key", "leaf_public.key"), "Test convert public key")
+            leaf_subject = x509.Name([x509.NameAttribute(x509.NameOID.COMMON_NAME, u"Test Leaf")])
+            leaf_cert = (
+                x509.CertificateBuilder()
+                .subject_name(leaf_subject)
+                .issuer_name(ca_cert.subject)
+                .public_key(serialization.load_pem_public_key(open("leaf_public.key", "rb").read()))
+                .serial_number(x509.random_serial_number())
+                .not_valid_before(datetime.datetime.now(datetime.UTC))
+                .not_valid_after(datetime.datetime.now(datetime.UTC) + datetime.timedelta(days=365))
+                .add_extension(
+                    x509.BasicConstraints(ca=False, path_length=None), critical=True,
+                )
+                .add_extension(
+                    x509.KeyUsage(
+                        digital_signature=True,
+                        key_encipherment=True,
+                        content_commitment=False,
+                        data_encipherment=False,
+                        key_agreement=False,
+                        key_cert_sign=False,
+                        crl_sign=False,
+                        encipher_only=False,
+                        decipher_only=False),
+                    critical=True,
+                )
+                .sign(serialization.load_pem_private_key(open("ca_private.key", "rb").read(), password=None), hashes.SHA256())
+            )
+            leaf_cert_path = os.path.join(cwd, "leaf_cert.pem")
+            leaf_cert_bytes = leaf_cert.public_bytes(serialization.Encoding.PEM)
+            with open(leaf_cert_path, "wb") as f:
+                f.write(leaf_cert_bytes)
+            leaf_x509_cert = crypto.load_certificate(crypto.FILETYPE_PEM, leaf_cert_bytes)
+            leaf_hash = f"{leaf_x509_cert.subject_name_hash():08x}"
+            os.symlink(leaf_cert_path, os.path.join(ca_dir, f"{leaf_hash}.0"))
+
+            result, signature = self._sign_file(self.crypt_prog, "b_leaf_private.key")
+            with open("signature", "wb") as f:
+                f.write(signature)
+            ts.expect_true(result, "Test sign file with leaf private key")
+            ts.expect_true(self._cert_verify(self.crypt_prog, "signature", cwd, ca_dir), "Test verify file with leaf public key and CA cert")
+
+            self._clean_up(["ca_private.key", "ca_public.key", "b_ca_private.key", "b_ca_public.key", ca_cert_path, "leaf_private.key", "leaf_public.key", "b_leaf_private.key", "b_leaf_public.key", leaf_cert_path, "signature"])
+            for file in os.listdir(ca_dir):
+                os.remove(os.path.join(ca_dir, file))
+            os.rmdir(ca_dir)
         return ts.result()
 
     def _clean_up(self, files):

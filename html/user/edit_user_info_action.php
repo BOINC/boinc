@@ -25,7 +25,7 @@ require_once("../inc/countries.inc");
 check_get_args(array("tnow", "ttok"));
 
 $user = get_logged_in_user();
-check_tokens($user->authenticator);
+check_tokens();
 
 $name = post_str("user_name");
 if (!is_valid_user_name($name, $reason)) {

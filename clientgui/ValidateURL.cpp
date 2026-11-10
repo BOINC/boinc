@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -14,10 +14,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "ValidateURL.h"
-#endif
 
 #include "stdwx.h"
 #include "ValidateURL.h"
@@ -95,7 +91,7 @@ bool CValidateURL::Validate(wxWindow *parent) {
 
             if ((wxURL_NOPROTO == url.GetError()) || wxURL_SNTXERR == url.GetError()) {
                 // Special case: we want to allow the user to specify the URL without
-                //   specifing the protocol.
+                //   specifying the protocol.
                 wxURL urlNoProtoSpecified(wxT("http://") + strURL);
                 if (wxURL_NOERR == urlNoProtoSpecified.GetError()) {
                     ok = TRUE;

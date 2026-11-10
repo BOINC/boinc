@@ -105,7 +105,7 @@ function do_inbox($logged_in_user) {
         echo "<form name=msg_list action=pm.php method=post>
             <input type=hidden name=action value=delete_selected>
         ";
-        echo form_tokens($logged_in_user->authenticator);
+        echo form_tokens();
         start_table('table-striped');
         row_heading_array(
             array(tra("Subject"), tra("Sender and date"), tra("Message")),
@@ -129,12 +129,15 @@ function do_inbox($logged_in_user) {
             if (!$msg->opened) {
                 $msg->update("opened=1");
             }
-            echo "<td valign=top> $checkbox $msg->subject </td>\n";
+            echo sprintf("<td valign=top>%s %s </td>\n",
+                $checkbox,
+                htmlspecialchars($msg->subject)
+            );
             echo "<td valign=top>".user_links($sender, BADGE_HEIGHT_SMALL);
             show_block_link($msg->senderid);
             echo "<br>".time_str($msg->date)."</td>\n";
             echo "<td valign=top>".output_transform($msg->content, $options)."<p>";
-            $tokens = url_tokens($logged_in_user->authenticator);
+            $tokens = url_tokens();
             show_button("pm.php?action=new&amp;replyto=$msg->id", tra("Reply"), tra("Reply to this message"));
             show_button("pm.php?action=delete&amp;id=$msg->id&amp;$tokens", tra("Delete"), tra("Delete this message"));
             echo "</ul></td></tr>\n";
@@ -155,38 +158,6 @@ function do_inbox($logged_in_user) {
     page_tail();
 }
 
-// the following isn't currently used - we never show single messages
-//
-function do_read($logged_in_user) {
-    $id = get_int("id");
-    $message = BoincPrivateMessage::lookup_id($id);
-    if (!$message || $message->userid != $logged_in_user->id) {
-        error_page(tra("no such message"));
-    }
-    page_head(tra("Private messages")." : ".$message->subject);
-    pm_header();
-
-    $sender = BoincUser::lookup_id($message->senderid);
-
-    start_table();
-    echo "<tr><th>".tra("Subject")."</th><td>".$message->subject."</td></tr>";
-    echo "<tr><th>".tra("Sender")."</th><td>".user_links($sender, BADGE_HEIGHT_SMALL);
-    show_block_link($message->senderid);
-    echo "</td></tr>";
-    echo "<tr><th>".tra("Date")."</th><td>".time_str($message->date)."</td></tr>";
-    echo "<tr><th>".tra("Message")."</th><td>".output_transform($message->content, $options)."</td></tr>";
-    echo "<tr><td></td><td>\n";
-    echo "<a href=\"pm.php?action=new&amp;replyto=$id\">".tra("Reply")."</a>\n";
-    echo " &middot; <a href=\"pm.php?action=delete&amp;id=$id\">".tra("Delete")."</a>\n";
-    echo " &middot; <a href=\"pm.php?action=inbox\">".tra("Inbox")."</a>\n";
-    end_table();
-
-    if ($message->opened == 0) {
-        $message->update("opened=1");
-    }
-    page_tail();
-}
-
 // form to send a personal message
 //
 function do_new($logged_in_user) {
@@ -203,13 +174,13 @@ function do_delete($logged_in_user) {
     if ($id == null) {
         $id = post_int("id");
     }
-    check_tokens($logged_in_user->authenticator);
+    check_tokens();
     BoincPrivateMessage::delete_aux("userid=".$logged_in_user->id." AND id=$id");
     header("Location: pm.php");
 }
 
 function do_send_team($logged_in_user) {
-    check_tokens($logged_in_user->authenticator);
+    check_tokens();
     $subject = post_str("subject", true);
     $content = post_str("content", true);
     $teamid = post_int("teamid");
@@ -228,7 +199,7 @@ function do_send_team($logged_in_user) {
         error_page("no team admin");
     }
 
-    if (($subject == null) || ($content == null)) {
+    if (is_blank($subject) || is_blank($content)) {
         pm_team_form(
             $logged_in_user, $teamid,
             tra("You need to fill all fields to send a private message")
@@ -254,7 +225,7 @@ function do_send($logged_in_user) {
     if (VALIDATE_EMAIL_TO_POST) {
         check_validated_email($logged_in_user);
     }
-    check_tokens($logged_in_user->authenticator);
+    check_tokens();
 
     $to = sanitize_tags(post_str("to", true));
     $subject = post_str("subject", true);
@@ -264,7 +235,7 @@ function do_send($logged_in_user) {
         pm_form_page($replyto, $userid);
         return;
     }
-    if (($to == null) || ($subject == null) || ($content == null)) {
+    if (is_blank($to) || is_blank($subject) || is_blank($content)) {
         pm_form_page(
             $replyto, $userid,
             tra("You need to fill all fields to send a private message")
@@ -357,7 +328,7 @@ function do_block($logged_in_user) {
     echo "<div>".tra("Once the user has been blocked you can unblock it using forum preferences page.")."</div>\n";
 
     echo "<form action=\"pm.php\" method=\"POST\">\n";
-    echo form_tokens($logged_in_user->authenticator);
+    echo form_tokens();
     echo "<input type=\"hidden\" name=\"action\" value=\"confirmedblock\">\n";
     echo "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
     echo "<input class=\"btn btn-default\" type=\"submit\" value=\"".tra("Add user to filter")."\">\n";
@@ -367,7 +338,7 @@ function do_block($logged_in_user) {
 }
 
 function do_confirmedblock($logged_in_user) {
-    check_tokens($logged_in_user->authenticator);
+    check_tokens();
     $id = post_int("id");
     $blocked_user = BoincUser::lookup_id($id);
     if (!$blocked_user) error_page(tra("no such user"));
@@ -388,7 +359,7 @@ function do_confirmedblock($logged_in_user) {
 }
 
 function do_delete_selected($logged_in_user) {
-    check_tokens($logged_in_user->authenticator);
+    check_tokens();
 
     $msgs = BoincPrivateMessage::enum(
         "userid=$logged_in_user->id"
@@ -421,8 +392,6 @@ if (!$action) {
 
 if ($action == "inbox") {
     do_inbox($logged_in_user);
-} elseif ($action == "read") {
-    do_read($logged_in_user);
 } elseif ($action == "new") {
     if (!$teamid) $teamid = post_int("teamid", true);
     if ($teamid) {

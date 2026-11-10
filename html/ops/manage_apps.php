@@ -96,7 +96,7 @@ function show_form($all) {
         "ID",
         "Name and description<br><small>Click for details</small>",
         "Created",
-        "weight<br><a href=https://github.com/BOINC/boinc/wiki/BackendPrograms#feeder><small>details</small></a>",
+        "weight<br><a href=https://github.com/BOINC/boinc/wiki/Daemons#feeder><small>details</small></a>",
         "shmem items",
         "HR type<br><a href=https://github.com/BOINC/boinc/wiki/Homogeneous-Redundancy><small>details</small></a>",
         "Adaptive replication<br><a href=https://github.com/BOINC/boinc/wiki/Adaptive-Replication><small>details</small></a>",
@@ -109,7 +109,7 @@ function show_form($all) {
     );
 
     $total_weight = BoincApp::sum("weight", "where deprecated=0");
-    $swi = parse_config(get_config(), "<shmem_work_items>");
+    $swi = project_config_val("shmem_work_items");
     if (!$swi) {
         $swi = 100;
     }
@@ -123,6 +123,7 @@ function show_form($all) {
             $f2 = "</font>";
         }
         echo "<tr><form action=$action_url method=POST>";
+        echo form_tokens();
         echo "<input type=hidden name=id value=$app->id>";
         echo "  <TD align='center'>$f1 $app->id $f2</TD>\n";
 
@@ -204,8 +205,9 @@ function show_form($all) {
         <p>
         <form action=$action_url method=POST>
     ";
+    echo form_tokens();
 
-    start_table("align='center' ");
+    start_table('', 'align="center"');
 
     table_header("Name", "Description", "&nbsp;");
 
@@ -225,8 +227,10 @@ admin_page_head("Manage applications");
 $all = get_int('all', true);
 
 if (post_str('add_app', true)) {
+    check_tokens();
     add_app();
 } else if (post_str('submit', true)) {
+    check_tokens();
     do_updates();
 }
 show_form($all);

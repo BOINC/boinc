@@ -30,7 +30,7 @@ die("Delete this line first\n");
 if (is_numeric($argv[1])) {
     $user = BoincUser::lookup_id((int) $argv[1]);
     if (!$user) die("no such user\n");
-    $retval = delete_account($user);
+    $retval = wipe_account($user);
     if ($retval) {
         echo "Failed to delete user: $retval\n";
     } else {
@@ -39,7 +39,7 @@ if (is_numeric($argv[1])) {
 } else {
     $users = BoincUser::enum(sprintf("name='%s'", $argv[1]));
     foreach ($users as $user) {
-        $retval = delete_account($user);
+        $retval = wipe_account($user);
         if ($retval) {
             echo "Failed to delete user: $retval\n";
         } else {

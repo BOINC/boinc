@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2018 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,65 +18,29 @@
 #ifndef BOINC_TERMSOFUSEPAGE_H
 #define BOINC_TERMSOFUSEPAGE_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "TermsOfUsePage.cpp"
-#endif
-
-/*!
- * CTermsOfUsePage class declaration
- */
-
-class CTermsOfUsePage: public wxWizardPageEx
-{
-    DECLARE_DYNAMIC_CLASS( CTermsOfUsePage )
-    DECLARE_EVENT_TABLE()
+class CTermsOfUsePage: public CBOINCWizardPage {
+    DECLARE_DYNAMIC_CLASS(CTermsOfUsePage)
 
 public:
-    /// Constructors
-    CTermsOfUsePage( );
+    CTermsOfUsePage() = default;
+    CTermsOfUsePage(CWizardAttach* parent);
+    bool Create(CWizardAttach* parent);
 
-    CTermsOfUsePage( CBOINCBaseWizard* parent );
-
-    /// Creation
-    bool Create( CBOINCBaseWizard* parent );
-
-    /// Creates the controls and sizers
     void CreateControls();
 
-    /// Handles clicks on links
-    void OnLinkClicked( wxHtmlLinkEvent & event );
+    void OnLinkClicked(wxHtmlLinkEvent & event);
+    void OnPageChanged(wxWizardEvent& event);
+    void OnPageChanging(wxWizardEvent& event);
+    void OnCancel(wxWizardEvent& event);
+    void OnTermsOfUseStatusChange(wxCommandEvent& event);
 
-////@begin CTermsOfUsePage event handler declarations
+    wxWizardPage* GetPrev() const;
+    wxWizardPage* GetNext() const;
 
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_TERMSOFUSEPAGE
-    void OnPageChanged( wxWizardExEvent& event );
+    void SetPrev(CBOINCWizardPage *prev);
 
-    /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_TERMSOFUSEPAGE
-    void OnPageChanging( wxWizardExEvent& event );
-
-    /// wxEVT_WIZARD_CANCEL event handler for ID_TERMSOFUSEPAGE
-    void OnCancel( wxWizardExEvent& event );
-
-    /// wxEVT_COMMAND_RADIOBUTTON_SELECTED  event handler for ID_TERMSOFUSEAGREECTRL
-    ///   or ID_TERMSOFUSEDISAGREECTRL
-    void OnTermsOfUseStatusChange( wxCommandEvent& event );
-
-////@end CTermsOfUsePage event handler declarations
-
-////@begin CTermsOfUsePage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPageEx* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPageEx* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CTermsOfUsePage member function declarations
+    bool HasNextPage() const;
+    bool HasPrevPage() const;
 
     bool GetUserAgrees() const { return m_bUserAgrees ; }
     void SetUserAgrees(bool value) { m_bUserAgrees = value ; }
@@ -84,18 +48,17 @@ public:
     bool GetCredentialsAlreadyAvailable() const { return m_bCredentialsAlreadyAvailable ; }
     void SetCredentialsAlreadyAvailable(bool value) { m_bCredentialsAlreadyAvailable = value ; }
 
-    /// Should we show tooltips?
-    static bool ShowToolTips();
+private:
+    wxStaticText* m_pTitleStaticCtrl = nullptr;
+    wxStaticText* m_pDirectionsStaticCtrl = nullptr;
+    wxHtmlWindow* m_pTermsOfUseCtrl = nullptr;
+    wxRadioButton* m_pAgreeCtrl = nullptr;
+    wxRadioButton* m_pDisagreeCtrl = nullptr;
+    bool m_bUserAgrees = false;
+    bool m_bCredentialsAlreadyAvailable = false;
 
-////@begin CTermsOfUsePage member variables
-    wxStaticText* m_pTitleStaticCtrl;
-    wxStaticText* m_pDirectionsStaticCtrl;
-    wxHtmlWindow* m_pTermsOfUseCtrl;
-    wxRadioButton* m_pAgreeCtrl;
-    wxRadioButton* m_pDisagreeCtrl;
-////@end CTermsOfUsePage member variables
-    bool m_bUserAgrees;
-    bool m_bCredentialsAlreadyAvailable;
+    CWizardAttach *m_pParent = nullptr;
+    CBOINCWizardPage *m_pPrev = nullptr;
 };
 
 #endif

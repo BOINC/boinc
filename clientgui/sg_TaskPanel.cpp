@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -42,14 +42,6 @@ enum { suspendedIcon, waitingIcon, runningIcon };
 
 IMPLEMENT_DYNAMIC_CLASS(CScrolledTextBox, wxScrolledWindow)
 
-BEGIN_EVENT_TABLE(CScrolledTextBox, wxScrolledWindow)
-    EVT_ERASE_BACKGROUND(CScrolledTextBox::OnEraseBackground)
-END_EVENT_TABLE()
-
-CScrolledTextBox::CScrolledTextBox() {
-}
-
-
 CScrolledTextBox::CScrolledTextBox( wxWindow* parent) :
     wxScrolledWindow( parent, ID_SGPROJECTDESCRIPTION, wxDefaultPosition, wxDefaultSize, wxVSCROLL)
 {
@@ -61,6 +53,8 @@ CScrolledTextBox::CScrolledTextBox( wxWindow* parent) :
     this->SetSizerAndFit( m_TextSizer );
     this->Layout();
     this->FitInside();
+
+    Bind(wxEVT_ERASE_BACKGROUND, [this](wxEraseEvent& event){ OnEraseBackground(event); });
 }
 
 
@@ -184,16 +178,6 @@ int CScrolledTextBox::Wrap(const wxString& text, int widthMax, int *lineHeight) 
 
 IMPLEMENT_DYNAMIC_CLASS(CSlideShowPanel, wxPanel)
 
-BEGIN_EVENT_TABLE(CSlideShowPanel, wxPanel)
-    EVT_ERASE_BACKGROUND(CSlideShowPanel::OnEraseBackground)
-    EVT_TIMER(ID_CHANGE_SLIDE_TIMER, CSlideShowPanel::OnSlideShowTimer)
-    EVT_PAINT(CSlideShowPanel::OnPaint)
-END_EVENT_TABLE()
-
-CSlideShowPanel::CSlideShowPanel() {
-}
-
-
 CSlideShowPanel::CSlideShowPanel( wxWindow* parent ) :
     wxPanel( parent, wxID_ANY, wxDefaultPosition,
             wxSize(slideshowWidth+(2*slideshowBorder), slideshowHeight+(2*slideshowBorder)), wxBORDER_NONE )
@@ -217,6 +201,10 @@ CSlideShowPanel::CSlideShowPanel( wxWindow* parent ) :
 
     m_ChangeSlideTimer = new wxTimer(this, ID_CHANGE_SLIDE_TIMER);
     m_ChangeSlideTimer->Start(10000);
+
+    Bind(wxEVT_ERASE_BACKGROUND, [this](wxEraseEvent& event){ CSlideShowPanel::OnEraseBackground(event); });
+    Bind(wxEVT_TIMER, [this](wxTimerEvent& event){ CSlideShowPanel::OnSlideShowTimer(event); }, ID_CHANGE_SLIDE_TIMER);
+    Bind(wxEVT_PAINT, [this](wxPaintEvent& event){ CSlideShowPanel::OnPaint(event); });
 }
 
 CSlideShowPanel::~CSlideShowPanel()
@@ -431,21 +419,6 @@ void CSlideShowPanel::OnEraseBackground(wxEraseEvent& event) {
 
 IMPLEMENT_DYNAMIC_CLASS(CSimpleTaskPanel, CSimplePanelBase)
 
-BEGIN_EVENT_TABLE(CSimpleTaskPanel, CSimplePanelBase)
-#ifdef __WXMAC__
-    EVT_CHOICE(ID_SGTASKSELECTOR, CSimpleTaskPanel::OnTaskSelection)
-#else
-    EVT_COMBOBOX(ID_SGTASKSELECTOR, CSimpleTaskPanel::OnTaskSelection)
-#if 0   // This is apparently no longer needed with wxCocoa 3.0
-    EVT_ERASE_BACKGROUND(CSimpleTaskPanel::OnEraseBackground)
-#endif
-#endif
-END_EVENT_TABLE()
-
-CSimpleTaskPanel::CSimpleTaskPanel() {
-}
-
-
 CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     CSimplePanelBase( parent )
 {
@@ -576,6 +549,12 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     m_ProgressRect.Inflate(0, -2);
     m_ProgressRect.Offset(0, -2);
 #endif
+
+#ifdef __WXMAC__
+    Bind(wxEVT_CHOICE, [this](wxCommandEvent& event){ OnTaskSelection(event); }, ID_SGTASKSELECTOR);
+#else
+    Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event){ OnTaskSelection(event); }, ID_SGTASKSELECTOR);
+#endif
 }
 
 
@@ -704,7 +683,7 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
 #else   // SELECTBYRESULTNAME
                     GetApplicationAndProjectNames(result, NULL, &projName);
 #endif  // SELECTBYRESULTNAME
-                    UpdateStaticText(&m_TaskProjectName, projName);
+                    UpdateStaticText(&m_TaskProjectName, std::move(projName));
                     m_SlideShowArea->AdvanceSlideShow(false, true);
                     m_bStableTaskInfoChanged = false;
                 }
@@ -723,7 +702,7 @@ void CSimpleTaskPanel::UpdatePanel(bool delayShow) {
                     }
                     s.Printf(_("%.3f%%"), result->fraction_done*100);
                     m_ipctDoneX1000 = pctDoneX1000;
-                    UpdateStaticText(&m_ProgressValueText, s);
+                    UpdateStaticText(&m_ProgressValueText, std::move(s));
                 }
                 UpdateStaticText(&m_StatusValueText, GetStatusString(result));
             } else {
@@ -1242,26 +1221,3 @@ void CSimpleTaskPanel::DisplayIdleState() {
         }
     }
 }
-
-
-#ifdef __WXMAC__
-// Avoid unnecessary drawing due to Mac progress indicator's animation
-void CSimpleTaskPanel::OnEraseBackground(wxEraseEvent& event) {
-    wxRect clipRect;
-    wxDC *dc = event.GetDC();
-
-    if (m_ProgressBar->IsShown()) {
-//        if (m_progressBarRect == NULL) {
-            m_progressBarRect = new wxRect(m_ProgressBar->GetRect());
-            m_progressBarRect->Inflate(1, 0);
-//        }
-        dc->GetClippingBox(&clipRect.x, &clipRect.y, &clipRect.width, &clipRect.height);
-        if (clipRect.IsEmpty() || m_progressBarRect->Contains(clipRect)) {
-            return;
-        }
-    }
-
-//    CSimplePanelBase::OnEraseBackground(event);
-    event.Skip();
-}
-#endif

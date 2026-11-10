@@ -43,7 +43,7 @@ require_once("../inc/dir_hier.inc");
 // Create dir if not present.
 //
 function sandbox_dir($user) {
-    $dir = parse_config(get_config(), "<sandbox_dir>");
+    $dir = project_config_val("sandbox_dir");
     if (!$dir) {
         $dir = "../../sandbox";
     }
@@ -145,7 +145,7 @@ $g_field = null;
 function field_compare($a, $b) {
     global $g_field;
     if ($a->$g_field == $b->$g_field) return 0;
-    return $a->$g_field > $b->$g_field;
+    return ($a->$g_field > $b->$g_field)?1:-1;
 }
 
 function column_sort(&$items, $field, $rev) {

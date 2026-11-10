@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,29 +19,6 @@
 #ifndef BOINC_DLGEXITMESSAGE_H
 #define BOINC_DLGEXITMESSAGE_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "DlgExitMessage.cpp"
-#endif
-
-/*!
- * Includes
- */
-
-////@begin includes
-////@end includes
-
-/*!
- * Forward declarations
- */
-
-////@begin forward declarations
-////@end forward declarations
-
-/*!
- * Control identifiers
- */
-
-////@begin control identifiers
 #define ID_DIALOG 10000
 #ifdef __WXMAC__
 #define SYMBOL_CDLGEXITMESSAGE_STYLE wxCAPTION|wxSYSTEM_MENU|wxCLOSE_BOX
@@ -54,12 +31,6 @@
 #define SYMBOL_CDLGEXITMESSAGE_POSITION wxDefaultPosition
 #define ID_CDLGEXITMESSAGE_SHUTDOWNCORECLIENT 10017
 #define ID_CDLGEXITMESSAGE_DISPLAY 10018
-////@end control identifiers
-
-/*!
- * Compatibility
- */
-
 #ifndef wxCLOSE_BOX
 #define wxCLOSE_BOX 0x1000
 #endif
@@ -67,18 +38,13 @@
 #define wxFIXED_MINSIZE 0
 #endif
 
-/*!
- * CDlgExitMessage class declaration
- */
-
 class CDlgExitMessage: public wxDialog
 {
     DECLARE_DYNAMIC_CLASS( CDlgExitMessage )
-    DECLARE_EVENT_TABLE()
 
 public:
     /// Constructors
-    CDlgExitMessage( );
+    CDlgExitMessage() = default;
     CDlgExitMessage( wxWindow* parent, wxWindowID id = SYMBOL_CDLGEXITMESSAGE_IDNAME, const wxString& caption = SYMBOL_CDLGEXITMESSAGE_TITLE, const wxPoint& pos = SYMBOL_CDLGEXITMESSAGE_POSITION, const wxSize& size = SYMBOL_CDLGEXITMESSAGE_SIZE, long style = SYMBOL_CDLGEXITMESSAGE_STYLE );
 
     /// Creation
@@ -104,9 +70,9 @@ public:
     static bool ShowToolTips();
 
 ////@begin CDlgExitMessage member variables
-    wxStaticText* m_DialogExitMessage;
-    wxCheckBox*   m_DialogShutdownCoreClient;
-    wxCheckBox*   m_DialogDisplay;
+    wxStaticText* m_DialogExitMessage = nullptr;
+    wxCheckBox*   m_DialogShutdownCoreClient = nullptr;
+    wxCheckBox*   m_DialogDisplay = nullptr;
 ////@end CDlgExitMessage member variables
 };
 

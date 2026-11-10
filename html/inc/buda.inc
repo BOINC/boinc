@@ -36,6 +36,11 @@ function get_buda_app_desc($app) {
     return json_decode(file_get_contents($path));
 }
 
+function get_buda_app_name($app) {
+    $desc = get_buda_app_desc($app);
+    return $desc->long_name;
+}
+
 function get_buda_var_desc($app, $var) {
     global $buda_root;
     $path = "$buda_root/$app/$var/variant.json";
@@ -64,12 +69,15 @@ function user_can_submit($user, $app_desc) {
     return false;
 }
 
-// can user edit app or variants?
+// can user edit the BUDA app or variants?
+// needs to be creator or have manage_all access
 //
 function user_can_manage($user, $app_desc) {
     if ($app_desc->user_id == $user->id) {
         return true;
     }
+    $us = BoincUserSubmit::lookup_userid($user->id);
+    if ($us->manage_all) return true;
     return false;
 }
 

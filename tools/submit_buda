@@ -10,7 +10,7 @@ function usage() {
 submit_buda [options] sci_app infile ...
 
 --cmdline x         pass cmdline args to app
---variant x         app variant, default 'cpu'
+--variant x         app variant, default 'intel_cpu'
 --verbose
 ";
     exit();
@@ -19,7 +19,7 @@ submit_buda [options] sci_app infile ...
 $buda_root = 'buda_apps';
 $infiles = [];
 $verbose = false;
-$variant = 'cpu';
+$variant = 'intel_cpu';
 $sci_app = null;
 $cmdline = null;
 
@@ -43,9 +43,10 @@ if (!$sci_app) {
     usage();
 }
 
-$variant_dir = "$buda_root/$sci_app/$variant";
+$app_dir = "$buda_root/$sci_app";
+$variant_dir = "$app_dir/$variant";
 if (!is_dir($variant_dir)) {
-    die("No version dir\n");
+    die("No version dir $variant_dir\n");
 }
 $variant_desc = json_decode(
     file_get_contents("$variant_dir/variant.json")
@@ -53,22 +54,14 @@ $variant_desc = json_decode(
 
 $cmd = sprintf(
     'bin/create_work --appname buda --wu_template %s --result_template %s',
-    "$variant_dir/template_in",
-    "$variant_dir/template_out"
+    "$app_dir/template_in",
+    "$app_dir/template_out"
 );
 
-$cmd .= sprintf(' --command_line "--dockerfile %s %s %s"',
-    $variant_desc->dockerfile,
-    $verbose?'--verbose':'',
+$cmd .= sprintf(' --command_line "%s%s"',
+    $verbose?'--verbose ':'',
     $cmdline?$cmdline:''
 );
-
-// app files are already staged
-//
-$cmd .= " $variant_desc->dockerfile_phys";
-foreach ($variant_desc->app_files_phys as $fname) {
-    $cmd .= " $fname";
-}
 
 foreach ($infiles as $path) {
     if (!file_exists($path)) {

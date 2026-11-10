@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,9 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "DlgSelectComputer.h"
-#endif
 
 #include "stdwx.h"
 #include "diagnostics.h"
@@ -30,57 +27,19 @@
 #include "MainDocument.h"
 #include "SkinManager.h"
 
-////@begin includes
-////@end includes
-
 #include "DlgSelectComputer.h"
 
-////@begin XPM images
-////@end XPM images
-
-/*!
- * CDlgSelectComputer type definition
- */
-
 IMPLEMENT_DYNAMIC_CLASS( CDlgSelectComputer, wxDialog )
-
-/*!
- * CDlgSelectComputer event table definition
- */
-
-BEGIN_EVENT_TABLE( CDlgSelectComputer, wxDialog )
-
-////@begin CDlgSelectComputer event table entries
-    EVT_TEXT( ID_SELECTCOMPUTERNAME, CDlgSelectComputer::OnComputerNameUpdated )
-    EVT_COMBOBOX( ID_SELECTCOMPUTERNAME, CDlgSelectComputer::OnComputerNameUpdated )
-
-////@end CDlgSelectComputer event table entries
-
-END_EVENT_TABLE()
-
-/*!
- * CDlgSelectComputer constructors
- */
-
-CDlgSelectComputer::CDlgSelectComputer( )
-{
-}
 
 CDlgSelectComputer::CDlgSelectComputer( wxWindow* parent, bool required, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
     Create(parent, required, id, caption, pos, size, style);
 }
 
-/*!
- * CDlgSelectComputer creator
- */
-
 bool CDlgSelectComputer::Create( wxWindow* parent, bool required, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
-////@begin CDlgSelectComputer member initialisation
     m_ComputerNameCtrl = NULL;
     m_ComputerPasswordCtrl = NULL;
-////@end CDlgSelectComputer member initialisation
 
     wxString strCaption = caption;
     if (strCaption.IsEmpty()) {
@@ -91,7 +50,6 @@ bool CDlgSelectComputer::Create( wxWindow* parent, bool required, wxWindowID id,
         strCaption.Printf(_("%s - Select Computer"), pSkinAdvanced->GetApplicationName().c_str());
     }
 
-////@begin CDlgSelectComputer creation
     SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
     wxDialog::Create( parent, id, strCaption, pos, size, style );
 
@@ -99,7 +57,9 @@ bool CDlgSelectComputer::Create( wxWindow* parent, bool required, wxWindowID id,
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
     Centre();
-////@end CDlgSelectComputer creation
+
+    Bind(wxEVT_TEXT, [this](wxCommandEvent& event){ OnComputerNameUpdated(event); }, ID_SELECTCOMPUTERNAME);
+    Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event){ OnComputerNameUpdated(event); }, ID_SELECTCOMPUTERNAME);
     return TRUE;
 }
 

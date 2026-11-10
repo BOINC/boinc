@@ -145,7 +145,6 @@ struct SCHED_CONFIG {
     double next_rpc_delay;
     bool no_amd_k6;
         // don't allow AMD K6 CPUs
-    bool no_vista_sandbox;
     bool nowork_skip;
     bool one_result_per_host_per_wu;
     bool one_result_per_user_per_wu;

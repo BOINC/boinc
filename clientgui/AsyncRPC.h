@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,10 +17,6 @@
 
 #ifndef BOINC_ASYNCRPC_H
 #define BOINC_ASYNCRPC_H
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "AsyncRPC.cpp"
-#endif
 
 #ifndef __WXMAC__
 
@@ -257,6 +253,11 @@ public:
             { return RPC_Wait(RPC_SET_GPU_MODE, (void*)&mode, (void*)&duration); }
     int set_network_mode(int mode, double duration)
             { return RPC_Wait(RPC_SET_NETWORK_MODE, (void*)&mode, (void*)&duration); }
+    int get_screensaver_tasks(int& suspend_reason, RESULTS& rbuf) {
+        return RPC_Wait(
+            RPC_GET_SCREENSAVER_TASKS, (void*)&suspend_reason, (void*)&rbuf
+        );
+    }
     int run_benchmarks()
             { return RPC_Wait(RPC_RUN_BENCHMARKS); }
     int set_proxy_settings(GR_PROXY_INFO& arg1)
@@ -374,7 +375,6 @@ private:
 class AsyncRPCDlg : public wxDialog
 {
     DECLARE_DYNAMIC_CLASS( AsyncRPCDlg )
-    DECLARE_EVENT_TABLE()
 
 public:
     AsyncRPCDlg();
@@ -394,13 +394,6 @@ public:
     virtual wxEvent *Clone() const { return new CRPCFinishedEvent(*this); }
 };
 
-BEGIN_DECLARE_EVENT_TYPES()
-DECLARE_EVENT_TYPE( wxEVT_RPC_FINISHED, -1 )
-END_DECLARE_EVENT_TYPES()
-
-#define EVT_RPC_FINISHED(fn) \
-    DECLARE_EVENT_TABLE_ENTRY(wxEVT_RPC_FINISHED, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-
-
+wxDECLARE_EVENT(wxEVT_RPC_FINISHED, CRPCFinishedEvent);
 
 #endif

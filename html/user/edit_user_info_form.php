@@ -22,12 +22,12 @@ require_once("../inc/countries.inc");
 check_get_args(array("tnow", "ttok"));
 
 $user = get_logged_in_user();
-check_tokens($user->authenticator);
+check_tokens();
 
 page_head(tra("Edit account information"));
 
 form_start('edit_user_info_action.php', 'post');
-echo form_tokens($user->authenticator);
+echo form_tokens();
 
 form_input_text(
     tra("Screen name %1 real name or nickname%2", "<br><p class=\"small\">", "</p>"),

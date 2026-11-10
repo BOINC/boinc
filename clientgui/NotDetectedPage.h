@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,63 +18,33 @@
 #ifndef BOINC_NOTDETECTEDPAGE_H
 #define BOINC_NOTDETECTEDPAGE_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "NotDetectedPage.cpp"
-#endif
-
-/*!
- * CErrNotDetectedPage class declaration
- */
-
-class CErrNotDetectedPage: public wxWizardPageEx
-{
-    DECLARE_DYNAMIC_CLASS( CErrNotDetectedPage )
-    DECLARE_EVENT_TABLE()
+class CErrNotDetectedPage: public CBOINCWizardPage {
+    DECLARE_DYNAMIC_CLASS(CErrNotDetectedPage)
 
 public:
-    /// Constructors
-    CErrNotDetectedPage( );
+    CErrNotDetectedPage() = default;
+    CErrNotDetectedPage(CWizardAttach* parent);
+    bool Create(CWizardAttach* parent);
 
-    CErrNotDetectedPage( CBOINCBaseWizard* parent );
-
-    /// Creation
-    bool Create( CBOINCBaseWizard* parent );
-
-    /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CErrNotDetectedPage event handler declarations
+    void OnPageChanged(wxWizardEvent& event);
+    void OnCancel(wxWizardEvent& event);
 
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROJECTNOTDETECTEDPAGE
-    void OnPageChanged( wxWizardExEvent& event );
+    wxWizardPage* GetPrev() const;
+    wxWizardPage* GetNext() const;
 
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ERRPROJECTNOTDETECTEDPAGE
-    void OnCancel( wxWizardExEvent& event );
+    void SetPrev(CBOINCWizardPage *prev);
 
-////@end CErrNotDetectedPage event handler declarations
+    bool HasNextPage() const;
+    bool HasPrevPage() const;
 
-////@begin CErrNotDetectedPage member function declarations
+private:
+    wxStaticText* m_pTitleStaticCtrl = nullptr;
+    wxStaticText* m_pDirectionsStaticCtrl = nullptr;
 
-    /// Gets the previous page.
-    virtual wxWizardPageEx* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPageEx* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CErrNotDetectedPage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CErrNotDetectedPage member variables
-    wxStaticText* m_pTitleStaticCtrl;
-    wxStaticText* m_pDirectionsStaticCtrl;
-////@end CErrNotDetectedPage member variables
+    CWizardAttach *m_pParent = nullptr;
+    CBOINCWizardPage *m_pPrev = nullptr;
 };
 
 #endif

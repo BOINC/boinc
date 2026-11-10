@@ -58,8 +58,8 @@ function get_output_file($instance_name, $file_num, $auth_str) {
     }
     $name = $names[$file_num];
 
-    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-    $upload_dir = parse_config(get_config(), "<upload_dir>");
+    $fanout = project_config_val("uldl_dir_fanout");
+    $upload_dir = project_config_val("upload_dir");
 
     $path = dir_hier_path($name, $upload_dir, $fanout);
     if (!is_file($path)) {
@@ -98,8 +98,8 @@ function get_batch_output_files($auth_str) {
 
     $zip_basename = tempnam("../cache", "boinc_batch_");
     $zip_filename = $zip_basename.".zip";
-    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-    $upload_dir = parse_config(get_config(), "<upload_dir>");
+    $fanout = project_config_val("uldl_dir_fanout");
+    $upload_dir = project_config_val("upload_dir");
 
     $wus = BoincWorkunit::enum("batch=$batch->id");
     foreach ($wus as $wu) {
@@ -143,8 +143,8 @@ function get_wu_output_file($wu_name, $file_num, $auth_str) {
     if ($user->authenticator != $auth_str) {
         return_error("bad authenticator");
     }
-    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-    $upload_dir = parse_config(get_config(), "<upload_dir>");
+    $fanout = project_config_val("uldl_dir_fanout");
+    $upload_dir = project_config_val("upload_dir");
     if (!$wu->canonical_resultid) {
         return_error("no canonical result for wu ".htmlspecialchars($wu->name));
     }
@@ -180,8 +180,8 @@ function get_wu_output_files($wu_id, $auth_str) {
 
     $zip_basename = tempnam("/tmp", "boinc_wu_".$wu->name."_");
     $zip_filename = $zip_basename.".zip";
-    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-    $upload_dir = parse_config(get_config(), "<upload_dir>");
+    $fanout = project_config_val("uldl_dir_fanout");
+    $upload_dir = project_config_val("upload_dir");
 
     if (!$wu->canonical_resultid) {
         return_error("no canonical result for wu ".htmlspecialchars($wu->name));

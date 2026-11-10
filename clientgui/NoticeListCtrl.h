@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,10 +18,6 @@
 #ifndef BOINC_NOTICELISTCTRL_H
 #define BOINC_NOTICELISTCTRL_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "NoticeListCtrl.cpp"
-#endif
-
 /*!
  * CNoticeListCtrl class declaration
  */
@@ -29,11 +25,10 @@
 class CNoticeListCtrl: public wxWindow
 {
     DECLARE_DYNAMIC_CLASS( CNoticeListCtrl )
-    DECLARE_EVENT_TABLE()
 
 public:
     /// Constructors
-    CNoticeListCtrl( );
+    CNoticeListCtrl() = default;
     CNoticeListCtrl( wxWindow* parent );
     ~CNoticeListCtrl();
 
@@ -56,16 +51,16 @@ public:
     void    Clear();
     bool    UpdateUI();
 
-    bool        m_bDisplayFetchingNotices;
-    bool        m_bDisplayEmptyNotice;
+    bool        m_bDisplayFetchingNotices = false;
+    bool        m_bDisplayEmptyNotice = false;
 private:
 #if wxUSE_WEBVIEW
-    wxWebView*  m_browser;
+    wxWebView*  m_browser = nullptr;
 #else
-    wxHtmlWindow* m_browser;
+    wxHtmlWindow* m_browser = nullptr;
 #endif
-    bool        m_bNeedsReloading;
-    int         m_itemCount;
+    bool        m_bNeedsReloading = false;
+    int         m_itemCount = 0;
     wxString    m_noticesBody;
 };
 

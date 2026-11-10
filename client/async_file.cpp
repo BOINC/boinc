@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // logic for "asynchronous" file copy and unzip/verify operations.
-// "asynchronous" means that the the operations are done in 64KB chunks
+// "asynchronous" means that the operations are done in 64KB chunks
 // in the client's polling loop,
 // so that the client continues to respond to GUI RPCs
 // and the manager won't freeze.
@@ -229,10 +229,9 @@ void ASYNC_VERIFY::finish() {
     }
     md5_buf[32] = 0;
     if (fip->signature_required) {
-        bool verified;
-        retval = check_file_signature2(md5_buf, fip->file_signature,
-            fip->project->code_sign_key, verified
-        );
+        bool verified = false;
+        std::tie(retval, verified) = check_file_signature(md5_buf,
+            fip->file_signature, fip->project->code_sign_key);
         if (retval) {
             error(retval);
             return;

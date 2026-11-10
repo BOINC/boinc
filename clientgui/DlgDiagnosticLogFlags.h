@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,30 +18,12 @@
 #ifndef BOINC_DLGDIAGNOSTICLOGFLAGS_H
 #define BOINC_DLGDIAGNOSTICLOGFLAGS_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "DlgDiagnosticLogFlags.cpp"
-#endif
-
-#include <wx/intl.h>
-
-#include <wx/gdicmn.h>
-#include <wx/gbsizer.h>
-#include <wx/sizer.h>
-#include <wx/scrolwin.h>
-#include <wx/font.h>
-#include <wx/colour.h>
-#include <wx/settings.h>
-#include <wx/string.h>
-#include <wx/button.h>
-#include <wx/dialog.h>
-
 #include "MainDocument.h"
 
 #define ID_DEFAULTSBTN 10001
 
 class CDlgDiagnosticLogFlags : public wxDialog {
 	DECLARE_DYNAMIC_CLASS( CDlgDiagnosticLogFlags )
-    DECLARE_EVENT_TABLE()
 public:
 	CDlgDiagnosticLogFlags(wxWindow* parent=NULL);
 	virtual ~CDlgDiagnosticLogFlags();

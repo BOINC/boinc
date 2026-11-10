@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,9 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "BOINCGUIApp.h"
-#endif
+#include "stdwx.h"
 
 #ifdef __WXMAC__
 #include <Carbon/Carbon.h>
@@ -29,7 +27,6 @@
 #include "mac_branding.h"
 #endif
 
-#include "stdwx.h"
 #include "diagnostics.h"
 #include "network.h"
 #include "util.h"
@@ -40,7 +37,6 @@
 
 #include "Events.h"
 #include "LogBOINC.h"
-#include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "BOINCClientManager.h"
@@ -52,23 +48,16 @@
 #include "procinfo.h"
 #include "sg_BoincSimpleFrame.h"
 #include "DlgGenericMessage.h"
-
+#include "AsyncRPC.h"
+#include "BOINCGUIApp.h"
 
 bool s_bSkipExitConfirmation = false;
 
 
-DEFINE_EVENT_TYPE(wxEVT_RPC_FINISHED)
+wxDEFINE_EVENT(wxEVT_RPC_FINISHED, CRPCFinishedEvent);
 
 IMPLEMENT_APP(CBOINCGUIApp)
 IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
-
-BEGIN_EVENT_TABLE (CBOINCGUIApp, wxApp)
-    EVT_ACTIVATE_APP(CBOINCGUIApp::OnActivateApp)
-    EVT_RPC_FINISHED(CBOINCGUIApp::OnRPCFinished)
-#ifndef __WXMAC__
-    EVT_END_SESSION(CBOINCGUIApp::OnEndSession)
-#endif
-END_EVENT_TABLE ()
 
 #if defined(__WXGTK__) && defined(BUILD_WITH_VCPKG)
 extern "C" {
@@ -97,6 +86,13 @@ bool CBOINCGUIApp::OnInit() {
         hp(NULL);
     } catch (...) {}
 #endif
+
+    Bind(wxEVT_ACTIVATE_APP, [this](wxActivateEvent& event){ OnActivateApp(event); });
+    Bind(wxEVT_RPC_FINISHED, [this](CRPCFinishedEvent& event){ OnRPCFinished(event); });
+#ifndef __WXMAC__
+    Bind(wxEVT_END_SESSION, [this](wxCloseEvent& event){ OnEndSession(event); });
+#endif
+
     // Initialize globals
 #ifdef SANDBOX
     g_use_sandbox = true;
@@ -105,9 +101,13 @@ bool CBOINCGUIApp::OnInit() {
 #endif
 
     m_isDarkMode = false;
-#if SUPPORTDARKMODE
     wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
     m_isDarkMode = appearance.IsDark();
+#if defined(__WXMSW__)
+    // wxWidgets' IsDark() returns false on Win 11 now even if dark mode is enabled
+    // so we need to additionally check AreAppsDark()
+    m_isDarkMode = m_isDarkMode || appearance.AreAppsDark();
+    MSWEnableDarkMode(wxApp::DarkMode_Auto);
 #endif
 
     s_bSkipExitConfirmation = false;
@@ -173,6 +173,7 @@ bool CBOINCGUIApp::OnInit() {
     wxSystemOptions::SetOption(wxT("msw.staticbox.optimized-paint"), 0);
 #endif
 #ifdef __WXMAC__
+#if ! USE_NATIVE_LISTCONTROL
     // In wxMac-2.8.7, default wxListCtrl::RefreshItem() does not work
     // so use traditional generic implementation.
     // This has been fixed in wxMac-2.8.8, but the Mac native implementation:
@@ -180,6 +181,7 @@ bool CBOINCGUIApp::OnInit() {
     //  - seems to always redraw entire control even if asked to refresh only one row.
     //  - causes major flicker of progress bars, (probably due to full redraws.)
     wxSystemOptions::SetOption(wxT("mac.listctrl.always_use_generic"), 1);
+#endif
 
     AEInstallEventHandler( kCoreEventClass, kAEQuitApplication, NewAEEventHandlerUPP((AEEventHandlerProcPtr)QuitAppleEventHandler), 0, false );
 #endif
@@ -191,11 +193,8 @@ bool CBOINCGUIApp::OnInit() {
 
 #ifdef __WXMAC__
     // Don't open main window if we were started automatically at login
-    if (compareOSVersionTo(13, 0) >= 0) {
         m_bGUIVisible = !m_bBOINCMGRAutoStarted;
-    } else {
-        m_bGUIVisible = IsApplicationVisible();
-    }
+
     if (getTimeSinceBoot() < 30.) {
         // If the system was just started, we usually get a "Connection
         // failed" error if we try to connect too soon, so delay a bit.
@@ -302,7 +301,7 @@ bool CBOINCGUIApp::OnInit() {
     }
 
 #ifdef SANDBOX
-    if (!success) iErrorCode = -1016;
+    if (!success) iErrorCode = -1021;
 #endif
 
     // Initialize the BOINC Diagnostics Framework
@@ -385,7 +384,7 @@ bool CBOINCGUIApp::OnInit() {
 
     // Load desired manager skin
     m_pConfig->Read(wxT("Skin"), &strDesiredSkinName, m_pSkinManager->GetDefaultSkinName());
-    m_pSkinManager->ReloadSkin(strDesiredSkinName);
+    m_pSkinManager->ReloadSkin(std::move(strDesiredSkinName));
 
 #ifdef SANDBOX
     // Make sure owners, groups and permissions are correct for the current setting of g_use_sandbox
@@ -538,8 +537,8 @@ bool CBOINCGUIApp::OnInit() {
             wxString message;
             message.Printf(_("Another instance of %s is already running."), appName);
             CDlgGenericMessageParameters params;
-            params.caption = appName;
-            params.message = message;
+            params.caption = std::move(appName);
+            params.message = std::move(message);
             params.button2 = CDlgGenericMessageButton(false);
             CDlgGenericMessage dlg(NULL, &params);
             ShowApplication(true);
@@ -564,7 +563,6 @@ bool CBOINCGUIApp::OnInit() {
         }
     }
 
-#ifndef __WXGTK__
     // Initialize the task bar icon
 	m_pTaskBarIcon = new CTaskBarIcon(
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
@@ -575,7 +573,6 @@ bool CBOINCGUIApp::OnInit() {
 #endif
     );
     wxASSERT(m_pTaskBarIcon);
-#endif // __WXGTK__
 #ifdef __WXMAC__
     m_pMacDockIcon = new CTaskBarIcon(
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
@@ -647,7 +644,7 @@ int CBOINCGUIApp::OnExit() {
     }
     m_pMacDockIcon = NULL;
 #endif
-#ifndef __WXGTK__
+#ifdef __WXMAC__
     if (m_pTaskBarIcon) {
         delete m_pTaskBarIcon;
     }
@@ -856,15 +853,16 @@ bool CBOINCGUIApp::DetectDuplicateInstance() {
             wxTheApp->GetAppName() + '-' + wxGetUserId(),
             wxFileName::GetHomeDir() + "/Library/Application Support/BOINC"
             );
+#elif defined(__WXGTK__)
+    m_pInstanceChecker = new wxSingleInstanceChecker(
+            wxTheApp->GetAppName() + '-' + wxGetUserId(),
+            wxFileName::GetTempDir()
+            );
 #else
     m_pInstanceChecker = new wxSingleInstanceChecker();
 #endif
     if (m_pInstanceChecker->IsAnotherRunning()) {
-        if (m_bMultipleInstancesOK) return false;
-#ifdef __WXMSW__
-        CTaskBarIcon::FireAppRestore();
-#endif
-        return true;
+        return !m_bMultipleInstancesOK;
     }
     return false;
 }
@@ -888,8 +886,8 @@ void CBOINCGUIApp::DetectExecutableName() {
     // Store the root directory for later use.
     m_strBOINCMGRExecutableName = pszProg;
 #elif defined(__WXGTK__)
-    char path[PATH_MAX];
-    if (!get_real_executable_path(path, PATH_MAX)) {
+    char path[MAXPATHLEN];
+    if (!get_real_executable_path(path, MAXPATHLEN)) {
         // find filename component
         char* name = strrchr(path, '/');
         if (name) {
@@ -919,8 +917,8 @@ void CBOINCGUIApp::DetectRootDirectory() {
     // Store the root directory for later use.
     m_strBOINCMGRRootDirectory = szPath;
 #elif defined(__WXGTK__)
-    char path[PATH_MAX];
-    if (!get_real_executable_path(path, PATH_MAX)) {
+    char path[MAXPATHLEN];
+    if (!get_real_executable_path(path, MAXPATHLEN)) {
         // find path component
         char* name = strrchr(path, '/');
         if (name) {
@@ -1086,7 +1084,7 @@ void CBOINCGUIApp::InitSupportedLanguages() {
         wxString lang_region = pLI->CanonicalName.BeforeFirst('@');
         wxString lang = lang_region.BeforeFirst('_');
         wxString script = pLI->CanonicalName.AfterFirst('@');
-        wxString lang_script = lang;
+        wxString lang_script = std::move(lang);
         if (!script.empty()) {
             lang_script += wxT("@") + script;
         }
@@ -1157,7 +1155,7 @@ void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
     {
 #ifdef __WXMAC__
         // When our LaunchAgent / login item launches us at login, it activates
-        // this app, but we want it hidden. So we immediatly hide it upon the
+        // this app, but we want it hidden. So we immediately hide it upon the
         // first activation when run as a login item.
         static bool first = true;
 
@@ -1485,7 +1483,7 @@ int CBOINCGUIApp::ConfirmExit() {
     }
 
 #ifdef __WXMSW__
-    if (m_iShutdownCoreClient) {
+    if (m_iShutdownCoreClient && dlg.m_DialogShutdownCoreClient) {
         dlg.m_DialogShutdownCoreClient->SetValue(TRUE);
     }
 #endif
@@ -1501,7 +1499,9 @@ int CBOINCGUIApp::ConfirmExit() {
 #ifdef __WXMAC__
         s_bSkipExitConfirmation = true;     // Don't ask twice (only affects Mac)
 #else
-        m_iShutdownCoreClient = dlg.m_DialogShutdownCoreClient->GetValue();
+        if (dlg.m_DialogShutdownCoreClient) {
+            m_iShutdownCoreClient = dlg.m_DialogShutdownCoreClient->GetValue();
+        }
 #endif
         m_iDisplayExitDialog = !dlg.m_DialogDisplay->GetValue();
         retval = true;

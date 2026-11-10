@@ -78,7 +78,7 @@ if (!$thread || !$action) {
 }
 
 $user = get_logged_in_user();
-check_tokens($user->authenticator);
+check_tokens();
 
 if ($action == "subscribe") {
     subscribe($forum, $thread, $user);

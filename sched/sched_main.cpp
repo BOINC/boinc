@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,7 +20,7 @@
 // You can also run it:
 // - manually for debugging, with a single request
 // - for simulation or performance testing, with a stream of requests
-//   (using --batch)
+//   (using --stdin_reqs)
 
 // TODO: what does the following mean?
 // Also, You can call debug_sched() for whatever situation is of
@@ -72,7 +72,10 @@
 #define DUMP_CORE_ON_SEGV 0
 
 #define DEBUG_LEVEL  999
-#define MAX_FCGI_COUNT  20
+
+// If we're using Fast CGI, how many requests each process handles before exit.
+// This guards against possible memory or descriptor leaks.
+#define MAX_FCGI_COUNT  100
 
 GUI_URLS gui_urls;
 PROJECT_FILES project_files;
@@ -80,7 +83,7 @@ key_t sema_key;
 int g_pid;
 static bool db_opened=false;
 SCHED_SHMEM* ssp = 0;
-bool batch = false;
+bool stdin_reqs = false;
 bool mark_jobs_done = false;
 bool all_apps_use_hr;
 
@@ -88,7 +91,7 @@ static void usage(char* p) {
     boinc::fprintf(stderr,
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
-        "  --batch            stdin contains a sequence of request messages.\n"
+        "  --stdin_reqs       stdin contains a sequence of request messages.\n"
         "                     Do them all, and ignore rpc_seqno.\n"
         "  --mark_jobs_done   When send a job, also mark it as done.\n"
         "                     (for performance testing)\n"
@@ -375,8 +378,8 @@ int main(int argc, char** argv) {
     bool debug_log = false;
 
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "--batch")) {
-            batch = true;
+        if (!strcmp(argv[i], "--stdin_reqs")) {
+            stdin_reqs = true;
             continue;
         } else if (!strcmp(argv[i], "--mark_jobs_done")) {
             mark_jobs_done = true;
@@ -503,12 +506,9 @@ int main(int argc, char** argv) {
     }
     strip_whitespace(code_sign_key);
 
-    buda_init();
-
     g_pid = getpid();
 #ifdef _USING_FCGI_
-    //while(FCGI_Accept() >= 0 && counter < MAX_FCGI_COUNT) {
-    while(FCGI_Accept() >= 0) {
+    while(counter < MAX_FCGI_COUNT && FCGI_Accept() >= 0) {
         counter++;
         log_messages.set_indent_level(0);
 #endif
@@ -531,6 +531,9 @@ int main(int argc, char** argv) {
         send_message("Server error: can't attach shared memory", config.maintenance_delay);
         goto done;
     }
+
+    buda_init();    // must follow attaching to shmem
+
     if (config.keyword_sched) {
         keyword_sched_init();
     }
@@ -622,7 +625,7 @@ int main(int argc, char** argv) {
         */
 
 #ifndef _USING_FCGI_
-    } else if (batch) {
+    } else if (stdin_reqs) {
         while (!feof(stdin)) {
             handle_request(stdin, stdout, code_sign_key);
             fflush(stdout);
@@ -675,14 +678,14 @@ void JOB_LIMIT::print_log() {
 void JOB_LIMITS::print_log() {
     log_messages.printf(MSG_NORMAL, "[quota] Overall limits on jobs in progress:\n");
     project_limits.print_log();
-    for (unsigned int i=0; i<app_limits.size(); i++) {
-        if (app_limits[i].any_limit()) {
-            APP* app = ssp->lookup_app_name(app_limits[i].app_name);
+    for (JOB_LIMIT& jl: app_limits) {
+        if (jl.any_limit()) {
+            APP* app = ssp->lookup_app_name(jl.app_name);
             if (!app) continue;
             log_messages.printf(MSG_NORMAL,
                 "[quota] Limits for %s:\n", app->name
             );
-            app_limits[i].print_log();
+            jl.print_log();
         }
     }
 }

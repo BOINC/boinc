@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -59,14 +59,13 @@
 
 // if host sends us an impossible RAM size, use this instead
 //
-const double DEFAULT_RAM_SIZE = 64000000;
+const double DEFAULT_RAM_SIZE = 4*GIGA;
 
 int selected_app_message_index=0;
 
 static inline bool file_present_on_host(const char* name) {
-    for (unsigned i=0; i<g_request->file_infos.size(); i++) {
-        FILE_INFO& fi = g_request->file_infos[i];
-        if (!strstr(name, fi.name)) {
+    for (const FILE_INFO& fi: g_request->file_infos) {
+        if (!strcmp(name, fi.name)) {
             return true;
         }
     }
@@ -330,8 +329,7 @@ static void get_reliability_and_trust() {
         multiplier = 1.8;
     }
 
-    for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
-        DB_HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
+    for (DB_HOST_APP_VERSION& hav: g_wreq->host_app_versions) {
         get_reliability_version(hav, multiplier);
         set_trust(hav);
     }
@@ -496,8 +494,7 @@ double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
 }
 
 void update_n_jobs_today() {
-    for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
-        DB_HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
+    for (DB_HOST_APP_VERSION& hav: g_wreq->host_app_versions) {
         update_quota(hav);
     }
 }
@@ -685,7 +682,8 @@ static int add_wu_to_reply(
     if (bvp) {
         retval = add_usage_to_wu(wu2, hu);
         if (retval) return retval;
-        add_app_files(wu2, *bvp);
+        retval = add_app_files(wu2, *bvp);
+        if (retval) return retval;
     }
     wu3 = wu2;
     if (strlen(config.replace_download_url_by_timezone)) {
@@ -724,13 +722,15 @@ static int insert_deadline_tag(RESULT& result) {
 // - transition time
 // - app_version_id, if app uses homogeneous app version
 // - hr_class, if we're using HR
+// - n_sent
 //
-// In the latter two cases, the update is conditional on the field
+// In the HR and HAV cases, the update is conditional on the field
 // fields either being zero or the desired value.
 // Some other scheduler instance might have updated it since we read the WU,
 // and the transitioner might have set it to zero.
+// In that case we return an error, and the result won't get sent.
 //
-int update_wu_on_send(WORKUNIT wu, time_t x, APP& app, BEST_APP_VERSION& bav) {
+int update_wu_on_send(WORKUNIT& wu, time_t x, APP& app, BEST_APP_VERSION& bav) {
     DB_WORKUNIT dbwu;
     char buf[256], buf2[256], where_clause[256];
     int retval;
@@ -740,7 +740,7 @@ int update_wu_on_send(WORKUNIT wu, time_t x, APP& app, BEST_APP_VERSION& bav) {
     // SQL note: can't use min() here
     //
     sprintf(buf,
-        "transition_time=if(transition_time<%d, transition_time, %d)",
+        "transition_time=if(transition_time<%d, transition_time, %d), n_sent=n_sent+1",
         (int)x, (int)x
     );
     strcpy(where_clause, "");
@@ -762,19 +762,25 @@ int update_wu_on_send(WORKUNIT wu, time_t x, APP& app, BEST_APP_VERSION& bav) {
         strcat(where_clause, buf2);
     }
     retval = dbwu.update_field(buf, strlen(where_clause)?where_clause:NULL);
-    if (retval) return retval;
+    if (retval) {
+        log_messages.printf(MSG_NORMAL,
+            "[WU%ld] update failed update_wu_on_send(): %d\n",
+            wu.id, retval
+        );
+        return retval;
+    }
     if (boinc_db.affected_rows() != 1) {
         return ERR_DB_NOT_FOUND;
     }
+
     return 0;
 }
 
 // return true iff a result for same WU is already being sent
 //
 bool wu_already_in_reply(WORKUNIT& wu) {
-    unsigned int i;
-    for (i=0; i<g_reply->results.size(); i++) {
-        if (wu.id == g_reply->results[i].workunitid) {
+    for (const SCHED_DB_RESULT &r: g_reply->results) {
+        if (wu.id == r.workunitid) {
             return true;
         }
     }
@@ -944,17 +950,6 @@ inline static DB_ID_TYPE get_app_version_id(BEST_APP_VERSION* bavp) {
     }
 }
 
-static bool wu_has_plan_class(WORKUNIT &wu, char* buf) {
-    char *p = strstr(wu.xml_doc, "<plan_class>");
-    if (!p) return false;
-    p += strlen("<plan_class>");
-    strncpy(buf, p, 256);
-    p = strstr(buf, "</plan_class>");
-    if (!p) return false;
-    *p = 0;
-    return true;
-}
-
 int add_result_to_reply(
     SCHED_DB_RESULT& result,
     WORKUNIT& wu,
@@ -993,6 +988,23 @@ int add_result_to_reply(
             retval
         );
         return retval;
+    }
+
+    // If the WU is part of a batch, update batch.n_in_progress
+    //
+    if (wu.batch > 0 && wu.n_sent == 0) {
+        char buf[256];
+        DB_BATCH batch;
+        batch.id = wu.batch;
+        sprintf(buf, "n_in_progress=n_in_progress+1");
+        retval = batch.update_field(buf);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "[BATCH%d] add_result_to_reply(): batch update failed: %d\n",
+                wu.batch, retval
+            );
+            return retval;
+        }
     }
 
     // update result DB record.
@@ -1283,7 +1295,7 @@ void send_gpu_messages() {
 
     if (g_request->coprocs.nvidia.count && ssp->have_apps_for_proc_type[PROC_TYPE_NVIDIA_GPU]) {
         send_gpu_property_messages(gpu_requirements[PROC_TYPE_NVIDIA_GPU],
-            g_request->coprocs.nvidia.prop.totalGlobalMem,
+            g_request->coprocs.nvidia.cuda_prop.totalGlobalMem,
             g_request->coprocs.nvidia.display_driver_version,
             proc_type_name(PROC_TYPE_NVIDIA_GPU)
         );
@@ -1316,8 +1328,6 @@ void send_gpu_messages() {
 //
 static void send_user_messages() {
     char buf[512];
-    unsigned int i;
-    int j;
 
     // GPU messages aren't relevant if anonymous platform
     //
@@ -1337,16 +1347,16 @@ static void send_user_messages() {
 
             // Inform the user about applications with no work
             //
-            for (i=0; i<g_wreq->project_prefs.selected_apps.size(); i++) {
-                if (!g_wreq->project_prefs.selected_apps[i].work_available) {
-                    APP* app = ssp->lookup_app(g_wreq->project_prefs.selected_apps[i].appid);
+            for (const APP_INFO& ai: g_wreq->project_prefs.selected_apps) {
+                if (!ai.work_available) {
+                    APP* app = ssp->lookup_app(ai.appid);
                     // don't write message if the app is deprecated
                     //
                     if (app) {
                         char explanation[256];
                         sprintf(explanation,
                             "No tasks are available for %s",
-                            find_user_friendly_name(g_wreq->project_prefs.selected_apps[i].appid)
+                            find_user_friendly_name(ai.appid)
                         );
                         g_reply->insert_message( explanation, "low");
                     }
@@ -1355,7 +1365,7 @@ static void send_user_messages() {
 
             // Tell the user about applications they didn't qualify for
             //
-            for (j=0; j<selected_app_message_index; j++){
+            for (int j=0; j<selected_app_message_index; j++){
                 g_reply->insert_message(g_wreq->no_work_messages.at(j));
             }
             g_reply->insert_message(
@@ -1376,23 +1386,21 @@ static void send_user_messages() {
 
         // Tell the user about applications with no work
         //
-        for (i=0; i<g_wreq->project_prefs.selected_apps.size(); i++) {
-            if (!g_wreq->project_prefs.selected_apps[i].work_available) {
-                APP* app = ssp->lookup_app(g_wreq->project_prefs.selected_apps[i].appid);
+        for (const APP_INFO& ai: g_wreq->project_prefs.selected_apps) {
+            if (!ai.work_available) {
+                APP* app = ssp->lookup_app(ai.appid);
                 // don't write message if the app is deprecated
                 if (app != NULL) {
                     sprintf(buf, "No tasks are available for %s",
-                        find_user_friendly_name(
-                            g_wreq->project_prefs.selected_apps[i].appid
-                        )
+                        find_user_friendly_name(ai.appid)
                     );
                     g_reply->insert_message(buf, "low");
                 }
             }
         }
 
-        for (i=0; i<g_wreq->no_work_messages.size(); i++){
-            g_reply->insert_message(g_wreq->no_work_messages.at(i));
+        for (const USER_MESSAGE& um: g_wreq->no_work_messages){
+            g_reply->insert_message(um);
         }
 
         if (g_wreq->no_allowed_apps_available) {
@@ -1437,7 +1445,7 @@ static void send_user_messages() {
                 "Not sending tasks because newer client version required\n"
             );
         }
-        for (i=0; i<NPROC_TYPES; i++) {
+        for (int i=0; i<NPROC_TYPES; i++) {
             if (g_wreq->project_prefs.dont_use_proc_type[i] && ssp->have_apps_for_proc_type[i]) {
                 sprintf(buf,
                     _("Tasks for %s are available, but your preferences are set to not accept them"),
@@ -1478,8 +1486,6 @@ static double clamp_req_sec(double x) {
 // decipher request type, fill in WORK_REQ
 //
 void send_work_setup() {
-    unsigned int i;
-
     g_wreq->seconds_to_fill = clamp_req_sec(g_request->work_req_seconds);
     g_wreq->req_secs[PROC_TYPE_CPU] = clamp_req_sec(g_request->cpu_req_secs);
     g_wreq->req_instances[PROC_TYPE_CPU] = g_request->cpu_req_instances;
@@ -1496,16 +1502,15 @@ void send_work_setup() {
     if (g_wreq->anonymous_platform) {
         estimate_flops_anon_platform();
 
-        for (i=0; i<NPROC_TYPES; i++) {
+        for (int i=0; i<NPROC_TYPES; i++) {
             g_wreq->client_has_apps_for_proc_type[i] = false;
         }
-        for (i=0; i<g_request->client_app_versions.size(); i++) {
-            CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
+        for (const CLIENT_APP_VERSION& cav: g_request->client_app_versions) {
             int pt = cav.host_usage.proc_type;
             g_wreq->client_has_apps_for_proc_type[pt] = true;
         }
     }
-    for (i=1; i<NPROC_TYPES; i++) {
+    for (int i=1; i<NPROC_TYPES; i++) {
         gpu_requirements[i].clear();
     }
 
@@ -1516,7 +1521,7 @@ void send_work_setup() {
 
     // do sanity checking on GPU scheduling parameters
     //
-    for (i=1; i<NPROC_TYPES; i++) {
+    for (int i=1; i<NPROC_TYPES; i++) {
         COPROC* cp = g_request->coprocs.proc_type_to_coproc(i);
         if (cp && cp->count) {
             g_wreq->req_secs[i] = clamp_req_sec(cp->req_secs);
@@ -1527,15 +1532,14 @@ void send_work_setup() {
         }
     }
     g_wreq->rsc_spec_request = false;
-    for (i=0; i<NPROC_TYPES; i++) {
+    for (int i=0; i<NPROC_TYPES; i++) {
         if (g_wreq->req_secs[i]) {
             g_wreq->rsc_spec_request = true;
             break;
         }
     }
 
-    for (i=0; i<g_request->other_results.size(); i++) {
-        OTHER_RESULT& r = g_request->other_results[i];
+    for (const OTHER_RESULT& r: g_request->other_results) {
         APP* app = NULL;
         int proc_type = PROC_TYPE_CPU;
         bool have_cav = false;
@@ -1577,7 +1581,7 @@ void send_work_setup() {
             g_wreq->req_instances[PROC_TYPE_CPU],
             g_request->cpu_estimated_delay
         );
-        for (i=1; i<NPROC_TYPES; i++) {
+        for (int i=1; i<NPROC_TYPES; i++) {
             COPROC* cp = g_request->coprocs.proc_type_to_coproc(i);
             if (cp && cp->count) {
                 log_messages.printf(MSG_NORMAL,
@@ -1608,8 +1612,7 @@ void send_work_setup() {
             log_messages.printf(MSG_NORMAL,
                 "[send] Anonymous platform app versions:\n"
             );
-            for (i=0; i<g_request->client_app_versions.size(); i++) {
-                CLIENT_APP_VERSION& cav = g_request->client_app_versions[i];
+            for (const CLIENT_APP_VERSION& cav: g_request->client_app_versions) {
                 char buf[256];
                 strcpy(buf, "");
                 int pt = cav.host_usage.proc_type;
@@ -1649,17 +1652,14 @@ void send_work_setup() {
 //
 int update_host_app_versions(vector<SCHED_DB_RESULT>& results, int hostid) {
     vector<DB_HOST_APP_VERSION> new_havs;
-    unsigned int i, j;
     int retval;
 
-    for (i=0; i<results.size(); i++) {
-        RESULT& r = results[i];
+    for (const SCHED_DB_RESULT& r: results) {
         int gavid = generalized_app_version_id(r.app_version_id, r.appid);
         DB_HOST_APP_VERSION* havp = gavid_to_havp(gavid);
         if (!havp) {
             bool found = false;
-            for (j=0; j<new_havs.size(); j++) {
-                DB_HOST_APP_VERSION& hav = new_havs[j];
+            for (DB_HOST_APP_VERSION& hav: new_havs) {
                 if (hav.app_version_id == gavid) {
                     found = true;
                     hav.n_jobs_today++;
@@ -1678,9 +1678,7 @@ int update_host_app_versions(vector<SCHED_DB_RESULT>& results, int hostid) {
 
     // create new records
     //
-    for (i=0; i<new_havs.size(); i++) {
-        DB_HOST_APP_VERSION& hav = new_havs[i];
-
+    for (DB_HOST_APP_VERSION& hav: new_havs) {
         retval = hav.insert();
         if (retval) {
             log_messages.printf(MSG_CRITICAL,

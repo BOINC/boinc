@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -43,9 +43,8 @@ typedef struct {
 class CScrolledTextBox : public wxScrolledWindow
 {
     DECLARE_DYNAMIC_CLASS( CScrolledTextBox )
-    DECLARE_EVENT_TABLE()
 	public:
-        CScrolledTextBox();
+        CScrolledTextBox() = default;
 		CScrolledTextBox( wxWindow* parent);
         ~CScrolledTextBox();
 
@@ -57,10 +56,10 @@ class CScrolledTextBox : public wxScrolledWindow
         bool IsStartOfNewLine();
         void OnOutputLine(const wxString& line);
 
-        wxBoxSizer*                 m_TextSizer;
-        bool                        m_eol;
+        wxBoxSizer*                 m_TextSizer = nullptr;
+        bool                        m_eol = false;
         wxString                    m_text;
-        int                         m_hLine;
+        int                         m_hLine = 0;
 };
 
 
@@ -72,10 +71,9 @@ class CScrolledTextBox : public wxScrolledWindow
 class CSlideShowPanel : public wxPanel
 {
     DECLARE_DYNAMIC_CLASS( CSlideShowPanel )
-    DECLARE_EVENT_TABLE()
 
 	public:
-        CSlideShowPanel();
+        CSlideShowPanel() = default;
 		CSlideShowPanel( wxWindow* parent);
 		~CSlideShowPanel();
 
@@ -86,12 +84,12 @@ class CSlideShowPanel : public wxPanel
         void OnEraseBackground(wxEraseEvent& event);
 
     private:
-        CScrolledTextBox*           m_description;
-        wxTimer*                    m_ChangeSlideTimer;
+        CScrolledTextBox*           m_description = nullptr;
+        wxTimer*                    m_ChangeSlideTimer = nullptr;
         wxBitmap                    m_SlideBitmap;
-        bool                        m_bCurrentSlideIsDefault;
-        bool                        m_bGotAllProjectsList;
-        bool                        m_bHasBeenDrawn;
+        bool                        m_bCurrentSlideIsDefault = false;
+        bool                        m_bGotAllProjectsList = false;
+        bool                        m_bHasBeenDrawn = false;
         ALL_PROJECTS_LIST           m_AllProjectsList;
 };
 
@@ -109,10 +107,9 @@ class CSlideShowPanel : public wxPanel
 class CSimpleTaskPanel : public CSimplePanelBase
 {
     DECLARE_DYNAMIC_CLASS( CSimpleTaskPanel )
-    DECLARE_EVENT_TABLE()
 
     public:
-        CSimpleTaskPanel();
+        CSimpleTaskPanel() = default;
 		CSimpleTaskPanel( wxWindow* parent);
 		~CSimpleTaskPanel();
 
@@ -138,30 +135,27 @@ class CSimpleTaskPanel : public CSimplePanelBase
 		void DisplayIdleState();
 
 	protected:
-#ifdef __WXMAC__
-        void OnEraseBackground(wxEraseEvent& event);
-#endif
-        wxRect*                     m_progressBarRect;
-		CTransparentStaticText*     m_myTasksLabel;
-		CBOINCBitmapComboBox*       m_TaskSelectionCtrl;
-		CTransparentStaticText*     m_TaskProjectLabel;
-		CTransparentStaticText*     m_TaskProjectName;
+        wxRect*                     m_progressBarRect = nullptr;
+		CTransparentStaticText*     m_myTasksLabel = nullptr;
+		CBOINCBitmapComboBox*       m_TaskSelectionCtrl = nullptr;
+		CTransparentStaticText*     m_TaskProjectLabel = nullptr;
+		CTransparentStaticText*     m_TaskProjectName = nullptr;
 #if SELECTBYRESULTNAME
-		CTransparentStaticText*     m_TaskApplicationName;
+		CTransparentStaticText*     m_TaskApplicationName = nullptr;
 #endif
-        CSlideShowPanel*            m_SlideShowArea;
-		CTransparentStaticText*     m_ElapsedTimeValue;
-		CTransparentStaticText*     m_TimeRemainingValue;
-		wxGauge*                    m_ProgressBar;
-		CTransparentStaticText*     m_ProgressValueText;
-		CTransparentStaticText*     m_StatusValueText;
-		wxButton*                   m_TaskCommandsButton;
+        CSlideShowPanel*            m_SlideShowArea = nullptr;
+		CTransparentStaticText*     m_ElapsedTimeValue = nullptr;
+		CTransparentStaticText*     m_TimeRemainingValue = nullptr;
+		wxGauge*                    m_ProgressBar = nullptr;
+		CTransparentStaticText*     m_ProgressValueText = nullptr;
+		CTransparentStaticText*     m_StatusValueText = nullptr;
+		wxButton*                   m_TaskCommandsButton = nullptr;
         wxRect                      m_ProgressRect;
-        int                         m_oldWorkCount;
-        int                         m_ipctDoneX1000;
-		time_t                      error_time;
-        bool                        m_bStableTaskInfoChanged;
-        int                         m_CurrentTaskSelection;
+        int                         m_oldWorkCount = 0;
+        int                         m_ipctDoneX1000 = 0;
+		time_t                      error_time = 0;
+        bool                        m_bStableTaskInfoChanged = false;
+        int                         m_CurrentTaskSelection = 0;
         wxString                    m_sNotAvailableString;
         wxString                    m_sNoProjectsString;
 };

@@ -1,3 +1,23 @@
+// This file is part of BOINC.
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+//
+// Implementation based on: DCOM Permission Configuration Sample
+// Read the license below
+//
 /*++
 
 DCOM Permission Configuration Sample
@@ -21,178 +41,19 @@ Environment:
 
 --*/
 
-#define GUIDSTR_MAX 38
+#pragma once
 
-#ifndef STR2UNI
+class DCOMPermissionConfig
+{
+public:
+    DCOMPermissionConfig() = delete;
+    ~DCOMPermissionConfig() = delete;
+    DCOMPermissionConfig operator=(const DCOMPermissionConfig&) = delete;
+    DCOMPermissionConfig(const DCOMPermissionConfig&) = delete;
 
-#define STR2UNI(unistr, regstr) \
-        mbstowcs (unistr, regstr, strlen (regstr)+1);
+    static DWORD ChangeAppIDAccessACL(std::wstring_view AppID,
+        std::wstring_view Principal);
 
-#define UNI2STR(regstr, unistr) \
-        wcstombs (regstr, unistr, wcslen (unistr)+1);
-
-#endif
-
-
-//
-// Wrappers
-//
-
-DWORD
-ListDefaultAccessACL();
-
-DWORD
-ListDefaultLaunchACL();
-
-DWORD
-ListAppIDAccessACL (
-    LPTSTR AppID
-    );
-
-DWORD
-ListAppIDLaunchACL (
-    LPTSTR AppID
-    );
-
-DWORD
-ChangeDefaultAccessACL (
-    LPTSTR Principal,
-    BOOL SetPrincipal,
-    BOOL Permit
-    );
-
-DWORD
-ChangeDefaultLaunchACL (
-    LPTSTR Principal,
-    BOOL SetPrincipal,
-    BOOL Permit
-    );
-
-DWORD
-ChangeAppIDAccessACL (
-    LPTSTR AppID,
-    LPTSTR Principal,
-    BOOL SetPrincipal,
-    BOOL Permit
-    );
-
-DWORD
-ChangeAppIDLaunchACL (
-    LPTSTR AppID,
-    LPTSTR Principal,
-    BOOL SetPrincipal,
-    BOOL Permit
-    );
-
-DWORD GetRunAsPassword (
-    LPTSTR AppID,
-    LPTSTR Password
-    );
-
-DWORD SetRunAsPassword (
-    LPTSTR AppID,
-    LPTSTR Principal,
-    LPTSTR Password
-    );
-
-DWORD GetRunAsPassword (
-    LPTSTR AppID,
-    LPTSTR Password
-    );
-
-DWORD SetRunAsPassword (
-    LPTSTR AppID,
-    LPTSTR Password
-    );
-
-//
-// Internal functions
-//
-
-DWORD
-CreateNewSD (
-    SECURITY_DESCRIPTOR **SD
-    );
-
-DWORD
-MakeSDAbsolute (
-    PSECURITY_DESCRIPTOR OldSD,
-    PSECURITY_DESCRIPTOR *NewSD
-    );
-
-DWORD
-SetNamedValueSD (
-    HKEY RootKey,
-    LPTSTR KeyName,
-    LPTSTR ValueName,
-    SECURITY_DESCRIPTOR *SD
-    );
-
-DWORD
-GetNamedValueSD (
-    HKEY RootKey,
-    LPTSTR KeyName,
-    LPTSTR ValueName,
-    SECURITY_DESCRIPTOR **SD,
-    BOOL *NewSD
-    );
-
-DWORD
-ListNamedValueSD (
-    HKEY RootKey,
-    LPTSTR KeyName,
-    LPTSTR ValueName
-    );
-
-DWORD
-AddPrincipalToNamedValueSD (
-    HKEY RootKey,
-    LPTSTR KeyName,
-    LPTSTR ValueName,
-    LPTSTR Principal,
-    BOOL Permit
-    );
-
-DWORD
-RemovePrincipalFromNamedValueSD (
-    HKEY RootKey,
-    LPTSTR KeyName,
-    LPTSTR ValueName,
-    LPTSTR Principal
-    );
-
-DWORD
-GetCurrentUserSID (
-    PSID *Sid
-    );
-
-DWORD
-CopyACL (
-    PACL OldACL,
-    PACL NewACL
-    );
-
-DWORD
-AddAccessDeniedACEToACL (
-    PACL *Acl,
-    DWORD PermissionMask,
-    LPTSTR Principal
-    );
-
-DWORD
-AddAccessAllowedACEToACL (
-    PACL *Acl,
-    DWORD PermissionMask,
-    LPTSTR Principal
-    );
-
-DWORD
-RemovePrincipalFromACL (
-    PACL Acl,
-    LPTSTR Principal
-    );
-
-void
-ListACL (
-    PACL Acl
-    );
+    static DWORD ChangeAppIDLaunchACL(std::wstring_view AppID,
+        std::wstring_view Principal);
+};

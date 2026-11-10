@@ -1,3 +1,23 @@
+// This file is part of BOINC.
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+//
+// Implementation based on: privs.c
+// Read the license below
+//
 /*++
 
 Copyright 1996 - 1997 Microsoft Corporation
@@ -43,256 +63,105 @@ Author:
 
 --*/
 
-#include "stdafx.h"
 #include "lsaprivs.h"
 
-
-/*++
-This function attempts to obtain a SID representing the supplied
-account on the supplied system.
-
-If the function succeeds, the return value is TRUE. A buffer is
-allocated which contains the SID representing the supplied account.
-This buffer should be freed when it is no longer needed by calling
-HeapFree(GetProcessHeap(), 0, buffer)
-
-If the function fails, the return value is FALSE. Call GetLastError()
-to obtain extended error information.
-
-Scott Field (sfield)    12-Jul-95
---*/
-
-BOOL
-GetAccountSid(
-    LPCTSTR SystemName,
-    LPCTSTR AccountName,
-    PSID *Sid
-    )
-{
-    LPTSTR ReferencedDomain=NULL;
-    DWORD cbSid=128;    // initial allocation attempt
-    DWORD cchReferencedDomain=16; // initial allocation size
-    SID_NAME_USE peUse;
-    BOOL bSuccess=FALSE; // assume this function will fail
-
-    __try {
-
-    //
-    // initial memory allocations
-    //
-    *Sid = (PSID)HeapAlloc(GetProcessHeap(), 0, cbSid);
-
-    if(*Sid == NULL) __leave;
-
-    ReferencedDomain = (LPTSTR)HeapAlloc(
-                    GetProcessHeap(),
-                    0,
-                    cchReferencedDomain * sizeof(TCHAR)
-                    );
-
-    if(ReferencedDomain == NULL) __leave;
-
-    //
-    // Obtain the SID of the specified account on the specified system.
-    //
-    while(!LookupAccountName(
-                    SystemName,         // machine to lookup account on
-                    AccountName,        // account to lookup
-                    *Sid,               // SID of interest
-                    &cbSid,             // size of SID
-                    ReferencedDomain,   // domain account was found on
-                    &cchReferencedDomain,
-                    &peUse
-                    )) {
-        if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
-            //
-            // reallocate memory
-            //
-            *Sid = (PSID)HeapReAlloc(
-                        GetProcessHeap(),
-                        0,
-                        *Sid,
-                        cbSid
-                        );
-            if(*Sid == NULL) __leave;
-
-            ReferencedDomain = (LPTSTR)HeapReAlloc(
-                        GetProcessHeap(),
-                        0,
-                        ReferencedDomain,
-                        cchReferencedDomain * sizeof(TCHAR)
-                        );
-            if(ReferencedDomain == NULL) __leave;
-        }
-        else __leave;
-    }
-
-    //
-    // Indicate success.
-    //
-    bSuccess = TRUE;
-
-    } // try
-    __finally {
-
-    //
-    // Cleanup and indicate failure, if appropriate.
-    //
-
-    HeapFree(GetProcessHeap(), 0, ReferencedDomain);
-
-    if(!bSuccess) {
-        if(*Sid != NULL) {
-            HeapFree(GetProcessHeap(), 0, *Sid);
-            *Sid = NULL;
-        }
-    }
-
-    } // finally
-
-    return bSuccess;
+static void InitLsaString(LSA_UNICODE_STRING& LsaString,
+    std::wstring_view String) {
+    const auto StringLength = static_cast<USHORT>(String.size());
+    LsaString.Buffer = const_cast<wchar_t*>(String.data());
+    LsaString.Length = StringLength * sizeof(WCHAR);
+    LsaString.MaximumLength = StringLength * sizeof(WCHAR);
 }
 
-NTSTATUS
-SetPrivilegeOnAccount(
-    LSA_HANDLE PolicyHandle,    // open policy handle
-    PSID AccountSid,            // SID to grant privilege to
-    LPWSTR PrivilegeName,       // privilege to grant (Unicode)
-    BOOL bEnable                // enable or disable
-    )
-{
-    LSA_UNICODE_STRING PrivilegeString;
-
-    //
-    // Create a LSA_UNICODE_STRING for the privilege name.
-    //
-    InitLsaString(&PrivilegeString, PrivilegeName);
-
-    //
-    // grant or revoke the privilege, accordingly
-    //
-    if(bEnable) {
-        return LsaAddAccountRights(
-                PolicyHandle,       // open policy handle
-                AccountSid,         // target SID
-                &PrivilegeString,   // privileges
-                1                   // privilege count
-                );
-    }
-    else {
-        return LsaRemoveAccountRights(
-                PolicyHandle,       // open policy handle
-                AccountSid,         // target SID
-                FALSE,              // do not disable all rights
-                &PrivilegeString,   // privileges
-                1                   // privilege count
-                );
-    }
-}
-
-void
-InitLsaString(
-    PLSA_UNICODE_STRING LsaString,
-    LPWSTR String
-    )
-{
-    DWORD StringLength;
-
-    if(String == NULL) {
-        LsaString->Buffer = NULL;
-        LsaString->Length = 0;
-        LsaString->MaximumLength = 0;
-        return;
-    }
-
-    StringLength = lstrlenW(String);
-    LsaString->Buffer = String;
-    LsaString->Length = (USHORT) StringLength * sizeof(WCHAR);
-    LsaString->MaximumLength=(USHORT)(StringLength+1) * sizeof(WCHAR);
-}
-
-NTSTATUS
-OpenPolicy(
-    LPWSTR ServerName,
-    DWORD DesiredAccess,
-    PLSA_HANDLE PolicyHandle
-    )
-{
+static NTSTATUS OpenPolicy(std::wstring_view ServerName, DWORD DesiredAccess,
+    PLSA_HANDLE PolicyHandle) {
     LSA_OBJECT_ATTRIBUTES ObjectAttributes;
-    LSA_UNICODE_STRING ServerString;
-    PLSA_UNICODE_STRING Server;
-
-    //
-    // Always initialize the object attributes to all zeroes.
-    //
     ZeroMemory(&ObjectAttributes, sizeof(ObjectAttributes));
 
-    if (ServerName != NULL) {
-        //
-        // Make a LSA_UNICODE_STRING out of the LPWSTR passed in
-        //
-        InitLsaString(&ServerString, ServerName);
-        Server = &ServerString;
-    } else {
-        Server = NULL;
-    }
+    LSA_UNICODE_STRING ServerString;
+    InitLsaString(ServerString, ServerName);
 
-    //
-    // Attempt to open the policy.
-    //
-    return LsaOpenPolicy(
-                Server,
-                &ObjectAttributes,
-                DesiredAccess,
-                PolicyHandle
-                );
+    return LsaOpenPolicy(&ServerString, &ObjectAttributes, DesiredAccess,
+        PolicyHandle);
 }
 
+static NTSTATUS SetPrivilegeOnAccount(LSA_HANDLE PolicyHandle, PSID AccountSid,
+    std::wstring_view PrivilegeName, bool bEnable) {
+    LSA_UNICODE_STRING PrivilegeString;
 
-BOOL
-GrantUserRight(
-    PSID    psidAccountSid,
-    LPWSTR  pszUserRight,
-    BOOL    bEnable
-    )
-{
-    LSA_HANDLE  PolicyHandle = NULL;
-    NTSTATUS    Status;
+    InitLsaString(PrivilegeString, PrivilegeName);
 
-    //
-    // Open the policy on the local host.
-    //
-    Status = OpenPolicy(
-                _T(""),
-                POLICY_ALL_ACCESS,
-                &PolicyHandle
-                );
+    if (bEnable) {
+        return LsaAddAccountRights(PolicyHandle, AccountSid,
+            &PrivilegeString, 1);
+    }
+    else {
+        return LsaRemoveAccountRights(PolicyHandle, AccountSid, FALSE,
+            &PrivilegeString, 1);
+    }
+}
 
+bool LsaPrivs::GetAccountSid(std::wstring_view AccountName, PSID* Sid) {
+    DWORD cbSid = 128;
+    *Sid = reinterpret_cast<PSID>(HeapAlloc(GetProcessHeap(), 0, cbSid));
 
-    if(Status != STATUS_SUCCESS) {
-        return FALSE;
+    if (*Sid == nullptr) {
+        return false;
+    }
+    wil::unique_process_heap pSidDeleter(*Sid);
+
+    DWORD cchReferencedDomain = 16;
+    auto ReferencedDomain = reinterpret_cast<LPTSTR>(
+        HeapAlloc(GetProcessHeap(), 0,
+            cchReferencedDomain * sizeof(TCHAR)));
+
+    if (ReferencedDomain == nullptr) {
+        return false;
+    }
+    wil::unique_process_heap_string pReferencedDomainDeleter(ReferencedDomain);
+
+    SID_NAME_USE peUse;
+    while (!LookupAccountName(nullptr, AccountName.data(), *Sid, &cbSid,
+        ReferencedDomain, &cchReferencedDomain, &peUse)) {
+        if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
+            pSidDeleter.release();
+            *Sid = reinterpret_cast<PSID>(HeapReAlloc(GetProcessHeap(), 0,
+                *Sid, cbSid));
+            if (*Sid == nullptr) {
+                return false;
+            }
+            pSidDeleter.reset(*Sid);
+
+            pReferencedDomainDeleter.release();
+            ReferencedDomain = reinterpret_cast<LPTSTR>(HeapReAlloc(
+                GetProcessHeap(), 0, ReferencedDomain,
+                cchReferencedDomain * sizeof(TCHAR)));
+            if (ReferencedDomain == nullptr) {
+                return false;
+            }
+            pReferencedDomainDeleter.reset(ReferencedDomain);
+        }
+        else {
+            return false;
+        }
     }
 
+    pSidDeleter.release();
+    return true;
+}
 
-    //
-    // Grant the requested user right represented by psidAccountSid.
-    //
-    Status = SetPrivilegeOnAccount(
-                PolicyHandle,                   // policy handle
-                psidAccountSid,                 // SID to grant privilege
-                pszUserRight,                   // Unicode privilege
-                bEnable                         // enable the privilege
-                );
-
-    if(Status != STATUS_SUCCESS)
-    {
-        LsaClose(PolicyHandle);
-        return FALSE;
+bool LsaPrivs::GrantUserRight(PSID psidAccountSid, std::wstring_view pszUserRight,
+    bool bEnable) {
+    LSA_HANDLE  PolicyHandle = nullptr;
+    auto Status = OpenPolicy(_T(""), POLICY_ALL_ACCESS, &PolicyHandle);
+    if (Status != STATUS_SUCCESS) {
+        return false;
     }
+    wil::unique_any<LSA_HANDLE, decltype(&::LsaClose), ::LsaClose>
+        policyHandleDeleter(PolicyHandle);
 
-    //
-    // Cleanup any handles and memory allocated during the custom action
-    //
-    LsaClose(PolicyHandle);
-    return TRUE;
+    Status = SetPrivilegeOnAccount(PolicyHandle, psidAccountSid, pszUserRight,
+        bEnable);
+
+    return Status == STATUS_SUCCESS;
 }

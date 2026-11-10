@@ -60,7 +60,7 @@ static FloppyIOException   __FloppyIOExceptionSingleton;
 //
 // This constructor allows you to open a floppy disk image with extra flags.
 //
-// F_NOINIT         Disables the reseting of the image file at open
+// F_NOINIT         Disables the resetting of the image file at open
 // F_NOCREATE       Does not truncate the file at open (If not exists, the file will be created)
 // F_SYNCHRONIZED   The communication is synchronized, meaning that the code will block until the
 //                  data are read/written from the guest.

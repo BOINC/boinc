@@ -23,8 +23,8 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>ole32.lib;oleaut32.lib;oleacc.lib;shell32.lib;comdlg32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;lzma.lib;nanosvg.lib;nanosvgrast.lib;Ws2_32.Lib;libwebp.lib;libwebpdemux.lib;libsharpyuv.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">wxbase33ud.lib;wxbase33ud_net.lib;wxbase33ud_xml.lib;wxmsw33ud_adv.lib;wxmsw33ud_core.lib;wxmsw33ud_html.lib;wxmsw33ud_qa.lib;wxmsw33ud_webview.lib;pcre2-8d.lib;pcre2-16d.lib;pcre2-32d.lib;pcre2-posixd.lib;libpng16d.lib;jpeg.lib;tiffd.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Configuration)'=='Release'">wxbase33u.lib;wxbase33u_net.lib;wxbase33u_xml.lib;wxmsw33u_adv.lib;wxmsw33u_core.lib;wxmsw33u_html.lib;wxmsw33u_qa.lib;wxmsw33u_webview.lib;pcre2-8.lib;pcre2-16.lib;pcre2-32.lib;pcre2-posix.lib;libpng16.lib;jpeg.lib;tiff.lib;zlib.lib;lzma.lib;nanosvg.lib;nanosvgrast.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)'=='Debug'">wxbase33ud.lib;wxbase33ud_net.lib;wxbase33ud_xml.lib;wxmsw33ud_adv.lib;wxmsw33ud_core.lib;wxmsw33ud_html.lib;wxmsw33ud_qa.lib;wxmsw33ud_webview.lib;pcre2-8d.lib;pcre2-16d.lib;pcre2-32d.lib;pcre2-posixd.lib;libpng16d.lib;jpeg.lib;tiffd.lib;zsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)'=='Release'">wxbase33u.lib;wxbase33u_net.lib;wxbase33u_xml.lib;wxmsw33u_adv.lib;wxmsw33u_core.lib;wxmsw33u_html.lib;wxmsw33u_qa.lib;wxmsw33u_webview.lib;pcre2-8.lib;pcre2-16.lib;pcre2-32.lib;pcre2-posix.lib;libpng16.lib;jpeg.lib;tiff.lib;zs.lib;lzma.lib;nanosvg.lib;nanosvgrast.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -89,7 +89,6 @@
     <ClCompile Include="..\clientgui\AlreadyExistsPage.cpp" />
     <ClCompile Include="..\clientgui\CompletionErrorPage.cpp" />
     <ClCompile Include="..\clientgui\CompletionPage.cpp" />
-    <ClCompile Include="..\clientgui\NoInternetConnectionPage.cpp" />
     <ClCompile Include="..\clientgui\NotDetectedPage.cpp" />
     <ClCompile Include="..\clientgui\NotFoundPage.cpp" />
     <ClCompile Include="..\clientgui\ProjectInfoPage.cpp" />
@@ -101,7 +100,6 @@
     <ClCompile Include="..\clientgui\UnavailablePage.cpp" />
     <ClCompile Include="..\clientgui\WizardAttach.cpp" />
     <ClCompile Include="..\clientgui\BOINCBaseWizard.cpp" />
-    <ClCompile Include="..\clientgui\wizardex.cpp" />
     <ClCompile Include="..\clientgui\BOINCBaseFrame.cpp" />
     <ClCompile Include="..\clientgui\BOINCClientManager.cpp" />
     <ClCompile Include="..\clientgui\BOINCDialupManager.cpp" />
@@ -133,7 +131,6 @@
     <ClCompile Include="..\clientgui\NoticeListCtrl.cpp" />
     <ClCompile Include="..\clientgui\common\wxPieCtrl.cpp" />
     <ClCompile Include="..\clientgui\BOINCTaskBar.cpp" />
-    <ClCompile Include="..\clientgui\msw\taskbarex.cpp" />
     <ClCompile Include="..\clientgui\MainDocument.cpp" />
     <ClCompile Include="..\clientgui\AsyncRPC.cpp" />
     <ClCompile Include="..\lib\gui_rpc_client.cpp" />
@@ -194,7 +191,6 @@
     <ClInclude Include="..\clientgui\AlreadyExistsPage.h" />
     <ClInclude Include="..\clientgui\CompletionErrorPage.h" />
     <ClInclude Include="..\clientgui\CompletionPage.h" />
-    <ClInclude Include="..\clientgui\NoInternetConnectionPage.h" />
     <ClInclude Include="..\clientgui\NotDetectedPage.h" />
     <ClInclude Include="..\clientgui\NotFoundPage.h" />
     <ClInclude Include="..\clientgui\ProjectInfoPage.h" />
@@ -206,7 +202,6 @@
     <ClInclude Include="..\clientgui\UnavailablePage.h" />
     <ClInclude Include="..\clientgui\WizardAttach.h" />
     <ClInclude Include="..\clientgui\BOINCBaseWizard.h" />
-    <ClInclude Include="..\clientgui\wizardex.h" />
     <ClInclude Include="..\clientgui\BOINCBaseFrame.h" />
     <ClInclude Include="..\clientgui\BOINCClientManager.h" />
     <ClInclude Include="..\clientgui\BOINCDialupManager.h" />
@@ -238,7 +233,6 @@
     <ClInclude Include="..\clientgui\NoticeListCtrl.h" />
     <ClInclude Include="..\clientgui\common\wxPieCtrl.h" />
     <ClInclude Include="..\clientgui\BOINCTaskBar.h" />
-    <ClInclude Include="..\clientgui\msw\taskbarex.h" />
     <ClInclude Include="..\clientgui\MainDocument.h" />
     <ClInclude Include="..\clientgui\AsyncRPC.h" />
     <ClInclude Include="..\lib\gui_rpc_client.h" />

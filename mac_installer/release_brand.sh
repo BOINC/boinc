@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -16,6 +16,8 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+#
+## Updated 10/4/26 for Xcode27 support
 
 ##
 # Script to create a branded installer such as World Community Grid
@@ -47,7 +49,7 @@
 ##  This script expects the nvc_config.xml file (if any) to be at
 ##  "./win_build/installerv2/redist/${NEWVERSIONCHECKDIR}/nvc_config.xml"
 ##
-## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
+## NOTE: This script requires xCode 15 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac
 ##   before running this script.
 ##
@@ -327,15 +329,17 @@ find locale -name '*.mo' | cut -d '/' -f 2 | awk '{print "\"../BOINC_Installer/P
 find locale -name '*.mo' | cut -d '/' -f 2,3 | awk '{print "cp \"locale/"$0"\" \"../BOINC_Installer/Pkg_Root/Library/Application Support/BOINC Data/locale/"$0"\""}' | bash
 
 ## Fix up ownership and permissions
-sudo chown -R root:admin ../BOINC_Installer/Pkg_Root/*
+sudo chown -R root:wheel ../BOINC_Installer/Pkg_Root/*
 sudo chmod -R u+rw,g+rw,o+r-w ../BOINC_Installer/Pkg_Root/*
 sudo chmod 1775 ../BOINC_Installer/Pkg_Root/Library
 
 sudo chown -R 501:admin ../BOINC_Installer/Pkg_Root/Library/Application\ Support/*
 sudo chmod -R u+rw,g+r-w,o+r-w ../BOINC_Installer/Pkg_Root/Library/Application\ Support/*
 
-sudo chown -R root:admin ../BOINC_Installer/Installer\ Resources/*
-sudo chown -R root:admin ../BOINC_Installer/Installer\ Scripts/*
+sudo chown -R root:wheel "../BOINC_Installer/Pkg_Root/Library/Application Support/${MANAGERAPPNAME}.app/"
+
+sudo chown -R root:wheel ../BOINC_Installer/Installer\ Resources/*
+sudo chown -R root:wheel ../BOINC_Installer/Installer\ Scripts/*
 sudo chmod -R u+rw,g+r-w,o+r-w ../BOINC_Installer/Installer\ Resources/*
 sudo chmod -R u+rw,g+r-w,o+r-w ../BOINC_Installer/Installer\ Scripts/*
 
@@ -380,7 +384,7 @@ rm -rf "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNA
 
 echo ${BRANDING_INFO} > "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app/Contents/Resources/Branding"
 
-sudo chown -R root:admin "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app"
+sudo chown -R root:wheel "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app"
 sudo chmod -R u+r-w,g+r-w,o+r-w "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/extras/${UNINSTALLERAPPNAME}.app"
 
 # Copy the installer wrapper application "BOINC Installer.app"
@@ -449,7 +453,6 @@ echo ${BRANDING_INFO} > "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_
 
 # Replace MacInstaller.icns with ${INSTALLERICON}.icns, but renamed MacInstaller.icns
 cp -fpRL ./clientgui/res/${INSTALLERICON}.icns "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/PostInstall.app/Contents/Resources/MacInstaller.icns"
-
 
 ## If you wish to code sign the client, manager, installer and uninstaller,
 ## create a file ~/BOINCCodeSignIdentities.txt whose first line is the
@@ -521,14 +524,18 @@ fi
 
 cd "../BOINC_Installer/Installer templates"
 
-pkgbuild --quiet --scripts "../Installer Scripts" --ownership recommended --identifier edu.berkeley.boinc --root "../Pkg_Root" --component-plist "./complist.plist" "./BOINC.pkg"
+pkgbuild --quiet --scripts "../Installer Scripts" --ownership preserve --identifier edu.berkeley.boinc --root "../Pkg_Root" --component-plist "./complist.plist" "./BOINC.pkg"
 
 if [ -n "${INSTALLERSIGNINGIDENTITY}" ]; then
     productbuild --sign "${INSTALLERSIGNINGIDENTITY}" --quiet --resources "../Installer Resources/" --version "${MANAGERAPPNAME} $1.$2.$3" --distribution "./myDistribution" "../New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}.pkg"
 else
     productbuild --quiet --resources "../Installer Resources/" --version "${MANAGERAPPNAME} $1.$2.$3" --distribution "./myDistribution" "../New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app/Contents/Resources/${LONGBRANDNAME}.pkg"
 fi
+
 cd "${BOINCPath}"
+
+sudo chown -R root:wheel "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app"
+sudo chmod -R u+r-w,g+r-w,o+r-w "../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch/${INSTALLERAPPNAME}.app"
 
 # Build the stand-alone client distribution
 cp -fpRL mac_build/Mac_SA_Insecure.sh ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/
@@ -549,7 +556,7 @@ mkdir -p ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDN
 cp -fpRL "${BUILDPATH}/switcher" ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher/
 cp -fpRL "${BUILDPATH}/setprojectgrp" ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher/
 
-sudo chown -R root:admin ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
+sudo chown -R root:wheel ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
 sudo chmod -R u+rw-s,g+r-ws,o+r-w ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
 
 cp -fpRL "${BUILDPATH}/boinc.dSYM" ../BOINC_Installer/New_Release_${SHORTBRANDNAME}_$1_$2_$3/${SHORTBRANDNAME}_$1.$2.$3_macOSX_SymbolTables/
@@ -612,7 +619,7 @@ ditto -ck --sequesterRsrc --keepParent ${SHORTBRANDNAME}_$1.$2.$3_macOSX_$arch $
 ditto -ck --sequesterRsrc --keepParent ${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin ${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin.zip
 ditto -ck --sequesterRsrc --keepParent ${SHORTBRANDNAME}_$1.$2.$3_macOSX_SymbolTables ${SHORTBRANDNAME}_$1.$2.$3_macOSX_SymbolTables.zip
 
-sudo hdiutil create -srcfolder ${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin -ov -format UDZO ${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin.dmg
+sudo diskutil image create from --format UDZO ${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin ${SHORTBRANDNAME}_$1.$2.$3_$arch-apple-darwin.dmg
 
 #popd
 cd "${BOINCPath}"

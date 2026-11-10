@@ -35,7 +35,7 @@ if (get_int('hr_class')) {
     $hr_class = 0;
 }
 
-$timestr = time_str(time(0));
+$timestr = time_str(time());
 $title = "hr_class ".$hr_class." reset at ".$timestr;
 
 admin_page_head($title);

@@ -27,9 +27,11 @@ require_once("../inc/email.inc");
 require_once("../inc/user_util.inc");
 require_once("../inc/password_compat/password.inc");
 
-check_get_args(array());
+check_get_args([]);
 
 $user = get_logged_in_user();
+
+check_tokens();
 
 $email_addr = strtolower(post_str("email_addr"));
 $passwd = post_str("passwd", true);
@@ -66,9 +68,10 @@ if (!is_valid_email_syntax($email_addr)) {
             $passwd_hash = md5($passwd.$email_addr);
             $database_passwd_hash = password_hash($passwd_hash , PASSWORD_DEFAULT);
             $email_addr = BoincDb::escape_string($email_addr);
+            $prev_email_addr = BoincDb::escape_string($user->email_addr);
             $user->email_addr_change_time = time();
             $result = $user->update(
-                "email_addr='$email_addr', previous_email_addr='$user->email_addr', email_addr_change_time=$user->email_addr_change_time, passwd_hash='$database_passwd_hash', email_validated=0"
+                "email_addr='$email_addr', previous_email_addr='$prev_email_addr', email_addr_change_time=$user->email_addr_change_time, passwd_hash='$database_passwd_hash', email_validated=0"
             );
             $user->previous_email_addr = $user->email_addr;
             $user->email_addr = $email_addr;
@@ -77,7 +80,10 @@ if (!is_valid_email_syntax($email_addr)) {
                 if (defined("SHOW_NONVALIDATED_EMAIL_ADDR")) {
                     echo "<p>".tra("Please %1 validate this email address %2.", "<a href=validate_email_addr.php>", "</a>")."\n";
                 }
-                send_changed_email($user);
+                $email_success = send_changed_email($user);
+                if (!$email_success) {
+                    echo "<p>".tra("Your email address was changed, but we were unable to send the confirmation email to %1 or %2. Please note this change yourself.", $user->email_addr, $user->previous_email_addr)."</p>";
+                }
             } else {
                 echo tra("We can't update your email address due to a database problem.  Please try again later.");
             }

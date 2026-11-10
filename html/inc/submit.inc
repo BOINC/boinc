@@ -152,27 +152,29 @@ function do_http_op($req, $xml, $op) {
         curl_setopt($ch, CURLOPT_TIMEOUT, $rpc_timeout);
     }
 
-// see if we need to send any files
-//
-$nfiles = 0;
-$post = array();
-$post["request"] = $xml;
-$cwd = getcwd();
-if ($op == "submit_batch") {
-    foreach ($req->jobs as $job) {
-        foreach ($job->input_files as $file) {
-            if ($file->mode == "inline") {
-                $path = realpath("$cwd/$file->path");
-                $post["file$nfiles"] = $path;
-                $nfiles++;
+    // see if we need to send any files
+    //
+    $nfiles = 0;
+    $post = array();
+    $post["request"] = $xml;
+    $cwd = getcwd();
+    if ($op == "submit_batch") {
+        foreach ($req->jobs as $job) {
+            foreach ($job->input_files as $file) {
+                if ($file->mode == "inline") {
+                    $path = realpath("$cwd/$file->path");
+                    $post["file$nfiles"] = $path;
+                    $nfiles++;
+                }
             }
         }
     }
-}
-curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
     $reply = curl_exec($ch);
     curl_close($ch);
-    if (!$reply) return array(null, "HTTP error");
+    if (!$reply) {
+        return array(null, "HTTP error");
+    }
     $r = @simplexml_load_string($reply);
     if (!$r) {
         return array(null, "Can't parse reply XML:\n$reply");

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -14,10 +14,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "ViewTransfers.h"
-#endif
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
@@ -91,21 +87,6 @@ CTransfer::~CTransfer() {
 
 
 IMPLEMENT_DYNAMIC_CLASS(CViewTransfers, CBOINCBaseView)
-
-BEGIN_EVENT_TABLE (CViewTransfers, CBOINCBaseView)
-    EVT_BUTTON(ID_TASK_TRANSFERS_RETRYNOW, CViewTransfers::OnTransfersRetryNow)
-    EVT_BUTTON(ID_TASK_TRANSFERS_ABORT, CViewTransfers::OnTransfersAbort)
-// We currently handle EVT_LIST_CACHE_HINT on Windows or
-// EVT_CHECK_SELECTION_CHANGED on Mac & Linux instead of EVT_LIST_ITEM_SELECTED
-// or EVT_LIST_ITEM_DESELECTED.  See CBOINCBaseView::OnCacheHint() for info.
-#if USE_LIST_CACHE_HINT
-    EVT_LIST_CACHE_HINT(ID_LIST_TRANSFERSVIEW, CViewTransfers::OnCacheHint)
-#else
-	EVT_CHECK_SELECTION_CHANGED(CViewTransfers::OnCheckSelectionChanged)
-#endif
-    EVT_LIST_COL_CLICK(ID_LIST_TRANSFERSVIEW, CViewTransfers::OnColClick)
-    EVT_LIST_COL_END_DRAG(ID_LIST_TRANSFERSVIEW, CViewTransfers::OnColResize)
-END_EVENT_TABLE ()
 
 
 static CViewTransfers* MyCViewTransfers;
@@ -258,6 +239,19 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     // Needed by static sort routine;
     MyCViewTransfers = this;
     m_funcSortCompare = CompareViewTransferItems;
+
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnTransfersRetryNow(event); }, ID_TASK_TRANSFERS_RETRYNOW);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnTransfersAbort(event); }, ID_TASK_TRANSFERS_ABORT);
+// We currently handle EVT_LIST_CACHE_HINT on Windows or
+// EVT_CHECK_SELECTION_CHANGED on Mac & Linux instead of EVT_LIST_ITEM_SELECTED
+// or EVT_LIST_ITEM_DESELECTED.  See CBOINCBaseView::OnCacheHint() for info.
+#if USE_LIST_CACHE_HINT
+    Bind(wxEVT_LIST_CACHE_HINT, [this](wxListEvent& event){ OnCacheHint(event); }, ID_LIST_TRANSFERSVIEW);
+#else
+	Bind(wxEVT_CHECK_SELECTION_CHANGED, [this](CCheckSelectionChangedEvent& event){ OnCheckSelectionChanged(event); });
+#endif
+    Bind(wxEVT_LIST_COL_CLICK, [this](wxListEvent& event){ OnColClick(event); }, ID_LIST_TRANSFERSVIEW);
+    Bind(wxEVT_LIST_COL_END_DRAG, [this](wxListEvent& event){ OnColResize(event); }, ID_LIST_TRANSFERSVIEW);
 
     UpdateSelection();
 }
@@ -619,15 +613,15 @@ bool CViewTransfers::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnInde
             GetDocProjectName(m_iSortedIndexes[iRowIndex], strDocumentText);
             GetDocProjectURL(m_iSortedIndexes[iRowIndex], strDocumentText2);
             if (!strDocumentText.IsSameAs(transfer->m_strProjectName) || !strDocumentText2.IsSameAs(transfer->m_strProjectURL)) {
-                transfer->m_strProjectName = strDocumentText;
-                transfer->m_strProjectURL = strDocumentText2;
+                transfer->m_strProjectName = std::move(strDocumentText);
+                transfer->m_strProjectURL = std::move(strDocumentText2);
                 bNeedRefresh =  true;
             }
             break;
         case COLUMN_FILE:
             GetDocFileName(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(transfer->m_strFileName)) {
-                transfer->m_strFileName = strDocumentText;
+                transfer->m_strFileName = std::move(strDocumentText);
                 bNeedRefresh =  true;
             }
             break;
@@ -678,7 +672,7 @@ bool CViewTransfers::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnInde
         case COLUMN_STATUS:
             GetDocStatus(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(transfer->m_strStatus)) {
-                transfer->m_strStatus = strDocumentText;
+                transfer->m_strStatus = std::move(strDocumentText);
                 return true;
             }
             break;
@@ -974,7 +968,9 @@ wxString CViewTransfers::GetProgressText( long item) {
     CTransfer* transfer;
     wxString   strBuffer  = wxEmptyString;
 
-    GetTransferCacheAtIndex(transfer, m_iSortedIndexes[item]);
+    if(GetTransferCacheAtIndex(transfer, m_iSortedIndexes[item])) {
+        return wxEmptyString;
+    }
     if (transfer) {
         strBuffer = transfer->m_strProgress;
     }

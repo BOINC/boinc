@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -14,10 +14,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "BOINCBaseView.h"
-#endif
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
@@ -33,8 +29,6 @@
 
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseView, wxPanel)
-
-CBOINCBaseView::CBOINCBaseView() {}
 
 CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     wxPanel(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL)
@@ -938,7 +932,7 @@ void CBOINCBaseView::append_to_status(wxString& existing, const wxString& additi
 // Completed: The ISO Latin 1 Character Set
 //
 wxString CBOINCBaseView::HtmlEntityEncode(wxString strRaw) {
-	wxString strEncodedHtml(strRaw);
+	wxString strEncodedHtml(std::move(strRaw));
 
 #ifdef __WXMSW__
     strEncodedHtml.Replace(wxT("&"),  wxT("&amp;"),    true);
@@ -1065,7 +1059,7 @@ wxString CBOINCBaseView::HtmlEntityEncode(wxString strRaw) {
 }
 
 wxString CBOINCBaseView::HtmlEntityDecode(wxString strRaw) {
-	wxString strDecodedHtml(strRaw);
+	wxString strDecodedHtml(std::move(strRaw));
 
     if (0 <= strDecodedHtml.Find(wxT("&"))) {
 #ifdef __WXMSW__

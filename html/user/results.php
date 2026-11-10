@@ -28,9 +28,12 @@ if (REQUIRE_LOGIN) {
 
 check_get_args(array("hostid", "userid", "offset", "appid", "state", "show_names"));
 
-$config = get_config();
-if (!parse_bool($config, "show_results")) {
-    error_page(tra("This feature is turned off temporarily"));
+if (!project_config_bool("show_results")) {
+    error_page(tra('This feature is disabled.'));
+}
+
+if (REQUIRE_LOGIN) {
+    get_logged_in_user();
 }
 
 BoincDb::get(true);

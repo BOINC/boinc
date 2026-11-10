@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2015 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,10 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "DlgEventLogListCtrl.h"
-#endif
-
 #include "stdwx.h"
 #include "diagnostics.h"
 #include "util.h"
@@ -26,7 +22,6 @@
 #include "miofile.h"
 #include "parse.h"
 #include "error_numbers.h"
-#include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "DlgEventLogListCtrl.h"
@@ -35,17 +30,10 @@
 #ifdef __WXGTK__
 IMPLEMENT_DYNAMIC_CLASS(MyEvtLogEvtHandler, wxEvtHandler)
 
-BEGIN_EVENT_TABLE(MyEvtLogEvtHandler, wxEvtHandler)
-    EVT_PAINT(MyEvtLogEvtHandler::OnPaint)
-END_EVENT_TABLE()
-
-MyEvtLogEvtHandler::MyEvtLogEvtHandler() {
-    m_view_startX = 0;
-}
-
 MyEvtLogEvtHandler::MyEvtLogEvtHandler(wxGenericListCtrl *theListControl) {
     m_listCtrl = theListControl;
     m_view_startX = 0;
+    Bind(wxEVT_PAINT, [this](wxPaintEvent& event){ OnPaint(event); });
 }
 
 void MyEvtLogEvtHandler::OnPaint(wxPaintEvent & event)
@@ -73,17 +61,6 @@ void MyEvtLogEvtHandler::OnPaint(wxPaintEvent & event)
 
 IMPLEMENT_DYNAMIC_CLASS(CDlgEventLogListCtrl, DLG_LISTCTRL_BASE)
 
-BEGIN_EVENT_TABLE(CDlgEventLogListCtrl, DLG_LISTCTRL_BASE)
-    EVT_LEFT_UP(CDlgEventLogListCtrl::OnMouseUp)
-#ifdef __WXMAC__
-	EVT_SIZE(CDlgEventLogListCtrl::OnSize)
-#endif
-
-END_EVENT_TABLE()
-
-
-CDlgEventLogListCtrl::CDlgEventLogListCtrl() {}
-
 CDlgEventLogListCtrl::CDlgEventLogListCtrl(CDlgEventLog* pView, wxWindowID iListWindowID, wxInt32 iListWindowFlags)
     : DLG_LISTCTRL_BASE(pView, iListWindowID, wxDefaultPosition, wxDefaultSize, iListWindowFlags)
 {
@@ -100,6 +77,11 @@ CDlgEventLogListCtrl::CDlgEventLogListCtrl(CDlgEventLog* pView, wxWindowID iList
     m_fauxHeaderView = NULL;
     m_fauxBodyView = NULL;
     SetupMacAccessibilitySupport();
+#endif
+
+    Bind(wxEVT_LEFT_UP, [this](wxMouseEvent& event){ OnMouseUp(event); });
+#ifdef __WXMAC__
+	Bind(wxEVT_SIZE, [this](wxSizeEvent& event){ OnSize(event); });
 #endif
 }
 
@@ -126,14 +108,6 @@ wxString CDlgEventLogListCtrl::OnGetItemText(long item, long column) const {
 
 int CDlgEventLogListCtrl::OnGetItemImage(long /* item */) const {
     return 1;
-}
-
-
-wxListItemAttr* CDlgEventLogListCtrl::OnGetItemAttr(long item) const {
-    wxASSERT(m_pParentView);
-    wxASSERT(wxDynamicCast(m_pParentView, CDlgEventLog));
-
-    return m_pParentView->OnListGetItemAttr(item);
 }
 
 

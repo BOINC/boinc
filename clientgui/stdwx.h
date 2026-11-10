@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -92,8 +92,6 @@
 #include <wx/dcbuffer.h>
 #include <wx/string.h>
 #include <wx/gdicmn.h>
-#include <wx/list.h>
-#include <wx/timer.h>
 #include <wx/colour.h>
 #include <wx/control.h>
 #include <wx/wfstream.h>
@@ -101,9 +99,7 @@
 #include <wx/xml/xml.h>
 #include <wx/tokenzr.h>
 #include <wx/dir.h>
-#include <wx/filename.h>
 #include <wx/sysopt.h>
-#include <wx/cshelp.h>
 #include <wx/grid.h>
 #include <wx/thread.h>
 #include <wx/imaglist.h>
@@ -125,7 +121,12 @@
 #include <wx/bmpcbox.h>
 #include <wx/evtloop.h>
 #include <wx/display.h>
-
+#include <wx/button.h>
+#include <wx/dialog.h>
+#include <wx/gbsizer.h>
+#include <wx/scrolwin.h>
+#include <wx/font.h>
+#include <wx/dynarray.h>
 
 #ifdef _WIN32
 // Visual Studio 2005 has extended the C Run-Time Library by including "secure"

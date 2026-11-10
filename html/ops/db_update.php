@@ -20,13 +20,10 @@
 // Don't run this unless you know what you're doing!
 
 $cli_only = true;
+
 require_once("../inc/util_ops.inc");
 
-$db = BoincDb::get(0);
-if (!$db) {
-    echo "db_update.php: Can't open database\n";
-    exit;
-}
+BoincDb::get_cli();
 
 set_time_limit(0);
 
@@ -1237,7 +1234,123 @@ function update_2_15_2025() {
 }
 
 function update_11_23_2025() {
-    do_query("alter table host add column misc text not null default''");
+    do_query("alter table host add column misc text not null");
+}
+
+function update_5_2_2026a() {
+    do_query("alter table platform modify name varchar(191) not null");
+    do_query("alter table app modify name varchar(191) not null");
+    do_query("alter table app_version modify plan_class varchar(128) not null default ''");
+    do_query("alter table user modify email_addr varchar(191) not null");
+    do_query("alter table user modify name varchar(191)");
+    do_query("alter table user modify authenticator varchar(191)");
+    do_query("alter table team modify name varchar(191) not null");
+    do_query("alter table workunit modify name varchar(191) not null");
+    do_query("alter table result modify name varchar(191) not null");
+    do_query("alter table job_file modify name varchar(191) not null");
+    do_query("alter table category modify name varchar(180) not null");
+    do_query("alter table forum modify title varchar(175) not null");
+    do_query("alter table token modify token varchar(64) not null");
+    do_query("alter table consent_type modify shortname varchar(191) not null");
+}
+
+function update_5_2_2026b() {
+    do_query("alter table platform CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table app CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table app_version CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table user CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table team CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table host CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table workunit CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table result CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table batch CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table job_file CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table msg_from_host CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table msg_to_host CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table profile CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table category CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table forum CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table thread CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table post CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table forum_preferences CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table private_messages CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table donation_items CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table donation_paypal CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table friend CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table badge CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table token CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table consent CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    do_query("alter table consent_type CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+}
+
+// this lets you create a host record (from PHP)
+// without specifying all the files, in MySQL 8.3
+//
+function update_8_23_2026() {
+    do_query("alter table host
+        alter column rpc_seqno set default 0,
+        alter column rpc_time set default 0,
+        alter column total_credit set default 0,
+        alter column expavg_credit set default 0,
+        alter column expavg_time set default 0,
+        alter column timezone set default 0,
+        alter column domain_name set default '',
+        alter column serialnum set default '',
+        alter column last_ip_addr set default '',
+        alter column nsame_ip_addr set default 0,
+        alter column on_frac set default 0,
+        alter column connected_frac set default 0,
+        alter column active_frac set default 0,
+        alter column cpu_efficiency set default 0,
+        alter column duration_correction_factor set default 0,
+        alter column p_ncpus set default 0,
+        alter column p_vendor set default '',
+        alter column p_model set default '',
+        alter column p_fpops set default 0,
+        alter column p_iops set default 0,
+        alter column p_membw set default 0,
+        alter column os_name set default '',
+        alter column os_version set default '',
+        alter column m_nbytes set default 0,
+        alter column m_cache set default 0,
+        alter column m_swap set default 0,
+        alter column d_total set default 0,
+        alter column d_free set default 0,
+        alter column d_boinc_used_total set default 0,
+        alter column d_boinc_used_project set default 0,
+        alter column d_boinc_max set default 0,
+        alter column n_bwup set default 0,
+        alter column n_bwdown set default 0,
+        alter column credit_per_cpu_sec set default 0,
+        alter column venue set default '',
+        alter column nresults_today set default 0,
+        alter column avg_turnaround set default 0,
+        alter column host_cpid set default '',
+        alter column external_ip_addr set default '',
+        alter column max_results_day set default 0,
+        alter column product_name set default '',
+        alter column gpu_active_frac set default 0,
+        alter column p_ngpus set default 0,
+        alter column p_gpu_fpops set default 0
+    ");
+}
+
+function update_9_21_2026() {
+    do_query(
+        "alter table workunit modify result_template_file varchar(254) not null"
+    );
+}
+
+function update_10_29_2026() {
+    do_query(
+        "alter table workunit add column n_sent integer not null"
+    );
+    do_query(
+        "alter table batch
+            add column n_success integer not null default 0,
+            add column n_in_progress integer not null default 0
+        "
+    );
 }
 
 // Updates are done automatically if you use "upgrade".
@@ -1245,63 +1358,68 @@ function update_11_23_2025() {
 // If you need to do updates manually,
 // modify the following to call the function you want.
 // Make sure you do all needed functions, in order.
-// (Look at your DB structure using "explain" queries to see
-// which ones you need).
+// (Look at your DB using "explain" queries to see which ones you need).
+// Update 'db_revision' when done.
 
-//update_3_17_2010();
+//update_8_23_2026();
 
 // in the following, the first element is a version number.
 // This used to be the Subversion version#,
 // but with Git we just use sequential integers
 //
-$db_updates = array (
-    array(18490, "update_6_16_2009"),
-    array(19001, "update_9_3_2009"),
-    array(20807, "update_3_5_2010"),
-    array(20932, "update_3_17_2010"),
-    array(21226, "update_4_21_2010"),
-    array(21728, "update_6_10_2010"),
-    array(23635, "update_6_3_2011"),
-    array(23762, "update_6_20_2011"),
-    array(23881, "update_7_26_2011"),
-    array(24137, "update_9_6_2011"),
-    array(24225, "update_9_15_2011"),
-    array(24248, "update_9_20_2011"),
-    array(25169, "update_1_30_2012"),
-    array(25734, "update_6_4_2012"),
-    array(26060, "update_8_24_2012"),
-    array(26062, "update_8_26_2012"),
-    array(27000, "update_11_25_2012"),
-    array(27001, "update_4_26_2013"),
-    array(27002, "update_5_23_2013"),
-    array(27003, "update_9_10_2013"),
-    array(27004, "update_9_17_2013"),
-    array(27005, "update_12_22_2013"),
-    array(27006, "update_1_13_2014"),
-    array(27007, "update_3_6_2014"),
-    array(27008, "update_4_2_2014"),
-    array(27009, "update_5_3_2014"),
-    array(27010, "update_6_5_2014"),
-    array(27011, "update_8_15_2014"),
-    array(27012, "update_10_8_2014"),
-    array(27013, "update_4_15_2015"),
-    array(27014, "update_1_27_2016"),
-    array(27015, "update_2_17_2017"),
-    array(27016, "update_3_17_2017"),
-    array(27017, "update_6_13_2017"),
-    array(27018, "update_7_21_2017"),
-    array(27019, "update_8_9_2017"),
-    array(27020, "update_10_25_2017"),
-    array(27021, "update_3_8_2018"),
-    array(27022, "update_4_5_2018"),
-    array(27023, "update_4_6_2018"),
-    array(27024, "update_4_18_2018"),
-    array(27025, "update_4_19_2018"),
-    array(27026, "update_5_9_2018"),
-    array(27027, "update_8_23_2018"),
-    array(27028, "update_9_12_2018"),
-    array(27029, "update_2_15_2025"),
-    array(27030, "update_11_23_2025"),
-);
+$db_updates = [
+    [18490, "update_6_16_2009"],
+    [19001, "update_9_3_2009"],
+    [20807, "update_3_5_2010"],
+    [20932, "update_3_17_2010"],
+    [21226, "update_4_21_2010"],
+    [21728, "update_6_10_2010"],
+    [23635, "update_6_3_2011"],
+    [23762, "update_6_20_2011"],
+    [23881, "update_7_26_2011"],
+    [24137, "update_9_6_2011"],
+    [24225, "update_9_15_2011"],
+    [24248, "update_9_20_2011"],
+    [25169, "update_1_30_2012"],
+    [25734, "update_6_4_2012"],
+    [26060, "update_8_24_2012"],
+    [26062, "update_8_26_2012"],
+    [27000, "update_11_25_2012"],
+    [27001, "update_4_26_2013"],
+    [27002, "update_5_23_2013"],
+    [27003, "update_9_10_2013"],
+    [27004, "update_9_17_2013"],
+    [27005, "update_12_22_2013"],
+    [27006, "update_1_13_2014"],
+    [27007, "update_3_6_2014"],
+    [27008, "update_4_2_2014"],
+    [27009, "update_5_3_2014"],
+    [27010, "update_6_5_2014"],
+    [27011, "update_8_15_2014"],
+    [27012, "update_10_8_2014"],
+    [27013, "update_4_15_2015"],
+    [27014, "update_1_27_2016"],
+    [27015, "update_2_17_2017"],
+    [27016, "update_3_17_2017"],
+    [27017, "update_6_13_2017"],
+    [27018, "update_7_21_2017"],
+    [27019, "update_8_9_2017"],
+    [27020, "update_10_25_2017"],
+    [27021, "update_3_8_2018"],
+    [27022, "update_4_5_2018"],
+    [27023, "update_4_6_2018"],
+    [27024, "update_4_18_2018"],
+    [27025, "update_4_19_2018"],
+    [27026, "update_5_9_2018"],
+    [27027, "update_8_23_2018"],
+    [27028, "update_9_12_2018"],
+    [27029, "update_2_15_2025"],
+    [27030, "update_11_23_2025"],
+    [27031, "update_5_2_2026a"],
+    [27032, "update_5_2_2026b"],
+    [27033, "update_8_23_2026"],
+    [27034, "update_9_21_2026"],
+    [27035, "update_10_29_2026"],
+];
 
 ?>

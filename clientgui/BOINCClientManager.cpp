@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -14,10 +14,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "BOINCClientManager.h"
-#endif
 
 #include "stdwx.h"
 
@@ -531,10 +527,6 @@ void CBOINCClientManager::ShutdownBOINCCore(bool ShuttingDownManager) {
 }
 
 
-BEGIN_EVENT_TABLE(ClientCrashDlg, wxDialog)
-    EVT_BUTTON(wxID_HELP, ClientCrashDlg::OnHelp)
-END_EVENT_TABLE()
-
 IMPLEMENT_CLASS(ClientCrashDlg, wxDialog)
 
 ClientCrashDlg::ClientCrashDlg(double timeDiff) : wxDialog( NULL, wxID_ANY, wxT(""), wxDefaultPosition ) {
@@ -587,6 +579,7 @@ ClientCrashDlg::ClientCrashDlg(double timeDiff) : wxDialog( NULL, wxID_ANY, wxT(
     }
 
     Centre( wxBOTH | wxCENTER_FRAME);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnHelp(event); }, wxID_HELP);
 }
 
 

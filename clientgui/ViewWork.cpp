@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -14,10 +14,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "ViewWork.h"
-#endif
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
@@ -107,27 +103,6 @@ CWork::~CWork() {
 
 
 IMPLEMENT_DYNAMIC_CLASS(CViewWork, CBOINCBaseView)
-
-BEGIN_EVENT_TABLE (CViewWork, CBOINCBaseView)
-    EVT_BUTTON(ID_TASK_WORK_SUSPEND, CViewWork::OnWorkSuspend)
-    EVT_BUTTON(ID_TASK_WORK_SHOWGRAPHICS, CViewWork::OnWorkShowGraphics)
-    EVT_BUTTON(ID_TASK_WORK_VMCONSOLE, CViewWork::OnWorkShowVMConsole)
-    EVT_BUTTON(ID_TASK_WORK_ABORT, CViewWork::OnWorkAbort)
-    EVT_BUTTON(ID_TASK_SHOW_PROPERTIES, CViewWork::OnShowItemProperties)
-    EVT_BUTTON(ID_TASK_ACTIVE_ONLY, CViewWork::OnActiveTasksOnly)
-    EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewWork::OnProjectWebsiteClicked)
-// We currently handle EVT_LIST_CACHE_HINT on Windows or
-// EVT_CHECK_SELECTION_CHANGED on Mac & Linux instead of EVT_LIST_ITEM_SELECTED
-// or EVT_LIST_ITEM_DESELECTED.  See CBOINCBaseView::OnCacheHint() for info.
-#if USE_LIST_CACHE_HINT
-    EVT_LIST_CACHE_HINT(ID_LIST_WORKVIEW, CViewWork::OnCacheHint)
-#else
-	EVT_CHECK_SELECTION_CHANGED(CViewWork::OnCheckSelectionChanged)
-#endif
-    EVT_LIST_COL_CLICK(ID_LIST_WORKVIEW, CViewWork::OnColClick)
-    EVT_LIST_COL_END_DRAG(ID_LIST_WORKVIEW, CViewWork::OnColResize)
-END_EVENT_TABLE ()
-
 
 static CViewWork* myCViewWork;
 
@@ -318,6 +293,24 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     myCViewWork = this;
     m_funcSortCompare = CompareViewWorkItems;
 
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnWorkSuspend(event); }, ID_TASK_WORK_SUSPEND);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnWorkShowGraphics(event); }, ID_TASK_WORK_SHOWGRAPHICS);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnWorkShowVMConsole(event); }, ID_TASK_WORK_VMCONSOLE);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnWorkAbort(event); }, ID_TASK_WORK_ABORT);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnShowItemProperties(event); }, ID_TASK_SHOW_PROPERTIES);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnActiveTasksOnly(event); }, ID_TASK_ACTIVE_ONLY);
+    Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent& event){ OnProjectWebsiteClicked(event); }, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX);
+// We currently handle EVT_LIST_CACHE_HINT on Windows or
+// EVT_CHECK_SELECTION_CHANGED on Mac & Linux instead of EVT_LIST_ITEM_SELECTED
+// or EVT_LIST_ITEM_DESELECTED.  See CBOINCBaseView::OnCacheHint() for info.
+#if USE_LIST_CACHE_HINT
+    Bind(wxEVT_LIST_CACHE_HINT, [this](wxListEvent& event){ OnCacheHint(event); }, ID_LIST_WORKVIEW);
+#else
+	Bind(wxEVT_CHECK_SELECTION_CHANGED, [this](CCheckSelectionChangedEvent& event){ OnCheckSelectionChanged(event); });
+#endif
+    Bind(wxEVT_LIST_COL_CLICK, [this](wxListEvent& event){ OnColClick(event); }, ID_LIST_WORKVIEW);
+    Bind(wxEVT_LIST_COL_END_DRAG, [this](wxListEvent& event){ OnColResize(event); }, ID_LIST_WORKVIEW);
+
     UpdateSelection();
 }
 
@@ -331,7 +324,7 @@ void CViewWork::AppendColumn(int columnID){
             break;
         case COLUMN_PROGRESS:
             m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_PROGRESS],
-                wxLIST_FORMAT_RIGHT, m_iStdColWidthOrder[COLUMN_PROGRESS]);
+                wxLIST_FORMAT_CENTRE, m_iStdColWidthOrder[COLUMN_PROGRESS]);
             break;
         case COLUMN_STATUS:
             m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_STATUS],
@@ -1113,22 +1106,22 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
             GetDocProjectName(m_iSortedIndexes[iRowIndex], strDocumentText);
             GetDocProjectURL(m_iSortedIndexes[iRowIndex], strDocumentText2);
             if (!strDocumentText.IsSameAs(work->m_strProjectName) || !strDocumentText2.IsSameAs(work->m_strProjectURL)) {
-                work->m_strProjectName = strDocumentText;
-                work->m_strProjectURL = strDocumentText2;
+                work->m_strProjectName = std::move(strDocumentText);
+                work->m_strProjectURL = std::move(strDocumentText2);
                 return true;
             }
             break;
         case COLUMN_APPLICATION:
             GetDocApplicationName(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(work->m_strApplicationName)) {
-                work->m_strApplicationName = strDocumentText;
+                work->m_strApplicationName = std::move(strDocumentText);
                 return true;
             }
             break;
         case COLUMN_NAME:
             GetDocName(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(work->m_strName)) {
-                work->m_strName = strDocumentText;
+                work->m_strName = std::move(strDocumentText);
                 return true;
             }
             break;
@@ -1201,7 +1194,7 @@ bool CViewWork::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex) {
             RESULT* result = wxGetApp().GetDocument()->result(i);
             strDocumentText = result_description(result);
             if (!strDocumentText.IsSameAs(work->m_strStatus)) {
-                work->m_strStatus = strDocumentText;
+                work->m_strStatus = std::move(strDocumentText);
                 return true;
             }
             break;

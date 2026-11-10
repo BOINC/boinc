@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,9 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "AsyncRPC.h"
-#endif
+#include "stdwx.h"
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -28,7 +26,6 @@
 #include <xlocale.h>
 #endif
 
-#include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
 #include "AsyncRPC.h"
@@ -105,6 +102,7 @@ int AsyncRPC::RPC_Wait(RPC_SELECTOR which_rpc, void *arg1, void *arg2,
     ASYNC_RPC_REQUEST request;
     int retval = 0;
 
+    // Note: ASYNC_RPC_REQUEST constructor set request.resultPtr to NULL
     request.which_rpc = which_rpc;
     request.arg1 = arg1;
     request.arg2 = arg2;
@@ -151,8 +149,6 @@ void *RPCThread::Entry() {
     locale_t RPC_Thread_Locale = newlocale(LC_ALL_MASK, "C", (locale_t) 0);
     uselocale(RPC_Thread_Locale);
 #endif
-
-
 
     m_pRPC_Thread_Mutex->Lock();
     m_pDoc->m_bRPCThreadIsReady = true;
@@ -298,6 +294,12 @@ int RPCThread::ProcessRPCRequest() {
         retval = (m_pDoc->rpcClient).set_network_mode(
             *(int*)(current_request->arg1),
             *(double*)(current_request->arg2)
+        );
+        break;
+    case RPC_GET_SCREENSAVER_TASKS:
+        retval = (m_pDoc->rpcClient).get_screensaver_tasks(
+            *(int*)(current_request->arg1),
+            *(RESULTS*)(current_request->arg2)
         );
         break;
     case RPC_RUN_BENCHMARKS:
@@ -502,10 +504,6 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
         }
     }
 
-    if ((request.rpcType == RPC_TYPE_WAIT_FOR_COMPLETION) && (request.resultPtr == NULL)) {
-        request.resultPtr = &retval;
-    }
-
     if (hasPriority) {
         // We may want to set hasPriority for some user-initiated events.
         // Since the user is waiting, insert this at head of request queue.
@@ -593,7 +591,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
                 // we are in this loop, to prevent undesirable recursion.
                 // Since the manager is minimized, we don't have to worry about
                 // discarding crucial drawing or command events.
-                // The filter does allow the the Open Manager menu item from
+                // The filter does allow the Open Manager menu item from
                 // the system tray icon and wxEVT_RPC_FINISHED event.
                 //
                 timeToSleep = DELAY_WHEN_MINIMIZED; // Allow user to maximize Manager
@@ -602,7 +600,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
 
             // OnRPCComplete() clears m_bWaitingForRPC and deletes m_RPCWaitDlg if RPC completed
             if (! m_bWaitingForRPC) {
-                return retval;
+                return current_rpc_request.retval;
             }
 
 #if wxDEBUG_LEVEL
@@ -976,13 +974,11 @@ void CMainDocument::HandleCompletedRPC() {
 
     if (m_bNeedTaskBarRefresh && !m_bWaitingForRPC) {
         m_bNeedTaskBarRefresh = false;
-#ifndef __WXGTK__
         CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
         if (pTaskbar) {
             CTaskbarEvent event(wxEVT_TASKBAR_REFRESH, pTaskbar);
             pTaskbar->ProcessEvent(event);
         }
-#endif
     }
 
     if (current_rpc_request.rpcType == RPC_TYPE_ASYNC_WITH_REFRESH_EVENT_LOG_AFTER) {
@@ -1061,9 +1057,6 @@ int CMainDocument::CopyProjectsToStateBuffer(PROJECTS& p, CC_STATE& ccstate) {
 }
 
 
-BEGIN_EVENT_TABLE(AsyncRPCDlg, wxDialog)
-    EVT_BUTTON(wxID_EXIT, AsyncRPCDlg::OnExit)
-END_EVENT_TABLE()
 
 IMPLEMENT_CLASS(AsyncRPCDlg, wxDialog)
 
@@ -1100,8 +1093,7 @@ AsyncRPCDlg::AsyncRPCDlg() : wxDialog( NULL, wxID_ANY, wxT(""), wxDefaultPositio
     cancelbutton->Create( this, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     sizerBtn->Add(cancelbutton, 0, wxLEFT|wxRIGHT|wxALL, 5);
 
-    if ( sizerBtn )
-        topsizer->Add(sizerBtn, 0, wxEXPAND | wxALL, 10 );
+    topsizer->Add(sizerBtn, 0, wxEXPAND | wxALL, 10 );
 
     SetAutoLayout( true );
     SetSizer( topsizer );
@@ -1116,6 +1108,7 @@ AsyncRPCDlg::AsyncRPCDlg() : wxDialog( NULL, wxID_ANY, wxT(""), wxDefaultPositio
     }
 
     Centre( wxBOTH | wxCENTER_FRAME);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnExit(event); }, wxID_EXIT);
 }
 
 

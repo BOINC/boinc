@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,9 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 //
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "DlgExclusiveApps.h"
-#endif
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
@@ -33,18 +30,6 @@
 using std::string;
 
 IMPLEMENT_DYNAMIC_CLASS(CDlgExclusiveApps, wxDialog)
-
-BEGIN_EVENT_TABLE(CDlgExclusiveApps, wxDialog)
-    EVT_COMMAND(ID_LISTBOX_EXCLAPPS,wxEVT_COMMAND_LISTBOX_SELECTED,CDlgExclusiveApps::OnExclusiveAppListEvent)
-    EVT_COMMAND(ID_LISTBOX_EXCLGPUAPPS,wxEVT_COMMAND_LISTBOX_SELECTED,CDlgExclusiveApps::OnExclusiveGPUAppListEvent)
-    //buttons
-    EVT_BUTTON(ID_ADDEXCLUSIVEAPPBUTTON,CDlgExclusiveApps::OnAddExclusiveApp)
-    EVT_BUTTON(ID_REMOVEEXCLUSIVEAPPBUTTON,CDlgExclusiveApps::OnRemoveExclusiveApp)
-    EVT_BUTTON(ID_ADDEXCLUSIVEGPUAPPBUTTON,CDlgExclusiveApps::OnAddExclusiveGPUApp)
-    EVT_BUTTON(ID_REMOVEEXCLUSIVEGPUAPPBUTTON,CDlgExclusiveApps::OnRemoveExclusiveGPUApp)
-    EVT_BUTTON(wxID_OK,CDlgExclusiveApps::OnOK)
-    EVT_BUTTON(ID_HELPBOINC,CDlgExclusiveApps::OnHelp)
-END_EVENT_TABLE()
 
 /* Constructor */
 CDlgExclusiveApps::CDlgExclusiveApps(wxWindow* parent) :
@@ -177,9 +162,17 @@ CDlgExclusiveApps::CDlgExclusiveApps(wxWindow* parent) :
 #if defined(__WXMSW__) || defined(__WXGTK__)
     SetDoubleBuffered(true);
 #endif
+
+    Bind(wxEVT_COMMAND_LISTBOX_SELECTED, [this](wxCommandEvent& event){ OnExclusiveAppListEvent(event); }, ID_LISTBOX_EXCLAPPS);
+    Bind(wxEVT_COMMAND_LISTBOX_SELECTED, [this](wxCommandEvent& event){ OnExclusiveGPUAppListEvent(event); }, ID_LISTBOX_EXCLGPUAPPS);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnAddExclusiveApp(event); }, ID_ADDEXCLUSIVEAPPBUTTON);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnRemoveExclusiveApp(event); }, ID_REMOVEEXCLUSIVEAPPBUTTON);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnAddExclusiveGPUApp(event); }, ID_ADDEXCLUSIVEGPUAPPBUTTON);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnRemoveExclusiveGPUApp(event); }, ID_REMOVEEXCLUSIVEGPUAPPBUTTON);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnOK(event); }, wxID_OK);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnHelp(event); }, ID_HELPBOINC);
 }
 
-/* destructor */
 CDlgExclusiveApps::~CDlgExclusiveApps() {
 }
 
@@ -224,14 +217,14 @@ bool CDlgExclusiveApps::SavePreferencesSettings() {
         config.exclusive_apps.clear();
         for (unsigned int i=0; i<appNames.size(); ++i) {
             std::string s = (const char*)appNames[i].mb_str();
-            config.exclusive_apps.push_back(s);
+            config.exclusive_apps.push_back(std::move(s));
         }
 
        wxArrayString gpuAppNames = m_exclusiveGPUApsListBox->GetStrings();
         config.exclusive_gpu_apps.clear();
         for (unsigned int i=0; i<gpuAppNames.size(); ++i) {
             std::string s = (const char*)gpuAppNames[i].mb_str();
-            config.exclusive_gpu_apps.push_back(s);
+            config.exclusive_gpu_apps.push_back(std::move(s));
         }
         int retval = pDoc->rpc.set_cc_config(config, log_flags);
         if (!retval) {

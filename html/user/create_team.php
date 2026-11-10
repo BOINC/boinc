@@ -34,7 +34,7 @@ xml_header();
 $retval = db_init_xml();
 if ($retval) xml_error($retval);
 
-if (parse_bool(get_config(), "disable_team_creation")) {
+if (project_config_bool("disable_team_creation")) {
     xml_error(-1, "team creation disabled");
 }
 

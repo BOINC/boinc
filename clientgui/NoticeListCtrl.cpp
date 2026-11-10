@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,9 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "NoticeListCtrl.h"
-#endif
 
 #include "stdwx.h"
 #include "diagnostics.h"
@@ -26,7 +23,6 @@
 #include "miofile.h"
 #include "parse.h"
 #include "error_numbers.h"
-#include "wizardex.h"
 #include "error_numbers.h"
 #include "Events.h"
 #include "BOINCGUIApp.h"
@@ -34,37 +30,7 @@
 #include "MainDocument.h"
 #include "NoticeListCtrl.h"
 
-////@begin XPM images
-////@end XPM images
-
- /* CNoticeListCtrl type definition
- */
 IMPLEMENT_DYNAMIC_CLASS( CNoticeListCtrl, wxWindow )
-
-
-/*!
- * CNoticeListCtrl event table definition
- */
-
-BEGIN_EVENT_TABLE( CNoticeListCtrl, wxWindow )
-
-////@begin CNoticeListCtrl event table entries
-#if wxUSE_WEBVIEW
-    EVT_WEBVIEW_NAVIGATING(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnLinkClicked)
-    EVT_WEBVIEW_ERROR(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnWebViewError)
-#else
-    EVT_HTML_LINK_CLICKED(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnLinkClicked)
-#endif
-////@end CNoticeListCtrl event table entries
-
-END_EVENT_TABLE()
-
-/*!
- * CNoticeListCtrl constructors
- */
-
-CNoticeListCtrl::CNoticeListCtrl( ) {
-}
 
 CNoticeListCtrl::CNoticeListCtrl( wxWindow* parent ) {
     Create( parent );
@@ -101,16 +67,12 @@ bool CNoticeListCtrl::Create( wxWindow* parent ) {
     SetSizer(topsizer);
 
     m_itemCount = 0;
-    bool isWindowsDarkMode = false;
-#ifdef __WXMSW__
-    const wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
-    isWindowsDarkMode = appearance.IsSystemDark();
-#endif
-    if (wxGetApp().GetIsDarkMode() || isWindowsDarkMode){
+
+    if (wxGetApp().GetIsDarkMode()){
 #if wxUSE_WEBVIEW
-        m_noticesBody = wxT("<html><style>body{background-color:black;color:white;}</style><head></head><body></body></html>");
+        m_noticesBody = wxT("<html><style>body{background-color:#121212;color:#e0e0e0;a:link {color:#0080FF;}}</style><head></head><body></body></html>");
 #else
-        m_noticesBody = wxT("<html><head></head><body bgcolor=black></body></html>");
+        m_noticesBody = wxT("<html><head></head><body bgcolor=#121212></body></html>");
 #endif
     } else {
         m_noticesBody = wxT("<html><head></head><body></body></html>");
@@ -128,6 +90,12 @@ bool CNoticeListCtrl::Create( wxWindow* parent ) {
     m_bDisplayFetchingNotices = false;
     m_bDisplayEmptyNotice = true;
     m_bNeedsReloading = false;
+#if wxUSE_WEBVIEW
+    Bind(wxEVT_WEBVIEW_NAVIGATING, [this](wxWebViewEvent& event){ OnLinkClicked(event); }, ID_LIST_NOTIFICATIONSVIEW);
+    Bind(wxEVT_WEBVIEW_ERROR, [this](wxWebViewEvent& event){ OnWebViewError(event); }, ID_LIST_NOTIFICATIONSVIEW);
+#else
+    Bind(wxEVT_HTML_LINK_CLICKED, [this](wxHtmlLinkEvent& event){ OnLinkClicked(event); }, ID_LIST_NOTIFICATIONSVIEW);
+#endif
 
     return TRUE;
 }
@@ -159,16 +127,11 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     m_itemCount = newCount;
-    bool isWindowsDarkMode = false;
-#ifdef __WXMSW__
-    const wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
-    isWindowsDarkMode = appearance.IsSystemDark();
-#endif
-    if (wxGetApp().GetIsDarkMode() || isWindowsDarkMode){
+    if (wxGetApp().GetIsDarkMode()){
 #if wxUSE_WEBVIEW
-        m_noticesBody =  wxT("<html><style>body{background-color:black;color:white;}</style><head></head><body><font face=helvetica>");
+        m_noticesBody =  wxT("<html><style>body{background-color:#121212;color:#e0e0e0;a:link {color:#0080FF;}}</style><head></head><body><font face=helvetica>");
 #else
-        m_noticesBody =  wxT("<html><head></head><body bgcolor=black><font face=helvetica color=white bgcolor=black>");
+        m_noticesBody =  wxT("<html><head></head><body bgcolor=#121212><font face=helvetica color=#e0e0e0 bgcolor=#121212>");
 #endif
     } else {
         m_noticesBody =  wxT("<html><head></head><body><font face=helvetica>");

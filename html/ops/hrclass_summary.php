@@ -71,7 +71,7 @@ function make_reset_url($hr_class) {
 
 db_init();
 
-$timestr = time_str(time(0));
+$timestr = time_str(time());
 $title = "hr_class summary list at ".$timestr;
 
 admin_page_head($title);

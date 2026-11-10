@@ -251,7 +251,7 @@ function prefs_parse_project($prefs_xml) {
     xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, 0);
     xml_set_element_handler($xml_parser, "element_start_project", "element_end_project");
     xml_set_character_data_handler($xml_parser, "char_handler");
-    xml_parse($xml_parser, $prefs_xml, 1);
+    xml_parse($xml_parser, $prefs_xml ?? "", 1);
     return $parse_result;
 }
 
@@ -331,7 +331,7 @@ function print_prefs_display_project($user, $columns=false) {
         prefs_show_consent($user, false);
         venue_show($user);
         prefs_show_project_specific($project_prefs, false);
-        $tokens = url_tokens($user->authenticator);
+        $tokens = url_tokens();
         row2("", "<a href=prefs_edit.php?subset=project$tokens>".tra("Edit preferences")."</a>");
         end_table();
 

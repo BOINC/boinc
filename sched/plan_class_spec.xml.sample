@@ -49,7 +49,7 @@
         <gpu_peak_flops_scale>  .22         </gpu_peak_flops_scale>
         <cpu_frac>              .01         </cpu_frac>
     </plan_class>
-     <plan_class>
+    <plan_class>
         <name>                  cuda42      </name>
         <gpu_type>              nvidia      </gpu_type>
         <cuda/>
@@ -61,7 +61,12 @@
         <gpu_ram_used_mb>       384         </gpu_ram_used_mb>
         <gpu_peak_flops_scale>  0.22        </gpu_peak_flops_scale>
         <cpu_frac>              0.01        </cpu_frac>
-     </plan_class>
+    </plan_class>
+    <plan_class>
+        <name>                  apple_gpu_1 </name>
+        <gpu_type>              apple       </gpu_type>
+        <min_metal_support>     1           </min_metal_support>
+    </plan_class>
     <plan_class>
         <name>                  nci         </name>
         <avg_ncpus>             .01         </avg_ncpus>
@@ -127,5 +132,10 @@
     <plan_class>
         <name>                  docker      </name>
         <docker/>
+    </plan_class>
+    <plan_class>
+        <name>                  docker_nvidia_cuda      </name>
+        <docker/>
+        <min_boinc_wsl_distro_version>  6   </min_boinc_wsl_distro_version>
     </plan_class>
 </plan_classes>

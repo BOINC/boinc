@@ -2872,6 +2872,14 @@
         "Value": "BOINC Screensaver"
     },
     {
+        "Id": "IDS_FEATURE_BOINC_WSL_IMAGE_INSTALLER_DESCRIPTION",
+        "Value": "The BOINC WSL Image Installer"
+    },
+    {
+        "Id": "IDS_FEATURE_BOINC_WSL_IMAGE_INSTALLER_NAME",
+        "Value": "BOINC WSL Image Installer"
+    },
+    {
         "Id": "IDS_NEXT",
         "Value": "&Next >"
     },
@@ -3457,7 +3465,7 @@
     },
     {
         "Id": "IDS_STRING39",
-        "Value": "[ProductName] requires that your computer is running Windows XP or newer."
+        "Value": "[ProductName] requires that your computer is running Windows Vista or newer."
     },
     {
         "Id": "IDS_STRING4",
@@ -3494,6 +3502,10 @@
     {
         "Id": "IDS_NEW_STRING2",
         "Value": "Launch the BOINC Manager"
+    },
+    {
+        "Id": "IDS_NEW_STRING3",
+        "Value": "Launch the installation of the BOINC WSL Distro"
     },
     {
         "Id": "IDS_NEW_STRING27",

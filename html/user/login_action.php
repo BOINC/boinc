@@ -39,12 +39,7 @@ function login_with_email($email_addr, $passwd, $next_url, $perm) {
     $user = BoincUser::lookup_email_addr($email_addr);
     if (!$user) {
         sleep(LOGIN_FAIL_SLEEP_SEC);
-        page_head("No such account");
-        echo "No account with email address <b>$email_addr</b> exists.
-            Please go back and try again.
-        ";
-        page_tail();
-        exit;
+        error_page("Login failed.");
     }
     if (substr($user->authenticator, 0, 1) == 'x'){
         sleep(LOGIN_FAIL_SLEEP_SEC);
@@ -53,15 +48,11 @@ function login_with_email($email_addr, $passwd, $next_url, $perm) {
 
     // allow authenticator as password
     //
-    if ($passwd != $user->authenticator) {
+    if (!hash_equals($user->authenticator, $passwd)) {
         $passwd_hash = md5($passwd.$email_addr);
-
         if (!check_passwd_hash($user, $passwd_hash)) {
             sleep(LOGIN_FAIL_SLEEP_SEC);
-            page_head("Password incorrect");
-            echo "The password you entered is incorrect. Please go back and try again.\n";
-            page_tail();
-            exit;
+            error_page("Login failed.");
         }
     }
 
@@ -85,14 +76,15 @@ function login_via_link($id, $t, $h) {
     $x = $id.$user->authenticator.$t;
     $x = md5($x);
     $x = substr($x, 0, 16);
-    if ($x != $h) {
+    if (!hash_equals($x, $h)) {
         sleep(LOGIN_FAIL_SLEEP_SEC);
         error_page("Invalid authenticator.
             Please make sure you visited the complete URL;
             it may have been split across lines by your email reader."
         );
     }
-    if (time() - $t > 86400) {
+    $now = time();
+    if ($now > $t+86400 || $t > $now) {
         sleep(LOGIN_FAIL_SLEEP_SEC);
         error_page("Link has expired;
             go <a href=get_passwd.php>here</a> to
@@ -100,8 +92,6 @@ function login_via_link($id, $t, $h) {
         );
     }
 
-    // Intercept next_url if consent has not yet been given
-    //
     $next_url = intercept_login($user, true, HOME_PAGE);
     Header("Location: ".url_base()."$next_url");
 }

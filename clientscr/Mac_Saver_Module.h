@@ -104,8 +104,8 @@ protected:
     pid_t           getClientPID(void);
     void            updateSSMessageText(char *msg);
     void            strip_cr(char *buf);
-    char            m_gfx_Switcher_Path[PATH_MAX];
-    char            m_gfx_Cleanup_Path[PATH_MAX];
+    char            m_gfx_Switcher_Path[MAXPATHLEN];
+    char            m_gfx_Cleanup_Path[MAXPATHLEN];
     FILE*           m_gfx_Cleanup_IPC;
     void            SetDiscreteGPU(bool setDiscrete);
     void            CheckDualGPUPowerSource();

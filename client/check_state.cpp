@@ -31,60 +31,52 @@
 #include "client_state.h"
 #include "result.h"
 
-void CLIENT_STATE::check_project_pointer(PROJECT* p) {
-    unsigned int i;
-    for (i=0; i<projects.size(); i++) {
-        if (p == projects[i]) return;
+void CLIENT_STATE::check_project_pointer(PROJECT* proj) {
+    for (PROJECT *p: projects) {
+        if (proj == p) return;
     }
     assert(0);
 }
 void CLIENT_STATE::check_app_pointer(APP* p) {
-    unsigned int i;
-    for (i=0; i<apps.size(); i++) {
-        if (p == apps[i]) return;
+    for (APP *app: apps) {
+        if (p == app) return;
     }
     assert(0);
 }
 void CLIENT_STATE::check_file_info_pointer(FILE_INFO* p) {
-    unsigned int i;
-    for (i=0; i<file_infos.size(); i++) {
-        if (p == file_infos[i]) return;
+    for (FILE_INFO *fip: file_infos) {
+        if (p == fip) return;
     }
     assert(0);
 }
 void CLIENT_STATE::check_app_version_pointer(APP_VERSION* p) {
-    unsigned int i;
-    for (i=0; i<app_versions.size(); i++) {
-        if (p == app_versions[i]) return;
+    for (APP_VERSION *avp: app_versions) {
+        if (p == avp) return;
     }
     assert(0);
 }
 void CLIENT_STATE::check_workunit_pointer(WORKUNIT* p) {
-    unsigned int i;
-    for (i=0; i<workunits.size(); i++) {
-        if (p == workunits[i]) return;
+    for (WORKUNIT *wup: workunits) {
+        if (p == wup) return;
     }
     assert(0);
 }
 void CLIENT_STATE::check_result_pointer(RESULT* p) {
-    unsigned int i;
-    for (i=0; i<results.size(); i++) {
-        if (p == results[i]) return;
+    for (RESULT *rp: results) {
+        if (p == rp) return;
     }
     assert(0);
 }
 
 void CLIENT_STATE::check_pers_file_xfer_pointer(PERS_FILE_XFER* p) {
-    unsigned int i;
-    for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
-        if (p == pers_file_xfers->pers_file_xfers[i]) return;
+    for (PERS_FILE_XFER *pfx: pers_file_xfers->pers_file_xfers) {
+        if (p == pfx) return;
     }
     assert(0);
 }
 void CLIENT_STATE::check_file_xfer_pointer(FILE_XFER* p) {
-    unsigned int i;
-    for (i=0; i<file_xfers->file_xfers.size(); i++) {
-        if (p == file_xfers->file_xfers[i]) return;
+    for (FILE_XFER* fxp: file_xfers->file_xfers) {
+        if (p == fxp) return;
     }
     assert(0);
 }
@@ -100,33 +92,29 @@ void CLIENT_STATE::check_file_info(FILE_INFO& p) {
     check_project_pointer(p.project);
 }
 
-void CLIENT_STATE::check_file_ref(FILE_REF& p) {
+void CLIENT_STATE::check_file_ref(const FILE_REF& p) {
     check_file_info_pointer(p.file_info);
 }
 
 void CLIENT_STATE::check_app_version(APP_VERSION& p) {
-    unsigned int i;
     check_app_pointer(p.app);
     check_project_pointer(p.project);
-    for (i=0; i<p.app_files.size(); i++) {
-        FILE_REF& fr = p.app_files[i];
+    for (const FILE_REF& fr: p.app_files) {
         check_file_ref(fr);
     }
 }
 
 void CLIENT_STATE::check_workunit(WORKUNIT& p) {
-    unsigned int i;
-    for (i=0; i<p.input_files.size(); i++) {
-        check_file_ref(p.input_files[i]);
+    for (const FILE_REF& fr: p.input_files) {
+        check_file_ref(fr);
     }
     check_project_pointer(p.project);
     check_app_pointer(p.app);
 }
 
 void CLIENT_STATE::check_result(RESULT& p) {
-    unsigned int i;
-    for (i=0; i<p.output_files.size(); i++) {
-        check_file_ref(p.output_files[i]);
+    for (const FILE_REF& fr: p.output_files) {
+        check_file_ref(fr);
     }
     check_app_pointer(p.app);
     check_workunit_pointer(p.wup);
@@ -149,30 +137,29 @@ void CLIENT_STATE::check_file_xfer(FILE_XFER& p) {
 }
 
 void CLIENT_STATE::check_all() {
-    unsigned int i;
-    for (i=0; i<apps.size(); i++) {
-        check_app(*apps[i]);
+    for (APP* app: apps) {
+        check_app(*app);
     }
-    for (i=0; i<file_infos.size(); i++) {
-        check_file_info(*file_infos[i]);
+    for (FILE_INFO *fip: file_infos) {
+        check_file_info(*fip);
     }
-    for (i=0; i<app_versions.size(); i++) {
-        check_app_version(*app_versions[i]);
+    for (APP_VERSION *avp: app_versions) {
+        check_app_version(*avp);
     }
-    for (i=0; i<workunits.size(); i++) {
-        check_workunit(*workunits[i]);
+    for (WORKUNIT* wup: workunits) {
+        check_workunit(*wup);
     }
-    for (i=0; i<results.size(); i++) {
-        check_result(*results[i]);
+    for (RESULT* rp: results) {
+        check_result(*rp);
     }
-    for (i=0; i<active_tasks.active_tasks.size(); i++) {
-        check_active_task(*active_tasks.active_tasks[i]);
+    for (ACTIVE_TASK *atp: active_tasks.active_tasks) {
+        check_active_task(*atp);
     }
-    for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
-        check_pers_file_xfer(*pers_file_xfers->pers_file_xfers[i]);
+    for (PERS_FILE_XFER *pfx: pers_file_xfers->pers_file_xfers) {
+        check_pers_file_xfer(*pfx);
     }
-    for (i=0; i<file_xfers->file_xfers.size(); i++) {
-        check_file_xfer(*file_xfers->file_xfers[i]);
+    for (FILE_XFER *fxp: file_xfers->file_xfers) {
+        check_file_xfer(*fxp);
     }
 }
 

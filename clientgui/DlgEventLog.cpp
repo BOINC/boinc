@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -14,10 +14,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "DlgEventLog.h"
-#endif
 
 #include "stdwx.h"
 #include "common_defs.h"
@@ -45,9 +41,6 @@
 ////@begin includes
 ////@end includes
 
-////@begin XPM images
-////@end XPM images
-
 const int dlgEventlogInitialWidth = 640;
 const int dlgEventLogInitialHeight = 480;
 const int dlgEventlogMinWidth = 600;
@@ -64,70 +57,19 @@ static bool s_bErrorIsFiltered = false;
 static bool s_bErrorFilteringChanged = false;
 static std::string s_strFilteredProjectName;
 
-/*!
- * CDlgEventLog type definition
- */
-
 IMPLEMENT_DYNAMIC_CLASS( CDlgEventLog, DlgEventLogBase )
-
-/*!
- * CDlgEventLog event table definition
- */
-
-BEGIN_EVENT_TABLE( CDlgEventLog, DlgEventLogBase )
-////@begin CDlgEventLog event table entries
-    EVT_ACTIVATE(CDlgEventLog::OnActivate)
-    EVT_HELP(wxID_ANY, CDlgEventLog::OnHelp)
-    EVT_BUTTON(wxID_OK, CDlgEventLog::OnOK)
-    EVT_BUTTON(ID_COPYAll, CDlgEventLog::OnMessagesCopyAll)
-    EVT_BUTTON(ID_COPYSELECTED, CDlgEventLog::OnMessagesCopySelected)
-    EVT_BUTTON(ID_TASK_MESSAGES_FILTERBYERROR, CDlgEventLog::OnErrorFilter)
-    EVT_BUTTON(ID_TASK_MESSAGES_FILTERBYPROJECT, CDlgEventLog::OnMessagesFilter)
-    EVT_BUTTON(ID_SIMPLE_HELP, CDlgEventLog::OnButtonHelp)
-	EVT_MENU(ID_SGDIAGNOSTICLOGFLAGS, CDlgEventLog::OnDiagnosticLogFlags)
-	EVT_SIZE(CDlgEventLog::OnSize)
-    EVT_MOVE(CDlgEventLog::OnMove)
-    EVT_CLOSE(CDlgEventLog::OnClose)
-    EVT_LIST_COL_END_DRAG(ID_SIMPLE_MESSAGESVIEW, CDlgEventLog::OnColResize)
-////@end CDlgEventLog event table entries
-END_EVENT_TABLE()
-
-/*!
- * CDlgEventLog constructors
- */
 
 CDlgEventLog::CDlgEventLog( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Constructor Function Begin"));
 
     Create(parent, id, caption, pos, size, style);
-
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Constructor Function End"));
 }
 
 
 CDlgEventLog::~CDlgEventLog() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Destructor Function Begin"));
-
-    if (m_pMessageInfoAttr) {
-        delete m_pMessageInfoAttr;
-        m_pMessageInfoAttr = NULL;
-    }
-
-    if (m_pMessageErrorAttr) {
-        delete m_pMessageErrorAttr;
-        m_pMessageErrorAttr = NULL;
-    }
-
-    if (m_pMessageInfoGrayAttr) {
-        delete m_pMessageInfoGrayAttr;
-        m_pMessageInfoGrayAttr = NULL;
-    }
-
-    if (m_pMessageErrorGrayAttr) {
-        delete m_pMessageErrorGrayAttr;
-        m_pMessageErrorGrayAttr = NULL;
-    }
 
     m_iFilteredIndexes.Clear();
 
@@ -236,68 +178,17 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 
     CreateControls();
 
+    m_normalTextColor = m_pList->GetTextColour();
+
 	// Create List Pane Items
     m_pList->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 109);
     m_pList->InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, 130);
     m_pList->InsertColumn(COLUMN_MESSAGE, _("Message"), wxLIST_FORMAT_LEFT, 378);
 
-    m_pMessageInfoAttr = new wxListItemAttr(
-        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
-        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW),
-        wxNullFont
-    );
-    m_pMessageErrorAttr = new wxListItemAttr(
-        *wxRED,
-        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW),
-        wxNullFont
-    );
-
 #if EVENT_LOG_STRIPES
     m_pList->EnableAlternateRowColours();
-    wxColour stripe_color;
-
-#if wxCHECK_VERSION(3, 1, 0)
-    stripe_color = m_pList->GetAlternateRowColour();
-    if (!stripe_color.IsOk())
 #endif
-    {
-        // copied from wxListCtrlBase::EnableAlternateRowColours(bool)
-
-        // Determine the alternate rows colour automatically from the
-        // background colour.
-        const wxColour bgColour = m_pList->GetBackgroundColour();
-
-        // Depending on the background, alternate row color
-        // will be 3% more dark or 50% brighter.
-        int alpha = bgColour.GetRGB() > 0x808080 ? 97 : 150;
-        stripe_color = bgColour.ChangeLightness(alpha);
-    }
-
-#ifdef __WXMSW__
-    // work around a bug in wxWidgets 3.1 and earlier
-    // if row background color is wxSYS_COLOR_BTNFACE selected unfocused row is drawn with wrong colors
-    if (stripe_color == wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE)) {
-        // adjust the color just enough to make it different
-        stripe_color.SetRGB(stripe_color.GetRGB() + 1);
-    }
-#endif
-
-    m_pMessageInfoGrayAttr = new wxListItemAttr(
-        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
-        stripe_color,
-        wxNullFont
-    );
-    m_pMessageErrorGrayAttr = new wxListItemAttr(
-        *wxRED,
-        stripe_color,
-        wxNullFont
-    );
-#else
-    m_pMessageInfoGrayAttr = new wxListItemAttr(*m_pMessageInfoAttr);
-    m_pMessageErrorGrayAttr = new wxListItemAttr(*m_pMessageErrorAttr);
-#endif
-
-    SetTextColor();
+    m_isConnected = wxGetApp().GetDocument()->IsConnected();
     RestoreState();
     OnRefresh();
     // Register that we had the Event Log open immediately
@@ -307,6 +198,20 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
 
     SetAcceleratorTable(*m_pAccelTable);
+
+    Bind(wxEVT_ACTIVATE, [this](wxActivateEvent& event){ OnActivate(event); });
+    Bind(wxEVT_HELP, [this](wxHelpEvent& event){ OnHelp(event); });
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnOK(event); }, wxID_OK);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnMessagesCopyAll(event); }, ID_COPYAll);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnMessagesCopySelected(event); }, ID_COPYSELECTED);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnErrorFilter(event); }, ID_TASK_MESSAGES_FILTERBYERROR);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnMessagesFilter(event); }, ID_TASK_MESSAGES_FILTERBYPROJECT);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnButtonHelp(event); }, ID_SIMPLE_HELP);
+	Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnDiagnosticLogFlags(event); }, ID_SGDIAGNOSTICLOGFLAGS);
+	Bind(wxEVT_SIZE, [this](wxSizeEvent& event){ OnSize(event); });
+    Bind(wxEVT_MOVE, [this](wxMoveEvent& event){ OnMove(event); });
+    Bind(wxEVT_CLOSE_WINDOW, [this](wxCloseEvent& event){ OnClose(event); });
+    Bind(wxEVT_LIST_COL_END_DRAG, [this](wxListEvent& event){ OnColResize(event); }, ID_SIMPLE_MESSAGESVIEW);
 
     return true;
 }
@@ -405,28 +310,6 @@ void CDlgEventLog::SetFilterButtonText() {
     }
     // Adjust button size for new text
     Layout();
-}
-
-
-/*!
- * Text color selection for CDlgEventLog
- */
-
-void CDlgEventLog::SetTextColor() {
-    bool isConnected = wxGetApp().GetDocument()->IsConnected();
-
-    if (isConnected) {
-        m_pMessageInfoAttr->SetTextColour(*wxBLACK);
-        m_pMessageErrorAttr->SetTextColour(*wxRED);
-        m_pMessageInfoGrayAttr->SetTextColour(*wxBLACK);
-        m_pMessageErrorGrayAttr->SetTextColour(*wxRED);
-    } else {
-        wxColourDatabase colorBase;
-        m_pMessageInfoAttr->SetTextColour(wxColour(128, 128, 128));
-        m_pMessageErrorAttr->SetTextColour(wxColour(255, 128, 128));
-        m_pMessageInfoGrayAttr->SetTextColour(wxColour(128, 128, 128));
-        m_pMessageErrorGrayAttr->SetTextColour(wxColour(255, 128, 128));
-    }
 }
 
 
@@ -697,7 +580,6 @@ wxInt32 CDlgEventLog::GetDocCount() {
  * called from CMainDocument::HandleCompletedRPC() after wxEVT_RPC_FINISHED event
  */
 void CDlgEventLog::OnRefresh() {
-    bool isConnected;
     static wxString strLastMachineName = wxEmptyString;
     wxString strNewMachineName = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
@@ -726,11 +608,11 @@ void CDlgEventLog::OnRefresh() {
             m_iPreviousLastMsgSeqNum = 0;
         } else {
             // If connected computer changed, reset message filtering
-            isConnected = wxGetApp().GetDocument()->IsConnected();
-            if (isConnected) {
+            m_isConnected = wxGetApp().GetDocument()->IsConnected();
+            if (m_isConnected) {
                 pDoc->GetConnectedComputerName(strNewMachineName);
                 if (strLastMachineName != strNewMachineName) {
-                    strLastMachineName = strNewMachineName;
+                    strLastMachineName = std::move(strNewMachineName);
                     m_bWasConnected = false;
                     ResetMessageFiltering();
                     m_iPreviousFirstMsgSeqNum = pDoc->GetFirstMsgSeqNum();
@@ -740,9 +622,8 @@ void CDlgEventLog::OnRefresh() {
             }
 
             // If connection status changed, adjust color of messages display
-            if (m_bWasConnected != isConnected) {
-                m_bWasConnected = isConnected;
-                SetTextColor();
+            if (m_bWasConnected != m_isConnected) {
+                m_bWasConnected = m_isConnected;
 
                 // Force a complete update
                 m_pList->DeleteAllItems();
@@ -1166,7 +1047,7 @@ void CDlgEventLog::UpdateButtons() {
         if ((n == 1) && (! s_bIsFiltered)) {
             n = m_pList->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
             MESSAGE* message = wxGetApp().GetDocument()->message(GetFilteredMessageIndex(n));
-            if ((message->project).size() > 0) {
+            if (message && (message->project).size() > 0) {
                 enableFilterButton = true;
             }
         }
@@ -1193,31 +1074,6 @@ wxString CDlgEventLog::OnListGetItemText(long item, long column) const {
     }
 
     return strBuffer;
-}
-
-
-wxListItemAttr* CDlgEventLog::OnListGetItemAttr(long item) const {
-    wxListItemAttr* pAttribute  = NULL;
-    wxInt32         index       = GetFilteredMessageIndex(item);
-    MESSAGE*        message     = wxGetApp().GetDocument()->message(index);
-
-    // If we are using some theme where the default background color isn't
-    //   white, then our whole system is boned. Use defaults instead.
-    if (wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW) != wxColor(wxT("WHITE"))) return NULL;
-
-    if (message) {
-        item += s_bIsFiltered ? m_iTotalDeletedFilterRows : m_iPreviousFirstMsgSeqNum;
-        switch(message->priority) {
-        case MSG_USER_ALERT:
-            pAttribute = item % 2 ? m_pMessageErrorGrayAttr : m_pMessageErrorAttr;
-            break;
-        default:
-           pAttribute = item % 2 ? m_pMessageInfoGrayAttr : m_pMessageInfoAttr;
-            break;
-        }
-    }
-
-    return pAttribute;
 }
 
 
@@ -1274,9 +1130,28 @@ wxInt32 CDlgEventLog::FormatMessage(wxInt32 item, wxString& strBuffer) const {
     MESSAGE*   message = wxGetApp().GetDocument()->message(item);
 
     if (message) {
+           switch(message->priority) {
+            case MSG_INFO:
+        if (m_isConnected) {
+                m_pList->SetTextColour(m_normalTextColor);
+                } else {
+                    m_pList->SetTextColour(wxColour(96, 96, 96));
+                }
+                break;
+            default:
+                if (m_isConnected) {
+                    m_pList->SetTextColour(*wxRED);
+                } else {
+                    m_pList->SetTextColour(wxColour(192, 96, 96));
+                }
+                break;
+            }
+
         strBuffer = wxString(message->body.c_str(), wxConvUTF8);
         remove_eols(strBuffer);
         localize(strBuffer);
+    } else {
+        m_pList->SetTextColour(m_normalTextColor);
     }
 
     return 0;

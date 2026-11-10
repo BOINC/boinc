@@ -190,9 +190,6 @@ static volatile int running_interrupt_count = 0;
 static volatile bool finishing;
     // used for worker/timer synch during boinc_finish();
 static int want_network = 0;
-static int have_network = 1;
-static double bytes_sent = 0;
-static double bytes_received = 0;
 bool boinc_disable_timer_thread = false;
     // simulate unresponsive app by setting to true (debugging)
 static FUNC_PTR timer_callback = 0;
@@ -205,6 +202,7 @@ int app_min_checkpoint_period = 0;
 static volatile SPORADIC_AC_STATE ac_state;
 static volatile int ac_fd, ca_fd;
 static volatile bool do_sporadic_files;
+volatile bool got_heartbeat_message = false;
 
 #define TIMER_PERIOD 0.1
     // Sleep interval for timer thread;
@@ -425,24 +423,15 @@ static bool update_app_progress(double cpu_t, double cp_cpu_t) {
 
     snprintf(msg_buf, sizeof(msg_buf),
         "<current_cpu_time>%e</current_cpu_time>\n"
-        "<checkpoint_cpu_time>%e</checkpoint_cpu_time>\n",
-        cpu_t, cp_cpu_t
+        "<checkpoint_cpu_time>%e</checkpoint_cpu_time>\n"
+        "<want_network>%d</want_network>\n",
+        cpu_t, cp_cpu_t,
+        want_network?1:0
     );
-    if (want_network) {
-        strlcat(msg_buf, "<want_network>1</want_network>\n", sizeof(msg_buf));
-    }
     if (fraction_done >= 0) {
         double range = aid.fraction_done_end - aid.fraction_done_start;
         double fdone = aid.fraction_done_start + fraction_done*range;
         snprintf(buf, sizeof(buf), "<fraction_done>%e</fraction_done>\n", fdone);
-        strlcat(msg_buf, buf, sizeof(msg_buf));
-    }
-    if (bytes_sent) {
-        snprintf(buf, sizeof(buf), "<bytes_sent>%f</bytes_sent>\n", bytes_sent);
-        strlcat(msg_buf, buf, sizeof(msg_buf));
-    }
-    if (bytes_received) {
-        snprintf(buf, sizeof(buf), "<bytes_received>%f</bytes_received>\n", bytes_received);
         strlcat(msg_buf, buf, sizeof(msg_buf));
     }
     if (ac_state) {
@@ -480,12 +469,13 @@ static void handle_heartbeat_msg() {
     if (parse_double(buf, "<max_wss>", dtemp)) {
         boinc_status.max_working_set_size = dtemp;
     }
-    if (parse_bool(buf, "suspend_network", btemp)) {
+    if (parse_bool(buf, "network_suspended", btemp)) {
         boinc_status.network_suspended = btemp;
     }
     if (parse_int(buf, "<sporadic_ca>", i)) {
         boinc_status.ca_state = (SPORADIC_CA_STATE)i;
     }
+    got_heartbeat_message = true;
 }
 
 // called in timer thread
@@ -970,11 +960,6 @@ void boinc_exit(int status) {
 #endif
 }
 
-void boinc_network_usage(double sent, double received) {
-    bytes_sent = sent;
-    bytes_received = received;
-}
-
 int boinc_is_standalone() {
     if (standalone) return 1;
     return 0;
@@ -1087,8 +1072,8 @@ int boinc_report_app_status_aux(
     double checkpoint_cpu_time,
     double _fraction_done,
     int other_pid,
-    double _bytes_sent,
-    double _bytes_received,
+    double /* _bytes_sent*/,
+    double /* _bytes_received*/,
     double wss
 ) {
     char msg_buf[MSG_CHANNEL_SIZE], buf[1024];
@@ -1106,14 +1091,6 @@ int boinc_report_app_status_aux(
         snprintf(buf, sizeof(buf), "<other_pid>%d</other_pid>\n", other_pid);
         safe_strcat(msg_buf, buf);
     }
-    if (_bytes_sent) {
-        snprintf(buf, sizeof(buf), "<bytes_sent>%f</bytes_sent>\n", _bytes_sent);
-        safe_strcat(msg_buf, buf);
-    }
-    if (_bytes_received) {
-        snprintf(buf, sizeof(buf), "<bytes_received>%f</bytes_received>\n", _bytes_received);
-        safe_strcat(msg_buf, buf);
-    }
     if (ac_state) {
         sprintf(buf, "<sporadic_ac>%d</sporadic_ac>\n", ac_state);
         strlcat(msg_buf, buf, sizeof(msg_buf));
@@ -1121,6 +1098,9 @@ int boinc_report_app_status_aux(
     if (wss) {
         sprintf(buf, "<wss>%f</wss>\n", wss);
         strlcat(msg_buf, buf, sizeof(msg_buf));
+    }
+    if (want_network) {
+        strlcat(msg_buf, "<want_network>1</want_network>\n", sizeof(msg_buf));
     }
 #ifdef MSGS_FROM_FILE
     if (fout) {
@@ -1371,9 +1351,6 @@ static void handle_process_control_msg() {
     if (match_tag(buf, "<reread_app_info/>")) {
         boinc_status.reread_init_data_file = true;
     }
-    if (match_tag(buf, "<network_available/>")) {
-        have_network = 1;
-    }
 #ifdef ANDROID
     // Trigger call to worker_signal_handler() in the worker thread
     //
@@ -1605,7 +1582,7 @@ int start_timer_thread() {
     worker_thread_handle = pthread_self();
     pthread_attr_t thread_attrs;
     pthread_attr_init(&thread_attrs);
-    pthread_attr_setstacksize(&thread_attrs, 32768);
+    pthread_attr_setstacksize(&thread_attrs, 65536);
     int retval = pthread_create(&timer_thread_handle, &thread_attrs, timer_thread, NULL);
     if (retval) {
         fprintf(stderr,
@@ -1794,17 +1771,8 @@ int boinc_upload_status(std::string& name) {
     return ERR_NOT_FOUND;
 }
 
-void boinc_need_network() {
-    want_network = 1;
-    have_network = 0;
-}
-
-int boinc_network_poll() {
-    return have_network?0:1;
-}
-
-void boinc_network_done() {
-    want_network = 0;
+void boinc_waiting_for_network(bool x) {
+    want_network = x;
 }
 
 #ifndef _WIN32

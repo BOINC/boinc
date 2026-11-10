@@ -25,7 +25,6 @@ linux_client_list = [
     './client/boinc',
     './client/boinccmd',
     './client/scripts/boinc-client.service',
-    './client/scripts/boinc-client',
     './client/scripts/boinc.bash',
     './client/scripts/boinc-client.conf',
     './packages/deb/*',
@@ -51,6 +50,7 @@ linux_apps_list = [
     './samples/wrappture/fermi',
     './samples/sporadic/sporadic',
     './samples/docker_wrapper/docker_wrapper*pc-linux-gnu',
+    './samples/nvcuda/example_app_nvcuda',
 ]
 
 linux_manager_list = [
@@ -235,6 +235,7 @@ macos_manager_list = [
     'mac_build/build/Deployment/switcher',
     'mac_build/build/Deployment/detect_rosetta_cpu',
     'mac_build/build/Deployment/Run_Podman',
+    'mac_RemovePodman/build/Release/RemovePodman',
 ]
 
 macos_apps_list = [

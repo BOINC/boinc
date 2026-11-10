@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -26,17 +26,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CSimpleTaskPopupButton, CTransparentButton)
 
-BEGIN_EVENT_TABLE(CSimpleTaskPopupButton, CTransparentButton)
-    EVT_LEFT_DOWN(CSimpleTaskPopupButton::OnTaskCommandsMouseDown)
-    EVT_MENU(ID_TASK_WORK_SHOWGRAPHICS, CSimpleTaskPopupButton::OnTaskShowGraphics)
-    EVT_MENU(ID_TASK_WORK_SUSPEND, CSimpleTaskPopupButton::OnTaskSuspendResume)
-    EVT_MENU(ID_TASK_WORK_ABORT, CSimpleTaskPopupButton::OnTaskAbort)
-    EVT_MENU(ID_TASK_SHOW_PROPERTIES, CSimpleTaskPopupButton::OnTaskShowProperties)
-END_EVENT_TABLE()
-
-CSimpleTaskPopupButton::CSimpleTaskPopupButton() {
-}
-
 CSimpleTaskPopupButton::CSimpleTaskPopupButton(wxWindow* parent, wxWindowID id,
         const wxString& label, const wxPoint& pos, const wxSize& size,
         long style, const wxValidator& validator, const wxString& name) :
@@ -46,12 +35,13 @@ CSimpleTaskPopupButton::CSimpleTaskPopupButton(wxWindow* parent, wxWindowID id,
     m_TaskSuspendedViaGUI = false;
     m_TaskCommandPopUpMenu = new wxMenu();
     AddMenuItems();
-    Connect(
-        id,
-        wxEVT_BUTTON,
-        (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction) &CSimpleTaskPopupButton::OnTaskCommandsKeyboardNav
-    );
 
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnTaskCommandsKeyboardNav(event); }, id);
+    Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent& event){ OnTaskCommandsMouseDown(event); });
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnTaskShowGraphics(event); }, ID_TASK_WORK_SHOWGRAPHICS);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnTaskSuspendResume(event); }, ID_TASK_WORK_SUSPEND);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnTaskAbort(event); }, ID_TASK_WORK_ABORT);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnTaskShowProperties(event); }, ID_TASK_SHOW_PROPERTIES);
 }
 
 

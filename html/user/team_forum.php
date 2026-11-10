@@ -26,7 +26,7 @@ if (DISABLE_TEAMS) error_page("Teams are disabled");
 
 check_get_args(array("tnow", "ttok", "teamid", "cmd"));
 
-function create_confirm($user, $team) {
+function create_confirm($team) {
     page_head(tra("Create Message Board"));
     echo tra("You may create a message board for use by %1.", $team->name)."
         <ul>
@@ -35,7 +35,7 @@ function create_confirm($user, $team) {
         <li>".tra("You and your Team Admins will have moderator privileges.")."
         </ul>
     ";
-    $tokens = url_tokens($user->authenticator);
+    $tokens = url_tokens();
     show_button(
         "team_forum.php?teamid=$team->id&cmd=create$tokens",
         tra("Create Message Board"),
@@ -49,7 +49,7 @@ function create_forum($user, $team) {
     if ($f) {
         error_page(tra("Team already has a message board"));
     }
-    $id = BoincForum::insert("(category, parent_type) values ($team->id, 1)");
+    $id = BoincForum::insert("(category, orderID, title, description, parent_type) values ($team->id, 0, '', '', 1)");
     $forum = BoincForum::lookup_id($id);
     if (!$forum) {
         error_page("couldn't create message board");
@@ -64,7 +64,7 @@ function edit_form($user, $team, $forum, $first) {
         <input type=hidden name=teamid value=$team->id>
         <input type=hidden name=cmd value=edit_action>
     ";
-    echo form_tokens($user->authenticator);
+    echo form_tokens();
     start_table();
     if (!strlen($forum->title)) $forum->title = $team->name;
     if (!strlen($forum->description)) $forum->description = tra("Discussion among members of %1", $team->name);
@@ -84,13 +84,13 @@ function edit_form($user, $team, $forum, $first) {
     row2(tra("Minimum average credit to post"),
         '<input class="form-control" name="post_min_expavg_credit" value="'.$forum->post_min_expavg_credit.'">'
     );
-    row2("", "<input class=\"btn btn-success\" type=submit value=".tra("Submit").">");
+    row2("", submit_button_text(tra("Submit")));
     end_table();
     echo "
         </form>
     ";
     if (!$first) {
-        $tokens = url_tokens($user->authenticator);
+        $tokens = url_tokens();
         echo "
             <p>
             <a href=team_forum.php?teamid=$team->id&cmd=remove_confirm$tokens>
@@ -101,11 +101,11 @@ function edit_form($user, $team, $forum, $first) {
 }
 
 function remove_confirm($user, $team) {
-    $tokens = url_tokens($user->authenticator);
+    $tokens = url_tokens();
     page_head(tra("Really remove message board?"));
     echo tra("Are you sure you want to remove your team's message board? All threads and posts will be permanently removed. (You may, however, create a new message board later).")
         ."<br /><br />
-        <a href=team_forum.php?teamid=$team->id&cmd=remove>".tra("Yes - remove message board")."</a>
+        <a href=team_forum.php?teamid=$team->id&cmd=remove$tokens>".tra("Yes - remove message board")."</a>
     ";
     page_tail();
 }
@@ -180,19 +180,19 @@ if ($cmd == 'manage') {
     require_founder_login($user, $team);
     $forum = BoincForum::lookup("parent_type=1 and category=$teamid");
     if (!$forum) {
-        create_confirm($user, $team);
+        create_confirm($team);
     } else {
         edit_form($user, $team, $forum, false);
     }
 } else if ($cmd == 'create') {
     $user = get_logged_in_user();
-    check_tokens($user->authenticator);
+    check_tokens();
     require_founder_login($user, $team);
     create_forum($user, $team);
 } else if ($cmd == 'edit_action') {
     $user = get_logged_in_user();
     require_founder_login($user, $team);
-    check_tokens($user->authenticator);
+    check_tokens();
     $forum = BoincForum::lookup("parent_type=1 and category=$teamid");
     if (!$forum) error_page("no such forum");
     edit_action($forum);
@@ -201,6 +201,7 @@ if ($cmd == 'manage') {
     require_founder_login($user, $team);
     remove_confirm($user, $team);
 } else if ($cmd == "remove") {
+    check_tokens();
     $user = get_logged_in_user();
     require_founder_login($user, $team);
     remove($team);

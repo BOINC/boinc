@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,37 +18,17 @@
 #ifndef BOINC_ACCOUNTMANAGERPROPERTIESPAGE_H
 #define BOINC_ACCOUNTMANAGERPROPERTIESPAGE_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "AccountManagerPropertiesPage.cpp"
-#endif
-
-/*!
- * CAccountManagerPropertiesPage custom events
- */
-
-class CAccountManagerPropertiesPageEvent : public wxEvent
-{
+class CAccountManagerPropertiesPageEvent : public wxEvent {
 public:
-    CAccountManagerPropertiesPageEvent(wxEventType evtType, wxWizardPageEx *parent)
-        : wxEvent(-1, evtType)
-        {
+    CAccountManagerPropertiesPageEvent(wxEventType evtType, wxWizardPage *parent)
+        : wxEvent(-1, evtType) {
             SetEventObject(parent);
         }
 
     virtual wxEvent *Clone() const { return new CAccountManagerPropertiesPageEvent(*this); }
 };
 
-
-BEGIN_DECLARE_EVENT_TYPES()
-DECLARE_EVENT_TYPE( wxEVT_ACCOUNTMANAGERPROPERTIES_STATECHANGE, 11000 )
-END_DECLARE_EVENT_TYPES()
-
-#define EVT_ACCOUNTMANAGERPROPERTIES_STATECHANGE(fn) \
-    DECLARE_EVENT_TABLE_ENTRY(wxEVT_ACCOUNTMANAGERPROPERTIES_STATECHANGE, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-
-/*!
- * CAccountManagerPropertiesPage states
- */
+wxDECLARE_EVENT(wxEVT_ACCOUNTMANAGERPROPERTIES_STATECHANGE, CAccountManagerPropertiesPageEvent);
 
 #define ACCTMGRPROP_INIT                                   0
 #define ACCTMGRPROP_RETRPROJECTPROPERTIES_BEGIN            1
@@ -60,53 +40,30 @@ END_DECLARE_EVENT_TYPES()
 #define ACCTMGRPROP_CLEANUP                                7
 #define ACCTMGRPROP_END                                    8
 
-/*!
- * CAccountManagerPropertiesPage class declaration
- */
-
-class CAccountManagerPropertiesPage: public wxWizardPageEx
-{
-    DECLARE_DYNAMIC_CLASS( CAccountManagerPropertiesPage )
-    DECLARE_EVENT_TABLE()
+class CAccountManagerPropertiesPage: public CBOINCWizardPage {
+    DECLARE_DYNAMIC_CLASS(CAccountManagerPropertiesPage)
 
 public:
-    /// Constructors
-    CAccountManagerPropertiesPage( );
+    CAccountManagerPropertiesPage() = default;
+    CAccountManagerPropertiesPage(CWizardAttach* parent);
+    bool Create(CWizardAttach* parent);
 
-    CAccountManagerPropertiesPage( CBOINCBaseWizard* parent );
-
-    /// Creation
-    bool Create( CBOINCBaseWizard* parent );
-
-    /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CAccountManagerPropertiesPage event handler declarations
+    void OnPageChanged(wxWizardEvent& event);
+    void OnPageChanging(wxWizardEvent& event);
+    void OnCancel(wxWizardEvent& event);
+    void OnStateChange(CAccountManagerPropertiesPageEvent& event);
 
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ACCOUNTMANAGERPROPERTIESPAGE
-    void OnPageChanged( wxWizardExEvent& event );
+    wxWizardPage* GetPrev() const;
+    wxWizardPage* GetNext() const;
 
-    /// wxEVT_WIZARD_CANCEL event handler for ID_ACCOUNTMANAGERPROPERTIESPAGE
-    void OnCancel( wxWizardExEvent& event );
+    void SetPrev(CBOINCWizardPage *prev);
 
-////@end CAccountManagerPropertiesPage event handler declarations
+    bool HasNextPage() const;
+    bool HasPrevPage() const;
 
-    void OnStateChange( CAccountManagerPropertiesPageEvent& event );
-
-////@begin CAccountManagerPropertiesPage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPageEx* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPageEx* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CAccountManagerPropertiesPage member function declarations
+    wxBitmap GetBitmapResource(const wxString& name);
 
     bool GetProjectPropertiesSucceeded() const { return m_bProjectPropertiesSucceeded ; }
     void SetProjectPropertiesSucceeded(bool value) { m_bProjectPropertiesSucceeded = value ; }
@@ -138,30 +95,28 @@ public:
     wxInt32 GetCurrentState() const { return m_iCurrentState ; }
     void SetNextState(wxInt32 value) { m_iCurrentState = value ; }
 
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-    /// Progress Image Support
     void StartProgress(wxStaticBitmap* pBitmap);
     void IncrementProgress(wxStaticBitmap* pBitmap);
     void FinishProgress(wxStaticBitmap* pBitmap);
 
-////@begin CAccountManagerPropertiesPage member variables
-    wxStaticText* m_pTitleStaticCtrl;
-    wxStaticText* m_pPleaseWaitStaticCtrl;
-    wxStaticBitmap* m_pProgressIndicator;
-////@end CAccountManagerPropertiesPage member variables
-    bool m_bProjectPropertiesSucceeded;
-    bool m_bProjectPropertiesURLFailure;
-    bool m_bProjectPropertiesCommunicationFailure;
-    bool m_bProjectAccountCreationDisabled;
-    bool m_bProjectClientAccountCreationDisabled;
-    bool m_bNetworkConnectionNotDetected;
-    bool m_bServerReportedError;
-    bool m_bTermsOfUseRequired;
-    bool m_bCredentialsAlreadyAvailable;
-    int m_iBitmapIndex;
-    int m_iCurrentState;
+private:
+    wxStaticText* m_pTitleStaticCtrl = nullptr;
+    wxStaticText* m_pPleaseWaitStaticCtrl = nullptr;
+    wxStaticBitmap* m_pProgressIndicator = nullptr;
+    bool m_bProjectPropertiesSucceeded = false;
+    bool m_bProjectPropertiesURLFailure = false;
+    bool m_bProjectPropertiesCommunicationFailure = false;
+    bool m_bProjectAccountCreationDisabled = false;
+    bool m_bProjectClientAccountCreationDisabled = false;
+    bool m_bNetworkConnectionNotDetected = false;
+    bool m_bServerReportedError = false;
+    bool m_bTermsOfUseRequired = false;
+    bool m_bCredentialsAlreadyAvailable = false;
+    int m_iBitmapIndex = 0;
+    int m_iCurrentState = 0;
+
+    CWizardAttach *m_pParent = nullptr;
+    CBOINCWizardPage *m_pPrev = nullptr;
 };
 
 #endif

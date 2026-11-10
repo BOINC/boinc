@@ -25,7 +25,7 @@ echo tra("
     If not, %2get help here%3.
     ",
     "<img src=https://boinc.berkeley.edu/logo/boinc32.bmp>",
-    "<a href=https://boinc.berkeley.edu/wiki/BOINC_Help>",
+    '<a href=https://github.com/BOINC/boinc/wiki/BOINC-Help>',
     "</a>"
 );
 
@@ -50,7 +50,7 @@ echo sprintf('
     tra("You can monitor what BOINC is doing, and control it, using the BOINC Manager.
         Open this by double-clicking on the BOINC icon.
         Details are %1here%2.",
-        "<a href=https://boinc.berkeley.edu/wiki/BOINC_Manager>",
+        '<a href=https://github.com/BOINC/boinc/wiki/BOINC_Manager>',
         "</a>"
     )
 );
@@ -94,7 +94,7 @@ echo sprintf('
         It will process jobs for all attached projects.
         %2Learn about how to do this%3.",
         PROJECT,
-        "<a href=https://boinc.berkeley.edu/wiki/Choosing_and_joining_projects>",
+        '<a href=https://github.com/BOINC/boinc/wiki/Choosing-and-joining-projects>',
         "</a>"
     )
 );

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,16 +18,7 @@
 #ifndef BOINC_BOINCLISTCTRL_H
 #define BOINC_BOINCLISTCTRL_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "BOINCListCtrl.cpp"
-#endif
-
-#ifdef __WXMSW__
-#define USE_NATIVE_LISTCONTROL 1
-#else
-#define USE_NATIVE_LISTCONTROL 0
-#endif
-
+#include "BOINCGUIApp.h"
 
 // Virtual wxListCtrl does not reliably generate selection and
 // deselection events, so we must check for these differently.
@@ -58,15 +49,13 @@
 
 #include "BOINCBaseView.h"
 
-
-class CBOINCBaseView;
 class CDrawProgressBarEvent;
 
 class CBOINCListCtrl : public LISTCTRL_BASE {
     DECLARE_DYNAMIC_CLASS(CBOINCListCtrl)
 
 public:
-    CBOINCListCtrl();
+    CBOINCListCtrl() = default;
     CBOINCListCtrl(CBOINCBaseView* pView, wxWindowID iListWindowID, int iListWindowFlags);
 
     ~CBOINCListCtrl();
@@ -94,7 +83,7 @@ private:
     virtual wxListItemAttr* OnGetItemAttr(long item) const;
 #endif
 
-    CBOINCBaseView*         m_pParentView;
+    CBOINCBaseView*         m_pParentView = nullptr;
     wxArrayInt              m_iRowsNeedingProgressBars;
 
 #if ! USE_LIST_CACHE_HINT
@@ -104,28 +93,36 @@ private:
 #if USE_NATIVE_LISTCONTROL
 public:
    void                     PostDrawProgressBarEvent();
+#ifdef __WXMSW__
+   // Windows notification handler override (delegates to HandleDarkModeCustomDraw in dark mode)
+   bool                     MSWOnNotify(int idCtrl, WXLPARAM lParam, WXLPARAM *result) override;
+#endif
 private:
+#ifdef __WXMSW__
+   // Windows dark mode: draw progress bars inside NM_CUSTOMDRAW back buffer
+   // instead of post-WM_PAINT wxClientDC (see BOINCListCtrl.cpp).
+    bool                    HandleDarkModeCustomDraw(int idCtrl, WXLPARAM lParam, WXLPARAM *result);
+    void                    DrawItemProgressBar(HDC hdc, int item, int progressColumn);
+#endif
     void                    OnDrawProgressBar(CDrawProgressBarEvent& event);
     void                    DrawProgressBars(void);
 
-    bool                    m_bProgressBarEventPending;
+    bool                    m_bProgressBarEventPending = false;
 #else
  public:
     void                    DrawProgressBars(void);
     wxScrolledWindow*       GetMainWin(void) { return (wxScrolledWindow*) m_mainWin; }
     wxCoord                 GetHeaderHeight(void) { return ((wxWindow *)m_headerWin)->GetSize().y; }
-    wxEvtHandler*           savedHandler;
+    wxEvtHandler*           savedHandler = nullptr;
 #ifdef __WXMAC__
     void                    SetupMacAccessibilitySupport();
     void                    RemoveMacAccessibilitySupport();
     void                    OnSize( wxSizeEvent &event );
 
-    void*                   m_fauxHeaderView;
-    void*                   m_fauxBodyView;
+    void*                   m_fauxHeaderView = nullptr;
+    void*                   m_fauxBodyView = nullptr;
 #endif
 #endif
-
-    DECLARE_EVENT_TABLE()
 };
 
 class CDrawProgressBarEvent : public wxEvent
@@ -152,16 +149,8 @@ public:
     virtual wxEvent *       Clone() const { return new CCheckSelectionChangedEvent(*this); }
 };
 
-
-BEGIN_DECLARE_EVENT_TYPES()
-DECLARE_EVENT_TYPE( wxEVT_DRAW_PROGRESSBAR, 12000 )
-DECLARE_EVENT_TYPE( wxEVT_CHECK_SELECTION_CHANGED, 12002 )
-END_DECLARE_EVENT_TYPES()
-
-#define EVT_DRAW_PROGRESSBAR(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_DRAW_PROGRESSBAR, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-
-#define EVT_CHECK_SELECTION_CHANGED(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_CHECK_SELECTION_CHANGED, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
-
+wxDECLARE_EVENT(wxEVT_DRAW_PROGRESSBAR, CDrawProgressBarEvent);
+wxDECLARE_EVENT(wxEVT_CHECK_SELECTION_CHANGED, CCheckSelectionChangedEvent);
 
 // Define a custom event handler
 class MyEvtHandler : public wxEvtHandler
@@ -169,20 +158,18 @@ class MyEvtHandler : public wxEvtHandler
     DECLARE_DYNAMIC_CLASS(MyEvtHandler)
 
 public:
-    MyEvtHandler();
+    MyEvtHandler() = default;
     MyEvtHandler(CBOINCListCtrl *theListControl);
     void                    OnPaint(wxPaintEvent & event);
 
 private:
-    CBOINCListCtrl *        m_listCtrl;
+    CBOINCListCtrl *        m_listCtrl = nullptr;
 
 #if !USE_NATIVE_LISTCONTROL
 #ifdef __WXGTK__
-    int                     m_view_startX;
+    int                     m_view_startX = 0;
 #endif
 #endif
-
-    DECLARE_EVENT_TABLE()
 };
 
 #endif

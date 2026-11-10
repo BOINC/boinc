@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,89 +15,44 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 //
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "ProxyInfoPage.h"
-#endif
 
 #include "stdwx.h"
 #include "diagnostics.h"
-#include "util.h"
-#include "mfile.h"
-#include "miofile.h"
-#include "parse.h"
-#include "error_numbers.h"
-#include "wizardex.h"
-#include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
+#include "CompletionErrorPage.h"
+#include "ProxyPage.h"
 #include "ProxyInfoPage.h"
 
+IMPLEMENT_DYNAMIC_CLASS(CErrProxyInfoPage, CBOINCWizardPage)
 
-/*!
- * CErrProxyInfoPage type definition
- */
-
-IMPLEMENT_DYNAMIC_CLASS( CErrProxyInfoPage, wxWizardPageEx )
-
-/*!
- * CErrProxyInfoPage event table definition
- */
-
-BEGIN_EVENT_TABLE( CErrProxyInfoPage, wxWizardPageEx )
-
-////@begin CErrProxyInfoPage event table entries
-    EVT_WIZARDEX_PAGE_CHANGED( -1, CErrProxyInfoPage::OnPageChanged )
-    EVT_WIZARDEX_CANCEL( -1, CErrProxyInfoPage::OnCancel )
-
-////@end CErrProxyInfoPage event table entries
-
-END_EVENT_TABLE()
-
-/*!
- * CErrProxyInfoPage constructors
- */
-
-CErrProxyInfoPage::CErrProxyInfoPage( )
-{
+CErrProxyInfoPage::CErrProxyInfoPage(CWizardAttach* parent) {
+    Create(parent);
 }
 
-CErrProxyInfoPage::CErrProxyInfoPage( CBOINCBaseWizard* parent )
-{
-    Create( parent );
-}
+bool CErrProxyInfoPage::Create(CWizardAttach* parent) {
+    m_pParent = parent;
+    m_pPrev = nullptr;
+    m_pTitleStaticCtrl = nullptr;
+    m_pDescriptionStaticCtrl = nullptr;
+    m_pDirectionsStaticCtrl = nullptr;
 
-/*!
- * CErrProxyInfoPage creator
- */
-
-bool CErrProxyInfoPage::Create( CBOINCBaseWizard* parent )
-{
-////@begin CErrProxyInfoPage member initialisation
-    m_pTitleStaticCtrl = NULL;
-    m_pDescriptionStaticCtrl = NULL;
-    m_pDirectionsStaticCtrl = NULL;
-////@end CErrProxyInfoPage member initialisation
-
-////@begin CErrProxyInfoPage creation
-    wxWizardPageEx::Create( parent, ID_ERRPROXYINFOPAGE );
+    wxWizardPage::Create(parent);
 
     CreateControls();
     GetSizer()->Fit(this);
-////@end CErrProxyInfoPage creation
 
-    return TRUE;
+    Bind(wxEVT_WIZARD_PAGE_CHANGED, [this](wxWizardEvent& event){ OnPageChanged(event); });
+    Bind(wxEVT_WIZARD_PAGE_CHANGING, [this](wxWizardEvent& event){ OnPageChanging(event); });
+    Bind(wxEVT_WIZARD_CANCEL, [this](wxWizardEvent& event){ OnCancel(event); });
+
+    return true;
 }
 
-/*!
- * Control creation for CErrProxyInfoPage
- */
-
-void CErrProxyInfoPage::CreateControls()
-{
-////@begin CErrProxyInfoPage content construction
+void CErrProxyInfoPage::CreateControls() {
     CErrProxyInfoPage* itemWizardPage126 = this;
 
     wxBoxSizer* itemBoxSizer127 = new wxBoxSizer(wxVERTICAL);
@@ -119,71 +74,33 @@ void CErrProxyInfoPage::CreateControls()
     m_pDirectionsStaticCtrl = new wxStaticText;
     m_pDirectionsStaticCtrl->Create( itemWizardPage126, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer127->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
-////@end CErrProxyInfoPage content construction
 }
 
-/*!
- * Gets the previous page.
- */
-
-wxWizardPageEx* CErrProxyInfoPage::GetPrev() const
-{
-    return PAGE_TRANSITION_BACK;
+wxWizardPage* CErrProxyInfoPage::GetPrev() const {
+    return m_pPrev;
 }
 
-/*!
- * Gets the next page.
- */
-
-wxWizardPageEx* CErrProxyInfoPage::GetNext() const
-{
-    if (CHECK_CLOSINGINPROGRESS()) {
+wxWizardPage* CErrProxyInfoPage::GetNext() const {
+    if (m_pParent->IsCancelInProgress()) {
         // Cancel Event Detected
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-    } else {
-        return PAGE_TRANSITION_NEXT(ID_ERRPROXYPAGE);
+        return m_pParent->GetCompletionErrorPage();
     }
+    return m_pParent->GetErrProxyPage();
 }
 
-/*!
- * Should we show tooltips?
- */
-
-bool CErrProxyInfoPage::ShowToolTips()
-{
-    return TRUE;
+void CErrProxyInfoPage::SetPrev(CBOINCWizardPage *prev) {
+    m_pPrev = prev;
 }
 
-/*!
- * Get bitmap resources
- */
-
-wxBitmap CErrProxyInfoPage::GetBitmapResource( const wxString& WXUNUSED(name) )
-{
-    // Bitmap retrieval
-////@begin CErrProxyInfoPage bitmap retrieval
-    return wxNullBitmap;
-////@end CErrProxyInfoPage bitmap retrieval
+bool CErrProxyInfoPage::HasNextPage() const {
+    return true;
 }
 
-/*!
- * Get icon resources
- */
-
-wxIcon CErrProxyInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
-{
-    // Icon retrieval
-
-////@begin CErrProxyInfoPage icon retrieval
-    return wxNullIcon;
-////@end CErrProxyInfoPage icon retrieval
+bool CErrProxyInfoPage::HasPrevPage() const {
+    return m_pPrev != nullptr;
 }
 
-/*!
- * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_ERRPROXYINFOPAGE
- */
-
-void CErrProxyInfoPage::OnPageChanged( wxWizardExEvent& event ) {
+void CErrProxyInfoPage::OnPageChanged( wxWizardEvent& event ) {
     if (event.GetDirection() == false) return;
 
     wxASSERT(m_pTitleStaticCtrl);
@@ -203,14 +120,18 @@ void CErrProxyInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     );
 #endif
 
-    Fit();
+    Layout();
 }
 
-/*!
- * wxEVT_WIZARD_CANCEL event handler for ID_ERRPROXYINFOPAGE
- */
-
-void CErrProxyInfoPage::OnCancel( wxWizardExEvent& event ) {
-    PROCESS_CANCELEVENT(event);
+void CErrProxyInfoPage::OnCancel(wxWizardEvent& event) {
+    m_pParent->ProcessCancelEvent(event);
 }
 
+void CErrProxyInfoPage::OnPageChanging(wxWizardEvent& event) {
+    if (event.GetDirection() == false ) return;
+
+    CBOINCWizardPage *pageNext = dynamic_cast<CBOINCWizardPage*>(GetNext());
+    if (pageNext != nullptr) {
+        pageNext->SetPrev(const_cast<CErrProxyInfoPage*>(this));
+    }
+}

@@ -65,7 +65,7 @@ function mail_report_list($forum, $subject, $body, $must_send=false) {
 function send_moderation_email($forum, $post, $thread, $explanation, $action) {
     $master_url = master_url();
 
-    $moderator=get_logged_in_user();
+    $moderator = get_logged_in_user();
     $body = "";
     $user = BoincUser::lookup_id($post->user);
 
@@ -116,7 +116,7 @@ $explanation
 
 For assistance with ".PROJECT." go to ".$master_url;
 
-    $subject = "THREAD $action REPORT: $thread->title";
+    $subject = "THREAD $action_name REPORT: $thread->title";
     $success = mail_report_list($forum, $subject, $body);
     $success &= send_email($user, $subject, $body);
     pm_send_msg($user, $user, $subject, $body, false);
@@ -148,7 +148,7 @@ function send_forum_notification_email($forum, $user){
     $title = PROJECT . ": there is a new thread in '". $forum->title ."'";
     $link = secure_url_base() . "forum_forum.php?id=" . $forum->id;
     $body = "A " . PROJECT . " user has added a thread to the forum
-\"" . $thread->title . "\".\n"
+\"" . $forum->title . "\".\n"
            ."To view the updated forum, visit:\n$link
 
 --------------------------

@@ -475,6 +475,7 @@ DB_BASE_SPECIAL::DB_BASE_SPECIAL(DB_CONN* p) : db(p) {
 // convert a string into a form that allows it to be used
 // in SQL queries delimited by single quotes:
 // replace ' with \', '\' with '\\'
+// So the result could be up to twice as long as the original.
 //
 void escape_string(char* field, int len) {
     char buf[MAX_QUERY_LEN];

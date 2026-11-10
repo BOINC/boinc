@@ -9,8 +9,6 @@ EXPORTS
 	CreateBOINCAccounts
 	CreateBOINCGroups
 	CreateClientAuthFile
-	GetAdministratorsGroupName
-	GetUsersGroupName
 	GrantBOINCMasterRights
 	GrantBOINCProjectRights
 	ShutdownBOINC
@@ -48,3 +46,5 @@ EXPORTS
 	DeleteBOINCGroups
 	DeleteBOINCAccounts
 	AnnounceUpgrade
+	LaunchBOINCWSLInstaller
+	CheckWSLSupport

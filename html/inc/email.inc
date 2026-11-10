@@ -32,18 +32,27 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
     }
     if (defined('EMAIL_USE_CMD')) {
         if ($body_html) {
-            $cmd = "mail  -a \"Content-type: text/html\" -s \"$subject\" $email_addr";
+            $cmd = sprintf(
+                'mail  -a "Content-type: text/html" -s %s %s',
+                escapeshellarg($subject),
+                escapeshellarg($email_addr)
+            );
             $pipe = popen($cmd, "w");
             fwrite($pipe, $body_html);
         } else {
-            $cmd = "mail  -s \"$subject\" $email_addr";
+            $cmd = sprintf(
+                'mail -s %s %s',
+                escapeshellarg($subject),
+                escapeshellarg($email_addr)
+            );
             $pipe = popen($cmd, "w");
             fwrite($pipe, $body);
         }
         pclose($pipe);
         return true;
     } else if (function_exists("make_php_mailer")) {
-        if (file_exists("../inc/PHPMailer/src/PHPMailer.php") && file_exists("../inc/PHPMailer/src/SMTP.php")) {
+        if (file_exists("../inc/PHPMailer/src/PHPMailer.php") && file_exists("../inc/PHPMailer/src/SMTP.php") && file_exists("../inc/PHPMailer/src/Exception.php")) {
+            require_once("../inc/PHPMailer/src/Exception.php");
             require_once("../inc/PHPMailer/src/PHPMailer.php");
             require_once("../inc/PHPMailer/src/SMTP.php");
         } else if (file_exists("../inc/phpmailer/class.phpmailer.php")) {
@@ -63,23 +72,25 @@ function send_email($user, $subject, $body, $body_html=null, $email_addr=null) {
             $mail->Body = $body;
         }
         if (!$mail->Send()) {
-            echo $mail->ErrorInfo;
+            error_log("send_email() failed: ".$mail->ErrorInfo);
             return false;
         } else {
             return true;
         }
     } else {
-        $headers ="";
+        $headers = '';
         if (defined('EMAIL_FROM') && defined('EMAIL_FROM_NAME')) {
-            $headers = "From: ".EMAIL_FROM_NAME." <".EMAIL_FROM.">";
+            $headers .= sprintf(
+                "From: %s <%s>\r\n", EMAIL_FROM_NAME, EMAIL_FROM
+            );
         } else if (defined('EMAIL_FROM')) {
-            $headers = "From: ". EMAIL_FROM;
+            $headers .= sprintf(
+                "From: %s\r\n", EMAIL_FROM
+            );
         }
         if ($body_html) {
-            $body = "<html><body>\n";
-            $body .= $body_html;
-            $body .= "\n</body></html>\n";
-            $headers .= 'Content-type: text/html; charset=UTF-8' . "\r\n";
+            $body = "<html><body>\n$body_html\n</body></html>\n";
+            $headers .= "Content-type: text/html; charset=UTF-8\r\n";
         }
         return mail($email_addr, $subject, $body, $headers);
     }
@@ -169,7 +180,7 @@ function is_valid_email_sfs($addr) {
     // could also look at 'frequency' and 'lastseen'
     // see https://www.stopforumspam.com/usage
     //
-    if (substr_count($x, '<appears>yes</appears>')) {
+    if ($x && substr_count($x, '<appears>yes</appears>')) {
         error_log("stopforumspam.com rejected email $addr, IP $ip");
         return false;
     }

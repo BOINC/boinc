@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,47 +16,13 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "DlgGenericMessage.h"
-#endif
-
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 
-////@begin includes
-////@end includes
-
 #include "DlgGenericMessage.h"
-
-////@begin XPM images
-////@end XPM images
-
 #define ID_DISABLEDIALOG 10017
 
-/*!
- * CDlgGenericMessage type definition
- */
-
 IMPLEMENT_DYNAMIC_CLASS( CDlgGenericMessage, wxDialog )
-
-/*!
- * CDlgGenericMessage event table definition
- */
-
-BEGIN_EVENT_TABLE( CDlgGenericMessage, wxDialog )
-
-////@begin CDlgGenericMessage event table entries
-////@end CDlgGenericMessage event table entries
-
-END_EVENT_TABLE()
-
-/*!
- * CDlgGenericMessage constructors
- */
-
-CDlgGenericMessage::CDlgGenericMessage( )
-{
-}
 
 CDlgGenericMessage::CDlgGenericMessage( wxWindow* parent, CDlgGenericMessageParameters* parameters )
 {

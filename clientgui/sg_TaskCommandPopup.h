@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -24,10 +24,9 @@
 class CSimpleTaskPopupButton : public CTransparentButton
 {
     DECLARE_DYNAMIC_CLASS( CSimpleTaskPopupButton )
-    DECLARE_EVENT_TABLE()
 
     public:
-        CSimpleTaskPopupButton();
+        CSimpleTaskPopupButton() = default;
 
 		CSimpleTaskPopupButton(wxWindow* parent, wxWindowID id,
         const wxString& label = wxEmptyString,
@@ -51,12 +50,12 @@ class CSimpleTaskPopupButton : public CTransparentButton
         RESULT* lookup_result(char* url, char* name);
 
 	protected:
-        wxMenu*                     m_TaskCommandPopUpMenu;
-        wxMenuItem*                 m_ShowGraphicsMenuItem;
-        wxMenuItem*                 m_SuspendResumeMenuItem;
-        wxMenuItem*                 m_AbortMenuItem;
-        wxMenuItem*                 m_ShowPropertiesMenuItem;
-        bool                        m_TaskSuspendedViaGUI;
+        wxMenu*                     m_TaskCommandPopUpMenu = nullptr;
+        wxMenuItem*                 m_ShowGraphicsMenuItem = nullptr;
+        wxMenuItem*                 m_SuspendResumeMenuItem = nullptr;
+        wxMenuItem*                 m_AbortMenuItem = nullptr;
+        wxMenuItem*                 m_ShowPropertiesMenuItem = nullptr;
+        bool                        m_TaskSuspendedViaGUI = false;
 };
 
 #endif

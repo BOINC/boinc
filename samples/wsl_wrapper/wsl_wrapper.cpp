@@ -157,7 +157,7 @@ JOB_STATUS poll_app(RSC_USAGE &ru) {
     // 'your 131072x1 screen is bogus; expect trouble'
     // I can't figure out how to prevent this.
     //
-    for (string line: split(reply, '\n')) {
+    for (string line: split(reply, '\n', true)) {
         int n, d=0, h, m, s, wss;
         const char* p = line.c_str();
         if (strchr(p, '-')) {

@@ -7,7 +7,7 @@
 
          <background_image>
             <!-- Background Image for Simple GUI -->
-            <!-- Recommended total size: 600x750 (to accomodate OS size differences and localizations of text) -->
+            <!-- Recommended total size: 600x750 (to accommodate OS size differences and localizations of text) -->
             <!-- Top banner height: about 68 -->
             <!-- EN-Win total size: about 422x582 as of 6.13.12 -->
             <image>

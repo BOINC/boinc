@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,66 +18,38 @@
 #ifndef BOINC_COMPLETIONERRORPAGE_H
 #define BOINC_COMPLETIONERRORPAGE_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "CompletionErrorPage.cpp"
-#endif
-
-/*!
- * CCompletionErrorPage class declaration
- */
-
-class CCompletionErrorPage: public wxWizardPageEx
-{
-    DECLARE_DYNAMIC_CLASS( CCompletionErrorPage )
-    DECLARE_EVENT_TABLE()
+class CCompletionErrorPage: public CBOINCWizardPage {
+    DECLARE_DYNAMIC_CLASS(CCompletionErrorPage)
 
 public:
-    /// Constructors
-    CCompletionErrorPage( );
+    CCompletionErrorPage() = default;
+    CCompletionErrorPage(CWizardAttach* parent);
+    bool Create(CWizardAttach* parent);
 
-    CCompletionErrorPage( CBOINCBaseWizard* parent );
-
-    /// Creation
-    bool Create( CBOINCBaseWizard* parent );
-
-    /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CCompletionErrorPage event handler declarations
+    void OnPageChanged(wxWizardEvent& event);
+    void OnCancel(wxWizardEvent& event);
 
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_COMPLETIONERRORPAGE
-    void OnPageChanged( wxWizardExEvent& event );
+    wxWizardPage* GetPrev() const;
+    wxWizardPage* GetNext() const;
 
-    /// wxEVT_WIZARD_CANCEL event handler for ID_COMPLETIONERRORPAGE
-    void OnCancel( wxWizardExEvent& event );
+    void SetPrev(CBOINCWizardPage *prev);
 
-////@end CCompletionErrorPage event handler declarations
+    bool HasNextPage() const;
+    bool HasPrevPage() const;
 
-////@begin CCompletionErrorPage member function declarations
+    wxString GetServerMessagesCtrlLabel() const { return m_pServerMessagesCtrl->GetLabel(); }
+    void SetServerMessagesCtrlLabel(const wxString& label) { m_pServerMessagesCtrl->SetLabel(label); }
 
-    /// Gets the previous page.
-    virtual wxWizardPageEx* GetPrev() const;
+private:
+    wxStaticText* m_pTitleStaticCtrl = nullptr;
+    wxStaticText* m_pDirectionsStaticCtrl = nullptr;
+    wxStaticBox* m_pServerMessagesDescriptionCtrl = nullptr;
+    wxStaticBoxSizer* m_pServerMessagesStaticBoxSizerCtrl = nullptr;
+    wxStaticText* m_pServerMessagesCtrl = nullptr;
 
-    /// Gets the next page.
-    virtual wxWizardPageEx* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CCompletionErrorPage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
-
-////@begin CCompletionErrorPage member variables
-    wxStaticText* m_pTitleStaticCtrl;
-    wxStaticText* m_pDirectionsStaticCtrl;
-    wxStaticBox* m_pServerMessagesDescriptionCtrl;
-    wxStaticBoxSizer* m_pServerMessagesStaticBoxSizerCtrl;
-    wxStaticText* m_pServerMessagesCtrl;
-////@end CCompletionErrorPage member variables
+    CWizardAttach *m_pParent = nullptr;
 };
 
 #endif

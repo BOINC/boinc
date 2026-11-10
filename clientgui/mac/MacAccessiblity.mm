@@ -21,6 +21,7 @@
 #include <Cocoa/Cocoa.h>
 #include <objc/runtime.h>
 
+#include "BOINCGUIApp.h"
 #include "BOINCBaseFrame.h"
 #include "MainDocument.h"
 #include "BOINCListCtrl.h"

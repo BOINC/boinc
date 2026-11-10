@@ -23,7 +23,7 @@ require_once("../inc/forum_email.inc");
 check_get_args(array("action", "thread", "tnow", "ttok"));
 
 $logged_in_user = get_logged_in_user();
-check_tokens($logged_in_user->authenticator);
+check_tokens();
 BoincForumPrefs::lookup($logged_in_user);
 if (DISABLE_FORUMS && !is_admin($logged_in_user)) {
     error_page("Forums are disabled");
@@ -118,9 +118,20 @@ if (!$result) {
 
 $reason = post_str('reason', true);
 if (!$reason) $reason = "None given";
-send_thread_moderation_email(
+ob_start();
+$email_success = send_thread_moderation_email(
     $forum, $thread, $reason, $action_name, $explanation
 );
-header('Location: forum_thread.php?id='.$thread->id);
+$email_output = ob_get_clean();
+if ($email_success) {
+    header('Location: forum_thread.php?id='.$thread->id);
+    exit;
+} else {
+    page_head(tra("Moderation notice"));
+    echo htmlspecialchars($email_output, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    echo "<p>".tra("The thread was successfully %1, but the notification email to the thread owner and/or forum moderators failed to send.", htmlspecialchars($action_name, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'))."</p>";
+    echo "<a href='forum_thread.php?id=$thread->id'>".tra("Return to thread")."</a>";
+    page_tail();
+}
 
 ?>

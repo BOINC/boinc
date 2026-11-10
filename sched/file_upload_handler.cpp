@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -47,6 +47,7 @@
 #include "sched_util.h"
 
 using std::string;
+using std::tie;
 
 #define LOCK_FILES
     // comment this out to not lock files
@@ -368,8 +369,8 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             "<name>%s</name><max_nbytes>%.0f</max_nbytes>",
             name, max_nbytes
         );
-        retval = check_string_signature(
-            signed_xml, xml_signature, key, is_valid
+        tie(retval, is_valid) = check_string_signature(
+            signed_xml, xml_signature, key
         );
         if (retval || !is_valid) {
             log_messages.printf(MSG_CRITICAL,
@@ -603,18 +604,22 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
 }
 
 int get_key(R_RSA_PUBLIC_KEY& key) {
-    int retval;
     char buf[256];
     sprintf(buf, "%s/upload_public", config.key_dir);
     FILE *f = boinc::fopen(buf, "r");
     if (!f) return -1;
+    int result = 0;
 #ifdef _USING_FCGI_
-    retval = scan_key_hex(FCGI_ToFILE(f), (KEY*)&key, sizeof(key));
+    tie(result, key) = scan_public_key_hex(FCGI_ToFILE(f));
 #else
-    retval = scan_key_hex(f, (KEY*)&key, sizeof(key));
+    tie(result, key) = scan_public_key_hex(f);
 #endif
     boinc::fclose(f);
-    if (retval) return retval;
+    if (result) {
+        log_messages.printf(MSG_CRITICAL,
+            "get_key(): failed to read key from %s\n", buf);
+        return -1;
+    }
     return 0;
 }
 

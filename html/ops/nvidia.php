@@ -18,7 +18,7 @@
 
 // script for studying NVIDIA GPUs on hosts
 
-DEPRECATED: we don't use host.serialnum anymore
+TODO: use host.misc instead of host.serialnum
 
 $cli_only = true;
 require_once("../inc/util_ops.inc");

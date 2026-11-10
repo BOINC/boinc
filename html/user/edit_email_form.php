@@ -24,7 +24,11 @@ check_get_args(array());
 $user = get_logged_in_user();
 
 page_head(tra("Change email address"));
-echo tra("Note: if you change your email address, your %1weak account key%2 will change.", "<a href=weak_auth.php>", "</a>");
+echo tra(
+    "Note: if you change your email address, your %1weak account key%2 will change.",
+    sprintf('<a href=weak_auth.php?%s>', url_tokens()),
+    "</a>"
+);
 echo "<p>";
 
 $email_text = "";
@@ -36,6 +40,7 @@ if ($user->email_addr_change_time + 604800 > time()) {
     echo tra("Email address was changed within the past 7 days. Please look for an email to $user->previous_email_addr if you need to revert this change.");
 } else {
     form_start(secure_url_base()."edit_email_action.php", "post");
+    echo form_tokens();
     form_input_text(
         tra("New email address").
         "<br><p class=\"text-muted\">".tra("Must be a valid address of the form 'name@domain'")."</p>",

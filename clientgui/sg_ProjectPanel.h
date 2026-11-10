@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -37,10 +37,9 @@ class CBOINCBitmapComboBox;
 class CSimpleProjectPanel : public CSimplePanelBase
 {
     DECLARE_DYNAMIC_CLASS( CSimpleProjectPanel )
-    DECLARE_EVENT_TABLE()
 
 	public:
-        CSimpleProjectPanel();
+        CSimpleProjectPanel() = default;
 		CSimpleProjectPanel( wxWindow* parent);
 		~CSimpleProjectPanel();
 
@@ -52,31 +51,29 @@ class CSimpleProjectPanel : public CSimplePanelBase
 
 	private:
         void OnProjectSelection(wxCommandEvent &event);
-        void OnProjectCommandButton(wxCommandEvent& /*event*/);
         void OnAddProject(wxCommandEvent& /*event*/);
         void OnWizardAttach(wxCommandEvent&);
         void OnWizardUpdate();
-        void OnProjectWebSiteButton(wxCommandEvent& /*event*/);
         void UpdateProjectList();
         std::string GetProjectIconLoc(char* project_url);
         wxBitmap* GetProjectSpecificBitmap(char* project_url);
 
 	protected:
-		CTransparentStaticText*             m_myProjectsLabel;
-		CBOINCBitmapComboBox*               m_ProjectSelectionCtrl;
-		CTransparentButton*                 m_TaskAddProjectButton;
-        CTransparentStaticText*             m_TotalCreditValue;
-		CSimpleProjectWebSitesPopupButton*  m_ProjectWebSitesButton;
-		CSimpleProjectCommandPopupButton*   m_ProjectCommandsButton;
+		CTransparentStaticText*             m_myProjectsLabel = nullptr;
+		CBOINCBitmapComboBox*               m_ProjectSelectionCtrl = nullptr;
+		CTransparentButton*                 m_TaskAddProjectButton = nullptr;
+        CTransparentStaticText*             m_TotalCreditValue = nullptr;
+		CSimpleProjectWebSitesPopupButton*  m_ProjectWebSitesButton = nullptr;
+		CSimpleProjectCommandPopupButton*   m_ProjectCommandsButton = nullptr;
         wxString                            m_sAddProjectString;
         wxString                            m_sSynchronizeString;
         wxString                            m_sTotalWorkDoneString;
-        int                                 m_UsingAccountManager;
+        int                                 m_UsingAccountManager = 0;
         char                                m_CurrentSelectedProjectURL[256];
-        double                              m_Project_last_rpc_time;
+        double                              m_Project_last_rpc_time = 0;
         wxString                            m_sAddProjectToolTip;
         wxString                            m_sSynchronizeToolTip;
-        double                              m_fDisplayedCredit;
+        double                              m_fDisplayedCredit = 0;
 };
 
 #endif

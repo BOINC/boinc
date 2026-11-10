@@ -12,6 +12,7 @@
 
 /* Begin PBXFileReference section */
 		D2AAC046055464E500DB518D /* libboinc_zip.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboinc_zip.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDC7609B30692A5700D2A32A /* boinc_zip.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = boinc_zip.xcconfig; sourceTree = "<group>"; };
 		E32411DE0FC5DC410006868A /* boinc_zip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = boinc_zip.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -29,6 +30,7 @@
 		08FB7794FE84155DC02AAC07 /* boinc_zip */ = {
 			isa = PBXGroup;
 			children = (
+				DDC7609B30692A5700D2A32A /* boinc_zip.xcconfig */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
 			);
@@ -138,9 +140,9 @@
 /* Begin XCBuildConfiguration section */
 		1DEB91EC08733DB70010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDC7609B30692A5700D2A32A /* boinc_zip.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -175,9 +177,9 @@
 		};
 		1DEB91ED08733DB70010E9CD /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDC7609B30692A5700D2A32A /* boinc_zip.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -210,13 +212,15 @@
 		};
 		1DEB91F008733DB70010E9CD /* Development */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDC7609B30692A5700D2A32A /* boinc_zip.xcconfig */;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				SDKROOT = macosx;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 			};
@@ -224,12 +228,14 @@
 		};
 		1DEB91F108733DB70010E9CD /* Deployment */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDC7609B30692A5700D2A32A /* boinc_zip.xcconfig */;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				SDKROOT = macosx;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 			};

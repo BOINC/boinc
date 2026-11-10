@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -25,15 +25,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CSimpleProjectWebSitesPopupButton, CTransparentButton)
 
-BEGIN_EVENT_TABLE(CSimpleProjectWebSitesPopupButton, CTransparentButton)
-    EVT_LEFT_DOWN(CSimpleProjectWebSitesPopupButton::OnProjectWebSitesMouseDown)
-	EVT_MENU(WEBSITE_URL_MENU_ID,CSimpleProjectWebSitesPopupButton::OnMenuLinkClicked)
-	EVT_MENU(WEBSITE_URL_MENU_ID_REMOVE_PROJECT,CSimpleProjectWebSitesPopupButton::OnMenuLinkClicked)
-END_EVENT_TABLE()
-
-CSimpleProjectWebSitesPopupButton::CSimpleProjectWebSitesPopupButton() {
-}
-
 CSimpleProjectWebSitesPopupButton::CSimpleProjectWebSitesPopupButton(wxWindow* parent, wxWindowID id,
         const wxString& label, const wxPoint& pos, const wxSize& size,
         long style, const wxValidator& validator, const wxString& name) :
@@ -41,11 +32,11 @@ CSimpleProjectWebSitesPopupButton::CSimpleProjectWebSitesPopupButton(wxWindow* p
     {
 
     m_ProjectWebSitesPopUpMenu = new wxMenu();
-    Connect(
-        id,
-        wxEVT_BUTTON,
-        (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction) &CSimpleProjectWebSitesPopupButton::OnProjectWebSitesKeyboardNav
-    );
+
+	Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnProjectWebSitesKeyboardNav(event); }, id);
+    Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent& event){ OnProjectWebSitesMouseDown(event); });
+	Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnMenuLinkClicked(event); }, WEBSITE_URL_MENU_ID);
+	Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnMenuLinkClicked(event); }, WEBSITE_URL_MENU_ID_REMOVE_PROJECT);
 }
 
 
@@ -70,15 +61,13 @@ void CSimpleProjectWebSitesPopupButton::AddMenuItems()
 
 	// Add the home page link
     wxMenuItem *urlItem = new wxMenuItem(m_ProjectWebSitesPopUpMenu, WEBSITE_URL_MENU_ID_HOMEPAGE, wxString("Home page", wxConvUTF8));
-	Connect( WEBSITE_URL_MENU_ID_HOMEPAGE,  wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(CSimpleProjectWebSitesPopupButton::OnMenuLinkClicked) );
+	Bind(wxEVT_COMMAND_MENU_SELECTED, [this](wxCommandEvent& event){ OnMenuLinkClicked(event); }, WEBSITE_URL_MENU_ID_HOMEPAGE);
 	m_ProjectWebSitesPopUpMenu->Append(urlItem);
-
 
 	// Add any GUI urls
 	for(unsigned int i = 0; i < urlCount; i++){
         urlItem = new wxMenuItem(m_ProjectWebSitesPopUpMenu, WEBSITE_URL_MENU_ID + i, wxGetTranslation(wxString(project->gui_urls[i].name.c_str(), wxConvUTF8)));
-	    Connect( WEBSITE_URL_MENU_ID + i,  wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(CSimpleProjectWebSitesPopupButton::OnMenuLinkClicked) );
-
+	    Bind(wxEVT_COMMAND_MENU_SELECTED, [this](wxCommandEvent& event){ OnMenuLinkClicked(event); }, WEBSITE_URL_MENU_ID + i);
 		m_ProjectWebSitesPopUpMenu->Append(urlItem);
 	}
 }

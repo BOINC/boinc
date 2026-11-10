@@ -614,6 +614,12 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         }
     }
 
+    // if project is attached via a dynamic AM (like Science United),
+    // ignore project-supplied user credit;
+    // we get it from the AM, not the project
+    //
+    bool ignore_user_credit = project->attached_via_acct_mgr && gstate.acct_mgr_info.dynamic;
+
     // First line should either be tag (HTTP 1.0) or
     // hex length of response (HTTP 1.1)
     //
@@ -668,8 +674,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         }
         else if (xp.parse_str("symstore", project->symstore, sizeof(project->symstore))) continue;
         else if (xp.parse_str("user_name", project->user_name, sizeof(project->user_name))) continue;
-        else if (xp.parse_double("user_total_credit", project->user_total_credit)) continue;
-        else if (xp.parse_double("user_expavg_credit", project->user_expavg_credit)) continue;
+        else if (!ignore_user_credit && xp.parse_double("user_total_credit", project->user_total_credit)) continue;
+        else if (!ignore_user_credit && xp.parse_double("user_expavg_credit", project->user_expavg_credit)) continue;
         else if (xp.parse_double("user_create_time", project->user_create_time)) continue;
         else if (xp.parse_double("cpid_time", cpid_time)) continue;
         else if (xp.parse_str("team_name", project->team_name, sizeof(project->team_name))) continue;
@@ -774,7 +780,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                     "Can't parse application version in scheduler reply: %s",
                     boincerror(retval)
                 );
-            } else {
+            } else if (!av.disallowed_by_config(project)) {
+                av.fill_in_resource_usage();
                 app_versions.push_back(av);
             }
         } else if (xp.match_tag("workunit")) {

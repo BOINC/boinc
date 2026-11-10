@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,27 +17,40 @@
 
 // syntax: sign_executable data_file private_key_file
 
-#include <stdio.h>
-
 #include "config.h"
 #include "crypt.h"
 
-int sign_executable(char* path, char* code_sign_keyfile, char* signature_text) {
-    DATA_BLOCK signature;
-    unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
+using std::make_pair;
+using std::pair;
+using std::string;
+using std::tie;
+using std::vector;
+
+pair<int, string> sign_executable(
+    const string& path,
+    const string& code_sign_keyfile
+    ) {
+    int retval = 0;
     R_RSA_PRIVATE_KEY code_sign_key;
-    int retval = read_key_file(code_sign_keyfile, code_sign_key);
+    tie(retval, code_sign_key) = read_key_file(code_sign_keyfile);
     if (retval) {
         fprintf(stderr, "add: can't read key\n");
-        exit(1);
+        return make_pair(1, string());
     }
-    signature.data = signature_buf;
-    sign_file(path, code_sign_key, signature);
-    sprint_hex_data(signature_text, signature);
-    return 0;
+    int result = 0;
+    vector<uint8_t> data;
+    tie(result, data) = sign_file(path, code_sign_key);
+    if (result || data.empty()) {
+        fprintf(stderr, "add: can't sign file\n");
+        return make_pair(1, string());
+    }
+    return sprint_hex_data(data);
 }
 
-int main(int argc, char** argv) {
+int main(
+    int argc,
+    char** argv
+    ) {
     if (argc != 3) {
         fprintf(stderr, "syntax: sign_executable data_file private_key_file\n"
             "\n"
@@ -46,11 +59,13 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    char signature_text[1024];
-    if (sign_executable(argv[1], argv[2], signature_text)) {
+    int result = 0;
+    string signature_text;
+    tie(result, signature_text) = sign_executable(argv[1], argv[2]);
+    if(result || signature_text.empty()) {
         return 1;
     }
-    printf("%s", signature_text);
+    printf("%s", signature_text.c_str());
 
     return 0;
 }

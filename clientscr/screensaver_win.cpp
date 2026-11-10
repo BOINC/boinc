@@ -243,7 +243,7 @@ HRESULT CScreensaver::Create(HINSTANCE hInstance) {
 
 
     // Calculate the estimated blank time by adding the current time
-    //   and and the user specified time.
+    //   and the user specified time.
     if (m_dwBlankTime > 0) {
         m_dwBlankTime = (DWORD)time(0) + m_dwBlankTime;
     }

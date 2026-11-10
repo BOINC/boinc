@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,15 +18,11 @@
 #ifndef BOINC_BOINCBASEWIZARD_H
 #define BOINC_BOINCBASEWIZARD_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "BOINCBaseWizard.cpp"
-#endif
-
 /*!
  * CBOINCBaseWizard class declaration
  */
 
-class CBOINCBaseWizard: public wxWizardEx {
+class CBOINCBaseWizard: public wxWizard {
     DECLARE_DYNAMIC_CLASS( CBOINCBaseWizard )
 
 public:
@@ -38,13 +34,10 @@ public:
              const wxPoint& pos = wxDefaultPosition,
              long style = wxDEFAULT_DIALOG_STYLE);
 
-    /// Track page transitions
-    std::stack<wxWizardPageEx*> m_PageTransition;
-
     /// Cancel Event Infrastructure
     bool IsCancelInProgress() const;
-    void ProcessCancelEvent( wxWizardExEvent& event );
-    virtual void _ProcessCancelEvent( wxWizardExEvent& event );
+    void ProcessCancelEvent( wxWizardEvent& event );
+    virtual void _ProcessCancelEvent( wxWizardEvent& event );
     bool m_bCancelInProgress;
 
     /// Button State Infrastructure
@@ -56,10 +49,6 @@ public:
     void SimulateBackButton();
     void EnableBackButton();
     void DisableBackButton();
-    wxButton* GetCancelButton() const;
-    void SimulateCancelButton();
-    void EnableCancelButton();
-    void DisableCancelButton();
 };
 
 #endif

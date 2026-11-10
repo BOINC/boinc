@@ -32,21 +32,21 @@ require_once("../inc/bootstrap.inc");
 define('JQUERY_URL', 'https://code.jquery.com/jquery-3.7.1.slim.min.js');
 
 function master_url() {
-    return parse_config(get_config() , "<master_url>");
+    return project_config_val("master_url");
 }
 function recaptcha_public_key() {
-    return parse_config(get_config(), "<recaptcha_public_key>");
+    return project_config_val("recaptcha_public_key");
 }
 function recaptcha_private_key() {
-    return parse_config(get_config(), "<recaptcha_private_key>");
+    return project_config_val("recaptcha_private_key");
 }
 
 // Set parameters to defaults if not defined in config.xml
 
-$x = parse_config(get_config(), "<user_country>");
+$x = project_config_val("user_country");
 define('USER_COUNTRY', ($x===null)?1:(int)$x);
 
-$x = parse_config(get_config(), "<user_url>");
+$x = project_config_val("user_url");
 define('USER_URL', ($x===null)?1:(int)$x);
 
 // Set parameters to defaults if not defined in project.inc
@@ -171,11 +171,14 @@ function send_cookie($name, $value, $permanent, $ops=false) {
         $path .= "_ops/";
     }
     $expire = $permanent?time()+3600*24*365:0;
-    setcookie($name, $value, $expire, $path,
-        '',
-        is_https(),     // if this page is secure, make cookie secure
-        true            // use cookie for HTTP only; no JS access
-    );
+    setcookie($name, $value, [
+        'expires' => $expire,
+        'path' => $path,
+        'domain' => '',
+        'secure' => is_https(),    // if this page is secure, make cookie secure
+        'httponly' => true,            // use cookie for HTTP only; no JS access
+        'SameSite' => 'Lax'
+    ]);
 }
 
 function clear_cookie($name, $ops=false) {
@@ -205,7 +208,9 @@ function get_logged_in_user($must_be_logged_in=true) {
     if (web_stopped()) return null;
 
     $authenticator = null;
-    if (isset($_COOKIE['auth'])) $authenticator = $_COOKIE['auth'];
+    if (isset($_COOKIE['auth'])) {
+        $authenticator = $_COOKIE['auth'];
+    }
 
     if ($authenticator) {
         $authenticator = BoincDb::escape_string($authenticator);
@@ -231,7 +236,7 @@ function get_logged_in_user($must_be_logged_in=true) {
 function show_login_info($prefix="") {
     $user = get_logged_in_user(false);
     if ($user) {
-        $url_tokens = url_tokens($user->authenticator);
+        $url_tokens = url_tokens();
         echo "<nobr>$user->name &middot; <a href=".$prefix."logout.php?$url_tokens>".tra("log out")."</a></nobr>";
     } else {
         echo "<a href=".$prefix."login_form.php>".tra("log in")."</a>";
@@ -246,14 +251,16 @@ $is_login_page = false;
 // then calls project_banner() (in html/project/project.inc)
 // to output whatever you want at the top of your web pages.
 //
-// Page_head() is overridable so that projects that want to integrate BOINC
-// with an existing web framework can more easily do so.
+// page_head() is overridable so that you can integrate BOINC
+// with an existing web framework.
 // To do so, define page_head() in html/project/project.inc
 //
 if (!function_exists("page_head")){
 function page_head(
     $title,
-        // page title. Put in <title>, used as title for browser tab.
+        // Page title; passed to project_banner()
+        // Also put in <title> (title for browser tab)
+        // unless browser_title is specified
     $body_attrs=null,
         // <body XXXX>
         // e.g. Javascript to put focus in an input field
@@ -263,13 +270,16 @@ function page_head(
         // if set, include schedulers.txt.
         // also pass to project_banner() in case you want a different
         // header for your main page.
-    $url_prefix="",
+    $url_prefix='',
         // prepend this to links.
-        // Use for web pages not in the top directory
-    $head_extra=null
+        // Use for web pages not in the top directory.
+        // Passed to project_banner()
+    $head_extra=null,
         // extra stuff to put in <head>. E.g.:
         // reCAPTCHA code (create_profile.php)
         // bbcode javascript (forums)
+    $browser_title = null
+        // <title> contents
 ) {
     global $caching, $cache_control_extra, $did_page_head;
     global $is_login_page, $fixed_navbar;
@@ -315,7 +325,9 @@ function page_head(
         readfile("schedulers.txt");
     }
 
-    $t = $title?$title:PROJECT;
+    $t = $browser_title;
+    if (!$t) $t = $title;
+    if (!$t) $t = PROJECT;
     echo "<title>$t</title>\n";
     echo '
         <meta charset="utf-8">
@@ -328,14 +340,14 @@ function page_head(
     document.documentElement.style.display = 'none';
     document.head.insertAdjacentHTML(
         'beforeend',
-        '<link rel="stylesheet" href="sample_bootstrap.min.css" onload="document.documentElement.style.display = \'\'"><link rel="stylesheet" href="custom.css">'
+        '<link rel="stylesheet" href="{$url_base}sample_bootstrap.min.css" onload="document.documentElement.style.display = \'\'"><link rel="stylesheet" href="{$url_base}custom.css">'
     );
   }
 </script>
-<link rel="stylesheet" href="bootstrap_darkly.min.css" media="(prefers-color-scheme: dark)">
-<link rel="stylesheet" href="custom_dark.css" media="(prefers-color-scheme: dark)">
-<link rel="stylesheet" href="sample_bootstrap.min.css" media="(prefers-color-scheme: no-preference), (prefers-color-scheme: light)">
-<link rel="stylesheet" href="custom.css" media="(prefers-color-scheme: no-preference), (prefers-color-scheme: light)">
+<link rel="stylesheet" href="{$url_base}bootstrap_darkly.min.css" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="{$url_base}custom_dark.css" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="{$url_base}sample_bootstrap.min.css" media="(prefers-color-scheme: no-preference), (prefers-color-scheme: light)">
+<link rel="stylesheet" href="{$url_base}custom.css" media="(prefers-color-scheme: no-preference), (prefers-color-scheme: light)">
 EOT;
     } else {
         echo '
@@ -356,7 +368,7 @@ EOT;
     }
 
     if (defined("SHORTCUT_ICON")) {
-        echo '<link rel="icon" type="image/x-icon" href="'.SHORTCUT_ICON.'"/>
+        echo '<link rel="icon" href="'.$url_base.SHORTCUT_ICON.'"/>
 ';
     }
 
@@ -423,15 +435,17 @@ function error_page($msg) {
     exit();
 }
 
-function start_table_str($class="", $style="") {
-    $s = $style?'style="'.$style.'"':'';
-    return '<div class="table">
-      <table '.$s.' width="100%" class="table table-condensed '.$class.'" >
-    ';
+function start_table_str($class='', $extra='') {
+    return sprintf(
+'<div class="table">
+    <table width="100%%" class="table table-condensed %s" %s>
+',
+        $class, $extra
+    );
 }
 
-function start_table($class="", $style="") {
-    echo start_table_str($class, $style);
+function start_table($class='', $extra='') {
+    echo start_table_str($class, $extra);
 }
 
 function end_table_str() {
@@ -549,43 +563,93 @@ function row_heading($x, $class='bg-primary') {
     );
 }
 
-function url_tokens($auth) {
+// functions for DataTables (sortable tables)
+
+// pass to page_head()
+//
+function data_tables_head_extra() {
+    return '
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap4.min.css" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+';
+}
+
+function data_tables_script($id) {
+return sprintf('
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    // Check if table exists
+    if (jQuery("#%s").length) {
+        jQuery("#%s").DataTable({
+            "paging": false,        // Disable DataTables pagination (use existing navigation)
+            "searching": false,     // Disable search box (not needed)
+            "info": false,          // Disable info text (e.g., "Showing 1 to 10 of 57 entries")
+            "order": []             // No default sort, keep database order
+        });
+    }
+});
+</script>
+', $id, $id
+);
+}
+
+// Cross-site request forgery (CSRF) prevention.
+// how CSRF works:
+// - Hackers make a page with a link (or invisible image URL)
+//  to a state-changing script on a BOINC project.
+// - A user of that project visits the hacker page
+// - The resulting request to the BOINC project includes a cookie
+//  with the user's auth, and the request is carried out
+//
+// The defense: for state-changing scripts, include (in GET or POST args)
+// "tokens" generated from the logged-in user's auth.
+//
+function url_tokens() {
+    $user = get_logged_in_user(false);
+    if (!$user) error_page('must be logged in');
     $now = time();
-    $ttok = md5((string)$now.$auth);
+    $ttok = md5((string)$now.$user->authenticator);
     return "&amp;tnow=$now&amp;ttok=$ttok";
 }
 
-function form_tokens($auth) {
+function form_tokens() {
+    $user = get_logged_in_user(false);
+    if (!$user) error_page('must be logged in');
     $now = time();
-    $ttok = md5((string)$now.$auth);
+    $ttok = md5((string)$now.$user->authenticator);
     return "<input type=\"hidden\" name=\"tnow\" value=\"$now\">
         <input type=\"hidden\" name=\"ttok\" value=\"$ttok\">
     ";
 }
 
-function valid_tokens($auth) {
+function valid_tokens() {
+    $user = get_logged_in_user(false);
+    if (!$user) error_page('must be logged in');
     $tnow = get_str('tnow', true);
-    $ttok = get_str('ttok', true);
     if (!$tnow) {
-      if (isset($_POST['tnow'])) {
-          $tnow = $_POST['tnow'];
-      }
-    }
-    if (!$ttok) {
-      if (isset($_POST['ttok'])) {
-          $ttok = $_POST['ttok'];
-      }
+        if (isset($_POST['tnow'])) {
+            $tnow = $_POST['tnow'];
+        }
     }
     if (!$tnow) return false;
+
+    $ttok = get_str('ttok', true);
+    if (!$ttok) {
+        if (isset($_POST['ttok'])) {
+            $ttok = $_POST['ttok'];
+        }
+    }
     if (!$ttok) return false;
-    $t = md5((string)$tnow.$auth);
+
+    $t = md5((string)$tnow.$user->authenticator);
     if ($t != $ttok) return false;
     if (time() > $tnow + 86400) return false;
     return true;
 }
 
-function check_tokens($auth) {
-    if (valid_tokens($auth)) return;
+function check_tokens() {
+    if (valid_tokens()) return;
     error_page(
         tra("Link has timed out. Please click Back, refresh the page, and try again.")
     );
@@ -598,11 +662,13 @@ function get_legal_filename($name) {
 }
 
 // Returns a string containing as many words
-// (being collections of characters separated by the character $delimiter)
-// as possible such that the total string length is <= $chars characters long.
-// If $ellipsis is true, then an ellipsis is added to any sentence which
-// is cut short.
-
+// (separated by $delimiter)
+// as possible such that the string length is <= $max_chars.
+// If $ellipsis is true, then add an ellipsis if we truncated.
+//
+// Don't use this if string can contain HTML tags;
+// we might remove the closing tag.
+//
 function sub_sentence($sentence, $delimiter, $max_chars, $ellipsis=false) {
     $words = explode($delimiter, $sentence);
     $total_chars = 0;
@@ -916,6 +982,20 @@ function show_button_small($url, $text, $desc=null) {
     echo button_text_small($url, $text, $desc);
 }
 
+function submit_button_text($text, $tooltip=null) {
+    if (!$tooltip) $tooltip = $text;
+    return sprintf(
+        '<input class="btn btn-sm" %s title="%s" type="submit" value="%s"><br>',
+        button_style(),
+        $tooltip,
+        $text
+    );
+}
+
+function show_submit_button($text, $tooltip=null) {
+    echo submit_button_text($text, $tooltip);
+}
+
 // used for showing icons
 //
 function show_image($src, $title, $alt, $height=null) {
@@ -1048,17 +1128,25 @@ function credit_to_gflop_hours($c) {
     return $c/(200/24);
 }
 
-function do_download($path) {
-    $name=basename($path);
+// $name is the name of the downloaded file
+//
+function download_header($name, $nbytes) {
     header('Content-Description: File Transfer');
     header('Content-Type: application/octet-stream');
-    header('Content-Disposition: attachment; filename='.$name);
+    header("Content-Disposition: attachment; filename=$name");
     header('Content-Transfer-Encoding: binary');
     header('Expires: 0');
     header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
     header('Pragma: public');
-    header('Content-Length: ' . filesize($path));
+    header("Content-Length: $nbytes");
     flush();
+}
+
+function do_download($path, $name=null) {
+    if (!$name) {
+        $name = basename($path);
+    }
+    download_header($name, filesize($path));
     readfile($path);
 }
 

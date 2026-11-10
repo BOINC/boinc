@@ -18,7 +18,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 // process turnaround time stats files
 
-// compute stats for batch acceleration
+// compute stats for batch acceleration, and update the DB accordingly
 //
 // - classify hosts as low turnaround time (LTT)
 //      host.error_rate = 1
@@ -148,17 +148,21 @@ function update_db() {
         $n = count($hlist);
         if ($n > 100) {
             $nfast = 0;
-            foreach ($hlist as $id=>$count) {
-                $x = $hosts[$id];
+            foreach ($hlist as $host_id=>$count) {
+                $x = $hosts[$host_id];
                 $avg = $x->ntt_sum / $x->ntt_n;
                 if ($avg < 1) {
                     $nfast++;
                 }
             }
             echo "app $app->name $n hosts, $nfast are LTT\n";
-            if ($nfast > $n*.25) {
+            // we need a certain number of LTT hosts,
+            // else high-pri jobs could get stuck waiting for an LTT host
+            if ($nfast > $n*.1) {
                 echo "marking $app->name as accelerable\n";
                 $accel = true;
+            } else {
+                echo "marking $app->name as not accelerable\n";
             }
         } else {
             echo "app $app->name not enough hosts: $n\n";

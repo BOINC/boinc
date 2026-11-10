@@ -41,7 +41,10 @@ $thread = BoincThread::lookup_id(get_int('thread'));
 if (!$thread) error_page('No such thread');
 $forum = BoincForum::lookup_id($thread->forum);
 
-$sort_style = get_str('sort', true);
+$sort_style = get_int('sort', true);
+if ($sort_style >= NSORT_STYLES || $sort_style <= 0) {
+    $sort_style = MODIFIED_NEW;
+}
 $filter = get_str('filter', true);
 $content = post_str('content', true);
 $preview = post_str("preview", true);
@@ -65,15 +68,17 @@ if ($filter != "false"){
 
 check_reply_access($logged_in_user, $forum, $thread);
 
-if (!$sort_style) {
-    $sort_style = $logged_in_user->prefs->thread_sorting;
+if ($sort_style) {
+    if ($logged_in_user->prefs->thread_sorting != $sort_style) {
+        $logged_in_user->prefs->update("thread_sorting=$sort_style");
+    }
 } else {
-    $logged_in_user->prefs->update("thread_sorting=$sort_style");
+    $sort_style = $logged_in_user->prefs->thread_sorting;
 }
 
 $warning = null;
 if ($content && (!$preview)){
-    check_tokens($logged_in_user->authenticator);
+    check_tokens();
     if (!akismet_check($logged_in_user, $content)) {
         $warning = tra("Your post has been flagged as spam by the Akismet anti-spam system. Please modify your text and try again.");
         $preview = tra("Preview");
@@ -160,7 +165,7 @@ function show_message_row($thread, $parent_post) {
     }
 
     $x2 .= " method=\"post\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
-    $x2 .= form_tokens($logged_in_user->authenticator);
+    $x2 .= form_tokens();
     $x2 .= $bbcode_html."<textarea class=\"form-control\" name=\"content\" rows=\"18\">";
     $no_quote = get_int("no_quote", true)==1;
     if ($preview) {

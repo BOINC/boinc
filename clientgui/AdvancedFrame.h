@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,10 +19,6 @@
 #ifndef BOINC_ADVANCEDFRAME_H
 #define BOINC_ADVANCEDFRAME_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "AdvancedFrame.cpp"
-#endif
-
 #include "BOINCBaseFrame.h"
 
 class CBOINCBaseView;
@@ -33,19 +29,16 @@ class CStatusBar : public wxStatusBar
     DECLARE_DYNAMIC_CLASS(CStatusBar)
 
 public:
-    CStatusBar();
+    CStatusBar() = default;
     CStatusBar(wxWindow *parent);
     ~CStatusBar();
 
     void OnSize(wxSizeEvent& event);
 
-    wxStaticBitmap* m_pbmpConnected;
-    wxStaticText*   m_ptxtConnected;
-    wxStaticBitmap* m_pbmpDisconnect;
-    wxStaticText*   m_ptxtDisconnect;
-
-private:
-    DECLARE_EVENT_TABLE()
+    wxStaticBitmap* m_pbmpConnected = nullptr;
+    wxStaticText*   m_ptxtConnected = nullptr;
+    wxStaticBitmap* m_pbmpDisconnect = nullptr;
+    wxStaticText*   m_ptxtDisconnect = nullptr;
 };
 
 
@@ -54,7 +47,7 @@ class CAdvancedFrame : public CBOINCBaseFrame
     DECLARE_DYNAMIC_CLASS( CAdvancedFrame )
 
 public:
-    CAdvancedFrame();
+    CAdvancedFrame() = default;
     CAdvancedFrame( wxString title, wxIconBundle* icons, wxPoint position, wxSize size );
 
     ~CAdvancedFrame(void);
@@ -107,20 +100,20 @@ public:
     void                OnKeyPressed(wxKeyEvent &event);
 #endif
 
-    wxTimer*        m_pRefreshStateTimer;
-    wxTimer*        m_pFrameRenderTimer;
+    wxTimer*        m_pRefreshStateTimer = nullptr;
+    wxTimer*        m_pFrameRenderTimer = nullptr;
 
 protected:
     virtual int     _GetCurrentViewPage();
 
     wxAcceleratorEntry  m_Shortcuts[2];     // For keyboard shortcut
-    wxAcceleratorTable* m_pAccelTable;
+    wxAcceleratorTable* m_pAccelTable = nullptr;
 
 private:
 
-    wxMenuBar*      m_pMenubar;
-    wxNotebook*     m_pNotebook;
-    CStatusBar*     m_pStatusbar;
+    wxMenuBar*      m_pMenubar = nullptr;
+    wxNotebook*     m_pNotebook = nullptr;
+    CStatusBar*     m_pStatusbar = nullptr;
 
     wxString        m_strBaseTitle;
 
@@ -145,8 +138,6 @@ private:
 
     void            StartTimers();
     void            StopTimers();
-
-    DECLARE_EVENT_TABLE()
 };
 
 #endif

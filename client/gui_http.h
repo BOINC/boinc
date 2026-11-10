@@ -18,7 +18,10 @@
 #ifndef BOINC_GUI_HTTP_H
 #define BOINC_GUI_HTTP_H
 
-// A high-level interface for client-initiated HTTP requests.
+// A high-level interface for
+// 1) Manager-initiated HTTP requests.
+// 2) client-initiated requests like doing acct mgr ops
+//   (hence 'GUI' is a misnomer)
 
 // GUI_HTTP represents a "channel" for doing a sequence of HTTP ops,
 // possibly to different servers.

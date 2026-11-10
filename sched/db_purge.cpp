@@ -23,11 +23,11 @@
 // to XML archive files,
 // then deleting it and the results from the DB.
 //
-// if --retired_wus:
-//      purge WUs for which file_delete_state=FILE_DELETE_DONE
-//      and the WU is in a retired batch
-// otherwise
-//      purge WUs for which file_delete_state=FILE_DELETE_DONE.
+// Purge WUs for which file_delete_state == FILE_DELETE_DONE
+// and if --batch:
+// the WU is either
+//    - in a retired batch
+//    - not in a batch
 //
 // The XML files have names of the form
 // wu_archive_TIME and result_archive_TIME
@@ -70,7 +70,7 @@ void usage() {
         "Purge workunit and result records that are no longer needed.\n\n"
         "Usage: db_purge [options]\n"
         "   -d N or --debug_level N     Set verbosity level (1-4; 3=normal, 4=debug)\n"
-        "   --retired_wus               purge WUs only from retired batches\n"
+        "   --batch                     purge batch jobs only if retired\n"
         "   --min_age_days N            Purge Wus w/ mod time at least N days ago\n"
         "   --max N                     Purge at most N WUs\n"
         "   --zip                       Compress output files by piping through zip\n"
@@ -234,9 +234,9 @@ void* re_index_stream=NULL;
 int time_int=0;
 double min_age_days = 0;
 bool no_archive = false;
+bool batch = false;
 bool dont_delete = false;
 bool daily_dir = false;
-bool retired_wus = false;
 int max_number_workunits_to_purge = 0;
     // If nonzero, maximum number of workunits to purge.
     // Since all results associated with a purged workunit are also purged,
@@ -255,8 +255,6 @@ int id_modulus=0, id_remainder=0;
     // allow more than one to run - doesn't work if archiving is enabled
 char app_name[256];
 DB_APP app;
-string retired_batch_ids;
-    // if --retired_wus, a list of retired batch IDs as "id1,id2,..."
 
 bool time_to_quit() {
     if (max_number_workunits_to_purge) {
@@ -611,30 +609,29 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
     return 0;
 }
 
-// get list of IDs of retired batches
+// get list of IDs of retired batches (and 0, = no batch)
 //
 int get_retired_batch_ids(string &out) {
-    out.clear();
+    out = "0";
     char query[256];
     sprintf(query, "select id from batch where state=%d", BATCH_STATE_RETIRED);
     int retval = boinc_db.do_query(query);
-    if (retval) return mysql_errno(boinc_db.mysql);
+    if (retval) {
+        return mysql_errno(boinc_db.mysql);
+    }
 
     MYSQL_RES *rp;
     rp = mysql_store_result(boinc_db.mysql);
-    if (!rp) return mysql_errno(boinc_db.mysql);
-    bool first = true;
+    if (!rp) {
+        return mysql_errno(boinc_db.mysql);
+    }
     while (1) {
         MYSQL_ROW row = mysql_fetch_row(rp);
         if (!row) {
             mysql_free_result(rp);
             break;
         }
-        if (first) {
-            first = false;
-        } else {
-            out += ",";
-        }
+        out += ",";
         out += row[0];
     }
     return 0;
@@ -642,7 +639,7 @@ int get_retired_batch_ids(string &out) {
 
 // return true if did anything
 //
-bool do_pass() {
+bool do_pass(string &retired_batch_ids) {
     int retval = 0;
 
     // The number of workunits/results purged in a single pass of do_pass().
@@ -683,12 +680,10 @@ bool do_pass() {
         sprintf(buf, " and appid=%lu", app.id);
         clause += buf;
     }
-    if (retired_wus) {
+    if (batch) {
         clause += " and batch in (";
         clause += retired_batch_ids;
         clause += ")";
-    } else {
-        clause += " and batch=0";
     }
 
     sprintf(buf, " limit %d", DB_QUERY_LIMIT);
@@ -818,6 +813,8 @@ int main(int argc, char** argv) {
     for (i=1; i<argc; i++) {
         if (is_arg(argv[i], "one_pass")) {
             one_pass = true;
+        } else if (is_arg(argv[i], "batch")) {
+            batch = true;
         } else if (is_arg(argv[i], "dont_delete")) {
             dont_delete = true;
         } else if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
@@ -862,8 +859,6 @@ int main(int argc, char** argv) {
             max_wu_per_file = atoi(argv[i]);
         } else if (is_arg(argv[i], "no_archive")) {
             no_archive = true;
-        } else if (is_arg(argv[i], "retired_wus")) {
-            retired_wus = true;
         } else if (is_arg(argv[i], "sleep")) {
             if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
@@ -957,25 +952,19 @@ int main(int argc, char** argv) {
         if (time_to_quit()) {
             break;
         }
-        if (retired_wus) {
+        string retired_batch_ids;
+        if (batch) {
             retval = get_retired_batch_ids(retired_batch_ids);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "Can't get retired batch IDs"
+                    "Can't get retired batch IDs; retval %d\n",
+                    retval
                 );
                 exit(1);
             }
-            if (retired_batch_ids.empty()) {
-                log_messages.printf(MSG_NORMAL,
-                    "no retired batches; sleeping %d\n",
-                    sleep_sec
-                );
-                daemon_sleep(sleep_sec);
-                continue;
-            }
         }
 
-        bool did_something = do_pass();
+        bool did_something = do_pass(retired_batch_ids);
         if (one_pass) {
             break;
         }

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -14,10 +14,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "ViewProjects.h"
-#endif
 
 #include "stdwx.h"
 #include "str_util.h"
@@ -96,26 +92,6 @@ CProject::~CProject() {
 
 
 IMPLEMENT_DYNAMIC_CLASS(CViewProjects, CBOINCBaseView)
-
-BEGIN_EVENT_TABLE (CViewProjects, CBOINCBaseView)
-    EVT_BUTTON(ID_TASK_PROJECT_UPDATE, CViewProjects::OnProjectUpdate)
-    EVT_BUTTON(ID_TASK_PROJECT_SUSPEND, CViewProjects::OnProjectSuspend)
-    EVT_BUTTON(ID_TASK_PROJECT_NONEWWORK, CViewProjects::OnProjectNoNewWork)
-    EVT_BUTTON(ID_TASK_PROJECT_RESET, CViewProjects::OnProjectReset)
-    EVT_BUTTON(ID_TASK_PROJECT_DETACH, CViewProjects::OnProjectDetach)
-    EVT_BUTTON(ID_TASK_PROJECT_SHOW_PROPERTIES, CViewProjects::OnShowItemProperties)
-    EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewProjects::OnProjectWebsiteClicked)
-// We currently handle EVT_LIST_CACHE_HINT on Windows or
-// EVT_CHECK_SELECTION_CHANGED on Mac & Linux instead of EVT_LIST_ITEM_SELECTED
-// or EVT_LIST_ITEM_DESELECTED.  See CBOINCBaseView::OnCacheHint() for info.
-#if USE_LIST_CACHE_HINT
-    EVT_LIST_CACHE_HINT(ID_LIST_PROJECTSVIEW, CViewProjects::OnCacheHint)
-#else
-	EVT_CHECK_SELECTION_CHANGED(CViewProjects::OnCheckSelectionChanged)
-#endif
-    EVT_LIST_COL_CLICK(ID_LIST_PROJECTSVIEW, CViewProjects::OnColClick)
-    EVT_LIST_COL_END_DRAG(ID_LIST_PROJECTSVIEW, CViewProjects::OnColResize)
-END_EVENT_TABLE ()
 
 
 static CViewProjects* myCViewProjects;
@@ -280,6 +256,24 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     // Needed by static sort routine;
     myCViewProjects = this;
     m_funcSortCompare = CompareViewProjectsItems;
+
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnProjectUpdate(event); }, ID_TASK_PROJECT_UPDATE);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnProjectSuspend(event); }, ID_TASK_PROJECT_SUSPEND);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnProjectNoNewWork(event); }, ID_TASK_PROJECT_NONEWWORK);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnProjectReset(event); }, ID_TASK_PROJECT_RESET);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnProjectDetach(event); }, ID_TASK_PROJECT_DETACH);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnShowItemProperties(event); }, ID_TASK_PROJECT_SHOW_PROPERTIES);
+    Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent& event){ OnProjectWebsiteClicked(event); }, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX);
+// We currently handle EVT_LIST_CACHE_HINT on Windows or
+// EVT_CHECK_SELECTION_CHANGED on Mac & Linux instead of EVT_LIST_ITEM_SELECTED
+// or EVT_LIST_ITEM_DESELECTED.  See CBOINCBaseView::OnCacheHint() for info.
+#if USE_LIST_CACHE_HINT
+    Bind(wxEVT_LIST_CACHE_HINT, [this](wxListEvent& event){ OnCacheHint(event); }, ID_LIST_PROJECTSVIEW);
+#else
+	Bind(wxEVT_CHECK_SELECTION_CHANGED, [this](CCheckSelectionChangedEvent& event){ OnCheckSelectionChanged(event); });
+#endif
+    Bind(wxEVT_LIST_COL_CLICK, [this](wxListEvent& event){ OnColClick(event); }, ID_LIST_PROJECTSVIEW);
+    Bind(wxEVT_LIST_COL_END_DRAG, [this](wxListEvent& event){ OnColResize(event); }, ID_LIST_PROJECTSVIEW);
 
     UpdateSelection();
 }
@@ -871,22 +865,22 @@ bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex
             GetDocProjectName(m_iSortedIndexes[iRowIndex], strDocumentText);
             GetDocProjectURL(m_iSortedIndexes[iRowIndex], strDocumentText2);
             if (!strDocumentText.IsSameAs(project->m_strProjectName) || !strDocumentText2.IsSameAs(project->m_strProjectURL)) {
-                project->m_strProjectName = strDocumentText;
-                project->m_strProjectURL = strDocumentText2;
+                project->m_strProjectName = std::move(strDocumentText);
+                project->m_strProjectURL = std::move(strDocumentText2);
                 return true;
             }
             break;
         case COLUMN_ACCOUNTNAME:
             GetDocAccountName(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(project->m_strAccountName)) {
-                project->m_strAccountName = strDocumentText;
+                project->m_strAccountName = std::move(strDocumentText);
                 return true;
             }
            break;
         case COLUMN_TEAMNAME:
             GetDocTeamName(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(project->m_strTeamName)) {
-                project->m_strTeamName = strDocumentText;
+                project->m_strTeamName = std::move(strDocumentText);
                 return true;
             }
             break;
@@ -925,7 +919,7 @@ bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex
         case COLUMN_STATUS:
             GetDocStatus(m_iSortedIndexes[iRowIndex], strDocumentText);
             if (!strDocumentText.IsSameAs(project->m_strStatus)) {
-                project->m_strStatus = strDocumentText;
+                project->m_strStatus = std::move(strDocumentText);
                 return true;
             }
             break;
@@ -1259,11 +1253,14 @@ wxInt32 CViewProjects::ConvertLinkToWebsiteIndex(const wxString& strLink, wxInt3
     strTemplate.Replace(wxT("web:"), wxEmptyString);
 
     strBuffer = strTemplate;
-    strBuffer.Remove(strBuffer.Find(wxT(":")));
+    const int colonPos = strBuffer.Find(wxT(":"));
+    if (colonPos != wxNOT_FOUND) {
+        strBuffer.Remove(colonPos);
+    }
     strBuffer.ToLong((long*) &lProjectIndex);
     iProjectIndex = lProjectIndex;
 
-    strBuffer = strTemplate;
+    strBuffer = std::move(strTemplate);
     strBuffer = strBuffer.Mid(strBuffer.Find(wxT(":")) + 1);
     strBuffer.ToLong((long*) &lWebsiteIndex);
     iWebsiteIndex = lWebsiteIndex;

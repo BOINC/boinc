@@ -17,9 +17,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Interface for project-wide functions:
-//   - control user quotas and permissions to submit jobs
-//   - create apps (not implemented yet)
+// Interface to control user quotas and permissions to submit jobs
 
 require_once("../inc/submit_db.inc");
 require_once("../inc/util.inc");
@@ -84,7 +82,7 @@ function handle_list() {
     table_header(
         "User<br><small>Click to change permissions or quota</small>",
         "Can submit jobs to",
-        "Can administer apps for",
+        "Can administer",
         'Keywords',
         "Quota",
         "Max jobs in progress<br><small>0 means no limit</small>",
@@ -126,6 +124,7 @@ function handle_edit_form() {
     $usub = BoincUserSubmit::lookup_userid($user_id);
     page_head_select2("Job submission permissions for $user->name");
     form_start('manage_project.php');
+    echo form_tokens();
     form_input_hidden('action', 'edit_action');
     form_input_hidden('user_id', $user->id);
     [$apps, $submit, $manage] = get_app_lists($user_id);
@@ -224,14 +223,16 @@ function handle_edit_action() {
 
 function handle_add_form() {
     page_head("Add user");
-    echo "
+    echo sprintf('
         <form action=manage_project.php>
+        %s
         <input type=hidden name=action value=add_action>
         User ID: <input name=user_id>
         <br>
-        <input class=\"btn btn-success\" type=submit value=OK>
+        <input class="btn btn-success" type=submit value=OK>
         </form>
-    ";
+        ', form_tokens()
+    );
     page_tail();
 }
 
@@ -250,7 +251,7 @@ function handle_add_action() {
 
 $user = get_logged_in_user();
 $bus = BoincUserSubmit::lookup_userid($user->id);
-if (!$bus) {
+if (!$bus || !$bus->manage_all) {
     error_page("no access");
 }
 
@@ -262,10 +263,12 @@ case '':
 case 'add_form':
     handle_add_form(); break;
 case 'add_action':
+    check_tokens();
     handle_add_action(); break;
 case 'edit_form':
     handle_edit_form(); break;
 case 'edit_action':
+    check_tokens();
     handle_edit_action(); break;
 default:
     error_page("unknown action");

@@ -331,13 +331,11 @@ void CLIENT_STATE::parse_env_vars() {
 }
 
 void CLIENT_STATE::do_cmdline_actions() {
-    unsigned int i;
-
     if (show_projects) {
         printf("projects:\n");
-        for (i=0; i<projects.size(); i++) {
-            msg_printf(NULL, MSG_INFO, "URL: %s name: %s\n",
-                projects[i]->master_url, projects[i]->project_name
+        for (PROJECT* p: projects) {
+            msg_printf(NULL, MSG_INFO, "URL: %s name: %s",
+                p->master_url, p->project_name
             );
         }
         exit(0);
@@ -349,10 +347,10 @@ void CLIENT_STATE::do_cmdline_actions() {
         if (project) {
             // do this before detaching - it frees the project
             //
-            msg_printf(project, MSG_INFO, "detaching from %s\n", detach_project_url);
+            msg_printf(project, MSG_INFO, "detaching from %s", detach_project_url);
             detach_project(project);
         } else {
-            msg_printf(NULL, MSG_INFO, "project %s not found\n", detach_project_url);
+            msg_printf(NULL, MSG_INFO, "project %s not found", detach_project_url);
         }
         exit(0);
     }
@@ -364,7 +362,7 @@ void CLIENT_STATE::do_cmdline_actions() {
             reset_project(project, false);
             msg_printf(project, MSG_INFO, "Project %s has been reset", reset_project_url);
         } else {
-            msg_printf(NULL, MSG_INFO, "project %s not found\n", reset_project_url);
+            msg_printf(NULL, MSG_INFO, "project %s not found", reset_project_url);
         }
         exit(0);
     }
@@ -375,7 +373,7 @@ void CLIENT_STATE::do_cmdline_actions() {
         if (project) {
             project->sched_rpc_pending = RPC_REASON_USER_REQ;
         } else {
-            msg_printf(NULL, MSG_INFO, "project %s not found\n", update_prefs_url);
+            msg_printf(NULL, MSG_INFO, "project %s not found", update_prefs_url);
         }
     }
 

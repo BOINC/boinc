@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,10 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "BOINCTaskCtrl.h"
-#endif
-
 #include "stdwx.h"
 #include "BOINCBaseView.h"
 #include "BOINCTaskCtrl.h"
@@ -29,16 +25,6 @@ const int taskButtonWidth = taskPaneWidth - 55;
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCTaskCtrl, wxScrolledWindow)
 
-#ifdef __WXMSW__
-BEGIN_EVENT_TABLE (CBOINCTaskCtrl, CBOINCBaseView)
-    EVT_CHILD_FOCUS(CBOINCTaskCtrl::OnChildFocus)
-END_EVENT_TABLE ()
-#endif
-
-
-CBOINCTaskCtrl::CBOINCTaskCtrl() {}
-
-
 CBOINCTaskCtrl::CBOINCTaskCtrl(CBOINCBaseView* pView, wxWindowID iTaskWindowID, wxInt32 iTaskWindowFlags) :
     wxScrolledWindow(pView, iTaskWindowID, wxDefaultPosition, wxSize(taskPaneWidth, -1), iTaskWindowFlags)
 {
@@ -48,6 +34,10 @@ CBOINCTaskCtrl::CBOINCTaskCtrl(CBOINCBaseView* pView, wxWindowID iTaskWindowID, 
     SetVirtualSize( taskPaneWidth, 1000 );
     EnableScrolling(false, true);
     SetScrollRate( 0, 10 );
+
+#ifdef __WXMSW__
+    Bind(wxEVT_CHILD_FOCUS, [this](wxChildFocusEvent& event){ OnChildFocus(event); });
+#endif
 }
 
 
@@ -176,6 +166,9 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
         pGroup = m_pParent->m_TaskGroups[i];
         if (!pGroup->m_pStaticBoxSizer) {
             pGroup->m_pStaticBox = new wxStaticBox(this, wxID_ANY, pGroup->m_strName);
+#ifdef __WXMSW__
+            pGroup->m_pStaticBox->SetForegroundColour(m_pParent->GetForegroundColour());
+#endif
             pGroup->m_pStaticBoxSizer = new wxStaticBoxSizer(pGroup->m_pStaticBox, wxVERTICAL);
             m_pSizer->Add(pGroup->m_pStaticBoxSizer, 0, wxEXPAND|wxALL, 5);
             layoutChanged = 1;

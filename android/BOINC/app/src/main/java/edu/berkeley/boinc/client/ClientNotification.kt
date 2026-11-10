@@ -22,6 +22,7 @@ import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.Service.STOP_FOREGROUND_DETACH
 import android.app.Service.STOP_FOREGROUND_REMOVE
 import android.content.Context
 import android.content.Intent
@@ -47,6 +48,7 @@ class ClientNotification @Inject constructor(private val context: Context) {
     private val notificationId: Int = context.resources.getInteger(R.integer.autostart_notification_id)
     private val contentIntent: PendingIntent
     private var n: Notification? = null
+    private var notificationActive = false
 
     @VisibleForTesting
     internal var mOldComputingStatus = -1
@@ -74,6 +76,7 @@ class ClientNotification @Inject constructor(private val context: Context) {
      * @param active        indicator whether BOINC should stay in foreground (during computing and
      * idle, i.e. not suspended)
      */
+    @Synchronized
     fun update(updatedStatus: ClientStatus?, service: Monitor?, active: Boolean) {
         // nop if data is not present
         if (service == null || updatedStatus == null) {
@@ -82,7 +85,7 @@ class ClientNotification @Inject constructor(private val context: Context) {
 
         // stop service foreground, if not active anymore
         if(!active && foreground) {
-            setForegroundState(service, false);
+            setForegroundState(service, false, !service.appPreferences.showNotificationDuringSuspend);
         }
 
         // if not active, check preference whether to show notification during suspension
@@ -133,6 +136,7 @@ class ClientNotification @Inject constructor(private val context: Context) {
         )
         if (mOldComputingStatus == -1 || activeTasksChanged
             || !notificationShown
+            || active != notificationActive
             || updatedStatus.computingStatus != mOldComputingStatus || (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED
                     && updatedStatus.computingSuspendReason != mOldSuspendReason)
         ) {
@@ -154,9 +158,46 @@ class ClientNotification @Inject constructor(private val context: Context) {
         }
     }
 
+    /**
+     * Sets service to foreground right away, using the latest notification (or a new one built
+     * from the given status, if none exists yet).
+     * A service started with Context.startForegroundService() has to call
+     * Service.startForeground() within a few seconds, otherwise Android kills the app with
+     * ForegroundServiceDidNotStartInTimeException. update() can not guarantee this, as it is
+     * called asynchronously after the client setup and only sets the service to foreground
+     * while computing is active. If BOINC should not stay in foreground, the next update()
+     * call stops foreground again.
+     *
+     * @param service reference to service, sets to foreground
+     * @param status  client status data, used to build the notification if none exists yet
+     */
+    @Synchronized
+    fun startForegroundImmediately(service: Monitor, status: ClientStatus) {
+        if (n == null || !notificationShown) {
+            buildNotification(status, true, mOldActiveTasks)
+        }
+        setForegroundState(service)
+    }
+
+    /**
+     * Stops service foreground, if it is currently in foreground.
+     *
+     * @param service reference to service
+     */
+    @Synchronized
+    fun stopForeground(service: Monitor) {
+        if (foreground) {
+            setForegroundState(service, false)
+        }
+    }
+
     // Notification must be built, before setting service to foreground!
     @VisibleForTesting
-    internal fun setForegroundState(service: Monitor, foregroundState: Boolean = true) {
+    internal fun setForegroundState(
+        service: Monitor,
+        foregroundState: Boolean = true,
+        removeNotification: Boolean = true
+    ) {
         if(foregroundState) {
             service.startForeground(notificationId, n);
             Logging.logInfo(Logging.Category.CLIENT, "ClientNotification.setForeground() start service as foreground.");
@@ -165,13 +206,17 @@ class ClientNotification @Inject constructor(private val context: Context) {
         else {
             foreground = false;
             if (VERSION.SDK_INT >= VERSION_CODES.N) {
-                service.stopForeground(STOP_FOREGROUND_REMOVE);
+                service.stopForeground(
+                    if (removeNotification) STOP_FOREGROUND_REMOVE else STOP_FOREGROUND_DETACH
+                );
             }
             else {
                 @Suppress("DEPRECATION")
-                service.stopForeground(true);
+                service.stopForeground(removeNotification);
             }
-            notificationShown = false;
+            if (removeNotification) {
+                notificationShown = false;
+            }
             Logging.logInfo(Logging.Category.CLIENT, "ClientNotification.setForeground() stop service as foreground.");
         }
     }
@@ -242,6 +287,7 @@ class ClientNotification @Inject constructor(private val context: Context) {
             nb.setContentText(statusDesc)
         }
         n = nb.build()
+        notificationActive = active
         return n!!
     }
 

@@ -16,6 +16,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once("../inc/forum_db.inc");
+require_once("../inc/text_transform.inc");
+
 function news_item($date, $title, $post) {
     echo "<p>";
     if ($title) {
@@ -104,6 +107,7 @@ function show_news($start, $count) {
 
     foreach ($threads as $thread) {
         $posts = BoincPost::enum("thread=$thread->id order by id limit 1");
+        if (!$posts) continue;
         $post = $posts[0];
         if (strstr($post->content, $thread->title) == $post->content) {
             $title = null;

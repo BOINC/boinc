@@ -9,8 +9,7 @@ require_once("../inc/db.inc");
 set_time_limit(0);
 db_init_aux();
 
-$config = get_config();
-$mjd = parse_element($config, "daily_result_quota");
+$mjd = project_config_val("daily_result_quota");
 if (!$mjd) {
     $mjd = 100;
 }

@@ -3,7 +3,7 @@ set -e
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -209,7 +209,7 @@ else
     triplets_setup="default"
 fi
 manifest_dir=$THIRD_PARTY/vcpkg_ports/configs/$component
-if [ $component = "apps" ]; then
+if [ "$component" = "apps" ] || [ "$component" = "libs" ]; then
     manifest_dir=$manifest_dir/android
 fi
 manifests="--x-manifest-root=$manifest_dir --x-install-root=$VCPKG_ROOT/installed/"
@@ -259,6 +259,11 @@ vcpkgDir()
 
     echo $vcpkg_dir
 }
+
+# Temporary fix for the issue of the missing zlib dependency in the libcurl pkg config
+libcurl_pc_file=$(vcpkgDir $arch)/lib/pkgconfig/libcurl.pc
+grep -q '^Requires:.*\bzlib\b' $libcurl_pc_file || sed -i '/^Requires:/ s/openssl/openssl,zlib/' $libcurl_pc_file
+# End of the temporary fix
 
 list_apps_name="boinc_gahp uc2 ucn multi_thread sleeper sporadic worker wrapper wrappture_example fermi"
 

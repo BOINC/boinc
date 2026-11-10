@@ -37,11 +37,11 @@ function log_write($x) {
 
     if (!isset($enabled)) {
         $enabled = false;
-        $filename = parse_config(get_config(), "<remote_submit_log>");
+        $filename = project_config_val("remote_submit_log");
         if (!$filename) {
             return;
         }
-        $log_dir = parse_config(get_config(), "<log_dir>");
+        $log_dir = project_config_val("log_dir");
         if (!$log_dir) {
             return;
         }
@@ -157,117 +157,65 @@ function delete_remote_submit_user($user) {
     BoincUserSubmitApp::delete_user($user->id);
 }
 
-// compute parameters of the batch:
-//   credit_canonical: credit granted to canonical instances
-//   fraction_done: frac of jobs that are done (success or failed)
-//   state: whether complete (all jobs done)
-//   completion_time: if newly complete
-//   nerror_jobs: # of failed jobs
-// Update the above in DB.
-// Also compute (not in DB):
-//   njobs_success: # of jobs with canonical instance
-//   njobs_in_prog: # of jobs not success or fail,
-//      and at least one result in progress
-// return the batch object, with these values
-//
-// You need to pass in a list of the batch's WUs.
+// add 'status' field (WU_UNSENT, WU_IN_PROGRESS, WU_SUCCESS, WU_ERROR) to WUs
+// Pass in a list of the batch's WUs.
 // These need to have the following fields:
 //
 // id
-// rsc_fpops_est
 // canonical_resultid
-// canonical_credit
 // error_mask
-//
-// add 'status' field (UNSENT, IN_PROGRESS, SUCCESS) to WUs
+// n_sent
 //
 // TODO: update est_completion_time
 //
 function get_batch_params($batch, $wus) {
-    if ($batch->state == BATCH_STATE_INIT) {
-        // a batch in INIT state has no jobs
-        //
-        return $batch;
-    }
-    if (!$wus) {
-        if ($batch->njobs) {
-            $batch->update('njobs=0');
-            $batch->njobs = 0;
-        }
-        return $batch;
-    }
-
-    // make list of WU IDs with an in-progress result
-    $res_in_prog = BoincResult::enum_fields(
-        'workunitid',
-        sprintf('batch=%d and server_state in (%d, %d)',
-            $batch->id,
-            RESULT_SERVER_STATE_IN_PROGRESS, RESULT_SERVER_STATE_OVER
-        )
-    );
-    $wus_in_prog = [];
-    foreach ($res_in_prog as $res) {
-        $wus_in_prog[$res->workunitid] = true;
-    }
-    unset($res_in_progress);    // does this do anything?
-
-    $fp_total = 0;
-    $fp_done = 0;
-    $completed = true;
-    $batch->nerror_jobs = 0;
-    $batch->credit_canonical = 0;
-    $njobs_success = 0;
-    $njobs_in_prog = 0;
+    $n_success = 0;
+    $nerror_jobs = 0;
+    $n_in_progress = 0;
     foreach ($wus as $wu) {
-        $fp_total += $wu->rsc_fpops_est;
         if ($wu->canonical_resultid) {
-            $fp_done += $wu->rsc_fpops_est;
-            $njobs_success++;
-            $batch->credit_canonical += $wu->canonical_credit;
             $wu->status = WU_SUCCESS;
+            $n_success++;
         } else if ($wu->error_mask) {
-            $batch->nerror_jobs++;
             $wu->status = WU_ERROR;
+            $nerror_jobs++;
         } else {
-            $completed = false;
-            if (array_key_exists($wu->id, $wus_in_prog)) {
-                $njobs_in_prog++;
+            if ($wu->n_sent > 0) {
                 $wu->status = WU_IN_PROGRESS;
+                $n_in_progress++;
             } else {
                 $wu->status = WU_UNSENT;
             }
         }
     }
-    $njobs = count($wus);
-    $batch->njobs = $njobs;
-    $batch->fraction_done = ($njobs_success + $batch->nerror_jobs)/$batch->njobs;
-    if ($completed && $batch->state == BATCH_STATE_IN_PROGRESS) {
-        $batch->state = BATCH_STATE_COMPLETE;
-        $batch->completion_time = time();
+
+    // make sure batch has the right counts and state
+    // (e.g. during code transition)
+    //
+    if ($n_success != $batch->n_success
+        || $nerror_jobs != $batch->nerror_jobs
+        || $n_in_progress != $batch->n_in_progress
+    ) {
+        $batch->update(
+            sprintf('n_success=%d, nerror_jobs=%d, n_in_progress=%d',
+                $n_success, $nerror_jobs, $n_in_progress
+            )
+        );
+        $batch->n_success = $n_success;
+        $batch->n_in_progress = $n_in_progress;
+        $batch->nerror_jobs = $nerror_jobs;
     }
-    $batch->update("fraction_done = $batch->fraction_done, nerror_jobs = $batch->nerror_jobs, state=$batch->state, completion_time = $batch->completion_time, credit_canonical = $batch->credit_canonical, njobs=$njobs");
-
-    $batch->njobs_success = $njobs_success;
-    $batch->njobs_in_prog = $njobs_in_prog;
-    return $batch;
-}
-
-// get params of in-progress batches; they might not be in progress anymore.
-//
-function get_batches_params($batches) {
-    $b = [];
-    foreach ($batches as $batch) {
+    if ($n_success + $nerror_jobs == $batch->njobs) {
         if ($batch->state == BATCH_STATE_IN_PROGRESS) {
-            $wus = BoincWorkunit::enum_fields(
-                'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
-                "batch = $batch->id"
+            $batch->update(
+                sprintf('state=%d, completion_time=%d',
+                    BATCH_STATE_COMPLETE, time()
+                )
             );
-            $b[] = get_batch_params($batch, $wus);
-        } else {
-            $b[] = $batch;
+            $batch->state = BATCH_STATE_COMPLETE;
         }
     }
-    return $b;
+    return $batch;
 }
 
 // get the physical names of a result's output files.
@@ -283,20 +231,33 @@ function get_outfile_phys_names($result) {
     return $names;
 }
 
+// return two corresponding lists:
+// - logical names of output files
+// - whether files are gzipped (they may not have .gz extension)
+// TODO: return a list of pairs
+//
 function get_outfile_log_names($result) {
-    $names = [];
     $xml = "<a>".$result->xml_doc_in."</a>";
     $r = simplexml_load_string($xml);
-    if (!$r) return $names;
+    if (!$r) {
+        return [[],[]];
+    }
+    $names = [];
+    $gzip = [];
     foreach ($r->result->file_ref as $fr) {
         $names[] = (string)($fr->open_name);
     }
-    return $names;
+    foreach ($r->file_info as $fi) {
+        $gzip[] = isset($fi->gzip_when_done);
+    }
+    return [$names, $gzip];
 }
 
+// get output file paths for batch-static apps
+//
 function get_outfile_paths($result) {
-    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-    $upload_dir = parse_config(get_config(), "<upload_dir>");
+    $fanout = project_config_val("uldl_dir_fanout");
+    $upload_dir = project_config_val("upload_dir");
 
     $paths = array();
     $xml = "<a>".$result->xml_doc_out."</a>";
@@ -307,6 +268,25 @@ function get_outfile_paths($result) {
         $paths[] = $path;
     }
     return $paths;
+}
+
+// Return the path of an output file in the 'batch-collect' paradigm.
+// This must agree with the corresponding assimilators:
+// tools/batch_collect_assimilate.py
+// sched/batch_collect_assimilator.cpp
+// and with tools/query_job
+//
+function batch_collect_outfile_path($wu, $index, $log_names, $gzip) {
+    if (!is_valid_filename($wu->name)) {
+        error_page("bad WU name");
+    }
+    if (!is_valid_filename($log_names[$index])) {
+        error_page("bad logical name");
+    }
+    return sprintf('../../results/%d/%s__file_%s%s',
+        $wu->batch, $wu->name, $log_names[$index],
+        $gzip[$index]?'.gz':''
+    );
 }
 
 function abort_workunit($wu) {
@@ -359,27 +339,30 @@ function abort_batch($batch) {
 }
 
 // retire a batch:
-// - mark the batch as retired (don't delete it; might be useful later)
+// - mark the batch as retired (don't delete it)
 // - delete output files (results/batchid/)
 // - mark unsent WUs as cancelled
 //
 // Don't delete the batch; it may have in-progress jobs that
-// we still need to file-delete and purge,
+// we'll need to file-delete and purge,
 // and the batch needs to be present for this.
 // Use ops/delete_batches.php to delete retired batches with no WUs
 //
 function retire_batch($batch) {
     system("rm -rf ../../results/$batch->id");
 
-    // get list of unsent WUs in this batch
+    // we need to call get_batch_params() to set WU.status
     //
     $wus = BoincWorkunit::enum_fields(
-        'id, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
+        'id, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask, n_sent',
         "batch = $batch->id"
     );
     get_batch_params($batch, $wus);
     $batch->update("state=".BATCH_STATE_RETIRED);
         // do this AFTER get_batch_params()
+
+    // get list of unsent WUs in this batch
+    //
     $wu_ids = [];
     foreach ($wus as $wu) {
         if ($wu->status == WU_UNSENT) {
@@ -399,10 +382,12 @@ function retire_batch($batch) {
     }
 }
 
+// batches can have 'expiration times' when they automatically get retired
+// if you run html/ops/expire_batches
+//
 function expire_batch($batch) {
     abort_batch($batch);
     retire_batch($batch);
-    $batch->update("state=".BATCH_STATE_EXPIRED);
 }
 
 function batch_state_string($state) {
@@ -415,7 +400,8 @@ function batch_state_string($state) {
     }
     return "unknown state $state";
 }
-// get the total size of output files of a batch
+// get the total size of output files of a batch for batch-static apps
+// (i.e. files are in the upload hier)
 //
 function batch_output_file_size($batchid) {
     $batch_td_size=0;
@@ -423,8 +409,8 @@ function batch_output_file_size($batchid) {
         'canonical_resultid',
         "batch=$batchid"
     );
-    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-    $upload_dir = parse_config(get_config(), "<upload_dir>");
+    $fanout = project_config_val("uldl_dir_fanout");
+    $upload_dir = project_config_val("upload_dir");
     foreach ($wus as $wu) {
         if (!$wu->canonical_resultid) continue;
         $result = BoincResult::lookup_id($wu->canonical_resultid);
@@ -503,18 +489,25 @@ function file_ref_in($fname) {
         $fname
     ));
 }
-function file_info_out($i) {
-    return sprintf(
+function file_info_out($i, $max_nbytes, $gzip_output) {
+    if (!$max_nbytes) {
+        $max_nbytes = MEGA;
+    }
+    $x = sprintf(
 '    <file_info>
         <name><OUTFILE_%d/></name>
         <generated_locally/>
         <upload_when_present/>
-        <max_nbytes>5000000</max_nbytes>
+        <max_nbytes>%d</max_nbytes>
         <url><UPLOAD_URL/></url>
-    </file_info>
 ',
-        $i
+        $i, $max_nbytes
     );
+    if ($gzip_output) {
+        $x .= "        <gzip_when_done/>\n";
+    }
+    $x .= "    </file_info>\n";
+    return $x;
 }
 
 function file_ref_out($i, $fname) {
@@ -529,11 +522,12 @@ function file_ref_out($i, $fname) {
 }
 
 ////////////// ZIP FILES //////////////
+//
 // our job submission systems (BUDA and autodock)
 // expect zip files that contain files.
 // But some people are used to creating zip files
 // that contain a (single) directory that contains files.
-
+//
 // if the given directory contains a single item, and it's a directory,
 // return its name.
 // Else return false.

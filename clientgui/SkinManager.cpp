@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,16 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "SkinManager.h"
-#endif
-
 #include "stdwx.h"
 #include "diagnostics.h"
 #include "parse.h"
 #include "util.h"
 #include "error_numbers.h"
-#include "miofile.h"
 #include "filesys.h"
 #include "BOINCGUIApp.h"
 #include "BOINCBaseFrame.h"
@@ -100,7 +95,6 @@ void CSkinImage::Clear() {
     m_colBackgroundColor = wxNullColour;
     m_iAnchorHorizontal = -1;
     m_iAnchorVertical = -1;
-
 }
 
 
@@ -882,7 +876,7 @@ bool CSkinManager::ReloadSkin(wxString strSkin) {
     Clear();
 
     // Set the default skin back to Default
-    m_strSelectedSkin = strSkin;
+    m_strSelectedSkin = std::move(strSkin);
 
     // TODO: Eliminate the <en> tags: localization is no longer in skin files.
     p = fopen((const char*)ConstructSkinFileName().mb_str(wxConvUTF8), "r");
@@ -906,10 +900,8 @@ bool CSkinManager::ReloadSkin(wxString strSkin) {
 }
 
 wxArrayString& CSkinManager::GetCurrentSkins() {
-    unsigned int i;
     wxString     strSkinLocation = wxString(GetSkinsLocation() + wxFileName::GetPathSeparator());
     wxString     strSkinFileName = wxString(wxFileName::GetPathSeparator() + GetSkinFileName());
-    wxString     strBuffer;
 
     // Initialize array
     m_astrSkins.Clear();
@@ -918,19 +910,22 @@ wxArrayString& CSkinManager::GetCurrentSkins() {
     wxDir::GetAllFiles(strSkinLocation, &m_astrSkins, wxString(wxT("*") + GetSkinFileName()));
 
     // Trim out the path information for all the entries
-    for (i = 0; i < m_astrSkins.GetCount(); i++) {
-        strBuffer = m_astrSkins[i];
+    for (unsigned int i = 0; i < m_astrSkins.GetCount();) {
+        wxString strBuffer = m_astrSkins[i];
 
         strBuffer = strBuffer.Remove(0, strSkinLocation.Length());
-        strBuffer = strBuffer.Remove(strBuffer.Find(strSkinFileName.c_str()), strSkinFileName.Length());
+        const int pos = strBuffer.Find(strSkinFileName.c_str());
+        if (pos != wxNOT_FOUND) {
+            strBuffer = strBuffer.Remove(pos, strSkinFileName.Length());
+        }
 
         // Special case: 'Default' to mean the embedded default skin.
         //   remove any duplicate entries
         if (GetDefaultSkinName() != strBuffer) {
-            m_astrSkins[i] = strBuffer;
+            m_astrSkins[i] = std::move(strBuffer);
+            ++i;
         } else {
             m_astrSkins.RemoveAt(i);
-            i--;
         }
     }
 
@@ -988,7 +983,7 @@ wxString CSkinManager::GetSkinsLocation() {
     struct stat info;
     // check if folder exist
     if (stat( strLinuxSkinLocation.mb_str(), &info ) == 0 && info.st_mode & S_IFDIR) {
-        strSkinLocation = strLinuxSkinLocation;
+        strSkinLocation = std::move(strLinuxSkinLocation);
     }
     else {
         strSkinLocation += wxT("/skins");
@@ -1022,7 +1017,7 @@ int CSkinManager::Parse(MIOFILE& in, wxString strDesiredLocale) {
     strLocaleEndTag.Printf(wxT("</%s>"), strDesiredLocale.c_str());
 
     // TODO: Eliminate the <en> tags: localization is no longer in skin files.
-    // Look for the begining of the desired locale.
+    // Look for the beginning of the desired locale.
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, (const char*)strLocaleStartTag.mb_str(wxConvUTF8))) {
             bLocaleFound = true;

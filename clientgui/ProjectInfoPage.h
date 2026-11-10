@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,74 +18,34 @@
 #ifndef BOINC_PROJECTINFOPAGE_H
 #define BOINC_PROJECTINFOPAGE_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "ProjectInfoPage.cpp"
-#endif
-
-
 class CProjectInfo;
 
-
-/*!
- * CProjectInfoPage class declaration
- */
-
-class CProjectInfoPage: public wxWizardPageEx
-{
-    DECLARE_DYNAMIC_CLASS( CProjectInfoPage )
-    DECLARE_EVENT_TABLE()
+class CProjectInfoPage: public CBOINCWizardPage {
+    DECLARE_DYNAMIC_CLASS(CProjectInfoPage)
 
 public:
-    /// Constructors
-    CProjectInfoPage( );
+    CProjectInfoPage() = default;
+    CProjectInfoPage(CWizardAttach* parent);
+    ~CProjectInfoPage();
+    bool Create(CWizardAttach* parent);
 
-    CProjectInfoPage( CBOINCBaseWizard* parent );
-
-    /// Destructor
-    ~CProjectInfoPage( );
-
-    /// Creation
-    bool Create( CBOINCBaseWizard* parent );
-
-    /// Creates the controls and sizers
     void CreateControls();
 
-////@begin CProjectInfoPage event handler declarations
+    void OnProjectCategorySelected(wxCommandEvent& event);
+    void OnProjectSelected(wxListEvent& event);
+    void OnPageChanged(wxWizardEvent& event);
+    void OnPageChanging(wxWizardEvent& event);
+    void OnCancel(wxWizardEvent& event);
 
-    /// wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_PROJECTCATEGORY
-    void OnProjectCategorySelected( wxCommandEvent& event );
+    wxWizardPage* GetPrev() const;
+    wxWizardPage* GetNext() const;
 
-    /// wxEVT_LIST_ITEM_SELECTED event handler for ID_PROJECTS
-    void OnProjectSelected( wxListEvent& event );
+    void SetPrev(CBOINCWizardPage *prev);
 
-    /// wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTINFOPAGE
-    void OnPageChanged( wxWizardExEvent& event );
+    bool HasNextPage() const;
+    bool HasPrevPage() const;
 
-    /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_PROJECTINFOPAGE
-    void OnPageChanging( wxWizardExEvent& event );
-
-    /// wxEVT_WIZARD_CANCEL event handler for ID_PROJECTINFOPAGE
-    void OnCancel( wxWizardExEvent& event );
-
-////@end CProjectInfoPage event handler declarations
-
-////@begin CProjectInfoPage member function declarations
-
-    /// Gets the previous page.
-    virtual wxWizardPageEx* GetPrev() const;
-
-    /// Gets the next page.
-    virtual wxWizardPageEx* GetNext() const;
-
-    /// Retrieves bitmap resources
-    wxBitmap GetBitmapResource( const wxString& name );
-
-    /// Retrieves icon resources
-    wxIcon GetIconResource( const wxString& name );
-////@end CProjectInfoPage member function declarations
-
-    /// Should we show tooltips?
-    static bool ShowToolTips();
+    wxBitmap GetBitmapResource(const wxString& name);
 
     void EllipseStringIfNeeded(wxString& s, wxWindow *win);
 
@@ -93,44 +53,47 @@ public:
 
     void TrimURL(std::string& purl);
 
-////@begin CProjectInfoPage member variables
-    wxStaticText* m_pTitleStaticCtrl;
-    wxStaticText* m_pDescriptionStaticCtrl;
-    wxStaticText* m_pProjectCategoriesStaticCtrl;
-    wxComboBox* m_pProjectCategoriesCtrl;
-    wxStaticText* m_pProjectsStaticCtrl;
-    wxListCtrl* m_pProjectsCtrl;
-    wxStaticBox* m_pProjectDetailsStaticCtrl;
-    wxTextCtrl* m_pProjectDetailsDescriptionCtrl;
-    wxStaticText* m_pProjectDetailsResearchAreaStaticCtrl;
-    wxStaticText* m_pProjectDetailsResearchAreaCtrl;
-    wxStaticText* m_pProjectDetailsOrganizationStaticCtrl;
-    wxStaticText* m_pProjectDetailsOrganizationCtrl;
-    wxStaticText* m_pProjectDetailsURLStaticCtrl;
-    wxHyperlinkCtrl* m_pProjectDetailsURLCtrl;
-    wxStaticText* m_pProjectDetailsSupportedPlatformsStaticCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformWindowsCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformMacCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformLinuxCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformAndroidCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformFreeBSDCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformLinuxArmCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformATICtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformNvidiaCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformIntelGPUCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformVirtualBoxCtrl;
-    wxStaticBitmap* m_pProjectDetailsSupportedPlatformBlankCtrl;
-    wxStaticText* m_pProjectURLStaticCtrl;
-    wxTextCtrl* m_pProjectURLCtrl;
-////@end CProjectInfoPage member variables
 private:
-    ALL_PROJECTS_LIST* m_apl;
+    wxStaticText* m_pTitleStaticCtrl = nullptr;
+    wxStaticText* m_pDescriptionStaticCtrl = nullptr;
+    wxStaticText* m_pProjectCategoriesStaticCtrl = nullptr;
+    wxComboBox* m_pProjectCategoriesCtrl = nullptr;
+    wxStaticText* m_pProjectsStaticCtrl = nullptr;
+    wxListCtrl* m_pProjectsCtrl = nullptr;
+    wxStaticBox* m_pProjectDetailsStaticCtrl = nullptr;
+    wxTextCtrl* m_pProjectDetailsDescriptionCtrl = nullptr;
+    wxStaticText* m_pProjectDetailsResearchAreaStaticCtrl = nullptr;
+    wxStaticText* m_pProjectDetailsResearchAreaCtrl = nullptr;
+    wxStaticText* m_pProjectDetailsOrganizationStaticCtrl = nullptr;
+    wxStaticText* m_pProjectDetailsOrganizationCtrl = nullptr;
+    wxStaticText* m_pProjectDetailsURLStaticCtrl = nullptr;
+    wxHyperlinkCtrl* m_pProjectDetailsURLCtrl = nullptr;
+    wxStaticText* m_pProjectDetailsSupportedPlatformsStaticCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformWindowsCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformMacCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformLinuxCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformAndroidCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformFreeBSDCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformLinuxArmCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformATICtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformNvidiaCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformIntelGPUCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformVirtualBoxCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformRaspberryPiCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformDockerCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformMetalCtrl = nullptr;
+    wxStaticBitmap* m_pProjectDetailsSupportedPlatformBlankCtrl = nullptr;
+    wxStaticText* m_pProjectURLStaticCtrl = nullptr;
+    wxTextCtrl* m_pProjectURLCtrl = nullptr;
+    ALL_PROJECTS_LIST* m_apl = nullptr;
     wxString m_strProjectURL;
     std::vector<CProjectInfo*> m_Projects;
-    bool m_bProjectSupported;
-    bool m_bProjectListPopulated;
+    bool m_bProjectSupported = false;
+    bool m_bProjectListPopulated = false;
     std::vector<std::string> m_pTrimmedURL;
     std::vector<std::string> m_pTrimmedURL_attached;
+    CWizardAttach *m_pParent = nullptr;
+    CBOINCWizardPage *m_pPrev = nullptr;
 };
 
 #endif

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,10 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "DlgExitMessage.h"
-#endif
 
 ////@begin includes
 #include "stdwx.h"
@@ -36,35 +32,8 @@
 #ifdef __WXMAC__
 #include "mac_util.h"
 #endif
-////@end includes
-
-////@begin XPM images
-////@end XPM images
-
-/*!
- * CDlgExitMessage type definition
- */
 
 IMPLEMENT_DYNAMIC_CLASS( CDlgExitMessage, wxDialog )
-
-/*!
- * CDlgExitMessage event table definition
- */
-
-BEGIN_EVENT_TABLE( CDlgExitMessage, wxDialog )
-
-////@begin CDlgExitMessage event table entries
-////@end CDlgExitMessage event table entries
-
-END_EVENT_TABLE()
-
-/*!
- * CDlgExitMessage constructors
- */
-
-CDlgExitMessage::CDlgExitMessage( )
-{
-}
 
 CDlgExitMessage::CDlgExitMessage( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {

@@ -23,6 +23,18 @@ BOINCUSER=boinc
 BOINCGROUP=boinc
 BOINCDIR=/var/lib/boinc
 
+# Finish removing the obsolete /etc/init.d/boinc-client conffile left by a
+# previous package. rm_conffile must run in preinst, postinst and postrm.
+# See #7272.
+if command -v dpkg-maintscript-helper >/dev/null 2>&1 \
+    && dpkg-maintscript-helper supports rm_conffile; then
+    dpkg-maintscript-helper rm_conffile /etc/init.d/boinc-client -- "$@"
+fi
+
+# rm_conffile only covers this package's own conffile; also remove any
+# leftover copy of the obsolete script.
+rm -f /etc/init.d/boinc-client
+
 set_perm() {
     chown $2:$3 "$1"
     chmod $4 "$1"
@@ -52,7 +64,7 @@ update_nested_dirs() {
     done
 }
 
-if [ -x /bin/systemctl ] ; then
+if command -v systemctl >/dev/null 2>&1 && [ -d /run/systemd/system ]; then
     if systemctl is-active --quiet boinc-client.service; then
         systemctl stop boinc-client.service
     fi
@@ -108,7 +120,7 @@ if [ ! -e ${BOINCDIR}/cc_config.xml ] ; then
         echo """
         <!--
         This is a configuration file of the BOINC client.
-        For a complete list of options see https://boinc.berkeley.edu/wiki/client_configuration
+        For a complete list of options see https://github.com/BOINC/boinc/wiki/Client-configuration
         -->
         <cc_config>
         </cc_config>
@@ -180,7 +192,7 @@ if [ -e ${BOINCDIR}/gui_rpc_auth.cfg ] ; then
     set_perm ${BOINCDIR}/gui_rpc_auth.cfg ${BOINCUSER} ${BOINCGROUP} 0660
 fi
 
-if [ -e ${BOINC_DIR}/remote_hosts.cfg ] ; then
+if [ -e ${BOINCDIR}/remote_hosts.cfg ] ; then
     set_perm ${BOINCDIR}/remote_hosts.cfg ${BOINCUSER} ${BOINCGROUP} 0660
 fi
 
@@ -210,6 +222,6 @@ if [ -e /etc/boinc-client/remote_hosts.cfg ] ; then
     set_perm /etc/boinc-client/remote_hosts.cfg ${BOINCUSER} ${BOINCGROUP} 0660
 fi
 
-if [ -x /bin/systemctl ] ; then
+if command -v systemctl >/dev/null 2>&1 && [ -d /run/systemd/system ]; then
     systemctl enable --now boinc-client.service
 fi

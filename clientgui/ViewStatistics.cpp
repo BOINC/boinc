@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -14,10 +14,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "ViewStatistics.h"
-#endif
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
@@ -52,19 +48,6 @@ enum {  // Project buttons
     next_project,
     show_hide_project_list
 };
-
-BEGIN_EVENT_TABLE (CPaintStatistics, wxWindow)
-    EVT_PAINT(CPaintStatistics::OnPaint)
-    EVT_SIZE(CPaintStatistics::OnSize)
-    EVT_LEFT_DOWN(CPaintStatistics::OnLeftMouseDown)
-    EVT_LEFT_UP(CPaintStatistics::OnLeftMouseUp)
-    EVT_RIGHT_DOWN(CPaintStatistics::OnRightMouseDown)
-    EVT_RIGHT_UP(CPaintStatistics::OnRightMouseUp)
-    EVT_MOTION(CPaintStatistics::OnMouseMotion)
-    EVT_LEAVE_WINDOW(CPaintStatistics::OnMouseLeaveWindows)
-    EVT_ERASE_BACKGROUND(CPaintStatistics::OnEraseBackground)
-    EVT_SCROLL(CPaintStatistics::OnLegendScroll)
-END_EVENT_TABLE ()
 
 // Set USE_MEMORYDC FALSE to aid debugging
 #define USE_MEMORYDC TRUE
@@ -123,6 +106,16 @@ CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoin
     m_Zoom_Auto = true;
 
 // XY
+    m_Ax_ValToCoord = 0;
+    m_Bx_ValToCoord = 0;
+    m_Ay_ValToCoord = 0;
+    m_By_ValToCoord = 0;
+
+	m_Ax_CoordToVal = 0;
+    m_Bx_CoordToVal = 0;
+    m_Ay_CoordToVal = 0;
+    m_By_CoordToVal = 0;
+
     m_main_X_start = 0;
     m_main_X_end = 0;
     m_main_Y_start = 0;
@@ -157,34 +150,68 @@ CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoin
     m_LegendDraw = true;
 
 // Default colours
-    m_pen_MarkerLineColour = wxColour(0, 0, 0);
-    m_pen_ZoomRectColour = wxColour (128, 64, 95);
-    m_brush_ZoomRectColour = wxColour(24, 31, 0);
-    m_brush_AxisColour = wxColour(192, 224, 255);
-    m_pen_AxisColour = wxColour(64, 128, 192);
-    m_pen_AxisColourZoom = wxColour(255, 64, 0);
-    m_pen_AxisColourAutoZoom = wxColour(64, 128, 192);
-    m_pen_AxisXColour = wxColour(64, 128, 192);
-    m_pen_AxisYColour = wxColour(64, 128, 192);
-    m_pen_AxisXTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
-    m_pen_AxisYTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
+#ifdef __WXMSW__
+    if (isDarkMode) {
+        m_pen_MarkerLineColour = wxColour(220, 220, 220);
+        m_pen_ZoomRectColour = wxColour(180, 200, 220);
+        m_brush_ZoomRectColour = wxColour(32, 48, 64);
+        m_brush_AxisColour = wxColour(24, 24, 24);
+        m_pen_AxisColour = wxColour(96, 128, 160);
+        m_pen_AxisColourZoom = wxColour(255, 128, 64);
+        m_pen_AxisColourAutoZoom = wxColour(96, 128, 160);
+        m_pen_AxisXColour = wxColour(80, 80, 80);
+        m_pen_AxisYColour = wxColour(80, 80, 80);
+        m_pen_AxisXTextColour = wxColour(255, 255, 255);
+        m_pen_AxisYTextColour = wxColour(255, 255, 255);
 
-    m_brush_LegendColour = isDarkMode ? wxColour(0, 64, 128) : wxColour(235, 255, 255);
-    m_brush_LegendSelectColour = wxColour(192, 224, 255);
-    m_pen_LegendSelectColour = wxColour(64, 128, 192);
-    m_pen_LegendSelectTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
-    m_pen_LegendColour = wxColour(64, 128, 192);
-    m_pen_LegendTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
-    m_brush_MainColour = isDarkMode ? wxColour(0,0,0) : wxColour(255, 255, 255);
-    m_pen_MainColour = wxColour(64, 128, 192);
+        m_brush_LegendColour = wxColour(32, 48, 64);
+        m_brush_LegendSelectColour = wxColour(64, 96, 128);
+        m_pen_LegendSelectColour = wxColour(128, 170, 212);
+        m_pen_LegendSelectTextColour = wxColour(255, 255, 255);
+        m_pen_LegendColour = wxColour(96, 128, 160);
+        m_pen_LegendTextColour = wxColour(255, 255, 255);
+        m_brush_MainColour = wxColour(0, 0, 0);
+        m_pen_MainColour = wxColour(96, 128, 160);
 
-    m_pen_HeadTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
-    m_pen_ProjectHeadTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0,0,0);
+        m_pen_HeadTextColour = wxColour(255, 255, 255);
+        m_pen_ProjectHeadTextColour = wxColour(255, 255, 255);
 
-    m_pen_GraphTotalColour = wxColour(255, 0, 0);
-    m_pen_GraphRACColour = wxColour(0, 160, 0);
-    m_pen_GraphTotalHostColour = wxColour(0, 0, 255);
-    m_pen_GraphRACHostColour = wxColour(0, 0, 0);
+        m_pen_GraphTotalColour = wxColour(255, 0, 0);
+        m_pen_GraphRACColour = wxColour(0, 200, 0);
+        m_pen_GraphTotalHostColour = wxColour(0, 128, 255);
+        m_pen_GraphRACHostColour = wxColour(255, 200, 0);
+    } else
+#endif
+    {
+        m_pen_MarkerLineColour = wxColour(0, 0, 0);
+        m_pen_ZoomRectColour = wxColour(128, 64, 95);
+        m_brush_ZoomRectColour = wxColour(24, 31, 0);
+        m_brush_AxisColour = wxColour(192, 224, 255);
+        m_pen_AxisColour = wxColour(64, 128, 192);
+        m_pen_AxisColourZoom = wxColour(255, 64, 0);
+        m_pen_AxisColourAutoZoom = wxColour(64, 128, 192);
+        m_pen_AxisXColour = wxColour(64, 128, 192);
+        m_pen_AxisYColour = wxColour(64, 128, 192);
+        m_pen_AxisXTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0, 0, 0);
+        m_pen_AxisYTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0, 0, 0);
+
+        m_brush_LegendColour = isDarkMode ? wxColour(0, 64, 128) : wxColour(235, 255, 255);
+        m_brush_LegendSelectColour = wxColour(192, 224, 255);
+        m_pen_LegendSelectColour = wxColour(64, 128, 192);
+        m_pen_LegendSelectTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0, 0, 0);
+        m_pen_LegendColour = wxColour(64, 128, 192);
+        m_pen_LegendTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0, 0, 0);
+        m_brush_MainColour = isDarkMode ? wxColour(0, 0, 0) : wxColour(255, 255, 255);
+        m_pen_MainColour = wxColour(64, 128, 192);
+
+        m_pen_HeadTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0, 0, 0);
+        m_pen_ProjectHeadTextColour = isDarkMode ? wxColour(255, 255, 255) : wxColour(0, 0, 0);
+
+        m_pen_GraphTotalColour = wxColour(255, 0, 0);
+        m_pen_GraphRACColour = wxColour(0, 160, 0);
+        m_pen_GraphTotalHostColour = wxColour(0, 0, 255);
+        m_pen_GraphRACHostColour = wxColour(0, 0, 0);
+    }
 
     m_dc_bmp.Create(1, 1);
     m_full_repaint = true;
@@ -194,6 +221,25 @@ CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoin
     m_fauxStatisticsView = NULL;
     SetupMacAccessibilitySupport();
 #endif
+
+    Bind(wxEVT_PAINT, [this](wxPaintEvent& event){ OnPaint(event); });
+    Bind(wxEVT_SIZE, [this](wxSizeEvent& event){ OnSize(event); });
+    Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent& event){ OnLeftMouseDown(event); });
+    Bind(wxEVT_LEFT_UP, [this](wxMouseEvent& event){ OnLeftMouseUp(event); });
+    Bind(wxEVT_RIGHT_DOWN, [this](wxMouseEvent& event){ OnRightMouseDown(event); });
+    Bind(wxEVT_RIGHT_UP, [this](wxMouseEvent& event){ OnRightMouseUp(event); });
+    Bind(wxEVT_MOTION, [this](wxMouseEvent& event){ OnMouseMotion(event); });
+    Bind(wxEVT_LEAVE_WINDOW, [this](wxMouseEvent& event){ OnMouseLeaveWindows(event); });
+    Bind(wxEVT_ERASE_BACKGROUND, [this](wxEraseEvent& event){ OnEraseBackground(event); });
+    Bind(wxEVT_SCROLL_TOP, [this](wxScrollEvent& event){ OnLegendScroll(event); });
+    Bind(wxEVT_SCROLL_BOTTOM, [this](wxScrollEvent& event){ OnLegendScroll(event); });
+    Bind(wxEVT_SCROLL_LINEUP, [this](wxScrollEvent& event){ OnLegendScroll(event); });
+    Bind(wxEVT_SCROLL_LINEDOWN, [this](wxScrollEvent& event){ OnLegendScroll(event); });
+    Bind(wxEVT_SCROLL_PAGEUP, [this](wxScrollEvent& event){ OnLegendScroll(event); });
+    Bind(wxEVT_SCROLL_PAGEDOWN, [this](wxScrollEvent& event){ OnLegendScroll(event); });
+    Bind(wxEVT_SCROLL_THUMBTRACK, [this](wxScrollEvent& event){ OnLegendScroll(event); });
+    Bind(wxEVT_SCROLL_THUMBRELEASE, [this](wxScrollEvent& event){ OnLegendScroll(event); });
+    Bind(wxEVT_SCROLL_CHANGED, [this](wxScrollEvent& event){ OnLegendScroll(event); });
 }
 
 CPaintStatistics::~CPaintStatistics() {
@@ -542,7 +588,7 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc,
 
     m_Space_for_scrollbar = 0;
     if (h0 < (totalTextAreaHeight + (2 * radius1))) m_Space_for_scrollbar = m_Scrollbar_width;
-    int numVisible = (h0 - (2 * radius1)) / m_Legend_dY;
+    int numVisible = m_Legend_dY == 0 ? 0 : (h0 - (2 * radius1)) / m_Legend_dY;
     int numSteps = m_Num_projects - numVisible + 1;
     if (numSteps < 2) {
         m_scrollBar->Hide();
@@ -884,8 +930,8 @@ void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, cons
         b_point1 = false;
         b_point2 = false;
 
-        d_xpos = (m_Ax_ValToCoord * j->day + m_Bx_ValToCoord);// äîáàâèòü îêðóãëåíèå
-        switch (selectedStatistic) {  // äîáàâèòü îêðóãëåíèå
+        d_xpos = (m_Ax_ValToCoord * j->day + m_Bx_ValToCoord);
+        switch (selectedStatistic) {
         case show_user_total:
             d_ypos = (m_Ay_ValToCoord * j->user_total_credit + m_By_ValToCoord);
             break;
@@ -921,7 +967,6 @@ void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, cons
             first_point = false;
         } else {
             dc.SetPen(wxPen(graphColour , m_GraphLineWidth , wxPENSTYLE_SOLID));
-            // ïðîâåðêà ïîïàäàíèÿ ïåðâîé òî÷êè ëèíèè â îáëàñòü ðèñîâàíèÿ
             if (last_point_in) {
                 d_x1 = d_last_x;
                 d_y1 = d_last_y;
@@ -929,7 +974,6 @@ void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, cons
             } else {
                 b_point1 = false;
             }
-            // ïðîâåðêà ïîïàäàíèÿ âòîðîé òî÷êè ëèíèè â îáëàñòü ðèñîâàíèÿ
             if ((d_xpos < m_Graph_X_start) || (d_xpos > m_Graph_X_end) ||
                (d_ypos < m_Graph_Y_start) || (d_ypos > m_Graph_Y_end)){
                 point_in = false;
@@ -940,7 +984,6 @@ void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, cons
                 d_y2 = d_ypos;
                 b_point2 = true;
             }
-            // Èùåì òî÷êó âõîäà ëèíèè â îáëàñòü ðèñîâàíèÿ (1) x=const
             if (!b_point1 || !b_point2) {
                 if (CrossTwoLine(d_last_x, d_last_y, d_xpos, d_ypos,
                                 m_Graph_X_start, m_Graph_Y_end, m_Graph_X_start, m_Graph_Y_start,
@@ -973,7 +1016,6 @@ void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, cons
                     }
                 }
             }
-            // Èùåì òî÷êó âõîäà ëèíèè â îáëàñòü ðèñîâàíèÿ (2) x=const
             if (!b_point1 || !b_point2) {
                 if (CrossTwoLine(d_last_x, d_last_y, d_xpos, d_ypos,
                                 m_Graph_X_end, m_Graph_Y_end, m_Graph_X_end, m_Graph_Y_start,
@@ -1006,7 +1048,6 @@ void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, cons
                     }
                 }
             }
-            // Èùåì òî÷êó âõîäà ëèíèè â îáëàñòü ðèñîâàíèÿ (3) y=const
             if (!b_point1 || !b_point2) {
                 if (CrossTwoLine(d_last_x, d_last_y, d_xpos, d_ypos,
                                 m_Graph_X_start, m_Graph_Y_start, m_Graph_X_end, m_Graph_Y_start,
@@ -1039,7 +1080,6 @@ void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, cons
                     }
                 }
             }
-            // Èùåì òî÷êó âõîäà ëèíèè â îáëàñòü ðèñîâàíèÿ (4) y=const
             if (!b_point1 || !b_point2) {
                 if (CrossTwoLine(d_last_x, d_last_y, d_xpos, d_ypos,
                                 m_Graph_X_start, m_Graph_Y_end, m_Graph_X_end, m_Graph_Y_end,
@@ -1150,10 +1190,6 @@ void CPaintStatistics::DrawMarker(wxDC &dc) {
             y0 += 2;
             x00 += 2;
             y00 += 2;
-            if (x00 < 0) x00 = 0;
-            if (y00 < 0) y00 = 0;
-            if (x0 < 0) x0 = 0;
-            if (y0 < 0) y0 = 0;
 
             dc.SetTextForeground (m_pen_AxisYTextColour);
             dc.DrawText(wxString::Format(wxT("%s"), format_number(m_GraphMarker_Y1, 2)) , x0, y00);
@@ -1348,7 +1384,7 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
                     head_name = wxString(state_project->project_name.c_str(), wxConvUTF8);
                 }
             //Draw heading
-                DrawMainHead(dc, head_name);
+                DrawMainHead(dc, std::move(head_name));
             //Draw axis
                 DrawAxis(dc, max_val_y, min_val_y,max_val_x, min_val_x, m_pen_AxisColour, max_val_y_all, min_val_y_all);
             //Draw graph
@@ -1409,7 +1445,7 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
             PROJECT* state_project = pDoc->state.lookup_project((*i)->master_url);
             if (state_project) {
                 dc.SetFont(m_font_standart_italic);
-                DrawProjectHead(dc, state_project, head_name);
+                DrawProjectHead(dc, state_project, std::move(head_name));
                 dc.SetFont(m_font_standart);
             }
             m_Zoom_min_val_X = min_val_x;
@@ -1973,23 +2009,6 @@ void CPaintStatistics::OnSize(wxSizeEvent& event) {
 
 IMPLEMENT_DYNAMIC_CLASS(CViewStatistics, CBOINCBaseView)
 
-BEGIN_EVENT_TABLE (CViewStatistics, CBOINCBaseView)
-    EVT_BUTTON(ID_TASK_STATISTICS_USERTOTAL, CViewStatistics::OnStatisticsUserTotal)
-    EVT_BUTTON(ID_TASK_STATISTICS_USERAVERAGE, CViewStatistics::OnStatisticsUserAverage)
-    EVT_BUTTON(ID_TASK_STATISTICS_HOSTTOTAL, CViewStatistics::OnStatisticsHostTotal)
-    EVT_BUTTON(ID_TASK_STATISTICS_HOSTAVERAGE, CViewStatistics::OnStatisticsHostAverage)
-    EVT_BUTTON(ID_TASK_STATISTICS_MODEVIEWALLSEPARATE, CViewStatistics::OnStatisticsModeViewAllSeparate)
-    EVT_BUTTON(ID_TASK_STATISTICS_MODEVIEWONEPROJECT, CViewStatistics::OnStatisticsModeViewOneProject)
-    EVT_BUTTON(ID_TASK_STATISTICS_MODEVIEWALLTOGETHER, CViewStatistics::OnStatisticsModeViewAllTogether)
-    EVT_BUTTON(ID_TASK_STATISTICS_MODEVIEWSUM, CViewStatistics::OnStatisticsModeViewSum)
-    EVT_BUTTON(ID_TASK_STATISTICS_NEXTPROJECT, CViewStatistics::OnStatisticsNextProject)
-    EVT_BUTTON(ID_TASK_STATISTICS_PREVPROJECT, CViewStatistics::OnStatisticsPrevProject)
-    EVT_BUTTON(ID_TASK_STATISTICS_HIDEPROJLIST, CViewStatistics::OnShowHideProjectList)
-END_EVENT_TABLE ()
-
-CViewStatistics::CViewStatistics()
-{}
-
 CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook)
 {
@@ -2107,6 +2126,18 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
 
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
+
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnStatisticsUserTotal(event); }, ID_TASK_STATISTICS_USERTOTAL);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnStatisticsUserAverage(event); }, ID_TASK_STATISTICS_USERAVERAGE);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnStatisticsHostTotal(event); }, ID_TASK_STATISTICS_HOSTTOTAL);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnStatisticsHostAverage(event); }, ID_TASK_STATISTICS_HOSTAVERAGE);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnStatisticsModeViewAllSeparate(event); }, ID_TASK_STATISTICS_MODEVIEWALLSEPARATE);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnStatisticsModeViewOneProject(event); }, ID_TASK_STATISTICS_MODEVIEWONEPROJECT);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnStatisticsModeViewAllTogether(event); }, ID_TASK_STATISTICS_MODEVIEWALLTOGETHER);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnStatisticsModeViewSum(event); }, ID_TASK_STATISTICS_MODEVIEWSUM);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnStatisticsNextProject(event); }, ID_TASK_STATISTICS_NEXTPROJECT);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnStatisticsPrevProject(event); }, ID_TASK_STATISTICS_PREVPROJECT);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnShowHideProjectList(event); }, ID_TASK_STATISTICS_HIDEPROJLIST);
 
     UpdateSelection();
 }

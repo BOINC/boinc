@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -14,10 +14,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "BOINCDialupManager.h"
-#endif
 
 #include "stdwx.h"
 #include "network.h"
@@ -44,14 +40,6 @@ CBOINCDialUpManager::CBOINCDialUpManager() {
     wxASSERT(m_pDialupManager->IsOk());
 #endif
     ResetReminderTimers();
-    m_bSetConnectionTimer = false;
-    m_bNotifyConnectionAvailable = false;
-    m_bConnectedSuccessfully = false;
-    m_bResetTimers = false;
-    m_bWasDialing = false;
-    m_iNetworkStatus = 0;
-    m_iConnectAttemptRetVal = 0;
-
 
     // Construct the default dialog title for dial-up messages
     //
@@ -252,7 +240,7 @@ int CBOINCDialUpManager::Connect() {
                 );
                 pFrame->ShowAlert(
                     m_strDialogTitle,
-                    strDialogMessage,
+                    std::move(strDialogMessage),
                     wxOK | wxICON_INFORMATION,
                     true
                 );
@@ -301,7 +289,7 @@ int CBOINCDialUpManager::ConnectionSucceeded() {
     );
     pFrame->ShowAlert(
         m_strDialogTitle,
-        strDialogMessage,
+        std::move(strDialogMessage),
         wxOK | wxICON_INFORMATION,
         true
     );
@@ -329,7 +317,7 @@ int CBOINCDialUpManager::ConnectionFailed() {
     );
     pFrame->ShowAlert(
         m_strDialogTitle,
-        strDialogMessage,
+        std::move(strDialogMessage),
         wxOK | wxICON_ERROR,
         true
     );
@@ -371,7 +359,7 @@ int CBOINCDialUpManager::NetworkAvailable() {
 
     pFrame->ShowAlert(
         m_strDialogTitle,
-        strDialogMessage,
+        std::move(strDialogMessage),
         wxOK | wxICON_INFORMATION,
         true
     );
@@ -415,7 +403,7 @@ int CBOINCDialUpManager::Disconnect() {
             );
             pFrame->ShowAlert(
                 m_strDialogTitle,
-                strDialogMessage,
+                std::move(strDialogMessage),
                 wxOK | wxICON_INFORMATION,
                 true
             );
@@ -431,7 +419,7 @@ int CBOINCDialUpManager::Disconnect() {
             );
             pFrame->ShowAlert(
                 m_strDialogTitle,
-                strDialogMessage,
+                std::move(strDialogMessage),
                 wxOK | wxICON_ERROR
             );
         }

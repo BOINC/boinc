@@ -64,6 +64,7 @@ require_once("../inc/submit_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/result.inc");
 require_once("../inc/submit_util.inc");
+require_once("../inc/buda.inc");
 require_once("../project/project.inc");
 require_once('../project/remote_apps.inc');
 
@@ -211,7 +212,11 @@ function show_in_progress($all_batches, $order, $limit, $user, $app) {
             ];
             row_heading_array($x);
         }
-        $pct_done = (int)($batch->fraction_done*100);
+        $frac_done = $batch->njobs
+            ? ($batch->nerror_jobs + $batch->n_success)/$batch->njobs
+            : 0
+        ;
+        $pct_done = (int)($frac_done*100);
         $x = [
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
@@ -243,10 +248,13 @@ function show_complete($all_batches, $order, $limit, $user, $app) {
         if ($first) {
             $first = false;
             if ($limit) {
-                show_all_batches_link($batches, BATCH_STATE_COMPLETE, $limit, $user, $app);
+                show_all_batches_link(
+                    $batches, BATCH_STATE_COMPLETE, $limit, $user, $app
+                );
             }
             form_start('submit.php', 'get');
             form_input_hidden('action', 'retire_multi');
+            echo form_tokens();
             start_table('table-striped');
             table_header(
                 "Name", "ID", "User", "App", "# Jobs", "Submitted", "Completed", "Select"
@@ -289,6 +297,7 @@ function show_aborted($all_batches, $order, $limit, $user, $app) {
             }
             form_start('submit.php', 'get');
             form_input_hidden('action', 'retire_multi');
+            echo form_tokens();
             start_table();
             table_header("Name", "ID", "User", "App", "# Jobs", "Submitted", "Aborted", 'Select');
         }
@@ -349,7 +358,6 @@ function fill_in_app_and_user_names(&$batches) {
 //
 function show_batches($batches, $order, $limit, $user, $app) {
     fill_in_app_and_user_names($batches);
-    $batches = get_batches_params($batches);
     show_in_progress($batches, $order, $limit, $user, $app);
     show_complete($batches, $order, $limit, $user, $app);
     show_aborted($batches, $order, $limit, $user, $app);
@@ -391,6 +399,7 @@ function show_submit_links($user) {
     }
 
     form_start('submit.php');
+    echo form_tokens();
     form_input_hidden('action', 'update_only_own');
     form_radio_buttons(
         'Jobs you submit can run', 'only_own',
@@ -419,7 +428,7 @@ function handle_show_user_batches($user) {
 }
 
 function handle_update_only_own($user) {
-    if (!parse_bool(get_config(), 'enable_assignment')) {
+    if (!project_config_bool('enable_assignment')) {
         error_page(
             'Job assignment is not enabled in the project config file.
             Please ask the project admins to enable it.'
@@ -602,9 +611,9 @@ define('COLOR_UNSENT', 'gray');
 // return HTML for a color-coded batch progress bar
 //
 function progress_bar($batch, $wus, $width) {
-    $nsuccess = $batch->njobs_success;
+    $nsuccess = $batch->n_success;
     $nerror = $batch->nerror_jobs;
-    $nin_prog = $batch->njobs_in_prog;
+    $nin_prog = $batch->n_in_progress;
     $nunsent = $batch->njobs - $nsuccess - $nerror - $nin_prog;
     $w_success = $width*$nsuccess/$batch->njobs;
     $w_fail = $width*$nerror/$batch->njobs;
@@ -638,7 +647,23 @@ function progress_bar($batch, $wus, $width) {
     return $x;
 }
 
-// show the details of an existing batch.
+// see if the batch's output files are gzipped
+//
+function is_batch_gzipped($wus) {
+    foreach ($wus as $wu) {
+        if ($wu->canonical_resultid == 0) continue;
+        $result = BoincResult::lookup_id($wu->canonical_resultid);
+        if (!$result) return false;
+        [, $gzip] = get_outfile_log_names($result);
+        foreach ($gzip as $flag) {
+            if ($flag) return true;
+        }
+        return false;
+    }
+    return false;
+}
+
+// show the details of an existing batch, include a list of its jobs
 // $user has access to abort/retire the batch
 // and to get its output files
 //
@@ -646,10 +671,12 @@ function handle_query_batch($user) {
     $batch_id = get_int('batch_id');
     $status = get_int('status', true);
     $batch = BoincBatch::lookup_id($batch_id);
-    if (!$batch) error_page('no batch');
+    if (!$batch) {
+        error_page('no batch');
+    }
     $app = BoincApp::lookup_id($batch->app_id);
     $wus = BoincWorkunit::enum_fields(
-        'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
+        'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask, priority, n_sent',
         "batch = $batch->id"
     );
     $batch = get_batch_params($batch, $wus);
@@ -659,22 +686,30 @@ function handle_query_batch($user) {
         $owner = BoincUser::lookup_id($batch->user_id);
     }
 
-    $is_assim_move = is_assim_move($app);
+    $is_batch_collect = is_batch_collect($app);
 
     page_head("Batch $batch_id");
     text_start(800);
     start_table();
     row2("Batch name", $batch->name);
-    if ($batch->description) {
-        row2('Description', $batch->description);
-    }
+
     if ($owner) {
         row2('Submitter',
             "<a href=show_user.php?userid=$owner->id>$owner->name</a>"
         );
     }
+
+    // If app is BUDA, show the science app name
+    //
+    if ($app && $app->name == 'buda') {
+        row2('Application', get_buda_app_name($batch->description).' (BUDA)');
+    } else {
+        if ($batch->description) {
+            row2('Description', $batch->description);
+        }
+        row2("Application", $app?$app->name:'---');
+    }
     row2("Submitted", time_str($batch->create_time));
-    row2("Application", $app?$app->name:'---');
     row2("State", batch_state_string($batch->state));
     //row2("# jobs", $batch->njobs);
     //row2("# error jobs", $batch->nerror_jobs);
@@ -690,33 +725,46 @@ function handle_query_batch($user) {
     }
     row2("GFLOP/hours, estimated", number_format(credit_to_gflop_hours($batch->credit_estimate), 2));
     row2("GFLOP/hours, actual", number_format(credit_to_gflop_hours($batch->credit_canonical), 2));
-    if (!$is_assim_move) {
+    if (!$is_batch_collect) {
         row2("Total size of output files",
             size_string(batch_output_file_size($batch->id))
         );
     }
     end_table();
-    echo "<p>";
 
-    if ($is_assim_move) {
-        $url = "get_output3.php?action=get_batch&batch_id=$batch->id";
+    echo "<p>";
+    if ($is_batch_collect) {
+        //if (is_batch_gzipped($wus)) {
+        if (true) {
+            $url = "get_output3.php?action=get_batch_tar&batch_id=$batch->id";
+            show_button($url, "Get tarred output files");
+        } else {
+            $url = "get_output3.php?action=get_batch_zip&batch_id=$batch->id";
+            show_button($url, "Get zipped output files");
+        }
     } else {
         $url = "get_output2.php?cmd=batch&batch_id=$batch->id";
+        show_button($url, "Get zipped output files");
     }
-    echo "<p>";
-    show_button($url, "Get zipped output files");
     echo "<p>";
     switch ($batch->state) {
     case BATCH_STATE_IN_PROGRESS:
+    case BATCH_STATE_INIT:
         show_button(
-            "submit.php?action=abort_batch&batch_id=$batch_id",
+            sprintf(
+                'submit.php?action=abort_batch&batch_id=%d%s',
+                $batch_id, url_tokens()
+            ),
             "Abort batch"
         );
         break;
     case BATCH_STATE_COMPLETE:
     case BATCH_STATE_ABORTED:
         show_button(
-            "submit.php?action=retire_batch&batch_id=$batch_id",
+            sprintf(
+                'submit.php?action=retire_batch&batch_id=%d%s',
+                $batch_id, url_tokens()
+            ),
             "Retire batch"
         );
         break;
@@ -761,7 +809,8 @@ function handle_query_batch($user) {
     $x = [
         "Name <br><small>click for details</small>",
         "status",
-        "GFLOPS-hours"
+        "GFLOPS-hours",
+        "Priority"
     ];
     row_heading_array($x);
     foreach($wus as $wu) {
@@ -789,7 +838,8 @@ function handle_query_batch($user) {
         $x = [
             "<a href=submit.php?action=query_job&wuid=$wu->id>$wu->name</a>",
             $y,
-            $c
+            $c,
+            $wu->priority
         ];
         row_array($x);
     }
@@ -799,16 +849,15 @@ function handle_query_batch($user) {
     page_tail();
 }
 
-// Does the assimilator for the given app move output files
-// to a results/<batchid>/ directory?
+// Does the app use the batch-collect paradigm?
 // This info is stored in the $remote_apps data structure in project.inc
 //
-function is_assim_move($app) {
+function is_batch_collect($app) {
     global $remote_apps;
     foreach ($remote_apps as $category => $apps) {
         foreach ($apps as $web_app) {
             if ($web_app->app_name == $app->name) {
-                return $web_app->is_assim_move;
+                return $web_app->batch_collect;
             }
         }
     }
@@ -823,7 +872,7 @@ function handle_query_job($user) {
     if (!$wu) error_page("no such job");
 
     $app = BoincApp::lookup_id($wu->appid);
-    $is_assim_move = is_assim_move($app);
+    $is_batch_collect = is_batch_collect($app);
 
     page_head("Job '$wu->name'");
 
@@ -850,8 +899,8 @@ function handle_query_job($user) {
         "Output files"
     );
     $results = BoincResult::enum("workunitid=$wuid");
-    $upload_dir = parse_config(get_config(), "<upload_dir>");
-    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+    $upload_dir = project_config_val("upload_dir");
+    $fanout = project_config_val("uldl_dir_fanout");
     foreach ($results as $result) {
         $x = [
             "<a href=result.php?resultid=$result->id>$result->id</a>",
@@ -860,33 +909,43 @@ function handle_query_job($user) {
             time_str($result->received_time),
             $result->priority
         ];
-        if ($is_assim_move) {
+        $files = [];
+        if ($is_batch_collect) {
             if ($result->id == $wu->canonical_resultid) {
-                $log_names = get_outfile_log_names($result);
+                [$log_names, $gzip] = get_outfile_log_names($result);
                 $nfiles = count($log_names);
                 for ($i=0; $i<$nfiles; $i++) {
                     $name = $log_names[$i];
-                    // don't show 'view' link if it's a .zip
-                    $y = "$name: ";
-                    if (!strstr($name, '.zip')) {
+                    $path = batch_collect_outfile_path(
+                        $wu, $i, $log_names, $gzip
+                    );
+                    if (file_exists($path)) {
+                        $y = sprintf('%s (%s): ',
+                            $name, size_string(filesize($path))
+                        );
+                        // don't show 'view' link if it's zipped
+                        if (!strstr($name, '.zip') && !$gzip[$i]) {
+                            $y .= sprintf(
+                                '<a href=get_output3.php?action=get_file&result_id=%d&index=%d>view</a> &middot; ',
+                                $result->id, $i
+                            );
+                        }
                         $y .= sprintf(
-                            '<a href=get_output3.php?action=get_file&result_id=%d&index=%d>view</a> &middot; ',
+                            '<a href=get_output3.php?action=get_file&result_id=%d&index=%d&download=1>download</a>',
                             $result->id, $i
                         );
+                    } else {
+                        $y = sprintf('%s: MISSING', $name);
                     }
-                    $y .= sprintf(
-                        '<a href=get_output3.php?action=get_file&result_id=%d&index=%d&download=1>download</a>',
-                        $result->id, $i
-                    );
-                    $x[] = $y;
+                    $files[] = $y;
                 }
             } else {
-                $x[] = '---';
+                $files[] = '---';
             }
         } else {
             if ($result->server_state == RESULT_SERVER_STATE_OVER) {
                 $phys_names = get_outfile_phys_names($result);
-                $log_names = get_outfile_log_names($result);
+                [$log_names,] = get_outfile_log_names($result);
                 $nfiles = count($log_names);
                 for ($i=0; $i<$nfiles; $i++) {
                     $path = dir_hier_path(
@@ -899,19 +958,20 @@ function handle_query_job($user) {
                         );
                         $s = stat($path);
                         $size = $s['size'];
-                        $x[] = sprintf('<a href=%s>%s</a> (%s bytes)<br/>',
+                        $files[] = sprintf('<a href=%s>%s</a> (%s bytes)<br/>',
                             $url,
                             $log_names[$i],
                             number_format($size)
                         );
                     } else {
-                        $x[] = sprintf("file '%s' is missing", $log_names[$i]);
+                        $files[] = sprintf("file '%s' is missing", $log_names[$i]);
                     }
                 }
             } else {
-                $x[] = '---';
+                $files[] = '---';
             }
         }
+        $x[] = implode('<br>', $files);
         row_array($x);
     }
     end_table();
@@ -979,7 +1039,10 @@ function handle_abort_batch($user) {
             <p>
         ";
         show_button(
-            "submit.php?action=abort_batch&batch_id=$batch_id&confirmed=1",
+            sprintf(
+                'submit.php?action=abort_batch&batch_id=%d&confirmed=1%s',
+                $batch_id, url_tokens()
+            ),
             "Yes - abort batch"
         );
         return_link();
@@ -1003,12 +1066,16 @@ function handle_retire_batch($user) {
     } else {
         page_head("Confirm retire batch");
         echo "
+            <p>
             Retiring a batch will remove all of its output files.
             Are you sure you want to do this?
             <p>
         ";
         show_button(
-            "submit.php?action=retire_batch&batch_id=$batch_id&confirmed=1",
+            sprintf(
+                'submit.php?action=retire_batch&batch_id=%d&confirmed=1%s',
+                $batch_id, url_tokens()
+            ),
             "Yes - retire batch"
         );
         return_link();
@@ -1073,7 +1140,6 @@ function handle_show_all_batches($user) {
         if ($userid != $user->id) error_page("wrong user");
         $batches = BoincBatch::enum("user_id=$user->id and state=$state");
         fill_in_app_and_user_names($batches);
-        $batches = get_batches_params($batches);
         show_batches_in_state($batches, $state, $url_args, $order);
     } else {
         // admin looking at batches
@@ -1089,7 +1155,6 @@ function handle_show_all_batches($user) {
             $batches = BoincBatch::enum("state=$state");
         }
         fill_in_app_and_user_names($batches);
-        $batches = get_batches_params($batches);
         show_batches_in_state($batches, $state, $url_args, $order);
     }
 }
@@ -1115,15 +1180,27 @@ case 'query_batch': handle_query_batch($user); break;
 case 'query_job': handle_query_job($user); break;
 
 // operations on batches
-case 'retire_batch': handle_retire_batch($user); break;
-case 'retire_multi': handle_retire_multi($user); break;
-case 'abort_batch': handle_abort_batch($user); break;
+case 'retire_batch':
+    check_tokens();
+    handle_retire_batch($user);
+    break;
+case 'retire_multi':
+    check_tokens();
+    handle_retire_multi($user);
+    break;
+case 'abort_batch':
+    check_tokens();
+    handle_abort_batch($user);
+    break;
 
 // access control
 case 'admin': handle_admin($user); break;
 
 // 'run jobs only on my computers' flag (stored in user.seti_id)
-case 'update_only_own': handle_update_only_own($user); break;
+case 'update_only_own':
+    check_tokens();
+    handle_update_only_own($user);
+    break;
 
 default:
     error_page("no such action $action");

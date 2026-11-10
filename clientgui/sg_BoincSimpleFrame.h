@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,10 +21,6 @@
 
 #include "BOINCBaseFrame.h"
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "sg_BoincSimpleFrame.cpp"
-#endif
-
 class CSimpleTaskPanel;
 class CSimpleProjectPanel;
 class CSimpleTaskPanel;
@@ -36,15 +32,15 @@ class CSimpleGUIPanel : public wxPanel
     DECLARE_DYNAMIC_CLASS(CSimpleGUIPanel)
 
 public:
-    CSimpleGUIPanel();
+    CSimpleGUIPanel() = default;
     CSimpleGUIPanel(wxWindow* parent);
 
    ~CSimpleGUIPanel();
     //
     // My tasks panel (shown when there are active tasks)
-    CSimpleTaskPanel *m_taskPanel;
+    CSimpleTaskPanel *m_taskPanel = nullptr;
     // My projects panel
-    CSimpleProjectPanel *m_projPanel;
+    CSimpleProjectPanel *m_projPanel = nullptr;
     ////////////////////////////;
 
     void SetBackgroundBitmap();
@@ -62,31 +58,30 @@ public:
     void NoticesViewed();
 
     //////////
-    wxBoxSizer *mainSizer;
+    wxBoxSizer *mainSizer = nullptr;
     //////////
-    bool        m_bNewNoticeAlert;
-    bool        m_bNoticesButtonIsRed;
-    DECLARE_EVENT_TABLE()
+    bool        m_bNewNoticeAlert = false;
+    bool        m_bNoticesButtonIsRed = false;
 
 protected:
     void OnPaint(wxPaintEvent& event);
     void OnEraseBackground(wxEraseEvent& event);
 #ifdef __WXMAC__
-    int         m_iRedRingRadius;
+    int         m_iRedRingRadius = 0;
 #endif
     wxBitmap    m_bmpBg;
-    wxButton    *m_NoticesButton;
-    wxButton    *m_SuspendResumeButton;
-    wxButton    *m_HelpButton;
+    wxButton    *m_NoticesButton = nullptr;
+    wxButton    *m_SuspendResumeButton = nullptr;
+    wxButton    *m_HelpButton = nullptr;
     wxString    m_sSuspendString;
     wxString    m_sResumeString;
-    int         m_oldWorkCount;
-    bool        m_bIsSuspended;
+    int         m_oldWorkCount = 0;
+    bool        m_bIsSuspended = false;
 
 private:
-    int         m_irefreshCount;
-    bool        dlgOpen;
-    wxTimer*    checkForNewNoticesTimer;
+    int         m_irefreshCount = 0;
+    bool        dlgOpen = false;
+    wxTimer*    checkForNewNoticesTimer = nullptr;
     wxString    m_sSuspendButtonToolTip;
     wxString    m_sResumeButtonToolTip;
 };
@@ -99,7 +94,7 @@ class CSimpleFrame : public CBOINCBaseFrame
     DECLARE_DYNAMIC_CLASS(CSimpleFrame)
 
 public:
-    CSimpleFrame();
+    CSimpleFrame() = default;
     CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position, wxSize size);
 
    ~CSimpleFrame();
@@ -144,21 +139,20 @@ public:
 protected:
     virtual int     _GetCurrentViewPage();
 
-    wxMenuBar*          m_pMenubar;
-    wxMenu*             m_pSubmenuSkins;
+    wxMenuBar*          m_pMenubar = nullptr;
+    wxMenu*             m_pSubmenuSkins = nullptr;
     wxAcceleratorEntry  m_Shortcuts[3];
-    wxAcceleratorTable* m_pAccelTable;
+    wxAcceleratorTable* m_pAccelTable = nullptr;
 
-    CSimpleGUIPanel* m_pBackgroundPanel;
+    CSimpleGUIPanel* m_pBackgroundPanel = nullptr;
 
 
 private:
-    CDlgMessages* dlgMsgsPtr;
-    CDlgPreferences* dlgPrefsPtr;
+    CDlgMessages* dlgMsgsPtr = nullptr;
+    CDlgPreferences* dlgPrefsPtr = nullptr;
 
-    wxBoxSizer* mainSizer;
+    wxBoxSizer* mainSizer = nullptr;
 
-    DECLARE_EVENT_TABLE()
 };
 
 #endif

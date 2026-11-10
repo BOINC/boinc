@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -24,8 +24,10 @@
 #ifndef BOINC_BOINCGUIAPP_H
 #define BOINC_BOINCGUIAPP_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "BOINCGUIApp.cpp"
+#ifdef __WXMSW__
+#define USE_NATIVE_LISTCONTROL 1
+#else
+#define USE_NATIVE_LISTCONTROL 0
 #endif
 
 ///
@@ -41,19 +43,11 @@
 // BOINC to adjust standard UI items for Dark Mode, be sure to guard
 // those changes so they do not affect the Mac implementation.
 //
-#if (defined(__WXMAC__) || defined(__WXGTK__))
-#define SUPPORTDARKMODE true
-#else
-#define SUPPORTDARKMODE false
-#endif
-
 
 class wxLogBOINC;
 class CBOINCBaseFrame;
 class CMainDocument;
-#ifndef __WXGTK__
 class CTaskBarIcon;
-#endif
 class CSkinManager;
 class CDlgEventLog;
 class CRPCFinishedEvent;
@@ -98,9 +92,7 @@ protected:
     CSkinManager*       m_pSkinManager;
     CBOINCBaseFrame*    m_pFrame;
     CMainDocument*      m_pDocument;
-#ifndef __WXGTK__
     CTaskBarIcon*       m_pTaskBarIcon;
-#endif
     CDlgEventLog*       m_pEventLog;
     bool                m_bEventLogWasActive;
     bool                m_bProcessingActivateAppEvent;
@@ -162,9 +154,7 @@ public:
     wxString            GetArguments()              { return m_strBOINCArguments; }
     int                 GetClientRPCPortArg()       { return m_iRPCPortArg; }
     CDlgEventLog*       GetEventLog()               { return m_pEventLog; }
-#ifndef __WXGTK__
     CTaskBarIcon*       GetTaskBarIcon()            { return m_pTaskBarIcon; }
-#endif
 
     bool                IsAnotherInstanceRunning()  { return m_pInstanceChecker->IsAnotherRunning(); }
     bool                IsMgrMultipleInstance()     { return m_bMultipleInstancesOK; }
@@ -266,13 +256,8 @@ public:
     void                SetAboutDialogIsOpen(bool set) { m_bAboutDialogIsOpen = set; }
     bool                GetAboutDialogIsOpen() { return m_bAboutDialogIsOpen; }
 
-#if SUPPORTDARKMODE
     void                SetIsDarkMode (bool isDarkMode) { m_isDarkMode = isDarkMode; }
     bool                GetIsDarkMode() { return m_isDarkMode; }
-#else
-    void                SetIsDarkMode (bool WXUNUSED(isDarkMode)) {}
-    bool                GetIsDarkMode() { return false; }
-#endif
 #ifdef __WXMAC__
     // The following Cocoa routines are in CBOINCGUIApp.mm
     //
@@ -282,13 +267,8 @@ public:
     void                SetActivationPolicyAccessory(bool hideDock);
     void                CheckPartialActivation();
     long                GetBrandID();
-
-    // Override standard wxCocoa wxApp::CallOnInit() to allow Manager
-    // to run properly when launched hidden on login via Login Item.
-    bool                CallOnInit();
 #endif
 
-DECLARE_EVENT_TABLE()
 };
 
 DECLARE_APP(CBOINCGUIApp)

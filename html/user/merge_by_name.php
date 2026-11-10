@@ -65,14 +65,14 @@ $user = get_logged_in_user();
 page_head(tra("Merge computers by name"));
 
 if ($confirmed) {
-    check_tokens($user->authenticator);
+    check_tokens();
     merge_by_name($user->id);
     echo "
         <p><a href=hosts_user.php>
         ".tra("Return to the list of your computers")."</a>.
     ";
 } else {
-    $tokens = url_tokens($user->authenticator);
+    $tokens = url_tokens();
     echo tra("This operation merges computers based on their domain name.
         <p>
         For each domain name, it will merge all older computers

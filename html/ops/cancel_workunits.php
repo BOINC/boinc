@@ -29,7 +29,7 @@ require_once("../inc/util_ops.inc");
 admin_page_head("Cancel Jobs");
 
 $limit = get_int('limit', true);
-if (!$limit || $limit==0) {
+if (!$limit) {
     $limit = 100;
 }
 
@@ -111,6 +111,7 @@ if ($qclause == "") {
     } else {
 
         echo "<form action=\"cancel_workunits_action.php\" method=\"post\">\n";
+        echo form_tokens();
         echo "<input type=\"hidden\" name=\"back\" value=\"cancelwus\"/>";
 
         echo "<br><table border=\"1\">\n";

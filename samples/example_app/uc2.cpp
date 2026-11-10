@@ -36,7 +36,6 @@
 // --run_slow: sleep 1 second after each character
 // --trickle_up: sent a trickle-up message
 // --trickle_down: receive a trickle-up message
-// --network_usage: tell the client we used some network
 //
 
 #ifdef _WIN32
@@ -78,7 +77,6 @@ bool trickle_up = false;
 bool trickle_down = false;
 bool critical_section = false;    // run most of the time in a critical section
 bool report_fraction_done = true;
-bool network_usage = false;
 double cpu_time = 20, comp_result;
 
 // do about .5 seconds of computing
@@ -153,7 +151,6 @@ int main(int argc, char **argv) {
         if (strstr(argv[i], "early_sleep")) early_sleep = true;
         if (strstr(argv[i], "run_slow")) run_slow = true;
         if (strstr(argv[i], "critical_section")) critical_section = true;
-        if (strstr(argv[i], "network_usage")) network_usage = true;
         if (strstr(argv[i], "cpu_time")) {
             cpu_time = atof(argv[++i]);
         }
@@ -237,10 +234,6 @@ int main(int argc, char **argv) {
     update_shmem();
     boinc_register_timer_callback(update_shmem);
 #endif
-
-    if (network_usage) {
-        boinc_network_usage(5., 17.);
-    }
 
     // main loop - read characters, convert to UC, write
     //

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -38,31 +38,35 @@
 // -cert_verify file signature_file certificate_dir ca_dir
 //                  verify a signature using a directory of certificates
 
+#include <memory>
 #if defined(_WIN32)
 #include <windows.h>
 #else
 #include "config.h"
 #endif
 #include <iostream>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
 
-#include "openssl/bio.h"
-#include <openssl/evp.h>
 #include <openssl/pem.h>
-#include <openssl/conf.h>
 #include <openssl/err.h>
+#include <openssl/encoder.h>
 
 #include "crypt.h"
 #include "md5_file.h"
 
-void print_error(const std::string& error) {
-    std::cerr << "Error: " << error << std::endl;
+using std::cerr;
+using std::cout;
+using std::endl;
+using std::string;
+using std::tie;
+using std::vector;
+using std::unique_ptr;
+
+void print_error(const string& error) {
+    cerr << "Error: " << error << endl;
 }
 
 void usage() {
-    fprintf(stderr,
+    cerr <<
         "Usage: crypt_prog options\n\n"
         "Options:\n\n"
         "-genkey n private_keyfile public_keyfile\n"
@@ -82,109 +86,104 @@ void usage() {
         "-convsig b2o/o2b input_file output_file\n"
         "    convert signature between BOINC and OpenSSL format\n"
         "-cert_verify file signature certificate_dir ca_dir\n"
-        "    verify a signature using a directory of certificates\n"
-   );
+        "    verify a signature using a directory of certificates\n";
 }
 
-unsigned int random_int() {
-    unsigned int n = 0;
-#if defined(_WIN32)
-#if defined(__CYGWIN32__)
-    HMODULE hLib=LoadLibrary((const char *)"ADVAPI32.DLL");
-#else
-    HMODULE hLib=LoadLibrary("ADVAPI32.DLL");
-#endif
-    if (!hLib) {
-        print_error("Can't load ADVAPI32.DLL");
-        return 2;
-    }
-    BOOLEAN (APIENTRY *pfn)(void*, ULONG) =
-        (BOOLEAN (APIENTRY *)(void*,ULONG))GetProcAddress(hLib,"SystemFunction036");
-    if (pfn) {
-        char buff[32];
-        ULONG ulCbBuff = sizeof(buff);
-        if(pfn(buff,ulCbBuff)) {
-            // use buff full of random goop
-            memcpy(&n,buff,sizeof(n));
+template <typename T, int (*FreeFunc)(T*)>
+struct FILEDeleter {
+    void operator()(T* ptr) const noexcept{
+        if (ptr) {
+            FreeFunc(ptr);
         }
     }
-    FreeLibrary(hLib);
+};
+
+using unique_FILE = unique_ptr<FILE, FILEDeleter<FILE, fclose>>;
+
+unique_FILE open_file(
+    const string& filename,
+    const string& filemode
+    ) {
+#ifdef _WIN32
+    FILE* f = nullptr;
+    if (fopen_s(&f, filename.c_str(), filemode.c_str()) != 0) {
+        return nullptr;
+    }
+    return unique_FILE(f);
 #else
-    FILE* f = fopen("/dev/random", "r");
-    if (!f) {
-        print_error("can't open /dev/random\n");
-        return 2;
-    }
-    if (1 != fread(&n, sizeof(n), 1, f)) {
-        print_error("couldn't read from /dev/random\n");
-        return 2;
-    }
-    fclose(f);
+    return unique_FILE(fopen(filename.c_str(), filemode.c_str()));
 #endif
-    return n;
 }
 
-int genkey(int n, const std::string& private_keyfile,
-    const std::string& public_keyfile) {
+int genkey(
+    int n,
+    const string& private_keyfile,
+    const string& public_keyfile
+    ) {
     if (n != 1024) {
-        std::cerr << "only 1024-bit keys are supported" << std::endl;
+        print_error("only 1024-bit keys are supported");
         return 2;
     }
 
-    std::cout << "creating keys in " << private_keyfile << " and "
-        << public_keyfile << std::endl;
+    cout << "creating keys in " << private_keyfile << " and "
+        << public_keyfile << endl;
 
-    srand(random_int());
-    BIGNUM *e = BN_new();
-    if (BN_set_word(e, (unsigned long)65537) != 1) {
-        print_error("BN_set_word");
+    unique_PKEY_CTX ctx = unique_PKEY_CTX(EVP_PKEY_CTX_new_from_name(
+        nullptr, "RSA", nullptr));
+    EVP_PKEY_keygen_init(ctx.get());
+    EVP_PKEY_CTX_set_rsa_keygen_bits(ctx.get(), n);
+    EVP_PKEY_CTX_set1_rsa_keygen_pubexp(ctx.get(), BN_new());
+    EVP_PKEY* rp = nullptr;
+    if (EVP_PKEY_keygen(ctx.get(), &rp) <= 0) {
+        print_error("EVP_PKEY_keygen");
         return 2;
     }
-    RSA* rp = RSA_new();
-    if (RSA_generate_key_ex(rp, n, e, NULL) != 1) {
-        print_error("RSA_generate_key_ex");
-        return 2;
-    }
+
+    unique_EVP_PKEY rsa_key(rp);
+
     R_RSA_PUBLIC_KEY public_key;
     R_RSA_PRIVATE_KEY private_key;
-    openssl_to_keys(rp, n, private_key, public_key);
-    FILE *fpriv = fopen(private_keyfile.c_str(), "w");
+    int retval = 0;
+    tie(retval, private_key, public_key) = openssl_to_keys(rsa_key);
+    if (retval) {
+        print_error("openssl_to_keys");
+        return 2;
+    }
+    unique_FILE fpriv = open_file(private_keyfile, "w");
     if (!fpriv) {
         print_error("fopen");
         return 2;
     }
-    FILE* fpub = fopen(public_keyfile.c_str(), "w");
+    unique_FILE fpub = open_file(public_keyfile, "w");
     if (!fpub) {
         print_error("fopen");
         return 2;
     }
-    print_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
-    print_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
-    fclose(fpriv);
-    fclose(fpub);
+    print_private_key_hex(fpriv.get(), private_key);
+    print_public_key_hex(fpub.get(), public_key);
 
     return 0;
 }
 
-int sign(const std::string& file, const std::string& private_keyfile) {
-    FILE* fpriv = fopen(private_keyfile.c_str(), "r");
+int sign(
+    const string& file,
+    const string& private_keyfile
+    ) {
+    unique_FILE fpriv = open_file(private_keyfile, "r");
     if (!fpriv) {
         print_error("fopen");
         return 2;
     }
+    int result = 0;
     R_RSA_PRIVATE_KEY private_key;
-    int retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
-    if (retval) {
-        print_error("scan_key_hex");
+    tie(result, private_key) = scan_private_key_hex(fpriv.get());
+    if (result) {
+        print_error("scan_private_key_hex");
         return 2;
     }
-    const int data_len = 256;
-    unsigned char signature_buf[data_len];
-    DATA_BLOCK signature;
-    signature.data = signature_buf;
-    signature.len = data_len;
-    retval = sign_file(file.c_str(), private_key, signature);
-    if (retval) {
+    vector<uint8_t> signature;
+    tie(result, signature) = sign_file(file, private_key);
+    if (result || signature.empty()) {
         print_error("sign_file");
         return 2;
     }
@@ -192,228 +191,230 @@ int sign(const std::string& file, const std::string& private_keyfile) {
     return 0;
 }
 
-int sign_string(const std::string& str, const std::string& private_keyfile) {
-    FILE* fpriv = fopen(private_keyfile.c_str(), "r");
+int sign_string(
+    const string& str,
+    const string& private_keyfile
+    ) {
+    unique_FILE fpriv = open_file(private_keyfile, "r");
     if (!fpriv) {
         print_error("fopen");
         return 2;
     }
+    int result = 0;
     R_RSA_PRIVATE_KEY private_key;
-    int retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
-    if (retval) {
-        print_error("scan_key_hex");
+    tie(result, private_key) = scan_private_key_hex(fpriv.get());
+    if (result) {
+        print_error("scan_private_key_hex");
         return 2;
     }
-    char cbuf[512];
-    // this const_cast need to be removed once 'generate_signature' is updated
-    // to accept const char*
-    retval = generate_signature(const_cast<char*>(str.c_str()), cbuf,
-        private_key);
-    if (retval) {
+    string signature;
+    tie(result, signature) = generate_signature(str, private_key);
+    if (result || signature.empty()) {
         print_error("generate_signature");
         return 2;
     }
-    std::cout << cbuf;
+    cout << signature.c_str();
     return 0;
 }
 
-int verify(const std::string& file, const std::string& signature_file,
-    const std::string& public_keyfile) {
-    FILE* fpub = fopen(public_keyfile.c_str(), "r");
+int verify(
+    const string& file,
+    const string& signature_file,
+    const string& public_keyfile
+    ) {
+    unique_FILE fpub = open_file(public_keyfile, "r");
     if (!fpub) {
         print_error("fopen");
         return 2;
     }
+    int result = 0;
     R_RSA_PUBLIC_KEY public_key;
-    int retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
-    if (retval) {
+    tie(result, public_key) = scan_public_key_hex(fpub.get());
+    if (result) {
         print_error("read_public_key");
         return 2;
     }
-    FILE* f = fopen(signature_file.c_str(), "r");
+    unique_FILE f = open_file(signature_file, "r");
     if (!f) {
         print_error("fopen");
         return 2;
     }
-    const int signature_len = 256;
-    unsigned char signature_buf[signature_len];
-    DATA_BLOCK signature;
-    signature.data = signature_buf;
-    signature.len = signature_len;
-    retval = scan_hex_data(f, signature);
-    if (retval) {
+    vector<uint8_t> signature;
+    tie(result, signature) = scan_hex_data(f.get());
+    if (result || signature.empty()) {
         print_error("scan_hex_data");
         return 2;
     }
 
     char md5_buf[64];
     double size;
-    retval = md5_file(file.c_str(), md5_buf, size);
-    if (retval) {
+    result = md5_file(file.c_str(), md5_buf, size);
+    if (result) {
         print_error("md5_file");
         return 2;
     }
     bool is_valid = false;
-    retval = check_file_signature(
-        md5_buf, public_key, signature, is_valid
-    );
-    if (retval) {
+    tie(result, is_valid) = check_file_signature(
+        md5_buf, public_key, signature);
+    if (result) {
         print_error("check_file_signature");
         return 2;
     }
 
     if (!is_valid) {
-        std::cout << "signature is invalid" << std::endl;
+        cout << "signature is invalid" << endl;
         return 1;
     }
-    std::cout << "signature is valid" << std::endl;
+    cout << "signature is valid" << endl;
     return 0;
 }
 
-int verify_string(const std::string& str, const std::string& signature_file,
-    const std::string& public_keyfile) {
-    FILE* fpub = fopen(public_keyfile.c_str(), "r");
+int verify_string(
+    const string& str,
+    const string& signature_file,
+    const string& public_keyfile
+    ) {
+    unique_FILE fpub = open_file(public_keyfile, "r");
     if (!fpub) {
         print_error("fopen");
         return 2;
     }
+    int result = 0;
     R_RSA_PUBLIC_KEY public_key;
-    int retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
-    if (retval) {
+    tie(result, public_key) = scan_public_key_hex(fpub.get());
+    if (result) {
         print_error("read_public_key");
         return 2;
     }
-    FILE* f = fopen(signature_file.c_str(), "r");
+    unique_FILE f = open_file(signature_file, "r");
     if (!f) {
         print_error("fopen");
         return 2;
     }
     const int signature_len = 512;
     char cbuf[signature_len];
-    size_t k = fread(cbuf, 1, signature_len, f);
+    size_t k = fread(cbuf, 1, signature_len, f.get());
     k = (k < signature_len) ? k : signature_len - 1;
     cbuf[k] = 0;
 
     bool is_valid = false;
-    retval = check_string_signature(str.c_str(), cbuf, public_key, is_valid);
-    if (retval) {
+    tie(result, is_valid) = check_string_signature(str, cbuf, public_key);
+    if (result) {
         print_error("check_string_signature");
         return 2;
     }
     if (!is_valid) {
-        std::cout << "signature is invalid" << std::endl;
+        cout << "signature is invalid" << endl;
         return 1;
     }
-    std::cout << "signature is valid" << std::endl;
+    cout << "signature is valid" << endl;
     return 0;
 }
 
-int test_crypt(const std::string& private_keyfile,
-    const std::string& public_keyfile) {
-    FILE* fpriv = fopen(private_keyfile.c_str(), "r");
+int test_crypt(
+    const string& private_keyfile,
+    const string& public_keyfile
+    ) {
+    unique_FILE fpriv = open_file(private_keyfile, "r");
     if (!fpriv) {
         print_error("fopen");
         return 2;
     }
+    int result = 0;
     R_RSA_PRIVATE_KEY private_key;
-    int retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
-    if (retval) {
-        print_error("scan_key_hex\n");
+    tie(result, private_key) = scan_private_key_hex(fpriv.get());
+    if (result) {
+        print_error("scan_private_key_hex\n");
         return 2;
     }
-    FILE* fpub = fopen(public_keyfile.c_str(), "r");
+    unique_FILE fpub = open_file(public_keyfile, "r");
     if (!fpub) {
         print_error("fopen");
         return 2;
     }
 
     R_RSA_PUBLIC_KEY public_key;
-    retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
-    if (retval) {
+    tie(result, public_key) = scan_public_key_hex(fpub.get());
+    if (result) {
         print_error("read_public_key");
         return 2;
     }
-    const std::string test_string("encryption test successful");
-    unsigned char buf[256], buf2[256];
-    strcpy((char*)buf2, test_string.c_str());
-    DATA_BLOCK in, out;
-    in.data = buf2;
-    in.len = (unsigned)test_string.size();
-    out.data = buf;
-    retval = encrypt_private(private_key, in, out);
-    if (retval) {
+    const string test_string("encryption test successful");
+    vector<uint8_t> in_data(test_string.begin(), test_string.end());
+    vector<uint8_t> encrypted;
+    tie(result, encrypted) = encrypt_private(private_key, in_data);
+    if (result || encrypted.empty()) {
         print_error("encrypt_private");
         return 2;
     }
-    in = out;
-    out.data = buf2;
-    retval = decrypt_public(public_key, in, out);
-    if (retval) {
+    vector<uint8_t> out;
+    tie(result, out) = decrypt_public(public_key, encrypted);
+    if (result || out.empty()) {
         print_error("decrypt_public");
         return 2;
     }
-    std::cout << "out: " << out.data << std::endl;
+    string out_str(out.begin(), out.end());
+    cout << "out: " << out_str << endl;
     return 0;
 }
 
-int convsig_b2o(const std::string& input, const std::string& output) {
-    FILE* f = fopen(input.c_str(), "r");
+int convsig_b2o(
+    const string& input,
+    const string& output
+    ) {
+    unique_FILE f = open_file(input, "r");
     if (!f) {
         print_error("fopen");
         return 2;
     }
-    const int signature_len = 256;
-    unsigned char signature_buf[signature_len];
-    DATA_BLOCK signature;
-    signature.data = signature_buf;
-    signature.len = signature_len;
-    int retval = scan_hex_data(f, signature);
-    fclose(f);
-    if (retval) {
+    int result = 0;
+    vector<uint8_t> signature;
+    tie(result, signature) = scan_hex_data(f.get());
+    if (result || signature.empty()) {
         print_error("scan_hex_data");
         return 2;
     }
 
-    f = fopen(output.c_str(), "wb");
-    if (!f) {
+    unique_FILE f1 = open_file(output, "wb");
+    if (!f1) {
         print_error("fopen");
         return 2;
     }
-    print_raw_data(f, signature);
-    fclose(f);
+    print_raw_data(f1.get(), signature);
     return 0;
 }
 
-int convsig_o2b(const std::string& input, const std::string& output) {
-    FILE* f = fopen(input.c_str(), "rb");
+int convsig_o2b(
+    const string& input,
+    const string& output
+    ) {
+    unique_FILE f = open_file(input, "rb");
     if (!f) {
         print_error("fopen");
         return 2;
     }
-    const int signature_len = 256;
-    unsigned char signature_buf[signature_len];
-    DATA_BLOCK signature;
-    signature.data = signature_buf;
-    signature.len = signature_len;
-    int retval = scan_raw_data(f, signature);
-    fclose(f);
-    if (retval) {
+    int result = 0;
+    vector<uint8_t> signature;
+    tie(result, signature) = scan_raw_data(f.get());
+    if (result || signature.empty()) {
         print_error("scan_raw_data");
         return 2;
     }
 
-    f = fopen(output.c_str(), "w");
-    if (!f) {
+    unique_FILE f1 = open_file(output, "w");
+    if (!f1) {
         print_error("fopen");
         return 2;
     }
-    print_hex_data(f, signature);
-    fclose(f);
+    print_hex_data(f1.get(), signature);
     return 0;
 }
 
-int convsig(const std::string& conversion, const std::string& input,
-    const std::string& output) {
+int convsig(
+    const string& conversion,
+    const string& input,
+    const string& output
+    ) {
     if (conversion == "b2o") {
         return convsig_b2o(input, output);
     }
@@ -424,167 +425,200 @@ int convsig(const std::string& conversion, const std::string& input,
     return 2;
 }
 
-int convkey_private_b2o(const std::string& input, const std::string& output) {
+using unique_OSSL_ENCODER_CTX = unique_ptr<OSSL_ENCODER_CTX,
+    OpenSSLDeleter<OSSL_ENCODER_CTX, OSSL_ENCODER_CTX_free>>;
+using unique_BIO = unique_ptr<BIO,
+    OpenSSLDeleter<BIO, BIO_vfree>>;
+
+int convkey_private_b2o(
+    const string& input,
+    const string& output
+    ) {
     OpenSSL_add_all_algorithms();
     ERR_load_crypto_strings();
 
-    BIO* bio_err = NULL;
-    if (bio_err == NULL) {
-        bio_err = BIO_new_fp(stdout, BIO_NOCLOSE);
-    }
-
-    BIO* bio_out = NULL;
-    bio_out = BIO_new(BIO_s_file());
-    if (BIO_write_filename(bio_out,
+    unique_BIO bio_err(BIO_new_fp(stdout, BIO_NOCLOSE));
+    unique_BIO bio_out(BIO_new(BIO_s_file()));
+    if (BIO_write_filename(bio_out.get(),
         reinterpret_cast<void*>(const_cast<char*>(output.c_str()))) <= 0) {
         print_error("could not create output file.");
         return 2;
     }
 
-    RSA* rsa_key = RSA_new();
-    if (rsa_key == NULL) {
-        print_error("could not allocate memory for RSA structure.");
-        return 2;
-    }
-
-    FILE* fpriv = fopen(input.c_str(), "r");
+    unique_FILE fpriv = open_file(input, "r");
     if (!fpriv) {
         print_error("fopen");
         return 2;
     }
 
+    int result = 0;
     R_RSA_PRIVATE_KEY private_key;
-    int retval = scan_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
-    fclose(fpriv);
-    if (retval) {
-        print_error("scan_key_hex");
+    tie(result, private_key) = scan_private_key_hex(fpriv.get());
+    if (result) {
+        print_error("scan_private_key_hex");
         return 2;
     }
-    private_to_openssl(private_key, rsa_key);
-
-
-    fpriv = fopen(output.c_str(), "w+");
-    if (!fpriv) {
-        print_error("fopen");
+    unique_EVP_PKEY rsa_key;
+    tie(result, rsa_key) = private_to_openssl(private_key);
+    if(result || !rsa_key) {
+        print_error("private_to_openssl");
         return 2;
     }
-    PEM_write_RSAPrivateKey(fpriv, rsa_key, NULL, NULL, 0, 0, NULL);
-    fclose(fpriv);
+
+    unique_OSSL_ENCODER_CTX encoder_ctx(OSSL_ENCODER_CTX_new_for_pkey(
+        rsa_key.get(), OSSL_KEYMGMT_SELECT_PRIVATE_KEY, "PEM", nullptr, nullptr)
+    );
+    if (!encoder_ctx) {
+        print_error("OSSL_ENCODER_CTX_new_for_pkey");
+        return 2;
+    }
+    if (OSSL_ENCODER_to_bio(encoder_ctx.get(), bio_out.get()) <= 0) {
+        print_error("OSSL_ENCODER_to_bio");
+        return 2;
+    }
     return 0;
 }
 
-int convkey_private_o2b(const std::string& input, const std::string& output) {
-    BIO* bio_err = NULL;
-    if (bio_err == NULL) {
-        bio_err = BIO_new_fp(stdout, BIO_NOCLOSE);
-    }
+int convkey_private_o2b(
+    const string& input,
+    const string& output
+    ) {
+    unique_BIO bio_err(BIO_new_fp(stdout, BIO_NOCLOSE));
 
-    FILE* fpriv = fopen(input.c_str(), "r");
+    unique_FILE fpriv = open_file(input, "r");
     if (!fpriv) {
         print_error("fopen");
         return 2;
     }
-    RSA* rsa_key = PEM_read_RSAPrivateKey(fpriv, NULL, NULL, NULL);
-    fclose(fpriv);
-    if (rsa_key == NULL) {
-        ERR_print_errors(bio_err);
+    unique_BIO bio(BIO_new_fp(fpriv.get(), BIO_NOCLOSE));
+    if (!bio) {
+        print_error("BIO_new_fp");
+        return 2;
+    }
+
+    unique_EVP_PKEY rsa_key = unique_EVP_PKEY(
+        PEM_read_bio_PrivateKey(bio.get(), nullptr, nullptr, nullptr));
+
+    if (!rsa_key) {
+        ERR_print_errors(bio_err.get());
         print_error("could not load private key.");
         return 2;
     }
+
     R_RSA_PRIVATE_KEY private_key;
-    openssl_to_private(rsa_key, &private_key);
-    fpriv = fopen(output.c_str(), "w");
-    if (!fpriv) {
+    int retval = 0;
+    tie(retval, private_key) = openssl_to_private(rsa_key);
+    if (retval) {
+        print_error("openssl_to_private");
+        return 2;
+    }
+    unique_FILE fpriv1 = open_file(output, "w");
+    if (!fpriv1) {
         print_error("fopen");
         return 2;
     }
-    return print_key_hex(fpriv, (KEY*)&private_key, sizeof(private_key));
+    return print_private_key_hex(fpriv1.get(), private_key);
 }
 
-int convkey_public_b2o(const std::string& input, const std::string& output) {
+int convkey_public_b2o(
+    const string& input,
+    const string& output
+    ) {
     OpenSSL_add_all_algorithms();
     ERR_load_crypto_strings();
 
-    BIO* bio_err = NULL;
-    if (bio_err == NULL) {
-        bio_err = BIO_new_fp(stdout, BIO_NOCLOSE);
-    }
-
-    BIO* bio_out = NULL;
-    bio_out = BIO_new(BIO_s_file());
-    if (BIO_write_filename(bio_out,
+    unique_BIO bio_err(BIO_new_fp(stdout, BIO_NOCLOSE));
+    unique_BIO bio_out(BIO_new(BIO_s_file()));
+    if (BIO_write_filename(bio_out.get(),
         reinterpret_cast<void*>(const_cast<char*>(output.c_str()))) <= 0) {
         print_error("could not create output file.");
         return 2;
     }
 
-    RSA* rsa_key = RSA_new();
-    if (rsa_key == NULL) {
-        print_error("could not allocate memory for RSA structure.");
+    unique_FILE fpub = open_file(input, "r");
+    if (!fpub) {
+        print_error("fopen");
         return 2;
     }
 
-    FILE* fpub = fopen(input.c_str(), "r");
-    if (!fpub) {
-        print_error("fopen");
-        return 2;
-    }
+    int result = 0;
     R_RSA_PUBLIC_KEY public_key;
-    int retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
-    fclose(fpub);
-    if (retval) {
-        print_error("scan_key_hex");
+    tie(result, public_key) = scan_public_key_hex(fpub.get());
+    if (result) {
+        print_error("scan_public_key_hex");
         return 2;
     }
-    fpub = fopen(output.c_str(), "w+");
-    if (!fpub) {
-        print_error("fopen");
+
+    unique_EVP_PKEY rsa_key;
+    tie(result, rsa_key) = public_to_openssl(public_key);
+    if (result || !rsa_key) {
+        print_error("public_to_openssl");
         return 2;
     }
-    public_to_openssl(public_key, rsa_key);
-    retval = PEM_write_RSA_PUBKEY(fpub, rsa_key);
-    fclose(fpub);
-    if (retval == 0) {
-        ERR_print_errors(bio_err);
-        print_error("could not write key file.");
+
+    unique_OSSL_ENCODER_CTX encoder_ctx(OSSL_ENCODER_CTX_new_for_pkey(
+        rsa_key.get(), OSSL_KEYMGMT_SELECT_PUBLIC_KEY, "PEM", nullptr, nullptr)
+    );
+    if (!encoder_ctx) {
+        print_error("OSSL_ENCODER_CTX_new_for_pkey");
         return 2;
     }
+    if (OSSL_ENCODER_to_bio(encoder_ctx.get(), bio_out.get()) <= 0) {
+        print_error("OSSL_ENCODER_to_bio");
+        return 2;
+    }
+
     return 0;
 }
 
-int convkey_public_o2b(const std::string& input, const std::string& output) {
-    BIO* bio_err = NULL;
-    if (bio_err == NULL) {
-        bio_err = BIO_new_fp(stdout, BIO_NOCLOSE);
-    }
+int convkey_public_o2b(
+    const string& input,
+    const string& output
+    ) {
+    unique_BIO bio_err(BIO_new_fp(stdout, BIO_NOCLOSE));
 
-    FILE* fpub = fopen(input.c_str(), "r");
+    unique_FILE fpub = open_file(input, "r");
     if (!fpub) {
         print_error("fopen");
         return 2;
     }
-    RSA* rsa_key = PEM_read_RSA_PUBKEY(fpub, NULL, NULL, NULL);
-    fclose(fpub);
 
-    if (rsa_key == NULL) {
-        ERR_print_errors(bio_err);
+    unique_BIO bio(BIO_new_fp(fpub.get(), BIO_NOCLOSE));
+    if (!bio) {
+        print_error("BIO_new_fp");
+        return 2;
+    }
+
+    unique_EVP_PKEY rsa_key = unique_EVP_PKEY(PEM_read_bio_PUBKEY(
+        bio.get(), nullptr, nullptr, nullptr));
+
+    if (!rsa_key) {
+        ERR_print_errors(bio_err.get());
         print_error("could not load public key.");
         return 2;
     }
+    int retval = 0;
     R_RSA_PUBLIC_KEY public_key;
     R_RSA_PRIVATE_KEY private_key;
-    openssl_to_keys(rsa_key, 1024, private_key, public_key);
-    public_to_openssl(public_key, rsa_key);
-    fpub = fopen(output.c_str(), "w");
-    if (!fpub) {
+    tie(retval, private_key, public_key) = openssl_to_keys(rsa_key);
+    if (retval) {
+        print_error("openssl_to_keys");
+        return 2;
+    }
+    unique_FILE fpub1 = open_file(output, "w");
+    if (!fpub1) {
         print_error("fopen");
         return 2;
     }
-    return print_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
+    return print_public_key_hex(fpub1.get(), public_key);
 }
 
-int convkey(const std::string& conversion, const std::string& key_type,
-    const std::string& input, const std::string& output) {
+int convkey(
+    const string& conversion,
+    const string& key_type,
+    const string& input,
+    const string& output
+    ) {
     if (conversion == "b2o") {
         if (key_type == "priv") {
             return convkey_private_b2o(input, output);
@@ -609,81 +643,85 @@ int convkey(const std::string& conversion, const std::string& key_type,
     return 2;
 }
 
-int cert_verify(const std::string& file, const std::string& signature_file,
-    const std::string& certificate_dir, const std::string& ca_dir) {
-    FILE* f = fopen(signature_file.c_str(), "r");
+int cert_verify(
+    const string& file,
+    const string& signature_file,
+    const string& certificate_dir,
+    const string& ca_dir
+    ) {
+    unique_FILE f = open_file(signature_file, "r");
     if (!f) {
         print_error("fopen");
         return 2;
     }
-    const int signature_len = 256;
-    unsigned char signature_buf[signature_len];
-    DATA_BLOCK signature;
-    signature.data = signature_buf;
-    signature.len = signature_len;
-    int retval = scan_hex_data(f, signature);
-    if (retval) {
+    int result = 0;
+    vector<uint8_t> signature;
+    tie(result, signature) = scan_hex_data(f.get());
+    if (result || signature.empty()) {
         print_error("cannot scan_hex_data");
         return 2;
     }
-    char* certpath = check_validity(certificate_dir.c_str(), file.c_str(),
-        signature.data, const_cast<char*>(ca_dir.c_str()));
-    if (certpath == NULL) {
+    string certpath;
+    tie(result, certpath) = check_validity(certificate_dir, file,
+        signature, ca_dir);
+    if (result || certpath.empty()) {
         print_error("signature cannot be verified.");
         return 2;
     }
     else {
-        std::cout << "signature verified using certificate" << certpath
-            << std::endl;
+        cout << "signature verified using certificate" << certpath << endl;
     }
     return 0;
 }
 
-int main(int argc, char** argv) {
+int main(
+    int argc,
+    char** argv
+    ) {
     if (argc == 1) {
         usage();
         return 1;
     }
-    const std::string operation(argv[1]);
+    const string operation(argv[1]);
     if (operation == "-genkey") {
-        if (argc < 5) {
+        if (argc != 5) {
             usage();
             return 1;
         }
         return genkey(atoi(argv[2]), argv[3], argv[4]);
     }
     if (operation == "-sign") {
-        if (argc < 4) {
+        if (argc != 4) {
             usage();
-            exit(1);
+            return 1;
         }
         return sign(argv[2], argv[3]);
     }
     if (operation == "-sign_string") {
-        if (argc < 4) {
+        if (argc != 4) {
             usage();
-            exit(1);
+            return 1;
         }
         return sign_string(argv[2], argv[3]);
     }
     if (operation == "-verify") {
-        if (argc < 5) {
+        if (argc != 5) {
             usage();
-            exit(1);
+            return 1;
         }
         return verify(argv[2], argv[3], argv[4]);
     }
     if (operation == "-verify_string") {
-        if (argc < 5) {
+        if (argc != 5) {
             usage();
-            exit(1);
+            return 1;
         }
         return verify_string(argv[2], argv[3], argv[4]);
     }
     if (operation == "-test_crypt") {
-        if (argc < 4) {
+        if (argc != 4) {
             usage();
-            exit(1);
+            return 1;
         }
         return test_crypt(argv[2], argv[3]);
     }
@@ -691,23 +729,23 @@ int main(int argc, char** argv) {
 // and signature converted to OpenSSL format cannot be verified with
 // OpenSSL
     if (operation == "-convsig") {
-        if (argc < 5) {
+        if (argc != 5) {
             usage();
-            exit(1);
+            return 1;
         }
         return convsig(argv[2], argv[3], argv[4]);
     }
     if (operation == "-convkey") {
-        if (argc < 6) {
+        if (argc != 6) {
             usage();
-            exit(1);
+            return 1;
         }
         return convkey(argv[2], argv[3], argv[4], argv[5]);
     }
     if (operation  == "-cert_verify") {
-        if (argc < 6) {
+        if (argc != 6) {
             usage();
-            exit(1);
+            return 1;
         }
         return cert_verify(argv[2], argv[3], argv[4], argv[5]);
     }

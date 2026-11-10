@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,10 +18,6 @@
 
 #ifndef BOINC_DLGEVENTLOG_H
 #define BOINC_DLGEVENTLOG_H
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "DlgEventLog.cpp"
-#endif
 
 #define EVENT_LOG_STRIPES 1
 #define EVENT_LOG_RULES 1
@@ -86,7 +82,6 @@ class CDlgEventLogListCtrl;
 class CDlgEventLog : public DlgEventLogBase
 {
     DECLARE_DYNAMIC_CLASS( CDlgEventLog )
-    DECLARE_EVENT_TABLE()
 
 public:
     /// Constructors
@@ -101,9 +96,6 @@ public:
 
     /// Sets text for m_pFilterButton
     void SetFilterButtonText();
-
-    /// Text color selection
-    void SetTextColor();
 
 ////@begin CDlgEventLog event handler declarations
     /// wxEVT_HELP event handler for ID_DLGEVENTLOG
@@ -150,7 +142,6 @@ public:
     virtual wxInt32         GetDocCount();
 
     virtual wxString        OnListGetItemText( long item, long column ) const;
-    virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
 
     void                    UpdateButtons();
 
@@ -158,6 +149,8 @@ private:
 ////@begin CDlgEventLog member variables
 ////@end CDlgEventLog member variables
     CDlgEventLogListCtrl*   m_pList;
+    wxColour                m_normalTextColor;
+    bool                    m_isConnected;
     wxArrayInt              m_iFilteredIndexes;
     wxInt32                 m_iTotalDocCount;
     wxInt32                 m_iFilteredDocCount;
@@ -170,11 +163,6 @@ private:
     wxButton*               m_pFilterButton;
     wxButton*               m_pCopySelectedButton;
     wxButton*               m_pErrorFilterButton;
-
-    wxListItemAttr*         m_pMessageInfoAttr;
-    wxListItemAttr*         m_pMessageErrorAttr;
-    wxListItemAttr*         m_pMessageInfoGrayAttr;
-    wxListItemAttr*         m_pMessageErrorGrayAttr;
 
     bool                    m_bProcessingRefreshEvent;
     bool                    m_bWasConnected;

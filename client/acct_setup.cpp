@@ -326,7 +326,8 @@ void CLIENT_STATE::process_autologin(bool first) {
 
     // check that project ID is valid, get URL
     //
-    retval = project_list.read_file();       // get project list
+    ALL_PROJECTS_LIST apl;
+    retval = apl.read_file(ALL_PROJECTS_LIST_FILENAME);    // get project list
     if (retval) {
         msg_printf(NULL, MSG_INFO,
             "Error reading project list: %s", boincerror(retval)
@@ -334,7 +335,7 @@ void CLIENT_STATE::process_autologin(bool first) {
         boinc_delete_file(ACCOUNT_DATA_FILENAME);
         return;
     }
-    PROJECT_LIST_ITEM *pli = project_list.lookup(project_id);
+    PROJECT_LIST_ENTRY *pli = apl.lookup_id(project_id);
     if (!pli) {
         if (first) {
             // we may have an outdated project list.
@@ -362,7 +363,7 @@ void CLIENT_STATE::process_autologin(bool first) {
     }
 
     if (!pli->is_account_manager) {
-        if (lookup_project(pli->master_url.c_str())) {
+        if (lookup_project(pli->url.c_str())) {
             msg_printf(NULL, MSG_INFO,
                 "Already attached to %s", pli->name.c_str()
             );
@@ -391,12 +392,12 @@ void CLIENT_STATE::process_autologin(bool first) {
 }
 
 int LOOKUP_LOGIN_TOKEN_OP::do_rpc(
-    PROJECT_LIST_ITEM* _pli, int user_id, const char* login_token
+    PROJECT_LIST_ENTRY* _pli, int user_id, const char* login_token
 ) {
     char url[1024];
     pli = _pli;
     snprintf(url, sizeof(url), "%slogin_token_lookup.php?user_id=%d&token=%s",
-        pli->master_url.c_str(), user_id, login_token
+        pli->url.c_str(), user_id, login_token
     );
     return gui_http->do_rpc(this, url, LOGIN_TOKEN_LOOKUP_REPLY, false);
 }
@@ -450,17 +451,17 @@ void LOOKUP_LOGIN_TOKEN_OP::handle_reply(int http_op_retval) {
             "Using account manager %s", pli->name.c_str()
         );
         safe_strcpy(gstate.acct_mgr_info.project_name, pli->name.c_str());
-        safe_strcpy(gstate.acct_mgr_info.master_url, pli->master_url.c_str());
+        safe_strcpy(gstate.acct_mgr_info.master_url, pli->url.c_str());
         safe_strcpy(gstate.acct_mgr_info.user_name, user_name.c_str());
         safe_strcpy(gstate.acct_mgr_info.authenticator, authenticator.c_str());
         gstate.acct_mgr_info.write_info();
     } else {
         msg_printf(NULL, MSG_INFO, "Attaching to project %s", pli->name.c_str());
         gstate.add_project(
-            pli->master_url.c_str(), authenticator.c_str(),
+            pli->url.c_str(), authenticator.c_str(),
             pli->name.c_str(), "", false
         );
-        PROJECT *p = gstate.lookup_project(pli->master_url.c_str());
+        PROJECT *p = gstate.lookup_project(pli->url.c_str());
         if (p) {
             safe_strcpy(p->user_name, user_name.c_str());
             safe_strcpy(p->team_name, team_name.c_str());

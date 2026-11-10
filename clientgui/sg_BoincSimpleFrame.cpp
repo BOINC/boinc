@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,11 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "sg_BoincSimpleFrame.h"
-#endif
-
 #include "stdwx.h"
 #include "diagnostics.h"
 #include "str_util.h"
@@ -31,8 +26,6 @@
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "Events.h"
-#include "BOINCBaseFrame.h"
-#include "wizardex.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
 #include "error_numbers.h"
@@ -68,45 +61,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CSimpleFrame, CBOINCBaseFrame)
 
-BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
-    EVT_SIZE(CSimpleFrame::OnSize)
-    EVT_MENU_OPEN(CSimpleFrame::OnMenuOpening)
-    // View
-    EVT_MENU(ID_CHANGEGUI, CSimpleFrame::OnChangeGUI)
-    EVT_MENU(ID_SGDEFAULTSKINSELECTOR, CSimpleFrame::OnSelectDefaultSkin)
-    EVT_MENU_RANGE(ID_SGFIRSTSKINSELECTOR, ID_LASTSGSKINSELECTOR, CSimpleFrame::OnSelectSkin)
-    EVT_HELP(wxID_ANY, CSimpleFrame::OnHelp)
-    EVT_FRAME_CONNECT(CSimpleFrame::OnConnect)
-    EVT_FRAME_RELOADSKIN(CSimpleFrame::OnReloadSkin)
-    EVT_FRAME_NOTIFICATION(CSimpleFrame::OnNotification)
-    EVT_MENU(ID_PREFERENCES, CSimpleFrame::OnPreferences)
-    EVT_MENU(ID_SGOPTIONS, CSimpleFrame::OnOptions)
-    EVT_MENU(ID_SGDIAGNOSTICLOGFLAGS, CSimpleFrame::OnDiagnosticLogFlags)
-    // Tools
-    EVT_MENU(ID_WIZARDATTACHPROJECT, CBOINCBaseFrame::OnWizardAttachProject)
-    EVT_MENU(ID_WIZARDATTACHACCOUNTMANAGER, CBOINCBaseFrame::OnWizardUpdate)
-    EVT_MENU(ID_WIZARDUPDATE, CBOINCBaseFrame::OnWizardUpdate)
-    EVT_MENU(ID_WIZARDDETACH, CBOINCBaseFrame::OnWizardDetach)
-    // Help
-    EVT_MENU(ID_HELPBOINC, CSimpleFrame::OnHelpBOINC)
-    EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
-    EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
-    EVT_MENU(wxID_ABOUT, CSimpleFrame::OnHelpAbout)
-    EVT_MENU(ID_CHECK_VERSION, CSimpleFrame::OnCheckVersion)
-    EVT_MENU(ID_REPORT_BUG, CSimpleFrame::OnReportBug)
-    EVT_MENU(ID_EVENTLOG, CSimpleFrame::OnEventLog)
-    EVT_MOVE(CSimpleFrame::OnMove)
-#ifdef __WXMAC__
-    EVT_MENU(wxID_PREFERENCES, CSimpleFrame::OnPreferences)
-#endif
-END_EVENT_TABLE()
-
-
-CSimpleFrame::CSimpleFrame() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Default Constructor Function Begin"));
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::CSimpleFrame - Default Constructor Function End"));
-}
-
 
 CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position, wxSize size) :
     CBOINCBaseFrame((wxFrame *)NULL, ID_SIMPLEFRAME, title, position, size,
@@ -123,6 +77,38 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     mainSizer = new wxBoxSizer(wxVERTICAL);
     mainSizer->Add(m_pBackgroundPanel, 1, wxLEFT | wxRIGHT | wxEXPAND, 0);
     SetSizerAndFit(mainSizer);
+
+    Bind(wxEVT_SIZE, [this](wxSizeEvent& event){ OnSize(event); });
+    Bind(wxEVT_MENU_OPEN, [this](wxMenuEvent& event){ OnMenuOpening(event); });
+    // View
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnChangeGUI(event); }, ID_CHANGEGUI);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnSelectDefaultSkin(event); }, ID_SGDEFAULTSKINSELECTOR);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnSelectSkin(event); }, ID_SGFIRSTSKINSELECTOR, ID_LASTSGSKINSELECTOR);
+    Bind(wxEVT_HELP, [this](wxHelpEvent& event){ OnHelp(event); });
+    Bind(wxEVT_FRAME_CONNECT, [this](CFrameEvent& event){ OnConnect(event); });
+    Bind(wxEVT_FRAME_RELOADSKIN, [this](CFrameEvent& event){ OnReloadSkin(event); });
+    Bind(wxEVT_FRAME_NOTIFICATION, [this](CFrameEvent& event){ OnNotification(event); });
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnPreferences(event); }, ID_PREFERENCES);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnOptions(event); }, ID_SGOPTIONS);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnDiagnosticLogFlags(event); }, ID_SGDIAGNOSTICLOGFLAGS);
+    // Tools
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnWizardAttachProject(event); }, ID_WIZARDATTACHPROJECT);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnWizardUpdate(event); }, ID_WIZARDATTACHACCOUNTMANAGER);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnWizardUpdate(event); }, ID_WIZARDUPDATE);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnWizardDetach(event); }, ID_WIZARDDETACH);
+    // Help
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnHelpBOINC(event); }, ID_HELPBOINC);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnHelpBOINC(event); }, ID_HELPBOINCMANAGER);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnHelpBOINC(event); }, ID_HELPBOINCWEBSITE);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnHelpAbout(event); }, wxID_ABOUT);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnCheckVersion(event); }, ID_CHECK_VERSION);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnReportBug(event); }, ID_REPORT_BUG);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnEventLog(event); }, ID_EVENTLOG);
+    Bind(wxEVT_MOVE, [this](wxMoveEvent& event){ OnMove(event); });
+#ifdef __WXMAC__
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnPreferences(event); }, wxID_PREFERENCES);
+#endif
+
     RestoreState();
 }
 
@@ -618,7 +604,7 @@ void CSimpleFrame::OnSelectSkin( wxCommandEvent& event ){
     }
 
     selectedItem->Check(true);
-    pSkinManager->ReloadSkin(newSkinName);
+    pSkinManager->ReloadSkin(std::move(newSkinName));
 
     wxGetApp().SaveState();
     wxConfigBase::Get(FALSE)->Flush();
@@ -931,7 +917,6 @@ void CSimpleFrame::OnEventLog(wxCommandEvent& WXUNUSED(event)) {
 
 
 void CSimpleFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) ) {
-#if SUPPORTDARKMODE
     wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
     wxGetApp().SetIsDarkMode(appearance.IsDark());
 
@@ -970,26 +955,17 @@ void CSimpleFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) )
         dlgPrefsPtr->GetPrefsPanel()->MakeBackgroundBitmap();
         dlgPrefsPtr->Refresh();
     }
-#endif
+
+    CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
+    if (eventLog) {
+        wxGetApp().OnEventLogClose();
+        delete eventLog;    // eventLog->Destroy() creates a race condition if used here.
+        wxGetApp().DisplayEventLog();
+    }
 }
 
 
 IMPLEMENT_DYNAMIC_CLASS(CSimpleGUIPanel, wxPanel)
-
-BEGIN_EVENT_TABLE(CSimpleGUIPanel, wxPanel)
-    EVT_ERASE_BACKGROUND(CSimpleGUIPanel::OnEraseBackground)
-    EVT_BUTTON(ID_SGNOTICESBUTTON,CSimpleGUIPanel::OnShowNotices)
-    EVT_BUTTON(ID_SGSUSPENDRESUMEBUTTON,CSimpleGUIPanel::OnSuspendResume)
-    EVT_BUTTON(ID_SIMPLE_HELP,CSimpleGUIPanel::OnHelp)
-    EVT_TIMER(ID_SIMPLEMESSAGECHECKTIMER, CSimpleGUIPanel::OnCheckForNewNotices)
-    EVT_PAINT(CSimpleGUIPanel::OnPaint)
-END_EVENT_TABLE()
-
-
-CSimpleGUIPanel::CSimpleGUIPanel() {
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::CSimpleGUIPanel - Default Constructor Function Begin"));
-    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::CSimpleGUIPanel - Default Constructor Function End"));
-}
 
 
 CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
@@ -1077,6 +1053,13 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
 
     OnFrameRender();
 
+    Bind(wxEVT_ERASE_BACKGROUND, [this](wxEraseEvent& event){ OnEraseBackground(event); });
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnShowNotices(event); }, ID_SGNOTICESBUTTON);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnSuspendResume(event); }, ID_SGSUSPENDRESUMEBUTTON);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnHelp(event); }, ID_SIMPLE_HELP);
+    Bind(wxEVT_TIMER, [this](wxTimerEvent& event){ OnCheckForNewNotices(event); }, ID_SIMPLEMESSAGECHECKTIMER);
+    Bind(wxEVT_PAINT, [this](wxPaintEvent& event){ OnPaint(event); });
+
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::CSimpleGUIPanel - Overloaded Constructor Function End"));
 }
 
@@ -1085,8 +1068,10 @@ CSimpleGUIPanel::~CSimpleGUIPanel()
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::CSimpleGUIPanel - Destructor Function Begin"));
 
-    checkForNewNoticesTimer->Stop();
-    delete checkForNewNoticesTimer;
+    if (checkForNewNoticesTimer) {
+        checkForNewNoticesTimer->Stop();
+        delete checkForNewNoticesTimer;
+    }
     m_bmpBg = wxNullBitmap; // Deletes old bitmap via reference counting
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::CSimpleGUIPanel - Destructor Function End"));

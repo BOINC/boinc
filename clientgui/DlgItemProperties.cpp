@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,9 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 //
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "DlgItemProperties.h"
-#endif
 
 #include "stdwx.h"
 #include "util.h"
@@ -28,12 +25,6 @@
 #include "error_numbers.h"
 
 IMPLEMENT_DYNAMIC_CLASS(CDlgItemProperties, wxDialog)
-
-BEGIN_EVENT_TABLE(CDlgItemProperties, wxDialog)
-    EVT_BUTTON(ID_COPYSELECTED, CDlgItemProperties::OnCopySelected)
-    EVT_BUTTON(ID_COPYALL, CDlgItemProperties::OnCopyAll)
-
-END_EVENT_TABLE()
 
 typedef enum _ITEM_TYPE {
     ItemTypeSection,
@@ -63,8 +54,8 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
 
     const long style = wxBORDER_NONE;
     m_txtInformation = new wxHtmlWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, style, wxEmptyString );
-    m_txtInformation->Bind(wxEVT_LEFT_DOWN, &CDlgItemProperties::OnMouseButtonEvent, this);
-    m_txtInformation->Bind(wxEVT_LEFT_UP, &CDlgItemProperties::OnMouseButtonEvent, this);
+    m_txtInformation->Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent& event){ OnMouseButtonEvent(event); });
+    m_txtInformation->Bind(wxEVT_LEFT_UP, [this](wxMouseEvent& event){ OnMouseButtonEvent(event); });
 
     m_bSizer1->Add( m_txtInformation, 1, wxEXPAND | wxALL, 5 );
 
@@ -97,6 +88,9 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
         m_strBaseConfigLocation = wxString(wxT("/DlgProperties/"));
         break;
     }
+
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnCopySelected(event); }, ID_COPYSELECTED);
+    Bind(wxEVT_BUTTON, [this](wxCommandEvent& event){ OnCopyAll(event); }, ID_COPYALL);
 
     RestoreState();
 }
@@ -427,8 +421,9 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
         }
         addProperty(_("Estimated time remaining"), FormatTime(result->estimated_cpu_time_remaining));
         addProperty(_("Fraction done"), wxString::Format(wxT("%.3f%%"), result->fraction_done*100));
-        addProperty(_("Virtual memory size"), FormatDiskSpace(result->swap_size));
-        addProperty(_("Working set size"), FormatDiskSpace(result->working_set_size_smoothed));
+        addProperty(_("Virtual memory size"), FormatDiskSpace(result->virtual_size));
+        addProperty(_("Swap usage"), FormatDiskSpace(result->swap_usage));
+        addProperty(_("Resident set size"), FormatDiskSpace(result->rss_smoothed));
         if (result->slot >= 0) {
             addProperty(_("Directory"), wxString::Format(wxT("slots/%d"), result->slot));
         }

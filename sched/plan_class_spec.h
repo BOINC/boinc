@@ -16,24 +16,31 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // Plan class specifications in XML
-// See https://github.com/BOINC/boinc/wiki/AppPlanSpec
+// See https://github.com/BOINC/boinc/wiki/Plan-classes
 
 #include <string>
 #include <vector>
 #include <regex.h>
 
 // Represents a plan class, as specified in XML
-// if you add anything here, initialize it in the constructor
+// if you add anything here:
+// - initialize it in the constructor
+// - parse it in PLAN_CLASS_SPEC::parse()
+// - enforce it in PLAN_CLASS_SPEC::check()
 //
 struct PLAN_CLASS_SPEC {
     char name[256];
     char gpu_type[256];
+        // nvidia, amd, intel, or apple_gpu
+        // or model name, e.g. 'QUALCOMM Adreno (TM)'
     bool cuda;
     bool cal;
     bool opencl;
     bool virtualbox;
     bool wsl;
     bool docker;
+    int min_boinc_wsl_distro_version;
+        // if client is Win, min version of the BOINC WSL distro
     bool is64bit;
     std::vector<std::string> cpu_features;
     double min_ncpus;
@@ -84,12 +91,17 @@ struct PLAN_CLASS_SPEC {
         // the project prefs tag for user-supplied gpu_utilization factor
     double min_gpu_peak_flops;
     double max_gpu_peak_flops;
+    bool have_gpu_type_regex;
+    regex_t gpu_type_regex;
 
     // AMD/ATI apps
     //
     bool need_ati_libs;
     bool need_amd_libs;
         // need DLLs w/ ATI or AMD name (default: neither)
+    int min_amd_simd_width;
+        // SIMD width for old GCN GPUs is 16; for new RDNA GPUs it's 32
+        // so you can distinguish them this way
     int min_cal_target;
     int max_cal_target;
     bool without_opencl; // restrict to CAL only GPUs
@@ -122,10 +134,11 @@ struct PLAN_CLASS_SPEC {
     vector<int> exclude_vbox_version;
     bool vm_accel_required;
 
+    PLAN_CLASS_SPEC();
     int parse(XML_PARSER&);
     bool opencl_check(OPENCL_DEVICE_PROP&);
     bool check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu, const WORKUNIT* wu);
-    PLAN_CLASS_SPEC();
+    bool check_wsl_gpu(SCHEDULER_REQUEST& sreq, std::string gpu_name);
 };
 
 struct PLAN_CLASS_SPECS {

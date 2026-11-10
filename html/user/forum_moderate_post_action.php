@@ -49,7 +49,7 @@ function hide_explanation() {
 }
 
 $user = get_logged_in_user();
-check_tokens($user->authenticator);
+check_tokens();
 BoincForumPrefs::lookup($user);
 $post = BoincPost::lookup_id(get_int('id'));
 if (!$post) error_page("no such post");
@@ -160,8 +160,19 @@ if (!$result) {
     error_page("Action failed: possible database problem");
 }
 
-send_moderation_email($forum, $post, $thread, $explanation, $action_name);
+ob_start();
+$email_success = send_moderation_email($forum, $post, $thread, $explanation, $action_name);
+$email_output = ob_get_clean();
 
-header('Location: forum_thread.php?id='.$thread->id);
+if ($email_success) {
+    header('Location: forum_thread.php?id='.$thread->id);
+    exit;
+} else {
+    page_head(tra("Moderation notice"));
+    echo htmlspecialchars($email_output, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    echo "<p>".tra("The post was successfully %1, but the notification email failed to send.", htmlspecialchars($action_name, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'))."</p>";
+    echo "<a href='forum_thread.php?id=$thread->id'>".tra("Return to thread")."</a>";
+    page_tail();
+}
 
 ?>

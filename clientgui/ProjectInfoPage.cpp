@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,29 +15,19 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <https://www.gnu.org/licenses/>.
 //
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "ProjectInfoPage.h"
-#endif
 
 #include "stdwx.h"
 #include "diagnostics.h"
-#include "util.h"
-#include "mfile.h"
-#include "miofile.h"
-#include "parse.h"
 #include "url.h"
-#include "error_numbers.h"
-
-#include "wizardex.h"
-#include "error_numbers.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "ValidateURL.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
+#include "CompletionErrorPage.h"
+#include "ProjectPropertiesPage.h"
 #include "ProjectInfoPage.h"
-
 
 #include "res/windowsicon.xpm"
 #include "res/macosicon.xpm"
@@ -49,30 +39,15 @@
 #include "res/nvidiaicon2.xpm"
 #include "res/intelgpuicon2.xpm"
 #include "res/virtualboxicon.xpm"
+#include "res/rpiicon.xpm"
+#include "res/docker.xpm"
+#include "res/metal.xpm"
 #include "res/blankicon.xpm"
 
 
-/*!
- * CProject type
- */
-
-class CProjectInfo : public wxObject
-{
+class CProjectInfo : public wxObject {
     DECLARE_DYNAMIC_CLASS( CProjectInfo )
-    CProjectInfo() {
-        m_bSupportedPlatformFound = false;
-        m_bProjectSupportsWindows = false;
-        m_bProjectSupportsMac = false;
-        m_bProjectSupportsLinux = false;
-        m_bProjectSupportsAndroid = false;
-        m_bProjectSupportsFreeBSD = false;
-        m_bProjectSupportsLinuxARM = false;
-        m_bProjectSupportsCUDA = false;
-        m_bProjectSupportsCAL = false;
-        m_bProjectSupportsIntelGPU  = false;
-        m_bProjectSupportsVirtualBox = false;
-    }
-
+    CProjectInfo() = default;
 public:
     wxString m_strURL;
     wxString m_strWebURL;
@@ -81,65 +56,32 @@ public:
     wxString m_strGeneralArea;
     wxString m_strSpecificArea;
     wxString m_strOrganization;
-    bool m_bSupportedPlatformFound;
-    bool m_bProjectSupportsWindows;
-    bool m_bProjectSupportsMac;
-    bool m_bProjectSupportsLinux;
-    bool m_bProjectSupportsAndroid;
-    bool m_bProjectSupportsFreeBSD;
-    bool m_bProjectSupportsLinuxARM;
-    bool m_bProjectSupportsCUDA;
-    bool m_bProjectSupportsCAL;
-    bool m_bProjectSupportsIntelGPU;
-    bool m_bProjectSupportsVirtualBox;
+    bool m_bSupportedPlatformFound = false;
+    bool m_bProjectSupportsWindows = false;
+    bool m_bProjectSupportsMac = false;
+    bool m_bProjectSupportsLinux = false;
+    bool m_bProjectSupportsAndroid = false;
+    bool m_bProjectSupportsFreeBSD = false;
+    bool m_bProjectSupportsLinuxARM = false;
+    bool m_bProjectSupportsRaspberryPi = false;
+    bool m_bProjectSupportsDocker = false;
+    bool m_bProjectSupportsCUDA = false;
+    bool m_bProjectSupportsCAL = false;
+    bool m_bProjectSupportsIntelGPU = false;
+    bool m_bProjectSupportsVirtualBox = false;
+    bool m_bProjectSupportsMetal = false;
 };
 
-IMPLEMENT_DYNAMIC_CLASS( CProjectInfo, wxObject )
+IMPLEMENT_DYNAMIC_CLASS(CProjectInfo, wxObject)
 
 
-/*!
- * CProjectInfoPage type definition
- */
+IMPLEMENT_DYNAMIC_CLASS(CProjectInfoPage, CBOINCWizardPage)
 
-IMPLEMENT_DYNAMIC_CLASS( CProjectInfoPage, wxWizardPageEx )
-
-/*!
- * CProjectInfoPage event table definition
- */
-
-BEGIN_EVENT_TABLE( CProjectInfoPage, wxWizardPageEx )
-
-////@begin CProjectInfoPage event table entries
-    EVT_COMBOBOX( ID_CATEGORIES, CProjectInfoPage::OnProjectCategorySelected )
-    EVT_LIST_ITEM_SELECTED( ID_PROJECTS, CProjectInfoPage::OnProjectSelected )
-    EVT_WIZARDEX_PAGE_CHANGED( wxID_ANY, CProjectInfoPage::OnPageChanged )
-    EVT_WIZARDEX_PAGE_CHANGING( wxID_ANY, CProjectInfoPage::OnPageChanging )
-    EVT_WIZARDEX_CANCEL( wxID_ANY, CProjectInfoPage::OnCancel )
-////@end CProjectInfoPage event table entries
-
-END_EVENT_TABLE()
-
-
-/*!
- * CProjectInfoPage constructors
- */
-
-CProjectInfoPage::CProjectInfoPage( )
-{
+CProjectInfoPage::CProjectInfoPage(CWizardAttach* parent) {
+    Create(parent);
 }
 
-CProjectInfoPage::CProjectInfoPage( CBOINCBaseWizard* parent )
-{
-    Create( parent );
-}
-
-
-/*!
- * CProjectInfoPage destructor
- */
-
-CProjectInfoPage::~CProjectInfoPage( )
-{
+CProjectInfoPage::~CProjectInfoPage() {
     for (std::vector<CProjectInfo*>::iterator iter = m_Projects.begin(); iter != m_Projects.end(); ++iter)
     {
         CProjectInfo* pEntry = (CProjectInfo*)*iter;
@@ -150,66 +92,59 @@ CProjectInfoPage::~CProjectInfoPage( )
     delete m_apl;
 }
 
-
-/*!
- * CProjectInfoPage creator
- */
-
-bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
-{
-////@begin CProjectInfoPage member initialisation
-    m_pTitleStaticCtrl = NULL;
-    m_pDescriptionStaticCtrl = NULL;
-    m_pProjectCategoriesStaticCtrl = NULL;
-    m_pProjectCategoriesCtrl = NULL;
-    m_pProjectsStaticCtrl = NULL;
-    m_pProjectsCtrl = NULL;
-    m_pProjectDetailsStaticCtrl = NULL;
-    m_pProjectDetailsDescriptionCtrl = NULL;
-    m_pProjectDetailsResearchAreaStaticCtrl = NULL;
-    m_pProjectDetailsResearchAreaCtrl = NULL;
-    m_pProjectDetailsOrganizationStaticCtrl = NULL;
-    m_pProjectDetailsOrganizationCtrl = NULL;
-    m_pProjectDetailsURLStaticCtrl = NULL;
-    m_pProjectDetailsURLCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformsStaticCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformWindowsCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformMacCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformLinuxCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformAndroidCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformFreeBSDCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformLinuxArmCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformATICtrl = NULL;
-    m_pProjectDetailsSupportedPlatformNvidiaCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformIntelGPUCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformVirtualBoxCtrl = NULL;
-    m_pProjectDetailsSupportedPlatformBlankCtrl = NULL;
-    m_pProjectURLStaticCtrl = NULL;
-    m_pProjectURLCtrl = NULL;
-////@end CProjectInfoPage member initialisation
+bool CProjectInfoPage::Create(CWizardAttach* parent) {
+    m_pParent = parent;
+    m_pPrev = nullptr;
+    m_pTitleStaticCtrl = nullptr;
+    m_pDescriptionStaticCtrl = nullptr;
+    m_pProjectCategoriesStaticCtrl = nullptr;
+    m_pProjectCategoriesCtrl = nullptr;
+    m_pProjectsStaticCtrl = nullptr;
+    m_pProjectsCtrl = nullptr;
+    m_pProjectDetailsStaticCtrl = nullptr;
+    m_pProjectDetailsDescriptionCtrl = nullptr;
+    m_pProjectDetailsResearchAreaStaticCtrl = nullptr;
+    m_pProjectDetailsResearchAreaCtrl = nullptr;
+    m_pProjectDetailsOrganizationStaticCtrl = nullptr;
+    m_pProjectDetailsOrganizationCtrl = nullptr;
+    m_pProjectDetailsURLStaticCtrl = nullptr;
+    m_pProjectDetailsURLCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformsStaticCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformWindowsCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformMacCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformLinuxCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformAndroidCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformFreeBSDCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformLinuxArmCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformRaspberryPiCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformDockerCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformATICtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformNvidiaCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformIntelGPUCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformVirtualBoxCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformMetalCtrl = nullptr;
+    m_pProjectDetailsSupportedPlatformBlankCtrl = nullptr;
+    m_pProjectURLStaticCtrl = nullptr;
+    m_pProjectURLCtrl = nullptr;
 
     m_Projects.clear();
     m_bProjectSupported = false;
     m_bProjectListPopulated = false;
 
-////@begin CProjectInfoPage creation
-    wxWizardPageEx::Create( parent, ID_PROJECTINFOPAGE );
+    wxWizardPage::Create(parent);
 
     CreateControls();
 
     GetSizer()->Fit(this);
-////@end CProjectInfoPage creation
-    return TRUE;
+    Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event){ OnProjectCategorySelected(event); }, ID_CATEGORIES);
+    Bind(wxEVT_LIST_ITEM_SELECTED, [this](wxListEvent& event){ OnProjectSelected(event); }, ID_PROJECTS);
+    Bind(wxEVT_WIZARD_PAGE_CHANGED, [this](wxWizardEvent& event){ OnPageChanged(event); });
+    Bind(wxEVT_WIZARD_PAGE_CHANGING, [this](wxWizardEvent& event){ OnPageChanging(event); });
+    Bind(wxEVT_WIZARD_CANCEL, [this](wxWizardEvent& event){ OnCancel(event); });
+    return true;
 }
 
-
-/*!
- * Control creation for WizardPage
- */
-
-void CProjectInfoPage::CreateControls()
-{
-    ////@begin CProjectInfoPage content construction
+void CProjectInfoPage::CreateControls() {
 #ifdef __WXMAC__
     const int descriptionWidth = 350;
 #else
@@ -375,8 +310,12 @@ void CProjectInfoPage::CreateControls()
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformFreeBSDCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
     m_pProjectDetailsSupportedPlatformLinuxArmCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("linuxarmicon2.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
-    m_pProjectDetailsSupportedPlatformLinuxArmCtrl->SetToolTip(_("Supports Linux on ARM (e.g. Raspberry Pi)"));
+    m_pProjectDetailsSupportedPlatformLinuxArmCtrl->SetToolTip(_("Supports Linux on ARM"));
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformLinuxArmCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
+
+    m_pProjectDetailsSupportedPlatformRaspberryPiCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("rpiicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    m_pProjectDetailsSupportedPlatformRaspberryPiCtrl->SetToolTip(_("Supports Raspberry Pi"));
+    itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformRaspberryPiCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
     m_pProjectDetailsSupportedPlatformNvidiaCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("nvidiaicon2.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
     m_pProjectDetailsSupportedPlatformNvidiaCtrl->SetToolTip(_("Supports NVIDIA GPUs"));
@@ -393,6 +332,14 @@ void CProjectInfoPage::CreateControls()
     m_pProjectDetailsSupportedPlatformVirtualBoxCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("virtualboxicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
     m_pProjectDetailsSupportedPlatformVirtualBoxCtrl->SetToolTip(_("Supports VirtualBox"));
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformVirtualBoxCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
+
+    m_pProjectDetailsSupportedPlatformDockerCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("docker.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    m_pProjectDetailsSupportedPlatformDockerCtrl->SetToolTip(_("Supports Podman/Docker"));
+    itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformDockerCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
+
+    m_pProjectDetailsSupportedPlatformMetalCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("metal.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    m_pProjectDetailsSupportedPlatformMetalCtrl->SetToolTip(_("Supports Apple GPUs"));
+    itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformMetalCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
     m_pProjectDetailsSupportedPlatformBlankCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("blankicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformBlankCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
@@ -411,53 +358,33 @@ void CProjectInfoPage::CreateControls()
 
     // Set validators
     m_pProjectURLCtrl->SetValidator(CValidateURL(&m_strProjectURL));
-
-    ////@end CProjectInfoPage content construction
 }
 
-
-/*!
- * Gets the previous page.
- */
-wxWizardPageEx* CProjectInfoPage::GetPrev() const
-{
-    return PAGE_TRANSITION_BACK;
+wxWizardPage* CProjectInfoPage::GetPrev() const {
+    return m_pPrev;
 }
 
-
-/*!
- * Gets the next page.
- */
-
-wxWizardPageEx* CProjectInfoPage::GetNext() const
-{
-    if (CHECK_CLOSINGINPROGRESS()) {
+wxWizardPage* CProjectInfoPage::GetNext() const {
+    if (m_pParent->IsCancelInProgress()) {
         // Cancel Event Detected
-        return PAGE_TRANSITION_NEXT(ID_COMPLETIONERRORPAGE);
-    } else {
-        return PAGE_TRANSITION_NEXT(ID_PROJECTPROPERTIESPAGE);
+        return m_pParent->GetCompletionErrorPage();
     }
+    return m_pParent->GetProjectPropertiesPage();
 }
 
-
-/*!
- * Should we show tooltips?
- */
-
-bool CProjectInfoPage::ShowToolTips()
-{
-    return TRUE;
+void CProjectInfoPage::SetPrev(CBOINCWizardPage *prev) {
+    m_pPrev = prev;
 }
 
+bool CProjectInfoPage::HasNextPage() const {
+    return true;
+}
 
-/*!
- * Get bitmap resources
- */
+bool CProjectInfoPage::HasPrevPage() const {
+    return m_pPrev != nullptr;
+}
 
-wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
-{
-    // Bitmap retrieval
-////@begin CProjectInfoPage bitmap retrieval
+wxBitmap CProjectInfoPage::GetBitmapResource(const wxString& name) {
     wxUnusedVar(name);
     if (name == wxT("windowsicon.xpm"))
     {
@@ -489,6 +416,11 @@ wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
         wxBitmap bitmap(linuxarmicon2_xpm);
         return bitmap;
     }
+    else if (name == wxT("rpiicon.xpm"))
+    {
+        wxBitmap bitmap(rpi_xpm);
+        return bitmap;
+    }
     else if (name == wxT("amdicon2.xpm"))
     {
         wxBitmap bitmap(amdicon2_xpm);
@@ -509,34 +441,25 @@ wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
         wxBitmap bitmap(virtualboxicon_xpm);
         return bitmap;
     }
+    else if (name == wxT("docker.xpm"))
+    {
+        wxBitmap bitmap(docker_xpm);
+        return bitmap;
+    }
+    else if (name == wxT("metal.xpm"))
+    {
+        wxBitmap bitmap(metal_xpm);
+        return bitmap;
+    }
     else if (name == wxT("blankicon.xpm"))
     {
         wxBitmap bitmap(blankicon_xpm);
         return bitmap;
     }
     return wxNullBitmap;
-////@end CProjectInfoPage bitmap retrieval
 }
 
-
-/*!
- * Get icon resources
- */
-
-wxIcon CProjectInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
-{
-    // Icon retrieval
-////@begin CProjectInfoPage icon retrieval
-    return wxNullIcon;
-////@end CProjectInfoPage icon retrieval
-}
-
-
-/*
- * wxEVT_COMMAND_COMBOBOX_SELECTED event handler for ID_CATEGORIES
- */
-
-void CProjectInfoPage::OnProjectCategorySelected( wxCommandEvent& WXUNUSED(event) ) {
+void CProjectInfoPage::OnProjectCategorySelected(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectCategorySelected - Function Begin"));
 
     m_pProjectsCtrl->DeleteAllItems();
@@ -579,12 +502,7 @@ void CProjectInfoPage::OnProjectCategorySelected( wxCommandEvent& WXUNUSED(event
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectCategorySelected - Function End"));
 }
 
-
-/*
- * wxEVT_LIST_ITEM_SELECTED event handler for ID_PROJECTS
- */
-
-void CProjectInfoPage::OnProjectSelected( wxListEvent& event ) {
+void CProjectInfoPage::OnProjectSelected(wxListEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectSelected - Function Begin"));
 
     if (m_pProjectsCtrl->GetSelectedItemCount() == 1) {
@@ -616,20 +534,26 @@ void CProjectInfoPage::OnProjectSelected( wxListEvent& event ) {
             m_pProjectDetailsSupportedPlatformAndroidCtrl->Hide();
             m_pProjectDetailsSupportedPlatformFreeBSDCtrl->Hide();
             m_pProjectDetailsSupportedPlatformLinuxArmCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformRaspberryPiCtrl->Hide();
             m_pProjectDetailsSupportedPlatformNvidiaCtrl->Hide();
             m_pProjectDetailsSupportedPlatformATICtrl->Hide();
             m_pProjectDetailsSupportedPlatformIntelGPUCtrl->Hide();
             m_pProjectDetailsSupportedPlatformVirtualBoxCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformDockerCtrl->Hide();
+            m_pProjectDetailsSupportedPlatformMetalCtrl->Hide();
             if (pProjectInfo->m_bProjectSupportsWindows) m_pProjectDetailsSupportedPlatformWindowsCtrl->Show();
             if (pProjectInfo->m_bProjectSupportsMac) m_pProjectDetailsSupportedPlatformMacCtrl->Show();
             if (pProjectInfo->m_bProjectSupportsLinux) m_pProjectDetailsSupportedPlatformLinuxCtrl->Show();
             if (pProjectInfo->m_bProjectSupportsAndroid) m_pProjectDetailsSupportedPlatformAndroidCtrl->Show();
             if (pProjectInfo->m_bProjectSupportsFreeBSD) m_pProjectDetailsSupportedPlatformFreeBSDCtrl->Show();
             if (pProjectInfo->m_bProjectSupportsLinuxARM) m_pProjectDetailsSupportedPlatformLinuxArmCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsRaspberryPi) m_pProjectDetailsSupportedPlatformRaspberryPiCtrl->Show();
             if (pProjectInfo->m_bProjectSupportsCAL) m_pProjectDetailsSupportedPlatformATICtrl->Show();
             if (pProjectInfo->m_bProjectSupportsCUDA) m_pProjectDetailsSupportedPlatformNvidiaCtrl->Show();
             if (pProjectInfo->m_bProjectSupportsIntelGPU) m_pProjectDetailsSupportedPlatformIntelGPUCtrl->Show();
             if (pProjectInfo->m_bProjectSupportsVirtualBox) m_pProjectDetailsSupportedPlatformVirtualBoxCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsDocker) m_pProjectDetailsSupportedPlatformDockerCtrl->Show();
+            if (pProjectInfo->m_bProjectSupportsMetal) m_pProjectDetailsSupportedPlatformMetalCtrl->Show();
 
             // Populate non-control data for use in other places of the wizard
             m_strProjectURL = pProjectInfo->m_strURL;
@@ -653,12 +577,7 @@ void CProjectInfoPage::OnProjectSelected( wxListEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectSelected - Function End"));
 }
 
-
-/*!
- * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTINFOPAGE
- */
-
-void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
+void CProjectInfoPage::OnPageChanged(wxWizardEvent& event) {
     if (event.GetDirection() == false) return;
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnPageChanged - Function Begin"));
 
@@ -668,7 +587,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxArrayString               aProjectPlatforms;
     wxArrayString               aCategories;
     bool                        bCategoryFound = false;
-    CProjectInfo*               pProjectInfo = NULL;
+    CProjectInfo*               pProjectInfo = nullptr;
 
 
     // Populate the ProjectInfo data structure with the list of projects we want to show and
@@ -747,10 +666,16 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
                     if (strProjectPlatform.Find(_T("arm-unknown-linux-gnu")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsLinuxARM = true;
+                        pProjectInfo->m_bProjectSupportsRaspberryPi = true;
                     }
 
                     if (strProjectPlatform.Find(_T("arm-unknown-linux-gnueabihf")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsLinuxARM = true;
+                        pProjectInfo->m_bProjectSupportsRaspberryPi = true;
+                    }
+                    if (strProjectPlatform.Find(_T("aarch64-unknown-linux-gnu")) != wxNOT_FOUND) {
+                        pProjectInfo->m_bProjectSupportsLinuxARM = true;
+                        pProjectInfo->m_bProjectSupportsRaspberryPi = true;
                     }
 
                     if (strProjectPlanClass.Find(_T("cuda")) != wxNOT_FOUND) {
@@ -778,8 +703,16 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                         if (!pDoc->state.host_info.coprocs.have_intel_gpu()) continue;
                     }
 
+                    if (strProjectPlanClass.Find(_T("apple_gpu")) != wxNOT_FOUND) {
+                        pProjectInfo->m_bProjectSupportsMetal = true;
+                    }
+
                     if (strProjectPlanClass.Find(_T("vbox")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsVirtualBox = true;
+                    }
+
+                    if (strProjectPlanClass.Find(_T("docker")) != wxNOT_FOUND) {
+                        pProjectInfo->m_bProjectSupportsDocker = true;
                     }
 
                     if (strClientPlatform == strRootProjectPlatform) {
@@ -818,15 +751,9 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnPageChanged - Function End"));
 }
 
-
-/*!
- * wxEVT_WIZARD_PAGE_CHANGING event handler for ID_PROJECTINFOPAGE
- */
-
-void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
+void CProjectInfoPage::OnPageChanging(wxWizardEvent& event) {
     if (event.GetDirection() == false) return;
 
-    CWizardAttach* pWA = ((CWizardAttach*)GetParent());
     CMainDocument* pDoc = wxGetApp().GetDocument();
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString       strTitle;
@@ -838,6 +765,10 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
+    CBOINCWizardPage *pageNext = dynamic_cast<CBOINCWizardPage*>(GetNext());
+    if (pageNext != nullptr) {
+        pageNext->SetPrev(const_cast<CProjectInfoPage*>(this));
+    }
 
     strTitle.Printf(
         wxT("%s"),
@@ -895,20 +826,14 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
     } else {
 
         // Update authoritative data in CWizardAttach
-        pWA->SetProjectURL(m_strProjectURL);
+        m_pParent->SetProjectURL(m_strProjectURL);
 
     }
 }
 
-
-/*!
- * wxEVT_WIZARD_CANCEL event handler for ID_PROJECTINFOPAGE
- */
-
-void CProjectInfoPage::OnCancel( wxWizardExEvent& event ) {
-    PROCESS_CANCELEVENT(event);
+void CProjectInfoPage::OnCancel(wxWizardEvent& event) {
+    m_pParent->ProcessCancelEvent(event);
 }
-
 
 void CProjectInfoPage::EllipseStringIfNeeded(wxString& s, wxWindow *win) {
     int x, y;
@@ -921,7 +846,7 @@ void CProjectInfoPage::EllipseStringIfNeeded(wxString& s, wxWindow *win) {
     // Adapted from ellipis code in wxRendererGeneric::DrawHeaderButtonContents()
     if (w > maxWidth) {
         int ellipsisWidth;
-        win->GetTextExtent( wxT("..."), &ellipsisWidth, NULL);
+        win->GetTextExtent( wxT("..."), &ellipsisWidth, nullptr);
         if (ellipsisWidth > maxWidth) {
             s.Clear();
             w = 0;
@@ -941,7 +866,6 @@ void CProjectInfoPage::RefreshPage() {
     wxCommandEvent evtEvent(wxEVT_COMMAND_COMBOBOX_SELECTED, ID_CATEGORIES);
     ProcessEvent(evtEvent);
 }
-
 
 // Function to "trim" the URL of the http(s) prefix and the last slash.
 // Prior to running this function, the string should be canonicalized using

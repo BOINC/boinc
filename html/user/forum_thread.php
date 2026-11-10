@@ -45,7 +45,7 @@ $logged_in_user = get_logged_in_user(false);
 $tokens = "";
 if ($logged_in_user) {
     BoincForumPrefs::lookup($logged_in_user);
-    $tokens = url_tokens($logged_in_user->authenticator);
+    $tokens = url_tokens();
 }
 
 if (DISABLE_FORUMS && !is_admin($logged_in_user)) {
@@ -280,7 +280,11 @@ echo '</td><td align="right">
     <div class="form-group">
 ';
 echo select_from_array("sort", $thread_sort_styles, $sort_style);
-echo ' <input class="btn btn-default btn-sm" type="submit" value="'.tra('Sort').'">
+show_submit_button(
+    tra('Sort'),
+    tra('Sort posts')
+);
+echo '
     </div>
     </td></tr></table>
     </form><p>

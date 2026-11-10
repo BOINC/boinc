@@ -454,6 +454,8 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
 
     if (lsock < 0) return;
 
+    // new connection on our listening socket?
+    //
     if (FD_ISSET(lsock, &fg.read_fds)) {
         struct sockaddr_storage addr;
 
@@ -468,9 +470,16 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
             return;
         }
 
+        if (log_flags.gui_rpc_debug) {
+            msg_printf(0, MSG_INFO, "[gui_rpc] got GUI RPC connection");
+        }
+
         BOINC_SOCKLEN_T addr_len = sizeof(addr);
         sock = accept(lsock, (struct sockaddr*)&addr, (BOINC_SOCKLEN_T*)&addr_len);
         if (sock == -1) {
+            if (log_flags.gui_rpc_debug) {
+                msg_printf(0, MSG_INFO, "[gui_rpc] accept() failed");
+            }
             return;
         }
 
@@ -515,7 +524,7 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
             }
             if (log_flags.gui_rpc_debug) {
                 msg_printf(0, MSG_INFO,
-                    "[gui_rpc] got new GUI RPC connection"
+                    "[gui_rpc] new GUI RPC connection: sock %d", sock
                 );
             }
             insert(gr);
@@ -528,6 +537,11 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
     while (iter != gui_rpcs.end()) {
         gr = *iter;
         if (FD_ISSET(gr->sock, &fg.exc_fds)) {
+            if (log_flags.gui_rpc_debug) {
+                msg_printf(0, MSG_INFO,
+                    "[gui_rpc] GUI RPC connection failed: sock %d", gr->sock
+                );
+            }
             delete gr;
             iter = gui_rpcs.erase(iter);
             continue;
@@ -545,8 +559,8 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
             if (retval) {
                 if (log_flags.gui_rpc_debug) {
                     msg_printf(NULL, MSG_INFO,
-                        "[gui_rpc] handler returned %d, closing socket\n",
-                        retval
+                        "[gui_rpc] handler returned %d, closing socket %d\n",
+                        retval, gr->sock
                     );
                 }
                 delete gr;
@@ -561,11 +575,6 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
 // called when client is shutting down
 //
 void GUI_RPC_CONN_SET::close() {
-    if (log_flags.gui_rpc_debug) {
-        msg_printf(NULL, MSG_INFO,
-            "[gui_rpc] closing GUI RPC listening socket %d\n", lsock
-        );
-    }
     if (lsock >= 0) {
         boinc_close_socket(lsock);
         lsock = -1;
@@ -574,32 +583,6 @@ void GUI_RPC_CONN_SET::close() {
         delete gui_rpcs[i];
     }
     gui_rpcs.clear();
-}
-
-// this is called when we're ready to auto-update;
-// set flags to send quit messages to screensaver and local manager
-//
-void GUI_RPC_CONN_SET::send_quits() {
-    for (unsigned int i=0; i<gui_rpcs.size(); i++) {
-        GUI_RPC_CONN* gr = gui_rpcs[i];
-        if (gr->au_ss_state == AU_SS_GOT) {
-            gr->au_ss_state = AU_SS_QUIT_REQ;
-        }
-        if (gr->au_mgr_state == AU_MGR_GOT && gr->is_local) {
-            gr->au_mgr_state = AU_MGR_QUIT_REQ;
-        }
-    }
-}
-
-// check whether the quit messages have actually been sent
-//
-bool GUI_RPC_CONN_SET::quits_sent() {
-    for (unsigned int i=0; i<gui_rpcs.size(); i++) {
-        GUI_RPC_CONN* gr = gui_rpcs[i];
-        if (gr->au_ss_state == AU_SS_QUIT_REQ) return false;
-        if (gr->au_mgr_state == AU_MGR_QUIT_REQ) return false;
-    }
-    return true;
 }
 
 void* gui_rpc_handler(void* p) {

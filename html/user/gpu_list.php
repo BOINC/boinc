@@ -27,6 +27,7 @@
 // TODO: this is fantastically inefficient
 
 require_once("../inc/util.inc");
+require_once("../inc/common_defs.inc");
 
 // strip leading AMD, NVIDIA, etc.
 // This avoids showing the same model twice

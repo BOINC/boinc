@@ -76,7 +76,7 @@ void get_pathname(FILE_INFO* fip, char* path, int len) {
         if (fip->is_auto_update_file) {
             boinc_version_dir(*p, gstate.auto_update.version, buf);
         } else {
-            strcpy(buf, p->project_dir());
+            safe_strcpy(buf, p->project_dir());
         }
 #else
         safe_strcpy(buf, p->project_dir());

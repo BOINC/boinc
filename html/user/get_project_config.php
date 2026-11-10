@@ -30,7 +30,8 @@ xml_header();
 // and update it every hour if possible.
 //
 function show_platforms() {
-    $xmlFragment = unserialize(get_cached_data(3600, "project_config_platform_xml"));
+    $cached = get_cached_data(3600, "project_config_platform_xml");
+    $xmlFragment = $cached ? unserialize($cached) : false;
     if ($xmlFragment==false){
         $platforms = BoincDB::get()->enum_fields("platform, DBNAME.app_version, DBNAME.app", "BoincPlatform", "platform.name, platform.user_friendly_name, plan_class", "app_version.platformid = platform.id and app_version.appid = app.id and app_version.deprecated=0 and app.deprecated=0 group by platform.name, plan_class", "");
         $xmlFragment = "    <platforms>";
@@ -50,15 +51,14 @@ function show_platforms() {
     echo $xmlFragment;
 }
 
-$config = get_config();
 $master_url = master_url();
-$long_name = parse_config($config, "<long_name>");
+$long_name = project_config_val("long_name");
 
-$min_passwd_length = parse_config($config, "<min_passwd_length>");
+$min_passwd_length = project_config_val("min_passwd_length");
 if (!$min_passwd_length) {
     $min_passwd_length = 6;
 }
-$disable_account_creation = parse_bool($config, "disable_account_creation");
+$disable_account_creation = project_config_bool("disable_account_creation");
 
 echo "<project_config>
     <name>$long_name</name>
@@ -68,7 +68,7 @@ echo "<project_config>
 
 echo "<server_version>$server_version_str</server_version>\n";
 
-if (parse_bool($config, "account_manager")) {
+if (project_config_bool("account_manager")) {
     echo "    <account_manager/>\n";
 }
 
@@ -102,14 +102,14 @@ if (sched_stopped()) {
     echo "    <sched_stopped>0</sched_stopped>\n";
 }
 
-$min_core_client_version = parse_config($config, "<min_core_client_version>");
+$min_core_client_version = project_config_val("min_core_client_version");
 if ($min_core_client_version) {
     echo "<min_client_version>$min_core_client_version</min_client_version>\n";
 }
 
 show_platforms();
 
-// Conditional added to allow for backwards-compatability. If a
+// Conditional added to allow for backwards-compatibility. If a
 // project has not defined the constant TERMSOFUSE_FILE, then look for
 // the terms_of_use.txt file in the project base directory.
 //

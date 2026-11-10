@@ -37,7 +37,8 @@
 // executable files (link or physical)
 //
 // Win:
-//      There must be a WSL image containing Docker or Podman
+//      If WSL 3+, we use WSL Containers (wslc.exe).
+//      Otherwise there must be a WSL image containing Docker or Podman.
 //      The wrapper runs a pipe-connected shell in WSL
 //      (running in the current dir)
 //      and sends commands (e.g. docker commands) via the pipe.
@@ -90,50 +91,16 @@
 // https://docs.docker.com/reference/cli/docker/container/run/
 // https://docs.docker.com/engine/containers/resource_constraints/
 
-// ************** Checkpoint/restart ***************
-//
-// This would limit lost work if the host is rebooted
-// while a BUDA job is running.
-// In other cases (e.g. the user exits the client)
-// we pause the container and no work is lost.
-//
-// Podman and Docker have different interfaces:
-// podman: https://podman.io/docs/checkpoint
-//      podman container checkpoint <name>
-//      podman container restore <name>
-// docker: https://docs.docker.com/reference/cli/docker/checkpoint/
-//      docker checkpoint create <cont_name> <checkpoint_name>
-//      docker checkpoint ls   (lists checkpoints)
-//      docker checkpoint rm   (delete checkpoint)
-//      docker start --checkpoint <checkpoint_name> <cont_name>
-//      (use <cont_name>_checkpoint as the checkpoint name)
-//      need --security-opt=seccomp:unconfined in initial run command?
-//
-// In both cases the CRIU library is required.
-//
-// Note: I spent several days trying to get it to work on Podman
-// with all sorts of variants like --pre-checkpoint, --keep etc.
-// Whenever I did
-// - create a checkpoint
-// - compute some more
-// - stop or kill the container
-// - restore
-// I always get
-// Error: OCI runtime error: runc: criu failed: type RESTORE errno 0
-//
-// So I gave up; checkpoint/restart is only relevant to the reboot scenario,
-// this is rare.
-// If we ever figure this out, uncomment the following
-
-//#define CHECKPOINT_RESTART
-
 #include <cstdio>
 #include <string>
 #include <vector>
+#include <algorithm>
 #include <signal.h>
 
 #include "toml.h"
     // from https://github.com/mayah/tinytoml
+#include <nlohmann/json.hpp>
+using nlohmann::json;
 
 #include "util.h"
 #include "str_replace.h"
@@ -152,13 +119,7 @@ using std::vector;
 #define POLL_PERIOD 1.0
 #define STATUS_PERIOD 10
     // reports status this often
-#define MIN_CHECKPOINT_INTERVAL 900
-    // checkpoint at most every 15 min
-#define CHECKPOINT_INTERVAL_FACTOR  100
-    // if checkpoint takes X sec, don't do another one for X*100 sec
 #define FRACTION_DONE_FILENAME "fraction_done"
-#define CHECKPOINT_FILENAME "checkpoint_time"
-    // on successful checkpoint, write how long it took to this file
 
 int container_exit_code = 0;
 enum JOB_STATUS {JOB_IN_PROGRESS, JOB_SUCCESS, JOB_FAIL};
@@ -172,7 +133,18 @@ struct RSC_USAGE {
     }
 };
 
+struct ENV_VAR {
+    string name;
+    string value;
+
+    ENV_VAR(const char* n, const char* v) {
+        name = n;
+        value = v;
+    }
+};
+
 // verbosity levels
+#define VERBOSE_NONE    0
 #define VERBOSE_STD     1
     // include only start/pause/end commands
 #define VERBOSE_ALL     2
@@ -194,7 +166,7 @@ struct CONFIG {
         // additional args for docker build command
     string create_args;
         // additional args for docker create command
-    int verbose;
+    int verbose;    // see above
     bool use_gpu;
         // tell Docker to enable GPU access
     int web_graphics_guest_port;
@@ -210,7 +182,10 @@ struct CONFIG {
             fprintf(stderr, "   workdir: %s\n", workdir.c_str());
         }
         if (!project_dir_mount.empty()) {
-            fprintf(stderr, "   project dir mounted at: %s\n", project_dir_mount.c_str());
+            fprintf(stderr,
+                "   project dir mounted at: %s\n",
+                project_dir_mount.c_str()
+            );
         }
         fprintf(stderr, "   use GPU: %s\n", use_gpu?"yes":"no");
         if (web_graphics_guest_port) {
@@ -247,13 +222,15 @@ vector<string> app_args;
 DOCKER_TYPE docker_type;
 string wsl_distro_name;
 double cpu_time = 0;
-double checkpoint_cpu_time = 0;
+vector<ENV_VAR> env_vars;
 
-#ifdef CHECKPOINT_RESTART
-bool checkpoint_failed = false;
-double last_checkpoint_dur = 0;
-double min_checkpoint_time = 0;
-#endif
+inline bool verbose_std() {
+    return config.verbose >= VERBOSE_STD;
+}
+
+inline bool verbose_all() {
+    return config.verbose >= VERBOSE_ALL;
+}
 
 // parse job config file (job.toml)
 //
@@ -261,6 +238,7 @@ int parse_config_file() {
     // defaults
     config.workdir = "/app";
     config.use_gpu = false;
+    config.verbose = VERBOSE_STD;
 
     std::ifstream ifs(config_file);
     if (ifs.fail()) {
@@ -331,15 +309,22 @@ int parse_config_file() {
     return 0;
 }
 
-// See if command output includes "Error"
+// check if any line of the output has the given string (e.g. 'Error')
 //
-int error_output(vector<string> &out) {
+bool output_has_str(vector<string> &out, const char* s) {
     for (string line: out) {
-        if (strstr(line.c_str(), "Error")) {
-            return -1;
+        if (strstr(line.c_str(), s)) {
+            return true;
         }
     }
-    return 0;
+    return false;
+}
+
+void show_output(vector<string> &out, const char* cmd_name) {
+    fprintf(stderr, "Output from '%s' command:\n", cmd_name);
+    for (const string &line: out) {
+        fprintf(stderr, "   %s", line.c_str());
+    }
 }
 
 //////////  PODMAN ARGS  ////////////
@@ -395,6 +380,20 @@ void get_app_args(char* buf) {
 
 //////////  IMAGE  ////////////
 
+// called periodically while builds are in progress
+//
+void check_exit_request() {
+    BOINC_STATUS status;
+    boinc_get_status(&status);
+    if (status.no_heartbeat
+        || status.quit_request
+        || status.abort_request
+    ) {
+        fprintf(stderr, "client exit request during init\n");
+        exit(0);
+    }
+}
+
 void get_image_name() {
     if (config.image_name.empty()) {
         string s = docker_image_name(project_dir, aid.wu_name);
@@ -407,7 +406,7 @@ void get_image_name() {
 int image_exists(bool &exists) {
     vector<string> out;
 
-    int retval = docker_conn.command("images", out);
+    int retval = docker_conn.command("images", out, verbose_std());
     if (retval) return retval;
     string image_name_space = image_name + string(" ");
     for (string line: out) {
@@ -421,13 +420,119 @@ int image_exists(bool &exists) {
 }
 
 int build_image() {
-    char cmd[256];
+    char cmd[1024];
     vector<string> out;
-    snprintf(cmd, sizeof(cmd), "build \"%s\" -t %s -f %s %s",
-        escaped_cwd, image_name, dockerfile, config.build_args.c_str()
+    int retval;
+
+    // In WSL Containers, if you try to do concurrent builds one of them fails
+    //
+#ifdef _WIN32
+    HANDLE mutex=0;
+    if (docker_type == WSLC) {
+        mutex = create_mutex("boinc_wsl_build");
+    }
+#endif
+
+    snprintf(cmd, sizeof(cmd),
+        "build \"%s\" %s -t %s -f %s %s",
+        escaped_cwd,
+        docker_type == PODMAN?"--retry 0":"",
+        image_name, dockerfile, config.build_args.c_str()
     );
-    int retval = docker_conn.command(cmd, out);
-    if (retval) return retval;
+
+    // build command might fail because network is disconnected
+    // (this is the only command that uses network)
+    //
+    bool test_host_unreachable = false;
+        // test host was unreachable last time we checked
+    BOINC_STATUS status;
+    while (1) {
+        check_exit_request();        // should we exit?
+        if (!got_heartbeat_message) {
+            // need a heartbeat msg to know network suspended status
+            fprintf(stderr, "waiting for heartbeat\n");
+            boinc_sleep(1);
+            continue;
+        }
+        boinc_get_status(&status);
+        if (status.network_suspended) {
+            if (verbose_all()) {
+                fprintf(stderr, "network suspended; sleeping 10\n");
+            }
+            boinc_waiting_for_network(true);
+            boinc_report_app_status(0, 0, 0);
+            boinc_sleep(10);
+            continue;
+        }
+        // if test host was previously unreachable, see if that's changed
+        if (test_host_unreachable) {
+            if (!network_connected()) {
+                if (verbose_all()) {
+                    fprintf(stderr,
+                        "test server still unreachable; sleeping 10\n"
+                    );
+                }
+                boinc_sleep(10);
+                continue;
+            }
+        }
+#ifdef _WIN32
+        if (docker_type == WSLC) {
+            if (wait_mutex(mutex, 3600)) {
+                fprintf(stderr, "couldn't acquire build mutex\n");
+                return -1;
+            }
+        }
+#endif
+        retval = docker_conn.command(cmd, out, verbose_std());
+#ifdef _WIN32
+        if (docker_type == WSLC) {
+            release_mutex(mutex);
+        }
+#endif
+        if (
+            output_has_str(out, "unable to copy")   // podman
+            || output_has_str(out, "unreachable")   // docker?
+            || output_has_str(out, "misbehaving")   // wslc
+        ) {
+            if (verbose_std()) {
+                fprintf(stderr, "build cmd output indicates disconnection\n");
+            }
+            if (network_connected()) {
+                // network connection exists but the create operation
+                // couldn't reach a needed server; error out
+                if (verbose_std()) {
+                    fprintf(stderr, "... but test server is reachable; quitting\n");
+                }
+                return -1;
+            }
+            if (verbose_std()) {
+                fprintf(stderr, "test server is unreachable; sleeping\n");
+            }
+            test_host_unreachable = true;
+            boinc_waiting_for_network(true);
+            boinc_report_app_status(0, 0, 0);
+            boinc_sleep(10);
+            continue;
+        }
+        // see if the build command failed for a reason other than network
+        //
+        if (retval) {
+            fprintf(stderr, "build command failed: %d\n", retval);
+            return -1;
+        }
+        if (output_has_str(out, "Error")) {
+            show_output(out, "build");
+            return -1;
+        }
+        // here if build succeeded
+        if (verbose_std()) {
+            fprintf(stderr, "build succeeded\n");
+        }
+        boinc_waiting_for_network(false);
+        boinc_report_app_status(0, 0, 0);
+        break;
+    }
     return 0;
 }
 
@@ -440,7 +545,7 @@ int get_image() {
     retval = image_exists(exists);
     if (retval) {
         fprintf(stderr, "image_exists() failed: %d\n", retval);
-        exit(1);
+        boinc_finish(1);
     }
     if (!exists) {
         if (config.verbose) {
@@ -449,7 +554,7 @@ int get_image() {
         retval = build_image();
         if (retval) {
             fprintf(stderr, "build_image() failed: %d\n", retval);
-            exit(1);
+            boinc_finish(1);
         }
     }
     return 0;
@@ -469,47 +574,85 @@ void get_container_name() {
 #define CONTAINER_EXITED    5
 #define CONTAINER_OTHER     6
 
+int get_state(const char* p) {
+    if (strcasestr(p, "created")) {
+        return CONTAINER_CREATED;
+    } else if (strcasestr(p, "running")) {
+        return  CONTAINER_RUNNING;
+    } else if (strcasestr(p, "paused")) {
+        return  CONTAINER_PAUSED;
+    } else if (strcasestr(p, "exited")) {
+        return  CONTAINER_EXITED;
+    }
+    return CONTAINER_OTHER;
+}
+
 int get_container_state(int &state) {
     char cmd[1024];
     int retval;
     vector<string> out;
 
+    state = CONTAINER_ABSENT;
+
+    // WSL containers doesn't support {} formats; use JSON
+    //
+    if (docker_type == WSLC) {
+        snprintf(cmd, sizeof(cmd),
+            "ps --all --filter \"name=%s\" --format json",
+            container_name
+        );
+        retval = docker_conn.command(cmd, out, verbose_all());
+        if (retval) {
+            fprintf(stderr, "ps command failed\n");
+            return retval;
+        }
+        if (out.empty()) {
+            return 0;
+        }
+        json d;
+        try {
+            d = json::parse(out[0]);
+        } catch (const std::exception& e) {
+            fprintf(stderr, "failed to parse ps output %s: %s\n",
+                out[0].c_str(), e.what()
+            );
+            return -1;
+        }
+        if (d.find("State") == d.end()) {
+            fprintf(stderr, "No State in %s\n", out[0].c_str());
+            return -1;
+        }
+        string s = d["State"].get<string>();
+        state = get_state(s.c_str());
+        return 0;
+    }
+
+    // non-WSL case follows
+
     snprintf(cmd, sizeof(cmd),
         "ps --all --filter \"name=^%s$\" --format \"{{.Names}}|{{.Status}}\"",
-
         container_name
     );
-    retval = docker_conn.command(cmd, out);
+    retval = docker_conn.command(cmd, out, verbose_all());
     if (retval) return retval;
     for (string line: out) {
-        char buf[256];
+        char buf[1024];
         safe_strcpy(buf, line.c_str());
         if (strstr(buf, container_name)) {
             char *p = strchr(buf, '|');
             if (!p) break;
             p++;
             fprintf(stderr, "container state: %s\n", p);
-            if (strcasestr(p, "created")) {
-                state = CONTAINER_CREATED;
-            } else if (strcasestr(p, "running")) {
-                state = CONTAINER_RUNNING;
-            } else if (strcasestr(p, "paused")) {
-                state = CONTAINER_PAUSED;
-            } else if (strcasestr(p, "exited")) {
-                state = CONTAINER_EXITED;
-            } else {
-                state = CONTAINER_OTHER;
-            }
+            state = get_state(p);
             return 0;
         }
     }
-    state = CONTAINER_ABSENT;
     return 0;
 }
 
 int create_container() {
-    char cmd[1024];
-    char slot_cmd[256], project_cmd[256], buf[256];
+    char cmd[4096];
+    char slot_cmd[1024], project_cmd[1024], buf[1024];
     vector<string> out;
     int retval;
 
@@ -543,14 +686,28 @@ int create_container() {
         slot_cmd, project_cmd
     );
 
-    // add command-line args, space-escaped if needed (Mac)
+    // add env var for command-line args, space-escaped if needed (Mac)
     //
     if (app_args.size()) {
-        char arg_buf[4096];
+        char arg_buf[1024];
         strcat(cmd, " -e ARGS=\"");
         get_app_args(arg_buf);
         strcat(cmd, arg_buf);
         strcat(cmd, "\"");
+    }
+
+    // pass proxy env vars to container
+    // (Docker only; Podman does it automatically)
+    //
+    for (ENV_VAR e: env_vars) {
+        const char *v = e.value.c_str();
+        // not sure it makes any difference, but check (user-supplied) value
+        if (strchr(v, '\'')) {
+            fprintf(stderr, "bad env var value %s\n", v);
+            continue;
+        }
+        snprintf(buf, sizeof(buf), " -e %s='%s'", e.name.c_str(), v);
+        strcat(cmd, buf);
     }
 
     // add mounts and portmaps
@@ -612,27 +769,37 @@ int create_container() {
 
     strcat(cmd, " ");
     strcat(cmd, image_name);
-    retval = docker_conn.command(cmd, out);
+    retval = docker_conn.command(cmd, out, verbose_std());
     if (retval) {
         fprintf(stderr, "create command failed: %d\n", retval);
         return retval;
     }
-    if (error_output(out)) {
-        fprintf(stderr, "create command output contains 'Error'\n");
+    if (output_has_str(out, "Error")) {
+        show_output(out, "create");
         return -1;
     }
-
     return 0;
 }
 
 //////////  JOB CONTROL  ////////////
 
+// do an operation (e.g. pause/unpause) on a container.
+// If it fails, print error msgs and return nonzero.
+//
 int container_op(const char *op) {
     char cmd[1024];
     vector<string> out;
     snprintf(cmd, sizeof(cmd), "%s %s", op, container_name);
-    int retval = docker_conn.command(cmd, out);
-    return retval;
+    int retval = docker_conn.command(cmd, out, verbose_std());
+    if (retval) {
+        fprintf(stderr, "%s command failed: %d\n", op, retval);
+        return retval;
+    }
+    if (output_has_str(out, "Error")) {
+        show_output(out, op);
+        return -1;
+    }
+    return 0;
 }
 
 // Clean up at end of job.
@@ -645,7 +812,7 @@ void cleanup() {
     vector<string> out;
 
     snprintf(cmd, sizeof(cmd), "logs %s", container_name);
-    docker_conn.command(cmd, out);
+    docker_conn.command(cmd, out, verbose_std());
     fprintf(stderr, "stderr from container:\n");
     for (string line: out) {
         fprintf(stderr, "%s", line.c_str());
@@ -653,21 +820,22 @@ void cleanup() {
     fprintf(stderr, "stderr end\n");
 
     snprintf(cmd, sizeof(cmd), "container rm %s", container_name);
-    docker_conn.command(cmd, out);
+    docker_conn.command(cmd, out, verbose_std());
 
     // don't remove image if it was specified in config
     //
     if (config.image_name.empty()) {
         snprintf(cmd, sizeof(cmd), "image rm %s", image_name);
-        docker_conn.command(cmd, out);
+        docker_conn.command(cmd, out, verbose_std());
     }
 }
 
 // check for commands from the client
 //
-void poll_client_msgs() {
+int poll_client_msgs() {
     BOINC_STATUS status;
     boinc_get_status(&status);
+    int retval;
 #if 0
     fprintf(stderr, "client messages: nohb %d quit %d abort %d suspended %d\n",
         status.no_heartbeat,
@@ -676,6 +844,9 @@ void poll_client_msgs() {
         status.suspended
     );
 #endif
+    // see if we should exit.
+    // Don't error-check docker ops; we'll do that on restart.
+    //
     if (status.no_heartbeat) {
         fprintf(stderr, "no heartbeat from client - pausing and exiting\n");
         container_op("pause");
@@ -695,7 +866,8 @@ void poll_client_msgs() {
             fprintf(stderr, "client: suspended\n");
         }
         if (running) {
-            container_op("pause");
+            retval = container_op("pause");
+            if (retval) return retval;
             running = false;
         }
     } else {
@@ -703,13 +875,17 @@ void poll_client_msgs() {
             fprintf(stderr, "client: not suspended\n");
         }
         if (!running) {
-            container_op("unpause");
+            retval = container_op("unpause");
+            if (retval) return retval;
             running = true;
         }
     }
+    return 0;
 }
 
-// check whether job has exited
+// - has exited success (JOB_SUCCESS)
+// - has exited failure (JOB_FAIL)
+// - is in progress (JOB_IN_PROGRESS)
 // Note: on both Podman and Docker this takes significant CPU time
 // (like .03 sec) so do it infrequently (10 sec)
 //
@@ -718,8 +894,43 @@ JOB_STATUS poll_app() {
     vector<string> out;
     int retval;
 
+    // WSL containers doesn't support {} formats; use JSON
+    //
+    if (docker_type == WSLC) {
+        snprintf(cmd, sizeof(cmd),
+            "ps --all --filter \"name=%s\" --format json",
+            container_name
+        );
+        retval = docker_conn.command(cmd, out, verbose_all());
+        if (retval) {
+            fprintf(stderr, "poll: ps command failed\n");
+            return JOB_FAIL;
+        }
+        if (out.empty()) {
+            return JOB_FAIL;
+        }
+        json d;
+        try {
+            d = json::parse(out[0]);
+        } catch (const std::exception& e) {
+            fprintf(stderr, "poll: failed to parse ps output %s: %s\n",
+                out[0].c_str(), e.what()
+            );
+            return JOB_FAIL;
+        }
+        if (d.find("Status") == d.end()) {
+            fprintf(stderr, "No Status in %s\n", out[0].c_str());
+            return JOB_FAIL;
+        }
+        string s = d["Status"].get<string>();
+        if (sscanf(s.c_str(), "Exited (%d)", &container_exit_code) == 1) {
+            return JOB_SUCCESS;
+        }
+        return JOB_IN_PROGRESS;
+    }
+
     snprintf(cmd, sizeof(cmd), "ps --all -f \"name=%s\"", container_name);
-    retval = docker_conn.command(cmd, out);
+    retval = docker_conn.command(cmd, out, verbose_all());
     if (retval) return JOB_FAIL;
     for (string line: out) {
         if (strstr(line.c_str(), container_name)) {
@@ -737,7 +948,18 @@ JOB_STATUS poll_app() {
             return JOB_IN_PROGRESS;
         }
     }
+    fprintf(stderr, "Container name not found in ps output; quitting\n");
     return JOB_FAIL;
+}
+
+// print the given message, but only once
+//
+void print_once(const string& msg) {
+    static vector<string> msgs;
+    if (std::find(msgs.begin(), msgs.end(), msg) == msgs.end()) {
+        fprintf(stderr, "%s", msg.c_str());
+        msgs.push_back(msg);
+    }
 }
 
 // Get CPU and mem usage.
@@ -748,57 +970,105 @@ int get_stats(RSC_USAGE &ru) {
     vector<string> out;
     int retval;
     size_t n;
-
-#ifdef __APPLE__
-    snprintf(cmd, sizeof(cmd),
-        "stats --no-stream  --format \"{{.CPUPerc}}\\ {{.MemUsage}}\" %s",
-        container_name
-    );
-#else
-    snprintf(cmd, sizeof(cmd),
-        "stats --no-stream  --format \"{{.CPUPerc}} {{.MemUsage}}\" %s",
-        container_name
-    );
-#endif
-    retval = docker_conn.command(cmd, out);
-    if (retval) return -1;
-    if (out.empty()) return -1;
-
-    // output is like
-    // 0.00% 420KiB / 503.8GiB
-    // but this can be preceded by lines with warning messages
-    //
-    bool found = false;
     double cpu_pct=0, mem=0;
     char mem_unit=0;
-    for (const string& line: out) {
-        n = sscanf(line.c_str(), "%lf%% %lf%c", &cpu_pct, &mem, &mem_unit);
-        if (n == 3) {
-            found = true;
-            break;
+
+    if (docker_type == WSLC) {
+        snprintf(cmd, sizeof(cmd),
+            "stats --format json %s", container_name
+        );
+        retval = docker_conn.command(cmd, out, verbose_all());
+        if (retval) {
+            print_once(string("stats command failed\n"));
+            return -1;
+        }
+        if (out.empty()) {
+            print_once(string("stats command returned nothing\n"));
+            return -1;
+        }
+        json d;
+        try {
+            d = json::parse(out[0]);
+        } catch (const std::exception& e) {
+            fprintf(stderr, "stats: failed to parse %s: %s\n",
+                out[0].c_str(), e.what()
+            );
+            return -1;
+        }
+        if (d.find("CPUPerc") == d.end()) {
+            fprintf(stderr, "status: missing CPU in %s\n", out[0].c_str());
+        } else {
+            string s = d["CPUPerc"].get<string>();
+            sscanf(s.c_str(), "%lf", &cpu_pct);
+        }
+        if (d.find("MemUsage") == d.end()) {
+            fprintf(stderr, "status: missing mem in %s\n", out[0].c_str());
+        } else {
+            string s = d["MemUsage"].get<string>();
+            sscanf(s.c_str(), "%lf%c", &mem, &mem_unit);
+        }
+    } else {
+#ifdef __APPLE__
+        snprintf(cmd, sizeof(cmd),
+            "stats --no-stream  --format \"{{.CPUPerc}}\\ {{.MemUsage}}\" %s",
+            container_name
+        );
+#else
+        snprintf(cmd, sizeof(cmd),
+            "stats --no-stream  --format \"{{.CPUPerc}} {{.MemUsage}}\" %s",
+            container_name
+        );
+#endif
+        retval = docker_conn.command(cmd, out, verbose_all());
+        if (retval) {
+            print_once(string("stats command failed\n"));
+            return -1;
+        }
+        if (out.empty()) {
+            print_once(string("stats command returned nothing\n"));
+            return -1;
+        }
+
+        // output is like
+        // 97.12% 420KiB / 503.8GiB
+        // (cpu% mem-used / mem-max)
+        // but this can be preceded by lines with warning messages
+        //
+        bool found = false;
+        for (const string& line: out) {
+            n = sscanf(line.c_str(), "%lf%% %lf%c", &cpu_pct, &mem, &mem_unit);
+            if (n == 3) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            print_once(string("stats command parse failed\n"));
+            return -1;
         }
     }
-    if (!found) {
-        fprintf(stderr, "Can't parse stats reply\n");
-        return -1;
-    }
     switch (mem_unit) {
-    case 'G':
-    case 'g':
+    case 'G': case 'g':
         mem *= GIGA; break;
-    case 'M':
-    case 'm':
+    case 'M': case 'm':
         mem *= MEGA; break;
-    case 'K':
-    case 'k':
+    case 'K': case 'k':
         mem *= KILO; break;
-    case 'B':
-    case 'b':
+    case 'B': case 'b':
         break;
     default: return -1;
     }
     ru.cpu_frac = cpu_pct/100.;
     ru.wss = mem;
+    // sanity checks
+    if (mem == 0 ) {
+        print_once(string("stats command returned zero memory\n"));
+        return -1;
+    }
+    if (ru.cpu_frac > aid.ncpus) {
+        print_once(string("stats command returned excessive CPU usage\n"));
+        ru.cpu_frac = aid.ncpus;
+    }
     return 0;
 }
 
@@ -816,122 +1086,35 @@ double get_fraction_done() {
     return y;
 }
 
-//////////  CHECKPOINT  ////////////
-
-#ifdef CHECKPOINT_RESTART
-
-// when we checkpoint, write a file with
-//      duration of checkpoint operation
-//      CPU time at time of checkpoint
-//      docker type
-//      [WSL distro name]
-// ... the latter 2 in case we somehow change WSL distro or docker type
-
-double get_min_checkpoint_time(double last_dur) {
-    double d = last_dur*CHECKPOINT_INTERVAL_FACTOR;
-    if (d > MIN_CHECKPOINT_INTERVAL) {
-        return dtime() + d;
-    } else {
-        return dtime() + MIN_CHECKPOINT_INTERVAL;
-    }
-}
-
-bool have_checkpoint(double &dur, double &lct) {
-    int dt, nitems;
-    FILE *f = fopen(CHECKPOINT_FILENAME, "r");
-    if (!f) return false;
-#ifdef _WIN32
-    char wsl_distro[256];
-    int n = fscanf(f, "%lf\n%lf\n%d\n%255s\n", &dur, &lct, &dt, wsl_distro);
-    nitems = 4;
-#else
-    int n = fscanf(f, "%lf\n%lf\n%d", &dur, &lct, &dt);
-    nitems = 3;
-#endif
-    fclose(f);
-    bool file_ok = true;
-    if (n != nitems) {
-        fprintf(stderr, "bad checkpoint file contents\n");
-        file_ok = false;
-    } else {
-        if (dt != docker_type) {
-            fprintf(stderr, "checkpoint file has wrong docker type\n");
-            file_ok = false;
-        }
-#ifdef _WIN32
-        if (wsl_distro_name != (string)wsl_distro) {
-            fprintf(stderr, "checkpoint file has wrong WSL distro\n");
-            file_ok = false;
-        }
-#endif
-    }
-    if (!file_ok) {
-        boinc_delete_file(CHECKPOINT_FILENAME);
-        return false;
-    }
-    return true;
-}
-
-void clear_checkpoint() {
-    boinc_delete_file(CHECKPOINT_FILENAME);
-}
-
-void make_checkpoint() {
-    double start = dtime();
-    int retval = container_op("container checkpoint --leave-running");
-    if (retval) {
-        // Checkpoint failed, probably because CRIU missing.
-        fprintf(stderr, "container checkpoint failed\n");
-        boinc_delete_file(CHECKPOINT_FILENAME);
-        checkpoint_failed = true;
-        return;
-    }
-    FILE *f = fopen(CHECKPOINT_FILENAME, "w");
-    if (!f) {
-        fprintf(stderr, "Can't create checkpoint status file\n");
-        checkpoint_failed = true;
-        return;
-    }
-    double dur = dtime() - start;
-#ifdef _WIN32
-    fprintf(f, "%f\n%f\n%d\n%s\n",
-        dur, cpu_time, docker_type, wsl_distro_name.c_str()
-    );
-#else
-    fprintf(f, "%f\n%f\n%d\n", dur, cpu_time, docker_type);
-#endif
-    fclose(f);
-    fprintf(stderr, "Successfully checkpointed; dur %f cpu %f \n",
-        dur, cpu_time
-    );
-    checkpoint_cpu_time = cpu_time;
-    min_checkpoint_time = get_min_checkpoint_time(dur);
-}
-#endif
-
 //////////  INITIALIZATION  ////////////
 
 #ifdef _WIN32
-// find a WSL distro with Docker and set up a command link to it
+// If we have WSL 3+, use the WSL container system.
+// Otherwise find a WSL distro with Docker and set up a command link to it
 //
 int wsl_init() {
-    WSL_DISTRO distro, *dp;
-    if (boinc_is_standalone()) {
-        distro.distro_name = BOINC_WSL_DISTRO_NAME;
-        distro.docker_type = PODMAN;
-        distro.boinc_buda_runner_version = 4;
-        dp = &distro;
+    if (aid.host_info.use_wslc) {
+        docker_type = WSLC;
+        return docker_conn.init_wslc();
     } else {
-        dp = aid.host_info.wsl_distros.find_docker();
-        if (!dp) {
-            fprintf(stderr, "wsl_init(): no usable WSL distro\n");
-            return -1;
+        WSL_DISTRO distro, *dp;
+        if (boinc_is_standalone()) {
+            distro.distro_name = BOINC_WSL_DISTRO_NAME;
+            distro.docker_type = PODMAN;
+            distro.boinc_buda_runner_version = 4;
+            dp = &distro;
+        } else {
+            dp = aid.host_info.wsl_distros.find_docker();
+            if (!dp) {
+                fprintf(stderr, "wsl_init(): no usable WSL distro\n");
+                return -1;
+            }
         }
+        fprintf(stderr, "Using WSL distro %s\n", dp->distro_name.c_str());
+        wsl_distro_name = dp->distro_name;
+        docker_type = dp->docker_type;
+        return docker_conn.init(*dp);
     }
-    fprintf(stderr, "Using WSL distro %s\n", dp->distro_name.c_str());
-    wsl_distro_name = dp->distro_name;
-    docker_type = dp->docker_type;
-    return docker_conn.init(*dp, config.verbose>0);
 }
 #endif
 
@@ -958,17 +1141,97 @@ void init_signal_handler() {
 }
 #endif
 
+// set a proxy-related env var;
+// in Win we set this in our WSL instance with an 'export' command.
+// in Mac/Unix we set it in our own environment.
+// Podman or Docker will see this and use the proxy to fetch stuff.
+// We also want the var to be visible inside the container.
+// With Podman this happens automatically.
+// With Docker, we need to do it with -e args to the 'create' command,
+// so put them in the 'env_vars' vector.
+//
+void set_env_var(const char* name, const char* value) {
+#ifdef _WIN32
+    vector<string> out;
+    char buf[1024];
+    sprintf(buf, "export %s=\"%s\"", name, value);
+    docker_conn.shell_command(buf, out, verbose_std());
+#else
+    setenv(name, value, 1);
+#endif
+    if (docker_type == DOCKER) {
+        env_vars.push_back(ENV_VAR(name, value));
+    }
+}
+
+// create env vars for proxy info.
+// These will
+// - be used by Podman in downloading image files
+// - be copied (by Podman) into the containers it creates
+//
+// NOTE: BOINC doesn't currently let you say whether
+// the client/proxy connection is SSL.
+// So we'll assume that it's not.
+//
+// examples
+//
+// protocol://username:password@hostname:port
+// http_proxy=http://192.168.1.100:8080
+// https_proxy=http://192.168.1.100:8080
+// http_proxy=https://192.168.1.100:8080 (we won't use this, see above)
+// http_proxy=socks5://127.0.0.1:1080
+// http_proxy=socks5h://127.0.0.1:1080 (if DNS is handled by SOCKS server)
+// https_proxy=socks5://127.0.0.1:1080
+// also (if noproxy_hosts is nonempty)
+// no_proxy="localhost,127.0.0.1"
+//
+void set_proxy_env_vars() {
+    char auth_buf[540], host_buf[600], value[2096];
+    PROXY_INFO &pi = aid.proxy_info;
+    if (strlen(pi.http_server_name)) {
+        sprintf(host_buf, "%s:%d", pi.http_server_name, pi.http_server_port);
+        if (strlen(pi.http_user_name)) {
+            sprintf(auth_buf, "%s:%s@", pi.http_user_name, pi.http_user_passwd);
+        } else {
+            auth_buf[0] = 0;
+        }
+        sprintf(value, "http://%s%s", auth_buf, host_buf);
+        set_env_var("http_proxy", value);
+        set_env_var("https_proxy", value);
+        //set_env_var("HTTP_PROXY", value);
+        set_env_var("HTTPS_PROXY", value);
+    } else if (strlen(pi.socks_server_name)) {
+        sprintf(host_buf, "%s:%d", pi.socks_server_name, pi.socks_server_port);
+        if (strlen(pi.socks5_user_name)) {
+            sprintf(auth_buf, "%s:%s@", pi.socks5_user_name, pi.socks5_user_passwd);
+        } else {
+            auth_buf[0] = 0;
+        }
+        const char* protocol = pi.socks5_remote_dns?"socks5h":"socks5";
+        sprintf(value, "%s://%s%s", protocol, auth_buf, host_buf);
+        set_env_var("http_proxy", value);
+        set_env_var("https_proxy", value);
+        //set_env_var("HTTP_PROXY", value);
+        set_env_var("HTTPS_PROXY", value);
+    }
+    if (strlen(pi.noproxy_hosts)) {
+        set_env_var("no_proxy", pi.noproxy_hosts);
+        set_env_var("NO_PROXY", pi.noproxy_hosts);
+    }
+}
+
 int main(int argc, char** argv) {
     BOINC_OPTIONS options;
     int retval;
     bool sporadic = false;
     RSC_USAGE ru;
 
+    config.verbose = VERBOSE_STD;
     for (int j=1; j<argc; j++) {
         if (!strcmp(argv[j], "--sporadic")) {
             sporadic = true;
         } else if (!strcmp(argv[j], "--verbose")) {
-            config.verbose = VERBOSE_STD;
+            config.verbose = VERBOSE_ALL;
         } else if (!strcmp(argv[j], "--config")) {
             config_file = argv[++j];
         } else if (!strcmp(argv[j], "--dockerfile")) {
@@ -1003,17 +1266,21 @@ int main(int argc, char** argv) {
         strcpy(image_name, "boinc");
         strcpy(container_name, "boinc");
         project_dir = "project";
+        boinc_parse_init_data_file();
+        boinc_get_init_data(aid);
+        aid.ncpus = 1;
+        aid.wu_cpu_time = 0;
     } else {
         boinc_get_init_data(aid);
         project_dir = strrchr(aid.project_dir, '/')+1;
         get_image_name();
         get_container_name();
+        cpu_time = aid.wu_cpu_time;
     }
 
     if (config.verbose) {
         config.print();
     }
-    config.verbose = VERBOSE_STD;
 
     if (sporadic) {
         retval = boinc_sporadic_dir(".");
@@ -1048,7 +1315,17 @@ int main(int argc, char** argv) {
         }
         docker_type = aid.host_info.docker_type;
     }
-    docker_conn.init(docker_type, config.verbose>0);
+
+    // set env vars based on HTTP proxy info from client
+    // must call after docker_type is set
+    //
+    set_proxy_env_vars();
+
+    retval = docker_conn.init(docker_type);
+    if (retval) {
+        fprintf(stderr, "docker_conn.init() failed: %d\n", retval);
+        boinc_finish(1);
+    }
 #endif
     fprintf(stderr, "Using %s\n", docker_type_str(docker_type));
 
@@ -1096,34 +1373,10 @@ int main(int argc, char** argv) {
         break;
     case CONTAINER_EXITED:
         // This probably means the host was rebooted.
-        // If we have a checkpoint, restore from there.
-        // Otherwise start from the beginning.
+        // Start from the beginning.
         //
         fprintf(stderr, "container is exited; restarting\n");
         need_start = true;
-#ifdef CHECKPOINT_RESTART
-        double dur, lct;
-        if (have_checkpoint(dur, lct)) {
-            fprintf(stderr, "have checkpoint - restoring\n");
-            retval = container_op("container restore");
-                // keep the checkpoint in case we need it again
-            if (retval) {
-                fprintf(stderr, "restore failed; restarting\n");
-                clear_checkpoint();
-                need_start = true;
-            } else {
-                fprintf(stderr, "restore successful; dur %lf lct %lf\n",
-                    dur, lct
-                );
-                last_checkpoint_dur = dur;
-                cpu_time = checkpoint_cpu_time = lct;
-                min_checkpoint_time = get_min_checkpoint_time(dur);
-            }
-            // the restore consumed the checkpoint; make a new one
-            make_checkpoint();
-            need_start = false;
-        }
-#endif
         break;
     case CONTAINER_OTHER:
         fprintf(stderr, "container is in other state; restarting\n");
@@ -1132,6 +1385,7 @@ int main(int argc, char** argv) {
         break;
     default:
         fprintf(stderr, "bad container state %d\n", state);
+        container_op("kill");
         cleanup();
         boinc_finish(1);
     }
@@ -1164,56 +1418,57 @@ int main(int argc, char** argv) {
             exit(0);
         }
 #endif
-        poll_client_msgs();
+        retval = poll_client_msgs();
+        if (retval) {
+            fprintf(stderr, "poll_client_msgs() returned %d\n", retval);
+            // don't fail job; wrapper restart might fix things
+            exit(0);
+        }
         if (i%STATUS_PERIOD == 0) {
             // do this stuff every 10 sec
             // First, see if app has exited
             //
             switch(poll_app()) {
             case JOB_FAIL:
+                container_op("kill");
                 cleanup();
                 boinc_finish(1);
                 break;
             case JOB_SUCCESS:
-                cleanup();
-                // JOB_SUCCESS means Docker/Podman succeeded.
-                // In this case forward the exit code
-                // of the container payload.
+                // JOB_SUCCESS means the container exited.
+                // Forward the exit code of the container.
                 //
+                cleanup();
                 boinc_finish(container_exit_code);
                 break;
             default:
+                // in progress
                 break;
             }
 
-            // If not, get its resource usage
+            // If container is running, get its resource usage
             //
-            retval = get_stats(ru);
-            if (!retval) {
+            if (running) {
+                retval = get_stats(ru);
+                if (retval) {
+                    // if can't get info from Podman, use defaults;
+                    // we need to tell the client something.
+                    ru.cpu_frac = aid.ncpus;
+                    ru.wss = 1e8;
+                }
                 cpu_time += STATUS_PERIOD*ru.cpu_frac;
                 if (config.verbose == VERBOSE_ALL) {
                     fprintf(stderr, "reporting CPU %f WSS %f\n", cpu_time, ru.wss);
                 }
                 boinc_report_app_status_aux(
                     cpu_time,
-                    checkpoint_cpu_time,
+                    cpu_time,       // report as checkpoint cpu time
                     get_fraction_done(),
                     0,      // other PID
                     0,0,    // bytes send/received
                     ru.wss
                 );
             }
-
-#ifdef CHECKPOINT_RESTART
-            // see if we should checkpoint
-            //
-            if (!checkpoint_failed
-                && boinc_time_to_checkpoint()
-                && dtime() > min_checkpoint_time
-            ) {
-                make_checkpoint();
-            }
-#endif
         }
     }
 }

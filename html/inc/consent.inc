@@ -80,8 +80,7 @@ function check_consent_type($name, $checkenabled=TRUE) {
 //
 function intercept_login($user, $perm, $in_next_url = "") {
     list($checkct, $ctid) = check_consent_type(CONSENT_TYPE_ENROLL);
-    $config = get_config();
-    if (parse_bool($config, "enable_login_mustagree_termsofuse")
+    if (project_config_bool("enable_login_mustagree_termsofuse")
         and $checkct
         and check_termsofuse()
         and (!check_user_consent($user, CONSENT_TYPE_ENROLL))

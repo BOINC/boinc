@@ -23,7 +23,7 @@ require_once("../inc/recaptchalib.inc");
 
 if (DISABLE_TEAMS) error_page("Teams are disabled");
 
-if (parse_bool(get_config(), "disable_team_creation")) {
+if (project_config_bool("disable_team_creation")) {
     error_page("team creation disabled");
 }
 

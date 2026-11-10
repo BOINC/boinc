@@ -17,6 +17,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once("../inc/credit.inc");
+require_once("../inc/cache.inc");
 require_once("../inc/email.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
@@ -51,7 +52,7 @@ function get_other_projects($user) {
             $xml_object = null;
             $f = @file_get_contents($url);
             if ($f) {
-                $xml_object = @simplexml_load_string($f);
+                $xml_object = @safe_simplexml_load_string($f);
             }
             ini_set('default_socket_timeout', $old_timeout);
             if (!$xml_object) {
@@ -67,7 +68,7 @@ function get_other_projects($user) {
             $rawxml = @curl_exec($ch);
             $xml_object = null;
             if ($rawxml) {
-                $xml_object = @simplexml_load_string($rawxml);
+                $xml_object = @safe_simplexml_load_string($rawxml);
             }
             curl_close($ch);
             if (!$xml_object) {
@@ -276,7 +277,7 @@ function show_user_info_private($user) {
         row2(tra("Postal code"), $user->postal_code);
     }
     row2(tra("%1 member since", PROJECT), date_str($user->create_time));
-    $url_tokens = url_tokens($user->authenticator);
+    $url_tokens = url_tokens();
     if (LDAP_HOST && is_ldap_email($user->email_addr)) {
         // LDAP accounts can't change email or password
         //
@@ -285,8 +286,7 @@ function show_user_info_private($user) {
         );
     } else {
         $delete_account_str = "";
-        $config = get_config();
-        if (parse_bool($config, "enable_delete_account")) {
+        if (project_config_bool("enable_delete_account")) {
             $delete_account_str = " &middot; <a href=\"delete_account_request.php\">".tra("delete account")."</a>";
         }
 
@@ -303,7 +303,11 @@ function show_user_info_private($user) {
     if (!NO_COMPUTING) {
         row2(
             tra("Account keys"),
-            "<a href=\"weak_auth.php\">".tra("View")."</a>"
+            sprintf(
+                '<a href="weak_auth.php?%s">%s</a>',
+                url_tokens(),
+                tra("View")
+            )
         );
 
         require_once("../inc/account_ownership.inc");
@@ -333,7 +337,7 @@ function show_preference_links() {
             "<a href=\"prefs.php?subset=project\">".tra("%1 preferences", PROJECT)."</a>"
         );
     }
-    if (parse_bool(get_config(), 'keyword_sched')) {
+    if (project_config_bool('keyword_sched')) {
         row2(
             tra('What types of jobs to run'),
             sprintf('<a href=kw_prefs.php>%s</a>',
@@ -355,7 +359,7 @@ function friend_links($user) {
         'vertical-align:top',
         $user->name
     );
-    if ($user->has_profile) {
+    if (!DISABLE_PROFILES && $user->has_profile) {
         $profile = BoincProfile::lookup_fields("has_picture", "userid=$user->id");
         if ($profile && $profile->has_picture) {
             $img_url = profile_thumb_url($user->id);
@@ -387,9 +391,8 @@ function user_links($user, $badge_height=0, $name_limit=0) {
         error_log("user_links(): null arg\n");
         return;
     }
-    BoincForumPrefs::lookup($user);
     $x = "";
-    if ($user->has_profile) {
+    if (!DISABLE_PROFILES && $user->has_profile) {
         $img_url = url_base()."img/head_20.png";
         $x .= sprintf(
             ' <a href="%s%s?userid=%d"><img title="View the profile of %s" src="%s" alt="Profile"></a>',
@@ -674,7 +677,7 @@ function show_account_private($user) {
             );
             panel(
                 tra("Preferences"),
-                function() use($user) {
+                function() {
                     start_table();
                     show_preference_links();
                     end_table();

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -270,7 +270,7 @@ void send_work_score_type(int rt) {
             continue;
         }
 
-        // it it's a BUDA job, pick a variant using the requested resource
+        // If it's a BUDA job, pick a variant using the requested resource
         //
         if (job_is_buda) {
             if (!choose_buda_variant(
@@ -306,7 +306,7 @@ void send_work_score_type(int rt) {
     std::sort(jobs.begin(), jobs.end(), job_compare);
 
     bool sema_locked = false;
-    for (unsigned int i=0; i<jobs.size(); i++) {
+    for (JOB& job: jobs) {
 
         // check limit on total jobs
         //
@@ -319,7 +319,6 @@ void send_work_score_type(int rt) {
         if (!g_wreq->need_proc_type(rt)) {
             break;
         }
-        JOB& job = jobs[i];
 
         // check limits on jobs for this (app, processor type)
         //

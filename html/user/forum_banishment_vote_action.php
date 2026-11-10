@@ -25,20 +25,19 @@ if (DISABLE_FORUMS) error_page("Forums are disabled");
 
 check_get_args(array("action", "userid", "tnow", "ttok"));
 
-$config = get_config();
-
 $logged_in_user = get_logged_in_user();
 BoincForumPrefs::lookup($logged_in_user);
-check_tokens($logged_in_user->authenticator);
+check_tokens();
 
 if (!$logged_in_user->prefs->privilege(S_MODERATOR)) {
     error_page(tra("You are not authorized to banish users."));
 }
 
 // See if "action" is provided - either through post or get
+//
 if (!post_str('action', true)) {
     if (!get_str('action', true)){
-	    error_page(tra("You must specify an action..."));
+	    error_page(tra("You must specify an action"));
     } else {
         $action = get_str('action');
     }
@@ -47,29 +46,37 @@ if (!post_str('action', true)) {
 }
 
 $userid = post_int('userid');
-$user=BoincUser::lookup_id($userid);
+$user = BoincUser::lookup_id($userid);
 if (!$user) error_page('No such user');
 
 if ($action!="start"){
     error_page("Unknown action");
 }
 
+page_head(tra("Banishment Vote"));
+
 // TODO: create a function for this in forum_banishment_vote.inc to make it more flexible
 switch (post_int("category", true)) {
     case 1:
         $mod_category = tra("Obscene");
+        break;
     case 2:
         $mod_category = tra("Flame/Hate mail");
+        break;
     case 3:
         $mod_category = tra("User Request");
+        break;
     default:
         $mod_category = tra("Other");
+        break;
 }
 
-if (post_str('reason', true)){
-    start_vote($config,$logged_in_user,$user, $mod_category,post_str("reason"));
+if (post_str('reason', true)) {
+    start_vote($logged_in_user, $user, $mod_category, post_str("reason"));
 } else {
-    start_vote($config,$logged_in_user,$user, $mod_category,"None given");
+    start_vote($logged_in_user, $user, $mod_category, "None given");
 }
+
+page_tail();
 
 ?>

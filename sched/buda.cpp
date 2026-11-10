@@ -105,18 +105,13 @@ bool BUDA_APP::read_json() {
         );
         return false;
     }
-    if (d.find("name") == d.end()
-        || d.find("min_nsuccess") == d.end()
-        || d.find("max_total") == d.end()
-    ) {
+    if (d.find("name") == d.end()) {
         log_messages.printf(MSG_CRITICAL,
             "BUDA app: missing element in %s\n", path
         );
         return false;
     }
     name = d["name"].get<string>();
-    min_nsuccess = d["min_nsuccess"].get<int>();
-    max_total = d["max_total"].get<int>();
 
     sprintf(path, "%s/%s",
         BUDA_APPS_DIR,
@@ -243,23 +238,27 @@ bool choose_buda_variant(
 //
 // This modifies wu.xml_doc; only use it on a copy
 //
-void add_app_files(WORKUNIT &wu, BUDA_VARIANT &bv) {
+int add_app_files(WORKUNIT &wu, BUDA_VARIANT &bv) {
     char *p1 = strstr(wu.xml_doc, "<workunit>");
     char *p2 = strstr(wu.xml_doc, "</workunit>");
     if (!p1 || !p2) {
         log_messages.printf(MSG_CRITICAL, "add_app_file(): bad xml_doc\n");
-        return;
+        return ERR_XML_PARSE;
     }
     *p1 = 0;
     *p2 = 0;
-    char buf[BLOB_SIZE];
-    strcpy(buf, wu.xml_doc);
-    strcat(buf, bv.file_infos.c_str());
-    strcat(buf, "<workunit>\n");
-    strcat(buf, p1+strlen("<workunit>"));
-    strcat(buf, bv.file_refs.c_str());
-    strcat(buf, "</workunit>\n");
-    strcpy(wu.xml_doc, buf);
+    string buf;
+    buf = wu.xml_doc;
+    buf += bv.file_infos;
+    buf += "<workunit>\n";
+    buf += p1+strlen("<workunit>");
+    buf += bv.file_refs;
+    buf += "</workunit>\n";
+    if (buf.size() >= sizeof(wu.xml_doc)) {
+        return ERR_BUFFER_OVERFLOW;
+    }
+    strcpy(wu.xml_doc, buf.c_str());
+    return 0;
 }
 
 // wu is a BUDA job; get the BUDA app name from its xml_doc
@@ -288,8 +287,11 @@ void set_have_apps_flags() {
 }
 
 void buda_init() {
+    static bool buda_inited = false;
+    if (buda_inited) return;
     buda_apps.read_json();
     set_have_apps_flags();
+    buda_inited = true;
 }
 
 #ifdef BUDA_TEST

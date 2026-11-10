@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,11 +17,6 @@
 
 #ifndef BOINC_VIEWSTATISTICS_H
 #define BOINC_VIEWSTATISTICS_H
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "ViewStatistics.cpp"
-#endif
-
 
 #include "BOINCBaseView.h"
 
@@ -202,18 +197,14 @@ protected:
 
     void*                   m_fauxStatisticsView;
 #endif
-
-
-	DECLARE_EVENT_TABLE()
 };
 
 class CViewStatistics : public CBOINCBaseView
 {
     DECLARE_DYNAMIC_CLASS( CViewStatistics )
-	DECLARE_EVENT_TABLE()
 
 public:
-    CViewStatistics();
+    CViewStatistics() = default;
     CViewStatistics(wxNotebook* pNotebook);
 
     ~CViewStatistics();
@@ -238,7 +229,7 @@ public:
 
 protected:
 
-    CPaintStatistics*       m_PaintStatistics;
+    CPaintStatistics*       m_PaintStatistics = nullptr;
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );

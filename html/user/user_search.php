@@ -94,10 +94,9 @@ function user_search_form() {
         row2(tra("Decreasing total credit"), "<input type=radio name=search_type value=\"total\">");
     }
     row2("",
-        sprintf(
-            '<input class="btn" %s type=submit name=action value="%s">',
-            button_style(),
-            tra("Search")
+        submit_button_text(
+            tra("Search"),
+            tra("Search for users")
         )
     );
     end_table();

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -240,8 +240,8 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.proxy_info.write(mf);
     }
     ai.global_prefs.write(mf);
-    for (unsigned int i=0; i<ai.app_files.size(); i++) {
-        fprintf(f, "<app_file>%s</app_file>\n", ai.app_files[i].c_str());
+    for (const string &s: ai.app_files) {
+        fprintf(f, "<app_file>%s</app_file>\n", s.c_str());
     }
     fprintf(f, "</app_init_data>\n");
     return 0;

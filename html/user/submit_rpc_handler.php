@@ -16,8 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Handler for remote job submission.
-// See https://github.com/BOINC/boinc/wiki/RemoteJobs
+// Handler for remote job submission RPCs.
+// See https://github.com/BOINC/boinc/wiki/Remote-job-submission-RPCs
 
 require_once("../inc/boinc_db.inc");
 require_once("../inc/submit_db.inc");
@@ -155,13 +155,13 @@ function validate_batch($jobs, $template) {
     }
 }
 
-$fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+$fanout = project_config_val("uldl_dir_fanout");
 
 // stage a file, and return the physical name
 //
 function stage_file($file, $user) {
     global $fanout;
-    $download_dir = parse_config(get_config(), "<download_dir>");
+    $download_dir = project_config_val("download_dir");
 
     switch ($file->mode) {
     case "semilocal":
@@ -207,7 +207,7 @@ function stage_file($file, $user) {
         }
         return $name;
     }
-    log_write(-1, "unsupported file mode: $file->mode");
+    log_write("unsupported file mode: $file->mode");
     xml_error(-1, "unsupported file mode: $file->mode");
 }
 
@@ -501,6 +501,22 @@ function submit_batch($r) {
         }
     }
 
+    // do these checks before creating batch
+    //
+    $input_template_filename = (string) $r->batch->input_template_filename;
+    if ($input_template_filename
+        && !is_valid_filename($input_template_filename, false)
+    ) {
+        xml_error(-1, 'invalid input template filename');
+    }
+    $output_template_filename = (string) $r->batch->output_template_filename;
+        // possibly empty
+    if ($output_template_filename
+        && !is_valid_filename($output_template_filename, false)
+    ) {
+        xml_error(-1, 'invalid output template filename');
+    }
+
     // compute a priority for the jobs
     //
     $priority = null;
@@ -544,10 +560,6 @@ function submit_batch($r) {
     $job_params->rsc_memory_bound = (double) $r->batch->job_params->rsc_memory_bound;
     $job_params->delay_bound = (double) $r->batch->job_params->delay_bound;
         // could add quorum-related stuff
-
-    $input_template_filename = (string) $r->batch->input_template_filename;
-    $output_template_filename = (string) $r->batch->output_template_filename;
-        // possibly empty
 
     submit_jobs(
         $jobs, $job_params, $app, $batch_id, $priority, $app_version_num,
@@ -600,13 +612,17 @@ function create_batch($r) {
 function print_batch_params($batch, $get_cpu_time) {
     $app = BoincApp::lookup_id($batch->app_id);
     if (!$app) $app->name = "none";
+    $fraction_done = $batch->njobs
+        ? ($batch->nerror_jobs+$batch->n_success)/$batch->njobs
+        : 0
+    ;
     echo "
         <id>$batch->id</id>
         <create_time>$batch->create_time</create_time>
         <expire_time>$batch->expire_time</expire_time>
         <est_completion_time>$batch->est_completion_time</est_completion_time>
         <njobs>$batch->njobs</njobs>
-        <fraction_done>$batch->fraction_done</fraction_done>
+        <fraction_done>$fraction_done</fraction_done>
         <nerror_jobs>$batch->nerror_jobs</nerror_jobs>
         <state>$batch->state</state>
         <completion_time>$batch->completion_time</completion_time>
@@ -627,13 +643,6 @@ function query_batches($r) {
     $get_cpu_time = (int)($r->get_cpu_time);
     foreach ($batches as $batch) {
         if ($batch->state == BATCH_STATE_RETIRED) continue;
-        if ($batch->state < BATCH_STATE_COMPLETE) {
-            $wus = BoincWorkunit::enum_fields(
-                'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
-                "batch = $batch->id"
-            );
-            $batch = get_batch_params($batch, $wus);
-        }
         echo "    <batch>\n";
         print_batch_params($batch, $get_cpu_time);
         echo "   </batch>\n";
@@ -685,6 +694,9 @@ function show_job_details($wu) {
         }
         if ($r->id == $wu->canonical_resultid) {
             echo "            <cpu_time>$r->cpu_time</cpu_time>\n";
+            echo "            <elapsed_time>$r->elapsed_time</elapsed_time>\n";
+            echo "            <sent_time>$r->sent_time</sent_time>\n";
+            echo "            <received_time>$r->received_time</received_time>\n";
         }
     }
     if ($wu->error_mask) {
@@ -738,7 +750,6 @@ function query_batch($r) {
         'id, name, rsc_fpops_est, canonical_credit, canonical_resultid, error_mask',
         "batch = $batch->id", 'order by id'
     );
-    $batch = get_batch_params($batch, $wus);
     $get_cpu_time = (int)($r->get_cpu_time);
     $get_job_details = (int)($r->get_job_details);
     print_batch_params($batch, $get_cpu_time);
@@ -887,7 +898,8 @@ function query_completed_job($r) {
         $result = BoincResult::lookup_id($wu->canonical_resultid);
         echo "   <canonical_resultid>$wu->canonical_resultid</canonical_resultid>\n";
     } else {
-        $results = BoincResult::enum("workunitid=$job_id");
+        $result = null;
+        $results = BoincResult::enum("workunitid=$wu->id");
         foreach ($results as $r) {
             switch($r->outcome) {
             case 1:
@@ -1088,9 +1100,9 @@ if (0) {
 
 // optionally write request message (XML) to log file
 //
-$request_log = parse_config(get_config(), "<remote_submit_request_log>");
+$request_log = project_config_val("remote_submit_request_log");
 if ($request_log) {
-    $log_dir = parse_config(get_config(), "<log_dir>");
+    $log_dir = project_config_val("log_dir");
     $request_log = $log_dir . "/" . $request_log;
     if ($file = fopen($request_log, "a")) {
         fwrite($file, "\n<submit_rpc_handler date=\"" . date(DATE_ATOM) . "\">\n" . $req . "\n</submit_rpc_handler>\n");
@@ -1098,7 +1110,7 @@ if ($request_log) {
     }
 }
 
-$r = simplexml_load_string($req);
+$r = safe_simplexml_load_string($req);
 if (!$r) {
     log_write("----- RPC request: can't parse request message: $req");
     xml_error(-1, "can't parse request message: ".htmlspecialchars($req));

@@ -26,7 +26,7 @@ check_get_args(array());
 $user = get_logged_in_user();
 
 $token = post_str("token");
-if ($token != $user->login_token) {
+if (!hash_equals($user->login_token, $token)) {
     error_page("bad token");
 }
 if (time() - $user->login_token_time > 86400) {
@@ -35,8 +35,7 @@ if (time() - $user->login_token_time > 86400) {
 
 $passwd = post_str("passwd");
 
-$config = get_config();
-$min_passwd_length = parse_config($config, "<min_passwd_length>");
+$min_passwd_length = project_config_val("min_passwd_length");
 if (!$min_passwd_length) $min_passwd_length = 6;
 
 if (!is_ascii($passwd)) {

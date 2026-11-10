@@ -22,6 +22,11 @@ require_once("../inc/util.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/result.inc");
 require_once("../inc/keywords.inc");
+require_once("../inc/buda.inc");
+
+if (REQUIRE_LOGIN) {
+    get_logged_in_user();
+}
 
 if (REQUIRE_LOGIN) {
     get_logged_in_user();
@@ -50,7 +55,18 @@ function show_wu($wu) {
 
     start_table();
     row2(tra("name"), $wu->name);
-    row2(tra("application"), $app->user_friendly_name);
+    if ($app->name == 'buda') {
+        $batch = BoincBatch::lookup_id($wu->batch);
+        row2(
+            'Application',
+            get_buda_app_name($batch->description).' (BUDA)'
+        );
+    } else {
+        row2(
+            tra("application"),
+            "<a href=apps.php?app_id=$app->id>$app->user_friendly_name</a>"
+        );
+    }
     if ($wu->batch) {
         row2('batch',
             "<a href=submit.php?action=query_batch&batch_id=$wu->batch>$wu->batch</a>"
@@ -71,13 +87,16 @@ function show_wu($wu) {
     // don't show anything more
     // (so that bad guys can't tell if they have an unreplicated job)
 
-    $config = get_config();
-    if ($app->target_nresults>0 && !$wu->canonical_resultid && !$wu->error_mask && !parse_bool($config, "dont_suppress_pending")) {
+    if ($app->target_nresults>0
+        && !$wu->canonical_resultid
+        && !$wu->error_mask
+        && !project_config_bool("dont_suppress_pending")
+    ) {
         row2(tra("Tasks in progress"), tra("suppressed pending completion"));
         end_table();
     } else {
         row2(tra("minimum quorum"), $wu->min_quorum);
-        row2(tra("initial replication"), $wu->target_nresults);
+        row2(tra("target #results"), $wu->target_nresults);
         row2(tra("max # of error/total/success tasks"),
             "$wu->max_error_results, $wu->max_total_results, $wu->max_success_results"
         );

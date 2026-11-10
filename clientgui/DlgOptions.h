@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,30 +19,6 @@
 #ifndef BOINC_DLGOPTIONS_H
 #define BOINC_DLGOPTIONS_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "DlgOptions.cpp"
-#endif
-
-/*!
- * Includes
- */
-
-////@begin includes
-#include "wx/notebook.h"
-////@end includes
-
-/*!
- * Forward declarations
- */
-
-////@begin forward declarations
-////@end forward declarations
-
-/*!
- * Control identifiers
- */
-
-////@begin control identifiers
 #define ID_DIALOG 10000
 #define SYMBOL_CDLGOPTIONS_STYLE wxDEFAULT_DIALOG_STYLE
 #define SYMBOL_CDLGOPTIONS_TITLE wxT("")
@@ -82,11 +58,6 @@
 #define ID_SOCKSPASSWORDCTRL 10016
 #define ID_HTTPNOPROXYCTRL 10017
 #define ID_SOCKSNOPROXYCTRL 10018
-////@end control identifiers
-
-/*!
- * Compatibility
- */
 
 #ifndef wxCLOSE_BOX
 #define wxCLOSE_BOX 0x1000
@@ -95,18 +66,13 @@
 #define wxFIXED_MINSIZE 0
 #endif
 
-/*!
- * CDlgOptions class declaration
- */
-
 class CDlgOptions: public wxDialog
 {
     DECLARE_DYNAMIC_CLASS( CDlgOptions )
-    DECLARE_EVENT_TABLE()
 
 public:
     /// Constructors
-    CDlgOptions( );
+    CDlgOptions() = default;
     CDlgOptions( wxWindow* parent, wxWindowID id = SYMBOL_CDLGOPTIONS_IDNAME, const wxString& caption = SYMBOL_CDLGOPTIONS_TITLE, const wxPoint& pos = SYMBOL_CDLGOPTIONS_POSITION, const wxSize& size = SYMBOL_CDLGOPTIONS_SIZE, long style = SYMBOL_CDLGOPTIONS_STYLE );
 
     /// Destructor
@@ -163,33 +129,33 @@ public:
 
 private:
 ////@begin CDlgOptions member variables
-    wxComboBox* m_LanguageSelectionCtrl;
-    wxComboBox* m_ReminderFrequencyCtrl;
-    wxCheckBox* m_EnableBOINCManagerAutoStartCtrl;
-    wxCheckBox* m_EnableBOINCManagerExitMessageCtrl;
-    wxCheckBox* m_EnableBOINCClientShutdownMessageCtrl;
-    wxCheckBox* m_EnableBOINCMenuBarIconCtrl;
-    wxCheckBox* m_EnableRunDaemonCtrl;
-    wxStaticBoxSizer* m_DialupStaticBoxCtrl;
-    wxListBox* m_DialupConnectionsCtrl;
-    wxButton* m_DialupSetDefaultCtrl;
-    wxButton* m_DialupClearDefaultCtrl;
-    wxStaticText* m_DialupDefaultConnectionTextCtrl;
-    wxStaticText* m_DialupDefaultConnectionCtrl;
-    wxCheckBox* m_EnableHTTPProxyCtrl;
-    wxTextCtrl* m_HTTPAddressCtrl;
-    wxTextCtrl* m_HTTPPortCtrl;
-    wxTextCtrl* m_HTTPUsernameCtrl;
-    wxTextCtrl* m_HTTPPasswordCtrl;
-    wxCheckBox* m_EnableSOCKSProxyCtrl;
-    wxTextCtrl* m_SOCKSAddressCtrl;
-    wxTextCtrl* m_SOCKSPortCtrl;
-    wxTextCtrl* m_SOCKSUsernameCtrl;
-    wxTextCtrl* m_SOCKSPasswordCtrl;
-    wxTextCtrl* m_HTTPNoProxiesCtrl;
-    wxTextCtrl* m_SOCKSNoProxiesCtrl;
+    wxComboBox* m_LanguageSelectionCtrl = nullptr;
+    wxComboBox* m_ReminderFrequencyCtrl = nullptr;
+    wxCheckBox* m_EnableBOINCManagerAutoStartCtrl = nullptr;
+    wxCheckBox* m_EnableBOINCManagerExitMessageCtrl = nullptr;
+    wxCheckBox* m_EnableBOINCClientShutdownMessageCtrl = nullptr;
+    wxCheckBox* m_EnableBOINCMenuBarIconCtrl = nullptr;
+    wxCheckBox* m_EnableRunDaemonCtrl = nullptr;
+    wxStaticBoxSizer* m_DialupStaticBoxCtrl = nullptr;
+    wxListBox* m_DialupConnectionsCtrl = nullptr;
+    wxButton* m_DialupSetDefaultCtrl = nullptr;
+    wxButton* m_DialupClearDefaultCtrl = nullptr;
+    wxStaticText* m_DialupDefaultConnectionTextCtrl = nullptr;
+    wxStaticText* m_DialupDefaultConnectionCtrl = nullptr;
+    wxCheckBox* m_EnableHTTPProxyCtrl = nullptr;
+    wxTextCtrl* m_HTTPAddressCtrl = nullptr;
+    wxTextCtrl* m_HTTPPortCtrl = nullptr;
+    wxTextCtrl* m_HTTPUsernameCtrl = nullptr;
+    wxTextCtrl* m_HTTPPasswordCtrl = nullptr;
+    wxCheckBox* m_EnableSOCKSProxyCtrl = nullptr;
+    wxTextCtrl* m_SOCKSAddressCtrl = nullptr;
+    wxTextCtrl* m_SOCKSPortCtrl = nullptr;
+    wxTextCtrl* m_SOCKSUsernameCtrl = nullptr;
+    wxTextCtrl* m_SOCKSPasswordCtrl = nullptr;
+    wxTextCtrl* m_HTTPNoProxiesCtrl = nullptr;
+    wxTextCtrl* m_SOCKSNoProxiesCtrl = nullptr;
 ////@end CDlgOptions member variables
-    bool m_bRetrievedProxyConfiguration;
+    bool m_bRetrievedProxyConfiguration = false;
 };
 
 #endif

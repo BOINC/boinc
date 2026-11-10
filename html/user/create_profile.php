@@ -113,7 +113,7 @@ function show_submit() {
 }
 
 // Returns an array containing:
-// [0]: The original image refered to by $fileName if its dimensions are
+// [0]: The original image referred to by $fileName if its dimensions are
 //    less than MAX_IMG_WIDTH x MAX_IMG_HEIGHT, or a version scaled to
 //    those dimensions if it was too large.
 // [1]: A scaled version of the above.
@@ -339,8 +339,7 @@ if (VALIDATE_EMAIL_TO_POST) {
 }
 
 $profile = get_profile($user->id);
-$config = get_config();
-$min_credit = parse_config($config, "<profile_min_credit>");
+$min_credit = project_config_val("profile_min_credit");
 if ($min_credit && $user->expavg_credit < $min_credit) {
     error_page(
         tra("To prevent spam, an average credit of %1 or greater is required to create or edit a profile.  We apologize for this inconvenience.", $min_credit)

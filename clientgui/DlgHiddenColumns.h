@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2014 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,17 +18,12 @@
 #ifndef BOINC_DLGHIDDENCOLUMNS_H
 #define BOINC_DLGHIDDENCOLUMNS_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "DlgHiddenColumns.cpp"
-#endif
-
 #include "BOINCBaseView.h"
 
 #define ID_DEFAULTSBTN 10001
 
 class CDlgHiddenColumns : public wxDialog {
 	DECLARE_DYNAMIC_CLASS( CDlgHiddenColumns )
-    DECLARE_EVENT_TABLE()
 public:
 	CDlgHiddenColumns(wxWindow* parent=NULL);
 	virtual ~CDlgHiddenColumns();

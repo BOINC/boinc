@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2025 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -14,10 +14,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "BOINCBaseFrame.h"
-#endif
 
 #include "stdwx.h"
 #include "diagnostics.h"
@@ -36,43 +32,18 @@
 #include "Events.h"
 #include "DlgEventLog.h"
 #include "DlgSelectComputer.h"
-#include "wizardex.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
 
-DEFINE_EVENT_TYPE(wxEVT_FRAME_ALERT)
-DEFINE_EVENT_TYPE(wxEVT_FRAME_CONNECT)
-DEFINE_EVENT_TYPE(wxEVT_FRAME_INITIALIZED)
-DEFINE_EVENT_TYPE(wxEVT_FRAME_REFRESHVIEW)
-DEFINE_EVENT_TYPE(wxEVT_FRAME_UPDATESTATUS)
-DEFINE_EVENT_TYPE(wxEVT_FRAME_RELOADSKIN)
-DEFINE_EVENT_TYPE(wxEVT_FRAME_NOTIFICATION)
-
+wxDEFINE_EVENT(wxEVT_FRAME_ALERT, CFrameAlertEvent);
+wxDEFINE_EVENT(wxEVT_FRAME_INITIALIZED, CFrameEvent);
+wxDEFINE_EVENT(wxEVT_FRAME_REFRESHVIEW, CFrameEvent);
+wxDEFINE_EVENT(wxEVT_FRAME_UPDATESTATUS, CFrameEvent);
+wxDEFINE_EVENT(wxEVT_FRAME_CONNECT, CFrameEvent);
+wxDEFINE_EVENT(wxEVT_FRAME_RELOADSKIN, CFrameEvent);
+wxDEFINE_EVENT(wxEVT_FRAME_NOTIFICATION, CFrameEvent);
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseFrame, wxFrame)
-
-BEGIN_EVENT_TABLE (CBOINCBaseFrame, wxFrame)
-    EVT_TIMER(ID_DOCUMENTPOLLTIMER, CBOINCBaseFrame::OnDocumentPoll)
-    EVT_TIMER(ID_ALERTPOLLTIMER, CBOINCBaseFrame::OnAlertPoll)
-    EVT_TIMER(ID_PERIODICRPCTIMER, CBOINCBaseFrame::OnPeriodicRPC)
-    EVT_FRAME_INITIALIZED(CBOINCBaseFrame::OnInitialized)
-    EVT_FRAME_ALERT(CBOINCBaseFrame::OnAlert)
-    EVT_FRAME_REFRESH(CBOINCBaseFrame::OnRefreshView)
-    EVT_ACTIVATE(CBOINCBaseFrame::OnActivate)
-    EVT_CLOSE(CBOINCBaseFrame::OnClose)
-    EVT_MENU(ID_CLOSEWINDOW, CBOINCBaseFrame::OnCloseWindow)
-    EVT_MENU(wxID_EXIT, CBOINCBaseFrame::OnExit)
-#if SUPPORTDARKMODE
-    EVT_SYS_COLOUR_CHANGED(CBOINCBaseFrame::OnDarkModeChanged)
-#endif
-END_EVENT_TABLE ()
-
-
-CBOINCBaseFrame::CBOINCBaseFrame()
-{
-    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::CBOINCBaseFrame - Default Constructor Function Begin"));
-    wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::CBOINCBaseFrame - Default Constructor Function End"));
-}
 
 
 CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, const long style) :
@@ -120,6 +91,18 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
     //   constructor and the first call to OnFrameRender
     //
     // Look for the 'if (!bAlreadyRunOnce) {' statement
+
+    Bind(wxEVT_TIMER, [this](wxTimerEvent& event){ OnDocumentPoll(event); }, ID_DOCUMENTPOLLTIMER);
+    Bind(wxEVT_TIMER, [this](wxTimerEvent& event){ OnAlertPoll(event); }, ID_ALERTPOLLTIMER);
+    Bind(wxEVT_TIMER, [this](wxTimerEvent& event){ OnPeriodicRPC(event); }, ID_PERIODICRPCTIMER);
+    Bind(wxEVT_FRAME_INITIALIZED, [this](CFrameEvent& event){ OnInitialized(event); });
+    Bind(wxEVT_FRAME_ALERT, [this](CFrameAlertEvent& event){ OnAlert(event); });
+    Bind(wxEVT_FRAME_REFRESHVIEW, [this](CFrameEvent& event){ OnRefreshView(event); });
+    Bind(wxEVT_ACTIVATE, [this](wxActivateEvent& event){ OnActivate(event); });
+    Bind(wxEVT_CLOSE_WINDOW, [this](wxCloseEvent& event){ OnClose(event); });
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnCloseWindow(event); }, ID_CLOSEWINDOW);
+    Bind(wxEVT_MENU, [this](wxCommandEvent& event){ OnExit(event); }, wxID_EXIT);
+    Bind(wxEVT_SYS_COLOUR_CHANGED, [this](wxSysColourChangedEvent& event){ OnDarkModeChanged(event); });
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::CBOINCBaseFrame - Function End"));
 }
@@ -246,18 +229,14 @@ void CBOINCBaseFrame::OnRefreshView(CFrameEvent& ) {
 }
 
 
-void CBOINCBaseFrame::OnAlert(CFrameAlertEvent&
-#ifndef __WXGTK__
-        event
-#endif
-        ) {
+void CBOINCBaseFrame::OnAlert(CFrameAlertEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnAlert - Function Begin"));
     static bool       bAlreadyRunningLoop = false;
 
     if (!bAlreadyRunningLoop) {
         bAlreadyRunningLoop = true;
 
-#ifdef __WXMSW__
+#ifndef __WXMAC__
         CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
         wxASSERT(pTaskbar);
 
@@ -279,26 +258,22 @@ void CBOINCBaseFrame::OnAlert(CFrameAlertEvent&
             //   to notify the user instead.  This keeps dialogs from interfering
             //   with people typing email messages or any other activity where they
             //   do not want keyboard focus changed to another window while typing.
-            unsigned int  icon_type;
-
+            unsigned int icon_type = wxICON_INFORMATION;
             if (wxICON_ERROR & event.m_style) {
-                icon_type = NIIF_ERROR;
+                icon_type = wxICON_ERROR;
             } else if (wxICON_WARNING & event.m_style) {
-                icon_type = NIIF_WARNING;
+                icon_type = wxICON_WARNING;
             } else if (wxICON_INFORMATION & event.m_style) {
-                icon_type = NIIF_INFO;
-            } else {
-                icon_type = NIIF_NONE;
+                icon_type = wxICON_INFORMATION;
             }
-
-            pTaskbar->SetBalloon(
+            pTaskbar->QueueBalloon(
                 pTaskbar->m_iconTaskBarNormal,
                 event.m_title,
                 event.m_message,
                 icon_type
             );
         }
-#elif defined (__WXMAC__)
+#else
         // SafeMessageBox() / ProcessResponse() hangs the Manager if hidden.
         // Currently, the only non-notification-only alert is Connection Failed,
         // which is now has logic to be displayed when Manager is maximized.
@@ -376,6 +351,13 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
         if (eventLog) {
             eventLog->Destroy();
         }
+
+#ifdef __WXMSW__
+        CTaskBarIcon* taskbar = wxGetApp().GetTaskBarIcon();
+        if (taskbar) {
+            taskbar->FireShutdown();
+        }
+#endif
 
         Close(true);
     }
@@ -461,7 +443,7 @@ bool CBOINCBaseFrame::SelectComputer(wxString& hostName, int& portNum, wxString&
                 if (!sPort.ToLong(&lPort)) lPort = GUI_RPC_PORT;
                 sHost.erase(iPos);
             }
-            hostName = sHost;
+            hostName = std::move(sHost);
             portNum = (int)lPort;
             password = dlg.m_ComputerPasswordCtrl->GetValue();
         }
@@ -577,8 +559,8 @@ void CBOINCBaseFrame::ShowConnectionFailedAlert() {
     );
 
     ShowAlert(
-        strDialogTitle,
-        strDialogMessage,
+        std::move(strDialogTitle),
+        std::move(strDialogMessage),
         wxYES_NO | wxICON_QUESTION,
         false,
         AlertProcessResponse

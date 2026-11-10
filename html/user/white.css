@@ -3,7 +3,7 @@ a, a:link, a:visited, a:active {
 }
 
 body {
-	//background: #fff url("img/gray_gradient.png") repeat-x;
+	/* background: #fff url("img/gray_gradient.png") repeat-x; */
 	color: black;
 }
 
@@ -93,7 +93,7 @@ input[type="button"],
 input[type="submit"],
 .btn,
 a.btn {
-#background: #d0f8d0;
+/* background: #d0f8d0; */
     background: #EDEDED url(img/white_grad.png) repeat-x scroll left top;
 	color: black;
 	border-color: #ccc;

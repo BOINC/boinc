@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,16 +19,6 @@
 #ifndef BOINC_DLGITEMPROPERTIES_H
 #define BOINC_DLGITEMPROPERTIES_H
 
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "DlgItemProperties.cpp"
-#endif
-
-#include <wx/sizer.h>
-#include <wx/string.h>
-#include <wx/button.h>
-#include <wx/dialog.h>
-#include <wx/html/htmlwin.h>
-
 #include "MainDocument.h"
 
 #define ID_COPYSELECTED 10001
@@ -36,7 +26,6 @@
 
 class CDlgItemProperties : public wxDialog {
 	DECLARE_DYNAMIC_CLASS( CDlgItemProperties )
-    DECLARE_EVENT_TABLE()
 public:
 	CDlgItemProperties(wxWindow* parent=NULL);//to act as standard constructor set a default value
 	virtual ~CDlgItemProperties();
@@ -63,12 +52,12 @@ private:
     void copyTextToClipboard(const wxString& text);
     void OnMouseButtonEvent(wxMouseEvent& event);
 protected:
-        wxBoxSizer* m_bSizer1;
-        wxButton* m_btnClose;
-        wxButton* m_pCopySelectedButton;
-        wxButton* m_pCopyAllButton;
+        wxBoxSizer* m_bSizer1 = nullptr;
+        wxButton* m_btnClose = nullptr;
+        wxButton* m_pCopySelectedButton = nullptr;
+        wxButton* m_pCopyAllButton = nullptr;
         wxString m_strBaseConfigLocation;
-        wxHtmlWindow* m_txtInformation;
+        wxHtmlWindow* m_txtInformation = nullptr;
 };
 
 #endif

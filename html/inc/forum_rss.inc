@@ -42,7 +42,7 @@ function show_forum_rss_item($thread, $userid, $threads_only, $no_images) {
     if (!count($posts)) return;
     $post = $posts[0];
     $post_date = gmdate('D, d M Y H:i:s',$post->timestamp).' GMT';
-    $post_user = BOincUser::lookup_id($post->user);
+    $post_user = BoincUser::lookup_id($post->user);
     BoincForumPrefs::lookup($post_user);
     $options = new output_options();
     if (is_admin($post_user)) {

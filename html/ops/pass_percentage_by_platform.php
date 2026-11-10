@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// web page showing stats per platform
+
 require_once("../inc/util_ops.inc");
 
 admin_page_head("Result summary per app version");

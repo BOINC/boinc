@@ -23,22 +23,6 @@
 #ifndef BOINC_DLGADVPREFERENCESBASE_H
 #define BOINC_DLGADVPREFERENCESBASE_H
 
-// Define WX_GCH in order to support precompiled headers with GCC compiler.
-// You have to create the header "wx_pch.h" and include all files needed
-// for compile your gui inside it.
-// Then, compile it and place the file "wx_pch.h.gch" into the same
-// directory that "wx_pch.h".
-#ifdef WX_GCH
-#include <wx_pch.h>
-#else
-#include <wx/wx.h>
-#endif
-
-#include <wx/button.h>
-#include <wx/notebook.h>
-#include <wx/panel.h>
-#include <wx/statbmp.h>
-
 #define PROC_DAY_OF_WEEK_TOOLTIP_TEXT _("On this day of the week, compute only during these hours.")
 #define NET_DAY_OF_WEEK_TOOLTIP_TEXT _("On this day of the week, transfer files only during these hours.")
 

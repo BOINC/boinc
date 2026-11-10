@@ -40,16 +40,21 @@
 // prevents naming collision between X.h define of Always and boinc's
 // lib/prefs.h definition in an enum.
 #undef Always
-#include <dirent.h> //for opening /tmp/.X11-unix/
-  // (There is a DirScanner class in BOINC, but it doesn't do what we want)
 #include "log_flags.h" // idle_detection_debug flag for verbose output
+#endif
+
+#if LINUX_LIKE_SYSTEM
+#include <dirent.h> //for opening /tmp/.X11-unix/ and /run/user/
+  // (There is a DirScanner class in BOINC, but it doesn't do what we want)
 #endif
 
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
 #include <sys/param.h>
 
 #if HAVE_SYS_TYPES_H
@@ -64,8 +69,6 @@
 #if HAVE_SYS_VMMETER_H
 #include <sys/vmmeter.h>
 #endif
-
-#include <sys/stat.h>
 
 #if HAVE_SYS_SWAP_H
 #include <sys/swap.h>
@@ -106,6 +109,7 @@
 #include "error_numbers.h"
 #include "common_defs.h"
 #include "filesys.h"
+#include "shmem.h"
 #include "str_util.h"
 #include "str_replace.h"
 #include "util.h"
@@ -322,8 +326,8 @@ bool HOST_INFO::host_is_running_on_batteries() {
             char    apm_driver_version[11];
             int     apm_major_version;
             int     apm_minor_version;
-            int     apm_flags;
-            int     apm_ac_line_status=1;
+            unsigned int     apm_flags;
+            unsigned int     apm_ac_line_status=1;
 
             // supposedly we're on batteries if the 5th entry is zero.
             int n = fscanf(fapm, "%10s %d.%d %x %x",
@@ -541,12 +545,11 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 
 #if defined(__aarch64__) || defined(__arm__)
         if (
-            // Hardware is specifying the board this CPU is on, store it in product_name while we parse /proc/cpuinfo
+            // Hardware is specifying the board this CPU is on,
+            // store it in product_name while we parse /proc/cpuinfo
             strstr(buf, "Hardware\t: ")
         ) {
-            // this makes sure we only ever copy as much bytes as we can still store in host.product_name
-            int t = sizeof(host.product_name) - strlen(host.product_name) - 2;
-            strlcpy(buf2, strchr(buf, ':') + 2, ((t<sizeof(buf2))?t:sizeof(buf2)));
+            strlcpy(buf2, strchr(buf, ':') + 2, sizeof(buf2));
             strip_whitespace(buf2);
             if (strlen(host.product_name)) {
                 safe_strcat(host.product_name, " ");
@@ -739,48 +742,211 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 #include <machine/cpufunc.h>
 #include <machine/specialreg.h>
 
+// XGETBV isn't reliably exposed to userland via <machine/cpufunc.h> across
+// all supported FreeBSD releases, so emit the opcode directly.
+//
+static __inline uint64_t bsd_xgetbv(u_int index) {
+    uint32_t eax, edx;
+    __asm__ __volatile__(".byte 0x0f, 0x01, 0xd0"
+        : "=a" (eax), "=d" (edx) : "c" (index));
+    return ((uint64_t)edx << 32) | eax;
+}
+
+// do_cpuid() only constrains EAX as input; ECX is left unspecified,
+// which is fine for leaves without sub-leaves but wrong for leaf 7,
+// whose sub-leaf is selected by ECX on input. Query it explicitly
+// rather than relying on ECX happening to be zero -- and rather than
+// relying on cpuid_count(), which isn't available on all FreeBSD
+// releases this code targets.
+static __inline void bsd_cpuid_count(u_int leaf, u_int subleaf, u_int *p) {
+    __asm__ __volatile__("cpuid"
+        : "=a" (p[0]), "=b" (p[1]), "=c" (p[2]), "=d" (p[3])
+        : "0" (leaf), "c" (subleaf));
+}
+
 void use_cpuid(HOST_INFO& host) {
     u_int p[4];
-    u_int cpu_id;
+    u_int cpu_id = 0;
+    u_int max_std_leaf = 0, max_ext_leaf = 0;
+    u_int std_ecx = 0, std_edx = 0;
+    u_int ext_ecx = 0, ext_edx = 0;
+    u_int ext7_ebx = 0;
     char vendor[13];
-    int hasMMX, hasSSE, hasSSE2, hasSSE3, has3DNow, has3DNowExt, hasAVX;
+    int intel_vendor = 0, amd_vendor = 0, hygon_vendor = 0;
     char capabilities[P_FEATURES_SIZE];
 
-    hasMMX = hasSSE = hasSSE2 = hasSSE3 = has3DNow = has3DNowExt = hasAVX = 0;
-    do_cpuid(0x0, p);
-
-    if (p[0] >= 0x1) {
-
-        do_cpuid(0x1, p);
-
-        cpu_id = p[0];
-        memcpy(vendor, &p[1], 4);   // copy EBX
-        memcpy(vendor+4, &p[3], 4); // copy EDX
-        memcpy(vendor+8, &p[2], 4); // copy ECX
-        vendor[12] = '\0';
-        hasMMX  = (p[3] & (1 << 23 )) >> 23; // 0x0800000
-        hasSSE  = (p[3] & (1 << 25 )) >> 25; // 0x2000000
-        hasSSE2 = (p[3] & (1 << 26 )) >> 26; // 0x4000000
-        hasAVX  = (p[2] & (1 << 28 )) >> 28;
-        hasSSE3 = (p[2] & (1 << 0 )) >> 0;
-    }
-
-    do_cpuid(0x80000000, p);
-    if (p[0]>=0x80000001) {
-        do_cpuid(0x80000001, p);
-        hasMMX  |= (p[3] & (1 << 23 )) >> 23; // 0x0800000
-        has3DNow    = (p[3] & (1 << 31 )) >> 31; //0x80000000
-        has3DNowExt = (p[3] & (1 << 30 )) >> 30;
-    }
-
     capabilities[0] = '\0';
-    if (hasSSE) safe_strcat(capabilities, "sse ");
-    if (hasSSE2) safe_strcat(capabilities, "sse2 ");
-    if (hasSSE3) safe_strcat(capabilities, "pni ");
-    if (has3DNow) safe_strcat(capabilities, "3dnow ");
-    if (has3DNowExt) safe_strcat(capabilities, "3dnowext ");
-    if (hasMMX) safe_strcat(capabilities, "mmx ");
-    if (hasAVX) safe_strcat(capabilities, "avx ");
+    vendor[0] = '\0';
+
+    // Leaf 0: highest standard leaf + vendor string. Copy the vendor
+    // bytes out of EBX/EDX/ECX immediately -- p[] gets overwritten by
+    // the very next do_cpuid() call, so extracting "vendor" after
+    // calling leaf 1 reads stale data.
+    //
+    do_cpuid(0x0, p);
+    max_std_leaf = p[0];
+    memcpy(vendor, &p[1], 4); // copy EBX
+    memcpy(vendor+4, &p[3], 4); // copy EDX
+    memcpy(vendor+8, &p[2], 4); // copy ECX
+    vendor[12] = '\0';
+
+    if (!strcmp(vendor, "GenuineIntel")) intel_vendor = 1;
+    if (!strcmp(vendor, "AuthenticAMD")) amd_vendor = 1;
+    if (!strcmp(vendor, "HygonGenuine")) hygon_vendor = 1;
+
+    // Leaf 1: standard feature flags + family/model/stepping.
+    if (max_std_leaf >= 0x1) {
+        do_cpuid(0x1, p);
+        cpu_id = p[0];
+        std_ecx = p[2];
+        std_edx = p[3];
+    }
+    // Leaf 7, sub-leaf 0: structured extended feature flags.
+    if (max_std_leaf >= 0x7) {
+        bsd_cpuid_count(0x7, 0, p);
+        ext7_ebx = p[1];
+    }
+
+    // Leaf 0x80000000: highest extended leaf.
+    do_cpuid(0x80000000, p);
+    max_ext_leaf = p[0];
+
+    // Leaf 0x80000001: extended feature flags.
+    if (max_ext_leaf >= 0x80000001) {
+        do_cpuid(0x80000001, p);
+        ext_ecx = p[2];
+        ext_edx = p[3];
+    }
+
+    // --- Standard EDX features (leaf 1) ---
+    if (std_edx & (1 << 0 )) safe_strcat(capabilities, "fpu ");
+    if (std_edx & (1 << 1 )) safe_strcat(capabilities, "vme ");
+    if (std_edx & (1 << 2 )) safe_strcat(capabilities, "de ");
+    if (std_edx & (1 << 3 )) safe_strcat(capabilities, "pse ");
+    if (std_edx & (1 << 4 )) safe_strcat(capabilities, "tsc ");
+    if (std_edx & (1 << 5 )) safe_strcat(capabilities, "msr ");
+    if (std_edx & (1 << 6 )) safe_strcat(capabilities, "pae ");
+    if (std_edx & (1 << 7 )) safe_strcat(capabilities, "mce ");
+    if (std_edx & (1 << 8 )) safe_strcat(capabilities, "cx8 ");
+    if (std_edx & (1 << 9 )) safe_strcat(capabilities, "apic ");
+    if (std_edx & (1 << 11)) safe_strcat(capabilities, "sep ");
+    if (std_edx & (1 << 12)) safe_strcat(capabilities, "mtrr ");
+    if (std_edx & (1 << 13)) safe_strcat(capabilities, "pge ");
+    if (std_edx & (1 << 14)) safe_strcat(capabilities, "mca ");
+    if (std_edx & (1 << 15)) safe_strcat(capabilities, "cmov ");
+    if (std_edx & (1 << 16)) safe_strcat(capabilities, "pat ");
+    if (std_edx & (1 << 17)) safe_strcat(capabilities, "pse36 ");
+    if (std_edx & (1 << 18)) safe_strcat(capabilities, "psn ");
+    if (std_edx & (1 << 19)) safe_strcat(capabilities, "clflush ");
+    if (std_edx & (1 << 21)) safe_strcat(capabilities, "dts ");
+    if (std_edx & (1 << 22)) safe_strcat(capabilities, "acpi ");
+    if (std_edx & (1 << 23)) safe_strcat(capabilities, "mmx ");
+    if (std_edx & (1 << 24)) safe_strcat(capabilities, "fxsr ");
+    if (std_edx & (1 << 25)) safe_strcat(capabilities, "sse ");
+    if (std_edx & (1 << 26)) safe_strcat(capabilities, "sse2 ");
+    if (std_edx & (1 << 27)) safe_strcat(capabilities, "ss ");
+    if (std_edx & (1 << 28)) safe_strcat(capabilities, "htt ");
+    if (std_edx & (1 << 29)) safe_strcat(capabilities, "tm ");
+
+    // --- Standard ECX features (leaf 1) ---
+    if (std_ecx & (1 << 0 )) safe_strcat(capabilities, "pni "); // SSE3
+    if (std_ecx & (1 << 1 )) safe_strcat(capabilities, "pclmulqdq ");
+    if (std_ecx & (1 << 2 )) safe_strcat(capabilities, "dtes64 ");
+    if (std_ecx & (1 << 3 )) safe_strcat(capabilities, "monitor ");
+    if (std_ecx & (1 << 4 )) safe_strcat(capabilities, "ds_cpl ");
+    if (std_ecx & (1 << 9 )) safe_strcat(capabilities, "ssse3 ");
+    if (std_ecx & (1 << 12)) safe_strcat(capabilities, "fma ");
+    if (std_ecx & (1 << 13)) safe_strcat(capabilities, "cx16 ");
+    if (std_ecx & (1 << 17)) safe_strcat(capabilities, "pcid ");
+    if (std_ecx & (1 << 19)) safe_strcat(capabilities, "sse4_1 ");
+    if (std_ecx & (1 << 20)) safe_strcat(capabilities, "sse4_2 ");
+    if (std_ecx & (1 << 21)) safe_strcat(capabilities, "x2apic ");
+    if (std_ecx & (1 << 22)) safe_strcat(capabilities, "movbe ");
+    if (std_ecx & (1 << 23)) safe_strcat(capabilities, "popcnt ");
+    if (std_ecx & (1 << 25)) safe_strcat(capabilities, "aes ");
+    if (std_ecx & (1 << 26)) safe_strcat(capabilities, "xsave ");
+    if (std_ecx & (1 << 29)) safe_strcat(capabilities, "f16c ");
+    if (std_ecx & (1 << 30)) safe_strcat(capabilities, "rdrand ");
+    if (std_ecx & (1u << 31)) safe_strcat(capabilities, "hypervisor ");
+
+    // AVX/AVX2 require the raw CPUID bit *and* OS support: OSXSAVE
+    // (leaf 1 ECX bit 27) and XSAVE (bit 26) must both be set before
+    // XGETBV's output can be trusted at all, and XGETBV(0) must then
+    // confirm the OS actually saves YMM state (XCR0 bits 1:2).
+    // Trusting the raw AVX bit alone gives false positives if the OS
+    // hasn't opted in; checking OSXSAVE without XSAVE is not
+    // architecturally sufficient.
+    //
+    {
+        int has_avx_bit = (std_ecx & (1 << 28)) ? 1 : 0;
+        int has_osxsave = (std_ecx & (1 << 27)) ? 1 : 0;
+        int has_xsave   = (std_ecx & (1 << 26)) ? 1 : 0;
+        int os_avx_ok = 0;
+        if (has_avx_bit && has_osxsave && has_xsave) {
+            uint64_t xcr0 = bsd_xgetbv(0);
+            if ((xcr0 & 0x6) == 0x6) {
+                os_avx_ok = 1;
+                safe_strcat(capabilities, "avx ");
+            }
+        }
+        if (os_avx_ok && (ext7_ebx & (1 << 5))) {
+            safe_strcat(capabilities, "avx2 ");
+        }
+    }
+
+    // --- Extended EDX features (leaf 0x80000001) ---
+    if (ext_edx & (1 << 11)) safe_strcat(capabilities, "syscall ");
+    if (ext_edx & (1 << 20)) safe_strcat(capabilities, "nx ");
+    if (ext_edx & (1 << 26)) safe_strcat(capabilities, "pdpe1gb ");
+    if (ext_edx & (1 << 27)) safe_strcat(capabilities, "rdtscp ");
+    if (ext_edx & (1 << 29)) safe_strcat(capabilities, "lm ");
+    if (ext_edx & (1 << 30)) safe_strcat(capabilities, "3dnowext ");
+    if (ext_edx & (1 << 31)) safe_strcat(capabilities, "3dnow ");
+
+    // --- Vendor-specific features ---
+    if (intel_vendor) {
+        if (std_ecx & (1 << 5 )) safe_strcat(capabilities, "vmx ");
+        if (std_ecx & (1 << 6 )) safe_strcat(capabilities, "smx ");
+        if (std_ecx & (1 << 8 )) safe_strcat(capabilities, "tm2 ");
+        if (std_ecx & (1 << 7 )) safe_strcat(capabilities, "est ");
+        if (std_ecx & (1 << 14)) safe_strcat(capabilities, "xtpr ");
+        if (std_ecx & (1 << 15)) safe_strcat(capabilities, "pdcm ");
+        if (std_ecx & (1 << 24)) safe_strcat(capabilities, "tsc_deadline_timer ");
+        if (std_ecx & (1 << 18)) safe_strcat(capabilities, "dca ");
+        if (std_edx & (1 << 31)) safe_strcat(capabilities, "pbe ");
+    }
+
+    if (ext_ecx & (1 << 0 )) safe_strcat(capabilities, "lahf_lm ");
+    if (ext_ecx & (1 << 8 )) safe_strcat(capabilities, "3dnowprefetch ");
+    if (amd_vendor || hygon_vendor) {
+        if (ext_ecx & (1 << 2 )) safe_strcat(capabilities, "svm ");
+        if (ext_ecx & (1 << 5 )) safe_strcat(capabilities, "abm ");
+        if (ext_ecx & (1 << 6 )) safe_strcat(capabilities, "sse4a ");
+        if (ext_ecx & (1 << 9 )) safe_strcat(capabilities, "osvw ");
+        if (ext_ecx & (1 << 10)) safe_strcat(capabilities, "ibs ");
+        if (ext_ecx & (1 << 11)) safe_strcat(capabilities, "xop ");
+        if (ext_ecx & (1 << 12)) safe_strcat(capabilities, "skinit ");
+        if (ext_ecx & (1 << 13)) safe_strcat(capabilities, "wdt ");
+        if (ext_ecx & (1 << 15)) safe_strcat(capabilities, "lwp ");
+        if (ext_ecx & (1 << 16)) safe_strcat(capabilities, "fma4 ");
+        if (ext_ecx & (1 << 17)) safe_strcat(capabilities, "tce ");
+        if (ext_ecx & (1 << 18)) safe_strcat(capabilities, "cvt16 ");
+        if (ext_ecx & (1 << 21)) safe_strcat(capabilities, "tbm ");
+        if (ext_ecx & (1 << 22)) safe_strcat(capabilities, "topoext "); // NOT "topx"
+    }
+
+    // --- Structured extended features (leaf 7, sub-leaf 0 EBX) ---
+    if (ext7_ebx & (1 << 0 )) safe_strcat(capabilities, "fsgsbase ");
+    if (ext7_ebx & (1 << 1 )) safe_strcat(capabilities, "tsc_adjust ");
+    if (ext7_ebx & (1 << 3 )) safe_strcat(capabilities, "bmi1 ");
+    if (ext7_ebx & (1 << 4 )) safe_strcat(capabilities, "hle ");
+    if (ext7_ebx & (1 << 7 )) safe_strcat(capabilities, "smep ");
+    if (ext7_ebx & (1 << 8 )) safe_strcat(capabilities, "bmi2 ");
+    if (ext7_ebx & (1 << 9 )) safe_strcat(capabilities, "erms ");
+    if (ext7_ebx & (1 << 10)) safe_strcat(capabilities, "invpcid ");
+    if (ext7_ebx & (1 << 18)) safe_strcat(capabilities, "rdseed ");
+    if (ext7_ebx & (1 << 19)) safe_strcat(capabilities, "adx ");
+
     strip_whitespace(capabilities);
     char buf[1024];
     snprintf(buf, sizeof(buf), " [Family %u Model %u Stepping %u]",
@@ -1247,7 +1413,9 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
     char cmd[1024], buf[256];
 
 #ifdef __APPLE__
-    if (docker_cli_prog(type)[0] == '\0') return false;
+    if (docker_cli_prog(type)[0] == '\0') {
+        return false;
+    }
 #endif
     snprintf(cmd, sizeof(cmd), "%s --version 2>/dev/null",
         docker_cli_prog(type)
@@ -1304,7 +1472,7 @@ bool HOST_INFO::get_docker_version_aux(DOCKER_TYPE type){
 #endif  // __APPLE__
 
 #ifdef __linux__
-    // if we're running as an unprivileged user, Docker/podman may not work.
+    // if we're running as an unprivileged user, Docker/Podman may not work.
     // Check by running the Hello World image.
     //
     // Since we do this every time on startup: delete the created container
@@ -1897,7 +2065,7 @@ static const struct dir_tty_dev {
 //
 vector<string> get_tty_list() {
     char devname[1024];
-    char fullname[1024];
+    char fullname[2048];
     vector<string> tty_list;
 
     for (unsigned int i=0; i<N_TTY_PATTERNS; i++) {
@@ -2289,8 +2457,187 @@ long xss_idle() {
 
 #endif // LINUX_LIKE_SYSTEM
 
+#ifndef ANDROID     // Android doesn't have shm_open()
+// idle time detection.
+// old approach: do it ourselves by looking at devices
+//  and trying to get info from X11
+//  (big mess, permissions problems, doesn't generally work)
+// new approach: get last-input time from a separate daemon process,
+//  communicated via shmem
+
+bool get_idle_time_from_daemon(long &idle_time) {
+    static int64_t* seg_ptr = NULL;
+    if (!seg_ptr) {
+        int fd = shm_open("/idle_detect_shmem",  O_RDONLY, 0);
+        if (fd < 0) {
+            return false;
+        }
+
+        struct stat st;
+        if (fstat(fd, &st)) {
+            close(fd);
+            return false;
+        }
+        if ((size_t)st.st_size < 2*sizeof(int64_t)) {
+            close(fd);
+            return false;
+        }
+
+        int64_t* mapped_ptr = (int64_t*)mmap(
+            NULL, 2*sizeof(int64_t), PROT_READ, MAP_SHARED, fd, 0
+        );
+        close(fd);
+        if (mapped_ptr == MAP_FAILED) {
+            return false;
+        }
+
+        seg_ptr = mapped_ptr;
+    }
+    if (!seg_ptr) return false;
+
+    // make sure the shmem is actually being updated
+    //
+    int64_t update_time = seg_ptr[0];
+    if (update_time > gstate.now+10) return false;
+    if (update_time < gstate.now-60) return false;
+
+    int64_t input_time = seg_ptr[1];
+    idle_time = gstate.now - input_time;
+    //printf("idle time: %ld\n", idle_time);
+    return true;
+}
+
+#if LINUX_LIKE_SYSTEM
+static bool is_wayland_socket(const string& path) {
+    struct stat st;
+    return stat(path.c_str(), &st) == 0 && S_ISSOCK(st.st_mode);
+}
+
+static bool detect_wayland_socket_in_dir(const string& dir) {
+    DIR* dp = opendir(dir.c_str());
+    if (!dp) {
+        return false;
+    }
+
+    struct dirent* dirp;
+    while ((dirp = readdir(dp)) != NULL) {
+        if (strncmp(dirp->d_name, "wayland-", 8) != 0) {
+            continue;
+        }
+        if (is_wayland_socket(dir + "/" + dirp->d_name)) {
+            closedir(dp);
+            return true;
+        }
+    }
+
+    closedir(dp);
+    return false;
+}
+
+static bool detect_wayland_socket() {
+    const char* xdg_runtime_dir = getenv("XDG_RUNTIME_DIR");
+    if (xdg_runtime_dir && strlen(xdg_runtime_dir)) {
+        if (detect_wayland_socket_in_dir(xdg_runtime_dir)) {
+            return true;
+        }
+    }
+
+    DIR* dp = opendir("/run/user");
+    if (!dp) {
+        return false;
+    }
+
+    struct dirent* dirp;
+    while ((dirp = readdir(dp)) != NULL) {
+        if (!strcmp(dirp->d_name, ".")) continue;
+        if (!strcmp(dirp->d_name, "..")) continue;
+        if (detect_wayland_socket_in_dir(string("/run/user/") + dirp->d_name)) {
+            closedir(dp);
+            return true;
+        }
+    }
+
+    closedir(dp);
+    return false;
+}
+
+static bool detect_xwayland_process() {
+    DIR* dp = opendir("/proc");
+    if (!dp) {
+        return false;
+    }
+
+    struct dirent* dirp;
+    while ((dirp = readdir(dp)) != NULL) {
+        if (dirp->d_name[0] < '0' || dirp->d_name[0] > '9') {
+            continue;
+        }
+
+        string comm_path = string("/proc/") + dirp->d_name + "/comm";
+        FILE* f = fopen(comm_path.c_str(), "r");
+        if (!f) {
+            continue;
+        }
+
+        char comm[32];
+        bool is_xwayland = fgets(comm, sizeof(comm), f)
+            && strncmp(comm, "Xwayland", 8) == 0;
+        fclose(f);
+
+        if (is_xwayland) {
+            closedir(dp);
+            return true;
+        }
+    }
+
+    closedir(dp);
+    return false;
+}
+#endif
+
+bool detect_wayland() {
+    const char* wayland_display = getenv("WAYLAND_DISPLAY");
+    if (wayland_display && strlen(wayland_display)) {
+        return true;
+    }
+    const char* xdg_session_type = getenv("XDG_SESSION_TYPE");
+    if (xdg_session_type && strcmp(xdg_session_type, "wayland") == 0) {
+        return true;
+    }
+    // boinc-client often runs as a daemon without the user's session
+    // environment.  Detect compositor sockets and Xwayland directly so we do
+    // not probe Xwayland displays with XOpenDisplay(), which can block
+    // indefinitely.
+#if LINUX_LIKE_SYSTEM
+    return detect_wayland_socket() || detect_xwayland_process();
+#else
+    return false;
+#endif
+}
+
+#endif      // !ANDROID
+
+// get idle time.  Try the new approach, if it fails use old
+//
 long HOST_INFO::user_idle_time(bool check_all_logins) {
     long idle_time = USER_IDLE_TIME_INF;
+
+#ifndef ANDROID
+    static bool show_idle_time_legacy_warning = true;
+    if (get_idle_time_from_daemon(idle_time)) {
+        show_idle_time_legacy_warning = false;
+        return idle_time;
+    }
+
+    if (show_idle_time_legacy_warning) {
+        msg_printf(NULL, MSG_INFO,
+            "Currently BOINC uses legacy idle detection methods that might not \
+work properly on all systems. Please consider installing a modern idle detection \
+utility that works on Wayland and X11: \
+https://github.com/jamescowens/idle_detect");
+        show_idle_time_legacy_warning = false;
+    }
+#endif
 
 #if HAVE_UTMP_H
     if (check_all_logins) {
@@ -2303,7 +2650,15 @@ long HOST_INFO::user_idle_time(bool check_all_logins) {
 #if LINUX_LIKE_SYSTEM
 
 #if HAVE_XSS
-    idle_time = min(idle_time, xss_idle());
+#ifndef ANDROID
+    // Detect Wayland once. The display server type is not expected to
+    // change while this client process is running.
+    static bool wayland_detected = detect_wayland();
+    if (!wayland_detected) {
+        //printf("Using XScreenSaver API for idle detection\n");
+        idle_time = min(idle_time, xss_idle());
+    }
+#endif // !ANDROID
 #endif // HAVE_XSS
 
 #else

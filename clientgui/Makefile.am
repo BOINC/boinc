@@ -1,5 +1,20 @@
-## -*- mode: makefile; tab-width: 4 -*-
-## $Id$
+# This file is part of BOINC.
+# https://boinc.berkeley.edu
+# Copyright (C) 2026 University of California
+#
+# BOINC is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License
+# as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+#
+# BOINC is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+#
 
 ## To build for Macintosh (Darwin), please read the instructions at
 ## mac_build/HowToBuildBOINC_XCode.rtf
@@ -20,6 +35,8 @@ endif
 endif ## ENABLE_CLIENT_RELEASE
 
 bin_PROGRAMS = boincmgr
+
+BUILT_SOURCES = stdwx.h.gch
 
 # keep the following alphabetic
 
@@ -56,10 +73,8 @@ boincmgr_SOURCES = \
     DlgItemProperties.cpp \
     DlgOptions.cpp \
     DlgSelectComputer.cpp \
-    gtk/taskbarex.cpp \
     LogBOINC.cpp \
     MainDocument.cpp \
-    NoInternetConnectionPage.cpp \
     NotDetectedPage.cpp \
     NotFoundPage.cpp \
     NoticeListCtrl.cpp \
@@ -80,7 +95,6 @@ boincmgr_SOURCES = \
     sg_TaskCommandPopup.cpp \
     sg_TaskPanel.cpp \
     SkinManager.cpp \
-    stdwx.cpp \
     TermsOfUsePage.cpp \
     UnavailablePage.cpp \
     ValidateAccountKey.cpp \
@@ -92,18 +106,30 @@ boincmgr_SOURCES = \
     ViewStatistics.cpp \
     ViewTransfers.cpp \
     ViewWork.cpp \
-    WizardAttach.cpp \
-    wizardex.cpp
+    WizardAttach.cpp
 
 EXTRA_DIST = *.h \
     res \
-    msw \
     ../lib/error_numbers.h \
     locale
 
 boincmgr_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(LIBNOTIFY_CFLAGS) $(CLIENTGUIFLAGS) $(GTK_CFLAGS)
 boincmgr_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(LIBNOTIFY_CFLAGS) $(CLIENTGUIFLAGS) $(GTK_CFLAGS)
 boincmgr_LDADD = $(LIBBOINC) $(LIBNOTIFY_LIBS) $(CLIENTGUILIBS) $(BOINC_EXTRA_LIBS) $(CLIENTLIBS) $(GTK_LIBS)
+boincmgr_DEPENDENCIES = $(LIBBOINC)
+
+stdwx.h.gch: $(srcdir)/stdwx.h
+	$(AM_V_CXX)$(CXX) \
+	    $(DEFS) \
+	    $(DEFAULT_INCLUDES) \
+	    $(INCLUDES) \
+	    $(boincmgr_CPPFLAGS) \
+	    $(CPPFLAGS) \
+	    $(boincmgr_CXXFLAGS) \
+	    $(CXXFLAGS) \
+	    -x c++-header \
+	    $< \
+	    -o $@
 
 win_config.h: $(top_srcdir)/config.h
 	grep '#define.*BOINC.*VERSION' $^ > $@
@@ -111,3 +137,6 @@ win_config.h: $(top_srcdir)/config.h
 version: win_config.h
 
 .PHONY: version
+
+clean: clean-am
+	rm -f *.gch *.gcno

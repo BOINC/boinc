@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -17,10 +17,6 @@
 //
 #ifndef BOINC_DLGSELECTCOMPUTER_H
 #define BOINC_DLGSELECTCOMPUTER_H
-
-#if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "DlgSelectComputer.cpp"
-#endif
 
 /*!
  * Includes
@@ -70,11 +66,10 @@
 class CDlgSelectComputer: public wxDialog
 {
     DECLARE_DYNAMIC_CLASS( CDlgSelectComputer )
-    DECLARE_EVENT_TABLE()
 
 public:
     /// Constructors
-    CDlgSelectComputer( );
+    CDlgSelectComputer() = default;
     CDlgSelectComputer( wxWindow* parent, bool required = false, wxWindowID id = SYMBOL_CDLGSELECTCOMPUTER_IDNAME, const wxString& caption = SYMBOL_CDLGSELECTCOMPUTER_TITLE, const wxPoint& pos = SYMBOL_CDLGSELECTCOMPUTER_POSITION, const wxSize& size = SYMBOL_CDLGSELECTCOMPUTER_SIZE, long style = SYMBOL_CDLGSELECTCOMPUTER_STYLE );
 
     /// Creation
@@ -109,8 +104,8 @@ public:
     static bool ShowToolTips();
 
 ////@begin CDlgSelectComputer member variables
-    wxComboBox* m_ComputerNameCtrl;
-    wxTextCtrl* m_ComputerPasswordCtrl;
+    wxComboBox* m_ComputerNameCtrl = nullptr;
+    wxTextCtrl* m_ComputerPasswordCtrl = nullptr;
     wxString m_strComputerName;
     wxString m_strComputerPassword;
 ////@end CDlgSelectComputer member variables
@@ -118,7 +113,7 @@ public:
 #ifdef __WXMAC__
 protected:
     wxAcceleratorEntry  m_Shortcuts[3];     // For Copy, Cut & Paste keyboard shortcuts
-    wxAcceleratorTable* m_pAccelTable;
+    wxAcceleratorTable* m_pAccelTable = nullptr;
 #endif
 };
 

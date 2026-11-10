@@ -53,8 +53,7 @@ $in_use_prefs = [
         tra("'In use' means mouse/keyboard input in last"),
         tra("This determines when the computer is considered 'in use'."),
         "idle_time_to_run",
-        new NUM_SPEC(tra("minutes"), 1, 9999, 3),
-        true
+        new NUM_SPEC(tra("minutes"), 1, 9999, 3)
     ),
     new PREF_BOOL(
         tra("Suspend all computing"),
@@ -288,11 +287,10 @@ global $venue_name;
 // in config.xml so the right default is set for minimum free disk space
 //
 function get_disk_space_config() {
-    $config = get_config();
     $dp = new StdClass;
-    $dp->disk_max_used_gb = parse_config($config, "<default_disk_max_used_gb>");
-    $dp->disk_max_used_pct = parse_config($config, "<default_disk_max_used_pct>");
-    $dp->disk_min_free_gb = parse_config($config, "<default_disk_min_free_gb>");
+    $dp->disk_max_used_gb = project_config_val("default_disk_max_used_gb");
+    $dp->disk_max_used_pct = project_config_val("default_disk_max_used_pct");
+    $dp->disk_min_free_gb = project_config_val("default_disk_min_free_gb");
     // set some defaults if not found
     if (!$dp->disk_max_used_gb) $dp->disk_max_used_gb = 0;  // no limit
     if (!$dp->disk_max_used_pct) $dp->disk_max_used_pct = 90; // 90 percent
@@ -301,7 +299,7 @@ function get_disk_space_config() {
     // - depends on which scheduler is running
     $dp->new_sched_flag = 1;
     $dp->sched_disk_min_free_gb = $dp->disk_min_free_gb;
-    if (parse_config($config, "scheduler_disk_space_check_hardcoded>")) {
+    if (project_config_val("scheduler_disk_space_check_hardcoded")) {
         $dp->new_sched_flag = 0;
         $dp->sched_disk_min_free_gb = 0;
     }
@@ -444,7 +442,7 @@ function prefs_parse_global($prefs_xml) {
     xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, 0);
     xml_set_element_handler($xml_parser, "element_start_global", "element_end_global");
     xml_set_character_data_handler($xml_parser, "char_handler");
-    xml_parse($xml_parser, $prefs_xml, 1);
+    xml_parse($xml_parser, $prefs_xml ?? "", 1);
     set_niu_prefs($parse_result);
     return $parse_result;
 }
@@ -516,8 +514,7 @@ function subset_name($subset) {
 }
 
 function prefs_display_venue($prefs, $venue, $subset) {
-    global $g_logged_in_user;
-    $tokens = url_tokens($g_logged_in_user->authenticator);
+    $tokens = url_tokens();
     $x = false;
     if (isset($prefs->$venue)) $x = $prefs->$venue;
 
@@ -569,7 +566,7 @@ function print_prefs_display_global($user, $columns=false) {
         }
         start_table();
         prefs_show_global($global_prefs);
-        $tokens = url_tokens($user->authenticator);
+        $tokens = url_tokens();
         row2("<br>",
             button_text("prefs_edit.php?subset=global$tokens",
                 tra("Edit preferences")
@@ -605,7 +602,7 @@ function print_prefs_form(
         $submit_value = tra("Update preferences");
     }
     echo "<form class=\"form-inline\" action=$script><input type=hidden name=subset value=$subset>
-        ".form_tokens($user->authenticator);
+        ".form_tokens();
     if ($venue) {
         echo "<input type=hidden name=venue value=$venue>\n";
     }
@@ -722,7 +719,9 @@ function venue_form($user) {
 }
 
 function venue_parse_form(&$user) {
-    $user->venue = $_GET['default_venue'];
+    $v = get_str('default_venue');
+    check_venue($v);
+    $user->venue = $v;
 }
 
 ////////////////////////////////////////////

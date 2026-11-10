@@ -62,11 +62,9 @@ void RESULT::clear() {
     got_server_ack = false;
     final_cpu_time = 0;
     final_elapsed_time = 0;
-    final_peak_working_set_size = 0;
-    final_peak_swap_size = 0;
+    final_peak_rss = 0;
+    final_peak_swap_usage = 0;
     final_peak_disk_usage = 0;
-    final_bytes_sent = 0;
-    final_bytes_received = 0;
 #ifdef SIM
     peak_flop_count = 0;
 #endif
@@ -183,11 +181,12 @@ int RESULT::parse_state(XML_PARSER& xp) {
         }
         if (xp.parse_double("final_cpu_time", final_cpu_time)) continue;
         if (xp.parse_double("final_elapsed_time", final_elapsed_time)) continue;
-        if (xp.parse_double("final_peak_working_set_size", final_peak_working_set_size)) continue;
-        if (xp.parse_double("final_peak_swap_size", final_peak_swap_size)) continue;
+
+        // old tags for compatibility
+        if (xp.parse_double("final_peak_working_set_size", final_peak_rss)) continue;
+        if (xp.parse_double("final_peak_swap_size", final_peak_swap_usage)) continue;
+
         if (xp.parse_double("final_peak_disk_usage", final_peak_disk_usage)) continue;
-        if (xp.parse_double("final_bytes_sent", final_bytes_sent)) continue;
-        if (xp.parse_double("final_bytes_received", final_bytes_received)) continue;
         if (xp.parse_int("exit_status", exit_status)) continue;
         if (xp.parse_bool("got_server_ack", got_server_ack)) continue;
         if (xp.parse_bool("ready_to_report", ready_to_report)) continue;
@@ -217,8 +216,6 @@ int RESULT::parse_state(XML_PARSER& xp) {
 // write result descriptor to state file, GUI RPC reply, or sched request
 //
 int RESULT::write(MIOFILE& out, bool to_server) {
-    unsigned int i;
-    FILE_INFO* fip;
     int n, retval;
 
     out.printf(
@@ -253,34 +250,23 @@ int RESULT::write(MIOFILE& out, bool to_server) {
     if (intops_cumulative) {
         out.printf("    <intops_cumulative>%f</intops_cumulative>\n", intops_cumulative);
     }
-    if (final_peak_working_set_size) {
+    // use outdated tags for compatibility
+    if (final_peak_rss) {
         out.printf(
             "    <final_peak_working_set_size>%.0f</final_peak_working_set_size>\n",
-            final_peak_working_set_size
+            final_peak_rss
         );
     }
-    if (final_peak_swap_size) {
+    if (final_peak_swap_usage) {
         out.printf(
             "    <final_peak_swap_size>%.0f</final_peak_swap_size>\n",
-            final_peak_swap_size
+            final_peak_swap_usage
         );
     }
     if (final_peak_disk_usage) {
         out.printf(
             "    <final_peak_disk_usage>%.0f</final_peak_disk_usage>\n",
             final_peak_disk_usage
-        );
-    }
-    if (final_bytes_sent) {
-        out.printf(
-            "    <final_bytes_sent>%.0f</final_bytes_sent>\n",
-            final_bytes_sent
-        );
-    }
-    if (final_bytes_received) {
-        out.printf(
-            "    <final_bytes_received>%.0f</final_bytes_received>\n",
-            final_bytes_received
         );
     }
     if (to_server) {
@@ -315,8 +301,8 @@ int RESULT::write(MIOFILE& out, bool to_server) {
         out.printf("</stderr_out>\n");
     }
     if (to_server) {
-        for (i=0; i<output_files.size(); i++) {
-            fip = output_files[i].file_info;
+        for (const FILE_REF& fref: output_files) {
+            FILE_INFO* fip = fref.file_info;
             if (fip->uploaded) {
                 retval = fip->write(out, true);
                 if (retval) return retval;
@@ -336,8 +322,8 @@ int RESULT::write(MIOFILE& out, bool to_server) {
             report_deadline,
             received_time
         );
-        for (i=0; i<output_files.size(); i++) {
-            retval = output_files[i].write(out);
+        for (const FILE_REF& fref: output_files) {
+            retval = fref.write(out);
             if (retval) return retval;
         }
     }
@@ -477,12 +463,10 @@ int RESULT::write_gui(MIOFILE& out, bool check_resources) {
 // successfully uploaded or have unrecoverable errors
 //
 bool RESULT::is_upload_done() {
-    unsigned int i;
-    FILE_INFO* fip;
     int retval;
 
-    for (i=0; i<output_files.size(); i++) {
-        fip = output_files[i].file_info;
+    for (const FILE_REF& fref: output_files) {
+        FILE_INFO* fip = fref.file_info;
         if (fip->uploadable()) {
             if (fip->had_failure(retval)) continue;
             if (!fip->uploaded) {
@@ -496,11 +480,8 @@ bool RESULT::is_upload_done() {
 // resets all FILE_INFO's in result to uploaded = false
 //
 void RESULT::clear_uploaded_flags() {
-    unsigned int i;
-    FILE_INFO* fip;
-
-    for (i=0; i<output_files.size(); i++) {
-        fip = output_files[i].file_info;
+    for (const FILE_REF& fref: output_files) {
+        FILE_INFO* fip = fref.file_info;
         fip->uploaded = false;
     }
 }
@@ -516,21 +497,20 @@ bool RESULT::is_not_started() {
 //
 bool RESULT::some_download_stalled() {
 #ifndef SIM
-    unsigned int i;
     FILE_INFO* fip;
     PERS_FILE_XFER* pfx;
     bool some_file_missing = false;
 
-    for (i=0; i<wup->input_files.size(); i++) {
-        fip = wup->input_files[i].file_info;
+    for (const FILE_REF &fref: wup->input_files) {
+        fip = fref.file_info;
         if (fip->status != FILE_PRESENT) some_file_missing = true;
         pfx = fip->pers_file_xfer;
         if (pfx && pfx->next_request_time > gstate.now) {
             return true;
         }
     }
-    for (i=0; i<avp->app_files.size(); i++) {
-        fip = avp->app_files[i].file_info;
+    for (const FILE_REF &fref: avp->app_files) {
+        fip = fref.file_info;
         if (fip->status != FILE_PRESENT) some_file_missing = true;
         pfx = fip->pers_file_xfer;
         if (pfx && pfx->next_request_time > gstate.now) {
@@ -546,18 +526,16 @@ bool RESULT::some_download_stalled() {
 }
 
 FILE_REF* RESULT::lookup_file(FILE_INFO* fip) {
-    for (unsigned int i=0; i<output_files.size(); i++) {
-        FILE_REF& fr = output_files[i];
-        if (fr.file_info == fip) return &fr;
+    for (FILE_REF& fref: output_files) {
+        if (fref.file_info == fip) return &fref;
     }
     return 0;
 }
 
 FILE_INFO* RESULT::lookup_file_logical(const char* lname) {
-    for (unsigned int i=0; i<output_files.size(); i++) {
-        FILE_REF& fr = output_files[i];
-        if (!strcmp(lname, fr.open_name)) {
-            return fr.file_info;
+    for (const FILE_REF& fref: output_files) {
+        if (!strcmp(lname, fref.open_name)) {
+            return fref.file_info;
         }
     }
     return 0;
@@ -631,6 +609,12 @@ bool RESULT::downloading() {
     if (state() > RESULT_FILES_DOWNLOADING) return false;
     if (some_download_stalled()) return false;
     return true;
+}
+
+bool RESULT::running() {
+    ACTIVE_TASK *atp = gstate.lookup_active_task_by_result(this);
+    if (!atp) return false;
+    return atp->task_state() != PROCESS_UNINITIALIZED;
 }
 
 double RESULT::estimated_runtime_uncorrected() {

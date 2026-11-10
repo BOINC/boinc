@@ -57,10 +57,8 @@ try {
         $email_addr = strtolower($email_addr);
         $user_name = $data['namePerson/friendly'];
 
-
-        $config = get_config();
-        if (parse_bool($config, "disable_account_creation")
-            || parse_bool($config, "no_web_account_creation")
+        if (project_config_bool("disable_account_creation")
+            || project_config_bool("no_web_account_creation")
         ) {
             error_page("Account creation is disabled");
         }

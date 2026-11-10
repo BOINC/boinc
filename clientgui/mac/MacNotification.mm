@@ -88,8 +88,8 @@ static MacNotification* MacNotificationClass = nil;
 
 bool CTaskBarIcon::QueueBalloon(
         const wxIcon&,
-        const wxString title,
-        const wxString message,
+        const wxString& title,
+        const wxString& message,
         unsigned int
     ) {
 
