@@ -332,7 +332,7 @@ int DB_BASE::get_field_str(const char* field, char* buf, int buflen) {
 int DB_BASE::max_id(DB_ID_TYPE& n, const char* clause) {
     char query[MAX_QUERY_LEN];
     sprintf(query, "select max(id) from %s %s", table_name, clause);
-    return get_long(query, n);
+    return db->get_long(query, n);
 }
 
 /////////////// FUNCTIONS THAT DON'T REQUIRE AN ID FIELD ///////////////
@@ -415,14 +415,14 @@ int DB_BASE::end_enumerate() {
     return 0;
 }
 
-int DB_BASE::get_long(const char* query, long& n) {
+int DB_CONN::get_long(const char* query, long& n) {
     int retval;
     MYSQL_ROW row;
     MYSQL_RES* resp;
 
-    retval = db->do_query(query);
+    retval = do_query(query);
     if (retval) return retval;
-    resp = mysql_store_result(db->mysql);
+    resp = mysql_store_result(mysql);
     if (!resp) return ERR_DB_NOT_FOUND;
     row = mysql_fetch_row(resp);
     if (!row || !row[0]) {
@@ -458,7 +458,7 @@ int DB_BASE::count(long& n, const char* clause) {
 
     sprintf(query, "select count(*) from %s %s", table_name, clause);
 
-    return get_long(query, n);
+    return db->get_long(query, n);
 }
 
 int DB_BASE::sum(double& x, const char* field, const char* clause) {
