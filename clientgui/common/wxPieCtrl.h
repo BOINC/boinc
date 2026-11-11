@@ -4,7 +4,6 @@
 // Author:      Volodymir (T-Rex) Tryapichko
 // Modified by: Frank Weiler, 10.10.2006
 // Created:     June-07-2005
-// RCS-ID:      $Id:
 // Copyright:   (c) Volodymir (T-Rex) Tryapichko
 // Licence:     wxWidgets license
 /////////////////////////////////////////////////////////////////////////////

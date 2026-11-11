@@ -19,7 +19,7 @@
 #
 
 ## support script to build a specific wxWidgets version for linux
-## This script checks if a cached version is available and builts one if not.
+## This script checks if a cached version is available and builds one if not.
 ## The build is done in 3rdParty/linux and usable files are installed to 3rdParty/buildCache/linux
 ## in order to keep the cache as small as possible
 ## The 3rdParty/buildCache directory can be cached by CI systems for all subsequent builds
