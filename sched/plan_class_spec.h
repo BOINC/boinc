@@ -32,7 +32,7 @@ struct PLAN_CLASS_SPEC {
     char name[256];
         // this encodes some info about the plan class; see
         // https://github.com/BOINC/boinc/wiki/Plan-classes#Planclassnames
-        // 
+        //
     char gpu_type[256];
         // nvidia, amd, intel, or apple
         // or model name, e.g. 'QUALCOMM Adreno (TM)'
