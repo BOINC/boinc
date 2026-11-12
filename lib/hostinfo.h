@@ -186,6 +186,9 @@ public:
     static bool get_docker_compose_version_string(
         DOCKER_TYPE type, const char* raw, std::string& version
     );
+    static bool parse_podman_info_subids(
+        const char* raw, bool& subids_ok
+    );
 #ifdef _WIN32
     void win_get_processor_info();
     int get_wsl_information();
