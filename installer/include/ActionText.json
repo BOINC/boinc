@@ -329,14 +329,6 @@
             "Action": "WriteRegistryValues",
             "Description": "IDS_ACTIONTEXT_WritingRegistry",
             "Template": "IDS_ACTIONTEXT_KeyNameValue"
-        },
-        {
-            "Action": "caCreateVRoots",
-            "Description": "IDS_ACTIONTEXT_CreatingIISRoots"
-        },
-        {
-            "Action": "caRemoveVRoots",
-            "Description": "IDS_ACTIONTEXT_RemovingIISRoots"
         }
     ]
 }

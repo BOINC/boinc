@@ -43,14 +43,14 @@ private:
             SetRegistryValue(_T("LAUNCHPROGRAM"), _T("0"));
         }
 
-        tstring strLaunchBOINCWslImageInstaller;
-        GetProperty(_T("LAUNCHWSLIMAGEINSTALLER"),
-            strLaunchBOINCWslImageInstaller);
-        if (_T("1") == strLaunchBOINCWslImageInstaller) {
-            SetRegistryValue(_T("LAUNCHWSLIMAGEINSTALLER"), _T("1"));
+        tstring strInstallBOINCWslImageInstaller;
+        GetProperty(_T("INSTALLWSLIMAGEINSTALLER"),
+            strInstallBOINCWslImageInstaller);
+        if (_T("1") == strInstallBOINCWslImageInstaller) {
+            SetRegistryValue(_T("INSTALLWSLIMAGEINSTALLER"), _T("1"));
         }
         else {
-            SetRegistryValue(_T("LAUNCHWSLIMAGEINSTALLER"), _T("0"));
+            SetRegistryValue(_T("INSTALLWSLIMAGEINSTALLER"), _T("0"));
         }
 
         tstring strBOINCMasterAccountUsername;

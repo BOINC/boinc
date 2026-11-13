@@ -70,23 +70,23 @@ private:
                 }
             }
 
-            tstring strOverrideLaunchWSLImageInstaller;
-            GetProperty(_T("OVERRIDE_LAUNCHWSLIMAGEINSTALLER"),
-                strOverrideLaunchWSLImageInstaller);
-            if (!strOverrideLaunchWSLImageInstaller.empty()) {
-                SetProperty(_T("LAUNCHWSLIMAGEINSTALLER"),
-                    strOverrideLaunchWSLImageInstaller);
+            tstring strOverrideInstallWSLImageInstaller;
+            GetProperty(_T("OVERRIDE_INSTALLWSLIMAGEINSTALLER"),
+                strOverrideInstallWSLImageInstaller);
+            if (!strOverrideInstallWSLImageInstaller.empty()) {
+                SetProperty(_T("INSTALLWSLIMAGEINSTALLER"),
+                    strOverrideInstallWSLImageInstaller);
             }
             else {
-                tstring strLaunchWSLImageInstaller;
-                GetRegistryValue(_T("LAUNCHWSLIMAGEINSTALLER"),
-                    strLaunchWSLImageInstaller);
-                if (strLaunchWSLImageInstaller == _T("1") ||
-                    strLaunchWSLImageInstaller.empty()) {
-                    SetProperty(_T("LAUNCHWSLIMAGEINSTALLER"), _T("1"));
+                tstring strInstallWSLImageInstaller;
+                GetRegistryValue(_T("INSTALLWSLIMAGEINSTALLER"),
+                    strInstallWSLImageInstaller);
+                if (strInstallWSLImageInstaller == _T("1") ||
+                    strInstallWSLImageInstaller.empty()) {
+                    SetProperty(_T("INSTALLWSLIMAGEINSTALLER"), _T("1"));
                 }
                 else {
-                    SetProperty(_T("LAUNCHWSLIMAGEINSTALLER"), _T(""));
+                    SetProperty(_T("INSTALLWSLIMAGEINSTALLER"), _T(""));
                 }
             }
 
