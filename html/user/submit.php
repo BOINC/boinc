@@ -335,7 +335,9 @@ function show_retired($all_batches, $order, $limit, $user, $app) {
                 show_all_batches_link($batches, BATCH_STATE_RETIRED, $limit, $user, $app);
             }
             start_table();
-            table_header("Name", "ID", "User", "App", "# Jobs", "Submitted");
+            table_header(
+                "Name", "ID", "User", "App", "# Jobs", "Submitted", "Completed"
+            );
         }
         table_row(
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
