@@ -107,6 +107,11 @@ jobs:
         run: |
           sudo apt-get install -y gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
 
+      - name: Install dependencies for server
+        if: success() && (matrix.type == 'server' || matrix.type == 'unit-test' || (matrix.type == 'coverity' && github.ref == 'refs/heads/master' && github.event_name == 'schedule'))
+        run: |
+          sudo apt-get install -y libfmt-dev
+
       - name: Fix sources for arm64
         if: success() && endsWith(matrix.type, 'arm64') && matrix.type != 'client-vcpkg-arm64'
         run: |
