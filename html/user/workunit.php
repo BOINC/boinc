@@ -78,6 +78,7 @@ function show_wu($wu) {
         );
         row2(tra("granted credit"), format_credit($wu->canonical_credit));
     }
+    row2('assimilation state', assimilate_state_str($wu->assimilate_state));
 
     // if app is using adaptive replication and no canonical result yet,
     // don't show anything more

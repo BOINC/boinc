@@ -750,6 +750,7 @@ function show_result($result, $show_outfile_links=false) {
             row2(tra("Validate state"), validate_state_str($result));
         }
     }
+    row2('File delete state', file_delete_state_str($result->file_delete_state));
     row2('Priority', $result->priority);
     row2(tra("Device peak FLOPS"), number_format($result->flops_estimate/1e9, 2)." GFLOPS");
     row2(tra("Application version"), app_version_string($result));
