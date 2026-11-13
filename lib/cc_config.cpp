@@ -362,7 +362,7 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
             EXCLUDE_GPU eg;
             retval = eg.parse(xp);
             if (retval) return retval;
-            exclude_gpus.push_back(eg);
+            exclude_gpus.push_back(std::move(eg));
             continue;
         }
         if (xp.parse_string("exclusive_app", s)) {

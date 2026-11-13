@@ -578,7 +578,7 @@ int query_batch_set(
                 printf("query_batches reply: %s", buf);
 #endif
                 if (xp.match_tag("/job")) {
-                    qb_reply.jobs.push_back(js);
+                    qb_reply.jobs.push_back(std::move(js));
                     break;
                 }
                 if (xp.parse_string("job_name", js.job_name)) continue;

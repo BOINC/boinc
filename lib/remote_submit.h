@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -195,19 +195,19 @@ extern int query_batch_set(
 );
 
 struct BATCH_STATUS {
-    int id;
-    char name[256];             // name of batch
+    int id = 0;
+    char name[256];                  // name of batch
     char app_name[256];
-    int state;                  // see lib/common_defs.h
-    int njobs;                  // how many jobs in batch
-    int nerror_jobs;            // how many jobs errored out
-    double fraction_done;       // how much of batch is done (0..1)
-    double create_time;         // when batch was created
-    double expire_time;         // when it will expire
-    double est_completion_time;     // estimated completion time
-    double completion_time;     // if completed, actual completion time
-    double credit_estimate;     // original estimate for credit
-    double credit_canonical;    // if completed, granted credit
+    int state = 0;                   // see lib/common_defs.h
+    int njobs = 0;                   // how many jobs in batch
+    int nerror_jobs = 0;             // how many jobs errored out
+    double fraction_done = .0;       // how much of batch is done (0..1)
+    double create_time = .0;         // when batch was created
+    double expire_time = .0;         // when it will expire
+    double est_completion_time = .0; // estimated completion time
+    double completion_time = .0;     // if completed, actual completion time
+    double credit_estimate = .0;     // original estimate for credit
+    double credit_canonical = .0;    // if completed, granted credit
 
     BATCH_STATUS(){}
     int parse(XML_PARSER&);
@@ -224,11 +224,11 @@ extern int query_batches(
 );
 
 struct JOB_STATE {
-    int id;
+    int id = 0;
     char name[256];
-    int canonical_instance_id;      // it job completed successfully,
-                                    // the ID of the canonical instance
-    int n_outfiles;                 // number of output files
+    int canonical_instance_id = 0;      // it job completed successfully,
+                                        // the ID of the canonical instance
+    int n_outfiles = 0;                 // number of output files
 
     JOB_STATE(){}
     int parse(XML_PARSER&);
