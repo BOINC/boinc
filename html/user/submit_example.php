@@ -425,6 +425,7 @@ function handle_abort_batch_confirm() {
 
 function handle_abort_batch() {
     global $project, $auth;
+    $req = new StdClass;
     $req->project = $project;
     $req->authenticator = $auth;
     $req->batch_id = get_int('batch_id');
@@ -453,6 +454,7 @@ function handle_retire_batch_confirm() {
 
 function handle_retire_batch() {
     global $project, $auth;
+    $req = new StdClass;
     $req->project = $project;
     $req->authenticator = $auth;
     $req->batch_id = get_int('batch_id');

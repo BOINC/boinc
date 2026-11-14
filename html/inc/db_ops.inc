@@ -1287,8 +1287,11 @@ function admin_show_user_summary($maxuser) {
     // TODO: what is in profile.posts? A user can post in the forums without a profile.
     $users = BoincUser::enum(null, "order by posts desc limit ".$maxuser);
     $profiles = BoincProfile::enum(null, "order by posts desc limit ".$maxuser);
+    $i = 0;
     foreach ($users as $user) {
-        $top10poster[$i] = $user;
+        if ($i <= 10) {
+            $top10poster[$i++] = $user;
+        }
         $top_country[$user->country] += 1;
     }
     foreach ($profiles as $profile) {

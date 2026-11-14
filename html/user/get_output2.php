@@ -114,7 +114,7 @@ function do_result($result_id, $auth, $file_num=null) {
 
 function do_wu($wu_id, $auth) {
     $workunit = BoincWorkunit::lookup_id($wu_id);
-    if (!$workunit) die("no workunit for $result_id");
+    if (!$workunit) die("no workunit for $wu_id");
     $batch = BoincBatch::lookup_id($workunit->batch);
     if (!$batch) die("no batch for $result_id");
     check_auth($auth, $batch);

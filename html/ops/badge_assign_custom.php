@@ -138,8 +138,13 @@ function assign_all_badges(
 
     // get badges for all subprojects including total
     //
+    $badges = [];
     foreach ($subprojects_list as $sp) {
         $badges[$sp["short_name"]] = get_badges($kind, $badge_level_names, $badge_images, $sp);
+    }
+    if (empty($badges)) {
+        echo "assign_all_badges(): no badges\n";
+        return;
     }
 
     $n = 0;

@@ -256,7 +256,6 @@ function do_one($thisid, $log) {
         fflush($log);
     }
     _mysql_free_result($result);
-    return $startid;
 }
 
 function read_log() {
