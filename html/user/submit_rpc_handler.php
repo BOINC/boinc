@@ -462,9 +462,10 @@ function make_batch_name($user, $app) {
 // $r is a simplexml object encoding the request message
 //
 function submit_batch($r) {
-    xml_start_tag("submit_batch");
     $app = get_submit_app((string)($r->batch->app_name));
     $user = check_remote_submit_permissions($r, $app);
+    check_max_jobs_in_progress($r, $user);
+    xml_start_tag("submit_batch");
     $jobs = xml_get_jobs($r);
     $template = read_input_template($app, $r);
     if ($template) {
