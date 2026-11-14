@@ -30,9 +30,16 @@
 //
 struct PLAN_CLASS_SPEC {
     char name[256];
+        // this encodes some info about the plan class; see
+        // https://github.com/BOINC/boinc/wiki/Plan-classes#Planclassnames
+        //
     char gpu_type[256];
-        // nvidia, amd, intel, or apple_gpu
+        // nvidia, amd, intel, or apple
         // or model name, e.g. 'QUALCOMM Adreno (TM)'
+        // Allow ati (== amd) or apple_gpu (== apple) for compatibility
+        // with old projects.
+        // You can omit this and use gpu_type_regex to match
+        // GPU type in a more flexible way
     bool cuda;
     bool cal;
     bool opencl;
