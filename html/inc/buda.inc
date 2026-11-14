@@ -57,7 +57,10 @@ function variant_name($desc) {
 
 // can user submit job to BUDA app?
 //
-function user_can_submit($user, $app_desc) {
+function can_submit_to_buda_app($user, $app_desc) {
+    if (has_submit_access($user, 0)) {
+        return true;
+    }
     if ($app_desc->user_id == $user->id) {
         return true;
     }

@@ -18,7 +18,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// delete retired batches with no WUs
+// delete result dirs for retired batches with no WUs
+// (but not the batch records)
 
 require_once('../inc/boinc_db.inc');
 require_once('../inc/submit_db.inc');
@@ -33,10 +34,11 @@ function main() {
             "batch=$batch->id"
         );
         if (!$wus) {
-            echo "deleting batch $batch->id\n";
-            $batch->delete();
             $dir = "../../results/$batch->id";
-            system("/bin/rm -rf $dir");
+            if (is_dir($dir)) {
+                echo "deleting results dir for batch $batch->id\n";
+                system("/bin/rm -rf $dir");
+            }
         }
     }
     echo "------- Finished at ".time_str(time())."-------\n";
