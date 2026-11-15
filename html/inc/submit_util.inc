@@ -343,9 +343,7 @@ function abort_batch($batch) {
 // - delete output files (results/batchid/)
 // - mark unsent WUs as cancelled
 //
-// Don't delete the batch; it may have in-progress jobs that
-// we'll need to file-delete and purge,
-// and the batch needs to be present for this.
+// Don't delete the batch.
 // Use ops/delete_batches.php to delete retired batches with no WUs
 //
 function retire_batch($batch) {

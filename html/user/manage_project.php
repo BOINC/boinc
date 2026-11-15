@@ -24,7 +24,7 @@ require_once("../inc/util.inc");
 require_once("../inc/keywords.inc");
 require_once("../inc/kw_prefs.inc");
 
-function user_row($u) {
+function user_row($u, $batches) {
     $user = BoincUser::lookup_id($u->user_id);
     $uas = BoincUserSubmitApp::enum("user_id=$u->user_id");
 
@@ -49,12 +49,29 @@ function user_row($u) {
         }
         $admin = $names?implode(', ', $names):'---';
     }
+
+    if (0) {
     [$yes, $no] = read_kw_prefs($user);
     global $job_keywords;
     $kws = [];
     foreach ($yes as $id) {
         $kw = $job_keywords[$id];
         $kws[] = $kw->name;
+    }
+    }
+
+    $nbatch = 0;
+    $nbatch_active = 0;
+    $first = 0;
+    $last = 0;
+    foreach ($batches as $b) {
+        if ($b->user_id != $user->id) continue;
+        $nbatch++;
+        if ($b->state != BATCH_STATE_RETIRED) {
+            $nbatch_active++;
+        }
+        if (!$first || $b->create_time <= $first) $first = $b->create_time;
+        if ($b->create_time > $last) $last = $b->create_time;
     }
 
     table_row(
@@ -64,10 +81,12 @@ function user_row($u) {
         ),
         $sub,
         $admin,
-        implode('<br>', $kws),
+        //implode('<br>', $kws),
         $u->quota,
         $u->max_jobs_in_progress,
-        ($u->logical_start_time > time())?local_time_str($u->logical_start_time):'---'
+        $nbatch?"$nbatch ($nbatch_active)":'---',
+        $first?date_str($first):'---',
+        $last?date_str($last):'---',
     );
 }
 
@@ -83,13 +102,15 @@ function handle_list() {
         "User<br><small>Click to change permissions or quota</small>",
         "Can submit jobs to",
         "Can administer",
-        'Keywords',
         "Quota",
         "Max jobs in progress<br><small>0 means no limit</small>",
-        "Current priority<br><small>Later time = lower priority</small>"
+        "#Batches (active)",
+        "First",
+        "Last"
     );
+    $batches = BoincBatch::enum('');
     foreach ($us as $u) {
-        user_row($u);
+        user_row($u, $batches);
     }
     end_table();
     show_button("manage_project.php?action=add_form",

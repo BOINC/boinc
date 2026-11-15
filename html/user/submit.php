@@ -319,6 +319,41 @@ function show_aborted($all_batches, $order, $limit, $user, $app) {
     }
 }
 
+function show_retired($all_batches, $order, $limit, $user, $app) {
+    $batches = batches_in_state($all_batches, BATCH_STATE_RETIRED);
+    if (!$batches) return;
+    sort_batches($batches, $order);
+    echo sprintf('<h3>Retired batches (%d)</h3>', count($batches));
+    $first = true;
+    $n = 0;
+    foreach ($batches as $batch) {
+        if ($limit && $n == $limit) break;
+        $n++;
+        if ($first) {
+            $first = false;
+            if ($limit) {
+                show_all_batches_link($batches, BATCH_STATE_RETIRED, $limit, $user, $app);
+            }
+            start_table();
+            table_header(
+                "Name", "ID", "User", "App", "# Jobs", "Submitted", "Completed"
+            );
+        }
+        table_row(
+            "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
+            "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
+            $batch->user_name,
+            $batch->app_name,
+            $batch->njobs,
+            local_time_str($batch->create_time),
+            local_time_str($batch->completion_time)
+        );
+    }
+    if (!$first) {
+        end_table();
+    }
+}
+
 // fill in the app and user names in list of batches
 //
 function fill_in_app_and_user_names(&$batches) {
@@ -361,6 +396,7 @@ function show_batches($batches, $order, $limit, $user, $app) {
     show_in_progress($batches, $order, $limit, $user, $app);
     show_complete($batches, $order, $limit, $user, $app);
     show_aborted($batches, $order, $limit, $user, $app);
+    show_retired($batches, $order, $limit, $user, $app);
 }
 
 // show links to per-app job submission forms

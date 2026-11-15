@@ -34,7 +34,7 @@ function submit_form($user) {
         error_page('bad app name');
     }
     $app_desc = get_buda_app_desc($app);
-    if (!user_can_submit($user, $app_desc)) {
+    if (!can_submit_to_buda_app($user, $app_desc)) {
         error_page('no permission');
     }
 
@@ -323,7 +323,7 @@ function handle_submit($user) {
         error_page('bad app name');
     }
     $app_desc = get_buda_app_desc($app);
-    if (!user_can_submit($user, $app_desc)) {
+    if (!can_submit_to_buda_app($user, $app_desc)) {
         error_page('no permission');
     }
 
@@ -428,7 +428,7 @@ function show_app_list($user) {
     $found = false;
     foreach ($apps as $app) {
         $desc = get_buda_app_desc($app);
-        if (!user_can_submit($user, $desc)) {
+        if (!can_submit_to_buda_app($user, $desc)) {
             continue;
         }
         $found = true;
