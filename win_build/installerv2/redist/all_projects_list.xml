@@ -108,6 +108,24 @@
         <keywords>9 13 11 23 24 28 64</keywords>
     </project>
     <project>
+        <name>Gaia@home</name>
+        <id>56</id>
+        <url>https://gaiaathome.eu/gaiaathome/</url>
+        <web_url>https://gaiaathome.eu/gaiaathome/</web_url>
+        <general_area>Physical Science</general_area>
+        <specific_area>Astrophysics</specific_area>
+        <description><![CDATA[Reconstruct the shapes of asteroids from their lightcurves.]]></description>
+        <home>Adam Mickiewicz University in Poznań</home>
+    <platforms>
+        <name>aarch64-unknown-linux-gnu</name>
+        <name>arm-unknown-linux-gnueabihf</name>
+        <name>windows_x86_64</name>
+        <name>x86_64-pc-linux-gnu</name>
+    </platforms>
+      <summary>Study the properties of asteroids</summary>
+        <keywords>1 20 43</keywords>
+    </project>
+    <project>
         <name>Asteroids@home</name>
         <id>11</id>
         <url>https://asteroidsathome.net/boinc/</url>
@@ -315,18 +333,21 @@
         <description><![CDATA[NumberFields@home searches for fields with special properties. The primary application of this research is in the realm of algebraic number theory. Number theorists can mine the data for interesting patterns to help them formulate conjectures about number fields. Ultimately, this research will lead to a deeper understanding of the profound properties of numbers, the basic building blocks of all mathematics.]]></description>
         <home>Arizona State University, school of Mathematics</home>
     <platforms>
+        <name>aarch64-android-linux-gnu</name>
         <name>aarch64-unknown-linux-gnu</name>
-        <name>i686-pc-linux-gnu</name>
-        <name>windows_intelx86</name>
+        <name>arm64-apple-darwin</name>
         <name>windows_x86_64</name>
+        <name>windows_x86_64[cuda30]</name>
         <name>windows_x86_64[opencl_amd]</name>
         <name>windows_x86_64[opencl_intel_gpu]</name>
         <name>windows_x86_64[opencl_nvidia]</name>
         <name>x86_64-apple-darwin</name>
+        <name>x86_64-pc-freebsd</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[cuda30]</name>
         <name>x86_64-pc-linux-gnu[opencl_amd]</name>
         <name>x86_64-pc-linux-gnu[opencl_intel_gpu]</name>
+        <name>x86_64-pc-linux-gnu[opencl_nvidia]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/nf_banner_10.jpg</image>
       <summary>Do research in algebraic number theory</summary>
