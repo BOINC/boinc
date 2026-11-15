@@ -1291,7 +1291,7 @@ function admin_show_user_summary($maxuser) {
     $top10poster = [];
     $i = 0;
     foreach ($users as $user) {
-        if ($i <= 10) {
+        if ($i < 10) {
             $top10poster[$i++] = $user;
         }
         $top_country[$user->country] += 1;
