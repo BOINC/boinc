@@ -94,10 +94,10 @@ jobs:
     if: github.repository == 'BOINC/boinc'
     runs-on: ubuntu-latest
     container:
-      image: fedora:44
+      image: fedora:45
     strategy:
       matrix:
-        os: [fc43, fc44, suse16_0]
+        os: [fc43, fc44, fc45, suse16_0, suse16_1]
       fail-fast: false
     env:
       PUBKEY_HASH: D4460B4F0EEDE2C0662092F640254C9B29853EA6

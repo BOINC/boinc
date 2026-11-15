@@ -25,7 +25,7 @@ function exit_usage() {
 
 case "$1" in
 # fedora distros
-"fc43" | "fc44")
+"fc43" | "fc44" | "fc45")
     case "$2" in
     "client")
         echo "glibc,libXScrnSaver >= 1.2.3,ca-certificates,libatomic"
@@ -38,7 +38,7 @@ case "$1" in
     esac
     ;;
 # opensuse distros
-"suse16_0")
+"suse16_0" | "suse16_1")
     case "$2" in
     "client")
         echo "glibc,libXss1 >= 1.2.2,ca-certificates,libatomic1"
