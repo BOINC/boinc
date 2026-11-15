@@ -116,7 +116,7 @@ function read_input_template($app, $r) {
 function check_max_jobs_in_progress($r, $user) {
     $us = BoincUserSubmit::lookup_userid($user->id);
     if (!$us->max_jobs_in_progress) return;
-    $query = "select count(*) as total from DBNAME.result, DBNAME.batch where batch.user_id=$userid and result.batch = batch.id and result.server_state<".RESULT_SERVER_STATE_OVER;
+    $query = "select count(*) as total from DBNAME.result, DBNAME.batch where batch.user_id=$user->id and result.batch = batch.id and result.server_state<".RESULT_SERVER_STATE_OVER;
     $db = BoincDb::get();
     $n = $db->get_int($query, 'total');
     if ($n === false) return;
@@ -437,7 +437,6 @@ function xml_get_jobs($r) {
 function logical_end_time($r, $jobs, $user, $app) {
     $total_flops = 0;
     foreach($jobs as $job) {
-        //print_r($job);
         if ($job->rsc_fpops_est) {
             $total_flops += $job->rsc_fpops_est;
         } else if ($job->input_template && $job->input_template->workunit->rsc_fpops_est) {
@@ -445,12 +444,7 @@ function logical_end_time($r, $jobs, $user, $app) {
         } else if ($r->batch->job_params->rsc_fpops_est) {
             $total_flops += (double) $r->batch->job_params->rsc_fpops_est;
         } else {
-            $x = (double) $template->workunit->rsc_fpops_est;
-            if ($x) {
-                $total_flops += $x;
-            } else {
-                xml_error(-1, "no rsc_fpops_est given");
-            }
+            xml_error(-1, "no rsc_fpops_est given");
         }
     }
     $cmd = "cd " . project_dir() . "/bin; ./adjust_user_priority --user $user->id --flops $total_flops --app $app->name";
@@ -468,9 +462,10 @@ function make_batch_name($user, $app) {
 // $r is a simplexml object encoding the request message
 //
 function submit_batch($r) {
-    xml_start_tag("submit_batch");
     $app = get_submit_app((string)($r->batch->app_name));
     $user = check_remote_submit_permissions($r, $app);
+    check_max_jobs_in_progress($r, $user);
+    xml_start_tag("submit_batch");
     $jobs = xml_get_jobs($r);
     $template = read_input_template($app, $r);
     if ($template) {
@@ -900,12 +895,12 @@ function query_completed_job($r) {
     } else {
         $result = null;
         $results = BoincResult::enum("workunitid=$wu->id");
-        foreach ($results as $r) {
-            switch($r->outcome) {
-            case 1:
-            case 3:
-            case 6:
-                $result = $r;
+        foreach ($results as $res) {
+            switch($res->outcome) {
+            case RESULT_OUTCOME_SUCCESS:
+            case RESULT_OUTCOME_CLIENT_ERROR:
+            case RESULT_OUTCOME_VALIDATE_ERROR:
+                $result = $res;
                 break;
             }
         }

@@ -37,7 +37,8 @@ function dir_hier_path($filename, $root, $fanout) {
 }
 
 function upload_path($filename) {
-    static $upload_dir=null;
+    static $upload_dir = null;
+    static $uldl_dir_fanout = null;
     if (!$upload_dir) {
         $upload_dir = project_config_val('upload_dir');
         $uldl_dir_fanout = project_config_val('uldl_dir_fanout');
@@ -138,7 +139,6 @@ function download_hier_path($fname) {
 // which is assumed to not be in download dir already.
 //
 function stage_file_basic($dir, $fname) {
-    [$dl_dir, $fanout] = get_hier_info();
     $old_path = "$dir/$fname";
     $new_path = download_hier_path($fname);
     $md5 = md5_file($old_path);
