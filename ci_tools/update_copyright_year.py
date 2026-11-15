@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -27,7 +27,54 @@ def help():
     print('Usage:')
     print('python update_copyright_year.py <dir>')
 
-def update_dlgabout(filename, year=datetime.date.today().year):
+def update_gl_file(filename, year):
+    print('Checking file: ' + filename)
+    with open(filename, "rb") as f:
+        lines = f.read().splitlines()
+    changed = False
+    match_found = False
+    match = re.search(rb'.*\d{4}.*', lines[2])
+    if match:
+        match_found = True
+        updated_line = re.sub(rb'(\d{4})', str.encode(str(year)), lines[2])
+        if updated_line != lines[2]:
+            lines[2] = updated_line
+            changed = True
+    if not match_found:
+        print('There was no copyright line found in the file')
+        return False
+    if changed:
+        print('Updating file: ' + filename + '...')
+        with open(filename, "wb") as f:
+            f.write(str.encode(os.linesep).join(lines))
+            f.write(str.encode(os.linesep))
+    return True
+
+
+def update_copyright_file(filename, year):
+    print('Checking file: ' + filename)
+    with open(filename, "rb") as f:
+        lines = f.read().splitlines()
+    changed = False
+    match_found = False
+    match = re.search(rb'.*\d{4}-\d{4}.*', lines[3])
+    if match:
+        match_found = True
+        updated_line = re.sub(rb'-(\d{4})', b'-' + str.encode(str(year)), lines[3])
+        if updated_line != lines[3]:
+            lines[3] = updated_line
+            changed = True
+    if not match_found:
+        print('There was no copyright line found in the file')
+        return False
+    if changed:
+        print('Updating file: ' + filename + '...')
+        with open(filename, "wb") as f:
+            f.write(str.encode(os.linesep).join(lines))
+            f.write(str.encode(os.linesep))
+    return True
+
+def update_dlgabout(filename, year):
     print('Checking file: ' + filename)
     with open(filename, "rb") as f:
         lines = f.read().splitlines()
@@ -36,10 +83,10 @@ def update_dlgabout(filename, year=datetime.date.today().year):
     match_found = False
     for line in lines:
         count += 1
-        match = re.search(b'.*\(C\)\s\d{4}-\d{4}.*', line)
+        match = re.search(rb'.*\(C\)\s\d{4}-\d{4}.*', line)
         if match:
             match_found = True
-            updated_line = re.sub(b'-(\d{4})', b'-' + str.encode(str(year)), line)
+            updated_line = re.sub(rb'-(\d{4})', b'-' + str.encode(str(year)), line)
             if updated_line != line:
                 lines[count-1] = updated_line
                 changed = True
@@ -53,20 +100,20 @@ def update_dlgabout(filename, year=datetime.date.today().year):
             f.write(str.encode(os.linesep))
     return True
 
-def update_rc_files(directory, year=datetime.date.today().year):
+def update_rc_files(directory, year):
     if not os.path.isdir(directory):
         return None
-    dlg_about = os.path.join(directory, "clientgui", "DlgAbout.cpp")
+
+    exclude_dirs = [
+        os.path.join(directory, "3rdParty")
+    ]
+
     for root, dirs, files in os.walk(directory, topdown=True):
         dirs[:] = [d for d in dirs if os.path.join(root, d) not in exclude_dirs]
         for filename in files:
-            src_file = os.path.join(root, filename)
-            if src_file == dlg_about:
-                if not update_dlgabout(os.path.join(root, filename)):
-                    return False
-                continue
             if (pathlib.Path(filename).suffix != '.rc'):
                 continue
+            src_file = os.path.join(root, filename)
             if (os.path.islink(src_file)):
                 continue
             with open(src_file, "rb") as f:
@@ -76,9 +123,9 @@ def update_rc_files(directory, year=datetime.date.today().year):
             changed = False
             for line in lines:
                 count += 1
-                match = re.search(b'VALUE \"LegalCopyright\", \".*\d{4}-\d{4}.*\"', line)
+                match = re.search(rb'VALUE \"LegalCopyright\", \".*\d{4}-\d{4}.*\"', line)
                 if match:
-                    updated_line = re.sub(b'-(\d{4})', b'-' + str.encode(str(year)), line)
+                    updated_line = re.sub(rb'-(\d{4})', b'-' + str.encode(str(year)), line)
                     if updated_line != line:
                         lines[count-1] = updated_line
                         changed = True
@@ -90,17 +137,23 @@ def update_rc_files(directory, year=datetime.date.today().year):
     return True
 
 
-if (len(sys.argv) < 2):
-    help()
-    sys.exit(1)
+if __name__ == "__main__":
+    if (len(sys.argv) < 2):
+        help()
+        sys.exit(1)
 
-directory = sys.argv[1]
+    directory = sys.argv[1]
+    year = datetime.date.today().year
 
-exclude_dirs = [
-    os.path.join(directory, "3rdParty")
-]
+    if not update_rc_files(directory, year):
+        sys.exit(1)
+    if not update_dlgabout(os.path.join(directory, "clientgui", "DlgAbout.cpp"), year):
+        sys.exit(1)
+    if not update_copyright_file(os.path.join(directory, "COPYRIGHT"), year):
+        sys.exit(1)
+    if not update_gl_file(os.path.join(directory, "gl"), year):
+        sys.exit(1)
+    if not update_gl_file(os.path.join(directory, "gl.py"), year):
+        sys.exit(1)
 
-if not update_rc_files(directory):
-    sys.exit(1)
-
-sys.exit(0)
+    sys.exit(0)
