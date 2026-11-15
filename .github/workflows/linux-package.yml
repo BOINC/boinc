@@ -269,7 +269,7 @@ jobs:
     needs: prepare-binaries
     strategy:
       matrix:
-        os: [fc43, fc44, suse16_0]
+        os: [fc43, fc44, fc45, suse16_0, suse16_1]
         type: [client, manager]
         arch: [arm64, amd64, armhf]
       fail-fast: false
@@ -383,10 +383,10 @@ jobs:
             "fc43")
               CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
               ;;
-            "fc44")
+            "fc44" | "fc45")
               CA_BUNDLE="/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem"
               ;;
-            "suse16_0")
+            "suse16_0" | "suse16_1")
               CA_BUNDLE="/etc/ssl/ca-bundle.pem"
               ;;
             esac
@@ -905,7 +905,7 @@ jobs:
     needs: build-rpm-package
     strategy:
       matrix:
-        os: [43, 44]
+        os: [43, 44, 45]
         type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
         arch: [amd64, arm64]
         include:
@@ -938,7 +938,7 @@ jobs:
           dnf install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the alpha
-        if: success() && matrix.type == 'upgrade-from-alpha'
+        if: success() && matrix.type == 'upgrade-from-alpha' && matrix.os != '45'
         run: |
           dnf install -y dnf-plugins-core
           dnf config-manager addrepo --from-repofile=https://boinc.berkeley.edu/dl/linux/alpha/fc${{ matrix.os }}/boinc-alpha-fc${{ matrix.os }}.repo
@@ -949,7 +949,7 @@ jobs:
           dnf install -y boinc-client-${client_version} boinc-manager-${manager_version}
 
       - name: Install distro package for further upgrade from the stable
-        if: success() && matrix.type == 'upgrade-from-stable'
+        if: success() && matrix.type == 'upgrade-from-stable' && matrix.os != '45'
         run: |
           dnf install -y dnf-plugins-core
           dnf config-manager addrepo --from-repofile=https://boinc.berkeley.edu/dl/linux/stable/fc${{ matrix.os }}/boinc-stable-fc${{ matrix.os }}.repo
@@ -1004,7 +1004,7 @@ jobs:
     needs: build-rpm-package
     strategy:
       matrix:
-        os: ["16.0"]
+        os: ["16.0", "16.1"]
         type: [install, upgrade, upgrade-from-alpha, upgrade-from-stable]
         arch: [amd64, arm64]
         include:
@@ -1043,14 +1043,14 @@ jobs:
           zypper install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the alpha
-        if: success() && matrix.type == 'upgrade-from-alpha'
+        if: success() && matrix.type == 'upgrade-from-alpha' && matrix.os != '16.1'
         run: |
           rpm --import https://boinc.berkeley.edu/dl/linux/alpha/suse${{ env.OS }}/boinc.gpg
           zypper --non-interactive --quiet ar -G -f https://boinc.berkeley.edu/dl/linux/alpha/suse${{ env.OS }} official-boinc-repo
           zypper install -y boinc-client boinc-manager
 
       - name: Install distro package for further upgrade from the stable
-        if: success() && matrix.type == 'upgrade-from-stable'
+        if: success() && matrix.type == 'upgrade-from-stable' && matrix.os != '16.1'
         run: |
           rpm --import https://boinc.berkeley.edu/dl/linux/stable/suse${{ env.OS }}/boinc.gpg
           zypper --non-interactive --quiet ar -G -f https://boinc.berkeley.edu/dl/linux/stable/suse${{ env.OS }} official-boinc-repo
@@ -1208,11 +1208,11 @@ jobs:
     if: github.repository == 'BOINC/boinc'
     runs-on: ubuntu-latest
     container:
-      image: fedora:44
+      image: fedora:45
     needs: [test-fedora-rpm-package, test-opensuse-rpm-package]
     strategy:
       matrix:
-        os: [fc43, fc44, suse16_0]
+        os: [fc43, fc44, fc45, suse16_0, suse16_1]
       fail-fast: false
     env:
       PUBKEY_HASH: D4460B4F0EEDE2C0662092F640254C9B29853EA6
