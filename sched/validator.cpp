@@ -59,6 +59,7 @@
 #include <cstdlib>
 #include <string>
 #include <signal.h>
+#include <fmt/core.h>
 
 #include "boinc_db.h"
 #include "util.h"
@@ -80,6 +81,7 @@
 #endif
 
 using std::vector;
+using std::string;
 
 #define LOCKFILE "validate.out"
 #define PIDFILE  "validate.pid"
@@ -190,7 +192,6 @@ static inline void is_invalid(DB_HOST_APP_VERSION& hav) {
 //
 void scan_punitive(vector<VALIDATOR_ITEM>& items) {
     void* data=NULL;
-    char buf[256];
 
     for (const VALIDATOR_ITEM& vi: items) {
         const RESULT& result = vi.res;
@@ -198,10 +199,11 @@ void scan_punitive(vector<VALIDATOR_ITEM>& items) {
         if (result.outcome != RESULT_OUTCOME_CLIENT_ERROR) continue;
         if (init_result(result, data) == VAL_RESULT_LONG_TERM_FAIL) {
             DB_HOST_APP_VERSION hav, hav2;
-            sprintf(buf, "where host_id=%ld and app_version_id=%ld",
+            string clause = fmt::format(
+                "where host_id={} and app_version_id={}",
                 result.hostid, result.app_version_id
             );
-            int retval = hav.lookup(buf);
+            int retval = hav.lookup(clause.c_str());
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
                     "scan_punitive(): can't find HAV for results %ld\n",
@@ -229,7 +231,6 @@ void scan_punitive(vector<VALIDATOR_ITEM>& items) {
 // If a WU w/ new canonical result belongs to a batch, updates its counters
 //
 void update_batch(WORKUNIT &wu, double credit) {
-    char buf[256];
     int retval;
 
     // don't double-count this WU (this shouldn't happen)
@@ -240,11 +241,11 @@ void update_batch(WORKUNIT &wu, double credit) {
 
     DB_BATCH batch;
     batch.id = wu.batch;
-    sprintf(buf,
-        "n_in_progress=n_in_progress-1, n_success=n_success+1, credit_canonical=credit_canonical+%f",
+    string clause = fmt::format(
+        "n_in_progress=n_in_progress-1, n_success=n_success+1, credit_canonical=credit_canonical+{}",
         credit
     );
-    retval = batch.update_field(buf);
+    retval = batch.update_field(clause.c_str());
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
             "[BATCH%ld] batch update failed: %d\n",
@@ -252,13 +253,13 @@ void update_batch(WORKUNIT &wu, double credit) {
         );
     }
     // see if batch is complete
-    sprintf(buf,
-        "state=%d, completion_time=%d",
+    clause = fmt::format(
+        "state={}, completion_time={}",
         BATCH_STATE_COMPLETE,
         (int)dtime()
     );
     retval = batch.update_field(
-        buf,
+        clause.c_str(),
         "nerror_jobs+n_success=njobs"
     );
     if (retval) {
@@ -866,9 +867,8 @@ bool do_validate_scan() {
 int main_loop() {
     int retval;
     bool did_something;
-    char buf[256];
 
-    sprintf(buf, "where name='%s'", app_name);
+    string clause = fmt::format("where name='{}'", app_name);
 
     while (1) {
         check_stop_daemons();
@@ -876,7 +876,7 @@ int main_loop() {
         // look up app within the loop,
         // in case its min_avg_pfc has been changed by the feeder
         //
-        retval = app.lookup(buf);
+        retval = app.lookup(clause.c_str());
         if (retval) {
             log_messages.printf(MSG_CRITICAL, "can't find app %s\n", app_name);
             exit(1);
