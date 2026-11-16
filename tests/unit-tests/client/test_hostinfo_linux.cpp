@@ -103,6 +103,21 @@ namespace test_hostinfo_linux {
         EXPECT_STREQ("Xiaomi", model);
     }
 
+    TEST_F(test_hostinfo_linux, parse_openwrt_model_empty) {
+        const std::filesystem::path fixture_path =
+            std::filesystem::current_path().parent_path() /
+            "unit-tests" / "testdata" / "sysinfo-model.empty";
+
+        FILE* model_file = fopen(fixture_path.string().c_str(), "r");
+        ASSERT_NE(nullptr, model_file);
+
+        char model[256] = "unchanged";
+        EXPECT_FALSE(HOST_INFO::parse_openwrt_model(model_file, model, sizeof(model)));
+        fclose(model_file);
+
+        EXPECT_STREQ("unchanged", model);
+    }
+
     TEST_F(test_hostinfo_linux, parse_openwrt_model_no_file) {
         char model[256] = "unchanged";
         EXPECT_FALSE(HOST_INFO::parse_openwrt_model(nullptr, model, sizeof(model)));
