@@ -33,6 +33,7 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <sys/stat.h>
+#include <fmt/core.h>
 
 using std::string;
 
@@ -77,7 +78,6 @@ static bool obviously_different(HOST& h1, HOST& h2) {
 // find the user's most recently-created host with given various characteristics
 //
 static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
-    char buf[2048];
     char dn[512], ip[512], os[512], pm[512];
 
     // don't dig through hosts of these users
@@ -105,11 +105,11 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
         safe_strcpy(pm, req_host.p_model);
         escape_string(pm, sizeof(pm));
 
-        snprintf(buf, sizeof(buf),
-            "where userid=%lu and id>%lu and domain_name='%s' and last_ip_addr = '%s' and os_name = '%s' and p_model = '%s'"
-               " and m_nbytes = %lf order by id desc", user.id, req_host.id, dn, ip, os, pm, req_host.m_nbytes
+        string clause = fmt::format(
+            "where userid={} and id>{} and domain_name='{}' and last_ip_addr = '{}' and os_name = '{}' and p_model = '{}' and m_nbytes = {} order by id desc",
+               user.id, req_host.id, dn, ip, os, pm, req_host.m_nbytes
         );
-        if (!host.enumerate(buf)) {
+        if (!host.enumerate(clause.c_str())) {
             host.end_enumerate();
             return true;
         }
@@ -133,17 +133,16 @@ static void send_error_message(const char* msg, int delay) {
 // -1 if error (e.g. can't create file)
 //
 int lock_sched() {
-    char filename[256];
     char pid_string[16];
     int fd, pid, count;
 
     g_reply->lockfile_fd=-1;
 
-    sprintf(filename, "%s/CGI_%07lu",
+    string filename = fmt::format("{}/CGI_{:07}",
         config.sched_lockfile_dir, g_reply->host.id
     );
 
-    fd = open(filename, O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
+    fd = open(filename.c_str(), O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
     if (fd < 0) return -1;
 
     // if we can't get an advisory write lock on the file,
@@ -173,13 +172,11 @@ int lock_sched() {
 // unlock and delete per-host lockfile
 //
 void unlock_sched() {
-    char filename[256];
-
     if (g_reply->lockfile_fd < 0) return;
-    sprintf(filename, "%s/CGI_%07lu",
+    string filename = fmt::format("{}/CGI_{:07}",
         config.sched_lockfile_dir, g_reply->host.id
     );
-    unlink(filename);
+    unlink(filename.c_str());
     close(g_reply->lockfile_fd);
 }
 
@@ -191,11 +188,11 @@ static bool find_host_by_cpid(DB_USER& user, char* host_cpid, DB_HOST& host) {
     sprintf(buf, "%s%s", host_cpid, user.email_addr);
     md5_block((const unsigned char*)buf, strlen(buf), buf2);
 
-    sprintf(buf,
-        "where userid=%lu and host_cpid='%s' order by id desc",
+    string clause = fmt::format(
+        "where userid={} and host_cpid='{}' order by id desc",
         user.id, buf2
     );
-    if (!host.enumerate(buf)) {
+    if (!host.enumerate(clause.c_str())) {
         host.end_enumerate();
         return true;
     }
@@ -1393,12 +1390,11 @@ void process_request(char* code_sign_key) {
         }
     }
     if (g_request->platforms.list.empty()) {
-        snprintf(buf, sizeof(buf),
-            "%s %s",
+        string msg = fmt::format("{} {}",
             _("This project doesn't support computers of type"),
             g_request->platform.name
         );
-        g_reply->insert_message(buf, "notice");
+        g_reply->insert_message(msg.c_str(), "notice");
         log_messages.printf(MSG_CRITICAL,
             "[HOST#%lu] platform '%s' not found\n",
             g_reply->host.id, g_request->platform.name
