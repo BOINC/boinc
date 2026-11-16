@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -216,9 +216,6 @@ struct TEXTURE_DESC {
     void draw(float* pos, float* size, int xalign, int yalign, float alpha=1.);
     int load_image_file(const char* filename);
     int CreateTextureJPG(const char* strFileName);
-    int CreateTextureBMP(const char* strFileName);
-    int CreateTexturePPM(const char* strFileName);
-    int CreateTextureTGA(const char* strFileName);
 };
 
 

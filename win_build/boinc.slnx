@@ -36,7 +36,6 @@
   <Project Path="htmlgfx.vcxproj" Id="25662612-421f-42f5-b5e1-d69ecbf3f5bb">
     <BuildDependency Project="libgraphics2.vcxproj" />
   </Project>
-  <Project Path="image_libs.vcxproj" Id="d3d21f11-a7e7-4ea2-8518-e24695133bff" />
   <Project Path="installer.vcxproj" Id="bb5ef2ab-f453-463b-835a-65bbe7182378">
     <BuildDependency Project="boinccas.vcxproj" />
     <BuildDependency Project="boinccmd.vcxproj" />
