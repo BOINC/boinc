@@ -734,6 +734,16 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
     safe_strcpy(host.p_model, model_buf);
     fclose(f);
 }
+
+// On OpenWrt, use the device model as product name;
+// arm64 kernels don't provide the "Hardware" line of /proc/cpuinfo.
+//
+static void get_openwrt_model(HOST_INFO& host) {
+    FILE* f = fopen("/tmp/sysinfo/model", "r");
+    if (!f) return;
+    HOST_INFO::parse_openwrt_model(f, host.product_name, sizeof(host.product_name));
+    fclose(f);
+}
 #endif  // LINUX_LIKE_SYSTEM
 #ifdef __FreeBSD__
 #if defined(__i386__) || defined(__amd64__)
@@ -1576,6 +1586,7 @@ bool HOST_INFO::get_docker_compose_version(){
 int HOST_INFO::get_cpu_info() {
 #if LINUX_LIKE_SYSTEM
     parse_cpuinfo_linux(*this);
+    get_openwrt_model(*this);
 #elif defined( __APPLE__)
     get_cpu_info_mac(*this);
 #elif defined(__EMX__)

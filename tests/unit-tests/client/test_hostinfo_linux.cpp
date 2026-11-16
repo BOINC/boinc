@@ -72,4 +72,40 @@ namespace test_hostinfo_linux {
         EXPECT_STREQ("OpenWrt", os_name);
         EXPECT_STREQ("OpenWrt 25.12.4", os_version);
     }
+
+    TEST_F(test_hostinfo_linux, parse_openwrt_model) {
+        const std::filesystem::path fixture_path =
+            std::filesystem::current_path().parent_path() /
+            "unit-tests" / "testdata" / "sysinfo-model.openwrt";
+
+        FILE* model_file = fopen(fixture_path.string().c_str(), "r");
+        ASSERT_NE(nullptr, model_file);
+
+        char model[256] = "";
+        EXPECT_TRUE(HOST_INFO::parse_openwrt_model(model_file, model, sizeof(model)));
+        fclose(model_file);
+
+        EXPECT_STREQ("Xiaomi Mi Router AX3000T", model);
+    }
+
+    TEST_F(test_hostinfo_linux, parse_openwrt_model_truncated) {
+        const std::filesystem::path fixture_path =
+            std::filesystem::current_path().parent_path() /
+            "unit-tests" / "testdata" / "sysinfo-model.openwrt";
+
+        FILE* model_file = fopen(fixture_path.string().c_str(), "r");
+        ASSERT_NE(nullptr, model_file);
+
+        char model[7] = "";
+        EXPECT_TRUE(HOST_INFO::parse_openwrt_model(model_file, model, sizeof(model)));
+        fclose(model_file);
+
+        EXPECT_STREQ("Xiaomi", model);
+    }
+
+    TEST_F(test_hostinfo_linux, parse_openwrt_model_no_file) {
+        char model[256] = "unchanged";
+        EXPECT_FALSE(HOST_INFO::parse_openwrt_model(nullptr, model, sizeof(model)));
+        EXPECT_STREQ("unchanged", model);
+    }
 }
