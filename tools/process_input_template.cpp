@@ -43,6 +43,7 @@
 
 using std::string;
 using std::vector;
+using fmt::format;
 
 // look for file named FILENAME.md5 containing md5sum and length.
 // If found, and newer mod time than file,
@@ -439,13 +440,13 @@ static int process_workunit(
                 return ERR_XML_PARSE;
             }
             INFILE_DESC& id = infiles[n_file_refs];
-            out += fmt::format(
+            out += format(
                 "    <file_name>{}</file_name>\n", id.name
             ).c_str();
 
             while (!xp.get_tag()) {
                 if (xp.parse_str("open_name", open_name, sizeof(open_name))) {
-                    out += fmt::format(
+                    out += format(
                         "    <open_name>{}</open_name>\n", open_name
                     ).c_str();
                     found_open_name = true;
@@ -460,7 +461,7 @@ static int process_workunit(
                         boinc::fprintf(stderr, "No open name found and copy_file not specified\n");
                         return ERR_XML_PARSE;
                     } else if (!found_open_name && found_copy_file) {
-                        out += fmt::format(
+                        out += format(
                             "    <open_name>{}</open_name>\n", id.name
                         ).c_str();
                     }

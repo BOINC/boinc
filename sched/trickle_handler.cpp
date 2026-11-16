@@ -37,6 +37,7 @@
 #include <fmt/core.h>
 
 using std::string;
+using fmt::format;
 
 #include "boinc_db.h"
 #include "util.h"
@@ -70,7 +71,7 @@ bool do_trickle_scan() {
     bool found=false;
     int retval;
 
-    string clause = fmt::format(
+    string clause = format(
         "where variety='{}' and handled={}", variety, handled_enum
     );
     while (1) {

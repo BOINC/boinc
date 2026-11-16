@@ -82,6 +82,7 @@
 
 using std::vector;
 using std::string;
+using fmt::format;
 
 #define LOCKFILE "validate.out"
 #define PIDFILE  "validate.pid"
@@ -199,7 +200,7 @@ void scan_punitive(vector<VALIDATOR_ITEM>& items) {
         if (result.outcome != RESULT_OUTCOME_CLIENT_ERROR) continue;
         if (init_result(result, data) == VAL_RESULT_LONG_TERM_FAIL) {
             DB_HOST_APP_VERSION hav, hav2;
-            string clause = fmt::format(
+            string clause = format(
                 "where host_id={} and app_version_id={}",
                 result.hostid, result.app_version_id
             );
@@ -241,7 +242,7 @@ void update_batch(WORKUNIT &wu, double credit) {
 
     DB_BATCH batch;
     batch.id = wu.batch;
-    string clause = fmt::format(
+    string clause = format(
         "n_in_progress=n_in_progress-1, n_success=n_success+1, credit_canonical=credit_canonical+{}",
         credit
     );
@@ -253,7 +254,7 @@ void update_batch(WORKUNIT &wu, double credit) {
         );
     }
     // see if batch is complete
-    clause = fmt::format(
+    clause = format(
         "state={}, completion_time={}",
         BATCH_STATE_COMPLETE,
         (int)dtime()
@@ -868,7 +869,7 @@ int main_loop() {
     int retval;
     bool did_something;
 
-    string clause = fmt::format("where name='{}'", app_name);
+    string clause = format("where name='{}'", app_name);
 
     while (1) {
         check_stop_daemons();

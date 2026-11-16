@@ -36,6 +36,7 @@
 #include <fmt/core.h>
 
 using std::string;
+using fmt::format;
 
 #include "backend_lib.h"
 #include "boinc_db.h"
@@ -105,7 +106,7 @@ static bool find_host_by_other(DB_USER& user, HOST req_host, DB_HOST& host) {
         safe_strcpy(pm, req_host.p_model);
         escape_string(pm, sizeof(pm));
 
-        string clause = fmt::format(
+        string clause = format(
             "where userid={} and id>{} and domain_name='{}' and last_ip_addr = '{}' and os_name = '{}' and p_model = '{}' and m_nbytes = {} order by id desc",
                user.id, req_host.id, dn, ip, os, pm, req_host.m_nbytes
         );
@@ -138,7 +139,7 @@ int lock_sched() {
 
     g_reply->lockfile_fd=-1;
 
-    string filename = fmt::format("{}/CGI_{:07}",
+    string filename = format("{}/CGI_{:07}",
         config.sched_lockfile_dir, g_reply->host.id
     );
 
@@ -173,7 +174,7 @@ int lock_sched() {
 //
 void unlock_sched() {
     if (g_reply->lockfile_fd < 0) return;
-    string filename = fmt::format("{}/CGI_{:07}",
+    string filename = format("{}/CGI_{:07}",
         config.sched_lockfile_dir, g_reply->host.id
     );
     unlink(filename.c_str());
@@ -188,7 +189,7 @@ static bool find_host_by_cpid(DB_USER& user, char* host_cpid, DB_HOST& host) {
     sprintf(buf, "%s%s", host_cpid, user.email_addr);
     md5_block((const unsigned char*)buf, strlen(buf), buf2);
 
-    string clause = fmt::format(
+    string clause = format(
         "where userid={} and host_cpid='{}' order by id desc",
         user.id, buf2
     );
@@ -1390,7 +1391,7 @@ void process_request(char* code_sign_key) {
         }
     }
     if (g_request->platforms.list.empty()) {
-        string msg = fmt::format("{} {}",
+        string msg = format("{} {}",
             _("This project doesn't support computers of type"),
             g_request->platform.name
         );
