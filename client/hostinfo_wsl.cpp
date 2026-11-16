@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -37,7 +37,7 @@ using nlohmann::json;
 // timeout for commands run in WSL container
 // If something goes wrong we don't want client to hang
 //
-#define CMD_TIMEOUT 10.0
+constexpr double CMD_TIMEOUT = 10.0;
 
 static void get_docker_version(WSL_CMD&, WSL_DISTRO&);
 static void get_docker_compose_version(WSL_CMD&, WSL_DISTRO&);
@@ -48,7 +48,8 @@ static int get_json_gpu(const nlohmann::json&, WSL_GPU&);
 // See https://patrickwu.space/2020/07/19/wsl-related-registry/
 //
 int get_all_distros(WSL_DISTROS& distros) {
-    const std::string lxss_path = "Software\\Microsoft\\Windows\\CurrentVersion\\Lxss";
+    const string lxss_path =
+        "Software\\Microsoft\\Windows\\CurrentVersion\\Lxss";
 
     HKEY hKey;
 
@@ -58,7 +59,9 @@ int get_all_distros(WSL_DISTROS& distros) {
         lxss_path.c_str(), 0, KEY_QUERY_VALUE | KEY_ENUMERATE_SUB_KEYS, &hKey
     );
     if (lRet == ERROR_FILE_NOT_FOUND) {
-      msg_printf(0, MSG_INFO, "WSL: registry key not found; assuming no WSL distros are installed");
+      msg_printf(0, MSG_INFO,
+          "WSL: registry key not found; assuming no WSL distros are installed"
+      );
       return 0;
     }
     if (lRet != ERROR_SUCCESS) {
@@ -66,7 +69,7 @@ int get_all_distros(WSL_DISTROS& distros) {
         return -1;
     }
 
-    const int buf_len = 256;
+    constexpr size_t buf_len = 256;
     char default_wsl_guid[buf_len];
     DWORD default_wsl_guid_len = sizeof(default_wsl_guid);
 
@@ -74,7 +77,10 @@ int get_all_distros(WSL_DISTROS& distros) {
         (LPBYTE)default_wsl_guid, &default_wsl_guid_len
     );
     if ((lRet != ERROR_SUCCESS) || (default_wsl_guid_len > buf_len)) {
-        msg_printf(0, MSG_INFO, "WSL: registry query for DefaultDistribution failed (error %ld)", lRet);
+        msg_printf(0, MSG_INFO,
+            "WSL: registry query for DefaultDistribution failed (error %ld)",
+            lRet
+        );
         RegCloseKey(hKey);
         return 0;
     }
@@ -94,7 +100,7 @@ int get_all_distros(WSL_DISTROS& distros) {
         }
 
         HKEY hSubKey;
-        const std::string sub_key = lxss_path + "\\" + wsl_guid;
+        const string sub_key = lxss_path + "\\" + wsl_guid;
         ret = RegOpenKeyEx(HKEY_CURRENT_USER,
             sub_key.c_str(), 0, KEY_QUERY_VALUE, &hSubKey
         );
@@ -155,7 +161,7 @@ int get_all_distros(WSL_DISTROS& distros) {
 
     // if boinc-buda-runner is present, ignore others
     //
-    for (WSL_DISTRO &wd: distros.distros) {
+    for (const WSL_DISTRO &wd: distros.distros) {
         if (wd.distro_name == BOINC_WSL_DISTRO_NAME) {
             WSL_DISTRO distro = wd;
             distros.distros.clear();
@@ -170,14 +176,15 @@ int get_all_distros(WSL_DISTROS& distros) {
 // parse the output of 'sysctl -a' to get OS name and version
 //
 void parse_sysctl_output(
-    const std::vector<std::string>& lines,
-    std::string& ostype, std::string& osrelease
+    const vector<string>& lines,
+    string& ostype,
+    string& osrelease
 ) {
     char buf[256], ostype_found[256], osrelease_found[256];
     ostype.clear();
     osrelease.clear();
-    for (size_t i = 0; i < lines.size(); ++i) {
-        safe_strcpy(buf, lines[i].c_str());
+    for (const string& line : lines) {
+        safe_strcpy(buf, line.c_str());
         strip_whitespace(buf);
         if (strstr(buf, "kernel.ostype =")) {
             safe_strcpy(ostype_found, strchr(buf, '=') + 1);
@@ -196,13 +203,13 @@ void parse_sysctl_output(
 // if either name or version is not already there, add
 //
 static void update_os(
-    WSL_DISTRO &wd, const char* os_name, const char* os_version
+    WSL_DISTRO &wd, string os_name, string os_version
 ) {
-    if (wd.os_name.empty() && strlen(os_name)) {
-        wd.os_name = os_name;
+    if (wd.os_name.empty() && !os_name.empty()) {
+        wd.os_name = std::move(os_name);
     }
-    if (wd.os_version.empty() && strlen(os_version)) {
-        wd.os_version = os_version;
+    if (wd.os_version.empty() && !os_version.empty()) {
+        wd.os_version = std::move(os_version);
     }
 }
 
@@ -229,7 +236,12 @@ int HOST_INFO::get_wsl_information() {
     // the output of wsl.exe is wide chars - WTF??
     //
     int retval = run_command("wsl.exe --version", out, true);
-    if (retval) return -1;
+    if (retval) {
+        return -1;
+    }
+    if (out.empty()) {
+        return -1;
+    }
 
     // output is like:
     // WSL version: 2.7.10.0
@@ -243,22 +255,18 @@ int HOST_INFO::get_wsl_information() {
     // but the text can be in other languages,
     // so just look for ': ' in the first line
 
-    static const char *q = ": ";
-    for (string line: out) {
-        char buf[256];
-        safe_strcpy(buf, line.c_str());
-        char *p = strstr(buf, q);
+    for (const string& line : out) {
+        const char* p = strstr(line.c_str(), ": ");
         if (p) {
-            p += strlen(q);
+            p += strlen(": ");
             safe_strcpy(wsl_version, p);
             strip_whitespace(wsl_version);
-            int maj = atoi(wsl_version);
+            const int maj = atoi(wsl_version);
             if (maj > 2) {
                 use_wslc = true;
             }
             break;
         }
-        break;
     }
     if (use_wslc) {
         return 0;
@@ -325,9 +333,11 @@ int HOST_INFO::get_wsl_information() {
         // try reading '/etc/os-relese'
         //
         if (!got_both(wd)) {
-            const std::string command_osrelease = "cat " + std::string(file_osrelease);
+            const string command_osrelease = "cat " + string(file_osrelease);
             if (!rs.run_program_in_wsl(wd, command_osrelease)) {
-                read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
+                read_from_pipe(
+                    rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT
+                );
                 HOST_INFO::parse_linux_os_info(
                     reply, osrelease,
                     distro_os_name, sizeof(distro_os_name),
@@ -343,9 +353,12 @@ int HOST_INFO::get_wsl_information() {
         // try reading '/etc/redhatrelease'
         //
         if (!got_both(wd)) {
-            const std::string command_redhatrelease = "cat " + std::string(file_redhatrelease);
+            const string command_redhatrelease =
+                "cat " + string(file_redhatrelease);
             if (!rs.run_program_in_wsl(wd, command_redhatrelease)) {
-                read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
+                read_from_pipe(
+                    rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT
+                );
                 HOST_INFO::parse_linux_os_info(
                     reply, redhatrelease,
                     distro_os_name, sizeof(distro_os_name),
@@ -358,21 +371,23 @@ int HOST_INFO::get_wsl_information() {
             }
         }
 
-        std::string distro_os_name_str = "";
-        std::string distro_os_version_str = "";
+        string distro_os_name_str = "";
+        string distro_os_version_str = "";
 
         // try running 'sysctl -a'
         //
         if (!got_both(wd)) {
-            const std::string command_sysctl = "sysctl -a";
+            const string command_sysctl = "sysctl -a";
             if (!rs.run_program_in_wsl(wd, command_sysctl)) {
-                read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
+                read_from_pipe(
+                    rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT
+                );
                 parse_sysctl_output(
                     split(reply, '\n', true),
                     distro_os_name_str, distro_os_version_str
                 );
                 CloseHandle(rs.proc_handle);
-                update_os(wd, distro_os_name_str.c_str(), distro_os_version_str.c_str());
+                update_os(wd, distro_os_name_str, distro_os_version_str);
             } else {
                 continue;
             }
@@ -381,12 +396,15 @@ int HOST_INFO::get_wsl_information() {
         // try running 'uname -s'
         //
         if (!got_both(wd)) {
-            const std::string command_uname_s = "uname -s";
+            const string command_uname_s = "uname -s";
             if (!rs.run_program_in_wsl(wd, command_uname_s)) {
-                read_from_pipe(rs.out_read, rs.proc_handle, distro_os_name_str, CMD_TIMEOUT);
+                read_from_pipe(
+                    rs.out_read, rs.proc_handle, distro_os_name_str,
+                    CMD_TIMEOUT
+                );
                 strip_whitespace(distro_os_name_str);
                 CloseHandle(rs.proc_handle);
-                update_os(wd, distro_os_name_str.c_str(), "");
+                update_os(wd, distro_os_name_str, "");
             } else {
                 continue;
             }
@@ -395,12 +413,15 @@ int HOST_INFO::get_wsl_information() {
         // try running 'uname -r'
         //
         if (!got_both(wd)) {
-            const std::string command_uname_r = "uname -r";
+            const string command_uname_r = "uname -r";
             if (!rs.run_program_in_wsl(wd, command_uname_r)) {
-                read_from_pipe(rs.out_read, rs.proc_handle, distro_os_version_str, CMD_TIMEOUT);
+                read_from_pipe(
+                    rs.out_read, rs.proc_handle, distro_os_version_str,
+                    CMD_TIMEOUT
+                );
                 strip_whitespace(distro_os_version_str);
                 CloseHandle(rs.proc_handle);
-                update_os(wd, "", distro_os_version_str.c_str());
+                update_os(wd, "", distro_os_version_str);
             } else {
                 continue;
             }
@@ -443,10 +464,8 @@ int HOST_INFO::get_wsl_information() {
             wd.boinc_buda_runner_version = 1;
             if (!rs.run_program_in_wsl(wd, "cat /home/boinc/version.txt")) {
                 string buf;
-                char buf2[256];
                 read_from_pipe(rs.out_read, rs.proc_handle, buf, CMD_TIMEOUT);
-                safe_strcpy(buf2, buf.c_str());
-                char *p = strstr(buf2, "version: ");
+                const char *p = strstr(buf.c_str(), "version: ");
                 if (p) {
                     wd.boinc_buda_runner_version = atoi(p+strlen("version: "));
                 }
@@ -462,8 +481,10 @@ int HOST_INFO::get_wsl_information() {
                 break;
             }
             string buf;
-            read_from_pipe(rs.out_read, rs.proc_handle, buf, CMD_TIMEOUT, "EOM");
-            size_t x = buf.find("EOM");
+            read_from_pipe(
+                rs.out_read, rs.proc_handle, buf, CMD_TIMEOUT, "EOM"
+            );
+            const size_t x = buf.find("EOM");
             if (x == string::npos) {
                 break;
             }
@@ -473,12 +494,13 @@ int HOST_INFO::get_wsl_information() {
                 d = json::parse(buf);
             } catch (...) {
                 msg_printf(0, MSG_INFO,
-                    "Can't parse gpus.json in WSL distro %s", wd.distro_name.c_str()
+                    "Can't parse gpus.json in WSL distro %s",
+                    wd.distro_name.c_str()
                 );
                 break;
             }
 
-            for (auto &el: d) {
+            for (const auto &el: d) {
                 WSL_GPU wg;
                 if (get_json_gpu(el, wg)) {
                     msg_printf(0, MSG_INFO,
@@ -506,7 +528,9 @@ static bool get_docker_version_aux(
     if (!rs.run_program_in_wsl(wd, cmd.c_str())) {
         read_from_pipe(rs.out_read, rs.proc_handle, reply, CMD_TIMEOUT);
         string version;
-        if (HOST_INFO::get_docker_version_string(type, reply.c_str(), version)) {
+        if (HOST_INFO::get_docker_version_string(
+            type, reply.c_str(), version
+        )) {
             wd.docker_version = version;
             wd.docker_type = type;
             ret = true;
