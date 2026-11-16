@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2022 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -729,7 +729,7 @@ static void handle_get_project_init_status(GUI_RPC_CONN& grc) {
     // project init file, delete the file.
     //
     for (PROJECT* p: gstate.projects) {
-        if (urls_match(p->master_url, gstate.project_init.url)) {
+        if (urls_match(p->master_url, gstate.project_init.url.c_str())) {
             gstate.project_init.remove();
             break;
         }
@@ -742,10 +742,10 @@ static void handle_get_project_init_status(GUI_RPC_CONN& grc) {
         "    %s\n"
         "    %s\n"
         "</get_project_init_status>\n",
-        gstate.project_init.url,
-        gstate.project_init.name,
-        strlen(gstate.project_init.account_key)?"<has_account_key/>":"",
-        gstate.project_init.embedded?"<embedded/>":""
+        gstate.project_init.url.c_str(),
+        gstate.project_init.name.c_str(),
+        gstate.project_init.account_key.empty() ? "" : "<has_account_key/>",
+        gstate.project_init.embedded ? "<embedded/>" : ""
     );
 }
 
@@ -855,12 +855,12 @@ static void handle_project_attach(GUI_RPC_CONN& grc) {
     // Get URL/auth from project_init.xml?
     //
     if (use_config_file) {
-        if (!strlen(gstate.project_init.url)) {
+        if (gstate.project_init.url.empty()) {
             grc.mfout.printf("<error>Missing URL</error>\n");
             return;
         }
 
-        if (!strlen(gstate.project_init.account_key)) {
+        if (gstate.project_init.account_key.empty()) {
             grc.mfout.printf("<error>Missing authenticator</error>\n");
             return;
         }
@@ -906,7 +906,7 @@ static void handle_project_attach(GUI_RPC_CONN& grc) {
     // delete the file, otherwise we'll just
     // reattach the next time the client starts
     //
-    if (!strcmp(url.c_str(), gstate.project_init.url)) {
+    if (url == gstate.project_init.url) {
         retval = gstate.project_init.remove();
         if (retval) {
             msg_printf(NULL, MSG_INTERNAL_ERROR,

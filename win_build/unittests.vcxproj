@@ -83,6 +83,7 @@
     <ClCompile Include="..\tests\unit-tests\lib\test_base64.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_util.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_md5_file.cpp" />
+    <ClCompile Include="..\tests\unit-tests\lib\test_project_init.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_shmem.cpp" />
     <ClCompile Include="..\tests\unit-tests\lib\test_zip.cpp" />
     <ClCompile Include="..\tests\unit-tests\vboxwrapper\test_vbox_common.cpp" />
