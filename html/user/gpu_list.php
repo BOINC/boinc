@@ -164,8 +164,10 @@ function gpucmp($x1, $x2) {
     return $x1->avg_time > $x2->avg_time;
 }
 
+// show list of models, either for an OS or total
+//
 function show_list($models, $name) {
-    echo "<td><h2>$name</h2>\n";
+    echo "<td><h3>$name</h3>\n";
     if (!count($models)) {
         echo tra("No GPU tasks reported")."</td>\n";
         return;
@@ -191,7 +193,7 @@ function show_list($models, $name) {
 }
 
 function show_vendor($vendor, $x) {
-    echo "<h3>$vendor</h3>\n";
+    echo "<h2>$vendor</h2>\n";
     if (!count($x->total)) {
         echo tra("No GPU tasks reported");
         return;
