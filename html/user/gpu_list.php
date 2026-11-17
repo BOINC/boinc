@@ -191,7 +191,7 @@ function show_list($models, $name) {
 }
 
 function show_vendor($vendor, $x) {
-    echo "<h2>$vendor</h2>\n";
+    echo "<h3>$vendor</h3>\n";
     if (!count($x->total)) {
         echo tra("No GPU tasks reported");
         return;
@@ -212,7 +212,8 @@ function show_vendor($vendor, $x) {
     show_list($x->win, "Windows");
     show_list($x->linux, "Linux");
     show_list($x->mac, "Mac");
-    echo "</tr></table>\n";
+    echo "</tr>";
+    end_table();
 }
 
 $d = get_cached_data(86400);
@@ -232,7 +233,7 @@ show_vendor("NVIDIA", $data->cuda);
 show_vendor("ATI/AMD", $data->ati);
 show_vendor("Intel", $data->intel_gpu);
 show_vendor("Apple", $data->apple_gpu);
-echo "<p>Generated ".time_str($data->time);
+echo "<p><p>Generated ".time_str($data->time);
 page_tail();
 
 ?>
