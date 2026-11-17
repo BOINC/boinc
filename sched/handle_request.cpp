@@ -779,7 +779,7 @@ int send_result_abort() {
             );
             // send user message
             char buf[256];
-            sprintf(buf, "Result %s is no longer usable", orp.name);
+            snprintf(buf, sizeof(buf), "Result %s is no longer usable", orp.name);
             g_reply->insert_message(buf, "low");
         } else if (orp.abort_if_not_started) {
             g_reply->result_abort_if_not_starteds.push_back(orp.name);

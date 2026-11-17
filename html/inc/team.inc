@@ -243,12 +243,12 @@ function display_team_members($team, $offset, $sort_by) {
             if ($sort_by == "total_credit") {
                 $x[] = tra('Total credit');
             } else {
-                $x[] = "<href=team_members.php?teamid=$team->id&amp;sort_by=total_credit&amp;offset=$offset>".tra('Total credit')."</a>";
+                $x[] = "<a href=team_members.php?teamid=$team->id&amp;sort_by=total_credit&amp;offset=$offset>".tra('Total credit')."</a>";
             }
             if ($sort_by == "expavg_credit") {
                 $x[] = tra('Recent average credit');
             } else {
-                $x[] = "<href=team_members.php?teamid=$team->id&amp;sort_by=expavg_credit&amp;offset=$offset>".tra('Recent average credit').'</a>';
+                $x[] = "<a href=team_members.php?teamid=$team->id&amp;sort_by=expavg_credit&amp;offset=$offset>".tra('Recent average credit').'</a>';
             }
         }
         $a[] = ALIGN_RIGHT;
