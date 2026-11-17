@@ -18,25 +18,6 @@
 #ifndef BOINC_STDWX_H
 #define BOINC_STDWX_H
 
-
-#ifdef _WIN32
-
-// Target Windows 2000 or better with Internet Explorer 5.01 or better
-#ifndef WINVER
-#define WINVER 0x0501
-#endif
-#ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x0501
-#endif
-#ifndef _WIN32_WINDOWS
-#define _WIN32_WINDOWS 0x0501
-#endif
-#ifndef _WIN32_IE
-#define _WIN32_IE 0x0501
-#endif
-
-#endif
-
 #ifdef __APPLE__
 #include <Carbon/Carbon.h>
 
@@ -129,17 +110,6 @@
 #include <wx/dynarray.h>
 
 #ifdef _WIN32
-// Visual Studio 2005 has extended the C Run-Time Library by including "secure"
-// runtime functions and deprecating the previous function prototypes.  Since
-// we need to use the previous prototypes to maintain compatibility with other
-// platforms we are going to disable the deprecation warnings if we are compiling
-// on Visual Studio 2005
-#if _MSC_VER >= 1400
-#ifndef _CRT_SECURE_NO_DEPRECATE
-#define _CRT_SECURE_NO_DEPRECATE
-#endif
-#endif
-
 // Windows Headers
 //
 #include <windows.h>

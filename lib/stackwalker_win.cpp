@@ -165,7 +165,9 @@ BOOL CALLBACK SymbolServerCallbackProc64(UINT_PTR ActionCode, ULONG64 CallbackDa
             bRetVal = TRUE;
             break;
         case SSRVACTION_TRACE:
-            fprintf(stderr, "SSRVDEBUG: %s\n", (PCTSTR)CallbackData);
+            fprintf(stderr, "SSRVDEBUG: %s\n",
+                reinterpret_cast<char*>(CallbackData)
+            );
             bRetVal = TRUE;
             break;
     }
@@ -198,7 +200,9 @@ BOOL CALLBACK SymRegisterCallbackProc64(HANDLE /* hProcess */, ULONG ActionCode,
             bRetVal = TRUE;
             break;
         case CBA_DEBUG_INFO:
-            fprintf(stderr, "DEBUG: %s\n", (PCTSTR)CallbackData);
+            fprintf(stderr, "DEBUG: %s\n",
+                reinterpret_cast<char*>(CallbackData)
+            );
             bRetVal = TRUE;
             break;
     }
