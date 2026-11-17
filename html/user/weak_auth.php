@@ -52,7 +52,7 @@ $account_file = "account_" . rtrim($url, '_') . ".xml";
 
 page_head(tra("Account keys"));
 text_start();
-echo 
+echo
     tra(
         "You can access your account either by using your email address and password, or by using an assigned 'account key'.  Your account key is:"
     ),
