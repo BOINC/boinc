@@ -1289,7 +1289,7 @@ AC_SUBST([LIBZIP_LIBS])
 dnl -----------------------------------------------------------------------
 fi
 
-dnl --------- fmt (required for server) -----------------------------------
+dnl --------------------------- fmt  --------------------------------------
 PKG_CHECK_MODULES([FMT], [fmt], [have_fmt=yes], [have_fmt=no])
 AS_IF([test "x${have_fmt}" = "xyes"], [
   AC_SUBST([FMT_CFLAGS])
