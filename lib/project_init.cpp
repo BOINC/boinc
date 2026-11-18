@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2020 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,7 +20,6 @@
 #else
 #include "config.h"
 #include <cstdio>
-#include <cstring>
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -30,14 +29,15 @@
 #include "filesys.h"
 #include "url.h"
 #include "parse.h"
-#include "str_replace.h"
 
 #include "project_init.h"
 
+constexpr char PROJECT_INIT_FILENAME[] = "project_init.xml";
+
 void PROJECT_INIT::clear() {
-    safe_strcpy(url, "");
-    safe_strcpy(name, "");
-    safe_strcpy(account_key, "");
+    url.clear();
+    name.clear();
+    account_key.clear();
     embedded = false;
 }
 
@@ -48,17 +48,19 @@ PROJECT_INIT::PROJECT_INIT() {
 int PROJECT_INIT::init() {
     clear();
     FILE* f = fopen(PROJECT_INIT_FILENAME, "r");
-    if (!f) return 0;
+    if (!f) {
+        return 0;
+    }
 
     MIOFILE mf;
     mf.init_file(f);
     XML_PARSER xp(&mf);
     while (!xp.get_tag()) {
         if (xp.match_tag("/project_init")) break;
-        else if (xp.parse_str("name", name, sizeof(name))) continue;
-        else if (xp.parse_str("account_key", account_key, sizeof(account_key))) continue;
-        else if (xp.parse_str("url", url, sizeof(url))) {
-            canonicalize_master_url(url, sizeof(url));
+        else if (xp.parse_string("name", name)) continue;
+        else if (xp.parse_string("account_key", account_key)) continue;
+        else if (xp.parse_string("url", url)) {
+            canonicalize_master_url(url);
             continue;
         }
         else if (xp.parse_bool("embedded", embedded)) continue;
@@ -75,7 +77,9 @@ int PROJECT_INIT::remove() {
 
 int PROJECT_INIT::write() {
     FILE* f = fopen(PROJECT_INIT_FILENAME, "w");
-    if (!f) return ERR_FOPEN;
+    if (!f) {
+        return ERR_FOPEN;
+    }
 
     fprintf(f,
         "<project_init>\n"
@@ -84,9 +88,9 @@ int PROJECT_INIT::write() {
         "  <account_key>%s</account_key>\n"
         "  <embedded>%d</embedded>\n"
         "</project_init>\n",
-        url,
-        name,
-        account_key,
+        url.c_str(),
+        name.c_str(),
+        account_key.c_str(),
         embedded
     );
     fclose(f);

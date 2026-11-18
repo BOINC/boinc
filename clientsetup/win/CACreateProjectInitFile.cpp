@@ -82,20 +82,15 @@ private:
                 _T("Detected command line parameters"));
 
             PROJECT_INIT pi;
-            strncpy(pi.url, boinc_wide_to_ascii(strProjectInitUrl).c_str(),
-                sizeof(pi.url) - 1);
+            pi.url = std::move(boinc_wide_to_ascii(strProjectInitUrl));
             if (!project_name.empty()) {
-                strncpy(pi.name, boinc_wide_to_ascii(project_name).c_str(),
-                    sizeof(pi.name) - 1);
+                pi.name =std::move(boinc_wide_to_ascii(project_name));
             }
             else {
-                strncpy(pi.name,
-                    boinc_wide_to_ascii(strProjectInitUrl).c_str(),
-                    sizeof(pi.name) - 1);
+                pi.name = std::move(boinc_wide_to_ascii(strProjectInitUrl));
             }
-            strncpy(pi.account_key,
-                boinc_wide_to_ascii(strProjectInitAuthenticator).c_str(),
-                sizeof(pi.account_key) - 1);
+            pi.account_key =
+                std::move(boinc_wide_to_ascii(strProjectInitAuthenticator));
             pi.embedded = false;
             pi.write();
         }

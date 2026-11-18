@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -853,9 +853,12 @@ int CLIENT_STATE::init() {
 
     // if project_init.xml specifies an account, attach
     //
-    if (strlen(project_init.url) && strlen(project_init.account_key)) {
+    if (!project_init.url.empty() && !project_init.account_key.empty()) {
         add_project(
-            project_init.url, project_init.account_key, project_init.name, "",
+            project_init.url.c_str(),
+            project_init.account_key.c_str(),
+            project_init.name.c_str(),
+            "",
             false
         );
         project_init.remove();
