@@ -91,7 +91,7 @@ stage_file_native_DEPENDENCIES = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC)
 
 remote_submit_test_SOURCES = remote_submit_test.cpp ../lib/remote_submit.cpp
 remote_submit_test_LDADD = $(SERVERLIBS) -lcurl
-remote_submit_test_DEPENDENCIES = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC)
+remote_submit_test_DEPENDENCIES = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC) $(FMT_LIBS)
 
 clean: clean-am
 	rm -f *.gcno

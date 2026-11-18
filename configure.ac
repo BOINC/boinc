@@ -1289,7 +1289,6 @@ AC_SUBST([LIBZIP_LIBS])
 dnl -----------------------------------------------------------------------
 fi
 
-if test "${enable_server}" = yes; then
 dnl --------- fmt (required for server) -----------------------------------
 PKG_CHECK_MODULES([FMT], [fmt], [have_fmt=yes], [have_fmt=no])
 AS_IF([test "x${have_fmt}" = "xyes"], [
@@ -1324,7 +1323,6 @@ ERROR: fmt development files not found. They are required for the BOINC library.
   AC_LANG_POP([C++])
 ])
 dnl -----------------------------------------------------------------------
-fi
 
 dnl Heres another way to set up host-specific stuff
 AM_CONDITIONAL(OS_DARWIN, [echo $host_os | grep '^darwin' > /dev/null])

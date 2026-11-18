@@ -20,6 +20,7 @@
           "name": "libzip",
           "default-features": false
         },
-        "nlohmann-json"
+        "nlohmann-json",
+        "fmt"
     ]
 }
