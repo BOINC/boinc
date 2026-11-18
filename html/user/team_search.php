@@ -112,7 +112,7 @@ function show_list($list) {
             </tr>
         ";
     }
-    echo "</table>";
+    end_table();
 }
 
 function show_teams_html($list, $params) {
