@@ -1297,7 +1297,7 @@ AS_IF([test "x${have_fmt}" = "xyes"], [
 ])
 AS_IF([test "x${have_fmt}" != "xyes"], [
   AC_LANG_PUSH([C++])
-  AC_CHECK_HEADER([fmt/core.h], [], [
+  AC_CHECK_HEADER([fmt/format.h], [], [
     AC_MSG_ERROR([
 ================================================================================
 ERROR: fmt development files not found. They are required for the BOINC library.
@@ -1309,7 +1309,7 @@ ERROR: fmt development files not found. They are required for the BOINC library.
   ])
   save_LIBS="$LIBS"
   LIBS="$LIBS -lfmt"
-  AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <fmt/core.h>]], [[fmt::print("test");]])], [], [
+  AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <fmt/format.h>]], [[fmt::print("test");]])], [], [
     AC_MSG_ERROR([
 ================================================================================
 ERROR: fmt development files not found. They are required for the BOINC library.

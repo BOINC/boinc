@@ -26,7 +26,7 @@
 #include <vector>
 #include <string>
 #include <string.h>
-#include <fmt/core.h>
+#include <fmt/format.h>
 
 #include "parse.h"
 #include "str_util.h"

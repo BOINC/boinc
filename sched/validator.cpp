@@ -59,7 +59,7 @@
 #include <cstdlib>
 #include <string>
 #include <signal.h>
-#include <fmt/core.h>
+#include <fmt/format.h>
 
 #include "boinc_db.h"
 #include "util.h"

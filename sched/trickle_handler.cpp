@@ -34,7 +34,7 @@
 #include "config.h"
 #include <unistd.h>
 #include <string>
-#include <fmt/core.h>
+#include <fmt/format.h>
 
 using std::string;
 using fmt::format;
