@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -67,7 +67,7 @@ struct WSL_CMD {
     // Use read_from_pipe() to get the output.
     //
     int run_program_in_wsl(
-        WSL_DISTRO&, const std::string command,
+        WSL_DISTRO&, const std::string& command,
         bool use_cwd = false
     );
 };
