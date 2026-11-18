@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2019 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -28,10 +28,10 @@
 #include <cstdio>
 #include <cstring>
 #include <unistd.h>
-#endif
-
 #include <vector>
 #include <string>
+#endif
+
 using std::vector;
 using std::string;
 
@@ -197,25 +197,24 @@ void show_alerts(RPC_CLIENT &rpc) {
 
 ////////////// --get_task_summary start ////////////////
 
-typedef vector<const char*> STR_LIST;
+typedef vector<string> STR_LIST;
 
 // given: a list of lines, each consisting of n columns
 // for each column: find the longest entry.
 // Then display the lines so the columns line up.
 //
-void show_str_lists(vector<STR_LIST> &lines, size_t ncols) {
+void show_str_lists(const vector<STR_LIST> &lines, size_t ncols) {
     vector<int> lengths;
-    size_t i;
-    for (i=0; i<ncols; i++) {
+    for (size_t i = 0; i < ncols; ++i) {
         size_t max = 0;
         for (const STR_LIST& s: lines) {
-            max = std::max(max, strlen(s[i]));
+            max = std::max(max, s[i].length());
         }
         lengths.push_back(static_cast<int>(max));
     }
     for (const STR_LIST &line : lines) {
-        for (i=0; i<ncols; i++) {
-            printf("%-*s  ", lengths[i], line[i]);
+        for (size_t i = 0; i < ncols; ++i) {
+            printf("%-*s  ", lengths[i], line[i].c_str());
         }
         printf("\n");
     }
@@ -233,17 +232,6 @@ void show_str_lists(vector<STR_LIST> &lines, size_t ncols) {
 // r: resource usage
 // w: WU name
 //
-
-struct RESULT_INFO {
-    char project_name[256];
-    char pct_done[256];
-    char elapsed_time[256];
-    char deadline[256];
-    char status[256];
-    char resource_usage[256];
-    char wu_name[256];
-};
-#define NCOLS 7
 
 void check_task_options(string &options) {
     for (char opt: options) {
@@ -297,57 +285,60 @@ int show_task_summary(RPC_CLIENT &rpc, const string &options) {
         retval = rpc.get_project_status(ps);
         if (retval) return retval;
     }
-    for (RESULT* r: results.results) {
-        RESULT_INFO* ri = new RESULT_INFO;
+    for (const RESULT* r: results.results) {
         STR_LIST line;
         for (char opt2: options) {
+            string column;
+            constexpr size_t buf_size = 256;
+            char buf[buf_size];
             switch(opt2) {
             case 'p':
-                strcpy(ri->project_name, r->project_url);
+                column = r->project_url;
                 for (PROJECT* p: ps.projects) {
                     if (!strcmp(p->master_url, r->project_url)) {
-                        strcpy(ri->project_name, p->project_name.c_str());
+                        column = p->project_name;
                         break;
                     }
                 }
-                line.push_back(ri->project_name);
+                line.emplace_back(std::move(column));
                 break;
             case 'c':
                 if (r->scheduler_state > CPU_SCHED_UNINITIALIZED) {
-                    sprintf(ri->pct_done, "%.2f%%", r->fraction_done*100);
+                    snprintf(buf, buf_size, "%.2f%%", r->fraction_done * 100);
+                    column = buf;
                 } else {
-                    strcpy(ri->pct_done, "---");
+                    column = "---";
                 }
-                line.push_back(ri->pct_done);
+                line.emplace_back(std::move(column));
                 break;
             case 'e':
                 if (r->scheduler_state > CPU_SCHED_UNINITIALIZED) {
-                    strcpy(ri->elapsed_time, timediff_format(r->elapsed_time).c_str());
+                    column = timediff_format(r->elapsed_time);
                 } else {
-                    strcpy(ri->elapsed_time, "---");
+                    column = "---";
                 }
-                line.push_back(ri->elapsed_time);
+                line.emplace_back(std::move(column));
                 break;
             case 'd':
-                strcpy(ri->deadline, time_to_string(r->report_deadline));
-                line.push_back(ri->deadline);
+                line.emplace_back(time_to_string(r->report_deadline));
                 break;
             case 's':
-                strcpy(ri->status, active_task_state_string(r->active_task_state));
-                downcase_string(ri->status);
-                line.push_back(ri->status);
+                column = active_task_state_string(r->active_task_state);
+                downcase_string(column);
+                line.emplace_back(std::move(column));
                 break;
             case 'r':
-                strcpy(ri->resource_usage, strlen(r->resources)?r->resources:"1 CPU");
-                line.push_back(ri->resource_usage);
+                line.emplace_back(strlen(r->resources) ?
+                    r->resources :
+                    "1 CPU"
+                );
                 break;
             case 'w':
-                strcpy(ri->wu_name, r->wu_name);
-                line.push_back(ri->wu_name);
+                line.emplace_back(r->wu_name);
                 break;
             }
         }
-        lines.push_back(line);
+        lines.emplace_back(std::move(line));
     }
     show_str_lists(lines, options.length());
     return 0;
@@ -851,7 +842,7 @@ int main(int argc, char** argv) {
         APP_CONFIGS ac;
         APP_CONFIG a;
         ac.clear();
-        strcpy(a.name, "uppercase");
+        safe_strcpy(a.name, "uppercase");
         a.max_concurrent = 2;
         ac.app_configs.push_back(a);
         retval = rpc.set_app_config(next_arg(argc, argv, i), ac);
