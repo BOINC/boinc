@@ -924,4 +924,23 @@ struct CONSENT_TYPE {
     void clear();
 };
 
+struct STICKY_FILE {
+    DB_ID_TYPE id;
+    double create_time;
+    DB_ID_TYPE user_id;
+    char md5[64];
+    double size;
+    double compressed_size;
+    char remote_url[256];
+};
+
+struct STICKY_FILE_REF {
+    DB_ID_TYPE id;
+    double create_time;
+    DB_ID_TYPE user_id;
+    DB_ID_TYPE batch_id;
+    char infile_name[256];
+    char sandbox_name[256];
+};
+
 #endif
