@@ -21,7 +21,7 @@ include $(top_srcdir)/Makefile.incl
 AM_CPPFLAGS += $(MYSQL_CFLAGS) $(PTHREAD_CFLAGS)
 AM_LDFLAGS += -static
 
-SCHED_DEPS = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC) $(MYSQL_LIBS) $(PTHREAD_LIBS) $(RSA_LIBS) $(SSL_LIBS)
+SCHED_DEPS = libsched.la $(LIBBOINC_CRYPT) $(LIBBOINC) $(MYSQL_LIBS) $(PTHREAD_LIBS) $(RSA_LIBS) $(SSL_LIBS) $(FMT_LIBS)
 
 if ENABLE_LIBRARIES
 
@@ -372,7 +372,7 @@ schedcgi_PROGRAMS += fcgi fcgi_file_upload_handler
 
 fcgi_SOURCES = $(cgi_sources)
 fcgi_CPPFLAGS = -D_USING_FCGI_ $(AM_CPPFLAGS)
-fcgi_LDADD = libsched_fcgi.la $(LIBBOINC_CRYPT) $(LIBBOINC_FCGI) -lfcgi $(MYSQL_LIBS) $(PTHREAD_LIBS) $(RSA_LIBS) $(SSL_LIBS)
+fcgi_LDADD = libsched_fcgi.la $(LIBBOINC_CRYPT) $(LIBBOINC_FCGI) -lfcgi $(MYSQL_LIBS) $(PTHREAD_LIBS) $(RSA_LIBS) $(SSL_LIBS) $(FMT_LIBS)
 fcgi_DEPENDENCIES = libsched_fcgi.la $(LIBBOINC_CRYPT) $(LIBBOINC_FCGI)
 
 fcgi_file_upload_handler_SOURCES = file_upload_handler.cpp sched_config.cpp sched_util_basic.cpp sched_limit.cpp

@@ -66,32 +66,32 @@ AM_CXXFLAGS += $(MYSQL_CFLAGS)
 AM_LDFLAGS += -static
 
 cancel_jobs_SOURCES = cancel_jobs.cpp
-cancel_jobs_LDADD = $(SERVERLIBS)
-cancel_jobs_DEPENDENCIES = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC)
+cancel_jobs_LDADD = $(SERVERLIBS) $(FMT_LIBS)
+cancel_jobs_DEPENDENCIES = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC) $(FMT_LIBS)
 
 create_work_SOURCES = create_work.cpp
-create_work_LDADD = $(SERVERLIBS)
-create_work_DEPENDENCIES = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC)
+create_work_LDADD = $(SERVERLIBS) $(FMT_LIBS)
+create_work_DEPENDENCIES = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC) $(FMT_LIBS)
 
 dir_hier_path_SOURCES = dir_hier_path.cpp
-dir_hier_path_LDADD = $(SERVERLIBS)
-dir_hier_path_DEPENDENCIES = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC)
+dir_hier_path_LDADD = $(SERVERLIBS) $(FMT_LIBS)
+dir_hier_path_DEPENDENCIES = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC) $(FMT_LIBS)
 
 dir_hier_move_SOURCES = dir_hier_move.cpp
-dir_hier_move_LDADD = $(SERVERLIBS)
-dir_hier_move_DEPENDENCIES = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC)
+dir_hier_move_LDADD = $(SERVERLIBS) $(FMT_LIBS)
+dir_hier_move_DEPENDENCIES = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC) $(FMT_LIBS)
 
 sign_executable_SOURCES = sign_executable.cpp
-sign_executable_LDADD = $(SERVERLIBS_MIN)
-sign_executable_DEPENDENCIES = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC)
+sign_executable_LDADD = $(SERVERLIBS_MIN) $(FMT_LIBS)
+sign_executable_DEPENDENCIES = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC) $(FMT_LIBS)
 
 stage_file_native_SOURCES = stage_file_native.cpp
-stage_file_native_LDADD = $(SERVERLIBS) -lz
-stage_file_native_DEPENDENCIES = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC)
+stage_file_native_LDADD = $(SERVERLIBS) -lz $(FMT_LIBS)
+stage_file_native_DEPENDENCIES = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC) $(FMT_LIBS)
 
 remote_submit_test_SOURCES = remote_submit_test.cpp ../lib/remote_submit.cpp
-remote_submit_test_LDADD = $(SERVERLIBS) -lcurl
-remote_submit_test_DEPENDENCIES = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC)
+remote_submit_test_LDADD = $(SERVERLIBS) -lcurl $(FMT_LIBS)
+remote_submit_test_DEPENDENCIES = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC) $(FMT_LIBS)
 
 clean: clean-am
 	rm -f *.gcno

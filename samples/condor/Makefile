@@ -1,6 +1,6 @@
 # This file is part of BOINC.
 # https://boinc.berkeley.edu
-# Copyright (C) 2025 University of California
+# Copyright (C) 2026 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -85,6 +85,6 @@ distclean-recursive: clean
 boinc_gahp: boinc_gahp.cpp $(BOINC_SOURCE_LIB_DIR)/remote_submit.h $(BOINC_SOURCE_LIB_DIR)/remote_submit.cpp $(BOINC_DIR)/svn_version.h $(BOINC_DIR)/version.h $(MAKEFILE_STDLIB)
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(MINGW_FLAGS) \
 	-o boinc_gahp boinc_gahp.cpp $(BOINC_SOURCE_LIB_DIR)/remote_submit.cpp \
-	-lcurl -lssl -lcrypto -lboinc $(CURL_EXTRA_LDFLAGS) $(MAKEFILE_LDFLAGS) $(STDCPPTC)
+	-lcurl -lssl -lcrypto -lboinc -lfmt $(CURL_EXTRA_LDFLAGS) $(MAKEFILE_LDFLAGS) $(STDCPPTC)
 
 install: all

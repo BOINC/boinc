@@ -33,6 +33,11 @@
 
 #include "config.h"
 #include <unistd.h>
+#include <string>
+#include <fmt/format.h>
+
+using std::string;
+using fmt::format;
 
 #include "boinc_db.h"
 #include "util.h"
@@ -63,13 +68,14 @@ int handled_error = 1;
 //
 bool do_trickle_scan() {
     DB_MSG_FROM_HOST mfh;
-    char buf[256];
     bool found=false;
     int retval;
 
-    sprintf(buf, "where variety='%s' and handled=%d", variety, handled_enum);
+    string clause = format(
+        "where variety='{}' and handled={}", variety, handled_enum
+    );
     while (1) {
-        retval = mfh.enumerate(buf);
+        retval = mfh.enumerate(clause.c_str());
         if (retval) {
             if (retval != ERR_DB_NOT_FOUND) {
                 fprintf(stderr, "lost DB conn\n");

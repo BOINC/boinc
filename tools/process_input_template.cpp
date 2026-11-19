@@ -30,6 +30,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <fmt/format.h>
 
 #include "filesys.h"
 #include "md5_file.h"
@@ -42,6 +43,7 @@
 
 using std::string;
 using std::vector;
+using fmt::format;
 
 // look for file named FILENAME.md5 containing md5sum and length.
 // If found, and newer mod time than file,
@@ -305,8 +307,8 @@ static int process_file_info(
                     var_infile.md5,
                     var_infile.nbytes
                 );
-                strcpy(infile.name, buf2);
-                strcpy(infile.md5, var_infile.md5);
+                safe_strcpy(infile.name, buf2);
+                safe_strcpy(infile.md5, var_infile.md5);
                 infile.nbytes = var_infile.nbytes;
             } else {
                 // normal case. we need to find file size and MD5;
@@ -411,7 +413,7 @@ static int process_workunit(
     const char* command_line,
     const char* additional_xml
 ) {
-    char buf[256], open_name[256];
+    char open_name[256];
     string tmpstr, cmdline;
     int retval, n_file_refs=0, itemp;
 
@@ -438,13 +440,15 @@ static int process_workunit(
                 return ERR_XML_PARSE;
             }
             INFILE_DESC& id = infiles[n_file_refs];
-            sprintf(buf, "    <file_name>%s</file_name>\n", id.name);
-            out += buf;
+            out += format(
+                "    <file_name>{}</file_name>\n", id.name
+            ).c_str();
 
             while (!xp.get_tag()) {
                 if (xp.parse_str("open_name", open_name, sizeof(open_name))) {
-                    sprintf(buf, "    <open_name>%s</open_name>\n", open_name);
-                    out += buf;
+                    out += format(
+                        "    <open_name>{}</open_name>\n", open_name
+                    ).c_str();
                     found_open_name = true;
                     continue;
                 } else if (xp.parse_int("file_number", itemp)) {
@@ -457,8 +461,9 @@ static int process_workunit(
                         boinc::fprintf(stderr, "No open name found and copy_file not specified\n");
                         return ERR_XML_PARSE;
                     } else if (!found_open_name && found_copy_file) {
-                        sprintf(buf, "    <open_name>%s</open_name>\n", id.name);
-                        out += buf;
+                        out += format(
+                            "    <open_name>{}</open_name>\n", id.name
+                        ).c_str();
                     }
                     out += "</file_ref>\n";
                     break;

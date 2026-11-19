@@ -81,123 +81,162 @@ dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
 
-dnl Verify C++11 support
-AC_MSG_CHECKING([whether $CXX supports C++11])
-AC_LANG_PUSH([C++])
-save_CXXFLAGS="$CXXFLAGS"
-for flag in "-std=gnu++11" "-std=gnu++0x" "-std=c++11" "-std=c++0x"; do
-  CXXFLAGS="$save_CXXFLAGS $flag"
-  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
-    #include <memory>
-    #include <array>
-    #include <functional>
-    ]],
-    [[
-    auto ptr = std::make_shared<int>(42);
-    std::array<int, 5> arr = {{1, 2, 3, 4, 5}};
-    auto lambda = [](int x) { return x * 2; };
-    return lambda(*ptr) + arr[0];
-    ]])],
-    [have_cxx11=yes],
-    [have_cxx11=no])
-  if test "x$have_cxx11" = "xyes"; then
-    AC_MSG_RESULT([yes, with $flag])
-    CXXFLAGS="$save_CXXFLAGS"
-    cxx11_flag="$flag"
-    break
-  fi
-done
-if test "x$have_cxx11" != "xyes"; then
-  CXXFLAGS="$save_CXXFLAGS"
-  AC_MSG_RESULT([no])
-  AC_MSG_ERROR([
+AC_ARG_ENABLE(default-std,
+    AS_HELP_STRING([--enable-default-std],
+                   [Forces default c++ standard used by the compiler and disables verification and usage of the supported standard higher that c++11 which is the minimal required standard
+    ]),
+    [default_std=${enableval}],
+    [default_std=no])
+
+if test "x$default_std" = "xyes"; then
+    dnl Verify C++11 support
+    AC_MSG_CHECKING([whether $CXX supports C++11])
+    AC_LANG_PUSH([C++])
+    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+      #include <memory>
+      #include <array>
+      #include <functional>
+      ]],
+      [[
+      auto ptr = std::make_shared<int>(42);
+      std::array<int, 5> arr = {{1, 2, 3, 4, 5}};
+      auto lambda = [](int x) { return x * 2; };
+      return lambda(*ptr) + arr[0];
+      ]])],
+      [have_cxx11=yes],
+      [have_cxx11=no])
+    if test "x$have_cxx11" = "xyes"; then
+      AC_MSG_RESULT([yes])
+    fi
+    if test "x$have_cxx11" != "xyes"; then
+      AC_MSG_RESULT([no])
+      AC_MSG_ERROR([
 ================================================================================
 ERROR: A C++11 compliant compiler is required to build BOINC.
 Please use a newer compiler version (e.g., GCC 4.8+, Clang 3.3+).
 ================================================================================
   ])
-fi
-AC_LANG_POP([C++])
-
-dnl Verify C++14 support
-AC_MSG_CHECKING([whether $CXX supports C++14])
-AC_LANG_PUSH([C++])
-save_CXXFLAGS="$CXXFLAGS"
-for flag in "-std=gnu++14" "-std=gnu++1y" "-std=c++14" "-std=c++1y"; do
-  CXXFLAGS="$save_CXXFLAGS $flag"
-  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
-    #include <memory>
-    #include <array>
-    #include <functional>
-    ]],
-    [[
-    auto ptr = std::make_shared<int>(42);
-    std::array<int, 5> arr = {{1, 2, 3, 4, 5}};
-    auto lambda = [](auto x) { return x * 2; };
-    return lambda(*ptr) + arr[0];
-    ]])],
-    [have_cxx14=yes],
-    [have_cxx14=no])
-  if test "x$have_cxx14" = "xyes"; then
-    AC_MSG_RESULT([yes, with $flag])
-    CXXFLAGS="$save_CXXFLAGS"
-    cxx14_flag="$flag"
-    break
-  fi
-done
-if test "x$have_cxx14" != "xyes"; then
-  CXXFLAGS="$save_CXXFLAGS"
-  AC_MSG_RESULT([no])
-fi
-AC_LANG_POP([C++])
-
-dnl Verify C++17 support
-AC_MSG_CHECKING([whether $CXX supports C++17])
-AC_LANG_PUSH([C++])
-save_CXXFLAGS="$CXXFLAGS"
-for flag in "-std=gnu++17" "-std=gnu++1z" "-std=c++17" "-std=c++1z"; do
-  CXXFLAGS="$save_CXXFLAGS $flag"
-  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
-    #include <memory>
-    #include <array>
-    #include <functional>
-    ]],
-    [[
-    if constexpr (true) {
-    auto ptr = std::make_shared<int>(42);
-    std::array<int, 5> arr = {{1, 2, 3, 4, 5}};
-    auto lambda = [](auto x) { return x * 2; };
-    return lambda(*ptr) + arr[0];
-    }
-    ]])],
-    [have_cxx17=yes],
-    [have_cxx17=no])
-  if test "x$have_cxx17" = "xyes"; then
-    AC_MSG_RESULT([yes, with $flag])
-    CXXFLAGS="$save_CXXFLAGS"
-    cxx17_flag="$flag"
-    break
-  fi
-done
-if test "x$have_cxx17" != "xyes"; then
-  CXXFLAGS="$save_CXXFLAGS"
-  AC_MSG_RESULT([no])
-fi
-AC_LANG_POP([C++])
-
-if test "x$have_cxx17" = "xyes"; then
-  CXXFLAGS="$save_CXXFLAGS $cxx17_flag"
+    fi
+    AC_LANG_POP([C++])
 else
-    if test "x$have_cxx14" = "xyes"; then
-      CXXFLAGS="$save_CXXFLAGS $cxx14_flag"
+    dnl Verify C++11 support
+    AC_MSG_CHECKING([whether $CXX supports C++11])
+    AC_LANG_PUSH([C++])
+    save_CXXFLAGS="$CXXFLAGS"
+    for flag in "-std=gnu++11" "-std=gnu++0x" "-std=c++11" "-std=c++0x"; do
+      CXXFLAGS="$save_CXXFLAGS $flag"
+      AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+        #include <memory>
+        #include <array>
+        #include <functional>
+        ]],
+        [[
+        auto ptr = std::make_shared<int>(42);
+        std::array<int, 5> arr = {{1, 2, 3, 4, 5}};
+        auto lambda = [](int x) { return x * 2; };
+        return lambda(*ptr) + arr[0];
+        ]])],
+        [have_cxx11=yes],
+        [have_cxx11=no])
+      if test "x$have_cxx11" = "xyes"; then
+        AC_MSG_RESULT([yes, with $flag])
+        CXXFLAGS="$save_CXXFLAGS"
+        cxx11_flag="$flag"
+        break
+      fi
+    done
+    if test "x$have_cxx11" != "xyes"; then
+      CXXFLAGS="$save_CXXFLAGS"
+      AC_MSG_RESULT([no])
+      AC_MSG_ERROR([
+================================================================================
+ERROR: A C++11 compliant compiler is required to build BOINC.
+Please use a newer compiler version (e.g., GCC 4.8+, Clang 3.3+).
+================================================================================
+  ])
+    fi
+    AC_LANG_POP([C++])
+
+    dnl Verify C++14 support
+    AC_MSG_CHECKING([whether $CXX supports C++14])
+    AC_LANG_PUSH([C++])
+    save_CXXFLAGS="$CXXFLAGS"
+    for flag in "-std=gnu++14" "-std=gnu++1y" "-std=c++14" "-std=c++1y"; do
+      CXXFLAGS="$save_CXXFLAGS $flag"
+      AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+        #include <memory>
+        #include <array>
+        #include <functional>
+        ]],
+        [[
+        auto ptr = std::make_shared<int>(42);
+        std::array<int, 5> arr = {{1, 2, 3, 4, 5}};
+        auto lambda = [](auto x) { return x * 2; };
+        return lambda(*ptr) + arr[0];
+        ]])],
+        [have_cxx14=yes],
+        [have_cxx14=no])
+      if test "x$have_cxx14" = "xyes"; then
+        AC_MSG_RESULT([yes, with $flag])
+        CXXFLAGS="$save_CXXFLAGS"
+        cxx14_flag="$flag"
+        break
+      fi
+    done
+    if test "x$have_cxx14" != "xyes"; then
+      CXXFLAGS="$save_CXXFLAGS"
+      AC_MSG_RESULT([no])
+    fi
+    AC_LANG_POP([C++])
+
+    dnl Verify C++17 support
+    AC_MSG_CHECKING([whether $CXX supports C++17])
+    AC_LANG_PUSH([C++])
+    save_CXXFLAGS="$CXXFLAGS"
+    for flag in "-std=gnu++17" "-std=gnu++1z" "-std=c++17" "-std=c++1z"; do
+      CXXFLAGS="$save_CXXFLAGS $flag"
+      AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+        #include <memory>
+        #include <array>
+        #include <functional>
+        ]],
+        [[
+        if constexpr (true) {
+        auto ptr = std::make_shared<int>(42);
+        std::array<int, 5> arr = {{1, 2, 3, 4, 5}};
+        auto lambda = [](auto x) { return x * 2; };
+        return lambda(*ptr) + arr[0];
+        }
+        ]])],
+        [have_cxx17=yes],
+        [have_cxx17=no])
+      if test "x$have_cxx17" = "xyes"; then
+        AC_MSG_RESULT([yes, with $flag])
+        CXXFLAGS="$save_CXXFLAGS"
+        cxx17_flag="$flag"
+        break
+      fi
+    done
+    if test "x$have_cxx17" != "xyes"; then
+      CXXFLAGS="$save_CXXFLAGS"
+      AC_MSG_RESULT([no])
+    fi
+    AC_LANG_POP([C++])
+
+    if test "x$have_cxx17" = "xyes"; then
+      CXXFLAGS="$save_CXXFLAGS $cxx17_flag"
     else
-        if test "x$have_cxx11" = "xyes"; then
-          CXXFLAGS="$save_CXXFLAGS $cxx11_flag"
+        if test "x$have_cxx14" = "xyes"; then
+          CXXFLAGS="$save_CXXFLAGS $cxx14_flag"
+        else
+            if test "x$have_cxx11" = "xyes"; then
+              CXXFLAGS="$save_CXXFLAGS $cxx11_flag"
+            fi
         fi
     fi
 fi
-
 dnl ------
+
 dnl Workaround for autoconf >= 2.65 backwards incompatibility
 m4_pattern_allow([AC_PROG_OBJCXX])
 m4_ifdef([AC_PROG_OBJCXX],[AC_PROG_OBJCXX],)
@@ -1289,8 +1328,7 @@ AC_SUBST([LIBZIP_LIBS])
 dnl -----------------------------------------------------------------------
 fi
 
-if test "${enable_server}" = yes; then
-dnl --------- fmt (required for server) -----------------------------------
+dnl --------------------------- fmt  --------------------------------------
 PKG_CHECK_MODULES([FMT], [fmt], [have_fmt=yes], [have_fmt=no])
 AS_IF([test "x${have_fmt}" = "xyes"], [
   AC_SUBST([FMT_CFLAGS])
@@ -1298,7 +1336,7 @@ AS_IF([test "x${have_fmt}" = "xyes"], [
 ])
 AS_IF([test "x${have_fmt}" != "xyes"], [
   AC_LANG_PUSH([C++])
-  AC_CHECK_HEADER([fmt/core.h], [], [
+  AC_CHECK_HEADER([fmt/format.h], [], [
     AC_MSG_ERROR([
 ================================================================================
 ERROR: fmt development files not found. They are required for the BOINC library.
@@ -1310,7 +1348,7 @@ ERROR: fmt development files not found. They are required for the BOINC library.
   ])
   save_LIBS="$LIBS"
   LIBS="$LIBS -lfmt"
-  AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <fmt/core.h>]], [[fmt::print("test");]])], [], [
+  AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <fmt/format.h>]], [[fmt::print("test");]])], [], [
     AC_MSG_ERROR([
 ================================================================================
 ERROR: fmt development files not found. They are required for the BOINC library.
@@ -1324,7 +1362,6 @@ ERROR: fmt development files not found. They are required for the BOINC library.
   AC_LANG_POP([C++])
 ])
 dnl -----------------------------------------------------------------------
-fi
 
 dnl Heres another way to set up host-specific stuff
 AM_CONDITIONAL(OS_DARWIN, [echo $host_os | grep '^darwin' > /dev/null])
