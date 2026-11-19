@@ -107,10 +107,8 @@ if test "x$default_std" = "xyes"; then
       [have_cxx11=no])
     if test "x$have_cxx11" = "xyes"; then
       AC_MSG_RESULT([yes])
-      break
     fi
     if test "x$have_cxx11" != "xyes"; then
-      CXXFLAGS="$save_CXXFLAGS"
       AC_MSG_RESULT([no])
       AC_MSG_ERROR([
 ================================================================================
