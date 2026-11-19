@@ -850,3 +850,27 @@ SELECT userid,
          WHERE consent.userid = filter.userid
            AND consent.consent_type_id = filter.consent_type_id
            AND filter.consent_time > consent.consent_time);
+
+create table sticky_file {
+    id                      integer         not null auto_increment,
+    create_time             double          not null,
+    user_id                 integer         not null default 0,
+    md5                     varchar(63)     not null default '',
+    size                    double          not null default 0,
+    size_compressed         double          not null default 0,
+    physical_name           varchar(255)    not null default 0,
+    remote_url              varchar(255)    not null default '',
+    primary key (id),
+    unique(md5)
+) engine=InnoDB;
+
+create table sticky_file_ref {
+    id                      integer         not null auto_increment,
+    create_time             double          not null,
+    user_id                 integer         not null default 0,
+    batch_id                integer         not null default 0,
+    workunit_id             integer         not null default 0,
+    infile_name             varchar(255)    not null default '',
+    sandbox_name            varchar(255)    not null default '',
+    primary key (id)
+) engine=InnoDB;

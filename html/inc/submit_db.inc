@@ -169,4 +169,28 @@ class BoincBatchFileAssoc {
     }
 }
 
+#[AllowDynamicProperties]
+class BoincStickyFile {
+    static function insert($clause) {
+        $db = BoincDb::get();
+        return $db->insert('sticky_file', $clause);
+    }
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('sticky_file', 'BoincStickyFile', $clause);
+    }
+}
+
+#[AllowDynamicProperties]
+class BoincStickyFileRef {
+    static function insert($clause) {
+        $db = BoincDb::get();
+        return $db->insert('sticky_file_ref', $clause);
+    }
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('sticky_file_ref', 'BoincStickyFileRef', $clause);
+    }
+}
+
 ?>
