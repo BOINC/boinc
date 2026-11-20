@@ -154,7 +154,7 @@ int JOB_KEYWORDS::parse(XML_PARSER& xp) {
             KEYWORD kw;
             int retval = kw.parse(xp);
             if (retval) return retval;
-            keywords.push_back(kw);
+            keywords.push_back(std::move(kw));
         }
     }
     return ERR_XML_PARSE;

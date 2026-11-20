@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // https://boinc.berkeley.edu
-// Copyright (C) 2024 University of California
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -34,6 +34,8 @@ void WSL_DISTRO::clear() {
     docker_version = "";
     docker_compose_version = "";
     boinc_buda_runner_version = 0;
+    docker_type = NONE;
+    docker_compose_type = NONE;
 }
 
 void WSL_DISTRO::write_xml(MIOFILE& f) {
@@ -126,7 +128,7 @@ int WSL_DISTRO::parse(XML_PARSER& xp) {
         if (xp.match_tag("wsl_gpu")) {
             WSL_GPU wg;
             if (wg.parse(xp) == 0) {
-                wsl_gpus.push_back(wg);
+                wsl_gpus.push_back(std::move(wg));
             }
         }
     }
@@ -166,7 +168,7 @@ int WSL_DISTROS::parse(XML_PARSER& xp) {
         {
             WSL_DISTRO wd;
             wd.parse(xp);
-            distros.push_back(wd);
+            distros.push_back(std::move(wd));
         }
     }
     return ERR_XML_PARSE;
