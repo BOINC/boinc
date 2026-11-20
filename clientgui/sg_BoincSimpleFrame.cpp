@@ -916,7 +916,23 @@ void CSimpleFrame::OnEventLog(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
+// See the matching comment in CAdvancedFrame::OnDarkModeChanged: one theme
+// change delivers several wxEVT_SYS_COLOUR_CHANGED events, and rebuilding the
+// panels once per event destroys panels the previous rebuild has just created.
+// Collapse them into a single deferred rebuild.
+//
 void CSimpleFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) ) {
+    if (m_themeChangeRebuildPending) {
+        return;
+    }
+    m_themeChangeRebuildPending = true;
+    CallAfter([this]() {
+        m_themeChangeRebuildPending = false;
+        RebuildForThemeChange();
+    });
+}
+
+void CSimpleFrame::RebuildForThemeChange() {
     wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
     wxGetApp().SetIsDarkMode(appearance.IsDark());
 

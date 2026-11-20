@@ -1977,7 +1977,26 @@ void CAdvancedFrame::OnSelectAll(wxCommandEvent& WXUNUSED(event)) {
 // On the Mac, we must destroy and recreate each wxListCtrl
 // to properly transition between dark mode and regular mode
 //
+// A single theme change delivers more than one wxEVT_SYS_COLOUR_CHANGED event,
+// and every one of them destroys and recreates all six notebook pages.  A
+// second rebuild walks into the list controls the first one has just created and
+// is still using, and the Manager dies with an access violation.  Collapse a
+// burst of notifications into one rebuild, deferred until the current message
+// has been fully dispatched so no native window is destroyed while Windows is
+// still iterating windows for this change.
+//
 void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) ) {
+    if (m_themeChangeRebuildPending) {
+        return;
+    }
+    m_themeChangeRebuildPending = true;
+    CallAfter([this]() {
+        m_themeChangeRebuildPending = false;
+        RebuildForThemeChange();
+    });
+}
+
+void CAdvancedFrame::RebuildForThemeChange() {
     CBOINCBaseView* theView = NULL;;
     CBOINCListCtrl* theListCtrl = NULL;
     long bottomItem = 0;
