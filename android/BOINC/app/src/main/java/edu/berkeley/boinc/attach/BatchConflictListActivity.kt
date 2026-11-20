@@ -153,15 +153,21 @@ class BatchConflictListActivity : AppCompatActivity(), IndividualCredentialInput
         }
     }
 
-    override fun onFinish(project: ProjectAttachWrapper, login: Boolean, email: String, name: String, pwd: String) {
+    override fun onFinish(project: ProjectAttachWrapper, login: Boolean, email: String, name: String, pwd: String): Boolean {
         Logging.logVerbose(Logging.Category.USER_ACTION, "BatchConflictListActivity onFinish of dialog")
 
-        if (asIsBound && !attachService!!.verifyInput(email, name, pwd)) {
-            return
+        if (!asIsBound) {
+            return false
+        }
+        val config = project.config
+        val inputs = if (config != null) CredentialInputs.forProjects(listOf(config), login) else CredentialInputs.ALL
+        if (!attachService!!.verifyInput(email, name, pwd, inputs)) {
+            return false
         }
         lifecycleScope.launch {
             attachProject(project, login, email, name, pwd)
         }
+        return true
     }
 
     override val defaultInput: List<String?>
