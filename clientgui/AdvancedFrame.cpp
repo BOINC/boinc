@@ -1991,8 +1991,16 @@ void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event)
     }
     m_themeChangeRebuildPending = true;
     CallAfter([this]() {
-        m_themeChangeRebuildPending = false;
+        // The frame can be destroyed between this call and the deferred
+        // rebuild (OnClose, or a GUI-mode switch), and the rebuild deletes
+        // and re-creates the Event Log as well: do not touch it then.
+        //
+        if (IsBeingDeleted()) return;
         RebuildForThemeChange();
+        // Clear the flag only now.  A notification that arrives while the
+        // rebuild is under way must not start a second, overlapping one.
+        //
+        m_themeChangeRebuildPending = false;
     });
 }
 

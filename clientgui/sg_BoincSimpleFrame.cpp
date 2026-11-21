@@ -927,8 +927,13 @@ void CSimpleFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) )
     }
     m_themeChangeRebuildPending = true;
     CallAfter([this]() {
-        m_themeChangeRebuildPending = false;
+        // Same lifetime hazard as the advanced frame: the panels are
+        // destroyed and recreated below, so do nothing if the frame is
+        // already being deleted.
+        //
+        if (IsBeingDeleted()) return;
         RebuildForThemeChange();
+        m_themeChangeRebuildPending = false;
     });
 }
 
