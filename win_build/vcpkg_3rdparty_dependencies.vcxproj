@@ -11,7 +11,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
   <PropertyGroup>
-    <CudaVersion>13.3.0</CudaVersion>
+    <CudaVersion>13.5.0</CudaVersion>
     <CudaGuardFile>$(CudaRootDir)\cuda.$(CudaVersion).lock</CudaGuardFile>
   </PropertyGroup>
   <Target Name="CleanUpCudaFolder" BeforeTargets="CreateFolders" Condition="Exists($(CudaRootDir)) And !Exists($(CudaGuardFile))">
