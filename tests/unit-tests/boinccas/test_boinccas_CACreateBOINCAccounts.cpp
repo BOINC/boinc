@@ -32,6 +32,22 @@ namespace test_boinccas {
             test_boinccas_TestBase_WithParam("CreateBOINCAccounts") {
         }
 
+        auto getMasterAccountName() const {
+            if (GetParam() == "2") {
+                return std::string(masterAccountName) + "_"
+                    + testPCName;
+            }
+            return std::string(masterAccountName);
+        }
+
+        auto getProjectAccountName() const {
+            if (GetParam() == "2") {
+                return std::string(projectAccountName) + "_"
+                    + testPCName;
+            }
+            return std::string(projectAccountName);
+        }
+
         void SetUp() override {
             if (userExists(getMasterAccountName())) {
                 userDelete(getMasterAccountName());
@@ -48,22 +64,6 @@ namespace test_boinccas {
             if (userExists(getProjectAccountName())) {
                 userDelete(getProjectAccountName());
             }
-        }
-
-        auto getMasterAccountName() const {
-            if (GetParam() == "2") {
-                return std::string(masterAccountName) + "_"
-                    + testPCName;
-            }
-            return std::string(masterAccountName);
-        }
-
-        auto getProjectAccountName() const {
-            if (GetParam() == "2") {
-                return std::string(projectAccountName) + "_"
-                    + testPCName;
-            }
-            return std::string(projectAccountName);
         }
     };
 
