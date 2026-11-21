@@ -761,6 +761,19 @@ bool CAdvancedFrame::CreateNotebook() {
                                  wxTAB_TRAVERSAL|wxCLIP_CHILDREN|wxNO_BORDER);
     pPanel->SetAutoLayout(TRUE);
 
+    // A window with no background colour of its own has Windows paint it with
+    // whichever colour the theme had for it the first time it was painted, and
+    // that answer is kept for the life of the window: after a runtime theme change
+    // the five pixels the sizer below leaves above the notebook keep the old
+    // colour (171, the classic COLOR_APPWORKSPACE, after switching to the light
+    // theme).  Ask for the colour the padding is supposed to have instead.
+    //
+    pPanel->SetBackgroundColour(
+        wxSystemSettings::GetColour(
+            wxGetApp().GetIsDarkMode() ? wxSYS_COLOUR_WINDOW : wxSYS_COLOUR_BTNFACE
+        )
+    );
+
     // initialize notebook
     m_pNotebook = new wxNotebook(pPanel, ID_FRAMENOTEBOOK, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN);
 
@@ -797,6 +810,36 @@ bool CAdvancedFrame::RepopulateNotebook() {
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RepopulateNotebook - Function End"));
     return true;
+}
+
+
+// The panel that holds the notebook, the separator line in it and the notebook
+// itself are created once, when the frame is built, and Windows bakes the theme
+// of the moment into them: after a runtime theme change the separator keeps the
+// old 3D highlight and the five pixels between the separator and the tabs keep
+// the old background colour, and no amount of invalidating or WM_THEMECHANGED
+// makes them pick up the new one.  Build them again instead, the way the pages
+// and the Event Log are already rebuilt.
+//
+bool CAdvancedFrame::RecreateNotebookPanel() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RecreateNotebookPanel - Function Begin"));
+
+    if (!m_pNotebook) {
+        return CreateNotebook();
+    }
+
+    wxWindow* pwndPanel = m_pNotebook->GetParent();
+
+    m_pNotebook = NULL;
+    if (pwndPanel) {
+        // Destroy() rather than delete: it is a child window, and this frame is
+        // in the middle of dispatching the notification that asked for this.
+        //
+        pwndPanel->Destroy();
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RecreateNotebookPanel - Function End"));
+    return CreateNotebook();
 }
 
 
@@ -2022,8 +2065,24 @@ void CAdvancedFrame::RebuildForThemeChange() {
         theListCtrl = theView->GetListCtrl();
         bottomItem = theListCtrl->GetTopItem() + theListCtrl->GetCountPerPage() - 1;
     }
-    RepopulateNotebook();
+    RecreateNotebookPanel();
     RestoreState();
+    if (m_pNotebook) {
+        // Same as at the end of the constructor: the generic list controls need
+        // their panel laid out once their state has been restored.
+        //
+        m_pNotebook->GetParent()->Layout();
+    }
+
+    // Same story for the status bar: a native control that keeps the colours it
+    // was created with, so a Manager started in the dark keeps a dark bar after
+    // Windows is switched to light, and the other way round.  Nothing is lost by
+    // re-creating it: the text in it belongs to the static children the
+    // constructor makes, and OnFrameRender() fills them in again on its next tick.
+    //
+    DeleteStatusbar();
+    CreateStatusbar();
+    Layout();
 
     // The last tab label ("Disk") is ellipsed here unless the window is resized
     // TODO: figure out how to replace this hack with a proper fix

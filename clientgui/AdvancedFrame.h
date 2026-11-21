@@ -123,6 +123,7 @@ private:
 
     bool            CreateNotebook();
     bool            RepopulateNotebook();
+    bool            RecreateNotebookPanel();
     bool            CreateNotebookPage( CBOINCBaseView* pwndNewNotebookPage );
     bool            DeleteNotebook();
     bool            CreateStatusbar();
