@@ -60,8 +60,7 @@ public:
     void OnNetworkSelection( wxCommandEvent& event );
 
     void OnSelectAll( wxCommandEvent& event );
-    void OnDarkModeChanged( wxSysColourChangedEvent& event );
-    void RebuildForThemeChange();
+    void RebuildForThemeChange() override;
 
     void OnMenuOpening( wxMenuEvent &event);
     void OnOptions( wxCommandEvent& event );
@@ -114,7 +113,6 @@ private:
 
     wxMenuBar*      m_pMenubar = nullptr;
     wxNotebook*     m_pNotebook = nullptr;
-    bool            m_themeChangeRebuildPending = false;
     CStatusBar*     m_pStatusbar = nullptr;
 
     wxString        m_strBaseTitle;

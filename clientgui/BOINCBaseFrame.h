@@ -62,6 +62,13 @@ public:
     virtual void        OnExit( wxCommandEvent& event );
     virtual void        OnDarkModeChanged( wxSysColourChangedEvent& event );
 
+    // Throw away everything the window has built out of the theme in force when
+    // it was created and build it again from the theme now in force.  Both
+    // frames implement this; it is not pure virtual because
+    // IMPLEMENT_DYNAMIC_CLASS() instantiates CBOINCBaseFrame itself.
+    //
+    virtual void        RebuildForThemeChange();
+
     // Re-apply the window's title-bar theme after a Windows theme change; see
     // the comment on the definition.  Called by the frames' RebuildForThemeChange().
     //
@@ -127,6 +134,17 @@ protected:
     wxArrayString       m_aSelectedComputerMRU;
 
     bool                m_bShowConnectionFailedAlert = false;
+
+    // One theme change is announced by a series of notifications, the last of
+    // which can arrive after RebuildForThemeChange() has already finished; see
+    // the comment on QueueThemeChangeRebuild().
+    //
+    void                QueueThemeChangeRebuild( bool fromSettleTimer = false );
+    void                ArmThemeChangeSettleTimer();
+    void                OnThemeChangeSettle( wxTimerEvent& event );
+    bool                m_themeChangeRebuildPending = false;
+    bool                m_bThemeAppearanceApplied = false;
+    wxTimer*            m_pThemeChangeSettleTimer = nullptr;
 
     virtual int         _GetCurrentViewPage();
 

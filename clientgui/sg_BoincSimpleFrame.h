@@ -118,8 +118,7 @@ public:
     void OnRefreshView( CFrameEvent& event );
     void OnNotification( CFrameEvent& event );
     void OnEventLog(wxCommandEvent& event);
-    void OnDarkModeChanged( wxSysColourChangedEvent& event );
-    void RebuildForThemeChange();
+    void RebuildForThemeChange() override;
 
     void SetMsgsDlgOpen(CDlgMessages* newDlgPtr) { dlgMsgsPtr = newDlgPtr; }
     bool isMessagesDlgOpen() { return (dlgMsgsPtr != NULL); }
@@ -146,7 +145,6 @@ protected:
     wxAcceleratorTable* m_pAccelTable = nullptr;
 
     CSimpleGUIPanel* m_pBackgroundPanel = nullptr;
-    bool             m_themeChangeRebuildPending = false;
 
 
 private:

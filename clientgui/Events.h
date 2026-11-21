@@ -32,6 +32,7 @@
 #define ID_WIZARDATTACHACCOUNTMANAGER           6109
 #define ID_WIZARDUPDATE                         6110
 #define ID_WIZARDDETACH                         6111
+#define ID_THEMECHANGESETTLETIMER               6112
 
 
 //
