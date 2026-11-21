@@ -20,10 +20,10 @@
 #include <string>
 #include <string_view>
 #include <filesystem>
-#include <sstream>
 #include <fstream>
 #include <chrono>
 #include <cwchar>
+#include <format>
 
 #include <openssl/evp.h>
 #include <openssl/md5.h>
@@ -46,13 +46,9 @@ public:
         if (!ofs.is_open()) {
             return;
         }
-        char buf[128];
-        const auto now = std::chrono::system_clock::now();
-        const auto now_c = std::chrono::system_clock::to_time_t(now);
-        std::tm tm{};
-        localtime_s(&tm, &now_c);
-        std::strftime(buf, sizeof(buf), "%a %b %d %H:%M:%S %Y\t", &tm);
-        ofs << buf << message << std::endl;
+        ofs << std::format("{:%a %b %d %H:%M:%S %Y}\t{}\n",
+            std::chrono::system_clock::now(), message
+        );
     }
 
 private:
@@ -116,7 +112,9 @@ static void LoadSplashImage(HDC hdc, HWND hwnd) {
     DeleteDC(hdcMem);
 }
 
-static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+static LRESULT CALLBACK WndProc(
+    HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
+) {
     switch (msg) {
     case WM_PAINT: {
         PAINTSTRUCT ps;
@@ -166,18 +164,17 @@ static std::string computeMD5(const void* buffer, size_t size) {
 
     EVP_MD_CTX_free(mdContext);
 
-    std::ostringstream oss;
-    for (auto i = 0u; i < MD5_DIGEST_LENGTH; ++i) {
-        oss << std::hex << std::setw(2) << std::setfill('0') <<
-            static_cast<int>(md5Digest[i]);
+    std::string md5_str;
+    for (auto i : md5Digest) {
+        md5_str += std::format("{:02x}", i);
     }
 
-    Log("MD5 hash computed successfully: " + oss.str());
-    return oss.str();
+    Log(std::format("MD5 hash computed successfully: {}", md5_str));
+    return md5_str;
 }
 
 static std::string computeSHA256(const std::filesystem::path& filePath) {
-    Log("Computing SHA256 hash for file: " + filePath.string());
+    Log(std::format("Computing SHA256 hash for file: {}", filePath.string()));
     std::ifstream file(filePath, std::ios::binary);
     if (!file) {
         Log("Failed to open file for SHA256 computation.");
@@ -218,23 +215,25 @@ static std::string computeSHA256(const std::filesystem::path& filePath) {
         return {};
     }
     EVP_MD_CTX_free(mdContext);
-    std::ostringstream oss;
+
+    std::string sha256_str;
     for (unsigned int i = 0; i < digestLength; ++i) {
-        oss << std::hex << std::setw(2) << std::setfill('0') <<
-            std::nouppercase << static_cast<int>(sha256Digest[i]);
+        sha256_str += std::format("{:02x}", sha256Digest[i]);
     }
-    Log("SHA256 hash computed successfully: " + oss.str());
-    return oss.str();
+    Log(std::format("SHA256 hash computed successfully: {}", sha256_str));
+    return sha256_str;
 }
 
 static std::string getRegistryValue(const std::string& strName) {
-    Log("Attempting to read registry value: " + strName);
+    Log(std::format("Attempting to read registry value: {}", strName));
     HKEY hkSetupHive;
     auto lReturnValue = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
         "SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup",
         0, KEY_READ, &hkSetupHive);
     if (lReturnValue != ERROR_SUCCESS) {
-        Log("Failed to open registry key for reading: " + strName);
+        Log(
+            std::format("Failed to open registry key for reading: {}", strName)
+        );
         return {};
     }
     wil::unique_hkey hKeyDeleter(hkSetupHive);
@@ -243,7 +242,11 @@ static std::string getRegistryValue(const std::string& strName) {
     lReturnValue = RegQueryValueEx(hkSetupHive, strName.data(), nullptr,
         nullptr, nullptr, &dwSize);
     if (lReturnValue != ERROR_SUCCESS) {
-        Log("Failed to query registry key for reading: " + strName);
+        Log(
+            std::format("Failed to query registry key for reading: {}",
+                strName
+            )
+        );
         return {};
     }
 
@@ -253,7 +256,7 @@ static std::string getRegistryValue(const std::string& strName) {
         nullptr, reinterpret_cast<LPBYTE>(strValue.data()), &dwSize);
 
     if (lReturnValue != ERROR_SUCCESS) {
-        Log("Failed to read registry value: " + strName);
+        Log(std::format("Failed to read registry value: {}", strName));
         return {};
     }
 
@@ -261,8 +264,12 @@ static std::string getRegistryValue(const std::string& strName) {
         strValue.pop_back();
     }
 
-    Log("Successfully read from the registry key '" + strName +
-        "' with a value of '" + strValue + "'");
+    Log(
+        std::format(
+            "Successfully read from the registry key '{}' "
+            "with a value of '{}'", strName, strValue
+        )
+    );
     return strValue;
 }
 
@@ -299,8 +306,10 @@ static bool ExtractResourceAndExecute(UINT ResourceID,
         const auto result = GetWindowsDirectory(buffer, MAX_PATH);
         if (result == 0 || result > MAX_PATH) {
             Log("Failed to get Windows directory.");
-            MessageBox(nullptr, "Failed to get the Windows directory!", "Error",
-                MB_ICONERROR);
+            MessageBox(
+                nullptr, "Failed to get the Windows directory!", "Error",
+                MB_ICONERROR
+            );
             return false;
         }
 
@@ -312,7 +321,8 @@ static bool ExtractResourceAndExecute(UINT ResourceID,
             if (!std::filesystem::create_directories(outputDir)) {
                 Log("Failed to create output directory: " +
                     outputDir.string());
-                MessageBox(nullptr, "Failed to create output directory!", "Error",
+                MessageBox(
+                    nullptr, "Failed to create output directory!", "Error",
                     MB_ICONERROR);
                 return false;
             }
@@ -342,8 +352,9 @@ static bool ExtractResourceAndExecute(UINT ResourceID,
         char self[MAX_PATH];
         auto cmd = CmdParameters;
         if (GetModuleFileName(nullptr, self, MAX_PATH) != 0) {
-            cmd += " SETUPEXENAME=\"" +
-                std::filesystem::path(self).filename().string() + "\"";
+            cmd += std::format(" SETUPEXENAME=\"{}\"",
+                std::filesystem::path(self).filename().string()
+            );
         }
 
         SHELLEXECUTEINFO sei = {};
@@ -365,12 +376,13 @@ static bool ExtractResourceAndExecute(UINT ResourceID,
         WaitForSingleObject(sei.hProcess, INFINITE);
         CloseHandle(sei.hProcess);
 
-        Log("Installer executed successfully: " + filePath);
+        Log(std::format("Installer executed successfully: {}", filePath));
         return true;
     }
     catch (const std::exception& ex) {
-        Log("Exception occurred while extracting resource: " +
-            std::string(ex.what()));
+        Log(std::format("Exception occurred while extracting resource: {}",
+            ex.what())
+        );
         MessageBox(nullptr, "Failed to extract resource!", ex.what(),
             MB_ICONERROR);
         return false;
@@ -394,8 +406,10 @@ static void ShowWindow(HINSTANCE hInstance, int nCmdShow) {
 
         auto hwnd = CreateWindowEx(
             WS_EX_TOPMOST, CLASS_NAME, "BOINC Installer", WS_POPUP,
-            CW_USEDEFAULT, CW_USEDEFAULT, 800, 600, nullptr, nullptr, hInstance,
-            nullptr);
+            CW_USEDEFAULT, CW_USEDEFAULT, 800, 600, nullptr, nullptr,
+            hInstance,
+            nullptr
+        );
 
         if (!hwnd) {
             return;
@@ -421,20 +435,25 @@ static int InstallWSL(int mode, const std::filesystem::path& installPath) {
 
     const auto wslInstallerPath = installPath / wslInstallerName;
     if (!std::filesystem::exists(wslInstallerPath)) {
-        Log("File '" + wslInstallerPath.string() +
-            "' is missing, skipping installation");
+        Log(std::format("File '{}' is missing, skipping installation",
+            wslInstallerPath.string())
+        );
         return -2;
     }
 
     const auto hash = computeSHA256(wslInstallerPath);
     if (hash.empty()) {
-        Log("Failed to get a hash for the file '" + wslInstallerPath.string() +
-            "', skipping installation");
+        Log(std::format(
+            "Failed to get a hash for the file '{}', skipping installation",
+            wslInstallerPath.string())
+        );
         return -2;
     }
     if (hash != boinc_buda_runner_wsl_installer_checksum) {
-        Log("A hash for the file '" + wslInstallerPath.string() +
-            "' is wrong, skipping installation");
+        Log(std::format(
+            "A hash for the file '{}' is wrong, skipping installation",
+            wslInstallerPath.string())
+        );
         return -2;
     }
 
@@ -477,7 +496,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
             if (wcscmp(szArglist[i], L"/a") == 0) {
                 adminInstallation = true;
             }
-            if (wcscmp(szArglist[i], L"OVERRIDE_INSTALLWSLIMAGEINSTALLER=0") == 0) {
+            if (wcscmp(szArglist[i],
+                L"OVERRIDE_INSTALLWSLIMAGEINSTALLER=0") == 0
+                ) {
                 noWsl = true;
             }
         }
@@ -504,8 +525,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
 
     const auto runWslInstaller = getRegistryValue("INSTALLWSLIMAGEINSTALLER");
     if (runWslInstaller != "1") {
-        Log("'INSTALLWSLIMAGEINSTALLER' is [" + runWslInstaller +
-            "], skipping installation");
+        Log(std::format(
+            "'INSTALLWSLIMAGEINSTALLER' is [{}], skipping installation",
+            runWslInstaller)
+        );
         // we don't run wsl installer that means that we don't need
         // to run boinc either, so we return here
         return 0;
@@ -513,8 +536,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
 
     const auto runBOINC = getRegistryValue("LAUNCHPROGRAM");
     if (runBOINC != "1") {
-        Log("'LAUNCHPROGRAM' is [" + runBOINC +
-            "], not launching BOINC");
+        Log(std::format(
+            "'LAUNCHPROGRAM' is [{}], not launching BOINC",
+            runBOINC)
+        );
     }
 
     const auto installDir = getRegistryValue("INSTALLDIR");
@@ -528,20 +553,21 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
     // install WSL and return
     int wslInstallResult = 0;
     if (runWslInstaller == "1") {
-        wslInstallResult = InstallWSL(args.empty() ? SW_SHOWNORMAL : SW_HIDE, installPath);
+        wslInstallResult =
+            InstallWSL(args.empty() ? SW_SHOWNORMAL : SW_HIDE, installPath);
     }
 
     if (runBOINC == "1") {
         const auto manager =
-            "\"" + (installPath / "boincmgr.exe").string() + "\"";
+            std::format("\"{}\"", (installPath / "boincmgr.exe").string());
         if (Launcher::CreateProcessWithExplorerIL(manager) != S_OK) {
-            Log("Failed to run '" + manager + "', exiting");
+            Log(std::format("Failed to run '{}', exiting", manager));
             return -4;
         }
         const auto tray =
-            "\"" + (installPath / "boinctray.exe").string() + "\"";
+            std::format("\"{}\"", (installPath / "boinctray.exe").string());
         if (Launcher::CreateProcessWithExplorerIL(tray) != S_OK) {
-            Log("Failed to run '" + tray + "', exiting");
+            Log(std::format("Failed to run '{}', exiting", tray));
             return -5;
         }
     }
