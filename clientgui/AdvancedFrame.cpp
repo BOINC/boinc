@@ -2052,6 +2052,11 @@ void CAdvancedFrame::RebuildForThemeChange() {
         delete eventLog;    // eventLog->Destroy() creates a race condition if used here.
         wxGetApp().DisplayEventLog();
     }
+
+    // Nothing above touches the non-client area, which DWM draws from a flag it
+    // was given when this window was created.
+    //
+    ApplyTitleBarTheme();
 }
 
 

@@ -35,6 +35,11 @@
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
 
+#if defined(__WXMSW__)
+#include <dwmapi.h>
+#pragma comment(lib, "dwmapi.lib")
+#endif
+
 wxDEFINE_EVENT(wxEVT_FRAME_ALERT, CFrameAlertEvent);
 wxDEFINE_EVENT(wxEVT_FRAME_INITIALIZED, CFrameEvent);
 wxDEFINE_EVENT(wxEVT_FRAME_REFRESHVIEW, CFrameEvent);
@@ -366,6 +371,33 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 }
 
 void CBOINCBaseFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) ) {
+}
+
+// The window frame (title bar and border) is not drawn by us: DWM draws it from
+// a per-window flag, DWMWA_USE_IMMERSIVE_DARK_MODE, which wxWidgets sets when the
+// window is created to match the theme in force at that moment.  Windows does not
+// revisit an explicitly set per-window value when the user changes the theme, so
+// without this the title bar keeps the theme it was created in until the Manager
+// is restarted -- dark title bar over a light window, or the reverse -- while the
+// client area follows the theme correctly, because the frames rebuild it.
+//
+// 20 is DWMWA_USE_IMMERSIVE_DARK_MODE from Windows 10 2004 on; 19 is the value
+// that earlier builds took.  Failing both is not worth complaining about: the
+// worst outcome is a stale title bar.
+//
+void CBOINCBaseFrame::ApplyTitleBarTheme() {
+#if defined(__WXMSW__)
+    HWND hwnd = (HWND)GetHWND();
+    if (!hwnd) {
+        return;
+    }
+    BOOL bDark = wxGetApp().GetIsDarkMode() ? TRUE : FALSE;
+    if (FAILED(DwmSetWindowAttribute(
+        hwnd, 20 /* DWMWA_USE_IMMERSIVE_DARK_MODE */, &bDark, sizeof(bDark)
+    ))) {
+        DwmSetWindowAttribute(hwnd, 19, &bDark, sizeof(bDark));
+    }
+#endif
 }
 
 

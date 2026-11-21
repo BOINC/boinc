@@ -62,6 +62,11 @@ public:
     virtual void        OnExit( wxCommandEvent& event );
     virtual void        OnDarkModeChanged( wxSysColourChangedEvent& event );
 
+    // Re-apply the window's title-bar theme after a Windows theme change; see
+    // the comment on the definition.  Called by the frames' RebuildForThemeChange().
+    //
+    void                ApplyTitleBarTheme();
+
     void                OnWizardAttachProject( wxCommandEvent& event );
     void                OnWizardUpdate( wxCommandEvent& event );
     void                OnWizardDetach( wxCommandEvent& event );
