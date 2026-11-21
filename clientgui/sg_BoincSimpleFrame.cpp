@@ -922,8 +922,7 @@ void CSimpleFrame::OnEventLog(wxCommandEvent& WXUNUSED(event)) {
 // once per notification destroys panels the previous rebuild has just created.
 //
 void CSimpleFrame::RebuildForThemeChange() {
-    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
-    wxGetApp().SetIsDarkMode(appearance.IsDark());
+    wxGetApp().SetIsDarkMode(AppearanceIsDarkNow());
 
     // Remember our task and project settings
     wxString taskStr = m_pBackgroundPanel->m_taskPanel->GetSelectedTaskString();

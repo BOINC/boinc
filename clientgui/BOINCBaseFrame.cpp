@@ -58,11 +58,23 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseFrame, wxFrame)
 static const int kThemeChangeSettleMs = 500;
 
 
-// The appearance in force right now, read the way the frames'
-// RebuildForThemeChange() read it.
+// Whether the Manager should draw in its dark colours now.  This is the same
+// question BOINCGUIApp::OnInit() answers at start-up, and it has to be answered
+// the same way: under MSW `wxSystemAppearance::IsDark()` says whether *this
+// application* ended up with a dark theme through wxWidgets' own dark-mode
+// opt-in (`MSWEnableDarkMode(DarkMode_Auto)`), not whether the user asked for
+// dark applications, and it has been reported false on Windows 11 with dark
+// mode on -- which is why OnInit() ORs in `AreAppsDark()`.  Taking IsDark()
+// alone would paint a dark Windows desktop light after a theme change, and
+// would also make every change look like "no change" to the comparison below.
 //
-static bool ThemeIsDarkNow() {
-    return wxSystemSettings::GetAppearance().IsDark();
+bool CBOINCBaseFrame::AppearanceIsDarkNow() {
+    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
+    bool bDark = appearance.IsDark();
+#if defined(__WXMSW__)
+    bDark = bDark || appearance.AreAppsDark();
+#endif
+    return bDark;
 }
 
 
@@ -105,7 +117,7 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
     // The theme this window was built in, so that the first real theme change
     // is never mistaken for an echo of one already applied.
     //
-    m_bThemeAppearanceApplied = ThemeIsDarkNow();
+    m_bThemeAppearanceApplied = AppearanceIsDarkNow();
 
     // Limit the number of times the UI can update itself to two times a second
     //   NOTE: Linux and Mac were updating several times a second and eating
@@ -404,7 +416,7 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 // A theme change is not announced once.  Windows tells each window that cares,
 // so this frame is notified several times for one change, and the last of those
 // notifications can arrive *after* the rebuild the first one started has
-// already finished -- 4 ms after it, in the trace that finally caught this.
+// already finished.
 // Every rebuild destroys and re-creates the notebook pages and the controls in
 // them, so a second rebuild for the same change walks into list controls the
 // first one has just created, and the Manager dies with an access violation.
@@ -417,8 +429,8 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 // already applied -- so decide on that comparison.
 //
 // The comparison is not enough on its own, in the other direction: the first
-// notification of a change can arrive before the new appearance is in force
-// (measured at 31 ms early here), and such a notification has no news either.
+// notification of a change can arrive before the new appearance is in force,
+// and such a notification has no news either.
 // Dropping it is right -- a rebuild then would rebuild for the old theme -- but
 // the change must not be lost with it, so a look again is scheduled instead.
 //
@@ -431,7 +443,7 @@ void CBOINCBaseFrame::QueueThemeChangeRebuild( bool fromSettleTimer ) {
     // Nothing new to apply: an echo of a change already rebuilt for, or a
     // notification that has run ahead of the appearance it announces.
     //
-    if (ThemeIsDarkNow() == m_bThemeAppearanceApplied) {
+    if (AppearanceIsDarkNow() == m_bThemeAppearanceApplied) {
         if (!fromSettleTimer) {
             ArmThemeChangeSettleTimer();
         }
@@ -455,7 +467,14 @@ void CBOINCBaseFrame::QueueThemeChangeRebuild( bool fromSettleTimer ) {
             m_themeChangeRebuildPending = false;
             return;
         }
-        m_bThemeAppearanceApplied = ThemeIsDarkNow();
+        // The appearance flipped back before this ran: what is in force is what
+        // the last rebuild already applied, so there is nothing to apply.
+        //
+        if (AppearanceIsDarkNow() == m_bThemeAppearanceApplied) {
+            m_themeChangeRebuildPending = false;
+            return;
+        }
+        m_bThemeAppearanceApplied = AppearanceIsDarkNow();
         RebuildForThemeChange();
         m_themeChangeRebuildPending = false;
         // A change that lands while the rebuild is running has its

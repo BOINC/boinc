@@ -2034,8 +2034,7 @@ void CAdvancedFrame::RebuildForThemeChange() {
     StopTimers();
     SaveState();
 
-    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
-    wxGetApp().SetIsDarkMode(appearance.IsDark());
+    wxGetApp().SetIsDarkMode(AppearanceIsDarkNow());
 
     // Get the list control's current scroll position
     if ((currentPage == VW_PROJ) || (currentPage == VW_TASK) || (currentPage == VW_XFER)) {
