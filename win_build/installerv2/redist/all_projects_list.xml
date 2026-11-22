@@ -108,6 +108,38 @@
         <keywords>9 13 11 23 24 28 64</keywords>
     </project>
     <project>
+        <name>Kessler@home</name>
+        <id>57</id>
+        <url>https://kesslerathome.org/</url>
+        <web_url>https://kesslerathome.org/</web_url>
+        <general_area>Physical Science</general_area>
+        <specific_area>Astrophysics</specific_area>
+        <description><![CDATA[Simulate the debris environment in Low Earth Orbit (LEO)]]></description>
+        <home>NASA Goddard Space Flight Center</home>
+    <platforms>
+        <name>aarch64-unknown-linux-gnu</name>
+        <name>aarch64-unknown-linux-gnu[cuda1291]</name>
+        <name>arm64-apple-darwin</name>
+        <name>windows_x86_64</name>
+        <name>windows_x86_64[cuda1180]</name>
+        <name>windows_x86_64[cuda1291]</name>
+        <name>windows_x86_64[hip]</name>
+        <name>windows_x86_64[opencl_amd]</name>
+        <name>windows_x86_64[opencl_intel_gpu]</name>
+        <name>windows_x86_64[opencl_nvidia]</name>
+        <name>x86_64-apple-darwin</name>
+        <name>x86_64-pc-linux-gnu</name>
+        <name>x86_64-pc-linux-gnu[cuda1180]</name>
+        <name>x86_64-pc-linux-gnu[cuda1291]</name>
+        <name>x86_64-pc-linux-gnu[hip]</name>
+        <name>x86_64-pc-linux-gnu[opencl_amd]</name>
+        <name>x86_64-pc-linux-gnu[opencl_intel_gpu]</name>
+        <name>x86_64-pc-linux-gnu[opencl_nvidia]</name>
+    </platforms>
+      <summary>Help prevent a cascade of collisions in low Earth orbit</summary>
+        <keywords>1 24</keywords>
+    </project>
+    <project>
         <name>Gaia@home</name>
         <id>56</id>
         <url>https://gaiaathome.eu/gaiaathome/</url>
@@ -240,19 +272,14 @@
         <name>windows_x86_64[BRP7-opencl-intel_gpu]</name>
         <name>windows_x86_64[BRP7-opencl-nvidia]</name>
         <name>windows_x86_64[GW-cuda-2G]</name>
-        <name>windows_x86_64[GW-opencl-ati]</name>
         <name>windows_x86_64[GW-opencl-ati-2G]</name>
-        <name>windows_x86_64[GW-opencl-intel_gpu]</name>
-        <name>windows_x86_64[GW-opencl-nvidia]</name>
         <name>windows_x86_64[GW-opencl-nvidia-2G]</name>
         <name>windows_x86_64[opencl-intel_gpu-new]</name>
         <name>windows_x86_64[opencl-intel_gpu-newer]</name>
         <name>x86_64-apple-darwin</name>
         <name>x86_64-apple-darwin[BRP7-mac-opencl-ati]</name>
         <name>x86_64-apple-darwin[FGRPSSE]</name>
-        <name>x86_64-apple-darwin[GW-opencl-ati]</name>
         <name>x86_64-apple-darwin[GW-opencl-ati-2G]</name>
-        <name>x86_64-apple-darwin[GW-opencl-nvidia]</name>
         <name>x86_64-apple-darwin[GW-opencl-nvidia-2G]</name>
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-pc-linux-gnu[BRP4X64]</name>
@@ -260,12 +287,8 @@
         <name>x86_64-pc-linux-gnu[BRP7-opencl-ati]</name>
         <name>x86_64-pc-linux-gnu[BRP7-opencl-nvidia]</name>
         <name>x86_64-pc-linux-gnu[FGRPSSE]</name>
-        <name>x86_64-pc-linux-gnu[GW-cuda]</name>
         <name>x86_64-pc-linux-gnu[GW-cuda-580-2G]</name>
-        <name>x86_64-pc-linux-gnu[GW-cuda-580-Beta]</name>
-        <name>x86_64-pc-linux-gnu[GW-opencl-ati]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-ati-2G]</name>
-        <name>x86_64-pc-linux-gnu[GW-opencl-intel_gpu]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-nvidia]</name>
         <name>x86_64-pc-linux-gnu[GW-opencl-nvidia-570-2G]</name>
         <name>x86_64-pc-linux-gnu[opencl-intel_gpu]</name>
@@ -444,9 +467,6 @@
         <name>x86_64-pc-linux-gnu</name>
         <name>x86_64-apple-darwin</name>
         <name>arm64-apple-darwin</name>
-        <name>windows_x86_64[docker]</name>
-        <name>x86_64-pc-linux-gnu[docker]</name>
-        <name>x86_64-apple-darwin[docker]</name>
         <name>windows_x86_64[amd_hip]</name>
         <name>windows_x86_64[cuda_50]</name>
         <name>x86_64-pc-linux-gnu[cuda_50]</name>
@@ -459,6 +479,8 @@
         <name>windows_x86_64[cuda_5031]</name>
         <name>x86_64-pc-linux-gnu[cuda_5031]</name>
         <name>arm64-apple-darwin[apple_gpu_metal331]</name>
+        <name>windows_x86_64[cuda_508G]</name>
+        <name>x86_64-pc-linux-gnu[cuda_508G]</name>
     </platforms>
       <image>https://boinc.berkeley.edu/images/NFS_Logo.jpg</image>
       <summary>Study the factorization of large integers</summary>
