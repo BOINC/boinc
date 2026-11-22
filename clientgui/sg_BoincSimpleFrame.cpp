@@ -922,7 +922,14 @@ void CSimpleFrame::OnEventLog(wxCommandEvent& WXUNUSED(event)) {
 // once per notification destroys panels the previous rebuild has just created.
 //
 void CSimpleFrame::RebuildForThemeChange() {
+#if defined(__WXMSW__)
+    // See the matching comment in CAdvancedFrame::RebuildForThemeChange().
+    //
     wxGetApp().SetIsDarkMode(AppearanceIsDarkNow());
+#else
+    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
+    wxGetApp().SetIsDarkMode(appearance.IsDark());
+#endif
 
     // Remember our task and project settings
     wxString taskStr = m_pBackgroundPanel->m_taskPanel->GetSelectedTaskString();
@@ -967,10 +974,12 @@ void CSimpleFrame::RebuildForThemeChange() {
         wxGetApp().DisplayEventLog();
     }
 
+#if defined(__WXMSW__)
     // Nothing above touches the non-client area, which DWM draws from a flag it
     // was given when this window was created.
     //
     ApplyTitleBarTheme();
+#endif
 }
 
 

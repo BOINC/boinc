@@ -761,18 +761,21 @@ bool CAdvancedFrame::CreateNotebook() {
                                  wxTAB_TRAVERSAL|wxCLIP_CHILDREN|wxNO_BORDER);
     pPanel->SetAutoLayout(TRUE);
 
+#if defined(__WXMSW__)
     // A window with no background colour of its own has Windows paint it with
     // whichever colour the theme had for it the first time it was painted, and
     // that answer is kept for the life of the window: after a runtime theme change
     // the five pixels the sizer below leaves above the notebook keep the old
     // colour (171, the classic COLOR_APPWORKSPACE, after switching to the light
     // theme).  Ask for the colour the padding is supposed to have instead.
+    // The other platforms follow the system appearance without this.
     //
     pPanel->SetBackgroundColour(
         wxSystemSettings::GetColour(
             wxGetApp().GetIsDarkMode() ? wxSYS_COLOUR_WINDOW : wxSYS_COLOUR_BTNFACE
         )
     );
+#endif
 
     // initialize notebook
     m_pNotebook = new wxNotebook(pPanel, ID_FRAMENOTEBOOK, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN);
@@ -813,6 +816,7 @@ bool CAdvancedFrame::RepopulateNotebook() {
 }
 
 
+#if defined(__WXMSW__)
 // The panel that holds the notebook, the separator line in it and the notebook
 // itself are created once, when the frame is built, and Windows bakes the theme
 // of the moment into them: after a runtime theme change the separator keeps the
@@ -841,6 +845,7 @@ bool CAdvancedFrame::RecreateNotebookPanel() {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RecreateNotebookPanel - Function End"));
     return CreateNotebook();
 }
+#endif
 
 
 bool CAdvancedFrame::CreateNotebookPage( CBOINCBaseView* pwndNewNotebookPage) {
@@ -2034,7 +2039,17 @@ void CAdvancedFrame::RebuildForThemeChange() {
     StopTimers();
     SaveState();
 
+#if defined(__WXMSW__)
+    // Under MSW IsDark() reports whether wxWidgets' own dark-mode opt-in took
+    // effect rather than what the user asked for; see
+    // CBOINCBaseFrame::AppearanceIsDarkNow().  Off MSW the two are the same, and
+    // the line below is the one this code has always used there.
+    //
     wxGetApp().SetIsDarkMode(AppearanceIsDarkNow());
+#else
+    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
+    wxGetApp().SetIsDarkMode(appearance.IsDark());
+#endif
 
     // Get the list control's current scroll position
     if ((currentPage == VW_PROJ) || (currentPage == VW_TASK) || (currentPage == VW_XFER)) {
@@ -2042,8 +2057,18 @@ void CAdvancedFrame::RebuildForThemeChange() {
         theListCtrl = theView->GetListCtrl();
         bottomItem = theListCtrl->GetTopItem() + theListCtrl->GetCountPerPage() - 1;
     }
+#if defined(__WXMSW__)
+    // Windows keeps the theme a window was created with inside the window: the
+    // panel, the separator line in it and the status bar keep the colours they
+    // were born with.  Build them again.
+    //
     RecreateNotebookPanel();
+#else
+    RepopulateNotebook();
+#endif
+
     RestoreState();
+#if defined(__WXMSW__)
     if (m_pNotebook) {
         // Same as at the end of the constructor: the generic list controls need
         // their panel laid out once their state has been restored.
@@ -2060,6 +2085,7 @@ void CAdvancedFrame::RebuildForThemeChange() {
     DeleteStatusbar();
     CreateStatusbar();
     Layout();
+#endif
 
     // The last tab label ("Disk") is ellipsed here unless the window is resized
     // TODO: figure out how to replace this hack with a proper fix
@@ -2089,10 +2115,12 @@ void CAdvancedFrame::RebuildForThemeChange() {
         wxGetApp().DisplayEventLog();
     }
 
+#if defined(__WXMSW__)
     // Nothing above touches the non-client area, which DWM draws from a flag it
     // was given when this window was created.
     //
     ApplyTitleBarTheme();
+#endif
 }
 
 

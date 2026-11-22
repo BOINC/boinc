@@ -121,7 +121,9 @@ private:
 
     bool            CreateNotebook();
     bool            RepopulateNotebook();
+#if defined(__WXMSW__)
     bool            RecreateNotebookPanel();
+#endif
     bool            CreateNotebookPage( CBOINCBaseView* pwndNewNotebookPage );
     bool            DeleteNotebook();
     bool            CreateStatusbar();

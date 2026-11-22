@@ -51,32 +51,36 @@ wxDEFINE_EVENT(wxEVT_FRAME_NOTIFICATION, CFrameEvent);
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseFrame, wxFrame)
 
 
+#if defined(__WXMSW__)
 // How long to wait before looking again at a theme change that was announced
 // without the new appearance being in force yet.  The rebuild takes ~350 ms in
-// the advanced view; this only has to outlast it.
+// the advanced view; this only has to outlast it.  Only Windows needs this.
 //
 static const int kThemeChangeSettleMs = 500;
+#endif
 
 
+#if defined(__WXMSW__)
 // Whether the Manager should draw in its dark colours now.  This is the same
 // question BOINCGUIApp::OnInit() answers at start-up, and it has to be answered
-// the same way: under MSW `wxSystemAppearance::IsDark()` says whether *this
-// application* ended up with a dark theme through wxWidgets' own dark-mode
-// opt-in (`MSWEnableDarkMode(DarkMode_Auto)`), not whether the user asked for
-// dark applications, and it has been reported false on Windows 11 with dark
-// mode on -- which is why OnInit() ORs in `AreAppsDark()`.  Taking IsDark()
-// alone would paint a dark Windows desktop light after a theme change, and
-// would also make every change look like "no change" to the comparison below.
+// the same way: `wxSystemAppearance::IsDark()` says whether *this application*
+// ended up with a dark theme through wxWidgets' own dark-mode opt-in
+// (`MSWEnableDarkMode(DarkMode_Auto)`), not whether the user asked for dark
+// applications, and it has been reported false on Windows 11 with dark mode on
+// -- which is why OnInit() ORs in `AreAppsDark()`.  Taking IsDark() alone would
+// paint a dark Windows desktop light after a theme change, and would also make
+// every change look like "no change" to the comparison below.
+//
+// Windows only: the other platforms have no such opt-in, and their frames ask
+// wxSystemAppearance::IsDark() the way they always did.
 //
 bool CBOINCBaseFrame::AppearanceIsDarkNow() {
     wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
     bool bDark = appearance.IsDark();
-#if defined(__WXMSW__)
     bDark = bDark || appearance.AreAppsDark();
-#endif
     return bDark;
 }
-
+#endif
 
 
 CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, const long style) :
@@ -111,6 +115,7 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
     m_pPeriodicRPCTimer->Start(1000);               // Send event every 1000 milliseconds
     m_iFrameRefreshRate = 1000;                     // Refresh frame every 1000 milliseconds
 
+#if defined(__WXMSW__)
     m_pThemeChangeSettleTimer = new wxTimer(this, ID_THEMECHANGESETTLETIMER);
     wxASSERT(m_pThemeChangeSettleTimer);
 
@@ -118,6 +123,7 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
     // is never mistaken for an echo of one already applied.
     //
     m_bThemeAppearanceApplied = AppearanceIsDarkNow();
+#endif
 
     // Limit the number of times the UI can update itself to two times a second
     //   NOTE: Linux and Mac were updating several times a second and eating
@@ -136,7 +142,9 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
     Bind(wxEVT_TIMER, [this](wxTimerEvent& event){ OnDocumentPoll(event); }, ID_DOCUMENTPOLLTIMER);
     Bind(wxEVT_TIMER, [this](wxTimerEvent& event){ OnAlertPoll(event); }, ID_ALERTPOLLTIMER);
     Bind(wxEVT_TIMER, [this](wxTimerEvent& event){ OnPeriodicRPC(event); }, ID_PERIODICRPCTIMER);
+#if defined(__WXMSW__)
     Bind(wxEVT_TIMER, [this](wxTimerEvent& event){ OnThemeChangeSettle(event); }, ID_THEMECHANGESETTLETIMER);
+#endif
     Bind(wxEVT_FRAME_INITIALIZED, [this](CFrameEvent& event){ OnInitialized(event); });
     Bind(wxEVT_FRAME_ALERT, [this](CFrameAlertEvent& event){ OnAlert(event); });
     Bind(wxEVT_FRAME_REFRESHVIEW, [this](CFrameEvent& event){ OnRefreshView(event); });
@@ -157,11 +165,13 @@ CBOINCBaseFrame::~CBOINCBaseFrame() {
     wxASSERT(m_pAlertPollTimer);
     wxASSERT(m_pDocumentPollTimer);
 
+#if defined(__WXMSW__)
     if (m_pThemeChangeSettleTimer) {
         m_pThemeChangeSettleTimer->Stop();
         delete m_pThemeChangeSettleTimer;
         m_pThemeChangeSettleTimer = nullptr;
     }
+#endif
 
     if (m_pPeriodicRPCTimer) {
         m_pPeriodicRPCTimer->Stop();
@@ -435,10 +445,20 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 // the change must not be lost with it, so a look again is scheduled instead.
 //
 void CBOINCBaseFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) ) {
+#if defined(__WXMSW__)
     QueueThemeChangeRebuild();
+#else
+    // One change, one notification elsewhere: rebuild now, which is what the
+    // frames did before this change.  The coalescing below exists for the way
+    // Windows announces a change, and for the second rebuild that used to kill
+    // the Manager on that platform.
+    //
+    RebuildForThemeChange();
+#endif
 }
 
 
+#if defined(__WXMSW__)
 void CBOINCBaseFrame::QueueThemeChangeRebuild( bool fromSettleTimer ) {
     // Nothing new to apply: an echo of a change already rebuilt for, or a
     // notification that has run ahead of the appearance it announces.
@@ -502,6 +522,7 @@ void CBOINCBaseFrame::OnThemeChangeSettle( wxTimerEvent& WXUNUSED(event) ) {
     }
     QueueThemeChangeRebuild(true);
 }
+#endif
 
 
 // Rebuilding is specific to what each frame is made of; CBOINCBaseFrame has no
@@ -511,6 +532,7 @@ void CBOINCBaseFrame::OnThemeChangeSettle( wxTimerEvent& WXUNUSED(event) ) {
 void CBOINCBaseFrame::RebuildForThemeChange() {
 }
 
+#if defined(__WXMSW__)
 // The window frame (title bar and border) is not drawn by us: DWM draws it from
 // a per-window flag, DWMWA_USE_IMMERSIVE_DARK_MODE, which wxWidgets sets when the
 // window is created to match the theme in force at that moment.  Windows does not
@@ -524,7 +546,6 @@ void CBOINCBaseFrame::RebuildForThemeChange() {
 // worst outcome is a stale title bar.
 //
 void CBOINCBaseFrame::ApplyTitleBarTheme() {
-#if defined(__WXMSW__)
     HWND hwnd = (HWND)GetHWND();
     if (!hwnd) {
         return;
@@ -535,8 +556,8 @@ void CBOINCBaseFrame::ApplyTitleBarTheme() {
     ))) {
         DwmSetWindowAttribute(hwnd, 19, &bDark, sizeof(bDark));
     }
-#endif
 }
+#endif
 
 
 int CBOINCBaseFrame::GetCurrentViewPage() {
