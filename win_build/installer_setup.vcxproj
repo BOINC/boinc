@@ -13,6 +13,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>.;..;../api;../lib;../clientsetup/win;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp23</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>libcrypto.lib;libssl.lib;Crypt32.Lib;Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>

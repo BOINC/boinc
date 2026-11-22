@@ -18,7 +18,7 @@
 #pragma once
 
 #ifdef _UNICODE
-#define tstring_view std::wstring_view
+typedef std::wstring_view tstring_view;
 #else
 // we use this when building installer_setup project only
 // a little bit ugly but omits code duplication
@@ -26,7 +26,7 @@
 #include <string_view>
 #include <wil/resource.h>
 #include "win_util.h"
-#define tstring_view std::string_view
+typedef std::string_view tstring_view;
 #define _T(x) x
 #endif
 
