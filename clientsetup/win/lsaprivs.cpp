@@ -65,16 +65,18 @@ Author:
 
 #include "lsaprivs.h"
 
-static void InitLsaString(LSA_UNICODE_STRING& LsaString,
-    std::wstring_view String) {
+static void InitLsaString(
+    LSA_UNICODE_STRING& LsaString, tstring_view String
+) {
     const auto StringLength = static_cast<USHORT>(String.size());
     LsaString.Buffer = const_cast<wchar_t*>(String.data());
     LsaString.Length = StringLength * sizeof(WCHAR);
     LsaString.MaximumLength = StringLength * sizeof(WCHAR);
 }
 
-static NTSTATUS OpenPolicy(std::wstring_view ServerName, DWORD DesiredAccess,
-    PLSA_HANDLE PolicyHandle) {
+static NTSTATUS OpenPolicy(
+    tstring_view ServerName, DWORD DesiredAccess, PLSA_HANDLE PolicyHandle
+) {
     LSA_OBJECT_ATTRIBUTES ObjectAttributes;
     ZeroMemory(&ObjectAttributes, sizeof(ObjectAttributes));
 
@@ -85,23 +87,27 @@ static NTSTATUS OpenPolicy(std::wstring_view ServerName, DWORD DesiredAccess,
         PolicyHandle);
 }
 
-static NTSTATUS SetPrivilegeOnAccount(LSA_HANDLE PolicyHandle, PSID AccountSid,
-    std::wstring_view PrivilegeName, bool bEnable) {
+static NTSTATUS SetPrivilegeOnAccount(
+    LSA_HANDLE PolicyHandle, PSID AccountSid,
+    tstring_view PrivilegeName, bool bEnable
+) {
     LSA_UNICODE_STRING PrivilegeString;
 
     InitLsaString(PrivilegeString, PrivilegeName);
 
     if (bEnable) {
-        return LsaAddAccountRights(PolicyHandle, AccountSid,
-            &PrivilegeString, 1);
+        return LsaAddAccountRights(
+            PolicyHandle, AccountSid, &PrivilegeString, 1
+        );
     }
     else {
-        return LsaRemoveAccountRights(PolicyHandle, AccountSid, FALSE,
-            &PrivilegeString, 1);
+        return LsaRemoveAccountRights(
+            PolicyHandle, AccountSid, FALSE, &PrivilegeString, 1
+        );
     }
 }
 
-bool LsaPrivs::GetAccountSid(std::wstring_view AccountName, PSID* Sid) {
+bool LsaPrivs::GetAccountSid(tstring_view AccountName, PSID* Sid) {
     DWORD cbSid = 128;
     *Sid = reinterpret_cast<PSID>(HeapAlloc(GetProcessHeap(), 0, cbSid));
 
@@ -150,8 +156,9 @@ bool LsaPrivs::GetAccountSid(std::wstring_view AccountName, PSID* Sid) {
     return true;
 }
 
-bool LsaPrivs::GrantUserRight(PSID psidAccountSid, std::wstring_view pszUserRight,
-    bool bEnable) {
+bool LsaPrivs::GrantUserRight(
+    PSID psidAccountSid, tstring_view pszUserRight, bool bEnable
+) {
     LSA_HANDLE  PolicyHandle = nullptr;
     auto Status = OpenPolicy(_T(""), POLICY_ALL_ACCESS, &PolicyHandle);
     if (Status != STATUS_SUCCESS) {

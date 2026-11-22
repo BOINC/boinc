@@ -21,10 +21,13 @@
 #include "lsaprivs.h"
 #include "launcher.h"
 
-BOINCCABase::BOINCCABase(MSIHANDLE hMSIHandle, tstring strActionName,
-    tstring strProgressTitle) : m_hMSIHandle(hMSIHandle),
-    m_strActionName(std::move(strActionName)),
-    m_strProgressTitle(std::move(strProgressTitle)) {
+BOINCCABase::BOINCCABase(
+    MSIHANDLE hMSIHandle,
+    tstring_view strActionName,
+    tstring_view strProgressTitle
+) : m_hMSIHandle(hMSIHandle),
+    m_strActionName(strActionName),
+    m_strProgressTitle(strProgressTitle) {
 }
 
 UINT BOINCCABase::Execute() {
@@ -41,12 +44,12 @@ UINT BOINCCABase::Execute() {
     return OnExecution();
 }
 
-static auto IsVersionNewer(const tstring& v1, const tstring& v2) {
+static auto IsVersionNewer(tstring_view v1, tstring_view v2) {
     int v1_maj = 0, v1_min = 0, v1_rel = 0;
     int v2_maj = 0, v2_min = 0, v2_rel = 0;
 
-    swscanf_s(v1.c_str(), _T("%d.%d.%d"), &v1_maj, &v1_min, &v1_rel);
-    swscanf_s(v2.c_str(), _T("%d.%d.%d"), &v2_maj, &v2_min, &v2_rel);
+    swscanf_s(v1.data(), _T("%d.%d.%d"), &v1_maj, &v1_min, &v1_rel);
+    swscanf_s(v2.data(), _T("%d.%d.%d"), &v2_maj, &v2_min, &v2_rel);
 
     if (v1_maj > v2_maj) {
         return true;
@@ -125,8 +128,9 @@ UINT BOINCCABase::OnInitialize() {
     return ERROR_SUCCESS;
 }
 
-UINT BOINCCABase::GetRegistryValue(const tstring& strName,
-    tstring& strValue, bool bDisplayValue) {
+UINT BOINCCABase::GetRegistryValue(
+    tstring_view strName, tstring& strValue, bool bDisplayValue
+) {
     HKEY hkSetupHive;
     auto lReturnValue = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
         _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),
@@ -155,23 +159,16 @@ UINT BOINCCABase::GetRegistryValue(const tstring& strName,
         strValue.pop_back();
     }
 
-    tstring strMessage = _T("Successfully retrieved registry value '");
-    strMessage += strName;
-    strMessage += _T("' with a value of '");
-    if (bDisplayValue) {
-        strMessage += strValue;
-    }
-    else {
-        strMessage += _T("<Value Hidden>");
-    }
-    strMessage += _T("'");
-
-    LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, strMessage);
+    LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, std::format(
+        _T("Successfully retrieved registry value '{}' with a value of '{}'"),
+        strName, bDisplayValue ? strValue : _T("<Value Hidden>")
+    ));
     return ERROR_SUCCESS;
 }
 
-UINT BOINCCABase::SetRegistryValue(const tstring& strName,
-    const tstring& strValue, bool bDisplayValue) {
+UINT BOINCCABase::SetRegistryValue(
+    tstring_view strName, tstring_view strValue, bool bDisplayValue
+) {
     HKEY hkSetupHive;
     auto lReturnValue = RegCreateKeyEx(HKEY_LOCAL_MACHINE,
         _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup"),
@@ -190,104 +187,77 @@ UINT BOINCCABase::SetRegistryValue(const tstring& strName,
         return ERROR_INSTALL_FAILURE;
     }
 
-    tstring strMessage = _T("Successfully set registry value '");
-    strMessage += strName;
-    strMessage += _T("' to a value of '");
-    if (bDisplayValue) {
-        strMessage += strValue;
-    }
-    else {
-        strMessage += _T("<Value Hidden>");
-    }
-    strMessage += _T("'");
-
-    LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, strMessage);
-
+    LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, std::format(
+        _T("Successfully set registry value '{}' to a value of '{}'"),
+        strName, bDisplayValue ? strValue : _T("<Value Hidden>")
+    ));
     return ERROR_SUCCESS;
 }
 
-UINT BOINCCABase::GetProperty(const tstring& strPropertyName,
-    tstring& strPropertyValue, bool bDisplayValue) {
+UINT BOINCCABase::GetProperty(
+    tstring_view strName, tstring& strValue, bool bDisplayValue
+) {
     DWORD dwCharacterCount = 0;
-    auto uiReturnValue = MsiGetProperty(m_hMSIHandle, strPropertyName.data(),
-        _T(""), &dwCharacterCount);
+    auto uiReturnValue = MsiGetProperty(m_hMSIHandle, strName.data(),
+        strValue.data(), &dwCharacterCount);
     if (uiReturnValue == ERROR_INVALID_HANDLE ||
-        uiReturnValue == ERROR_INVALID_PARAMETER) {
-        tstring strMessage = _T("Failed to get '");
-        strMessage += strPropertyName;
-        strMessage += _T("'");
-
-        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, strMessage);
+        uiReturnValue == ERROR_INVALID_PARAMETER
+        ) {
+        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, std::format(
+            _T("Failed to get '{}'"), strName
+        ));
         return ERROR_INSTALL_FAILURE;
     }
 
-    strPropertyValue.resize(dwCharacterCount++);
-    uiReturnValue = MsiGetProperty(m_hMSIHandle, strPropertyName.data(),
-        strPropertyValue.data(), &dwCharacterCount);
+    strValue.resize(dwCharacterCount++);
+    uiReturnValue = MsiGetProperty(
+        m_hMSIHandle, strName.data(),
+        strValue.data(), &dwCharacterCount
+    );
     if (uiReturnValue == ERROR_INVALID_HANDLE ||
-        uiReturnValue == ERROR_INVALID_PARAMETER) {
-        tstring strMessage = _T("Failed to get '");
-        strMessage += strPropertyName;
-        strMessage += _T("' after allocating the buffer");
-
-        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, strMessage);
+        uiReturnValue == ERROR_INVALID_PARAMETER
+        ) {
+        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, std::format(
+            _T("Failed to get '{}' after allocating the buffer"), strName
+        ));
         return ERROR_INSTALL_FAILURE;
     }
-
-    tstring strMessage = _T("Successfully retrieved '");
-    strMessage += strPropertyName;
-    strMessage += _T("' with a value of '");
-    if (bDisplayValue) {
-        strMessage += strPropertyValue;
-    }
-    else {
-        strMessage += _T("<Value Hidden>");
-    }
-    strMessage += _T("'");
-
-    LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, strMessage);
+    LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, std::format(
+        _T("Successfully retrieved '{}' with a value of '{}'"),
+        strName, bDisplayValue ? strValue : _T("<Value Hidden>")
+    ));
 
     return ERROR_SUCCESS;
 }
 
-UINT BOINCCABase::SetProperty(const tstring& strPropertyName,
-    const tstring& strPropertyValue, bool bDisplayValue) {
-    const auto uiReturnValue = MsiSetProperty(m_hMSIHandle,
-        strPropertyName.data(), strPropertyValue.data());
+UINT BOINCCABase::SetProperty(
+    tstring_view strName, tstring_view strValue, bool bDisplayValue
+) {
+    const auto uiReturnValue = MsiSetProperty(
+        m_hMSIHandle, strName.data(), strValue.data()
+    );
     if (uiReturnValue == ERROR_FUNCTION_FAILED ||
         uiReturnValue == ERROR_INVALID_HANDLE ||
-        uiReturnValue == ERROR_INVALID_PARAMETER) {
-        tstring strMessage = _T("Failed to set '");
-        strMessage += strPropertyName;
-        strMessage += _T("' to a value of '");
-        if (bDisplayValue) {
-            strMessage += strPropertyValue;
-        }
-        else {
-            strMessage += _T("<Value Hidden>");
-        }
-        strMessage += _T("'");
-        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, strMessage);
+        uiReturnValue == ERROR_INVALID_PARAMETER
+        ) {
+        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, std::format(
+            _T("Failed to set '{}' to a value of '{}'"),
+            strName, bDisplayValue ? strValue : _T("<Value Hidden>")
+        ));
         return ERROR_INSTALL_FAILURE;
     }
 
-    tstring strMessage = _T("Successfully set '");
-    strMessage += strPropertyName;
-    strMessage += _T("' to a value of '");
-    if (bDisplayValue) {
-        strMessage += strPropertyValue;
-    }
-    else {
-        strMessage += _T("<Value Hidden>");
-    }
-    strMessage += _T("'");
-    LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, strMessage);
+    LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, std::format(
+        _T("Successfully set '{}' to a value of '{}'"),
+        strName, bDisplayValue ? strValue : _T("<Value Hidden>")
+    ));
 
     return ERROR_SUCCESS;
 }
 
-UINT BOINCCABase::GetComponentKeyFilename(const tstring& strComponentName,
-    tstring& strComponentKeyFilename) {
+UINT BOINCCABase::GetComponentKeyFilename(
+    tstring_view strComponentName, tstring& strComponentKeyFilename
+) {
     PMSIHANDLE hDatabase = MsiGetActiveDatabase(m_hMSIHandle);
     if (!hDatabase) {
         return ERROR_INSTALL_FAILURE;
@@ -363,7 +333,10 @@ UINT BOINCCABase::GetComponentKeyFilename(const tstring& strComponentName,
     }
 
     DWORD dwBufferSize = 0;
-    uiReturnValue = MsiRecordGetString(hRec, 1, _T(""), &dwBufferSize);
+    strComponentKeyFilename = _T("");
+    uiReturnValue = MsiRecordGetString(
+        hRec, 1, strComponentKeyFilename.data(), &dwBufferSize
+    );
     if (uiReturnValue == ERROR_INVALID_HANDLE) {
         LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
             _T("MsiRecordGetString reports an invalid handle was used"));
@@ -399,19 +372,17 @@ UINT BOINCCABase::GetComponentKeyFilename(const tstring& strComponentName,
     strComponentKeyFilename =
         strComponentKeyFilename.substr(strComponentName.size() + 1);
 
-    tstring strMessage = _T("The key filename for component '");
-    strMessage += strComponentName;
-    strMessage += _T("' is '");
-    strMessage += strComponentKeyFilename;
-    strMessage += _T("'");
-
-    LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, strMessage);
+    LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, std::format(
+        _T("The key filename for component '{}' is '{}'"),
+        strComponentName, strComponentKeyFilename
+    ));
 
     return ERROR_SUCCESS;
 }
 
-UINT BOINCCABase::DisplayMessage(UINT uiPushButtonStyle, UINT uiIconStyle,
-    const tstring& strMessage) {
+UINT BOINCCABase::DisplayMessage(
+    UINT uiPushButtonStyle, UINT uiIconStyle, tstring_view strMessage
+) {
     tstring uiLevel;
     const auto uiReturnValue = GetProperty(_T("UILevel"), uiLevel);
     if (uiReturnValue != ERROR_SUCCESS) {
@@ -428,7 +399,7 @@ UINT BOINCCABase::DisplayMessage(UINT uiPushButtonStyle, UINT uiIconStyle,
     );
 }
 
-UINT BOINCCABase::LogProgress(const tstring& strProgress) {
+UINT BOINCCABase::LogProgress(tstring_view strProgress) {
     MsiRecordSetString(m_phActionDataRec, 2, strProgress.data());
 
     const auto uiReturnValue = MsiProcessMessage(m_hMSIHandle,
@@ -442,16 +413,18 @@ UINT BOINCCABase::LogProgress(const tstring& strProgress) {
     return ERROR_SUCCESS;
 }
 
-UINT BOINCCABase::LogMessage(UINT uiInstallMessageType,
-    UINT uiPushButtonStyle, UINT uiIconStyle, UINT uiErrorCode,
-    const tstring& strMessage) {
+UINT BOINCCABase::LogMessage(
+    UINT uiInstallMessageType, UINT uiPushButtonStyle, UINT uiIconStyle,
+    UINT uiErrorCode, tstring_view strMessage
+) {
     if (uiInstallMessageType == INSTALLMESSAGE_INFO) {
         // Send informational message to the log file
         MsiRecordSetString(m_phLogInfoRec, 2, strMessage.data());
         MsiRecordSetInteger(m_phLogInfoRec, 3, uiErrorCode);
 
         return MsiProcessMessage(m_hMSIHandle,
-            static_cast<INSTALLMESSAGE>(uiInstallMessageType), m_phLogInfoRec);
+            static_cast<INSTALLMESSAGE>(uiInstallMessageType), m_phLogInfoRec
+        );
     }
     else {
         // Display a dialog and send error message to log file
@@ -462,10 +435,13 @@ UINT BOINCCABase::LogMessage(UINT uiInstallMessageType,
 
         // Return value to indicate which button is
         // pushed on message box
-        return MsiProcessMessage(m_hMSIHandle,
+        return MsiProcessMessage(
+            m_hMSIHandle,
             static_cast<INSTALLMESSAGE>(
-                uiInstallMessageType | uiPushButtonStyle | uiIconStyle),
-            phLogErrorRec);
+                uiInstallMessageType | uiPushButtonStyle | uiIconStyle
+                ),
+            phLogErrorRec
+        );
     }
 }
 
@@ -474,22 +450,23 @@ UINT BOINCCABase::RebootWhenFinished() {
     return MsiSetMode(m_hMSIHandle, MSIRUNMODE_REBOOTATEND, TRUE);
 }
 
-bool BOINCCABase::localGroupExists(const tstring& groupName) {
+bool BOINCCABase::localGroupExists(tstring_view groupName) {
     LOCALGROUP_INFO_0* info = nullptr;
-    const auto rc = NetLocalGroupGetInfo(nullptr, groupName.c_str(), 0,
-        reinterpret_cast<LPBYTE*>(&info));
+    const auto rc = NetLocalGroupGetInfo(
+        nullptr, groupName.data(), 0, reinterpret_cast<LPBYTE*>(&info)
+    );
     if (info) {
         NetApiBufferFree(info);
     }
     return rc == NERR_Success;
 }
 
-bool BOINCCABase::RecursiveSetPermissions(const tstring& path, PACL pACL) {
-    const auto csPath = path + _T("\\");
-    const auto csPathMask = csPath + _T("*.*");
+bool BOINCCABase::RecursiveSetPermissions(tstring_view path, PACL pACL) {
+    const auto csPath = std::format(_T("{}\\"), path);
+    const auto csPathMask = std::format(_T("{}*.*"), csPath);
 
     WIN32_FIND_DATA ffData;
-    auto hFind = FindFirstFile(csPathMask.c_str(), &ffData);
+    auto hFind = FindFirstFile(csPathMask.data(), &ffData);
 
     if (hFind == INVALID_HANDLE_VALUE) {
         return false;
@@ -502,7 +479,8 @@ bool BOINCCABase::RecursiveSetPermissions(const tstring& path, PACL pACL) {
             auto csFullPath = csPath + ffData.cFileName;
 
             SetNamedSecurityInfo(csFullPath.data(), SE_FILE_OBJECT,
-                DACL_SECURITY_INFORMATION, nullptr, nullptr, pACL, nullptr);
+                DACL_SECURITY_INFORMATION, nullptr, nullptr, pACL, nullptr
+            );
 
             if (ffData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
                 RecursiveSetPermissions(csFullPath, pACL);
@@ -517,30 +495,34 @@ bool BOINCCABase::RecursiveSetPermissions(const tstring& path, PACL pACL) {
     return true;
 }
 
-void BOINCCABase::TerminateProcessEx(const tstring& strProcessName,
-    bool bRecursive) {
+void BOINCCABase::TerminateProcessEx(
+    tstring_view strProcessName, bool bRecursive
+) {
     TerminateProcess::TerminateProcessEx(strProcessName, bRecursive);
 }
 
-DWORD BOINCCABase::ChangeAppIDAccessACL(const tstring& AppID,
-    const tstring& Principal) {
+DWORD BOINCCABase::ChangeAppIDAccessACL(
+    tstring_view AppID, tstring_view Principal
+) {
     return DCOMPermissionConfig::ChangeAppIDAccessACL(AppID, Principal);
 }
 
-DWORD BOINCCABase::ChangeAppIDLaunchACL(const tstring& AppID,
-    const tstring& Principal) {
+DWORD BOINCCABase::ChangeAppIDLaunchACL(
+    tstring_view AppID, tstring_view Principal
+) {
     return DCOMPermissionConfig::ChangeAppIDLaunchACL(AppID, Principal);
 }
 
-bool BOINCCABase::GetAccountSid(const tstring& AccountName, PSID* Sid) {
+bool BOINCCABase::GetAccountSid(tstring_view AccountName, PSID* Sid) {
     return LsaPrivs::GetAccountSid(AccountName, Sid);
 }
 
-bool BOINCCABase::GrantUserRight(PSID psidAccountSid,
-    const tstring& pszUserRight, bool bEnable) {
+bool BOINCCABase::GrantUserRight(
+    PSID psidAccountSid, tstring_view pszUserRight, bool bEnable
+) {
     return LsaPrivs::GrantUserRight(psidAccountSid, pszUserRight, bEnable);
 }
 
-HRESULT BOINCCABase::CreateProcessWithExplorerIL(const tstring& szCmdLine) {
+HRESULT BOINCCABase::CreateProcessWithExplorerIL(tstring_view szCmdLine) {
     return Launcher::CreateProcessWithExplorerIL(szCmdLine);
 }

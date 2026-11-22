@@ -25,7 +25,7 @@ public:
             _T("Save current setup parameters")) {
     }
 private:
-    UINT CASaveSetupState::OnExecution() override final {
+    UINT OnExecution() override final {
         tstring strInstallDirectory;
         GetProperty(_T("INSTALLDIR"), strInstallDirectory);
         SetRegistryValue(_T("INSTALLDIR"), strInstallDirectory);

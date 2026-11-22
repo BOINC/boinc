@@ -37,9 +37,9 @@ private:
             return ERROR_INSTALL_FAILURE;
         }
 
-        auto strBuffer = tstring(_T("\"")) + strInstallDirectory +
-            tstring(_T("\\boinctray.exe\""));
-        const auto result = CreateProcessWithExplorerIL(strBuffer);
+        const auto result = CreateProcessWithExplorerIL(std::format(
+            _T("\"{}\\boinctray.exe\""), strInstallDirectory
+        ));
 
         return result == S_OK ? ERROR_SUCCESS : ERROR_INSTALL_FAILURE;
     }

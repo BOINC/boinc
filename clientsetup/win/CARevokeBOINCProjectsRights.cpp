@@ -25,7 +25,7 @@ public:
             _T("Validating the BOINC Projects group privilege levels")) {
     }
 private:
-    UINT CARevokeBOINCProjectsRights::OnExecution() override final {
+    UINT OnExecution() override final {
         PSID pSid;
         if (!GetAccountSid(_T("boinc_projects"), &pSid)) {
             LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,

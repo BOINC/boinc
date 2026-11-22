@@ -26,6 +26,7 @@ public:
 
     // Terminate a process by name.
     // If bRecursive is true, also terminate all child processes.
-    static void TerminateProcessEx(const tstring& strProcessName,
-        bool bRecursive = true);
+    static void TerminateProcessEx(
+        tstring_view strProcessName, bool bRecursive = true
+    );
 };

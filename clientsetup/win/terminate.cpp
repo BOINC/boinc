@@ -172,13 +172,16 @@ static std::vector<BOINC_PROCESS> diagnostics_update_process_list() {
 }
 
 void TerminateProcess::TerminateProcessEx(
-    const tstring& strProcessName, bool bRecursive) {
+    tstring_view strProcessName, bool bRecursive
+) {
     constexpr auto downcase_string = [](auto str) {
-        std::transform(str.cbegin(), str.cend(), str.begin(),
+        tstring res;
+        res.resize(str.size());
+        std::transform(str.cbegin(), str.cend(), res.begin(),
             [](auto c) {
                 return static_cast<wchar_t>(std::tolower(c));
             });
-        return str;
+        return res;
         };
 
     const auto ps = diagnostics_update_process_list();
