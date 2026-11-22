@@ -70,8 +70,9 @@ static DWORD CopyACL(PACL OldACL, PACL NewACL) {
     return ERROR_SUCCESS;
 }
 
-static DWORD AddAccessAllowedACEToACL(PACL* Acl, DWORD PermissionMask,
-    std::wstring_view Principal) {
+static DWORD AddAccessAllowedACEToACL(
+    PACL* Acl, DWORD PermissionMask, tstring_view Principal
+) {
 
     PSID principalSID = nullptr;
     if (!LsaPrivs::GetAccountSid(Principal.data(), &principalSID)) {
@@ -81,8 +82,10 @@ static DWORD AddAccessAllowedACEToACL(PACL* Acl, DWORD PermissionMask,
 
     auto oldACL = *Acl;
     ACL_SIZE_INFORMATION aclSizeInfo;
-    if (!GetAclInformation(oldACL, reinterpret_cast<LPVOID>(&aclSizeInfo),
-        sizeof(ACL_SIZE_INFORMATION), AclSizeInformation)) {
+    if (!GetAclInformation(
+        oldACL, reinterpret_cast<LPVOID>(&aclSizeInfo),
+        sizeof(ACL_SIZE_INFORMATION), AclSizeInformation)
+        ) {
         return GetLastError();
     }
 
@@ -102,7 +105,8 @@ static DWORD AddAccessAllowedACEToACL(PACL* Acl, DWORD PermissionMask,
     }
 
     if (!AddAccessAllowedAce(
-        newACL, ACL_REVISION2, PermissionMask, principalSID)) {
+        newACL, ACL_REVISION2, PermissionMask, principalSID)
+        ) {
         return GetLastError();
     }
 
@@ -111,7 +115,7 @@ static DWORD AddAccessAllowedACEToACL(PACL* Acl, DWORD PermissionMask,
     return ERROR_SUCCESS;
 }
 
-static DWORD RemovePrincipalFromACL(PACL Acl, std::wstring_view Principal) {
+static DWORD RemovePrincipalFromACL(PACL Acl, tstring_view Principal) {
     PSID principalSID = nullptr;
     if (!LsaPrivs::GetAccountSid(Principal.data(), &principalSID)) {
         return GetLastError();
@@ -314,11 +318,14 @@ static DWORD MakeSDAbsolute(PSECURITY_DESCRIPTOR OldSD,
     return ERROR_SUCCESS;
 }
 
-static DWORD SetNamedValueSD(HKEY RootKey, std::wstring_view KeyName,
-    std::wstring_view ValueName, SECURITY_DESCRIPTOR* SD) {
+static DWORD SetNamedValueSD(
+    HKEY RootKey, tstring_view KeyName, tstring_view ValueName,
+    SECURITY_DESCRIPTOR* SD
+) {
     DWORD disposition;
     HKEY registryKey;
-    auto returnValue = RegCreateKeyEx(RootKey, KeyName.data(), 0, _T(""), 0,
+    wchar_t empty[] = _T("");
+    auto returnValue = RegCreateKeyEx(RootKey, KeyName.data(), 0, empty, 0,
         KEY_ALL_ACCESS, NULL, &registryKey, &disposition);
     if (returnValue != ERROR_SUCCESS) {
         return returnValue;
@@ -338,8 +345,10 @@ static DWORD SetNamedValueSD(HKEY RootKey, std::wstring_view KeyName,
 // Get the security descriptor from the named value. If it doesn't
 // exist, create a fresh one.
 //
-static DWORD GetNamedValueSD(HKEY RootKey, std::wstring_view KeyName,
-    std::wstring_view ValueName, SECURITY_DESCRIPTOR** SD, bool& NewSD) {
+static DWORD GetNamedValueSD(
+    HKEY RootKey, tstring_view KeyName, tstring_view ValueName,
+    SECURITY_DESCRIPTOR** SD, bool& NewSD
+) {
     NewSD = false;
 
     HKEY registryKey;
@@ -394,9 +403,10 @@ static DWORD GetNamedValueSD(HKEY RootKey, std::wstring_view KeyName,
     return ERROR_SUCCESS;
 }
 
-static DWORD AddPrincipalToNamedValueSD(HKEY RootKey,
-    std::wstring_view KeyName, std::wstring_view ValueName,
-    std::wstring_view Principal) {
+static DWORD AddPrincipalToNamedValueSD(
+    HKEY RootKey, tstring_view KeyName, tstring_view ValueName,
+    tstring_view Principal
+) {
     auto newSD = false;
     SECURITY_DESCRIPTOR* sd = nullptr;
     auto returnValue = GetNamedValueSD(RootKey, KeyName, ValueName, &sd,
@@ -470,9 +480,10 @@ static DWORD AddPrincipalToNamedValueSD(HKEY RootKey,
     return SetNamedValueSD(RootKey, KeyName, ValueName, sdSelfRelative);
 }
 
-static DWORD RemovePrincipalFromNamedValueSD(HKEY RootKey,
-    std::wstring_view KeyName, std::wstring_view ValueName,
-    std::wstring_view Principal) {
+static DWORD RemovePrincipalFromNamedValueSD(
+    HKEY RootKey, tstring_view KeyName, tstring_view ValueName,
+    tstring_view Principal
+) {
     SECURITY_DESCRIPTOR* sd = NULL;
     auto newSD = false;
     auto returnValue =
@@ -539,30 +550,32 @@ static DWORD RemovePrincipalFromNamedValueSD(HKEY RootKey,
     return SetNamedValueSD(RootKey, KeyName, ValueName, sdSelfRelative);
 }
 
-DWORD DCOMPermissionConfig::ChangeAppIDAccessACL(std::wstring_view AppID,
-    std::wstring_view Principal) {
-    tstring keyName = _T("APPID\\");
-    keyName += AppID;
+DWORD DCOMPermissionConfig::ChangeAppIDAccessACL(
+    tstring_view AppID, tstring_view Principal
+) {
+    const auto keyName = std::format(_T("APPID\\{}"), AppID);
 
-    const auto result = RemovePrincipalFromNamedValueSD(HKEY_CLASSES_ROOT,
-        keyName.data(), _T("AccessPermission"), Principal);
+    const auto result = RemovePrincipalFromNamedValueSD(
+        HKEY_CLASSES_ROOT, keyName, _T("AccessPermission"), Principal
+    );
     if (result != ERROR_SUCCESS) {
         return result;
     }
-    return AddPrincipalToNamedValueSD(HKEY_CLASSES_ROOT, keyName.data(),
+    return AddPrincipalToNamedValueSD(HKEY_CLASSES_ROOT, keyName,
         _T("AccessPermission"), Principal);
 }
 
-DWORD DCOMPermissionConfig::ChangeAppIDLaunchACL(std::wstring_view AppID,
-    std::wstring_view Principal) {
-    tstring keyName = _T("APPID\\");
-    keyName += AppID;
+DWORD DCOMPermissionConfig::ChangeAppIDLaunchACL(
+    tstring_view AppID, tstring_view Principal
+) {
+    const auto keyName = std::format(_T("APPID\\{}"), AppID);
 
-    const auto result = RemovePrincipalFromNamedValueSD(HKEY_CLASSES_ROOT,
-        keyName.data(), TEXT("LaunchPermission"), Principal);
+    const auto result = RemovePrincipalFromNamedValueSD(
+        HKEY_CLASSES_ROOT, keyName, TEXT("LaunchPermission"), Principal
+    );
     if (result != ERROR_SUCCESS) {
         return result;
     }
-    return AddPrincipalToNamedValueSD(HKEY_CLASSES_ROOT, keyName.data(),
+    return AddPrincipalToNamedValueSD(HKEY_CLASSES_ROOT, keyName,
         TEXT("LaunchPermission"), Principal);
 }

@@ -51,9 +51,11 @@ public:
     DCOMPermissionConfig operator=(const DCOMPermissionConfig&) = delete;
     DCOMPermissionConfig(const DCOMPermissionConfig&) = delete;
 
-    static DWORD ChangeAppIDAccessACL(std::wstring_view AppID,
-        std::wstring_view Principal);
+    static DWORD ChangeAppIDAccessACL(
+        tstring_view AppID, tstring_view Principal
+    );
 
-    static DWORD ChangeAppIDLaunchACL(std::wstring_view AppID,
-        std::wstring_view Principal);
+    static DWORD ChangeAppIDLaunchACL(
+        tstring_view AppID, tstring_view Principal
+    );
 };

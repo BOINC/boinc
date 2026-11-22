@@ -56,8 +56,9 @@ private:
         };
         for (auto right : rightsToSet) {
             if (!GrantUserRight(pSid, right, true)) {
-                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
-                    _T("Failed call to GrantUserRight - ") + tstring(right));
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, std::format(
+                    _T("Failed call to GrantUserRight - {}"), right
+                ));
                 return ERROR_INSTALL_FAILURE;
             }
         }

@@ -66,9 +66,9 @@ private:
             if (ValidateComponent(
                 component, strInstallDirectory, strProductVersion) !=
                 ERROR_SUCCESS) {
-                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
-                    _T("Component validation failed for: ") +
-                    tstring(component));
+                LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, std::format(
+                    _T("Component validation failed for: {}"), component
+                ));
                 validateResult = false;
             }
         }
@@ -88,24 +88,27 @@ private:
             return uiReturnValue;
         }
         if (strExecutable.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, _T("Component '") +
-                strComponent + _T("' is missing a key file."));
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, std::format(
+                _T("Component '{}' is missing a key file."), strComponent
+            ));
             return ERROR_INSTALL_FAILURE;
         }
 
         strExecutable = strDirectory + _T("\\") + strExecutable;
-        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
-            _T("Validating Executable: '") + strExecutable +
-            _T("' Version: '") + strDesiredVersion + _T("'"));
+        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, std::format(
+            _T("Validating Executable: '{}' Version: '{}'"),
+            strExecutable, strDesiredVersion
+        ));
 
 
         DWORD dwHandle;
         const auto dwSize = GetFileVersionInfoSize(strExecutable.c_str(),
             &dwHandle);
         if (dwSize == 0) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
-                _T("Failed to get version info size for executable: '") +
-                strExecutable + _T("'"));
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(), std::format(
+                _T("Failed to get version info size for executable: '{}'"),
+                strExecutable
+            ));
             return ERROR_INSTALL_FAILURE;
         }
 
@@ -114,14 +117,16 @@ private:
             pDataDeleter(lpData);
         if (!GetFileVersionInfo(strExecutable.c_str(), dwHandle, dwSize,
             lpData)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
-                _T("Failed to get version info for executable: '") +
-                strExecutable + _T("'"));
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(), std::format(
+                _T("Failed to get version info for executable: '{}'"),
+                strExecutable
+            ));
             return ERROR_INSTALL_FAILURE;
         }
-        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
-            _T("Successfully obtained version info for executable: '") +
-            strExecutable + _T("'"));
+        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, std::format(
+            _T("Successfully obtained version info for executable: '{}'"),
+            strExecutable
+        ));
 
         struct LANGANDCODEPAGE {
             WORD wLanguage;
@@ -130,37 +135,44 @@ private:
         UINT uiVarSize;
         if (!VerQueryValue(lpData, _T("\\VarFileInfo\\Translation"),
             reinterpret_cast<LPVOID*>(&lpTranslate), &uiVarSize)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(), std::format(
                 _T("Failed to get version info translation "
-                    "for executable: '") + strExecutable + _T("'"));
+                    "for executable: '{}'"),
+                strExecutable
+            ));
             return ERROR_INSTALL_FAILURE;
         }
 
-        tostringstream ss;
-        ss << _T("\\StringFileInfo\\") <<
-            std::hex << std::setw(4) << std::setfill(_T('0')) <<
-            lpTranslate[0].wLanguage <<
-            std::hex << std::setw(4) << std::setfill(_T('0')) <<
-            lpTranslate[0].wCodePage <<
-            _T("\\ProductVersion");
         LPVOID lpVar;
-        if (!VerQueryValue(lpData, ss.str().data(), &lpVar, &uiVarSize)) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(),
+        if (!VerQueryValue(
+            lpData,
+            std::format(_T("\\StringFileInfo\\{:04x}{:04x}\\ProductVersion"),
+                lpTranslate[0].wLanguage, lpTranslate[0].wCodePage
+            ).data(),
+            &lpVar,
+            &uiVarSize
+        )) {
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, GetLastError(), std::format(
                 _T("Failed to get product version from version info for "
-                    "executable: '") + strExecutable + _T("'"));
+                    "executable: '{}'"),
+                strExecutable
+            ));
             return ERROR_INSTALL_FAILURE;
         }
 
         const auto productVersion = tstring(reinterpret_cast<wchar_t*>(lpVar));
         if (productVersion.empty()) {
-            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0,
+            LogMessage(INSTALLMESSAGE_ERROR, 0, 0, 0, std::format(
                 _T("Product version is empty in version info "
-                    "for executable: '") + strExecutable + _T("'"));
+                    "for executable: '{}'"),
+                strExecutable
+            ));
             return ERROR_INSTALL_FAILURE;
         }
 
-        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0,
-            _T("Product Version: '") + productVersion + _T("'"));
+        LogMessage(INSTALLMESSAGE_INFO, 0, 0, 0, std::format(
+            _T("Product Version: '{}'"), productVersion
+        ));
 
         if (strDesiredVersion != productVersion) {
             return ERROR_INSTALL_FAILURE;

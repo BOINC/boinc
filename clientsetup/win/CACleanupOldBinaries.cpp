@@ -39,7 +39,7 @@ private:
             return ERROR_INSTALL_FAILURE;
         }
 
-        constexpr std::array<std::wstring_view, 13> filesToDelete = {
+        constexpr std::array<tstring_view, 13> filesToDelete = {
             _T("boinc.exe"),
             _T("boincmgr.exe"),
             _T("boinccmd.exe"),
@@ -57,7 +57,8 @@ private:
 
         for (auto file : filesToDelete) {
             DeleteFile(
-                (strInstallDirectory + _T("\\") + file.data()).c_str());
+                std::format(_T("{}\\{}"), strInstallDirectory, file).data()
+            );
         }
 
         return ERROR_SUCCESS;
