@@ -260,6 +260,7 @@ public:
     bool                GetIsDarkMode() { return m_isDarkMode; }
 #if defined(__WXMSW__)
     wxColour            GetDialogBackgroundColour();
+    void                FollowDialogBackground(wxWindow* pWindow);
     void                RefreshSkinThemeDefaults();
 #endif
 #ifdef __WXMAC__

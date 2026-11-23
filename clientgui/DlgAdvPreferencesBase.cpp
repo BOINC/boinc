@@ -191,6 +191,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     // dialog's background, which shows around the Save / Cancel / Help buttons.
     //
     m_panelButtons->SetBackgroundColour(wxGetApp().GetDialogBackgroundColour());
+    wxGetApp().FollowDialogBackground(m_panelButtons);
 #endif
 
     wxBoxSizer* buttonSizer = new wxBoxSizer( wxHORIZONTAL );

@@ -202,6 +202,7 @@ void CWizardAttach::CreateControls() {
         wxWindow* pPage = pPageArea->GetItem(i)->GetWindow();
         if (pPage) {
             pPage->SetBackgroundColour(wxGetApp().GetDialogBackgroundColour());
+            wxGetApp().FollowDialogBackground(pPage);
         }
     }
 #endif

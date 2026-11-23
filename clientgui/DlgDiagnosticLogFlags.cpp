@@ -103,6 +103,7 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
     // dialog's background.
     //
     m_scrolledWindow->SetBackgroundColour(wxGetApp().GetDialogBackgroundColour());
+    wxGetApp().FollowDialogBackground(m_scrolledWindow);
 #endif
 
     m_checkboxSizer = new wxGridSizer(2, wxSize(0,3));

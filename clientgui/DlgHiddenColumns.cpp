@@ -81,6 +81,7 @@ CDlgHiddenColumns::CDlgHiddenColumns(wxWindow* parent) :
     // COLOR_APPWORKSPACE instead of the dialog's background.
     //
     m_scrolledWindow->SetBackgroundColour(wxGetApp().GetDialogBackgroundColour());
+    wxGetApp().FollowDialogBackground(m_scrolledWindow);
 #endif
 
     m_scrolledSizer = new wxBoxSizer(wxVERTICAL);

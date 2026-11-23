@@ -1647,8 +1647,41 @@ void CBOINCGUIApp::RefreshSkinThemeDefaults() {
 // there is nothing to correct.
 //
 wxColour CBOINCGUIApp::GetDialogBackgroundColour() {
+    // Ask the appearance in force rather than read m_isDarkMode: that member
+    // follows a theme change only once a frame has rebuilt for it, which happens
+    // after the notifications settle.  A dialog opened in between is built with
+    // the previous theme's colour, and a change the frames never rebuilt for
+    // leaves the colour behind for the rest of the session: the strip around the
+    // Save / Cancel / Help buttons is then light in a dark dialog, or dark in
+    // the light one, until the Manager is restarted.
+    //
+    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
+    const bool bDark = appearance.IsDark() || appearance.AreAppsDark();
     return wxSystemSettings::GetColour(
-        m_isDarkMode ? wxSYS_COLOUR_WINDOW : wxSYS_COLOUR_BTNFACE
+        bDark ? wxSYS_COLOUR_WINDOW : wxSYS_COLOUR_BTNFACE
+    );
+}
+
+
+// A dialog that is already open when Windows changes theme keeps the colours it
+// was built with, because the windows above took theirs from
+// GetDialogBackgroundColour() once, while the dialog was being created, and
+// nothing asks again.  Ask again when the notification arrives: those windows
+// then follow the appearance their dialog is repainted with, instead of keeping
+// the previous theme's tone until the dialog is closed and opened again.
+//
+void CBOINCGUIApp::FollowDialogBackground(wxWindow* pWindow) {
+    wxWindow* pTopLevel = wxGetTopLevelParent(pWindow);
+    if (!pTopLevel) {
+        return;
+    }
+    pTopLevel->Bind(
+        wxEVT_SYS_COLOUR_CHANGED,
+        [pWindow](wxSysColourChangedEvent& event) {
+            pWindow->SetBackgroundColour(wxGetApp().GetDialogBackgroundColour());
+            pWindow->Refresh();
+            event.Skip();
+        }
     );
 }
 #endif
