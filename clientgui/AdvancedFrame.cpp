@@ -2046,6 +2046,12 @@ void CAdvancedFrame::RebuildForThemeChange() {
     // the line below is the one this code has always used there.
     //
     wxGetApp().SetIsDarkMode(AppearanceIsDarkNow());
+
+    // The skin works out the colours it does not set for itself once, when it
+    // is first asked, so tell it about the new appearance before the panels are
+    // rebuilt from it: the simple GUI's labels take their tone from there.
+    //
+    wxGetApp().RefreshSkinThemeDefaults();
 #else
     wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
     wxGetApp().SetIsDarkMode(appearance.IsDark());

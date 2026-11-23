@@ -260,6 +260,7 @@ public:
     bool                GetIsDarkMode() { return m_isDarkMode; }
 #if defined(__WXMSW__)
     wxColour            GetDialogBackgroundColour();
+    void                RefreshSkinThemeDefaults();
 #endif
 #ifdef __WXMAC__
     // The following Cocoa routines are in CBOINCGUIApp.mm

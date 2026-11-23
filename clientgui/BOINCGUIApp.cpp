@@ -1614,6 +1614,23 @@ bool CBOINCGUIApp::IsModalDialogDisplayed() {
 
 
 #if defined(__WXMSW__)
+// The appearance decides some of the colours a skin does not set for itself,
+// notably the tone the simple GUI paints behind its text.  A skin works those
+// out once, when it is first asked, so tell it about a new appearance before
+// the frames rebuild -- see CSkinSimple::RefreshThemeDefaults().  Windows only:
+// elsewhere the frames rebuild with the skin reloaded, and this must not change
+// what those platforms draw.
+//
+void CBOINCGUIApp::RefreshSkinThemeDefaults() {
+    if (m_pSkinManager) {
+        CSkinSimple* pSkinSimple = m_pSkinManager->GetSimple();
+        if (pSkinSimple) {
+            pSkinSimple->RefreshThemeDefaults();
+        }
+    }
+}
+
+
 // The colour a dialog is drawn with, for the windows in it that have no
 // background colour of their own.
 //

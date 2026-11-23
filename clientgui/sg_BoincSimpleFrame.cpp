@@ -926,6 +926,12 @@ void CSimpleFrame::RebuildForThemeChange() {
     // See the matching comment in CAdvancedFrame::RebuildForThemeChange().
     //
     wxGetApp().SetIsDarkMode(AppearanceIsDarkNow());
+
+    // See the matching comment in CAdvancedFrame::RebuildForThemeChange(): the
+    // panels below are built with the skin's colours, and the skin decides them
+    // when it is told about the new appearance.
+    //
+    wxGetApp().RefreshSkinThemeDefaults();
 #else
     wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
     wxGetApp().SetIsDarkMode(appearance.IsDark());

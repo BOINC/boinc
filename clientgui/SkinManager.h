@@ -57,6 +57,16 @@ public:
 
     wxBitmap* GetBitmap();
     wxColour* GetBackgroundColor();
+#if defined(__WXMSW__)
+    // Take a new colour to fall back on and forget the one already worked out,
+    // so the next lookup resolves it again.  See
+    // CSkinSimple::RefreshThemeDefaults().
+    //
+    void RefreshThemeColor( const wxString& strDefaultBackgroundColor ) {
+        m_strDefaultBackgroundColor = strDefaultBackgroundColor;
+        m_colBackgroundColor = wxNullColour;
+    }
+#endif
     int  GetHorizontalAnchor() { return m_iAnchorHorizontal; }
     int  GetVerticalAnchor() { return m_iAnchorVertical; }
 
@@ -145,6 +155,10 @@ public:
     int  Parse(MIOFILE& in);
 
     bool InitializeDelayedValidation();
+
+#if defined(__WXMSW__)
+    bool RefreshThemeDefaults();
+#endif
 
     CSkinImage*         GetBackgroundImage() { return &m_BackgroundImage; }
     CSkinImage*         GetDialogBackgroundImage() { return &m_DialogBackgroundImage; }
