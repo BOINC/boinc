@@ -2085,6 +2085,17 @@ void CAdvancedFrame::RebuildForThemeChange() {
     DeleteStatusbar();
     CreateStatusbar();
     Layout();
+
+    // The menus keep the theme they were built with as well: wxMSW draws the
+    // popups itself in dark mode, taking the colours in force when the menus are
+    // created.  After a switch they therefore stay in the old theme -- a Manager
+    // started in the dark keeps dark popups over a light window, and one started
+    // in the light keeps light separators in dark popups.  Build them again, the
+    // way the status bar above is built again: CreateMenus() appends to a new bar,
+    // swaps it in and deletes the old one, and the menu handlers are bound on the
+    // frame by command id, so they survive the swap.
+    //
+    CreateMenus();
 #endif
 
     // The last tab label ("Disk") is ellipsed here unless the window is resized

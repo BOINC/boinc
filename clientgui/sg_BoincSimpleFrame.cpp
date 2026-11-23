@@ -975,6 +975,12 @@ void CSimpleFrame::RebuildForThemeChange() {
     }
 
 #if defined(__WXMSW__)
+    // Same as in the advanced frame: wxMSW's menus draw themselves in dark mode
+    // with the colours in force when they were created, so a switch leaves the
+    // popups in the old theme until they are built again.
+    //
+    CreateMenus();
+
     // Nothing above touches the non-client area, which DWM draws from a flag it
     // was given when this window was created.
     //
