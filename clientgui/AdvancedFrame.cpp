@@ -2085,14 +2085,19 @@ void CAdvancedFrame::RebuildForThemeChange() {
 #endif
 
     RestoreState();
-#if defined(__WXMSW__)
+
+    // Same as at the end of the constructor (see CAdvancedFrame::CAdvancedFrame):
+    // the generic list controls need their panel laid out once their state has
+    // been restored.  RepopulateNotebook() above re-creates those controls on
+    // every platform, so unlike the panel re-creation inside the guard below this
+    // is not Windows-specific -- it mirrors the constructor's call, on all
+    // platforms, for the same reason.
+    //
     if (m_pNotebook) {
-        // Same as at the end of the constructor: the generic list controls need
-        // their panel laid out once their state has been restored.
-        //
         m_pNotebook->GetParent()->Layout();
     }
 
+#if defined(__WXMSW__)
     // Same story for the status bar: a native control that keeps the colours it
     // was created with, so a Manager started in the dark keeps a dark bar after
     // Windows is switched to light, and the other way round.  Nothing is lost by
