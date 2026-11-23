@@ -386,8 +386,9 @@ bool CSimpleFrame::CreateMenus() {
     m_Shortcuts[2].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'F', ID_SGDIAGNOSTICLOGFLAGS);
 
     // This runs again whenever the menus are rebuilt -- a theme change -- so
-    // release the table the previous run left behind.  wxWindow keeps its own
-    // reference to the table, so this does not disturb the accelerators in force.
+    // release the table the previous run left behind.  SetAcceleratorTable()
+    // copies the table into the window, so this does not disturb the
+    // accelerators in force.
     //
     delete m_pAccelTable;
     m_pAccelTable = new wxAcceleratorTable(3, m_Shortcuts);
