@@ -1519,6 +1519,10 @@ if test ${isWIN32} = "yes" ; then
       AC_DEFINE([HAVE_LIBDWMAPI],[1],[Define to 1 if you have the dwmapi library])
       CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
      echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+  SAH_CHECK_LIB([uxtheme],[SetWindowTheme],[
+      AC_DEFINE([HAVE_LIBUXTHEME],[1],[Define to 1 if you have the uxtheme library])
+      CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+     echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 fi
 
 svlibs=$LIBS
