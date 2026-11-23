@@ -1613,6 +1613,30 @@ bool CBOINCGUIApp::IsModalDialogDisplayed() {
 }
 
 
+#if defined(__WXMSW__)
+// The colour a dialog is drawn with, for the windows in it that have no
+// background colour of their own.
+//
+// Windows fills such a window with COLOR_APPWORKSPACE, the colour it uses for
+// "empty space", and it settles that colour the first time the window is
+// erased.  In the light theme COLOR_APPWORKSPACE is 171 grey, which reads as a
+// dark hole in a dialog whose own background is 240 grey; the dark theme maps
+// it to a colour close enough to the dialogs' that nobody notices.  That is why
+// the holes only appear once the Manager has run in dark mode and Windows is
+// back in the light theme -- see the matching fix, and the same explanation, in
+// CAdvancedFrame::CreateNotebook().
+//
+// Windows only: elsewhere a window takes its background from its parent and
+// there is nothing to correct.
+//
+wxColour CBOINCGUIApp::GetDialogBackgroundColour() {
+    return wxSystemSettings::GetColour(
+        m_isDarkMode ? wxSYS_COLOUR_WINDOW : wxSYS_COLOUR_BTNFACE
+    );
+}
+#endif
+
+
 // Prevent recursive entry of CMainDocument::RequestRPC()
 int CBOINCGUIApp::FilterEvent(wxEvent &event) {
     int theEventType;
