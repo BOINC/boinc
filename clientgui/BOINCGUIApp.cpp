@@ -16,6 +16,9 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdwx.h"
+#if defined(__WXMSW__)
+#include <wx/weakref.h>
+#endif
 
 #ifdef __WXMAC__
 #include <Carbon/Carbon.h>
@@ -1680,11 +1683,19 @@ void CBOINCGUIApp::FollowDialogBackground(wxWindow* pWindow) {
     if (!pTopLevel) {
         return;
     }
+    // The notification arrives on the top-level window, but the colour is set on
+    // the panel inside it.  Hold that panel weakly: the handler outlives it if the
+    // panel goes first, and a wizard page replaced while its wizard is open is
+    // enough to reach that.
+    //
+    wxWeakRef<wxWindow> window(pWindow);
     pTopLevel->Bind(
         wxEVT_SYS_COLOUR_CHANGED,
-        [pWindow](wxSysColourChangedEvent& event) {
-            pWindow->SetBackgroundColour(wxGetApp().GetDialogBackgroundColour());
-            pWindow->Refresh();
+        [window](wxSysColourChangedEvent& event) {
+            if (window) {
+                window->SetBackgroundColour(wxGetApp().GetDialogBackgroundColour());
+                window->Refresh();
+            }
             event.Skip();
         }
     );
