@@ -86,6 +86,7 @@ SCHED_SHMEM* ssp = 0;
 bool stdin_reqs = false;
 bool mark_jobs_done = false;
 bool all_apps_use_hr;
+bool use_sticky_delete_regex = false;
 
 static void usage(char* p) {
     boinc::fprintf(stderr,
@@ -493,7 +494,9 @@ int main(int argc, char** argv) {
 
     gui_urls.init();
     project_files.init();
-    init_file_delete_regex();
+    if (init_sticky_delete_regex() == 0) {
+        use_sticky_delete_regex = true;
+    }
 
     sprintf(path, "%s/code_sign_public", config.key_dir);
     retval = read_file_malloc(path, code_sign_key);

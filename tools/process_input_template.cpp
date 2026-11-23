@@ -144,7 +144,7 @@ static void write_md5_info(
     return;
 }
 
-// generate a <file_info> element for workunit XML doc,
+// generate a <file_info> element for a workunit XML doc,
 // based on a <file_info> in an input template and list of input files
 //
 // in:
@@ -180,6 +180,7 @@ static int process_file_info(
     char gzip_path[MAXPATHLEN];
     char md5[33], url[256], gzipped_url[256], buf2[256];
     INFILE_DESC var_infile, infile;
+    bool sticky = false;
 
     strcpy(physical_name, "");
 
@@ -201,6 +202,8 @@ static int process_file_info(
             continue;
         } else if (xp.parse_double("gzipped_nbytes", gzipped_nbytes)) {
             continue;
+        } else if (xp.parse_bool("sticky", sticky)) {
+            continue;
         } else if (xp.match_tag("/file_info")) {
             // there are four cases:
             // - normal file
@@ -214,8 +217,9 @@ static int process_file_info(
             if (!strlen(physical_name)) {
                 if (n_var_infiles >= (int)var_infiles.size()) {
                     boinc::fprintf(stderr,
-                        "Too few var input files given; need at least %d\n",
-                        n_var_infiles+1
+                        "Too few var input files given; need at least %d, got %d\n",
+                        n_var_infiles+1,
+                        (int)var_infiles.size()
                     );
                     return ERR_XML_PARSE;
                 }
@@ -251,7 +255,7 @@ static int process_file_info(
                     md5,
                     nbytes
                 );
-                strcpy(infile.name, physical_name);
+                strcpy(infile.phys_name, physical_name);
                 strcpy(infile.md5, md5);
                 infile.nbytes = nbytes;
             } else if (nbytesdef > 0) {
@@ -269,9 +273,18 @@ static int process_file_info(
                 }
                 urlstr = "";
                 for (unsigned int i=0; i<urls.size(); i++) {
-                    urlstr += "    <url>" + urls.at(i) + string(var_infile.name) + "</url>\n";
+                    urlstr += "    <url>"
+                        + urls.at(i)
+                        + string(var_infile.phys_name)
+                        + "</url>\n"
+                    ;
                     if (gzip) {
-                        urlstr += "    <gzipped_url>" + urls.at(i) + string(var_infile.name) + ".gz</gzipped_url>\n";
+                        urlstr +=
+                            "    <gzipped_url>"
+                            + urls.at(i)
+                            + string(var_infile.phys_name)
+                            + ".gz</gzipped_url>\n"
+                        ;
                     }
                 }
                 sprintf(buf,
@@ -279,7 +292,7 @@ static int process_file_info(
                     "%s"
                     "    <md5_cksum>%s</md5_cksum>\n"
                     "    <nbytes>%.0f</nbytes>\n",
-                    var_infile.name,
+                    var_infile.phys_name,
                     urlstr.c_str(),
                     md5str.c_str(),
                     nbytesdef
@@ -290,7 +303,7 @@ static int process_file_info(
                     );
                     strcat(buf, buf2);
                 }
-                strcpy(infile.name, var_infile.name);
+                strcpy(infile.phys_name, var_infile.phys_name);
                 strcpy(infile.md5, md5str.c_str());
                 infile.nbytes = nbytesdef;
             } else if (var_infile.is_remote) {
@@ -307,15 +320,16 @@ static int process_file_info(
                     var_infile.md5,
                     var_infile.nbytes
                 );
-                safe_strcpy(infile.name, buf2);
+                safe_strcpy(infile.phys_name, buf2);
                 safe_strcpy(infile.md5, var_infile.md5);
                 infile.nbytes = var_infile.nbytes;
+                sticky |= var_infile.sticky;
             } else {
-                // normal case. we need to find file size and MD5;
-                // stage the file if needed
+                // normal case: local file specified in create_work arg
+                // find file size and MD5; stage the file if needed
                 //
                 dir_hier_path(
-                    var_infile.name, config_loc.download_dir,
+                    var_infile.phys_name, config_loc.download_dir,
                     config_loc.uldl_dir_fanout, path, true
                 );
 
@@ -324,7 +338,7 @@ static int process_file_info(
                 //
                 if (!boinc_file_exists(path)) {
                     sprintf(top_download_path,
-                        "%s/%s",config_loc.download_dir, var_infile.name
+                        "%s/%s",config_loc.download_dir, var_infile.phys_name
                     );
                     boinc_copy(top_download_path, path);
                     printf("copy %s to %s\n", top_download_path, path);
@@ -344,7 +358,7 @@ static int process_file_info(
                 }
 
                 dir_hier_url(
-                    var_infile.name, config_loc.download_url,
+                    var_infile.phys_name, config_loc.download_url,
                     config_loc.uldl_dir_fanout, url
                 );
 
@@ -373,21 +387,25 @@ static int process_file_info(
                     "%s"
                     "    <md5_cksum>%s</md5_cksum>\n"
                     "    <nbytes>%.0f</nbytes>\n",
-                    var_infile.name,
+                    var_infile.phys_name,
                     url,
                     gzipped_url,
                     md5,
                     nbytes
                 );
-                strcpy(infile.name, var_infile.name);
+                strcpy(infile.phys_name, var_infile.phys_name);
                 strcpy(infile.md5, md5);
                 infile.nbytes = nbytes;
+                sticky |= var_infile.sticky;
             }
             infiles.push_back(infile);
             if (!strlen(physical_name)) {
                 n_var_infiles++;
             }
             out += buf;
+            if (sticky) {
+                out += "    <sticky/>\n";
+            }
             out += "</file_info>\n";
             break;
         } else {
@@ -441,7 +459,7 @@ static int process_workunit(
             }
             INFILE_DESC& id = infiles[n_file_refs];
             out += format(
-                "    <file_name>{}</file_name>\n", id.name
+                "    <file_name>{}</file_name>\n", id.phys_name
             ).c_str();
 
             while (!xp.get_tag()) {
@@ -462,7 +480,7 @@ static int process_workunit(
                         return ERR_XML_PARSE;
                     } else if (!found_open_name && found_copy_file) {
                         out += format(
-                            "    <open_name>{}</open_name>\n", id.name
+                            "    <open_name>{}</open_name>\n", id.phys_name
                         ).c_str();
                     }
                     out += "</file_ref>\n";

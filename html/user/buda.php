@@ -783,7 +783,7 @@ function app_details($user) {
     row2('Science keywords', kw_array_to_str($desc->sci_kw));
     row2(
         'Input filenames:',
-        implode(',', $desc->input_file_names)
+        implode('<br>', $desc->input_file_names)
     );
     row2(
         'Output filenames:',

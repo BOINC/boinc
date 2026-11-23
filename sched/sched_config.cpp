@@ -326,6 +326,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool("rte_no_stats", rte_no_stats)) continue;
         if (xp.parse_bool("batch_accel", batch_accel)) continue;
         if (xp.parse_bool("size_classes", size_classes)) continue;
+        if (xp.parse_bool("sticky_db", sticky_db)) continue;
 
         //////////// SCHEDULER LOG FLAGS /////////
 

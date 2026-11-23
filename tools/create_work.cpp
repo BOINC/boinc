@@ -208,6 +208,19 @@ void JOB_DESC::parse_stdin_line(int argc, char** argv) {
             id.nbytes = atof(argv[++i]);
             safe_strcpy(id.md5, argv[++i]);
             infiles.push_back(id);
+        } else if (arg(argv, i, (char*)"sticky_file")) {
+            INFILE_DESC id;
+            id.sticky = true;
+            safe_strcpy(id.phys_name, argv[++i]);
+            infiles.push_back(id);
+        } else if (arg(argv, i, (char*)"remote_sticky_file")) {
+            INFILE_DESC id;
+            id.is_remote = true;
+            id.sticky = true;
+            safe_strcpy(id.url, argv[++i]);
+            id.nbytes = atof(argv[++i]);
+            safe_strcpy(id.md5, argv[++i]);
+            infiles.push_back(id);
         } else if (arg(argv, i, "target_host")) {
             assign_flag = true;
             assign_type = ASSIGN_HOST;
@@ -226,8 +239,7 @@ void JOB_DESC::parse_stdin_line(int argc, char** argv) {
                 exit(1);
             }
             INFILE_DESC id;
-            id.is_remote = false;
-            safe_strcpy(id.name, argv[i]);
+            safe_strcpy(id.phys_name, argv[i]);
             infiles.push_back(id);
         }
     }
@@ -392,8 +404,7 @@ int main(int argc, char** argv) {
                 exit(1);
             }
             INFILE_DESC id;
-            id.is_remote = false;
-            safe_strcpy(id.name, argv[i]);
+            safe_strcpy(id.phys_name, argv[i]);
             jd.infiles.push_back(id);
         }
         i++;

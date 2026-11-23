@@ -15,9 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// functions for initiating deletion of sticky files on clients.
-// The project can supply a file "file_delete_regex"
-// which is a list of regular expressions for names of files to be deleted.
+// initiate deletion of old sticky files on clients.
+//
+// There are two approaches; you can use one or the other, not both.
+//
+// 1) the project supplies a file "file_delete_regex",
+//      a list of regular expressions for names of files to be deleted.
+//      (this seems odd; shouldn't you specify existing files instead?)
+// 2) use a DB table of sticky files (BUDA uses this)
 
 #include <regex.h>
 #include <stdio.h>
@@ -37,11 +42,11 @@ using std::string;
 vector<regex_t> file_delete_regex;
 vector<string> file_delete_regex_string;
 
-int init_file_delete_regex() {
+int init_sticky_delete_regex() {
     char buf[256];
     FILE* f = boinc::fopen("../file_delete_regex", "r");
 
-    if (!f) return 0;
+    if (!f) return -1;
     while (boinc::fgets(buf, sizeof(buf), f)) {
         strip_whitespace(buf);
         if (!strlen(buf)) continue;
@@ -59,7 +64,7 @@ int init_file_delete_regex() {
     return 0;
 }
 
-int do_file_delete_regex() {
+int do_sticky_delete_regex() {
     for (const FILE_INFO& fi: g_request->file_infos) {
         bool found = false;
         for (unsigned int j=0; j<file_delete_regex.size(); j++) {
@@ -83,4 +88,30 @@ int do_file_delete_regex() {
         }
     }
     return 0;
+}
+
+/////// DB-based method
+
+int sticky_delete_db() {
+    static bool inited = false;
+    static vector<STICKY_FILE> sfs;
+    if (!inited) {
+        DB_STICKY_FILE sf;
+        while (!sf.enumerate()) {
+            sfs.push_back(sf);
+        }
+        inited = true;
+    }
+    for (const FILE_INFO& fi: g_request->file_infos) {
+        bool found = false;
+        for (STICKY_FILE &sf: sfs) {
+            if (!strcmp(sf.physical_name, fi.name)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            g_reply->file_deletes.push_back(fi);
+        }
+    }
 }

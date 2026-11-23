@@ -198,6 +198,8 @@ DB_CREDIT_TEAM::DB_CREDIT_TEAM(DB_CONN* dc) :
     DB_BASE("credit_team", dc?dc:&boinc_db){}
 DB_CONSENT_TYPE::DB_CONSENT_TYPE(DB_CONN* dc) :
     DB_BASE("consent_type", dc?dc:&boinc_db){}
+DB_STICKY_FILE::DB_STICKY_FILE(DB_CONN* dc) :
+    DB_BASE("sticky_file", dc?dc:&boinc_db){}
 
 DB_ID_TYPE DB_PLATFORM::get_id() {return id;}
 DB_ID_TYPE DB_APP::get_id() {return id;}
@@ -2988,4 +2990,17 @@ void DB_CONSENT_TYPE::db_parse(MYSQL_ROW &r) {
     enabled = atoi(r[i++]);
     project_specific = atoi(r[i++]);
     privacypref = atoi(r[i++]);
+}
+
+void DB_STICKY_FILE::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    id = atol(r[i++]);
+    create_time = atof(r[i++]);
+    user_id = atol(r[i++]);
+    strcpy2(md5, r[i++]);
+    size = atof(r[i++]);
+    gzip_size = atof(r[i++]);
+    strcpy2(physical_name, r[i++]);
+    strcpy2(remote_url, r[i++]);
 }

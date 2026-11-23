@@ -1225,7 +1225,12 @@ void process_request(char* code_sign_key) {
 
     // if client has sticky files we don't need any more, tell it
     //
-    do_file_delete_regex();
+    if (use_sticky_delete_regex) {
+        do_sticky_delete_regex();
+    }
+    if (config.sticky_db) {
+        sticky_delete_db();
+    }
 
     // if bad BOINC version / OS / CPU, send a message, don't send work
     //

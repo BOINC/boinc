@@ -191,6 +191,7 @@ function sample_navbar(
             if ($user_submit) {
                 $x = [];
                 $x[] = ["File sandbox", "sandbox.php"];
+                $x[] = ["Sticky files", "sticky.php"];
                 $x[] = ["Submit jobs", $url_prefix."submit.php"];
                 $x[] = ["Job status", $url_prefix."submit.php?action=show_user_batches"];
                 if ($user_submit->manage_all) {
