@@ -306,6 +306,7 @@ static int process_file_info(
                 strcpy(infile.phys_name, var_infile.phys_name);
                 strcpy(infile.md5, md5str.c_str());
                 infile.nbytes = nbytesdef;
+                sticky |= var_infile.sticky;
             } else if (var_infile.is_remote) {
                 // remote file specified in create_work() arg
                 //

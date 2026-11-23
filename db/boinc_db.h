@@ -604,6 +604,7 @@ struct DB_CONSENT_TYPE : public DB_BASE, public CONSENT_TYPE {
 
 struct DB_STICKY_FILE : public DB_BASE, public STICKY_FILE {
     DB_STICKY_FILE(DB_CONN* p=0);
+    DB_ID_TYPE get_id() {return id;};
     //void db_print(char*);
     void db_parse(MYSQL_ROW&);
 };

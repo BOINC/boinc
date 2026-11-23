@@ -97,7 +97,10 @@ int sticky_delete_db() {
     static vector<STICKY_FILE> sfs;
     if (!inited) {
         DB_STICKY_FILE sf;
-        while (!sf.enumerate()) {
+        while (1) {
+            int retval = sf.enumerate();
+            if (retval == ERR_DB_NOT_FOUND) break;
+            if (retval) return retval;
             sfs.push_back(sf);
         }
         inited = true;
@@ -114,4 +117,5 @@ int sticky_delete_db() {
             g_reply->file_deletes.push_back(fi);
         }
     }
+    return 0;
 }

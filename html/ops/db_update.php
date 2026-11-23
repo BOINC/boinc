@@ -1362,13 +1362,15 @@ create table sticky_file (
     md5                     varchar(63)     not null default '',
     size                    double          not null default 0,
     gzip_size               double          not null default 0,
-    physical_name           varchar(255)    not null default 0,
+    physical_name           varchar(255)    not null default '',
     remote_url              varchar(255)    not null default '',
     primary key (id),
     unique(md5),
     index sfu (user_id)
 ) engine=InnoDB;
+");
 
+    do_query("
 create table sticky_file_ref (
     id                      integer         not null auto_increment,
     create_time             double          not null,
@@ -1381,8 +1383,7 @@ create table sticky_file_ref (
     index sfr (sticky_file_id),
     index sfrb (batch_id)
 ) engine=InnoDB;
-"
-    );
+");
 }
 
 // Updates are done automatically if you use "upgrade".

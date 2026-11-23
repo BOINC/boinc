@@ -154,12 +154,13 @@ function handle_file($dir, $fname) {
     if (str_ends_with($fname, '.toml')) {
         $desc->log_name = substr($fname, 0, -5);
         foreach (file("$dir/$fname") as $line) {
-            $x = explode('=', $line);
+            $x = explode('=', $line, 2);    // allow URLs with =
             if (count($x) != 2) error_page("bad line $line");
             $a = trim($x[0]);
             $b = str_replace('"', '', trim($x[1]));
             switch ($a) {
             case 'sandbox_name':
+                if (!if_valid_filename($b)) error_page('bad sandbox name');
                 $desc->sandbox_name = $b;
                 break;
             case 'sticky':
@@ -171,15 +172,15 @@ function handle_file($dir, $fname) {
             default:
                 error_page("bad line $line");
             }
-            if (empty($desc->sandbox_name)) error_page('no sandbox name');
-            $user = get_logged_in_user();
-            $sbdir = sandbox_dir($user);
-            $sbpath = "$sbdir/$desc->sandbox_name";
-            if (!file_exists($sbpath)) error_page('no sandbox file');
-            [$desc->md5, $desc->size] = sandbox_parse_info_file(
-                $user, $desc->sandbox_name
-            );
         }
+        if (empty($desc->sandbox_name)) error_page('no sandbox name');
+        $user = get_logged_in_user();
+        $sbdir = sandbox_dir($user);
+        $sbpath = "$sbdir/$desc->sandbox_name";
+        if (!file_exists($sbpath)) error_page('no sandbox file');
+        [$desc->md5, $desc->size] = sandbox_parse_info_file(
+            $user, $desc->sandbox_name
+        );
     } else {
         $desc->log_name = $fname;
         [$desc->md5, $desc->size] = get_file_info("$dir/$fname");
@@ -189,7 +190,8 @@ function handle_file($dir, $fname) {
 
 function parse_batch_dir($batch_dir, $app_desc) {
     $input_file_names = $app_desc->input_file_names;
-    $shared_files_names = [];
+    $shared_file_names = [];
+    $shared_file_descs = [];
     $dir = "$batch_dir/shared_input_files";
     if (is_dir($dir)) {
         foreach (scandir($dir) as $fname) {
@@ -230,7 +232,9 @@ function parse_batch_dir($batch_dir, $app_desc) {
             $job_file_names[] = $desc->log_name;
             $job_file_descs[] = $desc;
         }
-        if (array_values($job_file_names) != array_values($unshared_file_names)) {
+        if (sort(array_values($job_file_names))
+            != sort(array_values($unshared_file_names))
+        ) {
             print_r($job_file_names);
             print_r($unshared_file_names);
             error_page("$job_name doesn't have all input files");
@@ -279,7 +283,7 @@ function stage($desc, $dir, $batch_id) {
                 sprintf(
                     "(create_time, user_id, md5, size, physical_name, remote_url) values (%d, %d, '%s', %f, '%s', '%s')",
                     time(), $user->id, $desc->md5, $desc->size,
-                    $phys_name, $desc->url
+                    $phys_name, BoincDb::escape_string($desc->url)
                 )
             );
             $sf = BoincStickyFile::lookup("md5='$desc->md5'");

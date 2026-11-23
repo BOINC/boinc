@@ -967,7 +967,7 @@ struct STICKY_FILE {
 struct STICKY_FILE_REF {
     DB_ID_TYPE id;
     double create_time;
-    DB_ID_TYPE stick_file_id;
+    DB_ID_TYPE sticky_file_id;
     DB_ID_TYPE user_id;
     DB_ID_TYPE batch_id;
     char logical_name[256];

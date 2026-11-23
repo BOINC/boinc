@@ -105,7 +105,10 @@ function sf_detail($sf_id) {
     end_table();
     if ($can_release) {
         show_button(
-            "sticky.php?action=release&sf_id=$sf_id",
+            sprintf(
+                'sticky.php?action=release&sf_id=%d%s',
+                $sf_id, url_tokens()
+            ),
             'Release sticky file'
         );
     }
@@ -124,7 +127,7 @@ function sf_release($sf_id) {
     //
     $path = download_hier_path($fname);
     unlink($path);
-    unlink($path+`.md5`);
+    unlink($path+'.md5');
 
     main("Sticky file $sf_id released");
 }
@@ -137,6 +140,7 @@ case 'detail':
     break;
 case 'release':
     $sf_id = get_int('sf_id');
+    check_tokens();
     sf_release($sf_id);
     break;
 default:

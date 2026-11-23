@@ -858,7 +858,7 @@ create table sticky_file (
     md5                     varchar(63)     not null default '',
     size                    double          not null default 0,
     gzip_size               double          not null default 0,
-    physical_name           varchar(255)    not null default 0,
+    physical_name           varchar(255)    not null default '',
     remote_url              varchar(255)    not null default '',
     primary key (id),
     unique(md5),
