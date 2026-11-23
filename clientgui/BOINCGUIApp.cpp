@@ -1684,9 +1684,10 @@ void CBOINCGUIApp::FollowDialogBackground(wxWindow* pWindow) {
         return;
     }
     // The notification arrives on the top-level window, but the colour is set on
-    // the panel inside it.  Hold that panel weakly: the handler outlives it if the
-    // panel goes first, and a wizard page replaced while its wizard is open is
-    // enough to reach that.
+    // the panel inside it, so the child is not guaranteed to outlive the binding
+    // even though the dialogs here destroy the two together: Destroy() defers the
+    // deletion, and any future caller could bind a panel that goes first.  Hold it
+    // weakly so the handler is harmless either way.
     //
     wxWeakRef<wxWindow> window(pWindow);
     pTopLevel->Bind(
