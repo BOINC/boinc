@@ -260,6 +260,11 @@ CAdvancedFrame::~CAdvancedFrame() {
         m_pFrameRenderTimer = NULL;
     }
 
+    if (m_pAccelTable) {
+        delete m_pAccelTable;
+        m_pAccelTable = NULL;
+    }
+
     if (m_pStatusbar) {
         wxCHECK_RET(DeleteStatusbar(), _T("Failed to delete status bar."));
     }
@@ -745,6 +750,12 @@ bool CAdvancedFrame::CreateMenus() {
     m_Shortcuts[1].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
 #endif
 
+    // CreateMenus() runs again whenever the menus are rebuilt -- a theme change,
+    // or a reconnection -- so release the table the previous run left behind.
+    // wxWindow keeps its own reference to the table, so this does not disturb
+    // the accelerators in force.
+    //
+    delete m_pAccelTable;
     m_pAccelTable = new wxAcceleratorTable(2, m_Shortcuts);
     SetAcceleratorTable(*m_pAccelTable);
 
