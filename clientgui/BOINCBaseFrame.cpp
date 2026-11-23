@@ -74,10 +74,7 @@ static const int kThemeChangeSettleMs = 500;
 // wxSystemAppearance::IsDark() the way they always did.
 //
 bool CBOINCBaseFrame::AppearanceIsDarkNow() {
-    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
-    bool bDark = appearance.IsDark();
-    bDark = bDark || appearance.AreAppsDark();
-    return bDark;
+    return CBOINCGUIApp::IsDarkAppearanceNow();
 }
 #endif
 

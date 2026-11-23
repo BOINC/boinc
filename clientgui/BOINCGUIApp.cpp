@@ -106,7 +106,7 @@ bool CBOINCGUIApp::OnInit() {
 #if defined(__WXMSW__)
     // wxWidgets' IsDark() returns false on Win 11 now even if dark mode is enabled
     // so we need to additionally check AreAppsDark()
-    m_isDarkMode = m_isDarkMode || appearance.AreAppsDark();
+    m_isDarkMode = IsDarkAppearanceNow();
     MSWEnableDarkMode(wxApp::DarkMode_Auto);
 #endif
 
@@ -1646,6 +1646,12 @@ void CBOINCGUIApp::RefreshSkinThemeDefaults() {
 // Windows only: elsewhere a window takes its background from its parent and
 // there is nothing to correct.
 //
+bool CBOINCGUIApp::IsDarkAppearanceNow() {
+    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
+    return appearance.IsDark() || appearance.AreAppsDark();
+}
+
+
 wxColour CBOINCGUIApp::GetDialogBackgroundColour() {
     // Ask the appearance in force rather than read m_isDarkMode: that member
     // follows a theme change only once a frame has rebuilt for it, which happens
@@ -1655,8 +1661,7 @@ wxColour CBOINCGUIApp::GetDialogBackgroundColour() {
     // Save / Cancel / Help buttons is then light in a dark dialog, or dark in
     // the light one, until the Manager is restarted.
     //
-    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
-    const bool bDark = appearance.IsDark() || appearance.AreAppsDark();
+    const bool bDark = IsDarkAppearanceNow();
     return wxSystemSettings::GetColour(
         bDark ? wxSYS_COLOUR_WINDOW : wxSYS_COLOUR_BTNFACE
     );
