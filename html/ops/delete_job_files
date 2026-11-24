@@ -23,8 +23,9 @@
 
 require_once("../inc/submit_db.inc");
 require_once("../inc/dir_hier.inc");
+require_once("../inc/util_basic.inc");
 
-$fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+$fanout = project_config_val("uldl_dir_fanout");
 
 $t = local_time_str(time());
 echo "$t: delete_job_files: starting\n";
