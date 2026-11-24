@@ -444,10 +444,8 @@ void CBOINCBaseFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event
 #if defined(__WXMSW__)
     QueueThemeChangeRebuild();
 #else
-    // One change, one notification elsewhere: rebuild now, which is what the
-    // frames did before this change.  The coalescing below exists for the way
-    // Windows announces a change, and for the second rebuild that used to kill
-    // the Manager on that platform.
+    // Off Windows, rebuild as soon as the notification arrives: this is what
+    // the frames did before this change, and nothing here needs coalescing.
     //
     RebuildForThemeChange();
 #endif

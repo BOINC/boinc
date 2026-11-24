@@ -390,7 +390,14 @@ bool CSimpleFrame::CreateMenus() {
     // copies the table into the window, so this does not disturb the
     // accelerators in force.
     //
-    delete m_pAccelTable;
+    // m_pAccelTable is nullptr on the first run; test it as the destructor below
+    // does, rather than rely on delete accepting a null pointer.  Clear it before
+    // the replacement below, so no path leaves a stale address behind.
+    //
+    if (m_pAccelTable) {
+        delete m_pAccelTable;
+        m_pAccelTable = NULL;
+    }
     m_pAccelTable = new wxAcceleratorTable(3, m_Shortcuts);
 
     SetAcceleratorTable(*m_pAccelTable);
