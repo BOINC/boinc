@@ -607,7 +607,7 @@ static int modify_host_struct(HOST& host) {
     // don't put invalid JSON in host.misc
     //
     if (s.length() >= sizeof(host.misc)){
-        strcpy(host.misc, "overflow");
+        strcpy(host.misc, "\"overflow\"");
     } else {
         safe_strcpy(host.misc, s.c_str());
     }
