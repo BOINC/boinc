@@ -93,17 +93,13 @@ int do_sticky_delete_regex() {
 /////// DB-based method
 
 int sticky_delete_db() {
-    static bool inited = false;
-    static vector<STICKY_FILE> sfs;
-    if (!inited) {
-        DB_STICKY_FILE sf;
-        while (1) {
-            int retval = sf.enumerate();
-            if (retval == ERR_DB_NOT_FOUND) break;
-            if (retval) return retval;
-            sfs.push_back(sf);
-        }
-        inited = true;
+    vector<STICKY_FILE> sfs;
+    DB_STICKY_FILE sf;
+    while (1) {
+        int retval = sf.enumerate();
+        if (retval == ERR_DB_NOT_FOUND) break;
+        if (retval) return retval;
+        sfs.push_back(sf);
     }
     for (const FILE_INFO& fi: g_request->file_infos) {
         bool found = false;
