@@ -440,7 +440,7 @@ struct COPROCS {
     int read_coproc_info_file(std::vector<std::string> &warnings);
     int add_other_coproc_types();
 
-    void summary_string_json(std::string& out);
+    std::string summary_string_json();
 
     // Copy a coproc set, possibly setting usage to zero.
     // used in round-robin simulator and CPU scheduler,

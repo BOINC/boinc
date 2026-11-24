@@ -603,9 +603,14 @@ static int modify_host_struct(HOST& host) {
     host.timezone = g_request->host.timezone;
     strlcpy(host.domain_name, g_request->host.domain_name, sizeof(host.domain_name));
 
-    string s;
-    host_info_json(s);
-    safe_strcpy(host.misc, s.c_str());
+    string s = host_info_json();
+    // don't put invalid JSON in host.misc
+    //
+    if (s.length() >= sizeof(host.misc)){
+        strcpy(host.misc, "overflow");
+    } else {
+        safe_strcpy(host.misc, s.c_str());
+    }
 
     if (strcmp(host.last_ip_addr, g_request->host.last_ip_addr)) {
         strlcpy(

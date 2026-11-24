@@ -32,8 +32,10 @@
 
 #include <string.h>
 #include <string>
+#include <fmt/format.h>
 
 using std::string;
+using fmt::format;
 
 #include "sched_types.h"
 
@@ -79,19 +81,16 @@ struct DOCKER_INFO {
 
 // return misc host info as JSON
 //
-void host_info_json(string &out) {
-    char buf[1024];
-    sprintf(buf,
-        "{\n"\
-"    \"client_version\": \"%d.%d.%d\"",
+string host_info_json() {
+    string out = format(
+        "{{\n"\
+"    \"client_version\": \"{}.{}.{}\"",
         g_request->core_client_major_version,
         g_request->core_client_minor_version,
         g_request->core_client_release
     );
-    out = buf;
 
-    string gpus;
-    g_request->coprocs.summary_string_json(gpus);
+    string gpus = g_request->coprocs.summary_string_json();
     if (!gpus.empty()) {
         out += ",\n"\
 "    \"gpus\": [\n";
@@ -103,69 +102,66 @@ void host_info_json(string &out) {
     di.get_docker_info();
 
     if (!di.wsl_version.empty()) {
-        sprintf(buf,
+        out += format(
             ",\n"\
-"    \"wsl\": {\n"\
-"        \"version\": \"%s\",\n"\
-"        \"use_wslc\": %s\n"\
-"    }",
-            di.wsl_version.c_str(),
+"    \"wsl\": {{\n"\
+"        \"version\": \"{}\",\n"\
+"        \"use_wslc\": {}\n"\
+"    }}",
+            di.wsl_version,
             di.use_wslc?"true":"false"
         );
-        out += buf;
     }
     if (!di.docker_version.empty()) {
-        sprintf(buf,
+        out += format(
             ",\n"\
-"    \"docker\": {\n"\
-"        \"version\": \"%s\",\n"\
-"        \"type\": %d",
-            di.docker_version.c_str(),
+"    \"docker\": {{\n"\
+"        \"version\": \"{}\",\n"\
+"        \"type\": {}",
+            di.docker_version,
             di.docker_type
         );
-        out += buf;
         if (!di.wsl_distro.empty()) {
-            sprintf(buf,
-                ",\n        \"wsl_distro\": \"%s\"",
-                di.wsl_distro.c_str()
+            out += format(
+                ",\n        \"wsl_distro\": \"{}\"",
+                di.wsl_distro
             );
-            out += buf;
         }
         if (di.bbr_version) {
-            sprintf(buf,
-                ",\n        \"boinc_buda_runner_version\": %d",
+            out += format(
+                ",\n        \"boinc_buda_runner_version\": {}",
                 di.bbr_version
             );
-            out += buf;
         }
-        out += "\n    }";
+        out += "\n    }}";
     }
 
     if (strlen(g_request->host.virtualbox_version)) {
-        sprintf(buf, ",\n"\
-"    \"vbox\": {\n"\
-"        \"version\": \"%s\",\n"\
-"        \"hw_accel\": %s,\n"\
-"        \"hw_accel_enabled\": %s\n"\
-"    }",
+        out += format( 
+",\n"\
+"    \"vbox\": {{\n"\
+"        \"version\": \"{}\",\n"\
+"        \"hw_accel\": {},\n"\
+"        \"hw_accel_enabled\": {}\n"\
+"    }}",
             g_request->host.virtualbox_version,
             (strstr(g_request->host.p_features, "vmx") || strstr(g_request->host.p_features, "svm"))?"true":"false",
             g_request->host.p_vm_extensions_disabled?"false":"true"
         );
-        out += buf;
     }
 
     if (g_request->dont_use_docker || g_request->dont_use_wsl) {
-        sprintf(buf, ",\n"\
-"    \"config\": {\n"\
-"        \"dont_use_docker\": %s,\n"\
-"        \"dont_use_wsl\": %s\n"\
-"    }",
+        out += format(
+",\n"\
+"    \"config\": {{\n"\
+"        \"dont_use_docker\": {},\n"\
+"        \"dont_use_wsl\": {}\n"\
+"    }}",
             g_request->dont_use_docker?"true":"false",
             g_request->dont_use_wsl?"true":"false"
         );
-        out += buf;
     }
 
     out += "\n}";
+    return out;
 }

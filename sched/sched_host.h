@@ -1,1 +1,3 @@
-extern void host_info_json(std::string&);
+#include <string>
+
+extern std::string host_info_json();
