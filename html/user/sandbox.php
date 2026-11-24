@@ -93,6 +93,7 @@ function list_files($user, $notice=null) {
     if ($notice) {
         echo "<p>$notice<hr>";
     }
+    echo "<a href=sandbox.php?action=tags>Tags<a>\n";
     echo "<p>Click a column title to sort on that attribute.<p>\n";
     $fnames = array();
     foreach (scandir($dir) as $f) {
@@ -280,6 +281,85 @@ function view_file($user) {
     echo "</pre>\n";
 }
 
+function show_tags($user, $msg) {
+    $dir = sandbox_dir($user);
+    $tags = [];
+    $path = "$dir/.tags.json";
+    if (file_exists($path)) {
+        $tags = json_decode(file_get_contents($path));
+    }
+    page_head('Tags');
+    echo "<p>$msg<hr>";
+    if ($tags) {
+        start_table('table-striped');
+        foreach ($tags as $tag) {
+            table_row($tag,
+                sprintf('<a href=sandbox.php?action=delete_tag&tag=%s%s>Delete</a>',
+                    urlencode($tag), url_tokens()
+                )
+            );
+        }
+    } else {
+        echo 'No tags.';
+    }
+    end_table();
+    form_start('sandbox.php');
+    echo form_tokens();
+    form_input_hidden('action', 'add_tag');
+    form_input_text('Add tag', 'tag');
+    form_submit('OK');
+    form_end();
+    page_tail();
+}
+
+function add_tag($user) {
+    check_tokens();
+    $tag = get_str('tag');
+    if (!is_valid_filename($tag)) error_page('invalid tag');
+    $dir = sandbox_dir($user);
+    $tags = [];
+    $path = "$dir/.tags.json";
+    if (file_exists($path)) {
+        $tags = json_decode(file_get_contents($path));
+    }
+    if (in_array($tag, $tags)) error_page('tag already exists');
+    if (!is_dir($dir)) {
+        mkdir($dir);
+    }
+    $tags[] = $tag;
+    file_put_contents($path, json_encode($tags));
+    show_tags($user, "Added tag $tag.");
+}
+
+function delete_tag($user) {
+    check_tokens();
+    $tag = get_str('tag');
+    $dir = sandbox_dir($user);
+    $tags = [];
+    $path = "$dir/.tags.json";
+    if (file_exists($path)) {
+        $tags = json_decode(file_get_contents($path));
+    }
+    if (!in_array($tag, $tags)) error_page("tag $tag doesn't exist");
+    $tags = array_diff($tags, [$tag]);
+    file_put_contents($path, json_encode($tags));
+
+    // delete tag from files
+    //
+    $tagdir = "$dir/.tags";
+    if (is_dir($tagdir)) {
+        foreach (scandir($tagdir) as $f) {
+            if ($f[0] == '.') continue;
+            $path = "$dir/$f";
+            $tags = json_decode(file_get_contents($path));
+            if (in_array($tag, $tags)) {
+                $tags = array_diff($tags, [$tag]);
+                file_put_contents($path, json_encode($tags));
+            }
+        }
+    }
+}
+
 $user = get_logged_in_user();
 if (!has_file_access($user)) error_page("no job submission access");
 
@@ -287,7 +367,9 @@ $action = get_str('action', true);
 if (!$action) $action = post_str('action', true);
 
 switch ($action) {
-case '': list_files($user); break;
+case '':
+    list_files($user);
+    break;
 case 'upload_file':
     check_tokens();
     upload_file($user);
@@ -312,6 +394,15 @@ case 'view_file':
     break;
 case 'add_form':
     add_form();
+    break;
+case 'tags':
+    show_tags($user, '');
+    break;
+case 'add_tag':
+    add_tag($user);
+    break;
+case 'delete_tag':
+    delete_tag($user);
     break;
 default:
     error_page("no such action: ".htmlspecialchars($action));
