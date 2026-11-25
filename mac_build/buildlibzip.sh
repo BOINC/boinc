@@ -18,7 +18,7 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh 64-bit Intel library of libzip for
+# Script to build Macintosh 64-bit (x86_64/arm64) library of libzip for
 # use in building BOINC.
 #
 # Updated 10/4/26 for Xcode27 support
@@ -45,10 +45,10 @@
 ##   Download CMake from https://cmake.org/download/
 ##   Open the disk image file and drag the CMAKE app into the /Applications
 ##       directory
-##   Eject the disk image and open the Cmake app
+##   Eject the disk image and open the CMake app
 ##   Enter the following in Terminal:
 ##       sudo "/Applications/CMake.app/Contents/bin/cmake-gui" --install
-##   Emter your password when prompted
+##   Enter your password when prompted
 ##
 ## For detailed build instructions, see mac_build/HowToBuildBOINC_XCode.rtf
 ##

@@ -141,7 +141,7 @@ download_and_build() {
     fi
     if [ ! -d ${DIRNAME} ]; then
         if [ ! -e ${FILENAME} ]; then
-            wget ${DLURL}
+            wget -O ${FILENAME} ${DLURL}
         fi
         tar -xf ${FILENAME}
     fi
@@ -173,6 +173,7 @@ download_and_build "${wxWidgetsDirName}" "${wxWidgetsFileName}" "${wxWidgetsURL}
 download_and_build "${freetypeDirName}" "${freetypeFileName}" "${freetypeURL}" "${ROOTDIR}/mac_build/buildfreetype.sh" "libfreetype.a" "x86_64 arm64"
 download_and_build "${ftglDirName}" "${ftglFileName}" "${ftglURL}" "${ROOTDIR}/mac_build/buildFTGL.sh" "libftgl.a" "x86_64 arm64"
 download_and_build "${zipDirName}" "${zipFileName}" "${zipURL}" "${ROOTDIR}/mac_build/buildlibzip.sh" "libzip.a" "x86_64 arm64"
+download_and_build "${fmtDirName}" "${fmtFileName}" "${fmtURL}" "${ROOTDIR}/mac_build/buildfmt.sh" "libfmt.a" "x86_64 arm64"
 # header only libraries, skip product name and archs
 download_and_build "${nlohmannJsonDirName}" "${nlohmannJsonFileName}" "${nlohmannJsonURL}" "${ROOTDIR}/mac_build/buildnlohmann-json-CI.sh" "" ""
 
