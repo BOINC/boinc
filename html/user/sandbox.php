@@ -484,7 +484,7 @@ function file_details() {
 function list_action($add) {
     $files = get_files();
     $tags = array_intersect(get_array('select_tags'), get_tags());
-    if (!$tags) error_page('No tags selected');
+    if (empty($tags)) error_page('No tags selected');
     $params = parse_url_args();
     foreach ($files as $name) {
         if (empty($params[$name])) continue;
