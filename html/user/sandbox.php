@@ -179,7 +179,9 @@ function list_files($notice=null) {
     global $sbdir;
 
     $sort_field = get_str('sort_field', true);
-    if (!$sort_field) $sort_field = 'name';
+    if (!in_array($sort_field, ['name', 'date', 'size'], true)) {
+         $sort_field = 'name';
+    }
     $sort_rev = get_str('sort_rev', true);
 
     if (!is_dir($sbdir)) error_page("Can't open sandbox directory");
