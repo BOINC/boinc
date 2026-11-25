@@ -140,14 +140,16 @@ function variant_view($user) {
     $dir = "$buda_root/$app/$variant";
     $variant_desc = json_decode(file_get_contents("$dir/variant.json"));
     start_table('table-striped');
-    row2("BUDA App", $app);
+    row2("BUDA app", $app);
     row2("Variant name", $variant);
     row2("CPU type", $variant_desc->cpu_type);
-    row2("Plan class", $variant_desc->plan_class);
+    $x = $variant_desc->plan_class;
+    if (!$x) $x = '---';
+    row2("Plan class", $x);
     end_table();
     echo "<h3>App files</h3>";
     start_table();
-    table_header('Dockerfile', 'size', 'md5');
+    table_header('Dockerfile', 'Size', 'MD5');
     file_row($app, $variant, $dir, $variant_desc->dockerfile);
     table_header('App files', '', '');
     foreach ($variant_desc->app_files as $f) {
@@ -192,7 +194,7 @@ function variant_form($user) {
             file_get_contents("$variant_dir/variant.json")
         );
         if (!$variant_desc) error_page('no such variant');
-        page_head_select2("Edit variant $variant of BUDA app $app");
+        page_head_select2("Edit variant <code>$variant</code> of BUDA app <code>$app</code>");
     } else {
         $variant_desc = new StdClass;
         $variant_desc->cpu_type = 'intel';
@@ -202,11 +204,11 @@ function variant_form($user) {
         page_head_select2("Create a variant of BUDA app $app");
     }
     echo "
-        Details are <a href=https://github.com/BOINC/boinc/wiki/BUDA-apps>here</a>.
+        <a href=https://github.com/BOINC/boinc/wiki/BUDA-apps>Details</a>.
     ";
     $sb = '<br><small>From your <a href=sandbox.php>file sandbox</a></small>';
     $pc = '<br><small>Specify
-    <a href=https://github.com/BOINC/boinc/wiki/Plan-classes>GPU and other host requirements</a>.<br>Leave blank if none.</small>';
+    <a href=https://github.com/BOINC/boinc/wiki/Plan-classes>GPU and other host requirements</a>.<br>Leave empty if none.</small>';
     form_start('buda.php');
     echo form_tokens();
     form_input_hidden('app', $app);
