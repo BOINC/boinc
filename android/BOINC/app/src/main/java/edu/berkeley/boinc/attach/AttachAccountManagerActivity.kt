@@ -31,6 +31,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import edu.berkeley.boinc.BOINCActivity
 import edu.berkeley.boinc.R
@@ -41,8 +42,12 @@ import edu.berkeley.boinc.databinding.ActivityAttachProjectAcctMgrBinding
 import edu.berkeley.boinc.rpc.AccountManager
 import edu.berkeley.boinc.utils.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 class AttachAccountManagerActivity  : AppCompatActivity() {
@@ -54,6 +59,11 @@ class AttachAccountManagerActivity  : AppCompatActivity() {
 
     private var _binding: ActivityAttachProjectAcctMgrBinding? = null
     private val binding get() = _binding!!
+
+    // account identifier (email address or user name) of the selected account manager
+    private var accountIdentifierInput = AccountIdentifierInput.UNKNOWN
+    private var accountIdentifierJob: Job? = null
+    private val configLookupMutex = Mutex()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +79,11 @@ class AttachAccountManagerActivity  : AppCompatActivity() {
             }
 
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+        }
+
+        // ask for the account identifier used by the account manager at the entered url
+        binding.urlInput.doAfterTextChanged {
+            updateAccountIdentifierInput(it.toString())
         }
 
         binding.continueButton.setOnClickListener {
@@ -133,9 +148,47 @@ class AttachAccountManagerActivity  : AppCompatActivity() {
 
     private fun verifyInput(url: String, name: String, pwd: String) = when {
         url.isEmpty() -> R.string.attachproject_error_no_url
-        name.isEmpty() -> R.string.attachproject_error_no_name
+        name.isEmpty() -> accountIdentifierInput.missingError
         pwd.isEmpty() -> R.string.attachproject_error_no_pwd
         else -> 0
+    }
+
+    private fun updateAccountIdentifierInput(url: String) {
+        accountIdentifierJob?.cancel()
+        showAccountIdentifierInput(AccountIdentifierInput.UNKNOWN)
+        val trimmedUrl = url.trim()
+        if (trimmedUrl.isEmpty() || !mIsBound) return
+
+        accountIdentifierJob = lifecycleScope.launch {
+            // wait until the user stopped typing
+            delay(ACCOUNT_IDENTIFIER_DELAY_MS)
+            val config = configLookupMutex.withLock {
+                if (!mIsBound) return@launch
+                withContext(Dispatchers.Default) {
+                    try {
+                        monitor?.getProjectConfigPolling(trimmedUrl)
+                    } catch (e: Exception) {
+                        Logging.logException(
+                            Logging.Category.GUI_ACTIVITY,
+                            "AttachAccountManagerActivity getProjectConfigPolling() error: ",
+                            e
+                        )
+
+                        null
+                    }
+                }
+            }
+            if (_binding?.urlInput?.text?.toString()?.trim() == trimmedUrl) {
+                showAccountIdentifierInput(AccountIdentifierInput.of(config))
+            }
+        }
+    }
+
+    private fun showAccountIdentifierInput(input: AccountIdentifierInput) {
+        if (input == accountIdentifierInput) return
+        accountIdentifierInput = input
+        binding.nameInput.setHint(input.hint)
+        binding.nameInput.inputType = input.inputType
     }
 
     private suspend fun attachProject(url: String, name: String, pwd: String) = coroutineScope {
@@ -228,6 +281,7 @@ class AttachAccountManagerActivity  : AppCompatActivity() {
             monitor = MonitorAsync(IMonitor.Stub.asInterface(service))
             mIsBound = true
             fillAdapterData()
+            updateAccountIdentifierInput(binding.urlInput.text.toString())
         }
 
         override fun onServiceDisconnected(className: ComponentName) {
@@ -251,5 +305,9 @@ class AttachAccountManagerActivity  : AppCompatActivity() {
             attachService = null
             asIsBound = false
         }
+    }
+
+    companion object {
+        private const val ACCOUNT_IDENTIFIER_DELAY_MS = 500L
     }
 }
