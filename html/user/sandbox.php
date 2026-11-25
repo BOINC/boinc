@@ -177,6 +177,11 @@ if (0) {
 
 function list_files($notice=null) {
     global $sbdir;
+
+    $sort_field = get_str('sort_field', true);
+    if (!$sort_field) $sort_field = 'name';
+    $sort_rev = get_str('sort_rev', true);
+
     if (!is_dir($sbdir)) error_page("Can't open sandbox directory");
     page_head_select2("File sandbox");
     if ($notice) {
@@ -190,11 +195,18 @@ function list_files($notice=null) {
     $tags = get_tags();
     if ($tags) {
         $selected_tags = get_str('filter_tags', true);
+        if (!$selected_tags) {
+            $selected_tags = [];
+        }
         form_start('sandbox.php');
         form_select2_multi('Show only files with tags', 'filter_tags',
             tag_items($tags),
             $selected_tags
         );
+        form_input_hidden('sort_field', $sort_field);
+        if ($sort_rev) {
+            form_input_hidden('sort_rev', 1);
+        }
         form_submit('OK');
         form_end();
         foreach ($selected_tags as $tag) {
@@ -210,9 +222,6 @@ function list_files($notice=null) {
         foreach ($fnames as $fname) {
             $file_descs[] = get_file_desc($fname);
         }
-        $sort_field = get_str('sort_field', true);
-        if (!$sort_field) $sort_field = 'name';
-        $sort_rev = get_str('sort_rev', true);
         column_sort($file_descs, $sort_field, $sort_rev);
 
         form_start('sandbox.php');
