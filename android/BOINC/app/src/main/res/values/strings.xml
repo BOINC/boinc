@@ -66,7 +66,7 @@
     <string name="attachproject_login_header_home">Home:</string>
     <string name="attachproject_login_header_url">Website:</string>
     <string name="attachproject_login_header_id_email">Email address:</string>
-    <string name="attachproject_login_header_id_name">Name:</string>
+    <string name="attachproject_login_header_id_name">User name:</string>
     <string name="attachproject_login_header_pwd">Password:</string>
     <string name="attachproject_login_button_registration">Register</string>
     <string name="attachproject_login_button_login">Sign in</string>
