@@ -186,6 +186,7 @@ function list_files($notice=null) {
     echo '<p> <p>';
     show_button('sandbox.php?action=tags', 'Add or delete tags');
 
+    $tag_url_args = '';
     $tags = get_tags();
     if ($tags) {
         $selected_tags = get_str('filter_tags', true);
@@ -196,6 +197,9 @@ function list_files($notice=null) {
         );
         form_submit('OK');
         form_end();
+        foreach ($selected_tags as $tag) {
+            $tag_url_args .= 'filter_tags[]='.urlencode($tag).'&';
+        }
     }
     echo "<p>Click a column title to sort on that attribute.<p>\n";
     $fnames = get_files();
@@ -218,19 +222,19 @@ function list_files($notice=null) {
             column_sort_header(
                 'name',
                 'Name',
-                'sandbox.php?',
+                "sandbox.php?$tag_url_args",
                 $sort_field, $sort_rev
             ).'<br><small>(click for details)</small>',
             column_sort_header(
                 'date',
                 'Modified',
-                'sandbox.php?',
+                "sandbox.php?$tag_url_args",
                 $sort_field, $sort_rev
             ),
             [column_sort_header(
                 'size',
                 "Size (bytes)",
-                'sandbox.php?',
+                "sandbox.php?$tag_url_args",
                 $sort_field, $sort_rev
             ), 'class="bg-primary text-right"'],
             'Tags',
