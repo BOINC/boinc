@@ -212,6 +212,7 @@ function list_files($notice=null) {
         column_sort($file_descs, $sort_field, $sort_rev);
 
         form_start('sandbox.php');
+        echo form_tokens();
         start_table('table-striped');
         table_header(
             column_sort_header(
@@ -238,7 +239,7 @@ function list_files($notice=null) {
         foreach ($file_descs as $f) {
             $ct = time_str($f->date);
             $file_tags = get_file_tags($f->name);
-            if ($selected_tags) {
+            if (!empty($selected_tags)) {
                 if (array_diff($selected_tags, $file_tags)) {
                     continue;
                 }
@@ -290,7 +291,7 @@ function upload_file() {
         if (!is_valid_filename($name)) {
             error_page('Invalid filename. '.filename_rules());
         }
-        if (file_exists("$dir/$name")) {
+        if (file_exists("$sbdir/$name")) {
             $notice .= "can't upload $name; file exists.<br>";
             continue;
         }
@@ -355,7 +356,7 @@ function download_file() {
     do_download("$sbdir/$name");
 }
 
-function view_file($user) {
+function view_file() {
     global $sbdir;
     $name = get_str('name');
     if (!is_valid_filename($name)) {
@@ -425,7 +426,7 @@ function delete_tag() {
         $tags = json_decode(file_get_contents($path));
     }
     if (!in_array($tag, $tags)) error_page("tag $tag doesn't exist");
-    $tags = array_diff($tags, [$tag]);
+    $tags = array_values(array_diff($tags, [$tag]));
     file_put_contents($path, json_encode($tags));
 
     // delete tag from files
@@ -437,16 +438,18 @@ function delete_tag() {
             $path = "$tagdir/$f";
             $tags = json_decode(file_get_contents($path));
             if (in_array($tag, $tags)) {
-                $tags = array_diff($tags, [$tag]);
+                $tags = array_values(array_diff($tags, [$tag]));
                 file_put_contents($path, json_encode($tags));
             }
         }
     }
+    show_tags("Removed tag $tag.");
 }
 
 function file_details() {
     global $sbdir;
     $name = urldecode(get_str('name'));
+    if (!is_valid_filename($name)) error_page('bad filename');
     $path = "$sbdir/$name";
     if (!file_exists($path)) error_page('no such file');
     page_head("Sandbox file: $name");
@@ -480,7 +483,7 @@ function file_details() {
 
 function list_action($add) {
     $files = get_files();
-    $tags = get_array('select_tags');
+    $tags = array_intersect(get_array('select_tags'), get_tags());
     if (!$tags) error_page('No tags selected');
     $params = parse_url_args();
     foreach ($files as $name) {
@@ -492,7 +495,7 @@ function list_action($add) {
                     $file_tags[] = $tag;
                 }
             } else {
-                $file_tags = array_diff($file_tags, [$tag]);
+                $file_tags = array_diff(array_values($file_tags), [$tag]);
             }
         }
         put_file_tags($name, $file_tags);
@@ -537,10 +540,6 @@ case 'get_file':
     check_tokens();
     get_file();
     break;
-case 'delete_file':
-    check_tokens();
-    delete_file();
-    break;
 case 'download_file':
     download_file();
     break;
@@ -563,9 +562,11 @@ case 'file_details':
     file_details();
     break;
 case 'add_tags_to_files':
+    check_tokens();
     list_action(true);
     break;
 case 'remove_tags_from_files':
+    check_tokens();
     list_action(false);
     break;
 case 'delete_files':
