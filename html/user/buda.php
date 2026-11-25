@@ -194,7 +194,7 @@ function variant_form($user) {
             file_get_contents("$variant_dir/variant.json")
         );
         if (!$variant_desc) error_page('no such variant');
-        page_head_select2("Edit variant <code>$variant</code> of BUDA app <code>$app</code>");
+        page_head_select2("Edit variant '$variant' of BUDA app '$app'");
     } else {
         $variant_desc = new StdClass;
         $variant_desc->cpu_type = 'intel';
