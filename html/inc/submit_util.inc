@@ -477,15 +477,22 @@ function parse_info_file($path) {
 
 ///////////////// TEMPLATE CREATION //////////////
 
-function file_ref_in($fname) {
-    return(sprintf(
+function file_ref_in($fname, $copy_file=true) {
+    $x = sprintf(
 '      <file_ref>
          <open_name>%s</open_name>
-         <copy_file/>
-      </file_ref>
 ',
         $fname
-    ));
+    );
+    if ($copy_file) {
+        $x .=
+'         <copy_file/>
+';
+    }
+    $x .=
+'      </file_ref>
+';
+    return $x;
 }
 function file_info_out($i, $max_nbytes, $gzip_output) {
     if (!$max_nbytes) {
