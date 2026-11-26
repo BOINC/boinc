@@ -610,19 +610,24 @@ static void parallel_master(int child_pid) {
 #endif
 
 int boinc_init() {
-#ifndef MSGS_FROM_FILE
-    int retval;
-    if (!diagnostics_is_initialized()) {
-        retval = boinc_init_diagnostics(BOINC_DIAG_DEFAULTS);
-        if (retval) return retval;
-    }
-#endif
     boinc_options_defaults(options);
     return boinc_init_options(&options);
 }
 
 int boinc_init_options(BOINC_OPTIONS* opt) {
     int retval;
+    static bool inited = false;
+#ifndef MSGS_FROM_FILE
+    if (!diagnostics_is_initialized()) {
+        retval = boinc_init_diagnostics(BOINC_DIAG_DEFAULTS);
+        if (retval) return retval;
+    }
+#endif
+    if (inited) {
+        fprintf(stderr, "boinc_init_options(): already initialized\n");
+        boinc_finish(EXIT_INIT_FAILURE);
+    }
+    inited = true;
 #ifndef _WIN32
     if (options.multi_thread) {
         int child_pid = fork();
