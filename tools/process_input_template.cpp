@@ -405,7 +405,7 @@ static int process_file_info(
             }
             out += buf;
             if (sticky) {
-                out += "    <sticky/>\n    <nodelete/>\n";
+                out += "    <sticky/>\n    <no_delete/>\n";
             }
             out += "</file_info>\n";
             break;
