@@ -643,5 +643,18 @@ function make_team(
     }
 }
 
+// See if user has enough credit to request foundership of an existing team
+//
+function team_founder_credit_check($user) {
+    if (defined('TEAM_FOUNDER_MIN_CREDIT')) {
+        $min_credit = TEAM_FOUNDER_MIN_CREDIT;
+    } else {
+        $min_credit = 1;
+    }
+    if ($user->expavg_credit < $min_credit) {
+        error_page('Insufficient credit to be team founder');
+    }
+}
+
 
 ?>

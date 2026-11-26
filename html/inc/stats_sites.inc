@@ -66,10 +66,12 @@ $stats_sites = array(
         ""
     ),
 */
+/*
     array("http://statsbzh.boinc-af.org/listteams.php",
         "SETIBZH Stats",
         "(cross-project team stats; available in French, English, Spanish, German)"
     ),
+*/
 );
 
 $team_stats_sites = array(
@@ -118,10 +120,12 @@ $team_name_sites = array(
         "BOINCstats.com",
         "hashlc"
     ),
+/*
     array("http://statsbzh.boinc-af.org/team.php?teamcpid=",
         "SETIBZH",
         "hashlc"
     ),
+*/
 );
 
 global $host_sites;

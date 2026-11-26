@@ -30,7 +30,10 @@ if (!$team) {
     error_page(tra("You need to be a member of a team to access this page."));
 }
 
+team_founder_credit_check($user);
+
 page_head(tra("Request foundership of %1", $team->name));
+text_start();
 $now = time();
 
 // it should never happen, but just in case
@@ -86,8 +89,9 @@ if ($user->id == $team->ping_user) {
     }
 }
 
-echo "<p><a href=\"team_display.php?teamid=".$team->id."\">".tra("Return to team page")."</a>";
+echo "<p> <p><a href=\"team_display.php?teamid=".$team->id."\">".tra("Return to team page")."</a>";
 
+text_end();
 page_tail();
 
 ?>
