@@ -135,7 +135,10 @@ function sf_release($sf_id) {
 
     $msg = "Sticky file $sf_id released.";
     if ($sf->remote_url) {
-        $msg .= "<p>Consider deleting remote file at $sf->remote_url.";
+        $msg .= sprintf(
+            '<p>Consider deleting remote file at %s.',
+            htmlspecialchars($sf->remote_url)
+        );
     }
     main($msg);
 }
