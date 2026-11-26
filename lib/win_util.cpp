@@ -246,9 +246,7 @@ int WSL_CMD::setup(string &err_msg) {
 int WSL_CMD::setup_podman(WSL_DISTRO &wd) {
     char cmd[1024];
 
-    if (wd.distro_name == "boinc-buda-runner"
-        && wd.boinc_buda_runner_version < 4
-    ) {
+    if (wd.podman_uses_default_user()) {
         // for early versions of our distro, use default user (boinc)
         snprintf(cmd, sizeof(cmd), "wsl -d %s", wd.distro_name.c_str());
     } else {
