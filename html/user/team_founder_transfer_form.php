@@ -33,10 +33,9 @@ if (!$team) {
 team_founder_credit_check($user);
 
 page_head(tra("Request foundership of %1", $team->name));
-text_start();
 $now = time();
 
-// it should never happen, but just in case
+// team has no founder?  This should never happen, but just in case
 //
 if (!$team->userid) {
     $team->update("userid=$user->id, ping_user=0, ping_time=0");
@@ -44,6 +43,8 @@ if (!$team->userid) {
     page_tail();
     exit;
 }
+
+text_start();
 
 if ($user->id == $team->ping_user) {
     echo "<p>".tra("You requested the foundership of %1 on %2.", $team->name, date_str($team->ping_time))."
