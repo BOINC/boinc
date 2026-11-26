@@ -263,7 +263,7 @@ function create_templates($app, $desc, $dir) {
     }
     $x .= "   <workunit>\n";
     foreach ($desc->input_file_names as $fname) {
-        $x .= file_ref_in($fname, !in_array($fname, $desc->linked_files));
+        $x .= file_ref_in($fname, !in_array($fname, $desc->linked_files, true));
     }
 
     // replication params
@@ -683,7 +683,7 @@ function app_action($user) {
     if ($linked_files) {
         $linked_files = explode(' ', $linked_files);
         foreach ($linked_files as $fname) {
-            if (!in_array($fname, $input_file_names)) {
+            if (!in_array($fname, $input_file_names, true)) {
                 error_page('Invalid linked file name');
             }
         }
