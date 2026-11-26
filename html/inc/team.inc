@@ -652,7 +652,7 @@ function team_founder_credit_check($user) {
         $min_credit = 1;
     }
     if ($user->expavg_credit < $min_credit) {
-        error_page('Insufficient credit to be team founder');
+        error_page(tra('Insufficient credit to be team founder'));
     }
 }
 
