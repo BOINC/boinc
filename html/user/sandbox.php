@@ -189,9 +189,16 @@ function list_files($notice=null) {
     if ($notice) {
         echo "<p>$notice<hr>";
     }
+    echo '
+        Your <a href=https://github.com/BOINC/boinc/wiki/User-file-sandbox>file sandbox</a> stores files for job submission.<p> <p>
+    ';
     show_button('sandbox.php?action=add_form', 'Add files');
-    echo '<p> <p>';
+    echo '<hr>
+        You can organize your files by creating "tags"
+        and adding them to files.<p> <p>
+    ';
     show_button('sandbox.php?action=tags', 'Add or delete tags');
+    echo '<p> <p>';
 
     $tag_url_args = '';
     $tags = get_tags();
@@ -215,7 +222,7 @@ function list_files($notice=null) {
             $tag_url_args .= 'filter_tags[]='.urlencode($tag).'&';
         }
     }
-    echo "<p>Click a column title to sort on that attribute.<p>\n";
+    echo "<hr>Click column title to sort on that attribute; click arrow to reverse sort.<p>\n";
     $fnames = get_files();
     if (count($fnames) == 0) {
         echo "Your sandbox is currently empty.";
@@ -249,7 +256,7 @@ function list_files($notice=null) {
                 $sort_field, $sort_rev
             ), 'class="bg-primary text-right"'],
             'Tags',
-            'Select',
+            'Select file',
         );
         foreach ($file_descs as $f) {
             $ct = time_str($f->date);
@@ -394,7 +401,7 @@ function show_tags($msg) {
     $tags = get_tags();
     if ($tags) {
         start_table('table-striped');
-        table_header('Tag name', 'Delete');
+        table_header('Tag name', 'Delete tag');
         foreach ($tags as $tag) {
             table_row($tag,
                 sprintf('<a href=sandbox.php?action=delete_tag&tag=%s%s>Delete</a>',
