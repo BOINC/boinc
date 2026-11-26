@@ -117,8 +117,12 @@ function sf_detail($sf_id) {
 
 function sf_release($sf_id) {
     $sf = BoincStickyFile::lookup_id($sf_id);
-    if (!$sf) error_page('no sticky file');
-    if ($sf->user_id != get_logged_in_user()->id) error_page('no access');
+    if (!$sf) {
+        error_page('no sticky file');
+    }
+    if ($sf->user_id != get_logged_in_user()->id) {
+        error_page('no access');
+    }
     $fname = $sf->physical_name;
     BoincStickyFileRef::delete_aux("sticky_file_id=$sf_id");
     $sf->delete();
@@ -126,10 +130,14 @@ function sf_release($sf_id) {
     // delete file and .md5 from download dir
     //
     $path = download_hier_path($fname);
-    unlink($path);
-    unlink($path+'.md5');
+    @unlink($path);
+    @unlink($path+'.md5');
 
-    main("Sticky file $sf_id released");
+    $msg = "Sticky file $sf_id released.";
+    if ($sf->remote_url) {
+        $msg .= "<p>Consider deleting remote file at $sf->remote_url.";
+    }
+    main($msg);
 }
 
 $action = get_str('action', true);
