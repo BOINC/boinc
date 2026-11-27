@@ -15,5 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-extern int init_file_delete_regex();
-extern int do_file_delete_regex();
+extern int init_sticky_delete_regex();
+extern int do_sticky_delete_regex();
+extern int sticky_delete_db();

@@ -193,6 +193,8 @@ struct SCHED_CONFIG {
         // send high-prio jobs only to low-turnaround hosts
     bool size_classes;
         // use size classes
+    bool sticky_db;
+        // use sticky_file DB table
 
     // time intervals
     double maintenance_delay;

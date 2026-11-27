@@ -924,4 +924,54 @@ struct CONSENT_TYPE {
     void clear();
 };
 
+// When a batch is created, some of its input files can be marked 'sticky'.
+// These files remain resident on clients after the job is finished,
+// reducing network traffic if the file is used by multiple jobs.
+// The job submitter can 'release' the file when it's not longer used;
+// it will then (eventually) be deleted from clients.
+//
+// These files must be in the user's sandbox during batch creation.
+//
+// There is one STICKY_FILE record per MD5,
+// created when the file is first referenced.
+// Later batches (perhaps from different users) can refer to the same file.
+//
+struct STICKY_FILE {
+    DB_ID_TYPE id;
+    double create_time;
+    DB_ID_TYPE user_id;
+    char md5[64];
+    double size;
+    double gzip_size;
+        // not currently used
+    char physical_name[256];
+        // name in the download hier and on clients.
+        // generally jf_<md5>
+    char remote_url[256];
+        // clients should download the file from this URL, e.g. a CDN
+
+    void clear() {
+        id = 0;
+        create_time = 0;
+        user_id = 0;
+        md5[0] = 0;
+        size = 0;
+        gzip_size = 0;
+        physical_name[0] = 0;
+        remote_url[0] = 0;
+    }
+};
+
+// Associates a sticky file with a batch.
+//
+struct STICKY_FILE_REF {
+    DB_ID_TYPE id;
+    double create_time;
+    DB_ID_TYPE sticky_file_id;
+    DB_ID_TYPE user_id;
+    DB_ID_TYPE batch_id;
+    char logical_name[256];
+    char sandbox_name[256];
+};
+
 #endif

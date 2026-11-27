@@ -42,6 +42,7 @@
 // or a <file_info> in input template
 //
 struct INFILE_DESC {
+    bool sticky;
     bool is_remote;
 
     // the following defined if remote (physical name is jf_MD5)
@@ -52,7 +53,16 @@ struct INFILE_DESC {
 
     // the following defined if not remote
     //
-    char name[1024];     // physical name
+    char phys_name[1024];
+
+    INFILE_DESC() {
+        sticky = false;
+        is_remote = false;
+        nbytes = 0;
+        md5[0] = 0;
+        url[0] = 0;
+        phys_name[0] = 0;
+    }
 };
 
 extern int add_signatures(char*, R_RSA_PRIVATE_KEY&);

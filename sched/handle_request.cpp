@@ -1223,10 +1223,6 @@ void process_request(char* code_sign_key) {
 
     memset(&g_reply->wreq, 0, sizeof(g_reply->wreq));
 
-    // if client has sticky files we don't need any more, tell it
-    //
-    do_file_delete_regex();
-
     // if bad BOINC version / OS / CPU, send a message, don't send work
     //
     if (wrong_core_client_version()
@@ -1507,6 +1503,14 @@ void process_request(char* code_sign_key) {
 
     update_host_record(initial_host, g_reply->host, g_reply->user);
     write_host_app_versions();
+
+    // if client has sticky files we don't need any more, tell it
+    //
+    if (config.sticky_db) {
+        sticky_delete_db();
+    } else if (use_sticky_delete_regex) {
+        do_sticky_delete_regex();
+    }
 
 leave:
     if (!have_no_work) {

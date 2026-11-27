@@ -1353,6 +1353,39 @@ function update_10_29_2026() {
     );
 }
 
+function update_11_22_2026() {
+    do_query("
+create table sticky_file (
+    id                      integer         not null auto_increment,
+    create_time             double          not null,
+    user_id                 integer         not null default 0,
+    md5                     varchar(63)     not null default '',
+    size                    double          not null default 0,
+    gzip_size               double          not null default 0,
+    physical_name           varchar(255)    not null default '',
+    remote_url              varchar(255)    not null default '',
+    primary key (id),
+    unique(md5),
+    index sfu (user_id)
+) engine=InnoDB;
+");
+
+    do_query("
+create table sticky_file_ref (
+    id                      integer         not null auto_increment,
+    create_time             double          not null,
+    sticky_file_id          integer         not null default 0,
+    user_id                 integer         not null default 0,
+    batch_id                integer         not null default 0,
+    logical_name            varchar(255)    not null default '',
+    sandbox_name            varchar(255)    not null default '',
+    primary key (id),
+    index sfr (sticky_file_id),
+    index sfrb (batch_id)
+) engine=InnoDB;
+");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -1420,6 +1453,7 @@ $db_updates = [
     [27033, "update_8_23_2026"],
     [27034, "update_9_21_2026"],
     [27035, "update_10_29_2026"],
+    [27036, "update_11_22_2026"],
 ];
 
 ?>

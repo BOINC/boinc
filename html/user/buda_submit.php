@@ -140,69 +140,115 @@ function unzip_batch_file($user, $batch_file) {
 // Scan a batch dir.
 // Check its validity:
 // - optional dir 'shared_input_files' has shared input files
-// - other dirs (job dirs) can have only remaining infiles and possibly cmdline
+// - other dirs (jobs) can have only remaining infiles and possibly cmdline
 //
-// Return a structure describing its contents, and the md5/size of files
+// Return a structure describing the jobs and files
 //
+
+// helper function to handle an input file, shared or not.
+// Returns an object with logical name, md5, size
+//
+function handle_file($dir, $fname) {
+    $desc = new StdClass;
+    $desc->sticky = false;
+    $desc->url = '';
+    if (str_ends_with($fname, '.toml')) {
+        $desc->log_name = substr($fname, 0, -5);
+        foreach (file("$dir/$fname") as $line) {
+            $x = explode('=', $line, 2);    // allow URLs with =
+            if (count($x) != 2) error_page("bad line $line");
+            $a = trim($x[0]);
+            $b = str_replace('"', '', trim($x[1]));
+            switch ($a) {
+            case 'sandbox_name':
+                if (!if_valid_filename($b)) error_page('bad sandbox name');
+                $desc->sandbox_name = $b;
+                break;
+            case 'sticky':
+                $desc->sticky = ($b == 'true');
+                break;
+            case 'url':
+                $desc->url = $b;
+                break;
+            default:
+                error_page("bad line $line");
+            }
+        }
+        if (empty($desc->sandbox_name)) error_page('no sandbox name');
+        $user = get_logged_in_user();
+        $sbdir = sandbox_dir($user);
+        $sbpath = "$sbdir/$desc->sandbox_name";
+        if (!file_exists($sbpath)) error_page('no sandbox file');
+        [$desc->md5, $desc->size] = sandbox_parse_info_file(
+            $user, $desc->sandbox_name
+        );
+    } else {
+        $desc->log_name = $fname;
+        [$desc->md5, $desc->size] = get_file_info("$dir/$fname");
+    }
+    return $desc;
+}
+
 function parse_batch_dir($batch_dir, $app_desc) {
-    $input_files = $app_desc->input_file_names;
-    sort($input_files);
-    $shared_files = [];
-    $shared_file_infos = [];
-    if (is_dir("$batch_dir/shared_input_files")) {
-        foreach (scandir("$batch_dir/shared_input_files") as $fname) {
+    $input_file_names = $app_desc->input_file_names;
+    $shared_file_names = [];
+    $shared_file_descs = [];
+    $dir = "$batch_dir/shared_input_files";
+    if (is_dir($dir)) {
+        foreach (scandir($dir) as $fname) {
             if ($fname[0] == '.') continue;
-            if (!in_array($fname, $input_files)) {
+            $desc = handle_file($dir, $fname);
+            if (!in_array($desc->log_name, $input_file_names)) {
                 error_page("$fname is not an input file name");
             }
-            $shared_files[] = $fname;
-            $shared_file_infos[] = get_file_info("$batch_dir/shared_input_files/$fname");
+            $shared_file_names[] = $desc->log_name;
+            $shared_file_descs[] = $desc;
         }
     }
-    $unshared_files = array_diff($input_files, $shared_files);
-    sort($unshared_files);
+    $unshared_file_names = array_diff($input_file_names, $shared_file_names);
     $jobs = [];
-    foreach (scandir($batch_dir) as $fname) {
-        if ($fname[0] == '.') continue;
-        if ($fname == 'shared_input_files') continue;
-        if (!is_dir("$batch_dir/$fname")) {
-            error_page("$batch_dir/$fname is not a directory");
+    foreach (scandir($batch_dir) as $job_name) {
+        if ($job_name[0] == '.') continue;
+        if ($job_name == 'shared_input_files') continue;
+        if (!is_dir("$batch_dir/$job_name")) {
+            error_page("$batch_dir/$job_name is not a directory");
         }
-        $job_files = [];
+        $job_file_names = [];
+        $job_file_descs = [];
         $cmdline = '';
-        foreach(scandir("$batch_dir/$fname") as $f2) {
-            if ($f2[0] == '.') continue;
-            if ($f2 == 'cmdline') {
-                $cmdline = trim(file_get_contents("$batch_dir/$fname/cmdline"));
+        $job_dir = "$batch_dir/$job_name";
+        foreach (scandir($job_dir) as $fname) {
+            if ($fname[0] == '.') continue;
+            if ($fname == 'cmdline') {
+                $cmdline = trim(file_get_contents("$job_dir/cmdline"));
                 if (!is_valid_filename($cmdline)) {
                     error_page("Invalid cmdline: '$cmdline'");
                 }
                 continue;
             }
-            if (!in_array($f2, $unshared_files)) {
-                error_page("$fname/$f2 is not an input file name");
+            $desc = handle_file($job_dir, $fname);
+            if (!in_array($desc->log_name, $unshared_file_names)) {
+                error_page("$fname/$desc->log_name is not an input file name");
             }
-            $job_files[] = $f2;
+            $job_file_names[] = $desc->log_name;
+            $job_file_descs[] = $desc;
         }
-        if (array_values($job_files) != array_values($unshared_files)) {
-            error_page("$fname doesn't have all input files");
-        }
-
-        $file_infos = [];
-        foreach ($unshared_files as $f2) {
-            $file_infos[] = get_file_info("$batch_dir/$fname/$f2");
+        if (sort(array_values($job_file_names))
+            != sort(array_values($unshared_file_names))
+        ) {
+            print_r($job_file_names);
+            print_r($unshared_file_names);
+            error_page("$job_name doesn't have all input files");
         }
 
         $job = new StdClass;
-        $job->dir = $fname;
+        $job->dir = $job_name;
         $job->cmdline = $cmdline;
-        $job->file_infos = $file_infos;
+        $job->file_descs = $job_file_descs;
         $jobs[] = $job;
     }
     $batch_desc = new StdClass;
-    $batch_desc->shared_files = $shared_files;
-    $batch_desc->shared_file_infos = $shared_file_infos;
-    $batch_desc->unshared_files = $unshared_files;
+    $batch_desc->shared_file_descs = $shared_file_descs;
     $batch_desc->jobs = $jobs;
     return $batch_desc;
 }
@@ -220,35 +266,66 @@ function create_batch($user, $njobs, $app) {
     return BoincBatch::lookup_id($batch_id);
 }
 
+// stage an input file, either from sandbox or batch dir.
+// Fill in the physical name in desc.
+//
+function stage($desc, $dir, $batch_id) {
+    $user = get_logged_in_user();
+    if (!empty($desc->sandbox_name)) {
+        $path = sandbox_path($user, $desc->sandbox_name);
+    } else {
+        $path = "$dir/$desc->log_name";
+    }
+    if ($desc->sticky) {
+        $phys_name = "jf_$desc->md5";
+        $sf = BoincStickyFile::lookup("md5='$desc->md5'");
+        if (!$sf) {
+            BoincStickyFile::insert(
+                sprintf(
+                    "(create_time, user_id, md5, size, physical_name, remote_url) values (%d, %d, '%s', %f, '%s', '%s')",
+                    time(), $user->id, $desc->md5, $desc->size,
+                    $phys_name, BoincDb::escape_string($desc->url)
+                )
+            );
+            $sf = BoincStickyFile::lookup("md5='$desc->md5'");
+            if (!$sf) error_page("can't create sticky file record");
+        }
+        $ret = BoincStickyFileRef::insert(
+            sprintf(
+                "(create_time, sticky_file_id, user_id, batch_id, logical_name, sandbox_name) values (%d, %d, %d, %d, '%s', '%s')",
+                time(), $sf->id, $user->id, $batch_id,
+                $desc->log_name, $desc->sandbox_name
+            )
+        );
+        if (!$ret) error_page("can't create sticky file ref");
+    } else {
+        $phys_name = sprintf('batch_%d_%s', $batch_id, $desc->md5);
+    }
+    stage_file_aux($path, $desc->md5, $desc->size, $phys_name);
+    $desc->phys_name = $phys_name;
+}
+
 // stage the batch's input files:
 // first shared files, then per-job files
 //
 function stage_input_files($batch_dir, $batch_desc, $batch_id) {
-    $n = count($batch_desc->shared_files);
-    $batch_desc->shared_files_phys_names = [];
-    for ($i=0; $i<$n; $i++) {
-        $path = sprintf(
-            '%s/shared_input_files/%s',
-            $batch_dir, $batch_desc->shared_files[$i]
-        );
-        [$md5, $size] = $batch_desc->shared_file_infos[$i];
-        $phys_name = sprintf('batch_%d_%s', $batch_id, $md5);
-        stage_file_aux($path, $md5, $size, $phys_name);
-        $batch_desc->shared_files_phys_names[] = $phys_name;
+    foreach ($batch_desc->shared_file_descs as $desc) {
+        stage($desc, "$batch_dir/shared_input_files", $batch_id);
     }
     foreach ($batch_desc->jobs as $job) {
-        $n = count($batch_desc->unshared_files);
-        $job->phys_names = [];
-        for ($i=0; $i<$n; $i++) {
-            $path = sprintf('%s/%s/%s',
-                $batch_dir, $job->dir, $batch_desc->unshared_files[$i]
-            );
-            [$md5, $size] = $job->file_infos[$i];
-            $phys_name = sprintf('batch_%d_%s', $batch_id, $md5);
-            stage_file_aux($path, $md5, $size, $phys_name);
-            $job->phys_names[] = $phys_name;
+        foreach ($job->file_descs as $desc) {
+            stage($desc, "$batch_dir/$job->dir", $batch_id);
         }
     }
+}
+
+function lookup_file($log_name, $descs) {
+    foreach ($descs as $desc) {
+        if ($desc->log_name == $log_name) {
+            return $desc;
+        }
+    }
+    return null;
 }
 
 // run bin/create_work to create the jobs.
@@ -261,7 +338,7 @@ function create_jobs(
 ) {
     global $buda_boinc_app;
 
-    // make per-job lines to pass as stdin
+    // make per-job lines to pass as stdin to create_work
     //
     $job_cmds = '';
     foreach ($batch_desc->jobs as $job) {
@@ -272,11 +349,30 @@ function create_jobs(
                 escapeshellarg($job->cmdline)
             );
         }
-        foreach ($batch_desc->shared_files_phys_names as $x) {
-            $job_cmd .= " $x";
-        }
-        foreach ($job->phys_names as $x) {
-            $job_cmd .= " $x";
+
+        // files must be in same order as app desc
+        //
+        foreach ($app_desc->input_file_names as $log_name) {
+            $d = lookup_file($log_name, $batch_desc->shared_file_descs);
+            if (!$d) {
+                $d = lookup_file($log_name, $job->file_descs);
+            }
+            if (!$d) {
+                error_path("can't find $log_name in file descs");
+            }
+            if ($d->sticky) {
+                if (!empty($d->url)) {
+                    $job_cmd .= " --remote_sticky_file $d->url $d->size $d->md5";
+                } else {
+                    $job_cmd .= " --sticky_file $d->phys_name";
+                }
+            } else {
+                if (!empty($d->url)) {
+                    $job_cmd .= " --remote_file $d->url $d->size $d->md5";
+                } else {
+                    $job_cmd .= " $d->phys_name";
+                }
+            }
         }
         $job_cmds .= "$job_cmd\n";
     }

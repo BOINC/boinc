@@ -169,4 +169,48 @@ class BoincBatchFileAssoc {
     }
 }
 
+#[AllowDynamicProperties]
+class BoincStickyFile {
+    static function insert($clause) {
+        $db = BoincDb::get();
+        return $db->insert('sticky_file', $clause);
+    }
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('sticky_file', 'BoincStickyFile', $clause);
+    }
+    static function lookup_id($id) {
+        $db = BoincDb::get();
+        return $db->lookup_id($id, 'sticky_file', 'BoincStickyFile');
+    }
+    static function enum($clause) {
+        $db = BoincDb::get();
+        return $db->enum('sticky_file', 'BoincStickyFile', $clause);
+    }
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete($this, 'sticky_file');
+    }
+}
+
+#[AllowDynamicProperties]
+class BoincStickyFileRef {
+    static function insert($clause) {
+        $db = BoincDb::get();
+        return $db->insert('sticky_file_ref', $clause);
+    }
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('sticky_file_ref', 'BoincStickyFileRef', $clause);
+    }
+    static function enum($clause) {
+        $db = BoincDb::get();
+        return $db->enum('sticky_file_ref', 'BoincStickyFileRef', $clause);
+    }
+    static function delete_aux($clause) {
+        $db = BoincDb::get();
+        return $db->delete_aux('sticky_file_ref', $clause);
+    }
+}
+
 ?>

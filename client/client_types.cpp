@@ -452,6 +452,7 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         "    <max_nbytes>%f</max_nbytes>\n",
         name, nbytes, max_nbytes
     );
+    if (sticky) out.printf("    <sticky/>\n");
     if (strlen(md5_cksum)) {
         out.printf(
             "    <md5_cksum>%s</md5_cksum>\n",
@@ -462,7 +463,6 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         out.printf("    <status>%d</status>\n", status);
         if (executable) out.printf("    <executable/>\n");
         if (uploaded) out.printf("    <uploaded/>\n");
-        if (sticky) out.printf("    <sticky/>\n");
         if (gzip_when_done) out.printf("    <gzip_when_done/>\n");
         if (download_gzipped) {
             out.printf("    <download_gzipped/>\n");
