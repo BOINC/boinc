@@ -55,10 +55,10 @@ if ($team->ping_user != 0) {
             <input type=\"hidden\" name=\"action\" value=\"decline\">
             <input type=\"hidden\" name=\"teamid\" value=\"".$team->id."\">
         ";
-        show_submit_button(tra("decline request"));
+        show_submit_button(tra("Decline request"));
         echo "
             </form>
-            <p>
+            <p> <p>
             ".tra("If you don't decline the request by %1, %2 will have the option of assuming team foundership.<br /><br />
                   To accept the request, assign foundership to %3 using the form below.", $x, $ping_user->name, $ping_user->name)."
             </p>
