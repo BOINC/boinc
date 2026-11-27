@@ -32,8 +32,12 @@
 
 #include <string.h>
 #include <string>
+#include <fmt/format.h>
 
 using std::string;
+using fmt::format;
+
+#include "util.h"
 
 #include "sched_types.h"
 
@@ -77,21 +81,100 @@ struct DOCKER_INFO {
     }
 };
 
+static string summary_json(
+    const char *type, const char *model, int count, int ram_mb,
+    const char *driver_version, int opencl_version
+) {
+    return format(
+"        {{\n"\
+"            \"type\": \"{}\",\n"\
+"            \"model\": \"{}\",\n"\
+"            \"count\": {},\n"\
+"            \"ram_mb\": {},\n"\
+"            \"driver_version\": \"{}\",\n"\
+"            \"opencl_version\": \"{}\"\n"\
+"        }}",
+        type, model, count, ram_mb, driver_version, opencl_version
+    );
+}
+
+string COPROCS::summary_string_json() {
+    char buf[256];
+    string out = "";
+    if (nvidia.count) {
+        sprintf(buf, "%d", nvidia.display_driver_version);
+        out += summary_json(
+            "nvidia",
+            nvidia.cuda_prop.name,
+            nvidia.count,
+            (int)(nvidia.cuda_prop.totalGlobalMem/MEGA),
+            buf,
+            nvidia.opencl_prop.opencl_device_version_int
+        );
+    }
+    if (ati.count) {
+        if (!out.empty()) out += ",\n";
+        out += summary_json(
+            "amd",
+            ati.name, ati.count,
+            ati.attribs.localRAM, ati.version,
+            ati.opencl_prop.opencl_device_version_int
+        );
+    }
+    if (intel_gpu.count) {
+        if (!out.empty()) out += ",\n";
+        out += summary_json(
+            "intel",
+            intel_gpu.opencl_prop.name, intel_gpu.count,
+            (int)((double)intel_gpu.opencl_prop.global_mem_size/MEGA),
+            intel_gpu.opencl_prop.opencl_driver_version,
+            intel_gpu.opencl_prop.opencl_device_version_int
+        );
+    }
+    if (apple_gpu.count) {
+        if (!out.empty()) out += ",\n";
+        sprintf(buf, "%d", apple_gpu.metal_support);
+        out += summary_json(
+            "apple",
+            apple_gpu.model, apple_gpu.count,
+            (int)((double)apple_gpu.opencl_prop.global_mem_size/MEGA),
+            buf,
+            apple_gpu.opencl_prop.opencl_device_version_int
+        );
+    }
+    for (int i=1; i<n_rsc; i++) {
+        COPROC& cp = coprocs[i];
+        int type = coproc_type_name_to_num(cp.type);
+        if (type == PROC_TYPE_NVIDIA_GPU) continue;
+        if (type == PROC_TYPE_AMD_GPU) continue;
+        if (type == PROC_TYPE_INTEL_GPU) continue;
+        if (type == PROC_TYPE_APPLE_GPU) continue;
+        if (!strlen(cp.opencl_prop.name)) continue;
+        if (!out.empty()) out += ",\n";
+        out += summary_json(
+            cp.opencl_prop.vendor,
+            cp.opencl_prop.name,
+            cp.count,
+            (int)((double)cp.opencl_prop.global_mem_size/MEGA),
+            cp.opencl_prop.opencl_device_version,
+            cp.opencl_prop.opencl_device_version_int
+        );
+    }
+    return out;
+}
+
 // return misc host info as JSON
 //
-void host_info_json(string &out) {
-    char buf[1024];
-    sprintf(buf,
-        "{\n"\
-"    \"client_version\": \"%d.%d.%d\"",
+string host_info_json() {
+    string out = format(
+        "{{\n"\
+"    \"client_version\": \"{}.{}.{}\"",
         g_request->core_client_major_version,
         g_request->core_client_minor_version,
         g_request->core_client_release
     );
-    out = buf;
 
-    string gpus;
-    g_request->coprocs.summary_string_json(gpus);
+    string gpus = g_request->coprocs.summary_string_json();
     if (!gpus.empty()) {
         out += ",\n"\
 "    \"gpus\": [\n";
@@ -103,69 +186,66 @@ void host_info_json(string &out) {
     di.get_docker_info();
 
     if (!di.wsl_version.empty()) {
-        sprintf(buf,
+        out += format(
             ",\n"\
-"    \"wsl\": {\n"\
-"        \"version\": \"%s\",\n"\
-"        \"use_wslc\": %s\n"\
-"    }",
-            di.wsl_version.c_str(),
+"    \"wsl\": {{\n"\
+"        \"version\": \"{}\",\n"\
+"        \"use_wslc\": {}\n"\
+"    }}",
+            di.wsl_version,
             di.use_wslc?"true":"false"
         );
-        out += buf;
     }
     if (!di.docker_version.empty()) {
-        sprintf(buf,
+        out += format(
             ",\n"\
-"    \"docker\": {\n"\
-"        \"version\": \"%s\",\n"\
-"        \"type\": %d",
-            di.docker_version.c_str(),
+"    \"docker\": {{\n"\
+"        \"version\": \"{}\",\n"\
+"        \"type\": {}",
+            di.docker_version,
             di.docker_type
         );
-        out += buf;
         if (!di.wsl_distro.empty()) {
-            sprintf(buf,
-                ",\n        \"wsl_distro\": \"%s\"",
-                di.wsl_distro.c_str()
+            out += format(
+                ",\n        \"wsl_distro\": \"{}\"",
+                di.wsl_distro
             );
-            out += buf;
         }
         if (di.bbr_version) {
-            sprintf(buf,
-                ",\n        \"boinc_buda_runner_version\": %d",
+            out += format(
+                ",\n        \"boinc_buda_runner_version\": {}",
                 di.bbr_version
             );
-            out += buf;
         }
         out += "\n    }";
     }
 
     if (strlen(g_request->host.virtualbox_version)) {
-        sprintf(buf, ",\n"\
-"    \"vbox\": {\n"\
-"        \"version\": \"%s\",\n"\
-"        \"hw_accel\": %s,\n"\
-"        \"hw_accel_enabled\": %s\n"\
-"    }",
+        out += format(
+",\n"\
+"    \"vbox\": {{\n"\
+"        \"version\": \"{}\",\n"\
+"        \"hw_accel\": {},\n"\
+"        \"hw_accel_enabled\": {}\n"\
+"    }}",
             g_request->host.virtualbox_version,
             (strstr(g_request->host.p_features, "vmx") || strstr(g_request->host.p_features, "svm"))?"true":"false",
             g_request->host.p_vm_extensions_disabled?"false":"true"
         );
-        out += buf;
     }
 
     if (g_request->dont_use_docker || g_request->dont_use_wsl) {
-        sprintf(buf, ",\n"\
-"    \"config\": {\n"\
-"        \"dont_use_docker\": %s,\n"\
-"        \"dont_use_wsl\": %s\n"\
-"    }",
+        out += format(
+",\n"\
+"    \"config\": {{\n"\
+"        \"dont_use_docker\": {},\n"\
+"        \"dont_use_wsl\": {}\n"\
+"    }}",
             g_request->dont_use_docker?"true":"false",
             g_request->dont_use_wsl?"true":"false"
         );
-        out += buf;
     }
 
     out += "\n}";
+    return out;
 }

@@ -25,7 +25,9 @@
 #endif
 
 #include <string>
+#include <fmt/format.h>
 using std::string;
+using fmt::format;
 
 #ifdef _WIN32
 #include "win_util.h"
@@ -161,94 +163,6 @@ int COPROC::parse(XML_PARSER& xp) {
         if (xp.parse_bool("non_gpu", non_gpu)) continue;
     }
     return ERR_XML_PARSE;
-}
-
-void summary_json(
-    char *buf,
-    const char *type, const char *model, int count, int ram_mb,
-    const char *driver_version, int opencl_version
-) {
-    sprintf(buf,
-"        {\n"\
-"            \"type\": \"%s\",\n"\
-"            \"model\": \"%s\",\n"\
-"            \"count\": %d,\n"\
-"            \"ram_mb\": %d,\n"\
-"            \"driver_version\": \"%s\",\n"\
-"            \"opencl_version\": \"%d\"\n"\
-"        }",
-        type, model, count, ram_mb, driver_version, opencl_version
-    );
-}
-
-void COPROCS::summary_string_json(string &out) {
-    char buf2[1024];
-    char buf[256];
-    out = "";
-    if (nvidia.count) {
-        sprintf(buf, "%d", nvidia.display_driver_version);
-        summary_json(buf2,
-            "nvidia",
-            nvidia.cuda_prop.name,
-            nvidia.count,
-            (int)(nvidia.cuda_prop.totalGlobalMem/MEGA),
-            buf,
-            nvidia.opencl_prop.opencl_device_version_int
-        );
-        out += buf2;
-    }
-    if (ati.count) {
-        if (!out.empty()) out += ",\n";
-        summary_json(buf2,
-            "amd",
-            ati.name, ati.count,
-            ati.attribs.localRAM, ati.version,
-            ati.opencl_prop.opencl_device_version_int
-        );
-        out += buf2;
-    }
-    if (intel_gpu.count) {
-        if (!out.empty()) out += ",\n";
-        summary_json(buf2,
-            "intel",
-            intel_gpu.opencl_prop.name, intel_gpu.count,
-            (int)((double)intel_gpu.opencl_prop.global_mem_size/MEGA),
-            intel_gpu.opencl_prop.opencl_driver_version,
-            intel_gpu.opencl_prop.opencl_device_version_int
-        );
-        out += buf2;
-    }
-    if (apple_gpu.count) {
-        if (!out.empty()) out += ",\n";
-        sprintf(buf, "%d", apple_gpu.metal_support);
-        summary_json(buf2,
-            "apple",
-            apple_gpu.model, apple_gpu.count,
-            (int)((double)apple_gpu.opencl_prop.global_mem_size/MEGA),
-            buf,
-            apple_gpu.opencl_prop.opencl_device_version_int
-        );
-        out += buf2;
-    }
-    for (int i=1; i<n_rsc; i++) {
-        COPROC& cp = coprocs[i];
-        int type = coproc_type_name_to_num(cp.type);
-        if (type == PROC_TYPE_NVIDIA_GPU) continue;
-        if (type == PROC_TYPE_AMD_GPU) continue;
-        if (type == PROC_TYPE_INTEL_GPU) continue;
-        if (type == PROC_TYPE_APPLE_GPU) continue;
-        if (!strlen(cp.opencl_prop.name)) continue;
-        if (!out.empty()) out += ",\n";
-        summary_json(buf2,
-            cp.opencl_prop.vendor,
-            cp.opencl_prop.name,
-            cp.count,
-            (int)((double)cp.opencl_prop.global_mem_size/MEGA),
-            cp.opencl_prop.opencl_device_version,
-            cp.opencl_prop.opencl_device_version_int
-        );
-        out += buf2;
-    }
 }
 
 void COPROC::check_count(const char* ctype) {
