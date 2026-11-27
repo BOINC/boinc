@@ -627,7 +627,6 @@ int boinc_init_options(BOINC_OPTIONS* opt) {
         fprintf(stderr, "boinc_init_options(): already initialized\n");
         boinc_finish(EXIT_INIT_FAILURE);
     }
-    inited = true;
 #ifndef _WIN32
     if (options.multi_thread) {
         int child_pid = fork();
@@ -640,7 +639,7 @@ int boinc_init_options(BOINC_OPTIONS* opt) {
                 kill(child_pid, SIGKILL);
                 return retval;
             }
-            parallel_master(child_pid);
+            parallel_master(child_pid);     // doesn't return
         }
         // new process - slave
         //
@@ -652,6 +651,7 @@ int boinc_init_options(BOINC_OPTIONS* opt) {
         return boinc_init_options(&options);
     }
 #endif
+    inited = true;
     retval = boinc_init_options_general(*opt);
     if (retval) return retval;
     retval = start_timer_thread();
