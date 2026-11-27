@@ -628,13 +628,13 @@ int boinc_init_options(BOINC_OPTIONS* opt) {
         boinc_finish(EXIT_INIT_FAILURE);
     }
 #ifndef _WIN32
-    if (options.multi_thread) {
+    if (opt->multi_thread) {
         int child_pid = fork();
         if (child_pid) {
             // original process - master
             //
-            options.send_status_msgs = false;
-            retval = boinc_init_options_general(options);
+            opt->send_status_msgs = false;
+            retval = boinc_init_options_general(*opt);
             if (retval) {
                 kill(child_pid, SIGKILL);
                 return retval;
