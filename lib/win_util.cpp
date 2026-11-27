@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2023 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -263,7 +263,7 @@ int WSL_CMD::setup_podman(WSL_DISTRO &wd) {
 }
 
 int WSL_CMD::run_program_in_wsl(
-    WSL_DISTRO &wd, const string command, bool use_cwd
+    WSL_DISTRO &wd, const string& command, bool use_cwd
 ) {
     proc_handle = NULL;
     HRESULT ret = pWslLaunch(

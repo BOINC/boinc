@@ -34,9 +34,7 @@ graphics2_files = \
     graphics2.cpp
 
 if OS_WIN32
-    graphics2_files += graphics2_win.cpp \
-                       $(top_srcdir)/samples/image_libs/bmplib.cpp \
-                       $(top_srcdir)/samples/image_libs/tgalib.cpp
+    graphics2_files += graphics2_win.cpp
 else
     graphics2_files += graphics2_unix.cpp
 endif
@@ -65,7 +63,7 @@ if BUILD_GRAPHICS_API
 lib_LTLIBRARIES += libboinc_graphics2.la
 pkgconfig_DATA += libboinc_graphics2.pc
 libboinc_graphics2_la_SOURCES = $(graphics2_files)
-libboinc_graphics2_la_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/lib -I$(top_srcdir)/samples/image_libs
+libboinc_graphics2_la_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/lib
 libboinc_graphics2_la_LDFLAGS = -version-number $(LIBBOINC_VERSION) -ljpeg
 endif #BUILD_GRAPHICS_API
 

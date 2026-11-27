@@ -213,6 +213,30 @@ bool HOST_INFO::parse_linux_os_info(
     return true;
 }
 
+// OpenWrt writes the device model (from the device tree, DMI, etc.)
+// to /tmp/sysinfo/model at boot; LuCI shows it as "Model".
+//
+// return true if the file gives a non-empty model
+//
+bool HOST_INFO::parse_openwrt_model(
+    FILE* file, char* model, const int model_size
+) {
+    if (!file) {
+        return false;
+    }
+
+    char buf[256];
+    if (!fgets(buf, sizeof(buf), file)) {
+        return false;
+    }
+    strip_whitespace(buf);
+    if (!strlen(buf)) {
+        return false;
+    }
+    strlcpy(model, buf, model_size);
+    return true;
+}
+
 int is_filesystem_remote(const char* path, bool &result) {
     char cmd[256], buf[256];
     vector<string> out;

@@ -52,38 +52,36 @@ $account_file = "account_" . rtrim($url, '_') . ".xml";
 
 page_head(tra("Account keys"));
 text_start();
-echo "<table><tr><td>",
-    tra("You can access your account either by using your email address and password,
-    or by using an assigned 'account key'.
-    Your account key is:"),
-    "<p><pre>$user->authenticator</pre>
-    <p>",
+echo
+    tra(
+        "You can access your account either by using your email address and password, or by using an assigned 'account key'.  Your account key is:"
+    ),
+    "<p><pre>$user->authenticator</pre> <p> ",
     tra("This key can be used to:"),
-    "<ul>
-    <li><a href=get_passwd.php>",tra("log in to your account on the web"),"</a>;
-    <li>",
-        tra("attach a computer to your account without using the BOINC Manager.
-       To do so, install BOINC,
-       create a file named %1 in the BOINC
-       data directory, and set its contents to:","<b>$account_file</b>"),"
-    <p><pre>",
+    "<ul> <li><a href=get_passwd.php>",
+    tra("log in to your account on the web"),
+    "</a>; <li>",
+    tra(
+        "attach a computer to your account without using the BOINC Manager.  To do so, install BOINC on the computer, create a file named %1 in the BOINC data directory, and set its contents to:",
+        "<b>$account_file</b>"
+    ),
+    "<p><pre>",
     htmlspecialchars(
 "<account>
     <master_url>".$master_url."</master_url>
     <authenticator>".$weak_auth."</authenticator>
-</account>"),
-    "</pre>
-    </ul>
-    <h2>", tra("Weak account key"), "</h2>",
-    tra("Your 'weak account key' can be used to attach computers to your account
-    as described above, but cannot be used to log in to your account or change it in any way.
-    If you want to attach untrusted or insecure computers to your account,
-    do so using your weak account key.
-    Your weak account key is:"),"
-    <p><pre>$weak_auth</pre><p>
-    ",
-    tra("The key depends on your account's email address and password.  If you change either of these, the weak account key will change."),"
-    </td></tr></table>"
+</account>"
+    ),
+    "</pre> </ul> <h2>",
+    tra("Weak account key"),
+    "</h2>",
+    tra(
+        "Your 'weak account key' can be used to attach computers to your account as described above, but cannot be used to log in to your account or change it in any way.  Attach untrusted or insecure computers to your account using your weak account key.  Your weak account key is:"
+    ),
+    " <p><pre>$weak_auth</pre><p> ",
+    tra(
+        "The key depends on your account's email address and password.  If you change either of these, the weak account key will change."
+    )
 ;
 text_end();
 page_tail();

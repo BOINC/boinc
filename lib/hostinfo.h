@@ -180,6 +180,9 @@ public:
         char* os_name, const int os_name_size, char* os_version,
         const int os_version_size
     );
+    static bool parse_openwrt_model(
+        FILE* file, char* model, const int model_size
+    );
     static bool get_docker_version_string(
         DOCKER_TYPE type, const char* raw, std::string& version
     );

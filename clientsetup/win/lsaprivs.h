@@ -72,8 +72,8 @@ public:
     LsaPrivs operator=(const LsaPrivs&) = delete;
     LsaPrivs(const LsaPrivs&) = delete;
 
-    static bool GetAccountSid(std::wstring_view AccountName, PSID* Sid);
-    static bool GrantUserRight(PSID psidAccountSid,
-        std::wstring_view pszUserRight, bool bEnable);
+    static bool GetAccountSid(tstring_view AccountName, PSID* Sid);
+    static bool GrantUserRight(
+        PSID psidAccountSid, tstring_view pszUserRight, bool bEnable
+    );
 };
-

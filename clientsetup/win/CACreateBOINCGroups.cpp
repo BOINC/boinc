@@ -106,9 +106,11 @@ private:
         wil::unique_sid pInstallingUserSIDDeleter(pInstallingUserSID);
 
         LOCALGROUP_INFO_1 lgrpiUsers;
-        lgrpiUsers.lgrpi1_name = _T("boinc_users");
-        lgrpiUsers.lgrpi1_comment =
+        wchar_t users_name[] = _T("boinc_users");
+        wchar_t users_comment[] =
             _T("Accounts in this group can monitor the BOINC client.");
+        lgrpiUsers.lgrpi1_name = users_name;
+        lgrpiUsers.lgrpi1_comment = users_comment;
 
         DWORD dwParameterError;
         auto nasReturnValue = NetLocalGroupAdd(nullptr, 1,
@@ -130,10 +132,12 @@ private:
         SetProperty(_T("BOINC_USERS_GROUPNAME"), _T("boinc_users"));
 
         LOCALGROUP_INFO_1 lgrpiProjects;
-        lgrpiProjects.lgrpi1_name = _T("boinc_projects");
-        lgrpiProjects.lgrpi1_comment =
+        wchar_t projects_name[] = _T("boinc_projects");
+        wchar_t projects_comment[] =
             _T("Accounts in this group are used to execute "
-                "boinc applications.");
+            "boinc applications.");
+        lgrpiProjects.lgrpi1_name = projects_name;
+        lgrpiProjects.lgrpi1_comment = projects_comment;
 
         nasReturnValue = NetLocalGroupAdd(nullptr, 1,
             reinterpret_cast<LPBYTE>(&lgrpiProjects), &dwParameterError);
@@ -154,9 +158,11 @@ private:
         SetProperty(_T("BOINC_PROJECTS_GROUPNAME"), _T("boinc_projects"));
 
         LOCALGROUP_INFO_1 lgrpiAdmins;
-        lgrpiAdmins.lgrpi1_name = _T("boinc_admins");
-        lgrpiAdmins.lgrpi1_comment =
+        wchar_t admins_name[] = _T("boinc_admins");
+        wchar_t admins_comment[] =
             _T("Accounts in this group can control the BOINC client.");
+        lgrpiAdmins.lgrpi1_name = admins_name;
+        lgrpiAdmins.lgrpi1_comment = admins_comment;
 
         nasReturnValue = NetLocalGroupAdd(nullptr, 1,
             reinterpret_cast<LPBYTE>(&lgrpiAdmins), &dwParameterError);

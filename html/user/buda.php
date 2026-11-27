@@ -140,14 +140,16 @@ function variant_view($user) {
     $dir = "$buda_root/$app/$variant";
     $variant_desc = json_decode(file_get_contents("$dir/variant.json"));
     start_table('table-striped');
-    row2("BUDA App", $app);
+    row2("BUDA app", $app);
     row2("Variant name", $variant);
     row2("CPU type", $variant_desc->cpu_type);
-    row2("Plan class", $variant_desc->plan_class);
+    $x = $variant_desc->plan_class;
+    if (!$x) $x = '---';
+    row2("Plan class", $x);
     end_table();
     echo "<h3>App files</h3>";
     start_table();
-    table_header('Dockerfile', 'size', 'md5');
+    table_header('Dockerfile', 'Size', 'MD5');
     file_row($app, $variant, $dir, $variant_desc->dockerfile);
     table_header('App files', '', '');
     foreach ($variant_desc->app_files as $f) {
@@ -192,7 +194,7 @@ function variant_form($user) {
             file_get_contents("$variant_dir/variant.json")
         );
         if (!$variant_desc) error_page('no such variant');
-        page_head_select2("Edit variant $variant of BUDA app $app");
+        page_head_select2("Edit variant '$variant' of BUDA app '$app'");
     } else {
         $variant_desc = new StdClass;
         $variant_desc->cpu_type = 'intel';
@@ -202,11 +204,11 @@ function variant_form($user) {
         page_head_select2("Create a variant of BUDA app $app");
     }
     echo "
-        Details are <a href=https://github.com/BOINC/boinc/wiki/BUDA-apps>here</a>.
+        <a href=https://github.com/BOINC/boinc/wiki/BUDA-apps>Details</a>.
     ";
     $sb = '<br><small>From your <a href=sandbox.php>file sandbox</a></small>';
     $pc = '<br><small>Specify
-    <a href=https://github.com/BOINC/boinc/wiki/Plan-classes>GPU and other host requirements</a>.<br>Leave blank if none.</small>';
+    <a href=https://github.com/BOINC/boinc/wiki/Plan-classes>GPU and other host requirements</a>.<br>Leave empty if none.</small>';
     form_start('buda.php');
     echo form_tokens();
     form_input_hidden('app', $app);
@@ -263,7 +265,7 @@ function create_templates($app, $desc, $dir) {
     }
     $x .= "   <workunit>\n";
     foreach ($desc->input_file_names as $fname) {
-        $x .= file_ref_in($fname);
+        $x .= file_ref_in($fname, !in_array($fname, $desc->linked_files, true));
     }
 
     // replication params
@@ -557,6 +559,7 @@ function app_form($desc=null) {
         $desc = new StdClass;
         $desc->long_name = null;
         $desc->input_file_names = [];
+        $desc->linked_files = [];
         $desc->output_file_names = [];
         $desc->max_nbytes_mb = 10;
         $desc->max_delay_days = 7;
@@ -571,6 +574,11 @@ function app_form($desc=null) {
         'Input file names<br><small>Space-separated</small>',
         'input_file_names',
         implode(' ', $desc->input_file_names)
+    );
+    form_input_text(
+        'Linked input file names<br><small>Space-separated. Use for <a href=https://github.com/BOINC/boinc/wiki/BUDA-apps#linked-input-files>very large input files</a>. </small>',
+        'linked_files',
+        empty($desc->linked_files)?'':implode(' ', $desc->linked_files)
     );
     form_input_text(
         'Output file names<br><small>
@@ -673,6 +681,17 @@ function app_action($user) {
     } else {
         $input_file_names = [];
     }
+    $linked_files = get_str('linked_files', true);
+    if ($linked_files) {
+        $linked_files = explode(' ', $linked_files);
+        foreach ($linked_files as $fname) {
+            if (!in_array($fname, $input_file_names, true)) {
+                error_page('Invalid linked file name');
+            }
+        }
+    } else {
+        $linked_files = [];
+    }
     $output_file_names = get_str('output_file_names', true);
     if ($output_file_names) {
         $output_file_names = explode(' ', $output_file_names);
@@ -687,6 +706,7 @@ function app_action($user) {
     $desc->max_nbytes_mb = get_int('max_nbytes_mb');
     $desc->long_name = get_str('long_name');
     $desc->input_file_names = $input_file_names;
+    $desc->linked_files = $linked_files;
     $desc->output_file_names = $output_file_names;
     $desc->max_delay_days = $max_delay_days;
     $desc->description = get_str('description');
@@ -782,8 +802,12 @@ function app_details($user) {
     row2('Description', $desc->description);
     row2('Science keywords', kw_array_to_str($desc->sci_kw));
     row2(
-        'Input filenames:',
+        'Input filenames',
         implode('<br>', $desc->input_file_names)
+    );
+    row2(
+        'Linked input files',
+        empty($desc->linked_files)?'&mdash;':implode(',', $desc->linked_files)
     );
     row2(
         'Output filenames:',
@@ -808,7 +832,7 @@ function app_details($user) {
         row2('',
             button_text_small(
                 sprintf('buda.php?action=%s&name=%s', 'app_edit', $desc->name),
-                'Edit app info'
+                'Edit BUDA app'
             )
         );
     }

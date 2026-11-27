@@ -18,6 +18,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <PreprocessorDefinitions>_USRDLL;BOINCCAS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp23</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>atls.lib;msi.lib;delayimp.lib;netapi32.lib;version.lib;libcrypto.lib;libssl.lib;Ws2_32.Lib;Crypt32.Lib;%(AdditionalDependencies)</AdditionalDependencies>

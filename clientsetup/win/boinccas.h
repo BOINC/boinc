@@ -20,8 +20,11 @@
 class BOINCCABase
 {
 public:
-    explicit BOINCCABase(MSIHANDLE hMSIHandle, tstring strActionName,
-        tstring strProgressTitle);
+    explicit BOINCCABase(
+        MSIHANDLE hMSIHandle,
+        tstring_view strActionName,
+        tstring_view strProgressTitle
+    );
     virtual ~BOINCCABase() = default;
 
     UINT Execute();
@@ -29,34 +32,42 @@ protected:
     virtual UINT OnExecution() = 0;
 
     bool IsUpgrading();
-    UINT GetRegistryValue(const tstring& strName, tstring& strValue,
-        bool bDisplayValue = true);
-    UINT SetRegistryValue(const tstring& strName, const tstring& strValue,
-        bool bDisplayValue = true);
-    UINT GetProperty(const tstring& strPropertyName,
-        tstring& strPropertyValue, bool bDisplayValue = true);
-    UINT SetProperty(const tstring& strPropertyName,
-        const tstring& strPropertyValue, bool bDisplayValue = true);
-    UINT GetComponentKeyFilename(const tstring& strComponentName,
-        tstring&strComponentKeyFilename);
-    UINT DisplayMessage(UINT uiPushButtonStyle, UINT uiIconStyle,
-        const tstring& strMessage);
-    UINT LogProgress(const tstring& strProgress);
-    UINT LogMessage(UINT uiInstallMessageType, UINT uiPushButtonStyle,
-        UINT uiIconStyle, UINT uiErrorCode, const tstring& strMessage);
+    UINT GetRegistryValue(
+        tstring_view strName, tstring& strValue, bool bDisplayValue = true
+    );
+    UINT SetRegistryValue(
+        tstring_view strName, tstring_view strValue, bool bDisplayValue = true
+    );
+    UINT GetProperty(
+        tstring_view strName, tstring& strValue, bool bDisplayValue = true
+    );
+    UINT SetProperty(
+        tstring_view strName, tstring_view strValue, bool bDisplayValue = true
+    );
+    UINT GetComponentKeyFilename(
+        tstring_view strComponentName, tstring&strComponentKeyFilename
+    );
+    UINT DisplayMessage(
+        UINT uiPushButtonStyle, UINT uiIconStyle, tstring_view strMessage
+    );
+    UINT LogProgress(tstring_view strProgress);
+    UINT LogMessage(
+        UINT uiInstallMessageType, UINT uiPushButtonStyle, UINT uiIconStyle,
+        UINT uiErrorCode, tstring_view strMessage
+    );
     UINT RebootWhenFinished();
-    bool localGroupExists(const tstring& groupName);
-    bool RecursiveSetPermissions(const tstring& path, PACL pACL);
-    void TerminateProcessEx(const tstring& strProcessName,
-        bool bRecursive = true);
-    DWORD ChangeAppIDAccessACL(const tstring& AppID,
-        const tstring& Principal);
-    DWORD ChangeAppIDLaunchACL(const tstring& AppID,
-        const tstring& Principal);
-    bool GetAccountSid(const tstring& AccountName, PSID* Sid);
-    bool GrantUserRight(PSID psidAccountSid,
-        const tstring& pszUserRight, bool bEnable);
-    HRESULT CreateProcessWithExplorerIL(const tstring& szCmdLine);
+    bool localGroupExists(tstring_view groupName);
+    bool RecursiveSetPermissions(tstring_view path, PACL pACL);
+    void TerminateProcessEx(
+        tstring_view strProcessName, bool bRecursive = true
+    );
+    DWORD ChangeAppIDAccessACL(tstring_view AppID, tstring_view Principal);
+    DWORD ChangeAppIDLaunchACL(tstring_view AppID, tstring_view Principal);
+    bool GetAccountSid(tstring_view AccountName, PSID* Sid);
+    bool GrantUserRight(
+        PSID psidAccountSid, tstring_view pszUserRight, bool bEnable
+    );
+    HRESULT CreateProcessWithExplorerIL(tstring_view szCmdLine);
 private:
     UINT OnInitialize();
 
@@ -64,6 +75,6 @@ private:
     PMSIHANDLE m_phActionDataRec = 0;
     PMSIHANDLE m_phLogInfoRec = 0;
 
-    tstring m_strActionName;
-    tstring m_strProgressTitle;
+    tstring_view m_strActionName;
+    tstring_view m_strProgressTitle;
 };

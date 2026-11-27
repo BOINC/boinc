@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -28,25 +28,9 @@
 #include <setjmp.h>
 
 #ifdef _WIN32
-
-#ifdef __cplusplus
-extern "C" {
 #include "jpeglib.h"
-}
 #else
-#include "jpeglib.h"
-#endif
-
-#include "bmplib.h"
-#include "tgalib.h"
-#endif
-
-#ifndef _WIN32
-
-extern "C"{
 #include <jpeglib.h>
-}
-
 #endif
 
 #include "boinc_gl.h"
@@ -290,19 +274,6 @@ void PROGRESS_2D::draw(float x) {
 	glVertex3d(pos[0]+x*len,pos[1]-(inner_width+dif/2.),pos[2]+zoffset);
 	glVertex3d(pos[0]+x*len,pos[1]-(dif/2.),pos[2]+zoffset);
 	glEnd();
-#if 0
-	glColor4f(1,1,1,1);
-	glLineWidth(.8f);
-	glEnable(GL_LINE_SMOOTH);
-	glBegin(GL_LINE_STRIP);
-	glVertex3d(pos[0],pos[1],pos[2]);
-	glVertex3d(pos[0],pos[1]-width,pos[2]);
-	glVertex3d(pos[0]+len,pos[1]-width,pos[2]);
-	glVertex3d(pos[0]+len,pos[1],pos[2]);
-	glVertex3d(pos[0],pos[1],pos[2]);
-	glEnd();
-	glDisable(GL_LINE_SMOOTH);
-#endif
 }
 
 
@@ -587,20 +558,6 @@ void TEXTURE_DESC::draw(float* p, float* size, int xalign, int yalign, float alp
 
     glDisable(GL_TEXTURE_2D);
 }
-
-#if 0
-void printdata(const char* filename, int x, int y, unsigned char* data) {
-	FILE* bmpfile = boinc_fopen(filename,"w");
-	fprintf(bmpfile,"%i,%i\n",x,y);
-	for(int i=0;i<y;i++) {
-        for(int c=0;c<8;c++) {
-			fprintf(bmpfile,"%d ",data[x*i+c]);
-        }
-		fprintf(bmpfile,"\n");
-	}
-	fclose(bmpfile);
-}
-#endif
 
 void DecodeJPG(jpeg_decompress_struct* cinfo, tImageJPG *pImageData) {
 	jpeg_read_header(cinfo, TRUE);

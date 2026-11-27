@@ -243,12 +243,12 @@ function display_team_members($team, $offset, $sort_by) {
             if ($sort_by == "total_credit") {
                 $x[] = tra('Total credit');
             } else {
-                $x[] = "<href=team_members.php?teamid=$team->id&amp;sort_by=total_credit&amp;offset=$offset>".tra('Total credit')."</a>";
+                $x[] = "<a href=team_members.php?teamid=$team->id&amp;sort_by=total_credit&amp;offset=$offset>".tra('Total credit')."</a>";
             }
             if ($sort_by == "expavg_credit") {
                 $x[] = tra('Recent average credit');
             } else {
-                $x[] = "<href=team_members.php?teamid=$team->id&amp;sort_by=expavg_credit&amp;offset=$offset>".tra('Recent average credit').'</a>';
+                $x[] = "<a href=team_members.php?teamid=$team->id&amp;sort_by=expavg_credit&amp;offset=$offset>".tra('Recent average credit').'</a>';
             }
         }
         $a[] = ALIGN_RIGHT;
@@ -640,6 +640,19 @@ function make_team(
         return BoincTeam::lookup_id($id);
     } else {
         return null;
+    }
+}
+
+// See if user has enough credit to request foundership of an existing team
+//
+function team_founder_credit_check($user) {
+    if (defined('TEAM_FOUNDER_MIN_CREDIT')) {
+        $min_credit = TEAM_FOUNDER_MIN_CREDIT;
+    } else {
+        $min_credit = 1;
+    }
+    if ($user->expavg_credit < $min_credit) {
+        error_page(tra('Insufficient credit to be team founder'));
     }
 }
 

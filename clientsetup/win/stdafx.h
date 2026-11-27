@@ -50,13 +50,15 @@
 #include <aclapi.h>
 
 #include <string>
-#include <sstream>
+#include <string_view>
 #include <fstream>
 #include <vector>
 #include <array>
 #include <filesystem>
+#include <format>
 
 #include <wil/resource.h>
 
-#define tstring std::wstring
-#define tostringstream std::wostringstream
+typedef std::wstring tstring;
+typedef std::wstring_view tstring_view;
+typedef std::wostringstream tostringstream;

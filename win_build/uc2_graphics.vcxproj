@@ -11,7 +11,7 @@
   <Import Project="boinc.props" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>.;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;../api;../lib;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CONSOLE;FTGL_LIBRARY_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -33,9 +33,6 @@
   <ItemGroup>
     <ProjectReference Include="glut.vcxproj">
       <Project>{c4165626-f68f-4f66-a126-3b82ddbb7480}</Project>
-    </ProjectReference>
-    <ProjectReference Include="image_libs.vcxproj">
-      <Project>{d3d21f11-a7e7-4ea2-8518-e24695133bff}</Project>
     </ProjectReference>
     <ProjectReference Include="jpeglib.vcxproj">
       <Project>{5f065eac-b881-4e9a-9e34-7a21d7a01d98}</Project>

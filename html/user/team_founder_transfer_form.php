@@ -30,10 +30,12 @@ if (!$team) {
     error_page(tra("You need to be a member of a team to access this page."));
 }
 
+team_founder_credit_check($user);
+
 page_head(tra("Request foundership of %1", $team->name));
 $now = time();
 
-// it should never happen, but just in case
+// team has no founder?  This should never happen, but just in case
 //
 if (!$team->userid) {
     $team->update("userid=$user->id, ping_user=0, ping_time=0");
@@ -41,6 +43,8 @@ if (!$team->userid) {
     page_tail();
     exit;
 }
+
+text_start();
 
 if ($user->id == $team->ping_user) {
     echo "<p>".tra("You requested the foundership of %1 on %2.", $team->name, date_str($team->ping_time))."
@@ -86,8 +90,9 @@ if ($user->id == $team->ping_user) {
     }
 }
 
-echo "<p><a href=\"team_display.php?teamid=".$team->id."\">".tra("Return to team page")."</a>";
+echo "<p> <p><a href=\"team_display.php?teamid=".$team->id."\">".tra("Return to team page")."</a>";
 
+text_end();
 page_tail();
 
 ?>

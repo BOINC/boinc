@@ -120,9 +120,9 @@ This is not allowed by BOINC.
     }
 }
 
-$fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+$fanout = project_config_val("uldl_dir_fanout");
 if (!$fanout) error_exit("can't find <uldl_dir_fanout> in config.xml");
-$download_dir = parse_config(get_config(), "<download_dir>");
+$download_dir = project_config_val("download_dir");
 if (!$download_dir) error_exit("can't find <download_dir> in config.xml");
 if ($argc < 2) usage();
 

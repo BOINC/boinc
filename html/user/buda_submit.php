@@ -53,7 +53,8 @@ function submit_form($user) {
     }
 
     $desc = "<br><small>
-        A zip file with one directory per job.
+        A zip file, in your <a href=sandbox.php>file sandbox</a>,
+        with one directory per job.
         Each directory contains the input file(s) for that job
         and an optional file <code>cmdline</code>
         containing command-line arguments.
@@ -76,7 +77,7 @@ function submit_form($user) {
     echo form_tokens();
     form_input_hidden('action', 'submit');
     form_input_hidden('app', $app);
-    form_select("Batch zip file $desc", 'batch_file', $sbitems_zip);
+    form_select("Batch file $desc", 'batch_file', $sbitems_zip);
     form_input_text(
         'Command-line arguments<br><small>Passed to all jobs in the batch</small>',
         'cmdline'

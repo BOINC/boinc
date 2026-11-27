@@ -529,12 +529,15 @@ function form_general($label, $item) {
 ';
 }
 
-function form_submit($text, $attrs='') {
+function form_submit($text, $attrs='', $warning=false) {
+    $class = $warning?'btn btn-warning':'btn';
     form_general(
         "",
         sprintf(
-            '<button %s type="submit" class="btn" %s>%s</button>',
-            $attrs, button_style(), $text
+            '<button %s type="submit" class="%s" %s>%s</button>',
+            $attrs, $class,
+            $warning?button_style('goldenrod'):button_style(),
+            $text
         )
     );
 }

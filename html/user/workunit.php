@@ -116,7 +116,7 @@ function show_wu($wu) {
         foreach ($results as $result) {
             show_result_row($result, false, true, false);
         }
-        echo "</table>\n";
+        end_table();
     }
 
     // show input files

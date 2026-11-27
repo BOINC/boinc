@@ -85,6 +85,7 @@ $action = post_str("action");
 
 switch ($action) {
 case "initiate_transfer":
+    team_founder_credit_check($user);
     $team = BoincTeam::lookup_id($user->teamid);
     $founder = BoincUser::lookup_id($team->userid);
     if (!$founder) {
@@ -119,6 +120,7 @@ case "initiate_transfer":
     }
     break;
 case "finalize_transfer":
+    team_founder_credit_check($user);
     $team = BoincTeam::lookup_id($user->teamid);
     $now = time();
     if ($user->id == $team->ping_user && transfer_ok($team, $now)) {

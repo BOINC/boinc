@@ -1,6 +1,6 @@
 // This file is part of BOINC.
-// http://boinc.berkeley.edu
-// Copyright (C) 2017 University of California
+// https://boinc.berkeley.edu
+// Copyright (C) 2026 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,16 +18,14 @@
 #ifndef BOINC_PROJECT_INIT_H
 #define BOINC_PROJECT_INIT_H
 
-#define PROJECT_INIT_FILENAME       "project_init.xml"
-
 // represents the contents of project_init.xml,
 // specifying a project, and optionally an account, to attach to initially
 //
 class PROJECT_INIT {
 public:
-    char url[256];
-    char name[256];
-    char account_key[256];
+    std::string url;
+    std::string name;
+    std::string account_key;
 
     // Is the project_init.xml file embedded in the installer?
     // Or was it generated from of the command line of the install.

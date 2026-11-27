@@ -28,7 +28,7 @@ public:
                 "for secure sandboxes")) {
     }
 private:
-    UINT CACreateBOINCAccounts::OnExecution() override final {
+    UINT OnExecution() override final {
         tstring strBOINCMasterAccountUsername;
         auto uiReturnValue =
             GetProperty(_T("BOINC_MASTER_USERNAME"),
@@ -163,14 +163,14 @@ private:
 
                 // Account does not exist, create it
                 //
+                wchar_t comment[] =
+                    _T("Account used to execute BOINC as a system service");
                 USER_INFO_1 ui;
                 ui.usri1_name = strBOINCMasterAccountUsername.data();
                 ui.usri1_password = strBOINCMasterAccountPassword.data();
-                ui.usri1_comment =
-                    _T("Account used to execute BOINC as a system service");
+                ui.usri1_comment = comment;
                 ui.usri1_priv = USER_PRIV_USER;
                 ui.usri1_home_dir = nullptr;
-                ui.usri1_comment = nullptr;
                 ui.usri1_flags =
                     UF_SCRIPT | UF_PASSWD_CANT_CHANGE | UF_DONT_EXPIRE_PASSWD;
                 ui.usri1_script_path = nullptr;
@@ -286,14 +286,13 @@ private:
 
                 // Account does not exist, create it
                 //
+                wchar_t comment[] = _T("Account used to execute BOINC applications");
                 USER_INFO_1 ui;
                 ui.usri1_name = strBOINCProjectAccountUsername.data();
                 ui.usri1_password = strBOINCProjectAccountPassword.data();
-                ui.usri1_comment =
-                    _T("Account used to execute BOINC applications");
+                ui.usri1_comment = comment;
                 ui.usri1_priv = USER_PRIV_USER;
                 ui.usri1_home_dir = nullptr;
-                ui.usri1_comment = nullptr;
                 ui.usri1_flags =
                     UF_SCRIPT | UF_PASSWD_CANT_CHANGE | UF_DONT_EXPIRE_PASSWD;
                 ui.usri1_script_path = nullptr;
@@ -354,7 +353,7 @@ private:
     // Source Code Originally from:
     // http://support.microsoft.com/kb/814463
     std::pair<decltype(GetLastError()), tstring>
-        CACreateBOINCAccounts::GenerateRandomPassword(size_t desiredLength) {
+        GenerateRandomPassword(size_t desiredLength) {
         wil::unique_hcryptprov hProv = nullptr;
         if (!CryptAcquireContext(&hProv, nullptr, nullptr, PROV_RSA_FULL,
             CRYPT_SILENT)) {

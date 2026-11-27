@@ -164,8 +164,10 @@ function gpucmp($x1, $x2) {
     return $x1->avg_time > $x2->avg_time;
 }
 
+// show list of models, either for an OS or total
+//
 function show_list($models, $name) {
-    echo "<td><h2>$name</h2>\n";
+    echo "<td><h3>$name</h3>\n";
     if (!count($models)) {
         echo tra("No GPU tasks reported")."</td>\n";
         return;
@@ -212,7 +214,8 @@ function show_vendor($vendor, $x) {
     show_list($x->win, "Windows");
     show_list($x->linux, "Linux");
     show_list($x->mac, "Mac");
-    echo "</tr></table>\n";
+    echo "</tr>";
+    end_table();
 }
 
 $d = get_cached_data(86400);
@@ -232,7 +235,7 @@ show_vendor("NVIDIA", $data->cuda);
 show_vendor("ATI/AMD", $data->ati);
 show_vendor("Intel", $data->intel_gpu);
 show_vendor("Apple", $data->apple_gpu);
-echo "<p>Generated ".time_str($data->time);
+echo "<p><p>Generated ".time_str($data->time);
 page_tail();
 
 ?>
