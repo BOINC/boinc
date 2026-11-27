@@ -74,7 +74,11 @@ if [ $? -ne 0 ]; then cd ..; exit 1; fi
 cd gtest
 cmake ../unit-tests
 if [ $? -ne 0 ]; then cd ../..; exit 1; fi
-make
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    make -j $(sysctl -n hw.ncpu)
+else
+    make -j $(nproc --all)
+fi
 if [ $? -ne 0 ]; then cd ../..; exit 1; fi
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
