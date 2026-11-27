@@ -164,7 +164,7 @@ char* windows_format_error_string(
             NULL,
             dwError,
             LANG_NEUTRAL,
-#ifdef wxUSE_GUI
+#ifdef _UNICODE
             (LPWSTR)&lpszTemp,
 #else
             (LPSTR)&lpszTemp,
