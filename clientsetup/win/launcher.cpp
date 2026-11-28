@@ -15,6 +15,13 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <windows.h>
+#include <string_view>
+#include <wil/resource.h>
+#include <tchar.h>
+
+typedef std::wstring_view tstring_view;
+
 #include "launcher.h"
 
 static HRESULT SetPrivilege(HANDLE hToken, tstring_view lpszPrivilege,
@@ -182,16 +189,11 @@ static HRESULT CreateProcessWithIL(tstring_view szCmdLine) {
 
     PROCESS_INFORMATION ProcInfo = { 0 };
     STARTUPINFOW StartupInfo = { 0 };
-#ifdef _UNICODE
-    const auto cmdW = szCmdLine;
-#else
-    const auto cmdW = boinc_ascii_to_wide(std::string(szCmdLine));
-#endif
     if (!CreateProcessWithTokenW(hNewToken, 0, nullptr,
-        const_cast<wchar_t*>(cmdW.data()), 0, nullptr, nullptr,
+        const_cast<wchar_t*>(szCmdLine.data()), 0, nullptr, nullptr,
         &StartupInfo, &ProcInfo)) {
         if (!CreateProcessAsUserW(hNewToken, nullptr,
-            const_cast<wchar_t*>(cmdW.data()), nullptr, nullptr, FALSE,
+            const_cast<wchar_t*>(szCmdLine.data()), nullptr, nullptr, FALSE,
             NORMAL_PRIORITY_CLASS, nullptr, nullptr, &StartupInfo, &ProcInfo
         )) {
             return HRESULT_FROM_WIN32(GetLastError());
@@ -211,11 +213,7 @@ HRESULT Launcher::CreateProcessWithExplorerIL(tstring_view szCmdLine) {
 
     PROCESS_INFORMATION ProcInfo = { 0 };
     STARTUPINFO StartupInfo = { 0 };
-#ifdef _UNICODE
     auto *cmd = const_cast<wchar_t*>(szCmdLine.data());
-#else
-    auto *cmd = const_cast<char*>(szCmdLine.data());
-#endif
     if (!CreateProcess(nullptr, cmd, nullptr, nullptr, FALSE, 0, nullptr,
         nullptr, &StartupInfo, &ProcInfo)) {
         return HRESULT_FROM_WIN32(GetLastError());
