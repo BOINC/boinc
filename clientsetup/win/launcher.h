@@ -17,19 +17,6 @@
 
 #pragma once
 
-#ifdef _UNICODE
-typedef std::wstring_view tstring_view;
-#else
-// we use this when building installer_setup project only
-// a little bit ugly but omits code duplication
-#include <windows.h>
-#include <string_view>
-#include <wil/resource.h>
-#include "win_util.h"
-typedef std::string_view tstring_view;
-#define _T(x) x
-#endif
-
 class Launcher {
 public:
     Launcher() = delete;
