@@ -72,14 +72,19 @@ zipBaseName="libzip"
 zipFileName="libzip-1.11.4.tar.gz"
 zipURL="https://libzip.org/download/libzip-1.11.4.tar.gz"
 
+fmtDirName="fmt-12.2.0"
+fmtBaseName="fmt"
+fmtFileName="fmt-12.2.0.tar.gz"
+fmtURL="https://github.com/fmtlib/fmt/archive/refs/tags/12.2.0.tar.gz"
+
 nlohmannJsonDirName="json"
 nlohmannJsonBaseName="nlohmann-json"
 nlohmannJsonFileName="json.tar.xz"
 nlohmannJsonURL="https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz"
 
 # The baseNames and dirNames arrays are used by the checkDpendentVesions.sh script
-baseNames=(${opensslBaseName} ${caresBaseName} ${curlBaseName} ${wxWidgetsBaseName} ${freetypeBaseName} ${ftglBaseName} ${zipBaseName} ${nlohmannJsonBaseName})
+baseNames=(${opensslBaseName} ${caresBaseName} ${curlBaseName} ${wxWidgetsBaseName} ${freetypeBaseName} ${ftglBaseName} ${zipBaseName} ${fmtBaseName} ${nlohmannJsonBaseName})
 
-dirNames=(${opensslDirName} ${caresDirName} ${curlDirName} ${wxWidgetsDirName} ${freetypeDirName} ${ftglDirName} ${zipDirName} ${nlohmannJsonDirName})
+dirNames=(${opensslDirName} ${caresDirName} ${curlDirName} ${wxWidgetsDirName} ${freetypeDirName} ${ftglDirName} ${zipDirName} ${fmtDirName} ${nlohmannJsonDirName})
 
 return 0
