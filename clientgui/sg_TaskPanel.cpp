@@ -27,6 +27,10 @@
 #include "filesys.h"
 #include "str_replace.h"
 
+#if defined(__WXMSW__)
+#include <uxtheme.h>
+#endif
+
 
 #define SORTTASKLIST 1  /* TRUE to sort task selection control alphabetically */
 #define HIDEDEFAULTSLIDE 1
@@ -518,6 +522,23 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     GetTextExtent(wxT("0"), &w, &h);
     m_ProgressBar->SetMinSize(wxSize(245, h));
     m_ProgressBar->SetToolTip(_("This task's progress"));
+#if defined(__WXMSW__)
+    // Windows draws a progress bar from its theme: the green BOINC has always
+    // shown in the light appearance, and a pale fill in the dark one, where a
+    // task three quarters done reads as an empty bar.  Take the bar out of
+    // theming when the skin is dark and paint it the light appearance's green
+    // -- 6,176,37, which is what the themed bar uses -- over a trough dark
+    // enough for the picture behind it.  Windows only: this is a native
+    // control that only Windows re-themes under us.
+    //
+    HWND hwndProgressBar = (HWND)m_ProgressBar->GetHWND();
+    if (hwndProgressBar && wxGetApp().GetIsDarkMode()) {
+        ::SetWindowTheme(hwndProgressBar, L"", L"");
+        ::SendMessage(hwndProgressBar, PBM_SETBARCOLOR, 0, (LPARAM)RGB(6, 176, 37));
+        ::SendMessage(hwndProgressBar, PBM_SETBKCOLOR, 0, (LPARAM)RGB(48, 48, 48));
+    }
+#endif
+
     bSizer4->Add( m_ProgressBar, 0, wxRIGHT, 5 );
 
     m_ProgressValueText = new CTransparentStaticText( this, wxID_ANY, wxT("100.000%"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT | wxST_NO_AUTORESIZE );

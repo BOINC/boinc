@@ -60,7 +60,7 @@ public:
     void OnNetworkSelection( wxCommandEvent& event );
 
     void OnSelectAll( wxCommandEvent& event );
-    void OnDarkModeChanged( wxSysColourChangedEvent& event );
+    void RebuildForThemeChange() override;
 
     void OnMenuOpening( wxMenuEvent &event);
     void OnOptions( wxCommandEvent& event );
@@ -121,6 +121,9 @@ private:
 
     bool            CreateNotebook();
     bool            RepopulateNotebook();
+#if defined(__WXMSW__)
+    bool            RecreateNotebookPanel();
+#endif
     bool            CreateNotebookPage( CBOINCBaseView* pwndNewNotebookPage );
     bool            DeleteNotebook();
     bool            CreateStatusbar();

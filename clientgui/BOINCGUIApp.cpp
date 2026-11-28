@@ -16,6 +16,9 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdwx.h"
+#if defined(__WXMSW__)
+#include <wx/weakref.h>
+#endif
 
 #ifdef __WXMAC__
 #include <Carbon/Carbon.h>
@@ -106,7 +109,7 @@ bool CBOINCGUIApp::OnInit() {
 #if defined(__WXMSW__)
     // wxWidgets' IsDark() returns false on Win 11 now even if dark mode is enabled
     // so we need to additionally check AreAppsDark()
-    m_isDarkMode = m_isDarkMode || appearance.AreAppsDark();
+    m_isDarkMode = IsDarkAppearanceNow();
     MSWEnableDarkMode(wxApp::DarkMode_Auto);
 #endif
 
@@ -1611,6 +1614,94 @@ bool CBOINCGUIApp::IsModalDialogDisplayed() {
     }
     return false;
 }
+
+
+#if defined(__WXMSW__)
+// The appearance decides some of the colours a skin does not set for itself,
+// notably the tone the simple GUI paints behind its text.  A skin works those
+// out once, when it is first asked, so tell it about a new appearance before
+// the frames rebuild -- see CSkinSimple::RefreshThemeDefaults().  Windows only:
+// elsewhere the frames rebuild with the skin reloaded, and this must not change
+// what those platforms draw.
+//
+void CBOINCGUIApp::RefreshSkinThemeDefaults() {
+    if (m_pSkinManager) {
+        CSkinSimple* pSkinSimple = m_pSkinManager->GetSimple();
+        if (pSkinSimple) {
+            pSkinSimple->RefreshThemeDefaults();
+        }
+    }
+}
+
+
+// The colour a dialog is drawn with, for the windows in it that have no
+// background colour of their own.
+//
+// Windows fills such a window with COLOR_APPWORKSPACE, the colour it uses for
+// "empty space", and it settles that colour the first time the window is
+// erased.  In the light theme COLOR_APPWORKSPACE is 171 grey, which reads as a
+// dark hole in a dialog whose own background is 240 grey; the dark theme maps
+// it to a colour close enough to the dialogs' that nobody notices.  That is why
+// the holes only appear once the Manager has run in dark mode and Windows is
+// back in the light theme -- see the matching fix, and the same explanation, in
+// CAdvancedFrame::CreateNotebook().
+//
+// Windows only: elsewhere a window takes its background from its parent and
+// there is nothing to correct.
+//
+bool CBOINCGUIApp::IsDarkAppearanceNow() {
+    wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
+    return appearance.IsDark() || appearance.AreAppsDark();
+}
+
+
+wxColour CBOINCGUIApp::GetDialogBackgroundColour() {
+    // Ask the appearance in force rather than read m_isDarkMode: that member
+    // follows a theme change only once a frame has rebuilt for it, which happens
+    // after the notifications settle.  A dialog opened in between is built with
+    // the previous theme's colour, and a change the frames never rebuilt for
+    // leaves the colour behind for the rest of the session: the strip around the
+    // Save / Cancel / Help buttons is then light in a dark dialog, or dark in
+    // the light one, until the Manager is restarted.
+    //
+    const bool bDark = IsDarkAppearanceNow();
+    return wxSystemSettings::GetColour(
+        bDark ? wxSYS_COLOUR_WINDOW : wxSYS_COLOUR_BTNFACE
+    );
+}
+
+
+// A dialog that is already open when Windows changes theme keeps the colours it
+// was built with, because the windows above took theirs from
+// GetDialogBackgroundColour() once, while the dialog was being created, and
+// nothing asks again.  Ask again when the notification arrives: those windows
+// then follow the appearance their dialog is repainted with, instead of keeping
+// the previous theme's tone until the dialog is closed and opened again.
+//
+void CBOINCGUIApp::FollowDialogBackground(wxWindow* pWindow) {
+    wxWindow* pTopLevel = wxGetTopLevelParent(pWindow);
+    if (!pTopLevel) {
+        return;
+    }
+    // The notification arrives on the top-level window, but the colour is set on
+    // the panel inside it, so the child is not guaranteed to outlive the binding
+    // even though the dialogs here destroy the two together: Destroy() defers the
+    // deletion, and any future caller could bind a panel that goes first.  Hold it
+    // weakly so the handler is harmless either way.
+    //
+    wxWeakRef<wxWindow> window(pWindow);
+    pTopLevel->Bind(
+        wxEVT_SYS_COLOUR_CHANGED,
+        [window](wxSysColourChangedEvent& event) {
+            if (window) {
+                window->SetBackgroundColour(wxGetApp().GetDialogBackgroundColour());
+                window->Refresh();
+            }
+            event.Skip();
+        }
+    );
+}
+#endif
 
 
 // Prevent recursive entry of CMainDocument::RequestRPC()

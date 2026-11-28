@@ -422,6 +422,28 @@ int CSkinSimple::Parse(MIOFILE& in) {
 }
 
 
+#if defined(__WXMSW__)
+// A skin works out the colours it does not set for itself the moment they are
+// first asked for, and keeps them.  One of those colours is not the skin's to
+// decide: unless the skin names a dialog background colour of its own, the tone
+// a simple-view label paints behind its text is white in the light theme and
+// black in the dark one.
+//
+// Windows applies a theme change to a running Manager in place, without
+// reloading the skin, so the labels would keep the tone of the theme the
+// application started in: white bars in a dark window after switching one way,
+// black bars in a light window after switching back.  Called from
+// CBOINCGUIApp::RefreshSkinThemeDefaults(), before the frames rebuild.
+//
+bool CSkinSimple::RefreshThemeDefaults() {
+    m_DialogBackgroundImage.RefreshThemeColor(
+        wxGetApp().GetIsDarkMode() ? wxT("0:0:0") : wxT("255:255:255")
+    );
+    return true;
+}
+#endif
+
+
 bool CSkinSimple::InitializeDelayedValidation() {
     m_BackgroundImage.SetDefaults(
         wxT("background"), (const char**)background_image_xpm,

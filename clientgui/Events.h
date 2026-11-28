@@ -32,6 +32,12 @@
 #define ID_WIZARDATTACHACCOUNTMANAGER           6109
 #define ID_WIZARDUPDATE                         6110
 #define ID_WIZARDDETACH                         6111
+#if defined(__WXMSW__)
+// Used by the Windows-only theme-change coalescing in CBOINCBaseFrame; other
+// platforms do not run a settle timer.
+//
+#define ID_THEMECHANGESETTLETIMER               6112
+#endif
 
 
 //

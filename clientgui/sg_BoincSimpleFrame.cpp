@@ -384,6 +384,20 @@ bool CSimpleFrame::CreateMenus() {
     m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
     m_Shortcuts[1].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'E', ID_EVENTLOG);
     m_Shortcuts[2].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'F', ID_SGDIAGNOSTICLOGFLAGS);
+
+    // This runs again whenever the menus are rebuilt -- a theme change -- so
+    // release the table the previous run left behind.  SetAcceleratorTable()
+    // copies the table into the window, so this does not disturb the
+    // accelerators in force.
+    //
+    // m_pAccelTable is nullptr on the first run; test it as the destructor below
+    // does, rather than rely on delete accepting a null pointer.  Clear it before
+    // the replacement below, so no path leaves a stale address behind.
+    //
+    if (m_pAccelTable) {
+        delete m_pAccelTable;
+        m_pAccelTable = NULL;
+    }
     m_pAccelTable = new wxAcceleratorTable(3, m_Shortcuts);
 
     SetAcceleratorTable(*m_pAccelTable);
@@ -916,9 +930,26 @@ void CSimpleFrame::OnEventLog(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
-void CSimpleFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) ) {
+// See the matching comment in CAdvancedFrame::RebuildForThemeChange(), and the
+// one on CBOINCBaseFrame::QueueThemeChangeRebuild(), which decides when this
+// runs: one theme change is announced several times, and rebuilding the panels
+// once per notification destroys panels the previous rebuild has just created.
+//
+void CSimpleFrame::RebuildForThemeChange() {
+#if defined(__WXMSW__)
+    // See the matching comment in CAdvancedFrame::RebuildForThemeChange().
+    //
+    wxGetApp().SetIsDarkMode(AppearanceIsDarkNow());
+
+    // See the matching comment in CAdvancedFrame::RebuildForThemeChange(): the
+    // panels below are built with the skin's colours, and the skin decides them
+    // when it is told about the new appearance.
+    //
+    wxGetApp().RefreshSkinThemeDefaults();
+#else
     wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
     wxGetApp().SetIsDarkMode(appearance.IsDark());
+#endif
 
     // Remember our task and project settings
     wxString taskStr = m_pBackgroundPanel->m_taskPanel->GetSelectedTaskString();
@@ -962,6 +993,19 @@ void CSimpleFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) )
         delete eventLog;    // eventLog->Destroy() creates a race condition if used here.
         wxGetApp().DisplayEventLog();
     }
+
+#if defined(__WXMSW__)
+    // Same as in the advanced frame: wxMSW's menus draw themselves in dark mode
+    // with the colours in force when they were created, so a switch leaves the
+    // popups in the old theme until they are built again.
+    //
+    CreateMenus();
+
+    // Nothing above touches the non-client area, which DWM draws from a flag it
+    // was given when this window was created.
+    //
+    ApplyTitleBarTheme();
+#endif
 }
 
 

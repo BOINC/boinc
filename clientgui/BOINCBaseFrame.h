@@ -62,6 +62,31 @@ public:
     virtual void        OnExit( wxCommandEvent& event );
     virtual void        OnDarkModeChanged( wxSysColourChangedEvent& event );
 
+    // Throw away everything the window has built out of the theme in force when
+    // it was created and build it again from the theme now in force.  Both
+    // frames implement this; it is not pure virtual because
+    // IMPLEMENT_DYNAMIC_CLASS() instantiates CBOINCBaseFrame itself.
+    //
+    virtual void        RebuildForThemeChange();
+
+#if defined(__WXMSW__)
+    // Whether the appearance in force right now is one the Manager draws in its
+    // dark colours.  The frames apply it and the coalescing below compares it, so
+    // there is one definition of "dark" per change, and it matches what
+    // BOINCGUIApp::OnInit() decided at start-up.  Windows only: the other
+    // platforms ask wxSystemAppearance::IsDark() directly, which is the same
+    // answer there; only MSW needs the AreAppsDark() fallback.
+    //
+    static bool         AppearanceIsDarkNow();
+
+    // Re-apply the window's title-bar theme after a Windows theme change; see
+    // the comment on the definition.  Called by the frames' RebuildForThemeChange().
+    // Windows only: the non-client area on the other platforms follows the
+    // system appearance without being told.
+    //
+    void                ApplyTitleBarTheme();
+#endif
+
     void                OnWizardAttachProject( wxCommandEvent& event );
     void                OnWizardUpdate( wxCommandEvent& event );
     void                OnWizardDetach( wxCommandEvent& event );
@@ -122,6 +147,21 @@ protected:
     wxArrayString       m_aSelectedComputerMRU;
 
     bool                m_bShowConnectionFailedAlert = false;
+
+#if defined(__WXMSW__)
+    // One theme change is announced by a series of notifications, the last of
+    // which can arrive after RebuildForThemeChange() has already finished; see
+    // the comment on OnDarkModeChanged().  Windows only: it is Windows that
+    // announces a change several times, and a second rebuild there walks into
+    // the controls the first one has just created.
+    //
+    void                QueueThemeChangeRebuild( bool fromSettleTimer = false );
+    void                ArmThemeChangeSettleTimer();
+    void                OnThemeChangeSettle( wxTimerEvent& event );
+    bool                m_themeChangeRebuildPending = false;
+    bool                m_bThemeAppearanceApplied = false;
+    wxTimer*            m_pThemeChangeSettleTimer = nullptr;
+#endif
 
     virtual int         _GetCurrentViewPage();
 

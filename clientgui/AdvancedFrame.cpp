@@ -260,6 +260,11 @@ CAdvancedFrame::~CAdvancedFrame() {
         m_pFrameRenderTimer = NULL;
     }
 
+    if (m_pAccelTable) {
+        delete m_pAccelTable;
+        m_pAccelTable = NULL;
+    }
+
     if (m_pStatusbar) {
         wxCHECK_RET(DeleteStatusbar(), _T("Failed to delete status bar."));
     }
@@ -745,6 +750,19 @@ bool CAdvancedFrame::CreateMenus() {
     m_Shortcuts[1].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
 #endif
 
+    // CreateMenus() runs again whenever the menus are rebuilt -- a theme change,
+    // or a reconnection -- so release the table the previous run left behind.
+    // SetAcceleratorTable() copies the table into the window, so this does not
+    // disturb the accelerators in force.
+    //
+    // m_pAccelTable is nullptr on the first run; test it as the destructor does,
+    // rather than rely on delete accepting a null pointer.  Clear it before the
+    // replacement below, so no path leaves a stale address behind.
+    //
+    if (m_pAccelTable) {
+        delete m_pAccelTable;
+        m_pAccelTable = NULL;
+    }
     m_pAccelTable = new wxAcceleratorTable(2, m_Shortcuts);
     SetAcceleratorTable(*m_pAccelTable);
 
@@ -760,6 +778,22 @@ bool CAdvancedFrame::CreateNotebook() {
     wxPanel *pPanel = new wxPanel(this, -1, wxDefaultPosition, wxDefaultSize,
                                  wxTAB_TRAVERSAL|wxCLIP_CHILDREN|wxNO_BORDER);
     pPanel->SetAutoLayout(TRUE);
+
+#if defined(__WXMSW__)
+    // A window with no background colour of its own has Windows paint it with
+    // whichever colour the theme had for it the first time it was painted, and
+    // that answer is kept for the life of the window: after a runtime theme change
+    // the five pixels the sizer below leaves above the notebook keep the old
+    // colour (171, the classic COLOR_APPWORKSPACE, after switching to the light
+    // theme).  Ask for the colour the padding is supposed to have instead.
+    // The other platforms follow the system appearance without this.
+    //
+    pPanel->SetBackgroundColour(
+        wxSystemSettings::GetColour(
+            wxGetApp().GetIsDarkMode() ? wxSYS_COLOUR_WINDOW : wxSYS_COLOUR_BTNFACE
+        )
+    );
+#endif
 
     // initialize notebook
     m_pNotebook = new wxNotebook(pPanel, ID_FRAMENOTEBOOK, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN);
@@ -798,6 +832,38 @@ bool CAdvancedFrame::RepopulateNotebook() {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RepopulateNotebook - Function End"));
     return true;
 }
+
+
+#if defined(__WXMSW__)
+// The panel that holds the notebook, the separator line in it and the notebook
+// itself are created once, when the frame is built, and Windows bakes the theme
+// of the moment into them: after a runtime theme change the separator keeps the
+// old 3D highlight and the five pixels between the separator and the tabs keep
+// the old background colour, and no amount of invalidating or WM_THEMECHANGED
+// makes them pick up the new one.  Build them again instead, the way the pages
+// and the Event Log are already rebuilt.
+//
+bool CAdvancedFrame::RecreateNotebookPanel() {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RecreateNotebookPanel - Function Begin"));
+
+    if (!m_pNotebook) {
+        return CreateNotebook();
+    }
+
+    wxWindow* pwndPanel = m_pNotebook->GetParent();
+
+    m_pNotebook = NULL;
+    if (pwndPanel) {
+        // Destroy() rather than delete: it is a child window, and this frame is
+        // in the middle of dispatching the notification that asked for this.
+        //
+        pwndPanel->Destroy();
+    }
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::RecreateNotebookPanel - Function End"));
+    return CreateNotebook();
+}
+#endif
 
 
 bool CAdvancedFrame::CreateNotebookPage( CBOINCBaseView* pwndNewNotebookPage) {
@@ -1977,7 +2043,12 @@ void CAdvancedFrame::OnSelectAll(wxCommandEvent& WXUNUSED(event)) {
 // On the Mac, we must destroy and recreate each wxListCtrl
 // to properly transition between dark mode and regular mode
 //
-void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) ) {
+// When to do this, and why, is decided in
+// CBOINCBaseFrame::QueueThemeChangeRebuild(): one theme change arrives as
+// several notifications, and running this twice for one change is what used to
+// kill the Manager.
+//
+void CAdvancedFrame::RebuildForThemeChange() {
     CBOINCBaseView* theView = NULL;;
     CBOINCListCtrl* theListCtrl = NULL;
     long bottomItem = 0;
@@ -1986,8 +2057,23 @@ void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event)
     StopTimers();
     SaveState();
 
+#if defined(__WXMSW__)
+    // Under MSW IsDark() reports whether wxWidgets' own dark-mode opt-in took
+    // effect rather than what the user asked for; see
+    // CBOINCBaseFrame::AppearanceIsDarkNow().  Off MSW the two are the same, and
+    // the line below is the one this code has always used there.
+    //
+    wxGetApp().SetIsDarkMode(AppearanceIsDarkNow());
+
+    // The skin works out the colours it does not set for itself once, when it
+    // is first asked, so tell it about the new appearance before the panels are
+    // rebuilt from it: the simple GUI's labels take their tone from there.
+    //
+    wxGetApp().RefreshSkinThemeDefaults();
+#else
     wxSystemAppearance appearance = wxSystemSettings::GetAppearance();
     wxGetApp().SetIsDarkMode(appearance.IsDark());
+#endif
 
     // Get the list control's current scroll position
     if ((currentPage == VW_PROJ) || (currentPage == VW_TASK) || (currentPage == VW_XFER)) {
@@ -1995,8 +2081,51 @@ void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event)
         theListCtrl = theView->GetListCtrl();
         bottomItem = theListCtrl->GetTopItem() + theListCtrl->GetCountPerPage() - 1;
     }
+#if defined(__WXMSW__)
+    // Windows keeps the theme a window was created with inside the window: the
+    // panel, the separator line in it and the status bar keep the colours they
+    // were born with.  Build them again.
+    //
+    RecreateNotebookPanel();
+#else
     RepopulateNotebook();
+#endif
+
     RestoreState();
+
+    // Same as at the end of the constructor (see CAdvancedFrame::CAdvancedFrame):
+    // the generic list controls need their panel laid out once their state has
+    // been restored.  RepopulateNotebook() above re-creates those controls on
+    // every platform, so unlike the panel re-creation inside the guard below this
+    // is not Windows-specific -- it mirrors the constructor's call, on all
+    // platforms, for the same reason.
+    //
+    if (m_pNotebook) {
+        m_pNotebook->GetParent()->Layout();
+    }
+
+#if defined(__WXMSW__)
+    // Same story for the status bar: a native control that keeps the colours it
+    // was created with, so a Manager started in the dark keeps a dark bar after
+    // Windows is switched to light, and the other way round.  Nothing is lost by
+    // re-creating it: the text in it belongs to the static children the
+    // constructor makes, and OnFrameRender() fills them in again on its next tick.
+    //
+    DeleteStatusbar();
+    CreateStatusbar();
+    Layout();
+
+    // The menus keep the theme they were built with as well: wxMSW draws the
+    // popups itself in dark mode, taking the colours in force when the menus are
+    // created.  After a switch they therefore stay in the old theme -- a Manager
+    // started in the dark keeps dark popups over a light window, and one started
+    // in the light keeps light separators in dark popups.  Build them again, the
+    // way the status bar above is built again: CreateMenus() appends to a new bar,
+    // swaps it in and deletes the old one, and the menu handlers are bound on the
+    // frame by command id, so they survive the swap.
+    //
+    CreateMenus();
+#endif
 
     // The last tab label ("Disk") is ellipsed here unless the window is resized
     // TODO: figure out how to replace this hack with a proper fix
@@ -2025,6 +2154,13 @@ void CAdvancedFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event)
         delete eventLog;    // eventLog->Destroy() creates a race condition if used here.
         wxGetApp().DisplayEventLog();
     }
+
+#if defined(__WXMSW__)
+    // Nothing above touches the non-client area, which DWM draws from a flag it
+    // was given when this window was created.
+    //
+    ApplyTitleBarTheme();
+#endif
 }
 
 

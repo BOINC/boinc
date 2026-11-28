@@ -189,6 +189,24 @@ void CWizardAttach::CreateControls() {
     m_ErrProxyPage->Create( itemWizard1 );
     GetPageAreaSizer()->Add(m_ErrProxyPage);
 
+#if defined(__WXMSW__)
+    // See CBOINCGUIApp::GetDialogBackgroundColour(): a wizard page has no
+    // background colour of its own, so Windows fills it with
+    // COLOR_APPWORKSPACE (171 grey) instead of the wizard's background, and the
+    // page reads as a hole in the dialog.  Ask for the colour it is meant to
+    // have.  Done here, once the pages exist, so that it covers every page
+    // without a line in each of them.
+    //
+    wxSizer* pPageArea = GetPageAreaSizer();
+    for (size_t i = 0; i < pPageArea->GetItemCount(); ++i) {
+        wxWindow* pPage = pPageArea->GetItem(i)->GetWindow();
+        if (pPage) {
+            pPage->SetBackgroundColour(wxGetApp().GetDialogBackgroundColour());
+            wxGetApp().FollowDialogBackground(pPage);
+        }
+    }
+#endif
+
     wxLogTrace(wxT("Function Start/End"), wxT("CWizardAttach::CreateControls - Function End"));
 }
 

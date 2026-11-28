@@ -258,6 +258,16 @@ public:
 
     void                SetIsDarkMode (bool isDarkMode) { m_isDarkMode = isDarkMode; }
     bool                GetIsDarkMode() { return m_isDarkMode; }
+#if defined(__WXMSW__)
+    // Whether the dark appearance is in force, asked the way OnInit() asks it:
+    // Windows needs both of wxWidgets' answers.  The frames and the dialogs all
+    // decide from this one place.
+    //
+    static bool         IsDarkAppearanceNow();
+    wxColour            GetDialogBackgroundColour();
+    void                FollowDialogBackground(wxWindow* pWindow);
+    void                RefreshSkinThemeDefaults();
+#endif
 #ifdef __WXMAC__
     // The following Cocoa routines are in CBOINCGUIApp.mm
     //

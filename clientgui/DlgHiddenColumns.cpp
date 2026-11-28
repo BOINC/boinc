@@ -75,6 +75,14 @@ CDlgHiddenColumns::CDlgHiddenColumns(wxWindow* parent) :
 
     m_scrolledWindow = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
     m_scrolledWindow->SetScrollRate( 5, 5 );
+#if defined(__WXMSW__)
+    // See CBOINCGUIApp::GetDialogBackgroundColour(): left without a colour of
+    // its own this window, and the group boxes drawn on it, are filled with
+    // COLOR_APPWORKSPACE instead of the dialog's background.
+    //
+    m_scrolledWindow->SetBackgroundColour(wxGetApp().GetDialogBackgroundColour());
+    wxGetApp().FollowDialogBackground(m_scrolledWindow);
+#endif
 
     m_scrolledSizer = new wxBoxSizer(wxVERTICAL);
 

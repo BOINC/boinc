@@ -35,6 +35,10 @@
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
 
+#if defined(__WXMSW__)
+#include <dwmapi.h>
+#endif
+
 wxDEFINE_EVENT(wxEVT_FRAME_ALERT, CFrameAlertEvent);
 wxDEFINE_EVENT(wxEVT_FRAME_INITIALIZED, CFrameEvent);
 wxDEFINE_EVENT(wxEVT_FRAME_REFRESHVIEW, CFrameEvent);
@@ -44,6 +48,35 @@ wxDEFINE_EVENT(wxEVT_FRAME_RELOADSKIN, CFrameEvent);
 wxDEFINE_EVENT(wxEVT_FRAME_NOTIFICATION, CFrameEvent);
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseFrame, wxFrame)
+
+
+#if defined(__WXMSW__)
+// How long to wait before looking again at a theme change that was announced
+// without the new appearance being in force yet.  The rebuild takes ~350 ms in
+// the advanced view; this only has to outlast it.  Only Windows needs this.
+//
+static const int kThemeChangeSettleMs = 500;
+#endif
+
+
+#if defined(__WXMSW__)
+// Whether the Manager should draw in its dark colours now.  This is the same
+// question BOINCGUIApp::OnInit() answers at start-up, and it has to be answered
+// the same way: `wxSystemAppearance::IsDark()` says whether *this application*
+// ended up with a dark theme through wxWidgets' own dark-mode opt-in
+// (`MSWEnableDarkMode(DarkMode_Auto)`), not whether the user asked for dark
+// applications, and it has been reported false on Windows 11 with dark mode on
+// -- which is why OnInit() ORs in `AreAppsDark()`.  Taking IsDark() alone would
+// paint a dark Windows desktop light after a theme change, and would also make
+// every change look like "no change" to the comparison below.
+//
+// Windows only: the other platforms have no such opt-in, and their frames ask
+// wxSystemAppearance::IsDark() the way they always did.
+//
+bool CBOINCBaseFrame::AppearanceIsDarkNow() {
+    return CBOINCGUIApp::IsDarkAppearanceNow();
+}
+#endif
 
 
 CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, const long style) :
@@ -78,6 +111,16 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
     m_pPeriodicRPCTimer->Start(1000);               // Send event every 1000 milliseconds
     m_iFrameRefreshRate = 1000;                     // Refresh frame every 1000 milliseconds
 
+#if defined(__WXMSW__)
+    m_pThemeChangeSettleTimer = new wxTimer(this, ID_THEMECHANGESETTLETIMER);
+    wxASSERT(m_pThemeChangeSettleTimer);
+
+    // The theme this window was built in, so that the first real theme change
+    // is never mistaken for an echo of one already applied.
+    //
+    m_bThemeAppearanceApplied = AppearanceIsDarkNow();
+#endif
+
     // Limit the number of times the UI can update itself to two times a second
     //   NOTE: Linux and Mac were updating several times a second and eating
     //         CPU time
@@ -95,6 +138,9 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
     Bind(wxEVT_TIMER, [this](wxTimerEvent& event){ OnDocumentPoll(event); }, ID_DOCUMENTPOLLTIMER);
     Bind(wxEVT_TIMER, [this](wxTimerEvent& event){ OnAlertPoll(event); }, ID_ALERTPOLLTIMER);
     Bind(wxEVT_TIMER, [this](wxTimerEvent& event){ OnPeriodicRPC(event); }, ID_PERIODICRPCTIMER);
+#if defined(__WXMSW__)
+    Bind(wxEVT_TIMER, [this](wxTimerEvent& event){ OnThemeChangeSettle(event); }, ID_THEMECHANGESETTLETIMER);
+#endif
     Bind(wxEVT_FRAME_INITIALIZED, [this](CFrameEvent& event){ OnInitialized(event); });
     Bind(wxEVT_FRAME_ALERT, [this](CFrameAlertEvent& event){ OnAlert(event); });
     Bind(wxEVT_FRAME_REFRESHVIEW, [this](CFrameEvent& event){ OnRefreshView(event); });
@@ -114,6 +160,14 @@ CBOINCBaseFrame::~CBOINCBaseFrame() {
     wxASSERT(m_pPeriodicRPCTimer);
     wxASSERT(m_pAlertPollTimer);
     wxASSERT(m_pDocumentPollTimer);
+
+#if defined(__WXMSW__)
+    if (m_pThemeChangeSettleTimer) {
+        m_pThemeChangeSettleTimer->Stop();
+        delete m_pThemeChangeSettleTimer;
+        m_pThemeChangeSettleTimer = nullptr;
+    }
+#endif
 
     if (m_pPeriodicRPCTimer) {
         m_pPeriodicRPCTimer->Stop();
@@ -365,8 +419,139 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExit - Function End"));
 }
 
+// A theme change is not announced once.  Windows tells each window that cares,
+// so this frame is notified several times for one change, and the last of those
+// notifications can arrive *after* the rebuild the first one started has
+// already finished.
+// Every rebuild destroys and re-creates the notebook pages and the controls in
+// them, so a second rebuild for the same change walks into list controls the
+// first one has just created, and the Manager dies with an access violation.
+//
+// The pending flag collapses the notifications that arrive *while* a rebuild is
+// running, which is most of them.  It cannot collapse an echo that arrives
+// after the rebuild: the flag has been cleared by then, on purpose, so that the
+// next real change is not ignored.  What distinguishes the echo is that it
+// carries no news -- the appearance in force is the one the last rebuild has
+// already applied -- so decide on that comparison.
+//
+// The comparison is not enough on its own, in the other direction: the first
+// notification of a change can arrive before the new appearance is in force,
+// and such a notification has no news either.
+// Dropping it is right -- a rebuild then would rebuild for the old theme -- but
+// the change must not be lost with it, so a look again is scheduled instead.
+//
 void CBOINCBaseFrame::OnDarkModeChanged( wxSysColourChangedEvent& WXUNUSED(event) ) {
+#if defined(__WXMSW__)
+    QueueThemeChangeRebuild();
+#else
+    // Off Windows, rebuild as soon as the notification arrives: this is what
+    // the frames did before this change, and nothing here needs coalescing.
+    //
+    RebuildForThemeChange();
+#endif
 }
+
+
+#if defined(__WXMSW__)
+void CBOINCBaseFrame::QueueThemeChangeRebuild( bool fromSettleTimer ) {
+    // Nothing new to apply: an echo of a change already rebuilt for, or a
+    // notification that has run ahead of the appearance it announces.
+    //
+    if (AppearanceIsDarkNow() == m_bThemeAppearanceApplied) {
+        if (!fromSettleTimer) {
+            ArmThemeChangeSettleTimer();
+        }
+        return;
+    }
+
+    // A rebuild for this same change is already under way; it looks again
+    // itself when it is done.
+    //
+    if (m_themeChangeRebuildPending) {
+        return;
+    }
+
+    m_themeChangeRebuildPending = true;
+    CallAfter([this]() {
+        // The frame can be destroyed between this call and the deferred
+        // rebuild (OnClose, or a GUI-mode switch), and the rebuild deletes
+        // and re-creates the Event Log as well: do not touch it then.
+        //
+        if (IsBeingDeleted()) {
+            m_themeChangeRebuildPending = false;
+            return;
+        }
+        // The appearance flipped back before this ran: what is in force is what
+        // the last rebuild already applied, so there is nothing to apply.
+        //
+        if (AppearanceIsDarkNow() == m_bThemeAppearanceApplied) {
+            m_themeChangeRebuildPending = false;
+            return;
+        }
+        m_bThemeAppearanceApplied = AppearanceIsDarkNow();
+        RebuildForThemeChange();
+        m_themeChangeRebuildPending = false;
+        // A change that lands while the rebuild is running has its
+        // notifications dropped above.  Look once more when the dust has
+        // settled, so it is not lost with them.
+        //
+        if (IsBeingDeleted()) {
+            return;
+        }
+        ArmThemeChangeSettleTimer();
+    });
+}
+
+
+void CBOINCBaseFrame::ArmThemeChangeSettleTimer() {
+    if (m_pThemeChangeSettleTimer) {
+        m_pThemeChangeSettleTimer->StartOnce(kThemeChangeSettleMs);
+    }
+}
+
+
+void CBOINCBaseFrame::OnThemeChangeSettle( wxTimerEvent& WXUNUSED(event) ) {
+    if (IsBeingDeleted()) {
+        return;
+    }
+    QueueThemeChangeRebuild(true);
+}
+#endif
+
+
+// Rebuilding is specific to what each frame is made of; CBOINCBaseFrame has no
+// contents of its own.  It cannot be pure virtual: IMPLEMENT_DYNAMIC_CLASS()
+// creates bare instances of this class.
+//
+void CBOINCBaseFrame::RebuildForThemeChange() {
+}
+
+#if defined(__WXMSW__)
+// The window frame (title bar and border) is not drawn by us: DWM draws it from
+// a per-window flag, DWMWA_USE_IMMERSIVE_DARK_MODE, which wxWidgets sets when the
+// window is created to match the theme in force at that moment.  Windows does not
+// revisit an explicitly set per-window value when the user changes the theme, so
+// without this the title bar keeps the theme it was created in until the Manager
+// is restarted -- dark title bar over a light window, or the reverse -- while the
+// client area follows the theme correctly, because the frames rebuild it.
+//
+// 20 is DWMWA_USE_IMMERSIVE_DARK_MODE from Windows 10 2004 on; 19 is the value
+// that earlier builds took.  Failing both is not worth complaining about: the
+// worst outcome is a stale title bar.
+//
+void CBOINCBaseFrame::ApplyTitleBarTheme() {
+    HWND hwnd = (HWND)GetHWND();
+    if (!hwnd) {
+        return;
+    }
+    BOOL bDark = wxGetApp().GetIsDarkMode() ? TRUE : FALSE;
+    if (FAILED(DwmSetWindowAttribute(
+        hwnd, 20 /* DWMWA_USE_IMMERSIVE_DARK_MODE */, &bDark, sizeof(bDark)
+    ))) {
+        DwmSetWindowAttribute(hwnd, 19, &bDark, sizeof(bDark));
+    }
+}
+#endif
 
 
 int CBOINCBaseFrame::GetCurrentViewPage() {

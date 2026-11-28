@@ -184,6 +184,16 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     dialogSizer->Add( m_panelControls, 1, wxALL|wxEXPAND, 5 );
 
     m_panelButtons = new wxPanel( this, ID_DEFAULT, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+
+#if defined(__WXMSW__)
+    // See CBOINCGUIApp::GetDialogBackgroundColour(): left without a colour of
+    // its own this strip is filled with COLOR_APPWORKSPACE instead of the
+    // dialog's background, which shows around the Save / Cancel / Help buttons.
+    //
+    m_panelButtons->SetBackgroundColour(wxGetApp().GetDialogBackgroundColour());
+    wxGetApp().FollowDialogBackground(m_panelButtons);
+#endif
+
     wxBoxSizer* buttonSizer = new wxBoxSizer( wxHORIZONTAL );
 
     m_btnOK = new wxButton( m_panelButtons, wxID_OK, _("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
